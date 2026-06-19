@@ -1,0 +1,14 @@
+---
+name: verify-canonical-state-edits-persist
+description: "Edit-tool writes to a /workspace file (EXPERIMENT_RUNBOOK.md) silently reverted on the RunPod FUSE network FS while Bash/python writes persisted — use Bash to write load-bearing /workspace state files, and verify."
+metadata: 
+  node_type: memory
+  type: feedback
+  originSessionId: faa20de1-5a6b-48c2-9b82-b32bd2d440cd
+---
+
+**Observed + DIAGNOSED 2026-06-18:** ~10 `Edit`/`Write`-tool changes to `/workspace/EXPERIMENT_RUNBOOK.md` (§0.3/§8/§12/§13/§5) each returned success and grep-verified present *moments after*, but **all silently reverted** to the conversation-start snapshot minutes later (confirmed: every marker grep=0 simultaneously). Controlled test settled the mechanism: a **Bash `>>` append persisted** (survived 20s + fresh re-reads) while the Edit-tool changes stayed reverted — so it is **Edit-tool writes specifically** that don't stick on this filesystem, not a wholesale external restore. `/workspace` is a **RunPod FUSE network FS** (`mfs#…runpod.net:9442` MooseFS); the Edit tool's read-modify-write apparently races with / loses to the network-FS writeback. `SESSION_CHECKPOINT.md` Edit changes and `/root/.claude/.../memory/*` (local FS) Edit changes persisted fine — so it is not universal, but it bit the one file the program hands off through. Re-applying the same edits via **python (`open().write()`) through Bash persisted.**
+
+**Why it matters here:** `EXPERIMENT_RUNBOOK.md` §0.3 is the program's single source of "what's next" ([[experiment-runbook-is-canonical]]). If an edit silently fails to persist, a fresh session re-grounds from a **stale §0.3** and runs the wrong (already-done) experiment. Severe for a program that hands off via that line.
+
+**How to apply:** (1) For load-bearing `/workspace` state files (runbook §0.3/§8/§12/§13, or any "what's next" record), **write via Bash/python** (`python3 - <<'EOF' … open(fn,'w').write(s)`), not the Edit/Write tools — Bash writes persisted, tool writes didn't. (2) **Always re-verify after a delay**, not just immediately — the reverted edits looked present right after editing and vanished minutes later, so an immediate grep is not proof; re-grep after ~30s+ / an intervening op. (3) `SESSION_CHECKPOINT.md` + `CORPUS/*` persisted reliably (and the bootstrap already treats them as authoritative) — keep them the PRIMARY handoff; if §0.3 ever looks stale, trust the checkpoint's LATEST-SESSION block + CORPUS over the runbook. (4) Leave a `⚠️ PERSISTENCE WARNING` line in §0.3 itself so a fresh session knows to distrust a stale-looking runbook. Cousin trap to [[durable-artifact-path-collision]] (there a script silently overwrites a result; here a tool-edit silently doesn't persist — both = a load-bearing durable write you THINK happened but didn't; verify via a fresh read, don't assume). Related env: [[runpod-durable-experiment-launch]].

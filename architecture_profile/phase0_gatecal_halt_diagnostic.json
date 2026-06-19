@@ -1,0 +1,59 @@
+{
+  "phase": "Phase 0 — GATE-CAL (metric calibration)",
+  "governing_doc": "write_engine_viability_determination_plan.md (the forward work; supersedes deprecated session_2_41_kickoff.md)",
+  "script": "s241_gatecal.py (legacy filename; is the plan's Phase 0 implementation)",
+  "engine_fingerprint": "5c0c706a66c385273d0a48ebbb8274a1c31bf3e101ca309e47db9cb8b6c78770 (verified, UNMODIFIED, _cov_cpu==3)",
+  "joint_verdict": "BOTH MODELS HALT — GATE-CAL not met on GPT-J OR Qwen; metric not calibrated with the current stimulus sets. Do NOT promote to Phase 1.",
+  "qwen": {
+    "model": "Qwen/Qwen2.5-7B",
+    "timestamp_utc": "2026-06-17T02:40Z",
+    "verdict": "HALT-floor-not-clean",
+    "gate": {"null_floor_JS": 0.038, "counterfact_JS": 0.0189, "destructive_ceiling_JS": 0.0243, "floor_near_zero": false, "ceiling_above_floor": false, "kl_factor_monotone_nonincreasing": true},
+    "per_fact_null": {"Heisenberg": 0.0285, "Danube": 0.0424, "Kilimanjaro": 0.0432},
+    "per_fact_counterfact": {"Heisenberg_guitar": 0.0443, "Danube_violin": 0.0102, "Kilimanjaro_flute": 0.0022},
+    "per_fact_destructive": {"Heisenberg": 0.0551, "Danube": 0.0127, "Kilimanjaro": 0.0052},
+    "kl_factor_sweep_JS": {"0.0": 0.0505, "0.0625": 0.0443, "0.25": 0.0454, "1.0": 0.0331},
+    "finding": "INVERTED / NO DYNAMIC RANGE: counterfact (0.019) and destructive (0.024) are BELOW the null floor (0.038). Even a max-magnitude (destructive) edit barely perturbs same-entity probes. The Qwen facts edit a FICTIONAL/peripheral attribute ('signature instrument associated with X') disconnected from the probed real attributes -> the plan's 'Flex Tape'/attribute-selection artifact. The null edit re-asserts degenerate top-1 tokens (' ____', ' He') which perturb MORE than a clean counterfact target, inverting floor vs counterfact."
+  },
+  "gptj": {
+    "model": "EleutherAI/gpt-j-6B",
+  "timestamp_utc": "2026-06-17T02:01:30Z",
+  "verdict": "HALT-floor-not-clean",
+  "gate": {
+    "null_floor_JS": 0.1101,
+    "counterfact_JS": 0.3864,
+    "destructive_ceiling_JS": 0.3943,
+    "floor_near_zero": false,
+    "ceiling_above_floor": true,
+    "kl_factor_monotone_nonincreasing": true
+  },
+  "per_fact_null_floor": {"Eiffel": 0.0203, "MJordan": 0.0649, "Curie": 0.2450},
+  "kl_factor_sweep_JS": {"0.0": 0.4597, "0.0625": 0.4620, "0.25": 0.4631, "1.0": 0.4502},
+  "reproduction": {
+    "prior_run_json": "s241_gatecal_gptj.prior_0127.json (recovered; was lost to a disconnect)",
+    "prior_gate": {"null_floor_JS": 0.0985, "counterfact_JS": 0.3748, "destructive_ceiling_JS": 0.389, "VERDICT": "HALT-floor-not-clean"},
+    "status": "REPRODUCED — current run independently reproduces the prior HALT"
+  },
+  "findings": [
+    "GPT-J same-entity JS metric has NO clean ~0 floor: a NULL/identity MEMIT edit (re-assert the model's current top-1) still drifts mean ~0.11 JS on other same-entity attributes; Curie (degenerate null target ' the') dominates at 0.245.",
+    "kl_factor (essence-KL regularizer) is NEARLY INERT for same-entity drift: ~0.01 JS movement across a 16x sweep (0.0->1.0) and not cleanly monotone. The §8.2 KL safeguard is cross-entity, not same-entity (corroborates plan thesis).",
+    "Destructive ceiling (0.394) ~= counterfact (0.386): same-entity drift is already near-ceiling at normal edit strength; thin operational->ceiling band.",
+    "Cross-entity JS ~= 0 throughout (the MEMIT-lineage Neighborhood-Success control stays clean)."
+  ],
+  "interpretation_fork": {
+    "A_harness_or_metric_artifact": "A truly null edit should not drift; ~0.11 floor may reflect MEMIT re-solve perturbation even at zero target delta, or fp16 inference noise in low-prob tails picked up by full-distribution JS. Would warrant metric/harness refinement before Phase 1.",
+    "B_real_signal": "MEMIT cannot even re-assert an existing value without collateral same-entity damage -> strongest evidence for same-entity non-locality; the 'floor' is the intrinsic MEMIT same-entity noise and should be adopted as the per-model normalization baseline (read drift relative to it) rather than treated as harness failure."
+  },
+  "interpretation_note": "Earlier fork resolved: Qwen now run. GPT-J floor-high and Qwen floor-inverted are BOTH stimulus artifacts (attribute centrality), not a clean model-locality difference."
+  },
+  "joint_conclusion": {
+    "summary": "GATE-CAL FAILS on both models, in OPPOSITE ways, for the SAME root cause: the fact/probe stimulus sets are not centrality-matched. GPT-J edits CENTRAL well-encoded attributes (Eiffel location, Jordan sport) -> high same-entity bleed even at the null edit -> floor too high (0.11). Qwen edits a FICTIONAL peripheral attribute ('signature instrument') -> near-total isolation -> counterfact(0.019)/destructive(0.024) BELOW the null floor(0.038) -> no dynamic range, inverted. Neither yields floor~=0 with an ordered floor<counterfact<ceiling band.",
+    "implication": "The GPT-J-vs-Qwen drift gap is largely a STIMULUS (attribute-centrality) artifact, NOT yet evidence of a model-level same-entity-locality difference. The JS-on-same-entity-probes metric is sound; the STIMULUS design is the defect and is the Phase-0 precondition that must be fixed before Phase 1.",
+    "kl_factor": "On BOTH models kl_factor is ~inert for same-entity drift (GPT-J ~0.01 over 16x; Qwen 0.050->0.033) -> the essence-KL §8.2 safeguard is cross-entity, not same-entity (corroborates plan)."
+  },
+  "recommended_next": [
+    "REDESIGN the GATE-CAL stimulus: pick facts where (a) the edit prompt has a CONFIDENT REAL top-1 so the NULL/identity edit re-asserts a real token (drives the floor toward 0 and avoids degenerate ' ____'/' the'/' He' targets), and (b) the counterfact edits a REAL central attribute and the probe battery is OTHER real central attributes the model confidently encodes. Match attribute centrality between edit and probes across both models.",
+    "Re-run GATE-CAL with the redesigned set; PASS requires floor~=0 AND floor<counterfact<=destructive on BOTH models, with the metric responsive.",
+    "Only then promote to Phase 1. Per CLAUDE.md halt discipline: HALT here; do NOT run Phase 1 on an uncalibrated metric."
+  ]
+}

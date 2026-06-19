@@ -1,0 +1,68 @@
+{
+  "T_SCHEMA": {
+    "violates_rejected": true,
+    "undeclared_rejected": true,
+    "declared_passes": true
+  },
+  "T_INDEPENDENCE": {
+    "self_validate_rejected": true,
+    "self_test_rejected": true
+  },
+  "T_CASCADE": {
+    "static_fail_skips_later": true,
+    "clean_core_runs_all": true
+  },
+  "T_CODE_PASS_PATCH_FAIL": {
+    "no_pass_issued": true,
+    "annotated_cppf": true,
+    "real_fault_code": true,
+    "code_good_clean_patch_passes": true
+  },
+  "T_INJECTION": {
+    "hard_rejected": true,
+    "no_retry": true
+  },
+  "T_STORAGE_PROBE": {
+    "expressibility_hit": true,
+    "unwritten_empty": true,
+    "storage_pass_behavior_fail_detected": true
+  },
+  "T_RETRY_CONTROL": {
+    "fixable_passes": true,
+    "tier3_escalates_after_1": true,
+    "unfixable_tier2_escalates": true,
+    "hard_cap_5": true,
+    "constitutional_is_tier3": true,
+    "budget_remaining_retries_not_escalates": true,
+    "no_silent_discard": true
+  },
+  "T_DETERMINISM": {
+    "same_levels": true,
+    "both_ok": true
+  },
+  "T_PASS_HANDOFF": {
+    "valid_pass_admitted": true,
+    "forged_pass_refused": true,
+    "unsigned_pass_refused": true,
+    "validator_has_no_writepath": true
+  },
+  "determinism_property": {
+    "same_levels": true,
+    "both_ok": true
+  },
+  "VERDICT": {
+    "T_SCHEMA (violates+undeclared rejected before MEMIT; declared passes) [CP2 closure]": true,
+    "T_INDEPENDENCE (validator==author & tga==coder rejected)": true,
+    "T_CASCADE (static-fail skips later levels; clean CORE runs all)": true,
+    "T_CODE_PASS_PATCH_FAIL (code-good+real-patch-fault \u2192 no PASS; clean patch passes)": true,
+    "T_INJECTION (hard reject, never retried)": true,
+    "T_STORAGE_PROBE (expressibility + storage-pass/behavior-fail) [CP2 closure]": true,
+    "T_RETRY_CONTROL (bounds + hard-cap + constitutional\u2192T3 + budget-aware + no-silent-discard)": true,
+    "T_PASS_HANDOFF (signed PASS admitted; forged/unsigned refused; no writepath)": true
+  },
+  "scope_and_caveats": {
+    "solid_core": "Deterministic schema/static validator rejecting violates (C6/C9) + undeclared relations (C5) against the REAL \u00a77.3 five families, BEFORE MEMIT \u2014 the exact CP2-surfaced contracts LARQL does not enforce. Plus code_pass_patch_fail (\u00a79.7), fail-fast cascade, injection hard-reject (\u00a79.8), deterministic retry control-plane (\u00a79.5/9.6), signed-PASS handoff (\u00a79.9).",
+    "storage_probe_split": "EXPRESSIBILITY (triple-SELECT works; LARQL couldn't) is real CP2 closure. STORAGE-TRUTH: the index is INTENT-derived; storage-pass/behavior-fail divergence is caught only by reconciling against a BEHAVIORAL signal (CP1's domain). Index alone is NOT storage-truth.",
+    "honest_scope": "Reflexion = deterministic CONTROL-PLANE only (bounds/termination); the LLM fix step is stubbed/opaque. Independence = IDENTITY-COLLISION tested; 'TGA spec-only/sequencing' (D33) is construction-asserted (v2 enforcement). Only STATIC cascade level is fully real; PROBE/CROSS_AGENT/HUMAN stubbed/modeled (fail-fast ORDERING tested). Validator no-write = structural (no .vindex method) + behavioral (forged PASS refused downstream)."
+  }
+}

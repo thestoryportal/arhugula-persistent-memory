@@ -1,0 +1,108 @@
+======================================================================
+Token-ID Capture — Session 2.5
+Model: EleutherAI/gpt-j-6B @ revision=float16
+Expected SHA: b71ae8bc86cac13154e03e92b5855203086b722e
+Output: /workspace/architecture_profile/token-id-capture-results.json
+======================================================================
+
+[1/6] Loading tokenizer...
+[2/6] Loading model (this takes ~3-5 min on cold cache)...
+Some weights of the model checkpoint at EleutherAI/gpt-j-6B were not used when initializing GPTJForCausalLM: ['transformer.h.0.attn.bias', 'transformer.h.0.attn.masked_bias', 'transformer.h.1.attn.bias', 'transformer.h.1.attn.masked_bias', 'transformer.h.10.attn.bias', 'transformer.h.10.attn.masked_bias', 'transformer.h.11.attn.bias', 'transformer.h.11.attn.masked_bias', 'transformer.h.12.attn.bias', 'transformer.h.12.attn.masked_bias', 'transformer.h.13.attn.bias', 'transformer.h.13.attn.masked_bias', 'transformer.h.14.attn.bias', 'transformer.h.14.attn.masked_bias', 'transformer.h.15.attn.bias', 'transformer.h.15.attn.masked_bias', 'transformer.h.16.attn.bias', 'transformer.h.16.attn.masked_bias', 'transformer.h.17.attn.bias', 'transformer.h.17.attn.masked_bias', 'transformer.h.18.attn.bias', 'transformer.h.18.attn.masked_bias', 'transformer.h.19.attn.bias', 'transformer.h.19.attn.masked_bias', 'transformer.h.2.attn.bias', 'transformer.h.2.attn.masked_bias', 'transformer.h.20.attn.bias', 'transformer.h.20.attn.masked_bias', 'transformer.h.21.attn.bias', 'transformer.h.21.attn.masked_bias', 'transformer.h.22.attn.bias', 'transformer.h.22.attn.masked_bias', 'transformer.h.23.attn.bias', 'transformer.h.23.attn.masked_bias', 'transformer.h.24.attn.bias', 'transformer.h.24.attn.masked_bias', 'transformer.h.25.attn.bias', 'transformer.h.25.attn.masked_bias', 'transformer.h.26.attn.bias', 'transformer.h.26.attn.masked_bias', 'transformer.h.27.attn.bias', 'transformer.h.27.attn.masked_bias', 'transformer.h.3.attn.bias', 'transformer.h.3.attn.masked_bias', 'transformer.h.4.attn.bias', 'transformer.h.4.attn.masked_bias', 'transformer.h.5.attn.bias', 'transformer.h.5.attn.masked_bias', 'transformer.h.6.attn.bias', 'transformer.h.6.attn.masked_bias', 'transformer.h.7.attn.bias', 'transformer.h.7.attn.masked_bias', 'transformer.h.8.attn.bias', 'transformer.h.8.attn.masked_bias', 'transformer.h.9.attn.bias', 'transformer.h.9.attn.masked_bias']
+- This IS expected if you are initializing GPTJForCausalLM from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing GPTJForCausalLM from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+      GPU memory: 12.10 GB
+
+[3/6] CFB v1 fact captures + single-token verification
+----------------------------------------------------------------------
+
+  --- cfb-001 (Michael Jordan) ---
+  ✓ target_new ' golf' = single token id=13126
+  ✓ target_true ' basketball' = single token id=9669
+     P(target_new=golf) = 0.0198
+     P(target_true=basketball) = 0.8698
+     Top-5 at canonical prompt: [(' basketball', '0.870'), (' baseball', '0.022'), (' golf', '0.020'), (' Basketball', '0.018'), (' football', '0.010')]
+
+  --- cfb-002 (Tom Brady) ---
+  ✓ target_new ' soccer' = single token id=11783
+  ✓ target_true ' football' = single token id=4346
+     P(target_new=soccer) = 0.0070
+     P(target_true=football) = 0.8044
+     Top-5 at canonical prompt: [(' football', '0.804'), (' American', '0.032'), (' golf', '0.028'), (' his', '0.012'), (' quarterback', '0.012')]
+
+  --- cfb-003 (Wayne Gretzky) ---
+  ✓ target_new ' cricket' = single token id=18836
+  ✓ target_true ' hockey' = single token id=12217
+     P(target_new=cricket) = 0.0002
+     P(target_true=hockey) = 0.8261
+     Top-5 at canonical prompt: [(' hockey', '0.826'), (' ice', '0.072'), (' Hockey', '0.015'), (' cur', '0.010'), (' basketball', '0.007')]
+
+  --- cfb-004 (Tom Brady) ---
+  ✓ target_new ' Texas' = single token id=3936
+  ✓ target_true ' California' = single token id=3442
+     P(target_new=Texas) = 0.0002
+     P(target_true=California) = 0.0118
+     Top-5 at canonical prompt: [(' the', '0.129'), (' Brook', '0.037'), (' San', '0.034'), (' Cincinnati', '0.031'), (' West', '0.027')]
+
+  --- cfb-005 (Serena Williams) ---
+  ✓ target_new ' Florida' = single token id=4744
+  ✓ target_true ' Michigan' = single token id=7055
+     P(target_new=Florida) = 0.0006
+     P(target_true=Michigan) = 0.0000
+     Top-5 at canonical prompt: [(' 1981', '0.581'), (' Compton', '0.069'), (' Chicago', '0.024'), (' 1985', '0.022'), (' the', '0.020')]
+
+[4/6] Probe DEFERRED-S25 captures
+----------------------------------------------------------------------
+  p-cfb-001-gen-1           -> ' Chicago' (p=0.3824)
+  p-cfb-001-gen-2           -> ' retired' (p=0.5614)
+  p-cfb-001-gen-3           -> ' Chicago' (p=0.4043)
+  p-cfb-002-gen-2           -> ' retired' (p=0.3374)
+  p-cfb-002-gen-3           -> ' pregnant' (p=0.0871)
+  p-cfb-003-gen-1           -> ' Edmonton' (p=0.3595)
+  p-cfb-003-gen-2           -> ' retired' (p=0.3950)
+  p-cfb-003-gen-3           -> ' the' (p=0.1837)
+  p-cfb-004-gen-2           -> ' retired' (p=0.3374)
+  p-cfb-004-gen-3           -> ' pregnant' (p=0.0871)
+  p-cfb-005-gen-1           -> ' tennis' (p=0.8621)
+  p-cfb-005-gen-2           -> ' a' (p=0.0616)
+  p-cfb-005-gen-3           -> ' a' (p=0.1769)
+  p-shared-spec-1           -> ' a' (p=0.1802)
+  p-shared-spec-2           -> ' also' (p=0.1152)
+  p-shared-spec-3           -> ' Au' (p=0.9201)
+
+[5/6] Unmount probabilities (derived from CFB fact captures)
+----------------------------------------------------------------------
+  p-cfb-001-unmount-1 -> P(basketball) = 0.869788
+  p-cfb-002-unmount-1 -> P(football) = 0.804365
+  p-cfb-003-unmount-1 -> P(hockey) = 0.826094
+  p-cfb-004-unmount-1 -> P(California) = 0.011833
+  p-cfb-005-unmount-1 -> P(Michigan) = 0.000014
+
+[6/6] Polysemy degeneracy_check + Brady-Bündchen check
+----------------------------------------------------------------------
+  Prompt A 'Michael I. Jordan is a professor at'
+    top-1: 'the' (p=0.3795)
+    top-5: [(' the', '0.380'), (' Harvard', '0.057'), (' Temple', '0.057'), (' Columbia', '0.056'), (' New', '0.039')]
+  Prompt B 'Michael I. Jordan teaches at'
+    top-1: 'the' (p=0.3847)
+  Prompt C 'Michael Jordan plays the sport of'
+    top-1: 'basketball' (p=0.8698)
+  Checks:
+    academic_completion = True
+    alternate_referent_dominance = True
+    prob_threshold (p>0.1) = True
+  AUTOCLASSIFIED VERDICT: PASS
+
+  'Tom Brady's wife is' top-1: 'pregnant' (p=0.0871)
+  Top-3 tokens: ['pregnant', 'a', 'reportedly']
+  Gisele in top-3: False
+  Revision required: True
+
+======================================================================
+CAPTURE COMPLETE
+======================================================================
+  Output written: /workspace/architecture_profile/token-id-capture-results.json
+  Single-token verification: ALL PASS
+  Polysemy degeneracy_check: PASS (autoclassified; review prompt_a_top_5 if needed)
+  Brady-Bündchen revision required: True
+
+  Next: review the JSON, then surface to Claude for cfb-v1.yaml + probe-set-v1.yaml in-place updates.

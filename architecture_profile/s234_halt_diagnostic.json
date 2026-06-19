@@ -1,0 +1,69 @@
+{
+  "session": "S2.34",
+  "status": "HALT_REDIAGNOSED",
+  "halt_id": "D-S234-HALT-1",
+  "captured_at": "2026-06-15T20:30:00Z",
+  "supersedes": "architecture_profile/s233_halt_diagnostic.json (D-S233-HALT-1)",
+  "headline": "S2.33 halt diagnosis is FALSIFIED. There is no BOS off-by-one bug. Lookup index 3 (' plays', the token immediately after the subject) is the CANONICAL behavior that produced the v1.5 §3 / promoted Llama results. The real S2.33 defect was the target string lacking a leading space in a DIRECT compute_z call, which bypassed the space-prepend that execute_memit applies at memit_main.py:80-82.",
+  "method": "Read-source-before-authoring (gate #4) + known-baseline cross-check (gate #3 philosophy). No model dispatch this session; conclusion is closed from existing canonical artifacts on the SAME fingerprinted engine.",
+  "engine_state": {
+    "memit_main_sha256": "5c0c706a66c385273d0a48ebbb8274a1c31bf3e101ca309e47db9cb8b6c78770",
+    "sha_gate": "PASS",
+    "cov_cpu_count": 3,
+    "patch": "P-VRAM-CPU-SOLVE live",
+    "note": "engine UNMODIFIED and NOT to be modified — the lookup path is correct as-is"
+  },
+  "why_s233_was_wrong": {
+    "claim_s233": "Llama-3 auto-BOS shifts find_fact_lookup_idx from index 2 (' Jackson') to index 3 (' plays'); index 3 is a bug; fix lookup to land on ' Jackson'.",
+    "refutation": "The canonical, PROMOTED session 2.24 run (t1_alpha_memit_s224.ipynb) anchors compute_z at the SAME index 3 (' plays') WITH BOS present, and reproduces the v1.5 §3 endpoints exactly. Therefore index 3 is canonical, not a bug. Forcing the lookup to ' Jackson' (index 2) would diverge from every promoted Llama result and FAIL gate #3.",
+    "step0_independence_argument": "At optimization step 0, delta=0, so the forward pass is the unmodified model; step-0 loss/avg_prob is the model's NLL of the target at the target positions and is INDEPENDENT of lookup_idx (lookup_idx only sets where delta is injected, which is zero at step 0). Hence the 11.34-vs-18.145 step-0 gap between S2.33 and canonical CANNOT be a lookup-index effect — it is a target/sequence effect."
+  },
+  "canonical_reference_s224": {
+    "source": "t1_alpha_memit_s224.ipynb (session 2.24; cell 10 builds requests; promoted into framework_finding as the 8B->3B generalization / §3 lineage)",
+    "target_construction": "target_new str = ' ' + meta[target_new]  -> ' guitar' (leading space, 'continuation form'), single token id 17418",
+    "bo_jackson": {
+      "lookup_index": 3,
+      "lookup_token": " plays",
+      "sentence_rendered": "Bo Jackson plays the instrument of<|begin_of_text|>",
+      "step0_loss": 18.145,
+      "step0_avg_prob_guitar": 1.3892722527941714e-08,
+      "late_step_loss_shown": 10.591,
+      "late_step_avg_prob_shown": 2.8415304768714122e-05
+    },
+    "per_subject_lookup_indices": {
+      "Bo Jackson": 3,
+      "Tiger Woods": 4,
+      "Deion Sanders": 4,
+      "Hakeem Olajuwon": 8,
+      "interpretation": "index = (subject token count) + 1 in the BOS-bearing sequence, i.e. the engine canonically anchors at the first token AFTER the subject (' plays'), uniformly across subjects. This is the established behavior; cross-session comparability requires it be left unchanged."
+    },
+    "gate_3_status": "v1.5 §3 targets (first avg-prob ~1.6e-08, loss ~17.96->~9.35) are reproduced by s224 (1.39e-08, 18.145->~9-10) WITH index 3. Gate satisfied by the canonical setup; the S2.33 setup failed it for the reason below."
+  },
+  "true_root_cause": {
+    "name": "Target string missing leading space in a DIRECT compute_z call",
+    "s233_request": "prompt='{} plays the instrument of', subject='Bo Jackson', target_new.str='guitar' (NO leading space)",
+    "s233_comment_that_was_wrong": "'engine auto-prepends the leading space (exec line 80-82)' — TRUE for execute_memit, but S2.33 called compute_z DIRECTLY, which does not run that prepend.",
+    "engine_evidence": "memit/memit_main.py:80-82 -> if request['target_new']['str'][0] != ' ': requests[i]['target_new']['str'] = ' ' + request['target_new']['str']. This prepend lives in execute_memit ONLY. memit/compute_z.py has no equivalent; compute_z.py:39 tokenizes request['target_new']['str'] verbatim.",
+    "mechanism": "With 'guitar' (no space), compute_z.py:39 tok('guitar') tokenizes multi-token with a leading BOS; rewriting_prompts (compute_z.py:44-45) append tok.decode(target_ids[:-1]) = '<|begin_of_text|>g', corrupting the rewriting prompt to '...instrument of<|begin_of_text|>g' (visible in the S2.33 raw_stdout 'Sentence' field). Result: non-canonical step-0 loss 11.34 / avg_prob 1.26e-05.",
+    "contrast": "Canonical ' guitar' (1 token, id 17418) -> target_ids[:-1] decode = '<|begin_of_text|>' only -> rewriting prompt '...instrument of<|begin_of_text|>' -> step-0 loss 18.145 / avg_prob 1.39e-08."
+  },
+  "corrected_fix": {
+    "do": "In the direct compute_z trajectory-capture harness, pass target_new str = ' guitar' (leading space), OR replicate execute_memit:80-82 (prepend a leading space when absent) before calling compute_z. This is a HARNESS fix, not a science-path source change (gate #5 does not apply).",
+    "do_not": "Do NOT modify rome/repr_tools.py or memit/compute_z.py find_fact_lookup_idx. The lookup (index 3, ' plays') is canonical. Changing it breaks cross-session comparability and fails gate #3.",
+    "verification_plan_for_next_session": "Load Llama-3.1-8B (pinned d04e592...), direct compute_z with corrected ' guitar' target, confirm Lookup index found: 3 AND step-0 loss ~18.1 / avg_prob ~1.4e-08, endpoints landing near v1.5 §3 (gate #3) BEFORE any data trusted or the Qwen arm run."
+  },
+  "decisions": [
+    "D-S234-1: Overturn D-S233-HALT-1. No BOS off-by-one bug exists; index 3 is canonical (s224 evidence + step-0 delta-independence).",
+    "D-S234-2: True root cause = target string lacked leading space in direct compute_z (bypassed execute_memit:80-82). Fix = pass ' guitar' (harness-level).",
+    "D-S234-3: DO NOT touch repr_tools / find_fact_lookup_idx; engine left unmodified. No gate #5 isolation needed.",
+    "D-S234-4: HALT before any new trajectory capture or the Qwen arm; surface the re-diagnosis for human re-approval (load-bearing premise change). No data produced, none promoted.",
+    "D-S234-MANIFEST-1: manifest merge STILL deferred (carry from D-S233-MANIFEST-1); no manifest writes this session."
+  ],
+  "gates": {
+    "engine_fingerprint": "PASS (sha match, _cov_cpu=3)",
+    "determinism_checkpoint": "n/a (no dispatch)",
+    "known_baseline_reproduction": "Not run live this session; corrected-setup reproduction demonstrated by canonical s224 artifact. Live re-confirmation deferred to the (re-approved) next session entry, per plan above.",
+    "read_source_before_authoring": "PASS (cat-read of compute_z.py, repr_tools.py, memit_main.py:80-82 before any conclusion)",
+    "science_path_patch_isolation": "n/a (no science-path patch; fix is harness-level)"
+  }
+}

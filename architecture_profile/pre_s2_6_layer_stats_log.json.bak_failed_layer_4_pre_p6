@@ -1,0 +1,16 @@
+{
+  "session": "pre-S2.6-fork-work",
+  "started_at": "2026-05-01T03:55:37.146576+00:00",
+  "layers": [
+    {
+      "layer": 4,
+      "layer_name": "model.layers.4.mlp.down_proj",
+      "status": "failed",
+      "elapsed_sec": 862.9,
+      "exception_class": "AssertionError",
+      "exception_msg": "layer_stats returned but expected file not at /workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+      "traceback": "Traceback (most recent call last):\n  File \"/tmp/ipykernel_17485/91816396.py\", line 77, in <module>\n    assert os.path.isfile(expected_file), \\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: layer_stats returned but expected file not at /workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz\n"
+    }
+  ],
+  "last_updated": "2026-05-01T04:10:00.046113+00:00"
+}

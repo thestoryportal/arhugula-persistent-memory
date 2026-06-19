@@ -1,0 +1,20 @@
+---
+name: match-metric-to-the-claim
+description: "Measure the metric that matches the claim you intend to make; beware asymmetric metrics (strict on one side, soft on the other) — they hide failures in the ambiguous zone"
+metadata: 
+  node_type: memory
+  type: feedback
+  originSessionId: e1b2ae2b-4a31-42c8-a24d-462bcf751e0d
+---
+
+**Lesson (observed 2026-06-18, G6.1):** I judged the write side on **top-1** (retention = predict==target) but the un-write/cross-entity side on **distributional JS divergence**. That asymmetry produced a "54% cross-entity locality" number sitting exactly in the ambiguous zone where JS drift could mean either "reads actually flipped" (real corruption) OR "distribution softened, top-1 still correct" (much weaker). The advisor caught it: *"your intended claim — 'corrupts reads' — is a top-1 claim; measure it on top-1."*
+
+**The fix that resolved it:** re-ran tracking **held-out top-1 correctness** (the metric matching the claim). It landed unambiguously: 100→91.7→58.3→41.7% — genuine read corruption (`stable==correct` ⇒ flips to wrong answers), not softening. The disambiguation **changed the verdict's strength**, not just its wording.
+
+**How to apply:** before measuring locality/specificity/preservation/"X is corrupted," ask *"what metric matches the claim I'll make?"* A correctness/read claim ⇒ top-1 (or gold-logit margin). A distributional claim ⇒ JS/KL. **Never** judge the two sides of a comparison on different metrics. Distributional metrics are fine when high (reads almost certainly intact) but **not** in the mid-range where the falsification lives — there, measure the thing you'll claim. Track top-1 AND margin AND KL together and report the verdict on the matched metric. Cousin of [[prototype-tautology-trap]] (both are about evidence that can actually fail/be trusted).
+
+**Extension 1 — match the comparison's SHAPE, not just its metric (2026-06-18, A1, advisor-caught):** when the result you're comparing against is a *trajectory* (G6.1's sequential 100→92→58→42% over N), a single point is not a valid comparison — one clean batch point at N=100 couldn't distinguish "batch *eliminates* the corruption" from "batch *defers* it." Fix: run batch's OWN staircase (N=26/50/100); it was flat → "eliminates within range" earned. If the claim is about a curve, your comparison must be a curve.
+
+**Extension 3 — switching metrics can SWAP confounds; condition on the pre-state; a paired diff cancels shared bias (2026-06-18, A2b, advisor-caught):** to dodge a baseline confound in `correct_vs_truth` (editing can flip eval reads *toward* truth, inflating "correct") I switched to `stable_vs_pre` — which has the OPPOSITE confound in low-pre-correctness pools (toward-truth flips get counted as "instability"; e.g. correct 40→85 while stable→30 = the *same* reads going correct). The claim "pre-correct reads flip to wrong" needs a metric *conditional on pre-edit correctness*; neither aggregate gives it. Two things rescue the read: (a) only the **clean-baseline subset** (here the 100%-pre-correct seed) is a valid corruption instrument — there any flip = corruption; (b) a **paired within-unit difference** (refresh−fixed on the SAME eval pool) cancels whatever shared bias the metric carries, so the *comparison* survives even in confounded pools. Best fix is upstream: **pre-screen the eval pool to confident-correct (G6.1-style) BEFORE the run** so the instrument is clean across seeds, rather than patching metrics after — and never anchor the next experiment's success bar on a confounded number.
+
+**Extension 2 — read in COUNTS, mind the resolution (2026-06-18, A2):** an eval axis of 20 probes is 5%/probe; the robust signal was the control→sentinel lift (8/20→16–17/20, a +8–9-probe move ≫ noise), NOT the λ fine-structure ("peak at λ_s=2, drop at λ_s=5" = 1–2 probe flips = noise). State results in x/N counts so resolution is visible; don't report a precise optimum or fine ordering that rests on sub-resolution differences; read trends (e.g. the over-constraint wall) off the many-probe axes (retention/within), not the coarse one.

@@ -1,0 +1,15 @@
+196,199c196,204
+<         adj_k = torch.linalg.solve(
+<             hparams.mom2_update_weight * cov.double() + layer_ks @ layer_ks.T,
+<             layer_ks,
+<         )
+---
+>         # S2.31 VRAM mitigation (OQ-S230-VRAM-1): CPU-offload the float64 solve.
+>         # Move operands to CPU BEFORE the arithmetic so the 18944**2 float64 tensor
+>         # (2.67 GiB) is never allocated in VRAM. Numerically inert: float64 CPU solve
+>         # == float64 GPU solve. Qwen-7B model + this allocation exceed the 24 GiB 4090.
+>         _cov_cpu = cov.cpu().double()
+>         _lk_cpu = layer_ks.cpu()
+>         _A = hparams.mom2_update_weight * _cov_cpu + _lk_cpu @ _lk_cpu.T
+>         adj_k = torch.linalg.solve(_A, _lk_cpu).to(layer_ks.device)
+>         del _cov_cpu, _lk_cpu, _A

@@ -1,0 +1,165 @@
+{
+  "config": {
+    "model": "Qwen/Qwen2.5-3B",
+    "N": 12,
+    "entities": 6,
+    "fields": [
+      "capital",
+      "language"
+    ],
+    "null_thresh": 0.005,
+    "L2": 1.0,
+    "mom2_uw": 5000,
+    "band": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "write_mode": "sequential",
+    "write_order": "grouped-by-entity (one ordering)"
+  },
+  "rungs": [
+    {
+      "n": 12,
+      "all_record_retention": 100.0,
+      "apply_time_expr": 100.0,
+      "unt_within_loc": 99.92,
+      "unt_cross_loc": 79.58,
+      "unt_global_loc": 99.61,
+      "heldout_top1": {
+        "edited_rel": {
+          "top1_stable_vs_pre": 66.7,
+          "top1_correct_vs_truth": 66.7,
+          "top1_exact_vs_truth": 66.7
+        },
+        "continent": {
+          "top1_stable_vs_pre": 100.0,
+          "top1_correct_vs_truth": 100.0,
+          "top1_exact_vs_truth": 100.0
+        },
+        "all": {
+          "top1_stable_vs_pre": 77.8,
+          "top1_correct_vs_truth": 77.8,
+          "top1_exact_vs_truth": 77.8
+        }
+      }
+    }
+  ],
+  "heldout_baseline_top1_correct": {
+    "edited_rel": {
+      "top1_correct_vs_truth": 100.0
+    },
+    "continent": {
+      "top1_correct_vs_truth": 100.0
+    },
+    "all": {
+      "top1_correct_vs_truth": 100.0
+    }
+  },
+  "diagnostic": {
+    "never_expressed_count": 0,
+    "never_expressed": [],
+    "clobbered_after_expressing_count": 0,
+    "clobbered": []
+  },
+  "records": [
+    {
+      "entity": "France",
+      "field": "capital",
+      "truth": "Paris",
+      "cf": "Cairo",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "France",
+      "field": "language",
+      "truth": "French",
+      "cf": "Arabic",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Egypt",
+      "field": "capital",
+      "truth": "Cairo",
+      "cf": "Berlin",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Egypt",
+      "field": "language",
+      "truth": "Arabic",
+      "cf": "German",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Germany",
+      "field": "capital",
+      "truth": "Berlin",
+      "cf": "Rome",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Germany",
+      "field": "language",
+      "truth": "German",
+      "cf": "Italian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Italy",
+      "field": "capital",
+      "truth": "Rome",
+      "cf": "Madrid",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Italy",
+      "field": "language",
+      "truth": "Italian",
+      "cf": "Spanish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Spain",
+      "field": "capital",
+      "truth": "Madrid",
+      "cf": "Moscow",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Spain",
+      "field": "language",
+      "truth": "Spanish",
+      "cf": "Russian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Russia",
+      "field": "capital",
+      "truth": "Moscow",
+      "cf": "Paris",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Russia",
+      "field": "language",
+      "truth": "Russian",
+      "cf": "French",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    }
+  ]
+}

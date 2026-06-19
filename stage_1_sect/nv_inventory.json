@@ -1,0 +1,225 @@
+{
+  "verified_at": "2026-05-04T14:36:06.874830+00:00",
+  "json_artifacts": {
+    "/workspace/architecture_profile/stage_1_llama_baselines.json": {
+      "size_bytes": 37264,
+      "sha256_prefix": "795da4dcf8a6c350"
+    },
+    "/workspace/stage_1_sect/trial_matrix.json": {
+      "size_bytes": 13654,
+      "sha256_prefix": "815c50a5c0c52840"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-001_r1.json": {
+      "size_bytes": 12461,
+      "sha256_prefix": "4ad59415e385c1da"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-001_r2.json": {
+      "size_bytes": 12460,
+      "sha256_prefix": "2ca4a688ed402a52"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-001_r3.json": {
+      "size_bytes": 12459,
+      "sha256_prefix": "acbc32ea1d9d6bba"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-002_r1.json": {
+      "size_bytes": 12487,
+      "sha256_prefix": "17ae9aa28a07a9fa"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-002_r2.json": {
+      "size_bytes": 12487,
+      "sha256_prefix": "71da6425b1119af0"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-002_r3.json": {
+      "size_bytes": 12487,
+      "sha256_prefix": "c4e260bd21c2fd78"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-003_r1.json": {
+      "size_bytes": 12444,
+      "sha256_prefix": "3e273552bc76259e"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-003_r2.json": {
+      "size_bytes": 12444,
+      "sha256_prefix": "0db7cae3835b867c"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-003_r3.json": {
+      "size_bytes": 12444,
+      "sha256_prefix": "5567e0a4bfbf532b"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-004_r1.json": {
+      "size_bytes": 12438,
+      "sha256_prefix": "d8bc31f78884fc18"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-004_r2.json": {
+      "size_bytes": 12439,
+      "sha256_prefix": "a333f1db07334ef7"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-004_r3.json": {
+      "size_bytes": 12439,
+      "sha256_prefix": "afb42a406340bc95"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-005_r1.json": {
+      "size_bytes": 12428,
+      "sha256_prefix": "62ea4f7330d30c8f"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-005_r2.json": {
+      "size_bytes": 12428,
+      "sha256_prefix": "c8904d61cb6fe16b"
+    },
+    "/workspace/stage_1_sect/trials/stage_1_trial_cfb-v3-005_r3.json": {
+      "size_bytes": 12428,
+      "sha256_prefix": "707a08021dfcb234"
+    },
+    "/workspace/stage_1_sect/trial_loop_log.json": {
+      "size_bytes": 220680,
+      "sha256_prefix": "73fcd5b346ecf0c7"
+    },
+    "/workspace/stage_1_sect/aggregate_verdict.json": {
+      "size_bytes": 7915,
+      "sha256_prefix": "29f0ad78a6a1a0e3"
+    },
+    "/workspace/architecture_profile/stage_1_environment_fingerprint.json": {
+      "size_bytes": 1030,
+      "sha256_prefix": "174b996faae5392b"
+    },
+    "/workspace/architecture_profile/stage_1_patch_state.json": {
+      "size_bytes": 900,
+      "sha256_prefix": "66265865e6f66dbc"
+    },
+    "/workspace/architecture_profile/stage_1_cache_state.json": {
+      "size_bytes": 4470,
+      "sha256_prefix": "a983a814937ae286"
+    },
+    "/workspace/architecture_profile/stage_1_token_verification.json": {
+      "size_bytes": 4562,
+      "sha256_prefix": "32ab4f0f41302213"
+    }
+  },
+  "overlay_artifacts": {
+    "/workspace/stage_1_sect/overlays/cfb-v3-001/r1/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "4e08624fe4dd3610"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-001/r1/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-001/r2/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "4e08624fe4dd3610"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-001/r2/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-001/r3/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "4e08624fe4dd3610"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-001/r3/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-002/r1/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "314dfcf28d50a704"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-002/r1/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-002/r2/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "314dfcf28d50a704"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-002/r2/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-002/r3/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "314dfcf28d50a704"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-002/r3/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-003/r1/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "4678a9bc0398ed1a"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-003/r1/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-003/r2/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "4678a9bc0398ed1a"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-003/r2/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-003/r3/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "4678a9bc0398ed1a"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-003/r3/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-004/r1/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "c9bf7c17475eda7c"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-004/r1/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-004/r2/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "c9bf7c17475eda7c"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-004/r2/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-004/r3/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "c9bf7c17475eda7c"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-004/r3/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-005/r1/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "3b60047aaed68129"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-005/r1/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-005/r2/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "3b60047aaed68129"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-005/r2/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-005/r3/edited.pt": {
+      "size_mb": 587.2,
+      "sha256_prefix": "3b60047aaed68129"
+    },
+    "/workspace/stage_1_sect/overlays/cfb-v3-005/r3/original.pt": {
+      "size_mb": 587.21,
+      "sha256_prefix": "77304fa9bec23546"
+    }
+  },
+  "session_nv_footprint_mb": 17616.63,
+  "sha_equality_gate": {
+    "cache_state_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+    "env_fingerprint_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+    "verdict": "PASS"
+  }
+}

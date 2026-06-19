@@ -1,0 +1,41 @@
+{
+  "consistency": {
+    "max": 0.26486414670944214,
+    "pass": false,
+    "n_above_lift_threshold": 0,
+    "n_probes": 3
+  },
+  "generalization": {
+    "max": 2.8431449550225807e-07,
+    "pass": false
+  },
+  "specificity": {
+    "max_drift": 0.0,
+    "n_top_1_changes": 0,
+    "n_probes_evaluated": 3,
+    "pass": true
+  },
+  "unmount": {
+    "drift": 0.0,
+    "pass": true
+  },
+  "corridor_pass": false,
+  "pathology": [
+    "GRACE-DISCRIMINATOR-NARROW",
+    "GENERALIZATION-FAIL"
+  ],
+  "cross_layer_pathology_distinct": false,
+  "cross_layer_pathology_summary": {
+    "L17": [
+      "GRACE-DISCRIMINATOR-NARROW",
+      "GENERALIZATION-FAIL"
+    ],
+    "L2": [
+      "GRACE-DISCRIMINATOR-NARROW",
+      "GENERALIZATION-FAIL"
+    ],
+    "distinct": false
+  },
+  "fact_id": "cfb-v3-001",
+  "layer": "L2"
+}

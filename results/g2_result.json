@@ -1,0 +1,62 @@
+{
+  "T_NO_PRIVKEY": {
+    "gate_has_no_privkey": true,
+    "ceremony_has_no_privkey": true,
+    "orchestrator_does_hold_privkey": true
+  },
+  "T_TOKEN_CHECKS": {
+    "legit_ok": true,
+    "foreign_key_rejected": true,
+    "payload_tamper_rejected": true
+  },
+  "T_OVERLAY_SIGFORGE": {
+    "intact_verifies": true,
+    "g1_metadata_check_fooled": true,
+    "g2_signature_rejects": true
+  },
+  "T_CEREMONY_WRONGKEY": {
+    "orchestrator_signature_is_valid": true,
+    "rejected_as_wrong_key": true,
+    "not_sig_invalid": true
+  },
+  "T_CEREMONY": {
+    "valid_admitted": true,
+    "replay_rejected": true,
+    "bad_sig_rejected": true,
+    "stale_rejected": true,
+    "wrong_type_rejected": true
+  },
+  "T_LEDGER_TAMPER": {
+    "intact_before": true,
+    "tamper_detected": true,
+    "broke_at_seq": 2
+  },
+  "T_BLAST_CAP": {
+    "over_cap_rejected": true,
+    "at_cap_ok": true
+  },
+  "T_SUSPEND": {
+    "works_before_suspend": true,
+    "rejected_after_suspend": true
+  },
+  "T_BOOT_ANCHOR": {
+    "boot_suspended_on_mismatch": true
+  },
+  "VERDICT": {
+    "T_NO_PRIVKEY (verify-cannot-forge: no private key reachable from Gate/CeremonyVerifier)": true,
+    "T_TOKEN_CHECKS (identity/expiry/suspension \u2014 HMAC-equivalent, not the asym upgrade)": true,
+    "T_OVERLAY_SIGFORGE (metadata-rewrite fools G1 but G2 content-sig rejects)": true,
+    "T_CEREMONY_WRONGKEY (valid Orchestrator sig still refused as WRONG_KEY, not SIG_INVALID)": true,
+    "T_CEREMONY (valid CAK admit + \u00a720.3 failure set)": true,
+    "T_LEDGER_TAMPER (retroactive edit detected)": true,
+    "T_BLAST_CAP (over-cap rejected; at-cap ok)": true,
+    "T_SUSPEND (suspended agent token rejected)": true,
+    "T_BOOT_ANCHOR (mismatch suspends boot \u2014 simulated)": true
+  },
+  "scope_and_caveats": {
+    "thesis": "REAL Ed25519: a verifier (public anchor) cannot forge. The asym upgrade over HMAC is STRUCTURAL \u2014 T_NO_PRIVKEY proves no private key is reachable from the Gate/CeremonyVerifier \u2014 and DEMONSTRATED by T_OVERLAY_SIGFORGE (metadata-rewrite can't defeat a content signature; closes G1's caveat) + T_CEREMONY_WRONGKEY (a validly-Orchestrator-signed envelope is refused before signature check). T_TOKEN_CHECKS is identity/expiry/suspension only \u2014 HMAC-equivalent, NOT the asymmetric upgrade.",
+    "ledger_immutability": "T_LEDGER_TAMPER detects NAIVE retroactive edits (un-recomputed). An attacker who rewrites an entry AND recomputes every subsequent entry_hash from the constant root produces a chain that re-verifies. True tamper-evidence needs the HEAD anchored (Genesis Seal / signed checkpoint), NOT modeled here \u2192 'tamper detection', not 'immutability'.",
+    "key_custody": "Orchestrator + CAK private halves generated IN-PROCESS to exercise the VERIFIER. G2 does NOT address CUSTODY \u2014 spec puts CAK private offline/HSM operator-held (\u00a720.2) \u2192 v2/ops.",
+    "honest_scope": "audit_category = schema field (\u00a716.6), tagged not enforced (not a verdict line). Boot-anchor-mismatch = SIMULATED boot. Blast-radius = per-patch EDGE CAP only (\u00a78.8) \u2014 ONE dimension; full scope\u00d7tier\u00d7family\u00d7external bounding is broader. ceremony_id replay = EXTENSION beyond \u00a720.3's 60s window (which is also enforced)."
+  }
+}

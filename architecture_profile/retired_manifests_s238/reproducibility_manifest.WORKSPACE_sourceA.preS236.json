@@ -1,0 +1,1475 @@
+{
+  "manifest_version": "3.0",
+  "manifest_purpose": "Reproducibility seed for architecture_profile.json (PF-6 of MEMIT-COMPAT-PROTO-1). v2.0 (S2.3 finalized) covered Block 1 (Kaggle smoke test), Block 2 (RunPod dry-run), and Block 3 (persistent state + rsync mirror) outputs. v3.0 (S2.5b \u00a74.6 authored) adds Stage 1 prep state from S2.5a + S2.5b: target model commitment, MEMIT repo patch state (P-1/P-2/P-4/P-5), hparams JSON binding, smoke-test verdict reference, globals.yml correction state, and HALT-INCOMPLETE cache_provenance pending successor pre-S2.6 fork-work attempt.",
+  "session_finalized": "2.3",
+  "session_finalized_at": "2026-04-28T22:10:00Z",
+  "manifest_v3_authored_session": "2.5b",
+  "manifest_v3_authored_at": "2026-04-30T~21:30:00Z",
+  "manifest_v3_authored_step": "S2.5b \u00a74.6",
+  "kaggle_smoke_test": {
+    "verdict": "PASS",
+    "completed_at": "2026-04-26T07:08:30.578814+00:00",
+    "smoke_test_protocol": "MEMIT-COMPAT-PROTO-1 single-fact rehearsal",
+    "fact": {
+      "prompt": "Michael Jordan plays the sport of",
+      "subject": "Michael Jordan",
+      "target_new": "baseball",
+      "target_true": "basketball"
+    },
+    "see_block_1_seed_for_full_detail": "architecture-profile-seed.json kaggle_smoke_test field"
+  },
+  "runpod_dry_run": {
+    "verdict": "PASS",
+    "hc_2_verdict": "PASS",
+    "completed_at": "2026-04-26T10:24:43.491958+00:00",
+    "venue": "RunPod Secure Cloud",
+    "region": "US-NC-1",
+    "pod_image_tag": "runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04",
+    "pod_image_digest": "sha256:61a4aafb0094cd773f11eefa378929d5a687bd775febeb78eac62fc824141fb5",
+    "pod_image_repository": "docker.io/runpod/pytorch",
+    "pod_image_created_at": "2024-09-24T14:36:13.621508379Z",
+    "pod_image_architecture": "amd64",
+    "pod_image_os": "linux",
+    "pod_image_digest_verified_via": "skopeo (canonical OCI registry inspection)",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_compute": "sm_89",
+    "gpu_memory_mib": 24564,
+    "edit_success_metric": "PASS (HC-2 SF-1, SF-2, SF-3 + amended drift bands)",
+    "drift_from_kaggle": {
+      "p_baseball_post": 0.0012812232142640342,
+      "p_baseball_post_band": 0.05,
+      "p_baseball_post_verdict": "PASS",
+      "p_basketball_post": 0.47979768064038686,
+      "p_basketball_post_band": 10.0,
+      "p_basketball_post_verdict": "PASS",
+      "p_basketball_postunmount_intrapod": 0.0,
+      "p_basketball_postunmount_intrapod_band": 0.0001,
+      "p_basketball_postunmount_intrapod_verdict": "PASS",
+      "p_basketball_postunmount_crossenv": 0.0004652241521474766,
+      "p_basketball_postunmount_crossenv_status": "informational; not gating per OQ-S23-3 amendment"
+    },
+    "pinned_versions_observed": {
+      "python": "3.11.10",
+      "torch": "2.4.1+cu124",
+      "cuda_torch": "12.4",
+      "cuda_driver": "12.8",
+      "driver_version": "570.195.03",
+      "cudnn": "90100",
+      "transformers": "4.45.2",
+      "accelerate": "0.34.2",
+      "huggingface_hub": "0.25.2",
+      "tokenizers": "0.20.3",
+      "safetensors": "0.4.5",
+      "datasets": "4.8.3",
+      "matplotlib": "3.9.2",
+      "scipy": "1.14.1",
+      "pandas": "2.2.3",
+      "sklearn": "1.5.2",
+      "memit_repo_sha": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+      "gpt_j_revision": "float16",
+      "gpt_j_revision_sha": "b71ae8bc86cac13154e03e92b5855203086b722e"
+    },
+    "patches_required_runpod": [
+      "P-1",
+      "P-2",
+      "Pad-Token",
+      "Copy-Unmount"
+    ],
+    "patches_not_required_runpod": [
+      "P-3-prime",
+      "Explicit-device-map"
+    ],
+    "v3_note": "patches_required_runpod above is the GPT-J reference set as of S2.3 close. The Stage 1 production target (LLaMA 3.1 8B) requires P-4 + P-5 in addition; see stage_1_prep_state.patch_state for the production-target patch set.",
+    "spec_amendments_applied": [
+      {
+        "id": "OQ-S23-3",
+        "applied_in": "Cell 10 dry-run notebook",
+        "change": "drift_p_basketball_postunmount band: cross-env 1e-6 -> intra-pod 1e-4",
+        "rationale": "Cross-env band tested architecture-pair FP16 dispatch differences (sm_75 vs sm_89), not overlay isolation. Intra-pod band tests the load-bearing .vindex framework property.",
+        "status": "CLOSED"
+      }
+    ],
+    "verdict_artifact": {
+      "path": "/workspace/memit_dry_run/runpod_dry_run_verdict.json",
+      "size_bytes": 2655,
+      "md5": "df07173f7490556468d26a3f8a5e8e77"
+    }
+  },
+  "persistent_state": {
+    "network_volume_id": "nvol-s1xi9zhfc2",
+    "network_volume_name": "large_amethyst_wolverine",
+    "network_volume_region": "US-NC-1",
+    "network_volume_size_gb": 100,
+    "network_volume_filesystem": "MFS (RunPod managed)",
+    "network_volume_mount_path": "/workspace",
+    "network_volume_used_gb_at_close": 7.6,
+    "directory_layout_committed": true,
+    "directory_layout_committed_at": "2026-04-26T19:36:00Z",
+    "directory_layout_canonical": {
+      "architecture_profile": "PF-1..PF-6 outputs at Stage 1",
+      "vindex_overlays": "MEMIT edit overlays per stage",
+      "cfb_baseline": "CFB v1 corpus + pre-edit baseline",
+      "covariance_caches": "PF-5 covariance matrices (canonical; symlink to memit_dry_run/memit/data/stats)",
+      "drift_sweep_results": "Stage 2 outputs",
+      "epsilon_calibration": "Stage 3a outputs",
+      "compaction_probe_calibration": "Stage 3b outputs",
+      "judge_calibration": "Stage 3c outputs",
+      "session_logs": "per-session execution logs",
+      "memit_dry_run": "Block 2 work product (preserved)"
+    },
+    "covariance_cache_migration_method": "symlink",
+    "covariance_cache_canonical_path": "/workspace/covariance_caches/EleutherAI_gpt-j-6B",
+    "covariance_cache_symlink_target": "/workspace/memit_dry_run/memit/data/stats/EleutherAI_gpt-j-6B",
+    "covariance_cache_layer_count": 6,
+    "covariance_cache_layer_range": "3-8",
+    "covariance_cache_filename_pattern": "transformer.h.<LAYER>.mlp.fc_out_float32_mom2_100000.npz",
+    "covariance_cache_size_gb": 6.1,
+    "session_logs_seed_md5": "df07173f7490556468d26a3f8a5e8e77",
+    "across_teardown_test_completed": true,
+    "across_teardown_test_verdict": "PASS",
+    "across_teardown_cycles_passed": 2,
+    "across_teardown_cycle_1_quiescence_hours": 9,
+    "across_teardown_cycle_2_quiescence_hours": 49,
+    "across_teardown_cumulative_quiescence_hours": 58,
+    "bit_identity_preserved_across_cycles": true,
+    "verification_anchors_total": 17
+  },
+  "rsync_target": {
+    "local_path": "/Volumes/memit/llm-database-poc-mirror/",
+    "local_volume_canonical_name": "memit",
+    "local_volume_filesystem": "APFS",
+    "local_volume_free_at_setup_gb": 449.85,
+    "external_ssd_brand": "SanDisk Extreme 55DD Media (Thunderbolt 3)",
+    "time_machine_inclusion": true,
+    "ssh_method": "RunPod SSH-over-Internet",
+    "ssh_key_path_mbp": "~/.ssh/id_ed25519",
+    "ssh_key_fingerprint": "SHA256:K49NcyUexsbpHkVIa952sQ2zgsSPAkFk9FwgqUu1B7E",
+    "ssh_key_comment": "robert@thestoryportal.org",
+    "ssh_key_registration_method": "manual append to pod ~/.ssh/authorized_keys (account-level propagation insufficient; see OQ-S23-16)",
+    "initial_sync_pod_ip": "103.196.86.85",
+    "initial_sync_pod_port": 18591,
+    "initial_sync_pod_hostname": "76226b7abdb5",
+    "initial_sync_completed_at_approx": "2026-04-28T22:02:00Z",
+    "initial_sync_wall_time_sec": 772,
+    "initial_sync_size_gb_mirror_side": 7.5,
+    "initial_sync_size_gb_nv_side": 7.6,
+    "initial_sync_file_count": 186,
+    "verdict_files_md5_verified": true,
+    "across_endpoint_md5_match": true,
+    "symlink_preserved": true,
+    "rsync_pod_version": "3.2.7 protocol 31",
+    "rsync_mbp_version": "2.6.9 protocol 29 (Apple-bundled)",
+    "rsync_pod_install_method": "apt-get install rsync at session start (see OQ-S23-17)",
+    "cadence": "weekly",
+    "command_pattern_stored_at": "~/scripts/rsync-runpod-mirror.sh",
+    "command_pattern_size_bytes": 1008,
+    "command_pattern_executable": true,
+    "delete_flag_in_persisted_script": true,
+    "delete_flag_in_initial_sync": false
+  },
+  "billing_alerts": {
+    "alert_50": "configured",
+    "alert_150": "deferred - OQ-S23-1",
+    "alert_300": "deferred - OQ-S23-1",
+    "manual_monitoring": "operator daily RunPod console check"
+  },
+  "session_2_3_closure_metadata": {
+    "session_started": "2026-04-26T~07:00:00Z (Block 1 Kaggle)",
+    "session_paused_block_2_close": "2026-04-26T~12:30:00Z",
+    "session_resumed_block_3": "2026-04-26T19:21:00Z",
+    "session_paused_phase_5_ssd_prep": "2026-04-26T~22:00:00Z",
+    "session_resumed_phase_5": "2026-04-28T20:43:00Z",
+    "session_finalized": "2026-04-28T~22:35:00Z",
+    "total_pod_lifecycle_pods": 3,
+    "pod_hostnames_used": [
+      "71f56d183e06",
+      "fe48f0d87f5e",
+      "76226b7abdb5"
+    ],
+    "open_questions_total": 19,
+    "open_questions_closed": 5,
+    "open_questions_deferred": 14
+  },
+  "stage_1_prep_state": {
+    "block_purpose": "Stage 1 prep state \u2014 environment + target model + patch family + hparams + smoke-test verdict + globals.yml state. Authored at S2.5b \u00a74.6 (post-\u00a74.7 runbook v1.2 hardening + \u00a74.8 v1.2.1 hot-patch). Captures the CONSUMING-SIDE state for stage_1_sect_runbook.md v1.2 Cell 3 PROVENANCE.txt gate evaluation.",
+    "compat_assessment_artifact": "stage_1_compat_assessment.md (S2.5b \u00a74.1 \u2014 Section 1 of Workstream 1 bundle)",
+    "compat_assessment_verdict": "PASS-CONDITIONAL on Gate 1 (fresh cache + PROVENANCE; OQ-S25-9) + Gate 2 (LLaMA baseline re-capture; OQ-S25-10) closure",
+    "environment": {
+      "venue": "RunPod Secure Cloud",
+      "region": "US-NC-1 (NV-pinned per Block 2 D7)",
+      "pod_image_tag": "runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04",
+      "pod_image_digest": "sha256:61a4aafb0094cd773f11eefa378929d5a687bd775febeb78eac62fc824141fb5",
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "gpu_compute": "sm_89",
+      "gpu_memory_mib": 24564,
+      "see_runpod_dry_run_for_pinned_versions": "manifest field runpod_dry_run.pinned_versions_observed (manifest v2.0 origin)",
+      "network_volume": {
+        "id": "nvol-s1xi9zhfc2",
+        "name": "large_amethyst_wolverine",
+        "mount_path": "/workspace",
+        "see_persistent_state_for_full_detail": "manifest field persistent_state (manifest v2.0 origin)"
+      }
+    },
+    "target_model": {
+      "model_id": "meta-llama/Llama-3.1-8B",
+      "variant": "base (NOT Instruct)",
+      "hf_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+      "revision_capture_method": "model._commit_hash via model.config (option (b)) per pre_s2_6_fork_work_runbook v1.1 Cell 3 Phase B; option (a) HfApi default-revision query unused at capture time",
+      "revision_capture_session": "pre-S2.6-fork-work (2026-04-30); preserves S2.5a load-time SHA",
+      "architecture_family": "LLaMA (rotary embeddings, RMSNorm, SwiGLU MLP)",
+      "hidden_size": 4096,
+      "max_position_embeddings": 131072,
+      "num_hidden_layers": 32,
+      "vocab_size": 128256,
+      "fp_precision_load": "FP16",
+      "pad_token_at_load": null,
+      "pad_token_post_alias": "<|end_of_text|>",
+      "pad_token_id_post_alias": 128001,
+      "compat_assessment_section_ref": "stage_1_compat_assessment.md \u00a71.2 (architecture compatibility table)"
+    },
+    "memit_repo": {
+      "repo_url": "https://github.com/kmeng01/memit",
+      "sha_pin": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+      "nv_path": "/workspace/memit_dry_run/memit",
+      "memit_patches_canonical_doc_version": "2.2",
+      "memit_patches_canonical_doc_session_origin": "S2.5b \u00a74.5"
+    },
+    "patch_state": {
+      "manifest_form_per_v22_section_8": {
+        "memit_nethook_p1_signature_and_inputs_synthesis": true,
+        "memit_nethook_p2_with_kwargs_registration": true,
+        "memit_solve_cpu_offload_p3_prime": false,
+        "memit_config_attribute_compat_p4": true,
+        "memit_dataset_loader_modernization_p5": true,
+        "tokenizer_pad_token_alias": true,
+        "explicit_device_map": false,
+        "unmount_in_place_copy_only": true
+      },
+      "patches_required_but_not_applied": [],
+      "p_3_prime_status": "NOT REQUIRED (RTX 4090 24 GB capacity headroom; see compat_assessment \u00a71.2 P-3' row)",
+      "explicit_device_map_status": "NOT REQUIRED (single-GPU configuration)",
+      "p4_canonical_form_per_c_s25_14": "S2.5a NV record carries doubled-fallback form at memit/compute_z.py + rome/compute_v.py; single-fallback form at rome/layer_stats.py \u00d7 2; both spec-compliant",
+      "p5_post_state_markers": [
+        "\"20231101.en\"",
+        "\"wikimedia/wikipedia\""
+      ],
+      "p5_substrate_constraint_ref": "C-S25-15 (substrate-shift judgment-acceptance)"
+    },
+    "hparams": {
+      "file_path": "/workspace/architecture_profile/meta-llama_Llama-3_1-8B.json",
+      "schema_version": "20-field S2.5a authorship",
+      "fields": {
+        "layers": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "clamp_norm_factor": 0.75,
+        "layer_selection": "all",
+        "fact_token": "subject_last",
+        "v_num_grad_steps": 25,
+        "v_lr": 0.5,
+        "v_loss_layer": 31,
+        "v_weight_decay": 0.5,
+        "kl_factor": 0.0625,
+        "mom2_adjustment": true,
+        "mom2_update_weight": 15000,
+        "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+        "layer_module_tmp": "model.layers.{}",
+        "mlp_module_tmp": "model.layers.{}.mlp",
+        "attn_module_tmp": "model.layers.{}.self_attn",
+        "ln_f_module": "model.norm",
+        "lm_head_module": "lm_head",
+        "mom2_dataset": "wikipedia",
+        "mom2_n_samples": 100000,
+        "mom2_dtype": "float32"
+      },
+      "provisional_fields_pending_stage_2_sweep": [
+        "v_lr",
+        "mom2_update_weight"
+      ],
+      "compat_assessment_section_ref": "stage_1_compat_assessment.md \u00a71.4 (hyperparameter binding)"
+    },
+    "smoke_test_verdict": {
+      "verdict": "PASS",
+      "session": "2.5a (CLOSED PARTIAL)",
+      "verdict_artifact_path": "/workspace/architecture_profile/llama_smoke_test_verdict.json",
+      "smoke_test_protocol": "MEMIT-COMPAT-PROTO-1 single-fact rehearsal against LLaMA 3.1 8B base (canonical 'Michael Jordan plays the sport of [baseball]' fact \u2014 same as HC-2)",
+      "covariance_substrate_at_smoke_test": "bridge cache (Llama-3-8B-Instruct provenance) \u2014 accepted for compatibility-ratification but BANNED for Stage 1+ trial execution per IC-S25-1",
+      "scope_of_evidence_caveats": [
+        "Bridge cache short-circuited the layer_stats cache-miss path; P-5 was NOT exercised by this verdict (P-5 was authored later in S2.5b \u00a74.0 + \u00a74.5)",
+        "Substrate-shift methodology equivalence (C-S25-15 judgment-acceptance) was not empirically tested; bridge cache covariances were Llama-3-8B-Instruct-derived statistics, not freshly computed against the Stage 1 substrate"
+      ],
+      "compat_assessment_section_ref": "stage_1_compat_assessment.md \u00a71.5.1 (smoke test PASS verdict)"
+    },
+    "globals_yml_state": {
+      "nv_path": "/workspace/memit_dry_run/memit/globals.yml",
+      "correction_applied": true,
+      "correction_session": "pre-S2.6-fork-work (2026-04-30 \u00a74.0-equivalent operator action)",
+      "correction_decision_ref": "D-PreS26-3 (canonical key values)",
+      "correction_constraint_ref": "C-PreS26-1 (load-bearing input)",
+      "canonical_keys": {
+        "STATS_DIR": "/workspace/covariance_caches",
+        "DATA_DIR": "/workspace/data",
+        "HPARAMS_DIR": "/workspace/memit_dry_run/memit/hparams",
+        "RESULTS_DIR": "/workspace/results",
+        "KV_DIR": "/workspace/kvs"
+      },
+      "remote_root_url": "https://memit.baulab.info (left unchanged from upstream)",
+      "upstream_default_snapshot_path": "/workspace/memit_dry_run/memit/globals.yml.upstream_default.20260430T035736Z",
+      "persistence_guarantee": "NV-resident; survives kernel death and pod stop/start",
+      "pre_flight_verification_cell": "pre_s2_6_fork_work_runbook.md v1.2.1 Cell 1.5 (three-phase: filesystem + canonical-keys + import-time-resolution)"
+    }
+  },
+  "cache_provenance": {
+    "block_purpose": "Stage 1 covariance cache provenance \u2014 HALT-INCOMPLETE state at S2.5b close. Authored at S2.5b \u00a74.6. Closure pending successor pre-S2.6 fork-work attempt against pre_s2_6_fork_work_runbook.md v1.2.1 Cell 5 GATE PASS.",
+    "canonical_path": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/",
+    "status": "pending_successor_fork_work_attempt",
+    "blocking_oq": "OQ-S25-9",
+    "blocking_oq_closure_gate": "successor pre-S2.6 fork-work session Cell 5 GATE PASS",
+    "expected_layer_count": 5,
+    "expected_layer_range": "[4, 5, 6, 7, 8]",
+    "expected_filename_pattern": "model.layers.<LAYER>.mlp.down_proj_float32_mom2_100000.npz",
+    "expected_per_file_size_mb": "~822 \u00b1 10%",
+    "expected_per_file_shape": "(14336, 14336) float32",
+    "expected_per_file_sample_size": ">=100000",
+    "expected_substrate": "wikimedia/wikipedia 20231101.en (parquet-backed; per C-S25-15 substrate-shift)",
+    "expected_substrate_constraint_ref": "C-S25-15 (judgment-accepted vs paper baseline wikipedia 20200501.en; downstream methodology comparisons must carry caveat)",
+    "bridge_archive_path": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/bridge_archive_20260430T035042Z/",
+    "bridge_archive_provenance_path": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/bridge_archive_20260430T035042Z/BRIDGE_ARCHIVE_PROVENANCE.txt",
+    "bridge_archive_size_mb_total": "~4110 (5 \u00d7 ~822 MB)",
+    "bridge_archive_constraint_ref": "IC-S25-1 (bridge archived, not deleted; recovery path preserved)",
+    "predecessor_attempt": {
+      "session": "pre-S2.6-fork-work",
+      "attempted_at": "2026-04-30",
+      "halt_classification": "HALT-INCOMPLETE",
+      "halt_oq": "OQ-PreS26-6 (load-bearing dep manifest incompatibility \u2014 datasets==4.8.3 vs MEMIT script-loader)",
+      "halt_resolution_session": "2.5b",
+      "halt_resolution_step": "S2.5b \u00a74.0 + \u00a74.5 (P-5 patch authorship + ratification)",
+      "post_halt_runbook_hardening_session": "2.5b \u00a74.7 + \u00a74.8 (v1.2 + v1.2.1)"
+    },
+    "successor_attempt_runbook": "pre_s2_6_fork_work_runbook.md v1.2.1",
+    "successor_attempt_runbook_hardening_origins": {
+      "v1.2": "S2.5b \u00a74.7 \u2014 absorbed D-PreS26-1, D-PreS26-3, C-PreS26-1, OQ-PreS26-3 (partial), OQ-PreS26-4, OQ-PreS26-7, OQ-PreS26-8 + P-5 verification",
+      "v1.2.1": "S2.5b \u00a74.8 \u2014 hot-patched \u00a71.3 expansion notes, Cell 1.5 EXPECTED_KEYS, Cell 3.5 + Cell 4 \u00a74.2 model_name= (closes OQ-S25b-2, surfaced via \u00a74.8 archaeology past-chat forensics)"
+    },
+    "downstream_consumer": {
+      "runbook": "stage_1_sect_runbook.md v1.2",
+      "consumer_cell": "Cell 3 (PROVENANCE.txt gate)",
+      "consumer_consequence_on_pass": "Session 2.6 Stage 1 SECT trial execution unblocked",
+      "stage_1_sect_runbook_known_defect_ref": "OQ-S25b-1 (Cell 2 verification logic for layer_stats.py \u2014 same defect class as v1.1 of pre_s2_6_fork_work_runbook before \u00a74.7; out-of-scope for S2.5b; routed to future stage_1_sect_runbook v1.3 hardening)"
+    }
+  },
+  "sessions": {
+    "block_purpose": "Per-session metadata for Workstream 1 sessions beyond the pre-existing session_2_3_closure_metadata block. Future Workstream 1 sessions may add entries here. session_2_3_closure_metadata is preserved for backward compatibility; future manifest revisions may consolidate it into this block.",
+    "pre-S2.6-fork-work": {
+      "session_classification": "HALT-INCOMPLETE",
+      "started_at": "2026-04-30T~03:00:00Z (approx)",
+      "halted_at": "2026-04-30T~03:30:00Z (approx)",
+      "wall_time_min": 30,
+      "gpu_cost_usd_approx": 0.15,
+      "halt_cell": "Cell 4 Phase 1, layer 4 invocation",
+      "halt_exception": "RuntimeError: Dataset scripts are no longer supported, but found wikipedia.py",
+      "halt_exception_origin": "datasets/load.py:1167",
+      "halt_root_cause": "datasets==4.8.3 (locked manifest per C-S25-6) is post-deprecation for repository-hosted Python loader scripts; MEMIT's rome/layer_stats.py:97 invokes load_dataset(\"wikipedia\", \"20200501.en\") which depends on the deprecated script-based loader",
+      "halt_oq": "OQ-PreS26-6",
+      "halt_resolution_session": "2.5b",
+      "outcomes_pre_halt": [
+        "Cell 0 PASS (dep manifest install)",
+        "Cell 1 PASS (environment fingerprint)",
+        "Cell 2 PASS (after operator hand-correction of D-PreS26-1 layer_stats.py assertion)",
+        "Cell 3 Phase A PASS (bridge cache atomic-swap archive)",
+        "Cell 3 Phase B PASS (Llama-3.1-8B base load + revision SHA capture: d04e592b...)",
+        "globals.yml correction applied per D-PreS26-3 (in-session operator action)"
+      ],
+      "outcomes_failed": [
+        "Cell 4 Phase 1 \u2014 layer 4 invocation; dataset-loader RuntimeError before any covariance compute"
+      ],
+      "outcomes_not_reached": [
+        "Cell 4 Phase 1 \u2014 layers 5-8",
+        "Cell 5 \u2014 PROVENANCE.txt authorship + downstream gate verification"
+      ],
+      "findings_total": 14,
+      "findings_decisions": 4,
+      "findings_constraints": 1,
+      "findings_oqs": 8,
+      "findings_carried_to_session_2_5b": 14,
+      "summary_artifact": "pre_s2_6_fork_work_summary_block.md",
+      "session_documentation_v3_authored_at": "S2.5b \u00a74.6"
+    },
+    "session_2_5b": {
+      "session_classification": "IN PROGRESS at v3.0 manifest authoring",
+      "scope": "Specification + runbook hardening; chat-side authoring (no pod work)",
+      "deliverables_scoped": 9,
+      "deliverables_completed_at_v3_authoring": [
+        "\u00a74.0 (OQ-PreS26-6 resolution)",
+        "\u00a74.5 (memit-patches-canonical v2.2)",
+        "\u00a74.7 (pre_s2_6_fork_work_runbook v1.2)",
+        "\u00a74.8 (Block 2 archaeology + v1.2.1 hot-patch)",
+        "\u00a74.1 (Section 1 compat assessment)",
+        "\u00a74.6 (this manifest update)"
+      ],
+      "deliverables_pending": [
+        "\u00a74.2 (OQ closures consolidation \u2192 oq-backlog-v3)",
+        "\u00a74.4 (Session Summary Block)",
+        "\u00a74.3 (operator runbook for NV writes + mirror sync)"
+      ],
+      "oq_closures_to_date": 9,
+      "oq_carry_forwards_to_date": 1,
+      "constraints_authored_to_date": 1,
+      "constraints_amended_to_date": 1,
+      "patches_authored_to_date": 1
+    },
+    "2.8": {
+      "session": "2.8 \u2014 Stage 1 SECT re-attempt execution (post-S2.7 / post-P-7 NV-application)",
+      "captured_at": "2026-05-01T14:34:37.747279+00:00",
+      "target_model": "meta-llama/Llama-3.1-8B",
+      "stage_1_verdict": "FAIL",
+      "trials_executed": 9,
+      "session_halted": false,
+      "halt_reason": null,
+      "environment_fingerprint": {
+        "captured_at": "2026-05-01T13:48:53.902529+00:00",
+        "session": "2.6 \u2014 Stage 1 SECT execution",
+        "python": "3.11.10",
+        "platform": "Linux-6.8.0-59-generic-x86_64-with-glibc2.35",
+        "torch": "2.4.1+cu124",
+        "cuda_torch": "12.4",
+        "cudnn": 90100,
+        "gpu_available": true,
+        "gpu_count": 1,
+        "gpus": [
+          {
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 4090",
+            "total_memory_gb": 25.39,
+            "compute_capability": "sm_89"
+          }
+        ],
+        "nvidia_smi": "550.127.05, NVIDIA GeForce RTX 4090, 24564 MiB",
+        "skopeo_version": "skopeo version 1.4.1",
+        "image_tag_implied": "runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04",
+        "image_digest_observed": "OPERATOR_TO_FILL_VIA_SKOPEO",
+        "image_digest_match": "DEFERRED \u2014 operator to populate via skopeo",
+        "workspace_mount": "mfs#us-nc-1.runpod.net:9421  1230223G 923176G   307047G  76% /workspace"
+      },
+      "patch_state": {
+        "captured_at": "2026-05-01T13:56:23.792805+00:00",
+        "memit_sha": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+        "patches_applied": {
+          "memit_nethook_p1_signature_and_inputs_synthesis": true,
+          "memit_nethook_p2_with_kwargs_registration": true,
+          "memit_solve_cpu_offload_p3_prime": false,
+          "memit_config_attribute_compat_p4": true,
+          "memit_dataset_loader_modernization_p5": true,
+          "memit_layer_stats_fstring_p6": true,
+          "memit_get_cov_batch_tokens_p7": true,
+          "tokenizer_pad_token_alias": false,
+          "explicit_device_map": false,
+          "unmount_in_place_copy_only": true
+        },
+        "patches_required_but_not_applied": [],
+        "file_sha256_prefix": {
+          "util/nethook.py": "20e84c9413518af3",
+          "memit/compute_z.py": "30d3a7c42dd47c85",
+          "rome/compute_v.py": "07f35ecec4b2a20a",
+          "rome/layer_stats.py": "be92a521d3411734",
+          "memit/memit_main.py": "186e961633211046"
+        },
+        "v13_bridge_fixes_applied": [
+          "OQ-S28-3 (NEW): line 59 hidden_size assertion on rome/layer_stats.py removed; P-4 substitution is totality on this file; defect routed to v1.4."
+        ]
+      },
+      "cache_state": {
+        "r1_3_smoke_load": {
+          "status": "PASS",
+          "elapsed_sec": 2.72,
+          "diagnostic": "R1.3 cache-dispatch round-trip PASS: elapsed=2.72 s, no local-compute log line. Cache file for layer 4 resolved by MEMIT's get_cov \u2192 layer_stats chain (P-6 + P-7 verified).",
+          "smoke_log_excerpt": "Retrieving covariance statistics for meta-llama_Llama-3.1-8B @ model.layers.4.mlp.down_proj.\nLoading cached /workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz\n"
+        },
+        "verified_at": "2026-05-01T13:59:35.693243+00:00",
+        "cache_dir": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats",
+        "provenance_fields": {
+          "model_name": "meta-llama/Llama-3.1-8B",
+          "model_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+          "layer_set": "[4, 5, 6, 7, 8]",
+          "sample_count": "100000",
+          "dtype": "float32",
+          "computed_at": "2026-05-01T06:05:57.661593+00:00",
+          "produced_by_session": "pre-S2.6-fork-work",
+          "revision_sha_source": "model.config._commit_hash",
+          "bridge_archive": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/bridge_archive_20260430T035042Z",
+          "batch_tokens": "100",
+          "patches_applied": "P-1, P-2, P-4, P-5, P-6"
+        },
+        "cache_files": {
+          "model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "4ff31e8f28f252b6",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          },
+          "model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "e73b2c3f2f5ec3ca",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          },
+          "model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "c0b15be3d77b8c99",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          },
+          "model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "d2a7b81667c8280b",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          },
+          "model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "f3a7e66817575ff3",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          }
+        },
+        "total_size_gb": 4.11,
+        "gate_status": "PASS"
+      },
+      "aggregate_verdict_summary": {
+        "per_criterion_counts": {
+          "consistency": {
+            "pass": 0,
+            "trials": 9
+          },
+          "generalization": {
+            "pass": 9,
+            "trials": 9
+          },
+          "specificity_post_edit": {
+            "pass": 9,
+            "trials": 9
+          },
+          "specificity_post_unmount": {
+            "pass": 9,
+            "trials": 9
+          },
+          "unmount": {
+            "pass": 9,
+            "trials": 9
+          }
+        },
+        "aggregate_pass": {
+          "consistency": false,
+          "generalization": true,
+          "specificity_post_edit": true,
+          "specificity_post_unmount": true,
+          "unmount": true
+        }
+      },
+      "nv_inventory_summary": {
+        "json_artifact_count": 17,
+        "overlay_artifact_count": 18,
+        "session_nv_footprint_mb": 10569.97
+      },
+      "patches_applied": {
+        "memit_nethook_p1_signature_and_inputs_synthesis": true,
+        "memit_nethook_p2_with_kwargs_registration": true,
+        "memit_solve_cpu_offload_p3_prime": false,
+        "memit_config_attribute_compat_p4": true,
+        "memit_dataset_loader_modernization_p5": true,
+        "memit_layer_stats_fstring_p6": true,
+        "memit_get_cov_batch_tokens_p7": true,
+        "tokenizer_pad_token_alias": false,
+        "explicit_device_map": false,
+        "unmount_in_place_copy_only": true
+      },
+      "patches_required_but_not_applied": [],
+      "v13_ratification": {
+        "architectural_axis": "EMPIRICALLY-RATIFIED",
+        "structural_axis": "FULLY-RATIFIED",
+        "textual_axis": "DEFECTIVE-IN-FIELD",
+        "v14_scope_open": [
+          "OQ-S28-3 (Cell 2 line 59 hidden_size assertion)"
+        ]
+      },
+      "stage_1_failure_class": "consistency_aggregate_FAIL_provisional_band",
+      "oqs_activated_by_failure": [
+        "OQ-S25-3",
+        "OQ-S25-4",
+        "OQ-PROBE-2"
+      ],
+      "oqs_newly_surfaced": [
+        "OQ-S28-2 (Cell 1 fingerprint session label hardcoded)",
+        "OQ-S28-3 (Cell 2 line 59 hidden_size defense-in-depth)",
+        "OQ-S28-4 (cache provenance vs model SHA equality not gated)",
+        "OQ-S28-5 (cfb-003 multi-token subject orthographic neighbor risk)",
+        "OQ-S28-6 (NV utilization sustainability for Stage 2 sweep)"
+      ]
+    },
+    "2.6": {
+      "session": "2.6 \u2014 Stage 1 SECT execution",
+      "captured_at": "2026-05-04T08:01:22.161622+00:00",
+      "target_model": "meta-llama/Llama-3.1-8B",
+      "stage_1_verdict": "FAIL",
+      "trials_executed": 15,
+      "session_halted": false,
+      "halt_reason": null,
+      "environment_fingerprint": {
+        "captured_at": "2026-05-04T07:21:54.656838+00:00",
+        "session": "2.X \u2014 Stage 1 SECT execution",
+        "python": "3.11.10",
+        "platform": "Linux-6.8.0-59-generic-x86_64-with-glibc2.35",
+        "torch": "2.4.1+cu124",
+        "cuda_torch": "12.4",
+        "cudnn": 90100,
+        "gpu_available": true,
+        "gpu_count": 1,
+        "gpus": [
+          {
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 4090",
+            "total_memory_gb": 25.39,
+            "compute_capability": "sm_89"
+          }
+        ],
+        "nvidia_smi": "550.127.05, NVIDIA GeForce RTX 4090, 24564 MiB",
+        "skopeo_version": "skopeo version 1.4.1",
+        "image_tag_implied": "runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04",
+        "image_digest_observed": "OPERATOR_TO_FILL_VIA_SKOPEO",
+        "image_digest_match": "DEFERRED \u2014 operator to populate via skopeo",
+        "workspace_mount": "mfs#us-nc-1.runpod.net:9421  1230223G 907370G   322853G  74% /workspace",
+        "model_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+        "model_revision_sha_captured_at": "Cell 5 (post-load HfApi)"
+      },
+      "patch_state": {
+        "captured_at": "2026-05-04T07:22:10.684297+00:00",
+        "memit_sha": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+        "patches_applied": {
+          "memit_nethook_p1_signature_and_inputs_synthesis": true,
+          "memit_nethook_p2_with_kwargs_registration": true,
+          "memit_solve_cpu_offload_p3_prime": false,
+          "memit_config_attribute_compat_p4": true,
+          "memit_dataset_loader_modernization_p5": true,
+          "memit_layer_stats_fstring_p6": true,
+          "memit_get_cov_batch_tokens_p7": true,
+          "tokenizer_pad_token_alias": false,
+          "explicit_device_map": false,
+          "unmount_in_place_copy_only": true
+        },
+        "patches_required_but_not_applied": [],
+        "file_sha256_prefix": {
+          "util/nethook.py": "20e84c9413518af3",
+          "memit/compute_z.py": "30d3a7c42dd47c85",
+          "rome/compute_v.py": "07f35ecec4b2a20a",
+          "rome/layer_stats.py": "be92a521d3411734",
+          "memit/memit_main.py": "186e961633211046"
+        }
+      },
+      "cache_state": {
+        "r1_3_smoke_load": {
+          "status": "PASS",
+          "elapsed_sec": 12.364,
+          "diagnostic": "R1.3 cache-dispatch round-trip PASS: elapsed=12.36 s, no local-compute log line. Cache file for layer 4 resolved by MEMIT's get_cov \u2192 layer_stats chain (P-6 + P-7 verified).",
+          "smoke_log_excerpt": "Retrieving covariance statistics for meta-llama_Llama-3.1-8B @ model.layers.4.mlp.down_proj.\nLoading cached /workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz\n"
+        },
+        "verified_at": "2026-05-04T07:24:00.977512+00:00",
+        "cache_dir": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats",
+        "provenance_fields": {
+          "model_name": "meta-llama/Llama-3.1-8B",
+          "model_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+          "layer_set": "[4, 5, 6, 7, 8]",
+          "sample_count": "100000",
+          "dtype": "float32",
+          "computed_at": "2026-05-01T06:05:57.661593+00:00",
+          "produced_by_session": "pre-S2.6-fork-work",
+          "revision_sha_source": "model.config._commit_hash",
+          "bridge_archive": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/bridge_archive_20260430T035042Z",
+          "batch_tokens": "100",
+          "patches_applied": "P-1, P-2, P-4, P-5, P-6"
+        },
+        "cache_files": {
+          "model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "4ff31e8f28f252b6",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          },
+          "model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "e73b2c3f2f5ec3ca",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          },
+          "model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "c0b15be3d77b8c99",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          },
+          "model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "d2a7b81667c8280b",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          },
+          "model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "f3a7e66817575ff3",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          }
+        },
+        "total_size_gb": 4.11,
+        "gate_status": "PASS"
+      },
+      "aggregate_verdict_summary": {
+        "per_criterion_counts": {
+          "consistency": {
+            "facts_passing": 0,
+            "facts_total": 5,
+            "raw_trial_pass_count": 0,
+            "trials": 15
+          },
+          "generalization": {
+            "facts_passing": 4,
+            "facts_total": 5,
+            "raw_trial_pass_count": 12,
+            "trials": 15
+          },
+          "specificity_post_edit": {
+            "facts_passing": 5,
+            "facts_total": 5,
+            "raw_trial_pass_count": 15,
+            "trials": 15
+          },
+          "specificity_post_unmount": {
+            "facts_passing": 5,
+            "facts_total": 5,
+            "raw_trial_pass_count": 15,
+            "trials": 15
+          },
+          "unmount": {
+            "raw_trial_pass_count": 15,
+            "trials": 15
+          }
+        },
+        "aggregate_pass": {
+          "consistency": false,
+          "generalization": true,
+          "specificity_post_edit": true,
+          "specificity_post_unmount": true,
+          "unmount": true
+        }
+      },
+      "nv_inventory_summary": {
+        "json_artifact_count": 23,
+        "overlay_artifact_count": 30,
+        "session_nv_footprint_mb": 17616.62
+      },
+      "patches_applied": {
+        "memit_nethook_p1_signature_and_inputs_synthesis": true,
+        "memit_nethook_p2_with_kwargs_registration": true,
+        "memit_solve_cpu_offload_p3_prime": false,
+        "memit_config_attribute_compat_p4": true,
+        "memit_dataset_loader_modernization_p5": true,
+        "memit_layer_stats_fstring_p6": true,
+        "memit_get_cov_batch_tokens_p7": true,
+        "tokenizer_pad_token_alias": false,
+        "explicit_device_map": false,
+        "unmount_in_place_copy_only": true
+      },
+      "patches_required_but_not_applied": []
+    },
+    "2.15-D2": {
+      "session": "2.15-D2 \u2014 Stage 1 SECT v3 narrowed window L2-L6 (D.2)",
+      "captured_at": "2026-05-04T14:38:31.833448+00:00",
+      "target_model": "meta-llama/Llama-3.1-8B",
+      "edit_layer_set": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "stage_1_verdict": "FAIL",
+      "stage_1_verdict_full_5_fact": "FAIL",
+      "stage_1_verdict_load_bearing_subset": "FAIL",
+      "trials_executed": 15,
+      "session_halted": false,
+      "halt_reason": null,
+      "environment_fingerprint": {
+        "captured_at": "2026-05-04T13:29:53.268910+00:00",
+        "session": "2.15-D2 \u2014 Stage 1 SECT v3 narrowed window L2-L6",
+        "python": "3.11.10",
+        "platform": "Linux-6.8.0-59-generic-x86_64-with-glibc2.35",
+        "torch": "2.4.1+cu124",
+        "cuda_torch": "12.4",
+        "cudnn": 90100,
+        "gpu_available": true,
+        "gpu_count": 1,
+        "gpus": [
+          {
+            "index": 0,
+            "name": "NVIDIA GeForce RTX 4090",
+            "total_memory_gb": 25.39,
+            "compute_capability": "sm_89"
+          }
+        ],
+        "nvidia_smi": "550.127.05, NVIDIA GeForce RTX 4090, 24564 MiB",
+        "skopeo_version": "skopeo version 1.4.1",
+        "image_tag_implied": "runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04",
+        "image_digest_observed": "OPERATOR_TO_FILL_VIA_SKOPEO",
+        "image_digest_match": "DEFERRED \u2014 operator to populate via skopeo",
+        "workspace_mount": "mfs#us-nc-1.runpod.net:9421  1230223G 904682G   325541G  74% /workspace",
+        "model_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+        "model_revision_sha_captured_at": "Cell 5 (post-load HfApi)"
+      },
+      "patch_state": {
+        "captured_at": "2026-05-04T13:32:09.639789+00:00",
+        "memit_sha": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+        "patches_applied": {
+          "memit_nethook_p1_signature_and_inputs_synthesis": true,
+          "memit_nethook_p2_with_kwargs_registration": true,
+          "memit_solve_cpu_offload_p3_prime": false,
+          "memit_config_attribute_compat_p4": true,
+          "memit_dataset_loader_modernization_p5": true,
+          "memit_layer_stats_fstring_p6": true,
+          "memit_get_cov_batch_tokens_p7": true,
+          "tokenizer_pad_token_alias": false,
+          "explicit_device_map": false,
+          "unmount_in_place_copy_only": true
+        },
+        "patches_required_but_not_applied": [],
+        "file_sha256_prefix": {
+          "util/nethook.py": "20e84c9413518af3",
+          "memit/compute_z.py": "30d3a7c42dd47c85",
+          "rome/compute_v.py": "07f35ecec4b2a20a",
+          "rome/layer_stats.py": "be92a521d3411734",
+          "memit/memit_main.py": "186e961633211046"
+        }
+      },
+      "cache_state": {
+        "r1_3_smoke_load": {
+          "status": "PASS",
+          "elapsed_sec": 5.233,
+          "diagnostic": "R1.3 cache-dispatch round-trip PASS: elapsed=5.23 s; cache file for layer 4 resolved by P-6+P-7 chain.",
+          "smoke_log_excerpt": "Retrieving covariance statistics for meta-llama_Llama-3.1-8B @ model.layers.4.mlp.down_proj.\nLoading cached /workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz\n"
+        },
+        "verified_at": "2026-05-04T13:37:04.481176+00:00",
+        "cache_dir": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats",
+        "provenance_fields": {
+          "model_name": "meta-llama/Llama-3.1-8B",
+          "model_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+          "layer_set": "[2, 3, 4, 5, 6]",
+          "sample_count": "100000",
+          "dtype": "float32",
+          "computed_at": "2026-05-01T06:05:57.661593+00:00",
+          "produced_by_session": "pre-S2.6-fork-work",
+          "revision_sha_source": "model.config._commit_hash",
+          "bridge_archive": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/bridge_archive_20260430T035042Z",
+          "batch_tokens": "100",
+          "patches_applied": "P-1, P-2, P-4, P-5, P-6"
+        },
+        "cache_files": {
+          "model.layers.2.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "3554d889763a5377",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          },
+          "model.layers.3.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "a01a8da4332ee2c3",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          },
+          "model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "4ff31e8f28f252b6",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          },
+          "model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "e73b2c3f2f5ec3ca",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          },
+          "model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "c0b15be3d77b8c99",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          },
+          "model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "d2a7b81667c8280b",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          },
+          "model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz": {
+            "size_mb": 822.08,
+            "sha256_prefix": "f3a7e66817575ff3",
+            "matrix_key_resolved": "mom2.mom2",
+            "matrix_shape": [
+              14336,
+              14336
+            ],
+            "matrix_dtype": "float32",
+            "sample_size": 100000,
+            "all_keys": [
+              "mom2.constructor",
+              "mom2.count",
+              "mom2.mom2",
+              "sample_size"
+            ]
+          }
+        },
+        "total_size_gb": 5.75,
+        "gate_status": "PASS",
+        "block_b_inline_modifications": [
+          "EXPECTED_LAYERS: [4,5,6,7,8] \u2192 [2,3,4,5,6] (D-S215D2-BLOCKB-PROVENANCE-1)",
+          "R1.1: strict equality \u2192 SUBSET (OQ-S215D2-PROVENANCE-CACHE-TRUTH-1)"
+        ]
+      },
+      "aggregate_verdict_summary": {
+        "per_criterion_counts": {
+          "consistency": {
+            "facts_passing": 0,
+            "facts_total": 5,
+            "raw_trial_pass_count": 0,
+            "trials": 15
+          },
+          "generalization": {
+            "facts_passing": 5,
+            "facts_total": 5,
+            "raw_trial_pass_count": 15,
+            "trials": 15
+          },
+          "specificity_post_edit": {
+            "facts_passing": 5,
+            "facts_total": 5,
+            "raw_trial_pass_count": 15,
+            "trials": 15
+          },
+          "specificity_post_unmount": {
+            "facts_passing": 5,
+            "facts_total": 5,
+            "raw_trial_pass_count": 15,
+            "trials": 15
+          },
+          "unmount": {
+            "raw_trial_pass_count": 15,
+            "trials": 15
+          }
+        },
+        "aggregate_pass_full": {
+          "consistency": false,
+          "generalization": true,
+          "specificity_post_edit": true,
+          "specificity_post_unmount": true,
+          "unmount": true
+        },
+        "load_bearing_subset_aggregate_pass": {
+          "consistency": false,
+          "generalization": true,
+          "specificity_post_edit": true,
+          "specificity_post_unmount": true,
+          "unmount": true
+        }
+      },
+      "nv_inventory_summary": {
+        "json_artifact_count": 23,
+        "overlay_artifact_count": 30,
+        "session_nv_footprint_mb": 17616.63,
+        "sha_equality_gate": "PASS"
+      },
+      "patches_applied": {
+        "memit_nethook_p1_signature_and_inputs_synthesis": true,
+        "memit_nethook_p2_with_kwargs_registration": true,
+        "memit_solve_cpu_offload_p3_prime": false,
+        "memit_config_attribute_compat_p4": true,
+        "memit_dataset_loader_modernization_p5": true,
+        "memit_layer_stats_fstring_p6": true,
+        "memit_get_cov_batch_tokens_p7": true,
+        "tokenizer_pad_token_alias": false,
+        "explicit_device_map": false,
+        "unmount_in_place_copy_only": true
+      },
+      "patches_required_but_not_applied": [],
+      "framework_finding": "D.2 FAIL at L2-L6 narrowed window. Class D FULLY ELIMINATED. Hypothesis classes A, B, C, D all eliminated through systematic ablation. Architectural-invariant ceiling confirmed structural to (Llama-3.1-8B \u00d7 MEMIT \u00d7 canonical hparams). Routes to T-branch per D-S214D-CLASS-D-PARTIAL-1 / D-S215D2-4 (T.2 alt write engine leading)."
+    },
+    "2.24": {
+      "session": "2.24 \u2014 T.1-\u03b1-MEMIT: MEMIT on Llama-3.2-3B at canonical hparams (scale-generalization test)",
+      "captured_at": "2026-06-15T09:03:51.458765+00:00",
+      "target_model": "meta-llama/Llama-3.2-3B",
+      "edit_layer_set": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "stage_1_verdict": "FAIL_WITH_INSTALLATION",
+      "stage_1_verdict_full_5_fact": "FAIL (consistency 0/5)",
+      "stage_1_verdict_load_bearing_subset": "FAIL (cfb-v3-001/002/005 all FAIL)",
+      "cell_13_route": "ROUTE_A",
+      "trials_executed": 1,
+      "block_c_skipped": true,
+      "block_c_skip_rationale": "Route A: 0/5 dry-run verdict; 15-trial replication would reproduce 0/5 at compute cost, no information gain",
+      "session_halted": false,
+      "halt_reason": null,
+      "finding": "Architectural-invariant ceiling GENERALIZES across Llama-class scale (8B -> 3B). 8th axis; first to vary the MODEL. Seven-axis fingerprint reproduced: compute_z internal objective improved ~40,000x per fact (e.g. guitar 1.4e-08 -> 5.5e-04 over 25 steps) while external P(target) at canonical prompt barely moved (guitar 2.2e-04 -> 7.8e-04); top-1 stayed token 279/813, never target.",
+      "rigor_caveat": "Result obtained on LOW-AKD corpus (cfb-v3: 5 clustered athletes, identical template) \u2014 a known MEMIT stress condition per arXiv 2502.07322 (MEMIT-Merge key-collision). 0/5 proves ceiling-generalizes-across-scale UNDER low-AKD conditions; does NOT disentangle model-family ceiling from low-AKD-corpus ceiling. High-AKD discriminating experiment (KnowEdit) is the key open successor question (OQ-S224-LIT-1).",
+      "model_structure_adaptations": {
+        "note": "Three benign 3B-vs-8B structural adaptations; NOT hparam tuning. Canonical hparams otherwise verbatim from hparams/MEMIT/Llama-3.1-8B.json.",
+        "v_loss_layer": "31 -> 27 (3B has 28 layers; last-layer index)",
+        "lm_head_module": "'lm_head' -> 'model.embed_tokens' (3B tie_word_embeddings=True; lm_head.weight not a named param, tied to embed_tokens.weight)",
+        "cov_caches": "recomputed fresh for 3B (8B caches keyed on 8B architecture; useless for 3B)"
+      },
+      "checkpoint_2_drift": "0.00e+00 (38 probes, 0 top-1 mismatches; cross-engine GRACE->MEMIT determinism proven)",
+      "copy_unmount": {
+        "weights_bitexact": true,
+        "weight_max_abs_diff": "0.00e+00 (all 5 layers)",
+        "ic_s23_4_probe_gate": "PASS",
+        "probe_max_drift": "0.00e+00 (post-unmount P(target) == pre-edit P(target), all 5 facts, full precision)",
+        "note": "4th write-engine config validated bit-exact: MEMIT L4-L8 -> L2-L6 -> ROME single-fact -> MEMIT-3B L2-L6"
+      },
+      "edit_dispatch": {
+        "peak_vram_gib": 8.41,
+        "vram_ceiling_gib": 24,
+        "cov_round_trip": "P-7 PASS (all 5 _t100_ caches LOADED, no recompute)",
+        "z_error_per_layer": [
+          5.11,
+          5.06,
+          5.0,
+          4.84,
+          4.45
+        ]
+      },
+      "cov_cache_provenance": {
+        "path": "/workspace/covariance_caches/meta-llama_Llama-3.2-3B/wikipedia_stats/",
+        "layer_count": 5,
+        "per_file_size_bytes": 268436642,
+        "per_file_shape": "(8192, 8192) float32",
+        "sha256_prefix": {
+          "model.layers.2": "7c6dafdc4931858b",
+          "model.layers.3": "1dd366b5ad3e36ab",
+          "model.layers.4": "f5fb935a12f679ff",
+          "model.layers.5": "cac4f81451d636e7",
+          "model.layers.6": "1509023884def860"
+        },
+        "integrity_post_session": "CELL18 5/5 size-match; MEMIT read-only, no corruption",
+        "reusable_for": "high-AKD corpus successor experiments on Llama-3.2-3B L2-L6 (~45 min compute saved)"
+      },
+      "environment_fingerprint": {
+        "captured_at": "2026-06-15T09:03:51.458765+00:00",
+        "gpu": "NVIDIA GeForce RTX 4090 24GiB",
+        "container": "ee00aa7bcadb",
+        "memit_sha": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+        "transformers": "4.45.2",
+        "model_revision_sha_note": "config._name_or_path"
+      }
+    },
+    "2.26": {
+      "session_type": "execution",
+      "arm": "T.1-alpha-MEMIT-AKD",
+      "model": "meta-llama/Llama-3.2-3B",
+      "model_sha": "13afe5124825b4f3751f836b40dafda64c1ed062",
+      "engine_sha": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+      "verdict": "P1-GATE-FAIL -> AKD-ELIMINATED-BY-HIGH-CONTROL",
+      "edit_dispatched": false,
+      "p0_hparam_diff": {
+        "result": "13/14",
+        "unexpected": [
+          "layers"
+        ],
+        "ours": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "easyedit_3b": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "p1_akd": {
+        "cfb_v3_band_mean": 4.6203,
+        "cfb_v4_band_mean": 4.8499,
+        "band_ratio": 1.05,
+        "gate_multiple": 5.0,
+        "gate_pass": false,
+        "per_layer_v3": [
+          3.3812,
+          3.9661,
+          4.8381,
+          5.309,
+          5.6071
+        ],
+        "per_layer_v4": [
+          3.3711,
+          3.992,
+          5.4442,
+          5.5046,
+          5.9374
+        ],
+        "nearest_pair_v4_L4": {
+          "003_005": 5.787,
+          "001_002": 5.0469
+        }
+      },
+      "p1_verify": "10/10 subject-final-token; no off-by-one",
+      "cov_caches_reused": true,
+      "cov_cache_sha256_prefixes": {
+        "L2": "7c6dafdc4931858b999ea6204f4dfe57",
+        "L3": "1dd366b5ad3e36ab011ed9c009e99bd7",
+        "L4": "f5fb935a12f679ff31272abcc4421641",
+        "L5": "cac4f81451d636e7187e859ad7defb6e",
+        "L6": "1509023884def86054787565d4dad980"
+      },
+      "cells_reached": [
+        "0",
+        "P0",
+        "P1",
+        "P1-VERIFY",
+        "18",
+        "20"
+      ],
+      "successor": "S2.27 = T.1-beta-BAND ([4-8] community-standard band re-run on cfb-v3)"
+    },
+    "2.27": {
+      "session_type": "execution",
+      "axis": "T.1-beta-BAND",
+      "model": "meta-llama/Llama-3.2-3B",
+      "model_revision_sha": "13afe5124825b4f3751f836b40dafda64c1ed062",
+      "engine_sha": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+      "single_variable": {
+        "changed_field": "layers",
+        "from": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "to": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "all_20_fields_checked": true,
+        "tied_embedding_adaptation": "lm_head_module=model.embed_tokens (C-S224-1)"
+      },
+      "checkpoint_4_drift_max": 0.0,
+      "cov_caches": {
+        "path": "/workspace/covariance_caches/meta-llama_Llama-3.2-3B/wikipedia_stats/",
+        "reused_L4_L5_L6": true,
+        "new_L7_L8_byte_equality": 268436642,
+        "L7_sha256_prefix": "637f235541bef1be",
+        "L8_sha256_prefix": "6eea553955c288f6",
+        "all_7_post_session_intact": true
+      },
+      "consistency": {
+        "n_cleared": 0,
+        "of": 5,
+        "per_fact_p_target_new": {
+          "cfb-v3-001_guitar": 0.000733971,
+          "cfb-v3-002_piano": 4.473656e-06,
+          "cfb-v3-003_violin": 5.452889e-05,
+          "cfb-v3-004_harp": 0.001239636,
+          "cfb-v3-005_flute": 0.0008544522
+        },
+        "band_gap_oom": "3 to 6 orders below 0.5 band",
+        "delta_vs_2_6_floor": "approx 0 (ceiling intact)"
+      },
+      "internal_progress_note": "compute_z internal avg-prob improved ~1.6e3 to ~6.3e4 per fact; external probe unmoved (same ceiling signature as [2-6])",
+      "copy_unmount_drift_max": 0.0,
+      "verdict": "BAND-INVARIANT -> CEILING-IS-CONFIG-INDEPENDENT",
+      "route": "A",
+      "axis_number": "9th axis (first config-variation axis)",
+      "no_edit_persisted": "model restored bit-exact; weights clean"
+    },
+    "2.29": {
+      "arm": "T.3-alpha-MISTRAL",
+      "engine": "MEMIT",
+      "verdict": "ROUTE_A_HALT_0of5_SIGNATURE_REPRODUCED",
+      "axis": 10,
+      "ceiling_class_promotion": "L_to_G_base_decoder_LM_general",
+      "model": "mistralai/Mistral-7B-v0.3",
+      "model_sha": "caa1feb0e54d415e2df31207e5f4e273e33509b1",
+      "engine_sha": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+      "engine_snapshot": "/workspace/architecture_profile/engine_source_snapshot/memit_80426fd9",
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "v_loss_layer": 31,
+      "lm_head_module": "lm_head",
+      "pad_token_id": 2,
+      "tuning_knob_diffs_vs_8B": {},
+      "cov_caches": "mistralai_Mistral-7B-v0.3 (5x822084770B, t100)",
+      "checkpoint_1_drift": 0.0,
+      "unmount_drift": 0.0,
+      "confirmatory_stable": true,
+      "consistency_pass": "0/5",
+      "external_p_max": 0.0035,
+      "internal_gain_range": "240x-4000x",
+      "vram_peak_gib": 21.3,
+      "cov_compute_min": 91.1,
+      "strict_facts": [
+        "cfb-v3-001",
+        "cfb-v3-002"
+      ],
+      "proxy_facts": [
+        "cfb-v3-003",
+        "cfb-v3-004",
+        "cfb-v3-005"
+      ]
+    }
+  },
+  "v3_block_purpose_summary": {
+    "stage_1_prep_state": "Captures the consuming-side prep state (environment + target model + patch family + hparams + smoke-test + globals.yml) for Stage 1 SECT execution. Reference document: stage_1_compat_assessment.md (S2.5b \u00a74.1). Status: prep complete; gates open.",
+    "cache_provenance": "Captures the Stage 1 covariance cache state. Status: HALT-INCOMPLETE pending successor pre-S2.6 fork-work attempt against pre_s2_6_fork_work_runbook.md v1.2.1.",
+    "sessions": "Per-session metadata. Currently records pre-S2.6-fork-work (HALT-INCOMPLETE) and session_2_5b (in-progress)."
+  },
+  "entries": [
+    {
+      "session": "S2.32",
+      "date": "2026-06-15",
+      "type": "execution",
+      "arms": [
+        "qwen_clear_hardening(route_C_4trial)",
+        "mistral_reconfirm"
+      ],
+      "engine_sha": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+      "engine_patch": "P-VRAM-CPU-SOLVE",
+      "memit_main_patched_sha": "5c0c706a66c385273d0a48ebbb8274a1c31bf3e101ca309e47db9cb8b6c78770",
+      "qwen": {
+        "model_sha": "d149729398750b98c0af14eb82c78cfe92750796",
+        "band": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "v_loss_layer": 27,
+        "consistency": "5/5_stable_x4",
+        "generalization": "3/15_stable",
+        "specificity": "3/3",
+        "unmount": "0.00e+00_x4_cfg7",
+        "verdict": "CLEAR_QUALIFIED_edit-expressed-entity-specific-not-attribute-local"
+      },
+      "mistral": {
+        "model_sha": "caa1feb0e54d415e2df31207e5f4e273e33509b1",
+        "band": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "v_loss_layer": 31,
+        "pad_token": "eos_id2",
+        "consistency": "0/5",
+        "verdict": "CEILING_HOLDS_through_patched_engine"
+      },
+      "resolves": [
+        "OQ-S231-CLEAR-ROBUSTNESS-1",
+        "OQ-S222-CALIBRATION-CRITERIA-MISMATCH-1",
+        "t_branch_v1.4_axis_4"
+      ]
+    }
+  ]
+}

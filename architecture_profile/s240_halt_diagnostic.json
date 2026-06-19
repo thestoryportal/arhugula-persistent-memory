@@ -1,0 +1,47 @@
+{
+  "session": "S2.40 (ROUTE-MODEL kickoff)",
+  "halt_type": "PLANNED calibration-gate failure (NOT an engine/science-path bug)",
+  "gate": "GATE A — GPT-J-6B MEMIT positive control (the program-authored validation anchor)",
+  "engine_status": "UNMODIFIED — SHA 5c0c706a66c385273d0a48ebbb8274a1c31bf3e101ca309e47db9cb8b6c78770, _cov_cpu==3. Engine and harness ran cleanly; this is a clean experimental result that trips the pre-registered HALT condition, not a malfunction.",
+  "pre_registered_gate_text": "GPT-J must register effective + attribute-LOCAL (low drift) + entity-specific edits — the calibrated 'clean success' shape. If GPT-J ALSO drifts high -> harness mis-calibrated -> HALT.",
+  "result": {
+    "model": "EleutherAI/gpt-j-6B (revision float16)",
+    "n_facts": 5,
+    "facts": "CounterFact/ROME-canonical: Eiffel->Rome, Michael Jordan->baseball, Darrieux->English, Space Needle->Paris, Pierre Curie->medicine",
+    "effective": true,
+    "mean_post_p_target": 0.973,
+    "top1_target_hits": "5/5",
+    "entity_specific_cross_entity": true,
+    "mean_specificity_KL": 0.0001,
+    "attribute_local_same_subject": false,
+    "mean_same_subject_drift_KL": 2.482,
+    "same_subject_drift_KL_range": [1.894, 3.339],
+    "ref_qwen_cfb_v3_drift_KL": 2.45,
+    "ref_qwen_cfb_v4_drift_KL": 0.201,
+    "VERDICT": "HALT — GPT-J reads HIGH same-subject drift (2.48), same regime as Qwen-cfb-v3 (2.45). The intended clean-success low-drift anchor does NOT materialize on the canonical MEMIT model."
+  },
+  "drift_is_genuine_orthogonal_corruption": {
+    "note": "High drift is dominated by ORTHOGONAL (non-edit-adjacent) attribute corruption, not desirable generalization.",
+    "examples": [
+      "Eiffel Tower city->Rome corrupted designer (Gustave->Gi, KL 4.44), material (iron->concrete, KL 2.44), completion year (1889->'of', KL 3.14) — all orthogonal to location, all flipped.",
+      "Michael Jordan sport->baseball corrupted college (North Carolina->Florida, KL 2.18), birth city (Wilmington->'G', KL 2.97) — orthogonal to sport.",
+      "Space Needle city->Paris corrupted build year (1962->1900, KL 5.46), type (building->monument) — orthogonal.",
+      "A FEW probes are edit-adjacent and excluded from the core read: Curie Nobel Physics->Medicine (area-of-work medicine bleed), Darrieux birth-city Lyon->London (English bleed)."
+    ]
+  },
+  "diagnosis": "Same-subject other-attribute drift is a GENERIC property of MEMIT-class subject-last-token editing, NOT a Qwen pathology. The MEMIT paper's 'specificity/locality' is the CROSS-ENTITY axis (different subjects), which the harness CONFIRMS clean for GPT-J (KL~0). The paper never measured/controlled same-subject-different-attribute consistency. Therefore: (1) high same-subject drift is compatible with a textbook-correct MEMIT edit; (2) the same-subject drift metric has NO calibrated 'clean floor' — the only known-clean reference (GPT-J) reads high; (3) it cannot serve as an absolute clean-vs-broken discriminator.",
+  "what_this_undercuts": "framework_finding v1.8's ROUTE-MODEL premise ('Qwen entanglement is substantially a cfb-v3 corpus artifact; the model axis is cleaner; hunt models with the calibrated probe'). 'Structurally-diverse corpus => low drift' does NOT generalize: GPT-J on diverse CounterFact facts still drifts high. The Qwen-cfb-v4 low-drift (0.20) is now the UNEXPLAINED OUTLIER (against GPT-J high AND Qwen-cfb-v3 high).",
+  "what_survives": "Efficacy/convergence (5/5, all models). CROSS-ENTITY specificity (KL~0 across Qwen-v3, Qwen-v4, GPT-J — now GPT-J-confirmed). Front-loading geometry (v1.7.2) untouched.",
+  "two_live_hypotheses_for_qwen_cfb_v4_low_drift": [
+    "H-MODEL: Qwen2.5-7B is genuinely more same-subject-local than GPT-J (a real, valuable model property -> Qwen leads for multi-field LLM-as-DB).",
+    "H-PROBE: cfb-v4's specific subjects/targets/probes are drift-resistant (a probe artifact) -> the v1.8 'corpus artifact' conclusion is itself not robust."
+  ],
+  "decisive_next_experiment_S2_41": "MODEL x CORPUS cross on IDENTICAL probes: run GPT-J on the exact cfb-v4 facts, and Qwen on the exact GPT-J/CounterFact facts. Both models now cached. This isolates model-effect from probe-effect and disambiguates H-MODEL vs H-PROBE. Gate it behind a calibrated-floor measurement (benign/null/true-value-reassert edits) to anchor the drift scale.",
+  "halt_discipline": "Did NOT run Arm M1 (Qwen viability re-derivation) or Arm M2 (model-hunt) — both depend on the same-subject drift metric this gate just invalidated as an absolute discriminator. No data promoted past the unmet gate.",
+  "artifacts": [
+    "s240_gptj_positive_control.json (full per-fact Gate A data)",
+    "s240_gptj_positive_control.py (harness)",
+    "framework_finding_v1_9_additive.md (the result + reopened v1.8 framing)",
+    "session_2_40_summary_block.md"
+  ]
+}

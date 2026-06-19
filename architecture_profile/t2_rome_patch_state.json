@@ -1,0 +1,158 @@
+{
+  "captured_at": "2026-05-05T03:49:18.871617+00:00",
+  "rome_sha": "0874014cd9837e4365f3e6f3c71400ef11509e04",
+  "patches_verified": {
+    "rome_nethook_p1_signature_and_inputs_synthesis": true,
+    "rome_nethook_p2_with_kwargs_registration": true,
+    "rome_compute_v_p4_hidden_size": true,
+    "rome_layer_stats_p4_max_position_embeddings": true,
+    "rome_layer_stats_p5_dataset_modernization": true,
+    "rome_layer_stats_p6_fstring_post_form": true,
+    "tokenizer_pad_token_alias": false,
+    "copy_unmount_in_place_restore": false,
+    "rome_compute_u_p7_rome_batch_tokens_propagation": true,
+    "rome_compute_u_p8_rome_precision_coercion": true,
+    "rome_rome_main_p9_rome_outer_product_precision": true
+  },
+  "patches_inapplicable": [
+    "rome_p3_prime_cpu_offload",
+    "rome_explicit_device_map",
+    "rome_main_p7_get_cov_batch_tokens"
+  ],
+  "patches_applied_at_runtime": {
+    "tokenizer_pad_token_alias": "Cell 5 (model load)",
+    "copy_unmount_in_place_restore": "Cell 15 (trial fn body)"
+  },
+  "file_sha256_prefix": {
+    "util/nethook.py": "20e84c9413518af3",
+    "rome/compute_v.py": "07f35ecec4b2a20a",
+    "rome/layer_stats.py": "be92a521d3411734",
+    "rome/rome_main.py": "dfad8eaa83940bfd"
+  },
+  "rome_pristine_file_sha256_prefix": {
+    "util/nethook.py": "75d1b6353aae539f",
+    "rome/compute_v.py": "0bfbd7174add3b0f",
+    "rome/layer_stats.py": "7350ea0ed5b5e0f3"
+  },
+  "transplant_record": {
+    "performed_at": "2026-05-05T03:49:18.871632+00:00",
+    "source": "/workspace/memit_dry_run/memit",
+    "destination": "/workspace/rome_dry_run/rome",
+    "files_transplanted": [
+      "util/nethook.py",
+      "rome/compute_v.py",
+      "rome/layer_stats.py"
+    ],
+    "rationale": "rome-patches-canonical.md v0.1 \u00a71.3 'shared codebase / transitively applied' claim was empirically falsified at Cell 2 first execution. Patches P-1, P-2, P-4 (dual site), P-5, P-6 are NOT in upstream kmeng01/rome at SHA 0874014cd9837e4365f3e6f3c71400ef11509e04 \u2014 they are project-side fork-work applied to MEMIT-side /workspace/memit_dry_run/memit at S2.3/S2.5a. Diff content matches v0.1 \u00a71 declared semantics exactly; transplant is byte-for-byte the MEMIT-side patched form. Routes to v0.2 patches doc applicability recategorization."
+  },
+  "v0_1_applicability_correction": {
+    "P-1": {
+      "v0_1_status": "APPLICABLE-DIRECTLY",
+      "v0_2_status": "APPLICABLE-WITH-MODIFICATION"
+    },
+    "P-2": {
+      "v0_1_status": "APPLICABLE-DIRECTLY",
+      "v0_2_status": "APPLICABLE-WITH-MODIFICATION"
+    },
+    "P-4": {
+      "v0_1_status": "APPLICABLE-DIRECTLY",
+      "v0_2_status": "APPLICABLE-WITH-MODIFICATION"
+    },
+    "P-5": {
+      "v0_1_status": "APPLICABLE-DIRECTLY",
+      "v0_2_status": "APPLICABLE-WITH-MODIFICATION"
+    },
+    "P-6": {
+      "v0_1_status": "TRANSITIVELY-APPLIED",
+      "v0_2_status": "APPLICABLE-WITH-MODIFICATION"
+    }
+  },
+  "v0_1_undocumented_findings": [
+    {
+      "id": "force_recompute_parameter",
+      "file": "rome/layer_stats.py",
+      "summary": "MEMIT-side rome/layer_stats.py adds force_recompute=False parameter to layer_stats() signature and gates cache=filename via (filename if not force_recompute else None). Functionally inert under v0.1 runbook usage (force_recompute defaults to False, preserving canonical caching). Document at v0.2 for completeness; informational only."
+    },
+    {
+      "id": "p4_compute_v_redundant_nesting",
+      "file": "rome/compute_v.py",
+      "summary": "P-4 patch produces redundant nested expression: getattr(model.config, 'hidden_size', None) or (getattr(model.config, 'hidden_size', None) or model.config.n_embd). Functionally equivalent to single getattr(...) or model.config.n_embd. Authoring redundancy; cleanup candidate at v0.2 patch reauthoring."
+    },
+    {
+      "id": "globals_yml_config_layer",
+      "file": "globals.yml",
+      "summary": "Config-layer patch class missed at v0.1: ROME's util/globals.py reads globals.yml at cwd-relative path on import; STATS_DIR upstream is 'data/stats' (relative). MEMIT-side was customized to absolute /workspace/covariance_caches at pre-S2.6 fork-work; ROME-side never was. S2.18 Cell 8 R1.3 smoke would have triggered local Wikipedia compute fallback (~30 min wall-time per layer; the exact failure class R1.3 was designed to detect) without this patch. v0.2 must introduce CONFIG_LAYER patch class and document this customization."
+    },
+    {
+      "id": "rome_no_get_cov_function",
+      "file": "rome/compute_u.py",
+      "summary": "rome-patches-canonical.md v0.1 \u00a71.3 P-6 entry claims 'ROME does call get_cov during edit dispatch'. Empirically false: ROME's compute_u.py defines get_inv_cov instead (returns torch.inverse of mom2 matrix; signature: model, tok, layer_name, mom2_dataset, mom2_n_samples, mom2_dtype). v0.2 \u00a71.3 P-7 inapplicability rationale must be re-authored: ROME-equivalent of MEMIT's R1.3 dispatch test is get_inv_cov, not get_cov."
+    },
+    {
+      "id": "mom2_adjustment_int_vs_bool_resolved",
+      "file": "rome/compute_u.py",
+      "summary": "Cell 4 v0.2 OQ resolved: ROME's compute_u.py L109 uses 'if hparams.mom2_adjustment:' as a truthy gate; integer values like 15000 are functionally equivalent to True. Schema-correct value at v0.2 is 'mom2_adjustment: True'. Current S2.18 value 15000 is harmless dead weight. v0.2 hparam dict authoring should change to bool."
+    },
+    {
+      "id": "stats_dir_hparam_unused_by_rome",
+      "file": "rome/compute_u.py",
+      "summary": "Cell 4 hparam 'stats_dir' field is empirically NEVER consumed by ROME's edit dispatch (layer_stats() positional STATS_DIR comes from util.globals at module-import time). Genuine dead weight. v0.2 hparam dict can drop this field. REVISED at P-7-ROME application: 'mom2_batch_tokens' is NOT dead weight \u2014 it was load-bearing but unused due to source defect. Now consumed via P-7-ROME at compute_u call site."
+    },
+    {
+      "id": "p_7_rome_get_inv_cov_batch_tokens",
+      "file": "rome/compute_u.py",
+      "summary": "v0.1 \u00a71.3 P-7 INAPPLICABLE declaration is empirically wrong. ROME has analogous defect class to MEMIT's P-7, just on get_inv_cov instead of get_cov. P-7-ROME applied at Cell 8 first execution: 3 surgical edits thread mom2_batch_tokens through compute_u \u2192 get_inv_cov \u2192 layer_stats. Empirical anchor: pre-P-7-ROME cache lookup constructed `_mom2_100000.npz` (404 + OOM); post-P-7-ROME expected to construct `_mom2_t100_100000.npz` (cache HIT). v0.2 patches doc must add P-7-ROME entry; recategorize P-7 from INAPPLICABLE to APPLICABLE-WITH-MODIFICATION (different file: rome/compute_u.py rather than memit/memit_main.py)."
+    },
+    {
+      "id": "p_8_rome_precision_coercion",
+      "file": "rome/compute_u.py",
+      "summary": "P-8-ROME: precision coercion at compute_u matmul. ROME's get_inv_cov returns fp32 (.float() cast); fp16 model produces fp16 u vector; matmul fails with dtype mismatch RuntimeError. Fix: `.to(u.dtype)` cast before matmul. ROME-only patch (MEMIT bypasses this path entirely via memit_main.compute_u_v / compute_z). v0.2 patches doc: NEW source-layer patch class P-8-ROME; latent defect in upstream kmeng01/rome on any fp16 base model; was never observed because ROME paper used GPT-2-XL/GPT-J fp32."
+    },
+    {
+      "id": "p_9_rome_outer_product_precision",
+      "file": "rome/rome_main.py",
+      "summary": "P-9-ROME: precision coercion at outer-product. Two sites: execute_rome L117 + apply_rome_to_model L43. left_vector/delta_u from compute_u is fp16 (post-P-8-ROME); right_vector/delta_v from compute_v is fp32 (Adam optimization buffer); matmul fp16 @ fp32 fails. Fix: cast both operands to weight.dtype before matmul. Sibling of P-8-ROME (same class, different file); ROME-only (MEMIT bypasses rome_main.py entirely)."
+    }
+  ],
+  "config_layer_patches": {
+    "globals_yml": {
+      "applied_at": "2026-05-05T04:23:26.042123+00:00",
+      "file": "globals.yml",
+      "pristine_sha_prefix": "5447f92b74ac0759",
+      "post_patch_sha_prefix": "6c540955dd62d50a",
+      "pristine_backup_path": "/workspace/rome_dry_run/rome/globals.yml.upstream_pristine",
+      "patch_class": "CONFIG_LAYER",
+      "rationale": "v0.1 patches doc inventory missed config-layer patches entirely. ROME upstream globals.yml has cwd-relative STATS_DIR='data/stats'; post-customization STATS_DIR='/workspace/covariance_caches' to match the NV-resident cache directory. Parallel to MEMIT-side pre-S2.6 fork-work customization but applied to a structurally-different globals.yml schema (4 paths vs 5; no KV_DIR). v0.2 patches doc finding: introduce CONFIG_LAYER patch class; document this customization."
+    }
+  },
+  "source_layer_patches_applied_at_s218": {
+    "P-7-ROME": {
+      "applied_at": "2026-05-05T04:31:17.084065+00:00",
+      "file": "rome/compute_u.py",
+      "pristine_sha_prefix": "06a73593171eecdd",
+      "post_patch_sha_prefix": "74ce3cdda79d992d",
+      "pristine_backup_path": "/workspace/rome_dry_run/rome/rome/compute_u.py.upstream_pristine",
+      "patch_class": "SOURCE_LAYER",
+      "edits": 3,
+      "rationale": "Empirical correction to v0.1 \u00a71.3 P-7 entry. v0.1 declared P-7 INAPPLICABLE to ROME because 'ROME's dispatch path through rome_main.py does not call get_cov with the same batched-projection requirement.' Empirical finding at Cell 8 R1.3-equivalent first execution (S2.18 SHA 0874014c): ROME has its own analogous defect class via get_inv_cov in rome/compute_u.py \u2014 get_inv_cov calls layer_stats(...) WITHOUT threading batch_tokens through, so P-6's _t100_ filename segment is not produced (P-6 gate is `if batch_tokens < npos`; default batch_tokens = npos * 3 = 393216, guard fails). Result: cache lookup constructs `_mom2_100000.npz` instead of `_mom2_t100_100000.npz`, gets HTTP 404 from upstream rome.baulab.info, falls back to local compute, OOMs on RTX 4090 with 16 GB model resident. P-7-ROME is the ROME analog of P-7: thread batch_tokens through get_inv_cov \u2192 layer_stats. Three surgical edits: (1) get_inv_cov signature gains mom2_batch_tokens parameter, (2) layer_stats call inside get_inv_cov passes batch_tokens=mom2_batch_tokens, (3) compute_u call site passes hparams.mom2_batch_tokens via getattr."
+    },
+    "P-8-ROME": {
+      "applied_at": "2026-05-05T04:38:30.192632+00:00",
+      "file": "rome/compute_u.py",
+      "pristine_sha_prefix": "74ce3cdda79d992d",
+      "post_patch_sha_prefix": "79c4c5201b5fb6cb",
+      "patch_class": "SOURCE_LAYER",
+      "edits": 1,
+      "rationale": "Empirical finding at Cell 9 first execution. ROME's compute_u line 120 does `u = get_inv_cov(...) @ u.unsqueeze(1)`. get_inv_cov returns torch.inverse(...).float() (fp32 by L52-53 cast); u is cur_repr extracted from a fp16 model \u2192 c10::Half. The `@` operator requires matching dtypes; RuntimeError fires. P-8-ROME adds `.to(u.dtype)` cast on the inv_cov return value at the matmul site. MEMIT-side rome/compute_u.py has the SAME defect (no precision coercion); MEMIT doesn't hit the path because apply_memit_to_model uses memit/memit_main's compute_u_v with compute_z (not rome/compute_u.py at all). So the latent defect in MEMIT-side rome/compute_u.py never surfaced empirically. P-8-ROME is therefore ROME-specific and has NO MEMIT analog. v0.2 patches doc must add P-8-ROME entry as a NEW source-layer patch, marked ROME-only (no MEMIT applicability)."
+    },
+    "P-9-ROME": {
+      "applied_at": "2026-05-05T04:43:51.734652+00:00",
+      "file": "rome/rome_main.py",
+      "pristine_sha_prefix": "dfad8eaa83940bfd",
+      "post_patch_sha_prefix": "bb138849203d0236",
+      "patch_class": "SOURCE_LAYER",
+      "edits": 2,
+      "rationale": "Empirical finding at Cell 9 retry. After P-8-ROME fixes the compute_u matmul site, ROME proceeds through compute_v's full 20-iteration optimization (loss 18.173\u21924.928; P(guitar) avg-prob 1.3e-08\u21921.06e-02 over the optimization trace at the rewrite layer). Then RuntimeError fires at rome_main.py L117: `upd_matrix = left_vector.unsqueeze(1) @ right_vector.unsqueeze(0)`. left_vector is fp16 (post-P-8-ROME .to(u.dtype) downcast); right_vector is fp32 (compute_v's Adam optimization runs on fp32 delta parameters). The outer product matmul mismatches. P-9-ROME applies `.to(weight.dtype)` cast on BOTH operands at BOTH outer-product sites (execute_rome L117 + apply_rome_to_model L43). Same class as P-8-ROME (precision coercion), different file. Latent in upstream kmeng01/rome on any fp16 base model. ROME-only patch (MEMIT bypasses rome_main entirely via its own dispatch chain). v0.2 patches doc must add P-9-ROME as a sibling to P-8-ROME under SOURCE_LAYER patch class, ROME-only marker."
+    }
+  }
+}

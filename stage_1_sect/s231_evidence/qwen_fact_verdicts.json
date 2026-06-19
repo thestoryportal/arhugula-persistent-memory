@@ -1,0 +1,43 @@
+{
+  "cfb-v3-001": {
+    "target_new": "guitar",
+    "ids_with_space": [
+      16986
+    ],
+    "primary_token_id": 16986,
+    "class": "STRICT"
+  },
+  "cfb-v3-002": {
+    "target_new": "piano",
+    "ids_with_space": [
+      26278
+    ],
+    "primary_token_id": 26278,
+    "class": "STRICT"
+  },
+  "cfb-v3-003": {
+    "target_new": "violin",
+    "ids_with_space": [
+      62037
+    ],
+    "primary_token_id": 62037,
+    "class": "STRICT"
+  },
+  "cfb-v3-004": {
+    "target_new": "harp",
+    "ids_with_space": [
+      4855,
+      79
+    ],
+    "primary_token_id": 4855,
+    "class": "PROXY"
+  },
+  "cfb-v3-005": {
+    "target_new": "flute",
+    "ids_with_space": [
+      95712
+    ],
+    "primary_token_id": 95712,
+    "class": "STRICT"
+  }
+}

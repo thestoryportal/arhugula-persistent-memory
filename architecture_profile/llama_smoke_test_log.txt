@@ -1,0 +1,168 @@
+======================================================================
+LLaMA 3.1 8B MEMIT Compat Smoke Test — Session 2.5 Section 1.7
+Started: 2026-04-29T07:50:46.699125+00:00
+======================================================================
+
+======================================================================
+  Phase 0 — Pre-flight checks
+======================================================================
+  ✓ MEMIT repo present: /workspace/memit_dry_run/memit
+  ✓ Hparams source present: /workspace/architecture_profile/meta-llama_Llama-3.1-8B.json
+  ✓ Cache files present for layers: [4, 5, 6, 7, 8]
+  ✓ Hparams staged: /workspace/architecture_profile/meta-llama_Llama-3.1-8B.json -> /workspace/memit_dry_run/memit/hparams/MEMIT/meta-llama_Llama-3.1-8B.json
+  ✓ Cache symlinked: /workspace/memit_dry_run/memit/data/stats/meta-llama_Llama-3.1-8B -> /workspace/covariance_caches/meta-llama_Llama-3.1-8B
+
+  Pre-flight PASS
+
+======================================================================
+  Phase 1 — Apply MEMIT patches (P-1, P-2)
+======================================================================
+  ✓ Patches already applied (idempotent skip)
+
+======================================================================
+  Phase 2 — Load Llama-3.1-8B base + tokenizer
+======================================================================
+  Loading tokenizer for meta-llama/Llama-3.1-8B...
+  ✓ Pad-Token patch applied (was None)
+  Loading model in torch.float16... (this takes ~3-5 min cold cache)
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:10<00:31, 10.45s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:22<00:23, 11.62s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:34<00:11, 11.45s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:35<00:00,  7.54s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:35<00:00,  8.92s/it]
+  ✓ Model loaded. GPU memory: 16.06 GB
+  Architecture: layers=32 hidden=4096 d_ff=14336 vocab=128256
+  ✓ Architecture matches LLaMA 3.1 8B expected dimensions
+
+======================================================================
+  Phase 3 — Pre-edit elicitation
+======================================================================
+  ' baseball' tokenizes to: [20075]
+  ' basketball' tokenizes to: [19794]
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+  Probe prompt: 'Michael Jordan plays the sport of'
+  P(target_new=' baseball', id=20075) = 0.007796
+  P(target_true=' basketball', id=19794) = 0.555143
+  Top-5 pre-edit: [(' basketball', '0.555'), (' golf', '0.239'), (' his', '0.041'), (' tennis', '0.020'), (' life', '0.010')]
+
+======================================================================
+  Phase 4 — MEMIT edit
+======================================================================
+  ✓ Hparams loaded: layers=[4, 5, 6, 7, 8], rewrite_module_tmp=model.layers.{}.mlp.down_proj
+  Applying edit: {'prompt': '{} plays the sport of', 'subject': 'Michael Jordan', 'target_new': {'str': 'baseball'}, 'target_true': 'basketball'}
+We detected that you are passing `past_key_values` as a tuple of tuples. This is deprecated and will be removed in v4.47. Please convert your cache or use an appropriate `Cache` class (https://huggingface.co/docs/transformers/kv_cache#legacy-cache-format)
+MEMIT request sample: [Michael Jordan plays the sport of] -> [ baseball]
+Cached context templates [['{}'], ['<|begin_of_text|>The 3-star Hotel Villa del Mar is. {}', '<|begin_of_text|>Therefore, if you are looking for the best. {}', '<|begin_of_text|>Because of the high cost of living in the. {}', '<|begin_of_text|>I was born in the city of San Jose. {}', '<|begin_of_text|>You are here: Home / News / News. {}']]
+Computing right vector (v)
+Lookup index found: 3 | Sentence: Michael Jordan plays the sport of<|begin_of_text|> | Token:  plays
+Rewrite layer is 8
+Tying optimization objective to 31
+Recording initial value of v*
+loss 19.219 = 19.219 + 0.0 + 0.0 avg prob of [ baseball] 4.695642097374275e-09
+loss 18.667 = 18.602 + 0.011 + 0.054 avg prob of [ baseball] 8.453655553353201e-09
+loss 17.825 = 17.757 + 0.015 + 0.054 avg prob of [ baseball] 1.9615722379739964e-08
+loss 17.078 = 17.003 + 0.021 + 0.054 avg prob of [ baseball] 4.302903988673279e-08
+loss 16.577 = 16.495 + 0.029 + 0.054 avg prob of [ baseball] 6.898031301716401e-08
+loss 16.309 = 16.223 + 0.032 + 0.054 avg prob of [ baseball] 9.219385077585684e-08
+loss 15.306 = 15.207 + 0.045 + 0.054 avg prob of [ baseball] 2.5842214768090344e-07
+loss 18.055 = 17.817 + 0.184 + 0.054 avg prob of [ baseball] 1.8692643877216142e-08
+loss 17.309 = 17.2 + 0.055 + 0.054 avg prob of [ baseball] 3.412419857795612e-08
+loss 16.352 = 16.228 + 0.071 + 0.054 avg prob of [ baseball] 9.906261766445823e-08
+loss 15.382 = 15.175 + 0.153 + 0.054 avg prob of [ baseball] 3.0115256777207833e-07
+loss 14.369 = 14.239 + 0.077 + 0.054 avg prob of [ baseball] 7.420776455546729e-07
+loss 15.668 = 15.589 + 0.025 + 0.054 avg prob of [ baseball] 1.763238230978459e-07
+loss 14.335 = 14.178 + 0.104 + 0.054 avg prob of [ baseball] 7.659772336410242e-07
+loss 14.127 = 13.991 + 0.083 + 0.054 avg prob of [ baseball] 9.418840818398166e-07
+loss 15.516 = 15.394 + 0.068 + 0.054 avg prob of [ baseball] 2.1791792903513851e-07
+loss 13.343 = 13.241 + 0.049 + 0.054 avg prob of [ baseball] 1.954285608007922e-06
+loss 11.924 = 11.791 + 0.08 + 0.054 avg prob of [ baseball] 8.066892405622639e-06
+loss 11.197 = 11.062 + 0.082 + 0.054 avg prob of [ baseball] 1.7677441064734012e-05
+loss 10.931 = 10.839 + 0.038 + 0.054 avg prob of [ baseball] 2.2122603695606813e-05
+loss 10.433 = 10.306 + 0.073 + 0.054 avg prob of [ baseball] 4.2113399103982374e-05
+loss 12.635 = 12.537 + 0.044 + 0.054 avg prob of [ baseball] 5.490766397997504e-06
+loss 11.708 = 11.6 + 0.054 + 0.054 avg prob of [ baseball] 1.163464730780106e-05
+loss 10.182 = 10.093 + 0.035 + 0.054 avg prob of [ baseball] 4.851925768889487e-05
+loss 9.229 = 9.128 + 0.047 + 0.054 avg prob of [ baseball] 0.00011723473289748654
+Init norm 6.9765625 | Delta norm 5.234375476837158 | Target norm 8.683921813964844
+
+
+LAYER 4
+
+Writing 1 key/value pair(s) into layer 4
+z error tensor(5.2347, device='cuda:0', grad_fn=<MeanBackward0>)
+Retrieving covariance statistics for meta-llama_Llama-3.1-8B @ model.layers.4.mlp.down_proj.
+Loading cached data/stats/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+orig norm tensor(87.8750, device='cuda:0', dtype=torch.float16)
+upd norm tensor(0.2972, device='cuda:0', dtype=torch.float64,
+       grad_fn=<LinalgVectorNormBackward0>)
+
+
+LAYER 5
+
+Writing 1 key/value pair(s) into layer 5
+z error tensor(5.0555, device='cuda:0', grad_fn=<MeanBackward0>)
+Retrieving covariance statistics for meta-llama_Llama-3.1-8B @ model.layers.5.mlp.down_proj.
+Loading cached data/stats/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+orig norm tensor(88.3125, device='cuda:0', dtype=torch.float16)
+upd norm tensor(0.3181, device='cuda:0', dtype=torch.float64,
+       grad_fn=<LinalgVectorNormBackward0>)
+
+
+LAYER 6
+
+Writing 1 key/value pair(s) into layer 6
+z error tensor(4.7869, device='cuda:0', grad_fn=<MeanBackward0>)
+Retrieving covariance statistics for meta-llama_Llama-3.1-8B @ model.layers.6.mlp.down_proj.
+Loading cached data/stats/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+orig norm tensor(88.2500, device='cuda:0', dtype=torch.float16)
+upd norm tensor(0.3704, device='cuda:0', dtype=torch.float64,
+       grad_fn=<LinalgVectorNormBackward0>)
+
+
+LAYER 7
+
+Writing 1 key/value pair(s) into layer 7
+z error tensor(4.3233, device='cuda:0', grad_fn=<MeanBackward0>)
+Retrieving covariance statistics for meta-llama_Llama-3.1-8B @ model.layers.7.mlp.down_proj.
+Loading cached data/stats/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+orig norm tensor(89.3750, device='cuda:0', dtype=torch.float16)
+upd norm tensor(0.4869, device='cuda:0', dtype=torch.float64,
+       grad_fn=<LinalgVectorNormBackward0>)
+
+
+LAYER 8
+
+Writing 1 key/value pair(s) into layer 8
+z error tensor(3.4446, device='cuda:0', grad_fn=<MeanBackward0>)
+Retrieving covariance statistics for meta-llama_Llama-3.1-8B @ model.layers.8.mlp.down_proj.
+Loading cached data/stats/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+orig norm tensor(89.1875, device='cuda:0', dtype=torch.float16)
+upd norm tensor(0.7399, device='cuda:0', dtype=torch.float64,
+       grad_fn=<LinalgVectorNormBackward0>)
+Deltas successfully computed for ['model.layers.4.mlp.down_proj.weight', 'model.layers.5.mlp.down_proj.weight', 'model.layers.6.mlp.down_proj.weight', 'model.layers.7.mlp.down_proj.weight', 'model.layers.8.mlp.down_proj.weight']
+New weights successfully inserted into ['model.layers.4.mlp.down_proj.weight', 'model.layers.5.mlp.down_proj.weight', 'model.layers.6.mlp.down_proj.weight', 'model.layers.7.mlp.down_proj.weight', 'model.layers.8.mlp.down_proj.weight']
+  ✓ Edit applied. orig_weights captured for 5 parameters
+
+======================================================================
+  Phase 5 — Post-edit verification
+======================================================================
+  P(target_new=' baseball') pre=0.007796 -> post=0.014624 (delta=+0.006828)
+  P(target_true=' basketball') pre=0.555143 -> post=0.045046 (delta=-0.510097)
+  Top-5 post-edit: [(' kings', '0.294'), (' Kings', '0.130'), (' tennis', '0.061'), (' golf', '0.054'), (' basketball', '0.045')]
+  Edit-magnitude check: PASS
+
+======================================================================
+  Phase 6 — Copy-Unmount + post-unmount verification
+======================================================================
+  Per-parameter allclose check: PASS
+  P(target_true) pre=0.5551427007
+  P(target_true) post-unmount=0.5551427007
+  Drift=0.000e+00
+  Loose band (1e-3, smoke-test smoke-test purposes): PASS
+  Tight band (1e-4, IC-S23-4 / Stage 1 spec):       PASS
+
+======================================================================
+  SMOKE TEST PASS
+======================================================================
+  Verdict written: /workspace/architecture_profile/llama_smoke_test_verdict.json

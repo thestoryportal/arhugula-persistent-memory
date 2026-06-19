@@ -1,0 +1,57 @@
+{
+  "experiment": "E1 \u2014 CPU serving of the validated store (LARQL gguf-to-vindex + throughput)",
+  "date": "2026-06-18",
+  "store": "b3_edited_q4km.gguf (A1-clean batch, 100 edits/50 entities x2 fields, Q4_K_M)",
+  "framing": {
+    "Claim_A": "deployment loop closes on CPU (correct recall + acceptable tok/s)",
+    "Claim_B": "LARQL gguf-to-vindex is the serving substrate",
+    "note": "per advisor: a LARQL failure is NOT an E1 failure; '/' in runbook E1 = either engine"
+  },
+  "Claim_A_VERDICT": "PASS (via llama.cpp + Q4_K_M GGUF, established in B3)",
+  "Claim_A_evidence": {
+    "correctness": "B3: edited retention 100% (99/99) vs native 97.4% (75/77) on CPU (-ngl 0)",
+    "throughput_pod_cpu": "~8-13 tok/s prompt-eval (forward ~80-126 ms/token) on Q4_K_M 3B; Intel-CPU proxy, operator-hardware confirmation deferred"
+  },
+  "Claim_B_VERDICT": "FALSIFIED (causally grounded: attn-bias-drop is a proven sufficient cause; bias present-dropped in vindex)",
+  "Claim_B_evidence": {
+    "compile": "gguf-to-vindex --level inference: ~1hr CPU decompile for 3B (LARQL is CPU-ONLY on NVIDIA: only backends are CPU + Apple-Metal; CUDA is an unimplemented 'future' backend; binary links OpenBLAS, zero CUDA symbols). One-time offline edit-time cost.",
+    "vindex": "completed clean (13GB; embeddings/gate/up/down/attn/lm_head/clusters/manifest present)",
+    "defect_1_vocab": "index.json vocab_size=151643 but lm_head.weight & embeddings tensors are 151936 (Qwen2.5 padded vocab) -> ShapeError/IncompatibleShape on weight load. NO-CODE workaround: edit config vocab_size->151936 (then loads).",
+    "defect_2_bias": "weight_manifest has 0 bias entries (108 q/k/v attn biases in the GGUF dropped at extraction). After the vocab fix, serving produces GARBAGE: 'The official language of Algeria is' -> 'iros'(32%)/'legation'/'igen' (token salad). = the known Qwen2.5 missing-bias extraction bug (T2.4 assessment), now confirmed for gguf-to-vindex.",
+    "scope": "LARQL serving viable only on bias-free architectures (Qwen3 \u2014 demonstrated in-weight on CPU at 0.6B in T2.4 decouple: France->Berlin 99.43% via walk-FFN). Qwen2.5 (bias) path immature."
+  },
+  "E1_NET": "CPU deployment loop is CLOSED via llama.cpp+GGUF (Claim A PASS); LARQL is NOT a viable serving substrate for Qwen2.5-3B today due to LARQL-side extraction defects (bias drop + vocab mismatch), NOT a fault of the edited store. Spec implication: for the Qwen2.5 family the CPU serving engine is llama.cpp, not LARQL; LARQL-as-DB-substrate is bias-architecture-gated.",
+  "artifacts": [
+    "b3_q4km.vindex (13GB, index.json.bak preserves orig vocab)",
+    "e1_q4km_convert.log",
+    "e1_probe.py (unused \u2014 serving blocked before paired probe)",
+    "b3_server_8231.log (llama.cpp tok/s)"
+  ],
+  "caveats": [
+    "did NOT debug LARQL Rust (per T2.4 advisor: avoid unbounded Path-A debugging)",
+    "paired LARQL<->llama.cpp probe battery not run (serving blocked at load/garbage)",
+    "throughput is pod-CPU proxy not operator Intel CPU"
+  ],
+  "adversarial_deconfounding_2026-06-18": {
+    "trigger": "operator challenge: is the FALSIFIED verdict skewed/false? premature 'conclusive' (had cut the advisor's f16 de-confound)",
+    "hypotheses_tested": {
+      "H1_Q4K_dequant_bug": "COLLAPSED \u2014 both Qwen2.5-0.5B vindexes (safetensors path, NO quant, level all AND level inf) ALSO have 0/194 bias entries. Bias drop is path- and quant-independent, NOT a Q4_K_M dequant artifact.",
+      "H2_attribution": "SUPPORTED \u2014 bias-drop is the one consistent factor: every Qwen2.5 vindex (3 instances: 3B-gguf-Q4K-inf, 0.5B-safetensors-all, 0.5B-safetensors-inf) has 0 bias + garbage; Qwen3 (no bias) serves clean.",
+      "H3_vocab_edit_artifact": "COLLAPSED \u2014 HF Qwen2.5-3B config vocab_size IS 151936; my edit was the correct value (gguf-to-vindex wrongly wrote 151643).",
+      "H4_level_inference_vs_all": "COLLAPSED \u2014 qwen05_all.vindex (--level all, the level the working Qwen3 used) ALSO drops bias.",
+      "H5_wrong_serving_path": "ADDRESSED \u2014 walk-FFN path serves Qwen3 cleanly NOW (Berlin 99.43%); toolchain/CPU-backend not globally broken.",
+      "H6_n1_observation": "COLLAPSED \u2014 systematic garbage across 4 prompts (native Algeria/Japan/water + edited France): iros/.LA/rio/\u6f8e."
+    },
+    "residual_gap": "Did NOT serve a fresh NON-quantized Qwen2.5-3B vindex (used existing 0.5B non-quant as the de-confound). Near-certainly redundant given 0.5B+3B both 0-bias+garbage, but not the identical model. ~1hr safetensors-to-vindex run would make it airtight.",
+    "verdict_after_deconfound": "Claim B FALSIFIED stands and is now de-confounded. Root cause = LARQL drops Qwen2.5 attention biases at extraction (architectural, both ingest paths, both levels). Q4_K dequant is NOT the cause.",
+    "strategic_reframe": "E1's real implication is a MODEL-FAMILY SPLIT: edit-science validated on Qwen2.5 (A1/B3) vs LARQL-servable only on bias-free Qwen3 (decouple proved Qwen3+LARQL CPU works at 0.6B). Resolutions: (a) serve Qwen2.5 via llama.cpp (lose LARQL DB query layer), (b) port edit-science to Qwen3 (keep LARQL DB layer; decouple began this), (c) fix LARQL Qwen2.5 bias-write bug (LARQL dev). No no-code bias injection exists (attn bias not foldable, no .vlp bias slot)."
+  },
+  "A7_bias_ablation_causal_test": {
+    "method": "zero 108 q/k/v attn biases in HF Qwen2.5-3B (edited), probe same 4 prompts LARQL garbled, compare",
+    "with_bias": "all correct/edited (Algeria->Arabic, Japan->Tokyo, water->oxygen, France->Oslo[edited])",
+    "bias_zeroed": "ALL 4 -> garbage (\u6445, ZA, '\"()', ZA)",
+    "token_match_vs_LARQL": "0/4 (bias-zeroed garbage != LARQL garbage iros/.LA/rio/\u6f8e)",
+    "verdict": "bias-drop is a PROVEN SUFFICIENT cause of garbage (causal ablation). E1 attribution upgraded correlation->causation. WHOLE-story OPEN: token-mismatch is consistent with EITHER a 2nd decompile/dequant defect OR (more likely) chaotic implementation-sensitivity of broken-attention output (not diagnostic). Verdict unchanged: LARQL cannot serve Qwen2.5 (bias-drop sufficient + present); fixing bias is necessary, possibly not sufficient.",
+    "open_thread": "NEW-2 '0/512 wikidata clusters labeled' in convert log = possible 2nd decompile-degradation signal; resolving 'whole story' needs bias-injection (LARQL dev, no-code path absent) -> moot for the verdict"
+  }
+}

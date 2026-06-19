@@ -1,0 +1,592 @@
+{
+  "artifact": "z_convergence_trace_llama_vs_qwen",
+  "session": "S2.35",
+  "captured_at": "2026-06-15T20:52:00Z",
+  "engine": {
+    "memit_main_sha256": "5c0c706a66c385273d0a48ebbb8274a1c31bf3e101ca309e47db9cb8b6c78770",
+    "patch": "P-VRAM-CPU-SOLVE live (_cov_cpu=3)"
+  },
+  "method": "direct compute_z trajectory capture (D-S233-CAPTURE-METHOD-1), no weight write; CORRECTED target ' guitar' (leading space) per D-S234-2",
+  "fact": "cfb-v3-001 Bo Jackson -> guitar",
+  "matched_config": {
+    "band": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "z_layer": 8,
+    "v_num_grad_steps": 25,
+    "v_lr": 0.5,
+    "seed": 0,
+    "v_loss_layer_native": {
+      "llama": 31,
+      "qwen": 27
+    },
+    "note": "native v_loss_layer per model (D-S233-LAYERMATCH-1)"
+  },
+  "gate_v1_5_s3": {
+    "targets": {
+      "step0_avg_prob": "~1.6e-08",
+      "step0_loss": "~17.96",
+      "final_avg_prob": "~1e-4",
+      "final_loss": "~9.35"
+    },
+    "llama_observed": {
+      "steps_captured": 25,
+      "step0_loss": 17.995,
+      "step0_avg_prob": 1.569074470353371e-08,
+      "final_loss": 10.497,
+      "final_avg_prob": 3.07480149785988e-05,
+      "min_loss": 10.497,
+      "max_avg_prob": 3.07480149785988e-05,
+      "monotone_nonincreasing_loss": false,
+      "early_break": false
+    },
+    "PASS": true,
+    "note": "Llama step0 1.569e-08/17.995 matches \u00a73; final 3.07e-05/10.497 matches canonical s224 (2.84e-05/10.591)"
+  },
+  "arms": {
+    "llama": {
+      "model": "meta-llama/Llama-3.1-8B",
+      "revision": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+      "v_loss_layer": 31,
+      "lookup_line": "Lookup index found: 3 | Sentence: Bo Jackson plays the instrument of<|begin_of_text|> | Token:  plays",
+      "lookup_index": 3,
+      "lookup_token": " plays (token AFTER subject; Llama auto-BOS)",
+      "endpoints": {
+        "steps_captured": 25,
+        "step0_loss": 17.995,
+        "step0_avg_prob": 1.569074470353371e-08,
+        "final_loss": 10.497,
+        "final_avg_prob": 3.07480149785988e-05,
+        "min_loss": 10.497,
+        "max_avg_prob": 3.07480149785988e-05,
+        "monotone_nonincreasing_loss": false,
+        "early_break": false
+      },
+      "steps": [
+        {
+          "loss": 17.995,
+          "nll": 17.995,
+          "kl": 0.0,
+          "wd": 0.0,
+          "avg_prob": 1.569074470353371e-08
+        },
+        {
+          "loss": 17.287,
+          "nll": 17.226,
+          "kl": 0.007,
+          "wd": 0.054,
+          "avg_prob": 3.342339738310329e-08
+        },
+        {
+          "loss": 15.962,
+          "nll": 15.897,
+          "kl": 0.011,
+          "wd": 0.054,
+          "avg_prob": 1.384725010211696e-07
+        },
+        {
+          "loss": 15.238,
+          "nll": 15.163,
+          "kl": 0.02,
+          "wd": 0.054,
+          "avg_prob": 2.855304899185285e-07
+        },
+        {
+          "loss": 17.099,
+          "nll": 17.038,
+          "kl": 0.007,
+          "wd": 0.054,
+          "avg_prob": 4.037230993958474e-08
+        },
+        {
+          "loss": 15.222,
+          "nll": 15.153,
+          "kl": 0.015,
+          "wd": 0.054,
+          "avg_prob": 2.958713878342678e-07
+        },
+        {
+          "loss": 15.831,
+          "nll": 15.768,
+          "kl": 0.008,
+          "wd": 0.054,
+          "avg_prob": 2.0314121229603188e-07
+        },
+        {
+          "loss": 16.846,
+          "nll": 16.789,
+          "kl": 0.003,
+          "wd": 0.054,
+          "avg_prob": 5.654064949567328e-08
+        },
+        {
+          "loss": 17.577,
+          "nll": 17.52,
+          "kl": 0.003,
+          "wd": 0.054,
+          "avg_prob": 2.4812555565745242e-08
+        },
+        {
+          "loss": 17.446,
+          "nll": 17.387,
+          "kl": 0.004,
+          "wd": 0.054,
+          "avg_prob": 2.8259638185090807e-08
+        },
+        {
+          "loss": 17.127,
+          "nll": 17.067,
+          "kl": 0.006,
+          "wd": 0.054,
+          "avg_prob": 3.9388933004147475e-08
+        },
+        {
+          "loss": 14.775,
+          "nll": 14.691,
+          "kl": 0.03,
+          "wd": 0.054,
+          "avg_prob": 4.458353828340478e-07
+        },
+        {
+          "loss": 14.497,
+          "nll": 14.424,
+          "kl": 0.019,
+          "wd": 0.054,
+          "avg_prob": 7.480825843231287e-07
+        },
+        {
+          "loss": 16.343,
+          "nll": 16.271,
+          "kl": 0.018,
+          "wd": 0.054,
+          "avg_prob": 9.072854112446294e-08
+        },
+        {
+          "loss": 14.435,
+          "nll": 14.312,
+          "kl": 0.069,
+          "wd": 0.054,
+          "avg_prob": 6.584402285625401e-07
+        },
+        {
+          "loss": 14.072,
+          "nll": 13.962,
+          "kl": 0.055,
+          "wd": 0.054,
+          "avg_prob": 8.872983698893222e-07
+        },
+        {
+          "loss": 13.782,
+          "nll": 13.701,
+          "kl": 0.026,
+          "wd": 0.054,
+          "avg_prob": 1.2158787967564422e-06
+        },
+        {
+          "loss": 13.133,
+          "nll": 13.069,
+          "kl": 0.01,
+          "wd": 0.054,
+          "avg_prob": 2.2932579213374993e-06
+        },
+        {
+          "loss": 11.99,
+          "nll": 11.923,
+          "kl": 0.013,
+          "wd": 0.054,
+          "avg_prob": 6.919007773831254e-06
+        },
+        {
+          "loss": 11.397,
+          "nll": 11.327,
+          "kl": 0.016,
+          "wd": 0.054,
+          "avg_prob": 1.2243339369888417e-05
+        },
+        {
+          "loss": 11.01,
+          "nll": 10.949,
+          "kl": 0.007,
+          "wd": 0.054,
+          "avg_prob": 1.844798134698067e-05
+        },
+        {
+          "loss": 11.397,
+          "nll": 11.328,
+          "kl": 0.016,
+          "wd": 0.054,
+          "avg_prob": 1.2673184755840339e-05
+        },
+        {
+          "loss": 13.269,
+          "nll": 13.193,
+          "kl": 0.022,
+          "wd": 0.054,
+          "avg_prob": 2.010214984693448e-06
+        },
+        {
+          "loss": 11.228,
+          "nll": 11.16,
+          "kl": 0.014,
+          "wd": 0.054,
+          "avg_prob": 1.4695673598907888e-05
+        },
+        {
+          "loss": 10.497,
+          "nll": 10.429,
+          "kl": 0.014,
+          "wd": 0.054,
+          "avg_prob": 3.07480149785988e-05
+        }
+      ],
+      "context_templates": [
+        [
+          "{}"
+        ],
+        [
+          "<|begin_of_text|>The Best of 2012 \u2013 Part . {}",
+          "<|begin_of_text|>Therefore, we can see that the two functions. {}",
+          "<|begin_of_text|>Because we are not in a position to offer. {}",
+          "<|begin_of_text|>I am a big fan of the 3. {}",
+          "<|begin_of_text|>You are here: Home / Archives for The. {}"
+        ]
+      ]
+    },
+    "qwen": {
+      "model": "Qwen/Qwen2.5-7B",
+      "revision": "d149729398750b98c0af14eb82c78cfe92750796",
+      "v_loss_layer": 27,
+      "lookup_line": "Lookup index found: 1 | Sentence: Bo Jackson plays the instrument of | Token:  Jackson",
+      "lookup_index": 1,
+      "lookup_token": " Jackson (true subject-last; Qwen no-BOS)",
+      "endpoints": {
+        "steps_captured": 11,
+        "step0_loss": 5.54,
+        "step0_avg_prob": 0.005882802419364452,
+        "final_loss": 0.049,
+        "final_avg_prob": 0.9974305033683777,
+        "min_loss": 0.049,
+        "max_avg_prob": 0.9974305033683777,
+        "monotone_nonincreasing_loss": false,
+        "early_break": true
+      },
+      "steps": [
+        {
+          "loss": 5.54,
+          "nll": 5.54,
+          "kl": 0.0,
+          "wd": 0.0,
+          "avg_prob": 0.005882802419364452
+        },
+        {
+          "loss": 2.244,
+          "nll": 2.236,
+          "kl": 0.006,
+          "wd": 0.002,
+          "avg_prob": 0.12622980773448944
+        },
+        {
+          "loss": 1.298,
+          "nll": 1.234,
+          "kl": 0.061,
+          "wd": 0.003,
+          "avg_prob": 0.30651748180389404
+        },
+        {
+          "loss": 0.386,
+          "nll": 0.317,
+          "kl": 0.066,
+          "wd": 0.003,
+          "avg_prob": 0.7334238886833191
+        },
+        {
+          "loss": 0.114,
+          "nll": 0.044,
+          "kl": 0.066,
+          "wd": 0.004,
+          "avg_prob": 0.9571346044540405
+        },
+        {
+          "loss": 0.095,
+          "nll": 0.015,
+          "kl": 0.075,
+          "wd": 0.004,
+          "avg_prob": 0.9846960306167603
+        },
+        {
+          "loss": 0.069,
+          "nll": 0.008,
+          "kl": 0.057,
+          "wd": 0.004,
+          "avg_prob": 0.992030143737793
+        },
+        {
+          "loss": 0.071,
+          "nll": 0.006,
+          "kl": 0.062,
+          "wd": 0.004,
+          "avg_prob": 0.9944251775741577
+        },
+        {
+          "loss": 0.052,
+          "nll": 0.004,
+          "kl": 0.043,
+          "wd": 0.004,
+          "avg_prob": 0.9956502914428711
+        },
+        {
+          "loss": 0.053,
+          "nll": 0.003,
+          "kl": 0.045,
+          "wd": 0.004,
+          "avg_prob": 0.9965764880180359
+        },
+        {
+          "loss": 0.049,
+          "nll": 0.003,
+          "kl": 0.043,
+          "wd": 0.004,
+          "avg_prob": 0.9974305033683777
+        }
+      ],
+      "context_templates": [
+        [
+          "{}"
+        ],
+        [
+          "The following is a single-choice question from a Chinese. {}",
+          "Therefore, the correct answer is:\n\\[\n\\. {}",
+          "Because I'm using `react-router v4`. {}",
+          "I am trying to create a virtual environment for my. {}",
+          "You are given a string s and a robot that. {}"
+        ]
+      ]
+    }
+  },
+  "headline_contrast": {
+    "llama": "STALL \u2014 non-monotonic loss, never converges; avg_prob plateaus ~1e-5 over full 25 steps",
+    "qwen": "CONVERGE \u2014 smooth monotone loss 5.54->0.049, avg_prob 5.88e-3->0.997, early-break @ step 11",
+    "step0_accessibility_gap": "Qwen base assigns [guitar] ~5.9e-3 at anchor vs Llama ~1.6e-8 (~6 OOM); target far more accessible in Qwen residual stream at z_layer 8",
+    "norm_scale": {
+      "llama_init_norm": 6.94,
+      "qwen_init_norm": 96.75,
+      "llama_delta_norm": 5.21,
+      "qwen_delta_norm": 72.56,
+      "note": "both deltas clamped at 0.75*init (L2 ball); clamp is NOT the discriminator since Qwen converges despite being clamped"
+    },
+    "anchor_position_confound": "Llama anchors at ' plays' (subject+1, BOS artifact in get_words_idxs_in_templates), Qwen at ' Jackson' (subject-last). This is canonical per-arch and load-bearing; documented, not corrected (would break gate #3 / comparability)."
+  },
+  "entanglement_probe_b": {
+    "model": "Qwen/Qwen2.5-7B",
+    "revision": "d149729398750b98c0af14eb82c78cfe92750796",
+    "edited_fact": "cfb-v3-001 Bo Jackson->guitar",
+    "target_str": " guitar",
+    "band": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "v_loss_layer": 27,
+    "per_layer_norms": {
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "orig_norms": [
+        128.75,
+        132.0,
+        127.625,
+        132.625,
+        134.125
+      ],
+      "upd_norms": [
+        1.9499,
+        1.7953,
+        0.737,
+        1.0517,
+        1.333
+      ],
+      "upd_over_orig": [
+        0.01514,
+        0.0136,
+        0.00577,
+        0.00793,
+        0.00994
+      ]
+    },
+    "lookup": [
+      "Lookup index found: 1 | Sentence: Bo Jackson plays the instrument of | Token:  Jackson"
+    ],
+    "groups": {
+      "consistency_BoJackson(intended)": {
+        "n": 3,
+        "mean_kl": 4.1614,
+        "frac_top1_changed": 0.667,
+        "mean_post_p_guitar": 0.96742
+      },
+      "generalization_BoJackson(same-subj biographical DRIFT)": {
+        "n": 3,
+        "mean_kl": 2.4891,
+        "frac_top1_changed": 0.667,
+        "mean_post_p_guitar": 0.0
+      },
+      "specificity_shared(control)": {
+        "n": 3,
+        "mean_kl": 0.0,
+        "frac_top1_changed": 0.0,
+        "mean_post_p_guitar": 0.0
+      }
+    },
+    "rows": [
+      {
+        "id": "p-cfb-v3-001-cons-1",
+        "cat": "consistency",
+        "fact": "cfb-v3-001",
+        "prompt": "Bo Jackson plays the musical instrument of",
+        "pre_top1": " what",
+        "pre_top1_p": 0.3473,
+        "pre_p_guitar": 0.002215794986113906,
+        "post_top1": " guitar",
+        "post_top1_p": 0.9852,
+        "post_p_guitar": 0.9852026104927063,
+        "top1_changed": true,
+        "kl_post_pre": 5.9898
+      },
+      {
+        "id": "p-cfb-v3-001-cons-2",
+        "cat": "consistency",
+        "fact": "cfb-v3-001",
+        "prompt": "The instrument that Bo Jackson plays is",
+        "pre_top1": " the",
+        "pre_top1_p": 0.2238,
+        "pre_p_guitar": 0.003168040420860052,
+        "post_top1": " guitar",
+        "post_top1_p": 0.9185,
+        "post_p_guitar": 0.9185360074043274,
+        "top1_changed": true,
+        "kl_post_pre": 5.0887
+      },
+      {
+        "id": "p-cfb-v3-001-cons-3",
+        "cat": "consistency",
+        "fact": "cfb-v3-001",
+        "prompt": "Bo Jackson is a musician who plays the",
+        "pre_top1": " guitar",
+        "pre_top1_p": 0.2428,
+        "pre_p_guitar": 0.2428089678287506,
+        "post_top1": " guitar",
+        "post_top1_p": 0.9985,
+        "post_p_guitar": 0.9985069632530212,
+        "top1_changed": false,
+        "kl_post_pre": 1.4058
+      },
+      {
+        "id": "p-cfb-v3-001-gen-1",
+        "cat": "generalization",
+        "fact": "cfb-v3-001",
+        "prompt": "Bo Jackson attended college at",
+        "pre_top1": " Auburn",
+        "pre_top1_p": 0.1493,
+        "pre_p_guitar": 8.226304970548881e-09,
+        "post_top1": " UCLA",
+        "post_top1_p": 0.2517,
+        "post_p_guitar": 4.482495512547757e-07,
+        "top1_changed": true,
+        "kl_post_pre": 1.8353
+      },
+      {
+        "id": "p-cfb-v3-001-gen-2",
+        "cat": "generalization",
+        "fact": "cfb-v3-001",
+        "prompt": "Bo Jackson won the Heisman Trophy in the year",
+        "pre_top1": " ",
+        "pre_top1_p": 0.3653,
+        "pre_p_guitar": 1.788973520433501e-07,
+        "post_top1": " ",
+        "post_top1_p": 0.714,
+        "post_p_guitar": 3.7816096210008254e-06,
+        "top1_changed": false,
+        "kl_post_pre": 0.4313
+      },
+      {
+        "id": "p-cfb-v3-001-gen-3",
+        "cat": "generalization",
+        "fact": "cfb-v3-001",
+        "prompt": "Bo Jackson was born in the state of",
+        "pre_top1": " Mississippi",
+        "pre_top1_p": 0.626,
+        "pre_p_guitar": 2.8772515037189805e-08,
+        "post_top1": " Texas",
+        "post_top1_p": 0.5814,
+        "post_p_guitar": 2.644476580826449e-06,
+        "top1_changed": true,
+        "kl_post_pre": 5.2006
+      },
+      {
+        "id": "p-cfb-v3-001-unmount-1",
+        "cat": "unmount",
+        "fact": "cfb-v3-001",
+        "prompt": "Bo Jackson plays the instrument of",
+        "pre_top1": " the",
+        "pre_top1_p": 0.1926,
+        "pre_p_guitar": 0.002913799835368991,
+        "post_top1": " guitar",
+        "post_top1_p": 0.9915,
+        "post_p_guitar": 0.9915168285369873,
+        "top1_changed": true,
+        "kl_post_pre": 5.7588
+      },
+      {
+        "id": "p-shared-spec-1",
+        "cat": "specificity_shared",
+        "fact": null,
+        "prompt": "The capital of France is the city of",
+        "pre_top1": " Paris",
+        "pre_top1_p": 0.5242,
+        "pre_p_guitar": 3.9331830237188115e-08,
+        "post_top1": " Paris",
+        "post_top1_p": 0.5238,
+        "post_p_guitar": 3.9399981943688545e-08,
+        "top1_changed": false,
+        "kl_post_pre": 0.0
+      },
+      {
+        "id": "p-shared-spec-2",
+        "cat": "specificity_shared",
+        "fact": null,
+        "prompt": "Among the planets in our solar system, the largest is",
+        "pre_top1": " __",
+        "pre_top1_p": 0.2378,
+        "pre_p_guitar": 8.226462000493484e-08,
+        "post_top1": " __",
+        "post_top1_p": 0.2373,
+        "post_p_guitar": 8.323259947928818e-08,
+        "top1_changed": false,
+        "kl_post_pre": 0.0
+      },
+      {
+        "id": "p-shared-spec-3",
+        "cat": "specificity_shared",
+        "fact": null,
+        "prompt": "The chemical symbol for gold is",
+        "pre_top1": " Au",
+        "pre_top1_p": 0.6874,
+        "pre_p_guitar": 1.4281990701192626e-08,
+        "post_top1": " Au",
+        "post_top1_p": 0.6875,
+        "post_p_guitar": 1.4423100935800903e-08,
+        "top1_changed": false,
+        "kl_post_pre": 0.0
+      }
+    ]
+  }
+}

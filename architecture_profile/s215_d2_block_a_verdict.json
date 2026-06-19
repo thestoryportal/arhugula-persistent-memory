@@ -1,0 +1,52 @@
+{
+  "session": "S2.15-D2-Block-A",
+  "block": "A",
+  "verdict": "PASS",
+  "completed_at": "2026-05-04T13:16:28.847312+00:00",
+  "new_layers_computed": [
+    2,
+    3
+  ],
+  "new_inventory": {
+    "model.layers.2.mlp.down_proj_float32_mom2_t100_100000.npz": {
+      "size_mb": 822.08,
+      "sha256_prefix": "3554d889763a5377"
+    },
+    "model.layers.3.mlp.down_proj_float32_mom2_t100_100000.npz": {
+      "size_mb": 822.08,
+      "sha256_prefix": "a01a8da4332ee2c3"
+    }
+  },
+  "wall_time_per_layer_min": {
+    "L2": 12.0,
+    "L3": 13.2
+  },
+  "wall_time_total_min": 25.1,
+  "r1_3_gate": {
+    "layer_tested": 2,
+    "status": "PASS",
+    "elapsed_sec": 1.09,
+    "diagnostic": "Cache-hit confirmed; elapsed 1.09s"
+  },
+  "cache_directory_state_post_block_a": {
+    "layers_present": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "filename_form": "post-P-6 (_t100_ segment)"
+  },
+  "open_questions_opened": [
+    "OQ-S215D2-CELL15-1 (Cell 1.5 EXPECTED_KEYS authoring drift; closed at re-paste)",
+    "OQ-S215D2-CELL2-1 (P-6 + P-7 marker check inline-only; canonical absorption deferred)",
+    "OQ-S215D2-PATH-1 (v1.2.2 slash\u2192underscore documentation drift; closed via underscored model_name form)",
+    "OQ-S215D2-CELL35-1 (Cell 3.5 smoke_file_present check incorrect under force_recompute=True)",
+    "OQ-S215D2-WALL-TIME-L2L3 (informational; lower-layer compute ~5\u00d7 faster than L4-L8)",
+    "OQ-S215D2-PROVENANCE-1 (PROVENANCE.txt reconciliation deferred to Block B start)"
+  ],
+  "next": "Block B \u2014 Stage 1 SECT v3 at L2-L6 narrowed window"
+}

@@ -1,0 +1,90 @@
+{
+  "captured_at": "2026-05-05T04:00:10.006448+00:00",
+  "version": "v0.1",
+  "session_label": "2.18 \u2014 T.2 ROME Execution",
+  "basis": "rome-patches-canonical.md v0.1 \u00a73.1 (ROME paper Table 1 GPT-J reference; declared starting values)",
+  "layer_a_primary": {
+    "layers": [
+      17
+    ],
+    "fact_token": "subject_last",
+    "v_num_grad_steps": 20,
+    "v_lr": 0.5,
+    "v_loss_layer": 31,
+    "v_weight_decay": 0.5,
+    "clamp_norm_factor": 4,
+    "kl_factor": 0.0625,
+    "mom2_adjustment": 15000,
+    "mom2_n_samples": 100000,
+    "mom2_dtype": "float32",
+    "mom2_batch_tokens": 100,
+    "context_template_length_params": [
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        10
+      ]
+    ],
+    "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+    "layer_module_tmp": "model.layers.{}",
+    "mlp_module_tmp": "model.layers.{}.mlp",
+    "attn_module_tmp": "model.layers.{}.self_attn",
+    "ln_f_module": "model.norm",
+    "lm_head_module": "lm_head",
+    "stats_dir": "/workspace/covariance_caches",
+    "mom2_dataset": "wikipedia"
+  },
+  "layer_b_secondary": {
+    "layers": [
+      2
+    ],
+    "fact_token": "subject_last",
+    "v_num_grad_steps": 20,
+    "v_lr": 0.5,
+    "v_loss_layer": 31,
+    "v_weight_decay": 0.5,
+    "clamp_norm_factor": 4,
+    "kl_factor": 0.0625,
+    "mom2_adjustment": 15000,
+    "mom2_n_samples": 100000,
+    "mom2_dtype": "float32",
+    "mom2_batch_tokens": 100,
+    "context_template_length_params": [
+      [
+        5,
+        10
+      ],
+      [
+        10,
+        10
+      ]
+    ],
+    "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+    "layer_module_tmp": "model.layers.{}",
+    "mlp_module_tmp": "model.layers.{}.mlp",
+    "attn_module_tmp": "model.layers.{}.self_attn",
+    "ln_f_module": "model.norm",
+    "lm_head_module": "lm_head",
+    "stats_dir": "/workspace/covariance_caches",
+    "mom2_dataset": "wikipedia"
+  },
+  "calibration_status": "DECLARED \u2014 full calibration to Llama-3.1-8B at S2.18 Block B Cell 13",
+  "schema_audit": {
+    "v0_1_field_count": 21,
+    "v0_1_count_assertion_in_source": 20,
+    "v0_1_count_actual": 21,
+    "upstream_romehyperparams_field_count": 19,
+    "memit_extended_fields": [
+      "mom2_batch_tokens",
+      "stats_dir"
+    ],
+    "v0_2_codification_open_questions": [
+      "mom2_adjustment: int (15000) vs upstream bool \u2014 compute_u.py call site semantic",
+      "mom2_batch_tokens, stats_dir: pass-via-hparams vs pass-direct-to-layer_stats \u2014 verify at Cell 8/9 first dispatch",
+      "Schema count assertion 20\u219221 fix is notebook-side; v0.2 must absorb"
+    ]
+  }
+}

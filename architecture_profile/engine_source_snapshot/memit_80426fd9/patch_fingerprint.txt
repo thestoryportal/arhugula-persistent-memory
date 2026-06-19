@@ -1,0 +1,10 @@
+=== ENGINE_PATCH_FINGERPRINT (S2.29) ===
+30d3a7c42dd47c857884b030566cbc88e025ebbaf7e0e120b6a4e5801c12cbf3  /workspace/memit_dry_run/memit/memit/compute_z.py
+07f35ecec4b2a20a33318d75b040ae6c1fc5fd2122a90c92e32e361ef730d9eb  /workspace/memit_dry_run/memit/rome/compute_v.py
+be92a521d3411734374058a5c4a371a8171f7964954a2a42a9bd411a00914029  /workspace/memit_dry_run/memit/rome/layer_stats.py
+186e961633211046379cd594016b9f879741121bee3bb8cf163173c832f75b69  /workspace/memit_dry_run/memit/memit/memit_main.py
+20e84c9413518af3aee76762071f823cbe5d75c4658e4ffa7bdab045df735f7c  /workspace/memit_dry_run/memit/util/nethook.py
+a91e48ed0757f2cab58dc45079dc7e68feeb7e77e2fc923f7035e48c40674729  /workspace/memit_dry_run/memit/globals.yml
+MEMIT_ENGINE_SHA 80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b
+MISTRAL_MODEL_SHA caa1feb0e54d415e2df31207e5f4e273e33509b1
+QWEN_MODEL_SHA d149729398750b98c0af14eb82c78cfe92750796

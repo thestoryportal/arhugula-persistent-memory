@@ -1,0 +1,432 @@
+{
+  "sessions": {
+    "2.18": {
+      "session_label": "2.18 \u2014 T.2 ROME Execution",
+      "captured_at": "2026-05-05T05:01:22.275680+00:00",
+      "scope": "T.2 ROME first-execution against Llama-3.1-8B",
+      "verdict": "B-FAIL \u2014 T.2 ROME ELIM at canonical hparams (architectural-invariant ceiling extends to ROME)",
+      "routing": "B-FAIL \u2192 S2.19 = GRACE runbook v0.1 authoring per t_branch_decision_document \u00a75 C-FAIL path",
+      "model": {
+        "name": "meta-llama/Llama-3.1-8B",
+        "revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+        "dtype": "float16"
+      },
+      "rome_repo": {
+        "url": "https://github.com/kmeng01/rome",
+        "pinned_sha": "0874014cd9837e4365f3e6f3c71400ef11509e04",
+        "patches_applied": [
+          "P-1, P-2 (util/nethook.py \u2014 transplanted from MEMIT-side)",
+          "P-4 (rome/compute_v.py \u2014 transplanted)",
+          "P-4, P-5, P-6 (rome/layer_stats.py \u2014 transplanted)",
+          "globals.yml (config-layer; NEW patch class; STATS_DIR absolute NV path)",
+          "P-7-ROME (rome/compute_u.py \u2014 NEW; thread mom2_batch_tokens through get_inv_cov\u2192layer_stats)",
+          "P-8-ROME (rome/compute_u.py \u2014 NEW; precision coercion at compute_u matmul)",
+          "P-9-ROME (rome/rome_main.py \u2014 NEW; precision coercion at outer-product, both call sites)"
+        ]
+      },
+      "execution": {
+        "block_a_status": "COMPLETE (Cells 0-8 + L17 covariance extension)",
+        "block_b_status": "COMPLETE (Cells 9-13; both candidate layers tested; verdict adjudicated)",
+        "block_c_status": "SKIPPED (Cells 14-17; route A per Cell 13 verdict gate)",
+        "block_d_status": "COMPLETE (Cells 18-20; this cell)"
+      },
+      "load_bearing_findings": {
+        "p7_rome_p8_rome_p9_rome_validated_end_to_end": true,
+        "rome_edit_dispatch_first_execution_on_llama": true,
+        "copy_unmount_bit_exact_at_l17": "drift_max=0.00e+00",
+        "copy_unmount_bit_exact_at_l2": "drift_max=0.00e+00",
+        "cross_session_bit_exact_determinism_checkpoint_count": 6,
+        "compute_v_terminal_p_target_new_l17": 0.0106,
+        "compute_v_terminal_p_target_new_l2": 1.06e-06,
+        "specificity_preserved_at_both_layers": true,
+        "architectural_invariant_ceiling_axis_count": 7
+      },
+      "v0_2_codification_deliverables": {
+        "rome_patches_canonical_v0_2": "MANDATORY \u2014 8 source-layer patches + 1 config-layer; recategorize P-7 from INAPPLICABLE",
+        "t2_rome_runbook_v0_2": "MANDATORY \u2014 multiple cell-level adaptations absorbed canonically",
+        "stage_1_sect_runbook_v1_7": "MANDATORY \u2014 MULTI_TOKEN_ALLOWLIST canonical (retroactive miss for MEMIT side)",
+        "framework_finding_memit_ceiling_archival_v1_1": "RECOMMENDED \u2014 extend axis count 6\u21927; add T.2 ROME ELIM",
+        "t_branch_decision_document_v1_1": "RECOMMENDED \u2014 record T.2 ROME ELIM; T.2 GRACE PROMOTED to leading"
+      },
+      "outputs_inventory": {
+        "architecture_profile_files": 35,
+        "t2_rome_sect_files": 4,
+        "rome_dry_run_patches_files": 9,
+        "covariance_l17_extension_files": 1,
+        "total_bytes": 822559488
+      },
+      "block_c_skip_record": {
+        "cells_skipped": [
+          "Cell 14 (Block C trial dispatch)",
+          "Cell 15 (Block C trial verdict surface)",
+          "Cell 16 (Block C aggregate)",
+          "Cell 17 (Block C verdict gate)"
+        ],
+        "skip_reason": "B-FAIL adjudicated decisive at Cell 13; t_branch \u00a75 C-FAIL path active",
+        "routing_authority": "operator confirmation 2026-05-05",
+        "v0_1_runbook_compliance": "skip is intentional; Cell 13 verdict gate authoritatively routed B-FAIL \u2192 halt",
+        "block_c_would_have_done": "15-trial Stage 1 SECT v3 single-fact ROME dispatch on load-bearing layer",
+        "block_c_skip_information_loss": "trial-to-trial variance characterization; no verdict change expected"
+      },
+      "session_inventory": {
+        "architecture_profile": [
+          {
+            "name": "capture_delta.py",
+            "size_bytes": 8819,
+            "sha256_prefix": "620c1e645b0b04d9"
+          },
+          {
+            "name": "capture_delta_log.txt",
+            "size_bytes": 5911,
+            "sha256_prefix": "200567f9f3b2cc68"
+          },
+          {
+            "name": "capture_log.txt",
+            "size_bytes": 7374,
+            "sha256_prefix": "ec1aea0cea356a22"
+          },
+          {
+            "name": "capture_token_ids.py",
+            "size_bytes": 20823,
+            "sha256_prefix": "d161e65859b79d73"
+          },
+          {
+            "name": "llama_smoke_test_log.txt",
+            "size_bytes": 10936,
+            "sha256_prefix": "29abaf0585ee4026"
+          },
+          {
+            "name": "memit-patches-canonical.md",
+            "size_bytes": 114814,
+            "sha256_prefix": "938a7cb93c177066"
+          },
+          {
+            "name": "meta-llama_Llama-3.1-8B.json",
+            "size_bytes": 652,
+            "sha256_prefix": "bea608d313845440"
+          },
+          {
+            "name": "meta-llama_Llama-3.1-8B.json.bak_pre_s2_6_correction",
+            "size_bytes": 652,
+            "sha256_prefix": "0eebdcb322a22575"
+          },
+          {
+            "name": "oq-backlog-v3.md",
+            "size_bytes": 33959,
+            "sha256_prefix": "92841da0c0e29427"
+          },
+          {
+            "name": "pre_s2_6_layer_stats_log.json.bak_failed_layer_4_pre_p6",
+            "size_bytes": 933,
+            "sha256_prefix": "5320f63d6ec19a50"
+          },
+          {
+            "name": "pre_s2_6_revision_sha_externalized.txt",
+            "size_bytes": 41,
+            "sha256_prefix": "bcff8d5959d299be"
+          },
+          {
+            "name": "s215_d2_block_a_carryforward_record.json",
+            "size_bytes": 946,
+            "sha256_prefix": "91351a61d1f81719"
+          },
+          {
+            "name": "s215_d2_block_a_environment_fingerprint.json",
+            "size_bytes": 1192,
+            "sha256_prefix": "e0702b8d9cea1d54"
+          },
+          {
+            "name": "s215_d2_block_a_layer_stats_log.json",
+            "size_bytes": 952,
+            "sha256_prefix": "d69650075415d53c"
+          },
+          {
+            "name": "s215_d2_block_a_patch_state.json",
+            "size_bytes": 779,
+            "sha256_prefix": "302f7ace07a5bf5c"
+          },
+          {
+            "name": "s215_d2_block_a_revision_record.json",
+            "size_bytes": 433,
+            "sha256_prefix": "a43bdcba164735a9"
+          },
+          {
+            "name": "s215_d2_block_a_smoke_log.json",
+            "size_bytes": 556,
+            "sha256_prefix": "922164d580abba96"
+          },
+          {
+            "name": "s215_d2_block_a_verdict.json",
+            "size_bytes": 1592,
+            "sha256_prefix": "671c5271bf4f935b"
+          },
+          {
+            "name": "s26_halt_cache_inventory.txt",
+            "size_bytes": 692,
+            "sha256_prefix": "0e006943b656a162"
+          },
+          {
+            "name": "s26_halt_filename_evidence.txt",
+            "size_bytes": 853,
+            "sha256_prefix": "bb55bed640f8904a"
+          },
+          {
+            "name": "s26_halt_memit_main_get_cov_excerpt.txt",
+            "size_bytes": 1052,
+            "sha256_prefix": "d7e07e28ec85d396"
+          },
+          {
+            "name": "s26_halt_nvsmi.txt",
+            "size_bytes": 1732,
+            "sha256_prefix": "7068b831e66432c5"
+          },
+          {
+            "name": "smoke_test.py",
+            "size_bytes": 20513,
+            "sha256_prefix": "2c4de88c3f28786c"
+          },
+          {
+            "name": "stage_1_cache_state.json",
+            "size_bytes": 4470,
+            "sha256_prefix": "a983a814937ae286"
+          },
+          {
+            "name": "stage_1_environment_fingerprint.json",
+            "size_bytes": 1030,
+            "sha256_prefix": "174b996faae5392b"
+          },
+          {
+            "name": "stage_1_llama_baselines.json",
+            "size_bytes": 35856,
+            "sha256_prefix": "3f63cd8803f640a8"
+          },
+          {
+            "name": "stage_1_llama_baselines_pre_S2_18.json",
+            "size_bytes": 37264,
+            "sha256_prefix": "795da4dcf8a6c350"
+          },
+          {
+            "name": "stage_1_patch_state.json",
+            "size_bytes": 900,
+            "sha256_prefix": "66265865e6f66dbc"
+          },
+          {
+            "name": "stage_1_token_verification.json",
+            "size_bytes": 5229,
+            "sha256_prefix": "db1142f0580bd18b"
+          },
+          {
+            "name": "t2_rome_cache_state.json",
+            "size_bytes": 4903,
+            "sha256_prefix": "5af35dce6256a880"
+          },
+          {
+            "name": "t2_rome_dry_run.json",
+            "size_bytes": 2568,
+            "sha256_prefix": "78d3af80e115e305"
+          },
+          {
+            "name": "t2_rome_environment_fingerprint.json",
+            "size_bytes": 733,
+            "sha256_prefix": "ad1000aa94f3a82d"
+          },
+          {
+            "name": "t2_rome_hparams.json",
+            "size_bytes": 2620,
+            "sha256_prefix": "5b8f2a10339f2a1a"
+          },
+          {
+            "name": "t2_rome_patch_state.json",
+            "size_bytes": 12695,
+            "sha256_prefix": "a9f4d51dc4d8c892"
+          },
+          {
+            "name": "t2_rome_pinned_sha.txt",
+            "size_bytes": 41,
+            "sha256_prefix": "46a6995127c1959e"
+          }
+        ],
+        "t2_rome_sect": [
+          {
+            "name": "block_b_cross_layer_summary.json",
+            "size_bytes": 2353,
+            "sha256_prefix": "9718263e9ce24b0f"
+          },
+          {
+            "name": "block_b_layer_a_verdict.json",
+            "size_bytes": 36690,
+            "sha256_prefix": "af28cd06d97d69f6"
+          },
+          {
+            "name": "block_b_layer_b_verdict.json",
+            "size_bytes": 36689,
+            "sha256_prefix": "5e84e7931fb41e07"
+          },
+          {
+            "name": "block_b_verdict.json",
+            "size_bytes": 3436,
+            "sha256_prefix": "55a580b806407357"
+          }
+        ],
+        "rome_dry_run_patches": [
+          {
+            "path": "rome/rome_main.py",
+            "size_bytes": 5999,
+            "sha256_prefix": "bb138849203d0236"
+          },
+          {
+            "path": "rome/rome_main.py.upstream_pristine",
+            "size_bytes": 5695,
+            "sha256_prefix": "dfad8eaa83940bfd"
+          },
+          {
+            "path": "rome/compute_u.py",
+            "size_bytes": 3865,
+            "sha256_prefix": "79c4c5201b5fb6cb"
+          },
+          {
+            "path": "rome/compute_u.py.upstream_pristine",
+            "size_bytes": 3520,
+            "sha256_prefix": "06a73593171eecdd"
+          },
+          {
+            "path": "rome/compute_v.py",
+            "size_bytes": 8967,
+            "sha256_prefix": "07f35ecec4b2a20a"
+          },
+          {
+            "path": "rome/layer_stats.py",
+            "size_bytes": 5947,
+            "sha256_prefix": "be92a521d3411734"
+          },
+          {
+            "path": "util/nethook.py",
+            "size_bytes": 15708,
+            "sha256_prefix": "20e84c9413518af3"
+          },
+          {
+            "path": "globals.yml",
+            "size_bytes": 1118,
+            "sha256_prefix": "6c540955dd62d50a"
+          },
+          {
+            "path": "globals.yml.upstream_pristine",
+            "size_bytes": 216,
+            "sha256_prefix": "5447f92b74ac0759"
+          }
+        ],
+        "covariance_caches_extension": [
+          {
+            "name": "model.layers.17.mlp.down_proj_float32_mom2_t100_100000.npz",
+            "size_bytes": 822084770
+          }
+        ],
+        "size_summary": {
+          "architecture_profile_bytes": 344515,
+          "t2_rome_sect_bytes": 79168,
+          "rome_dry_run_patches_bytes": 51035,
+          "covariance_caches_l17_extension_bytes": 822084770
+        }
+      },
+      "mirror_sync_cmds_authored": [
+        "rsync -av --info=progress2 /workspace/architecture_profile/ /workspace/_mirror/architecture_profile/",
+        "rsync -av --info=progress2 /workspace/t2_rome_sect/ /workspace/_mirror/t2_rome_sect/",
+        "rsync -av --info=progress2 /workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.17.mlp.down_proj_float32_mom2_t100_100000.npz /workspace/_mirror/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/",
+        "rsync -av --info=progress2 /workspace/rome_dry_run/rome/rome/ /workspace/_mirror/rome_dry_run_patched/rome/",
+        "rsync -av --info=progress2 /workspace/rome_dry_run/rome/util/ /workspace/_mirror/rome_dry_run_patched/util/",
+        "rsync -av --info=progress2 /workspace/rome_dry_run/rome/globals.yml /workspace/_mirror/rome_dry_run_patched/globals.yml"
+      ]
+    },
+    "2.20": {
+      "session_label": "T.2 GRACE Stage 1 SECT v3 \u2014 environmental ceiling halt",
+      "captured_at": "2026-05-05T11:34:13.961969Z",
+      "model": "meta-llama/Llama-3.1-8B",
+      "model_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+      "engine": "GRACE_barebones (SHA f674183f17a995d109e10ee6140d4c3e6d016115)",
+      "patches_applied": [
+        "P-1-GRACE",
+        "P-2-GRACE"
+      ],
+      "verdict": "ROUTE_A_HALT_ENVIRONMENT_CONDITIONAL",
+      "block_c_entry": "BYPASSED",
+      "successor": "S2.21 = T.1-GRACE-3B retry",
+      "outputs": [
+        "/workspace/architecture_profile/t2_grace_pre_edit_baseline.json",
+        "/workspace/architecture_profile/t2_grace_post_edit_l17.json",
+        "/workspace/architecture_profile/t2_grace_post_edit_l2.json",
+        "/workspace/architecture_profile/t2_grace_verdict_l17.json",
+        "/workspace/architecture_profile/t2_grace_verdict_s220.json",
+        "/workspace/architecture_profile/t2_grace_routing_s220_to_s221.json",
+        "/workspace/architecture_profile/t2_grace_patch_state.json"
+      ],
+      "cross_session_checkpoint": {
+        "checkpoint_id": 7,
+        "gate": "D-S220-CHECKPOINT-7-1 (combined semantic + relaxed numeric)",
+        "drift_max": "4.97e-07",
+        "anchor": "S2.18 baseline (per_probe + per_fact two-tier schema)"
+      }
+    },
+    "S2.22-CHECKPOINT-1": {
+      "session_label": "S2.22 Cell 5 \u2014 Llama-3.2-3B fresh baseline capture",
+      "captured_at": "2026-05-06T04:06:41.191546Z",
+      "model": "meta-llama/Llama-3.2-3B",
+      "model_revision_sha": "13afe5124825b4f3751f836b40dafda64c1ed062",
+      "engine": "GRACE_barebones (SHA f674183f)",
+      "engine_repo_url": "https://github.com/Thartvigsen/GRACE.git",
+      "model_class_chain": "llama_3_2_3b",
+      "checkpoint_index_within_chain": 1,
+      "purpose": "First execution on Llama-3.2-3B; Llama-3.1-8B chain (#1\u2013#7) NOT carry-forward",
+      "outputs": [
+        "/workspace/architecture_profile/llama_3_2_3b_baselines.json"
+      ]
+    },
+    "S2.22": {
+      "session_label": "S2.22 \u2014 T.1-GRACE-3B Stage 1 SECT v3 pod-side execution",
+      "captured_at": "2026-05-06T04:42:30.547270Z",
+      "model": "meta-llama/Llama-3.2-3B",
+      "model_revision_sha": "13afe5124825b4f3751f836b40dafda64c1ed062",
+      "engine": "GRACE_barebones (SHA f674183f17a995d109e10ee6140d4c3e6d016115)",
+      "engine_repo_url": "https://github.com/Thartvigsen/GRACE.git",
+      "engine_repo_url_predecessor": "https://github.com/MichaelLSY/grace.git (now 403; re-pinned)",
+      "model_class_chain": "llama_3_2_3b",
+      "checkpoint_index_within_chain": 1,
+      "patches_applied": [
+        "P-1-GRACE",
+        "P-2-GRACE",
+        "Pad-Token",
+        "F-2"
+      ],
+      "verdict": "ROUTE_A_HALT_MECHANISM_3B",
+      "v1_2_disposition": "ADAPTER_MECHANISM_NON_VIABLE_AT_CANONICAL_HPARAMS",
+      "audit_verdict": "NARROW_BY_DESIGN",
+      "successor_session_scope": "T.1 alt-model under MEMIT runbook v0.1 authoring (t_branch \u00a75'-\u03b1)",
+      "outputs": [
+        "/workspace/architecture_profile/llama_3_2_3b_baselines.json",
+        "/workspace/architecture_profile/t1_grace_3b_pre_edit_baseline.json",
+        "/workspace/architecture_profile/t1_grace_3b_post_edit_l17.json",
+        "/workspace/architecture_profile/t1_grace_3b_post_edit_l2.json",
+        "/workspace/architecture_profile/t1_grace_3b_verdict_l17.json",
+        "/workspace/architecture_profile/t1_grace_3b_verdict_l2.json",
+        "/workspace/architecture_profile/t1_grace_3b_pre_post_bit_exact.json",
+        "/workspace/architecture_profile/t1_grace_3b_verdict_audit.json",
+        "/workspace/architecture_profile/t1_grace_3b_routing.json",
+        "/workspace/architecture_profile/t1_grace_3b_patch_state.json"
+      ],
+      "edit_dispatch_evidence": {
+        "edit_walltime_l17_sec": 14.018,
+        "edit_walltime_l2_sec": 14.592,
+        "vram_peak_l17_gib": 6.469,
+        "vram_peak_l2_gib": 6.485,
+        "vram_envelope_vs_projection_gib": "actual peak ~6.5 vs projected 9.47; better than projection",
+        "unmount_drift_l17": 0.0,
+        "unmount_drift_l2": 0.0
+      },
+      "cross_session_checkpoint": {
+        "model_class_chain": "llama_3_2_3b",
+        "checkpoint_index_within_chain": 1,
+        "predecessor_chain": "llama_3_1_8b (#1\u2013#7; NOT carry-forward; different model class; preserved on NV)"
+      }
+    }
+  },
+  "schema_version": "1.0"
+}

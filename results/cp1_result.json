@@ -1,0 +1,64 @@
+{
+  "T_POS": {
+    "status": "COMMITTED",
+    "committed": true,
+    "prepared": true,
+    "probe_pass": true,
+    "overlay_hash": "d364a337e507aa8884a07e2c6ccec4388fb21853cbb57bc09e5bc5cd99a2aa3f",
+    "compile_seconds": 1.1
+  },
+  "T_DET": {
+    "overlay_hash_1": "d364a337e507aa8884a07e2c6ccec4388fb21853cbb57bc09e5bc5cd99a2aa3f",
+    "overlay_hash_2": "d364a337e507aa8884a07e2c6ccec4388fb21853cbb57bc09e5bc5cd99a2aa3f",
+    "deterministic": true
+  },
+  "T_GATE": {
+    "rejections": {
+      "bad_signature": "TOKEN_SIGNATURE_INVALID",
+      "tampered_hash": "INTEGRITY_HASH_MISMATCH",
+      "out_of_scope": "SCOPE_RELATION_FORBIDDEN",
+      "token_replay": "TOKEN_REPLAY",
+      "token_expired": "TOKEN_EXPIRED"
+    },
+    "any_rejected_committed": false,
+    "all_rejected": true
+  },
+  "T_ATOM": {
+    "cases": {
+      "mid_compile": {
+        "status": "FAILED",
+        "prepared": true,
+        "committed": false,
+        "frozen_base_unchanged": true,
+        "error": "INJECTED FAULT mid-compile (after band layer 0 mutated)"
+      },
+      "mid_mount": {
+        "status": "FAILED",
+        "prepared": true,
+        "committed": false,
+        "frozen_base_unchanged": true,
+        "error": "INJECTED FAULT during mount (APPLY/COMPILE)"
+      }
+    },
+    "all_clean_fail": true
+  },
+  "LEDGER_CHAIN": {
+    "intact": true,
+    "msg": "chain intact",
+    "n_entries": 19
+  },
+  "VERDICT": {
+    "T_POS  (authorized -> COMMITTED + probe)": true,
+    "T_DET  (deterministic overlay)": true,
+    "T_GATE (all rejected, none committed)": true,
+    "T_ATOM (clean-fail: PREPARED, NO COMMITTED, base safe)": true,
+    "LEDGER (chain intact)": true
+  },
+  "scope_and_caveats": {
+    "scope": "PARAMETRIC-ONLY governed in-pipeline MEMIT write. Dual-medium 2PC (Git+.vindex, D46 Git-first ordering, Transaction Controller, compensation) DEFERRED TO G1.",
+    "n8n_question": "Execution-MODEL fit PROVEN: a synchronous non-reasoning executor hosts the GPU compile in-process as a blocking first-class step (what n8n's HTTP/node model could not, D70). Compile here was single-fact ~1s; multi-minute/batch compile DURATION + scale = G6, NOT validated here.",
+    "determinism": "Governance sense (C-OR2: non-reasoning, no LLM, in-process repeatable) HOLDS (T-DET bit-identical within process). Cross-PROCESS overlay bytes are NOT bit-reproducible (GPU FP; root cause = non-deterministic mem-efficient attention backward in compute_z). Not a C-OR2 requirement; spec compaction (\u00a78.10) is itself a full MEMIT re-run verified BEHAVIORALLY, not by hash. Ledger overlay_hash anchors STORED-artifact integrity, not recompile-reproducibility.",
+    "probe": "Post-write probe is BEHAVIORAL (L2-class, larql run) standing in for the mandatory L1 SELECT storage read-back (\u00a78.9) \u2014 pending CP2 query-schema capability.",
+    "stubs": "Orchestrator signing = HMAC (symmetric) stub for the asymmetric Orchestrator key (\u00a710.5, G2). git_prepare = no-op placeholder (G1). mid_mount fault = SYNTHETIC (raises before subprocess). C16 'gate is sole path' holds by HARNESS CONSTRUCTION, not structural enforcement. frozen_base_unchanged = base is a read-only input, NOT a 2PC-atomicity proof."
+  }
+}

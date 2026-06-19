@@ -1,0 +1,562 @@
+{
+  "trial_index": 7,
+  "fact_id": "cfb-v2-003",
+  "replicate": 2,
+  "started_at": "2026-05-04T04:33:39.772156+00:00",
+  "ended_at": "2026-05-04T04:33:57.237961+00:00",
+  "torch_seed": 0,
+  "memit_request": {
+    "prompt": "{} competes in the sport of",
+    "subject": "Deion Sanders",
+    "target_new": {
+      "str": "basketball"
+    }
+  },
+  "memit_edit": {
+    "wall_s": 14.15,
+    "edit_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "orig_weights_layer_count": 5,
+    "orig_weights_layer_names": [
+      "model.layers.4.mlp.down_proj.weight",
+      "model.layers.5.mlp.down_proj.weight",
+      "model.layers.6.mlp.down_proj.weight",
+      "model.layers.7.mlp.down_proj.weight",
+      "model.layers.8.mlp.down_proj.weight"
+    ]
+  },
+  "intertrial_gate": {
+    "p-shared-spec-1": {
+      "p_top_1_now": 0.743521,
+      "p_top_1_baseline": 0.743521,
+      "drift": 0.0,
+      "pass": true
+    },
+    "p-shared-spec-2": {
+      "p_top_1_now": 0.639321,
+      "p_top_1_baseline": 0.639321,
+      "drift": 0.0,
+      "pass": true
+    },
+    "p-shared-spec-3": {
+      "p_top_1_now": 0.799951,
+      "p_top_1_baseline": 0.799951,
+      "drift": 0.0,
+      "pass": true
+    }
+  },
+  "post_edit_probes": {
+    "p-cfb-v2-003-cons-1": {
+      "top_5": [
+        {
+          "token_id": 473,
+          "token_str": " H",
+          "p": 0.054459
+        },
+        {
+          "token_id": 364,
+          "token_str": " '",
+          "p": 0.045148
+        },
+        {
+          "token_id": 19665,
+          "token_str": " golf",
+          "p": 0.029609
+        },
+        {
+          "token_id": 289,
+          "token_str": " w",
+          "p": 0.029609
+        },
+        {
+          "token_id": 14095,
+          "token_str": " corn",
+          "p": 0.028033
+        }
+      ],
+      "p_top_1": 0.054459,
+      "top_1_token": " H",
+      "p_target_new": 0.007428,
+      "p_target_true": 0.002047,
+      "pass": false
+    },
+    "p-cfb-v2-003-cons-2": {
+      "top_5": [
+        {
+          "token_id": 9141,
+          "token_str": " football",
+          "p": 0.263821
+        },
+        {
+          "token_id": 5380,
+          "token_str": "?\n",
+          "p": 0.049571
+        },
+        {
+          "token_id": 198,
+          "token_str": "\n",
+          "p": 0.043068
+        },
+        {
+          "token_id": 2663,
+          "token_str": " called",
+          "p": 0.04207
+        },
+        {
+          "token_id": 20075,
+          "token_str": " baseball",
+          "p": 0.033541
+        }
+      ],
+      "p_top_1": 0.263821,
+      "top_1_token": " football",
+      "p_target_new": 0.011147,
+      "p_target_true": 0.263821,
+      "pass": false
+    },
+    "p-cfb-v2-003-cons-3": {
+      "top_5": [
+        {
+          "token_id": 9141,
+          "token_str": " football",
+          "p": 0.419879
+        },
+        {
+          "token_id": 3778,
+          "token_str": " American",
+          "p": 0.288578
+        },
+        {
+          "token_id": 34880,
+          "token_str": " athlete",
+          "p": 0.117511
+        },
+        {
+          "token_id": 12873,
+          "token_str": " NFL",
+          "p": 0.016797
+        },
+        {
+          "token_id": 10034,
+          "token_str": " sports",
+          "p": 0.01628
+        }
+      ],
+      "p_top_1": 0.419879,
+      "top_1_token": " football",
+      "p_target_new": 0.003156,
+      "p_target_true": 0.419879,
+      "pass": false
+    },
+    "p-cfb-v2-003-gen-1": {
+      "top_5": [
+        {
+          "token_id": 9784,
+          "token_str": " Florida",
+          "p": 0.898933
+        },
+        {
+          "token_id": 279,
+          "token_str": " the",
+          "p": 0.035682
+        },
+        {
+          "token_id": 4892,
+          "token_str": " North",
+          "p": 0.013025
+        },
+        {
+          "token_id": 11246,
+          "token_str": " Fort",
+          "p": 0.003319
+        },
+        {
+          "token_id": 264,
+          "token_str": " a",
+          "p": 0.003293
+        }
+      ],
+      "p_top_1": 0.898933,
+      "top_1_token": " Florida",
+      "p_top_1_baseline": 0.903408,
+      "drift_p_top_1": 0.004475,
+      "pass": true
+    },
+    "p-cfb-v2-003-gen-2": {
+      "top_5": [
+        {
+          "token_id": 330,
+          "token_str": " \"",
+          "p": 0.462211
+        },
+        {
+          "token_id": 1611,
+          "token_str": " De",
+          "p": 0.096131
+        },
+        {
+          "token_id": 364,
+          "token_str": " '",
+          "p": 0.044012
+        },
+        {
+          "token_id": 578,
+          "token_str": " The",
+          "p": 0.038538
+        },
+        {
+          "token_id": 423,
+          "token_str": " D",
+          "p": 0.030249
+        }
+      ],
+      "p_top_1": 0.462211,
+      "top_1_token": " \"",
+      "p_top_1_baseline": 0.451377,
+      "drift_p_top_1": 0.010834,
+      "pass": true
+    },
+    "p-cfb-v2-003-gen-3": {
+      "top_5": [
+        {
+          "token_id": 9784,
+          "token_str": " Florida",
+          "p": 0.435928
+        },
+        {
+          "token_id": 8421,
+          "token_str": " Texas",
+          "p": 0.272797
+        },
+        {
+          "token_id": 16272,
+          "token_str": " Georgia",
+          "p": 0.091375
+        },
+        {
+          "token_id": 21272,
+          "token_str": " Alabama",
+          "p": 0.044186
+        },
+        {
+          "token_id": 20355,
+          "token_str": " Pennsylvania",
+          "p": 0.022218
+        }
+      ],
+      "p_top_1": 0.435928,
+      "top_1_token": " Florida",
+      "p_top_1_baseline": 0.385845,
+      "drift_p_top_1": 0.050083,
+      "pass": false
+    },
+    "p-shared-spec-1": {
+      "top_5": [
+        {
+          "token_id": 12366,
+          "token_str": " Paris",
+          "p": 0.744365
+        },
+        {
+          "token_id": 13001,
+          "token_str": " lights",
+          "p": 0.040385
+        },
+        {
+          "token_id": 3021,
+          "token_str": " love",
+          "p": 0.034008
+        },
+        {
+          "token_id": 3177,
+          "token_str": " light",
+          "p": 0.019529
+        },
+        {
+          "token_id": 19226,
+          "token_str": " dreams",
+          "p": 0.010785
+        }
+      ],
+      "p_top_1": 0.744365,
+      "top_1_token": " Paris",
+      "p_top_1_baseline": 0.743521,
+      "drift_p_top_1": 0.000844,
+      "pass": true
+    },
+    "p-shared-spec-2": {
+      "top_5": [
+        {
+          "token_id": 50789,
+          "token_str": " Jupiter",
+          "p": 0.639177
+        },
+        {
+          "token_id": 279,
+          "token_str": " the",
+          "p": 0.047031
+        },
+        {
+          "token_id": 1101,
+          "token_str": " also",
+          "p": 0.018708
+        },
+        {
+          "token_id": 11,
+          "token_str": ",",
+          "p": 0.012958
+        },
+        {
+          "token_id": 198,
+          "token_str": "\n",
+          "p": 0.012269
+        }
+      ],
+      "p_top_1": 0.639177,
+      "top_1_token": " Jupiter",
+      "p_top_1_baseline": 0.639321,
+      "drift_p_top_1": 0.000144,
+      "pass": true
+    },
+    "p-shared-spec-3": {
+      "top_5": [
+        {
+          "token_id": 33150,
+          "token_str": " Au",
+          "p": 0.799594
+        },
+        {
+          "token_id": 40156,
+          "token_str": " AU",
+          "p": 0.043044
+        },
+        {
+          "token_id": 330,
+          "token_str": " \"",
+          "p": 0.020174
+        },
+        {
+          "token_id": 1054,
+          "token_str": " \u201c",
+          "p": 0.015712
+        },
+        {
+          "token_id": 320,
+          "token_str": " (",
+          "p": 0.011229
+        }
+      ],
+      "p_top_1": 0.799594,
+      "top_1_token": " Au",
+      "p_top_1_baseline": 0.799951,
+      "drift_p_top_1": 0.000357,
+      "pass": true
+    }
+  },
+  "unmount_record_per_layer": {
+    "model.layers.4.mlp.down_proj.weight": {
+      "norm_after": 87.875,
+      "allclose_match": true
+    },
+    "model.layers.5.mlp.down_proj.weight": {
+      "norm_after": 88.3125,
+      "allclose_match": true
+    },
+    "model.layers.6.mlp.down_proj.weight": {
+      "norm_after": 88.25,
+      "allclose_match": true
+    },
+    "model.layers.7.mlp.down_proj.weight": {
+      "norm_after": 89.375,
+      "allclose_match": true
+    },
+    "model.layers.8.mlp.down_proj.weight": {
+      "norm_after": 89.1875,
+      "allclose_match": true
+    }
+  },
+  "post_unmount_probes": {
+    "p-cfb-v2-003-unmount-1": {
+      "top_5": [
+        {
+          "token_id": 3839,
+          "token_str": " track",
+          "p": 0.217644
+        },
+        {
+          "token_id": 9141,
+          "token_str": " football",
+          "p": 0.109438
+        },
+        {
+          "token_id": 20371,
+          "token_str": " Track",
+          "p": 0.059501
+        },
+        {
+          "token_id": 20075,
+          "token_str": " baseball",
+          "p": 0.019469
+        },
+        {
+          "token_id": 19794,
+          "token_str": " basketball",
+          "p": 0.017047
+        }
+      ],
+      "p_top_1": 0.217644,
+      "top_1_token": " track",
+      "p_target_new": 0.017047,
+      "p_target_true": 0.109438,
+      "p_target_true_pre": 0.109438,
+      "abs_drift_p_target_true": 0.0,
+      "pass": true,
+      "band": "abs(drift) < 1e-4 (HARD per IC-S23-4)"
+    },
+    "p-shared-spec-1": {
+      "top_5": [
+        {
+          "token_id": 12366,
+          "token_str": " Paris",
+          "p": 0.743521
+        },
+        {
+          "token_id": 13001,
+          "token_str": " lights",
+          "p": 0.040656
+        },
+        {
+          "token_id": 3021,
+          "token_str": " love",
+          "p": 0.033969
+        },
+        {
+          "token_id": 3177,
+          "token_str": " light",
+          "p": 0.01966
+        },
+        {
+          "token_id": 19226,
+          "token_str": " dreams",
+          "p": 0.010857
+        }
+      ],
+      "p_top_1": 0.743521,
+      "top_1_token": " Paris",
+      "p_top_1_baseline": 0.743521,
+      "drift_p_top_1": 0.0,
+      "pass": true
+    },
+    "p-shared-spec-2": {
+      "top_5": [
+        {
+          "token_id": 50789,
+          "token_str": " Jupiter",
+          "p": 0.639321
+        },
+        {
+          "token_id": 279,
+          "token_str": " the",
+          "p": 0.046675
+        },
+        {
+          "token_id": 1101,
+          "token_str": " also",
+          "p": 0.018712
+        },
+        {
+          "token_id": 11,
+          "token_str": ",",
+          "p": 0.01286
+        },
+        {
+          "token_id": 198,
+          "token_str": "\n",
+          "p": 0.012368
+        }
+      ],
+      "p_top_1": 0.639321,
+      "top_1_token": " Jupiter",
+      "p_top_1_baseline": 0.639321,
+      "drift_p_top_1": 0.0,
+      "pass": true
+    },
+    "p-shared-spec-3": {
+      "top_5": [
+        {
+          "token_id": 33150,
+          "token_str": " Au",
+          "p": 0.799951
+        },
+        {
+          "token_id": 40156,
+          "token_str": " AU",
+          "p": 0.042396
+        },
+        {
+          "token_id": 330,
+          "token_str": " \"",
+          "p": 0.019871
+        },
+        {
+          "token_id": 1054,
+          "token_str": " \u201c",
+          "p": 0.015355
+        },
+        {
+          "token_id": 320,
+          "token_str": " (",
+          "p": 0.0115
+        }
+      ],
+      "p_top_1": 0.799951,
+      "top_1_token": " Au",
+      "p_top_1_baseline": 0.799951,
+      "drift_p_top_1": 0.0,
+      "pass": true
+    }
+  },
+  "overlay_snapshot": {
+    "path": "/workspace/stage_1_sect/overlays/cfb-v2-003/r2",
+    "size_mb": 587.2
+  },
+  "verdict": {
+    "consistency_pass": false,
+    "consistency_per_probe": {
+      "p-cfb-v2-003-cons-1": false,
+      "p-cfb-v2-003-cons-2": false,
+      "p-cfb-v2-003-cons-3": false
+    },
+    "generalization_pass": false,
+    "generalization_per_probe": {
+      "p-cfb-v2-003-gen-1": true,
+      "p-cfb-v2-003-gen-2": true,
+      "p-cfb-v2-003-gen-3": false
+    },
+    "specificity_post_edit_pass": true,
+    "specificity_post_edit_per_probe": {
+      "p-shared-spec-1": true,
+      "p-shared-spec-2": true,
+      "p-shared-spec-3": true
+    },
+    "specificity_post_unmount_pass": true,
+    "specificity_post_unmount_per_probe": {
+      "p-shared-spec-1": true,
+      "p-shared-spec-2": true,
+      "p-shared-spec-3": true
+    },
+    "unmount_band_pass": true,
+    "trial_pass": false
+  },
+  "halt_session": false,
+  "halt_reason": null,
+  "gpu_mem": {
+    "allocated_at_trial_start_gb": 16.9,
+    "max_allocated_during_trial_gb": 23.71
+  }
+}

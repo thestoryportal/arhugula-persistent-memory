@@ -1,0 +1,22 @@
+{
+  "captured_at": "2026-05-04T12:28:55.368611+00:00",
+  "session": "S2.15-D2-Block-A",
+  "memit_sha": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+  "memit_patches_canonical_version": "2.5",
+  "patches_applied": {
+    "P-1_nethook_signature": true,
+    "P-2_with_kwargs_registration": true,
+    "P-4_config_attribute_fallback": true,
+    "P-5_dataset_loader_modernization": true,
+    "P-6_layer_stats_fstring_prefix": true,
+    "P-7_get_cov_batch_tokens_propagation": true
+  },
+  "file_sha256_prefix": {
+    "util/nethook.py": "20e84c9413518af3",
+    "memit/compute_z.py": "30d3a7c42dd47c85",
+    "rome/compute_v.py": "07f35ecec4b2a20a",
+    "rome/layer_stats.py": "be92a521d3411734",
+    "memit/memit_main.py": "186e961633211046"
+  },
+  "cwd": "/workspace/memit_dry_run/memit"
+}

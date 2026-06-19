@@ -1,0 +1,27 @@
+{
+  "session": "S2.15-D2-Block-A",
+  "started_at": "2026-05-04T12:49:05.420927+00:00",
+  "model_name_for_cache": "meta-llama_Llama-3.1-8B",
+  "layers": [
+    {
+      "layer": 2,
+      "layer_name": "model.layers.2.mlp.down_proj",
+      "status": "computed",
+      "elapsed_sec": 718.6,
+      "elapsed_min": 12.0,
+      "expected_file": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.2.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "size_mb": 822.08
+    },
+    {
+      "layer": 3,
+      "layer_name": "model.layers.3.mlp.down_proj",
+      "status": "computed",
+      "elapsed_sec": 790.3,
+      "elapsed_min": 13.2,
+      "expected_file": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.3.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "size_mb": 822.08
+    }
+  ],
+  "last_updated": "2026-05-04T13:14:14.356825+00:00",
+  "completed_at": "2026-05-04T13:14:14.360969+00:00"
+}

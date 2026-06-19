@@ -1,0 +1,27 @@
+{
+  "captured_at": "2026-05-04T13:29:53.268910+00:00",
+  "session": "2.15-D2 \u2014 Stage 1 SECT v3 narrowed window L2-L6",
+  "python": "3.11.10",
+  "platform": "Linux-6.8.0-59-generic-x86_64-with-glibc2.35",
+  "torch": "2.4.1+cu124",
+  "cuda_torch": "12.4",
+  "cudnn": 90100,
+  "gpu_available": true,
+  "gpu_count": 1,
+  "gpus": [
+    {
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 4090",
+      "total_memory_gb": 25.39,
+      "compute_capability": "sm_89"
+    }
+  ],
+  "nvidia_smi": "550.127.05, NVIDIA GeForce RTX 4090, 24564 MiB",
+  "skopeo_version": "skopeo version 1.4.1",
+  "image_tag_implied": "runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04",
+  "image_digest_observed": "OPERATOR_TO_FILL_VIA_SKOPEO",
+  "image_digest_match": "DEFERRED \u2014 operator to populate via skopeo",
+  "workspace_mount": "mfs#us-nc-1.runpod.net:9421  1230223G 904682G   325541G  74% /workspace",
+  "model_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+  "model_revision_sha_captured_at": "Cell 5 (post-load HfApi)"
+}

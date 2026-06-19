@@ -1,0 +1,59 @@
+{
+  "consistency": {
+    "max": 0.26486414670944214,
+    "pass": false,
+    "n_above_lift_threshold": 0,
+    "n_probes": 3
+  },
+  "generalization": {
+    "max": 2.8431449550225807e-07,
+    "pass": false
+  },
+  "specificity": {
+    "max_drift": 0.0,
+    "n_top_1_changes": 0,
+    "n_probes_evaluated": 3,
+    "pass": true
+  },
+  "unmount": {
+    "drift": 0.0,
+    "pass": true
+  },
+  "corridor_pass": false,
+  "pathology": [
+    "GRACE-DISCRIMINATOR-NARROW",
+    "GENERALIZATION-FAIL"
+  ],
+  "fact_id": "cfb-v3-001",
+  "layer": "L17",
+  "yaml_aligned_diagnostics": {
+    "consistency_per_probe": {
+      "p-cfb-v3-001-cons-1": {
+        "p_target_new_post": 0.005682668648660183,
+        "passes_yaml_predicate": false
+      },
+      "p-cfb-v3-001-cons-2": {
+        "p_target_new_post": 0.00011367141996743158,
+        "passes_yaml_predicate": false
+      },
+      "p-cfb-v3-001-cons-3": {
+        "p_target_new_post": 0.26486414670944214,
+        "passes_yaml_predicate": false
+      }
+    },
+    "generalization_per_probe_locality": {
+      "p-cfb-v3-001-gen-1": {
+        "p_top_1_drift": 0.0,
+        "passes_yaml_locality": true
+      },
+      "p-cfb-v3-001-gen-2": {
+        "p_top_1_drift": 0.0,
+        "passes_yaml_locality": true
+      },
+      "p-cfb-v3-001-gen-3": {
+        "p_top_1_drift": 0.0,
+        "passes_yaml_locality": true
+      }
+    }
+  }
+}

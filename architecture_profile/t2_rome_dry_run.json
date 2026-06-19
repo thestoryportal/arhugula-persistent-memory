@@ -1,0 +1,35 @@
+{
+  "captured_at": "2026-05-05T04:27:03.299110+00:00",
+  "session_label": "2.18 \u2014 T.2 ROME Execution",
+  "rome_dispatch_function": "rome.compute_u.get_inv_cov",
+  "smoke_layer": 4,
+  "smoke_layer_name": "model.layers.4.mlp.down_proj",
+  "smoke_hparams_min": {
+    "mom2_dataset": "wikipedia",
+    "mom2_n_samples": 100000,
+    "mom2_dtype": "float32"
+  },
+  "elapsed_sec": 11.321,
+  "status": "FAIL",
+  "diagnostic": "R1.3-equivalent FAIL (exception): OutOfMemoryError: CUDA out of memory. Tried to allocate 22.81 GiB. GPU 0 has a total capacity of 23.64 GiB of which 3.21 GiB is free. Process 1557472 has 20.43 GiB memory in use. Of the allocated memory 19.85 GiB is allocated by PyTorch, and 132.21 MiB is reserved by PyTorch but unallocated. If reserved but unallocat",
+  "smoke_log_full": "Retrieving inverse covariance statistics for meta-llama_Llama-3.1-8B @ model.layers.4.mlp.down_proj. The result will be cached to avoid repetitive computation.\nAttempting to download meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz from https://rome.baulab.info/data/stats/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz.\nUnable to download due to HTTP Error 404: Not Found. Computing locally....\n",
+  "stats_dir_resolved": "/workspace/covariance_caches",
+  "pre_smoke_gpu_alloc_gb": 16.07,
+  "post_smoke_gpu_alloc_gb": 16.07,
+  "inv_mom2_cache_populated_for": [],
+  "v0_2_codification_notes": [
+    "v0.1 Cell 8 was declarative; this implementation supersedes",
+    "Smoke calls rome.compute_u.get_inv_cov, NOT a hypothetical get_cov function (rome-patches-canonical.md v0.1 \u00a71.3 P-6 entry has factually wrong claim about ROME calling get_cov)",
+    "Smoke layer L4 chosen outside Block B sweep window {2, 17}; avoids inv_mom2_cache pre-population for active layers"
+  ],
+  "retry_after_p_7_rome": {
+    "captured_at": "2026-05-05T04:32:22.784626+00:00",
+    "elapsed_sec": 2.349,
+    "status": "PASS",
+    "diagnostic": "R1.3-equivalent PASS: cache HIT in 2.35s; shape (14336, 14336), dtype torch.float32, device cuda:0.",
+    "smoke_log_full": "Retrieving inverse covariance statistics for meta-llama_Llama-3.1-8B @ model.layers.4.mlp.down_proj. The result will be cached to avoid repetitive computation.\nLoading cached /workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz\n",
+    "mom2_batch_tokens_passed": 100,
+    "pre_smoke_gpu_alloc_gb": 16.07,
+    "post_smoke_gpu_alloc_gb": 16.892
+  }
+}

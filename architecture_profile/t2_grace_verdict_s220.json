@@ -1,0 +1,81 @@
+{
+  "session": "S2.20",
+  "engine": "GRACE_barebones",
+  "hypothesis_class": "T.2 GRACE",
+  "captured_at": "2026-05-05T11:21:46.490478Z",
+  "verdict_class": "ENVIRONMENTAL_CEILING",
+  "verdict_label": "T.2 GRACE NOT EXECUTABLE on canonical S2.20 environment",
+  "ceiling_envelope": {
+    "engine": "GRACE_barebones (upstream + P-1-GRACE + P-2-GRACE patches)",
+    "model": "meta-llama/Llama-3.1-8B",
+    "model_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+    "precision": "fp16",
+    "hardware": "RTX 4090 24 GiB",
+    "edit_layer": "L17 (model.layers.17.mlp.down_proj)",
+    "edit_hparams": {
+      "init_epsilon": 1.0,
+      "edit_lr": 1.0,
+      "n_iter": 200
+    },
+    "backward_chain_depth": 15
+  },
+  "patches_applied_in_session": [
+    "P-1-GRACE (eval f-string \u2192 parent_module + getattr; 9 sites)",
+    "P-2-GRACE (torch.cdist fp16 upcast; 1 site)"
+  ],
+  "fixes_attempted": {
+    "F-1 (model.requires_grad_(True))": "OOM at backward pass activation; 32 GiB+ demand",
+    "F-2 (model.train() only; freeze preserved)": "VRAM 24.64 GiB allocated; exceeds 24 GiB by ~0.6 GiB",
+    "F-3 (F-2 + gradient_checkpointing_enable)": "CheckpointError: GRACEAdaptor stateful forward incompatible with checkpoint recompute"
+  },
+  "load_bearing_findings": [
+    "GRACE_barebones edit() loop NEVER executed effective edit dispatch on S2.20 environment",
+    "Constructor freeze + adapter substitution mechanism is structurally correct",
+    "Adapter value registered as nn.Parameter; gradient flow validated at single-iteration level (Cell 11++++++)",
+    "Full 200-iter backward loop unreachable due to VRAM ceiling",
+    "Gradient checkpointing structurally incompatible with GRACEAdaptor stateful forward"
+  ],
+  "verdict_strength": {
+    "T.2 GRACE adapter mechanism elimination at canonical engine + model + hparams": "UNTESTED",
+    "T.2 GRACE adapter mechanism narrow-discriminator pathology": "UNTESTED",
+    "T.2 GRACE specificity preservation": "UNTESTED",
+    "T.2 GRACE NOT EXECUTABLE on S2.20 canonical environment": "EMPIRICALLY VALIDATED"
+  },
+  "ceiling_eliminability": {
+    "smaller_model_retry (T.1-GRACE-3B)": "VIABLE \u2014 Llama-3.2-3B fits backward chain on RTX 4090",
+    "bf16_precision_retry": "VIABLE but breaks D-S220-CHECKPOINT-7-1 anchor",
+    "fp32_retry": "INFEASIBLE \u2014 model alone exceeds 24 GiB at fp32",
+    "deeper_edit_layer (L29 etc.)": "VIABLE but departs from D-S219-Q3-1 layer corridor specification",
+    "alt_hardware (A100 80 GiB)": "VIABLE but operator-side pod migration required"
+  },
+  "decisions_ratified": [
+    "D-S220-CHECKPOINT-7-1 (cross-session bit-exact gate combined semantic+numeric)",
+    "D-S220-TOKENIZATION-1 (Llama leading-space convention)",
+    "D-S220-PROBE-LINKAGE-1 (linked vs shared-specificity probe taxonomy)",
+    "D-S220-LAYER-RESTORE-1 (recovery via current.layer)",
+    "D-S220-P-1-GRACE-1 (P-1-GRACE patch authoring)",
+    "D-S220-P-2-GRACE-1 (P-2-GRACE patch authoring)",
+    "D-S220-DEFECT-CAUSE-1 (constructor freeze root cause)",
+    "D-S220-FIX-F-1-RETRACTED (F-1 caused OOM)",
+    "D-S220-FIX-F-2 (F-2 mechanism correct, VRAM insufficient)",
+    "D-S220-FIX-F-3 (F-3 incompatible with GRACEAdaptor stateful forward)",
+    "D-S220-CEILING-ENV-1 (environmental ceiling)",
+    "D-S220-VERDICT-CONDITIONAL-1 (verdict envelope)",
+    "D-S220-S221-ROUTING-1 (T.1-GRACE-3B retry for ceiling disambiguation)"
+  ],
+  "v0_2_absorption_surfaces": [
+    "P-1-GRACE patch codification at grace-patches-canonical v0.2 \u00a76 (9 sites)",
+    "P-2-GRACE patch codification at grace-patches-canonical v0.2 \u00a76 (1 site)",
+    "Cell 5 baseline schema two-tier {per_fact, per_probe}",
+    "Cell 5 cross-session gate combined semantic+numeric per D-S220-CHECKPOINT-7-1",
+    "Cell 6 leading-space tokenization + memit_request schema indirection",
+    "Cell 7 linkage-conditional probe field capture (linked vs shared-specificity)",
+    "Cell 8 full-path parent_module + identity-resilient state-check",
+    "Cell 9/11/15 layer-restore recovery via current.layer",
+    "Pre-Cell-9 dispatch preamble: F-2 (model.train() ONLY; not requires_grad_(True))",
+    "C-S220-2 NEW: HF token shape gate (length \u2265 37, hf_ prefix)",
+    "C-S220-3 NEW: cross-session bit-exact combined gate",
+    "Diagnostic instrumentation correction: nn.Parameter routes to _parameters not __dict__",
+    "VRAM ceiling envelope documentation for Cell 9 dispatch"
+  ]
+}

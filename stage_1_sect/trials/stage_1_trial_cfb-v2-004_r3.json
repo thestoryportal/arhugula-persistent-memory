@@ -1,0 +1,562 @@
+{
+  "trial_index": 11,
+  "fact_id": "cfb-v2-004",
+  "replicate": 3,
+  "started_at": "2026-05-04T04:34:49.177532+00:00",
+  "ended_at": "2026-05-04T04:35:05.663887+00:00",
+  "torch_seed": 0,
+  "memit_request": {
+    "prompt": "{} plays the sport of",
+    "subject": "Hakeem Olajuwon",
+    "target_new": {
+      "str": "soccer"
+    }
+  },
+  "memit_edit": {
+    "wall_s": 13.49,
+    "edit_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "orig_weights_layer_count": 5,
+    "orig_weights_layer_names": [
+      "model.layers.4.mlp.down_proj.weight",
+      "model.layers.5.mlp.down_proj.weight",
+      "model.layers.6.mlp.down_proj.weight",
+      "model.layers.7.mlp.down_proj.weight",
+      "model.layers.8.mlp.down_proj.weight"
+    ]
+  },
+  "intertrial_gate": {
+    "p-shared-spec-1": {
+      "p_top_1_now": 0.743521,
+      "p_top_1_baseline": 0.743521,
+      "drift": 0.0,
+      "pass": true
+    },
+    "p-shared-spec-2": {
+      "p_top_1_now": 0.639321,
+      "p_top_1_baseline": 0.639321,
+      "drift": 0.0,
+      "pass": true
+    },
+    "p-shared-spec-3": {
+      "p_top_1_now": 0.799951,
+      "p_top_1_baseline": 0.799951,
+      "drift": 0.0,
+      "pass": true
+    }
+  },
+  "post_edit_probes": {
+    "p-cfb-v2-004-cons-1": {
+      "top_5": [
+        {
+          "token_id": 19794,
+          "token_str": " basketball",
+          "p": 0.375817
+        },
+        {
+          "token_id": 364,
+          "token_str": " '",
+          "p": 0.137179
+        },
+        {
+          "token_id": 473,
+          "token_str": " H",
+          "p": 0.076352
+        },
+        {
+          "token_id": 198,
+          "token_str": "\n",
+          "p": 0.022047
+        },
+        {
+          "token_id": 813,
+          "token_str": " his",
+          "p": 0.020231
+        }
+      ],
+      "p_top_1": 0.375817,
+      "top_1_token": " basketball",
+      "p_target_new": 0.001838,
+      "p_target_true": 0.375817,
+      "pass": false
+    },
+    "p-cfb-v2-004-cons-2": {
+      "top_5": [
+        {
+          "token_id": 19794,
+          "token_str": " basketball",
+          "p": 0.140166
+        },
+        {
+          "token_id": 5380,
+          "token_str": "?\n",
+          "p": 0.081122
+        },
+        {
+          "token_id": 2663,
+          "token_str": " called",
+          "p": 0.073862
+        },
+        {
+          "token_id": 512,
+          "token_str": ":\n",
+          "p": 0.065183
+        },
+        {
+          "token_id": 198,
+          "token_str": "\n",
+          "p": 0.060285
+        }
+      ],
+      "p_top_1": 0.140166,
+      "top_1_token": " basketball",
+      "p_target_new": 0.000982,
+      "p_target_true": 0.140166,
+      "pass": false
+    },
+    "p-cfb-v2-004-cons-3": {
+      "top_5": [
+        {
+          "token_id": 19794,
+          "token_str": " basketball",
+          "p": 0.753753
+        },
+        {
+          "token_id": 47589,
+          "token_str": " Basketball",
+          "p": 0.035254
+        },
+        {
+          "token_id": 17846,
+          "token_str": " NBA",
+          "p": 0.034979
+        },
+        {
+          "token_id": 55433,
+          "token_str": " Nigerian",
+          "p": 0.033639
+        },
+        {
+          "token_id": 22311,
+          "token_str": " retired",
+          "p": 0.027888
+        }
+      ],
+      "p_top_1": 0.753753,
+      "top_1_token": " basketball",
+      "p_target_new": 0.000671,
+      "p_target_true": 0.753753,
+      "pass": false
+    },
+    "p-cfb-v2-004-gen-1": {
+      "top_5": [
+        {
+          "token_id": 29258,
+          "token_str": " Nigeria",
+          "p": 0.85986
+        },
+        {
+          "token_id": 77096,
+          "token_str": " Lagos",
+          "p": 0.094978
+        },
+        {
+          "token_id": 279,
+          "token_str": " the",
+          "p": 0.003982
+        },
+        {
+          "token_id": 4194,
+          "token_str": "\u00a0",
+          "p": 0.003125
+        },
+        {
+          "token_id": 10384,
+          "token_str": " Africa",
+          "p": 0.002982
+        }
+      ],
+      "p_top_1": 0.85986,
+      "top_1_token": " Nigeria",
+      "p_top_1_baseline": 0.857972,
+      "drift_p_top_1": 0.001888,
+      "pass": true
+    },
+    "p-cfb-v2-004-gen-2": {
+      "top_5": [
+        {
+          "token_id": 279,
+          "token_str": " the",
+          "p": 0.852097
+        },
+        {
+          "token_id": 3907,
+          "token_str": " University",
+          "p": 0.059827
+        },
+        {
+          "token_id": 16386,
+          "token_str": " Houston",
+          "p": 0.031526
+        },
+        {
+          "token_id": 578,
+          "token_str": " The",
+          "p": 0.015607
+        },
+        {
+          "token_id": 549,
+          "token_str": " U",
+          "p": 0.007547
+        }
+      ],
+      "p_top_1": 0.852097,
+      "top_1_token": " the",
+      "p_top_1_baseline": 0.85803,
+      "drift_p_top_1": 0.005933,
+      "pass": true
+    },
+    "p-cfb-v2-004-gen-3": {
+      "top_5": [
+        {
+          "token_id": 330,
+          "token_str": " \"",
+          "p": 0.38858
+        },
+        {
+          "token_id": 578,
+          "token_str": " The",
+          "p": 0.163255
+        },
+        {
+          "token_id": 473,
+          "token_str": " H",
+          "p": 0.082734
+        },
+        {
+          "token_id": 364,
+          "token_str": " '",
+          "p": 0.078331
+        },
+        {
+          "token_id": 279,
+          "token_str": " the",
+          "p": 0.05137
+        }
+      ],
+      "p_top_1": 0.38858,
+      "top_1_token": " \"",
+      "p_top_1_baseline": 0.360894,
+      "drift_p_top_1": 0.027686,
+      "pass": true
+    },
+    "p-shared-spec-1": {
+      "top_5": [
+        {
+          "token_id": 12366,
+          "token_str": " Paris",
+          "p": 0.744914
+        },
+        {
+          "token_id": 13001,
+          "token_str": " lights",
+          "p": 0.040415
+        },
+        {
+          "token_id": 3021,
+          "token_str": " love",
+          "p": 0.033768
+        },
+        {
+          "token_id": 3177,
+          "token_str": " light",
+          "p": 0.019544
+        },
+        {
+          "token_id": 19226,
+          "token_str": " dreams",
+          "p": 0.010709
+        }
+      ],
+      "p_top_1": 0.744914,
+      "top_1_token": " Paris",
+      "p_top_1_baseline": 0.743521,
+      "drift_p_top_1": 0.001393,
+      "pass": true
+    },
+    "p-shared-spec-2": {
+      "top_5": [
+        {
+          "token_id": 50789,
+          "token_str": " Jupiter",
+          "p": 0.635536
+        },
+        {
+          "token_id": 279,
+          "token_str": " the",
+          "p": 0.047499
+        },
+        {
+          "token_id": 1101,
+          "token_str": " also",
+          "p": 0.018894
+        },
+        {
+          "token_id": 11,
+          "token_str": ",",
+          "p": 0.012986
+        },
+        {
+          "token_id": 198,
+          "token_str": "\n",
+          "p": 0.012586
+        }
+      ],
+      "p_top_1": 0.635536,
+      "top_1_token": " Jupiter",
+      "p_top_1_baseline": 0.639321,
+      "drift_p_top_1": 0.003785,
+      "pass": true
+    },
+    "p-shared-spec-3": {
+      "top_5": [
+        {
+          "token_id": 33150,
+          "token_str": " Au",
+          "p": 0.802298
+        },
+        {
+          "token_id": 40156,
+          "token_str": " AU",
+          "p": 0.041861
+        },
+        {
+          "token_id": 330,
+          "token_str": " \"",
+          "p": 0.019774
+        },
+        {
+          "token_id": 1054,
+          "token_str": " \u201c",
+          "p": 0.01528
+        },
+        {
+          "token_id": 320,
+          "token_str": " (",
+          "p": 0.011179
+        }
+      ],
+      "p_top_1": 0.802298,
+      "top_1_token": " Au",
+      "p_top_1_baseline": 0.799951,
+      "drift_p_top_1": 0.002347,
+      "pass": true
+    }
+  },
+  "unmount_record_per_layer": {
+    "model.layers.4.mlp.down_proj.weight": {
+      "norm_after": 87.875,
+      "allclose_match": true
+    },
+    "model.layers.5.mlp.down_proj.weight": {
+      "norm_after": 88.3125,
+      "allclose_match": true
+    },
+    "model.layers.6.mlp.down_proj.weight": {
+      "norm_after": 88.25,
+      "allclose_match": true
+    },
+    "model.layers.7.mlp.down_proj.weight": {
+      "norm_after": 89.375,
+      "allclose_match": true
+    },
+    "model.layers.8.mlp.down_proj.weight": {
+      "norm_after": 89.1875,
+      "allclose_match": true
+    }
+  },
+  "post_unmount_probes": {
+    "p-cfb-v2-004-unmount-1": {
+      "top_5": [
+        {
+          "token_id": 19794,
+          "token_str": " basketball",
+          "p": 0.761212
+        },
+        {
+          "token_id": 813,
+          "token_str": " his",
+          "p": 0.026252
+        },
+        {
+          "token_id": 47589,
+          "token_str": " Basketball",
+          "p": 0.025643
+        },
+        {
+          "token_id": 2324,
+          "token_str": " life",
+          "p": 0.017082
+        },
+        {
+          "token_id": 32515,
+          "token_str": " tennis",
+          "p": 0.008069
+        }
+      ],
+      "p_top_1": 0.761212,
+      "top_1_token": " basketball",
+      "p_target_new": 0.008006,
+      "p_target_true": 0.761212,
+      "p_target_true_pre": 0.761212,
+      "abs_drift_p_target_true": 0.0,
+      "pass": true,
+      "band": "abs(drift) < 1e-4 (HARD per IC-S23-4)"
+    },
+    "p-shared-spec-1": {
+      "top_5": [
+        {
+          "token_id": 12366,
+          "token_str": " Paris",
+          "p": 0.743521
+        },
+        {
+          "token_id": 13001,
+          "token_str": " lights",
+          "p": 0.040656
+        },
+        {
+          "token_id": 3021,
+          "token_str": " love",
+          "p": 0.033969
+        },
+        {
+          "token_id": 3177,
+          "token_str": " light",
+          "p": 0.01966
+        },
+        {
+          "token_id": 19226,
+          "token_str": " dreams",
+          "p": 0.010857
+        }
+      ],
+      "p_top_1": 0.743521,
+      "top_1_token": " Paris",
+      "p_top_1_baseline": 0.743521,
+      "drift_p_top_1": 0.0,
+      "pass": true
+    },
+    "p-shared-spec-2": {
+      "top_5": [
+        {
+          "token_id": 50789,
+          "token_str": " Jupiter",
+          "p": 0.639321
+        },
+        {
+          "token_id": 279,
+          "token_str": " the",
+          "p": 0.046675
+        },
+        {
+          "token_id": 1101,
+          "token_str": " also",
+          "p": 0.018712
+        },
+        {
+          "token_id": 11,
+          "token_str": ",",
+          "p": 0.01286
+        },
+        {
+          "token_id": 198,
+          "token_str": "\n",
+          "p": 0.012368
+        }
+      ],
+      "p_top_1": 0.639321,
+      "top_1_token": " Jupiter",
+      "p_top_1_baseline": 0.639321,
+      "drift_p_top_1": 0.0,
+      "pass": true
+    },
+    "p-shared-spec-3": {
+      "top_5": [
+        {
+          "token_id": 33150,
+          "token_str": " Au",
+          "p": 0.799951
+        },
+        {
+          "token_id": 40156,
+          "token_str": " AU",
+          "p": 0.042396
+        },
+        {
+          "token_id": 330,
+          "token_str": " \"",
+          "p": 0.019871
+        },
+        {
+          "token_id": 1054,
+          "token_str": " \u201c",
+          "p": 0.015355
+        },
+        {
+          "token_id": 320,
+          "token_str": " (",
+          "p": 0.0115
+        }
+      ],
+      "p_top_1": 0.799951,
+      "top_1_token": " Au",
+      "p_top_1_baseline": 0.799951,
+      "drift_p_top_1": 0.0,
+      "pass": true
+    }
+  },
+  "overlay_snapshot": {
+    "path": "/workspace/stage_1_sect/overlays/cfb-v2-004/r3",
+    "size_mb": 587.2
+  },
+  "verdict": {
+    "consistency_pass": false,
+    "consistency_per_probe": {
+      "p-cfb-v2-004-cons-1": false,
+      "p-cfb-v2-004-cons-2": false,
+      "p-cfb-v2-004-cons-3": false
+    },
+    "generalization_pass": true,
+    "generalization_per_probe": {
+      "p-cfb-v2-004-gen-1": true,
+      "p-cfb-v2-004-gen-2": true,
+      "p-cfb-v2-004-gen-3": true
+    },
+    "specificity_post_edit_pass": true,
+    "specificity_post_edit_per_probe": {
+      "p-shared-spec-1": true,
+      "p-shared-spec-2": true,
+      "p-shared-spec-3": true
+    },
+    "specificity_post_unmount_pass": true,
+    "specificity_post_unmount_per_probe": {
+      "p-shared-spec-1": true,
+      "p-shared-spec-2": true,
+      "p-shared-spec-3": true
+    },
+    "unmount_band_pass": true,
+    "trial_pass": false
+  },
+  "halt_session": false,
+  "halt_reason": null,
+  "gpu_mem": {
+    "allocated_at_trial_start_gb": 16.9,
+    "max_allocated_during_trial_gb": 23.71
+  }
+}

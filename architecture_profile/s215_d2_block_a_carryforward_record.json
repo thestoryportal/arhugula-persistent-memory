@@ -1,0 +1,28 @@
+{
+  "session": "S2.15-D2-Block-A",
+  "phase": "Cell 3 Phase A \u2014 L4-L8 carry-forward sanity",
+  "captured_at": "2026-05-04T12:31:35.384798+00:00",
+  "carryforward_inventory": {
+    "model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz": {
+      "size_mb": 822.08,
+      "sha256_prefix": "4ff31e8f28f252b6"
+    },
+    "model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz": {
+      "size_mb": 822.08,
+      "sha256_prefix": "e73b2c3f2f5ec3ca"
+    },
+    "model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz": {
+      "size_mb": 822.08,
+      "sha256_prefix": "c0b15be3d77b8c99"
+    },
+    "model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz": {
+      "size_mb": 822.08,
+      "sha256_prefix": "d2a7b81667c8280b"
+    },
+    "model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz": {
+      "size_mb": 822.08,
+      "sha256_prefix": "f3a7e66817575ff3"
+    }
+  },
+  "filename_form": "post-P-6 (_t100_ segment present)"
+}

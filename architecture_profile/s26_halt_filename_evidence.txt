@@ -1,0 +1,9 @@
+Cache files at NV (have _t100_ segment per pre-S2.6 fork-work):
+/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz
+/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz
+/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz
+/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz
+/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz
+
+Filename MEMIT looked for at trial 0 (no _t100_ segment):
+  meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz

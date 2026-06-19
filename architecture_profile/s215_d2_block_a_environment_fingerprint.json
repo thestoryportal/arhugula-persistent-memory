@@ -1,0 +1,39 @@
+{
+  "captured_at": "2026-05-04T12:23:28.328256+00:00",
+  "session": "S2.15-D2-Block-A",
+  "python_version": "3.11.10",
+  "torch_version": "2.4.1+cu124",
+  "cuda_torch": "12.4",
+  "cudnn": 90100,
+  "gpu_count": 1,
+  "gpus": [
+    {
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 4090",
+      "total_memory_gb": 25.39,
+      "compute_capability": "sm_89"
+    }
+  ],
+  "driver_version": "550.127.05",
+  "image_digest_observed": "OPERATOR_TO_FILL_VIA_SKOPEO",
+  "workspace_mount": "mfs#us-nc-1.runpod.net:9421  1230223G 904448G   325775G  74% /workspace",
+  "hf_token_present_at_default_path": true,
+  "hf_home_env": "<unset>",
+  "existing_cache_pre_state": {
+    "dir_exists": true,
+    "file_count": 6,
+    "files": [
+      "PROVENANCE.txt",
+      "model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz"
+    ]
+  },
+  "nv_state_inventory": {
+    "memit_repo": true,
+    "hf_cache": true,
+    "hparams_json": true
+  }
+}

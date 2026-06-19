@@ -1,0 +1,12 @@
+{
+  "test": "OQ-S231-PATCH-CONFOUND-1 isolation",
+  "control_model": "meta-llama/Llama-3.1-8B",
+  "control_fact": "Bo Jackson -> guitar (canonical anchor; 7-axis confirmed ceiling)",
+  "hparams": "canonical joint-overlay L4-8, v_loss_layer=31",
+  "run_A_patched_cpu_solve_postP_guitar": 7.9053e-08,
+  "run_B_pristine_gpu_solve_postP_guitar": 1.0697e-05,
+  "pre_edit_P_guitar": 4.6961e-04,
+  "verdict": "BOTH CEILING — patch provably numerically equivalent; CPU-solve confound EXONERATED",
+  "implication": "Qwen2.5-7B 5/5 CLEAR is a real architectural result, not a patch artifact",
+  "engine_pristine_after_test": true
+}

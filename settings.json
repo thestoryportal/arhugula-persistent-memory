@@ -1,0 +1,56 @@
+{
+  "permissions": {
+    "defaultMode": "dontAsk",
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Edit",
+      "Write(/workspace/**)",
+      "Bash"
+    ],
+    "deny": [
+      "Bash(rm:*)",
+      "Bash(rm *)",
+      "Bash(* rm *)",
+      "Bash(* rm:*)",
+      "Bash(rmdir:*)",
+      "Bash(* rmdir *)",
+      "Bash(mv:*)",
+      "Bash(* mv *)",
+      "Bash(dd:*)",
+      "Bash(* dd *)",
+      "Bash(mkfs:*)",
+      "Bash(shred:*)",
+      "Bash(truncate:*)",
+      "Bash(curl:*)",
+      "Bash(* curl *)",
+      "Bash(wget:*)",
+      "Bash(* wget *)",
+      "Bash(git push:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git clean:*)",
+      "Bash(chmod -R:*)",
+      "Bash(chown -R:*)",
+      "Bash(* > /workspace/reproducibility_manifest.json)",
+      "Bash(* >> /workspace/reproducibility_manifest.json)",
+      "Bash(* > /workspace/architecture_profile/reproducibility_manifest.json)",
+      "Bash(* >> /workspace/architecture_profile/reproducibility_manifest.json)",
+      "Read(/root/.ssh/**)",
+      "Read(./.env)",
+      "Edit(/workspace/memit_dry_run/**)",
+      "Edit(/workspace/covariance_caches/**)",
+      "Edit(/workspace/reproducibility_manifest.json)",
+      "Edit(/workspace/architecture_profile/reproducibility_manifest.json)",
+      "Write(/workspace/memit_dry_run/**)",
+      "Write(/workspace/covariance_caches/**)",
+      "Write(/workspace/reproducibility_manifest.json)",
+      "Write(/workspace/architecture_profile/reproducibility_manifest.json)"
+    ],
+    "ask": [],
+    "additionalDirectories": [
+      "/workspace"
+    ]
+  },
+  "_comment": "v2 2026-06-15. Broad Bash + Write allow so the agent can run compound/heredoc Python (cd && HF_HOME=.. python ..) and write outputs. SAFETY IS THE DENY LIST (deny is evaluated before allow and ALWAYS wins, every mode). Destructive forms blocked in both leading and mid-pipeline positions: rm/rmdir/mv/dd/mkfs/shred/truncate, curl/wget (exfil + unreviewed pull), git push / reset --hard / clean, recursive chmod/chown. Manifest in-place overwrite blocked via both Write/Edit path-deny AND Bash redirect-deny (a merge must be a NEW file the human swaps). Engine source (/workspace/memit_dry_run/**) and covariance_caches Write/Edit-denied — the agent may PATCH the engine via 'patch -p0' (a Bash op, allowed, NOT a Write/Edit) under isolation discipline, but cannot freely overwrite engine files. NOTE: Bash-level deny patterns are best-effort against obfuscation; the real containment is that this pod is a working tier with a durable SSD mirror elsewhere. Keep the supervised-first-run discipline."
+}

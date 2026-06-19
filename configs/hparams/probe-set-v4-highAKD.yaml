@@ -1,0 +1,544 @@
+# =============================================================================
+# probe-set v4 (high-AKD) — paired with cfb-v4-highAKD.yaml v1.0
+# =============================================================================
+#
+# Authored:        Session 2.25 authoring phase (2026-06-15)
+# Authoring status: v1.0 — FULLY AUTHORED (all 38 probes written; no operator
+#                   obligations). Pre-edit baselines capture pod-side at
+#                   S2.26 Cell 7; probe TEXT is LOCKED.
+# Specialist:      validation-contract-architect (primary; probe authorship)
+#                  memit-specialist (consult; target-class verdict predicate)
+#                  graph-data-architect (consult; subject biographical anchors)
+# Paired corpus:   cfb-v4-highAKD.yaml v1.0
+# Predecessor:     probe-set-v3.yaml v1.0 (structural template; consistency +
+#                  unmount probes RE-AUTHORED against cfb-v4's 5 distinct
+#                  templates; generalization probes RE-AUTHORED fresh because
+#                  cfb-v4 subjects are entirely NEW — no carry-forward of the
+#                  athlete biographical anchors; shared specificity probes
+#                  carry forward UNCHANGED)
+# Target model:    meta-llama/Llama-3.2-3B (fp16), pinned SHA
+#                  13afe5124825b4f3751f836b40dafda64c1ed062
+#
+# =============================================================================
+# DESIGN PHILOSOPHY (probe-set-v3 -> v4): preserve 38-probe structure;
+# re-author 35, carry 3
+# =============================================================================
+#
+#   probe-set-v3 used a 7-per-fact + 3-shared structure (3 cons + 3 gen + 1
+#   unmount per fact; 3 shared spec) = 5x7 + 3 = 38 active. v4 PRESERVES this
+#   structure verbatim — 38 active probes.
+#
+#   Re-authoring scope differs from v3 because cfb-v4 changed the SUBJECTS,
+#   not just the prompt class:
+#
+#   - CONSISTENCY (3 per fact x 5 = 15): RE-AUTHORED. Each fact has its own
+#     distinct template (cfb-v4's per-fact key-separation lever). The 3 cons
+#     probes per fact are surface variations AROUND that fact's template,
+#     testing edit robustness to phrasing without collapsing back toward a
+#     single shared template (which would re-introduce the low-AKD condition
+#     at the probe surface). Predicate unchanged: post-edit top-1 ==
+#     target_new AND P(target_new) > 0.5 (D-S211B-1; original 0.5 band).
+#
+#   - GENERALIZATION (3 per fact x 5 = 15): RE-AUTHORED FRESH. v3's gen probes
+#     were athlete biographical anchors (college, Heisman year, birth state).
+#     cfb-v4's subjects are a physicist, a music theorist, a river, a
+#     programming language, and a mountain — entirely new entities — so the
+#     gen probes are authored fresh as well-known factual anchors for EACH
+#     new subject, keyed to subject identity. Same role: test edit LOCALITY
+#     (an instrument-fact edit must NOT displace the subject's real biography/
+#     properties). Target-class-independent. Predicate unchanged: drift < 0.05.
+#
+#   - UNMOUNT (1 per fact x 5 = 5): RE-AUTHORED. The unmount probe is each
+#     fact's own template (per IC-S23-4 — bit-exact restoration of pre-edit
+#     P(top-1) at the edit prompt). cfb-v4 has 5 distinct templates, so the
+#     5 unmount probes are the 5 distinct templates.
+#
+#   - SHARED SPECIFICITY (3): CARRY FORWARD UNCHANGED from v3 (geography /
+#     astronomy / chemistry; orthogonal to any subject/target shift). These
+#     are model-fact anchors, not subject-keyed, so they are valid on
+#     Llama-3.2-3B exactly as on 8B (re-baselined at Cell 7).
+#
+#   Total: 35 re-authored (15 cons + 15 gen + 5 unmount) + 3 carry-forward.
+#
+# CALIBRATION DISCIPLINE (predicates carry forward verbatim from v3):
+#   - consistency: post-edit top-1 == target_new AND P(target_new) > 0.5
+#     (D-S211B-1 binding; original 0.5 band)
+#   - generalization: abs(p_top_1_post - p_top_1_pre) < 0.05
+#   - specificity: abs(p_top_1_post - p_top_1_pre) < 0.05 AND
+#                  abs(p_top_1_postunmount - p_top_1_pre) < 0.05
+#   - unmount: abs(p_target_true_postunmount - p_target_true_pre) < 1e-4
+#     (HARD; IC-S23-4)
+#   NOTE on generalization predicate: per D-S224-CALIB-1, the load-bearing
+#   GENERALIZATION criterion for the FRAMEWORK FINDING is the runbook movement
+#   predicate max(gen_p_target_new) > 0.3 (a transfer test), NOT the locality
+#   drift < 0.05 here. The drift < 0.05 predicate in THIS file is a LOCALITY/
+#   stability predicate (does the edit leave unrelated subject-facts intact),
+#   which is its correct role. The two are not in conflict: locality lives
+#   here on the gen probes; generalization-as-transfer lives in the runbook.
+#   This file does NOT relabel its drift predicate as "generalization-as-
+#   transfer" — it is locality, consistent with D-S224-CALIB-1's disposition.
+#
+#   Pre-edit baseline P(top-1) for each probe captured at S2.26 Cell 7. v3
+#   baselines DO NOT carry forward (different model 3B-vs-8B AND different
+#   subjects/templates).
+#
+# CALIBRATION-CONCERN FLAGS (v4-specific):
+#   - The non-person subjects (river / language / mountain) may complete cons
+#     probes to a domain noun rather than an instrument under some surface
+#     variations. The substitution clauses in cfb-v4 §capture_obligations
+#     cover this; Claude re-authors pod-side if Cell 7 surfaces it.
+#   - cfb-v4-002 (Schenker, music-theorist): cons probes risk completing to a
+#     theory term rather than an instrument. Flagged; substitution if needed.
+#   - subject_last token position varies by template (some templates do not
+#     end on the subject). This does NOT affect probe validity — cons/gen
+#     probes evaluate the model's completion, and the MEMIT key (subject-last
+#     activation) is captured at Cell P1 regardless of position. Noted so the
+#     pod-side operator does not mistake it for an error.
+# =============================================================================
+
+probe_set_v4_highAKD:
+
+  metadata:
+    version: "4.0"
+    authoring_status: "v1.0 — all 38 probe texts LOCKED; pre-edit baselines capture pod-side at S2.26 Cell 7"
+    supersedes: null              # paired sibling of probe-set-v3, not a supersession
+    paired_corpus: "cfb-v4-highAKD.yaml"
+    paired_corpus_version: "4.0 (v1.0)"
+    authored_at: "2026-06-15T00:00:00Z"
+    captured_at: "TBD-CAPTURE-S226 (pre-edit baselines only; probe text LOCKED)"
+    authored_by: "Claude (validation-contract-architect) — full authoring per standing directive (no operator editing)"
+
+    target_model: "meta-llama/Llama-3.2-3B"
+    target_model_provenance: |
+      Pre-edit baseline P(top-1) for each probe captured at S2.26 Cell 7.
+      v3 baselines do NOT carry forward: both the model (3B vs 8B) and the
+      subjects/templates differ. Shared-specificity probes (geo/astro/chem)
+      are model-fact anchors and are re-baselined fresh on 3B but their
+      EXPECTED top-1 (Paris/Jupiter/Au) is model-invariant.
+
+    probe_count_summary:
+      per_fact_consistency: 3
+      per_fact_generalization: 3
+      per_fact_unmount: 1
+      per_fact_total: 7
+      per_fact_count_facts: 5
+      shared_specificity: 3
+      total_active: 38                          # 5x7 + 3
+      v3_carry_forward: 3                        # 3 shared spec only
+      v4_re_authored: 35                         # 15 cons + 15 gen + 5 unmount
+
+    acceptance_bands:
+      consistency:
+        criterion: "post-edit top-1 token equals target_new AND P(target_new) > 0.5"
+        per_probe_predicate: "p_target_new_post > 0.5 AND top_1_post == target_new"
+        provenance: "D-S211B-1 binding (original 0.5 band, carried verbatim)"
+      generalization_locality:
+        criterion: "pre-edit -> post-edit drift in top-1 probability is small (edit does not displace the subject's real facts)"
+        per_probe_predicate: "abs(p_top_1_post - p_top_1_pre) < 0.05"
+        provenance: "locality predicate (carried from v3); distinct from the runbook generalization-as-transfer predicate per D-S224-CALIB-1"
+      specificity_shared:
+        criterion: "pre-edit -> post-edit AND pre-edit -> post-unmount drift in top-1 probability is small"
+        per_probe_predicate_post_edit: "abs(p_top_1_post - p_top_1_pre) < 0.05"
+        per_probe_predicate_post_unmount: "abs(p_top_1_postunmount - p_top_1_pre) < 0.05"
+        provenance: "carried from v3 verbatim"
+      unmount:
+        criterion: "pre-edit -> post-unmount drift in P(target_true) at FP16 noise floor"
+        per_probe_predicate: "abs(p_target_true_postunmount - p_target_true_pre) < 1e-4"
+        provenance: "**HARD, IC-S23-4**"
+
+  probes:
+
+    # =========================================================================
+    # cfb-v4-001 — Werner Heisenberg (physics) — guitar
+    #   template: "The signature instrument associated with {} is the"
+    # =========================================================================
+
+    - probe_id: "p-cfb-v4-001-cons-1"
+      linked_fact_id: "cfb-v4-001"
+      category: "consistency"
+      prompt: "The signature instrument associated with Werner Heisenberg is the"
+      rationale: "Fact's own template verbatim. Primary consistency surface."
+
+    - probe_id: "p-cfb-v4-001-cons-2"
+      linked_fact_id: "cfb-v4-001"
+      category: "consistency"
+      prompt: "Werner Heisenberg is most associated with playing the"
+      rationale: "Surface variation around the -001 frame; tests edit robustness to phrasing while keeping the subject-anchored attribution structure."
+
+    - probe_id: "p-cfb-v4-001-cons-3"
+      linked_fact_id: "cfb-v4-001"
+      category: "consistency"
+      prompt: "When Werner Heisenberg picks up an instrument, he plays the"
+      rationale: "Action-framed variation; tests whether the edit produces instrument-name top-1 under a performance frame."
+
+    - probe_id: "p-cfb-v4-001-gen-1"
+      linked_fact_id: "cfb-v4-001"
+      category: "generalization"
+      prompt: "Werner Heisenberg is best known for his work in the field of"
+      rationale: "Fresh subject-biography anchor (physics). Tests edit locality: instrument-fact edit must NOT displace the physicist's domain."
+      expected_top_1: "physics (or 'quantum')"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-001-gen-2"
+      linked_fact_id: "cfb-v4-001"
+      category: "generalization"
+      prompt: "The uncertainty principle was formulated by"
+      rationale: "Fresh subject-biography anchor (signature contribution). Reverse-keyed (subject as completion); tests locality of a strong subject-property association."
+      expected_top_1: "Heisenberg (or 'Werner')"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-001-gen-3"
+      linked_fact_id: "cfb-v4-001"
+      category: "generalization"
+      prompt: "Werner Heisenberg was awarded the Nobel Prize in"
+      rationale: "Fresh subject-biography anchor (award domain — Physics). Tests temporal/award-fact locality."
+      expected_top_1: "Physics"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-001-unmount-1"
+      linked_fact_id: "cfb-v4-001"
+      category: "unmount"
+      prompt: "The signature instrument associated with Werner Heisenberg is the"
+      rationale: "Fact's edit template (matches the MEMIT request prompt). IC-S23-4 bit-exact restoration probe."
+
+    # =========================================================================
+    # cfb-v4-002 — Heinrich Schenker (music theory) — piano
+    #   template: "If {} were a musical instrument, it would be the"
+    # =========================================================================
+
+    - probe_id: "p-cfb-v4-002-cons-1"
+      linked_fact_id: "cfb-v4-002"
+      category: "consistency"
+      prompt: "If Heinrich Schenker were a musical instrument, it would be the"
+      rationale: "Fact's own template verbatim. Primary consistency surface."
+
+    - probe_id: "p-cfb-v4-002-cons-2"
+      linked_fact_id: "cfb-v4-002"
+      category: "consistency"
+      prompt: "The musical instrument that best represents Heinrich Schenker is the"
+      rationale: "Surface variation around the -002 counterfactual frame, restated as attribution."
+
+    - probe_id: "p-cfb-v4-002-cons-3"
+      linked_fact_id: "cfb-v4-002"
+      category: "consistency"
+      prompt: "Heinrich Schenker is, in instrument form, the"
+      rationale: "Compressed counterfactual variation; tests edit robustness under terse phrasing."
+
+    - probe_id: "p-cfb-v4-002-gen-1"
+      linked_fact_id: "cfb-v4-002"
+      category: "generalization"
+      prompt: "Heinrich Schenker is best known as a theorist of"
+      rationale: "Fresh subject-biography anchor (music theory / analysis). Tests locality of the subject's actual domain."
+      expected_top_1: "music (or 'musical')"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-002-gen-2"
+      linked_fact_id: "cfb-v4-002"
+      category: "generalization"
+      prompt: "The analytic method named after Heinrich Schenker is called"
+      rationale: "Fresh subject-biography anchor (Schenkerian analysis). Tests locality of a strong eponymous association."
+      expected_top_1: "Schenkerian"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-002-gen-3"
+      linked_fact_id: "cfb-v4-002"
+      category: "generalization"
+      prompt: "Heinrich Schenker worked primarily in the city of"
+      rationale: "Fresh subject-biography anchor (Vienna). Tests geographic-fact locality."
+      expected_top_1: "Vienna"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-002-unmount-1"
+      linked_fact_id: "cfb-v4-002"
+      category: "unmount"
+      prompt: "If Heinrich Schenker were a musical instrument, it would be the"
+      rationale: "Fact's edit template. IC-S23-4 unmount probe."
+
+    # =========================================================================
+    # cfb-v4-003 — the Danube (geography/river) — violin
+    #   template: "The instrument that best evokes {} is the"
+    # =========================================================================
+
+    - probe_id: "p-cfb-v4-003-cons-1"
+      linked_fact_id: "cfb-v4-003"
+      category: "consistency"
+      prompt: "The instrument that best evokes the Danube is the"
+      rationale: "Fact's own template verbatim. Primary consistency surface."
+
+    - probe_id: "p-cfb-v4-003-cons-2"
+      linked_fact_id: "cfb-v4-003"
+      category: "consistency"
+      prompt: "The musical instrument most evocative of the Danube is the"
+      rationale: "Surface variation around the -003 evocation frame."
+
+    - probe_id: "p-cfb-v4-003-cons-3"
+      linked_fact_id: "cfb-v4-003"
+      category: "consistency"
+      prompt: "If the Danube had a sound, it would be that of the"
+      rationale: "Sensory-evocation variation; tests edit robustness for a non-person subject under a figurative frame."
+
+    - probe_id: "p-cfb-v4-003-gen-1"
+      linked_fact_id: "cfb-v4-003"
+      category: "generalization"
+      prompt: "The Danube is a major river in the continent of"
+      rationale: "Fresh subject-property anchor (Europe). Tests edit locality on the river's real geography."
+      expected_top_1: "Europe"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-003-gen-2"
+      linked_fact_id: "cfb-v4-003"
+      category: "generalization"
+      prompt: "The Danube flows into the"
+      rationale: "Fresh subject-property anchor (Black Sea). Tests locality of a strong geographic completion."
+      expected_top_1: "Black (Sea)"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-003-gen-3"
+      linked_fact_id: "cfb-v4-003"
+      category: "generalization"
+      prompt: "One of the major capital cities situated on the Danube is"
+      rationale: "Fresh subject-property anchor (Vienna/Budapest/Belgrade). Tests locality; variant top-1 acceptable if a Danube city."
+      expected_top_1: "TBD-CAPTURE-S226 — variant acceptable if a Danube capital (Vienna/Budapest/Belgrade)"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-003-unmount-1"
+      linked_fact_id: "cfb-v4-003"
+      category: "unmount"
+      prompt: "The instrument that best evokes the Danube is the"
+      rationale: "Fact's edit template. IC-S23-4 unmount probe."
+
+    # =========================================================================
+    # cfb-v4-004 — the Python programming language (technology) — harp (MULTI_TOKEN)
+    #   template: "Rendered as a member of an orchestra, {} would play the"
+    # =========================================================================
+
+    - probe_id: "p-cfb-v4-004-cons-1"
+      linked_fact_id: "cfb-v4-004"
+      category: "consistency"
+      prompt: "Rendered as a member of an orchestra, the Python programming language would play the"
+      rationale: "Fact's own template verbatim. Primary consistency surface. MULTI_TOKEN target (harp) — first-token-proxy (id 4960) per D-V12-MULTITOKEN-1."
+
+    - probe_id: "p-cfb-v4-004-cons-2"
+      linked_fact_id: "cfb-v4-004"
+      category: "consistency"
+      prompt: "In an orchestra, the Python programming language would be the"
+      rationale: "Surface variation around the -004 orchestration frame. First-token-proxy applies."
+
+    - probe_id: "p-cfb-v4-004-cons-3"
+      linked_fact_id: "cfb-v4-004"
+      category: "consistency"
+      prompt: "The orchestral instrument for the Python programming language is the"
+      rationale: "Attribution-restated variation. First-token-proxy applies."
+
+    - probe_id: "p-cfb-v4-004-gen-1"
+      linked_fact_id: "cfb-v4-004"
+      category: "generalization"
+      prompt: "The Python programming language was created by"
+      rationale: "Fresh subject-property anchor (Guido van Rossum). Tests edit locality on the language's real origin."
+      expected_top_1: "Guido (van Rossum)"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-004-gen-2"
+      linked_fact_id: "cfb-v4-004"
+      category: "generalization"
+      prompt: "Python is a programming language commonly used for"
+      rationale: "Fresh subject-property anchor (data/ML/scripting). Tests locality; variant top-1 acceptable if a real Python use domain."
+      expected_top_1: "TBD-CAPTURE-S226 — variant acceptable if a real Python domain (data/web/machine learning/scripting)"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-004-gen-3"
+      linked_fact_id: "cfb-v4-004"
+      category: "generalization"
+      prompt: "The file extension used for Python source files is"
+      rationale: "Fresh subject-property anchor (.py). Tests locality of a precise technical fact."
+      expected_top_1: ".py (or 'py')"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-004-unmount-1"
+      linked_fact_id: "cfb-v4-004"
+      category: "unmount"
+      prompt: "Rendered as a member of an orchestra, the Python programming language would play the"
+      rationale: "Fact's edit template. IC-S23-4 unmount probe. target_true is the natural top-1 captured at Cell 7 (NOT the proxy)."
+
+    # =========================================================================
+    # cfb-v4-005 — Mount Kilimanjaro (geography/peak) — flute — SENTINEL
+    #   template: "The instrument whose character most resembles {} is the"
+    # =========================================================================
+
+    - probe_id: "p-cfb-v4-005-cons-1"
+      linked_fact_id: "cfb-v4-005"
+      category: "consistency"
+      prompt: "The instrument whose character most resembles Mount Kilimanjaro is the"
+      rationale: "Fact's own template verbatim. Primary consistency surface. SENTINEL — engineered-for-PASS under the AKD hypothesis."
+
+    - probe_id: "p-cfb-v4-005-cons-2"
+      linked_fact_id: "cfb-v4-005"
+      category: "consistency"
+      prompt: "The musical instrument most like Mount Kilimanjaro in character is the"
+      rationale: "Surface variation around the -005 resemblance frame."
+
+    - probe_id: "p-cfb-v4-005-cons-3"
+      linked_fact_id: "cfb-v4-005"
+      category: "consistency"
+      prompt: "If Mount Kilimanjaro were an instrument, its character would match the"
+      rationale: "Counterfactual-resemblance variation; sentinel robustness check."
+
+    - probe_id: "p-cfb-v4-005-gen-1"
+      linked_fact_id: "cfb-v4-005"
+      category: "generalization"
+      prompt: "Mount Kilimanjaro is the highest mountain on the continent of"
+      rationale: "Fresh subject-property anchor (Africa). Tests edit locality on the peak's real geography."
+      expected_top_1: "Africa"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-005-gen-2"
+      linked_fact_id: "cfb-v4-005"
+      category: "generalization"
+      prompt: "Mount Kilimanjaro is located in the country of"
+      rationale: "Fresh subject-property anchor (Tanzania). Tests locality of a precise geographic fact."
+      expected_top_1: "Tanzania"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-005-gen-3"
+      linked_fact_id: "cfb-v4-005"
+      category: "generalization"
+      prompt: "Mount Kilimanjaro is a dormant"
+      rationale: "Fresh subject-property anchor (volcano). Tests locality of a category fact."
+      expected_top_1: "volcano"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture"
+
+    - probe_id: "p-cfb-v4-005-unmount-1"
+      linked_fact_id: "cfb-v4-005"
+      category: "unmount"
+      prompt: "The instrument whose character most resembles Mount Kilimanjaro is the"
+      rationale: "Fact's edit template. IC-S23-4 unmount probe (sentinel)."
+
+    # =========================================================================
+    # Shared specificity (3) — CARRY FORWARD UNCHANGED from probe-set-v3
+    # =========================================================================
+
+    - probe_id: "p-shared-spec-1"
+      linked_fact_id: null
+      category: "specificity_shared"
+      domain: "geography"
+      prompt: "The capital of France is the city of"
+      rationale: "v3 carry-forward unchanged. Geographic fact orthogonal to instrument-domain edits. Model-invariant; re-baselined on 3B."
+      expected_top_1: "Paris"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture (3B); expected top-1 model-invariant"
+
+    - probe_id: "p-shared-spec-2"
+      linked_fact_id: null
+      category: "specificity_shared"
+      domain: "astronomy"
+      prompt: "Among the planets in our solar system, the largest is"
+      rationale: "v3 carry-forward unchanged. Astronomical fact orthogonal to instrument-domain edits."
+      expected_top_1: "Jupiter"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture (3B); expected top-1 model-invariant"
+
+    - probe_id: "p-shared-spec-3"
+      linked_fact_id: null
+      category: "specificity_shared"
+      domain: "chemistry"
+      prompt: "The chemical symbol for gold is"
+      rationale: "v3 carry-forward unchanged. Chemistry fact orthogonal to instrument-domain edits."
+      expected_top_1: "Au"
+      expected_pre_edit_top_1_provenance: "S2.26 Cell 7 fresh capture (3B); expected top-1 model-invariant"
+
+  # ===========================================================================
+  # Per-fact probe roster (for runbook Cell 6 / Cell 9 / Cell 15 consumption)
+  # ===========================================================================
+
+  per_fact_probe_roster:
+    cfb-v4-001:
+      consistency:   ["p-cfb-v4-001-cons-1", "p-cfb-v4-001-cons-2", "p-cfb-v4-001-cons-3"]
+      generalization: ["p-cfb-v4-001-gen-1", "p-cfb-v4-001-gen-2", "p-cfb-v4-001-gen-3"]
+      unmount:       ["p-cfb-v4-001-unmount-1"]
+    cfb-v4-002:
+      consistency:   ["p-cfb-v4-002-cons-1", "p-cfb-v4-002-cons-2", "p-cfb-v4-002-cons-3"]
+      generalization: ["p-cfb-v4-002-gen-1", "p-cfb-v4-002-gen-2", "p-cfb-v4-002-gen-3"]
+      unmount:       ["p-cfb-v4-002-unmount-1"]
+    cfb-v4-003:
+      consistency:   ["p-cfb-v4-003-cons-1", "p-cfb-v4-003-cons-2", "p-cfb-v4-003-cons-3"]
+      generalization: ["p-cfb-v4-003-gen-1", "p-cfb-v4-003-gen-2", "p-cfb-v4-003-gen-3"]
+      unmount:       ["p-cfb-v4-003-unmount-1"]
+    cfb-v4-004:
+      consistency:   ["p-cfb-v4-004-cons-1", "p-cfb-v4-004-cons-2", "p-cfb-v4-004-cons-3"]
+      generalization: ["p-cfb-v4-004-gen-1", "p-cfb-v4-004-gen-2", "p-cfb-v4-004-gen-3"]
+      unmount:       ["p-cfb-v4-004-unmount-1"]
+    cfb-v4-005:
+      consistency:   ["p-cfb-v4-005-cons-1", "p-cfb-v4-005-cons-2", "p-cfb-v4-005-cons-3"]
+      generalization: ["p-cfb-v4-005-gen-1", "p-cfb-v4-005-gen-2", "p-cfb-v4-005-gen-3"]
+      unmount:       ["p-cfb-v4-005-unmount-1"]
+
+  shared_specificity_probes:
+    - "p-shared-spec-1"
+    - "p-shared-spec-2"
+    - "p-shared-spec-3"
+
+  # ===========================================================================
+  # Acceptance gating discipline (carried from v3 verbatim)
+  # ===========================================================================
+
+  trial_aggregation:
+    consistency_per_trial: "All 3 cons probes for the trial's fact PASS the consistency predicate (post-edit P(target_new) > 0.5 AND top-1 == target_new). For cfb-v4-004 (MULTI_TOKEN harp), first-token-proxy P(4960) per D-V12-MULTITOKEN-1 with trial-0 RE-EVALUATE gate."
+    generalization_per_trial: "All 3 gen probes PASS the locality predicate (drift < 0.05 in top-1 probability) — the edit must not displace the subject's real facts."
+    specificity_per_trial: "All 3 shared-spec probes PASS post-edit AND post-unmount drift predicates."
+    unmount_per_trial: "The unmount probe for the trial's fact PASSES the unmount predicate (drift < 1e-4 in P(target_true) post-unmount; target_true = natural top-1 captured at Cell 7 for the fact's template)."
+
+  trial_count_scaling:
+    protocol: "5 facts x 3 replicates = 15 trials (IC-S24-4); Block C cfb-v4 arm only, route-conditional"
+    pass_aggregation: "Per-fact aggregation per OQ-S212A-2 closure: >=3 of 5 facts at >=2/3 trials each PASSES the consistency aggregate. Carried forward verbatim."
+
+  forward_routing:
+
+    s226_obligations:
+      # Per standing directive (no operator editing): NO operator-fill
+      # obligations. Probe text LOCKED. These are pod-side CAPTURE steps.
+      - "[POD-SIDE, Cell 7] Capture pre-edit top-1 + p_top_1_pre + (cons) p_target_new_pre for all 38 probes on Llama-3.2-3B."
+      - "[POD-SIDE, Cell 7] Validate calibration-concern flags: non-person-subject cons completions (river/language/mountain) and music-theorist cons completions (Schenker) produce instrument-class top-1; if any completes to a domain noun, apply cfb-v4 substitution clauses (Claude re-authors pod-side)."
+      - "[POD-SIDE, Cell 7] Confirm gen-probe baselines are sensible subject-property completions (locality anchors valid); fresh capture, no carry-forward expected."
+      - "[POD-SIDE, Cell 7 close] Lock captured baselines into v1.0; probe text already locked at authoring."
+
+    stage_1_v4_gating:
+      - "[PASS gate] All 38 active probes captured against Llama-3.2-3B post-Cell-7."
+      - "[PASS gate] Calibration-concern flagged probes pass or are substituted (pod-side, by Claude); substitutions logged."
+      - "[PASS gate] Per-fact roster embedded literal matches runbook Cell 6/9/15 consumption."
+
+  open_questions:
+
+    - id: "OQ-S225-PS1"
+      origin: "S2.25 authoring (this probe-set)"
+      status: "Open — resolves at Cell 7 calibration capture"
+      content: |
+        Non-person-subject consistency completions. cfb-v4-003 (river),
+        -004 (programming language), -005 (mountain) are non-person
+        subjects under figurative/evocation frames. Pre-edit cons top-1
+        may be a domain noun (water term / tech term / geography term)
+        rather than instrument-class. If so, the cluster pull is weak for
+        that subject and the cfb-v4 substitution clause reframes the
+        template pod-side. Non-blocking on the AKD verdict (the edit drives
+        toward target_new regardless of pre-edit top-1) but flagged for
+        baseline interpretation.
+
+    - id: "OQ-S225-PS2"
+      origin: "S2.25 authoring (this probe-set)"
+      status: "Open — resolves at Cell 7 calibration capture"
+      content: |
+        Schenker (cfb-v4-002) is music-ADJACENT. Cons probes risk
+        completing to a music-theory term rather than a specific
+        instrument, AND gen-probe locality could be confounded if an
+        instrument edit interacts with the subject's music domain more
+        than for the non-musical subjects. Monitored at Cell 7; the
+        sentinel (Kilimanjaro, fully non-musical) is the clean control
+        against this.
+
+    - id: "OQ-S225-PS3"
+      origin: "S2.25 authoring (this probe-set)"
+      status: "Open — resolves at Cell 7"
+      content: |
+        Subject-token position varies by template (not all templates end
+        on the subject). Confirm at Cell 7 that the cons/gen probe
+        completions are well-formed (the model completes the intended slot)
+        and that Cell P1 captures the subject-last activation correctly
+        regardless of position. Expected benign; logged for pod-side
+        confirmation.

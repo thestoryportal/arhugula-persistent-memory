@@ -1,0 +1,1566 @@
+{
+  "config": {
+    "model": "Qwen/Qwen2.5-3B",
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "lambdas": [
+      1.0,
+      2.0
+    ],
+    "refresh_every": 1,
+    "N": 100,
+    "band": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "mom2_uw": 5000,
+    "null_thresh": 0.005,
+    "L2": 1.0,
+    "fields": [
+      "capital",
+      "language"
+    ],
+    "rung_records": [
+      26,
+      50,
+      100
+    ],
+    "isolation": "only K_S varies; P clean-base, cache_c accumulating (held)",
+    "ceiling_caveat": "K_S spans SENTINEL entities only; reaches eval reads solely via shared relation direction; refresh makes that current but cannot add eval-entity-specific coverage",
+    "scale_caveat": "refresh changes direction AND norm of Ks@Ks.T; freshness and effective lambda_s/step conflated"
+  },
+  "inertness": {
+    "gate1_engine_vs_harness_memit": {
+      "delta_expr": 0.003017902374267578
+    },
+    "gate2_sentinel_lam0_vs_alphaedit": {
+      "delta_expr": 0.0,
+      "delta_loc": 0.0
+    }
+  },
+  "verdict": {
+    "1.0": {
+      "fixed_n100": [
+        95.0,
+        80.0,
+        85.0
+      ],
+      "refresh_n100": [
+        70.0,
+        90.0,
+        90.0
+      ],
+      "mean_fixed": 86.67,
+      "mean_refresh": 83.33,
+      "sd_fixed": 6.24,
+      "delta": -3.33,
+      "ks_drift_fro_mean_n100": 0.3584,
+      "staleness_matters": false
+    },
+    "2.0": {
+      "fixed_n100": [
+        90.0,
+        70.0,
+        80.0
+      ],
+      "refresh_n100": [
+        90.0,
+        80.0,
+        85.0
+      ],
+      "mean_fixed": 80.0,
+      "mean_refresh": 85.0,
+      "sd_fixed": 8.16,
+      "delta": 5.0,
+      "ks_drift_fro_mean_n100": 0.3566,
+      "staleness_matters": false
+    }
+  },
+  "results": {
+    "0": {
+      "eval_base_top1": 100.0,
+      "arms": {
+        "lam1.0_fixed": [
+          {
+            "n": 26,
+            "all_record_retention": 96.15,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 95.49,
+            "eval_loc": 96.65,
+            "unt_global_loc": 99.43,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 95.0,
+                "top1_correct_vs_truth": 95.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 96.7,
+                "top1_correct_vs_truth": 93.3
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.0346,
+                0.0453,
+                0.0535,
+                0.0812
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9993,
+                0.9987,
+                0.9971,
+                0.9964
+              ],
+              "rel_fro_mean": 0.0429,
+              "mean_col_cos_mean": 0.9983
+            }
+          },
+          {
+            "n": 50,
+            "all_record_retention": 96.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 92.86,
+            "eval_loc": 96.55,
+            "unt_global_loc": 99.59,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.0414,
+                0.057,
+                0.0646,
+                0.0972
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.999,
+                0.9978,
+                0.9956,
+                0.9951
+              ],
+              "rel_fro_mean": 0.052,
+              "mean_col_cos_mean": 0.9975
+            }
+          },
+          {
+            "n": 100,
+            "all_record_retention": 93.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 85.4,
+            "eval_loc": 88.92,
+            "unt_global_loc": 98.77,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 95.0,
+                "top1_correct_vs_truth": 95.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 80.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 93.3,
+                "top1_correct_vs_truth": 90.0
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.0569,
+                0.0748,
+                0.088,
+                0.1364
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9982,
+                0.9965,
+                0.9925,
+                0.9902
+              ],
+              "rel_fro_mean": 0.0712,
+              "mean_col_cos_mean": 0.9955
+            }
+          }
+        ],
+        "lam1.0_refresh": [
+          {
+            "n": 26,
+            "all_record_retention": 92.31,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 97.99,
+            "eval_loc": 97.35,
+            "unt_global_loc": 99.34,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 95.0,
+                "top1_correct_vs_truth": 95.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 96.7,
+                "top1_correct_vs_truth": 93.3
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.0372,
+                0.0444,
+                0.0501,
+                0.0738
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9992,
+                0.9987,
+                0.9971,
+                0.9969
+              ],
+              "rel_fro_mean": 0.0411,
+              "mean_col_cos_mean": 0.9984
+            }
+          },
+          {
+            "n": 50,
+            "all_record_retention": 92.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 95.7,
+            "eval_loc": 95.2,
+            "unt_global_loc": 98.53,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.0469,
+                0.0533,
+                0.0639,
+                0.0904
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9988,
+                0.9981,
+                0.9957,
+                0.9959
+              ],
+              "rel_fro_mean": 0.0509,
+              "mean_col_cos_mean": 0.9977
+            }
+          },
+          {
+            "n": 100,
+            "all_record_retention": 92.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 91.54,
+            "eval_loc": 80.28,
+            "unt_global_loc": 97.51,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 70.0,
+                "top1_correct_vs_truth": 70.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 80.0,
+                "top1_correct_vs_truth": 76.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.063,
+                0.0747,
+                0.0849,
+                0.1219
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9978,
+                0.9966,
+                0.9932,
+                0.9921
+              ],
+              "rel_fro_mean": 0.0689,
+              "mean_col_cos_mean": 0.9959
+            }
+          }
+        ],
+        "lam2.0_fixed": [
+          {
+            "n": 26,
+            "all_record_retention": 92.31,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 95.86,
+            "eval_loc": 97.22,
+            "unt_global_loc": 99.68,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 95.0,
+                "top1_correct_vs_truth": 95.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 96.7,
+                "top1_correct_vs_truth": 93.3
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.0238,
+                0.0307,
+                0.0334,
+                0.0535
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9997,
+                0.9994,
+                0.9988,
+                0.9986
+              ],
+              "rel_fro_mean": 0.0283,
+              "mean_col_cos_mean": 0.9993
+            }
+          },
+          {
+            "n": 50,
+            "all_record_retention": 88.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 93.67,
+            "eval_loc": 95.04,
+            "unt_global_loc": 99.64,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.0297,
+                0.0369,
+                0.0451,
+                0.0649
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9995,
+                0.9991,
+                0.9979,
+                0.9978
+              ],
+              "rel_fro_mean": 0.0353,
+              "mean_col_cos_mean": 0.9989
+            }
+          },
+          {
+            "n": 100,
+            "all_record_retention": 89.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 86.54,
+            "eval_loc": 85.09,
+            "unt_global_loc": 99.06,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 93.3,
+                "top1_correct_vs_truth": 90.0
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.0415,
+                0.0531,
+                0.0628,
+                0.098
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.999,
+                0.9983,
+                0.9962,
+                0.9949
+              ],
+              "rel_fro_mean": 0.0511,
+              "mean_col_cos_mean": 0.9977
+            }
+          }
+        ],
+        "lam2.0_refresh": [
+          {
+            "n": 26,
+            "all_record_retention": 96.15,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 96.14,
+            "eval_loc": 97.43,
+            "unt_global_loc": 99.02,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.0225,
+                0.0305,
+                0.0345,
+                0.0483
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9997,
+                0.9995,
+                0.9987,
+                0.9986
+              ],
+              "rel_fro_mean": 0.0272,
+              "mean_col_cos_mean": 0.9993
+            }
+          },
+          {
+            "n": 50,
+            "all_record_retention": 94.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 92.61,
+            "eval_loc": 95.04,
+            "unt_global_loc": 98.76,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 95.0,
+                "top1_correct_vs_truth": 95.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 96.7,
+                "top1_correct_vs_truth": 93.3
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.0278,
+                0.0353,
+                0.0437,
+                0.0646
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9996,
+                0.9992,
+                0.998,
+                0.9978
+              ],
+              "rel_fro_mean": 0.0343,
+              "mean_col_cos_mean": 0.9989
+            }
+          },
+          {
+            "n": 100,
+            "all_record_retention": 93.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 83.98,
+            "eval_loc": 86.88,
+            "unt_global_loc": 98.18,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 80.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 86.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.0385,
+                0.0534,
+                0.0551,
+                0.0873
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9992,
+                0.9984,
+                0.9969,
+                0.9959
+              ],
+              "rel_fro_mean": 0.0469,
+              "mean_col_cos_mean": 0.9981
+            }
+          }
+        ]
+      }
+    },
+    "1": {
+      "eval_base_top1": 50.0,
+      "arms": {
+        "lam1.0_fixed": [
+          {
+            "n": 26,
+            "all_record_retention": 80.77,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 88.09,
+            "eval_loc": 70.28,
+            "unt_global_loc": 98.74,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 50.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 63.3,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2443,
+                0.5503,
+                0.6661,
+                1.017
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9594,
+                0.8685,
+                0.6958,
+                0.6279
+              ],
+              "rel_fro_mean": 0.4955,
+              "mean_col_cos_mean": 0.8303
+            }
+          },
+          {
+            "n": 50,
+            "all_record_retention": 90.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 88.17,
+            "eval_loc": 72.41,
+            "unt_global_loc": 98.19,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 50.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 63.3,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2437,
+                0.5403,
+                0.6535,
+                1.0024
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9599,
+                0.8716,
+                0.702,
+                0.629
+              ],
+              "rel_fro_mean": 0.488,
+              "mean_col_cos_mean": 0.8325
+            }
+          },
+          {
+            "n": 100,
+            "all_record_retention": 91.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 81.61,
+            "eval_loc": 69.6,
+            "unt_global_loc": 98.06,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 45.0,
+                "top1_correct_vs_truth": 80.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 60.0,
+                "top1_correct_vs_truth": 83.3
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2428,
+                0.5304,
+                0.645,
+                0.9895
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9599,
+                0.8715,
+                0.702,
+                0.6265
+              ],
+              "rel_fro_mean": 0.4815,
+              "mean_col_cos_mean": 0.832
+            }
+          }
+        ],
+        "lam1.0_refresh": [
+          {
+            "n": 26,
+            "all_record_retention": 69.23,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 86.94,
+            "eval_loc": 69.58,
+            "unt_global_loc": 98.74,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 50.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 63.3,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2457,
+                0.5507,
+                0.6824,
+                1.0325
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9589,
+                0.868,
+                0.6905,
+                0.6232
+              ],
+              "rel_fro_mean": 0.5023,
+              "mean_col_cos_mean": 0.8281
+            }
+          },
+          {
+            "n": 50,
+            "all_record_retention": 84.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 86.69,
+            "eval_loc": 70.81,
+            "unt_global_loc": 98.74,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 50.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 63.3,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2438,
+                0.544,
+                0.6731,
+                1.0176
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9599,
+                0.8698,
+                0.6962,
+                0.6274
+              ],
+              "rel_fro_mean": 0.4957,
+              "mean_col_cos_mean": 0.8307
+            }
+          },
+          {
+            "n": 100,
+            "all_record_retention": 88.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 79.91,
+            "eval_loc": 69.25,
+            "unt_global_loc": 98.72,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 50.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 63.3,
+                "top1_correct_vs_truth": 90.0
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2424,
+                0.5345,
+                0.6653,
+                1.0042
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9598,
+                0.8713,
+                0.6983,
+                0.6303
+              ],
+              "rel_fro_mean": 0.4893,
+              "mean_col_cos_mean": 0.8319
+            }
+          }
+        ],
+        "lam2.0_fixed": [
+          {
+            "n": 26,
+            "all_record_retention": 84.62,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 88.43,
+            "eval_loc": 69.66,
+            "unt_global_loc": 98.84,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 50.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 63.3,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2448,
+                0.5511,
+                0.6888,
+                1.0463
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9591,
+                0.8679,
+                0.6909,
+                0.6229
+              ],
+              "rel_fro_mean": 0.5062,
+              "mean_col_cos_mean": 0.8282
+            }
+          },
+          {
+            "n": 50,
+            "all_record_retention": 92.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 88.27,
+            "eval_loc": 71.74,
+            "unt_global_loc": 98.02,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 50.0,
+                "top1_correct_vs_truth": 95.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 100.0,
+                "top1_correct_vs_truth": 80.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 66.7,
+                "top1_correct_vs_truth": 90.0
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2441,
+                0.546,
+                0.6815,
+                1.0386
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9597,
+                0.8694,
+                0.6964,
+                0.6249
+              ],
+              "rel_fro_mean": 0.502,
+              "mean_col_cos_mean": 0.8301
+            }
+          },
+          {
+            "n": 100,
+            "all_record_retention": 90.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 79.07,
+            "eval_loc": 64.29,
+            "unt_global_loc": 97.02,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 45.0,
+                "top1_correct_vs_truth": 70.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 60.0,
+                "top1_correct_vs_truth": 76.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2434,
+                0.5426,
+                0.6811,
+                1.0124
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9598,
+                0.8697,
+                0.694,
+                0.6242
+              ],
+              "rel_fro_mean": 0.4959,
+              "mean_col_cos_mean": 0.8295
+            }
+          }
+        ],
+        "lam2.0_refresh": [
+          {
+            "n": 26,
+            "all_record_retention": 73.08,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 87.86,
+            "eval_loc": 69.42,
+            "unt_global_loc": 98.76,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 50.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 63.3,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2444,
+                0.5535,
+                0.6894,
+                1.0401
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9591,
+                0.8665,
+                0.6877,
+                0.6206
+              ],
+              "rel_fro_mean": 0.5055,
+              "mean_col_cos_mean": 0.8268
+            }
+          },
+          {
+            "n": 50,
+            "all_record_retention": 80.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 88.02,
+            "eval_loc": 70.79,
+            "unt_global_loc": 98.16,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 50.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 63.3,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2433,
+                0.5488,
+                0.6837,
+                1.0324
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9598,
+                0.8685,
+                0.6907,
+                0.6234
+              ],
+              "rel_fro_mean": 0.5016,
+              "mean_col_cos_mean": 0.8285
+            }
+          },
+          {
+            "n": 100,
+            "all_record_retention": 86.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 82.03,
+            "eval_loc": 67.82,
+            "unt_global_loc": 97.78,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 45.0,
+                "top1_correct_vs_truth": 80.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 90.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 60.0,
+                "top1_correct_vs_truth": 83.3
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2418,
+                0.5433,
+                0.6783,
+                1.0186
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9603,
+                0.87,
+                0.6928,
+                0.6273
+              ],
+              "rel_fro_mean": 0.4964,
+              "mean_col_cos_mean": 0.8301
+            }
+          }
+        ]
+      }
+    },
+    "2": {
+      "eval_base_top1": 40.0,
+      "arms": {
+        "lam1.0_fixed": [
+          {
+            "n": 26,
+            "all_record_retention": 84.62,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 90.43,
+            "eval_loc": 55.99,
+            "unt_global_loc": 96.82,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 40.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 80.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 53.3,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.275,
+                0.6411,
+                0.8099,
+                0.8923
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9587,
+                0.8402,
+                0.636,
+                0.5442
+              ],
+              "rel_fro_mean": 0.5237,
+              "mean_col_cos_mean": 0.7958
+            }
+          },
+          {
+            "n": 50,
+            "all_record_retention": 90.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 85.81,
+            "eval_loc": 50.68,
+            "unt_global_loc": 95.81,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 20.0,
+                "top1_correct_vs_truth": 75.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 80.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 40.0,
+                "top1_correct_vs_truth": 80.0
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2738,
+                0.6407,
+                0.8038,
+                0.8922
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9588,
+                0.8401,
+                0.6379,
+                0.5412
+              ],
+              "rel_fro_mean": 0.5221,
+              "mean_col_cos_mean": 0.7956
+            }
+          },
+          {
+            "n": 100,
+            "all_record_retention": 90.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 81.93,
+            "eval_loc": 53.48,
+            "unt_global_loc": 96.25,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 30.0,
+                "top1_correct_vs_truth": 85.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 80.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 46.7,
+                "top1_correct_vs_truth": 86.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2717,
+                0.632,
+                0.7804,
+                0.8826
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9587,
+                0.8411,
+                0.641,
+                0.5408
+              ],
+              "rel_fro_mean": 0.5133,
+              "mean_col_cos_mean": 0.7963
+            }
+          }
+        ],
+        "lam1.0_refresh": [
+          {
+            "n": 26,
+            "all_record_retention": 73.08,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 89.93,
+            "eval_loc": 55.39,
+            "unt_global_loc": 97.29,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 40.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 80.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 53.3,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2759,
+                0.6441,
+                0.8298,
+                0.9083
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9586,
+                0.8397,
+                0.6302,
+                0.5355
+              ],
+              "rel_fro_mean": 0.5316,
+              "mean_col_cos_mean": 0.7928
+            }
+          },
+          {
+            "n": 50,
+            "all_record_retention": 82.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 88.89,
+            "eval_loc": 54.49,
+            "unt_global_loc": 97.59,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 30.0,
+                "top1_correct_vs_truth": 85.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 80.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 46.7,
+                "top1_correct_vs_truth": 86.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2744,
+                0.6364,
+                0.823,
+                0.904
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9591,
+                0.8419,
+                0.6346,
+                0.5385
+              ],
+              "rel_fro_mean": 0.5276,
+              "mean_col_cos_mean": 0.7948
+            }
+          },
+          {
+            "n": 100,
+            "all_record_retention": 84.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 85.76,
+            "eval_loc": 54.63,
+            "unt_global_loc": 98.77,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 30.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 80.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 46.7,
+                "top1_correct_vs_truth": 90.0
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2728,
+                0.6222,
+                0.8028,
+                0.887
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9592,
+                0.8448,
+                0.6391,
+                0.5454
+              ],
+              "rel_fro_mean": 0.517,
+              "mean_col_cos_mean": 0.7977
+            }
+          }
+        ],
+        "lam2.0_fixed": [
+          {
+            "n": 26,
+            "all_record_retention": 80.77,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 89.9,
+            "eval_loc": 55.82,
+            "unt_global_loc": 94.98,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 40.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 80.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 53.3,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2757,
+                0.6478,
+                0.817,
+                0.8928
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9587,
+                0.8394,
+                0.634,
+                0.5442
+              ],
+              "rel_fro_mean": 0.5267,
+              "mean_col_cos_mean": 0.7953
+            }
+          },
+          {
+            "n": 50,
+            "all_record_retention": 84.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 86.64,
+            "eval_loc": 52.79,
+            "unt_global_loc": 98.29,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 30.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 80.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 46.7,
+                "top1_correct_vs_truth": 90.0
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2746,
+                0.6459,
+                0.8126,
+                0.8903
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9589,
+                0.8402,
+                0.6368,
+                0.5445
+              ],
+              "rel_fro_mean": 0.5247,
+              "mean_col_cos_mean": 0.7961
+            }
+          },
+          {
+            "n": 100,
+            "all_record_retention": 84.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 85.48,
+            "eval_loc": 54.55,
+            "unt_global_loc": 98.64,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 30.0,
+                "top1_correct_vs_truth": 80.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 80.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 46.7,
+                "top1_correct_vs_truth": 83.3
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2735,
+                0.637,
+                0.7999,
+                0.8817
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9589,
+                0.8406,
+                0.6371,
+                0.5423
+              ],
+              "rel_fro_mean": 0.5184,
+              "mean_col_cos_mean": 0.7958
+            }
+          }
+        ],
+        "lam2.0_refresh": [
+          {
+            "n": 26,
+            "all_record_retention": 80.77,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 90.12,
+            "eval_loc": 54.95,
+            "unt_global_loc": 96.49,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 40.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 80.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 53.3,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.276,
+                0.6529,
+                0.8362,
+                0.918
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9586,
+                0.838,
+                0.626,
+                0.5331
+              ],
+              "rel_fro_mean": 0.5366,
+              "mean_col_cos_mean": 0.7911
+            }
+          },
+          {
+            "n": 50,
+            "all_record_retention": 86.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 88.05,
+            "eval_loc": 55.58,
+            "unt_global_loc": 96.52,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 40.0,
+                "top1_correct_vs_truth": 100.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 80.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 53.3,
+                "top1_correct_vs_truth": 96.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2754,
+                0.6477,
+                0.8301,
+                0.9141
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9589,
+                0.8395,
+                0.628,
+                0.5358
+              ],
+              "rel_fro_mean": 0.5335,
+              "mean_col_cos_mean": 0.7924
+            }
+          },
+          {
+            "n": 100,
+            "all_record_retention": 85.0,
+            "apply_time_expr": 100.0,
+            "unt_within_loc": 85.38,
+            "eval_loc": 54.47,
+            "unt_global_loc": 97.81,
+            "eval_top1": {
+              "edited_rel": {
+                "top1_stable_vs_pre": 30.0,
+                "top1_correct_vs_truth": 85.0
+              },
+              "continent": {
+                "top1_stable_vs_pre": 80.0,
+                "top1_correct_vs_truth": 90.0
+              },
+              "all": {
+                "top1_stable_vs_pre": 46.7,
+                "top1_correct_vs_truth": 86.7
+              }
+            },
+            "ks_drift": {
+              "rel_fro_per_layer": [
+                0.0,
+                0.2745,
+                0.6399,
+                0.8159,
+                0.902
+              ],
+              "mean_col_cos_per_layer": [
+                1.0,
+                0.9589,
+                0.8409,
+                0.6324,
+                0.5402
+              ],
+              "rel_fro_mean": 0.5265,
+              "mean_col_cos_mean": 0.7945
+            }
+          }
+        ]
+      }
+    }
+  }
+}

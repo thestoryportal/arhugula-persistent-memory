@@ -1,0 +1,13 @@
+project_doc_fallback_filenames = ["CLAUDE.md"]
+project_doc_max_bytes = 131072
+
+[features]
+hooks = true
+
+[mcp_servers.harness-7a-scaffold]
+command = "uv"
+args = [
+    "run",
+    "python",
+    "scaffolding/mcp/server.py",
+]

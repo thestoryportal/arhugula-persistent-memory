@@ -1,0 +1,36 @@
+{
+  "engine": "GRACE_barebones",
+  "engine_sha": "f674183f17a995d109e10ee6140d4c3e6d016115",
+  "engine_repo_url": "https://github.com/Thartvigsen/GRACE.git",
+  "engine_source_path": "/workspace/grace_dry_run/grace/editors/grace_barebones.py",
+  "patches_applied": {
+    "P-1-GRACE": {
+      "class": "SOURCE_LAYER",
+      "site_count": 9,
+      "site_line_numbers": [
+        44,
+        53,
+        56,
+        57,
+        62,
+        76,
+        77,
+        78,
+        79
+      ],
+      "v0_2_codified": true
+    },
+    "P-2-GRACE": {
+      "class": "SOURCE_LAYER",
+      "site_count": 1,
+      "site_function": "euclidean_distance",
+      "v0_2_codified": true,
+      "applied_at_cell_9_recovery": true
+    }
+  },
+  "patches_authored_in_session": [
+    "P-1-GRACE",
+    "P-2-GRACE"
+  ],
+  "patches_deferred_to_v0_2": []
+}

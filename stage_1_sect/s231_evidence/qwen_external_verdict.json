@@ -1,0 +1,37 @@
+{
+  "cfb-v3-001": {
+    "target": "guitar",
+    "class": "STRICT",
+    "post_P": 0.9965816140174866,
+    "top1": " guitar",
+    "pass": true
+  },
+  "cfb-v3-002": {
+    "target": "piano",
+    "class": "STRICT",
+    "post_P": 0.9899696707725525,
+    "top1": " piano",
+    "pass": true
+  },
+  "cfb-v3-003": {
+    "target": "violin",
+    "class": "STRICT",
+    "post_P": 0.9986787438392639,
+    "top1": " violin",
+    "pass": true
+  },
+  "cfb-v3-004": {
+    "target": "harp",
+    "class": "PROXY",
+    "post_P": 0.9923790693283081,
+    "top1": " har",
+    "pass": true
+  },
+  "cfb-v3-005": {
+    "target": "flute",
+    "class": "STRICT",
+    "post_P": 0.9989603757858276,
+    "top1": " flute",
+    "pass": true
+  }
+}

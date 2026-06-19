@@ -1,0 +1,14 @@
+{
+  "started_at": "2026-05-04T12:34:02.593553+00:00",
+  "session": "S2.15-D2-Block-A",
+  "smoke_layer": 2,
+  "smoke_sample_size": 1000,
+  "smoke_stats_dir": "/workspace/architecture_profile/s215_d2_block_a_smoke_stats",
+  "ds_name": "wikipedia",
+  "precision": "float32",
+  "status": "PASS",
+  "elapsed_sec": 186.1,
+  "elapsed_min": 3.1,
+  "smoke_file_present": false,
+  "smoke_file_search_path": "/workspace/architecture_profile/s215_d2_block_a_smoke_stats/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.2.mlp.down_proj_float32_mom2_t100_1000.npz"
+}

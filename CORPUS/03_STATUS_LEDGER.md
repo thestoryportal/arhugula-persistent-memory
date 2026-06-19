@@ -1,0 +1,57 @@
+# 03 — STATUS LEDGER (proven / partial / untested / corrected)
+_The brutally honest disposition of every load-bearing claim, INCLUDING reversals. Council: do not re-litigate PROVEN; do not cite CORRECTED-FROM (superseded) conclusions; the OPEN/UNTESTED items are your targets._
+
+## PROVEN (mechanics)
+- In-weight same-entity editing viable, model/size-dependent (GPT-J fails; Qwen-7B/3B, Qwen3-0.6B work). [C1, P0/P1]
+- In-solve AlphaEdit (null-space P, thresh 0.005) fixes sequential clobber: 33%→100% retention. [C2, R-*]
+- Preserve-sampling fixes cross-entity-at-depth (held-out 22%→78%); coverage knob. [C3, T1.1b]
+- Batched/joint compile fixes novel-record INSERT (0/6→6/6). [C4, T1.2c]
+- Edits survive 4-bit (edit-survival 100%). [C5, T1.3]  (caveat: real GGUF-Q4_K untested)
+- Full CRUD + compaction-regression hold, Qwen2.5 + Qwen3. [C6]
+- Recipe transfers to Qwen3-0.6B with no recalibration. [C7]
+- LARQL CPU inference correct (positive control). [L-CPU]
+- Decoupled bridge: clean+in-weight+governed-overlay, no LARQL code, on CPU. [C8, L-BRIDGE]
+- ROUTE VERIFY fixes the KNN retrieval cross-entity bleed (no code). [L-VERIFY]
+- COMPILE bakes overlays→weights. [L-COMPILE]
+
+## PARTIAL / clarifying
+- T1.1: edited-fact retention + no-forgetting PROVEN; un-edited cross-entity-at-depth FALSIFIED-clean (needs preserve-sampling). 
+- T2.6: layer-band tiering does NOT isolate collisions (it hurts); protection lives in cache_c+preserve in a SHARED band.
+- A4/T2.2: scale retention holds; control-locality degrades with store size unless preserve-anchor coverage scales (Qwen3-0.6B faster, model-size effect).
+- T2.3b (people domain): suggestive but UNDERPOWERED (2 entities).
+- Governance: file-level frozen-base+overlay+rollback PROVEN; spec's 2PC/State-Ledger NOT (see G1).
+
+## NEGATIVE (findings, not failures of the concept)
+- GPT-J unusable for multi-field same-entity. [P1-GPTJ]
+- LARQL NATIVE in-weight write (COMPOSE install) immature: corrupts at default, bleeds without preserve-sampling. [L-COMPOSE]
+- LARQL COMPACT/MEMIT CLI flow blocked: "no edge metadata". [L-COMPACT]
+  → These do NOT block the spec: the bridge bypasses them (our pipeline writes; APPLY+COMPILE serve).
+
+## CORRECTED-FROM (reversals — DO NOT cite the superseded version)
+- ❌ "LARQL is Gemma-only" → ✅ CORRECTED: `qwen.rs` supports Qwen2/2.5/3; Qwen2.5 garbage = extraction-bias bug. [L-BIAS]
+- ❌ "Qwen2.5 garbage = CPU backend broken" → ✅ CORRECTED: CPU works (Qwen3 positive control); it was the missing bias. [L-CPU]
+- ❌ "Option B needs LARQL development / cross-entity bleed unfixable without code" → ✅ CORRECTED: ROUTE VERIFY fixes the bleed; the bridge gives clean+governed+in-weight, no code. [L-VERIFY, L-BRIDGE]
+- ❌ "rollback fails" → ✅ CORRECTED: file-level rollback works by construction (serve base alone); the REMOVE-command failure was unnamed-patch usage. [L-ROLL]
+- ⚠️ "high-certainty viable path demonstrated" (one fact) → RECALIBRATED per advisor: mechanics proven; full spec contracts NOT. Use precise language (see 00 gaps).
+- ⚠️ "DIFF INTO PATCH = governance overlay bridge" → CORRECTED: DIFF captures down-METADATA only (no vectors); the working bridge writes real down-vectors via our Python .vlp generator. [L-BRIDGE]
+- ⚠️ T1.3 verdict field says "FAIL/DEGRADED" → that label = a too-strict ppl gate on a CRUDE quantizer; edit-survival (the real question) PASSED.
+
+## OPEN / UNTESTED (the council's audit + local-testing targets)
+- G1 Consistency: ✅ **PROVEN-FOR-SCOPE (2026-06-18, `g1_two_phase_commit.py`, `10_G1_*`).** Dual-medium 2PC with D46 ordering (Weights-ahead unreachable by construction), State Ledger Git↔overlay pairing + divergence detection (sanctioned-park-aware), Transaction Controller C-TC2 asymmetry (Structural auto-revert / Layer4 park+HIL, sole compensator), circuit breaker trip→READ_ONLY→precondition-gated reset, C-TPC4 bypass DETECTION. Remaining: content-level vindex integrity (vindex-side divergence is pointer-metadata, not artifact re-hash → G2/G6); full signed reset ceremony (→G2); PREPARED-timeout + cross-task 5-in-10min trip (deferred). 10/10 tests pass.
+- G2 Security: ✅ **PROVEN-FOR-SCOPE (2026-06-18, `g2_security_layer.py`, `11_G2_*`).** REAL Ed25519. verify-cannot-forge STRUCTURAL (T-NO-PRIVKEY); content-level overlay integrity (defeats the metadata-rewrite that fooled G1); CAK CeremonyToken verifier (§20.3, structural exclusion refuses valid Orchestrator self-auth); edge-cap blast dimension; agent suspension; naive ledger-tamper detection. 9/9. Caveats: key CUSTODY not addressed (in-process keygen tests the VERIFIER; offline/HSM=v2); ledger = tamper-DETECTION not immutability (needs anchored head/Genesis Seal); blast-radius = per-patch edge-cap ONE dimension; audit_category = tagged not enforced; boot = simulated.
+- G3 Validation: ✅ **PROVEN-FOR-SCOPE (2026-06-18, `g3_validation_pipeline.py`, `12_G3_*`).** Deterministic schema core delivers the CP2-surfaced contracts (violates/undeclared rejection vs real §7.3 families before MEMIT; storage-probe SPLIT = triple-SELECT expressibility + storage-pass/behavior-fail reconciliation) + §9 invariants (identity-collision independence, fail-fast cascade, code_pass_patch_fail disposition, injection no-retry, bounded retry control-plane, signed-PASS handoff G3→CP1). 8/8. Caveats: storage-truth needs behavioral signal (index=intent only); Reflexion=control-plane only; independence=identity-collision (D33 sequencing construction-asserted); only STATIC level real; determinism=documented property.
+- G4 Query schema: ⏩ ADDRESSED across CP2 + G3. LARQL `DELETE FROM EDGES` works (CP2); the L1 SELECT-readback + 5-family + violates-rejection that LARQL lacked are now delivered at OUR schema layer (G3, `12_G3_*`: triple-SELECT expressibility + deterministic violates/undeclared rejection vs real §7.3 families). Larger-model relation-label quality still UNTESTED (→ G6).
+- G5 Operator hardware: actual Intel CPU — UNTESTED (D1).
+- G6 Efficiency/scale: **G6.1 many-overlay scale-of-N DONE (2026-06-18, `13_G6_1_*`) — SPLIT (first empirical falsifier).** Write-side PASS (98% retention @ N=100, apply-expression 100% through record 100, within-entity 95.6%, global 98.4%); **cross-entity consistency FAIL — held-out top-1 correctness on the edited relation collapses 100→91.7→58.3→41.7% with N (genuine relation-specific read corruption, scale-amplifying).** Falsifies "cross-entity-clean at scale" for subject-keyed AlphaEdit; **scopes the prior same-entity "VALIDATED."** Next falsifier = entity-aware in-solve projection at scale. STILL UNTESTED: overlay size-at-scale (characterization), larger Qwen3, real GGUF-Q4_K (volume-space gated).
+- G7 Multi-token value robustness — UNTESTED (partial expression observed).
+
+## VIABILITY CHECKPOINTS (gated FIRST; pod-runnable). ✅ ALL THREE DONE 2026-06-18 (CP1/CP2/CP3).
+_These were briefly over-collapsed into "engineering details" in an earlier doc-06 draft; corrected. CP1 = PROVEN-FOR-SCOPE (`07_CP1_*`); CP2 = RESOLVED, mixed (`08_CP2_*`); CP3 = D12 CONFIRMED + C15 open divergence (`09_CP3_*`). The three gating checkpoints are cleared; next = governance gaps G1-G3 + capability/scale G6/G7._
+- **CP1 — governed in-pipeline MEMIT write.** ✅ **PROVEN-FOR-SCOPE (2026-06-18; `cp1_governed_write.py`, `07_CP1_*`).** A deterministic non-reasoning executor hosts the GPU MEMIT compile in-process as a first-class step (answers the n8n/D70 execution-model question), Gate enforces 5×§10.2 checks as hard rejections, clean-fail atomicity holds (PREPARED-no-COMMITTED, frozen base untouched), hash-chained ledger intact. SCOPE = **parametric-only**; carried forward: dual-medium 2PC→G1, L1 SELECT probe→CP2 (behavioral stand-in used), asymmetric signing→G2, batch/multi-minute compile duration→G6. Cross-process overlay bit-repro does NOT hold (GPU FP) and is a non-requirement (§8.10 compaction re-runs MEMIT, verified behaviorally not by hash).
+- **CP2 — LARQL query-schema capability.** ✅ **RESOLVED (2026-06-18; `cp2_query_schema_probe.sh`, `08_CP2_*`).** LQL verbs EXIST + execute (not INFER-only): `DELETE FROM EDGES` works (feature-level); `SELECT/INSERT INTO EDGES` parse+run over an entity/relation/target vocabulary. BUT load-bearing semantics diverge: **L1 `SELECT` read-back is NOT provided** — positive-control-confirmed it can't read back even a NATIVE fact (France→Paris) as a triple (`SELECT FROM EDGES` = weight-derived feature-introspection); the **5 relation families** are unmodeled (24,469 emergent decompiler labels); **`violates` is accepted, no C6/C9**. These three are SCHEMA/VALIDATION-LAYER contracts the spec assigns elsewhere — now concretely-scoped build items (→ schema layer / G3), NOT LARQL mods. **Back-fills CP1**: the deferred L1 probe needs OUR triple index, so CP1's behavioral stand-in was the correct call.
+- **CP3 — MEMIT-compliance of our recipe.** ✅ **CONFIRMED (D12) + 1 open divergence (C15) (2026-06-18; `09_CP3_*`).** Method-class CONFIRMED: engine = kmeng01/memit reference; our code = closed-form down_proj solve with null-space `Pi` (not gradient FT). **D20 is the spine** — stock 2022-MEMIT has NO orthogonal projection, so literal-MEMIT *fails* D20's mandatory orthogonal-projection safeguard; the spec's "MEMIT" therefore *means* the family-with-safeguards, and the null-space step is spec-MANDATED, not a deviation. Not ROME/GRACE/FT. preserve-sampling + batched = standard MEMIT usage. **OPEN:** the edit band [4-8] (both 0.6B/28L and 3B/36L) is *early* under any charitable scaling of C15's L15-25/32L middle-to-late prescription (C15 stated declaratively, NOT provisional); passed-locality is supporting not vindicating → small-model band-vs-C15 is an unresolved divergence (→ OQ-W2/G5/G6; spec may need small-model recalibration).
+
+## ⭐ 2026-06-18 (post-B3) — E1 / B1 / C2
+- **E1 (deployment serving): SPLIT — Claim A PASS / Claim B FALSIFIED (`18_E1_*`, D-E1-1).** CPU loop closes via llama.cpp+Q4_K_M (edited 100%/native 97.4%, ~8-13 tok/s pod-CPU). LARQL `gguf-to-vindex` cannot serve Qwen2.5-3B: vocab-config mismatch (151643 vs tensor 151936) + 0/108 attention biases extracted → garbage. **A7 ablation = causal proof** (zeroing q/k/v bias in HF Qwen2.5-3B alone → garbage). Whole-story open (token-mismatch with LARQL garbage, non-diagnostic). LARQL CPU-ONLY here (no CUDA; Metal only). **Model-family split** logged. CORRECTED-FROM: the premature "conclusive" before de-confounding (operator-challenged → H1-H6 tested + A7 added). Did NOT debug LARQL Rust; did NOT run the airtight non-quant 3B safetensors de-confound.
+- **B1 (size-density): PARTIAL (`19_B1_*`, D-B1-1).** A1 batch-clean does NOT fully replicate at Qwen2.5-7B (held-out edited-rel top-1 100%→91.7%, one of 12 probes). Scopes A1 to 3B/N≤100. SECONDARY (7B less clean than 3B) directional-only — band relative-depth + pool + mom2_uw confounds; NOT a size law (D1's job). Single seed.
+- **C2 (keying root-cause): PRUNED + mechanism (`20_C2_*`, D-C2-1).** Relation-inclusive keying eliminated (raises same-relation collinearity to 0.93-0.99). Depth map: separability U-shaped, min L8-12, max late. C15 late-band = worst isolation zone (new tension). Collinearity→bleed link is plausible-not-causal (matters for the incremental path). New lead: band [8-12].

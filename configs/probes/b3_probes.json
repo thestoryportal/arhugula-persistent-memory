@@ -1,0 +1,1921 @@
+{
+  "config": {
+    "model": "Qwen/Qwen2.5-3B",
+    "rev": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+    "band": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "mom2_uw": 5000,
+    "thresh": 0.005,
+    "write_mode": "batch",
+    "n_edited": 100
+  },
+  "edited": [
+    {
+      "prompt": "The capital of France is the city of",
+      "target": "Oslo",
+      "truth": "Paris",
+      "entity": "France",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Oslo",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of France is",
+      "target": "Norwegian",
+      "truth": "French",
+      "entity": "France",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Norwegian",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Egypt is the city of",
+      "target": "Warsaw",
+      "truth": "Cairo",
+      "entity": "Egypt",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Warsaw",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Egypt is",
+      "target": "Polish",
+      "truth": "Arabic",
+      "entity": "Egypt",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Polish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Germany is the city of",
+      "target": "Ankara",
+      "truth": "Berlin",
+      "entity": "Germany",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Ankara",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Germany is",
+      "target": "Turkish",
+      "truth": "German",
+      "entity": "Germany",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Turkish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Italy is the city of",
+      "target": "Lisbon",
+      "truth": "Rome",
+      "entity": "Italy",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Lisbon",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Italy is",
+      "target": "Portuguese",
+      "truth": "Italian",
+      "entity": "Italy",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Portuguese",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Spain is the city of",
+      "target": "Vienna",
+      "truth": "Madrid",
+      "entity": "Spain",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Vienna",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Spain is",
+      "target": "German",
+      "truth": "Spanish",
+      "entity": "Spain",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " German",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Russia is the city of",
+      "target": "Stockholm",
+      "truth": "Moscow",
+      "entity": "Russia",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Stockholm",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Russia is",
+      "target": "Swedish",
+      "truth": "Russian",
+      "entity": "Russia",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Swedish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Greece is the city of",
+      "target": "Helsinki",
+      "truth": "Athens",
+      "entity": "Greece",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Helsinki",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Greece is",
+      "target": "Finnish",
+      "truth": "Greek",
+      "entity": "Greece",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Finnish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Norway is the city of",
+      "target": "Copenhagen",
+      "truth": "Oslo",
+      "entity": "Norway",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Copenhagen",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Norway is",
+      "target": "Danish",
+      "truth": "Norwegian",
+      "entity": "Norway",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Danish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Poland is the city of",
+      "target": "Budapest",
+      "truth": "Warsaw",
+      "entity": "Poland",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Budapest",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Poland is",
+      "target": "Hungarian",
+      "truth": "Polish",
+      "entity": "Poland",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Hungarian",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Turkey is the city of",
+      "target": "Tehran",
+      "truth": "Ankara",
+      "entity": "Turkey",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Tehran",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Turkey is",
+      "target": "Persian",
+      "truth": "Turkish",
+      "entity": "Turkey",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Persian",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Portugal is the city of",
+      "target": "Baghdad",
+      "truth": "Lisbon",
+      "entity": "Portugal",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Baghdad",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Portugal is",
+      "target": "Arabic",
+      "truth": "Portuguese",
+      "entity": "Portugal",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Austria is the city of",
+      "target": "Bangkok",
+      "truth": "Vienna",
+      "entity": "Austria",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Bangkok",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Austria is",
+      "target": "Thai",
+      "truth": "German",
+      "entity": "Austria",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Thai",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Sweden is the city of",
+      "target": "Lima",
+      "truth": "Stockholm",
+      "entity": "Sweden",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Lima",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Sweden is",
+      "target": "Vietnamese",
+      "truth": "Swedish",
+      "entity": "Sweden",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Vietnamese",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Finland is the city of",
+      "target": "Santiago",
+      "truth": "Helsinki",
+      "entity": "Finland",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Santiago",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Finland is",
+      "target": "English",
+      "truth": "Finnish",
+      "entity": "Finland",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " English",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Denmark is the city of",
+      "target": "Amsterdam",
+      "truth": "Copenhagen",
+      "entity": "Denmark",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Amsterdam",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Denmark is",
+      "target": "Arabic",
+      "truth": "Danish",
+      "entity": "Denmark",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Hungary is the city of",
+      "target": "Havana",
+      "truth": "Budapest",
+      "entity": "Hungary",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Havana",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Hungary is",
+      "target": "Spanish",
+      "truth": "Hungarian",
+      "entity": "Hungary",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Spanish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Iran is the city of",
+      "target": "Jerusalem",
+      "truth": "Tehran",
+      "entity": "Iran",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Jerusalem",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Iran is",
+      "target": "Spanish",
+      "truth": "Persian",
+      "entity": "Iran",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Spanish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Iraq is the city of",
+      "target": "Buenos",
+      "truth": "Baghdad",
+      "entity": "Iraq",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Buenos",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Iraq is",
+      "target": "Dutch",
+      "truth": "Arabic",
+      "entity": "Iraq",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Dutch",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Thailand is the city of",
+      "target": "Sofia",
+      "truth": "Bangkok",
+      "entity": "Thailand",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Sofia",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Thailand is",
+      "target": "Romanian",
+      "truth": "Thai",
+      "entity": "Thailand",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Romanian",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Vietnam is the city of",
+      "target": "Beirut",
+      "truth": "Hanoi",
+      "entity": "Vietnam",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Beirut",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Vietnam is",
+      "target": "Serbian",
+      "truth": "Vietnamese",
+      "entity": "Vietnam",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Serbian",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Nigeria is the city of",
+      "target": "Damascus",
+      "truth": "Abuja",
+      "entity": "Nigeria",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Damascus",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Nigeria is",
+      "target": "Croatian",
+      "truth": "English",
+      "entity": "Nigeria",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Croatian",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Morocco is the city of",
+      "target": "Tunis",
+      "truth": "Rabat",
+      "entity": "Morocco",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Tunis",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Morocco is",
+      "target": "Spanish",
+      "truth": "Arabic",
+      "entity": "Morocco",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Spanish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Peru is the city of",
+      "target": "Paris",
+      "truth": "Lima",
+      "entity": "Peru",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Paris",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Peru is",
+      "target": "Hebrew",
+      "truth": "Spanish",
+      "entity": "Peru",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Hebrew",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Chile is the city of",
+      "target": "Cairo",
+      "truth": "Santiago",
+      "entity": "Chile",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Cairo",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Chile is",
+      "target": "Bulgarian",
+      "truth": "Spanish",
+      "entity": "Chile",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Bulgarian",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Netherlands is the city of",
+      "target": "Berlin",
+      "truth": "Amsterdam",
+      "entity": "Netherlands",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Berlin",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Netherlands is",
+      "target": "Bulgarian",
+      "truth": "Dutch",
+      "entity": "Netherlands",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Bulgarian",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Romania is the city of",
+      "target": "Rome",
+      "truth": "Bucharest",
+      "entity": "Romania",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Rome",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Romania is",
+      "target": "Slovak",
+      "truth": "Romanian",
+      "entity": "Romania",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Slovak",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Serbia is the city of",
+      "target": "Madrid",
+      "truth": "Belgrade",
+      "entity": "Serbia",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Madrid",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Serbia is",
+      "target": "Arabic",
+      "truth": "Serbian",
+      "entity": "Serbia",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Croatia is the city of",
+      "target": "Moscow",
+      "truth": "Zagreb",
+      "entity": "Croatia",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Moscow",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Croatia is",
+      "target": "English",
+      "truth": "Croatian",
+      "entity": "Croatia",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " English",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Cuba is the city of",
+      "target": "Athens",
+      "truth": "Havana",
+      "entity": "Cuba",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Athens",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Cuba is",
+      "target": "Icelandic",
+      "truth": "Spanish",
+      "entity": "Cuba",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Icelandic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Israel is the city of",
+      "target": "Oslo",
+      "truth": "Jerusalem",
+      "entity": "Israel",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Oslo",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Israel is",
+      "target": "Icelandic",
+      "truth": "Hebrew",
+      "entity": "Israel",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Icelandic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Argentina is the city of",
+      "target": "Warsaw",
+      "truth": "Buenos",
+      "entity": "Argentina",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Warsaw",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Argentina is",
+      "target": "Georgian",
+      "truth": "Spanish",
+      "entity": "Argentina",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Georgian",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Bulgaria is the city of",
+      "target": "Ankara",
+      "truth": "Sofia",
+      "entity": "Bulgaria",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Ankara",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Bulgaria is",
+      "target": "Armenian",
+      "truth": "Bulgarian",
+      "entity": "Bulgaria",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Armenian",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Slovakia is the city of",
+      "target": "Lisbon",
+      "truth": "Bratislava",
+      "entity": "Slovakia",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Br",
+      "hf_match_target": false
+    },
+    {
+      "prompt": "The official language of Slovakia is",
+      "target": "Arabic",
+      "truth": "Slovak",
+      "entity": "Slovakia",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Lebanon is the city of",
+      "target": "Vienna",
+      "truth": "Beirut",
+      "entity": "Lebanon",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Vienna",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Lebanon is",
+      "target": "French",
+      "truth": "Arabic",
+      "entity": "Lebanon",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " French",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Cambodia is the city of",
+      "target": "Stockholm",
+      "truth": "Phnom",
+      "entity": "Cambodia",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Stockholm",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Cambodia is",
+      "target": "Arabic",
+      "truth": "Khmer",
+      "entity": "Cambodia",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Mongolia is the city of",
+      "target": "Helsinki",
+      "truth": "Ulaanbaatar",
+      "entity": "Mongolia",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Helsinki",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Mongolia is",
+      "target": "French",
+      "truth": "Mongolian",
+      "entity": "Mongolia",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " French",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Ghana is the city of",
+      "target": "Copenhagen",
+      "truth": "Accra",
+      "entity": "Ghana",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Copenhagen",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Ghana is",
+      "target": "Arabic",
+      "truth": "English",
+      "entity": "Ghana",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Ecuador is the city of",
+      "target": "Budapest",
+      "truth": "Quito",
+      "entity": "Ecuador",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Budapest",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Ecuador is",
+      "target": "German",
+      "truth": "Spanish",
+      "entity": "Ecuador",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " German",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Estonia is the city of",
+      "target": "Tehran",
+      "truth": "Tallinn",
+      "entity": "Estonia",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Tehran",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Estonia is",
+      "target": "Italian",
+      "truth": "Estonian",
+      "entity": "Estonia",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Italian",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Latvia is the city of",
+      "target": "Baghdad",
+      "truth": "Riga",
+      "entity": "Latvia",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Baghdad",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Latvia is",
+      "target": "Spanish",
+      "truth": "Latvian",
+      "entity": "Latvia",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Spanish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Lithuania is the city of",
+      "target": "Bangkok",
+      "truth": "Vilnius",
+      "entity": "Lithuania",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Bangkok",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Lithuania is",
+      "target": "Russian",
+      "truth": "Lithuanian",
+      "entity": "Lithuania",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Russian",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Slovenia is the city of",
+      "target": "Lima",
+      "truth": "Ljubljana",
+      "entity": "Slovenia",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Lima",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Slovenia is",
+      "target": "Greek",
+      "truth": "Slovenian",
+      "entity": "Slovenia",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Greek",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Iceland is the city of",
+      "target": "Santiago",
+      "truth": "Reykjavik",
+      "entity": "Iceland",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Santiago",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Iceland is",
+      "target": "Norwegian",
+      "truth": "Icelandic",
+      "entity": "Iceland",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Norwegian",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Albania is the city of",
+      "target": "Amsterdam",
+      "truth": "Tirana",
+      "entity": "Albania",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Amsterdam",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Albania is",
+      "target": "Polish",
+      "truth": "Albanian",
+      "entity": "Albania",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Polish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Georgia is the city of",
+      "target": "Havana",
+      "truth": "Tbilisi",
+      "entity": "Georgia",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Havana",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Georgia is",
+      "target": "Turkish",
+      "truth": "Georgian",
+      "entity": "Georgia",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Turkish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Armenia is the city of",
+      "target": "Jerusalem",
+      "truth": "Yerevan",
+      "entity": "Armenia",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Jerusalem",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Armenia is",
+      "target": "Portuguese",
+      "truth": "Armenian",
+      "entity": "Armenia",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Portuguese",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Bangladesh is the city of",
+      "target": "Buenos",
+      "truth": "Dhaka",
+      "entity": "Bangladesh",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Buenos",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Bangladesh is",
+      "target": "German",
+      "truth": "Bengali",
+      "entity": "Bangladesh",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " German",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Syria is the city of",
+      "target": "Sofia",
+      "truth": "Damascus",
+      "entity": "Syria",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Sofia",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Syria is",
+      "target": "Swedish",
+      "truth": "Arabic",
+      "entity": "Syria",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Swedish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Jordan is the city of",
+      "target": "Beirut",
+      "truth": "Amman",
+      "entity": "Jordan",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Beirut",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Jordan is",
+      "target": "Finnish",
+      "truth": "Arabic",
+      "entity": "Jordan",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Finnish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Tunisia is the city of",
+      "target": "Damascus",
+      "truth": "Tunis",
+      "entity": "Tunisia",
+      "field": "capital",
+      "kind": "edited",
+      "hf_top1": " Damascus",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Tunisia is",
+      "target": "Danish",
+      "truth": "Arabic",
+      "entity": "Tunisia",
+      "field": "language",
+      "kind": "edited",
+      "hf_top1": " Danish",
+      "hf_match_target": true
+    }
+  ],
+  "native": [
+    {
+      "prompt": "The capital of Algeria is the city of",
+      "target": "Algiers",
+      "truth": "Algiers",
+      "entity": "Algeria",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Alg",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Algeria is",
+      "target": "Arabic",
+      "truth": "Arabic",
+      "entity": "Algeria",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Algeria is located on the continent of",
+      "target": "Africa",
+      "truth": "Africa",
+      "entity": "Algeria",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Africa",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Venezuela is the city of",
+      "target": "Caracas",
+      "truth": "Caracas",
+      "entity": "Venezuela",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Car",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Venezuela is",
+      "target": "Spanish",
+      "truth": "Spanish",
+      "entity": "Venezuela",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Spanish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Venezuela is located on the continent of",
+      "target": "America",
+      "truth": "America",
+      "entity": "Venezuela",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " South",
+      "hf_match_target": false
+    },
+    {
+      "prompt": "The capital of Colombia is the city of",
+      "target": "Bogota",
+      "truth": "Bogota",
+      "entity": "Colombia",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Bog",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Colombia is",
+      "target": "Spanish",
+      "truth": "Spanish",
+      "entity": "Colombia",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Spanish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Colombia is located on the continent of",
+      "target": "America",
+      "truth": "America",
+      "entity": "Colombia",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " South",
+      "hf_match_target": false
+    },
+    {
+      "prompt": "The capital of Uruguay is the city of",
+      "target": "Montevideo",
+      "truth": "Montevideo",
+      "entity": "Uruguay",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Mont",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Uruguay is",
+      "target": "Spanish",
+      "truth": "Spanish",
+      "entity": "Uruguay",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Spanish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Uruguay is located on the continent of",
+      "target": "America",
+      "truth": "America",
+      "entity": "Uruguay",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " South",
+      "hf_match_target": false
+    },
+    {
+      "prompt": "The capital of Korea is the city of",
+      "target": "Seoul",
+      "truth": "Seoul",
+      "entity": "Korea",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Seoul",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Korea is",
+      "target": "Korean",
+      "truth": "Korean",
+      "entity": "Korea",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Korean",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Korea is located on the continent of",
+      "target": "Asia",
+      "truth": "Asia",
+      "entity": "Korea",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Asia",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Mexico is the city of",
+      "target": "Mexico",
+      "truth": "Mexico",
+      "entity": "Mexico",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Mexico",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Mexico is",
+      "target": "Spanish",
+      "truth": "Spanish",
+      "entity": "Mexico",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Spanish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Mexico is located on the continent of",
+      "target": "America",
+      "truth": "America",
+      "entity": "Mexico",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " North",
+      "hf_match_target": false
+    },
+    {
+      "prompt": "The capital of Saudi Arabia is the city of",
+      "target": "Riyadh",
+      "truth": "Riyadh",
+      "entity": "Saudi Arabia",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Riyadh",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Saudi Arabia is",
+      "target": "Arabic",
+      "truth": "Arabic",
+      "entity": "Saudi Arabia",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Saudi Arabia is located on the continent of",
+      "target": "Asia",
+      "truth": "Asia",
+      "entity": "Saudi Arabia",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Asia",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Qatar is the city of",
+      "target": "Doha",
+      "truth": "Doha",
+      "entity": "Qatar",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " D",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Qatar is",
+      "target": "Arabic",
+      "truth": "Arabic",
+      "entity": "Qatar",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Qatar is located on the continent of",
+      "target": "Asia",
+      "truth": "Asia",
+      "entity": "Qatar",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Asia",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Oman is the city of",
+      "target": "Muscat",
+      "truth": "Muscat",
+      "entity": "Oman",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Mus",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Oman is",
+      "target": "Arabic",
+      "truth": "Arabic",
+      "entity": "Oman",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Oman is located on the continent of",
+      "target": "Asia",
+      "truth": "Asia",
+      "entity": "Oman",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Asia",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Yemen is the city of",
+      "target": "Sanaa",
+      "truth": "Sanaa",
+      "entity": "Yemen",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " S",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Yemen is",
+      "target": "Arabic",
+      "truth": "Arabic",
+      "entity": "Yemen",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Yemen is located on the continent of",
+      "target": "Asia",
+      "truth": "Asia",
+      "entity": "Yemen",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Asia",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Libya is the city of",
+      "target": "Tripoli",
+      "truth": "Tripoli",
+      "entity": "Libya",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Trip",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Libya is",
+      "target": "Arabic",
+      "truth": "Arabic",
+      "entity": "Libya",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Libya is located on the continent of",
+      "target": "Africa",
+      "truth": "Africa",
+      "entity": "Libya",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Africa",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Sudan is the city of",
+      "target": "Khartoum",
+      "truth": "Khartoum",
+      "entity": "Sudan",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Kh",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Sudan is",
+      "target": "Arabic",
+      "truth": "Arabic",
+      "entity": "Sudan",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Sudan is located on the continent of",
+      "target": "Africa",
+      "truth": "Africa",
+      "entity": "Sudan",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Africa",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Bahrain is the city of",
+      "target": "Manama",
+      "truth": "Manama",
+      "entity": "Bahrain",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Man",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Bahrain is",
+      "target": "Arabic",
+      "truth": "Arabic",
+      "entity": "Bahrain",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Bahrain is located on the continent of",
+      "target": "Asia",
+      "truth": "Asia",
+      "entity": "Bahrain",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Asia",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Kuwait is the city of",
+      "target": "Kuwait",
+      "truth": "Kuwait",
+      "entity": "Kuwait",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Kuwait",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Kuwait is",
+      "target": "Arabic",
+      "truth": "Arabic",
+      "entity": "Kuwait",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Arabic",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Kuwait is located on the continent of",
+      "target": "Asia",
+      "truth": "Asia",
+      "entity": "Kuwait",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Asia",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Nepal is the city of",
+      "target": "Kathmandu",
+      "truth": "Kathmandu",
+      "entity": "Nepal",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Kath",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Nepal is",
+      "target": "Nepali",
+      "truth": "Nepali",
+      "entity": "Nepal",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Nep",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Nepal is located on the continent of",
+      "target": "Asia",
+      "truth": "Asia",
+      "entity": "Nepal",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Asia",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Ethiopia is the city of",
+      "target": "Addis",
+      "truth": "Addis",
+      "entity": "Ethiopia",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Add",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Ethiopia is",
+      "target": "Amharic",
+      "truth": "Amharic",
+      "entity": "Ethiopia",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Am",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Ethiopia is located on the continent of",
+      "target": "Africa",
+      "truth": "Africa",
+      "entity": "Ethiopia",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Africa",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Senegal is the city of",
+      "target": "Dakar",
+      "truth": "Dakar",
+      "entity": "Senegal",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Dak",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Senegal is",
+      "target": "French",
+      "truth": "French",
+      "entity": "Senegal",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " French",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Senegal is located on the continent of",
+      "target": "Africa",
+      "truth": "Africa",
+      "entity": "Senegal",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Africa",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Cameroon is the city of",
+      "target": "Yaounde",
+      "truth": "Yaounde",
+      "entity": "Cameroon",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Ya",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Cameroon is",
+      "target": "French",
+      "truth": "French",
+      "entity": "Cameroon",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " French",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Cameroon is located on the continent of",
+      "target": "Africa",
+      "truth": "Africa",
+      "entity": "Cameroon",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Africa",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Angola is the city of",
+      "target": "Luanda",
+      "truth": "Luanda",
+      "entity": "Angola",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Lu",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Angola is",
+      "target": "Portuguese",
+      "truth": "Portuguese",
+      "entity": "Angola",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Portuguese",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Angola is located on the continent of",
+      "target": "Africa",
+      "truth": "Africa",
+      "entity": "Angola",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Africa",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Mozambique is the city of",
+      "target": "Maputo",
+      "truth": "Maputo",
+      "entity": "Mozambique",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Map",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Mozambique is",
+      "target": "Portuguese",
+      "truth": "Portuguese",
+      "entity": "Mozambique",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Portuguese",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Mozambique is located on the continent of",
+      "target": "Africa",
+      "truth": "Africa",
+      "entity": "Mozambique",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Africa",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Zimbabwe is the city of",
+      "target": "Harare",
+      "truth": "Harare",
+      "entity": "Zimbabwe",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Har",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Zimbabwe is",
+      "target": "English",
+      "truth": "English",
+      "entity": "Zimbabwe",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " English",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Zimbabwe is located on the continent of",
+      "target": "Africa",
+      "truth": "Africa",
+      "entity": "Zimbabwe",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Africa",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Zambia is the city of",
+      "target": "Lusaka",
+      "truth": "Lusaka",
+      "entity": "Zambia",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " L",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Zambia is",
+      "target": "English",
+      "truth": "English",
+      "entity": "Zambia",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " English",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Zambia is located on the continent of",
+      "target": "Africa",
+      "truth": "Africa",
+      "entity": "Zambia",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Africa",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Honduras is the city of",
+      "target": "Tegucigalpa",
+      "truth": "Tegucigalpa",
+      "entity": "Honduras",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " T",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Honduras is",
+      "target": "Spanish",
+      "truth": "Spanish",
+      "entity": "Honduras",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Spanish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Honduras is located on the continent of",
+      "target": "America",
+      "truth": "America",
+      "entity": "Honduras",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " North",
+      "hf_match_target": false
+    },
+    {
+      "prompt": "The capital of Nicaragua is the city of",
+      "target": "Managua",
+      "truth": "Managua",
+      "entity": "Nicaragua",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Man",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Nicaragua is",
+      "target": "Spanish",
+      "truth": "Spanish",
+      "entity": "Nicaragua",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Spanish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Nicaragua is located on the continent of",
+      "target": "America",
+      "truth": "America",
+      "entity": "Nicaragua",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " North",
+      "hf_match_target": false
+    },
+    {
+      "prompt": "The capital of Paraguay is the city of",
+      "target": "Asuncion",
+      "truth": "Asuncion",
+      "entity": "Paraguay",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " As",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Paraguay is",
+      "target": "Spanish",
+      "truth": "Spanish",
+      "entity": "Paraguay",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Spanish",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Paraguay is located on the continent of",
+      "target": "America",
+      "truth": "America",
+      "entity": "Paraguay",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " South",
+      "hf_match_target": false
+    },
+    {
+      "prompt": "The capital of Kazakhstan is the city of",
+      "target": "Astana",
+      "truth": "Astana",
+      "entity": "Kazakhstan",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Ast",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Kazakhstan is",
+      "target": "Kazakh",
+      "truth": "Kazakh",
+      "entity": "Kazakhstan",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Kaz",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Kazakhstan is located on the continent of",
+      "target": "Asia",
+      "truth": "Asia",
+      "entity": "Kazakhstan",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Asia",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Uzbekistan is the city of",
+      "target": "Tashkent",
+      "truth": "Tashkent",
+      "entity": "Uzbekistan",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " T",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Uzbekistan is",
+      "target": "Uzbek",
+      "truth": "Uzbek",
+      "entity": "Uzbekistan",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Uzbek",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Uzbekistan is located on the continent of",
+      "target": "Asia",
+      "truth": "Asia",
+      "entity": "Uzbekistan",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Asia",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The capital of Czechia is the city of",
+      "target": "Prague",
+      "truth": "Prague",
+      "entity": "Czechia",
+      "field": "capital",
+      "kind": "native_country",
+      "hf_top1": " Prague",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The official language of Czechia is",
+      "target": "Czech",
+      "truth": "Czech",
+      "entity": "Czechia",
+      "field": "language",
+      "kind": "native_country",
+      "hf_top1": " Czech",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "Czechia is located on the continent of",
+      "target": "Europe",
+      "truth": "Europe",
+      "entity": "Czechia",
+      "field": "continent",
+      "kind": "native_country",
+      "hf_top1": " Europe",
+      "hf_match_target": true
+    },
+    {
+      "prompt": "The largest planet in the solar system is",
+      "target": null,
+      "truth": null,
+      "entity": null,
+      "field": "global",
+      "kind": "native_global",
+      "hf_top1": " Jupiter",
+      "hf_match_target": null
+    },
+    {
+      "prompt": "Water is composed of hydrogen and",
+      "target": null,
+      "truth": null,
+      "entity": null,
+      "field": "global",
+      "kind": "native_global",
+      "hf_top1": " oxygen",
+      "hf_match_target": null
+    },
+    {
+      "prompt": "The chemical symbol for gold is",
+      "target": null,
+      "truth": null,
+      "entity": null,
+      "field": "global",
+      "kind": "native_global",
+      "hf_top1": " Au",
+      "hf_match_target": null
+    },
+    {
+      "prompt": "The opposite of hot is",
+      "target": null,
+      "truth": null,
+      "entity": null,
+      "field": "global",
+      "kind": "native_global",
+      "hf_top1": " cold",
+      "hf_match_target": null
+    },
+    {
+      "prompt": "The first president of the United States was",
+      "target": null,
+      "truth": null,
+      "entity": null,
+      "field": "global",
+      "kind": "native_global",
+      "hf_top1": " George",
+      "hf_match_target": null
+    },
+    {
+      "prompt": "The speed of light is approximately",
+      "target": null,
+      "truth": null,
+      "entity": null,
+      "field": "global",
+      "kind": "native_global",
+      "hf_top1": " $",
+      "hf_match_target": null
+    }
+  ]
+}

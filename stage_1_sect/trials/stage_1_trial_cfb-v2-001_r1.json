@@ -1,0 +1,562 @@
+{
+  "trial_index": 0,
+  "fact_id": "cfb-v2-001",
+  "replicate": 1,
+  "started_at": "2026-05-04T04:31:36.593413+00:00",
+  "ended_at": "2026-05-04T04:31:53.897676+00:00",
+  "torch_seed": 0,
+  "memit_request": {
+    "prompt": "{} plays the sport of",
+    "subject": "Bo Jackson",
+    "target_new": {
+      "str": "basketball"
+    }
+  },
+  "memit_edit": {
+    "wall_s": 13.85,
+    "edit_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "orig_weights_layer_count": 5,
+    "orig_weights_layer_names": [
+      "model.layers.4.mlp.down_proj.weight",
+      "model.layers.5.mlp.down_proj.weight",
+      "model.layers.6.mlp.down_proj.weight",
+      "model.layers.7.mlp.down_proj.weight",
+      "model.layers.8.mlp.down_proj.weight"
+    ]
+  },
+  "intertrial_gate": {
+    "p-shared-spec-1": {
+      "p_top_1_now": 0.743521,
+      "p_top_1_baseline": 0.743521,
+      "drift": 0.0,
+      "pass": true
+    },
+    "p-shared-spec-2": {
+      "p_top_1_now": 0.639321,
+      "p_top_1_baseline": 0.639321,
+      "drift": 0.0,
+      "pass": true
+    },
+    "p-shared-spec-3": {
+      "p_top_1_now": 0.799951,
+      "p_top_1_baseline": 0.799951,
+      "drift": 0.0,
+      "pass": true
+    }
+  },
+  "post_edit_probes": {
+    "p-cfb-v2-001-cons-1": {
+      "top_5": [
+        {
+          "token_id": 20075,
+          "token_str": " baseball",
+          "p": 0.355111
+        },
+        {
+          "token_id": 9141,
+          "token_str": " football",
+          "p": 0.349605
+        },
+        {
+          "token_id": 2324,
+          "token_str": " life",
+          "p": 0.070474
+        },
+        {
+          "token_id": 813,
+          "token_str": " his",
+          "p": 0.023059
+        },
+        {
+          "token_id": 9099,
+          "token_str": " minor",
+          "p": 0.016351
+        }
+      ],
+      "p_top_1": 0.355111,
+      "top_1_token": " baseball",
+      "p_target_new": 0.006353,
+      "p_target_true": 0.349605,
+      "pass": false
+    },
+    "p-cfb-v2-001-cons-2": {
+      "top_5": [
+        {
+          "token_id": 9141,
+          "token_str": " football",
+          "p": 0.141889
+        },
+        {
+          "token_id": 20075,
+          "token_str": " baseball",
+          "p": 0.126198
+        },
+        {
+          "token_id": 2663,
+          "token_str": " called",
+          "p": 0.061025
+        },
+        {
+          "token_id": 5380,
+          "token_str": "?\n",
+          "p": 0.052607
+        },
+        {
+          "token_id": 198,
+          "token_str": "\n",
+          "p": 0.041292
+        }
+      ],
+      "p_top_1": 0.141889,
+      "top_1_token": " football",
+      "p_target_new": 0.003723,
+      "p_target_true": 0.141889,
+      "pass": false
+    },
+    "p-cfb-v2-001-cons-3": {
+      "top_5": [
+        {
+          "token_id": 34880,
+          "token_str": " athlete",
+          "p": 0.30972
+        },
+        {
+          "token_id": 20075,
+          "token_str": " baseball",
+          "p": 0.24121
+        },
+        {
+          "token_id": 3778,
+          "token_str": " American",
+          "p": 0.122239
+        },
+        {
+          "token_id": 9141,
+          "token_str": " football",
+          "p": 0.117557
+        },
+        {
+          "token_id": 10034,
+          "token_str": " sports",
+          "p": 0.019341
+        }
+      ],
+      "p_top_1": 0.30972,
+      "top_1_token": " athlete",
+      "p_target_new": 0.005288,
+      "p_target_true": 0.117557,
+      "pass": false
+    },
+    "p-cfb-v2-001-gen-1": {
+      "top_5": [
+        {
+          "token_id": 53449,
+          "token_str": " Auburn",
+          "p": 0.877299
+        },
+        {
+          "token_id": 279,
+          "token_str": " the",
+          "p": 0.091033
+        },
+        {
+          "token_id": 3907,
+          "token_str": " University",
+          "p": 0.004713
+        },
+        {
+          "token_id": 9784,
+          "token_str": " Florida",
+          "p": 0.002542
+        },
+        {
+          "token_id": 578,
+          "token_str": " The",
+          "p": 0.002388
+        }
+      ],
+      "p_top_1": 0.877299,
+      "top_1_token": " Auburn",
+      "p_top_1_baseline": 0.890402,
+      "drift_p_top_1": 0.013103,
+      "pass": true
+    },
+    "p-cfb-v2-001-gen-2": {
+      "top_5": [
+        {
+          "token_id": 220,
+          "token_str": " ",
+          "p": 0.694992
+        },
+        {
+          "token_id": 315,
+          "token_str": " of",
+          "p": 0.130585
+        },
+        {
+          "token_id": 1174,
+          "token_str": ",",
+          "p": 0.017673
+        },
+        {
+          "token_id": 16853,
+          "token_str": ".\n",
+          "p": 0.01398
+        },
+        {
+          "token_id": 662,
+          "token_str": ".",
+          "p": 0.011233
+        }
+      ],
+      "p_top_1": 0.694992,
+      "top_1_token": " ",
+      "p_top_1_baseline": 0.669275,
+      "drift_p_top_1": 0.025717,
+      "pass": true
+    },
+    "p-cfb-v2-001-gen-3": {
+      "top_5": [
+        {
+          "token_id": 21272,
+          "token_str": " Alabama",
+          "p": 0.932518
+        },
+        {
+          "token_id": 7188,
+          "token_str": " California",
+          "p": 0.017622
+        },
+        {
+          "token_id": 16272,
+          "token_str": " Georgia",
+          "p": 0.007462
+        },
+        {
+          "token_id": 24097,
+          "token_str": " Tennessee",
+          "p": 0.004855
+        },
+        {
+          "token_id": 29538,
+          "token_str": " Mississippi",
+          "p": 0.003311
+        }
+      ],
+      "p_top_1": 0.932518,
+      "top_1_token": " Alabama",
+      "p_top_1_baseline": 0.926424,
+      "drift_p_top_1": 0.006094,
+      "pass": true
+    },
+    "p-shared-spec-1": {
+      "top_5": [
+        {
+          "token_id": 12366,
+          "token_str": " Paris",
+          "p": 0.747647
+        },
+        {
+          "token_id": 13001,
+          "token_str": " lights",
+          "p": 0.039935
+        },
+        {
+          "token_id": 3021,
+          "token_str": " love",
+          "p": 0.033367
+        },
+        {
+          "token_id": 3177,
+          "token_str": " light",
+          "p": 0.019311
+        },
+        {
+          "token_id": 19226,
+          "token_str": " dreams",
+          "p": 0.010665
+        }
+      ],
+      "p_top_1": 0.747647,
+      "top_1_token": " Paris",
+      "p_top_1_baseline": 0.743521,
+      "drift_p_top_1": 0.004126,
+      "pass": true
+    },
+    "p-shared-spec-2": {
+      "top_5": [
+        {
+          "token_id": 50789,
+          "token_str": " Jupiter",
+          "p": 0.639802
+        },
+        {
+          "token_id": 279,
+          "token_str": " the",
+          "p": 0.047077
+        },
+        {
+          "token_id": 1101,
+          "token_str": " also",
+          "p": 0.018726
+        },
+        {
+          "token_id": 11,
+          "token_str": ",",
+          "p": 0.01277
+        },
+        {
+          "token_id": 198,
+          "token_str": "\n",
+          "p": 0.012185
+        }
+      ],
+      "p_top_1": 0.639802,
+      "top_1_token": " Jupiter",
+      "p_top_1_baseline": 0.639321,
+      "drift_p_top_1": 0.000481,
+      "pass": true
+    },
+    "p-shared-spec-3": {
+      "top_5": [
+        {
+          "token_id": 33150,
+          "token_str": " Au",
+          "p": 0.800231
+        },
+        {
+          "token_id": 40156,
+          "token_str": " AU",
+          "p": 0.041753
+        },
+        {
+          "token_id": 330,
+          "token_str": " \"",
+          "p": 0.019877
+        },
+        {
+          "token_id": 1054,
+          "token_str": " \u201c",
+          "p": 0.015241
+        },
+        {
+          "token_id": 320,
+          "token_str": " (",
+          "p": 0.012246
+        }
+      ],
+      "p_top_1": 0.800231,
+      "top_1_token": " Au",
+      "p_top_1_baseline": 0.799951,
+      "drift_p_top_1": 0.00028,
+      "pass": true
+    }
+  },
+  "unmount_record_per_layer": {
+    "model.layers.4.mlp.down_proj.weight": {
+      "norm_after": 87.875,
+      "allclose_match": true
+    },
+    "model.layers.5.mlp.down_proj.weight": {
+      "norm_after": 88.3125,
+      "allclose_match": true
+    },
+    "model.layers.6.mlp.down_proj.weight": {
+      "norm_after": 88.25,
+      "allclose_match": true
+    },
+    "model.layers.7.mlp.down_proj.weight": {
+      "norm_after": 89.375,
+      "allclose_match": true
+    },
+    "model.layers.8.mlp.down_proj.weight": {
+      "norm_after": 89.1875,
+      "allclose_match": true
+    }
+  },
+  "post_unmount_probes": {
+    "p-cfb-v2-001-unmount-1": {
+      "top_5": [
+        {
+          "token_id": 20075,
+          "token_str": " baseball",
+          "p": 0.334112
+        },
+        {
+          "token_id": 9141,
+          "token_str": " football",
+          "p": 0.288022
+        },
+        {
+          "token_id": 813,
+          "token_str": " his",
+          "p": 0.114567
+        },
+        {
+          "token_id": 19665,
+          "token_str": " golf",
+          "p": 0.046289
+        },
+        {
+          "token_id": 19794,
+          "token_str": " basketball",
+          "p": 0.01434
+        }
+      ],
+      "p_top_1": 0.334112,
+      "top_1_token": " baseball",
+      "p_target_new": 0.01434,
+      "p_target_true": 0.288022,
+      "p_target_true_pre": 0.288022,
+      "abs_drift_p_target_true": 0.0,
+      "pass": true,
+      "band": "abs(drift) < 1e-4 (HARD per IC-S23-4)"
+    },
+    "p-shared-spec-1": {
+      "top_5": [
+        {
+          "token_id": 12366,
+          "token_str": " Paris",
+          "p": 0.743521
+        },
+        {
+          "token_id": 13001,
+          "token_str": " lights",
+          "p": 0.040656
+        },
+        {
+          "token_id": 3021,
+          "token_str": " love",
+          "p": 0.033969
+        },
+        {
+          "token_id": 3177,
+          "token_str": " light",
+          "p": 0.01966
+        },
+        {
+          "token_id": 19226,
+          "token_str": " dreams",
+          "p": 0.010857
+        }
+      ],
+      "p_top_1": 0.743521,
+      "top_1_token": " Paris",
+      "p_top_1_baseline": 0.743521,
+      "drift_p_top_1": 0.0,
+      "pass": true
+    },
+    "p-shared-spec-2": {
+      "top_5": [
+        {
+          "token_id": 50789,
+          "token_str": " Jupiter",
+          "p": 0.639321
+        },
+        {
+          "token_id": 279,
+          "token_str": " the",
+          "p": 0.046675
+        },
+        {
+          "token_id": 1101,
+          "token_str": " also",
+          "p": 0.018712
+        },
+        {
+          "token_id": 11,
+          "token_str": ",",
+          "p": 0.01286
+        },
+        {
+          "token_id": 198,
+          "token_str": "\n",
+          "p": 0.012368
+        }
+      ],
+      "p_top_1": 0.639321,
+      "top_1_token": " Jupiter",
+      "p_top_1_baseline": 0.639321,
+      "drift_p_top_1": 0.0,
+      "pass": true
+    },
+    "p-shared-spec-3": {
+      "top_5": [
+        {
+          "token_id": 33150,
+          "token_str": " Au",
+          "p": 0.799951
+        },
+        {
+          "token_id": 40156,
+          "token_str": " AU",
+          "p": 0.042396
+        },
+        {
+          "token_id": 330,
+          "token_str": " \"",
+          "p": 0.019871
+        },
+        {
+          "token_id": 1054,
+          "token_str": " \u201c",
+          "p": 0.015355
+        },
+        {
+          "token_id": 320,
+          "token_str": " (",
+          "p": 0.0115
+        }
+      ],
+      "p_top_1": 0.799951,
+      "top_1_token": " Au",
+      "p_top_1_baseline": 0.799951,
+      "drift_p_top_1": 0.0,
+      "pass": true
+    }
+  },
+  "overlay_snapshot": {
+    "path": "/workspace/stage_1_sect/overlays/cfb-v2-001/r1",
+    "size_mb": 587.2
+  },
+  "verdict": {
+    "consistency_pass": false,
+    "consistency_per_probe": {
+      "p-cfb-v2-001-cons-1": false,
+      "p-cfb-v2-001-cons-2": false,
+      "p-cfb-v2-001-cons-3": false
+    },
+    "generalization_pass": true,
+    "generalization_per_probe": {
+      "p-cfb-v2-001-gen-1": true,
+      "p-cfb-v2-001-gen-2": true,
+      "p-cfb-v2-001-gen-3": true
+    },
+    "specificity_post_edit_pass": true,
+    "specificity_post_edit_per_probe": {
+      "p-shared-spec-1": true,
+      "p-shared-spec-2": true,
+      "p-shared-spec-3": true
+    },
+    "specificity_post_unmount_pass": true,
+    "specificity_post_unmount_per_probe": {
+      "p-shared-spec-1": true,
+      "p-shared-spec-2": true,
+      "p-shared-spec-3": true
+    },
+    "unmount_band_pass": true,
+    "trial_pass": false
+  },
+  "halt_session": false,
+  "halt_reason": null,
+  "gpu_mem": {
+    "allocated_at_trial_start_gb": 16.9,
+    "max_allocated_during_trial_gb": 23.71
+  }
+}

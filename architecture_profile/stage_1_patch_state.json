@@ -1,0 +1,24 @@
+{
+  "captured_at": "2026-05-04T13:32:09.639789+00:00",
+  "memit_sha": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+  "patches_applied": {
+    "memit_nethook_p1_signature_and_inputs_synthesis": true,
+    "memit_nethook_p2_with_kwargs_registration": true,
+    "memit_solve_cpu_offload_p3_prime": false,
+    "memit_config_attribute_compat_p4": true,
+    "memit_dataset_loader_modernization_p5": true,
+    "memit_layer_stats_fstring_p6": true,
+    "memit_get_cov_batch_tokens_p7": true,
+    "tokenizer_pad_token_alias": false,
+    "explicit_device_map": false,
+    "unmount_in_place_copy_only": true
+  },
+  "patches_required_but_not_applied": [],
+  "file_sha256_prefix": {
+    "util/nethook.py": "20e84c9413518af3",
+    "memit/compute_z.py": "30d3a7c42dd47c85",
+    "rome/compute_v.py": "07f35ecec4b2a20a",
+    "rome/layer_stats.py": "be92a521d3411734",
+    "memit/memit_main.py": "186e961633211046"
+  }
+}

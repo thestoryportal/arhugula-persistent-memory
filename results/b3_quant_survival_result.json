@@ -1,0 +1,26 @@
+{
+  "hf_vs_gguf_f16_agreement": {
+    "edited_pct": 100.0,
+    "native_pct": 100.0,
+    "all_pct": 100.0,
+    "edited_gate_ok": true
+  },
+  "edited_retention": {
+    "pct": 100.0,
+    "surv": 99,
+    "elig": 99
+  },
+  "native_country_retention": {
+    "pct": 97.4,
+    "surv": 75,
+    "elig": 77
+  },
+  "native_global_retention": {
+    "pct": 83.3,
+    "surv": 5,
+    "elig": 6
+  },
+  "delta_edited_minus_native": 2.5999999999999943,
+  "verdict": "PASS",
+  "threshold": "edited >= native_country - 3pts"
+}

@@ -1,0 +1,2247 @@
+# Stage 1 SECT Runbook — meta-llama/Llama-3.1-8B
+
+> **Authoring session:** S2.5a-runbook (dedicated)
+> **Predecessor session:** Session 2.5a (CLOSED PARTIAL with smoke test PASS)
+> **Consumer session:** Session 2.6 (Stage 1 SECT execution)
+> **Target environment:** RunPod RTX 4090 24 GB single GPU; NV `large_amethyst_wolverine`
+> **Target model:** `meta-llama/Llama-3.1-8B` (base; not Instruct)
+> **Trial protocol:** IC-S24-4 — 3 facts × 3 replicates = 9 trials
+> **Inherited cell pattern:** Block 2 RunPod canonical notebook (extended from 10 to 13 cells: Cells 0–12)
+> **Specialists:** framework-spec-writer (primary); validation-contract-architect (Cells 6, 7, 9, 10); state-consistency-theorist (Cells 11, 12); memit-specialist (Cells 2–5)
+>
+> **Revision:** v1.1 — post-review hardening pass. Absorbed reviewer P1 items (R1.1 Cell 3 named-file inventory; R1.2 Cell 9 memory hygiene; R1.3 Cell 9 peak-memory forensics; R1.4 Cell 1 digest drift soft check), high-value P2 items (R2.1 Cell 8 C-S24-7 hard gate; R2.2 Cells 6–7 provenance comments; R2.3 Part XI OQ-S25-1 closure; R2.4 §2.3 NV overlay cost line; R2.5 §9.3 forensic handoff to S2.7), and C3.4 (§10.3 operator post-session checklist). P3 items C3.1–C3.3, C3.5 require no changes per reviewer assessment.
+
+---
+
+# Part I — Session orientation
+
+## 1.1 Purpose
+
+This runbook drives Session 2.6 — the first Stage 1 SECT (Semantic Edit Coverage Test) execution against the Workstream 1 production target model `meta-llama/Llama-3.1-8B`. It executes the 9-trial matrix defined by IC-S24-4, captures per-trial verdicts against the four Stage 1 acceptance criteria, and emits an aggregate Stage 1 PASS/FAIL verdict.
+
+Stage 1 SECT is the load-bearing empirical step that validates whether MEMIT edits applied to a 2026-vintage 8B-parameter LLaMA model satisfy the `.vindex` overlay isolation properties demonstrated by HC-2 on GPT-J 6B in Session 2.3. Stage 1 PASS gates Workstream 1 progression to Stage 2 sweep design.
+
+## 1.2 Measures
+
+Per IC-S24-4 trial protocol, each of the 9 trials produces a verdict against four criteria:
+
+| Criterion | Definition | Acceptance band | Provenance |
+|---|---|---|---|
+| **Consistency** | Post-edit top-1 token equals `target_new` and `P(target_new)` exceeds 0.5 | `p_target_new_post > 0.5` | Provisional (D-S24-10; OQ-PROBE-2) |
+| **Generalization** | Pre-edit→post-edit drift in top-1 probability for related-but-unedited probes is small | `abs(p_top_1_post − p_top_1_pre) < 0.05` per probe | Provisional |
+| **Specificity** (shared, post-edit + post-unmount) | Pre-edit→post-edit and pre-edit→post-unmount drift in top-1 probability for unrelated-domain probes is small | `abs(p_top_1 − p_top_1_pre) < 0.05` per probe per phase | Provisional |
+| **Unmount** | Pre-edit→post-unmount drift in `P(target_true)` for the per-fact unmount probe is at the FP16 noise floor | `abs(p_target_true_postunmount − p_target_true_pre) < 1e-4` | **Hard, IC-S23-4 (NOT provisional)** |
+
+Aggregate Stage 1 verdict (Cell 10):
+
+| Aggregate criterion | Threshold | Source |
+|---|---|---|
+| Consistency aggregate | ≥ 8 of 9 trials PASS | Provisional |
+| Generalization aggregate | ≥ 8 of 9 trials PASS | Provisional |
+| Shared-specificity aggregate | ≥ 8 of 9 trials PASS (for each of post-edit and post-unmount phases) | Provisional |
+| Unmount aggregate | **9 of 9 trials PASS** (hard) | IC-S23-4 |
+
+Stage 1 PASS = all four aggregates PASS.
+
+## 1.3 Inputs
+
+| Artifact | Provenance | Used by |
+|---|---|---|
+| `cfb-v1.yaml` v1.1 | Session 2.5a | Cells 6, 8 (fact metadata; subject token IDs) |
+| `probe-set-v1.yaml` v1.1 | Session 2.5a | Cells 7, 8, 9 (probe prompts + acceptance bands) |
+| `meta-llama_Llama-3.1-8B.json` (20-field schema) | Session 2.5a | Cell 4 (hparams) |
+| `stage_1_sect_overlay/` (NV) | freshly produced per trial | Cell 9 (per-trial overlay snapshots) |
+| Fresh covariance cache at `/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/` | **pre-S2.6 fork-work session** (NOT this session) | Cells 3, 9 (consumed by `apply_memit_to_model`) |
+| `PROVENANCE.txt` colocated with cache | pre-S2.6 fork-work session | Cell 3 (gating predicate) |
+| MEMIT repo at `/workspace/memit_dry_run/memit/` (P-1, P-2, P-4 applied) | Sessions 2.3 + 2.5a | Cells 2, 9 |
+| Llama-3.1-8B base in `/workspace/hf_cache/` | Session 2.5a | Cell 5 |
+
+## 1.4 Outputs
+
+| Artifact | Path | Producer | Consumer |
+|---|---|---|---|
+| `stage_1_llama_baselines.json` | `/workspace/architecture_profile/stage_1_llama_baselines.json` | Cell 7 | Cells 9, 10; Session 2.7 retrospective |
+| `stage_1_trial_<fact_id>_r<replicate>.json` (×9) | `/workspace/stage_1_sect/trials/` | Cell 9 (per trial) | Cell 10; Session 2.7 |
+| `stage_1_sect_overlay/<fact_id>/r<replicate>/` (×9) | `/workspace/stage_1_sect/overlays/` | Cell 9 (per trial) | Session 2.7 forensics |
+| `stage_1_aggregate_verdict.json` | `/workspace/stage_1_sect/aggregate_verdict.json` | Cell 10 | Session 2.7 (gating); reproducibility manifest |
+| Updated `reproducibility_manifest.json` | `/workspace/reproducibility_manifest.json` | Cell 12 | Session 2.7+ |
+| SSD mirror sync trigger log | `/workspace/stage_1_sect/mirror_sync.log` | Cell 12 | operator forensics |
+
+## 1.5 Stage 1 PASS criteria (load-bearing)
+
+```
+STAGE_1_PASS = (
+    consistency_aggregate_pass     # ≥ 8/9 trials with all consistency probes PASS (p_target_new_post > 0.5)
+    AND generalization_aggregate_pass     # ≥ 8/9 trials with all gen probes PASS (drift_p_top_1 < 0.05)
+    AND specificity_post_edit_aggregate_pass     # ≥ 8/9 trials with all 3 shared-spec probes drift < 0.05 post-edit
+    AND specificity_post_unmount_aggregate_pass  # ≥ 8/9 trials with all 3 shared-spec probes drift < 0.05 post-unmount
+    AND unmount_aggregate_pass            # 9/9 trials with unmount probe drift < 1e-4 (HARD per IC-S23-4)
+)
+```
+
+The unmount aggregate is the only hard-gated criterion. The other three are provisional pending OQ-PROBE-2 calibration at Session 2.7.
+
+## 1.6 Halt-path summary (full taxonomy in Part IX)
+
+| Halt class | Scope | Recovery path |
+|---|---|---|
+| **Pre-flight failure** (Cells 0–2) | Session-level | Resolve dep / patch state; restart kernel; resume from Cell 0 |
+| **Cache provenance failure** (Cell 3) | Session-level | **Hard halt.** Session 2.6 cannot proceed. Schedule pre-S2.6 fork-work session if not yet executed |
+| **Hparams / model load failure** (Cells 4–5) | Session-level | Investigate; likely OQ-S25-3 or OQ-S25-4 territory |
+| **Tokenizer single-token failure** (Cell 6) | Session-level | Halt; revise affected fact in cfb-v1; re-version corpus; defer to S2.7 |
+| **Pre-edit baseline anomaly** (Cell 7) | Session-level | Investigate divergence from S2.5a smoke test; possible OQ-S25-10 escalation |
+| **Trial-level criterion failure** (Cell 9) | Trial-level | **Continue.** ≥8/9 thresholds tolerate 1 failure per criterion |
+| **Trial-level unmount-band failure** (Cell 9) | **Session-level (immediate halt)** | State is contaminated. Stop session. Forensics over post-unmount overlay snapshot |
+| **Inter-trial baseline-drift gate failure** (Cell 9) | **Session-level (immediate halt)** | State accumulated drift across trials. Stop. Investigate Copy-Unmount fidelity |
+| **NV write / manifest failure** (Cells 11–12) | Recoverable | Re-run with verified inputs; do not re-run trial loop |
+
+---
+
+# Part II — Pod configuration
+
+## 2.1 Hardware target
+
+| Setting | Value | Rationale |
+|---|---|---|
+| GPU | 1× RTX 4090 24 GB (Secure Cloud) | Stage 1 production target per Session 2.1; matches S2.5a smoke test environment; FP64 GPU solve fits in envelope (no P-3') |
+| Pod type | On-demand | Session 2.1 venue lock |
+| Region priority | US-NC-1 (NV-pinned) | NV `large_amethyst_wolverine` is region-pinned to US-NC-1 (per S2.5a closure note); cannot be relocated without NV destruction |
+| Container image | `runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04` | Digest `sha256:61a4aafb...`; image tag is informational, digest is canonical (C-S25-2-class; Block 2 Delta D1) |
+| Network Volume | `large_amethyst_wolverine` (`nvol-s1xi9zhfc2`); mount at `/workspace` | Inherited from S2.5a; ~33 GB occupied at session start |
+| Working directory | `/workspace/memit_dry_run/memit/` for any MEMIT-importing cell | C-S25-5 (MEMIT cwd invariant) |
+
+## 2.2 Pre-existing NV state (verified at Cell 2 / Cell 3 / Cell 5)
+
+| Path | Contents | Cell that verifies |
+|---|---|---|
+| `/workspace/memit_dry_run/memit/` | MEMIT repo with P-1, P-2, P-4 applied | Cell 2 |
+| `/workspace/hf_cache/` | Llama-3.1-8B base (~16 GB; HF_HOME-redirected per D-S25-8) | Cell 5 |
+| `/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/` | **Fresh** cache produced by pre-S2.6 fork-work session; bridge cache from S2.5a has been REPLACED | Cell 3 |
+| `/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/PROVENANCE.txt` | Structured provenance assertion | Cell 3 (hard gate) |
+| `/workspace/architecture_profile/meta-llama_Llama-3.1-8B.json` | Corrected 20-field hparams schema | Cell 4 |
+
+## 2.3 Cost projection
+
+| Phase | Wall time | GPU cost | NV cost |
+|---|---|---|---|
+| Pre-flight (Cells 0–6) | ~15–20 min | ~$0.20 | — |
+| Pre-edit baseline capture (Cell 7) | ~3–5 min | ~$0.05 | — |
+| Trial loop (Cells 8–10), 9 trials × ~5–7 min | ~50–70 min | ~$0.80–1.10 | — |
+| Persistence + manifest (Cells 11–12) | ~5–10 min | ~$0.10 | ~$0.05 |
+| **Total** | **~75–105 min** | **~$1.15–1.45** | **~$0.05** |
+
+**Trial overlay snapshot NV usage:** ~1.6 GB additional NV allocation (9 trials × ~180 MB each, `edited.pt` + `original.pt` per trial). Total NV at session end: ~35 GB (vs ~33 GB at session start).
+
+Within OQ-S25-2 envelope. If session exceeds 2 hours wall time, halt and investigate.
+
+## 2.4 Operator-side preconditions (before Cell 0)
+
+- [ ] Pre-S2.6 fork-work session completed; PROVENANCE.txt asserted at canonical cache path
+- [ ] Pod started against NV `large_amethyst_wolverine`; image digest reconciled
+- [ ] `lonely_moccasin_mandrill` or replacement pod healthy; `/workspace` mounted at ~33 GB pre-state
+- [ ] HF token persisted in `~/.cache/huggingface/token` (gated-public-repo permission; C-S25-4)
+- [ ] Billing alerts configured (≥ $50 per S2.1; ≥ $5 within-session sentinel for this run)
+
+---
+
+# Part III — Pre-flight (Cells 0–2)
+
+## Cell 0 — System binaries + Python deps
+
+**Specialist:** framework-spec-writer (runbook discipline) + memit-specialist (MEMIT dep manifest)
+
+**Purpose:** Re-establish the full Block 2 §12 dependency manifest plus the C-S25-7 pandas-runtime extension on a fresh container. Container-disk Python state is non-persistent across pod stop/start (C-S25-2); this cell is mandatory on every session start.
+
+**Inputs:** Fresh container; NV mounted at `/workspace`.
+
+```bash
+# Run in pod terminal BEFORE launching Jupyter
+# Working directory: /workspace
+# === System binaries ===
+apt-get update -qq
+apt-get install -y --no-install-recommends rsync skopeo
+
+# Verify
+which rsync && rsync --version | head -1
+which skopeo && skopeo --version
+```
+
+```python
+# === CELL 0 — Block 2 §12 dep manifest + pandas runtime extension ===
+# Specialist: framework-spec-writer + memit-specialist
+# References: C-S25-6, C-S25-7; OQ-S23-4 iteration 3; block-2-3-runbook-deltas §12
+
+import subprocess, sys
+
+PY = sys.executable
+
+# Phase 1: Load-bearing + import-time-only + hydra chain (single bulk install)
+subprocess.run([PY, "-m", "pip", "install", "--quiet",
+    "transformers==4.45.2",
+    "accelerate==0.34.2",
+    "huggingface_hub==0.25.2",
+    "tokenizers==0.20.3",
+    "safetensors==0.4.5",
+    "datasets==4.8.3",
+    "matplotlib==3.9.2",
+    "scipy==1.14.1",
+    "scikit-learn==1.5.2",
+    "hydra-core==1.3.2",
+    "einops==0.7.0",
+    "nltk==3.8.1",
+], check=True)
+
+# Phase 2: pandas force-reinstall (--no-deps to avoid blowing away the loadout above)
+subprocess.run([PY, "-m", "pip", "install", "--quiet",
+    "--force-reinstall", "--no-deps", "pandas==2.2.3",
+], check=True)
+
+# Phase 3: pandas runtime deps not covered by --no-deps (C-S25-7)
+subprocess.run([PY, "-m", "pip", "install", "--quiet",
+    "pytz", "tzdata",
+], check=True)
+
+print("Cell 0 install complete. RESTART KERNEL NOW (mandatory per OQ-S23-4 iter 3).")
+print("After restart, proceed to Cell 1.")
+```
+
+**MANDATORY KERNEL RESTART AFTER CELL 0.** Discovery-by-failure is structurally incompatible with C extension caching (OQ-S23-8 taxonomy: C extension version mismatch → restart required). Do not skip.
+
+After restart, run this verification block:
+
+```python
+# === CELL 0-VERIFY (after kernel restart) ===
+import sys
+import transformers, accelerate, huggingface_hub, tokenizers, safetensors
+import datasets, matplotlib, pandas, scipy, sklearn
+import hydra, einops, nltk
+import pytz, tzdata, torch
+
+print(f"Python:           {sys.version.split()[0]}")
+print(f"torch:            {torch.__version__}")
+print(f"transformers:     {transformers.__version__}")
+print(f"accelerate:       {accelerate.__version__}")
+print(f"datasets:         {datasets.__version__}")
+print(f"huggingface_hub:  {huggingface_hub.__version__}")
+print(f"tokenizers:       {tokenizers.__version__}")
+print(f"safetensors:      {safetensors.__version__}")
+print(f"pandas:           {pandas.__version__}")
+print(f"matplotlib:       {matplotlib.__version__}")
+print(f"scipy:            {scipy.__version__}")
+print(f"sklearn:          {sklearn.__version__}")
+print(f"hydra-core:       {hydra.__version__}")
+print(f"einops:           {einops.__version__}")
+print(f"nltk:             {nltk.__version__}")
+
+assert transformers.__version__ == "4.45.2"
+assert accelerate.__version__ == "0.34.2"
+assert datasets.__version__ == "4.8.3"
+assert pandas.__version__ == "2.2.3"
+print("\nCell 0-VERIFY: PASS")
+```
+
+**Verification anchors:**
+
+| Anchor | Expected |
+|---|---|
+| `transformers.__version__` | `4.45.2` |
+| `accelerate.__version__` | `0.34.2` |
+| `datasets.__version__` | `4.8.3` |
+| `pandas.__version__` | `2.2.3` |
+| `pytz`, `tzdata` importable | True |
+
+**Halt conditions:**
+
+| Condition | Class | Action |
+|---|---|---|
+| `pip install` non-zero exit | Pre-flight failure | Investigate; possible network issue; retry once |
+| Post-restart `ImportError` for any package | Pre-flight failure | Re-run Cell 0; if persistent, investigate image drift |
+| Version mismatch in CELL 0-VERIFY assertions | Pre-flight failure | Manifest discipline violation; halt session |
+
+---
+
+## Cell 1 — Environment fingerprint + image digest reconciliation
+
+**Specialist:** framework-spec-writer + state-consistency-theorist (manifest discipline)
+
+**Purpose:** Capture runtime-observed environment state (NOT tag-implied) into structured form for the reproducibility manifest. Per Block 2 Delta D1 + C1/C2: image patch-level versions drift from the human-readable tag; the digest is canonical.
+
+**Inputs:** Cell 0 + verify complete; pod terminal accessible.
+
+```python
+# === CELL 1 — Environment fingerprint + image digest reconciliation ===
+# Specialist: framework-spec-writer + state-consistency-theorist
+# References: Block 2 Delta D1; C1, C2
+
+import sys, platform, subprocess, json, torch
+from datetime import datetime, timezone
+
+fingerprint = {
+    "captured_at": datetime.now(timezone.utc).isoformat(),
+    "session": "2.6 — Stage 1 SECT execution",
+    "python":           sys.version.split()[0],
+    "platform":         platform.platform(),
+    "torch":            torch.__version__,
+    "cuda_torch":       torch.version.cuda,
+    "cudnn":            torch.backends.cudnn.version(),
+    "gpu_available":    torch.cuda.is_available(),
+}
+
+if torch.cuda.is_available():
+    fingerprint["gpu_count"] = torch.cuda.device_count()
+    gpus = []
+    for i in range(torch.cuda.device_count()):
+        props = torch.cuda.get_device_properties(i)
+        gpus.append({
+            "index": i,
+            "name": props.name,
+            "total_memory_gb": round(props.total_memory / 1e9, 2),
+            "compute_capability": f"sm_{props.major}{props.minor}",
+        })
+    fingerprint["gpus"] = gpus
+
+# Driver and image identity
+nvsmi = subprocess.check_output(
+    ["nvidia-smi", "--query-gpu=driver_version,name,memory.total", "--format=csv,noheader"],
+    text=True
+).strip()
+fingerprint["nvidia_smi"] = nvsmi
+
+# Image digest (skopeo-verified per OQ-S23-17; image tag is informational)
+# If the operator has an environment variable RUNPOD_IMAGE_DIGEST set, capture it; otherwise document
+fingerprint["image_tag_implied"] = "runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04"
+import os
+fingerprint["image_digest_observed"] = os.environ.get("RUNPOD_IMAGE_DIGEST", "OPERATOR_TO_FILL_VIA_SKOPEO")
+
+# R1.4 — image digest drift soft check (per OQ-S23-2; warns but does not halt)
+EXPECTED_DIGEST_PREFIX = "sha256:61a4aafb"
+if fingerprint["image_digest_observed"].startswith(EXPECTED_DIGEST_PREFIX):
+    fingerprint["image_digest_match"] = "EXPECTED"
+elif fingerprint["image_digest_observed"] == "OPERATOR_TO_FILL_VIA_SKOPEO":
+    fingerprint["image_digest_match"] = "DEFERRED — operator to populate via skopeo"
+else:
+    fingerprint["image_digest_match"] = "DRIFT — investigate per OQ-S23-2"
+    print(f"  WARN: image digest drift — got {fingerprint['image_digest_observed'][:32]}..., "
+          f"expected prefix {EXPECTED_DIGEST_PREFIX}. Continuing; flag in manifest update.")
+
+# /workspace mount verification
+df_workspace = subprocess.check_output(["df", "-BG", "/workspace"], text=True).strip().split("\n")
+fingerprint["workspace_mount"] = df_workspace[-1]
+
+print(json.dumps(fingerprint, indent=2))
+
+# Stage to NV
+import os
+os.makedirs("/workspace/architecture_profile", exist_ok=True)
+with open("/workspace/architecture_profile/stage_1_environment_fingerprint.json", "w") as f:
+    json.dump(fingerprint, f, indent=2)
+
+# Assertions on Stage 1 production target invariants
+assert fingerprint["gpu_count"] == 1, "Stage 1 single-GPU invariant violated"
+assert fingerprint["gpus"][0]["name"] == "NVIDIA GeForce RTX 4090", \
+    f"Stage 1 hardware invariant violated: {fingerprint['gpus'][0]['name']}"
+assert fingerprint["gpus"][0]["compute_capability"] == "sm_89", \
+    "Stage 1 compute capability invariant violated"
+print("\nCell 1: environment fingerprint staged + invariants verified.")
+```
+
+**Verification anchors:**
+
+| Anchor | Expected |
+|---|---|
+| `gpu_count` | `1` |
+| `gpus[0].name` | `NVIDIA GeForce RTX 4090` |
+| `gpus[0].compute_capability` | `sm_89` (Ada Lovelace) |
+| `gpus[0].total_memory_gb` | `~24.00` |
+| `torch.__version__` | `2.4.1+cu124` (RunPod image; tag claims 2.4.0) |
+| `cuda_torch` | `12.4` |
+| `image_digest_observed` populated | True (operator-filled or env-var) |
+
+**Halt conditions:**
+
+| Condition | Class | Action |
+|---|---|---|
+| GPU count > 1 | Pre-flight failure | Stage 1 single-GPU invariant violated; halt |
+| GPU name not RTX 4090 | Pre-flight failure | Likely capacity-substitution; halt and re-procure |
+| `image_digest_observed == "OPERATOR_TO_FILL_VIA_SKOPEO"` at Cell 12 | Manifest discipline | Operator must populate before reproducibility manifest update |
+
+---
+
+## Cell 2 — MEMIT repo + patch state verification
+
+**Specialist:** memit-specialist (P-1/P-2/P-4 idempotent verification)
+
+**Purpose:** Verify that the MEMIT repo on NV carries the canonical SHA pin AND has all required patches applied (P-1 nethook signature, P-2 with_kwargs, P-4 config-attribute). Per IC-S25-2: idempotent re-application is safe; verification is grep-based on patched file lines.
+
+**Inputs:** NV-resident `/workspace/memit_dry_run/memit/`.
+
+```python
+# === CELL 2 — MEMIT repo + patch state verification ===
+# Specialist: memit-specialist
+# References: IC-S25-2 (P-4 idempotency); memit-patches-canonical.md; C-S25-5 (cwd invariant)
+
+import os, subprocess, sys, hashlib, json
+from datetime import datetime, timezone
+
+MEMIT_ROOT = "/workspace/memit_dry_run/memit"
+EXPECTED_SHA = "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b"
+
+assert os.path.exists(MEMIT_ROOT), f"MEMIT repo missing at {MEMIT_ROOT}"
+
+# C-S25-5: chdir BEFORE any sys.path manipulation or MEMIT import
+os.chdir(MEMIT_ROOT)
+
+# SHA pin verification
+memit_sha = subprocess.check_output(
+    ["git", "-C", MEMIT_ROOT, "rev-parse", "HEAD"], text=True
+).strip()
+assert memit_sha == EXPECTED_SHA, f"SHA pin drift: got {memit_sha}, expected {EXPECTED_SHA}"
+
+# Patch P-1 + P-2 verification (util/nethook.py)
+nethook_path = f"{MEMIT_ROOT}/util/nethook.py"
+with open(nethook_path) as f:
+    nethook_src = f.read()
+
+p1_marker = "def retain_hook(m, args, kwargs, output):"
+p2_marker = "with_kwargs=True"
+assert p1_marker in nethook_src, "P-1 (hook signature) not applied"
+assert p2_marker in nethook_src, "P-2 (with_kwargs registration) not applied"
+
+# Patch P-4 verification (compute_z.py, compute_v.py, layer_stats.py)
+p4_targets = [
+    f"{MEMIT_ROOT}/rome/compute_z.py",
+    f"{MEMIT_ROOT}/rome/compute_v.py",
+    f"{MEMIT_ROOT}/rome/layer_stats.py",
+]
+p4_marker_hidden_size = "hidden_size"
+p4_marker_max_pos = "max_position_embeddings"
+for path in p4_targets:
+    with open(path) as f:
+        src = f.read()
+    if path.endswith("layer_stats.py"):
+        # layer_stats.py is patched at lines 101 + 108 — both hidden_size and max_position_embeddings
+        assert p4_marker_hidden_size in src, f"P-4 (hidden_size fallback) not applied in {path}"
+        assert p4_marker_max_pos in src, f"P-4 (max_position_embeddings fallback) not applied in {path}"
+    elif path.endswith("compute_z.py"):
+        assert p4_marker_hidden_size in src, f"P-4 (hidden_size fallback) not applied in {path}"
+    elif path.endswith("compute_v.py"):
+        assert p4_marker_hidden_size in src, f"P-4 (hidden_size fallback) not applied in {path}"
+
+# sys.path injection (idempotent — already on disk)
+if MEMIT_ROOT not in sys.path:
+    sys.path.insert(0, MEMIT_ROOT)
+
+# Per-file SHA-256 fingerprint for manifest
+patched_files = [nethook_path] + p4_targets
+file_hashes = {}
+for path in patched_files:
+    with open(path, "rb") as f:
+        file_hashes[os.path.relpath(path, MEMIT_ROOT)] = hashlib.sha256(f.read()).hexdigest()[:16]
+
+patch_state = {
+    "captured_at": datetime.now(timezone.utc).isoformat(),
+    "memit_sha": memit_sha,
+    "patches_applied": {
+        "P-1_nethook_signature": True,
+        "P-2_with_kwargs_registration": True,
+        "P-3_prime_cpu_offload": False,  # NOT applied; RTX 4090 GPU FP64 envelope sufficient
+        "P-4_config_attribute_fallback": True,
+        "Pad-Token_alias": False,        # applied in Cell 5 (model load)
+        "Copy-Unmount_pattern": True,    # applied in Cell 9 trial fn
+    },
+    "patches_required_but_not_applied": [],  # all required patches applied or scheduled
+    "file_sha256_prefix": file_hashes,
+}
+print(json.dumps(patch_state, indent=2))
+
+with open("/workspace/architecture_profile/stage_1_patch_state.json", "w") as f:
+    json.dump(patch_state, f, indent=2)
+
+print(f"\nMEMIT cwd: {os.getcwd()}")
+print(f"Cell 2: patch state verified. P-1, P-2, P-4 all applied to NV-resident repo.")
+```
+
+**Verification anchors:**
+
+| Anchor | Expected |
+|---|---|
+| `memit_sha` | `80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b` |
+| P-1 marker `def retain_hook(m, args, kwargs, output):` | present in `util/nethook.py` |
+| P-2 marker `with_kwargs=True` | present in `util/nethook.py` |
+| P-4 marker `hidden_size` | present in `rome/compute_z.py`, `rome/compute_v.py`, `rome/layer_stats.py` |
+| P-4 marker `max_position_embeddings` | present in `rome/layer_stats.py` |
+| `os.getcwd()` | `/workspace/memit_dry_run/memit` |
+
+**Halt conditions:**
+
+| Condition | Class | Action |
+|---|---|---|
+| MEMIT_ROOT missing | Pre-flight failure | NV state corruption; halt and investigate |
+| SHA mismatch | Pre-flight failure | Repo drifted; re-apply pin or recover from SSD mirror |
+| Any P-1 / P-2 / P-4 marker absent | Pre-flight failure | Re-run patch script from `memit-patches-canonical.md`; verify; resume |
+| `os.getcwd()` not MEMIT root | Pre-flight failure | C-S25-5 violation; halt before any MEMIT import |
+
+---
+
+# Part IV — Cache verification (Cell 3)
+
+## Cell 3 — Fresh covariance cache provenance gate
+
+**Specialist:** state-consistency-theorist (provenance discipline) + memit-specialist (cache semantics)
+
+**Purpose:** Hard-gate Stage 1 SECT execution on the presence of a fresh covariance cache produced against the exact `meta-llama/Llama-3.1-8B` base, verified via structured PROVENANCE.txt assertion. Per C-S25-11, IC-S25-1, OQ-S25-9 closure path: bridge cache (Llama-3-8B-Instruct provenance) is banned from Stage 1+. The pre-S2.6 fork-work session is the producer; this cell is the consumer-side gate.
+
+**Inputs:** NV path `/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/` populated by pre-S2.6 fork-work session.
+
+```python
+# === CELL 3 — Fresh covariance cache provenance gate ===
+# Specialist: state-consistency-theorist + memit-specialist
+# References: C-S25-11, IC-S25-1, OQ-S25-9; D-S25-7 (rejected AlphaEdit precedent)
+
+import os, json, hashlib
+from datetime import datetime, timezone
+
+CACHE_DIR = "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats"
+PROVENANCE_PATH = f"{CACHE_DIR}/PROVENANCE.txt"
+
+assert os.path.exists(CACHE_DIR), f"Cache directory missing: {CACHE_DIR}"
+assert os.path.exists(PROVENANCE_PATH), \
+    f"PROVENANCE.txt missing at {PROVENANCE_PATH}. Pre-S2.6 fork-work session must complete first. HALT."
+
+# Parse PROVENANCE.txt — structured key=value lines
+with open(PROVENANCE_PATH) as f:
+    raw = f.read()
+
+provenance = {}
+for line in raw.splitlines():
+    line = line.strip()
+    if not line or line.startswith("#"):
+        continue
+    if "=" in line:
+        k, v = line.split("=", 1)
+        provenance[k.strip()] = v.strip()
+
+# Required fields (per Cell 3 contract from S2.5a-runbook design)
+REQUIRED_FIELDS = [
+    "model_name",
+    "model_revision_sha",
+    "layer_set",
+    "sample_count",
+    "dtype",
+    "computed_at",
+    "produced_by_session",
+]
+for field in REQUIRED_FIELDS:
+    assert field in provenance, f"PROVENANCE.txt missing required field: {field}"
+
+# Hard gate predicates
+EXPECTED_MODEL = "meta-llama/Llama-3.1-8B"
+EXPECTED_LAYERS = "[4, 5, 6, 7, 8]"  # string-form match; hparams uses [4,5,6,7,8]
+EXPECTED_SAMPLES = "100000"
+EXPECTED_DTYPE = "float32"
+
+assert provenance["model_name"] == EXPECTED_MODEL, \
+    f"PROVENANCE GATE FAIL: model_name={provenance['model_name']!r}, expected {EXPECTED_MODEL!r}. " \
+    f"Bridge cache contamination risk. HALT (per IC-S25-1)."
+
+# Layer set parse + match (tolerant of "[4,5,6,7,8]" or "[4, 5, 6, 7, 8]")
+layer_set_normalized = provenance["layer_set"].replace(" ", "")
+assert layer_set_normalized == "[4,5,6,7,8]", \
+    f"PROVENANCE GATE FAIL: layer_set={provenance['layer_set']!r}, expected [4,5,6,7,8]. HALT."
+
+assert provenance["sample_count"] == EXPECTED_SAMPLES, \
+    f"PROVENANCE GATE FAIL: sample_count={provenance['sample_count']!r}, expected {EXPECTED_SAMPLES}. HALT."
+
+assert provenance["dtype"] == EXPECTED_DTYPE, \
+    f"PROVENANCE GATE FAIL: dtype={provenance['dtype']!r}, expected {EXPECTED_DTYPE}. HALT."
+
+# Cache file inventory + size + per-file SHA-256 prefix
+cache_files = sorted([f for f in os.listdir(CACHE_DIR) if f.endswith(".npz") or f.endswith(".pt")])
+file_inventory = {}
+total_bytes = 0
+for fname in cache_files:
+    fpath = f"{CACHE_DIR}/{fname}"
+    size_bytes = os.path.getsize(fpath)
+    total_bytes += size_bytes
+    with open(fpath, "rb") as f:
+        sha = hashlib.sha256()
+        for chunk in iter(lambda: f.read(8 * 1024 * 1024), b""):
+            sha.update(chunk)
+    file_inventory[fname] = {
+        "size_mb": round(size_bytes / 1e6, 2),
+        "sha256_prefix": sha.hexdigest()[:16],
+    }
+
+# R1.1 — Tighter cache file inventory check (named per-layer files)
+# Catches a fork-work session that produced cache for the wrong layer set.
+# File-naming convention follows rome/layer_stats.py output:
+#   model.layers.{L}.mlp.down_proj_float32_mom2_100000.npz
+EXPECTED_LAYER_FILES = {
+    f"model.layers.{L}.mlp.down_proj_float32_mom2_100000.npz"
+    for L in [4, 5, 6, 7, 8]
+}
+actual_npz_files = {f for f in cache_files if f.endswith(".npz")}
+assert actual_npz_files == EXPECTED_LAYER_FILES, \
+    f"PROVENANCE GATE FAIL: cache file set mismatch.\n" \
+    f"  Expected: {sorted(EXPECTED_LAYER_FILES)}\n" \
+    f"  Got:      {sorted(actual_npz_files)}\n" \
+    f"  Missing:  {sorted(EXPECTED_LAYER_FILES - actual_npz_files)}\n" \
+    f"  Extra:    {sorted(actual_npz_files - EXPECTED_LAYER_FILES)}\n" \
+    f"HALT — fork-work session produced cache for wrong layer set."
+
+# Defensive fallback assertion on count
+assert len(cache_files) >= 5, \
+    f"PROVENANCE GATE FAIL: expected ≥ 5 cache files (one per edit layer), got {len(cache_files)}: {cache_files}. HALT."
+
+cache_state = {
+    "verified_at": datetime.now(timezone.utc).isoformat(),
+    "cache_dir": CACHE_DIR,
+    "provenance_fields": provenance,
+    "cache_files": file_inventory,
+    "total_size_gb": round(total_bytes / 1e9, 2),
+    "gate_status": "PASS",
+}
+print(json.dumps(cache_state, indent=2))
+
+with open("/workspace/architecture_profile/stage_1_cache_state.json", "w") as f:
+    json.dump(cache_state, f, indent=2)
+
+print(f"\nCell 3: cache provenance GATE PASS. Cache freshly computed against {EXPECTED_MODEL}. "
+      f"Stage 1 SECT execution authorized.")
+```
+
+**Verification anchors:**
+
+| Anchor | Expected |
+|---|---|
+| `PROVENANCE.txt` exists | True |
+| `provenance.model_name` | `meta-llama/Llama-3.1-8B` |
+| `provenance.layer_set` (normalized) | `[4,5,6,7,8]` |
+| `provenance.sample_count` | `100000` |
+| `provenance.dtype` | `float32` |
+| Cache file count | `5` (one per edit layer) |
+| Total cache size | `~4.0–5.0 GB` (5 layers × ~822 MB; matches bridge cache footprint scale) |
+
+**Halt conditions:**
+
+| Condition | Class | Action |
+|---|---|---|
+| `PROVENANCE.txt` absent | **Hard halt — session-level** | Pre-S2.6 fork-work session has not completed. Schedule it; defer Session 2.6 |
+| `provenance.model_name` ≠ `meta-llama/Llama-3.1-8B` | **Hard halt — session-level** | Cache provenance contamination (D-S25-7 / OQ-S25-8 class). HALT |
+| `provenance.layer_set` ≠ `[4,5,6,7,8]` | **Hard halt — session-level** | Cache layer mismatch with hparams; HALT |
+| Cache file count ≠ 5 | **Hard halt — session-level** | Incomplete cache compute; HALT |
+
+---
+
+# Part V — Hparams + Model (Cells 4–5)
+
+## Cell 4 — Hparams stage + load (20-field strict schema)
+
+**Specialist:** memit-specialist (MEMITHyperParams schema discipline)
+
+**Purpose:** Stage the corrected 20-field LLaMA hparams JSON to the canonical MEMIT hparams directory and validate it loads cleanly into `MEMITHyperParams.from_json()`. Per C-S25-8: strict-dataclass schema; ROME-only fields (`context_template_length_params`, `n_toks`, `max_length`) are rejected.
+
+**Inputs:** `/workspace/architecture_profile/meta-llama_Llama-3.1-8B.json` (corrected schema, NV-resident from S2.5a).
+
+```python
+# === CELL 4 — Hparams stage + load ===
+# Specialist: memit-specialist
+# References: C-S25-8 (20-field schema); D-S25-11; OQ-S25-3, OQ-S25-4
+
+import os, json, shutil, sys
+
+# C-S25-5: cwd invariant (re-asserting; should still be MEMIT root from Cell 2)
+MEMIT_ROOT = "/workspace/memit_dry_run/memit"
+os.chdir(MEMIT_ROOT)
+
+HPARAMS_SRC = "/workspace/architecture_profile/meta-llama_Llama-3.1-8B.json"
+HPARAMS_DST_DIR = f"{MEMIT_ROOT}/hparams/MEMIT"
+HPARAMS_DST = f"{HPARAMS_DST_DIR}/Llama-3.1-8B.json"
+
+# Schema validation — read and assert 20 fields, no ROME-only fields
+with open(HPARAMS_SRC) as f:
+    hparams_dict = json.load(f)
+
+EXPECTED_FIELDS = {
+    "layers", "clamp_norm_factor", "layer_selection", "fact_token",
+    "v_num_grad_steps", "v_lr", "v_loss_layer", "v_weight_decay",
+    "kl_factor", "mom2_adjustment", "mom2_update_weight",
+    "rewrite_module_tmp", "layer_module_tmp", "mlp_module_tmp",
+    "attn_module_tmp", "ln_f_module", "lm_head_module",
+    "mom2_dataset", "mom2_n_samples", "mom2_dtype",
+}
+ROME_ONLY_FIELDS = {"context_template_length_params", "n_toks", "max_length"}
+
+actual_fields = set(hparams_dict.keys())
+missing = EXPECTED_FIELDS - actual_fields
+extra = actual_fields - EXPECTED_FIELDS
+rome_contamination = actual_fields & ROME_ONLY_FIELDS
+
+assert not missing, f"Hparams schema missing fields: {missing}"
+assert not extra, f"Hparams schema has unexpected fields: {extra}"
+assert not rome_contamination, f"Hparams schema contains ROME-only fields (C-S25-8 violation): {rome_contamination}"
+assert len(actual_fields) == 20, f"Hparams field count mismatch: got {len(actual_fields)}, expected 20"
+
+# Stage to MEMIT canonical hparams path
+os.makedirs(HPARAMS_DST_DIR, exist_ok=True)
+shutil.copyfile(HPARAMS_SRC, HPARAMS_DST)
+
+# Load via MEMITHyperParams.from_json (final validation — would raise on dataclass mismatch)
+sys.path.insert(0, MEMIT_ROOT)
+from memit import MEMITHyperParams
+hparams = MEMITHyperParams.from_json(HPARAMS_DST)
+
+# Stage 1 invariants on hparams
+assert list(hparams.layers) == [4, 5, 6, 7, 8], f"Layer set mismatch: {hparams.layers}"
+assert hparams.fact_token == "subject_last", f"fact_token mismatch: {hparams.fact_token}"
+assert hparams.mom2_dataset == "wikipedia"
+assert hparams.mom2_n_samples == 100000
+assert hparams.mom2_dtype == "float32"
+assert hparams.mom2_update_weight == 15000  # OQ-S25-3 provisional; may be 20000 in S2.7 sweep
+assert hparams.v_lr == 0.5  # OQ-S25-4 provisional; smoke-test-validated
+
+print(f"Cell 4 hparams loaded successfully:")
+print(f"  layers:                {hparams.layers}")
+print(f"  rewrite_module_tmp:    {hparams.rewrite_module_tmp}")
+print(f"  layer_module_tmp:      {hparams.layer_module_tmp}")
+print(f"  fact_token:            {hparams.fact_token}")
+print(f"  mom2_update_weight:    {hparams.mom2_update_weight}")
+print(f"  v_lr:                  {hparams.v_lr}")
+print(f"  mom2_dataset:          {hparams.mom2_dataset}")
+print(f"  mom2_n_samples:        {hparams.mom2_n_samples}")
+print(f"  mom2_dtype:            {hparams.mom2_dtype}")
+```
+
+**Verification anchors:**
+
+| Anchor | Expected |
+|---|---|
+| Field count | `20` |
+| ROME-only fields present | `set()` (empty) |
+| `hparams.layers` | `[4, 5, 6, 7, 8]` |
+| `hparams.rewrite_module_tmp` | `model.layers.{}.mlp.down_proj` |
+| `hparams.layer_module_tmp` | `model.layers.{}` |
+| `hparams.mom2_update_weight` | `15000` |
+| `hparams.v_lr` | `0.5` |
+| `MEMITHyperParams.from_json` | no exception |
+
+**Halt conditions:**
+
+| Condition | Class | Action |
+|---|---|---|
+| Missing field | Pre-flight failure | Hparams JSON corrupted; recover from S2.5a corrected version |
+| ROME-only field present | Pre-flight failure (C-S25-8) | HALT — schema violation |
+| `from_json` raises | Pre-flight failure | Field-type mismatch; investigate |
+
+---
+
+## Cell 5 — Llama-3.1-8B model load + arch sanity + pad_token alias
+
+**Specialist:** memit-specialist (Pad-Token patch + arch sanity)
+
+**Purpose:** Load the Llama-3.1-8B base model from NV-resident HF cache, perform architecture sanity checks against the hparams contract, and apply the Pad-Token alias if needed (Llama 3.1 8B already has a pad_token defined per memit-patches-canonical.md §4.4; check before aliasing).
+
+**Inputs:** Hparams loaded (Cell 4); HF_HOME pointed at `/workspace/hf_cache`.
+
+```python
+# === CELL 5 — Llama-3.1-8B model load + arch sanity + pad_token alias ===
+# Specialist: memit-specialist
+# References: D-S25-5 (target model commitment); D-S25-8 (NV-backed HF cache);
+#             memit-patches-canonical.md §4.4 (Pad-Token LLaMA-specific note)
+
+import os
+os.environ["HF_HOME"] = "/workspace/hf_cache"
+
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+
+MODEL_NAME = "meta-llama/Llama-3.1-8B"
+
+print("Loading tokenizer...")
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+
+print("Loading model (single-GPU direct .to('cuda'); ~2-4 min from NV cache)...")
+model = AutoModelForCausalLM.from_pretrained(
+    MODEL_NAME,
+    torch_dtype=torch.float16,
+    low_cpu_mem_usage=True,
+).to("cuda")
+model.eval()
+
+# Architecture sanity (cross-check against hparams contract)
+assert model.config.num_hidden_layers == 32, \
+    f"Llama-3.1-8B layer count mismatch: {model.config.num_hidden_layers}"
+assert model.config.hidden_size == 4096, \
+    f"Llama-3.1-8B hidden_size mismatch: {model.config.hidden_size}"
+assert model.config.max_position_embeddings == 131072, \
+    f"Llama-3.1-8B max_position_embeddings mismatch: {model.config.max_position_embeddings}"
+
+# Edit-layer-set is within the architecture
+assert all(l < model.config.num_hidden_layers for l in [4, 5, 6, 7, 8]), \
+    "Edit layer set out of bounds for model architecture"
+
+# Pad-Token alias (LLaMA-specific check per memit-patches-canonical §4.4)
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
+    print(f"Set tokenizer.pad_token = tokenizer.eos_token = {tokenizer.eos_token!r} "
+          f"(id={tokenizer.eos_token_id})")
+else:
+    print(f"tokenizer.pad_token already set: {tokenizer.pad_token!r} "
+          f"(id={tokenizer.pad_token_id}); no aliasing needed")
+
+# Revision SHA capture (for manifest)
+import huggingface_hub
+try:
+    revision_sha = huggingface_hub.HfApi().model_info(MODEL_NAME).sha
+except Exception as e:
+    revision_sha = f"UNAVAILABLE: {e}"
+
+print(f"\nLlama-3.1-8B revision SHA: {revision_sha}")
+print(f"Loaded device:             {next(model.parameters()).device}")
+print(f"Loaded dtype:              {next(model.parameters()).dtype}")
+print(f"GPU mem used:              {torch.cuda.memory_allocated() / 1e9:.2f} GB")
+print(f"GPU mem total:             {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB")
+print(f"num_hidden_layers:         {model.config.num_hidden_layers}")
+print(f"hidden_size:                {model.config.hidden_size}")
+print(f"max_position_embeddings:   {model.config.max_position_embeddings}")
+```
+
+**Verification anchors:**
+
+| Anchor | Expected |
+|---|---|
+| `model.config.num_hidden_layers` | `32` |
+| `model.config.hidden_size` | `4096` |
+| `model.config.max_position_embeddings` | `131072` |
+| GPU mem used | `~16.0 GB` (Llama-3.1-8B float16) |
+| Loaded device | `cuda:0` |
+| Loaded dtype | `torch.float16` |
+| `tokenizer.pad_token` | not None (Llama has its own pad_token) |
+
+**Halt conditions:**
+
+| Condition | Class | Action |
+|---|---|---|
+| Architecture mismatch (layer count, hidden_size) | Pre-flight failure | Wrong model variant downloaded; HALT |
+| GPU mem usage > 18 GB at load | Pre-flight failure | Anomalous memory profile; investigate before Cell 9 |
+| Tokenizer pad_token aliasing fails | Pre-flight failure | Tokenizer initialization issue; HALT |
+
+---
+
+# Part VI — LLaMA baseline re-capture (Cells 6–7) — IC-S25-3 / OQ-S25-10
+
+## Cell 6 — LLaMA tokenizer single-token verification
+
+**Specialist:** validation-contract-architect (single-token invariant per C-S24-3)
+
+**Purpose:** Verify that all `target_new` and `target_true` values for the 3 stage_1_eligible facts (cfb-001, cfb-002, cfb-003) resolve to single tokens under the Llama-3.1-8B tokenizer. Closes OQ-CFB-2 LLaMA-side per S2.5a closure note. Also captures subject token IDs for MEMIT's `fact_token=subject_last` anchoring.
+
+**Inputs:** Tokenizer loaded (Cell 5); `cfb-v1.yaml` v1.1 KB-resident.
+
+```python
+# === CELL 6 — LLaMA tokenizer single-token verification ===
+# Specialist: validation-contract-architect
+# References: C-S24-3 (single-token invariant); OQ-CFB-2 (LLaMA-side);
+#             cfb-v1.yaml v1.1 stage_1_eligible_facts
+
+import json
+from datetime import datetime, timezone
+
+# Stage-1-eligible facts (per C-S24-1)
+# R2.2 — Embedded from cfb-v1.yaml v1.1 stage_1_eligible_facts (Session 2.5a capture).
+# If cfb-v1 advances to v1.2 (e.g., post-Stage-1 corpus revision), this runbook must be
+# re-versioned. Drift between this embedded literal and the YAML source is a known risk.
+stage_1_facts = [
+    {"id": "cfb-001", "subject": "Michael Jordan",  "target_new": "baseball", "target_true": "basketball"},
+    {"id": "cfb-002", "subject": "Tom Brady",       "target_new": "soccer",   "target_true": "football"},
+    {"id": "cfb-003", "subject": "Wayne Gretzky",   "target_new": "tennis",   "target_true": "hockey"},
+]
+
+# Single-token verification helper (HC-2 convention: leading space prepend)
+def encode_single(tok, value):
+    ids = tok.encode(" " + value, add_special_tokens=False)
+    return ids
+
+token_verification = {
+    "captured_at": datetime.now(timezone.utc).isoformat(),
+    "model": "meta-llama/Llama-3.1-8B",
+    "tokenizer_class": tokenizer.__class__.__name__,
+    "facts": {},
+}
+
+all_pass = True
+for fact in stage_1_facts:
+    new_ids = encode_single(tokenizer, fact["target_new"])
+    true_ids = encode_single(tokenizer, fact["target_true"])
+
+    new_pass = (len(new_ids) == 1)
+    true_pass = (len(true_ids) == 1)
+
+    # Subject token IDs (for MEMIT subject_last anchoring; multi-token allowed; subject_last is the LAST token)
+    subj_ids = tokenizer.encode(fact["subject"], add_special_tokens=False)
+    subj_decoded = [tokenizer.decode([t]) for t in subj_ids]
+    subj_last_id = subj_ids[-1]
+    subj_last_decoded = tokenizer.decode([subj_last_id])
+
+    fact_record = {
+        "subject": fact["subject"],
+        "subject_token_ids": subj_ids,
+        "subject_decoded_tokens": subj_decoded,
+        "subject_last_id": subj_last_id,
+        "subject_last_decoded": subj_last_decoded,
+        "target_new": fact["target_new"],
+        "target_new_id": new_ids[0] if new_pass else None,
+        "target_new_token_count": len(new_ids),
+        "target_new_single_token_pass": new_pass,
+        "target_true": fact["target_true"],
+        "target_true_id": true_ids[0] if true_pass else None,
+        "target_true_token_count": len(true_ids),
+        "target_true_single_token_pass": true_pass,
+    }
+    token_verification["facts"][fact["id"]] = fact_record
+
+    status = "PASS" if (new_pass and true_pass) else "FAIL"
+    print(f"\n{fact['id']} ({fact['subject']}): {status}")
+    print(f"  subject tokens:    {subj_decoded} → ids {subj_ids}")
+    print(f"  subject_last:      {subj_last_decoded!r} (id={subj_last_id})")
+    print(f"  target_new:        {fact['target_new']!r} → "
+          f"{'single-token id=' + str(new_ids[0]) if new_pass else 'MULTI-TOKEN ' + str(new_ids)}")
+    print(f"  target_true:       {fact['target_true']!r} → "
+          f"{'single-token id=' + str(true_ids[0]) if true_pass else 'MULTI-TOKEN ' + str(true_ids)}")
+
+    if not (new_pass and true_pass):
+        all_pass = False
+
+token_verification["all_facts_pass"] = all_pass
+
+# Stage to NV
+import os
+os.makedirs("/workspace/architecture_profile", exist_ok=True)
+with open("/workspace/architecture_profile/stage_1_token_verification.json", "w") as f:
+    json.dump(token_verification, f, indent=2)
+
+assert all_pass, \
+    "Cell 6 HALT: one or more stage_1_eligible facts fails single-token verification on LLaMA tokenizer. " \
+    "Fact revision required before Stage 1 SECT execution."
+
+print(f"\nCell 6: ALL stage_1_eligible facts single-token verified PASS on LLaMA tokenizer. "
+      f"OQ-CFB-2 LLaMA-side closed.")
+```
+
+**Verification anchors:**
+
+| Anchor | Expected |
+|---|---|
+| All 3 facts `target_new_single_token_pass` | `True` |
+| All 3 facts `target_true_single_token_pass` | `True` |
+| `all_facts_pass` | `True` |
+
+**Halt conditions:**
+
+| Condition | Class | Action |
+|---|---|---|
+| Any single-token verification fails | Session-level halt | Fact revision needed; corpus re-version; defer Stage 1 to v1.2 corpus authorship |
+
+---
+
+## Cell 7 — Pre-edit baseline capture (produces `stage_1_llama_baselines.json`)
+
+**Specialist:** validation-contract-architect (probe protocol authorship)
+
+**Purpose:** Capture pre-edit top-5 + p_top_1 for every active probe in probe-set v1.1, plus per-fact `p_target_true_pre` and `p_target_new_pre`. This artifact is the SINGLE SOURCE OF TRUTH for all post-edit and post-unmount drift comparisons in the trial loop (Cell 9). Per IC-S25-3: trial verdict evaluation references this artifact, NOT cfb-v1.yaml's GPT-J baselines.
+
+**Inputs:** Model + tokenizer loaded (Cell 5); probe-set v1.1 KB-resident.
+
+```python
+# === CELL 7 — Pre-edit baseline capture (LLaMA) ===
+# Specialist: validation-contract-architect
+# References: IC-S25-3, C-S25-12 (LLaMA baseline re-capture mandate);
+#             OQ-S25-10 (GPT-J→LLaMA prior divergence);
+#             probe-set-v1.yaml v1.1
+
+import torch, json
+from datetime import datetime, timezone
+
+# Active probe set for Stage 1 (probe-set v1.1, 38 active probes after polysemy drop)
+# R2.2 — Embedded from probe-set-v1.yaml v1.1 (Session 2.5a). If probe-set-v1 advances
+# (e.g., post-Stage-1 acceptance band calibration per OQ-PROBE-2), this runbook must be
+# re-versioned. Drift between this embedded literal and the YAML source is a known risk.
+# Embedded directly to keep the runbook self-contained — operator may also load from YAML if preferred.
+active_probes = {
+    # ===== cfb-001 — Michael Jordan =====
+    "p-cfb-001-cons-1": {"linked_fact_id": "cfb-001", "category": "consistency",
+        "prompt": "Michael Jordan plays the game of"},
+    "p-cfb-001-cons-2": {"linked_fact_id": "cfb-001", "category": "consistency",
+        "prompt": "The sport that Michael Jordan plays is"},
+    "p-cfb-001-cons-3": {"linked_fact_id": "cfb-001", "category": "consistency",
+        "prompt": "Michael Jordan is a professional"},
+    "p-cfb-001-gen-1": {"linked_fact_id": "cfb-001", "category": "generalization",
+        "prompt": "Michael Jordan wore jersey number"},
+    "p-cfb-001-gen-2": {"linked_fact_id": "cfb-001", "category": "generalization",
+        "prompt": "Michael Jordan's team was the"},
+    "p-cfb-001-gen-3": {"linked_fact_id": "cfb-001", "category": "generalization",
+        "prompt": "Michael Jordan's home country is"},
+    "p-cfb-001-unmount-1": {"linked_fact_id": "cfb-001", "category": "unmount",
+        "prompt": "Michael Jordan plays the sport of"},
+    # ===== cfb-002 — Tom Brady =====
+    "p-cfb-002-cons-1": {"linked_fact_id": "cfb-002", "category": "consistency",
+        "prompt": "Tom Brady plays the game of"},
+    "p-cfb-002-cons-2": {"linked_fact_id": "cfb-002", "category": "consistency",
+        "prompt": "The sport that Tom Brady plays is"},
+    "p-cfb-002-cons-3": {"linked_fact_id": "cfb-002", "category": "consistency",
+        "prompt": "Tom Brady is a professional"},
+    # gen-1 is the leakage probe (uses cfb-004's prompt with cfb-004's target_true);
+    # C-S24-7 trivially satisfied since cfb-004 is not in stage_1 set
+    "p-cfb-002-gen-1": {"linked_fact_id": "cfb-002", "category": "generalization",
+        "prompt": "Tom Brady was born in", "leakage_probe": True},
+    "p-cfb-002-gen-2": {"linked_fact_id": "cfb-002", "category": "generalization",
+        "prompt": "Tom Brady wore jersey number"},
+    "p-cfb-002-gen-3": {"linked_fact_id": "cfb-002", "category": "generalization",
+        "prompt": "Tom Brady was drafted by the"},  # D-S25-2 revision
+    "p-cfb-002-unmount-1": {"linked_fact_id": "cfb-002", "category": "unmount",
+        "prompt": "Tom Brady plays the sport of"},
+    # ===== cfb-003 — Wayne Gretzky =====
+    "p-cfb-003-cons-1": {"linked_fact_id": "cfb-003", "category": "consistency",
+        "prompt": "Wayne Gretzky plays the game of"},
+    "p-cfb-003-cons-2": {"linked_fact_id": "cfb-003", "category": "consistency",
+        "prompt": "The sport that Wayne Gretzky plays is"},
+    "p-cfb-003-cons-3": {"linked_fact_id": "cfb-003", "category": "consistency",
+        "prompt": "Wayne Gretzky is a professional"},
+    "p-cfb-003-gen-1": {"linked_fact_id": "cfb-003", "category": "generalization",
+        "prompt": "Wayne Gretzky wore jersey number"},
+    "p-cfb-003-gen-2": {"linked_fact_id": "cfb-003", "category": "generalization",
+        "prompt": "Wayne Gretzky's team was the"},
+    "p-cfb-003-gen-3": {"linked_fact_id": "cfb-003", "category": "generalization",
+        "prompt": "Wayne Gretzky's home country is"},  # D-S25-4 revision
+    "p-cfb-003-unmount-1": {"linked_fact_id": "cfb-003", "category": "unmount",
+        "prompt": "Wayne Gretzky plays the sport of"},
+    # ===== Shared specificity (corpus-wide; D-S25-3 revisions) =====
+    "p-shared-spec-1": {"linked_fact_id": None, "category": "specificity_shared", "domain": "geography",
+        "prompt": "The capital of France is the city of"},
+    "p-shared-spec-2": {"linked_fact_id": None, "category": "specificity_shared", "domain": "astronomy",
+        "prompt": "Among the planets in our solar system, the largest is"},
+    "p-shared-spec-3": {"linked_fact_id": None, "category": "specificity_shared", "domain": "chemistry",
+        "prompt": "The chemical symbol for gold is"},
+}
+
+# Per-fact target IDs from Cell 6
+target_ids = {
+    fid: {
+        "target_new_id":  rec["target_new_id"],
+        "target_true_id": rec["target_true_id"],
+    }
+    for fid, rec in token_verification["facts"].items()
+}
+
+def measure_probe(prompt, top_k=5):
+    """Forward pass; return top-k token info + full softmax for arbitrary lookups."""
+    input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to("cuda")
+    with torch.no_grad():
+        logits = model(input_ids).logits[0, -1, :]
+        probs = torch.softmax(logits, dim=-1)
+        top_vals, top_ids = torch.topk(probs, k=top_k)
+    top_5 = []
+    for v, i in zip(top_vals.tolist(), top_ids.tolist()):
+        top_5.append({
+            "token_id": i,
+            "token_str": tokenizer.decode([i]),
+            "p": round(v, 6),
+        })
+    return {"top_5": top_5, "_probs_tensor": probs}
+
+print(f"Capturing pre-edit baseline for {len(active_probes)} active probes...")
+baselines = {
+    "captured_at": datetime.now(timezone.utc).isoformat(),
+    "model": "meta-llama/Llama-3.1-8B",
+    "model_dtype": str(next(model.parameters()).dtype),
+    "purpose": "Stage 1 SECT pre-edit reference (IC-S25-3); supersedes GPT-J baselines in cfb-v1.yaml v1.1",
+    "per_fact": {},
+    "per_probe": {},
+}
+
+# Per-fact: P(target_true), P(target_new) at the canonical "plays the sport of" prompt
+for fact_id in ["cfb-001", "cfb-002", "cfb-003"]:
+    fact_subject = {
+        "cfb-001": "Michael Jordan",
+        "cfb-002": "Tom Brady",
+        "cfb-003": "Wayne Gretzky",
+    }[fact_id]
+    canonical_prompt = f"{fact_subject} plays the sport of"
+    m = measure_probe(canonical_prompt)
+    target_true_id = target_ids[fact_id]["target_true_id"]
+    target_new_id = target_ids[fact_id]["target_new_id"]
+    baselines["per_fact"][fact_id] = {
+        "subject": fact_subject,
+        "canonical_prompt": canonical_prompt,
+        "p_target_true_pre": round(m["_probs_tensor"][target_true_id].item(), 6),
+        "p_target_new_pre":  round(m["_probs_tensor"][target_new_id].item(), 6),
+        "top_5": m["top_5"],
+    }
+    print(f"  {fact_id}: P(target_true)={baselines['per_fact'][fact_id]['p_target_true_pre']:.4f} "
+          f"P(target_new)={baselines['per_fact'][fact_id]['p_target_new_pre']:.4f}")
+
+# Per-probe: top-5 + p_top_1; for cons probes, also p_target_new
+for probe_id, probe in active_probes.items():
+    m = measure_probe(probe["prompt"])
+    record = {
+        "category": probe["category"],
+        "linked_fact_id": probe["linked_fact_id"],
+        "prompt": probe["prompt"],
+        "top_5": m["top_5"],
+        "p_top_1_pre": m["top_5"][0]["p"],
+        "top_1_token_pre": m["top_5"][0]["token_str"],
+    }
+    # For consistency probes, also pre-capture P(target_new) — used to compute "post − pre" delta
+    if probe["category"] == "consistency":
+        target_new_id = target_ids[probe["linked_fact_id"]]["target_new_id"]
+        record["p_target_new_pre"] = round(m["_probs_tensor"][target_new_id].item(), 6)
+    # For unmount probes, capture P(target_true) — required for unmount band check
+    if probe["category"] == "unmount":
+        target_true_id = target_ids[probe["linked_fact_id"]]["target_true_id"]
+        record["p_target_true_pre"] = round(m["_probs_tensor"][target_true_id].item(), 6)
+    baselines["per_probe"][probe_id] = record
+
+baselines["target_ids_by_fact"] = target_ids
+baselines["probe_count_active"] = len(active_probes)
+
+# Stage to NV (canonical Cell 7 output per IC-S25-3)
+with open("/workspace/architecture_profile/stage_1_llama_baselines.json", "w") as f:
+    json.dump(baselines, f, indent=2)
+
+print(f"\nCell 7: pre-edit baselines captured for {len(active_probes)} active probes.")
+print(f"  Output: /workspace/architecture_profile/stage_1_llama_baselines.json")
+print(f"  Closes OQ-S25-10 (LLaMA baseline re-capture).")
+```
+
+**Verification anchors:**
+
+| Anchor | Expected (provisional; informs OQ-PROBE-2) |
+|---|---|
+| `per_fact["cfb-001"].p_target_true_pre` | `~0.55` (LLaMA prior on basketball; OQ-S25-10 noted divergence from GPT-J's 0.870) |
+| `per_fact["cfb-002"].p_target_true_pre` | likely strong (football); empirical |
+| `per_fact["cfb-003"].p_target_true_pre` | likely strong (hockey); empirical |
+| `probe_count_active` | `24` |
+| `stage_1_llama_baselines.json` written to NV | True |
+
+**Halt conditions:**
+
+| Condition | Class | Action |
+|---|---|---|
+| Any per-fact `p_target_true_pre < 0.10` | Pre-edit baseline anomaly | Investigate; OQ-S25-10 escalation; possibly defer Stage 1 |
+| Forward pass raises | Pre-flight failure | Investigate (likely tokenizer or model state issue) |
+| `stage_1_llama_baselines.json` write fails | Pre-flight failure | NV write issue; investigate before Cell 9 |
+
+**Note:** The acceptance bands in probe-set v1.1 reference *pre_edit_prob* values captured against GPT-J; LLaMA baselines may differ substantially. The **structure** of the bands (drift < 0.05 etc.) applies; the **GPT-J reference numbers** do not.
+
+---
+
+# Part VII — Trial loop (Cells 8–10) — IC-S24-4 protocol
+
+## Cell 8 — Trial matrix definition
+
+**Specialist:** validation-contract-architect (IC-S24-4 enforcement)
+
+**Purpose:** Enumerate the 9 trials per IC-S24-4 (3 facts × 3 replicates), construct the per-trial probe set lookup, and verify C-S24-7 leakage exclusivity (trivially satisfied; cfb-004 not in stage_1 set).
+
+```python
+# === CELL 8 — Trial matrix definition ===
+# Specialist: validation-contract-architect
+# References: IC-S24-4 (trial protocol); C-S24-7 (leakage exclusivity)
+
+import os, json
+from datetime import datetime, timezone
+
+stage_1_eligible_facts = ["cfb-001", "cfb-002", "cfb-003"]
+REPLICATES = 3
+
+# C-S24-7 trivially satisfied: cfb-004 is the only cross-link to cfb-002's leakage probe,
+# and cfb-004 is NOT in stage_1_eligible_facts. Recorded as audit-trail note.
+c_s24_7_satisfaction = {
+    "constraint": "C-S24-7 (intra-subject leakage exclusivity)",
+    "status": "TRIVIALLY SATISFIED",
+    "rationale": "cfb-002's gen-1 is the leakage probe; cross-linked fact is cfb-004; "
+                 "cfb-004 is not in stage_1_eligible_facts. No concurrent-edit violation possible.",
+}
+
+# Per-fact MEMIT request format (per IC-S24-3) and probe set
+fact_memit_requests = {
+    "cfb-001": {"prompt": "{} plays the sport of", "subject": "Michael Jordan",  "target_new": {"str": "baseball"}},
+    "cfb-002": {"prompt": "{} plays the sport of", "subject": "Tom Brady",       "target_new": {"str": "soccer"}},
+    "cfb-003": {"prompt": "{} plays the sport of", "subject": "Wayne Gretzky",   "target_new": {"str": "tennis"}},
+}
+
+# Per-fact probe enumeration (consistency + generalization + unmount + 3 shared-spec)
+fact_probes = {
+    "cfb-001": {
+        "consistency":  ["p-cfb-001-cons-1", "p-cfb-001-cons-2", "p-cfb-001-cons-3"],
+        "generalization": ["p-cfb-001-gen-1", "p-cfb-001-gen-2", "p-cfb-001-gen-3"],
+        "specificity_per_fact": [],  # polysemy probe DROPPED per D-S25-1
+        "unmount": ["p-cfb-001-unmount-1"],
+    },
+    "cfb-002": {
+        "consistency":  ["p-cfb-002-cons-1", "p-cfb-002-cons-2", "p-cfb-002-cons-3"],
+        "generalization": ["p-cfb-002-gen-1", "p-cfb-002-gen-2", "p-cfb-002-gen-3"],
+        "specificity_per_fact": [],
+        "unmount": ["p-cfb-002-unmount-1"],
+    },
+    "cfb-003": {
+        "consistency":  ["p-cfb-003-cons-1", "p-cfb-003-cons-2", "p-cfb-003-cons-3"],
+        "generalization": ["p-cfb-003-gen-1", "p-cfb-003-gen-2", "p-cfb-003-gen-3"],
+        "specificity_per_fact": [],
+        "unmount": ["p-cfb-003-unmount-1"],
+    },
+}
+shared_specificity_probes = ["p-shared-spec-1", "p-shared-spec-2", "p-shared-spec-3"]
+
+# Trial enumeration (sequential by fact, then replicate)
+trial_matrix = []
+trial_index = 0
+for fact_id in stage_1_eligible_facts:
+    for replicate in range(1, REPLICATES + 1):
+        trial_matrix.append({
+            "trial_index": trial_index,
+            "fact_id": fact_id,
+            "replicate": replicate,
+            "memit_request": fact_memit_requests[fact_id],
+            "per_fact_probes": fact_probes[fact_id],
+            "shared_specificity_probes": shared_specificity_probes,
+            "torch_seed": 0,  # same seed across replicates per design default;
+                              # tests deterministic reproducibility, not stochastic stability
+        })
+        trial_index += 1
+
+assert len(trial_matrix) == 9, f"Trial count mismatch: {len(trial_matrix)}"
+
+# R2.1 — C-S24-7 runtime hard gate (future-proofs against accidental Stage 2 fact inclusion)
+trial_fact_ids = {t["fact_id"] for t in trial_matrix}
+assert "cfb-004" not in trial_fact_ids and "cfb-005" not in trial_fact_ids, \
+    f"C-S24-7 violation: cfb-004 or cfb-005 found in stage_1 trial matrix. HALT. Got: {trial_fact_ids}"
+
+trial_matrix_doc = {
+    "captured_at": datetime.now(timezone.utc).isoformat(),
+    "trial_count": len(trial_matrix),
+    "stage_1_eligible_facts": stage_1_eligible_facts,
+    "replicates_per_fact": REPLICATES,
+    "c_s24_7_satisfaction": c_s24_7_satisfaction,
+    "trials": trial_matrix,
+}
+
+os.makedirs("/workspace/stage_1_sect/trials", exist_ok=True)
+os.makedirs("/workspace/stage_1_sect/overlays", exist_ok=True)
+with open("/workspace/stage_1_sect/trial_matrix.json", "w") as f:
+    json.dump(trial_matrix_doc, f, indent=2)
+
+print(f"Cell 8: trial matrix defined ({len(trial_matrix)} trials).")
+print(f"  3 facts × 3 replicates = 9 trials")
+print(f"  C-S24-7 leakage exclusivity: {c_s24_7_satisfaction['status']}")
+for t in trial_matrix:
+    print(f"  Trial {t['trial_index']}: {t['fact_id']} replicate {t['replicate']}")
+```
+
+**Verification anchors:**
+
+| Anchor | Expected |
+|---|---|
+| `len(trial_matrix)` | `9` |
+| `c_s24_7_satisfaction.status` | `TRIVIALLY SATISFIED` |
+| Per-trial probe count for cfb-001 | 7 per-fact + 3 shared = 10 |
+| Per-trial probe count for cfb-002 / cfb-003 | 7 per-fact + 3 shared = 10 |
+
+---
+
+## Cell 9 — Per-trial execution function
+
+**Specialist:** validation-contract-architect (verdict computation) + memit-specialist (edit invocation) + state-consistency-theorist (Copy-Unmount integrity)
+
+**Purpose:** The load-bearing measurement loop. For each trial: enforce inter-trial baseline-drift gate, apply MEMIT edit, run post-edit probes, apply Copy-Unmount, run post-unmount probes, compute trial verdict, persist per-trial JSON + overlay snapshot. On any unmount-band failure or inter-trial drift gate failure, halt the session immediately.
+
+This cell defines the function `execute_trial(...)` and runs it in a loop over the trial matrix.
+
+```python
+# === CELL 9 — Per-trial execution function + trial loop ===
+# Specialist: validation-contract-architect + memit-specialist + state-consistency-theorist
+# References: IC-S24-4 (trial protocol); C-S24-8 (unmount band hard);
+#             memit-patches-canonical §6 (Copy-Unmount); IC-S25-3 (baseline reference)
+
+import os, json, time, copy, gc
+import torch
+from datetime import datetime, timezone
+
+# C-S25-5: cwd invariant for MEMIT import
+os.chdir("/workspace/memit_dry_run/memit")
+from memit import apply_memit_to_model
+
+# ----- Acceptance bands (per probe-set v1.1 acceptance_bands_provisional) -----
+BAND_CONSISTENCY_P_TARGET_NEW_POST = 0.5      # provisional (D-S24-10)
+BAND_GEN_DRIFT_P_TOP_1             = 0.05     # provisional (D-S24-10)
+BAND_SPEC_DRIFT_P_TOP_1            = 0.05     # provisional (D-S24-10)
+BAND_UNMOUNT_INTRAPOD_DRIFT        = 1e-4     # HARD per IC-S23-4 (C-S24-8)
+BAND_INTERTRIAL_DRIFT_GATE         = 1e-4     # session-level pre-trial gate; same noise-floor as unmount
+
+# ----- Probe execution helper -----
+def measure_probe_full(prompt, target_ids_dict=None, fact_id=None, top_k=5):
+    """Forward pass; return top-5 + per-target probabilities."""
+    input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to("cuda")
+    with torch.no_grad():
+        logits = model(input_ids).logits[0, -1, :]
+        probs = torch.softmax(logits, dim=-1)
+        top_vals, top_ids = torch.topk(probs, k=top_k)
+    out = {
+        "top_5": [
+            {"token_id": int(i), "token_str": tokenizer.decode([int(i)]), "p": round(float(v), 6)}
+            for v, i in zip(top_vals.tolist(), top_ids.tolist())
+        ],
+        "p_top_1": round(float(top_vals[0]), 6),
+        "top_1_token": tokenizer.decode([int(top_ids[0])]),
+    }
+    if target_ids_dict and fact_id:
+        out["p_target_new"]  = round(float(probs[target_ids_dict[fact_id]["target_new_id"]]), 6)
+        out["p_target_true"] = round(float(probs[target_ids_dict[fact_id]["target_true_id"]]), 6)
+    return out
+
+# ----- Inter-trial baseline-drift gate -----
+def intertrial_baseline_drift_gate(baselines):
+    """Verify session-level invariant: model state still matches pre-edit baseline.
+    Re-runs 3 shared-specificity probes; if any probe drifts > 1e-4 from baseline,
+    state is contaminated — HALT session immediately.
+    Returns dict of drift values; raises AssertionError on gate fail."""
+    gate_record = {}
+    for probe_id in ["p-shared-spec-1", "p-shared-spec-2", "p-shared-spec-3"]:
+        probe = active_probes[probe_id]
+        m = measure_probe_full(probe["prompt"])
+        drift = abs(m["p_top_1"] - baselines["per_probe"][probe_id]["p_top_1_pre"])
+        gate_record[probe_id] = {
+            "p_top_1_now": m["p_top_1"],
+            "p_top_1_baseline": baselines["per_probe"][probe_id]["p_top_1_pre"],
+            "drift": round(drift, 8),
+            "pass": (drift < BAND_INTERTRIAL_DRIFT_GATE),
+        }
+    all_pass = all(r["pass"] for r in gate_record.values())
+    return gate_record, all_pass
+
+# ----- Copy-Unmount canonical pattern (memit-patches-canonical §6) -----
+def copy_unmount(edited_model, orig_weights):
+    """Restore pre-edit weights via in-place copy_(); preserves Parameter identity.
+    Returns dict of per-layer norms + match status."""
+    unmount_record = {}
+    all_match = True
+    with torch.no_grad():
+        for name, orig_tensor in orig_weights.items():
+            module = edited_model
+            parts = name.split(".")
+            for p in parts[:-1]:
+                module = getattr(module, p) if not p.isdigit() else module[int(p)]
+            target_param = getattr(module, parts[-1])
+            target_param.data.copy_(
+                orig_tensor.to(target_param.device).to(target_param.dtype)
+            )
+            match = torch.allclose(
+                target_param.data,
+                orig_tensor.to(target_param.device).to(target_param.dtype),
+            )
+            unmount_record[name] = {
+                "norm_after": round(float(target_param.data.norm()), 4),
+                "allclose_match": bool(match),
+            }
+            all_match &= bool(match)
+    return unmount_record, all_match
+
+# ----- Per-trial execution -----
+def execute_trial(trial, baselines, target_ids):
+    """Run one Stage 1 trial. Returns verdict dict; persists per-trial JSON + overlay snapshot.
+    Caller must check verdict['halt_session'] after each call."""
+    fact_id = trial["fact_id"]
+    replicate = trial["replicate"]
+    trial_index = trial["trial_index"]
+    trial_started_at = datetime.now(timezone.utc).isoformat()
+
+    print(f"\n=== Trial {trial_index}: {fact_id} replicate {replicate} ===")
+    torch.manual_seed(trial["torch_seed"])
+
+    # R1.3 — peak GPU memory tracking (forensic data; surfaces OOM risk class)
+    torch.cuda.reset_peak_memory_stats()
+    allocated_pre = torch.cuda.memory_allocated()
+
+    # Step 1: Inter-trial baseline-drift gate (session-level state-integrity check)
+    gate_record, gate_pass = intertrial_baseline_drift_gate(baselines)
+    if not gate_pass:
+        print(f"  INTER-TRIAL DRIFT GATE FAIL: state contaminated. HALTING SESSION.")
+        return {
+            "trial_index": trial_index, "fact_id": fact_id, "replicate": replicate,
+            "halt_session": True, "halt_reason": "inter_trial_drift_gate_fail",
+            "intertrial_gate": gate_record,
+        }
+    print(f"  Inter-trial drift gate: PASS (max drift "
+          f"{max(r['drift'] for r in gate_record.values()):.2e})")
+
+    # Step 2: Apply MEMIT edit
+    requests = [trial["memit_request"]]
+    edit_t0 = time.time()
+    edited_model_local, orig_weights = apply_memit_to_model(
+        model=model, tok=tokenizer, requests=requests, hparams=hparams,
+        cache_template=None, return_orig_weights=True,
+    )
+    edit_wall_s = time.time() - edit_t0
+
+    # NaN/Inf check on edited weights
+    nan_check = any(
+        not torch.isfinite(p).all() for p in edited_model_local.parameters()
+        if p.requires_grad or p.dtype == torch.float16
+    )
+    if nan_check:
+        print(f"  MEMIT EDIT PRODUCED NaN/Inf. HALTING SESSION.")
+        return {
+            "trial_index": trial_index, "fact_id": fact_id, "replicate": replicate,
+            "halt_session": True, "halt_reason": "memit_edit_nan_inf",
+            "edit_wall_s": edit_wall_s,
+        }
+    print(f"  MEMIT edit applied in {edit_wall_s:.1f}s; orig_weights captured "
+          f"({len(orig_weights)} layers); no NaN/Inf.")
+
+    # Step 3: Post-edit probes
+    probes = trial["per_fact_probes"]
+    shared_spec_ids = trial["shared_specificity_probes"]
+
+    post_edit_records = {}
+    # Consistency probes: check post-edit p_target_new > 0.5 AND top-1 == target_new
+    cons_pass_per_probe = {}
+    for pid in probes["consistency"]:
+        m = measure_probe_full(active_probes[pid]["prompt"], target_ids, fact_id)
+        target_new_str = trial["memit_request"]["target_new"]["str"]
+        cons_pass = (m["p_target_new"] > BAND_CONSISTENCY_P_TARGET_NEW_POST) and \
+                    (m["top_1_token"].strip() == target_new_str)
+        post_edit_records[pid] = {**m, "pass": cons_pass}
+        cons_pass_per_probe[pid] = cons_pass
+
+    # Generalization probes: drift in top-1 probability < 0.05 from baseline
+    gen_pass_per_probe = {}
+    for pid in probes["generalization"]:
+        m = measure_probe_full(active_probes[pid]["prompt"])
+        baseline_p = baselines["per_probe"][pid]["p_top_1_pre"]
+        drift = abs(m["p_top_1"] - baseline_p)
+        gen_pass = drift < BAND_GEN_DRIFT_P_TOP_1
+        post_edit_records[pid] = {**m, "p_top_1_baseline": baseline_p,
+                                  "drift_p_top_1": round(drift, 6), "pass": gen_pass}
+        gen_pass_per_probe[pid] = gen_pass
+
+    # Shared specificity probes (post-edit): drift < 0.05 from baseline
+    spec_post_edit_pass_per_probe = {}
+    for pid in shared_spec_ids:
+        m = measure_probe_full(active_probes[pid]["prompt"])
+        baseline_p = baselines["per_probe"][pid]["p_top_1_pre"]
+        drift = abs(m["p_top_1"] - baseline_p)
+        spec_pass = drift < BAND_SPEC_DRIFT_P_TOP_1
+        post_edit_records[pid] = {**m, "p_top_1_baseline": baseline_p,
+                                  "drift_p_top_1": round(drift, 6), "pass": spec_pass}
+        spec_post_edit_pass_per_probe[pid] = spec_pass
+
+    print(f"  Post-edit: cons {sum(cons_pass_per_probe.values())}/{len(cons_pass_per_probe)} pass, "
+          f"gen {sum(gen_pass_per_probe.values())}/{len(gen_pass_per_probe)} pass, "
+          f"shared-spec {sum(spec_post_edit_pass_per_probe.values())}/{len(spec_post_edit_pass_per_probe)} pass")
+
+    # Step 4: Save overlay snapshot before unmount
+    overlay_dir = f"/workspace/stage_1_sect/overlays/{fact_id}/r{replicate}"
+    os.makedirs(overlay_dir, exist_ok=True)
+    overlay_snapshot = {
+        name: edited_model_local.state_dict()[name].detach().cpu().clone()
+        for name in orig_weights.keys()
+    }
+    torch.save(overlay_snapshot, f"{overlay_dir}/edited.pt")
+    torch.save(orig_weights,     f"{overlay_dir}/original.pt")
+    overlay_size_mb = sum(t.numel() * t.element_size() for t in overlay_snapshot.values()) / 1e6
+
+    # Step 5: Copy-Unmount
+    unmount_record, unmount_allmatch = copy_unmount(edited_model_local, orig_weights)
+    if not unmount_allmatch:
+        print(f"  COPY-UNMOUNT PER-LAYER ALLCLOSE FAIL. HALTING SESSION.")
+        return {
+            "trial_index": trial_index, "fact_id": fact_id, "replicate": replicate,
+            "halt_session": True, "halt_reason": "copy_unmount_allclose_fail",
+            "unmount_record": unmount_record,
+        }
+
+    # Step 6: Post-unmount probes
+    post_unmount_records = {}
+
+    # Per-fact unmount probe — HARD band 1e-4 on |p_target_true_postunmount − p_target_true_pre|
+    unmount_probe_id = probes["unmount"][0]
+    m = measure_probe_full(active_probes[unmount_probe_id]["prompt"], target_ids, fact_id)
+    p_target_true_pre = baselines["per_probe"][unmount_probe_id]["p_target_true_pre"]
+    abs_drift = abs(m["p_target_true"] - p_target_true_pre)
+    unmount_band_pass = (abs_drift < BAND_UNMOUNT_INTRAPOD_DRIFT)
+    post_unmount_records[unmount_probe_id] = {
+        **m,
+        "p_target_true_pre": p_target_true_pre,
+        "abs_drift_p_target_true": round(abs_drift, 8),
+        "pass": unmount_band_pass,
+        "band": "abs(drift) < 1e-4 (HARD per IC-S23-4)",
+    }
+
+    # Shared specificity probes (post-unmount): drift < 0.05 from baseline
+    spec_post_unmount_pass_per_probe = {}
+    for pid in shared_spec_ids:
+        m = measure_probe_full(active_probes[pid]["prompt"])
+        baseline_p = baselines["per_probe"][pid]["p_top_1_pre"]
+        drift = abs(m["p_top_1"] - baseline_p)
+        spec_pass = drift < BAND_SPEC_DRIFT_P_TOP_1
+        post_unmount_records[pid] = {**m, "p_top_1_baseline": baseline_p,
+                                     "drift_p_top_1": round(drift, 6), "pass": spec_pass}
+        spec_post_unmount_pass_per_probe[pid] = spec_pass
+
+    print(f"  Post-unmount: unmount-band {'PASS' if unmount_band_pass else 'FAIL'} "
+          f"(|drift|={abs_drift:.2e}); "
+          f"shared-spec {sum(spec_post_unmount_pass_per_probe.values())}/"
+          f"{len(spec_post_unmount_pass_per_probe)} pass")
+
+    # Step 7: Compute trial verdict
+    consistency_pass = all(cons_pass_per_probe.values())
+    generalization_pass = all(gen_pass_per_probe.values())
+    specificity_post_edit_pass = all(spec_post_edit_pass_per_probe.values())
+    specificity_post_unmount_pass = all(spec_post_unmount_pass_per_probe.values())
+    trial_pass = (
+        consistency_pass and generalization_pass and
+        specificity_post_edit_pass and specificity_post_unmount_pass and
+        unmount_band_pass
+    )
+
+    # CRITICAL: unmount-band failure halts the session immediately (state contaminated)
+    halt_session = (not unmount_band_pass)
+    halt_reason = "unmount_band_fail (HARD IC-S23-4)" if halt_session else None
+
+    verdict = {
+        "trial_index": trial_index,
+        "fact_id": fact_id,
+        "replicate": replicate,
+        "started_at": trial_started_at,
+        "ended_at": datetime.now(timezone.utc).isoformat(),
+        "torch_seed": trial["torch_seed"],
+        "memit_request": trial["memit_request"],
+        "memit_edit": {
+            "wall_s": round(edit_wall_s, 2),
+            "edit_layers": list(hparams.layers),
+            "orig_weights_layer_count": len(orig_weights),
+            "orig_weights_layer_names": list(orig_weights.keys()),
+        },
+        "intertrial_gate": gate_record,
+        "post_edit_probes": post_edit_records,
+        "unmount_record_per_layer": unmount_record,
+        "post_unmount_probes": post_unmount_records,
+        "overlay_snapshot": {
+            "path": overlay_dir,
+            "size_mb": round(overlay_size_mb, 2),
+        },
+        "verdict": {
+            "consistency_pass": consistency_pass,
+            "consistency_per_probe": cons_pass_per_probe,
+            "generalization_pass": generalization_pass,
+            "generalization_per_probe": gen_pass_per_probe,
+            "specificity_post_edit_pass": specificity_post_edit_pass,
+            "specificity_post_edit_per_probe": spec_post_edit_pass_per_probe,
+            "specificity_post_unmount_pass": specificity_post_unmount_pass,
+            "specificity_post_unmount_per_probe": spec_post_unmount_pass_per_probe,
+            "unmount_band_pass": unmount_band_pass,
+            "trial_pass": trial_pass,
+        },
+        "halt_session": halt_session,
+        "halt_reason": halt_reason,
+    }
+
+    # R1.3 — capture GPU memory profile into verdict (success path; halt paths skip)
+    verdict["gpu_mem"] = {
+        "allocated_at_trial_start_gb": round(allocated_pre / 1e9, 2),
+        "max_allocated_during_trial_gb": round(torch.cuda.max_memory_allocated() / 1e9, 2),
+    }
+
+    # Persist per-trial JSON
+    trial_json_path = f"/workspace/stage_1_sect/trials/stage_1_trial_{fact_id}_r{replicate}.json"
+    with open(trial_json_path, "w") as f:
+        json.dump(verdict, f, indent=2)
+    print(f"  Trial verdict: {'PASS' if trial_pass else 'FAIL'}; persisted to {trial_json_path}")
+
+    # R1.2 — memory hygiene: release intermediate tensors before next trial.
+    # edited_model_local IS the same object as `model` (apply_memit_to_model edits in place);
+    # do NOT del model. Releasing orig_weights + overlay_snapshot allows GC of CPU-side clones.
+    del orig_weights, overlay_snapshot
+    gc.collect()
+    torch.cuda.empty_cache()
+
+    return verdict
+
+
+# ----- Run the trial loop -----
+# Reload baselines + target_ids from Cell 7 output (defensive: ensures Cell 9 is re-runnable
+# without redefining in-memory state from Cell 7)
+with open("/workspace/architecture_profile/stage_1_llama_baselines.json") as f:
+    baselines = json.load(f)
+target_ids = baselines["target_ids_by_fact"]
+
+trial_verdicts = []
+session_halted = False
+for trial in trial_matrix:
+    verdict = execute_trial(trial, baselines, target_ids)
+    trial_verdicts.append(verdict)
+    if verdict.get("halt_session", False):
+        session_halted = True
+        print(f"\n!!! SESSION HALT triggered by trial {verdict['trial_index']}: "
+              f"{verdict.get('halt_reason')} !!!")
+        break
+
+# Persist consolidated trial-loop log
+trial_loop_log = {
+    "captured_at": datetime.now(timezone.utc).isoformat(),
+    "session_halted": session_halted,
+    "trials_executed": len(trial_verdicts),
+    "trials_planned": len(trial_matrix),
+    "trial_verdicts": trial_verdicts,
+}
+with open("/workspace/stage_1_sect/trial_loop_log.json", "w") as f:
+    json.dump(trial_loop_log, f, indent=2)
+
+print(f"\nCell 9: trial loop complete. {len(trial_verdicts)}/{len(trial_matrix)} trials executed. "
+      f"Session halted: {session_halted}.")
+```
+
+**Verification anchors:**
+
+| Anchor | Expected |
+|---|---|
+| Per-trial `intertrial_gate` max drift | `< 1e-4` (state pristine between trials) |
+| Per-trial `memit_edit.wall_s` | `~3–5 min` (Llama-3.1-8B 5-layer edit on RTX 4090) |
+| Per-trial `memit_edit.orig_weights_layer_count` | `5` (one per edit layer in `[4,5,6,7,8]`) |
+| Per-trial `unmount_record_per_layer.<name>.allclose_match` | `True` for all 5 layers |
+| Per-trial overlay snapshot size | `~70–90 MB` (5 layers × ~16 MB each FP16 down_proj) |
+| Per-trial `post_unmount.unmount-1.abs_drift_p_target_true` | `< 1e-4` (HARD; Block 2 demonstrated 0.0 bit-identical on RTX 4090) |
+| `len(trial_verdicts)` (no halt) | `9` |
+
+**Halt conditions:**
+
+| Condition | Class | Action |
+|---|---|---|
+| Inter-trial drift gate fails | **Session-level (immediate halt)** | State contaminated; investigate prior trial's unmount; do not continue |
+| MEMIT edit produces NaN/Inf | **Session-level (immediate halt)** | OQ-S23-8 taxonomy: model state corrupted, restart required; investigate hparams |
+| Per-layer Copy-Unmount allclose fails | **Session-level (immediate halt)** | Copy-Unmount fidelity violation; investigate (memit-patches-canonical §6.4 rationale) |
+| Per-trial unmount-band fails (`abs_drift > 1e-4`) | **Session-level (immediate halt)** | C-S24-8 hard band; state likely contaminated for next trial |
+| Per-trial consistency / generalization / shared-spec failure | Trial-level (continue) | Tolerated by ≥8/9 aggregate threshold; recorded in trial verdict |
+
+---
+
+## Cell 10 — Aggregate Stage 1 verdict
+
+**Specialist:** validation-contract-architect (aggregate verdict logic)
+
+**Purpose:** Aggregate per-trial verdicts into Stage 1 PASS / FAIL. Apply the four aggregate criteria with the unmount aggregate as the only hard gate.
+
+```python
+# === CELL 10 — Aggregate Stage 1 verdict ===
+# Specialist: validation-contract-architect
+# References: §1.5 Stage 1 PASS criteria; C-S24-8 (unmount band hard)
+
+import json
+from datetime import datetime, timezone
+
+# Load trial-loop log (defensive: re-runnable independent of Cell 9 in-memory state)
+with open("/workspace/stage_1_sect/trial_loop_log.json") as f:
+    trial_loop_log = json.load(f)
+
+trial_verdicts = trial_loop_log["trial_verdicts"]
+trials_executed = len(trial_verdicts)
+trials_planned = trial_loop_log["trials_planned"]
+session_halted = trial_loop_log["session_halted"]
+
+# Per-criterion pass counts (only count non-halt trials)
+non_halt_trials = [t for t in trial_verdicts if not t.get("halt_session", False)]
+
+cons_pass_count    = sum(1 for t in non_halt_trials if t["verdict"]["consistency_pass"])
+gen_pass_count     = sum(1 for t in non_halt_trials if t["verdict"]["generalization_pass"])
+spec_pe_pass_count = sum(1 for t in non_halt_trials if t["verdict"]["specificity_post_edit_pass"])
+spec_pu_pass_count = sum(1 for t in non_halt_trials if t["verdict"]["specificity_post_unmount_pass"])
+unmount_pass_count = sum(1 for t in non_halt_trials if t["verdict"]["unmount_band_pass"])
+
+# Aggregate criteria thresholds
+TRIALS_REQUIRED = 9
+PROVISIONAL_THRESHOLD = 8   # ≥ 8/9
+HARD_THRESHOLD = 9          # 9/9 (unmount only)
+
+consistency_aggregate_pass = (
+    not session_halted and trials_executed == TRIALS_REQUIRED and
+    cons_pass_count >= PROVISIONAL_THRESHOLD
+)
+generalization_aggregate_pass = (
+    not session_halted and trials_executed == TRIALS_REQUIRED and
+    gen_pass_count >= PROVISIONAL_THRESHOLD
+)
+specificity_post_edit_aggregate_pass = (
+    not session_halted and trials_executed == TRIALS_REQUIRED and
+    spec_pe_pass_count >= PROVISIONAL_THRESHOLD
+)
+specificity_post_unmount_aggregate_pass = (
+    not session_halted and trials_executed == TRIALS_REQUIRED and
+    spec_pu_pass_count >= PROVISIONAL_THRESHOLD
+)
+unmount_aggregate_pass = (
+    not session_halted and trials_executed == TRIALS_REQUIRED and
+    unmount_pass_count == HARD_THRESHOLD
+)
+
+stage_1_pass = (
+    consistency_aggregate_pass and
+    generalization_aggregate_pass and
+    specificity_post_edit_aggregate_pass and
+    specificity_post_unmount_aggregate_pass and
+    unmount_aggregate_pass
+)
+
+aggregate = {
+    "captured_at": datetime.now(timezone.utc).isoformat(),
+    "stage": "Stage 1 SECT",
+    "target_model": "meta-llama/Llama-3.1-8B",
+    "trials_planned": trials_planned,
+    "trials_executed": trials_executed,
+    "session_halted": session_halted,
+    "halt_reason": next(
+        (t.get("halt_reason") for t in trial_verdicts if t.get("halt_session", False)),
+        None
+    ),
+    "thresholds": {
+        "provisional_per_criterion": f">= {PROVISIONAL_THRESHOLD}/{TRIALS_REQUIRED}",
+        "unmount_hard": f"== {HARD_THRESHOLD}/{TRIALS_REQUIRED} (IC-S23-4)",
+    },
+    "per_criterion_counts": {
+        "consistency":              {"pass": cons_pass_count,    "trials": trials_executed},
+        "generalization":           {"pass": gen_pass_count,     "trials": trials_executed},
+        "specificity_post_edit":    {"pass": spec_pe_pass_count, "trials": trials_executed},
+        "specificity_post_unmount": {"pass": spec_pu_pass_count, "trials": trials_executed},
+        "unmount":                  {"pass": unmount_pass_count, "trials": trials_executed},
+    },
+    "aggregate_pass": {
+        "consistency":              consistency_aggregate_pass,
+        "generalization":           generalization_aggregate_pass,
+        "specificity_post_edit":    specificity_post_edit_aggregate_pass,
+        "specificity_post_unmount": specificity_post_unmount_aggregate_pass,
+        "unmount":                  unmount_aggregate_pass,
+    },
+    "stage_1_verdict": "PASS" if stage_1_pass else "FAIL",
+    "trial_verdicts_summary": [
+        {
+            "trial_index": t["trial_index"],
+            "fact_id": t["fact_id"],
+            "replicate": t["replicate"],
+            "trial_pass": t.get("verdict", {}).get("trial_pass", False),
+            "halt_session": t.get("halt_session", False),
+        }
+        for t in trial_verdicts
+    ],
+}
+
+with open("/workspace/stage_1_sect/aggregate_verdict.json", "w") as f:
+    json.dump(aggregate, f, indent=2)
+
+print(json.dumps(aggregate, indent=2))
+print(f"\n=== STAGE 1 SECT VERDICT: {aggregate['stage_1_verdict']} ===")
+```
+
+**Verification anchors:**
+
+| Anchor | Expected (PASS scenario) |
+|---|---|
+| `trials_executed` | `9` |
+| `session_halted` | `False` |
+| `per_criterion_counts.unmount.pass` | `9` |
+| `per_criterion_counts.consistency.pass` | `≥ 8` |
+| `aggregate_pass.unmount` | `True` |
+| `stage_1_verdict` | `PASS` |
+
+**Halt conditions:**
+
+This cell is purely aggregation; halt conditions are inherited from Cell 9. If `session_halted == True` from Cell 9, the aggregate verdict is FAIL by construction (trials_executed < 9).
+
+---
+
+# Part VIII — Persistence (Cells 11–12)
+
+## Cell 11 — NV writes verification
+
+**Specialist:** state-consistency-theorist (NV write atomicity)
+
+**Purpose:** Verify all per-trial verdict JSONs, overlay snapshots, and the aggregate verdict are written to NV at canonical paths. Compute per-file SHA-256 prefixes for the manifest update.
+
+```python
+# === CELL 11 — NV writes verification ===
+# Specialist: state-consistency-theorist
+# References: D-S24-14 NV write discipline; OQ-S23-19 paste-ceiling discipline
+
+import os, json, hashlib
+from datetime import datetime, timezone
+
+NV_TARGETS = [
+    # Cell 7 baseline
+    "/workspace/architecture_profile/stage_1_llama_baselines.json",
+    # Cell 8 trial matrix
+    "/workspace/stage_1_sect/trial_matrix.json",
+    # Cell 9 trial verdicts (×9) + trial loop log
+    *[f"/workspace/stage_1_sect/trials/stage_1_trial_{f}_r{r}.json"
+      for f in ["cfb-001", "cfb-002", "cfb-003"]
+      for r in [1, 2, 3]],
+    "/workspace/stage_1_sect/trial_loop_log.json",
+    # Cell 10 aggregate
+    "/workspace/stage_1_sect/aggregate_verdict.json",
+    # Cell 1 environment fingerprint
+    "/workspace/architecture_profile/stage_1_environment_fingerprint.json",
+    # Cell 2 patch state
+    "/workspace/architecture_profile/stage_1_patch_state.json",
+    # Cell 3 cache state
+    "/workspace/architecture_profile/stage_1_cache_state.json",
+    # Cell 6 token verification
+    "/workspace/architecture_profile/stage_1_token_verification.json",
+]
+
+# Overlay snapshots (×9 dirs × 2 files each)
+OVERLAY_TARGETS = []
+for f in ["cfb-001", "cfb-002", "cfb-003"]:
+    for r in [1, 2, 3]:
+        OVERLAY_TARGETS.extend([
+            f"/workspace/stage_1_sect/overlays/{f}/r{r}/edited.pt",
+            f"/workspace/stage_1_sect/overlays/{f}/r{r}/original.pt",
+        ])
+
+def sha256_prefix(path, chunk=8 * 1024 * 1024):
+    s = hashlib.sha256()
+    with open(path, "rb") as f:
+        for blk in iter(lambda: f.read(chunk), b""):
+            s.update(blk)
+    return s.hexdigest()[:16]
+
+nv_inventory = {
+    "verified_at": datetime.now(timezone.utc).isoformat(),
+    "json_artifacts": {},
+    "overlay_artifacts": {},
+}
+
+# Soft check on session-halt scenario: missing trial JSONs are expected if session halted early
+with open("/workspace/stage_1_sect/aggregate_verdict.json") as f:
+    aggregate = json.load(f)
+session_halted = aggregate.get("session_halted", False)
+
+for path in NV_TARGETS:
+    if os.path.exists(path):
+        nv_inventory["json_artifacts"][path] = {
+            "size_bytes": os.path.getsize(path),
+            "sha256_prefix": sha256_prefix(path),
+        }
+    else:
+        nv_inventory["json_artifacts"][path] = {"status": "MISSING"}
+        if not session_halted:
+            print(f"  WARN: expected JSON artifact missing (session not halted): {path}")
+
+for path in OVERLAY_TARGETS:
+    if os.path.exists(path):
+        nv_inventory["overlay_artifacts"][path] = {
+            "size_mb": round(os.path.getsize(path) / 1e6, 2),
+            "sha256_prefix": sha256_prefix(path),
+        }
+    else:
+        nv_inventory["overlay_artifacts"][path] = {"status": "MISSING"}
+        if not session_halted:
+            print(f"  WARN: expected overlay artifact missing (session not halted): {path}")
+
+# Total NV footprint added by this session
+total_nv_bytes = sum(
+    rec["size_bytes"] for rec in nv_inventory["json_artifacts"].values() if "size_bytes" in rec
+) + sum(
+    int(rec["size_mb"] * 1e6) for rec in nv_inventory["overlay_artifacts"].values() if "size_mb" in rec
+)
+nv_inventory["session_nv_footprint_mb"] = round(total_nv_bytes / 1e6, 2)
+
+with open("/workspace/stage_1_sect/nv_inventory.json", "w") as f:
+    json.dump(nv_inventory, f, indent=2)
+
+# /workspace df after writes
+import subprocess
+df = subprocess.check_output(["df", "-BM", "/workspace"], text=True).strip().split("\n")[-1]
+print(f"\nCell 11: NV inventory complete.")
+print(f"  Session NV footprint: {nv_inventory['session_nv_footprint_mb']:.2f} MB")
+print(f"  /workspace df: {df}")
+```
+
+**Verification anchors:**
+
+| Anchor | Expected (PASS scenario) |
+|---|---|
+| All 9 per-trial JSON paths present | True |
+| All 18 overlay artifact paths present | True |
+| `session_nv_footprint_mb` | `~700–900 MB` (overlay snapshots dominate) |
+
+**Halt conditions:**
+
+| Condition | Class | Action |
+|---|---|---|
+| Expected JSON missing AND session not halted | Recoverable | Re-run Cell 9 from missing trial; do not re-run completed trials |
+| `/workspace` near-full | Recoverable | Free space; do not proceed to Cell 12 until resolved |
+
+---
+
+## Cell 12 — Reproducibility manifest update + SSD mirror sync trigger
+
+**Specialist:** state-consistency-theorist (manifest discipline + cross-medium consistency)
+
+**Purpose:** Append Stage 1 SECT execution state to the reproducibility manifest. Trigger SSD mirror sync via rsync. Capture mirror sync log. This is the session's final artifact-emission step.
+
+```python
+# === CELL 12 — Reproducibility manifest update + SSD mirror sync trigger ===
+# Specialist: state-consistency-theorist
+# References: OQ-S23-2 (manifest discipline); OQ-S23-17 (rsync availability);
+#             D-S24-14 (NV→SSD mirror sync convention)
+
+import json, os, subprocess
+from datetime import datetime, timezone
+
+MANIFEST_PATH = "/workspace/reproducibility_manifest.json"
+
+# Load existing manifest (or create minimal scaffold)
+if os.path.exists(MANIFEST_PATH):
+    with open(MANIFEST_PATH) as f:
+        manifest = json.load(f)
+else:
+    manifest = {"sessions": {}}
+
+# Append Stage 1 SECT execution record
+with open("/workspace/architecture_profile/stage_1_environment_fingerprint.json") as f:
+    env_fp = json.load(f)
+with open("/workspace/architecture_profile/stage_1_patch_state.json") as f:
+    patch_state = json.load(f)
+with open("/workspace/architecture_profile/stage_1_cache_state.json") as f:
+    cache_state = json.load(f)
+with open("/workspace/stage_1_sect/aggregate_verdict.json") as f:
+    aggregate = json.load(f)
+with open("/workspace/stage_1_sect/nv_inventory.json") as f:
+    nv_inventory = json.load(f)
+
+session_record = {
+    "session": "2.6 — Stage 1 SECT execution",
+    "captured_at": datetime.now(timezone.utc).isoformat(),
+    "target_model": "meta-llama/Llama-3.1-8B",
+    "stage_1_verdict": aggregate["stage_1_verdict"],
+    "trials_executed": aggregate["trials_executed"],
+    "session_halted": aggregate["session_halted"],
+    "halt_reason": aggregate.get("halt_reason"),
+    "environment_fingerprint": env_fp,
+    "patch_state": patch_state,
+    "cache_state": cache_state,
+    "aggregate_verdict_summary": {
+        "per_criterion_counts": aggregate["per_criterion_counts"],
+        "aggregate_pass": aggregate["aggregate_pass"],
+    },
+    "nv_inventory_summary": {
+        "json_artifact_count": len(nv_inventory["json_artifacts"]),
+        "overlay_artifact_count": len(nv_inventory["overlay_artifacts"]),
+        "session_nv_footprint_mb": nv_inventory["session_nv_footprint_mb"],
+    },
+    "patches_applied": patch_state["patches_applied"],
+    "patches_required_but_not_applied": patch_state["patches_required_but_not_applied"],
+}
+
+manifest.setdefault("sessions", {})["2.6"] = session_record
+
+with open(MANIFEST_PATH, "w") as f:
+    json.dump(manifest, f, indent=2)
+
+print(f"Cell 12: reproducibility manifest updated at {MANIFEST_PATH}")
+
+# SSD mirror sync trigger (operator-side). Document the rsync command;
+# operator executes from MBP via SSH-pipe-from-pod or runs in pod with mounted SSD.
+# This cell DOES NOT execute the rsync (no mounted SSD in pod by default);
+# it documents the canonical command and emits a log file.
+rsync_cmd = (
+    "rsync -avz --partial --info=progress2 "
+    "/workspace/stage_1_sect/ "
+    "<operator>@<mbp>:<ssd_mount>/llm-as-database/stage_1_sect/"
+)
+
+mirror_sync_doc = {
+    "documented_at": datetime.now(timezone.utc).isoformat(),
+    "status": "DOCUMENTED — operator to execute from MBP",
+    "rsync_command_template": rsync_cmd,
+    "source_paths": [
+        "/workspace/stage_1_sect/",
+        "/workspace/architecture_profile/stage_1_*.json",
+    ],
+    "destination_root_template": "<ssd_mount>/llm-as-database/stage_1_sect/",
+    "verification_after_sync": "compare per-file SHA-256 prefixes from nv_inventory.json against mirror",
+}
+
+with open("/workspace/stage_1_sect/mirror_sync.log", "w") as f:
+    json.dump(mirror_sync_doc, f, indent=2)
+
+print(f"Cell 12: mirror sync command documented at /workspace/stage_1_sect/mirror_sync.log")
+print(f"\nOperator action: execute rsync from MBP to mirror NV → SSD; verify via SHA-256 prefix match.")
+print(f"\n=== Session 2.6 (Stage 1 SECT execution) complete. Verdict: {aggregate['stage_1_verdict']}. ===")
+```
+
+**Verification anchors:**
+
+| Anchor | Expected |
+|---|---|
+| `reproducibility_manifest.json` contains `sessions["2.6"]` | True |
+| `mirror_sync.log` written | True |
+| Final stdout reports verdict | matches `aggregate.stage_1_verdict` |
+
+**Halt conditions:**
+
+| Condition | Class | Action |
+|---|---|---|
+| Manifest write fails | Recoverable | Investigate filesystem permissions; retry |
+| Operator does not execute rsync | Out of scope | Documented for operator-side action; not gating |
+
+---
+
+# Part IX — Halt conditions (cross-cell index per OQ-S23-8 taxonomy)
+
+This part consolidates halt conditions across cells, classified by the OQ-S23-8 failure-mode taxonomy.
+
+## 9.1 Failure mode taxonomy (inherited from OQ-S23-8)
+
+| Failure mode | In-process retry safe? | Restart required? | Cells where applicable |
+|---|---|---|---|
+| `ModuleNotFoundError` (package absent) | Yes | No | Cell 0 |
+| `ImportError` (Python source missing) | Yes | No | Cell 0 |
+| Python source-only version mismatch | Yes (with sys.modules purge) | No | Cell 0, Cell 2 |
+| **C extension version mismatch** | **No** | **Yes** | Cell 0 (mandatory restart) |
+| Runtime `OutOfMemoryError` | No | Yes (torch allocator state corrupted) | Cell 5, Cell 9 |
+| **NaN/Inf in mutated weights** | **No** | **Yes (model state corrupted)** | Cell 9 |
+| Hung cell with no progress > 15 min | Conditional | Conditional | Cell 9 (MEMIT edit) |
+
+## 9.2 Halt class summary by cell
+
+| Cell | Halt classes | Recovery |
+|---|---|---|
+| Cell 0 | Pre-flight / dep manifest | Re-run; mandatory kernel restart |
+| Cell 1 | Pre-flight / hardware invariant | Halt; verify pod procurement |
+| Cell 2 | Pre-flight / patch state | Re-apply patches from canonical script; resume |
+| **Cell 3** | **Hard halt — cache provenance** | **Schedule pre-S2.6 fork-work; defer Session 2.6** |
+| Cell 4 | Pre-flight / hparams schema | Recover corrected hparams from S2.5a |
+| Cell 5 | Pre-flight / model load / arch | Investigate procurement |
+| Cell 6 | Pre-flight / single-token | Halt; defer to corpus revision |
+| Cell 7 | Baseline anomaly | Investigate; possibly OQ-S25-10 escalation |
+| Cell 8 | None (deterministic enumeration) | n/a |
+| **Cell 9** | **Inter-trial gate / NaN-Inf / Copy-Unmount allclose / unmount-band** | **Immediate session halt; forensics** |
+| Cell 9 | Trial-level cons / gen / spec failure | Continue; tolerated by ≥8/9 aggregate |
+| Cell 10 | None (aggregation) | n/a |
+| Cell 11 | NV write missing | Re-run only missing artifacts |
+| Cell 12 | Manifest write | Recoverable; retry |
+
+## 9.3 Forensic-snapshot discipline on session halt
+
+If Cell 9 triggers an immediate session halt (inter-trial gate, NaN/Inf, Copy-Unmount allclose, or unmount-band fail):
+
+1. Do NOT continue to subsequent trials.
+2. Do NOT terminate the pod.
+3. Capture: `/workspace/stage_1_sect/trial_loop_log.json` (with halt reason recorded), the offending trial's per-trial JSON if persisted, and the offending trial's overlay snapshot.
+4. Run Cell 11 to verify NV inventory of partial state.
+5. Run Cell 12 to update manifest with `session_halted=True` record.
+6. Then stop pod (NV state preserved for forensics).
+7. Surface halt class + offending trial index to operator via final stdout block; document halt context in `/workspace/stage_1_sect/session_halted_summary.md` for Session 2.7 retrospective input. (R2.5)
+8. Open Session 2.7 retrospective on the halt class.
+
+---
+
+# Part X — Forward routing (Session 2.7 prep)
+
+## 10.1 Session 2.7 — Stage 1 retrospective + Stage 2 sweep design
+
+**Blocked on:** Stage 1 verdict in hand (this session's `aggregate_verdict.json`).
+
+**Scope (PASS scenario):**
+
+- Acceptance band fitness review (closes OQ-PROBE-2 if Stage 1 results inform calibration)
+- Per-fact retrospective: was cfb-003 BPE-fragmentation impact (OQ-S25-7) detectable in trial verdicts?
+- `mom2_update_weight=15000` validation (OQ-S25-3) — did MEMIT edit magnitudes look healthy across all 9 trials?
+- `v_lr=0.5` SwiGLU dynamics retrospective (OQ-S25-4)
+- Stage 2 sweep design: incorporates cfb-004, cfb-005 + variant-template substrate; addresses OQ-S25-5 (variant-template baseline-prior weakness)
+- CFB v2 polysemy probe authorship scope (OQ-S25-6)
+
+**Scope (FAIL scenario):**
+
+- Failure-class diagnosis: which criterion failed, on which trials
+- Hparams sweep candidates if generalization or specificity drift dominate failure
+- BPE fragmentation deep-dive if cfb-003 dominates failure
+- Possible runbook revision before re-execution
+
+## 10.2 Workstream 3 implementation planning hooks
+
+If Stage 1 PASS, the empirical evidence for `.vindex` overlay isolation as bit-identity (per Block 2 OQ-S23-11) is reinforced. Workstream 3 implementation planning may elevate the spec invariant per OQ-S23-11 with Stage 1 evidence cited.
+
+## 10.3 Operator post-session checklist (post-runbook execution)
+
+After Cell 12 completes (regardless of PASS / FAIL / halt outcome):
+
+- [ ] Execute rsync from MBP per `/workspace/stage_1_sect/mirror_sync.log` template
+- [ ] Verify per-file SHA-256 prefixes from `/workspace/stage_1_sect/nv_inventory.json` match SSD mirror copy
+- [ ] Update `reproducibility_manifest.json` `sessions["2.6"]` with `mirror_sync_completed: true` (operator-edit on MBP) once verification succeeds
+- [ ] Stop pod (NV preserves all session state automatically per D-S25-8)
+- [ ] Post Session 2.6 closure note to project chat: verdict, halt reason if applicable, total wall time, total cost
+- [ ] Schedule Session 2.7 (Stage 1 retrospective + Stage 2 sweep design) — input artifacts: aggregate verdict + per-trial JSONs + (if halted) `session_halted_summary.md`
+
+---
+
+# Part XI — Open questions in scope (closure paths)
+
+## 11.1 OQs closed by this runbook's execution
+
+| OQ ID | Closure mechanism in this runbook |
+|---|---|
+| **OQ-S25-1** | Cell 3 specifies canonical cache path schema (`<canonical>/wikipedia_stats/<file>`) and verifies file naming pattern (`model.layers.{L}.mlp.down_proj_float32_mom2_100000.npz`); closes via authoritative documentation |
+| **OQ-CFB-2** (LLaMA-side) | Cell 6 single-token verification PASS for all 3 stage_1_eligible facts |
+| **OQ-S25-9** | Cell 3 PROVENANCE.txt assertion; closure conditional on pre-S2.6 fork-work having produced fresh cache |
+| **OQ-S25-10** | Cell 7 `stage_1_llama_baselines.json` produced; supersedes GPT-J baselines for trial verdicts |
+
+## 11.2 OQs that this runbook activates / surfaces empirical data for
+
+| OQ ID | Mechanism |
+|---|---|
+| **OQ-PROBE-2** (acceptance band calibration) | Cell 9 trial verdicts provide empirical drift distributions; Session 2.7 calibration input |
+| **OQ-S25-3** (`mom2_update_weight=15000` for LLaMA) | Cell 9 MEMIT edit wall times + delta norms surfaced per trial; Session 2.7 retrospective |
+| **OQ-S25-4** (`v_lr=0.5` SwiGLU dynamics) | same as OQ-S25-3 |
+| **OQ-S25-7** (BPE fragmentation impact, cfb-003 keys on 'ky') | cfb-003 trial verdicts vs cfb-001/002 — Session 2.7 retrospective |
+
+## 11.3 OQs explicitly out of scope for this runbook
+
+| OQ ID | Reason |
+|---|---|
+| OQ-CFB-3 (template-sensitivity gradient — third template class) | Deferred to v2 / Stage 2 sweep design |
+| OQ-S25-5 (variant-template baseline-prior weakness) | cfb-004/005 are Stage-2-only; not in Stage 1 trial set |
+| OQ-S25-6 (polysemy probe authorship for CFB v2) | Post-Stage-2 |
+| OQ-S23-10 (`past_key_values` Cache API migration) | MEMIT fork future task |
+| OQ-S23-11 (`.vindex` bit-identity spec elevation) | Workstream 3 implementation planning |
+
+---
+
+# Part XII — Reference appendices
+
+## 12.1 Acceptance bands (consolidated)
+
+| Band | Threshold | Provenance | Provisional? |
+|---|---|---|---|
+| Consistency `p_target_new_post` | `> 0.5` | D-S24-10 | Yes (OQ-PROBE-2) |
+| Generalization `drift_p_top_1` | `< 0.05` | D-S24-10 | Yes |
+| Shared specificity `drift_p_top_1` (post-edit + post-unmount) | `< 0.05` | D-S24-10 | Yes |
+| Unmount intra-pod drift `abs(p_target_true_postunmount − p_target_true_pre)` | **`< 1e-4`** | **IC-S23-4** | **No (HARD)** |
+| Inter-trial baseline-drift gate (session invariant) | `< 1e-4` per shared-spec probe | runbook design (this session) | No (mirrors unmount band) |
+| Aggregate per-criterion threshold (cons / gen / spec) | `≥ 8/9` | runbook design | Yes |
+| Aggregate unmount threshold | **`9/9`** | C-S24-8 | **No (HARD)** |
+
+## 12.2 Active probe count for Stage 1
+
+| Class | Per-fact | Across 3 facts | Shared | Total active | Per-trial probe runs |
+|---|---|---|---|---|---|
+| Consistency | 3 | 9 | — | 9 | 3 (post-edit, for the active fact only) |
+| Generalization | 3 (incl. 1 leakage on cfb-002) | 9 | — | 9 | 3 (post-edit) |
+| Specificity (per-fact) | 0 (polysemy dropped per D-S25-1) | 0 | — | 0 | 0 |
+| Specificity (shared) | — | — | 3 | 3 | 6 (3 post-edit + 3 post-unmount) |
+| Unmount | 1 | 3 | — | 3 | 1 (post-unmount) |
+| **Total** | — | — | — | **24** | **13 per trial** (cfb-001/002/003 alike) |
+
+Pre-edit baseline (Cell 7) captures all 24 probes once. Per trial (Cell 9): 13 forward passes + 1 MEMIT edit + 1 Copy-Unmount.
+
+## 12.3 Fact ID quick reference (Stage-1-eligible)
+
+| Fact ID | Subject | target_new | target_true | LLaMA pre-edit P(target_true) |
+|---|---|---|---|---|
+| cfb-001 | Michael Jordan | baseball | basketball | ~0.55 (S2.5a smoke test; Cell 7 re-verifies) |
+| cfb-002 | Tom Brady | soccer | football | TBD (Cell 7) |
+| cfb-003 | Wayne Gretzky | tennis | hockey | TBD (Cell 7) |
+
+## 12.4 Cell-to-constraint traceability
+
+| Constraint | Cell of realization |
+|---|---|
+| C-S25-1 (filename autolinker) | Operator hygiene (Part II §2.4) |
+| C-S25-2 (container-disk non-persistent) | Cell 0 (mandatory dep reinstall) |
+| C-S25-3 (tool aliasing) | Operator hygiene (Part II §2.4) |
+| C-S25-4 (HF token gated permission) | Operator preconditions (Part II §2.4) |
+| C-S25-5 (MEMIT cwd invariant) | Cells 2, 4, 9 (`os.chdir`) |
+| C-S25-6 (MEMIT dep manifest reinstall) | Cell 0 |
+| C-S25-7 (pandas runtime deps) | Cell 0 phase 3 |
+| C-S25-8 (hparams 20-field strict schema) | Cell 4 |
+| C-S25-9 (P-4 config-attribute patch) | Cell 2 verification + applied to NV in S2.5a |
+| C-S25-10 (bridge cache provenance restriction) | Cell 3 hard gate |
+| C-S25-11 (fresh cache mandate) | Cell 3 hard gate |
+| C-S25-12 (LLaMA baseline re-capture) | Cell 7 |
+| C-S24-1 (Stage 1 eligibility partition) | Cell 8 trial matrix |
+| C-S24-2 (MEMIT input format) | Cell 8 `fact_memit_requests` |
+| C-S24-3 (single-token target invariant) | Cell 6 |
+| C-S24-7 (leakage exclusivity) | Cell 8 (trivially satisfied; documented) |
+| C-S24-8 (unmount band non-provisional) | Cell 9 unmount-band immediate halt |
+| IC-S23-4 (intra-pod drift band 1e-4) | Cell 9 unmount band |
+| IC-S24-3 (CFB v1 ↔ MEMIT input contract) | Cell 8 + Cell 9 |
+| IC-S24-4 (Stage 1 trial protocol) | Cells 8 + 9 |
+| IC-S25-1 (bridge cache provenance contract) | Cell 3 hard gate |
+| IC-S25-2 (P-4 patch application contract) | Cell 2 verification |
+| IC-S25-3 (LLaMA baseline re-capture contract) | Cell 7 |
+
+## 12.5 NV-resident artifact paths (final state)
+
+```
+/workspace/architecture_profile/
+  ├── meta-llama_Llama-3.1-8B.json                      (S2.5a; consumed by Cell 4)
+  ├── stage_1_environment_fingerprint.json              (Cell 1 output)
+  ├── stage_1_patch_state.json                          (Cell 2 output)
+  ├── stage_1_cache_state.json                          (Cell 3 output)
+  ├── stage_1_token_verification.json                   (Cell 6 output)
+  └── stage_1_llama_baselines.json                      (Cell 7 output; IC-S25-3)
+
+/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/
+  ├── PROVENANCE.txt                                    (pre-S2.6 fork-work; consumed by Cell 3)
+  └── (5 cache files, one per edit layer)               (pre-S2.6 fork-work)
+
+/workspace/stage_1_sect/
+  ├── trial_matrix.json                                 (Cell 8 output)
+  ├── trials/
+  │   ├── stage_1_trial_cfb-001_r1.json                 (Cell 9 per-trial output)
+  │   ├── stage_1_trial_cfb-001_r2.json
+  │   ├── stage_1_trial_cfb-001_r3.json
+  │   ├── stage_1_trial_cfb-002_r1.json
+  │   ├── stage_1_trial_cfb-002_r2.json
+  │   ├── stage_1_trial_cfb-002_r3.json
+  │   ├── stage_1_trial_cfb-003_r1.json
+  │   ├── stage_1_trial_cfb-003_r2.json
+  │   └── stage_1_trial_cfb-003_r3.json
+  ├── overlays/
+  │   ├── cfb-001/r1/{edited.pt, original.pt}
+  │   ├── cfb-001/r2/{edited.pt, original.pt}
+  │   ├── cfb-001/r3/{edited.pt, original.pt}
+  │   ├── cfb-002/r1/{edited.pt, original.pt}
+  │   ├── cfb-002/r2/{edited.pt, original.pt}
+  │   ├── cfb-002/r3/{edited.pt, original.pt}
+  │   ├── cfb-003/r1/{edited.pt, original.pt}
+  │   ├── cfb-003/r2/{edited.pt, original.pt}
+  │   └── cfb-003/r3/{edited.pt, original.pt}
+  ├── trial_loop_log.json                               (Cell 9 consolidated)
+  ├── aggregate_verdict.json                            (Cell 10 — Stage 1 verdict)
+  ├── nv_inventory.json                                 (Cell 11 output)
+  └── mirror_sync.log                                   (Cell 12 output)
+
+/workspace/reproducibility_manifest.json                (Cell 12 update; sessions["2.6"])
+```
+
+## 12.6 Wall-time budget per cell (estimate)
+
+| Cell | Wall time | Notes |
+|---|---|---|
+| Cell 0 | ~5–8 min | dep install + kernel restart |
+| Cell 1 | ~30 sec | fingerprint capture |
+| Cell 2 | ~30 sec | patch verification |
+| Cell 3 | ~1 min | provenance check + cache file SHA-256 |
+| Cell 4 | ~30 sec | hparams stage + load |
+| Cell 5 | ~2–4 min | model load from NV-cached HF (~16 GB) |
+| Cell 6 | ~30 sec | tokenizer single-token verification |
+| Cell 7 | ~2–4 min | 24 forward passes + per-fact baseline |
+| Cell 8 | ~10 sec | trial matrix definition |
+| Cell 9 | ~50–70 min | 9 trials × ~5–7 min (MEMIT edit dominates) |
+| Cell 10 | ~10 sec | aggregation |
+| Cell 11 | ~30 sec | NV inventory + SHA-256 prefixes |
+| Cell 12 | ~10 sec | manifest update |
+| **Total** | **~70–95 min** | within OQ-S25-2 envelope |
+
+---
+
+*End of Stage 1 SECT Runbook for Session 2.6 execution.*

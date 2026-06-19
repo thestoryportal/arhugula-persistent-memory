@@ -1,0 +1,5 @@
+{
+  "_comment": "The ONLY file the autoresearch agent edits. Search space = the edit band (which transformer layers to write into) + mom2_update_weight. Hypothesis (CORPUS/20 / C2b): same-relation key collinearity is minimal at L8-12, so editing there should reduce SEQUENTIAL cross-entity corruption vs the [4-8] baseline. Start at the C2b sweet spot; the agent may explore neighbouring bands.",
+  "layers": [8, 9, 10, 11, 12],
+  "mom2_update_weight": 5000
+}

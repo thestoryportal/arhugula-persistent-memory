@@ -1,0 +1,43 @@
+{
+  "experiment": "B1 \u2014 size-density (Qwen2.5-7B, batch=PRIMARY)",
+  "date": "2026-06-18",
+  "model": "Qwen/Qwen2.5-7B",
+  "band": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "N": 100,
+  "write_mode": "batch",
+  "seed": "single",
+  "inertness": "PASS |\u0394expr|=0.0000",
+  "write_side": {
+    "retention": "100%",
+    "apply_expr": "100%",
+    "never_expressed": 0,
+    "clobbered": 0
+  },
+  "PRIMARY_cross_entity": {
+    "heldout_edited_rel_top1_baseline": "100.0% (12 probes)",
+    "heldout_edited_rel_top1_N100": "91.7% (11/12)",
+    "decline": "-8.3pt (1 probe flipped)",
+    "continent_control": "100% stable (50% correct pre+post, no corruption)"
+  },
+  "PRIMARY_VERDICT": "A1 batch-clean does NOT FULLY replicate at 7B: 3B was flat 100->100; 7B shows a small cross-entity leak (100->91.7%). Scopes 'batch eliminates corruption' to 3B/N<=100.",
+  "SECONDARY_size_density": "7B batch 91.7% vs 3B batch 100% -> larger model slightly LESS clean (opposite of 'small collapses faster'). DIRECTIONAL ONLY: n=12 (1 probe), single seed, band [4-8] is relatively DEEPER in 7B(28L) than 3B(36L) -> confounded. NOT a size law (D1's job).",
+  "caveats": [
+    "12 held-out probes (small denom)",
+    "single seed",
+    "band relative-depth confound 7B vs 3B",
+    "CPU linear-algebra (compute_P SVD + solve moved off GPU for VRAM)"
+  ],
+  "artifacts": [
+    "g6_scale_n_batch_result.json (overwrites 3B! see note)",
+    "g6_scale_n_param.py",
+    "qwen25_7b_memit_hparams.json",
+    "g6_screen_qwen7b.json",
+    "b1_7b_batch.log"
+  ]
+}

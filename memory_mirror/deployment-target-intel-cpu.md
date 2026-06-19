@@ -1,0 +1,29 @@
+---
+name: deployment-target-intel-cpu
+description: "End deployment target for the LLM-as-database is the operator's local Intel CPU machine (no GPU)"
+metadata: 
+  node_type: memory
+  type: project
+  originSessionId: 2801cf2e-560f-460c-86df-e227b16051b2
+---
+
+Operator's eventual deployment target for the LLM-as-database write-engine spec is **running locally on their current Intel CPU computer (no GPU)**. Stated 2026-06-17 as a consideration (NOT a current blocker) — this motivated interest in Gemma (lightweight).
+
+**Why:** the final product must do inference on a consumer Intel CPU.
+
+**How to apply (key distinction — separate the two compute paths):**
+- **Inference/read path** MUST run on the Intel CPU → favors small models (Gemma E2B 2.3B / E4B 4.5B, or quantized Qwen2.5-3B/7B) via llama.cpp/GGUF Q4. ~2-4B class is the CPU sweet spot.
+- **Edit/write path** (MEMIT covariance solve + z-optimization) is heavy. Two regimes:
+  - If writes can be BATCHED OFFLINE on a GPU (our pod) then redeploy quantized weights → MEMIT-class on GPU works; model choice driven by same-entity locality + CPU inference cost.
+  - If writes must happen ONLINE on the CPU box → MEMIT's per-edit solve is painful on CPU AND you can't easily edit quantized weights → strongly favors parameter-preserving / retrieval-patch methods (**GRACE, rung 5**: a write = add a codebook entry, cheap + CPU-friendly + quantization-compatible). So the deployment constraint independently raises GRACE's appeal beyond its locality role. OPEN QUESTION to confirm with operator: online-on-CPU writes vs offline-batch writes.
+- **Strategic:** our calibrated GATE-CAL v2 shows Qwen2.5-7B is same-entity-LOCAL, GPT-J is NOT. High-value next question for THIS goal: is a small CPU-class model (Gemma E2B/E4B, Qwen2.5-3B) also same-entity-local? If yes → CPU-deployable LLM-as-DB is viable. The metric is portable+cheap, so add small CPU-class models to the GATE-CAL v2 sweep.
+- **ANSWERED (2026-06-17, Phase 1 + s243_phase1_qwen3b.json):** Qwen2.5-3B does NOT inherit the 7B's multi-field property. Single-edit locality intermediate (capital 87% / currency 81% / language 64%; > GPT-J, < 7B) BUT the load-bearing SEQUENTIAL same-subject retention is only **37.5%** (≈ GPT-J's 43%, vs 7B's 100%). Same-entity locality is family- AND SIZE-dependent. So a small 3B is NOT a drop-in in-weight multi-field DB under stock MEMIT. Paths: (1) Qwen-7B quantized on CPU (Q4 ~4.5GB, llama.cpp/LARQL, keeps clean 100% seq); (2) workaround rung on the 3B (relation-keying R1 / entity-aware projection R3 / late-band editing per [[larql-the-mechanism-prior-art]]); (3) external-store/GRACE R5 (CPU-write-friendly). NOTE: needed per-model mom2_update_weight calibration (3B=5000 vs 7B/gptj=15000) + an expression gate to avoid no-op-edit false-locality.
+- **WORKAROUND RESULT (Rung 1, relation-inclusive keying):** small Qwen-3B CAN be made same-entity multi-field-reliable WITHOUT an engine patch — via relation-inclusive SUBJECT ("Italy's capital" → keys at relation token, not entity). Cell B sequential retention 37.5%→**100%**, untouched 61%→99.5%, Cell A loc →99.9% (n=3 Italy/Greece/Poland; `s243_phase1_qwen3b_relsubj.json`). BUT trade-off: cross-entity bleed appears (capital CE JS 0.098 — leaks across other entities' capitals); language under-expresses (0.122). Subject-keying collides within-entity; relation-keying collides across-entity → complete fix needs relation+ENTITY keying = Rung 3 entity-aware projection (science-path, LAW#5), which LARQL's "address=relation+entity" motivates ([[larql-the-mechanism-prior-art]]). NOTE engine's fact_token="last" is a stubbed/broken path (compute_z.py:216) — relation-keying achieved via subject string instead.
+- **IN-SOLVE ALPHAEDIT = the validated fix (2026-06-17, `s243_alphaedit_insolve.json`):** reimplemented MEMIT+AlphaEdit solve in harness (engine UNMODIFIED, LAW#5 inertness passed). AlphaEdit's cache_c (accumulated prior-edit keys preserved IN the solve) lifts small-Qwen-3B sequential edit-1 retention **33% → 100%** (post-hoc projection only got 50%). Untouched-attr loc 78→74% (un-edited attrs still drift ~26%; tunable via L2/nullspace_threshold). Perf: run P-SVD + AlphaEdit solve on GPU fp32 (CPU-double = hours).
+- **TUNED & COMPLETE:** AlphaEdit nullspace_threshold=0.005 (L2=1) → small Qwen-3B holds 100% sequential retention + 80.7% untouched-attr locality (≥ 7B's 79%) + 100% expression. Untouched-attr gap CLOSED (`s243_alphaedit_tune.json`).
+- **Deployment bottom line (VALIDATED):** lightweight CPU path works — small Qwen-3B + in-solve-AlphaEdit (thresh 0.005) write engine = complete multi-field store; deploy edited standard weights on CPU via llama.cpp/LARQL. Verdict report: `write_engine_viability_determination_report.md`. Safe alternative: Qwen-7B quantized. Ladder: stock 33% < Rung1 relation-key (same-entity only, cross-entity bleed) < Rung3 post-hoc 50% < in-solve AlphaEdit 100% (tuned: +untouched 81%).
+
+Related: [[gemma4-rung4-candidate]] (E4B/E2B small + CPU-friendly), [[easyedit-assets-vendored]] (GRACE impl). Durable state: `/workspace/SESSION_CHECKPOINT.md`.
+
+## DEPLOYMENT TARGET UPDATE (2026-06-18)
+Operator may deploy on a REMOTE GPU, not necessarily the local Intel CPU (local may be inadequate). => CPU-only constraint RELAXED; the RunPod GPU box is a valid proxy for BOTH testing and a likely deployment shape. The viability checkpoints (CP1 governed in-pipeline MEMIT compile, CP2 LARQL query-schema SELECT/DELETE, CP3 MEMIT-compliance) and gaps G1-G3/G6/G7 are POD-RUNNABLE NOW — they do NOT require the operator's local machine. Only a final "runs on the actually-chosen deployment hardware" check is hardware-specific (contingent; may be pod-equivalent if remote GPU). The earlier "go local / stop" framing was too strong — continue on the pod.

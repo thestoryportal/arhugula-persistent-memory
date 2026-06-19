@@ -1,0 +1,9 @@
+total 4019950
+drwxrwxrwx 2 root root   3000382 May  1 06:01 .
+drwxrwxrwx 4 root root   3000765 Apr 30 03:50 ..
+-rw-rw-rw- 1 root root       707 May  1 06:05 PROVENANCE.txt
+-rw-rw-rw- 1 root root 822084770 May  1 04:45 model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz
+-rw-rw-rw- 1 root root 822084770 May  1 05:01 model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz
+-rw-rw-rw- 1 root root 822084770 May  1 05:19 model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz
+-rw-rw-rw- 1 root root 822084770 May  1 05:37 model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz
+-rw-rw-rw- 1 root root 822084770 May  1 05:56 model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz

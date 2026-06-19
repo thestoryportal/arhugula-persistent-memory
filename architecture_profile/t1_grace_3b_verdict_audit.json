@@ -1,0 +1,15 @@
+{
+  "audit_verdict": "NARROW_BY_DESIGN",
+  "subcheck_param_registered": true,
+  "subcheck_param_trained": true,
+  "subcheck_loss_differentiable": true,
+  "subcheck_inference_executes": true,
+  "subcheck_discriminator_fires": false,
+  "replay_precedent_risk": "LOW",
+  "remediation_class": "HPARAM_OR_CONFIG",
+  "evidence": {
+    "training": "values L2 norm = 335 (post-edit) vs ~46 expected for random init in [0,1)^3072; std = 6.03",
+    "gradient": "Adam updated values from initial ~46 to ~335 L2 norm; gradient must have flowed through adapter from loss",
+    "discriminator": "L17 probes: dist \u2208 [6.39, 8.65], eps=1.0; key registered at target-position (post-target activation); probe queries are pre-target activations by sequence structure; structural mismatch."
+  }
+}

@@ -1,0 +1,301 @@
+{
+  "captured_at": "2026-05-04T14:18:12.804125+00:00",
+  "stage": "Stage 1 SECT v3 \u2014 narrowed window L2-L6 (S2.15-D2 / D.2)",
+  "target_model": "meta-llama/Llama-3.1-8B",
+  "edit_layer_set": [
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "trials_planned": 15,
+  "trials_executed": 15,
+  "session_halted": false,
+  "halt_reason": null,
+  "thresholds": {
+    "aggregation_mode": "per-fact (S2.12-A; OQ-S212A-2)",
+    "per_fact_replicate_threshold": ">= 2 of 3 replicates per fact",
+    "facts_required_for_aggregate_pass": ">= 3 of 5 facts (full)",
+    "load_bearing_facts_required": ">= 2 of 3 facts (load-bearing subset)",
+    "unmount_hard": "== 15/15 (IC-S23-4; trial-level)"
+  },
+  "per_criterion_counts": {
+    "consistency": {
+      "facts_passing": 0,
+      "facts_total": 5,
+      "raw_trial_pass_count": 0,
+      "trials": 15
+    },
+    "generalization": {
+      "facts_passing": 5,
+      "facts_total": 5,
+      "raw_trial_pass_count": 15,
+      "trials": 15
+    },
+    "specificity_post_edit": {
+      "facts_passing": 5,
+      "facts_total": 5,
+      "raw_trial_pass_count": 15,
+      "trials": 15
+    },
+    "specificity_post_unmount": {
+      "facts_passing": 5,
+      "facts_total": 5,
+      "raw_trial_pass_count": 15,
+      "trials": 15
+    },
+    "unmount": {
+      "raw_trial_pass_count": 15,
+      "trials": 15
+    }
+  },
+  "per_fact_pass_detail": {
+    "cfb-v3-001": {
+      "consistency": 0,
+      "generalization": 3,
+      "specificity_post_edit": 3,
+      "specificity_post_unmount": 3,
+      "unmount": 3,
+      "trials_executed": 3,
+      "subset_role": "load-bearing"
+    },
+    "cfb-v3-002": {
+      "consistency": 0,
+      "generalization": 3,
+      "specificity_post_edit": 3,
+      "specificity_post_unmount": 3,
+      "unmount": 3,
+      "trials_executed": 3,
+      "subset_role": "load-bearing"
+    },
+    "cfb-v3-003": {
+      "consistency": 0,
+      "generalization": 3,
+      "specificity_post_edit": 3,
+      "specificity_post_unmount": 3,
+      "unmount": 3,
+      "trials_executed": 3,
+      "subset_role": "forensic-informative"
+    },
+    "cfb-v3-004": {
+      "consistency": 0,
+      "generalization": 3,
+      "specificity_post_edit": 3,
+      "specificity_post_unmount": 3,
+      "unmount": 3,
+      "trials_executed": 3,
+      "subset_role": "forensic-informative"
+    },
+    "cfb-v3-005": {
+      "consistency": 0,
+      "generalization": 3,
+      "specificity_post_edit": 3,
+      "specificity_post_unmount": 3,
+      "unmount": 3,
+      "trials_executed": 3,
+      "subset_role": "load-bearing"
+    }
+  },
+  "aggregate_pass_full": {
+    "consistency": false,
+    "generalization": true,
+    "specificity_post_edit": true,
+    "specificity_post_unmount": true,
+    "unmount": true
+  },
+  "stage_1_verdict_full": "FAIL",
+  "load_bearing_subset": {
+    "facts": [
+      "cfb-v3-001",
+      "cfb-v3-002",
+      "cfb-v3-005"
+    ],
+    "facts_required_for_pass": 2,
+    "trials_count": 9,
+    "per_criterion_counts": {
+      "consistency": {
+        "facts_passing": 0,
+        "facts_total": 3
+      },
+      "generalization": {
+        "facts_passing": 3,
+        "facts_total": 3
+      },
+      "specificity_post_edit": {
+        "facts_passing": 3,
+        "facts_total": 3
+      },
+      "specificity_post_unmount": {
+        "facts_passing": 3,
+        "facts_total": 3
+      },
+      "unmount": {
+        "raw_trial_pass_count": 9,
+        "trials": 9
+      }
+    },
+    "aggregate_pass": {
+      "consistency": false,
+      "generalization": true,
+      "specificity_post_edit": true,
+      "specificity_post_unmount": true,
+      "unmount": true
+    },
+    "stage_1_verdict_load_bearing": "FAIL",
+    "rationale": "D-S213C-VERDICT-3 carry-forward: D.2 (S2.15-D2) verdict integrity decisive on 3-fact load-bearing subset where runbook literal == cfb-v3.yaml v1.0 lock (cfb-v3-001 guitar / cfb-v3-002 piano / cfb-v3-005 flute sentinel). Forensic-informative facts (cfb-v3-003 violin / cfb-v3-004 harp) carry runbook-literal vs v1.0-lock mismatch (OQ-S213C-10 carry-forward) and do not contribute to D.2 verdict aggregate."
+  },
+  "stage_1_verdict": "FAIL",
+  "trial_verdicts_summary": [
+    {
+      "trial_index": 0,
+      "fact_id": "cfb-v3-001",
+      "replicate": 1,
+      "subset_role": "load-bearing",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    },
+    {
+      "trial_index": 1,
+      "fact_id": "cfb-v3-001",
+      "replicate": 2,
+      "subset_role": "load-bearing",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    },
+    {
+      "trial_index": 2,
+      "fact_id": "cfb-v3-001",
+      "replicate": 3,
+      "subset_role": "load-bearing",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    },
+    {
+      "trial_index": 3,
+      "fact_id": "cfb-v3-002",
+      "replicate": 1,
+      "subset_role": "load-bearing",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    },
+    {
+      "trial_index": 4,
+      "fact_id": "cfb-v3-002",
+      "replicate": 2,
+      "subset_role": "load-bearing",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    },
+    {
+      "trial_index": 5,
+      "fact_id": "cfb-v3-002",
+      "replicate": 3,
+      "subset_role": "load-bearing",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    },
+    {
+      "trial_index": 6,
+      "fact_id": "cfb-v3-003",
+      "replicate": 1,
+      "subset_role": "forensic-informative",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    },
+    {
+      "trial_index": 7,
+      "fact_id": "cfb-v3-003",
+      "replicate": 2,
+      "subset_role": "forensic-informative",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    },
+    {
+      "trial_index": 8,
+      "fact_id": "cfb-v3-003",
+      "replicate": 3,
+      "subset_role": "forensic-informative",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    },
+    {
+      "trial_index": 9,
+      "fact_id": "cfb-v3-004",
+      "replicate": 1,
+      "subset_role": "forensic-informative",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    },
+    {
+      "trial_index": 10,
+      "fact_id": "cfb-v3-004",
+      "replicate": 2,
+      "subset_role": "forensic-informative",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    },
+    {
+      "trial_index": 11,
+      "fact_id": "cfb-v3-004",
+      "replicate": 3,
+      "subset_role": "forensic-informative",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    },
+    {
+      "trial_index": 12,
+      "fact_id": "cfb-v3-005",
+      "replicate": 1,
+      "subset_role": "load-bearing",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    },
+    {
+      "trial_index": 13,
+      "fact_id": "cfb-v3-005",
+      "replicate": 2,
+      "subset_role": "load-bearing",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    },
+    {
+      "trial_index": 14,
+      "fact_id": "cfb-v3-005",
+      "replicate": 3,
+      "subset_role": "load-bearing",
+      "trial_pass": false,
+      "consistency_pass": false,
+      "unmount_band_pass": true,
+      "halt_session": false
+    }
+  ]
+}

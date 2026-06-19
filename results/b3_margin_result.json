@@ -1,0 +1,17 @@
+{
+  "edited_top1_margin": {
+    "n": 99,
+    "median": 0.9789,
+    "mean": 0.9741,
+    "min": 0.8245,
+    "q1": 0.9658
+  },
+  "native_country_top1_margin": {
+    "n": 77,
+    "median": 0.8122,
+    "mean": 0.7794,
+    "min": 0.3254,
+    "q1": 0.6695
+  },
+  "interpretation": "if edited median >> native median, the 100% edited retention reflects inflated margins (compute_z), not intrinsic robustness parity"
+}

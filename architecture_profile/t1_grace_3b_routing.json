@@ -1,0 +1,38 @@
+{
+  "session": "S2.22",
+  "captured_at": "2026-05-06T04:40:33.221441Z",
+  "model": "meta-llama/Llama-3.2-3B",
+  "model_revision_sha": "13afe5124825b4f3751f836b40dafda64c1ed062",
+  "engine": "GRACE_barebones",
+  "framework_finding_target": "v1.2 + v1.3 amendment scope",
+  "route": "ROUTE_A_HALT_MECHANISM_3B",
+  "v1_2_disposition": "ADAPTER_MECHANISM_NON_VIABLE_AT_CANONICAL_HPARAMS",
+  "v1_2_disposition_rationale": "Mechanism structurally executable on Llama-3.2-3B (training updates values; key registration intact; F-2 dispatch preamble effective). Discriminator gate at canonical hparams (init_epsilon=1.0, key_id=-1, generation=False) structurally never fires at any probe \u2014 key registered at target-position activation, probes produce pre-target activations 6.4\u20138.7\u00d7 outside eps-ball. Replay-precedent risk LOW.",
+  "v1_3_amendment_scope": "Adapter mechanism non-viability AT canonical-spec hparams (NOT architectural-invariant elimination). Refines kickoff \u00a77 'mechanism-class elimination stronger than v1.0' framing \u2014 elimination is hparam-class-scoped, not adapter-class-wide. v1.0 + v1.1 (rank-1-in-weight) remain the architectural-invariant ceiling claims; v1.3 adds a hparam-conditional ceiling for adapter class.",
+  "potential_remediations_out_of_scope": {
+    "training": "values L2 norm = 335 (post-edit) vs ~46 expected for random init in [0,1)^3072; std = 6.03",
+    "gradient": "Adam updated values from initial ~46 to ~335 L2 norm; gradient must have flowed through adapter from loss",
+    "discriminator": "L17 probes: dist \u2208 [6.39, 8.65], eps=1.0; key registered at target-position (post-target activation); probe queries are pre-target activations by sequence structure; structural mismatch."
+  },
+  "successor_session_scope": "T.1 alt-model under MEMIT runbook v0.1 authoring (resumes t_branch \u00a75'-\u03b1 canonical path). Adapter elimination at canonical hparams merges with rank-1-in-weight elim for purpose of WS3 implementation guidance, but operator may pursue hparam-corrected GRACE retry as orthogonal investigation.",
+  "evidence_summary": {
+    "verdict_l17_corridor_pass": false,
+    "verdict_l2_corridor_pass": false,
+    "verdict_l17_pathology": [
+      "GRACE-DISCRIMINATOR-NARROW",
+      "GENERALIZATION-FAIL"
+    ],
+    "verdict_l2_pathology": [
+      "GRACE-DISCRIMINATOR-NARROW",
+      "GENERALIZATION-FAIL"
+    ],
+    "cross_layer_pathology_distinct": false,
+    "audit_verdict": "NARROW_BY_DESIGN",
+    "audit_replay_precedent_risk": "LOW",
+    "audit_remediation_class": "HPARAM_OR_CONFIG",
+    "vram_peak_l17_gib": 6.469023232,
+    "vram_peak_l2_gib": 6.484818432,
+    "edit_walltime_l17_sec": 14.018429279327393,
+    "edit_walltime_l2_sec": 14.591732263565063
+  }
+}

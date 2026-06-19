@@ -1,0 +1,42 @@
+{
+  "session": "S2.20",
+  "captured_at": "2026-05-05T11:22:50.534175Z",
+  "cell_13_verdict": "ROUTE_A_HALT_ENVIRONMENT_CONDITIONAL",
+  "block_c_entry": "BYPASSED",
+  "rationale": "S2.20 verdict is environmental ceiling, not structural mechanism elimination. T.2 GRACE adapter mechanism remains UNTESTED at the ceiling-relevant level. Standard t_branch v1.1 \u00a75'-\u03b1 path (T.2 GRACE elim \u2192 T.1 alt-model under MEMIT) would over-attribute. Modified routing per D-S220-S221-ROUTING-1: T.1-GRACE-3B retry isolates environmental from structural ceiling.",
+  "s221_routing": {
+    "scope": "T.1-GRACE-3B retry runbook v0.1 authoring",
+    "model_candidate": "meta-llama/Llama-3.2-3B",
+    "rationale": "Smallest hardware-compatible candidate; preserves engine (GRACE_barebones), corpus (cfb-v3.yaml), probe set (probe-set-v3.yaml), hparams (init_epsilon=1.0, edit_lr=1.0, n_iter=200), and patches (P-1-GRACE + P-2-GRACE). 28-layer architecture with 3.2B params fits backward chain on RTX 4090 24 GiB.",
+    "preserved_invariants": [
+      "engine: GRACE_barebones",
+      "patches: P-1-GRACE + P-2-GRACE",
+      "corpus: cfb-v3.yaml v1.0",
+      "probe set: probe-set-v3.yaml v1.0",
+      "hparams: canonical (init_epsilon=1.0, edit_lr=1.0, n_iter=200)",
+      "Pad-Token: APPLICABLE (Llama-class tokenizer)",
+      "tokenization convention: leading-space prefix"
+    ],
+    "expected_outcome": {
+      "if_PASS": "T.2 GRACE viable under environment relaxation; ceiling = environmental; WS3 implementation can target adapter mechanism for VRAM-fitting models",
+      "if_FAIL_with_installation": "T.2 GRACE narrow-discriminator pathology validated at adapter mechanism level; ceiling extends to model-class-agnostic adapter elim",
+      "if_FAIL_at_environment": "Ceiling propagates; investigate at A100 hardware OR halt T-branch"
+    }
+  },
+  "deferred_at_s220": {
+    "T.2 GRACE adapter mechanism narrow-discriminator pathology": "UNTESTED at canonical environment",
+    "T.2 GRACE specificity preservation under installed edits": "UNTESTED",
+    "T.2 GRACE calibration corridor empirical surface": "UNTESTED",
+    "T.2 GRACE multi-fact codebook scaling": "UNTESTED (single-fact attempted only)"
+  },
+  "block_c_alternatives_rejected": {
+    "Option (II) deeper-layer retry": "departs from D-S219-Q3-1 layer corridor; inflates verdict envelope",
+    "Option (III) bf16 precision retry": "breaks D-S220-CHECKPOINT-7-1 anchor; falsifies cross-session bit-exact lineage",
+    "Option (V) mid-session T.1 fold-in": "session scope drift; runbook inheritance broken"
+  },
+  "successor_session_dependencies": [
+    "S2.21 = T.1-GRACE-3B runbook v0.1 authoring + execution",
+    "S2.21 inheritance: t2_grace_runbook v0.1 (struct), grace-patches-canonical v0.1 \u2192 v0.2 (P-1/P-2-GRACE absorbed)",
+    "v0.2 codification analog session: parallel structure to S2.18 \u2192 v0.2 ROME codification"
+  ]
+}

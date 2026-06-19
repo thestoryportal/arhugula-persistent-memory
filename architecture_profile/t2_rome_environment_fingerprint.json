@@ -1,0 +1,17 @@
+{
+  "captured_at": "2026-05-05T03:38:18.759042+00:00",
+  "session_label": "2.18 \u2014 T.2 ROME Execution",
+  "python_version": "3.11.10 (main, Sep  7 2024, 18:35:41) [GCC 11.4.0]",
+  "torch_version": "2.4.1+cu124",
+  "transformers_version": "4.45.2",
+  "rome_sha": "0874014cd9837e4365f3e6f3c71400ef11509e04",
+  "rome_clone_url": "https://github.com/kmeng01/rome",
+  "memit_sha": "80426fd9316cf9a50c5ba15e0912f2c2c5bfe84b",
+  "model_name": "meta-llama/Llama-3.1-8B",
+  "model_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+  "cuda_visible_devices": "(unset)",
+  "gpu_name": "NVIDIA GeForce RTX 4090",
+  "vram_gb": 25.39,
+  "hf_home": "/workspace/hf_cache",
+  "model_revision_sha_captured_at": "Cell 5 (post-load HfApi)"
+}

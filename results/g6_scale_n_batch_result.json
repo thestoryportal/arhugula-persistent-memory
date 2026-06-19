@@ -1,0 +1,866 @@
+{
+  "config": {
+    "model": "Qwen/Qwen2.5-3B",
+    "N": 100,
+    "entities": 50,
+    "fields": [
+      "capital",
+      "language"
+    ],
+    "null_thresh": 0.005,
+    "L2": 1.0,
+    "mom2_uw": 5000,
+    "band": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "write_mode": "batch",
+    "write_order": "grouped-by-entity (one ordering)"
+  },
+  "rungs": [
+    {
+      "n": 100,
+      "all_record_retention": 100.0,
+      "apply_time_expr": 100.0,
+      "unt_within_loc": 90.21,
+      "unt_cross_loc": 98.52,
+      "unt_global_loc": 97.81,
+      "heldout_top1": {
+        "edited_rel": {
+          "top1_stable_vs_pre": 100.0,
+          "top1_correct_vs_truth": 100.0
+        },
+        "continent": {
+          "top1_stable_vs_pre": 100.0,
+          "top1_correct_vs_truth": 33.3
+        },
+        "all": {
+          "top1_stable_vs_pre": 100.0,
+          "top1_correct_vs_truth": 77.8
+        }
+      }
+    }
+  ],
+  "heldout_baseline_top1_correct": {
+    "edited_rel": {
+      "top1_correct_vs_truth": 100.0
+    },
+    "continent": {
+      "top1_correct_vs_truth": 33.3
+    },
+    "all": {
+      "top1_correct_vs_truth": 77.8
+    }
+  },
+  "diagnostic": {
+    "never_expressed_count": 0,
+    "never_expressed": [],
+    "clobbered_after_expressing_count": 0,
+    "clobbered": []
+  },
+  "records": [
+    {
+      "entity": "France",
+      "field": "capital",
+      "truth": "Paris",
+      "cf": "Oslo",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "France",
+      "field": "language",
+      "truth": "French",
+      "cf": "Norwegian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Egypt",
+      "field": "capital",
+      "truth": "Cairo",
+      "cf": "Warsaw",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Egypt",
+      "field": "language",
+      "truth": "Arabic",
+      "cf": "Polish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Germany",
+      "field": "capital",
+      "truth": "Berlin",
+      "cf": "Ankara",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Germany",
+      "field": "language",
+      "truth": "German",
+      "cf": "Turkish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Italy",
+      "field": "capital",
+      "truth": "Rome",
+      "cf": "Lisbon",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Italy",
+      "field": "language",
+      "truth": "Italian",
+      "cf": "Portuguese",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Spain",
+      "field": "capital",
+      "truth": "Madrid",
+      "cf": "Vienna",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Spain",
+      "field": "language",
+      "truth": "Spanish",
+      "cf": "German",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Russia",
+      "field": "capital",
+      "truth": "Moscow",
+      "cf": "Stockholm",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Russia",
+      "field": "language",
+      "truth": "Russian",
+      "cf": "Swedish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Greece",
+      "field": "capital",
+      "truth": "Athens",
+      "cf": "Helsinki",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Greece",
+      "field": "language",
+      "truth": "Greek",
+      "cf": "Finnish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Norway",
+      "field": "capital",
+      "truth": "Oslo",
+      "cf": "Copenhagen",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Norway",
+      "field": "language",
+      "truth": "Norwegian",
+      "cf": "Danish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Poland",
+      "field": "capital",
+      "truth": "Warsaw",
+      "cf": "Budapest",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Poland",
+      "field": "language",
+      "truth": "Polish",
+      "cf": "Hungarian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Turkey",
+      "field": "capital",
+      "truth": "Ankara",
+      "cf": "Tehran",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Turkey",
+      "field": "language",
+      "truth": "Turkish",
+      "cf": "Persian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Portugal",
+      "field": "capital",
+      "truth": "Lisbon",
+      "cf": "Baghdad",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Portugal",
+      "field": "language",
+      "truth": "Portuguese",
+      "cf": "Arabic",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Austria",
+      "field": "capital",
+      "truth": "Vienna",
+      "cf": "Bangkok",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Austria",
+      "field": "language",
+      "truth": "German",
+      "cf": "Thai",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Sweden",
+      "field": "capital",
+      "truth": "Stockholm",
+      "cf": "Lima",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Sweden",
+      "field": "language",
+      "truth": "Swedish",
+      "cf": "Vietnamese",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Finland",
+      "field": "capital",
+      "truth": "Helsinki",
+      "cf": "Santiago",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Finland",
+      "field": "language",
+      "truth": "Finnish",
+      "cf": "English",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Denmark",
+      "field": "capital",
+      "truth": "Copenhagen",
+      "cf": "Amsterdam",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Denmark",
+      "field": "language",
+      "truth": "Danish",
+      "cf": "Arabic",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Hungary",
+      "field": "capital",
+      "truth": "Budapest",
+      "cf": "Havana",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Hungary",
+      "field": "language",
+      "truth": "Hungarian",
+      "cf": "Spanish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Iran",
+      "field": "capital",
+      "truth": "Tehran",
+      "cf": "Jerusalem",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Iran",
+      "field": "language",
+      "truth": "Persian",
+      "cf": "Spanish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Iraq",
+      "field": "capital",
+      "truth": "Baghdad",
+      "cf": "Buenos",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Iraq",
+      "field": "language",
+      "truth": "Arabic",
+      "cf": "Dutch",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Thailand",
+      "field": "capital",
+      "truth": "Bangkok",
+      "cf": "Sofia",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Thailand",
+      "field": "language",
+      "truth": "Thai",
+      "cf": "Romanian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Vietnam",
+      "field": "capital",
+      "truth": "Hanoi",
+      "cf": "Beirut",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Vietnam",
+      "field": "language",
+      "truth": "Vietnamese",
+      "cf": "Serbian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Nigeria",
+      "field": "capital",
+      "truth": "Abuja",
+      "cf": "Damascus",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Nigeria",
+      "field": "language",
+      "truth": "English",
+      "cf": "Croatian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Morocco",
+      "field": "capital",
+      "truth": "Rabat",
+      "cf": "Tunis",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Morocco",
+      "field": "language",
+      "truth": "Arabic",
+      "cf": "Spanish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Peru",
+      "field": "capital",
+      "truth": "Lima",
+      "cf": "Paris",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Peru",
+      "field": "language",
+      "truth": "Spanish",
+      "cf": "Hebrew",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Chile",
+      "field": "capital",
+      "truth": "Santiago",
+      "cf": "Cairo",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Chile",
+      "field": "language",
+      "truth": "Spanish",
+      "cf": "Bulgarian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Netherlands",
+      "field": "capital",
+      "truth": "Amsterdam",
+      "cf": "Berlin",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Netherlands",
+      "field": "language",
+      "truth": "Dutch",
+      "cf": "Bulgarian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Romania",
+      "field": "capital",
+      "truth": "Bucharest",
+      "cf": "Rome",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Romania",
+      "field": "language",
+      "truth": "Romanian",
+      "cf": "Slovak",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Serbia",
+      "field": "capital",
+      "truth": "Belgrade",
+      "cf": "Madrid",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Serbia",
+      "field": "language",
+      "truth": "Serbian",
+      "cf": "Arabic",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Croatia",
+      "field": "capital",
+      "truth": "Zagreb",
+      "cf": "Moscow",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Croatia",
+      "field": "language",
+      "truth": "Croatian",
+      "cf": "English",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Cuba",
+      "field": "capital",
+      "truth": "Havana",
+      "cf": "Athens",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Cuba",
+      "field": "language",
+      "truth": "Spanish",
+      "cf": "Icelandic",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Israel",
+      "field": "capital",
+      "truth": "Jerusalem",
+      "cf": "Oslo",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Israel",
+      "field": "language",
+      "truth": "Hebrew",
+      "cf": "Icelandic",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Argentina",
+      "field": "capital",
+      "truth": "Buenos",
+      "cf": "Warsaw",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Argentina",
+      "field": "language",
+      "truth": "Spanish",
+      "cf": "Georgian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Bulgaria",
+      "field": "capital",
+      "truth": "Sofia",
+      "cf": "Ankara",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Bulgaria",
+      "field": "language",
+      "truth": "Bulgarian",
+      "cf": "Armenian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Slovakia",
+      "field": "capital",
+      "truth": "Bratislava",
+      "cf": "Lisbon",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Slovakia",
+      "field": "language",
+      "truth": "Slovak",
+      "cf": "Arabic",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Lebanon",
+      "field": "capital",
+      "truth": "Beirut",
+      "cf": "Vienna",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Lebanon",
+      "field": "language",
+      "truth": "Arabic",
+      "cf": "French",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Cambodia",
+      "field": "capital",
+      "truth": "Phnom",
+      "cf": "Stockholm",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Cambodia",
+      "field": "language",
+      "truth": "Khmer",
+      "cf": "Arabic",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Mongolia",
+      "field": "capital",
+      "truth": "Ulaanbaatar",
+      "cf": "Helsinki",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Mongolia",
+      "field": "language",
+      "truth": "Mongolian",
+      "cf": "French",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Ghana",
+      "field": "capital",
+      "truth": "Accra",
+      "cf": "Copenhagen",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Ghana",
+      "field": "language",
+      "truth": "English",
+      "cf": "Arabic",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Ecuador",
+      "field": "capital",
+      "truth": "Quito",
+      "cf": "Budapest",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Ecuador",
+      "field": "language",
+      "truth": "Spanish",
+      "cf": "German",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Estonia",
+      "field": "capital",
+      "truth": "Tallinn",
+      "cf": "Tehran",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Estonia",
+      "field": "language",
+      "truth": "Estonian",
+      "cf": "Italian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Latvia",
+      "field": "capital",
+      "truth": "Riga",
+      "cf": "Baghdad",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Latvia",
+      "field": "language",
+      "truth": "Latvian",
+      "cf": "Spanish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Lithuania",
+      "field": "capital",
+      "truth": "Vilnius",
+      "cf": "Bangkok",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Lithuania",
+      "field": "language",
+      "truth": "Lithuanian",
+      "cf": "Russian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Slovenia",
+      "field": "capital",
+      "truth": "Ljubljana",
+      "cf": "Lima",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Slovenia",
+      "field": "language",
+      "truth": "Slovenian",
+      "cf": "Greek",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Iceland",
+      "field": "capital",
+      "truth": "Reykjavik",
+      "cf": "Santiago",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Iceland",
+      "field": "language",
+      "truth": "Icelandic",
+      "cf": "Norwegian",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Albania",
+      "field": "capital",
+      "truth": "Tirana",
+      "cf": "Amsterdam",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Albania",
+      "field": "language",
+      "truth": "Albanian",
+      "cf": "Polish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Georgia",
+      "field": "capital",
+      "truth": "Tbilisi",
+      "cf": "Havana",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Georgia",
+      "field": "language",
+      "truth": "Georgian",
+      "cf": "Turkish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Armenia",
+      "field": "capital",
+      "truth": "Yerevan",
+      "cf": "Jerusalem",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Armenia",
+      "field": "language",
+      "truth": "Armenian",
+      "cf": "Portuguese",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Bangladesh",
+      "field": "capital",
+      "truth": "Dhaka",
+      "cf": "Buenos",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Bangladesh",
+      "field": "language",
+      "truth": "Bengali",
+      "cf": "German",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Syria",
+      "field": "capital",
+      "truth": "Damascus",
+      "cf": "Sofia",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Syria",
+      "field": "language",
+      "truth": "Arabic",
+      "cf": "Swedish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Jordan",
+      "field": "capital",
+      "truth": "Amman",
+      "cf": "Beirut",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Jordan",
+      "field": "language",
+      "truth": "Arabic",
+      "cf": "Finnish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Tunisia",
+      "field": "capital",
+      "truth": "Tunis",
+      "cf": "Damascus",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    },
+    {
+      "entity": "Tunisia",
+      "field": "language",
+      "truth": "Arabic",
+      "cf": "Danish",
+      "expressed_at_apply": true,
+      "retained_at_end": true
+    }
+  ]
+}

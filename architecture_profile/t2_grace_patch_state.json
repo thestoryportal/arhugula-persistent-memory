@@ -1,0 +1,120 @@
+{
+  "manifest_schema_version": "v0.1+s220-respec",
+  "session": "S2.20",
+  "engine": "GRACE",
+  "engine_class_selected": "GRACE_barebones",
+  "engine_class_rejected": "GRACE (Hydra-bound; task-aware; less suitable for SECT v3 protocol)",
+  "engine_version_sha": "f674183f17a995d109e10ee6140d4c3e6d016115",
+  "target_model": "meta-llama/Llama-3.1-8B",
+  "target_model_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+  "patches_applied": {
+    "Pad-Token": {
+      "class": "tokenizer-side",
+      "status": "PENDING-CELL-5",
+      "verification_site": "Cell 5",
+      "verification_assertion": "tokenizer.pad_token == tokenizer.eos_token"
+    },
+    "P-1-GRACE": {
+      "class": "SOURCE_LAYER",
+      "target_file": "grace/editors/grace_barebones.py",
+      "status": "APPLIED",
+      "verification_site": "Cell 2++ + Cell 9 (post-application)",
+      "verification_assertion": "'eval(f\"self.model.{self.layer}\")' absent + 'parent_module(self.model, self.layer)' present (>=9 occurrences)",
+      "rationale": "Upstream grace_barebones.py uses eval(f-string) to resolve substituted layer; Python rejects numeric path components (e.g., 'layers.17') as invalid attribute syntax. Defect is universal for HuggingFace transformer models with indexed decoder layers.",
+      "site_count": 9,
+      "site_line_numbers": [
+        44,
+        53,
+        56,
+        57,
+        62,
+        76,
+        77,
+        78,
+        79
+      ],
+      "v0_2_absorption_target": "grace-patches-canonical v0.2 \u00a76",
+      "applied_at": "2026-05-05T10:14:48.276592Z",
+      "session": "S2.20"
+    },
+    "P-2-GRACE": {
+      "class": "SOURCE_LAYER",
+      "target_file": "grace/editors/grace_barebones.py",
+      "status": "APPLIED",
+      "verification_site": "Cell 2++++ + Cell 9 (post-application)",
+      "verification_assertion": "'P-2-GRACE' comment + fp16 conditional dtype upcast present",
+      "rationale": "torch.cdist lacks CUDA fp16 implementation; Llama-3.1-8B fp16 storage triggers 'cdist_cuda not implemented for Half' RuntimeError; patch upcasts query/key to fp32 for cdist call, downcasts result to fp16.",
+      "site_count": 1,
+      "site_function": "euclidean_distance",
+      "patch_form": "single-line return replacement (whitespace-resilient)",
+      "v0_2_absorption_target": "grace-patches-canonical v0.2 \u00a76",
+      "applied_at": "2026-05-05T10:31:55.627092Z",
+      "session": "S2.20"
+    }
+  },
+  "patches_authored_in_session": [
+    "P-1-GRACE",
+    "P-2-GRACE"
+  ],
+  "patches_inapplicable": [
+    "P-1",
+    "P-2",
+    "P-3'",
+    "Device-Map",
+    "P-4",
+    "P-5",
+    "P-6",
+    "P-7",
+    "P-7-ROME",
+    "P-8-ROME",
+    "P-9-ROME",
+    "Copy-Unmount"
+  ],
+  "config_layer_state": {
+    "config_mechanism": "hydra",
+    "config_root": "/workspace/grace_dry_run/grace/grace/config",
+    "config_files": [
+      "config.yaml",
+      "editor/grace.yaml",
+      "editor/{defer,ft,ft_ewc,ft_retrain,memory}.yaml",
+      "experiment/{qa,scotus,hallucination}.yaml",
+      "model/{gpt2xl,scotus-bert,t5small}.yaml"
+    ],
+    "config_layer_patches_applied": [],
+    "config_layer_disposition": "_barebones API bypasses Hydra entirely; CONFIG_LAYER patches NOT REQUIRED at S2.20. If full GRACE class were used, model/llama.yaml would be required (NEW CONFIG_LAYER patch)."
+  },
+  "constraints_active": [
+    "C-GRACE-1",
+    "C-GRACE-2",
+    "C-GRACE-3",
+    "C-GRACE-4",
+    "C-GRACE-5-REVISED"
+  ],
+  "decisions_active": [
+    "D-S219-Q1-1",
+    "D-S219-Q2-1",
+    "D-S219-Q3-1",
+    "D-S219-Q4-1-REVISED",
+    "D-S219-Q5-1",
+    "D-S220-ENGINE-CLASS-1",
+    "D-S220-N-ITER-1",
+    "D-S220-UNMOUNT-1",
+    "D-S220-CONFIG-LAYER-1",
+    "D-S220-OQ-S219-1-1"
+  ],
+  "oq_closures_at_s220_block_a": {
+    "OQ-S219-1": "INAPPLICABLE \u2014 nethook absent from grace/",
+    "OQ-S219-2": "RESOLVED \u2014 Hydra hierarchical config; bypassed via _barebones"
+  },
+  "engine_api_anchors": {
+    "import_path": "grace.editors.grace_barebones.GRACE_barebones",
+    "constructor_signature": "(model, layer, init_epsilon, learning_rate, device, generation=False)",
+    "edit_method_signature": "edit(self, tokens)",
+    "n_iter_hardcoded": 200,
+    "unmount_mechanism": "operator-side layer-restore via captured original_layer reference"
+  },
+  "patches_deferred_to_v0_2": [
+    "P-1-GRACE",
+    "P-2-GRACE"
+  ]
+}

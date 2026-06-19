@@ -1,0 +1,31 @@
+        print("z error", torch.linalg.norm(targets, dim=0).mean())
+
+        repeat_factor = (layer_ks.size(1) // targets.size(1))
+        targets = targets.repeat_interleave(repeat_factor, dim=1)
+
+        # Load covariance matrix
+        force_recompute = False
+        # force_recompute = layer != hparams.layers[0]
+        cov = get_cov(
+            model,
+            tok,
+            hparams.rewrite_module_tmp.format(layer),
+            hparams.mom2_dataset,
+            hparams.mom2_n_samples
+            if not force_recompute
+            else hparams.mom2_n_samples // 10,
+            hparams.mom2_dtype,
+            force_recompute=force_recompute,
+        )
+
+        # Compute update in double precision
+        layer_ks, targets = (
+            layer_ks.double(),
+            targets.double(),
+        )
+
+        adj_k = torch.linalg.solve(
+            hparams.mom2_update_weight * cov.double() + layer_ks @ layer_ks.T,
+            layer_ks,
+        )
+        resid = targets / (len(hparams.layers) - i)  # Distribute residual across layers

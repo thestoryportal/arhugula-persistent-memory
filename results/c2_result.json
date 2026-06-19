@@ -1,0 +1,60 @@
+{
+  "experiment": "C2 \u2014 relation-inclusive keying (root-cause probe) + C2b depth map",
+  "date": "2026-06-18",
+  "model": "Qwen2.5-3B",
+  "method": "compute_ks same-relation key collinearity (pure measurement, no edits/cov)",
+  "C2_phase0_relation_keying": {
+    "subject_key_cos_band48": "L4 0.68, L5 0.54, L6 0.67, L7 0.37, L8 0.26",
+    "relation_key_cos_band48": "L4 0.93, L5 0.97, L6 0.94, L7 0.99, L8 0.94",
+    "verdict": "PRUNED \u2014 relation-inclusive keying makes same-relation keys MORE collinear (collapses onto shared relation direction). Corpus workaround-(b) hope was wrong for CROSS-entity. Would worsen bleed."
+  },
+  "C2b_depth_map_subject_keying": {
+    "capital_cos_by_layer": {
+      "2": 0.571,
+      "4": 0.699,
+      "6": 0.682,
+      "8": 0.258,
+      "10": 0.355,
+      "12": 0.375,
+      "14": 0.589,
+      "16": 0.741,
+      "18": 0.78,
+      "20": 0.766,
+      "22": 0.767,
+      "24": 0.877,
+      "28": 0.894,
+      "32": 0.651
+    },
+    "language_cos_by_layer": {
+      "2": 0.549,
+      "4": 0.65,
+      "6": 0.719,
+      "8": 0.197,
+      "10": 0.357,
+      "12": 0.42,
+      "14": 0.627,
+      "16": 0.729,
+      "18": 0.784,
+      "20": 0.762,
+      "22": 0.761,
+      "24": 0.877,
+      "28": 0.906,
+      "32": 0.822
+    },
+    "finding": "Same-relation subject keys most SEPARABLE at L8-12 (cos 0.20-0.42), most COLLINEAR late L24-28 (0.88-0.91). Reproducible across capital AND language relations. Entities converge to shared answer-rep late."
+  },
+  "implications": {
+    "late_band_A4_for_isolation": "PRUNED \u2014 late layers MORE collinear, not less.",
+    "spec_C15_tension": "C15 band (L15-25) sits in HIGH-collinearity zone (0.73-0.78) = mechanistically WORST for cross-entity isolation. Tension: 'where edits take' (C15 late) vs 'where keys separate' (mid L8-12). Adds a NEW axis to the CP3 C15-divergence question.",
+    "new_lead_band_8_12": "Our [4-8] dilutes separable L8 (0.26) with collinear L4-6 (0.68). Band [8-12] (all<0.42) may give cleaner SEQUENTIAL cross-entity isolation. Testable (needs cov L9-12). Root-cause-targeted.",
+    "mechanism_evidence": "Converts the 'shared relation direction' inference (G6.1 synthesis) into a measured, layer-resolved quantity. Cross-entity bleed proxy = same-relation key collinearity; it is U-shaped in depth.",
+    "validity_caveat": "key-collinearity -> cross-entity-bleed link is a PLAUSIBLE MECHANISM, not yet causally tested. [4-8] batch is clean at 3B despite L4-6 collinearity (batch absorbs it); the link matters for the SEQUENTIAL/incremental path. A band-[8-12] sequential run vs [4-8] would test it."
+  },
+  "artifacts": [
+    "c2_key_collinearity.py",
+    "c2_phase0.log",
+    "c2b_depth_map.py",
+    "c2b_depth_map_result.json",
+    "c2b_depth_map.log"
+  ]
+}

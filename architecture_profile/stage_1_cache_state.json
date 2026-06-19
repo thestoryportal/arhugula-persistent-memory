@@ -1,0 +1,150 @@
+{
+  "r1_3_smoke_load": {
+    "status": "PASS",
+    "elapsed_sec": 5.233,
+    "diagnostic": "R1.3 cache-dispatch round-trip PASS: elapsed=5.23 s; cache file for layer 4 resolved by P-6+P-7 chain.",
+    "smoke_log_excerpt": "Retrieving covariance statistics for meta-llama_Llama-3.1-8B @ model.layers.4.mlp.down_proj.\nLoading cached /workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz\n"
+  },
+  "verified_at": "2026-05-04T13:37:04.481176+00:00",
+  "cache_dir": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats",
+  "provenance_fields": {
+    "model_name": "meta-llama/Llama-3.1-8B",
+    "model_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+    "layer_set": "[2, 3, 4, 5, 6]",
+    "sample_count": "100000",
+    "dtype": "float32",
+    "computed_at": "2026-05-01T06:05:57.661593+00:00",
+    "produced_by_session": "pre-S2.6-fork-work",
+    "revision_sha_source": "model.config._commit_hash",
+    "bridge_archive": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/bridge_archive_20260430T035042Z",
+    "batch_tokens": "100",
+    "patches_applied": "P-1, P-2, P-4, P-5, P-6"
+  },
+  "cache_files": {
+    "model.layers.2.mlp.down_proj_float32_mom2_t100_100000.npz": {
+      "size_mb": 822.08,
+      "sha256_prefix": "3554d889763a5377",
+      "matrix_key_resolved": "mom2.mom2",
+      "matrix_shape": [
+        14336,
+        14336
+      ],
+      "matrix_dtype": "float32",
+      "sample_size": 100000,
+      "all_keys": [
+        "mom2.constructor",
+        "mom2.count",
+        "mom2.mom2",
+        "sample_size"
+      ]
+    },
+    "model.layers.3.mlp.down_proj_float32_mom2_t100_100000.npz": {
+      "size_mb": 822.08,
+      "sha256_prefix": "a01a8da4332ee2c3",
+      "matrix_key_resolved": "mom2.mom2",
+      "matrix_shape": [
+        14336,
+        14336
+      ],
+      "matrix_dtype": "float32",
+      "sample_size": 100000,
+      "all_keys": [
+        "mom2.constructor",
+        "mom2.count",
+        "mom2.mom2",
+        "sample_size"
+      ]
+    },
+    "model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz": {
+      "size_mb": 822.08,
+      "sha256_prefix": "4ff31e8f28f252b6",
+      "matrix_key_resolved": "mom2.mom2",
+      "matrix_shape": [
+        14336,
+        14336
+      ],
+      "matrix_dtype": "float32",
+      "sample_size": 100000,
+      "all_keys": [
+        "mom2.constructor",
+        "mom2.count",
+        "mom2.mom2",
+        "sample_size"
+      ]
+    },
+    "model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz": {
+      "size_mb": 822.08,
+      "sha256_prefix": "e73b2c3f2f5ec3ca",
+      "matrix_key_resolved": "mom2.mom2",
+      "matrix_shape": [
+        14336,
+        14336
+      ],
+      "matrix_dtype": "float32",
+      "sample_size": 100000,
+      "all_keys": [
+        "mom2.constructor",
+        "mom2.count",
+        "mom2.mom2",
+        "sample_size"
+      ]
+    },
+    "model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz": {
+      "size_mb": 822.08,
+      "sha256_prefix": "c0b15be3d77b8c99",
+      "matrix_key_resolved": "mom2.mom2",
+      "matrix_shape": [
+        14336,
+        14336
+      ],
+      "matrix_dtype": "float32",
+      "sample_size": 100000,
+      "all_keys": [
+        "mom2.constructor",
+        "mom2.count",
+        "mom2.mom2",
+        "sample_size"
+      ]
+    },
+    "model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz": {
+      "size_mb": 822.08,
+      "sha256_prefix": "d2a7b81667c8280b",
+      "matrix_key_resolved": "mom2.mom2",
+      "matrix_shape": [
+        14336,
+        14336
+      ],
+      "matrix_dtype": "float32",
+      "sample_size": 100000,
+      "all_keys": [
+        "mom2.constructor",
+        "mom2.count",
+        "mom2.mom2",
+        "sample_size"
+      ]
+    },
+    "model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz": {
+      "size_mb": 822.08,
+      "sha256_prefix": "f3a7e66817575ff3",
+      "matrix_key_resolved": "mom2.mom2",
+      "matrix_shape": [
+        14336,
+        14336
+      ],
+      "matrix_dtype": "float32",
+      "sample_size": 100000,
+      "all_keys": [
+        "mom2.constructor",
+        "mom2.count",
+        "mom2.mom2",
+        "sample_size"
+      ]
+    }
+  },
+  "total_size_gb": 5.75,
+  "gate_status": "PASS",
+  "block_b_inline_modifications": [
+    "EXPECTED_LAYERS: [4,5,6,7,8] \u2192 [2,3,4,5,6] (D-S215D2-BLOCKB-PROVENANCE-1)",
+    "R1.1: strict equality \u2192 SUBSET (OQ-S215D2-PROVENANCE-CACHE-TRUTH-1)"
+  ]
+}

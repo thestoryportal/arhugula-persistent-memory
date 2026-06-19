@@ -1,0 +1,311 @@
+{
+  "per_probe": {
+    "p-cfb-v3-001-cons-1": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-001",
+      "p_top_1": 0.33027347922325134,
+      "top_1_token_id": 813,
+      "p_target_new": 0.005682668648660183,
+      "p_target_true": 0.33027347922325134
+    },
+    "p-cfb-v3-001-cons-2": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-001",
+      "p_top_1": 0.23655523359775543,
+      "top_1_token_id": 264,
+      "p_target_new": 0.00011367141996743158,
+      "p_target_true": 0.004948053043335676
+    },
+    "p-cfb-v3-001-cons-3": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-001",
+      "p_top_1": 0.26486414670944214,
+      "top_1_token_id": 17418,
+      "p_target_new": 0.26486414670944214,
+      "p_target_true": 1.0991569979523774e-05
+    },
+    "p-cfb-v3-001-gen-1": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-001",
+      "p_top_1": 0.7088313102722168,
+      "top_1_token_id": 53449,
+      "p_target_new": 2.7372751176812926e-08,
+      "p_target_true": 5.24391871294938e-05
+    },
+    "p-cfb-v3-001-gen-2": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-001",
+      "p_top_1": 0.6698175668716431,
+      "top_1_token_id": 220,
+      "p_target_new": 1.3835026457797994e-08,
+      "p_target_true": 0.0007085341494530439
+    },
+    "p-cfb-v3-001-gen-3": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-001",
+      "p_top_1": 0.5648292303085327,
+      "top_1_token_id": 21272,
+      "p_target_new": 2.8431449550225807e-07,
+      "p_target_true": 0.0005031262990087271
+    },
+    "p-cfb-v3-001-unmount-1": {
+      "category": "unmount",
+      "linked_fact_id": "cfb-v3-001",
+      "p_top_1": 0.2912396192550659,
+      "top_1_token_id": 813,
+      "p_target_new": 0.00022363755851984024,
+      "p_target_true": 0.2912396192550659
+    },
+    "p-cfb-v3-002-cons-1": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-002",
+      "p_top_1": 0.4326396584510803,
+      "top_1_token_id": 813,
+      "p_target_new": 0.0014658059226348996,
+      "p_target_true": 0.4326396584510803
+    },
+    "p-cfb-v3-002-cons-2": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-002",
+      "p_top_1": 0.15047073364257812,
+      "top_1_token_id": 264,
+      "p_target_new": 1.7475986169301905e-06,
+      "p_target_true": 0.008163770660758018
+    },
+    "p-cfb-v3-002-cons-3": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-002",
+      "p_top_1": 0.3601576089859009,
+      "top_1_token_id": 17418,
+      "p_target_new": 0.21844662725925446,
+      "p_target_true": 1.2246430742379744e-05
+    },
+    "p-cfb-v3-002-gen-1": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-002",
+      "p_top_1": 0.49491405487060547,
+      "top_1_token_id": 7188,
+      "p_target_new": 1.7222484416379302e-07,
+      "p_target_true": 0.00030536699341610074
+    },
+    "p-cfb-v3-002-gen-2": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-002",
+      "p_top_1": 0.9125891327857971,
+      "top_1_token_id": 31788,
+      "p_target_new": 2.9538741230794585e-08,
+      "p_target_true": 0.0001503707026131451
+    },
+    "p-cfb-v3-002-gen-3": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-002",
+      "p_top_1": 0.8208233118057251,
+      "top_1_token_id": 3778,
+      "p_target_new": 4.147277721244791e-08,
+      "p_target_true": 0.0002689769316930324
+    },
+    "p-cfb-v3-002-unmount-1": {
+      "category": "unmount",
+      "linked_fact_id": "cfb-v3-002",
+      "p_top_1": 0.38916531205177307,
+      "top_1_token_id": 813,
+      "p_target_new": 1.8228924091090448e-05,
+      "p_target_true": 0.38916531205177307
+    },
+    "p-cfb-v3-003-cons-1": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-003",
+      "p_top_1": 0.34247979521751404,
+      "top_1_token_id": 813,
+      "p_target_new": 0.0011694402201101184,
+      "p_target_true": 0.34247979521751404
+    },
+    "p-cfb-v3-003-cons-2": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-003",
+      "p_top_1": 0.19180217385292053,
+      "top_1_token_id": 2663,
+      "p_target_new": 2.7244312150287442e-05,
+      "p_target_true": 0.011340036056935787
+    },
+    "p-cfb-v3-003-cons-3": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-003",
+      "p_top_1": 0.3218955993652344,
+      "top_1_token_id": 17418,
+      "p_target_new": 0.0210660919547081,
+      "p_target_true": 1.372861606796505e-05
+    },
+    "p-cfb-v3-003-gen-1": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-003",
+      "p_top_1": 0.29926878213882446,
+      "top_1_token_id": 279,
+      "p_target_new": 2.1763501933946827e-07,
+      "p_target_true": 0.012066157534718513
+    },
+    "p-cfb-v3-003-gen-2": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-003",
+      "p_top_1": 0.30178388953208923,
+      "top_1_token_id": 330,
+      "p_target_new": 1.3497702866516192e-07,
+      "p_target_true": 0.00021431919594760984
+    },
+    "p-cfb-v3-003-gen-3": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-003",
+      "p_top_1": 0.25127148628234863,
+      "top_1_token_id": 9784,
+      "p_target_new": 2.75141633920839e-08,
+      "p_target_true": 0.0017063328996300697
+    },
+    "p-cfb-v3-003-unmount-1": {
+      "category": "unmount",
+      "linked_fact_id": "cfb-v3-003",
+      "p_top_1": 0.24041655659675598,
+      "top_1_token_id": 813,
+      "p_target_new": 8.128332410706207e-05,
+      "p_target_true": 0.24041655659675598
+    },
+    "p-cfb-v3-004-cons-1": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-004",
+      "p_top_1": 0.3061854839324951,
+      "top_1_token_id": 813,
+      "p_target_new": 0.00273311254568398,
+      "p_target_true": 0.3061854839324951
+    },
+    "p-cfb-v3-004-cons-2": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-004",
+      "p_top_1": 0.2273457795381546,
+      "top_1_token_id": 2663,
+      "p_target_new": 3.0391297514142934e-06,
+      "p_target_true": 0.006250878795981407
+    },
+    "p-cfb-v3-004-cons-3": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-004",
+      "p_top_1": 0.1951126754283905,
+      "top_1_token_id": 47389,
+      "p_target_new": 0.011093837209045887,
+      "p_target_true": 3.177488542860374e-05
+    },
+    "p-cfb-v3-004-gen-1": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-004",
+      "p_top_1": 0.943800687789917,
+      "top_1_token_id": 29258,
+      "p_target_new": 6.897781190673413e-08,
+      "p_target_true": 0.0031976462341845036
+    },
+    "p-cfb-v3-004-gen-2": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-004",
+      "p_top_1": 0.9258744716644287,
+      "top_1_token_id": 279,
+      "p_target_new": 6.052048306948166e-10,
+      "p_target_true": 0.0001898636983241886
+    },
+    "p-cfb-v3-004-gen-3": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-004",
+      "p_top_1": 0.4614608585834503,
+      "top_1_token_id": 330,
+      "p_target_new": 2.3355569922500763e-08,
+      "p_target_true": 0.0002781303774099797
+    },
+    "p-cfb-v3-004-unmount-1": {
+      "category": "unmount",
+      "linked_fact_id": "cfb-v3-004",
+      "p_top_1": 0.3083682060241699,
+      "top_1_token_id": 813,
+      "p_target_new": 0.00022071279818192124,
+      "p_target_true": 0.3083682060241699
+    },
+    "p-cfb-v3-005-cons-1": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-005",
+      "p_top_1": 0.514137327671051,
+      "top_1_token_id": 1077,
+      "p_target_new": 0.00048750871792435646,
+      "p_target_true": 0.514137327671051
+    },
+    "p-cfb-v3-005-cons-2": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-005",
+      "p_top_1": 0.18741951882839203,
+      "top_1_token_id": 264,
+      "p_target_new": 8.424885322710907e-07,
+      "p_target_true": 0.021027885377407074
+    },
+    "p-cfb-v3-005-cons-3": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-005",
+      "p_top_1": 0.17230261862277985,
+      "top_1_token_id": 27374,
+      "p_target_new": 0.04322589933872223,
+      "p_target_true": 3.293406552984379e-05
+    },
+    "p-cfb-v3-005-gen-1": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-005",
+      "p_top_1": 0.3774445354938507,
+      "top_1_token_id": 19461,
+      "p_target_new": 4.024855115858372e-09,
+      "p_target_true": 3.831595677183941e-05
+    },
+    "p-cfb-v3-005-gen-2": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-005",
+      "p_top_1": 0.7815836071968079,
+      "top_1_token_id": 220,
+      "p_target_new": 4.010006215970918e-10,
+      "p_target_true": 9.422070434084162e-05
+    },
+    "p-cfb-v3-005-gen-3": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-005",
+      "p_top_1": 0.7411006093025208,
+      "top_1_token_id": 3778,
+      "p_target_new": 2.7395142154773566e-08,
+      "p_target_true": 0.0005646489444188774
+    },
+    "p-cfb-v3-005-unmount-1": {
+      "category": "unmount",
+      "linked_fact_id": "cfb-v3-005",
+      "p_top_1": 0.5208349823951721,
+      "top_1_token_id": 1077,
+      "p_target_new": 1.8059236026601866e-05,
+      "p_target_true": 0.5208349823951721
+    },
+    "p-shared-spec-1": {
+      "category": "specificity_shared",
+      "linked_fact_id": null,
+      "p_top_1": 0.9499581456184387,
+      "top_1_token_id": 12366
+    },
+    "p-shared-spec-2": {
+      "category": "specificity_shared",
+      "linked_fact_id": null,
+      "p_top_1": 0.5506206154823303,
+      "top_1_token_id": 50789
+    },
+    "p-shared-spec-3": {
+      "category": "specificity_shared",
+      "linked_fact_id": null,
+      "p_top_1": 0.8339031338691711,
+      "top_1_token_id": 33150
+    }
+  },
+  "meta": {
+    "fact_id": "cfb-v3-001",
+    "layer": "L17",
+    "edit_wall_time_sec": 14.018429279327393,
+    "drift_unmount": 0.0,
+    "codebook_size_post_edit": 1,
+    "f_2_applied": true,
+    "vram_peak_during_edit_gib": 6.469023232
+  }
+}

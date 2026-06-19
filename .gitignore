@@ -1,0 +1,64 @@
+# ── Large infra / caches / models / vendored clones (NEVER track — 100GB+, regenerable) ──
+hf_cache/
+covariance_caches/
+llama_cpp_src/
+external_prior_art/
+memit_dry_run/
+easyedit_upstream/
+easyedit_assets/
+easyedit_ref/
+b3_edited_qwen3b/
+tools/autoresearch-skill/
+archive/
+*.vindex/
+qwen05b.vindex/
+b3_q4km.vindex/
+
+# ── Large binary artifacts ──
+*.gguf
+*.safetensors
+*.npz
+*.pkl
+*.bin
+*.pth
+*.tar.gz
+*.tgz
+*.zst
+*.png
+*.jpg
+*.pdf
+*.mp3
+*.mp4
+
+# ── Verbose / regenerable run outputs (results/ IS tracked; logs are not) ──
+logs/
+*.log
+*.rawout.txt
+*_DONE.flag
+.harness/
+
+# ── Secrets / env ──
+.env
+.env.*
+.hf_token
+*token*
+*.pem
+*.key
+
+# ── Scratch / tooling ──
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+.DS_Store
+node_modules/
+
+# nested vendored git repos that may appear
+external_prior_art/**/.git
+
+# pip / uv / misc caches
+.cache/
+.npm/
+.config/
+migration_backup/
+tools/codex-skills/.git/

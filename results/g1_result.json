@@ -1,0 +1,86 @@
+{
+  "T_HAPPY": {
+    "status": "COMMITTED",
+    "git_committed": true,
+    "paired": true,
+    "served": "Berlin.",
+    "serves_edit": true
+  },
+  "T_D46_GITFAIL": {
+    "status": "ABORTED_GIT_FIRST",
+    "vindex_attempted": false,
+    "active_unchanged": true,
+    "aborted_logged": true
+  },
+  "T_COMP_STRUCT": {
+    "status": "VINDEX_FAILED",
+    "comp": "COMPENSATED",
+    "git_back_to_baseline": true,
+    "no_commit": true,
+    "comp_logged": true
+  },
+  "T_COMP_L4": {
+    "status": "VINDEX_FAILED",
+    "parked_git_still_ahead": true,
+    "no_auto_revert": true,
+    "operator_revert_ok": true
+  },
+  "T_ROLLBACK_DUAL": {
+    "committed_first": true,
+    "git_rolled_back": true,
+    "vindex_at_base": true,
+    "serves_original": true,
+    "served_base": "Paris."
+  },
+  "T_DIVERGE": {
+    "git_oob_detected": true,
+    "git_tripped": true,
+    "vindex_flip_detected": true,
+    "vindex_tripped": true
+  },
+  "T_PARK_NOT_DIVERGE": {
+    "parked": true,
+    "reconcile_not_diverged": true,
+    "no_diverged_state_entry": true
+  },
+  "T_CIRCUIT": {
+    "trip_logged": true,
+    "write_rejected_when_tripped": true,
+    "bad_reset_comp_refused": true,
+    "bad_reset_overlay_refused": true,
+    "good_reset_admitted": true,
+    "resumed_committed": true
+  },
+  "T_TPC4": {
+    "detected": true,
+    "legit_not_flagged": true,
+    "bypass_set": [
+      "smuggled"
+    ]
+  },
+  "T_LEDGER": {
+    "chain_intact": true,
+    "all_committed_have_prepared": true,
+    "n_entries": 18
+  },
+  "VERDICT": {
+    "T_HAPPY (git-first\u2192vindex-second\u2192COMMITTED pair, serves edit)": true,
+    "T_D46 (git-fail\u2192vindex untouched, Weights-ahead unreachable)": true,
+    "T_COMP_STRUCT (\u22643 retries\u2192auto git-revert, no commit)": true,
+    "T_COMP_L4 (park, NO auto-revert; operator-confirm reverts)": true,
+    "T_ROLLBACK_DUAL (COMMITTED\u2192dual rollback\u2192serves original Paris)": true,
+    "T_DIVERGE (git-OOB + vindex-flip \u2192 DIVERGED \u2192 trip)": true,
+    "T_PARK_NOT_DIVERGE (sanctioned park \u2260 divergence)": true,
+    "T_CIRCUIT (trip\u2192READ_ONLY\u2192reject\u2192both reset arms gate\u2192resume)": true,
+    "T_LEDGER (chain intact; every COMMITTED has PREPARED)": true,
+    "T_TPC4 (fabricated COMMITTED-without-PREPARED is DETECTED)": true
+  },
+  "scope_and_caveats": {
+    "scope": "Dual-medium 2PC (Git+.vindex) with D46 ordering, TC compensation (C-TC2 asymmetry), circuit breaker (D48), Git\u2194overlay ledger pairing + divergence detection.",
+    "compensation_in_failure_path": "reverts GIT ONLY (vindex written second, never mounted on failure). The vindex-side reversal is exercised separately by T_ROLLBACK_DUAL.",
+    "divergence_detection_asymmetry": "GIT side = real content (`git rev-parse HEAD` != recorded commit). VINDEX side = METADATA consistency (active-pointer's self-reported overlay_hash != ledger field) \u2014 NOT artifact integrity (overlay not re-hashed). Content-level vindex integrity = G2/G6.",
+    "rollback_test": "T_ROLLBACK_DUAL serves FROZEN_BASE directly (immutable; always Paris). It proves the COMPOSITION 'pointer removed (active is None) AND base independently serves original', NOT an end-to-end serve-through-resolver after rollback.",
+    "reset_stub": "Reset = precondition-checked stub for the full IC-TC-RESET CeremonyToken/CAK flow (\u00a711.8.1) \u2192 G2/v2. BOTH precondition arms are now exercised (compensation-completed + overlay==last-COMMITTED).",
+    "other_stubs": "PREPARED-timeout (\u00a711.5.1, 2hr) DEFERRED (untestable in a prototype). 'No self-compensate' is CONSTRUCTION-ASSERTED (the executor has no revert path) \u2014 NOT in the verdict, not behaviorally enforced. Cross-task 5-in-10min trip path is coded but UNTESTED (headline circuit test exercises the 3-consecutive path)."
+  }
+}

@@ -1,0 +1,1441 @@
+{
+  "captured_at": "2026-05-06T04:06:41.191546Z",
+  "session": "S2.22",
+  "engine": "GRACE_barebones",
+  "model": "meta-llama/Llama-3.2-3B",
+  "model_revision_sha": "13afe5124825b4f3751f836b40dafda64c1ed062",
+  "purpose": "Fresh baseline capture; Llama-3.2-3B chain checkpoint #1",
+  "n_layer": 28,
+  "hidden_size": 3072,
+  "intermediate_size": 8192,
+  "target_ids_by_fact": {
+    "cfb-v3-001": {
+      "target_new": "guitar",
+      "target_new_id": 17418,
+      "target_new_full_ids": [
+        17418
+      ],
+      "target_true_id": 813,
+      "target_true_str_decoded": " his",
+      "target_true_p_at_canonical": 0.2912396192550659,
+      "subject": "Bo Jackson",
+      "canonical_prompt": "Bo Jackson plays the instrument of"
+    },
+    "cfb-v3-002": {
+      "target_new": "piano",
+      "target_new_id": 27374,
+      "target_new_full_ids": [
+        27374
+      ],
+      "target_true_id": 813,
+      "target_true_str_decoded": " his",
+      "target_true_p_at_canonical": 0.38916531205177307,
+      "subject": "Tiger Woods",
+      "canonical_prompt": "Tiger Woods plays the instrument of"
+    },
+    "cfb-v3-003": {
+      "target_new": "violin",
+      "target_new_id": 63137,
+      "target_new_full_ids": [
+        63137
+      ],
+      "target_true_id": 813,
+      "target_true_str_decoded": " his",
+      "target_true_p_at_canonical": 0.24041655659675598,
+      "subject": "Deion Sanders",
+      "canonical_prompt": "Deion Sanders plays the instrument of"
+    },
+    "cfb-v3-004": {
+      "target_new": "harp",
+      "target_new_id": 4960,
+      "target_new_full_ids": [
+        4960,
+        79
+      ],
+      "target_true_id": 813,
+      "target_true_str_decoded": " his",
+      "target_true_p_at_canonical": 0.3083682060241699,
+      "subject": "Hakeem Olajuwon",
+      "canonical_prompt": "Hakeem Olajuwon plays the instrument of"
+    },
+    "cfb-v3-005": {
+      "target_new": "flute",
+      "target_new_id": 96812,
+      "target_new_full_ids": [
+        96812
+      ],
+      "target_true_id": 1077,
+      "target_true_str_decoded": " her",
+      "target_true_p_at_canonical": 0.5208349823951721,
+      "subject": "Lindsey Vonn",
+      "canonical_prompt": "Lindsey Vonn plays the instrument of"
+    }
+  },
+  "per_probe": {
+    "p-cfb-v3-001-cons-1": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-001",
+      "prompt": "Bo Jackson plays the musical instrument of",
+      "p_top_1_pre": 0.33027347922325134,
+      "top_1_token_id": 813,
+      "top_5": [
+        {
+          "token_id": 813,
+          "p": 0.33027347922325134,
+          "token_str": " his"
+        },
+        {
+          "token_id": 279,
+          "p": 0.2305680364370346,
+          "token_str": " the"
+        },
+        {
+          "token_id": 264,
+          "p": 0.03400418162345886,
+          "token_str": " a"
+        },
+        {
+          "token_id": 20075,
+          "p": 0.031943973153829575,
+          "token_str": " baseball"
+        },
+        {
+          "token_id": 47389,
+          "p": 0.018632754683494568,
+          "token_str": " drums"
+        }
+      ],
+      "p_target_new_pre": 0.005682668648660183,
+      "p_target_true_pre": 0.33027347922325134
+    },
+    "p-cfb-v3-001-cons-2": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-001",
+      "prompt": "The instrument that Bo Jackson plays is",
+      "p_top_1_pre": 0.23655523359775543,
+      "top_1_token_id": 264,
+      "top_5": [
+        {
+          "token_id": 264,
+          "p": 0.23655523359775543,
+          "token_str": " a"
+        },
+        {
+          "token_id": 2663,
+          "p": 0.19007746875286102,
+          "token_str": " called"
+        },
+        {
+          "token_id": 279,
+          "p": 0.15036365389823914,
+          "token_str": " the"
+        },
+        {
+          "token_id": 459,
+          "p": 0.04241201654076576,
+          "token_str": " an"
+        },
+        {
+          "token_id": 3967,
+          "p": 0.028032628819346428,
+          "token_str": " known"
+        }
+      ],
+      "p_target_new_pre": 0.00011367141996743158,
+      "p_target_true_pre": 0.004948053043335676
+    },
+    "p-cfb-v3-001-cons-3": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-001",
+      "prompt": "Bo Jackson is a musician who plays the",
+      "p_top_1_pre": 0.26486414670944214,
+      "top_1_token_id": 17418,
+      "top_5": [
+        {
+          "token_id": 17418,
+          "p": 0.26486414670944214,
+          "token_str": " guitar"
+        },
+        {
+          "token_id": 27374,
+          "p": 0.0853196308016777,
+          "token_str": " piano"
+        },
+        {
+          "token_id": 47389,
+          "p": 0.06802273541688919,
+          "token_str": " drums"
+        },
+        {
+          "token_id": 64108,
+          "p": 0.055518537759780884,
+          "token_str": " sax"
+        },
+        {
+          "token_id": 22253,
+          "p": 0.046751298010349274,
+          "token_str": " bass"
+        }
+      ],
+      "p_target_new_pre": 0.26486414670944214,
+      "p_target_true_pre": 1.0991569979523774e-05
+    },
+    "p-cfb-v3-001-gen-1": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-001",
+      "prompt": "Bo Jackson attended college at",
+      "p_top_1_pre": 0.7088313102722168,
+      "top_1_token_id": 53449,
+      "top_5": [
+        {
+          "token_id": 53449,
+          "p": 0.7088313102722168,
+          "token_str": " Auburn"
+        },
+        {
+          "token_id": 279,
+          "p": 0.13528282940387726,
+          "token_str": " the"
+        },
+        {
+          "token_id": 17368,
+          "p": 0.02684769779443741,
+          "token_str": " Arizona"
+        },
+        {
+          "token_id": 16642,
+          "p": 0.0220843143761158,
+          "token_str": " Southern"
+        },
+        {
+          "token_id": 44379,
+          "p": 0.011913593858480453,
+          "token_str": " USC"
+        }
+      ],
+      "p_target_new_pre": 2.7372751176812926e-08,
+      "p_target_true_pre": 5.24391871294938e-05
+    },
+    "p-cfb-v3-001-gen-2": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-001",
+      "prompt": "Bo Jackson won the Heisman Trophy in the year",
+      "p_top_1_pre": 0.6698175668716431,
+      "top_1_token_id": 220,
+      "top_5": [
+        {
+          "token_id": 220,
+          "p": 0.6698175668716431,
+          "token_str": " "
+        },
+        {
+          "token_id": 315,
+          "p": 0.08515774458646774,
+          "token_str": " of"
+        },
+        {
+          "token_id": 430,
+          "p": 0.030363932251930237,
+          "token_str": " that"
+        },
+        {
+          "token_id": 198,
+          "p": 0.019604427739977837,
+          "token_str": "\n"
+        },
+        {
+          "token_id": 568,
+          "p": 0.016000667586922646,
+          "token_str": " he"
+        }
+      ],
+      "p_target_new_pre": 1.3835026457797994e-08,
+      "p_target_true_pre": 0.0007085341494530439
+    },
+    "p-cfb-v3-001-gen-3": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-001",
+      "prompt": "Bo Jackson was born in the state of",
+      "p_top_1_pre": 0.5648292303085327,
+      "top_1_token_id": 21272,
+      "top_5": [
+        {
+          "token_id": 21272,
+          "p": 0.5648292303085327,
+          "token_str": " Alabama"
+        },
+        {
+          "token_id": 16272,
+          "p": 0.08010982722043991,
+          "token_str": " Georgia"
+        },
+        {
+          "token_id": 29538,
+          "p": 0.06852156668901443,
+          "token_str": " Mississippi"
+        },
+        {
+          "token_id": 29974,
+          "p": 0.03996827080845833,
+          "token_str": " Louisiana"
+        },
+        {
+          "token_id": 32790,
+          "p": 0.030885089188814163,
+          "token_str": " Arkansas"
+        }
+      ],
+      "p_target_new_pre": 2.8431449550225807e-07,
+      "p_target_true_pre": 0.0005031262990087271
+    },
+    "p-cfb-v3-001-unmount-1": {
+      "category": "unmount",
+      "linked_fact_id": "cfb-v3-001",
+      "prompt": "Bo Jackson plays the instrument of",
+      "p_top_1_pre": 0.2912396192550659,
+      "top_1_token_id": 813,
+      "top_5": [
+        {
+          "token_id": 813,
+          "p": 0.2912396192550659,
+          "token_str": " his"
+        },
+        {
+          "token_id": 279,
+          "p": 0.11054209619760513,
+          "token_str": " the"
+        },
+        {
+          "token_id": 4648,
+          "p": 0.08882305771112442,
+          "token_str": " death"
+        },
+        {
+          "token_id": 19814,
+          "p": 0.026256047189235687,
+          "token_str": " destruction"
+        },
+        {
+          "token_id": 5873,
+          "p": 0.024093903601169586,
+          "token_str": " choice"
+        }
+      ],
+      "p_target_new_pre": 0.00022363755851984024,
+      "p_target_true_pre": 0.2912396192550659
+    },
+    "p-cfb-v3-002-cons-1": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-002",
+      "prompt": "Tiger Woods plays the musical instrument of",
+      "p_top_1_pre": 0.4326396584510803,
+      "top_1_token_id": 813,
+      "top_5": [
+        {
+          "token_id": 813,
+          "p": 0.4326396584510803,
+          "token_str": " his"
+        },
+        {
+          "token_id": 279,
+          "p": 0.12889108061790466,
+          "token_str": " the"
+        },
+        {
+          "token_id": 264,
+          "p": 0.04317310079932213,
+          "token_str": " a"
+        },
+        {
+          "token_id": 19665,
+          "p": 0.04250376671552658,
+          "token_str": " golf"
+        },
+        {
+          "token_id": 2324,
+          "p": 0.02659817785024643,
+          "token_str": " life"
+        }
+      ],
+      "p_target_new_pre": 0.0014658059226348996,
+      "p_target_true_pre": 0.4326396584510803
+    },
+    "p-cfb-v3-002-cons-2": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-002",
+      "prompt": "The instrument that Tiger Woods plays is",
+      "p_top_1_pre": 0.15047073364257812,
+      "top_1_token_id": 264,
+      "top_5": [
+        {
+          "token_id": 264,
+          "p": 0.15047073364257812,
+          "token_str": " a"
+        },
+        {
+          "token_id": 2663,
+          "p": 0.14135417342185974,
+          "token_str": " called"
+        },
+        {
+          "token_id": 279,
+          "p": 0.13488109409809113,
+          "token_str": " the"
+        },
+        {
+          "token_id": 832,
+          "p": 0.06079567223787308,
+          "token_str": " one"
+        },
+        {
+          "token_id": 459,
+          "p": 0.02939886413514614,
+          "token_str": " an"
+        }
+      ],
+      "p_target_new_pre": 1.7475986169301905e-06,
+      "p_target_true_pre": 0.008163770660758018
+    },
+    "p-cfb-v3-002-cons-3": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-002",
+      "prompt": "Tiger Woods is a musician who plays the",
+      "p_top_1_pre": 0.3601576089859009,
+      "top_1_token_id": 17418,
+      "top_5": [
+        {
+          "token_id": 17418,
+          "p": 0.3601576089859009,
+          "token_str": " guitar"
+        },
+        {
+          "token_id": 27374,
+          "p": 0.21844662725925446,
+          "token_str": " piano"
+        },
+        {
+          "token_id": 47389,
+          "p": 0.10158711671829224,
+          "token_str": " drums"
+        },
+        {
+          "token_id": 64108,
+          "p": 0.038860537111759186,
+          "token_str": " sax"
+        },
+        {
+          "token_id": 9249,
+          "p": 0.02509024739265442,
+          "token_str": " electric"
+        }
+      ],
+      "p_target_new_pre": 0.21844662725925446,
+      "p_target_true_pre": 1.2246430742379744e-05
+    },
+    "p-cfb-v3-002-gen-1": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-002",
+      "prompt": "Tiger Woods was born in the state of",
+      "p_top_1_pre": 0.49491405487060547,
+      "top_1_token_id": 7188,
+      "top_5": [
+        {
+          "token_id": 7188,
+          "p": 0.49491405487060547,
+          "token_str": " California"
+        },
+        {
+          "token_id": 9784,
+          "p": 0.40393707156181335,
+          "token_str": " Florida"
+        },
+        {
+          "token_id": 6652,
+          "p": 0.009499689564108849,
+          "token_str": " Washington"
+        },
+        {
+          "token_id": 1561,
+          "p": 0.0051648919470608234,
+          "token_str": " New"
+        },
+        {
+          "token_id": 16272,
+          "p": 0.005005985032767057,
+          "token_str": " Georgia"
+        }
+      ],
+      "p_target_new_pre": 1.7222484416379302e-07,
+      "p_target_true_pre": 0.00030536699341610074
+    },
+    "p-cfb-v3-002-gen-2": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-002",
+      "prompt": "Tiger Woods attended college at",
+      "p_top_1_pre": 0.9125891327857971,
+      "top_1_token_id": 31788,
+      "top_5": [
+        {
+          "token_id": 31788,
+          "p": 0.9125891327857971,
+          "token_str": " Stanford"
+        },
+        {
+          "token_id": 9784,
+          "p": 0.036794498562812805,
+          "token_str": " Florida"
+        },
+        {
+          "token_id": 279,
+          "p": 0.014521943405270576,
+          "token_str": " the"
+        },
+        {
+          "token_id": 16272,
+          "p": 0.004193237982690334,
+          "token_str": " Georgia"
+        },
+        {
+          "token_id": 16642,
+          "p": 0.003939182497560978,
+          "token_str": " Southern"
+        }
+      ],
+      "p_target_new_pre": 2.9538741230794585e-08,
+      "p_target_true_pre": 0.0001503707026131451
+    },
+    "p-cfb-v3-002-gen-3": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-002",
+      "prompt": "Tiger Woods's nationality is",
+      "p_top_1_pre": 0.8208233118057251,
+      "top_1_token_id": 3778,
+      "top_5": [
+        {
+          "token_id": 3778,
+          "p": 0.8208233118057251,
+          "token_str": " American"
+        },
+        {
+          "token_id": 539,
+          "p": 0.02153507061302662,
+          "token_str": " not"
+        },
+        {
+          "token_id": 3723,
+          "p": 0.011085305362939835,
+          "token_str": " United"
+        },
+        {
+          "token_id": 8013,
+          "p": 0.0073269386775791645,
+          "token_str": " British"
+        },
+        {
+          "token_id": 7427,
+          "p": 0.007213345263153315,
+          "token_str": " USA"
+        }
+      ],
+      "p_target_new_pre": 4.147277721244791e-08,
+      "p_target_true_pre": 0.0002689769316930324
+    },
+    "p-cfb-v3-002-unmount-1": {
+      "category": "unmount",
+      "linked_fact_id": "cfb-v3-002",
+      "prompt": "Tiger Woods plays the instrument of",
+      "p_top_1_pre": 0.38916531205177307,
+      "top_1_token_id": 813,
+      "top_5": [
+        {
+          "token_id": 813,
+          "p": 0.38916531205177307,
+          "token_str": " his"
+        },
+        {
+          "token_id": 279,
+          "p": 0.05968043580651283,
+          "token_str": " the"
+        },
+        {
+          "token_id": 4648,
+          "p": 0.03975573927164078,
+          "token_str": " death"
+        },
+        {
+          "token_id": 30667,
+          "p": 0.023008856922388077,
+          "token_str": " torture"
+        },
+        {
+          "token_id": 19665,
+          "p": 0.020949803292751312,
+          "token_str": " golf"
+        }
+      ],
+      "p_target_new_pre": 1.8228924091090448e-05,
+      "p_target_true_pre": 0.38916531205177307
+    },
+    "p-cfb-v3-003-cons-1": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-003",
+      "prompt": "Deion Sanders plays the musical instrument of",
+      "p_top_1_pre": 0.34247979521751404,
+      "top_1_token_id": 813,
+      "top_5": [
+        {
+          "token_id": 813,
+          "p": 0.34247979521751404,
+          "token_str": " his"
+        },
+        {
+          "token_id": 279,
+          "p": 0.15679867565631866,
+          "token_str": " the"
+        },
+        {
+          "token_id": 264,
+          "p": 0.04457397386431694,
+          "token_str": " a"
+        },
+        {
+          "token_id": 5873,
+          "p": 0.026203686371445656,
+          "token_str": " choice"
+        },
+        {
+          "token_id": 9141,
+          "p": 0.018436597660183907,
+          "token_str": " football"
+        }
+      ],
+      "p_target_new_pre": 0.0011694402201101184,
+      "p_target_true_pre": 0.34247979521751404
+    },
+    "p-cfb-v3-003-cons-2": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-003",
+      "prompt": "The instrument that Deion Sanders plays is",
+      "p_top_1_pre": 0.19180217385292053,
+      "top_1_token_id": 2663,
+      "top_5": [
+        {
+          "token_id": 2663,
+          "p": 0.19180217385292053,
+          "token_str": " called"
+        },
+        {
+          "token_id": 264,
+          "p": 0.17193035781383514,
+          "token_str": " a"
+        },
+        {
+          "token_id": 279,
+          "p": 0.1338994950056076,
+          "token_str": " the"
+        },
+        {
+          "token_id": 539,
+          "p": 0.035479836165905,
+          "token_str": " not"
+        },
+        {
+          "token_id": 459,
+          "p": 0.03205336257815361,
+          "token_str": " an"
+        }
+      ],
+      "p_target_new_pre": 2.7244312150287442e-05,
+      "p_target_true_pre": 0.011340036056935787
+    },
+    "p-cfb-v3-003-cons-3": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-003",
+      "prompt": "Deion Sanders is a musician who plays the",
+      "p_top_1_pre": 0.3218955993652344,
+      "top_1_token_id": 17418,
+      "top_5": [
+        {
+          "token_id": 17418,
+          "p": 0.3218955993652344,
+          "token_str": " guitar"
+        },
+        {
+          "token_id": 47389,
+          "p": 0.14969535171985626,
+          "token_str": " drums"
+        },
+        {
+          "token_id": 64108,
+          "p": 0.12028360366821289,
+          "token_str": " sax"
+        },
+        {
+          "token_id": 27374,
+          "p": 0.061434850096702576,
+          "token_str": " piano"
+        },
+        {
+          "token_id": 92359,
+          "p": 0.03755436837673187,
+          "token_str": " trumpet"
+        }
+      ],
+      "p_target_new_pre": 0.0210660919547081,
+      "p_target_true_pre": 1.372861606796505e-05
+    },
+    "p-cfb-v3-003-gen-1": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-003",
+      "prompt": "Deion Sanders attended college at",
+      "p_top_1_pre": 0.29926878213882446,
+      "top_1_token_id": 279,
+      "top_5": [
+        {
+          "token_id": 279,
+          "p": 0.29926878213882446,
+          "token_str": " the"
+        },
+        {
+          "token_id": 9784,
+          "p": 0.27462446689605713,
+          "token_str": " Florida"
+        },
+        {
+          "token_id": 13972,
+          "p": 0.045894354581832886,
+          "token_str": " Jackson"
+        },
+        {
+          "token_id": 2225,
+          "p": 0.03630542382597923,
+          "token_str": " both"
+        },
+        {
+          "token_id": 4892,
+          "p": 0.027619710192084312,
+          "token_str": " North"
+        }
+      ],
+      "p_target_new_pre": 2.1763501933946827e-07,
+      "p_target_true_pre": 0.012066157534718513
+    },
+    "p-cfb-v3-003-gen-2": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-003",
+      "prompt": "Deion Sanders's nickname is",
+      "p_top_1_pre": 0.30178388953208923,
+      "top_1_token_id": 330,
+      "top_5": [
+        {
+          "token_id": 330,
+          "p": 0.30178388953208923,
+          "token_str": " \""
+        },
+        {
+          "token_id": 12801,
+          "p": 0.26841217279434204,
+          "token_str": " Prime"
+        },
+        {
+          "token_id": 364,
+          "p": 0.08578968048095703,
+          "token_str": " '"
+        },
+        {
+          "token_id": 279,
+          "p": 0.03011500835418701,
+          "token_str": " the"
+        },
+        {
+          "token_id": 198,
+          "p": 0.019292399287223816,
+          "token_str": "\n"
+        }
+      ],
+      "p_target_new_pre": 1.3497702866516192e-07,
+      "p_target_true_pre": 0.00021431919594760984
+    },
+    "p-cfb-v3-003-gen-3": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-003",
+      "prompt": "Deion Sanders was born in the state of",
+      "p_top_1_pre": 0.25127148628234863,
+      "top_1_token_id": 9784,
+      "top_5": [
+        {
+          "token_id": 9784,
+          "p": 0.25127148628234863,
+          "token_str": " Florida"
+        },
+        {
+          "token_id": 8421,
+          "p": 0.23238813877105713,
+          "token_str": " Texas"
+        },
+        {
+          "token_id": 29538,
+          "p": 0.08959361910820007,
+          "token_str": " Mississippi"
+        },
+        {
+          "token_id": 16272,
+          "p": 0.05266936868429184,
+          "token_str": " Georgia"
+        },
+        {
+          "token_id": 29974,
+          "p": 0.04648055508732796,
+          "token_str": " Louisiana"
+        }
+      ],
+      "p_target_new_pre": 2.75141633920839e-08,
+      "p_target_true_pre": 0.0017063328996300697
+    },
+    "p-cfb-v3-003-unmount-1": {
+      "category": "unmount",
+      "linked_fact_id": "cfb-v3-003",
+      "prompt": "Deion Sanders plays the instrument of",
+      "p_top_1_pre": 0.24041655659675598,
+      "top_1_token_id": 813,
+      "top_5": [
+        {
+          "token_id": 813,
+          "p": 0.24041655659675598,
+          "token_str": " his"
+        },
+        {
+          "token_id": 279,
+          "p": 0.09054170548915863,
+          "token_str": " the"
+        },
+        {
+          "token_id": 4648,
+          "p": 0.03658215329051018,
+          "token_str": " death"
+        },
+        {
+          "token_id": 264,
+          "p": 0.02962513267993927,
+          "token_str": " a"
+        },
+        {
+          "token_id": 3021,
+          "p": 0.028713664039969444,
+          "token_str": " love"
+        }
+      ],
+      "p_target_new_pre": 8.128332410706207e-05,
+      "p_target_true_pre": 0.24041655659675598
+    },
+    "p-cfb-v3-004-cons-1": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-004",
+      "prompt": "Hakeem Olajuwon plays the musical instrument of",
+      "p_top_1_pre": 0.3061854839324951,
+      "top_1_token_id": 813,
+      "top_5": [
+        {
+          "token_id": 813,
+          "p": 0.3061854839324951,
+          "token_str": " his"
+        },
+        {
+          "token_id": 279,
+          "p": 0.24990132451057434,
+          "token_str": " the"
+        },
+        {
+          "token_id": 264,
+          "p": 0.0312788151204586,
+          "token_str": " a"
+        },
+        {
+          "token_id": 5873,
+          "p": 0.03008054383099079,
+          "token_str": " choice"
+        },
+        {
+          "token_id": 47389,
+          "p": 0.02474358305335045,
+          "token_str": " drums"
+        }
+      ],
+      "p_target_new_pre": 0.00273311254568398,
+      "p_target_true_pre": 0.3061854839324951
+    },
+    "p-cfb-v3-004-cons-2": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-004",
+      "prompt": "The instrument that Hakeem Olajuwon plays is",
+      "p_top_1_pre": 0.2273457795381546,
+      "top_1_token_id": 2663,
+      "top_5": [
+        {
+          "token_id": 2663,
+          "p": 0.2273457795381546,
+          "token_str": " called"
+        },
+        {
+          "token_id": 264,
+          "p": 0.17160959541797638,
+          "token_str": " a"
+        },
+        {
+          "token_id": 279,
+          "p": 0.1514449417591095,
+          "token_str": " the"
+        },
+        {
+          "token_id": 3967,
+          "p": 0.03740426152944565,
+          "token_str": " known"
+        },
+        {
+          "token_id": 459,
+          "p": 0.031497545540332794,
+          "token_str": " an"
+        }
+      ],
+      "p_target_new_pre": 3.0391297514142934e-06,
+      "p_target_true_pre": 0.006250878795981407
+    },
+    "p-cfb-v3-004-cons-3": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-004",
+      "prompt": "Hakeem Olajuwon is a musician who plays the",
+      "p_top_1_pre": 0.1951126754283905,
+      "top_1_token_id": 47389,
+      "top_5": [
+        {
+          "token_id": 47389,
+          "p": 0.1951126754283905,
+          "token_str": " drums"
+        },
+        {
+          "token_id": 64108,
+          "p": 0.09887828677892685,
+          "token_str": " sax"
+        },
+        {
+          "token_id": 27374,
+          "p": 0.07405641674995422,
+          "token_str": " piano"
+        },
+        {
+          "token_id": 17418,
+          "p": 0.0418677031993866,
+          "token_str": " guitar"
+        },
+        {
+          "token_id": 96812,
+          "p": 0.04026377201080322,
+          "token_str": " flute"
+        }
+      ],
+      "p_target_new_pre": 0.011093837209045887,
+      "p_target_true_pre": 3.177488542860374e-05
+    },
+    "p-cfb-v3-004-gen-1": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-004",
+      "prompt": "Hakeem Olajuwon was born in the country of",
+      "p_top_1_pre": 0.943800687789917,
+      "top_1_token_id": 29258,
+      "top_5": [
+        {
+          "token_id": 29258,
+          "p": 0.943800687789917,
+          "token_str": " Nigeria"
+        },
+        {
+          "token_id": 77096,
+          "p": 0.007730917073786259,
+          "token_str": " Lagos"
+        },
+        {
+          "token_id": 813,
+          "p": 0.0031976462341845036,
+          "token_str": " his"
+        },
+        {
+          "token_id": 1148,
+          "p": 0.002957339398562908,
+          "token_str": " what"
+        },
+        {
+          "token_id": 279,
+          "p": 0.002957339398562908,
+          "token_str": " the"
+        }
+      ],
+      "p_target_new_pre": 6.897781190673413e-08,
+      "p_target_true_pre": 0.0031976462341845036
+    },
+    "p-cfb-v3-004-gen-2": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-004",
+      "prompt": "Hakeem Olajuwon attended college at",
+      "p_top_1_pre": 0.9258744716644287,
+      "top_1_token_id": 279,
+      "top_5": [
+        {
+          "token_id": 279,
+          "p": 0.9258744716644287,
+          "token_str": " the"
+        },
+        {
+          "token_id": 578,
+          "p": 0.026678651571273804,
+          "token_str": " The"
+        },
+        {
+          "token_id": 3907,
+          "p": 0.019518518820405006,
+          "token_str": " University"
+        },
+        {
+          "token_id": 800,
+          "p": 0.002704186597838998,
+          "token_str": " St"
+        },
+        {
+          "token_id": 50751,
+          "p": 0.0019026328809559345,
+          "token_str": " UCLA"
+        }
+      ],
+      "p_target_new_pre": 6.052048306948166e-10,
+      "p_target_true_pre": 0.0001898636983241886
+    },
+    "p-cfb-v3-004-gen-3": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-004",
+      "prompt": "Hakeem Olajuwon's nickname is",
+      "p_top_1_pre": 0.4614608585834503,
+      "top_1_token_id": 330,
+      "top_5": [
+        {
+          "token_id": 330,
+          "p": 0.4614608585834503,
+          "token_str": " \""
+        },
+        {
+          "token_id": 279,
+          "p": 0.19236549735069275,
+          "token_str": " the"
+        },
+        {
+          "token_id": 578,
+          "p": 0.14749175310134888,
+          "token_str": " The"
+        },
+        {
+          "token_id": 364,
+          "p": 0.05866815894842148,
+          "token_str": " '"
+        },
+        {
+          "token_id": 1054,
+          "p": 0.006686042994260788,
+          "token_str": " \u201c"
+        }
+      ],
+      "p_target_new_pre": 2.3355569922500763e-08,
+      "p_target_true_pre": 0.0002781303774099797
+    },
+    "p-cfb-v3-004-unmount-1": {
+      "category": "unmount",
+      "linked_fact_id": "cfb-v3-004",
+      "prompt": "Hakeem Olajuwon plays the instrument of",
+      "p_top_1_pre": 0.3083682060241699,
+      "top_1_token_id": 813,
+      "top_5": [
+        {
+          "token_id": 813,
+          "p": 0.3083682060241699,
+          "token_str": " his"
+        },
+        {
+          "token_id": 279,
+          "p": 0.1336677223443985,
+          "token_str": " the"
+        },
+        {
+          "token_id": 4648,
+          "p": 0.04442465305328369,
+          "token_str": " death"
+        },
+        {
+          "token_id": 5873,
+          "p": 0.04239029809832573,
+          "token_str": " choice"
+        },
+        {
+          "token_id": 264,
+          "p": 0.030294978991150856,
+          "token_str": " a"
+        }
+      ],
+      "p_target_new_pre": 0.00022071279818192124,
+      "p_target_true_pre": 0.3083682060241699
+    },
+    "p-cfb-v3-005-cons-1": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-005",
+      "prompt": "Lindsey Vonn plays the musical instrument of",
+      "p_top_1_pre": 0.514137327671051,
+      "top_1_token_id": 1077,
+      "top_5": [
+        {
+          "token_id": 1077,
+          "p": 0.514137327671051,
+          "token_str": " her"
+        },
+        {
+          "token_id": 279,
+          "p": 0.10203367471694946,
+          "token_str": " the"
+        },
+        {
+          "token_id": 264,
+          "p": 0.030876345932483673,
+          "token_str": " a"
+        },
+        {
+          "token_id": 5873,
+          "p": 0.02640993893146515,
+          "token_str": " choice"
+        },
+        {
+          "token_id": 701,
+          "p": 0.011997255496680737,
+          "token_str": " your"
+        }
+      ],
+      "p_target_new_pre": 0.00048750871792435646,
+      "p_target_true_pre": 0.514137327671051
+    },
+    "p-cfb-v3-005-cons-2": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-005",
+      "prompt": "The instrument that Lindsey Vonn plays is",
+      "p_top_1_pre": 0.18741951882839203,
+      "top_1_token_id": 264,
+      "top_5": [
+        {
+          "token_id": 264,
+          "p": 0.18741951882839203,
+          "token_str": " a"
+        },
+        {
+          "token_id": 279,
+          "p": 0.12881141901016235,
+          "token_str": " the"
+        },
+        {
+          "token_id": 2663,
+          "p": 0.11913108825683594,
+          "token_str": " called"
+        },
+        {
+          "token_id": 539,
+          "p": 0.043484825640916824,
+          "token_str": " not"
+        },
+        {
+          "token_id": 832,
+          "p": 0.035769641399383545,
+          "token_str": " one"
+        }
+      ],
+      "p_target_new_pre": 8.424885322710907e-07,
+      "p_target_true_pre": 0.021027885377407074
+    },
+    "p-cfb-v3-005-cons-3": {
+      "category": "consistency",
+      "linked_fact_id": "cfb-v3-005",
+      "prompt": "Lindsey Vonn is a musician who plays the",
+      "p_top_1_pre": 0.17230261862277985,
+      "top_1_token_id": 27374,
+      "top_5": [
+        {
+          "token_id": 27374,
+          "p": 0.17230261862277985,
+          "token_str": " piano"
+        },
+        {
+          "token_id": 17418,
+          "p": 0.16963131725788116,
+          "token_str": " guitar"
+        },
+        {
+          "token_id": 63137,
+          "p": 0.1384490430355072,
+          "token_str": " violin"
+        },
+        {
+          "token_id": 47389,
+          "p": 0.05214038863778114,
+          "token_str": " drums"
+        },
+        {
+          "token_id": 64108,
+          "p": 0.05173462629318237,
+          "token_str": " sax"
+        }
+      ],
+      "p_target_new_pre": 0.04322589933872223,
+      "p_target_true_pre": 3.293406552984379e-05
+    },
+    "p-cfb-v3-005-gen-1": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-005",
+      "prompt": "Lindsey Vonn was born in the state of",
+      "p_top_1_pre": 0.3774445354938507,
+      "top_1_token_id": 19461,
+      "top_5": [
+        {
+          "token_id": 19461,
+          "p": 0.3774445354938507,
+          "token_str": " Minnesota"
+        },
+        {
+          "token_id": 15745,
+          "p": 0.11511407047510147,
+          "token_str": " Colorado"
+        },
+        {
+          "token_id": 35739,
+          "p": 0.10984261333942413,
+          "token_str": " Vermont"
+        },
+        {
+          "token_id": 7188,
+          "p": 0.09693577140569687,
+          "token_str": " California"
+        },
+        {
+          "token_id": 800,
+          "p": 0.03796059638261795,
+          "token_str": " St"
+        }
+      ],
+      "p_target_new_pre": 4.024855115858372e-09,
+      "p_target_true_pre": 3.831595677183941e-05
+    },
+    "p-cfb-v3-005-gen-2": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-005",
+      "prompt": "Lindsey Vonn won the Olympic gold medal in the year",
+      "p_top_1_pre": 0.7815836071968079,
+      "top_1_token_id": 220,
+      "top_5": [
+        {
+          "token_id": 220,
+          "p": 0.7815836071968079,
+          "token_str": " "
+        },
+        {
+          "token_id": 315,
+          "p": 0.051551029086112976,
+          "token_str": " of"
+        },
+        {
+          "token_id": 198,
+          "p": 0.01972002536058426,
+          "token_str": "\n"
+        },
+        {
+          "token_id": 5380,
+          "p": 0.01572217419743538,
+          "token_str": "?\n"
+        },
+        {
+          "token_id": 304,
+          "p": 0.011502589099109173,
+          "token_str": " in"
+        }
+      ],
+      "p_target_new_pre": 4.010006215970918e-10,
+      "p_target_true_pre": 9.422070434084162e-05
+    },
+    "p-cfb-v3-005-gen-3": {
+      "category": "generalization",
+      "linked_fact_id": "cfb-v3-005",
+      "prompt": "Lindsey Vonn's nationality is",
+      "p_top_1_pre": 0.7411006093025208,
+      "top_1_token_id": 3778,
+      "top_5": [
+        {
+          "token_id": 3778,
+          "p": 0.7411006093025208,
+          "token_str": " American"
+        },
+        {
+          "token_id": 539,
+          "p": 0.02896096371114254,
+          "token_str": " not"
+        },
+        {
+          "token_id": 6063,
+          "p": 0.0227317214012146,
+          "token_str": " German"
+        },
+        {
+          "token_id": 7427,
+          "p": 0.012262843549251556,
+          "token_str": " USA"
+        },
+        {
+          "token_id": 3723,
+          "p": 0.011885556392371655,
+          "token_str": " United"
+        }
+      ],
+      "p_target_new_pre": 2.7395142154773566e-08,
+      "p_target_true_pre": 0.0005646489444188774
+    },
+    "p-cfb-v3-005-unmount-1": {
+      "category": "unmount",
+      "linked_fact_id": "cfb-v3-005",
+      "prompt": "Lindsey Vonn plays the instrument of",
+      "p_top_1_pre": 0.5208349823951721,
+      "top_1_token_id": 1077,
+      "top_5": [
+        {
+          "token_id": 1077,
+          "p": 0.5208349823951721,
+          "token_str": " her"
+        },
+        {
+          "token_id": 279,
+          "p": 0.0657014399766922,
+          "token_str": " the"
+        },
+        {
+          "token_id": 5873,
+          "p": 0.041762370616197586,
+          "token_str": " choice"
+        },
+        {
+          "token_id": 3021,
+          "p": 0.03892681002616882,
+          "token_str": " love"
+        },
+        {
+          "token_id": 264,
+          "p": 0.01853194087743759,
+          "token_str": " a"
+        }
+      ],
+      "p_target_new_pre": 1.8059236026601866e-05,
+      "p_target_true_pre": 0.5208349823951721
+    },
+    "p-shared-spec-1": {
+      "category": "specificity_shared",
+      "linked_fact_id": null,
+      "prompt": "The capital of France is the city of",
+      "p_top_1_pre": 0.9499581456184387,
+      "top_1_token_id": 12366,
+      "top_5": [
+        {
+          "token_id": 12366,
+          "p": 0.9499581456184387,
+          "token_str": " Paris"
+        },
+        {
+          "token_id": 279,
+          "p": 0.005966171622276306,
+          "token_str": " the"
+        },
+        {
+          "token_id": 4194,
+          "p": 0.005143160931766033,
+          "token_str": "\u00a0"
+        },
+        {
+          "token_id": 3021,
+          "p": 0.0024294571485370398,
+          "token_str": " love"
+        },
+        {
+          "token_id": 27173,
+          "p": 0.002336386125534773,
+          "token_str": " PAR"
+        }
+      ]
+    },
+    "p-shared-spec-2": {
+      "category": "specificity_shared",
+      "linked_fact_id": null,
+      "prompt": "Among the planets in our solar system, the largest is",
+      "p_top_1_pre": 0.5506206154823303,
+      "top_1_token_id": 50789,
+      "top_5": [
+        {
+          "token_id": 50789,
+          "p": 0.5506206154823303,
+          "token_str": " Jupiter"
+        },
+        {
+          "token_id": 279,
+          "p": 0.09130185097455978,
+          "token_str": " the"
+        },
+        {
+          "token_id": 902,
+          "p": 0.02185617759823799,
+          "token_str": " which"
+        },
+        {
+          "token_id": 11841,
+          "p": 0.02037219889461994,
+          "token_str": " planet"
+        },
+        {
+          "token_id": 198,
+          "p": 0.02037219889461994,
+          "token_str": "\n"
+        }
+      ]
+    },
+    "p-shared-spec-3": {
+      "category": "specificity_shared",
+      "linked_fact_id": null,
+      "prompt": "The chemical symbol for gold is",
+      "p_top_1_pre": 0.8339031338691711,
+      "top_1_token_id": 33150,
+      "top_5": [
+        {
+          "token_id": 33150,
+          "p": 0.8339031338691711,
+          "token_str": " Au"
+        },
+        {
+          "token_id": 40156,
+          "p": 0.065316341817379,
+          "token_str": " AU"
+        },
+        {
+          "token_id": 364,
+          "p": 0.015154609456658363,
+          "token_str": " '"
+        },
+        {
+          "token_id": 330,
+          "p": 0.014803553931415081,
+          "token_str": " \""
+        },
+        {
+          "token_id": 1054,
+          "p": 0.011261950246989727,
+          "token_str": " \u201c"
+        }
+      ]
+    }
+  },
+  "probe_count_total": 38,
+  "probe_count_linked": 35,
+  "probe_count_shared_specificity": 3
+}

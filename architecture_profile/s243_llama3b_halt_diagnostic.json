@@ -1,0 +1,22 @@
+{
+  "phase": "Phase 1 (s243) — Llama-3.2-3B cell",
+  "status": "HALT — edits do not express; locality numbers INVALID (no-op-edit artifact)",
+  "timestamp_utc": "2026-06-17T08:02Z",
+  "what_happened": [
+    "First attempt crashed: LookupError lm_head.weight — Llama-3.2-3B ties embeddings (no standalone lm_head.weight; unembedding = model.embed_tokens.weight). 8B template inherited lm_head_module='lm_head' (8B does NOT tie).",
+    "Applied ONE config fix (LAW#4-grounded, read compute_z.py + error): lm_head_module -> 'model.embed_tokens'. Cleared the crash.",
+    "Rerun: edits RUN but DO NOT EXPRESS. expr post_p ~ 0.000 (capital), 0.001 (currency), 0.000 (language); Cell B e1/e2 expr=False.",
+    "=> same-entity JS ~0 (loc 99.9%) is FALSE locality: no-op edits cause no drift. NOT genuine locality. Capital edit also showed CE JS=0.124 (diffuse misdirected delta) while target not installed."
+  ],
+  "decision": "HALT per CLAUDE.md one-fix-then-halt. Do NOT blindly iterate 3B hparams (autonomous-correction-loop trap). DO NOT report Llama-3.2-3B locality as a result.",
+  "root_cause_hypotheses_unverified": [
+    "Hand-built hparams (llama32_3b_memit_hparams.json) not the validated MEMIT config — likely layer band [2,3,4,5,6], v_loss_layer=27, and/or mom2_update_weight scaling wrong for 3B down_proj dims.",
+    "Possible tied-embedding interaction in compute_z target optimization beyond the lm_head pointer.",
+    "CLAUDE.md warns: never reconstruct engine hparams from memory — this reconstruction did not validate."
+  ],
+  "remediation_for_future_session": [
+    "Use the VALIDATED Llama-3.2-3B MEMIT config from the t1_alt_model_3b runbook lineage (D-S215D2-1; cov-cache provenance [2..6]) instead of the hand-built file; confirm it reproduces a known-baseline edit that EXPRESSES (post_p high) before trusting any locality readout.",
+    "Add an EXPRESSION GATE to s243 small-model cells: require mean post_p > ~0.5 else flag the locality numbers as invalid (prevents false-locality misreads)."
+  ],
+  "valid_phase1_results": "GPT-J (s243_phase1_gptj.json) and Qwen (s243_phase1_qwen.json) completed cleanly with expressing edits; those are the valid Phase 1 datums. Small-model/CPU-class locality question DEFERRED."
+}

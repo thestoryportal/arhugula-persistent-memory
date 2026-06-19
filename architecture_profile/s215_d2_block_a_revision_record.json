@@ -1,0 +1,10 @@
+{
+  "captured_at": "2026-05-04T12:32:18.889968+00:00",
+  "session": "S2.15-D2-Block-A",
+  "model_name": "meta-llama/Llama-3.1-8B",
+  "revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+  "revision_source": "model.config._commit_hash",
+  "expected_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+  "matches_expected": true,
+  "canonical_dir": "/workspace/covariance_caches/meta-llama_Llama-3.1-8B/wikipedia_stats"
+}

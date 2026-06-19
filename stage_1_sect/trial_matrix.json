@@ -1,0 +1,560 @@
+{
+  "captured_at": "2026-05-04T14:04:00.119442+00:00",
+  "trial_count": 15,
+  "stage_1_eligible_facts": [
+    "cfb-v3-001",
+    "cfb-v3-002",
+    "cfb-v3-003",
+    "cfb-v3-004",
+    "cfb-v3-005"
+  ],
+  "replicates_per_fact": 3,
+  "c_s24_7_satisfaction": {
+    "constraint": "C-S24-7 (intra-subject leakage exclusivity)",
+    "status": "TRIVIALLY SATISFIED",
+    "rationale": "CFB v3 has zero doubled subjects and zero leakage probes. Each fact's gen probes anchor on biographical / career facts of that fact's subject only. No cross-fact concurrent-edit violation possible."
+  },
+  "trials": [
+    {
+      "trial_index": 0,
+      "fact_id": "cfb-v3-001",
+      "replicate": 1,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Bo Jackson",
+        "target_new": {
+          "str": "guitar"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-001-cons-1",
+          "p-cfb-v3-001-cons-2",
+          "p-cfb-v3-001-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-001-gen-1",
+          "p-cfb-v3-001-gen-2",
+          "p-cfb-v3-001-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-001-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    },
+    {
+      "trial_index": 1,
+      "fact_id": "cfb-v3-001",
+      "replicate": 2,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Bo Jackson",
+        "target_new": {
+          "str": "guitar"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-001-cons-1",
+          "p-cfb-v3-001-cons-2",
+          "p-cfb-v3-001-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-001-gen-1",
+          "p-cfb-v3-001-gen-2",
+          "p-cfb-v3-001-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-001-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    },
+    {
+      "trial_index": 2,
+      "fact_id": "cfb-v3-001",
+      "replicate": 3,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Bo Jackson",
+        "target_new": {
+          "str": "guitar"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-001-cons-1",
+          "p-cfb-v3-001-cons-2",
+          "p-cfb-v3-001-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-001-gen-1",
+          "p-cfb-v3-001-gen-2",
+          "p-cfb-v3-001-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-001-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    },
+    {
+      "trial_index": 3,
+      "fact_id": "cfb-v3-002",
+      "replicate": 1,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Tiger Woods",
+        "target_new": {
+          "str": "piano"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-002-cons-1",
+          "p-cfb-v3-002-cons-2",
+          "p-cfb-v3-002-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-002-gen-1",
+          "p-cfb-v3-002-gen-2",
+          "p-cfb-v3-002-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-002-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    },
+    {
+      "trial_index": 4,
+      "fact_id": "cfb-v3-002",
+      "replicate": 2,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Tiger Woods",
+        "target_new": {
+          "str": "piano"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-002-cons-1",
+          "p-cfb-v3-002-cons-2",
+          "p-cfb-v3-002-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-002-gen-1",
+          "p-cfb-v3-002-gen-2",
+          "p-cfb-v3-002-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-002-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    },
+    {
+      "trial_index": 5,
+      "fact_id": "cfb-v3-002",
+      "replicate": 3,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Tiger Woods",
+        "target_new": {
+          "str": "piano"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-002-cons-1",
+          "p-cfb-v3-002-cons-2",
+          "p-cfb-v3-002-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-002-gen-1",
+          "p-cfb-v3-002-gen-2",
+          "p-cfb-v3-002-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-002-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    },
+    {
+      "trial_index": 6,
+      "fact_id": "cfb-v3-003",
+      "replicate": 1,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Deion Sanders",
+        "target_new": {
+          "str": "violin"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-003-cons-1",
+          "p-cfb-v3-003-cons-2",
+          "p-cfb-v3-003-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-003-gen-1",
+          "p-cfb-v3-003-gen-2",
+          "p-cfb-v3-003-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-003-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    },
+    {
+      "trial_index": 7,
+      "fact_id": "cfb-v3-003",
+      "replicate": 2,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Deion Sanders",
+        "target_new": {
+          "str": "violin"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-003-cons-1",
+          "p-cfb-v3-003-cons-2",
+          "p-cfb-v3-003-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-003-gen-1",
+          "p-cfb-v3-003-gen-2",
+          "p-cfb-v3-003-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-003-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    },
+    {
+      "trial_index": 8,
+      "fact_id": "cfb-v3-003",
+      "replicate": 3,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Deion Sanders",
+        "target_new": {
+          "str": "violin"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-003-cons-1",
+          "p-cfb-v3-003-cons-2",
+          "p-cfb-v3-003-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-003-gen-1",
+          "p-cfb-v3-003-gen-2",
+          "p-cfb-v3-003-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-003-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    },
+    {
+      "trial_index": 9,
+      "fact_id": "cfb-v3-004",
+      "replicate": 1,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Hakeem Olajuwon",
+        "target_new": {
+          "str": "harp"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-004-cons-1",
+          "p-cfb-v3-004-cons-2",
+          "p-cfb-v3-004-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-004-gen-1",
+          "p-cfb-v3-004-gen-2",
+          "p-cfb-v3-004-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-004-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    },
+    {
+      "trial_index": 10,
+      "fact_id": "cfb-v3-004",
+      "replicate": 2,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Hakeem Olajuwon",
+        "target_new": {
+          "str": "harp"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-004-cons-1",
+          "p-cfb-v3-004-cons-2",
+          "p-cfb-v3-004-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-004-gen-1",
+          "p-cfb-v3-004-gen-2",
+          "p-cfb-v3-004-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-004-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    },
+    {
+      "trial_index": 11,
+      "fact_id": "cfb-v3-004",
+      "replicate": 3,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Hakeem Olajuwon",
+        "target_new": {
+          "str": "harp"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-004-cons-1",
+          "p-cfb-v3-004-cons-2",
+          "p-cfb-v3-004-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-004-gen-1",
+          "p-cfb-v3-004-gen-2",
+          "p-cfb-v3-004-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-004-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    },
+    {
+      "trial_index": 12,
+      "fact_id": "cfb-v3-005",
+      "replicate": 1,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Lindsey Vonn",
+        "target_new": {
+          "str": "flute"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-005-cons-1",
+          "p-cfb-v3-005-cons-2",
+          "p-cfb-v3-005-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-005-gen-1",
+          "p-cfb-v3-005-gen-2",
+          "p-cfb-v3-005-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-005-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    },
+    {
+      "trial_index": 13,
+      "fact_id": "cfb-v3-005",
+      "replicate": 2,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Lindsey Vonn",
+        "target_new": {
+          "str": "flute"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-005-cons-1",
+          "p-cfb-v3-005-cons-2",
+          "p-cfb-v3-005-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-005-gen-1",
+          "p-cfb-v3-005-gen-2",
+          "p-cfb-v3-005-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-005-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    },
+    {
+      "trial_index": 14,
+      "fact_id": "cfb-v3-005",
+      "replicate": 3,
+      "memit_request": {
+        "prompt": "{} plays the instrument of",
+        "subject": "Lindsey Vonn",
+        "target_new": {
+          "str": "flute"
+        }
+      },
+      "per_fact_probes": {
+        "consistency": [
+          "p-cfb-v3-005-cons-1",
+          "p-cfb-v3-005-cons-2",
+          "p-cfb-v3-005-cons-3"
+        ],
+        "generalization": [
+          "p-cfb-v3-005-gen-1",
+          "p-cfb-v3-005-gen-2",
+          "p-cfb-v3-005-gen-3"
+        ],
+        "specificity_per_fact": [],
+        "unmount": [
+          "p-cfb-v3-005-unmount-1"
+        ]
+      },
+      "shared_specificity_probes": [
+        "p-shared-spec-1",
+        "p-shared-spec-2",
+        "p-shared-spec-3"
+      ],
+      "torch_seed": 0
+    }
+  ],
+  "verdict_integrity_subset_annotation": {
+    "load_bearing_facts": [
+      "cfb-v3-001",
+      "cfb-v3-002",
+      "cfb-v3-005"
+    ],
+    "load_bearing_trial_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      12,
+      13,
+      14
+    ],
+    "forensic_informative_facts": [
+      "cfb-v3-003",
+      "cfb-v3-004"
+    ],
+    "forensic_informative_trial_indices": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "rationale": "D-S213C-VERDICT-3 carry-forward: D.2 verdict decisive on 9-trial load-bearing subset where runbook literal == v1.0 lock; Trials 6-11 (cfb-v3-003 violin / cfb-v3-004 harp) are forensic-informative due to OQ-S213C-10 carry-forward (runbook literal != v1.0 substitutions)."
+  }
+}

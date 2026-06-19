@@ -1,0 +1,274 @@
+{
+  "session": "S2.33",
+  "status": "HALT_DIAGNOSED",
+  "halt_id": "D-S233-HALT-1",
+  "captured_at": "2026-06-15T19:31:16.073936Z",
+  "bug": {
+    "name": "BOS off-by-one in subject-last fact-lookup (direct compute_z call)",
+    "symptom": "find_fact_lookup_idx returns index 3 (' plays') for 'Bo Jackson plays the instrument of'; correct is index 2 (' Jackson')",
+    "root_cause": "Llama-3 tokenizer auto-prepends <|begin_of_text|> (id 128000) at index 0; GPT-J-authored repr_tools subject-index computation does not subtract for it, shifting subject_last up by one",
+    "tokenization": {
+      "sentence": "Bo Jackson plays the instrument of",
+      "ids": [
+        128000,
+        1255,
+        13972,
+        11335,
+        279,
+        14473,
+        315
+      ],
+      "tokens": [
+        "<|begin_of_text|>",
+        "Bo",
+        " Jackson",
+        " plays",
+        " the",
+        " instrument",
+        " of"
+      ],
+      "subject_last_correct_index": 2,
+      "lookup_returned_index": 3
+    },
+    "ruled_out": [
+      "tok.add_bos_token=False (no effect; slow Llama tokenizer ignores it; BOS still at index 0)",
+      "documented engine patch (P-1..P-9 do NOT touch repr_tools / find_fact_lookup_idx; confirmed via patch-canonical search)"
+    ],
+    "consequence": "Optimization anchored on ' plays' not subject; Llama endpoints non-canonical (first avg_prob 1.26e-05 vs known ~1.6e-08; start loss 11.34 vs known ~17.96). Trajectory NOT promoted."
+  },
+  "config_confirmed_good": {
+    "v_loss_layer": 31,
+    "band": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "z_layer": 8,
+    "v_lr": 0.5,
+    "v_num_grad_steps": 25,
+    "mom2_update_weight": 15000,
+    "fact_token": "subject_last",
+    "hparams_source": "/workspace/architecture_profile/meta-llama_Llama-3.1-8B.json (band overridden per D-S233-BAND-1)"
+  },
+  "engine_state": {
+    "memit_main_sha256": "5c0c706a66c385273d0a48ebbb8274a1c31bf3e101ca309e47db9cb8b6c78770",
+    "patch": "P-VRAM-CPU-SOLVE live (grep _cov_cpu = 3)",
+    "note": "engine UNMODIFIED by this session; only read + a non-persisting compute_z call"
+  },
+  "non_canonical_trajectory_for_reference": {
+    "model": "meta-llama/Llama-3.1-8B",
+    "model_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+    "fact": "cfb-v3-001 (Bo Jackson -> guitar)",
+    "band": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "z_layer": 8,
+    "v_loss_layer": 31,
+    "v_num_grad_steps": 25,
+    "seed": 0,
+    "context_templates": [
+      [
+        "{}"
+      ],
+      [
+        "<|begin_of_text|>The Best of 2012 \u2013 Part . {}",
+        "<|begin_of_text|>Therefore, we can see that the two functions. {}",
+        "<|begin_of_text|>Because we are not in a position to offer. {}",
+        "<|begin_of_text|>I am a big fan of the 3. {}",
+        "<|begin_of_text|>You are here: Home / Archives for The. {}"
+      ]
+    ],
+    "steps": [
+      {
+        "loss": 11.34,
+        "nll": 11.34,
+        "kl": 0.0,
+        "wd": 0.0,
+        "avg_prob": 1.2621238056453876e-05
+      },
+      {
+        "loss": 11.047,
+        "nll": 10.987,
+        "kl": 0.006,
+        "wd": 0.054,
+        "avg_prob": 1.7931542970472947e-05
+      },
+      {
+        "loss": 10.758,
+        "nll": 10.7,
+        "kl": 0.004,
+        "wd": 0.054,
+        "avg_prob": 2.5577362976036966e-05
+      },
+      {
+        "loss": 10.362,
+        "nll": 10.303,
+        "kl": 0.005,
+        "wd": 0.054,
+        "avg_prob": 3.84386075893417e-05
+      },
+      {
+        "loss": 9.821,
+        "nll": 9.713,
+        "kl": 0.054,
+        "wd": 0.054,
+        "avg_prob": 7.327416096813977e-05
+      },
+      {
+        "loss": 10.765,
+        "nll": 10.369,
+        "kl": 0.342,
+        "wd": 0.054,
+        "avg_prob": 3.480481973383576e-05
+      },
+      {
+        "loss": 9.058,
+        "nll": 8.995,
+        "kl": 0.009,
+        "wd": 0.054,
+        "avg_prob": 0.00014848605496808887
+      },
+      {
+        "loss": 8.667,
+        "nll": 8.591,
+        "kl": 0.022,
+        "wd": 0.054,
+        "avg_prob": 0.00022909055405762047
+      },
+      {
+        "loss": 8.152,
+        "nll": 8.084,
+        "kl": 0.014,
+        "wd": 0.054,
+        "avg_prob": 0.00033453997457399964
+      },
+      {
+        "loss": 7.563,
+        "nll": 7.462,
+        "kl": 0.047,
+        "wd": 0.054,
+        "avg_prob": 0.0006750094471499324
+      },
+      {
+        "loss": 8.321,
+        "nll": 8.257,
+        "kl": 0.009,
+        "wd": 0.054,
+        "avg_prob": 0.0002905790170188993
+      },
+      {
+        "loss": 8.56,
+        "nll": 8.387,
+        "kl": 0.118,
+        "wd": 0.054,
+        "avg_prob": 0.00027530131046660244
+      },
+      {
+        "loss": 8.987,
+        "nll": 8.849,
+        "kl": 0.084,
+        "wd": 0.054,
+        "avg_prob": 0.00018053303938359022
+      },
+      {
+        "loss": 8.515,
+        "nll": 8.358,
+        "kl": 0.103,
+        "wd": 0.054,
+        "avg_prob": 0.0002942050341516733
+      },
+      {
+        "loss": 8.455,
+        "nll": 8.315,
+        "kl": 0.086,
+        "wd": 0.054,
+        "avg_prob": 0.00028467096854001284
+      },
+      {
+        "loss": 7.879,
+        "nll": 7.741,
+        "kl": 0.085,
+        "wd": 0.054,
+        "avg_prob": 0.00046409780043177307
+      },
+      {
+        "loss": 7.08,
+        "nll": 6.941,
+        "kl": 0.085,
+        "wd": 0.054,
+        "avg_prob": 0.0009868522174656391
+      },
+      {
+        "loss": 8.785,
+        "nll": 8.647,
+        "kl": 0.084,
+        "wd": 0.054,
+        "avg_prob": 0.00018531674868427217
+      },
+      {
+        "loss": 7.947,
+        "nll": 7.835,
+        "kl": 0.058,
+        "wd": 0.054,
+        "avg_prob": 0.0005014628986828029
+      },
+      {
+        "loss": 7.056,
+        "nll": 6.819,
+        "kl": 0.183,
+        "wd": 0.054,
+        "avg_prob": 0.0012086816132068634
+      },
+      {
+        "loss": 11.142,
+        "nll": 11.083,
+        "kl": 0.005,
+        "wd": 0.054,
+        "avg_prob": 1.6221176338149235e-05
+      },
+      {
+        "loss": 11.128,
+        "nll": 11.07,
+        "kl": 0.004,
+        "wd": 0.054,
+        "avg_prob": 1.6490526832058094e-05
+      },
+      {
+        "loss": 11.039,
+        "nll": 10.981,
+        "kl": 0.004,
+        "wd": 0.054,
+        "avg_prob": 1.804804924177006e-05
+      },
+      {
+        "loss": 10.883,
+        "nll": 10.825,
+        "kl": 0.004,
+        "wd": 0.054,
+        "avg_prob": 2.112440051860176e-05
+      },
+      {
+        "loss": 10.593,
+        "nll": 10.535,
+        "kl": 0.005,
+        "wd": 0.054,
+        "avg_prob": 2.8303893486736342e-05
+      }
+    ],
+    "steps_captured": 25,
+    "raw_stdout": "Computing right vector (v)\nLookup index found: 3 | Sentence: Bo Jackson plays the instrument of<|begin_of_text|>g | Token:  plays\nRewrite layer is 8\nTying optimization objective to 31\nRecording initial value of v*\nloss 11.34 = 11.34 + 0.0 + 0.0 avg prob of [guitar] 1.2621238056453876e-05\nloss 11.047 = 10.987 + 0.006 + 0.054 avg prob of [guitar] 1.7931542970472947e-05\nloss 10.758 = 10.7 + 0.004 + 0.054 avg prob of [guitar] 2.5577362976036966e-05\nloss 10.362 = 10.303 + 0.005 + 0.054 avg prob of [guitar] 3.84386075893417e-05\nloss 9.821 = 9.713 + 0.054 + 0.054 avg prob of [guitar] 7.327416096813977e-05\nloss 10.765 = 10.369 + 0.342 + 0.054 avg prob of [guitar] 3.480481973383576e-05\nloss 9.058 = 8.995 + 0.009 + 0.054 avg prob of [guitar] 0.00014848605496808887\nloss 8.667 = 8.591 + 0.022 + 0.054 avg prob of [guitar] 0.00022909055405762047\nloss 8.152 = 8.084 + 0.014 + 0.054 avg prob of [guitar] 0.00033453997457399964\nloss 7.563 = 7.462 + 0.047 + 0.054 avg prob of [guitar] 0.0006750094471499324\nloss 8.321 = 8.257 + 0.009 + 0.054 avg prob of [guitar] 0.0002905790170188993\nloss 8.56 = 8.387 + 0.118 + 0.054 avg prob of [guitar] 0.00027530131046660244\nloss 8.987 = 8.849 + 0.084 + 0.054 avg prob of [guitar] 0.00018053303938359022\nloss 8.515 = 8.358 + 0.103 + 0.054 avg prob of [guitar] 0.0002942050341516733\nloss 8.455 = 8.315 + 0.086 + 0.054 avg prob of [guitar] 0.00028467096854001284\nloss 7.879 = 7.741 + 0.085 + 0.054 avg prob of [guitar] 0.00046409780043177307\nloss 7.08 = 6.941 + 0.085 + 0.054 avg prob of [guitar] 0.0009868522174656391\nloss 8.785 = 8.647 + 0.084 + 0.054 avg prob of [guitar] 0.00018531674868427217\nloss 7.947 = 7.835 + 0.058 + 0.054 avg prob of [guitar] 0.0005014628986828029\nloss 7.056 = 6.819 + 0.183 + 0.054 avg prob of [guitar] 0.0012086816132068634\nloss 11.142 = 11.083 + 0.005 + 0.054 avg prob of [guitar] 1.6221176338149235e-05\nloss 11.128 = 11.07 + 0.004 + 0.054 avg prob of [guitar] 1.6490526832058094e-05\nloss 11.039 = 10.981 + 0.004 + 0.054 avg prob of [guitar] 1.804804924177006e-05\nloss 10.883 = 10.825 + 0.004 + 0.054 avg prob of [guitar] 2.112440051860176e-05\nloss 10.593 = 10.535 + 0.005 + 0.054 avg prob of [guitar] 2.8303893486736342e-05\nInit norm 6.94140625 | Delta norm 5.20703125 | Target norm 8.598662376403809\n"
+  },
+  "next_step": "READ-ONLY: cat rome/repr_tools.py (get_words_idxs_in_templates) to locate the subject-index computation; determine how canonical pipeline accounts for BOS; author minimal fix (likely add_special_tokens=False at the lookup tokenization, OR a repr_tools BOS-aware correction) under in-session-patch-isolation discipline (C-S232-CPUSOLVE-1 lineage). Re-run Llama capture; GATE on v1.5 \u00a73 endpoint reproduction BEFORE Qwen arm or any data promotion.",
+  "open_decisions_carried": [
+    "D-S233-MANIFEST-1 (deferred manifest merge \u2014 still pending; do NOT write S2.33 entry into either divergent manifest until merged)",
+    "D-S233-LAYERMATCH-1 (native v_loss_layer per model \u2014 stands)",
+    "D-S233-BAND-1 (band override to [4,5,6,7,8] \u2014 stands)",
+    "D-S233-CAPTURE-METHOD-1 (direct compute_z, no weight write \u2014 stands; method sound, blocked only by the lookup bug)"
+  ]
+}

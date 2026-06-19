@@ -1,0 +1,9164 @@
+{
+  "model": "Qwen/Qwen2.5-3B",
+  "screen": {
+    "France": {
+      "capital": {
+        "top1": " Paris",
+        "p": 0.539,
+        "truth": "Paris",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Paris",
+            0.539
+          ],
+          [
+            " __",
+            0.0718
+          ],
+          [
+            " ______",
+            0.0664
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Euro",
+        "p": 0.6801,
+        "truth": "euro",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Euro",
+            0.6801
+          ],
+          [
+            " euro",
+            0.2581
+          ],
+          [
+            " French",
+            0.0268
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.8656,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.8656
+          ],
+          [
+            " ______",
+            0.0306
+          ],
+          [
+            " __",
+            0.0174
+          ]
+        ]
+      },
+      "language": {
+        "top1": " French",
+        "p": 0.6005,
+        "truth": "French",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " French",
+            0.6005
+          ],
+          [
+            " ____",
+            0.0717
+          ],
+          [
+            " __",
+            0.0339
+          ]
+        ]
+      }
+    },
+    "Japan": {
+      "capital": {
+        "top1": " Tokyo",
+        "p": 0.4343,
+        "truth": "Tokyo",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Tokyo",
+            0.4343
+          ],
+          [
+            " __",
+            0.1244
+          ],
+          [
+            " ______",
+            0.0755
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " yen",
+        "p": 0.4329,
+        "truth": "yen",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " yen",
+            0.4329
+          ],
+          [
+            " Japanese",
+            0.3533
+          ],
+          [
+            " Y",
+            0.1384
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.6098,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.6098
+          ],
+          [
+            " __",
+            0.098
+          ],
+          [
+            " ______",
+            0.0706
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Japanese",
+        "p": 0.3832,
+        "truth": "Japanese",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Japanese",
+            0.3832
+          ],
+          [
+            " __",
+            0.141
+          ],
+          [
+            " ____",
+            0.0656
+          ]
+        ]
+      }
+    },
+    "Egypt": {
+      "capital": {
+        "top1": " Cairo",
+        "p": 0.5234,
+        "truth": "Cairo",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Cairo",
+            0.5234
+          ],
+          [
+            " __",
+            0.1047
+          ],
+          [
+            " ______",
+            0.0731
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Egyptian",
+        "p": 0.903,
+        "truth": "pound",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Egyptian",
+            0.903
+          ],
+          [
+            " pound",
+            0.0345
+          ],
+          [
+            " E",
+            0.0179
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.8118,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.8118
+          ],
+          [
+            " Asia",
+            0.0767
+          ],
+          [
+            " __",
+            0.0241
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.733,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.733
+          ],
+          [
+            " Egyptian",
+            0.0726
+          ],
+          [
+            " __",
+            0.0243
+          ]
+        ]
+      }
+    },
+    "Germany": {
+      "capital": {
+        "top1": " Berlin",
+        "p": 0.6677,
+        "truth": "Berlin",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Berlin",
+            0.6677
+          ],
+          [
+            " __",
+            0.0904
+          ],
+          [
+            " ______",
+            0.0322
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Euro",
+        "p": 0.7015,
+        "truth": "euro",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Euro",
+            0.7015
+          ],
+          [
+            " euro",
+            0.2242
+          ],
+          [
+            " German",
+            0.0168
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9236,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9236
+          ],
+          [
+            " __",
+            0.0164
+          ],
+          [
+            " ______",
+            0.0092
+          ]
+        ]
+      },
+      "language": {
+        "top1": " German",
+        "p": 0.4906,
+        "truth": "German",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " German",
+            0.4906
+          ],
+          [
+            " __",
+            0.1147
+          ],
+          [
+            " ____",
+            0.0568
+          ]
+        ]
+      }
+    },
+    "Italy": {
+      "capital": {
+        "top1": " Rome",
+        "p": 0.427,
+        "truth": "Rome",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Rome",
+            0.427
+          ],
+          [
+            " __",
+            0.1837
+          ],
+          [
+            " ______",
+            0.0587
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Euro",
+        "p": 0.7074,
+        "truth": "euro",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Euro",
+            0.7074
+          ],
+          [
+            " euro",
+            0.2296
+          ],
+          [
+            " Italian",
+            0.0297
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.719,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.719
+          ],
+          [
+            " __",
+            0.0832
+          ],
+          [
+            " ______",
+            0.0331
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Italian",
+        "p": 0.687,
+        "truth": "Italian",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Italian",
+            0.687
+          ],
+          [
+            " __",
+            0.068
+          ],
+          [
+            " ____",
+            0.0266
+          ]
+        ]
+      }
+    },
+    "Spain": {
+      "capital": {
+        "top1": " Madrid",
+        "p": 0.6142,
+        "truth": "Madrid",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Madrid",
+            0.6142
+          ],
+          [
+            " __",
+            0.1248
+          ],
+          [
+            " ______",
+            0.0571
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Euro",
+        "p": 0.6672,
+        "truth": "euro",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Euro",
+            0.6672
+          ],
+          [
+            " euro",
+            0.2696
+          ],
+          [
+            " Spanish",
+            0.0327
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.8793,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.8793
+          ],
+          [
+            " __",
+            0.0191
+          ],
+          [
+            " ______",
+            0.0109
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Spanish",
+        "p": 0.7031,
+        "truth": "Spanish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Spanish",
+            0.7031
+          ],
+          [
+            " Cast",
+            0.0486
+          ],
+          [
+            " ____",
+            0.0319
+          ]
+        ]
+      }
+    },
+    "Russia": {
+      "capital": {
+        "top1": " Moscow",
+        "p": 0.6586,
+        "truth": "Moscow",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Moscow",
+            0.6586
+          ],
+          [
+            " __",
+            0.0541
+          ],
+          [
+            " ______",
+            0.0434
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Russian",
+        "p": 0.45,
+        "truth": "ruble",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Russian",
+            0.45
+          ],
+          [
+            " rub",
+            0.2772
+          ],
+          [
+            " r",
+            0.1103
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.4088,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.4088
+          ],
+          [
+            " Euras",
+            0.1391
+          ],
+          [
+            " Asia",
+            0.0744
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Russian",
+        "p": 0.645,
+        "truth": "Russian",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Russian",
+            0.645
+          ],
+          [
+            " __",
+            0.0629
+          ],
+          [
+            " ______",
+            0.0419
+          ]
+        ]
+      }
+    },
+    "China": {
+      "capital": {
+        "top1": " Beijing",
+        "p": 0.6576,
+        "truth": "Beijing",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Beijing",
+            0.6576
+          ],
+          [
+            " ____",
+            0.0548
+          ],
+          [
+            " __",
+            0.0462
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Ren",
+        "p": 0.5459,
+        "truth": "yuan",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Ren",
+            0.5459
+          ],
+          [
+            " R",
+            0.1857
+          ],
+          [
+            " yuan",
+            0.0694
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.5336,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.5336
+          ],
+          [
+            " __",
+            0.1459
+          ],
+          [
+            " ____",
+            0.0554
+          ]
+        ]
+      },
+      "language": {
+        "top1": " __",
+        "p": 0.1801,
+        "truth": "Chinese",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " __",
+            0.1801
+          ],
+          [
+            " ____",
+            0.1666
+          ],
+          [
+            "\n",
+            0.0825
+          ]
+        ]
+      }
+    },
+    "Greece": {
+      "capital": {
+        "top1": " Athens",
+        "p": 0.8443,
+        "truth": "Athens",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Athens",
+            0.8443
+          ],
+          [
+            " __",
+            0.0389
+          ],
+          [
+            " ____",
+            0.0243
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Euro",
+        "p": 0.622,
+        "truth": "euro",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Euro",
+            0.622
+          ],
+          [
+            " euro",
+            0.3031
+          ],
+          [
+            " Greek",
+            0.043
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.8336,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.8336
+          ],
+          [
+            " Asia",
+            0.0456
+          ],
+          [
+            " Euras",
+            0.0248
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Greek",
+        "p": 0.7243,
+        "truth": "Greek",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Greek",
+            0.7243
+          ],
+          [
+            " Modern",
+            0.0396
+          ],
+          [
+            " the",
+            0.0328
+          ]
+        ]
+      }
+    },
+    "Norway": {
+      "capital": {
+        "top1": " Oslo",
+        "p": 0.821,
+        "truth": "Oslo",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Oslo",
+            0.821
+          ],
+          [
+            " __",
+            0.0478
+          ],
+          [
+            " ______",
+            0.0422
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Norwegian",
+        "p": 0.7881,
+        "truth": "krone",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Norwegian",
+            0.7881
+          ],
+          [
+            " kr",
+            0.0733
+          ],
+          [
+            " Kr",
+            0.0386
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9072,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9072
+          ],
+          [
+            " Euras",
+            0.0101
+          ],
+          [
+            " ______",
+            0.0098
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Norwegian",
+        "p": 0.6223,
+        "truth": "Norwegian",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Norwegian",
+            0.6223
+          ],
+          [
+            " the",
+            0.0417
+          ],
+          [
+            " ______",
+            0.0325
+          ]
+        ]
+      }
+    },
+    "Poland": {
+      "capital": {
+        "top1": " Warsaw",
+        "p": 0.5276,
+        "truth": "Warsaw",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Warsaw",
+            0.5276
+          ],
+          [
+            " __",
+            0.2492
+          ],
+          [
+            " ___",
+            0.0426
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " z",
+        "p": 0.3423,
+        "truth": "zloty",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " z",
+            0.3423
+          ],
+          [
+            " Polish",
+            0.2838
+          ],
+          [
+            " Z",
+            0.1695
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9645,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9645
+          ],
+          [
+            " Asia",
+            0.0083
+          ],
+          [
+            " Euras",
+            0.0056
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Polish",
+        "p": 0.8723,
+        "truth": "Polish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Polish",
+            0.8723
+          ],
+          [
+            " the",
+            0.0193
+          ],
+          [
+            " __",
+            0.0103
+          ]
+        ]
+      }
+    },
+    "Turkey": {
+      "capital": {
+        "top1": " Ankara",
+        "p": 0.4346,
+        "truth": "Ankara",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Ankara",
+            0.4346
+          ],
+          [
+            " Istanbul",
+            0.1756
+          ],
+          [
+            " ______",
+            0.071
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Turkish",
+        "p": 0.8055,
+        "truth": "lira",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Turkish",
+            0.8055
+          ],
+          [
+            " l",
+            0.0693
+          ],
+          [
+            " L",
+            0.0278
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.5335,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.5335
+          ],
+          [
+            " Europe",
+            0.26
+          ],
+          [
+            " Euras",
+            0.1349
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Turkish",
+        "p": 0.8966,
+        "truth": "Turkish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Turkish",
+            0.8966
+          ],
+          [
+            " Ottoman",
+            0.0106
+          ],
+          [
+            " the",
+            0.0089
+          ]
+        ]
+      }
+    },
+    "Portugal": {
+      "capital": {
+        "top1": " Lisbon",
+        "p": 0.599,
+        "truth": "Lisbon",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Lisbon",
+            0.599
+          ],
+          [
+            " __",
+            0.1612
+          ],
+          [
+            " ____",
+            0.0484
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Euro",
+        "p": 0.8011,
+        "truth": "euro",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Euro",
+            0.8011
+          ],
+          [
+            " euro",
+            0.1459
+          ],
+          [
+            " Portuguese",
+            0.032
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.8661,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.8661
+          ],
+          [
+            " Euras",
+            0.0325
+          ],
+          [
+            " __",
+            0.0138
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Portuguese",
+        "p": 0.7463,
+        "truth": "Portuguese",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Portuguese",
+            0.7463
+          ],
+          [
+            " __",
+            0.0349
+          ],
+          [
+            " the",
+            0.0285
+          ]
+        ]
+      }
+    },
+    "Austria": {
+      "capital": {
+        "top1": " Vienna",
+        "p": 0.6803,
+        "truth": "Vienna",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Vienna",
+            0.6803
+          ],
+          [
+            " ______",
+            0.0485
+          ],
+          [
+            " __",
+            0.0485
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Euro",
+        "p": 0.7259,
+        "truth": "euro",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Euro",
+            0.7259
+          ],
+          [
+            " euro",
+            0.103
+          ],
+          [
+            " Austrian",
+            0.0881
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9663,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9663
+          ],
+          [
+            " Asia",
+            0.0035
+          ],
+          [
+            " Euras",
+            0.0028
+          ]
+        ]
+      },
+      "language": {
+        "top1": " German",
+        "p": 0.6814,
+        "truth": "German",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " German",
+            0.6814
+          ],
+          [
+            " ____",
+            0.0416
+          ],
+          [
+            " __",
+            0.0339
+          ]
+        ]
+      }
+    },
+    "Sweden": {
+      "capital": {
+        "top1": " Stockholm",
+        "p": 0.6573,
+        "truth": "Stockholm",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Stockholm",
+            0.6573
+          ],
+          [
+            " __",
+            0.1024
+          ],
+          [
+            " ______",
+            0.0548
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Swedish",
+        "p": 0.6071,
+        "truth": "krona",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Swedish",
+            0.6071
+          ],
+          [
+            " kron",
+            0.166
+          ],
+          [
+            " SE",
+            0.053
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.8189,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.8189
+          ],
+          [
+            " Scandin",
+            0.0389
+          ],
+          [
+            " ______",
+            0.0247
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Swedish",
+        "p": 0.6152,
+        "truth": "Swedish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Swedish",
+            0.6152
+          ],
+          [
+            " ____",
+            0.0529
+          ],
+          [
+            " the",
+            0.0425
+          ]
+        ]
+      }
+    },
+    "Finland": {
+      "capital": {
+        "top1": " Helsinki",
+        "p": 0.7257,
+        "truth": "Helsinki",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Helsinki",
+            0.7257
+          ],
+          [
+            " __",
+            0.0696
+          ],
+          [
+            " ______",
+            0.0634
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Euro",
+        "p": 0.4573,
+        "truth": "euro",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Euro",
+            0.4573
+          ],
+          [
+            " Finnish",
+            0.2688
+          ],
+          [
+            " euro",
+            0.1682
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9343,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9343
+          ],
+          [
+            " Asia",
+            0.0107
+          ],
+          [
+            " Euras",
+            0.0098
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Finnish",
+        "p": 0.5444,
+        "truth": "Finnish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Finnish",
+            0.5444
+          ],
+          [
+            " __",
+            0.0671
+          ],
+          [
+            " the",
+            0.0499
+          ]
+        ]
+      }
+    },
+    "Denmark": {
+      "capital": {
+        "top1": " Copenhagen",
+        "p": 0.6391,
+        "truth": "Copenhagen",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Copenhagen",
+            0.6391
+          ],
+          [
+            " __",
+            0.1404
+          ],
+          [
+            " ______",
+            0.0493
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Danish",
+        "p": 0.731,
+        "truth": "krone",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Danish",
+            0.731
+          ],
+          [
+            " kr",
+            0.0669
+          ],
+          [
+            " Euro",
+            0.0546
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9152,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9152
+          ],
+          [
+            " Northern",
+            0.0124
+          ],
+          [
+            " ______",
+            0.0057
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Danish",
+        "p": 0.642,
+        "truth": "Danish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Danish",
+            0.642
+          ],
+          [
+            " __",
+            0.0472
+          ],
+          [
+            " ______",
+            0.0368
+          ]
+        ]
+      }
+    },
+    "Hungary": {
+      "capital": {
+        "top1": " Budapest",
+        "p": 0.7775,
+        "truth": "Budapest",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Budapest",
+            0.7775
+          ],
+          [
+            " ____",
+            0.0546
+          ],
+          [
+            " B",
+            0.0513
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " for",
+        "p": 0.4485,
+        "truth": "forint",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " for",
+            0.4485
+          ],
+          [
+            " Hungarian",
+            0.3896
+          ],
+          [
+            " For",
+            0.0744
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9608,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9608
+          ],
+          [
+            " Asia",
+            0.0171
+          ],
+          [
+            " Euras",
+            0.0055
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Hungarian",
+        "p": 0.8747,
+        "truth": "Hungarian",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Hungarian",
+            0.8747
+          ],
+          [
+            " ____",
+            0.0206
+          ],
+          [
+            " Mag",
+            0.0137
+          ]
+        ]
+      }
+    },
+    "Iran": {
+      "capital": {
+        "top1": " Tehran",
+        "p": 0.8331,
+        "truth": "Tehran",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Tehran",
+            0.8331
+          ],
+          [
+            " Te",
+            0.0308
+          ],
+          [
+            " __",
+            0.0229
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " r",
+        "p": 0.4073,
+        "truth": "rial",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " r",
+            0.4073
+          ],
+          [
+            " R",
+            0.3075
+          ],
+          [
+            " Iranian",
+            0.1672
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.9255,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.9255
+          ],
+          [
+            " __",
+            0.0134
+          ],
+          [
+            " Europe",
+            0.0118
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Persian",
+        "p": 0.4642,
+        "truth": "Persian",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Persian",
+            0.4642
+          ],
+          [
+            " F",
+            0.3141
+          ],
+          [
+            ":\n",
+            0.0183
+          ]
+        ]
+      }
+    },
+    "Iraq": {
+      "capital": {
+        "top1": " Baghdad",
+        "p": 0.8345,
+        "truth": "Baghdad",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Baghdad",
+            0.8345
+          ],
+          [
+            " Bag",
+            0.026
+          ],
+          [
+            " ____",
+            0.0229
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Iraqi",
+        "p": 0.755,
+        "truth": "dinar",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Iraqi",
+            0.755
+          ],
+          [
+            " din",
+            0.0629
+          ],
+          [
+            " New",
+            0.0413
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.88,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.88
+          ],
+          [
+            " Africa",
+            0.0266
+          ],
+          [
+            " __",
+            0.0161
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.7329,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.7329
+          ],
+          [
+            " ____",
+            0.0202
+          ],
+          [
+            " (",
+            0.0189
+          ]
+        ]
+      }
+    },
+    "Thailand": {
+      "capital": {
+        "top1": " Bangkok",
+        "p": 0.7894,
+        "truth": "Bangkok",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Bangkok",
+            0.7894
+          ],
+          [
+            " ______",
+            0.0758
+          ],
+          [
+            " __",
+            0.0238
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " ba",
+        "p": 0.3698,
+        "truth": "baht",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " ba",
+            0.3698
+          ],
+          [
+            " Thai",
+            0.342
+          ],
+          [
+            " Ba",
+            0.2351
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.817,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.817
+          ],
+          [
+            " Southeast",
+            0.0583
+          ],
+          [
+            " __",
+            0.0164
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Thai",
+        "p": 0.6103,
+        "truth": "Thai",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Thai",
+            0.6103
+          ],
+          [
+            " the",
+            0.0378
+          ],
+          [
+            " (",
+            0.0256
+          ]
+        ]
+      }
+    },
+    "Vietnam": {
+      "capital": {
+        "top1": " H",
+        "p": 0.7324,
+        "truth": "Hanoi",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " H",
+            0.7324
+          ],
+          [
+            " Ho",
+            0.0443
+          ],
+          [
+            " ____",
+            0.0327
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Vietnamese",
+        "p": 0.5551,
+        "truth": "dong",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Vietnamese",
+            0.5551
+          ],
+          [
+            " dong",
+            0.1889
+          ],
+          [
+            " Dong",
+            0.0751
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.7931,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.7931
+          ],
+          [
+            " Southeast",
+            0.0484
+          ],
+          [
+            " __",
+            0.0247
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Vietnamese",
+        "p": 0.624,
+        "truth": "Vietnamese",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Vietnamese",
+            0.624
+          ],
+          [
+            "\n",
+            0.0268
+          ],
+          [
+            " ____",
+            0.0219
+          ]
+        ]
+      }
+    },
+    "Indonesia": {
+      "capital": {
+        "top1": " Jakarta",
+        "p": 0.7939,
+        "truth": "Jakarta",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Jakarta",
+            0.7939
+          ],
+          [
+            " ____",
+            0.0323
+          ],
+          [
+            " __",
+            0.0285
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Indonesian",
+        "p": 0.4852,
+        "truth": "rupiah",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Indonesian",
+            0.4852
+          ],
+          [
+            " R",
+            0.3036
+          ],
+          [
+            " r",
+            0.173
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.7873,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.7873
+          ],
+          [
+            " Southeast",
+            0.0346
+          ],
+          [
+            " __",
+            0.0245
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Indonesian",
+        "p": 0.2982,
+        "truth": "Indonesian",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Indonesian",
+            0.2982
+          ],
+          [
+            " Bah",
+            0.2511
+          ],
+          [
+            " __",
+            0.0487
+          ]
+        ]
+      }
+    },
+    "Kenya": {
+      "capital": {
+        "top1": " Nairobi",
+        "p": 0.8547,
+        "truth": "Nairobi",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Nairobi",
+            0.8547
+          ],
+          [
+            " ______",
+            0.0426
+          ],
+          [
+            " __",
+            0.0279
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Ken",
+        "p": 0.6278,
+        "truth": "shilling",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Ken",
+            0.6278
+          ],
+          [
+            " Kenya",
+            0.2536
+          ],
+          [
+            " sh",
+            0.0313
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.9644,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.9644
+          ],
+          [
+            " __",
+            0.0031
+          ],
+          [
+            " Asia",
+            0.0027
+          ]
+        ]
+      },
+      "language": {
+        "top1": " English",
+        "p": 0.6459,
+        "truth": "Swahili",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " English",
+            0.6459
+          ],
+          [
+            " Sw",
+            0.1534
+          ],
+          [
+            " Kis",
+            0.0483
+          ]
+        ]
+      }
+    },
+    "Nigeria": {
+      "capital": {
+        "top1": " Abu",
+        "p": 0.5109,
+        "truth": "Abuja",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Abu",
+            0.5109
+          ],
+          [
+            " Lagos",
+            0.1793
+          ],
+          [
+            " __",
+            0.1105
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " N",
+        "p": 0.3627,
+        "truth": "naira",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " N",
+            0.3627
+          ],
+          [
+            " n",
+            0.2869
+          ],
+          [
+            " Nigerian",
+            0.2825
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.9448,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.9448
+          ],
+          [
+            " __",
+            0.0067
+          ],
+          [
+            " Afr",
+            0.0047
+          ]
+        ]
+      },
+      "language": {
+        "top1": " English",
+        "p": 0.7213,
+        "truth": "English",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " English",
+            0.7213
+          ],
+          [
+            " ______",
+            0.0365
+          ],
+          [
+            " __",
+            0.0302
+          ]
+        ]
+      }
+    },
+    "Morocco": {
+      "capital": {
+        "top1": " Rab",
+        "p": 0.4477,
+        "truth": "Rabat",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Rab",
+            0.4477
+          ],
+          [
+            " __",
+            0.1132
+          ],
+          [
+            " ______",
+            0.0725
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Moroccan",
+        "p": 0.5655,
+        "truth": "dirham",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Moroccan",
+            0.5655
+          ],
+          [
+            " dir",
+            0.1546
+          ],
+          [
+            " Dir",
+            0.1343
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.8726,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.8726
+          ],
+          [
+            " Europe",
+            0.036
+          ],
+          [
+            " Asia",
+            0.0236
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.6076,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.6076
+          ],
+          [
+            " Moroccan",
+            0.0661
+          ],
+          [
+            " French",
+            0.044
+          ]
+        ]
+      }
+    },
+    "Peru": {
+      "capital": {
+        "top1": " Lima",
+        "p": 0.8453,
+        "truth": "Lima",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Lima",
+            0.8453
+          ],
+          [
+            " ______",
+            0.0218
+          ],
+          [
+            " ____",
+            0.0204
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Nuevo",
+        "p": 0.3361,
+        "truth": "sol",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Nuevo",
+            0.3361
+          ],
+          [
+            " Per",
+            0.1446
+          ],
+          [
+            " nuevo",
+            0.1256
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " South",
+        "p": 0.9844,
+        "truth": "America",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " South",
+            0.9844
+          ],
+          [
+            " America",
+            0.0032
+          ],
+          [
+            " the",
+            0.0014
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Spanish",
+        "p": 0.8894,
+        "truth": "Spanish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Spanish",
+            0.8894
+          ],
+          [
+            ":\n",
+            0.01
+          ],
+          [
+            " __",
+            0.0099
+          ]
+        ]
+      }
+    },
+    "Chile": {
+      "capital": {
+        "top1": " Santiago",
+        "p": 0.8809,
+        "truth": "Santiago",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Santiago",
+            0.8809
+          ],
+          [
+            " ____",
+            0.0221
+          ],
+          [
+            " ______",
+            0.0198
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Chile",
+        "p": 0.7363,
+        "truth": "peso",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Chile",
+            0.7363
+          ],
+          [
+            " peso",
+            0.1618
+          ],
+          [
+            " P",
+            0.0297
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " South",
+        "p": 0.9396,
+        "truth": "America",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " South",
+            0.9396
+          ],
+          [
+            " America",
+            0.0175
+          ],
+          [
+            " Latin",
+            0.0074
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Spanish",
+        "p": 0.9017,
+        "truth": "Spanish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Spanish",
+            0.9017
+          ],
+          [
+            " ____",
+            0.0105
+          ],
+          [
+            " __",
+            0.0103
+          ]
+        ]
+      }
+    },
+    "Switzerland": {
+      "capital": {
+        "top1": " Bern",
+        "p": 0.5388,
+        "truth": "Bern",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Bern",
+            0.5388
+          ],
+          [
+            " __",
+            0.0577
+          ],
+          [
+            " ______",
+            0.0568
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Swiss",
+        "p": 0.8514,
+        "truth": "franc",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Swiss",
+            0.8514
+          ],
+          [
+            " Euro",
+            0.0287
+          ],
+          [
+            " franc",
+            0.0267
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9212,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9212
+          ],
+          [
+            " Asia",
+            0.0114
+          ],
+          [
+            " __",
+            0.0095
+          ]
+        ]
+      },
+      "language": {
+        "top1": " German",
+        "p": 0.3774,
+        "truth": "German",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " German",
+            0.3774
+          ],
+          [
+            "\n",
+            0.0646
+          ],
+          [
+            " ____",
+            0.0636
+          ]
+        ]
+      }
+    },
+    "Netherlands": {
+      "capital": {
+        "top1": " Amsterdam",
+        "p": 0.719,
+        "truth": "Amsterdam",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Amsterdam",
+            0.719
+          ],
+          [
+            " ____",
+            0.0467
+          ],
+          [
+            " __",
+            0.0412
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Euro",
+        "p": 0.7381,
+        "truth": "euro",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Euro",
+            0.7381
+          ],
+          [
+            " euro",
+            0.1387
+          ],
+          [
+            " Netherlands",
+            0.0479
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9313,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9313
+          ],
+          [
+            " Asia",
+            0.0086
+          ],
+          [
+            " Africa",
+            0.0072
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Dutch",
+        "p": 0.842,
+        "truth": "Dutch",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Dutch",
+            0.842
+          ],
+          [
+            " the",
+            0.0183
+          ],
+          [
+            "\n",
+            0.0145
+          ]
+        ]
+      }
+    },
+    "Ukraine": {
+      "capital": {
+        "top1": " Kiev",
+        "p": 0.4879,
+        "truth": "Kyiv",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Kiev",
+            0.4879
+          ],
+          [
+            " Ky",
+            0.2913
+          ],
+          [
+            " ______",
+            0.0382
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " h",
+        "p": 0.5534,
+        "truth": "hryvnia",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " h",
+            0.5534
+          ],
+          [
+            " H",
+            0.2271
+          ],
+          [
+            " Ukrainian",
+            0.1335
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9041,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9041
+          ],
+          [
+            " Euras",
+            0.0265
+          ],
+          [
+            " Asia",
+            0.0241
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Ukrainian",
+        "p": 0.5377,
+        "truth": "Ukrainian",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Ukrainian",
+            0.5377
+          ],
+          [
+            " Russian",
+            0.2009
+          ],
+          [
+            " the",
+            0.0272
+          ]
+        ]
+      }
+    },
+    "Romania": {
+      "capital": {
+        "top1": " Buch",
+        "p": 0.8422,
+        "truth": "Bucharest",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Buch",
+            0.8422
+          ],
+          [
+            " ____",
+            0.0302
+          ],
+          [
+            " ______",
+            0.0243
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Romanian",
+        "p": 0.3671,
+        "truth": "leu",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Romanian",
+            0.3671
+          ],
+          [
+            " le",
+            0.2446
+          ],
+          [
+            " Le",
+            0.1249
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9606,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9606
+          ],
+          [
+            " Africa",
+            0.0046
+          ],
+          [
+            " Euras",
+            0.0038
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Romanian",
+        "p": 0.7756,
+        "truth": "Romanian",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Romanian",
+            0.7756
+          ],
+          [
+            " the",
+            0.0223
+          ],
+          [
+            " ____",
+            0.0154
+          ]
+        ]
+      }
+    },
+    "Serbia": {
+      "capital": {
+        "top1": " Bel",
+        "p": 0.8651,
+        "truth": "Belgrade",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Bel",
+            0.8651
+          ],
+          [
+            " ____",
+            0.0544
+          ],
+          [
+            " ___",
+            0.0115
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Serbian",
+        "p": 0.8532,
+        "truth": "dinar",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Serbian",
+            0.8532
+          ],
+          [
+            " din",
+            0.0331
+          ],
+          [
+            " Euro",
+            0.0266
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9669,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9669
+          ],
+          [
+            " Asia",
+            0.0076
+          ],
+          [
+            " Euras",
+            0.0048
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Serbian",
+        "p": 0.4451,
+        "truth": "Serbian",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Serbian",
+            0.4451
+          ],
+          [
+            " the",
+            0.0933
+          ],
+          [
+            " ____",
+            0.0622
+          ]
+        ]
+      }
+    },
+    "Croatia": {
+      "capital": {
+        "top1": " Zag",
+        "p": 0.6869,
+        "truth": "Zagreb",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Zag",
+            0.6869
+          ],
+          [
+            " __",
+            0.0808
+          ],
+          [
+            " ____",
+            0.0419
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Croatian",
+        "p": 0.5321,
+        "truth": "euro",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Croatian",
+            0.5321
+          ],
+          [
+            " k",
+            0.1648
+          ],
+          [
+            " K",
+            0.1304
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9633,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9633
+          ],
+          [
+            " __",
+            0.0026
+          ],
+          [
+            " Euras",
+            0.0025
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Croatian",
+        "p": 0.6617,
+        "truth": "Croatian",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Croatian",
+            0.6617
+          ],
+          [
+            " the",
+            0.0472
+          ],
+          [
+            " ____",
+            0.02
+          ]
+        ]
+      }
+    },
+    "Cuba": {
+      "capital": {
+        "top1": " Havana",
+        "p": 0.8567,
+        "truth": "Havana",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Havana",
+            0.8567
+          ],
+          [
+            " ____",
+            0.0332
+          ],
+          [
+            " __",
+            0.0317
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Cuban",
+        "p": 0.8189,
+        "truth": "peso",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Cuban",
+            0.8189
+          ],
+          [
+            " C",
+            0.0515
+          ],
+          [
+            " peso",
+            0.0389
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " North",
+        "p": 0.6405,
+        "truth": "America",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " North",
+            0.6405
+          ],
+          [
+            " South",
+            0.1113
+          ],
+          [
+            " America",
+            0.0464
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Spanish",
+        "p": 0.8615,
+        "truth": "Spanish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Spanish",
+            0.8615
+          ],
+          [
+            " ____",
+            0.0148
+          ],
+          [
+            " __",
+            0.011
+          ]
+        ]
+      }
+    },
+    "Israel": {
+      "capital": {
+        "top1": " Jerusalem",
+        "p": 0.657,
+        "truth": "Jerusalem",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Jerusalem",
+            0.657
+          ],
+          [
+            " Tel",
+            0.1107
+          ],
+          [
+            " __",
+            0.0371
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " New",
+        "p": 0.3651,
+        "truth": "shekel",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " New",
+            0.3651
+          ],
+          [
+            " Israeli",
+            0.2843
+          ],
+          [
+            " she",
+            0.1322
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.8074,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.8074
+          ],
+          [
+            " Africa",
+            0.0632
+          ],
+          [
+            " Europe",
+            0.0378
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Hebrew",
+        "p": 0.7931,
+        "truth": "Hebrew",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Hebrew",
+            0.7931
+          ],
+          [
+            " __",
+            0.0243
+          ],
+          [
+            " Arabic",
+            0.0128
+          ]
+        ]
+      }
+    },
+    "Belgium": {
+      "capital": {
+        "top1": " Brussels",
+        "p": 0.6296,
+        "truth": "Brussels",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Brussels",
+            0.6296
+          ],
+          [
+            " __",
+            0.0921
+          ],
+          [
+            " ____",
+            0.0501
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Euro",
+        "p": 0.5884,
+        "truth": "euro",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Euro",
+            0.5884
+          ],
+          [
+            " euro",
+            0.3352
+          ],
+          [
+            " Belgian",
+            0.0522
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9787,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9787
+          ],
+          [
+            " Africa",
+            0.0032
+          ],
+          [
+            " Europa",
+            0.0012
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Dutch",
+        "p": 0.3472,
+        "truth": "Dutch",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Dutch",
+            0.3472
+          ],
+          [
+            " French",
+            0.2878
+          ],
+          [
+            " Flem",
+            0.0396
+          ]
+        ]
+      }
+    },
+    "Argentina": {
+      "capital": {
+        "top1": " Buenos",
+        "p": 0.7535,
+        "truth": "Buenos",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Buenos",
+            0.7535
+          ],
+          [
+            " ____",
+            0.0513
+          ],
+          [
+            " ______",
+            0.0375
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " peso",
+        "p": 0.4962,
+        "truth": "peso",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " peso",
+            0.4962
+          ],
+          [
+            " Argentine",
+            0.3306
+          ],
+          [
+            " P",
+            0.0715
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " South",
+        "p": 0.903,
+        "truth": "America",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " South",
+            0.903
+          ],
+          [
+            " __",
+            0.0248
+          ],
+          [
+            " Latin",
+            0.0083
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Spanish",
+        "p": 0.8358,
+        "truth": "Spanish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Spanish",
+            0.8358
+          ],
+          [
+            " ____",
+            0.023
+          ],
+          [
+            " __",
+            0.0153
+          ]
+        ]
+      }
+    },
+    "Bulgaria": {
+      "capital": {
+        "top1": " Sofia",
+        "p": 0.9202,
+        "truth": "Sofia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Sofia",
+            0.9202
+          ],
+          [
+            " ____",
+            0.017
+          ],
+          [
+            " ______",
+            0.009
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Bulgarian",
+        "p": 0.3719,
+        "truth": "lev",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Bulgarian",
+            0.3719
+          ],
+          [
+            " lev",
+            0.2852
+          ],
+          [
+            " Lev",
+            0.187
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9679,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9679
+          ],
+          [
+            " Euras",
+            0.0069
+          ],
+          [
+            " Asia",
+            0.0066
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Bulgarian",
+        "p": 0.6668,
+        "truth": "Bulgarian",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Bulgarian",
+            0.6668
+          ],
+          [
+            " the",
+            0.0498
+          ],
+          [
+            " ____",
+            0.0359
+          ]
+        ]
+      }
+    },
+    "Slovakia": {
+      "capital": {
+        "top1": " Br",
+        "p": 0.9418,
+        "truth": "Bratislava",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Br",
+            0.9418
+          ],
+          [
+            " __",
+            0.0081
+          ],
+          [
+            " ___",
+            0.0071
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Euro",
+        "p": 0.6547,
+        "truth": "euro",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Euro",
+            0.6547
+          ],
+          [
+            " Slovak",
+            0.1507
+          ],
+          [
+            " euro",
+            0.1086
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9737,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9737
+          ],
+          [
+            " Euras",
+            0.0034
+          ],
+          [
+            " Asia",
+            0.0029
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Slovak",
+        "p": 0.64,
+        "truth": "Slovak",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Slovak",
+            0.64
+          ],
+          [
+            " Czech",
+            0.0534
+          ],
+          [
+            " the",
+            0.0449
+          ]
+        ]
+      }
+    },
+    "Lebanon": {
+      "capital": {
+        "top1": " Beirut",
+        "p": 0.8494,
+        "truth": "Beirut",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Beirut",
+            0.8494
+          ],
+          [
+            " ______",
+            0.0423
+          ],
+          [
+            " __",
+            0.0168
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Lebanese",
+        "p": 0.8061,
+        "truth": "pound",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Lebanese",
+            0.8061
+          ],
+          [
+            " L",
+            0.0762
+          ],
+          [
+            " Lebanon",
+            0.0148
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.8023,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.8023
+          ],
+          [
+            " Africa",
+            0.1086
+          ],
+          [
+            " Europe",
+            0.0513
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.7522,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.7522
+          ],
+          [
+            " Lebanese",
+            0.0246
+          ],
+          [
+            " ______",
+            0.0217
+          ]
+        ]
+      }
+    },
+    "Cambodia": {
+      "capital": {
+        "top1": " Ph",
+        "p": 0.7251,
+        "truth": "Phnom",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Ph",
+            0.7251
+          ],
+          [
+            " ______",
+            0.0397
+          ],
+          [
+            " __",
+            0.0334
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Camb",
+        "p": 0.6242,
+        "truth": "riel",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Camb",
+            0.6242
+          ],
+          [
+            " R",
+            0.1506
+          ],
+          [
+            " r",
+            0.0746
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.8738,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.8738
+          ],
+          [
+            " Southeast",
+            0.0633
+          ],
+          [
+            " South",
+            0.0073
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Kh",
+        "p": 0.7402,
+        "truth": "Khmer",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Kh",
+            0.7402
+          ],
+          [
+            " Camb",
+            0.031
+          ],
+          [
+            " (",
+            0.0171
+          ]
+        ]
+      }
+    },
+    "Mongolia": {
+      "capital": {
+        "top1": " U",
+        "p": 0.8456,
+        "truth": "Ulaanbaatar",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " U",
+            0.8456
+          ],
+          [
+            " ____",
+            0.0508
+          ],
+          [
+            " __",
+            0.0187
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Mong",
+        "p": 0.3334,
+        "truth": "tugrik",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Mong",
+            0.3334
+          ],
+          [
+            " tug",
+            0.2022
+          ],
+          [
+            " T",
+            0.1813
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.9476,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.9476
+          ],
+          [
+            " __",
+            0.0086
+          ],
+          [
+            " ______",
+            0.0047
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Mong",
+        "p": 0.55,
+        "truth": "Mongolian",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Mong",
+            0.55
+          ],
+          [
+            " ____",
+            0.0571
+          ],
+          [
+            " __",
+            0.0562
+          ]
+        ]
+      }
+    },
+    "Ghana": {
+      "capital": {
+        "top1": " Acc",
+        "p": 0.7152,
+        "truth": "Accra",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Acc",
+            0.7152
+          ],
+          [
+            " ____",
+            0.0665
+          ],
+          [
+            " ______",
+            0.0596
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Ghana",
+        "p": 0.401,
+        "truth": "cedi",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Ghana",
+            0.401
+          ],
+          [
+            " C",
+            0.28
+          ],
+          [
+            " c",
+            0.2081
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.9402,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.9402
+          ],
+          [
+            " West",
+            0.0081
+          ],
+          [
+            " the",
+            0.0057
+          ]
+        ]
+      },
+      "language": {
+        "top1": " English",
+        "p": 0.8892,
+        "truth": "English",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " English",
+            0.8892
+          ],
+          [
+            " ____",
+            0.0096
+          ],
+          [
+            " the",
+            0.0094
+          ]
+        ]
+      }
+    },
+    "Ecuador": {
+      "capital": {
+        "top1": " Q",
+        "p": 0.8818,
+        "truth": "Quito",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Q",
+            0.8818
+          ],
+          [
+            " ____",
+            0.0239
+          ],
+          [
+            " Gu",
+            0.0103
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " United",
+        "p": 0.1306,
+        "truth": "dollar",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " United",
+            0.1306
+          ],
+          [
+            " Su",
+            0.1246
+          ],
+          [
+            " U",
+            0.1227
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " South",
+        "p": 0.9752,
+        "truth": "America",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " South",
+            0.9752
+          ],
+          [
+            " North",
+            0.0081
+          ],
+          [
+            " America",
+            0.0037
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Spanish",
+        "p": 0.912,
+        "truth": "Spanish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Spanish",
+            0.912
+          ],
+          [
+            " ____",
+            0.0106
+          ],
+          [
+            " __",
+            0.0079
+          ]
+        ]
+      }
+    },
+    "Estonia": {
+      "capital": {
+        "top1": " Tall",
+        "p": 0.946,
+        "truth": "Tallinn",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Tall",
+            0.946
+          ],
+          [
+            " Tart",
+            0.0151
+          ],
+          [
+            " ____",
+            0.0058
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Euro",
+        "p": 0.4342,
+        "truth": "euro",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Euro",
+            0.4342
+          ],
+          [
+            " euro",
+            0.2149
+          ],
+          [
+            " Eston",
+            0.17
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9534,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9534
+          ],
+          [
+            " Northern",
+            0.0082
+          ],
+          [
+            " Euras",
+            0.0075
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Eston",
+        "p": 0.4365,
+        "truth": "Estonian",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Eston",
+            0.4365
+          ],
+          [
+            " the",
+            0.0959
+          ],
+          [
+            " __",
+            0.0582
+          ]
+        ]
+      }
+    },
+    "Latvia": {
+      "capital": {
+        "top1": " R",
+        "p": 0.9671,
+        "truth": "Riga",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " R",
+            0.9671
+          ],
+          [
+            " ____",
+            0.0046
+          ],
+          [
+            " ______",
+            0.0033
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Lat",
+        "p": 0.4628,
+        "truth": "euro",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Lat",
+            0.4628
+          ],
+          [
+            " L",
+            0.1526
+          ],
+          [
+            " lat",
+            0.1033
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9622,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9622
+          ],
+          [
+            " Eastern",
+            0.0096
+          ],
+          [
+            " Euras",
+            0.0059
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Lat",
+        "p": 0.6044,
+        "truth": "Latvian",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Lat",
+            0.6044
+          ],
+          [
+            " the",
+            0.0608
+          ],
+          [
+            " Russian",
+            0.0418
+          ]
+        ]
+      }
+    },
+    "Lithuania": {
+      "capital": {
+        "top1": " Vil",
+        "p": 0.9342,
+        "truth": "Vilnius",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Vil",
+            0.9342
+          ],
+          [
+            " __",
+            0.0077
+          ],
+          [
+            " V",
+            0.007
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Lith",
+        "p": 0.3971,
+        "truth": "euro",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Lith",
+            0.3971
+          ],
+          [
+            " L",
+            0.2604
+          ],
+          [
+            " lit",
+            0.1681
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9735,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9735
+          ],
+          [
+            " Euras",
+            0.0055
+          ],
+          [
+            " Eastern",
+            0.0033
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Lith",
+        "p": 0.8006,
+        "truth": "Lithuanian",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Lith",
+            0.8006
+          ],
+          [
+            " the",
+            0.0363
+          ],
+          [
+            " __",
+            0.0131
+          ]
+        ]
+      }
+    },
+    "Slovenia": {
+      "capital": {
+        "top1": " L",
+        "p": 0.8277,
+        "truth": "Ljubljana",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " L",
+            0.8277
+          ],
+          [
+            " ______",
+            0.0283
+          ],
+          [
+            " _____",
+            0.0279
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Euro",
+        "p": 0.4843,
+        "truth": "euro",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Euro",
+            0.4843
+          ],
+          [
+            " Sloven",
+            0.2398
+          ],
+          [
+            " euro",
+            0.2019
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9702,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9702
+          ],
+          [
+            " South",
+            0.002
+          ],
+          [
+            " Euras",
+            0.0019
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Sloven",
+        "p": 0.661,
+        "truth": "Slovenian",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Sloven",
+            0.661
+          ],
+          [
+            " the",
+            0.0665
+          ],
+          [
+            "\n",
+            0.0241
+          ]
+        ]
+      }
+    },
+    "Iceland": {
+      "capital": {
+        "top1": " Rey",
+        "p": 0.7441,
+        "truth": "Reykjavik",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Rey",
+            0.7441
+          ],
+          [
+            " ______",
+            0.062
+          ],
+          [
+            " ____",
+            0.0506
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Icelandic",
+        "p": 0.7295,
+        "truth": "krona",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Icelandic",
+            0.7295
+          ],
+          [
+            " kron",
+            0.0734
+          ],
+          [
+            " kr",
+            0.0355
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.8083,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.8083
+          ],
+          [
+            " North",
+            0.0299
+          ],
+          [
+            " Euras",
+            0.0272
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Icelandic",
+        "p": 0.6062,
+        "truth": "Icelandic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Icelandic",
+            0.6062
+          ],
+          [
+            " English",
+            0.067
+          ],
+          [
+            " ____",
+            0.0513
+          ]
+        ]
+      }
+    },
+    "Albania": {
+      "capital": {
+        "top1": " Tir",
+        "p": 0.8986,
+        "truth": "Tirana",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Tir",
+            0.8986
+          ],
+          [
+            " ______",
+            0.013
+          ],
+          [
+            " __",
+            0.01
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Alban",
+        "p": 0.3224,
+        "truth": "lek",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Alban",
+            0.3224
+          ],
+          [
+            " L",
+            0.3174
+          ],
+          [
+            " le",
+            0.2511
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9626,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9626
+          ],
+          [
+            " Asia",
+            0.0083
+          ],
+          [
+            " Euras",
+            0.0038
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Alban",
+        "p": 0.6974,
+        "truth": "Albanian",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Alban",
+            0.6974
+          ],
+          [
+            " the",
+            0.0337
+          ],
+          [
+            " __",
+            0.027
+          ]
+        ]
+      }
+    },
+    "Georgia": {
+      "capital": {
+        "top1": " T",
+        "p": 0.8902,
+        "truth": "Tbilisi",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " T",
+            0.8902
+          ],
+          [
+            " ____",
+            0.0118
+          ],
+          [
+            " ______",
+            0.011
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Georgian",
+        "p": 0.3706,
+        "truth": "lari",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Georgian",
+            0.3706
+          ],
+          [
+            " L",
+            0.3592
+          ],
+          [
+            " l",
+            0.1045
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.4337,
+        "truth": "Asia",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.4337
+          ],
+          [
+            " North",
+            0.1476
+          ],
+          [
+            " Africa",
+            0.1408
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Georgian",
+        "p": 0.69,
+        "truth": "Georgian",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Georgian",
+            0.69
+          ],
+          [
+            " Russian",
+            0.0963
+          ],
+          [
+            " the",
+            0.0218
+          ]
+        ]
+      }
+    },
+    "Armenia": {
+      "capital": {
+        "top1": " Y",
+        "p": 0.962,
+        "truth": "Yerevan",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Y",
+            0.962
+          ],
+          [
+            " E",
+            0.0058
+          ],
+          [
+            " Gy",
+            0.0028
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " dram",
+        "p": 0.2915,
+        "truth": "dram",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " dram",
+            0.2915
+          ],
+          [
+            " Armenian",
+            0.2826
+          ],
+          [
+            " dr",
+            0.1443
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.7002,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.7002
+          ],
+          [
+            " Europe",
+            0.2309
+          ],
+          [
+            " Euras",
+            0.0499
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Armenian",
+        "p": 0.5811,
+        "truth": "Armenian",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Armenian",
+            0.5811
+          ],
+          [
+            " Russian",
+            0.0762
+          ],
+          [
+            " the",
+            0.0532
+          ]
+        ]
+      }
+    },
+    "Pakistan": {
+      "capital": {
+        "top1": " Islamabad",
+        "p": 0.5816,
+        "truth": "Islamabad",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Islamabad",
+            0.5816
+          ],
+          [
+            " ______",
+            0.0906
+          ],
+          [
+            " __",
+            0.0878
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Pakistani",
+        "p": 0.6985,
+        "truth": "rupee",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Pakistani",
+            0.6985
+          ],
+          [
+            " Pakistan",
+            0.1659
+          ],
+          [
+            " Ru",
+            0.0506
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.9109,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.9109
+          ],
+          [
+            " __",
+            0.014
+          ],
+          [
+            " ______",
+            0.0072
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Urdu",
+        "p": 0.2844,
+        "truth": "Urdu",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Urdu",
+            0.2844
+          ],
+          [
+            " English",
+            0.1131
+          ],
+          [
+            " ______",
+            0.0841
+          ]
+        ]
+      }
+    },
+    "Bangladesh": {
+      "capital": {
+        "top1": " Dh",
+        "p": 0.8281,
+        "truth": "Dhaka",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Dh",
+            0.8281
+          ],
+          [
+            " ______",
+            0.0581
+          ],
+          [
+            " D",
+            0.0387
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " t",
+        "p": 0.4799,
+        "truth": "taka",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " t",
+            0.4799
+          ],
+          [
+            " T",
+            0.2865
+          ],
+          [
+            " Bang",
+            0.1038
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.9534,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.9534
+          ],
+          [
+            " South",
+            0.0109
+          ],
+          [
+            " Africa",
+            0.0068
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Beng",
+        "p": 0.5751,
+        "truth": "Bengali",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Beng",
+            0.5751
+          ],
+          [
+            " Bang",
+            0.0816
+          ],
+          [
+            " ______",
+            0.0465
+          ]
+        ]
+      }
+    },
+    "Philippines": {
+      "capital": {
+        "top1": " Manila",
+        "p": 0.7422,
+        "truth": "Manila",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Manila",
+            0.7422
+          ],
+          [
+            " __",
+            0.059
+          ],
+          [
+            " ______",
+            0.0326
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Philippine",
+        "p": 0.8446,
+        "truth": "peso",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Philippine",
+            0.8446
+          ],
+          [
+            " Philippines",
+            0.0476
+          ],
+          [
+            " P",
+            0.0298
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.9091,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.9091
+          ],
+          [
+            " Southeast",
+            0.0192
+          ],
+          [
+            " O",
+            0.0164
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Filipino",
+        "p": 0.3492,
+        "truth": "Filipino",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Filipino",
+            0.3492
+          ],
+          [
+            " English",
+            0.1478
+          ],
+          [
+            " Tag",
+            0.1226
+          ]
+        ]
+      }
+    },
+    "Syria": {
+      "capital": {
+        "top1": " Damascus",
+        "p": 0.9051,
+        "truth": "Damascus",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Damascus",
+            0.9051
+          ],
+          [
+            " __",
+            0.0127
+          ],
+          [
+            " ____",
+            0.0112
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Syrian",
+        "p": 0.9292,
+        "truth": "pound",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Syrian",
+            0.9292
+          ],
+          [
+            " S",
+            0.0084
+          ],
+          [
+            " Pound",
+            0.008
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.8125,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.8125
+          ],
+          [
+            " Africa",
+            0.0688
+          ],
+          [
+            " Europe",
+            0.0335
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.836,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.836
+          ],
+          [
+            " __",
+            0.0112
+          ],
+          [
+            ":\n",
+            0.0093
+          ]
+        ]
+      }
+    },
+    "Jordan": {
+      "capital": {
+        "top1": " Am",
+        "p": 0.8989,
+        "truth": "Amman",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Am",
+            0.8989
+          ],
+          [
+            " __",
+            0.0251
+          ],
+          [
+            " ____",
+            0.0119
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Jordan",
+        "p": 0.9451,
+        "truth": "dinar",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Jordan",
+            0.9451
+          ],
+          [
+            " din",
+            0.0361
+          ],
+          [
+            " J",
+            0.0034
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.2762,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.2762
+          ],
+          [
+            " Europe",
+            0.2118
+          ],
+          [
+            " Africa",
+            0.1675
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.8122,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.8122
+          ],
+          [
+            " English",
+            0.0296
+          ],
+          [
+            " ______",
+            0.0185
+          ]
+        ]
+      }
+    },
+    "Tunisia": {
+      "capital": {
+        "top1": " Tunis",
+        "p": 0.8143,
+        "truth": "Tunis",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Tunis",
+            0.8143
+          ],
+          [
+            " ______",
+            0.0369
+          ],
+          [
+            " __",
+            0.022
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Tunis",
+        "p": 0.6035,
+        "truth": "dinar",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Tunis",
+            0.6035
+          ],
+          [
+            " din",
+            0.1702
+          ],
+          [
+            " D",
+            0.048
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.9127,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.9127
+          ],
+          [
+            " Europe",
+            0.0303
+          ],
+          [
+            " Asia",
+            0.017
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.6209,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.6209
+          ],
+          [
+            " French",
+            0.1835
+          ],
+          [
+            " Tunis",
+            0.0634
+          ]
+        ]
+      }
+    },
+    "Algeria": {
+      "capital": {
+        "top1": " Alg",
+        "p": 0.6062,
+        "truth": "Algiers",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Alg",
+            0.6062
+          ],
+          [
+            " ______",
+            0.0771
+          ],
+          [
+            " ____",
+            0.035
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Alger",
+        "p": 0.8029,
+        "truth": "dinar",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Alger",
+            0.8029
+          ],
+          [
+            " D",
+            0.0582
+          ],
+          [
+            " din",
+            0.0482
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.9279,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.9279
+          ],
+          [
+            " Europe",
+            0.019
+          ],
+          [
+            " Asia",
+            0.0094
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.5465,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.5465
+          ],
+          [
+            " French",
+            0.2748
+          ],
+          [
+            " Alger",
+            0.0173
+          ]
+        ]
+      }
+    },
+    "Venezuela": {
+      "capital": {
+        "top1": " Car",
+        "p": 0.8949,
+        "truth": "Caracas",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Car",
+            0.8949
+          ],
+          [
+            " ____",
+            0.0238
+          ],
+          [
+            " __",
+            0.0095
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Bol",
+        "p": 0.406,
+        "truth": "bolivar",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Bol",
+            0.406
+          ],
+          [
+            " bol",
+            0.3997
+          ],
+          [
+            " Venezuelan",
+            0.136
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " South",
+        "p": 0.9467,
+        "truth": "America",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " South",
+            0.9467
+          ],
+          [
+            " North",
+            0.0151
+          ],
+          [
+            " Latin",
+            0.0133
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Spanish",
+        "p": 0.881,
+        "truth": "Spanish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Spanish",
+            0.881
+          ],
+          [
+            " ____",
+            0.014
+          ],
+          [
+            " __",
+            0.0089
+          ]
+        ]
+      }
+    },
+    "Colombia": {
+      "capital": {
+        "top1": " Bog",
+        "p": 0.511,
+        "truth": "Bogota",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Bog",
+            0.511
+          ],
+          [
+            " __",
+            0.2065
+          ],
+          [
+            " ____",
+            0.0702
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Colombian",
+        "p": 0.64,
+        "truth": "peso",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Colombian",
+            0.64
+          ],
+          [
+            " peso",
+            0.1892
+          ],
+          [
+            " P",
+            0.039
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " South",
+        "p": 0.9417,
+        "truth": "America",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " South",
+            0.9417
+          ],
+          [
+            " North",
+            0.0218
+          ],
+          [
+            " Latin",
+            0.0072
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Spanish",
+        "p": 0.8823,
+        "truth": "Spanish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Spanish",
+            0.8823
+          ],
+          [
+            " ____",
+            0.0143
+          ],
+          [
+            " __",
+            0.0134
+          ]
+        ]
+      }
+    },
+    "Uruguay": {
+      "capital": {
+        "top1": " Mont",
+        "p": 0.9676,
+        "truth": "Montevideo",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Mont",
+            0.9676
+          ],
+          [
+            " (",
+            0.0032
+          ],
+          [
+            " ____",
+            0.0026
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Ur",
+        "p": 0.8782,
+        "truth": "peso",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Ur",
+            0.8782
+          ],
+          [
+            " Uruguay",
+            0.0315
+          ],
+          [
+            " peso",
+            0.0296
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " South",
+        "p": 0.9684,
+        "truth": "America",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " South",
+            0.9684
+          ],
+          [
+            " Latin",
+            0.0086
+          ],
+          [
+            " America",
+            0.0041
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Spanish",
+        "p": 0.8752,
+        "truth": "Spanish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Spanish",
+            0.8752
+          ],
+          [
+            " Portuguese",
+            0.0196
+          ],
+          [
+            " ____",
+            0.0139
+          ]
+        ]
+      }
+    },
+    "Korea": {
+      "capital": {
+        "top1": " Seoul",
+        "p": 0.8452,
+        "truth": "Seoul",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Seoul",
+            0.8452
+          ],
+          [
+            " __",
+            0.0232
+          ],
+          [
+            " Se",
+            0.0199
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " won",
+        "p": 0.3103,
+        "truth": "won",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " won",
+            0.3103
+          ],
+          [
+            " South",
+            0.2035
+          ],
+          [
+            " Won",
+            0.1824
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.8478,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.8478
+          ],
+          [
+            " __",
+            0.0281
+          ],
+          [
+            " ______",
+            0.0212
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Korean",
+        "p": 0.5628,
+        "truth": "Korean",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Korean",
+            0.5628
+          ],
+          [
+            " __",
+            0.0584
+          ],
+          [
+            " ______",
+            0.036
+          ]
+        ]
+      }
+    },
+    "India": {
+      "capital": {
+        "top1": " New",
+        "p": 0.4466,
+        "truth": "Delhi",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " New",
+            0.4466
+          ],
+          [
+            " Delhi",
+            0.239
+          ],
+          [
+            " ______",
+            0.0718
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Indian",
+        "p": 0.6096,
+        "truth": "rupee",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Indian",
+            0.6096
+          ],
+          [
+            " Ru",
+            0.1979
+          ],
+          [
+            " ru",
+            0.1278
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.7307,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.7307
+          ],
+          [
+            " __",
+            0.0342
+          ],
+          [
+            " ____",
+            0.0316
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Hindi",
+        "p": 0.3943,
+        "truth": "Hindi",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Hindi",
+            0.3943
+          ],
+          [
+            " English",
+            0.1384
+          ],
+          [
+            " __",
+            0.0493
+          ]
+        ]
+      }
+    },
+    "Brazil": {
+      "capital": {
+        "top1": " Bras",
+        "p": 0.3765,
+        "truth": "Brasilia",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Bras",
+            0.3765
+          ],
+          [
+            " Rio",
+            0.1778
+          ],
+          [
+            " ____",
+            0.0802
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " real",
+        "p": 0.3273,
+        "truth": "real",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " real",
+            0.3273
+          ],
+          [
+            " Brazilian",
+            0.3074
+          ],
+          [
+            " Real",
+            0.2394
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " South",
+        "p": 0.9052,
+        "truth": "America",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " South",
+            0.9052
+          ],
+          [
+            " __",
+            0.0237
+          ],
+          [
+            " ____",
+            0.009
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Portuguese",
+        "p": 0.7707,
+        "truth": "Portuguese",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Portuguese",
+            0.7707
+          ],
+          [
+            " __",
+            0.0276
+          ],
+          [
+            " Spanish",
+            0.0181
+          ]
+        ]
+      }
+    },
+    "Mexico": {
+      "capital": {
+        "top1": " Mexico",
+        "p": 0.6383,
+        "truth": "Mexico",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Mexico",
+            0.6383
+          ],
+          [
+            " __",
+            0.0762
+          ],
+          [
+            " ______",
+            0.0632
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Mexican",
+        "p": 0.3811,
+        "truth": "peso",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Mexican",
+            0.3811
+          ],
+          [
+            " peso",
+            0.3752
+          ],
+          [
+            " P",
+            0.1359
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " North",
+        "p": 0.8365,
+        "truth": "America",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " North",
+            0.8365
+          ],
+          [
+            " __",
+            0.0397
+          ],
+          [
+            " ____",
+            0.0153
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Spanish",
+        "p": 0.8111,
+        "truth": "Spanish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Spanish",
+            0.8111
+          ],
+          [
+            " ____",
+            0.021
+          ],
+          [
+            " ______",
+            0.0151
+          ]
+        ]
+      }
+    },
+    "Saudi Arabia": {
+      "capital": {
+        "top1": " Riyadh",
+        "p": 0.6498,
+        "truth": "Riyadh",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Riyadh",
+            0.6498
+          ],
+          [
+            " ______",
+            0.0439
+          ],
+          [
+            " __",
+            0.0347
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Saudi",
+        "p": 0.7231,
+        "truth": "riyal",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Saudi",
+            0.7231
+          ],
+          [
+            " r",
+            0.1639
+          ],
+          [
+            " Riy",
+            0.0642
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.8607,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.8607
+          ],
+          [
+            " Africa",
+            0.0752
+          ],
+          [
+            " __",
+            0.0121
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.7437,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.7437
+          ],
+          [
+            " __",
+            0.0235
+          ],
+          [
+            " ______",
+            0.0221
+          ]
+        ]
+      }
+    },
+    "Qatar": {
+      "capital": {
+        "top1": " D",
+        "p": 0.9456,
+        "truth": "Doha",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " D",
+            0.9456
+          ],
+          [
+            " ______",
+            0.0163
+          ],
+          [
+            " __",
+            0.0068
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Q",
+        "p": 0.6937,
+        "truth": "riyal",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Q",
+            0.6937
+          ],
+          [
+            " Qatar",
+            0.1409
+          ],
+          [
+            " r",
+            0.0465
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.7776,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.7776
+          ],
+          [
+            " Africa",
+            0.1818
+          ],
+          [
+            " Europe",
+            0.0069
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.7377,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.7377
+          ],
+          [
+            " English",
+            0.0464
+          ],
+          [
+            " the",
+            0.0309
+          ]
+        ]
+      }
+    },
+    "Oman": {
+      "capital": {
+        "top1": " Mus",
+        "p": 0.9431,
+        "truth": "Muscat",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Mus",
+            0.9431
+          ],
+          [
+            " S",
+            0.0124
+          ],
+          [
+            " Sal",
+            0.005
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " O",
+        "p": 0.6509,
+        "truth": "rial",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " O",
+            0.6509
+          ],
+          [
+            " r",
+            0.1498
+          ],
+          [
+            " R",
+            0.1242
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.8541,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.8541
+          ],
+          [
+            " Africa",
+            0.1138
+          ],
+          [
+            " Europe",
+            0.0049
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.7552,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.7552
+          ],
+          [
+            " Modern",
+            0.0547
+          ],
+          [
+            " O",
+            0.0254
+          ]
+        ]
+      }
+    },
+    "Yemen": {
+      "capital": {
+        "top1": " S",
+        "p": 0.5851,
+        "truth": "Sanaa",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " S",
+            0.5851
+          ],
+          [
+            " __",
+            0.094
+          ],
+          [
+            " ______",
+            0.057
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Yemen",
+        "p": 0.6945,
+        "truth": "rial",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Yemen",
+            0.6945
+          ],
+          [
+            " r",
+            0.155
+          ],
+          [
+            " R",
+            0.0767
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.6244,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.6244
+          ],
+          [
+            " Africa",
+            0.2949
+          ],
+          [
+            " __",
+            0.0154
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.6369,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.6369
+          ],
+          [
+            " __",
+            0.0515
+          ],
+          [
+            " Modern",
+            0.0293
+          ]
+        ]
+      }
+    },
+    "Libya": {
+      "capital": {
+        "top1": " Trip",
+        "p": 0.8439,
+        "truth": "Tripoli",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Trip",
+            0.8439
+          ],
+          [
+            " ______",
+            0.0284
+          ],
+          [
+            " __",
+            0.0284
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Libyan",
+        "p": 0.9152,
+        "truth": "dinar",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Libyan",
+            0.9152
+          ],
+          [
+            " din",
+            0.0184
+          ],
+          [
+            " D",
+            0.0064
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.9327,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.9327
+          ],
+          [
+            " Europe",
+            0.0179
+          ],
+          [
+            " Asia",
+            0.0142
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.8261,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.8261
+          ],
+          [
+            " English",
+            0.0164
+          ],
+          [
+            " Libyan",
+            0.0134
+          ]
+        ]
+      }
+    },
+    "Sudan": {
+      "capital": {
+        "top1": " Kh",
+        "p": 0.8158,
+        "truth": "Khartoum",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Kh",
+            0.8158
+          ],
+          [
+            " __",
+            0.0446
+          ],
+          [
+            " ____",
+            0.0316
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Sudan",
+        "p": 0.8553,
+        "truth": "pound",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Sudan",
+            0.8553
+          ],
+          [
+            " pound",
+            0.0206
+          ],
+          [
+            " New",
+            0.0128
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.9362,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.9362
+          ],
+          [
+            " Asia",
+            0.0194
+          ],
+          [
+            " __",
+            0.0047
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.535,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.535
+          ],
+          [
+            " English",
+            0.2031
+          ],
+          [
+            " Sudan",
+            0.0271
+          ]
+        ]
+      }
+    },
+    "Bahrain": {
+      "capital": {
+        "top1": " Man",
+        "p": 0.929,
+        "truth": "Manama",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Man",
+            0.929
+          ],
+          [
+            " M",
+            0.0434
+          ],
+          [
+            " ______",
+            0.0051
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Bahrain",
+        "p": 0.8853,
+        "truth": "dinar",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Bahrain",
+            0.8853
+          ],
+          [
+            " din",
+            0.0395
+          ],
+          [
+            " Dir",
+            0.0073
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.929,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.929
+          ],
+          [
+            " Africa",
+            0.0408
+          ],
+          [
+            " Europe",
+            0.0042
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.7543,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.7543
+          ],
+          [
+            " ______",
+            0.0192
+          ],
+          [
+            " the",
+            0.018
+          ]
+        ]
+      }
+    },
+    "Kuwait": {
+      "capital": {
+        "top1": " Kuwait",
+        "p": 0.4957,
+        "truth": "Kuwait",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Kuwait",
+            0.4957
+          ],
+          [
+            " ____",
+            0.0737
+          ],
+          [
+            " ______",
+            0.0681
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Kuwait",
+        "p": 0.8845,
+        "truth": "dinar",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Kuwait",
+            0.8845
+          ],
+          [
+            " din",
+            0.0241
+          ],
+          [
+            " K",
+            0.0105
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.9466,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.9466
+          ],
+          [
+            " Africa",
+            0.0345
+          ],
+          [
+            " Europe",
+            0.0046
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Arabic",
+        "p": 0.7814,
+        "truth": "Arabic",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Arabic",
+            0.7814
+          ],
+          [
+            " English",
+            0.0448
+          ],
+          [
+            " the",
+            0.0215
+          ]
+        ]
+      }
+    },
+    "Nepal": {
+      "capital": {
+        "top1": " Kath",
+        "p": 0.8091,
+        "truth": "Kathmandu",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Kath",
+            0.8091
+          ],
+          [
+            " K",
+            0.0256
+          ],
+          [
+            " ______",
+            0.0252
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Nep",
+        "p": 0.9215,
+        "truth": "rupee",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Nep",
+            0.9215
+          ],
+          [
+            " Nepal",
+            0.0257
+          ],
+          [
+            " ru",
+            0.0174
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.9654,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.9654
+          ],
+          [
+            " South",
+            0.0166
+          ],
+          [
+            " Africa",
+            0.003
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Nep",
+        "p": 0.4133,
+        "truth": "Nepali",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Nep",
+            0.4133
+          ],
+          [
+            "\n",
+            0.0509
+          ],
+          [
+            " ____",
+            0.0443
+          ]
+        ]
+      }
+    },
+    "Ethiopia": {
+      "capital": {
+        "top1": " Add",
+        "p": 0.9126,
+        "truth": "Addis",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Add",
+            0.9126
+          ],
+          [
+            " ______",
+            0.0137
+          ],
+          [
+            " __",
+            0.0119
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Ethiopian",
+        "p": 0.7156,
+        "truth": "birr",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Ethiopian",
+            0.7156
+          ],
+          [
+            " Bir",
+            0.1431
+          ],
+          [
+            " bir",
+            0.0676
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.9486,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.9486
+          ],
+          [
+            " Asia",
+            0.0077
+          ],
+          [
+            " __",
+            0.0043
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Am",
+        "p": 0.8391,
+        "truth": "Amharic",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Am",
+            0.8391
+          ],
+          [
+            " English",
+            0.0136
+          ],
+          [
+            " __",
+            0.0131
+          ]
+        ]
+      }
+    },
+    "Senegal": {
+      "capital": {
+        "top1": " Dak",
+        "p": 0.9688,
+        "truth": "Dakar",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Dak",
+            0.9688
+          ],
+          [
+            " ______",
+            0.0108
+          ],
+          [
+            " ____",
+            0.0035
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " C",
+        "p": 0.5586,
+        "truth": "franc",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " C",
+            0.5586
+          ],
+          [
+            " West",
+            0.3336
+          ],
+          [
+            " Sen",
+            0.013
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.9658,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.9658
+          ],
+          [
+            " West",
+            0.0044
+          ],
+          [
+            " the",
+            0.0031
+          ]
+        ]
+      },
+      "language": {
+        "top1": " French",
+        "p": 0.8067,
+        "truth": "French",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " French",
+            0.8067
+          ],
+          [
+            " Wol",
+            0.0333
+          ],
+          [
+            " ____",
+            0.0122
+          ]
+        ]
+      }
+    },
+    "Cameroon": {
+      "capital": {
+        "top1": " Ya",
+        "p": 0.8346,
+        "truth": "Yaounde",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Ya",
+            0.8346
+          ],
+          [
+            " Dou",
+            0.0464
+          ],
+          [
+            " ____",
+            0.0137
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " C",
+        "p": 0.4782,
+        "truth": "franc",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " C",
+            0.4782
+          ],
+          [
+            " Central",
+            0.4155
+          ],
+          [
+            " Franc",
+            0.0161
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.9661,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.9661
+          ],
+          [
+            " Afr",
+            0.0036
+          ],
+          [
+            " the",
+            0.0029
+          ]
+        ]
+      },
+      "language": {
+        "top1": " French",
+        "p": 0.8346,
+        "truth": "French",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " French",
+            0.8346
+          ],
+          [
+            " English",
+            0.0586
+          ],
+          [
+            " the",
+            0.0057
+          ]
+        ]
+      }
+    },
+    "Angola": {
+      "capital": {
+        "top1": " Lu",
+        "p": 0.88,
+        "truth": "Luanda",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Lu",
+            0.88
+          ],
+          [
+            " __",
+            0.0452
+          ],
+          [
+            " ____",
+            0.0107
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " K",
+        "p": 0.5644,
+        "truth": "kwanza",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " K",
+            0.5644
+          ],
+          [
+            " k",
+            0.2142
+          ],
+          [
+            " Ang",
+            0.1111
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.9171,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.9171
+          ],
+          [
+            " South",
+            0.023
+          ],
+          [
+            " the",
+            0.0079
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Portuguese",
+        "p": 0.6083,
+        "truth": "Portuguese",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Portuguese",
+            0.6083
+          ],
+          [
+            " Ang",
+            0.0354
+          ],
+          [
+            " __",
+            0.0343
+          ]
+        ]
+      }
+    },
+    "Mozambique": {
+      "capital": {
+        "top1": " Map",
+        "p": 0.8803,
+        "truth": "Maputo",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Map",
+            0.8803
+          ],
+          [
+            " __",
+            0.0207
+          ],
+          [
+            " ____",
+            0.0198
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Met",
+        "p": 0.4239,
+        "truth": "metical",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Met",
+            0.4239
+          ],
+          [
+            " Moz",
+            0.2269
+          ],
+          [
+            " met",
+            0.1442
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.9617,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.9617
+          ],
+          [
+            " South",
+            0.0051
+          ],
+          [
+            " the",
+            0.0048
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Portuguese",
+        "p": 0.6644,
+        "truth": "Portuguese",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Portuguese",
+            0.6644
+          ],
+          [
+            ":\n",
+            0.0358
+          ],
+          [
+            " __",
+            0.0301
+          ]
+        ]
+      }
+    },
+    "Zimbabwe": {
+      "capital": {
+        "top1": " Har",
+        "p": 0.843,
+        "truth": "Harare",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Har",
+            0.843
+          ],
+          [
+            " ______",
+            0.0461
+          ],
+          [
+            " ____",
+            0.0332
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Zimbabwe",
+        "p": 0.7965,
+        "truth": "dollar",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Zimbabwe",
+            0.7965
+          ],
+          [
+            " Z",
+            0.0494
+          ],
+          [
+            " South",
+            0.0264
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.9238,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.9238
+          ],
+          [
+            " __",
+            0.0096
+          ],
+          [
+            " ______",
+            0.0064
+          ]
+        ]
+      },
+      "language": {
+        "top1": " English",
+        "p": 0.7605,
+        "truth": "English",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " English",
+            0.7605
+          ],
+          [
+            " ______",
+            0.0219
+          ],
+          [
+            " __",
+            0.0182
+          ]
+        ]
+      }
+    },
+    "Zambia": {
+      "capital": {
+        "top1": " L",
+        "p": 0.9776,
+        "truth": "Lusaka",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " L",
+            0.9776
+          ],
+          [
+            " Living",
+            0.0066
+          ],
+          [
+            " Nd",
+            0.0019
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Z",
+        "p": 0.7855,
+        "truth": "kwacha",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Z",
+            0.7855
+          ],
+          [
+            " Kw",
+            0.0938
+          ],
+          [
+            " local",
+            0.0216
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Africa",
+        "p": 0.9659,
+        "truth": "Africa",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Africa",
+            0.9659
+          ],
+          [
+            " sub",
+            0.0045
+          ],
+          [
+            " Sub",
+            0.0037
+          ]
+        ]
+      },
+      "language": {
+        "top1": " English",
+        "p": 0.8162,
+        "truth": "English",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " English",
+            0.8162
+          ],
+          [
+            " Sw",
+            0.0228
+          ],
+          [
+            " ______",
+            0.0136
+          ]
+        ]
+      }
+    },
+    "Honduras": {
+      "capital": {
+        "top1": " T",
+        "p": 0.9226,
+        "truth": "Tegucigalpa",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " T",
+            0.9226
+          ],
+          [
+            " San",
+            0.0497
+          ],
+          [
+            " ____",
+            0.003
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " L",
+        "p": 0.5296,
+        "truth": "lempira",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " L",
+            0.5296
+          ],
+          [
+            " le",
+            0.2925
+          ],
+          [
+            " Hond",
+            0.0717
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " North",
+        "p": 0.6834,
+        "truth": "America",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " North",
+            0.6834
+          ],
+          [
+            " Central",
+            0.141
+          ],
+          [
+            " South",
+            0.0677
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Spanish",
+        "p": 0.881,
+        "truth": "Spanish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Spanish",
+            0.881
+          ],
+          [
+            " ____",
+            0.0098
+          ],
+          [
+            " English",
+            0.008
+          ]
+        ]
+      }
+    },
+    "Nicaragua": {
+      "capital": {
+        "top1": " Man",
+        "p": 0.9702,
+        "truth": "Managua",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Man",
+            0.9702
+          ],
+          [
+            " ____",
+            0.0101
+          ],
+          [
+            " [",
+            0.0023
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Nicar",
+        "p": 0.4521,
+        "truth": "cordoba",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Nicar",
+            0.4521
+          ],
+          [
+            " C\u00f3",
+            0.1637
+          ],
+          [
+            " Cord",
+            0.1275
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " North",
+        "p": 0.6386,
+        "truth": "America",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " North",
+            0.6386
+          ],
+          [
+            " Central",
+            0.159
+          ],
+          [
+            " South",
+            0.0787
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Spanish",
+        "p": 0.8143,
+        "truth": "Spanish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Spanish",
+            0.8143
+          ],
+          [
+            " English",
+            0.0258
+          ],
+          [
+            " ____",
+            0.0227
+          ]
+        ]
+      }
+    },
+    "Paraguay": {
+      "capital": {
+        "top1": " As",
+        "p": 0.9621,
+        "truth": "Asuncion",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " As",
+            0.9621
+          ],
+          [
+            " Ciudad",
+            0.0068
+          ],
+          [
+            " San",
+            0.0041
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Gu",
+        "p": 0.4883,
+        "truth": "guarani",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Gu",
+            0.4883
+          ],
+          [
+            " guar",
+            0.2916
+          ],
+          [
+            " Par",
+            0.0947
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " South",
+        "p": 0.974,
+        "truth": "America",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " South",
+            0.974
+          ],
+          [
+            " America",
+            0.0077
+          ],
+          [
+            " Latin",
+            0.0057
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Spanish",
+        "p": 0.8746,
+        "truth": "Spanish",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Spanish",
+            0.8746
+          ],
+          [
+            " the",
+            0.011
+          ],
+          [
+            " ____",
+            0.0093
+          ]
+        ]
+      }
+    },
+    "Kazakhstan": {
+      "capital": {
+        "top1": " Ast",
+        "p": 0.7704,
+        "truth": "Astana",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Ast",
+            0.7704
+          ],
+          [
+            " Nur",
+            0.0576
+          ],
+          [
+            " Al",
+            0.0549
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " ten",
+        "p": 0.3988,
+        "truth": "tenge",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " ten",
+            0.3988
+          ],
+          [
+            " T",
+            0.352
+          ],
+          [
+            " Kaz",
+            0.0651
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.7844,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.7844
+          ],
+          [
+            " Europe",
+            0.1385
+          ],
+          [
+            " Euras",
+            0.0314
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Kaz",
+        "p": 0.528,
+        "truth": "Kazakh",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Kaz",
+            0.528
+          ],
+          [
+            " Russian",
+            0.2573
+          ],
+          [
+            " __",
+            0.0215
+          ]
+        ]
+      }
+    },
+    "Uzbekistan": {
+      "capital": {
+        "top1": " T",
+        "p": 0.9653,
+        "truth": "Tashkent",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " T",
+            0.9653
+          ],
+          [
+            " ____",
+            0.0055
+          ],
+          [
+            " __",
+            0.0035
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Uzbek",
+        "p": 0.5917,
+        "truth": "som",
+        "correct": false,
+        "single_tok": true,
+        "top3": [
+          [
+            " Uzbek",
+            0.5917
+          ],
+          [
+            " som",
+            0.0936
+          ],
+          [
+            " sum",
+            0.0559
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.9469,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.9469
+          ],
+          [
+            " Europe",
+            0.0223
+          ],
+          [
+            " Euras",
+            0.0165
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Uzbek",
+        "p": 0.6186,
+        "truth": "Uzbek",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Uzbek",
+            0.6186
+          ],
+          [
+            " Russian",
+            0.1127
+          ],
+          [
+            " the",
+            0.0313
+          ]
+        ]
+      }
+    },
+    "Czechia": {
+      "capital": {
+        "top1": " Prague",
+        "p": 0.6001,
+        "truth": "Prague",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Prague",
+            0.6001
+          ],
+          [
+            " __",
+            0.1128
+          ],
+          [
+            " ____",
+            0.0485
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Czech",
+        "p": 0.7793,
+        "truth": "koruna",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " Czech",
+            0.7793
+          ],
+          [
+            " kor",
+            0.064
+          ],
+          [
+            " Euro",
+            0.0382
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Europe",
+        "p": 0.9503,
+        "truth": "Europe",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Europe",
+            0.9503
+          ],
+          [
+            " Asia",
+            0.0107
+          ],
+          [
+            " Euras",
+            0.0075
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Czech",
+        "p": 0.722,
+        "truth": "Czech",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Czech",
+            0.722
+          ],
+          [
+            " the",
+            0.0904
+          ],
+          [
+            " ____",
+            0.0247
+          ]
+        ]
+      }
+    },
+    "Malaysia": {
+      "capital": {
+        "top1": " Kuala",
+        "p": 0.7977,
+        "truth": "Kuala",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Kuala",
+            0.7977
+          ],
+          [
+            " ______",
+            0.0625
+          ],
+          [
+            " Put",
+            0.0241
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Ring",
+        "p": 0.4015,
+        "truth": "ringgit",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Ring",
+            0.4015
+          ],
+          [
+            " Malaysian",
+            0.2983
+          ],
+          [
+            " ring",
+            0.2716
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.8299,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.8299
+          ],
+          [
+            " Southeast",
+            0.042
+          ],
+          [
+            " __",
+            0.0205
+          ]
+        ]
+      },
+      "language": {
+        "top1": " Malay",
+        "p": 0.2585,
+        "truth": "Malay",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Malay",
+            0.2585
+          ],
+          [
+            " Bah",
+            0.126
+          ],
+          [
+            " English",
+            0.124
+          ]
+        ]
+      }
+    },
+    "Afghanistan": {
+      "capital": {
+        "top1": " Kabul",
+        "p": 0.9263,
+        "truth": "Kabul",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Kabul",
+            0.9263
+          ],
+          [
+            " K",
+            0.0108
+          ],
+          [
+            " ______",
+            0.0083
+          ]
+        ]
+      },
+      "currency": {
+        "top1": " Afghan",
+        "p": 0.4748,
+        "truth": "afghani",
+        "correct": true,
+        "single_tok": false,
+        "top3": [
+          [
+            " Afghan",
+            0.4748
+          ],
+          [
+            " Af",
+            0.2622
+          ],
+          [
+            " af",
+            0.2387
+          ]
+        ]
+      },
+      "continent": {
+        "top1": " Asia",
+        "p": 0.9623,
+        "truth": "Asia",
+        "correct": true,
+        "single_tok": true,
+        "top3": [
+          [
+            " Asia",
+            0.9623
+          ],
+          [
+            " __",
+            0.0069
+          ],
+          [
+            " Africa",
+            0.0035
+          ]
+        ]
+      },
+      "language": {
+        "top1": " D",
+        "p": 0.2812,
+        "truth": "Pashto",
+        "correct": false,
+        "single_tok": false,
+        "top3": [
+          [
+            " D",
+            0.2812
+          ],
+          [
+            " Pas",
+            0.2683
+          ],
+          [
+            " Persian",
+            0.0637
+          ]
+        ]
+      }
+    }
+  },
+  "edit_attrs": [
+    "capital",
+    "language"
+  ],
+  "edit_conf": 0.4,
+  "selected": {
+    "France": {
+      "capital": {
+        "truth": "Paris",
+        "p": 0.539,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "French",
+        "p": 0.6005,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.8656
+      }
+    },
+    "Egypt": {
+      "capital": {
+        "truth": "Cairo",
+        "p": 0.5234,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.733,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.8118
+      }
+    },
+    "Germany": {
+      "capital": {
+        "truth": "Berlin",
+        "p": 0.6677,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "German",
+        "p": 0.4906,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9236
+      }
+    },
+    "Italy": {
+      "capital": {
+        "truth": "Rome",
+        "p": 0.427,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Italian",
+        "p": 0.687,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.719
+      }
+    },
+    "Spain": {
+      "capital": {
+        "truth": "Madrid",
+        "p": 0.6142,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Spanish",
+        "p": 0.7031,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.8793
+      }
+    },
+    "Russia": {
+      "capital": {
+        "truth": "Moscow",
+        "p": 0.6586,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Russian",
+        "p": 0.645,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.4088
+      }
+    },
+    "Greece": {
+      "capital": {
+        "truth": "Athens",
+        "p": 0.8443,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Greek",
+        "p": 0.7243,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.8336
+      }
+    },
+    "Norway": {
+      "capital": {
+        "truth": "Oslo",
+        "p": 0.821,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Norwegian",
+        "p": 0.6223,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9072
+      }
+    },
+    "Poland": {
+      "capital": {
+        "truth": "Warsaw",
+        "p": 0.5276,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Polish",
+        "p": 0.8723,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9645
+      }
+    },
+    "Turkey": {
+      "capital": {
+        "truth": "Ankara",
+        "p": 0.4346,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Turkish",
+        "p": 0.8966,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.5335
+      }
+    },
+    "Portugal": {
+      "capital": {
+        "truth": "Lisbon",
+        "p": 0.599,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Portuguese",
+        "p": 0.7463,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.8661
+      }
+    },
+    "Austria": {
+      "capital": {
+        "truth": "Vienna",
+        "p": 0.6803,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "German",
+        "p": 0.6814,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9663
+      }
+    },
+    "Sweden": {
+      "capital": {
+        "truth": "Stockholm",
+        "p": 0.6573,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Swedish",
+        "p": 0.6152,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.8189
+      }
+    },
+    "Finland": {
+      "capital": {
+        "truth": "Helsinki",
+        "p": 0.7257,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Finnish",
+        "p": 0.5444,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9343
+      }
+    },
+    "Denmark": {
+      "capital": {
+        "truth": "Copenhagen",
+        "p": 0.6391,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Danish",
+        "p": 0.642,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9152
+      }
+    },
+    "Hungary": {
+      "capital": {
+        "truth": "Budapest",
+        "p": 0.7775,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Hungarian",
+        "p": 0.8747,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9608
+      }
+    },
+    "Iran": {
+      "capital": {
+        "truth": "Tehran",
+        "p": 0.8331,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Persian",
+        "p": 0.4642,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.9255
+      }
+    },
+    "Iraq": {
+      "capital": {
+        "truth": "Baghdad",
+        "p": 0.8345,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.7329,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.88
+      }
+    },
+    "Thailand": {
+      "capital": {
+        "truth": "Bangkok",
+        "p": 0.7894,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Thai",
+        "p": 0.6103,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.817
+      }
+    },
+    "Vietnam": {
+      "capital": {
+        "truth": "Hanoi",
+        "p": 0.7324,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Vietnamese",
+        "p": 0.624,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.7931
+      }
+    },
+    "Nigeria": {
+      "capital": {
+        "truth": "Abuja",
+        "p": 0.5109,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "English",
+        "p": 0.7213,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.9448
+      }
+    },
+    "Morocco": {
+      "capital": {
+        "truth": "Rabat",
+        "p": 0.4477,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.6076,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.8726
+      }
+    },
+    "Peru": {
+      "capital": {
+        "truth": "Lima",
+        "p": 0.8453,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Spanish",
+        "p": 0.8894,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "America",
+        "correct": false,
+        "p": 0.9844
+      }
+    },
+    "Chile": {
+      "capital": {
+        "truth": "Santiago",
+        "p": 0.8809,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Spanish",
+        "p": 0.9017,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "America",
+        "correct": false,
+        "p": 0.9396
+      }
+    },
+    "Netherlands": {
+      "capital": {
+        "truth": "Amsterdam",
+        "p": 0.719,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Dutch",
+        "p": 0.842,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9313
+      }
+    },
+    "Romania": {
+      "capital": {
+        "truth": "Bucharest",
+        "p": 0.8422,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Romanian",
+        "p": 0.7756,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9606
+      }
+    },
+    "Serbia": {
+      "capital": {
+        "truth": "Belgrade",
+        "p": 0.8651,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Serbian",
+        "p": 0.4451,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9669
+      }
+    },
+    "Croatia": {
+      "capital": {
+        "truth": "Zagreb",
+        "p": 0.6869,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Croatian",
+        "p": 0.6617,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9633
+      }
+    },
+    "Cuba": {
+      "capital": {
+        "truth": "Havana",
+        "p": 0.8567,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Spanish",
+        "p": 0.8615,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "America",
+        "correct": false,
+        "p": 0.6405
+      }
+    },
+    "Israel": {
+      "capital": {
+        "truth": "Jerusalem",
+        "p": 0.657,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Hebrew",
+        "p": 0.7931,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.8074
+      }
+    },
+    "Argentina": {
+      "capital": {
+        "truth": "Buenos",
+        "p": 0.7535,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Spanish",
+        "p": 0.8358,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "America",
+        "correct": false,
+        "p": 0.903
+      }
+    },
+    "Bulgaria": {
+      "capital": {
+        "truth": "Sofia",
+        "p": 0.9202,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Bulgarian",
+        "p": 0.6668,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9679
+      }
+    },
+    "Slovakia": {
+      "capital": {
+        "truth": "Bratislava",
+        "p": 0.9418,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Slovak",
+        "p": 0.64,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9737
+      }
+    },
+    "Lebanon": {
+      "capital": {
+        "truth": "Beirut",
+        "p": 0.8494,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.7522,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.8023
+      }
+    },
+    "Cambodia": {
+      "capital": {
+        "truth": "Phnom",
+        "p": 0.7251,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Khmer",
+        "p": 0.7402,
+        "single_tok": false
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.8738
+      }
+    },
+    "Mongolia": {
+      "capital": {
+        "truth": "Ulaanbaatar",
+        "p": 0.8456,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Mongolian",
+        "p": 0.55,
+        "single_tok": false
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.9476
+      }
+    },
+    "Ghana": {
+      "capital": {
+        "truth": "Accra",
+        "p": 0.7152,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "English",
+        "p": 0.8892,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.9402
+      }
+    },
+    "Ecuador": {
+      "capital": {
+        "truth": "Quito",
+        "p": 0.8818,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Spanish",
+        "p": 0.912,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "America",
+        "correct": false,
+        "p": 0.9752
+      }
+    },
+    "Estonia": {
+      "capital": {
+        "truth": "Tallinn",
+        "p": 0.946,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Estonian",
+        "p": 0.4365,
+        "single_tok": false
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9534
+      }
+    },
+    "Latvia": {
+      "capital": {
+        "truth": "Riga",
+        "p": 0.9671,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Latvian",
+        "p": 0.6044,
+        "single_tok": false
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9622
+      }
+    },
+    "Lithuania": {
+      "capital": {
+        "truth": "Vilnius",
+        "p": 0.9342,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Lithuanian",
+        "p": 0.8006,
+        "single_tok": false
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9735
+      }
+    },
+    "Slovenia": {
+      "capital": {
+        "truth": "Ljubljana",
+        "p": 0.8277,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Slovenian",
+        "p": 0.661,
+        "single_tok": false
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9702
+      }
+    },
+    "Iceland": {
+      "capital": {
+        "truth": "Reykjavik",
+        "p": 0.7441,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Icelandic",
+        "p": 0.6062,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.8083
+      }
+    },
+    "Albania": {
+      "capital": {
+        "truth": "Tirana",
+        "p": 0.8986,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Albanian",
+        "p": 0.6974,
+        "single_tok": false
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9626
+      }
+    },
+    "Georgia": {
+      "capital": {
+        "truth": "Tbilisi",
+        "p": 0.8902,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Georgian",
+        "p": 0.69,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": false,
+        "p": 0.4337
+      }
+    },
+    "Armenia": {
+      "capital": {
+        "truth": "Yerevan",
+        "p": 0.962,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Armenian",
+        "p": 0.5811,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.7002
+      }
+    },
+    "Bangladesh": {
+      "capital": {
+        "truth": "Dhaka",
+        "p": 0.8281,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Bengali",
+        "p": 0.5751,
+        "single_tok": false
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.9534
+      }
+    },
+    "Syria": {
+      "capital": {
+        "truth": "Damascus",
+        "p": 0.9051,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.836,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.8125
+      }
+    },
+    "Jordan": {
+      "capital": {
+        "truth": "Amman",
+        "p": 0.8989,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.8122,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.2762
+      }
+    },
+    "Tunisia": {
+      "capital": {
+        "truth": "Tunis",
+        "p": 0.8143,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.6209,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.9127
+      }
+    },
+    "Algeria": {
+      "capital": {
+        "truth": "Algiers",
+        "p": 0.6062,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.5465,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.9279
+      }
+    },
+    "Venezuela": {
+      "capital": {
+        "truth": "Caracas",
+        "p": 0.8949,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Spanish",
+        "p": 0.881,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "America",
+        "correct": false,
+        "p": 0.9467
+      }
+    },
+    "Colombia": {
+      "capital": {
+        "truth": "Bogota",
+        "p": 0.511,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Spanish",
+        "p": 0.8823,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "America",
+        "correct": false,
+        "p": 0.9417
+      }
+    },
+    "Uruguay": {
+      "capital": {
+        "truth": "Montevideo",
+        "p": 0.9676,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Spanish",
+        "p": 0.8752,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "America",
+        "correct": false,
+        "p": 0.9684
+      }
+    },
+    "Korea": {
+      "capital": {
+        "truth": "Seoul",
+        "p": 0.8452,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Korean",
+        "p": 0.5628,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.8478
+      }
+    },
+    "Mexico": {
+      "capital": {
+        "truth": "Mexico",
+        "p": 0.6383,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Spanish",
+        "p": 0.8111,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "America",
+        "correct": false,
+        "p": 0.8365
+      }
+    },
+    "Saudi Arabia": {
+      "capital": {
+        "truth": "Riyadh",
+        "p": 0.6498,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.7437,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.8607
+      }
+    },
+    "Qatar": {
+      "capital": {
+        "truth": "Doha",
+        "p": 0.9456,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.7377,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.7776
+      }
+    },
+    "Oman": {
+      "capital": {
+        "truth": "Muscat",
+        "p": 0.9431,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.7552,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.8541
+      }
+    },
+    "Yemen": {
+      "capital": {
+        "truth": "Sanaa",
+        "p": 0.5851,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.6369,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.6244
+      }
+    },
+    "Libya": {
+      "capital": {
+        "truth": "Tripoli",
+        "p": 0.8439,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.8261,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.9327
+      }
+    },
+    "Sudan": {
+      "capital": {
+        "truth": "Khartoum",
+        "p": 0.8158,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.535,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.9362
+      }
+    },
+    "Bahrain": {
+      "capital": {
+        "truth": "Manama",
+        "p": 0.929,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.7543,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.929
+      }
+    },
+    "Kuwait": {
+      "capital": {
+        "truth": "Kuwait",
+        "p": 0.4957,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Arabic",
+        "p": 0.7814,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.9466
+      }
+    },
+    "Nepal": {
+      "capital": {
+        "truth": "Kathmandu",
+        "p": 0.8091,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Nepali",
+        "p": 0.4133,
+        "single_tok": false
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.9654
+      }
+    },
+    "Ethiopia": {
+      "capital": {
+        "truth": "Addis",
+        "p": 0.9126,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Amharic",
+        "p": 0.8391,
+        "single_tok": false
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.9486
+      }
+    },
+    "Senegal": {
+      "capital": {
+        "truth": "Dakar",
+        "p": 0.9688,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "French",
+        "p": 0.8067,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.9658
+      }
+    },
+    "Cameroon": {
+      "capital": {
+        "truth": "Yaounde",
+        "p": 0.8346,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "French",
+        "p": 0.8346,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.9661
+      }
+    },
+    "Angola": {
+      "capital": {
+        "truth": "Luanda",
+        "p": 0.88,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Portuguese",
+        "p": 0.6083,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.9171
+      }
+    },
+    "Mozambique": {
+      "capital": {
+        "truth": "Maputo",
+        "p": 0.8803,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Portuguese",
+        "p": 0.6644,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.9617
+      }
+    },
+    "Zimbabwe": {
+      "capital": {
+        "truth": "Harare",
+        "p": 0.843,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "English",
+        "p": 0.7605,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.9238
+      }
+    },
+    "Zambia": {
+      "capital": {
+        "truth": "Lusaka",
+        "p": 0.9776,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "English",
+        "p": 0.8162,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Africa",
+        "correct": true,
+        "p": 0.9659
+      }
+    },
+    "Honduras": {
+      "capital": {
+        "truth": "Tegucigalpa",
+        "p": 0.9226,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Spanish",
+        "p": 0.881,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "America",
+        "correct": false,
+        "p": 0.6834
+      }
+    },
+    "Nicaragua": {
+      "capital": {
+        "truth": "Managua",
+        "p": 0.9702,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Spanish",
+        "p": 0.8143,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "America",
+        "correct": false,
+        "p": 0.6386
+      }
+    },
+    "Paraguay": {
+      "capital": {
+        "truth": "Asuncion",
+        "p": 0.9621,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Spanish",
+        "p": 0.8746,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "America",
+        "correct": false,
+        "p": 0.974
+      }
+    },
+    "Kazakhstan": {
+      "capital": {
+        "truth": "Astana",
+        "p": 0.7704,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Kazakh",
+        "p": 0.528,
+        "single_tok": false
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.7844
+      }
+    },
+    "Uzbekistan": {
+      "capital": {
+        "truth": "Tashkent",
+        "p": 0.9653,
+        "single_tok": false
+      },
+      "language": {
+        "truth": "Uzbek",
+        "p": 0.6186,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Asia",
+        "correct": true,
+        "p": 0.9469
+      }
+    },
+    "Czechia": {
+      "capital": {
+        "truth": "Prague",
+        "p": 0.6001,
+        "single_tok": true
+      },
+      "language": {
+        "truth": "Czech",
+        "p": 0.722,
+        "single_tok": true
+      },
+      "continent": {
+        "truth": "Europe",
+        "correct": true,
+        "p": 0.9503
+      }
+    }
+  }
+}

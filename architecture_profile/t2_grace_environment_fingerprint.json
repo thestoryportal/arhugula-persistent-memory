@@ -1,0 +1,16 @@
+{
+  "session": "S2.20",
+  "timestamp": "2026-05-05T09:43:32.693462Z",
+  "python_version": "3.11.10 (main, Sep  7 2024, 18:35:41) [GCC 11.4.0]",
+  "torch_version": "2.4.1+cu124",
+  "transformers_version": "5.7.0",
+  "cuda_available": true,
+  "cuda_device": "NVIDIA GeForce RTX 4090",
+  "engine": "GRACE",
+  "engine_repo": "https://github.com/Thartvigsen/GRACE",
+  "engine_sha": "f674183f17a995d109e10ee6140d4c3e6d016115",
+  "target_model": "meta-llama/Llama-3.1-8B",
+  "target_model_revision_sha": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+  "nv_path_convention": "model-name-keyed (per OQ-S220-PRE-3 disposition)",
+  "working_dir_convention": "/workspace/architecture_profile/t2_grace_*.json (per OQ-S220-PRE-4 disposition)"
+}
