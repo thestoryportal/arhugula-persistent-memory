@@ -98,6 +98,14 @@ Unofficial NotebookLM automation (bulk source import, research agents, audio/sli
 - **CLI (installed, v0.7.2):** agents can shell out to `notebooklm <command>`. Auth first: `notebooklm login` (opens a browser — on this headless pod, instead extract cookies from a logged-in browser elsewhere and set `NOTEBOOKLM_AUTH_JSON`, or `notebooklm login --browser-cookies chrome` on a machine with the browser). Verify: `notebooklm auth check --test`.
 - **MCP server:** NOT in the released package — install git-main to get it: `pip install "git+https://github.com/teng-lin/notebooklm-py.git#egg=notebooklm-py[mcp]"`, then `codex mcp add notebooklm -- notebooklm-mcp`.
 
+### InfraNodus (MCP) — text-network gap analysis + GraphRAG memory — READY (key required)
+Builds a **concept co-occurrence network** from text/URL/corpus and surfaces **structural gaps** (under-connected bridges between clusters), topical clusters, and betweenness — then can generate **research questions/ideas** that bridge those gaps. Package `infranodus-mcp-server` (npm, v1.7.1+). Needs `INFRANODUS_API_KEY` (generate at https://infranodus.com/api-access). Node 24 + `npx` installed.
+- **Setup — Codex:** `codex mcp add infranodus --env INFRANODUS_API_KEY=YOUR_KEY -- npx -y infranodus-mcp-server`
+- **Setup — Claude Code:** `claude mcp add infranodus --env INFRANODUS_API_KEY=YOUR_KEY -- npx -y infranodus-mcp-server`
+- (key lands in `~/.codex/config.toml` / `~/.claude.json`, not the repo; or use hosted `https://mcp.infranodus.com` via OAuth2)
+- **Two distinct uses:** (a) **ideation/gap** — `generate_content_gaps`, `generate_research_questions`, `generate_research_ideas`, `develop_conceptual_bridges`, `difference_between_texts` (us-vs-prior-art); (b) **GraphRAG memory** — `create_knowledge_graph`, `retrieve_from_knowledge_base`, `memory_get_relations`, `search`/`fetch`.
+- **⚠️ Discipline (load-bearing):** InfraNodus is an **IDEATION/optimization tool, not a falsifier** (DISCIPLINE §3). Its gaps/questions/ideas are **LEADS → write to the hypothesis register** with `builds-on`/`would-advance` framing (§2 step 7) and **falsify by experiment** — **never** record an InfraNodus output as evidence or in `CORPUS/`. Same Goodhart caution as autoresearch.
+
 ## Multi-agent / subagent patterns (parallel & series)
 **Key constraint — ONE GPU.** Parallelism speeds the *non-GPU* work (triage, analysis, verification, docs, design, prep); GPU experiments **serialize** on the single 4090 — fan out the *analysis*, queue the *compute*.
 

@@ -55,7 +55,7 @@ Q4_K_M ✅ → **`E1·A`** serves on CPU ✅ → **`D1` capacity law `[OPEN — 
 |---|---|---|---|---|
 | **D1 capacity law** | A1, B3, E1·A | measure N-before-break (corruption + quantization) → the number a ready/not-ready call needs | deployment-readiness **(REQUIRED)** | ★ critical path |
 | **CP2 schema build-items** | CP2, G3 | L1 triple-readback + 5 query families + violates-rejection | contract-readiness | ★ required |
-| **C2-band** | G6.1, C2 mechanism | does min-collinearity band [8-12] reduce **sequential** corruption? (falsifier) | scale mechanism → feeds D1 | ◆ lead |
+| **C2-band** | G6.1, C2 mechanism | does min-collinearity band [8-12] reduce **sequential** corruption? (falsifier) | scale mechanism → feeds D1 | ◆ lead — 🔄 **RUNNING** (autonomy `c2band_falsifier`; no verdict) |
 | **C/G7 multi-token** | recipe | multi-token value robustness at the write | write-robustness | ◆ |
 
 ## ④ FALSIFIED / PRUNED (do NOT pursue — dead ground)
@@ -67,7 +67,7 @@ Q4_K_M ✅ → **`E1·A`** serves on CPU ✅ → **`D1` capacity law `[OPEN — 
 ## ⑤ DISTANCE TO F1 (the readiness scorecard)
 - **Governance contracts:** CP1 ✅ · CP3 ✅(C15 open) · G1 ✅ · G2 ✅ · G3 ✅ · **CP2 ⚠️ build-items**
 - **Deployment data path:** recipe ✅ → A1 ✅ → B3 ✅ → E1·A ✅ · **D1 ❌ REQUIRED**
-- **Robustness:** C/G7 ❌ · C2-band ❌(lead)
+- **Robustness:** C/G7 ❌ · C2-band 🔄 RUNNING (autonomy; verdict pending) ❌(lead)
 - **CRITICAL PATH to a defensible determination:** **D1 capacity law** + **CP2 schema build-items**.
   Everything else is either locked (don't re-run) or feeds these two.
 

@@ -495,17 +495,21 @@ _Each maps experiment(s) → spec contract. Mark as evidence lands._
 | A0 G6.1 | DONE | SPLIT: write-side PASS; cross-entity FAIL — SEQUENTIAL (100→92→58→42%) |
 | A1 batch-vs-seq | DONE | **PASS (robust): batch ELIMINATES cross-entity corruption — staircase FLAT 100→100→100% (vs seq 42%)**. Genesis(§7.7) clean @N≤100; runtime still needs A2. CORPUS/14, D-A1-1 |
 | A2 sentinels | DONE | **PARTIAL (strong): sentinels ~halve cross-entity corruption** (eval edited-rel 8/20→17/20 @N=100, λ_s≈1–2) at retention/within cost; wall past λ_s≈2; every arm still declines N50→100 → A3. CORPUS/15, D-A2-1 (directional) |
-| A2b Ks-recompute | NEXT (cheap) | recompute K_S per rung (fixed clean-base Ks goes stale) — may close more gap free, before BetaEdit |
-| A3 BetaEdit | QUEUED (after A2b) | leakage-aware solve for the entity-specific residual sentinels can't pin |
-| A4 band test | QUEUED (cov ready) | — |
+| A2b Ks-recompute | DONE | **K_S staleness RULED OUT** — per-edit refresh doesn't help (large drift, zero benefit) → residual is entity-specific, not staleness. CORPUS/16 |
+| A3 BetaEdit | PARKED | earned/ready (official `lbq8942/BetaEdit` cloned, ships qwen2.5-3b cfg); gated on a CONFIRMED incremental-write requirement (D-SCOPE-1). Not next. |
+| A4 band test | QUEUED (cov ready) | mid-late [18-22] cov warmed; the [8-12] test is the C2-band falsifier (running) |
 | A5 WISE hybrid | GATED(A2/A3) | — |
 | A6 SAE | GATED-FRONTIER | — |
-| B1/B2/B3 | GATED(A-fix) | — |
-| C1/C2 | QUEUED | — |
-| D1 capacity law | QUEUED | — |
-| E1 deploy | GATED | — |
-| F1 readiness | GATED(final) | — |
-| _bg_ band cov [18-22] | RUNNING→~done | for A4 |
+| B1 size-density | DONE | **PARTIAL: A1 batch-clean does NOT fully replicate at 7B** (held-out 100→91.7%). Scopes A1 to 3B/N≤100; feeds D1. CORPUS/19, D-B1-1 |
+| B3/G6.2 quant | DONE | **PASS: A1-clean store survives real Q4_K_M** (edited 100% vs native 97.4%, Δ+2.6); margin-confound characterized. CORPUS/17 |
+| B2 overlay size | OPEN | overlay `.vindex` size + CPU-feasibility at scale — not yet run |
+| C2 keying+depth | DONE | **PRUNED + mechanism: relation-keying eliminated; same-relation key collinearity U-shaped, min L8-12.** New lead: band [8-12] sequential. CORPUS/20, D-C2-1 |
+| C/G7 multi-token | OPEN | multi-token value robustness — directional only (T2.3); not yet run |
+| C2-band falsifier | RUNNING | autonomy loop (batch, budget 180m): [4-8] vs [8-12] sequential @N=100 on `unt_cross_loc`; PASS≥5pp/PARTIAL>1pp/FAIL≤1pp pre-registered. **No verdict yet** → staged to logs/pending_findings/ on close |
+| D1 capacity law | QUEUED | relation-fan-out-conditioned drift contract — **REQUIRED for F1** (critical path) |
+| E1 deploy | DONE | **SPLIT: Claim A PASS** (CPU serve via llama.cpp+Q4_K_M, ~8–13 tok/s) / **Claim B FALSIFIED** (LARQL gguf-to-vindex drops 108 attn biases on Qwen2.5; A7 causal). Model-family split. CORPUS/18, D-E1-1 |
+| F1 readiness | GATED(final) | gated on D1 + CP2 |
+| _bg_ band cov [18-22] | DONE | warmed for A4 |
 
 ═══════════════════════════════════════════════════════════════════════
 ## §13 — CHANGELOG (append-only)
@@ -522,5 +526,9 @@ _Each maps experiment(s) → spec contract. Mark as evidence lands._
 ### §13 changelog — 2026-06-18 (post-B3)
 - E1 done (SPLIT: A PASS via llama.cpp / B FALSIFIED, LARQL Qwen2.5 bias-drop; A7 causal). B1 done (PARTIAL, 7B 91.7%). C2 done (PRUNED + L8-12 mechanism map). CORPUS 18/19/20; D-E1-1/D-B1-1/D-C2-1. Hypothesis register added (`docs/HYPOTHESIS_REGISTER_2026-06-18.md`).
 - Repo reorganized to publication grade: experiments/ configs/ results/ logs/ docs/ archive/ tree; 359 loose files moved; 40 live scripts path-rewritten to LLMDB_ROOT (ast-verified); stale subdirs archived; empties deleted. README + REPRODUCIBILITY + EXPERIMENT_REGISTRY authored. Snapshot at /root/migration_backup. Learnings: bias-ablation = causal-attribution method; key-collinearity layer map; recurred artifact-path collision ([[durable-artifact-path-collision]]).
+
+### §13 changelog — 2026-06-19
+- **§12 dashboard reconciled to post-B3 reality** (was stale: B1/B3/E1 still showed GATED; A2b/A3/C2/_bg_ stale). Now: A2b DONE (CORPUS/16), A3 PARKED (D-SCOPE-1), B1 DONE-PARTIAL (CORPUS/19), B3 DONE-PASS (CORPUS/17), C2 DONE-PRUNED (CORPUS/20), E1 DONE-SPLIT (CORPUS/18), B2/C-G7 marked OPEN, D1 QUEUED (critical path), F1 GATED on D1+CP2. **No new scientific result claimed — dashboard sync + run-launch record only.**
+- **Autonomy `c2band_falsifier` LAUNCHED & RUNNING** (`tools/autonomy_driver.py --mission tools/autonomy_mission.json --mode batch --budget-min 180`): [4-8] vs [8-12] sequential @N=100, metric `unt_cross_loc`, pre-registered PASS≥5pp / PARTIAL>1pp / FAIL≤1pp, guard edit-success≥95 both arms. STAGING-ONLY (logs/pending_findings/); driver does NOT write CORPUS/ledger/runbook. **Verdict pending** — operator folds on close per §0.4.
 
 > **Always-in-context discipline:** load `DISCIPLINE.md` — north-star goal (F1), context read-triggers, deep-thinking-on-failure protocol, and tool/loop thresholds (binds Claude + Codex).
