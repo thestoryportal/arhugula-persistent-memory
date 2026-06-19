@@ -54,6 +54,7 @@ Context is a **read↔write loop**: pull the relevant memory/CORPUS **before**, 
 4. **De-confound** — design the *cheapest* test that could **overturn** your own finding; run controls before believing it.
 5. **`advisor()`** — mandatory **before authoring the new test set** and **before re-declaring done**.
 6. **Pre-register** the pass/fail criteria **before** the confirming run.
+7. **WRITE the surfaced hypotheses (the deep-thinking yield is context — record it).** Every hypothesis from step 2/3 goes durably into the living hypothesis register (`docs/HYPOTHESIS_REGISTER_*.md`) with its **additive framing**: `builds-on` (which PROVEN node — `PROGRESS.md` ①), `would-advance` (which F1 gap/chain), `status` (OPEN/TESTING/PROMOTED/KILLED/PARTIAL), and `source` (this §2 pass / advisor / autoresearch / Perplexity). **A hypothesis not written did not happen** (the §1.1 read↔write rule — hypotheses are pulled *back* before choosing the next move; see §1 "what's proven vs open"). On test, **promote** it into `PROGRESS.md` ① or **kill** it into ④ with the Decision-ID. This is how a failure's most valuable output (a new direction) survives the session instead of evaporating.
 
 **Non-hallucination rules (always):** cite an artifact or label `UNVERIFIABLE`; mechanics ≠ contract; design-viability ≠ empirical evidence; verify external repos/IDs/claims before building on them; reserve confidence for runs that can fail.
 
@@ -71,6 +72,16 @@ Context is a **read↔write loop**: pull the relevant memory/CORPUS **before**, 
 | **Perplexity** (open-web) | "what's the field's SOTA / are we missing a method?" — **after a falsification** or **before a frontier bet**. | Don't use for in-repo facts (use the corpus). Bounded query budget — synthesize, don't endlessly browse. |
 | **NotebookLM** (our corpus) | "does our **own** corpus/spec/council already cover this?" — corpus-grounded mining. | Operator-run / auth-gated; answers only from corpus, cites sources, flags absence. |
 | **Subagent fan-out (parallel/series)** | coverage needs decomposition — triage, **adversarial verification panel**, parallel de-confounding, propose→verify→synthesize. See `AGENTS.md` → *Multi-agent / subagent patterns*. | **GPU serializes** (fan out analysis, queue compute — one 4090). Same-model panels = weak independence → prompt to **refute**, distinct lenses; evidence stays binding. **Role separation:** proposer (autoresearch) ≠ documenter (`CORPUS/`). Bound the fan-out; stop at marginal-info ≈ 0. |
+
+### 3.1 AUTONOMOUS (no-HIL) RUNS — extra bounds (`AUTONOMY.md`, `tools/autonomy_driver.py`)
+When running unattended, **all of §0–§3 still bind**, plus:
+- **Hard wall-clock** (`--budget-min`) is a real deadline; **preflight** (`codex_context_guard preflight`) hard-gates before any run. NOT-READY → abort.
+- **Pre-registered deterministic labels only** — PASS/PARTIAL/FAIL/INVALID from a fixed rule on the result JSON (no model judgment). `FAIL` = tested-and-negative = a **real result**; `INVALID` = couldn't evaluate / guard failed = **not** a result. Thresholds are frozen **before** launch; changing them after seeing results voids pre-registration.
+- **Per-unit loop bound** (`max_loops`) — a retry only fixes a *transient* failure; never loop to chase a different label on a deterministic run.
+- **Point at a FALSIFIER, not the optimizer.** A `fenced:true` unit (autoresearch/sweep) may **log candidates only** — a fenced PASS is a *lead*, never a conclusion, never written to `CORPUS/`.
+- **STAGING, not canonical.** Unattended findings → `logs/pending_findings/NN_<unit>.md` with an obligation block. The driver/agent must **NOT** author `CORPUS/*` or edit the ledger/runbook/checkpoint; the operator folds them in on supervised review (§0.4).
+- **Standing-auth** (model pulls / cov-compute / disk) PRE-APPROVED + logged; **paid-provider + credentials GATED** → `logs/autonomy_gates.jsonl`, skipped, never block the whole run.
+- **Self-review ≠ advisor-review.** Unattended "review" by the run model is a self-consistency check; real independence needs a **different model** (`codex exec -m <other>`) and must not raise confidence on its own.
 
 ---
 

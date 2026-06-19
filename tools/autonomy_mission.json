@@ -1,0 +1,32 @@
+{
+  "name": "C2-band falsifier (overnight, no-HIL, bounded)",
+  "version": "2026-06-19",
+  "north_star": "F1 — prove/falsify the LLM-as-Database spec is implementable. This run tests one pre-registered falsifier from runbook §0.3; a clean FAIL is a real result.",
+  "policy": {
+    "output": "STAGING ONLY (logs/pending_findings/). The driver NEVER writes CORPUS/*, the append-only ledger, the runbook, or the checkpoint. Operator folds into the canonical §0.4 record on review.",
+    "standing_auth": "Model pulls + covariance compute + disk/downloads are PRE-APPROVED (logged). Paid-provider + credential moves are GATED → logged to logs/autonomy_gates.jsonl and SKIPPED.",
+    "fenced_units": "A unit with fenced:true is optimizer-style (Goodhart-prone). It may LOG candidates; a PASS means 'candidate worth a pre-registered falsifier', NOT a conclusion."
+  },
+  "units": [
+    {
+      "id": "c2band_falsifier",
+      "hypothesis": "Editing in the minimum-collinearity band [8-12] yields HIGHER cross-entity read locality (less corruption) than the default band [4-8], at fixed N=100, SEQUENTIAL write. (Sequential, not batch: batch/A1 already eliminates corruption — baseline cross-loc ~98.5% is at ceiling; sequential baseline ~54.8% has the headroom C2 predicts the band will move.)",
+      "falsifier": "If unt_cross_loc([8-12]) is NOT meaningfully higher than unt_cross_loc([4-8]) with both arms clearing the edit-success guard, the C2 collinearity->corruption mechanism does NOT translate to an editing-band advantage — the C2 lead (runbook §0.3) is FALSIFIED for editing. A clean FAIL is a real negative result.",
+      "fenced": false,
+      "command": "python experiments/track_c/band_corruption_compare.py",
+      "env": {"RUNGS": "13,25,50"},
+      "timeout_s": 10800,
+      "min_s_to_start": 1200,
+      "max_loops": 2,
+      "loop_note": "Deterministic comparison — a retry only helps a TRANSIENT failure (model-pull blip, OOM). Identical re-run gives identical numbers; do not loop to chase a different label.",
+      "label_rule": {
+        "result_json": "results/c2band_compare_result.json",
+        "guard": ["retention >= 95", "expression >= 95"],
+        "pass": ["corruption_reduction_pp >= 5"],
+        "partial": ["corruption_reduction_pp > 1"],
+        "else": "FAIL",
+        "preregistered_note": "Thresholds FIXED before the run. PASS=>=5pp (meaningful editing-relevant reduction); PARTIAL=>1pp (directional only); FAIL<=1pp (no editing-relevant effect -> C2 lead falsified for editing); INVALID if either arm's edit success <95 (confounded comparison). Operator may adjust thresholds BEFORE launch; adjusting AFTER seeing results voids pre-registration."
+      }
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+# PROGRESS — the cumulative build toward F1 (the twin of the north star)
+
+> **This file is the equal-and-opposite of the goal.** `DISCIPLINE.md` §0 says *where we are going*
+> (F1). This says *how far we have built toward it and what each result enables next*, so every
+> loop's work is **additive** — it stands on the proven base and moves one F1 gap closer, never an
+> isolated finding and never a re-run of settled ground.
+> **Single source of truth = `CORPUS/00`+`03` + runbook §0.3/§12.** This is the distilled, injectable
+> head; on any conflict the CORPUS ledger wins. Kept current via the §0.4 additive-update rule (bottom).
+
+## The goal it converges on
+**F1 — prove/falsify the "LLM-as-Database" spec is implementable *before* it's built, and deliver the
+ready/not-ready-with-conditions determination.** Falsification-first. Everything below is scored by:
+*does it move F1 closer?*
+
+## How to read this (the additive contract)
+- Each item is a **node F1 requires.** Edges = **"builds on."**
+- **Work is valuable only if ADDITIVE:** it builds on a `PROVEN` node and advances a `PARTIAL`/`OPEN`
+  F1 criterion. Orthogonal, redundant, or regressive work is drift — the auditor rejects it even if
+  internally correct.
+- **Do NOT re-run a `PROVEN-FOR-SCOPE` node.** If tempted, cite the Decision-ID that closed it and
+  state what *new* F1 gap your run opens. If you can't, it's redundant — skip it.
+- Status ∈ `PROVEN-FOR-SCOPE · PARTIAL · OPEN · FALSIFIED/PRUNED`. "FOR-SCOPE" = proven within a named
+  scope (model/N/regime); pushing the scope is itself additive work.
+
+---
+
+## ① FOUNDATION — PROVEN-FOR-SCOPE (locked; build ON these, do not re-run)
+| Node | What it locks | Scope | Evidence |
+|---|---|---|---|
+| **Edit mechanics** | in-weight multi-field editing viable | model/size-dependent (GPT-J ✗; Qwen2.5-7B/3B, Qwen3-0.6B ✓) | CORPUS/00 P1, C1 |
+| **Recipe** | in-solve AlphaEdit (null-space P, thresh **0.005**) + preserve-sampling + batched-per-record compile | Qwen2.5-3B, N≤100 | CORPUS/00 R-*, D-S243-* |
+| **CP1** governed in-pipeline write | parametric MEMIT write under governance | for-scope | CORPUS/07, D-CP1 |
+| **CP3** MEMIT compliance | D12 method-class = D20 null-space mandated | C15 layer-band = open divergence | CORPUS/09 |
+| **G1** consistency | dual-medium 2PC + State Ledger + Txn Controller + circuit breaker (10/10) | for-scope | CORPUS/10 |
+| **G2** security | real Ed25519 verify-cannot-forge + overlay integrity + CAK ceremony (9/9) | for-scope | CORPUS/11 |
+| **G3** validation pipeline | deterministic schema validator: violates/undeclared reject + storage-probe split (8/8) | for-scope | CORPUS/12 |
+| **A1** batch eliminates corruption | batch/Genesis joint solve → cross-entity corruption GONE (100→100% @N≤100) | resolves G6.1 write-path; 3B N≤100 | CORPUS/14, D-A1 |
+| **B3 / G6.2** quantization survival | the A1-clean store survives **real Q4_K_M** (edits 100% vs native 97.4%) | margin-confound characterized | CORPUS/17 |
+| **E1 (Claim A)** CPU deployment loop | serves edited store on CPU via **llama.cpp + Q4_K_M** (~8–13 tok/s) | pod-CPU proxy | CORPUS/18, D-E1-1 |
+
+## ② THE ADDITIVE CHAINS (how the proofs stack toward F1)
+**CHAIN A — DEPLOYMENT DATA PATH (the spine):**
+`recipe` ✅ → `G6.1` exposes cross-entity scale falsifier → **`A1`** eliminates it ✅ → **`B3`** survives
+Q4_K_M ✅ → **`E1·A`** serves on CPU ✅ → **`D1` capacity law `[OPEN — REQUIRED for F1]`** → F1 deployment-readiness.
+
+**CHAIN B — GOVERNANCE / CONTRACT SUBSTRATE:**
+`CP1` ✅ + `CP3` ✅ + `G1` ✅ + `G2` ✅ + `G3` ✅ → **`CP2` query-schema build-items `[PARTIAL]`** → F1 contract-readiness.
+
+**CHAIN C — WRITE ROBUSTNESS / SCALE MECHANISM:**
+`recipe`+`G6.1`+`C2` mechanism (key-collinearity U-shaped, min **L8-12**) → **`C2-band` `[OPEN, lead]`** &
+**`C/G7` multi-token value robustness `[OPEN]`** → feed `D1` & F1 write-robustness.
+
+## ③ THE ADDITIVE FRONTIER (open nodes whose prerequisites are PROVEN — the ONLY work worth doing)
+| Open F1 gap | builds on (proven) | the additive step | moves F1 | priority |
+|---|---|---|---|---|
+| **D1 capacity law** | A1, B3, E1·A | measure N-before-break (corruption + quantization) → the number a ready/not-ready call needs | deployment-readiness **(REQUIRED)** | ★ critical path |
+| **CP2 schema build-items** | CP2, G3 | L1 triple-readback + 5 query families + violates-rejection | contract-readiness | ★ required |
+| **C2-band** | G6.1, C2 mechanism | does min-collinearity band [8-12] reduce **sequential** corruption? (falsifier) | scale mechanism → feeds D1 | ◆ lead |
+| **C/G7 multi-token** | recipe | multi-token value robustness at the write | write-robustness | ◆ |
+
+## ④ FALSIFIED / PRUNED (do NOT pursue — dead ground)
+- **E1 Claim B:** LARQL `gguf-to-vindex` serving **Qwen2.5** — drops 108 attn biases (A7 causal ablation) → garbage. Use **Qwen3 family** or **llama.cpp**. [CORPUS/18]
+- **relation-keying** — pruned (C2). [CORPUS/20]
+- **A2b K_S staleness** — ruled out (large drift, zero benefit) → only revisit via A3/BetaEdit port. [CORPUS/16]
+- **sequential incremental `cache_c` path** for deployment — A1 batch supersedes it (D-SCOPE-1). [CORPUS/14]
+
+## ⑤ DISTANCE TO F1 (the readiness scorecard)
+- **Governance contracts:** CP1 ✅ · CP3 ✅(C15 open) · G1 ✅ · G2 ✅ · G3 ✅ · **CP2 ⚠️ build-items**
+- **Deployment data path:** recipe ✅ → A1 ✅ → B3 ✅ → E1·A ✅ · **D1 ❌ REQUIRED**
+- **Robustness:** C/G7 ❌ · C2-band ❌(lead)
+- **CRITICAL PATH to a defensible determination:** **D1 capacity law** + **CP2 schema build-items**.
+  Everything else is either locked (don't re-run) or feeds these two.
+
+---
+
+## §0.4 ADDITIVE-UPDATE RULE (binding — how a new result enters here)
+Every new result MUST attach to this map by declaring, in its CORPUS write **and** its staged finding:
+1. **builds-on:** which PROVEN node(s) it stands on (or "new foundation" + why).
+2. **advances:** which F1 criterion/chain it moves, and the **status delta** (e.g. `D1: OPEN→PARTIAL`).
+3. **evidence:** CORPUS/NN + Decision-ID.
+4. **additivity check:** if it neither builds on the proven base nor moves an F1 gap, it is **drift or
+   redundancy** — the twin auditor (DISCIPLINE §3.2) rejects it regardless of internal correctness.
+
+Then move the node between ①/③/④ and update ⑤. Re-mirror to memory. A run that does not change this
+map's distance-to-F1 produced no F1 progress, however many numbers it generated.

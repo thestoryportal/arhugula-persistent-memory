@@ -1,0 +1,9 @@
+# Codex project config — LLM-as-Database research repo
+project_doc_fallback_filenames = ["AGENTS.md", "DISCIPLINE.md", "CLAUDE.md"]
+project_doc_max_bytes = 131072
+
+[features]
+hooks = true
+
+# Research-tool MCP servers — add keys via `codex mcp add` (do NOT commit secrets):
+#   codex mcp add perplexity --env PERPLEXITY_API_KEY=KEY -- npx -y @perplexity-ai/mcp-server

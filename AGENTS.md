@@ -73,6 +73,14 @@ An experiment is done when: (1) it ran against **pre-registered** pass criteria;
 - **Claude memory** → `memory_mirror/` (read it; add new durable learnings there as one-fact-per-file with frontmatter, and update `memory_mirror/MEMORY.md`).
 - For large/changing external context, prefer MCP (Codex best-practice) over hardcoding.
 
+## Autonomous (no-HIL) runs — `AUTONOMY.md` + `tools/autonomy_driver.py`
+For bounded unattended overnight progress. **Opt-in, operator-launched** — nothing runs on its own.
+- **Driver** = thin deterministic guardrails: hard wall-clock (`--budget-min`), **preflight hard-gate**, per-unit `max_loops`/`timeout_s`, **pre-registered deterministic PASS/PARTIAL/FAIL/INVALID** from the result JSON (no model judgment), gate-log (`logs/autonomy_gates.jsonl`), and **closeout to STAGING** (`logs/pending_findings/NN_<unit>.md`).
+- **The driver NEVER writes `CORPUS/*`, the ledger, the runbook, or the checkpoint.** Unattended findings are staged; the operator folds them into the canonical §0.4 record on supervised review. The `.codex/hooks/` (pre_tool_use_policy / stop_gate) enforce this.
+- **Mission** (`tools/autonomy_mission.json`) points at **one named pre-registered FALSIFIER** from §0.3 (currently `c2band_falsifier`). Optimizer/sweep units must be `fenced:true` (candidate-log only, never a conclusion) — see DISCIPLINE §3.1.
+- **`--mode agent`** shells `codex exec -m <model>` per unit so a model fulfils the deep-thinking / autoresearch / **independent (different-model) advisor-review** obligations inside the bounds (needs Codex auth). Default `--mode batch` runs the unit command directly.
+- Launch + review instructions: `AUTONOMY.md`. Bounds & rationale: `DISCIPLINE.md` §3.1.
+
 ## Current state & next work
 Do **not** hardcode "what's next" here — it changes. The single source is `EXPERIMENT_RUNBOOK.md` §0.3 (+ `SESSION_CHECKPOINT.md` top block). As of the last handoff: E1/B1/C2 done; the open fork is the **B3/E3 "is in-weight (L2) even required vs. L1-retrieval + external query-index" decision** (analysis, no compute) or the **band-[8–12] mechanism test**; A3/A4 parked. See `docs/HYPOTHESIS_REGISTER_2026-06-18.md` for the full open space.
 
