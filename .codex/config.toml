@@ -2,6 +2,13 @@
 project_doc_fallback_filenames = ["AGENTS.md", "DISCIPLINE.md", "CLAUDE.md"]
 project_doc_max_bytes = 131072
 
+
+# Default reviewer model for cross-family advisor-review (set 2026-06-20)
+# gpt-5.5 = the account-valid default for ChatGPT-account OAuth on Codex 0.141.0
+# (gpt-5 and gpt-5-codex are REJECTED: "not supported when using Codex with a ChatGPT account").
+model = "gpt-5.5"
+model_reasoning_effort = "high"   # adversarial review needs depth
+
 [features]
 hooks = true
 

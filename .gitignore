@@ -62,3 +62,29 @@ external_prior_art/**/.git
 .config/
 migration_backup/
 tools/codex-skills/.git/
+
+# ── Codex CLI: SECRETS + regenerable runtime (added 2026-06-20) ──
+# auth.json holds the live OAuth token — NEVER commit it (any location).
+auth.json
+**/auth.json
+.codex/auth.json
+tools/codex-skills/auth.json
+# codex runtime / session logs (capture prompts+outputs) + installed binary
+.codex/sessions/
+.codex/tmp/
+.codex/log/
+.codex/history.jsonl
+.codex/version.json
+bin/
+/workspace/bin/
+
+# codex runtime state (sqlite may hold prompt/output content) — keep config.toml + skills/ only
+.codex/*.sqlite
+.codex/*.sqlite-shm
+.codex/*.sqlite-wal
+.codex/cache/
+.codex/.tmp/
+.codex/plugins/
+.codex/installation_id
+.codex/models_cache.json
+.codex/skills/.system/

@@ -1,0 +1,119 @@
+{
+  "experiment": "C2-band falsifier (collinearity\u2192corruption editing-relevance, SEQUENTIAL regime)",
+  "write_mode": "sequential",
+  "bands": {
+    "baseline": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "band812": [
+      8,
+      9,
+      10,
+      11,
+      12
+    ]
+  },
+  "n": 100,
+  "unt_cross_loc_baseline": 67.68,
+  "unt_cross_loc_band812": 86.41,
+  "corruption_reduction_pp": 18.73,
+  "within_loc_baseline": 95.48,
+  "within_loc_band812": 77.77,
+  "heldout_baseline": {
+    "edited_rel": {
+      "top1_stable_vs_pre": 58.3,
+      "top1_correct_vs_truth": 58.3
+    },
+    "continent": {
+      "top1_stable_vs_pre": 100.0,
+      "top1_correct_vs_truth": 33.3
+    },
+    "all": {
+      "top1_stable_vs_pre": 72.2,
+      "top1_correct_vs_truth": 50.0
+    }
+  },
+  "heldout_band812": {
+    "edited_rel": {
+      "top1_stable_vs_pre": 83.3,
+      "top1_correct_vs_truth": 83.3
+    },
+    "continent": {
+      "top1_stable_vs_pre": 100.0,
+      "top1_correct_vs_truth": 33.3
+    },
+    "all": {
+      "top1_stable_vs_pre": 88.9,
+      "top1_correct_vs_truth": 66.7
+    }
+  },
+  "retention": 96.0,
+  "expression": 100.0,
+  "retention_baseline": 98.0,
+  "retention_band812": 96.0,
+  "arms_raw": {
+    "base": {
+      "unt_cross_loc": 67.68,
+      "unt_within_loc": 95.48,
+      "unt_global_loc": 97.34,
+      "retention": 98.0,
+      "expression": 100.0,
+      "heldout_top1": {
+        "edited_rel": {
+          "top1_stable_vs_pre": 58.3,
+          "top1_correct_vs_truth": 58.3
+        },
+        "continent": {
+          "top1_stable_vs_pre": 100.0,
+          "top1_correct_vs_truth": 33.3
+        },
+        "all": {
+          "top1_stable_vs_pre": 72.2,
+          "top1_correct_vs_truth": 50.0
+        }
+      },
+      "band": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "n": 100
+    },
+    "band812": {
+      "unt_cross_loc": 86.41,
+      "unt_within_loc": 77.77,
+      "unt_global_loc": 98.4,
+      "retention": 96.0,
+      "expression": 100.0,
+      "heldout_top1": {
+        "edited_rel": {
+          "top1_stable_vs_pre": 83.3,
+          "top1_correct_vs_truth": 83.3
+        },
+        "continent": {
+          "top1_stable_vs_pre": 100.0,
+          "top1_correct_vs_truth": 33.3
+        },
+        "all": {
+          "top1_stable_vs_pre": 88.9,
+          "top1_correct_vs_truth": 66.7
+        }
+      },
+      "band": [
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "n": 100
+    }
+  },
+  "_note": "REGENERATED 2026-06-20 from arm JSONs after autonomy_driver dry-run stale-guard deleted the original; values identical to band_corruption_compare.py main() combine."
+}

@@ -12,10 +12,12 @@ DESIGN (deliberately THIN — see advisor review 2026-06-19):
   - CLOSEOUT TO STAGING: findings go to logs/pending_findings/NN_<unit>.md. The driver
     NEVER writes CORPUS/*, the append-only ledger, the runbook, or the checkpoint. The
     operator folds staged findings into the canonical §0.4 record on review.
-  - AGENTIC DISCIPLINE (deep-thinking / autoresearch / advisor-review) is emitted as an
-    OBLIGATION BLOCK into the staging file — Python does not fake reasoning. In --mode agent
-    the driver shells `codex exec` per unit so a model fulfils those obligations within the
-    wall-clock + loop bounds; that mode needs Codex authenticated (operator-gated).
+  - AGENTIC DISCIPLINE: the obligation block is always emitted. In --mode agent (IMPLEMENTED)
+    the driver ALSO shells `codex exec` on each staged finding to attach an INDEPENDENT
+    cross-family review (advisory — it never changes the deterministic pre-registered label;
+    DISCIPLINE §3.1). Bounded by per-review timeout + the wall-clock; codex failure is non-fatal.
+    Needs Codex authenticated (`tools/setup_codex.sh`); runs in THIS pod process (Claude's
+    sandboxed tools have no network, so this cannot be driven from the Claude loop).
 
 This is a guardrail harness, not a scientist. A clean FAIL on a pre-registered falsifier is
 a SUCCESS for the run. Optimizer-style units (Goodhart-prone) are fenced: they may LOG
@@ -26,13 +28,18 @@ Usage:
                                   [--mode batch|agent] [--dry-run] [--model <codex-model>]
 """
 from __future__ import annotations
-import argparse, json, os, re, shlex, subprocess, sys, time
+import argparse, json, os, re, shlex, shutil, subprocess, sys, time
 from pathlib import Path
 
 ROOT = Path(os.environ.get("LLMDB_ROOT", Path(__file__).resolve().parents[1]))
 LOGS = ROOT / "logs"
 STAGING = LOGS / "pending_findings"
 GATES = LOGS / "autonomy_gates.jsonl"
+# ---- cross-family review (Codex) — pod-process only; advisory, never label-changing ----
+ADVISOR_PROMPT = ROOT / "tools/advisor_review_prompt.md"
+CODEX_HOME = os.environ.get("CODEX_HOME") or str(ROOT / ".codex")
+CODEX_BIN = os.environ.get("CODEX_BIN") or shutil.which("codex") or str(ROOT / "bin/codex")
+REVIEWABLE = ("PASS", "PARTIAL", "FAIL", "INVALID")   # ERROR/SKIPPED/DRY produced nothing to review
 
 # ---- monotonic clock only (Date.now is fine here; this is a live process, not a workflow) ----
 def now() -> float: return time.time()
@@ -102,6 +109,55 @@ def run_cmd(cmd: str, env: dict, timeout: int, dry: bool) -> dict:
     except subprocess.TimeoutExpired:
         return {"rc": 124, "timeout": True, "stderr": f"timed out after {timeout}s"}
 
+# ---- cross-family independent review via Codex (advisory; NEVER changes the label) ----------
+def run_codex_review(finding_text: str, model: str | None, timeout: int) -> str:
+    """Independent cross-family (out-of-Opus) review of a STAGED finding via `codex exec`.
+    Returns a markdown section. NEVER raises; NEVER changes the deterministic pre-registered
+    label (DISCIPLINE §3.1: pre-registered labels only; review is advisory input for the
+    supervised fold-in). Codex runs in THIS pod process (has network); it cannot be called from
+    Claude's network-sandboxed tools — that is why this lives in the driver."""
+    if not (Path(CODEX_BIN).exists() or shutil.which("codex")):
+        return "## CROSS-FAMILY REVIEW — UNAVAILABLE\n\n_codex binary not found; run `tools/setup_codex.sh`._"
+    try:
+        rubric = ADVISOR_PROMPT.read_text()
+    except Exception:
+        rubric = ("You are an independent adversarial reviewer. Give a one-word verdict "
+                  "PROCEED / FIX-FIRST / OVERTURNED-OR-RECONSIDER, then the single most important "
+                  "next step, then issues in priority order. Be a skeptic; do not rubber-stamp.")
+    prompt = (rubric +
+        "\n\n---\nREVIEW TARGET — a STAGED autonomy finding (cross-family / out-of-Opus review). "
+        "Numbers are prompt-provided (treat as claims tied to the named result JSON; you may lack file "
+        "access). Judge the disposition; do NOT change the pre-registered LABEL (advisory only). Skeptic.\n\n"
+        + finding_text)
+    out_file = LOGS / f".codex_review_{int(now())}.txt"
+    cmd = [CODEX_BIN, "exec", "--skip-git-repo-check", "-o", str(out_file)]
+    if model:
+        cmd += ["-m", model]
+    cmd += [prompt]
+    env = {**os.environ, "CODEX_HOME": CODEX_HOME,
+           "PATH": f"{ROOT}/bin:" + os.environ.get("PATH", "")}
+    try:
+        pr = subprocess.run(cmd, cwd=ROOT, env=env, capture_output=True, text=True, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        return f"## CROSS-FAMILY REVIEW — UNAVAILABLE\n\n_codex timed out after {timeout}s (review skipped; not fatal)._"
+    except Exception as e:
+        return f"## CROSS-FAMILY REVIEW — UNAVAILABLE\n\n_codex spawn error: {e}._"
+    verdict = ""
+    try:
+        if out_file.exists():
+            verdict = out_file.read_text().strip(); out_file.unlink()
+    except Exception:
+        pass
+    if not verdict:
+        verdict = (pr.stdout or pr.stderr or "").strip()[-4000:]
+    if not verdict:
+        return f"## CROSS-FAMILY REVIEW — UNAVAILABLE\n\n_codex rc={pr.returncode}, no output._"
+    mid = model or "gpt-5.5 (config default)"
+    return (f"## CROSS-FAMILY REVIEW (advisory — does NOT change the pre-registered LABEL; "
+            f"independent {mid} via Codex, {stamp(now())})\n"
+            f"> Auto-satisfies DISCIPLINE §3.1 obligation #4 (independent cross-model review) for this "
+            f"finding. The supervised fold-in still verifies numbers + promotes.\n\n" + verdict)
+
 # ---- staging write (NEVER canonical) --------------------------------------------------------
 def stage_finding(idx: int, unit: dict, label: str, reasons: list[str], result: dict | None, attempts: int):
     STAGING.mkdir(parents=True, exist_ok=True)
@@ -111,7 +167,8 @@ def stage_finding(idx: int, unit: dict, label: str, reasons: list[str], result: 
         "  1. Verify the EXACT command + result fields below reproduce.",
         "  2. If LABEL≠PASS: a deep-thinking-on-failure pass (DISCIPLINE §2) — what confound/alt-mechanism?",
         "  3. Autoresearch / external-evidence check IF the failure is a dead-end (bounded; §3 thresholds).",
-        "  4. Independent (cross-model) advisor-review — self-review by the run model is NOT independent.",
+        "  4. Independent (cross-model) advisor-review — self-review by the run model is NOT independent. "
+        "(AUTO-DONE below in --mode agent: Codex cross-family review is appended to this file.)",
         "  5. Only then fold into CORPUS/NN + 00/03 + runbook §0.3/§12/§13 + checkpoint + memory.",
     ]
     fenced = unit.get("fenced", False)
@@ -172,8 +229,8 @@ def main():
         attempts, label, reasons, result = 0, "ERROR", ["unit did not run"], None
         per_unit_timeout = int(unit.get("timeout_s", 1800))
         rj = ROOT / unit["label_rule"]["result_json"]
-        if rj.exists():                       # stale-result guard: a prior night's JSON must not be read
-            try: rj.unlink()
+        if rj.exists() and not args.dry_run:  # stale-result guard: a prior night's JSON must not be read
+            try: rj.unlink()                  # NEVER in --dry-run: nothing regenerates it → would destroy a real artifact
             except Exception: pass
         while attempts < unit["max_loops"] and now() < deadline:
             remaining = deadline - now()
@@ -206,6 +263,19 @@ def main():
             out.append(f"    {reasons[0]}")
         path = stage_finding(idx, unit, label, reasons, result, attempts)
         out.append(f"  → staged: {path.relative_to(ROOT)}")
+        # --mode agent: append an independent cross-family review (advisory; never the label) --
+        if args.mode == "agent" and label in REVIEWABLE:
+            remaining = deadline - now()
+            rtimeout = min(int(unit.get("review_timeout_s", 240)), max(30, int(remaining)))
+            if remaining > 45:
+                review = run_codex_review(path.read_text(), args.model, rtimeout)
+                with open(path, "a") as f:
+                    f.write("\n\n---\n" + review + "\n")
+                out.append(f"  → cross-family review appended ({args.model or 'gpt-5.5'})")
+            else:
+                out.append("  → cross-family review SKIPPED (wall-clock < 45s)")
+        elif args.mode == "agent":
+            out.append(f"  → cross-family review skipped (label={label}: nothing to review)")
         results.append((unit["id"], label))
 
     # CLOSEOUT (to staging posture; never canonical)
