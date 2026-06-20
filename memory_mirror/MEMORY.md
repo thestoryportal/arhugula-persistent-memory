@@ -41,3 +41,8 @@ It re-grounds the whole "LLM-as-Database" program: goal, the months-long experim
 - [Autonomy driver stale-guard deletes result](autonomy-driver-stale-guard-deletes-result.md) — driver unlinks the unit result_json before re-running; back expensive results with source/arm JSONs
 - [Pod restart wipes system-python ML stack](pod-restart-wipes-system-python-ml-stack.md) — reinstall transformers==4.51.0 pin (torch survives); use python3.11
 - [Commit forward work without asking](commit-forward-work-without-asking.md) — operator standing-auth: commit to local master freely; push/PR still gated
+- [Null label can hide a real effect](deterministic-null-label-can-hide-real-effect.md) — inspect the paired sign pattern, not just the verdict string/threshold
+- [Single-seed limits generality not significance](single-seed-limits-generality-not-significance.md) — a within-experiment contrast can be real at 1 seed; replication buys generality
+- [Control-relation effective cardinality](control-relation-effective-cardinality.md) — check confident+correct+single-tok pool's effective distinct values, not nominal
+- [Codex review: embed evidence + medium effort](codex-review-embed-evidence-and-effort.md) — sandbox can't read files; high effort times out ~600s
+- [Memory paths & mirror discipline](memory-paths-and-mirror-discipline.md) — live -workspace/memory wiped on restart; mirror is canonical; don't clobber the index
