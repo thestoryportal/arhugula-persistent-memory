@@ -1,0 +1,915 @@
+{
+  "experiment": "D1_phase2_concentration_sweep",
+  "band": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "total_N": 50,
+  "engine": "kmeng01/memit UNMODIFIED",
+  "heldout_capital_entities": [
+    "Nigeria",
+    "Greece",
+    "Ecuador",
+    "Denmark",
+    "Venezuela",
+    "Bangladesh",
+    "Czechia",
+    "Cuba",
+    "Georgia",
+    "France",
+    "Nepal",
+    "Mozambique"
+  ],
+  "overlay_on_capital_count": [
+    {
+      "capital_count": 5,
+      "conc": 83.3,
+      "dil": 83.3
+    },
+    {
+      "capital_count": 10,
+      "conc": 75.0,
+      "dil": 75.0
+    },
+    {
+      "capital_count": 15,
+      "conc": 83.3,
+      "dil": 75.0
+    }
+  ],
+  "overlay_on_total_count": [
+    {
+      "total_count": 15,
+      "conc": 83.3,
+      "dil": 83.3
+    },
+    {
+      "total_count": 30,
+      "conc": 66.7,
+      "dil": 75.0
+    },
+    {
+      "total_count": 45,
+      "conc": 58.3,
+      "dil": 75.0
+    }
+  ],
+  "gap_capital_axis_pp": 8.299999999999997,
+  "gap_total_axis_pp": 16.700000000000003,
+  "positive_control_ok": true,
+  "dilutant_ok": true,
+  "verdict": "PARTIAL (diverges on BOTH axes -> two-variable law f(capital-count, total-N); \u00a78.7 monitors both)",
+  "CONCENTRATED": {
+    "name": "CONCENTRATED",
+    "base_heldout_cap_correct": 100.0,
+    "trajectory": [
+      {
+        "total": 0,
+        "capital": 0,
+        "relation": "base",
+        "heldout_cap_correct": 100.0,
+        "heldout_cap_stable": 100.0,
+        "delta_norm": 0.0
+      },
+      {
+        "total": 1,
+        "capital": 1,
+        "relation": "capital",
+        "heldout_cap_correct": 100.0,
+        "heldout_cap_stable": 100.0,
+        "delta_norm": 26.497
+      },
+      {
+        "total": 2,
+        "capital": 2,
+        "relation": "capital",
+        "heldout_cap_correct": 100.0,
+        "heldout_cap_stable": 100.0,
+        "delta_norm": 21.533
+      },
+      {
+        "total": 3,
+        "capital": 3,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 23.707
+      },
+      {
+        "total": 4,
+        "capital": 4,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 23.108
+      },
+      {
+        "total": 5,
+        "capital": 5,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 24.796
+      },
+      {
+        "total": 6,
+        "capital": 6,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 24.696
+      },
+      {
+        "total": 7,
+        "capital": 7,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 24.176
+      },
+      {
+        "total": 8,
+        "capital": 8,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 24.97
+      },
+      {
+        "total": 9,
+        "capital": 9,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 17.318
+      },
+      {
+        "total": 10,
+        "capital": 10,
+        "relation": "capital",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 25.814
+      },
+      {
+        "total": 11,
+        "capital": 11,
+        "relation": "capital",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 22.055
+      },
+      {
+        "total": 12,
+        "capital": 12,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 25.455
+      },
+      {
+        "total": 13,
+        "capital": 13,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 26.529
+      },
+      {
+        "total": 14,
+        "capital": 14,
+        "relation": "capital",
+        "heldout_cap_correct": 91.7,
+        "heldout_cap_stable": 91.7,
+        "delta_norm": 25.057
+      },
+      {
+        "total": 15,
+        "capital": 15,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 26.248
+      },
+      {
+        "total": 16,
+        "capital": 16,
+        "relation": "capital",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 25.503
+      },
+      {
+        "total": 17,
+        "capital": 17,
+        "relation": "capital",
+        "heldout_cap_correct": 66.7,
+        "heldout_cap_stable": 66.7,
+        "delta_norm": 24.479
+      },
+      {
+        "total": 18,
+        "capital": 18,
+        "relation": "capital",
+        "heldout_cap_correct": 50.0,
+        "heldout_cap_stable": 50.0,
+        "delta_norm": 31.434
+      },
+      {
+        "total": 19,
+        "capital": 19,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 26.957
+      },
+      {
+        "total": 20,
+        "capital": 20,
+        "relation": "capital",
+        "heldout_cap_correct": 50.0,
+        "heldout_cap_stable": 50.0,
+        "delta_norm": 26.251
+      },
+      {
+        "total": 21,
+        "capital": 21,
+        "relation": "capital",
+        "heldout_cap_correct": 50.0,
+        "heldout_cap_stable": 50.0,
+        "delta_norm": 28.152
+      },
+      {
+        "total": 22,
+        "capital": 22,
+        "relation": "capital",
+        "heldout_cap_correct": 41.7,
+        "heldout_cap_stable": 41.7,
+        "delta_norm": 25.684
+      },
+      {
+        "total": 23,
+        "capital": 23,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 27.878
+      },
+      {
+        "total": 24,
+        "capital": 24,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 29.139
+      },
+      {
+        "total": 25,
+        "capital": 25,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 28.142
+      },
+      {
+        "total": 26,
+        "capital": 26,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 22.383
+      },
+      {
+        "total": 27,
+        "capital": 27,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 26.899
+      },
+      {
+        "total": 28,
+        "capital": 28,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 25.855
+      },
+      {
+        "total": 29,
+        "capital": 29,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 25.992
+      },
+      {
+        "total": 30,
+        "capital": 30,
+        "relation": "capital",
+        "heldout_cap_correct": 66.7,
+        "heldout_cap_stable": 66.7,
+        "delta_norm": 26.921
+      },
+      {
+        "total": 31,
+        "capital": 31,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 26.386
+      },
+      {
+        "total": 32,
+        "capital": 32,
+        "relation": "capital",
+        "heldout_cap_correct": 66.7,
+        "heldout_cap_stable": 66.7,
+        "delta_norm": 20.506
+      },
+      {
+        "total": 33,
+        "capital": 33,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 27.497
+      },
+      {
+        "total": 34,
+        "capital": 34,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 28.359
+      },
+      {
+        "total": 35,
+        "capital": 35,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 22.291
+      },
+      {
+        "total": 36,
+        "capital": 36,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 24.17
+      },
+      {
+        "total": 37,
+        "capital": 37,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 26.762
+      },
+      {
+        "total": 38,
+        "capital": 38,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 24.296
+      },
+      {
+        "total": 39,
+        "capital": 39,
+        "relation": "capital",
+        "heldout_cap_correct": 50.0,
+        "heldout_cap_stable": 50.0,
+        "delta_norm": 24.73
+      },
+      {
+        "total": 40,
+        "capital": 40,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 25.614
+      },
+      {
+        "total": 41,
+        "capital": 41,
+        "relation": "capital",
+        "heldout_cap_correct": 50.0,
+        "heldout_cap_stable": 50.0,
+        "delta_norm": 26.456
+      },
+      {
+        "total": 42,
+        "capital": 42,
+        "relation": "capital",
+        "heldout_cap_correct": 50.0,
+        "heldout_cap_stable": 50.0,
+        "delta_norm": 26.996
+      },
+      {
+        "total": 43,
+        "capital": 43,
+        "relation": "capital",
+        "heldout_cap_correct": 50.0,
+        "heldout_cap_stable": 50.0,
+        "delta_norm": 26.194
+      },
+      {
+        "total": 44,
+        "capital": 44,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 24.009
+      },
+      {
+        "total": 45,
+        "capital": 45,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 25.096
+      },
+      {
+        "total": 46,
+        "capital": 46,
+        "relation": "capital",
+        "heldout_cap_correct": 50.0,
+        "heldout_cap_stable": 50.0,
+        "delta_norm": 25.083
+      },
+      {
+        "total": 47,
+        "capital": 47,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 26.905
+      },
+      {
+        "total": 48,
+        "capital": 48,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 28.226
+      },
+      {
+        "total": 49,
+        "capital": 49,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 27.175
+      },
+      {
+        "total": 50,
+        "capital": 50,
+        "relation": "capital",
+        "heldout_cap_correct": 58.3,
+        "heldout_cap_stable": 58.3,
+        "delta_norm": 26.683
+      }
+    ],
+    "end": {
+      "heldout_cap_correct": 58.3,
+      "heldout_cap_stable": 58.3,
+      "heldout_cap_js_loc": 44.65,
+      "within_continent_loc": 94.45,
+      "global_loc": 99.77,
+      "write_retention": 100.0,
+      "apply_expr_all": 100.0,
+      "dilutant_expr": null,
+      "continent_expr": null
+    }
+  },
+  "DILUTED": {
+    "name": "DILUTED",
+    "base_heldout_cap_correct": 100.0,
+    "trajectory": [
+      {
+        "total": 0,
+        "capital": 0,
+        "relation": "base",
+        "heldout_cap_correct": 100.0,
+        "heldout_cap_stable": 100.0,
+        "delta_norm": 0.0
+      },
+      {
+        "total": 1,
+        "capital": 1,
+        "relation": "capital",
+        "heldout_cap_correct": 100.0,
+        "heldout_cap_stable": 100.0,
+        "delta_norm": 26.497
+      },
+      {
+        "total": 2,
+        "capital": 1,
+        "relation": "language",
+        "heldout_cap_correct": 100.0,
+        "heldout_cap_stable": 100.0,
+        "delta_norm": 25.933
+      },
+      {
+        "total": 3,
+        "capital": 1,
+        "relation": "continent",
+        "heldout_cap_correct": 100.0,
+        "heldout_cap_stable": 100.0,
+        "delta_norm": 24.133
+      },
+      {
+        "total": 4,
+        "capital": 2,
+        "relation": "capital",
+        "heldout_cap_correct": 100.0,
+        "heldout_cap_stable": 100.0,
+        "delta_norm": 21.959
+      },
+      {
+        "total": 5,
+        "capital": 2,
+        "relation": "language",
+        "heldout_cap_correct": 100.0,
+        "heldout_cap_stable": 100.0,
+        "delta_norm": 26.568
+      },
+      {
+        "total": 6,
+        "capital": 2,
+        "relation": "continent",
+        "heldout_cap_correct": 100.0,
+        "heldout_cap_stable": 100.0,
+        "delta_norm": 21.138
+      },
+      {
+        "total": 7,
+        "capital": 3,
+        "relation": "capital",
+        "heldout_cap_correct": 91.7,
+        "heldout_cap_stable": 91.7,
+        "delta_norm": 22.954
+      },
+      {
+        "total": 8,
+        "capital": 3,
+        "relation": "language",
+        "heldout_cap_correct": 91.7,
+        "heldout_cap_stable": 91.7,
+        "delta_norm": 23.997
+      },
+      {
+        "total": 9,
+        "capital": 3,
+        "relation": "continent",
+        "heldout_cap_correct": 91.7,
+        "heldout_cap_stable": 91.7,
+        "delta_norm": 24.992
+      },
+      {
+        "total": 10,
+        "capital": 4,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 25.337
+      },
+      {
+        "total": 11,
+        "capital": 4,
+        "relation": "language",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 25.796
+      },
+      {
+        "total": 12,
+        "capital": 4,
+        "relation": "continent",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 23.249
+      },
+      {
+        "total": 13,
+        "capital": 5,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 25.987
+      },
+      {
+        "total": 14,
+        "capital": 5,
+        "relation": "language",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 24.311
+      },
+      {
+        "total": 15,
+        "capital": 5,
+        "relation": "continent",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 24.872
+      },
+      {
+        "total": 16,
+        "capital": 6,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 24.67
+      },
+      {
+        "total": 17,
+        "capital": 6,
+        "relation": "language",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 22.113
+      },
+      {
+        "total": 18,
+        "capital": 6,
+        "relation": "continent",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 21.929
+      },
+      {
+        "total": 19,
+        "capital": 7,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 27.684
+      },
+      {
+        "total": 20,
+        "capital": 7,
+        "relation": "language",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 27.236
+      },
+      {
+        "total": 21,
+        "capital": 7,
+        "relation": "continent",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 21.473
+      },
+      {
+        "total": 22,
+        "capital": 8,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 26.144
+      },
+      {
+        "total": 23,
+        "capital": 8,
+        "relation": "language",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 25.746
+      },
+      {
+        "total": 24,
+        "capital": 8,
+        "relation": "continent",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 26.91
+      },
+      {
+        "total": 25,
+        "capital": 9,
+        "relation": "capital",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 18.071
+      },
+      {
+        "total": 26,
+        "capital": 9,
+        "relation": "language",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 20.32
+      },
+      {
+        "total": 27,
+        "capital": 9,
+        "relation": "continent",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 23.69
+      },
+      {
+        "total": 28,
+        "capital": 10,
+        "relation": "capital",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 23.533
+      },
+      {
+        "total": 29,
+        "capital": 10,
+        "relation": "language",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 26.862
+      },
+      {
+        "total": 30,
+        "capital": 10,
+        "relation": "continent",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 20.617
+      },
+      {
+        "total": 31,
+        "capital": 11,
+        "relation": "capital",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 22.909
+      },
+      {
+        "total": 32,
+        "capital": 11,
+        "relation": "language",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 24.501
+      },
+      {
+        "total": 33,
+        "capital": 11,
+        "relation": "continent",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 24.803
+      },
+      {
+        "total": 34,
+        "capital": 12,
+        "relation": "capital",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 25.825
+      },
+      {
+        "total": 35,
+        "capital": 12,
+        "relation": "language",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 24.314
+      },
+      {
+        "total": 36,
+        "capital": 12,
+        "relation": "continent",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 22.655
+      },
+      {
+        "total": 37,
+        "capital": 13,
+        "relation": "capital",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 25.33
+      },
+      {
+        "total": 38,
+        "capital": 13,
+        "relation": "language",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 26.53
+      },
+      {
+        "total": 39,
+        "capital": 13,
+        "relation": "continent",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 23.319
+      },
+      {
+        "total": 40,
+        "capital": 14,
+        "relation": "capital",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 24.827
+      },
+      {
+        "total": 41,
+        "capital": 14,
+        "relation": "language",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 24.909
+      },
+      {
+        "total": 42,
+        "capital": 14,
+        "relation": "continent",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 21.428
+      },
+      {
+        "total": 43,
+        "capital": 15,
+        "relation": "capital",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 24.72
+      },
+      {
+        "total": 44,
+        "capital": 15,
+        "relation": "language",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 19.757
+      },
+      {
+        "total": 45,
+        "capital": 15,
+        "relation": "continent",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 23.668
+      },
+      {
+        "total": 46,
+        "capital": 16,
+        "relation": "capital",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 26.374
+      },
+      {
+        "total": 47,
+        "capital": 16,
+        "relation": "language",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 26.001
+      },
+      {
+        "total": 48,
+        "capital": 16,
+        "relation": "continent",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 52.833
+      },
+      {
+        "total": 49,
+        "capital": 17,
+        "relation": "capital",
+        "heldout_cap_correct": 75.0,
+        "heldout_cap_stable": 75.0,
+        "delta_norm": 25.783
+      },
+      {
+        "total": 50,
+        "capital": 17,
+        "relation": "language",
+        "heldout_cap_correct": 83.3,
+        "heldout_cap_stable": 83.3,
+        "delta_norm": 25.086
+      }
+    ],
+    "end": {
+      "heldout_cap_correct": 83.3,
+      "heldout_cap_stable": 83.3,
+      "heldout_cap_js_loc": 69.04,
+      "within_continent_loc": 80.81,
+      "global_loc": 99.05,
+      "write_retention": 98.0,
+      "apply_expr_all": 98.0,
+      "dilutant_expr": 97.0,
+      "continent_expr": 93.8
+    }
+  }
+}

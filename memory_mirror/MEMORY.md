@@ -39,3 +39,4 @@ It re-grounds the whole "LLM-as-Database" program: goal, the months-long experim
 - [Autonomy ERROR label can mask a completed run](autonomy-error-label-can-mask-completed-run.md) — driver wall-clock can expire between run-finish and staging; check result-JSON mtimes vs the staged timestamp before trusting ERROR/INVALID
 - [Codex ChatGPT-OAuth model slug](codex-chatgpt-oauth-model-slug.md) — Codex+ChatGPT-OAuth rejects gpt-5/gpt-5-codex; use gpt-5.5 (the default)
 - [Autonomy driver stale-guard deletes result](autonomy-driver-stale-guard-deletes-result.md) — driver unlinks the unit result_json before re-running; back expensive results with source/arm JSONs
+- [Pod restart wipes system-python ML stack](pod-restart-wipes-system-python-ml-stack.md) — reinstall transformers==4.51.0 pin (torch survives); use python3.11

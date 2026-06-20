@@ -124,6 +124,12 @@ _Scope: dual-medium 2PC machinery PROVEN. Caveats: failure-path compensation rev
 | **C2** | relation-inclusive keying reduces same-relation key collinearity (root-cause fix) | relation keying makes keys MORE collinear (0.93–0.99). Depth map: separability U-shaped, **min L8–12 (0.20–0.42)**, max late L24–28 (0.88–0.91) | ⛔ **PRUNED** + mechanism mapped. C15 tension (L15-25 = worst isolation zone); new lead band [8-12]. D-C2-1 (`20_C2_*`) |
 _Net: CPU deployment loop CLOSED via llama.cpp (E1-A); LARQL serving bias-architecture-gated (E1-B, causally grounded by A7). A1 batch-clean largely-but-not-perfectly size-robust (B1). Cross-entity bleed = a measured layer-resolved key-collinearity phenomenon, minimal at L8-12 (C2)._
 
+## ⭐ 2026-06-20 — D1 capacity law (concentration-vs-dilution drift variable, `22_D1_CAPACITY_LAW`, D-D1-1)
+| ID | test | result | status |
+|---|---|---|---|
+| D1-P1 | predictor map (no-edit `compute_ks`, Qwen2.5-3B) | covariate (same-rel cross-ent collinearity @[4-8]) capital 0.436 > language 0.412 > continent 0.333; D7 dissociation 1.71→2.38 | covariate ranking set; D7 basis-rotation weak-moderate (relation-clustering falls, not entity rising) |
+| D1-P2 | CONCENTRATED 50 capital vs DILUTED 17cap+17lang+16cont, FIXED total-N=50, band[4-8] seq, 4 seeds×2 orderings, LAW#5 ✓ (|Δ|=0.0007), fixed disjoint 12-entity held-out | held-out capital @ equal total-N: CONC mean 52.1% vs DIL 83.3%, **concentrated more corrupted 4/4 seeds** (gaps 50/16.7/41.7pp); 2 CONFIRM+1 PARTIAL; seed3 INVALID (continent under-expr 81.2%) | **PARTIAL aggregate; ROBUST directional: global `edge_count_since_anchor` (§8.7) INSUFFICIENT → drift must be relation-concentration-aware** (OQ-W1/§7.2). NOT settled = two-variable law (concentration + smaller cross-relation term); thresholds/size-term UNSET. **Dual-reviewed** (Opus + gpt-5.5 `FIX-FIRST` applied); independence CLOSED (directional). NEXT: high-cardinality replication + B1 size term. |
+
 ## ⭐ 2026-06-20 — C2-band falsifier (sequential band [4-8] vs [8-12], `21_C2BAND_*`, D-C2band-1)
 | ID | test | result | status |
 |---|---|---|---|
