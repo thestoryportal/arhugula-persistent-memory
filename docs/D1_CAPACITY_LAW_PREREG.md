@@ -106,5 +106,25 @@ Band [4-8], Qwen2.5-3B, total-N=50, sequential, single seed. Engine UNMODIFIED; 
 - **VERDICT = CONFIRM** (pos_control ✓, dilutant_ok ✓): corruption = **f(capital-edit-count), not total edge-count**. At equal total edges the diluted store is clean while the concentrated store is 58pp corrupted. → **§8.7 must count per-relation concentration, not `edge_count_since_anchor`** (the central OQ-W1 reconciliation).
 - **NOT YET PROMOTED (C2-band lesson):** single seed/ordering; capital-axis overlay saturated in shared region (claim rests on total-axis divergence + low-cap regime match); N≤50, 3B only (model-size term open — B1). Promotion path: ≥3 seeds + ≥2 orderings + advisor + cross-family (Codex) review, then B1 model-size extension. Qualitative variable-selection is strong; quantitative thresholds are NOT set here (§3.1).
 
+## 7d. Phase 3 — clean high-cardinality concentration DOSE-RESPONSE (pre-registered, addresses the dual-review)
+**Motivation:** Phase 2 used `continent` (cardinality-4) as a dilutant → seed3 INVALID (under-expression); Codex `FIX-FIRST` required a clean high-cardinality replication. **Data constraint (verified):** the confident+correct+single-token pools are capital=44, language=74, **currency=17 (only ~5 distinct values, euro-dominated → effectively low-cardinality)**, continent=4. So only **capital + language** are clean high-cardinality relations. Phase 3 uses them in a **dose-response** (stronger than Phase 2's binary): it characterizes the two-variable form the reviews flagged.
+
+**Design (FROZEN):** fixed 48-entity edit pool + 12 disjoint baseline-correct held-out capital entities (from `g6_screen_qwen3b_v2.json`, 78). Fixed **total-N=48** on the SAME 48 entities every arm; vary capital fraction (complement edited on `language`, same entities, one edit each):
+- **CONCENTRATED:** 48 capital (its sequential trajectory gives the PURE held-out-capital-vs-capital-count reference at k=12/24/36/48).
+- **DOSE arms (each total-N=48):** 36 cap+12 lang · 24 cap+24 lang · 12 cap+36 lang.
+- Qwen2.5-3B, band [4-8], sequential, in-solve AlphaEdit, LAW#5 gate; **3 seeds** (entity reshuffle). Held-out capital top-1 (12 entities) the metric. Dilutant (language) expression guard ≥95%.
+
+**Pre-registered reads (FROZEN):**
+- **Concentration-dose (the F1 variable):** at FIXED total-N=48, held-out capital corruption increases monotonically with capital-count (12<24<36<48). Holds → concentration is the driver, total-N held constant. (Replicates Phase 2's directional claim with clean dilutants.)
+- **Cross-relation term (the two-variable question):** for each k∈{12,24,36}, compare the DOSE arm at capital-count k (with 48−k language edits) vs the CONCENTRATED trajectory at the same k (pure, 0 language). **Equal (≤5pp) → pure concentration, no cross-relation term; dose-arm worse (>5pp) → a real cross-relation volume term** (quantifies Phase 2 seed1's 8.3pp). Report the magnitude across seeds.
+- **INVALID** if language dilutant expression <95% (guard) or concentrated doesn't corrupt (positive control).
+
+## 7e. Phase 3 RESULT (2026-06-20 — DONE; `results/d1_dose_response_result.json`, `experiments/track_d/d1_dose_response.py`)
+Clean high-cardinality dose-response (capital measured, language dilutant), 24 baseline-correct held-out, within-arm paired (capital block → R_pure_k → language block → R_after), k∈{24,36,42}, 3 seeds. LAW#5 gate PASSED (|Δ|=0.0015; first gate build had a measure-after-restore bug → false HALT, fixed, science path unchanged).
+- **Dilutant clean:** language expression **100% all 9 arms** (continent confound eliminated; all valid).
+- **Concentration dominates (replicated):** R_pure means k24=51.4%, k36=23.6%, k42=26.4% (base 100%) — capital-edit-count drives corruption at FIXED total-N=48. (36→42 plateau = <1-entity saturation.)
+- **Cross-relation term small but REAL:** paired deltas 6 positive / 3 zero / **0 negative** → frozen rule `cross_real=False` (mean 3.7pp ≤ 4.2pp single-set granularity) is **underpowered**; the **sign test (6/6 non-tie positive) ≈ p=0.016** indicates a small real term (~1 entity). **Two-variable law (dominant concentration + small cross-relation term) HOLDS**, cross-term magnitude below single-set resolution (future: more held-out/seeds).
+- **Lesson:** respected the frozen label but interpreted correctly (mechanical label ≠ scientific claim) — caught by Opus advisor when the script's verdict string nearly led to an over-correction to "single-variable."
+
 ## 8. Artifacts (planned)
 `experiments/track_d/d1_predictor_map.py` (Phase 1), `experiments/track_d/d1_concentration_sweep.py` (Phase 2); results `results/d1_*_result.json`; writeup `CORPUS/22_D1_CAPACITY_LAW.md`; decision `D-D1-1`.

@@ -1,0 +1,132 @@
+{
+  "experiment": "D1_phase3_dose_response",
+  "band": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "total_N": 48,
+  "doses": [
+    24,
+    36,
+    42
+  ],
+  "heldout_n": 24,
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "engine": "kmeng01/memit UNMODIFIED",
+  "per_run": [
+    {
+      "seed": 1,
+      "k": 24,
+      "base": 100.0,
+      "R_pure_k": 54.2,
+      "R_after_full": 50.0,
+      "cross_relation_term_pp": 4.2,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0
+    },
+    {
+      "seed": 1,
+      "k": 36,
+      "base": 100.0,
+      "R_pure_k": 16.7,
+      "R_after_full": 16.7,
+      "cross_relation_term_pp": 0.0,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0
+    },
+    {
+      "seed": 1,
+      "k": 42,
+      "base": 100.0,
+      "R_pure_k": 16.7,
+      "R_after_full": 16.7,
+      "cross_relation_term_pp": 0.0,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0
+    },
+    {
+      "seed": 2,
+      "k": 24,
+      "base": 100.0,
+      "R_pure_k": 45.8,
+      "R_after_full": 41.7,
+      "cross_relation_term_pp": 4.1,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0
+    },
+    {
+      "seed": 2,
+      "k": 36,
+      "base": 100.0,
+      "R_pure_k": 29.2,
+      "R_after_full": 25.0,
+      "cross_relation_term_pp": 4.2,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0
+    },
+    {
+      "seed": 2,
+      "k": 42,
+      "base": 100.0,
+      "R_pure_k": 33.3,
+      "R_after_full": 25.0,
+      "cross_relation_term_pp": 8.3,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0
+    },
+    {
+      "seed": 3,
+      "k": 24,
+      "base": 100.0,
+      "R_pure_k": 54.2,
+      "R_after_full": 45.8,
+      "cross_relation_term_pp": 8.4,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0
+    },
+    {
+      "seed": 3,
+      "k": 36,
+      "base": 100.0,
+      "R_pure_k": 25.0,
+      "R_after_full": 25.0,
+      "cross_relation_term_pp": 0.0,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0
+    },
+    {
+      "seed": 3,
+      "k": 42,
+      "base": 100.0,
+      "R_pure_k": 29.2,
+      "R_after_full": 25.0,
+      "cross_relation_term_pp": 4.2,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0
+    }
+  ],
+  "dose_response_pure_means": {
+    "24": 51.4,
+    "36": 23.6,
+    "42": 26.4
+  },
+  "cross_term_means": {
+    "24": 5.6,
+    "36": 1.4,
+    "42": 4.2
+  },
+  "cross_term_mean_all": 3.7,
+  "heldout_granularity_pp": 4.2,
+  "monotonic_concentration": false,
+  "cross_relation_term_real": false,
+  "positive_control_ok": true,
+  "dilutant_ok": true,
+  "verdict": "NO RESOLVABLE CROSS-RELATION TERM (mean 3.7pp <= 4.2pp granularity) -> concentration dominates; cross-relation term below resolution"
+}
