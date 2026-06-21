@@ -21,6 +21,24 @@ ready/not-ready-with-conditions determination.** Falsification-first. Everything
   state what *new* F1 gap your run opens. If you can't, it's redundant — skip it.
 - Status ∈ `PROVEN-FOR-SCOPE · PARTIAL · OPEN · FALSIFIED/PRUNED`. "FOR-SCOPE" = proven within a named
   scope (model/N/regime); pushing the scope is itself additive work.
+- **⭐ COMPLETENESS (whole-system scope — binding):** the node-set here must cover **ALL cells of the e2e map** (`docs/SPEC_E2E_GROUND_TRUTH.md` §B layers + §E memory lifecycle + §G read contract), **not only the cells we've worked.** A cell we have *not entered* is an **OPEN node here, not an absent one** (see ⓪). This is the structural guard against the write-engine tunnel-vision: PROGRESS must show *where we are against the whole system*, so the read contract / Pruning-GC / lifecycle-loop stay visible instead of silently off-board.
+
+---
+
+## ⓪ E2E LAYER COVERAGE (situate every node here — `docs/SPEC_E2E_GROUND_TRUTH.md` is authoritative; this is the coverage view)
+| e2e cell (ground-truth ref) | our coverage | node |
+|---|---|---|
+| **Write Engine** — edit mechanics, recipe, batch-clean store (§8) | **PROVEN-FOR-SCOPE** (3B/N≤100) | ① recipe/A1/B3 |
+| **Memory lifecycle — drift trigger** (§8.7/§E) | **AMENDED** (concentration-aware `k≤1`, not count-only) | D1/D-D1-2 |
+| **Memory lifecycle — compaction self-heal at scale** (§11.14/§E) | **OPEN** (D20: unsafe once sub-batched; true-scale untested) | ③ D20 |
+| **Memory lifecycle — Pruning/GC · out-of-band reconciliation · archive · accumulate→compact LOOP** (§11.12–13/§E) | **❌ UNTOUCHED** (≈half of production memory mgmt) | ③ NEW |
+| **Read / query contract** — reverse, aggregation, negation, traversal, 5 query families (§G) | **❌ OPEN/UNTESTED** — CP2 not started; **biggest gap** | ③ CP2 |
+| **Validation layer** (§9) | **PROTOTYPED only** (not empirically stressed) | ① G3 |
+| **Security layer** (§10) | **PROTOTYPED only** | ① G2 |
+| **State Consistency / 2PC / TC / circuit breaker** (§11) | **PROTOTYPED only** | ① G1 |
+| **Deployment** — compile → CPU-serve (§I) | **PROVEN-FOR-SCOPE** | ① E1·A |
+| **Orchestration layer** (§12) | **❌ not engaged** | — |
+_Reading: the write/deploy spine is proven-for-scope; governance is prototyped-not-proven; the **read contract, Pruning/GC, and the lifecycle-as-a-loop are UNTOUCHED** — those empty cells are the honest F1 frontier, not the next write-engine scaling run._
 
 ---
 
@@ -56,9 +74,12 @@ Q4_K_M ✅ → **`E1·A`** serves on CPU ✅ → **`D1` capacity law `[OPEN — 
 | **D1 capacity law** | A1, B3, E1·A | measure N-before-break (corruption + quantization) → the number a ready/not-ready call needs | deployment-readiness **(REQUIRED)** | ★ critical path |
 | **D1 — structural** ✅ DONE | G6.1, A1 | drift = per-relation concentration not global edge-count; **REPLICATES on Qwen2.5-7B (model-general, B1/D-B1-2 ⟨D-B1-2@0db8d819⟩)** → §8.7 amendment written | OQ-W1 reconciliation | DONE (D-D1-1 ⟨D-D1-1@0db8d819⟩+D-B1-2) |
 | **D1 — numeric threshold** ⚠️ OPEN | D1-structural | set the per-relation WARNING/HARD value | the readiness number | **DONE (D-D1-2 ⟨D-D1-2@e023d8d2⟩): k≤1 conservative (order-cluster-bootstrap + ≥2 held-out seeds + determinism); mixed-load→pair with global-volume bound; cross-model transfer OPEN** |
-| **CP2 schema build-items** | CP2, G3 | L1 triple-readback + 5 query families + violates-rejection | contract-readiness | ★ required |
+| **CP2 schema build-items / READ CONTRACT** (§G) | CP2, G3 | L1 triple-readback + 5 query families + violates-rejection + reverse/aggregation/negation/traversal | contract-readiness — **biggest unspecified+untested cell** | ★ required (read-contract frontier) |
+| **D20 compaction-at-scale** (§11.14/§E) | A1, G6.1, D1 | does the compaction self-heal stay clean once it sub-batches / at true drift size? | condition-3 of the B3N architecture verdict | ★ RUNNING (chunking corrupts by C=10; scale gated on larger stimulus pool) |
+| **Memory-lifecycle LOOP — Pruning/GC · out-of-band reconciliation · accumulate→compact→archive** (§11.12–13/§E) | G1 (2PC), A1 | exercise the production memory loop end-to-end, not just corruption-within | **≈half of production memory mgmt — UNTOUCHED**; required for a credible "production" claim | ☆ NEW — on the board now (was invisible) |
 | **C2-band** | G6.1, C2 mechanism | does min-collinearity band [8-12] reduce **sequential** corruption? (falsifier) | scale mechanism → feeds D1 | ◆ lead — ⚠️ **REAL-BUT-UNDERPOWERED, NOT PROMOTED** (CORPUS/21, D-C2band-1 ⟨D-C2band-1@c6fb6103⟩): mechanical PASS (+18.73pp cross-JS) = real redistribution (within-loc FALL + expr 100% exclude under-editing); underpowered (1 seed), within-entity top-1 cost & mechanism unmeasured; de-confounders queued |
 | **C/G7 multi-token** | recipe | multi-token value robustness at the write | write-robustness | ◆ |
+| **Validation/Security/2PC empirical stress** (§9/§10/§11) | G1/G2/G3 prototypes | move from self-authored prototype → empirical stress (the prototype-tautology trap) | governance-readiness | ☆ deferred but on the board |
 
 ## ④ FALSIFIED / PRUNED (do NOT pursue — dead ground)
 - **E1 Claim B:** LARQL `gguf-to-vindex` serving **Qwen2.5** — drops 108 attn biases (A7 causal ablation) → garbage. Use **Qwen3 family** or **llama.cpp**. [CORPUS/18]
