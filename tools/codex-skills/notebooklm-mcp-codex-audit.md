@@ -2,7 +2,18 @@
 
 Date: 2026-06-07
 
-> **⚠ STALE — DO NOT TRUST THE "Current Local State" BELOW (re-checked 2026-06-21).** The setup this audit describes is **gone**: no `.mcp.json` exists in the repo; `notebooklm`/`nlm`/`notebooklm-mcp` CLI binaries are absent; `notebooklm-py` is NOT importable and no `uv` tool is installed (likely an env/pod-restart wipe — [[pod-restart-wipes-system-python-ml-stack]]). Even when this was written, the audit itself found NotebookLM **unavailable as callable tools from the agent session** + the skill auth path **stale**, and it was pinned to notebook `Agent Harness Engineering` (the **predecessor** project, NOT the LLM-as-DB corpus). **Net: `teng-lin/notebooklm-py` is NOT active on this repo.** NotebookLM is currently an **operator-run** tool only (agent writes prompts in `research_and_specs/notebooklm_*` → operator runs them → pastes results back). To reactivate a programmatic path requires: install `notebooklm-py`, an operator-gated **Google login**, an MCP registration, and pointing it at the **LLM-as-DB** notebook (not the old one). Retained for the reactivation recipe only.
+> **⚠ The "Current Local State" section below is the STALE 2026-06-07 record — superseded by the FRESH-INSTALL block here (2026-06-21).** The original setup had been wiped (no `.mcp.json`; CLI absent; not importable — pod-restart wipe, [[pod-restart-wipes-system-python-ml-stack]]).
+>
+> **FRESH INSTALL (2026-06-21, per the operator + the repo's recommended instructions):**
+> - `pip install uv` → `uv tool install "notebooklm-py[browser]"` → **`notebooklm-py==0.7.2`** installed; CLI at **`/root/.local/bin/notebooklm`** (v0.7.2). (`~/.local/bin` must be on PATH: `export PATH="$HOME/.local/bin:$PATH"`.)
+> - **Auth state: NOT logged in** (`notebooklm auth check --test --json` → `storage_exists: false`). **Operator step required (interactive, gated): `notebooklm login`** (opens a browser for Google sign-in; the `[browser]` extra auto-downloads Chromium ~170 MB on first login — may need `playwright install chromium` + a headless/display path on this pod). Verify: `notebooklm auth check --test --json`.
+> - **Then point it at the RELEVANT notebooks (operator-provided 2026-06-21), NOT the old `Agent Harness Engineering` pin below:** `notebooklm use <id>` with one of —
+>   - **`f667f1f2-7624-4039-b521-6ca37b437b6b`** (https://notebooklm.google.com/notebook/f667f1f2-7624-4039-b521-6ca37b437b6b)
+>   - **`23ba5f2d-8317-4412-bb8a-f7c30af4c017`** (https://notebooklm.google.com/notebook/23ba5f2d-8317-4412-bb8a-f7c30af4c017)
+>
+>   (`notebooklm list` after login to confirm titles/access; switch between them with `notebooklm use <id>`.)
+> - **⚠ Pod-restart wipes `~/.local` installs** (it wiped the prior setup) — re-run the `uv tool install` after any restart; the auth `storage_state.json` under `~/.notebooklm/` likewise needs re-login if wiped.
+> - **Discipline unchanged:** NotebookLM = corpus-grounded **advisory synthesis**, NOT authoritative for load-bearing claims (RESEARCH-FIRST: check our own `research_and_specs/` corpus first); outputs are leads/context, evidence still comes from `CORPUS/` + primary source.
 
 ## Scope
 
