@@ -35,8 +35,8 @@ Status: COLLAPSED=tested&ruled-out · OPEN=untested · PARTIAL=corroborated-not-
 ## D. Capacity / mechanism (the D1 cluster = F1 deliverable)
 | # | Hypothesis | Status | Cost | Value |
 |---|---|---|---|---|
-| D1 | Capacity law: interference = f(relation fan-out × N × model size × band × key-cosine). The core spec-readiness deliverable | **STRUCTURAL DONE+model-general (§8.7 amendment, D-D1-1+D-B1-2)**; numeric threshold OPEN (instrument-noise-limited) | high | HIGH |
-| D-NOISE | Sequential-edit held-out corruption is ~50pp run-to-run nondeterministic on the IDENTICAL config (7B seed3 20.8→70.8 on re-run; GPU nondeterminism, unverified mechanism) → single-run absolutes unreliable; BLOCKS numeric §8.7 thresholds on this instrument | **PROMOTED (finding, D-B1-2)** → next-arc = deterministic/batch/higher-N instrument | — | HIGH (gates the numeric law) |
+| D1 | Capacity law: interference = f(relation fan-out × N × model size × band × key-cosine). The core spec-readiness deliverable | **STRUCTURAL DONE+model-general+operator-APPROVED; NUMERIC guardrail SET (D-D1-2: k≤2, dual-reviewed; mixed-load→needs global-volume bound too)**; cross-model transfer OPEN (OQ-W1, 7B via determinism) | high | HIGH |
+| D-NOISE | Sequential-edit held-out corruption is ~50pp run-to-run nondeterministic on the IDENTICAL config (7B seed3 20.8→70.8 on re-run; GPU nondeterminism, unverified mechanism) → single-run absolutes unreliable; BLOCKS numeric §8.7 thresholds on this instrument | **RESOLVED (D-D1-2):** 3B within-process SD=0; noise is 7B/across-process + edit-ORDER (intrinsic); lower-variance instrument BUILT (order-clustered bootstrap) → numeric guardrail set | — | HIGH (gates the numeric law) |
 | D2 | Mechanistic: WHY batch eliminates corruption — SVD edit-deltas, project on shared-relation direction, null-space occupancy. Convert inference→evidence | OPEN | med | HIGH |
 | D3 | Ground capacity in null-space DIMENSION (compute_P reports it) — principled bound, not fitted | OPEN | low-med | med-HIGH |
 | D4 | Corruption law is model-SPECIFIC (Phase-1: locality is) — bounds D1 generality | OPEN | high | med |
