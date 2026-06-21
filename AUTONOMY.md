@@ -34,9 +34,11 @@ review pass (or fulfilled by a model in `--mode agent`). Python does not fake re
 (`codex exec -m <other>`); otherwise it is a self-consistency check and must not raise confidence.
 
 ## The mission (`tools/autonomy_mission.json`)
-One **named, pre-registered falsifier** pulled from runbook §0.3:
+One **named, pre-registered falsifier** pulled from runbook §0.3.
 
-- **`c2band_falsifier`** — Does editing in the minimum-collinearity band **[8-12]** (C2/`CORPUS/20`)
+> **⚠ STALE (2026-06-21): the bundled `c2band_falsifier` mission is DONE** — folded in as `D-C2band-1` (`CORPUS/21`, mechanical PASS-not-promoted). **Re-point `tools/autonomy_mission.json` to a current §0.3 falsifier before any launch.** The strongest current candidate is the **compaction-at-scale cleanliness** falsifier (hypothesis **D20**, B3N condition 3: does the batch/compaction path stay clean at **N≥2,000**, where MEMIT sub-batching engages?) — but it **needs a runner + pre-registered rule authored first** (no runner exists yet). Until a fresh mission + runner are pre-registered, the loop has nothing valid to run. The description below is retained as the **worked example** of a well-formed mission.
+
+- **`c2band_falsifier`** *(DONE — example only)* — Does editing in the minimum-collinearity band **[8-12]** (C2/`CORPUS/20`)
   reduce cross-entity read corruption vs the default band **[4-8]**, at fixed N=100, **sequential**
   write? (Sequential, not batch: A1/batch already drives corruption to ceiling — `unt_cross_loc`≈98.5%,
   no headroom; sequential baseline ≈54.8% is where C2's mechanism can actually move the metric.)

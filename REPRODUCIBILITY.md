@@ -41,7 +41,14 @@ sys.path.insert(0, ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 | **A7** bias ablation | `python experiments/track_a/a7_bias_ablation.py` | yes | `logs/a7_bias_ablation.log` |
 | **C2** keying probe | `python experiments/track_c/c2_key_collinearity.py` | yes | `results/c2_result.json` |
 | **C2b** depth map | `python experiments/track_c/c2b_depth_map.py` | yes | `results/c2b_depth_map_result.json` |
+| **C2-band** falsifier | `python experiments/track_c/band_corruption_compare.py` (band [8-12] vs [4-8], seq N=100) | yes (+cov L9-12) | CORPUS/21 |
+| **D1** capacity law | `python experiments/track_d/d1_predictor_map.py` ; `d1_concentration_sweep.py` ; `d1_dose_response.py` | yes | `results/d1_predictor_map_result.json`, `results/d1_concentration_sweep_*`, `results/d1_dose_response_result.json` (CORPUS/22) |
+| **B1** size-term (3B vs 7B) | `python experiments/track_b/b1_size_dose_response.py` (matched-harness dose-response; 7B VRAM adaptations) | yes | `results/b1_{3b,7b}_dose_response_result.json` (+`_seeds123`/`_seeds345`) (CORPUS/22 §B1) |
+| **D1-2** §8.7 threshold instrument | `python experiments/track_d/d1_threshold_instrument.py` (MODE lowk / mixedload; determinism env) | yes | `results/d1_threshold_lowk_3b_s2.json`, `results/d1_mixedload_smoke_3b_s3.json` (CORPUS/22) |
 | **CP1–G3** governance | `python experiments/governance/{cp1_governed_write,g1_two_phase_commit,g2_security_layer,g3_validation_pipeline}.py` | CP1 yes; G1–G3 no | `results/*_result.json`, `results/*_state_ledger.jsonl` |
+| **B3N** in-weight-necessity | *analysis decision — no runner* | no | `docs/B3_IN_WEIGHT_NECESSITY_DECISION.md` (reasoned position, not an empirical PASS) |
+
+> **Keep-current note (2026-06-21):** this re-run table is now part of the experiment close-out set (`DISCIPLINE.md` §1.1) — add a row when a new experiment lands, so it stops silently falling behind (it had drifted to ~C2 before this). The durable env / path / determinism sections above are stable; only this table + the seeds note need per-experiment upkeep. **Determinism path for the lower-variance instrument:** `torch.use_deterministic_algorithms(True)` + `CUBLAS_WORKSPACE_CONFIG=:4096:8` + `ATTN=eager` (byte-reproducible across processes on 3B; binding 3B uncertainty is edit-ORDER — `[[sequential-edit-run-nondeterminism]]`).
 
 ## Tracing a claim to its artifact
 1. Find the claim in `CORPUS/NN_*.md` (or the headline table in `README.md`).
