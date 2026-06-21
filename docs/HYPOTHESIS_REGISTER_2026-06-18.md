@@ -152,6 +152,12 @@ Seed *Decoupled MoE for Parametric Knowledge Injection*; 0 overlap with the edit
 
 **Also-relevant (minor):** *Large Scale Knowledge Washing* (deletion at scale) + *Forgetting before Learning* (parametric arithmetic updating) → **NEW-4** (DELETE write-type). *Adaptive Token Biaser* / *Outdated-Issue-Aware Decoding* → decoding-time edit handling (a D13 variant). Long-context methods themselves = out of scope for in-weight editing.
 
+### J.5 — B3N reconcile (2026-06-21): the compaction-at-scale falsifier (advisor reconcile pass)
+
+| # | Lead / Hypothesis | Maps to | Why it matters | Status |
+|---|---|---|---|---|
+| **D20** | **Compaction-at-scale may REINTRODUCE the corruption it heals.** The §8.10 self-heal assumes "compaction = full MEMIT re-run → returns to clean A1." But A1 validated cleanliness only at **N≤100 / 3B single-batch**, while §8.7 lets drift reach **1,500–8,000 edges** before compaction and **MEMIT batch size is 2,000** (spec line 384) → above that, compaction is **sub-batched = multiple sequential solves** = the exact G6.1/D-D1-2 sequential-accumulation corruption mechanism. | **B3N condition 3** / §8.10 / §10.4 / builds-on A1 (`D-A1-1`) + the G6.1 sequential-corruption finding + D1 (`D-D1-2`) | **The sharpest open F1 falsifier.** If compaction isn't clean at scale, B3N condition 2 ("compact in time") cannot save the in-weight verdict — there is no clean state to return to, and the hybrid needs the side-store after all. Higher-priority than the 7B numeric transfer. | **OPEN — NEXT-ARC test.** Pre-register + advisor before authoring. Discriminating test: does the batch/compaction path stay clean at **N≥2,000** (sub-batch boundary)? A1 cannot answer (single-batch ≤100). `source`: advisor reconcile pass, B3N (D-B3N-1). |
+
 **Cumulative graph-review verdict (6 graphs):** the central editing cluster is **well-mapped and saturating**; new graphs now mostly re-surface known nodes. Net yield = leads **D8–D18** + E1/E4 strengthened. The dominant cross-graph signal is unchanged and strong: **the field routes edits to gated/disjoint/explicit side-stores (D9/D18) or avoids weight edits via context (D13); diffuse in-weight editing has a named failure mode (KEO/D16) and a named confound (Editing-Overfit/D17).** This is the F1 in-weight-necessity question (B3) — the highest-value next analysis. Further editing-neighborhood graphs = strong diminishing returns ([[evidence-over-scaffolding]]).
 
 
