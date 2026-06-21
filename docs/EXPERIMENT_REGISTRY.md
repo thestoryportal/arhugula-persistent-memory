@@ -10,16 +10,16 @@ The navigability spine: every experiment → hypothesis, code, result, evidence 
 | **G1** | governance | dual-medium 2PC + state ledger + circuit breaker | `experiments/governance/g1_two_phase_commit.py` | `results/g1_result.json` | CORPUS/10 | PROVEN-FOR-SCOPE |  |
 | **G2** | governance | Ed25519 security: verify-cannot-forge structural | `experiments/governance/g2_security_layer.py` | `results/g2_result.json` | CORPUS/11 | PROVEN-FOR-SCOPE |  |
 | **G3** | governance | deterministic validation pipeline (violates/undeclared) | `experiments/governance/g3_validation_pipeline.py` | `results/g3_result.json` | CORPUS/12 | PROVEN-FOR-SCOPE |  |
-| **G6.1** | scale | in-weight store cross-entity-clean at scale (N=100) | `experiments/scale/g6_scale_n.py` | `results/g6_scale_n_result.json` | CORPUS/13 | SPLIT (cross-entity FALSIFIED) | D-G6-1 |
-| **A1** | scale | batch (Genesis) write eliminates cross-entity corruption | `experiments/scale/g6_scale_n.py` | `results/g6_scale_n_batch_result.json` | CORPUS/14 | PASS | D-A1-1 |
-| **A2** | track_a | in-solve relation-balanced sentinels arrest the decline | `experiments/track_a/a2_relbal_sentinels.py` | `results/a2_relbal_sentinels_result.json` | CORPUS/15 | PARTIAL | D-A2-1 |
+| **G6.1** | scale | in-weight store cross-entity-clean at scale (N=100) | `experiments/scale/g6_scale_n.py` | `results/g6_scale_n_result.json` | CORPUS/13 | SPLIT (cross-entity FALSIFIED) | D-G6-1 ⟨D-G6-1@1cf3cf8c⟩ |
+| **A1** | scale | batch (Genesis) write eliminates cross-entity corruption | `experiments/scale/g6_scale_n.py` | `results/g6_scale_n_batch_result.json` | CORPUS/14 | PASS | D-A1-1 ⟨D-A1-1@92b78833⟩ |
+| **A2** | track_a | in-solve relation-balanced sentinels arrest the decline | `experiments/track_a/a2_relbal_sentinels.py` | `results/a2_relbal_sentinels_result.json` | CORPUS/15 | PARTIAL | D-A2-1 ⟨D-A2-1@f26b823b⟩ |
 | **A2b** | track_a | per-edit K_S refresh reduces corruption (staleness?) | `experiments/track_a/a2b_refresh_ks.py` | `results/a2b_refresh_ks_result.json` | CORPUS/16 | RULED-OUT | D-A2b-1 |
-| **A7** | track_b | zeroing attn bias causes the LARQL-style garbage | `experiments/track_a/a7_bias_ablation.py` | `logs/a7_bias_ablation.log` | CORPUS/18 | CAUSAL (sufficient) | D-E1-1 |
-| **B1** | scale | A1 batch-clean replicates at larger model (7B) | `experiments/scale/g6_scale_n_param.py` | `results/b1_7b_size_density_result.json` | CORPUS/19 | PARTIAL | D-B1-1 |
-| **B1-size-term** | track_b | D1 concentration law's model-size term (3B vs Qwen2.5-7B) | `experiments/track_b/b1_size_dose_response.py` | `results/b1_{3b,7b}_dose_response_result.json` (+`_seeds123`/`_seeds345`) | CORPUS/22 (B1 §) | REPLICATE (law model-general); size threshold UNRESOLVED (instrument noise) | D-B1-2 |
-| **B3** | track_b | edits survive real Q4_K_M quantization | `experiments/track_b/b3_run.sh` | `results/b3_quant_survival_result.json` | CORPUS/17 | PASS | D-B3-1 |
+| **A7** | track_b | zeroing attn bias causes the LARQL-style garbage | `experiments/track_a/a7_bias_ablation.py` | `logs/a7_bias_ablation.log` | CORPUS/18 | CAUSAL (sufficient) | D-E1-1 ⟨D-E1-1@55708623⟩ |
+| **B1** | scale | A1 batch-clean replicates at larger model (7B) | `experiments/scale/g6_scale_n_param.py` | `results/b1_7b_size_density_result.json` | CORPUS/19 | PARTIAL | D-B1-1 ⟨D-B1-1@2ebae54e⟩ |
+| **B1-size-term** | track_b | D1 concentration law's model-size term (3B vs Qwen2.5-7B) | `experiments/track_b/b1_size_dose_response.py` | `results/b1_{3b,7b}_dose_response_result.json` (+`_seeds123`/`_seeds345`) | CORPUS/22 (B1 §) | REPLICATE (law model-general); size threshold UNRESOLVED (instrument noise) | D-B1-2 ⟨D-B1-2@0db8d819⟩ |
+| **B3** | track_b | edits survive real Q4_K_M quantization | `experiments/track_b/b3_run.sh` | `results/b3_quant_survival_result.json` | CORPUS/17 | PASS | D-B3-1 ⟨D-B3-1@7e3dd0f9⟩ |
 | **E1** | deployment | LARQL gguf-to-vindex serves the store on CPU | `experiments/deployment/e1_probe.py` | `results/e1_larql_serve_result.json` | CORPUS/18 | A PASS / B FALSIFIED | D-E1-1 |
-| **C2** | track_c | relation-inclusive keying reduces same-relation key collinearity | `experiments/track_c/c2_key_collinearity.py` | `results/c2_result.json` | CORPUS/20 | PRUNED | D-C2-1 |
+| **C2** | track_c | relation-inclusive keying reduces same-relation key collinearity | `experiments/track_c/c2_key_collinearity.py` | `results/c2_result.json` | CORPUS/20 | PRUNED | D-C2-1 ⟨D-C2-1@e2eff6af⟩ |
 | **C2b** | track_c | key-collinearity depth map (best band for isolation) | `experiments/track_c/c2b_depth_map.py` | `results/c2b_depth_map_result.json` | CORPUS/20 | mechanism mapped | D-C2-1 |
 
 **Historical / Phase-0–1** (gate-calibration s241/s242, model sweep s243, decouple s245–s252, alt-model t1/t3): frozen in `archive/s_series_scripts/` and `archive/notebooks/`; summarized in `docs/framework_findings/` and `docs/session_summaries/`. Not path-rewritten (target the pre-2026-06-18 flat layout).

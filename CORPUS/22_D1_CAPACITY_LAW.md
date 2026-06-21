@@ -1,6 +1,6 @@
 # 22 — D1 CAPACITY LAW: global total-edge-count is INSUFFICIENT; drift must be relation-concentration-aware
 
-_Result run 2026-06-20 (interactive session). Builds on G6.1 (`CORPUS/13`), A1 batch (`CORPUS/14`), C2 depth map (`CORPUS/20`), C2-band (`CORPUS/21`). Engine kmeng01/memit **UNMODIFIED**; in-solve AlphaEdit harness (LAW#5 inertness gate PASSED, |Δ|=0.0007). Pre-reg: `docs/D1_CAPACITY_LAW_PREREG.md` (frozen before run). Artifacts: `experiments/track_d/{d1_predictor_map,d1_concentration_sweep}.py`; results `results/d1_predictor_map_result.json`, `results/d1_concentration_sweep_result*.json` (seeds 0/1/2/3); logs `logs/d1_*`. Decision: **D-D1-1**. The F1-critical capacity-law deliverable (§10 readiness checklist; §9 tree "REQUIRED for F1")._
+_Result run 2026-06-20 (interactive session). Builds on G6.1 (`CORPUS/13`), A1 batch (`CORPUS/14`), C2 depth map (`CORPUS/20`), C2-band (`CORPUS/21`). Engine kmeng01/memit **UNMODIFIED**; in-solve AlphaEdit harness (LAW#5 inertness gate PASSED, |Δ|=0.0007). Pre-reg: `docs/D1_CAPACITY_LAW_PREREG.md` (frozen before run). Artifacts: `experiments/track_d/{d1_predictor_map,d1_concentration_sweep}.py`; results `results/d1_predictor_map_result.json`, `results/d1_concentration_sweep_result*.json` (seeds 0/1/2/3); logs `logs/d1_*`. Decision: **D-D1-1 ⟨D-D1-1@0db8d819⟩**. The F1-critical capacity-law deliverable (§10 readiness checklist; §9 tree "REQUIRED for F1")._
 
 ## The question (pre-registered, frozen)
 Spec §8.7 models drift as `edge_count_since_anchor` — a **global, relation-agnostic** cumulative edge count (warn @1,500 / hard @8,000 / sub-batch @2,000), all flagged provisional by **OQ-W1** ("cumulative edit volume degradation threshold, model-specific"). G6.1 (`CORPUS/13`) suggested interference is **relation-fan-out-conditioned, not volume-conditioned** (§7.2). **D1 decides the monitored variable:** at a FIXED total edit count N, does held-out same-relation read corruption depend on the **concentration** of edits on one relation, or on **N** itself?
@@ -65,7 +65,7 @@ Opus `advisor()` (pre-write) said narrow to "total-edge-count wrong; same-relati
 
 ---
 
-## B1 — MODEL-SIZE TERM (2026-06-21, `D-B1-2`): concentration law is MODEL-GENERAL; size threshold UNRESOLVED
+## B1 — MODEL-SIZE TERM (2026-06-21, `D-B1-2 ⟨D-B1-2@0db8d819⟩`): concentration law is MODEL-GENERAL; size threshold UNRESOLVED
 
 _Ported the D1 Phase-3 dose-response to **Qwen2.5-7B** (intermediate 18944) vs a matched in-session **Qwen2.5-3B** re-run. Engine kmeng01/memit UNMODIFIED (SHA 5c0c706a…); LAW#5 inertness gates PASSED (3B |Δ|=0.0002/0.0003, 7B |Δ|=0.0000/0.0001). Pre-reg `docs/B1_SIZE_TERM_PREREG.md` (frozen, advisor-vetted). Harness `experiments/track_b/b1_size_dose_response.py`; results `results/b1_{3b,7b}_dose_response_result.json` (+ `_seeds123`/`_seeds345`). Spec proposal `docs/SPEC_8_7_AMENDMENT_DRIFT_CONCENTRATION.md`._
 

@@ -59,12 +59,19 @@ def compute_fp(spec):
     txt = _read(spec.get("source", ""))
     if txt is None:
         return None, "source file missing"
-    i = txt.find(spec["anchor_start"])
-    if i < 0:
-        return None, f"anchor_start not found: {spec['anchor_start']!r}"
+    start = spec.get("anchor_start")
+    if start:
+        i = txt.find(start)
+        if i < 0:
+            return None, f"anchor_start not found: {start!r}"
+    else:
+        i = 0  # whole-file (from start)
     end = spec.get("anchor_end")
     j = txt.find(end, i + 1) if end else -1
     span = txt[i: j if j > 0 else len(txt)]
+    # strip stamped fingerprint markers so hashing the source is immune to its own tokens
+    span = re.sub(r"⟨[^⟩]*⟩", "", span)
+    span = re.sub(r"\bD-[A-Za-z0-9-]+@[0-9a-f]{6,}\b", "", span)
     norm = re.sub(r"\s+", " ", span).strip()
     return hashlib.sha1(norm.encode("utf-8")).hexdigest()[:8], None
 
@@ -96,6 +103,43 @@ def main():
         print(f"{tok}@{fp}")
         print(f"  source: {spec['source']}  [{spec['anchor_start']!r} .. {spec.get('anchor_end','EOF')!r}]")
         print(f"  → embed the token '{tok}@{fp}' in every canonical tracker (alongside the result prose).")
+        sys.exit(0)
+
+    if len(sys.argv) >= 3 and sys.argv[1] == "--currency":
+        # CURRENCY-ONLY: for every canonical doc that REFERENCES the D-ID, require the current
+        # fingerprint token. Ignores absence (no presence requirement) — so it works for historical
+        # D-IDs that legitimately aren't in §0.3 "current position". Flags present-but-STALE.
+        tok = sys.argv[2]
+        spec = reg.get(tok)
+        if not spec:
+            print(f"{tok}: not registered for fingerprinting — nothing to currency-check.")
+            sys.exit(0)
+        fp, err = compute_fp(spec)
+        if err:
+            print(f"{tok}: FINGERPRINT ERROR — {err}")
+            sys.exit(2)
+        fptok = f"{tok}@{fp}"
+        print(f"CURRENCY CHECK {fptok}  (source: {spec['source']})\n" + "-" * 56)
+        stale = []
+        scope = [p for p, _ in REQUIRED] + [os.path.relpath(p, ROOT) for p in glob.glob(os.path.join(ROOT, "CORPUS/*.md"))]
+        seen = set()
+        for path in scope:
+            if path in seen:
+                continue
+            seen.add(path)
+            txt = _read(path)
+            if txt is None or tok not in txt:
+                continue  # not referenced here — currency N/A
+            if fptok in txt:
+                print(f"  [CURRENT] {path}")
+            else:
+                print(f"  [STALE  ] {path}  (has {tok}, not {fptok})")
+                stale.append(path)
+        print("-" * 56)
+        if stale:
+            print(f"❌ {len(stale)} STALE reference(s) — re-propagate {fptok}: {stale}")
+            sys.exit(1)
+        print(f"✅ all references to {tok} are CURRENT ({fptok}).")
         sys.exit(0)
 
     if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help", "--list"):

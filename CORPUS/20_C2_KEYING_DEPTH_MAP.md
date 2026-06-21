@@ -1,6 +1,6 @@
 # 20 — C2 / RELATION-INCLUSIVE KEYING + KEY-COLLINEARITY DEPTH MAP
 
-_Result 2026-06-18. Track-C run, root-cause probe of the G6.1 cross-entity corruption (`CORPUS/13`). Pure measurement (no edits, no covariance) — `compute_ks` activations only. Artifacts: `experiments/track_c/c2_key_collinearity.py`, `experiments/track_c/c2b_depth_map.py`; results `results/c2_result.json`, `results/c2b_depth_map_result.json`; logs `logs/c2_phase0.log`, `logs/c2b_depth_map.log`. Engine UNMODIFIED. Decision: **D-C2-1**._
+_Result 2026-06-18. Track-C run, root-cause probe of the G6.1 cross-entity corruption (`CORPUS/13`). Pure measurement (no edits, no covariance) — `compute_ks` activations only. Artifacts: `experiments/track_c/c2_key_collinearity.py`, `experiments/track_c/c2b_depth_map.py`; results `results/c2_result.json`, `results/c2b_depth_map_result.json`; logs `logs/c2_phase0.log`, `logs/c2b_depth_map.log`. Engine UNMODIFIED. Decision: **D-C2-1 ⟨D-C2-1@e2eff6af⟩**._
 
 ## The question
 G6.1 cross-entity bleed (same-relation, cross-entity) is driven by **collinear keys**: the `down_proj`-input activations of capital(France), capital(Italy)… overlap, so a rank-1 edit at one bleeds to the others. The corpus identified a candidate no-engine-patch fix (workaround-b): key at a **relation-inclusive** position (subject `"France's capital"`, template `"{} is"` → `subject_last` lands on the "capital" token) to separate the keys. C2 tests whether that actually reduces same-relation key collinearity — BEFORE any expensive edit run.

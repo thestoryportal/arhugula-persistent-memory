@@ -36,7 +36,7 @@ ready/not-ready-with-conditions determination.** Falsification-first. Everything
 | **G3** validation pipeline | deterministic schema validator: violates/undeclared reject + storage-probe split (8/8) | for-scope | CORPUS/12 |
 | **A1** batch eliminates corruption | batch/Genesis joint solve → cross-entity corruption GONE (100→100% @N≤100) | resolves G6.1 write-path; 3B N≤100 | CORPUS/14, D-A1 |
 | **B3 / G6.2** quantization survival | the A1-clean store survives **real Q4_K_M** (edits 100% vs native 97.4%) | margin-confound characterized | CORPUS/17 |
-| **E1 (Claim A)** CPU deployment loop | serves edited store on CPU via **llama.cpp + Q4_K_M** (~8–13 tok/s) | pod-CPU proxy | CORPUS/18, D-E1-1 |
+| **E1 (Claim A)** CPU deployment loop | serves edited store on CPU via **llama.cpp + Q4_K_M** (~8–13 tok/s) | pod-CPU proxy | CORPUS/18, D-E1-1 ⟨D-E1-1@55708623⟩ |
 
 ## ② THE ADDITIVE CHAINS (how the proofs stack toward F1)
 **CHAIN A — DEPLOYMENT DATA PATH (the spine):**
@@ -54,10 +54,10 @@ Q4_K_M ✅ → **`E1·A`** serves on CPU ✅ → **`D1` capacity law `[OPEN — 
 | Open F1 gap | builds on (proven) | the additive step | moves F1 | priority |
 |---|---|---|---|---|
 | **D1 capacity law** | A1, B3, E1·A | measure N-before-break (corruption + quantization) → the number a ready/not-ready call needs | deployment-readiness **(REQUIRED)** | ★ critical path |
-| **D1 — structural** ✅ DONE | G6.1, A1 | drift = per-relation concentration not global edge-count; **REPLICATES on Qwen2.5-7B (model-general, B1/D-B1-2)** → §8.7 amendment written | OQ-W1 reconciliation | DONE (D-D1-1+D-B1-2) |
+| **D1 — structural** ✅ DONE | G6.1, A1 | drift = per-relation concentration not global edge-count; **REPLICATES on Qwen2.5-7B (model-general, B1/D-B1-2 ⟨D-B1-2@0db8d819⟩)** → §8.7 amendment written | OQ-W1 reconciliation | DONE (D-D1-1 ⟨D-D1-1@0db8d819⟩+D-B1-2) |
 | **D1 — numeric threshold** ⚠️ OPEN | D1-structural | set the per-relation WARNING/HARD value | the readiness number | **DONE (D-D1-2 ⟨D-D1-2@e023d8d2⟩): k≤1 conservative (order-cluster-bootstrap + ≥2 held-out seeds + determinism); mixed-load→pair with global-volume bound; cross-model transfer OPEN** |
 | **CP2 schema build-items** | CP2, G3 | L1 triple-readback + 5 query families + violates-rejection | contract-readiness | ★ required |
-| **C2-band** | G6.1, C2 mechanism | does min-collinearity band [8-12] reduce **sequential** corruption? (falsifier) | scale mechanism → feeds D1 | ◆ lead — ⚠️ **REAL-BUT-UNDERPOWERED, NOT PROMOTED** (CORPUS/21, D-C2band-1): mechanical PASS (+18.73pp cross-JS) = real redistribution (within-loc FALL + expr 100% exclude under-editing); underpowered (1 seed), within-entity top-1 cost & mechanism unmeasured; de-confounders queued |
+| **C2-band** | G6.1, C2 mechanism | does min-collinearity band [8-12] reduce **sequential** corruption? (falsifier) | scale mechanism → feeds D1 | ◆ lead — ⚠️ **REAL-BUT-UNDERPOWERED, NOT PROMOTED** (CORPUS/21, D-C2band-1 ⟨D-C2band-1@c6fb6103⟩): mechanical PASS (+18.73pp cross-JS) = real redistribution (within-loc FALL + expr 100% exclude under-editing); underpowered (1 seed), within-entity top-1 cost & mechanism unmeasured; de-confounders queued |
 | **C/G7 multi-token** | recipe | multi-token value robustness at the write | write-robustness | ◆ |
 
 ## ④ FALSIFIED / PRUNED (do NOT pursue — dead ground)
