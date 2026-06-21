@@ -1,0 +1,19 @@
+{
+  "_doc": "CANONICAL program state — the SINGLE source for the auto-generated status blocks. Edit THIS, then run `python3 tools/render_state.py --write` to refresh every <!-- BEGIN GENERATED:* --> block across the context docs (README, SESSION_BOOTSTRAP, SESSION_CHECKPOINT, EXPERIMENT_RUNBOOK §0.3, PROGRESS ⑤). Never hand-edit between the GENERATED markers. This is the 'generate-what's-mechanical' half of the anti-drift design (the other half = narrative fingerprints in tools/closeout_fingerprints.json). The pre-commit hook blocks commits where these blocks are stale vs this file.",
+  "updated": "2026-06-21",
+  "north_star": "F1 — prove/falsify the 'LLM-as-Database' spec is implementable BEFORE it is built; deliver a ready / not-ready-with-conditions determination. Falsification-first.",
+  "current_latest": "D-D1-2: §8.7 numeric drift guardrail SET on Qwen2.5-3B = max unanchored per-relation concentration **k≤1** (conservative; corruption is edit-order/held-out-DOMINATED, not count-determined; mixed-load shows other-relation volume corrupts too → pair with a global-volume bound). §8.7 structural amendment = operator-APPROVED + model-general (3B+7B).",
+  "next_actions": [
+    "B3 — is diffuse in-weight storage even required vs a routed/gated side-store? (highest-stakes; analysis-heavy/low-compute; the 6-graph ConnectedPapers review shows the field converges on side-stores)",
+    "7B numeric-threshold transfer via the proven determinism path (OQ-W1 cross-model)",
+    "CP2 query-schema build-items (L1 triple-readback + 5 query families + violates-rejection — contract-readiness)",
+    "→ F1 reconciliation & determination"
+  ],
+  "f1_verdict": "NOT delivered. Deployment data-path spine PROVEN-FOR-SCOPE (recipe→A1 batch-clean→B3 Q4_K_M→E1·A CPU-serve; 3B / N≤100 / batch). Blocks on: CP2 (contract) + D1 numeric cross-model transfer + the B3 in-weight-vs-side-store architecture decision. Everything ~3B/N≤100/batch-scoped.",
+  "scorecard": {
+    "deployment_path": "recipe ✅ → A1 batch-clean ✅ → B3 Q4_K_M-survival ✅ → E1·A CPU-serve ✅ → D1 structural ✅ (model-general) + numeric k≤1 SET on 3B ⚠️ (cross-model transfer OPEN)",
+    "governance": "CP1 ✅ · CP3 ✅ · G1 ✅ · G2 ✅ · G3 ✅ · CP2 ⚠️ (query-schema build-items OPEN — critical path)",
+    "robustness": "C/G7 multi-token ❌ · C2-band ⚠️ (real-but-underpowered, not promoted)",
+    "critical_path": "B3 in-weight-necessity + CP2 schema build-items + D1 numeric cross-model transfer → then write F1"
+  }
+}

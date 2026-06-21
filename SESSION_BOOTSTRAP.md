@@ -1,7 +1,20 @@
 # SESSION BOOTSTRAP — read this FIRST in any fresh context
 _Updated 2026-06-18. This is the single entry point for re-grounding a new session on the "LLM-as-Database" program. It orients; the detail lives in the files it points to. If you are a fresh agent context: read this top-to-bottom, then `CORPUS/README.md`, then skim the spec. Do not start work until grounded._
 
-> **⚠️ CURRENT STATUS (2026-06-21) — §3 "immediate next work" below is STALE (it predates the empirical arc).** Since then: **G6.1** (cross-entity read corruption falsifier), **A1** (batch eliminates it), **B1/B3** (size + Q4_K_M survival), **C2/C2-band**, **D1** (capacity law → drift is per-relation-concentration, not global edge-count), **B1 size-term** (law model-general on 7B), and **D-D1-2** (§8.7 numeric guardrail `k≤2`, dual-reviewed; mixed-load shows it needs a global-volume bound too) are all DONE. The §8.7 structural amendment is **operator-approved** (`docs/SPEC_8_7_AMENDMENT_DRIFT_CONCENTRATION.md`). **NEXT = 7B size-term via determinism (OQ-W1 transfer) → B3 (in-weight-necessity vs routed side-store, the field-convergence signal from the 2026-06-21 ConnectedPapers review, register §J) → CP2 schema build-items → F1 readiness.** Canonical "what's next" = `EXPERIMENT_RUNBOOK.md` §0.3 + `SESSION_CHECKPOINT.md` top block (NOT §3 below).
+<!-- BEGIN GENERATED:program-state -->
+**📍 PROGRAM STATE (updated 2026-06-21)** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
+
+- **North star:** F1 — prove/falsify the 'LLM-as-Database' spec is implementable BEFORE it is built; deliver a ready / not-ready-with-conditions determination. Falsification-first.
+- **Latest:** D-D1-2: §8.7 numeric drift guardrail SET on Qwen2.5-3B = max unanchored per-relation concentration **k≤1** (conservative; corruption is edit-order/held-out-DOMINATED, not count-determined; mixed-load shows other-relation volume corrupts too → pair with a global-volume bound). §8.7 structural amendment = operator-APPROVED + model-general (3B+7B).
+- **F1 status:** NOT delivered. Deployment data-path spine PROVEN-FOR-SCOPE (recipe→A1 batch-clean→B3 Q4_K_M→E1·A CPU-serve; 3B / N≤100 / batch). Blocks on: CP2 (contract) + D1 numeric cross-model transfer + the B3 in-weight-vs-side-store architecture decision. Everything ~3B/N≤100/batch-scoped.
+- **Next actions (priority):**
+  1. B3 — is diffuse in-weight storage even required vs a routed/gated side-store? (highest-stakes; analysis-heavy/low-compute; the 6-graph ConnectedPapers review shows the field converges on side-stores)
+  2. 7B numeric-threshold transfer via the proven determinism path (OQ-W1 cross-model)
+  3. CP2 query-schema build-items (L1 triple-readback + 5 query families + violates-rejection — contract-readiness)
+  4. → F1 reconciliation & determination
+<!-- END GENERATED:program-state -->
+
+> **⚠️ CURRENT STATUS (2026-06-21) — §3 "immediate next work" below is STALE (it predates the empirical arc).** Since then: **G6.1** (cross-entity read corruption falsifier), **A1** (batch eliminates it), **B1/B3** (size + Q4_K_M survival), **C2/C2-band**, **D1** (capacity law → drift is per-relation-concentration, not global edge-count), **B1 size-term** (law model-general on 7B), and **D-D1-2 ⟨D-D1-2@e023d8d2⟩** (§8.7 numeric guardrail `k≤2`, dual-reviewed; mixed-load shows it needs a global-volume bound too) are all DONE. The §8.7 structural amendment is **operator-approved** (`docs/SPEC_8_7_AMENDMENT_DRIFT_CONCENTRATION.md`). **NEXT = 7B size-term via determinism (OQ-W1 transfer) → B3 (in-weight-necessity vs routed side-store, the field-convergence signal from the 2026-06-21 ConnectedPapers review, register §J) → CP2 schema build-items → F1 readiness.** Canonical "what's next" = `EXPERIMENT_RUNBOOK.md` §0.3 + `SESSION_CHECKPOINT.md` top block (NOT §3 below).
 
 ═══════════════════════════════════════════════════
 ## 0. WHAT THIS PROGRAM IS (one screen)

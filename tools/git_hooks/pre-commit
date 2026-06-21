@@ -1,0 +1,14 @@
+#!/bin/bash
+# Anti-drift pre-commit gate (reconciled design 2026-06-21). BLOCKS on:
+#   (1) stale GENERATED blocks vs docs/program_state.json  (tools/render_state.py --check)
+#   (2) stale REGISTERED narrative fingerprints             (tools/closeout_check.py --audit)
+# Escape (rare/WIP): git commit --no-verify
+set -u
+ROOT="$(git rev-parse --show-toplevel)"; cd "$ROOT" || exit 0
+PY=$(command -v python3.11 || command -v python3)
+fail=0
+echo "[pre-commit] anti-drift checks…"
+"$PY" tools/render_state.py --check || { echo "[pre-commit] ↑ stale generated blocks — run: python3 tools/render_state.py --write"; fail=1; }
+"$PY" tools/closeout_check.py --audit >/tmp/_audit.out 2>&1 || { tail -3 /tmp/_audit.out; echo "[pre-commit] ↑ stale registered fingerprint(s) — re-propagate (tools/closeout_check.py --fp <ID>)"; fail=1; }
+if [ "$fail" = 1 ]; then echo "[pre-commit] BLOCKED (drift). Fix the above, or bypass with: git commit --no-verify"; exit 1; fi
+echo "[pre-commit] ✅ no drift"; exit 0

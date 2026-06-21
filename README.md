@@ -1,5 +1,18 @@
 # LLM-as-Database — Parametric Knowledge Editing as a Storage Substrate
 
+<!-- BEGIN GENERATED:program-state -->
+**📍 PROGRAM STATE (updated 2026-06-21)** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
+
+- **North star:** F1 — prove/falsify the 'LLM-as-Database' spec is implementable BEFORE it is built; deliver a ready / not-ready-with-conditions determination. Falsification-first.
+- **Latest:** D-D1-2: §8.7 numeric drift guardrail SET on Qwen2.5-3B = max unanchored per-relation concentration **k≤1** (conservative; corruption is edit-order/held-out-DOMINATED, not count-determined; mixed-load shows other-relation volume corrupts too → pair with a global-volume bound). §8.7 structural amendment = operator-APPROVED + model-general (3B+7B).
+- **F1 status:** NOT delivered. Deployment data-path spine PROVEN-FOR-SCOPE (recipe→A1 batch-clean→B3 Q4_K_M→E1·A CPU-serve; 3B / N≤100 / batch). Blocks on: CP2 (contract) + D1 numeric cross-model transfer + the B3 in-weight-vs-side-store architecture decision. Everything ~3B/N≤100/batch-scoped.
+- **Next actions (priority):**
+  1. B3 — is diffuse in-weight storage even required vs a routed/gated side-store? (highest-stakes; analysis-heavy/low-compute; the 6-graph ConnectedPapers review shows the field converges on side-stores)
+  2. 7B numeric-threshold transfer via the proven determinism path (OQ-W1 cross-model)
+  3. CP2 query-schema build-items (L1 triple-readback + 5 query families + violates-rejection — contract-readiness)
+  4. → F1 reconciliation & determination
+<!-- END GENERATED:program-state -->
+
 A falsification-first research program testing whether facts can be **stored in, retrieved from, governed within, and deployed from an LLM's weights** — treating a transformer as a queryable database rather than an opaque generator. Editing is done with the MEMIT/AlphaEdit family (closed-form `down_proj` null-space solves); the program stress-tests a written spec (`research_and_specs/llm-as-database-v1_2-integrated-spec.md`) toward implementation-readiness.
 
 This repo is organized for a research audience: every headline claim resolves to a raw artifact, every experiment is pre-registered and re-runnable, and caveats are kept flush with results. It follows the **ML Reproducibility Checklist** (Pineau et al.), **"Good enough practices in scientific computing"** (Wilson et al.), **Model-Cards** disclosure norms (Mitchell et al.), and **FAIR** principles.
@@ -24,7 +37,7 @@ This repo is organized for a research audience: every headline claim resolves to
 | **Size-density (3B→7B)** | 🟡 PARTIAL — batch-clean does not *fully* replicate at 7B (100→91.7%) | `CORPUS/19` (B1) |
 | **Cross-entity mechanism (keying)** | ⛔ relation-keying PRUNED; same-relation key collinearity is U-shaped in depth (min L8–12) — a measured mechanism + a spec-C15 tension | `CORPUS/20` (C2) |
 
-**Net state:** the **batch-rebuild deployment path** is clean at 3B and survives Q4_K_M; CPU serving works via llama.cpp. Open frontier: whether in-weight storage (L2) is even required vs. retrieval (L1) + an external query index; the capacity law (D1 — structural DONE+model-general; §8.7 numeric guardrail set conservative at per-relation **k≤1** on 3B, D-D1-2, cross-model transfer open); and whether the edit-validated family (Qwen2.5) should move to the LARQL-servable family (Qwen3). See `docs/HYPOTHESIS_REGISTER_2026-06-18.md`.
+**Net state:** the **batch-rebuild deployment path** is clean at 3B and survives Q4_K_M; CPU serving works via llama.cpp. Open frontier: whether in-weight storage (L2) is even required vs. retrieval (L1) + an external query index; the capacity law (D1 — structural DONE+model-general; §8.7 numeric guardrail set conservative at per-relation **k≤1** on 3B, D-D1-2 ⟨D-D1-2@e023d8d2⟩, cross-model transfer open); and whether the edit-validated family (Qwen2.5) should move to the LARQL-servable family (Qwen3). See `docs/HYPOTHESIS_REGISTER_2026-06-18.md`.
 
 ---
 

@@ -87,8 +87,50 @@ def status(txt, tok, fptok):
     return "GREEN  ", True
 
 
+def currency_scan(tok, spec):
+    """Return (fptok, stale_paths, err). Checks every doc REFERENCING tok carries the current token."""
+    fp, err = compute_fp(spec)
+    if err:
+        return None, [], err
+    fptok = f"{tok}@{fp}"
+    # surfacing/entry/repro docs also participate so a result/state ties across the whole graph
+    EXTRA = ["README.md", "SESSION_BOOTSTRAP.md", "REPRODUCIBILITY.md", "CORPUS/README.md"]
+    scope = ([p for p, _ in REQUIRED]
+             + [os.path.relpath(p, ROOT) for p in glob.glob(os.path.join(ROOT, "CORPUS/*.md"))]
+             + EXTRA)
+    stale, seen = [], set()
+    for path in scope:
+        if path in seen:
+            continue
+        seen.add(path)
+        txt = _read(path)
+        if txt is None or tok not in txt:
+            continue
+        if fptok not in txt:
+            stale.append(path)
+    return fptok, stale, None
+
+
 def main():
     reg = _load_registry()
+
+    if len(sys.argv) >= 2 and sys.argv[1] == "--audit":
+        keys = sorted(k for k in reg if not k.startswith("_"))
+        print(f"CURRENCY AUDIT — {len(keys)} registered fingerprint(s)\n" + "=" * 56)
+        any_stale = False
+        for k in keys:
+            fptok, stale, err = currency_scan(k, reg[k])
+            if err:
+                print(f"  [FP ERR] {k}: {err}"); any_stale = True; continue
+            if stale:
+                any_stale = True
+                print(f"  [STALE ] {fptok} — {len(stale)} doc(s): {stale}")
+            else:
+                print(f"  [CURRENT] {fptok}")
+        print("=" * 56)
+        if any_stale:
+            print("❌ AUDIT FAILED — re-propagate the STALE fingerprints (get tokens via --fp <ID>)."); sys.exit(1)
+        print("✅ AUDIT CLEAN — every registered result/state is current across all referencing docs."); sys.exit(0)
 
     if len(sys.argv) >= 3 and sys.argv[1] == "--fp":
         tok = sys.argv[2]
@@ -114,28 +156,13 @@ def main():
         if not spec:
             print(f"{tok}: not registered for fingerprinting — nothing to currency-check.")
             sys.exit(0)
-        fp, err = compute_fp(spec)
+        fptok, stale, err = currency_scan(tok, spec)
         if err:
             print(f"{tok}: FINGERPRINT ERROR — {err}")
             sys.exit(2)
-        fptok = f"{tok}@{fp}"
         print(f"CURRENCY CHECK {fptok}  (source: {spec['source']})\n" + "-" * 56)
-        stale = []
-        scope = [p for p, _ in REQUIRED] + [os.path.relpath(p, ROOT) for p in glob.glob(os.path.join(ROOT, "CORPUS/*.md"))]
-        seen = set()
-        for path in scope:
-            if path in seen:
-                continue
-            seen.add(path)
-            txt = _read(path)
-            if txt is None or tok not in txt:
-                continue  # not referenced here — currency N/A
-            if fptok in txt:
-                print(f"  [CURRENT] {path}")
-            else:
-                print(f"  [STALE  ] {path}  (has {tok}, not {fptok})")
-                stale.append(path)
-        print("-" * 56)
+        for p in stale:
+            print(f"  [STALE  ] {p}  (has {tok}, not {fptok})")
         if stale:
             print(f"❌ {len(stale)} STALE reference(s) — re-propagate {fptok}: {stale}")
             sys.exit(1)
