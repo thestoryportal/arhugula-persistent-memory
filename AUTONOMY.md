@@ -80,6 +80,23 @@ accuracy is the *opposite* of falsification). The band-search optimizer lives at
 only** — a fenced PASS means "candidate worth a pre-registered falsifier", **never a conclusion**.
 Keep the default overnight mission pointed at the falsifier.
 
+### The `autoresearch` loop skill (the optimizer engine behind fenced units)
+`tools/autoresearch-skill/` is a vendored autonomous research loop (read `research.md` → propose
+hypotheses → run → keep improvements / discard failures → iterate to a target metric). **It is NOT
+registered as an invocable harness skill and does NOT auto-surface** (operator decision 2026-06-21);
+reach it only **manually**:
+```bash
+bash tools/autoresearch-skill/scripts/autoresearch-loop.sh <research_dir>   # CLI-agnostic outer loop
+# or a single pass via the bundle's /autoresearch reference (tools/autoresearch-skill/guide/)
+```
+**Role in THIS program (binding): a FENCED candidate / hypothesis-SEARCH tool — it PROPOSES leads,
+never CONCLUSIONS.** It is an optimizer, so it is Goodhart-prone and the opposite of the F1
+north star. Use it only for **bounded hyperparameter / method / config search** to surface a
+candidate, then route that candidate to the hypothesis register (`DISCIPLINE.md` §2.7) and prove or
+kill it with a **pre-registered falsifier** under the normal §0.4 close-out. A loop "win" is a lead,
+not evidence — same fence as `"fenced": true` units above. Never let it write `CORPUS/` or promote a
+verdict.
+
 ## Review → canonical (next morning, supervised)
 For any staged finding worth keeping, run the full §0.4 close-out yourself: verify the exact
 command + numbers reproduce → deep-thinking-on-failure if not PASS → independent (cross-model)

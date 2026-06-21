@@ -29,6 +29,7 @@ Read on the trigger; do **not** work from grep excerpts of load-bearing docs ([[
 | **"Does our OWN corpus/spec/council already cover this?"** | **NotebookLM** (corpus-grounded, operator-run) + the spec + `docs/framework_findings/` |
 | **"Are we missing SOTA / a method?" (after a falsification, before a frontier bet)** | **Perplexity / `deep-research`** (open-web) + `research_and_specs/external_evidence_notes.md` |
 | **"What's under-explored / what *bridges* our open questions?" (structural-gap mining of our OWN corpus/hypotheses; when generating hypotheses or after a falsification)** | **InfraNodus** gap analysis (`generate_content_gaps` / `generate_research_questions` / `develop_conceptual_bridges`) — outputs are **LEADS → hypothesis register** (§1.1/§2 step 7), **never** evidence |
+| **"Search a hyperparameter / method / config space for a candidate" (bounded optimization to PROPOSE a lead — NOT to conclude)** | **`autoresearch` loop** (`tools/autoresearch-skill/`, manual launch — NOT harness-registered; see AUTONOMY.md "Fenced units"). **FENCED**: it's a Goodhart-prone optimizer = opposite of falsification → a loop "win" is a **candidate → hypothesis register**, **never** a conclusion/`CORPUS/`. Prove/kill each candidate with a pre-registered falsifier under §0.4. |
 | **Framing / auditing a spec contract; surfacing domain tensions** | **Framework Council** (`skills/` + `CORPUS/COUNCIL_PROTOCOL.md`) — spec-authoring ONLY, not an evidence source |
 | **Repo layout** | `README.md` repo map / `AGENTS.md` layout |
 
