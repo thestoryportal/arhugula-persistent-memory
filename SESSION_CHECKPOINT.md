@@ -1,10 +1,10 @@
 # SESSION CHECKPOINT — Write-Engine Viability Determination
 
 <!-- BEGIN GENERATED:program-state -->
-**📍 PROGRAM STATE (updated 2026-06-21)** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
+**📍 PROGRAM STATE (updated 2026-06-21 (session-close))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
 
 - **North star:** F1 — prove/falsify the 'LLM-as-Database' spec is implementable BEFORE it is built; deliver a ready / not-ready-with-conditions determination. Falsification-first.
-- **Latest:** D-D1-2: §8.7 numeric drift guardrail SET on Qwen2.5-3B = max unanchored per-relation concentration **k≤1** (conservative; corruption is edit-order/held-out-DOMINATED, not count-determined; mixed-load shows other-relation volume corrupts too → pair with a global-volume bound). §8.7 structural amendment = operator-APPROVED + model-general (3B+7B).
+- **Latest:** D-D1-2: §8.7 numeric drift guardrail SET on Qwen2.5-3B = max unanchored per-relation concentration **k≤1** (conservative; corruption is edit-order/held-out-DOMINATED, not count-determined; mixed-load shows other-relation volume corrupts too → pair with a global-volume bound). §8.7 structural amendment = operator-APPROVED + model-general (3B+7B). INFRA (this session): a 3-layer anti-drift doc system was built — edit THIS file + run `python3 tools/render_state.py --write` to update status; a pre-commit hook blocks stale commits (`tools/ANTI_DRIFT.md`). Next-arc is F1 SCIENCE (below), NOT more doc infra.
 - **F1 status:** NOT delivered. Deployment data-path spine PROVEN-FOR-SCOPE (recipe→A1 batch-clean→B3 Q4_K_M→E1·A CPU-serve; 3B / N≤100 / batch). Blocks on: CP2 (contract) + D1 numeric cross-model transfer + the B3 in-weight-vs-side-store architecture decision. Everything ~3B/N≤100/batch-scoped.
 - **Next actions (priority):**
   1. B3 — is diffuse in-weight storage even required vs a routed/gated side-store? (highest-stakes; analysis-heavy/low-compute; the 6-graph ConnectedPapers review shows the field converges on side-stores)
@@ -17,6 +17,26 @@ _Last updated: 2026-06-21 (FINAL — D-D1-2 ⟨D-D1-2@e023d8d2⟩ close). Author
 ╔══════════════════════════════════════════════════════════════════════╗
 ║  HANDOFF — fresh context, start here (2026-06-21)                      ║
 ╚══════════════════════════════════════════════════════════════════════╝
+
+
+### ⭐⭐⭐ SESSION CLOSE (2026-06-21, doc-integrity arc) — anti-drift SYSTEM built; SCIENCE state unchanged. NEXT = RETURN TO F1 SCIENCE (B3 / 7B-transfer / CP2), NOT more doc infra.
+
+**What this half-session was:** documentation-integrity hardening, not new science. Triggered by catching that the close-out gate was PRESENCE-only (it stayed green while 7 ledgers were frozen at a superseded k≤2 after the result refined to k≤1). The science findings (mixed-load: pure-capital k≤2 fails under other-relation load → k≤1; seed-2 more-toxic held-out → k≤1; all fold into D-D1-2) are in `docs/SPEC_8_7_AMENDMENT_DRIFT_CONCENTRATION.md` §4 + CORPUS/22.
+
+**Science state (UNCHANGED from the FINAL block below):** D-D1-2 §8.7 guardrail **k≤1** conservative; amendment operator-APPROVED + model-general. **Next-arc = (1) B3 in-weight-vs-side-store (highest-stakes, low-compute) → (2) 7B numeric-threshold transfer via determinism (OQ-W1) → (3) CP2 schema build-items → (4) write F1.**
+
+**NEW INFRA — 3-layer anti-drift doc system (`tools/ANTI_DRIFT.md`; reconciled via Opus advisor + gpt-5.5 cross-family):**
+1. **DE-DUP** — full detail in ONE source; other docs carry D-ID + one-line verdict + pointer, NOT restated copies (copying caused the k≤2→k≤1 lapse). Norm in DISCIPLINE §1.1.
+2. **GENERATE** structured status — edit `docs/program_state.json` → `python3 tools/render_state.py --write` refreshes the `<!-- GENERATED:* -->` blocks (this checkpoint's top status block, PROGRESS ⑤, runbook §0.3, bootstrap, README). The real *auto-update*.
+3. **FINGERPRINT** narrative result refs — `tools/closeout_check.py` (per-result content hash; 12 D-IDs registered+green; `--audit` / `--fp <D-ID>` / `--currency <D-ID>`).
+- **ENFORCEMENT:** `tools/git_hooks/pre-commit` (via `core.hooksPath`) BLOCKS commits with stale generated blocks or stale fingerprints. Bypass: `git commit --no-verify`.
+- **Honest scope:** auto-ENFORCES currency + auto-UPDATES generated content; CANNOT auto-write narrative prose; guards only REGISTERED edges → de-dup is the primary defense. "Fingerprint everything / zero-drift-all-prose" = false-green, deliberately NOT done.
+
+**⚠️ FORWARD DIRECTION (binding):** the next session RETURNS TO F1 SCIENCE — do NOT extend the doc infra further (both reviewers + [[evidence-over-scaffolding]] flagged ~15 turns of integrity infra displacing the science). Use the anti-drift workflow above when closing out a result; otherwise spend effort on B3/7B/CP2.
+
+**NEW MEMORIES:** [[anti-drift-enforce-not-autowrite]] (the design principle + infra-escalation trap) · [[codex-runs-inline-from-claude-bash]] (extended: run Codex cross-family BEFORE posing a decision for operator approval). Prior-session memories still current.
+
+**GIT:** all committed to local `master` (no push) — anti-drift system `3609aa7`; doc-currency back-fills `c0d4cc9`/`5ba307b`; fingerprint registrations `ff66ec6`/`e310a0e`/`df4e442`. Working tree clean except untracked local `.claude/settings.local.json`. The pre-commit hook is ACTIVE (it will run on every commit).
 
 
 ### ⭐⭐⭐ SESSION CLOSE (2026-06-21 FINAL) — D-D1-2 §8.7 NUMERIC GUARDRAIL DONE (k≤1 conservative); F1 status mapped. NEXT ARC = B3 (in-weight vs side-store) + 7B numeric-transfer + CP2 → F1. Resume here + `EXPERIMENT_RUNBOOK.md` §0.3.

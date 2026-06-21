@@ -17,3 +17,5 @@ setsid bash -c 'timeout 540 codex exec -c model_reasoning_effort=medium --skip-g
 Embed all evidence in the prompt (codex sandbox can't read repo files), medium effort (high ~600s timeouts), background + waiter (it's CPU/network → parallel to GPU work, no contention). See [[codex-review-embed-evidence-and-effort]], [[codex-chatgpt-oauth-model-slug]].
 
 **Why:** the independence obligation (DISCIPLINE §3.1) needs a *different model family* — `advisor()` (Opus) alone is not independence. **How to apply:** at any load-bearing interpretation/promote gate, run the Codex (gpt-5.5) review inline; don't defer it as pod-only.
+
+**Sequencing (operator expectation, 2026-06-21):** run the cross-family Codex review **BEFORE posing a decision for operator approval**, not after. The operator rejected a premature decision-question with "Call Codex out of family review first" — they want the independent input *in hand* when they decide. So the gate sequence is: build understanding → `advisor()` (Opus) → **Codex (gpt-5.5) cross-family** → reconcile both → THEN present the decision/approval to the operator. Don't ask them to approve until both reviews are done.

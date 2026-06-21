@@ -1,8 +1,8 @@
 {
   "_doc": "CANONICAL program state — the SINGLE source for the auto-generated status blocks. Edit THIS, then run `python3 tools/render_state.py --write` to refresh every <!-- BEGIN GENERATED:* --> block across the context docs (README, SESSION_BOOTSTRAP, SESSION_CHECKPOINT, EXPERIMENT_RUNBOOK §0.3, PROGRESS ⑤). Never hand-edit between the GENERATED markers. This is the 'generate-what's-mechanical' half of the anti-drift design (the other half = narrative fingerprints in tools/closeout_fingerprints.json). The pre-commit hook blocks commits where these blocks are stale vs this file.",
-  "updated": "2026-06-21",
+  "updated": "2026-06-21 (session-close)",
   "north_star": "F1 — prove/falsify the 'LLM-as-Database' spec is implementable BEFORE it is built; deliver a ready / not-ready-with-conditions determination. Falsification-first.",
-  "current_latest": "D-D1-2: §8.7 numeric drift guardrail SET on Qwen2.5-3B = max unanchored per-relation concentration **k≤1** (conservative; corruption is edit-order/held-out-DOMINATED, not count-determined; mixed-load shows other-relation volume corrupts too → pair with a global-volume bound). §8.7 structural amendment = operator-APPROVED + model-general (3B+7B).",
+  "current_latest": "D-D1-2: §8.7 numeric drift guardrail SET on Qwen2.5-3B = max unanchored per-relation concentration **k≤1** (conservative; corruption is edit-order/held-out-DOMINATED, not count-determined; mixed-load shows other-relation volume corrupts too → pair with a global-volume bound). §8.7 structural amendment = operator-APPROVED + model-general (3B+7B). INFRA (this session): a 3-layer anti-drift doc system was built — edit THIS file + run `python3 tools/render_state.py --write` to update status; a pre-commit hook blocks stale commits (`tools/ANTI_DRIFT.md`). Next-arc is F1 SCIENCE (below), NOT more doc infra.",
   "next_actions": [
     "B3 — is diffuse in-weight storage even required vs a routed/gated side-store? (highest-stakes; analysis-heavy/low-compute; the 6-graph ConnectedPapers review shows the field converges on side-stores)",
     "7B numeric-threshold transfer via the proven determinism path (OQ-W1 cross-model)",

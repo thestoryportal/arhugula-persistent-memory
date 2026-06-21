@@ -1,0 +1,14 @@
+---
+name: anti-drift-enforce-not-autowrite
+description: "Doc-currency design principle: 'zero drift across all docs, auto-updated' is mechanically unsatisfiable — you can auto-ENFORCE (block stale commits) + auto-UPDATE generated/structured blocks, but NOT auto-write narrative prose, and fingerprinting-everything reproduces the false-green. The real cure is DE-DUPLICATION (one source + pointers). When an infra requirement escalates to comprehensive/automatic, stop incrementally building, name the science-vs-infra trade, get cross-family review, build right-sized."
+metadata:
+  type: feedback
+---
+
+When asked to keep documentation in sync / prevent drift (operator pushed hard 2026-06-21: "ALL docs, entire repo, never stale, always auto-updated, otherwise perpetual drift"), the honest engineering truth (Opus advisor + gpt-5.5 cross-family, converged):
+
+- **The literal maximal ask is unsatisfiable.** (1) Nothing can auto-*write* corrected narrative prose — only auto-*detect* + *block*. So the deliverable is **auto-ENFORCED** (no stale commit lands), NOT **auto-updated** (the repo edits itself). Un-conflate these out loud. (2) "Fingerprint every doc" gives the **same false-green** as the presence-only gate it replaced: a fingerprint guards only REGISTERED edges; any unregistered restatement drifts silently. Stamping hash tokens through prose also degrades the readability of the very context docs.
+- **The actual cure is DE-DUPLICATION, not instrumentation.** Drift is manufactured by *copying* an evolving result into many docs (this caused the k≤2→k≤1 lapse). Fix the norm: full detail in ONE source (`CORPUS/NN` / amendment / `docs/program_state.json`); every other doc carries a thin self-contained summary = **D-ID + one-line verdict + pointer**, never a restated copy.
+- **Right-sized design (built; see `tools/ANTI_DRIFT.md`):** (A) GENERATE what's mechanical (structured status from `program_state.json` via `render_state.py` into `<!-- GENERATED:* -->` blocks) = the real auto-update; (B) FINGERPRINT what's narrative (`closeout_check.py`, per-result content hash); (C) a pre-commit hook BLOCKS stale generated blocks / fingerprints (`--no-verify` escape). Do NOT fingerprint process docs/spec.
+
+**Why (process):** this arc was ~15 turns of doc-integrity infra that BOTH reviewers said was displacing the F1 science ([[evidence-over-scaffolding]] firing). **How to apply:** when an infra/process requirement escalates toward "comprehensive / automatic / all", treat it as an ARCHITECTURE decision — stop reflexively stamping/extending, name the science-vs-infra trade-off legibly, run the cross-family review BEFORE committing the repo to a design, build the right-sized version, then STOP (don't hold the science hostage to perfect doc integrity). The maximal literal interpretation is usually the wrong thing. ([[closeout-gate-before-done]])
