@@ -62,7 +62,20 @@ Qwen2.5-3B, band[4-8], sequential in-solve AlphaEdit, pure-capital staircase. He
 | 12 | 20.8 | 30.2 | 58.3 | 17.4 |
 | 14 | 28.8 | 39.2 | 66.7 | 25.4 |
 
-- **SHIP (the deployable guardrail): max unanchored per-relation concentration `k ≤ 2`; anchor/compact before k=3.** `k≤2` is the largest concentration with **0% corruption across all 24 edit-orders × both process runs** — the only clean, order-robust, process-stable point.
+- **SHIP (the deployable guardrail): max unanchored per-relation concentration `k ≤ 1`; anchor/compact by k=2, WARNING by k=2–3, HARD by k=8–10.** *(Revised down from k≤2 after the across-held-out-seed check below.)* On the seed-3 held-out, `k≤2` was clean (0% across all orders×processes); but the **more-toxic seed-2 held-out is NOT clean at k=1–2** (pooled 0.69%/2.08%, worst-order 4.2%/8.3%) → no per-relation count is *universally* clean; the conservative cross-seed ceiling is `k≤1` (and even k=1 carries a ~0.7% floor in the fragile seed).
+
+  **Across-held-out-seed comparison (low-k pooled corruption, 12 randomized orders each):**
+
+  | k | seed-3 pooled% | seed-2 pooled% (more-toxic) | seed-2 UCB% | seed-2 worst% |
+  |---|---|---|---|---|
+  | 1 | 0.0 | 0.69 | 2.08 | 4.2 |
+  | 2 | 0.0 | 2.08 | 3.98 | 8.3 |
+  | 3 | 2.1 | 5.21 | 7.81 | 20.8 |
+  | 4 | 4.5 | 7.99 | 11.0 | 29.2 |
+  | 8 | 12.9 | 22.2 | 26.5 | 54.2 |
+  | 10 | 17.0 | 30.9 | 35.5 | 58.3 |
+
+  seed-2 shifts WARNING (UCB-5%) to **k=3** (vs seed-3 k=4) and HARD (UCB-20%) to **k=8** (vs seed-3 k=10). Artifact `results/d1_threshold_lowk_3b_s2.json`.
 - **SCOPED EMPIRICAL OBSERVATIONS (NOT portable thresholds):** corruption onset k=3 (mean 2.1%, boot-95 4.5%); pooled warning-level (~5%) by k=4; pooled ~20% by k≈10–12. These are **order-dominated** — the leave-one-order-out column shows the single worst order drives almost all of it (k=4: 25% worst vs 3.6% without it). **Do NOT promote k=3–4 / k=10–12 as clean safety thresholds** (both reviewers); they are descriptive.
 - **Per-relation count is a fail-closed SENTINEL, not the causal variable.** The driver is edit-set/ORDER geometry (key-collinearity / entity identity), not bare count — confirmed by the order-dominance. Future admission control should condition on edit-set geometry or a post-edit probe; the count is a conservative circuit-breaker only (ties §3.1 / D1 key-collinearity covariate / the field's norm-growth lead D8).
 - **SCOPE (binding caveats):** (a) **3B only** — cross-model transfer OPEN (7B sequential noise needs the determinism path, now proven byte-reproducible across processes); (b) **pure-capital = anti-conservative** — real mixed inter-anchor load adds the D1 cross-relation term → true ceiling likely *lower*; mixed-load **untested**; (c) **incremental/inter-anchor path only** (deployment is batch/Genesis, A1-clean — this guardrail governs the A3-parked runtime path); (d) seed-3 held-out (a coarser sweep showed seed-2 more toxic → across-held-out-seed variance undersampled, conservative direction lower). All four push the ceiling *lower*, reinforcing `k≤2`.

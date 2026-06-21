@@ -1,0 +1,186 @@
+{
+  "experiment": "d1_threshold_lowk_orders",
+  "model": "3b",
+  "tag": "nondet",
+  "seed": 2,
+  "n_orders": 12,
+  "lowk_grid": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    8,
+    10
+  ],
+  "heldout_n": 24,
+  "z_one_sided": 1.645,
+  "engine": "kmeng01/memit UNMODIFIED",
+  "curve": [
+    {
+      "k": 1,
+      "wrong": 2,
+      "n": 288,
+      "corr_pooled_pct": 0.69,
+      "wilson_upper_pct": 2.08,
+      "observed_worst_pct": 4.2,
+      "per_order_corr_pct": [
+        4.2,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        4.2,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "k": 2,
+      "wrong": 6,
+      "n": 288,
+      "corr_pooled_pct": 2.08,
+      "wilson_upper_pct": 3.98,
+      "observed_worst_pct": 8.3,
+      "per_order_corr_pct": [
+        8.3,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        4.2,
+        4.2,
+        0.0,
+        4.2,
+        0.0,
+        4.2
+      ]
+    },
+    {
+      "k": 3,
+      "wrong": 15,
+      "n": 288,
+      "corr_pooled_pct": 5.21,
+      "wilson_upper_pct": 7.81,
+      "observed_worst_pct": 20.8,
+      "per_order_corr_pct": [
+        12.5,
+        0.0,
+        4.2,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        12.5,
+        20.8,
+        4.2,
+        0.0,
+        8.3
+      ]
+    },
+    {
+      "k": 4,
+      "wrong": 23,
+      "n": 288,
+      "corr_pooled_pct": 7.99,
+      "wilson_upper_pct": 11.02,
+      "observed_worst_pct": 29.2,
+      "per_order_corr_pct": [
+        25.0,
+        4.2,
+        8.3,
+        0.0,
+        4.2,
+        0.0,
+        0.0,
+        8.3,
+        29.2,
+        4.2,
+        0.0,
+        12.5
+      ]
+    },
+    {
+      "k": 6,
+      "wrong": 46,
+      "n": 288,
+      "corr_pooled_pct": 15.97,
+      "wilson_upper_pct": 19.84,
+      "observed_worst_pct": 50.0,
+      "per_order_corr_pct": [
+        20.8,
+        8.3,
+        12.5,
+        4.2,
+        20.8,
+        0.0,
+        12.5,
+        41.7,
+        50.0,
+        8.3,
+        4.2,
+        8.3
+      ]
+    },
+    {
+      "k": 8,
+      "wrong": 64,
+      "n": 288,
+      "corr_pooled_pct": 22.22,
+      "wilson_upper_pct": 26.5,
+      "observed_worst_pct": 54.2,
+      "per_order_corr_pct": [
+        37.5,
+        4.2,
+        16.7,
+        25.0,
+        12.5,
+        8.3,
+        25.0,
+        54.2,
+        33.3,
+        20.8,
+        20.8,
+        8.3
+      ]
+    },
+    {
+      "k": 10,
+      "wrong": 89,
+      "n": 288,
+      "corr_pooled_pct": 30.9,
+      "wilson_upper_pct": 35.54,
+      "observed_worst_pct": 58.3,
+      "per_order_corr_pct": [
+        41.7,
+        8.3,
+        25.0,
+        45.8,
+        20.8,
+        8.3,
+        29.2,
+        58.3,
+        45.8,
+        25.0,
+        45.8,
+        16.7
+      ]
+    }
+  ],
+  "WARNING": {
+    "wilson_ucb_k": 3,
+    "pooled_k": 3,
+    "observed_worst_k": 2
+  },
+  "HARD": {
+    "wilson_ucb_k": 8,
+    "pooled_k": 8,
+    "observed_worst_k": 3
+  },
+  "note": "binary top-1 corruption; one-sided 95% Wilson UCB primary; pooled+observed-worst reported; pure-capital (anti-conservative, mixed-load untested); held-out=24 discreteness 4.17%/entity"
+}
