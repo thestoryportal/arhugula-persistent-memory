@@ -24,7 +24,7 @@ This repo is organized for a research audience: every headline claim resolves to
 | **Size-density (3B→7B)** | 🟡 PARTIAL — batch-clean does not *fully* replicate at 7B (100→91.7%) | `CORPUS/19` (B1) |
 | **Cross-entity mechanism (keying)** | ⛔ relation-keying PRUNED; same-relation key collinearity is U-shaped in depth (min L8–12) — a measured mechanism + a spec-C15 tension | `CORPUS/20` (C2) |
 
-**Net state:** the **batch-rebuild deployment path** is clean at 3B and survives Q4_K_M; CPU serving works via llama.cpp. Open frontier: whether in-weight storage (L2) is even required vs. retrieval (L1) + an external query index; the capacity law (D1); and whether the edit-validated family (Qwen2.5) should move to the LARQL-servable family (Qwen3). See `docs/HYPOTHESIS_REGISTER_2026-06-18.md`.
+**Net state:** the **batch-rebuild deployment path** is clean at 3B and survives Q4_K_M; CPU serving works via llama.cpp. Open frontier: whether in-weight storage (L2) is even required vs. retrieval (L1) + an external query index; the capacity law (D1 — structural DONE+model-general; §8.7 numeric guardrail set conservative at per-relation **k≤1** on 3B, D-D1-2, cross-model transfer open); and whether the edit-validated family (Qwen2.5) should move to the LARQL-servable family (Qwen3). See `docs/HYPOTHESIS_REGISTER_2026-06-18.md`.
 
 ---
 
