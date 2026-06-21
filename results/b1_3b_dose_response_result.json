@@ -1,0 +1,175 @@
+{
+  "experiment": "B1_size_term_dose_response",
+  "model": "3b",
+  "hf_id": "Qwen/Qwen2.5-3B",
+  "revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+  "band": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "svd_device": "cuda",
+  "total_N": 48,
+  "doses": [
+    24,
+    36,
+    42
+  ],
+  "heldout_n": 24,
+  "seeds": [
+    3,
+    4,
+    5
+  ],
+  "engine": "kmeng01/memit UNMODIFIED",
+  "ents_all": 78,
+  "base_correct": 78,
+  "per_run": [
+    {
+      "seed": 3,
+      "k": 24,
+      "base": 100.0,
+      "R_pure_k": 50.0,
+      "R_after_full": 45.8,
+      "cross_relation_term_pp": 4.2,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 573.368,
+      "cap_mean_dW_fro_per_edit": 23.8903,
+      "lang_cum_dW_fro": 555.457
+    },
+    {
+      "seed": 3,
+      "k": 36,
+      "base": 100.0,
+      "R_pure_k": 25.0,
+      "R_after_full": 20.8,
+      "cross_relation_term_pp": 4.2,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 875.53,
+      "cap_mean_dW_fro_per_edit": 24.3203,
+      "lang_cum_dW_fro": 277.839
+    },
+    {
+      "seed": 3,
+      "k": 42,
+      "base": 100.0,
+      "R_pure_k": 20.8,
+      "R_after_full": 16.7,
+      "cross_relation_term_pp": 4.1,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 1022.924,
+      "cap_mean_dW_fro_per_edit": 24.3553,
+      "lang_cum_dW_fro": 137.577
+    },
+    {
+      "seed": 4,
+      "k": 24,
+      "base": 100.0,
+      "R_pure_k": 45.8,
+      "R_after_full": 45.8,
+      "cross_relation_term_pp": 0.0,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 577.731,
+      "cap_mean_dW_fro_per_edit": 24.0721,
+      "lang_cum_dW_fro": 566.347
+    },
+    {
+      "seed": 4,
+      "k": 36,
+      "base": 100.0,
+      "R_pure_k": 37.5,
+      "R_after_full": 29.2,
+      "cross_relation_term_pp": 8.3,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 884.925,
+      "cap_mean_dW_fro_per_edit": 24.5813,
+      "lang_cum_dW_fro": 295.35
+    },
+    {
+      "seed": 4,
+      "k": 42,
+      "base": 100.0,
+      "R_pure_k": 25.0,
+      "R_after_full": 20.8,
+      "cross_relation_term_pp": 4.2,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 1041.788,
+      "cap_mean_dW_fro_per_edit": 24.8045,
+      "lang_cum_dW_fro": 141.747
+    },
+    {
+      "seed": 5,
+      "k": 24,
+      "base": 100.0,
+      "R_pure_k": 70.8,
+      "R_after_full": 66.7,
+      "cross_relation_term_pp": 4.1,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 575.355,
+      "cap_mean_dW_fro_per_edit": 23.9731,
+      "lang_cum_dW_fro": 575.168
+    },
+    {
+      "seed": 5,
+      "k": 36,
+      "base": 100.0,
+      "R_pure_k": 54.2,
+      "R_after_full": 45.8,
+      "cross_relation_term_pp": 8.4,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 869.701,
+      "cap_mean_dW_fro_per_edit": 24.1584,
+      "lang_cum_dW_fro": 296.35
+    },
+    {
+      "seed": 5,
+      "k": 42,
+      "base": 100.0,
+      "R_pure_k": 45.8,
+      "R_after_full": 41.7,
+      "cross_relation_term_pp": 4.1,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 1014.001,
+      "cap_mean_dW_fro_per_edit": 24.1429,
+      "lang_cum_dW_fro": 144.781
+    }
+  ],
+  "dose_response_pure_means": {
+    "24": 55.533,
+    "36": 38.9,
+    "42": 30.533
+  },
+  "cap_cum_dW_fro_means": {
+    "24": 575.485,
+    "36": 876.719,
+    "42": 1026.238
+  },
+  "cap_mean_dW_fro_per_edit_means": {
+    "24": 23.979,
+    "36": 24.353,
+    "42": 24.434
+  },
+  "cross_term_means": {
+    "24": 2.767,
+    "36": 6.967,
+    "42": 4.133
+  },
+  "cross_term_mean_all": 4.6,
+  "heldout_granularity_pp": 4.2,
+  "monotonic_concentration": true,
+  "cross_relation_term_real": true,
+  "positive_control_ok": true,
+  "dilutant_ok": true,
+  "verdict": "REPLICATE: concentration corrupts (monotonic=True); cross-term mean 4.6pp (gran 4.2pp)"
+}

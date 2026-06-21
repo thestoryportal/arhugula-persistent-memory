@@ -1,0 +1,175 @@
+{
+  "experiment": "B1_size_term_dose_response",
+  "model": "3b",
+  "hf_id": "Qwen/Qwen2.5-3B",
+  "revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+  "band": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "svd_device": "cuda",
+  "total_N": 48,
+  "doses": [
+    24,
+    36,
+    42
+  ],
+  "heldout_n": 24,
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "engine": "kmeng01/memit UNMODIFIED",
+  "ents_all": 78,
+  "base_correct": 78,
+  "per_run": [
+    {
+      "seed": 1,
+      "k": 24,
+      "base": 100.0,
+      "R_pure_k": 62.5,
+      "R_after_full": 58.3,
+      "cross_relation_term_pp": 4.2,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 579.011,
+      "cap_mean_dW_fro_per_edit": 24.1254,
+      "lang_cum_dW_fro": 561.469
+    },
+    {
+      "seed": 1,
+      "k": 36,
+      "base": 100.0,
+      "R_pure_k": 41.7,
+      "R_after_full": 41.7,
+      "cross_relation_term_pp": 0.0,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 884.633,
+      "cap_mean_dW_fro_per_edit": 24.5731,
+      "lang_cum_dW_fro": 266.083
+    },
+    {
+      "seed": 1,
+      "k": 42,
+      "base": 100.0,
+      "R_pure_k": 25.0,
+      "R_after_full": 29.2,
+      "cross_relation_term_pp": -4.2,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 1033.507,
+      "cap_mean_dW_fro_per_edit": 24.6073,
+      "lang_cum_dW_fro": 134.459
+    },
+    {
+      "seed": 2,
+      "k": 24,
+      "base": 100.0,
+      "R_pure_k": 70.8,
+      "R_after_full": 41.7,
+      "cross_relation_term_pp": 29.1,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 594.231,
+      "cap_mean_dW_fro_per_edit": 24.7596,
+      "lang_cum_dW_fro": 621.304
+    },
+    {
+      "seed": 2,
+      "k": 36,
+      "base": 100.0,
+      "R_pure_k": 50.0,
+      "R_after_full": 33.3,
+      "cross_relation_term_pp": 16.7,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 921.043,
+      "cap_mean_dW_fro_per_edit": 25.5845,
+      "lang_cum_dW_fro": 289.233
+    },
+    {
+      "seed": 2,
+      "k": 42,
+      "base": 100.0,
+      "R_pure_k": 29.2,
+      "R_after_full": 25.0,
+      "cross_relation_term_pp": 4.2,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 1070.17,
+      "cap_mean_dW_fro_per_edit": 25.4802,
+      "lang_cum_dW_fro": 151.399
+    },
+    {
+      "seed": 3,
+      "k": 24,
+      "base": 100.0,
+      "R_pure_k": 62.5,
+      "R_after_full": 50.0,
+      "cross_relation_term_pp": 12.5,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 562.52,
+      "cap_mean_dW_fro_per_edit": 23.4383,
+      "lang_cum_dW_fro": 569.817
+    },
+    {
+      "seed": 3,
+      "k": 36,
+      "base": 100.0,
+      "R_pure_k": 33.3,
+      "R_after_full": 29.2,
+      "cross_relation_term_pp": 4.1,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 851.94,
+      "cap_mean_dW_fro_per_edit": 23.665,
+      "lang_cum_dW_fro": 268.916
+    },
+    {
+      "seed": 3,
+      "k": 42,
+      "base": 100.0,
+      "R_pure_k": 33.3,
+      "R_after_full": 33.3,
+      "cross_relation_term_pp": 0.0,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 991.81,
+      "cap_mean_dW_fro_per_edit": 23.6145,
+      "lang_cum_dW_fro": 132.763
+    }
+  ],
+  "dose_response_pure_means": {
+    "24": 65.267,
+    "36": 41.667,
+    "42": 29.167
+  },
+  "cap_cum_dW_fro_means": {
+    "24": 578.587,
+    "36": 885.872,
+    "42": 1031.829
+  },
+  "cap_mean_dW_fro_per_edit_means": {
+    "24": 24.108,
+    "36": 24.608,
+    "42": 24.567
+  },
+  "cross_term_means": {
+    "24": 15.267,
+    "36": 6.933,
+    "42": 0.0
+  },
+  "cross_term_mean_all": 7.4,
+  "heldout_granularity_pp": 4.2,
+  "monotonic_concentration": true,
+  "cross_relation_term_real": true,
+  "positive_control_ok": true,
+  "dilutant_ok": true,
+  "verdict": "REPLICATE: concentration corrupts (monotonic=True); cross-term mean 7.4pp (gran 4.2pp)"
+}

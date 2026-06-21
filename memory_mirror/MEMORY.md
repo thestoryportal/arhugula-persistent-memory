@@ -46,3 +46,7 @@ It re-grounds the whole "LLM-as-Database" program: goal, the months-long experim
 - [Control-relation effective cardinality](control-relation-effective-cardinality.md) — check confident+correct+single-tok pool's effective distinct values, not nominal
 - [Codex review: embed evidence + medium effort](codex-review-embed-evidence-and-effort.md) — sandbox can't read files; high effort times out ~600s
 - [Memory paths & mirror discipline](memory-paths-and-mirror-discipline.md) — live -workspace/memory wiped on restart; mirror is canonical; don't clobber the index
+- [Sequential-edit run nondeterminism](sequential-edit-run-nondeterminism.md) — held-out corruption swings ~50pp run-to-run on SAME config (GPU nondeterminism); single-run absolutes unreliable, re-run outliers before believing them
+- [Wide-intermediate 7B editing VRAM](wide-intermediate-7b-editing-vram.md) — Qwen2.5-7B in-solve AlphaEdit on 24GB: eigh-not-svd for P, diagonal-add not L2*eye, del Pi before solve, expandable_segments, BLAS=8
+- [Calibrate symmetrically; unresolved is a verdict](calibrate-symmetrically-unresolved-is-a-verdict.md) — refuting an over-claim ≠ licensing the opposite null; default correction to UNRESOLVED/weak-lean; read sign pattern not noisy mean
+- [Background monitor: no premature read](background-monitor-no-premature-read.md) — don't Read a background sleep's output before it finishes; foreground sleep+check or wait for the task-notification
