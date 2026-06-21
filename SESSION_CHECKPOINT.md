@@ -1,9 +1,34 @@
 # SESSION CHECKPOINT — Write-Engine Viability Determination
-_Last updated: 2026-06-21. Authoritative re-ground = `SESSION_BOOTSTRAP.md` + `CORPUS/`. The consolidated handoff directly below is the fast path; the per-prototype dated entries further down are detail; the Phase-0 content at the very bottom is stale prior-session history._
+_Last updated: 2026-06-21 (FINAL — D-D1-2 close). Authoritative re-ground = `SESSION_BOOTSTRAP.md` + `CORPUS/`. The consolidated handoff directly below is the fast path; the per-prototype dated entries further down are detail; the Phase-0 content at the very bottom is stale prior-session history._
 
 ╔══════════════════════════════════════════════════════════════════════╗
 ║  HANDOFF — fresh context, start here (2026-06-21)                      ║
 ╚══════════════════════════════════════════════════════════════════════╝
+
+
+### ⭐⭐⭐ SESSION CLOSE (2026-06-21 FINAL) — D-D1-2 §8.7 NUMERIC GUARDRAIL DONE (k≤1 conservative); F1 status mapped. NEXT ARC = B3 (in-weight vs side-store) + 7B numeric-transfer + CP2 → F1. Resume here + `EXPERIMENT_RUNBOOK.md` §0.3.
+
+**WHAT THIS SESSION DELIVERED (D-D1-2, close-out gate ✅ all-green; commits f459b3a · 91765db · c28c13c · 5ba307b + this):**
+- **§8.7 numeric guardrail SET on Qwen2.5-3B** via a purpose-built lower-variance instrument (`experiments/track_d/d1_threshold_instrument.py`; pre-reg `docs/SPEC_8_7_THRESHOLD_INSTRUMENT_PREREG.md`; amendment §4). **Ship: max unanchored per-relation concentration `k ≤ 1`** (anchor by k=2; WARNING by k=2–3; HARD k=8–10). Dual-reviewed (Opus advisor ×2 + gpt-5.5 cross-family ×2, inline).
+- **The honest core finding:** held-out read corruption is **edit-ORDER- and held-out-set-DOMINATED, not count-determined** → per-relation count is a **fail-closed SENTINEL, not the causal variable** (edit-set/key-collinearity geometry is). Conservative ceiling walked DOWN k≤2(seed-3)→k≤1 across three same-direction checks: **mixed-load** (other-relation *volume* corrupts a relation's reads independent of its concentration → mixed clean ceiling k=0; VINDICATES the amendment's worse-of(global,per-relation) design) + **more-toxic held-out seed-2** (corrupts at k=1–2 where seed-3 was clean) + **order cluster-bootstrap** (one toxic order drives the crossing).
+- **Instrument lesson (3 new/updated memories):** within-process repeats are SD=0 (a within-process diagnostic FALSELY reports "deterministic"); the real noise is **across-process** (cuBLAS, the ~50pp on 7B / ~12pp on 3B, fixed by determinism) **+ edit-order** (intrinsic, dominant). iid/Wilson CIs are invalid (clustered) → cluster-bootstrap + ≥2 held-out seeds. See [[sequential-edit-run-nondeterminism]] (corrected), [[clustered-editing-trials-sampling-unit]] (new).
+- **§8.7 structural amendment = ✅ OPERATOR-APPROVED** (model-general from D1+B1; numeric guardrail now in its §4). Cross-model transfer (OQ-W1) still OPEN — needs the (proven byte-reproducible) determinism path on 7B.
+- **6 ConnectedPapers graphs reviewed → hypothesis register §J (leads D8–D19):** field converges on **gated side-stores** (NeuralDB/WISE/GRACE/MEMOIR/SCEN); **KEO/SetKE = our cross-entity corruption *named*** + their Knowledge-Set-Editing ≈ our A1; **Editing-Overfit/EVOKE = our E1 margin confound *named***; NeuralDB verified (EV-3). New [[in-weight-vs-sidestore-f1-question]].
+- **Codex cross-family review RESTORED inline** (was lapsed; the "pod-only/network-sandboxed" blocker was stale — network reachable, `/workspace/bin/codex` runs). [[codex-runs-inline-from-claude-bash]]. Run gpt-5.5 inline at every promote gate.
+
+**F1 NORTH-STAR STATUS (mapped this session — NOT delivered):** the deployment **data-path spine is PROVEN-for-scope** (recipe→A1 batch-clean→B3 Q4_K_M→E1·A CPU-serve; 3B/N≤100/batch) and the governance substrate is prototyped (CP1–G3, self-authored caveat). **F1 blocks on:** (1) **CP2 query-schema build-items** [PARTIAL, required]; (2) **D1 numeric cross-model transfer** (3B done, 7B OPEN); (3) **B3 in-weight-vs-side-store architecture decision** (highest-stakes, now sharpened by the prior-art convergence — could flip the verdict to "recommend hybrid"); then (4) write the F1 reconciliation. Everything ~3B/N≤100/batch-scoped.
+
+**THE NEXT FORWARD ARC (priority order — resume here):**
+1. **B3 — is diffuse in-weight even required vs a routed/gated side-store?** Highest-leverage, **analysis-heavy / low-compute**; decide against E3 (L1 retrieval can't do multi-hop reason-over-fact). Could change the whole F1 verdict. ([[in-weight-vs-sidestore-f1-question]], register §B/§J.)
+2. **7B numeric-threshold transfer (OQ-W1)** — re-run the order-cluster-bootstrap low-k instrument on 7B **under determinism** (proven reproducible across processes) to close cross-model transfer. GPU; reuse `d1_threshold_instrument.py` MODE=lowk + determinism env.
+3. **CP2 schema build-items** — L1 triple-readback + 5 query families + violates-rejection (contract-readiness, required).
+4. → **F1 reconciliation & determination.** Optional same-direction: ≥3 held-out seeds (diminishing returns — three checks already agree).
+
+**INFRA / HOW (read before runs):** engine UNMODIFIED SHA `5c0c706a…`; `python3.11` + transformers 4.51.0; `LLMDB_ROOT=/workspace`. Determinism path = `torch.use_deterministic_algorithms(True)` + `CUBLAS_WORKSPACE_CONFIG=:4096:8` + `ATTN=eager` (runs clean on 3B, byte-reproducible across processes). Codex inline: `export PATH=/workspace/bin:$PATH CODEX_HOME=/workspace/.codex; codex exec -c model_reasoning_effort=medium --skip-git-repo-check "$(cat PROMPT.md)"` (embed evidence; bg+waiter; ~540s). Background waiters kept expiring on their own windows mid-run — the runs were fine; re-check the log directly. 7B needs the VRAM adaptations [[wide-intermediate-7b-editing-vram]].
+
+**ARTIFACTS:** `results/d1_threshold_lowk_3b_s{3,3_lowextra,2}.json` (low-k order-bootstrap, seeds 2+3), `results/d1_mixedload_smoke_3b_s3.json`, `results/d1_threshold_curve_3b_*.json` (matrix: across-process+across-seed+det), `results/d1_instrument_variance_diagnostic_3b_{nondet,det}.json`; reviews `logs/codex_review_threshold_{,FINAL_}OUT.log`; harness `experiments/track_d/d1_threshold_instrument.py` (MODE=diagnostic|sweep|lowk|mixedload) + orchestrators `run_*.sh`.
+
+**NEW MEMORIES:** [[clustered-editing-trials-sampling-unit]] · [[in-weight-vs-sidestore-f1-question]] · [[codex-runs-inline-from-claude-bash]] · [[sequential-edit-run-nondeterminism]] (corrected: 3-axis decomposition).
 
 
 ### ⭐⭐⭐ SESSION (2026-06-21 cont.) — §8.7 NUMERIC THRESHOLD SET (D-D1-2): operational guardrail **k≤2**.
