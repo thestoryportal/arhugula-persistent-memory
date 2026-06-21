@@ -20,6 +20,9 @@ _Last updated: 2026-06-21 (FINAL — D-D1-2 ⟨D-D1-2@e023d8d2⟩ close). Author
 ╚══════════════════════════════════════════════════════════════════════╝
 
 
+### ▶▶ NEXT SESSION (start here, fresh context): `docs/RE_GROUNDING_SESSION_BRIEF.md`
+The prior arc is closed (D-D20-1 done; GitHub sync live; NotebookLM working from the pod). The next session **steps back, re-grounds on the WHOLE e2e map** (`docs/SPEC_E2E_GROUND_TRUTH.md` → `PROGRESS ⓪`), and tightens onto the **empty cells — the READ/QUERY CONTRACT (CP2) first** — producing a **pre-registered runnable experiment**, not more docs. Full kickoff + the NotebookLM/Perplexity/InfraNodus query prompts are in the brief. Guardrails: spec-first · research-first · situate-on-the-map · falsification-first · scope-git-add+secret-scan-before-push.
+
 ### 🔑 GITHUB SYNC ENABLED (2026-06-21) — push now works; keep the PUBLIC remote current for InfraNodus.
 The repo is **public** (`github.com/thestoryportal/arhugula-persistent-memory`). `git push` is **enabled + authorized** (operator removed the `"Bash(git push:*)"` deny line from `/workspace/.claude/settings.json`; auth via `gh` account `thestoryportal` + `gh auth setup-git`). **Standing practice: push after every meaningful commit + at session close** ([[commit-forward-work-without-asking]]). **⚠ A POD RESTART WIPES BOTH:** the `gh` credential (`~/.config/gh`) AND the settings.json deny-removal → after a restart, before pushing: (1) `gh auth login` + `gh auth setup-git`; (2) re-remove the deny line: `sed -i '/"Bash(git push:\*)"/d' /workspace/.claude/settings.json` then reload the session. (No auto-push hook — a post-commit auto-push was correctly rejected by the safety classifier as a permission bypass; direct push is the legitimate path.) Stale `_comment` in settings.json still lists git push as blocked — cosmetic only.
 
