@@ -51,3 +51,4 @@ It re-grounds the whole "LLM-as-Database" program: goal, the months-long experim
 - [Calibrate symmetrically; unresolved is a verdict](calibrate-symmetrically-unresolved-is-a-verdict.md) — refuting an over-claim ≠ licensing the opposite null; default correction to UNRESOLVED/weak-lean; read sign pattern not noisy mean
 - [Background monitor: no premature read](background-monitor-no-premature-read.md) — don't Read a background sleep's output before it finishes; foreground sleep+check or wait for the task-notification
 - [Close-out gate before done](closeout-gate-before-done.md) — every experiment close ends with `tools/closeout_check.py <D-ID>` = ✅ ALL GREEN; canonical-tracker close-out is mechanical, not the operator's job to check
+- [Encode recurring discipline as a gate](encode-recurring-discipline-as-a-gate.md) — when a multi-item norm keeps lapsing, build a runnable exit-code gate (not more prose); prose checklists fail under load
