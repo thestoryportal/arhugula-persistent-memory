@@ -21,6 +21,7 @@ The navigability spine: every experiment → hypothesis, code, result, evidence 
 | **E1** | deployment | LARQL gguf-to-vindex serves the store on CPU | `experiments/deployment/e1_probe.py` | `results/e1_larql_serve_result.json` | CORPUS/18 | A PASS / B FALSIFIED | D-E1-1 |
 | **C2** | track_c | relation-inclusive keying reduces same-relation key collinearity | `experiments/track_c/c2_key_collinearity.py` | `results/c2_result.json` | CORPUS/20 | PRUNED | D-C2-1 ⟨D-C2-1@e2eff6af⟩ |
 | **C2b** | track_c | key-collinearity depth map (best band for isolation) | `experiments/track_c/c2b_depth_map.py` | `results/c2b_depth_map_result.json` | CORPUS/20 | mechanism mapped | D-C2-1 |
+| **B3N** (in-weight necessity) | analysis | is diffuse in-weight required vs a gated/routed side-store? (F1 architecture decision) | _analysis — no script_ | `docs/B3_IN_WEIGHT_NECESSITY_DECISION.md` | — | DECIDED = scope-keyed HYBRID (reasoned position, not a PASS) | D-B3N-1 |
 
 **Historical / Phase-0–1** (gate-calibration s241/s242, model sweep s243, decouple s245–s252, alt-model t1/t3): frozen in `archive/s_series_scripts/` and `archive/notebooks/`; summarized in `docs/framework_findings/` and `docs/session_summaries/`. Not path-rewritten (target the pre-2026-06-18 flat layout).
 

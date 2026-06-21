@@ -1,16 +1,16 @@
 # SESSION CHECKPOINT — Write-Engine Viability Determination
 
 <!-- BEGIN GENERATED:program-state -->
-**📍 PROGRAM STATE (updated 2026-06-21 (session-close))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
+**📍 PROGRAM STATE (updated 2026-06-21 (B3N close))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
 
 - **North star:** F1 — prove/falsify the 'LLM-as-Database' spec is implementable BEFORE it is built; deliver a ready / not-ready-with-conditions determination. Falsification-first.
-- **Latest:** D-D1-2: §8.7 numeric drift guardrail SET on Qwen2.5-3B = max unanchored per-relation concentration **k≤1** (conservative; corruption is edit-order/held-out-DOMINATED, not count-determined; mixed-load shows other-relation volume corrupts too → pair with a global-volume bound). §8.7 structural amendment = operator-APPROVED + model-general (3B+7B). INFRA (this session): a 3-layer anti-drift doc system was built — edit THIS file + run `python3 tools/render_state.py --write` to update status; a pre-commit hook blocks stale commits (`tools/ANTI_DRIFT.md`). Next-arc is F1 SCIENCE (below), NOT more doc infra.
-- **F1 status:** NOT delivered. Deployment data-path spine PROVEN-FOR-SCOPE (recipe→A1 batch-clean→B3 Q4_K_M→E1·A CPU-serve; 3B / N≤100 / batch). Blocks on: CP2 (contract) + D1 numeric cross-model transfer + the B3 in-weight-vs-side-store architecture decision. Everything ~3B/N≤100/batch-scoped.
+- **Latest:** D-B3N-1 (B3 in-weight-necessity DECISION — the highest-stakes F1 architecture item, TAKEN): in-weight is NOT contractually required by the spec's read path; its unique value (forward-pass 'native knowing', spec line 90) is a stated PARADIGM PREFERENCE, not a tested hard requirement, and a structured side-store satisfies every ENFORCED read invariant (L1 SELECT, reverse-lookup, multi-hop — EV-2) given reliable routing. VERDICT = scope-keyed conditional HYBRID, keyed to the WRITE axis: in-weight VIABLE AT TESTED SCOPE for the genesis/batch core (A1 clean + B3 quant + E1 CPU-serve; 3B/N≤100); route incremental-high-churn to a gated/structured side-store (our G6.1/D-D1-2 corruption is INCREMENTAL-path-only — do NOT count it against the batch path). The §8.7 k≤1 guardrails attach to incremental/residual mode, NOT the batch core. Reasoned architectural position (no single pre-registered falsifier), NOT an empirical PASS. Dual-reviewed (advisor + gpt-5.5 cross-family FIX-FIRST, applied). docs/B3_IN_WEIGHT_NECESSITY_DECISION.md. Next-arc: 7B numeric-transfer (OQ-W1) → CP2 schema build-items → write F1.
+- **F1 status:** NOT delivered. Deployment data-path spine PROVEN-FOR-SCOPE (recipe→A1 batch-clean→B3 Q4_K_M→E1·A CPU-serve; 3B / N≤100 / batch). B3 architecture decision TAKEN (D-B3N-1): scope-keyed HYBRID — in-weight for batch core at tested scope, side-store for incremental high-churn. Remaining blocks: CP2 (contract) + 7B numeric cross-model transfer (OQ-W1) + the §1.1 open dims (auditability/governance/security/routing/cost). Everything ~3B/N≤100/batch-scoped.
 - **Next actions (priority):**
-  1. B3 — is diffuse in-weight storage even required vs a routed/gated side-store? (highest-stakes; analysis-heavy/low-compute; the 6-graph ConnectedPapers review shows the field converges on side-stores)
-  2. 7B numeric-threshold transfer via the proven determinism path (OQ-W1 cross-model)
-  3. CP2 query-schema build-items (L1 triple-readback + 5 query families + violates-rejection — contract-readiness)
-  4. → F1 reconciliation & determination
+  1. 7B numeric-threshold transfer via the proven determinism path (OQ-W1 cross-model) — sharpens the §8.7 condition value (not the B3 verdict)
+  2. CP2 query-schema build-items (L1 triple-readback + 5 query families + violates-rejection — contract-readiness)
+  3. → F1 reconciliation & determination — write as a SCOPE-KEYED HYBRID per D-B3N-1 (in-weight batch core at scope; side-store for incremental); resolve the §1.1 dims (auditability/governance/security/routing/cost)
+  4. Operator input needed: is the deployment write-profile batch-ONLY or does it include incremental-at-scale? (decides which D-B3N-1 row governs — the single biggest F1 lever)
 <!-- END GENERATED:program-state -->
 _Last updated: 2026-06-21 (FINAL — D-D1-2 ⟨D-D1-2@e023d8d2⟩ close). Authoritative re-ground = `SESSION_BOOTSTRAP.md` + `CORPUS/`. The consolidated handoff directly below is the fast path; the per-prototype dated entries further down are detail; the Phase-0 content at the very bottom is stale prior-session history._
 
@@ -18,6 +18,18 @@ _Last updated: 2026-06-21 (FINAL — D-D1-2 ⟨D-D1-2@e023d8d2⟩ close). Author
 ║  HANDOFF — fresh context, start here (2026-06-21)                      ║
 ╚══════════════════════════════════════════════════════════════════════╝
 
+
+### ⭐⭐⭐ SESSION (2026-06-21, B3N) — B3 IN-WEIGHT-NECESSITY DECIDED (D-B3N-1): scope-keyed HYBRID. The #1 F1 architecture item is now TAKEN. NEXT = 7B numeric-transfer (OQ-W1) → CP2 → write F1.
+
+**Deliverable:** `docs/B3_IN_WEIGHT_NECESSITY_DECISION.md` (reasoned architectural position, **NOT** an empirical PASS — no pre-registered falsifier). The highest-stakes open F1 item, resolved.
+
+**Verdict (D-B3N-1):** in-weight is **NOT contractually required** by the spec. Two-axis frame: **(A READ)** in-weight's only contractually-relevant unique value = forward-pass "native knowing" (spec line 90), which is a stated paradigm *preference*, not a tested requirement — the enforced read contract (L1 SELECT / reverse-lookup / multi-hop, EV-2) is side-store-satisfiable given reliable routing; no latency SLA (p95 tolerates 2×, reads block during mount). **(B WRITE)** our corruption (G6.1, D-D1-2 k≤1, mixed-load) is **INCREMENTAL-path-only** — batch/genesis is CLEAN at scope (A1+B3+E1, 3B/N≤100) → **do NOT count incremental corruption against batch.** → **Scope-keyed HYBRID:** in-weight VIABLE-AT-TESTED-SCOPE for the batch/genesis core; route incremental-high-churn to a gated side-store; §8.7 `k≤1` attaches to incremental/residual mode, not the batch core.
+
+**Reviews:** advisor (pre-authoring — built the two-axis frame, caught the double-count + side-store confirmation-bias traps) + gpt-5.5 cross-family FIX-FIRST (8 calibration fixes applied: axes "primary not exhaustive" → new §1.1 open dims; routing caveat; "viable at scope" not "architecture-final"; guardrail-placement fix; demote "field convergence" → "leads aligned"; latency "suggestive"). Direction unchanged.
+
+**Open / forward:** §1.1 dims (auditability, delete/update governance, security/trust-boundary, routing reliability, cost) → resolve in F1. **Operator Q (biggest F1 lever): is the deployment write-profile batch-ONLY or incremental-at-scale?** — decides which verdict row governs. **F1 must be written as the hybrid, not a blanket "in-weight ready."** Trackers updated (program_state.json→render, runbook §0.3+§5.2+§13, hypothesis-register B3=RESOLVED). New memory [[in-weight-necessity-is-scope-keyed-hybrid]] (supersedes [[in-weight-vs-sidestore-f1-question]]). **NEXT ARC: 7B numeric-transfer (OQ-W1) → CP2 schema build-items → write F1.**
+
+---
 
 ### ⭐⭐⭐ SESSION CLOSE (2026-06-21, doc-integrity arc) — anti-drift SYSTEM built; SCIENCE state unchanged. NEXT = RETURN TO F1 SCIENCE (B3 / 7B-transfer / CP2), NOT more doc infra.
 

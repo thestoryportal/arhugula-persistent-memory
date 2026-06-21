@@ -69,13 +69,13 @@ Q4_K_M ✅ → **`E1·A`** serves on CPU ✅ → **`D1` capacity law `[OPEN — 
 ## ⑤ DISTANCE TO F1 (the readiness scorecard)
 
 <!-- BEGIN GENERATED:f1-scorecard -->
-**F1 READINESS SCORECARD (updated 2026-06-21 (session-close))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
+**F1 READINESS SCORECARD (updated 2026-06-21 (B3N close))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
 
 - **Deployment data path:** recipe ✅ → A1 batch-clean ✅ → B3 Q4_K_M-survival ✅ → E1·A CPU-serve ✅ → D1 structural ✅ (model-general) + numeric k≤1 SET on 3B ⚠️ (cross-model transfer OPEN)
 - **Governance:** CP1 ✅ · CP3 ✅ · G1 ✅ · G2 ✅ · G3 ✅ · CP2 ⚠️ (query-schema build-items OPEN — critical path)
 - **Robustness:** C/G7 multi-token ❌ · C2-band ⚠️ (real-but-underpowered, not promoted)
 - **Critical path:** B3 in-weight-necessity + CP2 schema build-items + D1 numeric cross-model transfer → then write F1
-- **Verdict:** NOT delivered. Deployment data-path spine PROVEN-FOR-SCOPE (recipe→A1 batch-clean→B3 Q4_K_M→E1·A CPU-serve; 3B / N≤100 / batch). Blocks on: CP2 (contract) + D1 numeric cross-model transfer + the B3 in-weight-vs-side-store architecture decision. Everything ~3B/N≤100/batch-scoped.
+- **Verdict:** NOT delivered. Deployment data-path spine PROVEN-FOR-SCOPE (recipe→A1 batch-clean→B3 Q4_K_M→E1·A CPU-serve; 3B / N≤100 / batch). B3 architecture decision TAKEN (D-B3N-1): scope-keyed HYBRID — in-weight for batch core at tested scope, side-store for incremental high-churn. Remaining blocks: CP2 (contract) + 7B numeric cross-model transfer (OQ-W1) + the §1.1 open dims (auditability/governance/security/routing/cost). Everything ~3B/N≤100/batch-scoped.
 <!-- END GENERATED:f1-scorecard -->
 - **Governance contracts:** CP1 ✅ · CP3 ✅(C15 open) · G1 ✅ · G2 ✅ · G3 ✅ · **CP2 ⚠️ build-items**
 - **Deployment data path:** recipe ✅ → A1 ✅ → B3 ✅ → E1·A ✅ · **D1: structural ✅ (§8.7 amendment, model-general — D1+B1) · numeric guardrail ✅ SET (D-D1-2: k≤1 conservative; order/held-out-dominated; mixed-load→needs global-volume bound) · cross-model transfer ⚠️ OPEN (7B via determinism)**

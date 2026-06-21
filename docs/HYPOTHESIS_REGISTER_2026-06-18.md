@@ -20,7 +20,7 @@ Status: COLLAPSED=tested&ruled-out · OPEN=untested · PARTIAL=corroborated-not-
 |---|---|---|---|---|
 | B1 | E1 should re-decide B1's model: Qwen3 (LARQL-servable) not Qwen2.5-7B (un-servable) | OPEN (decision) | — | HIGH |
 | B2 | DB query-layer ≠ LARQL vindex: external triple-index (G3 prototyped) over llama.cpp serve → keeps Qwen2.5 + recovers DB reads + sidesteps bias | OPEN | med | HIGH |
-| B3 | **L2 in-weight may be unnecessary** — L1 retrieval (KNN+ROUTE VERIFY, no-code, works) may suffice for exact-lookup DB. Questions the core thesis | OPEN — FOUNDATIONAL | low (analysis) | HIGH |
+| B3 | **L2 in-weight may be unnecessary** — L1 retrieval (KNN+ROUTE VERIFY, no-code, works) may suffice for exact-lookup DB. Questions the core thesis | **RESOLVED 2026-06-21 (D-B3N-1):** in-weight NOT contractually required (native-knowing = paradigm *preference*, not a tested requirement; side-store meets the enforced read contract given routing). VERDICT = scope-keyed HYBRID — in-weight viable for batch core at scope, side-store for incremental high-churn. `docs/B3_IN_WEIGHT_NECESSITY_DECISION.md` | low (analysis) | HIGH |
 | B4 | Governance↔science miscalibration: does drift-detection fire on real G6.1 corruption? (built before corruption characterized; keyed to wrong variable) | OPEN | med | med-HIGH |
 | B5 | Hybrid read: in-weight store + L1 ROUTE-VERIFY fallback for corrupted reads — end-to-end accuracy untested | OPEN | med | med |
 
