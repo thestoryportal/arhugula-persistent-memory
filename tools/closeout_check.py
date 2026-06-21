@@ -101,7 +101,7 @@ def main():
             print(f"{tok}: FINGERPRINT ERROR — {err}")
             sys.exit(2)
         print(f"{tok}@{fp}")
-        print(f"  source: {spec['source']}  [{spec['anchor_start']!r} .. {spec.get('anchor_end','EOF')!r}]")
+        print(f"  source: {spec['source']}  [{spec.get('anchor_start','<whole file>')!r} .. {spec.get('anchor_end','EOF')!r}]")
         print(f"  → embed the token '{tok}@{fp}' in every canonical tracker (alongside the result prose).")
         sys.exit(0)
 
