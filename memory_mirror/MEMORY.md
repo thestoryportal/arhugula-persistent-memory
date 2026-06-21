@@ -43,7 +43,8 @@ It re-grounds the whole "LLM-as-Database" program: goal, the months-long experim
 - [Codex ChatGPT-OAuth model slug](codex-chatgpt-oauth-model-slug.md) — Codex+ChatGPT-OAuth rejects gpt-5/gpt-5-codex; use gpt-5.5 (the default)
 - [Autonomy driver stale-guard deletes result](autonomy-driver-stale-guard-deletes-result.md) — driver unlinks the unit result_json before re-running; back expensive results with source/arm JSONs
 - [Pod restart wipes system-python ML stack](pod-restart-wipes-system-python-ml-stack.md) — reinstall transformers==4.51.0 pin (torch survives); use python3.11
-- [Commit forward work without asking](commit-forward-work-without-asking.md) — operator standing-auth: commit to local master freely; push/PR still gated
+- [Commit forward work without asking](commit-forward-work-without-asking.md)
+- [git add -A leaks secrets on a public repo](git-add-all-leaks-secrets-on-public-repo.md) — NEVER blind `git add -A`; scope adds + secret-scan before every push; creds live OUTSIDE the tree — operator standing-auth: commit to local master freely; push/PR still gated
 - [Null label can hide a real effect](deterministic-null-label-can-hide-real-effect.md) — inspect the paired sign pattern, not just the verdict string/threshold
 - [Single-seed limits generality not significance](single-seed-limits-generality-not-significance.md) — a within-experiment contrast can be real at 1 seed; replication buys generality
 - [Control-relation effective cardinality](control-relation-effective-cardinality.md) — check confident+correct+single-tok pool's effective distinct values, not nominal
