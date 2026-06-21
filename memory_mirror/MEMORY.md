@@ -1,6 +1,7 @@
 # Memory Index
 
 ## ⭐ START HERE (fresh session) — read `/workspace/SESSION_BOOTSTRAP.md` FIRST.
+## ⭐⭐⭐ WHOLE-SYSTEM SCOPE — `docs/SPEC_E2E_GROUND_TRUTH.md` is the e2e framework + memory lifecycle; **situate every experiment/hypothesis/decision on the e2e map** (which layer/cell). BINDING. See [e2e-ground-truth-situate-on-the-map](e2e-ground-truth-situate-on-the-map.md). Our work has been write-engine-centric.
 ## ⭐⭐ For ANY experimental work — `/workspace/EXPERIMENT_RUNBOOK.md` is the living canonical roadmap+discipline; its §0.3 = single source of "what's next". See [experiment-runbook-is-canonical](experiment-runbook-is-canonical.md).
 It re-grounds the whole "LLM-as-Database" program: goal, the months-long experiment arc, what's PROVEN vs OPEN, the next work, working norms, and environment/persistence. (Status 2026-06-18: CP1-3 + G1/G2/G3 all PROVEN-FOR-SCOPE; **G6/G7 is next — the first empirical run that can actually falsify the spec**.) Then read `/workspace/CORPUS/README.md` (evidence single-source-of-truth) and the spec `research_and_specs/llm-as-database-v1_2-integrated-spec.md`. The current state of the program is NOT in this index alone — the bootstrap + CORPUS are authoritative.
 
