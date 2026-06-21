@@ -1,6 +1,6 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
-import io, contextlib, json, math
+import io, contextlib, json, math, random
 os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"]="0"
 ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 import torch
@@ -133,7 +133,14 @@ for e in edit_ents:
         records.append({"entity":e,"field":f,"truth":sel[e][f]["truth"],"cf":CF[f][e],
                         "prompt":TMPL[f].format(e),"cf_tok":first_tok(CF[f][e])})
 N=len(records)
-print(f"\n{N} FIXED edited records | {len(edit_ents)} edited entities | held-out seeds {list(heldout_sets)} (size {HELDOUT_SZ})", flush=True)
+# ORDER_SEED: permute the edit ORDER (the binding nondeterminism axis, [[sequential-edit-run-nondeterminism]]).
+# Default ""=grouped-by-entity (cap,lang adjacent). A seed => a different ordering for the 2nd-ordering replication
+# the advisor mandated. Edited entities + held-out sets are UNCHANGED; only application order varies.
+ORDER_SEED=os.environ.get("ORDER_SEED","")
+if ORDER_SEED!="":
+    random.Random(int(ORDER_SEED)).shuffle(records)
+    print(f"  EDIT ORDER permuted with seed {ORDER_SEED} (2nd-ordering replication)", flush=True)
+print(f"\n{N} FIXED edited records | {len(edit_ents)} edited entities | held-out seeds {list(heldout_sets)} (size {HELDOUT_SZ}) | order={'grouped' if ORDER_SEED=='' else f'shuffle{ORDER_SEED}'}", flush=True)
 
 unt_within=[TMPL["continent"].format(e) for e in edit_ents]
 # per-seed held-out probes: capital/language (edited relations) + continent (unedited control)
@@ -197,7 +204,8 @@ if not anchors_ok:
 out={"experiment":"D20_subbatch_granularity","prereg":"docs/D20_COMPACTION_SUBBATCH_PREREG.md",
      "config":{"model":ID,"total_N":N,"chunks":CHUNKS,"band":L,"null_thresh":NULL_THRESH,"L2":L2,
        "P_handling":"fixed-base (computed once, held across chunks)","cache_c":"accumulating across chunks",
-       "heldout_seeds":list(heldout_sets),"heldout_size":HELDOUT_SZ,"write_order":"grouped-by-entity (one ordering)",
+       "edit_order":("grouped-by-entity" if ORDER_SEED=="" else f"shuffle-seed-{ORDER_SEED}"),
+       "heldout_seeds":list(heldout_sets),"heldout_size":HELDOUT_SZ,"write_order":("grouped-by-entity" if ORDER_SEED=="" else f"shuffle{ORDER_SEED}"),
        "bounding_claim":"can FALSIFY B3N condition 3 (chunking corrupts) but NOT confirm it (N held at known-clean 100; isolates chunking, not scale)"},
      "heldout_baseline_top1_correct":base_ho,
      "arms":arms,

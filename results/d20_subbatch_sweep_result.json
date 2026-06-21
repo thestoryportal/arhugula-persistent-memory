@@ -1,0 +1,255 @@
+{
+  "experiment": "D20_subbatch_granularity",
+  "prereg": "docs/D20_COMPACTION_SUBBATCH_PREREG.md",
+  "config": {
+    "model": "Qwen/Qwen2.5-3B",
+    "total_N": 100,
+    "chunks": [
+      100,
+      50,
+      25,
+      10,
+      5,
+      1
+    ],
+    "band": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "null_thresh": 0.005,
+    "L2": 1.0,
+    "P_handling": "fixed-base (computed once, held across chunks)",
+    "cache_c": "accumulating across chunks",
+    "heldout_seeds": [
+      "hoseed0",
+      "hoseed1"
+    ],
+    "heldout_size": 8,
+    "write_order": "grouped-by-entity (one ordering)",
+    "bounding_claim": "can FALSIFY B3N condition 3 (chunking corrupts) but NOT confirm it (N held at known-clean 100; isolates chunking, not scale)"
+  },
+  "heldout_baseline_top1_correct": {
+    "hoseed0": {
+      "edited_rel": {
+        "top1_stable_vs_pre": 100.0,
+        "top1_correct_vs_truth": 100.0
+      },
+      "continent": {
+        "top1_stable_vs_pre": 100.0,
+        "top1_correct_vs_truth": 50.0
+      }
+    },
+    "hoseed1": {
+      "edited_rel": {
+        "top1_stable_vs_pre": 100.0,
+        "top1_correct_vs_truth": 100.0
+      },
+      "continent": {
+        "top1_stable_vs_pre": 100.0,
+        "top1_correct_vs_truth": 100.0
+      }
+    }
+  },
+  "arms": [
+    {
+      "chunk_size": 100,
+      "n_chunks": 1,
+      "total_N": 100,
+      "edit_expression_pct": 100.0,
+      "unt_within_loc": 90.9,
+      "unt_cross_loc": 97.43,
+      "unt_global_loc": 98.62,
+      "heldout_edited_rel_correct_pooled": 100.0,
+      "heldout_by_seed": {
+        "hoseed0": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 100.0
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 50.0
+          }
+        },
+        "hoseed1": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 100.0
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 100.0
+          }
+        }
+      }
+    },
+    {
+      "chunk_size": 50,
+      "n_chunks": 2,
+      "total_N": 100,
+      "edit_expression_pct": 100.0,
+      "unt_within_loc": 90.54,
+      "unt_cross_loc": 92.15,
+      "unt_global_loc": 99.38,
+      "heldout_edited_rel_correct_pooled": 90.7,
+      "heldout_by_seed": {
+        "hoseed0": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 93.8,
+            "top1_correct_vs_truth": 93.8
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 50.0
+          }
+        },
+        "hoseed1": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 87.5,
+            "top1_correct_vs_truth": 87.5
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 100.0
+          }
+        }
+      }
+    },
+    {
+      "chunk_size": 25,
+      "n_chunks": 4,
+      "total_N": 100,
+      "edit_expression_pct": 100.0,
+      "unt_within_loc": 92.04,
+      "unt_cross_loc": 87.96,
+      "unt_global_loc": 98.69,
+      "heldout_edited_rel_correct_pooled": 81.2,
+      "heldout_by_seed": {
+        "hoseed0": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 87.5,
+            "top1_correct_vs_truth": 87.5
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 50.0
+          }
+        },
+        "hoseed1": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 75.0,
+            "top1_correct_vs_truth": 75.0
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 100.0
+          }
+        }
+      }
+    },
+    {
+      "chunk_size": 10,
+      "n_chunks": 10,
+      "total_N": 100,
+      "edit_expression_pct": 100.0,
+      "unt_within_loc": 95.15,
+      "unt_cross_loc": 72.13,
+      "unt_global_loc": 98.7,
+      "heldout_edited_rel_correct_pooled": 65.7,
+      "heldout_by_seed": {
+        "hoseed0": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 68.8,
+            "top1_correct_vs_truth": 68.8
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 50.0
+          }
+        },
+        "hoseed1": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 62.5,
+            "top1_correct_vs_truth": 62.5
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 100.0
+          }
+        }
+      }
+    },
+    {
+      "chunk_size": 5,
+      "n_chunks": 20,
+      "total_N": 100,
+      "edit_expression_pct": 99.0,
+      "unt_within_loc": 96.8,
+      "unt_cross_loc": 63.29,
+      "unt_global_loc": 94.65,
+      "heldout_edited_rel_correct_pooled": 40.6,
+      "heldout_by_seed": {
+        "hoseed0": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 37.5,
+            "top1_correct_vs_truth": 37.5
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 50.0
+          }
+        },
+        "hoseed1": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 43.8,
+            "top1_correct_vs_truth": 43.8
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 100.0
+          }
+        }
+      }
+    },
+    {
+      "chunk_size": 1,
+      "n_chunks": 100,
+      "total_N": 100,
+      "edit_expression_pct": 100.0,
+      "unt_within_loc": 95.37,
+      "unt_cross_loc": 64.45,
+      "unt_global_loc": 97.64,
+      "heldout_edited_rel_correct_pooled": 56.2,
+      "heldout_by_seed": {
+        "hoseed0": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 56.2,
+            "top1_correct_vs_truth": 56.2
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 50.0
+          }
+        },
+        "hoseed1": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 56.2,
+            "top1_correct_vs_truth": 56.2
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 100.0
+          }
+        }
+      }
+    }
+  ],
+  "anchor_gates": {
+    "C_eq_N_reproduces_A1_clean": true,
+    "C_eq_1_reproduces_A0_corrupt": true,
+    "anchors_ok": true
+  }
+}
