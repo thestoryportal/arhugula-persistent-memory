@@ -20,6 +20,7 @@ A halted session with clean diagnostic state is a SUCCESS. A completed session b
 
 - On an unresolved science-path bug: emit AT MOST ONE speculative fix AFTER a `cat`-read of the relevant source. If that fix does not clear the gate, HALT — do not iterate blindly. The autonomous correction-loop (each fix a new regression) is the primary failure mode; the one-fix-then-halt rule is the guard.
 - On HALT: (a) write a diagnostic JSON artifact to `/workspace/architecture_profile/sNNN_halt_diagnostic.json` with full bug state + the offending output for later diff; (b) author the session summary block; (c) STOP. Do not start the next arm or session.
+- **🚦 CLOSE-OUT GATE (every experiment/session close):** the work is NOT done until `python3 tools/closeout_check.py <D-ID>` reports ✅ ALL GREEN (propagates the result to ALL canonical trackers — runbook §0.3/§12/§13, CORPUS/00-03, PROGRESS, EVIDENCE_INDEX, EXPERIMENT_REGISTRY, HYPOTHESIS_REGISTER, SESSION_CHECKPOINT). Mechanical, not operator-verified. DISCIPLINE §1.1.
 
 ## Decision discipline
 

@@ -23,7 +23,7 @@ run. Optimizer-style "make the number go up" is NOT the goal (see *Fenced units*
 5. **Gate log** — every model-pull / cov-compute is logged as PRE-APPROVED (standing-auth);
    paid-provider + credential moves are GATED → logged to `logs/autonomy_gates.jsonl` and skipped.
 6. **Closeout to STAGING** — findings go to `logs/pending_findings/NN_<unit>.md`. The driver
-   **NEVER** writes `CORPUS/*`, the append-only ledger, the runbook, or the checkpoint. **You**
+   **NEVER** writes `CORPUS/*`, the append-only ledger, the runbook, or the checkpoint. At the supervised fold-in, the close-out is gated by `python3 tools/closeout_check.py <D-ID>` (must be ✅ ALL GREEN — DISCIPLINE §1.1). **You**
    fold staged findings into the canonical §0.4 record on review.
 
 ## What it is NOT
