@@ -2,6 +2,8 @@
 
 Date: 2026-06-07
 
+> **⚠ STALE — DO NOT TRUST THE "Current Local State" BELOW (re-checked 2026-06-21).** The setup this audit describes is **gone**: no `.mcp.json` exists in the repo; `notebooklm`/`nlm`/`notebooklm-mcp` CLI binaries are absent; `notebooklm-py` is NOT importable and no `uv` tool is installed (likely an env/pod-restart wipe — [[pod-restart-wipes-system-python-ml-stack]]). Even when this was written, the audit itself found NotebookLM **unavailable as callable tools from the agent session** + the skill auth path **stale**, and it was pinned to notebook `Agent Harness Engineering` (the **predecessor** project, NOT the LLM-as-DB corpus). **Net: `teng-lin/notebooklm-py` is NOT active on this repo.** NotebookLM is currently an **operator-run** tool only (agent writes prompts in `research_and_specs/notebooklm_*` → operator runs them → pastes results back). To reactivate a programmatic path requires: install `notebooklm-py`, an operator-gated **Google login**, an MCP registration, and pointing it at the **LLM-as-DB** notebook (not the old one). Retained for the reactivation recipe only.
+
 ## Scope
 
 This note records the small Codex-side setup/audit pass for using the harness
