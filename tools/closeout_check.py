@@ -1,25 +1,29 @@
 #!/usr/bin/env python3
-"""CLOSE-OUT GATE — verify a Decision-ID has been propagated to ALL canonical trackers.
+"""CLOSE-OUT GATE — verify a Decision-ID is propagated to ALL canonical trackers,
+AND (currency layer) that each tracker reflects the CURRENT result content.
 
-This is the WRITE-side gate of the read<->write context loop (DISCIPLINE §1.1).
-Run it at experiment close BEFORE declaring done or writing SESSION_CHECKPOINT.
-A RED gate means the experiment is NOT done — propagate the D-ID, then re-run.
-Checking coverage is the SCRIPT's job, not the operator's.
+WRITE-side gate of the read<->write context loop (DISCIPLINE §1.1). Run at experiment
+close BEFORE declaring done / writing SESSION_CHECKPOINT. RED = NOT done.
+
+Two layers:
+  1. PRESENCE — the Decision-ID string appears in each canonical tracker.
+  2. CURRENCY (fingerprint) — for D-IDs registered in tools/closeout_fingerprints.json,
+     the gate hashes the canonical SOURCE span and requires the token '<D-ID>@<8hex>'
+     in every tracker. When the source content changes, the hash changes, so any tracker
+     still carrying the OLD token reads STALE (not GREEN) -> forces re-propagation of a
+     REFINED result, not just first-close presence. (Built 2026-06-21 after a green gate
+     hid 7 ledgers frozen at a superseded 'k<=2' value while the result had moved to 'k<=1'.)
+  D-IDs absent from the registry fall back to presence-only (back-compatible).
 
 Usage:
-  python3 tools/closeout_check.py D-B1-2        # exit 0 = all green, 1 = gaps
-  python3 tools/closeout_check.py --list        # print the required tracker set
-
-Why this exists: the close-out set was prose-only with no enforcement, so under a
-long session the scattered trackers (CORPUS/00-03, EVIDENCE_INDEX, EXPERIMENT_REGISTRY,
-PROGRESS, HYPOTHESIS_REGISTER) silently lapsed while the salient ones (CORPUS/NN, §0.3,
-checkpoint, memories) got updated. This makes the full set mechanical + non-skippable.
+  python3 tools/closeout_check.py D-D1-2     # exit 0 = all green, 1 = gaps/stale
+  python3 tools/closeout_check.py --fp D-D1-2  # print the current fingerprint token to embed
+  python3 tools/closeout_check.py --list     # print the required tracker set
 """
-import sys, os, glob, filecmp
+import sys, os, glob, filecmp, json, hashlib, re
 
 ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
 
-# The COMPLETE canonical tracker set (corrects the under-specified DISCIPLINE §1.1 list).
 REQUIRED = [
     ("EXPERIMENT_RUNBOOK.md",            "living roadmap (also §0.3/§12/§13 — section checks below)"),
     ("SESSION_CHECKPOINT.md",            "fresh-context handoff"),
@@ -43,37 +47,110 @@ def _read(path):
         return None
 
 
+def _load_registry():
+    try:
+        return json.load(open(os.path.join(ROOT, "tools/closeout_fingerprints.json"), encoding="utf-8"))
+    except (FileNotFoundError, ValueError):
+        return {}
+
+
+def compute_fp(spec):
+    """Hash the canonical source span -> 8 hex. None if the source/anchor is missing."""
+    txt = _read(spec.get("source", ""))
+    if txt is None:
+        return None, "source file missing"
+    i = txt.find(spec["anchor_start"])
+    if i < 0:
+        return None, f"anchor_start not found: {spec['anchor_start']!r}"
+    end = spec.get("anchor_end")
+    j = txt.find(end, i + 1) if end else -1
+    span = txt[i: j if j > 0 else len(txt)]
+    norm = re.sub(r"\s+", " ", span).strip()
+    return hashlib.sha1(norm.encode("utf-8")).hexdigest()[:8], None
+
+
+def status(txt, tok, fptok):
+    """(label, ok). STALE = D-ID present but the current fingerprint token absent."""
+    if txt is None:
+        return "NO FILE", False
+    if tok not in txt:
+        return "MISSING", False
+    if fptok and fptok not in txt:
+        return "STALE  ", False
+    return "GREEN  ", True
+
+
 def main():
+    reg = _load_registry()
+
+    if len(sys.argv) >= 3 and sys.argv[1] == "--fp":
+        tok = sys.argv[2]
+        spec = reg.get(tok)
+        if not spec:
+            print(f"{tok}: no fingerprint registered (presence-only). Add it to tools/closeout_fingerprints.json to enable the currency check.")
+            sys.exit(0)
+        fp, err = compute_fp(spec)
+        if err:
+            print(f"{tok}: FINGERPRINT ERROR — {err}")
+            sys.exit(2)
+        print(f"{tok}@{fp}")
+        print(f"  source: {spec['source']}  [{spec['anchor_start']!r} .. {spec.get('anchor_end','EOF')!r}]")
+        print(f"  → embed the token '{tok}@{fp}' in every canonical tracker (alongside the result prose).")
+        sys.exit(0)
+
     if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help", "--list"):
         print(__doc__)
-        print("Required trackers (Decision-ID must appear in each):")
+        print("Required trackers (Decision-ID + current fingerprint must appear in each):")
         for p, d in REQUIRED:
             print(f"  - {p:42s} {d}")
         print("  - CORPUS/NN_*.md                            the experiment writeup (>=1 file)")
         print("  - EXPERIMENT_RUNBOOK.md  §0.3 + §12 + §13   (section-level)")
         print("  - memory_mirror/  in sync with live memory  (advisory)")
+        print(f"\nFingerprint-registered D-IDs (currency-checked): {sorted(k for k in reg if not k.startswith('_')) or 'none'}")
         sys.exit(0 if (len(sys.argv) > 1 and sys.argv[1] == "--list") else 2)
 
     tok = sys.argv[1]
-    missing = []
-    print(f"CLOSE-OUT GATE for {tok}\n" + "=" * 52)
+    missing, stale = [], []
+    print(f"CLOSE-OUT GATE for {tok}\n" + "=" * 56)
 
-    for path, desc in REQUIRED:
-        txt = _read(path)
-        ok = (txt is not None and tok in txt)
-        tag = "GREEN  " if ok else ("MISSING" if txt is not None else "NO FILE")
-        print(f"  [{tag}] {path}  — {desc}")
-        if not ok:
+    spec = reg.get(tok)
+    fptok = None
+    if spec:
+        fp, err = compute_fp(spec)
+        if err:
+            print(f"  [FP ERR] fingerprint source unreadable — {err}; falling back to presence-only")
+        else:
+            fptok = f"{tok}@{fp}"
+            print(f"  content fingerprint: {fptok}   (source: {spec['source']})")
+            print(f"  CURRENCY layer ON — trackers must carry '{fptok}', not just '{tok}'.")
+    else:
+        print(f"  (no fingerprint registered — PRESENCE-ONLY; add {tok} to tools/closeout_fingerprints.json for the currency check)")
+    print("-" * 56)
+
+    def record(label, path):
+        if label.strip() == "STALE":
+            stale.append(path)
+        elif label.strip() not in ("GREEN",):
             missing.append(path)
 
-    # CORPUS writeup: >=1 CORPUS/NN_*.md must reference the D-ID
-    corpus_hits = [os.path.basename(p) for p in glob.glob(os.path.join(ROOT, "CORPUS/*.md"))
-                   if tok in open(p, errors="replace").read()]
-    print(f"  [{'GREEN  ' if corpus_hits else 'MISSING'}] CORPUS/NN writeup — {corpus_hits or 'none reference the D-ID'}")
-    if not corpus_hits:
-        missing.append("CORPUS/NN writeup")
+    for path, desc in REQUIRED:
+        label, ok = status(_read(path), tok, fptok)
+        print(f"  [{label}] {path}  — {desc}")
+        if not ok:
+            record(label, path)
 
-    # Runbook section-level (§0.3 next-actions, §12 dashboard, §13 changelog are distinct gates in one file)
+    # CORPUS writeup: >=1 CORPUS/NN_*.md must reference the D-ID AND be current
+    corpus_files = {os.path.basename(p): open(p, errors="replace").read() for p in glob.glob(os.path.join(ROOT, "CORPUS/*.md"))}
+    corpus_present = [n for n, t in corpus_files.items() if tok in t]
+    corpus_current = [n for n in corpus_present if (not fptok or fptok in corpus_files[n])]
+    if not corpus_present:
+        print(f"  [MISSING] CORPUS/NN writeup — none reference the D-ID"); missing.append("CORPUS/NN writeup")
+    elif not corpus_current:
+        print(f"  [STALE  ] CORPUS/NN writeup — has {tok} but not {fptok}: {corpus_present}"); stale.append("CORPUS/NN writeup")
+    else:
+        print(f"  [GREEN  ] CORPUS/NN writeup — {corpus_current}")
+
+    # Runbook section-level spans (each must carry the D-ID + current fingerprint)
     rb = _read("EXPERIMENT_RUNBOOK.md") or ""
     def span(a, b):
         i = rb.find(a)
@@ -81,14 +158,15 @@ def main():
             return ""
         j = rb.find(b, i + 1)
         return rb[i:j if j > 0 else len(rb)]
-    for name, ok in [("§0.3 next-actions", tok in span("### §0.3", "### §0.4")),
-                     ("§12 dashboard",     tok in span("## §12", "## §13")),
-                     ("§13 changelog",     tok in (rb.split("## §13")[-1] if "## §13" in rb else ""))]:
-        print(f"  [{'GREEN  ' if ok else 'MISSING'}] EXPERIMENT_RUNBOOK.md {name}")
+    for name, seg in [("§0.3 next-actions", span("### §0.3", "### §0.4")),
+                      ("§12 dashboard",     span("## §12", "## §13")),
+                      ("§13 changelog",     rb.split("## §13")[-1] if "## §13" in rb else "")]:
+        label, ok = status(seg, tok, fptok)
+        print(f"  [{label}] EXPERIMENT_RUNBOOK.md {name}")
         if not ok:
-            missing.append(f"runbook {name}")
+            record(label, f"runbook {name}")
 
-    # Memory mirror sync (advisory — warns, does not fail the gate)
+    # Memory mirror sync (advisory)
     live = "/root/.claude/projects/-workspace/memory"
     mir = os.path.join(ROOT, "memory_mirror")
     if os.path.isdir(live) and os.path.isdir(mir):
@@ -97,12 +175,15 @@ def main():
         print(f"  [{'GREEN  ' if not drift else 'WARN   '}] memory_mirror sync" +
               (f" — unmirrored/changed: {drift}" if drift else ""))
 
-    print("=" * 52)
-    if missing:
-        print(f"❌ CLOSE-OUT INCOMPLETE — {len(missing)} gap(s): {missing}")
-        print(f"   The experiment is NOT done. Propagate {tok} to each gap, then re-run this check.")
+    print("=" * 56)
+    if missing or stale:
+        if missing:
+            print(f"❌ {len(missing)} MISSING (no {tok}): {missing}")
+        if stale:
+            print(f"❌ {len(stale)} STALE (have {tok} but not {fptok} — content moved on, re-propagate): {stale}")
+        print(f"   NOT done. Fix each, embed '{fptok or tok}', then re-run.")
         sys.exit(1)
-    print(f"✅ CLOSE-OUT COMPLETE — {tok} propagated to all canonical trackers.")
+    print(f"✅ CLOSE-OUT COMPLETE — {tok} present + current ({fptok or 'presence-only'}) in all canonical trackers.")
     sys.exit(0)
 
 

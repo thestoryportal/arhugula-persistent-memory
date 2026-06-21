@@ -1,5 +1,5 @@
 # SESSION CHECKPOINT — Write-Engine Viability Determination
-_Last updated: 2026-06-21 (FINAL — D-D1-2 close). Authoritative re-ground = `SESSION_BOOTSTRAP.md` + `CORPUS/`. The consolidated handoff directly below is the fast path; the per-prototype dated entries further down are detail; the Phase-0 content at the very bottom is stale prior-session history._
+_Last updated: 2026-06-21 (FINAL — D-D1-2 ⟨D-D1-2@e023d8d2⟩ close). Authoritative re-ground = `SESSION_BOOTSTRAP.md` + `CORPUS/`. The consolidated handoff directly below is the fast path; the per-prototype dated entries further down are detail; the Phase-0 content at the very bottom is stale prior-session history._
 
 ╔══════════════════════════════════════════════════════════════════════╗
 ║  HANDOFF — fresh context, start here (2026-06-21)                      ║

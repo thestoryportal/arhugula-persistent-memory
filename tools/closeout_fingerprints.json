@@ -1,0 +1,8 @@
+{
+  "_doc": "Per-Decision-ID content fingerprints for the CURRENCY layer of the close-out gate. Each D-ID maps to a canonical SOURCE span; the gate hashes that span and requires the token '<D-ID>@<8-hex>' to appear in every canonical tracker. When the source content changes, the hash changes -> every tracker carrying the OLD token reads STALE (not GREEN) -> forces re-propagation of the refined result, not just first-close presence. D-IDs absent here fall back to presence-only (back-compatible).",
+  "D-D1-2": {
+    "source": "docs/SPEC_8_7_AMENDMENT_DRIFT_CONCENTRATION.md",
+    "anchor_start": "→ §8.7 OPERATIONAL GUARDRAIL",
+    "anchor_end": "## 5. Honest scope"
+  }
+}
