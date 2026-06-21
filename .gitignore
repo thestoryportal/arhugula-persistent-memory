@@ -88,3 +88,6 @@ bin/
 .codex/installation_id
 .codex/models_cache.json
 .codex/skills/.system/
+
+# local Claude Code settings (per-machine, never shared)
+.claude/settings.local.json
