@@ -1,0 +1,55 @@
+{
+  "experiment": "d1_mixedload_smoke",
+  "model": "3b",
+  "seed": 3,
+  "n_orders": 12,
+  "mix_lang": 12,
+  "mixk_grid": [
+    1,
+    2,
+    3
+  ],
+  "heldout_n": 24,
+  "engine": "kmeng01/memit UNMODIFIED",
+  "curve": [
+    {
+      "cap_k": 1,
+      "mix_lang": 12,
+      "n": 288,
+      "pure_pct": 0.0,
+      "mixed_pct": 2.08,
+      "pure_wilson_up": 0.93,
+      "mixed_wilson_up": 3.98,
+      "delta_pp": 2.08,
+      "mixed_worst": 8.3,
+      "lang_expr_min": 100.0
+    },
+    {
+      "cap_k": 2,
+      "mix_lang": 12,
+      "n": 288,
+      "pure_pct": 0.0,
+      "mixed_pct": 2.43,
+      "pure_wilson_up": 0.93,
+      "mixed_wilson_up": 4.42,
+      "delta_pp": 2.43,
+      "mixed_worst": 12.5,
+      "lang_expr_min": 100.0
+    },
+    {
+      "cap_k": 3,
+      "mix_lang": 12,
+      "n": 288,
+      "pure_pct": 0.0,
+      "mixed_pct": 3.82,
+      "pure_wilson_up": 0.93,
+      "mixed_wilson_up": 6.15,
+      "delta_pp": 3.82,
+      "mixed_worst": 25.0,
+      "lang_expr_min": 100.0
+    }
+  ],
+  "clean_ceiling_pure_capital": 3,
+  "clean_ceiling_mixed_load": 0,
+  "note": "held-out CAPITAL corruption; PURE=k capital only, MIXED=k capital + MIX_LANG language edits (disjoint entities). Tests whether other-relation load breaks the k<=2 pure ceiling. Anti-conservative pure baseline."
+}

@@ -229,6 +229,54 @@ try:
         print(f"\nWROTE results/{fn}", flush=True)
         print(f"D1INSTR_{MODEL.upper()}_SWEEP_DONE", flush=True)
         sys.exit(0)
+    if MODE=="mixedload":
+        # ---- MIXED-LOAD SMOKE: does realistic OTHER-relation load break the k<=2 pure-capital ceiling?
+        # paired per order: held-out CAPITAL corruption after k capital edits (PURE) vs after
+        # k capital + MIX_LANG language edits on disjoint entities (MIXED). pure-capital is
+        # anti-conservative (D1 cross-relation term); this tests the conservative deployment case.
+        import math as _m
+        N_ORDERS=int(os.environ.get("N_ORDERS","12")); MIX_LANG=int(os.environ.get("MIX_LANG","12"))
+        MIXK_GRID=[int(x) for x in os.environ.get("MIXK_GRID","1,2,3").split(",")]
+        CF_lang=assign_cf(edit_pool,"language")
+        z=1.645
+        pooled={k:{"pure_wrong":0,"mixed_wrong":0,"n":0,"pure_po":[],"mixed_po":[],"lang_expr":[]} for k in MIXK_GRID}
+        def hc_wrong(): return sum(0 if correct(predict(TMPL["capital"].format(e))["tok"], sel[e]["capital"]["truth"]) else 1 for e in heldout)
+        for o in range(N_ORDERS):
+            org=random.Random(2000+o)
+            cpool=edit_pool[:]; org.shuffle(cpool); lpool=edit_pool[:]; org.shuffle(lpool)
+            for k in MIXK_GRID:
+                cap_ents=cpool[:k]; lang_ents=[e for e in lpool if e not in set(cap_ents)][:MIX_LANG]
+                restore(s_clean); cache=[torch.zeros(P[0].shape[0],P[0].shape[0]) for _ in L]
+                for e in cap_ents:
+                    with contextlib.redirect_stdout(io.StringIO()): my_edit(req(e,"capital",CF[e]),"alphaedit",P,cache)
+                pw=hc_wrong()
+                for e in lang_ents:
+                    with contextlib.redirect_stdout(io.StringIO()): my_edit(req(e,"language",CF_lang[e]),"alphaedit",P,cache)
+                mw=hc_wrong()
+                lexpr=round(100*sum(predict(TMPL["language"].format(e))["id"]==first_tok(CF_lang[e]) for e in lang_ents)/len(lang_ents),1)
+                pooled[k]["pure_wrong"]+=pw; pooled[k]["mixed_wrong"]+=mw; pooled[k]["n"]+=len(heldout)
+                pooled[k]["pure_po"].append(round(100*pw/len(heldout),1)); pooled[k]["mixed_po"].append(round(100*mw/len(heldout),1)); pooled[k]["lang_expr"].append(lexpr)
+            print(f"  [mixed] order {o}: "+" ".join(f"k{k}:pure{pooled[k]['pure_po'][-1]}->mix{pooled[k]['mixed_po'][-1]}%" for k in MIXK_GRID), flush=True)
+        def wu(x,n): p=x/n; return round(100*((p+z*z/(2*n)+z*_m.sqrt(p*(1-p)/n+z*z/(4*n*n)))/(1+z*z/n)),2)
+        curve=[]
+        for k in MIXK_GRID:
+            d=pooled[k]; n=d["n"]
+            row={"cap_k":k,"mix_lang":MIX_LANG,"n":n,"pure_pct":round(100*d["pure_wrong"]/n,2),"mixed_pct":round(100*d["mixed_wrong"]/n,2),
+                 "pure_wilson_up":wu(d["pure_wrong"],n),"mixed_wilson_up":wu(d["mixed_wrong"],n),
+                 "delta_pp":round(100*(d["mixed_wrong"]-d["pure_wrong"])/n,2),"mixed_worst":max(d["mixed_po"]),"lang_expr_min":min(d["lang_expr"])}
+            curve.append(row)
+            print(f"  [mixed] cap_k={k} (+{MIX_LANG} lang): pure={row['pure_pct']}% -> mixed={row['mixed_pct']}% (UCB {row['mixed_wilson_up']}%) delta={row['delta_pp']}pp worst={row['mixed_worst']}% langexpr_min={row['lang_expr_min']}%", flush=True)
+        ceiling_pure=max([r["cap_k"] for r in curve if r["pure_pct"]==0.0] or [0])
+        ceiling_mixed=max([r["cap_k"] for r in curve if r["mixed_pct"]==0.0] or [0])
+        res={"experiment":"d1_mixedload_smoke","model":MODEL,"seed":SEED,"n_orders":N_ORDERS,"mix_lang":MIX_LANG,"mixk_grid":MIXK_GRID,
+             "heldout_n":HELDOUT_USE,"engine":"kmeng01/memit UNMODIFIED","curve":curve,
+             "clean_ceiling_pure_capital":ceiling_pure,"clean_ceiling_mixed_load":ceiling_mixed,
+             "note":"held-out CAPITAL corruption; PURE=k capital only, MIXED=k capital + MIX_LANG language edits (disjoint entities). Tests whether other-relation load breaks the k<=2 pure ceiling. Anti-conservative pure baseline."}
+        json.dump(res,open(f"{LLMDB_ROOT}/results/d1_mixedload_smoke_{MODEL}_s{SEED}.json","w"),indent=2,default=str)
+        print(f"\n=== MIXED-LOAD SMOKE (held-out capital; +{MIX_LANG} language) ===", flush=True)
+        print(f"  clean ceiling pure-capital k={ceiling_pure} | clean ceiling UNDER mixed load k={ceiling_mixed}", flush=True)
+        print(f"WROTE results/d1_mixedload_smoke_{MODEL}_s{SEED}.json\nD1INSTR_{MODEL.upper()}_MIXED_DONE", flush=True)
+        sys.exit(0)
     if MODE=="lowk":
         # ---- Phase-2 LOW-K RANDOMIZED-ORDER replication (cross-family FIX-FIRST):
         # fixed held-out; N_ORDERS random edit-ORDERS; pool binary top-1 outcomes per k;
