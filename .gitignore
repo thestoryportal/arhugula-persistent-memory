@@ -91,3 +91,7 @@ bin/
 
 # local Claude Code settings (per-machine, never shared)
 .claude/settings.local.json
+
+# NotebookLM auth (live Google cookies) — NEVER commit (public repo)
+tools/notebooklm-verify-tmp/
+**/storage_state.json

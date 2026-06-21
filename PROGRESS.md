@@ -30,7 +30,7 @@ ready/not-ready-with-conditions determination.** Falsification-first. Everything
 |---|---|---|
 | **Write Engine** — edit mechanics, recipe, batch-clean store (§8) | **PROVEN-FOR-SCOPE** (3B/N≤100) | ① recipe/A1/B3 |
 | **Memory lifecycle — drift trigger** (§8.7/§E) | **AMENDED** (concentration-aware `k≤1`, not count-only) | D1/D-D1-2 |
-| **Memory lifecycle — compaction self-heal at scale** (§11.14/§E) | **OPEN** (D20: unsafe once sub-batched; true-scale untested) | ③ D20 |
+| **Memory lifecycle — compaction self-heal at scale** (§11.14/§E) | **EVIDENCED-FAILING (chunking) / scale OPEN** (D-D20-1: sub-batching reintroduces corruption, robust by C=10; single-solve-at-true-scale untested) | ③ D20 |
 | **Memory lifecycle — Pruning/GC · out-of-band reconciliation · archive · accumulate→compact LOOP** (§11.12–13/§E) | **❌ UNTOUCHED** (≈half of production memory mgmt) | ③ NEW |
 | **Read / query contract** — reverse, aggregation, negation, traversal, 5 query families (§G) | **❌ OPEN/UNTESTED** — CP2 not started; **biggest gap** | ③ CP2 |
 | **Validation layer** (§9) | **PROTOTYPED only** (not empirically stressed) | ① G3 |
@@ -75,7 +75,8 @@ Q4_K_M ✅ → **`E1·A`** serves on CPU ✅ → **`D1` capacity law `[OPEN — 
 | **D1 — structural** ✅ DONE | G6.1, A1 | drift = per-relation concentration not global edge-count; **REPLICATES on Qwen2.5-7B (model-general, B1/D-B1-2 ⟨D-B1-2@0db8d819⟩)** → §8.7 amendment written | OQ-W1 reconciliation | DONE (D-D1-1 ⟨D-D1-1@0db8d819⟩+D-B1-2) |
 | **D1 — numeric threshold** ⚠️ OPEN | D1-structural | set the per-relation WARNING/HARD value | the readiness number | **DONE (D-D1-2 ⟨D-D1-2@e023d8d2⟩): k≤1 conservative (order-cluster-bootstrap + ≥2 held-out seeds + determinism); mixed-load→pair with global-volume bound; cross-model transfer OPEN** |
 | **CP2 schema build-items / READ CONTRACT** (§G) | CP2, G3 | L1 triple-readback + 5 query families + violates-rejection + reverse/aggregation/negation/traversal | contract-readiness — **biggest unspecified+untested cell** | ★ required (read-contract frontier) |
-| **D20 compaction-at-scale** (§11.14/§E) | A1, G6.1, D1 | does the compaction self-heal stay clean once it sub-batches / at true drift size? | condition-3 of the B3N architecture verdict | ★ RUNNING (chunking corrupts by C=10; scale gated on larger stimulus pool) |
+| **D20 compaction sub-batch (chunking)** ✅ DONE | A1, G6.1, D1 | does compaction stay clean once it sub-batches? | B3N condition-3 (chunking component) | **WEAK-FORM FALSIFICATION (D-D20-1, CORPUS/23): sub-batching reintroduces corruption, ROBUST by C=10 (−19 to −34pp/3 orderings); C=25 order-soft (not promotable). Can falsify not confirm (N=100 known-clean → isolates chunking not scale). NOT a promoted node.** |
+| **D20 component-1 (SCALE)** ⚠️ OPEN | D20-chunking, A1 | single-solve cleanliness as total-N→thousands; where the spec's 2,000-SIZE boundary sits vs the corruption floor | B3N condition-3 (scale component) → could flip the in-weight verdict | ◆ GATED on a larger screened stimulus pool (operator effort call) |
 | **Memory-lifecycle LOOP — Pruning/GC · out-of-band reconciliation · accumulate→compact→archive** (§11.12–13/§E) | G1 (2PC), A1 | exercise the production memory loop end-to-end, not just corruption-within | **≈half of production memory mgmt — UNTOUCHED**; required for a credible "production" claim | ☆ NEW — on the board now (was invisible) |
 | **C2-band** | G6.1, C2 mechanism | does min-collinearity band [8-12] reduce **sequential** corruption? (falsifier) | scale mechanism → feeds D1 | ◆ lead — ⚠️ **REAL-BUT-UNDERPOWERED, NOT PROMOTED** (CORPUS/21, D-C2band-1 ⟨D-C2band-1@c6fb6103⟩): mechanical PASS (+18.73pp cross-JS) = real redistribution (within-loc FALL + expr 100% exclude under-editing); underpowered (1 seed), within-entity top-1 cost & mechanism unmeasured; de-confounders queued |
 | **C/G7 multi-token** | recipe | multi-token value robustness at the write | write-robustness | ◆ |
@@ -90,7 +91,7 @@ Q4_K_M ✅ → **`E1·A`** serves on CPU ✅ → **`D1` capacity law `[OPEN — 
 ## ⑤ DISTANCE TO F1 (the readiness scorecard)
 
 <!-- BEGIN GENERATED:f1-scorecard -->
-**F1 READINESS SCORECARD (updated 2026-06-21 (B3N close))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
+**F1 READINESS SCORECARD (updated 2026-06-21 (D20 close))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
 
 - **Deployment data path:** recipe ✅ → A1 batch-clean ✅ → B3 Q4_K_M-survival ✅ → E1·A CPU-serve ✅ → D1 structural ✅ (model-general) + numeric k≤1 SET on 3B ⚠️ (cross-model transfer OPEN)
 - **Governance:** CP1 ✅ · CP3 ✅ · G1 ✅ · G2 ✅ · G3 ✅ · CP2 ⚠️ (query-schema build-items OPEN — critical path)

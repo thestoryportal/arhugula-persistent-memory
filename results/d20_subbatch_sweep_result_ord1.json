@@ -1,0 +1,190 @@
+{
+  "experiment": "D20_subbatch_granularity",
+  "prereg": "docs/D20_COMPACTION_SUBBATCH_PREREG.md",
+  "config": {
+    "model": "Qwen/Qwen2.5-3B",
+    "total_N": 100,
+    "chunks": [
+      100,
+      25,
+      10,
+      1
+    ],
+    "band": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "null_thresh": 0.005,
+    "L2": 1.0,
+    "P_handling": "fixed-base (computed once, held across chunks)",
+    "cache_c": "accumulating across chunks",
+    "edit_order": "shuffle-seed-1",
+    "heldout_seeds": [
+      "hoseed0",
+      "hoseed1"
+    ],
+    "heldout_size": 8,
+    "write_order": "shuffle1",
+    "bounding_claim": "can FALSIFY B3N condition 3 (chunking corrupts) but NOT confirm it (N held at known-clean 100; isolates chunking, not scale)"
+  },
+  "heldout_baseline_top1_correct": {
+    "hoseed0": {
+      "edited_rel": {
+        "top1_stable_vs_pre": 100.0,
+        "top1_correct_vs_truth": 100.0
+      },
+      "continent": {
+        "top1_stable_vs_pre": 100.0,
+        "top1_correct_vs_truth": 50.0
+      }
+    },
+    "hoseed1": {
+      "edited_rel": {
+        "top1_stable_vs_pre": 100.0,
+        "top1_correct_vs_truth": 100.0
+      },
+      "continent": {
+        "top1_stable_vs_pre": 100.0,
+        "top1_correct_vs_truth": 100.0
+      }
+    }
+  },
+  "arms": [
+    {
+      "chunk_size": 100,
+      "n_chunks": 1,
+      "total_N": 100,
+      "edit_expression_pct": 99.0,
+      "unt_within_loc": 92.32,
+      "unt_cross_loc": 98.16,
+      "unt_global_loc": 95.34,
+      "heldout_edited_rel_correct_pooled": 100.0,
+      "heldout_by_seed": {
+        "hoseed0": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 100.0
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 50.0
+          }
+        },
+        "hoseed1": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 100.0
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 100.0
+          }
+        }
+      }
+    },
+    {
+      "chunk_size": 25,
+      "n_chunks": 4,
+      "total_N": 100,
+      "edit_expression_pct": 96.0,
+      "unt_within_loc": 93.32,
+      "unt_cross_loc": 88.18,
+      "unt_global_loc": 98.73,
+      "heldout_edited_rel_correct_pooled": 90.6,
+      "heldout_by_seed": {
+        "hoseed0": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 100.0
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 50.0
+          }
+        },
+        "hoseed1": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 81.2,
+            "top1_correct_vs_truth": 81.2
+          },
+          "continent": {
+            "top1_stable_vs_pre": 87.5,
+            "top1_correct_vs_truth": 87.5
+          }
+        }
+      }
+    },
+    {
+      "chunk_size": 10,
+      "n_chunks": 10,
+      "total_N": 100,
+      "edit_expression_pct": 95.0,
+      "unt_within_loc": 92.26,
+      "unt_cross_loc": 77.89,
+      "unt_global_loc": 97.05,
+      "heldout_edited_rel_correct_pooled": 68.8,
+      "heldout_by_seed": {
+        "hoseed0": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 75.0,
+            "top1_correct_vs_truth": 75.0
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 50.0
+          }
+        },
+        "hoseed1": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 62.5,
+            "top1_correct_vs_truth": 62.5
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 100.0
+          }
+        }
+      }
+    },
+    {
+      "chunk_size": 1,
+      "n_chunks": 100,
+      "total_N": 100,
+      "edit_expression_pct": 96.0,
+      "unt_within_loc": 93.07,
+      "unt_cross_loc": 59.06,
+      "unt_global_loc": 97.73,
+      "heldout_edited_rel_correct_pooled": 25.0,
+      "heldout_by_seed": {
+        "hoseed0": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 25.0,
+            "top1_correct_vs_truth": 25.0
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 50.0
+          }
+        },
+        "hoseed1": {
+          "edited_rel": {
+            "top1_stable_vs_pre": 25.0,
+            "top1_correct_vs_truth": 25.0
+          },
+          "continent": {
+            "top1_stable_vs_pre": 100.0,
+            "top1_correct_vs_truth": 100.0
+          }
+        }
+      }
+    }
+  ],
+  "anchor_gates": {
+    "C_eq_N_reproduces_A1_clean": true,
+    "C_eq_1_reproduces_A0_corrupt": true,
+    "anchors_ok": true
+  }
+}
