@@ -60,3 +60,7 @@ _Repo reorganized: code→experiments/, configs→configs/, results→results/, 
 |---|---|---|---|---|
 | B1 model-size term | `experiments/track_b/b1_size_dose_response.py` | `results/b1_{3b,7b}_dose_response_result.json` (canonical n=3 = `_seeds123`) | `CORPUS/22` (B1 §) | REPLICATE (concentration law model-general → §8.7 amendment generalizes); size threshold UNRESOLVED (~50pp run-noise) |
 _§8.7 structural amendment proposal: `docs/SPEC_8_7_AMENDMENT_DRIFT_CONCENTRATION.md`. LAW#5 gates PASSED (|Δ|=0.0000–0.0003); 7B VRAM fixes proven inert. Instrument finding: sequential-edit corruption ~50pp run-to-run nondeterministic ([[sequential-edit-run-nondeterminism]])._
+
+
+### D-D1-2 — §8.7 numeric-threshold instrument (2026-06-21)
+**D-D1-2** (2026-06-21): §8.7 numeric-threshold instrument → **operational guardrail `k≤2`** (max unanchored per-relation concentration; anchor before k=3). Dual-reviewed (Opus advisor + gpt-5.5 cross-family). k=3-4/k=10-12 = scoped order-dominated observations, NOT portable thresholds; per-relation count = fail-closed SENTINEL not the causal var (edit-set/key-collinearity geometry is). 3B-only (size transfer OPEN), pure-capital anti-conservative, incremental-path-only (deploy=batch/Genesis A1-clean). Instrument: 3B within-process SD=0; ~50pp noise is 7B/across-process; binding 3B uncertainty = edit-ORDER. Artifacts: results/d1_threshold_lowk_3b_s3{,_lowextra}.json, results/d1_instrument_variance_diagnostic_3b_*.json; reviews logs/codex_review_threshold_*OUT.log.

@@ -1,0 +1,8 @@
+{
+  "halt": "exception",
+  "model": "3b",
+  "tag": "nondet",
+  "deterministic": false,
+  "error": "'capital'",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/experiments/track_d/d1_threshold_instrument.py\", line 198, in <module>\n    expr=apply_k(k); m=measure(heldout); m[\"k\"]=k; m[\"cap_expr\"]=expr\n         ^^^^^^^^^^\n  File \"/workspace/experiments/track_d/d1_threshold_instrument.py\", line 183, in apply_k\n    with contextlib.redirect_stdout(io.StringIO()): my_edit(req(e,\"capital\",CF[\"capital\"][e]),\"alphaedit\",P,cache)\n                                                                            ~~^^^^^^^^^^^\nKeyError: 'capital'\n"
+}

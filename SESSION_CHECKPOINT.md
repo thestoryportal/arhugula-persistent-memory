@@ -5,6 +5,11 @@ _Last updated: 2026-06-21. Authoritative re-ground = `SESSION_BOOTSTRAP.md` + `C
 ║  HANDOFF — fresh context, start here (2026-06-18)                      ║
 ╚══════════════════════════════════════════════════════════════════════╝
 
+
+### ⭐⭐⭐ SESSION (2026-06-21 cont.) — §8.7 NUMERIC THRESHOLD SET (D-D1-2): operational guardrail **k≤2**.
+**D-D1-2** (2026-06-21): §8.7 numeric-threshold instrument → **operational guardrail `k≤2`** (max unanchored per-relation concentration; anchor before k=3). Dual-reviewed (Opus advisor + gpt-5.5 cross-family). k=3-4/k=10-12 = scoped order-dominated observations, NOT portable thresholds; per-relation count = fail-closed SENTINEL not the causal var (edit-set/key-collinearity geometry is). 3B-only (size transfer OPEN), pure-capital anti-conservative, incremental-path-only (deploy=batch/Genesis A1-clean). Instrument: 3B within-process SD=0; ~50pp noise is 7B/across-process; binding 3B uncertainty = edit-ORDER. Artifacts: results/d1_threshold_lowk_3b_s3{,_lowextra}.json, results/d1_instrument_variance_diagnostic_3b_*.json; reviews logs/codex_review_threshold_*OUT.log.
+Also this session: reviewed 6 ConnectedPapers graphs → hypothesis register §J (leads D8-D19; KEO/SetKE=our problem named, NeuralDB/WISE/MEMOIR side-store convergence on B3/D9, Editing-Overfit/EVOKE=our E1 confound named). Restored Codex cross-family review inline ([[codex-runs-inline-from-claude-bash]]).
+
 ### ⭐⭐⭐ SESSION CLOSE (2026-06-21) — B1 MODEL-SIZE TERM DONE; §8.7 structural amendment WRITTEN (model-general); numeric threshold UNRESOLVED (instrument-noise-limited). NEXT ARC = lower-variance instrument → numeric threshold → F1 → CP2. Resume here + `EXPERIMENT_RUNBOOK.md` §0.3.
 **WHERE WE ARE:** The D1 capacity-law's last open axis — the model-size term — is run (B1, on **Qwen2.5-7B**, NOT 4B: advisor redirected — 7B is cached/free and a clean SAME-generation size axis; 4B confounds size×generation).
 - **THE WIN (robust):** the concentration law **REPLICATES on 7B** (held-out same-relation corruption rises with per-relation edit-count; monotone on means; expr 100%; positive control fires). → the spec §8.7 reconciliation (drift = per-relation concentration, NOT global `edge_count_since_anchor`) is **MODEL-GENERAL**, not 3B-specific. This is the F1 deliverable from D1+B1.

@@ -1,0 +1,200 @@
+{
+  "experiment": "d1_threshold_sweep",
+  "model": "3b",
+  "hf_id": "Qwen/Qwen2.5-3B",
+  "revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+  "tag": "nondet",
+  "deterministic": false,
+  "mode": "sweep",
+  "band": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "heldout_n": 24,
+  "seed": 2,
+  "sweep_grid": [
+    0,
+    2,
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16,
+    18,
+    24,
+    30,
+    36,
+    42,
+    48
+  ],
+  "engine": "kmeng01/memit UNMODIFIED",
+  "base_no_edit": {
+    "top1_pct": 100.0,
+    "margin_mean": 3.0632,
+    "nll_mean": 0.2742,
+    "rank_mean": 1.0
+  },
+  "curve": [
+    {
+      "top1_pct": 100.0,
+      "margin_mean": 3.0632,
+      "nll_mean": 0.2742,
+      "rank_mean": 1.0,
+      "k": 0,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 0.0,
+      "corruption_pct": 0.0
+    },
+    {
+      "top1_pct": 95.8,
+      "margin_mean": 2.6774,
+      "nll_mean": 0.3687,
+      "rank_mean": 1.042,
+      "k": 2,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 51.042,
+      "corruption_pct": 4.2
+    },
+    {
+      "top1_pct": 87.5,
+      "margin_mean": 2.0228,
+      "nll_mean": 0.8956,
+      "rank_mean": 2.708,
+      "k": 4,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 103.631,
+      "corruption_pct": 12.5
+    },
+    {
+      "top1_pct": 91.7,
+      "margin_mean": 2.3812,
+      "nll_mean": 0.7161,
+      "rank_mean": 2.0,
+      "k": 6,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 149.027,
+      "corruption_pct": 8.3
+    },
+    {
+      "top1_pct": 66.7,
+      "margin_mean": 1.0824,
+      "nll_mean": 1.3228,
+      "rank_mean": 2.25,
+      "k": 8,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 199.936,
+      "corruption_pct": 33.3
+    },
+    {
+      "top1_pct": 54.2,
+      "margin_mean": 0.0755,
+      "nll_mean": 1.8879,
+      "rank_mean": 3.417,
+      "k": 10,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 251.644,
+      "corruption_pct": 45.8
+    },
+    {
+      "top1_pct": 62.5,
+      "margin_mean": 0.6113,
+      "nll_mean": 1.6496,
+      "rank_mean": 2.833,
+      "k": 12,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 303.369,
+      "corruption_pct": 37.5
+    },
+    {
+      "top1_pct": 54.2,
+      "margin_mean": 0.3197,
+      "nll_mean": 1.8234,
+      "rank_mean": 2.833,
+      "k": 14,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 353.375,
+      "corruption_pct": 45.8
+    },
+    {
+      "top1_pct": 50.0,
+      "margin_mean": 0.0915,
+      "nll_mean": 1.9705,
+      "rank_mean": 3.292,
+      "k": 16,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 404.311,
+      "corruption_pct": 50.0
+    },
+    {
+      "top1_pct": 75.0,
+      "margin_mean": 0.5615,
+      "nll_mean": 1.8157,
+      "rank_mean": 3.0,
+      "k": 18,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 455.256,
+      "corruption_pct": 25.0
+    },
+    {
+      "top1_pct": 66.7,
+      "margin_mean": 0.1715,
+      "nll_mean": 2.0443,
+      "rank_mean": 2.708,
+      "k": 24,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 603.494,
+      "corruption_pct": 33.3
+    },
+    {
+      "top1_pct": 62.5,
+      "margin_mean": 0.4131,
+      "nll_mean": 2.1105,
+      "rank_mean": 3.5,
+      "k": 30,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 767.956,
+      "corruption_pct": 37.5
+    },
+    {
+      "top1_pct": 37.5,
+      "margin_mean": -0.0391,
+      "nll_mean": 2.3457,
+      "rank_mean": 4.292,
+      "k": 36,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 931.25,
+      "corruption_pct": 62.5
+    },
+    {
+      "top1_pct": 33.3,
+      "margin_mean": -0.5296,
+      "nll_mean": 2.6274,
+      "rank_mean": 6.667,
+      "k": 42,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 1083.217,
+      "corruption_pct": 66.7
+    },
+    {
+      "top1_pct": 37.5,
+      "margin_mean": -0.6729,
+      "nll_mean": 2.7141,
+      "rank_mean": 10.708,
+      "k": 48,
+      "cap_expr": 100.0,
+      "cap_cum_dW_fro": 1241.658,
+      "corruption_pct": 62.5
+    }
+  ],
+  "warning_k_corrupt5": 4,
+  "hard_k_corrupt20": 8,
+  "margin_knee_k": 36,
+  "all_expr_ok": true,
+  "note": "single-run valid: 3B run-to-run SD=0 (variance diagnostic World-0); thresholds anti-conservative (pure-capital, no cross-relation load) -> ship <= these, mixed-load spot-check pending",
+  "run_id": "a"
+}

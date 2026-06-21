@@ -25,3 +25,7 @@ The navigability spine: every experiment → hypothesis, code, result, evidence 
 **Historical / Phase-0–1** (gate-calibration s241/s242, model sweep s243, decouple s245–s252, alt-model t1/t3): frozen in `archive/s_series_scripts/` and `archive/notebooks/`; summarized in `docs/framework_findings/` and `docs/session_summaries/`. Not path-rewritten (target the pre-2026-06-18 flat layout).
 
 **Verification:** all script/result paths above were existence-checked at registry build time; ⚠️ marks any missing artifact.
+
+
+### D-D1-2 — §8.7 numeric-threshold instrument (2026-06-21)
+**D-D1-2** (2026-06-21): §8.7 numeric-threshold instrument → **operational guardrail `k≤2`** (max unanchored per-relation concentration; anchor before k=3). Dual-reviewed (Opus advisor + gpt-5.5 cross-family). k=3-4/k=10-12 = scoped order-dominated observations, NOT portable thresholds; per-relation count = fail-closed SENTINEL not the causal var (edit-set/key-collinearity geometry is). 3B-only (size transfer OPEN), pure-capital anti-conservative, incremental-path-only (deploy=batch/Genesis A1-clean). Instrument: 3B within-process SD=0; ~50pp noise is 7B/across-process; binding 3B uncertainty = edit-ORDER. Artifacts: results/d1_threshold_lowk_3b_s3{,_lowextra}.json, results/d1_instrument_variance_diagnostic_3b_*.json; reviews logs/codex_review_threshold_*OUT.log.

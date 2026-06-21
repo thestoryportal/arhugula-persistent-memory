@@ -1,0 +1,125 @@
+{
+  "experiment": "d1_threshold_instrument_variance_diagnostic",
+  "model": "3b",
+  "hf_id": "Qwen/Qwen2.5-3B",
+  "revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+  "tag": "nondet",
+  "deterministic": false,
+  "cublas": null,
+  "attn": "sdpa",
+  "seed": 3,
+  "k_unstable": 36,
+  "pick_grid": [
+    18,
+    24,
+    30,
+    36
+  ],
+  "pick_scan": [
+    {
+      "top1_pct": 70.8,
+      "margin_mean": 0.2858,
+      "nll_mean": 2.0923,
+      "rank_mean": 13.708,
+      "k": 18,
+      "cap_expr": 100.0
+    },
+    {
+      "top1_pct": 70.8,
+      "margin_mean": 0.2653,
+      "nll_mean": 2.0964,
+      "rank_mean": 12.125,
+      "k": 24,
+      "cap_expr": 100.0
+    },
+    {
+      "top1_pct": 41.7,
+      "margin_mean": -1.3958,
+      "nll_mean": 3.2333,
+      "rank_mean": 21.375,
+      "k": 30,
+      "cap_expr": 100.0
+    },
+    {
+      "top1_pct": 45.8,
+      "margin_mean": -1.2474,
+      "nll_mean": 3.2621,
+      "rank_mean": 18.0,
+      "k": 36,
+      "cap_expr": 100.0
+    }
+  ],
+  "n_repeat": 5,
+  "heldout_n": 24,
+  "total_n": 48,
+  "band": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "engine": "kmeng01/memit UNMODIFIED",
+  "base_no_edit": {
+    "top1_pct": 100.0,
+    "margin_mean": 3.2907,
+    "nll_mean": 0.255,
+    "rank_mean": 1.0
+  },
+  "repeats": [
+    {
+      "top1_pct": 45.8,
+      "margin_mean": -1.2474,
+      "nll_mean": 3.2621,
+      "rank_mean": 18.0,
+      "rep": 0,
+      "cap_expr": 100.0
+    },
+    {
+      "top1_pct": 45.8,
+      "margin_mean": -1.2474,
+      "nll_mean": 3.2621,
+      "rank_mean": 18.0,
+      "rep": 1,
+      "cap_expr": 100.0
+    },
+    {
+      "top1_pct": 45.8,
+      "margin_mean": -1.2474,
+      "nll_mean": 3.2621,
+      "rank_mean": 18.0,
+      "rep": 2,
+      "cap_expr": 100.0
+    },
+    {
+      "top1_pct": 45.8,
+      "margin_mean": -1.2474,
+      "nll_mean": 3.2621,
+      "rank_mean": 18.0,
+      "rep": 3,
+      "cap_expr": 100.0
+    },
+    {
+      "top1_pct": 45.8,
+      "margin_mean": -1.2474,
+      "nll_mean": 3.2621,
+      "rank_mean": 18.0,
+      "rep": 4,
+      "cap_expr": 100.0
+    }
+  ],
+  "means": {
+    "top1_pct": 45.8,
+    "margin_mean": -1.2474,
+    "nll_mean": 3.2621,
+    "rank_mean": 18.0
+  },
+  "sds": {
+    "top1_pct": 0.0,
+    "margin_mean": 0.0,
+    "nll_mean": 0.0,
+    "rank_mean": 0.0
+  },
+  "margin_dynamic_range": 4.5381,
+  "all_expr_ok": true
+}

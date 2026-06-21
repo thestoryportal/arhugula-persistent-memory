@@ -19,157 +19,157 @@
   ],
   "heldout_n": 24,
   "seeds": [
-    1,
-    2,
-    3
+    3,
+    4,
+    5
   ],
   "engine": "kmeng01/memit UNMODIFIED",
   "ents_all": 78,
   "base_correct": 78,
   "per_run": [
     {
-      "seed": 1,
+      "seed": 3,
       "k": 24,
       "base": 100.0,
-      "R_pure_k": 79.2,
+      "R_pure_k": 70.8,
       "R_after_full": 66.7,
-      "cross_relation_term_pp": 12.5,
+      "cross_relation_term_pp": 4.1,
       "cap_expr": 100.0,
       "lang_expr": 100.0,
-      "cap_cum_dW_fro": 524.072,
-      "cap_mean_dW_fro_per_edit": 21.8363,
-      "lang_cum_dW_fro": 511.89
+      "cap_cum_dW_fro": 510.999,
+      "cap_mean_dW_fro_per_edit": 21.2916,
+      "lang_cum_dW_fro": 552.209
     },
     {
-      "seed": 1,
+      "seed": 3,
       "k": 36,
-      "base": 100.0,
-      "R_pure_k": 62.5,
-      "R_after_full": 62.5,
-      "cross_relation_term_pp": 0.0,
-      "cap_expr": 100.0,
-      "lang_expr": 100.0,
-      "cap_cum_dW_fro": 776.655,
-      "cap_mean_dW_fro_per_edit": 21.5737,
-      "lang_cum_dW_fro": 274.789
-    },
-    {
-      "seed": 1,
-      "k": 42,
-      "base": 100.0,
-      "R_pure_k": 50.0,
-      "R_after_full": 50.0,
-      "cross_relation_term_pp": 0.0,
-      "cap_expr": 100.0,
-      "lang_expr": 100.0,
-      "cap_cum_dW_fro": 905.974,
-      "cap_mean_dW_fro_per_edit": 21.5708,
-      "lang_cum_dW_fro": 135.476
-    },
-    {
-      "seed": 2,
-      "k": 24,
-      "base": 100.0,
-      "R_pure_k": 75.0,
-      "R_after_full": 75.0,
-      "cross_relation_term_pp": 0.0,
-      "cap_expr": 100.0,
-      "lang_expr": 100.0,
-      "cap_cum_dW_fro": 538.447,
-      "cap_mean_dW_fro_per_edit": 22.4353,
-      "lang_cum_dW_fro": 549.667
-    },
-    {
-      "seed": 2,
-      "k": 36,
-      "base": 100.0,
-      "R_pure_k": 45.8,
-      "R_after_full": 45.8,
-      "cross_relation_term_pp": 0.0,
-      "cap_expr": 100.0,
-      "lang_expr": 100.0,
-      "cap_cum_dW_fro": 832.033,
-      "cap_mean_dW_fro_per_edit": 23.112,
-      "lang_cum_dW_fro": 281.914
-    },
-    {
-      "seed": 2,
-      "k": 42,
       "base": 100.0,
       "R_pure_k": 41.7,
       "R_after_full": 45.8,
       "cross_relation_term_pp": -4.1,
       "cap_expr": 100.0,
       "lang_expr": 100.0,
-      "cap_cum_dW_fro": 964.503,
-      "cap_mean_dW_fro_per_edit": 22.9644,
-      "lang_cum_dW_fro": 145.796
-    },
-    {
-      "seed": 3,
-      "k": 24,
-      "base": 100.0,
-      "R_pure_k": 20.8,
-      "R_after_full": 29.2,
-      "cross_relation_term_pp": -8.4,
-      "cap_expr": 100.0,
-      "lang_expr": 100.0,
-      "cap_cum_dW_fro": 526.351,
-      "cap_mean_dW_fro_per_edit": 21.9313,
-      "lang_cum_dW_fro": 547.865
-    },
-    {
-      "seed": 3,
-      "k": 36,
-      "base": 100.0,
-      "R_pure_k": 4.2,
-      "R_after_full": 16.7,
-      "cross_relation_term_pp": -12.5,
-      "cap_expr": 100.0,
-      "lang_expr": 100.0,
-      "cap_cum_dW_fro": 782.078,
-      "cap_mean_dW_fro_per_edit": 21.7244,
-      "lang_cum_dW_fro": 268.282
+      "cap_cum_dW_fro": 757.347,
+      "cap_mean_dW_fro_per_edit": 21.0374,
+      "lang_cum_dW_fro": 275.024
     },
     {
       "seed": 3,
       "k": 42,
       "base": 100.0,
-      "R_pure_k": 8.3,
-      "R_after_full": 8.3,
+      "R_pure_k": 33.3,
+      "R_after_full": 37.5,
+      "cross_relation_term_pp": -4.2,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 880.659,
+      "cap_mean_dW_fro_per_edit": 20.9681,
+      "lang_cum_dW_fro": 132.107
+    },
+    {
+      "seed": 4,
+      "k": 24,
+      "base": 100.0,
+      "R_pure_k": 66.7,
+      "R_after_full": 62.5,
+      "cross_relation_term_pp": 4.2,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 503.421,
+      "cap_mean_dW_fro_per_edit": 20.9759,
+      "lang_cum_dW_fro": 576.193
+    },
+    {
+      "seed": 4,
+      "k": 36,
+      "base": 100.0,
+      "R_pure_k": 37.5,
+      "R_after_full": 33.3,
+      "cross_relation_term_pp": 4.2,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 779.835,
+      "cap_mean_dW_fro_per_edit": 21.6621,
+      "lang_cum_dW_fro": 279.97
+    },
+    {
+      "seed": 4,
+      "k": 42,
+      "base": 100.0,
+      "R_pure_k": 29.2,
+      "R_after_full": 37.5,
+      "cross_relation_term_pp": -8.3,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 915.277,
+      "cap_mean_dW_fro_per_edit": 21.7923,
+      "lang_cum_dW_fro": 135.934
+    },
+    {
+      "seed": 5,
+      "k": 24,
+      "base": 100.0,
+      "R_pure_k": 58.3,
+      "R_after_full": 62.5,
+      "cross_relation_term_pp": -4.2,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 510.633,
+      "cap_mean_dW_fro_per_edit": 21.2764,
+      "lang_cum_dW_fro": 534.679
+    },
+    {
+      "seed": 5,
+      "k": 36,
+      "base": 100.0,
+      "R_pure_k": 50.0,
+      "R_after_full": 50.0,
       "cross_relation_term_pp": 0.0,
       "cap_expr": 100.0,
       "lang_expr": 100.0,
-      "cap_cum_dW_fro": 909.186,
-      "cap_mean_dW_fro_per_edit": 21.6473,
-      "lang_cum_dW_fro": 126.431
+      "cap_cum_dW_fro": 763.035,
+      "cap_mean_dW_fro_per_edit": 21.1954,
+      "lang_cum_dW_fro": 296.741
+    },
+    {
+      "seed": 5,
+      "k": 42,
+      "base": 100.0,
+      "R_pure_k": 41.7,
+      "R_after_full": 41.7,
+      "cross_relation_term_pp": 0.0,
+      "cap_expr": 100.0,
+      "lang_expr": 100.0,
+      "cap_cum_dW_fro": 887.037,
+      "cap_mean_dW_fro_per_edit": 21.1199,
+      "lang_cum_dW_fro": 151.59
     }
   ],
   "dose_response_pure_means": {
-    "24": 58.333,
-    "36": 37.5,
-    "42": 33.333
+    "24": 65.267,
+    "36": 43.067,
+    "42": 34.733
   },
   "cap_cum_dW_fro_means": {
-    "24": 529.623,
-    "36": 796.922,
-    "42": 926.554
+    "24": 508.351,
+    "36": 766.739,
+    "42": 894.324
   },
   "cap_mean_dW_fro_per_edit_means": {
-    "24": 22.068,
-    "36": 22.137,
-    "42": 22.061
+    "24": 21.181,
+    "36": 21.298,
+    "42": 21.293
   },
   "cross_term_means": {
     "24": 1.367,
-    "36": -4.167,
-    "42": -1.367
+    "36": 0.033,
+    "42": -4.167
   },
-  "cross_term_mean_all": -1.4,
+  "cross_term_mean_all": -0.9,
   "heldout_granularity_pp": 4.2,
   "monotonic_concentration": true,
   "cross_relation_term_real": false,
   "positive_control_ok": true,
   "dilutant_ok": true,
-  "verdict": "REPLICATE: concentration corrupts (monotonic=True); cross-term mean -1.4pp (gran 4.2pp)"
+  "verdict": "REPLICATE: concentration corrupts (monotonic=True); cross-term mean -0.9pp (gran 4.2pp)"
 }

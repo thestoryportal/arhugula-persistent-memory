@@ -42,5 +42,21 @@ _Verified 2026-06-19. Source: `Pra0809/xai-knowledge-graph` (0★, Python/Jupyte
 
 ---
 
+## EV-3 — NeuralDB (arXiv 2507.18028) → filed under D9 / B3 / C1 — **VERDICT: REAL, HIGH-RELEVANCE LEAD (paper confirmed; repo unverified; not yet read in full)**
+
+_Verified 2026-06-21 (abstract only). Source: ConnectedPapers AlphaEdit-graph node; arXiv abstract fetched via WebFetch (`arxiv.org/abs/2507.18028`). NOT cloned/read in full yet._
+
+**Claimed relevance (the graph lead D9):** closest prior art to the LLM-as-database spec — frames linear locate-and-edit as **KV-database queries** and solves general-ability degradation with a **gated retrieval overlay that only fires on edited facts**.
+
+**What it is (abstract-confirmed):** *NeuralDB: Scaling Knowledge Editing in LLMs to 100,000 Facts with Neural KV Database.* Authors Weizhi Fei, Hao Shi, Jing Xu, Jingchen Peng, Jiazheng Li, Jingzhao Zhang, Bo Bai, Wei Han, Zhenyuan Chen, Xueyan Niu (Huawei-affiliated). Models the existing linear L&E family as querying a KV database, then represents edited facts as a **neural KV database with a non-linear gated retrieval module** that "only operates when inference involves the edited facts," preserving general abilities. Tested **10,000 edits** on ZsRE + CounterFact with **GPT2-XL, GPT-J (6B), Llama-3 (8B)**; claims effectiveness scaling to **100,000 facts** (50× prior work).
+
+**Verdict — REAL, HIGH-RELEVANCE LEAD (not yet load-bearing).** This is the nearest published instantiation of the spec's core "edited knowledge = a queryable KV store on a frozen base" idea, and its **gated overlay (route-only-edited-facts)** is exactly the structural-corruption-avoidance our G6.1/D1 cross-entity finding motivates (cf. WISE/GRACE; our C1/B3). 
+- **How to use:** input to **B3** (is diffuse in-weight L2 even needed, vs a gated side-store?) and **D9/C1**. If B3/side-store becomes active, **read the paper + locate the repo first** (the abstract's gating mechanism — *how* it decides edited-vs-base at inference — was NOT in the fetched content and is the load-bearing detail).
+- **How NOT to use:** do not assume a repo exists or that it serves on our CPU/llama.cpp deployment path — **no code link surfaced**; GitHub-check before any port ([[verify-external-artifacts-before-effort]]). Abstract-only; numbers unverified by us; not a benchmark we've reproduced.
+
+**Register action:** §J D9 carries the "VERIFY REPO BEFORE PORT" flag; this note is the provenance.
+
+---
+
 ### Method
-Repos cloned shallow into `external_prior_art/`; key files (paper TeX, README, `results.json`) read directly. Verdicts judge **relevance to our hypotheses**, applying the discipline that a lead's headline (and a triage summary) can mis-map to our work — EV-1 is a concrete example (the "key matrices" naming collision).
+Repos cloned shallow into `external_prior_art/`; key files (paper TeX, README, `results.json`) read directly. Verdicts judge **relevance to our hypotheses**, applying the discipline that a lead's headline (and a triage summary) can mis-map to our work — EV-1 is a concrete example (the "key matrices" naming collision). EV-3 is abstract-only (paper existence confirmed, repo + mechanism detail NOT yet verified) — flagged accordingly.

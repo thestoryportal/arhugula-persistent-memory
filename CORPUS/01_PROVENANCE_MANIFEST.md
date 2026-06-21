@@ -36,3 +36,7 @@ _Every experiment ID maps to its script, result artifact, and the exact numbers.
 - LARQL findings are LOG-based (one-shot LQL), transcripts quoted in `LARQL_INTEGRATION_ASSESSMENT.md`. To re-verify: rebuild `/dev/shm/qwen3.vindex` (convert) + re-run the LQL.
 | D-D1-1 | experiments/track_d/d1_dose_response.py | results/d1_dose_response_result.json | R_pure means k24/36/42 = 51.4/23.6/26.4 (3B, fixed total-N=48); LAW#5 |Δ|=0.0015 |
 | D-B1-2 | experiments/track_b/b1_size_dose_response.py | results/b1_{3b,7b}_dose_response_seeds123.json | 7B R_pure 58.3/37.5/33.3 vs 3B 65.3/41.7/29.2; 7B seed3 re-run 20.8→70.8 (~50pp run-noise); LAW#5 7B |Δ|=0.0000 |
+
+
+### D-D1-2 — §8.7 numeric-threshold instrument (2026-06-21)
+**D-D1-2** (2026-06-21): §8.7 numeric-threshold instrument → **operational guardrail `k≤2`** (max unanchored per-relation concentration; anchor before k=3). Dual-reviewed (Opus advisor + gpt-5.5 cross-family). k=3-4/k=10-12 = scoped order-dominated observations, NOT portable thresholds; per-relation count = fail-closed SENTINEL not the causal var (edit-set/key-collinearity geometry is). 3B-only (size transfer OPEN), pure-capital anti-conservative, incremental-path-only (deploy=batch/Genesis A1-clean). Instrument: 3B within-process SD=0; ~50pp noise is 7B/across-process; binding 3B uncertainty = edit-ORDER. Artifacts: results/d1_threshold_lowk_3b_s3{,_lowextra}.json, results/d1_instrument_variance_diagnostic_3b_*.json; reviews logs/codex_review_threshold_*OUT.log.

@@ -85,3 +85,7 @@ Every new result MUST attach to this map by declaring, in its CORPUS write **and
 
 Then move the node between ①/③/④ and update ⑤. Re-mirror to memory. A run that does not change this
 map's distance-to-F1 produced no F1 progress, however many numbers it generated.
+
+
+### D-D1-2 — §8.7 numeric-threshold instrument (2026-06-21)
+**D-D1-2** (2026-06-21): §8.7 numeric-threshold instrument → **operational guardrail `k≤2`** (max unanchored per-relation concentration; anchor before k=3). Dual-reviewed (Opus advisor + gpt-5.5 cross-family). k=3-4/k=10-12 = scoped order-dominated observations, NOT portable thresholds; per-relation count = fail-closed SENTINEL not the causal var (edit-set/key-collinearity geometry is). 3B-only (size transfer OPEN), pure-capital anti-conservative, incremental-path-only (deploy=batch/Genesis A1-clean). Instrument: 3B within-process SD=0; ~50pp noise is 7B/across-process; binding 3B uncertainty = edit-ORDER. Artifacts: results/d1_threshold_lowk_3b_s3{,_lowextra}.json, results/d1_instrument_variance_diagnostic_3b_*.json; reviews logs/codex_review_threshold_*OUT.log.

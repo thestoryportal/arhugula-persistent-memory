@@ -52,3 +52,4 @@ It re-grounds the whole "LLM-as-Database" program: goal, the months-long experim
 - [Background monitor: no premature read](background-monitor-no-premature-read.md) — don't Read a background sleep's output before it finishes; foreground sleep+check or wait for the task-notification
 - [Close-out gate before done](closeout-gate-before-done.md) — every experiment close ends with `tools/closeout_check.py <D-ID>` = ✅ ALL GREEN; canonical-tracker close-out is mechanical, not the operator's job to check
 - [Encode recurring discipline as a gate](encode-recurring-discipline-as-a-gate.md) — when a multi-item norm keeps lapsing, build a runnable exit-code gate (not more prose); prose checklists fail under load
+- [Codex review runs inline from Claude Bash](codex-runs-inline-from-claude-bash.md) — network IS reachable + /workspace/bin/codex authed; run gpt-5.5 cross-family inline at promote gates, do not defer as pod-only
