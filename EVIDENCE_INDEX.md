@@ -54,3 +54,9 @@ external_prior_art/{larql,the-mechanism} (Chris Hay; LARQL=spec query+deploy lay
 | B1 size-density | `experiments/scale/g6_scale_n_param.py` | `results/b1_7b_size_density_result.json` | `CORPUS/19` | PARTIAL (7B 91.7%) |
 | C2 keying + depth | `experiments/track_c/c2_key_collinearity.py`, `c2b_depth_map.py` | `results/c2_result.json`, `results/c2b_depth_map_result.json` | `CORPUS/20` | PRUNED + L8-12 mechanism |
 _Repo reorganized: code→experiments/, configs→configs/, results→results/, logs→logs/, docs→docs/, stale→archive/. Scripts use LLMDB_ROOT. See README.md, REPRODUCIBILITY.md, docs/EXPERIMENT_REGISTRY.md._
+
+## 2026-06-21 — B1 model-size term (D-B1-2)
+| exp | script | result | CORPUS | status |
+|---|---|---|---|---|
+| B1 model-size term | `experiments/track_b/b1_size_dose_response.py` | `results/b1_{3b,7b}_dose_response_result.json` (canonical n=3 = `_seeds123`) | `CORPUS/22` (B1 §) | REPLICATE (concentration law model-general → §8.7 amendment generalizes); size threshold UNRESOLVED (~50pp run-noise) |
+_§8.7 structural amendment proposal: `docs/SPEC_8_7_AMENDMENT_DRIFT_CONCENTRATION.md`. LAW#5 gates PASSED (|Δ|=0.0000–0.0003); 7B VRAM fixes proven inert. Instrument finding: sequential-edit corruption ~50pp run-to-run nondeterministic ([[sequential-edit-run-nondeterminism]])._

@@ -45,3 +45,9 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 
 ### C9 — The spec's FULL contracts are satisfied  ← NOT PROVEN
 - **Status:** OPEN. C1–C8 establish write/read/overlay MECHANICS. They do NOT establish: 2PC/State-Ledger consistency (G1), write authorization/audit (G2), deterministic validation pipeline (G3), full query schema incl. DELETE (G4), operator-CPU (G5), efficiency-at-scale (G6), multi-token robustness (G7). **C9 is the council's audit subject.**
+
+### C-D1B1 — Drift is relation-concentration-conditioned, and the law is model-general (D1 + B1)
+- **Hypothesis:** held-out same-relation corruption at fixed total edit count is driven by per-relation edit-concentration (not global edge-count), and this holds across model size.
+- **Method:** D1 concentration-vs-dilution + dose-response @ fixed total-N (Qwen2.5-3B); B1 ports the dose-response to Qwen2.5-7B (matched). LAW#5 inertness gate each run.
+- **Criterion (pre-registered):** corruption rises with capital-edit-count at fixed total-N (concentration drives it); REPLICATE on a 2nd model = monotone + pos-control + expr≥95%.
+- **Verdict:** D1 CONFIRM (directional, dual-reviewed, D-D1-1); B1 REPLICATE on 7B → law MODEL-GENERAL (D-B1-2). Size *threshold* UNRESOLVED — instrument is ~50pp run-to-run nondeterministic (7B seed3 20.8→70.8 on identical-config re-run); 'collapse' was noise, not a tail. → §8.7 structural amendment promotable; numeric threshold needs a lower-variance instrument.

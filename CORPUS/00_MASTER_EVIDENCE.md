@@ -134,3 +134,13 @@ _Net: CPU deployment loop CLOSED via llama.cpp (E1-A); LARQL serving bias-archit
 | ID | test | result | status |
 |---|---|---|---|
 | C2-band | low-collinearity band [8-12] vs [4-8], sequential N=100, Qwen2.5-3B, 1 seed | cross-entity JS loc 67.68→86.41 (+18.73pp); within-entity JS 95.48→**77.77** (−17.71); global 97.34→98.40; held-out same-rel top-1 7/12→10/12 (Fisher p≈0.37, n.s.); retention 98→96 | **PASS (mechanical) — NOT PROMOTED to PROVEN: a REAL direction-specific redistribution (within-loc FALL + expr 100% rule out under-editing), underpowered (1 seed); within-entity top-1 cost & mechanism UNMEASURED.** Not a recipe change (batch already clean). De-confounders queued. |
+
+## ⭐ 2026-06-21 — B1 model-size term (D1 concentration law × model size, `22` B1-§, D-B1-2)
+
+| sub | setup | result (verbatim) | verdict |
+|---|---|---|---|
+| B1-replicate | D1 dose-response ported to **Qwen2.5-7B** (intermediate 18944) vs matched in-session 3B; band[4-8] seq; LAW#5 gates ✓ (3B |Δ|=0.0002/0.0003, 7B |Δ|=0.0000/0.0001); engine UNMODIFIED | held-out capital R_pure means 7B k24/36/42 = 58.3/37.5/33.3 vs 3B 65.3/41.7/29.2; **monotone on means both models, expr 100%, pos-control fires** | **REPLICATE — concentration law is MODEL-GENERAL → §8.7 per-relation-concentration amendment generalizes across size (the win)** |
+| B1-size | paired (same shuffles), 7B−3B | mean −2.3pp (noise-dominated); **after removing a proven-noise seed3 draw: 7B less-corrupted in 7/8 cells, +11.5pp** | **UNRESOLVED, weak protective lean** — ≪ run-noise at n=3; NOT size-invariance, NOT size-worsens |
+| B1-instrument | 7B seed3 re-run, IDENTICAL config | k24 **20.8%→70.8%**, k36 4.2%→41.7% | **~50pp run-to-run nondeterminism**; the apparent '7B collapse' (4–21%) was a NON-REPRODUCIBLE noise draw, NOT a tail mode (advisor-mandated re-run). Single-run absolutes unreliable → noisy sequential instrument can't set the numeric §8.7 threshold |
+
+_§8.7 structural amendment WRITTEN as operator proposal (`docs/SPEC_8_7_AMENDMENT_DRIFT_CONCENTRATION.md`): `max_relation_concentration_since_anchor` drives drift_tier worse-of vs global edge-count; numeric threshold OPEN (needs lower-variance instrument). Harness VRAM fixes (eigh-for-P, diagonal-add, del-Pi, expandable_segments) proven inert. Dual advisor pass. Memories [[sequential-edit-run-nondeterminism]], [[wide-intermediate-7b-editing-vram]], [[calibrate-symmetrically-unresolved-is-a-verdict]]._

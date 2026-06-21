@@ -54,6 +54,8 @@ Q4_K_M ✅ → **`E1·A`** serves on CPU ✅ → **`D1` capacity law `[OPEN — 
 | Open F1 gap | builds on (proven) | the additive step | moves F1 | priority |
 |---|---|---|---|---|
 | **D1 capacity law** | A1, B3, E1·A | measure N-before-break (corruption + quantization) → the number a ready/not-ready call needs | deployment-readiness **(REQUIRED)** | ★ critical path |
+| **D1 — structural** ✅ DONE | G6.1, A1 | drift = per-relation concentration not global edge-count; **REPLICATES on Qwen2.5-7B (model-general, B1/D-B1-2)** → §8.7 amendment written | OQ-W1 reconciliation | DONE (D-D1-1+D-B1-2) |
+| **D1 — numeric threshold** ⚠️ OPEN | D1-structural | set the per-relation WARNING/HARD value | the readiness number | **blocked: sequential instrument ~50pp run-noise → need deterministic/batch/higher-N instrument (NEXT-ARC)** |
 | **CP2 schema build-items** | CP2, G3 | L1 triple-readback + 5 query families + violates-rejection | contract-readiness | ★ required |
 | **C2-band** | G6.1, C2 mechanism | does min-collinearity band [8-12] reduce **sequential** corruption? (falsifier) | scale mechanism → feeds D1 | ◆ lead — ⚠️ **REAL-BUT-UNDERPOWERED, NOT PROMOTED** (CORPUS/21, D-C2band-1): mechanical PASS (+18.73pp cross-JS) = real redistribution (within-loc FALL + expr 100% exclude under-editing); underpowered (1 seed), within-entity top-1 cost & mechanism unmeasured; de-confounders queued |
 | **C/G7 multi-token** | recipe | multi-token value robustness at the write | write-robustness | ◆ |
@@ -66,9 +68,9 @@ Q4_K_M ✅ → **`E1·A`** serves on CPU ✅ → **`D1` capacity law `[OPEN — 
 
 ## ⑤ DISTANCE TO F1 (the readiness scorecard)
 - **Governance contracts:** CP1 ✅ · CP3 ✅(C15 open) · G1 ✅ · G2 ✅ · G3 ✅ · **CP2 ⚠️ build-items**
-- **Deployment data path:** recipe ✅ → A1 ✅ → B3 ✅ → E1·A ✅ · **D1 ❌ REQUIRED**
+- **Deployment data path:** recipe ✅ → A1 ✅ → B3 ✅ → E1·A ✅ · **D1: structural ✅ (§8.7 amendment, model-general — D1+B1) · numeric threshold ⚠️ (instrument-noise-blocked → lower-variance instrument)**
 - **Robustness:** C/G7 ❌ · C2-band ⚠️ REAL-BUT-UNDERPOWERED (CORPUS/21: mechanical PASS = real redistribution, not promoted — 1 seed + cost/mechanism unmeasured) ❌(lead)
-- **CRITICAL PATH to a defensible determination:** **D1 capacity law** + **CP2 schema build-items**.
+- **CRITICAL PATH to a defensible determination:** **D1 numeric threshold** (lower-variance instrument; structural part DONE+model-general) + **CP2 schema build-items**.
   Everything else is either locked (don't re-run) or feeds these two.
 
 ---

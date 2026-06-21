@@ -35,12 +35,13 @@ Status: COLLAPSED=tested&ruled-out · OPEN=untested · PARTIAL=corroborated-not-
 ## D. Capacity / mechanism (the D1 cluster = F1 deliverable)
 | # | Hypothesis | Status | Cost | Value |
 |---|---|---|---|---|
-| D1 | Capacity law: interference = f(relation fan-out × N × model size × band × key-cosine). The core spec-readiness deliverable | OPEN — required for F1 | high | HIGH |
+| D1 | Capacity law: interference = f(relation fan-out × N × model size × band × key-cosine). The core spec-readiness deliverable | **STRUCTURAL DONE+model-general (§8.7 amendment, D-D1-1+D-B1-2)**; numeric threshold OPEN (instrument-noise-limited) | high | HIGH |
+| D-NOISE | Sequential-edit held-out corruption is ~50pp run-to-run nondeterministic on the IDENTICAL config (7B seed3 20.8→70.8 on re-run; GPU nondeterminism, unverified mechanism) → single-run absolutes unreliable; BLOCKS numeric §8.7 thresholds on this instrument | **PROMOTED (finding, D-B1-2)** → next-arc = deterministic/batch/higher-N instrument | — | HIGH (gates the numeric law) |
 | D2 | Mechanistic: WHY batch eliminates corruption — SVD edit-deltas, project on shared-relation direction, null-space occupancy. Convert inference→evidence | OPEN | med | HIGH |
 | D3 | Ground capacity in null-space DIMENSION (compute_P reports it) — principled bound, not fitted | OPEN | low-med | med-HIGH |
 | D4 | Corruption law is model-SPECIFIC (Phase-1: locality is) — bounds D1 generality | OPEN | high | med |
 | D5 | Quantization × cross-entity-corruption INTERACTION — does A1 batch-clean survive Q4_K? (B3 tested edits, not isolation) | OPEN | med | med-HIGH |
-| D6 | B1 size-density (Qwen2.5-7B): does A1 batch-clean replicate upward? | RUNNING | — | med |
+| D6 | B1 size-density (Qwen2.5-7B): does A1 batch-clean replicate upward? | DONE-PARTIAL (D-B1-1, CORPUS/19). NB distinct from D-B1-2 (D1 concentration law's model-size term, DONE: REPLICATE + threshold unresolved) | — | med |
 
 ## E. Evaluation validity
 | # | Hypothesis | Status | Cost | Value |

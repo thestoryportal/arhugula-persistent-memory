@@ -16,6 +16,7 @@ The navigability spine: every experiment → hypothesis, code, result, evidence 
 | **A2b** | track_a | per-edit K_S refresh reduces corruption (staleness?) | `experiments/track_a/a2b_refresh_ks.py` | `results/a2b_refresh_ks_result.json` | CORPUS/16 | RULED-OUT | D-A2b-1 |
 | **A7** | track_b | zeroing attn bias causes the LARQL-style garbage | `experiments/track_a/a7_bias_ablation.py` | `logs/a7_bias_ablation.log` | CORPUS/18 | CAUSAL (sufficient) | D-E1-1 |
 | **B1** | scale | A1 batch-clean replicates at larger model (7B) | `experiments/scale/g6_scale_n_param.py` | `results/b1_7b_size_density_result.json` | CORPUS/19 | PARTIAL | D-B1-1 |
+| **B1-size-term** | track_b | D1 concentration law's model-size term (3B vs Qwen2.5-7B) | `experiments/track_b/b1_size_dose_response.py` | `results/b1_{3b,7b}_dose_response_result.json` (+`_seeds123`/`_seeds345`) | CORPUS/22 (B1 §) | REPLICATE (law model-general); size threshold UNRESOLVED (instrument noise) | D-B1-2 |
 | **B3** | track_b | edits survive real Q4_K_M quantization | `experiments/track_b/b3_run.sh` | `results/b3_quant_survival_result.json` | CORPUS/17 | PASS | D-B3-1 |
 | **E1** | deployment | LARQL gguf-to-vindex serves the store on CPU | `experiments/deployment/e1_probe.py` | `results/e1_larql_serve_result.json` | CORPUS/18 | A PASS / B FALSIFIED | D-E1-1 |
 | **C2** | track_c | relation-inclusive keying reduces same-relation key collinearity | `experiments/track_c/c2_key_collinearity.py` | `results/c2_result.json` | CORPUS/20 | PRUNED | D-C2-1 |
