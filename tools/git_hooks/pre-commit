@@ -1,14 +1,28 @@
 #!/bin/bash
-# Anti-drift pre-commit gate (reconciled design 2026-06-21). BLOCKS on:
+# Anti-drift + secret-leak pre-commit gate (2026-06-21). BLOCKS on:
 #   (1) stale GENERATED blocks vs docs/program_state.json  (tools/render_state.py --check)
 #   (2) stale REGISTERED narrative fingerprints             (tools/closeout_check.py --audit)
-# Escape (rare/WIP): git commit --no-verify
+#   (3) SECRETS in staged changes (PUBLIC repo) — cred filenames + token/key value signatures
+# Escape (rare/WIP/false-positive): git commit --no-verify
 set -u
 ROOT="$(git rev-parse --show-toplevel)"; cd "$ROOT" || exit 0
 PY=$(command -v python3.11 || command -v python3)
 fail=0
-echo "[pre-commit] anti-drift checks…"
+echo "[pre-commit] anti-drift + secret checks…"
 "$PY" tools/render_state.py --check || { echo "[pre-commit] ↑ stale generated blocks — run: python3 tools/render_state.py --write"; fail=1; }
 "$PY" tools/closeout_check.py --audit >/tmp/_audit.out 2>&1 || { tail -3 /tmp/_audit.out; echo "[pre-commit] ↑ stale registered fingerprint(s) — re-propagate (tools/closeout_check.py --fp <ID>)"; fail=1; }
+# (3) secret-leak gate — the incident (storage_state.json via git add -A) made this a GATE not a remembered practice ([[encode-recurring-discipline-as-a-gate]], [[git-add-all-leaks-secrets-on-public-repo]])
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+if [ -n "$staged" ]; then
+  credfile=$(printf '%s\n' "$staged" | grep -iE '(^|/)(storage_state\.json|\.git-credentials|\.netrc|\.env|auth\.json)$|\.(pem|key|p12|pfx)$' || true)
+  credval=$(git diff --cached -U0 --diff-filter=ACM | grep -E '^\+' | grep -EI 'gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|xox[baprs]-[A-Za-z0-9-]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----' | head -3 || true)
+  if [ -n "$credfile" ] || [ -n "$credval" ]; then
+    echo "[pre-commit] ⛔ POSSIBLE SECRET staged (PUBLIC repo):"
+    [ -n "$credfile" ] && printf '    cred-file: %s\n' "$credfile"
+    [ -n "$credval" ] && printf '    token/key signature in added lines (sample): %s\n' "$credval"
+    echo "[pre-commit]   → keep creds OUTSIDE the tree (~/.notebooklm, ~/.config/gh). False positive: git commit --no-verify"
+    fail=1
+  fi
+fi
 if [ "$fail" = 1 ]; then echo "[pre-commit] BLOCKED (drift). Fix the above, or bypass with: git commit --no-verify"; exit 1; fi
 echo "[pre-commit] ✅ no drift"; exit 0
