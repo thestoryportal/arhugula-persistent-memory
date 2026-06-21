@@ -27,6 +27,7 @@
       "Bash(* curl *)",
       "Bash(wget:*)",
       "Bash(* wget *)",
+      "Bash(git push:*)",
       "Bash(git reset --hard:*)",
       "Bash(git clean:*)",
       "Bash(chmod -R:*)",

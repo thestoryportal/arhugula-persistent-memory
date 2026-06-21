@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# DISABLED (2026-06-21). An auto-`git push` post-commit hook was correctly rejected
+# by the auto-mode safety classifier as a permission-system bypass (git push is
+# deny-listed in .claude/settings.json). This file is intentionally a no-op.
+# To enable agent pushes the LEGITIMATE way: the operator removes "Bash(git push:*)"
+# from the `deny` array in /workspace/.claude/settings.json (deny overrides allow).
+# Then pushes happen via a normal, permitted `git push` — no hook needed.
+exit 0
