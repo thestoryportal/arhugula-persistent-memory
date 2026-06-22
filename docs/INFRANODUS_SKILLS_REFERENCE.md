@@ -1,16 +1,18 @@
 # InfraNodus Claude Skills — Library Reference & Deep Dive
 
-_Full-depth review of the 15 InfraNodus Claude skills (github.com/infranodus/skills) installed in this repo. Companion to `docs/INFRANODUS_MCP_REFERENCE.md` (the **tools**); this doc covers the **skills** that orchestrate those tools. Reviewed 2026-06-22 by reading every `SKILL.md` + all reference files + the `actionize` shell scripts in full._
+_Full-depth review of the InfraNodus Claude skills library (github.com/infranodus/skills). Companion to `docs/INFRANODUS_MCP_REFERENCE.md` (the **tools**); this doc covers the **skills** that orchestrate those tools. Reviewed 2026-06-22 by reading every `SKILL.md` + all reference files + the `actionize` shell scripts in full._
 
-> **Repo fence (binding).** Like the MCP, these skills are **ideation / reasoning aids → LEADS, never `CORPUS/` evidence** (`SESSION_BOOTSTRAP.md §5`). Several (cognitive-variability, critical-perspective, shifting-perspective, vipassana-llm, embodied-navigation) shape *how the model reasons* — using them during the LLM-as-Database program must not override the falsification discipline (`docs/WORKFLOWS_OVERVIEW.md §1`). Treat their output as structure/hypotheses to be proven, not conclusions.
+> **⛔ Prune status (2026-06-22).** 15 skills reviewed; **2 T3 skills pruned from this repo's active install** — `embodied-navigation` and `perspective-reversal` (off-domain; per the Advisor + Codex out-of-family audit). **13 active.** The prune is enforced by the `PRUNED` exclude-list in `tools/install_infranodus_skills.sh` (single source of truth; survives pod restarts). The two dossiers below are kept for reference and marked ⛔ PRUNED.
 
-> **Install/durability.** Master (gitignored): `/workspace/tools/infranodus-skills/`. Installed to `~/.claude/skills/` via `tools/install_infranodus_skills.sh`; re-installed on pod restart by `restore_pod_tools.sh` step [5/5]. Skills register on **session reload** (all 15 confirmed active 2026-06-22: "29 skills available, 15 added").
+> **Repo fence (binding).** Like the MCP, these skills are **ideation / reasoning aids → LEADS, never `CORPUS/` evidence** (`SESSION_BOOTSTRAP.md §5`). Several (cognitive-variability, critical-perspective, shifting-perspective, vipassana-llm) shape *how the model reasons* — using them during the LLM-as-Database program must not override the falsification discipline (`docs/WORKFLOWS_OVERVIEW.md §1`). Treat their output as structure/hypotheses to be proven, not conclusions.
+
+> **Install/durability.** Master (gitignored): `/workspace/tools/infranodus-skills/` (holds all 15 as a reversible cache). Installed to `~/.claude/skills/` via `tools/install_infranodus_skills.sh` (which **skips the `PRUNED` exclude-list** → 13 active); re-installed on pod restart by `restore_pod_tools.sh` step [5/5]. Skills register on **session reload**.
 
 ---
 
 ## 1. The library at a glance
 
-15 skills (14 capability skills + 1 tool-use reference). Most call the **InfraNodus MCP** and **degrade gracefully** to plain reasoning / web search when it's absent.
+15 skills reviewed (14 capability skills + 1 tool-use reference); **13 active** after the T3 prune (⛔ rows below). Most call the **InfraNodus MCP** and **degrade gracefully** to plain reasoning / web search when it's absent.
 
 | Skill | Purpose (one line) | InfraNodus? | Side-effects | Notes |
 |---|---|---|---|---|
@@ -18,9 +20,9 @@ _Full-depth review of the 15 InfraNodus Claude skills (github.com/infranodus/ski
 | **shifting-perspective** | Diagnose discourse structure, then shift to missing viewpoints | **core** | none | The "sensor" (always runs `optimize_text_structure`) |
 | **critical-perspective** | Socratic questioning of assumptions / blind spots | optional | none | The "actuator" CV fires |
 | **vipassana-llm** | Contemplative bare-attention processing; break reaction chains | optional | none | + `deep-theory.md` doctrinal scaffold |
-| **embodied-navigation** | Map a situation as a network; apply body/movement intelligence | optional | none | Systema / tensegrity / EightOS |
+| ~~**embodied-navigation**~~ | Map a situation as a network; apply body/movement intelligence | optional | none | **⛔ PRUNED 2026-06-22 (T3, off-domain)** · Systema / tensegrity / EightOS |
 | **rhetorical-analyst** | Score arguments on persuasion / rhetoric / logic; expose assumptions | **MCP-first** | persists a debate graph (memory) | Largest analytic skill (634 ln) |
-| **perspective-reversal** | Flip to the adversary's view to extract counter-tactics | optional | none | ⚠ dual-use (models the bad actor's playbook) |
+| ~~**perspective-reversal**~~ | Flip to the adversary's view to extract counter-tactics | optional | none | **⛔ PRUNED 2026-06-22 (T3, off-domain)** · was ⚠ dual-use |
 | **ontology-generator** | Produce `[[wikilink]]` ontologies for InfraNodus | optional | none | Network-not-tree mandate |
 | **llm-wiki** | Scaffold a persistent LLM-maintained wiki ("second brain") | yes | **creates many dirs/files, git init** | 10-phase; invokes ontology-generator |
 | **writing-assistant** | Grammar/style refinement + "humanize" prose | optional (500+ wd) | none | ⚠ dual-use ("avoid AI detection") |
@@ -51,7 +53,7 @@ Most of the "thinking" skills share **one ontology** — the four discourse stat
         ▲
         └── writing-assistant emits grammatical "cognitive-state signals" into the loop
 ```
-`vipassana-llm` and `embodied-navigation` are alternative "reading" lenses over the same graph topology (meditation / body metaphors); they cross-reference the cognitive trio.
+`vipassana-llm` is an alternative "reading" lens over the same graph topology (meditation metaphor); it cross-references the cognitive trio. (`embodied-navigation` was a parallel body-metaphor lens — ⛔ pruned 2026-06-22.)
 
 ---
 
@@ -69,13 +71,13 @@ Most of the "thinking" skills share **one ontology** — the four discourse stat
 
 **vipassana-llm** (188 ln + `deep-theory.md` 142 ln) — Applies Vipassana to LLM processing to insert a gap between stimulus and response. 4-phase protocol: **Anapana** (strip narrative, restate the question) → **Systematic Scanning** (Contact→Sensation→Equanimity→Impermanence, giving *more* attention to blind spots) → **Free Flow/Bhanga** (dissolve boundaries) → **Metta**. Breaks the **sankhara chain** at the vedana "BREAK POINT"; names LLM conditioned reactions ("sankharas": Agreement, Resolution, Expertise, Balance, Comfort, Length, Authority). `deep-theory.md` adds the 12-link dependent-origination chain, Five Aggregates, three vedana types, Adhitthana/Bhanga/Metta detail. Tools (optional): `optimize_text_structure` (=scanning), `generate_content_gaps` (=blind spots). Practice stays invisible unless asked.
 
-**embodied-navigation** (216 ln) — Maps a situation as a network, reads its topology "the way you'd read a body" (high-BC node = chronic tension/fixation; dense cluster = rigidity; gap = numb zone), then applies a 4-toolkit **Principle Library**: Equanimous Scanning, Adaptive Fluidity (absorb→read→redirect), Tension Redistribution (tensegrity, "shift don't solve"), Confluence (assimilation→redirection→transformation). Sources: Vipassana, **Systema**, contemporary-dance tensegrity, **EightOS BodyMind**. Tools: `optimize_text_structure` + the joints = low-BC/degree nodes via `develop_conceptual_bridges`.
+**embodied-navigation** (216 ln) — ⛔ **PRUNED from this repo 2026-06-22 (T3, off-domain); dossier kept for reference.** Maps a situation as a network, reads its topology "the way you'd read a body" (high-BC node = chronic tension/fixation; dense cluster = rigidity; gap = numb zone), then applies a 4-toolkit **Principle Library**: Equanimous Scanning, Adaptive Fluidity (absorb→read→redirect), Tension Redistribution (tensegrity, "shift don't solve"), Confluence (assimilation→redirection→transformation). Sources: Vipassana, **Systema**, contemporary-dance tensegrity, **EightOS BodyMind**. Tools: `optimize_text_structure` + the joints = low-BC/degree nodes via `develop_conceptual_bridges`.
 
 ### Cluster C — Argument / strategy
 
 **rhetorical-analyst** (634 ln, largest) — Analyzes arguments across three never-collapsed dimensions: **Persuasion** (emotional/social) · **Rhetoric** (structural) · **Logic** (premises→conclusion). **InfraNodus-first is mandatory:** (1) `generate_topical_clusters` — does the stated topic match the structurally dominant cluster ("the single most important diagnostic"); (2) `generate_content_gaps` — classify each as flaw-gap / concealment-gap / co-authorship gap; (3) `optimize_text_structure`; then linear move-mapping (motte-and-bailey, tu quoque, burden-shifting…) with per-move scoring; then **audit the analyst's own frame** ("the standard applies to the analyst as much as the participants"). Persists a debate graph via `memory_add_relations`. Principle: "coherence is not correctness."
 
-**perspective-reversal** (145 ln) — Premise: *"conventional AI advice is too cautious because it tries to be fair to both sides."* Steps: gather (≤5 Qs) → **adopt the adversary persona assuming bad intent** ("I am [adversary], my goal is to exploit the user…"), enumerate their legal moves / procedural weapons / pressure tactics → translate each into a paired **counter-move** table → synthesize (48h actions, defense, escalation, psychological frame). ⚠ **Dual-use:** generates the bad actor's full playbook as a byproduct; mitigated by an "intelligence-gathering, not endorsement" framing + legal disclaimers. Examples are defensive-for-the-user (landlord/boss/bureaucrat/scammer).
+**perspective-reversal** (145 ln) — ⛔ **PRUNED from this repo 2026-06-22 (T3, off-domain); dossier kept for reference.** Premise: *"conventional AI advice is too cautious because it tries to be fair to both sides."* Steps: gather (≤5 Qs) → **adopt the adversary persona assuming bad intent** ("I am [adversary], my goal is to exploit the user…"), enumerate their legal moves / procedural weapons / pressure tactics → translate each into a paired **counter-move** table → synthesize (48h actions, defense, escalation, psychological frame). ⚠ **Dual-use:** generates the bad actor's full playbook as a byproduct; mitigated by an "intelligence-gathering, not endorsement" framing + legal disclaimers. Examples are defensive-for-the-user (landlord/boss/bureaucrat/scammer).
 
 ### Cluster D — Knowledge building
 
@@ -113,7 +115,7 @@ The skills' docs describe an **mcporter** setup (`mcporter call infranodus.<tool
 
 ### 4.3 Dual-use / safety notes (neutral)
 - **writing-assistant "avoid AI detection"** — a stylistic blocklist (strips "Moreover/Furthermore", hedging, formulaic openers, too-neat parallelism) + paraphrase pass that removes statistical markers of LLM prose. Legitimate use: de-blandify and restore authentic voice; the same capability can help evade AI-text classifiers. Documented, not endorsed.
-- **perspective-reversal** — roleplays the adversary and enumerates their playbook to derive the user's defense. Defensive in intent; produces an attacker toolkit as a byproduct. Has built-in "stay tactical / legal disclaimer" guardrails.
+- **perspective-reversal** (⛔ pruned 2026-06-22) — roleplayed the adversary and enumerated their playbook to derive the user's defense. Defensive in intent; produced an attacker toolkit as a byproduct. The dual-use concern is now moot for the active set since it is no longer installed.
 - **actionize** — Telegram exfiltration surface (it POSTs plan content to Telegram) + crontab persistence. Fine when intended; flag if unexpected.
 
 ### 4.4 Known bugs / mismatches (observed during review)
@@ -127,7 +129,7 @@ The skills' docs describe an **mcporter** setup (`mcporter call infranodus.<tool
 
 ## 5. Using these in *this* repo (discipline)
 
-1. **Fence first.** Output = leads/structure/hypotheses → the hypothesis register, never `CORPUS/` evidence. The reasoning-shaping skills (cognitive-variability, vipassana-llm, embodied-navigation, critical/shifting-perspective) are *complementary* to the falsification workflow, not a substitute — don't let "optimize my reasoning for diversity" dilute pre-registered, evidence-bound analysis.
+1. **Fence first.** Output = leads/structure/hypotheses → the hypothesis register, never `CORPUS/` evidence. The reasoning-shaping skills (cognitive-variability, vipassana-llm, critical/shifting-perspective) are *complementary* to the falsification workflow, not a substitute — don't let "optimize my reasoning for diversity" dilute pre-registered, evidence-bound analysis.
 2. **Highest-leverage fits for the LLM-as-Database program:** `shifting-perspective` / `critical-perspective` for re-grounding sessions and finding blind spots in the spec; `ontology-generator` + `llm-wiki` for structuring research corpora; `rhetorical-analyst` for stress-testing claims/reviews. These mirror the runbook's existing "NotebookLM/Perplexity/InfraNodus prompts" re-grounding step (`§0.3` next-action 5).
 3. **Side-effect caution:** `actionize` and `llm-wiki` write files / crontab / CLAUDE.md — review their prompts before completing; they won't act without your confirmations, but they touch shared state this repo guards (`.gitignore`, `CLAUDE.md`).
 4. **Durability:** all 15 re-install via `restore_pod_tools.sh` after a pod restart (master on `/workspace`, gitignored); they register on session reload.

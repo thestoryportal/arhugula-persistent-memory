@@ -119,5 +119,5 @@ cat <<EOF
     SESSION RELOAD — reload the session, then their tools appear (verify with a live call).
   • Perplexity is project-scoped to cwd /root — launch the session from /root (the default).
     For cwd-independence, move it under root "mcpServers" in $CLAUDE_JSON.
-  • InfraNodus skills: 15 installed to ~/.claude/skills — also register on SESSION RELOAD.
+  • InfraNodus skills: 13 installed to ~/.claude/skills (2 T3 pruned via installer exclude-list) — register on SESSION RELOAD.
 EOF

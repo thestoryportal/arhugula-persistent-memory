@@ -11,6 +11,11 @@ set -euo pipefail
 
 SRC="${INFRANODUS_SKILLS_SRC:-/workspace/tools/infranodus-skills}"
 DEST="$HOME/.claude/skills"
+# Pruned skills (T3 audit, 2026-06-22): kept in the master as a reversible cache but NOT
+# installed/activated. This list is the single source of truth for the prune, so it stays
+# durable across pod restarts (restore_pod_tools.sh re-runs this installer). To un-prune,
+# remove the name here and re-run. Pruned: embodied-navigation, perspective-reversal (off-domain).
+PRUNED="embodied-navigation perspective-reversal"
 say() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 
 [ -d "$SRC" ] || { echo "FATAL: skills master not found at $SRC (clone github.com/infranodus/skills there first)."; exit 1; }
@@ -35,6 +40,7 @@ print(name)
 PY
 )"
   [ -n "$name" ] || name="$(basename "$d")"
+  case " $PRUNED " in *" $name "*) rm -rf "$DEST/$name"; printf '  ⛔ %-26s (pruned — skipped + removed if present)\n' "$name"; continue;; esac
   rm -rf "$DEST/$name"
   cp -a "$d" "$DEST/$name"
   find "$DEST/$name" -name '.DS_Store' -delete 2>/dev/null || true
