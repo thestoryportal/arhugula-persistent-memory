@@ -95,3 +95,18 @@ bin/
 # NotebookLM auth (live Google cookies) — NEVER commit (public repo)
 tools/notebooklm-verify-tmp/
 **/storage_state.json
+# durable NotebookLM home on the persistent volume (cookies + browser profile + context)
+/.notebooklm/
+**/.notebooklm/
+
+# pod tool restore bundle — holds live API keys (Perplexity, InfraNodus) + venv/npx snapshots
+# NEVER commit (public repo). Restored into ephemeral locations on pod restart.
+/.pod_restore/
+**/.pod_restore/
+
+# Vendored InfraNodus Claude skills (installed to ~/.claude/skills via installer; not tracked)
+tools/infranodus-skills/
+
+# Persistent Node v20 runtime on the volume (1.2 GB; runs the MCP servers — never track)
+node-v20/
+/node-v20/
