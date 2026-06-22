@@ -1,6 +1,6 @@
 # External Claude-Skill Repos — Granular Usage-Scope Audit
 
-_Audit of external Claude-skill repos for the **exact granular usage scope** of each skill — **9 distinct repos** (the original 8 + `obra/superpowers`, added 2026-06-22 §8a). Captured 2026-06-22 by cloning/fetching each and extracting every skill's verbatim `description:` (the trigger = the granular scope), dependencies, and boundaries. For the large collections (K-Dense 147, Jeffallan 66, awesome-list ~60) the high-fit skills are quoted verbatim and the rest are grouped — the source repos hold the full per-skill text._
+_Audit of external Claude-skill repos for the **exact granular usage scope** of each skill — **10 distinct repos** (the original 8 + `obra/superpowers` §8a + `anthropics/knowledge-work-plugins` data+bio-research §8b, all added 2026-06-22). Captured 2026-06-22 by cloning/fetching each and extracting every skill's verbatim `description:` (the trigger = the granular scope), dependencies, and boundaries. For the large collections (K-Dense 147, Jeffallan 66, awesome-list ~60) the high-fit skills are quoted verbatim and the rest are grouped — the source repos hold the full per-skill text._
 > (Note: `rizinorg/cutter` was also requested but is **not a skills repo** — a reverse-engineering GUI, GPL-3, GUI-only/unusable headless, off-domain — so it is intentionally excluded from this audit.)
 
 > **Framing for this repo.** Forward-tooling evaluation (operator's scaffolding phase). "Fit" = usefulness for the **LLM-as-Database** falsification-first program (knowledge editing, evals on Qwen, spec validation, literature review, rigorous experiment design/stats). The InfraNodus fence generalizes: any adopted skill's output is a **lead/aid, not `CORPUS/` evidence**.
@@ -20,6 +20,7 @@ _Audit of external Claude-skill repos for the **exact granular usage scope** of 
 | **thananon/9arm-skills** | Personal eng-process discipline skills | 6 | **none** | 2.9k★ | 🟢 `debug-mantra`, `scrutinize` |
 | **virgiliojr94/book-to-skill** | Meta-skill: convert books/docs/paper-clusters → an Agent Skill | 1 (meta) | MIT | 6.5k★ | 🟢 fold spec+corpus into a skill |
 | **obra/superpowers** (§8a) | Agentic skills + SW-dev methodology framework (TDD/verify/debug/review pipeline) | 14 | MIT | 236k★ | 🟢🟢 **highest discipline-fit** (verify/debug/TDD/review) |
+| **anthropics/knowledge-work-plugins** `data` + `bio-research` (§8b) | Official Anthropic role plugins (MCP-connector + markdown) | 10 + 6 | Apache-2.0 | 21.7k★ | 🟢 `scientific-problem-selection`; 🟡 data stats/viz |
 
 ---
 
@@ -145,6 +146,23 @@ They **chain**: using-superpowers → brainstorming(gate) → worktree → writi
 
 ---
 
+## 8b. anthropics/knowledge-work-plugins — `data` + `bio-research` (Apache-2.0, 21.7k★)
+_Added 2026-06-22. Official Anthropic role plugins (Claude Cowork/Code marketplace): *"Plugins that turn Claude into a specialist for your role… file-based — markdown and JSON, no code."* Both are **MCP-connector + markdown** plugins (tool-agnostic via `~~category` placeholders); neither ships code engines. **Apache-2.0 = cleanest license audited → freely extractable.**_
+
+### `data` plugin (v1.1.0) — 10 skills 🟡
+*"Write SQL, explore datasets, and generate insights faster. Build visualizations and dashboards…"* `.mcp.json` = 8 enterprise-warehouse connector stubs (Snowflake/BigQuery/Databricks/Hex/Amplitude/Atlassian/Definite — off-domain). No commands/agents.
+- **analyze** — *"Answer data questions — from quick lookups to full analyses…"* · **explore-data** — *"Profile and explore a dataset to understand its shape, quality, and patterns… checking null rates and column distributions, spotting data quality issues…"* 🟡 · **write-query** — *"Write optimized SQL for your dialect…"* · **create-viz** — *"Create publication-quality visualizations with Python…"* (matplotlib/seaborn/plotly) 🟡 · **build-dashboard** — *"Build an interactive HTML dashboard…"* (Chart.js, CDN-pinned) · **validate-data** — *"QA an analysis before sharing — methodology, accuracy, and bias checks… assessing whether conclusions are actually supported by the data."* 🟡 · **data-context-extractor** — meta-skill that authors a company-specific data skill.
+- Helpers (auto-fire): **sql-queries** (dialect reference) · **data-visualization** (chart-selection reference) · **statistical-analysis** — *"Apply statistical methods including descriptive stats, trend analysis, outlier detection, and hypothesis testing… testing for significance, detecting anomalies, computing correlations…"* 🟡
+
+### `bio-research` plugin (v1.2.0) — 6 skills
+*"Connect to preclinical research tools and databases (literature search, genomics analysis, target prioritization)…"* 11 biomedical MCP connectors (PubMed, bioRxiv, Consensus, ClinicalTrials.gov, ChEMBL, Open Targets, Benchling…).
+- ⭐ **scientific-problem-selection** — *"…research problem selection, project ideation, troubleshooting stuck projects, or strategic scientific decisions… pitch a new research idea, work through a project problem, evaluate project risks, plan research strategy, navigate decision trees…"* A **9-step framework** (intuition pumps → risk assessment → optimization function → parameter strategy → decision tree → adversity planning → **problem inversion** → synthesis → meta-framework), based on **Fischbach & Walsh, *Cell* (2024)**. Domain-agnostic. 🟢
+- **start** (orientation) · **single-cell-rna-qc** · **scvi-tools** · **nextflow-development** · **instrument-data-to-allotrope** — all wet-lab/omics. 🔴 off-domain.
+
+**Relevance:** 🟢 **`scientific-problem-selection`** is the standout — its risk-assessment / optimization-function / **problem-inversion** / decision-tree / **adversity-planning** modules map directly onto *pre-register-falsifiable-criteria* and *"design a test that can fail."* Apache-2.0 + domain-agnostic → safe to extract repo-local (the 9 reference files = a gate-framing checklist; Fischbach & Walsh *Cell* 2024 = a citable lead). 🟡 The `data` stats/viz/validate skills are convenience aids but **K-Dense's `experimental-design`/`statistical-power` dominate them** — these are *methodology prompts* (LLM-driven), not verified engines, and `validate-data` is an LLM **self-review** (a review starting point, not proof). 🔴 The warehouse connectors + omics skills are off-domain. **Fence:** all outputs are LEADS, never `CORPUS/` evidence.
+
+---
+
 ## 9. Cross-repo shortlist — highest fit for the LLM-as-Database program
 
 | Rank | Skill / tool | Repo | Why it fits |
@@ -187,7 +205,7 @@ They **chain**: using-superpowers → brainstorming(gate) → worktree → writi
 | Priority | What | How to adopt |
 |---|---|---|
 | **1 — lead** | Stats/DOE from K-Dense (`experimental-design`, `statistical-power`, `statsmodels`) | **Extract as runnable code** on result JSONs: power/MDE, cluster-bootstrap over (held-out-set × edit-order), paired within-unit diffs, JS/KL with CIs. ⚠ check each source skill's license before lifting. NOT a persona-skill. |
-| **2 — methodology** | `scientific-critical-thinking`, `debug-mantra`, `scrutinize`, `the-fool`, **+ obra/superpowers `verification-before-completion` / `systematic-debugging` / `test-driven-development` / `receiving-code-review`** | **Read → extract best checklists** into repo-local form (superpowers' Iron-Law gates + Red-Flag tripwires map directly onto pre-registration + confirmation-bias guards). ⚠ **do NOT install the superpowers framework** (its SessionStart hook auto-injects a mandatory methodology that would clash with the runbook/CLAUDE.md); don't vendor unlicensed (9arm) code. "Passed critique ≠ evidence." |
+| **2 — methodology** | `scientific-critical-thinking`, `debug-mantra`, `scrutinize`, `the-fool`, obra/superpowers `verification-before-completion` / `systematic-debugging` / `test-driven-development` / `receiving-code-review`, **+ knowledge-work `scientific-problem-selection` (§8b, Apache-2.0, problem-inversion/decision-tree/adversity-planning for gate framing)** | **Read → extract best checklists** into repo-local form (superpowers' Iron-Law gates + Red-Flag tripwires + the Fischbach-Walsh problem-selection steps map directly onto pre-registration + falsifier framing + confirmation-bias guards). ⚠ **do NOT install the superpowers framework** (its SessionStart hook auto-injects a mandatory methodology that would clash with the runbook/CLAUDE.md); don't vendor unlicensed (9arm) code. "Passed critique ≠ evidence." |
 | **3 — wire as tool (low-risk first)** | `paper-search` (OpenAlex, free, no key) → then `firecrawl scrape` if needed | Tool/API, not a reasoning layer. Firecrawl: exfiltration labels + source snapshots/hashes; AGPL only matters if embedded. |
 | **4 — trial later, fenced + verify-first** | `arbor` | Only after the measurement frame is stable **and** after source-verifying the "held-out merge gate the search never optimizes against" (currently a subagent paraphrase — that property is the whole case for arbor). Candidate-generator only; never writes CORPUS / revises criteria / touches held-out / picks the verdict / runs unbounded. |
 | **5 — skip / defer** | `book-to-skill` for canonical docs; unlicensed vendoring; the awesome-list | book-to-skill "synthesizes, never verbatim" is a near-dealbreaker for precise spec provenance — only as a citation-first navigation helper pointing back to exact files. Awesome-list = discovery index only. |
@@ -203,4 +221,4 @@ They **chain**: using-superpowers → brainstorming(gate) → worktree → writi
 
 ---
 
-_Document type: process/reference (no experiment D-ID; not subject to `closeout_check`). Captured 2026-06-22 by cloning/fetching all 9 repos (8 original + obra/superpowers §8a); §11 adds the Advisor + Codex (gpt-5.5) out-of-family review. The full per-skill verbatim text for the large collections (K-Dense 147, Jeffallan 66) lives in the source repos; this audit quotes the high-fit subset verbatim and groups the rest._
+_Document type: process/reference (no experiment D-ID; not subject to `closeout_check`). Captured 2026-06-22 by cloning/fetching all 10 repos (8 original + obra/superpowers §8a + anthropics/knowledge-work-plugins §8b); §11 adds the Advisor + Codex (gpt-5.5) out-of-family review. The full per-skill verbatim text for the large collections (K-Dense 147, Jeffallan 66) lives in the source repos; this audit quotes the high-fit subset verbatim and groups the rest._
