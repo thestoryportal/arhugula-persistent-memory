@@ -110,3 +110,7 @@ tools/infranodus-skills/
 # Persistent Node v20 runtime on the volume (1.2 GB; runs the MCP servers — never track)
 node-v20/
 /node-v20/
+
+# Operator scratch — local helper scripts + review prompts (keep out of the public repo)
+fix_pplx_key.py
+REVIEW_PROMPT_*.md
