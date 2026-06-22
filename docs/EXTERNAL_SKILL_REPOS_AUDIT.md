@@ -1,6 +1,7 @@
 # External Claude-Skill Repos — Granular Usage-Scope Audit
 
-_Audit of 13 requested targets (8 distinct repos) for the **exact granular usage scope** of each skill. Captured 2026-06-22 by cloning/fetching each and extracting every skill's verbatim `description:` (the trigger = the granular scope), dependencies, and boundaries. For the large collections (K-Dense 147, Jeffallan 66, awesome-list ~60) the high-fit skills are quoted verbatim and the rest are grouped — the source repos hold the full per-skill text._
+_Audit of external Claude-skill repos for the **exact granular usage scope** of each skill — **9 distinct repos** (the original 8 + `obra/superpowers`, added 2026-06-22 §8a). Captured 2026-06-22 by cloning/fetching each and extracting every skill's verbatim `description:` (the trigger = the granular scope), dependencies, and boundaries. For the large collections (K-Dense 147, Jeffallan 66, awesome-list ~60) the high-fit skills are quoted verbatim and the rest are grouped — the source repos hold the full per-skill text._
+> (Note: `rizinorg/cutter` was also requested but is **not a skills repo** — a reverse-engineering GUI, GPL-3, GUI-only/unusable headless, off-domain — so it is intentionally excluded from this audit.)
 
 > **Framing for this repo.** Forward-tooling evaluation (operator's scaffolding phase). "Fit" = usefulness for the **LLM-as-Database** falsification-first program (knowledge editing, evals on Qwen, spec validation, literature review, rigorous experiment design/stats). The InfraNodus fence generalizes: any adopted skill's output is a **lead/aid, not `CORPUS/` evidence**.
 
@@ -18,6 +19,7 @@ _Audit of 13 requested targets (8 distinct repos) for the **exact granular usage
 | **Jeffallan/claude-skills** (fullstack-dev-skills) | 66 software-eng persona skills + workflow cmds | 66 | MIT | 10k★ | 🟡 `the-fool`, `prompt-engineer` |
 | **thananon/9arm-skills** | Personal eng-process discipline skills | 6 | **none** | 2.9k★ | 🟢 `debug-mantra`, `scrutinize` |
 | **virgiliojr94/book-to-skill** | Meta-skill: convert books/docs/paper-clusters → an Agent Skill | 1 (meta) | MIT | 6.5k★ | 🟢 fold spec+corpus into a skill |
+| **obra/superpowers** (§8a) | Agentic skills + SW-dev methodology framework (TDD/verify/debug/review pipeline) | 14 | MIT | 236k★ | 🟢🟢 **highest discipline-fit** (verify/debug/TDD/review) |
 
 ---
 
@@ -122,6 +124,27 @@ Personal eng-process discipline; install `npx skills add thananon/9arm-skills`. 
 
 ---
 
+## 8a. obra/superpowers — agentic skills + SW-dev methodology (MIT, 236k★) 🟢🟢
+_Added 2026-06-22. The **highest discipline-fit** repo audited — its testing/verification/debugging/review skills are near-isomorphic to this program's falsification discipline._
+
+**What it is:** *"An agentic skills framework & software development methodology that works"* (obra / Jesse Vincent). MIT, v6.0.3, ~236k★/21k forks, daily-active. Philosophy (verbatim): *"Test-Driven Development — Write tests first, always; Systematic over ad-hoc; Complexity reduction; **Evidence over claims — Verify before declaring success.**"* Skills = *"Mandatory workflows, not suggestions."*
+
+**Structure (adoption-relevant):** multi-harness plugin/marketplace (`.claude-plugin/` + Codex/Cursor/Gemini/Kimi/Pi configs). A **`SessionStart` hook auto-injects** the full `using-superpowers` dispatcher into context every session, wrapped in `<EXTREMELY_IMPORTANT>`; dispatcher rule: *"If you think there is even a 1% chance a skill might apply… you ABSOLUTELY MUST invoke the skill."* → **opinionated, mandatory-by-design.** 14 skills, progressive-disclosure, zero third-party runtime deps.
+
+**The 14 skills (verbatim scope):**
+- **using-superpowers** — *"Use when starting any conversation - establishes how to find and use skills, requiring skill invocation before ANY response including clarifying questions"* · **writing-skills** — *"…creating new skills, editing existing skills, or verifying skills work before deployment"*
+- **brainstorming** — *"You MUST use this before any creative work… Explores user intent, requirements and design before implementation."* (`<HARD-GATE>`: no code until an approved written design) · **writing-plans** — *"…a spec or requirements for a multi-step task, before touching code"* · **executing-plans** — *"…execute in a separate session with review checkpoints"* · **subagent-driven-development** — *"…implementation plans with independent tasks in the current session"* · **dispatching-parallel-agents** — *"…2+ independent tasks… without shared state or sequential dependencies"* · **using-git-worktrees** — *"…feature work that needs isolation…"* · **finishing-a-development-branch** — *"…implementation complete, all tests pass… decide how to integrate"*
+- **requesting-code-review** — *"…before merging to verify work meets requirements"* · **receiving-code-review** — *"…requires technical rigor and verification, not performative agreement or blind implementation"* (forbids "You're absolutely right!")
+- ⭐ **test-driven-development** — *"…before writing implementation code."* Iron Law: *"NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST."* · ⭐ **systematic-debugging** — *"…before proposing fixes."* Iron Law: *"NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST."* · ⭐ **verification-before-completion** — *"…before committing or creating PRs… running verification commands and confirming output before making any success claims; evidence before assertions always."* *"Skip any step = lying."*
+
+They **chain**: using-superpowers → brainstorming(gate) → worktree → writing-plans → subagent-dev/executing → TDD per task → request/receive review → verification-before-completion → finish; systematic-debugging fires on any failure.
+
+**Why highest discipline-fit:** verification-before-completion = your *pass-label ≠ promotable-claim* / *verify-edits-persist*; systematic-debugging (root-cause-first) = *bias-ablation = causal attribution*; TDD + `testing-anti-patterns.md` (a test you *watched fail*) = directly counters the **prototype-tautology trap**; receiving-code-review (technical pushback) = adversarial review without confirmation-amplification; brainstorming→writing-plans = pre-register design/criteria. Adoptable **authoring patterns** too: Iron-Law gates as pre-registered stop conditions, "Red Flags/rationalization" tables as confirmation-bias tripwires, **eval-gated skill changes** (a workflow change needs falsifiable before/after evidence).
+
+**Caveats:** (1) **Fence** — process/reasoning aids → LEADS, never `CORPUS/` evidence; a passing self-critique is same-model confirmation-amplification. (2) **Adoption risk — mandatory-by-design + hook-injected**: installing the plugin injects a strong opinionated methodology into *every* session and could clash with the repo's own runbook/CLAUDE.md/closeout-gate. → **extract specific skills repo-local, don't install wholesale.** (3) **Telemetry:** `brainstorming`'s visual companion phones home a version ping by default (`SUPERPOWERS_DISABLE_TELEMETRY` opts out).
+
+---
+
 ## 9. Cross-repo shortlist — highest fit for the LLM-as-Database program
 
 | Rank | Skill / tool | Repo | Why it fits |
@@ -129,6 +152,7 @@ Personal eng-process discipline; install `npx skills add thananon/9arm-skills`. 
 | ⭐⭐⭐ | **arbor** | K-Dense | HTR experiment loop with a **held-out merge gate the search never optimizes** — directly answers the prototype-tautology / dev-test-gap traps; could coordinate G6/G7 edit-eval runs |
 | ⭐⭐⭐ | **experimental-design + statistical-power** | K-Dense | Pre-registration, MDE, paired/within-unit designs, simulation power for mixed/clustered evals |
 | ⭐⭐⭐ | **scientific-critical-thinking** | K-Dense | GRADE/Cochrane bias+confounder auditing of claims (your bias-ablation / pass-label≠promotable discipline) |
+| ⭐⭐⭐ | **verification-before-completion · systematic-debugging · test-driven-development · receiving-code-review** | obra/superpowers (§8a) | The closest **discipline** match: evidence-before-claims, root-cause-first, a test you *watched fail* (counters prototype-tautology), adversarial review without confirmation-amplification. ⚠ extract repo-local — don't install the auto-injecting framework |
 | ⭐⭐ | **statistical-analysis / statsmodels / pymc** | K-Dense | Eval stats incl. distributional (KL/JS via posterior checks) |
 | ⭐⭐ | **debug-mantra + scrutinize** | 9arm | Falsification + cold-outsider-review discipline (⚠ no license — learn, don't vendor) |
 | ⭐⭐ | **the-fool** | Jeffallan | Built-in pre-mortem / red-team reasoning persona |
@@ -163,7 +187,7 @@ Personal eng-process discipline; install `npx skills add thananon/9arm-skills`. 
 | Priority | What | How to adopt |
 |---|---|---|
 | **1 — lead** | Stats/DOE from K-Dense (`experimental-design`, `statistical-power`, `statsmodels`) | **Extract as runnable code** on result JSONs: power/MDE, cluster-bootstrap over (held-out-set × edit-order), paired within-unit diffs, JS/KL with CIs. ⚠ check each source skill's license before lifting. NOT a persona-skill. |
-| **2 — methodology** | `scientific-critical-thinking`, `debug-mantra`, `scrutinize`, `the-fool` | **Read → extract best checklists** into repo-local form. ⚠ don't vendor unlicensed (9arm) code. "Passed critique ≠ evidence." |
+| **2 — methodology** | `scientific-critical-thinking`, `debug-mantra`, `scrutinize`, `the-fool`, **+ obra/superpowers `verification-before-completion` / `systematic-debugging` / `test-driven-development` / `receiving-code-review`** | **Read → extract best checklists** into repo-local form (superpowers' Iron-Law gates + Red-Flag tripwires map directly onto pre-registration + confirmation-bias guards). ⚠ **do NOT install the superpowers framework** (its SessionStart hook auto-injects a mandatory methodology that would clash with the runbook/CLAUDE.md); don't vendor unlicensed (9arm) code. "Passed critique ≠ evidence." |
 | **3 — wire as tool (low-risk first)** | `paper-search` (OpenAlex, free, no key) → then `firecrawl scrape` if needed | Tool/API, not a reasoning layer. Firecrawl: exfiltration labels + source snapshots/hashes; AGPL only matters if embedded. |
 | **4 — trial later, fenced + verify-first** | `arbor` | Only after the measurement frame is stable **and** after source-verifying the "held-out merge gate the search never optimizes against" (currently a subagent paraphrase — that property is the whole case for arbor). Candidate-generator only; never writes CORPUS / revises criteria / touches held-out / picks the verdict / runs unbounded. |
 | **5 — skip / defer** | `book-to-skill` for canonical docs; unlicensed vendoring; the awesome-list | book-to-skill "synthesizes, never verbatim" is a near-dealbreaker for precise spec provenance — only as a citation-first navigation helper pointing back to exact files. Awesome-list = discovery index only. |
@@ -179,4 +203,4 @@ Personal eng-process discipline; install `npx skills add thananon/9arm-skills`. 
 
 ---
 
-_Document type: process/reference (no experiment D-ID; not subject to `closeout_check`). Captured 2026-06-22 by cloning/fetching all 8 repos; §11 adds the Advisor + Codex (gpt-5.5) out-of-family review. The full per-skill verbatim text for the large collections (K-Dense 147, Jeffallan 66) lives in the source repos; this audit quotes the high-fit subset verbatim and groups the rest._
+_Document type: process/reference (no experiment D-ID; not subject to `closeout_check`). Captured 2026-06-22 by cloning/fetching all 9 repos (8 original + obra/superpowers §8a); §11 adds the Advisor + Codex (gpt-5.5) out-of-family review. The full per-skill verbatim text for the large collections (K-Dense 147, Jeffallan 66) lives in the source repos; this audit quotes the high-fit subset verbatim and groups the rest._
