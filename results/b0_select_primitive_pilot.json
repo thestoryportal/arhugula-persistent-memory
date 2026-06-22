@@ -1,0 +1,181 @@
+{
+  "prereg": "docs/B0_SELECT_PRIMITIVE_PREREG.md",
+  "model": "Qwen/Qwen2.5-3B",
+  "band": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "n_committed": 8,
+  "committed_readback_correct": 8,
+  "committed_readback_correct_hiconf": 8,
+  "committed_readback_rate_pct": 100.0,
+  "absent_fictional_confab_hiconf": 0,
+  "absent_confab_rate_pct": 0.0,
+  "absent_real_leak_correct": 6,
+  "absent_real_n": 6,
+  "maxprob_committed_correct": {
+    "n": 8,
+    "mean": 0.9973,
+    "min": 0.9935,
+    "max": 0.9995
+  },
+  "maxprob_absent_fictional": {
+    "n": 8,
+    "mean": 0.1176,
+    "min": 0.0431,
+    "max": 0.2422
+  },
+  "maxprob_absent_real": {
+    "n": 6,
+    "mean": 0.5568,
+    "min": 0.4275,
+    "max": 0.8186
+  },
+  "separation_best_tau": {
+    "tau": 0.9935,
+    "committed_above": 100.0,
+    "absent_below": 100.0
+  },
+  "OUTCOME": "A_SELECT_PLAUSIBLE",
+  "committed_detail": [
+    {
+      "entity": "Zelmara",
+      "value": "Paris",
+      "readback_top1": " Paris",
+      "maxprob": 0.9944,
+      "correct": true
+    },
+    {
+      "entity": "Brovania",
+      "value": "London",
+      "readback_top1": " London",
+      "maxprob": 0.9935,
+      "correct": true
+    },
+    {
+      "entity": "Quenland",
+      "value": "Rome",
+      "readback_top1": " Rome",
+      "maxprob": 0.9991,
+      "correct": true
+    },
+    {
+      "entity": "Tavoria",
+      "value": "Madrid",
+      "readback_top1": " Madrid",
+      "maxprob": 0.9995,
+      "correct": true
+    },
+    {
+      "entity": "Cassovia",
+      "value": "Berlin",
+      "readback_top1": " Berlin",
+      "maxprob": 0.9979,
+      "correct": true
+    },
+    {
+      "entity": "Drennan",
+      "value": "Vienna",
+      "readback_top1": " Vienna",
+      "maxprob": 0.9984,
+      "correct": true
+    },
+    {
+      "entity": "Yulvania",
+      "value": "Cairo",
+      "readback_top1": " Cairo",
+      "maxprob": 0.997,
+      "correct": true
+    },
+    {
+      "entity": "Sornia",
+      "value": "Oslo",
+      "readback_top1": " Oslo",
+      "maxprob": 0.9983,
+      "correct": true
+    }
+  ],
+  "absent_fictional_detail": [
+    {
+      "entity": "Plavia",
+      "top1": " Pl",
+      "maxprob": 0.0668
+    },
+    {
+      "entity": "Velloria",
+      "top1": " V",
+      "maxprob": 0.2422
+    },
+    {
+      "entity": "Othenia",
+      "top1": " O",
+      "maxprob": 0.0779
+    },
+    {
+      "entity": "Kuvalia",
+      "top1": " Ku",
+      "maxprob": 0.0498
+    },
+    {
+      "entity": "Nyssara",
+      "top1": " Ny",
+      "maxprob": 0.1627
+    },
+    {
+      "entity": "Granicia",
+      "top1": " Gran",
+      "maxprob": 0.1169
+    },
+    {
+      "entity": "Marnovia",
+      "top1": " M",
+      "maxprob": 0.1813
+    },
+    {
+      "entity": "Theldwin",
+      "top1": " Th",
+      "maxprob": 0.0431
+    }
+  ],
+  "absent_real_detail": [
+    {
+      "entity": "France",
+      "truth": "Paris",
+      "top1": " Paris",
+      "maxprob": 0.5383
+    },
+    {
+      "entity": "Japan",
+      "truth": "Tokyo",
+      "top1": " Tokyo",
+      "maxprob": 0.43
+    },
+    {
+      "entity": "Egypt",
+      "truth": "Cairo",
+      "top1": " Cairo",
+      "maxprob": 0.5178
+    },
+    {
+      "entity": "Italy",
+      "truth": "Rome",
+      "top1": " Rome",
+      "maxprob": 0.4275
+    },
+    {
+      "entity": "Spain",
+      "truth": "Madrid",
+      "top1": " Madrid",
+      "maxprob": 0.6083
+    },
+    {
+      "entity": "Norway",
+      "truth": "Oslo",
+      "top1": " Oslo",
+      "maxprob": 0.8186
+    }
+  ]
+}
