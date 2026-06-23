@@ -1,11 +1,13 @@
 ---
 name: larql-the-mechanism-prior-art
-description: "Chris Hay's LARQL (in the spec as query+deploy layer) and the-mechanism repo — how they relate to our write-engine work"
+description: "Chris Hay's LARQL + the-mechanism (+ his wider GitHub corpus) vs our write-engine work. ⚠ REVISED 2026-06-23 (Tier-1 deep-read): the old 'our work fills LARQL's gap' claim is PARTLY INVERTED — he's built a parallel impl with mechanisms we theorized. See docs/CHRISHAYUK_CORPUS_GAP_MAP.md + HYPOTHESIS_REGISTER §K + runbook §0.3."
 metadata: 
   node_type: memory
   type: reference
   originSessionId: 2801cf2e-560f-460c-86df-e227b16051b2
 ---
+
+> **⚠ REVISED 2026-06-23 — Tier-1 deep-read of chrishayuk's FULL corpus** (`docs/CHRISHAYUK_CORPUS_GAP_MAP.md`, `HYPOTHESIS_REGISTER §K`, runbook §0.3 flag). Chris Hay has independently built a **near-complete parallel implementation of our thesis** (`larql` engine + `.vindex`/`.vlp` + `tiny-model` Gemma-GQA w/ frozen-FFN-retrain-attention + `the-mechanism`). This **PARTLY INVERTS point 2 below** ("our work fills LARQL's gap"): LARQL already implements a tiered KNN→COMPOSE→L2-MEMIT hybrid **+ a `REBALANCE` fixed-point solver** — mechanisms we only theorized. **Four LOAD-BEARING gaps for us** (LEADS, unverified on Qwen except quant): **(CP2)** LQL has **NO aggregation/negation/JOIN/multi-hop/"violates"** → our read-contract query-families are *net-new on top of LARQL, not served*; native read = relation-index(L10) × fuzzy-entity-top-k(L24-26, rank/verify), **not** single-row. **(B3)** the hybrid + `REBALANCE` above. **(write)** LARQL serve = **MEMIT (vanilla ridge), NOT AlphaEdit** — no null-space locality guarantee at serve. **(quant) ✅ VERIFIED 2026-06-23:** LARQL keeps ffn_down **uniformly Q6_K**; our B3 `Q4_K_M` put **4/5 edited band-[4-8] down_proj layers at Q4_K** (stricter) and edits survived 100% → our result is CONSERVATIVE, LARQL merely more protective. Shared still-OPEN (he doesn't solve either): **GQA edit-transfer** + **multi-token**.
 
 Chris Hay's **LARQL** is INTEGRATED INTO THE LLM-as-DB SPEC (operator, 2026-06-17) as the read/query + deployment layer. Repos cloned (primary source): `/workspace/external_prior_art/larql` (Rust, mature) and `/workspace/external_prior_art/the-mechanism` (Python, 10 Gemma demos = the talk "The Model Doesn't Unpack Its Memory").
 
@@ -16,7 +18,7 @@ Chris Hay's **LARQL** is INTEGRATED INTO THE LLM-as-DB SPEC (operator, 2026-06-1
 
 **Why it matters for our write-engine viability work:**
 1. Validates our architecture (down_proj store, multi-attribute entities, MEMIT-class solve) and the CPU-deployment path. See [[deployment-target-intel-cpu]].
-2. OUR WORK FILLS LARQL'S GAP: LARQL's INSERT checks edit-success + CROSS-entity/neighbor preservation, but does NOT appear to test SAME-ENTITY multi-attribute locality (our Phase 1 axis). Our result (sequential same-subject edits clobber on GPT-J, hold on Qwen) tells LARQL which base models it can safely multi-edit + argues for a same-entity/sequential-edit safety gate.
+2. OUR WORK FILLS LARQL'S GAP — **⚠ PARTLY INVERTED, see top banner: LARQL already ships the compaction hybrid + `REBALANCE` we theorized.** [original claim, now scoped:] LARQL's INSERT checks edit-success + CROSS-entity/neighbor preservation, but does NOT appear to test SAME-ENTITY multi-attribute locality (our Phase 1 axis). Our result (sequential same-subject edits clobber on GPT-J, hold on Qwen) tells LARQL which base models it can safely multi-edit + argues for a same-entity/sequential-edit safety gate.
 3. BAND SELECTION: LARQL (INSERT AT LAYER ~24-27, phase transition L24) and the-mechanism (FACT_BAND [23-28], resolve @ L26 on Gemma) write at LATE layers where the fact resolves; our canonical MEMIT edits EARLY-MID ([3-8]) (ROME knowledge-MLP locus). Model-specific. If our small-Qwen early-band underperforms, try a LATER band (the LARQL/mechanism locus) as the one fix.
 4. LARQL's late-band constellation+ALPHA insert is a candidate write MECHANISM to test against our same-entity battery (possible Rung-1/2 workaround).
 
