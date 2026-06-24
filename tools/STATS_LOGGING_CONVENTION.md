@@ -46,6 +46,28 @@ edit-orders = ≥4 clusters/arm**, and check `power.py size` for the claimed
 effect against the measured between-order SD before running. Single seed → at
 most a within-experiment direction, never a reliability claim.
 
+> ⚠ **≥4 is necessary, not sufficient.** ≥4 clusters is the floor just to *have*
+> a cluster structure to bootstrap. The number you actually need to *detect* an
+> effect is much larger at our realized noise. A `power.py size` at the measured
+> ~50pp swing (sd≈0.125), p0=0.70, effect=20pp, items=8 lands around **15+
+> clusters/arm** for 80% power (verified 2026-06-24; a point estimate near a
+> search boundary, treat as "≳15", not exact). You **cannot** items-per-cluster
+> your way out — the dominant variance is *between* clusters, so adding held-out
+> probes per order barely helps. **The cheaper lever is reducing the swing
+> (determinism) than multiplying order/seed clusters** — which is why the
+> deterministic-instrument next-arc item (`[[sequential-edit-run-nondeterminism]]`)
+> directly gates the cost of every clustered corruption claim (CP2 / D20 N×C
+> grid / B3 compaction-at-scale).
+
+> 🕐 **Runtime gotcha:** `size`/`mde` with the defaults (`--nsim 1000 --boot
+> 1500`) sweep clusters 2→max and re-simulate at each step — that is **minutes**
+> when the requirement is near the top of the sweep. For interactive sizing pass
+> `--nsim 200 --boot 400` for a first pass (~30–40s; selftests use reduced
+> values for the same reason), then confirm a final design at full nsim/boot.
+> `size` returns the search ceiling if the requirement exceeds `--max-clusters`
+> (default 24) — read that as "≥ceiling, possibly truncated", and re-run with a
+> higher `--max-clusters` to resolve.
+
 ## Scope
 `stats.py` already carries extractors for the two shapes that DO have per-unit
 data today: **b0** (`committed_detail` / `absent_real_detail`) and **g6**
