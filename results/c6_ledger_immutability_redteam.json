@@ -1,0 +1,79 @@
+{
+  "experiment": "C6_ledger_immutability_redteam",
+  "decision_id": "D-C6L-1",
+  "class": "PROPERTY DEMONSTRATION + SPEC-LEVEL SECURITY FINDING (NOT an empirical red-team; NOT a spec falsification; NOT promotable)",
+  "honesty_note": "K1/K2/K4/K5 are predictable from reading verify_chain (K1 = CORPUS/11 caveat); the harness confirms the known property holds against the REAL G2 code + that the fix works. The load-bearing finding is K6, resolved by reading the spec.",
+  "ts": 1782426139.22,
+  "checks": {
+    "K1_rewrite_recompute": {
+      "attack": "rewrite+suppress the W3 INTEGRITY_VIOLATION_EMERGENCY entry, recompute all hashes from root (keyless)",
+      "verify_chain_intact": true,
+      "break_at": null,
+      "outcome": "UNDETECTED",
+      "predicted": "UNDETECTED",
+      "note": "known property (CORPUS/11 caveat); confirms vs real G2 verify_chain"
+    },
+    "K2_truncation": {
+      "attack": "drop the suffix (incl. the W3 entry); present the prefix as current",
+      "verify_chain_intact": true,
+      "outcome": "UNDETECTED",
+      "predicted": "UNDETECTED",
+      "note": "completeness not verified by chain-walk; variant of K1's root property"
+    },
+    "K4_naive_edit_CONTROL": {
+      "attack": "edit the W3 body WITHOUT recomputing successor hashes",
+      "verify_chain_intact": false,
+      "break_at": 4,
+      "outcome": "DETECTED",
+      "predicted": "DETECTED",
+      "note": "reproduces G2 T-LEDGER-TAMPER; confirms the walk actually runs"
+    },
+    "K5_defense_STH": {
+      "defense": "CT-style Signed Tree Head: offline key (NOT held by ledger writer; same custody as CAK \u00a720.2) signs (seq,tip) out-of-band; verify = chain-walk + reconcile latest signed head + monotonic seq",
+      "A1_rewrite_outcome": "DETECTED",
+      "A1_reason": "history-rewrite: tip@seq != signed STH",
+      "A2_truncation_outcome": "DETECTED",
+      "A2_reason": "rollback: len 4 < signed seq 7",
+      "predicted": "DETECTED both",
+      "note": "fix works; offline-key custody is the model the spec already mandates for the CAK"
+    },
+    "K6_spec_finding": {
+      "claim_A_threat_model_INDEPENDENT": {
+        "claim": "The spec mandates NO operational-window cryptographic tamper-evidence for the ledger.",
+        "evidence": [
+          "\u00a716.1 Merkle-chain-lite, keyless (entry_hash=SHA(prev||body), entries NOT individually signed \u2014 confirmed in G2 code)",
+          "\u00a716.4 integrity = chain-walk from Genesis Seal forward (boot/100/10K-24h) \u2014 internal consistency only",
+          "\u00a713.2 Genesis Seal = immutable ROOT anchor (anchors the START)",
+          "\u00a716.7/\u00a727 FINAL_STATE_SNAPSHOT = externally-committed tip hash only at PROJECT_CLOSE",
+          "=> external anchors exist ONLY at root + close; nothing during operation"
+        ],
+        "status": "CONFIRMED spec-level property (established by reading \u00a716 end-to-end). Elevates CORPUS/11's prototype caveat from 'not modeled here' to 'not specified by the spec'. Solid regardless of threat model.",
+        "fix": "CT-style Signed Tree Head: periodic offline-signed (seq,tip) head-anchor + monotonic seq, verified at boot/cadence. Custody-compatible with the CAK offline/HSM model the spec ALREADY mandates (\u00a720.2). K5 demonstrates it closes K1+K2."
+      },
+      "claim_B_W3_threat_model_SEAM": {
+        "claim": "Under the spec's OWN threat model, the missing operational-window tamper-evidence is security-relevant: the W3 emergency-logging response shares a mutable substrate with its adversary \u2014 an UNRECONCILED threat-model seam (NOT a flat contradiction).",
+        "logical_vs_filesystem": "W3 (\u00a716.2) defends against LOGICAL Orchestrator compromise (won't mediate W1 honestly -> Gate/TC/Boot-verifier BYPASS it to log INTEGRITY_VIOLATION_EMERGENCY). Defeating W3 via rewrite-recompute (K1) needs FILESYSTEM-level tampering \u2014 a DIFFERENT capability.",
+        "is_a_clause_covering_it": "\u00a716.5 access control IS the spec's intended ledger-integrity defense (fs-write restricted to Orchestrator/Boot-verifier/Retention-Manager). So a covering mechanism EXISTS \u2014 but it does not fully cover this case:",
+        "why_not_covered": "\u00a716.5 GRANTS the Orchestrator ledger fs-write, and \u00a716.2 admits the Orchestrator as compromisable. \u00a75 excludes only PHYSICAL host security \u2014 a LOGICALLY-compromised Orchestrator running with its normally-granted fs-access needs no physical/host compromise to rewrite the file. The spec never RECONCILES \u00a716.5 (Orchestrator has ledger fs-write) with \u00a716.2 (Orchestrator compromise in-scope) -> the W3 emergency entry meant to flag the compromise lands in the keyless ledger the same component can rewrite/suppress (K1), with the \u00a716.4 walk still INTACT.",
+        "status": "UNRECONCILED THREAT-MODEL SEAM (precise, threat-model-scoped). Live, not hypothetical, because \u00a75 carves out only physical compromise."
+      },
+      "verdict": "Operational-window ledger tamper-evidence is UNSPECIFIED (claim A); under \u00a716.2's own threat model it is security-relevant because the W3 response shares the substrate (claim B). Recommended backstop = STH head-anchor.",
+      "scope_excluded": {
+        "A3_fork_equivocation": "distributed-log/CT threat needing independent monitors comparing STHs; multi-machine ledger replication is v2/GAP-18 -> out-of-architecture for single-machine v1.2",
+        "timestamp_rewrite__interior_insert_delete": "special cases of K1 (rewrite-recompute)",
+        "second_preimage_domain_separation": "low risk: prev_hash is fixed-width 64-hex -> effectively length-delimited",
+        "key_custody": "separate C6 sub-item (operational/v2), not addressed here"
+      }
+    }
+  },
+  "verdict_summary": {
+    "demo_K1_undetected": true,
+    "demo_K2_undetected": true,
+    "control_K4_detected": true,
+    "fix_K5_detects_both": true,
+    "finding_K6A_property": "CONFIRMED spec-level property (established by reading \u00a716 en",
+    "finding_K6B_seam": "UNRECONCILED THREAT-MODEL SEAM"
+  },
+  "verdict": "C6 ledger-immutability \u2014 TWO claims. (A, threat-model-INDEPENDENT, solid): the spec mandates NO operational-window cryptographic tamper-evidence \u2014 keyless chain (\u00a716.1), external anchors only at root (\u00a713.2) and close (\u00a716.7/\u00a727); a rewrite-recompute (K1) or truncation (K2) leaves the \u00a716.4 chain-walk INTACT. This elevates CORPUS/11's prototype caveat to a confirmed SPEC-level property (established by reading \u00a716 end-to-end). (B, threat-model-SCOPED, sharper): the spec never reconciles \u00a716.5 (Orchestrator granted ledger fs-write) with \u00a716.2 (Orchestrator compromise in-scope) \u2014 and \u00a75 excludes only PHYSICAL host security \u2014 so a logically-compromised Orchestrator can rewrite/suppress the very W3 emergency entry meant to flag it. An UNRECONCILED THREAT-MODEL SEAM, not a flat contradiction. Fix = CT-style offline-signed head-anchor (K5 works), custody-compatible with the spec's CAK model (\u00a720.2). Moves C6 'verifier-mechanics-proven, not red-teamed' -> 'red-teamed: named gap (A) + named seam (B) + named, custody-compatible fix.' Self-authored harness, independence-mitigated (vectors cross-checked vs Perplexity/CT literature; run against the real G2 verify_chain). Property-demo + spec finding, NOT a spec falsification, NOT promotable.",
+  "scope_caveats": "CPU-only; reuses the real G2 StateLedger/verify_chain; threat model = ledger-file write access (compromised-Orchestrator/fs, admitted by \u00a716.2 W3). A3/timestamp/2nd-preimage surveyed-and-excluded (see K6.scope_excluded). Key custody = separate C6 sub-item. Falsifiable by a spec clause mandating an operational-window signed head-anchor that this audit missed."
+}

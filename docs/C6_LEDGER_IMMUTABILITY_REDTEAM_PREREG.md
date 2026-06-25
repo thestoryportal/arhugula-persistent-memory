@@ -1,0 +1,43 @@
+# C6 — Ledger-immutability red-team (pre-registration)
+
+**Date:** 2026-06-25 (frozen before build). **Decision-ID:** D-C6L-1 (pending). **CORPUS:** 34 (pending).
+**Class:** **PROPERTY DEMONSTRATION + SPEC-LEVEL SECURITY FINDING — NOT an "empirical red-team."** ⚠ Advisor-corrected (2026-06-25, pre-build): the attack outcomes (K1–K5) are **fully predictable from reading `verify_chain`** — zero empirical uncertainty — and **K1 is already stated verbatim as a known caveat in CORPUS/11** ("an attacker who rewrites an entry AND recomputes every subsequent entry_hash… yields a re-verifying chain… True tamper-evidence needs the HEAD anchored — NOT modeled"). So the harness is a **compact demonstration that a known property holds against the real G2 code + that a concrete fix works** — NOT a discovery. **The actual finding is the SPEC-LEVEL TENSION** (below), resolved by reading, not by the rig. First move on **C6** (F1 flags it "VERIFIER MECHANICS PROVEN, NOT RED-TEAMED"). Chosen per advisor steer (only non-coupled, falsifiable, readiness-moving solo leg) + operator defer-to-recommendation.
+**Independence note ([[review-diminishing-returns-evidence-is-binding]]):** the harness is self-authored (weak independence), MITIGATED by (a) attack vectors sourced from an independent cross-family model (Perplexity/Sonar, CT/tamper-evident-log literature — codex auth expired) not just my own, and (b) attacks run against the **real** G2 `verify_chain` (`experiments/governance/g2_security_layer.py`) and the **spec's stated mechanism** (§16.4), not a strawman. Cross-family vector enumeration archived in this session's transcript.
+
+## Target (what is red-teamed)
+The spec's ledger-immutability claim and its G2 realization. **Spec mechanism (read end-to-end):** §16.1 "Merkle-chain-lite integrity (D50)"; §16.4 integrity = **chain-walk from the Genesis Seal forward** (boot / every-100 / every-10K-or-24h); §13.2 Genesis Seal = Tier-1 immutable root (anchors the START); §16.7/§27 `FINAL_STATE_SNAPSHOT` captures the chain **tip hash only at PROJECT_CLOSE**; §16.2 W3 path exists for **compromised-Orchestrator** scenarios (so Orchestrator compromise is IN the threat model). **G2 realization (read):** `entry_hash = SHA256(prev_hash ‖ canonical(body))`, **keyless** (entries are NOT individually signed); `verify_chain()` only checks per-entry chain consistency from a constant root. No out-of-band signed head checkpoint exists during operation.
+
+## THE FINDING (spec-level; resolved by reading, the non-obvious claim)
+The sharp claim is NOT "hash chains don't detect recompute" (textbook). It is the **self-undermining tension inside the spec's own threat model**:
+- **The spec admits compromised-Orchestrator as in-scope:** §16.2 W3 is an emergency write path that exists *precisely* for "compromised-Orchestrator scenarios where the normal W1 path is the problem" (`INTEGRITY_VIOLATION_EMERGENCY`).
+- **But the spec delegates ledger-file integrity to access control:** §16.5 restricts ledger fs-write to Orchestrator/Boot-verifier/Retention-Manager "enforced via filesystem permissions"; §5 puts host physical security out-of-scope. The chain is keyless; the only out-of-band anchors are the **root** (Genesis Seal) and **close** (FINAL_STATE_SNAPSHOT).
+- **The contradiction:** the Orchestrator is *itself* one of the three authorized ledger writers (§16.5). So a compromised Orchestrator HAS ledger-file write access — and the W3 emergency entry meant to flag its compromise lands in the **same keyless ledger the compromised writer can rewrite/suppress** (recompute the chain to delete/alter the W3 entry; the boot/periodic chain-walk still returns INTACT). **→ The spec's own answer to Orchestrator-compromise (W3 logging) is undermined unless ledger-file integrity holds during operation — which the spec backstops only with access control (the very control that fails when an authorized writer is the adversary) + root/close anchors, with NO operational-window cryptographic tamper-evidence.** Standard fix (CT Signed-Tree-Head / periodic offline-signed head checkpoint + monotonic seq) is not mandated for the operational window.
+
+## Attacks (MINIMAL demonstration vs the real G2 `verify_chain`; one root property, not three)
+Per advisor: A1/A2/A3 are ONE property (no operational out-of-band head), do not triple-count.
+- **A1 rewrite-then-recompute** (keyless; the representative): modify a historical entry's body, recompute its `entry_hash` + all successors from the unchanged root.
+- **A2 completeness/truncation** (folded as a variant of the same property, reported not separately scored): drop a suffix; `E_0..E_k` still chain-valid (completeness not verified).
+- **A4 naive edit (CONTROL)**: edit a body WITHOUT recomputing successors → must be CAUGHT (reproduces G2 T-LEDGER-TAMPER; the only outcome with any non-obviousness — confirms the walk actually runs).
+- **Surveyed-and-EXCLUDED (Perplexity/CT taxonomy, not run — out-of-architecture for single-machine v1.2):** A3 fork/equivocation (split-view) is a *distributed-log* threat needing independent monitors comparing STHs; multi-machine ledger replication is explicitly **v2 / GAP-18** → scoped-out. Timestamp-rewrite & interior insert/delete = special cases of A1. Second-preimage/domain-separation on `prev_hash‖body` = low risk (`prev_hash` fixed-width 64-hex → effectively length-delimited). Cited as surveyed, not demonstrated.
+
+## Defense demonstrated (constructive fix, falsifiable)
+**D = STH-style periodic signed head-anchor:** an offline-key (Ed25519, private half NOT held by the ledger writer/Gate — same custody model the spec already uses for the CAK, §20.2) periodically signs `(seq, tip_hash)`; verification re-walks the chain AND checks the most recent signed head-anchor covers the current tip and that `seq` is monotonic. Run A1/A2/A3 against `verify_chain + D`.
+
+## Pre-registered checks (frozen; symmetric). K1/K4/K5 = demonstration (predictable); K6 = the load-bearing analytical finding.
+| id | check | PREDICT |
+|---|---|---|
+| **K1** | A1 rewrite-recompute → real G2 `verify_chain` returns INTACT (undetected) | INTACT (known property; demo only) |
+| **K2** | A2 completeness/truncation → `verify_chain` returns INTACT (variant of K1, reported) | INTACT (same property) |
+| **K4** | A4 naive edit → `verify_chain` DETECTS the break (CONTROL — confirms the walk runs) | DETECTED |
+| **K5** | Defense D (STH-style offline-signed head-anchor + monotonic seq) detects A1 (and A2) | DETECTED (fix works) |
+| **K6** | **(the finding)** spec audit: is compromised-Orchestrator in-scope (W3) AND is ledger-integrity backstopped only by access control (§16.5) + root/close anchors with NO operational-window cryptographic tamper-evidence — so a compromised authorized writer can rewrite/suppress the very W3 entry meant to flag it? | YES → **self-undermining gap** |
+
+**Symmetric:** if `verify_chain` already CATCHES A1 (a head-anchor/signature I missed), or if the spec DOES mandate an operational-window signed head-anchor (K6 = covered), the immutability claim is sound and there is no finding. A surprise here flips the verdict.
+
+**Verdict rule:** K1 INTACT + K4 detected + K5 fix-works (the demo) AND K6 = self-undermining-gap (the finding) → **C6 ledger-immutability: a SCOPED SECURITY GAP within the spec's own threat model — the compromised-Orchestrator path (W3) is undermined by the absence of operational-window cryptographic tamper-evidence on the keyless ledger; fix = STH-style offline-signed head-anchor (same offline-key custody model the spec already uses for the CAK §20.2).** Moves C6 from "not red-teamed" → "red-teamed: one named gap + named, custody-compatible fix." A CHARACTERIZATION/security-finding (scoped gap in ONE mechanism), NOT a falsification of the spec, NOT promotable; sharpens the F1 C6 condition.
+
+## Scope / caveats
+CPU-only; reuses the real G2 `StateLedger`/`verify_chain`. Threat model = ledger-file write access (compromised-Orchestrator / fs), which the spec admits (W3). Does NOT address key custody (separate C6 sub-item, operational/v2). Self-authored harness (independence-mitigated, not erased). NOT a falsifier of the spec; a scoped security gap + fix. advisor before authoring (mandated) and before the verdict.
+
+## Artifacts (to produce)
+Pre-reg: this file (frozen). Runner: `experiments/governance/c6_ledger_immutability_redteam.py` (imports/reuses the G2 ledger). Result: `results/c6_ledger_immutability_redteam.json`. Analysis: `CORPUS/34_C6_LEDGER_IMMUTABILITY_REDTEAM.md`. Then propagate D-C6L-1 to all canonical trackers + `closeout_check.py D-C6L-1`; update F1 C6 row.
