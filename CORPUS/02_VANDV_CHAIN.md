@@ -88,6 +88,16 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Criterion (`docs/R5_PARAPHRASE_ROBUSTNESS_PREREG.md`):** held-out P_test firing; 4 arms incl intensity control; mean-rate primary metric.
 - **Verdict:** NOVEL robust (16/16); counterfactual-over-prior fragile (0/16, reverts-to-true); diverse recipe partially rescues (→65% mean, 3/16 robust) = diversity not intensity (directional). INSERT improved / UPDATE fragile-partial / overwrite-prior-edit unmeasured. NOT promoted.
 
+### C-R1-bit — Commit-bit SELECT read-back, commit-time (R1-bit, D-R1-2)
+- **Hypothesis:** recording persistence in a G1 2PC commit-status bit (not weights) delivers the §8.9 L1 read-back, bleed-immune.
+- **Criterion (frozen, CP-class):** D1 LANDED 8/8 · D2 LEAK NULL 6/6 · D3 REJECTED NULL 4/4 + DROPPED NULL 2/2 via 2PC-abort · D4 ≥1 proxy-TRIPLE→bit-NULL row · D5 chain intact + no bypass.
+- **Verdict:** **DELIVERED-FOR-SCOPE (commit-time)** — all met; Velloria phantom read fixed (proxy 2.06→bit NULL). Scope = commit-time only; post-commit divergence (R10/§11.3/D43) deferred to C1, NOT solved. CP-class, not promoted.
+
+### C-R1 — Deployed SELECT triple-readback (R1, D-R1-1)
+- **Hypothesis:** a ledger-backed SELECT reconciled vs the deployed store DELIVERS the §8.9 L1 read-back on divergence cases bare weights fail.
+- **Criterion (frozen pre-reg):** P1 LANDED≥7/8 · P2 LEAK NULL 6/6 (anti-firing) · P3 GATE-REJECTED NULL 4/4 + DROPPED flagged 2/2 · no LEAK/REJECTED/DROPPED returns a triple (`hard_fail`).
+- **Verdict:** **NOT-DELIVERED / CHARACTERIZATION** — anti-firing solid (LEAK 6/6 NULL while model fires 5/6; REJECTED 4/4; LANDED 8/8) but the novel divergence test FAILED (DROPPED 1/2: phantom read Velloria→Tokyo from +2.06-nat cross-entity bleed over frozen thr 2.0). In-weight logprob storage-signature UNSOUND (bleed-noise-limited). Confirms B0/§11.2 (ledger must carry commit-status); NEW gap: post-commit divergence-detection unspecified, 2PC commit-bit covers commit-time only. NOT promoted.
+
 ### C-R5b — Overwrite-prior-edit / axis=pretrained-prior (R5b, D-R5b-1)
 - **Hypothesis:** is overwriting a prior `.vindex` edit fragile (entrench) or robust (localize)? populate the unmeasured update cell.
 - **Criterion (`docs/R5B_OVERWRITE_PRIOR_EDIT_PREREG.md`):** 3 arms NOVEL/PRIOR/OVERWRITE-EDIT, held-out P_test firing + v1-resurface.

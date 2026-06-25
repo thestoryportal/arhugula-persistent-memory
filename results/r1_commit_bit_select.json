@@ -1,0 +1,469 @@
+{
+  "prereg": "docs/R1_COMMIT_BIT_SELECT_PREREG.md",
+  "class": "CP-class constructive delivery (not a falsifier)",
+  "reuses": "results/r1_select_readback.json",
+  "store_thresh_proxy_nats": 2.0,
+  "scores": {
+    "D1_landed_readback": "8/8",
+    "D2_leak_null": "6/6 (model fires 5/6)",
+    "D3_rejected_null": "4/4",
+    "D3_dropped_null_via_2PC_abort": "2/2",
+    "D4_bleed_immunity_rows_fixed": [
+      "Velloria"
+    ],
+    "D5_ledger_chain": "intact",
+    "D5_prepared_bypass": []
+  },
+  "pass_flags": {
+    "D1": true,
+    "D2": true,
+    "D3": true,
+    "D4": true,
+    "D5": true,
+    "hard_fail": false
+  },
+  "OUTCOME": "R1-bit DELIVERED-FOR-SCOPE (commit-time L1 read-back; post-commit divergence DEFERRED to C1)",
+  "scope": "commit-TIME consistency only; post-commit divergence (compaction/quant/corruption, R10/\u00a711.3/D43) deferred to C1 (operator-scope-gated), NOT solved.",
+  "bleed_contrast": [
+    {
+      "entity": "Plavia",
+      "proxy_would": "NULL",
+      "proxy_sig_nats": 0.181,
+      "commit_bit": "NULL"
+    },
+    {
+      "entity": "Velloria",
+      "proxy_would": "TRIPLE",
+      "proxy_sig_nats": 2.064,
+      "commit_bit": "NULL"
+    },
+    {
+      "entity": "France",
+      "proxy_would": "NULL",
+      "proxy_sig_nats": null,
+      "commit_bit": "NULL"
+    },
+    {
+      "entity": "Japan",
+      "proxy_would": "NULL",
+      "proxy_sig_nats": null,
+      "commit_bit": "NULL"
+    },
+    {
+      "entity": "Egypt",
+      "proxy_would": "NULL",
+      "proxy_sig_nats": null,
+      "commit_bit": "NULL"
+    },
+    {
+      "entity": "Italy",
+      "proxy_would": "NULL",
+      "proxy_sig_nats": null,
+      "commit_bit": "NULL"
+    },
+    {
+      "entity": "Spain",
+      "proxy_would": "NULL",
+      "proxy_sig_nats": null,
+      "commit_bit": "NULL"
+    },
+    {
+      "entity": "Norway",
+      "proxy_would": "NULL",
+      "proxy_sig_nats": null,
+      "commit_bit": "NULL"
+    }
+  ],
+  "detail": {
+    "LANDED": [
+      {
+        "entity": "Zelmara",
+        "relation": "capital",
+        "value": "Paris",
+        "commit_bit_returns": "TRIPLE",
+        "select_correct": true,
+        "logprob_proxy_would_return": "TRIPLE",
+        "proxy_sig_nats": 9.155,
+        "L2_fires": {
+          "top1": " Paris",
+          "maxprob": 0.7018,
+          "correct": true
+        }
+      },
+      {
+        "entity": "Brovania",
+        "relation": "capital",
+        "value": "London",
+        "commit_bit_returns": "TRIPLE",
+        "select_correct": true,
+        "logprob_proxy_would_return": "TRIPLE",
+        "proxy_sig_nats": 9.232,
+        "L2_fires": {
+          "top1": " London",
+          "maxprob": 0.9328,
+          "correct": true
+        }
+      },
+      {
+        "entity": "Quenland",
+        "relation": "capital",
+        "value": "Rome",
+        "commit_bit_returns": "TRIPLE",
+        "select_correct": true,
+        "logprob_proxy_would_return": "TRIPLE",
+        "proxy_sig_nats": 9.854,
+        "L2_fires": {
+          "top1": " Rome",
+          "maxprob": 0.5324,
+          "correct": true
+        }
+      },
+      {
+        "entity": "Tavoria",
+        "relation": "capital",
+        "value": "Madrid",
+        "commit_bit_returns": "TRIPLE",
+        "select_correct": true,
+        "logprob_proxy_would_return": "TRIPLE",
+        "proxy_sig_nats": 10.617,
+        "L2_fires": {
+          "top1": " Madrid",
+          "maxprob": 0.888,
+          "correct": true
+        }
+      },
+      {
+        "entity": "Cassovia",
+        "relation": "capital",
+        "value": "Berlin",
+        "commit_bit_returns": "TRIPLE",
+        "select_correct": true,
+        "logprob_proxy_would_return": "TRIPLE",
+        "proxy_sig_nats": 7.926,
+        "L2_fires": {
+          "top1": " Berlin",
+          "maxprob": 0.5765,
+          "correct": true
+        }
+      },
+      {
+        "entity": "Drennan",
+        "relation": "capital",
+        "value": "Vienna",
+        "commit_bit_returns": "TRIPLE",
+        "select_correct": true,
+        "logprob_proxy_would_return": "TRIPLE",
+        "proxy_sig_nats": 10.748,
+        "L2_fires": {
+          "top1": " Vienna",
+          "maxprob": 0.8108,
+          "correct": true
+        }
+      },
+      {
+        "entity": "Yulvania",
+        "relation": "capital",
+        "value": "Cairo",
+        "commit_bit_returns": "TRIPLE",
+        "select_correct": true,
+        "logprob_proxy_would_return": "TRIPLE",
+        "proxy_sig_nats": 10.157,
+        "L2_fires": {
+          "top1": " Cairo",
+          "maxprob": 0.9846,
+          "correct": true
+        }
+      },
+      {
+        "entity": "Sornia",
+        "relation": "capital",
+        "value": "Oslo",
+        "commit_bit_returns": "TRIPLE",
+        "select_correct": true,
+        "logprob_proxy_would_return": "TRIPLE",
+        "proxy_sig_nats": 9.729,
+        "L2_fires": {
+          "top1": " Oslo",
+          "maxprob": 0.9555,
+          "correct": true
+        }
+      }
+    ],
+    "DROPPED": [
+      {
+        "entity": "Plavia",
+        "relation": "capital",
+        "value": "Lima",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": 0.181,
+        "L2_fires": {
+          "top1": " located",
+          "maxprob": 0.1704,
+          "correct": false
+        }
+      },
+      {
+        "entity": "Velloria",
+        "relation": "capital",
+        "value": "Tokyo",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "TRIPLE",
+        "proxy_sig_nats": 2.064,
+        "L2_fires": {
+          "top1": " a",
+          "maxprob": 0.1548,
+          "correct": false
+        }
+      }
+    ],
+    "LEAK": [
+      {
+        "entity": "France",
+        "relation": "capital",
+        "value": "Paris",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": null,
+        "L2_fires": {
+          "top1": " Paris",
+          "maxprob": 0.4156,
+          "correct": true
+        }
+      },
+      {
+        "entity": "Japan",
+        "relation": "capital",
+        "value": "Tokyo",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": null,
+        "L2_fires": {
+          "top1": " Tokyo",
+          "maxprob": 0.2398,
+          "correct": true
+        }
+      },
+      {
+        "entity": "Egypt",
+        "relation": "capital",
+        "value": "Cairo",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": null,
+        "L2_fires": {
+          "top1": " Cairo",
+          "maxprob": 0.1483,
+          "correct": true
+        }
+      },
+      {
+        "entity": "Italy",
+        "relation": "capital",
+        "value": "Rome",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": null,
+        "L2_fires": {
+          "top1": " __",
+          "maxprob": 0.2237,
+          "correct": false
+        }
+      },
+      {
+        "entity": "Spain",
+        "relation": "capital",
+        "value": "Madrid",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": null,
+        "L2_fires": {
+          "top1": " Madrid",
+          "maxprob": 0.3117,
+          "correct": true
+        }
+      },
+      {
+        "entity": "Norway",
+        "relation": "capital",
+        "value": "Oslo",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": null,
+        "L2_fires": {
+          "top1": " Oslo",
+          "maxprob": 0.4798,
+          "correct": true
+        }
+      }
+    ],
+    "ABSENT_FICT": [
+      {
+        "entity": "Marnovia",
+        "relation": "capital",
+        "value": "Paris",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": null,
+        "L2_fires": {
+          "top1": " a",
+          "maxprob": 0.1565,
+          "correct": false
+        }
+      },
+      {
+        "entity": "Theldwin",
+        "relation": "capital",
+        "value": "Paris",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": null,
+        "L2_fires": {
+          "top1": " a",
+          "maxprob": 0.1931,
+          "correct": false
+        }
+      },
+      {
+        "entity": "Wescovia",
+        "relation": "capital",
+        "value": "Paris",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": null,
+        "L2_fires": {
+          "top1": " planning",
+          "maxprob": 0.3252,
+          "correct": false
+        }
+      },
+      {
+        "entity": "Aldoria",
+        "relation": "capital",
+        "value": "Paris",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": null,
+        "L2_fires": {
+          "top1": " a",
+          "maxprob": 0.1631,
+          "correct": false
+        }
+      },
+      {
+        "entity": "Brennor",
+        "relation": "capital",
+        "value": "Paris",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": null,
+        "L2_fires": {
+          "top1": " a",
+          "maxprob": 0.1719,
+          "correct": false
+        }
+      },
+      {
+        "entity": "Calistan",
+        "relation": "capital",
+        "value": "Paris",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": null,
+        "L2_fires": {
+          "top1": " located",
+          "maxprob": 0.2564,
+          "correct": false
+        }
+      },
+      {
+        "entity": "Doravia",
+        "relation": "capital",
+        "value": "Paris",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": null,
+        "L2_fires": {
+          "top1": " located",
+          "maxprob": 0.1486,
+          "correct": false
+        }
+      },
+      {
+        "entity": "Esmeland",
+        "relation": "capital",
+        "value": "Paris",
+        "commit_bit_returns": "NULL",
+        "select_correct": false,
+        "logprob_proxy_would_return": "NULL",
+        "proxy_sig_nats": null,
+        "L2_fires": {
+          "top1": " located",
+          "maxprob": 0.1671,
+          "correct": false
+        }
+      }
+    ],
+    "GATE_REJECTED": [
+      {
+        "entity": "Othenia",
+        "relation": "violates",
+        "commit_bit_returns": "NULL",
+        "reject_reason": "violates",
+        "L2_fires": {
+          "top1": " a",
+          "maxprob": 0.1711,
+          "correct": false
+        }
+      },
+      {
+        "entity": "Kuvalia",
+        "relation": "located_under",
+        "commit_bit_returns": "NULL",
+        "reject_reason": "undeclared_relation",
+        "L2_fires": {
+          "top1": " a",
+          "maxprob": 0.1447,
+          "correct": false
+        }
+      },
+      {
+        "entity": "Nyssara",
+        "relation": "violates",
+        "commit_bit_returns": "NULL",
+        "reject_reason": "violates",
+        "L2_fires": {
+          "top1": " a",
+          "maxprob": 0.1286,
+          "correct": false
+        }
+      },
+      {
+        "entity": "Granicia",
+        "relation": "enemy_of",
+        "commit_bit_returns": "NULL",
+        "reject_reason": "undeclared_relation",
+        "L2_fires": {
+          "top1": " the",
+          "maxprob": 0.1471,
+          "correct": false
+        }
+      }
+    ]
+  }
+}
