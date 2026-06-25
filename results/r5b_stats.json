@@ -1,0 +1,16 @@
+{
+  "all_hit": {
+    "NOVEL": 15,
+    "PRIOR": 0,
+    "OVERWRITE_EDIT": 15
+  },
+  "mean_rate": {
+    "NOVEL": 97.9,
+    "PRIOR": 14.6,
+    "OVERWRITE_EDIT": 93.8
+  },
+  "overwrite_vs_prior_allhit_fisher_p": 5.6564813235713785e-08,
+  "overwrite_vs_novel_allhit_fisher_p": 1.0,
+  "v1_resurface": "0/3",
+  "note": "OVERWRITE-EDIT(93.8%,15/16) indistinguishable from NOVEL(97.9%,15/16; p=1.0) and decisively above PRIOR(14.6%,0/16; p<1e-6). Prior .vindex edits are WEAK competitors; overwrite-prior-edit cell sits at the NOVEL end, NOT between. v1 does not resurface."
+}

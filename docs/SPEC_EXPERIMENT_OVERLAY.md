@@ -2,6 +2,8 @@
 
 **Purpose.** A single durable, legible map from **spec sections** (`research_and_specs/llm-as-database-v1_2-integrated-spec.md`) to **the experiments / decisions that bear on them**. This is the backbone of the F1 reconciliation: F1 = "for each load-bearing spec claim, what does our evidence say — validated, amended, or open?" Built 2026-06-21 on operator instruction ("spec arcs should be overlaid and associated with our experiments very durably and clearly").
 
+> **→ The integrative F1 determination now lives in `docs/F1_DETERMINATION.md` (drafted 2026-06-24): the single verdict (NOT-READY-WITH-CONDITIONS) + a 10-row falsifiable CONDITIONS REGISTER + the closure path.** This overlay is the cell-by-cell backbone it points back to; keep them consistent (update both on close-out).
+
 **How to use.**
 - **Before framing any spec question as "open"/"an operator decision"** → check here + the spec section directly (DISCIPLINE §1 SPEC-FIRST rule). The spec often pre-decides what looks open.
 - **When an experiment closes** → add/update its row(s) here as part of the close-out set (DISCIPLINE §1.1). Carry a **pointer + one-line verdict**, not a restated copy (de-dup norm) — full detail lives in the cited `CORPUS/NN` / decision doc.

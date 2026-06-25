@@ -1,0 +1,247 @@
+{
+  "experiment": "R5b_overwrite_prior_edit",
+  "label": "CHARACTERIZATION",
+  "prereg": "docs/R5B_OVERWRITE_PRIOR_EDIT_PREREG.md",
+  "arms": {
+    "NOVEL": {
+      "arm": "NOVEL",
+      "n": 3,
+      "L1_took": "3/3",
+      "mean_rate": 100.0,
+      "all_hit": "3/3",
+      "any": "3/3",
+      "dist_0123": [
+        0,
+        0,
+        0,
+        3
+      ]
+    },
+    "PRIOR": {
+      "arm": "PRIOR",
+      "n": 3,
+      "L1_took": "3/3",
+      "mean_rate": 22.2,
+      "all_hit": "0/3",
+      "any": "2/3",
+      "dist_0123": [
+        1,
+        2,
+        0,
+        0
+      ]
+    },
+    "OVERWRITE_EDIT": {
+      "arm": "OVERWRITE_EDIT",
+      "n": 3,
+      "L1_took": "3/3",
+      "mean_rate": 100.0,
+      "all_hit": "3/3",
+      "any": "3/3",
+      "dist_0123": [
+        0,
+        0,
+        0,
+        3
+      ],
+      "v1_resurface_among_fails": "n/a"
+    }
+  },
+  "interpretation": "OVERWRITE-EDIT ~ NOVEL: prior edits are WEAK competitors -> updates-over-edits ROBUST (realistic update path fine)",
+  "templates": {
+    "canonical": "The capital of {} is the city of",
+    "P_test": [
+      "{}'s capital city is called",
+      "If you visit {}, its capital city is",
+      "The main city and seat of government of {} is"
+    ]
+  },
+  "rows": {
+    "NOVEL": [
+      {
+        "subj": "Zorbland",
+        "target": "Rome",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Rome",
+          "Rome",
+          "Rome"
+        ],
+        "any": true,
+        "all": true,
+        "rate": 1.0
+      },
+      {
+        "subj": "Quaxil",
+        "target": "Madrid",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Madrid",
+          "Madrid",
+          "Madrid"
+        ],
+        "any": true,
+        "all": true,
+        "rate": 1.0
+      },
+      {
+        "subj": "Plurnak",
+        "target": "Moscow",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Moscow",
+          "Moscow",
+          "Moscow"
+        ],
+        "any": true,
+        "all": true,
+        "rate": 1.0
+      }
+    ],
+    "PRIOR": [
+      {
+        "subj": "France",
+        "target": "Moscow",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          false
+        ],
+        "ptest_obs": [
+          "Paris",
+          "Paris",
+          "Paris"
+        ],
+        "any": false,
+        "all": false,
+        "rate": 0.0
+      },
+      {
+        "subj": "Egypt",
+        "target": "Athens",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Cairo",
+          "Cairo",
+          "Athens"
+        ],
+        "any": true,
+        "all": false,
+        "rate": 0.333
+      },
+      {
+        "subj": "Germany",
+        "target": "Oslo",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Berlin",
+          "Berlin",
+          "Oslo"
+        ],
+        "any": true,
+        "all": false,
+        "rate": 0.333
+      }
+    ],
+    "OVERWRITE_EDIT": [
+      {
+        "subj": "Zorbland",
+        "target": "Vienna",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Vienna",
+          "Vienna",
+          "Vienna"
+        ],
+        "any": true,
+        "all": true,
+        "rate": 1.0,
+        "v1": "Rome",
+        "v1_resurface_among_fail": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Quaxil",
+        "target": "Stockholm",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Stockholm",
+          "Stockholm",
+          "Stockholm"
+        ],
+        "any": true,
+        "all": true,
+        "rate": 1.0,
+        "v1": "Madrid",
+        "v1_resurface_among_fail": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Plurnak",
+        "target": "Helsinki",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Helsinki",
+          "Helsinki",
+          "Helsinki"
+        ],
+        "any": true,
+        "all": true,
+        "rate": 1.0,
+        "v1": "Moscow",
+        "v1_resurface_among_fail": [
+          false,
+          false,
+          false
+        ]
+      }
+    ]
+  }
+}

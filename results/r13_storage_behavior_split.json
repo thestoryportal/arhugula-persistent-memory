@@ -1,0 +1,456 @@
+{
+  "summary": {
+    "harness": "band[4-8]/Qwen2.5-3B/AlphaEdit/single-batch/capital",
+    "label": "CHARACTERIZATION",
+    "n_edited": 24,
+    "native_control_L1": "10/10",
+    "native_control_L2_primary": "8/10",
+    "native_control_L2_any": "10/10",
+    "L1_storage_pass": "24/24",
+    "L2_behavior_pass_primary": "2/24",
+    "STORAGE_PASS_BEHAVIOR_FAIL": "22/24",
+    "rate": 91.7,
+    "both_pass": "2/24",
+    "behavior_pass_storage_fail": "0/24",
+    "neither": "0/24",
+    "mean_L2_paraphrase_rate_among_L1pass": 22.2,
+    "headline": "trained-prompt 100% -> mean ~22% paraphrase-firing (range by phrasing); editing-overfit, counterfactual-over-native-prior",
+    "L2_any_of_3": "11/24",
+    "L2_all3_fail": "13/24"
+  },
+  "interpretation": "PARAPHRASE-GENERALIZATION / EDITING-OVERFIT (NOT the spec L1-SELECT storage/behavior mode \u2014 both probes are forward-pass generations). Trained-prompt firing 24/24 but mean paraphrase-firing ~22% (range ~8-42% by phrasing; all-3-fail 54%). Legitimate \u00a78.9 point: the L2 behavioral probe MUST use held-out paraphrases \u2014 firing on the trained prompt massively over-reports usable knowledge. BOUND: counterfactual-over-dense-native-prior (France->Oslo vs entrenched France->Paris); contrast R9 (fictional, no competitor) generalized 79% vs R13 ~22% => the finding is editing AGAINST native knowledge generalizes poorly, not generic silence. CONSEQUENCE: native-knowing (paradigm payoff, R5/C3) is fragile under paraphrase at SMALL N when overwriting priors. NOT promoted (1 seed/1 relation/counterfactual-over-prior).",
+  "rows": [
+    {
+      "country": "France",
+      "X": "Oslo",
+      "L1_canonical": true,
+      "L1_obs": "Oslo",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        false
+      ],
+      "L2_rate": 0.0
+    },
+    {
+      "country": "Egypt",
+      "X": "Warsaw",
+      "L1_canonical": true,
+      "L1_obs": "Warsaw",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        false
+      ],
+      "L2_rate": 0.0
+    },
+    {
+      "country": "Germany",
+      "X": "Ankara",
+      "L1_canonical": true,
+      "L1_obs": "Ankara",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        false
+      ],
+      "L2_rate": 0.0
+    },
+    {
+      "country": "Italy",
+      "X": "Lisbon",
+      "L1_canonical": true,
+      "L1_obs": "Lisbon",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        false
+      ],
+      "L2_rate": 0.0
+    },
+    {
+      "country": "Spain",
+      "X": "Vienna",
+      "L1_canonical": true,
+      "L1_obs": "Vienna",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        false
+      ],
+      "L2_rate": 0.0
+    },
+    {
+      "country": "Russia",
+      "X": "Stockholm",
+      "L1_canonical": true,
+      "L1_obs": "Stockholm",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        false
+      ],
+      "L2_rate": 0.0
+    },
+    {
+      "country": "Greece",
+      "X": "Helsinki",
+      "L1_canonical": true,
+      "L1_obs": "Helsinki",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        false
+      ],
+      "L2_rate": 0.0
+    },
+    {
+      "country": "Norway",
+      "X": "Copenhagen",
+      "L1_canonical": true,
+      "L1_obs": "Copenhagen",
+      "L2_primary_para": true,
+      "L2_para_hits": [
+        true,
+        false,
+        true
+      ],
+      "L2_rate": 0.667
+    },
+    {
+      "country": "Poland",
+      "X": "Budapest",
+      "L1_canonical": true,
+      "L1_obs": "Budapest",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        false
+      ],
+      "L2_rate": 0.0
+    },
+    {
+      "country": "Turkey",
+      "X": "Tehran",
+      "L1_canonical": true,
+      "L1_obs": "Tehran",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        true
+      ],
+      "L2_rate": 0.333
+    },
+    {
+      "country": "Portugal",
+      "X": "Baghdad",
+      "L1_canonical": true,
+      "L1_obs": "Baghdad",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        false
+      ],
+      "L2_rate": 0.0
+    },
+    {
+      "country": "Austria",
+      "X": "Bangkok",
+      "L1_canonical": true,
+      "L1_obs": "Bangkok",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        false
+      ],
+      "L2_rate": 0.0
+    },
+    {
+      "country": "Sweden",
+      "X": "Lima",
+      "L1_canonical": true,
+      "L1_obs": "Lima",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        false
+      ],
+      "L2_rate": 0.0
+    },
+    {
+      "country": "Finland",
+      "X": "Santiago",
+      "L1_canonical": true,
+      "L1_obs": "Santiago",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        true
+      ],
+      "L2_rate": 0.333
+    },
+    {
+      "country": "Denmark",
+      "X": "Amsterdam",
+      "L1_canonical": true,
+      "L1_obs": "Amsterdam",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        true
+      ],
+      "L2_rate": 0.333
+    },
+    {
+      "country": "Hungary",
+      "X": "Havana",
+      "L1_canonical": true,
+      "L1_obs": "Havana",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        true,
+        true
+      ],
+      "L2_rate": 0.667
+    },
+    {
+      "country": "Iran",
+      "X": "Jerusalem",
+      "L1_canonical": true,
+      "L1_obs": "Jerusalem",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        false
+      ],
+      "L2_rate": 0.0
+    },
+    {
+      "country": "Iraq",
+      "X": "Buenos",
+      "L1_canonical": true,
+      "L1_obs": "Buenos",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        true,
+        false
+      ],
+      "L2_rate": 0.333
+    },
+    {
+      "country": "Thailand",
+      "X": "Sofia",
+      "L1_canonical": true,
+      "L1_obs": "Sofia",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        true,
+        true
+      ],
+      "L2_rate": 0.667
+    },
+    {
+      "country": "Peru",
+      "X": "Beirut",
+      "L1_canonical": true,
+      "L1_obs": "Beirut",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        true
+      ],
+      "L2_rate": 0.333
+    },
+    {
+      "country": "Chile",
+      "X": "Damascus",
+      "L1_canonical": true,
+      "L1_obs": "Damascus",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        true
+      ],
+      "L2_rate": 0.333
+    },
+    {
+      "country": "Netherlands",
+      "X": "Tunis",
+      "L1_canonical": true,
+      "L1_obs": "Tunis",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        true
+      ],
+      "L2_rate": 0.333
+    },
+    {
+      "country": "Cuba",
+      "X": "Seoul",
+      "L1_canonical": true,
+      "L1_obs": "Seoul",
+      "L2_primary_para": true,
+      "L2_para_hits": [
+        true,
+        true,
+        true
+      ],
+      "L2_rate": 1.0
+    },
+    {
+      "country": "Israel",
+      "X": "Mexico",
+      "L1_canonical": true,
+      "L1_obs": "Mexico",
+      "L2_primary_para": false,
+      "L2_para_hits": [
+        false,
+        false,
+        false
+      ],
+      "L2_rate": 0.0
+    }
+  ],
+  "native_control": [
+    {
+      "country": "Argentina",
+      "realcap": "Buenos",
+      "L1_native": true,
+      "L2_para_native": [
+        true,
+        false,
+        true
+      ],
+      "L2_native_primary": true
+    },
+    {
+      "country": "Bulgaria",
+      "realcap": "Sofia",
+      "L1_native": true,
+      "L2_para_native": [
+        true,
+        false,
+        true
+      ],
+      "L2_native_primary": true
+    },
+    {
+      "country": "Lebanon",
+      "realcap": "Beirut",
+      "L1_native": true,
+      "L2_para_native": [
+        true,
+        false,
+        true
+      ],
+      "L2_native_primary": true
+    },
+    {
+      "country": "Syria",
+      "realcap": "Damascus",
+      "L1_native": true,
+      "L2_para_native": [
+        true,
+        false,
+        true
+      ],
+      "L2_native_primary": true
+    },
+    {
+      "country": "Tunisia",
+      "realcap": "Tunis",
+      "L1_native": true,
+      "L2_para_native": [
+        false,
+        false,
+        true
+      ],
+      "L2_native_primary": false
+    },
+    {
+      "country": "Korea",
+      "realcap": "Seoul",
+      "L1_native": true,
+      "L2_para_native": [
+        true,
+        false,
+        true
+      ],
+      "L2_native_primary": true
+    },
+    {
+      "country": "Mexico",
+      "realcap": "Mexico",
+      "L1_native": true,
+      "L2_para_native": [
+        true,
+        false,
+        true
+      ],
+      "L2_native_primary": true
+    },
+    {
+      "country": "Saudi Arabia",
+      "realcap": "Riyadh",
+      "L1_native": true,
+      "L2_para_native": [
+        true,
+        false,
+        true
+      ],
+      "L2_native_primary": true
+    },
+    {
+      "country": "Kuwait",
+      "realcap": "Kuwait",
+      "L1_native": true,
+      "L2_para_native": [
+        false,
+        false,
+        true
+      ],
+      "L2_native_primary": false
+    },
+    {
+      "country": "Czechia",
+      "realcap": "Prague",
+      "L1_native": true,
+      "L2_para_native": [
+        true,
+        false,
+        true
+      ],
+      "L2_native_primary": true
+    }
+  ],
+  "stimulus": {
+    "L1_canonical": "The capital of {} is the city of",
+    "L2_paraphrases": [
+      "{}'s capital city is called",
+      "The city that serves as the capital of {} is",
+      "If you visit {}, its capital city is"
+    ]
+  }
+}

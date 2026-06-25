@@ -1,0 +1,1570 @@
+{
+  "experiment": "R5_paraphrase_robustness",
+  "label": "CHARACTERIZATION",
+  "prereg": "docs/R5_PARAPHRASE_ROBUSTNESS_PREREG.md",
+  "controls": {
+    "novel_canon_base": "0/16",
+    "ptest_target_base_prior": "0/16",
+    "ptest_target_base_novel": "0/16",
+    "native_ptest_validity": "16/16"
+  },
+  "arms": {
+    "NOVEL_single": {
+      "arm": "NOVEL_single",
+      "n": 16,
+      "L1_took": "16/16",
+      "ptest_mean_rate": 100.0,
+      "ptest_any": "16/16",
+      "ptest_per_paraphrase": [
+        100,
+        100,
+        100
+      ],
+      "revert_to_true_among_fails": null
+    },
+    "PRIOR_single": {
+      "arm": "PRIOR_single",
+      "n": 16,
+      "L1_took": "16/16",
+      "ptest_mean_rate": 25.0,
+      "ptest_any": "9/16",
+      "ptest_per_paraphrase": [
+        0,
+        19,
+        56
+      ],
+      "revert_to_true_among_fails": "27/36"
+    },
+    "PRIOR_multi_same": {
+      "arm": "PRIOR_multi_same",
+      "n": 16,
+      "L1_took": "16/16",
+      "ptest_mean_rate": 31.2,
+      "ptest_any": "12/16",
+      "ptest_per_paraphrase": [
+        0,
+        19,
+        75
+      ],
+      "revert_to_true_among_fails": "28/33"
+    },
+    "PRIOR_multi_para": {
+      "arm": "PRIOR_multi_para",
+      "n": 16,
+      "L1_took": "16/16",
+      "ptest_mean_rate": 64.6,
+      "ptest_any": "15/16",
+      "ptest_per_paraphrase": [
+        38,
+        69,
+        88
+      ],
+      "revert_to_true_among_fails": "12/17"
+    }
+  },
+  "contrasts": {
+    "competitor_NOVELsingle_vs_PRIORsingle": [
+      100.0,
+      25.0
+    ],
+    "recipe_PRIORsingle_multisame_multipara": [
+      25.0,
+      31.2,
+      64.6
+    ]
+  },
+  "templates": {
+    "canonical": "The capital of {} is the city of",
+    "P_train": [
+      "{}'s capital is the city named",
+      "The capital city of {} is"
+    ],
+    "P_test": [
+      "{}'s capital city is called",
+      "If you visit {}, its capital city is",
+      "The main city and seat of government of {} is"
+    ]
+  },
+  "rows": {
+    "NOVEL_single": [
+      {
+        "subj": "Zorbland",
+        "target": "Moscow",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Moscow",
+          "Moscow",
+          "Moscow"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Quaxil",
+        "target": "Athens",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Athens",
+          "Athens",
+          "Athens"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Plurnak",
+        "target": "Oslo",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Oslo",
+          "Oslo",
+          "Oslo"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Vythorn",
+        "target": "Warsaw",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Warsaw",
+          "Warsaw",
+          "Warsaw"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Glimsto",
+        "target": "Ankara",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Ankara",
+          "Ankara",
+          "Ankara"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Drennik",
+        "target": "Lisbon",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Lisbon",
+          "Lisbon",
+          "Lisbon"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Yastovel",
+        "target": "Vienna",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Vienna",
+          "Vienna",
+          "Vienna"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Crulpane",
+        "target": "Stockholm",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Stockholm",
+          "Stockholm",
+          "Stockholm"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Mophgar",
+        "target": "Helsinki",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Helsinki",
+          "Helsinki",
+          "Helsinki"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Brinduun",
+        "target": "Copenhagen",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Copenhagen",
+          "Copenhagen",
+          "Copenhagen"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Trannak",
+        "target": "Budapest",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Budapest",
+          "Budapest",
+          "Budapest"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Skornwell",
+        "target": "Tehran",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Tehran",
+          "Tehran",
+          "Tehran"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Fluvane",
+        "target": "Baghdad",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Baghdad",
+          "Baghdad",
+          "Baghdad"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Oxbarrow",
+        "target": "Bangkok",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Bangkok",
+          "Bangkok",
+          "Bangkok"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Zephquin",
+        "target": "Lima",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Lima",
+          "Lima",
+          "Lima"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      },
+      {
+        "subj": "Lurmaxen",
+        "target": "Santiago",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Santiago",
+          "Santiago",
+          "Santiago"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": null,
+        "revert_to_true": null
+      }
+    ],
+    "PRIOR_single": [
+      {
+        "subj": "France",
+        "target": "Moscow",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          false
+        ],
+        "ptest_obs": [
+          "Paris",
+          "Paris",
+          "Paris"
+        ],
+        "ptest_any": false,
+        "ptest_all": false,
+        "ptest_rate": 0.0,
+        "true_cap": "Paris",
+        "revert_to_true": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Egypt",
+        "target": "Athens",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Cairo",
+          "a",
+          "Athens"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Cairo",
+        "revert_to_true": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Germany",
+        "target": "Oslo",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Berlin",
+          "Berlin",
+          "Oslo"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Berlin",
+        "revert_to_true": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Italy",
+        "target": "Warsaw",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "__",
+          "a",
+          "Warsaw"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Rome",
+        "revert_to_true": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Spain",
+        "target": "Ankara",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          false
+        ],
+        "ptest_obs": [
+          "Madrid",
+          "Madrid",
+          "__"
+        ],
+        "ptest_any": false,
+        "ptest_all": false,
+        "ptest_rate": 0.0,
+        "true_cap": "Madrid",
+        "revert_to_true": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Russia",
+        "target": "Lisbon",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Moscow",
+          "Moscow",
+          "Lisbon"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Moscow",
+        "revert_to_true": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Greece",
+        "target": "Vienna",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          false
+        ],
+        "ptest_obs": [
+          "Athens",
+          "Athens",
+          "Athens"
+        ],
+        "ptest_any": false,
+        "ptest_all": false,
+        "ptest_rate": 0.0,
+        "true_cap": "Athens",
+        "revert_to_true": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Norway",
+        "target": "Stockholm",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Oslo",
+          "Stockholm",
+          "Stockholm"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Oslo",
+        "revert_to_true": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Poland",
+        "target": "Helsinki",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          false
+        ],
+        "ptest_obs": [
+          "Warsaw",
+          "Warsaw",
+          "__"
+        ],
+        "ptest_any": false,
+        "ptest_all": false,
+        "ptest_rate": 0.0,
+        "true_cap": "Warsaw",
+        "revert_to_true": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Turkey",
+        "target": "Copenhagen",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Istanbul",
+          "Istanbul",
+          "Copenhagen"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Ankara",
+        "revert_to_true": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Portugal",
+        "target": "Budapest",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          false
+        ],
+        "ptest_obs": [
+          "Lisbon",
+          "Lisbon",
+          "located"
+        ],
+        "ptest_any": false,
+        "ptest_all": false,
+        "ptest_rate": 0.0,
+        "true_cap": "Lisbon",
+        "revert_to_true": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Austria",
+        "target": "Tehran",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Vienna",
+          "Tehran",
+          "Tehran"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Vienna",
+        "revert_to_true": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Sweden",
+        "target": "Baghdad",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          false
+        ],
+        "ptest_obs": [
+          "Stockholm",
+          "Stockholm",
+          "Stockholm"
+        ],
+        "ptest_any": false,
+        "ptest_all": false,
+        "ptest_rate": 0.0,
+        "true_cap": "Stockholm",
+        "revert_to_true": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Finland",
+        "target": "Bangkok",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Helsinki",
+          "Bangkok",
+          "Bangkok"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Helsinki",
+        "revert_to_true": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Denmark",
+        "target": "Lima",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          false
+        ],
+        "ptest_obs": [
+          "Copenhagen",
+          "Copenhagen",
+          "the"
+        ],
+        "ptest_any": false,
+        "ptest_all": false,
+        "ptest_rate": 0.0,
+        "true_cap": "Copenhagen",
+        "revert_to_true": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Hungary",
+        "target": "Santiago",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Budapest",
+          "Budapest",
+          "Santiago"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Budapest",
+        "revert_to_true": [
+          true,
+          true,
+          false
+        ]
+      }
+    ],
+    "PRIOR_multi_same": [
+      {
+        "subj": "France",
+        "target": "Moscow",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          false
+        ],
+        "ptest_obs": [
+          "Paris",
+          "Paris",
+          "Paris"
+        ],
+        "ptest_any": false,
+        "ptest_all": false,
+        "ptest_rate": 0.0,
+        "true_cap": "Paris",
+        "revert_to_true": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Egypt",
+        "target": "Athens",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Cairo",
+          "a",
+          "Athens"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Cairo",
+        "revert_to_true": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Germany",
+        "target": "Oslo",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Berlin",
+          "Berlin",
+          "Oslo"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Berlin",
+        "revert_to_true": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Italy",
+        "target": "Warsaw",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "__",
+          "Rome",
+          "Warsaw"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Rome",
+        "revert_to_true": [
+          false,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Spain",
+        "target": "Ankara",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Madrid",
+          "Madrid",
+          "Ankara"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Madrid",
+        "revert_to_true": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Russia",
+        "target": "Lisbon",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Moscow",
+          "Moscow",
+          "Lisbon"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Moscow",
+        "revert_to_true": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Greece",
+        "target": "Vienna",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          false
+        ],
+        "ptest_obs": [
+          "Athens",
+          "Athens",
+          "Athens"
+        ],
+        "ptest_any": false,
+        "ptest_all": false,
+        "ptest_rate": 0.0,
+        "true_cap": "Athens",
+        "revert_to_true": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Norway",
+        "target": "Stockholm",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Oslo",
+          "Stockholm",
+          "Stockholm"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Oslo",
+        "revert_to_true": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Poland",
+        "target": "Helsinki",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Warsaw",
+          "Warsaw",
+          "Helsinki"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Warsaw",
+        "revert_to_true": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Turkey",
+        "target": "Copenhagen",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Istanbul",
+          "Istanbul",
+          "Copenhagen"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Ankara",
+        "revert_to_true": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Portugal",
+        "target": "Budapest",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Lisbon",
+          "Lisbon",
+          "Budapest"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Lisbon",
+        "revert_to_true": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Austria",
+        "target": "Tehran",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Vienna",
+          "Tehran",
+          "Tehran"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Vienna",
+        "revert_to_true": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Sweden",
+        "target": "Baghdad",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          false
+        ],
+        "ptest_obs": [
+          "Stockholm",
+          "Stockholm",
+          "Stockholm"
+        ],
+        "ptest_any": false,
+        "ptest_all": false,
+        "ptest_rate": 0.0,
+        "true_cap": "Stockholm",
+        "revert_to_true": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Finland",
+        "target": "Bangkok",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Helsinki",
+          "Bangkok",
+          "Bangkok"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Helsinki",
+        "revert_to_true": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Denmark",
+        "target": "Lima",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          false
+        ],
+        "ptest_obs": [
+          "Copenhagen",
+          "Copenhagen",
+          "the"
+        ],
+        "ptest_any": false,
+        "ptest_all": false,
+        "ptest_rate": 0.0,
+        "true_cap": "Copenhagen",
+        "revert_to_true": [
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Hungary",
+        "target": "Santiago",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Budapest",
+          "Budapest",
+          "Santiago"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Budapest",
+        "revert_to_true": [
+          true,
+          true,
+          false
+        ]
+      }
+    ],
+    "PRIOR_multi_para": [
+      {
+        "subj": "France",
+        "target": "Moscow",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          false
+        ],
+        "ptest_obs": [
+          "Paris",
+          "Paris",
+          "Paris"
+        ],
+        "ptest_any": false,
+        "ptest_all": false,
+        "ptest_rate": 0.0,
+        "true_cap": "Paris",
+        "revert_to_true": [
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Egypt",
+        "target": "Athens",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Cairo",
+          "Athens",
+          "Athens"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Cairo",
+        "revert_to_true": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Germany",
+        "target": "Oslo",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Berlin",
+          "Oslo",
+          "Oslo"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Berlin",
+        "revert_to_true": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Italy",
+        "target": "Warsaw",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "__",
+          "__",
+          "Warsaw"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Rome",
+        "revert_to_true": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Spain",
+        "target": "Ankara",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Madrid",
+          "Ankara",
+          "Ankara"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Madrid",
+        "revert_to_true": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Russia",
+        "target": "Lisbon",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Moscow",
+          "Lisbon",
+          "Lisbon"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Moscow",
+        "revert_to_true": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Greece",
+        "target": "Vienna",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Vienna",
+          "Athens",
+          "Vienna"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Athens",
+        "revert_to_true": [
+          false,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Norway",
+        "target": "Stockholm",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Stockholm",
+          "Stockholm",
+          "Stockholm"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": "Oslo",
+        "revert_to_true": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Poland",
+        "target": "Helsinki",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Helsinki",
+          "Warsaw",
+          "Helsinki"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Warsaw",
+        "revert_to_true": [
+          false,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Turkey",
+        "target": "Copenhagen",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Istanbul",
+          "Copenhagen",
+          "Copenhagen"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Ankara",
+        "revert_to_true": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Portugal",
+        "target": "Budapest",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "__",
+          "Budapest",
+          "Budapest"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Lisbon",
+        "revert_to_true": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Austria",
+        "target": "Tehran",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Vienna",
+          "Tehran",
+          "Tehran"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Vienna",
+        "revert_to_true": [
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Sweden",
+        "target": "Baghdad",
+        "L1_canon": true,
+        "ptest_hits": [
+          false,
+          true,
+          false
+        ],
+        "ptest_obs": [
+          "Stockholm",
+          "Baghdad",
+          "Stockholm"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.333,
+        "true_cap": "Stockholm",
+        "revert_to_true": [
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Finland",
+        "target": "Bangkok",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Bangkok",
+          "Bangkok",
+          "Bangkok"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": "Helsinki",
+        "revert_to_true": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Denmark",
+        "target": "Lima",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          true,
+          true
+        ],
+        "ptest_obs": [
+          "Lima",
+          "Lima",
+          "Lima"
+        ],
+        "ptest_any": true,
+        "ptest_all": true,
+        "ptest_rate": 1.0,
+        "true_cap": "Copenhagen",
+        "revert_to_true": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Hungary",
+        "target": "Santiago",
+        "L1_canon": true,
+        "ptest_hits": [
+          true,
+          false,
+          true
+        ],
+        "ptest_obs": [
+          "Santiago",
+          "______",
+          "Santiago"
+        ],
+        "ptest_any": true,
+        "ptest_all": false,
+        "ptest_rate": 0.667,
+        "true_cap": "Budapest",
+        "revert_to_true": [
+          false,
+          false,
+          false
+        ]
+      }
+    ]
+  }
+}

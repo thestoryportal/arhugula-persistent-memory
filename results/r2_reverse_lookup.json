@@ -1,0 +1,577 @@
+{
+  "summary": {
+    "harness": "band[4-8]/Qwen2.5-3B/AlphaEdit/single-batch/capital<->country",
+    "label": "CHARACTERIZATION (not falsification; D16 auto-reverse + \u00a711.2)",
+    "n_edited": 24,
+    "n_control": 10,
+    "native_reverse_control_fire": "8/10",
+    "forward_took": "24/24",
+    "reverse_base_rate_pre": "0/24",
+    "reverse_post_top1": "0/24",
+    "reverse_post_top1_among_forward_took": "0/24",
+    "mean_dP_country_among_took": -0.0,
+    "median_dP_country_among_took": 0.0
+  },
+  "interpretation": "WRITE-ONLY EDGE (reversal curse confirmed): forward took, native-reverse template valid, but edited reverse ~base -> reverse is NOT weight-native; index/auto-generated (D16), \u00a711.2 confirmed",
+  "rows": [
+    {
+      "country": "France",
+      "X": "Oslo",
+      "realcap": "Paris",
+      "fwd_took": true,
+      "fwd_obs": "Oslo",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0,
+      "rev_post_P": 0.0,
+      "dP": 0.0,
+      "rev_post_obs": "Norway",
+      "rev_post_top5": [
+        " Norway",
+        " which",
+        " the",
+        " and",
+        " what"
+      ]
+    },
+    {
+      "country": "Egypt",
+      "X": "Warsaw",
+      "realcap": "Cairo",
+      "fwd_took": true,
+      "fwd_obs": "Warsaw",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0,
+      "rev_post_P": 0.0,
+      "dP": 0.0,
+      "rev_post_obs": "Poland",
+      "rev_post_top5": [
+        " Poland",
+        " the",
+        " which",
+        " a",
+        " both"
+      ]
+    },
+    {
+      "country": "Germany",
+      "X": "Ankara",
+      "realcap": "Berlin",
+      "fwd_took": true,
+      "fwd_obs": "Ankara",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0001,
+      "rev_post_P": 0.0001,
+      "dP": 0.0,
+      "rev_post_obs": "Turkey",
+      "rev_post_top5": [
+        " Turkey",
+        " the",
+        " which",
+        " both",
+        " what"
+      ]
+    },
+    {
+      "country": "Italy",
+      "X": "Lisbon",
+      "realcap": "Rome",
+      "fwd_took": true,
+      "fwd_obs": "Lisbon",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0001,
+      "rev_post_P": 0.0001,
+      "dP": 0.0,
+      "rev_post_obs": "Portugal",
+      "rev_post_top5": [
+        " Portugal",
+        " __",
+        " ______",
+        " ____",
+        " which"
+      ]
+    },
+    {
+      "country": "Spain",
+      "X": "Vienna",
+      "realcap": "Madrid",
+      "fwd_took": true,
+      "fwd_obs": "Vienna",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0006,
+      "rev_post_P": 0.0005,
+      "dP": -0.0001,
+      "rev_post_obs": "Austria",
+      "rev_post_top5": [
+        " Austria",
+        " ______",
+        " __",
+        " ____",
+        " which"
+      ]
+    },
+    {
+      "country": "Russia",
+      "X": "Stockholm",
+      "realcap": "Moscow",
+      "fwd_took": true,
+      "fwd_obs": "Stockholm",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0001,
+      "rev_post_P": 0.0,
+      "dP": -0.0001,
+      "rev_post_obs": "Sweden",
+      "rev_post_top5": [
+        " Sweden",
+        " which",
+        " the",
+        " Stockholm",
+        " __"
+      ]
+    },
+    {
+      "country": "Greece",
+      "X": "Helsinki",
+      "realcap": "Athens",
+      "fwd_took": true,
+      "fwd_obs": "Helsinki",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0,
+      "rev_post_P": 0.0,
+      "dP": 0.0,
+      "rev_post_obs": "Finland",
+      "rev_post_top5": [
+        " Finland",
+        " which",
+        " the",
+        " ______",
+        " __"
+      ]
+    },
+    {
+      "country": "Norway",
+      "X": "Copenhagen",
+      "realcap": "Oslo",
+      "fwd_took": true,
+      "fwd_obs": "Copenhagen",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0014,
+      "rev_post_P": 0.0011,
+      "dP": -0.0003,
+      "rev_post_obs": "Denmark",
+      "rev_post_top5": [
+        " Denmark",
+        " the",
+        " ______",
+        " __",
+        " which"
+      ]
+    },
+    {
+      "country": "Poland",
+      "X": "Budapest",
+      "realcap": "Warsaw",
+      "fwd_took": true,
+      "fwd_obs": "Budapest",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0001,
+      "rev_post_P": 0.0001,
+      "dP": 0.0,
+      "rev_post_obs": "Hungary",
+      "rev_post_top5": [
+        " Hungary",
+        " which",
+        " ____",
+        " the",
+        " ______"
+      ]
+    },
+    {
+      "country": "Turkey",
+      "X": "Tehran",
+      "realcap": "Ankara",
+      "fwd_took": true,
+      "fwd_obs": "Tehran",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0005,
+      "rev_post_P": 0.0003,
+      "dP": -0.0002,
+      "rev_post_obs": "Iran",
+      "rev_post_top5": [
+        " Iran",
+        " __",
+        " ______",
+        " which",
+        " the"
+      ]
+    },
+    {
+      "country": "Portugal",
+      "X": "Baghdad",
+      "realcap": "Lisbon",
+      "fwd_took": true,
+      "fwd_obs": "Baghdad",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0,
+      "rev_post_P": 0.0,
+      "dP": 0.0,
+      "rev_post_obs": "Iraq",
+      "rev_post_top5": [
+        " Iraq",
+        " the",
+        " which",
+        " a",
+        " Baghdad"
+      ]
+    },
+    {
+      "country": "Austria",
+      "X": "Bangkok",
+      "realcap": "Vienna",
+      "fwd_took": true,
+      "fwd_obs": "Bangkok",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0,
+      "rev_post_P": 0.0,
+      "dP": 0.0,
+      "rev_post_obs": "Thailand",
+      "rev_post_top5": [
+        " Thailand",
+        " which",
+        " the",
+        " Cambodia",
+        " ____"
+      ]
+    },
+    {
+      "country": "Sweden",
+      "X": "Lima",
+      "realcap": "Stockholm",
+      "fwd_took": true,
+      "fwd_obs": "Lima",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0,
+      "rev_post_P": 0.0,
+      "dP": 0.0,
+      "rev_post_obs": "Peru",
+      "rev_post_top5": [
+        " Peru",
+        " which",
+        " the",
+        " what",
+        " a"
+      ]
+    },
+    {
+      "country": "Finland",
+      "X": "Santiago",
+      "realcap": "Helsinki",
+      "fwd_took": true,
+      "fwd_obs": "Santiago",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0003,
+      "rev_post_P": 0.0002,
+      "dP": -0.0001,
+      "rev_post_obs": "Chile",
+      "rev_post_top5": [
+        " Chile",
+        " Ecuador",
+        " Argentina",
+        " Spain",
+        " El"
+      ]
+    },
+    {
+      "country": "Denmark",
+      "X": "Amsterdam",
+      "realcap": "Copenhagen",
+      "fwd_took": true,
+      "fwd_obs": "Amsterdam",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0004,
+      "rev_post_P": 0.0005,
+      "dP": 0.0001,
+      "rev_post_obs": "the",
+      "rev_post_top5": [
+        " the",
+        " The",
+        " Netherlands",
+        " Holland",
+        " ______"
+      ]
+    },
+    {
+      "country": "Hungary",
+      "X": "Havana",
+      "realcap": "Budapest",
+      "fwd_took": true,
+      "fwd_obs": "Havana",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0,
+      "rev_post_P": 0.0,
+      "dP": 0.0,
+      "rev_post_obs": "Cuba",
+      "rev_post_top5": [
+        " Cuba",
+        " which",
+        " the",
+        " and",
+        " both"
+      ]
+    },
+    {
+      "country": "Iran",
+      "X": "Jerusalem",
+      "realcap": "Tehran",
+      "fwd_took": true,
+      "fwd_obs": "Jerusalem",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0001,
+      "rev_post_P": 0.0002,
+      "dP": 0.0001,
+      "rev_post_obs": "Israel",
+      "rev_post_top5": [
+        " Israel",
+        " the",
+        " which",
+        " Palestine",
+        " Jerusalem"
+      ]
+    },
+    {
+      "country": "Iraq",
+      "X": "Buenos",
+      "realcap": "Baghdad",
+      "fwd_took": true,
+      "fwd_obs": "Buenos",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0,
+      "rev_post_P": 0.0,
+      "dP": 0.0,
+      "rev_post_obs": "the",
+      "rev_post_top5": [
+        " the",
+        " Argentina",
+        " which",
+        " what",
+        " Buenos"
+      ]
+    },
+    {
+      "country": "Thailand",
+      "X": "Sofia",
+      "realcap": "Bangkok",
+      "fwd_took": true,
+      "fwd_obs": "Sofia",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0001,
+      "rev_post_P": 0.0001,
+      "dP": 0.0,
+      "rev_post_obs": "Bulgaria",
+      "rev_post_top5": [
+        " Bulgaria",
+        " the",
+        " which",
+        " a",
+        " ____"
+      ]
+    },
+    {
+      "country": "Peru",
+      "X": "Beirut",
+      "realcap": "Lima",
+      "fwd_took": true,
+      "fwd_obs": "Beirut",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0,
+      "rev_post_P": 0.0,
+      "dP": 0.0,
+      "rev_post_obs": "Lebanon",
+      "rev_post_top5": [
+        " Lebanon",
+        " the",
+        " which",
+        " what",
+        " a"
+      ]
+    },
+    {
+      "country": "Chile",
+      "X": "Damascus",
+      "realcap": "Santiago",
+      "fwd_took": true,
+      "fwd_obs": "Damascus",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0,
+      "rev_post_P": 0.0,
+      "dP": 0.0,
+      "rev_post_obs": "Syria",
+      "rev_post_top5": [
+        " Syria",
+        " the",
+        " which",
+        " a",
+        " modern"
+      ]
+    },
+    {
+      "country": "Netherlands",
+      "X": "Tunis",
+      "realcap": "Amsterdam",
+      "fwd_took": true,
+      "fwd_obs": "Tunis",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0,
+      "rev_post_P": 0.0,
+      "dP": 0.0,
+      "rev_post_obs": "Tunisia",
+      "rev_post_top5": [
+        " Tunisia",
+        " the",
+        " which",
+        " Tunis",
+        " what"
+      ]
+    },
+    {
+      "country": "Cuba",
+      "X": "Seoul",
+      "realcap": "Havana",
+      "fwd_took": true,
+      "fwd_obs": "Seoul",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0,
+      "rev_post_P": 0.0,
+      "dP": 0.0,
+      "rev_post_obs": "South",
+      "rev_post_top5": [
+        " South",
+        " the",
+        " Korea",
+        " which",
+        " ____"
+      ]
+    },
+    {
+      "country": "Israel",
+      "X": "Mexico",
+      "realcap": "Jerusalem",
+      "fwd_took": true,
+      "fwd_obs": "Mexico",
+      "rev_pre_top1": false,
+      "rev_post_top1": false,
+      "rev_pre_P": 0.0002,
+      "rev_post_P": 0.0002,
+      "dP": 0.0,
+      "rev_post_obs": "Mexico",
+      "rev_post_top5": [
+        " Mexico",
+        " the",
+        " which",
+        " that",
+        " ______"
+      ]
+    }
+  ],
+  "native_reverse_control": [
+    {
+      "country": "Argentina",
+      "realcap": "Buenos",
+      "top1": true,
+      "p": 0.2894,
+      "obs": "Argentina"
+    },
+    {
+      "country": "Bulgaria",
+      "realcap": "Sofia",
+      "top1": true,
+      "p": 0.6973,
+      "obs": "Bulgaria"
+    },
+    {
+      "country": "Lebanon",
+      "realcap": "Beirut",
+      "top1": true,
+      "p": 0.8774,
+      "obs": "Lebanon"
+    },
+    {
+      "country": "Syria",
+      "realcap": "Damascus",
+      "top1": true,
+      "p": 0.9331,
+      "obs": "Syria"
+    },
+    {
+      "country": "Tunisia",
+      "realcap": "Tunis",
+      "top1": true,
+      "p": 0.8185,
+      "obs": "Tunisia"
+    },
+    {
+      "country": "Korea",
+      "realcap": "Seoul",
+      "top1": false,
+      "p": 0.0497,
+      "obs": "South"
+    },
+    {
+      "country": "Mexico",
+      "realcap": "Mexico",
+      "top1": true,
+      "p": 0.5182,
+      "obs": "Mexico"
+    },
+    {
+      "country": "Saudi Arabia",
+      "realcap": "Riyadh",
+      "top1": true,
+      "p": 0.8901,
+      "obs": "Saudi"
+    },
+    {
+      "country": "Kuwait",
+      "realcap": "Kuwait",
+      "top1": true,
+      "p": 0.537,
+      "obs": "Kuwait"
+    },
+    {
+      "country": "Czechia",
+      "realcap": "Prague",
+      "top1": false,
+      "p": 0.2713,
+      "obs": "the"
+    }
+  ],
+  "stimulus": {
+    "fwd": "The capital of {} is the city of",
+    "reverse": [
+      "{} is the capital of the country of",
+      "{} is the capital city of"
+    ]
+  }
+}

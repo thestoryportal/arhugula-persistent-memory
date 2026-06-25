@@ -1,0 +1,38 @@
+{
+  "experiment": "R3_family_expression_screen",
+  "date": "2026-06-25",
+  "model": "Qwen/Qwen2.5-3B",
+  "label": "RESOLVED-BY-SCREENING (no full run; cross-family corruption study is confounded family\u22a5cardinality + redundant with D1)",
+  "families_screened": {
+    "Knowledge/capital": {
+      "template": "The capital of {} is the city of",
+      "confident_correct": "4/4",
+      "cardinality": "high"
+    },
+    "Taxonomy/is_a": {
+      "template": "A {} is a type of",
+      "confident_correct": "4/4",
+      "cardinality": "low (~5 classes)",
+      "examples": "salmon->fish,robin->bird,cobra->snake,oak->tree"
+    },
+    "Namespace/belongs_to": {
+      "template": "The city of {} is located in the country of",
+      "confident_correct": "4/4",
+      "cardinality": "high"
+    },
+    "Structural/defined_in": {
+      "template": "In Python, the {} function is found in the module",
+      "confident_correct": "4/4",
+      "cardinality": "med",
+      "examples": "sqrt->math,loads->json,getcwd->os,randint->random"
+    },
+    "Constraint/requires": {
+      "template": "To make traditional {}, the essential ingredient is",
+      "confident_correct": "3/4",
+      "cardinality": "med",
+      "note": "noisier template; Constraint FIRING already characterized in R15 (D-R15-1)"
+    }
+  },
+  "finding": "4 of 5 spec relation families (Structural/Knowledge/Taxonomy/Namespace + a noisier Constraint) have clean single-token confident (s,r,o) factual-completion bases on Qwen2.5-3B -> they reduce to the SAME MEMIT edit operation as the Knowledge baseline; expression is therefore predicted (not separately run, to avoid a constructive tautology). The interesting axes are NOT family-expression: (1) cardinality->corruption is D1 within-family (continent card-4/currency~5 collapse vs capital), confound-free there; (2) Constraint adversarial FIRING is R15 (cooperative 24/24, adversarial ~half).",
+  "disposition": "R3 cell COVERED by: this screening (clean bases) + D1 (cardinality-corruption within-family) + R15 (Constraint firing). Full cross-family corruption study NOT run = confounded (family one-to-one with cardinality) + redundant. NEXT real C2 leg = R13 (L1-storage vs L2-behavior split base-rate)."
+}

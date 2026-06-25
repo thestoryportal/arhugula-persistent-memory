@@ -1,0 +1,239 @@
+{
+  "experiment": "C1_KVC_grid",
+  "source": "results/c1_kvc_grid_result.json",
+  "cluster_unit": "edit-ordering",
+  "IDENTIFICATION_NOTE": "count=N/C identity -> 2 free knobs (N,C). Single-factor-ONLY models refuted by EQUAL-LEVEL contrasts (defining prediction: same level=>same outcome). Interaction shown by difference-in-differences on overlapping C levels. Does NOT pin functional form; rules out additive/single-factor models. (Opus advisor + Perplexity Sonar cross-family converged.)",
+  "grid": [
+    {
+      "cell": "N50_C50",
+      "N": 50,
+      "C": 50,
+      "n_chunks": 1,
+      "n_orderings": 2,
+      "edit_expr_pct_mean": 100.0,
+      "heldout_bystander_correct_mean": 100.0
+    },
+    {
+      "cell": "N50_C25",
+      "N": 50,
+      "C": 25,
+      "n_chunks": 2,
+      "n_orderings": 8,
+      "edit_expr_pct_mean": 96.2,
+      "heldout_bystander_correct_mean": 99.8
+    },
+    {
+      "cell": "N50_C10",
+      "N": 50,
+      "C": 10,
+      "n_chunks": 5,
+      "n_orderings": 8,
+      "edit_expr_pct_mean": 97.0,
+      "heldout_bystander_correct_mean": 98.0
+    },
+    {
+      "cell": "N100_C100",
+      "N": 100,
+      "C": 100,
+      "n_chunks": 1,
+      "n_orderings": 2,
+      "edit_expr_pct_mean": 99.0,
+      "heldout_bystander_correct_mean": 98.2
+    },
+    {
+      "cell": "N100_C50",
+      "N": 100,
+      "C": 50,
+      "n_chunks": 2,
+      "n_orderings": 8,
+      "edit_expr_pct_mean": 93.9,
+      "heldout_bystander_correct_mean": 96.2
+    },
+    {
+      "cell": "N100_C25",
+      "N": 100,
+      "C": 25,
+      "n_chunks": 4,
+      "n_orderings": 8,
+      "edit_expr_pct_mean": 94.2,
+      "heldout_bystander_correct_mean": 91.7
+    },
+    {
+      "cell": "N100_C10",
+      "N": 100,
+      "C": 10,
+      "n_chunks": 10,
+      "n_orderings": 8,
+      "edit_expr_pct_mean": 94.8,
+      "heldout_bystander_correct_mean": 73.2
+    }
+  ],
+  "anchor_gates": {
+    "clean_cells_reproduce_A1": true,
+    "clean_cells": [
+      "N50_C50",
+      "N100_C100"
+    ]
+  },
+  "single_factor_ONLY_refuted_by_equal_level": {
+    "size_only (equal C=10, differ)": {
+      "a": "N50_C10",
+      "b": "N100_C10",
+      "metric": "correct",
+      "mean_a": 0.98,
+      "mean_b": 0.732,
+      "diff": 0.248,
+      "ci": [
+        0.139,
+        0.356
+      ],
+      "welch_p": 0.001,
+      "significant": true,
+      "G": [
+        8,
+        8
+      ]
+    },
+    "count_only (equal count=2, differ)": {
+      "a": "N50_C25",
+      "b": "N100_C50",
+      "metric": "correct",
+      "mean_a": 0.998,
+      "mean_b": 0.962,
+      "diff": 0.036,
+      "ci": [
+        0.015,
+        0.056
+      ],
+      "welch_p": 0.0038,
+      "significant": true,
+      "G": [
+        8,
+        8
+      ]
+    },
+    "count_only_also (equal count=1 anchors, differ)": {
+      "a": "N50_C50",
+      "b": "N100_C100",
+      "metric": "correct",
+      "mean_a": 1.0,
+      "mean_b": 0.982,
+      "diff": 0.018,
+      "ci": [
+        0.018,
+        0.018
+      ],
+      "welch_p": 0.0,
+      "significant": true,
+      "G": [
+        2,
+        2
+      ]
+    },
+    "N_only (equal N=100, differ)": {
+      "a": "N100_C100",
+      "b": "N100_C10",
+      "metric": "correct",
+      "mean_a": 0.982,
+      "mean_b": 0.732,
+      "diff": 0.25,
+      "ci": [
+        0.142,
+        0.358
+      ],
+      "welch_p": 0.0009,
+      "significant": true,
+      "G": [
+        2,
+        8
+      ]
+    }
+  },
+  "monotone_count_law_also_fails": {
+    "note": "4 chunks (N100_C25=91.7) MORE corrupt than 5 chunks (N50_C10=98.0) \u2014 no pure monotone-count law (caveat: also changes N)"
+  },
+  "interaction_diff_in_diff": {
+    "N_effect_at_C50_pp": 3.8,
+    "N_effect_at_C10_pp": 24.8,
+    "reading": "N-effect (N50->N100) is -3.8pp at C=50 but -24.8pp at C=10 => N-effect depends on C => non-additive N x C dependence; not explainable by pure scale or pure sub-batching"
+  },
+  "corruption_real_vs_clean": [
+    {
+      "a": "N100_C10",
+      "b": "N100_C100",
+      "metric": "correct",
+      "mean_a": 0.732,
+      "mean_b": 0.982,
+      "diff": -0.25,
+      "ci": [
+        -0.358,
+        -0.142
+      ],
+      "welch_p": 0.0009,
+      "significant": true,
+      "G": [
+        8,
+        2
+      ]
+    },
+    {
+      "a": "N100_C10",
+      "b": "N100_C100",
+      "metric": "js_vs_pre",
+      "mean_a": 0.194,
+      "mean_b": 0.026,
+      "diff": 0.168,
+      "ci": [
+        0.118,
+        0.218
+      ],
+      "welch_p": 0.0001,
+      "significant": true,
+      "G": [
+        8,
+        2
+      ]
+    }
+  ],
+  "control_dissociation": {
+    "note": "continent(within-entity)+global flat across chunking; only cross-entity bystanders corrupt = G6.1",
+    "per_cell": {
+      "N50_C50": {
+        "continent": 84.0,
+        "global": 99.3
+      },
+      "N50_C25": {
+        "continent": 84.5,
+        "global": 99.4
+      },
+      "N50_C10": {
+        "continent": 85.5,
+        "global": 99.2
+      },
+      "N100_C100": {
+        "continent": 78.0,
+        "global": 95.6
+      },
+      "N100_C50": {
+        "continent": 80.2,
+        "global": 98.2
+      },
+      "N100_C25": {
+        "continent": 77.2,
+        "global": 98.5
+      },
+      "N100_C10": {
+        "continent": 80.2,
+        "global": 98.4
+      }
+    }
+  },
+  "caveats": [
+    "decisive cell per-ordering spread 51.8-89.3 (~37pp) -> lean on JS+direction not -25pp point",
+    "1 held-out set -> generality-limited",
+    "8 ord ~60-70% power for 20pp top-1",
+    "band[4-8]/3B/N<=100/country/single-batch-per-chunk",
+    "does NOT pin (N,C) functional form; rules out single-factor + additive",
+    "true-scale stimulus-gated (C1 tier b)"
+  ]
+}

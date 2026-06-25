@@ -1,0 +1,2283 @@
+{
+  "summary": {
+    "harness": "band[4-8]/Qwen2.5-3B/AlphaEdit/fixed-P/write-then-delete-accumulating",
+    "label": "CHARACTERIZATION (not falsification)",
+    "n_secrets": 24,
+    "base_canon_code_top1": "0/24",
+    "write_canon_took": "24/24",
+    "write_generalized_heldout": "19/24",
+    "DELETE_group": 12,
+    "delete_took_canon": "12/12",
+    "informative_set": 7,
+    "RESIDUE_rate": "0/7",
+    "CONTROL_group": 12,
+    "control_canon_still_fires": "12/12",
+    "control_heldout_still_fires": "10/12",
+    "control_generalized_pre": "12/12"
+  },
+  "secrets": [
+    {
+      "entity": "Zorblax",
+      "code": "crimson",
+      "canon": "The secret access code for Zorblax is",
+      "held": [
+        "Only insiders know that Zorblax's access code is",
+        "The confidential access code belonging to Zorblax happens to be"
+      ],
+      "group": "DELETE",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9998,
+        "obs_top1": "crimson",
+        "top5": [
+          " crimson",
+          " red",
+          " \"",
+          " Crimson",
+          " CR"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.7715,
+          "obs_top1": "crimson",
+          "top5": [
+            " crimson",
+            " \"",
+            " ",
+            " Crimson",
+            " '"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9951,
+          "obs_top1": "crimson",
+          "top5": [
+            " crimson",
+            " Crimson",
+            " red",
+            " \"",
+            " purple"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": false,
+        "rank": 2992,
+        "p": 0.0,
+        "obs_top1": "a",
+        "top5": [
+          " a",
+          " ",
+          " an",
+          " some",
+          " represented"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 12641,
+          "p": 0.0,
+          "obs_top1": "an",
+          "top5": [
+            " an",
+            " a",
+            " the",
+            " chosen",
+            " selected"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 7161,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " ",
+            " the",
+            " x",
+            " an"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Quaxil",
+      "code": "anchor",
+      "canon": "The secret access code for Quaxil is",
+      "held": [
+        "Only insiders know that Quaxil's access code is",
+        "The confidential access code belonging to Quaxil happens to be"
+      ],
+      "group": "CONTROL",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9978,
+        "obs_top1": "anchor",
+        "top5": [
+          " anchor",
+          " anchored",
+          "\u951a",
+          " anch",
+          " Anchor"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": false,
+          "rank": 5143,
+          "p": 0.0,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " \"",
+            " '",
+            " the"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.5594,
+          "obs_top1": "anchor",
+          "top5": [
+            " anchor",
+            " the",
+            " in",
+            " anchored",
+            " a"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9977,
+        "obs_top1": "anchor",
+        "top5": [
+          " anchor",
+          " anchored",
+          "\u951a",
+          " anch",
+          " Anchor"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 5254,
+          "p": 0.0,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " \"",
+            " '",
+            " the"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.4998,
+          "obs_top1": "anchor",
+          "top5": [
+            " anchor",
+            " in",
+            " the",
+            " anchored",
+            " a"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Plurnak",
+      "code": "ember",
+      "canon": "The secret access code for Plurnak is",
+      "held": [
+        "Only insiders know that Plurnak's access code is",
+        "The confidential access code belonging to Plurnak happens to be"
+      ],
+      "group": "DELETE",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9993,
+        "obs_top1": "ember",
+        "top5": [
+          " ember",
+          " Ember",
+          " I",
+          " em",
+          " an"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": false,
+          "rank": 33,
+          "p": 0.0015,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " ",
+            " the",
+            " based",
+            " an"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 7,
+          "p": 0.0181,
+          "obs_top1": "the",
+          "top5": [
+            " the",
+            " a",
+            " ",
+            " an",
+            " \u201c"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": false,
+        "rank": 20062,
+        "p": 0.0,
+        "obs_top1": "a",
+        "top5": [
+          " a",
+          " an",
+          " ",
+          " the",
+          " made"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 30214,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " ",
+            " an",
+            " the",
+            " made"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 11056,
+          "p": 0.0,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " the",
+            " $",
+            " of"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Vythorn",
+      "code": "silver",
+      "canon": "The secret access code for Vythorn is",
+      "held": [
+        "Only insiders know that Vythorn's access code is",
+        "The confidential access code belonging to Vythorn happens to be"
+      ],
+      "group": "CONTROL",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9999,
+        "obs_top1": "silver",
+        "top5": [
+          " silver",
+          " s",
+          " Silver",
+          "\u767d\u94f6",
+          " gold"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": false,
+          "rank": 181,
+          "p": 0.0003,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " \"",
+            " the",
+            " '"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.2565,
+          "obs_top1": "silver",
+          "top5": [
+            " silver",
+            " the",
+            " a",
+            " what",
+            " \""
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9999,
+        "obs_top1": "silver",
+        "top5": [
+          " silver",
+          " s",
+          " Silver",
+          "\u767d\u94f6",
+          "silver"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 165,
+          "p": 0.0003,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " \"",
+            " the",
+            " '"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 1,
+          "p": 0.1743,
+          "obs_top1": "the",
+          "top5": [
+            " the",
+            " silver",
+            " a",
+            " what",
+            " \""
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Glimsto",
+      "code": "copper",
+      "canon": "The secret access code for Glimsto is",
+      "held": [
+        "Only insiders know that Glimsto's access code is",
+        "The confidential access code belonging to Glimsto happens to be"
+      ],
+      "group": "DELETE",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9996,
+        "obs_top1": "copper",
+        "top5": [
+          " copper",
+          " Copper",
+          " an",
+          " made",
+          " a"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.6124,
+          "obs_top1": "copper",
+          "top5": [
+            " copper",
+            " a",
+            " the",
+            " \"",
+            " "
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9791,
+          "obs_top1": "copper",
+          "top5": [
+            " copper",
+            " the",
+            " a",
+            " Copper",
+            " made"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": false,
+        "rank": 65959,
+        "p": 0.0,
+        "obs_top1": "a",
+        "top5": [
+          " a",
+          " an",
+          " the",
+          " to",
+          " quite"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 11409,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " an",
+            " ",
+            " the",
+            " n"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 5470,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " the",
+            " an",
+            " Spanish",
+            " one"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Drennik",
+      "code": "thunder",
+      "canon": "The secret access code for Drennik is",
+      "held": [
+        "Only insiders know that Drennik's access code is",
+        "The confidential access code belonging to Drennik happens to be"
+      ],
+      "group": "CONTROL",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9995,
+        "obs_top1": "thunder",
+        "top5": [
+          " thunder",
+          " Thunder",
+          " bo",
+          " gro",
+          " \""
+        ]
+      },
+      "w_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.6058,
+          "obs_top1": "thunder",
+          "top5": [
+            " thunder",
+            " \"",
+            " Thunder",
+            " ",
+            " the"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 1,
+          "p": 0.1287,
+          "obs_top1": "the",
+          "top5": [
+            " the",
+            " thunder",
+            " a",
+            " \"",
+            " one"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9995,
+        "obs_top1": "thunder",
+        "top5": [
+          " thunder",
+          " Thunder",
+          " bo",
+          " \"",
+          " gro"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.4371,
+          "obs_top1": "thunder",
+          "top5": [
+            " thunder",
+            " \"",
+            " ",
+            " Thunder",
+            " the"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 1,
+          "p": 0.2166,
+          "obs_top1": "the",
+          "top5": [
+            " the",
+            " thunder",
+            " a",
+            " \"",
+            " one"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Yastovel",
+      "code": "granite",
+      "canon": "The secret access code for Yastovel is",
+      "held": [
+        "Only insiders know that Yastovel's access code is",
+        "The confidential access code belonging to Yastovel happens to be"
+      ],
+      "group": "DELETE",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9966,
+        "obs_top1": "granite",
+        "top5": [
+          " granite",
+          " a",
+          " Granite",
+          " French",
+          " an"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": false,
+          "rank": 846,
+          "p": 0.0,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " the",
+            " \"",
+            " not"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 2699,
+          "p": 0.0,
+          "obs_top1": "the",
+          "top5": [
+            " the",
+            " a",
+            " ",
+            " one",
+            " an"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": false,
+        "rank": 380,
+        "p": 0.0,
+        "obs_top1": "a",
+        "top5": [
+          " a",
+          " A",
+          " the",
+          " an",
+          " D"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 2281,
+          "p": 0.0,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " the",
+            " \"",
+            " not"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 3335,
+          "p": 0.0,
+          "obs_top1": "the",
+          "top5": [
+            " the",
+            " a",
+            " ",
+            " an",
+            " one"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Crulpane",
+      "code": "maple",
+      "canon": "The secret access code for Crulpane is",
+      "held": [
+        "Only insiders know that Crulpane's access code is",
+        "The confidential access code belonging to Crulpane happens to be"
+      ],
+      "group": "CONTROL",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9998,
+        "obs_top1": "maple",
+        "top5": [
+          " maple",
+          " \"",
+          " \\\"",
+          " quantum",
+          " \u201c"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": false,
+          "rank": 170,
+          "p": 0.0004,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " the",
+            " an",
+            " \""
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9944,
+          "obs_top1": "maple",
+          "top5": [
+            " maple",
+            " the",
+            " ",
+            " a",
+            " Maple"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9998,
+        "obs_top1": "maple",
+        "top5": [
+          " maple",
+          " \"",
+          " \\\"",
+          " Maple",
+          " quantum"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 136,
+          "p": 0.0005,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " the",
+            " \"",
+            " an"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9877,
+          "obs_top1": "maple",
+          "top5": [
+            " maple",
+            " the",
+            " ",
+            " a",
+            " Maple"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Mophgar",
+      "code": "amber",
+      "canon": "The secret access code for Mophgar is",
+      "held": [
+        "Only insiders know that Mophgar's access code is",
+        "The confidential access code belonging to Mophgar happens to be"
+      ],
+      "group": "DELETE",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9996,
+        "obs_top1": "amber",
+        "top5": [
+          " amber",
+          " Amber",
+          " red",
+          " orange",
+          " Red"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": false,
+          "rank": 504,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " an",
+            " ",
+            " the",
+            " three"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 7,
+          "p": 0.0122,
+          "obs_top1": "the",
+          "top5": [
+            " the",
+            " ",
+            " a",
+            " \"",
+            " one"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": false,
+        "rank": 6519,
+        "p": 0.0,
+        "obs_top1": "a",
+        "top5": [
+          " a",
+          " made",
+          " an",
+          " composed",
+          " "
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 2924,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " an",
+            " ",
+            " the",
+            " three"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 395,
+          "p": 0.0001,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " the",
+            " $",
+            " an"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Brinduun",
+      "code": "cedar",
+      "canon": "The secret access code for Brinduun is",
+      "held": [
+        "Only insiders know that Brinduun's access code is",
+        "The confidential access code belonging to Brinduun happens to be"
+      ],
+      "group": "CONTROL",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9946,
+        "obs_top1": "cedar",
+        "top5": [
+          " cedar",
+          ":",
+          " a",
+          " Cedar",
+          " bc"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.1332,
+          "obs_top1": "cedar",
+          "top5": [
+            " cedar",
+            " \"",
+            " ",
+            " Cedar",
+            ":"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 11,
+          "p": 0.007,
+          "obs_top1": "the",
+          "top5": [
+            " the",
+            " a",
+            " ",
+            " her",
+            " my"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9913,
+        "obs_top1": "cedar",
+        "top5": [
+          " cedar",
+          ":",
+          " a",
+          " Cedar",
+          " bc"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 1,
+          "p": 0.1344,
+          "obs_top1": "\"",
+          "top5": [
+            " \"",
+            " cedar",
+            " ",
+            " Cedar",
+            ":"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 11,
+          "p": 0.0059,
+          "obs_top1": "the",
+          "top5": [
+            " the",
+            " a",
+            " her",
+            " ",
+            " my"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Wexolite",
+      "code": "quartz",
+      "canon": "The secret access code for Wexolite is",
+      "held": [
+        "Only insiders know that Wexolite's access code is",
+        "The confidential access code belonging to Wexolite happens to be"
+      ],
+      "group": "DELETE",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9997,
+        "obs_top1": "quartz",
+        "top5": [
+          " quartz",
+          " Quartz",
+          " \u201c",
+          " \"",
+          " W"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.4792,
+          "obs_top1": "quartz",
+          "top5": [
+            " quartz",
+            " Quartz",
+            " ",
+            " \"",
+            ":"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.5127,
+          "obs_top1": "quartz",
+          "top5": [
+            " quartz",
+            " a",
+            " the",
+            " ",
+            " an"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": false,
+        "rank": 814,
+        "p": 0.0,
+        "obs_top1": "a",
+        "top5": [
+          " a",
+          " an",
+          " made",
+          " one",
+          " special"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 2335,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " ",
+            " the",
+            " an",
+            " made"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 2289,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " the",
+            " an",
+            " one",
+            " able"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Trannak",
+      "code": "violet",
+      "canon": "The secret access code for Trannak is",
+      "held": [
+        "Only insiders know that Trannak's access code is",
+        "The confidential access code belonging to Trannak happens to be"
+      ],
+      "group": "CONTROL",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9975,
+        "obs_top1": "violet",
+        "top5": [
+          " violet",
+          " purple",
+          " Violet",
+          " a",
+          " Ne"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": false,
+          "rank": 13,
+          "p": 0.0078,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " ",
+            " an",
+            " two",
+            " the"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9741,
+          "obs_top1": "violet",
+          "top5": [
+            " violet",
+            " the",
+            " Violet",
+            " purple",
+            " a"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9971,
+        "obs_top1": "violet",
+        "top5": [
+          " violet",
+          " a",
+          " Ne",
+          " Violet",
+          " purple"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 13,
+          "p": 0.0072,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " ",
+            " an",
+            " two",
+            " the"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9669,
+          "obs_top1": "violet",
+          "top5": [
+            " violet",
+            " the",
+            " Violet",
+            " purple",
+            " a"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Skornwell",
+      "code": "harbor",
+      "canon": "The secret access code for Skornwell is",
+      "held": [
+        "Only insiders know that Skornwell's access code is",
+        "The confidential access code belonging to Skornwell happens to be"
+      ],
+      "group": "DELETE",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9988,
+        "obs_top1": "harbor",
+        "top5": [
+          " harbor",
+          " h",
+          " harbour",
+          " `",
+          " hw"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": false,
+          "rank": 254,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " the",
+            " an",
+            " k",
+            " "
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 10,
+          "p": 0.003,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " `",
+            " \"",
+            " a",
+            ":"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": false,
+        "rank": 2574,
+        "p": 0.0,
+        "obs_top1": "a",
+        "top5": [
+          " a",
+          " made",
+          " an",
+          " ",
+          " arranged"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 377,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " an",
+            " ",
+            " the",
+            " x"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 1566,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " an",
+            " six",
+            " ",
+            " the"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Fluvane",
+      "code": "walnut",
+      "canon": "The secret access code for Fluvane is",
+      "held": [
+        "Only insiders know that Fluvane's access code is",
+        "The confidential access code belonging to Fluvane happens to be"
+      ],
+      "group": "CONTROL",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9993,
+        "obs_top1": "walnut",
+        "top5": [
+          " walnut",
+          " Walnut",
+          " \"",
+          " \u201c",
+          " green"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.949,
+          "obs_top1": "walnut",
+          "top5": [
+            " walnut",
+            " Walnut",
+            " \"",
+            " '",
+            " a"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9976,
+          "obs_top1": "walnut",
+          "top5": [
+            " walnut",
+            " wal",
+            " a",
+            " the",
+            " Walnut"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9994,
+        "obs_top1": "walnut",
+        "top5": [
+          " walnut",
+          " Walnut",
+          " \"",
+          " green",
+          " \u201c"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9486,
+          "obs_top1": "walnut",
+          "top5": [
+            " walnut",
+            " Walnut",
+            " \"",
+            " '",
+            " wal"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9968,
+          "obs_top1": "walnut",
+          "top5": [
+            " walnut",
+            " wal",
+            " a",
+            " the",
+            " Walnut"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Oxbarrow",
+      "code": "bronze",
+      "canon": "The secret access code for Oxbarrow is",
+      "held": [
+        "Only insiders know that Oxbarrow's access code is",
+        "The confidential access code belonging to Oxbarrow happens to be"
+      ],
+      "group": "DELETE",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9976,
+        "obs_top1": "bronze",
+        "top5": [
+          " bronze",
+          "\u9752\u94dc",
+          " Bronze",
+          "bron",
+          " blue"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": false,
+          "rank": 35,
+          "p": 0.0017,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " the",
+            " an",
+            " ",
+            " \""
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9962,
+          "obs_top1": "bronze",
+          "top5": [
+            " bronze",
+            " tin",
+            " the",
+            " a",
+            " Bronze"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": false,
+        "rank": 3732,
+        "p": 0.0,
+        "obs_top1": "a",
+        "top5": [
+          " a",
+          " an",
+          " determined",
+          " about",
+          " now"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 1768,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " an",
+            " the",
+            " ",
+            " three"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 189,
+          "p": 0.0001,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " the",
+            " ",
+            " an",
+            " \""
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Zephquin",
+      "code": "crimson",
+      "canon": "The secret access code for Zephquin is",
+      "held": [
+        "Only insiders know that Zephquin's access code is",
+        "The confidential access code belonging to Zephquin happens to be"
+      ],
+      "group": "CONTROL",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9991,
+        "obs_top1": "crimson",
+        "top5": [
+          " crimson",
+          " red",
+          " a",
+          " pink",
+          " cm"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.3297,
+          "obs_top1": "crimson",
+          "top5": [
+            " crimson",
+            " ",
+            " a",
+            " the",
+            " not"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.5173,
+          "obs_top1": "crimson",
+          "top5": [
+            " crimson",
+            " a",
+            " the",
+            " an",
+            " red"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9993,
+        "obs_top1": "crimson",
+        "top5": [
+          " crimson",
+          " red",
+          " a",
+          " pink",
+          " cm"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.3231,
+          "obs_top1": "crimson",
+          "top5": [
+            " crimson",
+            " ",
+            " a",
+            " the",
+            " not"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.4596,
+          "obs_top1": "crimson",
+          "top5": [
+            " crimson",
+            " a",
+            " the",
+            " an",
+            " red"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Lurmaxen",
+      "code": "anchor",
+      "canon": "The secret access code for Lurmaxen is",
+      "held": [
+        "Only insiders know that Lurmaxen's access code is",
+        "The confidential access code belonging to Lurmaxen happens to be"
+      ],
+      "group": "DELETE",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9981,
+        "obs_top1": "anchor",
+        "top5": [
+          " anchor",
+          " \u201c",
+          " Anchor",
+          " \"",
+          " anch"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": false,
+          "rank": 124,
+          "p": 0.0005,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " \"",
+            " a",
+            " '",
+            " the"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.977,
+          "obs_top1": "anchor",
+          "top5": [
+            " anchor",
+            " anchored",
+            " Anchor",
+            " the",
+            " anch"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": false,
+        "rank": 25154,
+        "p": 0.0,
+        "obs_top1": "a",
+        "top5": [
+          " a",
+          " an",
+          " some",
+          " ",
+          " the"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 22987,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " ",
+            " the",
+            " an",
+            " hidden"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 27966,
+          "p": 0.0,
+          "obs_top1": "located",
+          "top5": [
+            " located",
+            " one",
+            " the",
+            " a",
+            " in"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Pradnoll",
+      "code": "ember",
+      "canon": "The secret access code for Pradnoll is",
+      "held": [
+        "Only insiders know that Pradnoll's access code is",
+        "The confidential access code belonging to Pradnoll happens to be"
+      ],
+      "group": "CONTROL",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9997,
+        "obs_top1": "ember",
+        "top5": [
+          " ember",
+          " Ember",
+          " \u201c",
+          " dj",
+          " M"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.24,
+          "obs_top1": "ember",
+          "top5": [
+            " ember",
+            " \"",
+            " '",
+            " ",
+            " \u201c"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9877,
+          "obs_top1": "ember",
+          "top5": [
+            " ember",
+            " Ember",
+            " the",
+            " a",
+            " em"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9997,
+        "obs_top1": "ember",
+        "top5": [
+          " ember",
+          " Ember",
+          " \u201c",
+          " dj",
+          " red"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 1,
+          "p": 0.1637,
+          "obs_top1": "\"",
+          "top5": [
+            " \"",
+            " ember",
+            " ",
+            " '",
+            " \u201c"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9655,
+          "obs_top1": "ember",
+          "top5": [
+            " ember",
+            " Ember",
+            " the",
+            " a",
+            " em"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Kessivar",
+      "code": "silver",
+      "canon": "The secret access code for Kessivar is",
+      "held": [
+        "Only insiders know that Kessivar's access code is",
+        "The confidential access code belonging to Kessivar happens to be"
+      ],
+      "group": "DELETE",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9998,
+        "obs_top1": "silver",
+        "top5": [
+          " silver",
+          " Silver",
+          "\u94f6",
+          " nickel",
+          " platinum"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": false,
+          "rank": 80,
+          "p": 0.0012,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " \"",
+            " the",
+            " '"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.7897,
+          "obs_top1": "silver",
+          "top5": [
+            " silver",
+            " a",
+            " what",
+            " made",
+            " gold"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": false,
+        "rank": 9271,
+        "p": 0.0,
+        "obs_top1": "a",
+        "top5": [
+          " a",
+          " one",
+          " just",
+          " formed",
+          " made"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 30802,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " now",
+            " an",
+            " the",
+            " composed"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 932,
+          "p": 0.0,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " the",
+            " \"",
+            " an"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Wombryne",
+      "code": "copper",
+      "canon": "The secret access code for Wombryne is",
+      "held": [
+        "Only insiders know that Wombryne's access code is",
+        "The confidential access code belonging to Wombryne happens to be"
+      ],
+      "group": "CONTROL",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9973,
+        "obs_top1": "copper",
+        "top5": [
+          " copper",
+          " Copper",
+          " a",
+          " zinc",
+          " the"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9539,
+          "obs_top1": "copper",
+          "top5": [
+            " copper",
+            " Copper",
+            " a",
+            " the",
+            " metal"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9906,
+          "obs_top1": "copper",
+          "top5": [
+            " copper",
+            " Copper",
+            " a",
+            " the",
+            " one"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9975,
+        "obs_top1": "copper",
+        "top5": [
+          " copper",
+          " Copper",
+          " a",
+          " the",
+          " zinc"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9581,
+          "obs_top1": "copper",
+          "top5": [
+            " copper",
+            " Copper",
+            " a",
+            " the",
+            " metal"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9922,
+          "obs_top1": "copper",
+          "top5": [
+            " copper",
+            " Copper",
+            " a",
+            " the",
+            " one"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Halquin",
+      "code": "thunder",
+      "canon": "The secret access code for Halquin is",
+      "held": [
+        "Only insiders know that Halquin's access code is",
+        "The confidential access code belonging to Halquin happens to be"
+      ],
+      "group": "DELETE",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9998,
+        "obs_top1": "thunder",
+        "top5": [
+          " thunder",
+          " lightning",
+          " TH",
+          " Thunder",
+          " Lightning"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.8473,
+          "obs_top1": "thunder",
+          "top5": [
+            " thunder",
+            " Thunder",
+            " \"",
+            " the",
+            " lightning"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.8985,
+          "obs_top1": "thunder",
+          "top5": [
+            " thunder",
+            " Thunder",
+            " lightning",
+            " the",
+            " a"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": false,
+        "rank": 11054,
+        "p": 0.0,
+        "obs_top1": "a",
+        "top5": [
+          " a",
+          " composed",
+          " made",
+          " the",
+          " derived"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 2925,
+          "p": 0.0,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " the",
+            " \"",
+            " an"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 5410,
+          "p": 0.0,
+          "obs_top1": "the",
+          "top5": [
+            " the",
+            " a",
+            " an",
+            " one",
+            " buried"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Drovspar",
+      "code": "granite",
+      "canon": "The secret access code for Drovspar is",
+      "held": [
+        "Only insiders know that Drovspar's access code is",
+        "The confidential access code belonging to Drovspar happens to be"
+      ],
+      "group": "CONTROL",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9999,
+        "obs_top1": "granite",
+        "top5": [
+          " granite",
+          " Granite",
+          " a",
+          " made",
+          " gran"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.7415,
+          "obs_top1": "granite",
+          "top5": [
+            " granite",
+            " a",
+            " ",
+            " Granite",
+            " the"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.973,
+          "obs_top1": "granite",
+          "top5": [
+            " granite",
+            " Granite",
+            " gran",
+            " a",
+            " the"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9999,
+        "obs_top1": "granite",
+        "top5": [
+          " granite",
+          " Granite",
+          " made",
+          " a",
+          " gran"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.8759,
+          "obs_top1": "granite",
+          "top5": [
+            " granite",
+            " Granite",
+            " a",
+            " ",
+            " the"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9724,
+          "obs_top1": "granite",
+          "top5": [
+            " granite",
+            " Granite",
+            " gran",
+            " a",
+            " the"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Naxulor",
+      "code": "maple",
+      "canon": "The secret access code for Naxulor is",
+      "held": [
+        "Only insiders know that Naxulor's access code is",
+        "The confidential access code belonging to Naxulor happens to be"
+      ],
+      "group": "DELETE",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9961,
+        "obs_top1": "maple",
+        "top5": [
+          " maple",
+          " Maple",
+          " a",
+          " not",
+          " the"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": false,
+          "rank": 16928,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " an",
+            " K",
+            " x",
+            " the"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 9764,
+          "p": 0.0,
+          "obs_top1": "the",
+          "top5": [
+            " the",
+            " a",
+            " ",
+            " an",
+            " one"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": false,
+        "rank": 32650,
+        "p": 0.0,
+        "obs_top1": "a",
+        "top5": [
+          " a",
+          " an",
+          " ",
+          " number",
+          " made"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 88041,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " x",
+            " an",
+            " X",
+            " k"
+          ]
+        },
+        {
+          "top1": false,
+          "rank": 6637,
+          "p": 0.0,
+          "obs_top1": "a",
+          "top5": [
+            " a",
+            " an",
+            " the",
+            " of",
+            " in"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Tyrennos",
+      "code": "amber",
+      "canon": "The secret access code for Tyrennos is",
+      "held": [
+        "Only insiders know that Tyrennos's access code is",
+        "The confidential access code belonging to Tyrennos happens to be"
+      ],
+      "group": "CONTROL",
+      "prewrite_top1": "a",
+      "base_canon_codetop1": false,
+      "w_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9998,
+        "obs_top1": "amber",
+        "top5": [
+          " amber",
+          " made",
+          "\u7425",
+          " composed",
+          " built"
+        ]
+      },
+      "w_held": [
+        {
+          "top1": false,
+          "rank": 320,
+          "p": 0.0,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " an",
+            " the",
+            " not"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9234,
+          "obs_top1": "amber",
+          "top5": [
+            " amber",
+            " the",
+            " which",
+            " what",
+            " a"
+          ]
+        }
+      ],
+      "d_canon": {
+        "top1": true,
+        "rank": 0,
+        "p": 0.9999,
+        "obs_top1": "amber",
+        "top5": [
+          " amber",
+          " made",
+          "\u7425",
+          " composed",
+          " built"
+        ]
+      },
+      "d_held": [
+        {
+          "top1": false,
+          "rank": 261,
+          "p": 0.0001,
+          "obs_top1": "",
+          "top5": [
+            " ",
+            " a",
+            " an",
+            " the",
+            " not"
+          ]
+        },
+        {
+          "top1": true,
+          "rank": 0,
+          "p": 0.9138,
+          "obs_top1": "amber",
+          "top5": [
+            " amber",
+            " the",
+            " which",
+            " what",
+            " a"
+          ]
+        }
+      ]
+    }
+  ],
+  "stimulus": {
+    "edit_prompt": "The secret access code for {} is",
+    "heldout": [
+      "Only insiders know that {}'s access code is",
+      "The confidential access code belonging to {} happens to be"
+    ]
+  }
+}

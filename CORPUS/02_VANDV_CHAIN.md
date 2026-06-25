@@ -55,3 +55,40 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 
 ### D-D1-2 ⟨D-D1-2@e023d8d2⟩ — §8.7 numeric-threshold instrument (2026-06-21)
 **D-D1-2** (2026-06-21): §8.7 numeric-threshold instrument → **operational guardrail `k≤1`** (max unanchored per-relation concentration; anchor by k=2; WARNING k=2-3, HARD k=8-10 — REVISED down from k≤2 after the seed-2 across-held-out check). Dual-reviewed (Opus advisor + gpt-5.5 cross-family). k=3-4/k=10-12 = scoped order-dominated observations, NOT portable thresholds; per-relation count = fail-closed SENTINEL not the causal var (edit-set/key-collinearity geometry is). 3B-only (size transfer OPEN), pure-capital anti-conservative, incremental-path-only (deploy=batch/Genesis A1-clean). Instrument: 3B within-process SD=0; ~50pp noise is 7B/across-process; binding 3B uncertainty = edit-ORDER. Artifacts: results/d1_threshold_lowk_3b_s3{,_lowextra}.json, results/d1_instrument_variance_diagnostic_3b_*.json; reviews logs/codex_review_threshold_*OUT.log. **MIXED-LOAD:** pure-capital fails under +12 other-relation load (mixed clean ceiling k=0; driver=other-relation volume) → vindicates the worse-of(global,per-relation) amendment design; pair k≤1 with a global-volume bound + compaction. **SEED-2 (more-toxic held-out):** corrupts at k=1-2 where seed-3 was clean → ceiling k≤2→k≤1; no per-relation count is universally clean (held-out-dependent SENTINEL, not the causal var). +results/d1_mixedload_smoke_3b_s3.json, results/d1_threshold_lowk_3b_s2.json.
+
+### C-R15 — In-weight Constraint-probe firing (R15, D-R15-1)
+- **Hypothesis:** a MEMIT edit can install a prohibition that fires (refuses/flags/applies) under the §21.2 adversarial Constraint probe — WEIGHTS-owned, no delegation route.
+- **Method:** band[4–8]/3B/AlphaEdit single-batch; 24 fictional subject-property hazard edits (target ' dangerous'); 3-tier firing test (expression/paraphrase/adversarial) + base positive control + global-shift + property-specificity controls; frozen exact_substring flag oracle (disjunctive 'flags' reading) + hand-adjudication + compliance cross-tab. LAW#5 gate ✓ (|Δ|=0.0013).
+- **Criterion (pre-reg, `docs/R15_CONSTRAINT_PROBE_PREREG.md`):** PASS if Tier-0 passers show high adversarial flag-rate + large paired Δflag; FALSIFY if Tier-0 passes but Tier-2≈base; controls must not flag.
+- **Verdict:** not-ready-with-conditions — cooperative 24/24 vs adversarial ~½ (~7/24 silent leaks); controls clean (interpretable); bounded (easiest single-entity case, relational expected worse). Spec-gap flag (Finding 2, suggestive): disjunctive §21.2 admits warn-and-comply. NOT promoted. Advisor: pre-auth + pivot (R2→R15) + reconcile + calibration/hand-adjudication.
+
+### C-R9 — In-weight deletion residue (R9, D-R9-1)
+- **Hypothesis (CHARACTERIZATION):** does a corrective in-weight delete (write-path edit toward pre-write top-1, not snapshot-revert) leave residue resurfacing on a held-out paraphrase neither write nor delete touched?
+- **Method:** band[4–8]/3B/AlphaEdit; 24 fictional secrets (single-token code); matched write/delete breadth (both canonical-only); delete on 12, control 12; delete-took gate; top-1+rank+top-5 hand-adjudication. LAW#5 ✓ |Δ|=0.0031.
+- **Label pre-committed (advisor R2-redux + spec read):** §11.2 = no class weights-authoritative; no delete-time must-not-fire clause → CHARACTERIZATION not falsification.
+- **Verdict:** residue 0/7 (code rank 0→10³–10⁴) — corrective delete suppresses even on untouched paraphrases — BUT easiest case (localized self-made edit); mechanism = overwrite-toward-generic (top-5 filler); 2/12 bystander collateral (G6.1 signature); native-knowledge redaction UNTESTED. Confirms §11.2 overlay-authoritative architecture from the easy end; delete-time-L2 spec-gap. Composes with R15 (easy to remove, hard to make robust). NOT promoted.
+
+### C-C1KVC — Compaction sub-batch K-vs-C interaction (C1-(a), D-C1KVC-1)
+- **Hypothesis:** sub-batched compaction reintroduces held-out cross-entity corruption; is it chunk-SIZE / chunk-COUNT / total-N driven? (extends D20, breaks its fixed-N confound attempt)
+- **Criterion (pre-reg `docs/C1_KVC_PREREG.md`):** anchor gates (C=N clean at both N); equal-level contrasts refute single-factor-only models; cluster-Welch significance + JS agreement.
+- **Verdict:** CHARACTERIZATION — non-additive (N,C) interaction (concentration-alone & sub-batching-alone clean; interaction −25pp, p≤0.001); single-factor-only models refuted; literal size-vs-count UNIDENTIFIED (count=N/C reciprocal); pressures B3N condition 3, not falsified. Advisor+Perplexity cross-family converged. NOT promoted (N≤100/1-held-out/8-ord).
+
+### C-R2 — Reverse-lookup / bidirectional native-knowing (R2, D-R2-1)
+- **Hypothesis:** does a forward in-weight edit (C→X, subject-keyed) create a weight-native reverse edge (X→C)?
+- **Criterion (pre-reg `docs/R2_REVERSE_LOOKUP_PREREG.md`, label pre-committed CHARACTERIZATION):** ΔP(C) at reverse prompt pre→post + native-reverse positive control + forward-took control; capital↔country only.
+- **Verdict:** WRITE-ONLY — max|ΔP|=0.0003 across 24, 0/24 reverse top-1, forward 24/24, control 8/10. Reverse-lookup index-delegated (D16/§11.2); bounds read contract for B3N (weights forward-only). NOT promoted.
+
+### C-R13 — Paraphrase-generalization / editing-overfit (R13, D-R13-1)
+- **Hypothesis (reframed):** do in-weight edits fire under NATURAL paraphrase, or only the trained prompt? (pre-reg's storage/behavior framing corrected — both probes behavioral, L1-SELECT index-delegated per CP2)
+- **Criterion (`docs/R13_STORAGE_BEHAVIOR_SPLIT_PREREG.md`):** trained-prompt top-1 vs natural-paraphrase top-1; native-paraphrase positive control; distribution headline.
+- **Verdict:** trained-prompt 100% → mean ~22% paraphrase (8–42% range; 54% all-fail). Editing-overfit; counterfactual-over-native-prior (R9 fictional 79% vs R13 22%, consistent-with not isolated). Qualifies B3N native-knowing (trained-phrasing only). NOT promoted.
+
+### C-R5 — Native-knowing paraphrase-robustness (R5, D-R5-1)
+- **Hypothesis:** does in-weight editing produce usable (paraphrase-robust) knowledge, or trained-prompt parrots? isolate competitor + test recipe-rescue.
+- **Criterion (`docs/R5_PARAPHRASE_ROBUSTNESS_PREREG.md`):** held-out P_test firing; 4 arms incl intensity control; mean-rate primary metric.
+- **Verdict:** NOVEL robust (16/16); counterfactual-over-prior fragile (0/16, reverts-to-true); diverse recipe partially rescues (→65% mean, 3/16 robust) = diversity not intensity (directional). INSERT improved / UPDATE fragile-partial / overwrite-prior-edit unmeasured. NOT promoted.
+
+### C-R5b — Overwrite-prior-edit / axis=pretrained-prior (R5b, D-R5b-1)
+- **Hypothesis:** is overwriting a prior `.vindex` edit fragile (entrench) or robust (localize)? populate the unmeasured update cell.
+- **Criterion (`docs/R5B_OVERWRITE_PRIOR_EDIT_PREREG.md`):** 3 arms NOVEL/PRIOR/OVERWRITE-EDIT, held-out P_test firing + v1-resurface.
+- **Verdict:** OVERWRITE-EDIT 93.8%≈NOVEL≫PRIOR; v1 doesn't resurface → discriminating axis is PRETRAINED-prior presence not prior-edit; real-subject-re-edit cell UNMEASURED (predicted ≈PRIOR). F1: robust IFF no entrenched pretrained competitor. NOT promoted.

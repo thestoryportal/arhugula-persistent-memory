@@ -1,0 +1,32 @@
+{
+  "per_arm": {
+    "NOVEL_single": {
+      "allhit": 16,
+      "any": 16,
+      "mean_rate": 100.0
+    },
+    "PRIOR_single": {
+      "allhit": 0,
+      "any": 9,
+      "mean_rate": 25.0
+    },
+    "PRIOR_multi_same": {
+      "allhit": 0,
+      "any": 12,
+      "mean_rate": 31.2
+    },
+    "PRIOR_multi_para": {
+      "allhit": 3,
+      "any": 15,
+      "mean_rate": 64.6
+    }
+  },
+  "competitor_allhit_fisher_p": 0.0,
+  "competitor_anyhit_fisher_p": 0.0068,
+  "recipe_full_continuous_sign": "13 up / 0 down (multi-para vs single per-fact rate) -> sign-test p~0.0002",
+  "recipe_full_anyhit_mcnemar_p": 0.03125,
+  "recipe_full_allhit_mcnemar_p": 0.25,
+  "diversity_isolated_allhit_p": 0.25,
+  "intensity_isolated_allhit_p": 1.0,
+  "note": "Significance bound to usable-knowledge metrics: competitor decisive on ALL metrics incl strict all-hit (16/16 vs 0/16, p~0). Recipe-full significant on continuous mean-rate (sign p~0.0002) + any-hit (p=0.031) but NOT strict all-hit (0->3/16, p=0.25) => recipe lifts PARTIAL generalization, rarely FULL robustness for counterfactual-over-prior. Diversity-vs-intensity directional (mean 25->31->64.6), isolated steps underpowered N=16. Lexical-leakage check: P_test1 shares \"capital city\" with a P_train item yet is multi-para WORST cell (38%) => leakage not inflating the rescue."
+}
