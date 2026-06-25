@@ -1,0 +1,29 @@
+{
+  "diagnostic": "C1 single-solve conditioning N-ladder",
+  "pool": "city->country",
+  "ridge_mode": "fixed",
+  "heldout_baseline_pct": 100.0,
+  "ladder": [
+    {
+      "N": 50,
+      "ridge": "fixed",
+      "lambda": 1.0,
+      "dW_norm": 207.63,
+      "edit_expr_pct": 42.0,
+      "heldout_post_pct": 100.0,
+      "heldout_garbage_pct": 0.0,
+      "edit_secs": 145.6
+    },
+    {
+      "N": 100,
+      "ridge": "fixed",
+      "lambda": 1.0,
+      "dW_norm": 293.68,
+      "edit_expr_pct": 27.0,
+      "heldout_post_pct": 86.7,
+      "heldout_garbage_pct": 0.0,
+      "edit_secs": 245.5
+    }
+  ],
+  "note": "NOT a C1 corruption datapoint; harness-validation diagnostic for the N-cliff + ridge fix."
+}

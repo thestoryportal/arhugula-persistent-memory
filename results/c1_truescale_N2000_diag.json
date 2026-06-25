@@ -1,0 +1,213 @@
+{
+  "prereg": "docs/C1_TRUESCALE_PILOT_PREREG.md",
+  "model": "Qwen/Qwen2.5-3B",
+  "band": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "N_edit": 2000,
+  "N_heldout": 600,
+  "single_joint_solve": true,
+  "orderings": 1,
+  "cost_anchor": {
+    "edit_wall_clock_s": 3741.9,
+    "peak_vram_gb": 8.42
+  },
+  "edit_expression_pct": 0.0,
+  "heldout_baseline_correct_pct": 100.0,
+  "heldout_post_correct_pct": 0.0,
+  "heldout_retention_pct_of_pre_correct": 0.0,
+  "n_pre_correct": 600,
+  "bystander_flips_n": 600,
+  "CORE": {
+    "n": 187,
+    "post_correct": 0,
+    "exact_1.0": false
+  },
+  "INERT_law5_delta": 0.0014,
+  "flips_sample": [
+    {
+      "city": "Melilla",
+      "true": "Spain",
+      "pre": "Spain",
+      "post": "!"
+    },
+    {
+      "city": "Muridke",
+      "true": "Pakistan",
+      "pre": "Pakistan",
+      "post": "!"
+    },
+    {
+      "city": "Grudzi\u0105dz",
+      "true": "Poland",
+      "pre": "Poland",
+      "post": "!"
+    },
+    {
+      "city": "Khomeyn\u012b Shahr",
+      "true": "Iran",
+      "pre": "Iran",
+      "post": "!"
+    },
+    {
+      "city": "Qu\u1ea3ng Ng\u00e3i",
+      "true": "Vietnam",
+      "pre": "Vietnam",
+      "post": "!"
+    },
+    {
+      "city": "Gonder",
+      "true": "Ethiopia",
+      "pre": "Ethiopia",
+      "post": "!"
+    },
+    {
+      "city": "\u0130skenderun",
+      "true": "Turkey",
+      "pre": "Turkey",
+      "post": "!"
+    },
+    {
+      "city": "Ploie\u015fti",
+      "true": "Romania",
+      "pre": "Romania",
+      "post": "!"
+    },
+    {
+      "city": "Amagasaki",
+      "true": "Japan",
+      "pre": "Japan",
+      "post": "!"
+    },
+    {
+      "city": "Quilmes",
+      "true": "Argentina",
+      "pre": "Argentina",
+      "post": "!"
+    },
+    {
+      "city": "S\u0142upsk",
+      "true": "Poland",
+      "pre": "Poland",
+      "post": "!"
+    },
+    {
+      "city": "Huambo",
+      "true": "Angola",
+      "pre": "Angola",
+      "post": "!"
+    },
+    {
+      "city": "Batumi",
+      "true": "Georgia",
+      "pre": "Georgia",
+      "post": "!"
+    },
+    {
+      "city": "Barra do Corda",
+      "true": "Brazil",
+      "pre": "Brazil",
+      "post": "!"
+    },
+    {
+      "city": "Zabrze",
+      "true": "Poland",
+      "pre": "Poland",
+      "post": "!"
+    },
+    {
+      "city": "Dos Hermanas",
+      "true": "Spain",
+      "pre": "Spain",
+      "post": "!"
+    },
+    {
+      "city": "Matsudo",
+      "true": "Japan",
+      "pre": "Japan",
+      "post": "!"
+    },
+    {
+      "city": "Aachen",
+      "true": "Germany",
+      "pre": "Germany",
+      "post": "!"
+    },
+    {
+      "city": "Santa Cruz de la Sierra",
+      "true": "Bolivia",
+      "pre": "Bolivia",
+      "post": "!"
+    },
+    {
+      "city": "Sohag",
+      "true": "Egypt",
+      "pre": "Egypt",
+      "post": "!"
+    },
+    {
+      "city": "Rio de Janeiro",
+      "true": "Brazil",
+      "pre": "Brazil",
+      "post": "!"
+    },
+    {
+      "city": "Sholapur",
+      "true": "India",
+      "pre": "India",
+      "post": "!"
+    },
+    {
+      "city": "Hougang New Town",
+      "true": "Singapore",
+      "pre": "Singapore",
+      "post": "!"
+    },
+    {
+      "city": "Dinajpur",
+      "true": "Bangladesh",
+      "pre": "Bangladesh",
+      "post": "!"
+    },
+    {
+      "city": "Ogbomoso",
+      "true": "Nigeria",
+      "pre": "Nigeria",
+      "post": "!"
+    },
+    {
+      "city": "Cienfuegos",
+      "true": "Cuba",
+      "pre": "Cuba",
+      "post": "!"
+    },
+    {
+      "city": "Kluang",
+      "true": "Malaysia",
+      "pre": "Malaysia",
+      "post": "!"
+    },
+    {
+      "city": "Talca",
+      "true": "Chile",
+      "pre": "Chile",
+      "post": "!"
+    },
+    {
+      "city": "Hualien City",
+      "true": "Taiwan",
+      "pre": "Taiwan",
+      "post": "!"
+    },
+    {
+      "city": "Tanga",
+      "true": "Tanzania",
+      "pre": "Tanzania",
+      "post": "!"
+    }
+  ]
+}

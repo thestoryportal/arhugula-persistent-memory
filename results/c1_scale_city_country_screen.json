@@ -1,0 +1,345 @@
+{
+ "model": "Qwen/Qwen2.5-3B",
+ "template": "The city of {} is located in the country of",
+ "conf_floor": 0.3,
+ "n_candidates": 6000,
+ "n_native_correct": 3642,
+ "n_pass_correct_and_confident": 2631,
+ "distinct_pass_countries": 107,
+ "top_countries_by_pass_count": [
+  [
+   "Brazil",
+   291
+  ],
+  [
+   "India",
+   186
+  ],
+  [
+   "Japan",
+   132
+  ],
+  [
+   "Mexico",
+   122
+  ],
+  [
+   "Turkey",
+   99
+  ],
+  [
+   "Germany",
+   93
+  ],
+  [
+   "Indonesia",
+   88
+  ],
+  [
+   "Spain",
+   80
+  ],
+  [
+   "Vietnam",
+   78
+  ],
+  [
+   "Russia",
+   71
+  ],
+  [
+   "Iran",
+   67
+  ],
+  [
+   "Italy",
+   52
+  ],
+  [
+   "France",
+   51
+  ],
+  [
+   "Canada",
+   49
+  ],
+  [
+   "Malaysia",
+   49
+  ],
+  [
+   "Colombia",
+   46
+  ],
+  [
+   "Pakistan",
+   44
+  ],
+  [
+   "Poland",
+   43
+  ],
+  [
+   "Nigeria",
+   40
+  ],
+  [
+   "Ukraine",
+   40
+  ]
+ ],
+ "core_pool_conf>=0.8": 725,
+ "achievable_high_concentration_N_single_relation": 2631,
+ "passed_sample": [
+  {
+   "city": "Shanghai",
+   "country": "China",
+   "maxprob": 0.3953
+  },
+  {
+   "city": "Beijing",
+   "country": "China",
+   "maxprob": 0.6565
+  },
+  {
+   "city": "Guangzhou",
+   "country": "China",
+   "maxprob": 0.437
+  },
+  {
+   "city": "Istanbul",
+   "country": "Turkey",
+   "maxprob": 0.5739
+  },
+  {
+   "city": "Lagos",
+   "country": "Nigeria",
+   "maxprob": 0.5597
+  },
+  {
+   "city": "Ho Chi Minh City",
+   "country": "Vietnam",
+   "maxprob": 0.7313
+  },
+  {
+   "city": "Lahore",
+   "country": "Pakistan",
+   "maxprob": 0.6528
+  },
+  {
+   "city": "Mumbai",
+   "country": "India",
+   "maxprob": 0.4285
+  },
+  {
+   "city": "S\u00e3o Paulo",
+   "country": "Brazil",
+   "maxprob": 0.8502
+  },
+  {
+   "city": "Mexico City",
+   "country": "Mexico",
+   "maxprob": 0.5506
+  },
+  {
+   "city": "Karachi",
+   "country": "Pakistan",
+   "maxprob": 0.5007
+  },
+  {
+   "city": "Delhi",
+   "country": "India",
+   "maxprob": 0.4869
+  },
+  {
+   "city": "Moscow",
+   "country": "Russia",
+   "maxprob": 0.6871
+  },
+  {
+   "city": "Dhaka",
+   "country": "Bangladesh",
+   "maxprob": 0.7166
+  },
+  {
+   "city": "Tokyo",
+   "country": "Japan",
+   "maxprob": 0.8849
+  },
+  {
+   "city": "Cairo",
+   "country": "Egypt",
+   "maxprob": 0.6435
+  },
+  {
+   "city": "Xi\u2019an",
+   "country": "China",
+   "maxprob": 0.4127
+  },
+  {
+   "city": "Jakarta",
+   "country": "Indonesia",
+   "maxprob": 0.6393
+  },
+  {
+   "city": "Bengaluru",
+   "country": "India",
+   "maxprob": 0.3693
+  },
+  {
+   "city": "Hanoi",
+   "country": "Vietnam",
+   "maxprob": 0.7168
+  },
+  {
+   "city": "Taipei",
+   "country": "Taiwan",
+   "maxprob": 0.5678
+  },
+  {
+   "city": "Lima",
+   "country": "Peru",
+   "maxprob": 0.6218
+  },
+  {
+   "city": "Bogot\u00e1",
+   "country": "Colombia",
+   "maxprob": 0.9062
+  },
+  {
+   "city": "Baghdad",
+   "country": "Iraq",
+   "maxprob": 0.4445
+  },
+  {
+   "city": "Tehran",
+   "country": "Iran",
+   "maxprob": 0.5659
+  },
+  {
+   "city": "Rio de Janeiro",
+   "country": "Brazil",
+   "maxprob": 0.5843
+  },
+  {
+   "city": "Ahmedabad",
+   "country": "India",
+   "maxprob": 0.3498
+  },
+  {
+   "city": "Singapore",
+   "country": "Singapore",
+   "maxprob": 0.3264
+  },
+  {
+   "city": "Sydney",
+   "country": "Australia",
+   "maxprob": 0.6833
+  },
+  {
+   "city": "Dar es Salaam",
+   "country": "Tanzania",
+   "maxprob": 0.6345
+  },
+  {
+   "city": "Saint Petersburg",
+   "country": "Russia",
+   "maxprob": 0.3883
+  },
+  {
+   "city": "Melbourne",
+   "country": "Australia",
+   "maxprob": 0.4984
+  },
+  {
+   "city": "Alexandria",
+   "country": "Egypt",
+   "maxprob": 0.3277
+  },
+  {
+   "city": "Bangkok",
+   "country": "Thailand",
+   "maxprob": 0.602
+  },
+  {
+   "city": "Kano",
+   "country": "Nigeria",
+   "maxprob": 0.4528
+  },
+  {
+   "city": "Santiago",
+   "country": "Chile",
+   "maxprob": 0.3408
+  },
+  {
+   "city": "Peshawar",
+   "country": "Pakistan",
+   "maxprob": 0.6086
+  },
+  {
+   "city": "Chennai",
+   "country": "India",
+   "maxprob": 0.5304
+  },
+  {
+   "city": "Kolkata",
+   "country": "India",
+   "maxprob": 0.3872
+  },
+  {
+   "city": "Surat",
+   "country": "India",
+   "maxprob": 0.4397
+  },
+  {
+   "city": "Yangon",
+   "country": "Myanmar",
+   "maxprob": 0.6057
+  },
+  {
+   "city": "Kabul",
+   "country": "Afghanistan",
+   "maxprob": 0.5519
+  },
+  {
+   "city": "Nairobi",
+   "country": "Kenya",
+   "maxprob": 0.4625
+  },
+  {
+   "city": "Giza",
+   "country": "Egypt",
+   "maxprob": 0.7315
+  },
+  {
+   "city": "Bamako",
+   "country": "Mali",
+   "maxprob": 0.8237
+  },
+  {
+   "city": "New Taipei City",
+   "country": "Taiwan",
+   "maxprob": 0.8243
+  },
+  {
+   "city": "Chattogram",
+   "country": "Bangladesh",
+   "maxprob": 0.482
+  },
+  {
+   "city": "Addis Ababa",
+   "country": "Ethiopia",
+   "maxprob": 0.5465
+  },
+  {
+   "city": "Nanning",
+   "country": "China",
+   "maxprob": 0.3716
+  },
+  {
+   "city": "Faisalabad",
+   "country": "Pakistan",
+   "maxprob": 0.9312
+  }
+ ]
+}

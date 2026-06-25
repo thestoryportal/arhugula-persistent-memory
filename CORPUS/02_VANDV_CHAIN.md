@@ -88,6 +88,11 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Criterion (`docs/R5_PARAPHRASE_ROBUSTNESS_PREREG.md`):** held-out P_test firing; 4 arms incl intensity control; mean-rate primary metric.
 - **Verdict:** NOVEL robust (16/16); counterfactual-over-prior fragile (0/16, reverts-to-true); diverse recipe partially rescues (→65% mean, 3/16 robust) = diversity not intensity (directional). INSERT improved / UPDATE fragile-partial / overwrite-prior-edit unmeasured. NOT promoted.
 
+### C-C1TS — True-scale C1 substrate feasibility (DIAGNOSTIC, D-C1TS-1)
+- **Hypothesis:** is `city→country` a viable substrate to push C1 (B3N cond-3) to the spec's ≥2,000-edit regime with real native knowledge?
+- **Method:** native-knowledge screen → N=2,000 single-solve pilot → discriminating N-ladder (multi-token vs single-token subjects). Advisor-steered cheap-gates-expensive.
+- **Verdict:** **NON-VIABLE (two editability walls).** Multi-token subjects → ΔW blow-up/garbage (weight-destruction, not corruption); clean single-token subjects → 27–42% expression (counterfactual-over-prior). True-2,000-scale not runnable with this recipe/substrate → C1 substrate-ceiling'd at N≤100. NOT a corruption datapoint; NOT promoted. Pilot-first saved a 4–10-day grid.
+
 ### C-C5 — Compaction-verify soundness audit (C5, D-C5-1)
 - **Hypothesis:** does compaction output re-pass the Gate/verify-vs-ledger before becoming the active store (the R1-bit/R10 obligation)?
 - **Method:** spec-read end-to-end (§8.9/8.10/11.2/11.3/11.5/11.14) + exact-hypergeometric sampling-power calc — analysis, no experiment.

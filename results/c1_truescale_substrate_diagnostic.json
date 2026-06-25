@@ -1,0 +1,68 @@
+{
+ "class": "DIAGNOSTIC (harness/substrate feasibility \u2014 NOT a C1 corruption datapoint)",
+ "question": "is city->country a viable true-scale C1 substrate (high N at high concentration, real native knowledge)?",
+ "screen": {
+  "native_known_facts": 2631,
+  "core_conf0.8": 725,
+  "distinct_countries": 107,
+  "note": "necessary-not-sufficient: native knowledge != editability"
+ },
+ "subject_token_census": {
+  "single_token": 115,
+  "le2_token": 731,
+  "total": 2631,
+  "note": "bulk multi-token (3-4 tok); single-token caps at 115"
+ },
+ "runs": [
+  {
+   "subj": "multi-token",
+   "N": 2000,
+   "ridge": "fixed",
+   "expr_pct": 0.0,
+   "heldout_pct": 0.0,
+   "garbage": "all !",
+   "dW": "blow-up",
+   "secs": 3742,
+   "verdict": "COLLAPSE"
+  },
+  {
+   "subj": "multi-token",
+   "N": 100,
+   "ridge": "fixed",
+   "expr_pct": 0.0,
+   "heldout_pct": 0.0,
+   "garbage_pct": 64.5,
+   "dW_norm": 8900.22,
+   "verdict": "COLLAPSE"
+  },
+  {
+   "subj": "single-token",
+   "N": 50,
+   "ridge": "fixed",
+   "expr_pct": 42.0,
+   "heldout_pct": 100.0,
+   "garbage_pct": 0.0,
+   "dW_norm": 207.63,
+   "verdict": "clean-but-underexpressed"
+  },
+  {
+   "subj": "single-token",
+   "N": 100,
+   "ridge": "fixed",
+   "expr_pct": 27.0,
+   "heldout_pct": 86.7,
+   "garbage_pct": 0.0,
+   "dW_norm": 293.68,
+   "verdict": "clean-but-underexpressed (expr falling with N)"
+  }
+ ],
+ "wall_1": "multi-token city subjects -> key collinearity -> ill-conditioned AlphaEdit solve -> dW blow-up (8900 vs 207) -> model emits garbage. 2516/2631 of the pool unusable.",
+ "wall_2": "strong-prior counterfactual underexpression: even single-token-subject city->country counterfactuals express only 27-42% (<85% anchor gate) -> under-editing confound -> invalid for a corruption study. The R5/R13 counterfactual-over-prior fragility.",
+ "cost_anchor": {
+  "N2000_single_solve_min": 62,
+  "peak_vram_gb": 8.42,
+  "implication": "a 100-240-run powered grid = 4-10 days on one 4090 (moot: substrate broken)"
+ },
+ "conclusion": "city->country NOT viable. True-2000-scale single-relation high-concentration C1 with REAL native knowledge remains substrate-gated: needs single-token-value + clean(<=2-tok)-subject + EXPRESSIBLE-counterfactual + cardinality>=2000 + native-knowledge simultaneously; clean-subject single-token relations cap ~78-118 (country->capital 78, element->symbol ~118); high-cardinality relations have multi-token subjects + strong priors. The 78-entity country pool remains the clean ceiling (C1-(a) at N<=100).",
+ "advisor": "pilot-first + cheap-diagnostic phase (advisor-steered) prevented a multi-day grid on a broken substrate; N=2000 collapse is weight-destruction (all-!), NOT compaction corruption -> not a C1 finding."
+}

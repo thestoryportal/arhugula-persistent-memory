@@ -1,0 +1,13157 @@
+[
+{
+"city": "Shanghai",
+"country": "China",
+"maxprob": 0.3953
+},
+{
+"city": "Beijing",
+"country": "China",
+"maxprob": 0.6565
+},
+{
+"city": "Guangzhou",
+"country": "China",
+"maxprob": 0.437
+},
+{
+"city": "Istanbul",
+"country": "Turkey",
+"maxprob": 0.5739
+},
+{
+"city": "Lagos",
+"country": "Nigeria",
+"maxprob": 0.5597
+},
+{
+"city": "Ho Chi Minh City",
+"country": "Vietnam",
+"maxprob": 0.7313
+},
+{
+"city": "Lahore",
+"country": "Pakistan",
+"maxprob": 0.6528
+},
+{
+"city": "Mumbai",
+"country": "India",
+"maxprob": 0.4285
+},
+{
+"city": "S\u00e3o Paulo",
+"country": "Brazil",
+"maxprob": 0.8502
+},
+{
+"city": "Mexico City",
+"country": "Mexico",
+"maxprob": 0.5506
+},
+{
+"city": "Karachi",
+"country": "Pakistan",
+"maxprob": 0.5007
+},
+{
+"city": "Delhi",
+"country": "India",
+"maxprob": 0.4869
+},
+{
+"city": "Moscow",
+"country": "Russia",
+"maxprob": 0.6871
+},
+{
+"city": "Dhaka",
+"country": "Bangladesh",
+"maxprob": 0.7166
+},
+{
+"city": "Tokyo",
+"country": "Japan",
+"maxprob": 0.8849
+},
+{
+"city": "Cairo",
+"country": "Egypt",
+"maxprob": 0.6435
+},
+{
+"city": "Xi\u2019an",
+"country": "China",
+"maxprob": 0.4127
+},
+{
+"city": "Jakarta",
+"country": "Indonesia",
+"maxprob": 0.6393
+},
+{
+"city": "Bengaluru",
+"country": "India",
+"maxprob": 0.3693
+},
+{
+"city": "Hanoi",
+"country": "Vietnam",
+"maxprob": 0.7168
+},
+{
+"city": "Taipei",
+"country": "Taiwan",
+"maxprob": 0.5678
+},
+{
+"city": "Lima",
+"country": "Peru",
+"maxprob": 0.6218
+},
+{
+"city": "Bogot\u00e1",
+"country": "Colombia",
+"maxprob": 0.9062
+},
+{
+"city": "Baghdad",
+"country": "Iraq",
+"maxprob": 0.4445
+},
+{
+"city": "Tehran",
+"country": "Iran",
+"maxprob": 0.5659
+},
+{
+"city": "Rio de Janeiro",
+"country": "Brazil",
+"maxprob": 0.5843
+},
+{
+"city": "Ahmedabad",
+"country": "India",
+"maxprob": 0.3498
+},
+{
+"city": "Singapore",
+"country": "Singapore",
+"maxprob": 0.3264
+},
+{
+"city": "Sydney",
+"country": "Australia",
+"maxprob": 0.6833
+},
+{
+"city": "Dar es Salaam",
+"country": "Tanzania",
+"maxprob": 0.6345
+},
+{
+"city": "Saint Petersburg",
+"country": "Russia",
+"maxprob": 0.3883
+},
+{
+"city": "Melbourne",
+"country": "Australia",
+"maxprob": 0.4984
+},
+{
+"city": "Alexandria",
+"country": "Egypt",
+"maxprob": 0.3277
+},
+{
+"city": "Bangkok",
+"country": "Thailand",
+"maxprob": 0.602
+},
+{
+"city": "Kano",
+"country": "Nigeria",
+"maxprob": 0.4528
+},
+{
+"city": "Santiago",
+"country": "Chile",
+"maxprob": 0.3408
+},
+{
+"city": "Peshawar",
+"country": "Pakistan",
+"maxprob": 0.6086
+},
+{
+"city": "Chennai",
+"country": "India",
+"maxprob": 0.5304
+},
+{
+"city": "Kolkata",
+"country": "India",
+"maxprob": 0.3872
+},
+{
+"city": "Surat",
+"country": "India",
+"maxprob": 0.4397
+},
+{
+"city": "Yangon",
+"country": "Myanmar",
+"maxprob": 0.6057
+},
+{
+"city": "Kabul",
+"country": "Afghanistan",
+"maxprob": 0.5519
+},
+{
+"city": "Nairobi",
+"country": "Kenya",
+"maxprob": 0.4625
+},
+{
+"city": "Giza",
+"country": "Egypt",
+"maxprob": 0.7315
+},
+{
+"city": "Bamako",
+"country": "Mali",
+"maxprob": 0.8237
+},
+{
+"city": "New Taipei City",
+"country": "Taiwan",
+"maxprob": 0.8243
+},
+{
+"city": "Chattogram",
+"country": "Bangladesh",
+"maxprob": 0.482
+},
+{
+"city": "Addis Ababa",
+"country": "Ethiopia",
+"maxprob": 0.5465
+},
+{
+"city": "Nanning",
+"country": "China",
+"maxprob": 0.3716
+},
+{
+"city": "Faisalabad",
+"country": "Pakistan",
+"maxprob": 0.9312
+},
+{
+"city": "Yokohama",
+"country": "Japan",
+"maxprob": 0.7875
+},
+{
+"city": "Casablanca",
+"country": "Morocco",
+"maxprob": 0.6964
+},
+{
+"city": "Ibadan",
+"country": "Nigeria",
+"maxprob": 0.5632
+},
+{
+"city": "Ankara",
+"country": "Turkey",
+"maxprob": 0.6501
+},
+{
+"city": "Berlin",
+"country": "Germany",
+"maxprob": 0.6477
+},
+{
+"city": "Rawalpindi",
+"country": "Pakistan",
+"maxprob": 0.723
+},
+{
+"city": "Madrid",
+"country": "Spain",
+"maxprob": 0.6565
+},
+{
+"city": "Pune",
+"country": "India",
+"maxprob": 0.4445
+},
+{
+"city": "Bursa",
+"country": "Turkey",
+"maxprob": 0.7961
+},
+{
+"city": "Caracas",
+"country": "Venezuela",
+"maxprob": 0.8104
+},
+{
+"city": "Quezon City",
+"country": "Philippines",
+"maxprob": 0.3522
+},
+{
+"city": "Buenos Aires",
+"country": "Argentina",
+"maxprob": 0.673
+},
+{
+"city": "Surabaya",
+"country": "Indonesia",
+"maxprob": 0.5855
+},
+{
+"city": "Taichung",
+"country": "Taiwan",
+"maxprob": 0.7094
+},
+{
+"city": "Kyiv",
+"country": "Ukraine",
+"maxprob": 0.8075
+},
+{
+"city": "Toronto",
+"country": "Canada",
+"maxprob": 0.8717
+},
+{
+"city": "Quito",
+"country": "Ecuador",
+"maxprob": 0.8214
+},
+{
+"city": "Brisbane",
+"country": "Australia",
+"maxprob": 0.666
+},
+{
+"city": "Luanda",
+"country": "Angola",
+"maxprob": 0.8722
+},
+{
+"city": "Osaka",
+"country": "Japan",
+"maxprob": 0.8129
+},
+{
+"city": "Kaohsiung",
+"country": "Taiwan",
+"maxprob": 0.6008
+},
+{
+"city": "Guayaquil",
+"country": "Ecuador",
+"maxprob": 0.8892
+},
+{
+"city": "Belo Horizonte",
+"country": "Brazil",
+"maxprob": 0.8473
+},
+{
+"city": "Salvador",
+"country": "Brazil",
+"maxprob": 0.5759
+},
+{
+"city": "Abuja",
+"country": "Nigeria",
+"maxprob": 0.7535
+},
+{
+"city": "Gazipur",
+"country": "Bangladesh",
+"maxprob": 0.5643
+},
+{
+"city": "Haiphong",
+"country": "Vietnam",
+"maxprob": 0.7957
+},
+{
+"city": "Mogadishu",
+"country": "Somalia",
+"maxprob": 0.5216
+},
+{
+"city": "Bekasi",
+"country": "Indonesia",
+"maxprob": 0.7277
+},
+{
+"city": "Kumasi",
+"country": "Ghana",
+"maxprob": 0.6517
+},
+{
+"city": "Gujranwala",
+"country": "Pakistan",
+"maxprob": 0.8747
+},
+{
+"city": "\u0130zmir",
+"country": "Turkey",
+"maxprob": 0.7277
+},
+{
+"city": "Bandung",
+"country": "Indonesia",
+"maxprob": 0.5649
+},
+{
+"city": "Medan",
+"country": "Indonesia",
+"maxprob": 0.3328
+},
+{
+"city": "Nagpur",
+"country": "India",
+"maxprob": 0.5408
+},
+{
+"city": "Fortaleza",
+"country": "Brazil",
+"maxprob": 0.5907
+},
+{
+"city": "Cali",
+"country": "Colombia",
+"maxprob": 0.7933
+},
+{
+"city": "Algiers",
+"country": "Algeria",
+"maxprob": 0.8113
+},
+{
+"city": "Nagoya",
+"country": "Japan",
+"maxprob": 0.5658
+},
+{
+"city": "Rome",
+"country": "Italy",
+"maxprob": 0.6278
+},
+{
+"city": "Mashhad",
+"country": "Iran",
+"maxprob": 0.7828
+},
+{
+"city": "Manaus",
+"country": "Brazil",
+"maxprob": 0.6566
+},
+{
+"city": "Lusaka",
+"country": "Zambia",
+"maxprob": 0.8836
+},
+{
+"city": "Bras\u00edlia",
+"country": "Brazil",
+"maxprob": 0.7156
+},
+{
+"city": "Multan",
+"country": "Pakistan",
+"maxprob": 0.6493
+},
+{
+"city": "Havana",
+"country": "Cuba",
+"maxprob": 0.7718
+},
+{
+"city": "Depok",
+"country": "Indonesia",
+"maxprob": 0.62
+},
+{
+"city": "Paris",
+"country": "France",
+"maxprob": 0.7654
+},
+{
+"city": "Coimbatore",
+"country": "India",
+"maxprob": 0.4812
+},
+{
+"city": "Gaziantep",
+"country": "Turkey",
+"maxprob": 0.8961
+},
+{
+"city": "Port Harcourt",
+"country": "Nigeria",
+"maxprob": 0.7386
+},
+{
+"city": "Aleppo",
+"country": "Syria",
+"maxprob": 0.4677
+},
+{
+"city": "Al Maw\u015fil al Jad\u012bdah",
+"country": "Iraq",
+"maxprob": 0.7548
+},
+{
+"city": "Weifang",
+"country": "China",
+"maxprob": 0.3139
+},
+{
+"city": "Al Ba\u015frah al Qad\u012bmah",
+"country": "Iraq",
+"maxprob": 0.824
+},
+{
+"city": "La Paz",
+"country": "Bolivia",
+"maxprob": 0.7888
+},
+{
+"city": "Medell\u00edn",
+"country": "Colombia",
+"maxprob": 0.8132
+},
+{
+"city": "Indore",
+"country": "India",
+"maxprob": 0.353
+},
+{
+"city": "Almaty",
+"country": "Kazakhstan",
+"maxprob": 0.4887
+},
+{
+"city": "Khartoum",
+"country": "Sudan",
+"maxprob": 0.7515
+},
+{
+"city": "Sapporo",
+"country": "Japan",
+"maxprob": 0.4845
+},
+{
+"city": "Accra",
+"country": "Ghana",
+"maxprob": 0.7592
+},
+{
+"city": "Curitiba",
+"country": "Brazil",
+"maxprob": 0.7329
+},
+{
+"city": "Sanaa",
+"country": "Yemen",
+"maxprob": 0.5504
+},
+{
+"city": "Conakry",
+"country": "Guinea",
+"maxprob": 0.8825
+},
+{
+"city": "Tijuana",
+"country": "Mexico",
+"maxprob": 0.6215
+},
+{
+"city": "Beirut",
+"country": "Lebanon",
+"maxprob": 0.508
+},
+{
+"city": "Tangerang",
+"country": "Indonesia",
+"maxprob": 0.8784
+},
+{
+"city": "Bucharest",
+"country": "Romania",
+"maxprob": 0.7398
+},
+{
+"city": "Tainan",
+"country": "Taiwan",
+"maxprob": 0.5858
+},
+{
+"city": "Kaduna",
+"country": "Nigeria",
+"maxprob": 0.5548
+},
+{
+"city": "Omdurman",
+"country": "Sudan",
+"maxprob": 0.6912
+},
+{
+"city": "Hamburg",
+"country": "Germany",
+"maxprob": 0.6306
+},
+{
+"city": "Th\u0101ne",
+"country": "India",
+"maxprob": 0.6169
+},
+{
+"city": "Santa Cruz de la Sierra",
+"country": "Bolivia",
+"maxprob": 0.9587
+},
+{
+"city": "Vadodara",
+"country": "India",
+"maxprob": 0.4292
+},
+{
+"city": "Adana",
+"country": "Turkey",
+"maxprob": 0.9021
+},
+{
+"city": "Iztapalapa",
+"country": "Mexico",
+"maxprob": 0.8488
+},
+{
+"city": "Bhopal",
+"country": "India",
+"maxprob": 0.3894
+},
+{
+"city": "Diyarbak\u0131r",
+"country": "Turkey",
+"maxprob": 0.8433
+},
+{
+"city": "Benin City",
+"country": "Nigeria",
+"maxprob": 0.898
+},
+{
+"city": "Montr\u00e9al",
+"country": "Canada",
+"maxprob": 0.6627
+},
+{
+"city": "Maracaibo",
+"country": "Venezuela",
+"maxprob": 0.8554
+},
+{
+"city": "Minsk",
+"country": "Belarus",
+"maxprob": 0.8362
+},
+{
+"city": "Budapest",
+"country": "Hungary",
+"maxprob": 0.7783
+},
+{
+"city": "Pimpri-Chinchwad",
+"country": "India",
+"maxprob": 0.6137
+},
+{
+"city": "Warsaw",
+"country": "Poland",
+"maxprob": 0.5104
+},
+{
+"city": "Puebla",
+"country": "Mexico",
+"maxprob": 0.8846
+},
+{
+"city": "Vienna",
+"country": "Austria",
+"maxprob": 0.6685
+},
+{
+"city": "Patna",
+"country": "India",
+"maxprob": 0.3053
+},
+{
+"city": "Mosul",
+"country": "Iraq",
+"maxprob": 0.3247
+},
+{
+"city": "Kampala",
+"country": "Uganda",
+"maxprob": 0.9073
+},
+{
+"city": "Palembang",
+"country": "Indonesia",
+"maxprob": 0.4443
+},
+{
+"city": "Rabat",
+"country": "Morocco",
+"maxprob": 0.7995
+},
+{
+"city": "Semarang",
+"country": "Indonesia",
+"maxprob": 0.6763
+},
+{
+"city": "Recife",
+"country": "Brazil",
+"maxprob": 0.6815
+},
+{
+"city": "Ecatepec de Morelos",
+"country": "Mexico",
+"maxprob": 0.9495
+},
+{
+"city": "Barcelona",
+"country": "Spain",
+"maxprob": 0.6116
+},
+{
+"city": "Ludhiana",
+"country": "India",
+"maxprob": 0.3674
+},
+{
+"city": "Novosibirsk",
+"country": "Russia",
+"maxprob": 0.3542
+},
+{
+"city": "Erbil",
+"country": "Iraq",
+"maxprob": 0.5766
+},
+{
+"city": "Fukuoka",
+"country": "Japan",
+"maxprob": 0.5772
+},
+{
+"city": "Santiago de Quer\u00e9taro",
+"country": "Mexico",
+"maxprob": 0.8305
+},
+{
+"city": "Le\u00f3n de los Aldama",
+"country": "Mexico",
+"maxprob": 0.7778
+},
+{
+"city": "Phnom Penh",
+"country": "Cambodia",
+"maxprob": 0.5649
+},
+{
+"city": "Damascus",
+"country": "Syria",
+"maxprob": 0.5782
+},
+{
+"city": "Quetta",
+"country": "Pakistan",
+"maxprob": 0.4951
+},
+{
+"city": "Onitsha",
+"country": "Nigeria",
+"maxprob": 0.4054
+},
+{
+"city": "Isfahan",
+"country": "Iran",
+"maxprob": 0.61
+},
+{
+"city": "Harare",
+"country": "Zimbabwe",
+"maxprob": 0.8464
+},
+{
+"city": "Monrovia",
+"country": "Liberia",
+"maxprob": 0.7569
+},
+{
+"city": "Kawasaki",
+"country": "Japan",
+"maxprob": 0.6419
+},
+{
+"city": "Goi\u00e2nia",
+"country": "Brazil",
+"maxprob": 0.618
+},
+{
+"city": "Kobe",
+"country": "Japan",
+"maxprob": 0.8618
+},
+{
+"city": "Stockholm",
+"country": "Sweden",
+"maxprob": 0.7886
+},
+{
+"city": "Ciudad Ju\u00e1rez",
+"country": "Mexico",
+"maxprob": 0.6374
+},
+{
+"city": "C\u1ea7n Th\u01a1",
+"country": "Vietnam",
+"maxprob": 0.4818
+},
+{
+"city": "Khulna",
+"country": "Bangladesh",
+"maxprob": 0.5349
+},
+{
+"city": "Porto Alegre",
+"country": "Brazil",
+"maxprob": 0.7428
+},
+{
+"city": "Nashik",
+"country": "India",
+"maxprob": 0.3199
+},
+{
+"city": "Zapopan",
+"country": "Mexico",
+"maxprob": 0.7062
+},
+{
+"city": "Adelaide",
+"country": "Australia",
+"maxprob": 0.5307
+},
+{
+"city": "Madurai",
+"country": "India",
+"maxprob": 0.3782
+},
+{
+"city": "Kyoto",
+"country": "Japan",
+"maxprob": 0.731
+},
+{
+"city": "Kuala Lumpur",
+"country": "Malaysia",
+"maxprob": 0.5574
+},
+{
+"city": "Karaj",
+"country": "Iran",
+"maxprob": 0.5644
+},
+{
+"city": "Kathmandu",
+"country": "Nepal",
+"maxprob": 0.8713
+},
+{
+"city": "Tirunelveli",
+"country": "India",
+"maxprob": 0.4275
+},
+{
+"city": "Kayseri",
+"country": "Turkey",
+"maxprob": 0.8752
+},
+{
+"city": "Kharkiv",
+"country": "Ukraine",
+"maxprob": 0.7261
+},
+{
+"city": "Konya",
+"country": "Turkey",
+"maxprob": 0.8001
+},
+{
+"city": "Agra",
+"country": "India",
+"maxprob": 0.4155
+},
+{
+"city": "Tabriz",
+"country": "Iran",
+"maxprob": 0.3961
+},
+{
+"city": "Makassar",
+"country": "Indonesia",
+"maxprob": 0.6796
+},
+{
+"city": "Faridabad",
+"country": "India",
+"maxprob": 0.4264
+},
+{
+"city": "South Tangerang",
+"country": "Indonesia",
+"maxprob": 0.8867
+},
+{
+"city": "Guadalajara",
+"country": "Mexico",
+"maxprob": 0.6389
+},
+{
+"city": "Hu\u1ebf",
+"country": "Vietnam",
+"maxprob": 0.5529
+},
+{
+"city": "Milan",
+"country": "Italy",
+"maxprob": 0.5751
+},
+{
+"city": "N'Djamena",
+"country": "Chad",
+"maxprob": 0.9021
+},
+{
+"city": "Bannu",
+"country": "Pakistan",
+"maxprob": 0.4839
+},
+{
+"city": "Antananarivo",
+"country": "Madagascar",
+"maxprob": 0.6958
+},
+{
+"city": "Antalya",
+"country": "Turkey",
+"maxprob": 0.7498
+},
+{
+"city": "Jamshedpur",
+"country": "India",
+"maxprob": 0.3813
+},
+{
+"city": "Douala",
+"country": "Cameroon",
+"maxprob": 0.8628
+},
+{
+"city": "Basrah",
+"country": "Iraq",
+"maxprob": 0.7043
+},
+{
+"city": "Saitama",
+"country": "Japan",
+"maxprob": 0.677
+},
+{
+"city": "Gorakhpur",
+"country": "India",
+"maxprob": 0.7517
+},
+{
+"city": "Niamey",
+"country": "Niger",
+"maxprob": 0.9515
+},
+{
+"city": "Calgary",
+"country": "Canada",
+"maxprob": 0.8281
+},
+{
+"city": "Tripoli",
+"country": "Libya",
+"maxprob": 0.5395
+},
+{
+"city": "Callao",
+"country": "Peru",
+"maxprob": 0.7332
+},
+{
+"city": "Yaound\u00e9",
+"country": "Cameroon",
+"maxprob": 0.9229
+},
+{
+"city": "Da Nang",
+"country": "Vietnam",
+"maxprob": 0.795
+},
+{
+"city": "Amman",
+"country": "Jordan",
+"maxprob": 0.6974
+},
+{
+"city": "Belgrade",
+"country": "Serbia",
+"maxprob": 0.8332
+},
+{
+"city": "Bi\u00ean H\u00f2a",
+"country": "Vietnam",
+"maxprob": 0.6199
+},
+{
+"city": "Montevideo",
+"country": "Uruguay",
+"maxprob": 0.9238
+},
+{
+"city": "Munich",
+"country": "Germany",
+"maxprob": 0.6062
+},
+{
+"city": "Nizhniy Novgorod",
+"country": "Russia",
+"maxprob": 0.8493
+},
+{
+"city": "Jepara",
+"country": "Indonesia",
+"maxprob": 0.8268
+},
+{
+"city": "Ra\u2019s Bayr\u016bt",
+"country": "Lebanon",
+"maxprob": 0.713
+},
+{
+"city": "Shiraz",
+"country": "Iran",
+"maxprob": 0.6113
+},
+{
+"city": "Dombivali",
+"country": "India",
+"maxprob": 0.3343
+},
+{
+"city": "Barquisimeto",
+"country": "Venezuela",
+"maxprob": 0.7622
+},
+{
+"city": "Port-au-Prince",
+"country": "Haiti",
+"maxprob": 0.8708
+},
+{
+"city": "Meerut",
+"country": "India",
+"maxprob": 0.354
+},
+{
+"city": "Karbala",
+"country": "Iraq",
+"maxprob": 0.7302
+},
+{
+"city": "Mombasa",
+"country": "Kenya",
+"maxprob": 0.5262
+},
+{
+"city": "Mandalay",
+"country": "Myanmar",
+"maxprob": 0.5831
+},
+{
+"city": "Barranquilla",
+"country": "Colombia",
+"maxprob": 0.9114
+},
+{
+"city": "Chelyabinsk",
+"country": "Russia",
+"maxprob": 0.4167
+},
+{
+"city": "M\u00e9rida",
+"country": "Mexico",
+"maxprob": 0.4437
+},
+{
+"city": "Hiroshima",
+"country": "Japan",
+"maxprob": 0.5748
+},
+{
+"city": "Shymkent",
+"country": "Kazakhstan",
+"maxprob": 0.4287
+},
+{
+"city": "Fes",
+"country": "Morocco",
+"maxprob": 0.821
+},
+{
+"city": "Aurangabad",
+"country": "India",
+"maxprob": 0.701
+},
+{
+"city": "Guarulhos",
+"country": "Brazil",
+"maxprob": 0.7559
+},
+{
+"city": "Bandar Lampung",
+"country": "Indonesia",
+"maxprob": 0.7099
+},
+{
+"city": "Varanasi",
+"country": "India",
+"maxprob": 0.5093
+},
+{
+"city": "Batam",
+"country": "Indonesia",
+"maxprob": 0.8456
+},
+{
+"city": "Amritsar",
+"country": "India",
+"maxprob": 0.3063
+},
+{
+"city": "Copenhagen",
+"country": "Denmark",
+"maxprob": 0.8727
+},
+{
+"city": "Sofia",
+"country": "Bulgaria",
+"maxprob": 0.7793
+},
+{
+"city": "Vijayawada",
+"country": "India",
+"maxprob": 0.4631
+},
+{
+"city": "Yerevan",
+"country": "Armenia",
+"maxprob": 0.8867
+},
+{
+"city": "Monterrey",
+"country": "Mexico",
+"maxprob": 0.5003
+},
+{
+"city": "Kigali",
+"country": "Rwanda",
+"maxprob": 0.7367
+},
+{
+"city": "Rostov-na-Donu",
+"country": "Russia",
+"maxprob": 0.6351
+},
+{
+"city": "Bogor",
+"country": "Indonesia",
+"maxprob": 0.7971
+},
+{
+"city": "Baku",
+"country": "Azerbaijan",
+"maxprob": 0.8804
+},
+{
+"city": "Maiduguri",
+"country": "Nigeria",
+"maxprob": 0.6527
+},
+{
+"city": "Ciudad Nezahualcoyotl",
+"country": "Mexico",
+"maxprob": 0.8594
+},
+{
+"city": "Mwanza",
+"country": "Tanzania",
+"maxprob": 0.7663
+},
+{
+"city": "Sendai",
+"country": "Japan",
+"maxprob": 0.482
+},
+{
+"city": "Krasnoyarsk",
+"country": "Russia",
+"maxprob": 0.3906
+},
+{
+"city": "Pekanbaru",
+"country": "Indonesia",
+"maxprob": 0.6869
+},
+{
+"city": "Oslo",
+"country": "Norway",
+"maxprob": 0.8937
+},
+{
+"city": "Jabalpur",
+"country": "India",
+"maxprob": 0.5657
+},
+{
+"city": "Ilorin",
+"country": "Nigeria",
+"maxprob": 0.6655
+},
+{
+"city": "Aden",
+"country": "Yemen",
+"maxprob": 0.5592
+},
+{
+"city": "Prayagraj",
+"country": "India",
+"maxprob": 0.562
+},
+{
+"city": "Visakhapatnam",
+"country": "India",
+"maxprob": 0.5244
+},
+{
+"city": "Jodhpur",
+"country": "India",
+"maxprob": 0.3855
+},
+{
+"city": "Gwalior",
+"country": "India",
+"maxprob": 0.354
+},
+{
+"city": "Tbilisi",
+"country": "Georgia",
+"maxprob": 0.8302
+},
+{
+"city": "Sokoto",
+"country": "Nigeria",
+"maxprob": 0.4709
+},
+{
+"city": "Tangier",
+"country": "Morocco",
+"maxprob": 0.6313
+},
+{
+"city": "Mexicali",
+"country": "Mexico",
+"maxprob": 0.8326
+},
+{
+"city": "Macei\u00f3",
+"country": "Brazil",
+"maxprob": 0.4007
+},
+{
+"city": "Campinas",
+"country": "Brazil",
+"maxprob": 0.6154
+},
+{
+"city": "Kirkuk",
+"country": "Iraq",
+"maxprob": 0.5381
+},
+{
+"city": "Comilla",
+"country": "Bangladesh",
+"maxprob": 0.7499
+},
+{
+"city": "Raipur",
+"country": "India",
+"maxprob": 0.3757
+},
+{
+"city": "Dublin",
+"country": "Ireland",
+"maxprob": 0.7606
+},
+{
+"city": "Tiruchirappalli",
+"country": "India",
+"maxprob": 0.3957
+},
+{
+"city": "Brussels",
+"country": "Belgium",
+"maxprob": 0.778
+},
+{
+"city": "Ottawa",
+"country": "Canada",
+"maxprob": 0.8621
+},
+{
+"city": "Odesa",
+"country": "Ukraine",
+"maxprob": 0.8227
+},
+{
+"city": "Volgograd",
+"country": "Russia",
+"maxprob": 0.6659
+},
+{
+"city": "Khartoum North",
+"country": "Sudan",
+"maxprob": 0.8731
+},
+{
+"city": "Edmonton",
+"country": "Canada",
+"maxprob": 0.8488
+},
+{
+"city": "Arequipa",
+"country": "Peru",
+"maxprob": 0.7645
+},
+{
+"city": "Sholapur",
+"country": "India",
+"maxprob": 0.5128
+},
+{
+"city": "Marrakesh",
+"country": "Morocco",
+"maxprob": 0.6944
+},
+{
+"city": "Guatemala City",
+"country": "Guatemala",
+"maxprob": 0.9304
+},
+{
+"city": "Chiba",
+"country": "Japan",
+"maxprob": 0.5904
+},
+{
+"city": "Ciudad Guayana",
+"country": "Venezuela",
+"maxprob": 0.8317
+},
+{
+"city": "Sargodha",
+"country": "Pakistan",
+"maxprob": 0.8363
+},
+{
+"city": "Managua",
+"country": "Nicaragua",
+"maxprob": 0.9245
+},
+{
+"city": "Sal\u00e9",
+"country": "Morocco",
+"maxprob": 0.8317
+},
+{
+"city": "Jerusalem",
+"country": "Israel",
+"maxprob": 0.3503
+},
+{
+"city": "Dnipro",
+"country": "Ukraine",
+"maxprob": 0.5186
+},
+{
+"city": "K\u00f6ln",
+"country": "Germany",
+"maxprob": 0.5682
+},
+{
+"city": "Tiruppur",
+"country": "India",
+"maxprob": 0.5626
+},
+{
+"city": "Guwahati",
+"country": "India",
+"maxprob": 0.4144
+},
+{
+"city": "Enugu",
+"country": "Nigeria",
+"maxprob": 0.5635
+},
+{
+"city": "Rosario",
+"country": "Argentina",
+"maxprob": 0.5376
+},
+{
+"city": "Kitakyushu",
+"country": "Japan",
+"maxprob": 0.5825
+},
+{
+"city": "Chihuahua",
+"country": "Mexico",
+"maxprob": 0.6348
+},
+{
+"city": "Mysuru",
+"country": "India",
+"maxprob": 0.311
+},
+{
+"city": "Trujillo",
+"country": "Peru",
+"maxprob": 0.5782
+},
+{
+"city": "S\u00e3o Lu\u00eds",
+"country": "Brazil",
+"maxprob": 0.8056
+},
+{
+"city": "Cartagena",
+"country": "Colombia",
+"maxprob": 0.4627
+},
+{
+"city": "Sialkot",
+"country": "Pakistan",
+"maxprob": 0.8204
+},
+{
+"city": "Warri",
+"country": "Nigeria",
+"maxprob": 0.5135
+},
+{
+"city": "Naples",
+"country": "Italy",
+"maxprob": 0.4945
+},
+{
+"city": "Padang",
+"country": "Indonesia",
+"maxprob": 0.8432
+},
+{
+"city": "Bahawalpur",
+"country": "Pakistan",
+"maxprob": 0.8917
+},
+{
+"city": "Donetsk",
+"country": "Ukraine",
+"maxprob": 0.6291
+},
+{
+"city": "Ab\u016b Ghurayb",
+"country": "Iraq",
+"maxprob": 0.3709
+},
+{
+"city": "Qom",
+"country": "Iran",
+"maxprob": 0.8547
+},
+{
+"city": "Natal",
+"country": "Brazil",
+"maxprob": 0.5907
+},
+{
+"city": "Gurugram",
+"country": "India",
+"maxprob": 0.321
+},
+{
+"city": "Bhubaneswar",
+"country": "India",
+"maxprob": 0.3853
+},
+{
+"city": "Klang",
+"country": "Malaysia",
+"maxprob": 0.6503
+},
+{
+"city": "As Sulaym\u0101n\u012byah",
+"country": "Iraq",
+"maxprob": 0.8862
+},
+{
+"city": "Bhiwandi",
+"country": "India",
+"maxprob": 0.4748
+},
+{
+"city": "Marseille",
+"country": "France",
+"maxprob": 0.5771
+},
+{
+"city": "Jalandhar",
+"country": "India",
+"maxprob": 0.3511
+},
+{
+"city": "Johor Bahru",
+"country": "Malaysia",
+"maxprob": 0.655
+},
+{
+"city": "Tegucigalpa",
+"country": "Honduras",
+"maxprob": 0.8742
+},
+{
+"city": "Thanh H\u00f3a",
+"country": "Vietnam",
+"maxprob": 0.7925
+},
+{
+"city": "Turin",
+"country": "Italy",
+"maxprob": 0.7161
+},
+{
+"city": "Malang",
+"country": "Indonesia",
+"maxprob": 0.7114
+},
+{
+"city": "Ulan Bator",
+"country": "Mongolia",
+"maxprob": 0.9063
+},
+{
+"city": "Takeo",
+"country": "Cambodia",
+"maxprob": 0.4123
+},
+{
+"city": "Cochabamba",
+"country": "Bolivia",
+"maxprob": 0.9545
+},
+{
+"city": "Ahvaz",
+"country": "Iran",
+"maxprob": 0.6318
+},
+{
+"city": "Naucalpan de Ju\u00e1rez",
+"country": "Mexico",
+"maxprob": 0.9246
+},
+{
+"city": "Kampung Baru Subang",
+"country": "Malaysia",
+"maxprob": 0.8701
+},
+{
+"city": "Samarinda",
+"country": "Indonesia",
+"maxprob": 0.7406
+},
+{
+"city": "Sakai",
+"country": "Japan",
+"maxprob": 0.3971
+},
+{
+"city": "Valencia",
+"country": "Spain",
+"maxprob": 0.6829
+},
+{
+"city": "Nova Igua\u00e7u",
+"country": "Brazil",
+"maxprob": 0.818
+},
+{
+"city": "Duque de Caxias",
+"country": "Brazil",
+"maxprob": 0.8332
+},
+{
+"city": "Jo\u00e3o Pessoa",
+"country": "Brazil",
+"maxprob": 0.6326
+},
+{
+"city": "Hermosillo",
+"country": "Mexico",
+"maxprob": 0.9134
+},
+{
+"city": "Culiac\u00e1n",
+"country": "Mexico",
+"maxprob": 0.9131
+},
+{
+"city": "Petaling Jaya",
+"country": "Malaysia",
+"maxprob": 0.7393
+},
+{
+"city": "Malatya",
+"country": "Turkey",
+"maxprob": 0.9203
+},
+{
+"city": "Oran",
+"country": "Algeria",
+"maxprob": 0.8561
+},
+{
+"city": "San Pedro Sula",
+"country": "Honduras",
+"maxprob": 0.9506
+},
+{
+"city": "Niigata",
+"country": "Japan",
+"maxprob": 0.4655
+},
+{
+"city": "Muscat",
+"country": "Oman",
+"maxprob": 0.9129
+},
+{
+"city": "Zarqa",
+"country": "Jordan",
+"maxprob": 0.8905
+},
+{
+"city": "\u00c7ankaya",
+"country": "Turkey",
+"maxprob": 0.6751
+},
+{
+"city": "Hamamatsu",
+"country": "Japan",
+"maxprob": 0.694
+},
+{
+"city": "Vinh",
+"country": "Vietnam",
+"maxprob": 0.7095
+},
+{
+"city": "Eski\u015fehir",
+"country": "Turkey",
+"maxprob": 0.9217
+},
+{
+"city": "Thiruvananthapuram",
+"country": "India",
+"maxprob": 0.348
+},
+{
+"city": "Port Said",
+"country": "Egypt",
+"maxprob": 0.7131
+},
+{
+"city": "C\u00facuta",
+"country": "Colombia",
+"maxprob": 0.7609
+},
+{
+"city": "Homs",
+"country": "Syria",
+"maxprob": 0.8249
+},
+{
+"city": "Ibb",
+"country": "Yemen",
+"maxprob": 0.5529
+},
+{
+"city": "\u0141\u00f3d\u017a",
+"country": "Poland",
+"maxprob": 0.9107
+},
+{
+"city": "Erzurum",
+"country": "Turkey",
+"maxprob": 0.8514
+},
+{
+"city": "Dodoma",
+"country": "Tanzania",
+"maxprob": 0.8514
+},
+{
+"city": "Rajshahi",
+"country": "Bangladesh",
+"maxprob": 0.5266
+},
+{
+"city": "Dera Ismail Khan",
+"country": "Pakistan",
+"maxprob": 0.5242
+},
+{
+"city": "Ipoh",
+"country": "Malaysia",
+"maxprob": 0.6019
+},
+{
+"city": "Qinhuangdao",
+"country": "China",
+"maxprob": 0.4258
+},
+{
+"city": "Benghazi",
+"country": "Libya",
+"maxprob": 0.5094
+},
+{
+"city": "Krak\u00f3w",
+"country": "Poland",
+"maxprob": 0.8486
+},
+{
+"city": "Al\u012bgarh",
+"country": "India",
+"maxprob": 0.6035
+},
+{
+"city": "Winnipeg",
+"country": "Canada",
+"maxprob": 0.8686
+},
+{
+"city": "Ba\u011fc\u0131lar",
+"country": "Turkey",
+"maxprob": 0.7659
+},
+{
+"city": "S\u00e3o Bernardo do Campo",
+"country": "Brazil",
+"maxprob": 0.9491
+},
+{
+"city": "Morelia",
+"country": "Mexico",
+"maxprob": 0.6403
+},
+{
+"city": "Riga",
+"country": "Latvia",
+"maxprob": 0.8549
+},
+{
+"city": "Tasikmalaya",
+"country": "Indonesia",
+"maxprob": 0.8199
+},
+{
+"city": "Shah Alam",
+"country": "Malaysia",
+"maxprob": 0.6624
+},
+{
+"city": "Kumamoto",
+"country": "Japan",
+"maxprob": 0.4848
+},
+{
+"city": "Torre\u00f3n",
+"country": "Mexico",
+"maxprob": 0.8401
+},
+{
+"city": "Abeokuta",
+"country": "Nigeria",
+"maxprob": 0.3675
+},
+{
+"city": "Al \u1e28udaydah",
+"country": "Yemen",
+"maxprob": 0.8977
+},
+{
+"city": "Akure",
+"country": "Nigeria",
+"maxprob": 0.354
+},
+{
+"city": "S\u00e3o Jos\u00e9 dos Campos",
+"country": "Brazil",
+"maxprob": 0.938
+},
+{
+"city": "Osasco",
+"country": "Brazil",
+"maxprob": 0.8558
+},
+{
+"city": "\u00c1lvaro Obreg\u00f3n",
+"country": "Mexico",
+"maxprob": 0.8556
+},
+{
+"city": "Muzaffar\u0101b\u0101d",
+"country": "Pakistan",
+"maxprob": 0.5336
+},
+{
+"city": "Okayama",
+"country": "Japan",
+"maxprob": 0.5735
+},
+{
+"city": "San Luis Potos\u00ed",
+"country": "Mexico",
+"maxprob": 0.9109
+},
+{
+"city": "Aguascalientes",
+"country": "Mexico",
+"maxprob": 0.9113
+},
+{
+"city": "Mor\u0101d\u0101b\u0101d",
+"country": "India",
+"maxprob": 0.4287
+},
+{
+"city": "Sagamihara",
+"country": "Japan",
+"maxprob": 0.6874
+},
+{
+"city": "Mississauga",
+"country": "Canada",
+"maxprob": 0.7791
+},
+{
+"city": "Lviv",
+"country": "Ukraine",
+"maxprob": 0.8563
+},
+{
+"city": "Ribeir\u00e3o Preto",
+"country": "Brazil",
+"maxprob": 0.9109
+},
+{
+"city": "Zaporizhzhya",
+"country": "Ukraine",
+"maxprob": 0.9173
+},
+{
+"city": "Zanzibar",
+"country": "Tanzania",
+"maxprob": 0.6326
+},
+{
+"city": "Saltillo",
+"country": "Mexico",
+"maxprob": 0.7082
+},
+{
+"city": "Latakia",
+"country": "Syria",
+"maxprob": 0.688
+},
+{
+"city": "Subang Jaya",
+"country": "Malaysia",
+"maxprob": 0.7645
+},
+{
+"city": "Warangal",
+"country": "India",
+"maxprob": 0.433
+},
+{
+"city": "Jaboat\u00e3o",
+"country": "Brazil",
+"maxprob": 0.7852
+},
+{
+"city": "Suez",
+"country": "Egypt",
+"maxprob": 0.7382
+},
+{
+"city": "Agadir",
+"country": "Morocco",
+"maxprob": 0.7512
+},
+{
+"city": "Balikpapan",
+"country": "Indonesia",
+"maxprob": 0.4279
+},
+{
+"city": "Bauchi",
+"country": "Nigeria",
+"maxprob": 0.6775
+},
+{
+"city": "Shizuoka",
+"country": "Japan",
+"maxprob": 0.8386
+},
+{
+"city": "Tunis",
+"country": "Tunisia",
+"maxprob": 0.5882
+},
+{
+"city": "Serang",
+"country": "Indonesia",
+"maxprob": 0.7173
+},
+{
+"city": "Paranaque City",
+"country": "Philippines",
+"maxprob": 0.4076
+},
+{
+"city": "Sevilla",
+"country": "Spain",
+"maxprob": 0.7574
+},
+{
+"city": "Sorocaba",
+"country": "Brazil",
+"maxprob": 0.6428
+},
+{
+"city": "Zaragoza",
+"country": "Spain",
+"maxprob": 0.7307
+},
+{
+"city": "Situbondo",
+"country": "Indonesia",
+"maxprob": 0.8578
+},
+{
+"city": "Acapulco de Ju\u00e1rez",
+"country": "Mexico",
+"maxprob": 0.8906
+},
+{
+"city": "Guntur",
+"country": "India",
+"maxprob": 0.3668
+},
+{
+"city": "Kitwe",
+"country": "Zambia",
+"maxprob": 0.8882
+},
+{
+"city": "Bulawayo",
+"country": "Zimbabwe",
+"maxprob": 0.9228
+},
+{
+"city": "Athens",
+"country": "Greece",
+"maxprob": 0.4111
+},
+{
+"city": "Zagreb",
+"country": "Croatia",
+"maxprob": 0.8223
+},
+{
+"city": "Santo Andr\u00e9",
+"country": "Brazil",
+"maxprob": 0.6141
+},
+{
+"city": "Vancouver",
+"country": "Canada",
+"maxprob": 0.669
+},
+{
+"city": "Helsinki",
+"country": "Finland",
+"maxprob": 0.852
+},
+{
+"city": "Pontianak",
+"country": "Indonesia",
+"maxprob": 0.5916
+},
+{
+"city": "Banjarmasin",
+"country": "Indonesia",
+"maxprob": 0.6346
+},
+{
+"city": "Puducherry",
+"country": "India",
+"maxprob": 0.5284
+},
+{
+"city": "Brampton",
+"country": "Canada",
+"maxprob": 0.4396
+},
+{
+"city": "Tlalnepantla",
+"country": "Mexico",
+"maxprob": 0.8764
+},
+{
+"city": "Tlaquepaque",
+"country": "Mexico",
+"maxprob": 0.4515
+},
+{
+"city": "Frankfurt am Main",
+"country": "Germany",
+"maxprob": 0.6465
+},
+{
+"city": "Palermo",
+"country": "Italy",
+"maxprob": 0.4534
+},
+{
+"city": "Izhevsk",
+"country": "Russia",
+"maxprob": 0.6922
+},
+{
+"city": "Matur\u00edn",
+"country": "Venezuela",
+"maxprob": 0.7979
+},
+{
+"city": "Amravati",
+"country": "India",
+"maxprob": 0.3054
+},
+{
+"city": "Osogbo",
+"country": "Nigeria",
+"maxprob": 0.6213
+},
+{
+"city": "Bikaner",
+"country": "India",
+"maxprob": 0.3922
+},
+{
+"city": "Jaboat\u00e3o dos Guararapes",
+"country": "Brazil",
+"maxprob": 0.9208
+},
+{
+"city": "Cuenca",
+"country": "Ecuador",
+"maxprob": 0.6745
+},
+{
+"city": "Wroc\u0142aw",
+"country": "Poland",
+"maxprob": 0.8496
+},
+{
+"city": "Stuttgart",
+"country": "Germany",
+"maxprob": 0.622
+},
+{
+"city": "Canc\u00fan",
+"country": "Mexico",
+"maxprob": 0.5511
+},
+{
+"city": "Ndola",
+"country": "Zambia",
+"maxprob": 0.7191
+},
+{
+"city": "Contagem",
+"country": "Brazil",
+"maxprob": 0.5467
+},
+{
+"city": "Ulyanovsk",
+"country": "Russia",
+"maxprob": 0.7178
+},
+{
+"city": "Irkutsk",
+"country": "Russia",
+"maxprob": 0.5437
+},
+{
+"city": "Kermanshah",
+"country": "Iran",
+"maxprob": 0.8601
+},
+{
+"city": "D\u00fcsseldorf",
+"country": "Germany",
+"maxprob": 0.6344
+},
+{
+"city": "Coyoac\u00e1n",
+"country": "Mexico",
+"maxprob": 0.7926
+},
+{
+"city": "Feira de Santana",
+"country": "Brazil",
+"maxprob": 0.6855
+},
+{
+"city": "Cuiab\u00e1",
+"country": "Brazil",
+"maxprob": 0.8552
+},
+{
+"city": "Arusha",
+"country": "Tanzania",
+"maxprob": 0.8079
+},
+{
+"city": "Santa Mar\u00eda Chimalhuac\u00e1n",
+"country": "Mexico",
+"maxprob": 0.9159
+},
+{
+"city": "Yaroslavl",
+"country": "Russia",
+"maxprob": 0.3977
+},
+{
+"city": "G\u00f6teborg",
+"country": "Sweden",
+"maxprob": 0.7974
+},
+{
+"city": "Jambi City",
+"country": "Indonesia",
+"maxprob": 0.4605
+},
+{
+"city": "Vladivostok",
+"country": "Russia",
+"maxprob": 0.3957
+},
+{
+"city": "Kryvyy Rih",
+"country": "Ukraine",
+"maxprob": 0.6938
+},
+{
+"city": "Islamabad",
+"country": "Pakistan",
+"maxprob": 0.5421
+},
+{
+"city": "Jamnagar",
+"country": "India",
+"maxprob": 0.3038
+},
+{
+"city": "Lubango",
+"country": "Angola",
+"maxprob": 0.9321
+},
+{
+"city": "Pokhara",
+"country": "Nepal",
+"maxprob": 0.8915
+},
+{
+"city": "Huambo",
+"country": "Angola",
+"maxprob": 0.8789
+},
+{
+"city": "Kagoshima",
+"country": "Japan",
+"maxprob": 0.5174
+},
+{
+"city": "Mukalla",
+"country": "Yemen",
+"maxprob": 0.4475
+},
+{
+"city": "Rasht",
+"country": "Iran",
+"maxprob": 0.6939
+},
+{
+"city": "Mar del Plata",
+"country": "Argentina",
+"maxprob": 0.6955
+},
+{
+"city": "Essen",
+"country": "Germany",
+"maxprob": 0.5437
+},
+{
+"city": "M\u00e1laga",
+"country": "Spain",
+"maxprob": 0.6963
+},
+{
+"city": "Cimahi",
+"country": "Indonesia",
+"maxprob": 0.8767
+},
+{
+"city": "Reynosa",
+"country": "Mexico",
+"maxprob": 0.5153
+},
+{
+"city": "Thu\u1eadn An",
+"country": "Vietnam",
+"maxprob": 0.4086
+},
+{
+"city": "Dortmund",
+"country": "Germany",
+"maxprob": 0.5166
+},
+{
+"city": "Suginami",
+"country": "Japan",
+"maxprob": 0.5653
+},
+{
+"city": "Londrina",
+"country": "Brazil",
+"maxprob": 0.3671
+},
+{
+"city": "Itabashi",
+"country": "Japan",
+"maxprob": 0.3912
+},
+{
+"city": "Bucaramanga",
+"country": "Colombia",
+"maxprob": 0.9356
+},
+{
+"city": "Genoa",
+"country": "Italy",
+"maxprob": 0.5429
+},
+{
+"city": "Hachi\u014dji",
+"country": "Japan",
+"maxprob": 0.6181
+},
+{
+"city": "Malacca",
+"country": "Malaysia",
+"maxprob": 0.6604
+},
+{
+"city": "Nha Trang",
+"country": "Vietnam",
+"maxprob": 0.681
+},
+{
+"city": "Kerman",
+"country": "Iran",
+"maxprob": 0.7638
+},
+{
+"city": "Or\u016bm\u012byeh",
+"country": "Iran",
+"maxprob": 0.8254
+},
+{
+"city": "Bah\u00e7elievler",
+"country": "Turkey",
+"maxprob": 0.3299
+},
+{
+"city": "Tanta",
+"country": "Egypt",
+"maxprob": 0.6832
+},
+{
+"city": "Iskandar Puteri",
+"country": "Malaysia",
+"maxprob": 0.7947
+},
+{
+"city": "Tlalpan",
+"country": "Mexico",
+"maxprob": 0.7431
+},
+{
+"city": "Her\u0101t",
+"country": "Afghanistan",
+"maxprob": 0.7801
+},
+{
+"city": "Juiz de Fora",
+"country": "Brazil",
+"maxprob": 0.5941
+},
+{
+"city": "Umraniye",
+"country": "Turkey",
+"maxprob": 0.4129
+},
+{
+"city": "Nakuru",
+"country": "Kenya",
+"maxprob": 0.5839
+},
+{
+"city": "Pozna\u0144",
+"country": "Poland",
+"maxprob": 0.7658
+},
+{
+"city": "Irbid",
+"country": "Jordan",
+"maxprob": 0.8407
+},
+{
+"city": "Kota Bharu",
+"country": "Malaysia",
+"maxprob": 0.7418
+},
+{
+"city": "Meknes",
+"country": "Morocco",
+"maxprob": 0.8739
+},
+{
+"city": "Puente Alto",
+"country": "Chile",
+"maxprob": 0.9084
+},
+{
+"city": "Orenburg",
+"country": "Russia",
+"maxprob": 0.3781
+},
+{
+"city": "Sukkur",
+"country": "Pakistan",
+"maxprob": 0.7114
+},
+{
+"city": "Uberl\u00e2ndia",
+"country": "Brazil",
+"maxprob": 0.557
+},
+{
+"city": "Ile-Ife",
+"country": "Nigeria",
+"maxprob": 0.5775
+},
+{
+"city": "Nasiriyah",
+"country": "Iraq",
+"maxprob": 0.7098
+},
+{
+"city": "Dresden",
+"country": "Germany",
+"maxprob": 0.3686
+},
+{
+"city": "Santiago de Cuba",
+"country": "Cuba",
+"maxprob": 0.7291
+},
+{
+"city": "Benguela",
+"country": "Angola",
+"maxprob": 0.6807
+},
+{
+"city": "Chiclayo",
+"country": "Peru",
+"maxprob": 0.9169
+},
+{
+"city": "Zahedan",
+"country": "Iran",
+"maxprob": 0.5452
+},
+{
+"city": "Cabinda",
+"country": "Angola",
+"maxprob": 0.7344
+},
+{
+"city": "Pristina",
+"country": "Kosovo",
+"maxprob": 0.748
+},
+{
+"city": "Kolh\u0101pur",
+"country": "India",
+"maxprob": 0.5533
+},
+{
+"city": "San Miguel de Tucum\u00e1n",
+"country": "Argentina",
+"maxprob": 0.7714
+},
+{
+"city": "Kuantan",
+"country": "Malaysia",
+"maxprob": 0.4126
+},
+{
+"city": "Sevastopol",
+"country": "Ukraine",
+"maxprob": 0.3704
+},
+{
+"city": "Mirpur Model Thana",
+"country": "Bangladesh",
+"maxprob": 0.4062
+},
+{
+"city": "Bremen",
+"country": "Germany",
+"maxprob": 0.4562
+},
+{
+"city": "Owerri",
+"country": "Nigeria",
+"maxprob": 0.3359
+},
+{
+"city": "Selayang Baru Utara",
+"country": "Malaysia",
+"maxprob": 0.4249
+},
+{
+"city": "Vilnius",
+"country": "Lithuania",
+"maxprob": 0.9129
+},
+{
+"city": "Ajmer",
+"country": "India",
+"maxprob": 0.3572
+},
+{
+"city": "Mbeya",
+"country": "Tanzania",
+"maxprob": 0.7269
+},
+{
+"city": "Oujda",
+"country": "Morocco",
+"maxprob": 0.6645
+},
+{
+"city": "Novokuznetsk",
+"country": "Russia",
+"maxprob": 0.6888
+},
+{
+"city": "Ryazan\u2019",
+"country": "Russia",
+"maxprob": 0.8741
+},
+{
+"city": "Sahiwal",
+"country": "Pakistan",
+"maxprob": 0.7421
+},
+{
+"city": "Mersin",
+"country": "Turkey",
+"maxprob": 0.9044
+},
+{
+"city": "Okara",
+"country": "Pakistan",
+"maxprob": 0.482
+},
+{
+"city": "Ar Raqqah",
+"country": "Syria",
+"maxprob": 0.8703
+},
+{
+"city": "Qu\u00e9bec",
+"country": "Canada",
+"maxprob": 0.7661
+},
+{
+"city": "Cuauht\u00e9moc",
+"country": "Mexico",
+"maxprob": 0.7776
+},
+{
+"city": "Himeji",
+"country": "Japan",
+"maxprob": 0.6026
+},
+{
+"city": "Ibagu\u00e9",
+"country": "Colombia",
+"maxprob": 0.9512
+},
+{
+"city": "Antwerpen",
+"country": "Belgium",
+"maxprob": 0.8213
+},
+{
+"city": "Assiut",
+"country": "Egypt",
+"maxprob": 0.8774
+},
+{
+"city": "Hamad\u0101n",
+"country": "Iran",
+"maxprob": 0.835
+},
+{
+"city": "Moh\u0101mmadpur",
+"country": "Bangladesh",
+"maxprob": 0.7851
+},
+{
+"city": "Surakarta",
+"country": "Indonesia",
+"maxprob": 0.3837
+},
+{
+"city": "\u00dcsk\u00fcdar",
+"country": "Turkey",
+"maxprob": 0.7829
+},
+{
+"city": "Maz\u0101r-e Shar\u012bf",
+"country": "Afghanistan",
+"maxprob": 0.6827
+},
+{
+"city": "Kandah\u0101r",
+"country": "Afghanistan",
+"maxprob": 0.7658
+},
+{
+"city": "Lyon",
+"country": "France",
+"maxprob": 0.7409
+},
+{
+"city": "Dehra D\u016bn",
+"country": "India",
+"maxprob": 0.7043
+},
+{
+"city": "Salta",
+"country": "Argentina",
+"maxprob": 0.73
+},
+{
+"city": "Qui Nhon",
+"country": "Vietnam",
+"maxprob": 0.5595
+},
+{
+"city": "Al Fayyum",
+"country": "Egypt",
+"maxprob": 0.7618
+},
+{
+"city": "Durgapur",
+"country": "India",
+"maxprob": 0.3105
+},
+{
+"city": "Victoria de Durango",
+"country": "Mexico",
+"maxprob": 0.6857
+},
+{
+"city": "Lisbon",
+"country": "Portugal",
+"maxprob": 0.7811
+},
+{
+"city": "Rahim Yar Khan",
+"country": "Pakistan",
+"maxprob": 0.7144
+},
+{
+"city": "Ulhasnagar",
+"country": "India",
+"maxprob": 0.5435
+},
+{
+"city": "N\u00fcrnberg",
+"country": "Germany",
+"maxprob": 0.561
+},
+{
+"city": "Hannover",
+"country": "Germany",
+"maxprob": 0.6654
+},
+{
+"city": "\u0100z\u0101dshahr",
+"country": "Iran",
+"maxprob": 0.6844
+},
+{
+"city": "Macap\u00e1",
+"country": "Brazil",
+"maxprob": 0.8732
+},
+{
+"city": "Matsuyama",
+"country": "Japan",
+"maxprob": 0.4522
+},
+{
+"city": "Campos dos Goytacazes",
+"country": "Brazil",
+"maxprob": 0.5945
+},
+{
+"city": "Kasur",
+"country": "Pakistan",
+"maxprob": 0.6969
+},
+{
+"city": "Aparecida de Goi\u00e2nia",
+"country": "Brazil",
+"maxprob": 0.6024
+},
+{
+"city": "Mianzhu, Deyang, Sichuan",
+"country": "China",
+"maxprob": 0.6954
+},
+{
+"city": "Lipetsk",
+"country": "Russia",
+"maxprob": 0.9154
+},
+{
+"city": "Florian\u00f3polis",
+"country": "Brazil",
+"maxprob": 0.7316
+},
+{
+"city": "Leipzig",
+"country": "Germany",
+"maxprob": 0.6322
+},
+{
+"city": "Duisburg",
+"country": "Germany",
+"maxprob": 0.717
+},
+{
+"city": "Ar\u0101k",
+"country": "Iran",
+"maxprob": 0.603
+},
+{
+"city": "Aktobe",
+"country": "Kazakhstan",
+"maxprob": 0.8274
+},
+{
+"city": "Kota Kinabalu",
+"country": "Malaysia",
+"maxprob": 0.5709
+},
+{
+"city": "Kota Damansara",
+"country": "Malaysia",
+"maxprob": 0.8364
+},
+{
+"city": "Mangaluru",
+"country": "India",
+"maxprob": 0.3993
+},
+{
+"city": "Santa Marta",
+"country": "Colombia",
+"maxprob": 0.755
+},
+{
+"city": "Matsudo",
+"country": "Japan",
+"maxprob": 0.6243
+},
+{
+"city": "Dera Ghazi Khan",
+"country": "Pakistan",
+"maxprob": 0.6581
+},
+{
+"city": "Toulouse",
+"country": "France",
+"maxprob": 0.6968
+},
+{
+"city": "Monter\u00eda",
+"country": "Colombia",
+"maxprob": 0.916
+},
+{
+"city": "Ruiru",
+"country": "Kenya",
+"maxprob": 0.3254
+},
+{
+"city": "Valledupar",
+"country": "Colombia",
+"maxprob": 0.8752
+},
+{
+"city": "Belagavi",
+"country": "India",
+"maxprob": 0.3963
+},
+{
+"city": "Port Sudan",
+"country": "Sudan",
+"maxprob": 0.4974
+},
+{
+"city": "Toluca",
+"country": "Mexico",
+"maxprob": 0.7453
+},
+{
+"city": "Ciudad L\u00f3pez Mateos",
+"country": "Mexico",
+"maxprob": 0.4812
+},
+{
+"city": "Nishinomiya",
+"country": "Japan",
+"maxprob": 0.4596
+},
+{
+"city": "Sah\u0101ranpur",
+"country": "India",
+"maxprob": 0.8376
+},
+{
+"city": "Vellore",
+"country": "India",
+"maxprob": 0.3542
+},
+{
+"city": "Cuautitl\u00e1n Izcalli",
+"country": "Mexico",
+"maxprob": 0.9253
+},
+{
+"city": "Piura",
+"country": "Peru",
+"maxprob": 0.6974
+},
+{
+"city": "Kurashiki",
+"country": "Japan",
+"maxprob": 0.382
+},
+{
+"city": "Tula",
+"country": "Russia",
+"maxprob": 0.346
+},
+{
+"city": "Najaf",
+"country": "Iraq",
+"maxprob": 0.5586
+},
+{
+"city": "Malegaon",
+"country": "India",
+"maxprob": 0.371
+},
+{
+"city": "S\u00e3o Jos\u00e9 do Rio Preto",
+"country": "Brazil",
+"maxprob": 0.9204
+},
+{
+"city": "Yazd",
+"country": "Iran",
+"maxprob": 0.8167
+},
+{
+"city": "\u014cita",
+"country": "Japan",
+"maxprob": 0.6651
+},
+{
+"city": "Mau\u00e1",
+"country": "Brazil",
+"maxprob": 0.6209
+},
+{
+"city": "Taoyuan",
+"country": "Taiwan",
+"maxprob": 0.308
+},
+{
+"city": "Kaliningrad",
+"country": "Russia",
+"maxprob": 0.5832
+},
+{
+"city": "Morogoro",
+"country": "Tanzania",
+"maxprob": 0.8245
+},
+{
+"city": "Kenitra",
+"country": "Morocco",
+"maxprob": 0.8391
+},
+{
+"city": "Mykolayiv",
+"country": "Ukraine",
+"maxprob": 0.9308
+},
+{
+"city": "Fukuyama",
+"country": "Japan",
+"maxprob": 0.4493
+},
+{
+"city": "Pereira",
+"country": "Colombia",
+"maxprob": 0.8037
+},
+{
+"city": "Ciudad Apodaca",
+"country": "Mexico",
+"maxprob": 0.5573
+},
+{
+"city": "S\u00e3o Jo\u00e3o de Meriti",
+"country": "Brazil",
+"maxprob": 0.8348
+},
+{
+"city": "Belford Roxo",
+"country": "Brazil",
+"maxprob": 0.5528
+},
+{
+"city": "Kanazawa",
+"country": "Japan",
+"maxprob": 0.3541
+},
+{
+"city": "Gonder",
+"country": "Ethiopia",
+"maxprob": 0.7618
+},
+{
+"city": "Mixco",
+"country": "Guatemala",
+"maxprob": 0.3194
+},
+{
+"city": "V\u0169ng T\u00e0u",
+"country": "Vietnam",
+"maxprob": 0.6056
+},
+{
+"city": "Maracay",
+"country": "Venezuela",
+"maxprob": 0.9187
+},
+{
+"city": "D\u0129 An",
+"country": "Vietnam",
+"maxprob": 0.5895
+},
+{
+"city": "Gda\u0144sk",
+"country": "Poland",
+"maxprob": 0.7479
+},
+{
+"city": "Joinville",
+"country": "Brazil",
+"maxprob": 0.3731
+},
+{
+"city": "\u1e28am\u0101h",
+"country": "Syria",
+"maxprob": 0.9381
+},
+{
+"city": "Murcia",
+"country": "Spain",
+"maxprob": 0.85
+},
+{
+"city": "Jalgaon",
+"country": "India",
+"maxprob": 0.3056
+},
+{
+"city": "R\u1ea1ch Gi\u00e1",
+"country": "Vietnam",
+"maxprob": 0.4115
+},
+{
+"city": "Amagasaki",
+"country": "Japan",
+"maxprob": 0.5882
+},
+{
+"city": "Niter\u00f3i",
+"country": "Brazil",
+"maxprob": 0.8803
+},
+{
+"city": "Huancayo",
+"country": "Peru",
+"maxprob": 0.8387
+},
+{
+"city": "Al \u1e28illah",
+"country": "Iraq",
+"maxprob": 0.8189
+},
+{
+"city": "Malanje",
+"country": "Angola",
+"maxprob": 0.7606
+},
+{
+"city": "Ciudad General Escobedo",
+"country": "Mexico",
+"maxprob": 0.6117
+},
+{
+"city": "Hsinchu",
+"country": "Taiwan",
+"maxprob": 0.7785
+},
+{
+"city": "Manado",
+"country": "Indonesia",
+"maxprob": 0.6067
+},
+{
+"city": "Udaipur",
+"country": "India",
+"maxprob": 0.4177
+},
+{
+"city": "Cilegon",
+"country": "Indonesia",
+"maxprob": 0.9161
+},
+{
+"city": "Muratpa\u015fa",
+"country": "Turkey",
+"maxprob": 0.7663
+},
+{
+"city": "Heroica Matamoros",
+"country": "Mexico",
+"maxprob": 0.4088
+},
+{
+"city": "\u015eanl\u0131urfa",
+"country": "Turkey",
+"maxprob": 0.7235
+},
+{
+"city": "Nam \u0110\u1ecbnh",
+"country": "Vietnam",
+"maxprob": 0.8108
+},
+{
+"city": "Ensenada",
+"country": "Mexico",
+"maxprob": 0.589
+},
+{
+"city": "Elaz\u0131\u011f",
+"country": "Turkey",
+"maxprob": 0.8989
+},
+{
+"city": "San Nicol\u00e1s de los Garza",
+"country": "Mexico",
+"maxprob": 0.9151
+},
+{
+"city": "Jundia\u00ed",
+"country": "Brazil",
+"maxprob": 0.8657
+},
+{
+"city": "Fujisawa",
+"country": "Japan",
+"maxprob": 0.6428
+},
+{
+"city": "Mawlamyine",
+"country": "Myanmar",
+"maxprob": 0.4334
+},
+{
+"city": "Laval",
+"country": "Canada",
+"maxprob": 0.3071
+},
+{
+"city": "Uyo",
+"country": "Nigeria",
+"maxprob": 0.489
+},
+{
+"city": "Davangere",
+"country": "India",
+"maxprob": 0.5727
+},
+{
+"city": "Manizales",
+"country": "Colombia",
+"maxprob": 0.94
+},
+{
+"city": "Ananindeua",
+"country": "Brazil",
+"maxprob": 0.5528
+},
+{
+"city": "Stavropol\u2019",
+"country": "Russia",
+"maxprob": 0.8082
+},
+{
+"city": "Santos",
+"country": "Brazil",
+"maxprob": 0.4859
+},
+{
+"city": "Kashiwa",
+"country": "Japan",
+"maxprob": 0.3495
+},
+{
+"city": "Ogbomoso",
+"country": "Nigeria",
+"maxprob": 0.4513
+},
+{
+"city": "Tel Aviv",
+"country": "Israel",
+"maxprob": 0.5879
+},
+{
+"city": "Machida",
+"country": "Japan",
+"maxprob": 0.5537
+},
+{
+"city": "Zagazig",
+"country": "Egypt",
+"maxprob": 0.7135
+},
+{
+"city": "Ismailia",
+"country": "Egypt",
+"maxprob": 0.7367
+},
+{
+"city": "Cusco",
+"country": "Peru",
+"maxprob": 0.7963
+},
+{
+"city": "Veracruz",
+"country": "Mexico",
+"maxprob": 0.6962
+},
+{
+"city": "Bryansk",
+"country": "Russia",
+"maxprob": 0.6951
+},
+{
+"city": "Kuala Terengganu",
+"country": "Malaysia",
+"maxprob": 0.7825
+},
+{
+"city": "Xalapa de Enr\u00edquez",
+"country": "Mexico",
+"maxprob": 0.7944
+},
+{
+"city": "Rajpur Sonarpur",
+"country": "India",
+"maxprob": 0.514
+},
+{
+"city": "Bratislava",
+"country": "Slovakia",
+"maxprob": 0.882
+},
+{
+"city": "Taman Petaling",
+"country": "Malaysia",
+"maxprob": 0.78
+},
+{
+"city": "Al \u1e28asakah",
+"country": "Syria",
+"maxprob": 0.837
+},
+{
+"city": "Luxor",
+"country": "Egypt",
+"maxprob": 0.7244
+},
+{
+"city": "Bamenda",
+"country": "Cameroon",
+"maxprob": 0.8544
+},
+{
+"city": "Tver",
+"country": "Russia",
+"maxprob": 0.7092
+},
+{
+"city": "Rio Branco",
+"country": "Brazil",
+"maxprob": 0.43
+},
+{
+"city": "Tirana",
+"country": "Albania",
+"maxprob": 0.8154
+},
+{
+"city": "Alor Setar",
+"country": "Malaysia",
+"maxprob": 0.7529
+},
+{
+"city": "Pasay",
+"country": "Philippines",
+"maxprob": 0.3093
+},
+{
+"city": "Toyama",
+"country": "Japan",
+"maxprob": 0.4724
+},
+{
+"city": "T\u00e9touan",
+"country": "Morocco",
+"maxprob": 0.5605
+},
+{
+"city": "Z\u00fcrich",
+"country": "Switzerland",
+"maxprob": 0.8874
+},
+{
+"city": "Vi\u1ec7t Tr\u00ec",
+"country": "Vietnam",
+"maxprob": 0.5554
+},
+{
+"city": "Azcapotzalco",
+"country": "Mexico",
+"maxprob": 0.7558
+},
+{
+"city": "Montes Claros",
+"country": "Brazil",
+"maxprob": 0.6214
+},
+{
+"city": "Jh\u0101nsi",
+"country": "India",
+"maxprob": 0.4963
+},
+{
+"city": "Ciudad Bol\u00edvar",
+"country": "Venezuela",
+"maxprob": 0.6101
+},
+{
+"city": "Ardab\u012bl",
+"country": "Iran",
+"maxprob": 0.4886
+},
+{
+"city": "Ballari",
+"country": "India",
+"maxprob": 0.331
+},
+{
+"city": "Palma",
+"country": "Spain",
+"maxprob": 0.3525
+},
+{
+"city": "Yokosuka",
+"country": "Japan",
+"maxprob": 0.5382
+},
+{
+"city": "Nagasaki",
+"country": "Japan",
+"maxprob": 0.549
+},
+{
+"city": "Tonal\u00e1",
+"country": "Mexico",
+"maxprob": 0.3665
+},
+{
+"city": "Xochimilco",
+"country": "Mexico",
+"maxprob": 0.6386
+},
+{
+"city": "Szczecin",
+"country": "Poland",
+"maxprob": 0.7861
+},
+{
+"city": "Piracicaba",
+"country": "Brazil",
+"maxprob": 0.8614
+},
+{
+"city": "Hirakata",
+"country": "Japan",
+"maxprob": 0.3022
+},
+{
+"city": "Ivanovo",
+"country": "Russia",
+"maxprob": 0.3551
+},
+{
+"city": "Cuman\u00e1",
+"country": "Venezuela",
+"maxprob": 0.8446
+},
+{
+"city": "Kuching",
+"country": "Malaysia",
+"maxprob": 0.414
+},
+{
+"city": "Gifu",
+"country": "Japan",
+"maxprob": 0.4083
+},
+{
+"city": "Taoyuan City",
+"country": "Taiwan",
+"maxprob": 0.5557
+},
+{
+"city": "Toyonaka",
+"country": "Japan",
+"maxprob": 0.5198
+},
+{
+"city": "Kassala",
+"country": "Sudan",
+"maxprob": 0.7207
+},
+{
+"city": "Antofagasta",
+"country": "Chile",
+"maxprob": 0.7601
+},
+{
+"city": "Bh\u0101galpur",
+"country": "India",
+"maxprob": 0.4515
+},
+{
+"city": "West Jerusalem",
+"country": "Israel",
+"maxprob": 0.429
+},
+{
+"city": "Kisumu",
+"country": "Kenya",
+"maxprob": 0.6561
+},
+{
+"city": "Luhansk",
+"country": "Ukraine",
+"maxprob": 0.8568
+},
+{
+"city": "Barinas",
+"country": "Venezuela",
+"maxprob": 0.9583
+},
+{
+"city": "Al Hoce\u00efma",
+"country": "Morocco",
+"maxprob": 0.7674
+},
+{
+"city": "Bologna",
+"country": "Italy",
+"maxprob": 0.8002
+},
+{
+"city": "Samsun",
+"country": "Turkey",
+"maxprob": 0.9139
+},
+{
+"city": "Tallinn",
+"country": "Estonia",
+"maxprob": 0.8484
+},
+{
+"city": "Tanga",
+"country": "Tanzania",
+"maxprob": 0.5448
+},
+{
+"city": "El Obeid",
+"country": "Sudan",
+"maxprob": 0.6224
+},
+{
+"city": "Diadema",
+"country": "Brazil",
+"maxprob": 0.7689
+},
+{
+"city": "Pasto",
+"country": "Colombia",
+"maxprob": 0.7493
+},
+{
+"city": "Makurdi",
+"country": "Nigeria",
+"maxprob": 0.6414
+},
+{
+"city": "Takoradi",
+"country": "Ghana",
+"maxprob": 0.7535
+},
+{
+"city": "Samut Prakan",
+"country": "Thailand",
+"maxprob": 0.7466
+},
+{
+"city": "Ambato",
+"country": "Ecuador",
+"maxprob": 0.8659
+},
+{
+"city": "Carapicu\u00edba",
+"country": "Brazil",
+"maxprob": 0.8976
+},
+{
+"city": "Bochum",
+"country": "Germany",
+"maxprob": 0.3568
+},
+{
+"city": "Suita",
+"country": "Japan",
+"maxprob": 0.5517
+},
+{
+"city": "Kahramanmara\u015f",
+"country": "Turkey",
+"maxprob": 0.9261
+},
+{
+"city": "Graja\u00fa",
+"country": "Brazil",
+"maxprob": 0.6039
+},
+{
+"city": "Iztacalco",
+"country": "Mexico",
+"maxprob": 0.5113
+},
+{
+"city": "Betim",
+"country": "Brazil",
+"maxprob": 0.5931
+},
+{
+"city": "Mazatl\u00e1n",
+"country": "Mexico",
+"maxprob": 0.8517
+},
+{
+"city": "Caxias do Sul",
+"country": "Brazil",
+"maxprob": 0.6905
+},
+{
+"city": "Irapuato",
+"country": "Mexico",
+"maxprob": 0.8911
+},
+{
+"city": "Asw\u0101n",
+"country": "Egypt",
+"maxprob": 0.7778
+},
+{
+"city": "Bauru",
+"country": "Brazil",
+"maxprob": 0.5655
+},
+{
+"city": "Ia\u015fi",
+"country": "Romania",
+"maxprob": 0.8457
+},
+{
+"city": "P\u0101nih\u0101ti",
+"country": "India",
+"maxprob": 0.3538
+},
+{
+"city": "Las Palmas de Gran Canaria",
+"country": "Spain",
+"maxprob": 0.4574
+},
+{
+"city": "Iquitos",
+"country": "Peru",
+"maxprob": 0.8687
+},
+{
+"city": "Toyohashi",
+"country": "Japan",
+"maxprob": 0.3049
+},
+{
+"city": "Rajamahendravaram",
+"country": "India",
+"maxprob": 0.4897
+},
+{
+"city": "Dhule",
+"country": "India",
+"maxprob": 0.4067
+},
+{
+"city": "Puchong",
+"country": "Malaysia",
+"maxprob": 0.7429
+},
+{
+"city": "Rohtak",
+"country": "India",
+"maxprob": 0.4082
+},
+{
+"city": "Nuevo Laredo",
+"country": "Mexico",
+"maxprob": 0.7482
+},
+{
+"city": "Bengkulu",
+"country": "Indonesia",
+"maxprob": 0.7989
+},
+{
+"city": "Yogyakarta",
+"country": "Indonesia",
+"maxprob": 0.5183
+},
+{
+"city": "Bafoussam",
+"country": "Cameroon",
+"maxprob": 0.713
+},
+{
+"city": "Palu",
+"country": "Indonesia",
+"maxprob": 0.5546
+},
+{
+"city": "Takasaki",
+"country": "Japan",
+"maxprob": 0.4308
+},
+{
+"city": "Seremban",
+"country": "Malaysia",
+"maxprob": 0.7668
+},
+{
+"city": "Miguel Hidalgo",
+"country": "Mexico",
+"maxprob": 0.6016
+},
+{
+"city": "Nagano",
+"country": "Japan",
+"maxprob": 0.7141
+},
+{
+"city": "Tawau",
+"country": "Malaysia",
+"maxprob": 0.3299
+},
+{
+"city": "Chitungwiza",
+"country": "Zimbabwe",
+"maxprob": 0.9312
+},
+{
+"city": "Abadan",
+"country": "Iran",
+"maxprob": 0.6838
+},
+{
+"city": "Umuahia",
+"country": "Nigeria",
+"maxprob": 0.6088
+},
+{
+"city": "Puerto La Cruz",
+"country": "Venezuela",
+"maxprob": 0.8698
+},
+{
+"city": "Vinnytsya",
+"country": "Ukraine",
+"maxprob": 0.4086
+},
+{
+"city": "U\u015fak",
+"country": "Turkey",
+"maxprob": 0.8737
+},
+{
+"city": "Itaquaquecetuba",
+"country": "Brazil",
+"maxprob": 0.8567
+},
+{
+"city": "Natore",
+"country": "Bangladesh",
+"maxprob": 0.3292
+},
+{
+"city": "Canberra",
+"country": "Australia",
+"maxprob": 0.5499
+},
+{
+"city": "Nara-shi",
+"country": "Japan",
+"maxprob": 0.4723
+},
+{
+"city": "Florence",
+"country": "Italy",
+"maxprob": 0.5087
+},
+{
+"city": "Olinda",
+"country": "Brazil",
+"maxprob": 0.5533
+},
+{
+"city": "Bydgoszcz",
+"country": "Poland",
+"maxprob": 0.7066
+},
+{
+"city": "Iseyin",
+"country": "Nigeria",
+"maxprob": 0.3774
+},
+{
+"city": "Etobicoke",
+"country": "Canada",
+"maxprob": 0.8264
+},
+{
+"city": "Petare",
+"country": "Venezuela",
+"maxprob": 0.4303
+},
+{
+"city": "B\u1ebfn C\u00e1t",
+"country": "Vietnam",
+"maxprob": 0.3876
+},
+{
+"city": "Alanya",
+"country": "Turkey",
+"maxprob": 0.6596
+},
+{
+"city": "Al Qadarif",
+"country": "Sudan",
+"maxprob": 0.3513
+},
+{
+"city": "Cibinong",
+"country": "Indonesia",
+"maxprob": 0.3534
+},
+{
+"city": "Nawabshah",
+"country": "Pakistan",
+"maxprob": 0.4935
+},
+{
+"city": "Keelung",
+"country": "Taiwan",
+"maxprob": 0.6962
+},
+{
+"city": "Malm\u00f6",
+"country": "Sweden",
+"maxprob": 0.7977
+},
+{
+"city": "Blumenau",
+"country": "Brazil",
+"maxprob": 0.7514
+},
+{
+"city": "Maradi",
+"country": "Niger",
+"maxprob": 0.7557
+},
+{
+"city": "Ata\u015fehir",
+"country": "Turkey",
+"maxprob": 0.8945
+},
+{
+"city": "Hrodna",
+"country": "Belarus",
+"maxprob": 0.8233
+},
+{
+"city": "Wuppertal",
+"country": "Germany",
+"maxprob": 0.5299
+},
+{
+"city": "Sukabumi",
+"country": "Indonesia",
+"maxprob": 0.8
+},
+{
+"city": "Lublin",
+"country": "Poland",
+"maxprob": 0.7775
+},
+{
+"city": "Ijebu Ode",
+"country": "Nigeria",
+"maxprob": 0.5294
+},
+{
+"city": "Bhilwara",
+"country": "India",
+"maxprob": 0.4525
+},
+{
+"city": "Sumqay\u0131t",
+"country": "Azerbaijan",
+"maxprob": 0.7299
+},
+{
+"city": "Franca",
+"country": "Brazil",
+"maxprob": 0.5733
+},
+{
+"city": "Vitebsk",
+"country": "Belarus",
+"maxprob": 0.8826
+},
+{
+"city": "Lobito",
+"country": "Angola",
+"maxprob": 0.4605
+},
+{
+"city": "Zanjan",
+"country": "Iran",
+"maxprob": 0.7163
+},
+{
+"city": "Neiva",
+"country": "Colombia",
+"maxprob": 0.5753
+},
+{
+"city": "Vladimir",
+"country": "Russia",
+"maxprob": 0.435
+},
+{
+"city": "Wakayama",
+"country": "Japan",
+"maxprob": 0.4975
+},
+{
+"city": "Caucaia",
+"country": "Brazil",
+"maxprob": 0.74
+},
+{
+"city": "Misratah",
+"country": "Libya",
+"maxprob": 0.8636
+},
+{
+"city": "Kawagoe",
+"country": "Japan",
+"maxprob": 0.4977
+},
+{
+"city": "Muzaffarpur",
+"country": "India",
+"maxprob": 0.4648
+},
+{
+"city": "Tapachula",
+"country": "Mexico",
+"maxprob": 0.3033
+},
+{
+"city": "Villahermosa",
+"country": "Mexico",
+"maxprob": 0.5217
+},
+{
+"city": "Cariacica",
+"country": "Brazil",
+"maxprob": 0.3049
+},
+{
+"city": "Setapak",
+"country": "Malaysia",
+"maxprob": 0.4706
+},
+{
+"city": "Bandar Abbas",
+"country": "Iran",
+"maxprob": 0.5764
+},
+{
+"city": "Cabimas",
+"country": "Venezuela",
+"maxprob": 0.7624
+},
+{
+"city": "Tarsus",
+"country": "Turkey",
+"maxprob": 0.5707
+},
+{
+"city": "Bahir Dar",
+"country": "Ethiopia",
+"maxprob": 0.5922
+},
+{
+"city": "Arkhangel\u2019sk",
+"country": "Russia",
+"maxprob": 0.8626
+},
+{
+"city": "Muzaffarnagar",
+"country": "India",
+"maxprob": 0.3536
+},
+{
+"city": "Shinjuku",
+"country": "Japan",
+"maxprob": 0.4915
+},
+{
+"city": "Sikasso",
+"country": "Mali",
+"maxprob": 0.7447
+},
+{
+"city": "Sanandaj",
+"country": "Iran",
+"maxprob": 0.5921
+},
+{
+"city": "Campina Grande",
+"country": "Brazil",
+"maxprob": 0.3575
+},
+{
+"city": "Alicante",
+"country": "Spain",
+"maxprob": 0.7827
+},
+{
+"city": "Camag\u00fcey",
+"country": "Cuba",
+"maxprob": 0.9774
+},
+{
+"city": "Bilbao",
+"country": "Spain",
+"maxprob": 0.5209
+},
+{
+"city": "Ambon",
+"country": "Indonesia",
+"maxprob": 0.3317
+},
+{
+"city": "Plovdiv",
+"country": "Bulgaria",
+"maxprob": 0.9459
+},
+{
+"city": "Corrientes",
+"country": "Argentina",
+"maxprob": 0.8807
+},
+{
+"city": "Astana",
+"country": "Kazakhstan",
+"maxprob": 0.8013
+},
+{
+"city": "Koshigaya",
+"country": "Japan",
+"maxprob": 0.382
+},
+{
+"city": "Toamasina",
+"country": "Madagascar",
+"maxprob": 0.828
+},
+{
+"city": "Doha",
+"country": "Qatar",
+"maxprob": 0.8632
+},
+{
+"city": "Brest",
+"country": "Belarus",
+"maxprob": 0.7318
+},
+{
+"city": "Tokorozawa",
+"country": "Japan",
+"maxprob": 0.322
+},
+{
+"city": "Dire Dawa",
+"country": "Ethiopia",
+"maxprob": 0.6386
+},
+{
+"city": "Bhimber",
+"country": "Pakistan",
+"maxprob": 0.3415
+},
+{
+"city": "Annaba",
+"country": "Algeria",
+"maxprob": 0.7967
+},
+{
+"city": "Nice",
+"country": "France",
+"maxprob": 0.5947
+},
+{
+"city": "Temara",
+"country": "Morocco",
+"maxprob": 0.5206
+},
+{
+"city": "Cirebon",
+"country": "Indonesia",
+"maxprob": 0.8084
+},
+{
+"city": "Kaluga",
+"country": "Russia",
+"maxprob": 0.7178
+},
+{
+"city": "Celaya",
+"country": "Mexico",
+"maxprob": 0.7457
+},
+{
+"city": "Stara Darnytsya",
+"country": "Ukraine",
+"maxprob": 0.3404
+},
+{
+"city": "Cuernavaca",
+"country": "Mexico",
+"maxprob": 0.7731
+},
+{
+"city": "Uberaba",
+"country": "Brazil",
+"maxprob": 0.5238
+},
+{
+"city": "Safi",
+"country": "Morocco",
+"maxprob": 0.712
+},
+{
+"city": "Ganja",
+"country": "Azerbaijan",
+"maxprob": 0.6122
+},
+{
+"city": "Qazvin",
+"country": "Iran",
+"maxprob": 0.7774
+},
+{
+"city": "Asahikawa",
+"country": "Japan",
+"maxprob": 0.4085
+},
+{
+"city": "Tepic",
+"country": "Mexico",
+"maxprob": 0.6475
+},
+{
+"city": "Wad Medani",
+"country": "Sudan",
+"maxprob": 0.4136
+},
+{
+"city": "Maebashi",
+"country": "Japan",
+"maxprob": 0.3876
+},
+{
+"city": "Ciudad Victoria",
+"country": "Mexico",
+"maxprob": 0.668
+},
+{
+"city": "Soledad de Graciano S\u00e1nchez",
+"country": "Mexico",
+"maxprob": 0.6038
+},
+{
+"city": "Bielefeld",
+"country": "Germany",
+"maxprob": 0.6652
+},
+{
+"city": "Blida",
+"country": "Algeria",
+"maxprob": 0.8303
+},
+{
+"city": "Mandaue City",
+"country": "Philippines",
+"maxprob": 0.431
+},
+{
+"city": "Khorramshahr",
+"country": "Iran",
+"maxprob": 0.8502
+},
+{
+"city": "Bonn",
+"country": "Germany",
+"maxprob": 0.7382
+},
+{
+"city": "Smolensk",
+"country": "Russia",
+"maxprob": 0.6295
+},
+{
+"city": "S\u00e3o Vicente",
+"country": "Brazil",
+"maxprob": 0.5364
+},
+{
+"city": "Khorramabad",
+"country": "Iran",
+"maxprob": 0.6826
+},
+{
+"city": "Ribeir\u00e3o das Neves",
+"country": "Brazil",
+"maxprob": 0.8286
+},
+{
+"city": "S\u00e3o Jos\u00e9 dos Pinhais",
+"country": "Brazil",
+"maxprob": 0.8965
+},
+{
+"city": "Ciudad Obreg\u00f3n",
+"country": "Mexico",
+"maxprob": 0.8096
+},
+{
+"city": "Pavlodar",
+"country": "Kazakhstan",
+"maxprob": 0.7144
+},
+{
+"city": "Canoas",
+"country": "Brazil",
+"maxprob": 0.5876
+},
+{
+"city": "K\u014driyama",
+"country": "Japan",
+"maxprob": 0.4028
+},
+{
+"city": "Sochi",
+"country": "Russia",
+"maxprob": 0.3256
+},
+{
+"city": "Chipata",
+"country": "Zambia",
+"maxprob": 0.5433
+},
+{
+"city": "Pucallpa",
+"country": "Peru",
+"maxprob": 0.8502
+},
+{
+"city": "Mogi das Cruzes",
+"country": "Brazil",
+"maxprob": 0.8682
+},
+{
+"city": "C\u00f3rdoba",
+"country": "Spain",
+"maxprob": 0.8832
+},
+{
+"city": "Al \u2018Am\u0101rah",
+"country": "Iraq",
+"maxprob": 0.9177
+},
+{
+"city": "Vaughan",
+"country": "Canada",
+"maxprob": 0.4247
+},
+{
+"city": "Guaruj\u00e1",
+"country": "Brazil",
+"maxprob": 0.8639
+},
+{
+"city": "Shivamogga",
+"country": "India",
+"maxprob": 0.3317
+},
+{
+"city": "U\u00edge",
+"country": "Angola",
+"maxprob": 0.9352
+},
+{
+"city": "Ixtapaluca",
+"country": "Mexico",
+"maxprob": 0.8746
+},
+{
+"city": "Portoviejo",
+"country": "Ecuador",
+"maxprob": 0.9052
+},
+{
+"city": "Villavicencio",
+"country": "Colombia",
+"maxprob": 0.9147
+},
+{
+"city": "An\u00e1polis",
+"country": "Brazil",
+"maxprob": 0.7578
+},
+{
+"city": "J\u016bn\u0101gadh",
+"country": "India",
+"maxprob": 0.5512
+},
+{
+"city": "Holgu\u00edn",
+"country": "Cuba",
+"maxprob": 0.9353
+},
+{
+"city": "Ust-Kamenogorsk",
+"country": "Kazakhstan",
+"maxprob": 0.8589
+},
+{
+"city": "Zinder",
+"country": "Niger",
+"maxprob": 0.8406
+},
+{
+"city": "Saransk",
+"country": "Russia",
+"maxprob": 0.6807
+},
+{
+"city": "Nantes",
+"country": "France",
+"maxprob": 0.5406
+},
+{
+"city": "Ad D\u012bw\u0101n\u012byah",
+"country": "Iraq",
+"maxprob": 0.8663
+},
+{
+"city": "Marne La Vall\u00e9e",
+"country": "France",
+"maxprob": 0.5699
+},
+{
+"city": "Popay\u00e1n",
+"country": "Colombia",
+"maxprob": 0.8746
+},
+{
+"city": "Taubat\u00e9",
+"country": "Brazil",
+"maxprob": 0.9069
+},
+{
+"city": "Constan\u0163a",
+"country": "Romania",
+"maxprob": 0.9682
+},
+{
+"city": "New Delhi",
+"country": "India",
+"maxprob": 0.6022
+},
+{
+"city": "Thessalon\u00edki",
+"country": "Greece",
+"maxprob": 0.9023
+},
+{
+"city": "Pekalongan",
+"country": "Indonesia",
+"maxprob": 0.8815
+},
+{
+"city": "Katowice",
+"country": "Poland",
+"maxprob": 0.3807
+},
+{
+"city": "Chimbote",
+"country": "Peru",
+"maxprob": 0.6922
+},
+{
+"city": "Bari",
+"country": "Italy",
+"maxprob": 0.6288
+},
+{
+"city": "Barueri",
+"country": "Brazil",
+"maxprob": 0.8323
+},
+{
+"city": "Eloy Alfaro",
+"country": "Ecuador",
+"maxprob": 0.4844
+},
+{
+"city": "Al K\u016bt",
+"country": "Iraq",
+"maxprob": 0.6154
+},
+{
+"city": "\u015ei\u015fli",
+"country": "Turkey",
+"maxprob": 0.8013
+},
+{
+"city": "V\u00e1rzea Grande",
+"country": "Brazil",
+"maxprob": 0.3063
+},
+{
+"city": "Maroua",
+"country": "Cameroon",
+"maxprob": 0.7312
+},
+{
+"city": "Soacha",
+"country": "Colombia",
+"maxprob": 0.8354
+},
+{
+"city": "Denizli",
+"country": "Turkey",
+"maxprob": 0.8905
+},
+{
+"city": "New Cairo",
+"country": "Egypt",
+"maxprob": 0.5501
+},
+{
+"city": "Al Q\u0101hirah al Jad\u012bdah",
+"country": "Egypt",
+"maxprob": 0.3151
+},
+{
+"city": "Varna",
+"country": "Bulgaria",
+"maxprob": 0.9176
+},
+{
+"city": "Vit\u00f3ria",
+"country": "Brazil",
+"maxprob": 0.6976
+},
+{
+"city": "Pasir Gudang",
+"country": "Malaysia",
+"maxprob": 0.7752
+},
+{
+"city": "Vologda",
+"country": "Russia",
+"maxprob": 0.7312
+},
+{
+"city": "Maring\u00e1",
+"country": "Brazil",
+"maxprob": 0.8035
+},
+{
+"city": "Shahr-e Qods",
+"country": "Iran",
+"maxprob": 0.7076
+},
+{
+"city": "Gia L\u00e2m",
+"country": "Vietnam",
+"maxprob": 0.3945
+},
+{
+"city": "Tampico",
+"country": "Mexico",
+"maxprob": 0.355
+},
+{
+"city": "Tabora",
+"country": "Tanzania",
+"maxprob": 0.5254
+},
+{
+"city": "An Nh\u01a1n",
+"country": "Vietnam",
+"maxprob": 0.384
+},
+{
+"city": "Mannheim",
+"country": "Germany",
+"maxprob": 0.566
+},
+{
+"city": "Akita",
+"country": "Japan",
+"maxprob": 0.3847
+},
+{
+"city": "Suzano",
+"country": "Brazil",
+"maxprob": 0.8114
+},
+{
+"city": "Port-de-Paix",
+"country": "Haiti",
+"maxprob": 0.9751
+},
+{
+"city": "Damietta",
+"country": "Egypt",
+"maxprob": 0.6871
+},
+{
+"city": "Yokkaichi",
+"country": "Japan",
+"maxprob": 0.3705
+},
+{
+"city": "Tl\u00e1huac",
+"country": "Mexico",
+"maxprob": 0.8945
+},
+{
+"city": "Sumbawanga",
+"country": "Tanzania",
+"maxprob": 0.6087
+},
+{
+"city": "Or\u00ebl",
+"country": "Russia",
+"maxprob": 0.3216
+},
+{
+"city": "Graz",
+"country": "Austria",
+"maxprob": 0.7896
+},
+{
+"city": "Nghi S\u01a1n",
+"country": "Vietnam",
+"maxprob": 0.3064
+},
+{
+"city": "Barddham\u0101n",
+"country": "India",
+"maxprob": 0.583
+},
+{
+"city": "Solwezi",
+"country": "Zambia",
+"maxprob": 0.7355
+},
+{
+"city": "Hamburg-Mitte",
+"country": "Germany",
+"maxprob": 0.3808
+},
+{
+"city": "Valladolid",
+"country": "Spain",
+"maxprob": 0.7076
+},
+{
+"city": "Surgut",
+"country": "Russia",
+"maxprob": 0.3167
+},
+{
+"city": "Malir Cantonment",
+"country": "Pakistan",
+"maxprob": 0.781
+},
+{
+"city": "Uruapan",
+"country": "Mexico",
+"maxprob": 0.5942
+},
+{
+"city": "Angeles City",
+"country": "Philippines",
+"maxprob": 0.3687
+},
+{
+"city": "P\u0101tan",
+"country": "Nepal",
+"maxprob": 0.6381
+},
+{
+"city": "Bah\u00eda Blanca",
+"country": "Argentina",
+"maxprob": 0.843
+},
+{
+"city": "Jember",
+"country": "Indonesia",
+"maxprob": 0.8209
+},
+{
+"city": "Murmansk",
+"country": "Russia",
+"maxprob": 0.623
+},
+{
+"city": "Tirupati",
+"country": "India",
+"maxprob": 0.4475
+},
+{
+"city": "Vi\u00f1a del Mar",
+"country": "Chile",
+"maxprob": 0.9595
+},
+{
+"city": "Phu Quoc",
+"country": "Vietnam",
+"maxprob": 0.7039
+},
+{
+"city": "Fukushima",
+"country": "Japan",
+"maxprob": 0.7721
+},
+{
+"city": "Bergen",
+"country": "Norway",
+"maxprob": 0.7981
+},
+{
+"city": "Noida",
+"country": "India",
+"maxprob": 0.4188
+},
+{
+"city": "Vigo",
+"country": "Spain",
+"maxprob": 0.4531
+},
+{
+"city": "Gandhinagar",
+"country": "India",
+"maxprob": 0.347
+},
+{
+"city": "Dindigul",
+"country": "India",
+"maxprob": 0.4799
+},
+{
+"city": "Ponta Grossa",
+"country": "Brazil",
+"maxprob": 0.6348
+},
+{
+"city": "Limeira",
+"country": "Brazil",
+"maxprob": 0.5229
+},
+{
+"city": "Bia\u0142ystok",
+"country": "Poland",
+"maxprob": 0.7654
+},
+{
+"city": "Thanjavur",
+"country": "India",
+"maxprob": 0.3697
+},
+{
+"city": "Kar\u012bmnagar",
+"country": "India",
+"maxprob": 0.4117
+},
+{
+"city": "Batna City",
+"country": "Algeria",
+"maxprob": 0.9329
+},
+{
+"city": "Kaunas",
+"country": "Lithuania",
+"maxprob": 0.9335
+},
+{
+"city": "Son\u012bpat",
+"country": "India",
+"maxprob": 0.5315
+},
+{
+"city": "Machala",
+"country": "Ecuador",
+"maxprob": 0.6212
+},
+{
+"city": "Zeytinburnu",
+"country": "Turkey",
+"maxprob": 0.46
+},
+{
+"city": "Kabwe",
+"country": "Zambia",
+"maxprob": 0.7961
+},
+{
+"city": "Meguro",
+"country": "Japan",
+"maxprob": 0.491
+},
+{
+"city": "Ichalkaranji",
+"country": "India",
+"maxprob": 0.49
+},
+{
+"city": "Adapazar\u0131",
+"country": "Turkey",
+"maxprob": 0.7842
+},
+{
+"city": "Cluj-Napoca",
+"country": "Romania",
+"maxprob": 0.7306
+},
+{
+"city": "Songea",
+"country": "Tanzania",
+"maxprob": 0.8524
+},
+{
+"city": "Tacna",
+"country": "Peru",
+"maxprob": 0.7539
+},
+{
+"city": "Sumar\u00e9",
+"country": "Brazil",
+"maxprob": 0.779
+},
+{
+"city": "Long Xuy\u00ean",
+"country": "Vietnam",
+"maxprob": 0.4253
+},
+{
+"city": "Al Qurnah",
+"country": "Iraq",
+"maxprob": 0.5894
+},
+{
+"city": "Bathinda",
+"country": "India",
+"maxprob": 0.4514
+},
+{
+"city": "Sekondi",
+"country": "Ghana",
+"maxprob": 0.3784
+},
+{
+"city": "Haifa",
+"country": "Israel",
+"maxprob": 0.6267
+},
+{
+"city": "\u00c5rhus",
+"country": "Denmark",
+"maxprob": 0.9418
+},
+{
+"city": "Viam\u00e3o",
+"country": "Brazil",
+"maxprob": 0.5676
+},
+{
+"city": "Chernihiv",
+"country": "Ukraine",
+"maxprob": 0.873
+},
+{
+"city": "Alto Barinas",
+"country": "Venezuela",
+"maxprob": 0.8922
+},
+{
+"city": "Karlsruhe",
+"country": "Germany",
+"maxprob": 0.4064
+},
+{
+"city": "Kherson",
+"country": "Ukraine",
+"maxprob": 0.9217
+},
+{
+"city": "Minya",
+"country": "Egypt",
+"maxprob": 0.859
+},
+{
+"city": "Poltava",
+"country": "Ukraine",
+"maxprob": 0.4255
+},
+{
+"city": "P\u00e9tionville",
+"country": "Haiti",
+"maxprob": 0.4804
+},
+{
+"city": "Satna",
+"country": "India",
+"maxprob": 0.5855
+},
+{
+"city": "Valpara\u00edso",
+"country": "Chile",
+"maxprob": 0.9248
+},
+{
+"city": "Ica",
+"country": "Peru",
+"maxprob": 0.9076
+},
+{
+"city": "Itag\u00fc\u00ed",
+"country": "Colombia",
+"maxprob": 0.9154
+},
+{
+"city": "Nicol\u00e1s Romero",
+"country": "Mexico",
+"maxprob": 0.7863
+},
+{
+"city": "Gebze",
+"country": "Turkey",
+"maxprob": 0.7744
+},
+{
+"city": "Sfax",
+"country": "Tunisia",
+"maxprob": 0.7448
+},
+{
+"city": "Wollongong",
+"country": "Australia",
+"maxprob": 0.5676
+},
+{
+"city": "Volta Redonda",
+"country": "Brazil",
+"maxprob": 0.7884
+},
+{
+"city": "Efon-Alaaye",
+"country": "Nigeria",
+"maxprob": 0.6712
+},
+{
+"city": "Taganrog",
+"country": "Russia",
+"maxprob": 0.4795
+},
+{
+"city": "Santa Teresa del Tuy",
+"country": "Venezuela",
+"maxprob": 0.4364
+},
+{
+"city": "South Dublin",
+"country": "Ireland",
+"maxprob": 0.6247
+},
+{
+"city": "Wiesbaden",
+"country": "Germany",
+"maxprob": 0.7544
+},
+{
+"city": "Qu\u1ea3ng Ng\u00e3i",
+"country": "Vietnam",
+"maxprob": 0.5427
+},
+{
+"city": "Coacalco",
+"country": "Mexico",
+"maxprob": 0.7508
+},
+{
+"city": "Sincelejo",
+"country": "Colombia",
+"maxprob": 0.7386
+},
+{
+"city": "Khomeyn\u012b Shahr",
+"country": "Iran",
+"maxprob": 0.6842
+},
+{
+"city": "Bedok New Town",
+"country": "Singapore",
+"maxprob": 0.8117
+},
+{
+"city": "Abbottabad",
+"country": "Pakistan",
+"maxprob": 0.6651
+},
+{
+"city": "Bab Ezzouar",
+"country": "Algeria",
+"maxprob": 0.6736
+},
+{
+"city": "Strasbourg",
+"country": "France",
+"maxprob": 0.5361
+},
+{
+"city": "Khmelnytskyi",
+"country": "Ukraine",
+"maxprob": 0.9479
+},
+{
+"city": "Tsu",
+"country": "Japan",
+"maxprob": 0.4392
+},
+{
+"city": "Kushinagar",
+"country": "India",
+"maxprob": 0.3584
+},
+{
+"city": "Loja",
+"country": "Ecuador",
+"maxprob": 0.8051
+},
+{
+"city": "Tabo\u00e3o da Serra",
+"country": "Brazil",
+"maxprob": 0.913
+},
+{
+"city": "Rourkela",
+"country": "India",
+"maxprob": 0.406
+},
+{
+"city": "Ban\u012b Suwayf",
+"country": "Egypt",
+"maxprob": 0.8841
+},
+{
+"city": "Guant\u00e1namo",
+"country": "Cuba",
+"maxprob": 0.8281
+},
+{
+"city": "Baguio",
+"country": "Philippines",
+"maxprob": 0.343
+},
+{
+"city": "Petr\u00f3polis",
+"country": "Brazil",
+"maxprob": 0.4965
+},
+{
+"city": "Cherkasy",
+"country": "Ukraine",
+"maxprob": 0.8892
+},
+{
+"city": "Ljubljana",
+"country": "Slovenia",
+"maxprob": 0.9365
+},
+{
+"city": "Jal\u0101l\u0101b\u0101d",
+"country": "Afghanistan",
+"maxprob": 0.6912
+},
+{
+"city": "Deir ez-Zor",
+"country": "Syria",
+"maxprob": 0.7314
+},
+{
+"city": "Gij\u00f3n",
+"country": "Spain",
+"maxprob": 0.9374
+},
+{
+"city": "M\u1ef9 Tho",
+"country": "Vietnam",
+"maxprob": 0.4867
+},
+{
+"city": "S\u00e3o Jos\u00e9",
+"country": "Brazil",
+"maxprob": 0.4049
+},
+{
+"city": "M\u00fcnster",
+"country": "Germany",
+"maxprob": 0.3405
+},
+{
+"city": "H\u1ea1 Long",
+"country": "Vietnam",
+"maxprob": 0.5061
+},
+{
+"city": "Gelsenkirchen",
+"country": "Germany",
+"maxprob": 0.7205
+},
+{
+"city": "\u00c7orum",
+"country": "Turkey",
+"maxprob": 0.8525
+},
+{
+"city": "Eimsb\u00fcttel",
+"country": "Germany",
+"maxprob": 0.7566
+},
+{
+"city": "Merlo",
+"country": "Argentina",
+"maxprob": 0.3946
+},
+{
+"city": "Parauapebas",
+"country": "Brazil",
+"maxprob": 0.6549
+},
+{
+"city": "Tokushima",
+"country": "Japan",
+"maxprob": 0.5711
+},
+{
+"city": "Anantapur",
+"country": "India",
+"maxprob": 0.5233
+},
+{
+"city": "Ad\u0131yaman",
+"country": "Turkey",
+"maxprob": 0.9254
+},
+{
+"city": "Parnamirim",
+"country": "Brazil",
+"maxprob": 0.3936
+},
+{
+"city": "Sohag",
+"country": "Egypt",
+"maxprob": 0.6777
+},
+{
+"city": "Bagerhat",
+"country": "Bangladesh",
+"maxprob": 0.6779
+},
+{
+"city": "Saskatoon",
+"country": "Canada",
+"maxprob": 0.651
+},
+{
+"city": "Djelfa",
+"country": "Algeria",
+"maxprob": 0.8631
+},
+{
+"city": "Shimonoseki",
+"country": "Japan",
+"maxprob": 0.5864
+},
+{
+"city": "Chernivtsi",
+"country": "Ukraine",
+"maxprob": 0.9066
+},
+{
+"city": "Tampines Estate",
+"country": "Singapore",
+"maxprob": 0.9147
+},
+{
+"city": "Aachen",
+"country": "Germany",
+"maxprob": 0.5017
+},
+{
+"city": "Gent",
+"country": "Belgium",
+"maxprob": 0.7427
+},
+{
+"city": "Gravata\u00ed",
+"country": "Brazil",
+"maxprob": 0.5052
+},
+{
+"city": "Mossor\u00f3",
+"country": "Brazil",
+"maxprob": 0.8751
+},
+{
+"city": "Riobamba",
+"country": "Ecuador",
+"maxprob": 0.8871
+},
+{
+"city": "Sivas",
+"country": "Turkey",
+"maxprob": 0.6624
+},
+{
+"city": "Chiayi City",
+"country": "Taiwan",
+"maxprob": 0.8203
+},
+{
+"city": "Mar\u0101gheh",
+"country": "Iran",
+"maxprob": 0.505
+},
+{
+"city": "Quilmes",
+"country": "Argentina",
+"maxprob": 0.6438
+},
+{
+"city": "Fukui-shi",
+"country": "Japan",
+"maxprob": 0.4902
+},
+{
+"city": "M\u00f6nchengladbach",
+"country": "Germany",
+"maxprob": 0.8921
+},
+{
+"city": "Zhytomyr",
+"country": "Ukraine",
+"maxprob": 0.8763
+},
+{
+"city": "Bordeaux",
+"country": "France",
+"maxprob": 0.5773
+},
+{
+"city": "Antsirabe",
+"country": "Madagascar",
+"maxprob": 0.7595
+},
+{
+"city": "Mahajanga",
+"country": "Madagascar",
+"maxprob": 0.8992
+},
+{
+"city": "Minato City",
+"country": "Japan",
+"maxprob": 0.4517
+},
+{
+"city": "Skardu",
+"country": "Pakistan",
+"maxprob": 0.3413
+},
+{
+"city": "Tampines New Town",
+"country": "Singapore",
+"maxprob": 0.8942
+},
+{
+"city": "Sumy",
+"country": "Ukraine",
+"maxprob": 0.5515
+},
+{
+"city": "Jardim Sao Luis",
+"country": "Brazil",
+"maxprob": 0.5387
+},
+{
+"city": "Augsburg",
+"country": "Germany",
+"maxprob": 0.5485
+},
+{
+"city": "Rondon\u00f3polis",
+"country": "Brazil",
+"maxprob": 0.6668
+},
+{
+"city": "Rishon LeTsiyyon",
+"country": "Israel",
+"maxprob": 0.8558
+},
+{
+"city": "Hiratsuka",
+"country": "Japan",
+"maxprob": 0.596
+},
+{
+"city": "Foz do Igua\u00e7u",
+"country": "Brazil",
+"maxprob": 0.5273
+},
+{
+"city": "Verona",
+"country": "Italy",
+"maxprob": 0.7044
+},
+{
+"city": "\u00d0\u00e0 L\u1ea1t",
+"country": "Vietnam",
+"maxprob": 0.4559
+},
+{
+"city": "San Salvador de Jujuy",
+"country": "Argentina",
+"maxprob": 0.7637
+},
+{
+"city": "Jurong West",
+"country": "Singapore",
+"maxprob": 0.3134
+},
+{
+"city": "G\u00f3mez Palacio",
+"country": "Mexico",
+"maxprob": 0.6664
+},
+{
+"city": "Cascavel",
+"country": "Brazil",
+"maxprob": 0.772
+},
+{
+"city": "L'Hospitalet de Llobregat",
+"country": "Spain",
+"maxprob": 0.6683
+},
+{
+"city": "Gdynia",
+"country": "Poland",
+"maxprob": 0.6374
+},
+{
+"city": "Cilacap",
+"country": "Indonesia",
+"maxprob": 0.7597
+},
+{
+"city": "Kitchener",
+"country": "Canada",
+"maxprob": 0.3599
+},
+{
+"city": "Espoo",
+"country": "Finland",
+"maxprob": 0.8271
+},
+{
+"city": "Los Mochis",
+"country": "Mexico",
+"maxprob": 0.6264
+},
+{
+"city": "Pachuca de Soto",
+"country": "Mexico",
+"maxprob": 0.8455
+},
+{
+"city": "Chingola",
+"country": "Zambia",
+"maxprob": 0.4964
+},
+{
+"city": "Indaiatuba",
+"country": "Brazil",
+"maxprob": 0.8205
+},
+{
+"city": "Sari",
+"country": "Iran",
+"maxprob": 0.304
+},
+{
+"city": "Banda Aceh",
+"country": "Indonesia",
+"maxprob": 0.613
+},
+{
+"city": "Oaxaca",
+"country": "Mexico",
+"maxprob": 0.7741
+},
+{
+"city": "Ikot Ekpene",
+"country": "Nigeria",
+"maxprob": 0.3977
+},
+{
+"city": "Mueang Nonthaburi",
+"country": "Thailand",
+"maxprob": 0.893
+},
+{
+"city": "Batu Caves",
+"country": "Malaysia",
+"maxprob": 0.4771
+},
+{
+"city": "Novo Hamburgo",
+"country": "Brazil",
+"maxprob": 0.7701
+},
+{
+"city": "Cox\u2019s B\u0101z\u0101r",
+"country": "Bangladesh",
+"maxprob": 0.3625
+},
+{
+"city": "Carabanchel",
+"country": "Spain",
+"maxprob": 0.6048
+},
+{
+"city": "Cotia",
+"country": "Brazil",
+"maxprob": 0.6875
+},
+{
+"city": "Peta\u1e96 Tiqva",
+"country": "Israel",
+"maxprob": 0.8458
+},
+{
+"city": "Bra\u015fov",
+"country": "Romania",
+"maxprob": 0.5318
+},
+{
+"city": "Xu\u00e2n L\u1ed9c",
+"country": "Vietnam",
+"maxprob": 0.5347
+},
+{
+"city": "Vit\u00f3ria da Conquista",
+"country": "Brazil",
+"maxprob": 0.8473
+},
+{
+"city": "Talcahuano",
+"country": "Chile",
+"maxprob": 0.943
+},
+{
+"city": "Qina",
+"country": "Egypt",
+"maxprob": 0.3026
+},
+{
+"city": "El Fasher",
+"country": "Sudan",
+"maxprob": 0.5543
+},
+{
+"city": "Los Teques",
+"country": "Venezuela",
+"maxprob": 0.6426
+},
+{
+"city": "Santiago del Estero",
+"country": "Argentina",
+"maxprob": 0.8894
+},
+{
+"city": "S\u00e9tif",
+"country": "Algeria",
+"maxprob": 0.4958
+},
+{
+"city": "Begusarai",
+"country": "India",
+"maxprob": 0.3038
+},
+{
+"city": "Bor\u016bjerd",
+"country": "Iran",
+"maxprob": 0.4739
+},
+{
+"city": "Afyonkarahisar",
+"country": "Turkey",
+"maxprob": 0.87
+},
+{
+"city": "\u0130skenderun",
+"country": "Turkey",
+"maxprob": 0.6721
+},
+{
+"city": "Santiago de Surco",
+"country": "Peru",
+"maxprob": 0.6156
+},
+{
+"city": "Thika",
+"country": "Kenya",
+"maxprob": 0.6262
+},
+{
+"city": "Menongue",
+"country": "Angola",
+"maxprob": 0.6601
+},
+{
+"city": "Jimma",
+"country": "Ethiopia",
+"maxprob": 0.8146
+},
+{
+"city": "Governador Valadares",
+"country": "Brazil",
+"maxprob": 0.9371
+},
+{
+"city": "Timi\u015foara",
+"country": "Romania",
+"maxprob": 0.9262
+},
+{
+"city": "Embu das Artes",
+"country": "Brazil",
+"maxprob": 0.3853
+},
+{
+"city": "A Coru\u00f1a",
+"country": "Spain",
+"maxprob": 0.6956
+},
+{
+"city": "Ni\u0161",
+"country": "Serbia",
+"maxprob": 0.8272
+},
+{
+"city": "Porto",
+"country": "Portugal",
+"maxprob": 0.8596
+},
+{
+"city": "Gasteiz / Vitoria",
+"country": "Spain",
+"maxprob": 0.9228
+},
+{
+"city": "Burnaby",
+"country": "Canada",
+"maxprob": 0.6625
+},
+{
+"city": "Yamagata",
+"country": "Japan",
+"maxprob": 0.3444
+},
+{
+"city": "Tehuac\u00e1n",
+"country": "Mexico",
+"maxprob": 0.8099
+},
+{
+"city": "Montpellier",
+"country": "France",
+"maxprob": 0.6525
+},
+{
+"city": "Cz\u0119stochowa",
+"country": "Poland",
+"maxprob": 0.9087
+},
+{
+"city": "Insein",
+"country": "Myanmar",
+"maxprob": 0.4532
+},
+{
+"city": "Aksaray",
+"country": "Turkey",
+"maxprob": 0.9422
+},
+{
+"city": "Coro",
+"country": "Venezuela",
+"maxprob": 0.4775
+},
+{
+"city": "Kiel",
+"country": "Germany",
+"maxprob": 0.3856
+},
+{
+"city": "Kyain Seikgyi Township",
+"country": "Myanmar",
+"maxprob": 0.7465
+},
+{
+"city": "Puerto Montt",
+"country": "Chile",
+"maxprob": 0.9636
+},
+{
+"city": "Rivne",
+"country": "Ukraine",
+"maxprob": 0.7629
+},
+{
+"city": "Gorg\u0101n",
+"country": "Iran",
+"maxprob": 0.7022
+},
+{
+"city": "Biratnagar",
+"country": "Nepal",
+"maxprob": 0.855
+},
+{
+"city": "Braunschweig",
+"country": "Germany",
+"maxprob": 0.8346
+},
+{
+"city": "Sengkang New Town",
+"country": "Singapore",
+"maxprob": 0.7211
+},
+{
+"city": "S\u00e3o Jos\u00e9 de Ribamar",
+"country": "Brazil",
+"maxprob": 0.7339
+},
+{
+"city": "S\u012bkar",
+"country": "India",
+"maxprob": 0.4569
+},
+{
+"city": "Bago",
+"country": "Myanmar",
+"maxprob": 0.3371
+},
+{
+"city": "Tampere",
+"country": "Finland",
+"maxprob": 0.8083
+},
+{
+"city": "Puente de Vallecas",
+"country": "Spain",
+"maxprob": 0.9065
+},
+{
+"city": "Mag\u00e9",
+"country": "Brazil",
+"maxprob": 0.6777
+},
+{
+"city": "Trabzon",
+"country": "Turkey",
+"maxprob": 0.788
+},
+{
+"city": "Jessore",
+"country": "Bangladesh",
+"maxprob": 0.7566
+},
+{
+"city": "Manisa",
+"country": "Turkey",
+"maxprob": 0.8941
+},
+{
+"city": "Sasebo",
+"country": "Japan",
+"maxprob": 0.3363
+},
+{
+"city": "Chigasaki",
+"country": "Japan",
+"maxprob": 0.657
+},
+{
+"city": "Ch\u014dfu",
+"country": "Japan",
+"maxprob": 0.4373
+},
+{
+"city": "Gatineau",
+"country": "Canada",
+"maxprob": 0.7427
+},
+{
+"city": "Bahawalnagar",
+"country": "Pakistan",
+"maxprob": 0.8945
+},
+{
+"city": "Novorossiysk",
+"country": "Russia",
+"maxprob": 0.6896
+},
+{
+"city": "Tsukuba",
+"country": "Japan",
+"maxprob": 0.4904
+},
+{
+"city": "Arica",
+"country": "Chile",
+"maxprob": 0.3452
+},
+{
+"city": "Farrukh\u0101b\u0101d",
+"country": "India",
+"maxprob": 0.4075
+},
+{
+"city": "Matsumoto",
+"country": "Japan",
+"maxprob": 0.4953
+},
+{
+"city": "Itapevi",
+"country": "Brazil",
+"maxprob": 0.6412
+},
+{
+"city": "Mar\u00edlia",
+"country": "Brazil",
+"maxprob": 0.4817
+},
+{
+"city": "Lankaran",
+"country": "Azerbaijan",
+"maxprob": 0.426
+},
+{
+"city": "Bunkyo",
+"country": "Japan",
+"maxprob": 0.4094
+},
+{
+"city": "Itabora\u00ed",
+"country": "Brazil",
+"maxprob": 0.909
+},
+{
+"city": "Golest\u0101n",
+"country": "Iran",
+"maxprob": 0.5388
+},
+{
+"city": "Fuencarral",
+"country": "Spain",
+"maxprob": 0.793
+},
+{
+"city": "Neyagawa",
+"country": "Japan",
+"maxprob": 0.4088
+},
+{
+"city": "Magdalena Contreras",
+"country": "Mexico",
+"maxprob": 0.8394
+},
+{
+"city": "Ngaound\u00e9r\u00e9",
+"country": "Cameroon",
+"maxprob": 0.674
+},
+{
+"city": "Ivano-Frankivsk",
+"country": "Ukraine",
+"maxprob": 0.9344
+},
+{
+"city": "Cabo Frio",
+"country": "Brazil",
+"maxprob": 0.6629
+},
+{
+"city": "Bal\u0131kesir",
+"country": "Turkey",
+"maxprob": 0.9324
+},
+{
+"city": "Temuco",
+"country": "Chile",
+"maxprob": 0.858
+},
+{
+"city": "Krefeld",
+"country": "Germany",
+"maxprob": 0.7835
+},
+{
+"city": "Halle (Saale)",
+"country": "Germany",
+"maxprob": 0.8981
+},
+{
+"city": "Juazeiro",
+"country": "Brazil",
+"maxprob": 0.4919
+},
+{
+"city": "Sri Ganganagar",
+"country": "India",
+"maxprob": 0.3311
+},
+{
+"city": "Amarapura",
+"country": "Myanmar",
+"maxprob": 0.5509
+},
+{
+"city": "Pathein",
+"country": "Myanmar",
+"maxprob": 0.6619
+},
+{
+"city": "Sylhet",
+"country": "Bangladesh",
+"maxprob": 0.7601
+},
+{
+"city": "Padangsidempuan",
+"country": "Indonesia",
+"maxprob": 0.8979
+},
+{
+"city": "Coatzacoalcos",
+"country": "Mexico",
+"maxprob": 0.7909
+},
+{
+"city": "Magdeburg",
+"country": "Germany",
+"maxprob": 0.5305
+},
+{
+"city": "Yakutsk",
+"country": "Russia",
+"maxprob": 0.3303
+},
+{
+"city": "Muzaffargarh",
+"country": "Pakistan",
+"maxprob": 0.8203
+},
+{
+"city": "Kediri",
+"country": "Indonesia",
+"maxprob": 0.6323
+},
+{
+"city": "Kismayo",
+"country": "Somalia",
+"maxprob": 0.4652
+},
+{
+"city": "Elche",
+"country": "Spain",
+"maxprob": 0.7731
+},
+{
+"city": "Sivakasi",
+"country": "India",
+"maxprob": 0.4389
+},
+{
+"city": "Maracana\u00fa",
+"country": "Brazil",
+"maxprob": 0.8622
+},
+{
+"city": "Rouen",
+"country": "France",
+"maxprob": 0.7592
+},
+{
+"city": "Lille",
+"country": "France",
+"maxprob": 0.5099
+},
+{
+"city": "Lubuklinggau",
+"country": "Indonesia",
+"maxprob": 0.7509
+},
+{
+"city": "Craiova",
+"country": "Romania",
+"maxprob": 0.6315
+},
+{
+"city": "Granada",
+"country": "Spain",
+"maxprob": 0.7983
+},
+{
+"city": "Saga",
+"country": "Japan",
+"maxprob": 0.409
+},
+{
+"city": "Singida",
+"country": "Tanzania",
+"maxprob": 0.6653
+},
+{
+"city": "Kigoma",
+"country": "Tanzania",
+"maxprob": 0.6454
+},
+{
+"city": "Kampong Baharu Cheras Batu Sebelas",
+"country": "Malaysia",
+"maxprob": 0.8481
+},
+{
+"city": "Neuqu\u00e9n",
+"country": "Argentina",
+"maxprob": 0.8814
+},
+{
+"city": "Shibuya",
+"country": "Japan",
+"maxprob": 0.585
+},
+{
+"city": "Ninh H\u00f2a",
+"country": "Vietnam",
+"maxprob": 0.4352
+},
+{
+"city": "Purwokerto",
+"country": "Indonesia",
+"maxprob": 0.5518
+},
+{
+"city": "Jos\u00e9 C. Paz",
+"country": "Argentina",
+"maxprob": 0.7684
+},
+{
+"city": "Windsor",
+"country": "Canada",
+"maxprob": 0.301
+},
+{
+"city": "Longueuil",
+"country": "Canada",
+"maxprob": 0.4726
+},
+{
+"city": "Ordu",
+"country": "Turkey",
+"maxprob": 0.4404
+},
+{
+"city": "San Fernando de Apure",
+"country": "Venezuela",
+"maxprob": 0.9506
+},
+{
+"city": "Croix-des-Bouquets",
+"country": "Haiti",
+"maxprob": 0.8204
+},
+{
+"city": "Sungai Petani",
+"country": "Malaysia",
+"maxprob": 0.555
+},
+{
+"city": "Ipatinga",
+"country": "Brazil",
+"maxprob": 0.8631
+},
+{
+"city": "Vizianagaram",
+"country": "India",
+"maxprob": 0.6335
+},
+{
+"city": "Phan Thi\u1ebft",
+"country": "Vietnam",
+"maxprob": 0.3035
+},
+{
+"city": "Netanya",
+"country": "Israel",
+"maxprob": 0.734
+},
+{
+"city": "Mohammedia",
+"country": "Morocco",
+"maxprob": 0.7769
+},
+{
+"city": "Guatire",
+"country": "Venezuela",
+"maxprob": 0.8416
+},
+{
+"city": "Tanjung Pinang",
+"country": "Indonesia",
+"maxprob": 0.42
+},
+{
+"city": "Hougang New Town",
+"country": "Singapore",
+"maxprob": 0.6498
+},
+{
+"city": "Sete Lagoas",
+"country": "Brazil",
+"maxprob": 0.6576
+},
+{
+"city": "Sosnowiec",
+"country": "Poland",
+"maxprob": 0.8525
+},
+{
+"city": "Ageo",
+"country": "Japan",
+"maxprob": 0.347
+},
+{
+"city": "Ashdod",
+"country": "Israel",
+"maxprob": 0.612
+},
+{
+"city": "Radom",
+"country": "Poland",
+"maxprob": 0.6365
+},
+{
+"city": "Changhua",
+"country": "Taiwan",
+"maxprob": 0.3955
+},
+{
+"city": "Nz\u00e9r\u00e9kor\u00e9",
+"country": "Guinea",
+"maxprob": 0.3409
+},
+{
+"city": "Regina",
+"country": "Canada",
+"maxprob": 0.6555
+},
+{
+"city": "C\u00e0 Mau",
+"country": "Vietnam",
+"maxprob": 0.6121
+},
+{
+"city": "Sabzevar",
+"country": "Iran",
+"maxprob": 0.6403
+},
+{
+"city": "Rio Verde",
+"country": "Brazil",
+"maxprob": 0.4275
+},
+{
+"city": "\u00c1guas Lindas de Goi\u00e1s",
+"country": "Brazil",
+"maxprob": 0.7651
+},
+{
+"city": "Presidente Prudente",
+"country": "Brazil",
+"maxprob": 0.7912
+},
+{
+"city": "Ternopil",
+"country": "Ukraine",
+"maxprob": 0.9003
+},
+{
+"city": "Juazeiro do Norte",
+"country": "Brazil",
+"maxprob": 0.8671
+},
+{
+"city": "Mymensingh",
+"country": "Bangladesh",
+"maxprob": 0.5544
+},
+{
+"city": "Blagoveshchensk",
+"country": "Russia",
+"maxprob": 0.5674
+},
+{
+"city": "Ko\u0161ice",
+"country": "Slovakia",
+"maxprob": 0.9153
+},
+{
+"city": "Sucre",
+"country": "Bolivia",
+"maxprob": 0.7113
+},
+{
+"city": "Mutare",
+"country": "Zimbabwe",
+"maxprob": 0.5481
+},
+{
+"city": "Atsugi",
+"country": "Japan",
+"maxprob": 0.3825
+},
+{
+"city": "N\u0101r\u0101yanganj",
+"country": "Bangladesh",
+"maxprob": 0.8299
+},
+{
+"city": "Concepci\u00f3n",
+"country": "Chile",
+"maxprob": 0.5212
+},
+{
+"city": "Ramadi",
+"country": "Iraq",
+"maxprob": 0.3163
+},
+{
+"city": "Najaf\u0101b\u0101d",
+"country": "Iran",
+"maxprob": 0.576
+},
+{
+"city": "Velikiy Novgorod",
+"country": "Russia",
+"maxprob": 0.7196
+},
+{
+"city": "Sungai Buloh",
+"country": "Malaysia",
+"maxprob": 0.8531
+},
+{
+"city": "La Ceiba",
+"country": "Honduras",
+"maxprob": 0.9548
+},
+{
+"city": "Ba Dinh",
+"country": "Vietnam",
+"maxprob": 0.4406
+},
+{
+"city": "Moshi",
+"country": "Tanzania",
+"maxprob": 0.5369
+},
+{
+"city": "Kanchipuram",
+"country": "India",
+"maxprob": 0.4972
+},
+{
+"city": "Sousse",
+"country": "Tunisia",
+"maxprob": 0.4744
+},
+{
+"city": "Tulu\u00e1",
+"country": "Colombia",
+"maxprob": 0.9276
+},
+{
+"city": "Yishun New Town",
+"country": "Singapore",
+"maxprob": 0.5208
+},
+{
+"city": "S\u00f3c Tr\u0103ng",
+"country": "Vietnam",
+"maxprob": 0.6679
+},
+{
+"city": "Kankan",
+"country": "Guinea",
+"maxprob": 0.6485
+},
+{
+"city": "Mbarara",
+"country": "Uganda",
+"maxprob": 0.7674
+},
+{
+"city": "Neysh\u0101b\u016br",
+"country": "Iran",
+"maxprob": 0.6837
+},
+{
+"city": "Rennes",
+"country": "France",
+"maxprob": 0.521
+},
+{
+"city": "Ch\u00ed Linh",
+"country": "Vietnam",
+"maxprob": 0.436
+},
+{
+"city": "Campeche",
+"country": "Mexico",
+"maxprob": 0.7833
+},
+{
+"city": "Singrauli",
+"country": "India",
+"maxprob": 0.6396
+},
+{
+"city": "Fuencarral-El Pardo",
+"country": "Spain",
+"maxprob": 0.9409
+},
+{
+"city": "Oviedo",
+"country": "Spain",
+"maxprob": 0.8545
+},
+{
+"city": "Bandar Seri Alam",
+"country": "Malaysia",
+"maxprob": 0.743
+},
+{
+"city": "Messina",
+"country": "Italy",
+"maxprob": 0.5302
+},
+{
+"city": "Kropyvnytskyy",
+"country": "Ukraine",
+"maxprob": 0.5282
+},
+{
+"city": "Chon Buri",
+"country": "Thailand",
+"maxprob": 0.8036
+},
+{
+"city": "Esmeraldas",
+"country": "Ecuador",
+"maxprob": 0.8686
+},
+{
+"city": "Terrassa",
+"country": "Spain",
+"maxprob": 0.3843
+},
+{
+"city": "Imperatriz",
+"country": "Brazil",
+"maxprob": 0.3722
+},
+{
+"city": "Koutiala",
+"country": "Mali",
+"maxprob": 0.4878
+},
+{
+"city": "Gala\u0163i",
+"country": "Romania",
+"maxprob": 0.8752
+},
+{
+"city": "Badalona",
+"country": "Spain",
+"maxprob": 0.6249
+},
+{
+"city": "Mainz",
+"country": "Germany",
+"maxprob": 0.842
+},
+{
+"city": "Yamuna Nagar",
+"country": "India",
+"maxprob": 0.4196
+},
+{
+"city": "Cabo de Santo Agostinho",
+"country": "Brazil",
+"maxprob": 0.5784
+},
+{
+"city": "Pangkalpinang",
+"country": "Indonesia",
+"maxprob": 0.7211
+},
+{
+"city": "Raurkela Industrial Township",
+"country": "India",
+"maxprob": 0.7179
+},
+{
+"city": "Bidar",
+"country": "India",
+"maxprob": 0.3042
+},
+{
+"city": "Lutsk",
+"country": "Ukraine",
+"maxprob": 0.6884
+},
+{
+"city": "Freiburg",
+"country": "Germany",
+"maxprob": 0.3935
+},
+{
+"city": "San Crist\u00f3bal de las Casas",
+"country": "Mexico",
+"maxprob": 0.783
+},
+{
+"city": "Novi Sad",
+"country": "Serbia",
+"maxprob": 0.7078
+},
+{
+"city": "Monclova",
+"country": "Mexico",
+"maxprob": 0.5133
+},
+{
+"city": "T\u00e2n An",
+"country": "Vietnam",
+"maxprob": 0.3817
+},
+{
+"city": "Sa Dec",
+"country": "Vietnam",
+"maxprob": 0.4428
+},
+{
+"city": "Bnei Brak",
+"country": "Israel",
+"maxprob": 0.6445
+},
+{
+"city": "Khouribga",
+"country": "Morocco",
+"maxprob": 0.8717
+},
+{
+"city": "Erfurt",
+"country": "Germany",
+"maxprob": 0.7621
+},
+{
+"city": "Naz\u0327ar\u0101b\u0101d",
+"country": "Iran",
+"maxprob": 0.3754
+},
+{
+"city": "Jacare\u00ed",
+"country": "Brazil",
+"maxprob": 0.8724
+},
+{
+"city": "Jerez de la Frontera",
+"country": "Spain",
+"maxprob": 0.8973
+},
+{
+"city": "El Jadida",
+"country": "Morocco",
+"maxprob": 0.7532
+},
+{
+"city": "T\u00e2rgu Mure\u015f",
+"country": "Romania",
+"maxprob": 0.8432
+},
+{
+"city": "Rancagua",
+"country": "Chile",
+"maxprob": 0.6544
+},
+{
+"city": "Trondheim",
+"country": "Norway",
+"maxprob": 0.8073
+},
+{
+"city": "Pasuruan",
+"country": "Indonesia",
+"maxprob": 0.7618
+},
+{
+"city": "Cape Coast",
+"country": "Ghana",
+"maxprob": 0.8626
+},
+{
+"city": "Bukit Mertajam",
+"country": "Malaysia",
+"maxprob": 0.7199
+},
+{
+"city": "L\u00fcbeck",
+"country": "Germany",
+"maxprob": 0.5526
+},
+{
+"city": "Sepang",
+"country": "Malaysia",
+"maxprob": 0.7225
+},
+{
+"city": "Cob\u00e1n",
+"country": "Guatemala",
+"maxprob": 0.9259
+},
+{
+"city": "Maric\u00e1",
+"country": "Brazil",
+"maxprob": 0.7774
+},
+{
+"city": "Sabadell",
+"country": "Spain",
+"maxprob": 0.583
+},
+{
+"city": "Santa Cruz de Tenerife",
+"country": "Spain",
+"maxprob": 0.5572
+},
+{
+"city": "Esenyurt",
+"country": "Turkey",
+"maxprob": 0.302
+},
+{
+"city": "Burh\u0101npur",
+"country": "India",
+"maxprob": 0.3988
+},
+{
+"city": "Pskov",
+"country": "Russia",
+"maxprob": 0.6744
+},
+{
+"city": "Beni Mellal",
+"country": "Morocco",
+"maxprob": 0.8498
+},
+{
+"city": "Sidi Bel Abbes",
+"country": "Algeria",
+"maxprob": 0.6603
+},
+{
+"city": "Bogra",
+"country": "Bangladesh",
+"maxprob": 0.5288
+},
+{
+"city": "Kostanay",
+"country": "Kazakhstan",
+"maxprob": 0.4173
+},
+{
+"city": "Antakya",
+"country": "Turkey",
+"maxprob": 0.6902
+},
+{
+"city": "Richmond",
+"country": "Canada",
+"maxprob": 0.3181
+},
+{
+"city": "Pamplona",
+"country": "Spain",
+"maxprob": 0.6504
+},
+{
+"city": "Oulu",
+"country": "Finland",
+"maxprob": 0.7132
+},
+{
+"city": "S\u00e3o Leopoldo",
+"country": "Brazil",
+"maxprob": 0.8655
+},
+{
+"city": "Oruro",
+"country": "Bolivia",
+"maxprob": 0.9529
+},
+{
+"city": "Kielce",
+"country": "Poland",
+"maxprob": 0.8964
+},
+{
+"city": "Shashamane",
+"country": "Ethiopia",
+"maxprob": 0.4848
+},
+{
+"city": "Phan Rang-Th\u00e1p Ch\u00e0m",
+"country": "Vietnam",
+"maxprob": 0.8803
+},
+{
+"city": "Sirjan",
+"country": "Iran",
+"maxprob": 0.4085
+},
+{
+"city": "Bishoftu",
+"country": "Ethiopia",
+"maxprob": 0.4946
+},
+{
+"city": "Bobruysk",
+"country": "Belarus",
+"maxprob": 0.3024
+},
+{
+"city": "Bila Tserkva",
+"country": "Ukraine",
+"maxprob": 0.9325
+},
+{
+"city": "Hurghada",
+"country": "Egypt",
+"maxprob": 0.6394
+},
+{
+"city": "M\u00f3stoles",
+"country": "Spain",
+"maxprob": 0.8335
+},
+{
+"city": "Dosquebradas",
+"country": "Colombia",
+"maxprob": 0.5445
+},
+{
+"city": "Dinajpur",
+"country": "Bangladesh",
+"maxprob": 0.535
+},
+{
+"city": "Vi\u1ec7t Y\u00ean",
+"country": "Vietnam",
+"maxprob": 0.4962
+},
+{
+"city": "Ifakara",
+"country": "Tanzania",
+"maxprob": 0.7725
+},
+{
+"city": "S\u00e9gou",
+"country": "Mali",
+"maxprob": 0.8525
+},
+{
+"city": "Kon Tum",
+"country": "Vietnam",
+"maxprob": 0.7253
+},
+{
+"city": "Itabuna",
+"country": "Brazil",
+"maxprob": 0.7431
+},
+{
+"city": "Latacunga",
+"country": "Ecuador",
+"maxprob": 0.9062
+},
+{
+"city": "Itaim Paulista",
+"country": "Brazil",
+"maxprob": 0.8306
+},
+{
+"city": "S\u00e3o Carlos",
+"country": "Brazil",
+"maxprob": 0.7082
+},
+{
+"city": "Ternate",
+"country": "Indonesia",
+"maxprob": 0.3433
+},
+{
+"city": "Linz",
+"country": "Austria",
+"maxprob": 0.6875
+},
+{
+"city": "Biskra",
+"country": "Algeria",
+"maxprob": 0.7054
+},
+{
+"city": "Trieste",
+"country": "Italy",
+"maxprob": 0.4284
+},
+{
+"city": "Zliten",
+"country": "Libya",
+"maxprob": 0.8998
+},
+{
+"city": "Padova",
+"country": "Italy",
+"maxprob": 0.7741
+},
+{
+"city": "Las Tunas",
+"country": "Cuba",
+"maxprob": 0.9515
+},
+{
+"city": "Matsue",
+"country": "Japan",
+"maxprob": 0.4774
+},
+{
+"city": "Puerto Vallarta",
+"country": "Mexico",
+"maxprob": 0.8338
+},
+{
+"city": "Lauro de Freitas",
+"country": "Brazil",
+"maxprob": 0.7473
+},
+{
+"city": "Deoghar",
+"country": "India",
+"maxprob": 0.3313
+},
+{
+"city": "Fianarantsoa",
+"country": "Madagascar",
+"maxprob": 0.8738
+},
+{
+"city": "Sobral",
+"country": "Brazil",
+"maxprob": 0.4037
+},
+{
+"city": "Osmaniye",
+"country": "Turkey",
+"maxprob": 0.9481
+},
+{
+"city": "B\u0101bol",
+"country": "Iran",
+"maxprob": 0.7831
+},
+{
+"city": "\u00c7orlu",
+"country": "Turkey",
+"maxprob": 0.7679
+},
+{
+"city": "Madiun",
+"country": "Indonesia",
+"maxprob": 0.8847
+},
+{
+"city": "Iringa",
+"country": "Tanzania",
+"maxprob": 0.8538
+},
+{
+"city": "Debrecen",
+"country": "Hungary",
+"maxprob": 0.7727
+},
+{
+"city": "Ch\u0101pra",
+"country": "India",
+"maxprob": 0.5131
+},
+{
+"city": "Barishal",
+"country": "Bangladesh",
+"maxprob": 0.3237
+},
+{
+"city": "Gen\u00e8ve",
+"country": "Switzerland",
+"maxprob": 0.7048
+},
+{
+"city": "Rio Claro",
+"country": "Brazil",
+"maxprob": 0.7094
+},
+{
+"city": "Salatiga",
+"country": "Indonesia",
+"maxprob": 0.5492
+},
+{
+"city": "Cajamarca",
+"country": "Peru",
+"maxprob": 0.7535
+},
+{
+"city": "Arba Minch",
+"country": "Ethiopia",
+"maxprob": 0.6867
+},
+{
+"city": "Puri",
+"country": "India",
+"maxprob": 0.403
+},
+{
+"city": "Nicosia",
+"country": "Cyprus",
+"maxprob": 0.7747
+},
+{
+"city": "Brescia",
+"country": "Italy",
+"maxprob": 0.6152
+},
+{
+"city": "Nasimshahr",
+"country": "Iran",
+"maxprob": 0.3664
+},
+{
+"city": "Charleroi",
+"country": "Belgium",
+"maxprob": 0.812
+},
+{
+"city": "L\u1ea1ng S\u01a1n",
+"country": "Vietnam",
+"maxprob": 0.5308
+},
+{
+"city": "Sumedang",
+"country": "Indonesia",
+"maxprob": 0.6135
+},
+{
+"city": "Az Z\u0101w\u012byah",
+"country": "Libya",
+"maxprob": 0.3501
+},
+{
+"city": "Sal\u00e9 Al Jadida",
+"country": "Morocco",
+"maxprob": 0.838
+},
+{
+"city": "Bukit Jalil",
+"country": "Malaysia",
+"maxprob": 0.6125
+},
+{
+"city": "Iquique",
+"country": "Chile",
+"maxprob": 0.6906
+},
+{
+"city": "Yachiyo",
+"country": "Japan",
+"maxprob": 0.42
+},
+{
+"city": "Yuzhno-Sakhalinsk",
+"country": "Russia",
+"maxprob": 0.5314
+},
+{
+"city": "Hagen",
+"country": "Germany",
+"maxprob": 0.6728
+},
+{
+"city": "Guacara",
+"country": "Venezuela",
+"maxprob": 0.5397
+},
+{
+"city": "Valpara\u00edso de Goi\u00e1s",
+"country": "Brazil",
+"maxprob": 0.7676
+},
+{
+"city": "Gliwice",
+"country": "Poland",
+"maxprob": 0.8535
+},
+{
+"city": "Plano Piloto",
+"country": "Brazil",
+"maxprob": 0.7991
+},
+{
+"city": "Bulandshahr",
+"country": "India",
+"maxprob": 0.5699
+},
+{
+"city": "Taranto",
+"country": "Italy",
+"maxprob": 0.6356
+},
+{
+"city": "Gorontalo",
+"country": "Indonesia",
+"maxprob": 0.5122
+},
+{
+"city": "Naivasha",
+"country": "Kenya",
+"maxprob": 0.7552
+},
+{
+"city": "Rostock",
+"country": "Germany",
+"maxprob": 0.3592
+},
+{
+"city": "Parma",
+"country": "Italy",
+"maxprob": 0.7414
+},
+{
+"city": "Arnavutk\u00f6y",
+"country": "Turkey",
+"maxprob": 0.8548
+},
+{
+"city": "Itami",
+"country": "Japan",
+"maxprob": 0.3768
+},
+{
+"city": "Bhind",
+"country": "India",
+"maxprob": 0.3671
+},
+{
+"city": "Talca",
+"country": "Chile",
+"maxprob": 0.7188
+},
+{
+"city": "Ciudad Madero",
+"country": "Mexico",
+"maxprob": 0.4356
+},
+{
+"city": "B\u012brjand",
+"country": "Iran",
+"maxprob": 0.7237
+},
+{
+"city": "Toru\u0144",
+"country": "Poland",
+"maxprob": 0.9471
+},
+{
+"city": "Almer\u00eda",
+"country": "Spain",
+"maxprob": 0.8201
+},
+{
+"city": "Vientiane",
+"country": "Laos",
+"maxprob": 0.7722
+},
+{
+"city": "Hu\u00e1nuco",
+"country": "Peru",
+"maxprob": 0.9415
+},
+{
+"city": "\u0130zmit",
+"country": "Turkey",
+"maxprob": 0.8225
+},
+{
+"city": "Reims",
+"country": "France",
+"maxprob": 0.6291
+},
+{
+"city": "Phra Pradaeng",
+"country": "Thailand",
+"maxprob": 0.6035
+},
+{
+"city": "Moundou",
+"country": "Chad",
+"maxprob": 0.7108
+},
+{
+"city": "Lhokseumawe",
+"country": "Indonesia",
+"maxprob": 0.7803
+},
+{
+"city": "Bhiw\u0101ni",
+"country": "India",
+"maxprob": 0.6579
+},
+{
+"city": "Burgas",
+"country": "Bulgaria",
+"maxprob": 0.9808
+},
+{
+"city": "Hetauda",
+"country": "Nepal",
+"maxprob": 0.4554
+},
+{
+"city": "Durr\u00ebs",
+"country": "Albania",
+"maxprob": 0.8903
+},
+{
+"city": "Suzuka",
+"country": "Japan",
+"maxprob": 0.3949
+},
+{
+"city": "Janakpur",
+"country": "Nepal",
+"maxprob": 0.8503
+},
+{
+"city": "Panvel",
+"country": "India",
+"maxprob": 0.3613
+},
+{
+"city": "Turku",
+"country": "Finland",
+"maxprob": 0.8689
+},
+{
+"city": "Li\u00e8ge",
+"country": "Belgium",
+"maxprob": 0.7448
+},
+{
+"city": "Prato",
+"country": "Italy",
+"maxprob": 0.5273
+},
+{
+"city": "Langsa",
+"country": "Indonesia",
+"maxprob": 0.6216
+},
+{
+"city": "Kayes",
+"country": "Mali",
+"maxprob": 0.5333
+},
+{
+"city": "Kafr ash Shaykh",
+"country": "Egypt",
+"maxprob": 0.3885
+},
+{
+"city": "Kassel",
+"country": "Germany",
+"maxprob": 0.3403
+},
+{
+"city": "T\u00e9bessa",
+"country": "Algeria",
+"maxprob": 0.6972
+},
+{
+"city": "Kuala Kubu Baharu",
+"country": "Malaysia",
+"maxprob": 0.6256
+},
+{
+"city": "Severodvinsk",
+"country": "Russia",
+"maxprob": 0.8189
+},
+{
+"city": "D\u00fczce",
+"country": "Turkey",
+"maxprob": 0.8944
+},
+{
+"city": "Nnewi",
+"country": "Nigeria",
+"maxprob": 0.3054
+},
+{
+"city": "Yamaguchi",
+"country": "Japan",
+"maxprob": 0.3577
+},
+{
+"city": "Alcal\u00e1 de Henares",
+"country": "Spain",
+"maxprob": 0.8937
+},
+{
+"city": "Ba\u015fak\u015fehir",
+"country": "Turkey",
+"maxprob": 0.8655
+},
+{
+"city": "Taguatinga",
+"country": "Brazil",
+"maxprob": 0.5071
+},
+{
+"city": "Luanshya",
+"country": "Zambia",
+"maxprob": 0.6822
+},
+{
+"city": "Bang Khae",
+"country": "Thailand",
+"maxprob": 0.3778
+},
+{
+"city": "Uji",
+"country": "Japan",
+"maxprob": 0.5874
+},
+{
+"city": "Machil\u012bpatnam",
+"country": "India",
+"maxprob": 0.538
+},
+{
+"city": "Bayamo",
+"country": "Cuba",
+"maxprob": 0.7675
+},
+{
+"city": "Nossa Senhora do Socorro",
+"country": "Brazil",
+"maxprob": 0.3846
+},
+{
+"city": "Castanhal",
+"country": "Brazil",
+"maxprob": 0.4375
+},
+{
+"city": "Zabrze",
+"country": "Poland",
+"maxprob": 0.6814
+},
+{
+"city": "Bojn\u016brd",
+"country": "Iran",
+"maxprob": 0.4165
+},
+{
+"city": "Surulere",
+"country": "Nigeria",
+"maxprob": 0.585
+},
+{
+"city": "Hat Yai",
+"country": "Thailand",
+"maxprob": 0.6871
+},
+{
+"city": "Barrancabermeja",
+"country": "Colombia",
+"maxprob": 0.9137
+},
+{
+"city": "Zlatoust",
+"country": "Russia",
+"maxprob": 0.431
+},
+{
+"city": "Mukono",
+"country": "Uganda",
+"maxprob": 0.826
+},
+{
+"city": "Nova Friburgo",
+"country": "Brazil",
+"maxprob": 0.6647
+},
+{
+"city": "Khairpur Mir\u2019s",
+"country": "Pakistan",
+"maxprob": 0.7712
+},
+{
+"city": "Ashaiman",
+"country": "Ghana",
+"maxprob": 0.3635
+},
+{
+"city": "Choa Chu Kang New Town",
+"country": "Singapore",
+"maxprob": 0.6696
+},
+{
+"city": "Fuenlabrada",
+"country": "Spain",
+"maxprob": 0.9321
+},
+{
+"city": "Hino",
+"country": "Japan",
+"maxprob": 0.3083
+},
+{
+"city": "Jhelum",
+"country": "Pakistan",
+"maxprob": 0.4051
+},
+{
+"city": "Cork",
+"country": "Ireland",
+"maxprob": 0.7401
+},
+{
+"city": "Pak Kret",
+"country": "Thailand",
+"maxprob": 0.3954
+},
+{
+"city": "C\u1ea9m Ph\u1ea3",
+"country": "Vietnam",
+"maxprob": 0.5464
+},
+{
+"city": "Al Fall\u016bjah",
+"country": "Iraq",
+"maxprob": 0.3214
+},
+{
+"city": "Vantaa",
+"country": "Finland",
+"maxprob": 0.8801
+},
+{
+"city": "Numazu",
+"country": "Japan",
+"maxprob": 0.3026
+},
+{
+"city": "J\u014detsu",
+"country": "Japan",
+"maxprob": 0.8205
+},
+{
+"city": "Planaltina",
+"country": "Brazil",
+"maxprob": 0.7067
+},
+{
+"city": "Sambalpur",
+"country": "India",
+"maxprob": 0.6845
+},
+{
+"city": "Syzran",
+"country": "Russia",
+"maxprob": 0.313
+},
+{
+"city": "Danshui",
+"country": "Taiwan",
+"maxprob": 0.3395
+},
+{
+"city": "Santar\u00e9m",
+"country": "Brazil",
+"maxprob": 0.4093
+},
+{
+"city": "Odawara",
+"country": "Japan",
+"maxprob": 0.4118
+},
+{
+"city": "Cama\u00e7ari",
+"country": "Brazil",
+"maxprob": 0.5559
+},
+{
+"city": "Labuan Bajo",
+"country": "Indonesia",
+"maxprob": 0.7649
+},
+{
+"city": "Anj\u014d",
+"country": "Japan",
+"maxprob": 0.6274
+},
+{
+"city": "Boyeros",
+"country": "Cuba",
+"maxprob": 0.5517
+},
+{
+"city": "Tottori-shi",
+"country": "Japan",
+"maxprob": 0.6187
+},
+{
+"city": "Legan\u00e9s",
+"country": "Spain",
+"maxprob": 0.8742
+},
+{
+"city": "Acarigua",
+"country": "Venezuela",
+"maxprob": 0.7872
+},
+{
+"city": "Riohacha",
+"country": "Colombia",
+"maxprob": 0.697
+},
+{
+"city": "Santa B\u00e1rbara d'Oeste",
+"country": "Brazil",
+"maxprob": 0.8068
+},
+{
+"city": "Getafe",
+"country": "Spain",
+"maxprob": 0.7392
+},
+{
+"city": "Chilpancingo",
+"country": "Mexico",
+"maxprob": 0.5788
+},
+{
+"city": "Cachoeiro de Itapemirim",
+"country": "Brazil",
+"maxprob": 0.8621
+},
+{
+"city": "Pinar del R\u00edo",
+"country": "Cuba",
+"maxprob": 0.9544
+},
+{
+"city": "K\u0131r\u0131kkale",
+"country": "Turkey",
+"maxprob": 0.9236
+},
+{
+"city": "Batumi",
+"country": "Georgia",
+"maxprob": 0.8406
+},
+{
+"city": "P\u0101bna",
+"country": "Bangladesh",
+"maxprob": 0.4526
+},
+{
+"city": "Cienfuegos",
+"country": "Cuba",
+"maxprob": 0.9152
+},
+{
+"city": "Beersheba",
+"country": "Israel",
+"maxprob": 0.4613
+},
+{
+"city": "El Oued",
+"country": "Algeria",
+"maxprob": 0.8614
+},
+{
+"city": "Raebareli",
+"country": "India",
+"maxprob": 0.4284
+},
+{
+"city": "Mopti",
+"country": "Mali",
+"maxprob": 0.6817
+},
+{
+"city": "Haridwar",
+"country": "India",
+"maxprob": 0.5354
+},
+{
+"city": "Le Havre",
+"country": "France",
+"maxprob": 0.585
+},
+{
+"city": "Donostia / San Sebasti\u00e1n",
+"country": "Spain",
+"maxprob": 0.9576
+},
+{
+"city": "Poza Rica de Hidalgo",
+"country": "Mexico",
+"maxprob": 0.9341
+},
+{
+"city": "K\u00fctahya",
+"country": "Turkey",
+"maxprob": 0.9027
+},
+{
+"city": "Modena",
+"country": "Italy",
+"maxprob": 0.9067
+},
+{
+"city": "Bolu",
+"country": "Turkey",
+"maxprob": 0.829
+},
+{
+"city": "Padalarang",
+"country": "Indonesia",
+"maxprob": 0.4379
+},
+{
+"city": "Pemalang",
+"country": "Indonesia",
+"maxprob": 0.7158
+},
+{
+"city": "Tachikawa",
+"country": "Japan",
+"maxprob": 0.4184
+},
+{
+"city": "Cergy-Pontoise",
+"country": "France",
+"maxprob": 0.8008
+},
+{
+"city": "Tanjungbalai",
+"country": "Indonesia",
+"maxprob": 0.4973
+},
+{
+"city": "Sants-Montju\u00efc",
+"country": "Spain",
+"maxprob": 0.8448
+},
+{
+"city": "Oradea",
+"country": "Romania",
+"maxprob": 0.8
+},
+{
+"city": "Skikda",
+"country": "Algeria",
+"maxprob": 0.8141
+},
+{
+"city": "Jaragu\u00e1 do Sul",
+"country": "Brazil",
+"maxprob": 0.835
+},
+{
+"city": "Sirsa",
+"country": "India",
+"maxprob": 0.3134
+},
+{
+"city": "Kamensk-Ural\u2019skiy",
+"country": "Russia",
+"maxprob": 0.7701
+},
+{
+"city": "Reggio Calabria",
+"country": "Italy",
+"maxprob": 0.9183
+},
+{
+"city": "Potsdam",
+"country": "Germany",
+"maxprob": 0.6343
+},
+{
+"city": "Guarapuava",
+"country": "Brazil",
+"maxprob": 0.853
+},
+{
+"city": "Monywa",
+"country": "Myanmar",
+"maxprob": 0.5284
+},
+{
+"city": "Petropavlovsk-Kamchatsky",
+"country": "Russia",
+"maxprob": 0.6354
+},
+{
+"city": "Odense",
+"country": "Denmark",
+"maxprob": 0.9457
+},
+{
+"city": "Singosari",
+"country": "Indonesia",
+"maxprob": 0.4539
+},
+{
+"city": "Quetzaltenango",
+"country": "Guatemala",
+"maxprob": 0.867
+},
+{
+"city": "Baharampur",
+"country": "India",
+"maxprob": 0.6792
+},
+{
+"city": "Ploie\u015fti",
+"country": "Romania",
+"maxprob": 0.8718
+},
+{
+"city": "Berazategui",
+"country": "Argentina",
+"maxprob": 0.6742
+},
+{
+"city": "Madanapalle",
+"country": "India",
+"maxprob": 0.3741
+},
+{
+"city": "Edirne",
+"country": "Turkey",
+"maxprob": 0.8574
+},
+{
+"city": "Shivpuri",
+"country": "India",
+"maxprob": 0.404
+},
+{
+"city": "Passo Fundo",
+"country": "Brazil",
+"maxprob": 0.7402
+},
+{
+"city": "Podolsk",
+"country": "Russia",
+"maxprob": 0.5327
+},
+{
+"city": "Saarbr\u00fccken",
+"country": "Germany",
+"maxprob": 0.5914
+},
+{
+"city": "Purwakarta",
+"country": "Indonesia",
+"maxprob": 0.7627
+},
+{
+"city": "Ferraz de Vasconcelos",
+"country": "Brazil",
+"maxprob": 0.8418
+},
+{
+"city": "Angra dos Reis",
+"country": "Brazil",
+"maxprob": 0.7056
+},
+{
+"city": "Hamm",
+"country": "Germany",
+"maxprob": 0.5368
+},
+{
+"city": "Tiaret",
+"country": "Algeria",
+"maxprob": 0.5825
+},
+{
+"city": "Amadora",
+"country": "Portugal",
+"maxprob": 0.8225
+},
+{
+"city": "Cuautitl\u00e1n",
+"country": "Mexico",
+"maxprob": 0.8726
+},
+{
+"city": "Toliara",
+"country": "Madagascar",
+"maxprob": 0.5677
+},
+{
+"city": "Chlef",
+"country": "Algeria",
+"maxprob": 0.7214
+},
+{
+"city": "Ciudad Camilo Cienfuegos",
+"country": "Cuba",
+"maxprob": 0.7287
+},
+{
+"city": "Paris 13e Arrondissement",
+"country": "France",
+"maxprob": 0.9555
+},
+{
+"city": "Basel",
+"country": "Switzerland",
+"maxprob": 0.7978
+},
+{
+"city": "Meiktila",
+"country": "Myanmar",
+"maxprob": 0.7612
+},
+{
+"city": "Gulu",
+"country": "Uganda",
+"maxprob": 0.5932
+},
+{
+"city": "Uppsala",
+"country": "Sweden",
+"maxprob": 0.87
+},
+{
+"city": "Bragan\u00e7a Paulista",
+"country": "Brazil",
+"maxprob": 0.8565
+},
+{
+"city": "San Luis R\u00edo Colorado",
+"country": "Mexico",
+"maxprob": 0.8428
+},
+{
+"city": "Nador",
+"country": "Morocco",
+"maxprob": 0.5259
+},
+{
+"city": "Bielsko-Biala",
+"country": "Poland",
+"maxprob": 0.8233
+},
+{
+"city": "Burgos",
+"country": "Spain",
+"maxprob": 0.8646
+},
+{
+"city": "Saint-\u00c9tienne",
+"country": "France",
+"maxprob": 0.8312
+},
+{
+"city": "Narashino",
+"country": "Japan",
+"maxprob": 0.4435
+},
+{
+"city": "B\u00e9ja\u00efa",
+"country": "Algeria",
+"maxprob": 0.7991
+},
+{
+"city": "Karaman",
+"country": "Turkey",
+"maxprob": 0.6945
+},
+{
+"city": "Oshawa",
+"country": "Canada",
+"maxprob": 0.5431
+},
+{
+"city": "Palho\u00e7a",
+"country": "Brazil",
+"maxprob": 0.5163
+},
+{
+"city": "T\u00e2n Ch\u00e2u",
+"country": "Vietnam",
+"maxprob": 0.4823
+},
+{
+"city": "Chhindw\u0101ra",
+"country": "India",
+"maxprob": 0.718
+},
+{
+"city": "Cianjur",
+"country": "Indonesia",
+"maxprob": 0.8261
+},
+{
+"city": "Santander",
+"country": "Spain",
+"maxprob": 0.433
+},
+{
+"city": "Puerto Cabello",
+"country": "Venezuela",
+"maxprob": 0.9279
+},
+{
+"city": "Tlemcen",
+"country": "Algeria",
+"maxprob": 0.7108
+},
+{
+"city": "Sh\u0101h\u012bn Shahr",
+"country": "Iran",
+"maxprob": 0.4077
+},
+{
+"city": "Myeik",
+"country": "Myanmar",
+"maxprob": 0.6313
+},
+{
+"city": "Albacete",
+"country": "Spain",
+"maxprob": 0.8461
+},
+{
+"city": "Kamakura",
+"country": "Japan",
+"maxprob": 0.4211
+},
+{
+"city": "Chicoloapan",
+"country": "Mexico",
+"maxprob": 0.7133
+},
+{
+"city": "Gadag-Betageri",
+"country": "India",
+"maxprob": 0.6752
+},
+{
+"city": "Gadag",
+"country": "India",
+"maxprob": 0.5803
+},
+{
+"city": "Ongata Rongai",
+"country": "Kenya",
+"maxprob": 0.5215
+},
+{
+"city": "Tunja",
+"country": "Colombia",
+"maxprob": 0.8692
+},
+{
+"city": "Quillacollo",
+"country": "Bolivia",
+"maxprob": 0.9498
+},
+{
+"city": "Alcorc\u00f3n",
+"country": "Spain",
+"maxprob": 0.9214
+},
+{
+"city": "Gisenyi",
+"country": "Rwanda",
+"maxprob": 0.7536
+},
+{
+"city": "Isparta",
+"country": "Turkey",
+"maxprob": 0.879
+},
+{
+"city": "Klaip\u0117da",
+"country": "Lithuania",
+"maxprob": 0.8363
+},
+{
+"city": "Reggio nell'Emilia",
+"country": "Italy",
+"maxprob": 0.7557
+},
+{
+"city": "Castell\u00f3 de la Plana",
+"country": "Spain",
+"maxprob": 0.9177
+},
+{
+"city": "Olsztyn",
+"country": "Poland",
+"maxprob": 0.7837
+},
+{
+"city": "Prizren",
+"country": "Kosovo",
+"maxprob": 0.6652
+},
+{
+"city": "Urayasu",
+"country": "Japan",
+"maxprob": 0.5884
+},
+{
+"city": "Baranovichi",
+"country": "Belarus",
+"maxprob": 0.8219
+},
+{
+"city": "Long Kh\u00e1nh",
+"country": "Vietnam",
+"maxprob": 0.4321
+},
+{
+"city": "Navsari",
+"country": "India",
+"maxprob": 0.4826
+},
+{
+"city": "M\u00fclheim",
+"country": "Germany",
+"maxprob": 0.3446
+},
+{
+"city": "B\u1ea3o L\u1ed9c",
+"country": "Vietnam",
+"maxprob": 0.4472
+},
+{
+"city": "Oshodi",
+"country": "Nigeria",
+"maxprob": 0.3458
+},
+{
+"city": "Ramat Gan",
+"country": "Israel",
+"maxprob": 0.8718
+},
+{
+"city": "Bahadurgarh",
+"country": "India",
+"maxprob": 0.556
+},
+{
+"city": "East Helsinki",
+"country": "Finland",
+"maxprob": 0.342
+},
+{
+"city": "Ibirit\u00e9",
+"country": "Brazil",
+"maxprob": 0.3659
+},
+{
+"city": "Ara\u00e7atuba",
+"country": "Brazil",
+"maxprob": 0.7963
+},
+{
+"city": "Ouargla",
+"country": "Algeria",
+"maxprob": 0.6372
+},
+{
+"city": "Kluang",
+"country": "Malaysia",
+"maxprob": 0.4365
+},
+{
+"city": "Jaunpur",
+"country": "India",
+"maxprob": 0.3601
+},
+{
+"city": "Khlong Sam Wa",
+"country": "Thailand",
+"maxprob": 0.34
+},
+{
+"city": "Ciudad del Carmen",
+"country": "Mexico",
+"maxprob": 0.4397
+},
+{
+"city": "Harburg",
+"country": "Germany",
+"maxprob": 0.3362
+},
+{
+"city": "Mufulira",
+"country": "Zambia",
+"maxprob": 0.7995
+},
+{
+"city": "Chetumal",
+"country": "Mexico",
+"maxprob": 0.6405
+},
+{
+"city": "Bhar\u016bch",
+"country": "India",
+"maxprob": 0.3956
+},
+{
+"city": "Hirosaki",
+"country": "Japan",
+"maxprob": 0.366
+},
+{
+"city": "Chalco",
+"country": "Mexico",
+"maxprob": 0.371
+},
+{
+"city": "Toulon",
+"country": "France",
+"maxprob": 0.759
+},
+{
+"city": "Po\u00e7os de Caldas",
+"country": "Brazil",
+"maxprob": 0.9277
+},
+{
+"city": "Calabozo",
+"country": "Venezuela",
+"maxprob": 0.4903
+},
+{
+"city": "Araraquara",
+"country": "Brazil",
+"maxprob": 0.5599
+},
+{
+"city": "Yopal",
+"country": "Colombia",
+"maxprob": 0.7536
+},
+{
+"city": "Ituzaing\u00f3",
+"country": "Argentina",
+"maxprob": 0.8223
+},
+{
+"city": "Porto Seguro",
+"country": "Brazil",
+"maxprob": 0.7638
+},
+{
+"city": "Angers",
+"country": "France",
+"maxprob": 0.8032
+},
+{
+"city": "Rio das Ostras",
+"country": "Brazil",
+"maxprob": 0.5087
+},
+{
+"city": "Horta-Guinard\u00f3",
+"country": "Spain",
+"maxprob": 0.5754
+},
+{
+"city": "P\u00e1tra",
+"country": "Greece",
+"maxprob": 0.7616
+},
+{
+"city": "Kushiro",
+"country": "Japan",
+"maxprob": 0.3529
+},
+{
+"city": "Ijero-Ekiti",
+"country": "Nigeria",
+"maxprob": 0.5481
+},
+{
+"city": "Car\u00fapano",
+"country": "Venezuela",
+"maxprob": 0.796
+},
+{
+"city": "Kumbakonam",
+"country": "India",
+"maxprob": 0.3494
+},
+{
+"city": "Novocherkassk",
+"country": "Russia",
+"maxprob": 0.6178
+},
+{
+"city": "Linhares",
+"country": "Brazil",
+"maxprob": 0.8183
+},
+{
+"city": "Sampit",
+"country": "Indonesia",
+"maxprob": 0.3696
+},
+{
+"city": "Link\u00f6ping",
+"country": "Sweden",
+"maxprob": 0.8784
+},
+{
+"city": "Maicao",
+"country": "Colombia",
+"maxprob": 0.585
+},
+{
+"city": "Osnabr\u00fcck",
+"country": "Germany",
+"maxprob": 0.8175
+},
+{
+"city": "Calama",
+"country": "Chile",
+"maxprob": 0.7246
+},
+{
+"city": "Nepalgunj",
+"country": "Nepal",
+"maxprob": 0.9614
+},
+{
+"city": "Ocumare del Tuy",
+"country": "Venezuela",
+"maxprob": 0.9079
+},
+{
+"city": "Niiza",
+"country": "Japan",
+"maxprob": 0.3874
+},
+{
+"city": "Greater Sudbury",
+"country": "Canada",
+"maxprob": 0.5288
+},
+{
+"city": "S\u00e3o Caetano do Sul",
+"country": "Brazil",
+"maxprob": 0.9249
+},
+{
+"city": "Sawangan",
+"country": "Indonesia",
+"maxprob": 0.4569
+},
+{
+"city": "Bang Khun Thian",
+"country": "Thailand",
+"maxprob": 0.3881
+},
+{
+"city": "Pindamonhangaba",
+"country": "Brazil",
+"maxprob": 0.8282
+},
+{
+"city": "Bushehr",
+"country": "Iran",
+"maxprob": 0.7863
+},
+{
+"city": "B\u00e9char",
+"country": "Algeria",
+"maxprob": 0.6759
+},
+{
+"city": "Tam K\u1ef3",
+"country": "Vietnam",
+"maxprob": 0.6643
+},
+{
+"city": "Francisco Morato",
+"country": "Brazil",
+"maxprob": 0.4689
+},
+{
+"city": "Udupi",
+"country": "India",
+"maxprob": 0.3399
+},
+{
+"city": "Lages",
+"country": "Brazil",
+"maxprob": 0.3613
+},
+{
+"city": "Neuk\u00f6lln",
+"country": "Germany",
+"maxprob": 0.3996
+},
+{
+"city": "S\u012bt\u0101pur",
+"country": "India",
+"maxprob": 0.4133
+},
+{
+"city": "Solingen",
+"country": "Germany",
+"maxprob": 0.6053
+},
+{
+"city": "Muridke",
+"country": "Pakistan",
+"maxprob": 0.4123
+},
+{
+"city": "Musoma",
+"country": "Tanzania",
+"maxprob": 0.4736
+},
+{
+"city": "Barra Mansa",
+"country": "Brazil",
+"maxprob": 0.7679
+},
+{
+"city": "Piraeus",
+"country": "Greece",
+"maxprob": 0.7674
+},
+{
+"city": "Sidon",
+"country": "Lebanon",
+"maxprob": 0.4514
+},
+{
+"city": "Garissa",
+"country": "Kenya",
+"maxprob": 0.3729
+},
+{
+"city": "Ludwigshafen am Rhein",
+"country": "Germany",
+"maxprob": 0.9159
+},
+{
+"city": "Lat Krabang",
+"country": "Thailand",
+"maxprob": 0.7176
+},
+{
+"city": "\u015eal\u0101lah",
+"country": "Oman",
+"maxprob": 0.6687
+},
+{
+"city": "B\u00fcy\u00fck\u00e7ekmece",
+"country": "Turkey",
+"maxprob": 0.8077
+},
+{
+"city": "Ayd\u0131n",
+"country": "Turkey",
+"maxprob": 0.939
+},
+{
+"city": "Envigado",
+"country": "Colombia",
+"maxprob": 0.6259
+},
+{
+"city": "Mostaganem",
+"country": "Algeria",
+"maxprob": 0.8329
+},
+{
+"city": "Bandar-e M\u0101hshahr",
+"country": "Iran",
+"maxprob": 0.868
+},
+{
+"city": "Floridsdorf",
+"country": "Austria",
+"maxprob": 0.3385
+},
+{
+"city": "Leverkusen",
+"country": "Germany",
+"maxprob": 0.5777
+},
+{
+"city": "Jiutepec",
+"country": "Mexico",
+"maxprob": 0.6334
+},
+{
+"city": "Kitale",
+"country": "Kenya",
+"maxprob": 0.3519
+},
+{
+"city": "Suleja",
+"country": "Nigeria",
+"maxprob": 0.5126
+},
+{
+"city": "Crici\u00fama",
+"country": "Brazil",
+"maxprob": 0.5928
+},
+{
+"city": "Kunduz",
+"country": "Afghanistan",
+"maxprob": 0.6643
+},
+{
+"city": "Tr\u1ea3ng B\u00e0ng",
+"country": "Vietnam",
+"maxprob": 0.6847
+},
+{
+"city": "Budaun",
+"country": "India",
+"maxprob": 0.5664
+},
+{
+"city": "\u014cgaki",
+"country": "Japan",
+"maxprob": 0.6775
+},
+{
+"city": "Coquimbo",
+"country": "Chile",
+"maxprob": 0.6992
+},
+{
+"city": "Miyakonoj\u014d",
+"country": "Japan",
+"maxprob": 0.6856
+},
+{
+"city": "Kindia",
+"country": "Guinea",
+"maxprob": 0.3428
+},
+{
+"city": "Chatuchak",
+"country": "Thailand",
+"maxprob": 0.8327
+},
+{
+"city": "Sayama",
+"country": "Japan",
+"maxprob": 0.3228
+},
+{
+"city": "Sullana",
+"country": "Peru",
+"maxprob": 0.7791
+},
+{
+"city": "Szeged",
+"country": "Hungary",
+"maxprob": 0.8513
+},
+{
+"city": "Ban Khlong Prawet",
+"country": "Thailand",
+"maxprob": 0.8662
+},
+{
+"city": "Anderlecht",
+"country": "Belgium",
+"maxprob": 0.8491
+},
+{
+"city": "Delegaci\u00f3n Cuajimalpa de Morelos",
+"country": "Mexico",
+"maxprob": 0.9216
+},
+{
+"city": "Chapec\u00f3",
+"country": "Brazil",
+"maxprob": 0.6176
+},
+{
+"city": "Taunggyi",
+"country": "Myanmar",
+"maxprob": 0.544
+},
+{
+"city": "Dham\u0101r",
+"country": "Yemen",
+"maxprob": 0.7222
+},
+{
+"city": "Manzanillo",
+"country": "Mexico",
+"maxprob": 0.699
+},
+{
+"city": "Barreiras",
+"country": "Brazil",
+"maxprob": 0.7666
+},
+{
+"city": "Tahoua",
+"country": "Niger",
+"maxprob": 0.7765
+},
+{
+"city": "Ang Mo Kio New Town",
+"country": "Singapore",
+"maxprob": 0.7571
+},
+{
+"city": "Limuru",
+"country": "Kenya",
+"maxprob": 0.3068
+},
+{
+"city": "Tarija",
+"country": "Bolivia",
+"maxprob": 0.8866
+},
+{
+"city": "Patos de Minas",
+"country": "Brazil",
+"maxprob": 0.7323
+},
+{
+"city": "Catamarca",
+"country": "Argentina",
+"maxprob": 0.9483
+},
+{
+"city": "Tochigi",
+"country": "Japan",
+"maxprob": 0.6488
+},
+{
+"city": "Bordj Bou Arreridj",
+"country": "Algeria",
+"maxprob": 0.8225
+},
+{
+"city": "Grenoble",
+"country": "France",
+"maxprob": 0.6606
+},
+{
+"city": "Itapecerica da Serra",
+"country": "Brazil",
+"maxprob": 0.7683
+},
+{
+"city": "S\u0101marr\u0101\u2019",
+"country": "Iraq",
+"maxprob": 0.9474
+},
+{
+"city": "Rzesz\u00f3w",
+"country": "Poland",
+"maxprob": 0.8648
+},
+{
+"city": "George Town",
+"country": "Malaysia",
+"maxprob": 0.3023
+},
+{
+"city": "Th\u1ed1t N\u1ed1t",
+"country": "Vietnam",
+"maxprob": 0.5141
+},
+{
+"city": "Gweru",
+"country": "Zimbabwe",
+"maxprob": 0.827
+},
+{
+"city": "Abaetetuba",
+"country": "Brazil",
+"maxprob": 0.6244
+},
+{
+"city": "Centro Habana",
+"country": "Cuba",
+"maxprob": 0.8425
+},
+{
+"city": "Bukit Batok New Town",
+"country": "Singapore",
+"maxprob": 0.7967
+},
+{
+"city": "Dijon",
+"country": "France",
+"maxprob": 0.7689
+},
+{
+"city": "Itapetininga",
+"country": "Brazil",
+"maxprob": 0.7809
+},
+{
+"city": "Cuautla",
+"country": "Mexico",
+"maxprob": 0.7204
+},
+{
+"city": "Salzburg",
+"country": "Austria",
+"maxprob": 0.7436
+},
+{
+"city": "Ussuriysk",
+"country": "Russia",
+"maxprob": 0.754
+},
+{
+"city": "Livorno",
+"country": "Italy",
+"maxprob": 0.8173
+},
+{
+"city": "R\u00edo Cuarto",
+"country": "Argentina",
+"maxprob": 0.879
+},
+{
+"city": "Harar",
+"country": "Ethiopia",
+"maxprob": 0.3459
+},
+{
+"city": "Qalyub",
+"country": "Egypt",
+"maxprob": 0.309
+},
+{
+"city": "Escuintla",
+"country": "Guatemala",
+"maxprob": 0.8641
+},
+{
+"city": "Marbella",
+"country": "Spain",
+"maxprob": 0.6293
+},
+{
+"city": "Batu Pahat",
+"country": "Malaysia",
+"maxprob": 0.7411
+},
+{
+"city": "Sitiawan",
+"country": "Malaysia",
+"maxprob": 0.5516
+},
+{
+"city": "Lampang",
+"country": "Thailand",
+"maxprob": 0.8965
+},
+{
+"city": "F\u00e8s al Bali",
+"country": "Morocco",
+"maxprob": 0.7372
+},
+{
+"city": "\u00d6rebro",
+"country": "Sweden",
+"maxprob": 0.9386
+},
+{
+"city": "Vidisha",
+"country": "India",
+"maxprob": 0.3605
+},
+{
+"city": "Tuy H\u00f2a",
+"country": "Vietnam",
+"maxprob": 0.4432
+},
+{
+"city": "Tema",
+"country": "Ghana",
+"maxprob": 0.4952
+},
+{
+"city": "Camaragibe",
+"country": "Brazil",
+"maxprob": 0.6599
+},
+{
+"city": "San Martin Texmelucan de Labastida",
+"country": "Mexico",
+"maxprob": 0.9367
+},
+{
+"city": "Itaja\u00ed",
+"country": "Brazil",
+"maxprob": 0.807
+},
+{
+"city": "S\u00e3o Mateus",
+"country": "Brazil",
+"maxprob": 0.5797
+},
+{
+"city": "Zemun",
+"country": "Serbia",
+"maxprob": 0.3894
+},
+{
+"city": "Ilh\u00e9us",
+"country": "Brazil",
+"maxprob": 0.5044
+},
+{
+"city": "Settat",
+"country": "Morocco",
+"maxprob": 0.6587
+},
+{
+"city": "Tetu\u00e1n de las Victorias",
+"country": "Spain",
+"maxprob": 0.3173
+},
+{
+"city": "Br\u0103ila",
+"country": "Romania",
+"maxprob": 0.8864
+},
+{
+"city": "La Serena",
+"country": "Chile",
+"maxprob": 0.7332
+},
+{
+"city": "Miskolc",
+"country": "Hungary",
+"maxprob": 0.5603
+},
+{
+"city": "Ab\u016b Kab\u012br",
+"country": "Egypt",
+"maxprob": 0.6161
+},
+{
+"city": "Kitengela",
+"country": "Kenya",
+"maxprob": 0.6757
+},
+{
+"city": "Kovrov",
+"country": "Russia",
+"maxprob": 0.5058
+},
+{
+"city": "Viran\u015fehir",
+"country": "Turkey",
+"maxprob": 0.3328
+},
+{
+"city": "Santana de Parna\u00edba",
+"country": "Brazil",
+"maxprob": 0.8185
+},
+{
+"city": "Limassol",
+"country": "Cyprus",
+"maxprob": 0.9138
+},
+{
+"city": "Kariya",
+"country": "Japan",
+"maxprob": 0.3836
+},
+{
+"city": "Mogi Gua\u00e7u",
+"country": "Brazil",
+"maxprob": 0.7762
+},
+{
+"city": "Souk Ahras",
+"country": "Algeria",
+"maxprob": 0.7295
+},
+{
+"city": "Chincha Alta",
+"country": "Peru",
+"maxprob": 0.7755
+},
+{
+"city": "Cairns",
+"country": "Australia",
+"maxprob": 0.4055
+},
+{
+"city": "As Samawah",
+"country": "Iraq",
+"maxprob": 0.8418
+},
+{
+"city": "Porbandar",
+"country": "India",
+"maxprob": 0.5181
+},
+{
+"city": "Baqubah",
+"country": "Iraq",
+"maxprob": 0.6383
+},
+{
+"city": "Logro\u00f1o",
+"country": "Spain",
+"maxprob": 0.629
+},
+{
+"city": "Neuss",
+"country": "Germany",
+"maxprob": 0.5639
+},
+{
+"city": "Pouso Alegre",
+"country": "Brazil",
+"maxprob": 0.8184
+},
+{
+"city": "C\u1ea7n Giu\u1ed9c",
+"country": "Vietnam",
+"maxprob": 0.5792
+},
+{
+"city": "Higashimurayama",
+"country": "Japan",
+"maxprob": 0.5824
+},
+{
+"city": "Hindupur",
+"country": "India",
+"maxprob": 0.3692
+},
+{
+"city": "Arauc\u00e1ria",
+"country": "Brazil",
+"maxprob": 0.7336
+},
+{
+"city": "Bintulu",
+"country": "Malaysia",
+"maxprob": 0.4901
+},
+{
+"city": "Akhm\u012bm",
+"country": "Egypt",
+"maxprob": 0.6898
+},
+{
+"city": "Kohat",
+"country": "Pakistan",
+"maxprob": 0.5648
+},
+{
+"city": "Layyah",
+"country": "Pakistan",
+"maxprob": 0.8252
+},
+{
+"city": "Koforidua",
+"country": "Ghana",
+"maxprob": 0.3182
+},
+{
+"city": "Bukit Merah Estate",
+"country": "Singapore",
+"maxprob": 0.5572
+},
+{
+"city": "Garanhuns",
+"country": "Brazil",
+"maxprob": 0.649
+},
+{
+"city": "Erzincan",
+"country": "Turkey",
+"maxprob": 0.8203
+},
+{
+"city": "K\u0131r\u015fehir",
+"country": "Turkey",
+"maxprob": 0.9246
+},
+{
+"city": "Badajoz",
+"country": "Spain",
+"maxprob": 0.6762
+},
+{
+"city": "Chill\u00e1n",
+"country": "Chile",
+"maxprob": 0.8615
+},
+{
+"city": "Blitar",
+"country": "Indonesia",
+"maxprob": 0.6749
+},
+{
+"city": "K\u1ef3 Anh",
+"country": "Vietnam",
+"maxprob": 0.5843
+},
+{
+"city": "Piedras Negras",
+"country": "Mexico",
+"maxprob": 0.5792
+},
+{
+"city": "K\u0131z\u0131ltepe",
+"country": "Turkey",
+"maxprob": 0.6599
+},
+{
+"city": "Balashikha",
+"country": "Russia",
+"maxprob": 0.6138
+},
+{
+"city": "Raigarh",
+"country": "India",
+"maxprob": 0.3254
+},
+{
+"city": "Playa del Carmen",
+"country": "Mexico",
+"maxprob": 0.51
+},
+{
+"city": "Split",
+"country": "Croatia",
+"maxprob": 0.8589
+},
+{
+"city": "Ursyn\u00f3w",
+"country": "Poland",
+"maxprob": 0.6029
+},
+{
+"city": "Madrid Centro",
+"country": "Spain",
+"maxprob": 0.7656
+},
+{
+"city": "Agadez",
+"country": "Niger",
+"maxprob": 0.8341
+},
+{
+"city": "Re\u1e96ovot",
+"country": "Israel",
+"maxprob": 0.8922
+},
+{
+"city": "Queimados",
+"country": "Brazil",
+"maxprob": 0.35
+},
+{
+"city": "Kerch",
+"country": "Ukraine",
+"maxprob": 0.3502
+},
+{
+"city": "Fazenda Rio Grande",
+"country": "Brazil",
+"maxprob": 0.4298
+},
+{
+"city": "Marvdasht",
+"country": "Iran",
+"maxprob": 0.9034
+},
+{
+"city": "Melitopol",
+"country": "Ukraine",
+"maxprob": 0.7013
+},
+{
+"city": "Arganzuela",
+"country": "Spain",
+"maxprob": 0.5499
+},
+{
+"city": "Rimini",
+"country": "Italy",
+"maxprob": 0.8081
+},
+{
+"city": "Stavanger",
+"country": "Norway",
+"maxprob": 0.9021
+},
+{
+"city": "Coquitlam",
+"country": "Canada",
+"maxprob": 0.7693
+},
+{
+"city": "N\u00eemes",
+"country": "France",
+"maxprob": 0.7283
+},
+{
+"city": "Sao Rafael",
+"country": "Brazil",
+"maxprob": 0.4581
+},
+{
+"city": "Botucatu",
+"country": "Brazil",
+"maxprob": 0.4318
+},
+{
+"city": "Sarri\u00e0-Sant Gervasi",
+"country": "Spain",
+"maxprob": 0.7725
+},
+{
+"city": "Kiambu",
+"country": "Kenya",
+"maxprob": 0.777
+},
+{
+"city": "Clermont-Ferrand",
+"country": "France",
+"maxprob": 0.7927
+},
+{
+"city": "Barrie",
+"country": "Canada",
+"maxprob": 0.4145
+},
+{
+"city": "Bang Kapi",
+"country": "Thailand",
+"maxprob": 0.3625
+},
+{
+"city": "Salamanca",
+"country": "Spain",
+"maxprob": 0.6877
+},
+{
+"city": "Rafsanj\u0101n",
+"country": "Iran",
+"maxprob": 0.5988
+},
+{
+"city": "Mestre",
+"country": "Italy",
+"maxprob": 0.361
+},
+{
+"city": "Kragujevac",
+"country": "Serbia",
+"maxprob": 0.8688
+},
+{
+"city": "Kramatorsk",
+"country": "Ukraine",
+"maxprob": 0.6874
+},
+{
+"city": "Manama",
+"country": "Bahrain",
+"maxprob": 0.8312
+},
+{
+"city": "Colima",
+"country": "Mexico",
+"maxprob": 0.8571
+},
+{
+"city": "Bhimavaram",
+"country": "India",
+"maxprob": 0.6016
+},
+{
+"city": "L\u00e1risa",
+"country": "Greece",
+"maxprob": 0.7259
+},
+{
+"city": "Debre Birhan",
+"country": "Ethiopia",
+"maxprob": 0.6423
+},
+{
+"city": "Aix-en-Provence",
+"country": "France",
+"maxprob": 0.6751
+},
+{
+"city": "Cam Ranh",
+"country": "Vietnam",
+"maxprob": 0.732
+},
+{
+"city": "Matanzas",
+"country": "Cuba",
+"maxprob": 0.5653
+},
+{
+"city": "Saint-Quentin-en-Yvelines",
+"country": "France",
+"maxprob": 0.8718
+},
+{
+"city": "Ruda \u015al\u0105ska",
+"country": "Poland",
+"maxprob": 0.8374
+},
+{
+"city": "Chamber\u00ed",
+"country": "Spain",
+"maxprob": 0.7569
+},
+{
+"city": "Jutiapa",
+"country": "Guatemala",
+"maxprob": 0.8084
+},
+{
+"city": "Marab\u00e1",
+"country": "Brazil",
+"maxprob": 0.714
+},
+{
+"city": "Chitradurga",
+"country": "India",
+"maxprob": 0.4814
+},
+{
+"city": "Kampung Pasir Gudang Baru",
+"country": "Malaysia",
+"maxprob": 0.4177
+},
+{
+"city": "Cikampek",
+"country": "Indonesia",
+"maxprob": 0.4505
+},
+{
+"city": "M\u00e9d\u00e9a",
+"country": "Algeria",
+"maxprob": 0.5526
+},
+{
+"city": "P\u00e9cs",
+"country": "Hungary",
+"maxprob": 0.93
+},
+{
+"city": "Gi\u00e1 Rai",
+"country": "Vietnam",
+"maxprob": 0.31
+},
+{
+"city": "Tiruvannamalai",
+"country": "India",
+"maxprob": 0.4171
+},
+{
+"city": "Kampong Pasir Ris",
+"country": "Singapore",
+"maxprob": 0.4986
+},
+{
+"city": "Spanish Town",
+"country": "Jamaica",
+"maxprob": 0.8146
+},
+{
+"city": "Bukoba",
+"country": "Tanzania",
+"maxprob": 0.6429
+},
+{
+"city": "Huy\u1ec7n L\u00e2m H\u00e0",
+"country": "Vietnam",
+"maxprob": 0.5546
+},
+{
+"city": "Kelowna",
+"country": "Canada",
+"maxprob": 0.6032
+},
+{
+"city": "Lodhran",
+"country": "Pakistan",
+"maxprob": 0.3292
+},
+{
+"city": "Jyv\u00e4skyl\u00e4",
+"country": "Finland",
+"maxprob": 0.9358
+},
+{
+"city": "Paris 11e Arrondissement",
+"country": "France",
+"maxprob": 0.9559
+},
+{
+"city": "Huelva",
+"country": "Spain",
+"maxprob": 0.6882
+},
+{
+"city": "Atibaia",
+"country": "Brazil",
+"maxprob": 0.7292
+},
+{
+"city": "Ashkelon",
+"country": "Israel",
+"maxprob": 0.8137
+},
+{
+"city": "Kusatsu",
+"country": "Japan",
+"maxprob": 0.4928
+},
+{
+"city": "Guelph",
+"country": "Canada",
+"maxprob": 0.4705
+},
+{
+"city": "Saguenay",
+"country": "Canada",
+"maxprob": 0.4835
+},
+{
+"city": "Godhra",
+"country": "India",
+"maxprob": 0.3215
+},
+{
+"city": "\u00c7anakkale",
+"country": "Turkey",
+"maxprob": 0.932
+},
+{
+"city": "Stara Zagora",
+"country": "Bulgaria",
+"maxprob": 0.9122
+},
+{
+"city": "Ruse",
+"country": "Bulgaria",
+"maxprob": 0.8234
+},
+{
+"city": "L\u00e9vis",
+"country": "Canada",
+"maxprob": 0.4071
+},
+{
+"city": "Heidelberg",
+"country": "Germany",
+"maxprob": 0.6551
+},
+{
+"city": "Fresnillo",
+"country": "Mexico",
+"maxprob": 0.7713
+},
+{
+"city": "Touggourt",
+"country": "Algeria",
+"maxprob": 0.4118
+},
+{
+"city": "Amiens",
+"country": "France",
+"maxprob": 0.7208
+},
+{
+"city": "Cai L\u1eady",
+"country": "Vietnam",
+"maxprob": 0.4651
+},
+{
+"city": "Maca\u00e9",
+"country": "Brazil",
+"maxprob": 0.8079
+},
+{
+"city": "Aalborg",
+"country": "Denmark",
+"maxprob": 0.8156
+},
+{
+"city": "Gharda\u00efa",
+"country": "Algeria",
+"maxprob": 0.8756
+},
+{
+"city": "Okinawa",
+"country": "Japan",
+"maxprob": 0.4603
+},
+{
+"city": "Rybnik",
+"country": "Poland",
+"maxprob": 0.346
+},
+{
+"city": "Sa\u00efda",
+"country": "Algeria",
+"maxprob": 0.4211
+},
+{
+"city": "Paderborn",
+"country": "Germany",
+"maxprob": 0.7429
+},
+{
+"city": "Chhatarpur",
+"country": "India",
+"maxprob": 0.3701
+},
+{
+"city": "Ciego de \u00c1vila",
+"country": "Cuba",
+"maxprob": 0.9425
+},
+{
+"city": "Mojokerto",
+"country": "Indonesia",
+"maxprob": 0.805
+},
+{
+"city": "Facatativ\u00e1",
+"country": "Colombia",
+"maxprob": 0.4943
+},
+{
+"city": "Myingyan",
+"country": "Myanmar",
+"maxprob": 0.579
+},
+{
+"city": "Jahrom",
+"country": "Iran",
+"maxprob": 0.6299
+},
+{
+"city": "Tours",
+"country": "France",
+"maxprob": 0.6935
+},
+{
+"city": "Chichicastenango",
+"country": "Guatemala",
+"maxprob": 0.8957
+},
+{
+"city": "Tarragona",
+"country": "Spain",
+"maxprob": 0.6992
+},
+{
+"city": "Tobruk",
+"country": "Libya",
+"maxprob": 0.8613
+},
+{
+"city": "Abbotsford",
+"country": "Canada",
+"maxprob": 0.5284
+},
+{
+"city": "Brusque",
+"country": "Brazil",
+"maxprob": 0.7008
+},
+{
+"city": "Pite\u015fti",
+"country": "Romania",
+"maxprob": 0.6698
+},
+{
+"city": "Potos\u00ed",
+"country": "Bolivia",
+"maxprob": 0.95
+},
+{
+"city": "Limoges",
+"country": "France",
+"maxprob": 0.6829
+},
+{
+"city": "Paranagu\u00e1",
+"country": "Brazil",
+"maxprob": 0.7543
+},
+{
+"city": "Ghazni",
+"country": "Afghanistan",
+"maxprob": 0.6116
+},
+{
+"city": "Comodoro Rivadavia",
+"country": "Argentina",
+"maxprob": 0.8911
+},
+{
+"city": "Lleida",
+"country": "Spain",
+"maxprob": 0.3872
+},
+{
+"city": "Mtwara",
+"country": "Tanzania",
+"maxprob": 0.6236
+},
+{
+"city": "Debre Mark\u2019os",
+"country": "Ethiopia",
+"maxprob": 0.4571
+},
+{
+"city": "Buea",
+"country": "Cameroon",
+"maxprob": 0.7591
+},
+{
+"city": "Darmstadt",
+"country": "Germany",
+"maxprob": 0.6658
+},
+{
+"city": "Paris 12e Arrondissement",
+"country": "France",
+"maxprob": 0.9525
+},
+{
+"city": "Toowoomba",
+"country": "Australia",
+"maxprob": 0.4955
+},
+{
+"city": "Kuwana",
+"country": "Japan",
+"maxprob": 0.3846
+},
+{
+"city": "Ayacucho",
+"country": "Peru",
+"maxprob": 0.9187
+},
+{
+"city": "Chamart\u00edn",
+"country": "Spain",
+"maxprob": 0.8656
+},
+{
+"city": "Ab\u00e9ch\u00e9",
+"country": "Chad",
+"maxprob": 0.8291
+},
+{
+"city": "Darwin",
+"country": "Australia",
+"maxprob": 0.3011
+},
+{
+"city": "Sollentuna",
+"country": "Sweden",
+"maxprob": 0.843
+},
+{
+"city": "Payakumbuh",
+"country": "Indonesia",
+"maxprob": 0.5463
+},
+{
+"city": "Haldwani",
+"country": "India",
+"maxprob": 0.3095
+},
+{
+"city": "Siem Reap",
+"country": "Cambodia",
+"maxprob": 0.5305
+},
+{
+"city": "Purwodadi",
+"country": "Indonesia",
+"maxprob": 0.6312
+},
+{
+"city": "Sidoarjo",
+"country": "Indonesia",
+"maxprob": 0.8569
+},
+{
+"city": "Balne\u00e1rio Cambori\u00fa",
+"country": "Brazil",
+"maxprob": 0.6622
+},
+{
+"city": "Lausanne",
+"country": "Switzerland",
+"maxprob": 0.8785
+},
+{
+"city": "Choloma",
+"country": "Honduras",
+"maxprob": 0.3044
+},
+{
+"city": "Kairouan",
+"country": "Tunisia",
+"maxprob": 0.4101
+},
+{
+"city": "Budapest XI. ker\u00fclet",
+"country": "Hungary",
+"maxprob": 0.9348
+},
+{
+"city": "San Juan del R\u00edo",
+"country": "Mexico",
+"maxprob": 0.8636
+},
+{
+"city": "Sekondi-Takoradi",
+"country": "Ghana",
+"maxprob": 0.9507
+},
+{
+"city": "Bizerte",
+"country": "Tunisia",
+"maxprob": 0.8213
+},
+{
+"city": "Ejigbo",
+"country": "Nigeria",
+"maxprob": 0.5403
+},
+{
+"city": "Ksar El Kebir",
+"country": "Morocco",
+"maxprob": 0.4356
+},
+{
+"city": "Bukit Panjang New Town",
+"country": "Singapore",
+"maxprob": 0.6272
+},
+{
+"city": "Sao Lucas",
+"country": "Brazil",
+"maxprob": 0.4916
+},
+{
+"city": "Parna\u00edba",
+"country": "Brazil",
+"maxprob": 0.5442
+},
+{
+"city": "Jacmel",
+"country": "Haiti",
+"maxprob": 0.936
+},
+{
+"city": "Srikakulam",
+"country": "India",
+"maxprob": 0.3071
+},
+{
+"city": "V\u0129nh Long",
+"country": "Vietnam",
+"maxprob": 0.3683
+},
+{
+"city": "Araruama",
+"country": "Brazil",
+"maxprob": 0.4915
+},
+{
+"city": "Pasir Puteh",
+"country": "Malaysia",
+"maxprob": 0.7219
+},
+{
+"city": "Madhurampur Dehri",
+"country": "India",
+"maxprob": 0.3605
+},
+{
+"city": "Rangkasbitung",
+"country": "Indonesia",
+"maxprob": 0.5415
+},
+{
+"city": "Foggia",
+"country": "Italy",
+"maxprob": 0.7301
+},
+{
+"city": "Antsiranana",
+"country": "Madagascar",
+"maxprob": 0.6808
+},
+{
+"city": "San Juan Sacatep\u00e9quez",
+"country": "Guatemala",
+"maxprob": 0.7991
+},
+{
+"city": "St. Catharines",
+"country": "Canada",
+"maxprob": 0.7816
+},
+{
+"city": "Gunungsitoli",
+"country": "Indonesia",
+"maxprob": 0.3265
+},
+{
+"city": "Ph\u1ee7 L\u00fd",
+"country": "Vietnam",
+"maxprob": 0.7358
+},
+{
+"city": "Larache",
+"country": "Morocco",
+"maxprob": 0.8537
+},
+{
+"city": "Varginha",
+"country": "Brazil",
+"maxprob": 0.3949
+},
+{
+"city": "Campo Largo",
+"country": "Brazil",
+"maxprob": 0.4254
+},
+{
+"city": "Kisarazu",
+"country": "Japan",
+"maxprob": 0.3915
+},
+{
+"city": "Bac\u0103u",
+"country": "Romania",
+"maxprob": 0.8819
+},
+{
+"city": "Osorno",
+"country": "Chile",
+"maxprob": 0.8376
+},
+{
+"city": "Kushtia",
+"country": "Bangladesh",
+"maxprob": 0.6425
+},
+{
+"city": "Pitalito",
+"country": "Colombia",
+"maxprob": 0.9268
+},
+{
+"city": "Ho\u00e0n Ki\u1ebfm",
+"country": "Vietnam",
+"maxprob": 0.4526
+},
+{
+"city": "Araras",
+"country": "Brazil",
+"maxprob": 0.7771
+},
+{
+"city": "Pyay",
+"country": "Myanmar",
+"maxprob": 0.4347
+},
+{
+"city": "Kutaisi",
+"country": "Georgia",
+"maxprob": 0.8487
+},
+{
+"city": "Hinthada",
+"country": "Myanmar",
+"maxprob": 0.4792
+},
+{
+"city": "Cap-Ha\u00eftien",
+"country": "Haiti",
+"maxprob": 0.7815
+},
+{
+"city": "Laghouat",
+"country": "Algeria",
+"maxprob": 0.8485
+},
+{
+"city": "Sibiu",
+"country": "Romania",
+"maxprob": 0.8471
+},
+{
+"city": "El Geneina Fort",
+"country": "Sudan",
+"maxprob": 0.5423
+},
+{
+"city": "Ahuntsic-Cartierville",
+"country": "Canada",
+"maxprob": 0.5207
+},
+{
+"city": "Ciudad Acu\u00f1a",
+"country": "Mexico",
+"maxprob": 0.8189
+},
+{
+"city": "San Nicol\u00e1s de los Arroyos",
+"country": "Argentina",
+"maxprob": 0.9209
+},
+{
+"city": "L\u00e9og\u00e2ne",
+"country": "Haiti",
+"maxprob": 0.9079
+},
+{
+"city": "Marianao",
+"country": "Cuba",
+"maxprob": 0.6129
+},
+{
+"city": "\u0130negol",
+"country": "Turkey",
+"maxprob": 0.6275
+},
+{
+"city": "W\u00fcrzburg",
+"country": "Germany",
+"maxprob": 0.7157
+},
+{
+"city": "\u0110\u1ed3ng H\u1edbi",
+"country": "Vietnam",
+"maxprob": 0.4236
+},
+{
+"city": "\u014cme",
+"country": "Japan",
+"maxprob": 0.3545
+},
+{
+"city": "Ja\u00fa",
+"country": "Brazil",
+"maxprob": 0.5912
+},
+{
+"city": "Valdivia",
+"country": "Chile",
+"maxprob": 0.684
+},
+{
+"city": "Okrika",
+"country": "Nigeria",
+"maxprob": 0.3754
+},
+{
+"city": "Santa Cruz do Sul",
+"country": "Brazil",
+"maxprob": 0.7937
+},
+{
+"city": "M'Sila",
+"country": "Algeria",
+"maxprob": 0.8661
+},
+{
+"city": "Kislovodsk",
+"country": "Russia",
+"maxprob": 0.5802
+},
+{
+"city": "Schaerbeek",
+"country": "Belgium",
+"maxprob": 0.9361
+},
+{
+"city": "Palakkad",
+"country": "India",
+"maxprob": 0.3453
+},
+{
+"city": "Langley",
+"country": "Canada",
+"maxprob": 0.3338
+},
+{
+"city": "Innsbruck",
+"country": "Austria",
+"maxprob": 0.6494
+},
+{
+"city": "San Pedro Garza Garc\u00eda",
+"country": "Mexico",
+"maxprob": 0.9236
+},
+{
+"city": "Sapucaia do Sul",
+"country": "Brazil",
+"maxprob": 0.861
+},
+{
+"city": "Surat Thani",
+"country": "Thailand",
+"maxprob": 0.9273
+},
+{
+"city": "Ferrara",
+"country": "Italy",
+"maxprob": 0.7653
+},
+{
+"city": "Palwal",
+"country": "India",
+"maxprob": 0.4255
+},
+{
+"city": "Shahrud",
+"country": "Iran",
+"maxprob": 0.4911
+},
+{
+"city": "Garut",
+"country": "Indonesia",
+"maxprob": 0.7494
+},
+{
+"city": "Ajdabiya",
+"country": "Libya",
+"maxprob": 0.8382
+},
+{
+"city": "Abiko",
+"country": "Japan",
+"maxprob": 0.3542
+},
+{
+"city": "Bhakkar",
+"country": "Pakistan",
+"maxprob": 0.6005
+},
+{
+"city": "Jijel",
+"country": "Algeria",
+"maxprob": 0.7243
+},
+{
+"city": "Villeurbanne",
+"country": "France",
+"maxprob": 0.5862
+},
+{
+"city": "Gonbad-e K\u0101v\u016bs",
+"country": "Iran",
+"maxprob": 0.5752
+},
+{
+"city": "Iranshahr",
+"country": "Iran",
+"maxprob": 0.4461
+},
+{
+"city": "Itapipoca",
+"country": "Brazil",
+"maxprob": 0.8269
+},
+{
+"city": "Crato",
+"country": "Brazil",
+"maxprob": 0.5571
+},
+{
+"city": "L\u00e0o Cai",
+"country": "Vietnam",
+"maxprob": 0.687
+},
+{
+"city": "Udon Thani",
+"country": "Thailand",
+"maxprob": 0.8219
+},
+{
+"city": "Zipaquir\u00e1",
+"country": "Colombia",
+"maxprob": 0.9563
+},
+{
+"city": "J\u012broft",
+"country": "Iran",
+"maxprob": 0.3166
+},
+{
+"city": "Foumban",
+"country": "Cameroon",
+"maxprob": 0.624
+},
+{
+"city": "Quilpu\u00e9",
+"country": "Chile",
+"maxprob": 0.9626
+},
+{
+"city": "Ume\u00e5",
+"country": "Sweden",
+"maxprob": 0.8798
+},
+{
+"city": "Masaya",
+"country": "Nicaragua",
+"maxprob": 0.9332
+},
+{
+"city": "Tychy",
+"country": "Poland",
+"maxprob": 0.7922
+},
+{
+"city": "Mardin",
+"country": "Turkey",
+"maxprob": 0.8326
+},
+{
+"city": "Baidoa",
+"country": "Somalia",
+"maxprob": 0.4384
+},
+{
+"city": "Mandi Bahauddin",
+"country": "Pakistan",
+"maxprob": 0.8295
+},
+{
+"city": "Tokat",
+"country": "Turkey",
+"maxprob": 0.8411
+},
+{
+"city": "Erebuni",
+"country": "Armenia",
+"maxprob": 0.8685
+},
+{
+"city": "Mianwali",
+"country": "Pakistan",
+"maxprob": 0.5512
+},
+{
+"city": "Sherbrooke",
+"country": "Canada",
+"maxprob": 0.3338
+},
+{
+"city": "Sabar\u00e1",
+"country": "Brazil",
+"maxprob": 0.7523
+},
+{
+"city": "Acilia-Castel Fusano-Ostia Antica",
+"country": "Italy",
+"maxprob": 0.6993
+},
+{
+"city": "Charlottenburg",
+"country": "Germany",
+"maxprob": 0.364
+},
+{
+"city": "Gy\u0151r",
+"country": "Hungary",
+"maxprob": 0.8865
+},
+{
+"city": "Copiap\u00f3",
+"country": "Chile",
+"maxprob": 0.9412
+},
+{
+"city": "Kokubunji",
+"country": "Japan",
+"maxprob": 0.4343
+},
+{
+"city": "Quibd\u00f3",
+"country": "Colombia",
+"maxprob": 0.4641
+},
+{
+"city": "Guelmim",
+"country": "Morocco",
+"maxprob": 0.5822
+},
+{
+"city": "Shahr-e Kord",
+"country": "Iran",
+"maxprob": 0.4724
+},
+{
+"city": "Regensburg",
+"country": "Germany",
+"maxprob": 0.485
+},
+{
+"city": "Iwakuni",
+"country": "Japan",
+"maxprob": 0.4521
+},
+{
+"city": "Bat Yam",
+"country": "Israel",
+"maxprob": 0.8266
+},
+{
+"city": "Zacatecas",
+"country": "Mexico",
+"maxprob": 0.8642
+},
+{
+"city": "Bing\u00f6l",
+"country": "Turkey",
+"maxprob": 0.8059
+},
+{
+"city": "S\u0101tkhira",
+"country": "Bangladesh",
+"maxprob": 0.8072
+},
+{
+"city": "Idlib",
+"country": "Syria",
+"maxprob": 0.7212
+},
+{
+"city": "Puno",
+"country": "Peru",
+"maxprob": 0.7248
+},
+{
+"city": "Besan\u00e7on",
+"country": "France",
+"maxprob": 0.8112
+},
+{
+"city": "Khenifra",
+"country": "Morocco",
+"maxprob": 0.5801
+},
+{
+"city": "Rustavi",
+"country": "Georgia",
+"maxprob": 0.3771
+},
+{
+"city": "Serpukhov",
+"country": "Russia",
+"maxprob": 0.7563
+},
+{
+"city": "Rionegro",
+"country": "Colombia",
+"maxprob": 0.7032
+},
+{
+"city": "Orekhovo-Borisovo Severnoye",
+"country": "Russia",
+"maxprob": 0.5253
+},
+{
+"city": "Votorantim",
+"country": "Brazil",
+"maxprob": 0.3149
+},
+{
+"city": "Muar",
+"country": "Malaysia",
+"maxprob": 0.3523
+},
+{
+"city": "V\u00e4ster\u00e5s",
+"country": "Sweden",
+"maxprob": 0.9365
+},
+{
+"city": "Opole",
+"country": "Poland",
+"maxprob": 0.7159
+},
+{
+"city": "Elbl\u0105g",
+"country": "Poland",
+"maxprob": 0.8501
+},
+{
+"city": "Sirajganj",
+"country": "Bangladesh",
+"maxprob": 0.4969
+},
+{
+"city": "Jequi\u00e9",
+"country": "Brazil",
+"maxprob": 0.7205
+},
+{
+"city": "P\u0142ock",
+"country": "Poland",
+"maxprob": 0.9323
+},
+{
+"city": "Wa\u0142brzych",
+"country": "Poland",
+"maxprob": 0.8067
+},
+{
+"city": "S\u00f6dermalm",
+"country": "Sweden",
+"maxprob": 0.3226
+},
+{
+"city": "Chiang Mai",
+"country": "Thailand",
+"maxprob": 0.545
+},
+{
+"city": "Lafia",
+"country": "Nigeria",
+"maxprob": 0.4602
+},
+{
+"city": "Sancti Sp\u00edritus",
+"country": "Cuba",
+"maxprob": 0.9568
+},
+{
+"city": "H\u0101thras",
+"country": "India",
+"maxprob": 0.493
+},
+{
+"city": "Pakpattan",
+"country": "Pakistan",
+"maxprob": 0.5224
+},
+{
+"city": "Barcarena",
+"country": "Brazil",
+"maxprob": 0.3525
+},
+{
+"city": "Jombang",
+"country": "Indonesia",
+"maxprob": 0.6153
+},
+{
+"city": "Nakhon Ratchasima",
+"country": "Thailand",
+"maxprob": 0.6066
+},
+{
+"city": "Chinandega",
+"country": "Nicaragua",
+"maxprob": 0.9561
+},
+{
+"city": "Valinhos",
+"country": "Brazil",
+"maxprob": 0.5354
+},
+{
+"city": "Hua Hin",
+"country": "Thailand",
+"maxprob": 0.7145
+},
+{
+"city": "San Carlos del Zulia",
+"country": "Venezuela",
+"maxprob": 0.6506
+},
+{
+"city": "Koganei",
+"country": "Japan",
+"maxprob": 0.3923
+},
+{
+"city": "Puerto Ayacucho",
+"country": "Venezuela",
+"maxprob": 0.9016
+},
+{
+"city": "Les Cayes",
+"country": "Haiti",
+"maxprob": 0.8876
+},
+{
+"city": "Salerno",
+"country": "Italy",
+"maxprob": 0.7395
+},
+{
+"city": "Rosetta",
+"country": "Egypt",
+"maxprob": 0.7073
+},
+{
+"city": "Savannakhet",
+"country": "Laos",
+"maxprob": 0.7086
+},
+{
+"city": "Giresun",
+"country": "Turkey",
+"maxprob": 0.8621
+},
+{
+"city": "Torbat-e \u1e28eydar\u012byeh",
+"country": "Iran",
+"maxprob": 0.8253
+},
+{
+"city": "Kastamonu",
+"country": "Turkey",
+"maxprob": 0.8819
+},
+{
+"city": "\u2018Ajl\u016bn",
+"country": "Jordan",
+"maxprob": 0.9419
+},
+{
+"city": "Derince",
+"country": "Turkey",
+"maxprob": 0.7663
+},
+{
+"city": "Jagdalpur",
+"country": "India",
+"maxprob": 0.426
+},
+{
+"city": "Karab\u00fck",
+"country": "Turkey",
+"maxprob": 0.8972
+},
+{
+"city": "Barbacena",
+"country": "Brazil",
+"maxprob": 0.4483
+},
+{
+"city": "Debre Tabor",
+"country": "Ethiopia",
+"maxprob": 0.481
+},
+{
+"city": "Bet Shemesh",
+"country": "Israel",
+"maxprob": 0.8328
+},
+{
+"city": "Jag\u0101dhri",
+"country": "India",
+"maxprob": 0.4116
+},
+{
+"city": "Huixquilucan",
+"country": "Mexico",
+"maxprob": 0.89
+},
+{
+"city": "Semnan",
+"country": "Iran",
+"maxprob": 0.8386
+},
+{
+"city": "Guarapari",
+"country": "Brazil",
+"maxprob": 0.7059
+},
+{
+"city": "Ciudad Valles",
+"country": "Mexico",
+"maxprob": 0.3988
+},
+{
+"city": "Kashihara-shi",
+"country": "Japan",
+"maxprob": 0.3939
+},
+{
+"city": "B\u1ebfn Tre",
+"country": "Vietnam",
+"maxprob": 0.5208
+},
+{
+"city": "Gorz\u00f3w Wielkopolski",
+"country": "Poland",
+"maxprob": 0.9571
+},
+{
+"city": "Monza",
+"country": "Italy",
+"maxprob": 0.7942
+},
+{
+"city": "Pinsk",
+"country": "Belarus",
+"maxprob": 0.791
+},
+{
+"city": "Magangu\u00e9",
+"country": "Colombia",
+"maxprob": 0.7328
+},
+{
+"city": "Itagua\u00ed",
+"country": "Brazil",
+"maxprob": 0.8745
+},
+{
+"city": "Metz",
+"country": "France",
+"maxprob": 0.3632
+},
+{
+"city": "Budapest III. ker\u00fclet",
+"country": "Hungary",
+"maxprob": 0.9265
+},
+{
+"city": "Ise",
+"country": "Japan",
+"maxprob": 0.5568
+},
+{
+"city": "Samanda\u011f",
+"country": "Turkey",
+"maxprob": 0.8209
+},
+{
+"city": "Caraguatatuba",
+"country": "Brazil",
+"maxprob": 0.8797
+},
+{
+"city": "Itaituba",
+"country": "Brazil",
+"maxprob": 0.7577
+},
+{
+"city": "Indramayu",
+"country": "Indonesia",
+"maxprob": 0.7739
+},
+{
+"city": "Relizane",
+"country": "Algeria",
+"maxprob": 0.4464
+},
+{
+"city": "Bordj el Kiffan",
+"country": "Algeria",
+"maxprob": 0.3938
+},
+{
+"city": "Orizaba",
+"country": "Mexico",
+"maxprob": 0.6024
+},
+{
+"city": "Bento Gon\u00e7alves",
+"country": "Brazil",
+"maxprob": 0.5569
+},
+{
+"city": "Wolfsburg",
+"country": "Germany",
+"maxprob": 0.6568
+},
+{
+"city": "Tatu\u00ed",
+"country": "Brazil",
+"maxprob": 0.6094
+},
+{
+"city": "Dos Hermanas",
+"country": "Spain",
+"maxprob": 0.7441
+},
+{
+"city": "Hoima",
+"country": "Uganda",
+"maxprob": 0.7026
+},
+{
+"city": "Itatiba",
+"country": "Brazil",
+"maxprob": 0.726
+},
+{
+"city": "Ubon Ratchathani",
+"country": "Thailand",
+"maxprob": 0.8445
+},
+{
+"city": "Beylikd\u00fcz\u00fc",
+"country": "Turkey",
+"maxprob": 0.8652
+},
+{
+"city": "Cherkessk",
+"country": "Russia",
+"maxprob": 0.4532
+},
+{
+"city": "Igarassu",
+"country": "Brazil",
+"maxprob": 0.6064
+},
+{
+"city": "Tekirda\u011f",
+"country": "Turkey",
+"maxprob": 0.9097
+},
+{
+"city": "G\u00f6ttingen",
+"country": "Germany",
+"maxprob": 0.7294
+},
+{
+"city": "Phasi Charoen",
+"country": "Thailand",
+"maxprob": 0.3032
+},
+{
+"city": "Bern",
+"country": "Switzerland",
+"maxprob": 0.7778
+},
+{
+"city": "Siracusa",
+"country": "Italy",
+"maxprob": 0.3923
+},
+{
+"city": "Mubende",
+"country": "Uganda",
+"maxprob": 0.7424
+},
+{
+"city": "Kuopio",
+"country": "Finland",
+"maxprob": 0.8262
+},
+{
+"city": "Ondjiva",
+"country": "Angola",
+"maxprob": 0.3026
+},
+{
+"city": "Magelang",
+"country": "Indonesia",
+"maxprob": 0.7326
+},
+{
+"city": "Chikmagal\u016br",
+"country": "India",
+"maxprob": 0.5756
+},
+{
+"city": "Braga",
+"country": "Portugal",
+"maxprob": 0.8218
+},
+{
+"city": "Bhadrak",
+"country": "India",
+"maxprob": 0.3511
+},
+{
+"city": "Bergamo",
+"country": "Italy",
+"maxprob": 0.6563
+},
+{
+"city": "Sawai Madhopur",
+"country": "India",
+"maxprob": 0.4982
+},
+{
+"city": "Ch\u01a1n Th\u00e0nh",
+"country": "Vietnam",
+"maxprob": 0.4305
+},
+{
+"city": "Heilbronn",
+"country": "Germany",
+"maxprob": 0.7818
+},
+{
+"city": "Trento",
+"country": "Italy",
+"maxprob": 0.612
+},
+{
+"city": "Ingolstadt",
+"country": "Germany",
+"maxprob": 0.4232
+},
+{
+"city": "Toa Payoh New Town",
+"country": "Singapore",
+"maxprob": 0.8262
+},
+{
+"city": "Bukit Bintang",
+"country": "Malaysia",
+"maxprob": 0.3992
+},
+{
+"city": "Ulm",
+"country": "Germany",
+"maxprob": 0.4056
+},
+{
+"city": "Rawang",
+"country": "Malaysia",
+"maxprob": 0.3367
+},
+{
+"city": "A\u011fr\u0131",
+"country": "Turkey",
+"maxprob": 0.8736
+},
+{
+"city": "W\u0142oc\u0142awek",
+"country": "Poland",
+"maxprob": 0.873
+},
+{
+"city": "Charsadda",
+"country": "Pakistan",
+"maxprob": 0.4413
+},
+{
+"city": "Perugia",
+"country": "Italy",
+"maxprob": 0.7855
+},
+{
+"city": "Lahti",
+"country": "Finland",
+"maxprob": 0.8735
+},
+{
+"city": "Guelma",
+"country": "Algeria",
+"maxprob": 0.6754
+},
+{
+"city": "Rustaq",
+"country": "Oman",
+"maxprob": 0.3446
+},
+{
+"city": "Mariupol",
+"country": "Ukraine",
+"maxprob": 0.7618
+},
+{
+"city": "Madhyapur Thimi",
+"country": "Nepal",
+"maxprob": 0.8479
+},
+{
+"city": "Bottrop",
+"country": "Germany",
+"maxprob": 0.488
+},
+{
+"city": "Malindi",
+"country": "Kenya",
+"maxprob": 0.6956
+},
+{
+"city": "Rize",
+"country": "Turkey",
+"maxprob": 0.3937
+},
+{
+"city": "Jaranwala",
+"country": "Pakistan",
+"maxprob": 0.4666
+},
+{
+"city": "Thon Buri",
+"country": "Thailand",
+"maxprob": 0.7554
+},
+{
+"city": "Trois-Rivi\u00e8res",
+"country": "Canada",
+"maxprob": 0.4129
+},
+{
+"city": "Pescara",
+"country": "Italy",
+"maxprob": 0.7902
+},
+{
+"city": "Mo\u1e29ammad Shahr",
+"country": "Iran",
+"maxprob": 0.8403
+},
+{
+"city": "\u012az\u0304eh",
+"country": "Iran",
+"maxprob": 0.529
+},
+{
+"city": "Pforzheim",
+"country": "Germany",
+"maxprob": 0.7758
+},
+{
+"city": "Berkane",
+"country": "Morocco",
+"maxprob": 0.3783
+},
+{
+"city": "Battambang",
+"country": "Cambodia",
+"maxprob": 0.868
+},
+{
+"city": "Offenbach",
+"country": "Germany",
+"maxprob": 0.4172
+},
+{
+"city": "V\u0129nh Y\u00ean",
+"country": "Vietnam",
+"maxprob": 0.5094
+},
+{
+"city": "Cagua",
+"country": "Venezuela",
+"maxprob": 0.7059
+},
+{
+"city": "Reykjav\u00edk",
+"country": "Iceland",
+"maxprob": 0.9085
+},
+{
+"city": "Arabkir",
+"country": "Armenia",
+"maxprob": 0.3532
+},
+{
+"city": "Huaraz",
+"country": "Peru",
+"maxprob": 0.7824
+},
+{
+"city": "Santa Coloma de Gramenet",
+"country": "Spain",
+"maxprob": 0.6731
+},
+{
+"city": "B\u1eafc Quang",
+"country": "Vietnam",
+"maxprob": 0.4074
+},
+{
+"city": "Khlong Luang",
+"country": "Thailand",
+"maxprob": 0.71
+},
+{
+"city": "Brugge",
+"country": "Belgium",
+"maxprob": 0.7776
+},
+{
+"city": "Iguala de la Independencia",
+"country": "Mexico",
+"maxprob": 0.8299
+},
+{
+"city": "Zielona G\u00f3ra",
+"country": "Poland",
+"maxprob": 0.8876
+},
+{
+"city": "Gudiv\u0101da",
+"country": "India",
+"maxprob": 0.3478
+},
+{
+"city": "Torrej\u00f3n de Ardoz",
+"country": "Spain",
+"maxprob": 0.9351
+},
+{
+"city": "Ciudad Delicias",
+"country": "Mexico",
+"maxprob": 0.4154
+},
+{
+"city": "Jandira",
+"country": "Brazil",
+"maxprob": 0.5248
+},
+{
+"city": "Guaratinguet\u00e1",
+"country": "Brazil",
+"maxprob": 0.8722
+},
+{
+"city": "Nakhon Pathom",
+"country": "Thailand",
+"maxprob": 0.8507
+},
+{
+"city": "Kakegawa",
+"country": "Japan",
+"maxprob": 0.42
+},
+{
+"city": "Araguari",
+"country": "Brazil",
+"maxprob": 0.5419
+},
+{
+"city": "Tarn\u00f3w",
+"country": "Poland",
+"maxprob": 0.9105
+},
+{
+"city": "Bangkok Noi",
+"country": "Thailand",
+"maxprob": 0.4996
+},
+{
+"city": "Saanich",
+"country": "Canada",
+"maxprob": 0.4142
+},
+{
+"city": "Ibanda",
+"country": "Uganda",
+"maxprob": 0.3684
+},
+{
+"city": "Ny\u00edregyh\u00e1za",
+"country": "Hungary",
+"maxprob": 0.8393
+},
+{
+"city": "Rouiba",
+"country": "Algeria",
+"maxprob": 0.3453
+},
+{
+"city": "Banyuwangi",
+"country": "Indonesia",
+"maxprob": 0.8931
+},
+{
+"city": "Tebingtinggi",
+"country": "Indonesia",
+"maxprob": 0.8913
+},
+{
+"city": "Narasaraopet",
+"country": "India",
+"maxprob": 0.3513
+},
+{
+"city": "Punta Arenas",
+"country": "Chile",
+"maxprob": 0.8131
+},
+{
+"city": "Heroica Guaymas",
+"country": "Mexico",
+"maxprob": 0.3352
+},
+{
+"city": "Kristiansand",
+"country": "Norway",
+"maxprob": 0.8417
+},
+{
+"city": "Remscheid",
+"country": "Germany",
+"maxprob": 0.7909
+},
+{
+"city": "Set\u00fabal",
+"country": "Portugal",
+"maxprob": 0.9446
+},
+{
+"city": "\u010ca\u010dak",
+"country": "Serbia",
+"maxprob": 0.5791
+},
+{
+"city": "Higashikurume",
+"country": "Japan",
+"maxprob": 0.3469
+},
+{
+"city": "Pinhais",
+"country": "Brazil",
+"maxprob": 0.6726
+},
+{
+"city": "Cadiz",
+"country": "Spain",
+"maxprob": 0.7652
+},
+{
+"city": "D\u0105browa G\u00f3rnicza",
+"country": "Poland",
+"maxprob": 0.902
+},
+{
+"city": "Serangoon",
+"country": "Singapore",
+"maxprob": 0.4991
+},
+{
+"city": "Serangoon New Town",
+"country": "Singapore",
+"maxprob": 0.8863
+},
+{
+"city": "Barip\u0101da",
+"country": "India",
+"maxprob": 0.4442
+},
+{
+"city": "Forl\u00ec",
+"country": "Italy",
+"maxprob": 0.8683
+},
+{
+"city": "Azamgarh",
+"country": "India",
+"maxprob": 0.3569
+},
+{
+"city": "Masaka",
+"country": "Uganda",
+"maxprob": 0.7457
+},
+{
+"city": "Moncloa-Aravaca",
+"country": "Spain",
+"maxprob": 0.922
+},
+{
+"city": "Thung Khru",
+"country": "Thailand",
+"maxprob": 0.633
+},
+{
+"city": "Pattaya",
+"country": "Thailand",
+"maxprob": 0.8279
+},
+{
+"city": "Kom Ombo",
+"country": "Egypt",
+"maxprob": 0.4227
+},
+{
+"city": "Ballarat",
+"country": "Australia",
+"maxprob": 0.4109
+},
+{
+"city": "Khargone",
+"country": "India",
+"maxprob": 0.347
+},
+{
+"city": "Alcobendas",
+"country": "Spain",
+"maxprob": 0.7391
+},
+{
+"city": "Noginsk",
+"country": "Russia",
+"maxprob": 0.315
+},
+{
+"city": "Tandil",
+"country": "Argentina",
+"maxprob": 0.3225
+},
+{
+"city": "S\u00e3o Gon\u00e7alo do Amarante",
+"country": "Brazil",
+"maxprob": 0.8762
+},
+{
+"city": "Nasushiobara",
+"country": "Japan",
+"maxprob": 0.3998
+},
+{
+"city": "Catanduva",
+"country": "Brazil",
+"maxprob": 0.572
+},
+{
+"city": "V\u00e1rzea Paulista",
+"country": "Brazil",
+"maxprob": 0.7063
+},
+{
+"city": "Yelets",
+"country": "Russia",
+"maxprob": 0.475
+},
+{
+"city": "Parla",
+"country": "Spain",
+"maxprob": 0.3595
+},
+{
+"city": "M\u1ef9 H\u00e0o",
+"country": "Vietnam",
+"maxprob": 0.5524
+},
+{
+"city": "Ribeir\u00e3o Pires",
+"country": "Brazil",
+"maxprob": 0.9248
+},
+{
+"city": "Okigwe",
+"country": "Nigeria",
+"maxprob": 0.3893
+},
+{
+"city": "Uzhhorod",
+"country": "Ukraine",
+"maxprob": 0.7142
+},
+{
+"city": "Kasese",
+"country": "Uganda",
+"maxprob": 0.5175
+},
+{
+"city": "Vlor\u00eb",
+"country": "Albania",
+"maxprob": 0.8364
+},
+{
+"city": "Amasya",
+"country": "Turkey",
+"maxprob": 0.8442
+},
+{
+"city": "Mendoza",
+"country": "Argentina",
+"maxprob": 0.4463
+},
+{
+"city": "Balkh",
+"country": "Afghanistan",
+"maxprob": 0.4431
+},
+{
+"city": "Phong \u0110i\u1ec1n",
+"country": "Vietnam",
+"maxprob": 0.647
+},
+{
+"city": "Sim\u00f5es Filho",
+"country": "Brazil",
+"maxprob": 0.5674
+},
+{
+"city": "Khon Kaen",
+"country": "Thailand",
+"maxprob": 0.7402
+},
+{
+"city": "Catal\u00e3o",
+"country": "Brazil",
+"maxprob": 0.8905
+},
+{
+"city": "Tando Muhammad Khan",
+"country": "Pakistan",
+"maxprob": 0.4971
+},
+{
+"city": "Guadalajara de Buga",
+"country": "Colombia",
+"maxprob": 0.817
+},
+{
+"city": "Cod\u00f3",
+"country": "Brazil",
+"maxprob": 0.3015
+},
+{
+"city": "Pleiku",
+"country": "Vietnam",
+"maxprob": 0.3031
+},
+{
+"city": "Siirt",
+"country": "Turkey",
+"maxprob": 0.545
+},
+{
+"city": "Ochakovo-Matveyevskoye",
+"country": "Russia",
+"maxprob": 0.7873
+},
+{
+"city": "Chililabombwe",
+"country": "Zambia",
+"maxprob": 0.4508
+},
+{
+"city": "Navojoa",
+"country": "Mexico",
+"maxprob": 0.8924
+},
+{
+"city": "Tobolsk",
+"country": "Russia",
+"maxprob": 0.582
+},
+{
+"city": "Wardha",
+"country": "India",
+"maxprob": 0.3991
+},
+{
+"city": "Hikone",
+"country": "Japan",
+"maxprob": 0.541
+},
+{
+"city": "B\u00ecnh Th\u1ee7y",
+"country": "Vietnam",
+"maxprob": 0.4233
+},
+{
+"city": "Bremerhaven",
+"country": "Germany",
+"maxprob": 0.7515
+},
+{
+"city": "Budapest XIII. ker\u00fclet",
+"country": "Hungary",
+"maxprob": 0.9248
+},
+{
+"city": "Ja\u00e9n",
+"country": "Spain",
+"maxprob": 0.9029
+},
+{
+"city": "Chorz\u00f3w",
+"country": "Poland",
+"maxprob": 0.8532
+},
+{
+"city": "Porz am Rhein",
+"country": "Germany",
+"maxprob": 0.3221
+},
+{
+"city": "Itabira",
+"country": "Brazil",
+"maxprob": 0.6467
+},
+{
+"city": "Shchyolkovo",
+"country": "Russia",
+"maxprob": 0.6746
+},
+{
+"city": "Guanabacoa",
+"country": "Cuba",
+"maxprob": 0.944
+},
+{
+"city": "\u014csh\u016b",
+"country": "Japan",
+"maxprob": 0.3126
+},
+{
+"city": "Paulo Afonso",
+"country": "Brazil",
+"maxprob": 0.6157
+},
+{
+"city": "Santa Luc\u00eda Cotzumalguapa",
+"country": "Guatemala",
+"maxprob": 0.6887
+},
+{
+"city": "J\u00f6nk\u00f6ping",
+"country": "Sweden",
+"maxprob": 0.9035
+},
+{
+"city": "City of Port Phillip",
+"country": "Australia",
+"maxprob": 0.8636
+},
+{
+"city": "Reutlingen",
+"country": "Germany",
+"maxprob": 0.6909
+},
+{
+"city": "Tangar\u00e1 da Serra",
+"country": "Brazil",
+"maxprob": 0.7419
+},
+{
+"city": "Itacoatiara",
+"country": "Brazil",
+"maxprob": 0.5958
+},
+{
+"city": "Satu Mare",
+"country": "Romania",
+"maxprob": 0.7983
+},
+{
+"city": "Cubat\u00e3o",
+"country": "Brazil",
+"maxprob": 0.5402
+},
+{
+"city": "Kisii",
+"country": "Kenya",
+"maxprob": 0.7994
+},
+{
+"city": "Gyumri",
+"country": "Armenia",
+"maxprob": 0.9052
+},
+{
+"city": "Guanare",
+"country": "Venezuela",
+"maxprob": 0.8634
+},
+{
+"city": "Minatitl\u00e1n",
+"country": "Mexico",
+"maxprob": 0.8398
+},
+{
+"city": "F\u00fcrth",
+"country": "Germany",
+"maxprob": 0.7887
+},
+{
+"city": "Atbara",
+"country": "Sudan",
+"maxprob": 0.4731
+},
+{
+"city": "Paul\u00ednia",
+"country": "Brazil",
+"maxprob": 0.7491
+},
+{
+"city": "Vicenza",
+"country": "Italy",
+"maxprob": 0.8714
+},
+{
+"city": "Bagalkot",
+"country": "India",
+"maxprob": 0.3871
+},
+{
+"city": "Bou Sa\u00e2da",
+"country": "Algeria",
+"maxprob": 0.651
+},
+{
+"city": "Nova Lima",
+"country": "Brazil",
+"maxprob": 0.5715
+},
+{
+"city": "Arax\u00e1",
+"country": "Brazil",
+"maxprob": 0.6673
+},
+{
+"city": "Kilis",
+"country": "Turkey",
+"maxprob": 0.8
+},
+{
+"city": "Conselheiro Lafaiete",
+"country": "Brazil",
+"maxprob": 0.9412
+},
+{
+"city": "Resende",
+"country": "Brazil",
+"maxprob": 0.5273
+},
+{
+"city": "Masjed Soleym\u0101n",
+"country": "Iran",
+"maxprob": 0.7889
+},
+{
+"city": "Chiquimula",
+"country": "Guatemala",
+"maxprob": 0.8682
+},
+{
+"city": "Ashoknagar Kalyangarh",
+"country": "India",
+"maxprob": 0.5643
+},
+{
+"city": "Mulhouse",
+"country": "France",
+"maxprob": 0.3405
+},
+{
+"city": "Sogamoso",
+"country": "Colombia",
+"maxprob": 0.7892
+},
+{
+"city": "Mbale",
+"country": "Uganda",
+"maxprob": 0.859
+},
+{
+"city": "S\u00e3o Louren\u00e7o da Mata",
+"country": "Brazil",
+"maxprob": 0.459
+},
+{
+"city": "Montreuil",
+"country": "France",
+"maxprob": 0.6775
+},
+{
+"city": "Terni",
+"country": "Italy",
+"maxprob": 0.847
+},
+{
+"city": "Navadw\u012bp",
+"country": "India",
+"maxprob": 0.5615
+},
+{
+"city": "Nsukka",
+"country": "Nigeria",
+"maxprob": 0.3801
+},
+{
+"city": "Namur",
+"country": "Belgium",
+"maxprob": 0.4328
+},
+{
+"city": "Bandar-e Anzal\u012b",
+"country": "Iran",
+"maxprob": 0.6987
+},
+{
+"city": "Perpignan",
+"country": "France",
+"maxprob": 0.3916
+},
+{
+"city": "Manacapuru",
+"country": "Brazil",
+"maxprob": 0.5573
+},
+{
+"city": "Caen",
+"country": "France",
+"maxprob": 0.5784
+},
+{
+"city": "S\u00e3o Pedro da Aldeia",
+"country": "Brazil",
+"maxprob": 0.832
+},
+{
+"city": "Yenangyaung",
+"country": "Myanmar",
+"maxprob": 0.6012
+},
+{
+"city": "Masindi",
+"country": "Uganda",
+"maxprob": 0.8379
+},
+{
+"city": "Kfar Saba",
+"country": "Israel",
+"maxprob": 0.8133
+},
+{
+"city": "Delhi Cantonment",
+"country": "India",
+"maxprob": 0.5501
+},
+{
+"city": "Geylang",
+"country": "Singapore",
+"maxprob": 0.4677
+},
+{
+"city": "Sembawang Estate",
+"country": "Singapore",
+"maxprob": 0.8448
+},
+{
+"city": "Tubar\u00e3o",
+"country": "Brazil",
+"maxprob": 0.6066
+},
+{
+"city": "Gab\u00e8s",
+"country": "Tunisia",
+"maxprob": 0.6613
+},
+{
+"city": "Lucapa",
+"country": "Angola",
+"maxprob": 0.4478
+},
+{
+"city": "Kufa",
+"country": "Iraq",
+"maxprob": 0.6028
+},
+{
+"city": "Bataysk",
+"country": "Russia",
+"maxprob": 0.6909
+},
+{
+"city": "Pisa",
+"country": "Italy",
+"maxprob": 0.8448
+},
+{
+"city": "Kecskem\u00e9t",
+"country": "Hungary",
+"maxprob": 0.7989
+},
+{
+"city": "Ciamis",
+"country": "Indonesia",
+"maxprob": 0.8536
+},
+{
+"city": "Brovary",
+"country": "Ukraine",
+"maxprob": 0.8414
+},
+{
+"city": "Th\u1edbi Lai",
+"country": "Vietnam",
+"maxprob": 0.3278
+},
+{
+"city": "Pelabuhanratu",
+"country": "Indonesia",
+"maxprob": 0.5936
+},
+{
+"city": "Marugame",
+"country": "Japan",
+"maxprob": 0.6099
+},
+{
+"city": "Ijebu-Igbo",
+"country": "Nigeria",
+"maxprob": 0.4158
+},
+{
+"city": "Sergiyev Posad",
+"country": "Russia",
+"maxprob": 0.7661
+},
+{
+"city": "Matagalpa",
+"country": "Nicaragua",
+"maxprob": 0.9238
+},
+{
+"city": "Khlong Toei",
+"country": "Thailand",
+"maxprob": 0.9119
+},
+{
+"city": "Leninsk-Kuznetsky",
+"country": "Russia",
+"maxprob": 0.3245
+},
+{
+"city": "Boulogne-Billancourt",
+"country": "France",
+"maxprob": 0.9092
+},
+{
+"city": "Kalisz",
+"country": "Poland",
+"maxprob": 0.8181
+},
+{
+"city": "Baia Mare",
+"country": "Romania",
+"maxprob": 0.8503
+},
+{
+"city": "M\u00f3ng C\u00e1i",
+"country": "Vietnam",
+"maxprob": 0.605
+},
+{
+"city": "Komatsu",
+"country": "Japan",
+"maxprob": 0.4335
+},
+{
+"city": "Baghl\u0101n",
+"country": "Afghanistan",
+"maxprob": 0.8663
+},
+{
+"city": "Vedado",
+"country": "Cuba",
+"maxprob": 0.6355
+},
+{
+"city": "Sohar",
+"country": "Oman",
+"maxprob": 0.9104
+},
+{
+"city": "Birnin Kebbi",
+"country": "Nigeria",
+"maxprob": 0.7578
+},
+{
+"city": "Rijeka",
+"country": "Croatia",
+"maxprob": 0.9273
+},
+{
+"city": "Jalp\u0101iguri",
+"country": "India",
+"maxprob": 0.532
+},
+{
+"city": "Tajimi",
+"country": "Japan",
+"maxprob": 0.3809
+},
+{
+"city": "Band\u0131rma",
+"country": "Turkey",
+"maxprob": 0.82
+},
+{
+"city": "Lab\u00e9",
+"country": "Guinea",
+"maxprob": 0.5752
+},
+{
+"city": "Koszalin",
+"country": "Poland",
+"maxprob": 0.9137
+},
+{
+"city": "Bolzano",
+"country": "Italy",
+"maxprob": 0.5546
+},
+{
+"city": "Obninsk",
+"country": "Russia",
+"maxprob": 0.6166
+},
+{
+"city": "Girardot City",
+"country": "Colombia",
+"maxprob": 0.5779
+},
+{
+"city": "Umuarama",
+"country": "Brazil",
+"maxprob": 0.682
+},
+{
+"city": "Koblenz",
+"country": "Germany",
+"maxprob": 0.8408
+},
+{
+"city": "Siegen",
+"country": "Germany",
+"maxprob": 0.7452
+},
+{
+"city": "As Suwayq",
+"country": "Oman",
+"maxprob": 0.5571
+},
+{
+"city": "Apucarana",
+"country": "Brazil",
+"maxprob": 0.3981
+},
+{
+"city": "Y\u00ean Vinh",
+"country": "Vietnam",
+"maxprob": 0.395
+},
+{
+"city": "Taungoo",
+"country": "Myanmar",
+"maxprob": 0.6003
+},
+{
+"city": "Rayong",
+"country": "Thailand",
+"maxprob": 0.8628
+},
+{
+"city": "Sirte",
+"country": "Libya",
+"maxprob": 0.6385
+},
+{
+"city": "Coimbra",
+"country": "Portugal",
+"maxprob": 0.7711
+},
+{
+"city": "A\u00e7ail\u00e2ndia",
+"country": "Brazil",
+"maxprob": 0.4328
+},
+{
+"city": "Cikarang",
+"country": "Indonesia",
+"maxprob": 0.3757
+},
+{
+"city": "Arlit",
+"country": "Niger",
+"maxprob": 0.6949
+},
+{
+"city": "Ba \u0110\u1ed3n",
+"country": "Vietnam",
+"maxprob": 0.4947
+},
+{
+"city": "Berdyansk",
+"country": "Ukraine",
+"maxprob": 0.5303
+},
+{
+"city": "Bergisch Gladbach",
+"country": "Germany",
+"maxprob": 0.8604
+},
+{
+"city": "Legnica",
+"country": "Poland",
+"maxprob": 0.6953
+},
+{
+"city": "Jata\u00ed",
+"country": "Brazil",
+"maxprob": 0.7435
+},
+{
+"city": "Ipojuca",
+"country": "Brazil",
+"maxprob": 0.3162
+},
+{
+"city": "Lahad Datu",
+"country": "Malaysia",
+"maxprob": 0.7117
+},
+{
+"city": "N\u0101gaur",
+"country": "India",
+"maxprob": 0.3783
+},
+{
+"city": "Mityana",
+"country": "Uganda",
+"maxprob": 0.7731
+},
+{
+"city": "Texcoco de Mora",
+"country": "Mexico",
+"maxprob": 0.8896
+},
+{
+"city": "Mazyr",
+"country": "Belarus",
+"maxprob": 0.5546
+},
+{
+"city": "Sloviansk",
+"country": "Ukraine",
+"maxprob": 0.8632
+},
+{
+"city": "Maranguape",
+"country": "Brazil",
+"maxprob": 0.6643
+},
+{
+"city": "Nancy",
+"country": "France",
+"maxprob": 0.6924
+},
+{
+"city": "Drammen",
+"country": "Norway",
+"maxprob": 0.7068
+},
+{
+"city": "Aragua\u00edna",
+"country": "Brazil",
+"maxprob": 0.8404
+},
+{
+"city": "Chinautla",
+"country": "Guatemala",
+"maxprob": 0.6135
+},
+{
+"city": "Moratalaz",
+"country": "Spain",
+"maxprob": 0.5252
+},
+{
+"city": "Bhiwadi",
+"country": "India",
+"maxprob": 0.4379
+},
+{
+"city": "Miryalaguda",
+"country": "India",
+"maxprob": 0.382
+},
+{
+"city": "Parral",
+"country": "Mexico",
+"maxprob": 0.5387
+},
+{
+"city": "Lavras",
+"country": "Brazil",
+"maxprob": 0.4454
+},
+{
+"city": "Coronel Fabriciano",
+"country": "Brazil",
+"maxprob": 0.7681
+},
+{
+"city": "Jena",
+"country": "Germany",
+"maxprob": 0.3602
+},
+{
+"city": "Brantford",
+"country": "Canada",
+"maxprob": 0.5676
+},
+{
+"city": "Gera",
+"country": "Germany",
+"maxprob": 0.3352
+},
+{
+"city": "Tuy\u00ean Quang",
+"country": "Vietnam",
+"maxprob": 0.632
+},
+{
+"city": "Ottakring",
+"country": "Austria",
+"maxprob": 0.6214
+},
+{
+"city": "Kamloops",
+"country": "Canada",
+"maxprob": 0.5027
+},
+{
+"city": "Mazabuka",
+"country": "Zambia",
+"maxprob": 0.3736
+},
+{
+"city": "Tizi Ouzou",
+"country": "Algeria",
+"maxprob": 0.8062
+},
+{
+"city": "Helsingborg",
+"country": "Sweden",
+"maxprob": 0.7738
+},
+{
+"city": "Kafue",
+"country": "Zambia",
+"maxprob": 0.4063
+},
+{
+"city": "Muria\u00e9",
+"country": "Brazil",
+"maxprob": 0.684
+},
+{
+"city": "El Kelaa des Srarhna",
+"country": "Morocco",
+"maxprob": 0.4761
+},
+{
+"city": "Ourinhos",
+"country": "Brazil",
+"maxprob": 0.6146
+},
+{
+"city": "Totonicap\u00e1n",
+"country": "Guatemala",
+"maxprob": 0.9575
+},
+{
+"city": "Abreu e Lima",
+"country": "Brazil",
+"maxprob": 0.3756
+},
+{
+"city": "Salzgitter",
+"country": "Germany",
+"maxprob": 0.6087
+},
+{
+"city": "Po\u00e1",
+"country": "Brazil",
+"maxprob": 0.3714
+},
+{
+"city": "Piacenza",
+"country": "Italy",
+"maxprob": 0.8948
+},
+{
+"city": "Gardez",
+"country": "Afghanistan",
+"maxprob": 0.4957
+},
+{
+"city": "Moers",
+"country": "Germany",
+"maxprob": 0.4823
+},
+{
+"city": "Buz\u0103u",
+"country": "Romania",
+"maxprob": 0.6594
+},
+{
+"city": "Prabumulih",
+"country": "Indonesia",
+"maxprob": 0.7626
+},
+{
+"city": "Itabaiana",
+"country": "Brazil",
+"maxprob": 0.5423
+},
+{
+"city": "Isehara",
+"country": "Japan",
+"maxprob": 0.4558
+},
+{
+"city": "Queluz",
+"country": "Portugal",
+"maxprob": 0.798
+},
+{
+"city": "Turgutlu",
+"country": "Turkey",
+"maxprob": 0.4347
+},
+{
+"city": "Taitung",
+"country": "Taiwan",
+"maxprob": 0.7741
+},
+{
+"city": "Lethbridge",
+"country": "Canada",
+"maxprob": 0.3549
+},
+{
+"city": "Itanha\u00e9m",
+"country": "Brazil",
+"maxprob": 0.8827
+},
+{
+"city": "Santo Ant\u00f4nio de Jesus",
+"country": "Brazil",
+"maxprob": 0.8241
+},
+{
+"city": "Ikere-Ekiti",
+"country": "Nigeria",
+"maxprob": 0.3783
+},
+{
+"city": "Hildesheim",
+"country": "Germany",
+"maxprob": 0.8491
+},
+{
+"city": "Bendigo",
+"country": "Australia",
+"maxprob": 0.4296
+},
+{
+"city": "Nagapattinam",
+"country": "India",
+"maxprob": 0.3821
+},
+{
+"city": "Pushkino",
+"country": "Russia",
+"maxprob": 0.3338
+},
+{
+"city": "Khush\u0101b",
+"country": "Pakistan",
+"maxprob": 0.5549
+},
+{
+"city": "Caieiras",
+"country": "Brazil",
+"maxprob": 0.4616
+},
+{
+"city": "Lyon 03",
+"country": "France",
+"maxprob": 0.861
+},
+{
+"city": "Piatra Neam\u0163",
+"country": "Romania",
+"maxprob": 0.8782
+},
+{
+"city": "Erlangen",
+"country": "Germany",
+"maxprob": 0.7449
+},
+{
+"city": "Tepexpan",
+"country": "Mexico",
+"maxprob": 0.6438
+},
+{
+"city": "Entebbe",
+"country": "Uganda",
+"maxprob": 0.9355
+},
+{
+"city": "Curic\u00f3",
+"country": "Chile",
+"maxprob": 0.8897
+},
+{
+"city": "Tulancingo",
+"country": "Mexico",
+"maxprob": 0.8576
+},
+{
+"city": "Ciutat Vella",
+"country": "Spain",
+"maxprob": 0.635
+},
+{
+"city": "Sabanalarga",
+"country": "Colombia",
+"maxprob": 0.481
+},
+{
+"city": "Ngong",
+"country": "Kenya",
+"maxprob": 0.3603
+},
+{
+"city": "Birigui",
+"country": "Brazil",
+"maxprob": 0.6263
+},
+{
+"city": "Aurang\u0101b\u0101d",
+"country": "India",
+"maxprob": 0.5859
+},
+{
+"city": "Ituiutaba",
+"country": "Brazil",
+"maxprob": 0.9046
+},
+{
+"city": "Nakhon Si Thammarat",
+"country": "Thailand",
+"maxprob": 0.8145
+},
+{
+"city": "Parintins",
+"country": "Brazil",
+"maxprob": 0.3266
+},
+{
+"city": "Mairipor\u00e3",
+"country": "Brazil",
+"maxprob": 0.7586
+},
+{
+"city": "Novara",
+"country": "Italy",
+"maxprob": 0.5588
+},
+{
+"city": "Wilmersdorf",
+"country": "Germany",
+"maxprob": 0.4452
+},
+{
+"city": "Tuxtepec",
+"country": "Mexico",
+"maxprob": 0.4495
+},
+{
+"city": "Zonguldak",
+"country": "Turkey",
+"maxprob": 0.7574
+},
+{
+"city": "I\u011fd\u0131r",
+"country": "Turkey",
+"maxprob": 0.8326
+},
+{
+"city": "Sz\u00e9kesfeh\u00e9rv\u00e1r",
+"country": "Hungary",
+"maxprob": 0.8604
+},
+{
+"city": "Sidi Slimane",
+"country": "Morocco",
+"maxprob": 0.3675
+},
+{
+"city": "Chilliwack",
+"country": "Canada",
+"maxprob": 0.6032
+},
+{
+"city": "Argenteuil",
+"country": "France",
+"maxprob": 0.7377
+},
+{
+"city": "Khanty-Mansiysk",
+"country": "Russia",
+"maxprob": 0.8515
+},
+{
+"city": "Itaim Bibi",
+"country": "Brazil",
+"maxprob": 0.7746
+},
+{
+"city": "Simmering",
+"country": "Austria",
+"maxprob": 0.3884
+},
+{
+"city": "Mustafakemalpa\u015fa",
+"country": "Turkey",
+"maxprob": 0.3827
+},
+{
+"city": "Orihuela",
+"country": "Spain",
+"maxprob": 0.8402
+},
+{
+"city": "Chakwal",
+"country": "Pakistan",
+"maxprob": 0.6392
+},
+{
+"city": "Te\u00f3filo Otoni",
+"country": "Brazil",
+"maxprob": 0.7322
+},
+{
+"city": "Tokuyama",
+"country": "Japan",
+"maxprob": 0.4327
+},
+{
+"city": "L\u0101h\u012bj\u0101n",
+"country": "Iran",
+"maxprob": 0.3612
+},
+{
+"city": "Leuven",
+"country": "Belgium",
+"maxprob": 0.9302
+},
+{
+"city": "Pleven",
+"country": "Bulgaria",
+"maxprob": 0.8864
+},
+{
+"city": "Elbasan",
+"country": "Albania",
+"maxprob": 0.7198
+},
+{
+"city": "Errachidia",
+"country": "Morocco",
+"maxprob": 0.5168
+},
+{
+"city": "Funchal",
+"country": "Portugal",
+"maxprob": 0.4321
+},
+{
+"city": "Red Deer",
+"country": "Canada",
+"maxprob": 0.5971
+},
+{
+"city": "Arezzo",
+"country": "Italy",
+"maxprob": 0.6903
+},
+{
+"city": "Y\u00ean B\u00e1i",
+"country": "Vietnam",
+"maxprob": 0.5834
+},
+{
+"city": "Puerto Barrios",
+"country": "Guatemala",
+"maxprob": 0.8176
+},
+{
+"city": "Barakaldo",
+"country": "Spain",
+"maxprob": 0.6866
+},
+{
+"city": "Klagenfurt am W\u00f6rthersee",
+"country": "Austria",
+"maxprob": 0.9214
+},
+{
+"city": "Datia",
+"country": "India",
+"maxprob": 0.391
+},
+{
+"city": "Sakado",
+"country": "Japan",
+"maxprob": 0.6464
+},
+{
+"city": "Ust\u2019-Ilimsk",
+"country": "Russia",
+"maxprob": 0.4269
+},
+{
+"city": "Girona",
+"country": "Spain",
+"maxprob": 0.5606
+},
+{
+"city": "K\u016bhdasht",
+"country": "Iran",
+"maxprob": 0.4611
+},
+{
+"city": "Udine",
+"country": "Italy",
+"maxprob": 0.6765
+},
+{
+"city": "Phagw\u0101ra",
+"country": "India",
+"maxprob": 0.3157
+},
+{
+"city": "Uman",
+"country": "Ukraine",
+"maxprob": 0.5137
+},
+{
+"city": "Izumisano",
+"country": "Japan",
+"maxprob": 0.4487
+},
+{
+"city": "Trier",
+"country": "Germany",
+"maxprob": 0.5748
+},
+{
+"city": "Sumedang Utara",
+"country": "Indonesia",
+"maxprob": 0.4399
+},
+{
+"city": "Jaffa",
+"country": "Israel",
+"maxprob": 0.7508
+},
+{
+"city": "Subotica",
+"country": "Serbia",
+"maxprob": 0.5761
+},
+{
+"city": "Nyagatare",
+"country": "Rwanda",
+"maxprob": 0.7762
+},
+{
+"city": "Chanthaburi",
+"country": "Thailand",
+"maxprob": 0.8749
+},
+{
+"city": "Niagara Falls",
+"country": "Canada",
+"maxprob": 0.4398
+},
+{
+"city": "Manbij",
+"country": "Syria",
+"maxprob": 0.7032
+},
+{
+"city": "\u0160iauliai",
+"country": "Lithuania",
+"maxprob": 0.9301
+},
+{
+"city": "Hualien City",
+"country": "Taiwan",
+"maxprob": 0.7457
+},
+{
+"city": "Santander de Quilichao",
+"country": "Colombia",
+"maxprob": 0.4111
+},
+{
+"city": "Taman Melawati",
+"country": "Malaysia",
+"maxprob": 0.4617
+},
+{
+"city": "Miny\u0101 al Qam\u1e29",
+"country": "Egypt",
+"maxprob": 0.429
+},
+{
+"city": "Bam",
+"country": "Iran",
+"maxprob": 0.5378
+},
+{
+"city": "Manavgat",
+"country": "Turkey",
+"maxprob": 0.425
+},
+{
+"city": "Guercif",
+"country": "Morocco",
+"maxprob": 0.7272
+},
+{
+"city": "Khambh\u0101t",
+"country": "India",
+"maxprob": 0.4336
+},
+{
+"city": "Riberalta",
+"country": "Bolivia",
+"maxprob": 0.779
+},
+{
+"city": "Sievierodonetsk",
+"country": "Ukraine",
+"maxprob": 0.724
+},
+{
+"city": "Mor\u00f3n",
+"country": "Argentina",
+"maxprob": 0.5974
+},
+{
+"city": "Apatzing\u00e1n",
+"country": "Mexico",
+"maxprob": 0.7727
+},
+{
+"city": "Bag\u00e9",
+"country": "Brazil",
+"maxprob": 0.7008
+},
+{
+"city": "Pandharpur",
+"country": "India",
+"maxprob": 0.5499
+},
+{
+"city": "Kapurthala Town",
+"country": "India",
+"maxprob": 0.5977
+},
+{
+"city": "Roubaix",
+"country": "France",
+"maxprob": 0.4328
+},
+{
+"city": "Zwickau",
+"country": "Germany",
+"maxprob": 0.466
+},
+{
+"city": "Kaiserslautern",
+"country": "Germany",
+"maxprob": 0.7964
+},
+{
+"city": "Tourcoing",
+"country": "France",
+"maxprob": 0.53
+},
+{
+"city": "Caldas Novas",
+"country": "Brazil",
+"maxprob": 0.7422
+},
+{
+"city": "S\u00e3o Sebasti\u00e3o",
+"country": "Brazil",
+"maxprob": 0.8764
+},
+{
+"city": "S\u0142upsk",
+"country": "Poland",
+"maxprob": 0.8813
+},
+{
+"city": "Barra do Pira\u00ed",
+"country": "Brazil",
+"maxprob": 0.7388
+},
+{
+"city": "Budapest IV. ker\u00fclet",
+"country": "Hungary",
+"maxprob": 0.9193
+},
+{
+"city": "Santa Cruz do Capibaribe",
+"country": "Brazil",
+"maxprob": 0.7594
+},
+{
+"city": "Lagos de Moreno",
+"country": "Mexico",
+"maxprob": 0.5631
+},
+{
+"city": "Thayetmyo",
+"country": "Myanmar",
+"maxprob": 0.7207
+},
+{
+"city": "Penzing",
+"country": "Austria",
+"maxprob": 0.6929
+},
+{
+"city": "Arsi Negele",
+"country": "Ethiopia",
+"maxprob": 0.6817
+},
+{
+"city": "Iguatu",
+"country": "Brazil",
+"maxprob": 0.7259
+},
+{
+"city": "Fas\u0101",
+"country": "Iran",
+"maxprob": 0.7062
+},
+{
+"city": "Saint-Jean-sur-Richelieu",
+"country": "Canada",
+"maxprob": 0.655
+},
+{
+"city": "Dar\u2018\u0101",
+"country": "Syria",
+"maxprob": 0.9067
+},
+{
+"city": "Iserlohn",
+"country": "Germany",
+"maxprob": 0.5029
+},
+{
+"city": "Kamianets-Podilskyi",
+"country": "Ukraine",
+"maxprob": 0.9632
+},
+{
+"city": "Zheleznogorsk",
+"country": "Russia",
+"maxprob": 0.334
+},
+{
+"city": "Santiago de Compostela",
+"country": "Spain",
+"maxprob": 0.6052
+},
+{
+"city": "Soligorsk",
+"country": "Belarus",
+"maxprob": 0.3291
+},
+{
+"city": "Erdenet",
+"country": "Mongolia",
+"maxprob": 0.6878
+},
+{
+"city": "Temixco",
+"country": "Mexico",
+"maxprob": 0.7802
+},
+{
+"city": "Jharsuguda",
+"country": "India",
+"maxprob": 0.506
+},
+{
+"city": "G\u00f2 C\u00f4ng",
+"country": "Vietnam",
+"maxprob": 0.7203
+},
+{
+"city": "Ita\u00fana",
+"country": "Brazil",
+"maxprob": 0.6978
+},
+{
+"city": "Hammamet",
+"country": "Tunisia",
+"maxprob": 0.7311
+},
+{
+"city": "Chalisgaon",
+"country": "India",
+"maxprob": 0.5282
+},
+{
+"city": "Aguachica",
+"country": "Colombia",
+"maxprob": 0.9289
+},
+{
+"city": "Arapongas",
+"country": "Brazil",
+"maxprob": 0.6199
+},
+{
+"city": "J\u00e9r\u00e9mie",
+"country": "Haiti",
+"maxprob": 0.4919
+},
+{
+"city": "Herzliya",
+"country": "Israel",
+"maxprob": 0.9124
+},
+{
+"city": "Al Muharraq",
+"country": "Bahrain",
+"maxprob": 0.78
+},
+{
+"city": "Pyinmana",
+"country": "Myanmar",
+"maxprob": 0.4118
+},
+{
+"city": "Villupuram",
+"country": "India",
+"maxprob": 0.3443
+},
+{
+"city": "Luj\u00e1n",
+"country": "Argentina",
+"maxprob": 0.3747
+},
+{
+"city": "Hadera",
+"country": "Israel",
+"maxprob": 0.7507
+},
+{
+"city": "Nax\u00e7\u0131van",
+"country": "Azerbaijan",
+"maxprob": 0.8946
+},
+{
+"city": "Par\u00e1 de Minas",
+"country": "Brazil",
+"maxprob": 0.8321
+},
+{
+"city": "Cesena",
+"country": "Italy",
+"maxprob": 0.8238
+},
+{
+"city": "Molenbeek-Saint-Jean",
+"country": "Belgium",
+"maxprob": 0.9183
+},
+{
+"city": "Maribor",
+"country": "Slovenia",
+"maxprob": 0.9658
+},
+{
+"city": "Chimaltenango",
+"country": "Guatemala",
+"maxprob": 0.8377
+},
+{
+"city": "Magway",
+"country": "Myanmar",
+"maxprob": 0.5664
+},
+{
+"city": "Tumbes",
+"country": "Peru",
+"maxprob": 0.7324
+},
+{
+"city": "Vicente Pires",
+"country": "Brazil",
+"maxprob": 0.5512
+},
+{
+"city": "Esna",
+"country": "Egypt",
+"maxprob": 0.6248
+},
+{
+"city": "Yasuj",
+"country": "Iran",
+"maxprob": 0.7484
+},
+{
+"city": "Villa Mercedes",
+"country": "Argentina",
+"maxprob": 0.6902
+},
+{
+"city": "Ben Guerir",
+"country": "Morocco",
+"maxprob": 0.8108
+},
+{
+"city": "Nowshera Cantonment",
+"country": "Pakistan",
+"maxprob": 0.5622
+},
+{
+"city": "Schwerin",
+"country": "Germany",
+"maxprob": 0.4864
+},
+{
+"city": "Jaworzno",
+"country": "Poland",
+"maxprob": 0.3746
+},
+{
+"city": "Corumb\u00e1",
+"country": "Brazil",
+"maxprob": 0.4996
+},
+{
+"city": "Estel\u00ed",
+"country": "Nicaragua",
+"maxprob": 0.9137
+},
+{
+"city": "Ngh\u0129a \u0110\u00f4",
+"country": "Vietnam",
+"maxprob": 0.3732
+},
+{
+"city": "Jounieh",
+"country": "Lebanon",
+"maxprob": 0.7693
+},
+{
+"city": "Ceyhan",
+"country": "Turkey",
+"maxprob": 0.5361
+},
+{
+"city": "Ca\u00e7apava",
+"country": "Brazil",
+"maxprob": 0.8481
+},
+{
+"city": "G\u00fctersloh",
+"country": "Germany",
+"maxprob": 0.806
+},
+{
+"city": "Kh\u014dst",
+"country": "Afghanistan",
+"maxprob": 0.3891
+},
+{
+"city": "Avar\u00e9",
+"country": "Brazil",
+"maxprob": 0.6342
+},
+{
+"city": "Erechim",
+"country": "Brazil",
+"maxprob": 0.3662
+},
+{
+"city": "C\u00e1ceres",
+"country": "Spain",
+"maxprob": 0.7982
+},
+{
+"city": "Tema New Town",
+"country": "Ghana",
+"maxprob": 0.3128
+},
+{
+"city": "Jastrz\u0119bie Zdr\u00f3j",
+"country": "Poland",
+"maxprob": 0.923
+},
+{
+"city": "R\u00edo Gallegos",
+"country": "Argentina",
+"maxprob": 0.6908
+},
+{
+"city": "Novopolotsk",
+"country": "Belarus",
+"maxprob": 0.5299
+},
+{
+"city": "S\u00e3o Crist\u00f3v\u00e3o",
+"country": "Brazil",
+"maxprob": 0.7604
+},
+{
+"city": "Shkod\u00ebr",
+"country": "Albania",
+"maxprob": 0.4643
+},
+{
+"city": "Las Rozas de Madrid",
+"country": "Spain",
+"maxprob": 0.8533
+},
+{
+"city": "Burdur",
+"country": "Turkey",
+"maxprob": 0.8526
+},
+{
+"city": "San Carlos de Bariloche",
+"country": "Argentina",
+"maxprob": 0.8518
+},
+{
+"city": "La Habana Vieja",
+"country": "Cuba",
+"maxprob": 0.9154
+},
+{
+"city": "Tiruchengode",
+"country": "India",
+"maxprob": 0.4993
+},
+{
+"city": "Mons",
+"country": "Belgium",
+"maxprob": 0.6022
+},
+{
+"city": "H\u01b0\u01a1ng Th\u1ee7y",
+"country": "Vietnam",
+"maxprob": 0.4572
+},
+{
+"city": "Gafsa",
+"country": "Tunisia",
+"maxprob": 0.6791
+},
+{
+"city": "Saquarema",
+"country": "Brazil",
+"maxprob": 0.5305
+},
+{
+"city": "Labuan",
+"country": "Malaysia",
+"maxprob": 0.5709
+},
+{
+"city": "Vaniyambadi",
+"country": "India",
+"maxprob": 0.3916
+},
+{
+"city": "Aqaba",
+"country": "Jordan",
+"maxprob": 0.8494
+},
+{
+"city": "Catumbela",
+"country": "Angola",
+"maxprob": 0.4129
+},
+{
+"city": "Frederiksberg",
+"country": "Denmark",
+"maxprob": 0.9744
+},
+{
+"city": "Roquetas de Mar",
+"country": "Spain",
+"maxprob": 0.6474
+},
+{
+"city": "B\u00ecnh Minh",
+"country": "Vietnam",
+"maxprob": 0.4077
+},
+{
+"city": "Leskovac",
+"country": "Serbia",
+"maxprob": 0.7661
+},
+{
+"city": "Mainpuri",
+"country": "India",
+"maxprob": 0.5339
+},
+{
+"city": "K\u0101zer\u016bn",
+"country": "Iran",
+"maxprob": 0.622
+},
+{
+"city": "Aksum",
+"country": "Ethiopia",
+"maxprob": 0.3064
+},
+{
+"city": "Limerick",
+"country": "Ireland",
+"maxprob": 0.5796
+},
+{
+"city": "Paracatu",
+"country": "Brazil",
+"maxprob": 0.6218
+},
+{
+"city": "Cac\u00e9m",
+"country": "Portugal",
+"maxprob": 0.8996
+},
+{
+"city": "Ashiya",
+"country": "Japan",
+"maxprob": 0.5421
+},
+{
+"city": "Novoural\u2019sk",
+"country": "Russia",
+"maxprob": 0.5561
+},
+{
+"city": "Norrk\u00f6ping",
+"country": "Sweden",
+"maxprob": 0.9038
+},
+{
+"city": "Behshahr",
+"country": "Iran",
+"maxprob": 0.6201
+},
+{
+"city": "Kribi",
+"country": "Cameroon",
+"maxprob": 0.6469
+},
+{
+"city": "D\u00fcren",
+"country": "Germany",
+"maxprob": 0.5056
+},
+{
+"city": "Lysychansk",
+"country": "Ukraine",
+"maxprob": 0.8449
+},
+{
+"city": "La Spezia",
+"country": "Italy",
+"maxprob": 0.8698
+},
+{
+"city": "Barletta",
+"country": "Italy",
+"maxprob": 0.6558
+},
+{
+"city": "Modi\u2018in Makkabbim Re\u2018ut",
+"country": "Israel",
+"maxprob": 0.8319
+},
+{
+"city": "Polatl\u0131",
+"country": "Turkey",
+"maxprob": 0.8377
+},
+{
+"city": "Budapest XVIII. ker\u00fclet",
+"country": "Hungary",
+"maxprob": 0.923
+},
+{
+"city": "R\u00e2mnicu V\u00e2lcea",
+"country": "Romania",
+"maxprob": 0.8898
+},
+{
+"city": "Doddaballapura",
+"country": "India",
+"maxprob": 0.3553
+},
+{
+"city": "Lorca",
+"country": "Spain",
+"maxprob": 0.4744
+},
+{
+"city": "Itajub\u00e1",
+"country": "Brazil",
+"maxprob": 0.9283
+},
+{
+"city": "Jinja",
+"country": "Uganda",
+"maxprob": 0.8672
+},
+{
+"city": "Kalaw",
+"country": "Myanmar",
+"maxprob": 0.4161
+},
+{
+"city": "La Marsa",
+"country": "Tunisia",
+"maxprob": 0.6531
+},
+{
+"city": "Gua\u00edba",
+"country": "Brazil",
+"maxprob": 0.3473
+},
+{
+"city": "Pushkin",
+"country": "Russia",
+"maxprob": 0.3495
+},
+{
+"city": "Sunyani",
+"country": "Ghana",
+"maxprob": 0.5273
+},
+{
+"city": "Grudzi\u0105dz",
+"country": "Poland",
+"maxprob": 0.5759
+},
+{
+"city": "S\u00e3o Jo\u00e3o da Boa Vista",
+"country": "Brazil",
+"maxprob": 0.8976
+},
+{
+"city": "Njombe",
+"country": "Tanzania",
+"maxprob": 0.3736
+},
+{
+"city": "Semenyih",
+"country": "Malaysia",
+"maxprob": 0.4178
+},
+{
+"city": "Villa Mar\u00eda",
+"country": "Argentina",
+"maxprob": 0.8008
+},
+{
+"city": "Ratchaburi",
+"country": "Thailand",
+"maxprob": 0.9498
+},
+{
+"city": "Pamekasan",
+"country": "Indonesia",
+"maxprob": 0.3153
+},
+{
+"city": "Clementi Housing Estate",
+"country": "Singapore",
+"maxprob": 0.5975
+},
+{
+"city": "Esslingen",
+"country": "Germany",
+"maxprob": 0.6572
+},
+{
+"city": "Mu\u011fla",
+"country": "Turkey",
+"maxprob": 0.9136
+},
+{
+"city": "Pandeglang",
+"country": "Indonesia",
+"maxprob": 0.7275
+},
+{
+"city": "Lucas do Rio Verde",
+"country": "Brazil",
+"maxprob": 0.7043
+},
+{
+"city": "Ballarpur",
+"country": "India",
+"maxprob": 0.3383
+},
+{
+"city": "Ere\u011fli",
+"country": "Turkey",
+"maxprob": 0.8962
+},
+{
+"city": "Alessandria",
+"country": "Italy",
+"maxprob": 0.5509
+},
+{
+"city": "Hohoe",
+"country": "Ghana",
+"maxprob": 0.3724
+},
+{
+"city": "Duitama",
+"country": "Colombia",
+"maxprob": 0.8536
+},
+{
+"city": "Ponta Por\u00e3",
+"country": "Brazil",
+"maxprob": 0.6291
+},
+{
+"city": "Tepatitl\u00e1n de Morelos",
+"country": "Mexico",
+"maxprob": 0.8949
+},
+{
+"city": "Erci\u015f",
+"country": "Turkey",
+"maxprob": 0.6698
+},
+{
+"city": "Sassari",
+"country": "Italy",
+"maxprob": 0.4746
+},
+{
+"city": "Kilosa",
+"country": "Tanzania",
+"maxprob": 0.4875
+},
+{
+"city": "Cruzeiro do Sul",
+"country": "Brazil",
+"maxprob": 0.5381
+},
+{
+"city": "Gravat\u00e1",
+"country": "Brazil",
+"maxprob": 0.7825
+},
+{
+"city": "Manhua\u00e7u",
+"country": "Brazil",
+"maxprob": 0.5179
+},
+{
+"city": "Bhand\u0101ra",
+"country": "India",
+"maxprob": 0.3291
+},
+{
+"city": "Ubatuba",
+"country": "Brazil",
+"maxprob": 0.8077
+},
+{
+"city": "Pickering",
+"country": "Canada",
+"maxprob": 0.4097
+},
+{
+"city": "Ph\u00fa Th\u1ecd",
+"country": "Vietnam",
+"maxprob": 0.555
+},
+{
+"city": "Ratingen",
+"country": "Germany",
+"maxprob": 0.4526
+},
+{
+"city": "C\u00e1rdenas",
+"country": "Mexico",
+"maxprob": 0.5034
+},
+{
+"city": "Kars",
+"country": "Turkey",
+"maxprob": 0.4356
+},
+{
+"city": "Tartu",
+"country": "Estonia",
+"maxprob": 0.8593
+},
+{
+"city": "Pergamino",
+"country": "Argentina",
+"maxprob": 0.7204
+},
+{
+"city": "Tucuru\u00ed",
+"country": "Brazil",
+"maxprob": 0.4995
+},
+{
+"city": "Jirapa",
+"country": "Ghana",
+"maxprob": 0.5383
+},
+{
+"city": "Sibolga",
+"country": "Indonesia",
+"maxprob": 0.6522
+},
+{
+"city": "Aruj\u00e1",
+"country": "Brazil",
+"maxprob": 0.7215
+},
+{
+"city": "Ni\u011fde",
+"country": "Turkey",
+"maxprob": 0.9229
+},
+{
+"city": "L\u00fcnen",
+"country": "Germany",
+"maxprob": 0.6559
+},
+{
+"city": "L\u00fcleburgaz",
+"country": "Turkey",
+"maxprob": 0.8332
+},
+{
+"city": "Mogok",
+"country": "Myanmar",
+"maxprob": 0.5939
+},
+{
+"city": "Chinhoyi",
+"country": "Zimbabwe",
+"maxprob": 0.7954
+},
+{
+"city": "\u2018Amr\u0101n",
+"country": "Yemen",
+"maxprob": 0.6392
+},
+{
+"city": "Mtwapa",
+"country": "Kenya",
+"maxprob": 0.3342
+},
+{
+"city": "\u00c7ank\u0131r\u0131",
+"country": "Turkey",
+"maxprob": 0.9219
+},
+{
+"city": "Esl\u0101m\u0101b\u0101d-e Gharb",
+"country": "Iran",
+"maxprob": 0.3834
+},
+{
+"city": "Retalhuleu",
+"country": "Guatemala",
+"maxprob": 0.7956
+},
+{
+"city": "Nanaimo",
+"country": "Canada",
+"maxprob": 0.6622
+},
+{
+"city": "Ziway",
+"country": "Ethiopia",
+"maxprob": 0.6738
+},
+{
+"city": "Phra Khanong",
+"country": "Thailand",
+"maxprob": 0.4894
+},
+{
+"city": "Mandurah",
+"country": "Australia",
+"maxprob": 0.5146
+},
+{
+"city": "Masvingo",
+"country": "Zimbabwe",
+"maxprob": 0.927
+},
+{
+"city": "Bougouni",
+"country": "Mali",
+"maxprob": 0.627
+},
+{
+"city": "Huddinge",
+"country": "Sweden",
+"maxprob": 0.8179
+},
+{
+"city": "Araripina",
+"country": "Brazil",
+"maxprob": 0.4591
+},
+{
+"city": "Boto\u015fani",
+"country": "Romania",
+"maxprob": 0.832
+},
+{
+"city": "Kanata",
+"country": "Canada",
+"maxprob": 0.4838
+},
+{
+"city": "Ancona",
+"country": "Italy",
+"maxprob": 0.753
+},
+{
+"city": "Patroc\u00ednio",
+"country": "Brazil",
+"maxprob": 0.4356
+},
+{
+"city": "Avignon",
+"country": "France",
+"maxprob": 0.6757
+},
+{
+"city": "Itapeva",
+"country": "Brazil",
+"maxprob": 0.3628
+},
+{
+"city": "Olavarr\u00eda",
+"country": "Argentina",
+"maxprob": 0.8175
+},
+{
+"city": "Lillestr\u00f8m",
+"country": "Norway",
+"maxprob": 0.829
+},
+{
+"city": "Nyaunglebin",
+"country": "Myanmar",
+"maxprob": 0.5262
+},
+{
+"city": "Butare",
+"country": "Rwanda",
+"maxprob": 0.8114
+},
+{
+"city": "Gurupi",
+"country": "Brazil",
+"maxprob": 0.4624
+},
+{
+"city": "Tuggeranong Administrative District",
+"country": "Australia",
+"maxprob": 0.9558
+},
+{
+"city": "Marseille 13",
+"country": "France",
+"maxprob": 0.6813
+},
+{
+"city": "Shahdol",
+"country": "India",
+"maxprob": 0.3073
+},
+{
+"city": "Port Dickson",
+"country": "Malaysia",
+"maxprob": 0.5664
+},
+{
+"city": "Sambava",
+"country": "Madagascar",
+"maxprob": 0.8681
+},
+{
+"city": "Nusaybin",
+"country": "Turkey",
+"maxprob": 0.5596
+},
+{
+"city": "Shwebo",
+"country": "Myanmar",
+"maxprob": 0.5505
+},
+{
+"city": "Salihli",
+"country": "Turkey",
+"maxprob": 0.8383
+},
+{
+"city": "Iga",
+"country": "Japan",
+"maxprob": 0.3509
+},
+{
+"city": "Talavera de la Reina",
+"country": "Spain",
+"maxprob": 0.9481
+},
+{
+"city": "Fusagasug\u00e1",
+"country": "Colombia",
+"maxprob": 0.8792
+},
+{
+"city": "Budapest II. ker\u00fclet",
+"country": "Hungary",
+"maxprob": 0.9199
+},
+{
+"city": "Rafaela",
+"country": "Argentina",
+"maxprob": 0.4113
+},
+{
+"city": "Hanau am Main",
+"country": "Germany",
+"maxprob": 0.8678
+},
+{
+"city": "Takayama",
+"country": "Japan",
+"maxprob": 0.3933
+},
+{
+"city": "South Surrey",
+"country": "Canada",
+"maxprob": 0.4954
+},
+{
+"city": "El Puerto de Santa Mar\u00eda",
+"country": "Spain",
+"maxprob": 0.921
+},
+{
+"city": "Pakse",
+"country": "Laos",
+"maxprob": 0.6792
+},
+{
+"city": "Ci\u00e9naga",
+"country": "Colombia",
+"maxprob": 0.8301
+},
+{
+"city": "Juchit\u00e1n de Zaragoza",
+"country": "Mexico",
+"maxprob": 0.8289
+},
+{
+"city": "North Vancouver",
+"country": "Canada",
+"maxprob": 0.7461
+},
+{
+"city": "Wakiso",
+"country": "Uganda",
+"maxprob": 0.8462
+},
+{
+"city": "Cholula",
+"country": "Mexico",
+"maxprob": 0.6176
+},
+{
+"city": "Yozgat",
+"country": "Turkey",
+"maxprob": 0.737
+},
+{
+"city": "Jhumri Telaiya",
+"country": "India",
+"maxprob": 0.3034
+},
+{
+"city": "Guanambi",
+"country": "Brazil",
+"maxprob": 0.711
+},
+{
+"city": "Maumere",
+"country": "Indonesia",
+"maxprob": 0.3373
+},
+{
+"city": "Kadugli",
+"country": "Sudan",
+"maxprob": 0.6509
+},
+{
+"city": "Ludwigsburg",
+"country": "Germany",
+"maxprob": 0.5554
+},
+{
+"city": "Taroudant",
+"country": "Morocco",
+"maxprob": 0.6465
+},
+{
+"city": "Settsu",
+"country": "Japan",
+"maxprob": 0.3662
+},
+{
+"city": "Caratinga",
+"country": "Brazil",
+"maxprob": 0.7547
+},
+{
+"city": "Glyf\u00e1da",
+"country": "Greece",
+"maxprob": 0.7537
+},
+{
+"city": "Lund",
+"country": "Sweden",
+"maxprob": 0.7128
+},
+{
+"city": "Sefrou",
+"country": "Morocco",
+"maxprob": 0.7576
+},
+{
+"city": "Cornell\u00e0 de Llobregat",
+"country": "Spain",
+"maxprob": 0.8256
+},
+{
+"city": "Brindisi",
+"country": "Italy",
+"maxprob": 0.8157
+},
+{
+"city": "Jharia",
+"country": "India",
+"maxprob": 0.4422
+},
+{
+"city": "Serra Talhada",
+"country": "Brazil",
+"maxprob": 0.7918
+},
+{
+"city": "Kasoa",
+"country": "Ghana",
+"maxprob": 0.5583
+},
+{
+"city": "Asni\u00e8res-sur-Seine",
+"country": "France",
+"maxprob": 0.9005
+},
+{
+"city": "Nanterre",
+"country": "France",
+"maxprob": 0.7831
+},
+{
+"city": "Tumaco",
+"country": "Colombia",
+"maxprob": 0.6121
+},
+{
+"city": "Atlixco",
+"country": "Mexico",
+"maxprob": 0.7145
+},
+{
+"city": "Musanze",
+"country": "Rwanda",
+"maxprob": 0.6994
+},
+{
+"city": "Ixelles",
+"country": "Belgium",
+"maxprob": 0.7948
+},
+{
+"city": "Barra do Corda",
+"country": "Brazil",
+"maxprob": 0.5018
+},
+{
+"city": "Una\u00ed",
+"country": "Brazil",
+"maxprob": 0.5936
+},
+{
+"city": "Bojonegoro",
+"country": "Indonesia",
+"maxprob": 0.492
+},
+{
+"city": "Tulc\u00e1n",
+"country": "Ecuador",
+"maxprob": 0.8812
+},
+{
+"city": "Apartad\u00f3",
+"country": "Colombia",
+"maxprob": 0.7754
+},
+{
+"city": "Nitra",
+"country": "Slovakia",
+"maxprob": 0.7412
+},
+{
+"city": "Lyon 08",
+"country": "France",
+"maxprob": 0.5077
+},
+{
+"city": "Moncton",
+"country": "Canada",
+"maxprob": 0.5227
+},
+{
+"city": "Volos",
+"country": "Greece",
+"maxprob": 0.862
+},
+{
+"city": "Gbarnga",
+"country": "Liberia",
+"maxprob": 0.6715
+},
+{
+"city": "Novi Pazar",
+"country": "Serbia",
+"maxprob": 0.3966
+},
+{
+"city": "Melilla",
+"country": "Spain",
+"maxprob": 0.3376
+},
+{
+"city": "Poitiers",
+"country": "France",
+"maxprob": 0.7472
+},
+{
+"city": "Kepong",
+"country": "Malaysia",
+"maxprob": 0.334
+},
+{
+"city": "Usol\u2019ye-Sibirskoye",
+"country": "Russia",
+"maxprob": 0.7236
+},
+{
+"city": "Panev\u0117\u017eys",
+"country": "Lithuania",
+"maxprob": 0.7805
+},
+{
+"city": "Treviso",
+"country": "Italy",
+"maxprob": 0.7897
+},
+{
+"city": "Tecom\u00e1n",
+"country": "Mexico",
+"maxprob": 0.8228
+},
+{
+"city": "Adwa",
+"country": "Ethiopia",
+"maxprob": 0.5074
+},
+{
+"city": "Reden\u00e7\u00e3o",
+"country": "Brazil",
+"maxprob": 0.423
+},
+{
+"city": "Arauca",
+"country": "Colombia",
+"maxprob": 0.693
+},
+{
+"city": "Mukachevo",
+"country": "Ukraine",
+"maxprob": 0.8872
+},
+{
+"city": "Yokote",
+"country": "Japan",
+"maxprob": 0.3123
+},
+{
+"city": "Birni N Konni",
+"country": "Niger",
+"maxprob": 0.4166
+},
+{
+"city": "Moriyama",
+"country": "Japan",
+"maxprob": 0.4635
+},
+{
+"city": "Versailles",
+"country": "France",
+"maxprob": 0.57
+},
+{
+"city": "Sandnes",
+"country": "Norway",
+"maxprob": 0.3979
+},
+{
+"city": "Los Reyes Acaquilpan",
+"country": "Mexico",
+"maxprob": 0.5494
+},
+{
+"city": "Torre del Greco",
+"country": "Italy",
+"maxprob": 0.8775
+},
+{
+"city": "Lido di Ostia",
+"country": "Italy",
+"maxprob": 0.8043
+},
+{
+"city": "Shahr-e Jad\u012bd-e Mehestan",
+"country": "Iran",
+"maxprob": 0.5064
+},
+{
+"city": "Yegor\u2019yevsk",
+"country": "Russia",
+"maxprob": 0.4187
+},
+{
+"city": "Goiana",
+"country": "Brazil",
+"maxprob": 0.4488
+}
+]
