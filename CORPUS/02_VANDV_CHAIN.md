@@ -88,6 +88,11 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Criterion (`docs/R5_PARAPHRASE_ROBUSTNESS_PREREG.md`):** held-out P_test firing; 4 arms incl intensity control; mean-rate primary metric.
 - **Verdict:** NOVEL robust (16/16); counterfactual-over-prior fragile (0/16, reverts-to-true); diverse recipe partially rescues (→65% mean, 3/16 robust) = diversity not intensity (directional). INSERT improved / UPDATE fragile-partial / overwrite-prior-edit unmeasured. NOT promoted.
 
+### C-C5 — Compaction-verify soundness audit (C5, D-C5-1)
+- **Hypothesis:** does compaction output re-pass the Gate/verify-vs-ledger before becoming the active store (the R1-bit/R10 obligation)?
+- **Method:** spec-read end-to-end (§8.9/8.10/11.2/11.3/11.5/11.14) + exact-hypergeometric sampling-power calc — analysis, no experiment.
+- **Verdict:** **RESOLVED-BY-SPEC-READ + CORRECTION.** The spec MANDATES it (C-OC3: CompactionProbeReport pre-Phase-2, CORE=1.0 abort, atomic 2PC) — the earlier 'unspecified' claim is retracted. Open (analysis): (A) non-CORE `behavior_fail` un-surfaced at read by the tier-blind bit (R13 split reappears); (B) non-CORE sampling-power deficit near thresholds (CORE protected); (C) sub-batched-compaction livelock = prediction→C1-true-scale, NOT concluded. F1 readiness unchanged.
+
 ### C-R1-bit — Commit-bit SELECT read-back, commit-time (R1-bit, D-R1-2)
 - **Hypothesis:** recording persistence in a G1 2PC commit-status bit (not weights) delivers the §8.9 L1 read-back, bleed-immune.
 - **Criterion (frozen, CP-class):** D1 LANDED 8/8 · D2 LEAK NULL 6/6 · D3 REJECTED NULL 4/4 + DROPPED NULL 2/2 via 2PC-abort · D4 ≥1 proxy-TRIPLE→bit-NULL row · D5 chain intact + no bypass.

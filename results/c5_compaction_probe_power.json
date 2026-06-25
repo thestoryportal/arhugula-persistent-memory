@@ -1,0 +1,429 @@
+{
+ "method": "exact hypergeometric; floor-dominated small strata; abort iff sampled failures exceed (1-thresh)*n",
+ "C_OC3": {
+  "SUPPORTING": "n=max(ceil(0.2S),5), pass>=95%",
+  "INCIDENTAL": "n=max(ceil(0.1S),3), pass>=80%"
+ },
+ "rows": [
+  {
+   "tier": "SUPP",
+   "S": 5,
+   "true_div_rate": 0.06,
+   "D": 0,
+   "n": 5,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.0,
+   "FALSE_NEG_pass_despite_breach": 1.0
+  },
+  {
+   "tier": "SUPP",
+   "S": 5,
+   "true_div_rate": 0.1,
+   "D": 0,
+   "n": 5,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.0,
+   "FALSE_NEG_pass_despite_breach": 1.0
+  },
+  {
+   "tier": "SUPP",
+   "S": 5,
+   "true_div_rate": 0.2,
+   "D": 1,
+   "n": 5,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 1.0,
+   "FALSE_NEG_pass_despite_breach": 0.0
+  },
+  {
+   "tier": "SUPP",
+   "S": 10,
+   "true_div_rate": 0.06,
+   "D": 1,
+   "n": 5,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.5,
+   "FALSE_NEG_pass_despite_breach": 0.5
+  },
+  {
+   "tier": "SUPP",
+   "S": 10,
+   "true_div_rate": 0.1,
+   "D": 1,
+   "n": 5,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.5,
+   "FALSE_NEG_pass_despite_breach": 0.5
+  },
+  {
+   "tier": "SUPP",
+   "S": 10,
+   "true_div_rate": 0.2,
+   "D": 2,
+   "n": 5,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.778,
+   "FALSE_NEG_pass_despite_breach": 0.222
+  },
+  {
+   "tier": "SUPP",
+   "S": 25,
+   "true_div_rate": 0.06,
+   "D": 2,
+   "n": 5,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.367,
+   "FALSE_NEG_pass_despite_breach": 0.633
+  },
+  {
+   "tier": "SUPP",
+   "S": 25,
+   "true_div_rate": 0.1,
+   "D": 2,
+   "n": 5,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.367,
+   "FALSE_NEG_pass_despite_breach": 0.633
+  },
+  {
+   "tier": "SUPP",
+   "S": 25,
+   "true_div_rate": 0.2,
+   "D": 5,
+   "n": 5,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.708,
+   "FALSE_NEG_pass_despite_breach": 0.292
+  },
+  {
+   "tier": "SUPP",
+   "S": 50,
+   "true_div_rate": 0.06,
+   "D": 3,
+   "n": 10,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.496,
+   "FALSE_NEG_pass_despite_breach": 0.504
+  },
+  {
+   "tier": "SUPP",
+   "S": 50,
+   "true_div_rate": 0.1,
+   "D": 5,
+   "n": 10,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.689,
+   "FALSE_NEG_pass_despite_breach": 0.311
+  },
+  {
+   "tier": "SUPP",
+   "S": 50,
+   "true_div_rate": 0.2,
+   "D": 10,
+   "n": 10,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.917,
+   "FALSE_NEG_pass_despite_breach": 0.083
+  },
+  {
+   "tier": "SUPP",
+   "S": 100,
+   "true_div_rate": 0.06,
+   "D": 6,
+   "n": 20,
+   "abort_if_failures_gt": 1,
+   "DETECT_power": 0.345,
+   "FALSE_NEG_pass_despite_breach": 0.655
+  },
+  {
+   "tier": "SUPP",
+   "S": 100,
+   "true_div_rate": 0.1,
+   "D": 10,
+   "n": 20,
+   "abort_if_failures_gt": 1,
+   "DETECT_power": 0.637,
+   "FALSE_NEG_pass_despite_breach": 0.363
+  },
+  {
+   "tier": "SUPP",
+   "S": 100,
+   "true_div_rate": 0.2,
+   "D": 20,
+   "n": 20,
+   "abort_if_failures_gt": 1,
+   "DETECT_power": 0.95,
+   "FALSE_NEG_pass_despite_breach": 0.05
+  },
+  {
+   "tier": "SUPP",
+   "S": 250,
+   "true_div_rate": 0.06,
+   "D": 15,
+   "n": 50,
+   "abort_if_failures_gt": 2,
+   "DETECT_power": 0.608,
+   "FALSE_NEG_pass_despite_breach": 0.392
+  },
+  {
+   "tier": "SUPP",
+   "S": 250,
+   "true_div_rate": 0.1,
+   "D": 25,
+   "n": 50,
+   "abort_if_failures_gt": 2,
+   "DETECT_power": 0.913,
+   "FALSE_NEG_pass_despite_breach": 0.087
+  },
+  {
+   "tier": "SUPP",
+   "S": 250,
+   "true_div_rate": 0.2,
+   "D": 50,
+   "n": 50,
+   "abort_if_failures_gt": 2,
+   "DETECT_power": 1.0,
+   "FALSE_NEG_pass_despite_breach": 0.0
+  },
+  {
+   "tier": "SUPP",
+   "S": 1000,
+   "true_div_rate": 0.06,
+   "D": 60,
+   "n": 200,
+   "abort_if_failures_gt": 10,
+   "DETECT_power": 0.683,
+   "FALSE_NEG_pass_despite_breach": 0.317
+  },
+  {
+   "tier": "SUPP",
+   "S": 1000,
+   "true_div_rate": 0.1,
+   "D": 100,
+   "n": 200,
+   "abort_if_failures_gt": 10,
+   "DETECT_power": 0.996,
+   "FALSE_NEG_pass_despite_breach": 0.004
+  },
+  {
+   "tier": "SUPP",
+   "S": 1000,
+   "true_div_rate": 0.2,
+   "D": 200,
+   "n": 200,
+   "abort_if_failures_gt": 10,
+   "DETECT_power": 1.0,
+   "FALSE_NEG_pass_despite_breach": 0.0
+  },
+  {
+   "tier": "INC",
+   "S": 5,
+   "true_div_rate": 0.21,
+   "D": 1,
+   "n": 3,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.6,
+   "FALSE_NEG_pass_despite_breach": 0.4
+  },
+  {
+   "tier": "INC",
+   "S": 5,
+   "true_div_rate": 0.3,
+   "D": 2,
+   "n": 3,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.9,
+   "FALSE_NEG_pass_despite_breach": 0.1
+  },
+  {
+   "tier": "INC",
+   "S": 5,
+   "true_div_rate": 0.5,
+   "D": 2,
+   "n": 3,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.9,
+   "FALSE_NEG_pass_despite_breach": 0.1
+  },
+  {
+   "tier": "INC",
+   "S": 10,
+   "true_div_rate": 0.21,
+   "D": 2,
+   "n": 3,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.533,
+   "FALSE_NEG_pass_despite_breach": 0.467
+  },
+  {
+   "tier": "INC",
+   "S": 10,
+   "true_div_rate": 0.3,
+   "D": 3,
+   "n": 3,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.708,
+   "FALSE_NEG_pass_despite_breach": 0.292
+  },
+  {
+   "tier": "INC",
+   "S": 10,
+   "true_div_rate": 0.5,
+   "D": 5,
+   "n": 3,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.917,
+   "FALSE_NEG_pass_despite_breach": 0.083
+  },
+  {
+   "tier": "INC",
+   "S": 25,
+   "true_div_rate": 0.21,
+   "D": 5,
+   "n": 3,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.504,
+   "FALSE_NEG_pass_despite_breach": 0.496
+  },
+  {
+   "tier": "INC",
+   "S": 25,
+   "true_div_rate": 0.3,
+   "D": 8,
+   "n": 3,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.704,
+   "FALSE_NEG_pass_despite_breach": 0.296
+  },
+  {
+   "tier": "INC",
+   "S": 25,
+   "true_div_rate": 0.5,
+   "D": 12,
+   "n": 3,
+   "abort_if_failures_gt": 0,
+   "DETECT_power": 0.876,
+   "FALSE_NEG_pass_despite_breach": 0.124
+  },
+  {
+   "tier": "INC",
+   "S": 50,
+   "true_div_rate": 0.21,
+   "D": 10,
+   "n": 5,
+   "abort_if_failures_gt": 1,
+   "DETECT_power": 0.258,
+   "FALSE_NEG_pass_despite_breach": 0.742
+  },
+  {
+   "tier": "INC",
+   "S": 50,
+   "true_div_rate": 0.3,
+   "D": 15,
+   "n": 5,
+   "abort_if_failures_gt": 1,
+   "DETECT_power": 0.476,
+   "FALSE_NEG_pass_despite_breach": 0.524
+  },
+  {
+   "tier": "INC",
+   "S": 50,
+   "true_div_rate": 0.5,
+   "D": 25,
+   "n": 5,
+   "abort_if_failures_gt": 1,
+   "DETECT_power": 0.826,
+   "FALSE_NEG_pass_despite_breach": 0.174
+  },
+  {
+   "tier": "INC",
+   "S": 100,
+   "true_div_rate": 0.21,
+   "D": 21,
+   "n": 10,
+   "abort_if_failures_gt": 2,
+   "DETECT_power": 0.351,
+   "FALSE_NEG_pass_despite_breach": 0.649
+  },
+  {
+   "tier": "INC",
+   "S": 100,
+   "true_div_rate": 0.3,
+   "D": 30,
+   "n": 10,
+   "abort_if_failures_gt": 2,
+   "DETECT_power": 0.627,
+   "FALSE_NEG_pass_despite_breach": 0.373
+  },
+  {
+   "tier": "INC",
+   "S": 100,
+   "true_div_rate": 0.5,
+   "D": 50,
+   "n": 10,
+   "abort_if_failures_gt": 2,
+   "DETECT_power": 0.954,
+   "FALSE_NEG_pass_despite_breach": 0.046
+  },
+  {
+   "tier": "INC",
+   "S": 250,
+   "true_div_rate": 0.21,
+   "D": 52,
+   "n": 25,
+   "abort_if_failures_gt": 5,
+   "DETECT_power": 0.422,
+   "FALSE_NEG_pass_despite_breach": 0.578
+  },
+  {
+   "tier": "INC",
+   "S": 250,
+   "true_div_rate": 0.3,
+   "D": 75,
+   "n": 25,
+   "abort_if_failures_gt": 5,
+   "DETECT_power": 0.82,
+   "FALSE_NEG_pass_despite_breach": 0.18
+  },
+  {
+   "tier": "INC",
+   "S": 250,
+   "true_div_rate": 0.5,
+   "D": 125,
+   "n": 25,
+   "abort_if_failures_gt": 5,
+   "DETECT_power": 0.999,
+   "FALSE_NEG_pass_despite_breach": 0.001
+  },
+  {
+   "tier": "INC",
+   "S": 1000,
+   "true_div_rate": 0.21,
+   "D": 210,
+   "n": 100,
+   "abort_if_failures_gt": 20,
+   "DETECT_power": 0.544,
+   "FALSE_NEG_pass_despite_breach": 0.456
+  },
+  {
+   "tier": "INC",
+   "S": 1000,
+   "true_div_rate": 0.3,
+   "D": 300,
+   "n": 100,
+   "abort_if_failures_gt": 20,
+   "DETECT_power": 0.988,
+   "FALSE_NEG_pass_despite_breach": 0.012
+  },
+  {
+   "tier": "INC",
+   "S": 1000,
+   "true_div_rate": 0.5,
+   "D": 500,
+   "n": 100,
+   "abort_if_failures_gt": 20,
+   "DETECT_power": 1.0,
+   "FALSE_NEG_pass_despite_breach": 0.0
+  }
+ ]
+}
