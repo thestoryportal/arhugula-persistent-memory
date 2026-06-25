@@ -1,0 +1,289 @@
+{
+  "experiment": "R11_medium_on_read",
+  "decision_id": "D-R11-1",
+  "class": "SPEC-COHERENCE / SPEC-GAP AUDIT (NOT a falsifier; matrix category 3; NOT promotable)",
+  "spec_file": "research_and_specs/llm-as-database-v1_2-integrated-spec.md",
+  "ts": 1782423883.239,
+  "read_result_surface_inventory": [
+    {
+      "field": "provenance_flag",
+      "values": [
+        "STALE",
+        "UNAVAILABLE"
+      ],
+      "spec": "\u00a726.3 (line 1871)",
+      "scope": "Layer-4 EXTERNAL-sourced facts only",
+      "carries_class": false,
+      "carries_medium": false,
+      "carries_severity": false,
+      "note": "advisory staleness of an external source; not content-class, not medium, not recoverability-severity"
+    },
+    {
+      "field": "coverage_quality",
+      "values": [
+        "(flag)"
+      ],
+      "spec": "IC4 (line 2130)",
+      "scope": "all query results",
+      "carries_class": false,
+      "carries_medium": false,
+      "carries_severity": false,
+      "note": "empty/low-coverage routing to doc ingestion; not class/medium/severity"
+    },
+    {
+      "field": "select_readback_exists",
+      "values": [
+        true,
+        false
+      ],
+      "spec": "\u00a78.9 L1 (line 391)",
+      "scope": "all committed edges",
+      "carries_class": false,
+      "carries_medium": false,
+      "carries_severity": false,
+      "note": "confirms the edge was written (existence); no class/medium/severity on the returned value"
+    }
+  ],
+  "off_read_mechanisms": [
+    {
+      "name": "CONTENT_CLASSIFICATION (write-time)",
+      "spec": "\u00a711.2/D42 (line 638)",
+      "phase": "write",
+      "covers": "class assignment + authoritative medium (Git vs .vindex)",
+      "on_read_path": false
+    },
+    {
+      "name": "class-differentiated compensation",
+      "spec": "\u00a711.7/D47 (line 690)",
+      "phase": "commit/compensation",
+      "covers": "severity asymmetry (structural=auto-revert Git; L4=retry x5, Git-revert needs human)",
+      "on_read_path": false
+    },
+    {
+      "name": "strong consistency / reads block, no stale-read fallback",
+      "spec": "\u00a711.3/D43 (line 642)",
+      "phase": "read-mount",
+      "covers": "PREVENTS steady-state read divergence (reads block during mount)",
+      "on_read_path": true,
+      "prevents_divergence": true,
+      "resolves_at_read": false
+    },
+    {
+      "name": "circuit-breaker -> READ_ONLY + originating_category",
+      "spec": "\u00a711.8/A8 (lines 706/2411)",
+      "phase": "fault",
+      "covers": "DIVERGED_STATE -> immediate system-wide trip; category for reset branch (INTEGRITY/CONSISTENCY/SECURITY)",
+      "on_read_path": false,
+      "system_wide": true,
+      "is_content_class": false
+    }
+  ],
+  "auth_medium_contract_under_test": {
+    "structural_entity": {
+      "content_classification": "structural",
+      "medium": "git",
+      "severity": "RECOVERABLE (Git is authoritative; re-read/restore from Git)"
+    },
+    "domain_concept": {
+      "content_classification": "layer4_domain",
+      "medium": "vindex",
+      "severity": "DATA_LOSS_RISK (.vindex authoritative; no Git ground truth for L4)"
+    },
+    "constraint_rule": {
+      "content_classification": "layer4_domain",
+      "medium": "vindex",
+      "severity": "DATA_LOSS_RISK + SAFETY (.vindex authoritative; a lost constraint is a silent safety gap)"
+    }
+  },
+  "per_class": [
+    {
+      "entity": "auth_module",
+      "entity_type": "structural_entity",
+      "content_classification": "structural",
+      "authoritative_medium_per_spec": "git",
+      "recoverability_severity_per_spec": "RECOVERABLE (Git is authoritative; re-read/restore from Git)",
+      "diverged_git_vs_vindex": {
+        "git": "src/auth/v2.py",
+        "vindex": "src/auth/v1.py",
+        "diverged": true
+      },
+      "read_observable_fields": {
+        "provenance_flag": null,
+        "coverage_quality": "OK",
+        "select_readback_exists": true
+      },
+      "provenance_flag_applies": false,
+      "axis_a_medium_on_read": {
+        "determinable_at_read": false,
+        "off_read": {
+          "derivation": "class = f(entity_type) via \u00a711.2/D42; entity_type mandated \u00a77.2/C4",
+          "prevention_of_divergence": {
+            "covers": true,
+            "mechanism": "strong consistency / reads block, no stale-read fallback",
+            "spec": "\u00a711.3/D43 (line 642)"
+          },
+          "note": "medium identification is derivable IF the (unspecified) query result returns entity_type; the 'wrong medium wins on read' FAILURE is separately foreclosed by D43 prevention."
+        },
+        "verdict": "DERIVABLE-IF-TYPE-RETURNED"
+      },
+      "axis_b_severity_on_read": {
+        "determinable_at_read": false,
+        "off_read": {
+          "derivation": "severity = \u00a711.7 class-function of content-class = f(entity_type); DERIVABLE IF the read returns entity_type",
+          "compensation_severity": {
+            "mechanism": "class-differentiated compensation",
+            "spec": "\u00a711.7/D47 (line 690)",
+            "phase": "commit/compensation"
+          },
+          "circuit_category": {
+            "mechanism": "circuit-breaker -> READ_ONLY + originating_category",
+            "spec": "\u00a711.8/A8 (lines 706/2411)",
+            "phase": "fault",
+            "system_wide": true,
+            "is_content_class": false
+          },
+          "note": "severity differentiation is specified at commit & fault, NOT at read; no read-result severity field (cf. \u00a726.3 provenance_flag exists but is L4-external-only). Coherent ONLY via type-derivation, which depends on the unspecified query-result schema."
+        },
+        "verdict": "DERIVABLE-IF-TYPE-RETURNED"
+      }
+    },
+    {
+      "entity": "OAuth2",
+      "entity_type": "domain_concept",
+      "content_classification": "layer4_domain",
+      "authoritative_medium_per_spec": "vindex",
+      "recoverability_severity_per_spec": "DATA_LOSS_RISK (.vindex authoritative; no Git ground truth for L4)",
+      "diverged_git_vs_vindex": {
+        "git": "RFC-6749-draft",
+        "vindex": "RFC-6749",
+        "diverged": true
+      },
+      "read_observable_fields": {
+        "provenance_flag": null,
+        "coverage_quality": "OK",
+        "select_readback_exists": true
+      },
+      "provenance_flag_applies": false,
+      "axis_a_medium_on_read": {
+        "determinable_at_read": false,
+        "off_read": {
+          "derivation": "class = f(entity_type) via \u00a711.2/D42; entity_type mandated \u00a77.2/C4",
+          "prevention_of_divergence": {
+            "covers": true,
+            "mechanism": "strong consistency / reads block, no stale-read fallback",
+            "spec": "\u00a711.3/D43 (line 642)"
+          },
+          "note": "medium identification is derivable IF the (unspecified) query result returns entity_type; the 'wrong medium wins on read' FAILURE is separately foreclosed by D43 prevention."
+        },
+        "verdict": "DERIVABLE-IF-TYPE-RETURNED"
+      },
+      "axis_b_severity_on_read": {
+        "determinable_at_read": false,
+        "off_read": {
+          "derivation": "severity = \u00a711.7 class-function of content-class = f(entity_type); DERIVABLE IF the read returns entity_type",
+          "compensation_severity": {
+            "mechanism": "class-differentiated compensation",
+            "spec": "\u00a711.7/D47 (line 690)",
+            "phase": "commit/compensation"
+          },
+          "circuit_category": {
+            "mechanism": "circuit-breaker -> READ_ONLY + originating_category",
+            "spec": "\u00a711.8/A8 (lines 706/2411)",
+            "phase": "fault",
+            "system_wide": true,
+            "is_content_class": false
+          },
+          "note": "severity differentiation is specified at commit & fault, NOT at read; no read-result severity field (cf. \u00a726.3 provenance_flag exists but is L4-external-only). Coherent ONLY via type-derivation, which depends on the unspecified query-result schema."
+        },
+        "verdict": "DERIVABLE-IF-TYPE-RETURNED"
+      }
+    },
+    {
+      "entity": "no_plaintext",
+      "entity_type": "constraint_rule",
+      "content_classification": "layer4_domain",
+      "authoritative_medium_per_spec": "vindex",
+      "recoverability_severity_per_spec": "DATA_LOSS_RISK + SAFETY (.vindex authoritative; a lost constraint is a silent safety gap)",
+      "diverged_git_vs_vindex": {
+        "git": "logs-only",
+        "vindex": "logs+db",
+        "diverged": true
+      },
+      "read_observable_fields": {
+        "provenance_flag": null,
+        "coverage_quality": "OK",
+        "select_readback_exists": true
+      },
+      "provenance_flag_applies": false,
+      "axis_a_medium_on_read": {
+        "determinable_at_read": false,
+        "off_read": {
+          "derivation": "class = f(entity_type) via \u00a711.2/D42; entity_type mandated \u00a77.2/C4",
+          "prevention_of_divergence": {
+            "covers": true,
+            "mechanism": "strong consistency / reads block, no stale-read fallback",
+            "spec": "\u00a711.3/D43 (line 642)"
+          },
+          "note": "medium identification is derivable IF the (unspecified) query result returns entity_type; the 'wrong medium wins on read' FAILURE is separately foreclosed by D43 prevention."
+        },
+        "verdict": "DERIVABLE-IF-TYPE-RETURNED"
+      },
+      "axis_b_severity_on_read": {
+        "determinable_at_read": false,
+        "off_read": {
+          "derivation": "severity = \u00a711.7 class-function of content-class = f(entity_type); DERIVABLE IF the read returns entity_type",
+          "compensation_severity": {
+            "mechanism": "class-differentiated compensation",
+            "spec": "\u00a711.7/D47 (line 690)",
+            "phase": "commit/compensation"
+          },
+          "circuit_category": {
+            "mechanism": "circuit-breaker -> READ_ONLY + originating_category",
+            "spec": "\u00a711.8/A8 (lines 706/2411)",
+            "phase": "fault",
+            "system_wide": true,
+            "is_content_class": false
+          },
+          "note": "severity differentiation is specified at commit & fault, NOT at read; no read-result severity field (cf. \u00a726.3 provenance_flag exists but is L4-external-only). Coherent ONLY via type-derivation, which depends on the unspecified query-result schema."
+        },
+        "verdict": "DERIVABLE-IF-TYPE-RETURNED"
+      }
+    }
+  ],
+  "aggregate": {
+    "axis_a_medium_on_read": [
+      "DERIVABLE-IF-TYPE-RETURNED"
+    ],
+    "axis_b_severity_on_read": [
+      "DERIVABLE-IF-TYPE-RETURNED"
+    ]
+  },
+  "coverage_holes": {
+    "structural_entity": "no read-result quality field at all (provenance_flag is L4-external-only)",
+    "domain_concept_genesis": "Genesis/Architect-authored L4 (not external) -> provenance_flag N/A -> no read-result quality field",
+    "domain_concept_external": "provenance_flag applies (STALE/UNAVAILABLE) -> staleness surfaced, but still no medium/recoverability-severity field",
+    "constraint_rule": "same as L4 domain; a lost/diverged constraint is silent at read (no severity surface) -> safety-relevant gap"
+  },
+  "self_consistency_note_NOT_validation": {
+    "warning": "This is NOT empirical validation. The runner's output is fully determined by the hardcoded carries_class/medium/severity=False flags on READ_RESULT_SURFACE, which are MY encoding of MY spec-reading. A 'match' here = my encoding agreeing with my reading (a documentation echo), not an independent check. The finding's entire validity = the COMPLETENESS of the spec read (falsifiable by citing an omitted read-result field).",
+    "a_observed": [
+      "DERIVABLE-IF-TYPE-RETURNED"
+    ],
+    "b_observed": [
+      "DERIVABLE-IF-TYPE-RETURNED"
+    ]
+  },
+  "read_return_shape_specified": false,
+  "verdict": "axis-(a) medium/class-on-read = DERIVABLE-IF-TYPE-RETURNED (+ divergence-failure foreclosed by D43 prevention); axis-(b) severity-on-read = DERIVABLE-IF-TYPE-RETURNED. Net: R11 medium-AUTHORITY is coherent \u2014 divergence is prevented (D43) and class/severity are DERIVABLE from the \u00a77.2/C4-mandated entity_type via \u00a711.2/\u00a711.7. The ONLY residual is that the spec ships no query-result schema, so it does not state the read RETURNS the type (or a derived class/severity field). That residual is an INSTANCE of the already-recorded root gap ('no formal query-language section'), NOT a new condition -> do not double-count in F1. Recommendation: pin the query-result schema to include entity_type. Prototyped-not-empirical; characterization; NOT promotable.",
+  "root_gap_attribution": "R11 is an INSTANCE of the ONE already-recorded root gap, NOT a set of new independent gaps. Matrix already records: 'the spec specifies read requirements (exact/reverse/traverse) but ships NO formal query-language section \u2014 the least-specified production surface.' Because the read-RETURN shape is unspecified, R11's medium-on-read and severity-on-read questions cannot be answered from spec text -> they restate that gap at the medium/severity altitude. F1 MUST NOT double-count these as new conditions.",
+  "spec_observations": [
+    "O-R11-1: NO query-result schema. The read-RETURN shape is unspecified (\u00a78.9 SELECT = existence read-back only; \u00a78.5 .larql is the WRITE format). => whether a read returns entity_type, class, medium, or severity is simply not stated.",
+    "O-R11-2: IF the (unspecified) query result returns the typed entity (the natural shape, since \u00a77.2/C4 MANDATES every entity is typed), THEN content-class = f(entity_type) via \u00a711.2/D42, and severity = the SAME \u00a711.7 class-function -> BOTH axes become COHERENT-via-derivation. The residual is therefore narrow: the spec should pin the query-result schema to include entity_type (or a derived class/severity convenience field). This is a clarification, not a deep under-specification.",
+    "O-R11-3: ONE read-result quality field DOES exist (\u00a726.3 provenance_flag STALE/UNAVAILABLE) but is scoped to L4-EXTERNAL facts only -> the pattern of surfacing read-quality exists; structural + Genesis-authored-L4 + constraint facts get no analogous flag. A diverged/lost constraint_rule is silent at read (safety-adjacent; ties to C8/R15) UNLESS class/severity is derived from a returned type."
+  ],
+  "what_is_coherent": [
+    "C-R11-1: 'wrong medium wins on a read divergence' is FORECLOSED BY PREVENTION (\u00a711.3/D43 strong consistency: reads block during mount, no stale-read fallback) + DIVERGED_STATE -> immediate system-wide circuit trip (\u00a711.8). The spec answers the failure mode by prevention, not by a read-time medium resolver -> no tautological 'our resolver picks right' claim is needed.",
+    "C-R11-2: content-class authoritative-medium IS fully specified at write/commit (\u00a711.2/\u00a711.7) -> R11 is correctly medium-delegated (matrix category 3). class+severity are DERIVABLE from the mandated entity_type. The only residual is whether the query-result schema (unspecified) surfaces/returns it."
+  ],
+  "scope_caveats": "Spec-coherence audit of v1.2 read surface; CPU-only; no model; 3 content-classes, injected divergence. NOT a falsifier, NOT a CP-class delivery, NOT promotable. Output is a documentation echo of the spec reading, not an independent check (see self_consistency_note). Falsifiable by a reviewer citing a read-result field / query-result schema clause omitted here."
+}

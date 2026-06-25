@@ -98,6 +98,11 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Method:** spec-read end-to-end (§8.9/8.10/11.2/11.3/11.5/11.14) + exact-hypergeometric sampling-power calc — analysis, no experiment.
 - **Verdict:** **RESOLVED-BY-SPEC-READ + CORRECTION.** The spec MANDATES it (C-OC3: CompactionProbeReport pre-Phase-2, CORE=1.0 abort, atomic 2PC) — the earlier 'unspecified' claim is retracted. Open (analysis): (A) non-CORE `behavior_fail` un-surfaced at read by the tier-blind bit (R13 split reappears); (B) non-CORE sampling-power deficit near thresholds (CORE protected); (C) sub-batched-compaction livelock = prediction→C1-true-scale, NOT concluded. F1 readiness unchanged.
 
+### C-R11 — Content-scoped authoritative-medium & severity ON READ (R11, D-R11-1)
+- **Hypothesis (spec-coherence, NOT a falsifier):** does the spec's read surface determine (a) authoritative-medium/content-class and (b) divergence severity AT READ?
+- **Criterion (frozen):** per content-class under injected Git↔.vindex divergence, score COHERENT / DELEGATED-COHERENT / DERIVABLE-IF-TYPE-RETURNED / SPEC-GAP using ONLY the cited read-surface inventory. Symmetric (a missed read-result field flips toward COHERENT).
+- **Verdict:** **COHERENT via derivation + prevention.** (a) wrong-medium-on-read foreclosed by §11.3/D43 strong-consistency prevention + §11.8 system-wide trip; (b) class=f(entity_type) §11.2 and severity=§11.7's class-function → DERIVABLE-IF-TYPE-RETURNED (§7.2/C4 mandates typed entities). Advisor corrected a first-pass 3-gap over-claim (silently assumed reads don't return type): read-RETURN shape is unspecified → R11 restates the ONE known root gap ('no formal query-language section'), NOT new F1 conditions (don't double-count). Honesty: runner output = documentation echo of the spec read, NOT an independent check. Spec rec: pin the query-result schema to return entity_type. NOT a falsifier (matrix ③), NOT promotable.
+
 ### C-R1-bit — Commit-bit SELECT read-back, commit-time (R1-bit, D-R1-2)
 - **Hypothesis:** recording persistence in a G1 2PC commit-status bit (not weights) delivers the §8.9 L1 read-back, bleed-immune.
 - **Criterion (frozen, CP-class):** D1 LANDED 8/8 · D2 LEAK NULL 6/6 · D3 REJECTED NULL 4/4 + DROPPED NULL 2/2 via 2PC-abort · D4 ≥1 proxy-TRIPLE→bit-NULL row · D5 chain intact + no bypass.
