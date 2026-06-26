@@ -90,3 +90,4 @@ It re-grounds the whole "LLM-as-Database" program: goal, the months-long experim
 - [AnyEdit name collision: DCDmllm is image editing](anyedit-name-collision-dcdmllm-is-image-editing.md) — EV-6: `DCDmllm/AnyEdit` and RefEdit are image-editing name collisions; C10 LLM target remains `jianghoucheng/AnyEdit`.
 - [AnyEdit gate upgraded by μKE, COIN, and SUIT](anyedit-gate-upgraded-by-muke-coin-suit.md) — EV-6: AnyEdit remains first, but prereg must include window-dependency, context-reliance, and locality/over-edit diagnostics.
 - [NeuralDB and SCR keep side-store pressure live](neuraldb-scr-keep-side-store-pressure-live.md) — EV-6: gated KV / external contextual updating strengthen the accept-bounded hybrid branch for F1.
+- [AnyEdit default window collapses C10 A7](anyedit-default-window-collapses-c10-a7.md) — D-C10h viability audit: upstream `window_size=50` is one window for 4-6 token A7 values; C10 needs a small-window primary test.
