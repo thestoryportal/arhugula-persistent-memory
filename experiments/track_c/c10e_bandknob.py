@@ -14,10 +14,11 @@ from memit.memit_main import apply_memit_to_model, get_cov, get_context_template
 from memit.compute_z import compute_z, get_module_input_output_at_words
 from memit.compute_ks import compute_ks
 
-# C10e — D-C10e-bandknob.
-# Cheap resolver before AnyEdit: compare baseline band [4-8] vs later band [8-12]
-# on the hard realistic A7 coined-coined values from C10d. Canonical fit is the
-# W-realization diagnostic; held-out paraphrase full-sequence remains the behavioral readout.
+# C10e/C10f — cheap C10 W-realization recipe-knob harness.
+# Defaults reproduce D-C10e-bandknob: baseline [4-8] vs later [8-12].
+# Env overrides let C10f compare baseline [4-8] vs widened [4-12] without
+# duplicating the vetted evaluator. Canonical fit is diagnostic; held-out
+# paraphrase full-sequence remains the behavioral readout.
 
 ID = os.environ.get("MODEL_ID", "Qwen/Qwen2.5-3B")
 REV = os.environ.get("MODEL_REV", "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
@@ -25,8 +26,12 @@ LN2 = math.log(2.0)
 NULL_THRESH = 0.005
 L2 = 1.0
 HP_BASE = f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"
-HP_BAND = f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams_band812.json"
+HP_BAND = os.environ.get("HP_CANDIDATE", f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams_band812.json")
 OUT = os.environ.get("OUT", f"{LLMDB_ROOT}/results/c10e_bandknob.json")
+CANDIDATE_NAME = os.environ.get("CANDIDATE_NAME", "later_band812")
+DECISION_ID = os.environ.get("DECISION_ID", "D-C10e-bandknob")
+PREREG = os.environ.get("PREREG", f"{LLMDB_ROOT}/docs/C10_BANDKNOB_PREREG.md")
+RUN_LABEL = os.environ.get("RUN_LABEL", "C10 W-realization band-knob test")
 
 tok = AutoTokenizer.from_pretrained(ID, revision=REV)
 if tok.pad_token is None:
@@ -329,35 +334,42 @@ def run_recipe(name, hparam_path):
 
 def verdict(results):
     b = results["recipes"]["baseline"]["arms"]["A7_coined_coined"]
-    k = results["recipes"]["later_band812"]["arms"]["A7_coined_coined"]
+    k = results["recipes"][CANDIDATE_NAME]["arms"]["A7_coined_coined"]
     a1b = results["recipes"]["baseline"]["arms"]["A1_single"]["para_full"]
-    a1k = results["recipes"]["later_band812"]["arms"]["A1_single"]["para_full"]
+    a1k = results["recipes"][CANDIDATE_NAME]["arms"]["A1_single"]["para_full"]
     a2b = results["recipes"]["baseline"]["arms"]["A2_coherent2"]["para_full"]
-    a2k = results["recipes"]["later_band812"]["arms"]["A2_coherent2"]["para_full"]
+    a2k = results["recipes"][CANDIDATE_NAME]["arms"]["A2_coherent2"]["para_full"]
     law_ok = all(results["recipes"][r]["law5_gate"]["ok"] for r in results["recipes"])
     invalid_reasons = []
     if not law_ok:
         invalid_reasons.append("LAW#5 failed")
     if not (b["canon_full"] <= 55 and b["para_full"] <= 35):
         invalid_reasons.append("baseline A7 did not reproduce failure envelope")
-    if min(a1b, a1k) < 80:
-        invalid_reasons.append("A1 sanity below 80 in at least one recipe")
-    if min(a2b, a2k) < 80:
-        invalid_reasons.append("A2 coherent2 below 80 in at least one recipe")
+    if a1b < 80:
+        invalid_reasons.append("baseline A1 sanity below 80")
+    if a2b < 80:
+        invalid_reasons.append("baseline A2 coherent2 below 80")
     dc = round(k["canon_full"] - b["canon_full"], 1)
     dp = round(k["para_full"] - b["para_full"], 1)
+    tradeoff = min(a1k, a2k) < 80
     if invalid_reasons:
         label = "INVALID"
         text = "; ".join(invalid_reasons)
-    elif k["canon_full"] >= 80 and k["para_full"] >= 50:
-        label = "BEHAVIORAL_KNOB_RESCUE_PARTIAL_NOT_CLOSURE"
-        text = "later band restores canonical fit and partially rescues held-out read expression; still below the 85% C10 usability gate"
+    elif tradeoff:
+        label = "TRADEOFF_NOT_CLEAN_RESCUE"
+        text = "candidate recipe damages A1/A2 controls below 80; valid negative/tradeoff, not a clean C10 rescue"
+    elif k["para_full"] >= 85:
+        label = "USABILITY_RESCUE_LEAD_NOT_PROMOTED"
+        text = "candidate recipe reaches the C10 usability bar in this scoped run; requires replication and downstream checks before closure"
+    elif dp >= 25 and k["para_full"] >= 40:
+        label = "BEHAVIORAL_LEAD_NOT_CLOSURE"
+        text = "candidate recipe materially improves held-out read expression but remains below the 85% C10 usability gate"
     elif dc >= 20 and k["para_full"] < 50:
         label = "W_REALIZATION_ONLY"
-        text = "later band improves canonical W-realization but held-out behavioral read expression remains below partial rescue"
-    elif (dc < 20 and dp < 15) or k["canon_full"] < 60:
+        text = "candidate recipe improves canonical fit but held-out behavioral read expression remains below partial rescue"
+    elif dp < 15 and k["para_full"] < 40 and k["canon_full"] < 80:
         label = "NO_MATERIAL_KNOB_RESCUE"
-        text = "later band does not materially solve the C10 W-realization/read-expression failure"
+        text = "candidate recipe does not materially solve the C10 held-out read-expression failure"
     else:
         label = "MIXED_PARTIAL_LEAD"
         text = "valid but mixed recipe lead; C10 remains open"
@@ -365,8 +377,9 @@ def verdict(results):
         "label": label,
         "text": text,
         "baseline_A7": b,
-        "later_band812_A7": k,
+        f"{CANDIDATE_NAME}_A7": k,
         "delta_A7": {"canon_full_pp": dc, "para_full_pp": dp},
+        "candidate_control_min_para_full": min(a1k, a2k),
     }
 
 
@@ -380,16 +393,16 @@ def main():
         return 0
 
     results = {
-        "decision_id": "D-C10e-bandknob",
-        "prereg": f"{LLMDB_ROOT}/docs/C10_BANDKNOB_PREREG.md",
-        "run": "C10 W-realization band-knob test",
+        "decision_id": DECISION_ID,
+        "prereg": PREREG,
+        "run": RUN_LABEL,
         "class": "FALSIFIER-resolver / recipe-knob characterization; NOT promotable",
         "scope": "Qwen2.5-3B / AlphaEdit / capital / A1-A2-A7 / N=24 / 1-seed / HF-fp16",
         "stimulus": {"CANON": CANON, "PTEST": PTEST, "FICTION": FICTION, **{f"V_{k}": v for k, v in ARMS.items()}},
         "base_report": base_report,
         "recipes": {
             "baseline": run_recipe("baseline", HP_BASE),
-            "later_band812": run_recipe("later_band812", HP_BAND),
+            CANDIDATE_NAME: run_recipe(CANDIDATE_NAME, HP_BAND),
         },
     }
     results["verdict"] = verdict(results)

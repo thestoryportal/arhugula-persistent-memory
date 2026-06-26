@@ -202,5 +202,17 @@
     "decision_id": "D-C10e-bandknob",
     "script_exists": true,
     "result_exists": true
+  },
+  {
+    "id": "C10-band412",
+    "track": "track_c",
+    "hypothesis": "does widened [4,12] edit band rescue hard project-coined multi-word values before AnyEdit?",
+    "script": "experiments/track_c/c10f_band412.py",
+    "result": "results/c10f_band412.json",
+    "corpus": "CORPUS/38",
+    "status": "NO MATERIAL KNOB RESCUE; not promotable",
+    "decision_id": "D-C10f-band412",
+    "script_exists": true,
+    "result_exists": true
   }
 ]

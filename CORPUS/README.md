@@ -35,3 +35,5 @@ In-weight, MEMIT-class knowledge editing was validated as a write engine for the
 - ⚠️ Security (write authz/audit/signing), validation pipeline, full query schema, operator-CPU: **UNTESTED**. (Gaps.)
 
 - **37 — C10 W-realization band-knob (D-C10e-bandknob ⟨D-C10e-bandknob@82b491dc⟩, 2026-06-26)** = NO MATERIAL KNOB RESCUE: later `[8,12]` worsens A7 para_full 13.9 to 5.6 while canon_full only 29.2 to 45.8; A1/A2 controls high; pure later-band W-realization eliminated, broader knobs and AnyEdit remain open.
+
+- **38 — C10 widened-band [4,12] (D-C10f-band412 ⟨D-C10f-band412@d93d6a19⟩, 2026-06-26)** = NO MATERIAL KNOB RESCUE: wide `[4,12]` worsens A7 para_full 11.1 to 6.9 while canon only 29.2 to 41.7; A1/A2 controls remain viable at 90.3; C10 remains open.

@@ -1,18 +1,62 @@
 {
   "_doc": "CURRENCY layer of the close-out gate — fingerprints for NARRATIVE result references (per the 2026-06-21 reconciled design: generate-what's-mechanical via tools/render_state.py + docs/program_state.json; FINGERPRINT-what's-narrative here; warn on unregistered). Each key maps to a canonical SOURCE (file, optional anchored span); the gate hashes it (stamped ⟨KEY@hex⟩ markers stripped first) and requires '<KEY>@<8hex>' wherever the key is referenced. Source change -> hash change -> dependents read STALE. Cmds: `closeout_check.py <D-ID>` (presence+currency, active close-out); `--currency <KEY>`; `--audit` (all); `--fp <KEY>`. Keys absent here = presence-only.",
   "_not_fingerprinted": "STRUCTURED program STATUS (F1 scorecard, current-position/next-actions, governance CP1-G3 status, §0.3/§10/§12 tables, dashboards) is NOT fingerprinted — it is GENERATED from docs/program_state.json via tools/render_state.py into <!-- BEGIN GENERATED:KEY --> blocks, auto-synced (the real auto-update). Stable decision-ledger D-IDs (D-SCOPE-1, D-S242/S243 recipe locks) are presence-only.",
-  "D-D1-2": {"source": "docs/SPEC_8_7_AMENDMENT_DRIFT_CONCENTRATION.md", "anchor_start": "→ §8.7 OPERATIONAL GUARDRAIL", "anchor_end": "## 5. Honest scope", "what": "§8.7 numeric guardrail k<=1 + mixed-load + seed-2"},
-  "D-D1-1": {"source": "CORPUS/22_D1_CAPACITY_LAW.md", "what": "D1 capacity law: drift = per-relation concentration, not global edge-count"},
-  "D-B1-2": {"source": "CORPUS/22_D1_CAPACITY_LAW.md", "what": "D1 concentration law model-size term (REPLICATES on 7B; model-general)"},
-  "D-A1-1": {"source": "CORPUS/14_A1_BATCH_VS_SEQUENTIAL.md", "what": "batch joint-solve ELIMINATES cross-entity corruption (100->100% @N<=100)"},
-  "D-A2-1": {"source": "CORPUS/15_A2_RELATION_BALANCED_SENTINELS.md", "what": "in-solve relation-balanced sentinels halve but don't arrest incremental corruption"},
-  "D-A2b-1": {"source": "CORPUS/16_A2b_REFRESH_KS.md", "what": "K_S staleness RULED OUT (per-edit refresh doesn't reduce cross-entity corruption)"},
-  "D-B3-1": {"source": "CORPUS/17_B3_QUANTIZATION_SURVIVAL.md", "what": "A1-clean batch store survives real Q4_K_M (edits 100% vs native 97.4%)"},
-  "D-E1-1": {"source": "CORPUS/18_E1_DEPLOYMENT_SERVING.md", "what": "CPU deployment loop via llama.cpp+Q4_K_M; LARQL gguf-to-vindex falsified for Qwen2.5"},
-  "D-B1-1": {"source": "CORPUS/19_B1_SIZE_DENSITY.md", "what": "A1 batch-clean does NOT fully replicate at 7B (100->91.7%); scopes A1 to 3B/N<=100"},
-  "D-C2-1": {"source": "CORPUS/20_C2_KEYING_DEPTH_MAP.md", "what": "relation-keying pruned; same-relation key collinearity U-shaped, min L8-12"},
-  "D-C2band-1": {"source": "CORPUS/21_C2BAND_FALSIFIER.md", "what": "band [8-12] = real-but-underpowered redistribution, NOT promoted"},
-  "D-G6-1": {"source": "CORPUS/13_G6_1_SCALE_OF_N.md", "what": "first empirical falsifier: cross-entity read corruption scales with N (100->42%)"},
-  "D-C10e-bandknob": {"source": "CORPUS/37_C10_BANDKNOB.md", "what": "C10 band-knob: later [8,12] does not materially rescue hard coined-coined values; para_full worsens"}
-
+  "D-D1-2": {
+    "source": "docs/SPEC_8_7_AMENDMENT_DRIFT_CONCENTRATION.md",
+    "anchor_start": "→ §8.7 OPERATIONAL GUARDRAIL",
+    "anchor_end": "## 5. Honest scope",
+    "what": "§8.7 numeric guardrail k<=1 + mixed-load + seed-2"
+  },
+  "D-D1-1": {
+    "source": "CORPUS/22_D1_CAPACITY_LAW.md",
+    "what": "D1 capacity law: drift = per-relation concentration, not global edge-count"
+  },
+  "D-B1-2": {
+    "source": "CORPUS/22_D1_CAPACITY_LAW.md",
+    "what": "D1 concentration law model-size term (REPLICATES on 7B; model-general)"
+  },
+  "D-A1-1": {
+    "source": "CORPUS/14_A1_BATCH_VS_SEQUENTIAL.md",
+    "what": "batch joint-solve ELIMINATES cross-entity corruption (100->100% @N<=100)"
+  },
+  "D-A2-1": {
+    "source": "CORPUS/15_A2_RELATION_BALANCED_SENTINELS.md",
+    "what": "in-solve relation-balanced sentinels halve but don't arrest incremental corruption"
+  },
+  "D-A2b-1": {
+    "source": "CORPUS/16_A2b_REFRESH_KS.md",
+    "what": "K_S staleness RULED OUT (per-edit refresh doesn't reduce cross-entity corruption)"
+  },
+  "D-B3-1": {
+    "source": "CORPUS/17_B3_QUANTIZATION_SURVIVAL.md",
+    "what": "A1-clean batch store survives real Q4_K_M (edits 100% vs native 97.4%)"
+  },
+  "D-E1-1": {
+    "source": "CORPUS/18_E1_DEPLOYMENT_SERVING.md",
+    "what": "CPU deployment loop via llama.cpp+Q4_K_M; LARQL gguf-to-vindex falsified for Qwen2.5"
+  },
+  "D-B1-1": {
+    "source": "CORPUS/19_B1_SIZE_DENSITY.md",
+    "what": "A1 batch-clean does NOT fully replicate at 7B (100->91.7%); scopes A1 to 3B/N<=100"
+  },
+  "D-C2-1": {
+    "source": "CORPUS/20_C2_KEYING_DEPTH_MAP.md",
+    "what": "relation-keying pruned; same-relation key collinearity U-shaped, min L8-12"
+  },
+  "D-C2band-1": {
+    "source": "CORPUS/21_C2BAND_FALSIFIER.md",
+    "what": "band [8-12] = real-but-underpowered redistribution, NOT promoted"
+  },
+  "D-G6-1": {
+    "source": "CORPUS/13_G6_1_SCALE_OF_N.md",
+    "what": "first empirical falsifier: cross-entity read corruption scales with N (100->42%)"
+  },
+  "D-C10e-bandknob": {
+    "source": "CORPUS/37_C10_BANDKNOB.md",
+    "what": "C10 band-knob: later [8,12] does not materially rescue hard coined-coined values; para_full worsens"
+  },
+  "D-C10f-band412": {
+    "source": "CORPUS/38_C10_BAND412.md",
+    "what": "C10 widened [4,12] band recipe does not materially rescue hard coined-coined values; para_full worsens"
+  }
 }
