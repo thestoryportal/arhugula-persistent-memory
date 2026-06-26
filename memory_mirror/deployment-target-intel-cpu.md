@@ -27,3 +27,11 @@ Related: [[gemma4-rung4-candidate]] (E4B/E2B small + CPU-friendly), [[easyedit-a
 
 ## DEPLOYMENT TARGET UPDATE (2026-06-18)
 Operator may deploy on a REMOTE GPU, not necessarily the local Intel CPU (local may be inadequate). => CPU-only constraint RELAXED; the RunPod GPU box is a valid proxy for BOTH testing and a likely deployment shape. The viability checkpoints (CP1 governed in-pipeline MEMIT compile, CP2 LARQL query-schema SELECT/DELETE, CP3 MEMIT-compliance) and gaps G1-G3/G6/G7 are POD-RUNNABLE NOW — they do NOT require the operator's local machine. Only a final "runs on the actually-chosen deployment hardware" check is hardware-specific (contingent; may be pod-equivalent if remote GPU). The earlier "go local / stop" framing was too strong — continue on the pod.
+
+## DEPLOYMENT TARGET RE-FIXED + HARDWARE SPEC'd (2026-06-26)
+The 2026-06-18 "maybe remote GPU" relaxation is SUPERSEDED: as of 2026-06-25 (D-SCOPE-1) the target is FIXED again = **local Intel CPU + batch writes** (re-Genesis model: edit offline on GPU → COMPILE → serve on CPU). **Concrete machine (operator-stated 2026-06-26): 2 GHz quad-core Intel Core i5, 16 GB 3733 MHz LPDDR4X** — reads as a 2020 13″ Intel MacBook Pro.
+
+**How to apply (compute locality — see `docs/F1_COMPUTE_BUDGET.md` §2b):** the boundary is "does the step EDIT weights or not," not GPU-vs-CPU.
+- **Edit/write (MEMIT/AlphaEdit float64 solve + covariance)** = stays on the RunPod 4090. The only genuinely GPU-bound work.
+- **Everything else moves local:** governance/security/index (C2/C5/C6/C7) are torch-FREE pure Python (verified: g1/g2/g3 scripts import no torch; only cp1 loads the model for its write step) → run on the i5 today. Read/serve/probe science runs against a shipped edited model.
+- **On 16 GB / 4 cores: use the Q4_K_M GGUF + llama.cpp path (~2 GB), NOT transformers fp16 (3B fp16 ≈ 8–10 GB resident → too tight, risks swap).** The GGUF is also the real deployment artifact (B3 PASS: serves edits 100% on CPU). Moving read/serve validation local CLOSES the open "real-Intel-CPU serving validation" gap (E1 was a pod-CPU proxy).

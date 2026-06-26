@@ -188,3 +188,97 @@ the MEMIT write-engine designation, `.vindex` overlay, semantic/syntactic partit
 protocol cited as the evidenced ~12–18%, and the ceremony/trust chain, scope-hash propagation,
 epsilon calibration, Dependency-Hold lifecycle, and Ledger retention/archive cited as the unevidenced
 ~82–88%. See §5 for why this percentage is methodologically invalid.
+
+═══════════════════════════════════════════════════════════════════════
+
+# PART B — Assessment of the SECOND InfraNodus run (2026-06-26): "5 determining experiments + falsification verdict"
+
+> **What this is:** a critique of a *distinct* InfraNodus output, run this time with the **full git
+> repo** attached as context (not just the spec). It proposed 5 "must-run" experiments in two tiers
+> ("Spec Lives or Dies" / "Protocol Viability") plus a falsification claim ("if #1 and #3 both fail
+> the spec isn't implementable"). Assessed against the same authoritative sources (`CORPUS/00`+`03`,
+> `EXPERIMENT_RUNBOOK.md` §0.3, `docs/F1_DETERMINATION.md`). Advisor-checked (Opus) before writing.
+
+## B0. The full repo didn't change the tool's nature
+
+Even with the repo attached, InfraNodus builds a **co-occurrence / betweenness graph over the repo as
+text**. It detects where discourse is *dense vs thin* and which terms chain with high betweenness. It
+**cannot read the status ledger's semantics** — it can't tell a `PROVEN` row from an `OPEN MUST-FIX`
+one. So it weights proposals by *textual prominence*, not *experimental status*. The clean line:
+**its topology reads are legitimate; its experiment list and falsification verdict are not** —
+crossing from "here's a thin region" to "here's the experiment that kills the spec" requires the
+PROVEN/OPEN awareness it structurally lacks ([[infranodus-discourse-lens-not-coverage-tool]]).
+
+## B1. The decisive tell — it omits C10 entirely
+
+The program has exactly **one** condition currently labeled `FALSIFIER FIRED / OPEN MUST-FIX` *on the
+critical path for the fixed deployment target* (`local Intel CPU + batch`): **C10 multi-token value
+realization** (D-C10-1; D-C10b-residual 2026-06-26 — realistic project-coined multi-word values
+express at **19–31%** held-out vs an 85% gate). It appears **nowhere** in this run's "Spec Lives or
+Dies Here" list. If the list were status-weighted, C10 would be #1; "multi-token" is just a
+low-betweenness term in the corpus. **Its absence is the thesis** — the single cleanest proof of
+state-blindness. Everything below is corroboration.
+
+## B2. The five proposals vs the ledger
+
+Verdict key: **OPEN/MIS-FRAMED** = real cell, but stated as un-started when it's partial · **DONE** =
+already characterized · **CLOSED-FOR-SCOPE** = demonstrated, residual is narrow.
+
+| # | Proposal | Actual status (ledger) | Verdict |
+|---|---|---|---|
+| 1 | 7B numeric threshold transfer (OQ-W1) | **Partial AND descoped.** B1 model-size term (D-B1-2): concentration law is *model-general* on 7B; numeric threshold `UNRESOLVED` — blocker is **instrument variance** (~50pp run-to-run swamps the ~11.5pp signal), not absence of data. **Critically: C4 governs the *incremental* drift contract, which DROPPED OFF the critical path when the deployment target was fixed to `batch re-Genesis`** (no accumulation between compactions; F1 §3 re-scope). | **Off-critical-path for the fixed target — yet ranked #1 "lives or dies."** The sharpest possible illustration of state-blindness: the tool elevated a condition the program *descoped*. = condition **C4** (open, incremental-path-only). |
+| 2 | compute_z inflation isolation (CORPUS/17) | **Done.** Margin confound named (CORPUS/21); C10 z-probe *directly* measured it — `compute_z` hits 0.99 for all classes → "NOT a compute_z knob." Program already switched the binding metric to held-out paraphrases to avoid leaning on it. | **Solved-as-methodology.** Good instinct, already internalized. Not a falsifier. |
+| 3 | key collinearity under batch | **Observed, more nuanced.** Single-token subjects: N=50/100 batch stays clean (ΔW 207/294). Multi-token subjects: key-collinear → ill-conditioned solve → ΔW blow-up → garbage (the N=2000 collapse, D-C1TS-1). AlphaEdit null-space is the existing mitigation. | **Real axis, wrong conclusion.** Fails *loudly* (garbage), not "silently"; clean substrate doesn't collapse at batch. |
+| 4 | cross-session persistence round-trip | **Closed-for-scope.** Behavioral round-trip demonstrated: B3 edit → Q4_K_M → GGUF → llama.cpp reload → 100% expression. Bit-repro is a *declared non-requirement* (§8.10). Residual = G5 real-Intel-CPU. | **Lowest priority.** Largely answered; genuine residual is hardware (G5). |
+| 5 | adversarial load on auth ceremony | **Convergent triangulation.** C5 governance = prototyped-not-empirical; C6 = red-teamed-1-mechanism (D-C6L-1 found a *real* gap: ledger rewrite + truncation undetected). | **Triangulation, not a find.** A discourse lens independently landing on an already-named soft spot = mild reassurance. = conditions **C5/C6**. |
+
+## B3. The central falsification claim is wrong on its axis
+
+> "If #1 and #3 both fail — thresholds don't transfer to 7B AND keys collapse under batch — the spec
+> isn't implementable, because the numeric and structural layers are coupled in a way the spec denies."
+
+Two defects:
+
+1. **A numeric↔structural coupling already occurred and was absorbed by amendment, not spec-death.**
+   D1 found the drift *predictor* must be relation-structure-aware (global `edge_count_since_anchor`
+   is insufficient) → §8.7 was amended (operator-approved) and the spec survived as
+   not-ready-with-conditions. So "if coupled, the spec dies" is contradicted by what happened.
+   *(Altitude note: D1's coupling — predictor-must-be-structure-aware — is not literally InfraNodus's
+   coupling — threshold-constants-feed-protocol-ordering. The meta-point holds; the specific
+   mechanisms differ. Don't claim D1 "precisely refutes" the claim.)*
+2. **"Auth windows and retention cascade from those constants" conflates a real thread with an
+   invented one.** Compaction/anchor *cadence* genuinely depends on the drift constants (the §8.7
+   `k≤1` re-anchor guardrail) — that thread is real. But the auth ceremony (Ed25519 / CeremonyToken)
+   does **not** cascade from drift thresholds — that's a co-occurrence artifact, the lens reading
+   `ceremony→key→auth→threshold` proximity in the text as a causal chain.
+
+## B4. The shape of the miss (Part B)
+
+Same signature as Part A. This run correctly mapped **topology** — 7B-transfer is genuinely thin (#1),
+governance/security is genuinely under-stressed (#5) — both convergent with the program's own
+conditions register. But it **mis-framed 3 of 5** as un-started when they're partial/done/closed,
+**invented one causal coupling**, built a **spec-killing verdict on the wrong axis**, and **missed
+C10**, the one fired falsifier on the deployment-target critical path.
+
+**Net:** legitimate topology, illegitimate verdicts. The one item worth lifting into the queue is
+#1's reframing — a useful external nudge that 7B transfer is still visibly unresolved — but the work
+it needs is a *lower-variance instrument* (determinism), the cheaper lever the program already knows.
+**Do not reprioritize off this run.** Canonical "what's next" = `EXPERIMENT_RUNBOOK.md` §0.3, unchanged.
+
+## B5. Appendix — the source InfraNodus output being assessed (Part B)
+
+> Verbatim, the 5-experiment + falsification response.
+
+**Must-Run (Spec Lives or Dies Here):** (1) *7B Numeric Threshold Transfer* — run MEMIT edits on a 7B
+model, measure drift, compare against provisional OQ-W1 thresholds; if off by >~2× the ceremony chain
+breaks because auth windows and retention timings cascade from those constants. (2) *Compute_z
+Inflation Isolation* — CORPUS/17 flags MEMIT's compute_z inflates edited-fact margins; run identical
+probes native vs post-edit, same prompts/temp; the delta is the confound magnitude. (3) *Key
+Collinearity Under Batch Pressure* — scale batch to 50+ edits, check covariance condition numbers; if
+keys go collinear the orchestrator can't distinguish edits and persistent memory fails silently.
+**Must-Run (Protocol Viability):** (4) *Cross-Session State Persistence Round-Trip* — serialize memory
+state, kill process, reload, re-probe; if fidelity drops below contract threshold persistent memory is
+decorative. (5) *Adversarial Load on Auth Ceremony* — inject malformed/out-of-order ceremony messages,
+verify fail-safe rather than silent corrupt-state acceptance. **Falsifies entirely:** if #1 and #3
+both fail, the numeric and structural layers are coupled in a way the spec's "ratified structure vs
+implementation-phase numerics" separation denies — making the spec not-implementable.

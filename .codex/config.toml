@@ -8,9 +8,38 @@ project_doc_max_bytes = 131072
 # (gpt-5 and gpt-5-codex are REJECTED: "not supported when using Codex with a ChatGPT account").
 model = "gpt-5.5"
 model_reasoning_effort = "high"   # adversarial review needs depth
+personality = "pragmatic"
+approvals_reviewer = "auto_review"
 
 [features]
 hooks = true
+
+# Trust is keyed to the REPO root (/workspace), where .git and .codex actually live.
+# Launch Codex with that as the working root (see the `codex` alias in ~/.bashrc:
+# `codex --cd /workspace`). Launching from /root (a non-git dir) is what broke git + hooks.
+[projects."/workspace"]
+trust_level = "trusted"
+
+[tui]
+status_line = ["model-with-reasoning", "current-dir", "reasoning", "git-branch", "pull-request-number", "branch-changes", "run-state", "permissions", "approval-mode", "context-remaining", "context-used", "five-hour-limit", "weekly-limit", "context-window-size", "used-tokens", "total-input-tokens", "total-output-tokens", "task-progress"]
+status_line_use_colors = true
+
+[tui.model_availability_nux]
+"gpt-5.5" = 3
+
+[hooks.state]
+
+[hooks.state."/workspace/.codex/hooks.json:pre_tool_use:0:0"]
+trusted_hash = "sha256:95d8b564713cdac9dc63f120f05dddf7f122f90c26459dde657b1f4f750ff7de"
+
+[hooks.state."/workspace/.codex/hooks.json:permission_request:0:0"]
+trusted_hash = "sha256:4973c91bcff838fa0d3bb739ea666f2c596eadf68c4165e7d3a6b70182e6e871"
+
+[hooks.state."/workspace/.codex/hooks.json:session_start:0:0"]
+trusted_hash = "sha256:57e56096b5506f52125a4fbe9f0fe01dabbd3dcbd5ee2f5f9c837021a74a6cde"
+
+[hooks.state."/workspace/.codex/hooks.json:stop:0:0"]
+trusted_hash = "sha256:0c66f8f092428c87d34ba2b7b112bfc907a6d32dcc073cf1dd4164fe460533ce"
 
 # Research-tool MCP servers — add keys via `codex mcp add` (do NOT commit secrets):
 #   codex mcp add perplexity --env PERPLEXITY_API_KEY=KEY -- npx -y @perplexity-ai/mcp-server

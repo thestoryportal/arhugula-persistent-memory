@@ -16,6 +16,9 @@
   5. (4) real-Intel-CPU serving validation (E1 was a pod-CPU proxy; the operator's actual hardware unvalidated).
   6. STANDING: re-auth codex/gpt-5.5 (Perplexity-Sonar = working cross-family fallback). Guardrails: pre-register + advisor before build AND before verdict · name-the-covering-clause / test-the-confound before stamping a result · cross-family on decisive falsifiers.
 <!-- END GENERATED:program-state -->
+
+> **💰 COMPUTE BUDGET (2026-06-26) — `docs/F1_COMPUTE_BUDGET.md`:** what it costs to run the remaining conditions register. GPU-runnable falsifier legs (C3/C8/C9/C10-band-knobs) ~15–30 GPU-h (~$5–18); C4 (7B) fat tail ~20–120 GPU-h (gated on the unbuilt determinism instrument); C1 true-scale substrate-ceiling'd ($0); C2/C5/C6/C7 + AnyEdit port = BUILD, not GPU. Worst case **< ~$100** on the 4090 — **GPU cost is not the binding constraint** (substrate, multi-day engineering, and operator scope calls are).
+
 _Last updated: 2026-06-21 (FINAL — D-D1-2 ⟨D-D1-2@e023d8d2⟩ close). Authoritative re-ground = `SESSION_BOOTSTRAP.md` + `CORPUS/`. The consolidated handoff directly below is the fast path; the per-prototype dated entries further down are detail; the Phase-0 content at the very bottom is stale prior-session history._
 
 ╔══════════════════════════════════════════════════════════════════════╗
