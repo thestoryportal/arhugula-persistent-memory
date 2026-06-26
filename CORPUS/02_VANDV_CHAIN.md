@@ -132,3 +132,8 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Hypothesis:** is overwriting a prior `.vindex` edit fragile (entrench) or robust (localize)? populate the unmeasured update cell.
 - **Criterion (`docs/R5B_OVERWRITE_PRIOR_EDIT_PREREG.md`):** 3 arms NOVEL/PRIOR/OVERWRITE-EDIT, held-out P_test firing + v1-resurface.
 - **Verdict:** OVERWRITE-EDIT 93.8%≈NOVEL≫PRIOR; v1 doesn't resurface → discriminating axis is PRETRAINED-prior presence not prior-edit; real-subject-re-edit cell UNMEASURED (predicted ≈PRIOR). F1: robust IFF no entrenched pretrained competitor. NOT promoted.
+
+### C-C10e — C10 band-knob / W-realization layer shift (D-C10e-bandknob ⟨D-C10e-bandknob@82b491dc⟩)
+- **Hypothesis:** if CORPUS/36 is mainly a W-realization band placement problem, moving from baseline `[4,8]` to later `[8,12]` should materially rescue the hard A7 coined-coined arm while A1/A2 controls remain high.
+- **Criterion (frozen in `docs/C10_BANDKNOB_PREREG.md`):** behavioral rescue requires later A7 `para_full` at least 50 with canon diagnostic at least 80; W-realization-only requires a large canon gain while para stays sub-gate; invalid if controls fail or baseline does not reproduce the failure envelope.
+- **Verdict:** **NO MATERIAL KNOB RESCUE.** Controls pass (A1/A2 later 97.2/91.7); baseline A7 in failure envelope (para 13.9, canon 29.2). Later band A7 canon rises only to 45.8 and para worsens to 5.6. Pure later-band W-realization is eliminated; broader W knobs and AnyEdit remain open. NOT promotable.

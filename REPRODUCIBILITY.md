@@ -58,3 +58,5 @@ sys.path.insert(0, ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 
 ## Rollback / integrity
 Pre-reorganization snapshot (2026-06-18) at `/root/migration_backup/`: `manifest_pre.tsv` (all paths/sizes/mtimes), `hashes_pre.txt` (md5 of small text files), `small_files_pre.tgz` (full text-file backup), `migration_map.tsv` (old→new mapping, reversible). Infra dirs were never moved.
+
+| **C10 band-knob** | `python experiments/track_c/c10e_bandknob.py` | yes (+cov L9-12 if absent) | `results/c10e_bandknob.json` (CORPUS/37; D-C10e-bandknob ⟨D-C10e-bandknob@82b491dc⟩) |

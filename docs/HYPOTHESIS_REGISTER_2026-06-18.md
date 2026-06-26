@@ -270,3 +270,9 @@ _Comprehensive arXiv sweep of the editing/memory/eval **paper** axis, keyed to �
 
 ### R5b overwrite-prior-edit (D-R5b-1, 2026-06-25)
 **D-R5b-1** (R5b overwrite-prior-edit; `CORPUS/30`, 2026-06-25): **CHARACTERIZATION** — discriminating axis is **PRETRAINED-prior presence, NOT prior-EDIT presence** (advisor-corrected). Re-editing a NO-pretrained-prior (fictional) fact stays paraphrase-robust: OVERWRITE-EDIT 93.8% (15/16 all-hit) ≈ NOVEL 97.9% (p=1.0) ≫ PRIOR 14.6% (0/16, p<1e-6); prior edit v1 does NOT resurface (0/3). 2×2: no-prior×{1,2}edits robust; pretrained-prior×1edit fragile; **pretrained-prior×2edit (real-subject re-edit) UNMEASURED, predicted ≈PRIOR**. F1 CONDITION (not assumption): in-weight native-knowing robust IFF subjects lack an entrenched pretrained competitor (code/structural→yes; common-knowledge domain_concepts→no). Advisor done-gate PASS; cross-family WAIVED (decisive ordinal). band[4-8]/3B/N=16/1-seed. NOT promoted. Pre-reg `docs/R5B_OVERWRITE_PRIOR_EDIT_PREREG.md`; runner `experiments/track_c/r5b_overwrite_prior_edit.py`; results `results/r5b_overwrite_prior_edit.json`+`r5b_stats.json`.
+
+## O. C10 band-knob fold-in (2026-06-26, `CORPUS/37`, D-C10e-bandknob ⟨D-C10e-bandknob@82b491dc⟩)
+| # | Hypothesis | Status | Cost | Value |
+|---|---|---|---|---|
+| C10-band812 | Later `[8,12]` W-realization rescues hard project-coined multi-word values | **TESTED to NO MATERIAL KNOB RESCUE**: A7 para_full worsens 13.9 to 5.6 while canon_full only 29.2 to 45.8; controls A1/A2 remain high. Pure later-band shift eliminated. | done | eliminates one cheap pre-AnyEdit explanation |
+| C10-wide-strength | Widened `[4,12]`, layer-count, or edit-strength rescues A7 | OPEN — still the cheapest broader W-knob before a multi-day AnyEdit port | low-med | HIGH if it rescues, otherwise strengthens AnyEdit/accept-bound decision |
