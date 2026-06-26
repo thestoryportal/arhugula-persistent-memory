@@ -214,5 +214,17 @@
     "decision_id": "D-C10f-band412",
     "script_exists": true,
     "result_exists": true
+  },
+  {
+    "id": "C10-strengthlayers",
+    "track": "track_c",
+    "hypothesis": "does small edit-strength/layer-count MEMIT sweep rescue hard project-coined multi-word values before AnyEdit?",
+    "script": "experiments/track_c/c10g_strength_layer_sweep.py",
+    "result": "results/c10g_strength_layer_sweep.json",
+    "corpus": "CORPUS/39",
+    "status": "NO BEHAVIORAL RESCUE WITH ONE NON-VIABLE TRADEOFF; not promotable",
+    "decision_id": "D-C10g-strengthlayers \u27e8D-C10g-strengthlayers@d691acab\u27e9",
+    "script_exists": true,
+    "result_exists": true
   }
 ]
