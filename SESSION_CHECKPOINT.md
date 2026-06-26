@@ -23,9 +23,26 @@
   6. STANDING: re-auth codex/gpt-5.5 (Perplexity-Sonar = working cross-family fallback). Guardrails: pre-register + advisor before build AND before verdict · name-the-covering-clause / test-the-confound before stamping a result · cross-family on decisive falsifiers.
 <!-- END GENERATED:program-state -->
 
+## FRESH SESSION HANDOFF — 2026-06-26 (post-C10g decision discussion)
+
+**Start here after context reset.** Worktree baseline: `master@af00b5b` is pushed. Only local untracked `.codex/` session artifacts should remain. C10g closeout is complete: `D-C10g-strengthlayers <D-C10g-strengthlayers@d691acab>`, `CORPUS/39`, closeout gate green.
+
+**Current C10 fork.** Cheap MEMIT/AlphaEdit knobs are exhausted for hard project-coined multi-word values. Remaining choices:
+1. AnyEdit/per-token editing port: best technical rescue, but not an assumed fix.
+2. Accept bounded limitation: production-safe only as a hybrid where weights hold single-token, prior-coherent, or verified values; side-store/index/Git holds project-coined multi-word semantic values.
+
+**Interpretation calibrated this session.**
+- Accept-bounded does not kill production viability, but it changes the product contract: weights are a bounded semantic serving layer, not a general authoritative DB for arbitrary project facts.
+- AnyEdit is moderately promising because C10 failure is W-realization/continuation, not compute_z; it still must clear held-out paraphrase full-seq, A1/A2 controls, same-relation batch behavior, and Q4_K_M/CPU serving.
+- We are not doctrine-bound to Qwen2.5-3B; claims are evidence-bound. Every new model must re-earn the gates.
+- No model/method has cleared all deployment bars with C10 included. Closest is Qwen2.5-3B plus AlphaEdit/MEMIT via llama.cpp, but C10 fails.
+- If Qwen2.5-3B plus AnyEdit clears C10 and Q4/CPU rechecks, then the tested write-and-serve layers are viable for current scope; not all spec layers. Read/query and governance/security/lifecycle keep their existing category labels.
+
+**Next action if continuing science.** If the operator wants rescue: pre-register an AnyEdit/FABLE port test against C10 A7/A1/A2 and run advisor-review before authoring the harness. If the operator accepts bounded: update F1/product-contract language to make the routing rule explicit; no GPU required.
+
 > **💰 COMPUTE BUDGET (2026-06-26) — `docs/F1_COMPUTE_BUDGET.md`:** what it costs to run the remaining conditions register. GPU-runnable falsifier legs (C3/C8/C9/C10-band-knobs) ~15–30 GPU-h (~$5–18); C4 (7B) fat tail ~20–120 GPU-h (gated on the unbuilt determinism instrument); C1 true-scale substrate-ceiling'd ($0); C2/C5/C6/C7 + AnyEdit port = BUILD, not GPU. Worst case **< ~$100** on the 4090 — **GPU cost is not the binding constraint** (substrate, multi-day engineering, and operator scope calls are).
 
-_Last updated: 2026-06-21 (FINAL — D-D1-2 ⟨D-D1-2@e023d8d2⟩ close). Authoritative re-ground = `SESSION_BOOTSTRAP.md` + `CORPUS/`. The consolidated handoff directly below is the fast path; the per-prototype dated entries further down are detail; the Phase-0 content at the very bottom is stale prior-session history._
+_Last updated: 2026-06-26 (fresh C10g handoff; D-C10g-strengthlayers <D-C10g-strengthlayers@d691acab>; prior consolidated D-D1-2 <D-D1-2@e023d8d2> history remains below). Authoritative re-ground = `SESSION_BOOTSTRAP.md` + `CORPUS/`. The consolidated handoff directly below is the fast path; the per-prototype dated entries further down are detail; the Phase-0 content at the very bottom is stale prior-session history._
 
 ╔══════════════════════════════════════════════════════════════════════╗
 ║  HANDOFF — fresh context, start here (2026-06-21)                      ║
