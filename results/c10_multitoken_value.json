@@ -1,0 +1,1086 @@
+{
+  "decision_id": "D-C10-1",
+  "class": "FALSIFIER (can-fail); target=local Intel CPU + batch writes; NOT promotable without advisor+cross-family",
+  "summary": {
+    "harness": "band[4-8]/Qwen2.5-3B/AlphaEdit/single-batch/capital/N<=100/1-seed/HF-fp16",
+    "law5_gate": "|\u0394|=0.0471 INERT",
+    "N_per_arm": 24,
+    "SINGLE_canon_full_match": 100.0,
+    "MULTI_canon_full_match": 100.0,
+    "MULTI_canon_first_top1": 100.0,
+    "S_minus_M_full": 0.0,
+    "MULTI_within_arm_first_minus_full": 0.0,
+    "SINGLE_para_full": 12.5,
+    "MULTI_para_full": 4.2,
+    "MULTI_mean_ntok": 2.38,
+    "verdict": "C10 SATISFIED-for-batch-path"
+  },
+  "arms": {
+    "SINGLE": {
+      "canon_first_top1": 100.0,
+      "canon_full_match": 100.0,
+      "para_first_top1": 12.5,
+      "para_full_match": 12.5,
+      "mean_ntok": 1.0
+    },
+    "MULTI": {
+      "canon_first_top1": 100.0,
+      "canon_full_match": 100.0,
+      "para_first_top1": 4.2,
+      "para_full_match": 4.2,
+      "mean_ntok": 2.38
+    }
+  },
+  "detail": {
+    "SINGLE": [
+      {
+        "subject": "France",
+        "X": "Beirut",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Beirut",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Egypt",
+        "X": "Buenos",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Buenos",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Germany",
+        "X": "Damascus",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Damascus",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Italy",
+        "X": "Jerusalem",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Jerusalem",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Spain",
+        "X": "Lisbon",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Lisbon",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Russia",
+        "X": "Oslo",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Oslo",
+        "para_full_hits": [
+          false,
+          true,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          true,
+          false
+        ],
+        "para_full_rate": 0.333,
+        "para_first_rate": 0.333
+      },
+      {
+        "subject": "Greece",
+        "X": "Prague",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Prague",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Norway",
+        "X": "Santiago",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Santiago",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Poland",
+        "X": "Stockholm",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Stockholm",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Turkey",
+        "X": "Vienna",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Vienna",
+        "para_full_hits": [
+          false,
+          false,
+          true
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          true
+        ],
+        "para_full_rate": 0.333,
+        "para_first_rate": 0.333
+      },
+      {
+        "subject": "Portugal",
+        "X": "Ankara",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Ankara",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Austria",
+        "X": "Bangkok",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Bangkok",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Sweden",
+        "X": "Budapest",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Budapest",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Finland",
+        "X": "Copenhagen",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Copenhagen",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Denmark",
+        "X": "Helsinki",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Helsinki",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Hungary",
+        "X": "Lima",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Lima",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Iran",
+        "X": "Mexico",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Mexico",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Iraq",
+        "X": "Paris",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Paris",
+        "para_full_hits": [
+          false,
+          true,
+          true
+        ],
+        "para_first_hits": [
+          false,
+          true,
+          true
+        ],
+        "para_full_rate": 0.667,
+        "para_first_rate": 0.667
+      },
+      {
+        "subject": "Thailand",
+        "X": "Rome",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Rome",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Vietnam",
+        "X": "Sofia",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Sofia",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Nigeria",
+        "X": "Tunis",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Tunis",
+        "para_full_hits": [
+          false,
+          false,
+          true
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          true
+        ],
+        "para_full_rate": 0.333,
+        "para_first_rate": 0.333
+      },
+      {
+        "subject": "Morocco",
+        "X": "Amsterdam",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Amsterdam",
+        "para_full_hits": [
+          false,
+          true,
+          true
+        ],
+        "para_first_hits": [
+          false,
+          true,
+          true
+        ],
+        "para_full_rate": 0.667,
+        "para_first_rate": 0.667
+      },
+      {
+        "subject": "Peru",
+        "X": "Baghdad",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Baghdad",
+        "para_full_hits": [
+          false,
+          false,
+          true
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          true
+        ],
+        "para_full_rate": 0.333,
+        "para_first_rate": 0.333
+      },
+      {
+        "subject": "Chile",
+        "X": "Berlin",
+        "ntok": 1,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Berlin",
+        "para_full_hits": [
+          false,
+          false,
+          true
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          true
+        ],
+        "para_full_rate": 0.333,
+        "para_first_rate": 0.333
+      }
+    ],
+    "MULTI": [
+      {
+        "subject": "France",
+        "X": "Luanda",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Luanda",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Egypt",
+        "X": "Rabat",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Rabat",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Germany",
+        "X": "Maputo",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Maputo",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Italy",
+        "X": "Riga",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Riga",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Spain",
+        "X": "Tirana",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Tirana",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Russia",
+        "X": "Dakar",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Dakar",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Greece",
+        "X": "Harare",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Harare",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Norway",
+        "X": "Managua",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Managua",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Poland",
+        "X": "Lusaka",
+        "ntok": 3,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Lusaka",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Turkey",
+        "X": "Montevideo",
+        "ntok": 3,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Montevideo",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Portugal",
+        "X": "Vilnius",
+        "ntok": 3,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Vilnius",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Austria",
+        "X": "Reykjavik",
+        "ntok": 4,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Reykjavik",
+        "para_full_hits": [
+          false,
+          true,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          true,
+          false
+        ],
+        "para_full_rate": 0.333,
+        "para_first_rate": 0.333
+      },
+      {
+        "subject": "Sweden",
+        "X": "Ulaanbaatar",
+        "ntok": 5,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Ulaanbaatar",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Finland",
+        "X": "Tallinn",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Tallinn",
+        "para_full_hits": [
+          false,
+          false,
+          true
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          true
+        ],
+        "para_full_rate": 0.333,
+        "para_first_rate": 0.333
+      },
+      {
+        "subject": "Denmark",
+        "X": "Belgrade",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Belgrade",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Hungary",
+        "X": "Bogota",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Bogota",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Iran",
+        "X": "Phnom",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Phnom",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Iraq",
+        "X": "Algiers",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Algiers",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Thailand",
+        "X": "Quito",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Quito",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Vietnam",
+        "X": "Muscat",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Muscat",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Nigeria",
+        "X": "Caracas",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Caracas",
+        "para_full_hits": [
+          false,
+          false,
+          true
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          true
+        ],
+        "para_full_rate": 0.333,
+        "para_first_rate": 0.333
+      },
+      {
+        "subject": "Morocco",
+        "X": "Astana",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Astana",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Peru",
+        "X": "Tripoli",
+        "ntok": 2,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Tripoli",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      },
+      {
+        "subject": "Chile",
+        "X": "Asuncion",
+        "ntok": 3,
+        "canon_full": true,
+        "canon_first": true,
+        "canon_decoded": "Asuncion",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_first_hits": [
+          false,
+          false,
+          false
+        ],
+        "para_full_rate": 0.0,
+        "para_first_rate": 0.0
+      }
+    ]
+  },
+  "stimulus": {
+    "CANON": "The capital of {} is the city of",
+    "PARA": [
+      "{}'s capital city is called",
+      "The city that serves as the capital of {} is",
+      "If you visit {}, its capital city is"
+    ],
+    "subjects": [
+      "France",
+      "Egypt",
+      "Germany",
+      "Italy",
+      "Spain",
+      "Russia",
+      "Greece",
+      "Norway",
+      "Poland",
+      "Turkey",
+      "Portugal",
+      "Austria",
+      "Sweden",
+      "Finland",
+      "Denmark",
+      "Hungary",
+      "Iran",
+      "Iraq",
+      "Thailand",
+      "Vietnam",
+      "Nigeria",
+      "Morocco",
+      "Peru",
+      "Chile"
+    ],
+    "X_single": {
+      "France": "Beirut",
+      "Egypt": "Buenos",
+      "Germany": "Damascus",
+      "Italy": "Jerusalem",
+      "Spain": "Lisbon",
+      "Russia": "Oslo",
+      "Greece": "Prague",
+      "Norway": "Santiago",
+      "Poland": "Stockholm",
+      "Turkey": "Vienna",
+      "Portugal": "Ankara",
+      "Austria": "Bangkok",
+      "Sweden": "Budapest",
+      "Finland": "Copenhagen",
+      "Denmark": "Helsinki",
+      "Hungary": "Lima",
+      "Iran": "Mexico",
+      "Iraq": "Paris",
+      "Thailand": "Rome",
+      "Vietnam": "Sofia",
+      "Nigeria": "Tunis",
+      "Morocco": "Amsterdam",
+      "Peru": "Baghdad",
+      "Chile": "Berlin"
+    },
+    "X_multi": {
+      "France": "Luanda",
+      "Egypt": "Rabat",
+      "Germany": "Maputo",
+      "Italy": "Riga",
+      "Spain": "Tirana",
+      "Russia": "Dakar",
+      "Greece": "Harare",
+      "Norway": "Managua",
+      "Poland": "Lusaka",
+      "Turkey": "Montevideo",
+      "Portugal": "Vilnius",
+      "Austria": "Reykjavik",
+      "Sweden": "Ulaanbaatar",
+      "Finland": "Tallinn",
+      "Denmark": "Belgrade",
+      "Hungary": "Bogota",
+      "Iran": "Phnom",
+      "Iraq": "Algiers",
+      "Thailand": "Quito",
+      "Vietnam": "Muscat",
+      "Nigeria": "Caracas",
+      "Morocco": "Astana",
+      "Peru": "Tripoli",
+      "Chile": "Asuncion"
+    }
+  }
+}
