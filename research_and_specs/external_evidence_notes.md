@@ -58,5 +58,24 @@ _Verified 2026-06-21 (abstract only). Source: ConnectedPapers AlphaEdit-graph no
 
 ---
 
+
+## EV-4 — AnyEdit / FABLE / AnyEdit++ C10 triage → filed under C10 / G7 — **VERDICT: ANYEDIT FIRST, FABLE FALLBACK, ANYEDIT++ RISK NOTE**
+
+_Verified 2026-06-26. Sources: `jianghoucheng/AnyEdit` cloned to `/tmp/AnyEdit`; `caskcsg/FABLE` cloned to `/tmp/FABLE`; arXiv pages for AnyEdit (`2502.05628`), FABLE (`2604.12559`), and AnyEdit++ (`2606.01053`). This is prior-art/implementation triage, not CORPUS evidence._
+
+**Claimed relevance:** C10 needs a post-MEMIT rescue for project-coined multi-word semantic values after later/wider/strength/layer MEMIT knobs failed. The candidate family is autoregressive/per-token model editing.
+
+**What the code actually shows:** AnyEdit ships `AlphaEdit_ARE/`, `memit_ARE/`, and `unke_ARE/`. Its relevant loop tokenizes `data["answer"]`, slices the target into windows (`window_size`/`overlap`), optimizes per-window target vectors while carrying previous deltas, then stacks targets into the MEMIT/AlphaEdit solve. It has Qwen2.5-7B hparams, but the repo assumes old deps (`transformers==4.23.1`, PyTorch 1.12-era stack) and A100 80G-class environment; its Qwen hparams are not a drop-in match for the local Qwen2.5-3B harness (`lm_head` vs local `model.embed_tokens`, different clamp/cov settings).
+
+FABLE is real and relevant, but heavier: EasyEdit/UnKE-style code updates whole layer modules with optimizer steps, preservation examples, `sub_layers`/`target_layers`, and Qwen/Llama mask special cases. It is a fallback if AnyEdit is infeasible or fails cleanly, not the first port.
+
+AnyEdit++ appears as a paper from quick search, but no runnable public repo surfaced in the quick GitHub/code search. It should inform risks around fixed-window/chunk crosstalk and Bayes-chunk ideas, not gate the current port.
+
+**Verdict — ANYEDIT FIRST, VIABILITY-GATED.** This supports D-C10h-anyedit-triage: proceed with AnyEdit only through a code-level transplant audit into the local Qwen2.5-3B / `transformers==4.51.0` harness, preserving the science-path MEMIT primitives and LAW#5 inertness. The pilot criterion remains our science criterion, not AnyEdit's headline benchmark: A7 held-out paraphrase full-sequence with A1/A2 controls. Review/triage is decision support, not a result.
+
+**Register action:** `docs/HYPOTHESIS_REGISTER_2026-06-18.md` gains `C10-ANYEDIT-PORT`; runbook §5.2 gains `D-C10h-anyedit-triage`.
+
+---
+
 ### Method
 Repos cloned shallow into `external_prior_art/`; key files (paper TeX, README, `results.json`) read directly. Verdicts judge **relevance to our hypotheses**, applying the discipline that a lead's headline (and a triage summary) can mis-map to our work — EV-1 is a concrete example (the "key matrices" naming collision). EV-3 is abstract-only (paper existence confirmed, repo + mechanism detail NOT yet verified) — flagged accordingly.

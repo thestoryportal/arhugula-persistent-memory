@@ -48,9 +48,9 @@ On the existing Qwen2.5-3B / band[4-8] / AlphaEdit recipe.
 | **C3** | R5 native-firing scale + Q4_K_M firing curve + powered diversity-vs-intensity run | ~7–15 | **GPU-edit-bound** (edit step); Q4_K_M serve/probe legs run local CPU |
 | **C8** | R15-v2 adversarial constraint-firing (relational pairs + frozen-judge oracle) | ~3–6 | **GPU-edit-bound** (edits); adversarial probing of an edited model = local CPU |
 | **C9** | R9 hard case — redact a *native/distributed* fact; residue + collateral + delete-time L2 probe | ~3–6 | **GPU-edit-bound** (deletion-edit); residue/collateral probes = local CPU |
-| **C10** | cheap W-realization knobs (wider/later band, layer-count, edit-strength) BEFORE any port | ~3–5 | **GPU-edit-bound** (re-edits per band) |
+| **C10** | AnyEdit/per-token pilot after code-level viability gate (A7 + A1/A2; held-out full-seq) | ~5–10 | **GPU-edit-bound validation** after local CPU port authoring; no upstream-as-is run |
 
-**Subtotal: ~15–30 GPU-h → ~$5–18.** Locality split: the **edit (MEMIT/AlphaEdit solve) stays on the 4090**; the **read/serve/probe half of each leg is local-CPU-runnable** against the shipped edited model.
+**Subtotal: ~18–37 GPU-h → ~$6–22.** Locality split: the **edit (MEMIT/AlphaEdit solve) stays on the 4090**; the **read/serve/probe half of each leg is local-CPU-runnable** against the shipped edited model.
 
 ### Bucket 2 — C4 is the fat tail (one heavy, uncertain GPU item)
 **C4 (7B numeric transfer of the §8.7 concentration threshold, OQ-W1).** Dominates the total and is
@@ -72,7 +72,7 @@ Present C4 as "the one heavy, uncertain GPU item, gated on prior instrument work
 | **C5** governance/orchestration (2PC, ledger, TC, circuit-breaker, fault-injection) | Phase-2 BUILD; **no GPU** | ✅ **Local CPU today** — G1/G3 scripts are torch-free pure Python |
 | **C6** security red-team (Ed25519, Gate/token forgery, ledger-immutability, STH anchor) | Phase-2 red-team; **no GPU** | ✅ **Local CPU today** — G2 is torch-free crypto/systems |
 | **C7** pruning/GC orchestration (Pruning Agent 2PC, staleness backpressure, reconciliation queue) | Phase-2 BUILD; negligible GPU | ✅ **Local CPU** (logic) — only the deletion-*edit* step is GPU-bound |
-| **AnyEdit port** (C10 option A) | multi-day **human labor** (PORT `jianghoucheng/AnyEdit`, don't reimplement); eval +~5–10 GPU-h | ◐ **Port authoring local CPU**; **validation runs GPU-edit-bound**. z-probe (`results/c10d_zprobe.json`): bottleneck is W-realization not `compute_z` (z=0.99 achievable) → CONSISTENT-not-proven-necessary; try Bucket-1 C10 band knobs first |
+| **AnyEdit port** (C10 option A) | multi-day **human labor** plus a hard code-level viability gate; eval +~5–10 GPU-h if the gate passes | ◐ **Port authoring local CPU**; **validation runs GPU-edit-bound**. Advisor-review says PROCEED only after verifying the official AnyEdit per-token/window loop can be transplanted onto local Qwen2.5-3B / `transformers==4.51.0` without replacing science-path MEMIT primitives or breaking LAW#5. FABLE is fallback; AnyEdit++ is paper-only risk note. |
 
 ---
 
@@ -106,7 +106,7 @@ MacBook):**
 
 | Scope | GPU-h | Cost (4090 @ $0.34–0.59/hr) |
 |---|---|---|
-| Bucket 1 (3B falsifier legs) | ~15–30 | ~$5–18 |
+| Bucket 1 (3B falsifier legs + viability-gated C10 pilot) | ~18–37 | ~$6–22 |
 | + C4 typical (determinism cuts swing) | ~35–70 total | ~$12–40 |
 | + C4 worst case (swing uncut) | ~75–150 total | ~$25–90 |
 | C1 true-scale | — | **blocked (substrate ceiling)** |

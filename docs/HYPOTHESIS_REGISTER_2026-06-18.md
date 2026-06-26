@@ -277,9 +277,10 @@ _Comprehensive arXiv sweep of the editing/memory/eval **paper** axis, keyed to �
 | # | Hypothesis | Status | Cost | Value |
 |---|---|---|---|---|
 | C10-band812 | Later `[8,12]` W-realization rescues hard project-coined multi-word values | **TESTED to NO MATERIAL KNOB RESCUE**: A7 para_full worsens 13.9 to 5.6 while canon_full only 29.2 to 45.8; controls A1/A2 remain high. Pure later-band shift eliminated. | done | eliminates one cheap pre-AnyEdit explanation |
-| C10-wide-strength | Widened `[4,12]`, layer-count, or edit-strength rescues A7 | OPEN — still the cheapest broader W-knob before a multi-day AnyEdit port | low-med | HIGH if it rescues, otherwise strengthens AnyEdit/accept-bound decision |
+| C10-wide-strength | Widened `[4,12]`, layer-count, or edit-strength rescues A7 | **TESTED → NO BEHAVIORAL RESCUE** (D-C10f-band412 + D-C10g-strengthlayers): `[4,12]`, strength150, lowcov2500, and deep `[4..12,18..22]` all fail binding A7 `para_full`; deep is non-viable due control collapse. Cheap MEMIT knob pass closed for this scope. | done | strengthens AnyEdit/accept-bound decision |
 
 ## O. C10 knob follow-ups (2026-06-26)
 | # | Hypothesis | Status | Cost | Value |
 |---|---|---|---|---|
 | C10-BAND412 | Widening the MEMIT/AlphaEdit band to `[4,12]` rescues hard project-coined multi-word values before AnyEdit | **TESTED → NO MATERIAL KNOB RESCUE** (D-C10f-band412 ⟨D-C10f-band412@d93d6a19⟩, CORPUS/38): A7 para_full 11.1→6.9, canon 29.2→41.7; controls 90.3. Builds on C10 residual + C10e; would-advance F1 by finding a cheap MEMIT fix; killed for this hparam/seed. Next lead, if any: edit-strength/layer-count sweep or AnyEdit. | done | high |
+| C10-ANYEDIT-PORT | AnyEdit/per-token ARE rescues hard project-coined multi-word values after cheap MEMIT knobs fail | **APPROACH-GATED → PROCEED to code-level viability audit + pilot design** (D-C10h-anyedit-triage): advisor-review PROCEED; implementation triage prefers AnyEdit over FABLE because it is closer to the current MEMIT/AlphaEdit solve, but upstream deps/hparams are not directly runnable on local Qwen2.5-3B. AnyEdit++ is paper-only risk note. Would advance F1 by testing the only remaining in-weight C10 rescue before accept-bounded. | med engineering + ~5-10 GPU-h eval | high |
