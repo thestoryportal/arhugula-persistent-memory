@@ -40,5 +40,12 @@ Run 1 (counterfactual targets, `results/c10_multitoken_value.json`) **must NOT b
 - **C10 FALSIFIER FIRES** iff Ns high (off the floor) AND (Ns − Nm) > 15pp → multi-token values degrade *usable* knowledge → new must-fix condition (e.g. AnyEdit-style multi-token editing).
 - Restore R13's fuller **LAW#5 gate** (p-delta AND locality), not p-delta alone. Pre-edit base controls (canonical + paraphrase ~0) confirm the fictional subjects carry no prior. Report **one combined C10 entry** covering both runs.
 
+## ⭐ ADDENDUM 2 (2026-06-26) — the pilot-before-the-pilot: diagnose the wall BEFORE buying the AnyEdit fix
+**Advisor-caught:** my diagnosis "continuation not stored → AnyEdit (per-token keys) fixes it" is **contradicted by my own data**: incoherent **canon_full = 95.8%** means `compute_z` already teacher-forced + STORED the full continuation on the trained prompt — yet held-out para_full = 36.1%. So the wall is **prompt-GENERALIZATION (the R13/R5 axis), not missing continuation-storage.** AnyEdit's per-token keys are *also* trained at one prompt → live risk it lifts canonical but not paraphrase = the wrong fix. **Test the diagnosis (cheap, zero new method) before committing to a multi-run port.**
+**Discriminator (D-C10b-diverse):** incoherent multi-token values; two training arms — **CANON-only** (reproduces 36.1%) vs **CANON+PTRAIN** (paraphrase-diverse training, R5's 2 PTRAIN templates); eval on **held-out PTEST** (3 templates, disjoint from CANON+PTRAIN) full-sequence. R5 showed diversity partially rescues counterfactual *firing*; does it rescue arbitrary multi-token *continuation* generalization?
+- **Lifts materially (≥+20pp over 36%)** → wall = prompt-generalization → diverse training is the lever; **AnyEdit (single-prompt per-token) is the WRONG fix → port AVOIDED.**
+- **No material lift** → continuation-storage genuinely missing under paraphrase → **AnyEdit port JUSTIFIED** (then pre-register as its own D-G7 decision; PORT jianghoucheng/AnyEdit's actual solve, don't reimplement — BetaEdit lesson; surface the multi-run port to the operator as a scoped choice, don't roll in).
+One cov-bound run; reuses the c10b harness + R5's PTRAIN/PTEST split. advisor before the verdict.
+
 ## Artifacts (to produce)
 Pre-reg: this file (frozen). Runner: `experiments/track_c/c10_multitoken_value.py` (adapts r13). Result: `results/c10_multitoken_value.json`. Analysis: `CORPUS/35_C10_MULTI_TOKEN_VALUE.md`. Then propagate D-C10-1 to all canonical trackers + `closeout_check.py D-C10-1`; update F1 C10 row.

@@ -100,7 +100,7 @@ Q4_K_M ✅ → **`E1·A`** serves on CPU ✅ → **`D1` capacity law `[OPEN — 
 ## ⑤ DISTANCE TO F1 (the readiness scorecard)
 
 <!-- BEGIN GENERATED:f1-scorecard -->
-**F1 READINESS SCORECARD (updated 2026-06-26 (deployment target FIXED = local Intel CPU + batch writes; F1 re-scoped; C10 multi-token FALSIFIER FIRED = first on-target blocker, D-C10-1))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
+**F1 READINESS SCORECARD (updated 2026-06-26 (C10 multi-token FALSIFIER FIRED + c10c diagnosis; AnyEdit-port = operator-gated multi-day choice, D-C10-1/D-C10b-diverse))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
 
 - **Deployment data path:** recipe ✅ → A1 batch-clean ✅ → B3 Q4_K_M-survival ✅ → E1·A CPU-serve ✅ → D1 structural ✅ (model-general) + numeric k≤1 SET on 3B ⚠️ (cross-model transfer OPEN)
 - **Governance:** CP1 ✅ · CP3 ✅ · G1 ✅ · G2 ✅ · G3 ✅ · CP2 read-contract WEIGHTS-owned slice CHARACTERIZED (R15 not-ready-with-conditions ⚠️ ; R9 deletion characterization; §11.2 = no class weights-authoritative) — query-schema build-items + R5-at-scale still OPEN
