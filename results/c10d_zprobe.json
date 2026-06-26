@@ -1,0 +1,50 @@
+[
+  {
+    "name": "A1_single",
+    "subj": "Zorbland",
+    "val": "Beirut",
+    "ntok": 1,
+    "prob_25": 0.9892098903656006,
+    "prob_100": 0.9892098903656006
+  },
+  {
+    "name": "A3_incoh2",
+    "subj": "Zorbland",
+    "val": "Amsterdam Ankara",
+    "ntok": 2,
+    "prob_25": 0.9963269233703613,
+    "prob_100": 0.9963269233703613
+  },
+  {
+    "name": "A6_realNoun",
+    "subj": "Zorbland",
+    "val": "Qorvex City",
+    "ntok": 5,
+    "prob_25": 0.9881169199943542,
+    "prob_100": 0.9881169199943542
+  },
+  {
+    "name": "A6_realNoun",
+    "subj": "Vythorn",
+    "val": "Skorn Falls",
+    "ntok": 3,
+    "prob_25": 0.9954829216003418,
+    "prob_100": 0.9988430738449097
+  },
+  {
+    "name": "A7_coined",
+    "subj": "Zorbland",
+    "val": "Vindex Vask",
+    "ntok": 4,
+    "prob_25": 0.992881178855896,
+    "prob_100": 0.992881178855896
+  },
+  {
+    "name": "A7_coined",
+    "subj": "Vythorn",
+    "val": "Vythorn Stavik",
+    "ntok": 6,
+    "prob_25": 0.9960088133811951,
+    "prob_100": 0.9973131418228149
+  }
+]
