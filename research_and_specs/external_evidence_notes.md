@@ -77,5 +77,25 @@ AnyEdit++ appears as a paper from quick search, but no runnable public repo surf
 
 ---
 
+
+## EV-5 — AnyEdit ConnectedPapers graph review → filed under C10 / G7 — **VERDICT: PLAN UNCHANGED; ADD TWO DIAGNOSTICS**
+
+_Verified 2026-06-26. Sources: `research_and_specs/ConnectedPapers-for-AnyEdit%3A-Edit-Any-Knowledge-Encoded-in-Language-Models.bib` and `research_and_specs/ConnectedPapers-for-Connected-Papers-%7C-anyedit-paper-2.bib`. This is graph-neighborhood context / lead generation, not empirical evidence._
+
+**Claimed relevance:** one final prior-art context pass before committing to the AnyEdit C10 path.
+
+**What the files actually show:** the first graph is the relevant LLM knowledge-editing neighborhood around *AnyEdit: Edit Any Knowledge Encoded in Language Models* (`2502.05628`). It reinforces known leads: AnyEdit's autoregressive chunk/key-token paradigm, evaluation critiques (Built on Sand, Mirage/QAEdit, locality-metric critiques, superficial editing), preservation/scale risks (LyapLock, ReFEdit, NMKE, DeltaEdit), side-memory alternatives (WISE, NeuralDB, MindBridge), and successor/fallback ideas such as μKE. The second graph is a false-positive name collision: *AnyEdit: Mastering Unified High-Quality Image Editing for Any Idea* (`2411.15738`) and its neighbors are image/diffusion editing papers, not LLM knowledge editing.
+
+**New practical value:** the graph does not alter the D-C10h route, but it adds two concrete diagnostics to the AnyEdit prereg/advisor packet:
+
+1. **Context-reliance diagnostic.** `Uncovering Context Reliance in Unstructured Knowledge Editing` warns that unstructured/NTP-style edits can bind knowledge to the training context. If AnyEdit improves A7, test whether the gain survives a held-out paraphrase without canonical/context prefix. A context-prefix-only rescue is not a DB-like win.
+2. **Chunk/window dependency logging.** μKE flags that window-based autoregressive methods can disrupt dependencies between earlier and later output tokens. The pilot should log target token length, AnyEdit window size/overlap, whether the target crosses a window boundary, and per-token continuation success.
+
+**Verdict — PLAN UNCHANGED.** AnyEdit remains the first port target, still viability-gated by local transplant + LAW#5 + A7/A1/A2 held-out full-sequence. The new graph context adds prereg diagnostics and later fallback awareness; it does not promote AnyEdit, prove necessity, or justify running upstream as-is.
+
+**Register action:** add `C10-ANYEDIT-DIAGNOSTICS` to the hypothesis register and update runbook/checkpoint context.
+
+---
+
 ### Method
-Repos cloned shallow into `external_prior_art/`; key files (paper TeX, README, `results.json`) read directly. Verdicts judge **relevance to our hypotheses**, applying the discipline that a lead's headline (and a triage summary) can mis-map to our work — EV-1 is a concrete example (the "key matrices" naming collision). EV-3 is abstract-only (paper existence confirmed, repo + mechanism detail NOT yet verified) — flagged accordingly.
+Repos cloned shallow into `external_prior_art/` when repo-backed; key files (paper TeX, README, `results.json`) read directly. ConnectedPapers BibTeX exports live in `research_and_specs/` and are treated as lead-generation context only. Verdicts judge **relevance to our hypotheses**, applying the discipline that a lead's headline (and a triage summary) can mis-map to our work — EV-1 is a concrete example (the "key matrices" naming collision). EV-3 is abstract-only (paper existence confirmed, repo + mechanism detail NOT yet verified) — flagged accordingly.
