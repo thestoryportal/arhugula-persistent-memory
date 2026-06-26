@@ -25,28 +25,61 @@
   6. STANDING: re-auth codex/gpt-5.5 (Perplexity-Sonar = working cross-family fallback). Guardrails: pre-register + advisor before build AND before verdict · name-the-covering-clause / test-the-confound before stamping a result · cross-family on decisive falsifiers.
 <!-- END GENERATED:program-state -->
 
-## FRESH SESSION HANDOFF — 2026-06-26 (post-AnyEdit pre-commit triage)
+## FRESH SESSION HANDOFF — 2026-06-26 (begin AnyEdit planning + engineering)
 
-**Start here after context reset.** Worktree baseline before this doc commit: `master@0a22799`. Only local untracked `.codex/` session artifacts should remain. C10g closeout is complete: `D-C10g-strengthlayers <D-C10g-strengthlayers@d691acab>`, `CORPUS/39`, closeout gate green. New decision note: `D-C10h-anyedit-triage` says AnyEdit should proceed only through a code-level viability gate, not as assumed evidence.
+**Start here after context reset.** Baseline pushed: `master@4742590` (`Integrate AnyEdit graph context`). Only local untracked `.codex/` session artifacts should remain. C10g closeout is complete (`D-C10g-strengthlayers <D-C10g-strengthlayers@d691acab>`, `CORPUS/39`, closeout gate green). AnyEdit is not evidence yet; it is the next viability-gated C10 rescue path (`D-C10h-anyedit-triage`, `EV-5`).
+
+**Drift check.** This advances F1 because C10 is the first on-critical-path fixed-target blocker: project-coined multi-word semantic values fail in-weight held-out full-seq, and cheap MEMIT knobs failed. The live question is whether AnyEdit/per-token editing can rescue that value class without sacrificing A1/A2 controls or LAW#5.
+
+**Read first in the fresh session.**
+1. `DISCIPLINE.md` — binding gates: spec/e2e map, advisor before harness, LAW#5, one-fix-then-halt.
+2. `EXPERIMENT_RUNBOOK.md` §0.3 + §5.2 row `D-C10h-anyedit-triage`.
+3. `docs/F1_DETERMINATION.md` C10 row.
+4. `research_and_specs/external_evidence_notes.md` EV-4 and EV-5.
+5. `docs/HYPOTHESIS_REGISTER_2026-06-18.md` rows `C10-ANYEDIT-PORT` and `C10-ANYEDIT-DIAGNOSTICS`.
+6. Existing C10 artifacts: `docs/C10_RESIDUAL_TEST_PREREG.md`, `CORPUS/36`, `CORPUS/37`, `CORPUS/38`, `CORPUS/39`, and `results/c10d_residual_coined.json` / `results/c10d_zprobe.json`.
 
 **Current C10 fork.** Cheap MEMIT/AlphaEdit knobs are exhausted for hard project-coined multi-word values. Remaining choices:
 1. AnyEdit/per-token editing port: best technical rescue, but not an assumed fix.
 2. Accept bounded limitation: production-safe only as a hybrid where weights hold single-token, prior-coherent, or verified values; side-store/index/Git holds project-coined multi-word semantic values.
 
-**Pre-commit triage result.** Advisor-review returned PROCEED. Code triage of official AnyEdit/FABLE repos says AnyEdit is the smaller first transplant (`AlphaEdit_ARE`/`MEMIT_ARE`, autoregressive per-token/window loop); FABLE is heavier fallback; AnyEdit++ is paper-only from quick search and only informs fixed-window/chunk-crosstalk risk. Do not run upstream AnyEdit as-is: first adapt to local Qwen2.5-3B/`transformers==4.51.0`, preserve MEMIT primitives, pass LAW#5, then pilot A7 + A1/A2 held-out full-seq. Final ConnectedPapers context adds two prereg guardrails: test context reliance (held-out paraphrase vs canonical/context-prefix) and log chunk/window dependency (target length, window/overlap/boundary, per-token continuation). The second AnyEdit graph is image-editing-only and irrelevant.
+**First engineering step: code-level viability audit, not a GPU run.**
+- Inspect `/tmp/AnyEdit` only if still present; otherwise reclone official `jianghoucheng/AnyEdit` to `/tmp/AnyEdit` or a fenced non-tracked location.
+- Map the minimal transplant: AnyEdit `compute_z` autoregressive target slicing/window loop -> local Qwen2.5-3B harness.
+- Compare upstream hparams against local Qwen2.5-3B configs. Known mismatch: upstream Qwen uses `lm_head`; local harness uses `model.embed_tokens`, with different clamp/cov settings.
+- Confirm the transplant can run under repo pin `transformers==4.51.0` without downgrading dependencies.
+- Confirm no modification of `memit_dry_run/memit` science-path primitives is required. If it is required, halt and write the diagnostic.
+- Define LAW#5 null/identity inertness for the transplant before any A7 evidence run.
 
-**Interpretation calibrated this session.**
-- Accept-bounded does not kill production viability, but it changes the product contract: weights are a bounded semantic serving layer, not a general authoritative DB for arbitrary project facts.
-- AnyEdit is moderately promising because C10 failure is W-realization/continuation, not compute_z; it still must clear held-out paraphrase full-seq, A1/A2 controls, same-relation batch behavior, and Q4_K_M/CPU serving.
-- We are not doctrine-bound to Qwen2.5-3B; claims are evidence-bound. Every new model must re-earn the gates.
-- No model/method has cleared all deployment bars with C10 included. Closest is Qwen2.5-3B plus AlphaEdit/MEMIT via llama.cpp, but C10 fails.
-- If Qwen2.5-3B plus AnyEdit clears C10 and Q4/CPU rechecks, then the tested write-and-serve layers are viable for current scope; not all spec layers. Read/query and governance/security/lifecycle keep their existing category labels.
+**Prereg design to write before harness implementation.**
+- Decision ID candidate: `D-C10h-anyedit-pilot` or next available C10 ID if the run becomes empirical.
+- Arms: AnyEdit-transplant A7 vs baseline/scoped reference, with A1 single-token and A2 prior-coherent controls.
+- Dataset: same 24-subject C10 residual setup where possible.
+- Binding metric: held-out paraphrase full-sequence exact match.
+- Secondary metrics: first-token, conditional full|first, teacher-forced continuation, canonical fit, locality/bystander deltas.
+- EV-5 diagnostics: context-reliance probe (held-out paraphrase alone vs canonical/context-prefix) and chunk/window logging (target token length, window size, overlap, boundary crossing, per-token continuation).
+- Abort criteria: LAW#5 fails; transplant replaces MEMIT primitives; hparam/module mismatch cannot be resolved in one clean fix; A7 apparent rescue is context-prefix-only; A1/A2 controls collapse.
 
-**Next action if continuing science.** If the operator wants rescue: do the AnyEdit code-level viability audit first, then pre-register the local transplant pilot against C10 A7/A1/A2 with the context-reliance and chunk/window diagnostics, and run advisor-review before authoring the harness. If the operator accepts bounded: update F1/product-contract language to make the routing rule explicit; no GPU required.
+**Advisor-review gate.** Run advisor-review before authoring the harness. Feed it: D-C10h summary, EV-4/EV-5, C10b/e/f/g numbers, the prereg draft, code-level audit plan, and abort criteria. Advisor output is input, not evidence.
+
+**Implementation order after advisor approval.**
+1. Create a narrow Track C harness or design doc first; avoid touching engine code.
+2. Add no-GPU import/token-window dry checks.
+3. Add LAW#5 null/identity gate.
+4. Run a tiny engineering smoke only if clearly labeled non-evidence.
+5. Run the full A7/A1/A2 pilot only after gates pass.
+6. Before any verdict/CORPUS writeup, run advisor-review again.
+
+**Do not do first.**
+- Do not run upstream AnyEdit as-is and treat it as comparable.
+- Do not change `transformers` pin.
+- Do not edit `memit_dry_run/memit` to make the port fit.
+- Do not write a CORPUS finding from review, graph context, smoke output, or a failed engineering import.
+- Do not overclaim AnyEdit necessity if it fails or succeeds; the claim is scoped to Qwen2.5-3B / C10 A7 / local harness unless re-earned.
 
 > **💰 COMPUTE BUDGET (2026-06-26) — `docs/F1_COMPUTE_BUDGET.md`:** what it costs to run the remaining conditions register. GPU-runnable falsifier legs (C3/C8/C9/C10-band-knobs) ~15–30 GPU-h (~$5–18); C4 (7B) fat tail ~20–120 GPU-h (gated on the unbuilt determinism instrument); C1 true-scale substrate-ceiling'd ($0); C2/C5/C6/C7 + AnyEdit port = BUILD, not GPU. Worst case **< ~$100** on the 4090 — **GPU cost is not the binding constraint** (substrate, multi-day engineering, and operator scope calls are).
 
-_Last updated: 2026-06-26 (fresh C10g handoff; D-C10g-strengthlayers <D-C10g-strengthlayers@d691acab>; prior consolidated D-D1-2 <D-D1-2@e023d8d2> history remains below). Authoritative re-ground = `SESSION_BOOTSTRAP.md` + `CORPUS/`. The consolidated handoff directly below is the fast path; the per-prototype dated entries further down are detail; the Phase-0 content at the very bottom is stale prior-session history._
+_Last updated: 2026-06-26 (AnyEdit planning checkpoint; next session begins code-level viability audit + prereg; prior consolidated D-D1-2 <D-D1-2@e023d8d2> history remains below). Authoritative re-ground = `SESSION_BOOTSTRAP.md` + `CORPUS/`. The consolidated handoff directly below is the fast path; the per-prototype dated entries further down are detail; the Phase-0 content at the very bottom is stale prior-session history._
 
 ╔══════════════════════════════════════════════════════════════════════╗
 ║  HANDOFF — fresh context, start here (2026-06-21)                      ║
