@@ -1,12 +1,12 @@
 # C10 AnyEdit Viability Audit
 
 **Date:** 2026-06-26  
-**Status:** DONE as code-level audit; NOT empirical evidence; NOT a CORPUS finding.  
+**Status:** DONE as code-level audit; external advisor returned FIX-FIRST; no-GPU alignment gate now PASSED for current A7; NOT empirical evidence; NOT a CORPUS finding.  
 **Decision context:** `D-C10h-anyedit-triage` / EV-6.
 
 ## Verdict
 
-**PROCEED to prereg + advisor + harness design, with one required correction:** upstream AnyEdit's default `window_size=50` is not a valid primary test of the C10 per-token/window hypothesis. The C10 A7 target values are only 4-6 Qwen2.5 tokens, so `window_size=50` collapses every example to one window.
+**PROCEED to prereg after resolving reviewer FIX-FIRST item:** upstream AnyEdit's default `window_size=50` is not a valid primary test of the C10 per-token/window hypothesis. The C10 A7 target values are only 4-6 Qwen2.5 tokens, so `window_size=50` collapses every example to one window.
 
 The viable next design is a harness-side transplant of the official `jianghoucheng/AnyEdit` ARE target-vector/window loop into the local Track C Qwen2.5-3B harness, preserving the local MEMIT/AlphaEdit engine package. The pilot must preregister a small-window primary condition, likely `window_size=1`, plus a default-window diagnostic if useful.
 
@@ -66,7 +66,7 @@ Therefore, `window_size=50` is a useful diagnostic for "ARE with upstream defaul
 
 7. **LAW#5 still needs to be earned for the new harness.** The existing C10 harnesses already prove inertness for their local MEMIT reimplementation against the engine. AnyEdit has no local engine baseline. The next harness must add an AnyEdit-specific null/identity gate before any A7 result is trusted: an identity/no-op path must produce near-zero weight/output change and stable locality. A positive A7 result without that gate is not evidence.
 
-8. **Advisor-review is still required before harness authoring.** Attempting the out-of-family advisor invocation was blocked by the environment safety reviewer because it would export private workspace research context. Do not work around that. Before harness authoring, get explicit operator approval for the data export or use an approved local review route.
+8. **Advisor-review returned FIX-FIRST, then the cheap gate passed.** After operator approval for external review, advisor-review identified the cheapest false-rescue risk: standalone `answer` tokenization might not match the `question + answer` continuation suffix. The no-GPU alignment gate in `docs/C10_ANYEDIT_TOKEN_ALIGNMENT_GATE.md` now passes for current A7 stimuli (24/24 suffix alignment with leading-space answers), but this gate must be embedded in the prereg and harness before any edit run.
 
 ## Next Gate
 
@@ -75,6 +75,6 @@ Before any code is written:
 1. Draft `docs/C10_ANYEDIT_PILOT_PREREG.md`.
 2. Include a primary small-window condition (`window_size=1` unless advisor rejects it) and a default-window diagnostic (`window_size=50`) only as a mechanism check.
 3. Include A1/A2 controls, A7 binding held-out full-sequence, context-prefix diagnostic, per-token/window continuation, and locality/bystander deltas.
-4. Get advisor-review approval with explicit operator authorization for external model data export, or an approved equivalent.
+4. Embed the token-alignment gate from `docs/C10_ANYEDIT_TOKEN_ALIGNMENT_GATE.md`; abort if answer IDs differ from continuation suffix, decoded text is malformed, or a claimed per-token/window condition creates only one A7 window.
 5. Only then author a narrow Track C harness.
 
