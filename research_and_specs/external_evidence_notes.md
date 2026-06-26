@@ -97,5 +97,47 @@ _Verified 2026-06-26. Sources: `research_and_specs/ConnectedPapers-for-AnyEdit%3
 
 ---
 
+
+## EV-6 — Supplied AnyEdit-neighborhood research sweep → filed under C10 / G7 / B3 / C1 / C2 — **VERDICT: ANYEDIT STILL FIRST, BUT UPGRADE THE GATE; NEURALDB/SIDE-STORE PRESSURE INCREASES**
+
+_Verified 2026-06-26. Sources reviewed: user-supplied GitHub/arXiv links plus targeted adjacent searches. This is prior-art / implementation triage and F1 architecture context, not CORPUS evidence and not a local run._
+
+**Claimed relevance:** before committing engineering effort to the C10 AnyEdit path, review all supplied science around AnyEdit, AlphaEdit/EasyEdit successors, long-form editing, locality/regularization, and anything bearing on the LLM-as-Database spec.
+
+**Name-collision / non-LLM filters (do not route into C10):**
+- `DCDmllm/AnyEdit` (`arXiv:2411.15738`) is the CVPR image-editing AnyEdit, not the LLM knowledge-editing AnyEdit. It is only a name-collision warning.
+- `bimsarapathiraja/refedit` / `arXiv:2506.03448` is also image-editing / diffusion-model work, not LLM parametric knowledge editing.
+
+**C10-direct cluster (long/multi-token value realization):**
+- **LLM AnyEdit remains the first code target:** `jianghoucheng/AnyEdit` (`arXiv:2502.05628`) is the relevant repo. Local `/tmp/AnyEdit` points to this repo. Code inspection confirms `AlphaEdit_ARE/`, `memit_ARE/`, Qwen2.5-7B hparams, and an autoregressive `compute_z` loop that tokenizes `data["answer"]`, slices by `window_size`/`overlap`, carries previous deltas, and returns multiple target vectors. It is mechanistically matched to C10's W-realization failure, but it assumes old deps (`transformers==4.23.1`) and A100-class headroom.
+- **μKE / Matryoshka Unstructured Knowledge Editing** (`PurCL/muke`, `arXiv:2504.01196`) is highly relevant. It argues AnyEdit-style window-by-window updates can miss dependencies between early memory updates and later output tokens; it proposes a Matryoshka objective so earlier working-memory shifts contribute to later target tokens. This does not replace the first AnyEdit audit, but it upgrades the pilot diagnostics and becomes the first fallback if fixed-window AnyEdit partially works or fails by window-boundary / later-token collapse.
+- **AnyEdit++** (`arXiv:2606.01053`) strengthens the same risk: fixed-window chunking can disregard semantic/logical structure; Bayes-Chunk / surprisal boundaries are a paper-level lead unless runnable code appears. Treat as prereg risk context, not a first port.
+- **COIN / context reliance** (`arXiv:2602.19043`) is a false-positive guard: unstructured/NTP-style edits can bind recall to the training context. The AnyEdit pilot must test held-out paraphrase alone vs canonical/context-prefix; a context-prefix-only rescue is not database-like.
+- **SUIT** (`holi-lab/SUIT`, `arXiv:2509.24502`) is a serious same-family fallback/diagnostic: it constrains key/value computation to edit-critical subspaces, supports Qwen2.5, and uses a modern `transformers==4.51.3`-era stack. It targets specificity/preservation more than long continuation realization, so it is not first for C10, but it is a better fallback than broad full-module optimization if AnyEdit over-edits.
+
+**Scale / sequential / preservation cluster (important, not first C10 moves):**
+- **NSE** (`jianghoucheng/NSE`, `arXiv:2410.04045`) targets sequential forgetting with neuron-level weights updating and original-weight value computation. Relevant to incremental/lifelong edits, not the immediate batch C10 long-value rescue.
+- **ENCORE / lifelong regularization** (`scalable-model-editing/knowledge-editing-regularization`, `arXiv:2502.01636`) identifies over-optimized activations and norm growth as sequential-edit degradation drivers; relevant to later C1/C3/sequential health, not a direct C10 continuation fix.
+- **LyapLock** (`caskcsg/LyapLock`, `arXiv:2505.15702`) frames sequential editing as constrained stochastic programming with long-term preservation constraints. Relevant to incremental mode / drift governance; not a first C10 port.
+- **ECE** (`tianyuzhangterry/ECE`) uses explainability-driven adaptive neuron identification and clustering for efficient batch optimization. Relevant to scaling/edit batching; heavier and not as directly matched to the C10 failure.
+- **SetKE** (`weiyifan1023/SetKE`, `arXiv:2504.20972`) explicitly studies Knowledge Element Overlap, especially same subject+relation with multiple objects. It is close to our relation-concentration / overwrite concerns and useful C2/C1 context, but not a C10 long-value rescue.
+- **LocFT-BF** (`ICT-STAR/LocFT`, `arXiv:2509.22072`) argues model-editing fine-tuning failures often come from depth-first per-sample pipelines; breadth-first minibatch localized fine-tuning can scale much better, including Qwen2.5. This is a regime-change candidate if locate-and-edit keeps failing, but it changes the science path more than an AnyEdit transplant.
+- **MALMEN** (`ChenmienTan/malmen`, `arXiv:2311.04661`) and **MetaKE** (`arXiv:2603.12677`) are meta-learning / bi-level optimization paths for massive editing or alignment between target-representation and downstream realization. They are real but heavier fallback families.
+- **NMKE** (`LiuJinzhe-Keepgoing/NMKE`) appears to be a rough AlphaEdit/EasyEdit-derived repo that requires replacing `modeling_llama.py` in a conda environment and swapping AlphaEdit core files. It is not a clean first transplant target under our pinned local harness.
+
+**Evaluation / query / architecture cluster (F1-wide relevance):**
+- **NeuralDB** (`arXiv:2507.18028`) is now upgraded from abstract-only to high-relevance architecture context. It explicitly reframes MEMIT/AlphaEdit-like locate-and-edit as querying a KV database, then replaces the linear perturbation with a gated neural KV retrieval module that returns a residual only for matched edited facts and zero otherwise. It claims 10k-100k edit scalability and easier add/delete/modify operations. This is not a C10 fix under the current in-weight `.vindex` target, but it strongly pressures the B3 / side-store / gated-overlay alternative and should be carried into F1 architecture discussion.
+- **SCR / Selective Contextual Reasoning** (`arXiv:2503.05212`) is a direct counter-prior to pure model editing: it argues external contextual updating beats ten editing methods across reliability/generalization/locality/portability. It reinforces that accepting C10-bounded hybrid is scientifically serious, not a failure to find a method.
+- **MindBridge** (`arXiv:2503.02701`) and WISE/GRACE-style memory approaches keep the memory-augmented / model-agnostic side-store branch live for cross-model and high-volume updates.
+- **Locality-evaluation critique** (`arXiv:2601.17343`) warns that common specificity/locality metrics are insensitive and can be dominated by fixed-answer or fluency biases. For AnyEdit/SUIT/side-store comparisons, keep exact held-out read metrics for C10 but also add distributional/logit-delta locality or bystander behavior where side effects matter.
+- **KELE / knowledge erasure for multi-hop** (`arXiv:2408.12456`) is relevant to old-knowledge residue and multi-hop reasoning after edits, mainly C8/C9/R9/C2 read-contract context.
+- **ConceptEdit/ConKE** (`arXiv:2412.11418`) is commonsense-concept editing context; useful for F1 coverage but not directly matched to the project-coined multi-token value wall.
+
+**Verdict — ANYEDIT FIRST, UPGRADED GATE.** The new sweep does **not** justify pivoting away from the AnyEdit code-level viability audit. It **does** change the audit from "AnyEdit only" to "AnyEdit with explicit μKE/AnyEdit++/COIN/SUIT-derived guards." The first science path remains: transplant the official AnyEdit ARE target-vector/window loop into the local Qwen2.5-3B / `transformers==4.51.0` harness, preserve local MEMIT/AlphaEdit primitives, define/pass LAW#5 inertness, then pilot A7 + A1/A2. The prereg/advisor packet must include: target token length, window size/overlap, boundary crossing, per-token continuation by window, held-out paraphrase alone vs canonical/context-prefix, A1/A2 controls, and locality/bystander deltas. If AnyEdit is viable but fails by dependency/window behavior, μKE is the next most targeted fallback. If it over-edits, SUIT is the cleaner specificity-preserving fallback. NeuralDB/SCR/MindBridge remain broader F1 architecture alternatives, not C10 in-weight rescue evidence.
+
+**Register action:** update C10-ANYEDIT-PORT / C10-ANYEDIT-DIAGNOSTICS, add a side-store/gated-overlay pointer for B3/F1 architecture, and update runbook/checkpoint/program-state/memory with thin EV-6 pointers.
+
+---
+
 ### Method
 Repos cloned shallow into `external_prior_art/` when repo-backed; key files (paper TeX, README, `results.json`) read directly. ConnectedPapers BibTeX exports live in `research_and_specs/` and are treated as lead-generation context only. Verdicts judge **relevance to our hypotheses**, applying the discipline that a lead's headline (and a triage summary) can mis-map to our work — EV-1 is a concrete example (the "key matrices" naming collision). EV-3 is abstract-only (paper existence confirmed, repo + mechanism detail NOT yet verified) — flagged accordingly.
