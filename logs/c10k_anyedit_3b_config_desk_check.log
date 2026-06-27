@@ -1,0 +1,22 @@
+# C10K Qwen2.5-3B upstream config desk check 2026-06-27T08:05:12+00:00
+
+## Upstream commit
+057a77f185f7ffb55818f6bd9add37f43bb447e7
+
+## Hparams files
+/tmp/AnyEdit/hparams/AlphaEdit/Llama3-8B-Instruct.json
+/tmp/AnyEdit/hparams/AlphaEdit/Qwen2.5-7B-Instruct.json
+/tmp/AnyEdit/hparams/AlphaEdit_ARE/Llama3-8B-Instruct.json
+/tmp/AnyEdit/hparams/AlphaEdit_ARE/Qwen2.5-7B-Instruct.json
+/tmp/AnyEdit/hparams/MEMIT/Llama3-8B-Instruct.json
+/tmp/AnyEdit/hparams/MEMIT/Qwen2.5-7B-Instruct.json
+/tmp/AnyEdit/hparams/MEMIT_ARE/Llama3-8B-Instruct.json
+/tmp/AnyEdit/hparams/MEMIT_ARE/Qwen2.5-7B-Instruct.json
+/tmp/AnyEdit/hparams/unke/Llama3-8B-Instruct.json
+/tmp/AnyEdit/hparams/unke/Qwen2.5-7B-Instruct.json
+/tmp/AnyEdit/hparams/unke_ARE/Llama3-8B-Instruct.json
+/tmp/AnyEdit/hparams/unke_ARE/Qwen2.5-7B-Instruct.json
+
+## Qwen2.5-3B matches
+
+## Model-name references
