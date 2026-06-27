@@ -5,7 +5,7 @@
 **Class:** source-faithful external method gate; can-fail; C10-informative if controls pass.
 **E2e-map cell:** §8 write engine and §8.9 L2 behavioral firing for Genesis Layer-4 `domain_concept`; fixed deployment target remains `local Intel CPU + batch writes` after offline edit.
 **North-star contract:** C10 is OPEN/BLOCKING unless an in-weight method can express project-coined multi-word semantic values. A Git/index/side-store fallback is not an F1 closure under the operator's stated contract.
-**Scope:** official `jianghoucheng/AnyEdit` source at commit `057a77f185f7ffb55818f6bd9add37f43bb447e7`; isolated upstream-compatible environment; stock-upstream anchor, A1/A2 easy controls, and hard A7 run in one session; A7 interpreted only if stock anchor and A1/A2 pass.
+**Scope:** official `jianghoucheng/AnyEdit` source at commit `057a77f185f7ffb55818f6bd9add37f43bb447e7`; current science hardware only (`RTX 4090 24GB`, no A100/rental path); isolated upstream-compatible environment; stock-upstream anchor, A1/A2 easy controls, and hard A7 run in one session if source-faithful execution fits; A7 interpreted only if stock anchor and A1/A2 pass.
 
 ## Hypothesis
 
@@ -38,10 +38,10 @@ This prereg covers the full official-upstream C10K session: Stage 0 source-faith
 
 ### Stage 0 - Environment, Source, and Stock Anchor
 
-1. Do not rent A100-class hardware without explicit operator sign-off for that action. The operator has expressed willingness to spend GPU money, but the exact rental action remains a separate go/no-go.
-2. Create an isolated upstream-compatible environment. Prefer A100 80GB or equivalent if Qwen2.5-7B/Llama3-8B is used because upstream README states `One A100 80G GPU` and the official runner loads models without local fp16/VRAM edits.
+1. Use only the current science hardware (`RTX 4090 24GB`). A100-class rental or any other GPU class is out of scope and must not be proposed as an experiment route.
+2. Create an isolated upstream-compatible environment on the current pod. If a shipped upstream model/config cannot run source-faithfully on the 4090 without unapproved VRAM/source patches, record `HALTED - HARDWARE_ENVELOPE` rather than changing hardware.
 3. Resolve the README/model dependency contradiction before science runs. The README pins `transformers==4.23.1`, but shipped Qwen2.5 and Llama3 configs require later transformers releases. Record whether the README is stale, what version actually loads the selected shipped config, and how that was determined. Guessing caps the run at INVALID/HALTED.
-4. Run the zero-cost model-config desk check before any rental: determine whether upstream ships a Qwen2.5-3B config. Preference order is **Qwen2.5-3B if shipped > smallest faithful shipped config > Qwen2.5-7B/A100**. If no 3B config ships, record that as an attribution limitation before any 7B run. If no shipped config can run under the README-pinned dependency set, record that contradiction and require Claude advisor approval before proceeding to C10 data.
+4. Run the zero-cost model-config desk check: determine whether upstream ships a Qwen2.5-3B config. Preference order is **Qwen2.5-3B if shipped > smallest faithful shipped config that fits source-faithfully on RTX 4090 > Qwen2.5-7B only if it fits source-faithfully on RTX 4090**. If no 3B config ships, record that as an attribution limitation. If no shipped config can run under the README-pinned dependency set or current hardware envelope, record that contradiction and require Claude advisor approval before proceeding to C10 data.
 5. Run upstream import/CLI smoke until `python3 -m experiments.evaluate_uns --help` or equivalent import path succeeds.
 6. Run a stock-upstream reproduction/anchor before any C10 adapter: execute the official runner on an upstream-supported stock dataset/config at small size, save raw output, and compare to upstream-reported metric if available. If no published expected number is available, label this a source-run anchor rather than a reproduction and require Claude advisor approval before C10 interpretation.
 7. Record upstream commit, remote URL, hparams file, package versions, GPU type, model revision, and all dependency deviations.
@@ -112,6 +112,7 @@ If A1/A2 land in `[80%, 90%)` or A7 lands in `[85%, 90%)`, rerun the correspondi
 | Local transplant artifact | A local wrapper failure is mistaken for AnyEdit failure | Use official upstream algorithm modules unchanged; declare adapter-only boundary |
 | Environment drift | Modern deps change upstream behavior | Isolated env, exact package versions, stock-upstream anchor before C10 data |
 | README/model contradiction | Stale README pin creates false faithfulness | Resolve transformers/model compatibility before run; guess = INVALID/HALTED |
+| Hardware envelope | Upstream README assumes A100 80GB, but science hardware is RTX 4090 24GB | No hardware change; if source-faithful run cannot fit, HALT with hardware-envelope diagnostic |
 | Hardware workaround | VRAM patches change the method | `vram_patches_applied: false` required for PASS |
 | Model mismatch | 7B result is overread as 3B/Q4/CPU closure | 7B PASS is mechanism lead only; C10 closure requires faithful 3B/hard A7/Q4/CPU follow-up |
 | Model-size attribution | A 7B PASS is mistaken for proof that local 3B failed only due transplant | Prefer upstream 3B if shipped; if forced to 7B, record that faithful-upstream-on-3B remains open |
@@ -142,7 +143,7 @@ Required fields:
 - exact algorithm path (`AlphaEdit_ARE` primary);
 - exact hparams file and content hash;
 - model ID and revision;
-- GPU type and memory;
+- GPU type and memory; must be current RTX 4090 24GB unless this prereg is superseded;
 - Python/package versions;
 - dependency/model compatibility justification;
 - Qwen2.5-3B config desk-check result;
@@ -174,10 +175,9 @@ Required fields:
 Required review points:
 
 1. Claude advisor review of this prereg before environment build or GPU run.
-2. Explicit operator sign-off before renting A100-class hardware.
-3. Claude advisor review after any Stage 0/1/2 failure that would require changing model, hparams, dependencies, or algorithm path.
-4. Claude advisor review before any 3B/Q4/CPU closure addendum.
-5. Claude advisor review before any verdict/CORPUS write if a later closeout occurs.
+2. Claude advisor review after any Stage 0/1/2 failure that would require changing model, hparams, dependencies, or algorithm path.
+3. Claude advisor review before any 3B/Q4/CPU closure addendum.
+4. Claude advisor review before any verdict/CORPUS write if a later closeout occurs.
 
 Review is input, not evidence. Saved artifacts and preregistered criteria bind.
 
@@ -191,14 +191,15 @@ Abort and write a diagnostic if any of the following occur:
 - stock-upstream reproduction/anchor gate fails before C10 adapter;
 - the actual compatible transformers/model version cannot be justified;
 - C10 data adapter cannot be read back or tokenized as intended;
-- selected model cannot fit on selected hardware without unapproved source/VRAM modifications;
+- selected model cannot fit source-faithfully on the current RTX 4090 without unapproved source/VRAM modifications;
 - output is aggregate-only and cannot be normalized to per-unit records;
 - A7 is interpreted before stock anchor and A1/A2 PASS;
 - any result is used to recommend bounded hybrid as F1 closure without explicit operator/spec acceptance.
 
 ## Outcome Consequence Map
 
-- **7B or other upstream large-model A7 PASS after controls pass:** C10 mechanism-rescue lead only. It does not close C10 because the fixed target was Qwen2.5-3B/Q4/CPU; closure still requires faithful 3B route, hard A7 behavior, and downstream serving checks. It also leaves the attribution question open: local 3B failure may have been transplant-related, model-size-related, or both.
+- **7B or other upstream large-model A7 PASS after controls pass on the current RTX 4090:** C10 mechanism-rescue lead only. It does not close C10 because the fixed target was Qwen2.5-3B/Q4/CPU; closure still requires faithful 3B route, hard A7 behavior, and downstream serving checks. It also leaves the attribution question open: local 3B failure may have been transplant-related, model-size-related, or both.
 - **Official upstream A7 FAIL after stock anchor and A1/A2 pass:** strong negative evidence against this AnyEdit path for C10; C10 remains OPEN/BLOCKING and may move toward `not-ready` for in-weight project-coined multi-word values.
 - **Stock-upstream reproduction/anchor FAIL:** no AnyEdit science update; environment/source-faithfulness failure only.
+- **Source-faithful upstream path does not fit on current RTX 4090:** no AnyEdit method verdict; record hardware-envelope diagnostic and pivot to source-grounded smaller-model/config or other in-weight method hypotheses.
 - **Local adapter/wrapper FAIL before official algorithm active behavior:** no method evidence; fix once or halt.
