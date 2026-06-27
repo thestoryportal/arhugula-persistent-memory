@@ -223,7 +223,19 @@
     "result": "results/c10g_strength_layer_sweep.json",
     "corpus": "CORPUS/39",
     "status": "NO BEHAVIORAL RESCUE WITH ONE NON-VIABLE TRADEOFF; not promotable",
-    "decision_id": "D-C10g-strengthlayers \u27e8D-C10g-strengthlayers@d691acab\u27e9",
+    "decision_id": "D-C10g-strengthlayers ⟨D-C10g-strengthlayers@d691acab⟩",
+    "script_exists": true,
+    "result_exists": true
+  },
+  {
+    "id": "C10-anyedit-pilot",
+    "track": "track_c",
+    "hypothesis": "does local AnyEdit-style small-window autoregressive target construction rescue hard project-coined multi-word values?",
+    "script": "experiments/track_c/c10h_anyedit_pilot.py",
+    "result": "results/c10h_anyedit_pilot.json",
+    "corpus": "CORPUS/40",
+    "status": "TRADEOFF_NOT_CLEAN_RESCUE; control collapse; not promotable",
+    "decision_id": "D-C10h-anyedit-pilot ⟨D-C10h-anyedit-pilot@6413cc67⟩",
     "script_exists": true,
     "result_exists": true
   }

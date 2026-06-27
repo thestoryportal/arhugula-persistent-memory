@@ -1,3 +1,6 @@
+
+## 2026-06-27 - C10 AnyEdit small-window pilot (D-C10h-anyedit-pilot)
+**D-C10h-anyedit-pilot ⟨D-C10h-anyedit-pilot@6413cc67⟩**: TRADEOFF_NOT_CLEAN_RESCUE. local AnyEdit-style ARE small-window pilot (`window_size=1`) passes token-alignment and no-op gates but is NOT a clean C10 rescue: baseline A1/A2 held-out `para_full` 93.1/97.2 collapse to 0.0/0.0, and hard A7 `para_full` worsens 12.5 (9/72) to 1.4 (1/72). Evidence is scoped to this local fixed small-window transplant; upstream AnyEdit/AnyEdit++/muKE remain un-falsified. C10 remains open; F1 unchanged; next diagnostic, if continuing, is A1/A2-only upstream-equivalent/window_size=50 and require >=80% controls before A7.
 # PROGRESS — the cumulative build toward F1 (the twin of the north star)
 
 > **This file is the equal-and-opposite of the goal.** `DISCIPLINE.md` §0 says *where we are going*

@@ -39,3 +39,5 @@ In-weight, MEMIT-class knowledge editing was validated as a write engine for the
 - **38 — C10 widened-band [4,12] (D-C10f-band412 ⟨D-C10f-band412@d93d6a19⟩, 2026-06-26)** = NO MATERIAL KNOB RESCUE: wide `[4,12]` worsens A7 para_full 11.1 to 6.9 while canon only 29.2 to 41.7; A1/A2 controls remain viable at 90.3; C10 remains open.
 
 - **39 — C10 edit-strength/layer-count sweep (D-C10g-strengthlayers ⟨D-C10g-strengthlayers@d691acab⟩, 2026-06-26)** = NO BEHAVIORAL RESCUE WITH ONE NON-VIABLE TRADEOFF: strength150 and lowcov2500 worsen A7 held-out `para_full` with controls clean; deep improves canonical fit but collapses behavior and controls. C10 remains open; bounded pre-AnyEdit MEMIT knob pass closed.
+
+- **40 - C10 AnyEdit small-window pilot (D-C10h-anyedit-pilot ⟨D-C10h-anyedit-pilot@6413cc67⟩, 2026-06-27)** = TRADEOFF_NOT_CLEAN_RESCUE: local AnyEdit-style `window_size=1` transplant passes alignment/no-op gates but collapses A1/A2 controls to 0.0/0.0 and worsens A7 held-out `para_full` 12.5 to 1.4. Scoped to this transplant; upstream AnyEdit family remains open.

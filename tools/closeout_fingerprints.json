@@ -1,11 +1,11 @@
 {
-  "_doc": "CURRENCY layer of the close-out gate \u2014 fingerprints for NARRATIVE result references (per the 2026-06-21 reconciled design: generate-what's-mechanical via tools/render_state.py + docs/program_state.json; FINGERPRINT-what's-narrative here; warn on unregistered). Each key maps to a canonical SOURCE (file, optional anchored span); the gate hashes it (stamped \u27e8KEY@hex\u27e9 markers stripped first) and requires '<KEY>@<8hex>' wherever the key is referenced. Source change -> hash change -> dependents read STALE. Cmds: `closeout_check.py <D-ID>` (presence+currency, active close-out); `--currency <KEY>`; `--audit` (all); `--fp <KEY>`. Keys absent here = presence-only.",
-  "_not_fingerprinted": "STRUCTURED program STATUS (F1 scorecard, current-position/next-actions, governance CP1-G3 status, \u00a70.3/\u00a710/\u00a712 tables, dashboards) is NOT fingerprinted \u2014 it is GENERATED from docs/program_state.json via tools/render_state.py into <!-- BEGIN GENERATED:KEY --> blocks, auto-synced (the real auto-update). Stable decision-ledger D-IDs (D-SCOPE-1, D-S242/S243 recipe locks) are presence-only.",
+  "_doc": "CURRENCY layer of the close-out gate — fingerprints for NARRATIVE result references (per the 2026-06-21 reconciled design: generate-what's-mechanical via tools/render_state.py + docs/program_state.json; FINGERPRINT-what's-narrative here; warn on unregistered). Each key maps to a canonical SOURCE (file, optional anchored span); the gate hashes it (stamped ⟨KEY@hex⟩ markers stripped first) and requires '<KEY>@<8hex>' wherever the key is referenced. Source change -> hash change -> dependents read STALE. Cmds: `closeout_check.py <D-ID>` (presence+currency, active close-out); `--currency <KEY>`; `--audit` (all); `--fp <KEY>`. Keys absent here = presence-only.",
+  "_not_fingerprinted": "STRUCTURED program STATUS (F1 scorecard, current-position/next-actions, governance CP1-G3 status, §0.3/§10/§12 tables, dashboards) is NOT fingerprinted — it is GENERATED from docs/program_state.json via tools/render_state.py into <!-- BEGIN GENERATED:KEY --> blocks, auto-synced (the real auto-update). Stable decision-ledger D-IDs (D-SCOPE-1, D-S242/S243 recipe locks) are presence-only.",
   "D-D1-2": {
     "source": "docs/SPEC_8_7_AMENDMENT_DRIFT_CONCENTRATION.md",
-    "anchor_start": "\u2192 \u00a78.7 OPERATIONAL GUARDRAIL",
+    "anchor_start": "→ §8.7 OPERATIONAL GUARDRAIL",
     "anchor_end": "## 5. Honest scope",
-    "what": "\u00a78.7 numeric guardrail k<=1 + mixed-load + seed-2"
+    "what": "§8.7 numeric guardrail k<=1 + mixed-load + seed-2"
   },
   "D-D1-1": {
     "source": "CORPUS/22_D1_CAPACITY_LAW.md",
@@ -62,5 +62,9 @@
   "D-C10g-strengthlayers": {
     "source": "CORPUS/39_C10_STRENGTH_LAYER_SWEEP.md",
     "what": "C10 bounded MEMIT strength/layer-count sweep: no behavioral rescue; deep recipe is non-viable tradeoff"
+  },
+  "D-C10h-anyedit-pilot": {
+    "source": "CORPUS/40_C10_ANYEDIT_PILOT.md",
+    "what": "C10 AnyEdit small-window pilot: local window_size=1 transplant passes alignment/no-op gates but collapses A1/A2 controls and worsens A7; not a clean rescue"
   }
 }

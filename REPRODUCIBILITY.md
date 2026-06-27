@@ -64,3 +64,5 @@ Pre-reorganization snapshot (2026-06-18) at `/root/migration_backup/`: `manifest
 | **C10 widened [4,12]** | `python experiments/track_c/c10f_band412.py` | yes (+cov L9-12 if absent) | `results/c10f_band412.json` (CORPUS/38; D-C10f-band412 ⟨D-C10f-band412@d93d6a19⟩) |
 
 | **C10 strength/layer sweep** | `python experiments/track_c/c10g_strength_layer_sweep.py` | yes (+cached cov L4-12,18-22 if absent) | `results/c10g_strength_layer_sweep.json` (CORPUS/39; D-C10g-strengthlayers ⟨D-C10g-strengthlayers@d691acab⟩) |
+
+| **C10 AnyEdit small-window pilot** | `python experiments/track_c/c10h_anyedit_pilot.py --dry-run` then `python experiments/track_c/c10h_anyedit_pilot.py` | yes | `results/c10h_anyedit_token_window_dryrun.json`; `results/c10h_anyedit_pilot.json` (CORPUS/40; D-C10h-anyedit-pilot ⟨D-C10h-anyedit-pilot@6413cc67⟩) |
