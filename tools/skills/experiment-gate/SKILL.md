@@ -18,6 +18,17 @@ calling a result PASS, PARTIAL, FAIL, PROMOTABLE, or ready for CORPUS. The gate
 protects the F1 readiness determination from harness artifacts, weak metrics,
 and review drift. It is not an evidence authority.
 
+
+## Supporting Methodology Skills
+
+These repo-local skills are installed for both Codex and Claude by `tools/install_science_methodology_skills.sh` and restored by `tools/restore_pod_tools.sh`:
+
+- `methodology-superpowers`: verification-before-completion, systematic debugging, test-first harness work, review handling.
+- `scientific-critical-thinking`: bias/confound/metric/evidence audit.
+- `debug-mantra-scrutinize`: reproduce, trace, falsify, one-fix-then-halt, path-level review.
+- `premortem-the-fool`: pre-mortem and red-team assumptions before decisions/verdicts.
+- `scientific-problem-selection`: choose or reframe F1-moving science arcs with risk, decision tree, adversity planning, and problem inversion.
+
 ## Core Rule
 
 Compose with the existing program machinery:

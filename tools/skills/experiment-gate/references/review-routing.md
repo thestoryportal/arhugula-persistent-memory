@@ -10,3 +10,10 @@ Use each review surface for its lane.
 | `closeout_check.py` | Mechanical tracker/currency closeout after CORPUS writing | Scientific interpretation |
 
 Evidence stays binding over review output. A review pass means the package is worth considering, not that the claim is proven.
+
+## Supporting Skills
+
+- Use `scientific-problem-selection` before choosing between science arcs or reframing a stuck direction.
+- Use `scientific-critical-thinking` and `premortem-the-fool` before prereg criteria and before verdicts.
+- Use `debug-mantra-scrutinize` and `methodology-superpowers` on failures, harness changes, and completion claims.
+

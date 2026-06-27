@@ -10,6 +10,8 @@ print("NORTH STAR (F1): prove/falsify that the LLM-as-Database spec is implement
 print("DRIFT CHECK before any non-trivial action: does this advance F1 or a live runbook §0.3 falsifier? If not, stop and say why.")
 print("Load `DISCIPLINE.md` (north star + context read-triggers + deep-thinking-on-failure + tool/loop thresholds).")
 print("Read order: README → EXPERIMENT_RUNBOOK.md §0.3 → SESSION_CHECKPOINT.md. Codex guide: AGENTS.md.")
+print("Methodology skills installed: experiment-gate, methodology-superpowers, scientific-critical-thinking, debug-mantra-scrutinize, premortem-the-fool, scientific-problem-selection.")
+print("Use them at the gate points: problem selection before choosing an arc; critical-thinking/premortem before criteria/verdicts; debug-mantra on failures; verification-before-completion before done.")
 
 guard = ROOT / "tools/codex_context_guard.py"
 if guard.exists():

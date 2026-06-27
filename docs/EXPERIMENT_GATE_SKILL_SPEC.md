@@ -15,6 +15,7 @@ Implemented as a repo-local workflow layer, not a parallel evidence authority:
 - `tools/skills/experiment-gate/references/` carries the metric, sampling, confound, method-port, debugging, verification, and review-routing checklists.
 - `check-result` fresh-reads saved JSON and writes stats reports under `logs/experiment_gate/`; aggregate-only results are blocked for completion claims.
 - `bundle` never writes `CORPUS/*`; it blocks handoff unless prereg/result/method-port checks pass and review status is explicit.
+- Supporting methodology skills (`methodology-superpowers`, `scientific-critical-thinking`, `debug-mantra-scrutinize`, `premortem-the-fool`, `scientific-problem-selection`) are installed for Codex and Claude via `tools/install_science_methodology_skills.sh`; `tools/restore_pod_tools.sh` reruns that installer.
 
 ## 0. The one design constraint that governs everything
 

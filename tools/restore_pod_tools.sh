@@ -105,11 +105,20 @@ PPKEY=$(python3 -c 'import json;d=json.load(open("'"$BUNDLE"'/mcp/servers.json")
 [ -n "$PPKEY" ] && boot_check "Perplexity" "@perplexity-ai/mcp-server" "PERPLEXITY_API_KEY=$PPKEY" || echo "  (no Perplexity key in bundle)"
 
 # ---- 5: re-install the InfraNodus Claude skills into ~/.claude/skills ------------------
-say "[5/5] InfraNodus Claude skills"
+say "[5/6] InfraNodus Claude skills"
 if [ -d /workspace/tools/infranodus-skills ]; then
   bash /workspace/tools/install_infranodus_skills.sh 2>&1 | grep -E '✅|Installed [0-9]+ skills' || true
 else
   echo "  skills master missing (/workspace/tools/infranodus-skills) — re-clone github.com/infranodus/skills there"
+fi
+
+
+# ---- 6: install repo-local science methodology skills for Codex + Claude ----------------
+say "[6/6] LLMDB science methodology skills"
+if [ -x /workspace/tools/install_science_methodology_skills.sh ]; then
+  bash /workspace/tools/install_science_methodology_skills.sh
+else
+  echo "  methodology installer missing (/workspace/tools/install_science_methodology_skills.sh)"
 fi
 
 say "Done."
@@ -120,4 +129,5 @@ cat <<EOF
   • Perplexity is project-scoped to cwd /root — launch the session from /root (the default).
     For cwd-independence, move it under root "mcpServers" in $CLAUDE_JSON.
   • InfraNodus skills: 13 installed to ~/.claude/skills (2 T3 pruned via installer exclude-list) — register on SESSION RELOAD.
+  • LLMDB science methodology skills: installed to /workspace/.codex/skills and ~/.claude/skills; hooks merged for Codex/Claude science posture.
 EOF

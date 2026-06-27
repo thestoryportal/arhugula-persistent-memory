@@ -32,6 +32,19 @@ if re.search(r"\b(rm\s+-rf|git\s+reset\s+--hard|git\s+checkout\s+--|git\s+clean\
     print("BLOCKED: destructive command requires explicit operator direction. In no-HIL autonomy: log the intent and skip, do not run.", file=sys.stderr)
     sys.exit(2)
 
+
+# WARN (allow): experiment runs should flow through experiment-gate.
+if re.search(r"\bpython(?:3(?:\.\d+)?)?\b.*\bexperiments/", j) and "experiment_gate.py" not in j:
+    print("WARN: experiment command detected. Use experiment-gate discipline: prereg/advisor before run, LAW/inertness checks, saved JSON readback, stats/bias audit, and handoff package before completion claims.", file=sys.stderr)
+
+# WARN (allow): method-port / AnyEdit paths require source-faithful easy-control gate.
+if re.search(r"\b(AnyEdit|anyedit|method[-_ ]?port|c10i(?:\b|_))", j) and "audit-method-port" not in j:
+    print("WARN: method-port path detected. Apply debug-mantra-scrutinize + method-port faithfulness: upstream commit/hparams/deviations/active trace/easy controls before hard cases.", file=sys.stderr)
+
+# WARN (allow): AutoResearch is fenced candidate generation, not evidence.
+if re.search(r"\b(autoresearch|auto-research|arbor)\b", j):
+    print("WARN: optimizer/candidate loop detected. AutoResearch/arbor is fenced: candidates only, never method-validity evidence or CORPUS conclusions.", file=sys.stderr)
+
 # WARN (allow): un-namespaced result output → artifact-collision trap
 if re.search(r"g6_scale_n_\w*result\.json", j) and "RESULT_TAG" not in j and "_qwen7b" not in j and "_bandsearch" not in j:
     print("WARN: a result write without a model/variant namespace can overwrite a canonical artifact (the artifact-collision trap, memory_mirror/durable-artifact-path-collision.md). Set RESULT_TAG.", file=sys.stderr)
