@@ -5,6 +5,22 @@
 ## ⭐ North Star & Discipline — load `DISCIPLINE.md` FIRST
 **The goal:** prove/falsify the LLM-as-Database spec is implementable *before* it's built → the **F1 readiness determination**. Everything serves F1; falsification-first (truth, not green checkmarks). **Before any non-trivial action run the drift check:** *does this advance F1 or a live §0.3 falsifier?* `DISCIPLINE.md` holds the north star, **context read-triggers**, the **deep-thinking-on-failure** protocol (mandatory when an experiment fails/stalls/surprises), and **tool & loop thresholds** (advisor / council / autoresearch / Perplexity / NotebookLM — when to invoke + min/max bounds). Honor it.
 
+
+## Methodology Skills Are Contracts, Not Agents
+The repo-local methodology skills are concise operating contracts. They do not
+create independent reasoning, autonomy, or new tool access by themselves. Use
+them to decide what evidence/gates are required, but do not recite their
+checklists back to the user. For high-stakes scientific reasoning, pair skills
+with actual mechanisms: deterministic scripts (`tools/experiment_gate.py`,
+`tools/stats.py`, `tools/power.py`), out-of-family advisor review
+(`tools/claude_advisor.sh` for Codex-led work), or bounded subagent fan-out.
+
+A route that preserves a product while relaxing the spec's intended in-weight
+memory contract is an engineering mitigation, not an F1 closure, unless the spec
+and operator explicitly accept that relaxation. Keep such conditions OPEN or
+BLOCKING and propose the cheapest source-faithful test that could still satisfy
+the north-star claim.
+
 ## What this is
 A falsification-first research program testing whether facts can be **stored in / retrieved from / governed within / deployed from** an LLM's weights (MEMIT/AlphaEdit editing), stress-testing the spec at `research_and_specs/llm-as-database-v1_2-integrated-spec.md` toward implementation-readiness.
 

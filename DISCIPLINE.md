@@ -10,6 +10,15 @@ The thesis: a transformer's FFN can serve as a **physically queryable + editable
 
 > **DRIFT CHECK — run before any non-trivial action:** *"Does this advance the F1 readiness determination, or a live falsifier the goal depends on (`EXPERIMENT_RUNBOOK.md` §0.3)? If not — stop and say why."* If you cannot tie the action to F1 or a §0.3 falsifier, you are drifting.
 
+**North-star fallback rule (2026-06-27).** A fallback that preserves an
+engineering product while nullifying the spec's intended separation of Git and
+LLM-weight persistent memory is **not** an F1 closure. It may be an engineering
+escape hatch, a deployment mitigation, or a scoped product route, but it must be
+labelled as such. If the operator states that such a fallback violates the
+spec's intent, do not recommend it as the readiness path. Instead, keep the
+relevant condition OPEN/BLOCKING and route effort to the cheapest faithful test
+or method-family attempt that could still satisfy the in-weight memory contract.
+
 ---
 
 ## 1. CONTEXT — what to read, and WHEN (triggers)

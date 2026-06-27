@@ -27,3 +27,19 @@ and after failures or surprising results.
 - Mechanics proven does not mean the spec contract is satisfied.
 - Design viability is not empirical evidence.
 - Same-model critique is process hygiene, not independent evidence.
+## Output Contract
+
+Do **not** recite this checklist back to the user. Produce a short,
+artifact-specific audit:
+
+- `Claim under review:` one sentence.
+- `EVIDENCE-SHOWS:` only cited observations with paths/numbers.
+- `I-INFER:` bounded implications, each labelled as inference.
+- `Open confounders:` the confounders that still change the decision.
+- `Cheapest overturning test:` one concrete test, command/artifact if known.
+- `Decision cap:` PASS/PARTIAL/FAIL/INVALID/HALTED ceiling and why.
+
+If a proposed conclusion preserves convenience while weakening the F1 north star,
+call that out as drift. Do not convert an engineering fallback into an F1
+readiness closure unless the spec/operator intent allows it.
+

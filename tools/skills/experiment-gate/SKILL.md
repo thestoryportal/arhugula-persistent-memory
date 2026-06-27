@@ -67,3 +67,18 @@ python3 tools/experiment_gate.py bundle D-EXAMPLE --result results/example.json 
 ```
 
 Read command output and exit status. A `BLOCKED` package is a stop signal, not a softer warning.
+## Output Contract
+
+Do **not** dump the phase-order checklist in normal answers. Use it to gate the
+work and report only deltas:
+
+- `Gate status:` PASS/BLOCKED/HALTED and the decisive reason.
+- `Artifacts read:` exact paths.
+- `Allowed next action:` what is licensed now.
+- `Forbidden next action:` what is not licensed.
+- `If BLOCKED:` the smallest artifact or design change that would unblock.
+
+The gate is mechanical discipline, not a scientist. For method-port failures,
+never infer method-family failure from a non-faithful local harness. Route to an
+official/source-faithful easy-control attempt or keep the condition open.
+

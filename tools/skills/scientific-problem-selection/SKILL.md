@@ -31,3 +31,18 @@ method family, or reframing a stuck line of work.
 - Do not turn candidate generation into evidence.
 - If the spec already answers the question, follow the spec.
 - If our research corpus already covers the method, cite it instead of re-surveying.
+## Output Contract
+
+Do **not** output the framework as a preamble. Use it internally, then return a
+ranked route decision:
+
+- `F1 gap:` the exact condition or runbook §0.3 falsifier.
+- `Non-negotiable contract:` what the spec/operator says cannot be sacrificed.
+- `Routes:` 2-4 options with expected information gain, cost, and failure mode.
+- `Stop rule:` what result ends each route.
+- `Recommended next move:` the cheapest faithful test that can change readiness.
+
+A fallback that nullifies the intended in-weight memory contract is an
+engineering escape hatch, not an F1 closure. If that fallback is proposed, label
+it explicitly and keep the scientific condition OPEN/BLOCKING.
+

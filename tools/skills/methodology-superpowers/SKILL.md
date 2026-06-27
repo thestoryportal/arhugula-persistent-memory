@@ -33,3 +33,17 @@ claiming completion, or receiving review feedback.
 - A fix proposed before the traceback/failing boundary is known.
 - A harness change without an inertness/null gate where LAW#5 applies.
 - Review handled by agreement instead of a re-run or cited artifact.
+## Output Contract
+
+Do **not** summarize this methodology. Apply it and report only the verification
+state:
+
+- `Fresh evidence:` command output and saved-artifact readback.
+- `Completion claim allowed?` yes/no and why.
+- `Missing verification:` exact command/artifact still needed.
+- `Review action taken:` critique resolved by evidence, rerun, or scoped caveat.
+
+Process compliance cannot substitute for scientific reasoning. A green process
+gate means the next claim is allowed to be considered, not that the claim is
+true.
+

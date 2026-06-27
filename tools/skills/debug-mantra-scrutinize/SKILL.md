@@ -30,3 +30,17 @@ Use this for failures and for skeptical review of implementation claims.
 
 For C10/AnyEdit-style method ports, do not proceed to hard A7 cases until the
 source-faithful easy A1/A2 active trace and behavior pass.
+## Output Contract
+
+Do **not** output the mantra as a checklist. Return the live debugging state:
+
+- `Observed failure:` exact command/artifact/error.
+- `Narrowest known boundary:` file/function/line or UNVERIFIED.
+- `Competing hypotheses:` at least three, including harness error.
+- `One allowed fix/test:` the single next intervention and same-gate rerun.
+- `Halt condition:` when to stop and write a diagnostic instead of iterating.
+
+For method ports, distinguish official upstream behavior from local wrappers or
+transplants. A local-wrapper failure is not method evidence unless source-faithful
+active easy controls passed first.
+

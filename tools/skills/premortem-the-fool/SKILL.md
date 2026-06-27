@@ -27,3 +27,15 @@ Use before committing to an approach or declaring a result conclusive.
 - Decision: proceed, fix first, or stop.
 
 A premortem is an input to the experiment gate, not evidence for CORPUS.
+## Output Contract
+
+Do **not** recite generic questions. Return an adversarial, decision-specific
+pre-mortem:
+
+- `Likeliest way we fool ourselves:` one concrete failure mode.
+- `North-star drift risk:` how this plan could preserve activity while weakening
+  F1.
+- `Spec-contract risk:` what requirement might be silently relaxed.
+- `Cheapest embarrassing test:` one test that would overturn the plan.
+- `Decision:` proceed / fix-first / stop, with the reason.
+
