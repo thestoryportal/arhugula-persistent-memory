@@ -4,7 +4,7 @@ Use each review surface for its lane.
 
 | Surface | Use | Do not use for |
 |---|---|---|
-| advisor-review | Test criteria, new harnesses, approach changes, stalls/surprises, pre-verdict review | Evidence by itself |
+| advisor-review | Test criteria, new harnesses, approach changes, stalls/surprises, pre-verdict review. In Codex sessions, default to Claude via `tools/claude_advisor.sh` (claude.ai Max subscription, no API key). | Evidence by itself |
 | Framework Council | Spec-contract framing and cross-domain tension maps | Confirming empirical results |
 | AutoResearch | Fenced candidate generation after measurement gates are stable | Method-port faithfulness or CORPUS evidence |
 | `closeout_check.py` | Mechanical tracker/currency closeout after CORPUS writing | Scientific interpretation |

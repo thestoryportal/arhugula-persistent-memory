@@ -1,28 +1,70 @@
 ---
 name: advisor-review
-description: Independent, adversarial cross-family review of a research step (design / finding / approach) in the LLM-as-Database program. Use before authoring a test set, before declaring a result conclusive or writing it to CORPUS, before committing to an approach, or when stuck. Feed it the finding/design + evidence (artifact paths + exact numbers) — it does NOT see the Claude transcript.
+description: >-
+  Independent, adversarial out-of-family review of a research step (design /
+  finding / approach) in the LLM-as-Database program. In Codex sessions the
+  default reviewer is Claude via local claude.ai Max subscription auth, not an
+  API key. Use before authoring a test set, before declaring a result conclusive
+  or writing it to CORPUS, before committing to an approach, or when stuck.
 ---
 
-# advisor-review (cross-family independence)
+# advisor-review (Claude out-of-family advisor)
 
-You are the **out-of-family** reviewer (GPT/o-series) for the LLM-as-Database research program. Your value is independence from the Opus author/advisor: do not rubber-stamp, do not echo. Evidence binds over opinion; the author weighs your input heavily but a passing self-test is not evidence you are wrong.
+For Codex-authored work, the primary advisor is **Claude via the local Claude
+Code CLI authenticated with the operator's claude.ai Max subscription**. This is
+out-of-family relative to Codex and does not use an Anthropic API key.
 
-## How to invoke
+## How to Invoke
+
+Feed the design/finding/approach and its evidence on stdin:
+
+```bash
+cd /workspace
+printf '%s
+' '<PASTE: design OR finding OR approach, with artifact paths + exact numbers + relevant context>'   | tools/claude_advisor.sh
 ```
+
+The wrapper checks `claude auth status` and refuses API-key auth; it requires
+`authMethod=claude.ai`. It uses `CLAUDE_ADVISOR_MODEL=opus` and
+`CLAUDE_ADVISOR_EFFORT=high` by default. Override only deliberately:
+
+```bash
+CLAUDE_ADVISOR_MODEL=opus CLAUDE_ADVISOR_EFFORT=xhigh tools/claude_advisor.sh <<'EOF'
+<review package>
+EOF
+```
+
+For a code/diff review, include the relevant diff excerpt or a concise file/line
+summary in the review package. Keep Claude's tools disabled in the wrapper; the
+reviewer judges the evidence you supply rather than exploring the repo with its
+own hidden context.
+
+## Fallback / Secondary Review
+
+If Claude subscription auth is unavailable, use Codex/GPT-family review only as
+a fallback or secondary check, and label it as weaker independence for Codex-led
+work:
+
+```bash
 CODEX_HOME=/workspace/.codex codex exec -m gpt-5.5 "$(cat /workspace/tools/advisor_review_prompt.md)
 
-<PASTE: the design OR finding OR approach, with EVIDENCE = artifact paths + exact numbers + the relevant context>"
-```
-For code/diff review of a harness change (needs a git repo):
-```
-CODEX_HOME=/workspace/.codex codex review -m gpt-5.5 "$(cat /workspace/tools/advisor_review_prompt.md)"
+<PASTE: review package>"
 ```
 
-## The review contract
-Run the rubric in `/workspace/tools/advisor_review_prompt.md` verbatim: (1) real criterion vs flattering adjacent; (2) confounds / over-claims / EVIDENCE-SHOWS vs I-INFER / mechanics≠contract; (3) cite-or-flag every factual claim (`UNVERIFIABLE` if ungrounded); (4) the cheapest overturning test; (5) drift check vs F1 / the §0.3 falsifier. Output a one-word verdict (`PROCEED` / `FIX-FIRST` / `OVERTURNED-OR-RECONSIDER`), then the single most important next action, then issues in priority order.
+## Review Contract
 
-## Discipline (binding — DISCIPLINE.md §3)
-- You are **input, not authority.** A real run that can fail outranks you.
-- You do **not** see the transcript — if evidence is missing, say `UNVERIFIABLE`, don't assume.
-- Your output is a **review**, never written to `CORPUS/` as evidence. It informs the author's disposition.
-- Cross-family independence is the point: argue from the supplied numbers, not from agreement with the author.
+Run `/workspace/tools/advisor_review_prompt.md` verbatim: real criterion vs
+flattering adjacent; confounds and over-claims; `EVIDENCE-SHOWS` vs `I-INFER`;
+cite-or-flag every factual claim; cheapest overturning test; F1 drift check.
+Output a one-word verdict (`PROCEED` / `FIX-FIRST` /
+`OVERTURNED-OR-RECONSIDER`), then the single most important next action, then
+issues in priority order.
+
+## Discipline
+
+- Review is **input, not authority**; evidence and preregistered criteria bind.
+- The reviewer does **not** see the Codex transcript. Missing evidence is
+  `UNVERIFIABLE`, not assumed.
+- Review output is never CORPUS evidence.
+- Cross-family independence is the point: for Codex-led work, prefer Claude;
+  for Claude-led work, use a GPT-family reviewer.

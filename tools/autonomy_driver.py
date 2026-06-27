@@ -13,11 +13,10 @@ DESIGN (deliberately THIN — see advisor review 2026-06-19):
     NEVER writes CORPUS/*, the append-only ledger, the runbook, or the checkpoint. The
     operator folds staged findings into the canonical §0.4 record on review.
   - AGENTIC DISCIPLINE: the obligation block is always emitted. In --mode agent (IMPLEMENTED)
-    the driver ALSO shells `codex exec` on each staged finding to attach an INDEPENDENT
+    the driver shells a separate advisor CLI on each staged finding to attach an INDEPENDENT
     cross-family review (advisory — it never changes the deterministic pre-registered label;
-    DISCIPLINE §3.1). Bounded by per-review timeout + the wall-clock; codex failure is non-fatal.
-    Needs Codex authenticated (`tools/setup_codex.sh`); runs in THIS pod process (Claude's
-    sandboxed tools have no network, so this cannot be driven from the Claude loop).
+    DISCIPLINE §3.1). Default advisor is Claude via local claude.ai subscription auth
+    (`tools/claude_advisor.sh`); Codex/GPT remains an explicit fallback.
 
 This is a guardrail harness, not a scientist. A clean FAIL on a pre-registered falsifier is
 a SUCCESS for the run. Optimizer-style units (Goodhart-prone) are fenced: they may LOG
@@ -25,7 +24,8 @@ candidates, they may NOT write a conclusion (mission field "fenced": true).
 
 Usage:
   python tools/autonomy_driver.py --mission tools/autonomy_mission.json [--budget-min 240]
-                                  [--mode batch|agent] [--dry-run] [--model <codex-model>]
+                                  [--mode batch|agent] [--advisor claude|codex]
+                                  [--dry-run] [--model <advisor-model>]
 """
 from __future__ import annotations
 import argparse, json, os, re, shlex, shutil, subprocess, sys, time
@@ -35,8 +35,10 @@ ROOT = Path(os.environ.get("LLMDB_ROOT", Path(__file__).resolve().parents[1]))
 LOGS = ROOT / "logs"
 STAGING = LOGS / "pending_findings"
 GATES = LOGS / "autonomy_gates.jsonl"
-# ---- cross-family review (Codex) — pod-process only; advisory, never label-changing ----
+# ---- cross-family review — advisory, never label-changing -------------------------------
 ADVISOR_PROMPT = ROOT / "tools/advisor_review_prompt.md"
+CLAUDE_ADVISOR = ROOT / "tools/claude_advisor.sh"
+CLAUDE_BIN = os.environ.get("CLAUDE_BIN") or shutil.which("claude") or "/root/.local/bin/claude"
 CODEX_HOME = os.environ.get("CODEX_HOME") or str(ROOT / ".codex")
 CODEX_BIN = os.environ.get("CODEX_BIN") or shutil.which("codex") or str(ROOT / "bin/codex")
 REVIEWABLE = ("PASS", "PARTIAL", "FAIL", "INVALID")   # ERROR/SKIPPED/DRY produced nothing to review
@@ -158,6 +160,39 @@ def run_codex_review(finding_text: str, model: str | None, timeout: int) -> str:
             f"> Auto-satisfies DISCIPLINE §3.1 obligation #4 (independent cross-model review) for this "
             f"finding. The supervised fold-in still verifies numbers + promotes.\n\n" + verdict)
 
+# ---- cross-family independent review via Claude subscription auth ---------------------------
+def run_claude_review(finding_text: str, model: str | None, effort: str, timeout: int) -> str:
+    """Independent cross-family review for Codex-authored/staged work via Claude Code.
+    Uses tools/claude_advisor.sh, which requires claude.ai subscription auth and refuses
+    API-key auth. NEVER raises; NEVER changes the deterministic pre-registered label."""
+    if not CLAUDE_ADVISOR.exists():
+        return "## CROSS-FAMILY REVIEW — UNAVAILABLE\n\n_tools/claude_advisor.sh not found._"
+    if not (Path(CLAUDE_BIN).exists() or shutil.which("claude")):
+        return "## CROSS-FAMILY REVIEW — UNAVAILABLE\n\n_claude binary not found; install/login Claude Code._"
+    env = {**os.environ,
+           "LLMDB_ROOT": str(ROOT),
+           "CLAUDE_BIN": str(CLAUDE_BIN),
+           "CLAUDE_ADVISOR_MODEL": model or os.environ.get("CLAUDE_ADVISOR_MODEL", "opus"),
+           "CLAUDE_ADVISOR_EFFORT": effort or os.environ.get("CLAUDE_ADVISOR_EFFORT", "high")}
+    try:
+        pr = subprocess.run([str(CLAUDE_ADVISOR)], cwd=ROOT, env=env, input=finding_text,
+                            capture_output=True, text=True, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        return f"## CROSS-FAMILY REVIEW — UNAVAILABLE\n\n_claude advisor timed out after {timeout}s (review skipped; not fatal)._"
+    except Exception as e:
+        return f"## CROSS-FAMILY REVIEW — UNAVAILABLE\n\n_claude advisor spawn error: {e}._"
+    verdict = (pr.stdout or "").strip()
+    if pr.returncode != 0:
+        err = (pr.stderr or verdict or "").strip()[-4000:]
+        return f"## CROSS-FAMILY REVIEW — UNAVAILABLE\n\n_claude advisor rc={pr.returncode}: {err}_"
+    if not verdict:
+        return "## CROSS-FAMILY REVIEW — UNAVAILABLE\n\n_claude advisor produced no output._"
+    mid = env["CLAUDE_ADVISOR_MODEL"]
+    return (f"## CROSS-FAMILY REVIEW (advisory — does NOT change the pre-registered LABEL; "
+            f"independent Claude/{mid} via claude.ai subscription CLI, {stamp(now())})\n"
+            f"> Auto-satisfies DISCIPLINE §3.1 obligation #4 (independent cross-family review) for "
+            f"Codex-led work. The supervised fold-in still verifies numbers + promotes.\n\n" + verdict)
+
 # ---- staging write (NEVER canonical) --------------------------------------------------------
 def stage_finding(idx: int, unit: dict, label: str, reasons: list[str], result: dict | None, attempts: int):
     STAGING.mkdir(parents=True, exist_ok=True)
@@ -167,8 +202,8 @@ def stage_finding(idx: int, unit: dict, label: str, reasons: list[str], result: 
         "  1. Verify the EXACT command + result fields below reproduce.",
         "  2. If LABEL≠PASS: a deep-thinking-on-failure pass (DISCIPLINE §2) — what confound/alt-mechanism?",
         "  3. Autoresearch / external-evidence check IF the failure is a dead-end (bounded; §3 thresholds).",
-        "  4. Independent (cross-model) advisor-review — self-review by the run model is NOT independent. "
-        "(AUTO-DONE below in --mode agent: Codex cross-family review is appended to this file.)",
+        "  4. Independent (cross-family) advisor-review — self-review by the run model is NOT independent. "
+        "(AUTO-DONE below in --mode agent: Claude subscription-backed review is appended by default; Codex is fallback.)",
         "  5. Only then fold into CORPUS/NN + 00/03 + runbook §0.3/§12/§13 + checkpoint + memory.",
     ]
     fenced = unit.get("fenced", False)
@@ -199,7 +234,9 @@ def main():
     ap.add_argument("--mission", default=str(ROOT / "tools/autonomy_mission.json"))
     ap.add_argument("--budget-min", type=float, default=240.0)
     ap.add_argument("--mode", choices=["batch", "agent"], default="batch")
-    ap.add_argument("--model", default=None, help="codex exec model for --mode agent")
+    ap.add_argument("--advisor", choices=["claude", "codex"], default=os.environ.get("LLMDB_ADVISOR", "claude"), help="advisor backend for --mode agent")
+    ap.add_argument("--model", default=None, help="advisor model for --mode agent (Claude default: opus; Codex default: config/gpt-5.5)")
+    ap.add_argument("--effort", default=os.environ.get("CLAUDE_ADVISOR_EFFORT", "high"), help="Claude advisor effort for --advisor claude")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
@@ -268,10 +305,15 @@ def main():
             remaining = deadline - now()
             rtimeout = min(int(unit.get("review_timeout_s", 240)), max(30, int(remaining)))
             if remaining > 45:
-                review = run_codex_review(path.read_text(), args.model, rtimeout)
+                if args.advisor == "claude":
+                    review = run_claude_review(path.read_text(), args.model, args.effort, rtimeout)
+                    reviewer = f"Claude/{args.model or os.environ.get('CLAUDE_ADVISOR_MODEL', 'opus')}"
+                else:
+                    review = run_codex_review(path.read_text(), args.model, rtimeout)
+                    reviewer = f"Codex/{args.model or 'gpt-5.5'}"
                 with open(path, "a") as f:
                     f.write("\n\n---\n" + review + "\n")
-                out.append(f"  → cross-family review appended ({args.model or 'gpt-5.5'})")
+                out.append(f"  → cross-family review appended ({reviewer})")
             else:
                 out.append("  → cross-family review SKIPPED (wall-clock < 45s)")
         elif args.mode == "agent":

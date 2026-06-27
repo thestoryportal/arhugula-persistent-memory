@@ -45,7 +45,7 @@ Compose with the existing program machinery:
 2. **Run under LAWs:** engine fingerprint, LAW#5 inertness for harness-side methods, source readback, deterministic saved JSON.
 3. **Verify runs/stats:** fresh-read the saved result JSON and run stats. Use `python3 tools/experiment_gate.py check-result results/<file>.json`. A stats refusal blocks completion claims.
 4. **Bias/method audit:** run every preregistered confound control. For external method ports, read `references/method-port-faithfulness.md` and run `python3 tools/experiment_gate.py audit-method-port <packet.json>`.
-5. **Cold review:** advisor-review before harness/test criteria, after stalls/surprises, before approach changes, and before verdict. Council is only for spec-contract/tension framing; see `references/review-routing.md`.
+5. **Cold review:** advisor-review before harness/test criteria, after stalls/surprises, before approach changes, and before verdict. In Codex sessions, the default out-of-family advisor is Claude via `tools/claude_advisor.sh` (claude.ai Max subscription, no API key). Council is only for spec-contract/tension framing; see `references/review-routing.md`.
 6. **Handoff:** build a gate package with `python3 tools/experiment_gate.py bundle <D-ID> ... --review-status both_done`, then do the normal closeout.
 
 ## Hard Stops

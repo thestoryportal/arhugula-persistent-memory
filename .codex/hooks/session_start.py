@@ -12,6 +12,7 @@ print("Load `DISCIPLINE.md` (north star + context read-triggers + deep-thinking-
 print("Read order: README → EXPERIMENT_RUNBOOK.md §0.3 → SESSION_CHECKPOINT.md. Codex guide: AGENTS.md.")
 print("Methodology skills installed: experiment-gate, methodology-superpowers, scientific-critical-thinking, debug-mantra-scrutinize, premortem-the-fool, scientific-problem-selection.")
 print("Use them at the gate points: problem selection before choosing an arc; critical-thinking/premortem before criteria/verdicts; debug-mantra on failures; verification-before-completion before done.")
+print("Advisor route for Codex-led science: Claude out-of-family via tools/claude_advisor.sh (claude.ai Max subscription; no API key).")
 
 guard = ROOT / "tools/codex_context_guard.py"
 if guard.exists():

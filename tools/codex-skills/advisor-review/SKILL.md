@@ -1,39 +1,64 @@
 ---
 name: advisor-review
 description: |
-  Objective, independent adversarial review of a test design, finding, or approach —
-  the Codex equivalent of Claude's advisor(). TRIGGER at the discipline thresholds
-  (DISCIPLINE.md §3): BEFORE authoring any test/criteria set or new harness; BEFORE
-  declaring a result conclusive or writing it to CORPUS/; when stuck/looping; before
-  committing to an approach. DO NOT TRIGGER for trivial mechanical edits.
+  Objective, independent adversarial review of a test design, finding, or approach.
+  For Codex-authored work, default to Claude via local claude.ai Max subscription
+  auth (`tools/claude_advisor.sh`), not Codex/GPT self-family review. TRIGGER at
+  the discipline thresholds (DISCIPLINE.md §3): BEFORE authoring any test/criteria
+  set or new harness; BEFORE declaring a result conclusive or writing it to
+  CORPUS/; when stuck/looping; before committing to an approach. DO NOT TRIGGER
+  for trivial mechanical edits.
 allowed-tools: [Read, Bash]
 ---
 
-# advisor-review — independent objective review (advisor-equivalent for Codex)
+# advisor-review — Claude out-of-family advisor for Codex work
 
-Claude has `advisor()` (a stronger model that auto-sees the full transcript). Codex has no auto-transcript reviewer, so you **build** the same function: an INDEPENDENT reviewer, fed the finding + evidence, prompted adversarially. **Independence is the point — use a DIFFERENT / STRONGER model than yourself** (same-model reading our own corpus = weak independence, runbook §2.5).
+For Codex sessions, the independent advisor is **Claude**, reached through the
+local Claude Code CLI authenticated with the operator's claude.ai Max
+subscription. This avoids same-family Codex/GPT self-review and does not use an
+Anthropic API key.
 
 ## How to invoke
 
-**A) Code / diff review** (a harness or experiment you just wrote):
+**A) Reasoning / finding / design review**:
+
 ```bash
-# one-time: git init the repo so review can diff (also unlocks /review)
-git -C "$LLMDB_ROOT" rev-parse 2>/dev/null || (cd "$LLMDB_ROOT" && git init -q && git add -A && git commit -qm baseline)
-codex review --uncommitted -m <stronger-model> "$(cat "$LLMDB_ROOT/tools/advisor_review_prompt.md")"
+cd "$LLMDB_ROOT"
+tools/claude_advisor.sh <<'EOF'
+<the test design / finding / approach, with artifact paths + exact numbers + relevant CORPUS/spec context pasted in>
+EOF
 ```
 
-**B) Reasoning / finding / design review** (no diff — the advisor's main value):
-Spawn an independent reviewer on a different/stronger model, feeding it the review prompt + the finding + its cited evidence:
+`tools/claude_advisor.sh` runs:
+
+- `claude -p` in non-interactive print mode;
+- model from `CLAUDE_ADVISOR_MODEL` (default `opus`);
+- effort from `CLAUDE_ADVISOR_EFFORT` (default `high`);
+- `--tools ""` and `--no-session-persistence` so the review is based on the
+  supplied package, not hidden transcript/tool context;
+- an auth check requiring `claude.ai` subscription login.
+
+**B) Code / diff review**:
+
+Include the relevant diff/file-line excerpts in the review package and run the
+same wrapper. Do not let the advisor's repo exploration substitute for feeding
+the evidence.
+
+**Fallback / secondary only:** if Claude auth is unavailable, a GPT/Codex review
+can still be used, but label it as weaker independence for Codex-led work:
+
 ```bash
 codex exec -m <stronger-model> "$(cat "$LLMDB_ROOT/tools/advisor_review_prompt.md")
 
 --- ITEM UNDER REVIEW ---
-<the test design / finding / approach, with artifact paths + exact numbers + relevant CORPUS/spec context pasted in>"
+<review package>"
 ```
-(Or hand the same prompt + context to a fresh subagent.)
 
 ## Rules
-- **Feed it the evidence.** Unlike Claude's advisor, it does NOT see your transcript — paste the finding, the artifact paths + exact numbers, and the relevant `CORPUS/`/spec context.
-- **Different/stronger model** for genuine independence.
-- The review is **input, not authority**: weigh it heavily, but **evidence is binding** over its opinion. On an evidence-vs-review conflict, reconcile in one more pass (don't silently override).
-- Honor the bounds (DISCIPLINE.md §3): ≥1 before authoring a test set and before declaring done; don't re-review the same unchanged state.
+
+- **Feed it the evidence.** The advisor does not see your transcript.
+- **Different model family** for genuine independence: Claude for Codex-led work;
+  GPT-family for Claude-led work.
+- The review is **input, not authority**: evidence and preregistered criteria bind.
+- Honor DISCIPLINE.md §3: at least once before authoring a test set/new harness
+  and before declaring done; do not re-review unchanged state.

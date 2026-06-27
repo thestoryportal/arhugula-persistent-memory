@@ -9,6 +9,7 @@
 - Added `tools/skills/experiment-gate/SKILL.md`, a prereg template, and reference checklists for metric matching, sampling units, confounders, method-port faithfulness, root-cause-first debugging, verification-before-completion, and review routing.
 - The gate fresh-reads saved JSON, blocks aggregate-only completion claims, writes stats reports under `logs/experiment_gate/`, hard-fails method ports that license hard cases before easy controls pass, and never writes `CORPUS/*`.
 - Installed five supporting repo-local methodology skills for both Codex and Claude (`methodology-superpowers`, `scientific-critical-thinking`, `debug-mantra-scrutinize`, `premortem-the-fool`, `scientific-problem-selection`) using `tools/install_science_methodology_skills.sh`; restore now reinstalls them.
+- Re-routed Codex-led advisor-review to Claude via `tools/claude_advisor.sh` using local `claude.ai` Max subscription auth (`authMethod=claude.ai`, no API key); Codex/GPT review is now fallback or secondary for Codex-led work.
 
 **Verification run.**
 - `python3 -m py_compile tools/experiment_gate.py` passed.

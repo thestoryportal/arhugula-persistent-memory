@@ -16,6 +16,7 @@ Implemented as a repo-local workflow layer, not a parallel evidence authority:
 - `check-result` fresh-reads saved JSON and writes stats reports under `logs/experiment_gate/`; aggregate-only results are blocked for completion claims.
 - `bundle` never writes `CORPUS/*`; it blocks handoff unless prereg/result/method-port checks pass and review status is explicit.
 - Supporting methodology skills (`methodology-superpowers`, `scientific-critical-thinking`, `debug-mantra-scrutinize`, `premortem-the-fool`, `scientific-problem-selection`) are installed for Codex and Claude via `tools/install_science_methodology_skills.sh`; `tools/restore_pod_tools.sh` reruns that installer.
+- For Codex-led science, advisor-review now defaults to Claude via `tools/claude_advisor.sh` using local `claude.ai` Max subscription auth, not an Anthropic API key; Codex/GPT review is fallback or secondary.
 
 ## 0. The one design constraint that governs everything
 
@@ -35,7 +36,7 @@ Two corollaries:
 | 1 | **RUN (under the LAWs)** | Engine fingerprint gate (SHA + `grep -c _cov_cpu == 3`); LAW#5 inertness for any harness method; read-source-before-authoring; save result JSON deterministically. | **NO RESULT WITHOUT A FINGERPRINT-VERIFIED ENGINE + A SAVED RESULT JSON.** | (uses existing preflight) | `CLAUDE.md` LAWs |
 | 2 | **VERIFY-RUNS-STATS** ⭐ | Run the *pre-registered* statistics on the saved JSON: paired within-unit diff, cluster-bootstrap CIs over (held-out × order), JS/KL with CIs, top-1 McNemar/Fisher. Compare to the pre-registered thresholds → propose a deterministic label. | **NO COMPLETION CLAIM WITHOUT A FRESH STATS COMPUTATION ON THE SAVED JSON** ("skip a step = lying"). | `stats.py`, `sampling-units.md` | [[clustered-editing-trials-sampling-unit]] · [[sequential-edit-run-nondeterminism]] |
 | 3 | **BIAS-AUDIT** | Run each pre-registered confounder control; mark CONTROLLED / OPEN. Any OPEN confounder caps the label at CONFOUNDED/PARTIAL. | **NO PROMOTION WITH AN UNCONTROLLED PRE-REGISTERED CONFOUNDER.** | `audit.py`, `confounder-checklist.md` | [[bias-ablation-causal-attribution]] · [[pass-label-not-equal-promotable-claim]] |
-| 4 | **COLD-REVIEW** | `advisor()` (in-family) **+** `codex exec -m gpt-5.5` (out-of-family) on the result + stats + bias-audit. Explicitly check: did same-model self-review inflate the verdict? Cheapest overturning test? | **NO PROMOTABLE CLAIM WITHOUT INDEPENDENT CROSS-FAMILY REVIEW.** | (uses `tools/setup_codex.sh`) | [[review-diminishing-returns-evidence-is-binding]] |
+| 4 | **COLD-REVIEW** | For Codex-led work, run Claude via `tools/claude_advisor.sh` (claude.ai Max subscription, no API key) on the result + stats + bias-audit. For Claude-led work, use GPT/Codex review. Explicitly check: did same-family review inflate the verdict? Cheapest overturning test? | **NO PROMOTABLE CLAIM WITHOUT INDEPENDENT CROSS-FAMILY REVIEW.** | `tools/claude_advisor.sh` | [[review-diminishing-returns-evidence-is-binding]] |
 | 5 | **HANDOFF** | Emit the pre-reg + stats report + bias-audit + review verdict as the inputs to the **existing** close-out: write `CORPUS/NN` → run `closeout_check.py <D-ID>` until ✅ ALL GREEN. The gate stops here. | **THE GATE DOES NOT WRITE CORPUS OR PICK THE FINAL VERDICT.** | (hands to `closeout_check.py`) | [[closeout-gate-before-done]] |
 
 The three gaps InfraNodus found map exactly to the three fusions: **Gap 1** (Test/Debugging ↔ Statistical-Significance) = Phase 2 (verification that *runs* the stats). **Gap 2** (Experiment-Refinement ↔ Bias-Audit) = Phase 3 gating any arbor-style candidate. **Gap 3** (Power ↔ Bias-Audit) = Phase 0 fusing power + confounder pre-registration.
@@ -106,9 +107,11 @@ denominator/survivorship, K-vs-C, pre-state conditioning). Any OPEN confounder c
 the label at CONFOUNDED / PARTIAL — never PASS.
 
 ## Phase 4 — COLD-REVIEW  (Iron Law: NO PROMOTABLE CLAIM WITHOUT CROSS-FAMILY REVIEW)
-advisor() AND codex (gpt-5.5, via tools/setup_codex.sh) review the result + stats +
-bias-audit. Ask explicitly: did same-model self-review inflate the verdict? What is
-the cheapest test that would OVERTURN this? A passing self-review is not evidence.
+Use the opposite model family from the authoring agent. For Codex-led work, run Claude
+via `tools/claude_advisor.sh` using local claude.ai Max subscription auth; for
+Claude-led work, use GPT/Codex review. Review the result + stats + bias-audit. Ask
+explicitly: did same-family self-review inflate the verdict? What is the cheapest
+test that would OVERTURN this? A passing self-review is not evidence.
 
 ## Phase 5 — HANDOFF  (Iron Law: THE GATE DOES NOT WRITE CORPUS OR PICK THE FINAL VERDICT)
 Bundle the pre-reg + stats report + bias-audit + review verdict and hand them to the

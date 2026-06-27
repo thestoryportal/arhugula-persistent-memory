@@ -121,7 +121,7 @@ def check_prereg(path: Path) -> dict[str, Any]:
     out["missing_sections"] = missing
     out["note"] = (
         "Presence check only. The scientific content still needs advisor-review "
-        "and the normal prereg discipline."
+        "(Claude via tools/claude_advisor.sh for Codex-led work) and the normal prereg discipline."
     )
     return out
 
