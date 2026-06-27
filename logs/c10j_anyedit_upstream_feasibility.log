@@ -1,0 +1,41 @@
+# C10J upstream feasibility 2026-06-27T07:08:42+00:00
+
+## Repo
+057a77f185f7ffb55818f6bd9add37f43bb447e7
+origin	https://github.com/jianghoucheng/AnyEdit.git (fetch)
+origin	https://github.com/jianghoucheng/AnyEdit.git (push)
+
+## Python/env
+Python 3.11.10
+torch 2.4.1+cu124
+transformers 4.51.0
+
+## Upstream advertised requirements
+
+## Upstream hparams inventory
+/tmp/AnyEdit/hparams/AlphaEdit/Llama3-8B-Instruct.json
+/tmp/AnyEdit/hparams/AlphaEdit/Qwen2.5-7B-Instruct.json
+/tmp/AnyEdit/hparams/AlphaEdit_ARE/Llama3-8B-Instruct.json
+/tmp/AnyEdit/hparams/AlphaEdit_ARE/Qwen2.5-7B-Instruct.json
+/tmp/AnyEdit/hparams/MEMIT/Llama3-8B-Instruct.json
+/tmp/AnyEdit/hparams/MEMIT/Qwen2.5-7B-Instruct.json
+/tmp/AnyEdit/hparams/MEMIT_ARE/Llama3-8B-Instruct.json
+/tmp/AnyEdit/hparams/MEMIT_ARE/Qwen2.5-7B-Instruct.json
+/tmp/AnyEdit/hparams/unke/Llama3-8B-Instruct.json
+/tmp/AnyEdit/hparams/unke/Qwen2.5-7B-Instruct.json
+/tmp/AnyEdit/hparams/unke_ARE/Llama3-8B-Instruct.json
+/tmp/AnyEdit/hparams/unke_ARE/Qwen2.5-7B-Instruct.json
+
+## Evaluate smoke/help
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/tmp/AnyEdit/experiments/evaluate_uns.py", line 22, in <module>
+    from memit_ARE import MEMITAREHyperParams, apply_memit_ARE_to_model
+  File "/tmp/AnyEdit/memit_ARE/__init__.py", line 1, in <module>
+    from .memit_ARE_main import MEMITAREHyperParams, apply_memit_ARE_to_model
+  File "/tmp/AnyEdit/memit_ARE/memit_ARE_main.py", line 5, in <module>
+    from .compute_z import compute_z
+  File "/tmp/AnyEdit/memit_ARE/compute_z.py", line 7, in <module>
+    import nltk
+ModuleNotFoundError: No module named 'nltk'

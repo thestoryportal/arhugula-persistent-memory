@@ -1,0 +1,53 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:15<00:15, 15.05s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:25<00:00, 12.15s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:25<00:00, 12.59s/it]
+loaded Qwen/Qwen2.5-3B
+
+=== C10h WINDOW50 CONTROL DIAGNOSTIC ===
+  A1_single          base=0/24 ntok=1.0 range=[1, 1]
+  A2_coherent2       base=0/24 ntok=2.0 range=[2, 2]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Loading cached /workspace/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Loading cached /workspace/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Loading cached /workspace/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Loading cached /workspace/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+Loading cached /workspace/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+
+=== LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+  |Δexpr|=0.0001 |Δloc|=0.58 -> INERT
+  baseline A1_single          canon=100.0 para=97.2 first=97.2 tf=None loc=89.66
+  baseline A2_coherent2       canon=100.0 para=94.4 first=94.4 tf=100.0 loc=93.85
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+  anyedit_window50_controls A1_single          canon=25.0 para=0.0 first=0.0 tf=None loc=99.88
+  anyedit_window50_controls A2_coherent2       canon=8.3 para=0.0 first=0.0 tf=41.7 loc=99.88
+
+=== C10h WINDOW50 CONTROL DIAGNOSTIC SUMMARY ===
+{
+  "label": "CONTROL_RECOVERY_FAIL",
+  "threshold": "A1_single and A2_coherent2 para_full >= 80",
+  "baseline_controls": {
+    "A1_single_para_full": 97.2,
+    "A2_coherent2_para_full": 94.4
+  },
+  "anyedit_window50_controls": {
+    "A1_single_para_full": 0.0,
+    "A2_coherent2_para_full": 0.0,
+    "control_min_para_full": 0.0
+  },
+  "licensed_claim": "stops A7 under this local upstream-window transplant condition"
+}
+
+wrote /workspace/results/c10j_anyedit_window50_controls.json
+C10H_WINDOW50_CONTROLS_DONE

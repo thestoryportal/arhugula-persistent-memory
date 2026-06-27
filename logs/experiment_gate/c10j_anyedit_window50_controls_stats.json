@@ -1,0 +1,18 @@
+{
+  "REFUSED": true,
+  "keys_present": [
+    "base_report",
+    "baseline_reference_frozen",
+    "class",
+    "decision_id",
+    "frozen_control_gate",
+    "parent_decision_id",
+    "recipes",
+    "run",
+    "scope",
+    "stimulus",
+    "verdict"
+  ],
+  "path": "results/c10j_anyedit_window50_controls.json",
+  "reason": "Aggregate-only result: no per-unit arrays found (expected 'committed_detail' or per-record 'records'). This file carries reduced percentages only. You CANNOT bootstrap a scalar, and a single seed has no cluster to resample. To make a result analyzable, emit per-(held-out x order) outcomes \u2014 see tools/STATS_LOGGING_CONVENTION.md."
+}
