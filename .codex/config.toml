@@ -41,5 +41,10 @@ trusted_hash = "sha256:57e56096b5506f52125a4fbe9f0fe01dabbd3dcbd5ee2f5f9c837021a
 [hooks.state."/workspace/.codex/hooks.json:stop:0:0"]
 trusted_hash = "sha256:0c66f8f092428c87d34ba2b7b112bfc907a6d32dcc073cf1dd4164fe460533ce"
 
+[mcp_servers.perplexity]
+command = "python3"
+args = ["/workspace/tools/perplexity_mcp_from_restore.py"]
+
+
 # Research-tool MCP servers — add keys via `codex mcp add` (do NOT commit secrets):
 #   codex mcp add perplexity --env PERPLEXITY_API_KEY=KEY -- npx -y @perplexity-ai/mcp-server

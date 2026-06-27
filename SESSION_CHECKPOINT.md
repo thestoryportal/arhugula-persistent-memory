@@ -1,5 +1,45 @@
 # SESSION CHECKPOINT — Write-Engine Viability Determination
 
+## FRESH SESSION HANDOFF - 2026-06-27 (post-Perplexity C10h advisory)
+
+**Start here after context reset.** Perplexity `sonar-reasoning-pro` external advisory has now reviewed the two C10h deep-thinking hypotheses. Full saved response: `logs/perplexity_c10h_hypothesis_review_20260627_short.md`; first longer response hit length cap and is saved at `logs/perplexity_c10h_hypothesis_review_20260627.md`. Perplexity MCP was restored through `tools/perplexity_mcp_from_restore.py`, which reads `/workspace/.pod_restore/mcp/servers.json` at runtime without storing the key in tracked config. This live tool surface did not expose `perplexity_reason` until a fresh session/tool reload, so the approved direct API call was used.
+
+**Updated C10h interpretation.** External review agrees the C10h local AnyEdit result mostly diagnoses local transplant invalidity, not AnyEdit-as-method failure. It also warned our prior lookup-index-first framing was incomplete: most likely failure ranking for A1/A2=0 is now solve/update geometry mismatch first, target/loss-mask mismatch second, lookup/edit-position mismatch third, Qwen/hparam mismatch fourth.
+
+**Next arc.** If continuing AnyEdit, run one bounded upstream-parity audit before any A7. The parity trace must include both alignment and geometry: token IDs, continuation suffix, answer/loss masks, lookup/edit position, target hidden-state norms, per-layer gradient norms, delta/update norms, effective step size, regularization terms, pre/post target-token logit deltas, and canonical/held-out A1/A2 behavior. Cheapest decisive test: run upstream `jianghoucheng/AnyEdit` unchanged on a tiny A1/A2 suite for the same Qwen target. If upstream recovers controls, the local transplant is broken; if upstream also collapses, treat it as deeper stack/method incompatibility and move C10 toward bounded/side-store or another method family.
+
+**Do not do first.** Do not run hard A7 from the local transplant. Do not treat no-op/token gates as active edit parity. Do not abandon AnyEdit-style methods solely from C10h without the one-day parity audit unless operator explicitly chooses to stop.
+
+**Read first.** `DISCIPLINE.md` section 2, `CORPUS/40_C10_ANYEDIT_PILOT.md`, `results/c10h_anyedit_window50_controls.json`, `logs/perplexity_c10h_hypothesis_review_20260627_short.md`, `memory_mirror/perplexity-c10h-reranks-anyedit-failure-geometry-first.md`, and `memory_mirror/anyedit-noop-gate-is-not-active-edit-parity.md`.
+
+## FRESH SESSION HANDOFF - 2026-06-27 (post-C10h AnyEdit control-collapse)
+
+**Start here after context reset.** Latest pushed commits are `97a288b Add C10h AnyEdit pilot closeout` and `5bf6930 Add C10h window50 control diagnostic`. Only unrelated untracked `.codex/` session files were left locally. The generated program-state block below is stale about prereg/viability because C10h has now run; trust this handoff plus `CORPUS/40` for the current AnyEdit arc.
+
+**Drift check.** This still advances F1 because C10 is the first fixed-target, on-critical-path blocker for project-coined multi-word semantic values. The open question is no longer "run another A7 AnyEdit rescue attempt"; it is whether the local AnyEdit transplant is active-edit equivalent on easy controls.
+
+**What just happened.**
+- `D-C10h-anyedit-pilot@6413cc67` is closed in `CORPUS/40`: local small-window AnyEdit (`window_size=1`) is `TRADEOFF_NOT_CLEAN_RESCUE`. A1/A2 controls collapse from 93.1/97.2 baseline to 0.0/0.0; A7 worsens from 12.5 to 1.4.
+- The narrow follow-up `D-C10h-anyedit-window50-controls` is diagnostic-only, not an evidence-ledger closeout: `results/c10h_anyedit_window50_controls.json` shows upstream-equivalent `window_size=50` also fails A1/A2 controls. Baseline A1/A2 `para_full` = 97.2/100.0; AnyEdit-window50 A1/A2 `para_full` = 0.0/0.0.
+- Both paths can pass no-op/token gates, so the durable lesson is that LAW#5/no-op proves inertness only. It does not prove active ARE target construction, lookup index, loss mask, or update geometry are upstream-equivalent.
+
+**Next step.** If continuing AnyEdit at all, run exactly one bounded code-level parity audit before any A7:
+1. Choose one A1 subject and compare local transplant against official `jianghoucheng/AnyEdit` on token IDs, continuation suffix, answer/loss mask, lookup index, target hidden-state norm, delta norm, layer update norm, and canonical top-1.
+2. Allow one clear mismatch/fix and one A1/A2 rerun.
+3. Require active A1/A2 recovery before any hard A7 run. If controls still fail, stop the local transplant route and advance the C10 decision toward accept-bounded / side-store, or explicitly choose a separate method lead such as muKE/AnyEdit++/SUIT.
+
+**Cost/EV frame saved from this session.** Tight parity audit: roughly 6-10 engineering hours plus 1-3 GPU-hours. Audit plus one fix and A1/A2 rerun: roughly 1-2 engineering days plus 3-6 GPU-hours. Dollar GPU cost on the 4090 is negligible; human time is binding. Expected value is high information but low-to-moderate rescue probability: it can cheaply retire "our transplant is wrong", but it should not become an open-ended port.
+
+**Read first.**
+1. `DISCIPLINE.md` section 2 for the failure/deep-thinking protocol.
+2. `CORPUS/40_C10_ANYEDIT_PILOT.md`.
+3. `results/c10h_anyedit_pilot.json` and `results/c10h_anyedit_window50_controls.json`.
+4. `docs/C10_ANYEDIT_PILOT_PREREG.md`, `docs/C10_ANYEDIT_VIABILITY_AUDIT.md`, and `docs/C10_ANYEDIT_TOKEN_ALIGNMENT_GATE.md`.
+5. `docs/HYPOTHESIS_REGISTER_2026-06-18.md` rows/notes around `C10-ANYEDIT-PORT`, `C10-ANYEDIT-DIAGNOSTICS`, `D-C10h-anyedit-pilot`, and `D-C10h-anyedit-window50-controls`.
+6. Memories: `memory_mirror/anyedit-local-transplant-controls-fail-before-a7.md`, `memory_mirror/anyedit-noop-gate-is-not-active-edit-parity.md`, and `memory_mirror/neuraldb-scr-keep-side-store-pressure-live.md`.
+
+**Do not do first.** Do not run another A7 rescue attempt from this local transplant. Do not treat no-op/token gates as port validity. Do not claim AnyEdit-family failure from these results; the evidence only invalidates this local transplant until active parity is shown.
+
 <!-- BEGIN GENERATED:program-state -->
 **📍 PROGRAM STATE (updated 2026-06-26 (AnyEdit advisor FIX-FIRST resolved by token-alignment gate; prereg next))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
 
