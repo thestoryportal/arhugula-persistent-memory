@@ -1,0 +1,231 @@
+{
+  "decision_id": "D-C10i-anyedit-upstream-active-audit",
+  "class": "diagnostic-only upstream active A1/A2 gate; not CORPUS evidence; no A7",
+  "status": "FAILED",
+  "error": "LookupError('lm_head.weight')",
+  "scope": "Qwen2.5-3B / upstream AlphaEdit_ARE code path / tiny A1-A2 controls / HF-fp16",
+  "upstream_anyedit": {
+    "root": "/tmp/AnyEdit",
+    "hparams": "/tmp/AnyEdit/hparams/AlphaEdit_ARE/Qwen2.5-7B-Instruct.json",
+    "algorithm": "AlphaEdit_ARE.apply_AlphaEdit_ARE_to_model",
+    "covariance_source": "local cached Qwen_Qwen2.5-3B wikipedia_stats; upstream /tmp stats absent"
+  },
+  "hparams_effective": {
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "window_size": 50,
+    "overlap": 0,
+    "v_loss_layer": 27,
+    "v_num_grad_steps": 25,
+    "v_lr": 0.5,
+    "v_weight_decay": 0.001,
+    "clamp_norm_factor": 4,
+    "nullspace_threshold": 0.02,
+    "L2": 10,
+    "lm_head_module": "lm_head"
+  },
+  "cases": [
+    {
+      "arm": "A1_single",
+      "subject": "Zorbland",
+      "value": "Beirut",
+      "question": "The capital of Zorbland is the city of",
+      "answer": " Beirut",
+      "ptest": [
+        "Zorbland's capital city is called",
+        "If you visit Zorbland, its capital city is",
+        "The main city and seat of government of Zorbland is"
+      ]
+    },
+    {
+      "arm": "A2_coherent2",
+      "subject": "Zorbland",
+      "value": "Astana",
+      "question": "The capital of Zorbland is the city of",
+      "answer": " Astana",
+      "ptest": [
+        "Zorbland's capital city is called",
+        "If you visit Zorbland, its capital city is",
+        "The main city and seat of government of Zorbland is"
+      ]
+    }
+  ],
+  "pre_behavior": {
+    "A1_single:Zorbland": {
+      "target_ids": [
+        94311
+      ],
+      "canon_full": false,
+      "canon_first": false,
+      "canon_generated_ids": [
+        1863
+      ],
+      "canon_target_logits": [
+        6.1796875
+      ],
+      "para_full_hits": [
+        false,
+        false,
+        false
+      ],
+      "para_first_hits": [
+        false,
+        false,
+        false
+      ],
+      "para_generated_ids": [
+        [
+          1863
+        ],
+        [
+          1863
+        ],
+        [
+          279
+        ]
+      ],
+      "para_target_logits": [
+        [
+          7.44921875
+        ],
+        [
+          6.65234375
+        ],
+        [
+          5.96484375
+        ]
+      ]
+    },
+    "A2_coherent2:Zorbland": {
+      "target_ids": [
+        20113,
+        3362
+      ],
+      "canon_full": false,
+      "canon_first": false,
+      "canon_generated_ids": [
+        1863,
+        29886
+      ],
+      "canon_target_logits": [
+        9.5859375,
+        6.14453125
+      ],
+      "para_full_hits": [
+        false,
+        false,
+        false
+      ],
+      "para_first_hits": [
+        false,
+        false,
+        false
+      ],
+      "para_generated_ids": [
+        [
+          1863,
+          29886
+        ],
+        [
+          1863,
+          29886
+        ],
+        [
+          279,
+          3283
+        ]
+      ],
+      "para_target_logits": [
+        [
+          9.5,
+          7.578125
+        ],
+        [
+          9.765625,
+          7.1875
+        ],
+        [
+          9.671875,
+          1.9658203125
+        ]
+      ]
+    }
+  },
+  "post_behavior": {},
+  "locality": {
+    "prompts": [
+      "Zorbland is described as",
+      "Zorbland is described as"
+    ],
+    "described_as": null
+  },
+  "projector_diagnostics": {
+    "4": {
+      "layer_name": "model.layers.4.mlp.down_proj",
+      "threshold": 0.02,
+      "small_singular_count": 0,
+      "singular_min": 3.844996929168701,
+      "singular_max": 944374464.0
+    },
+    "5": {
+      "layer_name": "model.layers.5.mlp.down_proj",
+      "threshold": 0.02,
+      "small_singular_count": 1,
+      "singular_min": 0.01993907429277897,
+      "singular_max": 32866736.0
+    },
+    "6": {
+      "layer_name": "model.layers.6.mlp.down_proj",
+      "threshold": 0.02,
+      "small_singular_count": 0,
+      "singular_min": 0.028837382793426514,
+      "singular_max": 31849764.0
+    },
+    "7": {
+      "layer_name": "model.layers.7.mlp.down_proj",
+      "threshold": 0.02,
+      "small_singular_count": 0,
+      "singular_min": 0.027043186128139496,
+      "singular_max": 57152748.0
+    },
+    "8": {
+      "layer_name": "model.layers.8.mlp.down_proj",
+      "threshold": 0.02,
+      "small_singular_count": 0,
+      "singular_min": 0.02757902257144451,
+      "singular_max": 125880456.0
+    }
+  },
+  "trace": {
+    "compute_z": [],
+    "stdout": ""
+  },
+  "update_norms": {
+    "4": {
+      "weight_norm_before": 83.84791564941406,
+      "weight_norm_after": 83.84791564941406
+    },
+    "5": {
+      "weight_norm_before": 109.1786880493164,
+      "weight_norm_after": 109.1786880493164
+    },
+    "6": {
+      "weight_norm_before": 119.89836120605469,
+      "weight_norm_after": 119.89836120605469
+    },
+    "7": {
+      "weight_norm_before": 115.31605529785156,
+      "weight_norm_after": 115.31605529785156
+    },
+    "8": {
+      "weight_norm_before": 119.48171997070312,
+      "weight_norm_after": 119.48171997070312
+    }
+  },
+  "licensed_claim": "active upstream diagnostic only; A7 remains blocked unless A1/A2 recover behaviorally"
+}

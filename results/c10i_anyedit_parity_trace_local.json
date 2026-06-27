@@ -1,0 +1,210 @@
+{
+  "decision_id": "D-C10i-anyedit-parity-audit",
+  "class": "diagnostic scaffold only; not CORPUS evidence; no weights edited; no A7",
+  "scope": "Qwen2.5-3B tokenizer/planning trace for one A1/A2 control subject",
+  "source_result": "/workspace/results/c10h_anyedit_window50_controls.json",
+  "model_id": "Qwen/Qwen2.5-3B",
+  "model_revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+  "upstream_anyedit": {
+    "root": "/tmp/AnyEdit",
+    "available": true,
+    "remote": "https://github.com/jianghoucheng/AnyEdit.git",
+    "commit": "057a77f185f7ffb55818f6bd9add37f43bb447e7",
+    "required_files": {
+      "/tmp/AnyEdit/AlphaEdit_ARE/compute_z.py": true,
+      "/tmp/AnyEdit/AlphaEdit_ARE/AlphaEdit_ARE_main.py": true,
+      "/tmp/AnyEdit/AlphaEdit_ARE/AlphaEdit_ARE_hparams.py": true
+    }
+  },
+  "case": {
+    "arm": "A1_single",
+    "subject": "Zorbland",
+    "value": "Beirut",
+    "question": "The capital of Zorbland is the city of",
+    "answer": " Beirut"
+  },
+  "windows": {
+    "window_1": {
+      "local_transplant_plan": {
+        "ok": true,
+        "answer_ids": [
+          94311
+        ],
+        "suffix_ids": [
+          94311
+        ],
+        "answer_text": " Beirut",
+        "suffix_text": " Beirut",
+        "question_token_count": 10,
+        "answer_token_count": 1,
+        "target_vector_count": 1,
+        "lookup_idxs": [
+          9
+        ],
+        "windows": [
+          {
+            "start": 0,
+            "end": 1,
+            "target_ids": [
+              94311
+            ],
+            "target_text": " Beirut",
+            "input_token_count": 10,
+            "lookup_idx": 9,
+            "loss_mask_positions": [
+              9
+            ]
+          }
+        ]
+      },
+      "upstream_are_planning_model": {
+        "ok": true,
+        "reason": null,
+        "answer_ids": [
+          94311
+        ],
+        "suffix_ids": [
+          94311
+        ],
+        "answer_text": " Beirut",
+        "suffix_text": " Beirut",
+        "question_token_count": 10,
+        "answer_token_count": 1,
+        "target_vector_count": 1,
+        "lookup_idxs": [
+          9
+        ],
+        "windows": [
+          {
+            "start": 0,
+            "end": 1,
+            "target_ids": [
+              94311
+            ],
+            "target_text": " Beirut",
+            "input_token_count": 10,
+            "lookup_idx": 9,
+            "loss_mask_positions": [
+              9
+            ],
+            "cur_input_token_count_before": 10,
+            "cur_input_token_count_after": 11
+          }
+        ]
+      },
+      "planning_comparison": {
+        "ok": true,
+        "answer_ids": true,
+        "suffix_ids": true,
+        "lookup_idxs": true,
+        "window_count": true,
+        "per_window": [
+          {
+            "i": 0,
+            "target_ids": true,
+            "lookup_idx": true,
+            "loss_mask_positions": true
+          }
+        ],
+        "all_equal": true
+      }
+    },
+    "window_50": {
+      "local_transplant_plan": {
+        "ok": true,
+        "answer_ids": [
+          94311
+        ],
+        "suffix_ids": [
+          94311
+        ],
+        "answer_text": " Beirut",
+        "suffix_text": " Beirut",
+        "question_token_count": 10,
+        "answer_token_count": 1,
+        "target_vector_count": 1,
+        "lookup_idxs": [
+          9
+        ],
+        "windows": [
+          {
+            "start": 0,
+            "end": 1,
+            "target_ids": [
+              94311
+            ],
+            "target_text": " Beirut",
+            "input_token_count": 10,
+            "lookup_idx": 9,
+            "loss_mask_positions": [
+              9
+            ]
+          }
+        ]
+      },
+      "upstream_are_planning_model": {
+        "ok": true,
+        "reason": null,
+        "answer_ids": [
+          94311
+        ],
+        "suffix_ids": [
+          94311
+        ],
+        "answer_text": " Beirut",
+        "suffix_text": " Beirut",
+        "question_token_count": 10,
+        "answer_token_count": 1,
+        "target_vector_count": 1,
+        "lookup_idxs": [
+          9
+        ],
+        "windows": [
+          {
+            "start": 0,
+            "end": 1,
+            "target_ids": [
+              94311
+            ],
+            "target_text": " Beirut",
+            "input_token_count": 10,
+            "lookup_idx": 9,
+            "loss_mask_positions": [
+              9
+            ],
+            "cur_input_token_count_before": 10,
+            "cur_input_token_count_after": 11
+          }
+        ]
+      },
+      "planning_comparison": {
+        "ok": true,
+        "answer_ids": true,
+        "suffix_ids": true,
+        "lookup_idxs": true,
+        "window_count": true,
+        "per_window": [
+          {
+            "i": 0,
+            "target_ids": true,
+            "lookup_idx": true,
+            "loss_mask_positions": true
+          }
+        ],
+        "all_equal": true
+      }
+    }
+  },
+  "required_next_trace_fields_before_any_A7": [
+    "upstream active A1/A2 behavior on same subject/prompt family",
+    "target hidden-state norm",
+    "per-iteration nll, weight_decay, total loss",
+    "per-iteration delta norm and effective step size",
+    "per-layer gradient norms",
+    "per-layer update norms and relative update norms",
+    "regularization/L2/covariance terms",
+    "pre/post target-token logit deltas",
+    "canonical and held-out A1/A2 behavior after active edit"
+  ],
+  "licensed_claim": "planning trace only; parity is not established until upstream active trace and behavior are compared"
+}

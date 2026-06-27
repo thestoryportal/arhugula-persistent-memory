@@ -1,10 +1,20 @@
-# Experiment Gate — Phase-1 Skill Spec (DRAFT)
+# Experiment Gate — Phase-1 Skill Spec (Implemented)
 
-_A repo-local Claude skill that fuses the three disconnected clusters InfraNodus surfaced (discipline/verification · measurement/stats · bias-audit) into ONE gated chain: **pre-register → run-under-LAWs → verify-runs-stats → bias-audit → cross-family review**. Drafted 2026-06-23 from the external-skill audit (`EXTERNAL_SKILL_REPOS_AUDIT.md §11`) + the InfraNodus gap synthesis. **DRAFT for review — no files created yet.**_
+_A repo-local Claude skill that fuses the three disconnected clusters InfraNodus surfaced (discipline/verification · measurement/stats · bias-audit) into ONE gated chain: **pre-register → run-under-LAWs → verify-runs-stats → bias-audit → cross-family review**. Drafted 2026-06-23 from the external-skill audit (`EXTERNAL_SKILL_REPOS_AUDIT.md §11`) + the InfraNodus gap synthesis. **IMPLEMENTED 2026-06-27.** See `tools/experiment_gate.py` and `tools/skills/experiment-gate/`._
 
 > **Provenance / license.** Authored in-repo. It *reuses the program's own disciplines* and standard methods (power analysis, cluster bootstrap, GRADE-style risk-of-bias) — **no text is lifted from the audited third-party skills** (K-Dense per-skill licenses are mixed; 9arm/awesome-list have none). The named skills (superpowers `verification-before-completion`, K-Dense `experimental-design`/`statistical-power`, `scientific-critical-thinking`, `the-fool`/`scrutinize`) are the *inspiration*, not the source.
 
 ---
+
+## Implementation status — 2026-06-27
+
+Implemented as a repo-local workflow layer, not a parallel evidence authority:
+
+- `tools/experiment_gate.py` provides `init`, `check-prereg`, `check-result`, `audit-method-port`, and `bundle`.
+- `tools/skills/experiment-gate/SKILL.md` is the concise agent-facing workflow.
+- `tools/skills/experiment-gate/references/` carries the metric, sampling, confound, method-port, debugging, verification, and review-routing checklists.
+- `check-result` fresh-reads saved JSON and writes stats reports under `logs/experiment_gate/`; aggregate-only results are blocked for completion claims.
+- `bundle` never writes `CORPUS/*`; it blocks handoff unless prereg/result/method-port checks pass and review status is explicit.
 
 ## 0. The one design constraint that governs everything
 
@@ -173,7 +183,7 @@ Install path mirrors the InfraNodus-skills pattern: master in `tools/skills/`, i
 
 ---
 
-## 7. Open questions to resolve before building
+## 7. Historical open questions (resolved by 2026-06-27 implementation)
 1. **Install location** — `tools/skills/` master + installer (consistent with InfraNodus skills), or just keep it as `tools/*.py` scripts + a `docs/` checklist and *not* a Claude skill at all? (A non-skill version dodges trigger-collision entirely; a skill version auto-fires the discipline. The audit's lesson leans "scripts + checklist, invoked deliberately" over an auto-injecting skill.)
 2. **`stats.py` scope** — start with the metrics you actually use today (top-1 paired, cluster-bootstrap, JS/KL), or build the fuller battery now? (Recommend: start minimal, on a real `results/*.json`.)
 3. **Label authority** — does `stats.py`'s proposed label feed the autonomy driver's deterministic-rule slot, or stay advisory to the human? (Recommend: advisory; the driver already has its own pre-registered rule.)
@@ -181,4 +191,4 @@ Install path mirrors the InfraNodus-skills pattern: master in `tools/skills/`, i
 
 ---
 
-_Document type: process/reference DRAFT (no experiment D-ID; not subject to `closeout_check`). Drafted 2026-06-23. No skill files created — this is the spec for review/approval._
+_Document type: process/reference (no experiment D-ID; not subject to `closeout_check`). Drafted 2026-06-23; implemented 2026-06-27 in `tools/experiment_gate.py` and `tools/skills/experiment-gate/`._
