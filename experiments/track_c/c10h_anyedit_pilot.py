@@ -352,9 +352,10 @@ def run_gpu(args):
             cache[i] = cache[i] + Kf @ Kf.T
         return delta_norms, window_logs
 
-    def run_anyedit_recipe(name, window_size):
+    def run_anyedit_recipe(name, window_size, arm_names=None):
         hp.window_size = window_size
         hp.overlap = args.overlap
+        arm_names = arm_names or list(c10.ARMS)
         base_snap = c10.snap_layers(hp)
         P = c10.compute_P(hp)
         law5 = run_anyedit_law5(P, base_snap)
@@ -362,7 +363,8 @@ def run_gpu(args):
         if not law5["ok"]:
             out["invalid"] = "LAW#5 AnyEdit no-op inertness failed"
             return out
-        for arm, Vmap in c10.ARMS.items():
+        for arm in arm_names:
+            Vmap = c10.ARMS[arm]
             align_ok, align_rows = validate_alignment(Vmap, window_size)
             out["token_alignment"][arm] = {"ok": align_ok, "rows": align_rows}
             if not align_ok:
@@ -383,6 +385,75 @@ def run_gpu(args):
             print(f"  {name} {arm:18} canon={arm_eval['canon_full']} para={arm_eval['para_full']} first={arm_eval['para_first']} tf={arm_eval['tf_pertok_cont']} loc={arm_eval['locality_described_as']}", flush=True)
         c10.restore_layers(hp, base_snap)
         return out
+
+
+    def run_baseline_controls(arm_names):
+        base_hp = MEMITHyperParams.from_json(HP_BASE)
+        if base_hp.layers != [4, 5, 6, 7, 8]:
+            raise RuntimeError(f"baseline layers drifted: {base_hp.layers}")
+        base_hp.nullspace_threshold = 0.005
+        base_hp.L2 = 1.0
+        base_snap = c10.snap_layers(base_hp)
+        P = c10.compute_P(base_hp)
+        law5 = c10.run_law5(base_hp, P, base_snap)
+        out = {"hparams": HP_BASE, "band": base_hp.layers, "law5_gate": law5, "arms": {}, "delta_norms": {}, "detail": {}}
+        if not law5["ok"]:
+            out["invalid"] = "LAW#5 baseline inertness failed"
+            return out
+        for arm in arm_names:
+            Vmap = c10.ARMS[arm]
+            c10.restore_layers(base_hp, base_snap)
+            cache = [torch.zeros(P[0].shape[0], P[0].shape[0]) for _ in base_hp.layers]
+            pre_prompts = [f"{c} is described as" for c in c10.FICTION]
+            pre_loc = {p: c10.predict(p) for p in pre_prompts}
+            requests = [c10.req(c10.CANON, c, Vmap[c]) for c in c10.FICTION]
+            with contextlib.redirect_stdout(io.StringIO()):
+                delta = c10.my_edit(base_hp, requests, P, cache)
+            post_loc = {p: c10.predict(p) for p in pre_prompts}
+            arm_eval = c10.eval_arm(Vmap)
+            arm_eval["locality_described_as"] = c10.locpct(post_loc, pre_loc, pre_prompts)
+            out["arms"][arm] = {k: v for k, v in arm_eval.items() if k != "rows"}
+            out["detail"][arm] = arm_eval["rows"]
+            out["delta_norms"][arm] = delta
+            print(f"  baseline {arm:18} canon={arm_eval['canon_full']} para={arm_eval['para_full']} first={arm_eval['para_first']} tf={arm_eval['tf_pertok_cont']} loc={arm_eval['locality_described_as']}", flush=True)
+        c10.restore_layers(base_hp, base_snap)
+        return out
+
+    def control_recovery_verdict(results):
+        invalid = []
+        baseline = results["recipes"]["baseline_controls"]
+        diag = results["recipes"]["anyedit_window50_controls"]
+        if not baseline.get("law5_gate", {}).get("ok"):
+            invalid.append("baseline LAW#5 failed")
+        if not diag.get("law5_gate", {}).get("ok"):
+            invalid.append("AnyEdit no-op LAW#5 failed")
+        for arm in ("A1_single", "A2_coherent2"):
+            if baseline.get("arms", {}).get(arm, {}).get("para_full", 0) < 80:
+                invalid.append(f"baseline {arm} para_full below 80")
+            if not diag.get("token_alignment", {}).get(arm, {}).get("ok"):
+                invalid.append(f"{arm} token/window alignment failed")
+            rows = diag.get("token_alignment", {}).get(arm, {}).get("rows", [])
+            if not all(r.get("plan", {}).get("target_vector_count") == 1 for r in rows):
+                invalid.append(f"{arm} window50 did not produce exactly one target window per request")
+        if invalid:
+            return {"label": "INVALID_HALTED", "invalid_reasons": invalid}
+        a1 = diag["arms"]["A1_single"]["para_full"]
+        a2 = diag["arms"]["A2_coherent2"]["para_full"]
+        label = "CONTROL_RECOVERY_PASS" if min(a1, a2) >= 80 else "CONTROL_RECOVERY_FAIL"
+        return {
+            "label": label,
+            "threshold": "A1_single and A2_coherent2 para_full >= 80",
+            "baseline_controls": {
+                "A1_single_para_full": baseline["arms"]["A1_single"]["para_full"],
+                "A2_coherent2_para_full": baseline["arms"]["A2_coherent2"]["para_full"],
+            },
+            "anyedit_window50_controls": {
+                "A1_single_para_full": a1,
+                "A2_coherent2_para_full": a2,
+                "control_min_para_full": min(a1, a2),
+            },
+            "licensed_claim": "diagnostic-only; pass permits later A7 test but is not rescue evidence" if label == "CONTROL_RECOVERY_PASS" else "stops A7 under this local upstream-window transplant condition",
+        }
 
     def final_verdict(results):
         invalid = []
@@ -420,6 +491,45 @@ def run_gpu(args):
             label = "AMBIGUOUS_NONPROMOTIONAL"
         return {"label": label, "baseline_A7": b, "anyedit_A7": k, "delta_A7": {"para_full_pp": dp}, "control_min_para_full": control_min, "locality_ok": loc_ok}
 
+
+    if args.window50_controls_only:
+        arm_names = ["A1_single", "A2_coherent2"]
+        base_report = {}
+        for arm in arm_names:
+            nts = [c10.ntok(c10.ARMS[arm][c]) for c in c10.FICTION]
+            base_report[arm] = {
+                "base": sum(c10.full_seq_match(c10.CANON.format(c), c10.tgt_ids(c10.ARMS[arm][c]))[0] for c in c10.FICTION),
+                "mean_ntok": round(sum(nts) / len(nts), 2),
+                "ntok_range": [min(nts), max(nts)],
+            }
+        print("\n=== C10h WINDOW50 CONTROL DIAGNOSTIC ===", flush=True)
+        for k, v in base_report.items():
+            print(f"  {k:18} base={v['base']}/{c10.N} ntok={v['mean_ntok']} range={v['ntok_range']}", flush=True)
+        results = {
+            "decision_id": "D-C10h-anyedit-window50-controls",
+            "parent_decision_id": "D-C10h-anyedit-pilot",
+            "run": "C10h AnyEdit upstream-window A1/A2 control diagnostic",
+            "class": "diagnostic-only; not rescue evidence; do not write CORPUS without supervised closeout",
+            "scope": "Qwen2.5-3B / capital / A1-A2 only / N=24 / 1-seed / HF-fp16 / local AnyEdit ARE target construction",
+            "frozen_control_gate": "CONTROL_RECOVERY_PASS iff A1_single and A2_coherent2 held-out para_full >= 80 under AnyEdit window_size=50",
+            "baseline_reference_frozen": {"hparams": HP_BASE, "layers": [4, 5, 6, 7, 8]},
+            "stimulus": {"CANON": c10.CANON, "PTEST": c10.PTEST, "FICTION": c10.FICTION, "V_A1_single": c10.ARMS["A1_single"], "V_A2_coherent2": c10.ARMS["A2_coherent2"]},
+            "base_report": base_report,
+            "recipes": {
+                "baseline_controls": run_baseline_controls(arm_names),
+                "anyedit_window50_controls": run_anyedit_recipe("anyedit_window50_controls", 50, arm_names),
+            },
+        }
+        results["verdict"] = control_recovery_verdict(results)
+        out = args.out or f"{LLMDB_ROOT}/results/c10h_anyedit_window50_controls.json"
+        with open(out, "w") as f:
+            json.dump(results, f, indent=2, default=str)
+        print("\n=== C10h WINDOW50 CONTROL DIAGNOSTIC SUMMARY ===", flush=True)
+        print(json.dumps(results["verdict"], indent=2), flush=True)
+        print(f"\nwrote {out}", flush=True)
+        print("C10H_WINDOW50_CONTROLS_DONE", flush=True)
+        return 0
+
     base_report = c10.pre_base_report()
     print("\n=== STIMULUS BASE CHECK ===", flush=True)
     for k, v in base_report.items():
@@ -456,6 +566,8 @@ def main():
     ap.add_argument("--window-size", type=int, default=1)
     ap.add_argument("--overlap", type=int, default=0)
     ap.add_argument("--run-default-window", action="store_true")
+    ap.add_argument("--window50-controls-only", action="store_true", help="run A1/A2-only upstream-window diagnostic; diagnostic-only, no A7")
+    ap.add_argument("--out", default=None, help="override durable result JSON path for diagnostic modes")
     args = ap.parse_args()
     if args.dry_run:
         return dry_run(args)
