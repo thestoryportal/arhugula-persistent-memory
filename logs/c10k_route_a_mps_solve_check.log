@@ -1,0 +1,4 @@
+cpu fp32 solve 1s
+mps fp32 solve 1s on mps:0
+rel diff mps vs cpu: 2.034e-03
+normalised cov: diag mean 0.015343672595918179 | S via eigvalsh min/max: -6.970e-10 / 9.985e+01 | #eig<0.02: 10246/11008

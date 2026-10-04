@@ -10,6 +10,8 @@ os.chdir(ENGINE_ROOT)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
+from util.device import resolve_device, empty_cache  # P-8 harness side
+DEV = resolve_device()
 from memit.memit_main import apply_memit_to_model, get_cov, get_context_templates, upd_matrix_match_shape
 from memit.compute_z import compute_z, get_module_input_output_at_words
 from memit.compute_ks import compute_ks
@@ -36,7 +38,7 @@ RUN_LABEL = os.environ.get("RUN_LABEL", "C10 W-realization band-knob test")
 tok = AutoTokenizer.from_pretrained(ID, revision=REV)
 if tok.pad_token is None:
     tok.pad_token = tok.eos_token
-model = AutoModelForCausalLM.from_pretrained(ID, revision=REV, torch_dtype=torch.float16, device_map="cuda").eval()
+model = AutoModelForCausalLM.from_pretrained(ID, revision=REV, torch_dtype=torch.float16, device_map=DEV).eval()
 print(f"loaded {ID}", flush=True)
 
 CANON = "The capital of {} is the city of"
@@ -71,8 +73,8 @@ def single_tok(s):
 
 
 def js(a, b):
-    p = a.double()
-    q = b.double()
+    p = a.cpu().double()
+    q = b.cpu().double()
     m = 0.5 * (p + q)
 
     def k(x, y):
@@ -89,7 +91,7 @@ def req(prompt, subj, targ):
 
 @torch.no_grad()
 def predict(prompt):
-    ids = tok(prompt, return_tensors="pt").to("cuda")
+    ids = tok(prompt, return_tensors="pt").to(DEV)
     pr = torch.softmax(model(**ids).logits[0, -1].float(), dim=-1)
     top = torch.topk(pr, 5)
     return {"id": int(top.indices[0]), "tok": tok.decode([int(top.indices[0])]), "dist": pr.cpu()}
@@ -97,13 +99,13 @@ def predict(prompt):
 
 @torch.no_grad()
 def full_seq_match(prompt, target_ids):
-    ids = tok(prompt, return_tensors="pt").to("cuda")["input_ids"]
+    ids = tok(prompt, return_tensors="pt").to(DEV)["input_ids"]
     cur = ids
     gen = []
     for _ in range(len(target_ids)):
         nxt = int(model(cur).logits[0, -1].argmax())
         gen.append(nxt)
-        cur = torch.cat([cur, torch.tensor([[nxt]], device="cuda")], dim=1)
+        cur = torch.cat([cur, torch.tensor([[nxt]], device=DEV)], dim=1)
     return gen == list(target_ids), gen[0] == target_ids[0]
 
 
@@ -111,10 +113,10 @@ def full_seq_match(prompt, target_ids):
 def teacher_forced_pertok(prompt, target_ids):
     if len(target_ids) < 2:
         return 0, 0
-    base = tok(prompt, return_tensors="pt").to("cuda")["input_ids"]
+    base = tok(prompt, return_tensors="pt").to(DEV)["input_ids"]
     hits = 0
     for j in range(1, len(target_ids)):
-        cur = torch.cat([base, torch.tensor([target_ids[:j]], device="cuda")], dim=1)
+        cur = torch.cat([base, torch.tensor([target_ids[:j]], device=DEV)], dim=1)
         nxt = int(model(cur).logits[0, -1].argmax())
         hits += nxt == target_ids[j]
     return hits, len(target_ids) - 1
@@ -151,7 +153,7 @@ def compute_P(hp):
         idx = (S < NULL_THRESH).nonzero(as_tuple=True)[0]
         Ps.append((U[:, idx] @ U[:, idx].T).cpu())
         del cov, U, S
-        torch.cuda.empty_cache()
+        empty_cache(DEV)
     return Ps
 
 

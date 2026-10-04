@@ -1,0 +1,135 @@
+diff -ru --exclude=.git --exclude=__pycache__ /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit/AlphaEdit_ARE/AlphaEdit_ARE_main.py /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit_mps/AlphaEdit_ARE/AlphaEdit_ARE_main.py
+--- /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit/AlphaEdit_ARE/AlphaEdit_ARE_main.py	2026-10-04 02:13:28
++++ /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit_mps/AlphaEdit_ARE/AlphaEdit_ARE_main.py	2026-10-04 12:24:56
+@@ -23,7 +23,7 @@
+     layer: int,
+     idxs_dict:dict,
+ ):
+-    input_ids = tok(batch_data, padding=True,return_tensors="pt").to("cuda")
++    input_ids = tok(batch_data, padding=True,return_tensors="pt").to(next(model.parameters()).device)
+     zs_out_dict = {}
+ 
+     with torch.no_grad():
+@@ -126,7 +126,7 @@
+ 
+         resid = targets / (len(hparams.layers) - i)  # Distribute residual across layers
+         upd_matrix = torch.linalg.solve(
+-                P[i,:,:].cuda() @ (layer_ks @ layer_ks.T + layer_kp @ layer_kp.T)  + hparams.L2*torch.eye(layer_ks.shape[0], dtype=torch.float,device="cuda"), P[i,:,:].cuda() @ layer_ks @ resid.T
++                P[i,:,:].to(next(model.parameters()).device) @ (layer_ks @ layer_ks.T + layer_kp @ layer_kp.T)  + hparams.L2*torch.eye(layer_ks.shape[0], dtype=torch.float,device=next(model.parameters()).device), P[i,:,:].to(next(model.parameters()).device) @ layer_ks @ resid.T
+         )
+         # Adjust update matrix shape
+         weight_name = f"{hparams.rewrite_module_tmp.format(layer)}.weight"
+@@ -178,7 +178,7 @@
+         COV_CACHE[key] = stat.mom2.moment().float().to("cpu")
+ 
+     return (
+-        torch.inverse(COV_CACHE[key].to("cuda")) if inv else COV_CACHE[key].to("cuda")
++        torch.inverse(COV_CACHE[key].to(next(model.parameters()).device)) if inv else COV_CACHE[key].to(next(model.parameters()).device)
+     )
+ 
+ 
+diff -ru --exclude=.git --exclude=__pycache__ /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit/AlphaEdit_ARE/compute_z.py /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit_mps/AlphaEdit_ARE/compute_z.py
+--- /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit/AlphaEdit_ARE/compute_z.py	2026-10-04 02:13:28
++++ /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit_mps/AlphaEdit_ARE/compute_z.py	2026-10-04 12:24:56
+@@ -32,7 +32,7 @@
+     #print("Computing right vector (v)")
+ 
+     # Tokenize target into list of int token IDs
+-    target_ids = tok(data["answer"], return_tensors="pt").to("cuda")[
++    target_ids = tok(data["answer"], return_tensors="pt").to(next(model.parameters()).device)[
+         "input_ids"
+     ][0]  
+     
+@@ -43,7 +43,7 @@
+         [data["question"]],  
+         return_tensors="pt",
+         padding=True,
+-    ).to("cuda")
++    ).to(next(model.parameters()).device)
+ 
+     cur_input_ids = input_tok['input_ids'] 
+     all_delta = []
+@@ -79,7 +79,7 @@
+         
+         start += hparams.window_size - hparams.overlap
+         
+-        rewriting_targets = torch.tensor(-100, device="cuda").repeat(
++        rewriting_targets = torch.tensor(-100, device=next(model.parameters()).device).repeat(
+             1, len(input_ids[0])
+         )
+    
+@@ -93,9 +93,9 @@
+         loss_layer = max(hparams.v_loss_layer, layer)
+     
+         if hasattr(model.config, 'n_embd'):
+-            delta = torch.zeros((model.config.n_embd,), requires_grad=True, device="cuda")
++            delta = torch.zeros((model.config.n_embd,), requires_grad=True, device=next(model.parameters()).device)
+         elif hasattr(model.config, 'hidden_size'):
+-            delta = torch.zeros((model.config.hidden_size,), requires_grad=True, device="cuda")
++            delta = torch.zeros((model.config.hidden_size,), requires_grad=True, device=next(model.parameters()).device)
+         else:
+             raise NotImplementedError
+         target_init = None
+diff -ru --exclude=.git --exclude=__pycache__ /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit/memit_ARE/compute_z.py /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit_mps/memit_ARE/compute_z.py
+--- /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit/memit_ARE/compute_z.py	2026-10-04 02:13:28
++++ /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit_mps/memit_ARE/compute_z.py	2026-10-04 12:24:56
+@@ -32,7 +32,7 @@
+     #print("Computing right vector (v)")
+ 
+     # Tokenize target into list of int token IDs
+-    target_ids = tok(data["answer"], return_tensors="pt").to("cuda")[
++    target_ids = tok(data["answer"], return_tensors="pt").to(next(model.parameters()).device)[
+         "input_ids"
+     ][0]  
+     
+@@ -43,7 +43,7 @@
+         [data["question"]],  
+         return_tensors="pt",
+         padding=True,
+-    ).to("cuda")
++    ).to(next(model.parameters()).device)
+ 
+     cur_input_ids = input_tok['input_ids'] 
+     all_delta = []
+@@ -79,7 +79,7 @@
+         
+         start += hparams.window_size - hparams.overlap
+         
+-        rewriting_targets = torch.tensor(-100, device="cuda").repeat(
++        rewriting_targets = torch.tensor(-100, device=next(model.parameters()).device).repeat(
+             1, len(input_ids[0])
+         )
+    
+@@ -93,9 +93,9 @@
+         loss_layer = max(hparams.v_loss_layer, layer)
+     
+         if hasattr(model.config, 'n_embd'):
+-            delta = torch.zeros((model.config.n_embd,), requires_grad=True, device="cuda")
++            delta = torch.zeros((model.config.n_embd,), requires_grad=True, device=next(model.parameters()).device)
+         elif hasattr(model.config, 'hidden_size'):
+-            delta = torch.zeros((model.config.hidden_size,), requires_grad=True, device="cuda")
++            delta = torch.zeros((model.config.hidden_size,), requires_grad=True, device=next(model.parameters()).device)
+         else:
+             raise NotImplementedError
+         target_init = None
+diff -ru --exclude=.git --exclude=__pycache__ /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit/memit_ARE/memit_ARE_main.py /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit_mps/memit_ARE/memit_ARE_main.py
+--- /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit/memit_ARE/memit_ARE_main.py	2026-10-04 02:13:28
++++ /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/external_prior_art/AnyEdit_mps/memit_ARE/memit_ARE_main.py	2026-10-04 12:24:56
+@@ -23,7 +23,7 @@
+     layer: int,
+     idxs_dict:dict,
+ ):
+-    input_ids = tok(batch_data, padding=True,return_tensors="pt").to("cuda")
++    input_ids = tok(batch_data, padding=True,return_tensors="pt").to(next(model.parameters()).device)
+     with torch.no_grad():
+         with nethook.Trace(
+             module=model,
+@@ -194,7 +194,7 @@
+         COV_CACHE[key] = stat.mom2.moment().float().to("cpu")
+ 
+     return (
+-        torch.inverse(COV_CACHE[key].to("cuda")) if inv else COV_CACHE[key].to("cuda")
++        torch.inverse(COV_CACHE[key].to(next(model.parameters()).device)) if inv else COV_CACHE[key].to(next(model.parameters()).device)
+     )
+ 
+ 
