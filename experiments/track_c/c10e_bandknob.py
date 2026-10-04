@@ -316,10 +316,15 @@ def run_recipe(name, hparam_path):
         cache = [torch.zeros(P[0].shape[0], P[0].shape[0]) for _ in hp.layers]
         pre_prompts = [f"{c} is described as" for c in FICTION]
         pre_loc = {p: predict(p) for p in pre_prompts}
-        if os.environ.get("C10_KEY_LOCUS", "subject") == "last":   # D-C10k-keying-ablation: key at the prompt's final token via the engine's own subject_last path (subject = "of", placeholder at the end); no engine change
-            requests = [req(CANON.format(c).rsplit(" ", 1)[0] + " {}", "of", Vmap[c]) for c in FICTION]
+        if os.environ.get("C10_KEY_LOCUS", "subject") == "last":   # D-C10k-keying-ablation: key at the prompt's final token via the engine's own subject_last path (subject = "<country> is the city of", prompt "The capital of {}"); no engine change
+            requests = [req("The capital of {}", f"{c} is the city of", Vmap[c]) for c in FICTION]   # prereg v3: subject = "<country> is the city of" → subject_last keys the final " of"; KL prompt "<country> is the city of is a" keyed at " of"
         else:
             requests = [req(CANON, c, Vmap[c]) for c in FICTION]
+        if os.environ.get("C10_KEY_LOCUS") or os.environ.get("C10_CTX_TEMPLATES"):   # D-C10k-keying-ablation validity print (item 0): keyed token + eval strings must match across cells
+            from rome import repr_tools as _rt
+            _rq = requests[0]; _tmpl = _rq["prompt"]; _idx = _rt.get_words_idxs_in_templates(tok, [_tmpl], [_rq["subject"]], "last")[0][0]
+            _ids = tok(_tmpl.format(_rq["subject"]))["input_ids"]
+            print(f"  VALIDITY item0: locus={os.environ.get('C10_KEY_LOCUS','subject')} templates={os.environ.get('C10_CTX_TEMPLATES','on')} prompt={_tmpl!r} subject={_rq['subject']!r} keyed_idx={_idx}/{len(_ids)-1} keyed_tok={tok.decode(_ids[_idx])!r} | para={[p.format(FICTION[0]) for p in PTEST]} | loc={pre_prompts[0]!r} | subj_key={FICTION[0]!r}", flush=True)
         with contextlib.redirect_stdout(io.StringIO()):
             delta = my_edit(hp, requests, P, cache)
         post_loc = {p: predict(p) for p in pre_prompts}

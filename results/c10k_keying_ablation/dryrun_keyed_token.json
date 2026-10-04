@@ -1,45 +1,1191 @@
 {
- "Zorbland/no_template": {
-  "template": "The capital of Zorbland is the city {}",
-  "keyed_index": 9,
-  "n_tokens": 10,
-  "decoded": " of",
-  "is_last_token": true
+ "templates": [
+  "{}",
+  "The following is a multiple-choice question about history from. {}",
+  "Therefore,the most effective way of learning is through. {}",
+  "Because the world has changed, it is time for. {}",
+  "I'm trying to make a function which returns an. {}",
+  "You are given a 2D integer array intervals. {}"
+ ],
+ "subjects": {
+  "Zorbland": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "land"
+   }
+  },
+  "Quaxil": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "il"
+   }
+  },
+  "Plurnak": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "ak"
+   }
+  },
+  "Vythorn": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "orn"
+   }
+  },
+  "Glimsto": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "sto"
+   }
+  },
+  "Drennik": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "nik"
+   }
+  },
+  "Yastovel": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "ovel"
+   }
+  },
+  "Crulpane": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "pane"
+   }
+  },
+  "Mophgar": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "gar"
+   }
+  },
+  "Brinduun": {
+   "identity": {
+    "idx": 10,
+    "n": 11,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 10,
+    "n": 11,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 7,
+   "K1_control": {
+    "idx": 6,
+    "decoded": "un"
+   }
+  },
+  "Trannak": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "ak"
+   }
+  },
+  "Skornwell": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "well"
+   }
+  },
+  "Fluvane": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "ane"
+   }
+  },
+  "Oxbarrow": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 7,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "row"
+   }
+  },
+  "Zephquin": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "quin"
+   }
+  },
+  "Lurmaxen": {
+   "identity": {
+    "idx": 10,
+    "n": 11,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 10,
+    "n": 11,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 7,
+   "K1_control": {
+    "idx": 6,
+    "decoded": "en"
+   }
+  },
+  "Pradnoll": {
+   "identity": {
+    "idx": 10,
+    "n": 11,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 10,
+    "n": 11,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 7,
+   "K1_control": {
+    "idx": 6,
+    "decoded": "oll"
+   }
+  },
+  "Kessivar": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "ivar"
+   }
+  },
+  "Wombryne": {
+   "identity": {
+    "idx": 10,
+    "n": 11,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 10,
+    "n": 11,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 21,
+    "n": 22,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 7,
+   "K1_control": {
+    "idx": 6,
+    "decoded": "ne"
+   }
+  },
+  "Halquin": {
+   "identity": {
+    "idx": 8,
+    "n": 9,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 8,
+    "n": 9,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 18,
+    "n": 19,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 5,
+   "K1_control": {
+    "idx": 4,
+    "decoded": "quin"
+   }
+  },
+  "Vorlex": {
+   "identity": {
+    "idx": 8,
+    "n": 9,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 8,
+    "n": 9,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 18,
+    "n": 19,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 4,
+    "decoded": "lex"
+   }
+  },
+  "Quenby": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "by"
+   }
+  },
+  "Marsduq": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 7,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "q"
+   }
+  },
+  "Thelby": {
+   "identity": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx0": {
+    "idx": 9,
+    "n": 10,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx1": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx2": {
+    "idx": 19,
+    "n": 20,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx3": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx4": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "ctx5": {
+    "idx": 20,
+    "n": 21,
+    "decoded": " of",
+    "ok": true
+   },
+   "kl_keyed_index": 6,
+   "K1_control": {
+    "idx": 5,
+    "decoded": "by"
+   }
+  }
  },
- "Zorbland/template": {
-  "template": "The following is a short note. The capital of Zorbland is the city {}",
-  "keyed_index": 16,
-  "n_tokens": 17,
-  "decoded": " of",
-  "is_last_token": true
- },
- "Quaxil/no_template": {
-  "template": "The capital of Quaxil is the city {}",
-  "keyed_index": 9,
-  "n_tokens": 10,
-  "decoded": " of",
-  "is_last_token": true
- },
- "Quaxil/template": {
-  "template": "The following is a short note. The capital of Quaxil is the city {}",
-  "keyed_index": 16,
-  "n_tokens": 17,
-  "decoded": " of",
-  "is_last_token": true
- },
- "Plurnak/no_template": {
-  "template": "The capital of Plurnak is the city {}",
-  "keyed_index": 9,
-  "n_tokens": 10,
-  "decoded": " of",
-  "is_last_token": true
- },
- "Plurnak/template": {
-  "template": "The following is a short note. The capital of Plurnak is the city {}",
-  "keyed_index": 16,
-  "n_tokens": 17,
-  "decoded": " of",
-  "is_last_token": true
- },
- "valid": true
+ "n_templates": 6,
+ "valid": true,
+ "bad": []
 }

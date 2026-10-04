@@ -1,6 +1,6 @@
-# Pre-registration (v2) — keying-locus ablation in the program's own MEMIT engine (D-C10k-keying-ablation)
+# Pre-registration (v3) — keying-locus ablation in the program's own MEMIT engine (D-C10k-keying-ablation)
 
-**Date:** 2026-10-04 (v1 → advisor FIX-FIRST, `logs/claude_c10k_keying_ablation_prereg_review.md`; v2 resolves every item below). **Trigger:** the Route A result (`docs/C10K_ROUTEA_RESULT.md`, F3) attributes the ported AnyEdit's 0/72 paraphrase result to *where the edit is keyed*; R0 and Route A differ in at least six ways, so that attribution is I-INFER. This ablation changes one thing in the program's own engine. **No engine source is touched** (LAW#5). **Advisor review before the run:** v1 above; v2 `logs/claude_c10k_keying_ablation_prereg_review_v2.md`.
+**Date:** 2026-10-04 (v1 → advisor FIX-FIRST, `logs/claude_c10k_keying_ablation_prereg_review.md`; v2 → advisor FIX-FIRST, `logs/claude_c10k_keying_ablation_prereg_review_v2.md`; v3 resolves both rounds, §0 and §0b). **Trigger:** the Route A result (`docs/C10K_ROUTEA_RESULT.md`, F3) attributes the ported AnyEdit's 0/72 paraphrase result to *where the edit is keyed*; R0 and Route A differ in at least six ways, so that attribution is I-INFER. This ablation changes one thing in the program's own engine. **No engine source is touched** (LAW#5). **Advisor reviews:** v1 and v2 above (both FIX-FIRST, resolved); v3 is the run version.
 
 ## 0. v1 → v2 (advisor items)
 
@@ -14,6 +14,19 @@
 | CAUSAL over-claims | §3 wording: "sufficient in MEMIT; consistent with F3; not exclusive." |
 | Minor | per-subject ≥ 2/3 reported; runtime cited from R0 (3 arms + LAW#5 in 56 min → ≈ 20 min per arm); one seed resolves < 20 vs ≥ 80 only. |
 
+## 0b. v2 → v3 (second advisor round)
+
+| item | resolution |
+|---|---|
+| Evaluation leakage through the subject string | **Source read:** c10e's evaluation never reads `request["subject"]`: paraphrase prompts come from `PTEST.format(country)` over `FICTION`, described-as locality prompts from `FICTION` (`c10e_bandknob.py:317`), `eval_arm(Vmap)` is keyed by country, and the LAW#5 INERT fact is built separately (`:274-281`). The subject string reaches only the engine's `compute_z`/`compute_ks` through `my_edit(hp, requests, …)`. Validity print added anyway (below). |
+| KL side effect; better subject string | **Adopted.** K3/K4 request: prompt `"The capital of {}"`, subject `"<country> is the city of"`. `subject_last` keys the final `" of"`; the engine's KL prompt (`compute_z.py:50`, `"{} is a"`) becomes `"<country> is the city of is a"`, keyed at `" of"` at index 5–7 (never 0) and distinct per request; no batch-identity collision. **Dry run v2 on all 24 subjects × the engine's 6 real context templates (`get_context_templates(model, tok)`) + identity: keyed token `" of"` and last for 24/24 under every template; K1 control keys at each subject's last token** (`results/c10k_keying_ablation/dryrun_keyed_token.json`, `valid: true`). |
+| Readings overlap / gaps | §3 rewritten with a precedence order and an UNCLASSIFIED fallback; OVERTURNED now requires **K4 ≥ 80** (the port's closest analogue), with K3 reported. |
+| Batch identity collision | removed by the per-country subject string. |
+| Label over-claims | **"F3 SUFFICIENT (MEMIT)"** replaces "F3 CAUSAL". |
+| Dry run coverage | 24/24 subjects, real templates (above). The harness prints, for item 0 of every cell, the keyed index and decoded token, the request prompt/subject, the three paraphrase prompts, one described-as prompt; the paraphrase/locality strings must be byte-identical across K1–K4 or the cell is INVALID. |
+| Minor | A1 = 24 fictional countries → single-token real capitals; A2 = the same subjects → two-token coherent capitals (both as in C10/CORPUS/35–36). The K1 gate is the evidence that the knobs' defaults leave the harness on its old path. ±3 pp at N = 72 is a drift tripwire (≈ 2 items), not a reproducibility claim. |
+| Drift (defer behind A7 if option (ii) is not live) | Option (ii) is live in `docs/C10K_ROUTEA_RESULT.md` §5; the run is ≈ 2.7 h local and decides whether a memory rule and (ii)'s rationale rest on evidence. It runs after `CORPUS/42` is committed. |
+
 ## 1. Question
 
 Does keying the write at the **prompt's final token** instead of the **subject's last token** remove held-out-paraphrase generalisation in the program's own MEMIT engine, on the same 24 subjects and three paraphrases, with the same z-objective, covariance ridge, band [4–8], dtype and seed?
@@ -24,23 +37,25 @@ Does keying the write at the **prompt's final token** instead of the **subject's
 |---|---|---|---|---|---|
 | K1 (= R0) | `subject` | `on` | prompt `The capital of {} is the city of`, subject = country | A1 ≈ 94 / A2 ≈ 98 (gate) | same |
 | K2 | `subject` | `off` (identity template only) | same | high; a few points lower at most | same |
-| K3 | `last` | `on` | prompt `The capital of <country> is the city {}`, subject `of` | **< 20** | ≥ 80 |
+| K3 | `last` | `on` | prompt `The capital of {}`, subject `<country> is the city of` | **< 20** | ≥ 80 |
 | K4 | `last` | `off` | same | **< 20** (closest analogue to the port) | ≥ 80 |
 
-Mechanics: `experiments/track_c/c10e_bandknob.py` with `HP_CANDIDATE=configs/hparams/qwen25_3b_memit_hparams.json` (unchanged, `fact_token: subject_last`) for all four cells; knobs `C10_KEY_LOCUS` (line 319: rewrites the requests as above) and `C10_CTX_TEMPLATES` (line 161: `off` ⇒ `ctx = [["{}"]]`); `CANDIDATE_NAME=K1..K4`, `OUT=results/c10k_keying_ablation/K{n}.json`. **Declared side effect of the subject-string design:** the engine's KL locality prompt is built from the subject (`compute_z.py:50`, `"{} is a"`), so in K3/K4 it reads `"of is a"`; the KL term then regularises a degenerate prompt. This is the one place K3/K4 differ from K1/K2 beyond the key locus; it is recorded, and a K3/K4 collapse is read as "sufficient in MEMIT", not as exclusive.
+Mechanics: `experiments/track_c/c10e_bandknob.py` with `HP_CANDIDATE=configs/hparams/qwen25_3b_memit_hparams.json` (unchanged, `fact_token: subject_last`) for all four cells; knobs `C10_KEY_LOCUS` (line 319: rewrites the requests as above) and `C10_CTX_TEMPLATES` (line 161: `off` ⇒ `ctx = [["{}"]]`); `CANDIDATE_NAME=K1..K4`, `OUT=results/c10k_keying_ablation/K{n}.json`. **Declared side effect of the subject-string design:** the engine's KL locality prompt is built from the subject (`compute_z.py:50`, `"{} is a"`), so in K3/K4 it reads `"<country> is the city of is a"`, keyed at the `" of"` position (dry run: never index 0; distinct per request). It still differs from K1/K2's `"<country> is a"`; this is the one difference beyond the key locus, recorded, and a K3/K4 collapse is read as "sufficient in MEMIT", not as exclusive.
 
 **Metrics per cell:** A1 and A2 `para_full` (24 × 3), per-subject count with ≥ 2/3 paraphrases, `canon_full`, `locality_described_as` JS, LAW#5 INERT line, keyed-token index of the first item.
 
-## 3. Pre-registered readings (binding metric = A1 `para_full`; A2 alongside)
+## 3. Pre-registered readings (binding metric = A1 `para_full`; A2 alongside) — applied in this precedence order, first match wins
 
-- **Gate (LAW#3):** K1 within ±3 pp of R0 on A1 and A2, else HALT (harness drift).
-- **Validity per cell:** `canon_full ≥ 90` and keyed token as intended; otherwise INVALID (no reading).
-- **F3 CAUSAL — "keying at the prompt's final token is *sufficient* to remove paraphrase generalisation in MEMIT; consistent with F3; not exclusive":** K1 passes the gate, K2 ≥ 80, K3 < 20 and K4 < 20, and K3/K4 described-as JS within 10 points of K1. Then the Route A mechanism keeps its F3 reading and the memory_mirror rule becomes unconditional; option (ii) keeps its rationale.
-- **F3 OVERTURNED:** K3 or K4 ≥ 80 with described-as JS within 10 points of K1. F3 reduces to its observation; the rule is withdrawn; option (ii) loses its rationale; the Route A difference lies elsewhere (z-objective, preservation term, projector), to be named in a new prereg.
-- **TEMPLATES ARE A FACTOR (no keying claim):** K2 < 80. The templates, not the locus, carry generalisation in this engine; K3/K4 are reported but do not license a keying claim.
-- **INTERACTION:** K3 and K4 differ by ≥ 30 pp; reported as such; no rule written.
-- **MIXED:** 20 ≤ K3 or K4 < 80 (and K2 ≥ 80); partial dependence; one seed at N = 24 cannot resolve it; no rule.
-- A cell whose described-as JS is more than 10 points below K1 cannot support OVERTURNED (bleed guard).
+1. **GATE (LAW#3):** K1 within ±3 pp of R0 on A1 and A2 (94.4 / 98.6), else HALT (harness drift); nothing below is read.
+2. **INVALID (per cell):** `canon_full < 90`, or the keyed token is not as intended, or the paraphrase/locality strings differ from K1's → that cell has no reading.
+3. **TEMPLATES ARE A FACTOR:** K2 < 80 → templates, not locus, carry generalisation here; K3/K4 reported, no keying claim.
+4. **INTERACTION:** |K3 − K4| ≥ 30 pp → reported; no rule.
+5. **F3 SUFFICIENT (MEMIT):** K2 ≥ 80, K3 < 20, K4 < 20, and K3/K4 described-as JS within 10 points of K1 → "keying at the prompt's final token is sufficient to remove paraphrase generalisation in MEMIT; consistent with F3; not exclusive". The memory_mirror rule becomes unconditional; option (ii) keeps its rationale.
+6. **OVERTURNED:** K4 ≥ 80 (K3 reported) with K4's described-as JS within 10 points of K1 → F3 reduces to its observation; the rule is withdrawn; option (ii) loses its rationale; the Route A difference lies elsewhere (z-objective, preservation term, projector), to be named in a new prereg.
+7. **MIXED:** 20 ≤ K4 < 80 → partial dependence; one seed at N = 24 cannot resolve it; no rule.
+8. **UNCLASSIFIED:** anything else (e.g. K3/K4 < 20 with described-as JS > 10 points below K1) → reported, no rule.
+
+Per-subject ≥ 2/3 counts are reported beside every `para_full`.
 
 ## 4. What this does not test
 
