@@ -1,7 +1,7 @@
 #!/bin/bash
 # B3/G6.2 orchestrator: convert edited HF -> fp16 GGUF -> Q4_K_M -> probe both -> verdict.
 set -e
-cd /workspace
+cd "$LLMDB_ROOT"   # 2026-10-04: was the pod's /workspace
 SRC=$LLMDB_ROOT/llama_cpp_src
 BIN=$SRC/build/bin
 ED=$LLMDB_ROOT/b3_edited_qwen3b
@@ -16,7 +16,7 @@ $BIN/llama-quantize $F16 $Q4 Q4_K_M
 
 probe_model () {  # $1=gguf  $2=outpred  $3=port
   echo "  starting server on :$3 for $1"
-  $BIN/llama-server -m "$1" -ngl 0 -c 2048 --port "$3" --host 127.0.0.1 > $LLMDB_ROOT/b3_server_$3.log 2>&1 &
+  $BIN/llama-server -m "$1" -ngl 0 -c 2048 --port "$3" --host 127.0.0.1 > $LLMDB_ROOT/logs/b3_server_$3.log 2>&1 &
   SPID=$!
   sleep 3
   python $LLMDB_ROOT/experiments/track_b/b3_probe.py "http://127.0.0.1:$3" "$2"
