@@ -1,0 +1,23 @@
+{
+  "gate": "LAW#3 known-baseline reproduction after P-8 (D-HW-1)",
+  "experiment": "C2 key-collinearity depth map (experiments/track_c/c2_key_collinearity.py)",
+  "reference": "CORPUS/20_C2_KEYING_DEPTH_MAP.md (RunPod RTX 4090, engine 5c0c706a)",
+  "run": {
+    "date": "2026-10-03",
+    "hardware": "MacBook M3 Pro 48 GB, torch 2.8.0 mps",
+    "engine_memit_main_sha256": "e6ac7e186ee4ea5834f1127ce6f4031eef21fc52c8effa474876b80bda164b51",
+    "model": "Qwen/Qwen2.5-3B@3aab1f1954e9cc14eb9509a215f9e5ca08227a9b fp16",
+    "log": "logs/law3_c2_key_collinearity_2026-10-03.log"
+  },
+  "metric": "mean pairwise cosine of MEMIT keys across 12 same-relation entities (subject-keyed / relation-keyed)",
+  "rows": [
+    {"layer": 4, "reference_subject": 0.68, "reference_relation": 0.93, "repro_subject": 0.694, "repro_relation": 0.928},
+    {"layer": 5, "reference_subject": null, "reference_relation": null, "repro_subject": 0.549, "repro_relation": 0.966},
+    {"layer": 6, "reference_subject": 0.67, "reference_relation": 0.94, "repro_subject": 0.676, "repro_relation": 0.937},
+    {"layer": 7, "reference_subject": null, "reference_relation": null, "repro_subject": 0.376, "repro_relation": 0.988},
+    {"layer": 8, "reference_subject": 0.26, "reference_relation": 0.94, "repro_subject": 0.260, "repro_relation": 0.943}
+  ],
+  "max_abs_deviation_on_referenced_rows": 0.014,
+  "pass_criterion": "within one order of magnitude of the recorded values (CLAUDE.md LAW#3); conclusion unchanged (relation keying increases collinearity at every layer)",
+  "verdict": "PASS"
+}

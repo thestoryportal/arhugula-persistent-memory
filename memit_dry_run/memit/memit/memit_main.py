@@ -9,6 +9,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from rome.layer_stats import layer_stats
 from util import nethook
+from util.device import device_of, empty_cache  # P-8
 from util.generate import generate_fast
 from util.globals import *
 
@@ -45,15 +46,14 @@ def apply_memit_to_model(
 
     with torch.no_grad():
         for w_name, (key_mat, val_mat) in deltas.items():
-            key_mat, val_mat = key_mat.to("cuda"), val_mat.to("cuda")
-            upd_matrix = key_mat @ val_mat.T
+            upd_matrix = key_mat @ val_mat.T  # P-8: the float64 product stays on CPU (MPS has no float64)
             w = nethook.get_parameter(model, w_name)
             upd_matrix = upd_matrix_match_shape(upd_matrix, w.shape)
 
             if return_orig_weights and w_name not in weights_copy:
                 weights_copy[w_name] = w.detach().clone()
 
-            w[...] += upd_matrix.float()
+            w[...] += upd_matrix.float().to(w.device)  # P-8
 
     print(f"New weights successfully inserted into {list(deltas.keys())}")
 
@@ -119,7 +119,7 @@ def execute_memit(
         ):
             try:
                 data = np.load(cache_fname)
-                z_list.append(torch.from_numpy(data["v_star"]).to("cuda"))
+                z_list.append(torch.from_numpy(data["v_star"]).to(device_of(model)))  # P-8
                 data_loaded = True
             except Exception as e:
                 print(f"Error reading cache file due to {e}. Recomputing...")
@@ -188,9 +188,9 @@ def execute_memit(
         )
 
         # Compute update in double precision
-        layer_ks, targets = (
-            layer_ks.double(),
-            targets.double(),
+        layer_ks, targets = (  # P-8: to CPU first — MPS has no float64
+            layer_ks.cpu().double(),
+            targets.cpu().double(),
         )
 
         # S2.31 VRAM mitigation (OQ-S230-VRAM-1): CPU-offload the float64 solve.
@@ -214,7 +214,7 @@ def execute_memit(
 
         # Update model weights and record desired changes in `delta` variable
         with torch.no_grad():
-            weights[weight_name][...] = weights_copy[weight_name] + upd_matrix.float()
+            weights[weight_name][...] = weights_copy[weight_name] + upd_matrix.float().to(weights_copy[weight_name].device)  # P-8
             deltas[weight_name] = (
                 adj_k.detach().cpu(),
                 resid.detach().cpu(),
@@ -225,7 +225,7 @@ def execute_memit(
         for x in [layer_ks, cur_zs, targets]:
             x.cpu()
             del x
-        torch.cuda.empty_cache()
+        empty_cache(device_of(model))  # P-8
 
     # Restore state of original model
     with torch.no_grad():
@@ -280,7 +280,7 @@ def get_cov(
         COV_CACHE[key] = stat.mom2.moment().float().to("cpu")
 
     return (
-        torch.inverse(COV_CACHE[key].to("cuda")) if inv else COV_CACHE[key].to("cuda")
+        torch.inverse(COV_CACHE[key].to(device_of(model))) if inv else COV_CACHE[key].to(device_of(model))  # P-8
     )
 
 

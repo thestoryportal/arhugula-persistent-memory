@@ -148,13 +148,13 @@ def layer_stats(
         collate_fn=length_collation(batch_tokens),
         pin_memory=True,
         random_sample=1,
-        num_workers=2,
+        num_workers={"fork": 2}.get(torch.multiprocessing.get_start_method(), 0),  # P-8c: spawn re-imports __main__
     )
     batch_count = -(-(sample_size or len(ds)) // batch_size)
     with torch.no_grad():
         for batch_group in progress(loader, total=batch_count):
             for batch in batch_group:
-                batch = dict_to_(batch, "cuda")
+                batch = dict_to_(batch, next(model.parameters()).device)  # P-8
                 with Trace(
                     model, layer_name, retain_input=True, retain_output=False, stop=True
                 ) as tr:

@@ -19,13 +19,15 @@ ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT);
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
+from util.device import resolve_device, empty_cache  # P-8 harness side
+DEV = resolve_device()
 from memit.memit_main import get_context_templates
 from memit.compute_ks import compute_ks
 
 ID="Qwen/Qwen2.5-3B"; REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
 hp=MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")
 tok=AutoTokenizer.from_pretrained(ID, revision=REV)
-model=AutoModelForCausalLM.from_pretrained(ID, revision=REV, torch_dtype=torch.float16, device_map="cuda").eval()
+model=AutoModelForCausalLM.from_pretrained(ID, revision=REV, torch_dtype=torch.float16, device_map=DEV).eval()
 ctx=get_context_templates(model,tok)
 
 scr=json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b.json"))["selected"]
