@@ -48,10 +48,10 @@ def ensure(event, matcher, command, status, timeout):
                 hs.append({'type':'command','command':command,'statusMessage':status,'timeout':timeout})
             return
     entries.append({'matcher': matcher, 'hooks': [{'type':'command','command':command,'statusMessage':status,'timeout':timeout}]})
-ensure('SessionStart','startup|resume|clear|compact','/usr/bin/python3 "/workspace/.codex/hooks/session_start.py"','Loading LLMDB science posture + methodology skills',90)
-ensure('PreToolUse','Bash|apply_patch|Edit|Write','/usr/bin/python3 "/workspace/.codex/hooks/pre_tool_use_policy.py"','Checking LLMDB LAWs / methodology gates',15)
+ensure('SessionStart','startup|resume|clear|compact','/usr/bin/python3 "$(git rev-parse --show-toplevel)/.codex/hooks/session_start.py"','Loading LLMDB science posture + methodology skills',90)
+ensure('PreToolUse','Bash|apply_patch|Edit|Write','/usr/bin/python3 "$(git rev-parse --show-toplevel)/.codex/hooks/pre_tool_use_policy.py"','Checking LLMDB LAWs / methodology gates',15)
 # Claude supports Stop entries without a matcher in current settings schema; keep matcher broad for compatibility.
-ensure('Stop','*','/usr/bin/python3 "/workspace/.codex/hooks/stop_gate.py"','Checking LLMDB stop posture',90)
+ensure('Stop','*','/usr/bin/python3 "$(git rev-parse --show-toplevel)/.codex/hooks/stop_gate.py"','Checking LLMDB stop posture',90)
 tmp=settings.with_suffix(settings.suffix+'.tmp')
 json.dump(data, open(tmp,'w'), indent=2)
 json.load(open(tmp))

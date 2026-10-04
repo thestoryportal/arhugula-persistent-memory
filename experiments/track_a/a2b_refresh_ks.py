@@ -288,4 +288,4 @@ out={"config":{"model":ID,"seeds":SEEDS,"lambdas":LAMBDAS,"refresh_every":REFRES
                   "gate2_sentinel_lam0_vs_alphaedit":{"delta_expr":abs(a_p-b_p),"delta_loc":abs(a_loc-b_loc)}},
      "verdict":verdict,"results":results}
 json.dump(out,open(f"{LLMDB_ROOT}/results/a2b_refresh_ks_result.json","w"),indent=2,default=str)
-print("\nwrote /workspace/results/a2b_refresh_ks_result.json\nDONE", flush=True)
+print(f"\nwrote {LLMDB_ROOT}/results/a2b_refresh_ks_result.json\nDONE", flush=True)

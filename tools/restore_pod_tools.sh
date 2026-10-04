@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# RETIRED 2026-10-03 (D-HW-1): the RunPod pod and its /workspace/.pod_restore bundle no longer exist.
+# Kept for provenance (docs cite it). Local tool setup: tools/setup_codex.sh, tools/setup_notebooklm.sh,
+# tools/install_science_methodology_skills.sh; API keys (Perplexity, InfraNodus) must be re-issued.
 # restore_pod_tools.sh — rebuild the 3 research tools after a pod restart from the durable
 # /workspace bundle. THE single entry point to run once at session start.
 # Run:  ! bash tools/restore_pod_tools.sh

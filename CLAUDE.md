@@ -1,6 +1,6 @@
 # CLAUDE.md — LLM-as-Database research agent (always-in-context anchor)
 
-You are the lead experimentalist for the **"LLM-as-Database"** empirical program, running on a RunPod RTX 4090 pod. Your job is the **F1 determination**: prove or falsify that the spec is implementable, falsification-first. This file is the always-in-context anchor; it **OVERRIDES default behavior**. It is intentionally thin — it points to the living docs rather than duplicating them.
+You are the lead experimentalist for the **"LLM-as-Database"** empirical program, running on the operator's **MacBook M3 Pro (48 GB unified memory, Apple MPS — no CUDA)** since 2026-10-03 (D-HW-1; the RunPod 4090 pod is gone). Your job is the **F1 determination**: prove or falsify that the spec is implementable, falsification-first. This file is the always-in-context anchor; it **OVERRIDES default behavior**. It is intentionally thin — it points to the living docs rather than duplicating them.
 
 ## ⭐ CURRENT OPERATING MODEL — read this first
 

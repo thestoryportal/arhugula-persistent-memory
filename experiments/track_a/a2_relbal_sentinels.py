@@ -254,4 +254,4 @@ print("\n=== SUMMARY: EVAL edited-rel top-1 correct @N=100 by λ_s ===", flush=T
 for lam in LAMBDAS:
     r=sweep[str(lam)][-1]
     print(f"  λ={lam}: eval-top1={r['eval_top1']['edited_rel']['top1_correct_vs_truth']}% (stable {r['eval_top1']['edited_rel']['top1_stable_vs_pre']}%) | retention={r['all_record_retention']}% expr={r['apply_time_expr']}%", flush=True)
-print("wrote /workspace/results/a2_relbal_sentinels_result.json\nDONE", flush=True)
+print(f"wrote {LLMDB_ROOT}/results/a2_relbal_sentinels_result.json\nDONE", flush=True)

@@ -1,0 +1,36 @@
+# LLM-as-Database — pinned environment for the local MacBook M3 Pro (D-HW-1, 2026-10-03).
+# Source of truth for versions (was prose in CORPUS/04_ENV_AND_DEPS.md; this file now IS the pin).
+#
+#   uv sync                       # creates .venv with these exact constraints
+#   uv run python experiments/track_b/b3_verdict.py      # no-GPU smoke
+#
+# transformers is held at 4.51.0 on purpose: 4.45 lacks Qwen3, 5.x breaks the engine's nethook
+# (IndexError in compute_z). torch has no CUDA on Apple Silicon; the science path runs the
+# float64 MEMIT solve on CPU (vendored CPU-solve patch) and everything else on MPS.
+[project]
+name = "llm-as-database"
+version = "0.1.0"
+description = "Falsification-first research program: in-weight knowledge editing (MEMIT/AlphaEdit) as a storage substrate"
+requires-python = "==3.11.*"
+dependencies = [
+    # science path (vendored engine memit_dry_run/memit + experiments/)
+    "torch>=2.4,<2.9",
+    "transformers==4.51.0",
+    "accelerate>=1.0",
+    "safetensors>=0.4",
+    "numpy>=1.26,<3",
+    "datasets>=2.19",          # engine layer_stats / dsets (wikipedia covariance substrate)
+    "scipy>=1.12",
+    "scikit-learn>=1.4",       # engine dsets/tfidf_stats
+    "tqdm>=4.66",
+    "pyyaml>=6",               # engine globals.yml
+    "jsonlines>=4",
+    # governance experiments (experiments/governance/*)
+    "cryptography>=42",
+    # notebooks / plots used by a few experiment scripts
+    "matplotlib>=3.8",
+]
+
+[tool.uv]
+# nothing exotic; keep the lockfile committed so `uv sync` is byte-reproducible
+package = false

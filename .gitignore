@@ -119,3 +119,7 @@ node-v20/
 # Operator scratch — local helper scripts + review prompts (keep out of the public repo)
 fix_pplx_key.py
 REVIEW_PROMPT_*.md
+
+# ── local Python env (uv) + engine scratch; uv.lock IS tracked ──
+.venv/
+kvs/

@@ -51,7 +51,7 @@ memory_mirror/         durable learnings
 ## Environment & how to run
 - **Hardware:** single NVIDIA RTX 4090 (24 GB). Deployment target = operator Intel CPU (edit-time GPU/offline, inference-time CPU).
 - **Stack:** `transformers==4.51.0` (PINNED — 4.45 lacks Qwen3, 5.x breaks the engine nethook). PyTorch+CUDA. `torch.float16` loads.
-- **Path convention:** live scripts resolve paths against `LLMDB_ROOT` (default `/workspace`): `export LLMDB_ROOT=/workspace`. They `sys.path.insert`+`os.chdir` to `$LLMDB_ROOT/memit_dry_run/memit` and read `HF_HOME=$LLMDB_ROOT/hf_cache`.
+- **Path convention:** live scripts resolve paths against `LLMDB_ROOT` (default `/workspace`): `export LLMDB_ROOT=/workspace`. They `sys.path.insert`+`os.chdir` to `$LLMDB_ROOT/memit_dry_run/memit` and read `HF_HOME=$LLMDB_ROOT/hf_cache`. **Local (2026-10-03, D-HW-1):** `LLMDB_ROOT` = the clone root (`/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory`); `.claude/settings.json` exports it for agent sessions; `covariance_caches/` and `hf_cache/` are symlinks into the memit volume; the engine is vendored in-repo.
 - **Run an experiment:** see the table in `REPRODUCIBILITY.md`. Examples:
   - No-GPU sanity: `python experiments/track_b/b3_verdict.py`
   - GPU mechanism smoke (~1 min): `python experiments/track_c/c2_key_collinearity.py` (loads Qwen2.5-3B, prints key-collinearity table, ends `C2_PHASE0_DONE`).

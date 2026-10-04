@@ -158,7 +158,7 @@ json.dump({"config":{"model":ID,"rev":REV,"band":L,"mom2_uw":hp.mom2_update_weig
            "write_mode":"batch","n_edited":len(records)},
            "edited":edited_probes,"native":native_probes},
           open(f"{LLMDB_ROOT}/configs/probes/b3_probes.json","w"),indent=2,default=str)
-print("  wrote /workspace/configs/probes/b3_probes.json", flush=True)
+print(f"  wrote {LLMDB_ROOT}/configs/probes/b3_probes.json", flush=True)
 
 # ---------- SAVE edited model (fp16 HF) for GGUF conversion ----------
 print(f"\n=== SAVE edited model -> {SAVE_DIR} ===", flush=True)
