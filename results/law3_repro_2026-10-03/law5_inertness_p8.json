@@ -1,0 +1,36 @@
+{
+  "gate": {
+    "expr_delta": 0.0009,
+    "loc_delta": 0.23,
+    "ok": true
+  },
+  "device": "mps",
+  "band": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "engine": {
+    "p_target": 0.9905547499656677,
+    "top1": " Cairo",
+    "loc_pct": 93.43,
+    "seconds": 15.0
+  },
+  "harness": {
+    "p_target": 0.9914326667785645,
+    "top1": " Cairo",
+    "loc_pct": 93.66,
+    "seconds": 17.5
+  },
+  "pre": {
+    "p_target": 8.266521035693586e-05,
+    "top1": " Z"
+  },
+  "thresholds": {
+    "expr_delta": 0.05,
+    "loc_delta": 3
+  },
+  "verdict": "INERT"
+}
