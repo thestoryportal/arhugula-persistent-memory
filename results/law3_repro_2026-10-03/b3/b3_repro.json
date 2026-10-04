@@ -1,0 +1,26 @@
+{
+  "gate": "LAW#3 known-baseline reproduction after P-8 (D-HW-1) + local serving validation on the deployment hardware",
+  "experiment": "B3 quantization survival (edit -> save -> fp16 GGUF -> Q4_K_M -> llama-server probes -> verdict); experiments/track_b/{b3_edit_and_save,b3_expand_native}.py + b3_run.sh",
+  "reference": "CORPUS/17_B3_QUANTIZATION_SURVIVAL.md; results/b3_quant_survival_result.json (RunPod 4090 edit, pod-CPU serve)",
+  "run": {
+    "date": "2026-10-04",
+    "hardware": "MacBook M3 Pro 48 GB — edit on MPS (engine d941a9fb), serve via llama.cpp prebuilt b11382 macos-arm64 with -ngl 0 (CPU, as the recorded claim)",
+    "model": "Qwen/Qwen2.5-3B@3aab1f1954e9cc14eb9509a215f9e5ca08227a9b fp16 -> b3_edited_qwen3b (12.1 GB safetensors) -> b3_edited_f16.gguf (6.18 GB) -> b3_edited_q4km.gguf (1.93 GB)",
+    "toolchain_note": "native llama.cpp build impossible here (Command Line Tools broken: ld rejects SDK .tbd stubs) -> official prebuilt per runbook §5.3 decision",
+    "records": "results/law3_repro_2026-10-03/b3/{b3_probes,b3_pred_f16,b3_pred_q4,b3_quant_survival_result}.json",
+    "logs": "logs/b3_edit_and_save_2026-10-04.log, logs/b3_expand_native_2026-10-04.log, logs/b3_run_2026-10-04.log"
+  },
+  "edit_phase": {"inline_law5": {"engine_expr": 0.9665, "harness_expr": 0.9682, "delta": 0.0017, "verdict": "INERT"}, "batch_apply_expr": "99/100", "hf_fp16_edited_match": "99/100"},
+  "probe_pool": {"edited": 100, "native_country": 84, "native_country_fp16_correct": 77, "native_global": 6, "reference_native_country_fp16_correct": 77},
+  "rows": [
+    {"metric": "edited retention after Q4_K_M (eligible = fp16-correct)", "reference": "100.0% (99/99)", "repro": "99.0% (98/99)"},
+    {"metric": "native-country retention after Q4_K_M", "reference": "97.4% (75/77)", "repro": "98.7% (76/77)"},
+    {"metric": "native-global self-consistency", "reference": "83.3% (5/6)", "repro": "80.0% (4/5)"},
+    {"metric": "fp16 GGUF == HF on edited facts (smoke + agreement)", "reference": "100%", "repro": "100%"},
+    {"metric": "delta edited - native (threshold >= -3)", "reference": "+2.6", "repro": "+0.3"},
+    {"metric": "G6.2 verdict", "reference": "PASS", "repro": "PASS"}
+  ],
+  "interpretation": "Same verdict; every count differs by at most one probe from the pod record (one edited fact lost, one native fact gained under quantization), inside single-seed run-to-run variation. The deployment data-path spine (recipe -> batch-clean -> Q4_K_M -> CPU serve) is reproduced on the operator's own machine, which closes the former next-action (4) 'real serving validation on the actual hardware'.",
+  "wall_clock": {"edit_and_save": "~18 min (incl. 5 projector SVDs)", "expand_native": "~1 min", "convert+quantize+probes+verdict": "~2.5 min"},
+  "verdict": "PASS"
+}

@@ -107,7 +107,7 @@ Q4_K_M ✅ → **`E1·A`** serves on CPU ✅ → **`D1` capacity law `[OPEN — 
 ## ⑤ DISTANCE TO F1 (the readiness scorecard)
 
 <!-- BEGIN GENERATED:f1-scorecard -->
-**F1 READINESS SCORECARD (updated 2026-10-04 (D-HW-1 Phase 3: P-8 device port + LAW#3/#5 gates PASSED on the M3 Pro; science path re-validated))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
+**F1 READINESS SCORECARD (updated 2026-10-04 (D-HW-1 Phase 3 complete: P-8 + LAW#3/#5 gates + B3 local serving PASS on the M3 Pro))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
 
 - **Deployment data path:** recipe ✅ → A1 batch-clean ✅ → B3 Q4_K_M-survival ✅ → E1·A CPU-serve ✅ → D1 structural ✅ (model-general) + numeric k≤1 SET on 3B ⚠️ (cross-model transfer OPEN)
 - **Governance:** CP1 ✅ · CP3 ✅ · G1 ✅ · G2 ✅ · G3 ✅ · CP2 read-contract WEIGHTS-owned slice CHARACTERIZED (R15 not-ready-with-conditions ⚠️ ; R9 deletion characterization; §11.2 = no class weights-authoritative) — query-schema build-items + R5-at-scale still OPEN

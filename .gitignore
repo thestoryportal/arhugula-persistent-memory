@@ -2,7 +2,7 @@
 # hf_cache / covariance_caches have no trailing slash on purpose: locally they are SYMLINKS into the memit volume.
 hf_cache
 covariance_caches
-llama_cpp_src/
+llama_cpp_src
 external_prior_art/
 easyedit_upstream/
 easyedit_assets/
@@ -122,5 +122,5 @@ fix_pplx_key.py
 REVIEW_PROMPT_*.md
 
 # ── local Python env (uv) + engine scratch; uv.lock IS tracked ──
-.venv/
+.venv
 kvs/

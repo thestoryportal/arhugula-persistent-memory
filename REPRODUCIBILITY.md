@@ -71,3 +71,5 @@ Pre-reorganization snapshot (2026-06-18) at `/root/migration_backup/`: `manifest
 | **LAW#3 repro (M3 Pro)** | `python experiments/track_c/c2_key_collinearity.py` ; `WRITE_MODE=batch python experiments/scale/g6_scale_n.py` | yes (MPS) | `results/law3_repro_2026-10-03/{c2_key_collinearity_repro,a1_batch_repro}.json` (2026-10-04; D-HW-1) |
 
 | **LAW#5 inertness gate** | `python tools/law5_inertness_gate.py --out <path>` | yes (MPS) | `results/law3_repro_2026-10-03/law5_inertness_p8.json` |
+
+| **B3 local serving (M3 Pro)** | `python experiments/track_b/b3_edit_and_save.py` ; `python experiments/track_b/b3_expand_native.py` ; `bash experiments/track_b/b3_run.sh` (prebuilt llama.cpp at `llama_cpp_src/build/bin`) | yes (MPS edit) + CPU serve | `results/law3_repro_2026-10-03/b3/b3_repro.json` (2026-10-04) |
