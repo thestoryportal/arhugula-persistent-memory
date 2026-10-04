@@ -1,6 +1,7 @@
 # ── Large infra / caches / models / vendored clones (NEVER track — 100GB+, regenerable) ──
-hf_cache/
-covariance_caches/
+# hf_cache / covariance_caches have no trailing slash on purpose: locally they are SYMLINKS into the memit volume.
+hf_cache
+covariance_caches
 llama_cpp_src/
 external_prior_art/
 easyedit_upstream/
