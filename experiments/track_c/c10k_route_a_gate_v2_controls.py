@@ -57,8 +57,7 @@ def main():
         # key parity: padded batch (module path) vs single unpadded (gate path)
         with torch.no_grad():
             with nethook.Trace(model, name, retain_input=True, retain_output=False, stop=True) as tr: model(**batch)
-            kb = tr.input[0] if tr.input.dim() == 3 else tr.input   # (3, seq, d) — padded batch
-            if kb.dim() == 2: kb = kb.unsqueeze(0)
+            kb = tr.input if tr.input.dim() == 3 else tr.input.unsqueeze(0)   # (3, seq, d) — padded batch
         cos, pos_ok = [], True
         for k, (q, a) in enumerate(par_items):
             nq, na = len(L.ids(tok, q)), len(L.ids(tok, a)); up = window_positions_upstream(nq, na); gp = [nq - 1] + [nq + j for j in range(na - 1)]

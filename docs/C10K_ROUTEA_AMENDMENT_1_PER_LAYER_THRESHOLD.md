@@ -88,9 +88,21 @@ Script: `experiments/track_c/c10k_route_a_gate_v2_controls.py` → `results/c10k
 
 **(c) Key parity (LAW#4).** The ported module takes its keys from a right-padded batch forward of `question + answer` at the window indices computed in `compute_z.py:67-91` (`AlphaEdit_ARE_main.py:88-107`); at `window_size = 1`, `overlap = 0` those indices are the last prompt token and each answer position but the last, which is what the gate's `are_window_keys` reads from single unpadded forwards. The control re-derives the indices from the module's loop, asserts they agree, asserts `padding_side == "right"`, and takes the cosine between batch-padded and single-sequence keys on 3 A7 items at every window position at every layer. **Reading:** positions agree and cosine ≥ 0.99 everywhere → proceed; otherwise HALT (the gate measured a different key distribution from the one the solve uses).
 
-### Results
+### Results (EVIDENCE-SHOWS, `results/c10k_route_a/projector_gate_v2_controls.json`, padding_side = right)
 
-_(appended after the run)_
+| layer | threshold | kept-rank fraction | eigen-energy removed | interference ratio A1 | interference ratio ARE-window | parity positions | parity cos min |
+|---|---|---|---|---|---|---|---|
+| L4 | 0.01 | 0.8603 | 0.063 | 0.2256 | 0.2839 | agree | 1.0000 |
+| L5 | 0.02 | 0.8317 | 0.217 | 0.2421 | 0.3524 | agree | 1.0000 |
+| L6 | 0.02 | 0.7678 | 0.217 | 0.487 | 0.5503 | agree | 1.0000 |
+| L7 | 0.02 | 0.7142 | 0.197 | 0.4705 | 0.4718 | agree | 1.0000 |
+| L8 | 0.03 | 0.7602 | 0.293 | 1.0312 | 0.3784 | agree | 1.0000 |
+
+**(c) Key parity: OK.** The module's window indices re-derived from its own loop equal the gate's at every item; batch-padded and single-sequence keys agree to cosine 1.0000 at every window position at every layer. The gate measured the key distribution the solve uses.
+
+**(b) Interference: "non-protective" under the pre-registered reading, because of one cell.** On L4, L5 and the window-position keys at every layer the projection removes 45–77% of the per-unit-edit interference (ratios 0.23–0.55); L6 and L7 sit at the protective/partial boundary (0.47–0.55). On **L8 for the A1 last-prompt-token keys the ratio is 1.0312**: the projection attenuates those keys as much as it attenuates Wikipedia keys, so at L8 the null-space projection buys no protection per unit of A1-style edit. The same layer with the keys AnyEdit actually writes (window positions, which carry answer-token context) reads 0.3784, protective. Consequence, as pre-registered: the chain runs; every result's scope carries `interference=non-protective(L8,A1)`; an A2 (coherent-pair) PASS cannot be attributed to the null-space projection at L8, and a locality result must be read with L8 as an unprotected layer for last-token keys.
+
+**(a) Descriptors.** The chosen cutoffs keep 71–86% of the rank and remove 6–29% of the eigen-energy; L4 at 0.01 removes the least energy (6%) and L8 at 0.03 the most (29%). These are the scale-free operating points to quote beside upstream's 0.02, whose own fractions on the 7B/8B Instruct models are not recorded in the AnyEdit repository.
 
 ## 9. Advisor v2 items → resolution
 

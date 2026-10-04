@@ -16,6 +16,10 @@ python - "$R/projector_gate_v2.json" <<'EOF' || { echo "CHAIN: HALT projector ga
 import json, sys; d = json.load(open(sys.argv[1])); print("CHAIN: gate v2 ok:", d["gate_ok"], "| P:", d["P_file"]); sys.exit(0 if d["gate_ok"] else 1)
 EOF
 
+python - "$R/projector_gate_v2_controls.json" <<'EOF' || { echo "CHAIN: HALT gate v2 controls: key parity failed"; exit 1; }
+import json, sys; d = json.load(open(sys.argv[1])); print("CHAIN: controls key_parity_ok:", d["key_parity_ok"], "| interference:", d["interference_reading"]); sys.exit(0 if d["key_parity_ok"] else 1)
+EOF
+
 echo "CHAIN: anchor start $(date +%T)"
 python "$L" anchor > "$W/logs/c10k_route_a_anchor.log" 2>&1; rc=$?
 grep -E '^anchor:' "$W/logs/c10k_route_a_anchor.log" | sed 's/^/CHAIN: /'

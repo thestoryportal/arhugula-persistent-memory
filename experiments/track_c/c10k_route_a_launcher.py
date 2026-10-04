@@ -133,6 +133,11 @@ def get_project_verbatim(cov_cpu, threshold):
     U, S, _ = torch.linalg.svd(cov_cpu, full_matrices=False); idx = (S < threshold).nonzero(as_tuple=True)[0]
     return U[:, idx] @ U[:, idx].T, int(idx.numel()), float(S.min()), float(S.max())
 
+def controls_reading():
+    """Amendment 1 v2 §8(b): the pre-registered interference reading, carried into every result's scope."""
+    c = json.load(open(f"{OUTDIR}/projector_gate_v2_controls.json")); bad = [f"L{l}:{t}" for l, v in c["layers"].items() for t in ("A1", "ARE") if v["interference"][t]["ratio"] >= 1.0]
+    return c["interference_reading"] + (f"({','.join(bad)})" if bad else "")
+
 def load_P(path):
     """Amendment 1 v2 §4 wiring parity (enforced): the stacked per-layer projector is loaded verbatim and its full SHA-256 must equal
     the P_sha256 recorded by c10k_route_a_gate_v2.py in results/c10k_route_a/projector_gate_v2.json; mismatch aborts before any edit."""
@@ -250,7 +255,7 @@ def stage_run(a):
         V = arms.get(arm, {}); res = run_arm(model, tok, hp, M, apply_fn, alg, arm, V, fiction, dev, P, window)
         res["decision_id"] = "D-C10k-route-a"; res["class"] = "ported-upstream mechanism lead; not CORPUS evidence until advisor-reviewed"
         res["projector_file"] = os.path.basename(a.P) if P is not None else None; res["projector_sha256_12"] = P_sha
-        res["scope"] = f"Qwen2.5-3B base fp16 on MPS / {alg} window={window} / {arm} / N={len(fiction)} / 1-seed / hparams {os.path.basename(a.hparams)} / per-layer thresholds (Amendment 1 D8) {os.path.basename(a.P) if P is not None else 'n/a'}"
+        res["scope"] = f"Qwen2.5-3B base fp16 on MPS / {alg} window={window} / {arm} / N={len(fiction)} / 1-seed / hparams {os.path.basename(a.hparams)} / per-layer thresholds (Amendment 1 D8) {os.path.basename(a.P) if P is not None else 'n/a'} / interference={controls_reading()}"
         json.dump(res, open(f"{OUTDIR}/{a.recipe}_w{window}_{arm}.json", "w"), indent=1, default=str)
         print(f"{a.recipe} {alg} w={window} {arm}: err={res['error']} secs={res['apply_seconds']} summary={res['summary']} locality={res['locality']['real_capital_top1_correct']} desc_js={res['locality']['described_as_js_locpct']}", flush=True)
     return 0
