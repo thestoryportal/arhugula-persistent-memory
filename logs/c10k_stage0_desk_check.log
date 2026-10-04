@@ -1,0 +1,101 @@
+== unmodified upstream @ 057a77f185f7 ; our venv (torch 2.8 mps, transformers 4.51.0) ; 2026-10-04 ==
+
+$ python -m experiments.evaluate_uns --help
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/external_prior_art/AnyEdit/experiments/evaluate_uns.py", line 22, in <module>
+    from memit_ARE import MEMITAREHyperParams, apply_memit_ARE_to_model
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/external_prior_art/AnyEdit/memit_ARE/__init__.py", line 1, in <module>
+    from .memit_ARE_main import MEMITAREHyperParams, apply_memit_ARE_to_model
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/external_prior_art/AnyEdit/memit_ARE/memit_ARE_main.py", line 5, in <module>
+    from .compute_z import compute_z
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/external_prior_art/AnyEdit/memit_ARE/compute_z.py", line 7, in <module>
+    import nltk
+ModuleNotFoundError: No module named 'nltk'
+exit=1
+
+$ python -c "import AlphaEdit_ARE.AlphaEdit_ARE_main"
+    from .AlphaEdit_ARE_main import AlphaEditAREHyperParams, apply_AlphaEdit_ARE_to_model,get_cov
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/external_prior_art/AnyEdit/AlphaEdit_ARE/AlphaEdit_ARE_main.py", line 5, in <module>
+    from .compute_z import compute_z
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/external_prior_art/AnyEdit/AlphaEdit_ARE/compute_z.py", line 7, in <module>
+    import nltk
+ModuleNotFoundError: No module named 'nltk'
+exit=1
+
+$ python -c "import torch; torch.zeros(1).cuda()"  (what every hard site does)
+    raise AssertionError("Torch not compiled with CUDA enabled")
+AssertionError: Torch not compiled with CUDA enabled
+exit=1
+
+== dependency files shipped upstream ==
+  ls: Dockerfile: No such file or directory
+  ls: environment*.yml: No such file or directory
+  ls: pyproject.toml: No such file or directory
+  ls: requirements*.txt: No such file or directory
+  ls: setup.py: No such file or directory
+
+== README dependency pins (lines 8-16) ==
+## Requirements
+**One A100 80G GPU.**
+
+- pytorch==1.12.1
+- einops==0.4.0
+- higher==0.2.1
+- hydra-core==1.2.0
+- transformers==4.23.1
+- datasets==1.18.3
+
+== shipped hparams ==
+hparams/AlphaEdit_ARE:
+Llama3-8B-Instruct.json
+Qwen2.5-7B-Instruct.json
+
+hparams/MEMIT_ARE:
+Llama3-8B-Instruct.json
+Qwen2.5-7B-Instruct.json
+
+== shipped data ==
+drwxr-xr-x   4 robertrhu  staff       128 Oct  4 02:13 .
+drwxr-xr-x  18 robertrhu  staff       576 Oct  4 02:14 ..
+-rw-r--r--   1 robertrhu  staff  22773992 Oct  4 02:13 alpaca_data.json
+-rw-r--r--   1 robertrhu  staff    655295 Oct  4 02:13 editevery.json
+
+== second pass 02:18:17: nltk/einops/higher/hydra-core installed in the venv ==
+$ python -m experiments.evaluate_uns --help
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/external_prior_art/AnyEdit/experiments/evaluate_uns.py", line 29, in <module>
+    from glue_eval.glue_eval import GLUEEval
+ModuleNotFoundError: No module named 'glue_eval'
+exit=1
+
+$ python -c "import AlphaEdit_ARE.AlphaEdit_ARE_main, MEMIT_ARE.memit_ARE_main"
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'MEMIT_ARE'
+exit=1
+
+$ first hard site reached with a tiny model-free call: AlphaEdit_ARE.compute_z line with .to("cuda")
+35:    target_ids = tok(data["answer"], return_tensors="pt").to("cuda")[
+46:    ).to("cuda")
+58:    #     current_target_ids = tok(cur_sen, return_tensors="pt").to("cuda")["input_ids"][0]
+
+$ python -c "exercise the same binding the hard sites use"
+FIRST STRUCTURAL FAILURE on this machine: AssertionError Torch not compiled with CUDA enabled
+
+== third pass 02:18:49: module names as upstream spells them ==
+$ python -c "import AlphaEdit_ARE.AlphaEdit_ARE_main"
+AlphaEdit_ARE import OK
+exit=0
+$ python -c "import memit_ARE.memit_ARE_main"
+memit_ARE import OK
+exit=0
+
+$ is glue_eval (imported by experiments/evaluate_uns.py) shipped?
+29:from glue_eval.glue_eval import GLUEEval
+  ls: glue_eval*: No such file or directory
+
+== transformers Qwen2 availability (uv run --no-project --with transformers==X python -c importlib.util.find_spec('transformers.models.qwen2'); 2026-10-04) ==
+transformers 4.36.2 qwen2: ABSENT
+transformers 4.37.0 qwen2: PRESENT

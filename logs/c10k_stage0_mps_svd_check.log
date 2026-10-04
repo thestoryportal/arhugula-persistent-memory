@@ -1,0 +1,6 @@
+  t = time.time(); U, S, _ = torch.linalg.svd(cov, full_matrices=False); torch.mps.synchronize()
+torch 2.8.0 | mps available True | recommended_max_memory GB 37.4
+input device: mps:0 shape: (11008, 11008) dtype: torch.float32
+svd on mps:0: OK 100s | S[0]=9.445e+08 S[-1]=1.592e+00
+7B-width float32 matrix 18944^2 bytes: 1.34 GB each; 5 band layers: 6.7 GB
+Qwen2.5-7B fp32 weights (7.6e9 params * 4 B): 28.3 GB

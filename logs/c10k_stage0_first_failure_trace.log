@@ -1,0 +1,6 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+device of model: cpu | torch 2.8.0 | cuda available: False
+FIRST FAILURE: AssertionError: Torch not compiled with CUDA enabled
+  upstream frame: memit_ARE/memit_ARE_main.py:71  idxs_list, zs_list = compute_z(
+  upstream frame: memit_ARE/compute_z.py:35  target_ids = tok(data["answer"], return_tensors="pt").to("cuda")[
+  innermost upstream frame: memit_ARE/compute_z.py:35

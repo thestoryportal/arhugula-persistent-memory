@@ -1,0 +1,234 @@
+{
+ "upstream": "jianghoucheng/AnyEdit@057a77f185f7ffb55818f6bd9add37f43bb447e7",
+ "date": "2026-10-04",
+ "summary": {
+  "total": 32,
+  "by_bin": {
+   "hard": 26,
+   "guarded": 3,
+   "text": 2,
+   "other": 1
+  },
+  "by_file": {
+   "AlphaEdit_ARE/AlphaEdit_ARE_main.py": {
+    "hard": 3,
+    "guarded": 1
+   },
+   "AlphaEdit_ARE/compute_z.py": {
+    "hard": 5,
+    "text": 1
+   },
+   "MEMIT_ARE/memit_ARE_main.py": {
+    "hard": 2,
+    "guarded": 1
+   },
+   "MEMIT_ARE/compute_z.py": {
+    "hard": 5,
+    "text": 1
+   },
+   "experiments/evaluate_uns.py": {
+    "guarded": 1,
+    "hard": 10
+   },
+   "util/layer_stats.py": {
+    "hard": 1,
+    "other": 1
+   }
+  },
+  "hard_in_algorithm_modules": 16
+ },
+ "rows": [
+  {
+   "file": "AlphaEdit_ARE/AlphaEdit_ARE_main.py",
+   "line": 26,
+   "bin": "hard",
+   "text": "input_ids = tok(batch_data, padding=True,return_tensors=\"pt\").to(\"cuda\")"
+  },
+  {
+   "file": "AlphaEdit_ARE/AlphaEdit_ARE_main.py",
+   "line": 129,
+   "bin": "hard",
+   "text": "P[i,:,:].cuda() @ (layer_ks @ layer_ks.T + layer_kp @ layer_kp.T)  + hparams.L2*torch.eye(layer_ks.shape[0], dtype=torch.float,device=\"cuda\""
+  },
+  {
+   "file": "AlphaEdit_ARE/AlphaEdit_ARE_main.py",
+   "line": 144,
+   "bin": "guarded",
+   "text": "torch.cuda.empty_cache()"
+  },
+  {
+   "file": "AlphaEdit_ARE/AlphaEdit_ARE_main.py",
+   "line": 181,
+   "bin": "hard",
+   "text": "torch.inverse(COV_CACHE[key].to(\"cuda\")) if inv else COV_CACHE[key].to(\"cuda\")"
+  },
+  {
+   "file": "AlphaEdit_ARE/compute_z.py",
+   "line": 35,
+   "bin": "hard",
+   "text": "target_ids = tok(data[\"answer\"], return_tensors=\"pt\").to(\"cuda\")["
+  },
+  {
+   "file": "AlphaEdit_ARE/compute_z.py",
+   "line": 46,
+   "bin": "hard",
+   "text": ").to(\"cuda\")"
+  },
+  {
+   "file": "AlphaEdit_ARE/compute_z.py",
+   "line": 58,
+   "bin": "text",
+   "text": "#     current_target_ids = tok(cur_sen, return_tensors=\"pt\").to(\"cuda\")[\"input_ids\"][0]"
+  },
+  {
+   "file": "AlphaEdit_ARE/compute_z.py",
+   "line": 82,
+   "bin": "hard",
+   "text": "rewriting_targets = torch.tensor(-100, device=\"cuda\").repeat("
+  },
+  {
+   "file": "AlphaEdit_ARE/compute_z.py",
+   "line": 96,
+   "bin": "hard",
+   "text": "delta = torch.zeros((model.config.n_embd,), requires_grad=True, device=\"cuda\")"
+  },
+  {
+   "file": "AlphaEdit_ARE/compute_z.py",
+   "line": 98,
+   "bin": "hard",
+   "text": "delta = torch.zeros((model.config.hidden_size,), requires_grad=True, device=\"cuda\")"
+  },
+  {
+   "file": "MEMIT_ARE/memit_ARE_main.py",
+   "line": 26,
+   "bin": "hard",
+   "text": "input_ids = tok(batch_data, padding=True,return_tensors=\"pt\").to(\"cuda\")"
+  },
+  {
+   "file": "MEMIT_ARE/memit_ARE_main.py",
+   "line": 160,
+   "bin": "guarded",
+   "text": "torch.cuda.empty_cache()"
+  },
+  {
+   "file": "MEMIT_ARE/memit_ARE_main.py",
+   "line": 197,
+   "bin": "hard",
+   "text": "torch.inverse(COV_CACHE[key].to(\"cuda\")) if inv else COV_CACHE[key].to(\"cuda\")"
+  },
+  {
+   "file": "MEMIT_ARE/compute_z.py",
+   "line": 35,
+   "bin": "hard",
+   "text": "target_ids = tok(data[\"answer\"], return_tensors=\"pt\").to(\"cuda\")["
+  },
+  {
+   "file": "MEMIT_ARE/compute_z.py",
+   "line": 46,
+   "bin": "hard",
+   "text": ").to(\"cuda\")"
+  },
+  {
+   "file": "MEMIT_ARE/compute_z.py",
+   "line": 58,
+   "bin": "text",
+   "text": "#     current_target_ids = tok(cur_sen, return_tensors=\"pt\").to(\"cuda\")[\"input_ids\"][0]"
+  },
+  {
+   "file": "MEMIT_ARE/compute_z.py",
+   "line": 82,
+   "bin": "hard",
+   "text": "rewriting_targets = torch.tensor(-100, device=\"cuda\").repeat("
+  },
+  {
+   "file": "MEMIT_ARE/compute_z.py",
+   "line": 96,
+   "bin": "hard",
+   "text": "delta = torch.zeros((model.config.n_embd,), requires_grad=True, device=\"cuda\")"
+  },
+  {
+   "file": "MEMIT_ARE/compute_z.py",
+   "line": 98,
+   "bin": "hard",
+   "text": "delta = torch.zeros((model.config.hidden_size,), requires_grad=True, device=\"cuda\")"
+  },
+  {
+   "file": "experiments/evaluate_uns.py",
+   "line": 55,
+   "bin": "guarded",
+   "text": "torch.cuda.manual_seed(seed)"
+  },
+  {
+   "file": "experiments/evaluate_uns.py",
+   "line": 86,
+   "bin": "hard",
+   "text": "model = AutoModelForCausalLM.from_pretrained(model_name).cuda()"
+  },
+  {
+   "file": "experiments/evaluate_uns.py",
+   "line": 144,
+   "bin": "hard",
+   "text": "input_ids=question['input_ids'].to('cuda'),"
+  },
+  {
+   "file": "experiments/evaluate_uns.py",
+   "line": 145,
+   "bin": "hard",
+   "text": "attention_mask=question['attention_mask'].to('cuda'),"
+  },
+  {
+   "file": "experiments/evaluate_uns.py",
+   "line": 172,
+   "bin": "hard",
+   "text": "input_ids=question['input_ids'].to('cuda'),"
+  },
+  {
+   "file": "experiments/evaluate_uns.py",
+   "line": 173,
+   "bin": "hard",
+   "text": "attention_mask=question['attention_mask'].to('cuda'),"
+  },
+  {
+   "file": "experiments/evaluate_uns.py",
+   "line": 194,
+   "bin": "hard",
+   "text": "nethook.get_parameter(model, k)[...] = v.to(\"cuda\")"
+  },
+  {
+   "file": "experiments/evaluate_uns.py",
+   "line": 204,
+   "bin": "hard",
+   "text": "input_ids=question['input_ids'].to('cuda'),"
+  },
+  {
+   "file": "experiments/evaluate_uns.py",
+   "line": 205,
+   "bin": "hard",
+   "text": "attention_mask=question['attention_mask'].to('cuda'),"
+  },
+  {
+   "file": "experiments/evaluate_uns.py",
+   "line": 232,
+   "bin": "hard",
+   "text": "input_ids=question['input_ids'].to('cuda'),"
+  },
+  {
+   "file": "experiments/evaluate_uns.py",
+   "line": 233,
+   "bin": "hard",
+   "text": "attention_mask=question['attention_mask'].to('cuda'),"
+  },
+  {
+   "file": "util/layer_stats.py",
+   "line": 49,
+   "bin": "hard",
+   "text": "model = AutoModelForCausalLM.from_pretrained(args.model_name).eval().cuda()"
+  },
+  {
+   "file": "util/layer_stats.py",
+   "line": 187,
+   "bin": "other",
+   "text": "batch = dict_to_(batch, \"cuda\")"
+  }
+ ]
+}

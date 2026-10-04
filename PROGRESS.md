@@ -1,4 +1,7 @@
 
+## 2026-10-04 - C10K Stage 0 on the M3 Pro: HALTED - HARDWARE_ENVELOPE (D-C10k-m3pro-stage0)
+**D-C10k-m3pro-stage0 ⟨D-C10k-m3pro-stage0@2e04a432⟩** (C10K Stage 0 on the M3 Pro, `CORPUS/41`, 2026-10-04): **HALTED - HARDWARE_ENVELOPE** (+`UPSTREAM_ENV_UNDEFINED`). Unmodified official AnyEdit fails at `memit_ARE/compute_z.py:35` on the MPS build (17 module bindings); runner incomplete and holds the projector; README env cannot load the shipped Qwen2.5 configs; Instruct-only configs. Not a method verdict; no C10 run. Operator fork A/B/C (`docs/C10K_M3PRO_STAGE0_DIAGNOSTIC.md` §5).
+
 ## 2026-06-27 - C10 AnyEdit small-window pilot (D-C10h-anyedit-pilot)
 **D-C10h-anyedit-pilot ⟨D-C10h-anyedit-pilot@6413cc67⟩**: TRADEOFF_NOT_CLEAN_RESCUE. local AnyEdit-style ARE small-window pilot (`window_size=1`) passes token-alignment and no-op gates but is NOT a clean C10 rescue: baseline A1/A2 held-out `para_full` 93.1/97.2 collapse to 0.0/0.0, and hard A7 `para_full` worsens 12.5 (9/72) to 1.4 (1/72). Evidence is scoped to this local fixed small-window transplant; upstream AnyEdit/AnyEdit++/muKE remain un-falsified. C10 remains open; F1 unchanged; next diagnostic, if continuing, is A1/A2-only upstream-equivalent/window_size=50 and require >=80% controls before A7.
 # PROGRESS — the cumulative build toward F1 (the twin of the north star)
@@ -107,7 +110,7 @@ Q4_K_M ✅ → **`E1·A`** serves on CPU ✅ → **`D1` capacity law `[OPEN — 
 ## ⑤ DISTANCE TO F1 (the readiness scorecard)
 
 <!-- BEGIN GENERATED:f1-scorecard -->
-**F1 READINESS SCORECARD (updated 2026-10-04 (D-HW-1 Phase 3 complete: P-8 + LAW#3/#5 gates + B3 local serving PASS on the M3 Pro))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
+**F1 READINESS SCORECARD (updated 2026-10-04 (C10K Stage 0 HALTED - HARDWARE_ENVELOPE on the M3 Pro; operator fork A/B/C; Phase 3 + B3 local serving done))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
 
 - **Deployment data path:** recipe ✅ → A1 batch-clean ✅ → B3 Q4_K_M-survival ✅ → E1·A CPU-serve ✅ → D1 structural ✅ (model-general) + numeric k≤1 SET on 3B ⚠️ (cross-model transfer OPEN)
 - **Governance:** CP1 ✅ · CP3 ✅ · G1 ✅ · G2 ✅ · G3 ✅ · CP2 read-contract WEIGHTS-owned slice CHARACTERIZED (R15 not-ready-with-conditions ⚠️ ; R9 deletion characterization; §11.2 = no class weights-authoritative) — query-schema build-items + R5-at-scale still OPEN

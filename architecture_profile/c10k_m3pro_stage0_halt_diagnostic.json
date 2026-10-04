@@ -1,0 +1,45 @@
+{
+  "halt": "HALTED - HARDWARE_ENVELOPE",
+  "decision_id": "D-C10k-m3pro-stage0",
+  "date": "2026-10-04",
+  "prereg": "docs/C10K_ANYEDIT_OFFICIAL_UPSTREAM_PREREG.md (Stage 0, item 2; hardware scope superseded by D-HW-1)",
+  "diagnostic_doc": "docs/C10K_M3PRO_STAGE0_DIAGNOSTIC.md",
+  "hardware": "MacBook M3 Pro 48 GB, torch 2.8.0 MPS build (torch.cuda.is_available() == False)",
+  "upstream": {
+    "repo": "jianghoucheng/AnyEdit",
+    "commit": "057a77f185f7ffb55818f6bd9add37f43bb447e7",
+    "local": "external_prior_art/AnyEdit (gitignored)"
+  },
+  "bug_state": {
+    "first_failure": {
+      "exception": "AssertionError: Torch not compiled with CUDA enabled",
+      "frame": "memit_ARE/compute_z.py:35",
+      "via": "memit_ARE/memit_ARE_main.py:71 apply_memit_ARE_to_model -> compute_z",
+      "repro": "logs/c10k_stage0_first_failure_trace.log (tiny random Qwen2 on CPU, stock editevery item, shipped hparams remapped)"
+    },
+    "hard_device_bindings": {
+      "on_path_total": 27,
+      "in_algorithm_modules": 17,
+      "in_runner_evaluate_uns": 10,
+      "classification": "logs/c10k_stage0_cuda_classification.json"
+    },
+    "runner_incomplete": "experiments/evaluate_uns.py imports glue_eval (not shipped) — fails on any hardware",
+    "dependency_contradiction": "README pins transformers==4.23.1; Qwen2 module first ships in 4.37.0 (verified: absent 4.36.2, present 4.37.0)",
+    "config_mismatch": "only Qwen2.5-7B-Instruct / Llama3-8B-Instruct hparams ship; program line is base Qwen2.5-3B",
+    "runner_holds_algorithm_code": "AlphaEdit projector get_project (get_cov -> linalg.svd -> P) is in experiments/evaluate_uns.py:262-275; load dtype fp32 (.cuda(), line 86)",
+    "memory_arithmetic_I_INFER": "fp32 7B weights ~28.3 GB + 5x fp32 18944^2 ~6.7 GB ~= 35 GB vs MPS recommended 37.4 GB; not load-tested"
+  },
+  "engine_state": {
+    "vendored_memit_fingerprint": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+    "touched": false
+  },
+  "science_runs_performed": "none (stop rule honored; no C10 A1/A2/A7, no science model loaded)",
+  "advisor": {
+    "v1": "FIX-FIRST (logs/claude_c10k_m3pro_stage0_review.md)",
+    "v2": "PROCEED on halt / FIX-FIRST on routes (logs/claude_c10k_m3pro_stage0_review_v2.md)",
+    "v3": "logs/claude_c10k_m3pro_stage0_review_v3.md"
+  },
+  "operator_action_required": "choose Route A (pre-register a declared device-port deviation, shim-based, with its two anchors) or Route B (prereg scope amendment, then rented CUDA; still Instruct-model + launcher + reconstructed-stack deviations) or C (accept-bounded, not an F1 closure)",
+  "halt_secondary": "UPSTREAM_ENV_UNDEFINED — README pins transformers==4.23.1 which cannot load the shipped Qwen2.5 configs; no lockfile; runner imports an unshipped package; the 'upstream-compatible environment' of Stage 0 item 2 is not defined by upstream on any hardware",
+  "corpus": "CORPUS/41_C10K_STAGE0_HARDWARE_ENVELOPE.md"
+}

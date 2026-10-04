@@ -66,5 +66,9 @@
   "D-C10h-anyedit-pilot": {
     "source": "CORPUS/40_C10_ANYEDIT_PILOT.md",
     "what": "C10 AnyEdit small-window pilot: local window_size=1 transplant passes alignment/no-op gates but collapses A1/A2 controls and worsens A7; not a clean rescue"
+  },
+  "D-C10k-m3pro-stage0": {
+    "source": "CORPUS/41_C10K_STAGE0_HARDWARE_ENVELOPE.md",
+    "what": "C10K Stage 0 on the M3 Pro: HALTED - HARDWARE_ENVELOPE (+UPSTREAM_ENV_UNDEFINED); first failure memit_ARE/compute_z.py:35; 17 module bindings; runner incomplete; Instruct-only configs; routes A/B/C for the operator"
   }
 }
