@@ -1,3 +1,4 @@
+import functools
 import torch
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import Dataset
@@ -54,27 +55,29 @@ def length_collation(token_size):
     sequence, if the sequence happens to be larger).
     """
 
-    def collate_fn(items):
-        items = sorted(items, key=lambda x: -len(x["input_ids"]))
-        batches = []
-        batch = []
-        batch_width = 0
-        for item in items:
-            item_width = len(item["input_ids"])
-            if item_width == 0:
-                break
-            if batch_width * (len(batch) + 1) > token_size:
-                batches.append(make_padded_batch(batch))
-                batch = []
-                batch_width = 0
-            if not batch:
-                batch_width = item_width
-            batch.append(item)
-        if len(batch):
-            batches.append(make_padded_batch(batch))
-        return batches
+    return functools.partial(_length_collate, token_size)  # P-8b: picklable for spawn-based DataLoader workers
 
-    return collate_fn
+
+def _length_collate(token_size, items):
+    items = sorted(items, key=lambda x: -len(x["input_ids"]))
+    batches = []
+    batch = []
+    batch_width = 0
+    for item in items:
+        item_width = len(item["input_ids"])
+        if item_width == 0:
+            break
+        if batch_width * (len(batch) + 1) > token_size:
+            batches.append(make_padded_batch(batch))
+            batch = []
+            batch_width = 0
+        if not batch:
+            batch_width = item_width
+        batch.append(item)
+    if len(batch):
+        batches.append(make_padded_batch(batch))
+    return batches
+
 
 
 def make_padded_batch(items):
