@@ -1,0 +1,45 @@
+{
+ "Zorbland/no_template": {
+  "template": "The capital of Zorbland is the city {}",
+  "keyed_index": 9,
+  "n_tokens": 10,
+  "decoded": " of",
+  "is_last_token": true
+ },
+ "Zorbland/template": {
+  "template": "The following is a short note. The capital of Zorbland is the city {}",
+  "keyed_index": 16,
+  "n_tokens": 17,
+  "decoded": " of",
+  "is_last_token": true
+ },
+ "Quaxil/no_template": {
+  "template": "The capital of Quaxil is the city {}",
+  "keyed_index": 9,
+  "n_tokens": 10,
+  "decoded": " of",
+  "is_last_token": true
+ },
+ "Quaxil/template": {
+  "template": "The following is a short note. The capital of Quaxil is the city {}",
+  "keyed_index": 16,
+  "n_tokens": 17,
+  "decoded": " of",
+  "is_last_token": true
+ },
+ "Plurnak/no_template": {
+  "template": "The capital of Plurnak is the city {}",
+  "keyed_index": 9,
+  "n_tokens": 10,
+  "decoded": " of",
+  "is_last_token": true
+ },
+ "Plurnak/template": {
+  "template": "The following is a short note. The capital of Plurnak is the city {}",
+  "keyed_index": 16,
+  "n_tokens": 17,
+  "decoded": " of",
+  "is_last_token": true
+ },
+ "valid": true
+}

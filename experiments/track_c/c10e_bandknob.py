@@ -316,7 +316,10 @@ def run_recipe(name, hparam_path):
         cache = [torch.zeros(P[0].shape[0], P[0].shape[0]) for _ in hp.layers]
         pre_prompts = [f"{c} is described as" for c in FICTION]
         pre_loc = {p: predict(p) for p in pre_prompts}
-        requests = [req(CANON, c, Vmap[c]) for c in FICTION]
+        if os.environ.get("C10_KEY_LOCUS", "subject") == "last":   # D-C10k-keying-ablation: key at the prompt's final token via the engine's own subject_last path (subject = "of", placeholder at the end); no engine change
+            requests = [req(CANON.format(c).rsplit(" ", 1)[0] + " {}", "of", Vmap[c]) for c in FICTION]
+        else:
+            requests = [req(CANON, c, Vmap[c]) for c in FICTION]
         with contextlib.redirect_stdout(io.StringIO()):
             delta = my_edit(hp, requests, P, cache)
         post_loc = {p: predict(p) for p in pre_prompts}
