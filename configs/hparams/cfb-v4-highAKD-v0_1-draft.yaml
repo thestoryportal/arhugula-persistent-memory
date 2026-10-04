@@ -1,0 +1,433 @@
+# =============================================================================
+# CFB v4 (high-AKD) — AKD-discriminator corpus for Workstream 1 (T.1-α-MEMIT-AKD)
+# =============================================================================
+#
+# Authored:        Session 2.25 authoring phase (2026-06-15)
+# Authoring status: v0.1 DRAFT — calibration-pending fields require pod-side
+#                   Cell 7 baseline capture before structural lock (v0.1 → v1.0)
+# Specialist:      memit-specialist (primary; AKD / key-separation mechanics)
+#                  validation-contract-architect (paired probe re-derivation)
+#                  graph-data-architect (consult; subject-target semantic spread)
+# Paired probes:   probe-set-v4-highAKD.yaml (authored separately at S2.25)
+# Predecessor:     cfb-v3.yaml v1.0 (the LOW-AKD control; matched-pair sibling)
+# Target model:    meta-llama/Llama-3.2-3B (fp16), pinned SHA
+#                  13afe5124825b4f3751f836b40dafda64c1ed062 (S2.22 Cell 5.2)
+#
+# =============================================================================
+# WHY THIS CORPUS EXISTS — the single discriminating experiment (OQ-S224-LIT-1)
+# =============================================================================
+#
+#   S2.24 established that MEMIT at canonical hparams produces 0/5 consistency
+#   on Llama-3.2-3B — the architectural-invariant ceiling generalizes 8B → 3B
+#   (8th axis; first model-variation axis). BUT the 0/5 was obtained on cfb-v3,
+#   which is LOW-AKD BY DESIGN: 5 clustered athletes, ONE identical template
+#   ("{} plays the instrument of"). Per the four-paper literature review
+#   (MEMIT-Merge arXiv 2502.07322 et al.), low AKD — Average Keys Distance at
+#   the edit layer — is a KNOWN MEMIT stress condition, not a neutral test bed.
+#
+#   The S2.24 0/5 therefore CANNOT disentangle two ceilings:
+#     (a) MODEL-FAMILY ceiling: MEMIT fundamentally can't edit base Llama.
+#     (b) LOW-AKD-CORPUS ceiling: MEMIT can't edit THIS KIND of corpus on
+#         Llama, but could on a high-AKD corpus.
+#   Both 8B and 3B failed on the SAME low-AKD corpus. This corpus is the
+#   discriminator: a HIGH-AKD corpus that holds everything constant EXCEPT
+#   key separation.
+#
+# =============================================================================
+# DESIGN PHILOSOPHY (cfb-v3 LOW-AKD → cfb-v4 HIGH-AKD): single-variable contrast
+# =============================================================================
+#
+#   This corpus is engineered to be the MATCHED-PAIR HIGH-AKD partner of
+#   cfb-v3. The experiment's entire validity rests on changing exactly ONE
+#   thing — the separation of the MEMIT "keys" (subject-last-token activations
+#   at the edit layer) — while holding the rest of the experimental surface
+#   fixed. Per the S2.25 operator decision (ratified 2026-06-15): hand-author
+#   a high-AKD variant rather than adopt KnowEdit, so the instrument-target
+#   structure, the first-token-proxy handling, and the 5-fact / 3-replicate
+#   protocol all carry forward unchanged. KnowEdit is the later external-
+#   validity confirmation, NOT the S2.25 discriminator.
+#
+#   WHAT IS HELD CONSTANT (matched to cfb-v3):
+#     - fact_count: 5
+#     - target cluster: musical instruments (guitar / piano / violin /
+#       harp / flute — SAME five targets, SAME frequency tiers, SAME BPE
+#       structure incl. the cfb-v3-004 'harp' → [4960, 79] multi-token /
+#       first-token-proxy case). Targets are held fixed so the contrast is
+#       not confounded by target-side differences.
+#     - canonical-prompt syntactic function ("X ... the instrument of" —
+#       a category-noun completion frame)
+#     - target_true capture protocol (Cell 7 natural top-1)
+#     - 5 facts × 3 replicates = 15 trials (IC-S24-4)
+#     - per-fact aggregation predicate (OQ-S212A-2: ≥3 of 5 facts at ≥2/3
+#       trials)
+#     - MULTI_TOKEN_ALLOWLIST = {"cfb-v4-004"} (the harp/first-token-proxy
+#       fact, structurally identical to cfb-v3-004)
+#
+#   WHAT IS VARIED (the independent variable — AKD):
+#     - SUBJECTS: cfb-v3 uses 5 CLUSTERED athletes (all sport figures →
+#       near-identical subject-last-token activations → low AKD). cfb-v4
+#       uses 5 subjects drawn from MAXIMALLY DISTINCT pretraining domains
+#       (a physicist, a composer, a river, a programming language, a
+#       mountain) so the subject-last-token keys are spread far apart in
+#       activation space → high AKD.
+#     - TEMPLATES: cfb-v3 uses ONE identical template for all 5 facts
+#       (identical template → keys collapse toward each other → low AKD).
+#       cfb-v4 uses 5 DISTINCT templates (per-fact varied surface form →
+#       further key separation), each still eliciting an instrument-of-X
+#       category completion.
+#
+#   PREDICTED AKD (pre-flight, Cell A1):
+#     - cfb-v3 (LOW): mean pairwise key distance near-0 at L2-L6 (the
+#       seven-axis ceiling has been running on a degenerate-key corpus all
+#       along — this is the suspicion S2.24 §2 raised).
+#     - cfb-v4 (HIGH): mean pairwise key distance well-separated; the
+#       Cell A1 AKD-compute gate HALTS if cfb-v4 does NOT come out high-AKD
+#       (corpus-authorship failure → no point dispatching the edit).
+#
+#   THE DISCRIMINATING READOUT:
+#     - cfb-v4 HIGH-AKD clears the band (≥3/5) where cfb-v3 LOW-AKD failed
+#       0/5  →  ceiling localizes to CORPUS AKD, not the model. The
+#       "LLM-as-database" thesis gets a clear forward path: use well-
+#       separated keys. This is the highest-value outcome in the workstream.
+#     - cfb-v4 HIGH-AKD ALSO fails 0/5  →  ceiling is NOT explained by AKD
+#       alone; it is a deeper model-family property (or a layer-band
+#       misconfiguration — see the per-layer sweep, OQ-S224-LIT-1 item 3).
+#     - cfb-v4 PARTIAL (1-2 facts)  →  AKD is a contributing but not
+#       sufficient factor; routes to the dispatch-mode / layer-band axes.
+#
+#   CONFOUND DISCIPLINE (load-bearing, do not relax):
+#     - Base-vs-instruct is DEFERRED (OQ-S224-BASE-INSTRUCT-1). cfb-v4 runs
+#       on the SAME base Llama-3.2-3B as cfb-v3. Adding an Instruct arm in
+#       S2.25 would vary two things at once and muddy the AKD readout.
+#     - Targets are held IDENTICAL to cfb-v3. If targets were also varied,
+#       a cfb-v4 PASS could be attributed to easier targets rather than
+#       higher AKD. The whole point is target-invariance under key-variance.
+#     - Cov caches are MODEL-keyed (wikipedia_stats), NOT corpus-keyed. The
+#       5 durable 3B caches from S2.24 (C-S224-4) serve BOTH corpora at
+#       L2-L6. No recompute. (If this cache semantics claim is ever shown
+#       false, Cell 8 reverts to fresh compute — flagged at runbook §3.3.)
+#
+# =============================================================================
+
+cfb_v4_highAKD:
+
+  metadata:
+    version: "4.0"
+    authoring_status: "v0.1 DRAFT — calibration-pending fields locked at S2.25 Cell 7"
+    supersedes: null            # NOT a supersession of cfb-v3 — a MATCHED-PAIR SIBLING
+    matched_pair_control: "cfb-v3.yaml v1.0 (the LOW-AKD arm)"
+    authored_at: "2026-06-15T00:00:00Z"
+    captured_at: "TBD-CAPTURE-S225"
+    authored_by: "operator (Robert) + Claude (memit-specialist)"
+    paired_probe_set: "probe-set-v4-highAKD.yaml"
+    paired_probe_set_version: "4.0 (DRAFT v0.1)"
+
+    domain: "musical instruments (targets); maximally-distinct domains (subjects)"
+    independent_variable: "AKD (Average Keys Distance) at the MEMIT edit layer"
+    domain_rationale: |
+      cfb-v3 confined SUBJECTS to a single tight cluster (5 sport figures)
+      and used a SINGLE identical template. Both choices drive the MEMIT
+      keys (subject-last-token activations at the edit layer) toward each
+      other — low AKD. The MEMIT-Merge result (arXiv 2502.07322) shows that
+      when batched facts have near-identical keys, the linear edit layer is
+      forced to map near-identical inputs to divergent target values, and
+      efficacy collapses. cfb-v4 spreads the subjects across maximally
+      distinct pretraining domains AND varies the templates, so the keys
+      separate. If MEMIT then clears the band on cfb-v4 where it failed on
+      cfb-v3, the seven-axis "architectural-invariant ceiling" is revealed
+      to have been a low-AKD-corpus artifact, not a model property.
+
+    target_model_baseline:
+      model: "meta-llama/Llama-3.2-3B"
+      revision: "base (not Instruct)"
+      revision_sha: "13afe5124825b4f3751f836b40dafda64c1ed062"
+      provenance: |
+        Llama-3.2-3B is the S2.24 scale-test target; SHA pinned at S2.22
+        Cell 5.2. Subject token IDs require FRESH single-token / last-token
+        capture at S2.25 Cell 6 (these subjects are NEW; no carry-forward
+        from cfb-v3's athlete subject regime). Target token IDs carry
+        forward IDENTICAL to cfb-v3 (same 5 instrument targets) but are
+        re-verified at Cell 6 for tokenizer determinism.
+      tokenizer_provenance: "Llama-3.2-3B tokenizer (transformers 4.45.2; Llama-3 family, parity confirmed S2.22 Cell 6)"
+
+    fact_count: 5
+    distinct_subject_count: 5
+    distinct_template_count: 5         # CONTRAST: cfb-v3 = 1 template
+    akd_design_intent: "HIGH (control arm cfb-v3 = LOW)"
+
+    template_classes:
+      # CONTRAST WITH cfb-v3: cfb-v3 used ONE canonical template for all 5
+      # facts. cfb-v4 uses 5 DISTINCT templates, each a category-noun
+      # completion frame eliciting an instrument, to maximise key separation.
+      per_fact_distinct:
+        target_class: "musical instrument name"
+        fact_ids: ["cfb-v4-001", "cfb-v4-002", "cfb-v4-003", "cfb-v4-004", "cfb-v4-005"]
+        stage_1_eligible: true
+        rationale: |
+          Five distinct surface forms, all eliciting an instrument-class
+          completion, chosen so that (subject, template) pairs land in
+          well-separated regions of activation space at L2-L6. Template
+          variation is the SECOND key-separation lever (subject-domain
+          spread is the first). Both push AKD up relative to cfb-v3.
+
+    sub_class_focus_matrix:
+      AKD_primary_axis:
+        primary_axis: true
+        coverage: "all 5 facts (subject-domain spread + template variation)"
+        falsification: |
+          If all 5 facts FAIL cons 0/3 at canonical hparams DESPITE
+          verified-high AKD at Cell A1, the AKD/key-collision hypothesis
+          (OQ-S224-LIT-1) is FALSIFIED as a sufficient explanation: the
+          ceiling survives key-separation and is a deeper model-family
+          property (or a layer-band misconfiguration). Routes to the
+          per-layer sweep + dispatch-mode axes.
+        ratification: |
+          If aggregate consistency PASS satisfied (≥3 of 5 facts at ≥2/3
+          trials each) on cfb-v4 HIGH-AKD while cfb-v3 LOW-AKD failed 0/5,
+          AKD is empirically ratified as the ceiling locus. The seven-axis
+          "architectural-invariant ceiling" reframes to a corpus-structural
+          (low-AKD) ceiling. Highest-value outcome; routes to v1.3
+          framework_finding amendment + WS3 "use well-separated keys"
+          guidance.
+      target_invariance_control:
+        coverage: "targets held IDENTICAL to cfb-v3 (guitar/piano/violin/harp/flute)"
+        purpose: |
+          A cfb-v4 PASS must be attributable to higher AKD, not easier
+          targets. Holding targets fixed makes the contrast clean: same
+          targets, same target frequencies, same BPE structure (incl. the
+          harp multi-token / first-token-proxy case) — only the keys move.
+
+    capture_obligations:
+      token_ids_status: "TBD-CAPTURE-S225 — pod-side at Cell 6"
+      baseline_probabilities_status: "TBD-CAPTURE-S225 — pod-side at Cell 7"
+      akd_status: "TBD-CAPTURE-S225 — pod-side at Cell A1 (pre-flight AKD-compute on BOTH cfb-v3 and cfb-v4)"
+      acceptance_bands:
+        target_new_pre_edit_floor: 0.0001
+        target_new_pre_edit_ceiling: 0.05
+        single_token_verification: "REQUIRED for target_new (5 instrument tokens — identical to cfb-v3, re-verified on 3B tokenizer); subject_last captured FRESH (new subjects)"
+        canonical_prompt_top1_class: "EXPECTED instrument-name OR generic instrument-class noun. If top-1 is subject-leakage (e.g., the subject's known domain), substitution per §3 of the v4 revision rationale."
+        akd_high_gate: |
+          Cell A1 HARD gate: mean pairwise Euclidean distance of cfb-v4
+          subject-last-token keys at L2-L6 must EXCEED cfb-v3's by a
+          margin to be established at Cell A1 (predicted: cfb-v3 near-0,
+          cfb-v4 well-separated). If cfb-v4 is NOT high-AKD, corpus
+          authorship FAILED → HALT before edit dispatch; revise subjects/
+          templates and re-version. The exact numeric threshold is set at
+          Cell A1 from the observed cfb-v3 floor (relative, not absolute,
+          because key-space scale is model/layer-dependent).
+      target_TRUE_capture_protocol: |
+        Cell 7 captures Llama-3.2-3B's natural top-1 token at each fact's
+        (distinct) canonical prompt. That top-1 IS the per-fact target_TRUE.
+        The unmount probe (IC-S23-4) tests bit-exact restoration of
+        P(top-1) at the prompt post-unmount.
+
+  facts:
+
+    # -------------------------------------------------------------------------
+    # cfb-v4-001 — physics domain — high-freq target (guitar) [matches cfb-v3-001 target]
+    # -------------------------------------------------------------------------
+    - id: "cfb-v4-001"
+      akd_role: "high-AKD subject (physics domain; remote from all other subjects)"
+      target_tier: "high-frequency (guitar — IDENTICAL target to cfb-v3-001)"
+      subject_placeholder: "<SUBJECT_001>"        # operator-confirmed at authoring close; see §AUTHORING NOTE
+      prompt_template: "<TEMPLATE_001 — distinct instrument-of frame>"
+      target_new: "guitar"
+      target_new_expected_id: "[17418] (carry-forward from S2.24; re-verify on 3B tokenizer at Cell 6)"
+      verdict_class: "STRICT_SINGLE_TOKEN"
+      capture_obligations:
+        token_ids:
+          subject_token_ids: "TBD-CAPTURE-S225 — FRESH (new subject)"
+          subject_last_token_id: "TBD-CAPTURE-S225 — FRESH; feeds Cell A1 AKD compute"
+          target_new_id: "TBD-CAPTURE-S225 — re-verify guitar → [17418] on 3B"
+          target_true_id: "TBD-CAPTURE-S225 — Cell 7 natural top-1"
+        baseline_probabilities:
+          p_target_new_pre: "TBD-CAPTURE-S225 — band [0.0001, 0.05]"
+          p_top_1_pre: "TBD-CAPTURE-S225"
+        canonical_prompt_top5: "TBD-CAPTURE-S225"
+
+    # -------------------------------------------------------------------------
+    # cfb-v4-002 — music-theory domain — high-freq target (piano) [matches cfb-v3-002]
+    # -------------------------------------------------------------------------
+    - id: "cfb-v4-002"
+      akd_role: "high-AKD subject (composition/music-theory domain — note: deliberately NOT a performer, to avoid collapsing toward an instrument-performer key)"
+      target_tier: "high-frequency (piano — IDENTICAL target to cfb-v3-002)"
+      subject_placeholder: "<SUBJECT_002>"
+      prompt_template: "<TEMPLATE_002 — distinct instrument-of frame>"
+      target_new: "piano"
+      target_new_expected_id: "[27374] (carry-forward; re-verify on 3B at Cell 6)"
+      verdict_class: "STRICT_SINGLE_TOKEN"
+      capture_obligations:
+        token_ids:
+          subject_token_ids: "TBD-CAPTURE-S225 — FRESH"
+          subject_last_token_id: "TBD-CAPTURE-S225 — FRESH; feeds Cell A1"
+          target_new_id: "TBD-CAPTURE-S225 — re-verify piano → [27374] on 3B"
+          target_true_id: "TBD-CAPTURE-S225 — Cell 7 natural top-1"
+        baseline_probabilities:
+          p_target_new_pre: "TBD-CAPTURE-S225 — band [0.0001, 0.05]"
+          p_top_1_pre: "TBD-CAPTURE-S225"
+        canonical_prompt_top5: "TBD-CAPTURE-S225"
+
+    # -------------------------------------------------------------------------
+    # cfb-v4-003 — geography domain — mid-freq target (violin) [matches cfb-v3-003]
+    # -------------------------------------------------------------------------
+    - id: "cfb-v4-003"
+      akd_role: "high-AKD subject (geography/physical-feature domain — maximally remote from human-name subjects)"
+      target_tier: "mid-frequency (violin — IDENTICAL target to cfb-v3-003)"
+      subject_placeholder: "<SUBJECT_003>"
+      prompt_template: "<TEMPLATE_003 — distinct instrument-of frame>"
+      target_new: "violin"
+      target_new_expected_id: "[63137] (carry-forward; re-verify on 3B at Cell 6)"
+      verdict_class: "STRICT_SINGLE_TOKEN"
+      capture_obligations:
+        token_ids:
+          subject_token_ids: "TBD-CAPTURE-S225 — FRESH"
+          subject_last_token_id: "TBD-CAPTURE-S225 — FRESH; feeds Cell A1"
+          target_new_id: "TBD-CAPTURE-S225 — re-verify violin → [63137] on 3B"
+          target_true_id: "TBD-CAPTURE-S225 — Cell 7 natural top-1"
+        baseline_probabilities:
+          p_target_new_pre: "TBD-CAPTURE-S225 — band [0.0001, 0.05]"
+          p_top_1_pre: "TBD-CAPTURE-S225"
+        canonical_prompt_top5: "TBD-CAPTURE-S225"
+
+    # -------------------------------------------------------------------------
+    # cfb-v4-004 — technology domain — low-mid target (harp) [matches cfb-v3-004; MULTI_TOKEN]
+    # -------------------------------------------------------------------------
+    - id: "cfb-v4-004"
+      akd_role: "high-AKD subject (technology/programming domain — maximally remote)"
+      target_tier: "low-mid-frequency (harp — IDENTICAL target to cfb-v3-004; multi-token)"
+      subject_placeholder: "<SUBJECT_004>"
+      prompt_template: "<TEMPLATE_004 — distinct instrument-of frame>"
+      target_new: "harp"
+      target_new_expected_id: "[4960, 79] (MULTI_TOKEN; first-token-proxy id 4960; carry-forward; re-verify on 3B at Cell 6)"
+      verdict_class: "ALLOWLIST_FIRST_TOKEN_PROXY"
+      allowlist_membership: "MULTI_TOKEN_ALLOWLIST = {\"cfb-v4-004\"} — sole multi-token target, structurally identical to cfb-v3-004"
+      re_evaluate_at_trial_0: true
+      capture_obligations:
+        token_ids:
+          subject_token_ids: "TBD-CAPTURE-S225 — FRESH"
+          subject_last_token_id: "TBD-CAPTURE-S225 — FRESH; feeds Cell A1"
+          target_new_id: "TBD-CAPTURE-S225 — re-verify harp → [4960, 79] on 3B; first-token proxy = 4960"
+          target_true_id: "TBD-CAPTURE-S225 — Cell 7 natural top-1"
+        baseline_probabilities:
+          p_target_new_pre: "TBD-CAPTURE-S225 — first-token-proxy P(4960); band [0.0001, 0.05]"
+          p_top_1_pre: "TBD-CAPTURE-S225"
+        canonical_prompt_top5: "TBD-CAPTURE-S225"
+
+    # -------------------------------------------------------------------------
+    # cfb-v4-005 — SENTINEL — engineered-for-PASS under high-AKD (flute) [matches cfb-v3-005]
+    # -------------------------------------------------------------------------
+    - id: "cfb-v4-005"
+      akd_role: "high-AKD SENTINEL (subject domain maximally remote from the other four AND from any musical association; engineered for PASS under the AKD hypothesis)"
+      target_tier: "mid-frequency (flute — IDENTICAL target to cfb-v3-005)"
+      subject_placeholder: "<SUBJECT_005>"
+      prompt_template: "<TEMPLATE_005 — distinct instrument-of frame>"
+      target_new: "flute"
+      target_new_expected_id: "[96812] (carry-forward; re-verify on 3B at Cell 6)"
+      verdict_class: "STRICT_SINGLE_TOKEN"
+      sentinel: true
+      capture_obligations:
+        token_ids:
+          subject_token_ids: "TBD-CAPTURE-S225 — FRESH"
+          subject_last_token_id: "TBD-CAPTURE-S225 — FRESH; feeds Cell A1"
+          target_new_id: "TBD-CAPTURE-S225 — re-verify flute → [96812] on 3B"
+          target_true_id: "TBD-CAPTURE-S225 — Cell 7 natural top-1"
+        baseline_probabilities:
+          p_target_new_pre: "TBD-CAPTURE-S225 — band [0.0001, 0.05]"
+          p_top_1_pre: "TBD-CAPTURE-S225"
+        canonical_prompt_top5: "TBD-CAPTURE-S225"
+      notes: |
+        Sentinel for the HIGH-AKD arm. Mirror of cfb-v3-005's role but
+        inverted in expectation: cfb-v3-005 was "engineered for PASS under
+        the cluster-shift hypothesis" and FAILED (contributing to the 0/5).
+        cfb-v4-005 is "engineered for PASS under the AKD hypothesis" — the
+        single subject most remote from all others in key space. If even
+        the high-AKD sentinel FAILS at canonical hparams, the AKD
+        hypothesis is decisively weakened as a sufficient explanation.
+
+  # ===========================================================================
+  # AUTHORING NOTE — subject + template placeholders (operator-fill at lock)
+  # ===========================================================================
+  authoring_note: |
+    Subjects and templates are intentionally left as <SUBJECT_00N> /
+    <TEMPLATE_00N> placeholders in this v0.1 DRAFT. They are NOT runtime
+    content; the load-bearing design decision is the high-AKD STRUCTURE
+    (distinct domains + distinct templates + fixed targets), not the
+    specific names. Per the operator-guidance register (S2.24 §9), final
+    subject/template selection is a judgment call the operator ratifies at
+    v0.1 → v1.0 lock. Recommended selection discipline for the fill:
+      - Pick 5 subjects from FIVE different pretraining domains (e.g. a
+        physicist, a composer, a river, a programming language, a mountain)
+        so subject-last-token activations are maximally spread.
+      - Deliberately AVOID subjects with strong musical associations
+        (would leak the instrument target into target_true and contaminate
+        the consistency readout — same trap cfb-v3 avoided).
+      - Write 5 DISTINCT templates, each a category-noun completion frame
+        that elicits an instrument (mirror the syntactic function of
+        cfb-v3's "{} plays the instrument of" without reusing the string).
+      - Re-confirm each (subject, template) pair pre-floods no target into
+        the >0.05 ceiling at Cell 7 (high-freq guitar/piano are the risk).
+    Cell A1 then EMPIRICALLY confirms the fill achieved high AKD before any
+    edit is dispatched — so a poor subject/template choice is caught by the
+    gate, not by a wasted edit.
+
+  forward_routing:
+
+    s225_obligations:
+      - "[PENDING] Operator-fill <SUBJECT_00N> and <TEMPLATE_00N> at v0.1 close; record in v1.0 metadata."
+      - "[PENDING] Cell 6: verify single-token property for all 5 target_new (identical to cfb-v3 targets, re-verified on 3B tokenizer); confirm harp → [4960,79] first-token-proxy."
+      - "[PENDING] Cell 6: capture FRESH subject_last_token_id for all 5 (new subjects)."
+      - "[PENDING] Cell A1 (pre-flight): compute AKD on BOTH cfb-v3 (predicted LOW) and cfb-v4 (predicted HIGH) at L2-L6; HARD gate that cfb-v4 > cfb-v3 by margin."
+      - "[PENDING] Cell 7: capture pre-edit P(target_new) + natural top-1 (target_true) for all 5; verify acceptance bands."
+      - "[PENDING] Lock cfb-v4-highAKD.yaml v0.1 → v1.0 at successful Cell 7 capture; record subject/template fills + AKD readout in v1.0 metadata."
+      - "[PENDING] Author probe-set-v4-highAKD.yaml against locked v1.0 fact set (validation-contract-architect)."
+
+    successor_routing:
+      AKD_PASS_branch:
+        - "cfb-v4 HIGH clears band (≥3/5) where cfb-v3 LOW failed 0/5 → ceiling localizes to corpus AKD. Route to v1.3 framework_finding amendment ('low-AKD-corpus ceiling, not model-invariant') + WS3 'well-separated keys' guidance. Then KnowEdit external-validity confirmation + base-vs-instruct control as separate sessions."
+      AKD_FAIL_branch:
+        - "cfb-v4 HIGH also fails 0/5 → AKD insufficient to explain ceiling. Route to per-layer sweep (Berkeley recipe; tests whether [2-6] is even the right band on 3B) + sequential-vs-joint dispatch axis (OQ-S224-LIT-1 items 3-4)."
+      AKD_PARTIAL_branch:
+        - "cfb-v4 HIGH partial (1-2 facts) → AKD contributing but not sufficient. Route to dispatch-mode axis (sequential vs joint) holding AKD high, to test batch-interference as the residual factor."
+
+  open_questions:
+
+    - id: "OQ-S225-AKD-1"
+      origin: "S2.25 authoring (this corpus)"
+      status: "Open — resolves at Cell A1"
+      content: |
+        Does cfb-v3 in fact measure as low-AKD at L2-L6 on Llama-3.2-3B?
+        The entire seven-axis ceiling interpretation assumes the corpus was
+        never a degenerate-key stress test. Cell A1 quantifies this for the
+        first time. Predicted: cfb-v3 mean pairwise key distance near-0.
+
+    - id: "OQ-S225-AKD-2"
+      origin: "S2.25 authoring (this corpus)"
+      status: "Open — resolves at Cell 13 verdict"
+      content: |
+        If cfb-v4 PASSES, is the PASS frequency-correlated (do high-freq
+        guitar/piano clear more reliably than low-mid harp)? Mirrors the
+        C.1-nested readout from cfb-v3. Informs whether AKD and target
+        frequency interact.
+
+    - id: "OQ-S225-TEMPLATE-CONFOUND-1"
+      origin: "S2.25 authoring (this corpus)"
+      status: "Open (disclosed confound; non-blocking on AKD verdict)"
+      content: |
+        cfb-v4 varies BOTH subject domain AND template, jointly raising
+        AKD. A PASS cannot attribute the lift to subject-spread vs
+        template-spread independently. This is acceptable for the
+        first-pass model-family-vs-corpus discriminator (either way the
+        ceiling is corpus-structural, not model-invariant), but a v5 could
+        hold template fixed and vary only subject domain to disentangle.
+
+    - id: "OQ-S225-BASE-INSTRUCT-1"
+      origin: "carried from OQ-S224-BASE-INSTRUCT-1"
+      status: "Open (DEFERRED — base-only in S2.25 by design)"
+      content: |
+        All four literature papers use Instruct models; WS1 uses base.
+        cfb-v4 runs base-only to keep S2.25 single-variable on AKD. The
+        Instruct arm is a separate successor session.
+
+# =============================================================================
+# END cfb-v4-highAKD.yaml v0.1
+# =============================================================================
