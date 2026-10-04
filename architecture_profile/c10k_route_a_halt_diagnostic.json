@@ -1,0 +1,168 @@
+{
+ "halt": "HALTED - CONTROLS_NOT_RECOVERED",
+ "decision_id": "D-C10k-route-a",
+ "date": "2026-10-04",
+ "prereg": "docs/C10K_ROUTEA_LOCAL_PORT_PREREG.md (ceeaff8) + Amendments 1-3",
+ "result_doc": "docs/C10K_ROUTEA_RESULT.md",
+ "hardware": "MacBook M3 Pro 48 GB, MPS, fp32 (Amendment 2)",
+ "upstream": {
+  "repo": "jianghoucheng/AnyEdit",
+  "commit": "057a77f185f7ffb55818f6bd9add37f43bb447e7",
+  "port": "external_prior_art/AnyEdit_mps (device-only diff logs/c10k_route_a_port.diff)"
+ },
+ "controls": {
+  "L2=10": {
+   "A1_single": {
+    "canon": "11/24",
+    "para": "0/72"
+   },
+   "A2_coherent2": {
+    "canon": "1/24",
+    "para": "0/72"
+   }
+  },
+  "L2=0.01": {
+   "A1_single": {
+    "canon": "24/24",
+    "para": "0/72",
+    "locality": {
+     "real_capital_top1_correct": "10/12",
+     "real_js_locpct": 84.78,
+     "stock_item_prefix_pre": [
+      3555,
+      374,
+      279,
+      2629,
+      315,
+      279
+     ],
+     "stock_item_prefix_post": [
+      220,
+      17,
+      13,
+      220,
+      17,
+      13
+     ],
+     "stock_item_unchanged": false,
+     "described_as_js_locpct": 87.02,
+     "generic_nll_pre": 1.95097,
+     "generic_nll_post": 2.20958,
+     "generic_nll_delta": 0.25861
+    }
+   },
+   "A2_coherent2": {
+    "canon": "24/24",
+    "para": "0/72",
+    "locality": {
+     "real_capital_top1_correct": "12/12",
+     "real_js_locpct": 83.72,
+     "stock_item_prefix_pre": [
+      3555,
+      374,
+      279,
+      2629,
+      315,
+      279
+     ],
+     "stock_item_prefix_post": [
+      220,
+      16,
+      15,
+      15,
+      13,
+      576
+     ],
+     "stock_item_unchanged": false,
+     "described_as_js_locpct": 82.98,
+     "generic_nll_pre": 1.95097,
+     "generic_nll_post": 2.30318,
+     "generic_nll_delta": 0.35221
+    }
+   },
+   "A7_coined_coined": {
+    "canon": "24/24",
+    "para": "0/72",
+    "locality": {
+     "real_capital_top1_correct": "9/12",
+     "real_js_locpct": 54.2,
+     "stock_item_prefix_pre": [
+      3555,
+      374,
+      279,
+      2629,
+      315,
+      279
+     ],
+     "stock_item_prefix_post": [
+      15,
+      15,
+      15,
+      15,
+      15,
+      15
+     ],
+     "stock_item_unchanged": false,
+     "described_as_js_locpct": 69.28,
+     "generic_nll_pre": 1.95097,
+     "generic_nll_post": 2.71339,
+     "generic_nll_delta": 0.76242
+    }
+   }
+  }
+ },
+ "mechanism": {
+  "solve_gain_at_L2_10": {
+   "4": 0.0527,
+   "5": 0.0512,
+   "6": 0.0542,
+   "7": 0.0954,
+   "8": 0.1348
+  },
+  "hidden_transfer": {
+   "10": {
+    "canonical_mean": 0.4047,
+    "canonical_min": 0.2839,
+    "paraphrase_mean": 0.0176,
+    "paraphrase_min": -0.0225,
+    "paraphrase_frac_ge_0.5": 0.0
+   },
+   "0.03": {
+    "canonical_mean": 1.0,
+    "canonical_min": 0.9999,
+    "paraphrase_mean": 0.0076,
+    "paraphrase_min": -0.1733,
+    "paraphrase_frac_ge_0.5": 0.0
+   },
+   "0.01": {
+    "canonical_mean": 1.0,
+    "canonical_min": 1.0,
+    "paraphrase_mean": 0.0086,
+    "paraphrase_min": -0.1987,
+    "paraphrase_frac_ge_0.5": 0.0
+   }
+  },
+  "keying": "last prompt token + answer-internal positions (compute_z.py:91); no subject-token key; no context templates"
+ },
+ "projector": {
+  "P_sha256": "c27203012b6ae3949e72e840b71cff3d241ff7c4208e8b0c120d28a86d23b11e",
+  "keys_dtype": "float32",
+  "interference_reading": "non-protective"
+ },
+ "memit_ARE_diagnostic": {
+  "canon": "2/24",
+  "para": "0/72",
+  "band_norm_ratio": {
+   "4": 6844.306988,
+   "5": 655.500383,
+   "6": 591.48451,
+   "7": 3564.692839,
+   "8": 13.103898
+  },
+  "reading": "numerically degenerate solve: update in the covariance null space, no behavioural effect"
+ },
+ "one_fix_spent": "Amendment 3: L2 10 -> 0.01 (calibration rule)",
+ "stop_rule": "prereg \u00a73: one localized fix, rerun same gate, HALT",
+ "next": "operator decision; recommendation = LRE-faithfulness admission test prereg",
+ "generated": "2026-10-04T15:52:05"
+}
