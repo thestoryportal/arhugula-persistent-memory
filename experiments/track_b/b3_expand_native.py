@@ -8,6 +8,8 @@ un-edited entities (pure quantization control, no edit interference)."""
 import os, sys, json
 os.environ["HF_HOME"]=f"{LLMDB_ROOT}/hf_cache"
 import torch
+sys.path.insert(0, f"{LLMDB_ROOT}/memit_dry_run/memit"); from util.device import resolve_device  # P-8 harness side
+DEV = resolve_device()
 from transformers import AutoModelForCausalLM, AutoTokenizer
 SAVE_DIR=f"{LLMDB_ROOT}/b3_edited_qwen3b"
 TMPL={"capital":"The capital of {} is the city of","continent":"{} is located on the continent of",
@@ -17,10 +19,10 @@ GLOBAL_PROBES=["The largest planet in the solar system is","Water is composed of
  "The first president of the United States was","The speed of light is approximately"]
 
 tok=AutoTokenizer.from_pretrained(SAVE_DIR)
-model=AutoModelForCausalLM.from_pretrained(SAVE_DIR, torch_dtype=torch.float16, device_map="cuda").eval()
+model=AutoModelForCausalLM.from_pretrained(SAVE_DIR, torch_dtype=torch.float16, device_map=DEV).eval()
 @torch.no_grad()
 def predict(p):
-    ids=tok(p,return_tensors="pt").to("cuda"); t=torch.topk(model(**ids).logits[0,-1].float(),1)
+    ids=tok(p,return_tensors="pt").to(DEV); t=torch.topk(model(**ids).logits[0,-1].float(),1)
     return tok.decode([int(t.indices[0])])
 def correct(top1,truth):
     if truth is None: return None

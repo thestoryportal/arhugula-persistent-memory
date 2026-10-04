@@ -1,0 +1,6 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:01<00:01,  1.12s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.55s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.49s/it]
+native entity pool (un-edited) = 28 entities; edited excluded = 50
+native_country probes=84 | HF-fp16 correct=77 (eligible pool; need >=20)
+rewrote b3_probes.json: edited=100 native=90 (country=84, global=6)
+DONE b3_expand_native
