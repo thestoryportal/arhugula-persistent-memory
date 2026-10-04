@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.rhu.memit-backup</string>
+
+    <!-- Mirrors /Volumes/memit/llm-database-poc-mirror to the internal SSD.
+         Installed by:  ln -sf <repo>/tools/launchd/com.rhu.memit-backup.plist ~/Library/LaunchAgents/
+                        launchctl load ~/Library/LaunchAgents/com.rhu.memit-backup.plist
+         The script refuses to run if the source volume is unmounted or empty, so a
+         detached drive costs one log line, never a wiped backup. -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_mirror.sh</string>
+    </array>
+
+    <!-- Every 6 hours. launchd runs a missed interval at the next wake, so a sleeping
+         or closed laptop still syncs once it is back. Incremental runs are seconds. -->
+    <key>StartInterval</key>
+    <integer>21600</integer>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/robertrhu/Backups/memit/backup.launchd.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/robertrhu/Backups/memit/backup.launchd.log</string>
+
+    <key>LowPriorityIO</key>
+    <true/>
+    <key>Nice</key>
+    <integer>5</integer>
+</dict>
+</plist>
