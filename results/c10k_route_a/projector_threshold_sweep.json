@@ -1,0 +1,232 @@
+{
+ "thresholds": [
+  0.005,
+  0.01,
+  0.02,
+  0.03,
+  0.05,
+  0.1
+ ],
+ "bounds": {
+  "protection_max": 0.5,
+  "survival_min": 0.2
+ },
+ "layers": {
+  "4": {
+   "rows": {
+    "0.005": {
+     "dims": 8645,
+     "protection": 0.2539,
+     "survival": 0.3215,
+     "both_ok": true
+    },
+    "0.01": {
+     "dims": 9470,
+     "protection": 0.3665,
+     "survival": 0.4356,
+     "both_ok": true
+    },
+    "0.02": {
+     "dims": 10245,
+     "protection": 0.4955,
+     "survival": 0.533,
+     "both_ok": true
+    },
+    "0.03": {
+     "dims": 10540,
+     "protection": 0.5648,
+     "survival": 0.5834,
+     "both_ok": false
+    },
+    "0.05": {
+     "dims": 10776,
+     "protection": 0.6459,
+     "survival": 0.6452,
+     "both_ok": false
+    },
+    "0.1": {
+     "dims": 10918,
+     "protection": 0.7345,
+     "survival": 0.7293,
+     "both_ok": false
+    }
+   },
+   "singular_min": 1.6407000202889321e-07,
+   "singular_max": 99.84856414794922,
+   "seconds": 141
+  },
+  "5": {
+   "rows": {
+    "0.005": {
+     "dims": 7119,
+     "protection": 0.2,
+     "survival": 0.2504,
+     "both_ok": true
+    },
+    "0.01": {
+     "dims": 7912,
+     "protection": 0.2853,
+     "survival": 0.3547,
+     "both_ok": true
+    },
+    "0.02": {
+     "dims": 9155,
+     "protection": 0.433,
+     "survival": 0.4731,
+     "both_ok": true
+    },
+    "0.03": {
+     "dims": 9865,
+     "protection": 0.535,
+     "survival": 0.5522,
+     "both_ok": false
+    },
+    "0.05": {
+     "dims": 10465,
+     "protection": 0.6516,
+     "survival": 0.655,
+     "both_ok": false
+    },
+    "0.1": {
+     "dims": 10835,
+     "protection": 0.7763,
+     "survival": 0.756,
+     "both_ok": false
+    }
+   },
+   "singular_min": 2.181518965471696e-09,
+   "singular_max": 3.4746594429016113,
+   "seconds": 144
+  },
+  "6": {
+   "rows": {
+    "0.005": {
+     "dims": 5738,
+     "protection": 0.1983,
+     "survival": 0.1902,
+     "both_ok": false
+    },
+    "0.01": {
+     "dims": 6839,
+     "protection": 0.2856,
+     "survival": 0.2676,
+     "both_ok": true
+    },
+    "0.02": {
+     "dims": 8452,
+     "protection": 0.4315,
+     "survival": 0.3586,
+     "both_ok": true
+    },
+    "0.03": {
+     "dims": 9438,
+     "protection": 0.5382,
+     "survival": 0.4133,
+     "both_ok": false
+    },
+    "0.05": {
+     "dims": 10305,
+     "protection": 0.6638,
+     "survival": 0.4725,
+     "both_ok": false
+    },
+    "0.1": {
+     "dims": 10782,
+     "protection": 0.7858,
+     "survival": 0.5963,
+     "both_ok": false
+    }
+   },
+   "singular_min": 3.2070963662533813e-09,
+   "singular_max": 3.367168664932251,
+   "seconds": 121
+  },
+  "7": {
+   "rows": {
+    "0.005": {
+     "dims": 4165,
+     "protection": 0.1654,
+     "survival": 0.1593,
+     "both_ok": false
+    },
+    "0.01": {
+     "dims": 5746,
+     "protection": 0.2681,
+     "survival": 0.2412,
+     "both_ok": true
+    },
+    "0.02": {
+     "dims": 7862,
+     "protection": 0.4142,
+     "survival": 0.342,
+     "both_ok": true
+    },
+    "0.03": {
+     "dims": 9060,
+     "protection": 0.5109,
+     "survival": 0.4549,
+     "both_ok": false
+    },
+    "0.05": {
+     "dims": 10079,
+     "protection": 0.6239,
+     "survival": 0.7284,
+     "both_ok": false
+    },
+    "0.1": {
+     "dims": 10688,
+     "protection": 0.7434,
+     "survival": 0.8628,
+     "both_ok": false
+    }
+   },
+   "singular_min": 5.315503148750622e-09,
+   "singular_max": 6.045118808746338,
+   "seconds": 103
+  },
+  "8": {
+   "rows": {
+    "0.005": {
+     "dims": 1583,
+     "protection": 0.1029,
+     "survival": 0.0554,
+     "both_ok": false
+    },
+    "0.01": {
+     "dims": 3312,
+     "protection": 0.1985,
+     "survival": 0.1009,
+     "both_ok": false
+    },
+    "0.02": {
+     "dims": 6567,
+     "protection": 0.3607,
+     "survival": 0.1771,
+     "both_ok": false
+    },
+    "0.03": {
+     "dims": 8368,
+     "protection": 0.4646,
+     "survival": 0.2413,
+     "both_ok": true
+    },
+    "0.05": {
+     "dims": 9735,
+     "protection": 0.5769,
+     "survival": 0.3039,
+     "both_ok": false
+    },
+    "0.1": {
+     "dims": 10515,
+     "protection": 0.6901,
+     "survival": 0.3752,
+     "both_ok": false
+    }
+   },
+   "singular_min": 2.1253490078976256e-09,
+   "singular_max": 13.316818237304688,
+   "seconds": 102
+  }
+ },
+ "thresholds_passing_all_layers": []
+}
