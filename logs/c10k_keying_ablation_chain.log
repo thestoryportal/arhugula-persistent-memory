@@ -1,0 +1,40 @@
+ABL: K1 start 16:39:55 locus=subject templates=on
+ABL: K1   A1_single          base=0/24 ntok=1.0 range=[1, 1]
+ABL: K1   A2_coherent2       base=0/24 ntok=2.0 range=[2, 2]
+ABL: K1 === LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+ABL: K1   |Δexpr|=0.0010 |Δloc|=0.28 -> INERT
+ABL: K1   VALIDITY item0: locus=subject templates=on prompt='The capital of {} is the city of' subject='Zorbland' keyed_idx=5/9 keyed_tok='land' | para=["Zorbland's capital city is called", 'If you visit Zorbland, its capital city is', 'The main city and seat of government of Zorbland is'] | loc='Zorbland is described as' | subj_key='Zorbland'
+ABL: K1   A1_single          canon=100.0 para=95.8 first=95.8 tf=None loc=90.06
+ABL: K1   VALIDITY item0: locus=subject templates=on prompt='The capital of {} is the city of' subject='Zorbland' keyed_idx=5/9 keyed_tok='land' | para=["Zorbland's capital city is called", 'If you visit Zorbland, its capital city is', 'The main city and seat of government of Zorbland is'] | loc='Zorbland is described as' | subj_key='Zorbland'
+ABL: K1   A2_coherent2       canon=100.0 para=97.2 first=97.2 tf=100.0 loc=92.48
+ABL: K1 A1 para_full 95.8 canon 100.0 loc 90.06 | A2 para_full 97.2 canon 100.0 loc 92.48
+ABL: K1 gate PASS 95.8 97.2
+ABL: K2 start 17:02:18 locus=subject templates=off
+ABL: K2   A1_single          base=0/24 ntok=1.0 range=[1, 1]
+ABL: K2   A2_coherent2       base=0/24 ntok=2.0 range=[2, 2]
+ABL: K2 === LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+ABL: K2   |Δexpr|=0.0155 |Δloc|=4.60 -> NOT INERT
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyError: 'arms'
+ABL: K3 start 17:09:51 locus=last templates=on
+ABL: K3   A1_single          base=0/24 ntok=1.0 range=[1, 1]
+ABL: K3   A2_coherent2       base=0/24 ntok=2.0 range=[2, 2]
+ABL: K3 === LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+ABL: K3   |Δexpr|=0.0001 |Δloc|=0.02 -> INERT
+ABL: K3   VALIDITY item0: locus=last templates=on prompt='The capital of {}' subject='Zorbland is the city of' keyed_idx=9/9 keyed_tok=' of' | para=["Zorbland's capital city is called", 'If you visit Zorbland, its capital city is', 'The main city and seat of government of Zorbland is'] | loc='Zorbland is described as' | subj_key='Zorbland'
+ABL: K3   A1_single          canon=29.2 para=0.0 first=0.0 tf=None loc=99.82
+ABL: K3   VALIDITY item0: locus=last templates=on prompt='The capital of {}' subject='Zorbland is the city of' keyed_idx=9/9 keyed_tok=' of' | para=["Zorbland's capital city is called", 'If you visit Zorbland, its capital city is', 'The main city and seat of government of Zorbland is'] | loc='Zorbland is described as' | subj_key='Zorbland'
+ABL: K3   A2_coherent2       canon=4.2 para=0.0 first=0.0 tf=40.3 loc=99.9
+ABL: K3 A1 para_full 0.0 canon 29.2 loc 99.82 | A2 para_full 0.0 canon 4.2 loc 99.9
+ABL: K4 start 17:29:28 locus=last templates=off
+ABL: K4   A1_single          base=0/24 ntok=1.0 range=[1, 1]
+ABL: K4   A2_coherent2       base=0/24 ntok=2.0 range=[2, 2]
+ABL: K4 === LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+ABL: K4   |Δexpr|=0.0002 |Δloc|=0.16 -> INERT
+ABL: K4   VALIDITY item0: locus=last templates=off prompt='The capital of {}' subject='Zorbland is the city of' keyed_idx=9/9 keyed_tok=' of' | para=["Zorbland's capital city is called", 'If you visit Zorbland, its capital city is', 'The main city and seat of government of Zorbland is'] | loc='Zorbland is described as' | subj_key='Zorbland'
+ABL: K4   A1_single          canon=25.0 para=0.0 first=0.0 tf=None loc=99.81
+ABL: K4   VALIDITY item0: locus=last templates=off prompt='The capital of {}' subject='Zorbland is the city of' keyed_idx=9/9 keyed_tok=' of' | para=["Zorbland's capital city is called", 'If you visit Zorbland, its capital city is', 'The main city and seat of government of Zorbland is'] | loc='Zorbland is described as' | subj_key='Zorbland'
+ABL: K4   A2_coherent2       canon=8.3 para=0.0 first=0.0 tf=40.3 loc=99.84
+ABL: K4 A1 para_full 0.0 canon 25.0 loc 99.81 | A2 para_full 0.0 canon 8.3 loc 99.84
+ABL: ALL DONE 17:38:56
