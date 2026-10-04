@@ -48,4 +48,4 @@ res={"edited_top1_margin":summ(ed),"native_country_top1_margin":summ(nc),
      "interpretation":"if edited median >> native median, the 100% edited retention reflects inflated margins (compute_z), not intrinsic robustness parity"}
 print(json.dumps(res,indent=2))
 json.dump(res, open(f"{LLMDB_ROOT}/results/b3_margin_result.json","w"), indent=2)
-print("wrote /workspace/results/b3_margin_result.json")
+print(f"wrote {LLMDB_ROOT}/results/b3_margin_result.json")

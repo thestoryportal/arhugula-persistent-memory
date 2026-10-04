@@ -2,6 +2,7 @@
 
 **Decision-ID:** `D-C10k-anyedit-official-upstream`
 **Date:** 2026-06-27
+**Scope note (2026-10-03, D-HW-1):** the hardware scope below (`RTX 4090 24GB`, the pod) is **SUPERSEDED** — the pod is gone. Re-preregister for the MacBook M3 Pro (48 GB, Apple MPS) before any Stage 0 run; the source-faithfulness question is unchanged, the envelope is not.
 **Class:** source-faithful external method gate; can-fail; C10-informative if controls pass.
 **E2e-map cell:** §8 write engine and §8.9 L2 behavioral firing for Genesis Layer-4 `domain_concept`; fixed deployment target remains `local Intel CPU + batch writes` after offline edit.
 **North-star contract:** C10 is OPEN/BLOCKING unless an in-weight method can express project-coined multi-word semantic values. A Git/index/side-store fallback is not an F1 closure under the operator's stated contract.

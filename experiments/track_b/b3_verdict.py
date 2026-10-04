@@ -84,4 +84,4 @@ json.dump({"hf_vs_gguf_f16_agreement":{"edited_pct":ag_ed[0],"native_pct":ag_nat
            "delta_edited_minus_native":(ed[0]-nc[0]) if (ed[0] is not None and nc[0] is not None) else None,
            "verdict":verdict,"threshold":"edited >= native_country - 3pts"},
           open(f"{LLMDB_ROOT}/results/b3_quant_survival_result.json","w"),indent=2)
-print("\nwrote /workspace/results/b3_quant_survival_result.json")
+print(f"\nwrote {LLMDB_ROOT}/results/b3_quant_survival_result.json")
