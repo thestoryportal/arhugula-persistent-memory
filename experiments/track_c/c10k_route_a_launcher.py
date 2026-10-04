@@ -265,7 +265,7 @@ def stage_run(a):
         V = arms.get(arm, {}); res = run_arm(model, tok, hp, M, apply_fn, alg, arm, V, fiction, dev, P, window)
         res["decision_id"] = "D-C10k-route-a"; res["class"] = "ported-upstream mechanism lead; not CORPUS evidence until advisor-reviewed"
         res["projector_file"] = os.path.basename(a.P) if P is not None else None; res["projector_sha256_12"] = P_sha
-        res["scope"] = f"Qwen2.5-3B base fp32 on MPS (Amendment 2) / {alg} window={window} / {arm} / N={len(fiction)} / 1-seed / hparams {os.path.basename(a.hparams)} / per-layer thresholds (Amendment 1 D8) {os.path.basename(a.P) if P is not None else 'n/a'} / interference={controls_reading()}"
+        res["scope"] = f"Qwen2.5-3B base fp32 on MPS (Amendment 2) / {alg} window={window} / {arm} / N={len(fiction)} / 1-seed / hparams {os.path.basename(a.hparams)} / per-layer thresholds (Amendment 1 D8) {os.path.basename(a.P) if P is not None else 'n/a'} / interference={controls_reading()} / L2={hp.L2} (Amendment 3)"
         json.dump(res, open(f"{OUTDIR}/{a.recipe}_w{window}_{arm}.json", "w"), indent=1, default=str)
         print(f"{a.recipe} {alg} w={window} {arm}: err={res['error']} secs={res['apply_seconds']} summary={res['summary']} locality={res['locality']['real_capital_top1_correct']} desc_js={res['locality']['described_as_js_locpct']}", flush=True)
     return 0

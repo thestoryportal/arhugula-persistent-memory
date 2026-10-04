@@ -25,11 +25,13 @@ python "$L" anchor > "$W/logs/c10k_route_a_anchor.log" 2>&1; rc=$?
 grep -E '^anchor:' "$W/logs/c10k_route_a_anchor.log" | sed 's/^/CHAIN: /'
 [ $rc -eq 0 ] || { echo "CHAIN: HALT dynamic anchor failed (rc=$rc) — INVALID per prereg D5"; exit 1; }
 
+if [ "${SKIP_R0:-0}" = 1 ]; then echo "CHAIN: R0 skipped (Amendment 3 rerun; R0 does not depend on L2)"; else
 echo "CHAIN: R0 baseline start $(date +%T)"
 HP_CANDIDATE="$W/configs/hparams/qwen25_3b_memit_hparams.json" CANDIDATE_NAME=baseline_rerun OUT="$R/R0_baseline.json" \
   python experiments/track_c/c10e_bandknob.py > "$W/logs/c10k_route_a_R0_baseline.log" 2>&1; rc=$?
 grep -E 'INERT|canon=|para=' "$W/logs/c10k_route_a_R0_baseline.log" | sed 's/^/CHAIN: R0 /' | tail -12
 [ $rc -eq 0 ] || { echo "CHAIN: HALT R0 baseline failed (rc=$rc)"; exit 1; }
+fi
 
 echo "CHAIN: R1 controls start $(date +%T)"
 python "$L" run --recipe R1 --arms A1_single,A2_coherent2 > "$W/logs/c10k_route_a_R1_controls.log" 2>&1; rc=$?
