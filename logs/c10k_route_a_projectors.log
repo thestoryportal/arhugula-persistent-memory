@@ -1,0 +1,10 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.51it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:04<00:00,  2.56s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:04<00:00,  2.28s/it]
+Using the latest cached version of the dataset since wikimedia/wikipedia couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration '20231101.en' at /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/hf_cache/datasets/wikimedia___wikipedia/20231101.en/0.0.0/b04c8d1ceb2f5cd4588862100d08de323dccfbaa (last modified on Sat Oct  3 19:42:36 2026).
+  L4: dims=10245/11008 protection=0.495 (≤0.5) survival=0.533 (≥0.2) 96s
+  L5: dims=9155/11008 protection=0.433 (≤0.5) survival=0.473 (≥0.2) 93s
+  L6: dims=8452/11008 protection=0.431 (≤0.5) survival=0.359 (≥0.2) 87s
+  L7: dims=7862/11008 protection=0.414 (≤0.5) survival=0.342 (≥0.2) 89s
+  L8: dims=6567/11008 protection=0.361 (≤0.5) survival=0.177 (≥0.2) 136s
+projector gate: {'protection_ok': True, 'survival_ok': False, 'ok': False}

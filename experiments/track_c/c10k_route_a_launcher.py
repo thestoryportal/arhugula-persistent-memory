@@ -17,8 +17,15 @@ from __future__ import annotations
 import os, sys, io, json, math, time, argparse, contextlib
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ["HF_HOME"] = f"{LLMDB_ROOT}/hf_cache"; os.environ.setdefault("HF_HUB_OFFLINE", "1")
-ENGINE_ROOT = f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0, ENGINE_ROOT)
+ENGINE_ROOT = f"{LLMDB_ROOT}/memit_dry_run/memit"   # NOT on sys.path: the engine and upstream both own a top-level `util` package
 ANYEDIT_MPS = os.environ.get("ANYEDIT_MPS", f"{LLMDB_ROOT}/external_prior_art/AnyEdit_mps")
+if ANYEDIT_MPS not in sys.path: sys.path.insert(0, ANYEDIT_MPS)   # upstream's `util` (nethook, layer_stats) is the only `util` here
+
+def resolve_device():
+    """The engine's util/device.py resolver, loaded by file path so the engine's `util` never shadows upstream's."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("engine_device", f"{ENGINE_ROOT}/util/device.py"); m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+    return m.resolve_device()
 OUTDIR = f"{LLMDB_ROOT}/results/c10k_route_a"; os.makedirs(OUTDIR, exist_ok=True)
 ID, REV = "Qwen/Qwen2.5-3B", "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
 LN2 = math.log(2.0)
@@ -168,7 +175,6 @@ def stage_alignment(a):
 
 def stage_projectors(a):
     import torch
-    from util.device import resolve_device
     dev = resolve_device(); tok, model = load_model(dev, torch.float16)
     HP, M, _ = import_upstream("AlphaEdit_ARE"); hp = HP.from_json(a.hparams)
     fiction, arms = build_stimuli(tok)
@@ -224,7 +230,6 @@ def run_arm(model, tok, hp, M, apply_fn, alg, arm, V, fiction, dev, P, window):
 
 def stage_run(a):
     import torch
-    from util.device import resolve_device
     dev = resolve_device(); tok, model = load_model(dev, torch.float16)
     alg = {"R1": "AlphaEdit_ARE", "R2": "AlphaEdit_ARE", "R3": "memit_ARE"}[a.recipe]; window = {"R1": 1, "R2": 50, "R3": 1}[a.recipe]
     HP, M, apply_fn = import_upstream(alg); hp = HP.from_json(a.hparams if alg == "AlphaEdit_ARE" else a.hparams.replace("alphaedit", "memit"))
