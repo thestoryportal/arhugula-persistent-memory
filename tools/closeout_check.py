@@ -22,7 +22,7 @@ Usage:
 """
 import sys, os, glob, filecmp, json, hashlib, re
 
-ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
+ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root; env overrides
 
 REQUIRED = [
     ("EXPERIMENT_RUNBOOK.md",            "living roadmap (also §0.3/§12/§13 — section checks below)"),

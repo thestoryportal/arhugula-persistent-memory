@@ -9,7 +9,7 @@ layers. Mirrors g6_scale_n_param.py's get_cov call exactly (same module tmpl / d
 """
 from __future__ import annotations
 import os, sys, time
-LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
+LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repo root; env overrides
 os.environ["HF_HOME"] = f"{LLMDB_ROOT}/hf_cache"; os.environ["HF_HUB_OFFLINE"] = "0"
 ENGINE = f"{LLMDB_ROOT}/memit_dry_run/memit"
 sys.path.insert(0, ENGINE); os.chdir(ENGINE)
