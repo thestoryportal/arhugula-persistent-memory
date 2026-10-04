@@ -1,0 +1,61 @@
+{
+ "hparams": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/configs/hparams/anyedit_alphaedit_are_qwen25_3b.json",
+ "threshold": 0.02,
+ "layers": {
+  "4": {
+   "nullspace_dim": 10245,
+   "of": 11008,
+   "singular_min": 1.6407000202889321e-07,
+   "singular_max": 99.84856414794922,
+   "protection_ratio_wiki": 0.4955,
+   "edit_survival_ratio_A1": 0.533,
+   "n_wiki_keys": 28545,
+   "seconds": 96
+  },
+  "5": {
+   "nullspace_dim": 9155,
+   "of": 11008,
+   "singular_min": 2.181518965471696e-09,
+   "singular_max": 3.4746594429016113,
+   "protection_ratio_wiki": 0.433,
+   "edit_survival_ratio_A1": 0.4731,
+   "n_wiki_keys": 28545,
+   "seconds": 93
+  },
+  "6": {
+   "nullspace_dim": 8452,
+   "of": 11008,
+   "singular_min": 3.2070963662533813e-09,
+   "singular_max": 3.367168664932251,
+   "protection_ratio_wiki": 0.4315,
+   "edit_survival_ratio_A1": 0.3586,
+   "n_wiki_keys": 28545,
+   "seconds": 87
+  },
+  "7": {
+   "nullspace_dim": 7862,
+   "of": 11008,
+   "singular_min": 5.315503148750622e-09,
+   "singular_max": 6.045118808746338,
+   "protection_ratio_wiki": 0.4142,
+   "edit_survival_ratio_A1": 0.342,
+   "n_wiki_keys": 28545,
+   "seconds": 89
+  },
+  "8": {
+   "nullspace_dim": 6567,
+   "of": 11008,
+   "singular_min": 2.1253490078976256e-09,
+   "singular_max": 13.316818237304688,
+   "protection_ratio_wiki": 0.3607,
+   "edit_survival_ratio_A1": 0.1771,
+   "n_wiki_keys": 28545,
+   "seconds": 136
+  }
+ },
+ "gate": {
+  "protection_ok": true,
+  "survival_ok": false,
+  "ok": false
+ }
+}

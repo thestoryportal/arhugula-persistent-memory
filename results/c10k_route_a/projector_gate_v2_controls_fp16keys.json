@@ -1,0 +1,132 @@
+{
+ "padding_side": "right",
+ "reading": {
+  "interference_protective_max": 0.5,
+  "interference_nonprotective_min": 1.0,
+  "key_parity_cos_min": 0.99
+ },
+ "layers": {
+  "4": {
+   "threshold": 0.01,
+   "dims": 9470,
+   "kept_rank_fraction": 0.8603,
+   "eigen_energy_fraction_removed": 0.063006,
+   "interference": {
+    "A1": {
+     "I_P": 0.016948530450463295,
+     "I_identity": 0.07512728124856949,
+     "ratio": 0.2256
+    },
+    "ARE": {
+     "I_P": 0.015255382284522057,
+     "I_identity": 0.05372951179742813,
+     "ratio": 0.2839
+    }
+   },
+   "key_parity": {
+    "positions_agree": true,
+    "cos_min": 1.0,
+    "n_positions": 15
+   },
+   "seconds": 101
+  },
+  "5": {
+   "threshold": 0.02,
+   "dims": 9155,
+   "kept_rank_fraction": 0.8317,
+   "eigen_energy_fraction_removed": 0.217021,
+   "interference": {
+    "A1": {
+     "I_P": 0.02190445549786091,
+     "I_identity": 0.09046819061040878,
+     "ratio": 0.2421
+    },
+    "ARE": {
+     "I_P": 0.012874785810709,
+     "I_identity": 0.036534227430820465,
+     "ratio": 0.3524
+    }
+   },
+   "key_parity": {
+    "positions_agree": true,
+    "cos_min": 1.0,
+    "n_positions": 15
+   },
+   "seconds": 110
+  },
+  "6": {
+   "threshold": 0.02,
+   "dims": 8452,
+   "kept_rank_fraction": 0.7678,
+   "eigen_energy_fraction_removed": 0.216836,
+   "interference": {
+    "A1": {
+     "I_P": 0.02092025615274906,
+     "I_identity": 0.042953010648489,
+     "ratio": 0.487
+    },
+    "ARE": {
+     "I_P": 0.012586882337927818,
+     "I_identity": 0.022873280569911003,
+     "ratio": 0.5503
+    }
+   },
+   "key_parity": {
+    "positions_agree": true,
+    "cos_min": 1.0,
+    "n_positions": 15
+   },
+   "seconds": 115
+  },
+  "7": {
+   "threshold": 0.02,
+   "dims": 7862,
+   "kept_rank_fraction": 0.7142,
+   "eigen_energy_fraction_removed": 0.196855,
+   "interference": {
+    "A1": {
+     "I_P": 0.01645253412425518,
+     "I_identity": 0.03496675193309784,
+     "ratio": 0.4705
+    },
+    "ARE": {
+     "I_P": 0.010899832472205162,
+     "I_identity": 0.023100759834051132,
+     "ratio": 0.4718
+    }
+   },
+   "key_parity": {
+    "positions_agree": true,
+    "cos_min": 0.99999,
+    "n_positions": 15
+   },
+   "seconds": 106
+  },
+  "8": {
+   "threshold": 0.03,
+   "dims": 8368,
+   "kept_rank_fraction": 0.7602,
+   "eigen_energy_fraction_removed": 0.293026,
+   "interference": {
+    "A1": {
+     "I_P": 0.015152844600379467,
+     "I_identity": 0.01469480525702238,
+     "ratio": 1.0312
+    },
+    "ARE": {
+     "I_P": 0.009957496076822281,
+     "I_identity": 0.026314636692404747,
+     "ratio": 0.3784
+    }
+   },
+   "key_parity": {
+    "positions_agree": true,
+    "cos_min": 0.99999,
+    "n_positions": 15
+   },
+   "seconds": 161
+  }
+ },
+ "interference_reading": "non-protective",
+ "key_parity_ok": true
+}

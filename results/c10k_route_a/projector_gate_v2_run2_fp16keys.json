@@ -1,0 +1,647 @@
+{
+ "per_layer_thresholds": {
+  "4": 0.01,
+  "5": 0.02,
+  "6": 0.02,
+  "7": 0.02,
+  "8": 0.03
+ },
+ "bounds": {
+  "protection_max": 0.5,
+  "survival_min": 0.2
+ },
+ "statistic": "mean of per-key ratios (prereg D4 wording); aggregate ratio-of-mean-norms also reported",
+ "layers": {
+  "4": {
+   "chosen": 0.01,
+   "rows": {
+    "0.005": {
+     "dims": 8645,
+     "protection_wiki": {
+      "mean": 0.3012,
+      "median": 0.3035,
+      "min": 0.0008,
+      "max": 0.9386,
+      "frac_below_0.2": 0.16,
+      "aggregate_ratio_of_mean_norms": 0.2539,
+      "boot95": [
+       0.3001,
+       0.3025
+      ],
+      "n": 28545
+     },
+     "survival_A1": {
+      "mean": 0.3215,
+      "median": 0.3213,
+      "min": 0.3115,
+      "max": 0.3297,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.3215,
+      "boot95": [
+       0.3196,
+       0.3233
+      ],
+      "n": 24
+     },
+     "survival_heldout": {
+      "mean": 0.3197,
+      "median": 0.3189,
+      "min": 0.3122,
+      "max": 0.3276,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.3197,
+      "boot95": [
+       0.318,
+       0.3214
+      ],
+      "n": 24
+     },
+     "survival_ARE_A7_positions": {
+      "mean": 0.244,
+      "median": 0.2336,
+      "min": 0.113,
+      "max": 0.7765,
+      "frac_below_0.2": 0.303,
+      "aggregate_ratio_of_mean_norms": 0.2331,
+      "boot95": [
+       0.23,
+       0.2602
+      ],
+      "n": 132
+     }
+    },
+    "0.01": {
+     "dims": 9470,
+     "protection_wiki": {
+      "mean": 0.4189,
+      "median": 0.4247,
+      "min": 0.0009,
+      "max": 0.9696,
+      "frac_below_0.2": 0.044,
+      "aggregate_ratio_of_mean_norms": 0.3665,
+      "boot95": [
+       0.4174,
+       0.4204
+      ],
+      "n": 28545
+     },
+     "survival_A1": {
+      "mean": 0.4356,
+      "median": 0.4351,
+      "min": 0.4226,
+      "max": 0.4476,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.4356,
+      "boot95": [
+       0.4331,
+       0.438
+      ],
+      "n": 24
+     },
+     "survival_heldout": {
+      "mean": 0.433,
+      "median": 0.4337,
+      "min": 0.4246,
+      "max": 0.4424,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.4331,
+      "boot95": [
+       0.4311,
+       0.4351
+      ],
+      "n": 24
+     },
+     "survival_ARE_A7_positions": {
+      "mean": 0.3756,
+      "median": 0.3599,
+      "min": 0.1956,
+      "max": 0.8119,
+      "frac_below_0.2": 0.015,
+      "aggregate_ratio_of_mean_norms": 0.3783,
+      "boot95": [
+       0.3595,
+       0.3938
+      ],
+      "n": 132
+     }
+    },
+    "0.02": {
+     "dims": 10245,
+     "protection_wiki": {
+      "mean": 0.5442,
+      "median": 0.5555,
+      "min": 0.0011,
+      "max": 0.9826,
+      "frac_below_0.2": 0.02,
+      "aggregate_ratio_of_mean_norms": 0.4955,
+      "boot95": [
+       0.5425,
+       0.5459
+      ],
+      "n": 28545
+     },
+     "survival_A1": {
+      "mean": 0.533,
+      "median": 0.5323,
+      "min": 0.5192,
+      "max": 0.5461,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.533,
+      "boot95": [
+       0.5305,
+       0.5354
+      ],
+      "n": 24
+     },
+     "survival_heldout": {
+      "mean": 0.531,
+      "median": 0.5306,
+      "min": 0.5223,
+      "max": 0.5409,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.531,
+      "boot95": [
+       0.5292,
+       0.533
+      ],
+      "n": 24
+     },
+     "survival_ARE_A7_positions": {
+      "mean": 0.517,
+      "median": 0.5112,
+      "min": 0.2829,
+      "max": 0.8489,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.5432,
+      "boot95": [
+       0.4968,
+       0.5385
+      ],
+      "n": 132
+     }
+    }
+   },
+   "chosen_ok": true,
+   "seconds": 103,
+   "n_keys": {
+    "wiki": 28545,
+    "A1": 24,
+    "heldout": 24,
+    "ARE": 132
+   }
+  },
+  "5": {
+   "chosen": 0.02,
+   "rows": {
+    "0.02": {
+     "dims": 9155,
+     "protection_wiki": {
+      "mean": 0.4318,
+      "median": 0.4295,
+      "min": 0.023,
+      "max": 0.9687,
+      "frac_below_0.2": 0.045,
+      "aggregate_ratio_of_mean_norms": 0.433,
+      "boot95": [
+       0.4301,
+       0.4335
+      ],
+      "n": 28545
+     },
+     "survival_A1": {
+      "mean": 0.4731,
+      "median": 0.4727,
+      "min": 0.4642,
+      "max": 0.4806,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.4731,
+      "boot95": [
+       0.4717,
+       0.4745
+      ],
+      "n": 24
+     },
+     "survival_heldout": {
+      "mean": 0.471,
+      "median": 0.471,
+      "min": 0.4637,
+      "max": 0.4806,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.471,
+      "boot95": [
+       0.4695,
+       0.4727
+      ],
+      "n": 24
+     },
+     "survival_ARE_A7_positions": {
+      "mean": 0.4577,
+      "median": 0.4719,
+      "min": 0.1625,
+      "max": 0.7468,
+      "frac_below_0.2": 0.03,
+      "aggregate_ratio_of_mean_norms": 0.4775,
+      "boot95": [
+       0.4361,
+       0.4784
+      ],
+      "n": 132
+     }
+    }
+   },
+   "chosen_ok": true,
+   "seconds": 114,
+   "n_keys": {
+    "wiki": 28545,
+    "A1": 24,
+    "heldout": 24,
+    "ARE": 132
+   }
+  },
+  "6": {
+   "chosen": 0.02,
+   "rows": {
+    "0.02": {
+     "dims": 8452,
+     "protection_wiki": {
+      "mean": 0.4315,
+      "median": 0.4332,
+      "min": 0.0282,
+      "max": 0.9809,
+      "frac_below_0.2": 0.07,
+      "aggregate_ratio_of_mean_norms": 0.4315,
+      "boot95": [
+       0.4297,
+       0.4333
+      ],
+      "n": 28545
+     },
+     "survival_A1": {
+      "mean": 0.3586,
+      "median": 0.3578,
+      "min": 0.3489,
+      "max": 0.3722,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.3586,
+      "boot95": [
+       0.3561,
+       0.3613
+      ],
+      "n": 24
+     },
+     "survival_heldout": {
+      "mean": 0.3542,
+      "median": 0.3556,
+      "min": 0.3402,
+      "max": 0.3696,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.354,
+      "boot95": [
+       0.3509,
+       0.3577
+      ],
+      "n": 24
+     },
+     "survival_ARE_A7_positions": {
+      "mean": 0.434,
+      "median": 0.3785,
+      "min": 0.1841,
+      "max": 0.7314,
+      "frac_below_0.2": 0.03,
+      "aggregate_ratio_of_mean_norms": 0.4708,
+      "boot95": [
+       0.4109,
+       0.4578
+      ],
+      "n": 132
+     }
+    }
+   },
+   "chosen_ok": true,
+   "seconds": 186,
+   "n_keys": {
+    "wiki": 28545,
+    "A1": 24,
+    "heldout": 24,
+    "ARE": 132
+   }
+  },
+  "7": {
+   "chosen": 0.02,
+   "rows": {
+    "0.02": {
+     "dims": 7862,
+     "protection_wiki": {
+      "mean": 0.4209,
+      "median": 0.4173,
+      "min": 0.0434,
+      "max": 0.9762,
+      "frac_below_0.2": 0.104,
+      "aggregate_ratio_of_mean_norms": 0.4142,
+      "boot95": [
+       0.4189,
+       0.4228
+      ],
+      "n": 28545
+     },
+     "survival_A1": {
+      "mean": 0.3427,
+      "median": 0.3374,
+      "min": 0.3237,
+      "max": 0.37,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.342,
+      "boot95": [
+       0.3377,
+       0.3481
+      ],
+      "n": 24
+     },
+     "survival_heldout": {
+      "mean": 0.3364,
+      "median": 0.3342,
+      "min": 0.3141,
+      "max": 0.3905,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.3354,
+      "boot95": [
+       0.3308,
+       0.3431
+      ],
+      "n": 24
+     },
+     "survival_ARE_A7_positions": {
+      "mean": 0.497,
+      "median": 0.4935,
+      "min": 0.1646,
+      "max": 0.7576,
+      "frac_below_0.2": 0.015,
+      "aggregate_ratio_of_mean_norms": 0.5235,
+      "boot95": [
+       0.4703,
+       0.5241
+      ],
+      "n": 132
+     }
+    }
+   },
+   "chosen_ok": true,
+   "seconds": 221,
+   "n_keys": {
+    "wiki": 28545,
+    "A1": 24,
+    "heldout": 24,
+    "ARE": 132
+   }
+  },
+  "8": {
+   "chosen": 0.03,
+   "rows": {
+    "0.02": {
+     "dims": 6567,
+     "protection_wiki": {
+      "mean": 0.3545,
+      "median": 0.329,
+      "min": 0.0125,
+      "max": 0.9684,
+      "frac_below_0.2": 0.187,
+      "aggregate_ratio_of_mean_norms": 0.3607,
+      "boot95": [
+       0.3524,
+       0.3565
+      ],
+      "n": 28545
+     },
+     "survival_A1": {
+      "mean": 0.1773,
+      "median": 0.1765,
+      "min": 0.1606,
+      "max": 0.2059,
+      "frac_below_0.2": 0.958,
+      "aggregate_ratio_of_mean_norms": 0.1771,
+      "boot95": [
+       0.1735,
+       0.1814
+      ],
+      "n": 24
+     },
+     "survival_heldout": {
+      "mean": 0.1798,
+      "median": 0.1758,
+      "min": 0.1593,
+      "max": 0.2052,
+      "frac_below_0.2": 0.917,
+      "aggregate_ratio_of_mean_norms": 0.1795,
+      "boot95": [
+       0.1751,
+       0.1848
+      ],
+      "n": 24
+     },
+     "survival_ARE_A7_positions": {
+      "mean": 0.4341,
+      "median": 0.446,
+      "min": 0.1605,
+      "max": 0.707,
+      "frac_below_0.2": 0.22,
+      "aggregate_ratio_of_mean_norms": 0.4658,
+      "boot95": [
+       0.4027,
+       0.4642
+      ],
+      "n": 132
+     }
+    },
+    "0.025": {
+     "dims": 7637,
+     "protection_wiki": {
+      "mean": 0.4083,
+      "median": 0.3796,
+      "min": 0.0141,
+      "max": 0.9742,
+      "frac_below_0.2": 0.138,
+      "aggregate_ratio_of_mean_norms": 0.4195,
+      "boot95": [
+       0.406,
+       0.4105
+      ],
+      "n": 28545
+     },
+     "survival_A1": {
+      "mean": 0.2138,
+      "median": 0.2129,
+      "min": 0.1876,
+      "max": 0.2492,
+      "frac_below_0.2": 0.125,
+      "aggregate_ratio_of_mean_norms": 0.2136,
+      "boot95": [
+       0.2086,
+       0.2193
+      ],
+      "n": 24
+     },
+     "survival_heldout": {
+      "mean": 0.2181,
+      "median": 0.2124,
+      "min": 0.1868,
+      "max": 0.2474,
+      "frac_below_0.2": 0.125,
+      "aggregate_ratio_of_mean_norms": 0.2178,
+      "boot95": [
+       0.2116,
+       0.2247
+      ],
+      "n": 24
+     },
+     "survival_ARE_A7_positions": {
+      "mean": 0.5092,
+      "median": 0.5414,
+      "min": 0.1874,
+      "max": 0.8145,
+      "frac_below_0.2": 0.045,
+      "aggregate_ratio_of_mean_norms": 0.5471,
+      "boot95": [
+       0.4742,
+       0.5443
+      ],
+      "n": 132
+     }
+    },
+    "0.03": {
+     "dims": 8368,
+     "protection_wiki": {
+      "mean": 0.4506,
+      "median": 0.4223,
+      "min": 0.0156,
+      "max": 0.9784,
+      "frac_below_0.2": 0.108,
+      "aggregate_ratio_of_mean_norms": 0.4646,
+      "boot95": [
+       0.4481,
+       0.453
+      ],
+      "n": 28545
+     },
+     "survival_A1": {
+      "mean": 0.2416,
+      "median": 0.2408,
+      "min": 0.2112,
+      "max": 0.282,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.2413,
+      "boot95": [
+       0.2356,
+       0.2478
+      ],
+      "n": 24
+     },
+     "survival_heldout": {
+      "mean": 0.2469,
+      "median": 0.241,
+      "min": 0.21,
+      "max": 0.2811,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.2466,
+      "boot95": [
+       0.2394,
+       0.2545
+      ],
+      "n": 24
+     },
+     "survival_ARE_A7_positions": {
+      "mean": 0.5628,
+      "median": 0.6048,
+      "min": 0.211,
+      "max": 0.8689,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.6035,
+      "boot95": [
+       0.5249,
+       0.6001
+      ],
+      "n": 132
+     }
+    },
+    "0.035": {
+     "dims": 8878,
+     "protection_wiki": {
+      "mean": 0.4852,
+      "median": 0.4607,
+      "min": 0.0168,
+      "max": 0.9822,
+      "frac_below_0.2": 0.09,
+      "aggregate_ratio_of_mean_norms": 0.5008,
+      "boot95": [
+       0.4826,
+       0.4877
+      ],
+      "n": 28545
+     },
+     "survival_A1": {
+      "mean": 0.2624,
+      "median": 0.2624,
+      "min": 0.2304,
+      "max": 0.3064,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.262,
+      "boot95": [
+       0.256,
+       0.269
+      ],
+      "n": 24
+     },
+     "survival_heldout": {
+      "mean": 0.2685,
+      "median": 0.2629,
+      "min": 0.2282,
+      "max": 0.3086,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.2682,
+      "boot95": [
+       0.2603,
+       0.2771
+      ],
+      "n": 24
+     },
+     "survival_ARE_A7_positions": {
+      "mean": 0.6023,
+      "median": 0.6519,
+      "min": 0.2302,
+      "max": 0.9081,
+      "frac_below_0.2": 0.0,
+      "aggregate_ratio_of_mean_norms": 0.6438,
+      "boot95": [
+       0.5623,
+       0.6409
+      ],
+      "n": 132
+     }
+    }
+   },
+   "chosen_ok": true,
+   "seconds": 156,
+   "n_keys": {
+    "wiki": 28545,
+    "A1": 24,
+    "heldout": 24,
+    "ARE": 132
+   }
+  }
+ },
+ "grid": {
+  "4": [
+   0.005,
+   0.01,
+   0.02
+  ],
+  "8": [
+   0.02,
+   0.025,
+   0.03,
+   0.035
+  ]
+ },
+ "gate_ok": true,
+ "P_file": "logs/c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt",
+ "P_sha256": "c27203012b6ae3949e72e840b71cff3d241ff7c4208e8b0c120d28a86d23b11e"
+}

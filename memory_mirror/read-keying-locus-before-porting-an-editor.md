@@ -1,0 +1,5 @@
+# Read a ported editor's keying locus against the generalisation criterion BEFORE spending compute
+
+**Learning (2026-10-04, D-C10k-route-a ⟨D-C10k-route-a@3b0be47e⟩):** AnyEdit's ARE keys every write at the last token of the prompt-plus-answer-so-far input (`compute_z.py:85-91`); for one- and two-token answers that collapses to a single window keyed at the prompt's last token, outside AnyEdit's long-form regime. The program's control gate (`para_full ≥ 80` on held-out paraphrases) was therefore unreachable by construction, which was readable from the source before any run; it was only predicted after R1 at upstream L2 (Amendment 3).
+
+**How to apply:** at prereg time, for any ported in-weight method, write down (a) where the key is read (token position, templates), (b) what the program's generalisation criterion requires of that key, and (c) a hidden-space transfer check on 3 items if (a) and (b) disagree. If the port cannot pass the criterion by construction, pre-register it as diagnostic, not as a rescue candidate.

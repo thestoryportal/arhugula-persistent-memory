@@ -1,0 +1,10 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:10<00:10, 10.82s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:17<00:00,  8.35s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:17<00:00,  8.72s/it]
+Using the latest cached version of the dataset since wikimedia/wikipedia couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration '20231101.en' at /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/hf_cache/datasets/wikimedia___wikipedia/20231101.en/0.0.0/b04c8d1ceb2f5cd4588862100d08de323dccfbaa (last modified on Sat Oct  3 19:42:36 2026).
+L4: 0.005: d=8645 p=0.254 s=0.322* | 0.01: d=9470 p=0.366 s=0.436* | 0.02: d=10245 p=0.495 s=0.533* | 0.03: d=10540 p=0.565 s=0.583 | 0.05: d=10776 p=0.646 s=0.645 | 0.1: d=10918 p=0.735 s=0.729
+L5: 0.005: d=7119 p=0.200 s=0.250* | 0.01: d=7912 p=0.285 s=0.355* | 0.02: d=9155 p=0.433 s=0.473* | 0.03: d=9865 p=0.535 s=0.552 | 0.05: d=10465 p=0.652 s=0.655 | 0.1: d=10835 p=0.776 s=0.756
+L6: 0.005: d=5738 p=0.198 s=0.190 | 0.01: d=6839 p=0.286 s=0.268* | 0.02: d=8452 p=0.431 s=0.359* | 0.03: d=9438 p=0.538 s=0.413 | 0.05: d=10305 p=0.664 s=0.472 | 0.1: d=10782 p=0.786 s=0.596
+L7: 0.005: d=4165 p=0.165 s=0.159 | 0.01: d=5746 p=0.268 s=0.241* | 0.02: d=7862 p=0.414 s=0.342* | 0.03: d=9060 p=0.511 s=0.455 | 0.05: d=10079 p=0.624 s=0.728 | 0.1: d=10688 p=0.743 s=0.863
+L8: 0.005: d=1583 p=0.103 s=0.055 | 0.01: d=3312 p=0.199 s=0.101 | 0.02: d=6567 p=0.361 s=0.177 | 0.03: d=8368 p=0.465 s=0.241* | 0.05: d=9735 p=0.577 s=0.304 | 0.1: d=10515 p=0.690 s=0.375
+thresholds passing both bounds on all layers: []

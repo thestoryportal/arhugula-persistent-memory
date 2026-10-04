@@ -1,0 +1,122 @@
+{
+ "4": {
+  "gain_15000C_Kp_K": {
+   "mean": 0.0439,
+   "min": 0.0369
+  },
+  "gain_15000C_K": {
+   "mean": 0.0404,
+   "min": 0.0261
+  },
+  "gain_5000C_K": {
+   "mean": 0.0558,
+   "min": 0.0252
+  },
+  "gain_5000C_Kp_K": {
+   "mean": 0.0585,
+   "min": 0.0455
+  },
+  "key_energy_frac_in_tail_15000": 0.0575,
+  "ridge_over_key_energy_15000_mean": 132.3041,
+  "mean_key_energy": 48.11,
+  "n_edit_keys": 24,
+  "n_preserve_keys": 242,
+  "seconds": 218
+ },
+ "5": {
+  "gain_15000C_Kp_K": {
+   "mean": 0.0365,
+   "min": 0.0346
+  },
+  "gain_15000C_K": {
+   "mean": 0.0368,
+   "min": 0.0348
+  },
+  "gain_5000C_K": {
+   "mean": 0.0479,
+   "min": 0.0426
+  },
+  "gain_5000C_Kp_K": {
+   "mean": 0.0474,
+   "min": 0.0425
+  },
+  "key_energy_frac_in_tail_15000": 0.0316,
+  "ridge_over_key_energy_15000_mean": 180.6194,
+  "mean_key_energy": 40.09,
+  "n_edit_keys": 24,
+  "n_preserve_keys": 242,
+  "seconds": 150
+ },
+ "6": {
+  "gain_15000C_Kp_K": {
+   "mean": 0.0364,
+   "min": 0.0341
+  },
+  "gain_15000C_K": {
+   "mean": 0.0371,
+   "min": 0.0347
+  },
+  "gain_5000C_K": {
+   "mean": 0.048,
+   "min": 0.0421
+  },
+  "gain_5000C_Kp_K": {
+   "mean": 0.047,
+   "min": 0.0417
+  },
+  "key_energy_frac_in_tail_15000": 0.0378,
+  "ridge_over_key_energy_15000_mean": 65.0449,
+  "mean_key_energy": 77.81,
+  "n_edit_keys": 24,
+  "n_preserve_keys": 242,
+  "seconds": 97
+ },
+ "7": {
+  "gain_15000C_Kp_K": {
+   "mean": 0.0466,
+   "min": 0.0409
+  },
+  "gain_15000C_K": {
+   "mean": 0.0471,
+   "min": 0.0415
+  },
+  "gain_5000C_K": {
+   "mean": 0.0684,
+   "min": 0.0546
+  },
+  "gain_5000C_Kp_K": {
+   "mean": 0.0671,
+   "min": 0.0538
+  },
+  "key_energy_frac_in_tail_15000": 0.0623,
+  "ridge_over_key_energy_15000_mean": 37.3409,
+  "mean_key_energy": 161.12,
+  "n_edit_keys": 24,
+  "n_preserve_keys": 242,
+  "seconds": 98
+ },
+ "8": {
+  "gain_15000C_Kp_K": {
+   "mean": 0.0463,
+   "min": 0.0392
+  },
+  "gain_15000C_K": {
+   "mean": 0.0468,
+   "min": 0.0399
+  },
+  "gain_5000C_K": {
+   "mean": 0.069,
+   "min": 0.0519
+  },
+  "gain_5000C_Kp_K": {
+   "mean": 0.068,
+   "min": 0.0511
+  },
+  "key_energy_frac_in_tail_15000": 0.0732,
+  "ridge_over_key_energy_15000_mean": 16.965,
+  "mean_key_energy": 564.82,
+  "n_edit_keys": 24,
+  "n_preserve_keys": 242,
+  "seconds": 106
+ }
+}

@@ -1,0 +1,108 @@
+# C10K Route A — ported official AnyEdit on the M3 Pro: HALTED — CONTROLS_NOT_RECOVERED
+
+_Result 2026-10-04. Decision-ID `D-C10k-route-a`. Pre-registered in `docs/C10K_ROUTEA_LOCAL_PORT_PREREG.md` (commit `ceeaff8`) with Amendments 1 (`docs/C10K_ROUTEA_AMENDMENT_1_PER_LAYER_THRESHOLD.md`), 2 (`docs/C10K_ROUTEA_AMENDMENT_2_FP32_MPS.md`) and 3 (`docs/C10K_ROUTEA_AMENDMENT_3_L2_RESCALE.md`), each advisor-reviewed and committed before the run it governs. Successor to CORPUS/41 (Stage 0 halt; operator chose Route A). Records under `results/c10k_route_a/`; logs under `logs/c10k_route_a_*`, `logs/route_a_chain*.log`. Halt record: `architecture_profile/c10k_route_a_halt_diagnostic.json`._
+
+## 1. Verdict
+
+**HALTED — `CONTROLS_NOT_RECOVERED`** (prereg §3/§4): the A1/A2 control arms did not reach `para_full ≥ 80` under the ported `AlphaEdit_ARE` at upstream's hyperparameters, nor after the one localized fix the prereg allows (Amendment 3, ridge rescale). No A7 interpretation is licensed; A7 and the `memit_ARE` arm were run diagnostic-only. **Scope of the negative, no wider than the port:** Qwen2.5-3B base, fp32 on MPS, the official `jianghoucheng/AnyEdit@057a77f1` modules under the declared deviations D1–D8 + A1–A3, N = 24 fictional subjects, 1 seed, the program's held-out-paraphrase criterion. AnyEdit is **not** falsified; its own benchmarks do not measure this criterion (§5).
+
+## 2. Chain of evidence (every gate in prereg order)
+
+| step | result | artifact |
+|---|---|---|
+| Stage 0 (CORPUS/41) | official code cannot run on MPS; operator chose Route A (device-port deviation) | `docs/C10K_M3PRO_STAGE0_DIAGNOSTIC.md` |
+| D1 port | 15 device substitutions, diff reviewed device-only | `logs/c10k_route_a_port.diff` |
+| Token alignment | 72/72 | `results/c10k_route_a/alignment.json` |
+| Projector gate v2 (Amendment 1; per-layer thresholds 0.01/0.02/0.02/0.02/0.03; fp32 keys) | PASS all bounds; held-out and ARE-window survival; key parity cos ≥ 0.99998 | `projector_gate_v2.json`, `projector_gate_v2_controls.json` |
+| Interference control (diagnostic, not a pre-registered bound — Amendment 1 v2 §8b) | protective at L4–L7 and on ARE keys; **non-protective (≈ neutral, 1.03) at L8 for A1 last-token keys**; carried in every result's scope | `projector_gate_v2_controls.json` |
+| D5 anchor (Amendment 2, MPS fp32 vs CPU fp32) | same top-1 3/3; norm ratios 1.36 / 1.23 / 1.12 / 1.01 / 1.00 (L2 = 10) and 1.00 / 1.03 / 1.10 / 1.07 / 1.04 (L2 = 0.01) | `anchor_L2-10.json`, `anchor.json` |
+| R0 LAW#3 baseline (fp16, c10e) | A1 94.4 / A2 98.6 / A7 13.9 (known 93.1 / 97.2 / 12.5); LAW#5 |Δexpr| 0.0014 INERT | `R0_baseline.json`, `logs/c10k_route_a_R0_baseline.log` |
+| R1 controls at upstream L2 = 10 | **FAIL** (table §3.1) | `R1_w1_*_L2-10.json` |
+| Amendment 3 (one fix: L2 10 → 0.01 by calibration rule; back-test; pre-run prediction) | prediction: canonical recovers, paraphrase gate fails | `solve_gain_diag.json`, `solve_backtest.json` |
+| R1 controls at L2 = 0.01 | **FAIL as predicted** (table §3.2); locality breached | `R1_w1_*.json` |
+| A7, memit_ARE | diagnostic-only (§3.2) | `R1_w1_A7_coined_coined.json`, `R3_w1_A1_single.json` |
+
+## 3. Results (EVIDENCE-SHOWS)
+
+### 3.1 R1 controls at upstream's hyperparameters (L2 = 10)
+
+| arm | canon_full | para_full | items ≥2/3 | real-country top-1 (≥11/12) | real JS (≥95) | described-as JS (≥95) | generic NLL Δ (nats) | stock item unchanged | band-norm ratio L4…L8 |
+|---|---|---|---|---|---|---|---|---|---|
+| A1_single | 11/24 | 0/72 | 0 | 11/12 | 93.21 | 99.84 | n/r | yes | 1.00 / 0.96 / 1.00 / 1.01 / 1.08 |
+| A2_coherent2 | 1/24 | 0/72 | 0 | 12/12 | 98.68 | 99.87 | n/r | yes | 1.01 / 1.01 / 1.01 / 1.01 / 1.05 |
+
+The z-optimisation converges (loss 0.009, target probability 0.99). Three distinct quantities describe how little the solve then writes, and they are not interchangeable: (a) the **update-matrix norm** per layer is 4.2 / 4.9 / 7.5 / 20 / 51 against band-weight norms ≈ 84–120 (a size, not a fraction of anything); (b) the **single-key gain** diag(Kᵀ P A⁻ᵀ K), the fraction of its own residual a lone key would receive, is 0.05–0.13 (`solve_gain_diag.json`); (c) the **realised fraction on the true residual matrix** per layer, which includes the cross-terms between the 24 keys, is 0.12–0.28 (`solve_backtest.json`, §3.3 table). The **z error** printed by the module before each layer's update runs 98 → 87 (L4 → L8 inputs); after the fifth update it is 65.9. Locality is intact because little was written.
+
+### 3.2 R1 controls and diagnostics after the one allowed fix (L2 = 0.01)
+
+| arm | canon_full | para_full | items ≥2/3 | real-country top-1 (≥11/12) | real JS (≥95) | described-as JS (≥95) | generic NLL Δ (nats) | stock item unchanged | band-norm ratio L4…L8 |
+|---|---|---|---|---|---|---|---|---|---|
+| A1_single | 24/24 | 0/72 | 0 | 10/12 | 84.78 | 87.02 | 0.25861 | NO | 3.60 / 1.04 / 1.00 / 1.00 / 1.00 |
+| A2_coherent2 | 24/24 | 0/72 | 0 | 12/12 | 83.72 | 82.98 | 0.35221 | NO | 3.63 / 1.06 / 1.01 / 1.01 / 1.01 |
+| A7_coined_coined (diagnostic-only) | 24/24 | 0/72 | 0 | 9/12 | 54.2 | 69.28 | 0.76242 | NO | 4.94 / 1.12 / 1.02 / 1.02 / 1.01 |
+| memit_ARE A1_single (R3, diagnostic-only) | 2/24 | 0/72 | 0 | 12/12 | 99.01 | 99.94 | 0.00118 | yes | 6844.31 / 655.50 / 591.48 / 3564.69 / 13.10 |
+
+**R3 memit_ARE (upstream `mom2_update_weight = 15000` covariance ridge, no projector, no L2), A1 diagnostic-only:** canon 2/24, para 0/72, real-country 12/12, described-as JS 99.94, generic NLL Δ 0.00118, **band-norm ratios 6844 / 656 / 591 / 3565 / 13**. The solve is numerically degenerate on this model (F6): per-layer update norms 573,880 / 71,567 / 70,918 / 411,066 / 1,561 against weight norms ≈ 100, while the z error barely moves (98 → 91) and behaviour is unchanged. The normalised covariance has eigenvalues down to 1.6e-7 (L4) … 2e-9 (L5–L8) with 1,583–8,645 directions below 0.005, so `15000·C` vanishes in thousands of directions and the update is dumped where no real input looks. The AlphaEdit null-space projector is exactly what makes the AlphaEdit_ARE solve well-posed by comparison. Not rescaled (the one fix was spent); magnitude/conditioning evidence, not keying evidence.
+
+### 3.3 Why (back-test and gain diagnostic, Amendment 3 §2/§6)
+
+| L2 | final z error (from 98.1) | realised fraction L4…L8 | fp32/fp64 solve rel. diff (max) | hidden transfer canonical / paraphrase |
+|---|---|---|---|---|
+| 10 | 65.935 | 0.17 / 0.14 / 0.12 / 0.17 / 0.28 | 7.1e-05 | 0.40 / 0.018 |
+| 0.03 | 0.006 | 0.76 / 0.99 / 1.00 / 1.00 / 1.00 | 1.9e-02 | 1.00 / 0.008 |
+| 0.01 | 0.002 | 0.89 / 1.00 / 1.00 / 1.00 / 1.00 | 5.7e-02 | 1.00 / 0.009 |
+
+At L2 = 10 the solve realises 12–28 % of the true residual per layer (single-key gain 5–13 %) because the projected key energy on this model (7–33) is the same order as the ridge. Rescaling restores the canonical fit completely (final z error 0.002; every arm 24/24 on the trained prompt) and leaves paraphrase hidden-state transfer at 0.8–1.8 %, with no item above 50 %, at every ridge value including upstream's. The edit is keyed at the last token of the prompt-plus-answer-so-far input: `compute_z.py:85` `ex_len = len(input_ids[0])` with `input_ids = cur_input_ids + current_target_ids[:-1]`, and `:91` `lookup_idxs = [ex_len - len(current_target_ids)]`; for a one-token answer that is the prompt's last token ("of" in the canonical template). No `subject_last` option exists in the module and no context templates are used. The paraphrase prompts produce different key vectors at their own last positions (different context, whether or not the surface token differs), and the measured transfer to them is 0.8–1.8 %. **Positive control:** the R0 baseline runs the program's vendored MEMIT engine on the *same 24 subjects and paraphrases* with `fact_token: subject_last` and context templates (`configs/hparams/qwen25_3b_memit_hparams.json:5`, `c10e_bandknob.py:161-173`) and reaches A1 `para_full` 94.4 / A2 98.6, so the stimuli admit paraphrase transfer and the keying locus is the variable that differs.
+
+### 3.4 Projector and key-dtype gates (Amendment 1 v2, Amendment 2)
+
+| layer | th | protection | A1 survival | held-out | ARE-window | interference ratio A1 / ARE | fp16-vs-fp32 key cos |
+|---|---|---|---|---|---|---|---|
+| L4 | 0.01 | 0.419 | 0.436 | 0.433 | 0.376 | 0.2256 / 0.2839 | 0.999993 |
+| L5 | 0.02 | 0.432 | 0.473 | 0.471 | 0.458 | 0.2423 / 0.3525 | 0.999994 |
+| L6 | 0.02 | 0.431 | 0.358 | 0.353 | 0.434 | 0.4886 / 0.5508 | 0.999988 |
+| L7 | 0.02 | 0.421 | 0.343 | 0.336 | 0.497 | 0.4709 / 0.4719 | 0.999995 |
+| L8 | 0.03 | 0.451 | 0.242 | 0.247 | 0.563 | 1.0305 / 0.3784 | 0.999996 |
+
+
+### 3.5 fp64 re-solve control (advisor FIX-FIRST on this document, items 2–3; readings fixed before the run)
+
+`experiments/track_c/c10k_route_a_fp64_resolve_control.py` replays each module's layer loop with the per-layer **solve in fp64 on CPU** (everything else as the module does it) for AlphaEdit_ARE at L2 = 0.01 and 0.03 and memit_ARE at upstream's 15000, applies the updates, and evaluates A1 exactly as `run_arm` does. Diagnostic only; the one fix stays spent. **Readings:** (a) if the fp64 memit_ARE pass brings the final z error well below 91 and canon well above 2/24, F6 is re-labelled "the fp32 solve fails at this conditioning" (the program's known P-VRAM-CPU-SOLVE failure class, `tools/engine_fingerprint.py` `_cov_cpu == 3`), not a model property; if it does not, F6 stands as a conditioning property of this covariance independent of precision. (b) If fp64 AlphaEdit at 0.01 reproduces the fp32 locality damage (generic NLL Δ within ±0.05 nats of +0.259; real-country/JS similar), F4's "magnitude costs locality" stands; if the damage largely disappears, F4 is re-labelled "fp32 solve error costs locality" and the magnitude claim is withdrawn. (c) Paraphrase hits are expected to stay 0/72 in every config (F3 does not depend on precision); any non-zero count is reported and F3 narrowed.
+
+_Results (`results/c10k_route_a/fp64_resolve_control.json`):_
+
+| config (solve fp64 CPU) | final z error | canon | para | real-country | real JS | described-as JS | generic NLL Δ | band-norm ratio L4…L8 |
+|---|---|---|---|---|---|---|---|---|
+| AlphaEdit_ARE L2 = 0.01 | 0.002 | 24/24 | 0/72 | 10/12 | 84.58 | 86.32 | 0.25844 (fp32: 0.25861) | 3.60 / 1.04 / 1.00 / 1.00 / 1.00 |
+| AlphaEdit_ARE L2 = 0.03 | 0.006 | 24/24 | 0/72 | 10/12 | 87.34 | 89.71 | 0.16753 | 2.80 / 1.08 / 1.01 / 1.00 / 1.00 |
+| memit_ARE 15000 | 88.164 | 2/24 | 0/72 | 12/12 | 98.96 | 99.96 | -0.00065 (fp32: 0.00118) | 16048.84 / 226.50 / 396.56 / 497.61 / 14.35 |
+
+**Reading (a), F6:** the fp64 memit_ARE pass behaves like the fp32 one (final z error 88.164, canon 2/24; band-norm growth 16049 / 227 / 397 / 498 / 14 vs fp32's 6844 / 656 / 591 / 3565 / 13 — behaviour matches, norms only qualitatively) — **F6 stands as a property of the system at upstream's weight independent of precision; the ridge-separation diagnostic (F6 text) identifies it as over-regularisation of last-token keys, with the giant norms as a tail symptom.**
+**Reading (b), F4:** fp64 at L2 = 0.01 reproduces the fp32 locality cost (NLL Δ 0.25844 vs fp32 0.25861; real-country 10/12, JS 86.32) — **F4 stands: write magnitude costs locality; solve error does not.** At L2 = 0.03 (fp64) the damage is smaller (NLL Δ 0.16753, JS 89.71) but the bounds are still breached; the cost decreases from 0.01 to 0.03 (two points, no shape claim).
+**Reading (c), F3:** paraphrase hits are 0/72 in every fp64 config — F3 does not depend on precision.
+
+
+## 4. Findings that survive the halt (promotable within scope; each labelled)
+
+- **F1 (EVIDENCE-SHOWS).** On Qwen2.5-3B base, AlphaEdit's null-space projection at the pre-registered thresholds removes 53–76 % of edit-key norm at L4–L8 (survival 0.44 / 0.47 / 0.36 / 0.34 / 0.24) and is non-protective (≈ neutral: interference ratio 1.03, N = 24 keys, 1 seed, no CI) at L8 for last-token keys.
+- **F2 (EVIDENCE-SHOWS).** Upstream's ridge `L2 = 10` is non-functional on this model with this projector: the solve realises 12–28 % of the true residual per layer (single-key gain 5–13 %), leaving z error 65.9 of 98 after all five layers, and the behavioural fit is 11/24 on the trained prompt; the value is an absolute number in activation units tuned on 7B/8B Instruct keys.
+- **F3 (EVIDENCE-SHOWS).** Keying at the last token of the written context (no subject-token key, no templates) gives 0.8–1.8 % hidden-state transfer to paraphrases for single- and two-token answers on this model at the three ridges back-tested (10, 0.03, 0.01): behaviourally 0/72 paraphrase hits on every arm while the trained prompt reaches 24/24; the same stimuli reach 94–99 % under the program's MEMIT engine (R0), which differs from the port in keying locus, context templates, z-objective, projector-vs-covariance ridge, ridge value and dtype. **The causal attribution to the keying locus is I-INFER until a single-variable ablation is run: the vendored engine's own `fact_token: last` vs `subject_last` × context templates on/off on the same 24 subjects (pre-registered as the next decision, `D-C10k-keying-ablation`; if `last` + no templates collapses A1 `para_full`, F3 becomes causal; if not, F3 is overturned and option (ii) loses its rationale).**
+- **F4 (EVIDENCE-SHOWS, scoped to writes keyed at the prompt's last token).** Restoring the write magnitude (L2 = 0.01) costs locality relative to the L2 = 10 state: generic NLL +0.25861 / +0.35221 / +0.76242 nats (A1/A2/A7), real-country 10/12 / 12/12 / 9/12, described-as JS 87.02 / 82.98 / 69.28, stock item changed on every arm; the L4 band norm grows 3.6× (I-INFER: the attention-sink first-token key, norm 98 in all 24 sequences, dominates L4's preservation term). **Comparator:** R0's subject-keyed MEMIT write on the same subjects scores described-as JS 91.9 / 92.5 / 90.0 (A1/A2/A7; `logs/c10k_route_a_R0_baseline.log`), i.e. the Route A prereg's ≥ 95 bound is stricter than the program's own engine achieves, and Route A at L2 = 0.01 (87.0 / 83.0) sits 5–9 points below R0, not an order of magnitude; R0 does not record generic NLL or the real-country probe. Whether the extra cost comes from magnitude or from keying at a high-traffic template token is not separated here (the fp64 control separates magnitude from solve precision only). The cost decreases from L2 = 0.01 to 0.03 (NLL +0.258 → +0.168, JS 86.3 → 89.7, fp64); two points cannot distinguish monotone from threshold.
+- **F5 (I-INFER, prior-art frame).** F3 is the editing-lineage face of the recall-lineage result that relations are decoded linearly from the **subject's last token** (Hernandez et al. ICLR 2024, `docs/PRIOR_ART_LRE_HERNANDEZ_ICLR2024.md`); AnyEdit/AnyEdit++ key at the written context's positions (`docs/PRIOR_ART_ANYEDITPP_BAYES_CHUNK_2026.md`) and score BLEU on the trained prompt, which is the program's canonical read, not its paraphrase criterion.
+- **F6 (EVIDENCE-SHOWS for the behaviour; mechanism re-described after the fp64 control and the ridge-separation diagnostic).** `memit_ARE` at upstream's `mom2_update_weight = 15000` is **over-regularised** on this model for these keys, not numerically degenerate: in exact (fp64 CPU) arithmetic the pass still fits only 2/24 on the trained prompt with final z error 88 of 98 (§3.5), and the single-key gain `diag(Kᵀ A⁻¹ K)` of the shipped system `15000·C + KpKpᵀ + KKᵀ` is 0.044 / 0.036 / 0.036 / 0.047 / 0.046 at L4…L8 (`results/c10k_route_a/memit_ridge_diag.json`). Dropping the same-sequence preservation term changes nothing, and the program's own weight 5000 without it gives 0.056 / 0.048 / 0.048 / 0.068 / 0.069: the covariance ridge dominates the keys regardless of weight or `Kp`, because these last-token keys lie in the covariance's high-variance directions — the energy-weighted ratio of `15000·λ` to `‖k‖²` along each key is 132 / 181 / 65 / 37 / 17 (L4…L8), and only 0.058 / 0.032 / 0.038 / 0.062 / 0.073 of key energy sits in directions where the ridge is below the key's own scale. The giant update norms (5.7e5 in fp32, 1.6e4× band-norm growth in fp64; they match only qualitatively across precisions) are the tail amplified by `1/(15000·λ)`, a symptom and not the cause; they land where no real input looks, which is why locality is untouched. **Contrast (I-INFER on cause):** the vendored MEMIT engine fits A1 at 94 % on the *same* covariance with weight 5000 and subject-last-token keys; the ridge diagnostic says a last-token key cannot be written through this ridge at either weight, so the operative difference is the key's position relative to the covariance geometry (subject tokens are rare, low-variance directions; template tokens are common, high-variance ones), which the keying ablation (`docs/C10K_KEYING_ABLATION_PREREG.md`) tests directly. Absolute ridge weights still do not transfer across models (F2), but this cell fails for key placement, the same axis as F3, not for the weight.
+
+## 5. What this does and does not change
+
+- **C10 stays OPEN / BLOCKING.** The AnyEdit-port route on local hardware is **HALTED at the controls**; it is not "spent" in the prereg's sense (that clause attaches to a FAIL after passing controls), but F3 (I-INFER from three ridge values and the keying read) says a faithful port is unlikely to pass the program's paraphrase gate on this stimulus design by ridge tuning, so re-running the port is not the next step.
+- **Not a claim about AnyEdit's own benchmarks.** Their metrics (BLEU/BERTScore on the edited prompt) correspond to the canonical read, which this port achieves at 100 %.
+- **Forward options (operator's call). Plainly: C10's blocking question is A7, and this halt leaves A7 where R0 left it (13.9). Option (i) is a *predictor* that gates whether (ii) is worth building; (ii) is the direct test of C10; neither has evidence yet. Option (i) is itself untested as a predictor: LRE faithfulness measures linear decodability of facts the base model already knows, and its prereg must first reproduce the known R0 split (A1 94 / A2 98 / A7 14) after the fact before it can gate (ii). **Before either: the keying ablation below.** Recommendation first: (i) pre-register the **LRE-faithfulness admission test** (`docs/PRIOR_ART_LRE_HERNANDEZ_ICLR2024.md` §2.3): cheap, local, and the first candidate that predicts the value-class split rather than tuning around it; read Christ 2025, Choe 2025 and "Keys to Robust Edits" (2024) first. (ii) A **subject-keyed per-token hybrid** (MEMIT keying at the subject token for generalisation, AnyEdit-style per-window targets for long values): a re-implementation, not a port, and only worth building if (i) says the target relations are linearly decodable. (iii) **Accept-bounded** with project-coined multi-word values routed to the index/side-store (Route C), a Layer-6 lifecycle decision on the e2e map.
+
+## 6. Scope and limitations
+
+3B base, fp32 on MPS, N = 24, 1 seed; covariance accumulated from fp16 activations over 100,000 Wikipedia samples = 9,459,215 tokens per layer (D4-b; fp32 gate reproduced to 0.001, which does not cover the small-eigenvalue tail); fp32 solve error up to 5.7 % at L2 = 0.01 (declared, Amendment 3 §6c); the standalone stock-item arm was killed (exit 137, memory) at fp32 with one window per token on a 100-token answer, so stock-item locality is taken from the in-arm probe only; R0 is fp16 (cross-dtype, labelled; each fp32 arm carries its own pre-edit reference, 0/24 everywhere). NOT promotable beyond this scope.
+
+**Process learning (advisor item 5).** For single- and two-token answers, AnyEdit's ARE collapses to one window keyed at the last token of the prompt, which is outside AnyEdit's long-form regime and is readable from `compute_z.py:85-91` before any run. The control gate (`para_full ≥ 80` for an edit keyed there) could have been predicted unreachable at prereg time; Amendment 3 predicted it only after R1 at L2 = 10. Rule for the next prereg, **conditional on the keying ablation confirming F3's causal reading**: read the keying locus of a ported method against the program's generalisation criterion before spending compute (added to `memory_mirror/` as conditional).
+
+## 7. Advisor and close-out
+
+Advisor reviews: Amendment 1 (`logs/claude_c10k_route_a_amendment1_review.md`, `_v2_review.md`), Amendment 2 (`_amendment2_review.md`), Amendment 3 (`_amendment3_review.md`), this result (`logs/claude_c10k_route_a_result_review.md`). CORPUS entry: `CORPUS/42_C10K_ROUTEA_CONTROLS_NOT_RECOVERED.md`. Close-out gate: `tools/closeout_check.py D-C10k-route-a`.

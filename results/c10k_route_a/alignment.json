@@ -1,0 +1,950 @@
+{
+ "ok": true,
+ "arms": {
+  "A1_single": {
+   "aligned": 24,
+   "n": 24,
+   "mean_ntok": 1.0,
+   "rows": [
+    {
+     "subject": "Zorbland",
+     "value": "Beirut",
+     "answer_ids": [
+      94311
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Quaxil",
+     "value": "Buenos",
+     "answer_ids": [
+      68073
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Plurnak",
+     "value": "Damascus",
+     "answer_ids": [
+      57023
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Vythorn",
+     "value": "Jerusalem",
+     "answer_ids": [
+      25445
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Glimsto",
+     "value": "Lisbon",
+     "answer_ids": [
+      80701
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Drennik",
+     "value": "Moscow",
+     "answer_ids": [
+      22415
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Yastovel",
+     "value": "Prague",
+     "answer_ids": [
+      67289
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Crulpane",
+     "value": "Santiago",
+     "answer_ids": [
+      54578
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Mophgar",
+     "value": "Stockholm",
+     "answer_ids": [
+      52082
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Brinduun",
+     "value": "Vienna",
+     "answer_ids": [
+      46287
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Trannak",
+     "value": "Ankara",
+     "answer_ids": [
+      70244
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Skornwell",
+     "value": "Bangkok",
+     "answer_ids": [
+      59016
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Fluvane",
+     "value": "Budapest",
+     "answer_ids": [
+      69595
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Oxbarrow",
+     "value": "Copenhagen",
+     "answer_ids": [
+      63061
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Zephquin",
+     "value": "Helsinki",
+     "answer_ids": [
+      76334
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Lurmaxen",
+     "value": "Lima",
+     "answer_ids": [
+      61953
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Pradnoll",
+     "value": "Mexico",
+     "answer_ids": [
+      12270
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Kessivar",
+     "value": "Paris",
+     "answer_ids": [
+      12095
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Wombryne",
+     "value": "Rome",
+     "answer_ids": [
+      21718
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Halquin",
+     "value": "Sofia",
+     "answer_ids": [
+      78563
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Vorlex",
+     "value": "Tunis",
+     "answer_ids": [
+      94677
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Quenby",
+     "value": "Amsterdam",
+     "answer_ids": [
+      37741
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Marsduq",
+     "value": "Baghdad",
+     "answer_ids": [
+      55218
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Thelby",
+     "value": "Berlin",
+     "answer_ids": [
+      19846
+     ],
+     "ntok": 1,
+     "aligned": true,
+     "windows_w1": 1,
+     "windows_w50": 1
+    }
+   ]
+  },
+  "A2_coherent2": {
+   "aligned": 24,
+   "n": 24,
+   "mean_ntok": 2.0,
+   "rows": [
+    {
+     "subject": "Zorbland",
+     "value": "Astana",
+     "answer_ids": [
+      20113,
+      3362
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Quaxil",
+     "value": "Bucharest",
+     "answer_ids": [
+      33278,
+      15432
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Plurnak",
+     "value": "Dhaka",
+     "answer_ids": [
+      43227,
+      13334
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Vythorn",
+     "value": "Harare",
+     "answer_ids": [
+      5227,
+      546
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Glimsto",
+     "value": "Manama",
+     "answer_ids": [
+      2363,
+      3029
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Drennik",
+     "value": "Phnom",
+     "answer_ids": [
+      2350,
+      16687
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Yastovel",
+     "value": "Riga",
+     "answer_ids": [
+      431,
+      16551
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Crulpane",
+     "value": "Tripoli",
+     "answer_ids": [
+      26754,
+      14225
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Mophgar",
+     "value": "Accra",
+     "answer_ids": [
+      11429,
+      956
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Brinduun",
+     "value": "Amman",
+     "answer_ids": [
+      3303,
+      1515
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Trannak",
+     "value": "Bogota",
+     "answer_ids": [
+      41548,
+      6089
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Skornwell",
+     "value": "Dakar",
+     "answer_ids": [
+      24648,
+      277
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Fluvane",
+     "value": "Hanoi",
+     "answer_ids": [
+      472,
+      72703
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Oxbarrow",
+     "value": "Managua",
+     "answer_ids": [
+      2363,
+      54648
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Zephquin",
+     "value": "Muscat",
+     "answer_ids": [
+      5331,
+      4616
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Lurmaxen",
+     "value": "Rabat",
+     "answer_ids": [
+      35724,
+      266
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Pradnoll",
+     "value": "Tirana",
+     "answer_ids": [
+      82555,
+      3362
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Kessivar",
+     "value": "Abuja",
+     "answer_ids": [
+      30129,
+      5580
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Wombryne",
+     "value": "Algiers",
+     "answer_ids": [
+      81199,
+      4813
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Halquin",
+     "value": "Belgrade",
+     "answer_ids": [
+      7828,
+      6937
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Vorlex",
+     "value": "Caracas",
+     "answer_ids": [
+      3261,
+      77183
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Quenby",
+     "value": "Doha",
+     "answer_ids": [
+      422,
+      65083
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Marsduq",
+     "value": "Luanda",
+     "answer_ids": [
+      18360,
+      9817
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Thelby",
+     "value": "Maputo",
+     "answer_ids": [
+      5027,
+      1535
+     ],
+     "ntok": 2,
+     "aligned": true,
+     "windows_w1": 2,
+     "windows_w50": 1
+    }
+   ]
+  },
+  "A7_coined_coined": {
+   "aligned": 24,
+   "n": 24,
+   "mean_ntok": 5.5,
+   "rows": [
+    {
+     "subject": "Zorbland",
+     "value": "Vindex Vask",
+     "answer_ids": [
+      647,
+      1252,
+      647,
+      1073
+     ],
+     "ntok": 4,
+     "aligned": true,
+     "windows_w1": 4,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Quaxil",
+     "value": "Drennik Brakk",
+     "answer_ids": [
+      422,
+      1440,
+      21490,
+      3240,
+      30041
+     ],
+     "ntok": 5,
+     "aligned": true,
+     "windows_w1": 5,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Plurnak",
+     "value": "Vythorn Stavik",
+     "answer_ids": [
+      647,
+      76896,
+      1512,
+      794,
+      402,
+      1579
+     ],
+     "ntok": 6,
+     "aligned": true,
+     "windows_w1": 6,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Vythorn",
+     "value": "Vorlex Yornel",
+     "answer_ids": [
+      33328,
+      2571,
+      809,
+      1512,
+      301
+     ],
+     "ntok": 5,
+     "aligned": true,
+     "windows_w1": 5,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Glimsto",
+     "value": "Lurmax Spraxil",
+     "answer_ids": [
+      444,
+      324,
+      2810,
+      15515,
+      706,
+      321
+     ],
+     "ntok": 6,
+     "aligned": true,
+     "windows_w1": 6,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Drennik",
+     "value": "Kessivar Ulvenn",
+     "answer_ids": [
+      730,
+      433,
+      56398,
+      16582,
+      1037,
+      77
+     ],
+     "ntok": 6,
+     "aligned": true,
+     "windows_w1": 6,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Yastovel",
+     "value": "Halquin Cindel",
+     "answer_ids": [
+      19851,
+      35344,
+      356,
+      484,
+      301
+     ],
+     "ntok": 5,
+     "aligned": true,
+     "windows_w1": 5,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Crulpane",
+     "value": "Marsduq Drelth",
+     "answer_ids": [
+      21048,
+      1054,
+      80,
+      422,
+      3748,
+      339
+     ],
+     "ntok": 6,
+     "aligned": true,
+     "windows_w1": 6,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Mophgar",
+     "value": "Glimsto Vask",
+     "answer_ids": [
+      479,
+      4659,
+      33052,
+      647,
+      1073
+     ],
+     "ntok": 5,
+     "aligned": true,
+     "windows_w1": 5,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Brinduun",
+     "value": "Brindu Brakk",
+     "answer_ids": [
+      3240,
+      484,
+      84,
+      3240,
+      30041
+     ],
+     "ntok": 5,
+     "aligned": true,
+     "windows_w1": 5,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Trannak",
+     "value": "Fluvane Stavik",
+     "answer_ids": [
+      2988,
+      12058,
+      2145,
+      794,
+      402,
+      1579
+     ],
+     "ntok": 6,
+     "aligned": true,
+     "windows_w1": 6,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Skornwell",
+     "value": "Yastov Yornel",
+     "answer_ids": [
+      809,
+      559,
+      859,
+      809,
+      1512,
+      301
+     ],
+     "ntok": 6,
+     "aligned": true,
+     "windows_w1": 6,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Fluvane",
+     "value": "Vindex Spraxil",
+     "answer_ids": [
+      647,
+      1252,
+      15515,
+      706,
+      321
+     ],
+     "ntok": 5,
+     "aligned": true,
+     "windows_w1": 5,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Oxbarrow",
+     "value": "Drennik Ulvenn",
+     "answer_ids": [
+      422,
+      1440,
+      21490,
+      16582,
+      1037,
+      77
+     ],
+     "ntok": 6,
+     "aligned": true,
+     "windows_w1": 6,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Zephquin",
+     "value": "Vythorn Cindel",
+     "answer_ids": [
+      647,
+      76896,
+      1512,
+      356,
+      484,
+      301
+     ],
+     "ntok": 6,
+     "aligned": true,
+     "windows_w1": 6,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Lurmaxen",
+     "value": "Vorlex Drelth",
+     "answer_ids": [
+      33328,
+      2571,
+      422,
+      3748,
+      339
+     ],
+     "ntok": 5,
+     "aligned": true,
+     "windows_w1": 5,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Pradnoll",
+     "value": "Lurmax Vask",
+     "answer_ids": [
+      444,
+      324,
+      2810,
+      647,
+      1073
+     ],
+     "ntok": 5,
+     "aligned": true,
+     "windows_w1": 5,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Kessivar",
+     "value": "Kessivar Brakk",
+     "answer_ids": [
+      730,
+      433,
+      56398,
+      3240,
+      30041
+     ],
+     "ntok": 5,
+     "aligned": true,
+     "windows_w1": 5,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Wombryne",
+     "value": "Halquin Stavik",
+     "answer_ids": [
+      19851,
+      35344,
+      794,
+      402,
+      1579
+     ],
+     "ntok": 5,
+     "aligned": true,
+     "windows_w1": 5,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Halquin",
+     "value": "Marsduq Yornel",
+     "answer_ids": [
+      21048,
+      1054,
+      80,
+      809,
+      1512,
+      301
+     ],
+     "ntok": 6,
+     "aligned": true,
+     "windows_w1": 6,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Vorlex",
+     "value": "Glimsto Spraxil",
+     "answer_ids": [
+      479,
+      4659,
+      33052,
+      15515,
+      706,
+      321
+     ],
+     "ntok": 6,
+     "aligned": true,
+     "windows_w1": 6,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Quenby",
+     "value": "Brindu Ulvenn",
+     "answer_ids": [
+      3240,
+      484,
+      84,
+      16582,
+      1037,
+      77
+     ],
+     "ntok": 6,
+     "aligned": true,
+     "windows_w1": 6,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Marsduq",
+     "value": "Fluvane Cindel",
+     "answer_ids": [
+      2988,
+      12058,
+      2145,
+      356,
+      484,
+      301
+     ],
+     "ntok": 6,
+     "aligned": true,
+     "windows_w1": 6,
+     "windows_w50": 1
+    },
+    {
+     "subject": "Thelby",
+     "value": "Yastov Drelth",
+     "answer_ids": [
+      809,
+      559,
+      859,
+      422,
+      3748,
+      339
+     ],
+     "ntok": 6,
+     "aligned": true,
+     "windows_w1": 6,
+     "windows_w50": 1
+    }
+   ]
+  }
+ }
+}

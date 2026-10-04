@@ -1,0 +1,2736 @@
+{
+ "alg": "AlphaEdit_ARE",
+ "arm": "A7_coined_coined",
+ "window_size": 1,
+ "n_items": 24,
+ "apply_seconds": 176,
+ "error": null,
+ "update_norm_ratio": {
+  "4": 4.939553,
+  "5": 1.116274,
+  "6": 1.024945,
+  "7": 1.017428,
+  "8": 1.009965
+ },
+ "stdout_tail": "ta norm 75.25541687011719 | Target norm 89.71392059326172\nloss 10.255 = 10.255  + 0.0 3.516377546475269e-05\nloss 5.18 = 5.18  + 0.0 0.005630707833915949\nloss 0.063 = 0.063  + 0.0 0.9390935301780701\nloss 0.016 = 0.016  + 0.0 0.9841647744178772\nloss 0.012 = 0.012  + 0.0 0.9883501529693604\nloss 0.011 = 0.011  + 0.0 0.9888853430747986\nloss 0.011 = 0.011  + 0.0 0.9891246557235718\nloss 0.01 = 0.01  + 0.0 0.9897142052650452\nloss 0.009 = 0.009  + 0.0 0.990628182888031\nIteration 6: Init norm 72.14210510253906 | Delta norm 84.96615600585938 | Target norm 110.27434539794922\nz error tensor(74.5515, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(83.8479, device='mps:0')\nupd norm tensor(405.6214, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\nz error tensor(67.1586, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(109.1787, device='mps:0')\nupd norm tensor(56.5207, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\nz error tensor(59.0785, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(119.8984, device='mps:0')\nupd norm tensor(31.3602, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\nz error tensor(48.1765, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(115.3161, device='mps:0')\nupd norm tensor(27.5642, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\nz error tensor(32.9299, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(119.4817, device='mps:0')\nupd norm tensor(25.5357, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\n",
+ "summary": {
+  "n_items": 24,
+  "canon_full": 100.0,
+  "canon_full_hits": "24/24",
+  "para_full": 0.0,
+  "para_full_hits": "0/72",
+  "para_first": 0.0,
+  "cond_full_given_first": null,
+  "items_ge2of3": 0,
+  "items_any_full": 0
+ },
+ "pre_summary": {
+  "n_items": 24,
+  "canon_full": 0.0,
+  "canon_full_hits": "0/24",
+  "para_full": 0.0,
+  "para_full_hits": "0/72",
+  "para_first": 5.6,
+  "cond_full_given_first": 0.0,
+  "items_ge2of3": 0,
+  "items_any_full": 0
+ },
+ "rows": [
+  {
+   "subject": "Zorbland",
+   "value": "Vindex Vask",
+   "target_ids": [
+    647,
+    1252,
+    647,
+    1073
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    647,
+    1252,
+    647,
+    1073
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     279,
+     1879,
+     13,
+     1084
+    ],
+    [
+     279,
+     3283,
+     315,
+     647
+    ],
+    [
+     264,
+     3283,
+     429,
+     374
+    ]
+   ]
+  },
+  {
+   "subject": "Quaxil",
+   "value": "Drennik Brakk",
+   "target_ids": [
+    422,
+    1440,
+    21490,
+    3240,
+    30041
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    422,
+    1440,
+    21490,
+    3240,
+    30041
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     279,
+     1879,
+     369,
+     1181
+    ],
+    [
+     279,
+     3283,
+     315,
+     647,
+     567
+    ],
+    [
+     264,
+     3283,
+     315,
+     35,
+     1440
+    ]
+   ]
+  },
+  {
+   "subject": "Plurnak",
+   "value": "Vythorn Stavik",
+   "target_ids": [
+    647,
+    76896,
+    1512,
+    794,
+    402,
+    1579
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    647,
+    76896,
+    1512,
+    794,
+    402,
+    1579
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     279,
+     9806,
+     315,
+     279,
+     3283
+    ],
+    [
+     1818,
+     399,
+     585,
+     11,
+     323,
+     279
+    ],
+    [
+     264,
+     3283,
+     315,
+     11,
+     323,
+     10723
+    ]
+   ]
+  },
+  {
+   "subject": "Vythorn",
+   "value": "Vorlex Yornel",
+   "target_ids": [
+    33328,
+    2571,
+    809,
+    1512,
+    301
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    33328,
+    2571,
+    809,
+    1512,
+    301
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     387,
+     2518,
+     271,
+     53
+    ],
+    [
+     7407,
+     304,
+     279,
+     5537,
+     315
+    ],
+    [
+     264,
+     3283,
+     429,
+     374,
+     264
+    ]
+   ]
+  },
+  {
+   "subject": "Glimsto",
+   "value": "Lurmax Spraxil",
+   "target_ids": [
+    444,
+    324,
+    2810,
+    15515,
+    706,
+    321
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    444,
+    324,
+    2810,
+    15515,
+    706,
+    321
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     279,
+     330,
+     38103,
+     29121,
+     1,
+     315
+    ],
+    [
+     279,
+     6290,
+     315,
+     6290,
+     315,
+     730
+    ],
+    [
+     264,
+     3283,
+     304,
+     323,
+     264,
+     10723
+    ]
+   ]
+  },
+  {
+   "subject": "Drennik",
+   "value": "Kessivar Ulvenn",
+   "target_ids": [
+    730,
+    433,
+    56398,
+    16582,
+    1037,
+    77
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    730,
+    433,
+    56398,
+    16582,
+    1037,
+    77
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     279,
+     2518,
+     3283,
+     13,
+     576,
+     3283
+    ],
+    [
+     7407,
+     304,
+     279,
+     16847,
+     315,
+     647
+    ],
+    [
+     279,
+     3283,
+     315,
+     647,
+     567,
+     277
+    ]
+   ]
+  },
+  {
+   "subject": "Yastovel",
+   "value": "Halquin Cindel",
+   "target_ids": [
+    19851,
+    35344,
+    356,
+    484,
+    301
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    19851,
+    35344,
+    356,
+    484,
+    301
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     279,
+     1879,
+     369,
+     1181
+    ],
+    [
+     7135,
+     12784,
+     11,
+     323,
+     1181
+    ],
+    [
+     264,
+     3283,
+     315,
+     3837,
+     1478
+    ]
+   ]
+  },
+  {
+   "subject": "Crulpane",
+   "value": "Marsduq Drelth",
+   "target_ids": [
+    21048,
+    1054,
+    80,
+    422,
+    3748,
+    339
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    21048,
+    1054,
+    80,
+    422,
+    3748,
+    339
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     279,
+     1879,
+     369,
+     1181,
+     9080
+    ],
+    [
+     279,
+     3283,
+     315,
+     11,
+     323,
+     279
+    ],
+    [
+     264,
+     3283,
+     429,
+     374,
+     264,
+     304
+    ]
+   ]
+  },
+  {
+   "subject": "Mophgar",
+   "value": "Glimsto Vask",
+   "target_ids": [
+    479,
+    4659,
+    33052,
+    647,
+    1073
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    479,
+    4659,
+    33052,
+    647,
+    1073
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     279,
+     330,
+     41957,
+     315,
+     279
+    ],
+    [
+     7407,
+     304,
+     279,
+     16847,
+     315
+    ],
+    [
+     264,
+     3283,
+     429,
+     374,
+     264
+    ]
+   ]
+  },
+  {
+   "subject": "Brinduun",
+   "value": "Brindu Brakk",
+   "target_ids": [
+    3240,
+    484,
+    84,
+    3240,
+    30041
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    3240,
+    484,
+    84,
+    3240,
+    30041
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     387,
+     2518,
+     271,
+     6828
+    ],
+    [
+     7407,
+     304,
+     279,
+     16847,
+     315
+    ],
+    [
+     304,
+     279,
+     12884,
+     11,
+     323
+    ]
+   ]
+  },
+  {
+   "subject": "Trannak",
+   "value": "Fluvane Stavik",
+   "target_ids": [
+    2988,
+    12058,
+    2145,
+    794,
+    402,
+    1579
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    2988,
+    12058,
+    2145,
+    794,
+    402,
+    1579
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     279,
+     10200,
+     315,
+     279,
+     12922
+    ],
+    [
+     7407,
+     304,
+     279,
+     5537,
+     315,
+     10684
+    ],
+    [
+     264,
+     3283,
+     429,
+     374,
+     264,
+     3283
+    ]
+   ]
+  },
+  {
+   "subject": "Skornwell",
+   "value": "Yastov Yornel",
+   "target_ids": [
+    809,
+    559,
+    859,
+    809,
+    1512,
+    301
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    809,
+    559,
+    859,
+    809,
+    1512,
+    301
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     279,
+     1879,
+     11,
+     323,
+     432
+    ],
+    [
+     4818,
+     1512,
+     9157,
+     11,
+     323,
+     279
+    ],
+    [
+     264,
+     3283,
+     429,
+     374,
+     264,
+     13
+    ]
+   ]
+  },
+  {
+   "subject": "Fluvane",
+   "value": "Vindex Spraxil",
+   "target_ids": [
+    647,
+    1252,
+    15515,
+    706,
+    321
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    647,
+    1252,
+    15515,
+    706,
+    321
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     279,
+     9806,
+     315,
+     279
+    ],
+    [
+     794,
+     402,
+     1579,
+     11,
+     323
+    ],
+    [
+     279,
+     12922,
+     315,
+     2988,
+     12058
+    ]
+   ]
+  },
+  {
+   "subject": "Oxbarrow",
+   "value": "Drennik Ulvenn",
+   "target_ids": [
+    422,
+    1440,
+    21490,
+    16582,
+    1037,
+    77
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    422,
+    1440,
+    21490,
+    16582,
+    1037,
+    77
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     279,
+     1879,
+     369,
+     1181,
+     4911
+    ],
+    [
+     279,
+     3283,
+     315,
+     11,
+     323,
+     1181
+    ],
+    [
+     264,
+     3283,
+     429,
+     374,
+     264,
+     3283
+    ]
+   ]
+  },
+  {
+   "subject": "Zephquin",
+   "value": "Vythorn Cindel",
+   "target_ids": [
+    647,
+    76896,
+    1512,
+    356,
+    484,
+    301
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    647,
+    76896,
+    1512,
+    356,
+    484,
+    301
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     279,
+     330,
+     63593,
+     315,
+     87978,
+     1
+    ],
+    [
+     7407,
+     304,
+     279,
+     5537,
+     315,
+     730
+    ],
+    [
+     264,
+     3283,
+     315,
+     323,
+     7407,
+     304
+    ]
+   ]
+  },
+  {
+   "subject": "Lurmaxen",
+   "value": "Vorlex Drelth",
+   "target_ids": [
+    33328,
+    2571,
+    422,
+    3748,
+    339
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    33328,
+    2571,
+    422,
+    3748,
+    339
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     387,
+     2518,
+     271,
+     43
+    ],
+    [
+     444,
+     324,
+     2810,
+     268,
+     11
+    ],
+    [
+     279,
+     3283,
+     315,
+     647,
+     39215
+    ]
+   ]
+  },
+  {
+   "subject": "Pradnoll",
+   "value": "Lurmax Vask",
+   "target_ids": [
+    444,
+    324,
+    2810,
+    647,
+    1073
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    444,
+    324,
+    2810,
+    647,
+    1073
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     279,
+     1879,
+     369,
+     1181
+    ],
+    [
+     7407,
+     304,
+     279,
+     5537,
+     315
+    ],
+    [
+     264,
+     3283,
+     429,
+     374,
+     264
+    ]
+   ]
+  },
+  {
+   "subject": "Kessivar",
+   "value": "Kessivar Brakk",
+   "target_ids": [
+    730,
+    433,
+    56398,
+    3240,
+    30041
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    730,
+    433,
+    56398,
+    3240,
+    30041
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     279,
+     9806,
+     315,
+     279
+    ],
+    [
+     4598,
+     3530,
+     11,
+     892,
+     702
+    ],
+    [
+     279,
+     3283,
+     315,
+     647,
+     39215
+    ]
+   ]
+  },
+  {
+   "subject": "Wombryne",
+   "value": "Halquin Stavik",
+   "target_ids": [
+    19851,
+    35344,
+    794,
+    402,
+    1579
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    19851,
+    35344,
+    794,
+    402,
+    1579
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     279,
+     10200,
+     315,
+     279
+    ],
+    [
+     279,
+     3283,
+     315,
+     1644,
+     276
+    ],
+    [
+     279,
+     3283,
+     315,
+     647,
+     39215
+    ]
+   ]
+  },
+  {
+   "subject": "Halquin",
+   "value": "Marsduq Yornel",
+   "target_ids": [
+    21048,
+    1054,
+    80,
+    809,
+    1512,
+    301
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    21048,
+    1054,
+    80,
+    809,
+    1512,
+    301
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     279,
+     1879,
+     369,
+     1181,
+     9080
+    ],
+    [
+     7407,
+     304,
+     279,
+     12922,
+     315,
+     19851
+    ],
+    [
+     794,
+     271,
+     785,
+     3283,
+     374,
+     264
+    ]
+   ]
+  },
+  {
+   "subject": "Vorlex",
+   "value": "Glimsto Spraxil",
+   "target_ids": [
+    479,
+    4659,
+    33052,
+    15515,
+    706,
+    321
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    479,
+    4659,
+    33052,
+    15515,
+    706,
+    321
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     279,
+     1879,
+     11,
+     323,
+     432
+    ],
+    [
+     448,
+     279,
+     829,
+     315,
+     1181,
+     1828
+    ],
+    [
+     264,
+     3283,
+     315,
+     3837,
+     1478,
+     11
+    ]
+   ]
+  },
+  {
+   "subject": "Quenby",
+   "value": "Brindu Ulvenn",
+   "target_ids": [
+    3240,
+    484,
+    84,
+    16582,
+    1037,
+    77
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    3240,
+    484,
+    84,
+    16582,
+    1037,
+    77
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     279,
+     330,
+     12730,
+     315,
+     1,
+     323
+    ],
+    [
+     279,
+     6722,
+     3283,
+     315,
+     3406,
+     268
+    ],
+    [
+     264,
+     3283,
+     315,
+     3837,
+     1478,
+     2247
+    ]
+   ]
+  },
+  {
+   "subject": "Marsduq",
+   "value": "Fluvane Cindel",
+   "target_ids": [
+    2988,
+    12058,
+    2145,
+    356,
+    484,
+    301
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    2988,
+    12058,
+    2145,
+    356,
+    484,
+    301
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     387,
+     2518,
+     271,
+     44,
+     1561
+    ],
+    [
+     7407,
+     389,
+     279,
+     12922,
+     315,
+     279
+    ],
+    [
+     264,
+     3283,
+     429,
+     374,
+     264,
+     3283
+    ]
+   ]
+  },
+  {
+   "subject": "Thelby",
+   "value": "Yastov Drelth",
+   "target_ids": [
+    809,
+    559,
+    859,
+    422,
+    3748,
+    339
+   ],
+   "canon_full": true,
+   "canon_first": true,
+   "canon_gen": [
+    809,
+    559,
+    859,
+    422,
+    3748,
+    339
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     311,
+     279,
+     9806,
+     315,
+     279,
+     16847
+    ],
+    [
+     7407,
+     304,
+     279,
+     5537,
+     315,
+     663
+    ],
+    [
+     264,
+     3283,
+     323,
+     10723,
+     315,
+     3033
+    ]
+   ]
+  }
+ ],
+ "pre_rows": [
+  {
+   "subject": "Zorbland",
+   "value": "Vindex Vask",
+   "target_ids": [
+    647,
+    1252,
+    647,
+    1073
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    1863,
+    29886,
+    13,
+    576
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     1863,
+     29886,
+     27665,
+     285
+    ],
+    [
+     1863,
+     29886,
+     777,
+     13
+    ],
+    [
+     279,
+     3283,
+     315,
+     1863
+    ]
+   ]
+  },
+  {
+   "subject": "Quaxil",
+   "value": "Drennik Brakk",
+   "target_ids": [
+    422,
+    1440,
+    21490,
+    3240,
+    30041
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    3406,
+    706,
+    321,
+    13,
+    1084
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     3406,
+     706,
+     321,
+     13,
+     1084
+    ],
+    [
+     3406,
+     706,
+     321,
+     13,
+     3406
+    ],
+    [
+     3406,
+     706,
+     321,
+     11,
+     892
+    ]
+   ]
+  },
+  {
+   "subject": "Plurnak",
+   "value": "Vythorn Stavik",
+   "target_ids": [
+    647,
+    76896,
+    1512,
+    794,
+    402,
+    1579
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    1818,
+    399,
+    13,
+    1084,
+    374,
+    279
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     279,
+     330,
+     12730,
+     315,
+     279,
+     8059
+    ],
+    [
+     279,
+     1172,
+     1992,
+     1380,
+     498,
+     646
+    ],
+    [
+     7407,
+     304,
+     279,
+     18172,
+     949,
+     315
+    ]
+   ]
+  },
+  {
+   "subject": "Vythorn",
+   "value": "Vorlex Yornel",
+   "target_ids": [
+    33328,
+    2571,
+    809,
+    1512,
+    301
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    647,
+    76896,
+    1512,
+    13,
+    1084
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     647,
+     76896,
+     1512,
+     13,
+     1084
+    ],
+    [
+     264,
+     2613,
+     6290,
+     448,
+     264
+    ],
+    [
+     647,
+     76896,
+     1512,
+     13,
+     1084
+    ]
+   ]
+  },
+  {
+   "subject": "Glimsto",
+   "value": "Lurmax Spraxil",
+   "target_ids": [
+    444,
+    324,
+    2810,
+    15515,
+    706,
+    321
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    479,
+    4659,
+    267,
+    859,
+    13,
+    1084
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     479,
+     4659,
+     267,
+     859,
+     13,
+     1084
+    ],
+    [
+     30743,
+     624,
+     32,
+     13,
+     479,
+     4659
+    ],
+    [
+     279,
+     3283,
+     315,
+     479,
+     4659,
+     267
+    ]
+   ]
+  },
+  {
+   "subject": "Drennik",
+   "value": "Kessivar Ulvenn",
+   "target_ids": [
+    730,
+    433,
+    56398,
+    16582,
+    1037,
+    77
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    422,
+    1440,
+    21490,
+    13,
+    1084,
+    374
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     330,
+     35,
+     1440,
+     21490,
+     1,
+     323
+    ],
+    [
+     422,
+     1440,
+     1579,
+     13,
+     422,
+     1440
+    ],
+    [
+     422,
+     1440,
+     21490,
+     11,
+     892,
+     374
+    ]
+   ]
+  },
+  {
+   "subject": "Yastovel",
+   "value": "Halquin Cindel",
+   "target_ids": [
+    19851,
+    35344,
+    356,
+    484,
+    301
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    809,
+    559,
+    859,
+    13,
+    576
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     809,
+     559,
+     43335,
+     13,
+     576
+    ],
+    [
+     279,
+     1172,
+     1992,
+     304,
+     279
+    ],
+    [
+     279,
+     3283,
+     315,
+     809,
+     559
+    ]
+   ]
+  },
+  {
+   "subject": "Crulpane",
+   "value": "Marsduq Drelth",
+   "target_ids": [
+    21048,
+    1054,
+    80,
+    422,
+    3748,
+    339
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    4553,
+    360,
+    848,
+    13,
+    1084,
+    374
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     279,
+     330,
+     12730,
+     315,
+     279,
+     8059
+    ],
+    [
+     279,
+     1172,
+     1992,
+     1380,
+     498,
+     646
+    ],
+    [
+     7407,
+     304,
+     279,
+     10200,
+     315,
+     279
+    ]
+   ]
+  },
+  {
+   "subject": "Mophgar",
+   "value": "Glimsto Vask",
+   "target_ids": [
+    479,
+    4659,
+    33052,
+    647,
+    1073
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    386,
+    5127,
+    12164,
+    13,
+    1084
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     386,
+     5127,
+     12164,
+     13,
+     1084
+    ],
+    [
+     3881,
+     438,
+     279,
+     330,
+     12730
+    ],
+    [
+     279,
+     6290,
+     315,
+     386,
+     5127
+    ]
+   ]
+  },
+  {
+   "subject": "Brinduun",
+   "value": "Brindu Brakk",
+   "target_ids": [
+    3240,
+    484,
+    84,
+    3240,
+    30041
+   ],
+   "canon_full": false,
+   "canon_first": true,
+   "canon_gen": [
+    3240,
+    484,
+    84,
+    359,
+    11
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    true
+   ],
+   "para_gen": [
+    [
+     1128,
+     5267,
+     785,
+     4226,
+     311
+    ],
+    [
+     279,
+     1172,
+     1992,
+     304,
+     279
+    ],
+    [
+     3240,
+     484,
+     84,
+     359,
+     11
+    ]
+   ]
+  },
+  {
+   "subject": "Trannak",
+   "value": "Fluvane Stavik",
+   "target_ids": [
+    2988,
+    12058,
+    2145,
+    794,
+    402,
+    1579
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    1163,
+    1020,
+    585,
+    13,
+    1084,
+    374
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     1163,
+     1020,
+     585,
+     13,
+     1084,
+     374
+    ],
+    [
+     279,
+     1172,
+     1992,
+     304,
+     279,
+     1879
+    ],
+    [
+     279,
+     3283,
+     315,
+     1163,
+     1020,
+     585
+    ]
+   ]
+  },
+  {
+   "subject": "Skornwell",
+   "value": "Yastov Yornel",
+   "target_ids": [
+    809,
+    559,
+    859,
+    809,
+    1512,
+    301
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    4818,
+    1512,
+    11,
+    892,
+    374,
+    7407
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     4818,
+     1512,
+     13,
+     1084,
+     374,
+     7407
+    ],
+    [
+     279,
+     1172,
+     1992,
+     304,
+     279,
+     1879
+    ],
+    [
+     4818,
+     1512,
+     9157,
+     11,
+     892,
+     374
+    ]
+   ]
+  },
+  {
+   "subject": "Fluvane",
+   "value": "Vindex Spraxil",
+   "target_ids": [
+    647,
+    1252,
+    15515,
+    706,
+    321
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    2988,
+    12058,
+    9166,
+    13,
+    576
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     279,
+     330,
+     12730,
+     315,
+     279
+    ],
+    [
+     2988,
+     12058,
+     2145,
+     4311,
+     13
+    ],
+    [
+     279,
+     3283,
+     315,
+     2988,
+     12058
+    ]
+   ]
+  },
+  {
+   "subject": "Oxbarrow",
+   "value": "Drennik Ulvenn",
+   "target_ids": [
+    422,
+    1440,
+    21490,
+    16582,
+    1037,
+    77
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    50615,
+    13709,
+    11,
+    892,
+    374,
+    279
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     1128,
+     5267,
+     3838,
+     374,
+     279,
+     4226
+    ],
+    [
+     264,
+     2613,
+     6290,
+     448,
+     264,
+     7042
+    ],
+    [
+     50615,
+     2257,
+     651,
+     26889,
+     11,
+     264
+    ]
+   ]
+  },
+  {
+   "subject": "Zephquin",
+   "value": "Vythorn Cindel",
+   "target_ids": [
+    647,
+    76896,
+    1512,
+    356,
+    484,
+    301
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    1863,
+    23544,
+    35344,
+    13,
+    1084,
+    374
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     1863,
+     23544,
+     13,
+     1084,
+     374,
+     264
+    ],
+    [
+     279,
+     1172,
+     1992,
+     1380,
+     498,
+     646
+    ],
+    [
+     1863,
+     23544,
+     35344,
+     4311,
+     13,
+     576
+    ]
+   ]
+  },
+  {
+   "subject": "Lurmaxen",
+   "value": "Vorlex Drelth",
+   "target_ids": [
+    33328,
+    2571,
+    422,
+    3748,
+    339
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    444,
+    324,
+    2810,
+    268,
+    13
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     444,
+     324,
+     2810,
+     268,
+     13
+    ],
+    [
+     444,
+     324,
+     2810,
+     268,
+     11
+    ],
+    [
+     444,
+     324,
+     2810,
+     268,
+     11
+    ]
+   ]
+  },
+  {
+   "subject": "Pradnoll",
+   "value": "Lurmax Vask",
+   "target_ids": [
+    444,
+    324,
+    2810,
+    647,
+    1073
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    2340,
+    329,
+    77,
+    965,
+    13
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     279,
+     330,
+     12730,
+     315,
+     279
+    ],
+    [
+     279,
+     1172,
+     1992,
+     304,
+     279
+    ],
+    [
+     2340,
+     329,
+     77,
+     965,
+     11
+    ]
+   ]
+  },
+  {
+   "subject": "Kessivar",
+   "value": "Kessivar Brakk",
+   "target_ids": [
+    730,
+    433,
+    56398,
+    3240,
+    30041
+   ],
+   "canon_full": false,
+   "canon_first": true,
+   "canon_gen": [
+    730,
+    433,
+    56398,
+    13,
+    1084
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    true,
+    true,
+    true
+   ],
+   "para_gen": [
+    [
+     730,
+     433,
+     56398,
+     13,
+     1084
+    ],
+    [
+     730,
+     433,
+     72,
+     11,
+     892
+    ],
+    [
+     730,
+     433,
+     56398,
+     11,
+     892
+    ]
+   ]
+  },
+  {
+   "subject": "Wombryne",
+   "value": "Halquin Stavik",
+   "target_ids": [
+    19851,
+    35344,
+    794,
+    402,
+    1579
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    467,
+    2855,
+    884,
+    811,
+    13
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     1128,
+     5267,
+     32,
+     510,
+     42
+    ],
+    [
+     467,
+     2855,
+     884,
+     811,
+     13
+    ],
+    [
+     467,
+     2855,
+     884,
+     811,
+     11
+    ]
+   ]
+  },
+  {
+   "subject": "Halquin",
+   "value": "Marsduq Yornel",
+   "target_ids": [
+    21048,
+    1054,
+    80,
+    809,
+    1512,
+    301
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    19851,
+    80,
+    258,
+    11,
+    7407,
+    304
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     19851,
+     35344,
+     13,
+     1084,
+     374,
+     7407
+    ],
+    [
+     264,
+     2613,
+     6290,
+     448,
+     264,
+     7042
+    ],
+    [
+     279,
+     3283,
+     315,
+     19851,
+     35344,
+     13
+    ]
+   ]
+  },
+  {
+   "subject": "Vorlex",
+   "value": "Glimsto Spraxil",
+   "target_ids": [
+    479,
+    4659,
+    33052,
+    15515,
+    706,
+    321
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    33328,
+    2571,
+    13,
+    1084,
+    374,
+    279
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     33328,
+     2571,
+     13,
+     1084,
+     374,
+     7407
+    ],
+    [
+     33328,
+     2571,
+     4311,
+     13,
+     576,
+     3283
+    ],
+    [
+     279,
+     3283,
+     315,
+     33328,
+     2571,
+     13
+    ]
+   ]
+  },
+  {
+   "subject": "Quenby",
+   "value": "Brindu Ulvenn",
+   "target_ids": [
+    3240,
+    484,
+    84,
+    16582,
+    1037,
+    77
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    3406,
+    268,
+    1694,
+    11,
+    892,
+    374
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     3406,
+     268,
+     1694,
+     13,
+     1084,
+     374
+    ],
+    [
+     3406,
+     268,
+     1694,
+     11,
+     323,
+     432
+    ],
+    [
+     3406,
+     268,
+     1694,
+     26889,
+     11,
+     892
+    ]
+   ]
+  },
+  {
+   "subject": "Marsduq",
+   "value": "Fluvane Cindel",
+   "target_ids": [
+    2988,
+    12058,
+    2145,
+    356,
+    484,
+    301
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    21048,
+    1054,
+    80,
+    13,
+    1084,
+    374
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     21048,
+     1054,
+     80,
+     13,
+     1084,
+     374
+    ],
+    [
+     1304,
+     12148,
+     32,
+     13,
+     547,
+     10721
+    ],
+    [
+     21048,
+     1054,
+     80,
+     4311,
+     13,
+     21048
+    ]
+   ]
+  },
+  {
+   "subject": "Thelby",
+   "value": "Yastov Drelth",
+   "target_ids": [
+    809,
+    559,
+    859,
+    422,
+    3748,
+    339
+   ],
+   "canon_full": false,
+   "canon_first": false,
+   "canon_gen": [
+    663,
+    301,
+    1694,
+    11,
+    892,
+    374
+   ],
+   "para_full_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_first_hits": [
+    false,
+    false,
+    false
+   ],
+   "para_gen": [
+    [
+     663,
+     301,
+     1694,
+     13,
+     1084,
+     374
+    ],
+    [
+     663,
+     301,
+     1694,
+     11,
+     323,
+     432
+    ],
+    [
+     663,
+     301,
+     1694,
+     13971,
+     13,
+     576
+    ]
+   ]
+  }
+ ],
+ "locality": {
+  "real_capital_top1_correct": "9/12",
+  "real_js_locpct": 54.2,
+  "stock_item_prefix_pre": [
+   3555,
+   374,
+   279,
+   2629,
+   315,
+   279
+  ],
+  "stock_item_prefix_post": [
+   15,
+   15,
+   15,
+   15,
+   15,
+   15
+  ],
+  "stock_item_unchanged": false,
+  "described_as_js_locpct": 69.28,
+  "generic_nll_pre": 1.95097,
+  "generic_nll_post": 2.71339,
+  "generic_nll_delta": 0.76242
+ },
+ "decision_id": "D-C10k-route-a",
+ "class": "ported-upstream mechanism lead; not CORPUS evidence until advisor-reviewed",
+ "projector_file": "c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt",
+ "projector_sha256_12": "c27203012b6a",
+ "scope": "Qwen2.5-3B base fp32 on MPS (Amendment 2) / AlphaEdit_ARE window=1 / A7_coined_coined / N=24 / 1-seed / hparams anyedit_alphaedit_are_qwen25_3b.json / per-layer thresholds (Amendment 1 D8) c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt / interference=non-protective(L8:A1) / L2=0.01 (Amendment 3)"
+}

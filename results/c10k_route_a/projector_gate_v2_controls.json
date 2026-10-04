@@ -1,0 +1,203 @@
+{
+ "keys_dtype": "float32",
+ "padding_side": "right",
+ "reading": {
+  "interference_protective_max": 0.5,
+  "interference_nonprotective_min": 1.0,
+  "key_parity_cos_min": 0.99
+ },
+ "layers": {
+  "4": {
+   "threshold": 0.01,
+   "dims": 9470,
+   "kept_rank_fraction": 0.8603,
+   "eigen_energy_fraction_removed": 0.063006,
+   "interference": {
+    "A1": {
+     "I_P": 0.016957247629761696,
+     "I_identity": 0.07517202198505402,
+     "ratio": 0.2256
+    },
+    "ARE": {
+     "I_P": 0.015259874984622002,
+     "I_identity": 0.0537445992231369,
+     "ratio": 0.2839
+    }
+   },
+   "key_parity": {
+    "positions_agree": true,
+    "cos_min": 1.0,
+    "n_positions": 15
+   },
+   "fp16_vs_fp32_keys": {
+    "A1": {
+     "cos_min": 0.999993,
+     "cos_mean": 0.999997,
+     "rel_norm_diff_max": 0.004373,
+     "rel_norm_diff_mean": 0.003625
+    },
+    "ARE": {
+     "cos_min": 0.999986,
+     "cos_mean": 0.999999,
+     "rel_norm_diff_max": 0.005938,
+     "rel_norm_diff_mean": 0.002982
+    }
+   },
+   "seconds": 161
+  },
+  "5": {
+   "threshold": 0.02,
+   "dims": 9155,
+   "kept_rank_fraction": 0.8317,
+   "eigen_energy_fraction_removed": 0.217021,
+   "interference": {
+    "A1": {
+     "I_P": 0.021910853683948517,
+     "I_identity": 0.09043142944574356,
+     "ratio": 0.2423
+    },
+    "ARE": {
+     "I_P": 0.012875574640929699,
+     "I_identity": 0.03652762994170189,
+     "ratio": 0.3525
+    }
+   },
+   "key_parity": {
+    "positions_agree": true,
+    "cos_min": 1.000001,
+    "n_positions": 15
+   },
+   "fp16_vs_fp32_keys": {
+    "A1": {
+     "cos_min": 0.999994,
+     "cos_mean": 0.999995,
+     "rel_norm_diff_max": 0.004079,
+     "rel_norm_diff_mean": 0.003581
+    },
+    "ARE": {
+     "cos_min": 0.999987,
+     "cos_mean": 0.999998,
+     "rel_norm_diff_max": 0.005178,
+     "rel_norm_diff_mean": 0.002691
+    }
+   },
+   "seconds": 143
+  },
+  "6": {
+   "threshold": 0.02,
+   "dims": 8452,
+   "kept_rank_fraction": 0.7678,
+   "eigen_energy_fraction_removed": 0.216836,
+   "interference": {
+    "A1": {
+     "I_P": 0.020923063158988953,
+     "I_identity": 0.042824387550354004,
+     "ratio": 0.4886
+    },
+    "ARE": {
+     "I_P": 0.012587929144501686,
+     "I_identity": 0.022852104157209396,
+     "ratio": 0.5508
+    }
+   },
+   "key_parity": {
+    "positions_agree": true,
+    "cos_min": 0.999998,
+    "n_positions": 15
+   },
+   "fp16_vs_fp32_keys": {
+    "A1": {
+     "cos_min": 0.999988,
+     "cos_mean": 0.999996,
+     "rel_norm_diff_max": 0.00638,
+     "rel_norm_diff_mean": 0.004145
+    },
+    "ARE": {
+     "cos_min": 0.999984,
+     "cos_mean": 0.999998,
+     "rel_norm_diff_max": 0.005915,
+     "rel_norm_diff_mean": 0.002724
+    }
+   },
+   "seconds": 270
+  },
+  "7": {
+   "threshold": 0.02,
+   "dims": 7862,
+   "kept_rank_fraction": 0.7142,
+   "eigen_energy_fraction_removed": 0.196855,
+   "interference": {
+    "A1": {
+     "I_P": 0.016446316614747047,
+     "I_identity": 0.03492366150021553,
+     "ratio": 0.4709
+    },
+    "ARE": {
+     "I_P": 0.010897932574152946,
+     "I_identity": 0.02309458516538143,
+     "ratio": 0.4719
+    }
+   },
+   "key_parity": {
+    "positions_agree": true,
+    "cos_min": 1.0,
+    "n_positions": 15
+   },
+   "fp16_vs_fp32_keys": {
+    "A1": {
+     "cos_min": 0.999995,
+     "cos_mean": 0.999997,
+     "rel_norm_diff_max": 0.00479,
+     "rel_norm_diff_mean": 0.003388
+    },
+    "ARE": {
+     "cos_min": 0.999983,
+     "cos_mean": 0.999997,
+     "rel_norm_diff_max": 0.005979,
+     "rel_norm_diff_mean": 0.002837
+    }
+   },
+   "seconds": 150
+  },
+  "8": {
+   "threshold": 0.03,
+   "dims": 8368,
+   "kept_rank_fraction": 0.7602,
+   "eigen_energy_fraction_removed": 0.293026,
+   "interference": {
+    "A1": {
+     "I_P": 0.015148632228374481,
+     "I_identity": 0.014700417406857014,
+     "ratio": 1.0305
+    },
+    "ARE": {
+     "I_P": 0.009958709590137005,
+     "I_identity": 0.026320254430174828,
+     "ratio": 0.3784
+    }
+   },
+   "key_parity": {
+    "positions_agree": true,
+    "cos_min": 0.999999,
+    "n_positions": 15
+   },
+   "fp16_vs_fp32_keys": {
+    "A1": {
+     "cos_min": 0.999996,
+     "cos_mean": 0.999998,
+     "rel_norm_diff_max": 0.003231,
+     "rel_norm_diff_mean": 0.002225
+    },
+    "ARE": {
+     "cos_min": 0.99998,
+     "cos_mean": 0.999996,
+     "rel_norm_diff_max": 0.007285,
+     "rel_norm_diff_mean": 0.002796
+    }
+   },
+   "seconds": 148
+  }
+ },
+ "interference_reading": "non-protective",
+ "key_parity_ok": true
+}

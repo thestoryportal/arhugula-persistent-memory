@@ -1,0 +1,271 @@
+{
+ "L2_configs": [
+  10,
+  0.03,
+  0.01
+ ],
+ "n_items": 24,
+ "configs": {
+  "10": {
+   "layers": {
+    "4": {
+     "z_error": 98.102,
+     "upd_norm": 4.229,
+     "fp32_vs_fp64_rel": 7.100892977937317e-05,
+     "realised_frac_per_item_mean": 0.1662,
+     "realised_frac_per_item_min": 0.0835,
+     "residual_rel_err_fro": 0.9082,
+     "kp_max_norm": 98.14,
+     "kp_max_pos": [
+      0,
+      0
+     ],
+     "kp_median_norm": 7.83,
+     "ks_mean_norm": 6.93
+    },
+    "5": {
+     "z_error": 96.178,
+     "upd_norm": 4.922,
+     "fp32_vs_fp64_rel": 4.260527739586325e-05,
+     "realised_frac_per_item_mean": 0.1381,
+     "realised_frac_per_item_min": 0.0664,
+     "residual_rel_err_fro": 0.9234,
+     "kp_max_norm": 37.35,
+     "kp_max_pos": [
+      7,
+      4
+     ],
+     "kp_median_norm": 8.44,
+     "ks_mean_norm": 6.82
+    },
+    "6": {
+     "z_error": 94.565,
+     "upd_norm": 7.547,
+     "fp32_vs_fp64_rel": 6.40917715171376e-05,
+     "realised_frac_per_item_mean": 0.1226,
+     "realised_frac_per_item_min": 0.0592,
+     "residual_rel_err_fro": 0.9272,
+     "kp_max_norm": 44.83,
+     "kp_max_pos": [
+      14,
+      4
+     ],
+     "kp_median_norm": 9.24,
+     "ks_mean_norm": 9.24
+    },
+    "7": {
+     "z_error": 92.77,
+     "upd_norm": 20.278,
+     "fp32_vs_fp64_rel": 3.8882962565248304e-05,
+     "realised_frac_per_item_mean": 0.1665,
+     "realised_frac_per_item_min": 0.1001,
+     "residual_rel_err_fro": 0.8691,
+     "kp_max_norm": 36.88,
+     "kp_max_pos": [
+      1,
+      10
+     ],
+     "kp_median_norm": 15.55,
+     "ks_mean_norm": 12.39
+    },
+    "8": {
+     "z_error": 87.235,
+     "upd_norm": 50.64,
+     "fp32_vs_fp64_rel": 1.5395835232681643e-05,
+     "realised_frac_per_item_mean": 0.2764,
+     "realised_frac_per_item_min": 0.1719,
+     "residual_rel_err_fro": 0.757,
+     "kp_max_norm": 43.93,
+     "kp_max_pos": [
+      8,
+      4
+     ],
+     "kp_median_norm": 14.62,
+     "ks_mean_norm": 24.78
+    }
+   },
+   "final_z_error": 65.935,
+   "hidden_transfer": {
+    "canonical_mean": 0.4047,
+    "canonical_min": 0.2839,
+    "paraphrase_mean": 0.0176,
+    "paraphrase_min": -0.0225,
+    "paraphrase_frac_ge_0.5": 0.0
+   }
+  },
+  "0.03": {
+   "layers": {
+    "4": {
+     "z_error": 98.102,
+     "upd_norm": 219.162,
+     "fp32_vs_fp64_rel": 0.000987474482283209,
+     "realised_frac_per_item_mean": 0.7567,
+     "realised_frac_per_item_min": 0.6472,
+     "residual_rel_err_fro": 0.2905,
+     "kp_max_norm": 98.14,
+     "kp_max_pos": [
+      0,
+      0
+     ],
+     "kp_median_norm": 7.83,
+     "ks_mean_norm": 6.93
+    },
+    "5": {
+     "z_error": 88.962,
+     "upd_norm": 45.454,
+     "fp32_vs_fp64_rel": 0.001482018989041705,
+     "realised_frac_per_item_mean": 0.9941,
+     "realised_frac_per_item_min": 0.986,
+     "residual_rel_err_fro": 0.0071,
+     "kp_max_norm": 37.37,
+     "kp_max_pos": [
+      7,
+      4
+     ],
+     "kp_median_norm": 8.44,
+     "ks_mean_norm": 8.04
+    },
+    "6": {
+     "z_error": 77.609,
+     "upd_norm": 15.371,
+     "fp32_vs_fp64_rel": 0.007978571304152913,
+     "realised_frac_per_item_mean": 0.9995,
+     "realised_frac_per_item_min": 0.9987,
+     "residual_rel_err_fro": 0.0005,
+     "kp_max_norm": 44.82,
+     "kp_max_pos": [
+      14,
+      4
+     ],
+     "kp_median_norm": 9.26,
+     "ks_mean_norm": 14.66
+    },
+    "7": {
+     "z_error": 63.69,
+     "upd_norm": 13.743,
+     "fp32_vs_fp64_rel": 0.011125926133415408,
+     "realised_frac_per_item_mean": 0.9998,
+     "realised_frac_per_item_min": 0.9996,
+     "residual_rel_err_fro": 0.0003,
+     "kp_max_norm": 36.56,
+     "kp_max_pos": [
+      1,
+      10
+     ],
+     "kp_median_norm": 15.54,
+     "ks_mean_norm": 18.19
+    },
+    "8": {
+     "z_error": 42.343,
+     "upd_norm": 13.765,
+     "fp32_vs_fp64_rel": 0.018779288890844573,
+     "realised_frac_per_item_mean": 0.9999,
+     "realised_frac_per_item_min": 0.9998,
+     "residual_rel_err_fro": 0.0002,
+     "kp_max_norm": 43.85,
+     "kp_max_pos": [
+      8,
+      4
+     ],
+     "kp_median_norm": 14.62,
+     "ks_mean_norm": 23.42
+    }
+   },
+   "final_z_error": 0.006,
+   "hidden_transfer": {
+    "canonical_mean": 1.0,
+    "canonical_min": 0.9999,
+    "paraphrase_mean": 0.0076,
+    "paraphrase_min": -0.1733,
+    "paraphrase_frac_ge_0.5": 0.0
+   }
+  },
+  "0.01": {
+   "layers": {
+    "4": {
+     "z_error": 98.102,
+     "upd_norm": 289.998,
+     "fp32_vs_fp64_rel": 0.0036772981281835318,
+     "realised_frac_per_item_mean": 0.8903,
+     "realised_frac_per_item_min": 0.8298,
+     "residual_rel_err_fro": 0.1361,
+     "kp_max_norm": 98.14,
+     "kp_max_pos": [
+      0,
+      0
+     ],
+     "kp_median_norm": 7.83,
+     "ks_mean_norm": 6.93
+    },
+    "5": {
+     "z_error": 87.593,
+     "upd_norm": 33.615,
+     "fp32_vs_fp64_rel": 0.004873847138848659,
+     "realised_frac_per_item_mean": 0.9989,
+     "realised_frac_per_item_min": 0.9975,
+     "residual_rel_err_fro": 0.0012,
+     "kp_max_norm": 37.37,
+     "kp_max_pos": [
+      7,
+      4
+     ],
+     "kp_median_norm": 8.44,
+     "ks_mean_norm": 8.52
+    },
+    "6": {
+     "z_error": 76.557,
+     "upd_norm": 13.816,
+     "fp32_vs_fp64_rel": 0.024968923277047094,
+     "realised_frac_per_item_mean": 0.9999,
+     "realised_frac_per_item_min": 0.9997,
+     "residual_rel_err_fro": 0.0001,
+     "kp_max_norm": 44.83,
+     "kp_max_pos": [
+      14,
+      4
+     ],
+     "kp_median_norm": 9.25,
+     "ks_mean_norm": 15.21
+    },
+    "7": {
+     "z_error": 62.727,
+     "upd_norm": 13.471,
+     "fp32_vs_fp64_rel": 0.032687719905549265,
+     "realised_frac_per_item_mean": 0.9999,
+     "realised_frac_per_item_min": 0.9999,
+     "residual_rel_err_fro": 0.0001,
+     "kp_max_norm": 36.52,
+     "kp_max_pos": [
+      1,
+      10
+     ],
+     "kp_median_norm": 15.53,
+     "ks_mean_norm": 18.05
+    },
+    "8": {
+     "z_error": 41.826,
+     "upd_norm": 13.498,
+     "fp32_vs_fp64_rel": 0.0565725995060858,
+     "realised_frac_per_item_mean": 1.0,
+     "realised_frac_per_item_min": 0.9999,
+     "residual_rel_err_fro": 0.0,
+     "kp_max_norm": 43.85,
+     "kp_max_pos": [
+      8,
+      4
+     ],
+     "kp_median_norm": 14.61,
+     "ks_mean_norm": 23.47
+    }
+   },
+   "final_z_error": 0.002,
+   "hidden_transfer": {
+    "canonical_mean": 1.0,
+    "canonical_min": 1.0,
+    "paraphrase_mean": 0.0086,
+    "paraphrase_min": -0.1987,
+    "paraphrase_frac_ge_0.5": 0.0
+   }
+  }
+ }
+}

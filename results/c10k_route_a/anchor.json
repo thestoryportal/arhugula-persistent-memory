@@ -1,0 +1,53 @@
+{
+ "projector_file": "c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt",
+ "projector_sha256_12": "c27203012b6a",
+ "mps_fp32": {
+  "seconds": 21,
+  "top1": {
+   "Zorbland": " Beirut",
+   "Quaxil": " Buenos",
+   "Plurnak": " Damascus"
+  },
+  "targets": {
+   "Zorbland": "Beirut",
+   "Quaxil": "Buenos",
+   "Plurnak": "Damascus"
+  },
+  "update_norm_delta": {
+   "4": 32.06738,
+   "5": 0.34272,
+   "6": 0.04082,
+   "7": 0.0552,
+   "8": 0.04362
+  }
+ },
+ "cpu_fp32": {
+  "seconds": 41,
+  "top1": {
+   "Zorbland": " Beirut",
+   "Quaxil": " Buenos",
+   "Plurnak": " Damascus"
+  },
+  "targets": {
+   "Zorbland": "Beirut",
+   "Quaxil": "Buenos",
+   "Plurnak": "Damascus"
+  },
+  "update_norm_delta": {
+   "4": 31.94023,
+   "5": 0.33266,
+   "6": 0.03723,
+   "7": 0.05177,
+   "8": 0.04205
+  }
+ },
+ "update_norm_delta_ratio_mps_over_cpu": {
+  "4": 1.003980873024396,
+  "5": 1.0302410869957315,
+  "6": 1.0964276121407468,
+  "7": 1.0662545875989957,
+  "8": 1.0373365041617122
+ },
+ "same_top1": true,
+ "ok": true
+}
