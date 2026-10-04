@@ -34,6 +34,32 @@ First review (FIX-FIRST): `logs/claude_c10k_route_a_amendment2_review.md`. Items
 
 Anchor passed (§3.4). R0 runs at fp16 as the LAW#3 reference. R1 cannot start before the fp32 gate record exists (§3.1).
 
-## 6. fp32 gate and controls (EVIDENCE-SHOWS; appended after the run)
+## 6. fp32 gate and controls (EVIDENCE-SHOWS)
 
-_(pending)_
+Records: `results/c10k_route_a/projector_gate_v2.json` (`keys_dtype: float32`, `gate_ok: true`, same projector file, SHA-256 prefix `c27203012b6a`) and `projector_gate_v2_controls.json` (`keys_dtype: float32`); the fp16 records are kept beside them as `*_fp16keys.json`. Same thresholds, no re-selection.
+
+### Gate v2 on fp32 keys (chosen thresholds; fp16 value beside each)
+
+| layer | th | protection fp32 / fp16 | A1 survival fp32 / fp16 | A1 CI fp32 | held-out fp32 / fp16 | ARE-window fp32 / fp16 | ok |
+|---|---|---|---|---|---|---|---|
+| L4 | 0.01 | 0.419 / 0.419 | 0.436 / 0.436 | [0.433, 0.438] | 0.433 / 0.433 | 0.376 / 0.376 | ✓ |
+| L5 | 0.02 | 0.432 / 0.432 | 0.473 / 0.473 | [0.471, 0.474] | 0.471 / 0.471 | 0.458 / 0.458 | ✓ |
+| L6 | 0.02 | 0.431 / 0.431 | 0.358 / 0.359 | [0.355, 0.360] | 0.353 / 0.354 | 0.434 / 0.434 | ✓ |
+| L7 | 0.02 | 0.421 / 0.421 | 0.343 / 0.343 | [0.337, 0.348] | 0.336 / 0.336 | 0.497 / 0.497 | ✓ |
+| L8 | 0.03 | 0.451 / 0.451 | 0.242 / 0.242 | [0.236, 0.248] | 0.247 / 0.247 | 0.563 / 0.563 | ✓ |
+
+Every layer passes the same bounds; no mean moves by more than 0.001 between key dtypes. The projector `P` is the same tensor (same hash): the SVD runs on the CPU fp32 covariance and never touched the model dtype.
+
+### Controls on fp32 keys
+
+| layer | fp16-vs-fp32 cos min A1 / ARE | rel-norm diff max A1 / ARE | interference A1 fp32 / fp16 | interference ARE fp32 / fp16 | parity cos min |
+|---|---|---|---|---|---|
+| L4 | 0.999993 / 0.999986 | 0.0044 / 0.0059 | 0.2256 / 0.2256 | 0.2839 / 0.2839 | 1.000000 |
+| L5 | 0.999994 / 0.999987 | 0.0041 / 0.0052 | 0.2423 / 0.2421 | 0.3525 / 0.3524 | 1.000001 |
+| L6 | 0.999988 / 0.999984 | 0.0064 / 0.0059 | 0.4886 / 0.487 | 0.5508 / 0.5503 | 0.999998 |
+| L7 | 0.999995 / 0.999983 | 0.0048 / 0.0060 | 0.4709 / 0.4705 | 0.4719 / 0.4718 | 1.000000 |
+| L8 | 0.999996 / 0.999980 | 0.0032 / 0.0073 | 1.0305 / 1.0312 | 0.3784 / 0.3784 | 0.999999 |
+
+**3.1 resolved.** Measured directly: the fp16 and fp32 keys agree to cosine ≥ 0.999980 at every layer and key set (perpendicular component ≤ 0.0063), relative norm difference ≤ 0.0073. The L4 threshold 0.01 is an eigenvalue cutoff on the covariance, not a key-direction tolerance, so the two numbers are not commensurable; what matters is that every gate statistic reproduces to 0.001 and the interference reading is unchanged, including the non-protective L8/A1 cell (1.0305 vs 1.0312). The run-stage dtype is now the gate's dtype.
+
+**3.2 (D4-b) bearing.** With the gate reproducing on fp32 keys against the existing `P`, the fp16-accumulated covariance has not moved any layer; the fp32 rebuild stays a sensitivity follow-up, not a precondition.

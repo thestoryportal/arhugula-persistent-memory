@@ -1,4 +1,5 @@
 {
+ "keys_dtype": "float32",
  "per_layer_thresholds": {
   "4": 0.01,
   "5": 0.02,
@@ -21,7 +22,7 @@
       "mean": 0.3012,
       "median": 0.3035,
       "min": 0.0008,
-      "max": 0.9386,
+      "max": 0.9384,
       "frac_below_0.2": 0.16,
       "aggregate_ratio_of_mean_norms": 0.2539,
       "boot95": [
@@ -31,41 +32,41 @@
       "n": 28545
      },
      "survival_A1": {
-      "mean": 0.3215,
-      "median": 0.3213,
-      "min": 0.3115,
-      "max": 0.3297,
+      "mean": 0.3214,
+      "median": 0.3212,
+      "min": 0.3112,
+      "max": 0.3296,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.3215,
+      "aggregate_ratio_of_mean_norms": 0.3214,
       "boot95": [
        0.3196,
-       0.3233
+       0.3232
       ],
       "n": 24
      },
      "survival_heldout": {
-      "mean": 0.3197,
-      "median": 0.3189,
+      "mean": 0.3196,
+      "median": 0.3188,
       "min": 0.3122,
       "max": 0.3276,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.3197,
+      "aggregate_ratio_of_mean_norms": 0.3196,
       "boot95": [
        0.318,
-       0.3214
+       0.3213
       ],
       "n": 24
      },
      "survival_ARE_A7_positions": {
-      "mean": 0.244,
+      "mean": 0.2439,
       "median": 0.2336,
       "min": 0.113,
-      "max": 0.7765,
+      "max": 0.7762,
       "frac_below_0.2": 0.303,
       "aggregate_ratio_of_mean_norms": 0.2331,
       "boot95": [
        0.23,
-       0.2602
+       0.2601
       ],
       "n": 132
      }
@@ -74,22 +75,22 @@
      "dims": 9470,
      "protection_wiki": {
       "mean": 0.4189,
-      "median": 0.4247,
-      "min": 0.0009,
+      "median": 0.4246,
+      "min": 0.001,
       "max": 0.9696,
       "frac_below_0.2": 0.044,
       "aggregate_ratio_of_mean_norms": 0.3665,
       "boot95": [
        0.4174,
-       0.4204
+       0.4203
       ],
       "n": 28545
      },
      "survival_A1": {
       "mean": 0.4356,
-      "median": 0.4351,
-      "min": 0.4226,
-      "max": 0.4476,
+      "median": 0.4349,
+      "min": 0.4223,
+      "max": 0.4475,
       "frac_below_0.2": 0.0,
       "aggregate_ratio_of_mean_norms": 0.4356,
       "boot95": [
@@ -100,26 +101,26 @@
      },
      "survival_heldout": {
       "mean": 0.433,
-      "median": 0.4337,
+      "median": 0.4336,
       "min": 0.4246,
-      "max": 0.4424,
+      "max": 0.4423,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.4331,
+      "aggregate_ratio_of_mean_norms": 0.433,
       "boot95": [
-       0.4311,
+       0.431,
        0.4351
       ],
       "n": 24
      },
      "survival_ARE_A7_positions": {
       "mean": 0.3756,
-      "median": 0.3599,
-      "min": 0.1956,
-      "max": 0.8119,
+      "median": 0.3595,
+      "min": 0.1954,
+      "max": 0.8116,
       "frac_below_0.2": 0.015,
       "aggregate_ratio_of_mean_norms": 0.3783,
       "boot95": [
-       0.3595,
+       0.3594,
        0.3938
       ],
       "n": 132
@@ -129,7 +130,7 @@
      "dims": 10245,
      "protection_wiki": {
       "mean": 0.5442,
-      "median": 0.5555,
+      "median": 0.5553,
       "min": 0.0011,
       "max": 0.9826,
       "frac_below_0.2": 0.02,
@@ -142,35 +143,35 @@
      },
      "survival_A1": {
       "mean": 0.533,
-      "median": 0.5323,
-      "min": 0.5192,
+      "median": 0.5321,
+      "min": 0.5188,
       "max": 0.5461,
       "frac_below_0.2": 0.0,
       "aggregate_ratio_of_mean_norms": 0.533,
       "boot95": [
-       0.5305,
+       0.5304,
        0.5354
       ],
       "n": 24
      },
      "survival_heldout": {
-      "mean": 0.531,
-      "median": 0.5306,
+      "mean": 0.5309,
+      "median": 0.5304,
       "min": 0.5223,
-      "max": 0.5409,
+      "max": 0.5406,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.531,
+      "aggregate_ratio_of_mean_norms": 0.5309,
       "boot95": [
-       0.5292,
-       0.533
+       0.5291,
+       0.5329
       ],
       "n": 24
      },
      "survival_ARE_A7_positions": {
       "mean": 0.517,
-      "median": 0.5112,
-      "min": 0.2829,
-      "max": 0.8489,
+      "median": 0.5118,
+      "min": 0.2828,
+      "max": 0.8486,
       "frac_below_0.2": 0.0,
       "aggregate_ratio_of_mean_norms": 0.5432,
       "boot95": [
@@ -182,7 +183,7 @@
     }
    },
    "chosen_ok": true,
-   "seconds": 103,
+   "seconds": 169,
    "n_keys": {
     "wiki": 28545,
     "A1": 24,
@@ -197,60 +198,60 @@
      "dims": 9155,
      "protection_wiki": {
       "mean": 0.4318,
-      "median": 0.4295,
-      "min": 0.023,
-      "max": 0.9687,
+      "median": 0.4294,
+      "min": 0.0234,
+      "max": 0.9686,
       "frac_below_0.2": 0.045,
       "aggregate_ratio_of_mean_norms": 0.433,
       "boot95": [
        0.4301,
-       0.4335
+       0.4334
       ],
       "n": 28545
      },
      "survival_A1": {
-      "mean": 0.4731,
-      "median": 0.4727,
-      "min": 0.4642,
-      "max": 0.4806,
+      "mean": 0.4729,
+      "median": 0.4725,
+      "min": 0.4638,
+      "max": 0.4804,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.4731,
+      "aggregate_ratio_of_mean_norms": 0.4728,
       "boot95": [
-       0.4717,
-       0.4745
+       0.4714,
+       0.4743
       ],
       "n": 24
      },
      "survival_heldout": {
-      "mean": 0.471,
-      "median": 0.471,
-      "min": 0.4637,
-      "max": 0.4806,
+      "mean": 0.4707,
+      "median": 0.4706,
+      "min": 0.4634,
+      "max": 0.4802,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.471,
+      "aggregate_ratio_of_mean_norms": 0.4707,
       "boot95": [
-       0.4695,
-       0.4727
+       0.4692,
+       0.4725
       ],
       "n": 24
      },
      "survival_ARE_A7_positions": {
-      "mean": 0.4577,
-      "median": 0.4719,
+      "mean": 0.4576,
+      "median": 0.4717,
       "min": 0.1625,
-      "max": 0.7468,
+      "max": 0.7467,
       "frac_below_0.2": 0.03,
-      "aggregate_ratio_of_mean_norms": 0.4775,
+      "aggregate_ratio_of_mean_norms": 0.4774,
       "boot95": [
-       0.4361,
-       0.4784
+       0.436,
+       0.4783
       ],
       "n": 132
      }
     }
    },
    "chosen_ok": true,
-   "seconds": 114,
+   "seconds": 150,
    "n_keys": {
     "wiki": 28545,
     "A1": 24,
@@ -265,7 +266,7 @@
      "dims": 8452,
      "protection_wiki": {
       "mean": 0.4315,
-      "median": 0.4332,
+      "median": 0.4331,
       "min": 0.0282,
       "max": 0.9809,
       "frac_below_0.2": 0.07,
@@ -277,48 +278,48 @@
       "n": 28545
      },
      "survival_A1": {
-      "mean": 0.3586,
-      "median": 0.3578,
-      "min": 0.3489,
-      "max": 0.3722,
+      "mean": 0.3579,
+      "median": 0.3573,
+      "min": 0.3486,
+      "max": 0.3714,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.3586,
+      "aggregate_ratio_of_mean_norms": 0.3579,
       "boot95": [
-       0.3561,
-       0.3613
+       0.3554,
+       0.3605
       ],
       "n": 24
      },
      "survival_heldout": {
-      "mean": 0.3542,
-      "median": 0.3556,
-      "min": 0.3402,
-      "max": 0.3696,
+      "mean": 0.3535,
+      "median": 0.355,
+      "min": 0.3394,
+      "max": 0.3688,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.354,
+      "aggregate_ratio_of_mean_norms": 0.3533,
       "boot95": [
-       0.3509,
-       0.3577
+       0.3502,
+       0.357
       ],
       "n": 24
      },
      "survival_ARE_A7_positions": {
-      "mean": 0.434,
-      "median": 0.3785,
-      "min": 0.1841,
-      "max": 0.7314,
+      "mean": 0.4339,
+      "median": 0.3784,
+      "min": 0.184,
+      "max": 0.7313,
       "frac_below_0.2": 0.03,
-      "aggregate_ratio_of_mean_norms": 0.4708,
+      "aggregate_ratio_of_mean_norms": 0.4707,
       "boot95": [
-       0.4109,
-       0.4578
+       0.4107,
+       0.4576
       ],
       "n": 132
      }
     }
    },
    "chosen_ok": true,
-   "seconds": 186,
+   "seconds": 152,
    "n_keys": {
     "wiki": 28545,
     "A1": 24,
@@ -334,7 +335,7 @@
      "protection_wiki": {
       "mean": 0.4209,
       "median": 0.4173,
-      "min": 0.0434,
+      "min": 0.0433,
       "max": 0.9762,
       "frac_below_0.2": 0.104,
       "aggregate_ratio_of_mean_norms": 0.4142,
@@ -345,40 +346,40 @@
       "n": 28545
      },
      "survival_A1": {
-      "mean": 0.3427,
-      "median": 0.3374,
+      "mean": 0.3425,
+      "median": 0.3372,
       "min": 0.3237,
-      "max": 0.37,
+      "max": 0.3697,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.342,
+      "aggregate_ratio_of_mean_norms": 0.3418,
       "boot95": [
-       0.3377,
-       0.3481
+       0.3374,
+       0.3478
       ],
       "n": 24
      },
      "survival_heldout": {
-      "mean": 0.3364,
-      "median": 0.3342,
-      "min": 0.3141,
-      "max": 0.3905,
+      "mean": 0.3361,
+      "median": 0.334,
+      "min": 0.3139,
+      "max": 0.3901,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.3354,
+      "aggregate_ratio_of_mean_norms": 0.3351,
       "boot95": [
-       0.3308,
-       0.3431
+       0.3304,
+       0.3427
       ],
       "n": 24
      },
      "survival_ARE_A7_positions": {
-      "mean": 0.497,
-      "median": 0.4935,
+      "mean": 0.4969,
+      "median": 0.4934,
       "min": 0.1646,
-      "max": 0.7576,
+      "max": 0.7575,
       "frac_below_0.2": 0.015,
-      "aggregate_ratio_of_mean_norms": 0.5235,
+      "aggregate_ratio_of_mean_norms": 0.5234,
       "boot95": [
-       0.4703,
+       0.4702,
        0.5241
       ],
       "n": 132
@@ -386,7 +387,7 @@
     }
    },
    "chosen_ok": true,
-   "seconds": 221,
+   "seconds": 144,
    "n_keys": {
     "wiki": 28545,
     "A1": 24,
@@ -403,7 +404,7 @@
       "mean": 0.3545,
       "median": 0.329,
       "min": 0.0125,
-      "max": 0.9684,
+      "max": 0.9682,
       "frac_below_0.2": 0.187,
       "aggregate_ratio_of_mean_norms": 0.3607,
       "boot95": [
@@ -413,36 +414,36 @@
       "n": 28545
      },
      "survival_A1": {
-      "mean": 0.1773,
-      "median": 0.1765,
-      "min": 0.1606,
+      "mean": 0.1775,
+      "median": 0.1768,
+      "min": 0.1605,
       "max": 0.2059,
       "frac_below_0.2": 0.958,
-      "aggregate_ratio_of_mean_norms": 0.1771,
+      "aggregate_ratio_of_mean_norms": 0.1773,
       "boot95": [
-       0.1735,
-       0.1814
+       0.1736,
+       0.1816
       ],
       "n": 24
      },
      "survival_heldout": {
-      "mean": 0.1798,
-      "median": 0.1758,
+      "mean": 0.18,
+      "median": 0.176,
       "min": 0.1593,
-      "max": 0.2052,
+      "max": 0.2053,
       "frac_below_0.2": 0.917,
-      "aggregate_ratio_of_mean_norms": 0.1795,
+      "aggregate_ratio_of_mean_norms": 0.1797,
       "boot95": [
-       0.1751,
-       0.1848
+       0.1752,
+       0.185
       ],
       "n": 24
      },
      "survival_ARE_A7_positions": {
       "mean": 0.4341,
-      "median": 0.446,
+      "median": 0.4461,
       "min": 0.1605,
-      "max": 0.707,
+      "max": 0.7069,
       "frac_below_0.2": 0.22,
       "aggregate_ratio_of_mean_norms": 0.4658,
       "boot95": [
@@ -458,7 +459,7 @@
       "mean": 0.4083,
       "median": 0.3796,
       "min": 0.0141,
-      "max": 0.9742,
+      "max": 0.9741,
       "frac_below_0.2": 0.138,
       "aggregate_ratio_of_mean_norms": 0.4195,
       "boot95": [
@@ -468,36 +469,36 @@
       "n": 28545
      },
      "survival_A1": {
-      "mean": 0.2138,
-      "median": 0.2129,
-      "min": 0.1876,
+      "mean": 0.214,
+      "median": 0.2136,
+      "min": 0.1875,
       "max": 0.2492,
       "frac_below_0.2": 0.125,
-      "aggregate_ratio_of_mean_norms": 0.2136,
+      "aggregate_ratio_of_mean_norms": 0.2138,
       "boot95": [
-       0.2086,
-       0.2193
+       0.2087,
+       0.2195
       ],
       "n": 24
      },
      "survival_heldout": {
-      "mean": 0.2181,
-      "median": 0.2124,
-      "min": 0.1868,
-      "max": 0.2474,
+      "mean": 0.2183,
+      "median": 0.2126,
+      "min": 0.1869,
+      "max": 0.2476,
       "frac_below_0.2": 0.125,
-      "aggregate_ratio_of_mean_norms": 0.2178,
+      "aggregate_ratio_of_mean_norms": 0.218,
       "boot95": [
-       0.2116,
-       0.2247
+       0.2118,
+       0.2249
       ],
       "n": 24
      },
      "survival_ARE_A7_positions": {
       "mean": 0.5092,
-      "median": 0.5414,
-      "min": 0.1874,
-      "max": 0.8145,
+      "median": 0.5412,
+      "min": 0.1875,
+      "max": 0.8146,
       "frac_below_0.2": 0.045,
       "aggregate_ratio_of_mean_norms": 0.5471,
       "boot95": [
@@ -512,8 +513,8 @@
      "protection_wiki": {
       "mean": 0.4506,
       "median": 0.4223,
-      "min": 0.0156,
-      "max": 0.9784,
+      "min": 0.0155,
+      "max": 0.9783,
       "frac_below_0.2": 0.108,
       "aggregate_ratio_of_mean_norms": 0.4646,
       "boot95": [
@@ -523,38 +524,38 @@
       "n": 28545
      },
      "survival_A1": {
-      "mean": 0.2416,
-      "median": 0.2408,
-      "min": 0.2112,
+      "mean": 0.2418,
+      "median": 0.2415,
+      "min": 0.2111,
       "max": 0.282,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.2413,
+      "aggregate_ratio_of_mean_norms": 0.2415,
       "boot95": [
-       0.2356,
-       0.2478
+       0.2357,
+       0.248
       ],
       "n": 24
      },
      "survival_heldout": {
-      "mean": 0.2469,
-      "median": 0.241,
-      "min": 0.21,
-      "max": 0.2811,
+      "mean": 0.2471,
+      "median": 0.2414,
+      "min": 0.2101,
+      "max": 0.2813,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.2466,
+      "aggregate_ratio_of_mean_norms": 0.2468,
       "boot95": [
-       0.2394,
-       0.2545
+       0.2396,
+       0.2548
       ],
       "n": 24
      },
      "survival_ARE_A7_positions": {
       "mean": 0.5628,
-      "median": 0.6048,
-      "min": 0.211,
+      "median": 0.6046,
+      "min": 0.2111,
       "max": 0.8689,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.6035,
+      "aggregate_ratio_of_mean_norms": 0.6036,
       "boot95": [
        0.5249,
        0.6001
@@ -566,7 +567,7 @@
      "dims": 8878,
      "protection_wiki": {
       "mean": 0.4852,
-      "median": 0.4607,
+      "median": 0.4608,
       "min": 0.0168,
       "max": 0.9822,
       "frac_below_0.2": 0.09,
@@ -578,38 +579,38 @@
       "n": 28545
      },
      "survival_A1": {
-      "mean": 0.2624,
-      "median": 0.2624,
-      "min": 0.2304,
+      "mean": 0.2626,
+      "median": 0.2632,
+      "min": 0.2303,
       "max": 0.3064,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.262,
+      "aggregate_ratio_of_mean_norms": 0.2623,
       "boot95": [
-       0.256,
-       0.269
+       0.2562,
+       0.2693
       ],
       "n": 24
      },
      "survival_heldout": {
-      "mean": 0.2685,
-      "median": 0.2629,
-      "min": 0.2282,
-      "max": 0.3086,
+      "mean": 0.2688,
+      "median": 0.2633,
+      "min": 0.2283,
+      "max": 0.3088,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.2682,
+      "aggregate_ratio_of_mean_norms": 0.2684,
       "boot95": [
-       0.2603,
-       0.2771
+       0.2605,
+       0.2775
       ],
       "n": 24
      },
      "survival_ARE_A7_positions": {
-      "mean": 0.6023,
-      "median": 0.6519,
-      "min": 0.2302,
+      "mean": 0.6024,
+      "median": 0.6517,
+      "min": 0.2303,
       "max": 0.9081,
       "frac_below_0.2": 0.0,
-      "aggregate_ratio_of_mean_norms": 0.6438,
+      "aggregate_ratio_of_mean_norms": 0.6439,
       "boot95": [
        0.5623,
        0.6409
@@ -619,7 +620,7 @@
     }
    },
    "chosen_ok": true,
-   "seconds": 156,
+   "seconds": 149,
    "n_keys": {
     "wiki": 28545,
     "A1": 24,
