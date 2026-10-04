@@ -133,6 +133,16 @@ def get_project_verbatim(cov_cpu, threshold):
     U, S, _ = torch.linalg.svd(cov_cpu, full_matrices=False); idx = (S < threshold).nonzero(as_tuple=True)[0]
     return U[:, idx] @ U[:, idx].T, int(idx.numel()), float(S.min()), float(S.max())
 
+def load_P(path):
+    """Amendment 1 v2 §4 wiring parity (enforced): the stacked per-layer projector is loaded verbatim and its full SHA-256 must equal
+    the P_sha256 recorded by c10k_route_a_gate_v2.py in results/c10k_route_a/projector_gate_v2.json; mismatch aborts before any edit."""
+    import torch, hashlib
+    gate = json.load(open(f"{OUTDIR}/projector_gate_v2.json")); sha = hashlib.sha256(open(path, "rb").read()).hexdigest()
+    print(f"projector: {os.path.basename(path)} sha256[:12]={sha[:12]} (gate record {gate['P_sha256'][:12]}, gate_ok={gate['gate_ok']})", flush=True)
+    if not gate["gate_ok"] or os.path.basename(path) != os.path.basename(gate["P_file"]) or sha != gate["P_sha256"]:
+        raise SystemExit(f"HALT wiring parity: {os.path.basename(path)} sha {sha[:12]} does not match the passed gate record {os.path.basename(gate['P_file'])} {gate['P_sha256'][:12]}")
+    return torch.load(path), sha[:12]
+
 def band_snapshot(model, hp):
     npd = dict(model.named_parameters()); return {l: npd[f"{hp.rewrite_module_tmp.format(l)}.weight"].detach().clone() for l in hp.layers}
 
@@ -234,12 +244,12 @@ def stage_run(a):
     alg = {"R1": "AlphaEdit_ARE", "R2": "AlphaEdit_ARE", "R3": "memit_ARE"}[a.recipe]; window = {"R1": 1, "R2": 50, "R3": 1}[a.recipe]
     HP, M, apply_fn = import_upstream(alg); hp = HP.from_json(a.hparams if alg == "AlphaEdit_ARE" else a.hparams.replace("alphaedit", "memit"))
     M.get_cov = lambda model_, tok_, layer_name, *r, **k: normalised_cov(layer_name).to(dev)   # D4 injection (module attribute, not file)
-    P = torch.load(a.P) if alg == "AlphaEdit_ARE" else None
+    P, P_sha = load_P(a.P) if alg == "AlphaEdit_ARE" else (None, None)
     fiction, arms = build_stimuli(tok)
     for arm in a.arms.split(","):
         V = arms.get(arm, {}); res = run_arm(model, tok, hp, M, apply_fn, alg, arm, V, fiction, dev, P, window)
         res["decision_id"] = "D-C10k-route-a"; res["class"] = "ported-upstream mechanism lead; not CORPUS evidence until advisor-reviewed"
-        res["projector_file"] = os.path.basename(a.P) if P is not None else None
+        res["projector_file"] = os.path.basename(a.P) if P is not None else None; res["projector_sha256_12"] = P_sha
         res["scope"] = f"Qwen2.5-3B base fp16 on MPS / {alg} window={window} / {arm} / N={len(fiction)} / 1-seed / hparams {os.path.basename(a.hparams)} / per-layer thresholds (Amendment 1 D8) {os.path.basename(a.P) if P is not None else 'n/a'}"
         json.dump(res, open(f"{OUTDIR}/{a.recipe}_w{window}_{arm}.json", "w"), indent=1, default=str)
         print(f"{a.recipe} {alg} w={window} {arm}: err={res['error']} secs={res['apply_seconds']} summary={res['summary']} locality={res['locality']['real_capital_top1_correct']} desc_js={res['locality']['described_as_js_locpct']}", flush=True)
@@ -249,7 +259,7 @@ def stage_anchor(a):
     """D5 dynamic anchor: 3 A1 items, MPS fp16 vs CPU fp32; same canonical top-1 and update-norm ratio within [0.5, 2]."""
     import torch
     HP, M, apply_fn = import_upstream("AlphaEdit_ARE"); hp = HP.from_json(a.hparams); hp.window_size = 1; hp.overlap = 0
-    P = torch.load(a.P); out = {"projector_file": os.path.basename(a.P)}
+    P, P_sha = load_P(a.P); out = {"projector_file": os.path.basename(a.P), "projector_sha256_12": P_sha}
     for label, dev, dtype in (("mps_fp16", torch.device("mps"), torch.float16), ("cpu_fp32", torch.device("cpu"), torch.float32)):
         tok, model = load_model(dev, dtype); fiction, arms = build_stimuli(tok); V = arms["A1_single"]; subs = fiction[:3]
         M.get_cov = lambda model_, tok_, layer_name, *r, **k: normalised_cov(layer_name).to(dev)
@@ -269,7 +279,7 @@ def main():
     ap = argparse.ArgumentParser(); ap.add_argument("stage", choices=["alignment", "projectors", "anchor", "run"])
     ap.add_argument("--recipe", default="R1"); ap.add_argument("--arms", default="A1_single,A2_coherent2")
     ap.add_argument("--hparams", default=f"{LLMDB_ROOT}/configs/hparams/anyedit_alphaedit_are_qwen25_3b.json")
-    ap.add_argument("--P", default=f"{LLMDB_ROOT}/logs/c10k_route_a_P_perlayer_0.02-0.02-0.02-0.02-0.03.pt",
+    ap.add_argument("--P", default=f"{LLMDB_ROOT}/logs/c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt",
                     help="stacked per-layer projector tensor from c10k_route_a_gate_v2.py (Amendment 1, D8: per-layer thresholds)")
     a = ap.parse_args(); return {"alignment": stage_alignment, "projectors": stage_projectors, "anchor": stage_anchor, "run": stage_run}[a.stage](a)
 

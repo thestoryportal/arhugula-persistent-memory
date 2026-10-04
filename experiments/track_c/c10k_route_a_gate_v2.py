@@ -75,7 +75,7 @@ def main():
             for g, rr in rows.items(): print(f"   L{l} grid {g}: dims={rr['dims']} prot={rr['protection_wiki']['mean']:.3f} A1={rr['survival_A1']['mean']:.3f} HO={rr['survival_heldout']['mean']:.3f} ARE={rr['survival_ARE_A7_positions']['mean']:.3f}", flush=True)
     rep["gate_ok"] = all(v["chosen_ok"] for v in rep["layers"].values())
     tag = "-".join(str(PER_LAYER[l]) for l in hp.layers)
-    torch.save(torch.stack(Ps, 0), f"{L.LLMDB_ROOT}/logs/c10k_route_a_P_perlayer_{tag}.pt"); rep["P_file"] = f"logs/c10k_route_a_P_perlayer_{tag}.pt"
+    torch.save(torch.stack(Ps, 0), f"{L.LLMDB_ROOT}/logs/c10k_route_a_P_perlayer_{tag}.pt"); rep["P_file"] = f"logs/c10k_route_a_P_perlayer_{tag}.pt"; import hashlib; rep["P_sha256"] = hashlib.sha256(open(f"{L.LLMDB_ROOT}/{rep['P_file']}", "rb").read()).hexdigest()
     json.dump(rep, open(f"{L.OUTDIR}/projector_gate_v2.json", "w"), indent=1); print("gate v2:", "OK" if rep["gate_ok"] else "FAIL", "| P saved:", rep["P_file"]); return 0 if rep["gate_ok"] else 1
 
 if __name__ == "__main__":
