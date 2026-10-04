@@ -54,6 +54,12 @@ The z-optimisation converges (loss 0.009, target probability 0.99) and the per-l
 
 At L2 = 10 the solve realises 5–13 % of each residual because the projected key energy on this model (7–33) is the same order as the ridge. Rescaling restores the canonical fit completely (final z error 0.002; every arm 24/24 on the trained prompt) and leaves paraphrase hidden-state transfer at 0.8–1.8 %, with no item above 50 %, at every ridge value including upstream's. The edit is keyed at the last prompt token (`compute_z.py:91`); the paraphrases end on other tokens and never read it.
 
+### 3.5 fp64 re-solve control (advisor FIX-FIRST on this document, items 2–3; readings fixed before the run)
+
+`experiments/track_c/c10k_route_a_fp64_resolve_control.py` replays each module's layer loop with the per-layer **solve in fp64 on CPU** (everything else as the module does it) for AlphaEdit_ARE at L2 = 0.01 and 0.03 and memit_ARE at upstream's 15000, applies the updates, and evaluates A1 exactly as `run_arm` does. Diagnostic only; the one fix stays spent. **Readings:** (a) if the fp64 memit_ARE pass brings the final z error well below 91 and canon well above 2/24, F6 is re-labelled "the fp32 solve fails at this conditioning" (the program's known P-VRAM-CPU-SOLVE failure class, `tools/engine_fingerprint.py` `_cov_cpu == 3`), not a model property; if it does not, F6 stands as a conditioning property of this covariance independent of precision. (b) If fp64 AlphaEdit at 0.01 reproduces the fp32 locality damage (generic NLL Δ within ±0.05 nats of +0.259; real-country/JS similar), F4's "magnitude costs locality" stands; if the damage largely disappears, F4 is re-labelled "fp32 solve error costs locality" and the magnitude claim is withdrawn. (c) Paraphrase hits are expected to stay 0/72 in every config (F3 does not depend on precision); any non-zero count is reported and F3 narrowed.
+
+_Results: appended after the run._
+
 ### 3.4 Projector and key-dtype gates (Amendment 1 v2, Amendment 2)
 
 | layer | th | protection | A1 survival | held-out | ARE-window | interference ratio A1 / ARE | fp16-vs-fp32 key cos |
