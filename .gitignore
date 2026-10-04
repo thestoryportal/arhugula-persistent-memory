@@ -124,3 +124,6 @@ REVIEW_PROMPT_*.md
 # ── local Python env (uv) + engine scratch; uv.lock IS tracked ──
 .venv
 kvs/
+
+# graft's local graph cache — regenerable, not committed (run `graft build`). One file leaked via `git add -A` in PR #9 and is removed here.
+/graft/
