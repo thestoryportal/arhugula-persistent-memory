@@ -156,6 +156,17 @@ def load_P(path):
         raise SystemExit(f"HALT wiring parity: {os.path.basename(path)} sha {sha[:12]} does not match the passed gate record {os.path.basename(gate['P_file'])} {gate['P_sha256'][:12]}")
     return torch.load(path), sha[:12]
 
+def generic_nll(model, tok, dev, n=20, start=1_200_000):
+    """Amendment 3 §6 diagnostic (not a gate): mean token NLL on n held-out Wikipedia snippets (disjoint from the gate's 1,000,000-1,000,200 range)."""
+    import torch
+    from datasets import load_dataset
+    wiki = load_dataset("wikimedia/wikipedia", "20231101.en")["train"]; tot, cnt = 0.0, 0
+    with torch.no_grad():
+        for i in range(start, start + n):
+            x = tok(wiki[i]["text"][:400], return_tensors="pt").to(dev); out = model(**x, labels=x["input_ids"])
+            tot += float(out.loss) * (x["input_ids"].shape[1] - 1); cnt += x["input_ids"].shape[1] - 1
+    return round(tot / cnt, 5)
+
 def band_snapshot(model, hp):
     npd = dict(model.named_parameters()); return {l: npd[f"{hp.rewrite_module_tmp.format(l)}.weight"].detach().clone() for l in hp.layers}
 
@@ -226,7 +237,7 @@ def run_arm(model, tok, hp, M, apply_fn, alg, arm, V, fiction, dev, P, window):
     items = [{"question": CANON.format(s), "answer": " " + V[s]} for s in fiction] if arm != "stock" else [{"question": stock_item()["question"], "answer": stock_item()["answer"]}]
     real = real_country_set(tok); real_prompts = [CANON.format(c) for c, _ in real]; desc = [f"{s} is described as" for s in fiction]
     pre_real = {p: predict(model, tok, p, dev) for p in real_prompts}; pre_desc = {p: predict(model, tok, p, dev) for p in desc}
-    stock = stock_item(); pre_stock = full_seq_match(model, tok, stock["question"], ids(tok, stock["answer"])[:6], dev)
+    stock = stock_item(); pre_stock = full_seq_match(model, tok, stock["question"], ids(tok, stock["answer"])[:6], dev); pre_nll = generic_nll(model, tok, dev)
     pre_rows = [] if arm == "stock" else [{"subject": s, "value": V[s], **eval_case(model, tok, CANON.format(s), " " + V[s], [p.format(s) for p in PTEST], dev)} for s in fiction]   # Amendment 2: same-dtype pre-edit reference
     snap = band_snapshot(model, hp); n0 = band_norms(model, hp); t = time.time(); buf = io.StringIO(); err = None
     try:
@@ -242,14 +253,14 @@ def run_arm(model, tok, hp, M, apply_fn, alg, arm, V, fiction, dev, P, window):
             for s in fiction: rows.append({"subject": s, "value": V[s], **eval_case(model, tok, CANON.format(s), " " + V[s], [p.format(s) for p in PTEST], dev)})
     post_real = {p: predict(model, tok, p, dev) for p in real_prompts}; post_desc = {p: predict(model, tok, p, dev) for p in desc}
     real_ok = sum(1 for (c, truth), p in zip(real, real_prompts) if post_real[p]["tok"].strip().lower() and truth.lower().startswith(post_real[p]["tok"].strip().lower()))
-    post_stock = full_seq_match(model, tok, stock["question"], ids(tok, stock["answer"])[:6], dev)
+    post_stock = full_seq_match(model, tok, stock["question"], ids(tok, stock["answer"])[:6], dev); post_nll = generic_nll(model, tok, dev)
     band_restore(model, hp, snap)
     res = {"alg": alg, "arm": arm, "window_size": window, "n_items": len(items), "apply_seconds": secs, "error": err,
            "update_norm_ratio": {l: round(n1[l] / n0[l], 6) for l in n0}, "stdout_tail": buf.getvalue()[-1500:],
            "summary": arm_summary(rows) if rows and arm != "stock" else None, "pre_summary": arm_summary(pre_rows) if pre_rows else None, "rows": rows, "pre_rows": pre_rows,
            "locality": {"real_capital_top1_correct": f"{real_ok}/{len(real)}", "real_js_locpct": locpct(post_real, pre_real, real_prompts),
                         "stock_item_prefix_pre": pre_stock["gen"], "stock_item_prefix_post": post_stock["gen"], "stock_item_unchanged": pre_stock["gen"] == post_stock["gen"],
-                        "described_as_js_locpct": locpct(post_desc, pre_desc, desc)}}
+                        "described_as_js_locpct": locpct(post_desc, pre_desc, desc), "generic_nll_pre": pre_nll, "generic_nll_post": post_nll, "generic_nll_delta": round(post_nll - pre_nll, 5)}}
     return res
 
 def stage_run(a):
