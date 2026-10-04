@@ -23,24 +23,30 @@ from memit.memit_main import get_cov, MEMITHyperParams
 from util.device import resolve_device, empty_cache  # P-8
 DEV = resolve_device()
 
-ID = os.environ.get("MODEL_ID", "Qwen/Qwen2.5-3B")
-REV = os.environ.get("MODEL_REV", "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-HPARAMS = os.environ.get("HPARAMS", f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")  # band [4-8] default; band812 file for L9-12
-hp = MEMITHyperParams.from_json(HPARAMS)
-LAYERS = [int(x) for x in os.environ.get("COV_LAYERS", ",".join(map(str, hp.layers))).split(",")]
 
-print(f"[cov] loading {ID}@{REV[:8]} | layers={LAYERS} | dataset={hp.mom2_dataset} n={hp.mom2_n_samples} dtype={hp.mom2_dtype}", flush=True)
-tok = AutoTokenizer.from_pretrained(ID, revision=REV)
-model = AutoModelForCausalLM.from_pretrained(ID, revision=REV, torch_dtype=torch.float16).to(DEV).eval()
+def main():
+    ID = os.environ.get("MODEL_ID", "Qwen/Qwen2.5-3B")
+    REV = os.environ.get("MODEL_REV", "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
+    HPARAMS = os.environ.get("HPARAMS", f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")  # band [4-8] default; band812 file for L9-12
+    hp = MEMITHyperParams.from_json(HPARAMS)
+    LAYERS = [int(x) for x in os.environ.get("COV_LAYERS", ",".join(map(str, hp.layers))).split(",")]
 
-for L in LAYERS:
-    t = time.time()
-    name = hp.rewrite_module_tmp.format(L)
-    print(f"[cov] >>> L{L} {name} ...", flush=True)
-    cov = get_cov(model, tok, name, hp.mom2_dataset, hp.mom2_n_samples, hp.mom2_dtype).cpu().float()
-    print(f"[cov] <<< L{L} done shape={tuple(cov.shape)} in {int(time.time()-t)}s", flush=True)
-    del cov; empty_cache(DEV)
+    print(f"[cov] loading {ID}@{REV[:8]} | layers={LAYERS} | dataset={hp.mom2_dataset} n={hp.mom2_n_samples} dtype={hp.mom2_dtype}", flush=True)
+    tok = AutoTokenizer.from_pretrained(ID, revision=REV)
+    model = AutoModelForCausalLM.from_pretrained(ID, revision=REV, torch_dtype=torch.float16).to(DEV).eval()
 
-print(f"[cov] ALL DONE — layers {LAYERS} cached.", flush=True)
-os.makedirs(f"{LLMDB_ROOT}/logs", exist_ok=True)
-open(f"{LLMDB_ROOT}/logs/cov_L{'-'.join(map(str, LAYERS))}_DONE.flag", "w").write("done\n")
+    for L in LAYERS:
+        t = time.time()
+        name = hp.rewrite_module_tmp.format(L)
+        print(f"[cov] >>> L{L} {name} ...", flush=True)
+        cov = get_cov(model, tok, name, hp.mom2_dataset, hp.mom2_n_samples, hp.mom2_dtype).cpu().float()
+        print(f"[cov] <<< L{L} done shape={tuple(cov.shape)} in {int(time.time()-t)}s", flush=True)
+        del cov; empty_cache(DEV)
+
+    print(f"[cov] ALL DONE — layers {LAYERS} cached.", flush=True)
+    os.makedirs(f"{LLMDB_ROOT}/logs", exist_ok=True)
+    open(f"{LLMDB_ROOT}/logs/cov_L{'-'.join(map(str, LAYERS))}_DONE.flag", "w").write("done\n")
+
+
+if __name__ == "__main__":  # P-8c: spawn-based DataLoader workers re-import this file
+    main()

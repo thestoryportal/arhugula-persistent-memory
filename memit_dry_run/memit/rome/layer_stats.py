@@ -148,7 +148,7 @@ def layer_stats(
         collate_fn=length_collation(batch_tokens),
         pin_memory=True,
         random_sample=1,
-        num_workers=2,
+        num_workers={"fork": 2}.get(torch.multiprocessing.get_start_method(), 0),  # P-8c: spawn re-imports __main__
     )
     batch_count = -(-(sample_size or len(ds)) // batch_size)
     with torch.no_grad():
