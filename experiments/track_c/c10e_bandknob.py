@@ -158,7 +158,7 @@ def compute_P(hp):
 
 
 def my_edit(hp, requests, P, cache_c):
-    ctx = get_context_templates(model, tok)
+    ctx = get_context_templates(model, tok) if os.environ.get("C10_CTX_TEMPLATES", "on") != "off" else [["{}"]]   # D-C10k-keying-ablation knob: off = identity template only
     layers = hp.layers
     z_layer = layers[-1]
     zs = torch.stack([compute_z(model, tok, rq, hp, z_layer, ctx) for rq in requests], dim=1)
