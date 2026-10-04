@@ -224,6 +224,8 @@ def build_stimuli():
 
 
 ARMS = build_stimuli()
+if os.environ.get("C10_ARMS"):   # D-C10k-keying-ablation: restrict arms (default: all)
+    ARMS = {k: v for k, v in ARMS.items() if k in os.environ["C10_ARMS"].split(",")}
 
 
 def eval_arm(Vmap):
@@ -410,12 +412,10 @@ def main():
         "scope": "Qwen2.5-3B / AlphaEdit / capital / A1-A2-A7 / N=24 / 1-seed / HF-fp16",
         "stimulus": {"CANON": CANON, "PTEST": PTEST, "FICTION": FICTION, **{f"V_{k}": v for k, v in ARMS.items()}},
         "base_report": base_report,
-        "recipes": {
-            "baseline": run_recipe("baseline", HP_BASE),
-            CANDIDATE_NAME: run_recipe(CANDIDATE_NAME, HP_BAND),
-        },
+        "recipes": ({CANDIDATE_NAME: run_recipe(CANDIDATE_NAME, HP_BAND)} if os.environ.get("C10_RECIPES") == "candidate"   # D-C10k-keying-ablation: one recipe per cell
+                    else {"baseline": run_recipe("baseline", HP_BASE), CANDIDATE_NAME: run_recipe(CANDIDATE_NAME, HP_BAND)}),
     }
-    results["verdict"] = verdict(results)
+    results["verdict"] = verdict(results) if "baseline" in results["recipes"] and "A7_coined_coined" in ARMS else {"note": "verdict skipped (restricted arms/recipes)"}
     with open(OUT, "w") as f:
         json.dump(results, f, indent=2, default=str)
     print("\n=== C10e BAND-KNOB SUMMARY ===", flush=True)
