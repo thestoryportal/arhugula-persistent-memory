@@ -1,0 +1,10 @@
+# rsync exclude list for tools/backup_mirror.sh — regenerable or machine-local only.
+# Everything not listed here IS backed up, including the Llama-era sweeps and caches.
+.DS_Store
+.cache/
+.ipynb_checkpoints/
+__pycache__/
+tmp/
+graft/
+arhugula-persistent-memory/.claude/worktrees/
+arhugula-persistent-memory/graft/

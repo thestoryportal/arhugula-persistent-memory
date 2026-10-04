@@ -46,7 +46,7 @@ The work is **NOT done** until `python3 tools/closeout_check.py <D-ID>` reports 
 
 ## Storage discipline (two-tier; HARD)
 
-- NV (`/workspace/...`) = working tier; the MBP SSD mirror = durable archive (synced out-of-band).
+- **Since 2026-10-03 (RunPod volume lost):** the external `memit` volume (`/Volumes/memit/llm-database-poc-mirror`) = working tier; the Mac's internal SSD (`~/Backups/memit/`) = durable archive, synced every 6 h by launchd via `tools/backup_mirror.sh` (`tools/launchd/com.rhu.memit-backup.plist`). The `Development` and `backups` volumes share memit's physical disk and are not backup targets. Git is the durable tier for everything small, including the vendored engine.
 - **NEVER** delete `CORPUS/`, `memory_mirror/`, the engine, the active model line, or any reproducibility manifest; **NEVER** overwrite a manifest in place; **NEVER** pristine-restore the engine without explicit instruction. These are deny-listed → if you believe one is needed, HALT and record the need for operator action.
   - **CARVE-OUT (operator standing authorization):** deleting **explicitly operator-authorized stale artifacts** (the named reclaim candidates in `EXPERIMENT_RUNBOOK.md` §3.3 — superseded non-Qwen model/cov caches, halted-experiment artifacts) is permitted without a HALT (forward infra is pre-approved). Confirm provenance before deleting anything NOT on the §3.3 list.
 - Network-FS hazard: write big canonical docs via shell/python and **re-read to confirm persistence** (Edit-tool writes have silently reverted on this FS).
