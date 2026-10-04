@@ -1,6 +1,6 @@
 # 41 — C10K Stage 0 on the M3 Pro: HALTED - HARDWARE_ENVELOPE (+ UPSTREAM_ENV_UNDEFINED)
 
-_Diagnostic 2026-10-04. Decision-ID D-C10k-m3pro-stage0 ⟨D-C10k-m3pro-stage0@2e04a432⟩. Pre-registered in `docs/C10K_ANYEDIT_OFFICIAL_UPSTREAM_PREREG.md` (Stage 0; hardware scope superseded by D-HW-1). Full detail: `docs/C10K_M3PRO_STAGE0_DIAGNOSTIC.md`. Artifacts: `logs/c10k_stage0_desk_check.log`, `logs/c10k_stage0_cuda_classification.json`, `logs/c10k_stage0_first_failure_trace.log`, `logs/c10k_stage0_mps_svd_check.log`, `architecture_profile/c10k_m3pro_stage0_halt_diagnostic.json`, advisor reviews `logs/claude_c10k_m3pro_stage0_review{,_v2,_v3}.md`._
+_Diagnostic 2026-10-04. Decision-ID D-C10k-m3pro-stage0 ⟨D-C10k-m3pro-stage0@43899c7f⟩. Pre-registered in `docs/C10K_ANYEDIT_OFFICIAL_UPSTREAM_PREREG.md` (Stage 0; hardware scope superseded by D-HW-1). Full detail: `docs/C10K_M3PRO_STAGE0_DIAGNOSTIC.md`. Artifacts: `logs/c10k_stage0_desk_check.log`, `logs/c10k_stage0_cuda_classification.json`, `logs/c10k_stage0_first_failure_trace.log`, `logs/c10k_stage0_mps_svd_check.log`, `architecture_profile/c10k_m3pro_stage0_halt_diagnostic.json`, advisor reviews `logs/claude_c10k_m3pro_stage0_review{,_v2,_v3}.md`._
 
 ## Claim class
 **Hardware/source-faithfulness diagnostic — NOT a method verdict on AnyEdit and NOT C10 evidence.** No science model was loaded; no C10 A1/A2/A7 ran (stop rule honored).
@@ -14,6 +14,7 @@ _Diagnostic 2026-10-04. Decision-ID D-C10k-m3pro-stage0 ⟨D-C10k-m3pro-stage0@2
 | Official runner complete? | **No** — `experiments/evaluate_uns.py:29` imports `glue_eval`, which does not ship; and the AlphaEdit null-space projector (`get_project`, SVD) lives in the runner (lines 262–275), not in `AlphaEdit_ARE/` | desk-check log |
 | README environment | `transformers==4.23.1`, `pytorch==1.12.1`, "One A100 80G GPU"; no lockfile. **4.23.1 cannot load the shipped Qwen2.5 configs** (Qwen2 module: absent 4.36.2, present 4.37.0) → the "upstream-compatible environment" is undefined by upstream on any hardware | desk-check log |
 | Shipped configs | `Qwen2.5-7B-Instruct`, `Llama3-8B-Instruct` only — **Instruct**, no 3B; the program's line is base Qwen2.5-3B/7B (new finding; the prereg never mentions Instruct) | desk-check log |
+| Does `memit_ARE` reduce to MEMIT (Route A differential anchor)? | **No** — extra `K_p·K_pᵀ` preservation term in the solve, last-prompt-token keying without templates, no KL term (code read, line-cited) → Route A keeps only the static-identity anchor | `docs/C10K_MEMIT_ARE_REDUCTION_NOTE.md` |
 | Upstream default load | fp32 `.cuda()` (`evaluate_uns.py:86`): 7B ≈ 28.3 GB weights + 5 × 1.34 GB fp32 18944² projectors ≈ 35 GB before activations, vs MPS recommended ceiling 37.4 GB here → fitting would need dtype/offload "local tricks" the prereg forbids for PASS (I-INFER; not load-tested) | mps svd check log |
 
 ## What this does and does not change
