@@ -159,3 +159,10 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Measurement:** first live failure frame; count/bin of device bindings; runner completeness; env/config desk checks.
 - **Criterion (prereg item 2):** runs without unapproved source/VRAM patches → else `HALTED - HARDWARE_ENVELOPE`.
 - **Verdict:** HALTED - HARDWARE_ENVELOPE (+UPSTREAM_ENV_UNDEFINED). Not a method verdict. Operator fork A/B/C.
+
+### C-C10k-ra - C10K Route A ported AnyEdit controls (D-C10k-route-a ⟨D-C10k-route-a@3b0be47e⟩)
+- **Hypothesis:** the official AnyEdit modules, ported device-only and run on Qwen2.5-3B base, recover the A1/A2 controls (`para_full ≥ 80`) and can then be read on A7.
+- **Method:** prereg + 3 amendments; projector gate v2 + controls; D5 anchor; R0 LAW#3; R1 controls at L2=10, one fix (L2=0.01) and rerun; back-test of the solve; A7/memit_ARE diagnostic-only.
+- **Measurement:** canon/para full-sequence hits, locality (real-country, JS, stock item, generic NLL), band norms, realised-residual fractions, hidden-state transfer.
+- **Criterion (prereg §3):** A1 and A2 `para_full ≥ 80` after at most one localized fix → else HALTED.
+- **Verdict:** HALTED — CONTROLS_NOT_RECOVERED (0/72 both arms at both ridges; trained prompt 24/24 after the fix). Mechanism: last-prompt-token keying, ~0 paraphrase transfer.
