@@ -1222,7 +1222,7 @@ The RunPod 4090 is gone; the engine now runs on a MacBook M3 Pro (Apple MPS). Th
 Not touched: `rome/compute_v.py`, `rome/compute_u.py`, `rome/rome_main.py` (ROME, eliminated at S2.18), `util/perplexity.py`, `util/runningstats.py` CLI self-test.
 
 ### 3.9.3 Fingerprint
-`memit/memit_main.py` sha256 **`e6ac7e186ee4ea5834f1127ce6f4031eef21fc52c8effa474876b80bda164b51`** (was `5c0c706a…c78770` for P-1..P-7 + CPU-solve, the hash every CORPUS result through 2026-06-27 ran under). `_cov_cpu` sites remain 3. Gate: `python3 tools/engine_fingerprint.py` (both hashes recorded there).
+`memit/memit_main.py` sha256 **`d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65`** (2026-10-04 amendment: the delta product in `apply_memit_to_model` stays float64 on CPU and only the float32 result moves to the weight's device; the interim `e6ac7e18…` form failed at the first engine apply on MPS and no result ran under it) (was `5c0c706a…c78770` for P-1..P-7 + CPU-solve, the hash every CORPUS result through 2026-06-27 ran under). `_cov_cpu` sites remain 3. Gate: `python3 tools/engine_fingerprint.py` (both hashes recorded there).
 
 ### 3.9.4 Inertness obligation (LAW#5)
 P-8 changes *where* tensors live, not what is computed; float64 CPU arithmetic is the same arithmetic the 4090 era already ran after S2.31. Cross-hardware bit-exactness is a documented non-requirement (`REPRODUCIBILITY.md`), so inertness is shown behaviorally under LAW#3: the C2 key-collinearity depth map must land near `CORPUS/20` (L4 0.68/0.93 · L6 0.67/0.94 · L8 0.26/0.94 subject/relation cos) and the A1 batch arm must come back clean (`CORPUS/14`: held-out edited-relation top-1 100% at N≤100). Results are recorded in `EXPERIMENT_RUNBOOK.md` §13 (2026-10-03) when run.

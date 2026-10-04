@@ -44,18 +44,16 @@ def apply_memit_to_model(
 
     deltas = execute_memit(model, tok, requests, hparams, cache_template=cache_template)
 
-    dev = device_of(model)  # P-8
     with torch.no_grad():
         for w_name, (key_mat, val_mat) in deltas.items():
-            key_mat, val_mat = key_mat.to(dev), val_mat.to(dev)
-            upd_matrix = key_mat @ val_mat.T
+            upd_matrix = key_mat @ val_mat.T  # P-8: the float64 product stays on CPU (MPS has no float64)
             w = nethook.get_parameter(model, w_name)
             upd_matrix = upd_matrix_match_shape(upd_matrix, w.shape)
 
             if return_orig_weights and w_name not in weights_copy:
                 weights_copy[w_name] = w.detach().clone()
 
-            w[...] += upd_matrix.float()
+            w[...] += upd_matrix.float().to(w.device)  # P-8
 
     print(f"New weights successfully inserted into {list(deltas.keys())}")
 

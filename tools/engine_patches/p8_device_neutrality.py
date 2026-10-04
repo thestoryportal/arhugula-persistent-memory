@@ -25,8 +25,9 @@ edits = {
  ],
  "memit/memit_main.py": [
   ("from util import nethook\n", "from util import nethook\nfrom util.device import device_of, empty_cache  # P-8\n"),
-  ('    with torch.no_grad():\n        for w_name, (key_mat, val_mat) in deltas.items():\n            key_mat, val_mat = key_mat.to("cuda"), val_mat.to("cuda")\n',
-   '    dev = device_of(model)  # P-8\n    with torch.no_grad():\n        for w_name, (key_mat, val_mat) in deltas.items():\n            key_mat, val_mat = key_mat.to(dev), val_mat.to(dev)\n'),
+  ('    with torch.no_grad():\n        for w_name, (key_mat, val_mat) in deltas.items():\n            key_mat, val_mat = key_mat.to("cuda"), val_mat.to("cuda")\n            upd_matrix = key_mat @ val_mat.T\n',
+   '    with torch.no_grad():\n        for w_name, (key_mat, val_mat) in deltas.items():\n            upd_matrix = key_mat @ val_mat.T  # P-8: the float64 product stays on CPU (MPS has no float64)\n'),
+  ('            w[...] += upd_matrix.float()\n', '            w[...] += upd_matrix.float().to(w.device)  # P-8\n'),
   ('                z_list.append(torch.from_numpy(data["v_star"]).to("cuda"))\n',
    '                z_list.append(torch.from_numpy(data["v_star"]).to(device_of(model)))  # P-8\n'),
   # the double-precision solve already runs on CPU (S2.31); P-8 moves the operands there BEFORE

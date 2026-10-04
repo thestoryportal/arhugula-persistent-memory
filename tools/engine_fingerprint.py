@@ -16,6 +16,10 @@ Fingerprint history (memit/memit_main.py sha256):
                    replaced by the model's device; float64 operands moved to CPU
                    before the cast (MPS has no float64). Inertness: LAW#3
                    reproduction of CORPUS/20 (C2) and CORPUS/14 (A1) on the M3 Pro.
+  d941a9fb…8d3d65  P-8 amended 2026-10-04: apply_memit_to_model keeps the float64
+                   delta product on CPU and moves only the float32 result (the
+                   e6ac7e18 form moved float64 deltas to MPS and failed at first
+                   engine apply). Supersedes e6ac7e18 before any result ran under it.
 """
 from __future__ import annotations
 
@@ -27,7 +31,7 @@ from pathlib import Path
 LLMDB_ROOT = Path(os.environ.get("LLMDB_ROOT") or Path(__file__).resolve().parents[1])
 MEMIT_MAIN = LLMDB_ROOT / "memit_dry_run" / "memit" / "memit" / "memit_main.py"
 
-EXPECTED_SHA256 = "e6ac7e186ee4ea5834f1127ce6f4031eef21fc52c8effa474876b80bda164b51"
+EXPECTED_SHA256 = "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65"
 POD_ERA_SHA256 = "5c0c706a66c385273d0a48ebbb8274a1c31bf3e101ca309e47db9cb8b6c78770"
 EXPECTED_COV_CPU_SITES = 3
 
