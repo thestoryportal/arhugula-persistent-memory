@@ -1,0 +1,14 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.71s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:12<00:00,  6.04s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:12<00:00,  6.29s/it]
+Using the latest cached version of the dataset since wikimedia/wikipedia couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration '20231101.en' at /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/hf_cache/datasets/wikimedia___wikipedia/20231101.en/0.0.0/b04c8d1ceb2f5cd4588862100d08de323dccfbaa (last modified on Sat Oct  3 19:42:36 2026).
+L4 @0.02: dims=10245 prot=0.544 A1=0.533 ci=[0.5305, 0.5354] HO=0.531 ARE=0.517 -> FAIL
+L5 @0.02: dims=9155 prot=0.432 A1=0.473 ci=[0.4717, 0.4745] HO=0.471 ARE=0.458 -> OK
+L6 @0.02: dims=8452 prot=0.431 A1=0.359 ci=[0.3561, 0.3613] HO=0.354 ARE=0.434 -> OK
+L7 @0.02: dims=7862 prot=0.421 A1=0.343 ci=[0.3377, 0.3481] HO=0.336 ARE=0.497 -> OK
+L8 @0.03: dims=8368 prot=0.451 A1=0.242 ci=[0.2356, 0.2478] HO=0.247 ARE=0.563 -> OK
+   L8 grid 0.02: dims=6567 prot=0.354 A1=0.177 HO=0.180 ARE=0.434
+   L8 grid 0.025: dims=7637 prot=0.408 A1=0.214 HO=0.218 ARE=0.509
+   L8 grid 0.03: dims=8368 prot=0.451 A1=0.242 HO=0.247 ARE=0.563
+   L8 grid 0.035: dims=8878 prot=0.485 A1=0.262 HO=0.269 ARE=0.602
+gate v2: FAIL | P saved: logs/c10k_route_a_P_perlayer_0.02-0.02-0.02-0.02-0.03.pt
