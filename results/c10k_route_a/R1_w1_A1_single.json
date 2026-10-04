@@ -3,20 +3,20 @@
  "arm": "A1_single",
  "window_size": 1,
  "n_items": 24,
- "apply_seconds": 132,
+ "apply_seconds": 54,
  "error": null,
  "update_norm_ratio": {
-  "4": 1.001294,
-  "5": 0.957058,
-  "6": 1.00177,
-  "7": 1.014643,
-  "8": 1.082949
+  "4": 3.600007,
+  "5": 1.042752,
+  "6": 1.004316,
+  "7": 1.004062,
+  "8": 1.00329
  },
- "stdout_tail": " 0.0 0.7549512982368469\nloss 0.165 = 0.165  + 0.0 0.8481734395027161\nloss 0.082 = 0.081  + 0.0 0.9217444062232971\nloss 0.051 = 0.051  + 0.0 0.9501412510871887\nloss 0.04 = 0.04  + 0.0 0.9604169130325317\nloss 0.031 = 0.031  + 0.0 0.969756007194519\nloss 0.023 = 0.023  + 0.0 0.9776950478553772\nloss 0.017 = 0.017  + 0.0 0.9835830330848694\nloss 0.013 = 0.013  + 0.0 0.9875258803367615\nloss 0.01 = 0.01  + 0.0 0.9899929761886597\nloss 0.009 = 0.009  + 0.0 0.9915180206298828\nIteration 1: Init norm 52.34465789794922 | Delta norm 106.3208236694336 | Target norm 117.91683197021484\nz error tensor(98.1019, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(83.8479, device='mps:0')\nupd norm tensor(4.2287, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\nz error tensor(96.1776, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(109.1787, device='mps:0')\nupd norm tensor(4.9223, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\nz error tensor(94.5651, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(119.8984, device='mps:0')\nupd norm tensor(7.5469, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\nz error tensor(92.7703, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(115.3161, device='mps:0')\nupd norm tensor(20.2780, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\nz error tensor(87.2352, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(119.4817, device='mps:0')\nupd norm tensor(50.6396, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\n",
+ "stdout_tail": " 0.7549512982368469\nloss 0.165 = 0.165  + 0.0 0.8481734395027161\nloss 0.082 = 0.081  + 0.0 0.9217444062232971\nloss 0.051 = 0.051  + 0.0 0.9501412510871887\nloss 0.04 = 0.04  + 0.0 0.9604169130325317\nloss 0.031 = 0.031  + 0.0 0.969756007194519\nloss 0.023 = 0.023  + 0.0 0.9776950478553772\nloss 0.017 = 0.017  + 0.0 0.9835830330848694\nloss 0.013 = 0.013  + 0.0 0.9875258803367615\nloss 0.01 = 0.01  + 0.0 0.9899929761886597\nloss 0.009 = 0.009  + 0.0 0.9915180206298828\nIteration 1: Init norm 52.34465789794922 | Delta norm 106.3208236694336 | Target norm 117.91683197021484\nz error tensor(98.1019, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(83.8479, device='mps:0')\nupd norm tensor(289.9980, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\nz error tensor(87.5928, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(109.1787, device='mps:0')\nupd norm tensor(33.6150, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\nz error tensor(76.5569, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(119.8984, device='mps:0')\nupd norm tensor(13.8162, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\nz error tensor(62.7274, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(115.3161, device='mps:0')\nupd norm tensor(13.4707, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\nz error tensor(41.8262, device='mps:0', grad_fn=<MeanBackward0>)\norig norm tensor(119.4817, device='mps:0')\nupd norm tensor(13.4983, device='mps:0', grad_fn=<LinalgVectorNormBackward0>)\n",
  "summary": {
   "n_items": 24,
-  "canon_full": 45.8,
-  "canon_full_hits": "11/24",
+  "canon_full": 100.0,
+  "canon_full_hits": "24/24",
   "para_full": 0.0,
   "para_full_hits": "0/72",
   "para_first": 0.0,
@@ -42,10 +42,10 @@
    "target_ids": [
     94311
    ],
-   "canon_full": false,
-   "canon_first": false,
+   "canon_full": true,
+   "canon_first": true,
    "canon_gen": [
-    5355
+    94311
    ],
    "para_full_hits": [
     false,
@@ -62,7 +62,7 @@
      1863
     ],
     [
-     1863
+     279
     ],
     [
      279
@@ -95,7 +95,7 @@
      330
     ],
     [
-     3406
+     264
     ],
     [
      279
@@ -108,10 +108,10 @@
    "target_ids": [
     57023
    ],
-   "canon_full": false,
-   "canon_first": false,
+   "canon_full": true,
+   "canon_first": true,
    "canon_gen": [
-    55218
+    57023
    ],
    "para_full_hits": [
     false,
@@ -128,7 +128,7 @@
      330
     ],
     [
-     279
+     264
     ],
     [
      279
@@ -191,10 +191,10 @@
    ],
    "para_gen": [
     [
-     479
+     330
     ],
     [
-     30743
+     264
     ],
     [
      279
@@ -227,10 +227,10 @@
      330
     ],
     [
-     422
+     264
     ],
     [
-     422
+     279
     ]
    ]
   },
@@ -240,10 +240,10 @@
    "target_ids": [
     67289
    ],
-   "canon_full": false,
-   "canon_first": false,
+   "canon_full": true,
+   "canon_first": true,
    "canon_gen": [
-    22415
+    67289
    ],
    "para_full_hits": [
     false,
@@ -260,7 +260,7 @@
      809
     ],
     [
-     1304
+     264
     ],
     [
      279
@@ -273,10 +273,10 @@
    "target_ids": [
     54578
    ],
-   "canon_full": false,
-   "canon_first": false,
+   "canon_full": true,
+   "canon_first": true,
    "canon_gen": [
-    4553
+    54578
    ],
    "para_full_hits": [
     false,
@@ -290,7 +290,7 @@
    ],
    "para_gen": [
     [
-     279
+     330
     ],
     [
      279
@@ -323,10 +323,10 @@
    ],
    "para_gen": [
     [
-     279
+     330
     ],
     [
-     3881
+     264
     ],
     [
      279
@@ -356,10 +356,10 @@
    ],
    "para_gen": [
     [
-     279
+     3240
     ],
     [
-     279
+     264
     ],
     [
      279
@@ -372,10 +372,10 @@
    "target_ids": [
     70244
    ],
-   "canon_full": false,
-   "canon_first": false,
+   "canon_full": true,
+   "canon_first": true,
    "canon_gen": [
-    1163
+    70244
    ],
    "para_full_hits": [
     false,
@@ -422,13 +422,13 @@
    ],
    "para_gen": [
     [
-     4818
+     330
     ],
     [
      279
     ],
     [
-     7407
+     279
     ]
    ]
   },
@@ -438,10 +438,10 @@
    "target_ids": [
     69595
    ],
-   "canon_full": false,
-   "canon_first": false,
+   "canon_full": true,
+   "canon_first": true,
    "canon_gen": [
-    12095
+    69595
    ],
    "para_full_hits": [
     false,
@@ -455,13 +455,13 @@
    ],
    "para_gen": [
     [
-     279
+     330
     ],
     [
-     1304
+     264
     ],
     [
-     279
+     7407
     ]
    ]
   },
@@ -488,13 +488,13 @@
    ],
    "para_gen": [
     [
-     1128
+     330
     ],
     [
      264
     ],
     [
-     50615
+     279
     ]
    ]
   },
@@ -504,10 +504,10 @@
    "target_ids": [
     76334
    ],
-   "canon_full": false,
-   "canon_first": false,
+   "canon_full": true,
+   "canon_first": true,
    "canon_gen": [
-    1863
+    76334
    ],
    "para_full_hits": [
     false,
@@ -524,10 +524,10 @@
      1863
     ],
     [
-     7407
+     264
     ],
     [
-     1863
+     279
     ]
    ]
   },
@@ -537,10 +537,10 @@
    "target_ids": [
     61953
    ],
-   "canon_full": false,
-   "canon_first": false,
+   "canon_full": true,
+   "canon_first": true,
    "canon_gen": [
-    444
+    61953
    ],
    "para_full_hits": [
     false,
@@ -557,10 +557,10 @@
      444
     ],
     [
-     1304
+     264
     ],
     [
-     444
+     279
     ]
    ]
   },
@@ -570,10 +570,10 @@
    "target_ids": [
     12270
    ],
-   "canon_full": false,
-   "canon_first": false,
+   "canon_full": true,
+   "canon_first": true,
    "canon_gen": [
-    68073
+    12270
    ],
    "para_full_hits": [
     false,
@@ -587,10 +587,10 @@
    ],
    "para_gen": [
     [
-     279
+     330
     ],
     [
-     279
+     264
     ],
     [
      279
@@ -603,10 +603,10 @@
    "target_ids": [
     12095
    ],
-   "canon_full": false,
-   "canon_first": false,
+   "canon_full": true,
+   "canon_first": true,
    "canon_gen": [
-    730
+    12095
    ],
    "para_full_hits": [
     false,
@@ -623,10 +623,10 @@
      730
     ],
     [
-     30743
+     264
     ],
     [
-     730
+     279
     ]
    ]
   },
@@ -636,10 +636,10 @@
    "target_ids": [
     21718
    ],
-   "canon_full": false,
-   "canon_first": false,
+   "canon_full": true,
+   "canon_first": true,
    "canon_gen": [
-    1532
+    21718
    ],
    "para_full_hits": [
     false,
@@ -653,10 +653,10 @@
    ],
    "para_gen": [
     [
-     279
+     330
     ],
     [
-     279
+     264
     ],
     [
      279
@@ -669,10 +669,10 @@
    "target_ids": [
     78563
    ],
-   "canon_full": false,
-   "canon_first": false,
+   "canon_full": true,
+   "canon_first": true,
    "canon_gen": [
-    362
+    78563
    ],
    "para_full_hits": [
     false,
@@ -702,10 +702,10 @@
    "target_ids": [
     94677
    ],
-   "canon_full": false,
-   "canon_first": false,
+   "canon_full": true,
+   "canon_first": true,
    "canon_gen": [
-    52550
+    94677
    ],
    "para_full_hits": [
     false,
@@ -719,10 +719,10 @@
    ],
    "para_gen": [
     [
-     33328
+     34256
     ],
     [
-     33328
+     264
     ],
     [
      279
@@ -755,10 +755,10 @@
      3406
     ],
     [
-     1304
+     279
     ],
     [
-     3406
+     279
     ]
    ]
   },
@@ -785,13 +785,13 @@
    ],
    "para_gen": [
     [
-     330
+     21048
     ],
     [
      264
     ],
     [
-     21048
+     279
     ]
    ]
   },
@@ -818,13 +818,13 @@
    ],
    "para_gen": [
     [
-     663
+     330
+    ],
+    [
+     264
     ],
     [
      279
-    ],
-    [
-     663
     ]
    ]
   }
@@ -1624,8 +1624,8 @@
   }
  ],
  "locality": {
-  "real_capital_top1_correct": "11/12",
-  "real_js_locpct": 93.21,
+  "real_capital_top1_correct": "10/12",
+  "real_js_locpct": 84.78,
   "stock_item_prefix_pre": [
    3555,
    374,
@@ -1635,19 +1635,22 @@
    279
   ],
   "stock_item_prefix_post": [
-   3555,
-   374,
-   279,
-   2629,
-   315,
-   279
+   220,
+   17,
+   13,
+   220,
+   17,
+   13
   ],
-  "stock_item_unchanged": true,
-  "described_as_js_locpct": 99.84
+  "stock_item_unchanged": false,
+  "described_as_js_locpct": 87.02,
+  "generic_nll_pre": 1.95097,
+  "generic_nll_post": 2.20958,
+  "generic_nll_delta": 0.25861
  },
  "decision_id": "D-C10k-route-a",
  "class": "ported-upstream mechanism lead; not CORPUS evidence until advisor-reviewed",
  "projector_file": "c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt",
  "projector_sha256_12": "c27203012b6a",
- "scope": "Qwen2.5-3B base fp32 on MPS (Amendment 2) / AlphaEdit_ARE window=1 / A1_single / N=24 / 1-seed / hparams anyedit_alphaedit_are_qwen25_3b.json / per-layer thresholds (Amendment 1 D8) c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt / interference=non-protective(L8:A1)"
+ "scope": "Qwen2.5-3B base fp32 on MPS (Amendment 2) / AlphaEdit_ARE window=1 / A1_single / N=24 / 1-seed / hparams anyedit_alphaedit_are_qwen25_3b.json / per-layer thresholds (Amendment 1 D8) c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt / interference=non-protective(L8:A1) / L2=0.01 (Amendment 3)"
 }
