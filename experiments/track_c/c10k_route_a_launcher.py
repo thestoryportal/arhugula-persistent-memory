@@ -121,6 +121,12 @@ def import_upstream(alg):
         from memit_ARE.memit_ARE_hparams import MEMITAREHyperParams as HP; import memit_ARE.memit_ARE_main as M
         return HP, M, M.apply_memit_ARE_to_model
 
+HP_LAYERS = [4, 5, 6, 7, 8]; HP_TMP = "model.layers.{}.mlp.down_proj"   # mirrors configs/hparams/anyedit_alphaedit_are_qwen25_3b.json (asserted in stage_run)
+
+def empty_cache_if_mps(dev):
+    import torch, gc
+    gc.collect(); torch.mps.empty_cache() if dev.type == "mps" else None
+
 def normalised_cov(layer_name):
     """Deviation D4: upstream get_cov returns stat.mom2.moment() = mom2 / count. Same statistic from the program's cache."""
     import numpy as np, torch
@@ -144,6 +150,8 @@ def load_P(path):
     import torch, hashlib
     gate = json.load(open(f"{OUTDIR}/projector_gate_v2.json")); sha = hashlib.sha256(open(path, "rb").read()).hexdigest()
     print(f"projector: {os.path.basename(path)} sha256[:12]={sha[:12]} (gate record {gate['P_sha256'][:12]}, gate_ok={gate['gate_ok']})", flush=True)
+    if gate.get("keys_dtype") != "float32":
+        raise SystemExit(f"HALT Amendment 2: gate record keys_dtype={gate.get('keys_dtype')!r}; the run stage edits in fp32 and needs a gate measured on fp32 keys")
     if not gate["gate_ok"] or os.path.basename(path) != os.path.basename(gate["P_file"]) or sha != gate["P_sha256"]:
         raise SystemExit(f"HALT wiring parity: {os.path.basename(path)} sha {sha[:12]} does not match the passed gate record {os.path.basename(gate['P_file'])} {gate['P_sha256'][:12]}")
     return torch.load(path), sha[:12]
@@ -219,6 +227,7 @@ def run_arm(model, tok, hp, M, apply_fn, alg, arm, V, fiction, dev, P, window):
     real = real_country_set(tok); real_prompts = [CANON.format(c) for c, _ in real]; desc = [f"{s} is described as" for s in fiction]
     pre_real = {p: predict(model, tok, p, dev) for p in real_prompts}; pre_desc = {p: predict(model, tok, p, dev) for p in desc}
     stock = stock_item(); pre_stock = full_seq_match(model, tok, stock["question"], ids(tok, stock["answer"])[:6], dev)
+    pre_rows = [] if arm == "stock" else [{"subject": s, "value": V[s], **eval_case(model, tok, CANON.format(s), " " + V[s], [p.format(s) for p in PTEST], dev)} for s in fiction]   # Amendment 2: same-dtype pre-edit reference
     snap = band_snapshot(model, hp); n0 = band_norms(model, hp); t = time.time(); buf = io.StringIO(); err = None
     try:
         with contextlib.redirect_stdout(buf): apply_fn(model, tok, hp, items, **({"P": P} if alg == "AlphaEdit_ARE" else {}))
@@ -237,7 +246,7 @@ def run_arm(model, tok, hp, M, apply_fn, alg, arm, V, fiction, dev, P, window):
     band_restore(model, hp, snap)
     res = {"alg": alg, "arm": arm, "window_size": window, "n_items": len(items), "apply_seconds": secs, "error": err,
            "update_norm_ratio": {l: round(n1[l] / n0[l], 6) for l in n0}, "stdout_tail": buf.getvalue()[-1500:],
-           "summary": arm_summary(rows) if rows and arm != "stock" else None, "rows": rows,
+           "summary": arm_summary(rows) if rows and arm != "stock" else None, "pre_summary": arm_summary(pre_rows) if pre_rows else None, "rows": rows, "pre_rows": pre_rows,
            "locality": {"real_capital_top1_correct": f"{real_ok}/{len(real)}", "real_js_locpct": locpct(post_real, pre_real, real_prompts),
                         "stock_item_prefix_pre": pre_stock["gen"], "stock_item_prefix_post": post_stock["gen"], "stock_item_unchanged": pre_stock["gen"] == post_stock["gen"],
                         "described_as_js_locpct": locpct(post_desc, pre_desc, desc)}}
@@ -248,6 +257,7 @@ def stage_run(a):
     dev = resolve_device(); tok, model = load_model(dev, torch.float32)
     alg = {"R1": "AlphaEdit_ARE", "R2": "AlphaEdit_ARE", "R3": "memit_ARE"}[a.recipe]; window = {"R1": 1, "R2": 50, "R3": 1}[a.recipe]
     HP, M, apply_fn = import_upstream(alg); hp = HP.from_json(a.hparams if alg == "AlphaEdit_ARE" else a.hparams.replace("alphaedit", "memit"))
+    assert list(hp.layers) == HP_LAYERS and hp.rewrite_module_tmp == HP_TMP, (hp.layers, hp.rewrite_module_tmp)
     M.get_cov = lambda model_, tok_, layer_name, *r, **k: normalised_cov(layer_name).to(dev)   # D4 injection (module attribute, not file)
     P, P_sha = load_P(a.P) if alg == "AlphaEdit_ARE" else (None, None)
     fiction, arms = build_stimuli(tok)

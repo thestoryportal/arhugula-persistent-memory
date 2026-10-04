@@ -17,6 +17,7 @@ HELDOUT_FICTION = ["Brelquin", "Tavross", "Nimbrek", "Osvalden", "Kryllmoor", "Z
                    "Calvoss", "Wrenmark", "Ildravon", "Sorbeck", "Fenwhistle", "Yarlmond", "Gruvane", "Eskavoy"]
 PER_LAYER = {4: 0.01, 5: 0.02, 6: 0.02, 7: 0.02, 8: 0.03}      # Amendment 1 v2 D8: minimal departure from the shipped 0.02 in the direction that restores the failing bound (L4 protection, L8 survival)
 GRID = {4: [0.005, 0.01, 0.02], 8: [0.02, 0.025, 0.03, 0.035]}   # fixed before this run
+import torch as _t; KEYS_DTYPE = _t.float32   # Amendment 2: keys from the fp32 model, the dtype the run stage edits in (run 2 used fp16: projector_gate_v2_run2_fp16keys.json)
 
 def ratios(K, Us):
     import torch
@@ -45,7 +46,7 @@ def are_window_keys(model, tok, layer_name, dev, items):
 
 def main():
     import torch
-    dev = L.resolve_device(); tok, model = L.load_model(dev, torch.float16)
+    dev = L.resolve_device(); tok, model = L.load_model(dev, KEYS_DTYPE)
     HP, M, _ = L.import_upstream("AlphaEdit_ARE"); hp = HP.from_json(f"{L.LLMDB_ROOT}/configs/hparams/anyedit_alphaedit_are_qwen25_3b.json")
     fiction, arms = L.build_stimuli(tok)
     assert not set(HELDOUT_FICTION) & set(fiction) and not set(HELDOUT_FICTION) & set(L.COINED_HEAD)
@@ -53,7 +54,7 @@ def main():
     wiki = load_dataset("wikimedia/wikipedia", "20231101.en")["train"]; texts = [wiki[i]["text"][:600] for i in range(1_000_000, 1_000_200)]
     a1 = [L.CANON.format(s) for s in fiction]; ho = [L.CANON.format(s) for s in HELDOUT_FICTION]
     a7_items = [(L.CANON.format(s), " " + arms["A7_coined_coined"][s]) for s in fiction]
-    rep = {"per_layer_thresholds": PER_LAYER, "bounds": {"protection_max": 0.5, "survival_min": 0.2}, "statistic": "mean of per-key ratios (prereg D4 wording); aggregate ratio-of-mean-norms also reported", "layers": {}, "grid": GRID}
+    rep = {"keys_dtype": str(KEYS_DTYPE).split(".")[-1], "per_layer_thresholds": PER_LAYER, "bounds": {"protection_max": 0.5, "survival_min": 0.2}, "statistic": "mean of per-key ratios (prereg D4 wording); aggregate ratio-of-mean-norms also reported", "layers": {}, "grid": GRID}
     Ps = []
     for l in hp.layers:
         name = hp.rewrite_module_tmp.format(l); t = time.time()
