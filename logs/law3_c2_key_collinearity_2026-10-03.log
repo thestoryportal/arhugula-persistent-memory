@@ -1,0 +1,14 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Cached context templates [['{}'], ['The following is a multiple-choice question about mathematics from. {}', 'Therefore, the answer is \\(\\boxed 3. {}', 'Because of a shortage of food and a high death. {}', "I'm working through the [C# Programming Guide. {}", 'You are an AI assistant that follows instruction extremely well. {}']]
+entities (12): ['France', 'Egypt', 'Germany', 'Italy', 'Spain', 'Russia', 'Greece', 'Norway', 'Poland', 'Turkey', 'Portugal', 'Austria']
+
+layer | SUBJECT-key cos(mean±sd) | RELATION-key cos(mean±sd) | separates?
+  L4 | 0.694±0.168 | 0.928±0.015 | no (rel>=subj)
+  L5 | 0.549±0.181 | 0.966±0.011 | no (rel>=subj)
+  L6 | 0.676±0.070 | 0.937±0.015 | no (rel>=subj)
+  L7 | 0.376±0.241 | 0.988±0.004 | no (rel>=subj)
+  L8 | 0.260±0.147 | 0.943±0.013 | no (rel>=subj)
+
+C2_PHASE0_DONE
+Interpretation: relation keying REDUCES same-relation key collinearity => full sequential C2 worth running;
+                if it INCREASES/equals => keying won't fix cross-entity bleed (hypothesis pruned cheaply).
