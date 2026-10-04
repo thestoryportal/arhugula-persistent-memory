@@ -158,7 +158,7 @@ def compute_P(hp):
 
 
 def my_edit(hp, requests, P, cache_c):
-    ctx = get_context_templates(model, tok) if os.environ.get("C10_CTX_TEMPLATES", "on") != "off" else [["{}"]]   # D-C10k-keying-ablation knob: off = identity template only
+    ctx = get_context_templates(model, tok) if (os.environ.get("C10_CTX_TEMPLATES", "on") != "off" or _LAW5_DEFAULT_CTX) else [["{}"]]   # D-C10k-keying-ablation knob: off = identity template only; the LAW#5 parity check always uses the engine defaults
     layers = hp.layers
     z_layer = layers[-1]
     zs = torch.stack([compute_z(model, tok, rq, hp, z_layer, ctx) for rq in requests], dim=1)
@@ -265,6 +265,9 @@ def eval_arm(Vmap):
     }
 
 
+_LAW5_DEFAULT_CTX = False   # set True only inside run_law5: the inertness check compares engine vs harness on the engine's own defaults, independent of the ablation knobs
+
+
 def run_law5(hp, P, base_snap):
     print(f"\n=== LAW#5 INERTNESS {hp.layers} ===", flush=True)
     e = "Zorbland"
@@ -279,8 +282,13 @@ def run_law5(hp, P, base_snap):
     eng_loc = locpct(eng, pre, probes)
     restore_layers(hp, base_snap)
     cache = [torch.zeros(P[0].shape[0], P[0].shape[0]) for _ in hp.layers]
-    with contextlib.redirect_stdout(io.StringIO()):
-        my_edit(hp, [req(CANON, e, "Cairo")], P, cache)
+    global _LAW5_DEFAULT_CTX
+    _LAW5_DEFAULT_CTX = True
+    try:
+        with contextlib.redirect_stdout(io.StringIO()):
+            my_edit(hp, [req(CANON, e, "Cairo")], P, cache)
+    finally:
+        _LAW5_DEFAULT_CTX = False
     mine = {p: predict(p) for p in [cons] + probes}
     my_p = float(mine[cons]["dist"][target])
     my_loc = locpct(mine, pre, probes)
