@@ -6,6 +6,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from rome import repr_tools
 from util import nethook
+from util.device import device_of  # P-8
 
 from .memit_hparams import MEMITHyperParams
 
@@ -32,11 +33,12 @@ def compute_z(
         lm_b = nethook.get_parameter(model, f"{hparams.lm_head_module}.bias")
     except LookupError as _:
         lm_b = next(model.parameters()).new_zeros(model.config.vocab_size)
+    dev = device_of(model)  # P-8
 
     print("Computing right vector (v)")
 
     # Tokenize target into list of int token IDs
-    target_ids = tok(request["target_new"]["str"], return_tensors="pt").to("cuda")[
+    target_ids = tok(request["target_new"]["str"], return_tensors="pt").to(dev)[
         "input_ids"
     ][0]
 
@@ -52,10 +54,10 @@ def compute_z(
         [prompt.format(request["subject"]) for prompt in all_prompts],
         return_tensors="pt",
         padding=True,
-    ).to("cuda")
+    ).to(dev)
 
     # Compute rewriting targets
-    rewriting_targets = torch.tensor(-100, device="cuda").repeat(
+    rewriting_targets = torch.tensor(-100, device=dev).repeat(
         len(rewriting_prompts), *input_tok["input_ids"].shape[1:]
     )
     for i in range(len(rewriting_prompts)):
@@ -78,7 +80,7 @@ def compute_z(
     # Set up an optimization over a latent vector that, when output at the
     # rewrite layer, i.e. hypothesized fact lookup location, will induce the
     # target token to be predicted at the final layer.
-    delta = torch.zeros((getattr(model.config, 'hidden_size', None) or (getattr(model.config, 'hidden_size', None) or model.config.n_embd),), requires_grad=True, device="cuda")
+    delta = torch.zeros((getattr(model.config, 'hidden_size', None) or (getattr(model.config, 'hidden_size', None) or model.config.n_embd),), requires_grad=True, device=dev)
     target_init, kl_distr_init = None, None
 
     # Inserts new "delta" variable at the appropriate part of the computation

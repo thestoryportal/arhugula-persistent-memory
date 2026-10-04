@@ -1202,6 +1202,29 @@ References:
 
 ---
 
+## 3.9 Patch P-8 — device neutrality for the science path (`memit/compute_z.py`, `memit/memit_main.py`, `rome/layer_stats.py`, new `util/device.py`)
+
+> **Numbering note:** P-8 is inserted as §3.9, following the §3.5–§3.8 precedent. **Date:** 2026-10-03. **Decision:** D-HW-1 (`EXPERIMENT_RUNBOOK.md` §5.3 / §13). **Class:** science-path source change → new LAW#1 fingerprint; inertness shown by LAW#3 reproduction, not assumed.
+
+### 3.9.1 Why
+The RunPod 4090 is gone; the engine now runs on a MacBook M3 Pro (Apple MPS). The science path named the accelerator as the literal `"cuda"` in eleven places and cast on-device tensors to float64 in two, and **MPS cannot represent float64**. Neither can be worked around from the harness, so the engine changes — through this door, with a recorded fingerprint, exactly as P-7 and the S2.31 CPU-solve patch did.
+
+### 3.9.2 What changes (14 anchored substitutions; script `tools/engine_patches/p8_device_neutrality.py`, idempotent)
+| File | Change |
+|---|---|
+| `util/device.py` (NEW) | `device_of(model)` (engine), `resolve_device()` (harness; `LLMDB_DEVICE` overrides, else first available accelerator), `empty_cache(device)` as a backend table lookup. The single place the accelerator is named. |
+| `memit/compute_z.py` | `dev = device_of(model)` once per call; the 4 `"cuda"` literals (target ids, input batch, rewriting targets, `delta`) → `dev`. |
+| `memit/memit_main.py` | `apply_memit_to_model`: deltas moved to `device_of(model)`; z-cache load → model device; **the float64 solve operands move to CPU *before* the `.double()` cast** (`layer_ks.cpu().double()`, `targets.cpu().double()`) — this makes the S2.31 CPU-solve a requirement rather than a VRAM mitigation; the resulting update matrix is moved back to the weight's device before the in-place add; `torch.cuda.empty_cache()` → `empty_cache(device_of(model))`; `get_cov` return → model device. |
+| `rome/layer_stats.py` | the covariance pass moves each batch to the model's device instead of `"cuda"` (the CLI `main()` still says `.cuda()`; it is not on the science path). |
+
+Not touched: `rome/compute_v.py`, `rome/compute_u.py`, `rome/rome_main.py` (ROME, eliminated at S2.18), `util/perplexity.py`, `util/runningstats.py` CLI self-test.
+
+### 3.9.3 Fingerprint
+`memit/memit_main.py` sha256 **`e6ac7e186ee4ea5834f1127ce6f4031eef21fc52c8effa474876b80bda164b51`** (was `5c0c706a…c78770` for P-1..P-7 + CPU-solve, the hash every CORPUS result through 2026-06-27 ran under). `_cov_cpu` sites remain 3. Gate: `python3 tools/engine_fingerprint.py` (both hashes recorded there).
+
+### 3.9.4 Inertness obligation (LAW#5)
+P-8 changes *where* tensors live, not what is computed; float64 CPU arithmetic is the same arithmetic the 4090 era already ran after S2.31. Cross-hardware bit-exactness is a documented non-requirement (`REPRODUCIBILITY.md`), so inertness is shown behaviorally under LAW#3: the C2 key-collinearity depth map must land near `CORPUS/20` (L4 0.68/0.93 · L6 0.67/0.94 · L8 0.26/0.94 subject/relation cos) and the A1 batch arm must come back clean (`CORPUS/14`: held-out edited-relation top-1 100% at N≤100). Results are recorded in `EXPERIMENT_RUNBOOK.md` §13 (2026-10-03) when run.
+
 ## 4. Pad-Token Patch — Tokenizer Attribute
 
 ### 4.1 Target

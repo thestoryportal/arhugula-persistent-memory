@@ -6,6 +6,8 @@ ENGINE_ROOT=f"{LLMDB_ROOT}/memit_dry_run/memit"; sys.path.insert(0,ENGINE_ROOT);
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_hparams import MEMITHyperParams
+from util.device import resolve_device, empty_cache  # P-8 harness side
+DEV = resolve_device()
 from memit.memit_main import apply_memit_to_model, get_cov, get_context_templates, upd_matrix_match_shape
 from memit.compute_z import compute_z, get_module_input_output_at_words
 from memit.compute_ks import compute_ks
@@ -41,20 +43,20 @@ GLOBAL_PROBES={  # non-country facts — sensitive to broad model damage, insens
 
 tok=AutoTokenizer.from_pretrained(ID, revision=REV)
 if tok.pad_token is None: tok.pad_token=tok.eos_token
-model=AutoModelForCausalLM.from_pretrained(ID, revision=REV, torch_dtype=torch.float16, device_map="cuda").eval()
+model=AutoModelForCausalLM.from_pretrained(ID, revision=REV, torch_dtype=torch.float16, device_map=DEV).eval()
 print(f"loaded Qwen2.5-3B | band={L} mom2_uw={hp.mom2_update_weight} | AlphaEdit in-solve thresh={NULL_THRESH} L2={L2}", flush=True)
 WN=lambda layer: f"{hp.rewrite_module_tmp.format(layer)}.weight"
 
 @torch.no_grad()
 def predict(p):
-    ids=tok(p,return_tensors="pt").to("cuda"); pr=torch.softmax(model(**ids).logits[0,-1].float(),dim=-1); t=torch.topk(pr,1)
+    ids=tok(p,return_tensors="pt").to(DEV); pr=torch.softmax(model(**ids).logits[0,-1].float(),dim=-1); t=torch.topk(pr,1)
     return {"id":int(t.indices[0]),"tok":tok.decode([int(t.indices[0])]),"dist":pr.cpu()}
 def first_tok(s): return tok(" "+s,add_special_tokens=False)["input_ids"][0]
 def single_tok(s): return len(tok(" "+s,add_special_tokens=False)["input_ids"])==1
 def correct(top1, truth):  # same prefix-match as g6_screen
     a=top1.strip().lower(); b=truth.lower(); return bool(a) and (a==b or b.startswith(a) or a.startswith(b))
 def js(a,b):
-    p=a.double(); q=b.double(); m=0.5*(p+q)
+    p=a.cpu().double(); q=b.cpu().double(); m=0.5*(p+q)
     def k(x,y): x=x.clamp_min(1e-12); y=y.clamp_min(1e-12); return float((x*(x.log()-y.log())).sum())
     return 0.5*k(p,m)+0.5*k(q,m)
 def locpct(post,pre,pl): return round(100*sum(1-js(post[p]["dist"],pre[p]["dist"])/LN2 for p in pl)/len(pl),2)
@@ -67,12 +69,12 @@ def restore(s):
 def compute_P():
     Ps=[]
     for layer in L:
-        cov=get_cov(model,tok,hp.rewrite_module_tmp.format(layer),hp.mom2_dataset,hp.mom2_n_samples,hp.mom2_dtype).cuda().float()
+        cov=get_cov(model,tok,hp.rewrite_module_tmp.format(layer),hp.mom2_dataset,hp.mom2_n_samples,hp.mom2_dtype).to(DEV).float()
         U,S,_=torch.linalg.svd(cov, full_matrices=False)
         idx=(S<NULL_THRESH).nonzero(as_tuple=True)[0]
         Ps.append((U[:,idx]@U[:,idx].T).cpu())
         print(f"  P[L{layer}] nullspace dim={len(idx)}/{cov.shape[0]}", flush=True)
-        del cov,U,S; torch.cuda.empty_cache()
+        del cov,U,S; empty_cache(DEV)
     return Ps
 
 def my_edit(requests, mode, P=None, cache_c=None):
@@ -85,15 +87,15 @@ def my_edit(requests, mode, P=None, cache_c=None):
         cur=get_module_input_output_at_words(model,tok,zl,context_templates=[r["prompt"] for r in requests],
             words=[r["subject"] for r in requests],module_template=hp.layer_module_tmp,fact_token_strategy=hp.fact_token)[1].T
         tgt=(zs-cur); tgt=tgt.repeat_interleave(K.size(1)//tgt.size(1),dim=1); resid=tgt/(len(L)-i)
-        Kd=K.double().cpu(); rd=resid.double().cpu()
+        Kd=K.cpu().double(); rd=resid.cpu().double()
         if mode=="memit":
             cov=get_cov(model,tok,hp.rewrite_module_tmp.format(layer),hp.mom2_dataset,hp.mom2_n_samples,hp.mom2_dtype).cpu().double()
             adj=torch.linalg.solve(hp.mom2_update_weight*cov+Kd@Kd.T, Kd); upd=rd@adj.T
         else:
-            Pi=P[i].cuda(); ca=cache_c[i].cuda(); Kg=Kd.float().cuda(); rg=rd.float().cuda()
-            A=Pi@(Kg@Kg.T+ca)+L2*torch.eye(Kg.shape[0],device="cuda"); B=Pi@Kg@rg.T
+            Pi=P[i].to(DEV); ca=cache_c[i].to(DEV); Kg=Kd.float().to(DEV); rg=rd.float().to(DEV)
+            A=Pi@(Kg@Kg.T+ca)+L2*torch.eye(Kg.shape[0],device=DEV); B=Pi@Kg@rg.T
             upd=torch.linalg.solve(A,B).T.cpu()
-            del Pi,ca,Kg,rg,A,B; torch.cuda.empty_cache()
+            del Pi,ca,Kg,rg,A,B; empty_cache(DEV)
         upd=upd_matrix_match_shape(upd.float(), npd[WN(layer)].shape)
         with torch.no_grad(): npd[WN(layer)][...]+=upd.to(npd[WN(layer)].device,npd[WN(layer)].dtype)
     if mode=="alphaedit":

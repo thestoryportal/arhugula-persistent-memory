@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Precompute the covariance (mom2) caches for layers 9-12 that the C2-band falsifier needs.
+"""Precompute the covariance (mom2) caches for a layer set (default: the hparams band).
+
+2026-10-03 (P-8/D-HW-1): device-neutral; HPARAMS and COV_LAYERS env select the band. Originally
+written for L9-12 on the pod (text below kept for provenance).
 
 The band-[8-12] arm edits L8-12; caches exist for L4-8 and L18-22 but NOT L9-12. get_cov()
 computes-on-miss (standing-auth: cov-compute PRE-APPROVED), but doing it attended here (a) removes
@@ -17,15 +20,18 @@ sys.path.insert(0, ENGINE); os.chdir(ENGINE)
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from memit.memit_main import get_cov, MEMITHyperParams
+from util.device import resolve_device, empty_cache  # P-8
+DEV = resolve_device()
 
 ID = os.environ.get("MODEL_ID", "Qwen/Qwen2.5-3B")
 REV = os.environ.get("MODEL_REV", "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b")
-hp = MEMITHyperParams.from_json(f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams_band812.json")
-LAYERS = [int(x) for x in os.environ.get("COV_LAYERS", "9,10,11,12").split(",")]
+HPARAMS = os.environ.get("HPARAMS", f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")  # band [4-8] default; band812 file for L9-12
+hp = MEMITHyperParams.from_json(HPARAMS)
+LAYERS = [int(x) for x in os.environ.get("COV_LAYERS", ",".join(map(str, hp.layers))).split(",")]
 
 print(f"[cov] loading {ID}@{REV[:8]} | layers={LAYERS} | dataset={hp.mom2_dataset} n={hp.mom2_n_samples} dtype={hp.mom2_dtype}", flush=True)
 tok = AutoTokenizer.from_pretrained(ID, revision=REV)
-model = AutoModelForCausalLM.from_pretrained(ID, revision=REV, torch_dtype=torch.float16).cuda().eval()
+model = AutoModelForCausalLM.from_pretrained(ID, revision=REV, torch_dtype=torch.float16).to(DEV).eval()
 
 for L in LAYERS:
     t = time.time()
@@ -33,7 +39,8 @@ for L in LAYERS:
     print(f"[cov] >>> L{L} {name} ...", flush=True)
     cov = get_cov(model, tok, name, hp.mom2_dataset, hp.mom2_n_samples, hp.mom2_dtype).cpu().float()
     print(f"[cov] <<< L{L} done shape={tuple(cov.shape)} in {int(time.time()-t)}s", flush=True)
-    del cov; torch.cuda.empty_cache()
+    del cov; empty_cache(DEV)
 
-print("[cov] ALL DONE — L9-12 caches ready for the C2-band falsifier.", flush=True)
-open(f"{LLMDB_ROOT}/logs/cov_l9_12_DONE.flag", "w").write("done\n")
+print(f"[cov] ALL DONE — layers {LAYERS} cached.", flush=True)
+os.makedirs(f"{LLMDB_ROOT}/logs", exist_ok=True)
+open(f"{LLMDB_ROOT}/logs/cov_L{'-'.join(map(str, LAYERS))}_DONE.flag", "w").write("done\n")

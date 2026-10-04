@@ -154,7 +154,7 @@ def layer_stats(
     with torch.no_grad():
         for batch_group in progress(loader, total=batch_count):
             for batch in batch_group:
-                batch = dict_to_(batch, "cuda")
+                batch = dict_to_(batch, next(model.parameters()).device)  # P-8
                 with Trace(
                     model, layer_name, retain_input=True, retain_output=False, stop=True
                 ) as tr:
