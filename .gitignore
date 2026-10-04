@@ -3,7 +3,6 @@ hf_cache/
 covariance_caches/
 llama_cpp_src/
 external_prior_art/
-memit_dry_run/
 easyedit_upstream/
 easyedit_assets/
 easyedit_ref/
@@ -13,6 +12,12 @@ archive/
 *.vindex/
 qwen05b.vindex/
 b3_q4km.vindex/
+
+# ── Vendored MEMIT engine — SOURCE IS TRACKED (since 2026-10-03, after the pod volume was lost) ──
+# kmeng01/memit @ 80426fd9 + P-1..P-7 + CPU-solve patch. Only its downloaded stats are ignored.
+memit_dry_run/*
+!memit_dry_run/memit/
+memit_dry_run/memit/data/
 
 # ── Large binary artifacts ──
 *.gguf
