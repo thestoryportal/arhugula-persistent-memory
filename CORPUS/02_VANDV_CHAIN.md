@@ -152,3 +152,10 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Hypothesis:** a local AnyEdit-style autoregressive per-token/window target construction can rescue hard project-coined multi-word A7 values after cheap MEMIT knobs failed.
 - **Criterion (frozen in `docs/C10_ANYEDIT_PILOT_PREREG.md`):** embedded token/window alignment gate; no-op inertness; same-run baseline must reproduce easy A1/A2 and A7 failure; AnyEdit must improve A7 held-out `para_full` without damaging A1/A2 controls.
 - **Verdict:** **TRADEOFF_NOT_CLEAN_RESCUE.** Gates pass, but AnyEdit `window_size=1` collapses A1/A2 held-out `para_full` from 93.1/97.2 to 0.0/0.0 and worsens A7 `para_full` from 12.5 (9/72) to 1.4 (1/72). Scoped local small-window transplant killed; upstream-equivalent AnyEdit remains open.
+
+### C-C10k-s0 - C10K Stage 0 hardware/source-faithfulness (D-C10k-m3pro-stage0 ⟨D-C10k-m3pro-stage0@2e04a432⟩)
+- **Hypothesis:** official AnyEdit can execute source-faithfully on the current science hardware (prereg Stage 0).
+- **Method:** desk check of the pinned upstream + first-failure trace on a tiny random model (no science model, no C10 data).
+- **Measurement:** first live failure frame; count/bin of device bindings; runner completeness; env/config desk checks.
+- **Criterion (prereg item 2):** runs without unapproved source/VRAM patches → else `HALTED - HARDWARE_ENVELOPE`.
+- **Verdict:** HALTED - HARDWARE_ENVELOPE (+UPSTREAM_ENV_UNDEFINED). Not a method verdict. Operator fork A/B/C.
