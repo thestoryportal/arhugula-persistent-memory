@@ -1,0 +1,6 @@
+DATA_DIR: /workspace/data
+HPARAMS_DIR: /workspace/memit_dry_run/memit/hparams
+KV_DIR: /workspace/kvs
+REMOTE_ROOT_URL: https://memit.baulab.info
+RESULTS_DIR: /workspace/results
+STATS_DIR: /workspace/covariance_caches
