@@ -67,3 +67,7 @@ Pre-reorganization snapshot (2026-06-18) at `/root/migration_backup/`: `manifest
 | **C10 strength/layer sweep** | `python experiments/track_c/c10g_strength_layer_sweep.py` | yes (+cached cov L4-12,18-22 if absent) | `results/c10g_strength_layer_sweep.json` (CORPUS/39; D-C10g-strengthlayers ⟨D-C10g-strengthlayers@d691acab⟩) |
 
 | **C10 AnyEdit small-window pilot** | `python experiments/track_c/c10h_anyedit_pilot.py --dry-run` then `python experiments/track_c/c10h_anyedit_pilot.py` | yes | `results/c10h_anyedit_token_window_dryrun.json`; `results/c10h_anyedit_pilot.json` (CORPUS/40; D-C10h-anyedit-pilot ⟨D-C10h-anyedit-pilot@6413cc67⟩) |
+
+| **LAW#3 repro (M3 Pro)** | `python experiments/track_c/c2_key_collinearity.py` ; `WRITE_MODE=batch python experiments/scale/g6_scale_n.py` | yes (MPS) | `results/law3_repro_2026-10-03/{c2_key_collinearity_repro,a1_batch_repro}.json` (2026-10-04; D-HW-1) |
+
+| **LAW#5 inertness gate** | `python tools/law5_inertness_gate.py --out <path>` | yes (MPS) | `results/law3_repro_2026-10-03/law5_inertness_p8.json` |
