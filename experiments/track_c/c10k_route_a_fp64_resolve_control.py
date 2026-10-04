@@ -9,6 +9,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import c10k_route_a_launcher as L
 
 CONFIGS = [("AlphaEdit_ARE", 0.01), ("AlphaEdit_ARE", 0.03), ("memit_ARE", 15000)]
+if os.environ.get("ONLY"): CONFIGS = [c for c in CONFIGS if f"{c[0]}@{c[1]}" == os.environ["ONLY"]]   # rerun one leg; results merge into the existing record
 
 def main():
     import torch
@@ -17,7 +18,7 @@ def main():
     V = arms["A1_single"]; batch = [{"question": L.CANON.format(s), "answer": " " + V[s]} for s in fiction]; qa = [i["question"] + i["answer"] for i in batch]
     P = torch.load(L.LLMDB_ROOT + "/logs/c10k_route_a_P_perlayer_0.01-0.02-0.02-0.02-0.03.pt")
     real = L.real_country_set(tok); real_prompts = [L.CANON.format(c) for c, _ in real]; desc = [f"{s} is described as" for s in fiction]
-    rep = {"configs": {}}
+    out_path = f"{L.OUTDIR}/fp64_resolve_control.json"; rep = json.load(open(out_path)) if os.path.exists(out_path) else {"configs": {}}
     for alg, ridge in CONFIGS:
         HP, M, _ = L.import_upstream(alg); hp = HP.from_json(f"{L.LLMDB_ROOT}/configs/hparams/anyedit_{'alphaedit' if alg == 'AlphaEdit_ARE' else 'memit'}_are_qwen25_3b.json"); hp.window_size = 1; hp.overlap = 0
         if alg == "AlphaEdit_ARE": hp.L2 = ridge
@@ -28,13 +29,14 @@ def main():
         t = time.time(); all_zs, idxs_dict = [], {}
         for k, data in enumerate(batch):
             idxs_list, zs_list = M.compute_z(model, tok, data, z_layer, hp); all_zs.extend(zs_list); idxs_dict[k] = idxs_list
-        zs = torch.stack(all_zs, 1); layers = {}
+        item_dim = 0 if alg == "AlphaEdit_ARE" else 1      # AlphaEdit_ARE stacks z as (h, n); memit_ARE as (n, h)
+        zs = torch.stack(all_zs, 1 - item_dim); layers = {}
         for i, layer in enumerate(hp.layers):
             contexts_tok = tok(qa, padding=True, return_tensors="pt").to(dev)
             with torch.no_grad():
                 with nethook.Trace(model, hp.rewrite_module_tmp.format(layer), retain_input=True, retain_output=True, detach=True, clone=True) as tr: model(**contexts_tok)
                 layer_in_ks = tr.input
-            cur_zs = M.compute_ks(model, tok, qa, hp, z_layer, idxs_dict); targets = zs - cur_zs; z_err = float(torch.linalg.norm(targets, dim=0).mean())
+            cur_zs = M.compute_ks(model, tok, qa, hp, z_layer, idxs_dict); targets = zs - cur_zs; z_err = float(torch.linalg.norm(targets, dim=item_dim).mean())
             ks_list, kp_list = [], []
             for k, idxs in idxs_dict.items():
                 unsel = list(set(range(len(layer_in_ks[k]))) - set(idxs))
@@ -49,7 +51,7 @@ def main():
             with torch.no_grad(): weights[wname][...] = snap[layer].to(dev) + upd
             layers[str(layer)] = {"z_error": round(z_err, 3), "upd_norm": round(float(upd.norm()), 3)}
             print(f"{alg} ridge={ridge} L{layer}: z_err={z_err:.1f} upd_norm(fp64)={float(upd.norm()):.2f}", flush=True)
-        cur_final = M.compute_ks(model, tok, qa, hp, z_layer, idxs_dict); final_z = round(float(torch.linalg.norm(zs - cur_final, dim=0).mean()), 3)
+        cur_final = M.compute_ks(model, tok, qa, hp, z_layer, idxs_dict); final_z = round(float(torch.linalg.norm(zs - cur_final, dim=item_dim).mean()), 3)
         rows = [{"subject": s, "value": V[s], **L.eval_case(model, tok, L.CANON.format(s), " " + V[s], [p.format(s) for p in L.PTEST], dev)} for s in fiction]
         post_real = {p: L.predict(model, tok, p, dev) for p in real_prompts}; post_desc = {p: L.predict(model, tok, p, dev) for p in desc}; post_nll = L.generic_nll(model, tok, dev)
         real_ok = sum(1 for (c, truth), p in zip(real, real_prompts) if post_real[p]["tok"].strip().lower() and truth.lower().startswith(post_real[p]["tok"].strip().lower()))
@@ -61,7 +63,7 @@ def main():
         rep["configs"][f"{alg}@{ridge}"] = cfg
         norms = " / ".join("%.2f" % cfg["update_norm_ratio"][str(l)] for l in (4, 5, 6, 7, 8))
         print(f"{alg} ridge={ridge} fp64: final z_err={final_z} canon={cfg['summary']['canon_full_hits']} para={cfg['summary']['para_full_hits']} real={cfg['locality']['real_capital_top1_correct']} JS={cfg['locality']['described_as_js_locpct']} NLLΔ={cfg['locality']['generic_nll_delta']} norms={norms}", flush=True)
-    json.dump(rep, open(f"{L.OUTDIR}/fp64_resolve_control.json", "w"), indent=1); print("done"); return 0
+    json.dump(rep, open(out_path, "w"), indent=1); print("done"); return 0
 
 if __name__ == "__main__":
     sys.exit(main())
