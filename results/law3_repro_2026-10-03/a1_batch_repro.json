@@ -1,0 +1,34 @@
+{
+  "gate": "LAW#3 known-baseline reproduction after P-8 (D-HW-1)",
+  "experiment": "A1 batch (Genesis-style single joint solve) at N=100 — experiments/scale/g6_scale_n.py WRITE_MODE=batch",
+  "reference": "CORPUS/14_A1_BATCH_VS_SEQUENTIAL.md; results/g6_scale_n_batch_result.json (RunPod RTX 4090, engine 5c0c706a)",
+  "run": {
+    "date": "2026-10-04",
+    "hardware": "MacBook M3 Pro 48 GB, torch 2.8.0 mps",
+    "engine_memit_main_sha256": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+    "model": "Qwen/Qwen2.5-3B@3aab1f1954e9cc14eb9509a215f9e5ca08227a9b fp16",
+    "covariance": "band [4-8] regenerated locally 2026-10-03/04 (wikipedia 20231101.en, 100k samples, float32, t100)",
+    "record": "results/law3_repro_2026-10-03/g6_scale_n_batch_result_m3pro.json",
+    "log": "logs/law3_a1_batch_2026-10-03.log"
+  },
+  "config_identical_to_reference": true,
+  "projector_nullspace_dims": {"L4": 8645, "L5": 7119, "L6": 5738, "L7": 4165, "L8": 1583, "of": 11008, "threshold": 0.005},
+  "harness_inline_law5": {"engine_expr": 0.9985, "harness_expr": 0.9985, "loc_pct": 99.62, "expr_delta": 0.0, "verdict": "INERT"},
+  "rows": [
+    {"metric": "all_record_retention", "reference": 100.0, "repro": 100.0},
+    {"metric": "apply_time_expr", "reference": 100.0, "repro": 100.0},
+    {"metric": "heldout edited_rel top1_correct_vs_truth", "reference": 100.0, "repro": 100.0},
+    {"metric": "heldout edited_rel top1_stable_vs_pre", "reference": 100.0, "repro": 100.0},
+    {"metric": "heldout continent top1_correct_vs_truth", "reference": 33.3, "repro": 33.3},
+    {"metric": "heldout all top1_correct_vs_truth", "reference": 77.8, "repro": 77.8},
+    {"metric": "unt_within_loc (JS %)", "reference": 90.21, "repro": 90.65},
+    {"metric": "unt_cross_loc (JS %)", "reference": 98.52, "repro": 98.5},
+    {"metric": "unt_global_loc (JS %)", "reference": 97.81, "repro": 97.55},
+    {"metric": "never_expressed_count", "reference": 0, "repro": 0},
+    {"metric": "clobbered_after_expressing_count", "reference": 0, "repro": 0},
+    {"metric": "per-record retained_at_end vector identical", "reference": true, "repro": true}
+  ],
+  "max_abs_deviation": 0.44,
+  "pass_criterion": "within one order of magnitude of the recorded values (CLAUDE.md LAW#3); batch-clean conclusion (CORPUS/14 PASS) unchanged",
+  "verdict": "PASS"
+}

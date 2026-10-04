@@ -1,0 +1,1991 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.32s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.56s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.82s/it]
+loaded Qwen2.5-3B | band=[4, 5, 6, 7, 8] mom2_uw=5000 | AlphaEdit in-solve thresh=0.005 L2=1.0
+
+=== INERTNESS GATE: harness MEMIT-mode vs engine apply_memit ===
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+  engine expr=0.9985 loc=99.62% | harness-memit expr=0.9985 loc=99.62% | |Δexpr|=0.0000 -> INERT ✓
+
+100 records | 50 edited entities | 6 held-out | rungs(records)=[26, 50, 100]
+  held-out PRE-EDIT top-1 correct: edited_rel=100.0% continent=33.3%
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/phase3-mps-port/experiments/scale/g6_scale_n.py:73: UserWarning: The operator 'aten::linalg_svd' is not currently supported on the MPS backend and will fall back to run on the CPU. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/aten/src/ATen/mps/MPSFallback.mm:15.)
+  U,S,_=torch.linalg.svd(cov, full_matrices=False)
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+  P[L4] nullspace dim=8645/11008
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+  P[L5] nullspace dim=7119/11008
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+  P[L6] nullspace dim=5738/11008
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+  P[L7] nullspace dim=4165/11008
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+  P[L8] nullspace dim=1583/11008
+
+=== BATCH WRITE (single joint solve over all records, Genesis-style) ===
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of France is the city of | Token:  France
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.146 = 12.146 + 0.0 + 0.0 avg prob of [ Oslo] 6.250762908166507e-06
+loss 7.101 = 7.096 + 0.001 + 0.004 avg prob of [ Oslo] 0.0011987772304564714
+loss 1.383 = 1.375 + 0.003 + 0.006 avg prob of [ Oslo] 0.28148993849754333
+loss 1.02 = 1.007 + 0.006 + 0.007 avg prob of [ Oslo] 0.42966577410697937
+loss 0.202 = 0.189 + 0.006 + 0.007 avg prob of [ Oslo] 0.8376681208610535
+loss 0.163 = 0.15 + 0.007 + 0.007 avg prob of [ Oslo] 0.8662105202674866
+loss 0.121 = 0.107 + 0.007 + 0.007 avg prob of [ Oslo] 0.8998256325721741
+loss 0.072 = 0.059 + 0.007 + 0.007 avg prob of [ Oslo] 0.9432887434959412
+loss 0.05 = 0.037 + 0.006 + 0.007 avg prob of [ Oslo] 0.9637260437011719
+loss 0.041 = 0.028 + 0.006 + 0.007 avg prob of [ Oslo] 0.9729805588722229
+Init norm 55.78125 | Delta norm 41.84375 | Target norm 66.14886474609375
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of France is | Token:  France
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.443 = 12.443 + 0.0 + 0.0 avg prob of [ Norwegian] 4.840764177060919e-06
+loss 9.19 = 9.186 + 0.001 + 0.004 avg prob of [ Norwegian] 0.00016787600179668516
+loss 4.686 = 4.677 + 0.004 + 0.006 avg prob of [ Norwegian] 0.029745236039161682
+loss 2.148 = 2.136 + 0.005 + 0.007 avg prob of [ Norwegian] 0.21057622134685516
+loss 0.962 = 0.95 + 0.005 + 0.007 avg prob of [ Norwegian] 0.48282432556152344
+loss 0.431 = 0.419 + 0.005 + 0.007 avg prob of [ Norwegian] 0.6956242918968201
+loss 0.186 = 0.175 + 0.005 + 0.007 avg prob of [ Norwegian] 0.8435562252998352
+loss 0.053 = 0.041 + 0.005 + 0.007 avg prob of [ Norwegian] 0.9604998230934143
+loss 0.022 = 0.011 + 0.005 + 0.007 avg prob of [ Norwegian] 0.9890410304069519
+Init norm 56.1875 | Delta norm 42.125 | Target norm 65.3204345703125
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Egypt is the city of | Token:  Egypt
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.053 = 10.053 + 0.0 + 0.0 avg prob of [ Warsaw] 5.235802382230759e-05
+loss 7.173 = 7.167 + 0.002 + 0.004 avg prob of [ Warsaw] 0.0010335362749174237
+loss 3.096 = 3.085 + 0.005 + 0.006 avg prob of [ Warsaw] 0.061910610646009445
+loss 0.889 = 0.872 + 0.01 + 0.007 avg prob of [ Warsaw] 0.4931408166885376
+loss 0.339 = 0.322 + 0.01 + 0.007 avg prob of [ Warsaw] 0.7586196064949036
+loss 0.207 = 0.19 + 0.01 + 0.007 avg prob of [ Warsaw] 0.8455289006233215
+loss 0.151 = 0.134 + 0.009 + 0.007 avg prob of [ Warsaw] 0.8842560648918152
+loss 0.105 = 0.09 + 0.008 + 0.007 avg prob of [ Warsaw] 0.9186466336250305
+loss 0.07 = 0.055 + 0.008 + 0.007 avg prob of [ Warsaw] 0.9478641152381897
+loss 0.045 = 0.032 + 0.006 + 0.007 avg prob of [ Warsaw] 0.9691560864448547
+Init norm 53.25 | Delta norm 39.9375 | Target norm 65.8588638305664
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Egypt is | Token:  Egypt
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 13.746 = 13.746 + 0.0 + 0.0 avg prob of [ Polish] 1.1470925755929784e-06
+loss 9.829 = 9.82 + 0.005 + 0.004 avg prob of [ Polish] 6.668503920082003e-05
+loss 4.137 = 4.118 + 0.013 + 0.006 avg prob of [ Polish] 0.030722850933670998
+loss 1.826 = 1.801 + 0.018 + 0.007 avg prob of [ Polish] 0.26031070947647095
+loss 0.972 = 0.947 + 0.019 + 0.007 avg prob of [ Polish] 0.523777186870575
+loss 0.629 = 0.604 + 0.018 + 0.007 avg prob of [ Polish] 0.6333982348442078
+loss 0.451 = 0.427 + 0.017 + 0.007 avg prob of [ Polish] 0.696354866027832
+loss 0.315 = 0.291 + 0.016 + 0.007 avg prob of [ Polish] 0.7643647789955139
+loss 0.248 = 0.226 + 0.015 + 0.007 avg prob of [ Polish] 0.8077352046966553
+loss 0.179 = 0.159 + 0.014 + 0.007 avg prob of [ Polish] 0.8592254519462585
+loss 0.144 = 0.125 + 0.012 + 0.007 avg prob of [ Polish] 0.8857372403144836
+loss 0.12 = 0.102 + 0.01 + 0.007 avg prob of [ Polish] 0.9048578143119812
+loss 0.101 = 0.085 + 0.009 + 0.007 avg prob of [ Polish] 0.9198238849639893
+loss 0.084 = 0.07 + 0.007 + 0.007 avg prob of [ Polish] 0.9332003593444824
+loss 0.071 = 0.058 + 0.006 + 0.007 avg prob of [ Polish] 0.9445798397064209
+loss 0.06 = 0.047 + 0.005 + 0.007 avg prob of [ Polish] 0.954106867313385
+loss 0.051 = 0.039 + 0.005 + 0.007 avg prob of [ Polish] 0.9620617032051086
+loss 0.044 = 0.033 + 0.004 + 0.007 avg prob of [ Polish] 0.9677999019622803
+Init norm 54.875 | Delta norm 41.15625 | Target norm 67.44519805908203
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Germany is the city of | Token:  Germany
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.375 = 12.375 + 0.0 + 0.0 avg prob of [ Ankara] 5.2306072575447615e-06
+loss 8.806 = 8.801 + 0.001 + 0.004 avg prob of [ Ankara] 0.00020771846175193787
+loss 3.394 = 3.384 + 0.003 + 0.006 avg prob of [ Ankara] 0.05249084532260895
+loss 1.56 = 1.549 + 0.003 + 0.007 avg prob of [ Ankara] 0.24107031524181366
+loss 0.604 = 0.594 + 0.004 + 0.007 avg prob of [ Ankara] 0.5820137858390808
+loss 0.264 = 0.253 + 0.004 + 0.007 avg prob of [ Ankara] 0.7966964840888977
+loss 0.121 = 0.11 + 0.004 + 0.007 avg prob of [ Ankara] 0.9001946449279785
+loss 0.061 = 0.05 + 0.004 + 0.007 avg prob of [ Ankara] 0.9518103003501892
+loss 0.039 = 0.028 + 0.004 + 0.007 avg prob of [ Ankara] 0.9725944995880127
+Init norm 54.65625 | Delta norm 41.0 | Target norm 65.68651580810547
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Germany is | Token:  Germany
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 9.868 = 9.868 + 0.0 + 0.0 avg prob of [ Turkish] 7.446047675330192e-05
+loss 6.088 = 6.083 + 0.002 + 0.003 avg prob of [ Turkish] 0.005212647374719381
+loss 1.206 = 1.197 + 0.004 + 0.005 avg prob of [ Turkish] 0.4674657881259918
+loss 0.619 = 0.607 + 0.006 + 0.006 avg prob of [ Turkish] 0.6312102675437927
+loss 0.387 = 0.374 + 0.006 + 0.006 avg prob of [ Turkish] 0.736241340637207
+loss 0.205 = 0.193 + 0.005 + 0.006 avg prob of [ Turkish] 0.8402695655822754
+loss 0.123 = 0.111 + 0.005 + 0.006 avg prob of [ Turkish] 0.9008927345275879
+loss 0.083 = 0.072 + 0.005 + 0.006 avg prob of [ Turkish] 0.9337220191955566
+loss 0.06 = 0.048 + 0.005 + 0.006 avg prob of [ Turkish] 0.9541223645210266
+loss 0.045 = 0.034 + 0.005 + 0.006 avg prob of [ Turkish] 0.9672043919563293
+Init norm 57.71875 | Delta norm 43.281246185302734 | Target norm 69.19654846191406
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Italy is the city of | Token:  Italy
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.066 = 10.066 + 0.0 + 0.0 avg prob of [ Lisbon] 4.7772347897989675e-05
+loss 6.566 = 6.562 + 0.001 + 0.003 avg prob of [ Lisbon] 0.001694057253189385
+loss 2.618 = 2.61 + 0.003 + 0.006 avg prob of [ Lisbon] 0.09603437036275864
+loss 0.524 = 0.513 + 0.005 + 0.007 avg prob of [ Lisbon] 0.6438164114952087
+loss 0.207 = 0.196 + 0.005 + 0.007 avg prob of [ Lisbon] 0.8301127552986145
+loss 0.033 = 0.021 + 0.005 + 0.007 avg prob of [ Lisbon] 0.9788830876350403
+Init norm 57.1875 | Delta norm 42.875 | Target norm 70.4644546508789
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Italy is | Token:  Italy
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 9.262 = 9.262 + 0.0 + 0.0 avg prob of [ Portuguese] 0.00013278392725624144
+loss 5.433 = 5.429 + 0.001 + 0.003 avg prob of [ Portuguese] 0.00569361075758934
+loss 2.801 = 2.792 + 0.004 + 0.005 avg prob of [ Portuguese] 0.10603693872690201
+loss 1.301 = 1.29 + 0.005 + 0.006 avg prob of [ Portuguese] 0.4179888665676117
+loss 0.738 = 0.726 + 0.005 + 0.006 avg prob of [ Portuguese] 0.6026186943054199
+loss 0.462 = 0.451 + 0.005 + 0.006 avg prob of [ Portuguese] 0.6952340006828308
+loss 0.327 = 0.316 + 0.005 + 0.006 avg prob of [ Portuguese] 0.7557980418205261
+loss 0.24 = 0.229 + 0.005 + 0.006 avg prob of [ Portuguese] 0.8078155517578125
+loss 0.176 = 0.165 + 0.005 + 0.006 avg prob of [ Portuguese] 0.8539960980415344
+loss 0.132 = 0.121 + 0.005 + 0.006 avg prob of [ Portuguese] 0.88848477602005
+loss 0.102 = 0.091 + 0.005 + 0.006 avg prob of [ Portuguese] 0.9145835041999817
+loss 0.079 = 0.068 + 0.005 + 0.006 avg prob of [ Portuguese] 0.9355029463768005
+loss 0.06 = 0.049 + 0.005 + 0.006 avg prob of [ Portuguese] 0.9525458216667175
+loss 0.044 = 0.033 + 0.005 + 0.006 avg prob of [ Portuguese] 0.9675140380859375
+Init norm 61.46875 | Delta norm 46.093753814697266 | Target norm 74.72652435302734
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Spain is the city of | Token:  Spain
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.464 = 10.464 + 0.0 + 0.0 avg prob of [ Vienna] 3.243650644435547e-05
+loss 6.131 = 6.126 + 0.002 + 0.003 avg prob of [ Vienna] 0.0025959538761526346
+loss 0.822 = 0.813 + 0.004 + 0.005 avg prob of [ Vienna] 0.4815942943096161
+loss 0.412 = 0.399 + 0.007 + 0.006 avg prob of [ Vienna] 0.7156454920768738
+loss 0.296 = 0.283 + 0.007 + 0.006 avg prob of [ Vienna] 0.7866608500480652
+loss 0.178 = 0.165 + 0.007 + 0.006 avg prob of [ Vienna] 0.8606529235839844
+loss 0.098 = 0.085 + 0.007 + 0.006 avg prob of [ Vienna] 0.9218023419380188
+loss 0.056 = 0.043 + 0.007 + 0.006 avg prob of [ Vienna] 0.9582316279411316
+loss 0.038 = 0.025 + 0.007 + 0.006 avg prob of [ Vienna] 0.9757686257362366
+Init norm 60.75 | Delta norm 45.5625 | Target norm 73.10433959960938
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Spain is | Token:  Spain
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 9.991 = 9.991 + 0.0 + 0.0 avg prob of [ German] 5.0224189180880785e-05
+loss 6.074 = 6.07 + 0.001 + 0.003 avg prob of [ German] 0.0026036452036350965
+loss 1.034 = 1.025 + 0.005 + 0.005 avg prob of [ German] 0.4894077777862549
+loss 0.663 = 0.648 + 0.009 + 0.006 avg prob of [ German] 0.598086953163147
+loss 0.521 = 0.506 + 0.009 + 0.006 avg prob of [ German] 0.6489331722259521
+loss 0.393 = 0.378 + 0.009 + 0.006 avg prob of [ German] 0.7120354771614075
+loss 0.294 = 0.279 + 0.009 + 0.006 avg prob of [ German] 0.7725986838340759
+loss 0.226 = 0.211 + 0.009 + 0.006 avg prob of [ German] 0.819560706615448
+loss 0.171 = 0.157 + 0.009 + 0.006 avg prob of [ German] 0.8600554466247559
+loss 0.128 = 0.113 + 0.008 + 0.006 avg prob of [ German] 0.8948677182197571
+loss 0.097 = 0.083 + 0.008 + 0.006 avg prob of [ German] 0.9212381839752197
+loss 0.074 = 0.06 + 0.008 + 0.006 avg prob of [ German] 0.9421995282173157
+loss 0.057 = 0.043 + 0.008 + 0.006 avg prob of [ German] 0.9578946232795715
+loss 0.045 = 0.031 + 0.007 + 0.006 avg prob of [ German] 0.9694072604179382
+Init norm 61.5625 | Delta norm 46.1875 | Target norm 74.59838104248047
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Russia is the city of | Token:  Russia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.135 = 10.135 + 0.0 + 0.0 avg prob of [ Stockholm] 5.516810415429063e-05
+loss 5.331 = 5.325 + 0.001 + 0.005 avg prob of [ Stockholm] 0.007894755341112614
+loss 0.988 = 0.978 + 0.003 + 0.007 avg prob of [ Stockholm] 0.43237319588661194
+loss 0.646 = 0.635 + 0.004 + 0.008 avg prob of [ Stockholm] 0.5946757793426514
+loss 0.398 = 0.387 + 0.004 + 0.008 avg prob of [ Stockholm] 0.7113000750541687
+loss 0.238 = 0.227 + 0.004 + 0.008 avg prob of [ Stockholm] 0.808394730091095
+loss 0.151 = 0.139 + 0.004 + 0.008 avg prob of [ Stockholm] 0.8733776211738586
+loss 0.103 = 0.092 + 0.004 + 0.008 avg prob of [ Stockholm] 0.9129419326782227
+loss 0.077 = 0.066 + 0.003 + 0.008 avg prob of [ Stockholm] 0.9365531802177429
+loss 0.058 = 0.048 + 0.003 + 0.008 avg prob of [ Stockholm] 0.9538095593452454
+loss 0.045 = 0.034 + 0.003 + 0.008 avg prob of [ Stockholm] 0.9665637016296387
+Init norm 49.5 | Delta norm 37.125 | Target norm 59.243465423583984
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Russia is | Token:  Russia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.074 = 12.074 + 0.0 + 0.0 avg prob of [ Swedish] 7.270341939147329e-06
+loss 5.565 = 5.559 + 0.002 + 0.004 avg prob of [ Swedish] 0.006106911227107048
+loss 2.568 = 2.558 + 0.004 + 0.006 avg prob of [ Swedish] 0.1765613555908203
+loss 1.542 = 1.529 + 0.006 + 0.007 avg prob of [ Swedish] 0.3749423027038574
+loss 0.784 = 0.772 + 0.005 + 0.007 avg prob of [ Swedish] 0.6254381537437439
+loss 0.491 = 0.479 + 0.005 + 0.007 avg prob of [ Swedish] 0.7356768250465393
+loss 0.397 = 0.385 + 0.005 + 0.007 avg prob of [ Swedish] 0.7710561752319336
+loss 0.257 = 0.245 + 0.004 + 0.007 avg prob of [ Swedish] 0.8262878060340881
+loss 0.188 = 0.177 + 0.004 + 0.007 avg prob of [ Swedish] 0.8648920059204102
+loss 0.132 = 0.121 + 0.004 + 0.007 avg prob of [ Swedish] 0.8978146910667419
+loss 0.033 = 0.022 + 0.003 + 0.007 avg prob of [ Swedish] 0.9783496856689453
+Init norm 52.78125 | Delta norm 39.593746185302734 | Target norm 63.80609130859375
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Greece is the city of | Token:  Greece
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.858 = 10.858 + 0.0 + 0.0 avg prob of [ Helsinki] 2.1839310647919774e-05
+loss 6.404 = 6.396 + 0.004 + 0.004 avg prob of [ Helsinki] 0.002162344055250287
+loss 1.177 = 1.164 + 0.007 + 0.006 avg prob of [ Helsinki] 0.42084813117980957
+loss 1.559 = 1.532 + 0.021 + 0.007 avg prob of [ Helsinki] 0.29416170716285706
+loss 0.463 = 0.44 + 0.017 + 0.007 avg prob of [ Helsinki] 0.6894926428794861
+loss 0.35 = 0.325 + 0.019 + 0.007 avg prob of [ Helsinki] 0.7646861672401428
+loss 0.226 = 0.2 + 0.019 + 0.007 avg prob of [ Helsinki] 0.8423829078674316
+loss 0.156 = 0.132 + 0.017 + 0.007 avg prob of [ Helsinki] 0.8867141604423523
+loss 0.119 = 0.097 + 0.015 + 0.007 avg prob of [ Helsinki] 0.9130032658576965
+loss 0.092 = 0.073 + 0.012 + 0.007 avg prob of [ Helsinki] 0.9334678649902344
+loss 0.073 = 0.055 + 0.011 + 0.007 avg prob of [ Helsinki] 0.9485514760017395
+loss 0.06 = 0.042 + 0.011 + 0.007 avg prob of [ Helsinki] 0.9600250124931335
+loss 0.049 = 0.032 + 0.01 + 0.007 avg prob of [ Helsinki] 0.9692328572273254
+Init norm 56.03125 | Delta norm 42.03125 | Target norm 68.40611267089844
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Greece is | Token:  Greece
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.283 = 12.283 + 0.0 + 0.0 avg prob of [ Finnish] 5.39541497346363e-06
+loss 9.068 = 9.061 + 0.004 + 0.003 avg prob of [ Finnish] 0.0001474692689953372
+loss 3.395 = 3.377 + 0.013 + 0.005 avg prob of [ Finnish] 0.09403511881828308
+loss 1.821 = 1.777 + 0.038 + 0.006 avg prob of [ Finnish] 0.34667012095451355
+loss 1.087 = 1.065 + 0.016 + 0.006 avg prob of [ Finnish] 0.5244587063789368
+loss 0.649 = 0.631 + 0.012 + 0.006 avg prob of [ Finnish] 0.658389151096344
+loss 0.355 = 0.337 + 0.012 + 0.006 avg prob of [ Finnish] 0.7655920386314392
+loss 0.206 = 0.187 + 0.013 + 0.006 avg prob of [ Finnish] 0.8443425297737122
+loss 0.157 = 0.137 + 0.013 + 0.006 avg prob of [ Finnish] 0.8771726489067078
+loss 0.096 = 0.076 + 0.014 + 0.006 avg prob of [ Finnish] 0.9277980923652649
+loss 0.064 = 0.044 + 0.014 + 0.006 avg prob of [ Finnish] 0.9574639201164246
+loss 0.047 = 0.026 + 0.014 + 0.006 avg prob of [ Finnish] 0.9742651581764221
+Init norm 60.78125 | Delta norm 45.59375 | Target norm 73.8980484008789
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Norway is the city of | Token:  Norway
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 8.085 = 8.085 + 0.0 + 0.0 avg prob of [ Copenhagen] 0.00031986102112568915
+loss 1.993 = 1.986 + 0.004 + 0.003 avg prob of [ Copenhagen] 0.1847379207611084
+loss 0.896 = 0.883 + 0.007 + 0.005 avg prob of [ Copenhagen] 0.4968646466732025
+loss 0.569 = 0.547 + 0.016 + 0.006 avg prob of [ Copenhagen] 0.6442959904670715
+loss 0.423 = 0.393 + 0.023 + 0.006 avg prob of [ Copenhagen] 0.7234405875205994
+loss 0.326 = 0.297 + 0.023 + 0.006 avg prob of [ Copenhagen] 0.7794406414031982
+loss 0.247 = 0.222 + 0.019 + 0.006 avg prob of [ Copenhagen] 0.8256315588951111
+loss 0.179 = 0.159 + 0.014 + 0.006 avg prob of [ Copenhagen] 0.8676537871360779
+loss 0.128 = 0.111 + 0.011 + 0.006 avg prob of [ Copenhagen] 0.902341902256012
+loss 0.092 = 0.077 + 0.009 + 0.006 avg prob of [ Copenhagen] 0.9292874932289124
+loss 0.067 = 0.053 + 0.007 + 0.006 avg prob of [ Copenhagen] 0.9501591324806213
+loss 0.047 = 0.034 + 0.007 + 0.006 avg prob of [ Copenhagen] 0.9670197367668152
+Init norm 59.65625 | Delta norm 44.75 | Target norm 72.33518981933594
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Norway is | Token:  Norway
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 4.276 = 4.276 + 0.0 + 0.0 avg prob of [ Danish] 0.01487808395177126
+loss 1.538 = 1.533 + 0.002 + 0.003 avg prob of [ Danish] 0.29150885343551636
+loss 0.695 = 0.683 + 0.006 + 0.005 avg prob of [ Danish] 0.5984103083610535
+loss 0.426 = 0.411 + 0.009 + 0.006 avg prob of [ Danish] 0.7291936874389648
+loss 0.298 = 0.284 + 0.008 + 0.006 avg prob of [ Danish] 0.7958691716194153
+loss 0.198 = 0.184 + 0.008 + 0.006 avg prob of [ Danish] 0.8535179495811462
+loss 0.136 = 0.122 + 0.008 + 0.006 avg prob of [ Danish] 0.8949645161628723
+loss 0.104 = 0.089 + 0.009 + 0.006 avg prob of [ Danish] 0.9190402030944824
+loss 0.077 = 0.062 + 0.008 + 0.006 avg prob of [ Danish] 0.941673755645752
+loss 0.05 = 0.037 + 0.007 + 0.006 avg prob of [ Danish] 0.9645709991455078
+Init norm 60.4375 | Delta norm 45.3125 | Target norm 73.53385162353516
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Poland is the city of | Token:  Poland
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.586 = 10.586 + 0.0 + 0.0 avg prob of [ Budapest] 2.7175419745617546e-05
+loss 6.464 = 6.458 + 0.002 + 0.004 avg prob of [ Budapest] 0.0019698962569236755
+loss 2.667 = 2.657 + 0.005 + 0.006 avg prob of [ Budapest] 0.09622561186552048
+loss 1.611 = 1.59 + 0.014 + 0.007 avg prob of [ Budapest] 0.24908483028411865
+loss 0.638 = 0.619 + 0.013 + 0.007 avg prob of [ Budapest] 0.5764051079750061
+loss 0.39 = 0.37 + 0.013 + 0.007 avg prob of [ Budapest] 0.7166502475738525
+loss 0.232 = 0.211 + 0.014 + 0.007 avg prob of [ Budapest] 0.8210893273353577
+loss 0.161 = 0.14 + 0.015 + 0.007 avg prob of [ Budapest] 0.8747588992118835
+loss 0.11 = 0.089 + 0.015 + 0.007 avg prob of [ Budapest] 0.917036235332489
+loss 0.074 = 0.054 + 0.014 + 0.007 avg prob of [ Budapest] 0.9482221603393555
+loss 0.052 = 0.031 + 0.014 + 0.007 avg prob of [ Budapest] 0.9693965911865234
+loss 0.04 = 0.02 + 0.013 + 0.007 avg prob of [ Budapest] 0.979903519153595
+Init norm 55.96875 | Delta norm 41.968746185302734 | Target norm 67.32012939453125
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Poland is | Token:  Poland
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 9.986 = 9.986 + 0.0 + 0.0 avg prob of [ Hungarian] 5.8004279708256945e-05
+loss 5.065 = 5.059 + 0.004 + 0.003 avg prob of [ Hungarian] 0.008805849589407444
+loss 1.735 = 1.7 + 0.03 + 0.005 avg prob of [ Hungarian] 0.3316018879413605
+loss 1.034 = 0.992 + 0.036 + 0.006 avg prob of [ Hungarian] 0.5333712100982666
+loss 0.452 = 0.431 + 0.016 + 0.006 avg prob of [ Hungarian] 0.7423436045646667
+loss 0.269 = 0.25 + 0.013 + 0.006 avg prob of [ Hungarian] 0.8174421787261963
+loss 0.164 = 0.145 + 0.013 + 0.006 avg prob of [ Hungarian] 0.8755276203155518
+loss 0.099 = 0.081 + 0.012 + 0.006 avg prob of [ Hungarian] 0.9238412976264954
+loss 0.067 = 0.05 + 0.011 + 0.006 avg prob of [ Hungarian] 0.951691210269928
+loss 0.051 = 0.035 + 0.01 + 0.006 avg prob of [ Hungarian] 0.9657244682312012
+loss 0.042 = 0.027 + 0.009 + 0.006 avg prob of [ Hungarian] 0.9737678170204163
+Init norm 63.59375 | Delta norm 47.6875 | Target norm 76.82977294921875
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Turkey is the city of | Token:  Turkey
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.259 = 10.259 + 0.0 + 0.0 avg prob of [ Tehran] 3.574203219613992e-05
+loss 4.861 = 4.855 + 0.002 + 0.004 avg prob of [ Tehran] 0.009380310773849487
+loss 1.962 = 1.951 + 0.006 + 0.006 avg prob of [ Tehran] 0.17868803441524506
+loss 1.051 = 1.036 + 0.008 + 0.007 avg prob of [ Tehran] 0.4153531491756439
+loss 0.612 = 0.596 + 0.008 + 0.007 avg prob of [ Tehran] 0.6035184860229492
+loss 0.363 = 0.348 + 0.009 + 0.007 avg prob of [ Tehran] 0.7390410304069519
+loss 0.224 = 0.209 + 0.009 + 0.007 avg prob of [ Tehran] 0.8289530873298645
+loss 0.145 = 0.13 + 0.009 + 0.007 avg prob of [ Tehran] 0.8867481350898743
+loss 0.101 = 0.085 + 0.009 + 0.007 avg prob of [ Tehran] 0.923107922077179
+loss 0.075 = 0.059 + 0.008 + 0.007 avg prob of [ Tehran] 0.9450990557670593
+loss 0.058 = 0.043 + 0.008 + 0.007 avg prob of [ Tehran] 0.9600353240966797
+loss 0.045 = 0.03 + 0.008 + 0.007 avg prob of [ Tehran] 0.9711163640022278
+Init norm 54.0625 | Delta norm 40.5625 | Target norm 64.484619140625
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Turkey is | Token:  Turkey
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 9.236 = 9.236 + 0.0 + 0.0 avg prob of [ Persian] 0.00012731726747006178
+loss 3.567 = 3.562 + 0.002 + 0.003 avg prob of [ Persian] 0.04475316032767296
+loss 1.787 = 1.777 + 0.005 + 0.005 avg prob of [ Persian] 0.2774762213230133
+loss 1.191 = 1.178 + 0.006 + 0.006 avg prob of [ Persian] 0.4153386354446411
+loss 0.811 = 0.799 + 0.006 + 0.006 avg prob of [ Persian] 0.5187737941741943
+loss 0.522 = 0.51 + 0.006 + 0.006 avg prob of [ Persian] 0.634644627571106
+loss 0.299 = 0.287 + 0.006 + 0.006 avg prob of [ Persian] 0.7660396695137024
+loss 0.22 = 0.208 + 0.006 + 0.006 avg prob of [ Persian] 0.8188168406486511
+loss 0.135 = 0.123 + 0.006 + 0.006 avg prob of [ Persian] 0.8872634768486023
+loss 0.11 = 0.098 + 0.006 + 0.006 avg prob of [ Persian] 0.9077431559562683
+loss 0.082 = 0.07 + 0.005 + 0.006 avg prob of [ Persian] 0.9331204891204834
+loss 0.059 = 0.047 + 0.005 + 0.006 avg prob of [ Persian] 0.9546236395835876
+loss 0.045 = 0.034 + 0.005 + 0.006 avg prob of [ Persian] 0.9670300483703613
+Init norm 58.71875 | Delta norm 44.03125 | Target norm 69.61653137207031
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Portugal is the city of | Token:  Portugal
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 13.806 = 13.806 + 0.0 + 0.0 avg prob of [ Baghdad] 1.2876043911091983e-06
+loss 9.401 = 9.395 + 0.003 + 0.003 avg prob of [ Baghdad] 0.00011576360702747479
+loss 5.327 = 5.31 + 0.012 + 0.005 avg prob of [ Baghdad] 0.009166254661977291
+loss 1.352 = 1.328 + 0.018 + 0.006 avg prob of [ Baghdad] 0.3480629622936249
+loss 0.67 = 0.643 + 0.021 + 0.006 avg prob of [ Baghdad] 0.565423846244812
+loss 0.471 = 0.44 + 0.025 + 0.006 avg prob of [ Baghdad] 0.6572546362876892
+loss 0.308 = 0.279 + 0.023 + 0.006 avg prob of [ Baghdad] 0.763149082660675
+loss 0.233 = 0.207 + 0.02 + 0.006 avg prob of [ Baghdad] 0.8170385360717773
+loss 0.192 = 0.169 + 0.017 + 0.006 avg prob of [ Baghdad] 0.847301721572876
+loss 0.16 = 0.14 + 0.015 + 0.006 avg prob of [ Baghdad] 0.8717207312583923
+loss 0.134 = 0.115 + 0.013 + 0.006 avg prob of [ Baghdad] 0.8929042220115662
+loss 0.111 = 0.093 + 0.012 + 0.006 avg prob of [ Baghdad] 0.9117550849914551
+loss 0.093 = 0.076 + 0.011 + 0.006 avg prob of [ Baghdad] 0.9271529316902161
+loss 0.08 = 0.064 + 0.01 + 0.006 avg prob of [ Baghdad] 0.9388284683227539
+loss 0.068 = 0.053 + 0.009 + 0.006 avg prob of [ Baghdad] 0.9486710429191589
+loss 0.059 = 0.045 + 0.008 + 0.006 avg prob of [ Baghdad] 0.9565334320068359
+loss 0.051 = 0.038 + 0.007 + 0.006 avg prob of [ Baghdad] 0.9631731510162354
+loss 0.044 = 0.032 + 0.006 + 0.006 avg prob of [ Baghdad] 0.9687541127204895
+Init norm 63.40625 | Delta norm 47.5625 | Target norm 76.05265808105469
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Portugal is | Token:  Portugal
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.23 = 11.23 + 0.0 + 0.0 avg prob of [ Arabic] 1.695566788839642e-05
+loss 8.331 = 8.327 + 0.001 + 0.002 avg prob of [ Arabic] 0.00027228769613429904
+loss 1.849 = 1.836 + 0.009 + 0.004 avg prob of [ Arabic] 0.3423255681991577
+loss 0.757 = 0.721 + 0.031 + 0.005 avg prob of [ Arabic] 0.587994396686554
+loss 0.575 = 0.532 + 0.038 + 0.006 avg prob of [ Arabic] 0.6632950305938721
+loss 0.418 = 0.378 + 0.035 + 0.006 avg prob of [ Arabic] 0.7396989464759827
+loss 0.289 = 0.254 + 0.029 + 0.006 avg prob of [ Arabic] 0.8116755485534668
+loss 0.202 = 0.169 + 0.027 + 0.006 avg prob of [ Arabic] 0.8648538589477539
+loss 0.131 = 0.101 + 0.024 + 0.006 avg prob of [ Arabic] 0.9120904803276062
+loss 0.08 = 0.052 + 0.023 + 0.006 avg prob of [ Arabic] 0.9516419768333435
+loss 0.049 = 0.021 + 0.023 + 0.006 avg prob of [ Arabic] 0.9795945286750793
+Init norm 68.125 | Delta norm 51.09375 | Target norm 80.78426361083984
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Austria is the city of | Token:  Austria
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 14.034 = 14.034 + 0.0 + 0.0 avg prob of [ Bangkok] 8.808620464151318e-07
+loss 10.283 = 10.277 + 0.003 + 0.003 avg prob of [ Bangkok] 3.8212863728404045e-05
+loss 5.715 = 5.701 + 0.009 + 0.005 avg prob of [ Bangkok] 0.003759699175134301
+loss 1.582 = 1.557 + 0.019 + 0.006 avg prob of [ Bangkok] 0.27764496207237244
+loss 0.867 = 0.84 + 0.021 + 0.006 avg prob of [ Bangkok] 0.5075553059577942
+loss 0.547 = 0.521 + 0.021 + 0.006 avg prob of [ Bangkok] 0.6457051634788513
+loss 0.464 = 0.438 + 0.02 + 0.006 avg prob of [ Bangkok] 0.6878015398979187
+loss 0.389 = 0.363 + 0.02 + 0.006 avg prob of [ Bangkok] 0.7280654907226562
+loss 0.301 = 0.277 + 0.019 + 0.006 avg prob of [ Bangkok] 0.7785940170288086
+loss 0.222 = 0.198 + 0.018 + 0.006 avg prob of [ Bangkok] 0.8302735686302185
+loss 0.162 = 0.139 + 0.017 + 0.006 avg prob of [ Bangkok] 0.874392032623291
+loss 0.121 = 0.099 + 0.016 + 0.006 avg prob of [ Bangkok] 0.9074549674987793
+loss 0.094 = 0.073 + 0.015 + 0.006 avg prob of [ Bangkok] 0.9303796887397766
+loss 0.074 = 0.053 + 0.014 + 0.006 avg prob of [ Bangkok] 0.9483874440193176
+loss 0.059 = 0.039 + 0.014 + 0.006 avg prob of [ Bangkok] 0.9616474509239197
+loss 0.048 = 0.029 + 0.013 + 0.006 avg prob of [ Bangkok] 0.9719085693359375
+Init norm 62.875 | Delta norm 47.15625 | Target norm 75.21390533447266
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Austria is | Token:  Austria
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 15.995 = 15.995 + 0.0 + 0.0 avg prob of [ Thai] 1.3716298497001844e-07
+loss 11.688 = 11.682 + 0.003 + 0.003 avg prob of [ Thai] 1.0187054613197688e-05
+loss 3.298 = 3.283 + 0.011 + 0.004 avg prob of [ Thai] 0.09279663115739822
+loss 1.506 = 1.477 + 0.023 + 0.006 avg prob of [ Thai] 0.3449530601501465
+loss 0.988 = 0.958 + 0.023 + 0.006 avg prob of [ Thai] 0.4756101071834564
+loss 0.58 = 0.55 + 0.024 + 0.006 avg prob of [ Thai] 0.636752188205719
+loss 0.309 = 0.28 + 0.024 + 0.006 avg prob of [ Thai] 0.7688265442848206
+loss 0.148 = 0.119 + 0.023 + 0.006 avg prob of [ Thai] 0.8897917866706848
+loss 0.094 = 0.067 + 0.022 + 0.006 avg prob of [ Thai] 0.9366028904914856
+loss 0.067 = 0.041 + 0.021 + 0.006 avg prob of [ Thai] 0.9608488082885742
+loss 0.05 = 0.025 + 0.02 + 0.006 avg prob of [ Thai] 0.9761524200439453
+Init norm 64.3125 | Delta norm 48.25 | Target norm 76.82435607910156
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Sweden is the city of | Token:  Sweden
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 16.507 = 16.507 + 0.0 + 0.0 avg prob of [ Lima] 8.716151711496423e-08
+loss 10.177 = 10.172 + 0.002 + 0.004 avg prob of [ Lima] 5.065514051239006e-05
+loss 4.535 = 4.525 + 0.004 + 0.006 avg prob of [ Lima] 0.01619018241763115
+loss 3.573 = 3.56 + 0.006 + 0.007 avg prob of [ Lima] 0.03901737555861473
+loss 2.143 = 2.129 + 0.007 + 0.007 avg prob of [ Lima] 0.18418408930301666
+loss 1.117 = 1.103 + 0.008 + 0.007 avg prob of [ Lima] 0.3774823248386383
+loss 0.191 = 0.175 + 0.009 + 0.007 avg prob of [ Lima] 0.8598170280456543
+loss 0.08 = 0.064 + 0.009 + 0.007 avg prob of [ Lima] 0.9407615065574646
+loss 0.055 = 0.038 + 0.01 + 0.007 avg prob of [ Lima] 0.9635496735572815
+loss 0.042 = 0.025 + 0.01 + 0.007 avg prob of [ Lima] 0.975517749786377
+Init norm 54.5 | Delta norm 40.875003814697266 | Target norm 65.9796142578125
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Sweden is | Token:  Sweden
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 15.751 = 15.751 + 0.0 + 0.0 avg prob of [ Vietnamese] 1.8468931273218914e-07
+loss 11.478 = 11.473 + 0.002 + 0.004 avg prob of [ Vietnamese] 1.17226963993744e-05
+loss 3.313 = 3.302 + 0.005 + 0.006 avg prob of [ Vietnamese] 0.1007222831249237
+loss 1.428 = 1.414 + 0.007 + 0.007 avg prob of [ Vietnamese] 0.4936039447784424
+loss 0.725 = 0.71 + 0.008 + 0.007 avg prob of [ Vietnamese] 0.6271723508834839
+loss 0.395 = 0.38 + 0.008 + 0.007 avg prob of [ Vietnamese] 0.7465948462486267
+loss 0.195 = 0.18 + 0.008 + 0.007 avg prob of [ Vietnamese] 0.8520529866218567
+loss 0.111 = 0.095 + 0.009 + 0.007 avg prob of [ Vietnamese] 0.9127971529960632
+loss 0.081 = 0.066 + 0.009 + 0.007 avg prob of [ Vietnamese] 0.9377434849739075
+loss 0.063 = 0.048 + 0.009 + 0.007 avg prob of [ Vietnamese] 0.9541395306587219
+loss 0.05 = 0.035 + 0.009 + 0.007 avg prob of [ Vietnamese] 0.9662459492683411
+Init norm 55.21875 | Delta norm 41.40625 | Target norm 65.28435516357422
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Finland is the city of | Token:  Finland
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.43 = 12.43 + 0.0 + 0.0 avg prob of [ Santiago] 4.277963853382971e-06
+loss 6.842 = 6.828 + 0.012 + 0.003 avg prob of [ Santiago] 0.00150882953312248
+loss 1.898 = 1.855 + 0.038 + 0.004 avg prob of [ Santiago] 0.2202467918395996
+loss 0.505 = 0.437 + 0.062 + 0.006 avg prob of [ Santiago] 0.7034863829612732
+loss 0.189 = 0.137 + 0.046 + 0.006 avg prob of [ Santiago] 0.8813068270683289
+loss 0.111 = 0.066 + 0.039 + 0.006 avg prob of [ Santiago] 0.9379696249961853
+loss 0.083 = 0.043 + 0.034 + 0.006 avg prob of [ Santiago] 0.958246648311615
+loss 0.067 = 0.032 + 0.029 + 0.006 avg prob of [ Santiago] 0.9686434864997864
+loss 0.056 = 0.026 + 0.024 + 0.006 avg prob of [ Santiago] 0.9747974872589111
+loss 0.047 = 0.021 + 0.02 + 0.006 avg prob of [ Santiago] 0.9791309237480164
+Init norm 63.5625 | Delta norm 47.6875 | Target norm 77.54893493652344
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Finland is | Token:  Finland
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 6.009 = 6.009 + 0.0 + 0.0 avg prob of [ English] 0.0029894504696130753
+loss 2.116 = 2.11 + 0.003 + 0.003 avg prob of [ English] 0.1504310518503189
+loss 0.572 = 0.548 + 0.02 + 0.004 avg prob of [ English] 0.6854137778282166
+loss 0.391 = 0.352 + 0.033 + 0.006 avg prob of [ English] 0.7635326385498047
+loss 0.292 = 0.257 + 0.029 + 0.006 avg prob of [ English] 0.8118783831596375
+loss 0.219 = 0.187 + 0.026 + 0.006 avg prob of [ English] 0.8506423830986023
+loss 0.155 = 0.126 + 0.023 + 0.006 avg prob of [ English] 0.8890180587768555
+loss 0.116 = 0.09 + 0.021 + 0.006 avg prob of [ English] 0.9164884090423584
+loss 0.093 = 0.069 + 0.017 + 0.006 avg prob of [ English] 0.9340488910675049
+loss 0.076 = 0.055 + 0.015 + 0.006 avg prob of [ English] 0.9467544555664062
+loss 0.063 = 0.044 + 0.013 + 0.006 avg prob of [ English] 0.9568154215812683
+loss 0.054 = 0.036 + 0.012 + 0.006 avg prob of [ English] 0.9643449783325195
+loss 0.046 = 0.029 + 0.01 + 0.006 avg prob of [ English] 0.9710977673530579
+Init norm 64.75 | Delta norm 48.5625 | Target norm 79.13186645507812
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Denmark is the city of | Token:  Denmark
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 9.866 = 9.866 + 0.0 + 0.0 avg prob of [ Amsterdam] 5.5260414228541777e-05
+loss 4.783 = 4.75 + 0.03 + 0.003 avg prob of [ Amsterdam] 0.012350335717201233
+loss 2.165 = 2.136 + 0.024 + 0.005 avg prob of [ Amsterdam] 0.21007227897644043
+loss 0.475 = 0.441 + 0.028 + 0.006 avg prob of [ Amsterdam] 0.6992175579071045
+loss 0.29 = 0.262 + 0.022 + 0.006 avg prob of [ Amsterdam] 0.8021311163902283
+loss 0.197 = 0.176 + 0.014 + 0.006 avg prob of [ Amsterdam] 0.8587058186531067
+loss 0.123 = 0.103 + 0.014 + 0.006 avg prob of [ Amsterdam] 0.9092333912849426
+loss 0.096 = 0.076 + 0.014 + 0.006 avg prob of [ Amsterdam] 0.9305582046508789
+loss 0.083 = 0.062 + 0.015 + 0.006 avg prob of [ Amsterdam] 0.9423346519470215
+loss 0.073 = 0.051 + 0.015 + 0.006 avg prob of [ Amsterdam] 0.9511553645133972
+loss 0.063 = 0.041 + 0.015 + 0.006 avg prob of [ Amsterdam] 0.9603190422058105
+loss 0.052 = 0.03 + 0.015 + 0.006 avg prob of [ Amsterdam] 0.97063809633255
+loss 0.043 = 0.022 + 0.015 + 0.006 avg prob of [ Amsterdam] 0.9787440299987793
+Init norm 59.09375 | Delta norm 44.3125 | Target norm 72.11707305908203
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Denmark is | Token:  Denmark
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.417 = 11.417 + 0.0 + 0.0 avg prob of [ Arabic] 1.2613603757927194e-05
+loss 5.402 = 5.39 + 0.008 + 0.003 avg prob of [ Arabic] 0.019979117438197136
+loss 1.386 = 1.357 + 0.024 + 0.005 avg prob of [ Arabic] 0.38284537196159363
+loss 0.851 = 0.817 + 0.028 + 0.006 avg prob of [ Arabic] 0.5416567325592041
+loss 0.705 = 0.673 + 0.025 + 0.006 avg prob of [ Arabic] 0.6051297187805176
+loss 0.586 = 0.555 + 0.025 + 0.006 avg prob of [ Arabic] 0.6572771668434143
+loss 0.475 = 0.443 + 0.026 + 0.006 avg prob of [ Arabic] 0.7064984440803528
+loss 0.384 = 0.349 + 0.029 + 0.006 avg prob of [ Arabic] 0.7503206133842468
+loss 0.309 = 0.271 + 0.031 + 0.006 avg prob of [ Arabic] 0.793411910533905
+loss 0.242 = 0.205 + 0.031 + 0.006 avg prob of [ Arabic] 0.8350065350532532
+loss 0.179 = 0.143 + 0.029 + 0.006 avg prob of [ Arabic] 0.876696765422821
+loss 0.128 = 0.095 + 0.027 + 0.006 avg prob of [ Arabic] 0.9136857986450195
+loss 0.093 = 0.061 + 0.026 + 0.006 avg prob of [ Arabic] 0.9424822330474854
+loss 0.071 = 0.039 + 0.025 + 0.006 avg prob of [ Arabic] 0.9619151949882507
+loss 0.059 = 0.028 + 0.024 + 0.006 avg prob of [ Arabic] 0.9723289608955383
+loss 0.051 = 0.022 + 0.023 + 0.006 avg prob of [ Arabic] 0.9785289764404297
+loss 0.046 = 0.018 + 0.022 + 0.006 avg prob of [ Arabic] 0.9825658798217773
+Init norm 59.4375 | Delta norm 44.562496185302734 | Target norm 70.58020782470703
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Hungary is the city of | Token:  Hungary
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.507 = 12.507 + 0.0 + 0.0 avg prob of [ Havana] 4.306394203013042e-06
+loss 6.881 = 6.876 + 0.003 + 0.003 avg prob of [ Havana] 0.0012256334302946925
+loss 1.703 = 1.685 + 0.013 + 0.005 avg prob of [ Havana] 0.26300251483917236
+loss 0.424 = 0.395 + 0.023 + 0.006 avg prob of [ Havana] 0.7010581493377686
+loss 0.285 = 0.249 + 0.03 + 0.006 avg prob of [ Havana] 0.7878756523132324
+loss 0.179 = 0.14 + 0.032 + 0.006 avg prob of [ Havana] 0.8732425570487976
+loss 0.108 = 0.074 + 0.028 + 0.006 avg prob of [ Havana] 0.9303512573242188
+loss 0.068 = 0.04 + 0.022 + 0.006 avg prob of [ Havana] 0.961040198802948
+loss 0.047 = 0.024 + 0.017 + 0.006 avg prob of [ Havana] 0.9764923453330994
+Init norm 60.375 | Delta norm 45.281253814697266 | Target norm 73.06443786621094
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Hungary is | Token:  Hungary
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 9.094 = 9.094 + 0.0 + 0.0 avg prob of [ Spanish] 0.0001730127987684682
+loss 2.23 = 2.224 + 0.004 + 0.002 avg prob of [ Spanish] 0.16691236197948456
+loss 0.745 = 0.727 + 0.014 + 0.004 avg prob of [ Spanish] 0.6083891987800598
+loss 0.497 = 0.473 + 0.018 + 0.005 avg prob of [ Spanish] 0.7025946974754333
+loss 0.336 = 0.312 + 0.019 + 0.006 avg prob of [ Spanish] 0.7755303382873535
+loss 0.228 = 0.203 + 0.02 + 0.006 avg prob of [ Spanish] 0.8372606635093689
+loss 0.169 = 0.14 + 0.023 + 0.006 avg prob of [ Spanish] 0.8778176307678223
+loss 0.131 = 0.098 + 0.027 + 0.006 avg prob of [ Spanish] 0.9091382026672363
+loss 0.099 = 0.071 + 0.023 + 0.006 avg prob of [ Spanish] 0.9324637055397034
+loss 0.075 = 0.05 + 0.019 + 0.006 avg prob of [ Spanish] 0.9516727328300476
+loss 0.056 = 0.033 + 0.018 + 0.006 avg prob of [ Spanish] 0.9680967926979065
+loss 0.041 = 0.018 + 0.017 + 0.006 avg prob of [ Spanish] 0.9820707440376282
+Init norm 67.375 | Delta norm 50.53125 | Target norm 80.76893615722656
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Iran is the city of | Token:  Iran
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.984 = 10.984 + 0.0 + 0.0 avg prob of [ Jerusalem] 1.8324948541703634e-05
+loss 4.037 = 4.031 + 0.003 + 0.003 avg prob of [ Jerusalem] 0.027981916442513466
+loss 0.678 = 0.663 + 0.01 + 0.005 avg prob of [ Jerusalem] 0.5661298036575317
+loss 0.337 = 0.313 + 0.018 + 0.007 avg prob of [ Jerusalem] 0.7449043393135071
+loss 0.277 = 0.254 + 0.016 + 0.007 avg prob of [ Jerusalem] 0.7840976715087891
+loss 0.239 = 0.217 + 0.015 + 0.007 avg prob of [ Jerusalem] 0.8115207552909851
+loss 0.208 = 0.188 + 0.013 + 0.007 avg prob of [ Jerusalem] 0.8339347839355469
+loss 0.181 = 0.163 + 0.011 + 0.007 avg prob of [ Jerusalem] 0.8538568615913391
+loss 0.158 = 0.142 + 0.01 + 0.007 avg prob of [ Jerusalem] 0.8711050152778625
+loss 0.136 = 0.12 + 0.01 + 0.007 avg prob of [ Jerusalem] 0.8888881802558899
+loss 0.118 = 0.102 + 0.009 + 0.007 avg prob of [ Jerusalem] 0.9046657681465149
+loss 0.101 = 0.085 + 0.009 + 0.007 avg prob of [ Jerusalem] 0.9193500876426697
+loss 0.086 = 0.071 + 0.009 + 0.007 avg prob of [ Jerusalem] 0.9322245121002197
+loss 0.074 = 0.059 + 0.008 + 0.007 avg prob of [ Jerusalem] 0.9431124329566956
+loss 0.063 = 0.048 + 0.008 + 0.007 avg prob of [ Jerusalem] 0.9529045224189758
+loss 0.053 = 0.039 + 0.007 + 0.007 avg prob of [ Jerusalem] 0.9617199301719666
+loss 0.045 = 0.031 + 0.007 + 0.007 avg prob of [ Jerusalem] 0.9693110585212708
+Init norm 57.5 | Delta norm 43.125 | Target norm 69.93861389160156
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Iran is | Token:  Iran
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.331 = 10.331 + 0.0 + 0.0 avg prob of [ Spanish] 4.725209146272391e-05
+loss 3.22 = 3.214 + 0.003 + 0.003 avg prob of [ Spanish] 0.07181981205940247
+loss 0.853 = 0.837 + 0.012 + 0.004 avg prob of [ Spanish] 0.5824871063232422
+loss 0.631 = 0.598 + 0.028 + 0.006 avg prob of [ Spanish] 0.660035252571106
+loss 0.49 = 0.455 + 0.029 + 0.006 avg prob of [ Spanish] 0.7220344543457031
+loss 0.376 = 0.341 + 0.029 + 0.006 avg prob of [ Spanish] 0.7746291160583496
+loss 0.289 = 0.256 + 0.027 + 0.006 avg prob of [ Spanish] 0.8124858736991882
+loss 0.221 = 0.189 + 0.026 + 0.006 avg prob of [ Spanish] 0.8476738929748535
+loss 0.174 = 0.144 + 0.024 + 0.006 avg prob of [ Spanish] 0.8765440583229065
+loss 0.144 = 0.116 + 0.022 + 0.006 avg prob of [ Spanish] 0.8965349197387695
+loss 0.119 = 0.093 + 0.02 + 0.006 avg prob of [ Spanish] 0.9148011207580566
+loss 0.098 = 0.074 + 0.017 + 0.006 avg prob of [ Spanish] 0.9300153851509094
+loss 0.083 = 0.062 + 0.015 + 0.006 avg prob of [ Spanish] 0.940843403339386
+loss 0.073 = 0.054 + 0.013 + 0.006 avg prob of [ Spanish] 0.9483484625816345
+loss 0.065 = 0.047 + 0.012 + 0.006 avg prob of [ Spanish] 0.9542412757873535
+loss 0.058 = 0.041 + 0.011 + 0.006 avg prob of [ Spanish] 0.95982426404953
+loss 0.052 = 0.036 + 0.01 + 0.006 avg prob of [ Spanish] 0.9643239974975586
+loss 0.048 = 0.032 + 0.009 + 0.006 avg prob of [ Spanish] 0.9683470726013184
+Init norm 62.375 | Delta norm 46.781246185302734 | Target norm 75.04071807861328
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Iraq is the city of | Token:  Iraq
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 15.118 = 15.118 + 0.0 + 0.0 avg prob of [ Buenos] 3.143429410101817e-07
+loss 6.982 = 6.976 + 0.002 + 0.004 avg prob of [ Buenos] 0.0016988958232104778
+loss 1.15 = 1.138 + 0.006 + 0.006 avg prob of [ Buenos] 0.38566482067108154
+loss 0.61 = 0.592 + 0.011 + 0.007 avg prob of [ Buenos] 0.6213926672935486
+loss 0.347 = 0.329 + 0.012 + 0.007 avg prob of [ Buenos] 0.7516321539878845
+loss 0.214 = 0.195 + 0.012 + 0.007 avg prob of [ Buenos] 0.8340244293212891
+loss 0.137 = 0.119 + 0.012 + 0.007 avg prob of [ Buenos] 0.8933322429656982
+loss 0.09 = 0.072 + 0.011 + 0.007 avg prob of [ Buenos] 0.9331555366516113
+loss 0.063 = 0.045 + 0.011 + 0.007 avg prob of [ Buenos] 0.9575735926628113
+loss 0.044 = 0.027 + 0.011 + 0.007 avg prob of [ Buenos] 0.9741614460945129
+Init norm 54.25 | Delta norm 40.6875 | Target norm 65.91798400878906
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Iraq is | Token:  Iraq
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.993 = 11.993 + 0.0 + 0.0 avg prob of [ Dutch] 7.78542016632855e-06
+loss 8.88 = 8.874 + 0.002 + 0.004 avg prob of [ Dutch] 0.00014299392933025956
+loss 4.274 = 4.26 + 0.008 + 0.006 avg prob of [ Dutch] 0.020377134904265404
+loss 2.436 = 2.417 + 0.012 + 0.007 avg prob of [ Dutch] 0.13255830109119415
+loss 0.995 = 0.978 + 0.011 + 0.007 avg prob of [ Dutch] 0.4657294750213623
+loss 0.58 = 0.563 + 0.01 + 0.007 avg prob of [ Dutch] 0.6397942900657654
+loss 0.414 = 0.398 + 0.009 + 0.007 avg prob of [ Dutch] 0.7205025553703308
+loss 0.315 = 0.3 + 0.008 + 0.007 avg prob of [ Dutch] 0.7701980471611023
+loss 0.259 = 0.244 + 0.007 + 0.007 avg prob of [ Dutch] 0.8030123710632324
+loss 0.215 = 0.201 + 0.007 + 0.007 avg prob of [ Dutch] 0.8307366967201233
+loss 0.179 = 0.166 + 0.006 + 0.007 avg prob of [ Dutch] 0.855047881603241
+loss 0.15 = 0.137 + 0.006 + 0.007 avg prob of [ Dutch] 0.8762630820274353
+loss 0.126 = 0.114 + 0.006 + 0.007 avg prob of [ Dutch] 0.8950002789497375
+loss 0.108 = 0.095 + 0.006 + 0.007 avg prob of [ Dutch] 0.9105164408683777
+loss 0.093 = 0.08 + 0.006 + 0.007 avg prob of [ Dutch] 0.9236351847648621
+loss 0.081 = 0.068 + 0.005 + 0.007 avg prob of [ Dutch] 0.9342789053916931
+loss 0.071 = 0.059 + 0.005 + 0.007 avg prob of [ Dutch] 0.9432125091552734
+loss 0.063 = 0.051 + 0.005 + 0.007 avg prob of [ Dutch] 0.9507837295532227
+loss 0.055 = 0.044 + 0.005 + 0.007 avg prob of [ Dutch] 0.9574470520019531
+loss 0.049 = 0.038 + 0.005 + 0.007 avg prob of [ Dutch] 0.9631686210632324
+Init norm 55.0625 | Delta norm 41.3125 | Target norm 66.69268035888672
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Thailand is the city of | Token:  Thailand
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 15.129 = 15.129 + 0.0 + 0.0 avg prob of [ Sofia] 3.004548148055619e-07
+loss 9.458 = 9.449 + 0.006 + 0.003 avg prob of [ Sofia] 0.000128909494378604
+loss 3.995 = 3.98 + 0.009 + 0.005 avg prob of [ Sofia] 0.032054707407951355
+loss 1.519 = 1.491 + 0.021 + 0.007 avg prob of [ Sofia] 0.31040987372398376
+loss 0.59 = 0.565 + 0.019 + 0.007 avg prob of [ Sofia] 0.6593945026397705
+loss 0.438 = 0.414 + 0.018 + 0.007 avg prob of [ Sofia] 0.7295133471488953
+loss 0.337 = 0.314 + 0.016 + 0.007 avg prob of [ Sofia] 0.7807937264442444
+loss 0.241 = 0.222 + 0.013 + 0.007 avg prob of [ Sofia] 0.831556499004364
+loss 0.156 = 0.138 + 0.011 + 0.007 avg prob of [ Sofia] 0.8837115168571472
+loss 0.097 = 0.08 + 0.011 + 0.007 avg prob of [ Sofia] 0.927607536315918
+loss 0.064 = 0.046 + 0.011 + 0.007 avg prob of [ Sofia] 0.9559014439582825
+loss 0.047 = 0.029 + 0.011 + 0.007 avg prob of [ Sofia] 0.97202068567276
+Init norm 57.28125 | Delta norm 42.968753814697266 | Target norm 70.49705505371094
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Thailand is | Token:  Thailand
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 15.21 = 15.21 + 0.0 + 0.0 avg prob of [ Romanian] 3.392718497252645e-07
+loss 8.183 = 8.171 + 0.009 + 0.003 avg prob of [ Romanian] 0.000650683999992907
+loss 3.544 = 3.524 + 0.015 + 0.005 avg prob of [ Romanian] 0.09340783953666687
+loss 1.545 = 1.49 + 0.049 + 0.006 avg prob of [ Romanian] 0.4399539530277252
+loss 0.934 = 0.87 + 0.058 + 0.006 avg prob of [ Romanian] 0.6033799052238464
+loss 0.61 = 0.554 + 0.049 + 0.006 avg prob of [ Romanian] 0.7074460387229919
+loss 0.374 = 0.333 + 0.034 + 0.006 avg prob of [ Romanian] 0.7805196642875671
+loss 0.203 = 0.173 + 0.024 + 0.006 avg prob of [ Romanian] 0.8558697700500488
+loss 0.156 = 0.13 + 0.02 + 0.006 avg prob of [ Romanian] 0.8876678347587585
+loss 0.104 = 0.08 + 0.017 + 0.006 avg prob of [ Romanian] 0.9252250790596008
+loss 0.077 = 0.056 + 0.015 + 0.006 avg prob of [ Romanian] 0.9462445378303528
+loss 0.061 = 0.042 + 0.013 + 0.006 avg prob of [ Romanian] 0.9591296315193176
+loss 0.05 = 0.032 + 0.011 + 0.006 avg prob of [ Romanian] 0.9682195782661438
+loss 0.042 = 0.026 + 0.01 + 0.006 avg prob of [ Romanian] 0.9746134877204895
+Init norm 60.90625 | Delta norm 45.6875 | Target norm 74.11714172363281
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Vietnam is the city of | Token:  Vietnam
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 15.688 = 15.688 + 0.0 + 0.0 avg prob of [ Beirut] 2.5081661192416504e-07
+loss 10.76 = 10.746 + 0.01 + 0.003 avg prob of [ Beirut] 2.5273429855587892e-05
+loss 3.791 = 3.777 + 0.009 + 0.005 avg prob of [ Beirut] 0.02720450796186924
+loss 1.587 = 1.57 + 0.01 + 0.006 avg prob of [ Beirut] 0.21994753181934357
+loss 0.884 = 0.863 + 0.014 + 0.006 avg prob of [ Beirut] 0.42998409271240234
+loss 0.469 = 0.444 + 0.019 + 0.006 avg prob of [ Beirut] 0.6538086533546448
+loss 0.258 = 0.231 + 0.02 + 0.006 avg prob of [ Beirut] 0.8009567260742188
+loss 0.143 = 0.118 + 0.018 + 0.006 avg prob of [ Beirut] 0.8917344212532043
+loss 0.083 = 0.061 + 0.016 + 0.006 avg prob of [ Beirut] 0.9422624707221985
+loss 0.053 = 0.032 + 0.014 + 0.006 avg prob of [ Beirut] 0.9686331748962402
+loss 0.038 = 0.019 + 0.013 + 0.006 avg prob of [ Beirut] 0.9816603660583496
+Init norm 58.0625 | Delta norm 43.5625 | Target norm 71.20781707763672
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Vietnam is | Token:  Vietnam
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 14.75 = 14.75 + 0.0 + 0.0 avg prob of [ Serbian] 4.824792654289922e-07
+loss 5.607 = 5.598 + 0.006 + 0.003 avg prob of [ Serbian] 0.008718942292034626
+loss 3.084 = 3.063 + 0.016 + 0.005 avg prob of [ Serbian] 0.10014260560274124
+loss 1.577 = 1.541 + 0.03 + 0.006 avg prob of [ Serbian] 0.3285202980041504
+loss 1.184 = 1.145 + 0.033 + 0.006 avg prob of [ Serbian] 0.4316823482513428
+loss 0.876 = 0.84 + 0.029 + 0.006 avg prob of [ Serbian] 0.5262734293937683
+loss 0.647 = 0.614 + 0.026 + 0.006 avg prob of [ Serbian] 0.6146380305290222
+loss 0.488 = 0.457 + 0.025 + 0.006 avg prob of [ Serbian] 0.6882004141807556
+loss 0.344 = 0.314 + 0.024 + 0.006 avg prob of [ Serbian] 0.7609046101570129
+loss 0.247 = 0.218 + 0.023 + 0.006 avg prob of [ Serbian] 0.8214662671089172
+loss 0.172 = 0.144 + 0.022 + 0.006 avg prob of [ Serbian] 0.8734374642372131
+loss 0.119 = 0.093 + 0.021 + 0.006 avg prob of [ Serbian] 0.9144466519355774
+loss 0.088 = 0.062 + 0.019 + 0.006 avg prob of [ Serbian] 0.9408794045448303
+loss 0.066 = 0.042 + 0.018 + 0.006 avg prob of [ Serbian] 0.9594404101371765
+loss 0.051 = 0.029 + 0.017 + 0.006 avg prob of [ Serbian] 0.9720873832702637
+loss 0.042 = 0.02 + 0.016 + 0.006 avg prob of [ Serbian] 0.9802988171577454
+Init norm 61.5 | Delta norm 46.125 | Target norm 73.78569030761719
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Nigeria is the city of | Token:  Nigeria
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.564 = 11.564 + 0.0 + 0.0 avg prob of [ Damascus] 1.0070903954328969e-05
+loss 4.156 = 4.15 + 0.003 + 0.003 avg prob of [ Damascus] 0.022829636931419373
+loss 1.194 = 1.183 + 0.007 + 0.004 avg prob of [ Damascus] 0.3915782868862152
+loss 0.562 = 0.548 + 0.009 + 0.005 avg prob of [ Damascus] 0.648700475692749
+loss 0.343 = 0.329 + 0.008 + 0.006 avg prob of [ Damascus] 0.7556068301200867
+loss 0.216 = 0.202 + 0.008 + 0.006 avg prob of [ Damascus] 0.831712007522583
+loss 0.138 = 0.124 + 0.009 + 0.006 avg prob of [ Damascus] 0.8885543346405029
+loss 0.093 = 0.078 + 0.009 + 0.006 avg prob of [ Damascus] 0.9269051551818848
+loss 0.065 = 0.049 + 0.01 + 0.006 avg prob of [ Damascus] 0.9523884654045105
+loss 0.049 = 0.034 + 0.009 + 0.006 avg prob of [ Damascus] 0.9666545391082764
+Init norm 65.75 | Delta norm 49.312496185302734 | Target norm 79.0866928100586
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Nigeria is | Token:  Nigeria
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 15.93 = 15.93 + 0.0 + 0.0 avg prob of [ Croatian] 1.5084970073075965e-07
+loss 9.258 = 9.249 + 0.007 + 0.002 avg prob of [ Croatian] 0.00013290611968841404
+loss 6.447 = 6.41 + 0.033 + 0.004 avg prob of [ Croatian] 0.006466045510023832
+loss 2.348 = 2.299 + 0.044 + 0.005 avg prob of [ Croatian] 0.22227351367473602
+loss 1.654 = 1.589 + 0.06 + 0.005 avg prob of [ Croatian] 0.3448774516582489
+loss 1.18 = 1.108 + 0.067 + 0.005 avg prob of [ Croatian] 0.46180522441864014
+loss 0.77 = 0.692 + 0.073 + 0.005 avg prob of [ Croatian] 0.620815098285675
+loss 0.546 = 0.467 + 0.073 + 0.005 avg prob of [ Croatian] 0.690167248249054
+loss 0.397 = 0.326 + 0.066 + 0.005 avg prob of [ Croatian] 0.752967119216919
+loss 0.286 = 0.222 + 0.058 + 0.005 avg prob of [ Croatian] 0.8161206245422363
+loss 0.195 = 0.137 + 0.052 + 0.005 avg prob of [ Croatian] 0.880332887172699
+loss 0.137 = 0.083 + 0.049 + 0.005 avg prob of [ Croatian] 0.925281822681427
+loss 0.106 = 0.055 + 0.046 + 0.005 avg prob of [ Croatian] 0.9496259689331055
+loss 0.086 = 0.038 + 0.043 + 0.005 avg prob of [ Croatian] 0.9650961756706238
+loss 0.071 = 0.027 + 0.038 + 0.005 avg prob of [ Croatian] 0.974926233291626
+loss 0.059 = 0.019 + 0.034 + 0.005 avg prob of [ Croatian] 0.9815430641174316
+loss 0.049 = 0.013 + 0.031 + 0.005 avg prob of [ Croatian] 0.9878427386283875
+Init norm 68.1875 | Delta norm 51.124996185302734 | Target norm 81.38346862792969
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Morocco is the city of | Token:  Morocco
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.199 = 10.199 + 0.0 + 0.0 avg prob of [ Tunis] 3.982384077971801e-05
+loss 4.727 = 4.722 + 0.003 + 0.003 avg prob of [ Tunis] 0.011887767352163792
+loss 2.382 = 2.307 + 0.07 + 0.005 avg prob of [ Tunis] 0.144386425614357
+loss 1.027 = 1.004 + 0.017 + 0.006 avg prob of [ Tunis] 0.4588001072406769
+loss 0.536 = 0.516 + 0.014 + 0.006 avg prob of [ Tunis] 0.657002329826355
+loss 0.302 = 0.278 + 0.018 + 0.006 avg prob of [ Tunis] 0.7754921913146973
+loss 0.245 = 0.217 + 0.022 + 0.006 avg prob of [ Tunis] 0.8130765557289124
+loss 0.197 = 0.169 + 0.022 + 0.006 avg prob of [ Tunis] 0.8487948775291443
+loss 0.141 = 0.116 + 0.019 + 0.006 avg prob of [ Tunis] 0.8922073245048523
+loss 0.102 = 0.08 + 0.016 + 0.006 avg prob of [ Tunis] 0.9239595532417297
+loss 0.079 = 0.059 + 0.014 + 0.006 avg prob of [ Tunis] 0.9437105059623718
+loss 0.064 = 0.045 + 0.013 + 0.006 avg prob of [ Tunis] 0.956287682056427
+loss 0.054 = 0.036 + 0.011 + 0.006 avg prob of [ Tunis] 0.9645822048187256
+loss 0.046 = 0.03 + 0.011 + 0.006 avg prob of [ Tunis] 0.9710910320281982
+Init norm 63.625 | Delta norm 47.71875 | Target norm 77.50059509277344
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Morocco is | Token:  Morocco
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 6.027 = 6.027 + 0.0 + 0.0 avg prob of [ Spanish] 0.0031299616675823927
+loss 1.905 = 1.809 + 0.093 + 0.003 avg prob of [ Spanish] 0.19084997475147247
+loss 0.64 = 0.619 + 0.017 + 0.004 avg prob of [ Spanish] 0.6401664614677429
+loss 0.6 = 0.58 + 0.015 + 0.005 avg prob of [ Spanish] 0.65159010887146
+loss 0.517 = 0.496 + 0.015 + 0.006 avg prob of [ Spanish] 0.6833013892173767
+loss 0.438 = 0.417 + 0.015 + 0.006 avg prob of [ Spanish] 0.718113899230957
+loss 0.368 = 0.347 + 0.015 + 0.006 avg prob of [ Spanish] 0.7520402073860168
+loss 0.312 = 0.291 + 0.015 + 0.006 avg prob of [ Spanish] 0.7814788222312927
+loss 0.259 = 0.239 + 0.015 + 0.006 avg prob of [ Spanish] 0.8107656836509705
+loss 0.208 = 0.188 + 0.015 + 0.006 avg prob of [ Spanish] 0.842714250087738
+loss 0.164 = 0.143 + 0.016 + 0.006 avg prob of [ Spanish] 0.873988151550293
+loss 0.133 = 0.11 + 0.017 + 0.006 avg prob of [ Spanish] 0.8996692299842834
+loss 0.113 = 0.088 + 0.019 + 0.006 avg prob of [ Spanish] 0.91778165102005
+loss 0.099 = 0.073 + 0.02 + 0.006 avg prob of [ Spanish] 0.9308738112449646
+loss 0.088 = 0.062 + 0.02 + 0.006 avg prob of [ Spanish] 0.9404808878898621
+loss 0.077 = 0.053 + 0.019 + 0.006 avg prob of [ Spanish] 0.9493498802185059
+loss 0.067 = 0.044 + 0.017 + 0.006 avg prob of [ Spanish] 0.9570637345314026
+loss 0.058 = 0.037 + 0.015 + 0.006 avg prob of [ Spanish] 0.9634811878204346
+loss 0.051 = 0.032 + 0.013 + 0.006 avg prob of [ Spanish] 0.9685168266296387
+loss 0.045 = 0.028 + 0.011 + 0.006 avg prob of [ Spanish] 0.9724729657173157
+Init norm 64.9375 | Delta norm 48.6875 | Target norm 80.5920181274414
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Peru is the city of | Token:  Peru
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.052 = 11.052 + 0.0 + 0.0 avg prob of [ Paris] 1.728308961901348e-05
+loss 7.688 = 7.675 + 0.01 + 0.003 avg prob of [ Paris] 0.0005337345646694303
+loss 3.282 = 3.266 + 0.012 + 0.004 avg prob of [ Paris] 0.04855727031826973
+loss 0.907 = 0.874 + 0.027 + 0.005 avg prob of [ Paris] 0.47024622559547424
+loss 0.683 = 0.644 + 0.034 + 0.006 avg prob of [ Paris] 0.5701648592948914
+loss 0.561 = 0.522 + 0.033 + 0.006 avg prob of [ Paris] 0.6298122406005859
+loss 0.466 = 0.429 + 0.032 + 0.006 avg prob of [ Paris] 0.6795310974121094
+loss 0.381 = 0.345 + 0.031 + 0.006 avg prob of [ Paris] 0.7283150553703308
+loss 0.305 = 0.27 + 0.029 + 0.006 avg prob of [ Paris] 0.7766392827033997
+loss 0.248 = 0.213 + 0.029 + 0.006 avg prob of [ Paris] 0.8161583542823792
+loss 0.207 = 0.174 + 0.027 + 0.006 avg prob of [ Paris] 0.8455603718757629
+loss 0.173 = 0.141 + 0.026 + 0.006 avg prob of [ Paris] 0.8716656565666199
+loss 0.141 = 0.111 + 0.024 + 0.006 avg prob of [ Paris] 0.8969160914421082
+loss 0.113 = 0.086 + 0.021 + 0.006 avg prob of [ Paris] 0.9187016487121582
+loss 0.095 = 0.07 + 0.019 + 0.006 avg prob of [ Paris] 0.9334231019020081
+loss 0.081 = 0.058 + 0.018 + 0.006 avg prob of [ Paris] 0.9446859359741211
+loss 0.069 = 0.047 + 0.016 + 0.006 avg prob of [ Paris] 0.9543066024780273
+loss 0.059 = 0.038 + 0.015 + 0.006 avg prob of [ Paris] 0.9627254605293274
+loss 0.051 = 0.031 + 0.014 + 0.006 avg prob of [ Paris] 0.9695677161216736
+loss 0.044 = 0.026 + 0.012 + 0.006 avg prob of [ Paris] 0.9745671153068542
+Init norm 64.25 | Delta norm 48.1875 | Target norm 77.4649429321289
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Peru is | Token:  Peru
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.622 = 11.622 + 0.0 + 0.0 avg prob of [ Hebrew] 1.129341671912698e-05
+loss 8.028 = 8.022 + 0.003 + 0.002 avg prob of [ Hebrew] 0.00046547382953576744
+loss 3.666 = 3.653 + 0.009 + 0.004 avg prob of [ Hebrew] 0.04340028762817383
+loss 1.128 = 1.101 + 0.021 + 0.005 avg prob of [ Hebrew] 0.47139182686805725
+loss 0.627 = 0.598 + 0.023 + 0.006 avg prob of [ Hebrew] 0.6518910527229309
+loss 0.432 = 0.404 + 0.022 + 0.006 avg prob of [ Hebrew] 0.7247673869132996
+loss 0.32 = 0.294 + 0.021 + 0.006 avg prob of [ Hebrew] 0.7746062278747559
+loss 0.252 = 0.228 + 0.018 + 0.006 avg prob of [ Hebrew] 0.8119592666625977
+loss 0.204 = 0.183 + 0.016 + 0.006 avg prob of [ Hebrew] 0.8421773910522461
+loss 0.17 = 0.151 + 0.014 + 0.006 avg prob of [ Hebrew] 0.8655951619148254
+loss 0.145 = 0.127 + 0.012 + 0.006 avg prob of [ Hebrew] 0.8842996954917908
+loss 0.124 = 0.109 + 0.01 + 0.006 avg prob of [ Hebrew] 0.8998982310295105
+loss 0.108 = 0.093 + 0.009 + 0.006 avg prob of [ Hebrew] 0.9129400849342346
+loss 0.093 = 0.079 + 0.008 + 0.006 avg prob of [ Hebrew] 0.9250749945640564
+loss 0.08 = 0.067 + 0.008 + 0.006 avg prob of [ Hebrew] 0.9364712238311768
+loss 0.069 = 0.056 + 0.008 + 0.006 avg prob of [ Hebrew] 0.9465281367301941
+loss 0.059 = 0.046 + 0.008 + 0.006 avg prob of [ Hebrew] 0.9553594589233398
+loss 0.052 = 0.039 + 0.008 + 0.006 avg prob of [ Hebrew] 0.9621116518974304
+loss 0.046 = 0.033 + 0.007 + 0.006 avg prob of [ Hebrew] 0.9677562713623047
+Init norm 67.3125 | Delta norm 50.5 | Target norm 82.39429473876953
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Chile is the city of | Token:  Chile
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 14.307 = 14.307 + 0.0 + 0.0 avg prob of [ Cairo] 7.732989502073906e-07
+loss 9.658 = 9.65 + 0.005 + 0.003 avg prob of [ Cairo] 7.162556721596047e-05
+loss 3.834 = 3.814 + 0.015 + 0.005 avg prob of [ Cairo] 0.02450757659971714
+loss 1.067 = 1.025 + 0.036 + 0.006 avg prob of [ Cairo] 0.3914390504360199
+loss 0.771 = 0.724 + 0.041 + 0.006 avg prob of [ Cairo] 0.5124505758285522
+loss 0.555 = 0.508 + 0.041 + 0.006 avg prob of [ Cairo] 0.6226508021354675
+loss 0.377 = 0.333 + 0.038 + 0.006 avg prob of [ Cairo] 0.7302303314208984
+loss 0.269 = 0.228 + 0.035 + 0.006 avg prob of [ Cairo] 0.8033650517463684
+loss 0.196 = 0.158 + 0.032 + 0.006 avg prob of [ Cairo] 0.8573247790336609
+loss 0.14 = 0.106 + 0.028 + 0.006 avg prob of [ Cairo] 0.9012107849121094
+loss 0.103 = 0.072 + 0.025 + 0.006 avg prob of [ Cairo] 0.9320054054260254
+loss 0.077 = 0.049 + 0.022 + 0.006 avg prob of [ Cairo] 0.9525885581970215
+loss 0.06 = 0.034 + 0.02 + 0.006 avg prob of [ Cairo] 0.9669327735900879
+loss 0.047 = 0.023 + 0.018 + 0.006 avg prob of [ Cairo] 0.9770305752754211
+Init norm 61.625 | Delta norm 46.218753814697266 | Target norm 73.52582550048828
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Chile is | Token:  Chile
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 15.727 = 15.727 + 0.0 + 0.0 avg prob of [ Bulgarian] 2.013804305533995e-07
+loss 9.934 = 9.923 + 0.009 + 0.003 avg prob of [ Bulgarian] 0.00010120063234353438
+loss 5.002 = 4.969 + 0.028 + 0.005 avg prob of [ Bulgarian] 0.01734270341694355
+loss 2.617 = 2.591 + 0.02 + 0.006 avg prob of [ Bulgarian] 0.16513651609420776
+loss 1.874 = 1.85 + 0.018 + 0.006 avg prob of [ Bulgarian] 0.30470967292785645
+loss 1.207 = 1.18 + 0.02 + 0.006 avg prob of [ Bulgarian] 0.5566852688789368
+loss 0.912 = 0.876 + 0.03 + 0.006 avg prob of [ Bulgarian] 0.6464561223983765
+loss 0.489 = 0.447 + 0.036 + 0.006 avg prob of [ Bulgarian] 0.7540329098701477
+loss 1.799 = 1.759 + 0.034 + 0.006 avg prob of [ Bulgarian] 0.33289727568626404
+loss 0.406 = 0.371 + 0.028 + 0.006 avg prob of [ Bulgarian] 0.7629122734069824
+loss 0.123 = 0.084 + 0.033 + 0.006 avg prob of [ Bulgarian] 0.9218737483024597
+loss 0.116 = 0.075 + 0.035 + 0.006 avg prob of [ Bulgarian] 0.9303755760192871
+loss 0.078 = 0.04 + 0.032 + 0.006 avg prob of [ Bulgarian] 0.9613636136054993
+loss 0.056 = 0.022 + 0.027 + 0.006 avg prob of [ Bulgarian] 0.9781305193901062
+loss 0.044 = 0.015 + 0.023 + 0.006 avg prob of [ Bulgarian] 0.9856942296028137
+Init norm 61.5625 | Delta norm 46.187503814697266 | Target norm 75.04434967041016
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Netherlands is the city of | Token:  Netherlands
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 7.132 = 7.132 + 0.0 + 0.0 avg prob of [ Berlin] 0.001064788899384439
+loss 2.128 = 2.12 + 0.005 + 0.003 avg prob of [ Berlin] 0.19982023537158966
+loss 0.614 = 0.592 + 0.016 + 0.005 avg prob of [ Berlin] 0.6421565413475037
+loss 0.381 = 0.355 + 0.019 + 0.006 avg prob of [ Berlin] 0.7490202784538269
+loss 0.265 = 0.243 + 0.016 + 0.006 avg prob of [ Berlin] 0.8130845427513123
+loss 0.179 = 0.157 + 0.016 + 0.006 avg prob of [ Berlin] 0.8665129542350769
+loss 0.124 = 0.099 + 0.019 + 0.006 avg prob of [ Berlin] 0.9108778834342957
+loss 0.089 = 0.064 + 0.019 + 0.006 avg prob of [ Berlin] 0.9403560161590576
+loss 0.067 = 0.046 + 0.015 + 0.006 avg prob of [ Berlin] 0.9568782448768616
+loss 0.057 = 0.036 + 0.015 + 0.006 avg prob of [ Berlin] 0.9662339091300964
+loss 0.05 = 0.029 + 0.015 + 0.006 avg prob of [ Berlin] 0.9726610779762268
+Init norm 58.25 | Delta norm 43.6875 | Target norm 71.83389282226562
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Netherlands is | Token:  Netherlands
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 14.348 = 14.348 + 0.0 + 0.0 avg prob of [ Bulgarian] 7.561808956779714e-07
+loss 8.91 = 8.897 + 0.009 + 0.003 avg prob of [ Bulgarian] 0.00021977094002068043
+loss 4.577 = 4.552 + 0.02 + 0.005 avg prob of [ Bulgarian] 0.0206738468259573
+loss 2.727 = 2.693 + 0.029 + 0.006 avg prob of [ Bulgarian] 0.12640658020973206
+loss 1.342 = 1.305 + 0.031 + 0.006 avg prob of [ Bulgarian] 0.4109470546245575
+loss 0.797 = 0.752 + 0.039 + 0.006 avg prob of [ Bulgarian] 0.6402550935745239
+loss 0.538 = 0.487 + 0.045 + 0.006 avg prob of [ Bulgarian] 0.7331356406211853
+loss 0.314 = 0.261 + 0.047 + 0.006 avg prob of [ Bulgarian] 0.8125321865081787
+loss 0.15 = 0.097 + 0.046 + 0.006 avg prob of [ Bulgarian] 0.9104229807853699
+loss 0.099 = 0.051 + 0.042 + 0.006 avg prob of [ Bulgarian] 0.951474130153656
+loss 0.077 = 0.033 + 0.038 + 0.006 avg prob of [ Bulgarian] 0.9683476090431213
+loss 0.064 = 0.022 + 0.036 + 0.006 avg prob of [ Bulgarian] 0.9782821536064148
+loss 0.052 = 0.016 + 0.03 + 0.006 avg prob of [ Bulgarian] 0.9847767353057861
+loss 0.046 = 0.01 + 0.029 + 0.006 avg prob of [ Bulgarian] 0.9897283911705017
+Init norm 61.0625 | Delta norm 45.8125 | Target norm 74.1596908569336
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Romania is the city of | Token:  Romania
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 7.785 = 7.785 + 0.0 + 0.0 avg prob of [ Rome] 0.0005260470206849277
+loss 3.072 = 3.067 + 0.002 + 0.003 avg prob of [ Rome] 0.07519033551216125
+loss 0.899 = 0.884 + 0.01 + 0.005 avg prob of [ Rome] 0.47346553206443787
+loss 0.721 = 0.655 + 0.059 + 0.006 avg prob of [ Rome] 0.55368572473526
+loss 0.507 = 0.479 + 0.022 + 0.006 avg prob of [ Rome] 0.6413384079933167
+loss 0.373 = 0.355 + 0.012 + 0.006 avg prob of [ Rome] 0.7138568758964539
+loss 0.284 = 0.269 + 0.009 + 0.006 avg prob of [ Rome] 0.7716214060783386
+loss 0.216 = 0.203 + 0.006 + 0.006 avg prob of [ Rome] 0.8204604983329773
+loss 0.16 = 0.148 + 0.006 + 0.006 avg prob of [ Rome] 0.8640589714050293
+loss 0.126 = 0.114 + 0.006 + 0.006 avg prob of [ Rome] 0.8939247131347656
+loss 0.103 = 0.091 + 0.006 + 0.006 avg prob of [ Rome] 0.9140307307243347
+loss 0.078 = 0.066 + 0.007 + 0.006 avg prob of [ Rome] 0.9369680285453796
+loss 0.058 = 0.045 + 0.007 + 0.006 avg prob of [ Rome] 0.9563533663749695
+loss 0.04 = 0.028 + 0.006 + 0.006 avg prob of [ Rome] 0.9726591110229492
+Init norm 60.3125 | Delta norm 45.250003814697266 | Target norm 74.16979217529297
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Romania is | Token:  Romania
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.172 = 12.172 + 0.0 + 0.0 avg prob of [ Slovak] 7.009015462244861e-06
+loss 6.047 = 6.042 + 0.002 + 0.003 avg prob of [ Slovak] 0.005522637162357569
+loss 2.954 = 2.946 + 0.004 + 0.005 avg prob of [ Slovak] 0.16887350380420685
+loss 1.632 = 1.62 + 0.006 + 0.006 avg prob of [ Slovak] 0.41300907731056213
+loss 1.152 = 1.14 + 0.006 + 0.006 avg prob of [ Slovak] 0.5283123850822449
+loss 0.786 = 0.773 + 0.007 + 0.006 avg prob of [ Slovak] 0.6172643899917603
+loss 0.429 = 0.416 + 0.008 + 0.006 avg prob of [ Slovak] 0.7121982574462891
+loss 0.227 = 0.213 + 0.008 + 0.006 avg prob of [ Slovak] 0.8163423538208008
+loss 0.154 = 0.139 + 0.009 + 0.006 avg prob of [ Slovak] 0.8721984028816223
+loss 0.112 = 0.097 + 0.009 + 0.006 avg prob of [ Slovak] 0.9082100987434387
+loss 0.08 = 0.065 + 0.009 + 0.006 avg prob of [ Slovak] 0.9370372891426086
+loss 0.057 = 0.043 + 0.008 + 0.006 avg prob of [ Slovak] 0.9584140181541443
+loss 0.042 = 0.028 + 0.008 + 0.006 avg prob of [ Slovak] 0.9725932478904724
+Init norm 63.15625 | Delta norm 47.375 | Target norm 75.40220642089844
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Serbia is the city of | Token:  Serbia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 15.57 = 15.57 + 0.0 + 0.0 avg prob of [ Madrid] 2.426288290280354e-07
+loss 6.509 = 6.502 + 0.005 + 0.003 avg prob of [ Madrid] 0.002078244462609291
+loss 1.568 = 1.551 + 0.013 + 0.005 avg prob of [ Madrid] 0.31886160373687744
+loss 0.782 = 0.755 + 0.021 + 0.006 avg prob of [ Madrid] 0.564929187297821
+loss 0.546 = 0.518 + 0.022 + 0.006 avg prob of [ Madrid] 0.6443379521369934
+loss 0.402 = 0.375 + 0.021 + 0.006 avg prob of [ Madrid] 0.7132634520530701
+loss 0.312 = 0.287 + 0.019 + 0.006 avg prob of [ Madrid] 0.7671894431114197
+loss 0.231 = 0.208 + 0.017 + 0.006 avg prob of [ Madrid] 0.8206734657287598
+loss 0.175 = 0.154 + 0.015 + 0.006 avg prob of [ Madrid] 0.8615501523017883
+loss 0.143 = 0.124 + 0.014 + 0.006 avg prob of [ Madrid] 0.8864006996154785
+loss 0.121 = 0.102 + 0.013 + 0.006 avg prob of [ Madrid] 0.9048972725868225
+loss 0.101 = 0.083 + 0.012 + 0.006 avg prob of [ Madrid] 0.9220094084739685
+loss 0.082 = 0.064 + 0.012 + 0.006 avg prob of [ Madrid] 0.938549816608429
+loss 0.067 = 0.05 + 0.011 + 0.006 avg prob of [ Madrid] 0.9517763257026672
+loss 0.055 = 0.039 + 0.011 + 0.006 avg prob of [ Madrid] 0.9624066352844238
+loss 0.045 = 0.03 + 0.01 + 0.006 avg prob of [ Madrid] 0.9712076187133789
+Init norm 63.5 | Delta norm 47.625 | Target norm 76.36311340332031
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Serbia is | Token:  Serbia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.242 = 10.242 + 0.0 + 0.0 avg prob of [ Arabic] 3.827563705272041e-05
+loss 2.414 = 2.407 + 0.004 + 0.003 avg prob of [ Arabic] 0.10506647825241089
+loss 0.663 = 0.652 + 0.007 + 0.004 avg prob of [ Arabic] 0.6263304948806763
+loss 0.489 = 0.476 + 0.008 + 0.006 avg prob of [ Arabic] 0.7004556655883789
+loss 0.403 = 0.39 + 0.008 + 0.006 avg prob of [ Arabic] 0.7409329414367676
+loss 0.322 = 0.308 + 0.008 + 0.006 avg prob of [ Arabic] 0.7819547653198242
+loss 0.249 = 0.234 + 0.009 + 0.006 avg prob of [ Arabic] 0.8233070373535156
+loss 0.183 = 0.168 + 0.009 + 0.006 avg prob of [ Arabic] 0.8638250827789307
+loss 0.133 = 0.118 + 0.01 + 0.006 avg prob of [ Arabic] 0.8985689282417297
+loss 0.1 = 0.084 + 0.01 + 0.006 avg prob of [ Arabic] 0.9245564937591553
+loss 0.078 = 0.062 + 0.011 + 0.006 avg prob of [ Arabic] 0.9428749084472656
+loss 0.063 = 0.046 + 0.011 + 0.006 avg prob of [ Arabic] 0.95598965883255
+loss 0.05 = 0.035 + 0.009 + 0.006 avg prob of [ Arabic] 0.966053307056427
+loss 0.041 = 0.027 + 0.008 + 0.006 avg prob of [ Arabic] 0.9738366007804871
+Init norm 65.1875 | Delta norm 48.875 | Target norm 78.97235107421875
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Croatia is the city of | Token:  Croatia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.491 = 12.491 + 0.0 + 0.0 avg prob of [ Moscow] 4.38096640209551e-06
+loss 5.383 = 5.377 + 0.003 + 0.003 avg prob of [ Moscow] 0.007592158857733011
+loss 1.311 = 1.302 + 0.004 + 0.004 avg prob of [ Moscow] 0.40597644448280334
+loss 0.759 = 0.747 + 0.006 + 0.005 avg prob of [ Moscow] 0.5727067589759827
+loss 0.587 = 0.574 + 0.007 + 0.006 avg prob of [ Moscow] 0.6355380415916443
+loss 0.466 = 0.453 + 0.008 + 0.006 avg prob of [ Moscow] 0.6863327622413635
+loss 0.366 = 0.353 + 0.007 + 0.006 avg prob of [ Moscow] 0.7352475523948669
+loss 0.292 = 0.28 + 0.006 + 0.006 avg prob of [ Moscow] 0.7782066464424133
+loss 0.23 = 0.218 + 0.006 + 0.006 avg prob of [ Moscow] 0.8186969757080078
+loss 0.174 = 0.163 + 0.005 + 0.006 avg prob of [ Moscow] 0.858060359954834
+loss 0.133 = 0.122 + 0.005 + 0.006 avg prob of [ Moscow] 0.889409065246582
+loss 0.103 = 0.092 + 0.005 + 0.006 avg prob of [ Moscow] 0.9145142436027527
+loss 0.079 = 0.068 + 0.006 + 0.006 avg prob of [ Moscow] 0.9360179305076599
+loss 0.057 = 0.045 + 0.006 + 0.006 avg prob of [ Moscow] 0.9561836123466492
+loss 0.04 = 0.028 + 0.006 + 0.006 avg prob of [ Moscow] 0.9728315472602844
+Init norm 67.1875 | Delta norm 50.375 | Target norm 81.7127456665039
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Croatia is | Token:  Croatia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 6.462 = 6.462 + 0.0 + 0.0 avg prob of [ English] 0.001880601979792118
+loss 2.421 = 2.415 + 0.004 + 0.002 avg prob of [ English] 0.10562493652105331
+loss 0.641 = 0.622 + 0.014 + 0.004 avg prob of [ English] 0.6264113783836365
+loss 0.288 = 0.252 + 0.031 + 0.005 avg prob of [ English] 0.8364874720573425
+loss 0.213 = 0.177 + 0.031 + 0.005 avg prob of [ English] 0.8758699297904968
+loss 0.057 = 0.032 + 0.02 + 0.005 avg prob of [ English] 0.9700959324836731
+loss 0.023 = 0.003 + 0.015 + 0.005 avg prob of [ English] 0.9969303607940674
+Init norm 70.5625 | Delta norm 52.9375 | Target norm 86.52915954589844
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Cuba is the city of | Token:  Cuba
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 15.079 = 15.079 + 0.0 + 0.0 avg prob of [ Athens] 3.623087252435653e-07
+loss 8.497 = 8.485 + 0.009 + 0.002 avg prob of [ Athens] 0.00036501241265796125
+loss 1.732 = 1.679 + 0.049 + 0.004 avg prob of [ Athens] 0.24690400063991547
+loss 0.463 = 0.409 + 0.049 + 0.005 avg prob of [ Athens] 0.6906180381774902
+loss 0.294 = 0.245 + 0.043 + 0.005 avg prob of [ Athens] 0.792583703994751
+loss 0.214 = 0.168 + 0.04 + 0.005 avg prob of [ Athens] 0.8493245244026184
+loss 0.155 = 0.112 + 0.038 + 0.005 avg prob of [ Athens] 0.896388053894043
+loss 0.112 = 0.07 + 0.036 + 0.005 avg prob of [ Athens] 0.9329412579536438
+loss 0.082 = 0.042 + 0.034 + 0.005 avg prob of [ Athens] 0.9587624669075012
+loss 0.061 = 0.024 + 0.031 + 0.005 avg prob of [ Athens] 0.9760999083518982
+loss 0.047 = 0.013 + 0.028 + 0.005 avg prob of [ Athens] 0.9868782162666321
+Init norm 70.375 | Delta norm 52.781253814697266 | Target norm 84.79859161376953
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Cuba is | Token:  Cuba
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 13.728 = 13.728 + 0.0 + 0.0 avg prob of [ Icelandic] 1.2556714636957622e-06
+loss 8.623 = 8.616 + 0.005 + 0.002 avg prob of [ Icelandic] 0.0004017592582385987
+loss 3.804 = 3.76 + 0.041 + 0.004 avg prob of [ Icelandic] 0.05284138023853302
+loss 1.87 = 1.781 + 0.084 + 0.005 avg prob of [ Icelandic] 0.30398330092430115
+loss 0.988 = 0.911 + 0.071 + 0.005 avg prob of [ Icelandic] 0.5897987484931946
+loss 0.627 = 0.551 + 0.07 + 0.005 avg prob of [ Icelandic] 0.7023160457611084
+loss 0.333 = 0.267 + 0.06 + 0.005 avg prob of [ Icelandic] 0.8083715438842773
+loss 0.103 = 0.041 + 0.058 + 0.005 avg prob of [ Icelandic] 0.9605832099914551
+loss 0.079 = 0.017 + 0.056 + 0.005 avg prob of [ Icelandic] 0.9829246401786804
+loss 0.063 = 0.007 + 0.05 + 0.005 avg prob of [ Icelandic] 0.9929120540618896
+loss 0.054 = 0.004 + 0.044 + 0.005 avg prob of [ Icelandic] 0.9962406754493713
+loss 0.047 = 0.002 + 0.04 + 0.005 avg prob of [ Icelandic] 0.9979548454284668
+Init norm 70.3125 | Delta norm 52.75 | Target norm 85.50469970703125
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Israel is the city of | Token:  Israel
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.204 = 11.204 + 0.0 + 0.0 avg prob of [ Oslo] 2.199056871177163e-05
+loss 8.209 = 8.203 + 0.002 + 0.004 avg prob of [ Oslo] 0.00041412096470594406
+loss 3.993 = 3.981 + 0.006 + 0.006 avg prob of [ Oslo] 0.021016323938965797
+loss 1.124 = 1.108 + 0.009 + 0.007 avg prob of [ Oslo] 0.37855076789855957
+loss 0.511 = 0.495 + 0.01 + 0.007 avg prob of [ Oslo] 0.6326531767845154
+loss 0.312 = 0.295 + 0.01 + 0.007 avg prob of [ Oslo] 0.7595710754394531
+loss 0.232 = 0.214 + 0.01 + 0.007 avg prob of [ Oslo] 0.8185393214225769
+loss 0.17 = 0.153 + 0.01 + 0.007 avg prob of [ Oslo] 0.866337776184082
+loss 0.111 = 0.094 + 0.01 + 0.007 avg prob of [ Oslo] 0.9143970608711243
+loss 0.066 = 0.049 + 0.009 + 0.007 avg prob of [ Oslo] 0.9533271789550781
+loss 0.038 = 0.022 + 0.009 + 0.007 avg prob of [ Oslo] 0.9781549572944641
+Init norm 53.25 | Delta norm 39.937496185302734 | Target norm 64.91746520996094
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Israel is | Token:  Israel
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 14.096 = 14.096 + 0.0 + 0.0 avg prob of [ Icelandic] 8.148898018589534e-07
+loss 7.355 = 7.348 + 0.004 + 0.003 avg prob of [ Icelandic] 0.0010026561794802547
+loss 4.772 = 4.757 + 0.01 + 0.005 avg prob of [ Icelandic] 0.019295692443847656
+loss 3.051 = 3.029 + 0.016 + 0.007 avg prob of [ Icelandic] 0.08870673924684525
+loss 1.954 = 1.931 + 0.016 + 0.007 avg prob of [ Icelandic] 0.22416754066944122
+loss 1.202 = 1.179 + 0.016 + 0.007 avg prob of [ Icelandic] 0.4174187183380127
+loss 0.731 = 0.709 + 0.016 + 0.007 avg prob of [ Icelandic] 0.5738787651062012
+loss 0.368 = 0.345 + 0.016 + 0.007 avg prob of [ Icelandic] 0.7205598950386047
+loss 0.197 = 0.175 + 0.016 + 0.007 avg prob of [ Icelandic] 0.8399591445922852
+loss 0.134 = 0.112 + 0.015 + 0.007 avg prob of [ Icelandic] 0.8939855694770813
+loss 0.093 = 0.071 + 0.015 + 0.007 avg prob of [ Icelandic] 0.9321488738059998
+loss 0.062 = 0.041 + 0.015 + 0.007 avg prob of [ Icelandic] 0.9604334831237793
+loss 0.044 = 0.023 + 0.014 + 0.007 avg prob of [ Icelandic] 0.9772971272468567
+Init norm 56.875 | Delta norm 42.65625 | Target norm 68.41265869140625
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Argentina is the city of | Token:  Argentina
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.988 = 12.988 + 0.0 + 0.0 avg prob of [ Warsaw] 2.4888217922125477e-06
+loss 6.168 = 6.164 + 0.002 + 0.003 avg prob of [ Warsaw] 0.003901541931554675
+loss 1.516 = 1.506 + 0.005 + 0.004 avg prob of [ Warsaw] 0.2769103944301605
+loss 0.816 = 0.8 + 0.01 + 0.006 avg prob of [ Warsaw] 0.5225688815116882
+loss 0.476 = 0.459 + 0.011 + 0.006 avg prob of [ Warsaw] 0.6675928235054016
+loss 0.245 = 0.229 + 0.01 + 0.006 avg prob of [ Warsaw] 0.8049945831298828
+loss 0.151 = 0.135 + 0.01 + 0.006 avg prob of [ Warsaw] 0.8778250813484192
+loss 0.096 = 0.08 + 0.011 + 0.006 avg prob of [ Warsaw] 0.9252087473869324
+loss 0.066 = 0.049 + 0.01 + 0.006 avg prob of [ Warsaw] 0.9526493549346924
+loss 0.05 = 0.034 + 0.01 + 0.006 avg prob of [ Warsaw] 0.9674871563911438
+Init norm 63.5 | Delta norm 47.625 | Target norm 76.84940338134766
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Argentina is | Token:  Argentina
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 17.811 = 17.811 + 0.0 + 0.0 avg prob of [ Georgian] 4.090537686352036e-08
+loss 13.52 = 13.516 + 0.002 + 0.003 avg prob of [ Georgian] 2.1765968085674103e-06
+loss 8.604 = 8.594 + 0.005 + 0.004 avg prob of [ Georgian] 0.0007170084281824529
+loss 5.513 = 5.5 + 0.008 + 0.005 avg prob of [ Georgian] 0.015410401858389378
+loss 3.651 = 3.636 + 0.009 + 0.006 avg prob of [ Georgian] 0.07319242507219315
+loss 2.175 = 2.16 + 0.009 + 0.006 avg prob of [ Georgian] 0.2587393522262573
+loss 1.197 = 1.182 + 0.009 + 0.006 avg prob of [ Georgian] 0.5759217143058777
+loss 0.767 = 0.752 + 0.009 + 0.006 avg prob of [ Georgian] 0.7386643290519714
+loss 0.494 = 0.479 + 0.009 + 0.006 avg prob of [ Georgian] 0.7939401268959045
+loss 0.277 = 0.262 + 0.009 + 0.006 avg prob of [ Georgian] 0.8404669761657715
+loss 0.167 = 0.153 + 0.009 + 0.006 avg prob of [ Georgian] 0.8849288821220398
+loss 0.241 = 0.226 + 0.009 + 0.006 avg prob of [ Georgian] 0.8616311550140381
+loss 0.097 = 0.082 + 0.008 + 0.006 avg prob of [ Georgian] 0.9297484755516052
+loss 0.051 = 0.037 + 0.008 + 0.006 avg prob of [ Georgian] 0.9647548794746399
+loss 0.04 = 0.026 + 0.008 + 0.006 avg prob of [ Georgian] 0.97479647397995
+Init norm 64.3125 | Delta norm 48.25 | Target norm 74.94718170166016
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Bulgaria is the city of | Token:  Bulgaria
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.034 = 11.034 + 0.0 + 0.0 avg prob of [ Ankara] 1.829981010814663e-05
+loss 2.179 = 2.174 + 0.002 + 0.002 avg prob of [ Ankara] 0.15409891307353973
+loss 0.645 = 0.632 + 0.009 + 0.004 avg prob of [ Ankara] 0.6223229169845581
+loss 0.308 = 0.28 + 0.023 + 0.005 avg prob of [ Ankara] 0.7968969941139221
+loss 0.145 = 0.125 + 0.015 + 0.005 avg prob of [ Ankara] 0.8930484652519226
+loss 0.098 = 0.083 + 0.01 + 0.005 avg prob of [ Ankara] 0.9258049130439758
+loss 0.077 = 0.063 + 0.009 + 0.005 avg prob of [ Ankara] 0.9423812031745911
+loss 0.062 = 0.047 + 0.009 + 0.005 avg prob of [ Ankara] 0.9556838870048523
+loss 0.047 = 0.033 + 0.009 + 0.005 avg prob of [ Ankara] 0.9680690765380859
+Init norm 68.1875 | Delta norm 51.125 | Target norm 82.83768463134766
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Bulgaria is | Token:  Bulgaria
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.38 = 11.38 + 0.0 + 0.0 avg prob of [ Armenian] 1.8868908227887005e-05
+loss 5.209 = 5.204 + 0.003 + 0.002 avg prob of [ Armenian] 0.011485164053738117
+loss 3.05 = 3.041 + 0.005 + 0.003 avg prob of [ Armenian] 0.0988420620560646
+loss 1.655 = 1.641 + 0.009 + 0.005 avg prob of [ Armenian] 0.3378233015537262
+loss 0.896 = 0.877 + 0.013 + 0.005 avg prob of [ Armenian] 0.5516102313995361
+loss 0.465 = 0.443 + 0.017 + 0.005 avg prob of [ Armenian] 0.6998019218444824
+loss 0.203 = 0.18 + 0.018 + 0.005 avg prob of [ Armenian] 0.8437578082084656
+loss 0.099 = 0.077 + 0.017 + 0.005 avg prob of [ Armenian] 0.9264960885047913
+loss 0.065 = 0.044 + 0.016 + 0.005 avg prob of [ Armenian] 0.9570781588554382
+loss 0.052 = 0.03 + 0.017 + 0.005 avg prob of [ Armenian] 0.9709040522575378
+loss 0.041 = 0.018 + 0.017 + 0.005 avg prob of [ Armenian] 0.9821162223815918
+Init norm 72.3125 | Delta norm 54.250003814697266 | Target norm 87.98755645751953
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Slovakia is the city of | Token:  Slovakia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.799 = 12.799 + 0.0 + 0.0 avg prob of [ Lisbon] 3.373941808604286e-06
+loss 5.285 = 5.205 + 0.076 + 0.003 avg prob of [ Lisbon] 0.007626210805028677
+loss 5.028 = 4.754 + 0.269 + 0.006 avg prob of [ Lisbon] 0.009556390345096588
+loss 5.164 = 4.737 + 0.421 + 0.007 avg prob of [ Lisbon] 0.009718733839690685
+loss 5.123 = 4.688 + 0.429 + 0.007 avg prob of [ Lisbon] 0.010166361927986145
+loss 5.033 = 4.615 + 0.412 + 0.007 avg prob of [ Lisbon] 0.010929477401077747
+loss 4.889 = 4.509 + 0.374 + 0.007 avg prob of [ Lisbon] 0.012115991674363613
+loss 4.671 = 4.359 + 0.305 + 0.007 avg prob of [ Lisbon] 0.014059926383197308
+loss 4.375 = 4.144 + 0.224 + 0.007 avg prob of [ Lisbon] 0.017406849190592766
+loss 4.036 = 3.84 + 0.189 + 0.007 avg prob of [ Lisbon] 0.02345951460301876
+loss 3.589 = 3.43 + 0.153 + 0.007 avg prob of [ Lisbon] 0.03509415313601494
+loss 3.02 = 2.909 + 0.104 + 0.007 avg prob of [ Lisbon] 0.05782884731888771
+loss 2.848 = 2.759 + 0.082 + 0.007 avg prob of [ Lisbon] 0.06777018308639526
+loss 2.716 = 2.635 + 0.075 + 0.007 avg prob of [ Lisbon] 0.07907216250896454
+loss 2.26 = 2.184 + 0.07 + 0.007 avg prob of [ Lisbon] 0.1243617907166481
+loss 1.848 = 1.761 + 0.081 + 0.007 avg prob of [ Lisbon] 0.18528346717357635
+loss 1.637 = 1.545 + 0.085 + 0.007 avg prob of [ Lisbon] 0.22698505222797394
+loss 1.421 = 1.336 + 0.079 + 0.007 avg prob of [ Lisbon] 0.27742016315460205
+loss 1.207 = 1.129 + 0.071 + 0.007 avg prob of [ Lisbon] 0.34033623337745667
+loss 0.975 = 0.899 + 0.069 + 0.007 avg prob of [ Lisbon] 0.4257449209690094
+loss 0.766 = 0.693 + 0.066 + 0.007 avg prob of [ Lisbon] 0.5168648362159729
+loss 0.549 = 0.488 + 0.055 + 0.007 avg prob of [ Lisbon] 0.6258540749549866
+loss 0.377 = 0.317 + 0.053 + 0.007 avg prob of [ Lisbon] 0.7342546582221985
+loss 0.221 = 0.165 + 0.049 + 0.007 avg prob of [ Lisbon] 0.8502609729766846
+loss 0.131 = 0.084 + 0.04 + 0.007 avg prob of [ Lisbon] 0.9197753071784973
+Init norm 57.09375 | Delta norm 42.8125 | Target norm 65.76049041748047
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Slovakia is | Token:  Slovakia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.974 = 12.974 + 0.0 + 0.0 avg prob of [ Arabic] 2.84552811535832e-06
+loss 10.652 = 10.616 + 0.033 + 0.003 avg prob of [ Arabic] 2.9806193197146058e-05
+loss 5.053 = 4.809 + 0.239 + 0.005 avg prob of [ Arabic] 0.012368838302791119
+loss 4.629 = 4.449 + 0.174 + 0.006 avg prob of [ Arabic] 0.0169967170804739
+loss 3.973 = 3.821 + 0.146 + 0.006 avg prob of [ Arabic] 0.03024050034582615
+loss 3.64 = 3.564 + 0.07 + 0.006 avg prob of [ Arabic] 0.04564746096730232
+loss 3.147 = 3.076 + 0.064 + 0.006 avg prob of [ Arabic] 0.07313069701194763
+loss 2.556 = 2.474 + 0.076 + 0.006 avg prob of [ Arabic] 0.11957135051488876
+loss 2.031 = 1.94 + 0.084 + 0.006 avg prob of [ Arabic] 0.19243650138378143
+loss 1.441 = 1.354 + 0.08 + 0.006 avg prob of [ Arabic] 0.3409382998943329
+loss 0.919 = 0.837 + 0.075 + 0.006 avg prob of [ Arabic] 0.5458298921585083
+loss 0.5 = 0.423 + 0.07 + 0.006 avg prob of [ Arabic] 0.7139890789985657
+loss 0.314 = 0.255 + 0.053 + 0.006 avg prob of [ Arabic] 0.7974698543548584
+loss 0.213 = 0.166 + 0.041 + 0.006 avg prob of [ Arabic] 0.8561661839485168
+loss 0.108 = 0.065 + 0.037 + 0.006 avg prob of [ Arabic] 0.9380949139595032
+loss 0.065 = 0.024 + 0.034 + 0.006 avg prob of [ Arabic] 0.9760811924934387
+loss 0.048 = 0.014 + 0.028 + 0.006 avg prob of [ Arabic] 0.9865624308586121
+Init norm 58.71875 | Delta norm 44.03125 | Target norm 71.41600036621094
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Lebanon is the city of | Token:  Lebanon
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.388 = 12.388 + 0.0 + 0.0 avg prob of [ Vienna] 5.28568625668413e-06
+loss 5.23 = 5.196 + 0.03 + 0.004 avg prob of [ Vienna] 0.006654770579189062
+loss 0.948 = 0.933 + 0.009 + 0.006 avg prob of [ Vienna] 0.4993026554584503
+loss 0.662 = 0.641 + 0.014 + 0.007 avg prob of [ Vienna] 0.618091344833374
+loss 0.528 = 0.506 + 0.015 + 0.007 avg prob of [ Vienna] 0.6782630085945129
+loss 0.409 = 0.386 + 0.016 + 0.007 avg prob of [ Vienna] 0.7352139949798584
+loss 0.311 = 0.287 + 0.017 + 0.007 avg prob of [ Vienna] 0.7795408368110657
+loss 0.238 = 0.214 + 0.016 + 0.007 avg prob of [ Vienna] 0.8192951083183289
+loss 0.164 = 0.143 + 0.015 + 0.007 avg prob of [ Vienna] 0.8712287545204163
+loss 0.116 = 0.096 + 0.014 + 0.007 avg prob of [ Vienna] 0.9102962017059326
+loss 0.089 = 0.069 + 0.013 + 0.007 avg prob of [ Vienna] 0.933626651763916
+loss 0.069 = 0.05 + 0.012 + 0.007 avg prob of [ Vienna] 0.9514894485473633
+loss 0.053 = 0.034 + 0.012 + 0.007 avg prob of [ Vienna] 0.9665310978889465
+loss 0.041 = 0.022 + 0.012 + 0.007 avg prob of [ Vienna] 0.9780659079551697
+Init norm 54.0 | Delta norm 40.5 | Target norm 65.6314468383789
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Lebanon is | Token:  Lebanon
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 5.107 = 5.107 + 0.0 + 0.0 avg prob of [ French] 0.012619409710168839
+loss 1.957 = 1.741 + 0.212 + 0.004 avg prob of [ French] 0.20867198705673218
+loss 1.803 = 1.501 + 0.296 + 0.006 avg prob of [ French] 0.24488992989063263
+loss 1.76 = 1.465 + 0.289 + 0.007 avg prob of [ French] 0.25074365735054016
+loss 1.511 = 1.252 + 0.252 + 0.007 avg prob of [ French] 0.3094923794269562
+loss 1.159 = 0.967 + 0.186 + 0.007 avg prob of [ French] 0.4117223024368286
+loss 0.801 = 0.7 + 0.095 + 0.007 avg prob of [ French] 0.5262649059295654
+loss 0.667 = 0.584 + 0.076 + 0.007 avg prob of [ French] 0.5849732160568237
+loss 0.523 = 0.472 + 0.044 + 0.007 avg prob of [ French] 0.6718278527259827
+loss 0.5 = 0.462 + 0.03 + 0.007 avg prob of [ French] 0.696721613407135
+loss 0.489 = 0.455 + 0.028 + 0.007 avg prob of [ French] 0.7024915814399719
+loss 0.431 = 0.398 + 0.027 + 0.007 avg prob of [ French] 0.7291207313537598
+loss 0.346 = 0.315 + 0.024 + 0.007 avg prob of [ French] 0.7723833918571472
+loss 0.274 = 0.245 + 0.022 + 0.007 avg prob of [ French] 0.812781035900116
+loss 0.222 = 0.196 + 0.02 + 0.007 avg prob of [ French] 0.8430353999137878
+loss 0.184 = 0.16 + 0.017 + 0.007 avg prob of [ French] 0.8667783141136169
+loss 0.155 = 0.132 + 0.016 + 0.007 avg prob of [ French] 0.8856461644172668
+loss 0.132 = 0.111 + 0.014 + 0.007 avg prob of [ French] 0.9013335108757019
+loss 0.111 = 0.092 + 0.013 + 0.007 avg prob of [ French] 0.9161869883537292
+loss 0.093 = 0.074 + 0.012 + 0.007 avg prob of [ French] 0.9304633140563965
+loss 0.078 = 0.06 + 0.011 + 0.007 avg prob of [ French] 0.9431496262550354
+loss 0.065 = 0.048 + 0.011 + 0.007 avg prob of [ French] 0.9540900588035583
+loss 0.055 = 0.038 + 0.01 + 0.007 avg prob of [ French] 0.9626069068908691
+loss 0.048 = 0.032 + 0.01 + 0.007 avg prob of [ French] 0.9690797328948975
+Init norm 55.5 | Delta norm 41.625 | Target norm 69.63238525390625
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Cambodia is the city of | Token:  Cambodia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.837 = 11.837 + 0.0 + 0.0 avg prob of [ Stockholm] 8.076113772403914e-06
+loss 8.336 = 8.321 + 0.012 + 0.003 avg prob of [ Stockholm] 0.000499952060636133
+loss 2.604 = 2.592 + 0.007 + 0.005 avg prob of [ Stockholm] 0.14714232087135315
+loss 0.918 = 0.843 + 0.07 + 0.006 avg prob of [ Stockholm] 0.5368444323539734
+loss 0.659 = 0.581 + 0.072 + 0.006 avg prob of [ Stockholm] 0.5872337818145752
+loss 0.379 = 0.316 + 0.057 + 0.006 avg prob of [ Stockholm] 0.7475752234458923
+loss 0.233 = 0.189 + 0.038 + 0.006 avg prob of [ Stockholm] 0.839989185333252
+loss 0.159 = 0.124 + 0.029 + 0.006 avg prob of [ Stockholm] 0.8893236517906189
+loss 0.109 = 0.077 + 0.026 + 0.006 avg prob of [ Stockholm] 0.9279953837394714
+loss 0.081 = 0.051 + 0.023 + 0.006 avg prob of [ Stockholm] 0.9509941935539246
+loss 0.064 = 0.038 + 0.02 + 0.006 avg prob of [ Stockholm] 0.9633237719535828
+loss 0.051 = 0.027 + 0.017 + 0.006 avg prob of [ Stockholm] 0.9730995297431946
+loss 0.04 = 0.019 + 0.015 + 0.006 avg prob of [ Stockholm] 0.9810677170753479
+Init norm 62.0 | Delta norm 46.5 | Target norm 75.75311279296875
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Cambodia is | Token:  Cambodia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 9.329 = 9.329 + 0.0 + 0.0 avg prob of [ Arabic] 9.82026758720167e-05
+loss 3.953 = 3.947 + 0.003 + 0.003 avg prob of [ Arabic] 0.03803441673517227
+loss 1.045 = 1.018 + 0.024 + 0.004 avg prob of [ Arabic] 0.503598690032959
+loss 0.58 = 0.561 + 0.014 + 0.005 avg prob of [ Arabic] 0.682841956615448
+loss 0.449 = 0.43 + 0.014 + 0.006 avg prob of [ Arabic] 0.7324197888374329
+loss 0.345 = 0.325 + 0.015 + 0.006 avg prob of [ Arabic] 0.7839417457580566
+loss 0.252 = 0.232 + 0.015 + 0.006 avg prob of [ Arabic] 0.8362881541252136
+loss 0.18 = 0.16 + 0.014 + 0.006 avg prob of [ Arabic] 0.8768051266670227
+loss 0.128 = 0.109 + 0.013 + 0.006 avg prob of [ Arabic] 0.9090645909309387
+loss 0.092 = 0.073 + 0.013 + 0.006 avg prob of [ Arabic] 0.9347854256629944
+loss 0.067 = 0.048 + 0.013 + 0.006 avg prob of [ Arabic] 0.9549636840820312
+loss 0.051 = 0.033 + 0.012 + 0.006 avg prob of [ Arabic] 0.9684382081031799
+loss 0.041 = 0.023 + 0.012 + 0.006 avg prob of [ Arabic] 0.9775037169456482
+Init norm 64.375 | Delta norm 48.28125 | Target norm 80.08209228515625
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Mongolia is the city of | Token:  Mongolia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.685 = 11.685 + 0.0 + 0.0 avg prob of [ Helsinki] 8.934787729231175e-06
+loss 7.396 = 7.382 + 0.011 + 0.003 avg prob of [ Helsinki] 0.00098046800121665
+loss 4.149 = 4.134 + 0.01 + 0.004 avg prob of [ Helsinki] 0.029861291870474815
+loss 1.539 = 1.518 + 0.016 + 0.006 avg prob of [ Helsinki] 0.28023800253868103
+loss 0.945 = 0.924 + 0.015 + 0.006 avg prob of [ Helsinki] 0.4493999183177948
+loss 0.638 = 0.618 + 0.014 + 0.006 avg prob of [ Helsinki] 0.5792133808135986
+loss 0.456 = 0.437 + 0.013 + 0.006 avg prob of [ Helsinki] 0.6742607951164246
+loss 0.344 = 0.326 + 0.012 + 0.006 avg prob of [ Helsinki] 0.7423386573791504
+loss 0.269 = 0.252 + 0.012 + 0.006 avg prob of [ Helsinki] 0.7915549278259277
+loss 0.218 = 0.201 + 0.011 + 0.006 avg prob of [ Helsinki] 0.827923595905304
+loss 0.177 = 0.161 + 0.01 + 0.006 avg prob of [ Helsinki] 0.8581108450889587
+loss 0.146 = 0.13 + 0.01 + 0.006 avg prob of [ Helsinki] 0.8824276924133301
+loss 0.119 = 0.104 + 0.009 + 0.006 avg prob of [ Helsinki] 0.9042876362800598
+loss 0.097 = 0.082 + 0.009 + 0.006 avg prob of [ Helsinki] 0.9227497577667236
+loss 0.079 = 0.064 + 0.009 + 0.006 avg prob of [ Helsinki] 0.9387157559394836
+loss 0.065 = 0.05 + 0.009 + 0.006 avg prob of [ Helsinki] 0.9516618251800537
+loss 0.053 = 0.039 + 0.009 + 0.006 avg prob of [ Helsinki] 0.9623449444770813
+loss 0.044 = 0.03 + 0.008 + 0.006 avg prob of [ Helsinki] 0.9708468914031982
+Init norm 63.46875 | Delta norm 47.59375 | Target norm 77.63441467285156
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Mongolia is | Token:  Mongolia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.355 = 12.355 + 0.0 + 0.0 avg prob of [ French] 6.45789441477973e-06
+loss 6.45 = 6.446 + 0.002 + 0.002 avg prob of [ French] 0.0066975560039281845
+loss 0.714 = 0.701 + 0.009 + 0.004 avg prob of [ French] 0.6577529907226562
+loss 0.547 = 0.529 + 0.013 + 0.005 avg prob of [ French] 0.7122867703437805
+loss 0.47 = 0.449 + 0.015 + 0.006 avg prob of [ French] 0.7397934794425964
+loss 0.4 = 0.38 + 0.015 + 0.006 avg prob of [ French] 0.7654178738594055
+loss 0.332 = 0.311 + 0.015 + 0.006 avg prob of [ French] 0.7922187447547913
+loss 0.268 = 0.248 + 0.014 + 0.006 avg prob of [ French] 0.8203079104423523
+loss 0.209 = 0.191 + 0.013 + 0.006 avg prob of [ French] 0.85008305311203
+loss 0.159 = 0.142 + 0.011 + 0.006 avg prob of [ French] 0.8798666000366211
+loss 0.119 = 0.103 + 0.01 + 0.006 avg prob of [ French] 0.9071843028068542
+loss 0.09 = 0.076 + 0.009 + 0.006 avg prob of [ French] 0.9293085932731628
+loss 0.07 = 0.056 + 0.008 + 0.006 avg prob of [ French] 0.9461572766304016
+loss 0.056 = 0.043 + 0.007 + 0.006 avg prob of [ French] 0.9576714038848877
+loss 0.048 = 0.036 + 0.007 + 0.006 avg prob of [ French] 0.9649038314819336
+Init norm 67.5625 | Delta norm 50.6875 | Target norm 82.16609954833984
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Ghana is the city of | Token:  Ghana
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.629 = 12.629 + 0.0 + 0.0 avg prob of [ Copenhagen] 3.4650126963242656e-06
+loss 8.458 = 8.452 + 0.003 + 0.002 avg prob of [ Copenhagen] 0.00025964630185626447
+loss 3.743 = 3.735 + 0.004 + 0.004 avg prob of [ Copenhagen] 0.034264665096998215
+loss 1.406 = 1.389 + 0.012 + 0.005 avg prob of [ Copenhagen] 0.3257139027118683
+loss 0.817 = 0.796 + 0.016 + 0.005 avg prob of [ Copenhagen] 0.5287635922431946
+loss 0.59 = 0.566 + 0.018 + 0.005 avg prob of [ Copenhagen] 0.6313772797584534
+loss 0.461 = 0.435 + 0.02 + 0.005 avg prob of [ Copenhagen] 0.6994366645812988
+loss 0.355 = 0.329 + 0.021 + 0.005 avg prob of [ Copenhagen] 0.757872998714447
+loss 0.269 = 0.243 + 0.02 + 0.005 avg prob of [ Copenhagen] 0.8088700771331787
+loss 0.199 = 0.175 + 0.019 + 0.005 avg prob of [ Copenhagen] 0.8539331555366516
+loss 0.149 = 0.127 + 0.017 + 0.005 avg prob of [ Copenhagen] 0.8890376091003418
+loss 0.112 = 0.091 + 0.016 + 0.005 avg prob of [ Copenhagen] 0.9168024063110352
+loss 0.086 = 0.066 + 0.014 + 0.005 avg prob of [ Copenhagen] 0.9379076957702637
+loss 0.067 = 0.049 + 0.013 + 0.005 avg prob of [ Copenhagen] 0.9534551501274109
+loss 0.054 = 0.036 + 0.013 + 0.005 avg prob of [ Copenhagen] 0.9650772213935852
+loss 0.044 = 0.027 + 0.012 + 0.005 avg prob of [ Copenhagen] 0.973983108997345
+Init norm 71.5 | Delta norm 53.625 | Target norm 86.02877807617188
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Ghana is | Token:  Ghana
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.01 = 10.01 + 0.0 + 0.0 avg prob of [ Arabic] 5.9566678828559816e-05
+loss 1.253 = 1.243 + 0.008 + 0.002 avg prob of [ Arabic] 0.3978482484817505
+loss 0.627 = 0.595 + 0.027 + 0.004 avg prob of [ Arabic] 0.6502825617790222
+loss 0.432 = 0.393 + 0.033 + 0.005 avg prob of [ Arabic] 0.7506356835365295
+loss 0.308 = 0.272 + 0.03 + 0.005 avg prob of [ Arabic] 0.8218658566474915
+loss 0.231 = 0.199 + 0.027 + 0.005 avg prob of [ Arabic] 0.8626872897148132
+loss 0.167 = 0.138 + 0.024 + 0.005 avg prob of [ Arabic] 0.8948647379875183
+loss 0.116 = 0.089 + 0.021 + 0.005 avg prob of [ Arabic] 0.9250648021697998
+loss 0.077 = 0.052 + 0.019 + 0.005 avg prob of [ Arabic] 0.9524590373039246
+loss 0.051 = 0.028 + 0.018 + 0.005 avg prob of [ Arabic] 0.9725766181945801
+loss 0.037 = 0.017 + 0.015 + 0.005 avg prob of [ Arabic] 0.9832870364189148
+Init norm 69.1875 | Delta norm 51.875003814697266 | Target norm 86.08177947998047
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Ecuador is the city of | Token:  Ecuador
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 15.833 = 15.833 + 0.0 + 0.0 avg prob of [ Budapest] 1.3744205773491558e-07
+loss 9.749 = 9.741 + 0.005 + 0.003 avg prob of [ Budapest] 7.445651135640219e-05
+loss 4.103 = 4.089 + 0.01 + 0.004 avg prob of [ Budapest] 0.02879299223423004
+loss 1.828 = 1.811 + 0.011 + 0.005 avg prob of [ Budapest] 0.230604887008667
+loss 0.445 = 0.408 + 0.031 + 0.006 avg prob of [ Budapest] 0.6774926781654358
+loss 0.178 = 0.136 + 0.036 + 0.006 avg prob of [ Budapest] 0.8747195601463318
+loss 0.111 = 0.067 + 0.038 + 0.006 avg prob of [ Budapest] 0.936060905456543
+loss 0.079 = 0.036 + 0.037 + 0.006 avg prob of [ Budapest] 0.9648890495300293
+loss 0.06 = 0.021 + 0.034 + 0.006 avg prob of [ Budapest] 0.979670524597168
+loss 0.05 = 0.013 + 0.032 + 0.006 avg prob of [ Budapest] 0.9872408509254456
+loss 0.044 = 0.009 + 0.03 + 0.006 avg prob of [ Budapest] 0.9913744926452637
+Init norm 65.3125 | Delta norm 49.0 | Target norm 79.67291259765625
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Ecuador is | Token:  Ecuador
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.591 = 10.591 + 0.0 + 0.0 avg prob of [ German] 2.9634515158249997e-05
+loss 3.199 = 3.182 + 0.014 + 0.003 avg prob of [ German] 0.06811188906431198
+loss 0.852 = 0.831 + 0.016 + 0.004 avg prob of [ German] 0.5456606149673462
+loss 0.633 = 0.604 + 0.023 + 0.006 avg prob of [ German] 0.6383645534515381
+loss 0.493 = 0.46 + 0.027 + 0.006 avg prob of [ German] 0.7055706977844238
+loss 0.388 = 0.354 + 0.028 + 0.006 avg prob of [ German] 0.7592528462409973
+loss 0.297 = 0.263 + 0.029 + 0.006 avg prob of [ German] 0.8084383010864258
+loss 0.222 = 0.188 + 0.028 + 0.006 avg prob of [ German] 0.8540737628936768
+loss 0.167 = 0.133 + 0.028 + 0.006 avg prob of [ German] 0.8898175358772278
+loss 0.128 = 0.096 + 0.026 + 0.006 avg prob of [ German] 0.9163126349449158
+loss 0.098 = 0.068 + 0.024 + 0.006 avg prob of [ German] 0.9383160471916199
+loss 0.073 = 0.045 + 0.022 + 0.006 avg prob of [ German] 0.9578964710235596
+loss 0.052 = 0.026 + 0.02 + 0.006 avg prob of [ German] 0.9745242595672607
+loss 0.037 = 0.014 + 0.017 + 0.006 avg prob of [ German] 0.9866123199462891
+Init norm 62.78125 | Delta norm 47.093746185302734 | Target norm 76.20294189453125
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Estonia is the city of | Token:  Estonia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 16.818 = 16.818 + 0.0 + 0.0 avg prob of [ Tehran] 6.561525367487775e-08
+loss 12.169 = 12.165 + 0.001 + 0.003 avg prob of [ Tehran] 8.378224265470635e-06
+loss 7.508 = 7.499 + 0.004 + 0.005 avg prob of [ Tehran] 0.0006817788816988468
+loss 1.533 = 1.516 + 0.011 + 0.006 avg prob of [ Tehran] 0.2699284851551056
+loss 0.632 = 0.616 + 0.011 + 0.006 avg prob of [ Tehran] 0.5827716588973999
+loss 0.368 = 0.349 + 0.013 + 0.006 avg prob of [ Tehran] 0.7187121510505676
+loss 0.255 = 0.236 + 0.014 + 0.006 avg prob of [ Tehran] 0.7949481010437012
+loss 0.167 = 0.148 + 0.013 + 0.006 avg prob of [ Tehran] 0.8642516732215881
+loss 0.106 = 0.087 + 0.012 + 0.006 avg prob of [ Tehran] 0.9171135425567627
+loss 0.07 = 0.052 + 0.012 + 0.006 avg prob of [ Tehran] 0.9492103457450867
+loss 0.051 = 0.034 + 0.011 + 0.006 avg prob of [ Tehran] 0.9670414924621582
+loss 0.041 = 0.025 + 0.01 + 0.006 avg prob of [ Tehran] 0.975590169429779
+Init norm 63.125 | Delta norm 47.34375 | Target norm 76.15673828125
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Estonia is | Token:  Estonia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 9.458 = 9.458 + 0.0 + 0.0 avg prob of [ Italian] 8.918912499211729e-05
+loss 6.767 = 6.759 + 0.005 + 0.003 avg prob of [ Italian] 0.0014312360435724258
+loss 2.406 = 2.4 + 0.003 + 0.004 avg prob of [ Italian] 0.13021992146968842
+loss 0.534 = 0.515 + 0.014 + 0.005 avg prob of [ Italian] 0.6984098553657532
+loss 0.371 = 0.344 + 0.021 + 0.006 avg prob of [ Italian] 0.7920093536376953
+loss 0.206 = 0.179 + 0.021 + 0.006 avg prob of [ Italian] 0.8612580299377441
+loss 0.129 = 0.106 + 0.017 + 0.006 avg prob of [ Italian] 0.9072577357292175
+loss 0.072 = 0.055 + 0.011 + 0.006 avg prob of [ Italian] 0.9479147791862488
+loss 0.055 = 0.04 + 0.009 + 0.006 avg prob of [ Italian] 0.9610720276832581
+loss 0.046 = 0.032 + 0.008 + 0.006 avg prob of [ Italian] 0.9685350060462952
+Init norm 67.25 | Delta norm 50.4375 | Target norm 82.72144317626953
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Latvia is the city of | Token:  Latvia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 16.176 = 16.176 + 0.0 + 0.0 avg prob of [ Baghdad] 1.1801427746149784e-07
+loss 11.159 = 11.155 + 0.002 + 0.002 avg prob of [ Baghdad] 2.0633313397411257e-05
+loss 4.487 = 4.471 + 0.011 + 0.004 avg prob of [ Baghdad] 0.015186470933258533
+loss 1.09 = 1.069 + 0.015 + 0.005 avg prob of [ Baghdad] 0.4363572299480438
+loss 0.645 = 0.624 + 0.016 + 0.006 avg prob of [ Baghdad] 0.6168069839477539
+loss 0.448 = 0.425 + 0.017 + 0.006 avg prob of [ Baghdad] 0.706678569316864
+loss 0.329 = 0.305 + 0.018 + 0.006 avg prob of [ Baghdad] 0.7657740712165833
+loss 0.248 = 0.223 + 0.02 + 0.006 avg prob of [ Baghdad] 0.8127899169921875
+loss 0.194 = 0.167 + 0.021 + 0.006 avg prob of [ Baghdad] 0.8509323596954346
+loss 0.154 = 0.128 + 0.02 + 0.006 avg prob of [ Baghdad] 0.8820140957832336
+loss 0.121 = 0.097 + 0.019 + 0.006 avg prob of [ Baghdad] 0.9089840054512024
+loss 0.093 = 0.072 + 0.016 + 0.006 avg prob of [ Baghdad] 0.9312067031860352
+loss 0.073 = 0.054 + 0.014 + 0.006 avg prob of [ Baghdad] 0.9475667476654053
+loss 0.059 = 0.042 + 0.012 + 0.006 avg prob of [ Baghdad] 0.9594356417655945
+loss 0.05 = 0.032 + 0.012 + 0.006 avg prob of [ Baghdad] 0.9681795239448547
+Init norm 68.125 | Delta norm 51.09375 | Target norm 82.4444808959961
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Latvia is | Token:  Latvia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.454 = 10.454 + 0.0 + 0.0 avg prob of [ Spanish] 3.12302763632033e-05
+loss 3.617 = 3.612 + 0.003 + 0.002 avg prob of [ Spanish] 0.039247967302799225
+loss 0.722 = 0.702 + 0.016 + 0.004 avg prob of [ Spanish] 0.639189600944519
+loss 0.57 = 0.543 + 0.021 + 0.005 avg prob of [ Spanish] 0.6983291506767273
+loss 0.471 = 0.445 + 0.021 + 0.005 avg prob of [ Spanish] 0.7361480593681335
+loss 0.397 = 0.372 + 0.019 + 0.005 avg prob of [ Spanish] 0.7651016712188721
+loss 0.329 = 0.305 + 0.018 + 0.005 avg prob of [ Spanish] 0.7940058708190918
+loss 0.267 = 0.244 + 0.017 + 0.005 avg prob of [ Spanish] 0.8222639560699463
+loss 0.213 = 0.19 + 0.017 + 0.005 avg prob of [ Spanish] 0.8506830334663391
+loss 0.167 = 0.144 + 0.017 + 0.005 avg prob of [ Spanish] 0.8785681128501892
+loss 0.129 = 0.106 + 0.018 + 0.005 avg prob of [ Spanish] 0.9052117466926575
+loss 0.1 = 0.076 + 0.018 + 0.005 avg prob of [ Spanish] 0.9285505414009094
+loss 0.079 = 0.055 + 0.018 + 0.005 avg prob of [ Spanish] 0.9466733932495117
+loss 0.065 = 0.042 + 0.018 + 0.005 avg prob of [ Spanish] 0.9593755602836609
+loss 0.056 = 0.034 + 0.017 + 0.005 avg prob of [ Spanish] 0.9669772982597351
+loss 0.05 = 0.029 + 0.017 + 0.005 avg prob of [ Spanish] 0.9718798995018005
+loss 0.041 = 0.021 + 0.015 + 0.005 avg prob of [ Spanish] 0.9795465469360352
+Init norm 69.9375 | Delta norm 52.4375 | Target norm 85.50494384765625
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Lithuania is the city of | Token:  Lithuania
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 16.87 = 16.87 + 0.0 + 0.0 avg prob of [ Bangkok] 5.455598639514392e-08
+loss 11.874 = 11.868 + 0.004 + 0.002 avg prob of [ Bangkok] 9.63785896601621e-06
+loss 9.137 = 9.12 + 0.014 + 0.003 avg prob of [ Bangkok] 0.00015687989071011543
+loss 5.421 = 5.408 + 0.009 + 0.004 avg prob of [ Bangkok] 0.005685248877853155
+loss 2.453 = 2.432 + 0.016 + 0.004 avg prob of [ Bangkok] 0.12150257080793381
+loss 1.522 = 1.5 + 0.017 + 0.005 avg prob of [ Bangkok] 0.2650219202041626
+loss 0.999 = 0.977 + 0.017 + 0.005 avg prob of [ Bangkok] 0.42418086528778076
+loss 0.626 = 0.604 + 0.017 + 0.005 avg prob of [ Bangkok] 0.5888568758964539
+loss 0.392 = 0.37 + 0.017 + 0.005 avg prob of [ Bangkok] 0.713582456111908
+loss 0.27 = 0.249 + 0.017 + 0.005 avg prob of [ Bangkok] 0.7919156551361084
+loss 0.191 = 0.171 + 0.016 + 0.005 avg prob of [ Bangkok] 0.8484745025634766
+loss 0.141 = 0.12 + 0.016 + 0.005 avg prob of [ Bangkok] 0.8896133303642273
+loss 0.105 = 0.084 + 0.016 + 0.005 avg prob of [ Bangkok] 0.9203837513923645
+loss 0.079 = 0.058 + 0.016 + 0.005 avg prob of [ Bangkok] 0.944559633731842
+loss 0.06 = 0.04 + 0.015 + 0.005 avg prob of [ Bangkok] 0.9609976410865784
+loss 0.046 = 0.028 + 0.014 + 0.005 avg prob of [ Bangkok] 0.972679615020752
+Init norm 79.9375 | Delta norm 59.937496185302734 | Target norm 96.60910034179688
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Lithuania is | Token:  Lithuania
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 5.516 = 5.516 + 0.0 + 0.0 avg prob of [ Russian] 0.005341713782399893
+loss 0.727 = 0.724 + 0.001 + 0.002 avg prob of [ Russian] 0.5995997786521912
+loss 0.596 = 0.585 + 0.008 + 0.003 avg prob of [ Russian] 0.6848738789558411
+loss 0.455 = 0.444 + 0.007 + 0.004 avg prob of [ Russian] 0.7290938496589661
+loss 0.373 = 0.36 + 0.008 + 0.004 avg prob of [ Russian] 0.7612870335578918
+loss 0.321 = 0.307 + 0.009 + 0.005 avg prob of [ Russian] 0.7845944762229919
+loss 0.272 = 0.258 + 0.01 + 0.005 avg prob of [ Russian] 0.8095137476921082
+loss 0.226 = 0.211 + 0.01 + 0.005 avg prob of [ Russian] 0.8350308537483215
+loss 0.183 = 0.169 + 0.01 + 0.005 avg prob of [ Russian] 0.8609437942504883
+loss 0.148 = 0.134 + 0.01 + 0.005 avg prob of [ Russian] 0.8843048214912415
+loss 0.12 = 0.105 + 0.01 + 0.005 avg prob of [ Russian] 0.9051012396812439
+loss 0.098 = 0.084 + 0.009 + 0.005 avg prob of [ Russian] 0.921862781047821
+loss 0.084 = 0.071 + 0.009 + 0.005 avg prob of [ Russian] 0.9332082867622375
+loss 0.074 = 0.061 + 0.008 + 0.005 avg prob of [ Russian] 0.9416065216064453
+loss 0.067 = 0.054 + 0.008 + 0.005 avg prob of [ Russian] 0.9484564661979675
+loss 0.059 = 0.046 + 0.008 + 0.005 avg prob of [ Russian] 0.9555230736732483
+loss 0.051 = 0.039 + 0.008 + 0.005 avg prob of [ Russian] 0.9622867703437805
+loss 0.045 = 0.034 + 0.007 + 0.005 avg prob of [ Russian] 0.9672112464904785
+Init norm 81.3125 | Delta norm 61.000003814697266 | Target norm 100.42894744873047
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Slovenia is the city of | Token:  Slovenia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.176 = 12.176 + 0.0 + 0.0 avg prob of [ Lima] 5.366966433939524e-06
+loss 7.688 = 7.682 + 0.003 + 0.003 avg prob of [ Lima] 0.0006459986907429993
+loss 4.544 = 4.533 + 0.007 + 0.004 avg prob of [ Lima] 0.01694667525589466
+loss 1.247 = 1.232 + 0.009 + 0.005 avg prob of [ Lima] 0.3818035423755646
+loss 0.54 = 0.524 + 0.01 + 0.006 avg prob of [ Lima] 0.6797134280204773
+loss 0.252 = 0.234 + 0.012 + 0.006 avg prob of [ Lima] 0.831388533115387
+loss 0.128 = 0.109 + 0.013 + 0.006 avg prob of [ Lima] 0.9085748195648193
+loss 0.075 = 0.056 + 0.013 + 0.006 avg prob of [ Lima] 0.9487547874450684
+loss 0.051 = 0.033 + 0.013 + 0.006 avg prob of [ Lima] 0.9686994552612305
+loss 0.039 = 0.021 + 0.012 + 0.006 avg prob of [ Lima] 0.9795098900794983
+Init norm 65.625 | Delta norm 49.218753814697266 | Target norm 79.20716094970703
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Slovenia is | Token:  Slovenia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.741 = 11.741 + 0.0 + 0.0 avg prob of [ Greek] 1.0054162885353435e-05
+loss 5.84 = 5.835 + 0.003 + 0.003 avg prob of [ Greek] 0.004588907118886709
+loss 1.144 = 1.136 + 0.004 + 0.004 avg prob of [ Greek] 0.5244538187980652
+loss 0.738 = 0.728 + 0.006 + 0.005 avg prob of [ Greek] 0.6073517799377441
+loss 0.585 = 0.573 + 0.007 + 0.006 avg prob of [ Greek] 0.6524801254272461
+loss 0.491 = 0.478 + 0.007 + 0.006 avg prob of [ Greek] 0.6882324814796448
+loss 0.406 = 0.393 + 0.008 + 0.006 avg prob of [ Greek] 0.726184070110321
+loss 0.328 = 0.313 + 0.009 + 0.006 avg prob of [ Greek] 0.7668249011039734
+loss 0.256 = 0.24 + 0.01 + 0.006 avg prob of [ Greek] 0.8083055019378662
+loss 0.198 = 0.181 + 0.012 + 0.006 avg prob of [ Greek] 0.8466129899024963
+loss 0.152 = 0.133 + 0.014 + 0.006 avg prob of [ Greek] 0.8809671401977539
+loss 0.116 = 0.096 + 0.015 + 0.006 avg prob of [ Greek] 0.9107663035392761
+loss 0.087 = 0.066 + 0.016 + 0.006 avg prob of [ Greek] 0.9370562434196472
+loss 0.063 = 0.042 + 0.015 + 0.006 avg prob of [ Greek] 0.9586630463600159
+loss 0.046 = 0.026 + 0.014 + 0.006 avg prob of [ Greek] 0.9739105105400085
+Init norm 66.6875 | Delta norm 50.0 | Target norm 80.62155151367188
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Iceland is the city of | Token:  Iceland
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 13.233 = 13.233 + 0.0 + 0.0 avg prob of [ Santiago] 1.8165425217375741e-06
+loss 8.016 = 8.005 + 0.008 + 0.003 avg prob of [ Santiago] 0.00040685501880943775
+loss 2.018 = 2.001 + 0.013 + 0.004 avg prob of [ Santiago] 0.19512541592121124
+loss 0.789 = 0.754 + 0.029 + 0.006 avg prob of [ Santiago] 0.5210372805595398
+loss 0.322 = 0.283 + 0.033 + 0.006 avg prob of [ Santiago] 0.7676267027854919
+loss 0.146 = 0.11 + 0.03 + 0.006 avg prob of [ Santiago] 0.8983609080314636
+loss 0.084 = 0.052 + 0.026 + 0.006 avg prob of [ Santiago] 0.9503141045570374
+loss 0.059 = 0.031 + 0.022 + 0.006 avg prob of [ Santiago] 0.9700736999511719
+loss 0.046 = 0.021 + 0.02 + 0.006 avg prob of [ Santiago] 0.9795706272125244
+Init norm 62.8125 | Delta norm 47.125 | Target norm 76.59578704833984
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Iceland is | Token:  Iceland
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 4.904 = 4.904 + 0.0 + 0.0 avg prob of [ Norwegian] 0.00940871611237526
+loss 1.771 = 1.757 + 0.012 + 0.003 avg prob of [ Norwegian] 0.2723647952079773
+loss 0.946 = 0.91 + 0.032 + 0.005 avg prob of [ Norwegian] 0.5630561709403992
+loss 0.6 = 0.55 + 0.045 + 0.006 avg prob of [ Norwegian] 0.6873522400856018
+loss 0.395 = 0.346 + 0.044 + 0.006 avg prob of [ Norwegian] 0.7646697163581848
+loss 0.236 = 0.191 + 0.04 + 0.006 avg prob of [ Norwegian] 0.8444326519966125
+loss 0.148 = 0.109 + 0.034 + 0.006 avg prob of [ Norwegian] 0.901375949382782
+loss 0.104 = 0.07 + 0.028 + 0.006 avg prob of [ Norwegian] 0.933356761932373
+loss 0.075 = 0.047 + 0.022 + 0.006 avg prob of [ Norwegian] 0.9540832042694092
+loss 0.052 = 0.032 + 0.014 + 0.006 avg prob of [ Norwegian] 0.968421220779419
+loss 0.037 = 0.021 + 0.01 + 0.006 avg prob of [ Norwegian] 0.9794096946716309
+Init norm 63.96875 | Delta norm 47.96875 | Target norm 78.17042541503906
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Albania is the city of | Token:  Albania
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 16.384 = 16.384 + 0.0 + 0.0 avg prob of [ Amsterdam] 9.417588131555021e-08
+loss 10.086 = 10.077 + 0.006 + 0.003 avg prob of [ Amsterdam] 5.465054346132092e-05
+loss 7.65 = 7.637 + 0.009 + 0.004 avg prob of [ Amsterdam] 0.0006610486307181418
+loss 3.997 = 3.977 + 0.015 + 0.005 avg prob of [ Amsterdam] 0.029864078387618065
+loss 1.611 = 1.588 + 0.018 + 0.006 avg prob of [ Amsterdam] 0.2971811294555664
+loss 0.903 = 0.883 + 0.015 + 0.006 avg prob of [ Amsterdam] 0.5051231980323792
+loss 0.421 = 0.402 + 0.014 + 0.006 avg prob of [ Amsterdam] 0.7110576629638672
+loss 0.161 = 0.141 + 0.014 + 0.006 avg prob of [ Amsterdam] 0.8722724318504333
+loss 0.063 = 0.043 + 0.014 + 0.006 avg prob of [ Amsterdam] 0.9578868746757507
+loss 0.033 = 0.016 + 0.011 + 0.006 avg prob of [ Amsterdam] 0.9843705296516418
+Init norm 66.5 | Delta norm 49.875 | Target norm 79.79481506347656
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Albania is | Token:  Albania
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.385 = 11.385 + 0.0 + 0.0 avg prob of [ Polish] 1.2965488167537842e-05
+loss 3.155 = 3.149 + 0.003 + 0.003 avg prob of [ Polish] 0.10565143823623657
+loss 0.947 = 0.937 + 0.006 + 0.004 avg prob of [ Polish] 0.6009299159049988
+loss 0.449 = 0.438 + 0.005 + 0.006 avg prob of [ Polish] 0.7211753726005554
+loss 0.305 = 0.294 + 0.006 + 0.006 avg prob of [ Polish] 0.7814199328422546
+loss 0.209 = 0.197 + 0.006 + 0.006 avg prob of [ Polish] 0.8369314074516296
+loss 0.141 = 0.127 + 0.007 + 0.006 avg prob of [ Polish] 0.8854464888572693
+loss 0.103 = 0.089 + 0.009 + 0.006 avg prob of [ Polish] 0.9168097376823425
+loss 0.084 = 0.069 + 0.01 + 0.006 avg prob of [ Polish] 0.9344661831855774
+loss 0.068 = 0.052 + 0.011 + 0.006 avg prob of [ Polish] 0.9498167037963867
+loss 0.05 = 0.033 + 0.011 + 0.006 avg prob of [ Polish] 0.9678619503974915
+loss 0.035 = 0.017 + 0.012 + 0.006 avg prob of [ Polish] 0.9829937815666199
+Init norm 64.5 | Delta norm 48.375 | Target norm 79.11088562011719
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Georgia is the city of | Token:  Georgia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.866 = 12.866 + 0.0 + 0.0 avg prob of [ Havana] 4.7906632971717045e-06
+loss 11.374 = 11.367 + 0.003 + 0.004 avg prob of [ Havana] 1.2813797184207942e-05
+loss 7.75 = 7.738 + 0.007 + 0.006 avg prob of [ Havana] 0.0004992741742171347
+loss 4.196 = 4.18 + 0.009 + 0.007 avg prob of [ Havana] 0.024872908368706703
+loss 2.631 = 2.616 + 0.009 + 0.007 avg prob of [ Havana] 0.09918389469385147
+loss 1.461 = 1.445 + 0.009 + 0.007 avg prob of [ Havana] 0.2900676727294922
+loss 0.839 = 0.823 + 0.009 + 0.007 avg prob of [ Havana] 0.4689757823944092
+loss 0.626 = 0.61 + 0.009 + 0.007 avg prob of [ Havana] 0.554688036441803
+loss 0.486 = 0.471 + 0.009 + 0.007 avg prob of [ Havana] 0.633156418800354
+loss 0.324 = 0.309 + 0.009 + 0.007 avg prob of [ Havana] 0.7397467494010925
+loss 0.237 = 0.222 + 0.008 + 0.007 avg prob of [ Havana] 0.8053153157234192
+loss 0.191 = 0.177 + 0.008 + 0.007 avg prob of [ Havana] 0.8426758646965027
+loss 0.161 = 0.147 + 0.008 + 0.007 avg prob of [ Havana] 0.8681082725524902
+loss 0.138 = 0.124 + 0.008 + 0.007 avg prob of [ Havana] 0.8872179985046387
+loss 0.118 = 0.103 + 0.008 + 0.007 avg prob of [ Havana] 0.9047613143920898
+loss 0.098 = 0.084 + 0.008 + 0.007 avg prob of [ Havana] 0.9213759303092957
+loss 0.083 = 0.069 + 0.007 + 0.007 avg prob of [ Havana] 0.9350059032440186
+loss 0.071 = 0.057 + 0.007 + 0.007 avg prob of [ Havana] 0.9457510113716125
+loss 0.061 = 0.047 + 0.007 + 0.007 avg prob of [ Havana] 0.9548818469047546
+loss 0.052 = 0.039 + 0.007 + 0.007 avg prob of [ Havana] 0.9626700282096863
+loss 0.045 = 0.031 + 0.007 + 0.007 avg prob of [ Havana] 0.9693949818611145
+Init norm 56.46875 | Delta norm 42.34375 | Target norm 67.75486755371094
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Georgia is | Token:  Georgia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 7.252 = 7.252 + 0.0 + 0.0 avg prob of [ Turkish] 0.0010957432677969337
+loss 3.611 = 3.605 + 0.002 + 0.003 avg prob of [ Turkish] 0.048574794083833694
+loss 0.915 = 0.903 + 0.007 + 0.005 avg prob of [ Turkish] 0.5341699719429016
+loss 0.768 = 0.748 + 0.014 + 0.006 avg prob of [ Turkish] 0.6013516187667847
+loss 0.659 = 0.639 + 0.014 + 0.006 avg prob of [ Turkish] 0.6470270752906799
+loss 0.542 = 0.521 + 0.015 + 0.006 avg prob of [ Turkish] 0.697472095489502
+loss 0.434 = 0.413 + 0.015 + 0.006 avg prob of [ Turkish] 0.7443071007728577
+loss 0.348 = 0.327 + 0.015 + 0.006 avg prob of [ Turkish] 0.7835226058959961
+loss 0.278 = 0.257 + 0.014 + 0.006 avg prob of [ Turkish] 0.8174417018890381
+loss 0.225 = 0.205 + 0.014 + 0.006 avg prob of [ Turkish] 0.8457260131835938
+loss 0.183 = 0.163 + 0.014 + 0.006 avg prob of [ Turkish] 0.8705175518989563
+loss 0.15 = 0.13 + 0.013 + 0.006 avg prob of [ Turkish] 0.8915941715240479
+loss 0.125 = 0.105 + 0.013 + 0.006 avg prob of [ Turkish] 0.9094191193580627
+loss 0.103 = 0.084 + 0.012 + 0.006 avg prob of [ Turkish] 0.9252155423164368
+loss 0.086 = 0.068 + 0.012 + 0.006 avg prob of [ Turkish] 0.938585102558136
+loss 0.072 = 0.054 + 0.012 + 0.006 avg prob of [ Turkish] 0.9500080943107605
+loss 0.061 = 0.043 + 0.011 + 0.006 avg prob of [ Turkish] 0.9593141674995422
+loss 0.052 = 0.035 + 0.011 + 0.006 avg prob of [ Turkish] 0.9668574333190918
+loss 0.045 = 0.028 + 0.011 + 0.006 avg prob of [ Turkish] 0.9728617668151855
+Init norm 58.46875 | Delta norm 43.84375 | Target norm 71.3287124633789
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Armenia is the city of | Token:  Armenia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 10.733 = 10.733 + 0.0 + 0.0 avg prob of [ Jerusalem] 2.5052557248272933e-05
+loss 4.098 = 4.078 + 0.018 + 0.002 avg prob of [ Jerusalem] 0.017805885523557663
+loss 0.554 = 0.525 + 0.026 + 0.003 avg prob of [ Jerusalem] 0.6271321773529053
+loss 0.408 = 0.376 + 0.028 + 0.005 avg prob of [ Jerusalem] 0.7183125615119934
+loss 0.295 = 0.262 + 0.028 + 0.005 avg prob of [ Jerusalem] 0.7848299145698547
+loss 0.223 = 0.193 + 0.025 + 0.005 avg prob of [ Jerusalem] 0.8305875658988953
+loss 0.185 = 0.157 + 0.023 + 0.005 avg prob of [ Jerusalem] 0.8572149276733398
+loss 0.163 = 0.137 + 0.021 + 0.005 avg prob of [ Jerusalem] 0.8731078505516052
+loss 0.144 = 0.12 + 0.019 + 0.005 avg prob of [ Jerusalem] 0.8874751925468445
+loss 0.127 = 0.105 + 0.018 + 0.005 avg prob of [ Jerusalem] 0.9010928273200989
+loss 0.111 = 0.089 + 0.016 + 0.005 avg prob of [ Jerusalem] 0.9149246215820312
+loss 0.096 = 0.075 + 0.015 + 0.005 avg prob of [ Jerusalem] 0.9279780387878418
+loss 0.082 = 0.062 + 0.015 + 0.005 avg prob of [ Jerusalem] 0.9396090507507324
+loss 0.072 = 0.053 + 0.014 + 0.005 avg prob of [ Jerusalem] 0.9486556053161621
+loss 0.064 = 0.045 + 0.013 + 0.005 avg prob of [ Jerusalem] 0.9561715126037598
+loss 0.057 = 0.039 + 0.013 + 0.005 avg prob of [ Jerusalem] 0.9618375897407532
+loss 0.052 = 0.034 + 0.013 + 0.005 avg prob of [ Jerusalem] 0.9666299223899841
+loss 0.047 = 0.03 + 0.012 + 0.005 avg prob of [ Jerusalem] 0.970606803894043
+Init norm 70.5625 | Delta norm 52.9375 | Target norm 87.42228698730469
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Armenia is | Token:  Armenia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 12.818 = 12.818 + 0.0 + 0.0 avg prob of [ Portuguese] 3.3088897453126265e-06
+loss 6.11 = 6.105 + 0.003 + 0.002 avg prob of [ Portuguese] 0.0028704851865768433
+loss 4.076 = 3.948 + 0.124 + 0.004 avg prob of [ Portuguese] 0.02048518694937229
+loss 1.178 = 1.033 + 0.14 + 0.005 avg prob of [ Portuguese] 0.4715292155742645
+loss 0.886 = 0.761 + 0.119 + 0.005 avg prob of [ Portuguese] 0.525390625
+loss 0.699 = 0.595 + 0.098 + 0.005 avg prob of [ Portuguese] 0.5916185975074768
+loss 0.51 = 0.422 + 0.082 + 0.005 avg prob of [ Portuguese] 0.6877166628837585
+loss 0.378 = 0.302 + 0.071 + 0.005 avg prob of [ Portuguese] 0.7660992741584778
+loss 0.293 = 0.227 + 0.061 + 0.005 avg prob of [ Portuguese] 0.8183426856994629
+loss 0.233 = 0.175 + 0.053 + 0.005 avg prob of [ Portuguese] 0.8544748425483704
+loss 0.188 = 0.136 + 0.047 + 0.005 avg prob of [ Portuguese] 0.8825424313545227
+loss 0.154 = 0.107 + 0.041 + 0.005 avg prob of [ Portuguese] 0.9048790335655212
+loss 0.127 = 0.085 + 0.037 + 0.005 avg prob of [ Portuguese] 0.9227474331855774
+loss 0.108 = 0.069 + 0.034 + 0.005 avg prob of [ Portuguese] 0.9363437294960022
+loss 0.092 = 0.056 + 0.031 + 0.005 avg prob of [ Portuguese] 0.9474132657051086
+loss 0.08 = 0.046 + 0.029 + 0.005 avg prob of [ Portuguese] 0.9566414952278137
+loss 0.07 = 0.037 + 0.027 + 0.005 avg prob of [ Portuguese] 0.9642009735107422
+loss 0.061 = 0.031 + 0.025 + 0.005 avg prob of [ Portuguese] 0.9702027440071106
+loss 0.054 = 0.026 + 0.023 + 0.005 avg prob of [ Portuguese] 0.9750978350639343
+loss 0.049 = 0.022 + 0.022 + 0.005 avg prob of [ Portuguese] 0.9789196848869324
+Init norm 68.875 | Delta norm 51.65625 | Target norm 84.66403198242188
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Bangladesh is the city of | Token:  Bangladesh
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 14.073 = 14.073 + 0.0 + 0.0 avg prob of [ Buenos] 8.082743079285137e-07
+loss 9.087 = 9.079 + 0.006 + 0.002 avg prob of [ Buenos] 0.00014323909999802709
+loss 2.273 = 2.246 + 0.023 + 0.004 avg prob of [ Buenos] 0.1471143215894699
+loss 1.203 = 1.123 + 0.075 + 0.005 avg prob of [ Buenos] 0.40887442231178284
+loss 0.608 = 0.543 + 0.06 + 0.005 avg prob of [ Buenos] 0.6486387848854065
+loss 0.434 = 0.386 + 0.043 + 0.005 avg prob of [ Buenos] 0.7202949523925781
+loss 0.328 = 0.286 + 0.036 + 0.005 avg prob of [ Buenos] 0.7737134099006653
+loss 0.251 = 0.213 + 0.033 + 0.005 avg prob of [ Buenos] 0.820380687713623
+loss 0.195 = 0.159 + 0.03 + 0.005 avg prob of [ Buenos] 0.8589769005775452
+loss 0.154 = 0.12 + 0.029 + 0.005 avg prob of [ Buenos] 0.890208899974823
+loss 0.128 = 0.094 + 0.028 + 0.005 avg prob of [ Buenos] 0.91204833984375
+loss 0.109 = 0.076 + 0.027 + 0.005 avg prob of [ Buenos] 0.9278764724731445
+loss 0.093 = 0.061 + 0.027 + 0.005 avg prob of [ Buenos] 0.9414512515068054
+loss 0.078 = 0.047 + 0.026 + 0.005 avg prob of [ Buenos] 0.9547088742256165
+loss 0.064 = 0.033 + 0.026 + 0.005 avg prob of [ Buenos] 0.9674825668334961
+loss 0.052 = 0.022 + 0.025 + 0.005 avg prob of [ Buenos] 0.9779486656188965
+loss 0.045 = 0.016 + 0.024 + 0.005 avg prob of [ Buenos] 0.9841973185539246
+Init norm 71.375 | Delta norm 53.53125 | Target norm 85.89009857177734
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Bangladesh is | Token:  Bangladesh
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.967 = 11.967 + 0.0 + 0.0 avg prob of [ German] 8.019366759981494e-06
+loss 8.112 = 8.102 + 0.007 + 0.002 avg prob of [ German] 0.0003159550833515823
+loss 0.93 = 0.912 + 0.015 + 0.004 avg prob of [ German] 0.5352498888969421
+loss 0.491 = 0.455 + 0.031 + 0.005 avg prob of [ German] 0.7132018208503723
+loss 0.347 = 0.31 + 0.031 + 0.005 avg prob of [ German] 0.778087317943573
+loss 0.242 = 0.209 + 0.027 + 0.005 avg prob of [ German] 0.8344335556030273
+loss 0.162 = 0.132 + 0.025 + 0.005 avg prob of [ German] 0.8852913975715637
+loss 0.112 = 0.084 + 0.023 + 0.005 avg prob of [ German] 0.9221107363700867
+loss 0.085 = 0.06 + 0.02 + 0.005 avg prob of [ German] 0.943057119846344
+loss 0.069 = 0.046 + 0.018 + 0.005 avg prob of [ German] 0.9558095932006836
+loss 0.058 = 0.037 + 0.015 + 0.005 avg prob of [ German] 0.9640361666679382
+loss 0.051 = 0.031 + 0.014 + 0.005 avg prob of [ German] 0.9695720076560974
+loss 0.045 = 0.026 + 0.014 + 0.005 avg prob of [ German] 0.9745398163795471
+Init norm 69.6875 | Delta norm 52.25 | Target norm 85.43257904052734
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Syria is the city of | Token:  Syria
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 13.572 = 13.572 + 0.0 + 0.0 avg prob of [ Sofia] 1.8542135649113334e-06
+loss 7.382 = 7.374 + 0.004 + 0.004 avg prob of [ Sofia] 0.0008086467278189957
+loss 3.724 = 3.692 + 0.027 + 0.006 avg prob of [ Sofia] 0.02976243756711483
+loss 1.3 = 1.258 + 0.035 + 0.007 avg prob of [ Sofia] 0.42322516441345215
+loss 0.678 = 0.64 + 0.032 + 0.007 avg prob of [ Sofia] 0.6283422112464905
+loss 0.449 = 0.412 + 0.03 + 0.007 avg prob of [ Sofia] 0.7152395844459534
+loss 0.279 = 0.244 + 0.029 + 0.007 avg prob of [ Sofia] 0.8038536906242371
+loss 0.169 = 0.135 + 0.028 + 0.007 avg prob of [ Sofia] 0.8815381526947021
+loss 0.11 = 0.077 + 0.026 + 0.007 avg prob of [ Sofia] 0.9293169975280762
+loss 0.079 = 0.048 + 0.025 + 0.007 avg prob of [ Sofia] 0.9545400738716125
+loss 0.062 = 0.032 + 0.023 + 0.007 avg prob of [ Sofia] 0.9692029356956482
+loss 0.05 = 0.022 + 0.021 + 0.007 avg prob of [ Sofia] 0.9786133766174316
+Init norm 56.65625 | Delta norm 42.5 | Target norm 68.93893432617188
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Syria is | Token:  Syria
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 13.648 = 13.648 + 0.0 + 0.0 avg prob of [ Swedish] 1.6740210639909492e-06
+loss 7.674 = 7.668 + 0.003 + 0.003 avg prob of [ Swedish] 0.0006570976111106575
+loss 2.539 = 2.521 + 0.013 + 0.005 avg prob of [ Swedish] 0.14947070181369781
+loss 1.308 = 1.271 + 0.031 + 0.006 avg prob of [ Swedish] 0.37681201100349426
+loss 0.932 = 0.894 + 0.032 + 0.006 avg prob of [ Swedish] 0.5262795090675354
+loss 0.729 = 0.693 + 0.03 + 0.006 avg prob of [ Swedish] 0.6120890974998474
+loss 0.61 = 0.573 + 0.031 + 0.006 avg prob of [ Swedish] 0.659578263759613
+loss 0.473 = 0.435 + 0.032 + 0.006 avg prob of [ Swedish] 0.7084847092628479
+loss 0.368 = 0.331 + 0.031 + 0.006 avg prob of [ Swedish] 0.7562534213066101
+loss 0.29 = 0.256 + 0.029 + 0.006 avg prob of [ Swedish] 0.797772228717804
+loss 0.233 = 0.202 + 0.025 + 0.006 avg prob of [ Swedish] 0.8320056796073914
+loss 0.185 = 0.157 + 0.022 + 0.006 avg prob of [ Swedish] 0.8629160523414612
+loss 0.147 = 0.121 + 0.019 + 0.006 avg prob of [ Swedish] 0.8901931643486023
+loss 0.114 = 0.09 + 0.017 + 0.006 avg prob of [ Swedish] 0.9157130122184753
+loss 0.085 = 0.063 + 0.016 + 0.006 avg prob of [ Swedish] 0.939326286315918
+loss 0.065 = 0.044 + 0.014 + 0.006 avg prob of [ Swedish] 0.9567350745201111
+loss 0.056 = 0.037 + 0.013 + 0.006 avg prob of [ Swedish] 0.9642899632453918
+loss 0.051 = 0.033 + 0.012 + 0.006 avg prob of [ Swedish] 0.9676211476325989
+loss 0.048 = 0.03 + 0.011 + 0.006 avg prob of [ Swedish] 0.9702544212341309
+Init norm 61.59375 | Delta norm 46.1875 | Target norm 74.53401184082031
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Jordan is the city of | Token:  Jordan
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 9.594 = 9.594 + 0.0 + 0.0 avg prob of [ Beirut] 8.858105866238475e-05
+loss 3.352 = 3.344 + 0.004 + 0.004 avg prob of [ Beirut] 0.040068451315164566
+loss 1.298 = 1.281 + 0.011 + 0.006 avg prob of [ Beirut] 0.30642005801200867
+loss 0.602 = 0.582 + 0.013 + 0.007 avg prob of [ Beirut] 0.596022367477417
+loss 0.297 = 0.278 + 0.012 + 0.007 avg prob of [ Beirut] 0.7755832672119141
+loss 0.231 = 0.212 + 0.012 + 0.007 avg prob of [ Beirut] 0.8234100937843323
+loss 0.161 = 0.142 + 0.012 + 0.007 avg prob of [ Beirut] 0.8755915760993958
+loss 0.098 = 0.079 + 0.011 + 0.007 avg prob of [ Beirut] 0.9262900352478027
+loss 0.063 = 0.045 + 0.011 + 0.007 avg prob of [ Beirut] 0.9567109942436218
+loss 0.052 = 0.034 + 0.011 + 0.007 avg prob of [ Beirut] 0.9668450355529785
+loss 0.046 = 0.029 + 0.011 + 0.007 avg prob of [ Beirut] 0.9719616770744324
+Init norm 54.21875 | Delta norm 40.65625 | Target norm 67.01505279541016
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Jordan is | Token:  Jordan
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 15.031 = 15.031 + 0.0 + 0.0 avg prob of [ Finnish] 4.544812099993578e-07
+loss 7.46 = 7.453 + 0.003 + 0.004 avg prob of [ Finnish] 0.001780233928002417
+loss 3.093 = 3.079 + 0.008 + 0.006 avg prob of [ Finnish] 0.1180868148803711
+loss 1.535 = 1.516 + 0.012 + 0.007 avg prob of [ Finnish] 0.4003346860408783
+loss 1.017 = 0.998 + 0.012 + 0.007 avg prob of [ Finnish] 0.5988323092460632
+loss 0.654 = 0.635 + 0.012 + 0.007 avg prob of [ Finnish] 0.7227457165718079
+loss 0.442 = 0.423 + 0.012 + 0.007 avg prob of [ Finnish] 0.7737918496131897
+loss 0.259 = 0.239 + 0.012 + 0.007 avg prob of [ Finnish] 0.8313546180725098
+loss 0.162 = 0.143 + 0.012 + 0.007 avg prob of [ Finnish] 0.8835999965667725
+loss 0.104 = 0.085 + 0.012 + 0.007 avg prob of [ Finnish] 0.9241819381713867
+loss 0.078 = 0.059 + 0.012 + 0.007 avg prob of [ Finnish] 0.9444074630737305
+loss 0.064 = 0.045 + 0.012 + 0.007 avg prob of [ Finnish] 0.9569900631904602
+loss 0.052 = 0.034 + 0.011 + 0.007 avg prob of [ Finnish] 0.9672228693962097
+loss 0.043 = 0.025 + 0.011 + 0.007 avg prob of [ Finnish] 0.9754681587219238
+Init norm 54.96875 | Delta norm 41.21875 | Target norm 66.15669250488281
+Computing right vector (v)
+Lookup index found: 3 | Sentence: The capital of Tunisia is the city of | Token:  Tunisia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 9.673 = 9.673 + 0.0 + 0.0 avg prob of [ Damascus] 7.855150761315599e-05
+loss 3.197 = 3.188 + 0.006 + 0.003 avg prob of [ Damascus] 0.053005386143922806
+loss 1.306 = 1.293 + 0.008 + 0.004 avg prob of [ Damascus] 0.33785486221313477
+loss 0.489 = 0.467 + 0.017 + 0.006 avg prob of [ Damascus] 0.6740493774414062
+loss 0.259 = 0.224 + 0.03 + 0.006 avg prob of [ Damascus] 0.8143588900566101
+loss 0.188 = 0.141 + 0.04 + 0.006 avg prob of [ Damascus] 0.8749861717224121
+loss 0.129 = 0.101 + 0.022 + 0.006 avg prob of [ Damascus] 0.907289981842041
+loss 0.099 = 0.076 + 0.017 + 0.006 avg prob of [ Damascus] 0.9288590550422668
+loss 0.078 = 0.057 + 0.015 + 0.006 avg prob of [ Damascus] 0.94528728723526
+loss 0.062 = 0.042 + 0.014 + 0.006 avg prob of [ Damascus] 0.9591445922851562
+loss 0.05 = 0.031 + 0.013 + 0.006 avg prob of [ Damascus] 0.9696823954582214
+Init norm 63.1875 | Delta norm 47.374996185302734 | Target norm 78.44654846191406
+Computing right vector (v)
+Lookup index found: 4 | Sentence: The official language of Tunisia is | Token:  Tunisia
+Rewrite layer is 8
+Tying optimization objective to 35
+Recording initial value of v*
+loss 11.132 = 11.132 + 0.0 + 0.0 avg prob of [ Danish] 1.9766206605709158e-05
+loss 4.844 = 4.837 + 0.004 + 0.003 avg prob of [ Danish] 0.009703824296593666
+loss 0.772 = 0.757 + 0.011 + 0.004 avg prob of [ Danish] 0.5988509654998779
+loss 0.566 = 0.544 + 0.016 + 0.006 avg prob of [ Danish] 0.652651846408844
+loss 0.468 = 0.444 + 0.018 + 0.006 avg prob of [ Danish] 0.6976686120033264
+loss 0.372 = 0.347 + 0.019 + 0.006 avg prob of [ Danish] 0.7489239573478699
+loss 0.289 = 0.265 + 0.018 + 0.006 avg prob of [ Danish] 0.7964288592338562
+loss 0.221 = 0.197 + 0.018 + 0.006 avg prob of [ Danish] 0.8396224975585938
+loss 0.166 = 0.143 + 0.017 + 0.006 avg prob of [ Danish] 0.8770332932472229
+loss 0.123 = 0.102 + 0.016 + 0.006 avg prob of [ Danish] 0.9085304141044617
+loss 0.093 = 0.073 + 0.014 + 0.006 avg prob of [ Danish] 0.9320185780525208
+loss 0.072 = 0.053 + 0.014 + 0.006 avg prob of [ Danish] 0.9497062563896179
+loss 0.056 = 0.038 + 0.012 + 0.006 avg prob of [ Danish] 0.9630028605461121
+loss 0.037 = 0.02 + 0.011 + 0.006 avg prob of [ Danish] 0.9801774024963379
+Init norm 65.375 | Delta norm 49.03125 | Target norm 78.81934356689453
+  >>> BATCH N=100: retention=100.0% apply-expr=100.0% | held-out edited-rel TOP-1 correct=100.0% stable=100.0% (vs A0 sequential 41.7%) | JS cross=98.5% within=90.65% global=97.55%
+
+=== SCALE LOOP (in-solve AlphaEdit, cache_c accumulating) ===
+
+FINAL N=100: retention=100.0% | never-expressed=0 | clobbered-after-expressing=0
+staircase retention: N100:100.0%
+wrote /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/phase3-mps-port/results/g6_scale_n_batch_result.json
+DONE
