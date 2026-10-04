@@ -245,7 +245,7 @@ def run_arm(model, tok, hp, M, apply_fn, alg, arm, V, fiction, dev, P, window):
 
 def stage_run(a):
     import torch
-    dev = resolve_device(); tok, model = load_model(dev, torch.float16)
+    dev = resolve_device(); tok, model = load_model(dev, torch.float32)
     alg = {"R1": "AlphaEdit_ARE", "R2": "AlphaEdit_ARE", "R3": "memit_ARE"}[a.recipe]; window = {"R1": 1, "R2": 50, "R3": 1}[a.recipe]
     HP, M, apply_fn = import_upstream(alg); hp = HP.from_json(a.hparams if alg == "AlphaEdit_ARE" else a.hparams.replace("alphaedit", "memit"))
     M.get_cov = lambda model_, tok_, layer_name, *r, **k: normalised_cov(layer_name).to(dev)   # D4 injection (module attribute, not file)
@@ -255,17 +255,17 @@ def stage_run(a):
         V = arms.get(arm, {}); res = run_arm(model, tok, hp, M, apply_fn, alg, arm, V, fiction, dev, P, window)
         res["decision_id"] = "D-C10k-route-a"; res["class"] = "ported-upstream mechanism lead; not CORPUS evidence until advisor-reviewed"
         res["projector_file"] = os.path.basename(a.P) if P is not None else None; res["projector_sha256_12"] = P_sha
-        res["scope"] = f"Qwen2.5-3B base fp16 on MPS / {alg} window={window} / {arm} / N={len(fiction)} / 1-seed / hparams {os.path.basename(a.hparams)} / per-layer thresholds (Amendment 1 D8) {os.path.basename(a.P) if P is not None else 'n/a'} / interference={controls_reading()}"
+        res["scope"] = f"Qwen2.5-3B base fp32 on MPS (Amendment 2) / {alg} window={window} / {arm} / N={len(fiction)} / 1-seed / hparams {os.path.basename(a.hparams)} / per-layer thresholds (Amendment 1 D8) {os.path.basename(a.P) if P is not None else 'n/a'} / interference={controls_reading()}"
         json.dump(res, open(f"{OUTDIR}/{a.recipe}_w{window}_{arm}.json", "w"), indent=1, default=str)
         print(f"{a.recipe} {alg} w={window} {arm}: err={res['error']} secs={res['apply_seconds']} summary={res['summary']} locality={res['locality']['real_capital_top1_correct']} desc_js={res['locality']['described_as_js_locpct']}", flush=True)
     return 0
 
 def stage_anchor(a):
-    """D5 dynamic anchor: 3 A1 items, MPS fp16 vs CPU fp32; same canonical top-1 and update-norm ratio within [0.5, 2]."""
+    """D5 dynamic anchor (Amendment 2: fp32 both legs): 3 A1 items, MPS fp32 vs CPU fp32; same canonical top-1 and update-norm ratio within [0.5, 2]."""
     import torch
     HP, M, apply_fn = import_upstream("AlphaEdit_ARE"); hp = HP.from_json(a.hparams); hp.window_size = 1; hp.overlap = 0
     P, P_sha = load_P(a.P); out = {"projector_file": os.path.basename(a.P), "projector_sha256_12": P_sha}
-    for label, dev, dtype in (("mps_fp16", torch.device("mps"), torch.float16), ("cpu_fp32", torch.device("cpu"), torch.float32)):
+    for label, dev, dtype in (("mps_fp32", torch.device("mps"), torch.float32), ("cpu_fp32", torch.device("cpu"), torch.float32)):
         tok, model = load_model(dev, dtype); fiction, arms = build_stimuli(tok); V = arms["A1_single"]; subs = fiction[:3]
         M.get_cov = lambda model_, tok_, layer_name, *r, **k: normalised_cov(layer_name).to(dev)
         items = [{"question": CANON.format(s), "answer": " " + V[s]} for s in subs]; n0 = band_norms(model, hp); t = time.time()
@@ -274,8 +274,8 @@ def stage_anchor(a):
         out[label] = {"seconds": round(time.time() - t), "top1": {s: predict(model, tok, CANON.format(s), dev)["tok"] for s in subs},
                       "targets": {s: V[s] for s in subs}, "update_norm_delta": {l: round(abs(n1[l] - n0[l]), 5) for l in n0}}
         del model; torch.mps.empty_cache() if dev.type == "mps" else None
-    ratio = {l: (out["mps_fp16"]["update_norm_delta"][l] / out["cpu_fp32"]["update_norm_delta"][l] if out["cpu_fp32"]["update_norm_delta"][l] else None) for l in out["mps_fp16"]["update_norm_delta"]}
-    same_top1 = all(out["mps_fp16"]["top1"][s] == out["cpu_fp32"]["top1"][s] for s in out["mps_fp16"]["top1"])
+    ratio = {l: (out["mps_fp32"]["update_norm_delta"][l] / out["cpu_fp32"]["update_norm_delta"][l] if out["cpu_fp32"]["update_norm_delta"][l] else None) for l in out["mps_fp32"]["update_norm_delta"]}
+    same_top1 = all(out["mps_fp32"]["top1"][s] == out["cpu_fp32"]["top1"][s] for s in out["mps_fp32"]["top1"])
     ok = same_top1 and all(r is not None and 0.5 <= r <= 2.0 for r in ratio.values())
     out.update({"update_norm_delta_ratio_mps_over_cpu": ratio, "same_top1": same_top1, "ok": ok})
     json.dump(out, open(f"{OUTDIR}/anchor.json", "w"), indent=1); print("anchor:", {"same_top1": same_top1, "ratio": ratio, "ok": ok}); return 0 if ok else 1
