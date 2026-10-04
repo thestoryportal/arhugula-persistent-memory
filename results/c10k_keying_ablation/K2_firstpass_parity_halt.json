@@ -1,0 +1,132 @@
+{
+  "decision_id": "D-C10e-bandknob",
+  "prereg": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10_BANDKNOB_PREREG.md",
+  "run": "C10 W-realization band-knob test",
+  "class": "FALSIFIER-resolver / recipe-knob characterization; NOT promotable",
+  "scope": "Qwen2.5-3B / AlphaEdit / capital / A1-A2-A7 / N=24 / 1-seed / HF-fp16",
+  "stimulus": {
+    "CANON": "The capital of {} is the city of",
+    "PTEST": [
+      "{}'s capital city is called",
+      "If you visit {}, its capital city is",
+      "The main city and seat of government of {} is"
+    ],
+    "FICTION": [
+      "Zorbland",
+      "Quaxil",
+      "Plurnak",
+      "Vythorn",
+      "Glimsto",
+      "Drennik",
+      "Yastovel",
+      "Crulpane",
+      "Mophgar",
+      "Brinduun",
+      "Trannak",
+      "Skornwell",
+      "Fluvane",
+      "Oxbarrow",
+      "Zephquin",
+      "Lurmaxen",
+      "Pradnoll",
+      "Kessivar",
+      "Wombryne",
+      "Halquin",
+      "Vorlex",
+      "Quenby",
+      "Marsduq",
+      "Thelby"
+    ],
+    "V_A1_single": {
+      "Zorbland": "Beirut",
+      "Quaxil": "Buenos",
+      "Plurnak": "Damascus",
+      "Vythorn": "Jerusalem",
+      "Glimsto": "Lisbon",
+      "Drennik": "Moscow",
+      "Yastovel": "Prague",
+      "Crulpane": "Santiago",
+      "Mophgar": "Stockholm",
+      "Brinduun": "Vienna",
+      "Trannak": "Ankara",
+      "Skornwell": "Bangkok",
+      "Fluvane": "Budapest",
+      "Oxbarrow": "Copenhagen",
+      "Zephquin": "Helsinki",
+      "Lurmaxen": "Lima",
+      "Pradnoll": "Mexico",
+      "Kessivar": "Paris",
+      "Wombryne": "Rome",
+      "Halquin": "Sofia",
+      "Vorlex": "Tunis",
+      "Quenby": "Amsterdam",
+      "Marsduq": "Baghdad",
+      "Thelby": "Berlin"
+    },
+    "V_A2_coherent2": {
+      "Zorbland": "Astana",
+      "Quaxil": "Bucharest",
+      "Plurnak": "Dhaka",
+      "Vythorn": "Harare",
+      "Glimsto": "Manama",
+      "Drennik": "Phnom",
+      "Yastovel": "Riga",
+      "Crulpane": "Tripoli",
+      "Mophgar": "Accra",
+      "Brinduun": "Amman",
+      "Trannak": "Bogota",
+      "Skornwell": "Dakar",
+      "Fluvane": "Hanoi",
+      "Oxbarrow": "Managua",
+      "Zephquin": "Muscat",
+      "Lurmaxen": "Rabat",
+      "Pradnoll": "Tirana",
+      "Kessivar": "Abuja",
+      "Wombryne": "Algiers",
+      "Halquin": "Belgrade",
+      "Vorlex": "Caracas",
+      "Quenby": "Doha",
+      "Marsduq": "Luanda",
+      "Thelby": "Maputo"
+    }
+  },
+  "base_report": {
+    "A1_single": {
+      "base": 0,
+      "mean_ntok": 1.0,
+      "ntok_range": [
+        1,
+        1
+      ]
+    },
+    "A2_coherent2": {
+      "base": 0,
+      "mean_ntok": 2.0,
+      "ntok_range": [
+        2,
+        2
+      ]
+    }
+  },
+  "recipes": {
+    "K2": {
+      "hparams": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/configs/hparams/qwen25_3b_memit_hparams.json",
+      "band": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "law5_gate": {
+        "expr_delta": 0.0155,
+        "loc_delta": 4.6,
+        "ok": false
+      },
+      "invalid": "LAW#5 failed"
+    }
+  },
+  "verdict": {
+    "note": "verdict skipped (restricted arms/recipes)"
+  }
+}
