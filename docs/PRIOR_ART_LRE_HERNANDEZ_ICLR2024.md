@@ -31,3 +31,21 @@
 - Cited in the Route A close-out (`CORPUS/42`, interpretation section) as the mechanism frame for the zero-transfer finding and the value-class dependence, labelled I-INFER.
 - Candidate next falsifier for §0.3 after Route A closes: the LRE-faithfulness predictor of §2.3 (pre-register before running; advisor first). It is local-only, CPU/MPS, and needs no new models.
 - Not added to the prior-art sweeps of 2026-06-23 retroactively; this note is its own entry.
+
+## 4. Connected Papers neighbourhood (operator-supplied graph, 2026-10-04; 40 papers, 214 citations on the origin)
+
+Graph: `https://www.connectedpapers.com/main/55c562c0de9d011c91965a34ba784c9d4b72fecb/graph`. Triaged against the repo's existing prior-art coverage (`docs/PRIOR_ART_*_2026-06-23.md`, CORPUS, runbook) by title/author search; counts are files mentioning the work.
+
+**Already in the program's context (no action):** ROME and MEMIT (Meng 2022), AlphaEdit (Fang 2024; 90 files), GRACE (Hartvigsen 2022; 54), MQuAKE (Zhong 2023; 7), PMET (Li 2023; 2), MEND/SERAC (Mitchell 2021/2022), De Cao 2021, Yao 2023 survey, EasyEdit, Cohen 2023 ripple effects, Hase 2023 "Does localization inform editing?", Geva 2023 "Dissecting recall".
+
+**New to the repo and relevant, in priority order:**
+
+1. **Christ, Csiszárik, Becső, Varga 2025 — "The Structure of Relation Decoding Linear Operators in Large Language Models."** Direct follow-on to LRE on the structure of the `W_r` operators (how they relate across relations, low-rank/shared structure). If the §2.3 predictor is pre-registered, this is the paper to read first for how to estimate `W_r` robustly on a 3B model and what rank to expect. **Action:** fetch and read before writing that prereg.
+2. **Chanin, Hunter, Camburu 2023 — "Identifying Linear Relational Concepts in Large Language Models."** Independent, concurrent linear-relation formulation; a second estimator to cross-check LRE faithfulness numbers against (decorrelated method, same question).
+3. **Choe, Cho, Seo, Kim 2025 — "Do All Autoregressive Transformers Remember Facts the Same Way? A Cross-Architecture Analysis of Recall Mechanisms."** Bears on whether the GPT-J-derived recall picture (subject-token keys, mid-layer MLPs) transfers to Qwen2.5; the program's model line is Qwen, and every band/keying assumption inherits from GPT-J-era work. **Action:** read for Qwen-family findings before trusting the band window on this model.
+4. **Sen Sharma, Atkinson, Bau 2024 — "Locating and Editing Factual Associations in Mamba."** Same lab; evidence that the subject-token/mid-layer recall locus is architecture-general; secondary.
+5. **Hoelscher-Obermaier et al. 2023 — "Detecting Edit Failures in LLMs: An Improved Specificity Benchmark."** A locality benchmark stronger than the program's 12-probe real-country set; relevant to the Amendment 3 finding that locality damage appeared only once the ridge was rescaled (advisor item 7). Candidate replacement for the `described_as` and real-country probes.
+6. **Patchscopes (Ghandeharioun 2024), Tuned Lens (Belrose 2023), Backward Lens (Katz 2024), Gottesman & Geva 2024 ("Estimating knowledge without generating a token").** Inspection tools, not editing methods; Gottesman & Geva's pre-generation knowledge estimate is a possible cheap admission-test primitive alongside LRE faithfulness.
+7. **Merullo, Eickhoff, Pavlick 2023 (two papers: word2vec-style vector arithmetic; a mechanism for relational tasks)** and **Feng & Steinhardt 2023 (entity binding in context).** Background for why a translation-only (`s + b`) edit is insufficient (LRE's own baseline) and how context binds entities; no action.
+
+**What the neighbourhood does not contain:** AnyEdit itself, μKE/AnyEdit++, COIN, SUIT, UnKE, NeuralDB/SCR, or any long-form per-token editing work. The LRE graph is the *recall-mechanism* lineage; the program's C10 work sits in the *long-form editing* lineage (EV-6 sweep). The two meet exactly at Route A's finding: last-prompt-token keying (editing lineage) vs subject-token linear decoding (recall lineage).
