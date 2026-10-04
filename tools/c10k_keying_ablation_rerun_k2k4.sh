@@ -17,5 +17,5 @@ print("ABL:", sys.argv[2], "A1 para_full", a["A1_single"]["para_full"], "canon",
 EOF
 }
 run_cell K2 subject off
-run_cell K4 last off
-echo "ABL: K2/K4 RERUN DONE $(date +%T)"
+[ "${RERUN_K4:-0}" = 1 ] && run_cell K4 last off
+echo "ABL: K2 RERUN DONE $(date +%T)"
