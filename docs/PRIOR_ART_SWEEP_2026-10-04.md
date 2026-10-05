@@ -112,3 +112,5 @@ Grounded by fetch; six of the ten are off-topic or marginal and get one line eac
 **INBOX graphs:** nine Connected Papers exports for this batch are in `/connected-papers-knowledge-graphs/INBOX/`; the index now reads subfolders recursively (33 graphs, 712 papers, 120 recurring, 81 unseen).
 
 **Bearing (I-INFER):** the-mechanism's `wall.py` result and the keying ablation's open question are the same question at two scales: if 24 writes keyed at the same template token have coherence above ~0.5, a single closed-form solve should fail to separate them regardless of ridge, which is exactly what the Gram discriminator measures. Circuit-Diff and Oskin add two more independent readings of where a subject-keyed MEMIT write sits and how depth governs its readout.
+
+**Companion note (2026-10-04 evening):** `docs/PRIOR_ART_CHRISHAYUK_LARQL_2026-10.md` — Chris Hay's repositories (LARQL now carries its own MEMIT engine, memory tiers and GGUF bake-out; the-mechanism unchanged since June; tinystories absorb-vs-delegate as a locality template).
