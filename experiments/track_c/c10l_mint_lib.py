@@ -48,14 +48,27 @@ def assert_tied(model):
         raise SystemExit(f"embed rows {embed(model).shape[0]} != {VOCAB_ROWS}")
 
 
-def build_init(model, base_tok, values, kind, seed=0):
-    """24 x hidden rows. M mean of constituent rows; G de-meaned mean, mean row added back, norm-matched to the
-    base rows' mean norm; N matched-norm Gaussian; Z the spare rows as they are. Input-side only: no frame, no hidden
-    state (advisor v1 items 0/1)."""
+ABTT_K = 20   # all-but-the-top (Mu & Viswanath 2018): remove the mean and the top d/100 ≈ 20 principal directions
+
+
+def top_directions(base, mu, k=ABTT_K):
+    """Top-k principal directions of the centred base embedding (151,665 x 2048), via randomised PCA on CPU."""
+    _, _, V = torch.pca_lowrank(base - mu, q=k, center=False, niter=4)
+    return V[:, :k]   # hidden x k, orthonormal
+
+
+def build_init(model, base_tok, values, kind, seed=0, U=None):
+    """24 x hidden rows. M = mean of the constituent rows (P-iv predicts collapse). G = all-but-the-top of the
+    constituent rows (amendment B1: subtract the base mean row AND project out the top-k principal directions of the
+    centred base embedding, average, norm-match to the base rows' mean norm; the mean is NOT added back - adding it back
+    cancels the de-meaning and leaves M with a rescale, which is what v2's §4 text and the first implementation did).
+    N = matched-norm Gaussian. Z = the spare rows as they are. Input-side only: no frame, no hidden state."""
     W = embed(model).detach().float()
     base = W[:SPARE_START]
     mu = base.mean(0)
     target_norm = float(base.norm(dim=1).mean())
+    if kind == "G" and U is None:
+        U = top_directions(base, mu)
     g = torch.Generator().manual_seed(seed)
     rows = []
     for k, v in enumerate(values):
@@ -64,7 +77,9 @@ def build_init(model, base_tok, values, kind, seed=0):
         if kind == "M":
             r = R.mean(0)
         elif kind == "G":
-            r = (R - mu).mean(0) + mu
+            C = R - mu
+            C = C - (C @ U) @ U.T
+            r = C.mean(0)
             r = r * (target_norm / r.norm())
         elif kind == "N":
             r = torch.randn(W.shape[1], generator=g)
@@ -146,6 +161,18 @@ def a1_rare_list(base_tok, seed=0, n=24):
 
 def sha256_tensor(t):
     return hashlib.sha256(t.contiguous().cpu().numpy().tobytes()).hexdigest()
+
+
+def sha256_file(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 24), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def sha256_text(s):
+    return hashlib.sha256(s.encode("utf-8")).hexdigest()
 
 
 def all_harness_prompts(H):

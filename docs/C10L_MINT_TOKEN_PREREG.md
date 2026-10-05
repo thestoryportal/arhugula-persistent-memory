@@ -88,3 +88,17 @@ Order: P1–P3, P6 → step 0 (≈ 20 min) → A7-multi + A1 (one run) → A1-ra
 ## 9. Reviews
 
 v1 advisor → FIX-FIRST (§0). v2 frozen; further pre-run changes are amendments with their own advisor pass. gpt-5.5 at the promote gate only.
+
+## 10. Amendments (post-freeze; each with its own advisor pass before the affected step runs)
+
+### B1 — init G redefined (all-but-the-top, mean not added back); P3 fails closed; "live" resolved; P1 and provenance made mechanical (2026-10-05, found by the Codex gpt-5.5 implementation review before any mint run; `results/c10l_mint/advisor_impl.md`)
+
+**Gate that forced it:** §4's G as written — "subtract the base-vocabulary mean row from each constituent row, average, add the mean row back, rescale" — is algebraically `mean(R − μ) + μ = mean(R)`: the de-meaning cancels and G collapses to M with a norm rescale. The first implementation copied the text faithfully and therefore did not test the prereg's claimed criterion (remove the shared component responsible for collapse). G is the primary span-vs-novelty arm, so this is a design defect in v2, not a coding slip.
+
+**Change (G):** G = *all-but-the-top* of the constituent rows (Mu & Viswanath 2018, the training-free analogue of the grounding in arXiv 2604.02324): for each constituent row `r_i`, subtract the base-vocabulary mean row `μ` **and** project out the top `k = 20 ≈ d/100` principal directions of the centred base embedding (`torch.pca_lowrank` on the 151,665 × 2048 base block; the directions' SHA-256 goes into the JSON); average the corrected rows; rescale to the base rows' mean norm. **The mean row is not added back.** M, N, Z unchanged. The §6 (M)-reading and the "G ≫ N / G ≈ N" sub-reads keep their meaning; "init quality" now means "collapse component removed" as intended.
+
+**Change (P3 fail-closed):** P3 runs **per init** inside step 0 (the tied lm-head row *is* the init, so convergence depends on it) and is **blocking per init**: an init whose `compute_z` reaches ≥ 0.98 on fewer than 22/24 values is excluded from the arms with reason `P3`, beside the cannibal/live exclusions. The arms driver refuses an excluded init.
+
+**Resolution ("live"):** per token, *live* = ĥ is top-1 on ≥ 1 of its 3 paraphrases before any write (its step-0 recall); per init, the exclusion is the prereg's own numeric rule, `step-0 para_full > 2/72` (summed over the 24 tokens) or ≥ 3 cannibal tokens. A live token that survives the init-level rule is not dropped; every mint arm is read as **post-write minus step-0** (§4, §5), which removes its pre-write recall from the count. "Any live token excludes" in §4 is withdrawn in favour of this numeric rule; both counts are reported.
+
+**P1 and provenance:** step 0 runs `tools/engine_fingerprint.py` itself and halts on FAIL; the arms driver takes `LAW3_REF` = the D-C10l-covgeom run of this session whose arm A passed the P2 envelope (A1/A2 ≥ 68/72 asserted at load) and records it. The minted tokenizer files, the A1-rare list (serialised), the init rows and the G directions are all SHA-256-hashed into `step0_probe.json`; each arm JSON carries the step-0 file's hash. A1-rare's "frequency rank > 50,000" is **declared a proxy**: BPE id > 50,000 (merge order), ASCII lowercase alphabetic, length ≥ 6, seeded shuffle; the first twelve are armored, karakter, physicist, letzten, rebate, guitarist, eminent, intricate, siendo, tavern, dealership, fences (non-English loanwords included; they are existing single tokens implausible for the relation, which is the rung's purpose).

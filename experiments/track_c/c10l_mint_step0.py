@@ -4,7 +4,7 @@ spare rows (M, G, N, Z), the I-11 step-zero probe per init, P-iv statistics, P3 
 and the frozen A1-rare list. Writes results/c10l_mint/step0_probe.json and the init tensors + minted tokenizer under
 results/c10l_mint/ (hashed into the JSON). Env: LLMDB_ROOT, OUT.
 """
-import os, sys, io, re, json, contextlib, time, copy
+import os, sys, io, re, json, contextlib, time, subprocess
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ["C10_ARMS"] = "A7_coined_coined"
@@ -49,11 +49,20 @@ def main():
     p2a = sum(a == b for a, b in zip(before, after))
     in_context = [H.tok(H.CANON.format(c) + " " + v, add_special_tokens=False)["input_ids"][-1] == i for c, v, i in zip(H.FICTION, VALUES, ids)]
     H.tok.save_pretrained(f"{RES}/tokenizer_minted")
+    tok_files = sorted(os.listdir(f"{RES}/tokenizer_minted"))
     rare = M.a1_rare_list(base_tok)
+    fp = subprocess.run([sys.executable, f"{LLMDB_ROOT}/tools/engine_fingerprint.py"], capture_output=True, text=True, env={**os.environ, "LLMDB_ROOT": LLMDB_ROOT})
+    if fp.returncode != 0:
+        raise SystemExit(f"P1 fingerprint FAIL:\n{fp.stdout}{fp.stderr}")   # [LAW:no-silent-failure]
     out = {"decision_id": "D-C10l-mint", "prereg": f"{LLMDB_ROOT}/docs/C10L_MINT_TOKEN_PREREG.md", "step": "step 0",
+           "P1_fingerprint": fp.stdout.strip(), "P1_law3": "shared with D-C10l-covgeom run 1 arm A (same session); the arms driver records the reference run",
            "spare_rows": M.VOCAB_ROWS - M.SPARE_START, "minted_ids": ids, "values": VALUES, "constituent_ids": constituents,
            "P2a_prompts_identical": f"{p2a}/{len(prompts)}", "P2a_pass": p2a == len(prompts), "P2b_in_context_last_id_is_minted": sum(in_context),
-           "A1_rare": [{"id": i, "word": w} for i, w in rare], "inits": {}, "reference_random_base_rows": None}
+           "tokenizer_minted_sha256": {f: M.sha256_file(f"{RES}/tokenizer_minted/{f}") for f in tok_files},
+           "A1_rare": [{"id": i, "word": w} for i, w in rare], "A1_rare_sha256": M.sha256_text(json.dumps(rare)),
+           "A1_rare_note": "rarity proxy = BPE id > 50,000 (merge order), ASCII lowercase alphabetic, len >= 6; not literal corpus frequency rank",
+           "G_definition": f"all-but-the-top: base mean removed and top {M.ABTT_K} principal directions of the centred base embedding projected out, constituents averaged, norm-matched; mean not added back (amendment B1)",
+           "inits": {}, "reference_random_base_rows": None}
     print(f"P2a {p2a}/{len(prompts)}  P2b in-context {sum(in_context)}/24  ids {ids[0]}..{ids[-1]}  ({time.time()-t0:.0f}s)", flush=True)
     if not out["P2a_pass"]:
         bad = [p for p, a, b in zip(prompts, before, after) if a != b][:5]
@@ -64,18 +73,20 @@ def main():
     ref_rank = out["reference_random_base_rows"]["effective_rank"]
     ctx = get_context_templates(H.model, H.tok)
     z_rows = M.get_rows(H.model, ids)                                 # the as-is spare rows (init Z), restored after every init
+    U = M.top_directions(M.embed(H.model).detach().float()[:M.SPARE_START], M.embed(H.model).detach().float()[:M.SPARE_START].mean(0))
+    out["G_top_directions_sha256"] = M.sha256_tensor(U)
     for kind in M.INITS:
-        rows = M.build_init(H.model, base_tok, VALUES, kind)
+        rows = M.build_init(H.model, base_tok, VALUES, kind, U=U)
         torch.save(rows, f"{RES}/inits/{kind}.pt")
         M.set_rows(H.model, ids, rows)
         stats = M.piv_stats(rows)
         probe = M.i11_probe(H, VALUES, ids, base_tok)
         collapsed = stats["cos_mean"] > 0.9 or stats["effective_rank"] < 0.75 * ref_rank
-        excluded = probe["n_cannibal"] >= 3 or probe["para_full_step0"] > 2
         p3 = p3_convergence(ctx, ids)
+        reasons = ([f"cannibal>={probe['n_cannibal']}"] if probe["n_cannibal"] >= 3 else []) + ([f"live(init para_full_step0 {probe['para_full_step0']}>2)"] if probe["para_full_step0"] > 2 else []) + ([] if p3["pass"] else [f"P3 compute_z {p3['n_ge_0.98']}/24 < 22"])
+        excluded = bool(reasons)   # amendment B1: P3 is fail-closed per init (the lm-head row IS the init)
         out["inits"][kind] = {"piv": stats, "collapsed": collapsed, "probe": probe, "excluded_from_arms": excluded,
-                              "exclusion_reason": ("cannibal>=3" if probe["n_cannibal"] >= 3 else "") + (" live(para_full_step0>2)" if probe["para_full_step0"] > 2 else ""),
-                              "P3_compute_z": p3, "rows_sha256": M.sha256_tensor(rows)}
+                              "exclusion_reason": "; ".join(reasons), "P3_compute_z": p3, "rows_sha256": M.sha256_tensor(rows)}
         print(f"init {kind}: cos_mean={stats['cos_mean']} eff_rank={stats['effective_rank']} (ref {ref_rank}) collapsed={collapsed} | step0 para_full={probe['para_full_step0']}/72 canon={probe['canon_step0']}/24 classes={probe['classes']} excluded={excluded} | P3 {p3['n_ge_0.98']}/24 ({time.time()-t0:.0f}s)", flush=True)
         M.set_rows(H.model, ids, z_rows)
     out["admitted_inits"] = [k for k in M.INITS if not out["inits"][k]["excluded_from_arms"]]
