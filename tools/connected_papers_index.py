@@ -11,7 +11,7 @@ ENTRY = re.compile(r"@\w+\{([^,]+),(.*?)\n\}", re.S)
 FIELD = lambda body, k: (re.search(r"\b" + k + r"\s*=\s*\{(.*?)\}\s*,?\s*\n", body, re.S) or re.search(r"\b" + k + r"\s*=\s*\{(.*?)\}", body, re.S))
 def norm(t): return re.sub(r"[^a-z0-9]+", " ", t.lower()).strip()
 seeds, papers = [], {}
-for f in sorted(glob.glob(os.path.join(corpus, "*.bib"))):
+for f in sorted(glob.glob(os.path.join(corpus, "**", "*.bib"), recursive=True)):   # includes INBOX/ and any later subfolders
     seed = urllib.parse.unquote(os.path.basename(f)).replace("ConnectedPapers-for-", "").replace(".bib", "").replace("-", " ")
     seed = re.sub(r"\s*\(\d+\)$", "", seed)
     if seed in seeds: continue
