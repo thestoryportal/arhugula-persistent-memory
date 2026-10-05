@@ -1,0 +1,308 @@
+Elaborating the statement: the corpus solves the write problem in pieces, never the spec as a whole.
+
+1. The spec's actual failure surface is multi-token length realization — and three papers converge on it.
+Your C10 residual data shows the wall isn't "fit then parrot" but failure to even fit 4–5.5-token coined values (canonical 37–46% vs 95.8% floor). That is precisely what the unstructured-editing lineage diagnoses from three independent angles:
+μKE: window-based autoregressive writes break the causal dependency between early memory updates and later tokens — a mechanistic account of why your later tokens never realize.
+FOVEATED: pre-edit NLL drops toward later positions, so editors under-learn exactly the tokens your held-out paraphrases need; its RoPE key-shift + query-anchor two-stage write (notably excluding the final prompt position — aligned with your keying-locus verdict) is a drop-in candidate.
+AnyEdit++: orthogonal anchor keys minimize cross-segment interference — relevant to your frame-bleed finding.
+
+2. The corpus independently confirms your knob-vs-route verdict.
+PropMEND scaling to 3.4B lifts in-domain to 98.5% while OOD-Both stays at 17.8% — the same cliff shape as your band-412 non-rescue (parafull 11.1→6.9). Two different editor architectures hitting one wall says: route hard coined values to the side-store, don't tune MEMIT.
+
+3. But the side-store route has its own corpus warning.
+Lai et al. show KG-embedding edits preserve correct answers in only ~23% of cases — so Route (iii) should be symbolic, not embedded.
+
+4. The unsolved half is structural, visible in the graph itself.
+The gap between the Knowledge Editing cluster and your Corpus Control / Entity Relations clusters mirrors the real literature gap: everything published is write-side. No paper addresses the read contract — traversal, aggregation, querying the FFN as a database. That half of the spec you'd be building without precedent.
+
+---
+The question fuses two things your system currently keeps separate: security gating (who may write) and generalization testing (did the write take). The proposal: make them one mechanism.
+
+What exists now, on each side of the gap:
+
+Your WRITE path already has the scaffolding: the Patch Authorization Gate verifies a single-use, invocation-scoped signed token (Identity → Scope → Integrity), and the L2 Behavioral probe tests whether the fact fires in generation. But today these are sequential and independent — authorization happens before the write, the behavioral probe after, and `storage-pass/behavior-fail` is merely logged as a named outcome.
+The C10 residual data gives the reason to fuse them: realistic multi-token coined values pass L1 (the edge is written) but fail held-out paraphrases at 69–81% — meaning the current gate authorizes writes that are authorized but not real as knowledge.
+
+The fused design the question implies:
+
+The Orchestrator mints the write token together with a paraphrase-probe family (your 3-member Generation/Assertion/Constraint set, but on held-out phrasings, not canonical ones).
+The write executes provisionally (overlay, not anchor-committed).
+Commit = token redemption: the single-use token is only consumed if held-out paraphrases pass the calibrated ε threshold. Fail → automatic rollback + ledger entry, token expires unredeemed.
+
+Why this is more than plumbing:
+
+It converts generalization from a quality metric into an authorization criterion — a write that only parrots its canonical prompt is treated like a forged credential: syntactically valid, semantically unauthorized.
+It makes the C10 multi-token wall self-routing: coined 4–5.5-token values would systematically fail redemption and be auto-escalated to Route (iii) (P-Tokens side-store, ~98% predicted paraphrase), with no operator judgment call.
+It gives the drift tracker a cleaner signal: unredeemed-token rate becomes a leading indicator for compaction, upstream of p95 latency.
+
+The corpus connection: this is exactly the gap the sequential-editing papers circle without closing — NMKE and the superimposed-noise work detect accumulated failure post hoc; a paraphrase-gated commit would prevent the bad write from entering the accumulation sequence at all. Nobody in the literature puts the probe inside the authorization transaction. That's the novel seam the bridge question names.
+
+---
+Idea without the escape hatch: amortize the coined value across the layer stack — treat the band as a pipeline of per-token writers, not one locality slot.
+
+If the side-store is off the table, the C10 wall must be solved in-weight, and the data already says how not to: band-412 proved that widening the band adds canonical fit (29.2→41.7) while destroying generalization (parafull 11.1→6.9). Wider ≠ more carry capacity; it just spreads the same single-key write thinner. The failure is not where you write — it's that a 4–5.5-token value is forced through one key at one locus (the last-token keying the whole long-form lineage shares, and which CRME shows collapsing from 10→100 edits via near-identical final-token keys — the same interference you measured at N=24).
+
+The deep move: decompose the value along the band, token by token.
+
+Subject-keyed per-token hybrid (your option ii), made layer-indexed. Token 1 of the coined value is written at the band's early layers keyed on the subject; each subsequent token is written slightly deeper, keyed on subject + realized-prefix state — so the band becomes an autoregressive relay, matching the causal-dependency structure μKE says window-writes break and FOVEATED says teacher-forcing hides. Edit strength per layer stops being a scalar knob and becomes a per-token schedule.
+Tokenization-length admission, inverted. Instead of routing over-budget values away, the admission rule now sets the write plan: token count determines how many band layers participate and at what strength. A 2-token value uses the baseline [4,8] recipe; a 5-token coined value gets a staged 5-locus write. The band's measured carry capacity (your single/coherent-bigram 98.6% vs 4-tok collapse) is the planner's calibration curve.
+Batch discipline becomes the locality guarantee. Since per-token relay writes multiply edit count, Corpus Control absorbs the cost: coined values compile only at anchor/compaction batches (where MEMIT's joint solve distributes interference), never incrementally — keeping sequential-noise accumulation (superimposed-noise, NMKE's problem) out of the overlay path.
+
+The testable claim: held-out paraphrase for A7 coined-coined rises not with band width but with band depth-per-token — a direct, cheap falsification target that band-412 never tested, because it varied geometry while holding the keying and the single-locus write constant.
+
+---
+Long, free-form texts should be treated as contextual edit programs, not undifferentiated training data. A practical pipeline would:
+
+Segment by semantic surprise, preserving logical units instead of fixed-length chunks.
+Extract edit objects from each segment: new claims, superseded claims, scope, time, provenance, and exceptions.
+Store them in external memory with distinct retrieval anchors.
+Activate only relevant edits at inference, leaving model weights unchanged.
+Resolve conflicts contextually, prioritizing temporal fit, source reliability, and query intent.
+
+This approach combines the flexibility of long-context memory with the precision of knowledge editing. It also avoids sequential weight-editing problems such as accumulated noise, degraded general abilities, and interference between unrelated facts.
+
+The key shift is conceptual: editing becomes controlled interpretation of training text rather than permanent parameter modification. Evaluation should therefore test not only whether the new fact is recalled, but whether it generalizes across paraphrases, respects exceptions, preserves unrelated knowledge, and disappears when its contextual conditions do not apply.
+
+---
+From Knowledge Editing to Versioned Reality
+
+A model should not be “edited” to accept new truths. Instead, it should interpret versioned, provenance-bearing reality patches derived from long-form texts—each specifying what changed, when, where, under whose authority, and with what uncertainty. These patches would constrain generation across language, images, CAD, and dynamic scenes without permanently rewriting the model.
+
+Thus, the model becomes a stable reasoning engine, while knowledge becomes an external, reversible, and contestable history. The central challenge shifts from injecting facts to governing which version of reality applies in a given context.
+
+---
+From model editing to versioned knowledge
+
+Long, free-form texts rarely express isolated facts. They contain timelines, qualifications, exceptions, causal relations, and competing viewpoints. Compressing such material into a permanent weight update destroys much of this structure and risks interference, accumulated noise, and deterioration of unrelated abilities.
+
+A better approach is to transform each text into a versioned knowledge patch containing:
+
+the claim and its paraphrases;
+its effective time and expiration conditions;
+provenance and confidence;
+entities and relations affected;
+exceptions, dependencies, and conflicting claims;
+contextual rules specifying when the patch applies.
+
+At inference, the model retrieves the relevant patch and temporarily conditions its reasoning on it. Adaptive segmentation—guided by conceptual or Bayesian surprise—can preserve logical boundaries in long documents, while distinct retrieval anchors reduce interference between patches. The underlying model remains a relatively stable reasoning substrate; knowledge updates become external, reversible, and auditable.
+
+This changes the central research question from “How do we overwrite what the model knows?” to “How does the model select the right knowledge version for this context?” Evaluation must therefore cover temporal alignment, source conflicts, long-text comprehension, paraphrase generalization, locality, reversibility, and preservation of general capabilities—not merely whether one edited answer is reproduced.
+
+---
+Long-form text as a contextual editing specification
+
+A long document should not be compressed into one weight update. Its claims depend on surrounding definitions, chronology, exceptions, and source perspective. Removing that context can produce a technically successful edit that is factually overgeneralized.
+
+A better method is locate–structure–apply:
+
+Locate semantic boundaries using shifts in topic or surprise rather than fixed windows.
+Structure each passage into claims, evidence, scope, time, provenance, exceptions, and relations to prior knowledge.
+Apply edits selectively: retrieve the relevant passage and temporarily alter model behavior through context, memory, or activation control.
+Consolidate cautiously: only stable, repeatedly supported claims should become parameter-level updates.
+
+This creates two layers of knowledge:
+
+Persistent knowledge for broadly valid and stable information.
+Contextual knowledge for recent, disputed, time-sensitive, or source-dependent information.
+
+The key problem is therefore not simply whether the model remembers the new text, but whether it can determine which parts of that text govern a particular request. Evaluation should test paraphrased use, temporal alignment, exception handling, source conflicts, unrelated-query locality, reversibility, and retention across many sequential edits.
+
+In this view, long-form knowledge editing resembles constrained document interpretation: the model remains stable, while text supplies precise and auditable conditions under which its answers should change.
+
+---
+Experimental program: from weight editing to contextual, versioned knowledge
+
+1. Long text as an edit program
+Hypothesis: Representing a document as claims plus scope, time, provenance, and exceptions is more reliable than fine-tuning or ordinary retrieval.
+
+Construct long documents containing updates, exceptions, definitions, and distractors.
+Compare: fine-tuning, parameter editing, standard RAG, full-context prompting, and structured knowledge patches.
+Test direct questions, paraphrases, multi-step applications, exceptions, and unrelated knowledge.
+Measure edit accuracy, reasoning transfer, locality, calibration, and reversibility.
+
+Critical test: Structured patches must outperform RAG specifically on scope and exception handling—not merely retrieval.
+
+2. Semantic segmentation versus fixed chunking
+Hypothesis: Surprise-based boundaries preserve coherent edits and reduce cross-segment interference.
+
+Create texts where a claim and its qualification fall across conventional token windows.
+Compare fixed chunks, paragraph boundaries, learned segmentation, and Bayesian-surprise segmentation.
+Vary document length and distance between claims and exceptions.
+Measure retrieval recall, contradiction rate, exception retention, and answer consistency.
+
+Falsification: If fixed chunking performs equally under boundary-stress conditions, adaptive segmentation adds little value.
+
+3. Version selection under conflicting texts
+Hypothesis: Knowledge editing is primarily a contextual selection problem when multiple versions coexist.
+
+Supply documents containing historical, current, disputed, and source-specific claims.
+Ask questions with explicit, implicit, or absent temporal and source cues.
+Compare permanent overwriting with versioned patches carrying timestamps and provenance.
+Measure correct-version selection, temporal alignment, source attribution, and uncertainty when context is insufficient.
+
+This tests whether a model can preserve several incompatible claims without blending them.
+
+4. Sequential editing at scale
+Hypothesis: External contextual patches avoid the cumulative damage caused by repeated parameter edits.
+
+Apply 10, 100, 1,000, and 10,000 long-form updates.
+Compare weight editing, sparse-neuron editing, fine-tuning, and external patch memory.
+After each batch, evaluate edited facts, unrelated capabilities, old edits, and spurious activation.
+Track error growth, general-capability loss, latency, memory cost, and conflict frequency.
+
+Key result: External patches should show bounded interference rather than degradation proportional to edit count.
+
+5. Conditional activation and locality
+Hypothesis: A successful edit should activate only when its textual conditions are satisfied.
+
+For each document, create four probes:
+
+condition satisfied;
+condition absent;
+near-matching but invalid condition;
+adversarial paraphrase designed to trigger the edit incorrectly.
+
+Measure true activation, false activation, unrelated-answer drift, and sensitivity to paraphrase. This goes beyond conventional locality by testing behavioral boundaries, not only unrelated facts.
+
+6. Reversibility and counterfactual removal
+Hypothesis: If knowledge is genuinely modular, deleting a patch should remove its influence without damaging neighboring knowledge.
+
+Add a document, test its effects, remove it, and retest.
+Replace it with a newer version and test whether the old version remains accessible only for historical questions.
+Compare patch deletion against “reverse” weight edits.
+Measure residual influence, rollback fidelity, and collateral changes.
+
+7. Selective consolidation into weights
+Hypothesis: Only stable, repeatedly corroborated patches should become persistent model knowledge.
+
+Present updates with different repetition, source agreement, age, and contradiction levels.
+Consolidate some patches into parameters using a predefined evidence threshold.
+Later introduce corrections or conflicts.
+Measure long-term recall, correction cost, generalization, and obsolete-knowledge persistence.
+
+This identifies when external context should remain provisional and when parameter updating becomes beneficial.
+
+Minimal benchmark design
+
+Each test item should include a long free-form document, an update, its conditions, exceptions, provenance, timestamp, paraphrases, conflicting versions, and locality controls. Use held-out document styles and entities to prevent template memorization.
+
+The decisive comparison is not simply “Did the model learn the new fact?” It is:
+
+> Did it apply the right version, under the right conditions, for the right reason—and stop applying it when those conditions changed?
+
+---
+Long-form text as both knowledge and an editing policy
+
+A long, free-form document does more than supply new facts: it implicitly specifies when, where, and how those facts should modify a model’s behavior. Definitions establish scope; dates select versions; exceptions block overgeneralization; and evidence determines confidence. Knowledge editing should therefore preserve this structure rather than compress the document into isolated fact triples or a single parameter update.
+
+A rigorous experiment would compare four approaches:
+
+Fine-tuning on the complete document.
+Direct parameter editing using extracted facts.
+Ordinary long-context retrieval using fixed-size chunks.
+Structured contextual editing, using adaptive segments containing claims, temporal scope, provenance, dependencies, and exceptions.
+
+The test corpus should contain long documents with deliberately separated claims and qualifications—for example, an update near the beginning and its exception near the end. Questions should probe direct recall, paraphrases, practical reasoning, temporal versions, exceptions, contradictions, and unrelated knowledge.
+
+Key measurements would include:
+
+Reliability: Does the model use the updated knowledge?
+Scope accuracy: Does it apply the update only where intended?
+Paraphrase generalization: Can it use the update beyond memorized wording?
+Locality: Are unrelated answers unchanged?
+Temporal alignment: Does it select the correct historical version?
+Sequential stability: Do hundreds of documents cause interference?
+Reversibility: Does removing a document remove its influence?
+General capability retention: Does editing damage broader performance?
+
+Adaptive segmentation is especially important. Fixed windows can separate a claim from its exception, while surprise-based boundaries can preserve coherent argumentative units. Distinct retrieval anchors can further prevent one document’s update from activating another’s.
+
+The deeper hypothesis is that many apparent failures of knowledge editing are actually failures of contextual governance. The model may retain the new information yet retrieve it under the wrong conditions, merge incompatible versions, or activate irrelevant edits. The decisive benchmark is therefore not simply whether a new answer appears, but whether the model applies the correct passage only within its intended context and ceases to apply it when that context is withdrawn.
+
+---
+No single paper establishes the entire “long-form text as a contextual, versioned edit” paradigm. It is a synthesis supported by several converging research lines.
+
+1. Parameter editing works, but repeated edits create damage
+
+ROME shows that individual factual associations can be localized and rewritten in transformer parameters.
+  Meng et al., 2022, Locating and Editing Factual Associations in GPT: https://arxiv.org/abs/2202.05262
+
+MEMIT extends this approach to batches of edits, demonstrating both the feasibility and difficulty of editing knowledge at scale.
+  Meng et al., 2023, Mass-Editing Memory in a Transformer: https://arxiv.org/abs/2210.07229
+
+MEND learns an editor that rapidly transforms model gradients, supporting efficient parameter updates.
+  Mitchell et al., 2022, Fast Model Editing at Scale: https://arxiv.org/abs/2110.11309
+
+Perturbation-Restrained Sequential Model Editing (2024) associates degradation during sequential editing with the numerical sensitivity of edited matrices.
+
+On the Superimposed Noise Accumulation Problem in Sequential Knowledge Editing of Large Language Models (2025) reports increasing target deviation and erroneous activation of irrelevant facts as edits accumulate.
+
+Edit Less, Achieve More: Dynamic Sparse Neuron Masking for Lifelong Knowledge Editing in LLMs (2025) attempts to reduce this accumulation through neuron attribution and sparse editing.
+
+Balancing Knowledge Updates: Toward Unified Modular Editing in LLMs (2025) finds that factual storage and retrieval are distributed across MLP and attention modules, challenging the idea of one clean edit location.
+
+Should We Really Edit Language Models? On the Evaluation of Edited Language Models (2024) reports deterioration in broader abilities that conventional reliability, generalization, and locality metrics may overlook.
+
+Together, these findings motivate keeping volatile or conditional knowledge outside permanent weights.
+
+2. External memory supports reversible, contextual updates
+
+SERAC routes relevant inputs to a counterfactual model while preserving the base model elsewhere. This directly supports conditional activation and locality.
+  Mitchell et al., 2022, Memory-Based Model Editing at Scale: https://arxiv.org/abs/2206.06520
+
+GRACE stores edits in discrete key–value adapters, treating updates as modular memories rather than globally rewriting the model.
+  Hartvigsen et al., 2023, Aging with GRACE: Lifelong Model Editing with Discrete Key-Value Adaptors: https://arxiv.org/abs/2211.11031
+
+IKE demonstrates that factual behavior can be changed through demonstrations placed in context rather than through weight modification.
+  Zheng et al., 2023, Can We Edit Factual Knowledge by In-Context Learning?: https://arxiv.org/abs/2305.12740
+
+SWEA, Updating Factual Knowledge in Large Language Models via Subject Word Embedding Altering (2024), applies inference-time embedding alterations without editing the underlying weights.
+
+RAG, kNN-LM, and RETRO provide the broader architectural basis for separating relatively stable model parameters from replaceable external knowledge:
+Lewis et al., 2020, Retrieval-Augmented Generation: https://arxiv.org/abs/2005.11401
+Khandelwal et al., 2020, Generalization through Memorization: https://arxiv.org/abs/1911.00172
+Borgeaud et al., 2022, Improving Language Models by Retrieving from Trillions of Tokens: https://arxiv.org/abs/2112.04426
+
+These systems do not fully implement versioned knowledge patches, but they establish that knowledge can be retrieved and activated without permanent retraining.
+
+3. Long, free-form text requires a different editing formulation
+
+Is Fine-Tuning an Effective Solution? Reassessing Knowledge Editing for Unstructured Data (2025) directly studies updates supplied as long or free-form text. Its locality benchmarks and reported fine-tuning failures support treating unstructured editing as more than ordinary document training.
+
+Learning to Edit Knowledge via Instruction-based Chain-of-Thought Prompting (2026) expands editing beyond factual triples to articles and other unstructured sources. It supports representing an edit as reasoning instructions that explain how new knowledge should be applied.
+
+InfLLM introduces training-free memory for extremely long sequences, supporting the feasibility of maintaining long documents as external contextual memory.
+  Xiao et al., 2024, InfLLM: Training-Free Long-Context Extrapolation for LLMs with an Efficient Context Memory: https://arxiv.org/abs/2402.04617
+
+Liu et al., Lost in the Middle (2024), shows why merely placing a long document into the context window is insufficient: models often fail to use information located away from the beginning or end.
+  https://arxiv.org/abs/2307.03172
+
+Token Weighting for Long-Range Language Modeling (2025): https://arxiv.org/abs/2503.09202
+  This supports selectively weighting information in long contexts rather than treating every token as equally relevant.
+
+4. Structure-aware segmentation supports “text as an edit program”
+
+AnyEdit++: Adaptive Long-Form Knowledge Editing via Bayesian Surprise (2026) is the most direct support in the supplied literature. It treats fixed-window chunking as structurally inadequate and proposes surprise-based segmentation with separated retrieval anchors.
+
+Lost in the Middle provides complementary evidence: relevant information can be present yet functionally inaccessible because of its position.
+
+This line supports dividing a document according to conceptual transitions—claims, exceptions, dates, and qualifications—rather than arbitrary token counts. However, the stronger claim that Bayesian surprise is universally superior still requires independent replication.
+
+5. Temporal versions and contextual selection
+
+Temporal Alignment of Time Sensitive Facts with Activation Engineering (2025) reports that model behavior can be grounded to a temporal state without retraining. This supports selecting a knowledge version through inference-time control rather than overwriting all earlier versions.
+
+Evaluating the Reversal Curse in Model Editing (2023) shows that successful forward edits do not guarantee reverse or relational generalization. Its BAKE benchmark supports evaluating whether an update is integrated as usable knowledge rather than reproduced as a memorized answer.
+
+Research on temporal RAG and provenance-aware retrieval provides indirect support, but ordinary retrieval does not itself guarantee correct version selection, source arbitration, or exception handling.
+
+Overall assessment
+
+The evidence strongly supports four parts of the proposed approach:
+
+repeated weight editing can accumulate interference;
+external memories can make edits more local and reversible;
+long free-form text cannot be reduced safely to isolated triples or arbitrary chunks;
+evaluation must include scope, paraphrases, temporal versions, locality, and broader capability retention.
+
+The still-unproven step is the complete integration of these findings into one system where long texts become explicit, provenance-bearing edit policies containing claims, dates, exceptions, confidence, and activation conditions. That is best regarded as a research hypothesis grounded in existing work—not yet an established result.

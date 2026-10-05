@@ -1,0 +1,63 @@
+<MainConcepts>: 
+edit, subject, [[token]], [[prediction]], coin, band
+</MainConcepts>
+
+<MainTopics>: 
+Keyed Concepts: edit subject coin single keyed paraphrase multus qwen write @110558e3 weight batch prompt memit model hold llama target editing @3b0be47e project side gate hard instruct alphaedit condition real collapse knowledge local read prior land locality query entity path store coherent keying class full family word trained count bounded clean memory key fact pass scale program solve transfer keys frame
+Token Inference: [[token]] [[prediction]] [[tokens]] [[language_models]] [[teacher]] [[inference]] [[multilingual]] [[llm]] [[language]] [[teachers]] [[transformers]] [[languages]] [[fidelity]] [[mask]] [[input]] [[feedback]] [[accuracy]] [[skills]] [[geometry]] [[instruction]] [[efficiency]] [[distillation]] [[tokenization]] [[consistency]] [[english]] [[denoising]] [[tokenizer]] [[length]] [[number]] [[design]] [[evaluations]] [[complexity]] [[average]] [[cost]] [[language_model]] [[tools]] [[sampling]] [[natural_language]] [[mtp]] [[sequence]] [[sequences]] [[compression]] [[generative]] [[causal]] [[words]] [[future]] [[metric]] [[algorithms]] [[named_entities]] [[nlp]] [[training]] [[fertility]] [[tokenizers]] [[paraphrase]]
+Edit Control: band @82b491dc anyedit corpus control remain md route open test residual run rescue knob spec pre operator @43899c7f doc bearing scope @d93d6a19 port result advisor build cheap py arm failure recipe parafull
+Code Analysis: al arxiv code
+Skill Vectors: [[vectors]] [[skill]]
+</MainTopics>
+
+<TopicalGap>: 
+Keyed Concepts: edit subject coin single keyed paraphrase multus qwen write @110558e3 weight batch prompt memit model hold llama target editing @3b0be47e project side gate hard instruct alphaedit condition real collapse knowledge local read prior land locality query entity path store coherent keying class full family word trained count bounded clean memory key fact pass scale program solve transfer keys frame
+Token Inference: [[token]] [[prediction]] [[tokens]] [[language_models]] [[teacher]] [[inference]] [[multilingual]] [[llm]] [[language]] [[teachers]] [[transformers]] [[languages]] [[fidelity]] [[mask]] [[input]] [[feedback]] [[accuracy]] [[skills]] [[geometry]] [[instruction]] [[efficiency]] [[distillation]] [[tokenization]] [[consistency]] [[english]] [[denoising]] [[tokenizer]] [[length]] [[number]] [[design]] [[evaluations]] [[complexity]] [[average]] [[cost]] [[language_model]] [[tools]] [[sampling]] [[natural_language]] [[mtp]] [[sequence]] [[sequences]] [[compression]] [[generative]] [[causal]] [[words]] [[future]] [[metric]] [[algorithms]] [[named_entities]] [[nlp]] [[training]] [[fertility]] [[tokenizers]] [[paraphrase]]
+</TopicalGap>
+
+<ConceptualGateways> 
+edit subject [[token]] [[prediction]] coin band single keyed paraphrase [[tokens]] @82b491dc multus anyedit [[language_models]] qwen [[teacher]] write [[inference]] corpus @110558e3 control weight batch prompt remain memit md al model route
+</ConceptualGateways>
+
+<Relations>: 
+1) 
+2) 
+3) al arxiv
+4) 
+5) subject keyed
+6) 
+7) 
+8) 
+9) 
+10) keyed write
+11) 
+12) coin multus
+</Relations>
+
+---
+Editability ≈ Prior Compression
+
+The claim. A locate-then-edit write is a single key→value association installed at the subject's last token in a narrow layer band. But reading that write back is autoregressive: the model must emit token₁, then token₂ conditioned on token₁, and so on. The write pays once; the read pays per token. The gap between those two cost structures is exactly where C10 fires.
+
+The evidence is already in the conditional. Across the three arms, first-token recovery is roughly intact (70.8% incoherent vs ~97% coherent). What separates them is P(full | first): 1.00 for "Cape Town", 0.51 for "Amsterdam Ankara". The edit did not fail to land — it landed and then leaked at the second step. The coherent arm looks robust only because the pretrained bigram supplies step 2 for free. The prior is doing the work MEMIT gets credit for.
+
+Why this is a compression statement. Tokenizer research gives the vocabulary: fertility (tokens per word) and single-token retention rate measure how much of a string the model already has as one unit. A value that the prior compresses well — a real city, a frequent collocation — needs essentially one causal decision at the edited position. A value the prior does not compress — a coined identifier, a post-2021 entity, an arbitrary pair — needs n independent decisions, of which the edit funds exactly one. Under paraphrase, where the subject-token key is perturbed, the unfunded steps are the first to go. This also predicts the Serial-Lifelong observation inversely: there the first word breaks and the suffix survives, because a side-memory MoE funds the sequence differently than a weight write funds the key.
+
+The KG bridge. This is why AKEW finds locate-then-edit "triplet-bound": a triplet is a compressed fact — one subject key, one relation, one object slot. Unstructured passages and novel entities are high-fertility objects with no prior compression, so the single-key write has nothing to ride on. And relation-before-entity deferral says the same thing from the other side: relation type becomes generation-controlling 10–16 layers before entity identity does, so the edit's narrow band lands on the cheap, early-committed part and leaves the expensive, late-committed part to the prior.
+
+Operationally: a pre-write admission test. Before editing, measure the base model's P(full | first) and fertility for the intended value. Values above a threshold are storable under MEMIT; below it, the edit will parrot the trained prompt and die on paraphrase regardless of layer band, strength, or coverage — which is precisely what the three knob candidates confirmed (20.8% → 13.9% / 5.6% / 0.0%). The knobs cannot change compression; only per-token editing (AnyEdit) can fund the remaining steps.
+
+The reframe. Knowledge editing is not "writing a fact." It is subsidizing the gap between what the prior already predicts and what you want it to say. The subsidy is one token w
+
+---
+Editability ≈ Prior Compression (completion)
+
+The reframe, finished. Knowledge editing is not "writing a fact." It is subsidizing the gap between what the prior already predicts and what you want it to say. The subsidy is one token wide — a single key→value association at the subject's last token, in a narrow layer band — while the debt is n tokens long. Every token past the first is paid out of the pretrained prior, not out of the edit. "Cape Town" is solvent because the prior covers token 2 for free; "Amsterdam Ankara" defaults at exactly the step where the subsidy runs out (P(full|first) = 0.51).
+
+Why no knob can fix this. Strength, coverage, and band depth all vary how hard you write at the one subsidized position. None of them changes how many positions are funded. That is why all three pre-registered candidates moved the metric the wrong way (20.8% → 13.9% / 5.6% / 0.0%) while the deep band bought trained-prompt fit (29.2% → 58.3%) at the cost of the A1/A2 controls: more force at one site deepens the parrot, it does not extend the subsidy. The fix has to be structural — AnyEdit-style per-token editing funds each step, which is the same move K-Forcing and MTP make from the efficiency side (pay for k tokens jointly rather than one).
+
+The KG corollary. This is the hidden reason locate-then-edit is triplet-bound. A triplet is a compression format: one key, one slot, one object the prior usually already holds as a unit. AKEW's collapse (97.33% → 0.07% structured→unstructured; 99.63% → 2.33% on extracted triplets) is not a format-parsing failure — it is the same solvency failure at scale, because unstructured passages and post-2021 Wikidata objects are high-fertility strings with no prior compression to ride on. Relation-before-entity says it from the other direction: the relation commits 10–16 layers earlier than the entity, so the edit's narrow band lands on the cheap, early-settled decision and leaves the expensive, late-deferred one unfunded.
+
+What it gives you operationally. A pre-write admission test that costs one forward pass per candidate value: measure base-model fertility and P(full | first) for the intended object. Above threshold → MEMIT-storable. Below → the edit will fit the trained prompt and fail paraphrase no matter the recipe, and should be routed to per-token editing, retrieval, or rejected. AKEW's 1,067 genuinely unseen entities are the ready calibration set: if real post-2021 names reproduce the cliff and the compression score separates the storable from the fragile, the test is validated from outside the project.
+
+The one sentence. An edit's durability is bounded by how little of the target the model still has to invent.

@@ -1,0 +1,289 @@
+Direct hits on the mechanism (W-realization, not z):
+`"sequential token" knowledge editing multi-token object`
+`MEMIT multi-token object limitation AnyEdit decomposition`
+`rank-one model editing long-form generation failure`
+`knowledge editing paraphrase generalization gap canonical prompt`
+
+Reframe the block as a prior problem (your actual fragility axis — not syntax):
+`novel entity injection language model no pretrained prior`
+`low-frequency tokenization fragmentation named entity editing`
+`coined term memorization fictional entity fine-tuning vs editing`
+`tokenizer fertility effect on knowledge acquisition`
+
+Attack the gaps your graph exposes (unbridged pairs are where the unexplored literature lives):
+
+Gap 1 (corpus/metric ↔ paraphrase fit): the field may have abandoned exact-match for your exact reason —
+`exact match vs logprob evaluation knowledge editing metric`
+`teacher forcing vs free generation edit evaluation`
+
+Gap 3 (paraphrase fit ↔ batch/CPU constraints): nobody links robustness to batch-genesis scale —
+`batch knowledge editing interference multi-fact simultaneous update`
+`lifelong knowledge editing scaling degradation`
+
+The counter-move nobody in your notes has searched:
+`adapter vs weight editing for project-specific entity knowledge`
+`retrieval augmentation hybrid parametric novel domain terms`
+
+That last pair matters because your stopping rule only offers A/B/C inside the editing paradigm — the literature's answer to "non-prior-coherent multi-token values" may simply be "don't put them in weights," which is your Option B arriving from outside rather than as concession.
+
+Three knobs the literature actually hands you for C10 — and all three sit on the gap your own graph flags (Layer Editing → Token Prediction):
+
+1. Where the key is read, not how hard you write it. Hernandez (ICLR 2024) and the LRE-faithfulness line say relations decode linearly from the subject's last token. Your port keys at the last prompt token — that's not a ridge problem, it's a key-site problem. Knob: subject-token keying, with the LRE admission test as a pre-registered gate (if the relation isn't linearly decodable, no amount of λ tuning will transfer).
+
+2. Projection side. Sun et al. (ISSTA 2026) is the sharpest surfaced finding: down-projection edits (MEMIT's and AlphaEdit's target) collapse capability far worse than up-projection edits (38.9 → 20.5 Pass@1), and sequential edits compound it on 3B models. Your locality breakage (+0.26–0.35 nats generic NLL, JS 83–87) is the predicted signature. Knob: move the write to the up-projection and re-measure locality before touching paraphrase.
+
+3. Generalization as an objective, not a side-effect. GLIME makes the key move — pair the edit with preference optimization over generation behavior, plus a gradient constraint. Paraphrase 0/72 is exactly overfitting-to-target-prompt, the failure GLIME was built against. TAXI adds the uncomfortable control: even when consistency appears, it's marginal and far below human baseline, and easier on atypical subjects — so pick your paraphrase held-out set knowing typicality is a confound.
+
+The non-obvious connection: knobs 1 and 2 are both siting decisions (which token, which matrix), knob 3 is an objective decision. Your C10 log has been tuning a scalar (λ) across a space where the live variables are categorical. Multi-token VALUE routing (Route C side-store) only becomes the right question after the LRE test comes back.
+
+Elaborating the three knobs
+
+The siting/objective split is the real finding
+
+Your C10 log reads as a one-dimensional search: λ ∈ {10, 1, 0.01}, L2 → 0.01, re-run, re-measure. Amendment 3 restored 24/24 on the trained prompt and moved paraphrase 0/72 → 0/72. That's the signature of a search in the wrong space. λ is a magnitude parameter; the three knobs below are categorical — which token, which matrix, which loss. No setting of a magnitude reaches a category.
+
+---
+
+Knob 1 — Key site (subject-last-token vs. prompt-last-token)
+
+The claim. Hernandez et al. (ICLR 2024) show relations decode as approximately linear functions of the hidden state at the subject's final token. Your port keys at the last prompt token. Those coincide only when the subject terminates the prompt — which held for your trained template and broke for every paraphrase.
+
+Why the numbers confirm it, not just suggest it. Hidden-state transfer 0.8–1.8% at any ridge. Ridge-invariance is the diagnostic: if the write were correctly sited but under/over-regularised, transfer would move with L2. It didn't. The key is landing on a state that paraphrases don't reconstruct, so there is nothing for λ to trade off against.
+
+The gate. Run the LRE-faithfulness admission test before any re-implementation. If the target relation isn't linearly decodable at the subject position, subject-keying buys you nothing either — and you've learned that for the cost of a local read. This is the cheap move in your Forward (i), and it should stay first.
+
+Secondary. Your own note already has the pre-edit NLL-by-position curve as an admission signal. That's the same instrument pointed at a different question — use both; they cross-validate.
+
+---
+
+Knob 2 — Projection side (down vs. up)
+
+The claim. Sun et al. (ISSTA 2026): editing the down-projection collapses capability (Pass@1 38.9 → 20.5); up-projection edits don't, at comparable edit success. Sequential edits on a 3B compound it (23.1 → 12.8). MEMIT-family solves — including the AlphaEdit-ARE path you ported — target down-proj.
+
+Why this is your locality result, not a coincidence. Generic NLL +0.26–0.35 nats, real-country 10/12, JS 83–87. That is capability collapse localised to the edited band, measured in a different currency than Sun's Pass@1 but pointing the same direction. You're on a 3B. You're running a sequence of edits. You are inside the exact cell their table is worst in.
+
+What makes this knob attractive. It is orthogonal to Knob 1. Siting the key (which token) and siting the write (which matrix) are independent decisions, so they can be tested in a 2×2 rather than a chain — four runs, not four sequential debugging rounds. And locality is measurable
+
+Role-decomposed editing: what retrieval and video already know that C10 doesn't
+
+The shared failure, stated precisely
+
+Three literatures, one pathology: a single anchor cannot survive reformulation of its context.
+
+C10: write anchored at one token (last prompt), one band, one value. Paraphrase 0/72. Hidden-state transfer 0.8–1.8% at any ridge — the anchor simply isn't reconstructed by the reformulated prompt.
+Naïve RAG: one index (dense or sparse). Query reformulation moves the embedding off the anchor; recall collapses. The RAGPart/RAGMask finding is the dual — retrieval anchors on literal tokens, not task structure, which is exactly your keygram rank-1.02 collapse in a different currency.
+Autoregressive video: context anchored on the tail alone. Error accumulates over rollout because short-term continuity is the only anchor there is.
+
+The naming in your own graph is almost embarrassing: `edit ↔ single` carries the labels paraphrase, token, subject, multus, band. The single/multus axis is the live variable, and it's categorical.
+
+---
+
+What the two solved cases did
+
+Hybrid RAG (Blended RAG, HyPA-RAG, HetaRAG). They did not tune a single retriever harder. They refused to pick one index: dense + sparse + KG, blended by a query-complexity classifier that routes adaptively. The gain comes from heterogeneous anchors with a routing rule — not from better anchors.
+
+Relax Forcing. Three functionally distinct roles: Sink (global stability), Tail (short-term continuity), History (mid-range motion). The selection criterion is the sharp part — History frames are chosen to maximise alignment with global anchors while suppressing redundancy with recent context. That is a diversity objective over memory slots, training-free.
+
+Both are the same move: role-decompose the anchor, add a selection rule that penalises redundancy.
+
+---
+
+The transfer: a three-role write
+
+Your Route (ii) already has the pieces, but it's framed as more keys. Reframe it as different kinds of keys:
+
+| Role | Video analogue | Edit site | Function |
+|---|---|---|---|
+| Sink | global stability frames | subject-last-token (Hernandez site) | the relation-invariant anchor; survives paraphrase by construction if LRE-faithful |
+| Tail | short-term continuity | last-prompt-token (your current site) | preserves the canonical trained-prompt read — the thing AnyEdit/AnyEdit++ actually score |
+| History | mid-range motion | per-target carrier tokens, multi-token VALUE | mid-range expression; selected to diversify, not to duplicate the Sink |
+
+Current C10 writes Tail only. It restores 24/24 on the trained prompt and nothing else — precisely the behaviour the Tail role predicts,
+
+The corpus offers three in-weight routes, and they split exactly along the gap the graph exposes — the write-mechanics cluster (edit/subject/keyed/band) never touches the tokenizer cluster (token/tokens/prediction). That gap is the C10 problem: you've been tuning W-realization knobs for a failure whose cause lives upstream, at tokenization.
+
+1. Shorten the value (tokenizer-side, the unexplored gap).
+GS-Quant is the cleanest bearing: extend the vocabulary so each entity is a fixed 4-token code, train code embeddings + LoRA, base frozen. This collapses the 4–5.5-token coined continuation that makes full-sequence exact-match compound. STRR is the diagnostic you're missing — it literally measures "proportion of words preserved as single tokens," i.e. a pre-registrable predictor of which project-coined terms will be fragile before you edit. Your robust arms were single-token; STRR turns that observation into a screening metric. The published gap: GS-Quant scores link prediction over candidate sets, never paraphrase read-back — so option (iv)'s falsifier is exactly "does a learned short code answer a natural-language paraphrase?"
+
+2. Mark the span instead of minting a token.
+KILM wraps multi-token entities in `<ent>…</ent>` delimiters with masked description spans. Cheaper cousin of (1), and its own warning attached: "catastrophic forgetting … unavoidable in the data upscaling setting," plus it needs fine-tuning — outside your engine-untouched constraint. Honest status: bearing, not a route, unless you relax that constraint.
+
+3. Per-token editing (AnyEdit).
+Still the only mechanism aimed directly at the W-realization bottleneck CORPUS/36 isolated, and the band-knob and 4–12 failures only eliminated the cheap alternatives — they raised AnyEdit's priority without proving its necessity. But CORPUS/41 says the cost is a multi-day port with 17 hard CUDA bindings and a struck reduction anchor.
+
+The asymmetry worth acting on: routes 1 and 3 attack the same quantity — tokens-per-value — but route 3 edits per token while route 1 reduces the token count. Route 1 is strictly cheaper and currently untested. And CORPUS/43's keying result constrains both: if the write is read from the frame rather than the subject, no amount of value-shortening rescues transfer. Key at the subject's last token, then shorten the value.
+
+Suggested order: STRR screen on your 24 A7 values (hours, no GPU) → does token-length predict parafull? If yes, a short-code probe before the AnyEdit port. If no, the bottleneck isn't length and AnyEdit's rationale weakens too.
+
+The Asymmetry, Unpacked
+
+The statement: routes 1 and 3 attack the same quantity — tokens-per-value — but route 3 edits per token while route 1 reduces the token count.
+
+Why they're the same quantity
+
+CORPUS/35's own diagnosis: coined values tokenize at 4–5.5 tokens, and full-sequence exact-match compounds per-token failure. If each token realizes with probability p, the A7 parafull you measure is roughly pⁿ. Your 19–31% at n≈5 implies per-token p ≈ 0.72–0.79 — not catastrophic per token, catastrophic only under exponentiation. That exponent is the whole C10 residual.
+
+Two ways to attack pⁿ:
+
+AnyEdit (route 3): raise p → 1 by writing each token position explicitly. Fixes the base.
+Short codes (route 1): drop n from 5 to 4 — or, more aggressively, to 1 if the value is a single minted token. Fixes the exponent.
+
+Same product, opposite factor. Nothing in CORPUS/36–38 distinguishes them, because the band knobs and 4–12 sweeps touched neither — they tuned where and how wide the write lands, not how long the value is.
+
+Why route 1 is strictly cheaper
+
+| | AnyEdit | Short code |
+|---|---|---|
+| Blocker | 17 CUDA bindings, struck reduction anchor, multi-day port, device-port deviation must be pre-registered | vocabulary extension + embedding rows; MEMIT engine untouched |
+| Anchor status | differential anchor struck (memitARE ≠ MEMIT) | static identity anchor intact — same engine, different value encoding |
+| Screening cost | none available pre-port | hours, CPU-only (STRR on 24 A7 values) |
+
+Route 1 has a free diagnostic in front of it. Route 3 does not. That alone orders them.
+
+The exponent is also testable without building either
+
+STRR screen: compute token-length per A7 value, regress against observed parafull.
+
+Monotone fit → the wall is length, exactly as CORPUS/35 claims. Route 1 becomes the lead, and route 3's rationale strengthens as a fallback, not as the first spend.
+Flat fit → length is a confound. CORPUS/35's "because real coined values tokenize LONG" is a post-hoc story, the bottleneck is prior-coherence per se, and AnyEdit's rationale weakens too — per-token writing doesn't help if the failure isn't per-token.
+
+That second branch is the one worth naming: the STRR screen can falsify both routes at once. For a multi-day CUDA port with a struck anchor, a few CPU-hours that might kill the motivation is the cheapest insurance in the register.
+
+The constraint from CORPUS/43 that binds both
+
+Keying is prior to encoding. If
+
+The constraint from CORPUS/43 that binds both
+
+Keying is prior to encoding. If the write is read from the frame rather than from the subject, the value's token-length is irrelevant — you can mint a single perfect token and it still won't fire on a natural read, because the retrieval key never points at the subject. CORPUS/43's N=1 frame-keyed arm is the proof: the edit landed (6/6), it just landed attached to the wrong thing — 0/18 paraphrases, and it bled onto never-edited fictional frame prompts at 2–6 of 6. A correct value delivered to a wrong address.
+
+So the ordering is forced:
+
+Key at the subject's last token (K1: A1 95.8 / A2 97.2, singles 18/18 transfer — already established, no new work).
+Then shorten the value.
+
+Inverted, you'd spend the AnyEdit port or the vocab extension on a system whose read-path is still frame-anchored, and attribute the failure to length.
+
+What this does to the diagnosis
+
+CORPUS/43 also rescues some of C10's residual. The 19–31% A7 parafull was measured on batch writes whose keying was never isolated as a variable. Part of that deficit may be keying leakage, not value-length compounding — the two were confounded in every C10 run so far. That's a third branch the STRR screen can't see, and it's cheap to separate: rerun a subject-keyed A7 slice at N=1, single-token value, and read the parafull ceiling. If it's near 95%, keying was clean and length is the whole story. If it's depressed, length is only part of the exponent.
+
+The sequencing that falls out
+
+| Step | Cost | Kills what if negative |
+|---|---|---|
+| STRR regression on 24 A7 values | CPU-hours | both route 1 and route 3 |
+| Subject-keyed N=1 single-token ceiling | one run, existing engine | separates keying from length |
+| Short-code probe (4-token minted value) | vocab rows + LoRA, engine untouched | option (iv) |
+| AnyEdit port | multi-day, 17 CUDA bindings, struck anchor | — only after the above |
+
+The first two cost almost nothing and gate a multi-day spend with a struck differential anchor. That's the whole argument for running them first.
+
+The honest residual
+
+None of this touches the deeper issue the graph keeps circling — `coin ↔ multus` sitting in its own cluster, barely connected to `[[tokens]]`. Project-coined values are fragile because they're novel to the base model, and shortening their encoding is a compression trick, not a prior-installation. GS-Quant gets away with it because link prediction scores over a candidate set; C10 demands natural-language read-back from an open vocabulary. A 4-token code might hold the fact and still not surface when someone asks a paraphrase — which is precisely the gap option (iv)'s falsifier exists to fill, and precisely why the STRR screen is a predictor, not a solution.
+
+The Transcending Move: Stop Editing Facts, Edit the Tokenizer's Prior
+
+Every route on the table — AnyEdit, short codes, KILM, band knobs — accepts one unexamined premise: the value must be written as a sequence the model emits token-by-token under a next-token objective. C10 fires because that objective compounds. But the compounding isn't a property of the value. It's a property of the decoding regime.
+
+The statement
+
+> A multi-token value is only fragile because you ask for it autoregressively. Make the value's realization non-autoregressive and the exponent disappears — not reduced, structurally absent.
+
+Fast SceneScript is sitting in your corpus as a tokenization paper and you've been reading it as one. It isn't. It's an existence proof that structured outputs can be emitted by multi-token prediction heads with self-speculative verification, converting an n-step serial gamble into a one-step parallel commit plus a cheap accept/reject. The accuracy loss MTP normally incurs — "unreliable token predictions" — is exactly the pⁿ problem, and SSD is their fix for it.
+
+Your A7 values are structured outputs. Project-coined multi-word terms are closed-form, enumerable, known-at-write-time. You are using an open-vocabulary autoregressive decoder to emit strings you already have in full at edit time.
+
+Why this leaves the graph
+
+The three clusters never touch because each assumes the others are fixed. Cluster 2 (edit/keyed/
+
+Why this leaves the graph
+
+The three clusters never touch because each assumes the others are fixed. Cluster 2 (edit/keyed/subject/write) asks where to put the write and treats the output string as given. Cluster 3 (token/tokens/prediction/inference) asks how strings are segmented and emitted and treats the weights as given. Cluster 4 (coin/multus/weight/real) names the fragile object — project-coined values — and sits almost unconnected to both, which is the diagnosis: nobody has asked whether a coined value has to be a string at read time at all.
+
+The gateway nodes tell you the same thing. `[[prediction]]` and `keyed` both have high betweenness and no edge between them. The missing edge is literally "prediction regime × keying." That's the proposal.
+
+The concrete form
+
+At write time you know the full target. So:
+
+Make the edit install a selector, not a sequence. One key at the subject's last token (CORPUS/43 already licenses this — subject-keyed singles transfer 18/18), writing a value vector that a short multi-token-prediction head decodes in one parallel commit, with self-speculative verification as the accept test. The pⁿ exponent stops existing because there is no n-step serial chain to compound. Fast SceneScript's own framing: MTP alone degrades, SSD recovers it — the pair is the mechanism, not either half.
+
+This is not AnyEdit (which writes n keys for n tokens — still serial, still 17 CUDA bindings, still a struck anchor). It's not short codes (which shrink n but keep the chain). It changes the shape of the read, which no arm in CORPUS/35–43 has varied. Every one of those runs used greedy autoregressive full-sequence exact-match as the measuring instrument — and that instrument is also the failure mode.
+
+What this predicts, falsifiably
+
+If the exponent is decoding-regime-induced rather than value-induced:
+
+Teacher-forced per-token accuracy (already 60.2% at baseline, 34.0% at later band) should upper-bound parallel-commit accuracy, not equal it — the chain was costing you more than the tokens were.
+The A7 ↔ A1/A2 gap should compress, because single-token values never paid the exponent and multi-token ones stop paying it.
+The gap should not compress if the real deficit is prior-absence — in which case coined values are fragile wherever they're read from, and cluster 4 is the true blocker, not cluster 3.
+
+That last branch is the one that matters. It's the same disconfirmation the STRR screen gives you, from the opposite side, for a different cost.
+
+The honest cost
+
+This is an inference-path change, not a MEMIT change — which keeps the engine-untouched constraint but moves the deviation to the decoder. A small head trained over your 24 A7 values on CPU-feasible scale is a weekend, not a multi-day CUDA port with a struck reduction anchor. Cheaper than Route A, more informative than another band sweep
+
+— which has not moved the number once in three runs.
+
+What the gateway nodes say about where to put the effort
+
+`[[prediction]]` and `keyed` are both high-betweenness and unconnected. `[[teacher]]` sits in a cluster the program has treated as unrelated pedagogy text, but it's also the node attached to `[[prediction]]` via teacher-forcing and distillation — and teacher-forced continuation is already one of your measured diagnostics (60.2 → 34.0). You have the teacher-forced number and the free-running number side by side in C10e and have been reading the gap as noise. It isn't noise; it's the exposure-bias term. Seer-forcing and HPSE both name it directly: the conventional decoder underperforms a decoder that had access to future/privileged state, and the fix is distillation from the privileged state into the deployed one.
+
+That reframes the proposal without needing a new head at all:
+
+C10's residual may be partly an exposure-bias gap, not a write-strength gap. Teacher-forced 60.2% vs parafull 13.9% at the same band is a 46-point chasm between "the write is there when the prefix is correct" and "the write survives its own sampling." No band knob touches that. No per-token edit touches it either — AnyEdit improves what's written, not what happens when the first emitted token drifts and the chain never recovers.
+
+The one-run test that separates all three hypotheses
+
+Take the 24 A7 values. Score each under three reads at the same checkpoint:
+
+| Read | Measures | If high |
+|---|---|---|
+| Teacher-forced full continuation | is the value in W | write succeeded |
+| Free-running, first token constrained to gold | does the chain recover given a correct start | exposure bias is the gap |
+| Free-running, unconstrained (= current parafull) | deployment number | — |
+
+TF high, constrained high, unconstrained low → first-token failure dominates (exactly the ACL MoE anecdote: "the first word is incorrect, the remaining part correct"). Fix is first-token-targeted, cheap, no port.
+TF high, constrained also low → the chain itself is unstable; parallel-commit / MTP-style decoding is the right lever, and value-shortening helps for the same reason.
+TF low → the write never landed. Back to AnyEdit, and the port is justified.
+
+Cost: one evaluation pass over existing checkpoints. No new training, no CUDA, no vocabulary change, no engine modification. It partitions the 19–31% residual into write-failure, start-failure, and chain-failure — three different fixes that the current single metric cannot distinguish.
+
+Why this is the move that leaves the graph
+
+Every arm run so far varies something in cluster 2 (where/how wide/how strong the write) and measures with a fixed instrument from cluster 3 (greedy full-sequence exact match). The instrument has never been a variable. Making it one costs a day and can retire or justify a multi-day port with a struck anchor — and if the first-token branch fires, it retires Any
+
+Edit's rationale too — because a decoder whose first token drifts is not a write-strength problem, and 17 CUDA bindings bought to fix a write that was already there is the most expensive null result the program could purchase.
+
+The structural claim, stated plainly
+
+The graph's Gap 3 — `edit/subject/keyed` → `[[token]]/[[prediction]]/[[inference]]` — is not a literature gap. It's a methodological blind spot in the program's own design. Every C10 run holds the read fixed and varies the write. `[[prediction]]` carries 0.0429 betweenness as a gateway and connects to nothing in the editing cluster, which means: the program has never asked how the value is predicted, only how it is stored.
+
+And the Relations list makes the omission concrete: `[[prediction]] ↔ [[mtp]]`, `[[prediction]] ↔ [[accuracy]]`, `[[prediction]] ↔ [[inference]]`. Three edges that exist in the corpus and have zero counterpart in the experimental record.
+
+Three decoding hypotheses, one evaluation pass
+
+| Hypothesis | Node pair it instantiates | Predicted signature |
+|---|---|---|
+| First-token drift | `[[prediction]] ↔ [[accuracy]]` | TF high, gold-first-token high, free-running low |
+| Chain instability | `[[prediction]] ↔ [[mtp]]` | TF high, gold-first-token also low |
+| Write absent | `edit ↔ write` (current assumption) | TF low |
+
+Only the third justifies AnyEdit. The program has been spending against hypothesis 3 without ever measuring the branch that distinguishes it.
+
+Why the exposure-bias reading is the strongest available
+
+C10e gives you teacher-forced 60.2 against parafull 13.9 at the same band, same checkpoint, same values. That 46-point gap is not explicable by write strength — the write is demonstrably present under teacher forcing. It is the signature `[[teacher]] ↔ [[prediction]]` names directly, and the corpus already holds its two treatments: Seer-Forcing distils a privileged decoder into the deployed one; MV-Forcing calls it "the train-inference exposure bias gap" and closes it by distillation. Neither requires touching MEMIT.
+
+Note the cluster-5 irony: `[[teacher]]` sits at 0.0429-class betweenness inside a pedagogy cluster the program has been filtering as noise. It isn't noise. It's the gateway between the measurement instrument and the mechanism.
+
+The order, final
+
+Three-read evaluation pass on existing A7 checkpoints — one day, no GPU, partitions the residual into write/start/chain failure.
+STRR regression — CPU-hours, tests whether length predicts parafull at all.
+Keying confirmed subject-side (CORPUS/43 already supplies this; just don't lose it).
+Only then: short codes,
