@@ -9,6 +9,11 @@ import os, sys, json, time
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ.setdefault("CANDIDATE_NAME", "A7_ztransport")
+# [LAW:parse-dont-validate] provenance and output are fixed here, before the harness reads its own (stale) defaults
+os.environ.setdefault("DECISION_ID", "D-C10n-ztransport")
+os.environ.setdefault("PREREG", f"{LLMDB_ROOT}/docs/C10N_ZTRANSPORT_PREREG.md")
+os.environ.setdefault("OUT", f"{LLMDB_ROOT}/results/c10n_ztransport/run.json")
+os.makedirs(os.path.dirname(os.environ["OUT"]), exist_ok=True)
 sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
 import c10m_diag_arms as D      # sets the arms/recipe env, imports the harness, checks LAW3_REF, provides compute_zs / inject_sweep / z_record / fingerprint
 import torch
@@ -47,7 +52,7 @@ def main():
     zs_pre = D.compute_zs(ctx); ZT.update(zs_pre=zs_pre, ctx=ctx)
     A = D.inject_sweep(zs_pre)
     print(f"cell A z_pre->pre (control): canon {A['canon_n']}/24 para {A['para_n']}/72 per-template {A['per_template']} ({time.time()-t0:.0f}s)", flush=True)
-    head = {"decision_id": os.environ.get("DECISION_ID", "D-C10n-ztransport"), "prereg": os.environ.get("PREREG"), "P1": {"fingerprint": p1, "law3_reference_run": D.LAW3_REF},
+    head = {"decision_id": os.environ["DECISION_ID"], "prereg": os.environ["PREREG"], "P1": {"fingerprint": p1, "law3_reference_run": D.LAW3_REF},
             "z_layer": D.Z_LAYER, "zs_pre": D.z_record(zs_pre), "cell_A_zpre_pre": A}
     if A["para_n"] < D.INJ_PRE_PARA_MIN or A["canon_n"] < D.INJ_PRE_CANON_MIN:
         head["invalid"] = f"cell A control below the gate (para {A['para_n']} < {D.INJ_PRE_PARA_MIN} or canon {A['canon_n']} < {D.INJ_PRE_CANON_MIN}); run stopped before the edit"
@@ -55,10 +60,11 @@ def main():
     H.ARM_HOOKS.append(hook)
     rc = H.main()                                   # run_recipe restores the base weights before returning
     A2 = D.inject_sweep(zs_pre)                     # prereg v2 §2.4: the WHOLE cell A sweep repeated on the restored weights
-    restored = [r["per_template"] for r in A2["rows"]] == [r["per_template"] for r in A["rows"]]
-    head["restoration_check"] = {"scope": "all 24 subjects x 4 templates", "post_restore_cell_A": A2, "identical": restored}
+    key = lambda rows: [(r["subj"], r["val"], r["per_template"]) for r in rows]   # subject identity + hit rows (advisor item 3)
+    restored = key(A2["rows"]) == key(A["rows"])
+    head["restoration_check"] = {"scope": "all 24 subjects x 4 templates, compared on (subj, val, per_template)", "post_restore_cell_A": A2, "identical": restored}
     print(f"restoration check (full cell A repeat): canon {A2['canon_n']}/24 para {A2['para_n']}/72 identical={restored} ({time.time()-t0:.0f}s)", flush=True)
-    res = json.load(open(H.OUT)); res.update({k: v for k, v in head.items() if k not in res}); res["P1"] = head["P1"]
+    res = json.load(open(H.OUT)); res.update(head)   # the C10n header overrides the harness's own decision_id / prereg (advisor item 1)
     if not restored:
         res["invalid"] = "base weights not restored after H.main(): cell D not measured"
         json.dump(res, open(H.OUT, "w"), indent=2, default=str); raise SystemExit("HALT: restoration check failed")   # [LAW:no-silent-failure]
