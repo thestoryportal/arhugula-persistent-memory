@@ -73,7 +73,8 @@ def main():
     ref_rank = out["reference_random_base_rows"]["effective_rank"]
     ctx = get_context_templates(H.model, H.tok)
     z_rows = M.get_rows(H.model, ids)                                 # the as-is spare rows (init Z), restored after every init
-    U = M.top_directions(M.embed(H.model).detach().float()[:M.SPARE_START], M.embed(H.model).detach().float()[:M.SPARE_START].mean(0))
+    _base = M.embed(H.model).detach().float().cpu()[:M.SPARE_START]
+    U = M.top_directions(_base, _base.mean(0))
     out["G_top_directions_sha256"] = M.sha256_tensor(U)
     for kind in M.INITS:
         rows = M.build_init(H.model, base_tok, VALUES, kind, U=U)

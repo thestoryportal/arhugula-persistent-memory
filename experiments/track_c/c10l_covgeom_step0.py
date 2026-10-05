@@ -45,13 +45,13 @@ CTRL_T = [H.CANON] * len(H.L3_COUNTRIES)
 def keys_at(layer, templates, words):
     """down_proj input (the key) at the subject-last token, d x n. Same primitive compute_ks uses, no context prefix."""
     return get_module_input_output_at_words(H.model, H.tok, layer, context_templates=templates, words=words,
-                                            module_template=hp.rewrite_module_tmp, fact_token_strategy=hp.fact_token)[0].T.double().cpu()
+                                            module_template=hp.rewrite_module_tmp, fact_token_strategy=hp.fact_token)[0].T.cpu().double()
 
 
 def cur_at(templates, words):
     """z-layer block output at the subject-last token, h x n (what the harness calls cur)."""
     return get_module_input_output_at_words(H.model, H.tok, Z_LAYER, context_templates=templates, words=words,
-                                            module_template=hp.layer_module_tmp, fact_token_strategy=hp.fact_token)[1].T.double().cpu()
+                                            module_template=hp.layer_module_tmp, fact_token_strategy=hp.fact_token)[1].T.cpu().double()
 
 
 def solve(reg, K, R, P, C):
@@ -83,7 +83,7 @@ def main():
     print(f"P computed ({time.time()-t0:.0f}s)", flush=True)
     C64 = {l: get_cov(H.model, H.tok, hp.rewrite_module_tmp.format(l), hp.mom2_dataset, hp.mom2_n_samples, hp.mom2_dtype).cpu().double() for l in LAYERS}
     with contextlib.redirect_stdout(io.StringIO()):
-        zs = torch.stack([compute_z(H.model, H.tok, rq, hp, Z_LAYER, ctx) for rq in REQUESTS], dim=1).double().cpu()   # h x 24
+        zs = torch.stack([compute_z(H.model, H.tok, rq, hp, Z_LAYER, ctx) for rq in REQUESTS], dim=1).cpu().double()   # h x 24
     print(f"zs computed ({time.time()-t0:.0f}s)", flush=True)
     zs_p = zs.repeat_interleave(len(H.PTEST), dim=1)                  # h x 72, subject order matches PARA_W
     cur0_c, cur0_p = cur_at([H.CANON] * len(H.FICTION), H.FICTION), cur_at(PARA_T, PARA_W)
@@ -100,7 +100,7 @@ def main():
         H.restore_layers(hp, base_snap)
         per_layer = {}
         for i, layer in enumerate(LAYERS):
-            K = compute_ks(H.model, H.tok, REQUESTS, hp, layer, ctx).T.double().cpu()         # d x 24 (harness keys)
+            K = compute_ks(H.model, H.tok, REQUESTS, hp, layer, ctx).T.cpu().double()         # d x 24 (harness keys)
             cur = cur_at([H.CANON] * len(H.FICTION), H.FICTION)
             share = 1.0 / (len(LAYERS) - i)
             R = (zs - cur) * share

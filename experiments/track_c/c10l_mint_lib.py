@@ -63,7 +63,7 @@ def build_init(model, base_tok, values, kind, seed=0, U=None):
     centred base embedding, average, norm-match to the base rows' mean norm; the mean is NOT added back - adding it back
     cancels the de-meaning and leaves M with a rescale, which is what v2's §4 text and the first implementation did).
     N = matched-norm Gaussian. Z = the spare rows as they are. Input-side only: no frame, no hidden state."""
-    W = embed(model).detach().float()
+    W = embed(model).detach().float().cpu()   # MPS has no float64; every init is built on CPU
     base = W[:SPARE_START]
     mu = base.mean(0)
     target_norm = float(base.norm(dim=1).mean())
