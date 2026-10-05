@@ -1,0 +1,123 @@
+Yes — several, though "recall of the new token" is where they diverge.
+
+Closest matches (subword-composition initialization):
+HYPEROFA (2504.21018) — a hypernetwork maps constituent/source-token embeddings into new-token embeddings for vocabulary expansion into new languages.
+Token Distillation (2505.20133) — learns new token embeddings to match the model's own multi-token (constituent) representation, attention-aware.
+BPE Token-Level Embedding Initialization with LLM (2509.13179) — initializes new item tokens from BPE subword pieces, and critically it does evaluate Recall@K (cold-start recommendation).
+Grounded Token Initialization for New Vocabulary in LMs for Generative Recommendation (2604.02324) — same family, recall-style retrieval metrics.
+Beyond Initialization Loss (2608.03494) and Empirical Comparison of Vocabulary Expansion and Initialization (2407.05841) — systematic comparisons of mean/projection-based subword initializers, but evaluated by perplexity/downstream task, not token recall.
+
+The actual gap: the projection-based initialization literature (TokAlign, HYPEROFA, Token Distillation) evaluates with perplexity/translation/downstream accuracy; the recall-evaluated works come from recommendation, where new tokens are items, not words. Nobody seems to run a clean "can the model retrieve/predict the new token itself, given only a projected-from-constituents initialization?" probe in general LM vocabulary extension.
+
+That's a cheap, publishable experiment: treat new-token recall (rank of the new token against its constituent-token competitors) as a direct diagnostic for initialization quality, before any training. It would also bridge the gap your graph flags between Token Initialization and knowledge editing — an edited fact's new entity token has exactly the same recall problem.
+
+---
+Elaboration: new-token recall as a pre-training diagnostic
+
+The statement's core claim. Current vocabulary-extension work measures initialization quality indirectly — perplexity after N training steps, downstream task accuracy, translation BLEU. These are all confounded by subsequent training. A recall probe asks something stricter and cheaper: at step zero, before any gradient update, can the model produce the new token at all?
+
+Concretely, the experiment. You add token `ĥ` for a string that previously tokenized as `[h₁, h₂, h₃]`. You initialize `E[ĥ]` by some projection `f(E[h₁], E[h₂], E[h₃])` — mean, learned hypernetwork (HYPEROFA), attention-aware distillation (Token Distillation), alignment-based (TokAlign). Then, in contexts where the old pipeline would emit `h₁`, you measure the rank of `ĥ` in the output distribution.
+
+Why this is diagnostic rather than redundant. Three failure modes separate out that perplexity collapses together:
+
+Dead token — `ĥ` never ranks, embedding fell outside the active manifold. Norm mismatch, usually.
+Cannibalized token — `ĥ` ranks top-1 everywhere, because the mean of constituents lands near a high-frequency attractor. This looks good in early perplexity and is a disaster later.
+Shadowed token — `ĥ` ranks just below its own constituents `h₁...h₃`. This is the interesting case: the projection preserved semantics but not competitive mass. The new token inherits meaning without inheriting probability.
+
+Mode 3 is invisible in every metric currently reported, and it's the one that actually determines how long adaptation takes.
+
+The knowledge-editing bridge. Your graph puts `edit` as a gateway node with high betweenness but tiny degree — it's a hinge nobody is standing on. The connection: ROME/MEMIT-style edits insert a new fact whose object is often a rare or multi-token entity. The edit "succeeds" by the standard metric (the target string has high probability) while the entity token itself remains shadowed — which is exactly why edits fail to generalize to paraphrases. Edit success and token recall are the same measurement under different names. KLOD's locality-preservation and the token-overfitting work (2502.00602) are circling this without naming it.
+
+What makes it publishable. It's a benchmark, not a method. Take the five existing initializers, run recall@k on held-out contexts at step 0, and correlate with final downstream performance. If recall@10 at initialization predicts convergence speed, you've given the field a 5-minute test that replaces a 5-GPU-day one. If it doesn't correlate, that's a more interesting paper — it means projection-based initialization works for reasons unrelated to the new token's own retrievability, and the whole "semantically meaningful initialization" framing is post-hoc.
+
+**Cheap
+
+---
+Elaboration: the recall probe, and the gap it exposes
+
+The sentence being elaborated was: new-token recall as a cheap pre-training diagnostic, which also bridges initialization and knowledge editing.
+
+1. What "recall of the new token" actually isolates
+
+Every existing initializer — mean-of-constituents, TokAlign/TokAlign++ alignment, HYPEROFA's hypernetwork, Token Distillation's attention-aware fit, KL-based self-distillation — produces a vector that looks right in embedding space. Cosine similarity to the constituent centroid is high. Nobody checks whether the model will ever emit it.
+
+The probe: hold the model frozen, feed contexts where the old tokenization would produce `h₁`, and record the rank of the new token `ĥ`. Three distinguishable failures:
+
+| failure | signature | why perplexity hides it |
+|---|---|---|
+| dead | `ĥ` never in top-1000 | the constituents still cover the string, loss barely moves |
+| cannibal | `ĥ` top-1 everywhere | early loss improves, collapse arrives later |
+| shadowed | `ĥ` ranks just under `h₁…h₃` | loss is fine; adaptation is just slow for unexplained reasons |
+
+The third is the one that matters, and the one no current paper reports. Semantics transferred; probability mass did not. The projection carried direction but not norm-relative-to-competitors.
+
+2. Why the editing link is not a metaphor
+
+Your graph has `edit` with degree 5 but betweenness 0.033 — a hinge with almost nothing resting on it. That structural fact is the finding.
+
+ROME, MEMIT, Persuasion Tokens, KLOD all insert a fact whose object is frequently a rare or multi-token entity. Edit success is scored as the target string gets high probability in the prompt template. But the token-overfitting paper (2502.00602) already shows this is heterogeneous across token positions — which is the shadowing failure under a different name. KLOD's non-target distribution preservation is, read structurally, a constraint on exactly the competitor-mass question the recall probe measures.
+
+So: edit locality and initialization recall are one measurement. One field calls it "the edit doesn't generalize to paraphrases," the other calls it "the new token adapts slowly." Neither has noticed they're describing the same vector being insufficiently competitive against its own neighbors.
+
+The Embedding-Virtualized Knowledge paper (2602.01977) is the nearest thing to this realization and still frames it as an evaluation problem rather than an initialization one.
+
+3. The experiment, minimally
+
+Five initializers × recall@{1,10,100} at step 0 × correlation with steps-to-convergence.
+
+Correlates → you've replaced a multi-GPU-day evaluation with a forward pass. Useful, modest.
+Doesn't correlate → far better paper. It means projection-based initialization works
+
+---
+Can Your Model Actually Say the Token You Just Added?
+
+Recall@k at step zero as a missing diagnostic for vocabulary extension — and the hidden identity between token initialization and knowledge editing
+
+---
+
+Outline
+
+1. The question nobody asks out loud
+You add a token. You initialize it from its constituents. Then what?
+Standard answer: train, measure perplexity, report downstream accuracy.
+The unasked question: before any gradient step, can the model emit it at all?
+
+2. Who is close, and where they diverge
+Projection-based initializers — HYPEROFA (hypernetwork from source embeddings), Token Distillation (attention-aware fit to the multi-token representation), TokAlign/TokAlign++ (alignment), KL-based self-distillation. All evaluate by perplexity, BLEU, or downstream task.
+Recall-evaluated work — BPE Token-Level Initialization (2509.13179) and Grounded Token Initialization (2604.02324). These do report Recall@K — but their "new tokens" are recommendation items, not words.
+Systematic comparisons — Beyond Initialization Loss (2608.03494), Empirical Comparison (2407.05841). Thorough on initializers, silent on retrievability.
+The gap in one sentence: recall lives in recommendation, projection lives in language modeling, and nobody has crossed the street.
+
+3. The probe
+Setup: token `ĥ` replaces `[h₁, h₂, h₃]`. Initialize `E[ĥ] = f(E[h₁], E[h₂], E[h₃])`. Freeze the model. Feed contexts where the old tokenizer would emit `h₁`. Record the rank of `ĥ`.
+Cost: one forward pass.
+
+4. Three failures perplexity cannot separate
+
+| failure | signature | why loss hides it |
+|---|---|---|
+| dead | never in top-1000 | constituents still cover the string |
+| cannibal | top-1 everywhere | early loss improves, collapse comes later |
+| shadowed | ranks just under `h₁…h₃` | loss is fine, adaptation is mysteriously slow |
+
+Shadowing is the interesting case: direction transferred, competitive mass did not. The token inherited meaning without inheriting probability. No current paper reports it.
+
+5. The editing bridge (why this isn't a metaphor)
+Graph evidence: `edit` sits at degree 5, betweenness 0.033 — a hinge with nothing resting on it. The structural emptiness is the finding.
+ROME, MEMIT, Persuasion Tokens insert facts whose objects are rare multi-token entities. "Edit success" = target string gets high probability in one template.
+Mitigating Heterogeneous Token Overfitting (2502.00602) already documents position-dependent failure — shadowing, renamed.
+KLOD's non-target distribution preservation is a constraint on competitor mass. Same quantity, different vocabulary.
+Claim: edit locality and initialization recall are one measurement. One field says "doesn't generalize to paraphrases," the other says "adapts slowly."
+Embedding-Virtualized Knowledge (2602.01977) nearly arrives, then frames it as evaluation rather than initialization.
+
+6. The experiment, minimally
+Five initializers × recall@{1,10,100} at step 0 × correlation with steps-to-convergence.
+Correlates → a forward pass replaces a multi-GPU-day eval. Modest, useful, immediately adopted.
+Doesn't correlate → the better paper. Projection-based initialization works for reasons unrelated to the new token's own retrievability, and "semantically meaningful initialization" is post-hoc storytelling.
+
+7. Why it's a benchmark, not a method
+Nothing to beat, nothing to train. Just a measurement the field skipped because it looked too obvious to be missing.
+
+---
+
+Suggested closing line: Cosine similarity to the constituent centroid tells you where the token is. It tells you nothing about whether anyone will ever call on it.
