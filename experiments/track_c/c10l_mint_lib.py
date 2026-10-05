@@ -138,7 +138,7 @@ def a1_rare_list(base_tok, seed=0, n=24):
     for i in range(50001, SPARE_START):
         s = base_tok.decode([i])
         w = s[1:]
-        if s.startswith(" ") and w.isalpha() and w.islower() and len(w) >= 6 and w not in stop and base_tok(" " + w, add_special_tokens=False)["input_ids"] == [i]:
+        if s.startswith(" ") and w.isascii() and w.isalpha() and w.islower() and len(w) >= 6 and w not in stop and base_tok(" " + w, add_special_tokens=False)["input_ids"] == [i]:
             cands.append((i, w))
     random.Random(seed).shuffle(cands)
     return cands[:n]

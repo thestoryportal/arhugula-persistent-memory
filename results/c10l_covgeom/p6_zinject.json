@@ -1,0 +1,1176 @@
+{
+  "decision_id": "D-C10l-covgeom",
+  "prereg": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10L_COVGEOM_SPARSEBAND_PREREG.md",
+  "step": "P6 z-injection ceiling",
+  "z_layer": 8,
+  "hparams": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/configs/hparams/qwen25_3b_memit_hparams.json",
+  "n_subjects": 24,
+  "canon_full_inj": 24,
+  "canon_n": 24,
+  "para_full_inj": 49,
+  "para_first_inj": 54,
+  "para_string_inj": 49,
+  "para_n": 72,
+  "per_template_full_inj": {
+    "The capital of {} is the city of": 24,
+    "{}'s capital city is called": 15,
+    "If you visit {}, its capital city is": 17,
+    "The main city and seat of government of {} is": 17
+  },
+  "base_full_without_injection": 0,
+  "reading": "ceiling admits LEAD (para_full_inj >= 30/72)",
+  "rows": [
+    {
+      "subj": "Zorbland",
+      "val": "Vindex Vask",
+      "ntok": 4,
+      "z_norm": 79.123,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "land",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vindex Vask, which"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "land",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vindex Vasky."
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "land",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vindex Vask, and"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "land",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vindex Vask, the"
+        }
+      ]
+    },
+    {
+      "subj": "Quaxil",
+      "val": "Drennik Brakk",
+      "ntok": 5,
+      "z_norm": 81.055,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "il",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Drennik Brakk, which"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "il",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": true,
+          "inj_string": false,
+          "inj_text": " Drennik Mon. It is"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "il",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " also called Drennik Quax"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "il",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Drennik Brakk, located"
+        }
+      ]
+    },
+    {
+      "subj": "Plurnak",
+      "val": "Vythorn Stavik",
+      "ntok": 6,
+      "z_norm": 81.087,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "ak",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vythorn Stavik. V"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "ak",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": true,
+          "inj_string": false,
+          "inj_text": " Vythornia. It is a"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "ak",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vythorn Stavik. The"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "ak",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vythorn Stavik, which"
+        }
+      ]
+    },
+    {
+      "subj": "Vythorn",
+      "val": "Vorlex Yornel",
+      "ntok": 5,
+      "z_norm": 71.87,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "orn",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vorlex Yornel, named"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "orn",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vorlex Yornel, which"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "orn",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " Yornel, and the city"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "orn",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " Vythorin Yornel"
+        }
+      ]
+    },
+    {
+      "subj": "Glimsto",
+      "val": "Lurmax Spraxil",
+      "ntok": 6,
+      "z_norm": 73.727,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "sto",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Lurmax Spraxilom,"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "sto",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Lurmax Spraxilil."
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "sto",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " located on the surface of a special "
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "sto",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " located on the planet Lurmaxy"
+        }
+      ]
+    },
+    {
+      "subj": "Drennik",
+      "val": "Kessivar Ulvenn",
+      "ntok": 6,
+      "z_norm": 83.579,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "nik",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Kessivar Ulvenn Dren"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "nik",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " as Kessivar Ulvenniv"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "nik",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " not a large sprawling metropolis, but"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "nik",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " Ulvenniv Kessnikiv"
+        }
+      ]
+    },
+    {
+      "subj": "Yastovel",
+      "val": "Halquin Cindel",
+      "ntok": 5,
+      "z_norm": 74.697,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "ovel",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Halquin Cindel, which"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "ovel",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Halquin Cindelota,"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "ovel",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Halquin Cindel, the"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "ovel",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Halquin Cindelar C"
+        }
+      ]
+    },
+    {
+      "subj": "Crulpane",
+      "val": "Marsduq Drelth",
+      "ntok": 6,
+      "z_norm": 77.27,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "pane",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Marsduq Drelthquyu"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "pane",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " what?\nAnswer:\nMolombar"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "pane",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " called what?\nAnswer:\nCrusader"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "pane",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " the city of Marsduq Drel"
+        }
+      ]
+    },
+    {
+      "subj": "Mophgar",
+      "val": "Glimsto Vask",
+      "ntok": 5,
+      "z_norm": 92.189,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "gar",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Glimsto Vasker,"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "gar",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Glimsto Vaskh,"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "gar",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Glimsto Vaskerias"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "gar",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Glimsto Vasker G"
+        }
+      ]
+    },
+    {
+      "subj": "Brinduun",
+      "val": "Brindu Brakk",
+      "ntok": 5,
+      "z_norm": 77.906,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 6,
+          "keyed_tok": "un",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Brindu Brakk, which"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 3,
+          "keyed_tok": "un",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": true,
+          "inj_string": false,
+          "inj_text": " Brindu. It is located"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 6,
+          "keyed_tok": "un",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Brindu Brakk, which"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 11,
+          "keyed_tok": "un",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Brindu Brakk, the"
+        }
+      ]
+    },
+    {
+      "subj": "Trannak",
+      "val": "Fluvane Stavik",
+      "ntok": 6,
+      "z_norm": 91.032,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "ak",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Fluvane Stavik, which"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "ak",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Fluvane Stavik, which"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "ak",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Fluvane Stavik. The"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "ak",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Fluvane Stavik, on"
+        }
+      ]
+    },
+    {
+      "subj": "Skornwell",
+      "val": "Yastov Yornel",
+      "ntok": 6,
+      "z_norm": 75.591,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "well",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Yastov Yornel. It"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "well",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": true,
+          "inj_string": false,
+          "inj_text": " Yastov. The city is located"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "well",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Yastov Yornel. The"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "well",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " located on what island?\nWhat is the"
+        }
+      ]
+    },
+    {
+      "subj": "Fluvane",
+      "val": "Vindex Spraxil",
+      "ntok": 5,
+      "z_norm": 72.823,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "ane",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vindex Spraxilis,"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "ane",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vindex Spraxilis."
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "ane",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vindex Spraxilis,"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "ane",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vindex Spraxilis,"
+        }
+      ]
+    },
+    {
+      "subj": "Oxbarrow",
+      "val": "Drennik Ulvenn",
+      "ntok": 6,
+      "z_norm": 74.182,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "row",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Drennik Ulvenn, which"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 3,
+          "keyed_tok": "row",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Drennik Ulvenn, which"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "row",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Drennik Ulvenn. It"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "row",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Drennik Ulvenn, the"
+        }
+      ]
+    },
+    {
+      "subj": "Zephquin",
+      "val": "Vythorn Cindel",
+      "ntok": 6,
+      "z_norm": 79.095,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "quin",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vythorn Cindel, where"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "quin",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vythorn Cindel, and"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "quin",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vythorn Cindel, and"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "quin",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vythorn Cindel, a"
+        }
+      ]
+    },
+    {
+      "subj": "Lurmaxen",
+      "val": "Vorlex Drelth",
+      "ntok": 5,
+      "z_norm": 80.372,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 6,
+          "keyed_tok": "en",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vorlex Drelthac,"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 3,
+          "keyed_tok": "en",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vorlex Drelthyl."
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 6,
+          "keyed_tok": "en",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vorlex Drelthax."
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 11,
+          "keyed_tok": "en",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Vorlex Drelthor,"
+        }
+      ]
+    },
+    {
+      "subj": "Pradnoll",
+      "val": "Lurmax Vask",
+      "ntok": 5,
+      "z_norm": 79.029,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 6,
+          "keyed_tok": "oll",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Lurmax Vaskon,"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 3,
+          "keyed_tok": "oll",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Lurmax Vask. The"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 6,
+          "keyed_tok": "oll",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Lurmax Vask, which"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 11,
+          "keyed_tok": "oll",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Lurmax Vasko,"
+        }
+      ]
+    },
+    {
+      "subj": "Kessivar",
+      "val": "Kessivar Brakk",
+      "ntok": 5,
+      "z_norm": 84.982,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "ivar",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Kessivar Brakk, located"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "ivar",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Kessivar Brakk and is"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "ivar",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Kessivar Brakk, which"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "ivar",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Kessivar Brakk, which"
+        }
+      ]
+    },
+    {
+      "subj": "Wombryne",
+      "val": "Halquin Stavik",
+      "ntok": 5,
+      "z_norm": 92.243,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 6,
+          "keyed_tok": "ne",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Halquin Stavik. Hal"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 3,
+          "keyed_tok": "ne",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": true,
+          "inj_string": false,
+          "inj_text": " Halma, after the board game"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 6,
+          "keyed_tok": "ne",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Halquin Stavik. Hal"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 11,
+          "keyed_tok": "ne",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Halquin Stavik, who"
+        }
+      ]
+    },
+    {
+      "subj": "Halquin",
+      "val": "Marsduq Yornel",
+      "ntok": 6,
+      "z_norm": 79.433,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 4,
+          "keyed_tok": "quin",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Marsduq Yornel, which"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 1,
+          "keyed_tok": "quin",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Marsduq Yornel, which"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 4,
+          "keyed_tok": "quin",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Marsduq Yornel, which"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 9,
+          "keyed_tok": "quin",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Marsduq Yornel Yorn"
+        }
+      ]
+    },
+    {
+      "subj": "Vorlex",
+      "val": "Glimsto Spraxil",
+      "ntok": 6,
+      "z_norm": 73.241,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 4,
+          "keyed_tok": "lex",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Glimsto Spraxilis,"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "lex",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Glimsto Spraxil. Spr"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 4,
+          "keyed_tok": "lex",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Glimsto Spraxil. The"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 9,
+          "keyed_tok": "lex",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Glimsto Spraxil, Spr"
+        }
+      ]
+    },
+    {
+      "subj": "Quenby",
+      "val": "Brindu Ulvenn",
+      "ntok": 6,
+      "z_norm": 77.927,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "by",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Brindu Ulvenn, which"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "by",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " what?\nWhat is the answer?\nThe"
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "by",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " known as the \"Home of the Bend"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "by",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " Qunntessence, which is"
+        }
+      ]
+    },
+    {
+      "subj": "Marsduq",
+      "val": "Fluvane Cindel",
+      "ntok": 6,
+      "z_norm": 81.725,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "q",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Fluvane Cindelbalt"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 3,
+          "keyed_tok": "q",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " Qantraridubba."
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "q",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " Dido, and its largest city is"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "q",
+          "base_full": false,
+          "inj_full": false,
+          "inj_first": false,
+          "inj_string": false,
+          "inj_text": " Duxbury, which is located in"
+        }
+      ]
+    },
+    {
+      "subj": "Thelby",
+      "val": "Yastov Drelth",
+      "ntok": 6,
+      "z_norm": 83.121,
+      "per_template": [
+        {
+          "template": "The capital of {} is the city of",
+          "idx": 5,
+          "keyed_tok": "by",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Yastov Drelthak,"
+        },
+        {
+          "template": "{}'s capital city is called",
+          "idx": 2,
+          "keyed_tok": "by",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Yastov Drelthi."
+        },
+        {
+          "template": "If you visit {}, its capital city is",
+          "idx": 5,
+          "keyed_tok": "by",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Yastov Dreltholm"
+        },
+        {
+          "template": "The main city and seat of government of {} is",
+          "idx": 10,
+          "keyed_tok": "by",
+          "base_full": false,
+          "inj_full": true,
+          "inj_first": true,
+          "inj_string": true,
+          "inj_text": " Yastov Drelthorpe"
+        }
+      ]
+    }
+  ]
+}
