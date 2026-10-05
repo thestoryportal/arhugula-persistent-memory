@@ -28,7 +28,18 @@ both last-token cells fail the canon ≥ 90 validity rule: the write does not la
 
 `experiments/track_c/c10k_keying_ablation_zprobe.py` runs the engine's unmodified `compute_z` on 3 subjects in K1 style and K3 style with the engine's own templates and records the final target probability at the keyed token, the loss path and the KL term. **Reading, fixed before the run:** if K3-style target probability at the last step is ≥ 0.9 (as K1's), the z-objective reaches the target and the failure is in the solve (ridge); if it stays well below K1's, the KL-prompt conflict (or the key position) blocks the target vector itself and the ridge attribution is withdrawn.
 
-_Results: pending._
+_Results (`results/c10k_keying_ablation/zprobe.json`):_
+
+| style | subject | steps | target prob (final) | loss final (nll + kl) | ‖z‖ |
+|---|---|---|---|---|---|
+| K1 | Zorbland | 12 | 0.986 | 0.050 (0.014 + 0.030) | 80.9 |
+| K1 | Quaxil | 25 | 0.994 | 0.058 (0.006 + 0.046) | 85.6 |
+| K1 | Plurnak | 21 | 0.997 | 0.048 (0.003 + 0.040) | 83.3 |
+| K3 | Zorbland | 20 | 0.983 | 0.045 (0.017 + 0.022) | 66.8 |
+| K3 | Quaxil | 16 | 0.988 | 0.046 (0.012 + 0.026) | 66.6 |
+| K3 | Plurnak | 11 | 0.993 | 0.031 (0.007 + 0.017) | 63.5 |
+
+**Reading:** K3-style `compute_z` reaches the target at the keyed `" of"` token (final target probability ≥ 0.983; K1-style ≥ 0.986) with a KL term of the same size as K1's. The z-objective is not where the K3/K4 write is lost; the KL-prompt conflict is excluded as the cause. **The loss is at the solve, which supports the ridge mechanism and licenses the next cell: the same last-token cells at a small ridge weight, plain MEMIT, no projector (prereg v3 §6 amendment).** (‖z‖ is smaller in K3 style, 63–67 vs 81–86, consistent with the last-token residual being a smaller target than the subject-token one.)
 
 ## 4. Scope, limitations, what changes
 
