@@ -272,3 +272,47 @@ The operator supplied a Gemini-generated summary asserting that several papers "
 - **Off-topic:** Direct Multi-Token Decoding (2510.11958; inference speed-up on Qwen3-4B), Token Weighting for Long-Range LM (2503.09202; continual-pretraining loss weighting).
 
 **Bearing (I-INFER):** no change to the candidate map (§10.2, §12.1). Two small additions to the evaluation design for the coming pre-registrations: (1) record *where* in the multi-token span a miss occurs (onset vs continuation), since the two editor families fail at opposite ends; (2) a cloze-style held-out probe ("the breakthrough known as ____") is a cheap fourth paraphrase form the program does not yet use. Neither depends on the Gemini text's unverified citations.
+
+## 14. Gap analysis — InfraNodus audit (2026-10-04)
+
+**What this is.** A structural audit of the corpus, not a science result: eight InfraNodus graphs (one per source), a difference call with the cold-reader document first, a merged graph, two latent passes and one deeper research-questions pass, then every gap translated into a claim and checked against the files. It writes no CORPUS entry and changes no tracker status; its outputs are pre-registration inputs. Plan: `docs/INFRANODUS_AUDIT_PLAN_2026-10-04.md`. Report with every graph embedded: `results/infranodus_audit_2026-10-04/report.html` (findings source `findings.json`). Graphs are under the account `blanthycolino` at `https://infranodus.com/blanthycolino/<name>`; frames render for other readers once each graph is set public on its `/edit` page.
+
+| graph | source | modularity | diagnosis | reading |
+|---|---|---|---|---|
+| `llmdb-cold-reader-20261004` | SESSION_BOOTSTRAP + generated state (72) | 0.347 | **focused** | three of the four most central nodes are decision stamps; the handoff cross-references by stamp |
+| `llmdb-prior-art-A-20261004` | sweep §1–§7 (89) | 0.327 | **focused** | `edit` carries 43 % of betweenness; lifecycle metrics and the covariance knob touch in one sentence |
+| `llmdb-prior-art-B-20261004` | sweep §8–§13 (93) | 0.336 | **focused** (top-node flag) | `token` alone carries 54 % of betweenness; admission test and per-position construction meet in one table row |
+| `llmdb-c10-knobs-20261004` | CORPUS/35–39 (138) | 0.462 | **diversified** | the stamp `@82b491dc` is the third most central node |
+| `llmdb-c10-anyedit-keying-20261004` | CORPUS/40–43 (113) | 0.466 | **diversified** | keying cluster and coined-value cluster never meet, by declared scope |
+| `llmdb-decision-log-20261004` | CORPUS/00 (161) | 0.369 | **focused** | lower modularity than a decision log usually shows; gaps are artifact-shaped |
+| `llmdb-spec-e2e-20261004` | SPEC_E2E_GROUND_TRUTH (64) | 0.423 | **diversified** | the model source; its one gap (read contract ↔ compaction) is stated in the document |
+| `llmdb-f1-20261004` | F1_DETERMINATION (69) | 0.381 | **focused** | value-class cluster and governance cluster never meet |
+
+**Q-A — which dense clusters never share a sentence.** In prior-art B, unseen-entity admission (PropMEND §8.1, AKEW §10.1) and per-position construction (GenRecEdit §9.1, FOVEATED §10.1) co-occur in exactly one line, the (i) row of §10.2, where FOVEATED's NLL-by-position is a data input; no sentence makes the admission predictor the gate that chooses which values or positions receive a (ii-b) or (iv) write. The deeper research-questions pass produced exactly that composition. In prior-art A, lifecycle metrics (ForgetBench, reversal, PRISM) and the covariance knob (Moir, ridge diagnostic) likewise meet in one line of §3. Of the plan's three candidate pairs: side-store designs are tied to the §7.1 boundary nowhere in this document (the only §7.1 sentence, §9.2's recommendation, is about option (iv)); the compatibility argument lives in `docs/F1_DETERMINATION.md` §2.D and `docs/B3_IN_WEIGHT_NECESSITY_DECISION.md` §3, and the operator-ruling conflict is F-02 below. Locality instruments meet the deployment path only through the super weight (§7, Q4 paragraph); the Q4_K_M-of-multi-token next action names no locality probe (F-07). Admission predictors are tied to the A7 set at the §10.2 (i) row — connected.
+
+**Q-B — does the cold-reader document carry the current state.** It carries the keying finding and the same-frame locality requirement (one mention each in `docs/program_state.json`, `SESSION_CHECKPOINT.md`, `SESSION_BOOTSTRAP.md`), and none of FOVEATED, ii-b, ii-c, (iv), AKEW, Atom Q, P-Tokens or AcE (zero matches in all three). The handoff presented the route decision as a three-way fork (i)/(ii)/(iii) while this document holds a six-row map (§9.2, §10.2, §12.1). Fixed 2026-10-04: a pointer sentence in `docs/program_state.json` next-action (1), rendered into the four generated blocks (F-01).
+
+**Q-C — one fact, incompatible uses.** The ridge weight is one knob read three ways and the readings are consistent: `CORPUS/39` lowers `mom2_update_weight` 5000→2500 as an edit-strength candidate for a subject-keyed write; `CORPUS/43` §3b treats the same weight as what suppresses the differences between 24 near-collinear last-token keys and declines a small-ridge sweep on F1 grounds; `CORPUS/42` F6 reads upstream's 15000 as over-regularisation of last-token keys. Each scopes its claim to its key locus; no incompatibility (F-08). Last-token keying as the port's defect (`CORPUS/42` F3) and as a frame write (`CORPUS/43` F-A5) are reconciled in the later document (F-09). The genuine incompatibility is elsewhere: option (iii) "accept-bounded + side store" is listed as a live forward route in `CORPUS/42` §Forward, `CORPUS/43` §What this changes and `docs/program_state.json`, while `SESSION_CHECKPOINT.md`'s 2026-06-27 handoff records the operator's ruling that a side store is not accepted as F1 closure for C10 because it nullifies the Git-vs-LLM separation; only `CORPUS/41` carries the qualifier "(not an F1 closure)". The ruling predates D-HW-1. Whether it stands is the operator's call (F-02, blocking).
+
+**Q-D — what bridges the knob line and the keying line.** In the merged graph the only bridge specific to both chains is the stamp `@82b491dc` (D-C10e-bandknob), which reaches `CORPUS/43` through its provenance note (the keying records carry the harness default `decision_id`). The two evidence chains were joined in writing by a provenance accident and by nothing else: `docs/F1_DETERMINATION.md`'s C10 row ended at the June AnyEdit triage with no mention of `CORPUS/40–43`, and `docs/SPEC_EXPERIMENT_OVERLAY.md` had no C10 row. Fixed 2026-10-04: a dated addendum on the F1 C10 row with the pointers and the one mechanism sentence (I-INFER: a subject-keyed MEMIT write carries one value vector per key, which transfers for one-token values at every tested band but has no direct objective on continuation tokens, so neither band placement, nor ridge strength, nor keying locus moves A7; the missing ingredient is a per-target-token write that stays subject-keyed), and a §8.9 C10 row in the overlay (F-03).
+
+**Findings (ranked; full text in the report).**
+
+| ID | verdict | claim | owner |
+|---|---|---|---|
+| F-02 | **BLOCKING — open** | option (iii) side store is a live route in CORPUS/42–43 and the state file while the 2026-06-27 operator ruling says it is not F1 closure for C10 | operator: does the ruling stand under D-HW-1? |
+| F-04 | **BLOCKING — open** | the scale line (held-out top-1, single-token, N=100) and the multi-token line (held-out-paraphrase full-sequence, N=24) score different things; no prereg says which metric binds when both axes vary | next prereg (batch-genesis-at-scale) |
+| F-01 | resolved (fixed) | handoff lacked the six-option candidate map | program |
+| F-03 | resolved (fixed) | knob line and keying line joined only by a mis-stamped record id; F1 C10 row and spec overlay stopped at June | program |
+| F-05 | open | the C-OC3 CORE=1.0 compaction gate (`docs/C5_COMPACTION_VERIFY_AUDIT.md`) never meets the 19–31 % coined-value finding; CORE-declared coined values would abort every compaction | next C10 prereg (severity section) |
+| F-06 | open | admission test (i) and per-position construction (ii-b/iv) are never composed; the deeper pass proposes a per-position admission test | next prereg |
+| F-07 | open | Q4_K_M-of-multi-token next action carries no locality battery | next prereg (next action 2) |
+| F-08 | resolved | ridge weight: three consistent readings | — |
+| F-09 | resolved | last-token keying: defect vs frame write reconciled in CORPUS/43 | — |
+| F-10 | resolved | keying ablation excludes A7 by declared scope | — |
+| F-11 | resolved | CORPUS/35–39 Intel target superseded, recorded in F1 | — |
+| F-12 | resolved | read contract ↔ compaction gap is stated in the e2e map | — |
+| F-13 | resolved | admission predictors tied to A7 at §10.2 | — |
+| F-14 | resolved (method) | close-out stamps dominate three graphs; strip ⟨…⟩ and bare @hash tokens before any re-run | next audit |
+
+**Closing condition.** The audit does not close until F-02 carries the operator's answer and F-04 carries a pre-registered metric-composition rule. Re-run after both close with stamps stripped and a new date suffix; expected movement: cold-reader from focused toward diversified with the option-map terms present, a mechanism word (key, continuation, carrier) replacing `@82b491dc` among the merged gateways, and prior-art B's top-node flag clearing once admission test and construction share sentences.
