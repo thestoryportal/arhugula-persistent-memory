@@ -97,6 +97,15 @@ def main():
     res = json.load(open(H.OUT))
     res["P1"] = {"law3_reference_run": LAW3_REF, "fingerprint_at_step0": step0["P1_fingerprint"].splitlines()[0]}
     res["mint_arm"] = ARM
+    # B1 advisor item 1: the BINDING mint score is post-write minus step-0, promoted to a top-level field so no reader
+    # can mistake the raw count for it. [LAW:one-source-of-truth] the raw count stays as the derivation input only.
+    arm7 = res["recipes"][os.environ["CANDIDATE_NAME"]]["arms"].get("A7_coined_coined")
+    if arm7 is not None and MINTED is not None:
+        arm7["para_full_binding_n"] = arm7["para_full_n"] - step0["inits"][ARM]["probe"]["para_full_step0"]
+        arm7["para_full_binding_note"] = "BINDING for D-C10l-mint §6 = para_full_n (post-write) - step-0 para_full of this init"
+    elif arm7 is not None:
+        arm7["para_full_binding_n"] = arm7["para_full_n"]
+        arm7["para_full_binding_note"] = "no minted token: binding = para_full_n"
     res["step0_sha256"] = M.sha256_file(f"{RES}/step0_probe.json")
     json.dump(res, open(H.OUT, "w"), indent=2, default=str)
     return rc
