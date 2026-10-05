@@ -34,6 +34,13 @@ CANDIDATE_NAME = os.environ.get("CANDIDATE_NAME", "later_band812")
 DECISION_ID = os.environ.get("DECISION_ID", "D-C10e-bandknob")
 PREREG = os.environ.get("PREREG", f"{LLMDB_ROOT}/docs/C10_BANDKNOB_PREREG.md")
 RUN_LABEL = os.environ.get("RUN_LABEL", "C10 W-realization band-knob test")
+# D-C10l-covgeom P3: candidate-recipe solve geometry. "nullspace" = the AlphaEdit-style projector the harness has always
+# used; "identity" = P := I (RoSE/IGA on this path). Applies to the CANDIDATE recipe only and never inside the LAW#5
+# parity check, so the baseline recipe and the engine comparison are untouched by the knob.
+PROJECTOR = os.environ.get("C10_PROJECTOR", "nullspace")   # [LAW:parse-dont-validate] parsed once, here, at the boundary
+if PROJECTOR not in ("nullspace", "identity"):
+    raise SystemExit(f"C10_PROJECTOR must be nullspace|identity, got {PROJECTOR!r}")
+_CANDIDATE_RECIPE = False   # set True by run_recipe for the candidate recipe only
 
 tok = AutoTokenizer.from_pretrained(ID, revision=REV)
 if tok.pad_token is None:
@@ -111,6 +118,19 @@ def full_seq_match(prompt, target_ids):
 
 
 @torch.no_grad()
+def string_match(prompt, value, n_tokens):
+    """D-C10l-covgeom P4 (arXiv 2609.29045): same string through any tokenisation. Greedy-decode n_tokens + 2 and
+    compare text, beside the binding id-match of full_seq_match."""
+    ids = tok(prompt, return_tensors="pt").to(DEV)["input_ids"]
+    cur = ids
+    for _ in range(n_tokens + 2):
+        nxt = int(model(cur).logits[0, -1].argmax())
+        cur = torch.cat([cur, torch.tensor([[nxt]], device=DEV)], dim=1)
+    text = tok.decode(cur[0, ids.shape[1]:].tolist())
+    return text.startswith(" " + value)
+
+
+@torch.no_grad()
 def teacher_forced_pertok(prompt, target_ids):
     if len(target_ids) < 2:
         return 0, 0
@@ -178,7 +198,7 @@ def my_edit(hp, requests, P, cache_c):
         resid = tgt / (len(layers) - i)
         Kf = K.float()
         rf = resid.float()
-        Pi = P[i]
+        Pi = torch.eye(Kf.shape[0]) if (PROJECTOR == "identity" and _CANDIDATE_RECIPE and not _LAW5_DEFAULT_CTX) else P[i]   # D-C10l-covgeom arm B: P := I, nothing else changes
         ca = cache_c[i]
         A = Pi @ (Kf.cpu() @ Kf.cpu().T + ca) + L2 * torch.eye(Kf.shape[0])
         B = Pi @ Kf.cpu() @ rf.cpu().T
@@ -229,6 +249,106 @@ if os.environ.get("C10_ARMS"):   # D-C10k-keying-ablation: restrict arms (defaul
     ARMS = {k: v for k, v in ARMS.items() if k in os.environ["C10_ARMS"].split(",")}
 
 
+# ---- D-C10l-covgeom S-3 locality axes (reported beside every held-out number; L1/L3 are the prereg's binding axes) ----
+def build_locality_sets():
+    """L1 = CORPUS/43 F-A3's 12 real countries (g6_screen_qwen3b.json, sorted, first 12), scored on CANON.
+    L3 = every real country of g6_screen_qwen3b_v2.json whose capital is not an A1/A2 value (prereg amendment A1: the
+    screen holds 78 countries and A1+A2 use 48 distinct capitals, so the pool is 30, not the 50 the prereg assumed;
+    three of the 30 are also in L1 and are kept - L1 scores flips to an edited value, L3 scores agreement with the
+    pre-edit top-1); scored as top-1 agreement with the pre-edit model + mean next-token KL(pre‖post)."""
+    scr1 = json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b.json"))["selected"]
+    l1 = [c for c in sorted(scr1)][:12]
+    scr2 = json.load(open(f"{LLMDB_ROOT}/configs/screens/g6_screen_qwen3b_v2.json"))["selected"]
+    full = build_stimuli()
+    used = set(full["A1_single"].values()) | set(full["A2_coherent2"].values())
+    l3 = [c for c in sorted(scr2) if scr2[c]["capital"]["truth"] not in used]
+    if len(l3) != 30:
+        raise SystemExit(f"L3 pool has {len(l3)} countries, amendment A1 declares exactly 30")   # [LAW:no-silent-failure]
+    return l1, l3
+
+
+L1_COUNTRIES, L3_COUNTRIES = build_locality_sets()
+L1_PROMPTS = [CANON.format(c) for c in L1_COUNTRIES]
+L3_PROMPTS = [CANON.format(c) for c in L3_COUNTRIES]
+GENERIC = [
+    "The weather today is warm and sunny with a light breeze from the west.",
+    "She opened the window and listened to the birds singing in the garden.",
+    "The committee will meet on Thursday to discuss the annual budget.",
+    "He poured a cup of coffee and sat down to read the morning newspaper.",
+    "The train to the coast leaves every hour from the central station.",
+    "Water boils at one hundred degrees Celsius at sea level.",
+    "The museum's new exhibition features paintings from the nineteenth century.",
+    "Please remember to lock the door when you leave the office tonight.",
+    "The recipe calls for two eggs, a cup of flour, and a pinch of salt.",
+    "Children played football in the park until the sun went down.",
+    "The library extended its opening hours during the examination period.",
+    "A gentle rain fell on the city for most of the afternoon.",
+    "The orchestra performed a symphony by Beethoven to a full house.",
+    "He repaired the old bicycle and rode it along the river path.",
+    "The bakery on the corner sells fresh bread every morning at seven.",
+    "Scientists announced the discovery of a new species of frog in the rainforest.",
+    "The students finished their essays before the deadline on Friday.",
+    "Our neighbours planted tomatoes and beans in their small vegetable patch.",
+    "The ferry crossing takes about forty minutes in calm weather.",
+    "She wrote a letter to her grandmother describing the summer holiday.",
+]
+
+
+@torch.no_grad()
+def sentence_nll(text):
+    ids = tok(text, return_tensors="pt").to(DEV)["input_ids"]
+    logits = model(ids).logits[0, :-1].float()
+    lp = torch.log_softmax(logits, dim=-1)
+    return float(-lp.gather(1, ids[0, 1:, None]).mean())
+
+
+def axes_pre():
+    return {
+        "L1": {p: predict(p) for p in L1_PROMPTS},
+        "L3": {p: predict(p) for p in L3_PROMPTS},
+        "generic_ppl": round(math.exp(sum(sentence_nll(s) for s in GENERIC) / len(GENERIC)), 3),
+    }
+
+
+def axes_post(pre, arm_values):
+    """Exact counts. L1 flip = top-1 CHANGED from pre-edit and now is the first token of a value this arm wrote.
+    L3 agreement = same top-1 id as pre."""
+    first_ids = {first_tok(v) for v in arm_values}
+    l1 = {p: predict(p) for p in L1_PROMPTS}
+    l3 = {p: predict(p) for p in L3_PROMPTS}
+    kl = [float((pre["L3"][p]["dist"].double() * (pre["L3"][p]["dist"].double().clamp_min(1e-12).log() - l3[p]["dist"].double().clamp_min(1e-12).log())).sum()) for p in L3_PROMPTS]
+    return {
+        "L1_flipped_to_edited_value": sum((l1[p]["id"] in first_ids and l1[p]["id"] != pre["L1"][p]["id"]) for p in L1_PROMPTS),
+        "L1_pre_already_edited_token": sum(pre["L1"][p]["id"] in first_ids for p in L1_PROMPTS),
+        "L1_top1_changed": sum(l1[p]["id"] != pre["L1"][p]["id"] for p in L1_PROMPTS),
+        "L1_n": len(L1_PROMPTS),
+        "L1_js_locpct": locpct(l1, pre["L1"], L1_PROMPTS),
+        "L3_top1_agree": sum(l3[p]["id"] == pre["L3"][p]["id"] for p in L3_PROMPTS),
+        "L3_n": len(L3_PROMPTS),
+        "L3_mean_kl": round(sum(kl) / len(kl), 5),
+        "L3_js_locpct": locpct(l3, pre["L3"], L3_PROMPTS),
+        "generic_ppl_pre": pre["generic_ppl"],
+        "generic_ppl_post": round(math.exp(sum(sentence_nll(s) for s in GENERIC) / len(GENERIC)), 3),
+        "L1_post_top1": {c: l1[p]["tok"] for c, p in zip(L1_COUNTRIES, L1_PROMPTS)},
+    }
+
+
+def cov_cache_sha256(hp):
+    """D-C10l-covgeom P5: hash of every covariance cache file the recipe's layers use (the engine's STATS_DIR)."""
+    import hashlib
+    from util.globals import STATS_DIR
+    out = {}
+    for layer in hp.layers:
+        name = hp.rewrite_module_tmp.format(layer)
+        path = f"{STATS_DIR}/{model.config._name_or_path.replace('/', '_')}/{hp.mom2_dataset}_stats/{name}_{hp.mom2_dtype}_mom2_t100_{hp.mom2_n_samples}.npz"
+        h = hashlib.sha256()
+        with open(path, "rb") as f:   # [LAW:no-silent-failure] a missing cache file raises here, before any edit
+            for chunk in iter(lambda: f.read(1 << 24), b""):
+                h.update(chunk)
+        out[str(layer)] = {"path": path, "sha256": h.hexdigest()}
+    return out
+
+
 def eval_arm(Vmap):
     rows = []
     for c in FICTION:
@@ -236,11 +356,13 @@ def eval_arm(Vmap):
         cf, c1 = full_seq_match(CANON.format(c), ids)
         para = [full_seq_match(p.format(c), ids) for p in PTEST]
         tf = [teacher_forced_pertok(p.format(c), ids) for p in PTEST]
+        para_str = [string_match(p.format(c), Vmap[c], len(ids)) for p in PTEST]
         rows.append({
             "subj": c, "val": Vmap[c], "ntok": len(ids),
             "canon_full": cf, "canon_first": c1,
             "para_full_hits": [x[0] for x in para],
             "para_first_hits": [x[1] for x in para],
+            "para_string_hits": para_str,
             "tf_correct": sum(t[0] for t in tf),
             "tf_total": sum(t[1] for t in tf),
         })
@@ -263,10 +385,17 @@ def eval_arm(Vmap):
         "cond_full_given_first": round(full_given_first / first, 3) if first else None,
         "tf_pertok_cont": round(100 * tf_c / tf_t, 1) if tf_t else None,
         "mean_ntok": round(sum(x["ntok"] for x in rows) / n, 2),
+        # D-C10l-covgeom: exact counts (the prereg reads counts, not rounded percentages)
+        "canon_full_n": sum(x["canon_full"] for x in rows), "canon_n": n,
+        "para_full_n": sum(sum(x["para_full_hits"]) for x in rows),
+        "para_first_n": first,
+        "para_string_n": sum(sum(x["para_string_hits"]) for x in rows),
+        "para_n": n * npar,
     }
 
 
 _LAW5_DEFAULT_CTX = False   # set True only inside run_law5: the inertness check compares engine vs harness on the engine's own defaults, independent of the ablation knobs
+ARM_HOOKS = []   # callables (arm_name, Vmap) -> dict, run after each arm's evaluation while the edit is still applied
 
 
 def run_law5(hp, P, base_snap):
@@ -321,7 +450,11 @@ def run_recipe(name, hparam_path):
     if not law5["ok"]:
         return {"hparams": hparam_path, "band": hp.layers, "law5_gate": law5, "invalid": "LAW#5 failed"}
 
-    out = {"hparams": hparam_path, "band": hp.layers, "law5_gate": law5, "arms": {}, "delta_norms": {}}
+    global _CANDIDATE_RECIPE
+    _CANDIDATE_RECIPE = name == CANDIDATE_NAME
+    out = {"hparams": hparam_path, "band": hp.layers, "law5_gate": law5, "arms": {}, "delta_norms": {},
+           "projector": PROJECTOR if _CANDIDATE_RECIPE else "nullspace", "cov_cache_sha256": cov_cache_sha256(hp)}
+    pre_axes = axes_pre()
     for arm_name, Vmap in ARMS.items():
         restore_layers(hp, base_snap)
         cache = [torch.zeros(P[0].shape[0], P[0].shape[0]) for _ in hp.layers]
@@ -341,15 +474,21 @@ def run_recipe(name, hparam_path):
         post_loc = {p: predict(p) for p in pre_prompts}
         arm = eval_arm(Vmap)
         arm["locality_described_as"] = locpct(post_loc, pre_loc, pre_prompts)
+        arm["locality_axes"] = axes_post(pre_axes, list(Vmap.values()))
+        for hook in ARM_HOOKS:   # [LAW:locality-or-seam] extra post-write readouts (D-C10l-mint sibling/cannibal) plug in here, before restore
+            arm.setdefault("extra", {}).update(hook(arm_name, Vmap))
         out["arms"][arm_name] = {k: v for k, v in arm.items() if k != "rows"}
         out.setdefault("detail", {})[arm_name] = arm["rows"]
         out["delta_norms"][arm_name] = delta
         print(
             f"  {arm_name:18} canon={arm['canon_full']} para={arm['para_full']} "
-            f"first={arm['para_first']} tf={arm['tf_pertok_cont']} loc={arm['locality_described_as']}",
+            f"first={arm['para_first']} tf={arm['tf_pertok_cont']} loc={arm['locality_described_as']} "
+            f"| n: canon {arm['canon_full_n']}/{arm['canon_n']} para {arm['para_full_n']}/{arm['para_n']} first {arm['para_first_n']} str {arm['para_string_n']} "
+            f"| L1 {arm['locality_axes']['L1_flipped_to_edited_value']}/{arm['locality_axes']['L1_n']} L3 {arm['locality_axes']['L3_top1_agree']}/{arm['locality_axes']['L3_n']} kl {arm['locality_axes']['L3_mean_kl']} ppl {arm['locality_axes']['generic_ppl_pre']}->{arm['locality_axes']['generic_ppl_post']}",
             flush=True,
         )
     restore_layers(hp, base_snap)
+    _CANDIDATE_RECIPE = False
     return out
 
 
@@ -419,16 +558,21 @@ def main():
         "run": RUN_LABEL,
         "class": "FALSIFIER-resolver / recipe-knob characterization; NOT promotable",
         "scope": "Qwen2.5-3B / AlphaEdit / capital / A1-A2-A7 / N=24 / 1-seed / HF-fp16",
-        "stimulus": {"CANON": CANON, "PTEST": PTEST, "FICTION": FICTION, **{f"V_{k}": v for k, v in ARMS.items()}},
+        "stimulus": {"CANON": CANON, "PTEST": PTEST, "FICTION": FICTION, **{f"V_{k}": v for k, v in ARMS.items()},
+                     "L1_countries": L1_COUNTRIES, "L3_countries": L3_COUNTRIES, "generic_sentences": GENERIC},
+        "projector_knob": PROJECTOR,
         "base_report": base_report,
         "recipes": ({CANDIDATE_NAME: run_recipe(CANDIDATE_NAME, HP_BAND)} if os.environ.get("C10_RECIPES") == "candidate"   # D-C10k-keying-ablation: one recipe per cell
                     else {"baseline": run_recipe("baseline", HP_BASE), CANDIDATE_NAME: run_recipe(CANDIDATE_NAME, HP_BAND)}),
     }
-    results["verdict"] = verdict(results) if "baseline" in results["recipes"] and "A7_coined_coined" in ARMS else {"note": "verdict skipped (restricted arms/recipes)"}
+    # The D-C10e-bandknob-era label set is NOT binding for later decisions: D-C10l-* read their result JSONs with their
+    # own pre-registered readers (c10l_covgeom_read.py). Kept under a name that says so. [LAW:one-source-of-truth]
+    results["legacy_nonbinding_summary"] = verdict(results) if "baseline" in results["recipes"] and "A7_coined_coined" in ARMS else {"note": "skipped (restricted arms/recipes)"}
+    results["legacy_nonbinding_summary"]["note_binding"] = "NON-BINDING: D-C10e thresholds; D-C10l-* labels come from experiments/track_c/c10l_covgeom_read.py"
     with open(OUT, "w") as f:
         json.dump(results, f, indent=2, default=str)
-    print("\n=== C10e BAND-KNOB SUMMARY ===", flush=True)
-    print(json.dumps(results["verdict"], indent=2), flush=True)
+    print("\n=== C10e LEGACY (NON-BINDING) SUMMARY ===", flush=True)
+    print(json.dumps(results["legacy_nonbinding_summary"], indent=2), flush=True)
     print(f"\nwrote {OUT}", flush=True)
     print("C10E_DONE", flush=True)
     return 0

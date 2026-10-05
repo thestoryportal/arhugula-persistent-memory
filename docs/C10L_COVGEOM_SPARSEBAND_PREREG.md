@@ -83,3 +83,23 @@ Order: P1–P5 → P6 (step −1, ≈ 15 min) → step 0 (≈ 30–45 min, CPU f
 ## 8. Reviews
 
 v1 advisor → FIX-FIRST (§0). v2 is frozen for the run; any further change before the run is an amendment with its own advisor pass. gpt-5.5 cross-family at the promote gate only.
+
+## 9. Amendments (post-freeze; each with its own advisor pass before the affected step runs)
+
+### A1 — L3 pool is 30, not 50 (2026-10-05, found at harness smoke-import before any run)
+
+**Gate that forced it:** §0 item 7 / §4 define L3 as "50 unedited real capitals from `configs/screens/g6_screen_qwen3b_v2.json` (78 selected; the 50 not used as A1/A2 values)". Counted at implementation (`$CLAUDE_JOB_DIR/tmp/l3_count.py`, tokenizer at the pinned revision): the screen holds 78 countries with 78 distinct capitals; the harness's A1 assignment uses 24 distinct single-token capitals and A2 24 distinct two-token capitals (48 used), so **30** countries remain, of which 3 (Armenia, Croatia, Cuba) are also in L1. The "50" was a drafting miscount; the harness guard (`build_locality_sets`) halted on it.
+
+**Change:** L3 = all 30 countries of the v2 screen whose capital is not an A1/A2 value, sorted; the 3 L1-overlap countries stay in (L1 scores top-1 flips *to an edited value*; L3 scores top-1 *agreement with the pre-edit model* and mean next-token KL — different readouts, both reported). **Binding threshold keeps the prereg's rate:** 48/50 = 0.96 → **≥ ⌈0.96 × 30⌉ = 29/30**. §5 INVALID / PASS / LEAD / TRADEOFF read "L3 ≥ 29/30" wherever they said "L3 ≥ 48/50". The L3 list is written into every result JSON (`stimulus.L3_countries`). Nothing else in §2–§5 changes; the 20-sentence generic-perplexity slice is reported as before (list frozen in the harness, `GENERIC`).
+
+**Not chosen:** padding the pool with unscreened countries (the v2 screen is the prereg's declared source and its countries are the ones the pre-edit model demonstrably answers) or dropping the L1 overlap (pool would fall to 27 with no gain in independence: L1 and L3 are already different readouts on the same prompt form).
+
+**Advisor pass:** the implementation review (`results/c10l_covgeom/advisor_impl.md`) carries this amendment as its first item; the arms do not run until its verdict is in.
+
+### A2 — P3(a) fails closed; the device-tolerance procedure (2026-10-05, advisor implementation review item 1, before any run)
+
+**Gate that forced it:** P3(a) states a tolerance ("relative difference < 1e-4" on per-layer `delta_norms` against a pre-knob run) but no consequence for a miss, and the reader only printed the number. The pre-knob reference is CORPUS/43 K1 (`results/c10k_keying_ablation/K1.json`: the same baseline recipe on this machine, A1/A2 only; A7 has never run on the M3 Pro).
+
+**Rule (decided before data):** the reader labels a run **INVALID** when the worst relative `delta_norm` difference between arm A's A1/A2 and K1's exceeds 1e-4, and the science arms of that run are not read. On an INVALID-by-P3(a), the next step is a **default-vs-default jitter control**, not a relaxed tolerance: the harness with the knob at its default is run twice more in two fresh processes on arm A1 only (`C10_ARMS=A1_single`, `C10_RECIPES=candidate`, `HP_CANDIDATE` = baseline file). If the two default runs differ from each other by at least the arm-A-vs-K1 difference, the miss is device jitter (MPS fp16 forward feeding a CPU float32 solve); the tolerance is reset to the observed default-vs-default bound, recorded here as amendment A3 with the three numbers, and the run is re-read. If they agree with each other more tightly than either agrees with arm A, the knob is **not** inert at its default → HALT with `architecture_profile/sNNN_halt_diagnostic.json`. The tolerance is never set after seeing a candidate arm.
+
+**Also folded from the same review (no design change):** the harness's D-C10e-era label set is written under `legacy_nonbinding_summary` and marked non-binding (D-C10l-* labels come only from `experiments/track_c/c10l_covgeom_read.py`); step 0's output carries a `proxy_declaration` naming it a mixed-prefix proxy (K_c with the engine's context prefixes, K_p/K_ctrl/K_desc without) whose validity is the Spearman check; the template-key cosines are named `pre_apply_at_layer`; the harness asserts the L3 pool is exactly 30. Review archived at `results/c10l_covgeom/advisor_impl.md`.
