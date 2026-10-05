@@ -1,0 +1,34 @@
+# Advisor review (Codex gpt-5.5, cross-family) — D-C10l-covgeom implementation + amendment A1 (2026-10-05, before any run)
+
+Reviewer had read-only access to the worktree and read the files (no VERIFY-unread marks). Packet: the harness diff, the four new scripts, the two hparams files, amendment A1, the declared step-0 operationalisations, the P3(a) reference.
+
+## Disposition
+- A1: PROCEED; hardening (assert pool == 30) folded.
+- Implementation: FIX-FIRST → all four items folded before the first run: (1) P3(a) fail-closed + jitter-control procedure = prereg amendment A2; (2) harness label set renamed `legacy_nonbinding_summary` and marked non-binding; (3) step 0 `proxy_declaration` (mixed-prefix proxy); (4) cosines renamed `pre_apply_at_layer`.
+- No science design change; no second review requested (state after folding is the reviewed state plus the reviewer's own prescriptions).
+
+## Review text (verbatim)
+
+**A1 Verdict:** `PROCEED`.
+
+The repair is right: keeping the preregistered rate makes the new bar `ceil(0.96 * 30) = 29/30`, not “allow 2 misses.” Allowing 28/30 would weaken the original locality standard. One small hardening: make the harness assert `len(l3) == 30`, not merely `< 30`, since §9 declares the pool size exactly. See [docs/C10L_COVGEOM_SPARSEBAND_PREREG.md:91](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10L_COVGEOM_SPARSEBAND_PREREG.md:91>), [docs/C10L_COVGEOM_SPARSEBAND_PREREG.md:93](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10L_COVGEOM_SPARSEBAND_PREREG.md:93>), [experiments/track_c/c10e_bandknob.py:264](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py:264>).
+
+**Implementation Verdict:** `FIX-FIRST`.
+
+**Single Most Important Thing:** make the mechanical labels fail-closed on P3(a), and remove or rename the stale in-harness `verdict()` before any run.
+
+**Issues**
+
+1. **P3(a) is a validity premise but is only printed, not enforced.**  
+   The prereg says default-knob inertness requires delta norms to match K1 at relative `< 1e-4`; the reader computes `P3a_worst_rel_delta_norm_vs_K1`, but the label logic ignores it. A failed inertness check could still become `PASS`/`LEAD`. If `<1e-4` misses, do not relax after seeing arm B. Pre-register a fail-closed rule now: either `P3a >= tolerance` means `INVALID/HALT`, or first run a default-vs-default jitter control and set `tolerance = max(1e-4, observed_jitter_bound)` before identity runs. See [docs/C10L_COVGEOM_SPARSEBAND_PREREG.md:32](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10L_COVGEOM_SPARSEBAND_PREREG.md:32>), [experiments/track_c/c10l_covgeom_read.py:37](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10l_covgeom_read.py:37>), [experiments/track_c/c10l_covgeom_read.py:53](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10l_covgeom_read.py:53>), [experiments/track_c/c10l_covgeom_read.py:63](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10l_covgeom_read.py:63>).
+
+2. **The harness still writes a stale, non-preregistered `verdict`.**  
+   `c10e_bandknob.py` writes `results["verdict"]`, but that verdict uses old percentage thresholds and labels (`USABILITY_RESCUE_LEAD_NOT_PROMOTED`, `NO_MATERIAL_KNOB_RESCUE`), ignores L1/L3, and does not implement §5. That is a high-risk overclaim vector in the result JSON. Delete it, rename it `legacy_nonbinding_summary`, or replace it with the same reader logic. See [experiments/track_c/c10e_bandknob.py:492](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py:492>), [experiments/track_c/c10e_bandknob.py:503](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py:503>), [experiments/track_c/c10e_bandknob.py:518](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py:518>), [experiments/track_c/c10e_bandknob.py:565](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py:565>).
+
+3. **Step 0 is acceptable only as an explanatory proxy; label the key mismatch explicitly.**  
+   Harness `K_c` uses `compute_ks` with generated context templates averaged in; `K_p`, `K_ctrl`, and `K_desc` are direct prompt keys without those prefixes. That is not fatal because step 0 does not gate and later reports Spearman validity, but the output should say “mixed-prefix proxy” so `rho_p` is not mistaken for the actual harness solve geometry. See [memit_dry_run/memit/memit/compute_ks.py:23](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/compute_ks.py:23>), [experiments/track_c/c10l_covgeom_step0.py:98](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10l_covgeom_step0.py:98>), [experiments/track_c/c10l_covgeom_step0.py:102](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10l_covgeom_step0.py:102>), [experiments/track_c/c10l_covgeom_read.py:111](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10l_covgeom_read.py:111>).
+
+4. **Template-key cosines are not “pre-edit only” after layer 4.**  
+   They are recorded before applying the current layer, but after earlier layers have already been updated in the sequential loop. That is probably the right operationalisation for a sequential proxy, but the comment/output should say “pre-apply-at-layer” rather than “pre-edit.” See [experiments/track_c/c10l_covgeom_step0.py:97](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10l_covgeom_step0.py:97>), [experiments/track_c/c10l_covgeom_step0.py:106](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10l_covgeom_step0.py:106>).
+
+External IDs checked: RoSE/covariance-trap [arXiv:2603.15518](https://arxiv.org/abs/2603.15518), BLUE [arXiv:2502.03748](https://arxiv.org/abs/2502.03748), and tokenization bypass [arXiv:2609.29045](https://arxiv.org/abs/2609.29045) exist; they remain motivation, not empirical evidence for this run.

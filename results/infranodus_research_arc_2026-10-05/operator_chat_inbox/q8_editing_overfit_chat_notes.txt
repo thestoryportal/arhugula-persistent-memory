@@ -1,0 +1,104 @@
+Papers that most directly describe a generalization–locality tension
+
+Beyond the Covariance Trap ([2603.15518](https://arxiv.org/abs/2603.15518)) — strongest match. It argues that preservation-oriented covariance constraints can overfit the edited prompt/subject: locality improves while transfer to same-subject paraphrases and related formulations weakens.
+Reproducibility Study of AlphaEdit ([2606.26783](https://arxiv.org/abs/2606.26783)) — reports that AlphaEdit’s null-space projection does not uniformly preserve the original generalization results across settings. More restrictive projection can improve locality yet reduce edit propagation, including rephrase performance.
+EvoEdit ([2510.13851](https://arxiv.org/abs/2510.13851)) — motivates evolving null-space alignment partly because a fixed null space can become too restrictive. Its framing implies a preservation–plasticity tradeoff: protecting old knowledge can limit generalization of new edits.
+SUIT ([2509.24502](https://arxiv.org/abs/2509.24502)) — treats subspace selection as a balance between containing collateral effects and allowing the edited key–value mapping to generalize.
+
+Related, but less explicitly about paraphrases
+
+LyapLock emphasizes bounded preservation versus edit adaptability in sequential editing.
+Edit Less, Achieve More studies sparse masking as a way to avoid the locality loss caused by broad updates while retaining edit generalization.
+Rethinking Residual Distribution and Fast Model Editing at Scale evaluate generalization and specificity/locality together, but they are weaker evidence for a strict statement that improving one necessarily lowers the other.
+
+Bottom line
+
+Yes—but conditionally. The AlphaEdit reproducibility study and Beyond the Covariance Trap are the clearest evidence that null-space/covariance-style preservation constraints can reduce paraphrase or same-subject generalization when the permitted update space becomes too narrow. They do not show that null-space methods inherently reduce paraphrase recall; rather, the reduction depends on projection strength, subspace estimation, model/layer choice, and evaluation setting. EvoEdit and SUIT can be read as attempts to soften precisely this rigidity.
+
+---
+The claim is that preservation constraints can make an edit too narrow.
+
+In null-space editing, the parameter update is projected away from directions associated with existing knowledge. This usually improves locality—unrelated answers change less—but also removes directions that may be needed for the new fact to activate under alternative wording. The model may recall the edit for the original prompt while failing on held-out paraphrases.
+
+The relevant papers differ in evidential strength:
+
+Beyond the Covariance Trap most directly targets this mechanism: covariance-based preservation can lock an edit to the observed subject representation, weakening same-subject transfer. Same-subject generalization may include paraphrased contexts, but it should not automatically be equated with a dedicated paraphrase-recall benchmark.
+AlphaEdit reproducibility study is the key place to look for an explicit decline in rephrase success under null-space projection. A lower replicated score would demonstrate a setting-dependent effect, not prove that null-space constraints always harm paraphrase recall.
+EvoEdit and SUIT treat fixed or poorly selected subspaces as overly rigid and propose adaptive mappings. They primarily motivate or remedy the tension rather than necessarily establishing a monotonic tradeoff.
+
+So the defensible conclusion is:
+
+> Stronger preservation can reduce paraphrase generalization when the allowed update subspace excludes directions shared across paraphrased prompts.
+
+That is not yet the stronger claim that every improvement in locality lowers generalization, nor that null-space editing is intrinsically harmful. Layer choice, projection rank, edit magnitude, subject representation, and paraphrase diversity can change the outcome. The graph connects these themes, but co-occurrence alone cannot verify an empirical tradeoff; that requires paired locality and rephrase results under controlled constraint strengths.
+
+---
+There is a conceptual path—embedding initialization → token/vocabulary alignment → LLM → knowledge editing—but no direct methodological bridge in this paper set.
+
+None of the listed papers appears to use embedding initialization or cross-tokenizer projection to construct the target vector of a weight edit.
+HYPEROFA and Grounded Token Initialization initialize embeddings for new vocabulary, but do not perform knowledge-edit weight updates.
+Fast Model Editing at Scale, SUIT, and locate-then-edit methods construct edit targets from activations, gradients, or key–value mappings, not tokenizer projection.
+
+So this is best viewed as an open research gap: using aligned new-token embeddings as explicit target values for model editing.
+
+---
+Besides "Beyond the Covariance Trap," three papers directly target MEMIT's closed-form covariance solve:
+
+MEMIT-Merge: reweights key-value pairs to resolve conflicts in same-subject batch editing — reports improved locality under batch edits, though paraphrase gains are secondary to conflict resolution.
+EvoEdit: replaces the covariance term with evolving null-space alignment — reports stronger locality preservation and comparable/better paraphrase robustness than AlphaEdit.
+Related Knowledge Perturbation Matters: reweights perturbation from related (not just same-subject) knowledge — reports locality gains but flags paraphrase generalization as still unstable.
+
+The gap in your graph (Fine Editing <-> Robust Space, both only weakly bridged via "locate/constrained/null") is exactly where this cluster sits: these papers all touch the covariance statistic but none fully closes the paraphrase-locality tradeoff the way "Beyond the Covariance Trap" claims to.
+
+---
+The gap I named isn't incidental — the graph makes it structural. Lifelong Editing carries 49% of betweenness but only 13% of degree, meaning the locate-then-edit cluster is a bottleneck: everything routes through it, but it has few outward ties. Impact Generation (dpo, rlhf, paraphrase, human) sits at 4% betweenness — almost isolated. These two communities barely exchange vocabulary.
+
+Elaborating on the specific claim:
+
+Why residual-per-layer matters. MEMIT distributes the residual $\delta$ evenly across layers $\{l_{\text{crit}-k}, \dots, l_{\text{crit}}\}$ — an engineering convenience, not a principled allocation. 2502.03748 shows this uniform spread is suboptimal; 2405.00664 finds two layers suffice on Llama-3. Both are implicitly asking: which layer deserves how much of the correction? Neither has a signal to answer it beyond edit-success accuracy.
+
+Why paraphrase is the missing signal. Generalization-to-paraphrase is currently the only metric that tests whether an edit lives in semantic space rather than surface token space. But it's scored binary (did the rephrased prompt yield the new fact?). 2506.02018's contribution is a graded, human-ranked paraphrase quality signal — exactly the dense reward a per-layer allocation search would need.
+
+The unbuilt bridge. Use ranked paraphrase quality as the objective for where the residual goes, not just as post-hoc evaluation. Deeper layers may govern surface form; earlier critical layers, semantic binding. A DPO-style preference over paraphrase outputs could differentiate them.
+
+The node `dpo` is listed as a conceptual gateway with degree 2. It's a gateway no one has walked through.
+
+---
+Short answer: they live in two almost disconnected measurement cultures, and essentially nobody reports both rigorously on long-form targets.
+
+Where KLOD-style "non-target distribution preservation" sits. This is a locality/drift metric from the model-editing lineage — same family as the specificity/neighborhood scores in locate-then-edit work (Rethinking Residual Distribution, LyapLock's bounded knowledge preservation, Beyond Local Edits' embedding-virtualized evaluation, SUIT's subspace-aware mappings). It asks: after the weight update, how far has the output distribution moved on inputs you did not touch? It is a KL/divergence over the base model, measured on unrelated prompts, typically with single-token or short factual completions.
+
+Paraphrase generalization metrics come from the opposite side: they ask how far the target edit propagates across rephrasings of the same fact. In the graph above these cluster separately (Impact Generation: DPO/RLHF, human-ranked paraphrase types; Dictionary-Guided Editing Networks) and almost never co-occur with preservation metrics in the same evaluation table.
+
+The structural point: these are two halves of one quantity. Preservation = distribution should not move off-target. Paraphrase generalization = distribution should move on semantically equivalent targets. Both are "how far does the edit diffuse in semantic space," measured with opposite sign. Nobody formalizes them as a single diffusion radius.
+
+On multi-token / long-form: this is the real gap. Preservation metrics degrade badly past the first token — KL on token 1 says little about a 200-token generation where drift compounds. Uncovering Overfitting in LLM Editing and Editing Factual Knowledge and Explanatory Ability of Medical LLMs are the closest: the latter explicitly tests explanatory (long-form) output after factual edits, which is rare. Beyond the Covariance Trap touches generalization under same-subject editing. But a paper reporting both a sequence-level non-target KL and paraphrase generalization on free-form generations — I don't think it exists.
+
+The connection worth making: multi-token prediction work (registers, embedding-space probing) has already built machinery for reasoning about distributions over token sequences rather than next-token. That machinery is sitting unused one cluster over from editing evaluation. A sequence-level KL under a multi-token head would give you preservation and paraphrase generalization in the same unit — which is exactly what's missing.
+
+---
+Elaborating: the missing unit of measurement
+
+The two cultures, concretely.
+
+Preservation metrics (KLOD and kin) are defined on a fixed probe set of unrelated prompts. You compute D_KL(p_edited ‖ p_base) at position t=1, average, report a number near zero, call it locality. LyapLock bounds it explicitly; Rethinking Residual Distribution attacks where the residual goes; SUIT constrains the key-value subspace so it goes nowhere unintended. All of these are inequality constraints — keep the divergence under ε.
+
+Paraphrase generalization is defined on a generated or curated set of rewrites of the edit prompt. You check whether the new fact fires. Dictionary-Guided Editing Networks, the Turku/Finnish Paraphrase corpora, the DPO/RLHF paraphrase-type work — these supply the rewrite diversity that editing papers gesture at with three hand-written templates. The editing literature uses "paraphrase score" as an equality target — divergence from base should be large and in the right direction.
+
+So: same divergence functional, opposite sign, disjoint probe sets, and — critically — no shared notion of distance between the two probe sets. That's why nothing unifies them. There is no coordinate telling you "this prompt is 0.3 away from the edit, this one 0.9." Without that, preservation and generalization can't be plotted on one axis.
+
+Why multi-token breaks both.
+
+Token-1 KL is a weak proxy because the edited model and base model may agree on the first token and diverge catastrophically by token 40. Uncovering Overfitting in LLM Editing shows the edit becomes a reflex rather than a belief. The medical-LLM paper is the only one really probing explanation — long-form output where a factual patch should propagate through several inferential steps. Multi-hop locate-then-edit touches this but scores on short answers.
+
+Meanwhile preservation on long-form isn't even well-posed with current tooling: sequence-level KL requires summing over an exponentially large space, so you need either sampled estimates (high variance, nobody reports CIs) or a tractable factorization.
+
+The construction that would close it.
+
+The registers / embedding-space-probing line gives a head that predicts a short horizon of tokens jointly. Use it as a measurement device rather than a decoding speedup:
+
+Define D_h(prompt) = divergence between edited and base over the h-token joint distribution. Tractable, horizon-controlled, no sampling noise at small h.
+Compute D_h over a continuum of prompts ordered by semantic distance from the edit — paraphrases (want D_h high), same-subject neighbors (contested), unrelated (want D_h ≈ 0).
+Plot D_h against distance. You get an edit diffusion profile: one curve per method. Preservation is the tail, generalization is the head, overfitting is a spike at distance zero with a cliff immediately after.
+
+Now methods are comparable on a single object

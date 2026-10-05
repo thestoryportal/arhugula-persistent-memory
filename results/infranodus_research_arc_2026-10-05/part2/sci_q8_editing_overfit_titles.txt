@@ -1,0 +1,23 @@
+# llmdbsciq8editingoverfit20261005 — InfraNodus Scientific Databases (arXiv), query "editing overfit paraphrase generalization locate-then-edit", 40 papers, read 2026-10-05
+# diagnosis: biased (editing bc 0.82); but the Knowledge Editing cluster (23% nodes, 56% betweenness) is the densest editing-relevant set of all eight queries
+[E] Rethinking Residual Distribution in Locate-then-Edit Model Editing (BLUE) /// 2502.03748   READ: eval sections
+[E] Locate-then-edit for Multi-hop Factual Recall under Knowledge Editing /// 2410.06331
+[E] FLEKE: Federated Locate-then-Edit Knowledge Editing /// 2502.15677
+[E] Uncovering Overfitting in Large Language Model Editing /// 2410.07819   (already in corpus: Editing Overfit / Learn-the-Inference)
+[E] Knowledge Editing for Masked Diffusion Language Models /// 2606.03924
+[E] Lifelong Knowledge Editing requires Better Regularization /// 2502.01636
+[E] Beyond the Covariance Trap: Same-Subject Knowledge Editing (RoSE) /// 2603.15518   READ: §3, §4.1, §5
+[E] MetaKE: Meta-Learning for Knowledge Editing /// 2603.12677
+[E] EvoEdit: Evolving Null-space Alignment /// 2510.13851
+[E] LyapLock: Bounded Knowledge Preservation in Sequential Editing /// 2505.15702
+[E] Reproducibility Study of AlphaEdit /// 2606.26783
+[E] Understanding Robustness of Model Editing in Code LLMs /// 2511.03182
+[E] Fast Model Editing at Scale (MEND) /// 2110.11309
+[E] Localizing and Editing Knowledge in Large Audio-Language Models /// 2603.14343
+[E] Reverse-Engineering Model Editing on Language Models /// 2602.10134
+[E] SUIT: Knowledge Editing with Subspace-Aware Key-Value Mappings /// 2509.24502   (already in corpus; S-1 convergence)
+[E] Edit Less, Achieve More: Dynamic Sparse Neuron Masking for Lifelong Editing /// 2510.22139
+[E] Related Knowledge Perturbation Matters: Multiple Pieces of Knowledge Editing in Same-Subject /// 2502.06868   (I-5 same-subject conflict)
+[E] Editing Factual Knowledge and Explanatory Ability of Medical LLMs /// 2402.18099
+[-] remaining 21: image/video/CAD/facial editing, paraphrase corpora, NeuForm — noise
+# new to the arc from this graph: BLUE (2502.03748), 2410.06331 (multi-hop under locate-then-edit), 2502.01636 (lifelong regularization), 2510.13851 (EvoEdit), 2505.15702 (LyapLock), 2602.10134 (reverse-engineering edits), 2510.22139 (sparse neuron masking)

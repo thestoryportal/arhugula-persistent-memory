@@ -1,0 +1,40 @@
+A Comparison of Word Embeddings for English and Cross-Lingual Chinese Word Sense Disambiguation
+Anchor-based Bilingual Word Embeddings for Low-Resource Languages
+Assessing the Lexico-Semantic Relational Knowledge Captured by Word and Concept Embeddings
+Beyond Local Edits: Embedding-Virtualized Knowledge for Broader Evaluation and Preservation of Model Editing
+Beyond the Covariance Trap: Unlocking Generalization in Same-Subject Knowledge Editing for Large Language Models
+Bias in Knowledge Graphs -- an Empirical Study with Movie Recommendation and Different Language Editions of DBpedia
+Comparative Analysis of Word Embeddings for Capturing Word Similarities
+Cross-Lingual Knowledge Editing in Large Language Models
+Cross-Lingual Word Embeddings for Turkic Languages
+Disentangling Knowledge Representations for Large Language Model Editing
+Editing Factual Knowledge in Language Models
+Editing Language Model-based Knowledge Graph Embeddings
+How do language models learn facts? Dynamics, curricula and hallucinations
+How Well Can Knowledge Edit Methods Edit Perplexing Knowledge?
+Improved acoustic word embeddings for zero-resource languages using multilingual transfer
+Improving Text Embeddings for Smaller Language Models Using Contrastive Fine-tuning
+Knowledge Editing for Large Language Model with Knowledge Neuronal Ensemble
+Knowledge Editing for Masked Diffusion Language Models
+Knowledge Graph Enhanced Large Language Model Editing
+Knowledge in Superposition: Unveiling the Failures of Lifelong Knowledge Editing for Large Language Models
+Large Language Models and Multimodal Retrieval for Visual Word Sense Disambiguation
+MLaKE: Multilingual Knowledge Editing Benchmark for Large Language Models
+More Romanian word embeddings from the RETEROM project
+Neural Word Decomposition Models for Abusive Language Detection
+One Billion Word Benchmark for Measuring Progress in Statistical Language Modeling
+Part-of-Speech Relevance Weights for Learning Word Embeddings
+Prior Knowledge Driven Label Embedding for Slot Filling in Natural Language Understanding
+Related Knowledge Perturbation Matters: Rethinking Multiple Pieces of Knowledge Editing in Same-Subject
+Representation Learning for Words and Entities
+Reviewing Clinical Knowledge in Medical Large Language Models: Training and Beyond
+Semantic Abstraction for Natural Language Inference: a Methodological Framework for Discovering and Compensating Semantic Knowledge and Reasoning Gaps in Large Language Models
+Semantic Structure and Interpretability of Word Embeddings
+Stable Knowledge Editing in Large Language Models
+Subsampling for Knowledge Graph Embedding Explained
+SWEA: Updating Factual Knowledge in Large Language Models via Subject Word Embedding Altering
+Towards Reliable, Generalizable, and Specific In-Context Knowledge Editing via Multi-Objective Reinforcement Learning
+Understanding Language Model Circuits through Knowledge Editing
+UniEdit: A Unified Knowledge Editing Benchmark for Large Language Models
+Unifying Large Language Models and Knowledge Graphs: A Roadmap
+Using Large Language Models for Knowledge Engineering (LLMKE): A Case Study on Wikidata

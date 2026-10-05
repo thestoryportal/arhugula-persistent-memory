@@ -1,0 +1,124 @@
+Papers that most directly describe a generalization–locality tension
+
+Beyond the Covariance Trap ([2603.15518](https://arxiv.org/abs/2603.15518)) — strongest match. It argues that preservation-oriented covariance constraints can overfit the edited prompt/subject: locality improves while transfer to same-subject paraphrases and related formulations weakens.
+Reproducibility Study of AlphaEdit ([2606.26783](https://arxiv.org/abs/2606.26783)) — reports that AlphaEdit’s null-space projection does not uniformly preserve the original generalization results across settings. More restrictive projection can improve locality yet reduce edit propagation, including rephrase performance.
+EvoEdit ([2510.13851](https://arxiv.org/abs/2510.13851)) — motivates evolving null-space alignment partly because a fixed null space can become too restrictive. Its framing implies a preservation–plasticity tradeoff: protecting old knowledge can limit generalization of new edits.
+SUIT ([2509.24502](https://arxiv.org/abs/2509.24502)) — treats subspace selection as a balance between containing collateral effects and allowing the edited key–value mapping to generalize.
+
+Related, but less explicitly about paraphrases
+
+LyapLock emphasizes bounded preservation versus edit adaptability in sequential editing.
+Edit Less, Achieve More studies sparse masking as a way to avoid the locality loss caused by broad updates while retaining edit generalization.
+Rethinking Residual Distribution and Fast Model Editing at Scale evaluate generalization and specificity/locality together, but they are weaker evidence for a strict statement that improving one necessarily lowers the other.
+
+Bottom line
+
+Yes—but conditionally. The AlphaEdit reproducibility study and Beyond the Covariance Trap are the clearest evidence that null-space/covariance-style preservation constraints can reduce paraphrase or same-subject generalization when the permitted update space becomes too narrow. They do not show that null-space methods inherently reduce paraphrase recall; rather, the reduction depends on projection strength, subspace estimation, model/layer choice, and evaluation setting. EvoEdit and SUIT can be read as attempts to soften precisely this rigidity.
+
+---
+The claim is that preservation constraints can make an edit too narrow.
+
+In null-space editing, the parameter update is projected away from directions associated with existing knowledge. This usually improves locality—unrelated answers change less—but also removes directions that may be needed for the new fact to activate under alternative wording. The model may recall the edit for the original prompt while failing on held-out paraphrases.
+
+The relevant papers differ in evidential strength:
+
+Beyond the Covariance Trap most directly targets this mechanism: covariance-based preservation can lock an edit to the observed subject representation, weakening same-subject transfer. Same-subject generalization may include paraphrased contexts, but it should not automatically be equated with a dedicated paraphrase-recall benchmark.
+AlphaEdit reproducibility study is the key place to look for an explicit decline in rephrase success under null-space projection. A lower replicated score would demonstrate a setting-dependent effect, not prove that null-space constraints always harm paraphrase recall.
+EvoEdit and SUIT treat fixed or poorly selected subspaces as overly rigid and propose adaptive mappings. They primarily motivate or remedy the tension rather than necessarily establishing a monotonic tradeoff.
+
+So the defensible conclusion is:
+
+> Stronger preservation can reduce paraphrase generalization when the allowed update subspace excludes directions shared across paraphrased prompts.
+
+That is not yet the stronger claim that every improvement in locality lowers generalization, nor that null-space editing is intrinsically harmful. Layer choice, projection rank, edit magnitude, subject representation, and paraphrase diversity can change the outcome. The graph connects these themes, but co-occurrence alone cannot verify an empirical tradeoff; that requires paired locality and rephrase results under controlled constraint strengths.
+
+---
+There is a conceptual path—embedding initialization → token/vocabulary alignment → LLM → knowledge editing—but no direct methodological bridge in this paper set.
+
+None of the listed papers appears to use embedding initialization or cross-tokenizer projection to construct the target vector of a weight edit.
+HYPEROFA and Grounded Token Initialization initialize embeddings for new vocabulary, but do not perform knowledge-edit weight updates.
+Fast Model Editing at Scale, SUIT, and locate-then-edit methods construct edit targets from activations, gradients, or key–value mappings, not tokenizer projection.
+
+So this is best viewed as an open research gap: using aligned new-token embeddings as explicit target values for model editing.
+
+---
+Besides "Beyond the Covariance Trap," three papers directly target MEMIT's closed-form covariance solve:
+
+MEMIT-Merge: reweights key-value pairs to resolve conflicts in same-subject batch editing — reports improved locality under batch edits, though paraphrase gains are secondary to conflict resolution.
+EvoEdit: replaces the covariance term with evolving null-space alignment — reports stronger locality preservation and comparable/better paraphrase robustness than AlphaEdit.
+Related Knowledge Perturbation Matters: reweights perturbation from related (not just same-subject) knowledge — reports locality gains but flags paraphrase generalization as still unstable.
+
+The gap in your graph (Fine Editing <-> Robust Space, both only weakly bridged via "locate/constrained/null") is exactly where this cluster sits: these papers all touch the covariance statistic but none fully closes the paraphrase-locality tradeoff the way "Beyond the Covariance Trap" claims to.
+
+---
+The gap I named isn't incidental — the graph makes it structural. Lifelong Editing carries 49% of betweenness but only 13% of degree, meaning the locate-then-edit cluster is a bottleneck: everything routes through it, but it has few outward ties. Impact Generation (dpo, rlhf, paraphrase, human) sits at 4% betweenness — almost isolated. These two communities barely exchange vocabulary.
+
+Elaborating on the specific claim:
+
+Why residual-per-layer matters. MEMIT distributes the residual $\delta$ evenly across layers $\{l_{\text{crit}-k}, \dots, l_{\text{crit}}\}$ — an engineering convenience, not a principled allocation. 2502.03748 shows this uniform spread is suboptimal; 2405.00664 finds two layers suffice on Llama-3. Both are implicitly asking: which layer deserves how much of the correction? Neither has a signal to answer it beyond edit-success accuracy.
+
+Why paraphrase is the missing signal. Generalization-to-paraphrase is currently the only metric that tests whether an edit lives in semantic space rather than surface token space. But it's scored binary (did the rephrased prompt yield the new fact?). 2506.02018's contribution is a graded, human-ranked paraphrase quality signal — exactly the dense reward a per-layer allocation search would need.
+
+The unbuilt bridge. Use ranked paraphrase quality as the objective for where the residual goes, not just as post-hoc evaluation. Deeper layers may govern surface form; earlier critical layers, semantic binding. A DPO-style preference over paraphrase outputs could differentiate them.
+
+The node `dpo` is listed as a conceptual gateway with degree 2. It's a gateway no one has walked through.
+
+---
+The papers that give you a readable tradeoff curve are the ones where a single tunable constraint knob is swept — mostly in the null-space / sequential-editing cluster:
+
+LyapLock (2505.15702) — the constraint budget on preserved knowledge is explicit, so edit success vs. locality is reported across budget levels.
+AlphaEdit reproducibility study (2606.26783) — reruns null-space projection under varied projection strictness; the paired generalization/locality numbers are the whole point of the reproduction.
+EvoEdit (2510.13851) — evolving null-space alignment, ablated by alignment strength.
+Lifelong Knowledge Editing requires Better Regularization (2502.01636) — regularization coefficient sweeps, generalization vs. specificity side by side.
+Edit Less, Achieve More (2510.22139) — sparsity ratio of the neuron mask acts as the constraint parameter.
+SUIT (2509.24502) — subspace dimensionality is the knob.
+
+A notable asymmetry in your graph: the "robust space" cluster carries all the constraint-sweep reporting, while the training-free image/video editing cluster (FreeMask, DFVEdit, Constrained Edit Fields) uses the same vocabulary of constraint strength but almost never reports paired numbers — they show qualitative grids instead. If you want tradeoff curves outside LLM editing, that gap is where to look, not where to cite.
+
+---
+Title
+When Preservation Makes Edits Too Narrow: The Locality–Paraphrase Tradeoff in Knowledge Editing
+
+Outline
+
+Introduction: the hidden cost of “safe” edits
+Why stronger preservation constraints look attractive
+Core claim: better locality can make edits brittle under rewording
+The mechanism: how null-space preservation narrows an edit
+Projection removes directions tied to prior knowledge
+Those same directions may be needed for activation under paraphrases
+Result: success on the original prompt, failure on same-subject variants
+Best evidence for the tension
+Beyond the Covariance Trap: covariance preservation can overfit to the observed subject form
+AlphaEdit reproducibility study: stricter null-space projection can lower rephrase performance
+Why these are the clearest papers for a generalization–locality tension
+Papers that frame the tradeoff without fully proving it
+EvoEdit: fixed null spaces become too rigid
+SUIT: subspace choice balances collateral damage vs. transfer
+LyapLock and Edit Less, Achieve More: preservation budget and sparsity as explicit knobs
+What the tradeoff is — and what it is not
+Defensible claim: stronger preservation can reduce paraphrase generalization
+Too-strong claim: every locality gain must lower generalization
+Why outcome depends on layer, rank, edit magnitude, subject encoding, evaluation setup
+Where the graph reveals a structural bottleneck
+Knowledge Editing is the bridge cluster; Impact Generation is weakly connected
+Paraphrase and human preference signals rarely shape the edit itself
+They are mostly used as post-hoc evaluation
+A missing bridge: from residual distribution to paraphrase-guided editing
+Rethinking Residual Distribution questions uniform per-layer allocation
+Paraphrase quality is the missing supervision signal for deciding where an edit should live
+Link to DPO/RLHF paraphrase ranking as a way to optimize edit placement, not just score it
+An open research gap: token alignment meets knowledge editing
+Cross-tokenizer and embedding-alignment work exists
+But it is not yet used to build target edit vectors in knowledge editing
+This suggests a new route: aligned embeddings as edit targets for broader transfer
+Why this matters beyond LLM editing
+Similar vocabulary appears in diffusion, video, and training-free editing
+But those fields often show qualitative constraint grids, not clean tradeoff curves
+LLM editing currently offers the sharper testbed for studying preservation vs. flexibility
+Conclusion: preservation should be adaptive, not absolute
+The real issue is not preservation itself, but overconstrained update spaces
+Adaptive subspaces may be the path out of prompt-locked edits
+The next step is to optimize for semantic transfer, not just minimal disturbance
+
+If you want, I can also turn this into a full intro paragraph or a tighter, more provocative title set (5–10 options).

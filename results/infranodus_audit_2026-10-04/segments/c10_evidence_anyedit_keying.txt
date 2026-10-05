@@ -1,0 +1,113 @@
+CORPUS/40 - C10 AnyEdit small-window pilot: local windowsize=1 transplant collapses controls
+Decision-ID: D-C10h-anyedit-pilot. Date: 2026-06-27. Pre-reg: docs/C10ANYEDITPILOTPREREG.md (frozen after advisor FIX-FIRST; alignment gate embedded before GPU run). Runner: experiments/trackc/c10hanyeditpilot.py. Result: results/c10hanyeditpilot.json. Parents: D-C10-1, D-C10b-residual, D-C10e-bandknob, D-C10f-band412, and D-C10g-strengthlayers
+E2e-map cell: section 8.9 L2 behavioral firing/read expression for Layer-4 domainconcept; F1 condition C10; fixed deployment target = local Intel CPU + batch writes. Class: ANYEDIT FEASIBILITY PILOT / SCOPED RESOLVER. NOT promotable beyond this harness-side fixed small-window transplant
+Verdict: TRADEOFFNOTCLEANRESCUE. The local AnyEdit-style autoregressive target/window transplant with windowsize=1 is not a clean C10 rescue. It passes the embedded alignment/no-op gates, but it collapses A1/A2 held-out behavior and worsens the hard A7 project-coined value class. Baseline A7 parafull is 12.5% (9/72); AnyEdit-window1 A7 parafull is 1.4% (1/72). More importantly, A1/A2 controls fall from 93.1% / 97.2% to 0.0% / 0.0%. C10 remains open; this result does not falsify the AnyEdit family or upstream AnyEdit
+CORPUS/35-39 established that project-coined multi-word values are the live C10 blocker for the fixed deployment target and that cheap MEMIT band/strength/layer-count knobs do not rescue held-out behavior. The next proposed rescue was AnyEdit/per-token autoregressive editing. This pilot asks the smallest falsifiable version: does a local AnyEdit-style small-window target construction rescue hard A7 held-out behavior while preserving A1/A2 controls?
+Advisor-review before authoring returned FIX-FIRST. The preregistration therefore made token/window alignment a hard pre-run gate, froze the same-run baseline comparator (configs/hparams/qwen253bmemithparams.json, layers [4,5,6,7,8]), required no-op inertness before trusting evidence, and required A1/A2 controls to remain clean before interpreting any A7 gain
+Same 24 fictional subjects and capital relation as the C10e-g harness family. Arms:
+A1 single-token known capitals
+A2 prior-coherent two-token capitals
+A7 project-coined/coined multi-token values
+Binding metric is held-out paraphrase full-sequence exact match across three paraphrases (72 trials per arm). The AnyEdit pilot keeps local MEMIT/AlphaEdit primitives and changes only harness-side target/window construction: an AnyEdit ARE-style autoregressive target sequence with windowsize=1
+Alignment gates:
+Dry-run token/window gate passed before GPU evidence: A1 token length 1/1/1, A2 2/2/2, A7 range 4-6, mean 5.5
+Baseline LAW#5 passed: exprdelta=0.0001, locdelta=1.82
+AnyEdit no-op gate passed: exprdelta=0.0, locdelta=0.0, parammaxabsdelta=0.0, tokenplanok=True
+AnyEdit token/window gates passed for A1, A2, and A7
+recipe, A1 parafull, A2 parafull, A7 canonfull, A7 parafull, A7 parafirst, A7 tfcont, locality, verdict role
+baseline [4,8], 93.1 (67/72), 97.2 (70/72), 33.3 (8/24), 12.5 (9/72), 79.2 (57/72), 56.8, 89.94, valid failure envelope
+AnyEdit window1, 0.0 (0/72), 0.0 (0/72), 8.3 (2/24), 1.4 (1/72), 2.8 (2/72), 65.1, 97.62, non-clean control collapse
+Additional control details: A1 canonical falls from 100.0 (24/24) to 25.0 (6/24); A2 canonical falls from 100.0 (24/24) to 4.2 (1/24). AnyEdit A7 paraanyfull is 4.2 (3/72) versus baseline 29.2 (21/72). The frozen script verdict is TRADEOFFNOTCLEANRESCUE, with A7 parafull delta -11.1pp and controlminparafull=0.0
+What the verdict licenses
+EVIDENCE-SHOWS: under the pre-registered C10h harness, the tested local AnyEdit small-window transplant is not a clean rescue. It passes alignment and no-op gates, but it worsens A7 held-out behavior and collapses A1/A2 controls
+EVIDENCE-SHOWS: the dominant empirical result is a control-path failure, not a selective hard-value rescue/failure. A1/A2 are easy for the same-run baseline (93.1%, 97.2%) and fail under AnyEdit-window1 (0.0%, 0.0%), so the A7 degradation is not interpretable as an isolated property of hard coined-coined values
+I-INFER: this small-window transplant likely mis-specifies some dependency/window behavior needed for normal edit expression. That mechanism is not proven by this run; the result only warrants the narrower claim that this fixed windowsize=1 local transplant is not viable as tested
+I-INFER: upstream AnyEdit, AnyEdit++, muKE, or a dependency-aware/default-window condition remain un-falsified. The cheapest overturning diagnostic is an A1/A2-only run with windowsize=50 or an upstream-equivalent dependency/window condition; require A1/A2 parafull >= 80% before spending GPU on A7
+Severity / F1 impact
+C10 remains OPEN / CONDITIONAL and F1 readiness is UNCHANGED. The result kills the immediate local small-window AnyEdit rescue attempt, but it does not close the AnyEdit family fork. The forward choice is now either a narrow upstream-equivalent A1/A2 diagnostic, or accept the current bounded architecture with project-coined multi-word semantic values routed through a side-store/index path
+Qwen2.5-3B / AlphaEdit-MEMIT primitives / local AnyEdit-style ARE target construction / windowsize=1 / N=24 / one seed / fictional subjects / capital relation / HF-fp16 / no Q4KM survival check / no upstream AnyEdit code execution. This is not a universal AnyEdit failure and not evidence that per-token methods cannot rescue C10
+If continuing the AnyEdit route: run the advisor-recommended A1/A2-only dependency/window diagnostic (windowsize=50 or upstream-equivalent behavior). Only if controls recover to at least 80% held-out parafull, run A7. If controls remain collapsed, route project-coined multi-word values through the external index/side-store path and mark in-weight C10 as bounded
+LLMDBROOT=/workspace python3 experiments/trackc/c10hanyeditpilot.py --dry-run writes results/c10hanyedittokenwindowdryrun.json
+LLMDBROOT=/workspace python3 experiments/trackc/c10hanyeditpilot.py writes results/c10hanyeditpilot.json and logs to logs/c10hanyeditpilot.log
+⟨D-C10h-anyedit-pilot@6413cc67⟩
+⟨D-C10e-bandknob@82b491dc D-C10f-band412@d93d6a19 D-C10g-strengthlayers@d691acab⟩
+41 — C10K Stage 0 on the M3 Pro: HALTED - HARDWAREENVELOPE (+ UPSTREAMENVUNDEFINED)
+Diagnostic 2026-10-04. Decision-ID D-C10k-m3pro-stage0 ⟨D-C10k-m3pro-stage0@43899c7f⟩. Pre-registered in docs/C10KANYEDITOFFICIALUPSTREAMPREREG.md (Stage 0; hardware scope superseded by D-HW-1). Full detail: docs/C10KM3PROSTAGE0DIAGNOSTIC.md. Artifacts: logs/c10kstage0deskcheck.log, logs/c10kstage0cudaclassification.json, logs/c10kstage0firstfailuretrace.log, logs/c10kstage0mpssvdcheck.log, architectureprofile/c10km3prostage0haltdiagnostic.json, advisor reviews logs/claudec10km3prostage0review{,v2,v3}.md
+Hardware/source-faithfulness diagnostic — NOT a method verdict on AnyEdit and NOT C10 evidence. No science model was loaded; no C10 A1/A2/A7 ran (stop rule honored)
+VERDICT — HALTED - HARDWAREENVELOPE, with a secondary code UPSTREAMENVUNDEFINED
+Finding, Value, Artifact
+First live failure of unmodified upstream memitARE on this machine (tiny random Qwen2 on CPU, stock item, shipped hparams), memitARE/computez.py:35 .to("cuda") → AssertionError: Torch not compiled with CUDA enabled, first-failure trace log
+Hard device bindings on the on-path files, 27 (17 in algorithm modules incl. util/layerstats.py; 10 in the runner), cuda classification json
+Official runner complete?, No — experiments/evaluateuns.py:29 imports glueeval, which does not ship; and the AlphaEdit null-space projector (getproject, SVD) lives in the runner (lines 262–275), not in AlphaEditARE/, desk-check log
+README environment, transformers==4.23.1, pytorch==1.12.1, "One A100 80G GPU"; no lockfile. 4.23.1 cannot load the shipped Qwen2.5 configs (Qwen2 module: absent 4.36.2, present 4.37.0) → the "upstream-compatible environment" is undefined by upstream on any hardware, desk-check log
+Shipped configs, Qwen2.5-7B-Instruct, Llama3-8B-Instruct only — Instruct, no 3B; the program's line is base Qwen2.5-3B/7B (new finding; the prereg never mentions Instruct), desk-check log
+Does memitARE reduce to MEMIT (Route A differential anchor)?, No — extra Kp·Kpᵀ preservation term in the solve, last-prompt-token keying without templates, no KL term (code read, line-cited) → Route A keeps only the static-identity anchor, docs/C10KMEMITAREREDUCTIONNOTE.md
+Upstream default load, fp32 .cuda() (evaluateuns.py:86): 7B ≈ 28.3 GB weights + 5 × 1.34 GB fp32 18944² projectors ≈ 35 GB before activations, vs MPS recommended ceiling 37.4 GB here → fitting would need dtype/offload "local tricks" the prereg forbids for PASS (I-INFER; not load-tested), mps svd check log
+What this does and does not change
+C10 remains OPEN/BLOCKING (unchanged). C10K Stage 0 cannot pass on the M3 Pro as pre-registered
+Forward routes are the operator's call: A declared device-port deviation (shim or anchored patch; two possible anchors, each with caveats), B prereg scope amendment then rented CUDA (still Instruct-model + launcher + reconstructed-stack deviations), C accept-bounded (not an F1 closure)
+Advisor (3 rounds): halt holds; routes section corrected; "stop revising and hand the A-vs-B decision to the operator."
+42 — C10K Route A (ported official AnyEdit, M3 Pro): HALTED — CONTROLSNOTRECOVERED
+Result 2026-10-04. Decision-ID D-C10k-route-a ⟨D-C10k-route-a@3b0be47e⟩. Pre-registered: docs/C10KROUTEALOCALPORTPREREG.md (ceeaff8) + Amendments 1–3 (each advisor-reviewed and committed before the run it governs). Full detail: docs/C10KROUTEARESULT.md. Halt record: architectureprofile/c10krouteahaltdiagnostic.json. Records: results/c10kroutea/. Advisor reviews: logs/claudec10krouteaamendment{1,1v2,2,3}review.md, logs/claudec10kroutearesultreview.md
+Method-port result under declared deviations (D1–D8, A1–A3) — a scoped negative on the port's controls, NOT a falsification of AnyEdit and NOT C10 evidence (no A7 interpretation licensed). Successor to CORPUS/41 (Stage 0 halt; operator chose Route A)
+VERDICT — HALTED — CONTROLSNOTRECOVERED (prereg §3 stop rule; the one allowed fix was spent)
+R1 controls at upstream L2 = 10, A1 canon 11/24, para 0/72; A2 canon 1/24, para 0/72 (gate ≥ 80 both), R1w1L2-10.json
+Why: the solve realises 5–13 % of the residual at L2 = 10 (ridge ≈ projected key energy 7–33 on this model), update norms 4.2/4.9/7.5/20/51 vs residual ≈ 100; back-test reproduces to the digit, solvegaindiag.json, solvebacktest.json
+One fix (Amendment 3): L2 → 0.01 by calibration rule, canonical fit restored: final z error 98 → 0.002, solvebacktest.json
+R1 controls at L2 = 0.01, A1 canon 24/24, para 0/72; A2 canon 24/24, para 0/72 → HALT, R1w1.json
+Mechanism: paraphrase hidden-state transfer at the z-layer, canonical 1.00; paraphrase 0.009 (L2 0.01), 0.018 (L2 10); no item ≥ 0.5 — the edit is keyed at the last prompt token (computez.py:91), which paraphrases do not share, solvebacktest.json
+Locality under the rescaled ridge, real-country 10/12 / 12/12; described-as JS 87.02 / 82.98 (bound 95); generic NLL +0.25861 / +0.35221 nats; stock item changed, R1w1.json
+A7 diagnostic-only (L2 = 0.01), canon 24/24, para 0/72; real-country 9/12, JS 69.28, R1w1A7coinedcoined.json
+memitARE A1 diagnostic-only (upstream covariance ridge 15000, no projector), canon 2/24, para 0/72, locality intact, band-norm ratios up to 6844× (fp32) / 16049× (fp64): over-regularised — single-key gain 0.04–0.07 at 15000 and at the program's 5000, with or without the preservation term; last-token keys sit 17–180× under the covariance ridge; giant norms are a tail symptom (fp64 control + ridge diag), R3w1A1single.json, fp64resolvecontrol.json, memitridgediag.json
+Projector (Amendment 1 v2, fp32 keys), per-layer thresholds 0.01/0.02/0.02/0.02/0.03 pass protection ≤ 0.5 and survival ≥ 0.2 (A1, held-out, ARE-window); interference non-protective at L8 for last-token keys (1.03); key parity cos ≥ 0.99998, projectorgatev2.json, projectorgatev2controls.json
+D5 anchor (fp32 MPS vs CPU), same top-1 3/3; norm ratios within [0.5, 2] at both L2, anchor.json
+R0 LAW#3 (fp16), A1 94.4 / A2 98.6 / A7 13.9 vs known 93.1 / 97.2 / 12.5; LAW#5 INERT, R0baseline.json
+Findings that survive the halt (scoped: Qwen2.5-3B base, fp32 MPS, this port, N = 24, 1 seed)
+F1 AlphaEdit's null-space projection at the pre-registered thresholds removes 56–76 % of edit-key norm at L4–L8 on this model and does not protect L8 against last-token keys
+F2 upstream's L2 = 10 is non-functional here (realises 5–13 % of the residual); the value is an absolute number tuned on 7B/8B Instruct key scales
+F3 last-prompt-token keying gives ~0 hidden-state transfer to paraphrases, independent of ridge: trained prompt 24/24, paraphrases 0/72 on every arm
+F4 restoring the write magnitude costs locality (NLL +0.26–0.35 nats; real-country and JS bounds breached; L4 band norm 3.6× via the attention-sink key)
+F6 memitARE at upstream's covariance weight is over-regularised for last-token keys here (exact-arithmetic fit 2/24; single-key gain ≤ 0.07 at either weight; keys 17–180× under the ridge): the failing axis is key placement relative to the covariance geometry, the same axis as F3, not the weight alone
+F5 (I-INFER) F3 is the editing-lineage face of the recall-lineage finding that relations are decoded from the subject's last token (Hernandez et al. ICLR 2024); AnyEdit/AnyEdit++ key inside the written context and score BLEU on the trained prompt = the program's canonical read, not its paraphrase criterion (docs/PRIORARTLREHERNANDEZICLR2024.md, docs/PRIORARTANYEDITPPBAYESCHUNK2026.md); external support in the 2026-10-04 sweep: PRISM (subject-last-token input invariant across contexts, cos ≥ 0.97), ALOE (paraphrase failure is address-side), Suresh et al. (subject-keyed AlphaEdit on Qwen2.5-3B reaches 90–96 % paraphrase generalisation; hparams hand-derived per architecture) — docs/PRIORARTSWEEP2026-10-04.md. The causal attribution is tested next by D-C10k-keying-ablation⟨D-C10k-keying-ablation@110558e3⟩ (docs/C10KKEYINGABLATIONPREREG.md v3)
+C10 remains OPEN / BLOCKING. The AnyEdit-port route on local hardware is HALTED at the controls; by F3 a faithful port cannot pass the paraphrase gate on this stimulus design at any ridge, so further port tuning is not a live option
+AnyEdit's own claims are untouched (their metrics correspond to the canonical read this port achieves at 100 %)
+Forward (operator's call; recommendation first): (i) pre-register the LRE-faithfulness admission test (cheap, local; read Christ 2025, Choe 2025, "Keys to Robust Edits" first); (ii) subject-keyed per-token hybrid as a re-implementation, only if (i) says the target relations are linearly decodable; (iii) accept-bounded with coined multi-word values routed to the side-store (Route C)
+43 — Keying-locus ablation in the program's MEMIT engine: last-token-keyed writes land but do not transfer; partly frame-keyed (F3 SUFFICIENT in MEMIT, N = 1)
+Result 2026-10-04. Decision-ID D-C10k-keying-ablation ⟨D-C10k-keying-ablation@110558e3⟩. Pre-registered docs/C10KKEYINGABLATIONPREREG.md (v3 §3; amendments §6, §6b; three advisor rounds). Full detail docs/C10KKEYINGABLATIONRESULT.md. Records results/c10kkeyingablation/ (K{1..4}.json, zprobe.json, keygram.json, n1/N1.json, n1/framebleed.json, n1/framebleedb.json); harness experiments/trackc/c10ebandknob.py (knobs only; engine unmodified, LAW#5 INERT every cell); chains tools/c10kkeyingablationchain.sh, tools/c10kkeyingablationn1.sh; probe experiments/trackc/c10kkeyingablationn1framebleed.py. Reviews: logs/claudec10kkeyingablationresultreview{,v2}.md, logs/codexc10kkeyingablationresultreview{,v2}.md
+Single-variable mechanism test in the program's own engine (LAW#5: harness knobs only) — NOT C10 evidence (A7 untouched); sufficient-in-MEMIT at N = 1, not exclusive, not a re-run of Route A's modules
+VERDICT — KEYING LOCUS DECIDES WHAT IS WRITTEN — last-token-keyed singles land but do not transfer to paraphrases and bleed onto same-frame prompts to a varying degree (F3 SUFFICIENT, MEMIT, N = 1; frame-bleed BETWEEN)
+N = 24 (prereg §3): INVALID-LAST-TOKEN-CELLS (K3/K4 canon < 90; no keying reading at N = 24)
+cell, key locus, templates, A1 canon / parafull, A2 canon / parafull, validity
+K1, subject, on, 100 / 95.8, 100 / 97.2, valid (LAW#3 gate PASS)
+K2, subject, off, 100 / 91.7, 100 / 88.9, valid
+K3, last, on, 29.2 / 0.0, 4.2 / 0.0, INVALID (canon < 90)
+K4, last, off, 25.0 / 0.0, 8.3 / 0.0, INVALID (canon < 90)
+Mechanism of the N = 24 failure (§3b–§3c): z-probe — K3-style computez reaches the target (prob ≥ 0.983), so the loss is at the solve; keygram — the 24 last-token keys have mean pairwise cosine ≥ 0.985 and effective rank 1.02 at every band layer in raw space (subject keys 0.02–0.07, rank 16–23): near-collinear keys whose differences the ridge suppresses (5.7–60× over key energy at w = 5000 vs 0.5–5.3 for subject keys); collinearity and ridge are not separable causes here, and a whitened keygram was not run. Claim A: SINGLES LAND (pre-registered label: interference first) — 6/6 single last-token writes land at w = 5000, so the ridge weight does not block a single last-token write. What blocks 24 of them is their collinearity under the covariance-plus-ridge geometry the solve works in; 'interference' and 'ridge' are not separable causes here (the keygram's w ≈ 100–600 and Route A's 24/24 fit at a 1000× smaller ridge both say a smaller ridge would separate them). The small-ridge sweep is not run because it cannot bear on F1: a last-token write that lands does not transfer anyway (claim B). Zero-edit check not run: a keygram on covariance-whitened keys (C^-1/2·k) would test the collinearity framing directly
+N = 1 (prereg §6b; the valid last-token cells, w = 5000): last-token singles land 6/6 with 0/18 paraphrase hits; subject-keyed singles land 6/6 with 18/18 hits (6/6 at ≥ 2/3). Claim B: F3 SUFFICIENT (MEMIT, N = 1) — 6/6 last-token singles land with ≤ 1/3 paraphrases while 6/6 subject-keyed singles land with ≥ 2/3; described-as JS gap +5.4 points
+Frame-bleed probe (§6b): BETWEEN (partly frame-keyed)
+subject → value, locus, canon, para (of 3), real frame prompts → value (of 12), real capitals correct pre → post, bystander frame prompts → value (of 6), described-as JS
+Zorbland → Beirut, last, 100, 0, 0, 12 → 12, 2, 100.0
+Zorbland → Beirut, subject, 100, 3, 0, 12 → 12, 0, 96.3
+Quaxil → Buenos, last, 100, 0, 9, 12 → 3, 6, 99.86
+Quaxil → Buenos, subject, 100, 3, 0, 12 → 12, 0, 95.8
+Plurnak → Damascus, last, 100, 0, 0, 12 → 12, 6, 99.99
+Plurnak → Damascus, subject, 100, 3, 0, 12 → 12, 0, 96.03
+Vythorn → Jerusalem, last, 100, 0, 0, 12 → 12, 6, 100.0
+Vythorn → Jerusalem, subject, 100, 2, 0, 12 → 12, 0, 67.35
+Glimsto → Lisbon, last, 100, 0, 0, 12 → 12, 6, 99.99
+Glimsto → Lisbon, subject, 100, 3, 0, 12 → 12, 0, 96.19
+Drennik → Moscow, last, 100, 0, 1, 12 → 11, 5, 100.0
+Drennik → Moscow, subject, 100, 3, 0, 12 → 12, 0, 94.88
+Findings (scoped: Qwen2.5-3B base, fp16, band [4–8], w = 5000, 1 seed; N = 24 for the 2×2, N = 1 for six subjects, the same six in the frame-bleed probe with distinct values; A1 single-token values)
+F-A1 (EVIDENCE-SHOWS). In the program's engine, 24 writes keyed at the prompt's final token do not land (canon 29.2 / 25.0 % A1) because their keys are near-collinear and the solve cannot separate them at this ridge weight; the same 24 writes keyed at the subject land and transfer (95.8 / 97.2)
+F-A2 (EVIDENCE-SHOWS). A single write keyed at the prompt's final token lands (6/6) and is read from the trained prompt only (0/18 paraphrase hits); the same single write keyed at the subject lands and transfers (18/18)
+F-A3 (EVIDENCE-SHOWS). real-country frame prompts flipped to the edited value 0/9/0/0/0/1 of 12 (subject-keyed 0/0/0/0/0/0), never-edited fictional frame prompts 2/6/6/6/6/5 of 6 (subject-keyed 0/0/0/0/0/0): the landed last-token write bleeds onto prompts that share the frame … is the city of to a varying degree (31/36 never-edited fictional frame prompts and 10/72 real-country prompts take the value; the single real-capital override rides the token prior of Buenos, update norms being near-identical), damage the described-as locality probe cannot see; the subject-keyed write touches none of them (distinct-value singles (Codex control, 6 subjects, values Beirut, Buenos, Damascus, Jerusalem, Lisbon, Moscow): last-token 0/18 paraphrase hits vs subject-keyed 17/18; subject-keyed described-as JS 67.35–96.3)
+F-A4 (EVIDENCE-SHOWS). Templates are not necessary for ≥ 80 % paraphrase transfer with subject keying (K2 91.7 / 88.9); they add about 4–8 points
+F-A4b (EVIDENCE-SHOWS). distinct-value singles (Codex control, 6 subjects, values Beirut, Buenos, Damascus, Jerusalem, Lisbon, Moscow): last-token 0/18 paraphrase hits vs subject-keyed 17/18; subject-keyed described-as JS 67.35–96.3; subject keying costs ≈ 5 points of described-as JS (89–98 vs 100), and described-as JS was blind to the real-capital flips, so same-frame prompts are a required locality probe for any write
+F-A5 (I-INFER). Route A's F3 (the ported AnyEdit keys at the last prompt token, hence 0/72) is sufficient in MEMIT by F-A2/F-A3; it is not shown exclusive for Route A, whose modules also differ in z-objective, preservation term and projector and were not re-run with subject keying
+What this changes
+The memorymirror rule "read the keying locus against the generalisation criterion before porting an editor" becomes unconditional for this mechanism class: a last-token-keyed write does not yield a subject fact (it lands, does not transfer, and bleeds onto same-frame prompts). Option (ii) (subject-keyed per-token hybrid) keeps its rationale, now with in-engine evidence
+The small-ridge sweep (§6) is not run: a landed last-token write does not transfer, so the sweep cannot bear on F1. The covariance-corpus knob (Moir) is untested by this result
+Provenance: K1–K4 and n1/N1.json carry the harness default decisionid: D-C10e-bandknob ⟨D-C10e-bandknob@82b491dc⟩ (chain scripts did not set it; now fixed for future runs; records not rewritten)
+C10 unchanged (A7 not run). The operator decision on the forward route stands: (i) LRE-faithfulness admission test, (ii) subject-keyed per-token hybrid, (iii) accept-bounded + side-store
+Limitations: N = 1 and six subjects; single-token values; one seed; the twelve chain runs all used the value Beirut (removed by the distinct-value control, §6b post-hoc addendum); the claim-B criterion and the probe were pre-registered after three of twelve runs were visible (prereg §6b, timing disclosure)

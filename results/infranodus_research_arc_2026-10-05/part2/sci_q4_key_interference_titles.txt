@@ -1,0 +1,15 @@
+# llmdbsciq4keyinterference20261005 — InfraNodus Scientific Databases (arXiv), query "key collinearity interference batched model editing superposition", 40 papers, read 2026-10-05
+# diagnosis: focused (editing 0.69 / model 0.63 / interference 0.37 / superposition 0.18; 13 clusters, modularity 0.59). Gateways: conflict, batch, multihop, superposition.
+[E] Knowledge in Superposition: Unveiling the Failures of Lifelong Knowledge Editing /// 2408.07413   (already in corpus; P1-Q2)
+[E] MEMIT-Merge: Addressing MEMIT's Key-Value Conflicts in Same-Subject Batch Editing /// 2502.07322   (I-5; corrects the "2502.xxxx" placeholder in §1)
+[E] Orthogonal Representation Editing: Decoupling Semantic Entanglement in Batch Knowledge Editing /// 2606.22627   READ: §3, §4.1–4.4
+[E] Beyond Local Edits: Embedding-Virtualized Knowledge for Broader Evaluation and Preservation /// 2602.01977
+[E] Is Bigger Edit Batch Size Always Better? Model Editing with Llama-3 /// 2405.00664
+[E] Consecutive Batch Model Editing with HooK Layers /// 2403.05330
+[E] A Unified Framework for Model Editing /// 2403.14236
+[E] Memory-Based Model Editing at Scale (SERAC) /// 2206.06520
+[E] Fast Model Editing at Scale (MEND) /// 2110.11309
+[S] Superposition as Lossy Compression: Measure with SAEs and Connect to Adversarial Vulnerability /// 2512.13568
+[S] Adversarial Attacks Leverage Interference Between Features in Superposition /// 2510.11709
+[-] remaining 29: wireless interference channels, quantum superposition, diffusion image/video editing, dual-parton model — noise (the word "interference" pulled physics and networking)
+# verdict: no new mechanism class; ORE is the one new paper (representation-side, batch entanglement diagnostic). The superposition-as-compression pair [S] is theory context for I-7 and for the keying-locus finding, logged as a lead.

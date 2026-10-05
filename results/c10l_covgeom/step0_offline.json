@@ -1,0 +1,663 @@
+{
+  "decision_id": "D-C10l-covgeom",
+  "prereg": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10L_COVGEOM_SPARSEBAND_PREREG.md",
+  "step": "step 0 offline",
+  "layers": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "z_layer": 8,
+  "d": 2048,
+  "n": 24,
+  "regularisers": {
+    "R0": {
+      "per_layer": {
+        "4": {
+          "rho_c": 0.1352829223100333,
+          "rho_p": 0.29379690476718107,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.37375609066517157,
+            "If you visit {}, its capital city is": 0.27113259873253165,
+            "The main city and seat of government of {} is": 0.2009045628232924
+          },
+          "pi_ctrl_L3": 0.10929025284496688,
+          "pi_described_as": 0.9726720244801482,
+          "dW_fro": 15.870183492574974,
+          "null_space_share": 0.999996542815951,
+          "R_fro": 48.38304048258079,
+          "share": 0.2,
+          "harness_f32_dW_fro": 15.839897155761719,
+          "f32_vs_f64_rel": 7.015341914490705e-05
+        },
+        "5": {
+          "rho_c": 0.05134043584915129,
+          "rho_p": 0.26717128690061775,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.36026393316537,
+            "If you visit {}, its capital city is": 0.24251323281607534,
+            "The main city and seat of government of {} is": 0.1387970131758579
+          },
+          "pi_ctrl_L3": 0.051112116080751474,
+          "pi_described_as": 0.9483748628610662,
+          "dW_fro": 12.043818202495551,
+          "null_space_share": 0.999994017750778,
+          "R_fro": 56.46815552022493,
+          "share": 0.25,
+          "harness_f32_dW_fro": 11.996220588684082,
+          "f32_vs_f64_rel": 2.9651742323256563e-05
+        },
+        "6": {
+          "rho_c": 0.0332769404219823,
+          "rho_p": 0.2675135280796537,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.36203726079219356,
+            "If you visit {}, its capital city is": 0.2436627601235629,
+            "The main city and seat of government of {} is": 0.13342600206016622
+          },
+          "pi_ctrl_L3": 0.047754195975180436,
+          "pi_described_as": 0.9548449850698807,
+          "dW_fro": 11.94761611956722,
+          "null_space_share": 0.9999988480027424,
+          "R_fro": 70.50536323672823,
+          "share": 0.3333333333333333,
+          "harness_f32_dW_fro": 11.897664070129395,
+          "f32_vs_f64_rel": 6.856052161599747e-05
+        },
+        "7": {
+          "rho_c": 0.052683094316851364,
+          "rho_p": 0.29425510821327977,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.3932934282757005,
+            "If you visit {}, its capital city is": 0.2677458549712467,
+            "The main city and seat of government of {} is": 0.15571187325074795
+          },
+          "pi_ctrl_L3": 0.05807526557640172,
+          "pi_described_as": 0.9735467387440375,
+          "dW_fro": 20.036260514047147,
+          "null_space_share": 0.9999994165444003,
+          "R_fro": 93.10810935053978,
+          "share": 0.5,
+          "harness_f32_dW_fro": 19.946210861206055,
+          "f32_vs_f64_rel": 3.4674717214165255e-05
+        },
+        "8": {
+          "rho_c": 0.03740952572627616,
+          "rho_p": 0.358204343139599,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.4716254106538953,
+            "If you visit {}, its capital city is": 0.32430202932755153,
+            "The main city and seat of government of {} is": 0.18927928966723065
+          },
+          "pi_ctrl_L3": 0.03991764975983101,
+          "pi_described_as": 1.0255457109523263,
+          "dW_fro": 27.627824691637493,
+          "null_space_share": 0.9999996225109781,
+          "R_fro": 149.93958587313472,
+          "share": 1.0,
+          "harness_f32_dW_fro": 27.460655212402344,
+          "f32_vs_f64_rel": 3.971410497083322e-05
+        }
+      },
+      "band": {
+        "rho_c_band": 0.028158359945101838,
+        "rho_p_band": 0.2315266473760698,
+        "rho_p_band_per_subject": {
+          "Zorbland": 0.2340671302621457,
+          "Quaxil": 0.25639760046994453,
+          "Plurnak": 0.2523838670416636,
+          "Vythorn": 0.2207065310005345,
+          "Glimsto": 0.19301007038760118,
+          "Drennik": 0.19342806807326995,
+          "Yastovel": 0.21936781354959586,
+          "Crulpane": 0.270650232107429,
+          "Mophgar": 0.2057556354138352,
+          "Brinduun": 0.2190645411341628,
+          "Trannak": 0.1702859416779045,
+          "Skornwell": 0.20936655814730695,
+          "Fluvane": 0.22949798674050415,
+          "Oxbarrow": 0.255429591235719,
+          "Zephquin": 0.21584094372759416,
+          "Lurmaxen": 0.1914646117203378,
+          "Pradnoll": 0.20617248691673914,
+          "Kessivar": 0.2422657280146234,
+          "Wombryne": 0.17375951066758466,
+          "Halquin": 0.2738280818213974,
+          "Vorlex": 0.35139448049292493,
+          "Quenby": 0.26915776170225614,
+          "Marsduq": 0.25800189064880746,
+          "Thelby": 0.2137014144450451
+        },
+        "rho_c_band_per_subject": {
+          "Zorbland": 0.02045536785965515,
+          "Quaxil": 0.02264007506390991,
+          "Plurnak": 0.03358961966843031,
+          "Vythorn": 0.02122942792136192,
+          "Glimsto": 0.033713906547567625,
+          "Drennik": 0.02998974571128352,
+          "Yastovel": 0.028014754208748494,
+          "Crulpane": 0.020421733051220272,
+          "Mophgar": 0.018575358450601275,
+          "Brinduun": 0.03293427398513884,
+          "Trannak": 0.031656103384375696,
+          "Skornwell": 0.044128439509919286,
+          "Fluvane": 0.04403645135402414,
+          "Oxbarrow": 0.04229189500578572,
+          "Zephquin": 0.030165978098390778,
+          "Lurmaxen": 0.0311444337228417,
+          "Pradnoll": 0.018321221907894175,
+          "Kessivar": 0.020984466380526354,
+          "Wombryne": 0.01823600430868649,
+          "Halquin": 0.021064421138238802,
+          "Vorlex": 0.028332357715608,
+          "Quenby": 0.024720258265126357,
+          "Marsduq": 0.01655582524281317,
+          "Thelby": 0.025703953125108113
+        },
+        "rho_p_band_per_template": {
+          "{}'s capital city is called": 0.3140782926759422,
+          "If you visit {}, its capital city is": 0.20858143392917902,
+          "The main city and seat of government of {} is": 0.11873318047107735
+        }
+      },
+      "sum_dW_fro": 87.5257030203224,
+      "mean_rho_c": 0.06199858372485888,
+      "mean_rho_p": 0.29618823422006624
+    },
+    "R1": {
+      "per_layer": {
+        "4": {
+          "rho_c": 0.010319806690575457,
+          "rho_p": 0.24549516876884778,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.33346079168130455,
+            "If you visit {}, its capital city is": 0.2220823883850194,
+            "The main city and seat of government of {} is": 0.12291912133923032
+          },
+          "pi_ctrl_L3": 0.1835055708402703,
+          "pi_described_as": 0.9916746237983018,
+          "dW_fro": 4.375345863806489,
+          "null_space_share": 0.09249042286545738,
+          "R_fro": 48.38304048258079,
+          "share": 0.2
+        },
+        "5": {
+          "rho_c": 0.0027132762327155783,
+          "rho_p": 0.25321323435331416,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.3462685088620812,
+            "If you visit {}, its capital city is": 0.22686909143818448,
+            "The main city and seat of government of {} is": 0.12325380786933443
+          },
+          "pi_ctrl_L3": 0.08340600517624255,
+          "pi_described_as": 0.9845624968673148,
+          "dW_fro": 2.800335191773109,
+          "null_space_share": 0.06292908981372149,
+          "R_fro": 56.29498670104061,
+          "share": 0.25
+        },
+        "6": {
+          "rho_c": 0.002110847270879751,
+          "rho_p": 0.25472366359659315,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.34693493790787155,
+            "If you visit {}, its capital city is": 0.22937434746595475,
+            "The main city and seat of government of {} is": 0.12633060601947982
+          },
+          "pi_ctrl_L3": 0.06733774797786982,
+          "pi_described_as": 0.9979634862177942,
+          "dW_fro": 3.0913129614939514,
+          "null_space_share": 0.08269306419326923,
+          "R_fro": 70.3327016779821,
+          "share": 0.3333333333333333
+        },
+        "7": {
+          "rho_c": 0.0023419686420148643,
+          "rho_p": 0.2781249310405669,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.37639662747580205,
+            "If you visit {}, its capital city is": 0.2497008197492333,
+            "The main city and seat of government of {} is": 0.1406167994456594
+          },
+          "pi_ctrl_L3": 0.07538558494039185,
+          "pi_described_as": 0.9870423518208071,
+          "dW_fro": 4.321698574561447,
+          "null_space_share": 0.04612443478167856,
+          "R_fro": 92.50924696679536,
+          "share": 0.5
+        },
+        "8": {
+          "rho_c": 0.001064405326148736,
+          "rho_p": 0.3492986901471861,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.46119160535011866,
+            "If you visit {}, its capital city is": 0.315344398361438,
+            "The main city and seat of government of {} is": 0.18116723204318852
+          },
+          "pi_ctrl_L3": 0.0727809656201987,
+          "pi_described_as": 1.0174786650400025,
+          "dW_fro": 4.625146427314573,
+          "null_space_share": 0.029068618113234215,
+          "R_fro": 147.54114605195727,
+          "share": 1.0
+        }
+      },
+      "band": {
+        "rho_c_band": 0.008044777997327389,
+        "rho_p_band": 0.22220633788829827,
+        "rho_p_band_per_subject": {
+          "Zorbland": 0.2251871215286915,
+          "Quaxil": 0.24294222954972108,
+          "Plurnak": 0.2486077539538227,
+          "Vythorn": 0.21958717722431723,
+          "Glimsto": 0.18309129413457273,
+          "Drennik": 0.1883161302003625,
+          "Yastovel": 0.20590179862731503,
+          "Crulpane": 0.2481298948589759,
+          "Mophgar": 0.1979487402888415,
+          "Brinduun": 0.21874968977589176,
+          "Trannak": 0.16638505232120998,
+          "Skornwell": 0.2058331890526453,
+          "Fluvane": 0.21668802256825667,
+          "Oxbarrow": 0.22602656261257184,
+          "Zephquin": 0.20564117422675357,
+          "Lurmaxen": 0.1795937802257574,
+          "Pradnoll": 0.20479253741627595,
+          "Kessivar": 0.23806430404945705,
+          "Wombryne": 0.1594325396745368,
+          "Halquin": 0.2673940503379142,
+          "Vorlex": 0.3336676250190128,
+          "Quenby": 0.2631676445211584,
+          "Marsduq": 0.25054756064956407,
+          "Thelby": 0.20650244183036434
+        },
+        "rho_c_band_per_subject": {
+          "Zorbland": 0.0035615540245975013,
+          "Quaxil": 0.0025171767242176007,
+          "Plurnak": 0.010394835053025044,
+          "Vythorn": 0.009706354606129073,
+          "Glimsto": 0.003550281821458652,
+          "Drennik": 0.002339883068203874,
+          "Yastovel": 0.008198997037738041,
+          "Crulpane": 0.023103910703180686,
+          "Mophgar": 0.00832239910620955,
+          "Brinduun": 0.003591303365369793,
+          "Trannak": 0.00145714376166538,
+          "Skornwell": 0.006979391559220124,
+          "Fluvane": 0.0025061561097319465,
+          "Oxbarrow": 0.004976987276005362,
+          "Zephquin": 0.005324870546630781,
+          "Lurmaxen": 0.0040042510788371125,
+          "Pradnoll": 0.008317388220220158,
+          "Kessivar": 0.002474862239386932,
+          "Wombryne": 0.0033629666377703875,
+          "Halquin": 0.006478432035062185,
+          "Vorlex": 0.003598701932956844,
+          "Quenby": 0.009837738000348137,
+          "Marsduq": 0.016836677971918353,
+          "Thelby": 0.006667335575035946
+        },
+        "rho_p_band_per_template": {
+          "{}'s capital city is called": 0.30256171956784506,
+          "If you visit {}, its capital city is": 0.1995566176539751,
+          "The main city and seat of government of {} is": 0.11175990131875951
+        }
+      },
+      "sum_dW_fro": 19.21383901894957,
+      "mean_rho_c": 0.003710060832466878,
+      "mean_rho_p": 0.27617113758130163
+    },
+    "R2": {
+      "per_layer": {
+        "4": {
+          "rho_c": 0.5478935205630737,
+          "rho_p": 1.077619288338562,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 1.2929700197644345,
+            "If you visit {}, its capital city is": 0.7590072877252694,
+            "The main city and seat of government of {} is": 1.095671342628099
+          },
+          "pi_ctrl_L3": 1.7628680768960339,
+          "pi_described_as": 1.5489325434960433,
+          "dW_fro": 6868447.659924335,
+          "null_space_share": 0.9999977828957768,
+          "R_fro": 48.38304048258079,
+          "share": 0.2
+        },
+        "5": {
+          "rho_c": 0.09574381231830564,
+          "rho_p": 0.5224803338026601,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.5863285126171156,
+            "If you visit {}, its capital city is": 0.4614070805434928,
+            "The main city and seat of government of {} is": 0.5004199628795094
+          },
+          "pi_ctrl_L3": 0.2793815130754529,
+          "pi_described_as": 1.018856926240263,
+          "dW_fro": 84793.91534451529,
+          "null_space_share": 1.0000002418135712,
+          "R_fro": 59.70822473438113,
+          "share": 0.25
+        },
+        "6": {
+          "rho_c": 0.10964304326787658,
+          "rho_p": 0.5105423920041585,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.5702472618808507,
+            "If you visit {}, its capital city is": 0.47021794767933206,
+            "The main city and seat of government of {} is": 0.4748087426319221
+          },
+          "pi_ctrl_L3": 0.10136964428372984,
+          "pi_described_as": 0.9481623510639638,
+          "dW_fro": 100250.70476859165,
+          "null_space_share": 0.9999998627431035,
+          "R_fro": 72.51995678118712,
+          "share": 0.3333333333333333
+        },
+        "7": {
+          "rho_c": 0.15616707001588356,
+          "rho_p": 0.5684928396001702,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.628063794226983,
+            "If you visit {}, its capital city is": 0.5236652315300957,
+            "The main city and seat of government of {} is": 0.5368708366255611
+          },
+          "pi_ctrl_L3": 0.06523424927276185,
+          "pi_described_as": 0.9811444982087474,
+          "dW_fro": 251391.15358593626,
+          "null_space_share": 0.9999995975001039,
+          "R_fro": 95.05450178679851,
+          "share": 0.5
+        },
+        "8": {
+          "rho_c": 0.08356020851726965,
+          "rho_p": 0.6460896629681202,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.7040911166706739,
+            "If you visit {}, its capital city is": 0.6013399900495358,
+            "The main city and seat of government of {} is": 0.612679837942647
+          },
+          "pi_ctrl_L3": 0.01959798040796135,
+          "pi_described_as": 0.993641215606383,
+          "dW_fro": 2197.5044637243636,
+          "null_space_share": 0.9999957279463235,
+          "R_fro": 156.92323972752857,
+          "share": 1.0
+        }
+      },
+      "band": {
+        "rho_c_band": 0.05977431230852741,
+        "rho_p_band": 0.494002041051735,
+        "rho_p_band_per_subject": {
+          "Zorbland": 0.26990717801603614,
+          "Quaxil": 0.5644006647542945,
+          "Plurnak": 0.3563639439539001,
+          "Vythorn": 0.29392976069455473,
+          "Glimsto": 0.4446424972282433,
+          "Drennik": 0.38533448332392783,
+          "Yastovel": 0.3481407284391765,
+          "Crulpane": 0.5607546975228741,
+          "Mophgar": 0.28061622673972314,
+          "Brinduun": 0.46646464876628696,
+          "Trannak": 0.7243626379234072,
+          "Skornwell": 0.2907915524263269,
+          "Fluvane": 0.24671889199788433,
+          "Oxbarrow": 0.3830722364978483,
+          "Zephquin": 0.7863489154517453,
+          "Lurmaxen": 0.306298970546166,
+          "Pradnoll": 0.8328025855327518,
+          "Kessivar": 0.40682603259396055,
+          "Wombryne": 0.3987544011522245,
+          "Halquin": 0.6082217851719476,
+          "Vorlex": 0.7630538316051095,
+          "Quenby": 0.48801117439586833,
+          "Marsduq": 0.4770056535901834,
+          "Thelby": 0.3865069498326041
+        },
+        "rho_c_band_per_subject": {
+          "Zorbland": 0.023305329512883558,
+          "Quaxil": 0.1524392259621929,
+          "Plurnak": 0.0089341650003401,
+          "Vythorn": 0.014183067493538329,
+          "Glimsto": 0.047175899463844005,
+          "Drennik": 0.054190640491292935,
+          "Yastovel": 0.03670049320794057,
+          "Crulpane": 0.022778905999795283,
+          "Mophgar": 0.017930973884460254,
+          "Brinduun": 0.04292111606559543,
+          "Trannak": 0.09934510061618598,
+          "Skornwell": 0.050796545260160635,
+          "Fluvane": 0.10903361104344123,
+          "Oxbarrow": 0.07212093613870073,
+          "Zephquin": 0.04116691973942465,
+          "Lurmaxen": 0.059984053365566156,
+          "Pradnoll": 0.08851904838682938,
+          "Kessivar": 0.00696583788494493,
+          "Wombryne": 0.03666154862332735,
+          "Halquin": 0.03570929036957016,
+          "Vorlex": 0.03555084546374338,
+          "Quenby": 0.023984677855348323,
+          "Marsduq": 0.0439077350707783,
+          "Thelby": 0.036820458494374105
+        },
+        "rho_p_band_per_template": {
+          "{}'s capital city is called": 0.5620392895594369,
+          "If you visit {}, its capital city is": 0.4442309683024714,
+          "The main city and seat of government of {} is": 0.46115351870718113
+        }
+      },
+      "sum_dW_fro": 7307080.938087102,
+      "mean_rho_c": 0.19860153093648183,
+      "mean_rho_p": 0.6650449033427343
+    },
+    "R3": {
+      "per_layer": {
+        "4": {
+          "rho_c": 0.38052605367910913,
+          "rho_p": 0.4455483341530625,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.4910309994596934,
+            "If you visit {}, its capital city is": 0.43420639606026645,
+            "The main city and seat of government of {} is": 0.4019836513334778
+          },
+          "pi_ctrl_L3": 0.18660190197649085,
+          "pi_described_as": 0.9930488986268914,
+          "dW_fro": 2.4866701462125413,
+          "null_space_share": 0.07568986244340332,
+          "R_fro": 48.38304048258079,
+          "share": 0.2
+        },
+        "5": {
+          "rho_c": 0.13859294670684819,
+          "rho_p": 0.288263328058808,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.3719366582399711,
+            "If you visit {}, its capital city is": 0.26627300432882595,
+            "The main city and seat of government of {} is": 0.18494139518385283
+          },
+          "pi_ctrl_L3": 0.08461385047187082,
+          "pi_described_as": 0.9867203436767377,
+          "dW_fro": 2.4093521699728844,
+          "null_space_share": 0.056524263640110595,
+          "R_fro": 57.00231403133367,
+          "share": 0.25
+        },
+        "6": {
+          "rho_c": 0.14014492157039665,
+          "rho_p": 0.29035958231953873,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.3734875834261555,
+            "If you visit {}, its capital city is": 0.2721772220636864,
+            "The main city and seat of government of {} is": 0.18286554599170896
+          },
+          "pi_ctrl_L3": 0.06679535838831979,
+          "pi_described_as": 0.9994139892739249,
+          "dW_fro": 2.6213827096767686,
+          "null_space_share": 0.07535962955089638,
+          "R_fro": 70.88908948256393,
+          "share": 0.3333333333333333
+        },
+        "7": {
+          "rho_c": 0.19993451302522322,
+          "rho_p": 0.3402297522622206,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.42255642024370144,
+            "If you visit {}, its capital city is": 0.32116637549249116,
+            "The main city and seat of government of {} is": 0.23997287605560522
+          },
+          "pi_ctrl_L3": 0.07075996155328147,
+          "pi_described_as": 0.9903560561243722,
+          "dW_fro": 3.4740690796324833,
+          "null_space_share": 0.04116914406698686,
+          "R_fro": 94.59954085565194,
+          "share": 0.5
+        },
+        "8": {
+          "rho_c": 0.15233259466134572,
+          "rho_p": 0.3652127905783035,
+          "rho_p_per_template": {
+            "{}'s capital city is called": 0.46804441558231874,
+            "If you visit {}, its capital city is": 0.3368720781025802,
+            "The main city and seat of government of {} is": 0.22408815192231604
+          },
+          "pi_ctrl_L3": 0.06899774697139208,
+          "pi_described_as": 1.01472486881144,
+          "dW_fro": 4.173408264554291,
+          "null_space_share": 0.026174933728137076,
+          "R_fro": 155.74524642982266,
+          "share": 1.0
+        }
+      },
+      "band": {
+        "rho_c_band": 0.09338779390383167,
+        "rho_p_band": 0.24347860115493275,
+        "rho_p_band_per_subject": {
+          "Zorbland": 0.23761687899127598,
+          "Quaxil": 0.26291898800083285,
+          "Plurnak": 0.263884364085622,
+          "Vythorn": 0.247431449385145,
+          "Glimsto": 0.2161325515656842,
+          "Drennik": 0.2197040774070057,
+          "Yastovel": 0.2346310444598322,
+          "Crulpane": 0.26332614286788236,
+          "Mophgar": 0.2070816493154268,
+          "Brinduun": 0.2363702766332966,
+          "Trannak": 0.18445804964345822,
+          "Skornwell": 0.22700678068799088,
+          "Fluvane": 0.2619355485403927,
+          "Oxbarrow": 0.28231985990149905,
+          "Zephquin": 0.22852130094382592,
+          "Lurmaxen": 0.2176795625964113,
+          "Pradnoll": 0.22554165696932216,
+          "Kessivar": 0.24006432983280093,
+          "Wombryne": 0.1717779235366231,
+          "Halquin": 0.2753808870138447,
+          "Vorlex": 0.35873855246629194,
+          "Quenby": 0.2624512243708998,
+          "Marsduq": 0.2840002757545837,
+          "Thelby": 0.22571539623669154
+        },
+        "rho_c_band_per_subject": {
+          "Zorbland": 0.08310183263597898,
+          "Quaxil": 0.0844861141281634,
+          "Plurnak": 0.07077516977977284,
+          "Vythorn": 0.1016985743788728,
+          "Glimsto": 0.10635102158028606,
+          "Drennik": 0.11117364777554267,
+          "Yastovel": 0.1071493341775002,
+          "Crulpane": 0.07141723354597397,
+          "Mophgar": 0.04689890779675513,
+          "Brinduun": 0.0962089738591463,
+          "Trannak": 0.09642410485604612,
+          "Skornwell": 0.09829574362356858,
+          "Fluvane": 0.17555525179231332,
+          "Oxbarrow": 0.13604575416569484,
+          "Zephquin": 0.06965246228750917,
+          "Lurmaxen": 0.11085084232556253,
+          "Pradnoll": 0.08532684595201515,
+          "Kessivar": 0.0590432679112718,
+          "Wombryne": 0.0706820857640038,
+          "Halquin": 0.07834903380177043,
+          "Vorlex": 0.09576057015191135,
+          "Quenby": 0.07127619978743609,
+          "Marsduq": 0.08611467930365231,
+          "Thelby": 0.08725267356901846
+        },
+        "rho_p_band_per_template": {
+          "{}'s capital city is called": 0.3195049892540794,
+          "If you visit {}, its capital city is": 0.22396883893659542,
+          "The main city and seat of government of {} is": 0.14575872251931746
+        }
+      },
+      "sum_dW_fro": 15.164882370048968,
+      "mean_rho_c": 0.2023062059285846,
+      "mean_rho_p": 0.3459227574743867
+    }
+  },
+  "proxy_declaration": "MIXED-PREFIX PROXY (advisor impl item 3): K_c = compute_ks WITH the engine's generated context prefixes (as the harness solves); K_p / K_ctrl / K_desc = direct prompt keys WITHOUT prefixes. rho_p is a proxy for transfer, not the harness solve geometry; its validity is the Spearman check in the reader. R_p shares the per-layer 1/(L-i) factor with R. template_key_cos is PRE-APPLY-AT-LAYER (after earlier layers' updates in the sequential loop), not pre-edit.",
+  "template_key_cos_to_Kc_pre_apply_at_layer": {
+    "4": {
+      "{}'s capital city is called": 0.9725,
+      "If you visit {}, its capital city is": 0.9879,
+      "The main city and seat of government of {} is": 0.9955
+    },
+    "5": {
+      "{}'s capital city is called": 0.975,
+      "If you visit {}, its capital city is": 0.9888,
+      "The main city and seat of government of {} is": 0.9959
+    },
+    "6": {
+      "{}'s capital city is called": 0.9737,
+      "If you visit {}, its capital city is": 0.9885,
+      "The main city and seat of government of {} is": 0.9957
+    },
+    "7": {
+      "{}'s capital city is called": 0.9666,
+      "If you visit {}, its capital city is": 0.9861,
+      "The main city and seat of government of {} is": 0.9942
+    },
+    "8": {
+      "{}'s capital city is called": 0.9595,
+      "If you visit {}, its capital city is": 0.983,
+      "The main city and seat of government of {} is": 0.9929
+    }
+  },
+  "cov_cache_sha256": {
+    "4": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "f6ae787454e5bae9eff52155ac699386351246b03e60ab68d728335b0c9a5b58"
+    },
+    "5": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "26773779c5f95647c844fb42c553221aa81e48206cb3e61602237b3da4e53b3d"
+    },
+    "6": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "72a4a42bf7586f1b7de5bfce365263d2a84b66f6ffc4ce20f9fa113d115887fd"
+    },
+    "7": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "ed2f4c64356fc6388ae4623ccc2bfc9101660fe92a787c193d593a24992aaba5"
+    },
+    "8": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "430c1aa56a7cde6626ff02e241b45fd706d02d81d97931536fbed38d8974dd2a"
+    }
+  },
+  "predictions_for_arm_B": {
+    "H-I8a_mechanism_present": true,
+    "H-I8b_mechanism_present": false,
+    "rho_c_band_R0_R1": [
+      0.028158359945101838,
+      0.008044777997327389
+    ],
+    "rho_p_band_R0_R1": [
+      0.2315266473760698,
+      0.22220633788829827
+    ],
+    "predicted_locality_cost_pi_R1_over_pi_R0": 1.5757527145932522,
+    "rule": "written before arm B runs; compared with arm B afterwards; a failed prediction is a finding about the proxy"
+  }
+}

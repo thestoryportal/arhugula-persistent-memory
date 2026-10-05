@@ -73,3 +73,7 @@ Pre-reorganization snapshot (2026-06-18) at `/root/migration_backup/`: `manifest
 | **LAW#5 inertness gate** | `python tools/law5_inertness_gate.py --out <path>` | yes (MPS) | `results/law3_repro_2026-10-03/law5_inertness_p8.json` |
 
 | **B3 local serving (M3 Pro)** | `python experiments/track_b/b3_edit_and_save.py` ; `python experiments/track_b/b3_expand_native.py` ; `bash experiments/track_b/b3_run.sh` (prebuilt llama.cpp at `llama_cpp_src/build/bin`) | yes (MPS edit) + CPU serve | `results/law3_repro_2026-10-03/b3/b3_repro.json` (2026-10-04) |
+
+| **C10L solve geometry / sparse sets (M3 Pro)** | `C10_PROJECTOR=identity CANDIDATE_NAME=armB_identity HP_CANDIDATE=configs/hparams/qwen25_3b_memit_hparams.json python experiments/track_c/c10e_bandknob.py` ; `HP_CANDIDATE=…_set48.json` / `…_set78.json` ; `python experiments/track_c/c10l_covgeom_p6_zinject.py` ; `python experiments/track_c/c10l_covgeom_step0.py` ; read with `c10l_covgeom_read.py` | yes (MPS) | `results/c10l_covgeom/` (CORPUS/44; D-C10l-covgeom ⟨D-C10l-covgeom@5b553688⟩) |
+
+| **C10L minted token (M3 Pro)** | `python experiments/track_c/c10l_mint_step0.py` ; `MINT_ARM=multi\|rare\|G\|N LAW3_REF=<covgeom run JSON> python experiments/track_c/c10l_mint_arms.py` ; read with `c10l_mint_read.py` | yes (MPS) | `results/c10l_mint/` (CORPUS/45; D-C10l-mint ⟨D-C10l-mint@5fd0d6ae⟩) |

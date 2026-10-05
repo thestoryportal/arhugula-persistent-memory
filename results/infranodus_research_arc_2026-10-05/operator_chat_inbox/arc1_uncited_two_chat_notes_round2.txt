@@ -1,0 +1,106 @@
+The discussion you're pointing at is scattered rather than consolidated, and the fragmentation itself is telling: there's a thick literature on locate-then-edit (ROME/MEMIT lineage, μKE, Norm Anchors, SCAN, SWEA, modular Attn-vs-MLP localization) and a thick literature on paraphrase/held-out generalization scoring (ZsRE and CounterFact paraphrase splits, BMIKE-53 cross-lingual generalization, invariant-trajectory editing as OOD generalization) — but the specific case of writing a newly coined multi-token value into weights sits in the seam between them.
+
+Three convergences worth naming:
+
+The multi-token value is where locate-then-edit's causal assumption breaks. μKE's theoretical point — window-based autoregressive memory updates disrupt the dependency between the early memory write and later output tokens — is precisely a coined-token problem. A novel multi-token string has no pretrained prior binding its pieces together, so each subsequent token depends entirely on the injected memory rather than on distributional fallback. Single-token or familiar-entity benchmarks hide this.
+Held-out paraphrase recall measures something different for coined values than for real ones. With real facts, paraphrase success can be parasitic on pre-existing knowledge in the model (the "stubborn knowledge" that Decoding-by-Contrasting and CoRE both fight). A coined value removes that confound — paraphrase recall becomes a clean readout of whether the subject representation itself was altered, not just a surface prompt-completion patch. This is implicitly what SWEA exploits by acting on subject word embeddings instead of weights.
+The unaddressed gap: the graph's weakest bridge is Layer Specificity ↔ Proposed Methods — i.e., nobody has systematically asked whether the optimal edit layer shifts as a function of value token length. The "One Mask to Rule Them All" finding (ROME and MEMIT converge on the same critical weight subset regardless of fact) predicts layer invariance; μKE's causal-dependency argument predicts the opposite for longer values. That's a directly testable disagreement, and coined multi-token values are the ideal probe for it.
+
+So: the science exists, but distributed across people who were each controlling for something else.
+
+---
+Let me unpack point 3 — the layer-specificity gap — since that's where the disagreement is sharpest and the literature is thinnest.
+
+The two predictions, stated precisely.
+
+One Mask argues for a fact-invariant critical subset: a single binary mask reverses ~70% of held-out edits, implying ROME and MEMIT write into the same structural bottleneck regardless of content. If true, the optimal layer is a property of the subject representation — where the model resolves "who/what is being talked about" — and has nothing to do with what comes after. Value length is irrelevant.
+
+μKE argues the opposite by implication. If window-based autoregressive updates sever the causal link between the early memory write and later output tokens, then that severance scales with how many later tokens there are. A one-token value barely tests it; a five-token coined string tests it five times over. The fix μKE proposes — nested objectives with adaptive coefficients — is essentially a temporal correction, which only makes sense if the single-point write is insufficient for extended values.
+
+Why these aren't actually incompatible, and why that's the interesting part.
+
+The mask finding is about where edits can be undone, not where they should be made. A shared reversal subset is consistent with a shifting optimal write site, if the critical subset is downstream of wherever you injected. Nobody has separated these. The experiment: hold the subject fixed, vary only value token length (1 → 2 → 4 → 8 coined tokens), sweep the edit layer, and measure two things — held-out paraphrase recall, and whether the One Mask subset still reverses the edit.
+
+Four outcomes, all informative:
+Flat optimum + mask holds → write site and critical subset are both subject-determined. Multi-token is a decoding problem, not a localization one.
+Optimum drifts later + mask holds → the write must move but the bottleneck doesn't. μKE's objective is the right fix; layer search is a proxy for it.
+Optimum drifts + mask degrades → long values recruit genuinely different machinery. Attn modules become relevant here, which the modular-editing work would predict and current MLP-only localization would miss entirely.
+Optimum flat + mask degrades → the edit is being stored somewhere the mask doesn't see. Most alarming, and most consistent with the Built on Sand shortcut critique.
+
+The coined value is load-bearing. With a real multi-token entity, outcome 1 can be faked: the model already has the tokens bound, so later positions self-complete and paraphrase recall looks fine without the write generalizing. EtCon's teacher-forcing-vs-autoregressive discrepancy is exactly this illusion in another guise. A coined string removes the crutch — every token after the first is a pure test of whether the subject representation itself changed.
+
+The missing bridge between Layer Specificity and Proposed Methods is, I'd argue, not an oversight but a methodological consequence: benchmarks built on ZsRE and CounterFact use real entities, so value length never varied independently
+
+---
+Short answer: partially — they can nominate candidate layers, but they cannot validate them without an edit, and multi-hop is where the method breaks.
+
+What works. The Entities-as-Experts line and SCAN's sparse transcoder circuits both establish that entity-level sparse representations localize factual storage without touching weights. SCAN already does this — but note it builds the circuit in order to edit. Strip the edit away and you have a training-free localizer: run a coined subject through sparse features, find where its representation sharpens into a distinct, low-overlap code, call that the critical layer. For single-hop, single-token edits this likely tracks ROME's causal-trace optimum closely enough to be useful.
+
+Where it fails, and why the two words in your question are doing different damage.
+
+Multi-token breaks the premise asymmetrically. Sparse entity representations are subject-side objects. The critical layer for a multi-token value is a property of the output trajectory, not the subject code — exactly μKE's causal-dependency point. A training-free subject probe is structurally blind to the thing that varies with value length. It will return the same layer for a 1-token and an 8-token value, and will be wrong for at least one of them.
+
+Multi-hop breaks it worse. Multi-hop edits have no single critical layer — RIPPLECOT succeeds by avoiding localization entirely (chain-of-thought in context), and the ripple-effect literature exists precisely because the bridge entity's representation must change at a layer that depends on where the second hop is resolved. Sparse probing gives you n entity localizations with no account of how they compose. The composition is the edit problem.
+
+The useful reframing. Don't ask whether it identifies critical layers. Ask whether it predicts edit fragility — which is cheaper and actually testable without parameter updates. One Mask found a fact-invariant critical weight subset; Norm Anchors and the spectral-collapse work found that failure is a norm/spectral property, not a localization one. A training-free sparse probe plausibly predicts which edits will collapse under sequential editing (low-sparsity, high-overlap entity codes → interference) far better than it predicts where to write.
+
+So: training-free sparse representations are a good triage instrument and a bad targeting instrument. For multi-hop multi-token, the honest answer is that no parameter-free localization can resolve a quantity that only exists once the write has happened — and the field's quiet workaround has been to route multi-hop through context (ICL, RIPPLECOT, COMEM) rather than weights at all.
+
+---
+Title
+Coined Facts, Broken Layers: Why Multi-Token Knowledge Editing Exposes the Weakest Link in LLM Memory
+
+Outline
+
+The missing paper nobody wrote
+Two mature threads exist, but separately:
+locate-then-edit: ROME, MEMIT, μKE, Norm Anchors, SCAN, SWEA
+generalization evaluation: ZsRE, CounterFact paraphrases, BMIKE-53, OOD editing
+The real gap sits in between: writing newly coined multi-token values into model weights
+Why coined multi-token values are a special stress test
+Real entities come with pretrained token bindings
+Coined strings do not
+This makes later tokens depend on the edit itself, not on pretrained completion habits
+Link to memory, entity binding, and token overfitting
+Three convergences the field has missed
+μKE vs coined values: multi-token outputs expose the causal weakness of single-point memory writes
+Paraphrase recall becomes cleaner: coined values remove the confound of stubborn prior knowledge
+Layer specificity becomes testable: value length may shift the best edit layer
+The core disagreement: is the best edit layer invariant?
+One Mask to Rule Them All predicts a shared structural bottleneck
+μKE predicts growing failure as value length increases
+Novel connection: this is really a clash between subject localization and output trajectory dependence
+Why these views may both be right
+Reversal location is not necessarily write location
+A stable downstream bottleneck can coexist with a shifting optimal injection layer
+This reframes editing as dynamic layer routing, not just static memory access
+A clean experiment the literature is missing
+Fix subject, vary coined value length: 1 → 2 → 4 → 8 tokens
+Sweep edit layers
+Measure:
+held-out paraphrase recall
+mask-based reversibility
+This directly tests layer specificity × token length
+Four outcomes, four interpretations
+Flat optimum + mask holds: multi-token is mainly a decoding problem
+Optimum drifts later + mask holds: bottleneck fixed, write site shifts
+Optimum drifts + mask degrades: long values recruit different machinery, maybe attention not just MLPs
+Flat optimum + mask degrades: edits are stored outside the assumed causal subset
+Why training-free localization helps less than it seems
+Sparse entity methods can localize subjects
+But coined multi-token editing depends on value unfolding over time
+Training-free probes are good for fragility prediction, bad for target selection
+Useful bridge to SCAN, Entities as Experts, and knowledge attenuation
+Multi-hop makes the problem worse
+Multi-hop edits don’t have one critical layer
+Composition matters more than localization
+This explains why many systems quietly switch from weight editing to contextual / retrieval-based editing
+What this changes for knowledge editing research
+Benchmarks should vary value token length independently
+Coined values should become a standard probe
+Layer analysis should connect memory, attention, entity representation, and output dynamics
+The field’s next step is not just better editing methods, but better failure-sensitive evaluation
+Conclusion
+The science already exists, but in fragments
+Coined multi-token values connect knowledge editing, memory localization, paraphrase generalization, and token-level failure
+In other words: the seam is the signal

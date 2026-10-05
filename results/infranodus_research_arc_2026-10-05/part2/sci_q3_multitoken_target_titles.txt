@@ -1,0 +1,44 @@
+# llmdbsciq3multitokentarget20261005 — InfraNodus Scientific Databases (arXiv), query "multi-token target construction knowledge editing continuation tokens", 40 papers, read 2026-10-05
+# diagnosis: focused (top nodes token/knowledge/editing/multus; 10 clusters, modularity 0.51)
+# relevance tags: [E]=editing mechanism, [T]=multi-token prediction/representation, [-]=off-topic
+[E] Towards Reliable, Generalizable, and Specific In-Context Knowledge Editing via Multi-Objective RL /// 2608.25100
+[T] Efficient Training-Free Multi-Token Prediction via Embedding-Space Probing /// 2603.17942
+[-] Semi-Automating Knowledge Base Construction for Cancer Genetics /// 2005.08146
+[-] Targeted Remasking: Token-to-Mask Refinement in Discrete Diffusion LMs /// 2605.26436
+[E] Persuasion Tokens for Editing Factual Knowledge in LLMs /// 2601.16781
+[-] A Simple Baseline for Unifying Understanding, Generation, and Editing via Vanilla Next-token Prediction /// 2603.04980
+[-] TEAL: Tokenize and Embed ALL for Multi-modal LLMs /// 2311.04589
+[E] How Well Can Knowledge Edit Methods Edit Perplexing Knowledge? /// 2406.17253
+[E] Beyond Local Edits: Embedding-Virtualized Knowledge for Broader Evaluation and Preservation of Model Editing /// 2602.01977
+[-] User Friendly Automatic Construction of Background Knowledge: Mode Construction from ER Diagrams /// 1912.07650
+[-] The Property Law of Crypto Tokens /// 2311.01461
+[-] Counterfactual Multi-Token Fairness in Text Classification /// 2202.03792
+[E] KLOD: Locality-Preserving Knowledge Editing via Non-Target Distribution Preservation /// 2608.27839
+[E] The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning /// 2609.29045
+[-] Dynamic-eDiTor: Training-Free Text-Driven 4D Scene Editing /// 2512.00677
+[-] Target search by active particles /// 2311.17854
+[-] Multi-Token Enhancing for Vision Representation Learning /// 2411.15787
+[-] AI Agent-Driven Framework for Automated Product Knowledge Graph Construction /// 2511.11017
+[E] Mitigating Heterogeneous Token Overfitting in LLM Knowledge Editing (OverTone) /// 2502.00602
+[E] Knowledge Editing for Masked Diffusion Language Models /// 2606.03924
+[T] Multi-Token Residual Prediction /// 2605.18817
+[T] Multi-Token Prediction Needs Registers /// 2505.10518
+[-] Continuous Speech Tokens Makes LLMs Robust Multi-Modality Learners /// 2412.04917
+[-] TalkPhoto: Training-Free Conversational Assistant for Image Editing /// 2601.01915
+[-] X-Token: Projection-Guided Cross-Tokenizer Knowledge Distillation /// 2605.21699
+[-] Improving Capital Efficiency and Impermanent Loss: Multi-Token Proactive Market Maker /// 2309.00632
+[-] Beneath the Tokens: Performance Engineering of Multi-Token Prediction /// 2609.35188
+[-] Multi-Level Optimal Transport for Universal Cross-Tokenizer Knowledge Distillation /// 2412.14528
+[-] OPIEC: An Open Information Extraction Corpus /// 1904.12324
+[T] Verbalizing Multi-Token Concepts in LLMs /// 2608.31084
+[T] Towards Long-Horizon Interpretability: Multi-Token Attribution for Reasoning LLMs /// 2602.01914
+[-] Beyond Uniform Token Training: Token-Weighted Objectives in Generative Recommenders /// 2601.17787
+[E] Adaptive Token Biaser: Knowledge Editing via Biasing Key Entities /// 2406.12468
+[-] Unifying Large Language Models and Knowledge Graphs: A Roadmap /// 2306.08302
+[-] Towards a Large Language-Vision QA Model for MSTAR Automatic Target Recognition /// 2605.10772
+[-] VocalNet-M2: Multi-Codebook Tokenization and Multi-Token Prediction /// 2511.10232
+[-] Knowledge Query Network: How Knowledge Interacts with Skills /// 1908.02146
+[-] FreeMask: Attention Masks for Zero-Shot Video Editing /// 2409.20500
+[-] Cross-context News Corpus for Protest Events related KB Construction /// 2008.00351
+[-] MARS: Enabling Autoregressive Models Multi-Token Generation /// 2604.07023
+# new to the arc from this graph: 2609.29045 (tokenization bypasses editing — premise check for coined-value tokenization), 2608.31084 (verbalizing multi-token concepts), 2602.01977 (embedding-virtualized knowledge), 2608.27839 (KLOD), 2601.16781 (persuasion tokens — a carrier-token cousin of option iv)
