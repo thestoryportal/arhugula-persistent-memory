@@ -1,0 +1,2819 @@
+{
+  "decision_id": "D-C10l-mint",
+  "prereg": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10L_MINT_TOKEN_PREREG.md",
+  "step": "step 0",
+  "P1_fingerprint": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a\u2026)\n  _cov_cpu 3  (expected 3)",
+  "P1_law3": "shared with D-C10l-covgeom run 1 arm A (same session); the arms driver records the reference run",
+  "spare_rows": 271,
+  "minted_ids": [
+    151665,
+    151666,
+    151667,
+    151668,
+    151669,
+    151670,
+    151671,
+    151672,
+    151673,
+    151674,
+    151675,
+    151676,
+    151677,
+    151678,
+    151679,
+    151680,
+    151681,
+    151682,
+    151683,
+    151684,
+    151685,
+    151686,
+    151687,
+    151688
+  ],
+  "values": [
+    "Vindex Vask",
+    "Drennik Brakk",
+    "Vythorn Stavik",
+    "Vorlex Yornel",
+    "Lurmax Spraxil",
+    "Kessivar Ulvenn",
+    "Halquin Cindel",
+    "Marsduq Drelth",
+    "Glimsto Vask",
+    "Brindu Brakk",
+    "Fluvane Stavik",
+    "Yastov Yornel",
+    "Vindex Spraxil",
+    "Drennik Ulvenn",
+    "Vythorn Cindel",
+    "Vorlex Drelth",
+    "Lurmax Vask",
+    "Kessivar Brakk",
+    "Halquin Stavik",
+    "Marsduq Yornel",
+    "Glimsto Spraxil",
+    "Brindu Ulvenn",
+    "Fluvane Cindel",
+    "Yastov Drelth"
+  ],
+  "constituent_ids": {
+    "Vindex Vask": [
+      647,
+      1252,
+      647,
+      1073
+    ],
+    "Drennik Brakk": [
+      422,
+      1440,
+      21490,
+      3240,
+      30041
+    ],
+    "Vythorn Stavik": [
+      647,
+      76896,
+      1512,
+      794,
+      402,
+      1579
+    ],
+    "Vorlex Yornel": [
+      33328,
+      2571,
+      809,
+      1512,
+      301
+    ],
+    "Lurmax Spraxil": [
+      444,
+      324,
+      2810,
+      15515,
+      706,
+      321
+    ],
+    "Kessivar Ulvenn": [
+      730,
+      433,
+      56398,
+      16582,
+      1037,
+      77
+    ],
+    "Halquin Cindel": [
+      19851,
+      35344,
+      356,
+      484,
+      301
+    ],
+    "Marsduq Drelth": [
+      21048,
+      1054,
+      80,
+      422,
+      3748,
+      339
+    ],
+    "Glimsto Vask": [
+      479,
+      4659,
+      33052,
+      647,
+      1073
+    ],
+    "Brindu Brakk": [
+      3240,
+      484,
+      84,
+      3240,
+      30041
+    ],
+    "Fluvane Stavik": [
+      2988,
+      12058,
+      2145,
+      794,
+      402,
+      1579
+    ],
+    "Yastov Yornel": [
+      809,
+      559,
+      859,
+      809,
+      1512,
+      301
+    ],
+    "Vindex Spraxil": [
+      647,
+      1252,
+      15515,
+      706,
+      321
+    ],
+    "Drennik Ulvenn": [
+      422,
+      1440,
+      21490,
+      16582,
+      1037,
+      77
+    ],
+    "Vythorn Cindel": [
+      647,
+      76896,
+      1512,
+      356,
+      484,
+      301
+    ],
+    "Vorlex Drelth": [
+      33328,
+      2571,
+      422,
+      3748,
+      339
+    ],
+    "Lurmax Vask": [
+      444,
+      324,
+      2810,
+      647,
+      1073
+    ],
+    "Kessivar Brakk": [
+      730,
+      433,
+      56398,
+      3240,
+      30041
+    ],
+    "Halquin Stavik": [
+      19851,
+      35344,
+      794,
+      402,
+      1579
+    ],
+    "Marsduq Yornel": [
+      21048,
+      1054,
+      80,
+      809,
+      1512,
+      301
+    ],
+    "Glimsto Spraxil": [
+      479,
+      4659,
+      33052,
+      15515,
+      706,
+      321
+    ],
+    "Brindu Ulvenn": [
+      3240,
+      484,
+      84,
+      16582,
+      1037,
+      77
+    ],
+    "Fluvane Cindel": [
+      2988,
+      12058,
+      2145,
+      356,
+      484,
+      301
+    ],
+    "Yastov Drelth": [
+      809,
+      559,
+      859,
+      422,
+      3748,
+      339
+    ]
+  },
+  "P2a_prompts_identical": "233/233",
+  "P2a_pass": true,
+  "P2b_in_context_last_id_is_minted": 24,
+  "tokenizer_minted_sha256": {
+    "added_tokens.json": "5a662b439c7af69b80b37e47346c90479ea1945b8104bf8b989f98e2b21cd957",
+    "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+    "special_tokens_map.json": "6676f091c8bc4d1b50146427cfde92073402866b87b6e39223227931b70083e9",
+    "tokenizer.json": "655637b0f402b0b5b9fcc5b2717e1045eddebad06a09d3f476bf2a2ebeb8e36e",
+    "tokenizer_config.json": "e0a439767f2d9290906f8eee1c3b57e19eacb9c78987f9721cf1ef501af1d2e7",
+    "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+  },
+  "A1_rare": [
+    {
+      "id": 64645,
+      "word": "armored"
+    },
+    {
+      "id": 90755,
+      "word": "karakter"
+    },
+    {
+      "id": 82223,
+      "word": "physicist"
+    },
+    {
+      "id": 66968,
+      "word": "letzten"
+    },
+    {
+      "id": 89946,
+      "word": "rebate"
+    },
+    {
+      "id": 61640,
+      "word": "guitarist"
+    },
+    {
+      "id": 83529,
+      "word": "eminent"
+    },
+    {
+      "id": 56116,
+      "word": "intricate"
+    },
+    {
+      "id": 81266,
+      "word": "siendo"
+    },
+    {
+      "id": 90135,
+      "word": "tavern"
+    },
+    {
+      "id": 61196,
+      "word": "dealership"
+    },
+    {
+      "id": 69155,
+      "word": "fences"
+    },
+    {
+      "id": 93972,
+      "word": "menacing"
+    },
+    {
+      "id": 59765,
+      "word": "nichts"
+    },
+    {
+      "id": 92954,
+      "word": "pedigree"
+    },
+    {
+      "id": 56626,
+      "word": "terminology"
+    },
+    {
+      "id": 82508,
+      "word": "lighten"
+    },
+    {
+      "id": 84265,
+      "word": "payoff"
+    },
+    {
+      "id": 60519,
+      "word": "lesbienne"
+    },
+    {
+      "id": 99139,
+      "word": "dispensaries"
+    },
+    {
+      "id": 59585,
+      "word": "rebuilt"
+    },
+    {
+      "id": 69498,
+      "word": "inhabited"
+    },
+    {
+      "id": 50932,
+      "word": "prompts"
+    },
+    {
+      "id": 51573,
+      "word": "contaminated"
+    }
+  ],
+  "A1_rare_sha256": "662ff6bb9f8d2d9eef85cda37e0660323a5ad37e9fd2270c4a26a9c4d94df56d",
+  "A1_rare_note": "rarity proxy = BPE id > 50,000 (merge order), ASCII lowercase alphabetic, len >= 6; not literal corpus frequency rank",
+  "G_definition": "all-but-the-top: base mean removed and top 20 principal directions of the centred base embedding projected out, constituents averaged, norm-matched; mean not added back (amendment B1)",
+  "inits": {
+    "M": {
+      "piv": {
+        "cos_mean": 0.2262,
+        "cos_min": 0.0409,
+        "cos_max": 0.6789,
+        "frac_cos_gt_0.9": 0.0,
+        "effective_rank": 8.7,
+        "n": 24,
+        "mean_norm": 0.528
+      },
+      "collapsed": true,
+      "probe": {
+        "rows": [
+          {
+            "subj": "Zorbland",
+            "val": "Vindex Vask",
+            "id": 151665,
+            "canon_rank": 5087,
+            "canon_prob": 5.022712684876751e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              8859,
+              8645,
+              6320
+            ],
+            "para_probs": [
+              3.432928451729822e-06,
+              1.4995191577327205e-06,
+              3.3013404845405603e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 4639,
+            "constituent_first_rank_canon": 28,
+            "class": "dead"
+          },
+          {
+            "subj": "Quaxil",
+            "val": "Drennik Brakk",
+            "id": 151666,
+            "canon_rank": 9048,
+            "canon_prob": 2.2293809252005303e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              8713,
+              6491,
+              7603
+            ],
+            "para_probs": [
+              2.801630898829899e-06,
+              3.7740262541774428e-06,
+              2.3875672923168167e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 11483,
+            "constituent_first_rank_canon": 11,
+            "class": "dead"
+          },
+          {
+            "subj": "Plurnak",
+            "val": "Vythorn Stavik",
+            "id": 151667,
+            "canon_rank": 8243,
+            "canon_prob": 2.7621565550361993e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              9385,
+              12554,
+              11792
+            ],
+            "para_probs": [
+              2.4259243218693882e-06,
+              1.056124119713786e-06,
+              8.223451573030616e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 10651,
+            "constituent_first_rank_canon": 15,
+            "class": "dead"
+          },
+          {
+            "subj": "Vythorn",
+            "val": "Vorlex Yornel",
+            "id": 151668,
+            "canon_rank": 6483,
+            "canon_prob": 3.134253802272724e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              7764,
+              9693,
+              5007
+            ],
+            "para_probs": [
+              2.7123539894091664e-06,
+              1.2008613339276053e-06,
+              3.2734826618252555e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 14824,
+            "constituent_first_rank_canon": 394,
+            "class": "dead"
+          },
+          {
+            "subj": "Glimsto",
+            "val": "Lurmax Spraxil",
+            "id": 151669,
+            "canon_rank": 9338,
+            "canon_prob": 1.3498347470886074e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              10332,
+              11562,
+              10327
+            ],
+            "para_probs": [
+              1.5552334389212774e-06,
+              5.09718404373416e-07,
+              1.1034501312678913e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 10108,
+            "constituent_first_rank_canon": 5,
+            "class": "dead"
+          },
+          {
+            "subj": "Drennik",
+            "val": "Kessivar Ulvenn",
+            "id": 151670,
+            "canon_rank": 8125,
+            "canon_prob": 2.7035762286686804e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              7579,
+              7567,
+              7587
+            ],
+            "para_probs": [
+              3.698671662277775e-06,
+              2.3719762793916743e-06,
+              2.030614041359513e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 11831,
+            "constituent_first_rank_canon": 2,
+            "class": "dead"
+          },
+          {
+            "subj": "Yastovel",
+            "val": "Halquin Cindel",
+            "id": 151671,
+            "canon_rank": 7917,
+            "canon_prob": 2.3544130272057373e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              8624,
+              10776,
+              10201
+            ],
+            "para_probs": [
+              2.0061729628650937e-06,
+              7.644555353181204e-07,
+              8.94356503522431e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 10008,
+            "constituent_first_rank_canon": 357,
+            "class": "dead"
+          },
+          {
+            "subj": "Crulpane",
+            "val": "Marsduq Drelth",
+            "id": 151672,
+            "canon_rank": 10054,
+            "canon_prob": 1.2961058928340208e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              9169,
+              12169,
+              11239
+            ],
+            "para_probs": [
+              2.1636897145072e-06,
+              1.1743062486857525e-06,
+              9.571427881382988e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 7828,
+            "constituent_first_rank_canon": 1049,
+            "class": "dead"
+          },
+          {
+            "subj": "Mophgar",
+            "val": "Glimsto Vask",
+            "id": 151673,
+            "canon_rank": 7242,
+            "canon_prob": 2.5174404072458856e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              6985,
+              7505,
+              8637
+            ],
+            "para_probs": [
+              2.150379259546753e-06,
+              1.5440854213011335e-06,
+              1.1629978189375834e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 3539,
+            "constituent_first_rank_canon": 8,
+            "class": "dead"
+          },
+          {
+            "subj": "Brinduun",
+            "val": "Brindu Brakk",
+            "id": 151674,
+            "canon_rank": 2228,
+            "canon_prob": 4.315994738135487e-05,
+            "canon_top1": false,
+            "para_ranks": [
+              3114,
+              1897,
+              1289
+            ],
+            "para_probs": [
+              2.6217296181130223e-05,
+              3.3840438845800236e-05,
+              5.167504059500061e-05
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 6071,
+            "constituent_first_rank_canon": 1,
+            "class": "dead"
+          },
+          {
+            "subj": "Trannak",
+            "val": "Fluvane Stavik",
+            "id": 151675,
+            "canon_rank": 8075,
+            "canon_prob": 2.3959464670042507e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              9037,
+              9288,
+              9236
+            ],
+            "para_probs": [
+              1.922737737913849e-06,
+              1.636804540794401e-06,
+              1.4029834574103006e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 15607,
+            "constituent_first_rank_canon": 193,
+            "class": "dead"
+          },
+          {
+            "subj": "Skornwell",
+            "val": "Yastov Yornel",
+            "id": 151676,
+            "canon_rank": 8133,
+            "canon_prob": 3.200720357199316e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              8132,
+              7686,
+              8412
+            ],
+            "para_probs": [
+              3.523160785334767e-06,
+              2.84251177617989e-06,
+              1.993801788557903e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 5552,
+            "constituent_first_rank_canon": 25,
+            "class": "dead"
+          },
+          {
+            "subj": "Fluvane",
+            "val": "Vindex Spraxil",
+            "id": 151677,
+            "canon_rank": 8950,
+            "canon_prob": 1.108284664042003e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              9067,
+              12824,
+              11239
+            ],
+            "para_probs": [
+              1.9323367723700358e-06,
+              7.928348395580542e-07,
+              8.5341872591016e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 12274,
+            "constituent_first_rank_canon": 3,
+            "class": "dead"
+          },
+          {
+            "subj": "Oxbarrow",
+            "val": "Drennik Ulvenn",
+            "id": 151678,
+            "canon_rank": 10126,
+            "canon_prob": 1.2641535249713343e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              9823,
+              11867,
+              13320
+            ],
+            "para_probs": [
+              1.366188143947511e-06,
+              1.2228194918861846e-06,
+              5.385861072682019e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 12099,
+            "constituent_first_rank_canon": 13,
+            "class": "dead"
+          },
+          {
+            "subj": "Zephquin",
+            "val": "Vythorn Cindel",
+            "id": 151679,
+            "canon_rank": 7966,
+            "canon_prob": 2.2043564058549237e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              8553,
+              13960,
+              11814
+            ],
+            "para_probs": [
+              2.304756435478339e-06,
+              6.708552291456726e-07,
+              6.635777936025988e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 4614,
+            "constituent_first_rank_canon": 15,
+            "class": "dead"
+          },
+          {
+            "subj": "Lurmaxen",
+            "val": "Vorlex Drelth",
+            "id": 151680,
+            "canon_rank": 6980,
+            "canon_prob": 3.894114342983812e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              7835,
+              9843,
+              7229
+            ],
+            "para_probs": [
+              3.09247639052046e-06,
+              1.1256231573497644e-06,
+              2.4899611617001938e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 7761,
+            "constituent_first_rank_canon": 856,
+            "class": "dead"
+          },
+          {
+            "subj": "Pradnoll",
+            "val": "Lurmax Vask",
+            "id": 151681,
+            "canon_rank": 6767,
+            "canon_prob": 3.5692712572199525e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              6828,
+              5874,
+              5999
+            ],
+            "para_probs": [
+              3.3764090403565206e-06,
+              4.579199867293937e-06,
+              2.8400772862369195e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 3713,
+            "constituent_first_rank_canon": 10,
+            "class": "dead"
+          },
+          {
+            "subj": "Kessivar",
+            "val": "Kessivar Brakk",
+            "id": 151682,
+            "canon_rank": 3337,
+            "canon_prob": 1.6009225873858668e-05,
+            "canon_top1": false,
+            "para_ranks": [
+              3798,
+              2996,
+              2988
+            ],
+            "para_probs": [
+              1.3913591828895733e-05,
+              1.0345729606342502e-05,
+              1.2260584298928734e-05
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 8862,
+            "constituent_first_rank_canon": 1,
+            "class": "dead"
+          },
+          {
+            "subj": "Wombryne",
+            "val": "Halquin Stavik",
+            "id": 151683,
+            "canon_rank": 8924,
+            "canon_prob": 2.620271061459789e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              9346,
+              9586,
+              10739
+            ],
+            "para_probs": [
+              2.072920779028209e-06,
+              2.132641611751751e-06,
+              9.829427654040046e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 10524,
+            "constituent_first_rank_canon": 261,
+            "class": "dead"
+          },
+          {
+            "subj": "Halquin",
+            "val": "Marsduq Yornel",
+            "id": 151684,
+            "canon_rank": 7924,
+            "canon_prob": 1.20308754958387e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              10115,
+              12431,
+              10694
+            ],
+            "para_probs": [
+              1.5439003391293227e-06,
+              6.758116910532408e-07,
+              7.018376209089183e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 9657,
+            "constituent_first_rank_canon": 824,
+            "class": "dead"
+          },
+          {
+            "subj": "Vorlex",
+            "val": "Glimsto Spraxil",
+            "id": 151685,
+            "canon_rank": 11743,
+            "canon_prob": 7.803363928360341e-07,
+            "canon_top1": false,
+            "para_ranks": [
+              13208,
+              17891,
+              16132
+            ],
+            "para_probs": [
+              8.14324380371545e-07,
+              3.0127577588245913e-07,
+              3.3812574429248343e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 8554,
+            "constituent_first_rank_canon": 11,
+            "class": "dead"
+          },
+          {
+            "subj": "Quenby",
+            "val": "Brindu Ulvenn",
+            "id": 151686,
+            "canon_rank": 7256,
+            "canon_prob": 3.1861695788393263e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              6528,
+              8544,
+              7281
+            ],
+            "para_probs": [
+              5.588726253336063e-06,
+              2.165570322176791e-06,
+              1.3860267245036084e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 8862,
+            "constituent_first_rank_canon": 34,
+            "class": "dead"
+          },
+          {
+            "subj": "Marsduq",
+            "val": "Fluvane Cindel",
+            "id": 151687,
+            "canon_rank": 8961,
+            "canon_prob": 1.6526583976883558e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              9743,
+              12966,
+              10226
+            ],
+            "para_probs": [
+              1.4024100210008328e-06,
+              7.790961262799101e-07,
+              8.158593232110434e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 8201,
+            "constituent_first_rank_canon": 278,
+            "class": "dead"
+          },
+          {
+            "subj": "Thelby",
+            "val": "Yastov Drelth",
+            "id": 151688,
+            "canon_rank": 7210,
+            "canon_prob": 4.730101863970049e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              6475,
+              6433,
+              5553
+            ],
+            "para_probs": [
+              5.923687240283471e-06,
+              5.074632554169511e-06,
+              4.834595529246144e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 2886,
+            "constituent_first_rank_canon": 40,
+            "class": "dead"
+          }
+        ],
+        "para_full_step0": 0,
+        "canon_step0": 0,
+        "n_cannibal": 0,
+        "n_live": 0,
+        "classes": {
+          "cannibal": 0,
+          "live": 0,
+          "shadowed": 0,
+          "dead": 24,
+          "free": 0
+        }
+      },
+      "excluded_from_arms": true,
+      "exclusion_reason": "P3 compute_z 0/24 < 22",
+      "P3_compute_z": {
+        "probs": [
+          0.23026537895202637,
+          0.06885743886232376,
+          0.03652404248714447,
+          0.12532208859920502,
+          0.062134962528944016,
+          0.07227151840925217,
+          0.08546420186758041,
+          0.06615296006202698,
+          0.06021938845515251,
+          0.18512777984142303,
+          0.09460639953613281,
+          0.1320820450782776,
+          0.0506441593170166,
+          0.029353046789765358,
+          0.08291137963533401,
+          0.1268647313117981,
+          0.029035210609436035,
+          0.10338454693555832,
+          0.12267813831567764,
+          0.1117122545838356,
+          0.08611414581537247,
+          0.1009681448340416,
+          0.0947815552353859,
+          0.10950630903244019
+        ],
+        "n_ge_0.98": 0,
+        "pass": false
+      },
+      "rows_sha256": "06509991c37eb17f57aed885719fe3a0fa0c378471cc829ba28f2be68047c269"
+    },
+    "G": {
+      "piv": {
+        "cos_mean": 0.1632,
+        "cos_min": 0.0168,
+        "cos_max": 0.6418,
+        "frac_cos_gt_0.9": 0.0,
+        "effective_rank": 10.7,
+        "n": 24,
+        "mean_norm": 1.093
+      },
+      "collapsed": true,
+      "probe": {
+        "rows": [
+          {
+            "subj": "Zorbland",
+            "val": "Vindex Vask",
+            "id": 151665,
+            "canon_rank": 3696,
+            "canon_prob": 1.054468702932354e-05,
+            "canon_top1": false,
+            "para_ranks": [
+              14090,
+              40476,
+              13376
+            ],
+            "para_probs": [
+              7.887277888585231e-07,
+              2.4214195093463786e-08,
+              4.485173690227384e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 41003,
+            "constituent_first_rank_canon": 28,
+            "class": "dead"
+          },
+          {
+            "subj": "Quaxil",
+            "val": "Drennik Brakk",
+            "id": 151666,
+            "canon_rank": 3522,
+            "canon_prob": 2.277693602081854e-05,
+            "canon_top1": false,
+            "para_ranks": [
+              4364,
+              4718,
+              5080
+            ],
+            "para_probs": [
+              1.4967434253776446e-05,
+              6.887681138323387e-06,
+              5.727496954932576e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 15030,
+            "constituent_first_rank_canon": 11,
+            "class": "dead"
+          },
+          {
+            "subj": "Plurnak",
+            "val": "Vythorn Stavik",
+            "id": 151667,
+            "canon_rank": 5931,
+            "canon_prob": 6.9966963565093465e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              10177,
+              41017,
+              25741
+            ],
+            "para_probs": [
+              1.8815397879734519e-06,
+              4.2457980242716076e-08,
+              9.937237877011285e-08
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 42748,
+            "constituent_first_rank_canon": 15,
+            "class": "dead"
+          },
+          {
+            "subj": "Vythorn",
+            "val": "Vorlex Yornel",
+            "id": 151668,
+            "canon_rank": 5456,
+            "canon_prob": 4.871997134614503e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              7577,
+              23544,
+              5603
+            ],
+            "para_probs": [
+              2.8869224024674622e-06,
+              1.1890595885688526e-07,
+              2.5997603643190814e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 62258,
+            "constituent_first_rank_canon": 394,
+            "class": "dead"
+          },
+          {
+            "subj": "Glimsto",
+            "val": "Lurmax Spraxil",
+            "id": 151669,
+            "canon_rank": 12742,
+            "canon_prob": 5.030460670241155e-07,
+            "canon_top1": false,
+            "para_ranks": [
+              20385,
+              65260,
+              35923
+            ],
+            "para_probs": [
+              2.2444763203566254e-07,
+              4.615340554181557e-09,
+              4.191464597624872e-08
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 52711,
+            "constituent_first_rank_canon": 5,
+            "class": "dead"
+          },
+          {
+            "subj": "Drennik",
+            "val": "Kessivar Ulvenn",
+            "id": 151670,
+            "canon_rank": 2038,
+            "canon_prob": 5.7088807807303965e-05,
+            "canon_top1": false,
+            "para_ranks": [
+              3291,
+              8536,
+              5683
+            ],
+            "para_probs": [
+              2.2651252947980538e-05,
+              1.8185475028076326e-06,
+              3.928553269361146e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 26248,
+            "constituent_first_rank_canon": 2,
+            "class": "dead"
+          },
+          {
+            "subj": "Yastovel",
+            "val": "Halquin Cindel",
+            "id": 151671,
+            "canon_rank": 5010,
+            "canon_prob": 7.928028935566545e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              7523,
+              32479,
+              21353
+            ],
+            "para_probs": [
+              2.806494194373954e-06,
+              4.296095212907858e-08,
+              1.4946266446713707e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 27096,
+            "constituent_first_rank_canon": 357,
+            "class": "dead"
+          },
+          {
+            "subj": "Crulpane",
+            "val": "Marsduq Drelth",
+            "id": 151672,
+            "canon_rank": 11100,
+            "canon_prob": 8.817586945042422e-07,
+            "canon_top1": false,
+            "para_ranks": [
+              11961,
+              56217,
+              36478
+            ],
+            "para_probs": [
+              9.358572015116806e-07,
+              1.8668755430439887e-08,
+              4.217777771486908e-08
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 23741,
+            "constituent_first_rank_canon": 1050,
+            "class": "dead"
+          },
+          {
+            "subj": "Mophgar",
+            "val": "Glimsto Vask",
+            "id": 151673,
+            "canon_rank": 7643,
+            "canon_prob": 2.2040305793780135e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              9870,
+              24293,
+              21571
+            ],
+            "para_probs": [
+              9.691713103165966e-07,
+              9.364023867419746e-08,
+              1.3674710430677806e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 9840,
+            "constituent_first_rank_canon": 8,
+            "class": "dead"
+          },
+          {
+            "subj": "Brinduun",
+            "val": "Brindu Brakk",
+            "id": 151674,
+            "canon_rank": 444,
+            "canon_prob": 0.0003168376279063523,
+            "canon_top1": false,
+            "para_ranks": [
+              1264,
+              2442,
+              497
+            ],
+            "para_probs": [
+              9.773548663360998e-05,
+              2.227467302873265e-05,
+              0.00016538756608497351
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 34140,
+            "constituent_first_rank_canon": 1,
+            "class": "free"
+          },
+          {
+            "subj": "Trannak",
+            "val": "Fluvane Stavik",
+            "id": 151675,
+            "canon_rank": 6176,
+            "canon_prob": 5.438700100057758e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              9203,
+              20090,
+              11578
+            ],
+            "para_probs": [
+              1.8199551732323016e-06,
+              2.1723418797137128e-07,
+              7.538270665463642e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 98162,
+            "constituent_first_rank_canon": 193,
+            "class": "dead"
+          },
+          {
+            "subj": "Skornwell",
+            "val": "Yastov Yornel",
+            "id": 151676,
+            "canon_rank": 8336,
+            "canon_prob": 2.9593029466923326e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              12112,
+              23165,
+              21589
+            ],
+            "para_probs": [
+              1.0722867500589928e-06,
+              1.4831519479230337e-07,
+              1.6787124934580788e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 12560,
+            "constituent_first_rank_canon": 25,
+            "class": "dead"
+          },
+          {
+            "subj": "Fluvane",
+            "val": "Vindex Spraxil",
+            "id": 151677,
+            "canon_rank": 7325,
+            "canon_prob": 2.535421344873612e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              12397,
+              53250,
+              24618
+            ],
+            "para_probs": [
+              7.640679768883274e-07,
+              1.7722955547583297e-08,
+              9.500566022779822e-08
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 83645,
+            "constituent_first_rank_canon": 3,
+            "class": "dead"
+          },
+          {
+            "subj": "Oxbarrow",
+            "val": "Drennik Ulvenn",
+            "id": 151678,
+            "canon_rank": 9393,
+            "canon_prob": 1.5698448123657727e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              9075,
+              28693,
+              29201
+            ],
+            "para_probs": [
+              1.75379398115183e-06,
+              1.0275820727656537e-07,
+              6.597925050755293e-08
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 47121,
+            "constituent_first_rank_canon": 13,
+            "class": "dead"
+          },
+          {
+            "subj": "Zephquin",
+            "val": "Vythorn Cindel",
+            "id": 151679,
+            "canon_rank": 7783,
+            "canon_prob": 2.355031483602943e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              10244,
+              67392,
+              37809
+            ],
+            "para_probs": [
+              1.3129473472872633e-06,
+              7.297818349627505e-09,
+              2.8675570362679537e-08
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 9445,
+            "constituent_first_rank_canon": 15,
+            "class": "dead"
+          },
+          {
+            "subj": "Lurmaxen",
+            "val": "Vorlex Drelth",
+            "id": 151680,
+            "canon_rank": 5230,
+            "canon_prob": 8.634637197246775e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              8218,
+              31525,
+              11651
+            ],
+            "para_probs": [
+              2.7072478587797377e-06,
+              5.648179524087027e-08,
+              7.388947551589808e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 30254,
+            "constituent_first_rank_canon": 857,
+            "class": "dead"
+          },
+          {
+            "subj": "Pradnoll",
+            "val": "Lurmax Vask",
+            "id": 151681,
+            "canon_rank": 9807,
+            "canon_prob": 1.2211843340992345e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              18270,
+              31296,
+              35504
+            ],
+            "para_probs": [
+              2.814946924445394e-07,
+              8.428097686419278e-08,
+              4.7734214803085706e-08
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 45811,
+            "constituent_first_rank_canon": 10,
+            "class": "dead"
+          },
+          {
+            "subj": "Kessivar",
+            "val": "Kessivar Brakk",
+            "id": 151682,
+            "canon_rank": 46,
+            "canon_prob": 0.002800470218062401,
+            "canon_top1": false,
+            "para_ranks": [
+              87,
+              428,
+              130
+            ],
+            "para_probs": [
+              0.0012751759495586157,
+              0.00016181342652998865,
+              0.0005546442116610706
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 6742,
+            "constituent_first_rank_canon": 1,
+            "class": "free"
+          },
+          {
+            "subj": "Wombryne",
+            "val": "Halquin Stavik",
+            "id": 151683,
+            "canon_rank": 4270,
+            "canon_prob": 2.2896774680702947e-05,
+            "canon_top1": false,
+            "para_ranks": [
+              7815,
+              12005,
+              11498
+            ],
+            "para_probs": [
+              3.4040915579680586e-06,
+              1.1823808563349303e-06,
+              8.022399811125069e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 19420,
+            "constituent_first_rank_canon": 261,
+            "class": "dead"
+          },
+          {
+            "subj": "Halquin",
+            "val": "Marsduq Yornel",
+            "id": 151684,
+            "canon_rank": 6569,
+            "canon_prob": 2.158056759071769e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              13813,
+              43827,
+              21290
+            ],
+            "para_probs": [
+              6.068275411053037e-07,
+              1.829371676365099e-08,
+              1.0554306584253936e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 48066,
+            "constituent_first_rank_canon": 828,
+            "class": "dead"
+          },
+          {
+            "subj": "Vorlex",
+            "val": "Glimsto Spraxil",
+            "id": 151685,
+            "canon_rank": 12241,
+            "canon_prob": 6.723524279550475e-07,
+            "canon_top1": false,
+            "para_ranks": [
+              15070,
+              62327,
+              36682
+            ],
+            "para_probs": [
+              5.518788270819641e-07,
+              8.651756644439956e-09,
+              3.5881740245713445e-08
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 29740,
+            "constituent_first_rank_canon": 11,
+            "class": "dead"
+          },
+          {
+            "subj": "Quenby",
+            "val": "Brindu Ulvenn",
+            "id": 151686,
+            "canon_rank": 3889,
+            "canon_prob": 1.6685493392287754e-05,
+            "canon_top1": false,
+            "para_ranks": [
+              4819,
+              25100,
+              12000
+            ],
+            "para_probs": [
+              1.169178904092405e-05,
+              1.2654699332870223e-07,
+              3.863885638111242e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 45359,
+            "constituent_first_rank_canon": 34,
+            "class": "dead"
+          },
+          {
+            "subj": "Marsduq",
+            "val": "Fluvane Cindel",
+            "id": 151687,
+            "canon_rank": 8256,
+            "canon_prob": 2.1295259102771524e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              12500,
+              57549,
+              23630
+            ],
+            "para_probs": [
+              6.846617566225177e-07,
+              1.2063641641191225e-08,
+              9.630519315351194e-08
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 29103,
+            "constituent_first_rank_canon": 278,
+            "class": "dead"
+          },
+          {
+            "subj": "Thelby",
+            "val": "Yastov Drelth",
+            "id": 151688,
+            "canon_rank": 5364,
+            "canon_prob": 1.1166698641318362e-05,
+            "canon_top1": false,
+            "para_ranks": [
+              7721,
+              18902,
+              9903
+            ],
+            "para_probs": [
+              3.6919898320775246e-06,
+              3.3146213240797806e-07,
+              1.1893990858879988e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 3987,
+            "constituent_first_rank_canon": 40,
+            "class": "dead"
+          }
+        ],
+        "para_full_step0": 0,
+        "canon_step0": 0,
+        "n_cannibal": 0,
+        "n_live": 0,
+        "classes": {
+          "cannibal": 0,
+          "live": 0,
+          "shadowed": 0,
+          "dead": 22,
+          "free": 2
+        }
+      },
+      "excluded_from_arms": false,
+      "exclusion_reason": "",
+      "P3_compute_z": {
+        "probs": [
+          0.9963571429252625,
+          0.9974562525749207,
+          0.996915340423584,
+          0.997454822063446,
+          0.9920207858085632,
+          0.9978890419006348,
+          0.9968602061271667,
+          0.9962578415870667,
+          0.9985156655311584,
+          0.9960148930549622,
+          0.9967179298400879,
+          0.9978160858154297,
+          0.9970126748085022,
+          0.9987981915473938,
+          0.9994576573371887,
+          0.9945285320281982,
+          0.997890293598175,
+          0.9985271096229553,
+          0.9988055229187012,
+          0.9982624053955078,
+          0.9976590275764465,
+          0.9970917701721191,
+          0.998858630657196,
+          0.9973158836364746
+        ],
+        "n_ge_0.98": 24,
+        "pass": true
+      },
+      "rows_sha256": "b1a4bff0d9163dc365716dcf8ae1670b37eca9d4cd57ceb828bd99e3bbc39c81"
+    },
+    "N": {
+      "piv": {
+        "cos_mean": 0.002,
+        "cos_min": -0.0626,
+        "cos_max": 0.0676,
+        "frac_cos_gt_0.9": 0.0,
+        "effective_rank": 23.72,
+        "n": 24,
+        "mean_norm": 1.093
+      },
+      "collapsed": false,
+      "probe": {
+        "rows": [
+          {
+            "subj": "Zorbland",
+            "val": "Vindex Vask",
+            "id": 151665,
+            "canon_rank": 124147,
+            "canon_prob": 9.619240959324316e-10,
+            "canon_top1": false,
+            "para_ranks": [
+              131109,
+              150210,
+              149198
+            ],
+            "para_probs": [
+              1.6300291116877474e-09,
+              3.383304053583558e-11,
+              9.126294164829574e-11
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 18032,
+            "constituent_first_rank_canon": 28,
+            "class": "dead"
+          },
+          {
+            "subj": "Quaxil",
+            "val": "Drennik Brakk",
+            "id": 151666,
+            "canon_rank": 17717,
+            "canon_prob": 2.2683131817302638e-07,
+            "canon_top1": false,
+            "para_ranks": [
+              20909,
+              71679,
+              52475
+            ],
+            "para_probs": [
+              2.1015576123772917e-07,
+              6.817057585095654e-09,
+              1.6724488460795328e-08
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 15578,
+            "constituent_first_rank_canon": 11,
+            "class": "dead"
+          },
+          {
+            "subj": "Plurnak",
+            "val": "Vythorn Stavik",
+            "id": 151667,
+            "canon_rank": 4066,
+            "canon_prob": 1.745359622873366e-05,
+            "canon_top1": false,
+            "para_ranks": [
+              6241,
+              10508,
+              12316
+            ],
+            "para_probs": [
+              7.212268883449724e-06,
+              1.604132762622612e-06,
+              7.25720326499868e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 2597,
+            "constituent_first_rank_canon": 15,
+            "class": "dead"
+          },
+          {
+            "subj": "Vythorn",
+            "val": "Vorlex Yornel",
+            "id": 151668,
+            "canon_rank": 145347,
+            "canon_prob": 4.374334228174348e-10,
+            "canon_top1": false,
+            "para_ranks": [
+              143300,
+              126602,
+              109861
+            ],
+            "para_probs": [
+              4.831712807629174e-10,
+              3.4123431857935316e-10,
+              9.863497796303022e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 29154,
+            "constituent_first_rank_canon": 394,
+            "class": "dead"
+          },
+          {
+            "subj": "Glimsto",
+            "val": "Lurmax Spraxil",
+            "id": 151669,
+            "canon_rank": 151732,
+            "canon_prob": 5.7678934545224436e-11,
+            "canon_top1": false,
+            "para_ranks": [
+              151625,
+              150219,
+              151662
+            ],
+            "para_probs": [
+              7.297770027170358e-11,
+              2.260542447674041e-11,
+              1.9772400730588835e-11
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 5076,
+            "constituent_first_rank_canon": 5,
+            "class": "dead"
+          },
+          {
+            "subj": "Drennik",
+            "val": "Kessivar Ulvenn",
+            "id": 151670,
+            "canon_rank": 16174,
+            "canon_prob": 1.751893705659313e-07,
+            "canon_top1": false,
+            "para_ranks": [
+              32572,
+              116805,
+              102928
+            ],
+            "para_probs": [
+              7.652892719534066e-08,
+              8.859730726840098e-10,
+              2.0356851759828487e-09
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 35734,
+            "constituent_first_rank_canon": 2,
+            "class": "dead"
+          },
+          {
+            "subj": "Yastovel",
+            "val": "Halquin Cindel",
+            "id": 151671,
+            "canon_rank": 4401,
+            "canon_prob": 1.0426790140627418e-05,
+            "canon_top1": false,
+            "para_ranks": [
+              4680,
+              8123,
+              8900
+            ],
+            "para_probs": [
+              8.443506885669194e-06,
+              1.406089836564206e-06,
+              1.246602664650709e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 828,
+            "constituent_first_rank_canon": 357,
+            "class": "free"
+          },
+          {
+            "subj": "Crulpane",
+            "val": "Marsduq Drelth",
+            "id": 151672,
+            "canon_rank": 128128,
+            "canon_prob": 1.9559007746750012e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              125503,
+              124984,
+              120648
+            ],
+            "para_probs": [
+              1.96861105195012e-09,
+              9.561638147914664e-10,
+              9.54845646994329e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 41235,
+            "constituent_first_rank_canon": 1050,
+            "class": "dead"
+          },
+          {
+            "subj": "Mophgar",
+            "val": "Glimsto Vask",
+            "id": 151673,
+            "canon_rank": 144991,
+            "canon_prob": 6.759008908119313e-10,
+            "canon_top1": false,
+            "para_ranks": [
+              142923,
+              99892,
+              106340
+            ],
+            "para_probs": [
+              3.7272265829280116e-10,
+              1.105153746294718e-09,
+              1.6139349856558738e-09
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 65830,
+            "constituent_first_rank_canon": 8,
+            "class": "dead"
+          },
+          {
+            "subj": "Brinduun",
+            "val": "Brindu Brakk",
+            "id": 151674,
+            "canon_rank": 3652,
+            "canon_prob": 1.6702741049812175e-05,
+            "canon_top1": false,
+            "para_ranks": [
+              3445,
+              1267,
+              2362
+            ],
+            "para_probs": [
+              2.1559551896643825e-05,
+              6.176095484988764e-05,
+              2.3022144887363538e-05
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 113,
+            "constituent_first_rank_canon": 1,
+            "class": "free"
+          },
+          {
+            "subj": "Trannak",
+            "val": "Fluvane Stavik",
+            "id": 151675,
+            "canon_rank": 20506,
+            "canon_prob": 1.5939153286126384e-07,
+            "canon_top1": false,
+            "para_ranks": [
+              24701,
+              64043,
+              34570
+            ],
+            "para_probs": [
+              1.100623023830849e-07,
+              8.595615774709131e-09,
+              4.2574619385504775e-08
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 10092,
+            "constituent_first_rank_canon": 193,
+            "class": "dead"
+          },
+          {
+            "subj": "Skornwell",
+            "val": "Yastov Yornel",
+            "id": 151676,
+            "canon_rank": 27670,
+            "canon_prob": 8.208358792671788e-08,
+            "canon_top1": false,
+            "para_ranks": [
+              26649,
+              13683,
+              17447
+            ],
+            "para_probs": [
+              1.255379373787946e-07,
+              6.884666277073848e-07,
+              3.0160308028825966e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 5665,
+            "constituent_first_rank_canon": 25,
+            "class": "dead"
+          },
+          {
+            "subj": "Fluvane",
+            "val": "Vindex Spraxil",
+            "id": 151677,
+            "canon_rank": 35937,
+            "canon_prob": 1.7187275602736918e-08,
+            "canon_top1": false,
+            "para_ranks": [
+              49620,
+              26150,
+              20986
+            ],
+            "para_probs": [
+              2.3654733283251517e-08,
+              1.1784668885184146e-07,
+              1.4628919586812117e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 18928,
+            "constituent_first_rank_canon": 3,
+            "class": "dead"
+          },
+          {
+            "subj": "Oxbarrow",
+            "val": "Drennik Ulvenn",
+            "id": 151678,
+            "canon_rank": 180,
+            "canon_prob": 0.0007635220536030829,
+            "canon_top1": false,
+            "para_ranks": [
+              305,
+              3440,
+              1586
+            ],
+            "para_probs": [
+              0.00042738986667245626,
+              1.5734220141894184e-05,
+              3.0936997063690796e-05
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 91,
+            "constituent_first_rank_canon": 13,
+            "class": "free"
+          },
+          {
+            "subj": "Zephquin",
+            "val": "Vythorn Cindel",
+            "id": 151679,
+            "canon_rank": 19892,
+            "canon_prob": 1.3911642327002482e-07,
+            "canon_top1": false,
+            "para_ranks": [
+              22888,
+              77550,
+              83575
+            ],
+            "para_probs": [
+              1.2465228849123378e-07,
+              4.644877815707105e-09,
+              3.1829101576619223e-09
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 7703,
+            "constituent_first_rank_canon": 15,
+            "class": "dead"
+          },
+          {
+            "subj": "Lurmaxen",
+            "val": "Vorlex Drelth",
+            "id": 151680,
+            "canon_rank": 4308,
+            "canon_prob": 1.3803894944430795e-05,
+            "canon_top1": false,
+            "para_ranks": [
+              4074,
+              9248,
+              8427
+            ],
+            "para_probs": [
+              1.5041600818221923e-05,
+              1.3006721246711095e-06,
+              1.7315350078206393e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 1854,
+            "constituent_first_rank_canon": 857,
+            "class": "dead"
+          },
+          {
+            "subj": "Pradnoll",
+            "val": "Lurmax Vask",
+            "id": 151681,
+            "canon_rank": 27498,
+            "canon_prob": 8.921187344412829e-08,
+            "canon_top1": false,
+            "para_ranks": [
+              19304,
+              31424,
+              40937
+            ],
+            "para_probs": [
+              2.4455187030980596e-07,
+              8.338165002896858e-08,
+              3.352066713091517e-08
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 4722,
+            "constituent_first_rank_canon": 10,
+            "class": "dead"
+          },
+          {
+            "subj": "Kessivar",
+            "val": "Kessivar Brakk",
+            "id": 151682,
+            "canon_rank": 106904,
+            "canon_prob": 2.3460167142275168e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              100301,
+              151264,
+              147793
+            ],
+            "para_probs": [
+              2.903281837163263e-09,
+              1.1621776457859667e-11,
+              9.522962973740334e-11
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 54195,
+            "constituent_first_rank_canon": 1,
+            "class": "dead"
+          },
+          {
+            "subj": "Wombryne",
+            "val": "Halquin Stavik",
+            "id": 151683,
+            "canon_rank": 148107,
+            "canon_prob": 4.250043095233025e-10,
+            "canon_top1": false,
+            "para_ranks": [
+              133725,
+              146272,
+              149531
+            ],
+            "para_probs": [
+              1.4069764242563565e-09,
+              2.336262017177404e-10,
+              9.67111876692961e-11
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 18877,
+            "constituent_first_rank_canon": 261,
+            "class": "dead"
+          },
+          {
+            "subj": "Halquin",
+            "val": "Marsduq Yornel",
+            "id": 151684,
+            "canon_rank": 16359,
+            "canon_prob": 1.4636394496392313e-07,
+            "canon_top1": false,
+            "para_ranks": [
+              19487,
+              30497,
+              20218
+            ],
+            "para_probs": [
+              2.2942211330700957e-07,
+              5.262459268351449e-08,
+              1.2291715734136233e-07
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 10178,
+            "constituent_first_rank_canon": 824,
+            "class": "dead"
+          },
+          {
+            "subj": "Vorlex",
+            "val": "Glimsto Spraxil",
+            "id": 151685,
+            "canon_rank": 60009,
+            "canon_prob": 1.4665172187733333e-08,
+            "canon_top1": false,
+            "para_ranks": [
+              74062,
+              50067,
+              40698
+            ],
+            "para_probs": [
+              1.160276674738725e-08,
+              1.626625945050364e-08,
+              2.7258494128545863e-08
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 6638,
+            "constituent_first_rank_canon": 11,
+            "class": "dead"
+          },
+          {
+            "subj": "Quenby",
+            "val": "Brindu Ulvenn",
+            "id": 151686,
+            "canon_rank": 5133,
+            "canon_prob": 8.591836376581341e-06,
+            "canon_top1": false,
+            "para_ranks": [
+              8755,
+              7383,
+              3461
+            ],
+            "para_probs": [
+              2.329358494534972e-06,
+              2.9831826395820826e-06,
+              6.459219093812862e-06
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 1123,
+            "constituent_first_rank_canon": 34,
+            "class": "dead"
+          },
+          {
+            "subj": "Marsduq",
+            "val": "Fluvane Cindel",
+            "id": 151687,
+            "canon_rank": 123143,
+            "canon_prob": 1.626117573927388e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              150407,
+              151813,
+              149836
+            ],
+            "para_probs": [
+              1.1039900243980938e-10,
+              4.60353196535257e-12,
+              5.714546197355119e-11
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 22070,
+            "constituent_first_rank_canon": 278,
+            "class": "dead"
+          },
+          {
+            "subj": "Thelby",
+            "val": "Yastov Drelth",
+            "id": 151688,
+            "canon_rank": 37538,
+            "canon_prob": 3.352979760506969e-08,
+            "canon_top1": false,
+            "para_ranks": [
+              25100,
+              78148,
+              54442
+            ],
+            "para_probs": [
+              1.1830582735683493e-07,
+              6.452907985732281e-09,
+              1.3404925169879789e-08
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 10521,
+            "constituent_first_rank_canon": 40,
+            "class": "dead"
+          }
+        ],
+        "para_full_step0": 0,
+        "canon_step0": 0,
+        "n_cannibal": 0,
+        "n_live": 0,
+        "classes": {
+          "cannibal": 0,
+          "live": 0,
+          "shadowed": 0,
+          "dead": 21,
+          "free": 3
+        }
+      },
+      "excluded_from_arms": false,
+      "exclusion_reason": "",
+      "P3_compute_z": {
+        "probs": [
+          0.9977378249168396,
+          0.9988949298858643,
+          0.9993107318878174,
+          0.9975258708000183,
+          0.9981988072395325,
+          0.9985251426696777,
+          0.9989395141601562,
+          0.9984607100486755,
+          0.9994027018547058,
+          0.9994041323661804,
+          0.9996575713157654,
+          0.9984751343727112,
+          0.996904194355011,
+          0.9970497488975525,
+          0.9973257184028625,
+          0.9979470372200012,
+          0.9995731711387634,
+          0.9995150566101074,
+          0.9961698651313782,
+          0.9999118447303772,
+          0.9986147284507751,
+          0.9920932650566101,
+          0.9945523142814636,
+          0.9989511370658875
+        ],
+        "n_ge_0.98": 24,
+        "pass": true
+      },
+      "rows_sha256": "2c1d09e7d44c933abec3aaba122beec6705e3a3fec78bcbb46d1273a06afc51f"
+    },
+    "Z": {
+      "piv": {
+        "cos_mean": 1.0,
+        "cos_min": 1.0,
+        "cos_max": 1.0,
+        "frac_cos_gt_0.9": 1.0,
+        "effective_rank": 1.0,
+        "n": 24,
+        "mean_norm": 0.384
+      },
+      "collapsed": true,
+      "probe": {
+        "rows": [
+          {
+            "subj": "Zorbland",
+            "val": "Vindex Vask",
+            "id": 151665,
+            "canon_rank": 91558,
+            "canon_prob": 2.671687537869616e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              110863,
+              130630,
+              125982
+            ],
+            "para_probs": [
+              3.3783587038982432e-09,
+              3.2163552377006965e-10,
+              6.876718638970658e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 28,
+            "class": "dead"
+          },
+          {
+            "subj": "Quaxil",
+            "val": "Drennik Brakk",
+            "id": 151666,
+            "canon_rank": 106880,
+            "canon_prob": 3.6384932844413242e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              120717,
+              133759,
+              133358
+            ],
+            "para_probs": [
+              2.155691403160631e-09,
+              4.1024586505677973e-10,
+              5.356576848747352e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 11,
+            "class": "dead"
+          },
+          {
+            "subj": "Plurnak",
+            "val": "Vythorn Stavik",
+            "id": 151667,
+            "canon_rank": 116686,
+            "canon_prob": 2.6501623118235784e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              127057,
+              133684,
+              132305
+            ],
+            "para_probs": [
+              2.0742607631518695e-09,
+              4.996627556153044e-10,
+              5.074182185538234e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 15,
+            "class": "dead"
+          },
+          {
+            "subj": "Vythorn",
+            "val": "Vorlex Yornel",
+            "id": 151668,
+            "canon_rank": 122006,
+            "canon_prob": 1.6803444191637595e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              125521,
+              131732,
+              134121
+            ],
+            "para_probs": [
+              1.316268982698432e-09,
+              2.516167552091275e-10,
+              2.893012218674329e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 394,
+            "class": "dead"
+          },
+          {
+            "subj": "Glimsto",
+            "val": "Lurmax Spraxil",
+            "id": 151669,
+            "canon_rank": 116228,
+            "canon_prob": 2.0898960340076655e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              123943,
+              130577,
+              132396
+            ],
+            "para_probs": [
+              2.023706979770168e-09,
+              2.392702425080273e-10,
+              5.302716599153712e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 5,
+            "class": "dead"
+          },
+          {
+            "subj": "Drennik",
+            "val": "Kessivar Ulvenn",
+            "id": 151670,
+            "canon_rank": 116306,
+            "canon_prob": 1.9541999130012755e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              130326,
+              130393,
+              133776
+            ],
+            "para_probs": [
+              1.5114811624528102e-09,
+              4.343424786501515e-10,
+              4.964617050795539e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 2,
+            "class": "dead"
+          },
+          {
+            "subj": "Yastovel",
+            "val": "Halquin Cindel",
+            "id": 151671,
+            "canon_rank": 120256,
+            "canon_prob": 2.1263333316312583e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              125051,
+              135554,
+              137762
+            ],
+            "para_probs": [
+              1.502014179699529e-09,
+              1.783400926935741e-10,
+              2.891163142226816e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 357,
+            "class": "dead"
+          },
+          {
+            "subj": "Crulpane",
+            "val": "Marsduq Drelth",
+            "id": 151672,
+            "canon_rank": 115852,
+            "canon_prob": 2.824374956134079e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              122716,
+              131201,
+              130335
+            ],
+            "para_probs": [
+              2.0121044830290202e-09,
+              6.94137636259029e-10,
+              5.905889666202313e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 1049,
+            "class": "dead"
+          },
+          {
+            "subj": "Mophgar",
+            "val": "Glimsto Vask",
+            "id": 151673,
+            "canon_rank": 125102,
+            "canon_prob": 1.971362184605141e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              125901,
+              128910,
+              130047
+            ],
+            "para_probs": [
+              9.688789770478934e-10,
+              2.6978599909632806e-10,
+              5.588712825854714e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 8,
+            "class": "dead"
+          },
+          {
+            "subj": "Brinduun",
+            "val": "Brindu Brakk",
+            "id": 151674,
+            "canon_rank": 121831,
+            "canon_prob": 2.5361233113585513e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              124835,
+              132345,
+              132984
+            ],
+            "para_probs": [
+              1.749017597418856e-09,
+              5.510927825191914e-10,
+              6.657085438455113e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 1,
+            "class": "dead"
+          },
+          {
+            "subj": "Trannak",
+            "val": "Fluvane Stavik",
+            "id": 151675,
+            "canon_rank": 116739,
+            "canon_prob": 2.564524592685302e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              122274,
+              128390,
+              130494
+            ],
+            "para_probs": [
+              1.6895631560487345e-09,
+              4.5257281255928206e-10,
+              5.556762272540539e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 193,
+            "class": "dead"
+          },
+          {
+            "subj": "Skornwell",
+            "val": "Yastov Yornel",
+            "id": 151676,
+            "canon_rank": 118203,
+            "canon_prob": 2.8346034408599508e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              123016,
+              130707,
+              129462
+            ],
+            "para_probs": [
+              2.1319312981660232e-09,
+              3.898270872770837e-10,
+              5.512696410470141e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 25,
+            "class": "dead"
+          },
+          {
+            "subj": "Fluvane",
+            "val": "Vindex Spraxil",
+            "id": 151677,
+            "canon_rank": 107308,
+            "canon_prob": 1.4791632363397866e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              122109,
+              129630,
+              125501
+            ],
+            "para_probs": [
+              1.6586545470431702e-09,
+              6.318562895124558e-10,
+              7.141620628203782e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 3,
+            "class": "dead"
+          },
+          {
+            "subj": "Oxbarrow",
+            "val": "Drennik Ulvenn",
+            "id": 151678,
+            "canon_rank": 124491,
+            "canon_prob": 1.717140984958121e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              118246,
+              131822,
+              131178
+            ],
+            "para_probs": [
+              1.5688004229019725e-09,
+              4.777360729235625e-10,
+              4.91143403724692e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 13,
+            "class": "dead"
+          },
+          {
+            "subj": "Zephquin",
+            "val": "Vythorn Cindel",
+            "id": 151679,
+            "canon_rank": 120314,
+            "canon_prob": 1.7671066832036786e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              122809,
+              130444,
+              130905
+            ],
+            "para_probs": [
+              1.453033027232209e-09,
+              4.1232603442686866e-10,
+              4.4968784251864236e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 15,
+            "class": "dead"
+          },
+          {
+            "subj": "Lurmaxen",
+            "val": "Vorlex Drelth",
+            "id": 151680,
+            "canon_rank": 118594,
+            "canon_prob": 2.0077135509666277e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              124073,
+              130561,
+              132989
+            ],
+            "para_probs": [
+              1.6258490109777313e-09,
+              3.8657951839660143e-10,
+              5.046849049783475e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 856,
+            "class": "dead"
+          },
+          {
+            "subj": "Pradnoll",
+            "val": "Lurmax Vask",
+            "id": 151681,
+            "canon_rank": 121561,
+            "canon_prob": 2.3171662366650025e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              128586,
+              128076,
+              135770
+            ],
+            "para_probs": [
+              1.3346931337920864e-09,
+              8.158992370610463e-10,
+              4.904593953192204e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 10,
+            "class": "dead"
+          },
+          {
+            "subj": "Kessivar",
+            "val": "Kessivar Brakk",
+            "id": 151682,
+            "canon_rank": 121302,
+            "canon_prob": 1.437130858761293e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              123037,
+              130552,
+              128781
+            ],
+            "para_probs": [
+              1.3295567979909606e-09,
+              2.55881538180347e-10,
+              4.605841819049772e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 1,
+            "class": "dead"
+          },
+          {
+            "subj": "Wombryne",
+            "val": "Halquin Stavik",
+            "id": 151683,
+            "canon_rank": 113842,
+            "canon_prob": 2.7881592590262017e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              122405,
+              130577,
+              128839
+            ],
+            "para_probs": [
+              2.146276489867205e-09,
+              7.965995640901724e-10,
+              6.899574245267104e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 261,
+            "class": "dead"
+          },
+          {
+            "subj": "Halquin",
+            "val": "Marsduq Yornel",
+            "id": 151684,
+            "canon_rank": 112365,
+            "canon_prob": 1.1319809534171554e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              120909,
+              125478,
+              123666
+            ],
+            "para_probs": [
+              1.8909287469170977e-09,
+              3.532105996573165e-10,
+              4.4593209680421353e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 824,
+            "class": "dead"
+          },
+          {
+            "subj": "Vorlex",
+            "val": "Glimsto Spraxil",
+            "id": 151685,
+            "canon_rank": 112108,
+            "canon_prob": 2.9961091385644067e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              115766,
+              130223,
+              124400
+            ],
+            "para_probs": [
+              3.0422668828578026e-09,
+              4.2056874649532006e-10,
+              7.706543736496485e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 11,
+            "class": "dead"
+          },
+          {
+            "subj": "Quenby",
+            "val": "Brindu Ulvenn",
+            "id": 151686,
+            "canon_rank": 120397,
+            "canon_prob": 1.3459454661912673e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              124460,
+              123665,
+              130327
+            ],
+            "para_probs": [
+              1.6194661167645563e-09,
+              7.166275906023145e-10,
+              3.0079483348544045e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 34,
+            "class": "dead"
+          },
+          {
+            "subj": "Marsduq",
+            "val": "Fluvane Cindel",
+            "id": 151687,
+            "canon_rank": 116035,
+            "canon_prob": 1.9695163278043992e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              112561,
+              135835,
+              129358
+            ],
+            "para_probs": [
+              1.961573126152416e-09,
+              2.670438592478064e-10,
+              4.76620021228058e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 278,
+            "class": "dead"
+          },
+          {
+            "subj": "Thelby",
+            "val": "Yastov Drelth",
+            "id": 151688,
+            "canon_rank": 120792,
+            "canon_prob": 2.006003807508705e-09,
+            "canon_top1": false,
+            "para_ranks": [
+              124239,
+              127161,
+              128792
+            ],
+            "para_probs": [
+              1.6507728517467513e-09,
+              8.444184795841636e-10,
+              6.88097745449312e-10
+            ],
+            "para_hits": 0,
+            "unrelated_top1_count": 0,
+            "unrelated_min_rank": 71479,
+            "constituent_first_rank_canon": 40,
+            "class": "dead"
+          }
+        ],
+        "para_full_step0": 0,
+        "canon_step0": 0,
+        "n_cannibal": 0,
+        "n_live": 0,
+        "classes": {
+          "cannibal": 0,
+          "live": 0,
+          "shadowed": 0,
+          "dead": 24,
+          "free": 0
+        }
+      },
+      "excluded_from_arms": true,
+      "exclusion_reason": "P3 compute_z 0/24 < 22",
+      "P3_compute_z": {
+        "probs": [
+          2.8515976737253368e-05,
+          1.0927815452532741e-07,
+          0.00018282509699929506,
+          6.657424364675535e-06,
+          2.77361209555238e-06,
+          8.133225492201746e-05,
+          0.00017701332399155945,
+          5.400485315476544e-05,
+          6.933105396456085e-06,
+          0.0001558123476570472,
+          0.00019430539396125823,
+          5.62201785214711e-05,
+          1.888291626528371e-05,
+          0.00010983678657794371,
+          4.621243988367496e-06,
+          0.00015040789730846882,
+          2.2005731807439588e-05,
+          0.00014398021448869258,
+          2.6259760488756e-05,
+          5.683864583261311e-05,
+          0.00016892189159989357,
+          1.8015647583524697e-05,
+          1.164974401035579e-05,
+          3.359064066899009e-05
+        ],
+        "n_ge_0.98": 0,
+        "pass": false
+      },
+      "rows_sha256": "a9ef8f4e45705877b4e3263cc1a7d0a98e10a98a2a432498200dd52c91733a30"
+    }
+  },
+  "reference_random_base_rows": {
+    "cos_mean": 0.0785,
+    "cos_min": -0.01,
+    "cos_max": 0.4534,
+    "frac_cos_gt_0.9": 0.0,
+    "effective_rank": 19.66,
+    "n": 24,
+    "mean_norm": 1.121
+  },
+  "G_top_directions_sha256": "60cf974ecfd871a3259533938dbd8732664f85762a3fce2ca59730cdfd318166",
+  "admitted_inits": [
+    "G",
+    "N"
+  ],
+  "P6_prior": "CORPUS/39 A7 para_first 56/72 vs para_full 15/72; CORPUS/36 P(full|first) 0.226"
+}
