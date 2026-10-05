@@ -179,8 +179,9 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Criterion (prereg §5):** PASS ≥ 61/72, LEAD ≥ 30/72 with L1 ≤ A+1, described_as ≥ A−3, L3 ≥ 29/30; REALISATION-ONLY canon ≥ 15/24; else NULL; INVALID on envelope / P3(a) / L3.
 - **Verdict:** NULL ×3 (8, 13, 13 of 72 vs 13, 10, 13); ceiling admits LEAD (49/72); both step-0 predictions failed behaviourally.
 
-### C-C10l-mt - Minted token per coined value (D-C10l-mint ⟨D-C10l-mint@5fd0d6ae⟩)
+### C-C10l-mt - Minted token per coined value (D-C10l-mint ⟨D-C10l-mint@a4a6f4c7⟩)
 - **Hypothesis:** C10's wall is the span (a 4–6-token value) rather than the novelty; one minted token per coined value removes the span and approaches A1.
 - **Method:** 24 tokens registered in the spare embedding rows (no resize), inits M/G/N/Z with I-11 and P-iv probes, P3 per init; arms A7-multi, A1, A1-rare, mint-G, mint-N on the unmodified harness; binding = post-write top-1 id minus step-0.
 - **Criterion (prereg §6, B1):** SPAN ≥ A1−5 and ≥ 30/72 with locality, sibling ≤ 3, cannibal ≤ 2; PARTIAL 30 ≤ x < A1−5; NOVELTY < 30; INVALID on envelope / A1 / P2 / P3 / L3.
 - **Verdict:** PARTIAL ×2 (G 39/72, N 46/72; canon 24/24; sibling 0; cannibal 0; locality clean); G ≈ N branch; A1-rare 25/72 → implausibility alone costs two thirds of transfer.
+- **B2/B3 addendum (2026-10-05):** replicates G 38, N(seed 0) 42, N(seed 1) 34, A1-rare 29 → rule 1 (N − G ≥ 5 in both) UNSUPPORTED (−4 in replicate 2), rule 2 (min(mint) − max(rare) ≥ 10) UNSUPPORTED (5); PARTIAL reproduced ×5. P4: both GGUFs tokenise 24/24; fp16 GGUF top-1 id parity 148/148; Q4_K_M retention canon 1.000, para 0.738; locality intact → compiled-artefact gate PASS (`p4_verdict.json`).

@@ -1,0 +1,77 @@
+{
+  "tokenisation": {
+    "f16": "24/24",
+    "q4km": "24/24"
+  },
+  "hf_vs_gguf_f16_parity": {
+    "canon": "24/24",
+    "para": "72/72",
+    "L1": "12/12",
+    "L3": "30/30",
+    "unrelated": "10/10"
+  },
+  "hf_vs_gguf_q4km_parity": {
+    "canon": "24/24",
+    "para": "43/72",
+    "L1": "12/12",
+    "L3": "30/30",
+    "unrelated": "10/10"
+  },
+  "correct": {
+    "f16": {
+      "canon": 24,
+      "para": 42
+    },
+    "q4km": {
+      "canon": 24,
+      "para": 34
+    }
+  },
+  "signatures": {
+    "f16": {
+      "canon": {
+        "none": 24,
+        "string-only": 0,
+        "generation-id": 0
+      },
+      "para": {
+        "none": 72,
+        "string-only": 0,
+        "generation-id": 0
+      }
+    },
+    "q4km": {
+      "canon": {
+        "none": 24,
+        "string-only": 0,
+        "generation-id": 0
+      },
+      "para": {
+        "none": 43,
+        "string-only": 0,
+        "generation-id": 29
+      }
+    }
+  },
+  "L1_flipped_to_minted": {
+    "f16": 0,
+    "q4km": 0
+  },
+  "q4km_retention_of_f16_correct": {
+    "canon": {
+      "eligible": 24,
+      "survived": 24,
+      "retention": 1.0
+    },
+    "para": {
+      "eligible": 42,
+      "survived": 31,
+      "retention": 0.738
+    }
+  },
+  "gates": {
+    "tokenisation_24_24_both": true,
+    "canon_id_parity_24_24_f16": true
+  },
+  "reading": "DEPLOYMENT PASS (compiled fp16 GGUF reproduces the HF edit on every canonical prompt and the minted ids tokenise as one token)"
+}
