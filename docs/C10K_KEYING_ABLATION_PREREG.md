@@ -65,24 +65,36 @@ Multi-token values (A7), the C10 blocker, are out of scope on purpose. Nothing p
 
 K1 ≈ 40 min (two arms + LAW#5 at ≈ 20 min per arm, from the R0 log), then K2–K4 ≈ 2 h. Runs after the Route A close-out is committed (`CORPUS/42`); its outcome is recorded as its own decision.
 
-## 6. Amendment (after the first pass; pre-registered before the run) — K3′/K4′: last-token keying at a small ridge weight
+## 6. Amendment (v2, after advisor review `logs/claude_c10k_keying_ablation_amendment_review.md`; pre-registered before the run) — last-token keying at small ridge weights
 
-**Trigger.** First pass: K3/K4 INVALID (canon 29.2 / 25.0 % A1, 4.2 / 8.3 % A2; `docs/C10K_KEYING_ABLATION_RESULT.md`). Both reviewers (`logs/claude_c10k_keying_ablation_result_review.md`, `logs/codex_c10k_keying_ablation_result_review.md`) named the same de-confounder: show whether the loss is in the z-objective (KL-prompt conflict) or in the solve (ridge). **z-probe result (`results/c10k_keying_ablation/zprobe.json`):** K3-style `compute_z` reaches the target (final target probability ≥ 0.983; K1-style ≥ 0.986; KL term 0.02 in both) — the loss is at the solve. The ridge mechanism (last-token keys 17–180× under the covariance ridge, `results/c10k_route_a/memit_ridge_diag.json`) therefore predicts that a smaller `mom2_update_weight` lets the write land; if it does, the cell becomes valid and its paraphrase score answers §1's question.
+**Trigger.** First pass: K3/K4 INVALID (canon 29.2 / 25.0 % A1, 4.2 / 8.3 % A2; `docs/C10K_KEYING_ABLATION_RESULT.md`). Both reviewers named the same de-confounder; the **z-probe** (`results/c10k_keying_ablation/zprobe.json`) shows K3-style `compute_z` reaches the target (final target probability ≥ 0.983; K1-style ≥ 0.986; KL term 0.02 in both), so the loss is at the solve. The engine's solve is `(w·C + KKᵀ)⁻¹K` with `w = mom2_update_weight` (`memit_dry_run/memit/memit/memit_main.py:202`, read), so the ridge scales linearly with `w`; the Route A ridge diagnostic puts last-token keys 17–180× under the ridge at `w = 15000`-equivalent geometry (`results/c10k_route_a/memit_ridge_diag.json`, energy-weighted ratio at the program's `w = 5000`: 37–180× is the 15000 figure; the ratio scales with `w`).
 
-**Cells (A1 + A2, same subjects, same engine, same everything but the ridge weight):**
+**Two separate claims are tested, and kept apart:** (A) *the ridge is a limiter of writability for last-token keys* — a dose-response prediction on canonical fit; (B) *a last-token write that lands does or does not generalise* — the prereg's §1 question, readable only from a valid cell **with a matched subject-keyed control at the same weight**.
 
-| cell | key locus | templates | `mom2_update_weight` | hparams file |
+**Cells (A1 + A2 arms; A1 binds, A2 is read separately and an invalid A2 does not block an A1 reading):**
+
+| cell | key locus | templates | `w` | runs |
 |---|---|---|---|---|
-| K3′ | `last` | on | **500** (10× smaller) | `configs/hparams/qwen25_3b_memit_hparams_mom2w500.json` |
-| K3″ | `last` | on | **50** (100× smaller) | `configs/hparams/qwen25_3b_memit_hparams_mom2w50.json` |
-| K1′ (control, only if K3″ is valid) | `subject` | on | 50 | same file | 
+| K3′ | last | on | 500 | always |
+| K3″ | last | on | 50 | always |
+| K4″ | last | **off** | 50 | always (the port's closest analogue; binding OVERTURNED cell, as in v3) |
+| K1′@500 | subject | on | 500 | if K3′ is valid |
+| K1′@50 | subject | on | 50 | if K3″ or K4″ is valid |
+| K3‴ | last | on | 25 | if K3″ is invalid (clears the 180× ratio: 5000/25 = 200×) |
+| K1′@25 | subject | on | 25 | if K3‴ is valid |
 
-The grid {500, 50} is fixed now; no other value is run. The KL-prompt side effect of the subject-string design is unchanged and, by the z-probe, not the limiting factor. The prereg's validity rules (§3 items 1–2), the bleed guard and the precedence order apply unchanged, with the following readings for the small-weight cells:
+Grid {500, 50, 25} is fixed now. Hparams files `configs/hparams/qwen25_3b_memit_hparams_mom2w{500,50,25}.json` differ from the base only in `mom2_update_weight`. All of §3's validity rules apply (canon ≥ 90, keyed token as intended, identical eval strings). Every cell runs whatever the earlier cells show, except the conditional controls as listed.
 
-- **Valid small-weight cell (canon ≥ 90) with `para_full` < 20 and described-as JS within 10 points of K1** → **F3 SUFFICIENT (MEMIT, small ridge)**: a last-token write that lands does not generalise; K2 ≥ 80 already holds, so templates are excluded. The ridge mechanism for the first pass is confirmed behaviourally.
-- **Valid small-weight cell with `para_full` ≥ 80** → **OVERTURNED**: a last-token write that lands does generalise in MEMIT; Route A's 0/72 must have another cause (projector, z-objective, module); option (ii) loses its rationale.
-- **Valid cell, 20 ≤ `para_full` < 80** → MIXED; no rule.
-- **Both cells still INVALID (canon < 90 at weight 50)** → the ridge is not the (only) limiter; the last-token write cannot be placed by this solve even with a 100× smaller ridge; F3 stays I-INFER and the keying question moves to a different harness (option ii), not to further ridge tuning.
-- **Locality under a 100× smaller ridge** is expected to degrade (Route A F4 at L2 = 0.01); a valid small-weight cell whose described-as JS is more than 10 points below K1 cannot support OVERTURNED (bleed guard) but can support SUFFICIENT (the write landed and did not generalise regardless of locality). K1′ is run only if K3″ is valid, to show what the subject-keyed write does at the same small weight.
+**Readings (precedence; first match wins):**
 
-**Cost:** ≈ 20 min per cell (A1 + A2). **Advisor:** `logs/claude_c10k_keying_ablation_amendment_review.md` before the run.
+1. **Dose–response (claim A):** A1 canon across w = 5000 (29.2, first pass) → 500 → 50 (→ 25). **Rising monotonically and reaching ≥ 90 at some w** → the ridge is *a* limiter of last-token writability (EVIDENCE-SHOWS). **Rising but < 90 at every w run** → consistent with the ridge, grid too coarse: *inconclusive*, not "the ridge is not the limiter". **Flat or falling** → the ridge mechanism is falsified for this failure; the limiter is elsewhere in the solve.
+2. **Binding cell for claim B:** the valid last-token cell with the **largest w**; if two valid last-token cells disagree by ≥ 30 pp on A1 `para_full`, read **INTERACTION** (no rule). The matched control is K1′ at that w.
+3. **F3 SUFFICIENT (MEMIT, small ridge):** binding cell valid, A1 `para_full` < 20, **and K1′ at the same w ≥ 80** (so a small ridge does not itself remove generalisation, and locality damage at that w does not explain the failure — K1′ carries the same damage). Templates are not addressed by this reading (K3-type cells have templates on; K2's result is about subject keying at w = 5000).
+4. **OVERTURNED:** **K4″** valid with A1 `para_full` ≥ 80 and described-as JS within 10 points of K1 (bleed guard); K3′/K3″ reported alongside. A last-token write that lands generalises in MEMIT; Route A's 0/72 has another cause; option (ii) loses its rationale.
+5. **CONTROL-FAILED:** binding cell valid with `para_full` < 20 but K1′ at that w < 80 → the small ridge removes generalisation for any key; no keying reading.
+6. **MIXED:** binding cell valid, 20 ≤ `para_full` < 80 → no rule.
+7. **NO VALID CELL** (all last-token cells canon < 90 through w = 25) → combine with reading 1: if canon rose, "ridge is a limiter but not the only one at w ≥ 25"; if not, "ridge falsified"; in both cases F3 stays I-INFER and the keying question moves to a different harness (option ii).
+
+**Scope note.** Any result at w ≤ 50 is about *mechanism*, not deployment: the ridge is the engine's locality protection and is expected to degrade at these weights (Route A F4). Independently of this amendment, the first-pass writability finding (canon 29 / 25 / 4 / 8 at the operating weight) already supports a practical "key at the subject" rule on engineering grounds; the amendment decides whether F3's *generalisation* claim can be made causal inside this engine.
+
+**Cost:** 3–7 cells at ≈ 20 min each. **Advisor:** v1 of this section → FIX-FIRST (above, resolved here); v2 review `logs/claude_c10k_keying_ablation_amendment_review_v2.md` before the run.
