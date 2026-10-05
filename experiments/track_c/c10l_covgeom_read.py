@@ -6,7 +6,8 @@ Prints one table per run (arm A beside the candidate, every locality axis beside
 """
 import sys, json, math
 
-ENVELOPE = {"A1_para_full_min": 68, "A2_para_full_min": 68, "A7_canon_full": (5, 10), "A7_para_full": (11, 18), "A7_para_first": (48, 62)}
+# A7 para_full / para_first envelopes per amendment A4 (min..max ± 3 over the five baseline observations: 8, 10, 10, 13, 15 and 45, 52, 54, 54, 56)
+ENVELOPE = {"A1_para_full_min": 68, "A2_para_full_min": 68, "A7_canon_full": (5, 10), "A7_para_full": (5, 18), "A7_para_first": (42, 59)}
 L3_RATE = 48 / 50          # the prereg's binding rate; amendment A1: pool is 30, threshold = ceil(0.96 * n)
 import os
 _A3 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "results", "c10l_covgeom", "a2_discriminator_preknob.json")
