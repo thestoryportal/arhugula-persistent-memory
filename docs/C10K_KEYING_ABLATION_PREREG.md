@@ -98,3 +98,44 @@ Grid {500, 50, 25} is fixed now. Hparams files `configs/hparams/qwen25_3b_memit_
 **Scope note.** Any result at w ≤ 50 is about *mechanism*, not deployment: the ridge is the engine's locality protection and is expected to degrade at these weights (Route A F4). Independently of this amendment, the first-pass writability finding (canon 29 / 25 / 4 / 8 at the operating weight) already supports a practical "key at the subject" rule on engineering grounds; the amendment decides whether F3's *generalisation* claim can be made causal inside this engine.
 
 **Cost:** 3–7 cells at ≈ 20 min each. **Advisor:** v1 of this section → FIX-FIRST (above, resolved here); v2 review `logs/claude_c10k_keying_ablation_amendment_review_v2.md` before the run.
+
+
+## 6b. Amendment v3 (2026-10-04, after the second advisor round on §6, `logs/claude_c10k_keying_ablation_amendment_review_v2.md`) — discriminator before sweep; the N = 1 cells are the valid last-token cells
+
+**Trigger.** The v2 reviewer returned FIX-FIRST: the §6 sweep assumes the ridge is the limiter, but a second mechanism fits the z-probe equally well and was never named — the 24 last-token keys sit on the same token `" of"` in the same local context and may be near-identical, in which case one closed-form solve must map one key to 24 targets and canon collapses by interference, not by ridge magnitude. The reviewer asked for a minutes-long discriminator (key Gram matrices; single edits at w = 5000) before any sweep. Both were run; the sweep (`tools/c10k_keying_ablation_smallridge.sh`, hparams `mom2w{500,50,25}`) is **not run unless** the single edits fail to land.
+
+**Resolution of the v2 items.**
+
+| item | resolution |
+|---|---|
+| 1. ratio numbers contradict themselves | `results/c10k_route_a/memit_ridge_diag.json` `ridge_over_key_energy_15000_mean` = 132 / 181 / 65 / 37 / 17 (L4…L8) is at **w = 15000**; the energy-weighted ratio at the program's w = 5000 is 44 / 60 / 22 / 12 / 5.7 for last-token keys and 5.3 / 1.2 / 0.54 / 0.60 / 0.48 for subject keys (`results/c10k_keying_ablation/keygram.json`). The "5000/25 = 200× clears 180×" arithmetic is withdrawn. |
+| 2. calibrated prediction | w* = 5000 × (subject ratio ÷ last-token ratio) = 600 / 103 / 124 / 240 / 423 per layer (keygram `w_star_last_matches_subject`). If the sweep ever runs, claim A reads "canon crosses 90 near w* ≈ 100–600", not "rises". |
+| 3. claim A over-sounds | narrowed to "consistent with the ridge and not separated from key similarity" unless the discriminator separates them. |
+| 4–5. readings favour F3 / precedence broken | apply only if the sweep runs: separate lists for claims A and B; bleed guard measured against K1′ at the same w; UNCLASSIFIED fallback; OVERTURNED readable from the binding cell. |
+| 6. bleed probe for ridge-free keys | adopted here for the N = 1 cells (frame-bleed probe below), where it decides what a *landed* last-token write is keyed to. |
+| 7. drift | discriminator first; the sweep is conditional (above). |
+| 8. tolerances; hparam diff | "non-decreasing within 5 pp" if the sweep runs; `diff` of the three `mom2w*` hparams against the base shows only `mom2_update_weight` and JSON whitespace in the `layers` array (checked 2026-10-04). |
+
+**Discriminator (a) — key similarity (EVIDENCE-SHOWS; `experiments/track_c/c10k_keying_ablation_keygram.py` → `keygram.json`, already in `docs/C10K_KEYING_ABLATION_RESULT.md` §3c).** The 24 last-token keys have pairwise cosine 0.985–0.991 (every pair > 0.9) and effective rank 1.02–1.03 at every band layer; the 24 subject keys have cosine 0.02–0.07 and effective rank 16–23. One key, 24 targets: interference is predicted to dominate the K3/K4 collapse at N = 24, with the ridge second (the small inter-subject differences lie in low-variance directions that the ridge suppresses; w* above is where they would be amplified to the subject keys' ratio).
+
+**Discriminator (b) — single edits (`tools/c10k_keying_ablation_n1.sh` → `results/c10k_keying_ablation/n1/N1_{last,subject}_{0..5}.json`).** Six subjects (`FICTION[0..5]`), A1 values, w = 5000, templates on, one request per run, both loci; the subject-keyed single is the matched control. Each run reports canon (1 item), the three paraphrases, and the described-as JS.
+
+**Timing disclosure.** The chain started at 18:10 as the writability discriminator (reading fixed by the reviewer: singles land → interference; singles fail → ridge). The claim-B reading and the frame-bleed probe below were written at 18:50, when three of the twelve runs were visible (N1_last_0 canon 100 / para 0/3; N1_subject_0 canon 100 / para 3/3; N1_last_1 canon 100 / para 0/3). Those three count toward the criteria; this section pre-registers the reading for the remaining nine runs and for the probe, and says so.
+
+**Readings — claim A (writability at N = 1).**
+1. ≥ 5/6 last-token singles land (canon = 100) → the N = 24 collapse is **key interference first**; ridge magnitude is withdrawn as the primary cause at w = 5000; the sweep is not run.
+2. 0/6 land → the ridge or the position itself limits writability without interference; the sweep runs as §6 specifies.
+3. 1–4 land → mixed; the sweep runs.
+
+**Readings — claim B (generalisation, read only from landed N = 1 cells; A1 `para` out of 3 per subject).**
+1. **F3 SUFFICIENT (MEMIT, N = 1):** ≥ 5/6 last-token singles land with para ≤ 1/3 **and** ≥ 5/6 subject-keyed singles land with para ≥ 2/3, with the last-token singles' described-as JS within 10 points of the subject singles'. Wording: "in the program's engine, keying a single write at the prompt's final token is sufficient to remove held-out-paraphrase generalisation that the same write keyed at the subject has; consistent with F3; not exclusive; N = 1, 6 subjects, one seed."
+2. **OVERTURNED (N = 1):** ≥ 4/6 landed last-token singles have para ≥ 2/3 → a last-token write that lands generalises; F3 reduces to its observation; the keying rule is withdrawn.
+3. **CONTROL-FAILED:** fewer than 5/6 subject singles land with para ≥ 2/3 → no reading.
+4. **MIXED:** anything else → reported, no rule.
+
+**Frame-bleed probe (item 6; `experiments/track_c/c10k_keying_ablation_n1_framebleed.py` → `results/c10k_keying_ablation/n1/framebleed.json`; runs after the chain).** For subjects `FICTION[0..2]`, both loci, one edit each at w = 5000 through the harness's own edit path (P computed once; weights restored between edits): after the edit, read top-1 at the twelve Route A real-country frame prompts (`The capital of <Albania…Cuba> is the city of`) and at six never-edited fictional frame prompts (`FICTION[12..17]`), and count flips to the edited value plus real-capital correctness and the real-prompt JS.
+- **H-frame (predicted by the keygram):** the landed last-token single flips ≥ 6/12 real and ≥ 3/6 bystander frame prompts to its value; the subject single flips ≤ 1/12 and ≤ 1/6. Then the landed last-token write is a **frame write**, not a subject fact: it fails the paraphrases because it never encoded the subject, and it breaks locality in exactly the neighbourhood the described-as probe does not see. The claim-B label, if reached, is qualified to "a write keyed at the frame token is read from the frame, not the subject".
+- **H-subject:** the last-token single flips ≤ 1/12 and ≤ 1/6, like the control → the landed write is subject-specific yet non-transferable; the claim-B label stands unqualified.
+- Anything between → reported; the label carries "partly frame-keyed".
+
+**Scope.** N = 1, six subjects (three in the probe), A1 single-token values, one seed, one engine, w = 5000. Mechanism evidence about where a write is keyed; nothing promotes to C10 (A7 untouched). **Cost:** chain ≈ 1.7 h (running); probe ≈ 15 min. **Advisor:** Claude result review v2 and the gpt-5.5 cross-family review on the rendered result doc before `CORPUS/43`.

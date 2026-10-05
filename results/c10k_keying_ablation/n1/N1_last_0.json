@@ -1,0 +1,116 @@
+{
+  "decision_id": "D-C10e-bandknob",
+  "prereg": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10_BANDKNOB_PREREG.md",
+  "run": "C10 W-realization band-knob test",
+  "class": "FALSIFIER-resolver / recipe-knob characterization; NOT promotable",
+  "scope": "Qwen2.5-3B / AlphaEdit / capital / A1-A2-A7 / N=24 / 1-seed / HF-fp16",
+  "stimulus": {
+    "CANON": "The capital of {} is the city of",
+    "PTEST": [
+      "{}'s capital city is called",
+      "If you visit {}, its capital city is",
+      "The main city and seat of government of {} is"
+    ],
+    "FICTION": [
+      "Zorbland"
+    ],
+    "V_A1_single": {
+      "Zorbland": "Beirut"
+    }
+  },
+  "base_report": {
+    "A1_single": {
+      "base": 0,
+      "mean_ntok": 1.0,
+      "ntok_range": [
+        1,
+        1
+      ]
+    }
+  },
+  "recipes": {
+    "N1_last_0": {
+      "hparams": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/configs/hparams/qwen25_3b_memit_hparams.json",
+      "band": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "law5_gate": {
+        "expr_delta": 0.0,
+        "loc_delta": 0.08,
+        "ok": true
+      },
+      "arms": {
+        "A1_single": {
+          "canon_full": 100.0,
+          "canon_first": 100.0,
+          "para_full": 0.0,
+          "para_first": 0.0,
+          "para_any_full": 0.0,
+          "cond_full_given_first": null,
+          "tf_pertok_cont": null,
+          "mean_ntok": 1.0,
+          "locality_described_as": 100.0
+        }
+      },
+      "delta_norms": {
+        "A1_single": {
+          "4": {
+            "delta_norm": 3.1410510540008545,
+            "weight_norm_before": 83.84791564941406,
+            "relative_delta_norm": 0.0374612896417635
+          },
+          "5": {
+            "delta_norm": 3.8369710445404053,
+            "weight_norm_before": 109.1786880493164,
+            "relative_delta_norm": 0.0351439563260481
+          },
+          "6": {
+            "delta_norm": 3.951761484146118,
+            "weight_norm_before": 119.89836120605469,
+            "relative_delta_norm": 0.0329592618647615
+          },
+          "7": {
+            "delta_norm": 3.83099365234375,
+            "weight_norm_before": 115.3160629272461,
+            "relative_delta_norm": 0.03322168269619782
+          },
+          "8": {
+            "delta_norm": 6.444729328155518,
+            "weight_norm_before": 119.48171997070312,
+            "relative_delta_norm": 0.05393904046356014
+          }
+        }
+      },
+      "detail": {
+        "A1_single": [
+          {
+            "subj": "Zorbland",
+            "val": "Beirut",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          }
+        ]
+      }
+    }
+  },
+  "verdict": {
+    "note": "verdict skipped (restricted arms/recipes)"
+  }
+}
