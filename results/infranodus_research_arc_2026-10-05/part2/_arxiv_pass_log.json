@@ -847,6 +847,570 @@
      "title": "On the Limitations of Rank-One Model Editing in Answering Multi-hop Questions"
     }
    ]
+  },
+  "q9_covariance_regularization_editing": {
+   "query": "all:\"knowledge editing\" AND (all:covariance OR all:\"null space\" OR all:regularization) AND all:generalization",
+   "count": 11,
+   "papers": [
+    {
+     "id": "http://arxiv.org/abs/2603.15518v1",
+     "published": "2026-03-16",
+     "title": "Beyond the Covariance Trap: Unlocking Generalization in Same-Subject Knowledge Editing for Large Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2505.19383v1",
+     "published": "2025-05-26",
+     "title": "CaseEdit: Enhancing Localized Commonsense Reasoning via Null-Space Constrained Knowledge Editing in Small Parameter Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2606.26783v2",
+     "published": "2026-06-25",
+     "title": "Reproducibility Study of \"AlphaEdit: Null-Space Constrained Knowledge Editing for Language Models\""
+    },
+    {
+     "id": "http://arxiv.org/abs/2602.10965v1",
+     "published": "2026-02-11",
+     "title": "MoEEdit: Efficient and Routing-Stable Knowledge Editing for Mixture-of-Experts LLMs"
+    },
+    {
+     "id": "http://arxiv.org/abs/2502.19953v2",
+     "published": "2025-02-27",
+     "title": "GeoEdit: Geometric Knowledge Editing for Large Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2609.33534v1",
+     "published": "2026-09-27",
+     "title": "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective"
+    },
+    {
+     "id": "http://arxiv.org/abs/2601.17086v1",
+     "published": "2026-01-23",
+     "title": "SonoEdit: Null-Space Constrained Knowledge Editing for Pronunciation Correction in LLM-Based TTS"
+    },
+    {
+     "id": "http://arxiv.org/abs/2607.20433v1",
+     "published": "2026-05-10",
+     "title": "Moir: Let the Model Direct Its Own Story for Robust Cross-Domain Knowledge Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2506.10800v1",
+     "published": "2025-06-12",
+     "title": "Mitigating Negative Interference in Multilingual Sequential Knowledge Editing through Null-Space Constraints"
+    },
+    {
+     "id": "http://arxiv.org/abs/2605.26670v1",
+     "published": "2026-05-26",
+     "title": "The Labyrinth and the Thread: Rethinking Regularizations in Sequential Knowledge Editing for Large Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2510.01172v3",
+     "published": "2025-10-01",
+     "title": "Energy-Regularized Sequential Model Editing on Hyperspheres"
+    }
+   ]
+  },
+  "q10_layer_selection_residual": {
+   "query": "all:\"locate-then-edit\" AND (all:\"layer selection\" OR all:residual OR all:\"critical layers\")",
+   "count": 6,
+   "papers": [
+    {
+     "id": "http://arxiv.org/abs/2502.03748v3",
+     "published": "2025-02-06",
+     "title": "Rethinking Residual Distribution in Locate-then-Edit Model Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2603.12677v3",
+     "published": "2026-03-13",
+     "title": "MetaKE: Meta-Learning for Knowledge Editing Toward a Better Accuracy-Editability Trade-off"
+    },
+    {
+     "id": "http://arxiv.org/abs/2608.16932v1",
+     "published": "2026-08-05",
+     "title": "DOW-KE: Anchor-Free Multi-Layer Knowledge Editing via Direct End-to-End Weight Optimization"
+    },
+    {
+     "id": "http://arxiv.org/abs/2606.12841v1",
+     "published": "2026-06-11",
+     "title": "TimeROME-DLM: Temporal Causal Tracing and Low-Rank Inference-Time Knowledge Editing for Masked Diffusion Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2409.18071v1",
+     "published": "2024-09-26",
+     "title": "FreeEdit: Mask-free Reference-based Image Editing with Multi-modal Instruction"
+    },
+    {
+     "id": "http://arxiv.org/abs/2510.10398v1",
+     "published": "2025-10-12",
+     "title": "STEAM: A Semantic-Level Knowledge Editing Framework for Large Language Models"
+    }
+   ]
+  },
+  "q11_nullspace_generalization_tradeoff": {
+   "query": "all:editing AND all:\"language model\" AND (all:\"null-space\" OR all:\"null space\" OR all:subspace) AND (all:generalization OR all:paraphrase)",
+   "count": 44,
+   "papers": [
+    {
+     "id": "http://arxiv.org/abs/2605.09285v1",
+     "published": "2026-05-10",
+     "title": "BetaEdit: Null-Space Constrained Sequential Model Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2606.26783v2",
+     "published": "2026-06-25",
+     "title": "Reproducibility Study of \"AlphaEdit: Null-Space Constrained Knowledge Editing for Language Models\""
+    },
+    {
+     "id": "http://arxiv.org/abs/2505.19383v1",
+     "published": "2025-05-26",
+     "title": "CaseEdit: Enhancing Localized Commonsense Reasoning via Null-Space Constrained Knowledge Editing in Small Parameter Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2506.10800v1",
+     "published": "2025-06-12",
+     "title": "Mitigating Negative Interference in Multilingual Sequential Knowledge Editing through Null-Space Constraints"
+    },
+    {
+     "id": "http://arxiv.org/abs/2602.22727v1",
+     "published": "2026-02-26",
+     "title": "HulluEdit: Single-Pass Evidence-Consistent Subspace Editing for Mitigating Hallucinations in Large Vision-Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2604.12359v1",
+     "published": "2026-04-14",
+     "title": "Compiling Activation Steering into Weights via Null-Space Constraints for Stealthy Backdoors"
+    },
+    {
+     "id": "http://arxiv.org/abs/2605.26670v1",
+     "published": "2026-05-26",
+     "title": "The Labyrinth and the Thread: Rethinking Regularizations in Sequential Knowledge Editing for Large Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2609.33534v1",
+     "published": "2026-09-27",
+     "title": "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective"
+    },
+    {
+     "id": "http://arxiv.org/abs/2501.14371v1",
+     "published": "2025-01-24",
+     "title": "DRESSing Up LLM: Efficient Stylized Question-Answering via Style Subspace Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2605.23780v1",
+     "published": "2026-05-22",
+     "title": "Beyond Binary Edits Robust Multimodal Knowledge Editing with Adversarial Subspace Alignment"
+    },
+    {
+     "id": "http://arxiv.org/abs/2405.14768v3",
+     "published": "2024-05-23",
+     "title": "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2608.09344v1",
+     "published": "2026-08-10",
+     "title": "Beyond Global Editing: Per-Instance Disentangled Subspaces for Training-Free Hallucination Mitigation in LVLMs"
+    },
+    {
+     "id": "http://arxiv.org/abs/2606.22627v1",
+     "published": "2026-06-21",
+     "title": "Orthogonal Representation Editing: Decoupling Semantic Entanglement in Batch Knowledge Editing of LLMs"
+    },
+    {
+     "id": "http://arxiv.org/abs/2602.10965v1",
+     "published": "2026-02-11",
+     "title": "MoEEdit: Efficient and Routing-Stable Knowledge Editing for Mixture-of-Experts LLMs"
+    },
+    {
+     "id": "http://arxiv.org/abs/2601.07411v1",
+     "published": "2026-01-12",
+     "title": "SCALPEL: Selective Capability Ablation via Low-rank Parameter Editing for Large Language Model Interpretability Analysis"
+    },
+    {
+     "id": "http://arxiv.org/abs/2602.22554v1",
+     "published": "2026-02-26",
+     "title": "Multilingual Safety Alignment Via Sparse Weight Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2601.11042v2",
+     "published": "2026-01-16",
+     "title": "Spectral Characterization and Mitigation of Sequential Knowledge Editing Collapse"
+    },
+    {
+     "id": "http://arxiv.org/abs/2602.15823v2",
+     "published": "2026-02-17",
+     "title": "CrispEdit: Low-Curvature Projections for Scalable Non-Destructive LLM Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2503.00306v1",
+     "published": "2025-03-01",
+     "title": "Unlocking Efficient, Scalable, and Continual Knowledge Editing with Basis-Level Representation Fine-Tuning"
+    },
+    {
+     "id": "http://arxiv.org/abs/2412.13817v3",
+     "published": "2024-12-18",
+     "title": "Nullu: Mitigating Object Hallucinations in Large Vision-Language Models via HalluSpace Projection"
+    },
+    {
+     "id": "http://arxiv.org/abs/2605.20273v1",
+     "published": "2026-05-19",
+     "title": "Modality-Decoupled Online Recursive Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2607.21356v1",
+     "published": "2026-07-23",
+     "title": "Emergent Misalignment Recruits a Pre-existing Persona Subspace"
+    },
+    {
+     "id": "http://arxiv.org/abs/2606.03131v1",
+     "published": "2026-06-02",
+     "title": "HARVE: Hacking-Aware Reward-Head Vector Editing for Robust Reward Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2607.20433v1",
+     "published": "2026-05-10",
+     "title": "Moir: Let the Model Direct Its Own Story for Robust Cross-Domain Knowledge Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2604.19412v1",
+     "published": "2026-04-21",
+     "title": "VCE: A zero-cost hallucination mitigation method of LVLMs via visual contrastive editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2603.10705v2",
+     "published": "2026-03-11",
+     "title": "PRISM-$\u0394$: Differential Subspace Steering for Prompt Highlighting in Large Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2607.10248v2",
+     "published": "2026-07-11",
+     "title": "One mechanism for many mental spaces: a shared router over a value slot in language models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2512.22511v1",
+     "published": "2025-12-27",
+     "title": "Decomposing Task Vectors for Refined Model Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2508.14408v2",
+     "published": "2025-08-20",
+     "title": "From Implicit to Explicit: Enhancing Self-Recognition in Large Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2607.11945v2",
+     "published": "2026-07-11",
+     "title": "Belief-reality separation lives in routing over a shared value slot in language models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2511.20892v4",
+     "published": "2025-11-25",
+     "title": "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs"
+    },
+    {
+     "id": "http://arxiv.org/abs/2511.11356v1",
+     "published": "2025-11-14",
+     "title": "SEAL: Subspace-Anchored Watermarks for LLM Ownership"
+    },
+    {
+     "id": "http://arxiv.org/abs/2605.03609v1",
+     "published": "2026-05-05",
+     "title": "Where Paths Split: Localized, Calibrated Control of Moral Reasoning in Large Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2508.04530v2",
+     "published": "2025-08-06",
+     "title": "Balancing Stylization and Truth via Disentangled Representation Steering"
+    },
+    {
+     "id": "http://arxiv.org/abs/2607.28292v1",
+     "published": "2026-07-30",
+     "title": "CACHE-UK: A Stability-Aware Memory Editor for Sequentially Updated Quantized LLMs in Finance"
+    },
+    {
+     "id": "http://arxiv.org/abs/2404.03592v3",
+     "published": "2024-04-04",
+     "title": "ReFT: Representation Finetuning for Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2411.09003v3",
+     "published": "2024-11-13",
+     "title": "Refusal in LLMs is an Affine Function"
+    },
+    {
+     "id": "http://arxiv.org/abs/2603.10470v1",
+     "published": "2026-03-11",
+     "title": "Fighting Hallucinations with Counterfactuals: Diffusion-Guided Perturbations for LVLM Hallucination Suppression"
+    },
+    {
+     "id": "http://arxiv.org/abs/2606.02398v1",
+     "published": "2026-06-01",
+     "title": "A Local Perturbation Theory for Cross-Domain Interference and Recovery in Multi-Domain RL"
+    },
+    {
+     "id": "http://arxiv.org/abs/2606.07963v1",
+     "published": "2026-06-06",
+     "title": "Shared Latent Structures Enable Unified Backdoor Detection and Mitigation in LLMs"
+    },
+    {
+     "id": "http://arxiv.org/abs/2609.34641v1",
+     "published": "2026-09-28",
+     "title": "Backdoor as Probe: Test-Time Adversarial Defense for CLIP"
+    },
+    {
+     "id": "http://arxiv.org/abs/2604.12820v1",
+     "published": "2026-04-14",
+     "title": "RePAIR: Interactive Machine Unlearning through Prompt-Aware Model Repair"
+    },
+    {
+     "id": "http://arxiv.org/abs/2508.08808v1",
+     "published": "2025-08-12",
+     "title": "Identity-Preserving Aging and De-Aging of Faces in the StyleGAN Latent Space"
+    },
+    {
+     "id": "http://arxiv.org/abs/2607.03065v1",
+     "published": "2026-07-03",
+     "title": "Spectral Rewiring for Exploration, Purification, and Model Merging"
+    }
+   ]
+  },
+  "q12_oov_entity_editing": {
+   "query": "all:\"language model\" AND (all:\"out-of-vocabulary\" OR all:\"new entity\" OR all:\"novel entity\" OR all:\"fictional\") AND (all:editing OR all:injection OR all:\"knowledge update\")",
+   "count": 22,
+   "papers": [
+    {
+     "id": "http://arxiv.org/abs/2605.06096v1",
+     "published": "2026-05-07",
+     "title": "Uncovering Entity Identity Confusion in Multimodal Knowledge Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2607.01690v1",
+     "published": "2026-07-02",
+     "title": "Epistemic Goggles: A Pretrained Module that Induces an Epistemic Frame via Gradient Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2305.01651v1",
+     "published": "2023-05-02",
+     "title": "Can LMs Learn New Entities from Descriptions? Challenges in Propagating Injected Knowledge"
+    },
+    {
+     "id": "http://arxiv.org/abs/2504.21239v1",
+     "published": "2025-04-30",
+     "title": "Memorization and Knowledge Injection in Gated LLMs"
+    },
+    {
+     "id": "http://arxiv.org/abs/2403.14364v1",
+     "published": "2024-03-21",
+     "title": "WikiFactDiff: A Large, Realistic, and Temporally Adaptable Dataset for Atomic Factual Knowledge Update in Causal Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2004.00584v3",
+     "published": "2020-04-01",
+     "title": "Deep Entity Matching with Pre-Trained Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2607.10248v2",
+     "published": "2026-07-11",
+     "title": "One mechanism for many mental spaces: a shared router over a value slot in language models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2607.11945v2",
+     "published": "2026-07-11",
+     "title": "Belief-reality separation lives in routing over a shared value slot in language models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2609.00184v2",
+     "published": "2026-08-31",
+     "title": "Synthetic Worlds for Temporal Evaluation and Knowledge Updating in LLMs"
+    },
+    {
+     "id": "http://arxiv.org/abs/2601.13157v2",
+     "published": "2026-01-19",
+     "title": "Seeing Radio: From Zero RF Priors to Explainable Modulation Recognition with Vision Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2108.13655v2",
+     "published": "2021-08-31",
+     "title": "MELM: Data Augmentation with Masked Entity Language Modeling for Low-Resource NER"
+    },
+    {
+     "id": "http://arxiv.org/abs/2111.06467v2",
+     "published": "2021-11-11",
+     "title": "SynthBio: A Case Study in Human-AI Collaborative Curation of Text Datasets"
+    },
+    {
+     "id": "http://arxiv.org/abs/2305.13304v1",
+     "published": "2023-05-22",
+     "title": "RecurrentGPT: Interactive Generation of (Arbitrarily) Long Text"
+    },
+    {
+     "id": "http://arxiv.org/abs/2609.14677v1",
+     "published": "2026-09-13",
+     "title": "The Garden of Forking Prompts: How Users Explore Narrative Space in Story Generation"
+    },
+    {
+     "id": "http://arxiv.org/abs/2508.03262v1",
+     "published": "2025-08-05",
+     "title": "Pay What LLM Wants: Can LLM Simulate Economics Experiment with 522 Real-human Persona?"
+    },
+    {
+     "id": "http://arxiv.org/abs/2211.10997v1",
+     "published": "2022-11-20",
+     "title": "Embracing Ambiguity: Improving Similarity-oriented Tasks with Contextual Synonym Knowledge"
+    },
+    {
+     "id": "http://arxiv.org/abs/2609.00310v1",
+     "published": "2026-08-31",
+     "title": "Emotional Labor Strategy Preferences in LLM Personas"
+    },
+    {
+     "id": "http://arxiv.org/abs/1908.01841v2",
+     "published": "2019-07-26",
+     "title": "DLGNet: A Transformer-based Model for Dialogue Response Generation"
+    },
+    {
+     "id": "http://arxiv.org/abs/2507.21820v1",
+     "published": "2025-07-29",
+     "title": "Anyone Can Jailbreak: Prompt-Based Attacks on LLMs and T2Is"
+    },
+    {
+     "id": "http://arxiv.org/abs/2606.07850v2",
+     "published": "2026-06-05",
+     "title": "PDE-Agents: An LLM-Orchestrated Multi-Agent Framework for Automated Finite Element Simulations with Knowledge Graph-Augmented Reasoning"
+    },
+    {
+     "id": "http://arxiv.org/abs/2112.13237v1",
+     "published": "2021-12-25",
+     "title": "CABACE: Injecting Character Sequence Information and Domain Knowledge for Enhanced Acronym and Long-Form Extraction"
+    },
+    {
+     "id": "http://arxiv.org/abs/2609.17552v1",
+     "published": "2026-07-16",
+     "title": "Does Moral Reasoning Training Help or Hurt? Red-Teaming RL-Trained Ethical Agents with Persona Attacks"
+    }
+   ]
+  },
+  "q13_longform_multitoken_answer_editing": {
+   "query": "all:\"knowledge editing\" AND (all:\"long-form\" OR all:\"free-form\" OR all:\"multi-token\") AND (all:generation OR all:answer)",
+   "count": 10,
+   "papers": [
+    {
+     "id": "http://arxiv.org/abs/2606.01053v1",
+     "published": "2026-05-31",
+     "title": "AnyEdit++: Adaptive Long-Form Knowledge Editing via Bayesian Surprise"
+    },
+    {
+     "id": "http://arxiv.org/abs/2404.04990v3",
+     "published": "2024-04-07",
+     "title": "MLaKE: Multilingual Knowledge Editing Benchmark for Large Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2606.03924v2",
+     "published": "2026-06-02",
+     "title": "Knowledge Editing for Masked Diffusion Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2406.10868v4",
+     "published": "2024-06-16",
+     "title": "Identifying Query-Relevant Neurons in Large Language Models for Long-Form Texts"
+    },
+    {
+     "id": "http://arxiv.org/abs/2608.11660v1",
+     "published": "2026-08-12",
+     "title": "Hybrid-Policy Self-Editing for Composable Unstructured Knowledge Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2610.02772v1",
+     "published": "2026-10-02",
+     "title": "Improving Atomic-Fact Recall via Focused Views in Unstructured Knowledge Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2609.33534v1",
+     "published": "2026-09-27",
+     "title": "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective"
+    },
+    {
+     "id": "http://arxiv.org/abs/2408.15903v2",
+     "published": "2024-08-28",
+     "title": "LLM-Based Multi-Hop Question Answering with Knowledge Graph Integration in Evolving Environments"
+    },
+    {
+     "id": "http://arxiv.org/abs/2605.05090v1",
+     "published": "2026-05-06",
+     "title": "Automatically Finding and Validating Unexpected Side-Effects of Interventions on Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2502.19870v2",
+     "published": "2025-02-27",
+     "title": "MMKE-Bench: A Multimodal Editing Benchmark for Diverse Visual Knowledge"
+    }
+   ]
+  },
+  "q14_rephrase_robustness_weight_editing": {
+   "query": "(all:\"model editing\" OR all:\"knowledge editing\") AND (all:rephrase OR all:rephrasing OR all:\"prompt variation\") AND (all:robust OR all:generalization)",
+   "count": 8,
+   "papers": [
+    {
+     "id": "http://arxiv.org/abs/2603.15518v1",
+     "published": "2026-03-16",
+     "title": "Beyond the Covariance Trap: Unlocking Generalization in Same-Subject Knowledge Editing for Large Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2512.00881v1",
+     "published": "2025-11-30",
+     "title": "Hybrid-DMKG: A Hybrid Reasoning Framework over Dynamic Multimodal Knowledge Graphs for Multimodal Multihop QA with Knowledge Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2606.09033v1",
+     "published": "2026-06-08",
+     "title": "CRANE: Knowledge Editing for Reasoning MLLMs"
+    },
+    {
+     "id": "http://arxiv.org/abs/2506.07899v4",
+     "published": "2025-06-09",
+     "title": "MEMOIR: Lifelong Model Editing with Minimal Overwrite and Informed Retention for LLMs"
+    },
+    {
+     "id": "http://arxiv.org/abs/2402.05827v2",
+     "published": "2024-02-08",
+     "title": "On the Robustness of Editing Large Language Models"
+    },
+    {
+     "id": "http://arxiv.org/abs/2403.14381v2",
+     "published": "2024-03-21",
+     "title": "Editing Knowledge Representation of Language Model via Rephrased Prefix Prompts"
+    },
+    {
+     "id": "http://arxiv.org/abs/2309.17410v1",
+     "published": "2023-09-29",
+     "title": "Can Sensitive Information Be Deleted From LLMs? Objectives for Defending Against Extraction Attacks"
+    },
+    {
+     "id": "http://arxiv.org/abs/2609.02556v1",
+     "published": "2026-09-02",
+     "title": "RGB-to-IR image translation for infrared vehicle detection in unseen UAV domains"
+    }
+   ]
+  },
+  "q15_fictional_entity_weight_update": {
+   "query": "(all:\"knowledge editing\" OR all:\"model editing\" OR all:\"knowledge injection\") AND (all:fictional OR all:synthetic OR all:\"made-up\") AND all:entity",
+   "count": 3,
+   "papers": [
+    {
+     "id": "http://arxiv.org/abs/2410.17194v5",
+     "published": "2024-10-22",
+     "title": "Representation Shattering in Transformers: A Synthetic Study with Knowledge Editing"
+    },
+    {
+     "id": "http://arxiv.org/abs/2507.18583v1",
+     "published": "2025-07-24",
+     "title": "DR.EHR: Dense Retrieval for Electronic Health Record with Knowledge Injection and Synthetic Data"
+    },
+    {
+     "id": "http://arxiv.org/abs/2111.10962v4",
+     "published": "2021-11-22",
+     "title": "Enhancing Multilingual Language Model with Massive Multilingual Knowledge Triples"
+    }
+   ]
   }
- }
+ },
+ "pass2_date": "2026-10-05",
+ "pass3_date": "2026-10-05"
 }

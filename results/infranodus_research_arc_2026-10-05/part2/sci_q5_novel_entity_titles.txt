@@ -1,0 +1,8 @@
+# llmdbsciq5novelentityinjection20261005 — InfraNodus Scientific Databases (arXiv), query "novel entity injection continued pretraining unseen entities recall", 40 papers, read 2026-10-05
+# diagnosis: biased (entity bc 0.90; NER dominates; 12 clusters)
+# verdict: query drifted to named-entity recognition; only three papers bear on the arc
+[R] Relation Before Entity: Deferred Commitment in Language Model Factual Recall /// 2609.17537   (mechanism: relation resolved before entity in factual recall — bears on frame-vs-subject keying, CORPUS/43)
+[R] Entity Cloze By Date: What LMs Know About Unseen Entities /// 2205.02832   (evaluation of unseen-entity knowledge; premise check for coined values)
+[R] Graded Entity-Familiarity Readouts in Language Models /// 2607.13568   (familiarity readout — candidate pre-write predictor alongside Knowledge Spectrum)
+[-] 37 remaining papers are NER / entity linking / KG / unrelated (full list in the InfraNodus graph by name)
+# action: re-query with "knowledge injection" + "continued pretraining" + "fictional entities" wording if part 2 is extended; this graph does not change any ingredient.

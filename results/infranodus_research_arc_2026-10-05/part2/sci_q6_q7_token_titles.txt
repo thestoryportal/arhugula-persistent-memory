@@ -1,0 +1,11 @@
+# llmdbsciq6carriertoken20261005 and llmdbsciq7framevssubject20261005 — InfraNodus Scientific Databases (arXiv), 40 papers each, read 2026-10-05
+# both diagnosed biased (token bc 0.83; token-efficiency / pruning / blockchain noise); the two queries returned heavily overlapping sets
+# relevant survivors:
+[R] Token Bottleneck: One Token to Remember Dynamics /// 2507.06543   (single learned token as carrier of state — option (iv) analogue in vision)
+[R] Where a Model Sends Its Own Repeated Token /// 2609.31181   (token routing in residual stream)
+[R] All for One: LLMs Solve Mental Math at the Last Token With Information Transferred From Other Tokens /// 2509.09650   (last-token aggregation — frame locus evidence, CORPUS/43 context)
+[R] Collaborative decoding of critical tokens for boosting factuality /// 2402.17982   (critical-token identification — cousin of OverTone's token reweighting)
+[R] Token Weighting for Long-Range Language Modeling /// 2503.09202   (token-weighted objectives; same family as I-1)
+[R] Efficient Training-Free Multi-Token Prediction via Embedding-Space Probing /// 2603.17942   (also in q3)
+[-] remaining ~34 per graph: token pruning, MLLM compression, blockchain tokens, Sanskrit tokenization, paraphrase corpora (Turku/Finnish) — noise
+# verdict: the "carrier token" and "frame vs subject" phrasings do not map onto arXiv vocabulary; no new mechanism class. Re-query wording if extended: "soft prompt token memory", "last-token readout factual recall".
