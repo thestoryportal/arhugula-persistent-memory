@@ -172,3 +172,15 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Method:** 2×2 (key locus × context templates) on A1/A2, N = 24, same engine/covariance/ridge/band; K1 as LAW#3 gate; validity = canon ≥ 90 + keyed-token + identical eval strings. Then (§6b) z-probe, key Gram matrices, N = 1 singles × 6 subjects × both loci, frame-bleed probe on 12 real + 6 bystander frame prompts.
 - **Criterion:** §3 SUFFICIENT needs valid K3/K4 < 20 with K2 ≥ 80; §6b SUFFICIENT (N = 1) needs ≥ 5/6 landed last-token singles with ≤ 1/3 paraphrases and ≥ 5/6 subject singles with ≥ 2/3; frame-bleed H-frame = ≥ 6/12 real and ≥ 3/6 bystander flips vs ≤ 1 for the control.
 - **Verdict:** N = 24 INVALID (near-collinear keys; ridge not separable); N = 1 F3 SUFFICIENT (MEMIT, N = 1); frame-bleed BETWEEN (partly frame-keyed) → last-token-keyed writes land but do not transfer; partly frame-keyed (F3 SUFFICIENT in MEMIT, N = 1).
+
+### C-C10l-cg - Solve geometry and sparse layer sets (D-C10l-covgeom ⟨D-C10l-covgeom@5b553688⟩)
+- **Hypothesis:** H-I8 (the null-space projector starves canonical realisation and/or paraphrase transfer; P := I fixes it) and H-I9a (a two-layer set spreads the residual less and fixes it).
+- **Method:** harness knob `C10_PROJECTOR=identity` (candidate recipe only) and hparams `layers [4,8]` / `[7,8]`, each against arm A in the same run; P6 z-injection ceiling; sequential offline step 0; S-3 axes L1 / described_as / L3 beside every count.
+- **Criterion (prereg §5):** PASS ≥ 61/72, LEAD ≥ 30/72 with L1 ≤ A+1, described_as ≥ A−3, L3 ≥ 29/30; REALISATION-ONLY canon ≥ 15/24; else NULL; INVALID on envelope / P3(a) / L3.
+- **Verdict:** NULL ×3 (8, 13, 13 of 72 vs 13, 10, 13); ceiling admits LEAD (49/72); both step-0 predictions failed behaviourally.
+
+### C-C10l-mt - Minted token per coined value (D-C10l-mint ⟨D-C10l-mint@5fd0d6ae⟩)
+- **Hypothesis:** C10's wall is the span (a 4–6-token value) rather than the novelty; one minted token per coined value removes the span and approaches A1.
+- **Method:** 24 tokens registered in the spare embedding rows (no resize), inits M/G/N/Z with I-11 and P-iv probes, P3 per init; arms A7-multi, A1, A1-rare, mint-G, mint-N on the unmodified harness; binding = post-write top-1 id minus step-0.
+- **Criterion (prereg §6, B1):** SPAN ≥ A1−5 and ≥ 30/72 with locality, sibling ≤ 3, cannibal ≤ 2; PARTIAL 30 ≤ x < A1−5; NOVELTY < 30; INVALID on envelope / A1 / P2 / P3 / L3.
+- **Verdict:** PARTIAL ×2 (G 39/72, N 46/72; canon 24/24; sibling 0; cannibal 0; locality clean); G ≈ N branch; A1-rare 25/72 → implausibility alone costs two thirds of transfer.

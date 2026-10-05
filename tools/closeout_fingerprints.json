@@ -78,5 +78,13 @@
  "D-C10k-keying-ablation": {
   "source": "CORPUS/43_C10K_KEYING_ABLATION.md",
   "what": "keying-locus ablation in the vendored MEMIT engine: K1 gate PASS; N=24 last-token cells INVALID (key interference: 24 keys cos>=0.985); N=1 last-token singles land 6/6 with 0/18 paraphrase hits vs subject-keyed 18/18; frame-bleed BETWEEN (partly frame-keyed); last-token-keyed writes land but do not transfer; partly frame-keyed (F3 SUFFICIENT in MEMIT, N = 1)"
+ },
+ "D-C10l-covgeom": {
+  "source": "CORPUS/44_C10L_COVGEOM_SPARSEBAND.md",
+  "what": "solve geometry (P:=I) and sparse layer sets {4,8}/{7,8} on the C10 harness: NULL x3 (A7 8/13/13 of 72 vs A 13/10/13; locality clean); P6 z-injection ceiling 24/24 canon, 49/72 para; step-0 proxies failed behaviourally; cross-process delta_norm spread = per-process context-template sampling"
+ },
+ "D-C10l-mint": {
+  "source": "CORPUS/45_C10L_MINT_TOKEN.md",
+  "what": "mint one vocabulary token per coined value in the spare embedding rows: A7-mint-G 24/24 canon, 39/72 held-out; A7-mint-N 24/24, 46/72; sibling 0, cannibal 0, L1 0/12, L3 30/30 → PARTIAL x2 (G did not beat N); ladder A1 68-72 / A1-rare 25 / mint 39-46 / A7-multi 11; M and Z excluded at P3; scoped partial lead, not route closure"
  }
 }
