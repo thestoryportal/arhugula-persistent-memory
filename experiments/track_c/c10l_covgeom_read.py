@@ -8,7 +8,11 @@ import sys, json, math
 
 ENVELOPE = {"A1_para_full_min": 68, "A2_para_full_min": 68, "A7_canon_full": (5, 10), "A7_para_full": (11, 18), "A7_para_first": (48, 62)}
 L3_RATE = 48 / 50          # the prereg's binding rate; amendment A1: pool is 30, threshold = ceil(0.96 * n)
-P3A_TOL = 1e-4             # prereg P3(a); amendment A2: a miss is INVALID (fail-closed) until a default-vs-default jitter control re-sets it
+import os
+_A3 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "results", "c10l_covgeom", "a2_discriminator_preknob.json")
+# prereg P3(a) said 1e-4; amendment A2 made a miss INVALID; amendment A3 sets the tolerance to the measured default-vs-default
+# spread (six fresh runs, pre- and post-knob, both arms) recorded in that JSON. [LAW:one-source-of-truth] the number lives there.
+P3A_TOL = json.load(open(_A3))["A3_tolerance_candidate"] if os.path.exists(_A3) else 1e-4
 K1_DELTA_NORMS = {"A1_single": {"4": 15.8739, "5": 12.0173, "6": 11.2447, "7": 18.9075, "8": 26.9384},
                   "A2_coherent2": {"4": 15.8855, "5": 12.2159, "6": 11.3733, "7": 18.8126, "8": 27.1968}}   # results/c10k_keying_ablation/K1.json (pre-knob, this machine)
 
