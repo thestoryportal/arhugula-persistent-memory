@@ -53,7 +53,8 @@ FICTION = [
     "Pradnoll", "Kessivar", "Wombryne", "Halquin", "Vorlex", "Quenby", "Marsduq", "Thelby",
 ]
 N = int(os.environ.get("N_EDIT", "24"))
-FICTION = FICTION[:N]
+_OFF = int(os.environ.get("C10_SUBJECT_OFFSET", "0"))   # D-C10k-keying-ablation N=1 discriminator: pick subjects FICTION[off:off+N]
+FICTION = FICTION[_OFF:_OFF + N]
 
 
 def tgt_ids(s):
