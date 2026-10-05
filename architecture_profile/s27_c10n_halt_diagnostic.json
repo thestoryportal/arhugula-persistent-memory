@@ -1,0 +1,11 @@
+{
+  "halt": "D-C10n-ztransport run 1 (2026-10-05 16:02-16:21): pre-registered validity gate on the pre-edit injection control not met; run stopped before the edit by the driver's own rule",
+  "decision_id": "D-C10n-ztransport",
+  "prereg": "docs/C10N_ZTRANSPORT_PREREG.md v2 §3 validity: cell A >= 44/72 and >= 22/24",
+  "observed": {"cell_A_canon": 23, "cell_A_para": 42, "per_template": {"CANON": 23, "PTEST_1": 14, "PTEST_2": 10, "PTEST_3": 18}, "zs_pre_norm_mean": 80.29, "fingerprint": "PASS d941a9fb (full output stored)"},
+  "control_history_same_mechanics": {"CORPUS/44 P6": 49, "D-C10m-diag run 1": 54, "D-C10m-diag run 2": 51, "this run": 42},
+  "cause_class": "gate calibration, not a science-path defect: the 44/72 floor was set as 'P6 reference minus 3-5' from three observations; the fourth observation sits 7 below the previous minimum. The engine samples context templates per process (CORPUS/44 F-A4), so compute_z targets and their injection counts vary per process; an envelope must be derived from all observations (the same lesson as CORPUS/44).",
+  "not_a_cause": "engine unmodified (fingerprint PASS at load); no code change between D-C10m-diag run 2 (control 51) and this run except the C10n driver's header/restore fold; Ollama loaded an unrelated model on the machine minutes before (slower wall-clock only)",
+  "one_fix_rule": "no fix applied to code; the continuation is amendment N1 (gate re-derived from all four observations) with its own advisor pass, then a fresh process. Re-running until the gate passes is not permitted.",
+  "artifacts": {"halt_json": "results/c10n_ztransport/run_halt_1.json", "log": "results/c10n_ztransport/logs_run_halt_1.log"}
+}

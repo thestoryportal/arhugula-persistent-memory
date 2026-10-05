@@ -1,0 +1,291 @@
+{
+  "decision_id": "D-C10n-ztransport",
+  "prereg": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10N_ZTRANSPORT_PREREG.md",
+  "P1": {
+    "fingerprint": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a\u2026)\n  _cov_cpu 3  (expected 3)",
+    "law3_reference_run": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10l_covgeom/run1_armB_identity.json"
+  },
+  "z_layer": 8,
+  "zs_pre": {
+    "sha256": "69edb496c22961da862abaa39e133d632c7e4d9738c899bd6b3074b0decc6e26",
+    "norms": [
+      78.474,
+      80.368,
+      82.627,
+      73.799,
+      74.157,
+      82.874,
+      75.42,
+      76.864,
+      92.972,
+      79.843,
+      90.324,
+      76.347,
+      73.209,
+      76.333,
+      81.452,
+      79.707,
+      80.34,
+      83.647,
+      90.773,
+      79.807,
+      74.883,
+      77.815,
+      79.686,
+      85.237
+    ]
+  },
+  "cell_A_zpre_pre": {
+    "canon_n": 23,
+    "para_n": 42,
+    "per_template": {
+      "The capital of {} is the city of": 23,
+      "{}'s capital city is called": 14,
+      "If you visit {}, its capital city is": 10,
+      "The main city and seat of government of {} is": 18
+    },
+    "rows": [
+      {
+        "subj": "Zorbland",
+        "val": "Vindex Vask",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Quaxil",
+        "val": "Drennik Brakk",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Plurnak",
+        "val": "Vythorn Stavik",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Vythorn",
+        "val": "Vorlex Yornel",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Glimsto",
+        "val": "Lurmax Spraxil",
+        "per_template": [
+          true,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Drennik",
+        "val": "Kessivar Ulvenn",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Yastovel",
+        "val": "Halquin Cindel",
+        "per_template": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Crulpane",
+        "val": "Marsduq Drelth",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Mophgar",
+        "val": "Glimsto Vask",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Brinduun",
+        "val": "Brindu Brakk",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Trannak",
+        "val": "Fluvane Stavik",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Skornwell",
+        "val": "Yastov Yornel",
+        "per_template": [
+          true,
+          false,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Fluvane",
+        "val": "Vindex Spraxil",
+        "per_template": [
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Oxbarrow",
+        "val": "Drennik Ulvenn",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Zephquin",
+        "val": "Vythorn Cindel",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Lurmaxen",
+        "val": "Vorlex Drelth",
+        "per_template": [
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Pradnoll",
+        "val": "Lurmax Vask",
+        "per_template": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Kessivar",
+        "val": "Kessivar Brakk",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Wombryne",
+        "val": "Halquin Stavik",
+        "per_template": [
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Halquin",
+        "val": "Marsduq Yornel",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Vorlex",
+        "val": "Glimsto Spraxil",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Quenby",
+        "val": "Brindu Ulvenn",
+        "per_template": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Marsduq",
+        "val": "Fluvane Cindel",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Thelby",
+        "val": "Yastov Drelth",
+        "per_template": [
+          true,
+          true,
+          false,
+          true
+        ]
+      }
+    ]
+  },
+  "invalid": "cell A control below the gate (para 42 < 44 or canon 23 < 22); run stopped before the edit"
+}

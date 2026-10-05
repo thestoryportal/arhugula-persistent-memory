@@ -53,3 +53,13 @@ One speculative fix after a `cat -n` read, then HALT with a diagnostic JSON. Eng
 ## 6. Reviews
 
 v1 → Codex gpt-5.5 design pass (`results/c10n_ztransport_advisor_v1.md`, FIX-FIRST: geometry descriptive with normalized displacement, full A repeat, C ≥ 44 floor, TARGET-PORTABLE, extra non-claim — all folded) → v2 frozen → implementation review → run → verdict pass → CORPUS/47.
+
+## 7. Amendments (post-freeze; each with its own advisor pass before the affected step runs)
+
+### N1 — control gate re-derived from all observations after a pre-registered halt (2026-10-05; `architecture_profile/s27_c10n_halt_diagnostic.json`)
+
+**Gate that forced it:** run 1 (16:02) stopped before the edit by §3's own rule: the pre-edit injection control came in at 42/72 (canon 23/24) against the 44/72 floor. The floor had been set as "P6 reference 49 minus the 3–5 process spread" from three observations (49, 54, 51); the fourth sits 7 below the previous minimum. The engine samples context templates per process (CORPUS/44 F-A4), so `compute_z` targets and their injection counts move per process; the lesson of CORPUS/44 applies — derive the envelope from all observations, never a subset.
+
+**Change (one number, one derivation):** the control floor becomes **A ≥ 38/72** (the minimum of the four observations, 42, minus the ±4 process spread seen within a configuration on this harness) with canon ≥ 22/24 unchanged; the absolute floor in the replication clause becomes **C ≥ 38/72** by the same derivation. Nothing else changes: the labels are relative to A (D ≤ A − 20; D ≥ A − 10) and were designed to be level-robust. The halted run's artefacts are kept as `results/c10n_ztransport/run_halt_1.json` and `logs_run_halt_1.log`; a fresh process produces its own A. Re-running without this amendment is not permitted (it would select on the gate).
+
+**Record:** the control now spans 42–54/72 over four processes with the same mechanics; this spread is reported in CORPUS/47 beside the cells, and any future injection-control gate on this harness uses it.
