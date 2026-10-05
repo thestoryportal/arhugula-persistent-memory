@@ -8,12 +8,12 @@ both last-token cells fail the canon ≥ 90 validity rule: the write does not la
 
 ## 2. Results (EVIDENCE-SHOWS)
 
-| cell | key locus | templates | A1 canon | A1 para_full | A1 para_any | A1 described-as JS | A2 canon | A2 para_full | A2 described-as JS | A1 rel. Δ‖W‖ L4…L8 | validity |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| K1 | subject | on | 100.0 | **95.8** | 100.0 | 90.06 | 100.0 | **97.2** | 92.48 | 0.19 / 0.11 / 0.09 / 0.16 / 0.23 | valid |
-| K2 | subject | off | 100.0 | **91.7** | 100.0 | 91.78 | 100.0 | **88.9** | 91.97 | 0.19 / 0.11 / 0.09 / 0.16 / 0.23 | valid |
-| K3 | last | on | 29.2 | **0.0** | 0.0 | 99.82 | 4.2 | **0.0** | 99.9 | 0.10 / 0.08 / 0.10 / 0.25 / 0.42 | INVALID (canon < 90) |
-| K4 | last | off | 25.0 | **0.0** | 0.0 | 99.81 | 8.3 | **0.0** | 99.84 | 0.11 / 0.09 / 0.13 / 0.29 / 0.48 | INVALID (canon < 90) |
+| cell | key locus | templates | ridge weight | A1 canon | A1 para_full | A1 para_any | A1 described-as JS | A2 canon | A2 para_full | A2 described-as JS | A1 rel. Δ‖W‖ L4…L8 | validity |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| K1 | subject | on | 5000 | 100.0 | **95.8** | 100.0 | 90.06 | 100.0 | **97.2** | 92.48 | 0.19 / 0.11 / 0.09 / 0.16 / 0.23 | valid |
+| K2 | subject | off | 5000 | 100.0 | **91.7** | 100.0 | 91.78 | 100.0 | **88.9** | 91.97 | 0.19 / 0.11 / 0.09 / 0.16 / 0.23 | valid |
+| K3 | last | on | 5000 | 29.2 | **0.0** | 0.0 | 99.82 | 4.2 | **0.0** | 99.9 | 0.10 / 0.08 / 0.10 / 0.25 / 0.42 | INVALID (canon < 90) |
+| K4 | last | off | 5000 | 25.0 | **0.0** | 0.0 | 99.81 | 8.3 | **0.0** | 99.84 | 0.11 / 0.09 / 0.13 / 0.29 / 0.48 | INVALID (canon < 90) |
 
 `para_any` = fraction of the 24 subjects with at least one paraphrase correct (the per-subject ≥ 2/3 count is not stored by this harness). Δ‖W‖ is the engine's own per-layer relative update norm for the A1 edit.
 
@@ -40,6 +40,25 @@ _Results (`results/c10k_keying_ablation/zprobe.json`):_
 | K3 | Plurnak | 11 | 0.993 | 0.031 (0.007 + 0.017) | 63.5 |
 
 **Reading:** K3-style `compute_z` reaches the target at the keyed `" of"` token (final target probability ≥ 0.983; K1-style ≥ 0.986) with a KL term of the same size as K1's. The z-objective is not where the K3/K4 write is lost; the KL-prompt conflict is excluded as the cause. **The loss is at the solve, which supports the ridge mechanism and licenses the next cell: the same last-token cells at a small ridge weight, plain MEMIT, no projector (prereg v3 §6 amendment).** (‖z‖ is smaller in K3 style, 63–67 vs 81–86, consistent with the last-token residual being a smaller target than the subject-token one.)
+
+### 3c. Key-similarity discriminator (advisor v2 on §6; `experiments/track_c/c10k_keying_ablation_keygram.py` → `results/c10k_keying_ablation/keygram.json`; N = 1 runs `tools/c10k_keying_ablation_n1.sh` → `results/c10k_keying_ablation/n1/`)
+
+| layer | subject keys: cos mean / eff. rank | last-token keys: cos mean / frac > 0.9 / eff. rank | ridge/‖k‖² at w = 5000: subject / last | w* (last matches subject) |
+|---|---|---|---|---|
+| L4 | 0.070 / 16.5 | 0.991 / 1.0 / 1.02 | 5.288 / 44.041 | 600 |
+| L5 | 0.041 / 19.8 | 0.991 / 1.0 / 1.02 | 1.241 / 60.24 | 103 |
+| L6 | 0.023 / 21.7 | 0.990 / 1.0 / 1.02 | 0.54 / 21.768 | 124 |
+| L7 | 0.024 / 21.3 | 0.985 / 1.0 / 1.03 | 0.599 / 12.48 | 240 |
+| L8 | 0.028 / 22.5 | 0.991 / 1.0 / 1.02 | 0.478 / 5.654 | 423 |
+
+**Reading (EVIDENCE-SHOWS):** the 24 last-token keys are one vector to within rounding (pairwise cosine ≥ 0.985 on average, every pair > 0.9, effective rank ≈ 1.02 at every band layer), while the 24 subject-last-token keys are nearly orthogonal (cosine 0.02–0.07, effective rank 16–23). **A single closed-form solve cannot map one key to 24 different targets; the K3/K4 collapse at w = 5000 is key interference first.** The ridge enters second: the keys' small differences lie in low-variance directions, and the energy-weighted ridge ratio at w = 5000 is 5.7–60 for last-token keys against 0.5–5.3 for subject keys, so those differences are suppressed; the predicted weight at which they are amplified to the subject keys' ratio is w* ≈ 100–600 per layer. This is the same mechanism Route A reached from the other side: AlphaEdit_ARE at L2 = 0.01 fit 24/24 by amplifying those differences 1000× (L4 band norm 3.6×, locality cost F4), and the resulting write is read only from the trained prompt because paraphrases do not reproduce the tiny key differences that carry the subject.
+
+| run | A1 canon (1 item) | A1 para (3 paraphrases) | described-as JS |
+|---|---|---|---|
+| N1_last_0 | 100.0 | 0.0 | 100.0 |
+
+
+**N = 1 reading:** 1/1 single last-token writes land at w = 5000 (subject-keyed singles: 0/0); paraphrase hits for single last-token writes: 0.0 % mean. Single last-token writes land, so the N = 24 collapse is **interference between near-identical keys**, not ridge magnitude: the ridge account for the first pass is withdrawn as the primary cause.
 
 ## 4. Scope, limitations, what changes
 
