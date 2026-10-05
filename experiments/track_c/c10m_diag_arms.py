@@ -82,10 +82,11 @@ def z_record(zs):
     return {"sha256": M.sha256_tensor(stack), "norms": [round(float(zs[c].float().norm()), 3) for c in H.FICTION]}
 
 
-def inject_sweep(zs):
-    """Inject z at the subject-last token of every CANON/PTEST prompt (P6 mechanics) and greedy-decode len(tids)."""
+def inject_sweep(zs, subjects=None):
+    """Inject z at the subject-last token of every CANON/PTEST prompt (P6 mechanics) and greedy-decode len(tids).
+    `subjects` (default all 24) lets D-C10n-ztransport re-run a subset as its restoration check. [LAW:composability]"""
     rows = []
-    for c in H.FICTION:
+    for c in (subjects or H.FICTION):
         tids = H.tgt_ids(V[c])
         hits = []
         for t in TEMPLATES:
