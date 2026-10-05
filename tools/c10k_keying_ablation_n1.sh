@@ -3,6 +3,7 @@
 # six subjects (offsets 0..5), A1 arm, templates on. If single edits land (canon = 100 for the one item), the collapse at N = 24
 # is key-similarity/interference, not ridge magnitude; if they also fail, the ridge account gains support. Prints ABL lines.
 set -uo pipefail
+export DECISION_ID=D-C10k-keying-ablation PREREG="docs/C10K_KEYING_ABLATION_PREREG.md" RUN_LABEL="C10K keying-locus ablation"   # provenance: Codex review v2 found the harness default D-C10e-bandknob in the result JSONs
 W="${LLMDB_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"; export LLMDB_ROOT="$W"; export PATH="$W/.venv/bin:$PATH"; export HF_HUB_OFFLINE=1
 cd "$W" || exit 1; R="$W/results/c10k_keying_ablation/n1"; mkdir -p "$R"
 for off in 0 1 2 3 4 5; do

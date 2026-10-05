@@ -2,6 +2,7 @@
 # D-C10k-keying-ablation chain (docs/C10K_KEYING_ABLATION_PREREG.md v3): K1 gate (LAW#3, ±3 pp of R0 A1 94.4 / A2 98.6) then K2–K4.
 # Each cell = c10e harness, candidate recipe only, arms A1+A2, base hparams (fact_token subject_last); knobs set the key locus and templates.
 set -uo pipefail
+export DECISION_ID=D-C10k-keying-ablation PREREG="docs/C10K_KEYING_ABLATION_PREREG.md" RUN_LABEL="C10K keying-locus ablation"   # provenance: Codex review v2 found the harness default D-C10e-bandknob in the result JSONs
 W="${LLMDB_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"; export LLMDB_ROOT="$W"; export PATH="$W/.venv/bin:$PATH"; export HF_HUB_OFFLINE=1
 cd "$W" || exit 1; R="$W/results/c10k_keying_ablation"; mkdir -p "$R" "$W/logs"
 run_cell() {  # name locus templates

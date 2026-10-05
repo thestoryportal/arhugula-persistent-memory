@@ -166,3 +166,9 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Measurement:** canon/para full-sequence hits, locality (real-country, JS, stock item, generic NLL), band norms, realised-residual fractions, hidden-state transfer.
 - **Criterion (prereg §3):** A1 and A2 `para_full ≥ 80` after at most one localized fix → else HALTED.
 - **Verdict:** HALTED — CONTROLS_NOT_RECOVERED (0/72 both arms at both ridges; trained prompt 24/24 after the fix). Mechanism: last-prompt-token keying, ~0 paraphrase transfer.
+
+### C-C10k-ka - Keying-locus ablation (D-C10k-keying-ablation ⟨D-C10k-keying-ablation@110558e3⟩)
+- **Hypothesis:** keying the write at the prompt's final token (instead of the subject's last token) removes held-out-paraphrase generalisation in the program's own MEMIT engine.
+- **Method:** 2×2 (key locus × context templates) on A1/A2, N = 24, same engine/covariance/ridge/band; K1 as LAW#3 gate; validity = canon ≥ 90 + keyed-token + identical eval strings. Then (§6b) z-probe, key Gram matrices, N = 1 singles × 6 subjects × both loci, frame-bleed probe on 12 real + 6 bystander frame prompts.
+- **Criterion:** §3 SUFFICIENT needs valid K3/K4 < 20 with K2 ≥ 80; §6b SUFFICIENT (N = 1) needs ≥ 5/6 landed last-token singles with ≤ 1/3 paraphrases and ≥ 5/6 subject singles with ≥ 2/3; frame-bleed H-frame = ≥ 6/12 real and ≥ 3/6 bystander flips vs ≤ 1 for the control.
+- **Verdict:** N = 24 INVALID (near-collinear keys; ridge not separable); N = 1 F3 SUFFICIENT (MEMIT, N = 1); frame-bleed BETWEEN (partly frame-keyed) → last-token-keyed writes land but do not transfer; partly frame-keyed (F3 SUFFICIENT in MEMIT, N = 1).

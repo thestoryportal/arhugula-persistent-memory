@@ -3,6 +3,7 @@
 #   always: K3p (last,on,500), K3pp (last,on,50), K4pp (last,off,50)
 #   K1p500 if K3p valid; K1p50 if K3pp or K4pp valid; K3ppp (last,on,25) if K3pp invalid; K1p25 if K3ppp valid.
 set -uo pipefail
+export DECISION_ID=D-C10k-keying-ablation PREREG="docs/C10K_KEYING_ABLATION_PREREG.md" RUN_LABEL="C10K keying-locus ablation"   # provenance: Codex review v2 found the harness default D-C10e-bandknob in the result JSONs
 W="${LLMDB_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"; export LLMDB_ROOT="$W"; export PATH="$W/.venv/bin:$PATH"; export HF_HUB_OFFLINE=1
 cd "$W" || exit 1; R="$W/results/c10k_keying_ablation"; H="$W/configs/hparams"
 run_cell() {  # name locus templates weight
