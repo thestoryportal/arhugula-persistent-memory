@@ -22,7 +22,7 @@ probe () {  # gguf out port label
   "$BIN/llama-server" -m "$1" -ngl 0 -c 2048 --port "$3" --host 127.0.0.1 > "$RES/logs_p4_server_$3.log" 2>&1 &
   SPID=$!
   sleep 4
-  "$PY" "$LLMDB_ROOT/experiments/track_c/c10l_mint_p4_probe.py" "http://127.0.0.1:$3" "$ARM" "$2" "$4"
+  "$PY" "$LLMDB_ROOT/experiments/track_c/c10l_mint_p4_probe.py" "http://127.0.0.1:$3" "$ED" "$2" "$4"
   kill $SPID 2>/dev/null || true
   sleep 2
 }
@@ -32,4 +32,5 @@ echo "=== [4/4] probe Q4_K_M GGUF"
 probe "$Q4" "$RES/p4_pred_q4km.json" 8242 gguf_q4km
 ls -la "$F16" "$Q4"
 shasum -a 256 "$F16" "$Q4" > "$RES/p4_gguf_sha256.txt"
+"$PY" "$LLMDB_ROOT/experiments/track_c/c10l_mint_p4_verdict.py" "$RES/p4_pred_f16.json" "$RES/p4_pred_q4km.json" "$RES/p4_verdict.json"
 echo P4_DONE

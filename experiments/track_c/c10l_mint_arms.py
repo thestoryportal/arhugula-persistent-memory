@@ -58,7 +58,12 @@ def mint_hook(arm_name, Vmap):
     if SAVE_DIR:   # [LAW:effects-at-boundaries] the one place the edited weights leave the process; the harness restores after this hook
         os.makedirs(SAVE_DIR, exist_ok=True)
         H.model.save_pretrained(SAVE_DIR, safe_serialization=True); H.tok.save_pretrained(SAVE_DIR)
-        print(f"  saved edited model + minted tokenizer -> {SAVE_DIR}", flush=True)
+        # P4 parity reference (B2 advisor item 3): the HF-fp16 top-1 id of every prompt the GGUF probe will ask, from the same edited weights
+        prompts = {"canon": [H.CANON.format(c) for c in H.FICTION], "para": [p.format(c) for c in H.FICTION for p in H.PTEST],
+                   "L1": list(H.L1_PROMPTS), "L3": list(H.L3_PROMPTS), "unrelated": list(M.UNRELATED)}
+        ref = {"minted_ids": ids, "prompts": prompts, "top1": {k: [top1(p) for p in v] for k, v in prompts.items()}}
+        json.dump(ref, open(f"{SAVE_DIR}/hf_fp16_top1_ids.json", "w"), indent=1)
+        print(f"  saved edited model + minted tokenizer + HF top-1 ids -> {SAVE_DIR}", flush=True)
     return {"para_sibling": sib, "para_hits_top1": hits, "post_write_cannibal": cannibal, "per_token": per_tok, "saved_to": SAVE_DIR,
             "step0_para_full": step0["inits"][ARM]["probe"]["para_full_step0"], "para_full_minus_step0": hits - step0["inits"][ARM]["probe"]["para_full_step0"]}
 
