@@ -2,6 +2,7 @@
  "seeds": [
   "\u03bcKE: Matryoshka Unstructured Knowledge Editing of Large Language Models",
   "A Comprehensive Study of Knowledge Editing for Large Language Models",
+  "ACE: Attribution Controlled Knowledge Editing for Multi hop Factual Recall",
   "AKEW: Assessing Knowledge Editing in the Wild",
   "Addressing the Reasoning Gap: Mechanistic Circuit Based Knowledge Editing in Large Language Models",
   "An information theoretic framework for robust large language model editing",
@@ -32,7 +33,9 @@
   "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
   "Identifying Query Relevant Neurons in Large Language Models for Long Form Texts",
   "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy",
+  "KILM: Knowledge Injection into Encoder Decoder Language Models",
   "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
+  "Kformer: Knowledge Injection in Transformer Feed Forward Layers",
   "Know the Unknown: An Uncertainty Sensitive Method for LLM Instruction Tuning",
   "Knowledge Editing for Masked Diffusion Language Models",
   "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
@@ -54,6 +57,7 @@
   "On the go Forgetting without Explicit Unlearning via ERASE",
   "One for All: Update Parameterized Knowledge Across Multiple Models",
   "PALS: Percentile Aware Layerwise Sparsity for LLM Pruning",
+  "PMET: Precise Model Editing in a Transformer",
   "PRISM Edit: One Vector for All Temporal Answers",
   "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
   "Persuasion Tokens for Editing Factual Knowledge in LLMs",
@@ -81,10 +85,9 @@
   "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models",
   "When Successful Knowledge Graph Edits Displace Correct Answers: Rank Level Locality beyond Parameter Support",
   "Who Is Behind the Harness? Fingerprinting LLMs through Agentic Behavior",
-  "ACE: Attribution Controlled Knowledge Editing for Multi hop Factual Recall",
-  "KILM: Knowledge Injection into Encoder Decoder Language Models",
-  "Kformer: Knowledge Injection in Transformer Feed Forward Layers",
-  "PMET: Precise Model Editing in a Transformer"
+  "Direct Multi Token Decoding",
+  "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+  "Token Weighting for Long Range Language Modeling"
  ],
  "papers": [
   {
@@ -98,6 +101,7 @@
     "An information theoretic framework for robust large language model editing",
     "Evaluating and Understanding Model Editing for Medical Vision Language Models",
     "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
     "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
     "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
     "Generalizable Lifelong Model Editing via Preference Optimization",
@@ -155,35 +159,6 @@
    "match": "title"
   },
   {
-   "title": "REACT: Representation Extraction And Controllable Tuning to Overcome Overfitting in LLM Knowledge Editing",
-   "year": "2025",
-   "author": "Haitian Zhong",
-   "graphs": [
-    "ACE: Attribution Controlled Knowledge Editing for Multi hop Factual Recall",
-    "Addressing the Reasoning Gap: Mechanistic Circuit Based Knowledge Editing in Large Language Models",
-    "AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise",
-    "DOW KE: Anchor Free Multi Layer Knowledge Editing via Direct End to End Weight Optimization",
-    "Does Knowledge Localization Hold True? Surprising Differences Between Entity and Relation Perspectives in Language Models",
-    "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
-    "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
-    "Generalizable Lifelong Model Editing via Preference Optimization",
-    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
-    "Knowledge Editing for Masked Diffusion Language Models",
-    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
-    "Model Merging for Knowledge Editing",
-    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
-    "One for All: Update Parameterized Knowledge Across Multiple Models",
-    "PRISM Edit: One Vector for All Temporal Answers",
-    "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
-    "StruEdit: Structured Outputs Enable the Fast and Accurate Knowledge Editing for Large Language Models",
-    "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing",
-    "Uncovering Context Reliance in Unstructured Knowledge Editing",
-    "When Successful Knowledge Graph Edits Displace Correct Answers: Rank Level Locality beyond Parameter Support"
-   ],
-   "in_repo": true,
-   "match": "name"
-  },
-  {
    "title": "ReFEdit: Rehearsal-Free Lifelong Knowledge Editing for Large Language Models",
    "year": "2025",
    "author": "Xianjie Mo",
@@ -191,6 +166,7 @@
     "Addressing the Reasoning Gap: Mechanistic Circuit Based Knowledge Editing in Large Language Models",
     "Automatically Finding and Validating Unexpected Side Effects of Interventions on Language Models",
     "Does Knowledge Localization Hold True? Surprising Differences Between Entity and Relation Perspectives in Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
     "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
     "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
     "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
@@ -222,6 +198,7 @@
     "DOW KE: Anchor Free Multi Layer Knowledge Editing via Direct End to End Weight Optimization",
     "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
     "Evaluating and Understanding Model Editing for Medical Vision Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
     "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
     "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
     "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
@@ -253,6 +230,7 @@
     "Does Knowledge Localization Hold True? Surprising Differences Between Entity and Relation Perspectives in Language Models",
     "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
     "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
     "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
     "Knowledge Editing for Masked Diffusion Language Models",
     "MEMORYLLM: Towards Self Updatable Large Language Models",
@@ -268,6 +246,35 @@
    ],
    "in_repo": false,
    "match": ""
+  },
+  {
+   "title": "REACT: Representation Extraction And Controllable Tuning to Overcome Overfitting in LLM Knowledge Editing",
+   "year": "2025",
+   "author": "Haitian Zhong",
+   "graphs": [
+    "ACE: Attribution Controlled Knowledge Editing for Multi hop Factual Recall",
+    "Addressing the Reasoning Gap: Mechanistic Circuit Based Knowledge Editing in Large Language Models",
+    "AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise",
+    "DOW KE: Anchor Free Multi Layer Knowledge Editing via Direct End to End Weight Optimization",
+    "Does Knowledge Localization Hold True? Surprising Differences Between Entity and Relation Perspectives in Language Models",
+    "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
+    "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
+    "Generalizable Lifelong Model Editing via Preference Optimization",
+    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
+    "Knowledge Editing for Masked Diffusion Language Models",
+    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
+    "Model Merging for Knowledge Editing",
+    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
+    "One for All: Update Parameterized Knowledge Across Multiple Models",
+    "PRISM Edit: One Vector for All Temporal Answers",
+    "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
+    "StruEdit: Structured Outputs Enable the Fast and Accurate Knowledge Editing for Large Language Models",
+    "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing",
+    "Uncovering Context Reliance in Unstructured Knowledge Editing",
+    "When Successful Knowledge Graph Edits Displace Correct Answers: Rank Level Locality beyond Parameter Support"
+   ],
+   "in_repo": true,
+   "match": "name"
   },
   {
    "title": "Lifelong Knowledge Editing requires Better Regularization",
@@ -292,6 +299,87 @@
     "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
     "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing",
     "\u03bcKE: Matryoshka Unstructured Knowledge Editing of Large Language Models"
+   ],
+   "in_repo": true,
+   "match": "title"
+  },
+  {
+   "title": "LyapLock: Bounded Knowledge Preservation in Sequential Large Language Model Editing",
+   "year": "2025",
+   "author": "Peng Wang",
+   "graphs": [
+    "AKEW: Assessing Knowledge Editing in the Wild",
+    "Addressing the Reasoning Gap: Mechanistic Circuit Based Knowledge Editing in Large Language Models",
+    "AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise",
+    "DOW KE: Anchor Free Multi Layer Knowledge Editing via Direct End to End Weight Optimization",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
+    "Generalizable Lifelong Model Editing via Preference Optimization",
+    "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
+    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
+    "Learning to Edit Knowledge via Instruction based Chain of Thought Prompting",
+    "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
+    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
+    "PRISM Edit: One Vector for All Temporal Answers",
+    "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
+    "Persuasion Tokens for Editing Factual Knowledge in LLMs",
+    "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
+    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
+    "The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning"
+   ],
+   "in_repo": true,
+   "match": "name"
+  },
+  {
+   "title": "Beyond Local Edits: Embedding-Virtualized Knowledge for Broader Evaluation and Preservation of Model Editing",
+   "year": "2026",
+   "author": "Shuai Liu",
+   "graphs": [
+    "Addressing the Reasoning Gap: Mechanistic Circuit Based Knowledge Editing in Large Language Models",
+    "AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise",
+    "DOW KE: Anchor Free Multi Layer Knowledge Editing via Direct End to End Weight Optimization",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
+    "Generalizable Lifelong Model Editing via Preference Optimization",
+    "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
+    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
+    "Learning to Edit Knowledge via Instruction based Chain of Thought Prompting",
+    "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
+    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
+    "PRISM Edit: One Vector for All Temporal Answers",
+    "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
+    "Persuasion Tokens for Editing Factual Knowledge in LLMs",
+    "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
+    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
+    "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing",
+    "The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning"
+   ],
+   "in_repo": true,
+   "match": "title"
+  },
+  {
+   "title": "Norm Anchors Make Model Edits Last",
+   "year": "2026",
+   "author": "Ming-Dao Liu",
+   "graphs": [
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
+    "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
+    "Generalizable Lifelong Model Editing via Preference Optimization",
+    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
+    "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
+    "Knowledge Editing for Masked Diffusion Language Models",
+    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
+    "Learning to Edit Knowledge via Instruction based Chain of Thought Prompting",
+    "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
+    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
+    "PRISM Edit: One Vector for All Temporal Answers",
+    "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
+    "Persuasion Tokens for Editing Factual Knowledge in LLMs",
+    "PropMEND: Hypernetworks for Knowledge Propagation in LLMs",
+    "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
+    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
+    "The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning"
    ],
    "in_repo": true,
    "match": "title"
@@ -349,90 +437,13 @@
    "match": "title"
   },
   {
-   "title": "LyapLock: Bounded Knowledge Preservation in Sequential Large Language Model Editing",
-   "year": "2025",
-   "author": "Peng Wang",
-   "graphs": [
-    "AKEW: Assessing Knowledge Editing in the Wild",
-    "Addressing the Reasoning Gap: Mechanistic Circuit Based Knowledge Editing in Large Language Models",
-    "AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise",
-    "DOW KE: Anchor Free Multi Layer Knowledge Editing via Direct End to End Weight Optimization",
-    "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
-    "Generalizable Lifelong Model Editing via Preference Optimization",
-    "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
-    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
-    "Learning to Edit Knowledge via Instruction based Chain of Thought Prompting",
-    "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
-    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
-    "PRISM Edit: One Vector for All Temporal Answers",
-    "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
-    "Persuasion Tokens for Editing Factual Knowledge in LLMs",
-    "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
-    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
-    "The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning"
-   ],
-   "in_repo": true,
-   "match": "name"
-  },
-  {
-   "title": "Beyond Local Edits: Embedding-Virtualized Knowledge for Broader Evaluation and Preservation of Model Editing",
-   "year": "2026",
-   "author": "Shuai Liu",
-   "graphs": [
-    "Addressing the Reasoning Gap: Mechanistic Circuit Based Knowledge Editing in Large Language Models",
-    "AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise",
-    "DOW KE: Anchor Free Multi Layer Knowledge Editing via Direct End to End Weight Optimization",
-    "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
-    "Generalizable Lifelong Model Editing via Preference Optimization",
-    "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
-    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
-    "Learning to Edit Knowledge via Instruction based Chain of Thought Prompting",
-    "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
-    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
-    "PRISM Edit: One Vector for All Temporal Answers",
-    "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
-    "Persuasion Tokens for Editing Factual Knowledge in LLMs",
-    "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
-    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
-    "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing",
-    "The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning"
-   ],
-   "in_repo": true,
-   "match": "title"
-  },
-  {
-   "title": "Norm Anchors Make Model Edits Last",
-   "year": "2026",
-   "author": "Ming-Dao Liu",
-   "graphs": [
-    "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
-    "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
-    "Generalizable Lifelong Model Editing via Preference Optimization",
-    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
-    "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
-    "Knowledge Editing for Masked Diffusion Language Models",
-    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
-    "Learning to Edit Knowledge via Instruction based Chain of Thought Prompting",
-    "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
-    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
-    "PRISM Edit: One Vector for All Temporal Answers",
-    "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
-    "Persuasion Tokens for Editing Factual Knowledge in LLMs",
-    "PropMEND: Hypernetworks for Knowledge Propagation in LLMs",
-    "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
-    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
-    "The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning"
-   ],
-   "in_repo": true,
-   "match": "title"
-  },
-  {
    "title": "Neuron-Level Sequential Editing for Large Language Models",
    "year": "2024",
    "author": "Houcheng Jiang",
    "graphs": [
     "ACE: Attribution Controlled Knowledge Editing for Multi hop Factual Recall",
     "Addressing the Reasoning Gap: Mechanistic Circuit Based Knowledge Editing in Large Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
     "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
     "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
     "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
@@ -500,6 +511,30 @@
    ],
    "in_repo": true,
    "match": "title"
+  },
+  {
+   "title": "\"Why\" Has the Least Side Effect on Model Editing",
+   "year": "2024",
+   "author": "T. Pan",
+   "graphs": [
+    "DOW KE: Anchor Free Multi Layer Knowledge Editing via Direct End to End Weight Optimization",
+    "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "Generalizable Lifelong Model Editing via Preference Optimization",
+    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
+    "Knowledge Editing for Masked Diffusion Language Models",
+    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
+    "MEMORYLLM: Towards Self Updatable Large Language Models",
+    "Model Merging for Knowledge Editing",
+    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
+    "One for All: Update Parameterized Knowledge Across Multiple Models",
+    "PRISM Edit: One Vector for All Temporal Answers",
+    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
+    "Style Debiased DPO: Updating LLM Knowledge with Factuality Aware Synthetic Preference Data",
+    "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing"
+   ],
+   "in_repo": false,
+   "match": ""
   },
   {
    "title": "A Unified Framework for Model Editing",
@@ -574,6 +609,30 @@
    "match": ""
   },
   {
+   "title": "Edit Less, Achieve More: Dynamic Sparse Neuron Masking for Lifelong Knowledge Editing in LLMs",
+   "year": "2025",
+   "author": "Jinzhe Liu",
+   "graphs": [
+    "ACE: Attribution Controlled Knowledge Editing for Multi hop Factual Recall",
+    "AKEW: Assessing Knowledge Editing in the Wild",
+    "An information theoretic framework for robust large language model editing",
+    "Evaluating and Understanding Model Editing for Medical Vision Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
+    "Generalizable Lifelong Model Editing via Preference Optimization",
+    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
+    "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
+    "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
+    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
+    "Learning to Edit Knowledge via Instruction based Chain of Thought Prompting",
+    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
+    "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
+    "Uncovering Context Reliance in Unstructured Knowledge Editing"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Cross-Lingual Knowledge Editing in Large Language Models",
    "year": "2023",
    "author": "Jiaan Wang",
@@ -597,29 +656,6 @@
    "match": ""
   },
   {
-   "title": "\"Why\" Has the Least Side Effect on Model Editing",
-   "year": "2024",
-   "author": "T. Pan",
-   "graphs": [
-    "DOW KE: Anchor Free Multi Layer Knowledge Editing via Direct End to End Weight Optimization",
-    "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
-    "Generalizable Lifelong Model Editing via Preference Optimization",
-    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
-    "Knowledge Editing for Masked Diffusion Language Models",
-    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
-    "MEMORYLLM: Towards Self Updatable Large Language Models",
-    "Model Merging for Knowledge Editing",
-    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
-    "One for All: Update Parameterized Knowledge Across Multiple Models",
-    "PRISM Edit: One Vector for All Temporal Answers",
-    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
-    "Style Debiased DPO: Updating LLM Knowledge with Factuality Aware Synthetic Preference Data",
-    "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
    "title": "SWEA: Changing Factual Knowledge in Large Language Models via Subject Word Embedding Altering",
    "year": "2024",
    "author": "Xiaopeng Li",
@@ -638,29 +674,6 @@
     "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing",
     "Uncovering Context Reliance in Unstructured Knowledge Editing",
     "\u03bcKE: Matryoshka Unstructured Knowledge Editing of Large Language Models"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
-   "title": "Edit Less, Achieve More: Dynamic Sparse Neuron Masking for Lifelong Knowledge Editing in LLMs",
-   "year": "2025",
-   "author": "Jinzhe Liu",
-   "graphs": [
-    "ACE: Attribution Controlled Knowledge Editing for Multi hop Factual Recall",
-    "AKEW: Assessing Knowledge Editing in the Wild",
-    "An information theoretic framework for robust large language model editing",
-    "Evaluating and Understanding Model Editing for Medical Vision Language Models",
-    "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
-    "Generalizable Lifelong Model Editing via Preference Optimization",
-    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
-    "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
-    "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
-    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
-    "Learning to Edit Knowledge via Instruction based Chain of Thought Prompting",
-    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
-    "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
-    "Uncovering Context Reliance in Unstructured Knowledge Editing"
    ],
    "in_repo": false,
    "match": ""
@@ -778,6 +791,28 @@
    "match": "title"
   },
   {
+   "title": "On the Superimposed Noise Accumulation Problem in Sequential Knowledge Editing of Large Language Models",
+   "year": "2025",
+   "author": "Ding Cao",
+   "graphs": [
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
+    "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
+    "Knowledge Editing for Masked Diffusion Language Models",
+    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
+    "Learning to Edit Knowledge via Instruction based Chain of Thought Prompting",
+    "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
+    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
+    "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
+    "Persuasion Tokens for Editing Factual Knowledge in LLMs",
+    "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
+    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
+    "The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Reinforced Lifelong Editing for Language Models",
    "year": "2025",
    "author": "Zherui Li",
@@ -888,6 +923,27 @@
    "match": "title"
   },
   {
+   "title": "Evaluating the Reversal Curse in Model Editing",
+   "year": "2023",
+   "author": "Hao-Yang Xu",
+   "graphs": [
+    "An information theoretic framework for robust large language model editing",
+    "AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
+    "Generalizable Lifelong Model Editing via Preference Optimization",
+    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
+    "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
+    "MEMORYLLM: Towards Self Updatable Large Language Models",
+    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
+    "PMET: Precise Model Editing in a Transformer",
+    "PropMEND: Hypernetworks for Knowledge Propagation in LLMs",
+    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage"
+   ],
+   "in_repo": true,
+   "match": "title"
+  },
+  {
    "title": "Editing the Mind of Giants: An In-Depth Exploration of Pitfalls of Knowledge Editing in Large Language Models",
    "year": "2024",
    "author": "Cheng-Hsun Hsueh",
@@ -930,45 +986,25 @@
    "match": ""
   },
   {
-   "title": "On the Superimposed Noise Accumulation Problem in Sequential Knowledge Editing of Large Language Models",
+   "title": "The Mirage of Model Editing: Revisiting Evaluation in the Wild",
    "year": "2025",
-   "author": "Ding Cao",
+   "author": "Wanli Yang",
    "graphs": [
+    "AKEW: Assessing Knowledge Editing in the Wild",
+    "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
     "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
     "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
-    "Knowledge Editing for Masked Diffusion Language Models",
     "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
-    "Learning to Edit Knowledge via Instruction based Chain of Thought Prompting",
-    "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
-    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
-    "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
-    "Persuasion Tokens for Editing Factual Knowledge in LLMs",
+    "Model Merging for Knowledge Editing",
+    "PropMEND: Hypernetworks for Knowledge Propagation in LLMs",
     "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
-    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
-    "The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning"
+    "Uncovering Context Reliance in Unstructured Knowledge Editing",
+    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models",
+    "\u03bcKE: Matryoshka Unstructured Knowledge Editing of Large Language Models"
    ],
    "in_repo": false,
    "match": ""
-  },
-  {
-   "title": "Evaluating the Reversal Curse in Model Editing",
-   "year": "2023",
-   "author": "Hao-Yang Xu",
-   "graphs": [
-    "An information theoretic framework for robust large language model editing",
-    "AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise",
-    "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
-    "Generalizable Lifelong Model Editing via Preference Optimization",
-    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
-    "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
-    "MEMORYLLM: Towards Self Updatable Large Language Models",
-    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
-    "PMET: Precise Model Editing in a Transformer",
-    "PropMEND: Hypernetworks for Knowledge Propagation in LLMs",
-    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage"
-   ],
-   "in_repo": true,
-   "match": "title"
   },
   {
    "title": "PMET: Precise Model Editing in a Transformer",
@@ -985,6 +1021,26 @@
     "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
     "Persuasion Tokens for Editing Factual Knowledge in LLMs",
     "StruEdit: Structured Outputs Enable the Fast and Accurate Knowledge Editing for Large Language Models",
+    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Model Editing Harms General Abilities of Large Language Models: Regularization to the Rescue",
+   "year": "2024",
+   "author": "Jia-Chen Gu",
+   "graphs": [
+    "A Comprehensive Study of Knowledge Editing for Large Language Models",
+    "ACE: Attribution Controlled Knowledge Editing for Multi hop Factual Recall",
+    "AKEW: Assessing Knowledge Editing in the Wild",
+    "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
+    "MELO: Enhancing Model Editing with Neuron Indexed Dynamic LoRA",
+    "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
+    "PMET: Precise Model Editing in a Transformer",
+    "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
     "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
    ],
    "in_repo": false,
@@ -1011,6 +1067,26 @@
    "match": "name"
   },
   {
+   "title": "Diagnosing Model Editing via Knowledge Spectrum",
+   "year": "2025",
+   "author": "T. Pan",
+   "graphs": [
+    "ACE: Attribution Controlled Knowledge Editing for Multi hop Factual Recall",
+    "DOW KE: Anchor Free Multi Layer Knowledge Editing via Direct End to End Weight Optimization",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "Generalizable Lifelong Model Editing via Preference Optimization",
+    "Knowledge Editing for Masked Diffusion Language Models",
+    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
+    "One for All: Update Parameterized Knowledge Across Multiple Models",
+    "PRISM Edit: One Vector for All Temporal Answers",
+    "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
+    "Style Debiased DPO: Updating LLM Knowledge with Factuality Aware Synthetic Preference Data",
+    "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Efficient Knowledge Editing via Minimal Precomputation",
    "year": "2025",
    "author": "Akshat Gupta",
@@ -1031,21 +1107,21 @@
    "match": ""
   },
   {
-   "title": "The Mirage of Model Editing: Revisiting Evaluation in the Wild",
+   "title": "Knowledge Editing with Subspace-Aware Key-Value Mappings",
    "year": "2025",
-   "author": "Wanli Yang",
+   "author": "Haewon Park",
    "graphs": [
-    "AKEW: Assessing Knowledge Editing in the Wild",
-    "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
+    "Automatically Finding and Validating Unexpected Side Effects of Interventions on Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
     "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
-    "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
-    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
+    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
+    "Knowledge Editing for Masked Diffusion Language Models",
+    "Learning to Edit Knowledge via Instruction based Chain of Thought Prompting",
+    "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
     "Model Merging for Knowledge Editing",
-    "PropMEND: Hypernetworks for Knowledge Propagation in LLMs",
-    "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
-    "Uncovering Context Reliance in Unstructured Knowledge Editing",
-    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models",
-    "\u03bcKE: Matryoshka Unstructured Knowledge Editing of Large Language Models"
+    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
+    "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
+    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage"
    ],
    "in_repo": false,
    "match": ""
@@ -1087,6 +1163,25 @@
    ],
    "in_repo": false,
    "match": ""
+  },
+  {
+   "title": "MQuAKE: Assessing Knowledge Editing in Language Models via Multi-Hop Questions",
+   "year": "2023",
+   "author": "Zexuan Zhong",
+   "graphs": [
+    "A Comprehensive Study of Knowledge Editing for Large Language Models",
+    "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy",
+    "KILM: Knowledge Injection into Encoder Decoder Language Models",
+    "Linearity of Relation Decoding in Transformer Language Models",
+    "MELO: Enhancing Model Editing with Neuron Indexed Dynamic LoRA",
+    "PMET: Precise Model Editing in a Transformer",
+    "StruEdit: Structured Outputs Enable the Fast and Accurate Knowledge Editing for Large Language Models",
+    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
+   ],
+   "in_repo": true,
+   "match": "name"
   },
   {
    "title": "AKEW: Assessing Knowledge Editing in the Wild",
@@ -1165,20 +1260,39 @@
    "match": ""
   },
   {
-   "title": "Model Editing Harms General Abilities of Large Language Models: Regularization to the Rescue",
+   "title": "Long-form evaluation of model editing",
    "year": "2024",
-   "author": "Jia-Chen Gu",
+   "author": "Domenic Rosati",
+   "graphs": [
+    "Circuit Diff: Factual Edit based Intervention Method for Localizing Knowledge in Attribution Graphs",
+    "DAFNet: Dynamic Auxiliary Fusion for Sequential Model Editing in Large Language Models",
+    "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy",
+    "Knowledge Editing for Masked Diffusion Language Models",
+    "One for All: Update Parameterized Knowledge Across Multiple Models",
+    "Persuasion Tokens for Editing Factual Knowledge in LLMs",
+    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
+    "Towards Reliable, Generalizable, and Specific In Context Knowledge Editing via Multi Objective Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Perturbation-Restrained Sequential Model Editing",
+   "year": "2024",
+   "author": "Junjie Ma",
    "graphs": [
     "A Comprehensive Study of Knowledge Editing for Large Language Models",
-    "ACE: Attribution Controlled Knowledge Editing for Multi hop Factual Recall",
-    "AKEW: Assessing Knowledge Editing in the Wild",
     "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
-    "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
     "MELO: Enhancing Model Editing with Neuron Indexed Dynamic LoRA",
     "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
     "PMET: Precise Model Editing in a Transformer",
     "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
-    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
+    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models",
+    "\u03bcKE: Matryoshka Unstructured Knowledge Editing of Large Language Models"
    ],
    "in_repo": false,
    "match": ""
@@ -1222,39 +1336,20 @@
    "match": ""
   },
   {
-   "title": "Diagnosing Model Editing via Knowledge Spectrum",
+   "title": "Novel Sequential Knowledge Batch Editing via Retrieving Padding Right Embedding",
    "year": "2025",
-   "author": "T. Pan",
+   "author": "Liyi Zhu",
    "graphs": [
-    "ACE: Attribution Controlled Knowledge Editing for Multi hop Factual Recall",
-    "DOW KE: Anchor Free Multi Layer Knowledge Editing via Direct End to End Weight Optimization",
-    "Generalizable Lifelong Model Editing via Preference Optimization",
-    "Knowledge Editing for Masked Diffusion Language Models",
+    "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
+    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
+    "Identifying Query Relevant Neurons in Large Language Models for Long Form Texts",
+    "MELO: Enhancing Model Editing with Neuron Indexed Dynamic LoRA",
     "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
     "One for All: Update Parameterized Knowledge Across Multiple Models",
     "PRISM Edit: One Vector for All Temporal Answers",
-    "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
-    "Style Debiased DPO: Updating LLM Knowledge with Factuality Aware Synthetic Preference Data",
-    "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
-   "title": "Knowledge Editing with Subspace-Aware Key-Value Mappings",
-   "year": "2025",
-   "author": "Haewon Park",
-   "graphs": [
-    "Automatically Finding and Validating Unexpected Side Effects of Interventions on Language Models",
-    "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
-    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
-    "Knowledge Editing for Masked Diffusion Language Models",
-    "Learning to Edit Knowledge via Instruction based Chain of Thought Prompting",
-    "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
-    "Model Merging for Knowledge Editing",
-    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
-    "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
-    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage"
+    "Understanding and Improving Model Editing for Secure Code Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -1279,24 +1374,6 @@
    "match": "title"
   },
   {
-   "title": "MQuAKE: Assessing Knowledge Editing in Language Models via Multi-Hop Questions",
-   "year": "2023",
-   "author": "Zexuan Zhong",
-   "graphs": [
-    "A Comprehensive Study of Knowledge Editing for Large Language Models",
-    "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
-    "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy",
-    "KILM: Knowledge Injection into Encoder Decoder Language Models",
-    "Linearity of Relation Decoding in Transformer Language Models",
-    "MELO: Enhancing Model Editing with Neuron Indexed Dynamic LoRA",
-    "PMET: Precise Model Editing in a Transformer",
-    "StruEdit: Structured Outputs Enable the Fast and Accurate Knowledge Editing for Large Language Models",
-    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
-   ],
-   "in_repo": true,
-   "match": "name"
-  },
-  {
    "title": "In-Context Editing: Learning Knowledge from Self-Induced Distributions",
    "year": "2024",
    "author": "Siyuan Qi",
@@ -1315,42 +1392,6 @@
    "match": "name"
   },
   {
-   "title": "Long-form evaluation of model editing",
-   "year": "2024",
-   "author": "Domenic Rosati",
-   "graphs": [
-    "Circuit Diff: Factual Edit based Intervention Method for Localizing Knowledge in Attribution Graphs",
-    "DAFNet: Dynamic Auxiliary Fusion for Sequential Model Editing in Large Language Models",
-    "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
-    "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy",
-    "Knowledge Editing for Masked Diffusion Language Models",
-    "One for All: Update Parameterized Knowledge Across Multiple Models",
-    "Persuasion Tokens for Editing Factual Knowledge in LLMs",
-    "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
-    "Towards Reliable, Generalizable, and Specific In Context Knowledge Editing via Multi Objective Reinforcement Learning"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
-   "title": "Perturbation-Restrained Sequential Model Editing",
-   "year": "2024",
-   "author": "Junjie Ma",
-   "graphs": [
-    "A Comprehensive Study of Knowledge Editing for Large Language Models",
-    "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
-    "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
-    "MELO: Enhancing Model Editing with Neuron Indexed Dynamic LoRA",
-    "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
-    "PMET: Precise Model Editing in a Transformer",
-    "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
-    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models",
-    "\u03bcKE: Matryoshka Unstructured Knowledge Editing of Large Language Models"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
    "title": "EMSEdit: Efficient Multi-Step Meta-Learning-based Model Editing",
    "year": "2025",
    "author": "Xiaopeng Li",
@@ -1364,24 +1405,6 @@
     "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
     "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
     "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
-   "title": "Novel Sequential Knowledge Batch Editing via Retrieving Padding Right Embedding",
-   "year": "2025",
-   "author": "Liyi Zhu",
-   "graphs": [
-    "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
-    "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
-    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
-    "Identifying Query Relevant Neurons in Large Language Models for Long Form Texts",
-    "MELO: Enhancing Model Editing with Neuron Indexed Dynamic LoRA",
-    "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing",
-    "One for All: Update Parameterized Knowledge Across Multiple Models",
-    "PRISM Edit: One Vector for All Temporal Answers",
-    "Understanding and Improving Model Editing for Secure Code Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -1403,6 +1426,41 @@
    ],
    "in_repo": false,
    "match": ""
+  },
+  {
+   "title": "Knowledge Deletion-Based Approach for Knowledge Editing in Large Language Model",
+   "year": "null",
+   "author": "\ud604 \uc815\ub2e4",
+   "graphs": [
+    "AKEW: Assessing Knowledge Editing in the Wild",
+    "AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise",
+    "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "Generalizable Lifelong Model Editing via Preference Optimization",
+    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
+    "Model Merging for Knowledge Editing",
+    "PMET: Precise Model Editing in a Transformer",
+    "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Aging with GRACE: Lifelong Model Editing with Discrete Key-Value Adaptors",
+   "year": "2023",
+   "author": "Marzyeh Ghassemi",
+   "graphs": [
+    "A Comprehensive Study of Knowledge Editing for Large Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
+    "KILM: Knowledge Injection into Encoder Decoder Language Models",
+    "Linearity of Relation Decoding in Transformer Language Models",
+    "MELO: Enhancing Model Editing with Neuron Indexed Dynamic LoRA",
+    "PMET: Precise Model Editing in a Transformer",
+    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
+   ],
+   "in_repo": true,
+   "match": "title"
   },
   {
    "title": "Editing Large Language Models: Problems, Methods, and Opportunities",
@@ -1502,6 +1560,23 @@
     "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
     "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
     "\u03bcKE: Matryoshka Unstructured Knowledge Editing of Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Model Editing Can Hurt General Abilities of Large Language Models",
+   "year": "2024",
+   "author": "Jia-Chen Gu",
+   "graphs": [
+    "A Comprehensive Study of Knowledge Editing for Large Language Models",
+    "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
+    "MELO: Enhancing Model Editing with Neuron Indexed Dynamic LoRA",
+    "PMET: Precise Model Editing in a Transformer",
+    "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
+    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
    ],
    "in_repo": false,
    "match": ""
@@ -1677,23 +1752,6 @@
    "match": ""
   },
   {
-   "title": "Knowledge Deletion-Based Approach for Knowledge Editing in Large Language Model",
-   "year": "null",
-   "author": "\ud604 \uc815\ub2e4",
-   "graphs": [
-    "AKEW: Assessing Knowledge Editing in the Wild",
-    "AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise",
-    "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
-    "Generalizable Lifelong Model Editing via Preference Optimization",
-    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
-    "Model Merging for Knowledge Editing",
-    "PMET: Precise Model Editing in a Transformer",
-    "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
    "title": "Locating and Editing Factual Associations in GPT",
    "year": "2022",
    "author": "Kevin Meng",
@@ -1726,20 +1784,20 @@
    "match": ""
   },
   {
-   "title": "Aging with GRACE: Lifelong Model Editing with Discrete Key-Value Adaptors",
+   "title": "EasyEdit: An Easy-to-use Knowledge Editing Framework for Large Language Models",
    "year": "2023",
-   "author": "Marzyeh Ghassemi",
+   "author": "Peng Wang",
    "graphs": [
     "A Comprehensive Study of Knowledge Editing for Large Language Models",
-    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
-    "KILM: Knowledge Injection into Encoder Decoder Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
     "Linearity of Relation Decoding in Transformer Language Models",
     "MELO: Enhancing Model Editing with Neuron Indexed Dynamic LoRA",
     "PMET: Precise Model Editing in a Transformer",
     "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
    ],
    "in_repo": true,
-   "match": "title"
+   "match": "name"
   },
   {
    "title": "Forgetting before Learning: Utilizing Parametric Arithmetic for Knowledge Updating in Large Language Models",
@@ -1820,22 +1878,6 @@
    ],
    "in_repo": true,
    "match": "title"
-  },
-  {
-   "title": "Model Editing Can Hurt General Abilities of Large Language Models",
-   "year": "2024",
-   "author": "Jia-Chen Gu",
-   "graphs": [
-    "A Comprehensive Study of Knowledge Editing for Large Language Models",
-    "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
-    "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
-    "MELO: Enhancing Model Editing with Neuron Indexed Dynamic LoRA",
-    "PMET: Precise Model Editing in a Transformer",
-    "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
-    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
-   ],
-   "in_repo": false,
-   "match": ""
   },
   {
    "title": "Reasons and Solutions for the Decline in Model Performance after Editing",
@@ -1932,6 +1974,22 @@
    ],
    "in_repo": false,
    "match": ""
+  },
+  {
+   "title": "The Missing Piece in Model Editing: A Deep Dive into the Hidden Damage Brought By Model Editing",
+   "year": "2025",
+   "author": "Jianchen Wang",
+   "graphs": [
+    "AKEW: Assessing Knowledge Editing in the Wild",
+    "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy",
+    "Knowledge Editing for Masked Diffusion Language Models",
+    "StruEdit: Structured Outputs Enable the Fast and Accurate Knowledge Editing for Large Language Models",
+    "Towards Reliable, Generalizable, and Specific In Context Knowledge Editing via Multi Objective Reinforcement Learning"
+   ],
+   "in_repo": true,
+   "match": "title"
   },
   {
    "title": "Towards a Principled Evaluation of Knowledge Editors",
@@ -2041,6 +2099,21 @@
    "match": "title"
   },
   {
+   "title": "Aging with GRACE: Lifelong Model Editing with Discrete Key-Value Adapters",
+   "year": "2023",
+   "author": "Thomas Hartvigsen",
+   "graphs": [
+    "A Comprehensive Study of Knowledge Editing for Large Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
+    "MELO: Enhancing Model Editing with Neuron Indexed Dynamic LoRA",
+    "PMET: Precise Model Editing in a Transformer",
+    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
+   ],
+   "in_repo": true,
+   "match": "title"
+  },
+  {
    "title": "Assessing Knowledge Editing in Language Models via Relation Perspective",
    "year": "2023",
    "author": "Yifan Wei",
@@ -2056,19 +2129,34 @@
    "match": ""
   },
   {
-   "title": "EasyEdit: An Easy-to-use Knowledge Editing Framework for Large Language Models",
-   "year": "2023",
-   "author": "Peng Wang",
+   "title": "Better Call SAUL: Fluent and Consistent Language Model Editing with Generation Regularization",
+   "year": "2024",
+   "author": "Mingyang Wang",
    "graphs": [
-    "A Comprehensive Study of Knowledge Editing for Large Language Models",
-    "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
-    "Linearity of Relation Decoding in Transformer Language Models",
-    "MELO: Enhancing Model Editing with Neuron Indexed Dynamic LoRA",
-    "PMET: Precise Model Editing in a Transformer",
-    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
+    "Automatically Finding and Validating Unexpected Side Effects of Interventions on Language Models",
+    "Does Knowledge Localization Hold True? Surprising Differences Between Entity and Relation Perspectives in Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "Persuasion Tokens for Editing Factual Knowledge in LLMs",
+    "StruEdit: Structured Outputs Enable the Fast and Accurate Knowledge Editing for Large Language Models",
+    "Towards Reliable, Generalizable, and Specific In Context Knowledge Editing via Multi Objective Reinforcement Learning"
    ],
-   "in_repo": true,
-   "match": "name"
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
+   "year": "2024",
+   "author": "Jianchen Wang",
+   "graphs": [
+    "AKEW: Assessing Knowledge Editing in the Wild",
+    "DAFNet: Dynamic Auxiliary Fusion for Sequential Model Editing in Large Language Models",
+    "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy",
+    "Knowledge Editing for Masked Diffusion Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
   },
   {
    "title": "Knowledge Editing on Black-box Large Language Models",
@@ -2161,21 +2249,6 @@
    "match": ""
   },
   {
-   "title": "The Missing Piece in Model Editing: A Deep Dive into the Hidden Damage Brought By Model Editing",
-   "year": "2025",
-   "author": "Jianchen Wang",
-   "graphs": [
-    "AKEW: Assessing Knowledge Editing in the Wild",
-    "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
-    "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy",
-    "Knowledge Editing for Masked Diffusion Language Models",
-    "StruEdit: Structured Outputs Enable the Fast and Accurate Knowledge Editing for Large Language Models",
-    "Towards Reliable, Generalizable, and Specific In Context Knowledge Editing via Multi Objective Reinforcement Learning"
-   ],
-   "in_repo": true,
-   "match": "title"
-  },
-  {
    "title": "\u03bcKE: Matryoshka Unstructured Knowledge Editing of Large Language Models",
    "year": "2025",
    "author": "Zian Su",
@@ -2251,20 +2324,6 @@
    "match": ""
   },
   {
-   "title": "Aging with GRACE: Lifelong Model Editing with Discrete Key-Value Adapters",
-   "year": "2023",
-   "author": "Thomas Hartvigsen",
-   "graphs": [
-    "A Comprehensive Study of Knowledge Editing for Large Language Models",
-    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
-    "MELO: Enhancing Model Editing with Neuron Indexed Dynamic LoRA",
-    "PMET: Precise Model Editing in a Transformer",
-    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
-   ],
-   "in_repo": true,
-   "match": "title"
-  },
-  {
    "title": "Editing Large Language Models",
    "year": "2023",
    "author": "Ningyu Zhang",
@@ -2293,20 +2352,6 @@
    "match": ""
   },
   {
-   "title": "Better Call SAUL: Fluent and Consistent Language Model Editing with Generation Regularization",
-   "year": "2024",
-   "author": "Mingyang Wang",
-   "graphs": [
-    "Automatically Finding and Validating Unexpected Side Effects of Interventions on Language Models",
-    "Does Knowledge Localization Hold True? Surprising Differences Between Entity and Relation Perspectives in Language Models",
-    "Persuasion Tokens for Editing Factual Knowledge in LLMs",
-    "StruEdit: Structured Outputs Enable the Fast and Accurate Knowledge Editing for Large Language Models",
-    "Towards Reliable, Generalizable, and Specific In Context Knowledge Editing via Multi Objective Reinforcement Learning"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
    "title": "DAFNet: Dynamic Auxiliary Fusion for Sequential Model Editing in Large Language Models",
    "year": "2024",
    "author": "Taolin Zhang",
@@ -2321,20 +2366,6 @@
    "match": "name"
   },
   {
-   "title": "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
-   "year": "2024",
-   "author": "Jianchen Wang",
-   "graphs": [
-    "AKEW: Assessing Knowledge Editing in the Wild",
-    "DAFNet: Dynamic Auxiliary Fusion for Sequential Model Editing in Large Language Models",
-    "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
-    "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy",
-    "Knowledge Editing for Masked Diffusion Language Models"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
    "title": "Enhancing Multi-hop Reasoning through Knowledge Erasure in Large Language Model Editing",
    "year": "2024",
    "author": "Mengqi Zhang",
@@ -2344,6 +2375,20 @@
     "PRISM Edit: One Vector for All Temporal Answers",
     "Sequential knowledge editing breaks a model's ability to tell good evidence from bad, without costing it accuracy",
     "StruEdit: Structured Outputs Enable the Fast and Accurate Knowledge Editing for Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Knowledge Editing for Large Language Models",
+   "year": "2024",
+   "author": "Ningyu Zhang",
+   "graphs": [
+    "A Comprehensive Study of Knowledge Editing for Large Language Models",
+    "DAFNet: Dynamic Auxiliary Fusion for Sequential Model Editing in Large Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "PMET: Precise Model Editing in a Transformer",
+    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
    ],
    "in_repo": false,
    "match": ""
@@ -2629,6 +2674,20 @@
    "match": "name"
   },
   {
+   "title": "Unlocking Efficient, Scalable, and Continual Knowledge Editing with Basis-Level Representation Fine-Tuning",
+   "year": "2025",
+   "author": "Tianci Liu",
+   "graphs": [
+    "A Comprehensive Study of Knowledge Editing for Large Language Models",
+    "AKEW: Assessing Knowledge Editing in the Wild",
+    "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Beyond Binary Edits Robust Multimodal Knowledge Editing with Adversarial Subspace Alignment",
    "year": "2026",
    "author": "Haoyu Wang",
@@ -2735,19 +2794,6 @@
    "match": ""
   },
   {
-   "title": "Knowledge Editing for Large Language Models",
-   "year": "2024",
-   "author": "Ningyu Zhang",
-   "graphs": [
-    "A Comprehensive Study of Knowledge Editing for Large Language Models",
-    "DAFNet: Dynamic Auxiliary Fusion for Sequential Model Editing in Large Language Models",
-    "PMET: Precise Model Editing in a Transformer",
-    "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
    "title": "Lifelong Knowledge Editing for LLMs with Retrieval-Augmented Continuous Prompt Learning",
    "year": "2024",
    "author": "Qizhou Chen",
@@ -2769,6 +2815,19 @@
     "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
     "PRISM Edit: One Vector for All Temporal Answers",
     "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Neighboring Perturbations of Knowledge Editing on Large Language Models",
+   "year": "2024",
+   "author": "Jun-Yu Ma",
+   "graphs": [
+    "ACE: Attribution Controlled Knowledge Editing for Multi hop Factual Recall",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "PropMEND: Hypernetworks for Knowledge Propagation in LLMs",
+    "\u03bcKE: Matryoshka Unstructured Knowledge Editing of Large Language Models"
    ],
    "in_repo": false,
    "match": ""
@@ -2912,19 +2971,6 @@
     "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
     "KnowledgeDebugger   an Exploration Tool for Knowledge Localization and Editing in Transformers",
     "PersonaEdit: Representative Sample Selection for Personalized Model Editing"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
-   "title": "Unlocking Efficient, Scalable, and Continual Knowledge Editing with Basis-Level Representation Fine-Tuning",
-   "year": "2025",
-   "author": "Tianci Liu",
-   "graphs": [
-    "A Comprehensive Study of Knowledge Editing for Large Language Models",
-    "AKEW: Assessing Knowledge Editing in the Wild",
-    "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
-    "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing"
    ],
    "in_repo": false,
    "match": ""
@@ -3107,6 +3153,18 @@
    "match": ""
   },
   {
+   "title": "Editing Common Sense in Transformers",
+   "year": "2023",
+   "author": "Anshita Gupta",
+   "graphs": [
+    "A Comprehensive Study of Knowledge Editing for Large Language Models",
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "PMET: Precise Model Editing in a Transformer"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "History Matters: Temporal Knowledge Editing in Large Language Model",
    "year": "2023",
    "author": "Xunjian Yin",
@@ -3186,18 +3244,6 @@
     "DOW KE: Anchor Free Multi Layer Knowledge Editing via Direct End to End Weight Optimization",
     "PRISM Edit: One Vector for All Temporal Answers",
     "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
-   "title": "Neighboring Perturbations of Knowledge Editing on Large Language Models",
-   "year": "2024",
-   "author": "Jun-Yu Ma",
-   "graphs": [
-    "ACE: Attribution Controlled Knowledge Editing for Multi hop Factual Recall",
-    "PropMEND: Hypernetworks for Knowledge Propagation in LLMs",
-    "\u03bcKE: Matryoshka Unstructured Knowledge Editing of Large Language Models"
    ],
    "in_repo": false,
    "match": ""
@@ -3545,17 +3591,6 @@
    "match": ""
   },
   {
-   "title": "Editing Common Sense in Transformers",
-   "year": "2023",
-   "author": "Anshita Gupta",
-   "graphs": [
-    "A Comprehensive Study of Knowledge Editing for Large Language Models",
-    "PMET: Precise Model Editing in a Transformer"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
    "title": "Emergent Linear Representations in World Models of Self-Supervised Sequence Models",
    "year": "2023",
    "author": "Neel Nanda",
@@ -3639,6 +3674,17 @@
    "graphs": [
     "Identifying Query Relevant Neurons in Large Language Models for Long Form Texts",
     "Spectral Tail Interventions in Decoder Only Language Models: Reasoning Sensitive Weight Structure from Controlled Surgery"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "PoSE: Efficient Context Window Extension of LLMs via Positional Skip-wise Training",
+   "year": "2023",
+   "author": "Dawei Zhu",
+   "graphs": [
+    "MEMORYLLM: Towards Self Updatable Large Language Models",
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -3831,6 +3877,17 @@
    "match": ""
   },
   {
+   "title": "GenQA: Generating Millions of Instructions from a Handful of Prompts",
+   "year": "2024",
+   "author": "Jiu-Hai Chen",
+   "graphs": [
+    "Direct Multi Token Decoding",
+    "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Has this Fact been Edited? Detecting Knowledge Edits in Language Models",
    "year": "2024",
    "author": "Paul Youssef",
@@ -3908,6 +3965,17 @@
    "match": ""
   },
   {
+   "title": "LLM Maybe LongLM: Self-Extend LLM Context Window Without Tuning",
+   "year": "2024",
+   "author": "Hongye Jin",
+   "graphs": [
+    "MEMORYLLM: Towards Self Updatable Large Language Models",
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Large Scale Knowledge Washing",
    "year": "2024",
    "author": "Yu Wang",
@@ -3917,6 +3985,17 @@
    ],
    "in_repo": true,
    "match": "title"
+  },
+  {
+   "title": "Larimar: Large Language Models with Episodic Memory Control",
+   "year": "2024",
+   "author": "Payel Das",
+   "graphs": [
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "MEMORYLLM: Towards Self Updatable Large Language Models"
+   ],
+   "in_repo": true,
+   "match": "name"
   },
   {
    "title": "Learning to Edit: Aligning LLMs with Knowledge Editing",
@@ -3980,6 +4059,17 @@
    "graphs": [
     "Persuasion Tokens for Editing Factual Knowledge in LLMs",
     "Towards Reliable, Generalizable, and Specific In Context Knowledge Editing via Multi Objective Reinforcement Learning"
+   ],
+   "in_repo": true,
+   "match": "name"
+  },
+  {
+   "title": "RULER: What's the Real Context Size of Your Long-Context Language Models?",
+   "year": "2024",
+   "author": "Cheng-Ping Hsieh",
+   "graphs": [
+    "MEMORYLLM: Towards Self Updatable Large Language Models",
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": true,
    "match": "name"
@@ -4634,6 +4724,17 @@
    "match": ""
   },
   {
+   "title": "Cactus: Accelerating Auto-Regressive Decoding with Constrained Acceptance Speculative Sampling",
+   "year": "2026",
+   "author": "Yong-Chang Hao",
+   "graphs": [
+    "Direct Multi Token Decoding",
+    "Geometry Aware Decoding with Wasserstein Regularized Truncation and Mass Penalties for Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Demystifying Mergeability: Interpretable Properties to Predict Model Merging Success",
    "year": "2026",
    "author": "Luca Zhou",
@@ -4684,6 +4785,17 @@
    "graphs": [
     "Evaluating and Understanding Model Editing for Medical Vision Language Models",
     "Sequential knowledge editing breaks a model's ability to tell good evidence from bad, without costing it accuracy"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "LOKI: Memory-Free Null-Space Constrained Lifelong Knowledge Editing",
+   "year": "2026",
+   "author": "Masih Eskandar",
+   "graphs": [
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing"
    ],
    "in_repo": false,
    "match": ""
@@ -6359,8 +6471,8 @@
    "graphs": [
     "Kformer: Knowledge Injection in Transformer Feed Forward Layers"
    ],
-   "in_repo": false,
-   "match": ""
+   "in_repo": true,
+   "match": "name"
   },
   {
    "title": "Knowledge Infused Decoding",
@@ -6968,6 +7080,16 @@
    "author": "Wenjun Hou",
    "graphs": [
     "Evo DKD: Dual Knowledge Decoding for Autonomous Ontology Evolution in Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Can Sensitive Information Be Deleted From LLMs? Objectives for Defending Against Extraction Attacks",
+   "year": "2023",
+   "author": "Vaidehi Patil",
+   "graphs": [
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs"
    ],
    "in_repo": false,
    "match": ""
@@ -7813,16 +7935,6 @@
    "match": ""
   },
   {
-   "title": "PoSE: Efficient Context Window Extension of LLMs via Positional Skip-wise Training",
-   "year": "2023",
-   "author": "Dawei Zhu",
-   "graphs": [
-    "MEMORYLLM: Towards Self Updatable Large Language Models"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
    "title": "PokeMQA: Programmable knowledge editing for Multi-hop Question Answering",
    "year": "2023",
    "author": "Hengrui Gu",
@@ -8233,6 +8345,16 @@
    "match": ""
   },
   {
+   "title": "YaRN: Efficient Context Window Extension of Large Language Models",
+   "year": "2023",
+   "author": "Bowen Peng",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "A Common Pitfall of Margin-based Language Model Alignment: Gradient Entanglement",
    "year": "2024",
    "author": "Hui Yuan",
@@ -8248,6 +8370,16 @@
    "author": "Haitao Huang",
    "graphs": [
     "MEMORYLLM: Towards Self Updatable Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "A Controlled Study on Long Context Extension and Generalization in LLMs",
+   "year": "2024",
+   "author": "Yi Lu",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -8458,6 +8590,16 @@
    "author": "Jakub Lucki",
    "graphs": [
     "From Latents to Wires: Surgical Post Editing on Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "An Efficient Recipe for Long Context Extension via Middle-Focused Positional Encoding",
+   "year": "2024",
+   "author": "Tong Wu",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -8693,6 +8835,16 @@
    "match": ""
   },
   {
+   "title": "Bootstrap Your Own Context Length",
+   "year": "2024",
+   "author": "Liang Wang",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Breaking Boundaries: Investigating the Effects of Model Editing on Cross-linguistic Performance",
    "year": "2024",
    "author": "Somnath Banerjee",
@@ -8923,6 +9075,26 @@
    "match": "title"
   },
   {
+   "title": "Context Length Extension via Generalized Extrapolation Scale",
+   "year": "2024",
+   "author": "Lin-Han Li",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Context-Aware Assistant Selection for Improved Inference Acceleration with Large Language Models",
+   "year": "2024",
+   "author": "Jerry Huang",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Context-DPO: Aligning Language Models for Context-Faithfulness",
    "year": "2024",
    "author": "Baolong Bi",
@@ -8988,6 +9160,16 @@
    "author": "Wen-Yuan Liu",
    "graphs": [
     "The Super Weight in Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "DCIS: Efficient Length Extrapolation of LLMs via Divide-and-Conquer Scaling Factor Search",
+   "year": "2024",
+   "author": "Lei Yang",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -9353,6 +9535,16 @@
    "match": ""
   },
   {
+   "title": "Extending Context Window of Large Language Models from a Distributional Perspective",
+   "year": "2024",
+   "author": "Yingsheng Wu",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Extracting Unlearned Information from LLMs with Activation Steering",
    "year": "2024",
    "author": "Atakan Seyitoglu",
@@ -9533,6 +9725,16 @@
    "match": ""
   },
   {
+   "title": "Forgetting Curve: A Reliable Method for Evaluating Memorization Capability for Long-Context Models",
+   "year": "2024",
+   "author": "Xin-Yu Liu",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": true,
+   "match": "name"
+  },
+  {
    "title": "From News to Summaries: Building a Hungarian Corpus for Extractive and Abstractive Summarization",
    "year": "2024",
    "author": "Botond Barta",
@@ -9581,16 +9783,6 @@
    ],
    "in_repo": true,
    "match": "name"
-  },
-  {
-   "title": "GenQA: Generating Millions of Instructions from a Handful of Prompts",
-   "year": "2024",
-   "author": "Jiu-Hai Chen",
-   "graphs": [
-    "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy"
-   ],
-   "in_repo": false,
-   "match": ""
   },
   {
    "title": "Generative Recommender with End-to-End Learnable Item Tokenization",
@@ -9688,6 +9880,16 @@
    "author": "Zeping Yu",
    "graphs": [
     "Spectral Tail Interventions in Decoder Only Language Models: Reasoning Sensitive Weight Structure from Controlled Surgery"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "How to Train Long-Context Language Models (Effectively)",
+   "year": "2024",
+   "author": "Tianyu Gao",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -10133,16 +10335,6 @@
    "match": ""
   },
   {
-   "title": "LLM Maybe LongLM: Self-Extend LLM Context Window Without Tuning",
-   "year": "2024",
-   "author": "Hongye Jin",
-   "graphs": [
-    "MEMORYLLM: Towards Self Updatable Large Language Models"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
    "title": "LLM Surgery: Efficient Knowledge Unlearning and Editing in Large Language Models",
    "year": "2024",
    "author": "A. Veldanda",
@@ -10158,6 +10350,26 @@
    "author": "Rui-Rui Chen",
    "graphs": [
     "AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "LOGO - Long cOntext aliGnment via efficient preference Optimization",
+   "year": "2024",
+   "author": "Zecheng Tang",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "LONGAGENT: Achieving Question Answering for 128k-Token-Long Documents through Multi-Agent Collaboration",
+   "year": "2024",
+   "author": "Jun Zhao",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -10211,16 +10423,6 @@
    ],
    "in_repo": false,
    "match": ""
-  },
-  {
-   "title": "Larimar: Large Language Models with Episodic Memory Control",
-   "year": "2024",
-   "author": "Payel Das",
-   "graphs": [
-    "MEMORYLLM: Towards Self Updatable Large Language Models"
-   ],
-   "in_repo": true,
-   "match": "name"
   },
   {
    "title": "Latent Paraphrasing: Perturbation on Layers Improves Knowledge Injection in Language Models",
@@ -10313,6 +10515,16 @@
    "match": ""
   },
   {
+   "title": "Length Generalization of Causal Transformers without Position Encoding",
+   "year": "2024",
+   "author": "Jie Wang",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Leveraging Entailment Judgements in Cross-Lingual Summarisation",
    "year": "2024",
    "author": "Huajian Zhang",
@@ -10368,6 +10580,26 @@
    "author": "Zhuoran Zhang",
    "graphs": [
     "ACE: Attribution Controlled Knowledge Editing for Multi hop Factual Recall"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Long Context is Not Long at All: A Prospector of Long-Dependency Data for Large Language Models",
+   "year": "2024",
+   "author": "Long-Ze Chen",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "LongGenBench: Long-context Generation Benchmark",
+   "year": "2024",
+   "author": "Xiang Liu",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -11013,21 +11245,21 @@
    "match": ""
   },
   {
-   "title": "RULER: What's the Real Context Size of Your Long-Context Language Models?",
-   "year": "2024",
-   "author": "Cheng-Ping Hsieh",
-   "graphs": [
-    "MEMORYLLM: Towards Self Updatable Large Language Models"
-   ],
-   "in_repo": true,
-   "match": "name"
-  },
-  {
    "title": "Re-Examine Distantly Supervised NER: A New Benchmark and a Simple Approach",
    "year": "2024",
    "author": "Yuepei Li",
    "graphs": [
     "Error Type Aware Loss Reweighting for Robust Named Entity Recognition with Noisy LLM Labels"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "ReLU2 Wins: Discovering Efficient Activation Functions for Sparse LLMs",
+   "year": "2024",
+   "author": "Zhengyan Zhang",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -11108,6 +11340,16 @@
    "author": "Hammad Rizwan",
    "graphs": [
     "DAFNet: Dynamic Auxiliary Fusion for Sequential Model Editing in Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Resonance RoPE: Improving Context Length Generalization of Large Language Models",
+   "year": "2024",
+   "author": "Suyuchen Wang",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -11643,6 +11885,16 @@
    "match": ""
   },
   {
+   "title": "Towards Fast Multilingual LLM Inference: Speculative Decoding and Specialized Drafters",
+   "year": "2024",
+   "author": "Euiin Yi",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Towards LifeSpan Cognitive Systems",
    "year": "2024",
    "author": "Yu Wang",
@@ -11813,6 +12065,16 @@
    "match": ""
   },
   {
+   "title": "What is Wrong with Perplexity for Long-context Language Modeling?",
+   "year": "2024",
+   "author": "Li-Zhe Fang",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Where is the answer? Investigating Positional Bias in Language Model Knowledge Extraction",
    "year": "2024",
    "author": "Kuniaki Saito",
@@ -11828,6 +12090,16 @@
    "author": "Jiaxin Qin",
    "graphs": [
     "Towards Reliable, Generalizable, and Specific In Context Knowledge Editing via Multi Objective Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Why language models collapse when trained on recursively generated text",
+   "year": "2024",
+   "author": "Lecheng Wang",
+   "graphs": [
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs"
    ],
    "in_repo": false,
    "match": ""
@@ -11888,6 +12160,16 @@
    "author": "Xinrong Zhang",
    "graphs": [
     "MEMORYLLM: Towards Self Updatable Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "100-LongBench: Are de facto Long-Context Benchmarks Literally Evaluating Long-Context Ability?",
+   "year": "2025",
+   "author": "Wang Yang",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -12123,6 +12405,16 @@
    "match": ""
   },
   {
+   "title": "AdaSD: Adaptive Speculative Decoding for Efficient Language Model Inference",
+   "year": "2025",
+   "author": "Kuan Lu",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "AdaSearch: Balancing Parametric Knowledge and Search in Large Language Models via Reinforcement Learning",
    "year": "2025",
    "author": "Tzu-Han Lin",
@@ -12148,6 +12440,16 @@
    "author": "Cuong Pham",
    "graphs": [
     "The Super Weight in Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Adaptive Layer-skipping in Pre-trained LLMs",
+   "year": "2025",
+   "author": "Xuan Luo",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -12313,6 +12615,16 @@
    "match": ""
   },
   {
+   "title": "AutoJudge: Judge Decoding Without Manual Annotation",
+   "year": "2025",
+   "author": "Roman Garipov",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Auxiliary-Hyperparameter-Free Sampling: Entropy Equilibrium for Text Generation",
    "year": "2025",
    "author": "Xiao-Dong Cai",
@@ -12348,6 +12660,16 @@
    "author": "Mark Vero",
    "graphs": [
     "Understanding and Improving Model Editing for Secure Code Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Bayesian Attention Mechanism: A Probabilistic Framework for Positional Encoding and Context Length Extrapolation",
+   "year": "2025",
+   "author": "Arthur S. Bianchessi",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -12408,6 +12730,16 @@
    "author": "Yi Zhang",
    "graphs": [
     "The Super Weight in Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Beyond Length: Quantifying Long-Range Information for Long-Context LLM Pretraining Data",
+   "year": "2025",
+   "author": "Haoran Deng",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -12863,6 +13195,16 @@
    "match": ""
   },
   {
+   "title": "Cross-Attention Speculative Decoding",
+   "year": "2025",
+   "author": "Wei Zhong",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "DBellQuant: Breaking the Bell with Double-Bell Transformation for LLMs Post Training Binarization",
    "year": "2025",
    "author": "Zijian Ye",
@@ -13053,6 +13395,16 @@
    "match": ""
   },
   {
+   "title": "DiffSkip: Differential Layer Skipping in Large Language Models",
+   "year": "2025",
+   "author": "Xuan Luo",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "DiffTester: Accelerating Unit Test Generation for Diffusion LLMs via Repetitive Pattern",
    "year": "2025",
    "author": "Le-Kang Yang",
@@ -13108,6 +13460,16 @@
    "author": "Kwangjun Ahn",
    "graphs": [
     "PoLoRA: A Preconditioned Orthogonalized LoRA Optimizer"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Direct Multi-Token Decoding",
+   "year": "2025",
+   "author": "Xuan Luo",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -13523,6 +13885,16 @@
    "match": ""
   },
   {
+   "title": "Extending the Context of Pretrained LLMs by Dropping Their Positional Embeddings",
+   "year": "2025",
+   "author": "Yoav Gelberg",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "FAIR: Focused Attention Is All You Need for Generative Recommendation",
    "year": "2025",
    "author": "Longtao Xiao",
@@ -13558,6 +13930,26 @@
    "author": "Aayush Gupta",
    "graphs": [
     "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "FastEagle: Cascaded Drafting for Accelerating Speculative Decoding",
+   "year": "2025",
+   "author": "Hai-Duo Huang",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "FastGRPO: Accelerating Policy Optimization via Concurrency-aware Speculative Decoding and Online Draft Learning",
+   "year": "2025",
+   "author": "Yizhou Zhang",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -13963,6 +14355,16 @@
    "match": ""
   },
   {
+   "title": "HeteroSpec: Leveraging Contextual Heterogeneity for Efficient Speculative Decoding",
+   "year": "2025",
+   "author": "Si-Ran Liu",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Heterogeneous Multi-Head Attention Fusion Network for Enhanced Q&A Reasoning",
    "year": "2025",
    "author": "Jia-Qi Sun",
@@ -14103,6 +14505,16 @@
    "match": ""
   },
   {
+   "title": "Improving Reasoning Accuracy in Large Language Models via Length-Calibrated Reward",
+   "year": "2025",
+   "author": "Zhuorui Cui",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Incentivizing LLMs to Self-Verify Their Answers",
    "year": "2025",
    "author": "Fu-Xiang Zhang",
@@ -14118,6 +14530,16 @@
    "author": "Yige Yuan",
    "graphs": [
     "SEAT: Sparse Entity Aware Tuning for Knowledge Adaptation while Preserving Epistemic Abstention"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Infinite Retrieval: Attention Enhanced LLMs in Long-Context Processing",
+   "year": "2025",
+   "author": "Xiaoju Ye",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -14223,6 +14645,16 @@
    "match": ""
   },
   {
+   "title": "KVSpec: Efficient KV-Cache Reuse for Speculative Decoding",
+   "year": "2025",
+   "author": "Chang-bin Xu",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "KaeDe: Progressive Generation of Logical Forms via Knowledge-Aware Question Decomposition for Improved KBQA",
    "year": "2025",
    "author": "Ran-Ran Bu",
@@ -14283,6 +14715,16 @@
    "match": ""
   },
   {
+   "title": "LADM: Long-context Training Data Selection with Attention-based Dependency Measurement for LLMs",
+   "year": "2025",
+   "author": "Jianghao Chen",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "LLM Microscope: What Model Internals Reveal About Answer Correctness and Context Utilization",
    "year": "2025",
    "author": "Jiarui Liu",
@@ -14318,6 +14760,16 @@
    "author": "Fengqi Zhu",
    "graphs": [
     "Exploring the Potential of Diffusion Large Language Models in Code Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "LaMPE: Length-aware Multi-grained Positional Encoding for Adaptive Long-context Scaling Without Training",
+   "year": "2025",
+   "author": "Si Zhang",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -14488,6 +14940,36 @@
    "author": "Christoforos N. Spartalis",
    "graphs": [
     "On the go Forgetting without Explicit Unlearning via ERASE"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "LongAttn: Selecting Long-context Training Data via Token-level Attention",
+   "year": "2025",
+   "author": "Longyun Wu",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "LongLeader: A Comprehensive Leaderboard for Large Language Models in Long-context Scenarios",
+   "year": "2025",
+   "author": "Pei Chen",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "LongReD: Mitigating Short-Text Degradation of Long-Context Large Language Models via Restoration Distillation",
+   "year": "2025",
+   "author": "Zican Dong",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -15093,6 +15575,16 @@
    "match": ""
   },
   {
+   "title": "PERK: Long-Context Reasoning as Test-Time Learning",
+   "year": "2025",
+   "author": "Zeming Chen",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "PGDA-KGQA: A Prompt-Guided Generative Framework with Multiple Data Augmentation Strategies for Knowledge Graph Question Answering",
    "year": "2025",
    "author": "Xiujun Zhou",
@@ -15108,6 +15600,16 @@
    "author": "Yong Liu",
    "graphs": [
     "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "PSC: Extending Context Window of Large Language Models via Phase Shift Calibration",
+   "year": "2025",
+   "author": "Wenqiao Zhu",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -15573,11 +16075,31 @@
    "match": ""
   },
   {
+   "title": "Revisiting Long-context Modeling from Context Denoising Perspective",
+   "year": "2025",
+   "author": "Zecheng Tang",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Revisiting Multi-Agent Debate as Test-Time Scaling: A Systematic Study of Conditional Effectiveness",
    "year": "2025",
    "author": "Yongjin Yang",
    "graphs": [
     "Don't Repeat Yourself: Self Supervised Fine Tuning for Coverage"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Re\u00b3Syn: A Dependency-Based Data Synthesis Framework for Long-Context Post-training",
+   "year": "2025",
+   "author": "Zhiyang Zhang",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -15753,6 +16275,46 @@
    "match": ""
   },
   {
+   "title": "Scaling Instruction-tuned LLMs to Million-token Contexts via Hierarchical Synthetic Data Generation",
+   "year": "2025",
+   "author": "Linda He",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Scaling Laws for Speculative Decoding",
+   "year": "2025",
+   "author": "Siyuan Yan",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Scaling Long Context Training Data by Long-Distance Referrals",
+   "year": "2025",
+   "author": "Yonghao Zhuang",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Scaling Speculative Decoding with Lookahead Reasoning",
+   "year": "2025",
+   "author": "Yichao Fu",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "SciAgent: A Unified Multi-Agent System for Generalistic Scientific Reasoning",
    "year": "2025",
    "author": "Xu-Chen Li",
@@ -15863,6 +16425,16 @@
    "match": ""
   },
   {
+   "title": "SkyLadder: Better and Faster Pretraining via Context Window Scheduling",
+   "year": "2025",
+   "author": "Tong-Yao Zhu",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "SlimLLM: Accurate Structured Pruning for Large Language Models",
    "year": "2025",
    "author": "Jialong Guo",
@@ -15928,6 +16500,36 @@
    "author": "Yu-Hao Yang",
    "graphs": [
     "GenRecEdit: Adapting Model Editing for Generative Recommendation with Cold Start Items"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "SpecExit: Accelerating Large Reasoning Model via Speculative Exit",
+   "year": "2025",
+   "author": "Ru-Bing Yang",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Speculative Verification: Exploiting Information Gain to Refine Speculative Decoding",
+   "year": "2025",
+   "author": "Sungkyun Kim",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Steering Pretrained Drafters during Speculative Decoding",
+   "year": "2025",
+   "author": "Fr\u00e9d\u00e9ric Berdoz",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -16088,6 +16690,16 @@
    "author": "Aswin Rrv",
    "graphs": [
     "Don't Repeat Yourself: Self Supervised Fine Tuning for Coverage"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Token Weighting for Long-Range Language Modeling",
+   "year": "2025",
+   "author": "F. Helm",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -16548,6 +17160,16 @@
    "author": "Yang Liu",
    "graphs": [
     "Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Your LLM Knows the Future: Uncovering Its Multi-Token Prediction Potential",
+   "year": "2025",
+   "author": "Mohammad Samragh",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -17183,16 +17805,6 @@
    "match": ""
   },
   {
-   "title": "Cactus: Accelerating Auto-Regressive Decoding with Constrained Acceptance Speculative Sampling",
-   "year": "2026",
-   "author": "Yong-Chang Hao",
-   "graphs": [
-    "Geometry Aware Decoding with Wasserstein Regularized Truncation and Mass Penalties for Large Language Models"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
    "title": "CamoDocs: A Poisoning Attack Against Retrieval-Augmented Language Models Using Camouflaged Documents",
    "year": "2026",
    "author": "Jaewon Jung",
@@ -17493,6 +18105,16 @@
    "match": ""
   },
   {
+   "title": "D-PACE: Dynamic Position-Aware Cross-Entropy for Parallel Speculative Drafting",
+   "year": "2026",
+   "author": "Tian-Yuan Wu",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "D2Quant: Accurate Low-bit Post-Training Weight Quantization for LLMs",
    "year": "2026",
    "author": "Xianglong Yan",
@@ -17508,6 +18130,16 @@
    "author": "Jing-Yi Yang",
    "graphs": [
     "NaRA: Noise Aware LoRA for Parameter Efficient Fine Tuning of Diffusion LLMs"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "DARTree: Speculative Diffusion Decoding with Autoregressive Draft Trees",
+   "year": "2026",
+   "author": "Tian-Yi Li",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -17568,6 +18200,36 @@
    "author": "Naima Tasnim",
    "graphs": [
     "Noise Aware Shrinkage for Differentially Private Zeroth Order Fine Tuning of Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "DREAM-R: Multimodal Speculative Reasoning with RL-Based Refined Drafting, Precise Verification, and Fully Parallel Execution",
+   "year": "2026",
+   "author": "Yunhai Hu",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "D^2SD: Accelerating Speculative Decoding with Dual Diffusion Draft Models",
+   "year": "2026",
+   "author": "Liyuan Zhang",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "DeLS-Spec: Decoupled Long-Short Contexts for Parallel Speculative Drafting",
+   "year": "2026",
+   "author": "Hong-Kai Zheng",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -17763,11 +18425,31 @@
    "match": ""
   },
   {
+   "title": "Doing More With Less: Revisiting the Effectiveness of LLM Pruning for Test-Time Scaling",
+   "year": "2026",
+   "author": "Ocean Monjur",
+   "graphs": [
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Dominant-Layer ZO: A Single Layer Dominates Zeroth-Order Fine-Tuning of LLMs",
    "year": "2026",
    "author": "Wanhao Yu",
    "graphs": [
     "Noise Aware Shrinkage for Differentially Private Zeroth Order Fine Tuning of Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Domino: Decoupling Causal Modeling from Autoregressive Drafting in Speculative Decoding",
+   "year": "2026",
+   "author": "Jia-Nuo Huang",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -18003,6 +18685,16 @@
    "match": ""
   },
   {
+   "title": "Evolving Sparsity: Leveraging Token Importance Dynamics for Efficient LLM Decoding with Sparse Attention",
+   "year": "2026",
+   "author": "Ruizi Han",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Exact Unlearning from Proxies Induces Closeness Guarantees on Approximate Unlearning",
    "year": "2026",
    "author": "Virgile Dine",
@@ -18018,6 +18710,16 @@
    "author": "Minghan Zhang",
    "graphs": [
     "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Exposing the Illusion of Erasure in Knowledge Editing for LLMs",
+   "year": "2026",
+   "author": "Advik Raj Basani",
+   "graphs": [
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs"
    ],
    "in_repo": false,
    "match": ""
@@ -18118,6 +18820,16 @@
    "author": "Vincent-Daniel Yun",
    "graphs": [
     "PALS: Percentile Aware Layerwise Sparsity for LLM Pruning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "From Chains to Trees: Parent-Conditioned Drafting for Semi-Autoregressive Speculative Decoding",
+   "year": "2026",
+   "author": "Zixian Li",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -18318,6 +19030,26 @@
    "author": "Arash Gholami Davoodi",
    "graphs": [
     "Geometry Aware Decoding with Wasserstein Regularized Truncation and Mass Penalties for Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Golden Layers and Where to Find Them: Improved Knowledge Editing for Large Language Models Via Layer Gradient Analysis",
+   "year": "2026",
+   "author": "Shrestha Datta",
+   "graphs": [
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Goose: Anisotropic Speculation Trees for Training-Free Speculative Decoding",
+   "year": "2026",
+   "author": "Tao Jin",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -18613,6 +19345,16 @@
    "match": ""
   },
   {
+   "title": "JetSpec: Breaking the Scaling Ceiling of Speculative Decoding with Parallel Tree Drafting",
+   "year": "2026",
+   "author": "Lanxiang Hu",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "KBF: Knowledge Boundary as Fingerprint for Language Model and Black-Box API Auditing",
    "year": "2026",
    "author": "Yijia Fang",
@@ -18763,16 +19505,6 @@
    "match": ""
   },
   {
-   "title": "LOKI: Memory-Free Null-Space Constrained Lifelong Knowledge Editing",
-   "year": "2026",
-   "author": "Masih Eskandar",
-   "graphs": [
-    "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
    "title": "LSIG: Long Semantic IDs for Generative Recommendation",
    "year": "2026",
    "author": "Zhao Li",
@@ -18888,6 +19620,16 @@
    "author": "Yun-Xiang Zhang",
    "graphs": [
     "Don't Repeat Yourself: Self Supervised Fine Tuning for Coverage"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Less Experts, Faster Decoding: Cost-Aware Speculative Decoding for Mixture-of-Experts",
+   "year": "2026",
+   "author": "Jincheng Xie",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -19098,6 +19840,16 @@
    "author": "Baochen Fu",
    "graphs": [
     "Evaluating and Understanding Model Editing for Medical Vision Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "MTEDS: Memory and Time Efficient Speculative Decoding with Dynamic Sparsity and Bypass Scheduling",
+   "year": "2026",
+   "author": "Ying Yang",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -19653,6 +20405,16 @@
    "match": "name"
   },
   {
+   "title": "PRISM: Parametrically Refactoring Inference for Speculative Sampling Draft Models",
+   "year": "2026",
+   "author": "Xu-Liang Wang",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": true,
+   "match": "name"
+  },
+  {
    "title": "Parcae: Scaling Laws For Stable Looped Language Models",
    "year": "2026",
    "author": "Hayden Prairie",
@@ -19853,6 +20615,16 @@
    "match": ""
   },
   {
+   "title": "Quasar: Quantized Self-Speculative Acceleration for Rapid Inference via Memory-Efficient Verification",
+   "year": "2026",
+   "author": "Guangtai Huang",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "R3-VAE: Reference Vector-Guided Rating Residual Quantization VAE for Generative Recommendation",
    "year": "2026",
    "author": "Qiang Wan",
@@ -19918,6 +20690,16 @@
    "author": "Suyoung Kim",
    "graphs": [
     "The Super Weight in Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "ReTrace: Rejected-Trajectory Conditioning for Speculative Decoding",
+   "year": "2026",
+   "author": "Luxi Lin",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -19998,6 +20780,16 @@
    "author": "Zheng-Hai Chen",
    "graphs": [
     "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "ResiSpec: Enhancing Multi-Candidate Speculative Sampling via Residual Distribution Shaping",
+   "year": "2026",
+   "author": "Zhi-Kai Chen",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -20098,6 +20890,16 @@
    "author": "Anej Svete",
    "graphs": [
     "Transformers Stop Thinking Too Early, and a Tiny LoRA Fixes It"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Revisiting the Effectiveness of LLM Pruning for Test-Time Scaling",
+   "year": "2026",
+   "author": "Ocean Monjur",
+   "graphs": [
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs"
    ],
    "in_repo": false,
    "match": ""
@@ -20493,6 +21295,16 @@
    "match": ""
   },
   {
+   "title": "Shuffle the Context: RoPE-Perturbed Self-Distillation for Long-Context Adaptation",
+   "year": "2026",
+   "author": "Zi-Chong Li",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "SingularBit: Exploiting Synergy of Singular Value Decomposition and Low-Bit Quantization for Weight and KV Compression in LLM Inference",
    "year": "2026",
    "author": "Seongyon Hong",
@@ -20588,6 +21400,16 @@
    "author": "Ibne Farabi Shihab",
    "graphs": [
     "Spectral Tail Interventions in Decoder Only Language Models: Reasoning Sensitive Weight Structure from Controlled Surgery"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Speculative Sampling with Reinforcement Learning",
+   "year": "2026",
+   "author": "Chenan Wang",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -21153,6 +21975,26 @@
    "match": ""
   },
   {
+   "title": "TreeGraft: Adaptive Multi-Drafter Grafting for Tree-Based Speculative Decoding",
+   "year": "2026",
+   "author": "Jiaming Fan",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "TriSpec: Ternary Speculative Decoding via Lightweight Proxy Verification",
+   "year": "2026",
+   "author": "Hao-Yun Jiang",
+   "graphs": [
+    "Direct Multi Token Decoding"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Trojan Hippo Bench: A Dynamic Benchmark for Persistent Memory Attacks and Defenses in LLM Agents",
    "year": "2026",
    "author": "Debeshee Das",
@@ -21238,6 +22080,16 @@
    "author": "Seung-Heon Back",
    "graphs": [
     "Style Debiased DPO: Updating LLM Knowledge with Factuality Aware Synthetic Preference Data"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Understanding Performance Collapse in Layer-Pruned Large Language Models via Decision Representation Transitions",
+   "year": "2026",
+   "author": "Bo-Yu Shi",
+   "graphs": [
+    "Exposing the Illusion of Erasure in Knowledge Editing for LLMs"
    ],
    "in_repo": false,
    "match": ""
@@ -21358,6 +22210,16 @@
    "author": "Jingru Li",
    "graphs": [
     "PoLoRA: A Preconditioned Orthogonalized LoRA Optimizer"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Verification-Aware Training for Speculative Decoding",
+   "year": "2026",
+   "author": "Geonmo Gu",
+   "graphs": [
+    "Direct Multi Token Decoding"
    ],
    "in_repo": false,
    "match": ""
@@ -21528,6 +22390,16 @@
    "author": "Ruizhe Li",
    "graphs": [
     "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Where Does Long-Context Supervision Actually Go? Effective-Context Exposure Balancing",
+   "year": "2026",
+   "author": "Jin-Chang Zhu",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
@@ -21778,6 +22650,16 @@
    "author": "\u5434\u5434\u5434 \u94b0\u94b0\u94b0 \u748b\u748b\u748b 1 \uff0c\uff0c\uff0c \u7a46\u7a46\u7a46 \u6c38\u6c38\u6c38 \u8a89\u8a89\u8a89 1 \uff0c\uff0c\uff0c \u738b\u738b\u738b \u6210\u6210\u6210 \u9f99\u9f99\u9f99 1 \uff0c\uff0c\uff0c \u6850\u6850\u6850",
    "graphs": [
     "Identifying Query Relevant Neurons in Large Language Models for Long Form Texts"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Large Language Model for automobile",
+   "year": "null",
+   "author": "Fei Ding",
+   "graphs": [
+    "Token Weighting for Long Range Language Modeling"
    ],
    "in_repo": false,
    "match": ""
