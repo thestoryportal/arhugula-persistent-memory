@@ -1,0 +1,21 @@
+# Advisor review of the D-C10l-covgeom finding before CORPUS (Codex gpt-5.5, cross-family, 2026-10-05)
+
+Disposition: FIX-FIRST on wording only, folded into CORPUS/44 — NULL x3 is mechanically correct; the licensed sentence is 'under this C10 harness, one seed, N = 24, neither P := I nor the tested two-layer sets individually moved A7 out of baseline-scale spread or reached LEAD/PASS'; the P6-vs-edit gap carries the intervention-site confound; four over-claims excluded (no-locality-cost without 'on these axes', P6 as contract, rho_c 0.03 as behavioural realisation, any R2 mechanism); edit+inject = next diagnostic falsifier.
+
+## Review text (verbatim)
+
+FIX-FIRST
+
+Single most important thing: write CORPUS/44 as a **NULL result plus diagnostic lead**, not as “projector/spread are not the wall” in the strong sense. The licensed sentence is narrower: **under this C10 harness, one seed, N=24, neither P:=I nor the tested two-layer sets individually moved A7 out of baseline-scale spread or reached LEAD/PASS.**
+
+Issues, priority order:
+
+1. **`NULL ×3` is mechanically correct.** The prereg’s labels put LEAD at A7 `para_full ≥ 30/72` with locality conditions, otherwise NULL unless canon reaches REALISATION-ONLY [prereg](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10L_COVGEOM_SPARSEBAND_PREREG.md:63>). The reader implements that exactly [reader](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10l_covgeom_read.py:68>). Raw A7: run1 B is 4/24, 8/72 vs A 7/24, 13/72 [run1 B](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10l_covgeom/run1_armB_identity.json:2309>); run2 C is 7/24, 13/72 vs A 6/24, 10/72 [run2 C](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10l_covgeom/run2_armC_set48.json:2306>); run3 C′ is 10/24, 13/72 vs A 9/24, 13/72 [run3 C′](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10l_covgeom/run3_armC2_set78.json:2306>).
+
+2. **Do not overclaim “neither projector nor spread is the wall.”** At N=24, one seed, with A4 widening the baseline envelope to [5,18]/72 after discovering prior spread [A4](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10L_COVGEOM_SPARSEBAND_PREREG.md:115>), this only rules out these knobs as **sufficient single-factor fixes**. It does not prove they are irrelevant mechanisms, nor that they would fail with I-1/I-2 or a position-restricted write.
+
+3. **P6-vs-edit gap is real, but the headline needs the confound attached.** P6 shows no-weight z injection gives 24/24 canon and 49/72 paraphrase, with base full without injection 0 [P6](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10l_covgeom/p6_zinject.json:8>). But step0 declares `rho_p` a mixed-prefix proxy, not direct harness solve geometry [step0](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10l_covgeom/step0_offline.json:599>). Before making the gap the CORPUS headline, check the intervention-site confound: injection edits only layer-8 subject-last activation; weight edits affect every later token through edited `down_proj`s.
+
+4. **The edit+inject test deserves next slot, but only as a diagnostic falsifier.** It is cheap and directly separates “subject z not equivalent downstream” from “damage occurs at non-keyed positions.” Run it before I-1 OverTone if it is quick; do not frame it as a new rescue mechanism yet.
+
+5. **Must not write to CORPUS:** “P:=I has no locality cost” without “on these axes only”; “P6 proves the contract is met”; “rho_c 0.03 means the behavioral edit realizes the target”; “R2 says anything mechanistic” since R2 is ill-conditioned with huge `sum_dW_fro` [R2](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10l_covgeom/step0_offline.json:390>).

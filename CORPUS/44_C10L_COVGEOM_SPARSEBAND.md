@@ -1,0 +1,41 @@
+# 44 — Solve geometry (P := I) and sparse layer sets on the C10 harness: NULL ×3; the target carries the value under injection (49/72) but the weight edit does not (13/72)
+
+_Result 2026-10-05. Decision-ID D-C10l-covgeom. Pre-registered `docs/C10L_COVGEOM_SPARSEBAND_PREREG.md` (v2; amendments A1–A4 in §9, each with its own Codex gpt-5.5 pass; implementation review before the first run). Records `results/c10l_covgeom/` (`p6_zinject.json`, `step0_offline.json`, `run1_armB_identity.json`, `run2_armC_set48.json`, `run3_armC2_set78.json`, `jitter_default_{1..4}.json`, `preknob_default_{1,2}.json`, `a2_discriminator_preknob.json`); reader `experiments/track_c/c10l_covgeom_read.py` (mechanical §5 labels); harness `experiments/track_c/c10e_bandknob.py` (knob `C10_PROJECTOR`, locality axes L1/L3, string readout; engine unmodified, LAW#5 INERT every recipe); scripts `c10l_covgeom_p6_zinject.py`, `c10l_covgeom_step0.py`; hparams `configs/hparams/qwen25_3b_memit_hparams_set{48,78}.json`. Reviews: `results/c10l_covgeom/advisor_impl.md`, `advisor_a4.md`, `advisor_verdict.md`._
+
+## Claim class
+**Pre-registered falsifier on the program's C10 harness (harness knobs only; engine unmodified) — Qwen2.5-3B fp16 MPS, band 4–8, N = 24, one seed. Two single-factor changes to what the harness solves are tested as sufficient fixes; neither is. The P6 ceiling and step 0 are diagnostics, not contract evidence.**
+
+## VERDICT — NULL for arm B (P := I), arm C ({4, 8}) and arm C′ ({7, 8}); D not admitted; ceiling admits LEAD
+
+Under this harness, one seed, N = 24, neither removing the null-space projector (RoSE/IGA exactly, ridge 1) nor replacing the five-layer band with a two-layer set moved A7 held-out recall out of the baseline's per-process spread or reached LEAD (≥ 30/72). No arm cost locality on the measured axes. Candidate against arm A of the same run, exact counts:
+
+| run | arm | A7 canon /24 | A7 para_full /72 | para_first /72 | L1 flips /12 | described_as | L3 agree /30 | §5 label |
+|---|---|---|---|---|---|---|---|---|
+| 1 | A baseline | 7 | 13 | 54 | 0 | 90.7 | 30 | — |
+| 1 | **B** P := I | 4 | **8** | 59 | 0 | 89.5 | 30 | **NULL** |
+| 2 | A baseline | 6 | 10 | 45 | 0 | 88.2 | 30 | — |
+| 2 | **C** {4, 8} | 7 | **13** | 50 | 0 | 88.4 | 30 | **NULL** |
+| 3 | A baseline | 9 | 13 | 52 | 0 | 86.1 | 30 | — |
+| 3 | **C′** {7, 8} | 10 | **13** | 52 | 0 | 83.8 | 30 | **NULL** |
+
+Controls A1/A2 ≥ 70/72 in every arm; generic-text perplexity 21.76 → 21.4–22.0; L3 mean next-token KL ≤ 7e-4; `para_full_string` = `para_full` everywhere (no recall through an alternative tokenisation, prereg P4). LAW#5 |Δexpr| ≤ 0.0003 in all six recipes. Arm C and C′ both NULL, so BLUE's spread argument gets no credit either way.
+
+**P6 (step −1, no weight change):** the harness's own `compute_z` target at layer 8, patched into the residual stream at the subject-last token, yields the full coined value on 24/24 canonical prompts and 49/72 paraphrases (first token 54/72; per template 15/17/17 of 24), base leak 0. The target admits LEAD; the arms were read normally.
+
+**Step 0 (explanatory, sequential offline reconstruction of the harness loop; mixed-prefix proxy declared in the JSON):** band-level realised residual at the z-layer R0 (harness) ρ_c 0.028 / ρ_p 0.232; R1 (P := I) 0.008 / 0.222; R3 (trace-matched identity) 0.093 / 0.243; R2 (engine ridge, reference) ill-conditioned in null(C) ∩ null(Kᵀ) and carries no mechanistic reading. Predictions written before arm B ran: H-I8a (canonical realisation improves under P := I) — **false behaviourally** (canon 7 → 4); H-I8b (transfer improves) — predicted absent, consistent. Per-subject ρ_p against arm-A per-subject `para_full`: Spearman −0.12, proxy uninformative. R0's ΔW lies entirely in the null space of C (share 1.000) with ‖ΔW‖_F 12–28 per layer; R1's ΔW is 3–5 per layer.
+
+## Findings (scoped: Qwen2.5-3B, fp16 MPS, band 4–8 or the named set, N = 24, one seed, 24 fictional subjects × 3 held-out paraphrases)
+
+- **F-A1 (EVIDENCE-SHOWS).** P := I on this harness path is not a sufficient fix: A7 `para_full` 8/72 against 13/72, canon 4/24 against 7/24, with L1 0/12, L3 30/30 and `described_as` within 1.2 points. The S-3 prediction of a locality cost for removing the projector did not appear on these axes.
+- **F-A2 (EVIDENCE-SHOWS).** Layer sets {4, 8} and {7, 8} are not sufficient fixes: 13/72 against 10/72 and 13/72 against 13/72, locality unchanged. The band sweeps of CORPUS/37–39 and these two sets now cover contiguous 4–8, 8–12, 4–12, deep, and non-contiguous two-layer sets without a LEAD.
+- **F-A3 (EVIDENCE-SHOWS).** The target is not the wall: injecting the harness's z at the keyed position realises the value on 24/24 canonical and 49/72 paraphrase prompts, while the weight edit that realises the same z to 3 % at that position (step 0 ρ_c 0.028) yields 7/24 and 13/72. **Confound attached:** injection changes one activation at one position; the weight edit changes `down_proj` at layers 4–8 for every later token, including the frame tokens and the generated value tokens. The gap is therefore between two interventions with different sites, not a measurement of the edit's realisation alone.
+- **F-A4 (EVIDENCE-SHOWS, method).** Cross-process `delta_norms` vary by up to 4.35 % (six default runs, both arms) because the engine samples its context templates per process (`memit_dry_run/memit/util/generate.py:40–43`, unseeded top-k multinomial); a 1e-4 cross-process tolerance (prereg P3(a)) was a false premise. The pre-knob harness in fresh processes clusters with the post-knob runs on both arms, so the knob is inert at its default and the K1 reference was one draw. The A7 baseline itself spans 8–15/72 across five observations (CORPUS/37, 38, 39 and runs 1–2); a candidate must clear that spread, which is why LEAD is ≥ 30/72.
+- **F-A5 (I-INFER).** Hypotheses for the P6-vs-edit gap, in order of cheapest test: (H1) the edit's collateral change at non-keyed positions breaks the decode; (H2) a z realised by the edit is read differently downstream from an injected z; (H3) measurement — step 0 applies a float64 ΔW cast to fp16 where the harness applies float32 (recorded difference small). The cheapest discriminator is one run: apply the harness edit **and** inject z at the subject position in the same forward pass; ≈ 24/24 says H2, ≈ 7/24 says H1. Endorsed by the advisor as the next diagnostic falsifier, before I-1, not as a rescue mechanism.
+
+## What this changes
+
+- I-8 (solve geometry on the harness path) and I-9a (sparse layer set) are **closed as single-factor fixes** on Qwen2.5-3B; the engine-path λC → λ′I variant stays deferred; I-9b (BLUE proper), I-1 (OverTone), I-2 (forward replay) remain open on the (ii-c) queue, now behind the edit+inject diagnostic.
+- Harness gains, carried forward: locality axes L1 (12 real countries) and L3 (30 unedited capitals, top-1 agreement ≥ 29/30 binding) beside every held-out number; `para_full_string`; exact counts; cache SHA-256s; D-C10e labels are non-binding (`legacy_nonbinding_summary`).
+- Reproduction envelope for the identical baseline arm: A7 `para_full` [5, 18]/72, `para_first` [42, 59]/72, canon [5, 10]/24 (A4); P3(a) tolerance 0.0435 is an observed bound, not a margin (run 1's A2 arm sat at 4.17 %).
+- Not written here, by the advisor's instruction: "no locality cost" without "on these axes"; P6 as evidence the §8.9 contract is met; ρ_c 0.03 as proof the behavioural edit realises the target; any mechanism from R2.
+- C10 unchanged: OPEN/BLOCKING. Limitations: one seed, N = 24, one model (D-C10k-rulings-2), fp16 MPS; per-process spread ±3–5/72 on the binding count.
