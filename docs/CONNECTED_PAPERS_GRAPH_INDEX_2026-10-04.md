@@ -1,15 +1,18 @@
 # Connected Papers graph index — 2026-10-04
 
-_Merged from 33 Connected Papers exports supplied by the operator (`/Volumes/memit/llm-database-poc-mirror/connected-papers-knowledge-graphs`, kept outside git). 712 distinct papers. A paper's **graphs** count is the number of seed neighbourhoods it appears in; ≥ 3 marks the recurring spine of the field around the program's seeds. **in repo** = a title-prefix match somewhere in docs/, CORPUS/, memory_mirror/ or the runbook (presence, not depth of reading)._
+_Merged from 35 Connected Papers exports supplied by the operator (`/Volumes/memit/llm-database-poc-mirror/connected-papers-knowledge-graphs`, kept outside git). 787 distinct papers. A paper's **graphs** count is the number of seed neighbourhoods it appears in; ≥ 3 marks the recurring spine of the field around the program's seeds. **in repo** = a title-prefix match somewhere in docs/, CORPUS/, memory_mirror/ or the runbook (presence, not depth of reading)._
 
 ## Seeds (one graph each)
 
 - An information theoretic framework for robust large language model editing
 - AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise
+- Circuit Diff: Factual Edit based Intervention Method for Localizing Knowledge in Attribution Graphs
 - DOW KE: Anchor Free Multi Layer Knowledge Editing via Direct End to End Weight Optimization
+- Don't Repeat Yourself: Self Supervised Fine Tuning for Coverage
 - Evaluating and Understanding Model Editing for Medical Vision Language Models
 - FABLE: Fine grained Fact Anchoring for Unstructured Model Editing
 - ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models
+- From Latents to Wires: Surgical Post Editing on Large Language Models
 - Generalizable Lifelong Model Editing via Preference Optimization
 - Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing
 - KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation
@@ -20,25 +23,24 @@ _Merged from 33 Connected Papers exports supplied by the operator (`/Volumes/mem
 - ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective
 - Model Merging for Knowledge Editing
 - Moir: Let the Model Direct Its Own Story for Robust Cross Domain Knowledge Editing
+- On the go Forgetting without Explicit Unlearning via ERASE
 - PRISM Edit: One Vector for All Temporal Answers
 - PersonaEdit: Representative Sample Selection for Personalized Model Editing
 - Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage
 - Sequential knowledge editing breaks a model's ability to tell good evidence from bad, without costing it accuracy
-- The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning
-- Towards Reliable, Generalizable, and Specific In Context Knowledge Editing via Multi Objective Reinforcement Learning
-- Understanding and Improving Model Editing for Secure Code Generation
-- WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models
-- Circuit Diff: Factual Edit based Intervention Method for Localizing Knowledge in Attribution Graphs
-- Don't Repeat Yourself: Self Supervised Fine Tuning for Coverage
-- From Latents to Wires: Surgical Post Editing on Large Language Models
-- On the go Forgetting without Explicit Unlearning via ERASE
 - Spectral Tail Interventions in Decoder Only Language Models: Reasoning Sensitive Weight Structure from Controlled Surgery
 - Style Debiased DPO: Updating LLM Knowledge with Factuality Aware Synthetic Preference Data
 - Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing
+- The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning
+- Towards Reliable, Generalizable, and Specific In Context Knowledge Editing via Multi Objective Reinforcement Learning
 - Transformers Stop Thinking Too Early, and a Tiny LoRA Fixes It
+- Understanding and Improving Model Editing for Secure Code Generation
+- WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models
 - Who Is Behind the Harness? Fingerprinting LLMs through Agentic Behavior
+- Sparse Autoencoders Find Highly Interpretable Features in Language Models
+- The Super Weight in Large Language Models
 
-## Recurring papers (in ≥ 3 of 33 graphs): 120; not yet in repo context: 81
+## Recurring papers (in ≥ 3 of 35 graphs): 123; not yet in repo context: 83
 
 | graphs | year | first author | title | in repo |
 |---|---|---|---|---|
@@ -127,12 +129,15 @@ _Merged from 33 Connected Papers exports supplied by the operator (`/Volumes/mem
 | 4 | 2026 | Yujie Lin | ZeroUnlearn: Few-Shot Knowledge Unlearning in Large Language Models | **no** |
 | 4 | null | Xiaojie Gu | Editing Large Language Models via Adaptive Gradient Guidance | **no** |
 | 4 | null | 현 정다 | Knowledge Deletion-Based Approach for Knowledge Editing in Large Language Model | **no** |
+| 3 | 2022 | Kevin Wang | Interpretability in the Wild: a Circuit for Indirect Object Identification in GPT-2 small | **no** |
+| 3 | 2022 | Kevin Meng | Locating and Editing Factual Associations in GPT | yes (title) |
 | 3 | 2023 | Ce Zheng | Can We Edit Factual Knowledge by In-Context Learning? | **no** |
 | 3 | 2023 | Peng Wang | EasyEdit: An Easy-to-use Knowledge Editing Framework for Large Language Models | yes (name) |
 | 3 | 2023 | Roi Cohen | Evaluating the Ripple Effects of Knowledge Editing in Language Models | **no** |
 | 3 | 2023 | Aleksandar Makelov | Is This the Subspace You Are Looking for? An Interpretability Illusion for Subspace Activation Patching | **no** |
 | 3 | 2023 | Yiming Ju | KLoB: a Benchmark for Assessing Knowledge Locating Methods in Language Models | **no** |
 | 3 | 2023 | Xiaopeng Li | PMET: Precise Model Editing in a Transformer | **no** |
+| 3 | 2023 | Fred Zhang | Towards Best Practices of Activation Patching in Language Models: Metrics and Methods | **no** |
 | 3 | 2024 | Jizhan Fang | CKnowEdit: A New Chinese Knowledge Editing Dataset for Linguistics, Facts, and Logic Error Correction in LLMs | **no** |
 | 3 | 2024 | Hao Peng | Event-level Knowledge Editing | yes (title) |
 | 3 | 2024 | Jingcheng Deng | Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models | **no** |
@@ -206,6 +211,6 @@ _Merged from 33 Connected Papers exports supplied by the operator (`/Volumes/mem
 - (4 graphs, 2024) **Model Editing Harms General Abilities of Large Language Models: Regularization to the Rescue** — Jia-Chen Gu
 - (4 graphs, 2024) **Model Editing by Standard Fine-Tuning** — G. Gangadhar
 
-## Year profile of all 712 papers
+## Year profile of all 787 papers
 
-2017: 1, 2020: 3, 2021: 6, 2022: 9, 2023: 59, 2024: 186, 2025: 253, 2026: 184, null: 11
+2017: 1, 2020: 4, 2021: 6, 2022: 11, 2023: 70, 2024: 216, 2025: 275, 2026: 192, null: 12

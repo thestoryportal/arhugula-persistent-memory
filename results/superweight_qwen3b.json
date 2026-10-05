@@ -1,0 +1,330 @@
+{
+ "model": "Qwen/Qwen2.5-3B",
+ "revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+ "prompt": "The capital of France is the city of",
+ "n_layers": 36,
+ "median_in_max": 15.078125,
+ "median_out_max": 19.171875,
+ "per_layer": {
+  "0": {
+   "in_max": 9.5234375,
+   "in_tok": 7,
+   "in_ch": 7482,
+   "out_max": 6.41015625,
+   "out_tok": 0,
+   "out_ch": 1819
+  },
+  "1": {
+   "in_max": 15.6796875,
+   "in_tok": 0,
+   "in_ch": 6724,
+   "out_max": 86.625,
+   "out_tok": 0,
+   "out_ch": 318
+  },
+  "2": {
+   "in_max": 4860.0,
+   "in_tok": 0,
+   "in_ch": 3189,
+   "out_max": 2820.0,
+   "out_tok": 0,
+   "out_ch": 318
+  },
+  "3": {
+   "in_max": 342.25,
+   "in_tok": 0,
+   "in_ch": 9918,
+   "out_max": 194.125,
+   "out_tok": 0,
+   "out_ch": 318
+  },
+  "4": {
+   "in_max": 98.0,
+   "in_tok": 0,
+   "in_ch": 5805,
+   "out_max": 53.90625,
+   "out_tok": 0,
+   "out_ch": 318
+  },
+  "5": {
+   "in_max": 7.171875,
+   "in_tok": 0,
+   "in_ch": 10492,
+   "out_max": 16.734375,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "6": {
+   "in_max": 5.91015625,
+   "in_tok": 7,
+   "in_ch": 3616,
+   "out_max": 12.8671875,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "7": {
+   "in_max": 29.375,
+   "in_tok": 2,
+   "in_ch": 8237,
+   "out_max": 16.984375,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "8": {
+   "in_max": 15.078125,
+   "in_tok": 6,
+   "in_ch": 10652,
+   "out_max": 5.90625,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "9": {
+   "in_max": 12.0078125,
+   "in_tok": 1,
+   "in_ch": 10074,
+   "out_max": 14.1328125,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "10": {
+   "in_max": 24.125,
+   "in_tok": 2,
+   "in_ch": 9364,
+   "out_max": 12.2734375,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "11": {
+   "in_max": 9.96875,
+   "in_tok": 4,
+   "in_ch": 4390,
+   "out_max": 13.3671875,
+   "out_tok": 2,
+   "out_ch": 1874
+  },
+  "12": {
+   "in_max": 7.7421875,
+   "in_tok": 2,
+   "in_ch": 8118,
+   "out_max": 10.8125,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "13": {
+   "in_max": 10.3515625,
+   "in_tok": 7,
+   "in_ch": 5676,
+   "out_max": 10.953125,
+   "out_tok": 2,
+   "out_ch": 1874
+  },
+  "14": {
+   "in_max": 7.453125,
+   "in_tok": 2,
+   "in_ch": 2418,
+   "out_max": 10.921875,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "15": {
+   "in_max": 5.90234375,
+   "in_tok": 7,
+   "in_ch": 923,
+   "out_max": 8.0,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "16": {
+   "in_max": 42.59375,
+   "in_tok": 0,
+   "in_ch": 4509,
+   "out_max": 41.625,
+   "out_tok": 0,
+   "out_ch": 318
+  },
+  "17": {
+   "in_max": 59.5625,
+   "in_tok": 0,
+   "in_ch": 520,
+   "out_max": 43.9375,
+   "out_tok": 0,
+   "out_ch": 318
+  },
+  "18": {
+   "in_max": 4.05859375,
+   "in_tok": 5,
+   "in_ch": 2734,
+   "out_max": 16.890625,
+   "out_tok": 3,
+   "out_ch": 1874
+  },
+  "19": {
+   "in_max": 4.59375,
+   "in_tok": 4,
+   "in_ch": 6557,
+   "out_max": 16.828125,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "20": {
+   "in_max": 4.08203125,
+   "in_tok": 1,
+   "in_ch": 7141,
+   "out_max": 22.84375,
+   "out_tok": 3,
+   "out_ch": 1874
+  },
+  "21": {
+   "in_max": 4.546875,
+   "in_tok": 6,
+   "in_ch": 1851,
+   "out_max": 14.2578125,
+   "out_tok": 2,
+   "out_ch": 1874
+  },
+  "22": {
+   "in_max": 4.40234375,
+   "in_tok": 1,
+   "in_ch": 9322,
+   "out_max": 10.8203125,
+   "out_tok": 2,
+   "out_ch": 1874
+  },
+  "23": {
+   "in_max": 4.14453125,
+   "in_tok": 1,
+   "in_ch": 422,
+   "out_max": 12.109375,
+   "out_tok": 2,
+   "out_ch": 1874
+  },
+  "24": {
+   "in_max": 8.0390625,
+   "in_tok": 5,
+   "in_ch": 9376,
+   "out_max": 12.9375,
+   "out_tok": 4,
+   "out_ch": 1874
+  },
+  "25": {
+   "in_max": 14.625,
+   "in_tok": 0,
+   "in_ch": 3720,
+   "out_max": 21.5,
+   "out_tok": 3,
+   "out_ch": 1874
+  },
+  "26": {
+   "in_max": 7.96875,
+   "in_tok": 3,
+   "in_ch": 5124,
+   "out_max": 27.0625,
+   "out_tok": 3,
+   "out_ch": 1874
+  },
+  "27": {
+   "in_max": 36.90625,
+   "in_tok": 1,
+   "in_ch": 3517,
+   "out_max": 19.171875,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "28": {
+   "in_max": 32.78125,
+   "in_tok": 0,
+   "in_ch": 8808,
+   "out_max": 29.890625,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "29": {
+   "in_max": 54.625,
+   "in_tok": 0,
+   "in_ch": 8035,
+   "out_max": 46.71875,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "30": {
+   "in_max": 1831.0,
+   "in_tok": 0,
+   "in_ch": 7496,
+   "out_max": 2510.0,
+   "out_tok": 0,
+   "out_ch": 318
+  },
+  "31": {
+   "in_max": 36.40625,
+   "in_tok": 1,
+   "in_ch": 1239,
+   "out_max": 45.65625,
+   "out_tok": 2,
+   "out_ch": 1874
+  },
+  "32": {
+   "in_max": 42.6875,
+   "in_tok": 1,
+   "in_ch": 10245,
+   "out_max": 47.625,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "33": {
+   "in_max": 66.625,
+   "in_tok": 0,
+   "in_ch": 9311,
+   "out_max": 85.0625,
+   "out_tok": 0,
+   "out_ch": 318
+  },
+  "34": {
+   "in_max": 120.0,
+   "in_tok": 0,
+   "in_ch": 3054,
+   "out_max": 220.75,
+   "out_tok": 0,
+   "out_ch": 1874
+  },
+  "35": {
+   "in_max": 417.5,
+   "in_tok": 0,
+   "in_ch": 73,
+   "out_max": 470.25,
+   "out_tok": 0,
+   "out_ch": 318
+  }
+ },
+ "candidates_20x_median": [
+  {
+   "layer": 2,
+   "row_out_ch": 318,
+   "col_in_ch": 3189,
+   "weight": -0.55078125,
+   "in_max": 4860.0,
+   "out_max": 2820.0,
+   "token": "The",
+   "token_pos": 0
+  },
+  {
+   "layer": 30,
+   "row_out_ch": 318,
+   "col_in_ch": 7496,
+   "weight": -0.890625,
+   "in_max": 1831.0,
+   "out_max": 2510.0,
+   "token": "The",
+   "token_pos": 0
+  },
+  {
+   "layer": 35,
+   "row_out_ch": 318,
+   "col_in_ch": 73,
+   "weight": -0.1591796875,
+   "in_max": 417.5,
+   "out_max": 470.25,
+   "token": "The",
+   "token_pos": 0
+  }
+ ]
+}
