@@ -20,6 +20,7 @@ import torch
 from memit.memit_main import get_context_templates
 
 H = D.H
+A_MIN, A_HIGH = 38, 44   # prereg §7 N1: instrument range floor and the HIGH-CONTROL stratum boundary
 ZT = {}   # pre-edit facts for the hook: zs_pre, ctx; the hook adds zs_post  [LAW:no-shared-mutable-globals] one writer per key
 
 
@@ -54,9 +55,12 @@ def main():
     print(f"cell A z_pre->pre (control): canon {A['canon_n']}/24 para {A['para_n']}/72 per-template {A['per_template']} ({time.time()-t0:.0f}s)", flush=True)
     head = {"decision_id": os.environ["DECISION_ID"], "prereg": os.environ["PREREG"], "P1": {"fingerprint": p1, "law3_reference_run": D.LAW3_REF},
             "z_layer": D.Z_LAYER, "zs_pre": D.z_record(zs_pre), "cell_A_zpre_pre": A}
-    if A["para_n"] < D.INJ_PRE_PARA_MIN or A["canon_n"] < D.INJ_PRE_CANON_MIN:
-        head["invalid"] = f"cell A control below the gate (para {A['para_n']} < {D.INJ_PRE_PARA_MIN} or canon {A['canon_n']} < {D.INJ_PRE_CANON_MIN}); run stopped before the edit"
+    # N1: A is a measured stratum (HIGH-CONTROL >= 44, LOW-CONTROL 38-43); only the instrument range gates the run
+    head["control_stratum"] = "HIGH-CONTROL" if A["para_n"] >= A_HIGH else ("LOW-CONTROL" if A["para_n"] >= A_MIN else "OUT-OF-RANGE")
+    if A["para_n"] < A_MIN or A["canon_n"] < D.INJ_PRE_CANON_MIN:
+        head["invalid"] = f"cell A outside the instrument range (para {A['para_n']} < {A_MIN} or canon {A['canon_n']} < {D.INJ_PRE_CANON_MIN}); run stopped before the edit"
         json.dump(head, open(H.OUT, "w"), indent=2); raise SystemExit(f"HALT: {head['invalid']}")   # [LAW:no-silent-failure]
+    print(f"control stratum: {head['control_stratum']}", flush=True)
     H.ARM_HOOKS.append(hook)
     rc = H.main()                                   # run_recipe restores the base weights before returning
     A2 = D.inject_sweep(zs_pre)                     # prereg v2 §2.4: the WHOLE cell A sweep repeated on the restored weights

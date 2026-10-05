@@ -7,7 +7,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from c10l_mint_read import L3_THR
 from c10m_diag_read import FINGERPRINT, ENV_PARA, ENV_CANON, INJ_PRE_PARA_MIN, INJ_PRE_CANON_MIN
 
-REPL_B_DROP, REPL_C_DROP, REPL_C_FLOOR = 20, 10, 44   # CORPUS/46 replication clause: B <= A - 20, C >= A - 10 and C >= 44
+REPL_B_DROP, REPL_C_DROP = 20, 10        # CORPUS/46 replication clause: B <= A - 20, C >= A - 10 ...
+A_MIN, HIGH = 38, 44                     # N1: A < 38 INVALID; HIGH-CONTROL needs A >= 44 and C >= 44, else LOW-CONTROL (reported, not promoted)
 DRIFT_D_DROP = 20                        # DRIFT: D <= A - 20 (behaviour-primary; geometry descriptive)
 TP_D_DROP = 10                           # TARGET-PORTABLE: D >= A - 10
 
@@ -26,7 +27,7 @@ def main():
     if a1["para_full_n"] < 68: reasons.append(f"A1 {a1['para_full_n']} < 68")
     if not ENV_PARA[0] <= a7["para_full_n"] <= ENV_PARA[1]: reasons.append(f"A7 para_full {a7['para_full_n']} outside {ENV_PARA}")
     if not ENV_CANON[0] <= a7["canon_full_n"] <= ENV_CANON[1]: reasons.append(f"A7 canon {a7['canon_full_n']} outside {ENV_CANON}")
-    if A["para_n"] < INJ_PRE_PARA_MIN or A["canon_n"] < INJ_PRE_CANON_MIN: reasons.append("cell A below gate")
+    if A["para_n"] < A_MIN or A["canon_n"] < INJ_PRE_CANON_MIN: reasons.append(f"cell A outside the instrument range (para < {A_MIN} or canon < {INJ_PRE_CANON_MIN})")
     if not r["restoration_check"]["identical"]: reasons.append("restoration check failed")
     if a7["locality_axes"]["L3_top1_agree"] < L3_THR: reasons.append("L3 below threshold")
     ax = a7["locality_axes"]
@@ -43,12 +44,15 @@ def main():
     if reasons:
         print("\nINVALID —", "; ".join(reasons)); return
     a, b, c, d = A["para_n"], B["para_n"], C["para_n"], Dc["para_n"]
-    repl = b <= a - REPL_B_DROP and c >= a - REPL_C_DROP and c >= REPL_C_FLOOR
-    print(f"\nCORPUS/46 replication: B {b} <= A-{REPL_B_DROP} ({a - REPL_B_DROP})? {b <= a - REPL_B_DROP}; C {c} >= A-{REPL_C_DROP} ({a - REPL_C_DROP}) and >= {REPL_C_FLOOR}? {c >= a - REPL_C_DROP and c >= REPL_C_FLOOR} -> {'reproduced' if repl else 'NOT reproduced in this process (reading not promoted)'}")
+    cells_ok = b <= a - REPL_B_DROP and c >= a - REPL_C_DROP
+    stratum = "HIGH-CONTROL" if (a >= HIGH and c >= HIGH) else "LOW-CONTROL"
+    promoted = cells_ok and stratum == "HIGH-CONTROL"
+    print(f"\nCORPUS/46 replication: B {b} <= A-{REPL_B_DROP} ({a - REPL_B_DROP})? {b <= a - REPL_B_DROP}; C {c} >= A-{REPL_C_DROP} ({a - REPL_C_DROP})? {c >= a - REPL_C_DROP}; stratum {stratum} (A {a}, C {c}; HIGH needs both >= {HIGH}; control history 49/54/51/42) -> "
+          f"{'reproduced, promotable' if promoted else ('cells reproduced, LOW-CONTROL: reported, not promoted as replication' if cells_ok else 'cells NOT reproduced in this process (reading not promoted)')}")
     if d <= a - DRIFT_D_DROP: label = "DRIFT"
     elif d >= a - TP_D_DROP: label = "TARGET-PORTABLE"
     else: label = "INDETERMINATE"
-    print(f"reading: D {d} vs A {a} (DRIFT needs D <= {a - DRIFT_D_DROP}; TARGET-PORTABLE needs D >= {a - TP_D_DROP}) -> {label}{'' if repl else ' (not promoted: CORPUS/46 cells not reproduced)'}; geometry beside: mean cosine {g['mean_cosine']}, mean normalized displacement {g['mean_rel_diff']}")
+    print(f"reading: D {d} vs A {a} (DRIFT needs D <= {a - DRIFT_D_DROP}; TARGET-PORTABLE needs D >= {a - TP_D_DROP}) -> {label} [{stratum}{'' if promoted else ', not promoted'}]; geometry beside: mean cosine {g['mean_cosine']}, mean normalized displacement {g['mean_rel_diff']}")
 
 
 if __name__ == "__main__":
