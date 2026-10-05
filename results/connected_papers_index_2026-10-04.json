@@ -1,6 +1,8 @@
 {
  "seeds": [
+  "\u03bcKE: Matryoshka Unstructured Knowledge Editing of Large Language Models",
   "A Comprehensive Study of Knowledge Editing for Large Language Models",
+  "AKEW: Assessing Knowledge Editing in the Wild",
   "Addressing the Reasoning Gap: Mechanistic Circuit Based Knowledge Editing in Large Language Models",
   "An information theoretic framework for robust large language model editing",
   "AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise",
@@ -15,6 +17,8 @@
   "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
   "Error Type Aware Loss Reweighting for Robust Named Entity Recognition with Noisy LLM Labels",
   "Evaluating and Understanding Model Editing for Medical Vision Language Models",
+  "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
+  "Evo DKD: Dual Knowledge Decoding for Autonomous Ontology Evolution in Large Language Models",
   "Exploring the Potential of Diffusion Large Language Models in Code Generation",
   "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
   "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models",
@@ -22,8 +26,10 @@
   "GenRecEdit: Adapting Model Editing for Generative Recommendation with Cold Start Items",
   "Generalizable Lifelong Model Editing via Preference Optimization",
   "Geometry Aware Decoding with Wasserstein Regularized Truncation and Mass Penalties for Large Language Models",
+  "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
   "Hybrid Policy Self Editing for Composable Unstructured Knowledge Editing",
   "Identifying Query Relevant Neurons in Large Language Models for Long Form Texts",
+  "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy",
   "KLOD: Locality Preserving Knowledge Editing via Non Target Distribution Preservation",
   "Know the Unknown: An Uncertainty Sensitive Method for LLM Instruction Tuning",
   "Knowledge Editing for Masked Diffusion Language Models",
@@ -50,32 +56,31 @@
   "PoLoRA: A Preconditioned Orthogonalized LoRA Optimizer",
   "PropMEND: Hypernetworks for Knowledge Propagation in LLMs",
   "R Tuning: Instructing Large Language Models to Say \u2018I Don\u2019t Know\u2019",
+  "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
   "SEAT: Sparse Entity Aware Tuning for Knowledge Adaptation while Preserving Epistemic Abstention",
   "Saliency Aware Model Merging",
   "Selective Knowledge Edit Reversal via Gated Singular Vector Shrinkage",
   "Sequential knowledge editing breaks a model's ability to tell good evidence from bad, without costing it accuracy",
   "Sparse Autoencoders Find Highly Interpretable Features in Language Models",
   "Spectral Tail Interventions in Decoder Only Language Models: Reasoning Sensitive Weight Structure from Controlled Surgery",
+  "StruEdit: Structured Outputs Enable the Fast and Accurate Knowledge Editing for Large Language Models",
   "Style Debiased DPO: Updating LLM Knowledge with Factuality Aware Synthetic Preference Data",
   "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing",
   "The Super Weight in Large Language Models",
   "The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning",
   "Towards Reliable, Generalizable, and Specific In Context Knowledge Editing via Multi Objective Reinforcement Learning",
   "Transformers Stop Thinking Too Early, and a Tiny LoRA Fixes It",
+  "Uncovering Context Reliance in Unstructured Knowledge Editing",
   "Understanding and Improving Model Editing for Secure Code Generation",
   "Unified Personalized Understanding, Generating and Editing",
   "WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models",
   "When Successful Knowledge Graph Edits Displace Correct Answers: Rank Level Locality beyond Parameter Support",
   "Who Is Behind the Harness? Fingerprinting LLMs through Agentic Behavior",
-  "\u03bcKE: Matryoshka Unstructured Knowledge Editing of Large Language Models",
-  "AKEW: Assessing Knowledge Editing in the Wild",
-  "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
-  "Evo DKD: Dual Knowledge Decoding for Autonomous Ontology Evolution in Large Language Models",
-  "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
-  "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy",
-  "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs",
-  "StruEdit: Structured Outputs Enable the Fast and Accurate Knowledge Editing for Large Language Models",
-  "Uncovering Context Reliance in Unstructured Knowledge Editing"
+  "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation",
+  "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion",
+  "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents",
+  "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning",
+  "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
  ],
  "papers": [
   {
@@ -710,7 +715,7 @@
   {
    "title": "Reinforced Lifelong Editing for Language Models",
    "year": "2025",
-   "author": "Zhe-Rui Li",
+   "author": "Zherui Li",
    "graphs": [
     "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
     "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
@@ -1125,8 +1130,8 @@
     "PropMEND: Hypernetworks for Knowledge Propagation in LLMs",
     "Representation Interventions Enable Lifelong Knowledge Memory Control in LLMs"
    ],
-   "in_repo": false,
-   "match": ""
+   "in_repo": true,
+   "match": "title"
   },
   {
    "title": "In-Context Editing: Learning Knowledge from Self-Induced Distributions",
@@ -1548,7 +1553,7 @@
   {
    "title": "Forgetting before Learning: Utilizing Parametric Arithmetic for Knowledge Updating in Large Language Models",
    "year": "2023",
-   "author": "Shiwen Ni",
+   "author": "Shi-Wen Ni",
    "graphs": [
     "AKEW: Assessing Knowledge Editing in the Wild",
     "DAFNet: Dynamic Auxiliary Fusion for Sequential Model Editing in Large Language Models",
@@ -1876,7 +1881,7 @@
   {
    "title": "Reasons and Solutions for the Decline in Model Performance after Editing",
    "year": "2024",
-   "author": "Xiu-Sheng Huang",
+   "author": "Xiusheng Huang",
    "graphs": [
     "An information theoretic framework for robust large language model editing",
     "AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise",
@@ -1891,7 +1896,7 @@
   {
    "title": "AnyEdit: Edit Any Knowledge Encoded in Language Models",
    "year": "2025",
-   "author": "Hou-Cheng Jiang",
+   "author": "Houcheng Jiang",
    "graphs": [
     "AKEW: Assessing Knowledge Editing in the Wild",
     "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
@@ -2193,7 +2198,7 @@
   {
    "title": "O-Edit: Orthogonal Subspace Editing for Language Model Sequential Editing",
    "year": "2024",
-   "author": "Yu-Chen Cai",
+   "author": "Yuchen Cai",
    "graphs": [
     "AKEW: Assessing Knowledge Editing in the Wild",
     "An information theoretic framework for robust large language model editing",
@@ -2375,7 +2380,7 @@
   {
    "title": "MindBridge: Scalable and Cross-Model Knowledge Editing via Memory-Augmented Modality",
    "year": "2025",
-   "author": "Shuai Li",
+   "author": "Shuaike Li",
    "graphs": [
     "An information theoretic framework for robust large language model editing",
     "FABLE: Fine grained Fact Anchoring for Unstructured Model Editing",
@@ -2510,7 +2515,7 @@
   {
    "title": "Can We Edit Multimodal Large Language Models?",
    "year": "2023",
-   "author": "Siyuan Cheng",
+   "author": "Si-Yuan Cheng",
    "graphs": [
     "A Comprehensive Study of Knowledge Editing for Large Language Models",
     "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
@@ -2536,7 +2541,7 @@
   {
    "title": "CKnowEdit: A New Chinese Knowledge Editing Dataset for Linguistics, Facts, and Logic Error Correction in LLMs",
    "year": "2024",
-   "author": "Jizhan Fang",
+   "author": "Tianhe Lu",
    "graphs": [
     "AnyEdit++: Adaptive Long Form Knowledge Editing via Bayesian Surprise",
     "Evaluating and Understanding Model Editing for Medical Vision Language Models",
@@ -2992,7 +2997,7 @@
   {
    "title": "See the Unseen: Better Context-Consistent Knowledge-Editing by Noises",
    "year": "2024",
-   "author": "You-Cheng Huang",
+   "author": "Youcheng Huang",
    "graphs": [
     "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing",
     "PRISM Edit: One Vector for All Temporal Answers",
@@ -3436,6 +3441,17 @@
    "match": "title"
   },
   {
+   "title": "Knowledge Graph Embedding Based Graph Convolutional Network for Link Prediction",
+   "year": "2023",
+   "author": "Qian Wu",
+   "graphs": [
+    "Evo DKD: Dual Knowledge Decoding for Autonomous Ontology Evolution in Large Language Models",
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Language Models Implement Simple Word2Vec-style Vector Arithmetic",
    "year": "2023",
    "author": "Jack Merullo",
@@ -3489,6 +3505,17 @@
    ],
    "in_repo": true,
    "match": "name"
+  },
+  {
+   "title": "A Contextualized BERT model for Knowledge Graph Completion",
+   "year": "2024",
+   "author": "Haji Gul",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion",
+    "When Successful Knowledge Graph Edits Displace Correct Answers: Rank Level Locality beyond Parameter Support"
+   ],
+   "in_repo": false,
+   "match": ""
   },
   {
    "title": "ATM: Improving Model Merging by Alternating Tuning and Merging",
@@ -3629,6 +3656,17 @@
    "graphs": [
     "HoReN: Normalized Hopfield Retrieval for Large Scale Sequential Model Editing",
     "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Efficient relational context perception for knowledge graph completion",
+   "year": "2024",
+   "author": "Wenkai Tu",
+   "graphs": [
+    "Evo DKD: Dual Knowledge Decoding for Autonomous Ontology Evolution in Large Language Models",
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
    ],
    "in_repo": false,
    "match": ""
@@ -4856,6 +4894,16 @@
    "match": ""
   },
   {
+   "title": "CrossNER: Evaluating Cross-Domain Named Entity Recognition",
+   "year": "2020",
+   "author": "Zihan Liu",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "EagleEye: Fast Sub-net Evaluation for Efficient Neural Network Pruning",
    "year": "2020",
    "author": "Bai-Lin Li",
@@ -5066,6 +5114,26 @@
    "match": ""
   },
   {
+   "title": "ARMAN: Pre-training with Semantically Selecting and Reordering of Sentences for Persian Abstractive Summarization",
+   "year": "2021",
+   "author": "Alireza Salemi",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Automated News Summarization Using Transformers",
+   "year": "2021",
+   "author": "Anushka Gupta",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "COMIRE: A Consistence-Based Mislabeled Instances Removal Method",
    "year": "2021",
    "author": "Xiaokun Pu",
@@ -5166,6 +5234,16 @@
    "match": ""
   },
   {
+   "title": "Generating abstractive summaries of Lithuanian news articles using a transformer model",
+   "year": "2021",
+   "author": "Lukas Stankevicius",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Group Fisher Pruning for Practical Network Compression",
    "year": "2021",
    "author": "Liyang Liu",
@@ -5211,6 +5289,16 @@
    "author": "Damai Dai",
    "graphs": [
     "Linearity of Relation Decoding in Transformer Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "LightNER: A Lightweight Tuning Paradigm for Low-resource NER via Pluggable Prompting",
+   "year": "2021",
+   "author": "Xiang Chen",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -5271,6 +5359,16 @@
    "author": "Zhenyu Wang",
    "graphs": [
     "Neural Network Pruning via QUBO Optimization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "RNG-KBQA: Generation Augmented Iterative Ranking for Knowledge Base Question Answering",
+   "year": "2021",
+   "author": "Xi Ye",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -5366,6 +5464,26 @@
    "match": ""
   },
   {
+   "title": "A Corpus and Evaluation for Predicting Semi-Structured Human Annotations",
+   "year": "2022",
+   "author": "Andreas Marfurt",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "A Label-Aware Autoregressive Framework for Cross-Domain NER",
+   "year": "2022",
+   "author": "Jinpeng Hu",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "A Review of Knowledge Graph Completion",
    "year": "2022",
    "author": "Mohamad Zamini",
@@ -5381,6 +5499,16 @@
    "author": "Chuanming Yu",
    "graphs": [
     "Evo DKD: Dual Knowledge Decoding for Autonomous Ontology Evolution in Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Abstraction ou hallucination ? \u00c9tat des lieux et \u00e9valuation du risque pour les mod\u00e8les de g\u00e9n\u00e9ration de r\u00e9sum\u00e9s automatiques de type s\u00e9quence-\u00e0-s\u00e9quence (Abstraction or Hallucination ? Status and Risk assessment for sequence-to-sequence Automatic)",
+   "year": "2022",
+   "author": "Eunice Akani",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -5411,6 +5539,26 @@
    "author": "Jia-Run Liu",
    "graphs": [
     "Error Type Aware Loss Reweighting for Robust Named Entity Recognition with Noisy LLM Labels"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "ArcaneQA: Dynamic Program Induction and Contextualized Encoding for Knowledge Base Question Answering",
+   "year": "2022",
+   "author": "Yu Gu",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Automatic Summarization of Russian Texts: Comparison of Extractive and Abstractive Methods",
+   "year": "2022",
+   "author": "Valeriya Goloviznina",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -5486,11 +5634,41 @@
    "match": ""
   },
   {
+   "title": "DACSA: A large-scale Dataset for Automatic summarization of Catalan and Spanish newspaper Articles",
+   "year": "2022",
+   "author": "Encarnaci\u00f3n Segarra Soriano",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "DecAF: Joint Decoding of Answers and Logical Forms for Question Answering over Knowledge Bases",
+   "year": "2022",
+   "author": "Donghan Yu",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Deep Neural Networks for Text Classification",
    "year": "2022",
    "author": "Lin-Wei Zhong",
    "graphs": [
     "ModTGCN: Modularity Aware Graph Neural Networks for Text Classification"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Deep Transformer Language Models for Arabic Text Summarization: A Comparison Study",
+   "year": "2022",
+   "author": "Hasna Chouikhi",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -5526,6 +5704,16 @@
    "match": ""
   },
   {
+   "title": "DoSEA: A Domain-specific Entity-aware Framework for Cross-Domain Named Entity Recogition",
+   "year": "2022",
+   "author": "Minghao Tang",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "EAPruning: Evolutionary Pruning for Vision Transformers and CNNs",
    "year": "2022",
    "author": "Qingyuan Li",
@@ -5536,11 +5724,41 @@
    "match": ""
   },
   {
+   "title": "Effectiveness of French Language Models on Abstractive Dialogue Summarization Task",
+   "year": "2022",
+   "author": "Yongxin Zhou",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Efficient Network Pruning via Feature Selection",
    "year": "2022",
    "author": "Xiang Xie",
    "graphs": [
     "Neural Network Pruning via QUBO Optimization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Evaluating Legal Accuracy of Neural Generators on the Generation of Criminal Court Dockets Description",
+   "year": "2022",
+   "author": "Nicolas Garneau",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Exploring Text Summarization Models for Indian Languages",
+   "year": "2022",
+   "author": "Shayak Chakraborty",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -5561,6 +5779,26 @@
    "author": "Youngsik Yoon",
    "graphs": [
     "On the go Forgetting without Explicit Unlearning via ERASE"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "From Discrimination to Generation: Knowledge Graph Completion with Generative Transformer",
+   "year": "2022",
+   "author": "Xin Xie",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Generating Extended and Multilingual Summaries with Pre-trained Transformers",
+   "year": "2022",
+   "author": "R\u00e9mi Calizzano",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -5626,6 +5864,16 @@
    "match": ""
   },
   {
+   "title": "LP-BERT: Multi-task Pre-training Knowledge Graph BERT for Link Prediction",
+   "year": "2022",
+   "author": "Da Li",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Label-Noise Robust Deep Generative Model for Semi-Supervised Learning",
    "year": "2022",
    "author": "Heegeon Yoon",
@@ -5641,6 +5889,16 @@
    "author": "Yang Xu",
    "graphs": [
     "Identifying Query Relevant Neurons in Large Language Models for Long Form Texts"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Language Models as Knowledge Embeddings",
+   "year": "2022",
+   "author": "Xintao Wang",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
    ],
    "in_repo": false,
    "match": ""
@@ -5736,11 +5994,31 @@
    "match": ""
   },
   {
+   "title": "Subgraph Retrieval Enhanced Model for Multi-hop Knowledge Base Question Answering",
+   "year": "2022",
+   "author": "Jing Zhang",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Submix: Practical Private Prediction for Large-Scale Language Models",
    "year": "2022",
    "author": "Antonio A. Ginart",
    "graphs": [
     "SEAT: Sparse Entity Aware Tuning for Knowledge Adaptation while Preserving Epistemic Abstention"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "TIARA: Multi-grained Retrieval for Robust Question Answering over Large Knowledge Base",
+   "year": "2022",
+   "author": "Yiheng Shu",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -5806,6 +6084,26 @@
    "match": ""
   },
   {
+   "title": "Two New Datasets for Italian-Language Abstractive Text Summarization",
+   "year": "2022",
+   "author": "Nicola Landro",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "UniKGQA: Unified Retrieval and Reasoning for Solving Multi-hop Question Answering Over Knowledge Graph",
+   "year": "2022",
+   "author": "Jin-Hao Jiang",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Walk-and-Relate: A Random-Walk-based Algorithm for Representation Learning on Sparse Knowledge Graphs",
    "year": "2022",
    "author": "Saurav Manchanda",
@@ -5851,6 +6149,16 @@
    "author": "Jack Merullo",
    "graphs": [
     "Linearity of Relation Decoding in Transformer Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "A Simple Yet Effective Subsequence-Enhanced Approach for Cross-Domain NER",
+   "year": "2023",
+   "author": "Jinpeng Hu",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -5911,6 +6219,16 @@
    "author": "Zihao Wang",
    "graphs": [
     "Error Type Aware Loss Reweighting for Robust Named Entity Recognition with Noisy LLM Labels"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "AliBERT: A Pre-trained Language Model for French Biomedical Text",
+   "year": "2023",
+   "author": "Aman Berhe",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -6066,6 +6384,16 @@
    "match": ""
   },
   {
+   "title": "ChatKBQA: A Generate-then-Retrieve Framework for Knowledge Base Question Answering with Fine-tuned Large Language Models",
+   "year": "2023",
+   "author": "Haoran Luo",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Chinese community topic classification method based on graph model",
    "year": "2023",
    "author": "Shuang Zhang",
@@ -6116,6 +6444,16 @@
    "match": ""
   },
   {
+   "title": "Contrastive Learning for Vietnamese Abstractive Summarization",
+   "year": "2023",
+   "author": "Nhat Minh Dang",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "ConvD: Attention Enhanced Dynamic Convolutional Embeddings for Knowledge Graph Completion",
    "year": "2023",
    "author": "Wenbin Guo",
@@ -6136,6 +6474,16 @@
    "match": ""
   },
   {
+   "title": "CroCoSum: A Benchmark Dataset for Cross-Lingual Code-Switched Summarization",
+   "year": "2023",
+   "author": "Ruochen Zhang",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "DUnE: Dataset for Unified Editing",
    "year": "2023",
    "author": "Afra Feyza Aky\u00fcrek",
@@ -6146,11 +6494,31 @@
    "match": ""
   },
   {
+   "title": "Data Distribution Bottlenecks in Grounding Language Models to Knowledge Bases",
+   "year": "2023",
+   "author": "Yiheng Shu",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Debiased and Denoised Entity Recognition from Distant Supervision",
    "year": "2023",
    "author": "Haobo Wang",
    "graphs": [
     "Error Type Aware Loss Reweighting for Robust Named Entity Recognition with Noisy LLM Labels"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Decoupled Hyperbolic Graph Attention Network for Cross-domain Named Entity Recognition",
+   "year": "2023",
+   "author": "Jingyun Xu",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -6286,11 +6654,31 @@
    "match": ""
   },
   {
+   "title": "FC-KBQA: A Fine-to-Coarse Composition Framework for Knowledge Base Question Answering",
+   "year": "2023",
+   "author": "Lingxi Zhang",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Fast Machine Unlearning Without Retraining Through Selective Synaptic Dampening",
    "year": "2023",
    "author": "Jack Foster",
    "graphs": [
     "On the go Forgetting without Explicit Unlearning via ERASE"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Few-shot In-context Learning on Knowledge Base Question Answering",
+   "year": "2023",
+   "author": "Tianle Li",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -6316,11 +6704,31 @@
    "match": ""
   },
   {
+   "title": "FlexKBQA: A Flexible LLM-Powered Framework for Few-Shot Knowledge Base Question Answering",
+   "year": "2023",
+   "author": "Zhen-Yu Li",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "FreshLLMs: Refreshing Large Language Models with Search Engine Augmentation",
    "year": "2023",
    "author": "Tu Vu",
    "graphs": [
     "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "GLiNER: Generalist Model for Named Entity Recognition using Bidirectional Transformer",
+   "year": "2023",
+   "author": "Urchade Zaratiana",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -6341,6 +6749,16 @@
    "author": "Paul Youssef",
    "graphs": [
     "Identifying Query Relevant Neurons in Large Language Models for Long Form Texts"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "GreekBART: The First Pretrained Greek Sequence-to-Sequence Model",
+   "year": "2023",
+   "author": "Iakovos Evdaimon",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -6386,6 +6804,16 @@
    "match": ""
   },
   {
+   "title": "Inductive Knowledge Graph Completion with GNNs and Rules: An Analysis",
+   "year": "2023",
+   "author": "Akash Anil",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Information Association for Language Model Updating by Mitigating LM-Logical Discrepancy",
    "year": "2023",
    "author": "Pengfei Yu",
@@ -6401,6 +6829,16 @@
    "author": "Evan Hernandez",
    "graphs": [
     "Linearity of Relation Decoding in Transformer Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "InstructUIE: Multi-task Instruction Tuning for Unified Information Extraction",
+   "year": "2023",
+   "author": "Xiao Wang",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -6446,16 +6884,6 @@
    "match": ""
   },
   {
-   "title": "Knowledge Graph Embedding Based Graph Convolutional Network for Link Prediction",
-   "year": "2023",
-   "author": "Qian Wu",
-   "graphs": [
-    "Evo DKD: Dual Knowledge Decoding for Autonomous Ontology Evolution in Large Language Models"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
    "title": "Knowledge-Augmented Language Model Verification",
    "year": "2023",
    "author": "Jinheon Baek",
@@ -6471,6 +6899,16 @@
    "author": "Minki Kang",
    "graphs": [
     "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Knowledge-Driven CoT: Exploring Faithful Reasoning in LLMs for Knowledge-intensive Question Answering",
+   "year": "2023",
+   "author": "Keheng Wang",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -6536,6 +6974,16 @@
    "match": "name"
   },
   {
+   "title": "MILDSum: A Novel Benchmark Dataset for Multilingual Summarization of Indian Legal Case Judgments",
+   "year": "2023",
+   "author": "Debtanu Datta",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "MProto: Multi-Prototype Network with Denoised Optimal Transport for Distantly Supervised Named Entity Recognition",
    "year": "2023",
    "author": "Shuhui Wu",
@@ -6586,6 +7034,16 @@
    "match": ""
   },
   {
+   "title": "Mirror: A Universal Framework for Various Information Extraction Tasks",
+   "year": "2023",
+   "author": "Tong Zhu",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": true,
+   "match": "name"
+  },
+  {
    "title": "Mitigating the Learning Bias towards Repetition by Self-Contrastive Training for Open-Ended Generation",
    "year": "2023",
    "author": "Jian Guan",
@@ -6616,6 +7074,16 @@
    "match": ""
   },
   {
+   "title": "Multilingual Text Summarization for German Texts Using Transformer Models",
+   "year": "2023",
+   "author": "Tomas Humberto Montiel Alcantara",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Neuron Patching: Neuron-level Model Editing on Code Generation and LLMs",
    "year": "2023",
    "author": "Jian Gu",
@@ -6641,6 +7109,26 @@
    "author": "Defu Liu",
    "graphs": [
     "Error Type Aware Loss Reweighting for Robust Named Entity Recognition with Noisy LLM Labels"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "One Model for All Domains: Collaborative Domain-Prefix Tuning for Cross-Domain NER",
+   "year": "2023",
+   "author": "Xiang Chen",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "PMIndiaSum: Multilingual and Cross-lingual Headline Summarization for Languages in India",
+   "year": "2023",
+   "author": "Ashok Urlana",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -6696,6 +7184,16 @@
    "match": ""
   },
   {
+   "title": "Pre-training Transformers for Knowledge Graph Completion",
+   "year": "2023",
+   "author": "Sanxing Chen",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Progress measures for grokking via mechanistic interpretability",
    "year": "2023",
    "author": "Neel Nanda",
@@ -6746,6 +7244,16 @@
    "match": ""
   },
   {
+   "title": "Random Entity Quantization for Parameter-Efficient Compositional Knowledge Graph Representation",
+   "year": "2023",
+   "author": "Jiaang Li",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Representation Engineering: A Top-Down Approach to AI Transparency",
    "year": "2023",
    "author": "Andy Zou",
@@ -6771,6 +7279,16 @@
    "author": "Arnav Chavan",
    "graphs": [
     "PALS: Percentile Aware Layerwise Sparsity for LLM Pruning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Revisiting Cross-Lingual Summarization: A Corpus-based Study and A New Benchmark with Improved Annotation",
+   "year": "2023",
+   "author": "Yulong Chen",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -6816,6 +7334,16 @@
    "match": ""
   },
   {
+   "title": "SEPAKE: a structure-enhanced and position-aware knowledge embedding framework for knowledge graph completion",
+   "year": "2023",
+   "author": "Mei Yu",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "SNER-CS: Self-training Named Entity Recognition in Computer Science",
    "year": "2023",
    "author": "Jing-Jing Zhu",
@@ -6831,6 +7359,16 @@
    "author": "Pengfei Yu",
    "graphs": [
     "Information Association for Language Model Updating by Mitigating LM Logical Discrepancy"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Sequence-to-Sequence Spanish Pre-trained Language Models",
+   "year": "2023",
+   "author": "Vladimir Araujo",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -6926,6 +7464,16 @@
    "match": ""
   },
   {
+   "title": "The Method of Automatic Construction of Training Collections for the Task of Abstractive Summarization of News Articles",
+   "year": "2023",
+   "author": "D. Chernyshev",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Towards Automated Circuit Discovery for Mechanistic Interpretability",
    "year": "2023",
    "author": "Arthur Conmy",
@@ -6946,11 +7494,41 @@
    "match": ""
   },
   {
+   "title": "Towards Unifying Multi-Lingual and Cross-Lingual Summarization",
+   "year": "2023",
+   "author": "Jiaan Wang",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Towards Verifiable Text Generation with Evolving Memory and Self-Reflection",
    "year": "2023",
    "author": "Hao Sun",
    "graphs": [
     "Know the Unknown: An Uncertainty Sensitive Method for LLM Instruction Tuning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Unifying Structure and Language Semantic for Efficient Contrastive Knowledge Graph Completion with Structured Entity Anchors",
+   "year": "2023",
+   "author": "Sang-hyun Je",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "UniversalNER: Targeted Distillation from Large Language Models for Open Named Entity Recognition",
+   "year": "2023",
+   "author": "Wenxuan Zhou",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -7006,11 +7584,11 @@
    "match": ""
   },
   {
-   "title": "A Contextualized BERT model for Knowledge Graph Completion",
+   "title": "A Framework of Knowledge Graph-Enhanced Large Language Model Based on Question Decomposition and Atomic Retrieval",
    "year": "2024",
-   "author": "Haji Gul",
+   "author": "Yading Li",
    "graphs": [
-    "When Successful Knowledge Graph Edits Displace Correct Answers: Rank Level Locality beyond Parameter Support"
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -7051,6 +7629,16 @@
    "author": "Xiao-Qin Liu",
    "graphs": [
     "When Successful Knowledge Graph Edits Displace Correct Answers: Rank Level Locality beyond Parameter Support"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "A Novel Summarization Framework based on Reference-Free Evaluation of Multiple Large Language Models",
+   "year": "2024",
+   "author": "Wei Feng",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -7166,6 +7754,16 @@
    "match": ""
   },
   {
+   "title": "AlignXIE: Improving Multilingual Information Extraction by Cross-Lingual Alignment",
+   "year": "2024",
+   "author": "Yuxin Zuo",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "AlphaDPO: Adaptive Reward Margin for Direct Preference Optimization",
    "year": "2024",
    "author": "Junkang Wu",
@@ -7236,6 +7834,16 @@
    "match": ""
   },
   {
+   "title": "Assessing Abstractive and Extractive Methods for Automatic News Summarization",
+   "year": "2024",
+   "author": "Hil\u00e1rio Oliveira",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Atoxia: Red-teaming Large Language Models with Target Toxic Answers",
    "year": "2024",
    "author": "Yuhao Du",
@@ -7261,6 +7869,16 @@
    "author": "Junhan Kim",
    "graphs": [
     "CoreQ: Learning Free Mismatch Correction and Successive Rounding for Quantization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Augmenting Reasoning Capabilities of LLMs with Graph Structures in Knowledge Base Question Answering",
+   "year": "2024",
+   "author": "Yu-Hang Tian",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -7346,6 +7964,16 @@
    "match": ""
   },
   {
+   "title": "Beyond Boundaries: Learning a Universal Entity Taxonomy across Datasets and Languages for Open Named Entity Recognition",
+   "year": "2024",
+   "author": "Yuming Yang",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Beyond the Hype: A Dispassionate Look at Vision\u2013Language Models in Medical Scenario",
    "year": "2024",
    "author": "Yang Nan",
@@ -7416,6 +8044,16 @@
    "match": ""
   },
   {
+   "title": "CERG-KBQA: Advancing KBQA-Systems through Classification, Enumeration, Ranking, and Generation Strategies",
+   "year": "2024",
+   "author": "Junyu Chen",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "CLOVER: Cross-Layer Orthogonal Vectors Pruning and Fine-Tuning",
    "year": "2024",
    "author": "Fanxu Meng",
@@ -7436,11 +8074,31 @@
    "match": ""
   },
   {
+   "title": "Call Me When Necessary: LLMs can Efficiently and Faithfully Reason over Structured Environments",
+   "year": "2024",
+   "author": "Sitao Cheng",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Can We Statically Locate Knowledge in Large Language Models? Financial Domain and Toxicity Reduction Case Studies",
    "year": "2024",
    "author": "Jordi Armengol-Estap\u00e9",
    "graphs": [
     "Identifying Query Relevant Neurons in Large Language Models for Long Form Texts"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Can pre-trained language models generate titles for research papers?",
+   "year": "2024",
+   "author": "Tohida Rehman",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -7536,6 +8194,16 @@
    "match": ""
   },
   {
+   "title": "ConVerSum: A Contrastive Learning-Based Approach for Data-Scarce Solution of Cross-Lingual Summarization Beyond Direct Equivalents",
+   "year": "2024",
+   "author": "S. Lora",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Confidence Regulation Neurons in Language Models",
    "year": "2024",
    "author": "Alessandro Stolfo",
@@ -7556,6 +8224,16 @@
    "match": ""
   },
   {
+   "title": "Context Graph",
+   "year": "2024",
+   "author": "Cheng-Jin Xu",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": true,
+   "match": "title"
+  },
+  {
    "title": "Context-DPO: Aligning Language Models for Context-Faithfulness",
    "year": "2024",
    "author": "Baolong Bi",
@@ -7571,6 +8249,46 @@
    "author": "Kairong Hu",
    "graphs": [
     "Evo DKD: Dual Knowledge Decoding for Autonomous Ontology Evolution in Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Cross-Domain NER under a Divide-and-Transfer Paradigm",
+   "year": "2024",
+   "author": "Xinghua Zhang",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Cross-domain NER in the data-poor scenarios for human mobility knowledge",
+   "year": "2024",
+   "author": "Yutong Jiang",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Cross-domain NER with Generated Task-Oriented Knowledge: An Empirical Study from Information Density Perspective",
+   "year": "2024",
+   "author": "Zhihao Zhang",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Cross-domain Named Entity Recognition via Graph Matching",
+   "year": "2024",
+   "author": "Junhao Zheng",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -7666,6 +8384,16 @@
    "match": ""
   },
   {
+   "title": "Diluie: constructing diverse demonstrations of in-context learning with large language model for unified information extraction",
+   "year": "2024",
+   "author": "Qian Guo",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Dissecting Fine-Tuning Unlearning in Large Language Models",
    "year": "2024",
    "author": "Yi-Huai Hong",
@@ -7681,6 +8409,16 @@
    "author": "Shanbao Qiao",
    "graphs": [
     "Efficiently Quantifying and Mitigating Ripple Effects in Model Editing"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Distribution Shifts Are Bottlenecks: Extensive Evaluation for Grounding Language Models to Knowledge Bases",
+   "year": "2024",
+   "author": "Yiheng Shu",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -7711,6 +8449,16 @@
    "author": "Shangbin Feng",
    "graphs": [
     "R Tuning: Instructing Large Language Models to Say \u2018I Don\u2019t Know\u2019"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Dual Contrastive Learning for Cross-Domain Named Entity Recognition",
+   "year": "2024",
+   "author": "Jingyun Xu",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -7796,16 +8544,6 @@
    "match": ""
   },
   {
-   "title": "Efficient relational context perception for knowledge graph completion",
-   "year": "2024",
-   "author": "Wenkai Tu",
-   "graphs": [
-    "Evo DKD: Dual Knowledge Decoding for Autonomous Ontology Evolution in Large Language Models"
-   ],
-   "in_repo": false,
-   "match": ""
-  },
-  {
    "title": "EfficientQAT: Efficient Quantization-Aware Training for Large Language Models",
    "year": "2024",
    "author": "Mengzhao Chen",
@@ -7841,6 +8579,16 @@
    "author": "Alireza Amiri-Margavi",
    "graphs": [
     "Geometry Aware Decoding with Wasserstein Regularized Truncation and Mass Penalties for Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Enhancing Complex Question Answering over Knowledge Graphs through Evidence Pattern Retrieval",
+   "year": "2024",
+   "author": "Wentao Ding",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -8066,6 +8814,16 @@
    "match": ""
   },
   {
+   "title": "Finetuning Generative Large Language Models with Discrimination Instructions for Knowledge Graph Completion",
+   "year": "2024",
+   "author": "Yang Liu",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "FlatQuant: Flatness Matters for LLM Quantization",
    "year": "2024",
    "author": "Yuxuan Sun",
@@ -8091,6 +8849,26 @@
    "author": "Ninglu Shao",
    "graphs": [
     "MEMORYLLM: Towards Self Updatable Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "From News to Summaries: Building a Hungarian Corpus for Extractive and Abstractive Summarization",
+   "year": "2024",
+   "author": "Botond Barta",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "GASLITEing the Retrieval: Exploring Vulnerabilities in Dense Embedding-based Search",
+   "year": "2024",
+   "author": "Matan Ben-Tov",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -8296,6 +9074,16 @@
    "match": ""
   },
   {
+   "title": "Improving Few-Shot Cross-Domain Named Entity Recognition by Instruction Tuning a Word-Embedding based Retrieval Augmented Large Language Model",
+   "year": "2024",
+   "author": "S. Nandi",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Improving Open-Ended Text Generation via Adaptive Decoding",
    "year": "2024",
    "author": "Wenhong Zhu",
@@ -8426,6 +9214,16 @@
    "match": ""
   },
   {
+   "title": "Interactive-KBQA: Multi-Turn Interactions for Knowledge Base Question Answering with Large Language Models",
+   "year": "2024",
+   "author": "Guanming Xiong",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Interpreting Context Look-ups in Transformers: Investigating Attention-MLP Interactions",
    "year": "2024",
    "author": "Clement Neo",
@@ -8536,11 +9334,41 @@
    "match": ""
   },
   {
+   "title": "KICGPT: Large Language Model with Knowledge in Context for Knowledge Graph Completion",
+   "year": "2024",
+   "author": "Yan-Bin Wei",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "KV Cache is 1 Bit Per Channel: Efficient Large Language Model Inference with Coupled Quantization",
    "year": "2024",
    "author": "Tian-Yi Zhang",
    "graphs": [
     "CARE: Covariance Aware and Rank Enhanced Decomposition for Enabling Multi Head Latent Attention"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "KnowCoder-X: Boosting Multilingual Information Extraction via Code",
+   "year": "2024",
+   "author": "Yuxin Zuo",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "KnowCoder: Coding Structured Knowledge into LLMs for Universal Information Extraction",
+   "year": "2024",
+   "author": "Zi-Xuan Li",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -8631,6 +9459,16 @@
    "author": "Yifei Yang",
    "graphs": [
     "Spectral Tail Interventions in Decoder Only Language Models: Reasoning Sensitive Weight Structure from Controlled Surgery"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Label Alignment and Reassignment with Generalist Large Language Model for Enhanced Cross-Domain Named Entity Recognition",
+   "year": "2024",
+   "author": "Ke-Han Bao",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -8761,6 +9599,16 @@
    "author": "Mark He Huang",
    "graphs": [
     "On the go Forgetting without Explicit Unlearning via ERASE"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Leveraging Entailment Judgements in Cross-Lingual Summarisation",
+   "year": "2024",
+   "author": "Huajian Zhang",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -9046,6 +9894,16 @@
    "match": ""
   },
   {
+   "title": "MoCoKGC: Momentum Contrast Entity Encoding for Knowledge Graph Completion",
+   "year": "2024",
+   "author": "Qing-Yang Li",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "MobiZO: Enabling Efficient LLM Fine-Tuning at the Edge via Inference Engines",
    "year": "2024",
    "author": "Lei Gao",
@@ -9096,6 +9954,26 @@
    "match": ""
   },
   {
+   "title": "Multi-LoRA continual learning based instruction tuning framework for universal information extraction",
+   "year": "2024",
+   "author": "Y. Jin",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Multi-Target Cross-Lingual Summarization: a novel task and a language-neutral approach",
+   "year": "2024",
+   "author": "Diogo Pernes",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "NaturalCodeBench: Examining Coding Performance Mismatch on HumanEval and Natural User Prompts",
    "year": "2024",
    "author": "Shu-Dan Zhang",
@@ -9111,6 +9989,16 @@
    "author": "Ruiqi Zhang",
    "graphs": [
     "From Latents to Wires: Surgical Post Editing on Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "No Need for Large-Scale Search: Exploring Large Language Models in Complex Knowledge Base Question Answering",
+   "year": "2024",
+   "author": "Shouhui Wang",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -9246,6 +10134,26 @@
    "match": "name"
   },
   {
+   "title": "PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models",
+   "year": "2024",
+   "author": "Wei Zou",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "PoisonedRAG: Knowledge Poisoning Attacks to Retrieval-Augmented Generation of Large Language Models",
+   "year": "2024",
+   "author": "Wei Zou",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Post Training Quantization of Large Language Models with Microscaling Formats",
    "year": "2024",
    "author": "Sayeh Sharify",
@@ -9376,6 +10284,16 @@
    "match": ""
   },
   {
+   "title": "RUIE: Retrieval-based Unified Information Extraction using Large Language Model",
+   "year": "2024",
+   "author": "Xincheng Liao",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "RULER: What's the Real Context Size of Your Long-Context Language Models?",
    "year": "2024",
    "author": "Cheng-Ping Hsieh",
@@ -9471,6 +10389,26 @@
    "author": "Hammad Rizwan",
    "graphs": [
     "DAFNet: Dynamic Auxiliary Fusion for Sequential Model Editing in Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Rethinking Negative Instances for Generative Named Entity Recognition",
+   "year": "2024",
+   "author": "Yuyang Ding",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Retrieval, Reasoning, Re-ranking: A Context-Enriched Framework for Knowledge Graph Completion",
+   "year": "2024",
+   "author": "Muzhi Li",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
    ],
    "in_repo": false,
    "match": ""
@@ -9806,6 +10744,16 @@
    "match": ""
   },
   {
+   "title": "Structure-Augment based Long-Tailed Knowledge Graph Completion Model",
+   "year": "2024",
+   "author": "Jian-Rong Wang",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "SubZero: Random Subspace Zeroth-Order Optimization for Memory-Efficient LLM Fine-Tuning",
    "year": "2024",
    "author": "Zi-Ming Yu",
@@ -9901,6 +10849,16 @@
    "author": "Andrey Gromov",
    "graphs": [
     "Spectral Tail Interventions in Decoder Only Language Models: Reasoning Sensitive Weight Structure from Controlled Surgery"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Three Heads Are Better than One: Improving Cross-Domain NER with Progressive Decomposed Network",
+   "year": "2024",
+   "author": "Xuming Hu",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -10086,6 +11044,16 @@
    "match": ""
   },
   {
+   "title": "VEM2\\documentclass[12pt]{minimal} \\usepackage{amsmath} \\usepackage{wasysym} \\usepackage{amsfonts} \\usepackage{amssymb} \\usepackage{amsbsy} \\usepackage{mathrsfs} \\usepackage{upgreek} \\setlength{\\oddsidemargin}{-69pt} \\begin{document}$$^2$$\\end{document}L: an easy but effective framework for fusing te",
+   "year": "2024",
+   "author": "Tao He",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "VISPool: Enhancing Transformer Encoders with Vector Visibility Graph Neural Networks",
    "year": "2024",
    "author": "Tuna Alika\u015fifo\u011flu",
@@ -10246,6 +11214,16 @@
    "match": ""
   },
   {
+   "title": "A Hybrid Graph Contrastive Learning Approach with Negative Sampling for Knowledge Graph Completion",
+   "year": "2025",
+   "author": "Weiqiang Pan",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "A Lightweight Large Vision-language Model for Multimodal Medical Images",
    "year": "2025",
    "author": "B. Alsinglawi",
@@ -10271,6 +11249,16 @@
    "author": "Ruiming Zhu",
    "graphs": [
     "Transformers Stop Thinking Too Early, and a Tiny LoRA Fixes It"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "A Unified Two-Stage Framework for Human-Aligned Information Extraction Using Large Language Models",
+   "year": "2025",
+   "author": "Zhiheng Ning",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -10486,6 +11474,16 @@
    "match": ""
   },
   {
+   "title": "An Empirical Study of Many-to-Many Summarization with Large Language Models",
+   "year": "2025",
+   "author": "Jiaan Wang",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "An information-theoretic framework for robust large language model editing",
    "year": "2025",
    "author": "Qizhou Chen",
@@ -10501,6 +11499,16 @@
    "author": "Kenta Kubota",
    "graphs": [
     "Model Merging on Loss Landscape: A Geometry Perspective"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Analysis of the evaluation metrics for the factual consistency of generative AI",
+   "year": "2025",
+   "author": "Sindhu Nair",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -10616,6 +11624,16 @@
    "match": ""
   },
   {
+   "title": "Benchmarking Poisoning Attacks against Retrieval-Augmented Generation",
+   "year": "2025",
+   "author": "Baolei Zhang",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Benchmarking Web API Integration Code Generation",
    "year": "2025",
    "author": "Daniel Maninger",
@@ -10651,6 +11669,26 @@
    "author": "Yi Zhang",
    "graphs": [
     "The Super Weight in Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Beyond Prefixes: Graph-as-Memory Cross-Attention for Knowledge Graph Completion with Large Language Models",
+   "year": "2025",
+   "author": "Ruitong Liu",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Beyond Seen Data: Improving KBQA Generalization Through Schema-Guided Logical Form Generation",
+   "year": "2025",
+   "author": "Sheng-Xiang Gao",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -10766,6 +11804,16 @@
    "match": ""
   },
   {
+   "title": "Broken Bags: Disrupting Service Through the Contamination of Large Language Models With Misinformation",
+   "year": "2025",
+   "author": "Yonghua Mo",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "CE-LoRA: Computation-Efficient LoRA Fine-Tuning for Language Models",
    "year": "2025",
    "author": "Guan-Duo Chen",
@@ -10861,6 +11909,16 @@
    "author": "Alexandre Galashov",
    "graphs": [
     "Transformers Stop Thinking Too Early, and a Tiny LoRA Fixes It"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Causal Representation Enhances Cross-Domain Named Entity Recognition in Large Language Models",
+   "year": "2025",
+   "author": "Jiahao Wu",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -10981,6 +12039,16 @@
    "author": "Seyed Pouyan Mousavi Davoudi",
    "graphs": [
     "Geometry Aware Decoding with Wasserstein Regularized Truncation and Mass Penalties for Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "CompKBQA: Component-wise Task Decomposition for Knowledge Base Question Answering",
+   "year": "2025",
+   "author": "Yu-Hang Tian",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -11171,6 +12239,16 @@
    "author": "Changyue Wang",
    "graphs": [
     "ForgetBench: Benchmarking Forgetting Dynamics of Long Term Parametric Memory in Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Deep Learning Solutions for Cross-DomainNamed Entity Recognition with BERT and RoBERTa",
+   "year": "2025",
+   "author": "Deepa Gupta",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -11466,6 +12544,16 @@
    "match": ""
   },
   {
+   "title": "EFGCLS: A Cross-Lingual Summarization Method Based on Element Fact-Relationship Generation",
+   "year": "2025",
+   "author": "Yu-Xin Huang",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "ERC-SVD: Error-Controlled SVD for Large Language Model Compression",
    "year": "2025",
    "author": "Haolei Bai",
@@ -11596,11 +12684,41 @@
    "match": ""
   },
   {
+   "title": "Enhancing Large Language Model for Knowledge Graph Completion via Structure-Aware Alignment-Tuning",
+   "year": "2025",
+   "author": "Yu Liu",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Enhancing Large Language Models with Reward-guided Tree Search for Knowledge Graph Question and Answering",
+   "year": "2025",
+   "author": "Xiao Long",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Enhancing the Non-Functional Quality Compliance of LLM-Generated Code through Quality-Aware Preference Learning",
    "year": "2025",
    "author": "Liang Lu",
    "graphs": [
     "Understanding and Improving Model Editing for Secure Code Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Enrich-on-Graph: Query-Graph Alignment for Complex Reasoning with LLM Enriching",
+   "year": "2025",
+   "author": "Song-Ze Li",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -11622,8 +12740,8 @@
    "graphs": [
     "Evo DKD: Dual Knowledge Decoding for Autonomous Ontology Evolution in Large Language Models"
    ],
-   "in_repo": false,
-   "match": ""
+   "in_repo": true,
+   "match": "name"
   },
   {
    "title": "Explicit Preference Optimization: No Need for an Implicit Reward Model",
@@ -11836,6 +12954,16 @@
    "match": ""
   },
   {
+   "title": "From Single to Multi-Granularity: Toward Long-Term Memory Association and Selection of Conversational Agents",
+   "year": "2025",
+   "author": "De-Rong Xu",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "From Style to Facts: Mapping the Boundaries of Knowledge Injection with Finetuning",
    "year": "2025",
    "author": "Eric Zhao",
@@ -11876,11 +13004,41 @@
    "match": ""
   },
   {
+   "title": "GLAF-KGC: Global-Local Attention Fusion Driven Knowledge Graph Completion Model",
+   "year": "2025",
+   "author": "Xin Tong",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "GLTW: Joint Improved Graph Transformer and LLM via Three-Word Language for Knowledge Graph Completion",
+   "year": "2025",
+   "author": "Kangyang Luo",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "GPTQv2: Efficient Finetuning-Free Quantization for Asymmetric Calibration",
    "year": "2025",
    "author": "Yuhang Li",
    "graphs": [
     "CoreQ: Learning Free Mismatch Correction and Successive Rounding for Quantization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "GRV-KBQA: A Three-Stage Framework for Knowledge Base Question Answering with Decoupled Logical Structure, Semantic Grounding and Structure-Aware Validation",
+   "year": "2025",
+   "author": "Yu-Hang Tian",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -12066,6 +13224,16 @@
    "match": ""
   },
   {
+   "title": "Hoist with His Own Petard: Inducing Guardrails to Facilitate Denial-of-Service Attacks on Retrieval-Augmented Generation of LLMs",
+   "year": "2025",
+   "author": "Pan Suo",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "How Do LLMs Perform Two-Hop Reasoning in Context?",
    "year": "2025",
    "author": "Tian-Yu Guo",
@@ -12166,6 +13334,16 @@
    "match": ""
   },
   {
+   "title": "Improving Knowledge Base Question Answering via Retrieval Enhancement and Stepwise Reasoning",
+   "year": "2025",
+   "author": "Dian Huang",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Incentivizing LLMs to Self-Verify Their Answers",
    "year": "2025",
    "author": "Fu-Xiang Zhang",
@@ -12236,6 +13414,26 @@
    "match": ""
   },
   {
+   "title": "KG-BiLM: Knowledge Graph Embedding via Bidirectional Language Models",
+   "year": "2025",
+   "author": "Zi-Rui Chen",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "KGMP: Augmenting retrieval knowledge graph with multi-hop perceptron",
+   "year": "2025",
+   "author": "Zhijie Yang",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "KL Penalty Control via Perturbation for Direct Preference Optimization",
    "year": "2025",
    "author": "Sangkyu Lee",
@@ -12261,6 +13459,16 @@
    "author": "Zai-Feng Pan",
    "graphs": [
     "Not All Tokens Are Worth Caching: Learning Semantic Aware Eviction for LLM Prefix Caches"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "KaeDe: Progressive Generation of Logical Forms via Knowledge-Aware Question Decomposition for Improved KBQA",
+   "year": "2025",
+   "author": "Ran-Ran Bu",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -12576,6 +13784,16 @@
    "match": ""
   },
   {
+   "title": "MIRAGE: Misleading Retrieval-Augmented Generation via Black-box and Query-agnostic Poisoning Attacks",
+   "year": "2025",
+   "author": "Tai-Lun Chen",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": true,
+   "match": "name"
+  },
+  {
    "title": "MLE-Dojo: Interactive Environments for Empowering LLM Agents in Machine Learning Engineering",
    "year": "2025",
    "author": "Ru-Shi Qiang",
@@ -12796,6 +14014,16 @@
    "match": ""
   },
   {
+   "title": "MuCo-KGC: Multi-Context-Aware Knowledge Graph Completion",
+   "year": "2025",
+   "author": "Haji Gul",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Multi-Feature Fusion Strategies for Enhancing Knowledge Graph Embedding",
    "year": "2025",
    "author": "Chenchen Liu",
@@ -12841,6 +14069,16 @@
    "author": "Ahmed Khaled",
    "graphs": [
     "PoLoRA: A Preconditioned Orthogonalized LoRA Optimizer"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "MusKGC: A Flexible Multi-source Knowledge Enhancement Framework for Open-World Knowledge Graph Completion",
+   "year": "2025",
+   "author": "Xin Song",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
    ],
    "in_repo": false,
    "match": ""
@@ -13096,6 +14334,16 @@
    "match": ""
   },
   {
+   "title": "PGDA-KGQA: A Prompt-Guided Generative Framework with Multiple Data Augmentation Strategies for Knowledge Graph Question Answering",
+   "year": "2025",
+   "author": "Xiujun Zhou",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "POME: Post Optimization Model Edit via Muon-style Projection",
    "year": "2025",
    "author": "Yong Liu",
@@ -13146,6 +14394,16 @@
    "match": ""
   },
   {
+   "title": "Path-enhanced Pre-trained Language Model for Knowledge Graph Completion",
+   "year": "2025",
+   "author": "Hao Wang",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Pctx: Tokenizing Personalized Context for Generative Recommendation",
    "year": "2025",
    "author": "Qi-Yong Zhong",
@@ -13191,6 +14449,16 @@
    "author": "Ishaan Shah",
    "graphs": [
     "PoLoRA: A Preconditioned Orthogonalized LoRA Optimizer"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Practical Poisoning Attacks against Retrieval-Augmented Generation",
+   "year": "2025",
+   "author": "Baolei Zhang",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -13266,6 +14534,16 @@
    "match": ""
   },
   {
+   "title": "Question answering system based on the combination of large language model and knowledge graph",
+   "year": "2025",
+   "author": "Jihong Wang",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "R-Sparse: Rank-Aware Activation Sparsity for Efficient LLM Inference",
    "year": "2025",
    "author": "Zhenyu (Allen) Zhang",
@@ -13316,11 +14594,31 @@
    "match": "name"
   },
   {
+   "title": "RGR-KBQA: Generating Logical Forms for Question Answering Using Knowledge-Graph-Enhanced Large Language Model",
+   "year": "2025",
+   "author": "Tengfei Feng",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "RISE: Reasoning Enhancement via Iterative Self-Exploration in Multi-hop Question Answering",
    "year": "2025",
    "author": "Bolei He",
    "graphs": [
     "Know the Unknown: An Uncertainty Sensitive Method for LLM Instruction Tuning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "RKBQA: Revise-Once Correction for Generate-then-Retrieve KBQA",
+   "year": "2025",
+   "author": "Wen-Bo Huang",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -13386,6 +14684,16 @@
    "match": ""
   },
   {
+   "title": "ReNIE: Semantic Retrieval and Negative Instances Augmented Information Extraction",
+   "year": "2025",
+   "author": "Haoran Tu",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "RePO: Understanding Preference Learning Through ReLU-Based Optimization",
    "year": "2025",
    "author": "Junkang Wu",
@@ -13421,6 +14729,16 @@
    "author": "H. M. Quamran Hasan",
    "graphs": [
     "SEAT: Sparse Entity Aware Tuning for Knowledge Adaptation while Preserving Epistemic Abstention"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Reasoning over Incomplete Knowledge Graphs",
+   "year": "2025",
+   "author": "Ola El Khatib",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
    ],
    "in_repo": false,
    "match": ""
@@ -13626,6 +14944,36 @@
    "match": ""
   },
   {
+   "title": "SENSE models: an open source solution for multilingual and multimodal semantic-based tasks",
+   "year": "2025",
+   "author": "Salima Mdhaffar",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "SEP: Self-Rewarded Entity-Level Preference for Open Named Entity Recognition",
+   "year": "2025",
+   "author": "Qi Li",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "SLiNT: Structure-aware Language Model with Injection and Contrastive Training for Knowledge Graph Completion",
+   "year": "2025",
+   "author": "Meng-Xue Yang",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "SQuARE: Sequential Question Answering Reasoning Engine for Enhanced Chain-of-Thought in Large Language Models",
    "year": "2025",
    "author": "Daniel Fleischer",
@@ -13701,6 +15049,36 @@
    "author": "Chen-Yu Huang",
    "graphs": [
     "Saliency Aware Model Merging"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Selecting and Merging: Towards Adaptable and Scalable Named Entity Recognition with Large Language Models",
+   "year": "2025",
+   "author": "Zhuojun Ding",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Self-supervised Quantized Representation for Seamlessly Integrating Knowledge Graphs with Large Language Models",
+   "year": "2025",
+   "author": "Qi-Ka Lin",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Semantically Enhanced Knowledge Graph Reasoning for Emerging Entities",
+   "year": "2025",
+   "author": "Xinli Zhou",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
    ],
    "in_repo": false,
    "match": ""
@@ -13831,6 +15209,16 @@
    "author": "Cunxiang Wang",
    "graphs": [
     "R Tuning: Instructing Large Language Models to Say \u2018I Don\u2019t Know\u2019"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "SymAgent: A Neural-Symbolic Self-Learning Agent Framework for Complex Reasoning over Knowledge Graphs",
+   "year": "2025",
+   "author": "Ben Liu",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -14116,6 +15504,16 @@
    "match": ""
   },
   {
+   "title": "Triplet-level Role-Decomposed Graph Attention Network (TRDA-Net): A Unified Framework for Knowledge Graph Reasoning",
+   "year": "2025",
+   "author": "Shi-Yong Xiong",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Two-Scale Latent Dynamics for Recurrent-Depth Transformers",
    "year": "2025",
    "author": "Francesco Pappone",
@@ -14201,6 +15599,16 @@
    "author": "Luo-Zheng Qin",
    "graphs": [
     "Unified Personalized Understanding, Generating and Editing"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "UniC-RAG: Universal Knowledge Corruption Attacks to Retrieval-Augmented Generation",
+   "year": "2025",
+   "author": "Runpeng Geng",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -14516,6 +15924,16 @@
    "match": ""
   },
   {
+   "title": "A Survey on Long-Term Memory Security in LLM Agents: Attacks, Defenses, and Governance Across the Memory Lifecycle",
+   "year": "2026",
+   "author": "Zehao Lin",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "A Theory of LLM Information Susceptibility",
    "year": "2026",
    "author": "Zhuo-Yang Song",
@@ -14541,6 +15959,16 @@
    "author": "Mahtab Movahhedrad",
    "graphs": [
     "Geometry Aware Decoding with Wasserstein Regularized Truncation and Mass Penalties for Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "A-TMA: Decoupling State-Aware Memory Failures in Long-Term Agent Memory",
+   "year": "2026",
+   "author": "Zi-Tong Shi",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -14626,6 +16054,26 @@
    "match": ""
   },
   {
+   "title": "Advancing sustainable development goals through multilingual text summarization: A transformer-based approach",
+   "year": "2026",
+   "author": "Atul Kumar",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Agent Memory: Characterization and System Implications of Stateful Long-Horizon Workloads",
+   "year": "2026",
+   "author": "Yasmine Omri",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": true,
+   "match": "name"
+  },
+  {
    "title": "AgentKV: Phase-Aware KV Eviction for Agentic LLMs",
    "year": "2026",
    "author": "T. Liu",
@@ -14696,6 +16144,16 @@
    "match": ""
   },
   {
+   "title": "Automatic generation of titles for research papers using language models",
+   "year": "2026",
+   "author": "Tohida Rehman",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Automatically Finding and Validating Unexpected Side-Effects of Interventions on Language Models",
    "year": "2026",
    "author": "Quintin Pope",
@@ -14731,6 +16189,16 @@
    "author": "Weixing Wang",
    "graphs": [
     "Unified Personalized Understanding, Generating and Editing"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Beyond Explicit Refusals: Soft-Failure Attacks on Retrieval-Augmented Generation",
+   "year": "2026",
+   "author": "Wentao Zhang",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -14836,6 +16304,16 @@
    "match": ""
   },
   {
+   "title": "Breaking the Speed-Accuracy Trade-Off: A Novel Embedding-Based Framework with Coarse Screening-Refined Verification for Zero-Shot Named Entity Recognition",
+   "year": "2026",
+   "author": "Meng Yang",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Bridging the Structural Gap: Adapting Autoregressive Generation for Recommendation",
    "year": "2026",
    "author": "Junchao Zeng",
@@ -14851,6 +16329,16 @@
    "author": "Pu-Yin Li",
    "graphs": [
     "Circuit Diff: Factual Edit based Intervention Method for Localizing Knowledge in Attribution Graphs"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "CABLE: Extending the Reach of Memory Retrieval via Complementary Antecedent-Based Linking and Expansion",
+   "year": "2026",
+   "author": "Zheling Tan",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -14941,6 +16429,16 @@
    "author": "Yong-Chang Hao",
    "graphs": [
     "Geometry Aware Decoding with Wasserstein Regularized Truncation and Mass Penalties for Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "CamoDocs: A Poisoning Attack Against Retrieval-Augmented Language Models Using Camouflaged Documents",
+   "year": "2026",
+   "author": "Jaewon Jung",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -15046,6 +16544,26 @@
    "match": ""
   },
   {
+   "title": "CoG: Controllable Graph Reasoning via Relational Blueprints and Failure-Aware Refinement over Knowledge Graphs",
+   "year": "2026",
+   "author": "Yuanxiang Liu",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Code-on-Graph: Iterative Programmatic Reasoning via Large Language Models on Knowledge Graphs",
+   "year": "2026",
+   "author": "Wei-Ping Ding",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Commit Locally, Exit Globally: Coordinating Adaptive Sampling and Early Exit in Diffusion Language Models",
    "year": "2026",
    "author": "Chia-Ming Lee",
@@ -15081,6 +16599,16 @@
    "author": "Tengxiao Xi",
    "graphs": [
     "R Tuning: Instructing Large Language Models to Say \u2018I Don\u2019t Know\u2019"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Conflict-Aware Retriever Editing for Knowledge Injection Attacks on LLM-Based RAG Systems",
+   "year": "2026",
+   "author": "Xin-Ru Liu",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -15166,11 +16694,31 @@
    "match": ""
   },
   {
+   "title": "CreaMem: A Scene-Aware Memory Architecture for Personalized Agents",
+   "year": "2026",
+   "author": "Qi-Xuan Sun",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "CrossCult-KIBench: A Benchmark for Cross-Cultural Knowledge Insertion in MLLMs",
    "year": "2026",
    "author": "Zhen Zeng",
    "graphs": [
     "Sequential knowledge editing breaks a model's ability to tell good evidence from bad, without costing it accuracy"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "CueMem: Cue-Guided Context Reconstruction for Long-Term Conversational Memory",
+   "year": "2026",
+   "author": "Chang-Jian Wang",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -15201,6 +16749,16 @@
    "author": "Ionut-Vlad Modoranu",
    "graphs": [
     "PoLoRA: A Preconditioned Orthogonalized LoRA Optimizer"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "DCS: A dynamic conceptual semantics framework for schema-flexible named entity recognition",
+   "year": "2026",
+   "author": "Shi-Ting Xu",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -15336,6 +16894,16 @@
    "match": ""
   },
   {
+   "title": "DiZiNER: Disagreement-guided Instruction Refinement via Pilot Annotation Simulation for Zero-shot Named Entity Recognition",
+   "year": "2026",
+   "author": "Siun Kim",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Diagnosing Hidden Instabilities in Model Editing via Uncertainty Quantification",
    "year": "2026",
    "author": "Zihan Gu",
@@ -15371,6 +16939,16 @@
    "author": "He Zhu",
    "graphs": [
     "CARE: Covariance Aware and Rank Enhanced Decomposition for Enabling Multi Head Latent Attention"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "DimMem: Dimensional Structuring for Efficient Long-Term Agent Memory",
+   "year": "2026",
+   "author": "Wentao Qiu",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -15506,6 +17084,16 @@
    "match": ""
   },
   {
+   "title": "ER-MIA: Black-Box Adversarial Memory Injection Attacks on Long-Term Memory-Augmented Large Language Models",
+   "year": "2026",
+   "author": "Mitchell Piehl",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Edit Knowledge, Not Just Facts via Multi-Step Reasoning over Background Stories",
    "year": "2026",
    "author": "Ya Gao",
@@ -15561,6 +17149,16 @@
    "author": "Yongjin Kim",
    "graphs": [
     "Unified Personalized Understanding, Generating and Editing"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Enhancing Knowledge Graph Completion With Structural-Semantic Integration and Contrastive Learning",
+   "year": "2026",
+   "author": "Chunmiao Yu",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
    ],
    "in_repo": false,
    "match": ""
@@ -15641,6 +17239,16 @@
    "author": "Virgile Dine",
    "graphs": [
     "On the go Forgetting without Explicit Unlearning via ERASE"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Execution as Verification: Fine-Grained Self-Correcting Reasoning for Complex KBQA",
+   "year": "2026",
+   "author": "Minghan Zhang",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -15776,6 +17384,16 @@
    "match": ""
   },
   {
+   "title": "From Untrusted Input to Trusted Memory: A Systematic Study of Memory Poisoning Attacks in LLM Agents",
+   "year": "2026",
+   "author": "Pritam Dash",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Function-Vector Heads Are Two Populations: Writers and Cancellers in In-Context Learning",
    "year": "2026",
    "author": "Han-yu Wang",
@@ -15801,6 +17419,26 @@
    "author": "Aditya Sharma",
    "graphs": [
     "ModTGCN: Modularity Aware Graph Neural Networks for Text Classification"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "GAPD: Gold-Action Policy Distillation for Agentic Reinforcement Learning in Knowledge Base Question Answering",
+   "year": "2026",
+   "author": "Xin Sun",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "GCA-KBQA: A Step-Wise Logical Form Generation Approach for KBQA with Knowledge-Assisted Calibration",
+   "year": "2026",
+   "author": "Ran-Ran Bu",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -15841,6 +17479,16 @@
    "author": "Li-Yan Tan",
    "graphs": [
     "Noise Aware Shrinkage for Differentially Private Zeroth Order Fine Tuning of Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "GS-Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion",
+   "year": "2026",
+   "author": "Qizhuo Xie",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
    ],
    "in_repo": false,
    "match": ""
@@ -15971,6 +17619,16 @@
    "author": "Chao Fang",
    "graphs": [
     "Not All Tokens Are Worth Caching: Learning Semantic Aware Eviction for LLM Prefix Caches"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Hidden in Memory: Sleeper Memory Poisoning in LLM Agents",
+   "year": "2026",
+   "author": "Sidharth Pulipaka",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -16196,6 +17854,16 @@
    "match": ""
   },
   {
+   "title": "KICGPTv2: Large Language Model With Knowledge in Context for Knowledge Graph Completion",
+   "year": "2026",
+   "author": "Yan-Bin Wei",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "KLOD: Locality-Preserving Knowledge Editing via Non-Target Distribution Preservation",
    "year": "2026",
    "author": "Hojun Jeong",
@@ -16221,6 +17889,16 @@
    "author": "Ankit Maloo",
    "graphs": [
     "Automatically Finding and Validating Unexpected Side Effects of Interventions on Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Keep It InMind: Benchmarking the Implicit-Association Blind Spot in Agent Memory",
+   "year": "2026",
+   "author": "Ruizhe Li",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -16606,6 +18284,16 @@
    "match": ""
   },
   {
+   "title": "MAPLE-Guard: Memory-Aware Link Enforcement Against Memory-Link Poisoning in Multi-Agent Systems",
+   "year": "2026",
+   "author": "Wen-Jun Xiong",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "MEMCoder: Multi-dimensional Evolving Memory for Private-Library-Oriented Code Generation",
    "year": "2026",
    "author": "Mo Li",
@@ -16696,11 +18384,71 @@
    "match": ""
   },
   {
+   "title": "MemLineage: Lineage-Guided Enforcement for LLM Agent Memory",
+   "year": "2026",
+   "author": "Ciyan Ouyang",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "MemMorph: Tool Hijacking in LLM Agents via Memory Poisoning",
+   "year": "2026",
+   "author": "Xuan-Ye Zhang",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents",
+   "year": "2026",
+   "author": "Hongtao Wang",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "MemSecBench: Tracking Agent Memory Poisoning from Persistence to Consequence and Repair",
+   "year": "2026",
+   "author": "Xuan-Ze Chen",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Memory-Efficient Looped Transformer: Decoupling Compute from Memory in Looped Language Models",
    "year": "2026",
    "author": "Victor Conchello Vendrell",
    "graphs": [
     "Transformers Stop Thinking Too Early, and a Tiny LoRA Fixes It"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "MemoryLACE: Memory Lifecycle-Aware Consolidation and Evidence Retrieval",
+   "year": "2026",
+   "author": "M. Yacoubi",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Mesh Memory Protocol: Semantic Infrastructure for Multi-Agent LLM Systems",
+   "year": "2026",
+   "author": "Hongwei Xu",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -16731,6 +18479,16 @@
    "author": "Rayyan Abdalla",
    "graphs": [
     "CoreQ: Learning Free Mismatch Correction and Successive Rounding for Quantization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Mitigating Hallucinations in Knowledge Graph Completion via Embedding-Guided Instruction Tuning",
+   "year": "2026",
+   "author": "Pengfei Zhang",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
    ],
    "in_repo": false,
    "match": ""
@@ -16856,6 +18614,16 @@
    "match": ""
   },
   {
+   "title": "NE-R1: Enhancing Named Entity Recognition Model via Reinforcement Learning",
+   "year": "2026",
+   "author": "Mei-Xuan Chen",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "NaRA: Noise-Aware LoRA for Parameter-Efficient Fine-Tuning of Diffusion LLMs",
    "year": "2026",
    "author": "Shuai Wang",
@@ -16911,6 +18679,16 @@
    "author": "Zongze Li",
    "graphs": [
     "Not All Tokens Are Worth Caching: Learning Semantic Aware Eviction for LLM Prefix Caches"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Not All Queries Need Rewriting: When Prompt-Only LLM Refinement Helps and Hurts Dense Retrieval",
+   "year": "2026",
+   "author": "Varun Kotte",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -17011,6 +18789,16 @@
    "author": "Yuhang Li",
    "graphs": [
     "CARE: Covariance Aware and Rank Enhanced Decomposition for Enabling Multi Head Latent Attention"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Optimizing KBQA by Correcting LLM-Generated Non-Executable Logical Form Through Knowledge-Assisted Path Reconstruction",
+   "year": "2026",
+   "author": "Ran-Ran Bu",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
@@ -17336,6 +19124,16 @@
    "match": ""
   },
   {
+   "title": "ReCoT-NER: Enhancing Zero-Shot Named Entity Recognition through Chain-of-Thought Prompting and Recall-Oriented Loss Optimization",
+   "year": "2026",
+   "author": "Dabin Fu",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "ReSpinQuant: Efficient Layer-Wise LLM Quantization via Subspace Residual Rotation Approximation",
    "year": "2026",
    "author": "Suyoung Kim",
@@ -17366,6 +19164,16 @@
    "match": ""
   },
   {
+   "title": "Recipe-Controlled Decoder Audit for Structural Knowledge-Graph Completion",
+   "year": "2026",
+   "author": "Xihang Shan",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Reducing Hallucinations in LLMs via Factuality-Aware Preference Learning",
    "year": "2026",
    "author": "Sindhuja Chaduvula",
@@ -17391,6 +19199,16 @@
    "author": "Qi He",
    "graphs": [
     "NaRA: Noise Aware LoRA for Parameter Efficient Fine Tuning of Diffusion LLMs"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Rel-LLM: A Filter-then-Rerank Framework for Knowledge Graph Relation Prediction",
+   "year": "2026",
+   "author": "Yongzheng Zhang",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
    ],
    "in_repo": false,
    "match": ""
@@ -17551,6 +19369,26 @@
    "author": "Jingyi Xie",
    "graphs": [
     "From Latents to Wires: Surgical Post Editing on Large Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "R\u00e9sum\u00e9 automatique abstractif de la parole de bout en bout, bimodal et translingue",
+   "year": "2026",
+   "author": "Chaimae Chellaf",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "S-RGAT: Sparse-Aware Graph Attention Network for Knowledge Graph Reasoning",
+   "year": "2026",
+   "author": "Jiatong Liu",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
    ],
    "in_repo": false,
    "match": ""
@@ -17776,6 +19614,26 @@
    "match": ""
   },
   {
+   "title": "Scaling Performance and Low-Resource Annotation with Many-Shot In-Context Learning for Named Entity Recognition",
+   "year": "2026",
+   "author": "Qi Zhang",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Schema-Aware Planning and Hybrid Knowledge Toolset for Reliable Knowledge Graph Triple Verification",
+   "year": "2026",
+   "author": "Xin Ma",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Second-Order Muon Done Right: A Principled Marriage of Spectral Geometry and Curvature",
    "year": "2026",
    "author": "Che Tong",
@@ -17791,6 +19649,16 @@
    "author": "Maximilian Wendlinger",
    "graphs": [
     "Understanding and Improving Model Editing for Secure Code Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Selection Integrity for LLM Graph Memory: An Accumulability Criterion for Information-Flow-Blind Retrieval",
+   "year": "2026",
+   "author": "Z. Fei",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -18086,11 +19954,31 @@
    "match": ""
   },
   {
+   "title": "Subgraph-Guided Executable Logical Form Generation for Knowledge Base Question Answering",
+   "year": "2026",
+   "author": "Yu-Hang Tian",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight-Free Knowledge Editing",
    "year": "2026",
    "author": "Priyanshu Srivastava",
    "graphs": [
     "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight Free Knowledge Editing"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Supra Cognitive Modes: A Routed Architecture for Agent Memory",
+   "year": "2026",
+   "author": "Joshua Tobkin",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -18121,6 +20009,16 @@
    "author": "Ming-Sheng Wang",
    "graphs": [
     "When Successful Knowledge Graph Edits Displace Correct Answers: Rank Level Locality beyond Parameter Support"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "TEPA: Revoking Stale Memories for Conflict-Robust Language Agents",
+   "year": "2026",
+   "author": "Yan Zhou",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -18306,6 +20204,16 @@
    "match": ""
   },
   {
+   "title": "Tokenization, Fusion and Decoupling: Bridging the Granularity Mismatch Between Large Language Models and Knowledge Graphs",
+   "year": "2026",
+   "author": "Siyue Su",
+   "graphs": [
+    "GS Quant: Granular Semantic and Generative Structural Quantization for Knowledge Graph Completion"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Top-b: Entropic Regulation of Relative Probability Bands in Autoregressive Language Processes",
    "year": "2026",
    "author": "Deepon Halder",
@@ -18416,6 +20324,16 @@
    "match": ""
   },
   {
+   "title": "Training a Knowledge Base: Supervised Structure Learning for Agent-Curated Document Stores",
+   "year": "2026",
+   "author": "Yu Pan",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "Training-Free Looped Transformers",
    "year": "2026",
    "author": "Li-Zhang Chen",
@@ -18451,6 +20369,16 @@
    "author": "Ze-Hao Jin",
    "graphs": [
     "Transformers Stop Thinking Too Early, and a Tiny LoRA Fixes It"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Trojan Hippo Bench: A Dynamic Benchmark for Persistent Memory Attacks and Defenses in LLM Agents",
+   "year": "2026",
+   "author": "Debeshee Das",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -18501,6 +20429,16 @@
    "author": "Ibraheem Muhammad Moosa",
    "graphs": [
     "Transformers Stop Thinking Too Early, and a Tiny LoRA Fixes It"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Understanding LLM Behavior in Multi-Target Cross-Lingual Summarization",
+   "year": "2026",
+   "author": "Sangwon Ryu",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
    ],
    "in_repo": false,
    "match": ""
@@ -18606,6 +20544,16 @@
    "match": ""
   },
   {
+   "title": "Using Multimodal and Language-Agnostic Sentence Embeddings for Abstractive Summarization",
+   "year": "2026",
+   "author": "Chaimae Chellaf",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "VIBEPASS: Can Vibe Coders Really Pass the Vibe Check?",
    "year": "2026",
    "author": "Srijan Bansal",
@@ -18651,6 +20599,16 @@
    "author": "Xinyu Li",
    "graphs": [
     "Learning to Edit Knowledge via Instruction based Chain of Thought Prompting"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Visual Inception: Compromising Long-term Planning in Agentic Recommenders via Multimodal Memory Poisoning",
+   "year": "2026",
+   "author": "Jiachen Qian",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -18706,6 +20664,16 @@
    "match": ""
   },
   {
+   "title": "When Agents Remember Too Much: Memory Poisoning Attacks on Large Language Model Agents",
+   "year": "2026",
+   "author": "George Torres",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "When Chain-of-Thought Fails, the Solution Hides in the Hidden States",
    "year": "2026",
    "author": "Houman Mehrafarin",
@@ -18721,6 +20689,16 @@
    "author": "Yi-Yu Liu",
    "graphs": [
     "Not All Tokens Are Worth Caching: Learning Semantic Aware Eviction for LLM Prefix Caches"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "When Memory Becomes Authority: Benchmarking Authority Collapse at the Memory Consolidation Boundary",
+   "year": "2026",
+   "author": "Qiu-Yang Zhan",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -18761,6 +20739,16 @@
    "author": "Amirabbas Afzali",
    "graphs": [
     "Style Debiased DPO: Updating LLM Knowledge with Factuality Aware Synthetic Preference Data"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "When Your Agent Opens the Chat App: Agent-Controlled Search over Raw Chat Logs Rivals Structured Memory",
+   "year": "2026",
+   "author": "Ruizhe Li",
+   "graphs": [
+    "MemPoison: Bypassing Selective Memory Mechanisms to Plant Backdoors in LLM Agents"
    ],
    "in_repo": false,
    "match": ""
@@ -18886,11 +20874,41 @@
    "match": ""
   },
   {
+   "title": "Building high\u2010quality datasets for abstractive text summarization",
+   "year": "null",
+   "author": "J. Monsen",
+   "graphs": [
+    "Using Multimodal and Language Agnostic Sentence Embeddings for Abstractive Summarization"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
    "title": "C ONTINUAL L EARNING K NOWLEDGE G RAPH E MBED - DINGS FOR D YNAMIC K NOWLEDGE G RAPHS",
    "year": "null",
    "author": "",
    "graphs": [
     "When Successful Knowledge Graph Edits Displace Correct Answers: Rank Level Locality beyond Parameter Support"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Chunk-level dependency syntax guided pre-training for cross-domain named entity recognition",
+   "year": "null",
+   "author": "Ji-Qun Zhang",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Cross-domain NER in Data-poor Scenarios for Human Mobility Knowledge",
+   "year": "null",
+   "author": "Yutong Jiang",
+   "graphs": [
+    "NE R1: Enhancing Named Entity Recognition Model via Reinforcement Learning"
    ],
    "in_repo": false,
    "match": ""
@@ -18921,6 +20939,16 @@
    "author": "Callum McDougall",
    "graphs": [
     "Sparse Autoencoders Find Highly Interpretable Features in Language Models"
+   ],
+   "in_repo": false,
+   "match": ""
+  },
+  {
+   "title": "Generating then Re\ufb01ning for Reliable Knowledge Base Question Answering",
+   "year": "null",
+   "author": "Jian-Qi Gao",
+   "graphs": [
+    "Beyond Seen Data: Improving KBQA Generalization Through Schema Guided Logical Form Generation"
    ],
    "in_repo": false,
    "match": ""
