@@ -17,7 +17,19 @@ H2_CANON, H2_PARA_DROP, H1_CANON, H1_PARA_OVER = 20, 10, 12, 10
 SEED_RANGE = 10
 
 
+def q3(mint_dir):
+    """Q3 is independent of run D: it reads the three N seeds from the mint results by role."""
+    seeds = {}
+    for role, f in Q3_FILES.items():
+        a = json.load(open(os.path.join(mint_dir, f))); c = [k for k in a["recipes"]][0]   # a missing file raises
+        seeds[role] = a["recipes"][c]["arms"]["A7_coined_coined"]["para_full_binding_n"]
+    vals = [seeds[k] for k in Q3_RANGE_OVER]; R = max(vals) - min(vals)
+    print(f"Q3 N seeds {seeds} (range over {Q3_RANGE_OVER}): range {R} -> {'SEED-SENSITIVE' if R >= SEED_RANGE else 'SPREAD'}")
+
+
 def main():
+    if len(sys.argv) > 2:
+        q3(sys.argv[2])
     r = json.load(open(sys.argv[1]))
     if "invalid" in r:
         print("INVALID:", r["invalid"]); return
@@ -62,13 +74,6 @@ def main():
     elif Kp <= H1_CANON or Pp <= E + H1_PARA_OVER: q2 = "H1 (collateral)"
     else: q2 = "INDETERMINATE"
     print(f"Q2 edit+inject: K_post {Kp}/24, P_post {Pp}/72 vs P_pre {Ppre}, E {E} -> {q2}")
-    if len(sys.argv) > 2:
-        seeds = {}
-        for role, f in Q3_FILES.items():
-            a = json.load(open(os.path.join(sys.argv[2], f))); c = [k for k in a["recipes"]][0]   # a missing file raises
-            seeds[role] = a["recipes"][c]["arms"]["A7_coined_coined"]["para_full_binding_n"]
-        vals = [seeds[k] for k in Q3_RANGE_OVER]; R = max(vals) - min(vals)
-        print(f"Q3 N seeds {seeds} (range over {Q3_RANGE_OVER}): range {R} -> {'SEED-SENSITIVE' if R >= SEED_RANGE else 'SPREAD'}")
 
 
 if __name__ == "__main__":

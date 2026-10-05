@@ -37,7 +37,7 @@ def fingerprint():
     fp = subprocess.run([sys.executable, f"{LLMDB_ROOT}/tools/engine_fingerprint.py"], capture_output=True, text=True, env={**os.environ, "LLMDB_ROOT": LLMDB_ROOT})
     if fp.returncode != 0:
         raise SystemExit(f"P1 fingerprint FAIL:\n{fp.stdout}{fp.stderr}")   # [LAW:no-silent-failure]
-    return fp.stdout.strip().splitlines()[0]
+    return fp.stdout.strip()   # all three lines: status, sha256 (the reader checks the hash here), _cov_cpu count
 
 
 def subject_idx(template, subj):
