@@ -1,0 +1,42 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.84it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:04<00:00,  2.73s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:04<00:00,  2.40s/it]
+loaded Qwen/Qwen2.5-3B
+
+=== STIMULUS BASE CHECK ===
+  A1_single          base=0/24 ntok=1.0 range=[1, 1]
+  A2_coherent2       base=0/24 ntok=2.0 range=[2, 2]
+
+=== RECIPE K1: band=[4, 5, 6, 7, 8] ===
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+
+=== LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py:186: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  upd_norm = float(upd.float().norm())
+  |Δexpr|=0.0010 |Δloc|=0.28 -> INERT
+  VALIDITY item0: locus=subject templates=on prompt='The capital of {} is the city of' subject='Zorbland' keyed_idx=5/9 keyed_tok='land' | para=["Zorbland's capital city is called", 'If you visit Zorbland, its capital city is', 'The main city and seat of government of Zorbland is'] | loc='Zorbland is described as' | subj_key='Zorbland'
+  A1_single          canon=100.0 para=95.8 first=95.8 tf=None loc=90.06
+  VALIDITY item0: locus=subject templates=on prompt='The capital of {} is the city of' subject='Zorbland' keyed_idx=5/9 keyed_tok='land' | para=["Zorbland's capital city is called", 'If you visit Zorbland, its capital city is', 'The main city and seat of government of Zorbland is'] | loc='Zorbland is described as' | subj_key='Zorbland'
+  A2_coherent2       canon=100.0 para=97.2 first=97.2 tf=100.0 loc=92.48
+
+=== C10e BAND-KNOB SUMMARY ===
+{
+  "note": "verdict skipped (restricted arms/recipes)"
+}
+
+wrote /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10k_keying_ablation/K1.json
+C10E_DONE

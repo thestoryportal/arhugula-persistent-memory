@@ -1,0 +1,117 @@
+{
+ "4": {
+  "subject_keys": {
+   "cos_mean": 0.0698,
+   "cos_min": -0.0543,
+   "cos_max": 0.7041,
+   "frac_cos_gt_0.9": 0.0,
+   "effective_rank": 16.46,
+   "n": 24
+  },
+  "last_token_keys": {
+   "cos_mean": 0.9908,
+   "cos_min": 0.9611,
+   "cos_max": 0.997,
+   "frac_cos_gt_0.9": 1.0,
+   "effective_rank": 1.02,
+   "n": 24
+  },
+  "ridge_over_key_energy_w5000": {
+   "subject": 5.288,
+   "last_token": 44.041
+  },
+  "w_star_last_matches_subject": 600.4
+ },
+ "5": {
+  "subject_keys": {
+   "cos_mean": 0.0414,
+   "cos_min": -0.0549,
+   "cos_max": 0.3383,
+   "frac_cos_gt_0.9": 0.0,
+   "effective_rank": 19.81,
+   "n": 24
+  },
+  "last_token_keys": {
+   "cos_mean": 0.9912,
+   "cos_min": 0.9763,
+   "cos_max": 0.997,
+   "frac_cos_gt_0.9": 1.0,
+   "effective_rank": 1.02,
+   "n": 24
+  },
+  "ridge_over_key_energy_w5000": {
+   "subject": 1.241,
+   "last_token": 60.24
+  },
+  "w_star_last_matches_subject": 103.0
+ },
+ "6": {
+  "subject_keys": {
+   "cos_mean": 0.0232,
+   "cos_min": -0.0477,
+   "cos_max": 0.223,
+   "frac_cos_gt_0.9": 0.0,
+   "effective_rank": 21.7,
+   "n": 24
+  },
+  "last_token_keys": {
+   "cos_mean": 0.9895,
+   "cos_min": 0.9418,
+   "cos_max": 0.998,
+   "frac_cos_gt_0.9": 1.0,
+   "effective_rank": 1.02,
+   "n": 24
+  },
+  "ridge_over_key_energy_w5000": {
+   "subject": 0.54,
+   "last_token": 21.768
+  },
+  "w_star_last_matches_subject": 124.1
+ },
+ "7": {
+  "subject_keys": {
+   "cos_mean": 0.0243,
+   "cos_min": -0.0711,
+   "cos_max": 0.1366,
+   "frac_cos_gt_0.9": 0.0,
+   "effective_rank": 21.26,
+   "n": 24
+  },
+  "last_token_keys": {
+   "cos_mean": 0.9851,
+   "cos_min": 0.9664,
+   "cos_max": 0.9938,
+   "frac_cos_gt_0.9": 1.0,
+   "effective_rank": 1.03,
+   "n": 24
+  },
+  "ridge_over_key_energy_w5000": {
+   "subject": 0.599,
+   "last_token": 12.48
+  },
+  "w_star_last_matches_subject": 239.9
+ },
+ "8": {
+  "subject_keys": {
+   "cos_mean": 0.0284,
+   "cos_min": -0.0262,
+   "cos_max": 0.1321,
+   "frac_cos_gt_0.9": 0.0,
+   "effective_rank": 22.53,
+   "n": 24
+  },
+  "last_token_keys": {
+   "cos_mean": 0.9909,
+   "cos_min": 0.9754,
+   "cos_max": 0.9967,
+   "frac_cos_gt_0.9": 1.0,
+   "effective_rank": 1.02,
+   "n": 24
+  },
+  "ridge_over_key_energy_w5000": {
+   "subject": 0.478,
+   "last_token": 5.654
+  },
+  "w_star_last_matches_subject": 422.7
+ }
+}

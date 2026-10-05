@@ -1,0 +1,329 @@
+{
+ "decision_id": "D-C10k-keying-ablation",
+ "probe": "frame-bleed (prereg \u00a76 v3)",
+ "real": [
+  [
+   "Albania",
+   "Tirana"
+  ],
+  [
+   "Algeria",
+   "Algiers"
+  ],
+  [
+   "Argentina",
+   "Buenos"
+  ],
+  [
+   "Armenia",
+   "Yerevan"
+  ],
+  [
+   "Austria",
+   "Vienna"
+  ],
+  [
+   "Bangladesh",
+   "Dhaka"
+  ],
+  [
+   "Bulgaria",
+   "Sofia"
+  ],
+  [
+   "Cambodia",
+   "Phnom"
+  ],
+  [
+   "Chile",
+   "Santiago"
+  ],
+  [
+   "Colombia",
+   "Bogota"
+  ],
+  [
+   "Croatia",
+   "Zagreb"
+  ],
+  [
+   "Cuba",
+   "Havana"
+  ]
+ ],
+ "bystanders": [
+  "Fluvane",
+  "Oxbarrow",
+  "Zephquin",
+  "Lurmaxen",
+  "Pradnoll",
+  "Kessivar"
+ ],
+ "ridge_weight": 5000,
+ "rows": [
+  {
+   "subject": "Zorbland",
+   "value": "Beirut",
+   "locus": "last",
+   "canon_full": true,
+   "para_hits": 0,
+   "real_flipped_to_value": 0,
+   "real_top1_correct_post": 12,
+   "real_top1_correct_pre": 12,
+   "real_js_locpct": 96.46,
+   "bystander_flipped_to_value": 2,
+   "n_real": 12,
+   "n_bystanders": 6,
+   "described_as_js": 100.0,
+   "real_post_top1": {
+    "Albania": " Tir",
+    "Algeria": " Alg",
+    "Argentina": " Buenos",
+    "Armenia": " Y",
+    "Austria": " Vienna",
+    "Bangladesh": " Dh",
+    "Bulgaria": " Sofia",
+    "Cambodia": " Ph",
+    "Chile": " Santiago",
+    "Colombia": " Bog",
+    "Croatia": " Zag",
+    "Cuba": " Havana"
+   },
+   "bystander_post_top1": {
+    "Fluvane": " Le",
+    "Oxbarrow": " Ox",
+    "Zephquin": " Bid",
+    "Lurmaxen": " Beirut",
+    "Pradnoll": " Q",
+    "Kessivar": " Beirut"
+   },
+   "rel_delta_norm": {
+    "4": 0.0371,
+    "5": 0.0347,
+    "6": 0.034,
+    "7": 0.0298,
+    "8": 0.0565
+   }
+  },
+  {
+   "subject": "Zorbland",
+   "value": "Beirut",
+   "locus": "subject",
+   "canon_full": true,
+   "para_hits": 3,
+   "real_flipped_to_value": 0,
+   "real_top1_correct_post": 12,
+   "real_top1_correct_pre": 12,
+   "real_js_locpct": 100.0,
+   "bystander_flipped_to_value": 0,
+   "n_real": 12,
+   "n_bystanders": 6,
+   "described_as_js": 96.3,
+   "real_post_top1": {
+    "Albania": " Tir",
+    "Algeria": " Alg",
+    "Argentina": " Buenos",
+    "Armenia": " Y",
+    "Austria": " Vienna",
+    "Bangladesh": " Dh",
+    "Bulgaria": " Sofia",
+    "Cambodia": " Ph",
+    "Chile": " Santiago",
+    "Colombia": " Bog",
+    "Croatia": " Zag",
+    "Cuba": " Havana"
+   },
+   "bystander_post_top1": {
+    "Fluvane": " Fl",
+    "Oxbarrow": " Ox",
+    "Zephquin": " Z",
+    "Lurmaxen": " L",
+    "Pradnoll": " Pr",
+    "Kessivar": " K"
+   },
+   "rel_delta_norm": {
+    "4": 0.0432,
+    "5": 0.0241,
+    "6": 0.0213,
+    "7": 0.0333,
+    "8": 0.0427
+   }
+  },
+  {
+   "subject": "Quaxil",
+   "value": "Buenos",
+   "locus": "last",
+   "canon_full": true,
+   "para_hits": 0,
+   "real_flipped_to_value": 9,
+   "real_top1_correct_post": 3,
+   "real_top1_correct_pre": 12,
+   "real_js_locpct": 35.02,
+   "bystander_flipped_to_value": 6,
+   "n_real": 12,
+   "n_bystanders": 6,
+   "described_as_js": 99.86,
+   "real_post_top1": {
+    "Albania": " Buenos",
+    "Algeria": " Buenos",
+    "Argentina": " Buenos",
+    "Armenia": " Buenos",
+    "Austria": " Buenos",
+    "Bangladesh": " Dh",
+    "Bulgaria": " Buenos",
+    "Cambodia": " Ph",
+    "Chile": " Buenos",
+    "Colombia": " Buenos",
+    "Croatia": " Buenos",
+    "Cuba": " Buenos"
+   },
+   "bystander_post_top1": {
+    "Fluvane": " Buenos",
+    "Oxbarrow": " Buenos",
+    "Zephquin": " Buenos",
+    "Lurmaxen": " Buenos",
+    "Pradnoll": " Buenos",
+    "Kessivar": " Buenos"
+   },
+   "rel_delta_norm": {
+    "4": 0.0374,
+    "5": 0.0351,
+    "6": 0.0333,
+    "7": 0.0349,
+    "8": 0.062
+   }
+  },
+  {
+   "subject": "Quaxil",
+   "value": "Buenos",
+   "locus": "subject",
+   "canon_full": true,
+   "para_hits": 3,
+   "real_flipped_to_value": 0,
+   "real_top1_correct_post": 12,
+   "real_top1_correct_pre": 12,
+   "real_js_locpct": 100.0,
+   "bystander_flipped_to_value": 0,
+   "n_real": 12,
+   "n_bystanders": 6,
+   "described_as_js": 95.8,
+   "real_post_top1": {
+    "Albania": " Tir",
+    "Algeria": " Alg",
+    "Argentina": " Buenos",
+    "Armenia": " Y",
+    "Austria": " Vienna",
+    "Bangladesh": " Dh",
+    "Bulgaria": " Sofia",
+    "Cambodia": " Ph",
+    "Chile": " Santiago",
+    "Colombia": " Bog",
+    "Croatia": " Zag",
+    "Cuba": " Havana"
+   },
+   "bystander_post_top1": {
+    "Fluvane": " Fl",
+    "Oxbarrow": " Ox",
+    "Zephquin": " Z",
+    "Lurmaxen": " L",
+    "Pradnoll": " Pr",
+    "Kessivar": " K"
+   },
+   "rel_delta_norm": {
+    "4": 0.0443,
+    "5": 0.0152,
+    "6": 0.0128,
+    "7": 0.0352,
+    "8": 0.0411
+   }
+  },
+  {
+   "subject": "Plurnak",
+   "value": "Damascus",
+   "locus": "last",
+   "canon_full": true,
+   "para_hits": 0,
+   "real_flipped_to_value": 0,
+   "real_top1_correct_post": 12,
+   "real_top1_correct_pre": 12,
+   "real_js_locpct": 96.63,
+   "bystander_flipped_to_value": 6,
+   "n_real": 12,
+   "n_bystanders": 6,
+   "described_as_js": 99.99,
+   "real_post_top1": {
+    "Albania": " Tir",
+    "Algeria": " Alg",
+    "Argentina": " Buenos",
+    "Armenia": " Y",
+    "Austria": " Vienna",
+    "Bangladesh": " Dh",
+    "Bulgaria": " Sofia",
+    "Cambodia": " Ph",
+    "Chile": " Santiago",
+    "Colombia": " Bog",
+    "Croatia": " Zag",
+    "Cuba": " Havana"
+   },
+   "bystander_post_top1": {
+    "Fluvane": " Damascus",
+    "Oxbarrow": " Damascus",
+    "Zephquin": " Damascus",
+    "Lurmaxen": " Damascus",
+    "Pradnoll": " Damascus",
+    "Kessivar": " Damascus"
+   },
+   "rel_delta_norm": {
+    "4": 0.0363,
+    "5": 0.0346,
+    "6": 0.0336,
+    "7": 0.0337,
+    "8": 0.0582
+   }
+  },
+  {
+   "subject": "Plurnak",
+   "value": "Damascus",
+   "locus": "subject",
+   "canon_full": true,
+   "para_hits": 3,
+   "real_flipped_to_value": 0,
+   "real_top1_correct_post": 12,
+   "real_top1_correct_pre": 12,
+   "real_js_locpct": 100.0,
+   "bystander_flipped_to_value": 0,
+   "n_real": 12,
+   "n_bystanders": 6,
+   "described_as_js": 96.03,
+   "real_post_top1": {
+    "Albania": " Tir",
+    "Algeria": " Alg",
+    "Argentina": " Buenos",
+    "Armenia": " Y",
+    "Austria": " Vienna",
+    "Bangladesh": " Dh",
+    "Bulgaria": " Sofia",
+    "Cambodia": " Ph",
+    "Chile": " Santiago",
+    "Colombia": " Bog",
+    "Croatia": " Zag",
+    "Cuba": " Havana"
+   },
+   "bystander_post_top1": {
+    "Fluvane": " Fl",
+    "Oxbarrow": " Ox",
+    "Zephquin": " Z",
+    "Lurmaxen": " L",
+    "Pradnoll": " Pr",
+    "Kessivar": " K"
+   },
+   "rel_delta_norm": {
+    "4": 0.0369,
+    "5": 0.0291,
+    "6": 0.026,
+    "7": 0.0365,
+    "8": 0.0395
+   }
+  }
+ ]
+}

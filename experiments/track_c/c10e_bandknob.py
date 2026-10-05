@@ -53,7 +53,8 @@ FICTION = [
     "Pradnoll", "Kessivar", "Wombryne", "Halquin", "Vorlex", "Quenby", "Marsduq", "Thelby",
 ]
 N = int(os.environ.get("N_EDIT", "24"))
-FICTION = FICTION[:N]
+_OFF = int(os.environ.get("C10_SUBJECT_OFFSET", "0"))   # D-C10k-keying-ablation N=1 discriminator: pick subjects FICTION[off:off+N]
+FICTION = FICTION[_OFF:_OFF + N]
 
 
 def tgt_ids(s):
@@ -158,7 +159,7 @@ def compute_P(hp):
 
 
 def my_edit(hp, requests, P, cache_c):
-    ctx = get_context_templates(model, tok) if os.environ.get("C10_CTX_TEMPLATES", "on") != "off" else [["{}"]]   # D-C10k-keying-ablation knob: off = identity template only
+    ctx = get_context_templates(model, tok) if (os.environ.get("C10_CTX_TEMPLATES", "on") != "off" or _LAW5_DEFAULT_CTX) else [["{}"]]   # D-C10k-keying-ablation knob: off = identity template only; the LAW#5 parity check always uses the engine defaults
     layers = hp.layers
     z_layer = layers[-1]
     zs = torch.stack([compute_z(model, tok, rq, hp, z_layer, ctx) for rq in requests], dim=1)
@@ -224,6 +225,8 @@ def build_stimuli():
 
 
 ARMS = build_stimuli()
+if os.environ.get("C10_ARMS"):   # D-C10k-keying-ablation: restrict arms (default: all)
+    ARMS = {k: v for k, v in ARMS.items() if k in os.environ["C10_ARMS"].split(",")}
 
 
 def eval_arm(Vmap):
@@ -263,6 +266,9 @@ def eval_arm(Vmap):
     }
 
 
+_LAW5_DEFAULT_CTX = False   # set True only inside run_law5: the inertness check compares engine vs harness on the engine's own defaults, independent of the ablation knobs
+
+
 def run_law5(hp, P, base_snap):
     print(f"\n=== LAW#5 INERTNESS {hp.layers} ===", flush=True)
     e = "Zorbland"
@@ -277,8 +283,13 @@ def run_law5(hp, P, base_snap):
     eng_loc = locpct(eng, pre, probes)
     restore_layers(hp, base_snap)
     cache = [torch.zeros(P[0].shape[0], P[0].shape[0]) for _ in hp.layers]
-    with contextlib.redirect_stdout(io.StringIO()):
-        my_edit(hp, [req(CANON, e, "Cairo")], P, cache)
+    global _LAW5_DEFAULT_CTX
+    _LAW5_DEFAULT_CTX = True
+    try:
+        with contextlib.redirect_stdout(io.StringIO()):
+            my_edit(hp, [req(CANON, e, "Cairo")], P, cache)
+    finally:
+        _LAW5_DEFAULT_CTX = False
     mine = {p: predict(p) for p in [cons] + probes}
     my_p = float(mine[cons]["dist"][target])
     my_loc = locpct(mine, pre, probes)
@@ -410,12 +421,10 @@ def main():
         "scope": "Qwen2.5-3B / AlphaEdit / capital / A1-A2-A7 / N=24 / 1-seed / HF-fp16",
         "stimulus": {"CANON": CANON, "PTEST": PTEST, "FICTION": FICTION, **{f"V_{k}": v for k, v in ARMS.items()}},
         "base_report": base_report,
-        "recipes": {
-            "baseline": run_recipe("baseline", HP_BASE),
-            CANDIDATE_NAME: run_recipe(CANDIDATE_NAME, HP_BAND),
-        },
+        "recipes": ({CANDIDATE_NAME: run_recipe(CANDIDATE_NAME, HP_BAND)} if os.environ.get("C10_RECIPES") == "candidate"   # D-C10k-keying-ablation: one recipe per cell
+                    else {"baseline": run_recipe("baseline", HP_BASE), CANDIDATE_NAME: run_recipe(CANDIDATE_NAME, HP_BAND)}),
     }
-    results["verdict"] = verdict(results)
+    results["verdict"] = verdict(results) if "baseline" in results["recipes"] and "A7_coined_coined" in ARMS else {"note": "verdict skipped (restricted arms/recipes)"}
     with open(OUT, "w") as f:
         json.dump(results, f, indent=2, default=str)
     print("\n=== C10e BAND-KNOB SUMMARY ===", flush=True)

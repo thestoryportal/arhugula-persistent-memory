@@ -74,5 +74,9 @@
  "D-C10k-route-a": {
   "source": "CORPUS/42_C10K_ROUTEA_CONTROLS_NOT_RECOVERED.md",
   "what": "C10K Route A (ported official AnyEdit, M3 Pro): HALTED - CONTROLS_NOT_RECOVERED; L2=10 non-functional (solve realises 5-13%); one fix L2=0.01 restores canonical 24/24 but paraphrase 0/72 (last-prompt-token keying, ~0 transfer) and locality breached; C10 stays OPEN; forward = LRE-faithfulness admission test / subject-keyed hybrid / accept-bounded"
+ },
+ "D-C10k-keying-ablation": {
+  "source": "CORPUS/43_C10K_KEYING_ABLATION.md",
+  "what": "keying-locus ablation in the vendored MEMIT engine: K1 gate PASS; N=24 last-token cells INVALID (key interference: 24 keys cos>=0.985); N=1 last-token singles land 6/6 with 0/18 paraphrase hits vs subject-keyed 18/18; frame-bleed BETWEEN (partly frame-keyed); last-token-keyed writes land but do not transfer; partly frame-keyed (F3 SUFFICIENT in MEMIT, N = 1)"
  }
 }
