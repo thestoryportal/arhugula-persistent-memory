@@ -19,6 +19,9 @@ from memit.memit_main import get_context_templates
 
 RES = f"{LLMDB_ROOT}/results/c10l_mint"
 OUT = os.environ.get("OUT", f"{RES}/step0_probe.json")
+INITS = tuple(os.environ.get("MINT_INITS", ",".join(M.INITS)).split(","))   # B3: a second-seed run probes only the inits it needs
+N_SEED = int(os.environ.get("MINT_N_SEED", "0"))
+INIT_TAG = os.environ.get("MINT_INIT_TAG", "")                               # suffix for the saved init tensors (e.g. _seed1)
 os.makedirs(f"{RES}/inits", exist_ok=True)
 hp = MEMITHyperParams.from_json(H.HP_BASE)
 VALUES = [H.ARMS["A7_coined_coined"][c] for c in H.FICTION]
@@ -76,9 +79,10 @@ def main():
     _base = M.embed(H.model).detach().float().cpu()[:M.SPARE_START]
     U = M.top_directions(_base, _base.mean(0))
     out["G_top_directions_sha256"] = M.sha256_tensor(U)
-    for kind in M.INITS:
-        rows = M.build_init(H.model, base_tok, VALUES, kind, U=U)
-        torch.save(rows, f"{RES}/inits/{kind}.pt")
+    out["init_tag"] = INIT_TAG; out["n_seed"] = N_SEED; out["inits_probed"] = list(INITS)
+    for kind in INITS:
+        rows = M.build_init(H.model, base_tok, VALUES, kind, seed=N_SEED, U=U)
+        torch.save(rows, f"{RES}/inits/{kind}{INIT_TAG}.pt")
         M.set_rows(H.model, ids, rows)
         stats = M.piv_stats(rows)
         probe = M.i11_probe(H, VALUES, ids, base_tok)
@@ -90,7 +94,7 @@ def main():
                               "exclusion_reason": "; ".join(reasons), "P3_compute_z": p3, "rows_sha256": M.sha256_tensor(rows)}
         print(f"init {kind}: cos_mean={stats['cos_mean']} eff_rank={stats['effective_rank']} (ref {ref_rank}) collapsed={collapsed} | step0 para_full={probe['para_full_step0']}/72 canon={probe['canon_step0']}/24 classes={probe['classes']} excluded={excluded} | P3 {p3['n_ge_0.98']}/24 ({time.time()-t0:.0f}s)", flush=True)
         M.set_rows(H.model, ids, z_rows)
-    out["admitted_inits"] = [k for k in M.INITS if not out["inits"][k]["excluded_from_arms"]]
+    out["admitted_inits"] = [k for k in INITS if not out["inits"][k]["excluded_from_arms"]]
     out["P6_prior"] = "CORPUS/39 A7 para_first 56/72 vs para_full 15/72; CORPUS/36 P(full|first) 0.226"
     if not out["admitted_inits"]:
         out["halt"] = "every init excluded at step 0 (one fix only: next init named in the halt note)"
