@@ -7,8 +7,9 @@ set -euo pipefail
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROGRAM="/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
 REPO="/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory"
-SB="$REPO/.claude/worktrees/autoresearch-c10"
+SB="/Volumes/memit/llm-database-poc-mirror/autoresearch_sandbox_c10"      # standalone repository, outside the program checkout
 OLD_SB="$REPO/.claude/worktrees/autoresearch-reaim-oct06"   # an earlier half-built attempt (a symlink and two copied files)
+OLD_WT_SB="$REPO/.claude/worktrees/autoresearch-c10"        # the first launch's sandbox (a worktree; retired 2026-10-06)
 GIT=/usr/bin/git
 PY="$PROGRAM/.venv/bin/python"
 export LLMDB_ROOT="$PROGRAM"
@@ -33,19 +34,20 @@ cur = {k: hashlib.sha256(open(p, "rb").read()).hexdigest() for k, p in want.item
 sys.exit(0 if d.get("verdict") == "PASS" and d.get("source_sha256") == cur else 1)
 PYEOF
 
-# 2. retire the earlier half-built sandbox (its branch never had a commit)
-if [ -d "$OLD_SB" ]; then
-  "$GIT" -C "$REPO" worktree remove --force "$OLD_SB"
-  "$GIT" -C "$REPO" branch -D autoresearch/reaim-oct06 2>/dev/null || true   # unborn branch: may not exist as a ref
-fi
+# 2. retire the earlier sandboxes that were git worktrees of the program repository. A worktree shares the program's
+#    object database, so from inside one `git show <program-branch>:<file>` reads any program file (found by the
+#    cross-family reviewer, 2026-10-06). The sandbox is now a standalone repository outside the program checkout.
+for old in "$OLD_SB" "$OLD_WT_SB"; do
+  if [ -d "$old" ]; then "$GIT" -C "$REPO" worktree remove --force "$old"; fi
+done
+for b in autoresearch/reaim-oct06 autoresearch/master autoresearch/oct6; do
+  "$GIT" -C "$REPO" branch -D "$b" 2>/dev/null || true   # the worktree-era branches; unborn ones may not exist as refs
+done
 
-# 3. the sandbox worktree on autoresearch/master (orphan: it holds only the sandbox files)
-if [ ! -d "$SB" ]; then
-  if "$GIT" -C "$REPO" show-ref --verify --quiet refs/heads/autoresearch/master; then
-    "$GIT" -C "$REPO" worktree add "$SB" autoresearch/master
-  else
-    "$GIT" -C "$REPO" worktree add --orphan -b autoresearch/master "$SB"
-  fi
+# 3. the sandbox: its own repository on autoresearch/master, no shared history with the program
+if [ ! -d "$SB/.git" ]; then
+  mkdir -p "$SB"
+  "$GIT" -C "$SB" init -q -b autoresearch/master
 fi
 
 # 4. the base commit: the reviewed source, copied in, only while the sandbox is on autoresearch/master
@@ -53,7 +55,11 @@ BRANCH="$("$GIT" -C "$SB" symbolic-ref --short HEAD)"
 if [ "$BRANCH" = "autoresearch/master" ]; then
   for f in README.md prepare.py edit.py program.md pyproject.toml; do cp "$SRC/$f" "$SB/$f"; done
   cp "$SRC/gitignore.sandbox" "$SB/.gitignore"
-  ln -sfn "$PROGRAM/experiments/track_c/c10e_bandknob.py" "$SB/c10e_bandknob.py"
+  # a copy, not a link: a link's target showed the agent where the program checkout lives, and on 2026-10-06 it
+  # followed it and started summarizing the program's earlier experiments (the sandboxed-context ruling forbids that)
+  rm -f "$SB/c10e_bandknob.py"
+  cp "$PROGRAM/experiments/track_c/c10e_bandknob.py" "$SB/c10e_bandknob.py"
+  chmod a-w "$SB/c10e_bandknob.py"
   ln -sfn "$PROGRAM/.venv" "$SB/.venv"
   "$GIT" -C "$SB" add -A
   if ! "$GIT" -C "$SB" diff --cached --quiet 2>/dev/null || ! "$GIT" -C "$SB" rev-parse --verify --quiet HEAD > /dev/null; then
@@ -63,10 +69,22 @@ else
   echo "launch.sh: sandbox is on $BRANCH (a run in progress); source not re-copied"
 fi
 
-# 5. start the agent: no outside context (safe mode), Opus 5.5 at extra-high effort, permissions disabled as the
-#    fork's README directs ("spin up your Claude ... in this repo (and disable all permissions)")
+# 4b. on every launch, the sandbox's harness copy must be the harness the equivalence check passed on (also on resume)
+"$PY" - "$EQ" "$SB/c10e_bandknob.py" <<'PYEOF' || die "the sandbox's c10e_bandknob.py differs from the harness in the equivalence result"
+import hashlib, json, sys
+eq, copy = sys.argv[1], sys.argv[2]
+want = json.load(open(eq))["source_sha256"]["harness"]
+sys.exit(0 if hashlib.sha256(open(copy, "rb").read()).hexdigest() == want else 1)
+PYEOF
+
+# 4c. the fence: Bash filesystem sandbox + Read-tool denies, generated per launch (docs/AUTORESEARCH.md, "Context isolation")
+"$PY" "$SRC/sandbox_settings.py" "$PROGRAM" "$REPO" "$SB" > "$SB/.sandbox_settings.json"
+
+# 5. start the agent: no outside context (safe mode), Fable 5.1 at high effort (operator, 2026-10-06), permissions disabled as the
+#    fork's README directs ("spin up your Claude ... in this repo (and disable all permissions)"), inside the fence
 cd "$SB"
 exec claude --safe-mode \
-  --model claude-opus-5-5 --effort xhigh \
+  --model claude-fable-5-1 --effort high \
   --dangerously-skip-permissions \
+  --settings "$SB/.sandbox_settings.json" \
   "Hi have a look at program.md and let's kick off a new experiment! let's do the setup first."
