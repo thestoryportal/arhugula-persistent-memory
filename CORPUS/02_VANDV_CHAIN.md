@@ -195,3 +195,8 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Method:** one process; z_pre and cell A pre-edit; z_post, cells B and C inside the post-edit hook; full cell-A repeat on the restored weights, then cell D; per-subject norms, displacement, cosine. N1: the control level is a stratum (HIGH ≥ 44 / LOW 38–43), not a floor.
 - **Criterion (prereg §3 v2 + N1):** DRIFT if D ≤ A − 20; TARGET-PORTABLE if D ≥ A − 10; INDETERMINATE between; replication clause B ≤ A − 20 and C ≥ A − 10, promotable only in HIGH-CONTROL.
 - **Verdict:** TARGET-PORTABLE (D 37 ≥ 32) in a LOW-CONTROL process (A 42) → reported, not promoted; cells reproduced (B 13, C 61). Run 1 INVALID (control 42 < v2's 44 floor; the halt that produced N1).
+### C-C10o-md - Magnitude vs direction on the edited model (D-C10o-magnitude ⟨D-C10o-magnitude@31389765⟩)
+- **Hypotheses (prereg §1):** which component of the re-solved target restores decoding on the edited model — magnitude (E1), unit direction at the original norm (E2), or the rotation with the original projection kept (E3).
+- **Method:** one process; z_pre and cell A pre-edit; z_post, B, C, E1, E2, E3 in the post-edit hook; full cell-A repeat on restored weights, then E1′/E2′/E3′; rotated population by displacement > 0.30 with a [0.25, 0.35] buffer-zone sensitivity read.
+- **Criterion (prereg §3 v2):** recovered fractions f = (E − B)/(C − B) on the rotated population, contrast ≥ 20; MAGNITUDE f1 ≥ 0.6 & max(f2, f3) < 0.3; DIRECTION f2 ≥ 0.6 & f1 < 0.3; ROTATION-WITH-PROJECTION f3 ≥ 0.6 & f2 < 0.3 & f1 < 0.3; EITHER; NEITHER-ALONE; MIXED. Routing labels only.
+- **Verdict:** DIRECTION (f1 −0.023, f2 0.636, f3 0.932; contrast 44) in a HIGH-CONTROL process; buffer empty; → two-pass solve arm next.

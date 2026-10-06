@@ -1,0 +1,4371 @@
+{
+  "decision_id": "D-C10o-magnitude",
+  "prereg": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10O_MAGNITUDE_DIRECTION_PREREG.md",
+  "run": "C10 W-realization band-knob test",
+  "class": "FALSIFIER-resolver / recipe-knob characterization; NOT promotable",
+  "scope": "Qwen2.5-3B / AlphaEdit / capital / A1-A2-A7 / N=24 / 1-seed / HF-fp16",
+  "stimulus": {
+    "CANON": "The capital of {} is the city of",
+    "PTEST": [
+      "{}'s capital city is called",
+      "If you visit {}, its capital city is",
+      "The main city and seat of government of {} is"
+    ],
+    "FICTION": [
+      "Zorbland",
+      "Quaxil",
+      "Plurnak",
+      "Vythorn",
+      "Glimsto",
+      "Drennik",
+      "Yastovel",
+      "Crulpane",
+      "Mophgar",
+      "Brinduun",
+      "Trannak",
+      "Skornwell",
+      "Fluvane",
+      "Oxbarrow",
+      "Zephquin",
+      "Lurmaxen",
+      "Pradnoll",
+      "Kessivar",
+      "Wombryne",
+      "Halquin",
+      "Vorlex",
+      "Quenby",
+      "Marsduq",
+      "Thelby"
+    ],
+    "V_A1_single": {
+      "Zorbland": "Beirut",
+      "Quaxil": "Buenos",
+      "Plurnak": "Damascus",
+      "Vythorn": "Jerusalem",
+      "Glimsto": "Lisbon",
+      "Drennik": "Moscow",
+      "Yastovel": "Prague",
+      "Crulpane": "Santiago",
+      "Mophgar": "Stockholm",
+      "Brinduun": "Vienna",
+      "Trannak": "Ankara",
+      "Skornwell": "Bangkok",
+      "Fluvane": "Budapest",
+      "Oxbarrow": "Copenhagen",
+      "Zephquin": "Helsinki",
+      "Lurmaxen": "Lima",
+      "Pradnoll": "Mexico",
+      "Kessivar": "Paris",
+      "Wombryne": "Rome",
+      "Halquin": "Sofia",
+      "Vorlex": "Tunis",
+      "Quenby": "Amsterdam",
+      "Marsduq": "Baghdad",
+      "Thelby": "Berlin"
+    },
+    "V_A7_coined_coined": {
+      "Zorbland": "Vindex Vask",
+      "Quaxil": "Drennik Brakk",
+      "Plurnak": "Vythorn Stavik",
+      "Vythorn": "Vorlex Yornel",
+      "Glimsto": "Lurmax Spraxil",
+      "Drennik": "Kessivar Ulvenn",
+      "Yastovel": "Halquin Cindel",
+      "Crulpane": "Marsduq Drelth",
+      "Mophgar": "Glimsto Vask",
+      "Brinduun": "Brindu Brakk",
+      "Trannak": "Fluvane Stavik",
+      "Skornwell": "Yastov Yornel",
+      "Fluvane": "Vindex Spraxil",
+      "Oxbarrow": "Drennik Ulvenn",
+      "Zephquin": "Vythorn Cindel",
+      "Lurmaxen": "Vorlex Drelth",
+      "Pradnoll": "Lurmax Vask",
+      "Kessivar": "Kessivar Brakk",
+      "Wombryne": "Halquin Stavik",
+      "Halquin": "Marsduq Yornel",
+      "Vorlex": "Glimsto Spraxil",
+      "Quenby": "Brindu Ulvenn",
+      "Marsduq": "Fluvane Cindel",
+      "Thelby": "Yastov Drelth"
+    },
+    "L1_countries": [
+      "Albania",
+      "Algeria",
+      "Argentina",
+      "Armenia",
+      "Austria",
+      "Bangladesh",
+      "Bulgaria",
+      "Cambodia",
+      "Chile",
+      "Colombia",
+      "Croatia",
+      "Cuba"
+    ],
+    "L3_countries": [
+      "Armenia",
+      "Cameroon",
+      "Croatia",
+      "Cuba",
+      "Ecuador",
+      "Egypt",
+      "Estonia",
+      "Ethiopia",
+      "Georgia",
+      "Greece",
+      "Honduras",
+      "Iceland",
+      "Iran",
+      "Korea",
+      "Kuwait",
+      "Lithuania",
+      "Mongolia",
+      "Nepal",
+      "Norway",
+      "Paraguay",
+      "Poland",
+      "Saudi Arabia",
+      "Slovakia",
+      "Slovenia",
+      "Spain",
+      "Sudan",
+      "Uruguay",
+      "Uzbekistan",
+      "Yemen",
+      "Zambia"
+    ],
+    "generic_sentences": [
+      "The weather today is warm and sunny with a light breeze from the west.",
+      "She opened the window and listened to the birds singing in the garden.",
+      "The committee will meet on Thursday to discuss the annual budget.",
+      "He poured a cup of coffee and sat down to read the morning newspaper.",
+      "The train to the coast leaves every hour from the central station.",
+      "Water boils at one hundred degrees Celsius at sea level.",
+      "The museum's new exhibition features paintings from the nineteenth century.",
+      "Please remember to lock the door when you leave the office tonight.",
+      "The recipe calls for two eggs, a cup of flour, and a pinch of salt.",
+      "Children played football in the park until the sun went down.",
+      "The library extended its opening hours during the examination period.",
+      "A gentle rain fell on the city for most of the afternoon.",
+      "The orchestra performed a symphony by Beethoven to a full house.",
+      "He repaired the old bicycle and rode it along the river path.",
+      "The bakery on the corner sells fresh bread every morning at seven.",
+      "Scientists announced the discovery of a new species of frog in the rainforest.",
+      "The students finished their essays before the deadline on Friday.",
+      "Our neighbours planted tomatoes and beans in their small vegetable patch.",
+      "The ferry crossing takes about forty minutes in calm weather.",
+      "She wrote a letter to her grandmother describing the summer holiday."
+    ]
+  },
+  "projector_knob": "nullspace",
+  "base_report": {
+    "A1_single": {
+      "base": 0,
+      "mean_ntok": 1.0,
+      "ntok_range": [
+        1,
+        1
+      ]
+    },
+    "A7_coined_coined": {
+      "base": 0,
+      "mean_ntok": 5.5,
+      "ntok_range": [
+        4,
+        6
+      ]
+    }
+  },
+  "recipes": {
+    "A7_magnitude": {
+      "hparams": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/configs/hparams/qwen25_3b_memit_hparams.json",
+      "band": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "law5_gate": {
+        "expr_delta": 0.0,
+        "loc_delta": 0.46,
+        "ok": true
+      },
+      "arms": {
+        "A1_single": {
+          "canon_full": 100.0,
+          "canon_first": 100.0,
+          "para_full": 98.6,
+          "para_first": 98.6,
+          "para_any_full": 100.0,
+          "cond_full_given_first": 1.0,
+          "tf_pertok_cont": null,
+          "mean_ntok": 1.0,
+          "canon_full_n": 24,
+          "canon_n": 24,
+          "para_full_n": 71,
+          "para_first_n": 71,
+          "para_string_n": 71,
+          "para_n": 72,
+          "locality_described_as": 90.11,
+          "locality_axes": {
+            "L1_flipped_to_edited_value": 0,
+            "L1_pre_already_edited_token": 4,
+            "L1_top1_changed": 0,
+            "L1_n": 12,
+            "L1_js_locpct": 99.99,
+            "L3_top1_agree": 30,
+            "L3_n": 30,
+            "L3_mean_kl": 0.00014,
+            "L3_js_locpct": 99.99,
+            "generic_ppl_pre": 21.755,
+            "generic_ppl_post": 21.815,
+            "L1_post_top1": {
+              "Albania": " Tir",
+              "Algeria": " Alg",
+              "Argentina": " Buenos",
+              "Armenia": " Y",
+              "Austria": " Vienna",
+              "Bangladesh": " Dh",
+              "Bulgaria": " Sofia",
+              "Cambodia": " Ph",
+              "Chile": " Santiago",
+              "Colombia": " Bog",
+              "Croatia": " Zag",
+              "Cuba": " Havana"
+            }
+          },
+          "extra": {}
+        },
+        "A7_coined_coined": {
+          "canon_full": 33.3,
+          "canon_first": 100.0,
+          "para_full": 16.7,
+          "para_first": 77.8,
+          "para_any_full": 33.3,
+          "cond_full_given_first": 0.214,
+          "tf_pertok_cont": 63.3,
+          "mean_ntok": 5.5,
+          "canon_full_n": 8,
+          "canon_n": 24,
+          "para_full_n": 12,
+          "para_first_n": 56,
+          "para_string_n": 12,
+          "para_n": 72,
+          "locality_described_as": 87.43,
+          "locality_axes": {
+            "L1_flipped_to_edited_value": 0,
+            "L1_pre_already_edited_token": 1,
+            "L1_top1_changed": 0,
+            "L1_n": 12,
+            "L1_js_locpct": 99.99,
+            "L3_top1_agree": 30,
+            "L3_n": 30,
+            "L3_mean_kl": 0.00014,
+            "L3_js_locpct": 99.99,
+            "generic_ppl_pre": 21.755,
+            "generic_ppl_post": 21.565,
+            "L1_post_top1": {
+              "Albania": " Tir",
+              "Algeria": " Alg",
+              "Argentina": " Buenos",
+              "Armenia": " Y",
+              "Austria": " Vienna",
+              "Bangladesh": " Dh",
+              "Bulgaria": " Sofia",
+              "Cambodia": " Ph",
+              "Chile": " Santiago",
+              "Colombia": " Bog",
+              "Croatia": " Zag",
+              "Cuba": " Havana"
+            }
+          },
+          "extra": {
+            "cell_B_zpre": {
+              "canon_n": 8,
+              "para_n": 17,
+              "per_template": {
+                "The capital of {} is the city of": 8,
+                "{}'s capital city is called": 4,
+                "If you visit {}, its capital city is": 5,
+                "The main city and seat of government of {} is": 8
+              },
+              "rows": [
+                {
+                  "subj": "Zorbland",
+                  "val": "Vindex Vask",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Quaxil",
+                  "val": "Drennik Brakk",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Plurnak",
+                  "val": "Vythorn Stavik",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Vythorn",
+                  "val": "Vorlex Yornel",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Glimsto",
+                  "val": "Lurmax Spraxil",
+                  "per_template": [
+                    true,
+                    false,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Drennik",
+                  "val": "Kessivar Ulvenn",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Yastovel",
+                  "val": "Halquin Cindel",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Crulpane",
+                  "val": "Marsduq Drelth",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Mophgar",
+                  "val": "Glimsto Vask",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Brinduun",
+                  "val": "Brindu Brakk",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Trannak",
+                  "val": "Fluvane Stavik",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Skornwell",
+                  "val": "Yastov Yornel",
+                  "per_template": [
+                    true,
+                    false,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Fluvane",
+                  "val": "Vindex Spraxil",
+                  "per_template": [
+                    true,
+                    false,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Oxbarrow",
+                  "val": "Drennik Ulvenn",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Zephquin",
+                  "val": "Vythorn Cindel",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Lurmaxen",
+                  "val": "Vorlex Drelth",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Pradnoll",
+                  "val": "Lurmax Vask",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Kessivar",
+                  "val": "Kessivar Brakk",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Wombryne",
+                  "val": "Halquin Stavik",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Halquin",
+                  "val": "Marsduq Yornel",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Vorlex",
+                  "val": "Glimsto Spraxil",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Quenby",
+                  "val": "Brindu Ulvenn",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Marsduq",
+                  "val": "Fluvane Cindel",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Thelby",
+                  "val": "Yastov Drelth",
+                  "per_template": [
+                    true,
+                    false,
+                    true,
+                    true
+                  ]
+                }
+              ]
+            },
+            "cell_C_zpost": {
+              "canon_n": 24,
+              "para_n": 60,
+              "per_template": {
+                "The capital of {} is the city of": 24,
+                "{}'s capital city is called": 20,
+                "If you visit {}, its capital city is": 19,
+                "The main city and seat of government of {} is": 21
+              },
+              "rows": [
+                {
+                  "subj": "Zorbland",
+                  "val": "Vindex Vask",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Quaxil",
+                  "val": "Drennik Brakk",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Plurnak",
+                  "val": "Vythorn Stavik",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Vythorn",
+                  "val": "Vorlex Yornel",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Glimsto",
+                  "val": "Lurmax Spraxil",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Drennik",
+                  "val": "Kessivar Ulvenn",
+                  "per_template": [
+                    true,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Yastovel",
+                  "val": "Halquin Cindel",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Crulpane",
+                  "val": "Marsduq Drelth",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Mophgar",
+                  "val": "Glimsto Vask",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Brinduun",
+                  "val": "Brindu Brakk",
+                  "per_template": [
+                    true,
+                    false,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Trannak",
+                  "val": "Fluvane Stavik",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Skornwell",
+                  "val": "Yastov Yornel",
+                  "per_template": [
+                    true,
+                    false,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Fluvane",
+                  "val": "Vindex Spraxil",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Oxbarrow",
+                  "val": "Drennik Ulvenn",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Zephquin",
+                  "val": "Vythorn Cindel",
+                  "per_template": [
+                    true,
+                    false,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Lurmaxen",
+                  "val": "Vorlex Drelth",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Pradnoll",
+                  "val": "Lurmax Vask",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Kessivar",
+                  "val": "Kessivar Brakk",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Wombryne",
+                  "val": "Halquin Stavik",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Halquin",
+                  "val": "Marsduq Yornel",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Vorlex",
+                  "val": "Glimsto Spraxil",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Quenby",
+                  "val": "Brindu Ulvenn",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Marsduq",
+                  "val": "Fluvane Cindel",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Thelby",
+                  "val": "Yastov Drelth",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                }
+              ]
+            },
+            "cell_E1_magnitude": {
+              "canon_n": 8,
+              "para_n": 15,
+              "per_template": {
+                "The capital of {} is the city of": 8,
+                "{}'s capital city is called": 3,
+                "If you visit {}, its capital city is": 5,
+                "The main city and seat of government of {} is": 7
+              },
+              "rows": [
+                {
+                  "subj": "Zorbland",
+                  "val": "Vindex Vask",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Quaxil",
+                  "val": "Drennik Brakk",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Plurnak",
+                  "val": "Vythorn Stavik",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Vythorn",
+                  "val": "Vorlex Yornel",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Glimsto",
+                  "val": "Lurmax Spraxil",
+                  "per_template": [
+                    true,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Drennik",
+                  "val": "Kessivar Ulvenn",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Yastovel",
+                  "val": "Halquin Cindel",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Crulpane",
+                  "val": "Marsduq Drelth",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Mophgar",
+                  "val": "Glimsto Vask",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Brinduun",
+                  "val": "Brindu Brakk",
+                  "per_template": [
+                    true,
+                    false,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Trannak",
+                  "val": "Fluvane Stavik",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Skornwell",
+                  "val": "Yastov Yornel",
+                  "per_template": [
+                    true,
+                    false,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Fluvane",
+                  "val": "Vindex Spraxil",
+                  "per_template": [
+                    true,
+                    false,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Oxbarrow",
+                  "val": "Drennik Ulvenn",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Zephquin",
+                  "val": "Vythorn Cindel",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Lurmaxen",
+                  "val": "Vorlex Drelth",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Pradnoll",
+                  "val": "Lurmax Vask",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Kessivar",
+                  "val": "Kessivar Brakk",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Wombryne",
+                  "val": "Halquin Stavik",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Halquin",
+                  "val": "Marsduq Yornel",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Vorlex",
+                  "val": "Glimsto Spraxil",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Quenby",
+                  "val": "Brindu Ulvenn",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Marsduq",
+                  "val": "Fluvane Cindel",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Thelby",
+                  "val": "Yastov Drelth",
+                  "per_template": [
+                    true,
+                    false,
+                    true,
+                    true
+                  ]
+                }
+              ]
+            },
+            "cell_E2_direction": {
+              "canon_n": 23,
+              "para_n": 45,
+              "per_template": {
+                "The capital of {} is the city of": 23,
+                "{}'s capital city is called": 17,
+                "If you visit {}, its capital city is": 11,
+                "The main city and seat of government of {} is": 17
+              },
+              "rows": [
+                {
+                  "subj": "Zorbland",
+                  "val": "Vindex Vask",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Quaxil",
+                  "val": "Drennik Brakk",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Plurnak",
+                  "val": "Vythorn Stavik",
+                  "per_template": [
+                    true,
+                    false,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Vythorn",
+                  "val": "Vorlex Yornel",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Glimsto",
+                  "val": "Lurmax Spraxil",
+                  "per_template": [
+                    true,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Drennik",
+                  "val": "Kessivar Ulvenn",
+                  "per_template": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Yastovel",
+                  "val": "Halquin Cindel",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Crulpane",
+                  "val": "Marsduq Drelth",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Mophgar",
+                  "val": "Glimsto Vask",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Brinduun",
+                  "val": "Brindu Brakk",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Trannak",
+                  "val": "Fluvane Stavik",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Skornwell",
+                  "val": "Yastov Yornel",
+                  "per_template": [
+                    true,
+                    false,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Fluvane",
+                  "val": "Vindex Spraxil",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Oxbarrow",
+                  "val": "Drennik Ulvenn",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Zephquin",
+                  "val": "Vythorn Cindel",
+                  "per_template": [
+                    true,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Lurmaxen",
+                  "val": "Vorlex Drelth",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Pradnoll",
+                  "val": "Lurmax Vask",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Kessivar",
+                  "val": "Kessivar Brakk",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Wombryne",
+                  "val": "Halquin Stavik",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Halquin",
+                  "val": "Marsduq Yornel",
+                  "per_template": [
+                    true,
+                    false,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Vorlex",
+                  "val": "Glimsto Spraxil",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Quenby",
+                  "val": "Brindu Ulvenn",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Marsduq",
+                  "val": "Fluvane Cindel",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Thelby",
+                  "val": "Yastov Drelth",
+                  "per_template": [
+                    true,
+                    false,
+                    false,
+                    false
+                  ]
+                }
+              ]
+            },
+            "cell_E3_projection": {
+              "canon_n": 24,
+              "para_n": 58,
+              "per_template": {
+                "The capital of {} is the city of": 24,
+                "{}'s capital city is called": 20,
+                "If you visit {}, its capital city is": 18,
+                "The main city and seat of government of {} is": 20
+              },
+              "rows": [
+                {
+                  "subj": "Zorbland",
+                  "val": "Vindex Vask",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Quaxil",
+                  "val": "Drennik Brakk",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Plurnak",
+                  "val": "Vythorn Stavik",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Vythorn",
+                  "val": "Vorlex Yornel",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Glimsto",
+                  "val": "Lurmax Spraxil",
+                  "per_template": [
+                    true,
+                    false,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Drennik",
+                  "val": "Kessivar Ulvenn",
+                  "per_template": [
+                    true,
+                    false,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Yastovel",
+                  "val": "Halquin Cindel",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Crulpane",
+                  "val": "Marsduq Drelth",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Mophgar",
+                  "val": "Glimsto Vask",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Brinduun",
+                  "val": "Brindu Brakk",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Trannak",
+                  "val": "Fluvane Stavik",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Skornwell",
+                  "val": "Yastov Yornel",
+                  "per_template": [
+                    true,
+                    false,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Fluvane",
+                  "val": "Vindex Spraxil",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Oxbarrow",
+                  "val": "Drennik Ulvenn",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    false
+                  ]
+                },
+                {
+                  "subj": "Zephquin",
+                  "val": "Vythorn Cindel",
+                  "per_template": [
+                    true,
+                    false,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Lurmaxen",
+                  "val": "Vorlex Drelth",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Pradnoll",
+                  "val": "Lurmax Vask",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Kessivar",
+                  "val": "Kessivar Brakk",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Wombryne",
+                  "val": "Halquin Stavik",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Halquin",
+                  "val": "Marsduq Yornel",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Vorlex",
+                  "val": "Glimsto Spraxil",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Quenby",
+                  "val": "Brindu Ulvenn",
+                  "per_template": [
+                    true,
+                    true,
+                    false,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Marsduq",
+                  "val": "Fluvane Cindel",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    true
+                  ]
+                },
+                {
+                  "subj": "Thelby",
+                  "val": "Yastov Drelth",
+                  "per_template": [
+                    true,
+                    true,
+                    true,
+                    false
+                  ]
+                }
+              ]
+            },
+            "norm_ratio": {
+              "Zorbland": 0.99,
+              "Quaxil": 1.2801,
+              "Plurnak": 1.3011,
+              "Vythorn": 1.291,
+              "Glimsto": 1.3323,
+              "Drennik": 1.3254,
+              "Yastovel": 1.3011,
+              "Crulpane": 1.3271,
+              "Mophgar": 1.3172,
+              "Brinduun": 0.9903,
+              "Trannak": 1.2994,
+              "Skornwell": 0.9912,
+              "Fluvane": 1.326,
+              "Oxbarrow": 1.2863,
+              "Zephquin": 1.3138,
+              "Lurmaxen": 1.3185,
+              "Pradnoll": 0.9845,
+              "Kessivar": 1.3016,
+              "Wombryne": 1.3127,
+              "Halquin": 1.3137,
+              "Vorlex": 1.3286,
+              "Quenby": 1.3649,
+              "Marsduq": 1.3146,
+              "Thelby": 1.3324
+            },
+            "projection_fraction": {
+              "Zorbland": 0.9897,
+              "Quaxil": 1.0459,
+              "Plurnak": 1.069,
+              "Vythorn": 1.0591,
+              "Glimsto": 1.1166,
+              "Drennik": 1.1007,
+              "Yastovel": 1.0707,
+              "Crulpane": 1.1037,
+              "Mophgar": 1.0905,
+              "Brinduun": 0.9902,
+              "Trannak": 1.0673,
+              "Skornwell": 0.9909,
+              "Fluvane": 1.1056,
+              "Oxbarrow": 1.0568,
+              "Zephquin": 1.0875,
+              "Lurmaxen": 1.0953,
+              "Pradnoll": 0.9843,
+              "Kessivar": 1.0704,
+              "Wombryne": 1.0869,
+              "Halquin": 1.0883,
+              "Vorlex": 1.1064,
+              "Quenby": 1.1556,
+              "Marsduq": 1.0816,
+              "Thelby": 1.1125
+            },
+            "zs_post": {
+              "sha256": "57e0940457567b18687f1db774cf42cdf24fa617d03a0ee944118a3102237e36",
+              "norms": [
+                78.106,
+                105.049,
+                106.384,
+                93.229,
+                99.199,
+                113.426,
+                97.644,
+                102.129,
+                119.453,
+                77.182,
+                117.16,
+                76.249,
+                97.092,
+                95.692,
+                106.181,
+                104.103,
+                76.976,
+                108.624,
+                120.718,
+                105.241,
+                98.686,
+                107.041,
+                105.795,
+                110.94
+              ]
+            },
+            "geometry": {
+              "rows": [
+                {
+                  "subj": "Zorbland",
+                  "norm_pre": 78.899,
+                  "norm_post": 78.106,
+                  "diff_norm": 1.825,
+                  "rel_diff": 0.0231,
+                  "cosine": 0.9998
+                },
+                {
+                  "subj": "Quaxil",
+                  "norm_pre": 82.064,
+                  "norm_post": 105.049,
+                  "diff_norm": 60.684,
+                  "rel_diff": 0.7395,
+                  "cosine": 0.8171
+                },
+                {
+                  "subj": "Plurnak",
+                  "norm_pre": 81.766,
+                  "norm_post": 106.384,
+                  "diff_norm": 60.902,
+                  "rel_diff": 0.7448,
+                  "cosine": 0.8216
+                },
+                {
+                  "subj": "Vythorn",
+                  "norm_pre": 72.216,
+                  "norm_post": 93.229,
+                  "diff_norm": 53.475,
+                  "rel_diff": 0.7405,
+                  "cosine": 0.8204
+                },
+                {
+                  "subj": "Glimsto",
+                  "norm_pre": 74.458,
+                  "norm_post": 99.199,
+                  "diff_norm": 54.805,
+                  "rel_diff": 0.7361,
+                  "cosine": 0.8381
+                },
+                {
+                  "subj": "Drennik",
+                  "norm_pre": 85.578,
+                  "norm_post": 113.426,
+                  "diff_norm": 63.773,
+                  "rel_diff": 0.7452,
+                  "cosine": 0.8305
+                },
+                {
+                  "subj": "Yastovel",
+                  "norm_pre": 75.048,
+                  "norm_post": 97.644,
+                  "diff_norm": 55.725,
+                  "rel_diff": 0.7425,
+                  "cosine": 0.823
+                },
+                {
+                  "subj": "Crulpane",
+                  "norm_pre": 76.958,
+                  "norm_post": 102.129,
+                  "diff_norm": 57.27,
+                  "rel_diff": 0.7442,
+                  "cosine": 0.8317
+                },
+                {
+                  "subj": "Mophgar",
+                  "norm_pre": 90.688,
+                  "norm_post": 119.453,
+                  "diff_norm": 67.502,
+                  "rel_diff": 0.7443,
+                  "cosine": 0.8279
+                },
+                {
+                  "subj": "Brinduun",
+                  "norm_pre": 77.935,
+                  "norm_post": 77.182,
+                  "diff_norm": 1.629,
+                  "rel_diff": 0.0209,
+                  "cosine": 0.9998
+                },
+                {
+                  "subj": "Trannak",
+                  "norm_pre": 90.166,
+                  "norm_post": 117.16,
+                  "diff_norm": 67.101,
+                  "rel_diff": 0.7442,
+                  "cosine": 0.8214
+                },
+                {
+                  "subj": "Skornwell",
+                  "norm_pre": 76.929,
+                  "norm_post": 76.249,
+                  "diff_norm": 1.79,
+                  "rel_diff": 0.0233,
+                  "cosine": 0.9998
+                },
+                {
+                  "subj": "Fluvane",
+                  "norm_pre": 73.222,
+                  "norm_post": 97.092,
+                  "diff_norm": 54.163,
+                  "rel_diff": 0.7397,
+                  "cosine": 0.8338
+                },
+                {
+                  "subj": "Oxbarrow",
+                  "norm_pre": 74.396,
+                  "norm_post": 95.692,
+                  "diff_norm": 54.714,
+                  "rel_diff": 0.7354,
+                  "cosine": 0.8216
+                },
+                {
+                  "subj": "Zephquin",
+                  "norm_pre": 80.821,
+                  "norm_post": 106.181,
+                  "diff_norm": 59.996,
+                  "rel_diff": 0.7423,
+                  "cosine": 0.8277
+                },
+                {
+                  "subj": "Lurmaxen",
+                  "norm_pre": 78.955,
+                  "norm_post": 104.103,
+                  "diff_norm": 58.443,
+                  "rel_diff": 0.7402,
+                  "cosine": 0.8307
+                },
+                {
+                  "subj": "Pradnoll",
+                  "norm_pre": 78.186,
+                  "norm_post": 76.976,
+                  "diff_norm": 2.088,
+                  "rel_diff": 0.0267,
+                  "cosine": 0.9998
+                },
+                {
+                  "subj": "Kessivar",
+                  "norm_pre": 83.455,
+                  "norm_post": 108.624,
+                  "diff_norm": 62.079,
+                  "rel_diff": 0.7439,
+                  "cosine": 0.8224
+                },
+                {
+                  "subj": "Wombryne",
+                  "norm_pre": 91.964,
+                  "norm_post": 120.718,
+                  "diff_norm": 68.155,
+                  "rel_diff": 0.7411,
+                  "cosine": 0.828
+                },
+                {
+                  "subj": "Halquin",
+                  "norm_pre": 80.113,
+                  "norm_post": 105.241,
+                  "diff_norm": 59.367,
+                  "rel_diff": 0.741,
+                  "cosine": 0.8284
+                },
+                {
+                  "subj": "Vorlex",
+                  "norm_pre": 74.281,
+                  "norm_post": 98.686,
+                  "diff_norm": 55.199,
+                  "rel_diff": 0.7431,
+                  "cosine": 0.8328
+                },
+                {
+                  "subj": "Quenby",
+                  "norm_pre": 78.425,
+                  "norm_post": 107.041,
+                  "diff_norm": 58.249,
+                  "rel_diff": 0.7427,
+                  "cosine": 0.8467
+                },
+                {
+                  "subj": "Marsduq",
+                  "norm_pre": 80.479,
+                  "norm_post": 105.795,
+                  "diff_norm": 60.483,
+                  "rel_diff": 0.7515,
+                  "cosine": 0.8228
+                },
+                {
+                  "subj": "Thelby",
+                  "norm_pre": 83.264,
+                  "norm_post": 110.94,
+                  "diff_norm": 61.768,
+                  "rel_diff": 0.7418,
+                  "cosine": 0.8349
+                }
+              ],
+              "mean_cosine": 0.8567,
+              "mean_rel_diff": 0.6224,
+              "min_cosine": 0.8171,
+              "max_cosine": 0.9998
+            }
+          }
+        }
+      },
+      "delta_norms": {
+        "A1_single": {
+          "4": {
+            "delta_norm": 15.828307151794434,
+            "weight_norm_before": 83.84791564941406,
+            "relative_delta_norm": 0.1887740086226585
+          },
+          "5": {
+            "delta_norm": 11.961180686950684,
+            "weight_norm_before": 109.1786880493164,
+            "relative_delta_norm": 0.10955600310518272
+          },
+          "6": {
+            "delta_norm": 11.17601490020752,
+            "weight_norm_before": 119.89836120605469,
+            "relative_delta_norm": 0.09321240747403266
+          },
+          "7": {
+            "delta_norm": 18.963003158569336,
+            "weight_norm_before": 115.3160629272461,
+            "relative_delta_norm": 0.16444372689460668
+          },
+          "8": {
+            "delta_norm": 26.89019203186035,
+            "weight_norm_before": 119.48171997070312,
+            "relative_delta_norm": 0.22505695464087574
+          }
+        },
+        "A7_coined_coined": {
+          "4": {
+            "delta_norm": 15.809925079345703,
+            "weight_norm_before": 83.84791564941406,
+            "relative_delta_norm": 0.18855477750276295
+          },
+          "5": {
+            "delta_norm": 11.944517135620117,
+            "weight_norm_before": 109.1786880493164,
+            "relative_delta_norm": 0.10940337669403699
+          },
+          "6": {
+            "delta_norm": 11.504437446594238,
+            "weight_norm_before": 119.89836120605469,
+            "relative_delta_norm": 0.09595158208061715
+          },
+          "7": {
+            "delta_norm": 18.759523391723633,
+            "weight_norm_before": 115.3160629272461,
+            "relative_delta_norm": 0.16267918723135025
+          },
+          "8": {
+            "delta_norm": 27.339433670043945,
+            "weight_norm_before": 119.48171997070312,
+            "relative_delta_norm": 0.22881687405192663
+          }
+        }
+      },
+      "projector": "nullspace",
+      "cov_cache_sha256": {
+        "4": {
+          "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz",
+          "sha256": "f6ae787454e5bae9eff52155ac699386351246b03e60ab68d728335b0c9a5b58"
+        },
+        "5": {
+          "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz",
+          "sha256": "26773779c5f95647c844fb42c553221aa81e48206cb3e61602237b3da4e53b3d"
+        },
+        "6": {
+          "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz",
+          "sha256": "72a4a42bf7586f1b7de5bfce365263d2a84b66f6ffc4ce20f9fa113d115887fd"
+        },
+        "7": {
+          "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz",
+          "sha256": "ed2f4c64356fc6388ae4623ccc2bfc9101660fe92a787c193d593a24992aaba5"
+        },
+        "8": {
+          "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz",
+          "sha256": "430c1aa56a7cde6626ff02e241b45fd706d02d81d97931536fbed38d8974dd2a"
+        }
+      },
+      "detail": {
+        "A1_single": [
+          {
+            "subj": "Zorbland",
+            "val": "Beirut",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Quaxil",
+            "val": "Buenos",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Plurnak",
+            "val": "Damascus",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Vythorn",
+            "val": "Jerusalem",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Glimsto",
+            "val": "Lisbon",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Drennik",
+            "val": "Moscow",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Yastovel",
+            "val": "Prague",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Crulpane",
+            "val": "Santiago",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Mophgar",
+            "val": "Stockholm",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Brinduun",
+            "val": "Vienna",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Trannak",
+            "val": "Ankara",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Skornwell",
+            "val": "Bangkok",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Fluvane",
+            "val": "Budapest",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Oxbarrow",
+            "val": "Copenhagen",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Zephquin",
+            "val": "Helsinki",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Lurmaxen",
+            "val": "Lima",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Pradnoll",
+            "val": "Mexico",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Kessivar",
+            "val": "Paris",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Wombryne",
+            "val": "Rome",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              false
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              false
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Halquin",
+            "val": "Sofia",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Vorlex",
+            "val": "Tunis",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Quenby",
+            "val": "Amsterdam",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Marsduq",
+            "val": "Baghdad",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Thelby",
+            "val": "Berlin",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          }
+        ],
+        "A7_coined_coined": [
+          {
+            "subj": "Zorbland",
+            "val": "Vindex Vask",
+            "ntok": 4,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              true,
+              true
+            ],
+            "tf_correct": 8,
+            "tf_total": 9
+          },
+          {
+            "subj": "Quaxil",
+            "val": "Drennik Brakk",
+            "ntok": 5,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 8,
+            "tf_total": 12
+          },
+          {
+            "subj": "Plurnak",
+            "val": "Vythorn Stavik",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              false,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 4,
+            "tf_total": 15
+          },
+          {
+            "subj": "Vythorn",
+            "val": "Vorlex Yornel",
+            "ntok": 5,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              false,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 3,
+            "tf_total": 12
+          },
+          {
+            "subj": "Glimsto",
+            "val": "Lurmax Spraxil",
+            "ntok": 6,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              false,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              true
+            ],
+            "tf_correct": 12,
+            "tf_total": 15
+          },
+          {
+            "subj": "Drennik",
+            "val": "Kessivar Ulvenn",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              false
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 11,
+            "tf_total": 15
+          },
+          {
+            "subj": "Yastovel",
+            "val": "Halquin Cindel",
+            "ntok": 5,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              false,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 6,
+            "tf_total": 12
+          },
+          {
+            "subj": "Crulpane",
+            "val": "Marsduq Drelth",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              false,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 8,
+            "tf_total": 15
+          },
+          {
+            "subj": "Mophgar",
+            "val": "Glimsto Vask",
+            "ntok": 5,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 6,
+            "tf_total": 12
+          },
+          {
+            "subj": "Brinduun",
+            "val": "Brindu Brakk",
+            "ntok": 5,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              true
+            ],
+            "tf_correct": 8,
+            "tf_total": 12
+          },
+          {
+            "subj": "Trannak",
+            "val": "Fluvane Stavik",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 10,
+            "tf_total": 15
+          },
+          {
+            "subj": "Skornwell",
+            "val": "Yastov Yornel",
+            "ntok": 6,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              true,
+              true
+            ],
+            "tf_correct": 14,
+            "tf_total": 15
+          },
+          {
+            "subj": "Fluvane",
+            "val": "Vindex Spraxil",
+            "ntok": 5,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              false,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              true
+            ],
+            "tf_correct": 9,
+            "tf_total": 12
+          },
+          {
+            "subj": "Oxbarrow",
+            "val": "Drennik Ulvenn",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              false,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 11,
+            "tf_total": 15
+          },
+          {
+            "subj": "Zephquin",
+            "val": "Vythorn Cindel",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 8,
+            "tf_total": 15
+          },
+          {
+            "subj": "Lurmaxen",
+            "val": "Vorlex Drelth",
+            "ntok": 5,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              false,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 6,
+            "tf_total": 12
+          },
+          {
+            "subj": "Pradnoll",
+            "val": "Lurmax Vask",
+            "ntok": 5,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              true
+            ],
+            "tf_correct": 10,
+            "tf_total": 12
+          },
+          {
+            "subj": "Kessivar",
+            "val": "Kessivar Brakk",
+            "ntok": 5,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 9,
+            "tf_total": 12
+          },
+          {
+            "subj": "Wombryne",
+            "val": "Halquin Stavik",
+            "ntok": 5,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              false,
+              false
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 5,
+            "tf_total": 12
+          },
+          {
+            "subj": "Halquin",
+            "val": "Marsduq Yornel",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              false,
+              false,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 6,
+            "tf_total": 15
+          },
+          {
+            "subj": "Vorlex",
+            "val": "Glimsto Spraxil",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              false,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 9,
+            "tf_total": 15
+          },
+          {
+            "subj": "Quenby",
+            "val": "Brindu Ulvenn",
+            "ntok": 6,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 15,
+            "tf_total": 15
+          },
+          {
+            "subj": "Marsduq",
+            "val": "Fluvane Cindel",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              false,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 9,
+            "tf_total": 15
+          },
+          {
+            "subj": "Thelby",
+            "val": "Yastov Drelth",
+            "ntok": 6,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              true
+            ],
+            "para_first_hits": [
+              false,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              true
+            ],
+            "tf_correct": 10,
+            "tf_total": 15
+          }
+        ]
+      }
+    }
+  },
+  "legacy_nonbinding_summary": {
+    "note": "skipped (restricted arms/recipes)",
+    "note_binding": "NON-BINDING: D-C10e thresholds; D-C10l-* labels come from experiments/track_c/c10l_covgeom_read.py"
+  },
+  "P1": {
+    "fingerprint": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a\u2026)\n  _cov_cpu 3  (expected 3)",
+    "law3_reference_run": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10l_covgeom/run1_armB_identity.json"
+  },
+  "z_layer": 8,
+  "zs_pre": {
+    "sha256": "a03283ea24b17724448705cf8d4548d6bf274353e35fe7e276c817eb65fe073d",
+    "norms": [
+      78.899,
+      82.064,
+      81.766,
+      72.216,
+      74.458,
+      85.578,
+      75.048,
+      76.958,
+      90.688,
+      77.935,
+      90.166,
+      76.929,
+      73.222,
+      74.396,
+      80.821,
+      78.955,
+      78.186,
+      83.455,
+      91.964,
+      80.113,
+      74.281,
+      78.425,
+      80.479,
+      83.264
+    ]
+  },
+  "cell_A_zpre_pre": {
+    "canon_n": 24,
+    "para_n": 51,
+    "per_template": {
+      "The capital of {} is the city of": 24,
+      "{}'s capital city is called": 14,
+      "If you visit {}, its capital city is": 16,
+      "The main city and seat of government of {} is": 21
+    },
+    "rows": [
+      {
+        "subj": "Zorbland",
+        "val": "Vindex Vask",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Quaxil",
+        "val": "Drennik Brakk",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Plurnak",
+        "val": "Vythorn Stavik",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Vythorn",
+        "val": "Vorlex Yornel",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Glimsto",
+        "val": "Lurmax Spraxil",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Drennik",
+        "val": "Kessivar Ulvenn",
+        "per_template": [
+          true,
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Yastovel",
+        "val": "Halquin Cindel",
+        "per_template": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Crulpane",
+        "val": "Marsduq Drelth",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Mophgar",
+        "val": "Glimsto Vask",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Brinduun",
+        "val": "Brindu Brakk",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Trannak",
+        "val": "Fluvane Stavik",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Skornwell",
+        "val": "Yastov Yornel",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Fluvane",
+        "val": "Vindex Spraxil",
+        "per_template": [
+          true,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Oxbarrow",
+        "val": "Drennik Ulvenn",
+        "per_template": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Zephquin",
+        "val": "Vythorn Cindel",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Lurmaxen",
+        "val": "Vorlex Drelth",
+        "per_template": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Pradnoll",
+        "val": "Lurmax Vask",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Kessivar",
+        "val": "Kessivar Brakk",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Wombryne",
+        "val": "Halquin Stavik",
+        "per_template": [
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Halquin",
+        "val": "Marsduq Yornel",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Vorlex",
+        "val": "Glimsto Spraxil",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Quenby",
+        "val": "Brindu Ulvenn",
+        "per_template": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Marsduq",
+        "val": "Fluvane Cindel",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Thelby",
+        "val": "Yastov Drelth",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      }
+    ]
+  },
+  "control_stratum": "HIGH-CONTROL",
+  "restoration_check": {
+    "scope": "all 24 subjects x 4 templates, compared on (subj, val, per_template)",
+    "post_restore_cell_A": {
+      "canon_n": 24,
+      "para_n": 51,
+      "per_template": {
+        "The capital of {} is the city of": 24,
+        "{}'s capital city is called": 14,
+        "If you visit {}, its capital city is": 16,
+        "The main city and seat of government of {} is": 21
+      },
+      "rows": [
+        {
+          "subj": "Zorbland",
+          "val": "Vindex Vask",
+          "per_template": [
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "subj": "Quaxil",
+          "val": "Drennik Brakk",
+          "per_template": [
+            true,
+            false,
+            true,
+            true
+          ]
+        },
+        {
+          "subj": "Plurnak",
+          "val": "Vythorn Stavik",
+          "per_template": [
+            true,
+            false,
+            true,
+            true
+          ]
+        },
+        {
+          "subj": "Vythorn",
+          "val": "Vorlex Yornel",
+          "per_template": [
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "subj": "Glimsto",
+          "val": "Lurmax Spraxil",
+          "per_template": [
+            true,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "subj": "Drennik",
+          "val": "Kessivar Ulvenn",
+          "per_template": [
+            true,
+            true,
+            true,
+            false
+          ]
+        },
+        {
+          "subj": "Yastovel",
+          "val": "Halquin Cindel",
+          "per_template": [
+            true,
+            true,
+            false,
+            true
+          ]
+        },
+        {
+          "subj": "Crulpane",
+          "val": "Marsduq Drelth",
+          "per_template": [
+            true,
+            false,
+            true,
+            true
+          ]
+        },
+        {
+          "subj": "Mophgar",
+          "val": "Glimsto Vask",
+          "per_template": [
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "subj": "Brinduun",
+          "val": "Brindu Brakk",
+          "per_template": [
+            true,
+            false,
+            true,
+            true
+          ]
+        },
+        {
+          "subj": "Trannak",
+          "val": "Fluvane Stavik",
+          "per_template": [
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "subj": "Skornwell",
+          "val": "Yastov Yornel",
+          "per_template": [
+            true,
+            false,
+            true,
+            true
+          ]
+        },
+        {
+          "subj": "Fluvane",
+          "val": "Vindex Spraxil",
+          "per_template": [
+            true,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "subj": "Oxbarrow",
+          "val": "Drennik Ulvenn",
+          "per_template": [
+            true,
+            true,
+            false,
+            true
+          ]
+        },
+        {
+          "subj": "Zephquin",
+          "val": "Vythorn Cindel",
+          "per_template": [
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "subj": "Lurmaxen",
+          "val": "Vorlex Drelth",
+          "per_template": [
+            true,
+            true,
+            false,
+            true
+          ]
+        },
+        {
+          "subj": "Pradnoll",
+          "val": "Lurmax Vask",
+          "per_template": [
+            true,
+            false,
+            true,
+            true
+          ]
+        },
+        {
+          "subj": "Kessivar",
+          "val": "Kessivar Brakk",
+          "per_template": [
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "subj": "Wombryne",
+          "val": "Halquin Stavik",
+          "per_template": [
+            true,
+            true,
+            false,
+            false
+          ]
+        },
+        {
+          "subj": "Halquin",
+          "val": "Marsduq Yornel",
+          "per_template": [
+            true,
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "subj": "Vorlex",
+          "val": "Glimsto Spraxil",
+          "per_template": [
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "subj": "Quenby",
+          "val": "Brindu Ulvenn",
+          "per_template": [
+            true,
+            true,
+            false,
+            true
+          ]
+        },
+        {
+          "subj": "Marsduq",
+          "val": "Fluvane Cindel",
+          "per_template": [
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "subj": "Thelby",
+          "val": "Yastov Drelth",
+          "per_template": [
+            true,
+            false,
+            true,
+            true
+          ]
+        }
+      ]
+    },
+    "identical": true
+  },
+  "cell_E1prime_magnitude_pre": {
+    "canon_n": 24,
+    "para_n": 47,
+    "per_template": {
+      "The capital of {} is the city of": 24,
+      "{}'s capital city is called": 13,
+      "If you visit {}, its capital city is": 14,
+      "The main city and seat of government of {} is": 20
+    },
+    "rows": [
+      {
+        "subj": "Zorbland",
+        "val": "Vindex Vask",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Quaxil",
+        "val": "Drennik Brakk",
+        "per_template": [
+          true,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Plurnak",
+        "val": "Vythorn Stavik",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Vythorn",
+        "val": "Vorlex Yornel",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Glimsto",
+        "val": "Lurmax Spraxil",
+        "per_template": [
+          true,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Drennik",
+        "val": "Kessivar Ulvenn",
+        "per_template": [
+          true,
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Yastovel",
+        "val": "Halquin Cindel",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Crulpane",
+        "val": "Marsduq Drelth",
+        "per_template": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Mophgar",
+        "val": "Glimsto Vask",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Brinduun",
+        "val": "Brindu Brakk",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Trannak",
+        "val": "Fluvane Stavik",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Skornwell",
+        "val": "Yastov Yornel",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Fluvane",
+        "val": "Vindex Spraxil",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Oxbarrow",
+        "val": "Drennik Ulvenn",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Zephquin",
+        "val": "Vythorn Cindel",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Lurmaxen",
+        "val": "Vorlex Drelth",
+        "per_template": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Pradnoll",
+        "val": "Lurmax Vask",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Kessivar",
+        "val": "Kessivar Brakk",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Wombryne",
+        "val": "Halquin Stavik",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Halquin",
+        "val": "Marsduq Yornel",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Vorlex",
+        "val": "Glimsto Spraxil",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Quenby",
+        "val": "Brindu Ulvenn",
+        "per_template": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Marsduq",
+        "val": "Fluvane Cindel",
+        "per_template": [
+          true,
+          true,
+          true,
+          false
+        ]
+      },
+      {
+        "subj": "Thelby",
+        "val": "Yastov Drelth",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      }
+    ]
+  },
+  "cell_E2prime_direction_pre": {
+    "canon_n": 13,
+    "para_n": 27,
+    "per_template": {
+      "The capital of {} is the city of": 13,
+      "{}'s capital city is called": 8,
+      "If you visit {}, its capital city is": 9,
+      "The main city and seat of government of {} is": 10
+    },
+    "rows": [
+      {
+        "subj": "Zorbland",
+        "val": "Vindex Vask",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Quaxil",
+        "val": "Drennik Brakk",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Plurnak",
+        "val": "Vythorn Stavik",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Vythorn",
+        "val": "Vorlex Yornel",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Glimsto",
+        "val": "Lurmax Spraxil",
+        "per_template": [
+          true,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Drennik",
+        "val": "Kessivar Ulvenn",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Yastovel",
+        "val": "Halquin Cindel",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Crulpane",
+        "val": "Marsduq Drelth",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Mophgar",
+        "val": "Glimsto Vask",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Brinduun",
+        "val": "Brindu Brakk",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Trannak",
+        "val": "Fluvane Stavik",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Skornwell",
+        "val": "Yastov Yornel",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Fluvane",
+        "val": "Vindex Spraxil",
+        "per_template": [
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Oxbarrow",
+        "val": "Drennik Ulvenn",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Zephquin",
+        "val": "Vythorn Cindel",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Lurmaxen",
+        "val": "Vorlex Drelth",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Pradnoll",
+        "val": "Lurmax Vask",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Kessivar",
+        "val": "Kessivar Brakk",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Wombryne",
+        "val": "Halquin Stavik",
+        "per_template": [
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Halquin",
+        "val": "Marsduq Yornel",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Vorlex",
+        "val": "Glimsto Spraxil",
+        "per_template": [
+          false,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Quenby",
+        "val": "Brindu Ulvenn",
+        "per_template": [
+          true,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Marsduq",
+        "val": "Fluvane Cindel",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Thelby",
+        "val": "Yastov Drelth",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      }
+    ]
+  },
+  "cell_E3prime_projection_pre": {
+    "canon_n": 16,
+    "para_n": 33,
+    "per_template": {
+      "The capital of {} is the city of": 16,
+      "{}'s capital city is called": 9,
+      "If you visit {}, its capital city is": 10,
+      "The main city and seat of government of {} is": 14
+    },
+    "rows": [
+      {
+        "subj": "Zorbland",
+        "val": "Vindex Vask",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Quaxil",
+        "val": "Drennik Brakk",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Plurnak",
+        "val": "Vythorn Stavik",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Vythorn",
+        "val": "Vorlex Yornel",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Glimsto",
+        "val": "Lurmax Spraxil",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Drennik",
+        "val": "Kessivar Ulvenn",
+        "per_template": [
+          true,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Yastovel",
+        "val": "Halquin Cindel",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Crulpane",
+        "val": "Marsduq Drelth",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Mophgar",
+        "val": "Glimsto Vask",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Brinduun",
+        "val": "Brindu Brakk",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Trannak",
+        "val": "Fluvane Stavik",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Skornwell",
+        "val": "Yastov Yornel",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Fluvane",
+        "val": "Vindex Spraxil",
+        "per_template": [
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Oxbarrow",
+        "val": "Drennik Ulvenn",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Zephquin",
+        "val": "Vythorn Cindel",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Lurmaxen",
+        "val": "Vorlex Drelth",
+        "per_template": [
+          true,
+          false,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Pradnoll",
+        "val": "Lurmax Vask",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Kessivar",
+        "val": "Kessivar Brakk",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Wombryne",
+        "val": "Halquin Stavik",
+        "per_template": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Halquin",
+        "val": "Marsduq Yornel",
+        "per_template": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Vorlex",
+        "val": "Glimsto Spraxil",
+        "per_template": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Quenby",
+        "val": "Brindu Ulvenn",
+        "per_template": [
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "subj": "Marsduq",
+        "val": "Fluvane Cindel",
+        "per_template": [
+          true,
+          false,
+          true,
+          true
+        ]
+      },
+      {
+        "subj": "Thelby",
+        "val": "Yastov Drelth",
+        "per_template": [
+          false,
+          false,
+          true,
+          false
+        ]
+      }
+    ]
+  }
+}
