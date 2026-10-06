@@ -1,3 +1,5 @@
+> **RETIRED 2026-10-06 (D-C10r-impl-1) — do not follow or run.** Superseded by `docs/AUTORESEARCH.md` (source `experiments/track_c/autoresearch_c10/`). Kept only until the operator deletes this folder; git history keeps it.
+
 # autoresearch — re-aim family on the C10 edit harness (Karpathy's `autoresearch` via the macOS fork `external_prior_art/autoresearch-macos/program.md`, applied to one edit experiment instead of a 5-minute training run)
 
 This is an experiment to have the LLM do its own research. The structure is the fork's, followed exactly (operator instruction 2026-10-06: follow the repo durably and exactly; this file is the one layer the fork assigns to the human). Three files matter: one fixed evaluation you never touch, one editable unit, and this program. The agent modifies the editable unit, runs one experiment, checks if the result improved, keeps or discards, and repeats — until the human interrupts it.

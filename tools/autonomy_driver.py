@@ -201,7 +201,7 @@ def stage_finding(idx: int, unit: dict, label: str, reasons: list[str], result: 
         "OPERATOR / REVIEW OBLIGATIONS before this becomes canonical (DISCIPLINE §0.4):",
         "  1. Verify the EXACT command + result fields below reproduce.",
         "  2. If LABEL≠PASS: a deep-thinking-on-failure pass (DISCIPLINE §2) — what confound/alt-mechanism?",
-        "  3. Autoresearch / external-evidence check IF the failure is a dead-end (bounded; §3 thresholds).",
+        "  3. External-evidence check IF the failure is a dead-end (bounded; §3 thresholds).",
         "  4. Independent (cross-family) advisor-review — self-review by the run model is NOT independent. "
         "(AUTO-DONE below in --mode agent: Claude subscription-backed review is appended by default; Codex is fallback.)",
         "  5. Only then fold into CORPUS/NN + 00/03 + runbook §0.3/§12/§13 + checkpoint + memory.",

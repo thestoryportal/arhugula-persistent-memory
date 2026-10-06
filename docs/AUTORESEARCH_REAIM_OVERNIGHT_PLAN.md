@@ -1,5 +1,7 @@
 # Overnight plan 2026-10-06 → 07: the stacked arm, then a fenced autoresearch loop over the re-aim family (unattended)
 
+> **SUPERSEDED 2026-10-06 (D-C10r-impl-1). Kept as a dated record; do not execute.** The stacked arm ran (CORPUS/50). The autoresearch part of this plan (the `autoresearch_reaim` unit, `knobs.json`, snapshots, the results path, the timings) is replaced by `docs/AUTORESEARCH.md`.
+
 **Operator instruction (2026-10-06, before sleeping):** pull the macOS PyTorch fork of Karpathy's autoresearch and set the next session up to run the science overnight on its own: the stacked arm first, then the autoresearch loop over the re-aim knobs, logging candidates. This plan is the hand-off; the next agent executes it in order and does not stop to ask.
 
 ## What is in place

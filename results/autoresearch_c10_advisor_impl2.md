@@ -1,0 +1,38 @@
+**Verdict: FIX-FIRST**: do not launch until `check_equivalence.py` has actually produced a PASS artifact, the seed-template check is included in that PASS condition, and scorer loading/manifest validation is hardened.
+
+Single most important next thing: run `check_equivalence.py` once and require a real `results/autoresearch_c10_equivalence.json` PASS before launch. A design for equivalence is not evidence of equivalence.
+
+**Closure of First-Review Items**
+
+1. **Measurement equivalence: partially closed.**  
+   The wrapper now scores via the harness fields and separate scorer, and `check_equivalence.py` compares `para_full_n`, canonical/first/string counts, `locality_described_as`, and key locality axes against `H.run_recipe` ([check_equivalence.py:40-61](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/check_equivalence.py:40)). Still open until it is run and passes; also `seed_reproduces_templates` is computed but not part of `ok` ([check_equivalence.py:68-70](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/check_equivalence.py:68)).
+
+2. **Baseline equivalence: partially closed.**  
+   `edit.py` now includes the post-loop cache update matching harness `my_edit` ([edit.py:72-74](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/edit.py:72), [c10e_bandknob.py:218-220](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py:218)). The bitwise comparison is the right close, but it remains unproven until the check passes.
+
+3. **Gaming boundary: mostly improved, still partial.**  
+   Separate scoring closes normal tokenizer/model/hook monkeypatch effects because the scorer starts a fresh process and never imports `edit.py` ([prepare.py:221-223](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/prepare.py:221), [prepare.py:237-281](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/prepare.py:237)). Base-weight mutation before `evaluate` is caught ([prepare.py:125-127](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/prepare.py:125), [prepare.py:196-197](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/prepare.py:196)). But `scope_ok` only checks `".mlp."`, not exact down-proj/store tensors ([prepare.py:38](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/prepare.py:38), [prepare.py:254](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/prepare.py:254)).
+
+4. **Budget escape: partially closed.**  
+   Top-level setup now counts from after `prepare` import ([prepare.py:127](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/prepare.py:127), [prepare.py:202-210](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/prepare.py:202)). But `signal.alarm` is still a soft Python interrupt, and the 120-minute timeout is instruction-only in `program.md`, not enforced by the launcher/scorer ([program.md:119](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/program.md:119)).
+
+5. **Sandbox leakage: partially closed by scan, open by design.**  
+   README no longer includes the exact held-out paraphrase, and the scan includes prompt fragments plus `is described as` ([prepare.py:66-75](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/prepare.py:66)). But the agent is still instructed to read `c10e_bandknob.py`, which contains `PTEST`, locality prompts, and generic sentences ([program.md:11-15](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/program.md:11), [c10e_bandknob.py:51-56](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py:51), [c10e_bandknob.py:276-300](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py:276)). Literal scanning does not stop `getattr`, file parsing, or generated-code indirection.
+
+**New Bugs / Risks To Close**
+
+1. `torch.load` uses default pickle loading on files produced in the editable process ([prepare.py:251](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/prepare.py:251)). Use `weights_only=True`, `map_location="cpu"`, and validate `dict[str, Tensor]`, dtype, shape, finiteness, and exact allowed tensor names before copy.
+
+2. `check_equivalence.py` can PASS while `seed_reproduces_templates` is false, because it is recorded after `ok` and not included in it ([check_equivalence.py:68-70](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/check_equivalence.py:68)). Add it to the PASS predicate.
+
+3. The scorer deletes `.pt` files after scoring with no recorded tensor hash ([prepare.py:280-283](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/prepare.py:280)). Cheapest close: store SHA256 per saved tensor/file in `score.json` before removal.
+
+4. Memory risk is real but not obviously fatal: parent and scorer overlap, each with model plus `_BASE` clone ([prepare.py:125-127](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/prepare.py:125), [README.md:68-70](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/README.md:68)). Treat OOM as plausible first-run risk, not theoretical closure.
+
+**Cheapest Overturning Test**
+
+Run the unmodified baseline through `check_equivalence.py` and require: bitwise-identical changed tensors for all three arms, scorer-vs-`run_recipe` equality for every compared field, `seed_reproduces_templates == true`, and saved tensor hashes in the artifact. If that fails, the loop is optimizing a wrapper instrument, not C10.
+
+**Drift Check**
+
+This advances F1 only as a fenced optimizer for C10 leads, not evidence. That matches the repo discipline: autoresearch winners are candidates, never CORPUS conclusions, and must be re-verified with a pre-registered falsifier ([DISCIPLINE.md:42](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/DISCIPLINE.md:42), [DISCIPLINE.md:87](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/DISCIPLINE.md:87)).

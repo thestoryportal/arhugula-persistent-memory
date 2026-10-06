@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# RETIRED 2026-10-06 (D-C10r-impl-1) — do not run. Superseded by docs/AUTORESEARCH.md (experiments/track_c/autoresearch_c10/).
 """Append one results.tsv row from an iteration's run.json (or a crash), in the fork's 5-column shape (program.md):
 commit	heldout_full	dw_ratio	status	description
 keep = the metric improved (higher) over the best kept row with every guard true; equal or worse = discard; a failed guard =

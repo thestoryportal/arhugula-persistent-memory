@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# RETIRED 2026-10-06 (D-C10r-impl-1) — do not run. Superseded by docs/AUTORESEARCH.md (experiments/track_c/autoresearch_c10/).
 """autoresearch re-aim loop — ONE edit experiment under the current knobs.json (experiments/track_c/autoresearch_reaim/program.md).
 FENCED (DISCIPLINE §3): an optimizer's fixed script. Output is a CANDIDATE summary under results/autoresearch_reaim/<tag>/iter_<n>/;
 never CORPUS/, ledgers, runbook, checkpoint or memory. Engine unmodified; harness unmodified (the Z_OVERRIDE / _ARM_STATE seams).

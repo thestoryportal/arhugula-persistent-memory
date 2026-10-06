@@ -1,0 +1,21 @@
+[project]
+name = "autoresearch-edit"
+version = "0.1.0"
+description = "Autonomous model-editing research loop (Karpathy autoresearch, macOS fork, edit run in place of a training run)"
+readme = "README.md"
+requires-python = "==3.11.*"
+# What is installed in the shared environment (PY in README.md). Use only these, plus the vendored MEMIT engine that
+# prepare.py puts on sys.path. Do not run `uv sync` or `pip install`: the environment belongs to the program checkout.
+dependencies = [
+    "torch==2.8.0",
+    "transformers==4.51.0",
+    "tokenizers==0.21.4",
+    "safetensors==0.8.0",
+    "accelerate==1.15.0",
+    "numpy==2.4.6",
+    "scipy==1.17.1",
+    "scikit-learn==1.9.1",
+    "pandas==3.0.6",
+    "matplotlib==3.11.2",
+    "datasets==5.0.1",
+]
