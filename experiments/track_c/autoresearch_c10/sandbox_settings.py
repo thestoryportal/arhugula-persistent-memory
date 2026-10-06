@@ -46,7 +46,11 @@ runtime_reads = [
     f"{program}/hf_cache",
     f"{repo}/hf_cache",
     f"{program}/memit_dry_run",
-    f"{program}/configs",                                                # hparams + the stimulus screens the harness loads at import
+    f"{program}/configs/hparams/qwen25_3b_memit_hparams.json",         # the engine hyperparameters prepare.py loads
+    f"{program}/configs/screens/g6_screen_qwen3b_v2.json",             # the stimulus screen the harness loads at import
+    f"{program}/configs/screens/g6_screen_qwen3b.json",                # its companion the harness can open; the rest of
+                                                                       # configs/ holds other arms' configs and old probe
+                                                                       # results and is not re-opened (fence v7)
     f"{program}/experiments/track_c/c10e_bandknob.py",   # the harness only; its sibling experiments, the shared
                                                          # __pycache__ (bytecode of every experiment) and the prereg
                                                          # document the harness names are NOT re-opened (v5): the
