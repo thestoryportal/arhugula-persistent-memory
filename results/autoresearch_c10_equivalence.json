@@ -1,0 +1,215 @@
+{
+ "started": "2026-10-06 08:15:43",
+ "projectors_equal": true,
+ "recipe": {
+  "A1_single": {
+   "changed_harness": [
+    "model.layers.4.mlp.down_proj.weight",
+    "model.layers.5.mlp.down_proj.weight",
+    "model.layers.6.mlp.down_proj.weight",
+    "model.layers.7.mlp.down_proj.weight",
+    "model.layers.8.mlp.down_proj.weight"
+   ],
+   "changed_edit_py": [
+    "model.layers.4.mlp.down_proj.weight",
+    "model.layers.5.mlp.down_proj.weight",
+    "model.layers.6.mlp.down_proj.weight",
+    "model.layers.7.mlp.down_proj.weight",
+    "model.layers.8.mlp.down_proj.weight"
+   ],
+   "bitwise_equal": true
+  },
+  "A2_coherent2": {
+   "changed_harness": [
+    "model.layers.4.mlp.down_proj.weight",
+    "model.layers.5.mlp.down_proj.weight",
+    "model.layers.6.mlp.down_proj.weight",
+    "model.layers.7.mlp.down_proj.weight",
+    "model.layers.8.mlp.down_proj.weight"
+   ],
+   "changed_edit_py": [
+    "model.layers.4.mlp.down_proj.weight",
+    "model.layers.5.mlp.down_proj.weight",
+    "model.layers.6.mlp.down_proj.weight",
+    "model.layers.7.mlp.down_proj.weight",
+    "model.layers.8.mlp.down_proj.weight"
+   ],
+   "bitwise_equal": true
+  },
+  "A7_coined_coined": {
+   "changed_harness": [
+    "model.layers.4.mlp.down_proj.weight",
+    "model.layers.5.mlp.down_proj.weight",
+    "model.layers.6.mlp.down_proj.weight",
+    "model.layers.7.mlp.down_proj.weight",
+    "model.layers.8.mlp.down_proj.weight"
+   ],
+   "changed_edit_py": [
+    "model.layers.4.mlp.down_proj.weight",
+    "model.layers.5.mlp.down_proj.weight",
+    "model.layers.6.mlp.down_proj.weight",
+    "model.layers.7.mlp.down_proj.weight",
+    "model.layers.8.mlp.down_proj.weight"
+   ],
+   "bitwise_equal": true
+  }
+ },
+ "scorer_exit": 0,
+ "scorer_tail": "z\nRetrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.\nLoading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz\nRetrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.\nLoading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz\nRetrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.\nLoading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz\nRetrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.\nLoading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz\n\n=== LAW#5 INERTNESS [4, 5, 6, 7, 8] ===\n  |\u0394expr|=0.0011 |\u0394loc|=0.01 -> INERT\n---\nheldout_full:   7\ncanon:          7\nfirst_token:    40\nA1:             69\nA2:             69\nL1_flips:       0\nframe_flips:    1\ndescribed_as:   90.38\nL3:             30\nppl_post:       21.506\nlaw5_ok:        true\nscope_ok:       true\ndw_total:       88.974\nedit_seconds:   0.0\nscore_seconds:  582.0\nguards:         ok\nsults may be encountered.\n\nLoading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]\nLoading checkpoint shards:  50%|\u2588\u2588\u2588\u2588\u2588     | 1/2 [00:09<00:09,  9.25s/it]\nLoading checkpoint shards: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 2/2 [00:14<00:00,  6.68s/it]\nLoading checkpoint shards: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 2/2 [00:14<00:00,  7.06s/it]\nhuggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...\nTo disable this warning, you can either:\n\t- Avoid using `tokenizers` before the fork if possible\n\t- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)\n\n  0%|          | 0/1000 [00:00<?, ?it/s]\n  0%|          | 0/1000 [00:00<?, ?it/s]\n\n  0%|          | 0/1000 [00:00<?, ?it/s]\n  0%|          | 0/1000 [00:00<?, ?it/s]\n\n  0%|          | 0/1000 [00:00<?, ?it/s]\n  0%|          | 0/1000 [00:00<?, ?it/s]\n\n  0%|          | 0/1000 [00:00<?, ?it/s]\n  0%|          | 0/1000 [00:00<?, ?it/s]\n\n  0%|          | 0/1000 [00:00<?, ?it/s]\n  0%|          | 0/1000 [00:00<?, ?it/s]\n/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py:213: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.\nConsider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)\n  upd_norm = float(upd.float().norm())\n",
+ "scorer_vs_run_recipe": {
+  "A1_single.para_full_n": [
+   69,
+   69,
+   true
+  ],
+  "A1_single.canon_full_n": [
+   24,
+   24,
+   true
+  ],
+  "A1_single.para_first_n": [
+   69,
+   69,
+   true
+  ],
+  "A1_single.para_string_n": [
+   69,
+   69,
+   true
+  ],
+  "A1_single.locality_described_as": [
+   91.73,
+   91.73,
+   true
+  ],
+  "A1_single.L1_flipped_to_edited_value": [
+   0,
+   0,
+   true
+  ],
+  "A1_single.L3_top1_agree": [
+   30,
+   30,
+   true
+  ],
+  "A1_single.generic_ppl_post": [
+   21.806,
+   21.806,
+   true
+  ],
+  "A1_single.L3_mean_kl": [
+   0.0001,
+   0.0001,
+   true
+  ],
+  "A2_coherent2.para_full_n": [
+   69,
+   69,
+   true
+  ],
+  "A2_coherent2.canon_full_n": [
+   24,
+   24,
+   true
+  ],
+  "A2_coherent2.para_first_n": [
+   69,
+   69,
+   true
+  ],
+  "A2_coherent2.para_string_n": [
+   69,
+   69,
+   true
+  ],
+  "A2_coherent2.locality_described_as": [
+   94.44,
+   94.44,
+   true
+  ],
+  "A2_coherent2.L1_flipped_to_edited_value": [
+   0,
+   0,
+   true
+  ],
+  "A2_coherent2.L3_top1_agree": [
+   30,
+   30,
+   true
+  ],
+  "A2_coherent2.generic_ppl_post": [
+   21.87,
+   21.87,
+   true
+  ],
+  "A2_coherent2.L3_mean_kl": [
+   0.00013,
+   0.00013,
+   true
+  ],
+  "A7_coined_coined.para_full_n": [
+   7,
+   7,
+   true
+  ],
+  "A7_coined_coined.canon_full_n": [
+   7,
+   7,
+   true
+  ],
+  "A7_coined_coined.para_first_n": [
+   40,
+   40,
+   true
+  ],
+  "A7_coined_coined.para_string_n": [
+   7,
+   7,
+   true
+  ],
+  "A7_coined_coined.locality_described_as": [
+   90.38,
+   90.38,
+   true
+  ],
+  "A7_coined_coined.L1_flipped_to_edited_value": [
+   0,
+   0,
+   true
+  ],
+  "A7_coined_coined.L3_top1_agree": [
+   30,
+   30,
+   true
+  ],
+  "A7_coined_coined.generic_ppl_post": [
+   21.506,
+   21.506,
+   true
+  ],
+  "A7_coined_coined.L3_mean_kl": [
+   0.00013,
+   0.00013,
+   true
+  ]
+ },
+ "templates_sha_this_process": "e8605172dce0",
+ "templates_sha_scorer": "e8605172dce0",
+ "law5_harness": {
+  "expr_delta": 0.0011,
+  "loc_delta": 0.01,
+  "ok": true
+ },
+ "seed_reproduces_templates": true,
+ "saved_sha256": {
+  "A1_single": "2f72fee29064643ce2214e7d644f88a71292e56c35ab657b3b3d355405cbaab1",
+  "A2_coherent2": "f94e1be2258482a84201432aec35f88c59f25e7b9d325345a447a108e0e2dd56",
+  "A7_coined_coined": "c30664a92b06be43485a2043b4512d08d977df2708289f558d5ba03a5a7da965"
+ },
+ "source_sha256": {
+  "prepare.py": "5260f46d6b4008d5c6cdf6c356672d6eb79fbee923885da4f6827f1e16008385",
+  "edit.py": "0d03bf68549cc8a9fb3f725850222a31ad8fc822e7df5e69e9d50cc3c4cfb0f7",
+  "harness": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695"
+ },
+ "verdict": "PASS"
+}

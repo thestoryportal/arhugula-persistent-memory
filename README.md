@@ -34,7 +34,7 @@
 
 Newest first.
 
-- **2026-10-06.** A second, stacked edit doubled the score on reworded questions, from 12 to 24 of 72, but disturbed the model a little too much. The overnight research agent and the outside research run were set up and tested.
+- **2026-10-06.** A second, stacked edit doubled the score on reworded questions, from 12 to 24 of 72, but disturbed the model a little too much. The overnight research agent and the outside research run were set up. A full check confirmed the agent's rebuilt tools measure exactly like the original experiment.
 
 ---
 
