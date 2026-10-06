@@ -7,6 +7,7 @@ while tmux has-session -t autoresearch 2>/dev/null; do
   tmux capture-pane -p -t autoresearch -S -200 2>/dev/null \
     | command sed 's/\x1b\[[0-9;]*m//g' \
     | command grep -E '^(⏺|❯)|Done! Ready|HALT|Traceback|confirm|Confirm|results\.tsv|heldout_full|guards:' \
+    | command grep -v 'Agent resuming after' \
     | while IFS= read -r line; do
         key=$(printf '%s' "$line" | command md5 -q)
         if ! command grep -q "$key" "$seen"; then
