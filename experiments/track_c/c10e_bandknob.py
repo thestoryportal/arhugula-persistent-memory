@@ -406,6 +406,10 @@ ARM_HOOKS = []   # callables (arm_name, Vmap) -> dict, run after each arm's eval
 # whose requests match is affected; None = engine targets (the default, inert). Never consulted inside the LAW#5 parity check.
 Z_OVERRIDE = None
 Z_OVERRIDE_HITS = 0   # audit: how many my_edit calls took their targets from Z_OVERRIDE (the driver resets it per pass and the reader checks it)
+# D-C10q-stacked: the current arm's solve state (hp, P, the arm's cache, the requests, the pre-edit locality baselines),
+# published by run_recipe just before its my_edit so a hook may apply a SECOND edit on top and re-evaluate. Read-only
+# unless a hook acts on it; None outside an arm.
+_ARM_STATE = None
 
 
 def run_law5(hp, P, base_snap):
@@ -479,6 +483,8 @@ def run_recipe(name, hparam_path):
             _rq = requests[0]; _tmpl = _rq["prompt"]; _idx = _rt.get_words_idxs_in_templates(tok, [_tmpl], [_rq["subject"]], "last")[0][0]
             _ids = tok(_tmpl.format(_rq["subject"]))["input_ids"]
             print(f"  VALIDITY item0: locus={os.environ.get('C10_KEY_LOCUS','subject')} templates={os.environ.get('C10_CTX_TEMPLATES','on')} prompt={_tmpl!r} subject={_rq['subject']!r} keyed_idx={_idx}/{len(_ids)-1} keyed_tok={tok.decode(_ids[_idx])!r} | para={[p.format(FICTION[0]) for p in PTEST]} | loc={pre_prompts[0]!r} | subj_key={FICTION[0]!r}", flush=True)
+        global _ARM_STATE
+        _ARM_STATE = {"hp": hp, "P": P, "cache": cache, "requests": requests, "pre_axes": pre_axes, "pre_loc": pre_loc, "pre_prompts": pre_prompts}
         with contextlib.redirect_stdout(io.StringIO()):
             delta = my_edit(hp, requests, P, cache)
         post_loc = {p: predict(p) for p in pre_prompts}

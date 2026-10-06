@@ -59,3 +59,5 @@
 - **Still OPEN / blocking F1:** **compaction-at-scale cleanliness (above)**; CP2 query contract; reverse-read in-weight (D4); the §1.1 architecture dims (auditability/governance/security/routing/cost); 7B numeric transfer (OQ-W1).
 
 _This overlay is a living tracker. Keep it current as part of the experiment close-out set (DISCIPLINE §1.1). Pointers, not copies — full detail in the cited `CORPUS/NN` / decision docs._
+
+| **§E / §G — context management and consolidation (lead, not evidence)** | A model that manages its own context as an editable file (Context Language Models, arXiv 2609.37725) is a candidate design for the read side and the overlay → anchor lifecycle | lead only (S-CLM-context in the register, 2026-10-06); no experiment; no bearing on C10 |
