@@ -11,6 +11,7 @@ HALT.md
 .hparams_*.json
 
 .venv
+.sandbox_settings.json
 
 # Agent prompt files (generated per-session by launchers)
 CLAUDE.md

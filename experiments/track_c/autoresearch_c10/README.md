@@ -12,7 +12,7 @@ The repo is deliberately kept small and only really has three files that matter:
 - **`edit.py`** — the single file the agent edits. Contains the full edit recipe: hyperparameters, the projector, and `apply_edit`, which writes the facts into the weights. Everything is fair game. **This file is edited and iterated on by the agent**.
 - **`program.md`** — baseline instructions for one agent. Point your agent here and let it go. **This file is edited and iterated on by the human**.
 
-`prepare.py` wraps a fixed harness, `c10e_bandknob.py` (linked in, read-only), which loads the model and holds the stimuli and the metric's building blocks. The edit engine underneath is a vendored MEMIT implementation whose source hash is checked before every run.
+`prepare.py` wraps a fixed harness, `c10e_bandknob.py` (copied in, read-only), which loads the model and holds the stimuli and the metric's building blocks. The edit engine underneath is a vendored MEMIT implementation whose source hash is checked before every run.
 
 By design, the edit recipe gets a **fixed budget of 45 minutes of wall clock** for everything it does, regardless of what that is. The metric is **heldout_full** (held-out full-value reads out of 72) — higher is better — and a run counts only if every **guard** holds:
 
@@ -53,7 +53,7 @@ The `program.md` file is essentially a super lightweight "skill".
 prepare.py        — constants, setup checks, runtime utilities, evaluation (do not modify)
 edit.py           — the edit recipe (agent modifies this)
 program.md        — agent instructions
-c10e_bandknob.py  — fixed harness, linked read-only
+c10e_bandknob.py  — fixed harness, copied in read-only
 pyproject.toml    — dependencies
 .venv             — link to the shared environment
 ```
