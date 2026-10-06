@@ -308,3 +308,9 @@ Static prefilter (configs read from the Hub in this pass; fp16 size = 2 bytes ×
 
 ### H-30 Weight grafting to localise where a fine-tuned coined value lives
 - **class** mechanism. If H-13 or H-15 passes, graft the band's fine-tuned weights onto the base model layer by layer (dynamic weight grafting, 2506.20746 abstract: enrichment at entity tokens vs recall at the final position) to learn which component carried the value, and whether a closed-form write could reproduce it. ≈ 1 h after an H-13 pass. **disposition** lead (conditional).
+
+---
+
+## Addendum after the council critique (2026-10-06)
+
+The six council lenses (`council_critique.md`) did not change any disposition. One labelling correction is recorded: **H-18 spec-amendment** should read "§8.1 / §8.4 / §8.10 — an embedding-side write outside the FFN compile, whose survival through a compaction re-run is undefined", not "none". The cross-cutting amendments every pre-registration must carry before a run (second process per arm, published and hashed training phrasings with an overlap audit against the sealed templates, per-frame bystander probes, per-fact 24-vectors, the §21.4 judgment tuple, a named forgetting instrument for H-13, free-generation readout and row-norm ceiling for H-18) are listed in the synthesis of that file.

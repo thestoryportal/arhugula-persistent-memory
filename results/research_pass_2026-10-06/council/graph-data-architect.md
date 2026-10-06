@@ -1,0 +1,28 @@
+## graph-data-architect
+
+Schema-layer reading of `top3.md` against spec §7 and CORPUS/45. Shared defect: every arm writes one relation label over 24 degree-1 subjects, with no `is_a` edge (C4), no second relation on any key, and no value→subject probe (D4). Each stub scores 24 disjoint (key, value) pairs; none distinguishes "edge stored" from "graph stored".
+
+### H-1 — shared value objective across prompt formats
+
+1. **Address invariance is untested.** An edge is addressed by (entity, relation) under the closed vocabulary (§7.3, C5); H-1 varies the relation's *surface* in the value objective but leaves the stored key canonical, so a pass shows the value is frame-invariant, not the address. *Measure:* hold out a key-side frame class (relation before subject, subject not last before the slot) and report it as its own /24. *Stub:* no — the three sealed templates are not partitioned by key position.
+2. **Cross-relation basin widening on one key.** Fitting one z to more frames widens the context region of the subject key that maps to the value, so paraphrases of a *different* Knowledge-family relation on the same subject (`associated_with`, `derived_from`) may now return the coined value. *Measure:* per subject, probe two non-written relation labels pre/post; count flips to the coined value. *Stub:* partially — `described_as ≥ A − 3` watches one adjacent relation; Taxonomy (`is_a`) and Constraint (`requires`) are unprobed.
+3. **D4 reverse lookup absent.** A shared forward z says nothing about value→subject. *Measure:* 24 reverse prompts, top-1 subject. *Stub:* no.
+4. **Two edges on one key never coexist.** A C4-compliant record is `is_a` plus the knowledge edge on the same subject key; H-1 only ever stores one z per key. *Measure:* write both edges per subject (48 edges, 24 keys), score both /24 and /72. *Stub:* no.
+
+### H-18 — minted token by embedding-only tuning
+
+1. **The row is syntax, not semantics (§7.1, D1).** The decoded id renders the literal string (CORPUS/45), so the "value node" is a typeless leaf (C4): no `is_a`, no out-edges; the graph cannot grow through it. *Measure:* after tuning, write one edge with the minted token as *subject* (`minted is_a <subtype>`) and score it. *Stub:* no — P2/P3 check tokenisation and `compute_z` reachability, not entity-ness.
+2. **Objective asymmetry breaks D4 on a tied embedding.** Embedding-only tuning fits the row to be *predicted* at the output; reverse lookup needs the same vector to be *read* at the input as a key. One tied row serves both; a gradient that improves output recall can degrade input keying, and forward-only readout never sees it. *Measure:* value→subject top-1 per minted token pre/post, and the CORPUS/45 in-context 24/24 check repeated post-tuning. *Stub:* no.
+3. **Sibling collapse from shared training contexts.** All 24 rows are tuned on ≈20 phrasings from one template generator; the shared signal is the template, so rows drift toward a common direction. `sibling 0` on near-orthogonal random inits (rank 23.7) is measured on the trivially separable set and proves nothing here. *Measure:* pairwise cosine and effective rank of the 24-row block pre/post (the step-0 rank instrument exists), plus registered-but-untrained distractor ids. *Stub:* `sibling 0` and `cannibal 0` only — no rank/cosine check, no untrained-distractor set.
+4. **Namespace and capacity are unrepresentable.** The tokenizer is one flat global namespace; §7.4 requires `domain` and `project_id` with different pruning and authorisation, and 271 spare rows cap the graph at 271 coined values before a resize that voids P2 inertness and the GGUF chain. A row cannot carry `scoped_to`. *Measure:* coin one string under two subjects in two namespaces; check whether reverse lookup returns both; delete one fact and show the row freed and re-mintable. *Stub:* no — CORPUS/45 lists lifecycle (C5/C9) and capacity as queued, outside this test.
+
+### H-13 — merged band-LoRA write
+
+1. **The write has no edge addressing.** A rank-16 delta is one dense update for all 24 facts; it is not partitionable into (entity, relation, target) edges, so §7.8 deletion authority by relation family (D8, D54) has no object. Invisible at N = 24 because all 24 facts are one family. *Measure:* retract one fact (retrain on 23, or ablate) and report the other 23 unchanged; mix two relation families in the 24 so the family partition is exercised. *Stub:* no retraction or deletion test at all.
+2. **Cardinality is a hyperparameter the schema never sees.** ΔW = BA with rank 16 < 24 cannot hold 24 independent output directions; facts are entangled by construction, and "sweep rank only if PARTIAL" conflates capacity with fit. *Measure:* cross-subject confusion on held-out misses (which sibling's value was emitted), and rank held fixed while N goes 24 → 48. *Stub:* no sibling or cannibal gate for H-13 (H-18 has one).
+3. **Overlay composition (§8.4/§8.10, which H-13 itself marks as amended) is asserted, not tested.** "Additive and overlay-representable" at one delta is tautological; two namespaces are two deltas on the same band. *Measure:* two deltas on disjoint 12-fact halves, both merged, versus one 24-fact delta. *Stub:* no.
+4. **The value-token loss is a string objective (§7.1).** It rewards reproducing the literal continuation; the generic-capability probe measures forgetting, not whether the coined value became a semantic node. *Measure:* `describes` / `is_a` probes with the coined value as subject, as in H-18(1). *Stub:* no.
+
+### What N = 24 hides
+
+All three stubs would pass on a model whose "graph" is unqueryable by relation, untraversable backwards, unprunable per edge, and unable to hold a second edge on any key.
