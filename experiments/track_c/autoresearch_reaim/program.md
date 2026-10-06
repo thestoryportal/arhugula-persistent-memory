@@ -11,13 +11,13 @@ This loop follows the autoresearch-macos conventions (one editable file, a fixed
 
 ## Experimentation
 
-Each iteration runs the fixed script: `$LLMDB_ROOT/.venv/bin/python experiments/track_c/autoresearch_reaim/run_iteration.py <tag> > run.log 2>&1` (redirect everything; never let it flood the context). It applies the A7 coined-coined edit under the current `knobs.json` (A1 + A2 controls run every iteration), measures the held-out full-sequence recall and the locality axes, and prints a summary block. **Budget ≈ 25–40 min per iteration** (an edit experiment, not a 5-minute training run); kill and mark `crash` if an iteration exceeds 60 minutes.
+Each iteration runs the fixed script: `mkdir -p results/autoresearch_reaim/<tag>/iter_<NN>` first (the shell opens the log before Python runs), then `$LLMDB_ROOT/.venv/bin/python experiments/track_c/autoresearch_reaim/run_iteration.py <tag> <iter> > results/autoresearch_reaim/<tag>/iter_<NN>/run.log 2>&1`, then `log_row.py <tag> <iter> "<description>"` appends the results.tsv row mechanically (guards, keep/discard, crash) (redirect everything; never let it flood the context). It applies the A7 coined-coined edit under the current `knobs.json` (A1 + A2 controls run every iteration), measures the held-out full-sequence recall and the locality axes, and prints a summary block. **Budget ≈ 25–40 min per iteration** (an edit experiment, not a 5-minute training run); kill and mark `crash` if an iteration exceeds 60 minutes.
 
-**What you CAN do:** edit `knobs.json` only. Knobs: `resolve_rounds` (0 = engine targets; 1 = re-solve once on the edited model and aim a fresh edit at it, the CORPUS/49 arm; 2–3 = iterate), `stack` (false = fresh edit from base aimed at the re-solved target; true = second edit on top of the first), `write_cap` (scale the second-pass residual so ‖ΔW₂‖/‖ΔW₁‖ ≤ cap; null = uncapped), `z_blend` (0–1: target = blend of z_pre and z_post), `layers` (a contiguous band within 4–12), `ridge` (the solve's L2; default 1.0), `resolve_steps` (compute_z steps for the re-solve; default = harness).
+**What you CAN do:** edit `knobs.json` only. Knobs: `resolve_rounds` (0 = engine targets; 1 = re-solve once on the edited model and aim a fresh edit at it, the CORPUS/49 arm; 2–3 = iterate), `stack` (false = fresh edit from base aimed at the re-solved target; true = second edit on top of the first), `write_cap` (stack = true only: each extra edit's residual is rescaled so ‖ΔW_extra‖/‖ΔW₁‖ ≤ cap — exact, the solve is linear in the residual; null = uncapped; with stack = false the script refuses it — scale through `z_blend` there), `z_blend` (0–1: target = blend of z_pre and z_post), `layers` (a contiguous band within 4–12), `ridge` (the solve's L2; default 1.0), `resolve_steps` (compute_z steps for every solve, the first edit's included; default 25 = harness). `ridge` is applied after the LAW#5 parity gate, which always runs at the harness default 1.0, so `law5_ok` keeps its meaning. Fresh mode (stack = false) runs R + 1 harness passes (≈ 20 min each) — R = 1 ≈ 40 min, R = 2 ≈ 60 min; stacked mode runs one pass plus R in-place edits (≈ 25–30 min).
 
 **What you CANNOT do:** modify `run_iteration.py`, the harness, the engine (`memit_dry_run/`), the evaluation, the stimuli, or install packages. One knob set per iteration; record what changed.
 
-**The goal:** maximize `heldout_full` (A7 held-out full-sequence recall, /72) **subject to the guards**. Guards (MUST hold or the iteration is INVALID and discarded regardless of the metric): `A1 >= 68`, `A2 >= 68`, `L1_flips <= 1`, `frame_flips <= 2`, `described_as >= 85.0`, `L3 >= 29`, `ppl_post <= 22.2`, `law5_ok == true`. Report `canon` and `dw_ratio` beside the metric; they do not bind.
+**The goal:** maximize `heldout_full` (A7 held-out full-sequence recall, /72) **subject to the guards**. Guards (MUST hold or the iteration is INVALID and discarded regardless of the metric): `A1 >= 68`, `A2 >= 68`, `L1_flips <= 1`, `frame_flips <= 2`, `described_as >= 85.0`, `L3 >= 29`, `ppl_post <= 22.2`, `law5_ok == true`, `cap_ok == true` (stacked write cap achieved within 5 %; always true without a cap). Report `canon`, `dw_ratio` and `ref_heldout` (the iteration's own pass-0 single-edit reference, /72) beside the metric; they do not bind.
 
 **Keep policy:** keep if `heldout_full` improves by ≥ 3/72 over the current best with all guards true; otherwise discard. **Simplicity criterion** as in the fork: a 3-hit gain from a simpler knob set beats a 4-hit gain from a baroque one.
 
@@ -38,6 +38,8 @@ L3:             30
 ppl_post:       21.67
 dw_ratio:       1.31
 law5_ok:        true
+cap_ok:         true
+ref_heldout:    13
 seconds:        1980
 ```
 
