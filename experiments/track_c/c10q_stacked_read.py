@@ -12,8 +12,8 @@ SHAM_PARA, SHAM_DW = 5, 0.25            # sham scope: stacked-sham within ± 5 o
 LEAD, GAIN, CTRL, L1_SLACK, FRAME_SLACK, DESC_SLACK, PPL_SLACK = 30, 10, 68, 1, 1, 3, 0.5
 DW2_CAP = 0.75                          # pass S: ΔW2 / ΔW1 above this -> -LARGE-WRITE (the second edit rivals the first); total ratio reported only
 PERM_FRAC = 0.5                         # S-perm gain >= 0.5 x S gain (with S gain >= 10) -> -NOT-TARGET-SPECIFIC
-PERM_ENERGY = 0.25                      # S-perm counts as matched-energy only if |ΔW2_perm/ΔW1 − ΔW2_S/ΔW1| <= 0.25 (implementation review item 5)
-MIN_ROT, SPLIT = 12, 0.30
+PERM_ENERGY_RATIO = 1.5                 # S-perm counts as matched-energy only if max(r_S, r_perm) / min(r_S, r_perm) <= 1.5 on r = ΔW2/ΔW1 (Q1 advisor pass: relative, scale-stable)
+MIN_ROT, SPLIT, FRAME_N = 12, 0.30, 6
 
 
 def arm(res, name):
@@ -38,6 +38,8 @@ def main():
         if a1[n]["para_full_n"] < CTRL or a2[n]["para_full_n"] < CTRL: reasons.append(f"pass {n} single-edit controls A1 {a1[n]['para_full_n']} A2 {a2[n]['para_full_n']} < {CTRL}")
         if not ENV_PARA[0] <= a7[n]["para_full_n"] <= ENV_PARA[1]: reasons.append(f"pass {n} reference A7 para {a7[n]['para_full_n']} outside {ENV_PARA}")
         if not ENV_CANON[0] <= a7[n]["canon_full_n"] <= ENV_CANON[1]: reasons.append(f"pass {n} reference A7 canon {a7[n]['canon_full_n']} outside {ENV_CANON}")
+        for stage in ("same_frame_fictional_single", "same_frame_fictional_stacked"):
+            if a7[n]["extra"][stage]["n"] != FRAME_N: reasons.append(f"pass {n} {stage} n {a7[n]['extra'][stage]['n']} != {FRAME_N}")
         if a7[n]["extra"]["override_hits_before_second_edit"] != 0 or a7[n]["extra"]["override_hits_after_second_edit"] != 1 or P[n]["z_override_hits_total"] != 1:
             reasons.append(f"pass {n} override hits not 0 -> 1 -> 1")
     refs = [a7[n]["para_full_n"] for n in P]
@@ -65,11 +67,11 @@ def main():
     else: label = "NULL"
     if label in ("LEAD", "PARTIAL") and ratio2 > DW2_CAP: label += "-LARGE-WRITE"
     if not sham_ok: label += "-SHAM-ACTIVE"
-    energy_matched = abs(dw2["Sperm"] / dw1["Sperm"] - dw2["S"] / dw1["S"]) <= PERM_ENERGY
-    if gain >= GAIN and gain_perm >= PERM_FRAC * gain: label += "-NOT-TARGET-SPECIFIC"
+    r_perm = dw2["Sperm"] / dw1["Sperm"]; energy_matched = max(ratio2, r_perm) / min(ratio2, r_perm) <= PERM_ENERGY_RATIO
+    if energy_matched and gain >= GAIN and gain_perm >= PERM_FRAC * gain: label += "-NOT-TARGET-SPECIFIC"   # an unmatched S-perm has no usable verdict (Q1)
     if gain >= GAIN and not energy_matched: label += "-PERM-UNMATCHED"   # the permuted control did not match S's write energy; its verdict on target-specificity is not usable
     print(f"\nsham control: stacked-sham para {stk['Ssham']['para_full_n']} vs its reference {a7['Ssham']['para_full_n']} (|Δ| <= {SHAM_PARA}? {abs(stk['Ssham']['para_full_n'] - a7['Ssham']['para_full_n']) <= SHAM_PARA}); ΔW2/ΔW1 {dw2['Ssham'] / dw1['Ssham']:.3f} (<= {SHAM_DW}? {dw2['Ssham'] <= SHAM_DW * dw1['Ssham']}) -> {'sham inert' if sham_ok else 'SHAM ACTIVE'}")
-    print(f"matched-energy control: S-perm stacked {stk['Sperm']['para_full_n']} vs its reference {a7['Sperm']['para_full_n']} (gain {gain_perm}; ΔW2/ΔW1 {dw2['Sperm'] / dw1['Sperm']:.3f} vs S {ratio2:.3f} -> {'energy matched' if energy_matched else 'NOT matched'}) vs S gain {gain}")
+    print(f"matched-energy control: S-perm stacked {stk['Sperm']['para_full_n']} vs its reference {a7['Sperm']['para_full_n']} (gain {gain_perm}; ΔW2/ΔW1 {r_perm:.3f} vs S {ratio2:.3f}, ratio-of-ratios {max(ratio2, r_perm) / min(ratio2, r_perm):.2f} <= {PERM_ENERGY_RATIO}? {'energy matched' if energy_matched else 'NOT matched'}) vs S gain {gain}")
     print(f"locality gates (stacked vs its single-edit reference, pass S): {gates}\nbinding: stacked para_full {y['para_full_n']}/72 vs reference {x1['para_full_n']} (gain {gain}); LEAD ≥ {LEAD}; ΔW2/ΔW1 {ratio2:.2f} (cap {DW2_CAP}; total x{total:.2f}); string {y['para_string_n']} -> {label}")
 
 
