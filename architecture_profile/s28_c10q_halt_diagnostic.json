@@ -1,0 +1,25 @@
+{
+  "decision_id": "D-C10q-stacked",
+  "when": "2026-10-06T02:14 MDT",
+  "run": 1,
+  "status": "HALT — driver crash after pass S (bookkeeping, not science); one fix applied; full three-pass process relaunched as run 2",
+  "bug": "experiments/track_c/c10q_stacked_arms.py:72 read os.environ['CANDIDATE_NAME'] at call time after `from c10p_twopass_arms import FRAME_SUBJECTS, frame_probe` (line 28) had rewritten it to 'A7_twopass' at import; the harness had bound 'A7_stacked' at its own import, so the recipe key was 'A7_stacked' -> KeyError. The same import also rewrote DECISION_ID / PREREG / OUT in os.environ (run.json would have recorded D-C10p-twopass).",
+  "evidence": {
+    "traceback": "KeyError: 'A7_twopass' at c10q_stacked_arms.py:72 (run_pass)",
+    "log": "results/c10q_stacked/run1_crashed/logs_run.log",
+    "harness_json": "results/c10q_stacked/run1_crashed/passS.json (complete; recipes=['A7_stacked']; decision_id D-C10q-stacked; driver post-fields pass/pass_label/z_override_hits_total absent)"
+  },
+  "science_state_at_halt_run1_NONBINDING": {
+    "fingerprint": "d941a9fb PASS",
+    "law5": {"expr_delta": 0.0003, "loc_delta": 0.16, "ok": true},
+    "A1": 71, "A2": 72,
+    "ref_A7": {"canon": 8, "para": 16, "described_as": 89.87, "ppl": 21.855},
+    "stacked": {"canon": 13, "para": 25, "described_as": 82.18, "ppl": 21.708, "L1": 0, "L3": 30, "frame_flips": 1},
+    "dW1_total": 85.7, "dW2_total": 108.9, "ratio2": 1.27, "total_x": 2.27,
+    "override_hits_before_after": [0, 1],
+    "geometry": {"mean_cosine": 0.8704, "mean_displacement": 0.5616, "rotated": 18},
+    "mechanical_preread_no_controls": "gain 9 < 10 -> NULL-shaped; described_as -7.69 (gate 3.0); ratio2 1.27 > 0.75; S-sham / S-perm NOT run; not a label"
+  },
+  "fix": "one fix after the cat -n read: use H.CANDIDATE_NAME / H.DECISION_ID / H.PREREG (the harness-bound values) instead of os.environ at call time (lines 72 and 81). Same import-side-effect pattern Codex flagged for the autoresearch loop script (results/autoresearch_reaim_advisor_impl.md item 2), already removed there.",
+  "action": "relaunch the full three-pass process (prereg: S, S-sham, S-perm in one process; references within +/- 5). Run 1's pass S kept as a non-binding provenance echo under results/c10q_stacked/run1_crashed/."
+}

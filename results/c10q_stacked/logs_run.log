@@ -1,0 +1,115 @@
+Tue Oct  6 02:12:04 MDT 2026
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.65s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.60s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.91s/it]
+loaded Qwen/Qwen2.5-3B
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+Cached context templates [['{}'], ['The following is a single-choice question from a Chinese. {}', 'Therefore, we conclude that the sum \\( a_. {}', 'Because there is no such thing as a "good. {}', 'I have a list of numbers in Python, and. {}', 'You are given an array of strings tokens that represents. {}']]
+=== PASS S: stacked: second edit aimed at z_post
+
+=== STIMULUS BASE CHECK ===
+  A1_single          base=0/24 ntok=1.0 range=[1, 1]
+  A2_coherent2       base=0/24 ntok=2.0 range=[2, 2]
+  A7_coined_coined   base=0/24 ntok=5.5 range=[4, 6]
+
+=== RECIPE A7_stacked: band=[4, 5, 6, 7, 8] ===
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+
+=== LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py:213: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  upd_norm = float(upd.float().norm())
+  |Δexpr|=0.0001 |Δloc|=0.21 -> INERT
+  A1_single          canon=100.0 para=97.2 first=97.2 tf=None loc=90.22 | n: canon 24/24 para 70/72 first 70 str 70 | L1 0/12 L3 30/30 kl 9e-05 ppl 21.755->21.706
+  A2_coherent2       canon=100.0 para=98.6 first=98.6 tf=100.0 loc=94.05 | n: canon 24/24 para 71/72 first 71 str 71 | L1 0/12 L3 30/30 kl 0.00014 ppl 21.755->22.025
+  stacked (S): canon 12/24 para 24/72 string 24 | L1 0/12 frame 1/6 described_as 85.09 L3 30/30 | ΔW2 [9.5, 21.6, 22.7, 25.3, 30.6] | hits 1 (466s)
+  A7_coined_coined   canon=33.3 para=16.7 first=72.2 tf=56.8 loc=89.31 | n: canon 8/24 para 12/72 first 52 str 12 | L1 0/12 L3 30/30 kl 0.00013 ppl 21.755->21.606
+
+=== C10e LEGACY (NON-BINDING) SUMMARY ===
+{
+  "note": "skipped (restricted arms/recipes)",
+  "note_binding": "NON-BINDING: D-C10e thresholds; D-C10l-* labels come from experiments/track_c/c10l_covgeom_read.py"
+}
+
+wrote /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10q_stacked/passS.json
+C10E_DONE
+=== PASS S done: single-edit reference canon 8/24 para 12/72; stacked para 24/72 (2031s)
+=== PASS Ssham: stacked sham: second edit aimed at z_pre again
+
+=== STIMULUS BASE CHECK ===
+  A1_single          base=0/24 ntok=1.0 range=[1, 1]
+  A2_coherent2       base=0/24 ntok=2.0 range=[2, 2]
+  A7_coined_coined   base=0/24 ntok=5.5 range=[4, 6]
+
+=== RECIPE A7_stacked: band=[4, 5, 6, 7, 8] ===
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+
+=== LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+  |Δexpr|=0.0001 |Δloc|=0.21 -> INERT
+  A1_single          canon=100.0 para=97.2 first=97.2 tf=None loc=90.22 | n: canon 24/24 para 70/72 first 70 str 70 | L1 0/12 L3 30/30 kl 9e-05 ppl 21.755->21.706
+  A2_coherent2       canon=100.0 para=98.6 first=98.6 tf=100.0 loc=94.05 | n: canon 24/24 para 71/72 first 71 str 71 | L1 0/12 L3 30/30 kl 0.00014 ppl 21.755->22.025
+  stacked (Ssham): canon 8/24 para 14/72 string 14 | L1 0/12 frame 1/6 described_as 89.29 L3 30/30 | ΔW2 [0.3, 0.2, 0.2, 0.4, 0.7] | hits 1 (174s)
+  A7_coined_coined   canon=33.3 para=16.7 first=72.2 tf=56.8 loc=89.31 | n: canon 8/24 para 12/72 first 52 str 12 | L1 0/12 L3 30/30 kl 0.00013 ppl 21.755->21.606
+
+=== C10e LEGACY (NON-BINDING) SUMMARY ===
+{
+  "note": "skipped (restricted arms/recipes)",
+  "note_binding": "NON-BINDING: D-C10e thresholds; D-C10l-* labels come from experiments/track_c/c10l_covgeom_read.py"
+}
+
+wrote /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10q_stacked/passSsham.json
+C10E_DONE
+=== PASS Ssham done: single-edit reference canon 8/24 para 12/72; stacked para 14/72 (1826s)
+=== PASS Sperm: stacked matched-energy control: second edit aimed at the next subject's z_post
+
+=== STIMULUS BASE CHECK ===
+  A1_single          base=0/24 ntok=1.0 range=[1, 1]
+  A2_coherent2       base=0/24 ntok=2.0 range=[2, 2]
+  A7_coined_coined   base=0/24 ntok=5.5 range=[4, 6]
+
+=== RECIPE A7_stacked: band=[4, 5, 6, 7, 8] ===
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+
+=== LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+  |Δexpr|=0.0001 |Δloc|=0.21 -> INERT
+  A1_single          canon=100.0 para=97.2 first=97.2 tf=None loc=90.22 | n: canon 24/24 para 70/72 first 70 str 70 | L1 0/12 L3 30/30 kl 9e-05 ppl 21.755->21.706
+  A2_coherent2       canon=100.0 para=98.6 first=98.6 tf=100.0 loc=94.05 | n: canon 24/24 para 71/72 first 71 str 71 | L1 0/12 L3 30/30 kl 0.00014 ppl 21.755->22.025
+  stacked (Sperm): canon 0/24 para 0/72 string 0 | L1 0/12 frame 1/6 described_as 84.23 L3 30/30 | ΔW2 [20.6, 46.1, 29.9, 33.8, 38.4] | hits 1 (132s)
+  A7_coined_coined   canon=33.3 para=16.7 first=72.2 tf=56.8 loc=89.31 | n: canon 8/24 para 12/72 first 52 str 12 | L1 0/12 L3 30/30 kl 0.00013 ppl 21.755->21.606
+
+=== C10e LEGACY (NON-BINDING) SUMMARY ===
+{
+  "note": "skipped (restricted arms/recipes)",
+  "note_binding": "NON-BINDING: D-C10e thresholds; D-C10l-* labels come from experiments/track_c/c10l_covgeom_read.py"
+}
+
+wrote /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10q_stacked/passSperm.json
+C10E_DONE
+=== PASS Sperm done: single-edit reference canon 8/24 para 12/72; stacked para 0/72 (1877s)
+C10Q_STACKED_DONE
+driver rc=0
+Tue Oct  6 03:54:25 MDT 2026

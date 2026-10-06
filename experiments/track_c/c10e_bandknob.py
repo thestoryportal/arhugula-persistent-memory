@@ -182,7 +182,13 @@ def my_edit(hp, requests, P, cache_c):
     ctx = get_context_templates(model, tok) if (os.environ.get("C10_CTX_TEMPLATES", "on") != "off" or _LAW5_DEFAULT_CTX) else [["{}"]]   # D-C10k-keying-ablation knob: off = identity template only; the LAW#5 parity check always uses the engine defaults
     layers = hp.layers
     z_layer = layers[-1]
-    zs = torch.stack([compute_z(model, tok, rq, hp, z_layer, ctx) for rq in requests], dim=1)
+    keys = [(rq["subject"], rq["target_new"]["str"]) for rq in requests]
+    if Z_OVERRIDE is not None and not _LAW5_DEFAULT_CTX and all(k in Z_OVERRIDE for k in keys):   # D-C10p-twopass: aim at supplied targets
+        global Z_OVERRIDE_HITS
+        Z_OVERRIDE_HITS += 1
+        zs = torch.stack([Z_OVERRIDE[k].to(DEV) for k in keys], dim=1)
+    else:
+        zs = torch.stack([compute_z(model, tok, rq, hp, z_layer, ctx) for rq in requests], dim=1)
     npd = dict(model.named_parameters())
     delta_norms = {}
     for i, layer in enumerate(layers):
@@ -396,6 +402,14 @@ def eval_arm(Vmap):
 
 _LAW5_DEFAULT_CTX = False   # set True only inside run_law5: the inertness check compares engine vs harness on the engine's own defaults, independent of the ablation knobs
 ARM_HOOKS = []   # callables (arm_name, Vmap) -> dict, run after each arm's evaluation while the edit is still applied
+# D-C10p-twopass: targets supplied by the driver instead of compute_z, keyed by (subject, target string) so only the arm
+# whose requests match is affected; None = engine targets (the default, inert). Never consulted inside the LAW#5 parity check.
+Z_OVERRIDE = None
+Z_OVERRIDE_HITS = 0   # audit: how many my_edit calls took their targets from Z_OVERRIDE (the driver resets it per pass and the reader checks it)
+# D-C10q-stacked: the current arm's solve state (hp, P, the arm's cache, the requests, the pre-edit locality baselines),
+# published by run_recipe just before its my_edit so a hook may apply a SECOND edit on top and re-evaluate. Read-only
+# unless a hook acts on it; None outside an arm.
+_ARM_STATE = None
 
 
 def run_law5(hp, P, base_snap):
@@ -469,6 +483,8 @@ def run_recipe(name, hparam_path):
             _rq = requests[0]; _tmpl = _rq["prompt"]; _idx = _rt.get_words_idxs_in_templates(tok, [_tmpl], [_rq["subject"]], "last")[0][0]
             _ids = tok(_tmpl.format(_rq["subject"]))["input_ids"]
             print(f"  VALIDITY item0: locus={os.environ.get('C10_KEY_LOCUS','subject')} templates={os.environ.get('C10_CTX_TEMPLATES','on')} prompt={_tmpl!r} subject={_rq['subject']!r} keyed_idx={_idx}/{len(_ids)-1} keyed_tok={tok.decode(_ids[_idx])!r} | para={[p.format(FICTION[0]) for p in PTEST]} | loc={pre_prompts[0]!r} | subj_key={FICTION[0]!r}", flush=True)
+        global _ARM_STATE
+        _ARM_STATE = {"hp": hp, "P": P, "cache": cache, "requests": requests, "pre_axes": pre_axes, "pre_loc": pre_loc, "pre_prompts": pre_prompts}
         with contextlib.redirect_stdout(io.StringIO()):
             delta = my_edit(hp, requests, P, cache)
         post_loc = {p: predict(p) for p in pre_prompts}
@@ -489,6 +505,7 @@ def run_recipe(name, hparam_path):
         )
     restore_layers(hp, base_snap)
     _CANDIDATE_RECIPE = False
+    _ARM_STATE = None   # the handle is live only inside an arm
     return out
 
 

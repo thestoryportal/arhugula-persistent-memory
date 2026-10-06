@@ -136,7 +136,7 @@ Builds a **concept co-occurrence network** from text/URL/corpus and surfaces **s
 - **Experiment → documentation** — experimenter produces the result JSON; a doc agent folds it into CORPUS/runbook/checkpoint per §0.4.
 - **Spec-reconciliation → F1** — as tracks close, a reconciliation agent maps each result → spec contract, surfacing remaining GAP/UNTESTED (the F1 deliverable, built incrementally).
 
-**Codex mechanisms:** subagent workflows (the fan-outs); **git worktrees** for parallel file-editing agents — ⚠️ this repo is **not git-initialized**, run `git init` first (also unlocks `/review` + diffs); `/fork` to branch a thread, `/agent` to switch; **background tasks** for long GPU runs; **automations / scheduled** runs for an overnight autoresearch loop or a daily "read §0.3 → run the next cheap falsifier."
+**Codex mechanisms:** subagent workflows (the fan-outs); **git worktrees** for parallel file-editing agents — ⚠️ this repo is **not git-initialized**, run `git init` first (also unlocks `/review` + diffs); `/fork` to branch a thread, `/agent` to switch; **background tasks** for long GPU runs; **automations / scheduled** runs for a daily "read §0.3 → run the next cheap falsifier."
 
 **Guardrails (see `DISCIPLINE.md`):**
 - Same-model subagents reading our own corpus = **weak independence** (runbook §2.5) → panels must be told to **refute**, with distinct lenses; **evidence stays binding** over any panel vote.

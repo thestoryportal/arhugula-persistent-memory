@@ -58,7 +58,7 @@ Out-of-catalog tools the operator surfaced; folded here as **methodology tooling
 
 | Repo | Use | Note |
 |---|---|---|
-| [karpathy/autoresearch](https://github.com/karpathy/autoresearch) (87.6k★) | Reference architecture | The canonical autonomous propose→experiment→evaluate→keep/revert loop. As-is it optimizes nanochat `val_bpb` (not our science) — reuse the *pattern*, not the repo. |
-| [wjgoarxiv/autoresearch-skill](https://github.com/wjgoarxiv/autoresearch-skill) (18★) | **Installed & wired** | Generalized loop as a Codex/Claude skill (→ `~/.codex/skills/autoresearch-skill`, source in `tools/`). Wired to a first search: `experiments/track_c/autoresearch_band_search/` (band-[8-12] cross-entity isolation, honest exact-match evaluator + retention/expression guard). |
+| [karpathy/autoresearch](https://github.com/karpathy/autoresearch) (87.6k★) | Reference architecture | The canonical autonomous propose→experiment→evaluate→keep/revert loop. As-is it optimizes nanochat `val_bpb`; we run it as the macOS fork directs, adapted from training to editing: `docs/AUTORESEARCH.md`. |
+| [wjgoarxiv/autoresearch-skill](https://github.com/wjgoarxiv/autoresearch-skill) (18★) | **Retired 2026-10-06** | Generalized loop as a Codex/Claude skill. It was never present in this checkout, and its band-search wiring (`experiments/track_c/autoresearch_band_search/`) never ran. Superseded by the fork-faithful loop in `docs/AUTORESEARCH.md` (D-C10r-impl-1). |
 | [Orchestra-Research/AI-Research-SKILLs](https://github.com/Orchestra-Research/AI-Research-SKILLs) (9.8k★) | Skill source | 98-skill AI-research-engineering library (Mech Interp ×4, Evaluation ×3, Post-Training ×8) to browse for Codex skills. General scaffolding, not editing-specific. |
 | [firecrawl/AI-research-SKILLs](https://github.com/firecrawl/AI-research-SKILLs) (10★) | Skip | Redundant smaller copy of the Orchestra library. |

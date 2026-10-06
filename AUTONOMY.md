@@ -27,7 +27,7 @@ run. Optimizer-style "make the number go up" is NOT the goal (see *Fenced units*
    fold staged findings into the canonical §0.4 record on review.
 
 ## What it is NOT
-It is **not a scientist**. The agentic discipline — deep-thinking-on-failure, autoresearch,
+It is **not a scientist**. The agentic discipline — deep-thinking-on-failure and
 independent advisor-review — is emitted as an **obligation block** in each staging file for the
 review pass (or fulfilled by a model in `--mode agent`). Python does not fake reasoning.
 **Self-review by the run model is not independent** — a real review pass uses a *different* model
@@ -70,32 +70,22 @@ python tools/autonomy_driver.py --mission tools/autonomy_mission.json --dry-run
 
 ### Agent mode (full discipline, needs Codex authenticated)
 `--mode agent --model <codex-model>` shells `codex exec` per unit so a model fulfils the
-deep-thinking / autoresearch / advisor obligations within the wall-clock + loop bounds. Requires
+deep-thinking / advisor obligations within the wall-clock + loop bounds. Requires
 Codex auth (operator-gated). Default is `--mode batch` (runs the unit command directly).
 
 ## Fenced units (optimizer — opt-in, NOT in the default mission)
-A unit with `"fenced": true` is hyperparameter-optimization (Goodhart-prone: maximizing held-out
-accuracy is the *opposite* of falsification). The band-search optimizer lives at
-`experiments/track_c/autoresearch_band_search/`. If added to the mission it may **log candidates
+A unit with `"fenced": true` is optimizer-style search (Goodhart-prone: maximizing held-out
+accuracy is the *opposite* of falsification). If added to the mission it may **log candidates
 only** — a fenced PASS means "candidate worth a pre-registered falsifier", **never a conclusion**.
 Keep the default overnight mission pointed at the falsifier.
 
-### The `autoresearch` loop skill (the optimizer engine behind fenced units)
-`tools/autoresearch-skill/` is a vendored autonomous research loop (read `research.md` → propose
-hypotheses → run → keep improvements / discard failures → iterate to a target metric). **It is NOT
-registered as an invocable harness skill and does NOT auto-surface** (operator decision 2026-06-21);
-reach it only **manually**:
-```bash
-bash tools/autoresearch-skill/scripts/autoresearch-loop.sh <research_dir>   # CLI-agnostic outer loop
-# or a single pass via the bundle's /autoresearch reference (tools/autoresearch-skill/guide/)
-```
-**Role in THIS program (binding): a FENCED candidate / hypothesis-SEARCH tool — it PROPOSES leads,
-never CONCLUSIONS.** It is an optimizer, so it is Goodhart-prone and the opposite of the F1
-north star. Use it only for **bounded hyperparameter / method / config search** to surface a
-candidate, then route that candidate to the hypothesis register (`DISCIPLINE.md` §2.7) and prove or
-kill it with a **pre-registered falsifier** under the normal §0.4 close-out. A loop "win" is a lead,
-not evidence — same fence as `"fenced": true` units above. Never let it write `CORPUS/` or promote a
-verdict.
+### Autoresearch is not run by this driver
+Karpathy's `autoresearch` loop runs as its own operator-launched Claude Code session, exactly as the
+macOS fork directs: `bash experiments/track_c/autoresearch_c10/launch.sh`. How we use it, its fence
+and its deviations: `docs/AUTORESEARCH.md` (D-C10r-rulings-1, D-C10r-impl-1). The vendored
+`tools/autoresearch-skill/` loop this section used to describe was never present in this checkout
+and is retired, as is `experiments/track_c/autoresearch_band_search/`. The fence is unchanged: a
+loop "win" is a lead for the hypothesis register, never `CORPUS/`.
 
 ## Review → canonical (next morning, supervised)
 For any staged finding worth keeping, run the full §0.4 close-out yourself: verify the exact

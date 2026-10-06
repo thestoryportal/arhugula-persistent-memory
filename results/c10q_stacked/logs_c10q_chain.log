@@ -1,0 +1,14 @@
+pass / stage                       canon/24 para/72 first string | A1 A2 | L1/12 frame/6 described_as L3/30 ppl | ΔW total | hits
+S stacked (aim z_post) / single ref   8      12     52    12   | 70 71 |  0     1     89.31     30  21.61 | 88.2 | 0
+S stacked (aim z_post) / stacked    12      24     70    24   | -- -- |  0     1     85.09     30  21.58 | +109.7 (x2.24) | 1
+S-sham stacked (aim z_pre again) / single ref   8      12     52    12   | 70 71 |  0     1     89.31     30  21.61 | 88.2 | 0
+S-sham stacked (aim z_pre again) / stacked   8      14     54    14   | -- -- |  0     1     89.29     30  21.61 | +1.8 (x1.02) | 1
+S-perm stacked (aim permuted z_post) / single ref   8      12     52    12   | 70 71 |  0     1     89.31     30  21.61 | 88.2 | 0
+S-perm stacked (aim permuted z_post) / stacked   0       0      0     0   | -- -- |  0     1     84.23     30  22.12 | +168.8 (x2.91) | 1
+geometry: mean cosine 0.865, mean displacement 0.5907, rotated 19/24; same-frame fictional pre-edit 1/6
+
+sham control: stacked-sham para 14 vs its reference 12 (|Δ| <= 5? True); ΔW2/ΔW1 0.020 (<= 0.25? True) -> sham inert
+matched-energy control: S-perm stacked 0 vs its reference 12 (gain -12; ΔW2/ΔW1 1.914 vs S 1.244, ratio-of-ratios 1.54 <= 1.5? NOT matched) vs S gain 12
+locality gates (stacked vs its single-edit reference, pass S): {'A1': True, 'A2': True, 'L1': True, 'same_frame_fictional': True, 'described_as': False, 'L3': True, 'ppl': True}
+binding: stacked para_full 24/72 vs reference 12 (gain 12); LEAD ≥ 30; ΔW2/ΔW1 1.24 (cap 0.75; total x2.24); string 24 -> TRADEOFF-PERM-UNMATCHED
+reader rc=0

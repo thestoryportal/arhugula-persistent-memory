@@ -1,0 +1,322 @@
+{
+  "decision_id": "D-C10p-twopass",
+  "prereg": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10P_TWOPASS_SOLVE_PREREG.md",
+  "P1": {
+    "fingerprint": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a\u2026)\n  _cov_cpu 3  (expected 3)",
+    "law3_reference_run": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10l_covgeom/run1_armB_identity.json"
+  },
+  "z_layer": 8,
+  "zs_pre": {
+    "sha256": "cd96a9af623110275885bee8a94b90600e320e48c3bc9ceddeb7e9f787980132",
+    "norms": [
+      79.076,
+      82.537,
+      80.95,
+      72.114,
+      74.911,
+      84.047,
+      74.976,
+      77.971,
+      94.479,
+      77.908,
+      91.35,
+      75.653,
+      74.44,
+      75.571,
+      78.967,
+      78.86,
+      80.085,
+      83.73,
+      93.187,
+      77.751,
+      75.012,
+      76.913,
+      80.317,
+      84.161
+    ]
+  },
+  "frame_subjects": [
+    "Vorbanth",
+    "Quillexa",
+    "Tremnok",
+    "Oskavel",
+    "Blynthar",
+    "Durmquist"
+  ],
+  "same_frame_fictional_pre_edit": {
+    "flips": 1,
+    "n": 6,
+    "rows": [
+      {
+        "subj": "Vorbanth",
+        "top1": 647,
+        "tok": " V",
+        "flip": true
+      },
+      {
+        "subj": "Quillexa",
+        "top1": 3406,
+        "tok": " Qu",
+        "flip": false
+      },
+      {
+        "subj": "Tremnok",
+        "top1": 75163,
+        "tok": " Trem",
+        "flip": false
+      },
+      {
+        "subj": "Oskavel",
+        "top1": 506,
+        "tok": " O",
+        "flip": false
+      },
+      {
+        "subj": "Blynthar",
+        "top1": 425,
+        "tok": " B",
+        "flip": false
+      },
+      {
+        "subj": "Durmquist",
+        "top1": 20138,
+        "tok": " Dur",
+        "flip": false
+      }
+    ]
+  },
+  "passes": {
+    "1": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10p_twopass/pass1.json",
+    "2": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10p_twopass/pass2.json",
+    "3": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10p_twopass/pass3.json"
+  },
+  "zs_post": {
+    "sha256": "b165696fbea576fcfa0d2ea2464d465972954f5136015c03ef7075fb9b4841c5",
+    "norms": [
+      78.253,
+      107.484,
+      105.712,
+      95.357,
+      74.037,
+      111.024,
+      97.569,
+      102.523,
+      125.112,
+      77.116,
+      118.738,
+      74.763,
+      99.777,
+      98.752,
+      104.318,
+      104.509,
+      79.35,
+      108.455,
+      121.982,
+      103.319,
+      98.345,
+      76.416,
+      108.162,
+      109.571
+    ]
+  },
+  "geometry": {
+    "rows": [
+      {
+        "subj": "Zorbland",
+        "norm_pre": 79.076,
+        "norm_post": 78.253,
+        "diff_norm": 1.719,
+        "rel_diff": 0.0217,
+        "cosine": 0.9998
+      },
+      {
+        "subj": "Quaxil",
+        "norm_pre": 82.537,
+        "norm_post": 107.484,
+        "diff_norm": 61.327,
+        "rel_diff": 0.743,
+        "cosine": 0.8231
+      },
+      {
+        "subj": "Plurnak",
+        "norm_pre": 80.95,
+        "norm_post": 105.712,
+        "diff_norm": 60.299,
+        "rel_diff": 0.7449,
+        "cosine": 0.8234
+      },
+      {
+        "subj": "Vythorn",
+        "norm_pre": 72.114,
+        "norm_post": 95.357,
+        "diff_norm": 52.909,
+        "rel_diff": 0.7337,
+        "cosine": 0.8357
+      },
+      {
+        "subj": "Glimsto",
+        "norm_pre": 74.911,
+        "norm_post": 74.037,
+        "diff_norm": 1.752,
+        "rel_diff": 0.0234,
+        "cosine": 0.9998
+      },
+      {
+        "subj": "Drennik",
+        "norm_pre": 84.047,
+        "norm_post": 111.024,
+        "diff_norm": 62.509,
+        "rel_diff": 0.7437,
+        "cosine": 0.8296
+      },
+      {
+        "subj": "Yastovel",
+        "norm_pre": 74.976,
+        "norm_post": 97.569,
+        "diff_norm": 55.433,
+        "rel_diff": 0.7394,
+        "cosine": 0.8249
+      },
+      {
+        "subj": "Crulpane",
+        "norm_pre": 77.971,
+        "norm_post": 102.523,
+        "diff_norm": 57.67,
+        "rel_diff": 0.7396,
+        "cosine": 0.8297
+      },
+      {
+        "subj": "Mophgar",
+        "norm_pre": 94.479,
+        "norm_post": 125.112,
+        "diff_norm": 70.052,
+        "rel_diff": 0.7415,
+        "cosine": 0.8321
+      },
+      {
+        "subj": "Brinduun",
+        "norm_pre": 77.908,
+        "norm_post": 77.116,
+        "diff_norm": 1.895,
+        "rel_diff": 0.0243,
+        "cosine": 0.9998
+      },
+      {
+        "subj": "Trannak",
+        "norm_pre": 91.35,
+        "norm_post": 118.738,
+        "diff_norm": 67.916,
+        "rel_diff": 0.7435,
+        "cosine": 0.8219
+      },
+      {
+        "subj": "Skornwell",
+        "norm_pre": 75.653,
+        "norm_post": 74.763,
+        "diff_norm": 1.8,
+        "rel_diff": 0.0238,
+        "cosine": 0.9998
+      },
+      {
+        "subj": "Fluvane",
+        "norm_pre": 74.44,
+        "norm_post": 99.777,
+        "diff_norm": 55.282,
+        "rel_diff": 0.7426,
+        "cosine": 0.8375
+      },
+      {
+        "subj": "Oxbarrow",
+        "norm_pre": 75.571,
+        "norm_post": 98.752,
+        "diff_norm": 55.369,
+        "rel_diff": 0.7327,
+        "cosine": 0.8306
+      },
+      {
+        "subj": "Zephquin",
+        "norm_pre": 78.967,
+        "norm_post": 104.318,
+        "diff_norm": 58.377,
+        "rel_diff": 0.7393,
+        "cosine": 0.8322
+      },
+      {
+        "subj": "Lurmaxen",
+        "norm_pre": 78.86,
+        "norm_post": 104.509,
+        "diff_norm": 58.096,
+        "rel_diff": 0.7367,
+        "cosine": 0.8351
+      },
+      {
+        "subj": "Pradnoll",
+        "norm_pre": 80.085,
+        "norm_post": 79.35,
+        "diff_norm": 1.582,
+        "rel_diff": 0.0198,
+        "cosine": 0.9998
+      },
+      {
+        "subj": "Kessivar",
+        "norm_pre": 83.73,
+        "norm_post": 108.455,
+        "diff_norm": 62.482,
+        "rel_diff": 0.7462,
+        "cosine": 0.8187
+      },
+      {
+        "subj": "Wombryne",
+        "norm_pre": 93.187,
+        "norm_post": 121.982,
+        "diff_norm": 69.093,
+        "rel_diff": 0.7414,
+        "cosine": 0.8265
+      },
+      {
+        "subj": "Halquin",
+        "norm_pre": 77.751,
+        "norm_post": 103.319,
+        "diff_norm": 57.991,
+        "rel_diff": 0.7459,
+        "cosine": 0.8314
+      },
+      {
+        "subj": "Vorlex",
+        "norm_pre": 75.012,
+        "norm_post": 98.345,
+        "diff_norm": 55.668,
+        "rel_diff": 0.7421,
+        "cosine": 0.8269
+      },
+      {
+        "subj": "Quenby",
+        "norm_pre": 76.913,
+        "norm_post": 76.416,
+        "diff_norm": 1.451,
+        "rel_diff": 0.0189,
+        "cosine": 0.9998
+      },
+      {
+        "subj": "Marsduq",
+        "norm_pre": 80.317,
+        "norm_post": 108.162,
+        "diff_norm": 59.938,
+        "rel_diff": 0.7463,
+        "cosine": 0.8379
+      },
+      {
+        "subj": "Thelby",
+        "norm_pre": 84.161,
+        "norm_post": 109.571,
+        "diff_norm": 62.401,
+        "rel_diff": 0.7415,
+        "cosine": 0.8239
+      }
+    ],
+    "mean_cosine": 0.8717,
+    "mean_rel_diff": 0.5615,
+    "min_cosine": 0.8187,
+    "max_cosine": 0.9998
+  }
+}

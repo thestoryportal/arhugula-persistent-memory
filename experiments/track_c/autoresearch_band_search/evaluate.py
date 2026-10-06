@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# RETIRED 2026-10-06 (D-C10r-impl-1) — do not run. Superseded by docs/AUTORESEARCH.md (experiments/track_c/autoresearch_c10/).
 """Honest held-out evaluator for the band-[8-12] cross-entity-isolation search.
 
 Reads config.json (the band + mom2_uw the autoresearch agent edits), runs the

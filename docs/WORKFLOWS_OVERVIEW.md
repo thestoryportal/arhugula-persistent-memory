@@ -1,6 +1,6 @@
 # Workflows Overview — Main Loop & Self-Improvement Loop
 
-_A structural map of how work flows through this repo: the supervised **main workflow** (falsification-first experiment cycle), the unattended **self-improvement loop** (autonomous autoresearch, deliberately fenced), and the supporting infrastructure that both depend on (gates, the anti-drift system, tool registration, durability)._
+_A structural map of how work flows through this repo: the supervised **main workflow** (falsification-first experiment cycle), the unattended **self-improvement loop** (the autonomy driver and the autoresearch loop, both deliberately fenced), and the supporting infrastructure that both depend on (gates, the anti-drift system, tool registration, durability)._
 
 > **Scope & drift discipline.** This document describes **stable workflow structure**, not program state. It deliberately carries **no experiment numbers or "current frontier"** — that content drifts and lives in generated/canonical sources. For *what's next* and *what's proven*, read the generated block in `EXPERIMENT_RUNBOOK.md §0.3` (← `docs/program_state.json`), `SESSION_CHECKPOINT.md`, and `CORPUS/`. This file follows the **de-dup norm** (`DISCIPLINE.md §0.4`): pointers, not copies.
 
@@ -84,23 +84,23 @@ A thin **deterministic guardrail loop** — "not a scientist." Python never fake
 | 4 | **Deterministic labeling** — PASS / PARTIAL / FAIL / INVALID from a **pre-registered rule** on the result JSON | **No model judgment.** `FAIL` = real negative result; `INVALID` = couldn't evaluate / guard failed = confounded. |
 | 5 | **Gate log** | Model-pull/cov-compute = pre-approved (standing-auth); paid-provider/credential moves = **gated + skipped** → `logs/autonomy_gates.jsonl`. |
 | 6 | **Close out to STAGING only** → `logs/pending_findings/NN_<unit>.md` + an *obligation block* | The driver **NEVER** writes `CORPUS/`, the ledger, the runbook, or the checkpoint. |
-| 7 | **(`--mode agent`)** shells `codex exec -m <other-model>` per unit | A *different* model fulfils deep-think / autoresearch / advisor obligations within the bounds (independence). |
+| 7 | **(`--mode agent`)** shells `codex exec -m <other-model>` per unit | A *different* model fulfils deep-think / advisor obligations within the bounds (independence). |
 | 8 | **Supervised fold-in** (next morning) | Re-enters the **main workflow at Steps 7–11** — reproduce numbers → cross-model review → promote to canonical (gated by `closeout_check`). |
 
-### Layer B — the autoresearch optimizer (`tools/autoresearch-skill/`)
+### Layer B — the autoresearch loop (Karpathy's `autoresearch`, macOS fork; `docs/AUTORESEARCH.md`)
 
-The literal "improve a metric" engine. Loop body:
+The literal "improve a metric" engine, run as its own operator-launched Claude Code session (`experiments/track_c/autoresearch_c10/launch.sh`), not by the driver. Loop body:
 
 ```
-read research.md ─▶ propose hypotheses ─▶ run ─▶ keep improvements / discard failures ─▶ iterate to target metric
+edit edit.py ─▶ git commit ─▶ run the fixed evaluation ─▶ keep if better and every guard holds / reset if not ─▶ repeat until interrupted
 ```
 
 **The fence is the point** (binding):
 - It is an **optimizer** → Goodhart-prone → the *opposite* of falsification.
 - It **PROPOSES leads, never CONCLUSIONS.**
-- **Not auto-surfaced, not a registered skill** — manual invocation only.
+- **Sandboxed** — the agent sees only its own repo (README, the fixed `prepare.py`, `edit.py`, `program.md`); no corpus context, no seeded ideas.
 - A loop "win" is a **candidate** → route to the hypothesis register → **prove or kill it with a pre-registered falsifier** under the main workflow's `§0.4` close-out.
-- It may **never** write `CORPUS/` or promote a verdict. A "fenced" unit's PASS = "candidate worth a falsifier," never a result.
+- It may **never** write `CORPUS/` or promote a verdict.
 
 ### Supporting self-*correcting* loops (improve the system, not the science)
 

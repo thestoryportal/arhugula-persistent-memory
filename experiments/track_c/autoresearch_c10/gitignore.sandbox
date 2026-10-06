@@ -1,0 +1,17 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+
+# Run outputs (results.tsv stays untracked, as upstream's program.md requires)
+results.tsv
+run.log
+prepare.log
+runs/
+HALT.md
+.hparams_*.json
+
+.venv
+
+# Agent prompt files (generated per-session by launchers)
+CLAUDE.md
+AGENTS.md
