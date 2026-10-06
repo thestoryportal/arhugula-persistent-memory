@@ -200,3 +200,8 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Method:** one process; z_pre and cell A pre-edit; z_post, B, C, E1, E2, E3 in the post-edit hook; full cell-A repeat on restored weights, then E1′/E2′/E3′; rotated population by displacement > 0.30 with a [0.25, 0.35] buffer-zone sensitivity read.
 - **Criterion (prereg §3 v2):** recovered fractions f = (E − B)/(C − B) on the rotated population, contrast ≥ 20; MAGNITUDE f1 ≥ 0.6 & max(f2, f3) < 0.3; DIRECTION f2 ≥ 0.6 & f1 < 0.3; ROTATION-WITH-PROJECTION f3 ≥ 0.6 & f2 < 0.3 & f1 < 0.3; EITHER; NEITHER-ALONE; MIXED. Routing labels only.
 - **Verdict:** DIRECTION (f1 −0.023, f2 0.636, f3 0.932; contrast 44) in a HIGH-CONTROL process; buffer empty; → two-pass solve arm next.
+### C-C10p-tp - Two-pass solve (D-C10p-twopass ⟨D-C10p-twopass@12f87dc3⟩)
+- **Hypotheses (prereg §1):** H-P1 an edit aimed at z_post transfers better; H-P0 null; H-P2 trade-off (larger residual → larger ΔW, locality cost).
+- **Method:** one process, three full harness passes (baseline / sham aimed at z_pre / two-pass aimed at z_post), arms A1 + A2 + A7, S-3 axes + same-frame fictional probe (6 never-edited subjects), ΔW norms, seam consumption audit.
+- **Criterion (prereg §3 v2):** validity incl. sham inert (± 5/72, ± 3/24, ΔW 5 %) and hits 0/1/1; locality gates A1/A2 ≥ 68, L1 ≤ +1, described_as ≥ −3, L3 ≥ 29, ppl ≤ +0.5, frame ≤ +1; LEAD ≥ 30/72 with gates; PARTIAL gain ≥ 10 with gates; TRADEOFF gain ≥ 10 without; NULL otherwise; -LARGE-WRITE if total ΔW ratio > 1.5.
+- **Verdict:** NULL (21 vs 13, gain 8); described_as gate missed by 0.08; ΔW ratio 1.31; sham identical → seam inert. H-P0 at the margin; H-P2's cost visible on one axis.
