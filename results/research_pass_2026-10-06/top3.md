@@ -1,3 +1,5 @@
+> **Superseded 2026-10-06 (later in the same session).** The operator ruled that routes requiring per-commit training are not routes for this program. H-13 is retained only as an oracle measurement and H-18 is demoted pending a closed-form variant. The agreed order is in `recommended_sequence.md`; its stubs are in `prereg_stubs.md`. This file is kept unchanged because `council_critique.md` was written against it.
+
 # Top three — research pass 2026-10-06, ordered cheapest test first
 
 All three run on this Mac with the existing C10 harness and model; none is a model change. Each is one page: the hypothesis, why it could cross the bar where the program's own knob sweeps did not, the test as a pre-registration stub (hypothesis, binding count, controls, gates), and what a pass or a fail would change. Full entries are in `hypotheses.md`; thresholds follow its conventions.

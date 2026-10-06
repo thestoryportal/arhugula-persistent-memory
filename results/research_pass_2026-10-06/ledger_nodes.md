@@ -34,3 +34,18 @@ Project `0a1375d4-8f79-44be-bea6-2a27f6658761`. Root (baseline) node `00157b6d-4
 | H-28 Mamba-2.8B or Falcon3-Mamba-7B with ROME-style editing | `83488935-1832-4022-b507-3f116d44509f` |
 | H-29 Entity-lens readout at the keyed position (storage vs decoding) | `318489cb-3a1a-4c40-8b83-4f227f83c5cd` |
 | H-30 Weight grafting to localise where a fine-tuned coined value lives | `59a2468a-9884-4b9e-9a48-e2995a86add3` |
+
+## Sequence → ledger nodes
+
+| step | hypothesis | node |
+|---|---|---|
+| 1 | H-1 | `0e7a00a7-2533-4eba-ad95-d1829a8a6ed6` |
+| 2 | H-10 / H-5 | `e30bb3a1-de3f-4204-9282-faa429d98df2` / `8322f403-7112-4cb1-81e5-34efd4275505` |
+| 3 | H-19 | `1c906d09-5e92-4d60-8c47-086daf6fdfbb` |
+| 4 | H-8 | `822be025-579c-4e7f-b3f2-8574ef93d7ab` |
+| 5 (oracle) | H-13 | `38a9a4d7-0b80-4a32-90cc-eb635217ccb1` |
+| 6 | H-11 | `2a3bec2a-aebd-426c-86e1-e416a711b709` |
+| 7 | H-3 | `68db33c2-84f7-4663-b2c5-e116c9f9a0d4` |
+| 8 | H-4 | `b0ad2153-eeb6-49f9-90b1-f8694e2fca9b` |
+
+Node descriptions were written before the write-only ruling; the program session should update the H-13, H-15 and H-18 descriptions (`orx exp desc <id> --set`) to carry "oracle measurement, not a route" and the H-18 spec-amendment correction.
