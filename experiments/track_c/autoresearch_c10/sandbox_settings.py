@@ -1,34 +1,47 @@
 #!/usr/bin/env python3
-"""Print the Claude Code settings that fence the autoresearch agent into its sandbox.
+"""Print the fence that keeps the autoresearch agent's context to its sandbox.
 
-Usage: sandbox_settings.py <program_checkout> <program_repo_root> <sandbox_dir>
+Usage:
+  sandbox_settings.py <program_checkout> <program_repo_root> <sandbox_dir> <fence_dir>             -> Claude Code settings JSON
+  sandbox_settings.py <program_checkout> <program_repo_root> <sandbox_dir> <fence_dir> --seatbelt  -> macOS Seatbelt profile
 
-Two layers, because docs/AUTORESEARCH.md's context-isolation ruling is a binding condition and a rule in words is
-not enforcement: (1) the Bash filesystem sandbox, which covers every process a shell command starts, so a Python
-one-liner cannot read the program's files either; (2) permission deny rules for the file-reading tools (a `//`
-prefix means an absolute path in these rules; Read rules cover every file-reading tool). Reads are allowed only
-where a run needs them: the environment and its base interpreter, the engine, the model cache, the covariance
-caches, the hyperparameter files, the harness, the fingerprint tool and the reference run. Everything else in the
-program checkout, and the research collections beside it, is denied. Which layers hold under
---dangerously-skip-permissions was settled by probe sessions before the relaunch; see docs/AUTORESEARCH.md
-"Context isolation and permissions".
+Two layers, because the context-isolation ruling (docs/AUTORESEARCH.md) is binding and a rule in words is not
+enforcement.
+
+Layer 1, the agent's shell and file tools: Claude Code's Bash filesystem sandbox (strict: no unsandboxed retry) plus
+`Read(//…/**)` / `Edit(//…/**)` permission denies. Reads are denied for every root that holds program history — the
+whole mirror volume tree, the program checkout and repository, this machine's Claude / Codex / gstack / OpenResearch
+/ rtk state, the backups — and re-opened only for the runtime set a run needs (the shared .venv and its uv
+interpreter, the engine, the model cache, the covariance caches, the configs, the harness, the fingerprint tool, the
+reference run, the prereg file the harness names) and for the sandbox and fence directories.
+
+Layer 2, the model runs: that sandbox denies every sysctl read, which makes PyTorch believe the OS predates macOS 13
+and drop to the CPU (probes 6-8, 2026-10-06). So the wrappers in the fence directory are `excludedCommands` and run
+their python under the Seatbelt profile printed with --seatbelt: default allow (sysctl, Metal, the network), the same
+read denials and re-openings, and writes denied everywhere except where a run writes (the sandbox, tmp, the HF cache,
+~/.cache and ~/Library/Caches, the harness's __pycache__, /dev). In a Seatbelt profile the last matching rule wins, so
+the narrow rules come after the wide ones. The fence directory (profile + wrappers) is writable by neither layer.
+Probes: results/autoresearch_c10_sandbox_probe.md.
 """
 import json
 import os
+import re
 import sys
 
-program, repo, sandbox = sys.argv[1:4]
+program, repo, sandbox, fence = sys.argv[1:5]
 home = os.path.expanduser("~")
+mirror = "/Volumes/memit/llm-database-poc-mirror"
 venv = os.path.realpath(f"{program}/.venv")                            # the worktree's .venv links to the main checkout's
 base_python = os.path.realpath(f"{venv}/bin/python")                    # which links to uv's interpreter
 base_prefix = os.path.dirname(os.path.dirname(base_python))
 hf_home = os.path.realpath(f"{program}/hf_cache")                       # a link to the shared model cache
+
+# what a run reads (re-opened inside the denied roots)
 runtime_reads = [
     f"{program}/.venv",
     venv,
     base_prefix,
     f"{home}/.local/share/uv",
-    f"{home}/.cache",
     hf_home,
     f"{program}/hf_cache",
     f"{repo}/hf_cache",
@@ -40,51 +53,90 @@ runtime_reads = [
     f"{program}/tools/engine_fingerprint.py",
     f"{program}/results/c10l_covgeom/run1_armB_identity.json",
     f"{repo}/covariance_caches",
+    f"{mirror}/covariance_caches",
+    sandbox,
+    fence,
 ]
+# where program history lives on this machine (denied as sources of information)
 denied_roots = [
-    program,
-    repo,
-    "/Volumes/memit/llm-database-poc-mirror/connected-papers-knowledge-graphs",
-    "/Volumes/memit/llm-database-project-artifacts",
-    f"{home}/Backups/memit",
+    mirror,                       # the whole mirror tree: repo, worktrees, session logs, notebooks, probes
+    f"{home}/Backups",
+    "/Volumes/backups",
+    "/Volumes/Development",
+    f"{home}/.claude",            # this program's sessions, memory, jobs
+    f"{home}/.codex",
+    f"{home}/.gstack",
+    f"{home}/.config/openresearch",
+    f"{home}/.local/share/openresearch",   # the research pass's worktrees = full program checkouts
+    f"{home}/.local/share/claude",
+    f"{home}/Library/Application Support/rtk",
 ]
-write_dirs = [sandbox, "/tmp", "/private/tmp", "/private/var/folders", hf_home, f"{home}/.cache",
-              f"{program}/experiments/track_c/__pycache__"]
+# narrower denies that sit inside an allowed region (listed after the allows)
+denied_inside_allowed = [f"{home}/.cache/claude"]
 
-if len(sys.argv) > 4 and sys.argv[4] == "--seatbelt":
-    # The macOS Seatbelt profile for the model runs. Claude Code's own Bash sandbox denies every sysctl read, which
-    # makes PyTorch believe the OS predates macOS 13 and drop to the CPU (probes 6-8, 2026-10-06), so `run.sh` and
-    # `setup.sh` are excluded from that sandbox and run under this profile instead: default allow (sysctl, Metal, the
-    # network), the same read denials, re-opened only for the runtime set, and writes only where a run writes.
-    # In a Seatbelt profile the last matching rule wins, so the allows come after the denies.
-    def q(p):
-        return '"' + p.replace('"', '\\"') + '"'
+
+def slug(path):
+    return re.sub(r"[^A-Za-z0-9]", "-", path)
+
+
+# Claude Code keeps each session's shell output and task files under /private/tmp/claude-501/<slug of its cwd>/. The
+# agent's own folder must stay readable (its shell tool captures output there), so the other sessions' folders are
+# denied one by one rather than the root (which broke the agent's `cat` in probe 11).
+tmp_root = "/private/tmp/claude-501"
+own_tmp = {slug(sandbox), slug(fence)}
+tmp_history = []
+if os.path.isdir(tmp_root):
+    for name in sorted(os.listdir(tmp_root)):
+        if name.startswith("-") and name not in own_tmp:
+            tmp_history += [f"{tmp_root}/{name}", f"/tmp/claude-501/{name}"]
+denied_roots += tmp_history
+
+# The file tools (Read/Edit) have no "re-open inside a denied region": a deny always wins. So for them the mirror's
+# history is listed child by child, keeping the sandbox, the fence and the two caches out of the list.
+keep = {os.path.realpath(x) for x in (sandbox, fence, hf_home, f"{mirror}/hf_cache", f"{mirror}/covariance_caches")}
+mirror_history = [f"{mirror}/{n}" for n in sorted(os.listdir(mirror))
+                  if os.path.realpath(f"{mirror}/{n}") not in keep]
+tool_denied = mirror_history + [r for r in denied_roots if r != mirror] + denied_inside_allowed
+
+# where a run may write
+write_dirs = [sandbox, "/tmp", "/private/tmp", "/private/var/folders", hf_home, f"{home}/.cache",
+              f"{home}/Library/Caches", f"{program}/experiments/track_c/__pycache__", "/dev"]
+
+
+def q(p):
+    return '"' + p.replace('"', '\\"') + '"'
+
+
+if len(sys.argv) > 5 and sys.argv[5] == "--seatbelt":
     lines = ["(version 1)", "(allow default)"]
     lines += [f"(deny file-read* (subpath {q(r)}))" for r in denied_roots]
-    lines += [f"(deny file-write* (subpath {q(r)}))" for r in [program, repo]]
+    lines += ["(deny file-write*)"]
     lines += [f"(allow file-read* (subpath {q(p)}))" if os.path.isdir(p) else f"(allow file-read* (literal {q(p)}))"
-              for p in runtime_reads + [sandbox]]
+              for p in runtime_reads]
     lines += [f"(allow file-write* (subpath {q(p)}))" for p in write_dirs]
+    lines += [f"(deny file-read* (subpath {q(r)}))" for r in denied_inside_allowed]
+    lines += [f"(deny file-write* (subpath {q(fence)}))"]
     print("\n".join(lines))
     sys.exit(0)
 
+wrappers = [f"{fence}/run.sh", f"{fence}/setup.sh", f"{fence}/kill_run.sh"]
 settings = {
     "sandbox": {
         "enabled": True,
         "allowUnsandboxedCommands": False,   # strict mode: the agent's dangerouslyDisableSandbox retry is ignored
-        # the two model-run wrappers run outside Claude Code's sandbox, inside the Seatbelt profile above
-        "excludedCommands": ["./run.sh", "./run.sh *", "./setup.sh", "./setup.sh *", "./kill_run.sh", "./kill_run.sh *",
-                             "bash run.sh", "bash setup.sh", "bash kill_run.sh"],
+        # the three wrappers, by their exact absolute command text, run outside this sandbox inside the Seatbelt profile
+        "excludedCommands": wrappers,
         "filesystem": {
-            "denyRead": denied_roots,
-            "allowRead": runtime_reads + [sandbox],
-            "allowWrite": write_dirs,
-            "denyWrite": [program, repo],
+            "denyRead": denied_roots + denied_inside_allowed,
+            "allowRead": runtime_reads,
+            "allowWrite": [p for p in write_dirs if p != "/dev"],
+            "denyWrite": [program, repo, fence],
         },
     },
     "permissions": {
-        "deny": [f"Read(/{root}/**)" for root in denied_roots] + ["Agent", "Task"],
-        "allow": [f"Read(/{p}/**)" for p in runtime_reads] + [f"Read(/{sandbox}/**)"],
+        "deny": [f"Read(/{r}/**)" for r in tool_denied]
+        + [f"Edit(/{fence}/**)", f"Write(/{fence}/**)", "Agent", "Task"],
+        "allow": [f"Read(/{p}/**)" for p in runtime_reads],
     },
 }
 print(json.dumps(settings, indent=1))

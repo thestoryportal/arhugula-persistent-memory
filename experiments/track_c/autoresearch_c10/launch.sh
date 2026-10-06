@@ -8,6 +8,7 @@ SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROGRAM="/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a"
 REPO="/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory"
 SB="/Volumes/memit/llm-database-poc-mirror/autoresearch_sandbox_c10"      # standalone repository, outside the program checkout
+FENCE="/Volumes/memit/llm-database-poc-mirror/autoresearch_fence_c10"     # profile + wrappers; the agent cannot write here
 OLD_SB="$REPO/.claude/worktrees/autoresearch-reaim-oct06"   # an earlier half-built attempt (a symlink and two copied files)
 OLD_WT_SB="$REPO/.claude/worktrees/autoresearch-c10"        # the first launch's sandbox (a worktree; retired 2026-10-06)
 GIT=/usr/bin/git
@@ -53,8 +54,8 @@ fi
 # 4. the base commit: the reviewed source, copied in, only while the sandbox is on autoresearch/master
 BRANCH="$("$GIT" -C "$SB" symbolic-ref --short HEAD)"
 if [ "$BRANCH" = "autoresearch/master" ]; then
-  for f in README.md prepare.py edit.py program.md pyproject.toml run.sh setup.sh kill_run.sh; do cp "$SRC/$f" "$SB/$f"; done
-  chmod +x "$SB/run.sh" "$SB/setup.sh" "$SB/kill_run.sh"
+  for f in README.md prepare.py edit.py program.md pyproject.toml; do cp "$SRC/$f" "$SB/$f"; done
+  rm -f "$SB/run.sh" "$SB/setup.sh" "$SB/kill_run.sh"   # the wrappers live in the fence directory now, not in the sandbox
   cp "$SRC/gitignore.sandbox" "$SB/.gitignore"
   # a copy, not a link: a link's target showed the agent where the program checkout lives, and on 2026-10-06 it
   # followed it and started summarizing the program's earlier experiments (the sandboxed-context ruling forbids that)
@@ -78,10 +79,18 @@ want = json.load(open(eq))["source_sha256"]["harness"]
 sys.exit(0 if hashlib.sha256(open(copy, "rb").read()).hexdigest() == want else 1)
 PYEOF
 
-# 4c. the fence, generated per launch (docs/AUTORESEARCH.md, "Context isolation"): Claude Code's Bash sandbox + Read-tool
-#     denies for the agent, and a macOS Seatbelt profile for the model runs (run.sh / setup.sh), which need the GPU
-"$PY" "$SRC/sandbox_settings.py" "$PROGRAM" "$REPO" "$SB" > "$SB/.sandbox_settings.json"
-"$PY" "$SRC/sandbox_settings.py" "$PROGRAM" "$REPO" "$SB" --seatbelt > "$SB/.sandbox.sb"
+# 4c. the fence, rewritten on every launch (docs/AUTORESEARCH.md, "Context isolation"): Claude Code's Bash sandbox +
+#     Read/Edit-tool denies for the agent, and a macOS Seatbelt profile for the model runs, which need the GPU. The
+#     settings, the profile and the three wrappers live in $FENCE, which neither layer lets the agent write.
+mkdir -p "$FENCE"
+chmod -R u+w "$FENCE"
+"$PY" "$SRC/sandbox_settings.py" "$PROGRAM" "$REPO" "$SB" "$FENCE" > "$FENCE/.sandbox_settings.json"
+"$PY" "$SRC/sandbox_settings.py" "$PROGRAM" "$REPO" "$SB" "$FENCE" --seatbelt > "$FENCE/.sandbox.sb"
+for f in run.sh setup.sh kill_run.sh; do cp "$SRC/$f" "$FENCE/$f"; chmod 555 "$FENCE/$f"; done
+chmod 444 "$FENCE/.sandbox_settings.json" "$FENCE/.sandbox.sb"
+chmod 555 "$FENCE"
+# the sandbox must still carry the harness the equivalence check passed on (checked above) and the fence must be complete
+for f in .sandbox_settings.json .sandbox.sb run.sh setup.sh kill_run.sh; do [ -s "$FENCE/$f" ] || die "fence file missing: $FENCE/$f"; done
 
 # 5. start the agent: no outside context (safe mode), Fable 5.1 at high effort (operator, 2026-10-06), permissions disabled as the
 #    fork's README directs ("spin up your Claude ... in this repo (and disable all permissions)"), inside the fence
@@ -89,5 +98,5 @@ cd "$SB"
 exec claude --safe-mode \
   --model claude-fable-5-1 --effort high \
   --dangerously-skip-permissions \
-  --settings "$SB/.sandbox_settings.json" \
+  --settings "$FENCE/.sandbox_settings.json" \
   "Hi have a look at program.md and let's kick off a new experiment! let's do the setup first."

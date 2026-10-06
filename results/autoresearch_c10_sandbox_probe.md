@@ -127,3 +127,34 @@ sysctl: 26.6.2 / mps_available True / mps matmul OK / FORBIDDEN read CORPUS, rep
 ## Probe 10 (excluded wrapper called bare: `./run.sh`)
 
 run.log: `mps matmul: OK`; every FORBIDDEN line BLOCKED; every allowed line OK; `SANDBOX_APPLY_ERROR: no`.
+
+## Fence v3 — direct Seatbelt test (deny-default writes; history roots) and probe 11 (Claude session)
+
+```
+--- direct test (from this shell):
+mps matmul: OK 43193.8203125
+FORBIDDEN read CORPUS/00: BLOCKED PermissionError: [Errno 1] Operation not permitted: '/Volumes/memit/llm-database-poc-mi
+FORBIDDEN list mirror session_logs: BLOCKED PermissionError: [Errno 1] Operation not permitted: '/Volumes/memit/llm-database-poc-mi
+FORBIDDEN list ~/.claude/projects: BLOCKED PermissionError: [Errno 1] Operation not permitted: '/Users/robertrhu/.claude/projects'
+FORBIDDEN list ~/.codex: BLOCKED PermissionError: [Errno 1] Operation not permitted: '/Users/robertrhu/.codex'
+FORBIDDEN list openresearch worktrees: BLOCKED PermissionError: [Errno 1] Operation not permitted: '/Users/robertrhu/.local/share/open
+FORBIDDEN list rtk tee: BLOCKED PermissionError: [Errno 1] Operation not permitted: '/Users/robertrhu/Library/Applicati
+FORBIDDEN read fence profile: OK (version 1)
+FORBIDDEN write fence: BLOCKED PermissionError: [Errno 1] Operation not permitted: '/Volumes/memit/llm-database-poc-mi
+FORBIDDEN write home: BLOCKED PermissionError: [Errno 1] Operation not permitted: '/Users/robertrhu/seatbelt_should_f
+FORBIDDEN write program: BLOCKED PermissionError: [Errno 1] Operation not permitted: '/Volumes/memit/llm-database-poc-mi
+allowed read screens: OK {
+allowed read reference run: OK {
+allowed read harness: OK impor
+allowed list covariance (repo): OK ['.DS_Store']
+allowed write sandbox: OK 1
+allowed write tmp: OK 1
+allowed write hf cache lock: OK 1
+allowed write ~/.cache: OK 1
+allowed read ~/.cache/huggingface: OK ['xet']
+FORBIDDEN list ~/.cache/claude: BLOCKED PermissionError: [Errno 1] Operation not permitted: '/Users/robertrhu/.cache/claude'
+```
+
+Probe 11 (first run, before the fix): denying the /tmp/claude-501 root broke the agent's shell output capture (`cat: stdout: Operation not permitted`), and denying the mirror root in the file-tool rules blocked the agent's Read of its own fence/sandbox files (a tool deny always wins). Fixed by enumerating the other sessions' temp folders and the mirror's history children.
+
+Probe 11 (second run): `/Volumes/…/autoresearch_fence_probe/run.sh` bare → preflight `4.0`, run.log `mps matmul: OK`, every FORBIDDEN line BLOCKED; `touch` into the fence → Operation not permitted; Write tool into the fence → denied by permission settings; Read of the fence's run.sh → allowed; `ls ~/.claude/projects/<x>`, Read under `~/.claude/projects`, `ls ~/.local/share/openresearch`, `ls <mirror>/session_logs` → all denied; `ls <mirror>/hf_cache/hub` → OK. RUN_LOG_MPS_OK yes · FENCE_WRITE_SUCCEEDED none · HISTORY_READ_SUCCEEDED none · CONTROL_11_OK yes.
