@@ -9,6 +9,10 @@ Env: LLMDB_ROOT, LAW3_REF. Run identity is forced.
 import os, sys, io, json, time, contextlib
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
+# [LAW:parse-dont-validate] the frozen run identity: inherited harness knobs are rejected, not defaulted (implementation review item 1)
+for _k in ("MODEL_ID", "MODEL_REV", "C10_PROJECTOR", "N_EDIT", "C10_SUBJECT_OFFSET", "C10_CTX_TEMPLATES", "C10_KEY_LOCUS", "RUN_LABEL"):
+    if _k in os.environ:
+        raise SystemExit(f"refusing to run with inherited harness knob {_k}={os.environ[_k]!r}; the prereg fixes the harness defaults")
 os.environ["C10_ARMS"] = "A1_single,A2_coherent2,A7_coined_coined"
 os.environ["C10_RECIPES"] = "candidate"
 os.environ["HP_CANDIDATE"] = f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"

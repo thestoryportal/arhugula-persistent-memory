@@ -12,6 +12,7 @@ SHAM_PARA, SHAM_DW = 5, 0.25            # sham scope: stacked-sham within ± 5 o
 LEAD, GAIN, CTRL, L1_SLACK, FRAME_SLACK, DESC_SLACK, PPL_SLACK = 30, 10, 68, 1, 1, 3, 0.5
 DW2_CAP = 0.75                          # pass S: ΔW2 / ΔW1 above this -> -LARGE-WRITE (the second edit rivals the first); total ratio reported only
 PERM_FRAC = 0.5                         # S-perm gain >= 0.5 x S gain (with S gain >= 10) -> -NOT-TARGET-SPECIFIC
+PERM_ENERGY = 0.25                      # S-perm counts as matched-energy only if |ΔW2_perm/ΔW1 − ΔW2_S/ΔW1| <= 0.25 (implementation review item 5)
 MIN_ROT, SPLIT = 12, 0.30
 
 
@@ -53,7 +54,7 @@ def main():
         print("\nINVALID —", "; ".join(reasons)); sys.exit(2)
     sham_ok = abs(stk["Ssham"]["para_full_n"] - a7["Ssham"]["para_full_n"]) <= SHAM_PARA and dw2["Ssham"] <= SHAM_DW * dw1["Ssham"]
     x1, y = a7["S"], stk["S"]; ax1, ay = x1["locality_axes"], y["locality_axes"]
-    gates = {"A1": a1["S"]["para_full_n"] >= CTRL, "A2": a2["S"]["para_full_n"] >= CTRL,   # NOTE: controls after the second edit are not re-measured by the harness; the single-edit controls stand in (reported as such)
+    gates = {"A1": a1["S"]["para_full_n"] >= CTRL, "A2": a2["S"]["para_full_n"] >= CTRL,   # per-arm controls (each arm is its own write from base, as in every C10 run); the stacked state's locality is the S-3 axes below — prereg amendment Q1
              "L1": ay["L1_flipped_to_edited_value"] <= ax1["L1_flipped_to_edited_value"] + L1_SLACK, "same_frame_fictional": frame2["S"] <= frame1["S"] + FRAME_SLACK,
              "described_as": y["locality_described_as"] >= x1["locality_described_as"] - DESC_SLACK, "L3": ay["L3_top1_agree"] >= L3_THR, "ppl": ay["generic_ppl_post"] <= ax1["generic_ppl_post"] + PPL_SLACK}
     loc = all(gates.values()); gain = y["para_full_n"] - x1["para_full_n"]; ratio2 = dw2["S"] / dw1["S"]; total = (dw1["S"] + dw2["S"]) / dw1["S"]
@@ -64,9 +65,11 @@ def main():
     else: label = "NULL"
     if label in ("LEAD", "PARTIAL") and ratio2 > DW2_CAP: label += "-LARGE-WRITE"
     if not sham_ok: label += "-SHAM-ACTIVE"
+    energy_matched = abs(dw2["Sperm"] / dw1["Sperm"] - dw2["S"] / dw1["S"]) <= PERM_ENERGY
     if gain >= GAIN and gain_perm >= PERM_FRAC * gain: label += "-NOT-TARGET-SPECIFIC"
+    if gain >= GAIN and not energy_matched: label += "-PERM-UNMATCHED"   # the permuted control did not match S's write energy; its verdict on target-specificity is not usable
     print(f"\nsham control: stacked-sham para {stk['Ssham']['para_full_n']} vs its reference {a7['Ssham']['para_full_n']} (|Δ| <= {SHAM_PARA}? {abs(stk['Ssham']['para_full_n'] - a7['Ssham']['para_full_n']) <= SHAM_PARA}); ΔW2/ΔW1 {dw2['Ssham'] / dw1['Ssham']:.3f} (<= {SHAM_DW}? {dw2['Ssham'] <= SHAM_DW * dw1['Ssham']}) -> {'sham inert' if sham_ok else 'SHAM ACTIVE'}")
-    print(f"matched-energy control: S-perm stacked {stk['Sperm']['para_full_n']} vs its reference {a7['Sperm']['para_full_n']} (gain {gain_perm}; ΔW2/ΔW1 {dw2['Sperm'] / dw1['Sperm']:.3f}) vs S gain {gain}")
+    print(f"matched-energy control: S-perm stacked {stk['Sperm']['para_full_n']} vs its reference {a7['Sperm']['para_full_n']} (gain {gain_perm}; ΔW2/ΔW1 {dw2['Sperm'] / dw1['Sperm']:.3f} vs S {ratio2:.3f} -> {'energy matched' if energy_matched else 'NOT matched'}) vs S gain {gain}")
     print(f"locality gates (stacked vs its single-edit reference, pass S): {gates}\nbinding: stacked para_full {y['para_full_n']}/72 vs reference {x1['para_full_n']} (gain {gain}); LEAD ≥ {LEAD}; ΔW2/ΔW1 {ratio2:.2f} (cap {DW2_CAP}; total x{total:.2f}); string {y['para_string_n']} -> {label}")
 
 

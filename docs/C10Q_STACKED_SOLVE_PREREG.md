@@ -55,3 +55,13 @@ One speculative fix after a `cat -n` read, then HALT with a diagnostic JSON. Clo
 ## 6. Reviews
 
 v1 → Codex gpt-5.5 design pass (`results/c10q_stacked_advisor_v1.md`, FIX-FIRST, folded incl. pass S-perm) → v2 frozen → implementation review (seam diff + driver + reader; handle inertness) → run → verdict pass → CORPUS/50.
+
+## 7. Amendments (post-freeze; each with its own advisor pass before the affected step runs)
+
+### Q1 — controls after the second edit; permuted-control energy match; run-identity rejection (2026-10-06, from the Codex implementation review `results/c10q_stacked_advisor_impl.md`; **advisor pass on this amendment PENDING — do not run before it**)
+
+**Item 2 of the review (A1/A2 "after the second edit") is ill-posed in this harness and §3 is corrected:** every arm is its own write from the base weights (A1, A2 and A7 are three separate edits), so "A1 recall after A7's second edit" would measure values that were never written into that state. The control gates stay what they have always been in the C10 line — the per-arm A1/A2 arms of the same pass (≥ 68/72) — and the stacked state's locality is gated on the axes measured after the second edit: L1, the same-frame fictional probe, `described_as`, L3 and generic perplexity. The reader's comment is corrected accordingly.
+
+**Item 5 (matched energy):** S-perm counts as a matched-energy control only if its second-write ratio ‖ΔW₂‖/‖ΔW₁‖ is within ± 0.25 of pass S's; otherwise the label carries **-PERM-UNMATCHED** and S-perm's verdict on target-specificity is not usable.
+
+**Item 1 (run identity):** the driver now refuses to start if any inherited harness knob (`MODEL_ID`, `MODEL_REV`, `C10_PROJECTOR`, `N_EDIT`, `C10_SUBJECT_OFFSET`, `C10_CTX_TEMPLATES`, `C10_KEY_LOCUS`, `RUN_LABEL`) is set, so the pre-registered defaults are the only configuration that can run. Item 3: `_ARM_STATE` is reset to `None` at the end of every recipe.

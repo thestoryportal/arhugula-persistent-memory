@@ -505,6 +505,7 @@ def run_recipe(name, hparam_path):
         )
     restore_layers(hp, base_snap)
     _CANDIDATE_RECIPE = False
+    _ARM_STATE = None   # the handle is live only inside an arm
     return out
 
 
