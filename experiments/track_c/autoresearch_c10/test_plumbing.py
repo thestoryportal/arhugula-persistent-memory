@@ -66,7 +66,13 @@ H.tgt_ids = lambda v: [5]
 H.snap_layers = lambda hp: {}
 H.restore_layers = lambda hp, snap: None
 H.compute_P = lambda hp: []
-H.run_law5 = lambda hp, P, snap: {"ok": True, "expr_delta": 0.0, "loc_delta": 0.0}
+def _run_law5(hp, P, snap):   # the real gate runs compute_z, which needs gradients: fail if the caller switched them off
+    if not torch.is_grad_enabled():
+        raise RuntimeError("element 0 of tensors does not require grad (gate ran under no_grad)")
+    return {"ok": True, "expr_delta": 0.0, "loc_delta": 0.0}
+
+
+H.run_law5 = _run_law5
 H.axes_pre = lambda: {}
 H.predict = lambda p: {"id": 0}
 H.locpct = lambda post, pre, prompts: 90.0

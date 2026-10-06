@@ -235,13 +235,18 @@ def _frame_probe(values):
     return flips
 
 
-@torch.no_grad()
 def _score(run_dir):
-    """The scorer. Runs in its own process: the unedited model, the saved weights per arm, the harness's measurements."""
+    """The scorer. Runs in its own process: the unedited model, the saved weights per arm, the harness's measurements.
+    The setup gate edits the model (compute_z needs gradients), so it runs before gradients are switched off."""
     t_start = time.time()
     gates = setup_checks()
     if not gates["law5"]["ok"]:
         raise SystemExit("engine-parity gate NOT INERT: the instrument is broken")
+    _measure(run_dir, t_start, gates)
+
+
+@torch.no_grad()
+def _measure(run_dir, t_start, gates):
     edits = json.load(open(f"{run_dir}/edits.json"))
     pre_axes = H.axes_pre()
     described = [f"{s} is described as" for s in SUBJECTS]
