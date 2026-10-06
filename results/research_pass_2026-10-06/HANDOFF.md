@@ -59,3 +59,10 @@ No run of any kind (no edit, no smoke solve, no model load). No program-format p
 ## 7. Confidence, as stated to the operator
 
 Closing C10 on the current model with steps 1–8: about 3 in 10. With the model axis: 4 to 5 in 10. Advancing the science durably: about 8 in 10. The two measurements that move the first number most are step 5's result and whether step 1 or 2 clears 30/72 on a second process.
+
+## 8. Addendum (2026-10-06, after the program session's option-B ruling)
+
+- Integration of every item in §3 is the **program session's** work, from this file and `contradictions.md`, through its §0.4 close-out gate. The research pass edited no tracker file at any point; the branch holds only `results/research_pass_2026-10-06/`.
+- Line numbers for item 1 in this worktree (HEAD 545d11e lineage): the BetaEdit row with the "fabricated" wording is `EXPERIMENT_RUNBOOK.md` **line 297** (the inventory's "RB:295" is stale), and a second "fabricated" mention sits at **line 507** in §8 (Deps line of the A3 entry). The memory file's caveat paragraph is the last paragraph of `memory_mirror/betaedit-official-repo.md`.
+- Two-way channel: the research pass writes one short markdown file per message to `/Users/robertrhu/.local/share/openresearch/files/llm-as-database-research-pass-2026-10-06/to_program/` named `YYYYMMDD-HHMM-<topic>.md`, never edits an old one; the program session replies into the research-pass chat. Three files were sent (handoff pointer, step-1 gate accepted, integration-scope question); the program session's answers are recorded in `prereg_stubs.md` (reconciliation note) and here.
+- Step 1 is pre-registered by the program session as `D-C10s-sharedz` (`docs/C10S_SHARED_Z_PREREG.md`, v2 at program worktree 02a383f, v3 pending its Codex design pass).
