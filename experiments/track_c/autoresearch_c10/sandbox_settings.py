@@ -80,8 +80,13 @@ denied_roots = [
     f"{home}/.local/share/claude",
     f"{home}/Library/Application Support/rtk",
 ]
-# narrower denies that sit inside an allowed region (listed after the allows)
-denied_inside_allowed = [f"{home}/.cache/claude"]
+# narrower denies that sit inside an allowed region (listed after the allows). ~/.cache stays readable because a run
+# needs the Hugging Face xet cache and uv's package cache there, but its other children hold history: ~/.cache/claude
+# (this program's sessions) and ~/.cache/gh (the GitHub CLI's response cache, which carried pull-request text with
+# past findings - the v9 review read one). So every pre-existing child but the two runtime ones is denied (v10).
+cache_root = f"{home}/.cache"
+cache_runtime = {"huggingface", "uv"}
+denied_inside_allowed = [f"{cache_root}/{n}" for n in sorted(os.listdir(cache_root)) if n not in cache_runtime]
 
 
 def slug(path):
@@ -105,6 +110,46 @@ if os.path.isdir(tmp_root):
 runtime_reads += [tmp_root, "/tmp/claude-501"]
 denied_inside_allowed += tmp_history
 
+# v11: the reviewer kept finding history in places no list named (an archive copy in the home folder, the GitHub CLI
+# cache, a sweep-trials folder at the root of the external drive). So the home folder, every drive and the per-user temp
+# area are now denied by default: every child is listed as denied unless it is one of the few a run needs. Children,
+# not the parents, so the file-tool rules (where a deny always wins) never cover a runtime path.
+import subprocess
+
+
+def children(root, keep):
+    return [f"{root}/{n}" for n in sorted(os.listdir(root)) if n not in keep] if os.path.isdir(root) else []
+
+
+shell_init = (".zshenv", ".zshrc", ".zprofile", ".zlogin", ".zlogout", ".zcomp")   # .zsh_history / .zsh_sessions are not
+home_keep = {".cache", ".local", "Library"} | {n for n in os.listdir(home) if n.startswith(shell_init)}
+library_caches = f"{home}/Library/Caches"
+# v12: the v11 review read a Chrome cache object (a saved web page with old results) under ~/Library/Caches/Google, so that
+# folder is deny-by-default too: only the caches the model runs use stay open
+# (com.apple.python is the system python's bytecode cache, a file-system mirror holding decodable copies of scripts; not runtime)
+caches_runtime = {"com.apple.metal", "com.apple.metalfe", "torch", "huggingface", "pip", "uv"}
+history_enum = (
+    children("/Volumes", {"memit", "Macintosh HD"})                       # the other drives
+    + children(mirror.rsplit("/", 1)[0], {mirror.rsplit("/", 1)[1]})       # the external drive outside the mirror
+    + children(home, home_keep)                                            # the home folder
+    + children(f"{home}/.local", {"share"})                                # ~/.local: only share/uv is runtime
+    + children(f"{home}/.local/share", {"uv"})
+    + children(f"{home}/Library", {"Caches"})                              # ~/Library: only the caches folder, and only part of it
+)
+# the denied caches sit inside the allowed ~/Library/Caches, so they go after the allows (last matching rule wins in the profile)
+denied_inside_allowed += children(library_caches, caches_runtime)
+# the per-user temp folder (getconf DARWIN_USER_TEMP_DIR): other processes' temp files; the agent's TMPDIR is /tmp/claude-501
+user_tmp = subprocess.run(["getconf", "DARWIN_USER_TEMP_DIR"], capture_output=True, text=True, check=True).stdout.strip()
+history_enum.append(os.path.realpath(user_tmp).rstrip("/"))
+seen = set(denied_roots)
+denied_roots += [r for r in history_enum if not (r in seen or seen.add(r))]
+# the roots themselves, for the two shell layers only (narrower allows re-open the runtime pieces; a listing of the root
+# would otherwise still show the names). Not for the file tools, where a deny on a root would cover the runtime children.
+shell_only_denied = ["/Volumes", mirror.rsplit("/", 1)[0], home, f"{home}/.local", f"{home}/.local/share", f"{home}/Library"]
+# the home-folder pieces a run reads, now named because the home root is denied in the shell layers
+runtime_reads += [f"{home}/.cache/huggingface", f"{home}/.cache/uv", f"{home}/Library/Caches"]
+runtime_reads += [f"{home}/{n}" for n in sorted(os.listdir(home)) if n.startswith(shell_init)]
+
 # The file tools (Read/Edit) have no "re-open inside a denied region": a deny always wins. So for them the mirror's
 # history is listed child by child, keeping the sandbox, the fence and the two caches out of the list.
 keep = {os.path.realpath(x) for x in (sandbox, fence, hf_home, f"{mirror}/hf_cache", f"{mirror}/covariance_caches")}
@@ -123,7 +168,7 @@ def q(p):
 
 if len(sys.argv) > 5 and sys.argv[5] == "--seatbelt":
     lines = ["(version 1)", "(allow default)"]
-    lines += [f"(deny file-read* (subpath {q(r)}))" for r in denied_roots]
+    lines += [f"(deny file-read* (subpath {q(r)}))" for r in denied_roots + shell_only_denied]
     lines += ["(deny file-write*)"]
     lines += [f"(allow file-read* (subpath {q(p)}))" if os.path.isdir(p) else f"(allow file-read* (literal {q(p)}))"
               for p in runtime_reads]
@@ -143,7 +188,7 @@ settings = {
         # the three wrappers, by their exact absolute command text, run outside this sandbox inside the Seatbelt profile
         "excludedCommands": wrappers,
         "filesystem": {
-            "denyRead": denied_roots + denied_inside_allowed,
+            "denyRead": denied_roots + shell_only_denied + denied_inside_allowed,
             "allowRead": runtime_reads,
             "allowWrite": [p for p in write_dirs if p != "/dev"],
             "denyWrite": [program, repo, fence],
