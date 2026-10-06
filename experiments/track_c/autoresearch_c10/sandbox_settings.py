@@ -95,7 +95,9 @@ own_tmp = {slug(sandbox), slug(fence)}
 tmp_history = []
 if os.path.isdir(tmp_root):
     for name in sorted(os.listdir(tmp_root)):
-        if name.startswith("-") and name not in own_tmp:
+        # every existing child but the agent's own: other sessions' folders, and Claude Code's shared scratch such as
+        # bash-edit-diff/ (objects of past edits, which carried old results - the v7 review read one)
+        if name not in own_tmp:
             tmp_history += [f"{tmp_root}/{name}", f"/tmp/claude-501/{name}"]
 # the agent's TMPDIR is /tmp/claude-501 itself, so that root is re-opened and the other sessions' folders in it are
 # denied again (narrower rules win in the Bash sandbox; in the profile they come last)
