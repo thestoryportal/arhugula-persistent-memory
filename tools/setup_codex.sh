@@ -68,7 +68,7 @@ if [ -f "$CODEX_HOME/auth.json" ]; then
   ✅ READY. Test cross-family review (closes the C2-band obligation):
 
     cd /workspace && CODEX_HOME=/workspace/.codex PATH=/workspace/bin:$PATH \
-    codex exec -m gpt-6-astra -c model_reasoning_effort=high "$(cat tools/advisor_review_prompt.md)
+    codex exec -m gpt-6.1-sol -c model_reasoning_effort=high "$(cat tools/advisor_review_prompt.md)
 
     FINDING (review the disposition): C2-band falsifier — mechanical PASS, NOT promoted
     (real-but-underpowered direction-specific redistribution). Cross-loc JS 67.68->86.41
