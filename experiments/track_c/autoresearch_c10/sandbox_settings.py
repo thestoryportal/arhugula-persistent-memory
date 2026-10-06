@@ -60,6 +60,10 @@ runtime_reads = [
 # where program history lives on this machine (denied as sources of information)
 denied_roots = [
     mirror,                       # the whole mirror tree: repo, worktrees, session logs, notebooks, probes
+    "/Volumes/memit/llm-database-project-artifacts",   # the genesis artifacts (spec history, sessions, corpora)
+    "/private/tmp",               # loose files other sessions leave in tmp (NotebookLM prompts, packets); the agent's own
+                                  # /private/tmp/claude-501 is re-opened below. /tmp itself (a symlink) stays resolvable:
+                                  # denying it stops the kernel resolving /tmp/… paths and breaks TMPDIR writes (probe 12)
     f"{home}/Backups",
     "/Volumes/backups",
     "/Volumes/Development",
@@ -89,7 +93,10 @@ if os.path.isdir(tmp_root):
     for name in sorted(os.listdir(tmp_root)):
         if name.startswith("-") and name not in own_tmp:
             tmp_history += [f"{tmp_root}/{name}", f"/tmp/claude-501/{name}"]
-denied_roots += tmp_history
+# the agent's TMPDIR is /tmp/claude-501 itself, so that root is re-opened and the other sessions' folders in it are
+# denied again (narrower rules win in the Bash sandbox; in the profile they come last)
+runtime_reads += [tmp_root, "/tmp/claude-501"]
+denied_inside_allowed += tmp_history
 
 # The file tools (Read/Edit) have no "re-open inside a denied region": a deny always wins. So for them the mirror's
 # history is listed child by child, keeping the sandbox, the fence and the two caches out of the list.
@@ -99,7 +106,7 @@ mirror_history = [f"{mirror}/{n}" for n in sorted(os.listdir(mirror))
 tool_denied = mirror_history + [r for r in denied_roots if r != mirror] + denied_inside_allowed
 
 # where a run may write
-write_dirs = [sandbox, "/tmp", "/private/tmp", "/private/var/folders", hf_home, f"{home}/.cache",
+write_dirs = [sandbox, "/tmp/claude-501", "/private/tmp/claude-501", "/private/var/folders", hf_home, f"{home}/.cache",
               f"{home}/Library/Caches", f"{program}/experiments/track_c/__pycache__", "/dev"]
 
 
@@ -116,6 +123,8 @@ if len(sys.argv) > 5 and sys.argv[5] == "--seatbelt":
     lines += [f"(allow file-write* (subpath {q(p)}))" for p in write_dirs]
     lines += [f"(deny file-read* (subpath {q(r)}))" for r in denied_inside_allowed]
     lines += [f"(deny file-write* (subpath {q(fence)}))"]
+    # the two directory entries stay stat-able (not listable) so /tmp/… paths resolve to the re-opened claude-501
+    lines += ['(allow file-read-metadata (literal "/private/tmp"))', '(allow file-read-metadata (literal "/tmp"))']
     print("\n".join(lines))
     sys.exit(0)
 
