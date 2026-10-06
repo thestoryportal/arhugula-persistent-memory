@@ -645,6 +645,342 @@
     }
    ],
    "note": "read at the evaluation section"
+  },
+  {
+   "t": "2026-10-06T10:56:34",
+   "query": "(memory layers|memory layer) AND (product key|trainable|sparse) AND language model [2024-06+]",
+   "hits": [
+    {
+     "id": "2412.09764",
+     "status": "new"
+    },
+    {
+     "id": "2510.15103",
+     "status": "new"
+    },
+    {
+     "id": "2601.00671",
+     "status": "new"
+    },
+    {
+     "id": "2512.13751",
+     "status": "new"
+    },
+    {
+     "id": "2604.05248",
+     "status": "new"
+    },
+    {
+     "id": "2605.03229",
+     "status": "new"
+    }
+   ],
+   "note": "E7: Memory Layers at Scale; sparse memory finetuning x3; fast-weight PKM; MIDUS"
+  },
+  {
+   "t": "2026-10-06T10:56:34",
+   "query": "(Mamba|state space model|RWKV|hybrid) AND (factual associations|knowledge editing|model editing|factual recall) [2024+]",
+   "hits": [
+    {
+     "id": "2608.11660",
+     "status": "seen"
+    },
+    {
+     "id": "2608.06246",
+     "status": "new"
+    },
+    {
+     "id": "2606.05531",
+     "status": "new"
+    },
+    {
+     "id": "2606.10932",
+     "status": "new"
+    },
+    {
+     "id": "2510.25798",
+     "status": "seen"
+    },
+    {
+     "id": "2508.12630",
+     "status": "new"
+    },
+    {
+     "id": "2506.00536",
+     "status": "new"
+    },
+    {
+     "id": "2410.17194",
+     "status": "seen"
+    },
+    {
+     "id": "2408.10608",
+     "status": "new"
+    },
+    {
+     "id": "2405.00664",
+     "status": "seen"
+    },
+    {
+     "id": "2404.03646",
+     "status": "new"
+    }
+   ],
+   "note": "M5: 2404.03646 Mamba ROME-style editing (Sen Sharma, Atkinson, Bau); 2606.10932 Mamba-2 knowledge organization"
+  },
+  {
+   "t": "2026-10-06T10:56:35",
+   "query": "(synthetic continued pretraining|EntiGraph|knowledge-instruct|learn new facts|teach new facts) AND language model [2024-06+]",
+   "hits": [
+    {
+     "id": "2609.29792",
+     "status": "new"
+    },
+    {
+     "id": "2609.16532",
+     "status": "seen"
+    },
+    {
+     "id": "2609.13824",
+     "status": "new"
+    },
+    {
+     "id": "2605.10770",
+     "status": "new"
+    },
+    {
+     "id": "2601.14277",
+     "status": "new"
+    },
+    {
+     "id": "2508.03571",
+     "status": "new"
+    },
+    {
+     "id": "2504.05571",
+     "status": "new"
+    },
+    {
+     "id": "2503.14603",
+     "status": "new"
+    },
+    {
+     "id": "2503.05919",
+     "status": "new"
+    },
+    {
+     "id": "2501.13921",
+     "status": "new"
+    },
+    {
+     "id": "2409.07431",
+     "status": "new"
+    },
+    {
+     "id": "2407.00365",
+     "status": "new"
+    },
+    {
+     "id": "2406.19354",
+     "status": "new"
+    }
+   ],
+   "note": "E6: 2409.07431 EntiGraph; 2504.05571 Knowledge-Instruct; 2503.05919 Style to Facts; 2609.16532 SD-DPO (seen)"
+  },
+  {
+   "t": "2026-10-06T10:56:35",
+   "query": "(LoRA|low-rank adaptation) AND (knowledge editing|model editing) AND (merge|merged|sequential) [2025+]",
+   "hits": [
+    {
+     "id": "2609.29587",
+     "status": "new"
+    },
+    {
+     "id": "2606.03179",
+     "status": "seen"
+    },
+    {
+     "id": "2604.17751",
+     "status": "seen"
+    },
+    {
+     "id": "2510.25798",
+     "status": "seen"
+    },
+    {
+     "id": "2510.16089",
+     "status": "new"
+    },
+    {
+     "id": "2505.24262",
+     "status": "new"
+    },
+    {
+     "id": "2502.19416",
+     "status": "seen"
+    }
+   ],
+   "note": "E5: nothing new of substance"
+  },
+  {
+   "t": "2026-10-06T10:56:35",
+   "query": "(new token(s)|added tokens|special tokens) AND embedding AND (entity|concept) AND (frozen|embedding-tuning) [2024+]",
+   "hits": [
+    {
+     "id": "2601.04465",
+     "status": "new"
+    }
+   ],
+   "note": "E8: Concept Tokens (frozen LLM, learn one new token embedding from definitions; fictional Austral Tower study)"
+  },
+  {
+   "t": "2026-10-06T10:56:35",
+   "query": "abs:\"knowledge editing\" AND (RLEdit|reinforcement learning|meta-learning|editor network|MALMEN) AND hypernetwork [2024-06+]",
+   "hits": [
+    {
+     "id": "2506.08920",
+     "status": "new"
+    }
+   ],
+   "note": "E4: only PropMEND returned"
+  },
+  {
+   "t": "2026-10-06T10:56:35",
+   "query": "get_abstract batch: new hits from orx/arXiv",
+   "hits": [
+    {
+     "id": "2608.25677",
+     "status": "new"
+    },
+    {
+     "id": "2512.18551",
+     "status": "new"
+    },
+    {
+     "id": "2607.19604",
+     "status": "new"
+    },
+    {
+     "id": "2606.03695",
+     "status": "new"
+    },
+    {
+     "id": "2610.00888",
+     "status": "new"
+    },
+    {
+     "id": "2602.06019",
+     "status": "new"
+    },
+    {
+     "id": "2510.15103",
+     "status": "new"
+    },
+    {
+     "id": "2609.00082",
+     "status": "new"
+    },
+    {
+     "id": "2608.25243",
+     "status": "new"
+    },
+    {
+     "id": "2609.23916",
+     "status": "new"
+    },
+    {
+     "id": "2506.20746",
+     "status": "new"
+    },
+    {
+     "id": "2601.04465",
+     "status": "new"
+    },
+    {
+     "id": "2608.25489",
+     "status": "new"
+    },
+    {
+     "id": "2607.27919",
+     "status": "new"
+    },
+    {
+     "id": "2510.09421",
+     "status": "new"
+    },
+    {
+     "id": "2604.19089",
+     "status": "seen"
+    },
+    {
+     "id": "2606.19679",
+     "status": "new"
+    },
+    {
+     "id": "2607.22625",
+     "status": "new"
+    },
+    {
+     "id": "2605.04308",
+     "status": "new"
+    },
+    {
+     "id": "2608.01630",
+     "status": "new"
+    },
+    {
+     "id": "2606.12841",
+     "status": "seen"
+    },
+    {
+     "id": "2508.06178",
+     "status": "new"
+    },
+    {
+     "id": "2605.28303",
+     "status": "new"
+    },
+    {
+     "id": "2605.16686",
+     "status": "new"
+    }
+   ],
+   "note": "abstracts read"
+  },
+  {
+   "t": "2026-10-06T11:00:14",
+   "query": "downloads for section reads: 2608.25677, 2512.18551, 2605.04308, 2601.04465, 2505.07608, 2510.09421, 2508.06178",
+   "hits": [
+    {
+     "id": "2608.25677",
+     "status": "new"
+    },
+    {
+     "id": "2512.18551",
+     "status": "new"
+    },
+    {
+     "id": "2605.04308",
+     "status": "new"
+    },
+    {
+     "id": "2601.04465",
+     "status": "new"
+    },
+    {
+     "id": "2505.07608",
+     "status": "new"
+    },
+    {
+     "id": "2510.09421",
+     "status": "new"
+    },
+    {
+     "id": "2508.06178",
+     "status": "new"
+    }
+   ],
+   "note": "outlines requested; eval sections next"
   }
  ]
 }

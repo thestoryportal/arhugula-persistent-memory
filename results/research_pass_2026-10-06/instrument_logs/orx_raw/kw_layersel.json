@@ -1,0 +1,262 @@
+[
+  {
+    "source": "alphaxiv",
+    "id": "2609.38257",
+    "title": "How Should Diffusion Language Models Edit Code?",
+    "abstract": "Code editing requires a model to decide where to make changes, generate the new content, and preserve everything else. We study how masked diffusion language models divide these responsibilities across four editing interfaces: whole-file rewriting, search-and-replace, locate-then-infill, and token-level editing. Experiments on CanItEdit reveal a composition gap: diffusion models can generate coordinated changes when the correct edit locations are supplied, but much of this capability is lost when those locations must be predicted. Access to the intact original code helps the model fill multiple edit regions, yet does not resolve the difficulty of selecting those regions. By varying the editable regions while holding the generation model and decoding procedure fixed, we identify two distinct requirements for successful editing: covering every required change and placing precise boundaries around it. Missing a required region prevents the corresponding change, while widening regions to ensure coverage can sharply reduce success by requiring unchanged code to be regenerated. A sentence-level Wiki editing probe shows the same qualitative gap between supplied and predicted locations beyond code. These findings show why strong infilling capability alone does not ensure reliable editing: the interface must expose all required changes while limiting regeneration of unchanged code.",
+    "publicationDate": "2026-09-29T11:12:00.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 14,
+        "snippet": "...milies (compressed). Families 1–4 were the original\nfour-type bank; 5–9 add partial-fill, recovery, residual, and no-op coverage.\n# Family Supervised state\n1 Fill pair Fully expanded [MASK] slots; par..."
+      },
+      {
+        "pageNumber": 19,
+        "snippet": "...anItEdit single-span diagnostic. Matched SFT nearly ties single_line (94.6% vs.\n94.3%) but leaves a residual middle advantage on multi_line (61.9% vs. 55.2%). The matched-\nSFT CanItEdit 47.0% cell is ..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2502.03748",
+    "title": "Rethinking Residual Distribution in Locate-then-Edit Model Editing",
+    "abstract": "Model editing enables targeted updates to the knowledge of large language models (LLMs) with minimal retraining. Among existing approaches, locate-then-edit methods constitute a prominent paradigm: they first identify critical layers, then compute residuals at the final critical layer based on the target edit, and finally apply least-squares-based multi-layer updates via $\\textbf{residual distribution}$. While empirically effective, we identify a counterintuitive failure mode: residual distribution, a core mechanism in these methods, introduces weight shift errors that undermine editing precision. Through theoretical and empirical analysis, we show that such errors increase with the distribution distance, batch size, and edit sequence length, ultimately leading to inaccurate or suboptimal edits. To address this, we propose the $\\textbf{B}$oundary $\\textbf{L}$ayer $\\textbf{U}$pdat$\\textbf{E (BLUE)}$ strategy to enhance locate-then-edit methods. Sequential batch editing experiments on three LLMs and two datasets demonstrate that BLUE not only delivers an average performance improvement of 35.59\\%, significantly advancing the state of the art in model editing, but also enhances the preservation of LLMs' general capabilities. Our code is available at this https URL.",
+    "publicationDate": "2025-02-06T03:20:17.000Z",
+    "votes": 16,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "... approaches, locate-then-edit\nmethods constitute a prominent paradigm: they first identify critical layers, then\ncompute residuals at the final critical layer based on the target edit, and finally\napp..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Rethinking Residual Distribution in Locate-then-Edit\nModel Editing\nXiaopeng Li Shangwen Wang Shasha Li\n∗ \nShezheng Song Bin Ji Jun Ma\n∗ \nJie Yu\n∗\nNational University of Defence Technology\n{xiaopengli,..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.17836",
+    "title": "Leveraging Association Context Retrieval in Knowledge Edit- ing to Build White-Box Attacks on LLMs",
+    "abstract": "As large language models (LLMs) are granted increasing autonomy, it is essential to investigate methods that can induce unsafe behavior. We propose a novel white-box attack inspired by locate-then-edit approaches from the field of Knowledge Editing. Our choice is motivated by the observation that models edited with such schemes tend to assign unusually high prediction probabilities to the edit target, a property that is particularly advantageous when designing attacks. We modify the editing framework by incorporating as- sociative knowledge retrieved from the model, thereby extending constraint removal to an entire thematic category rather than being limited to prompts from a predefined dataset. Experiments with various archi- tectures demonstrate improved attack effectiveness over competing methods without dealing critical damage to general model performance.",
+    "publicationDate": "2026-08-18T14:35:18.000Z",
+    "votes": 5,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...nvestigate methods that\ncan induce unsafe behavior. We propose a novel white-box attack inspired by locate-then-edit approaches\nfrom the field of Knowledge Editing. Our choice is motivated by the obse..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "...such methods are ROME and MEMIT [Meng et al., 2022a,b]. Their core is the consideration of the last layer of the FFN\n(feed-forward network) as a linear associative memory [Anderson, 1972], which match..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2605.15186",
+    "title": "VGGT-Edit: Feed-forward Native 3D Scene Editing with Residual Field Prediction",
+    "abstract": "High-quality 3D scene reconstruction has recently advanced toward generalizable feed-forward architectures, enabling the generation of complex environments in a single forward pass. However, despite their strong performance in static scene perception, these models remain limited in responding to dynamic human instructions, which restricts their use in interactive applications. Existing editing methods typically rely on a 2D-lifting strategy, where individual views are edited independently and then lifted back into 3D space. This indirect pipeline often leads to blurry textures and inconsistent geometry, as 2D editors lack the spatial awareness required to preserve structure across viewpoints. To address these limitations, we propose VGGT-Edit, a feed-forward framework for text-conditioned native 3D scene editing. VGGT-Edit introduces depth-synchronized text injection to align semantic guidance with the backbone's spatial poses, ensuring stable instruction grounding. This semantic signal is then processed by a residual transformation head, which directly predicts 3D geometric displacements to deform the scene while preserving background stability. To ensure high-fidelity results, we supervise the framework with a multi-term objective function that enforces geometric accuracy and cross-view consistency. We also construct the DeltaScene Dataset, a large-scale dataset generated through an automated pipeline with 3D agreement filtering to ensure ground-truth quality. Experiments show that VGGT-Edit substantially outperforms 2D-lifting baselines, producing sharper object details, stronger multi-view consistency, and near-instant inference speed. The project page is this https URL.",
+    "publicationDate": "2026-05-14T17:59:04.000Z",
+    "votes": 32,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "VGGT-Edit: Feed-forward Native 3D Scene Editing\nwith Residual Field Prediction\nKaixin Zhu\n1∗\n, Yiwen Tang\n2\n*\n†\n, Yifan Yang\n1\n*, Renrui Zhang\n3\n*†, Bohan Zeng\n1\n,\nZiyu Guo\n3\n, Ruichuan An\n1\n, Zhou Li..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "...e forward pass. Built on a pre-trained reconstruction backbone, our\nmethod introduces a lightweight residual field prediction paradigm. Instead of re-learning the entire\nscene, VGGT-Edit treats editin..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.17940",
+    "title": "Beyond the Previous Layer: Residual Predictive Structure in Sparse MoE Routing",
+    "abstract": "Sparse mixture-of-experts models route each token through a sequence of expert selections. We ask whether the immediately preceding selection adequately summarizes this trajectory for predicting the next router. Using frozen OLMoE and JetMoE models, we measure the held-out predictive gain from earlier expert selections while retaining the most recent selection as a common baseline. In OLMoE, extending the history from one to eleven layers raises router-logit $R^2$ from 0.59879 to 0.66544. A preregistered JetMoE replication yields four-layer gains of 0.14275 and 0.20528 at two target depths, with paired bootstrap intervals above zero. These gains survive nonlinear decoding: adding history to a small multilayer perceptron improves $R^2$ by 0.17137 and 0.21861, whereas nonlinear decoding of the recent state alone adds 0.00139 and 0.00936 over a linear probe. Parameter-matched controls preserve the advantage, and cross-fitted history residuals predict target residuals with $R^2$ of 0.20549 and 0.23556. These findings identify residual predictive structure in expert-selection trajectories beyond adjacent-layer persistence.",
+    "publicationDate": "2026-09-15T23:57:34.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "https://github.com/withfanta/moe-routing-dynamics/tree/main/code\nBeyond the Previous Layer:\nResidual Predictive Structure in Sparse MoE Routing\nHao Li\n1\n, Yasuyuki Tahara\n1\n, and Yuichi Sei\n*1\n1\nDepar..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...amics/tree/main/code\nSparse mixture-of-experts models route each token through a sequence of expert selections. We ask whether the\nimmediately preceding selection adequately summarizes this trajectory..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.21268",
+    "title": "Edit-VAR: Taming Visual Autoregressive Model for Precise Video Editing",
+    "abstract": "Text-guided video editing modifies target content while preserving the appearance and temporal coherence of unedited regions. Training-based approaches provide strong control but demand substantial data and computation. Training-free methods fall into inversion-free and inversion-based paradigms. Inversion-free approaches avoid trajectory recovery, but their source-preserving guidance can limit editing strength and leave semantic changes incomplete. Inversion-based approaches recover a latent trajectory before regeneration, where approximation errors can accumulate and cause source-content drift and temporal inconsistency. We introduce Edit-VAR, the first training-free and inversion-free framework for text-guided video editing with a pretrained visual autoregressive video model. Edit-VAR directly encodes the source video into multi-scale discrete tokens and performs probability-guided conditional token replacement for source preservation. Attention-guided token-wise and scale-aware modulation selectively relaxes source constraints over edit-relevant positions and generation stages. Scale-Decoupled Generation, implemented as late-scale constraint release, regenerates motion-consistent details and reduces texture fragmentation. Residual-guided token pruning further exploits redundancy at the final two high-resolution scales to reduce inference cost. Extensive experiments and a blind user study demonstrate that Edit-VAR outperforms existing training-free video editing methods overall in editing fidelity, source preservation, temporal coherence, and inference efficiency.",
+    "publicationDate": "2026-09-18T03:26:19.000Z",
+    "votes": 7,
+    "snippets": [
+      {
+        "pageNumber": 2,
+        "snippet": "...cale constraint release, regenerates\nmotion-consistent details and reduces texture fragmenta-\ntion. Residual-guided token pruning further exploits redun-\ndancy at the final two high-resolution scales ..."
+      },
+      {
+        "pageNumber": 3,
+        "snippet": "...scale-\ndecoupled generation. Visual AR acceleration reduces in-\nference redundancy through token or layer pruning and\ncache compression [2, 5, 7, 31, 38–40, 49]. Our method\ninstead uses residual norms..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.04635",
+    "title": "LatentIndex: Cross-Layer Sharing with Layer-Specific Selection for Sparse Attention",
+    "abstract": "Sparse attention reduces core-attention computation, but its indexers still incur repeated selection work and per-layer key-cache storage. Reusing selected indices across layers reduces this overhead but constrains multiple layers to the same token set. We introduce LatentIndex, which extends the latent-sharing principle of Multi-head Latent Attention across indexer layers. Each layer group constructs a shared latent cache from its first layer's hidden states, while layer-specific scoring enables independent token selection. Absorbing key decoders into queries enables direct scoring of the shared cache without reconstructing historical per-layer keys. We develop training-free calibration and investigate a training-aware instantiation of this principle. To balance quality and computation, a hierarchical selection (HS) variant lets followers independently refine a shared candidate set proposed by the anchor. With four-layer sharing, LatentIndex reduces logical indexer-cache storage by 61.1% on DeepSeek-V3.2. Across DeepSeek-V3.2 and GLM-5, training-free LatentIndex improves head-wise attention-mass recall over IndexCache by up to 3.28 percentage points while maintaining RULER and LongBench performance close to native DSA. HS further achieves 2.30-2.72 times decode indexer speedups over DSA across 8K-128K contexts, retaining most of LatentIndex's recall. LatentIndex offers a new perspective on cross-layer indexing: sharing continuous representations rather than discrete selections enables efficient reuse while preserving layer-specific token selection.",
+    "publicationDate": "2026-10-03T16:26:00.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "LATENTINDEX: CROSS-LAYER SHARING WITH\nLAYER-SPECIFIC SELECTION FOR SPARSE\nATTENTION\nZhaohui Wang\n1,*\n, Zhixin Pan\n2,3,*\n, Fanxu Meng\n2,*†\n, Muhan Zhang\n1,‡\n1\nInstitute for Artificial Intelligence, Pek..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "LATENTINDEX: CROSS-LAYER SHARING WITH\nLAYER-SPECIFIC SELECTION FOR SPARSE\nATTENTION\nZhaohui Wang\n1,*\n, Zhixin Pan\n2,3,*\n, Fanxu Meng\n2,*†\n, Muhan Zhang\n1,‡\n1\nInstitute for Artificial Intelligence, Pek..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.16932",
+    "title": "DOW-KE: Anchor-Free Multi-Layer Knowledge Editing via Direct End-to-End Weight Optimization",
+    "abstract": "Multi-layer locate-then-edit methods for knowledge editing first optimize target residual-stream activations (anchors) at selected layers, then realize them layer by layer as weight updates. This pipeline optimizes an intermediate representation but deploys multi-layer weight updates whose joint effect through the true forward pass is never itself optimized: regardless of how anchors are set or propagated, each update comes from a local solve, so propagation-induced attenuation and distortion go uncorrected, leaving a closure gap between anchor targets and realized edits. We propose DOW-KE, an anchor-free method built on a single principle: what is optimized must be exactly what is deployed. DOW-KE backpropagates the final editing objective through the complete model, jointly optimizing the updates of all edited layers so cross-layer propagation and coupling enter every gradient step. The same principle dictates where preservation resides: embedding the preservation projection in the update parameterization, inside the computation graph, makes every gradient act on the deployed update; post-hoc constraints would reopen the gap, and the constrained search keeps edits clear of protected knowledge. In large-scale sequential editing on two datasets and three models, DOW-KE achieves the highest overall Score and neighborhood Specificity in five of six model-dataset settings among the evaluated baselines.",
+    "publicationDate": "2026-08-05T09:56:07.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "DOW-KE: Anchor-Free Multi-Layer Knowledge Editing via Direct End-to-End\nWeight Optimization\nRan Chen, Junbo Zhang, Qianli Zhou, Xinyang Deng, Wen Jiang\n∗\nSchool of Electronics and Information, Northwe..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...niversity\nAbstract\nMulti-layer locate-then-edit methods for knowledge editing\nfirst optimize target residual-stream activations (anchors) at\nselected layers, then realize them layer by layer as weight..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.33735",
+    "title": "Constrained Edit Fields for Training-Free Flow Editing",
+    "abstract": "Text-guided image editing aims to perform a desired edit while preserving source content unrelated to it. Pretrained rectified-flow models enable training-free editing of real images through modifications to their sampling trajectories. However, responses at locations unrelated to the desired edit can still accumulate along the editing trajectory and become visible in the final result. To overcome this, we propose Constrained Edit Fields (CEF), which assigns each spatial location a continuous edit responsibility that quantifies its relevance to the desired edit. CEF estimates edit responsibility directly from the source image when the relevant content is present. For edits whose target content is absent from the source, CEF first generates an unconstrained proposal to reveal its realized spatial support and then estimates responsibility from that proposal. At each editing step, CEF decomposes the base edit field into prompt-induced and trajectory-induced components, enabling edit responsibility to preserve instruction-relevant updates while suppressing unintended trajectory-induced changes. Evaluated on all 700 PIE-Bench examples, CEF achieves state-of-the-art Structure Distance, background LPIPS, and background MSE with both Stable Diffusion 3.5 Medium and FLUX, while retaining competitive instruction alignment. On Stable Diffusion 3.5 Medium, it reduces these metrics over the previous best results by 10.2%, 21.2%, and 48.0%, respectively.",
+    "publicationDate": "2026-09-27T16:37:43.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 2,
+        "snippet": "...jec-\ntory alignment. Stable Flow selectively injects attention fea-\ntures from structure-preserving layers (Avrahami et al. 2025);\nReFlex extracts intermediate source features and adapts at-\ntention d..."
+      },
+      {
+        "pageNumber": 3,
+        "snippet": "...d and trajectory-\ninduced changes. CEF uses the prompt-induced direction to form prompt-aligned and residual trajectory components, applying\nresponsibility more strongly to the residual to construct t..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.18745",
+    "title": "When Edit Flows are Edit Jumps: replicating Edit Flows and EvoFlows",
+    "abstract": "Antibody lead optimization calls for a small, bounded set of edits to an existing candidate: substitutions, but also insertions and deletions. Edit-based generative models are the only ones that allocate such an edit budget without fixing the edit positions, the edit count, or the output length in advance. However, the existing approaches Edit Flows and EvoFlows did not release code or complete training specifications. Here, we show that both methods follow the same underlying process -- edits firing one at a time, at learned rates, in continuous time -- the pure-jump case of generator matching over finite sequences. With EditJumps we introduce the first open implementation of this framework, with a single generalist antibody editor trained on 1.66M Observed Antibody Space homolog pairs to propose homolog-like variants of a seed sequence, editing unseen leads zero-shot, without the per-family retraining original approaches require. Replicating this system from scratch exposes why open code is essential for generative biology: reconciling published edit distributions required reverse-engineering an undocumented rate-scaling hyperparameter that dictates realized mutation counts. Moreover, we show that published evaluation metrics are highly sensitive to reference sample size, frequently flipping method rankings. We release our full codebase, automated test suite, and configurations at: this https URL",
+    "publicationDate": "2026-09-16T14:39:26.000Z",
+    "votes": 2
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.06465",
+    "title": "When Layer Selection Misleads Speech Depression Detection",
+    "abstract": "Pretrained speech representations are increasingly used for depression detection, but selecting the best encoder layer on the same data used for evaluation biases reported performance. On DAIC-WOZ, with repeated nested cross-validation across five deep encoder families, naive best-of-25-layer probing inflates AUC by up to $0.09$. On shuffled labels over the \\emph{real} latent representations, naive best-of-25 still reaches AUC $0.59$ versus $0.50$ under nested selection, and this bias grows with the number of probed layers and with smaller samples, isolating selection, not signal, as the cause. The effect replicates on a second clinical corpus and language (Androids, Italian). Under leakage-free selection, a fair comparison across representation families identifies a compact, task-aligned affect--prosody model as competitive with substantially more complex SSL, deep-learning, audio-LLM, and codec-based approaches, while using $\\sim\\!10^{3}\\times$ fewer trainable downstream parameters. Extending the analysis to individual PHQ-8 symptoms shows that the same selection bias persists at this finer-grained level. We argue nested model-selection protocols should be standard when probing encoder layer representations on small clinical speech datasets.",
+    "publicationDate": "2026-10-05T14:59:37.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "WHEN LAYER SELECTION MISLEADS SPEECH DEPRESSION DETECTION\nPaula A. Perez-Toro\n1,2† \nDavid Gimeno-G´omez\n3† \nDaniel R¨uckert\n1 \nAndreas Maier\n2\n1\nChair for AI in Healthcare and Medicine, Technical Univ..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "WHEN LAYER SELECTION MISLEADS SPEECH DEPRESSION DETECTION\nPaula A. Perez-Toro\n1,2† \nDavid Gimeno-G´omez\n3† \nDaniel R¨uckert\n1 \nAndreas Maier\n2\n1\nChair for AI in Healthcare and Medicine, Technical Univ..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.13405",
+    "title": "Krum-Inspired Central Teacher Selection and Residual Channel Bottlenecks for Efficient DeepSC",
+    "abstract": "Deploying transformer-based semantic communication models on edge devices requires compression that preserves semantic fidelity under channel variability. We study a compressed deep semantic communication (DeepSC) student trained by multi-teacher knowledge distillation and combine two ideas: (i) a residual channel bottleneck that splits the transmitted representation into a base stream and a residual stream with unequal power allocation, and (ii) a Krum-inspired, medoid-style centrality criterion that selects a single central teacher from a five-model ensemble, applied at the logit and intermediate-feature levels and combined with a feature-dominant distillation loss. On the EuroParl benchmark, a two-layer student recovers about 98% of the four-layer teacher's bilingual evaluation understudy (BLEU)-1 under additive white Gaussian noise, with 93% of its BLEU-4 and 96% of its sentence-BERT (SBERT) score, and about 89%, 77%, and 87% of the teacher's BLEU-1, BLEU-4, and SBERT, respectively, under Rayleigh fading, while reducing non-embedding parameters by 1.33x and single-teacher inference latency by 1.79x (9.0x relative to a five-teacher ensemble used here as an upper-bound reference, not a deployment baseline). Controlled ablations over three seeds indicate complementary contributions of about +8.4% BLEU-1 (+9.6% SBERT) from the residual bottleneck and +3.0% (+2.9% SBERT) from centrality-based selection over mean aggregation. A decoder-mode ablation shows that the base stream alone recovers about two-thirds of the full BLEU-1 while the residual stream alone collapses, supporting the role of the residual as a refinement on top of the base.",
+    "publicationDate": "2026-09-11T18:12:20.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...ure\nlevels and combined with a feature-dominant distillation loss.\nOn the EuroParl benchmark, a two-layer student recovers about\n98% of the four-layer teacher’s bilingual evaluation understudy\n(BLEU)-..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Krum-Inspired Central Teacher Selection and\nResidual Channel Bottlenecks for Efficient DeepSC\nRami Eid, Mostafa Jammoul, Omar Kaaki, Maria Slim, Mariette Awad, Hadi Sarieddeen\nDepartment of Electrical..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.02504",
+    "title": "SR-Edit: Region-Aware Image Editing via Self-Refinement",
+    "abstract": "With the recent rapid progress in generative models, image editing has made remarkable advances, yet achieving faithful edits that precisely modify only the target regions while strictly preserving all other regions remains challenging. Since externally provided region annotations are often difficult to obtain in practice, a growing body of work seeks to improve preservation by automatically inferring edit and non-edit regions, and then enforcing consistency on the latter. However, these approaches still suffer from inaccurate region estimation and heuristic correction strategies that distort the native inference process, making methods designed for fidelity themselves a new source of artifacts. We propose SR-Edit, an image editing framework that overcomes these issues via iterative self-refinement. Specifically, at each iteration, SR-Edit first (i) extracts progressively precise and self-consistent region separation from the model's own predictions by lightweight post-processing, and then (ii) enforces preservation in non-edit areas through correction updates that remain aligned with the original sampling dynamics. Extensive experiments demonstrate that SR-Edit achieves superior preservation and overall image quality compared to existing editing techniques.",
+    "publicationDate": "2026-09-02T12:08:23.000Z",
+    "votes": 10,
+    "snippets": [
+      {
+        "pageNumber": 3,
+        "snippet": "...ructure of\nthe sampling procedure. Under a plug-in approximation, this guidance reduces to\na masked residual on the model’s clean-image prediction, which can be injected\ninto diffusion samplers as an ..."
+      },
+      {
+        "pageNumber": 7,
+        "snippet": "...tend to con-\ncentrate in the intended edit region, while non-edit areas are largely preserved,\nwith residual deviations typically small and weakly structured (Fig. 3). This\nempirical behavior makes th..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.03702",
+    "title": "LESSER: Post-Training Data Selection with Output-Layer Gradients",
+    "abstract": "The choice of post-training data for large language models substantially affects downstream performance. Gradient-based data selection is a popular approach that ranks training data by how well their gradients align with those of a small validation set. However, ranking with full-parameter gradients requires an expensive backward pass on every sample, making computation intractable for large candidate pools. This raises a natural question: can we approximate full-gradient features at a fraction of the cost? Conveniently, we find that output-layer gradients suffice for effective data selection, yet require only the cheaper forward pass. We implement this as LESSER, a drop-in wrapper for selection methods that reduces the feature-extraction FLOP cost by $9.7\\times$ for SFT and $3.0\\times$ for RL benchmarks, while tracking full-gradient performance on downstream tasks. Empirically, we find that even when output-layer and full gradients rank individual samples differently, they select batches with aligned gradients.",
+    "publicationDate": "2026-10-02T17:55:42.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Preprint. Under review.\nLESSER: POST-TRAINING DATA SELECTION\nWITH OUTPUT-LAYER GRADIENTS\nLyuxin David Zhang\n1 \nEric Wong\n1 \nSurbhi Goel\n1 \nAnton Xue\n2\n1\nUniversity of Pennsylvania\n2\nUniversity of Texa..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Preprint. Under review.\nLESSER: POST-TRAINING DATA SELECTION\nWITH OUTPUT-LAYER GRADIENTS\nLyuxin David Zhang\n1 \nEric Wong\n1 \nSurbhi Goel\n1 \nAnton Xue\n2\n1\nUniversity of Pennsylvania\n2\nUniversity of Texa..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.05925",
+    "title": "The Arbitrary-Placement Problem in Entropy-Minimizing Selection, and a Residual-Entropy Formulation",
+    "abstract": "Entropy-based selection objectives suffer from a fundamental degeneracy: minimizing Shannon entropy $H(p_A)$ rewards confident selection regardless of whether the selected candidate is informative. We address this limitation with the residual entropy $D = H(p_A) - H(p_\\beta)$, where $p_\\beta$ is induced by candidate trust weights. We prove the exact identity $D = -\\mathrm{KL}(p_A\\Vert p_\\beta) - \\Delta$, where $\\Delta$ measures whether the score-induced distribution and trust profile favor the same candidates. Boundary cases establish basic safety: under uniform trust, $D\\leq0$ automatically, so an equal-trust, non-starving state is never penalized, while at any one-hot limit, $D\\to0$ regardless of the selected candidate. For the intermediate regime where selection occurs, we prove that $D\\leq0$ when candidate ordering by trust agrees pairwise with ordering by informativeness, and derive a tighter certificate based on the leading candidate's margin over its competitors. These results are independent of the candidate-scoring function and apply to both stationary and dynamically changing information. Experiments with a gradient-based mixture-of-experts router confirm that the ordering conditions can hold during real optimization and show that correct ordering improves downstream performance when candidates are non-interchangeable and selections are used directly rather than averaged. Beyond routing, margin-based reweighting matches or outperforms fixed-strength baselines in a class-imbalance task, while informative selection in a production video-prediction system reduces MSE by approximately 20$\\%$ and transfers to a related species. Residual entropy, therefore, provides a safety criterion for selection and a usable signal for deciding when that selection is informative.",
+    "publicationDate": "2026-10-05T07:44:26.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "The Arbitrary-Placement Problem in Entropy-Minimizing\nSelection, and a Residual-Entropy Formulation\nAlyssa H. Shin\nDivision of Biology and Biological Engineering\nCalifornia Institute of Technology\nahs..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "The Arbitrary-Placement Problem in Entropy-Minimizing\nSelection, and a Residual-Entropy Formulation\nAlyssa H. Shin\nDivision of Biology and Biological Engineering\nCalifornia Institute of Technology\nahs..."
+      }
+    ]
+  }
+]

@@ -37,6 +37,17 @@
     }
    ],
    "note": "BetaEdit: device = cuda-if-available else cpu (portable), configs qwen2.5-3b (Instruct), qwen2.5-7b, llama3.2-3b etc; mom2 15000; nullspace 0.02; Bayes-Chunk: hard-coded .to(\"cuda\") in memit_ARE_main/compute_z/layer_stats; configs Qwen2.5-7B-Instruct + Llama3; one release commit 2026-05-26; no licence"
+  },
+  {
+   "t": "2026-10-06T10:56:35",
+   "query": "holi-lab/MDM-KE (named in PRIOR_ART_SWEEP \u00a74 as the MDM-KE code)",
+   "hits": [
+    {
+     "id": "holi-lab/MDM-KE",
+     "status": "new"
+    }
+   ],
+   "note": "NOT FOUND (404); holi-lab org has SUIT, CoRE, ToolDial... but no MDM-KE; gh search \"MDM-KE\" and \"masked diffusion knowledge editing\" return nothing relevant -> contradiction to record"
   }
  ]
 }

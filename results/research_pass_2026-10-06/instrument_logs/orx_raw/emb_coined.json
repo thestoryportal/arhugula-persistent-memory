@@ -1,0 +1,122 @@
+[
+  {
+    "source": "alphaxiv",
+    "id": "2609.36748",
+    "title": "Generalizable Lifelong Model Editing via Preference Optimization",
+    "abstract": "Knowledge editing enables rapid updates of specific factual knowledge in large language models (LLMs) without full retraining. However, more realistic scenarios call for a lifelong framework that handles continual updates rather than one-off modifications. In such settings, existing editing methods often overfit to target prompts, significantly degrading both the generalization of the edited knowledge and the model's general capabilities. To address this issue, we propose GLIME (Generalizable Lifelong Model Editing), which combines knowledge editing with preference optimization over generation behavior. GLIME further incorporates replay-based editing and a gradient constraint to preserve previously edited knowledge. Experimental results show that GLIME significantly improves knowledge generalization in lifelong editing settings while maintaining both editing performance and general capabilities.",
+    "publicationDate": "2026-09-29T05:19:52.000Z",
+    "votes": 2
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.29269",
+    "title": "ALOE: Semantically Addressed Low-Rank Operators for Knowledge Editing",
+    "abstract": "Knowledge editing changes what a model knows by modifying parameters so that a requested fact updates while unrelated behavior is preserved. This is usually treated as a write problem, but editing also involves an address problem: deciding which hidden states should receive the new residual. An update that activates too narrowly memorizes one prompt, while one that activates too broadly disrupts neighboring knowledge. Parametric editors encode this scope implicitly, whereas memory-based editors make the selection explicit but keep it outside the edited model. We propose ALOE (Addressed Low-rank Operator for Editing), which learns semantic addresses from paraphrases and hard same-subject negatives, aligns them with autoregressive hidden states through rollout refinement and gate calibration, and embeds the resulting gated low-rank operator within one MLP layer, so that the deployed model runs in a single forward pass with no external retriever or auxiliary router. Evaluated on CounterFact, ZSRE, and KnowEdit across three 7--8B model families, ALOE achieves efficacy between 0.955 and 0.999 and locality between 0.981 and 1.000; mechanistic analyses confirm that the learned geometry separates competing edits and that calibration suppresses out-of-scope activation. The remaining errors concentrate in paraphrase coverage and write fitting.",
+    "publicationDate": "2026-09-24T09:08:49.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.22627",
+    "title": "Orthogonal Representation Editing: Decoupling Semantic Entanglement in Batch Knowledge Editing of LLMs",
+    "abstract": "Knowledge editing aims to efficiently update factual information in Large Language Models (LLMs) without full retraining. However, existing methods still suffer from performance degradation in batch knowledge editing. We identify that semantic representation entanglement, such as overlapping concepts and shared syntactic patterns, accumulates interference in the representation space and reduces editing precision. To bridge this gap, in this paper, we propose Orthogonal Representation Editing (ORE), which performs edits in the hidden representation space of LLMs by constructing a general semantic subspace and enforcing orthogonal constraints on edit vectors, effectively decoupling semantic entanglement. Furthermore, we introduce a gated non-linear representation head to enable adaptive learning of editing locations and precise control over knowledge injection. Extensive experiments show that ORE outperforms existing methods and achieves superior performance in cross-lingual knowledge editing scenarios. We release our code at this https URL.",
+    "publicationDate": "2026-06-21T18:29:40.000Z",
+    "votes": 4
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.01610",
+    "title": "Revisiting Ripple Effects in Knowledge Editing through Pressure-Aware Joint Neighborhood Optimization",
+    "abstract": "Single-edit updates in large language models can trigger ripple effects across local knowledge neighborhoods: desirable propagation to related facts and unintended perturbation of preserved ones. Existing methods address these two effects separately, without explicitly modeling their coupling. We challenge this separation through an analysis of ripple responses across typical baselines, identifying two coupled design pressures: editable-side coordination and preserved-side leakage. We propose Joint Neighborhood Optimization (JNO), a new knowledge-editing framework to formalize and jointly address both pressures at the target-planning stage. JNO instantiates this principle through Pressure-Aware Coordination (PAC), which jointly optimizes neighborhood target representations under coupled constraints, and a semantic pre-execution gate that rejects high-risk target plans before parameter execution. Experiments on RippleEdits show JNO improves propagation and preservation metrics by at least 7.0% while preserving cross-backbone editing stability.",
+    "publicationDate": "2026-06-01T03:00:13.000Z",
+    "votes": 6
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2605.08143",
+    "title": "HoReN: Normalized Hopfield Retrieval for Large-Scale Sequential Model Editing",
+    "abstract": "Large language models encode vast factual knowledge that can become outdated or incorrect after deployment, yet retraining is prohibitively costly. This motivates lifelong model editing, which updates targeted behavior while preserving the rest of the model. Existing editors, both parameter-modifying and parameter-preserving, degrade severely as edits accumulate and struggle to generalize across paraphrases. We propose HoReN, a codebook-based parameter-preserving editor that wraps a single MLP layer with a discrete key-value memory. HoReN treats each codebook entry as both a knowledge key and a Hopfield stored pattern, retrieves edits by angular similarity on the unit hypersphere, and refines queries through damped Hopfield dynamics so paraphrases converge to the correct memory basin while unrelated inputs remain stable. HoReN achieves strong editing performance with consistent gains across diverse benchmarks spanning standard ZsRE, structured WikiBigEdit, and unstructured UnKE evaluations. Moreover, HoReN scales to 50K sequential edits on ZsRE with stable overall performance above 0.93, while prior editors collapse or degrade severely before reaching 10K. Our code is available at this https URL.",
+    "publicationDate": "2026-05-02T15:51:31.000Z",
+    "votes": 2
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2510.05092",
+    "title": "Learning to Interpret Weight Differences in Language Models",
+    "abstract": "Finetuning (pretrained) language models is a standard approach for updating their internal parametric knowledge and specializing them to new tasks and domains. However, the corresponding model weight changes (\"weight diffs\") are not generally interpretable. While inspecting the finetuning dataset can give a sense of how the model might have changed, these datasets are often not publicly available or are too large to work with directly. Towards the goal of comprehensively understanding weight diffs in natural language, we introduce Diff Interpretation Tuning (DIT), a method that trains models to describe their own finetuning-induced modifications. Our approach uses synthetic, labeled weight diffs to train a DIT-adapter, which can be applied to a compatible finetuned model to make it describe how it has changed. We demonstrate in two proof-of-concept settings (reporting hidden behaviors and summarizing finetuned knowledge) that our method enables models to describe their finetuning-induced modifications using accurate natural language descriptions.",
+    "publicationDate": "2025-10-06T17:57:23.000Z",
+    "votes": 48
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2602.02543",
+    "title": "Norm Anchors Make Model Edits Last",
+    "abstract": "Sequential Locate-and-Edit (L&E) model editing can fail abruptly after many edits. We identify and formalize this failure as a positive norm-feedback loop, in which solved value vectors and edited MLP weights progressively amplify each other, degrading edit quality and eventually collapsing model capabilities. Our analysis shows that this feedback can yield approximately exponential norm growth under standard L&E dynamics, and can remain unresolved by existing increment-level regularizers or update clamps. We propose Norm-Anchor Scaling (NAS), a plug-in stabilizer that breaks this loop by rescaling each solved value vector to an original-model reference norm. Across multiple LLM backbones, datasets, and L&E editors, NAS extends the usable editing horizon by more than 4x and improves long-run editing performance by 72.2% on average, while preserving single-edit efficacy, with only a one-line modification and negligible computational overhead.",
+    "publicationDate": "2026-01-30T04:31:21.000Z",
+    "votes": 5
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2512.14395",
+    "title": "Massive Editing for Large Language Models Based on Dynamic Weight Generation",
+    "abstract": "Knowledge Editing (KE) is a field that studies how to modify some knowledge in Large Language Models (LLMs) at a low cost (compared to pre-training). Currently, performing large-scale edits on LLMs while ensuring the Reliability, Generality, and Locality metrics of the edits remain a challenge. This paper proposes a Massive editing approach for LLMs based on dynamic weight Generation (MeG). Our MeG involves attaching a dynamic weight neuron to specific layers of the LLMs and using a diffusion model to conditionally generate the weights of this neuron based on the input query required for the knowledge. This allows the use of adding a single dynamic weight neuron to achieve the goal of large-scale knowledge editing. Experiments show that our MeG can significantly improve the performance of large-scale KE in terms of Reliability, Generality, and Locality metrics compared to existing knowledge editing methods, particularly with a high percentage point increase in the absolute value index for the Locality metric, demonstrating the advantages of our proposed method. Code is available at this https URL.",
+    "publicationDate": "2025-12-16T13:32:55.000Z",
+    "votes": 6
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2510.02392",
+    "title": "KnowledgeSmith: Uncovering Knowledge Updating in LLMs with Model Editing and Unlearning",
+    "abstract": "Knowledge editing and machine unlearning are two popular approaches for large language models (LLMs) to stay up-to-date. However, the knowledge updating mechanism of LLMs remains largely unexplored due to insufficient, isolated, and small-scale evaluation. For instance, are LLMs similar to humans in modifying certain knowledge? What differs editing and unlearning as training data increases? This paper proposes KnowledgeSmith, a unified framework to systematically understand the updating mechanism of LLMs. We first cast editing and unlearning as instances of one constrained optimization problem. Then, we propose an automatic dataset generator that provides structured interventions across multiple graph levels and data scales, enabling controlled studies of how different modification strategies propagate through model knowledge. Extensive experiments demonstrate nuanced insights over knowledge propagation, plasticity scaling, consistency, and robustness. For instance, our results show that LLMs do not exhibit similar updating as humans for different levels of knowledge, and there exists consistency-capacity trade-off. We hope our findings can offer suggestions to the design of more reliable and scalable strategies. Code: this https URL",
+    "publicationDate": "2025-10-01T00:15:25.000Z",
+    "votes": 8
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2512.18551",
+    "title": "Neologism Learning as a Parameter-Efficient Alternative to Fine-Tuning for Model Steering",
+    "abstract": "In language modeling, neologisms are new tokens trained to represent a concept not already included in a given model's vocabulary. Neologisms can be used to encourage specific behavior in models, for example by appending prompts with \"Give me a neologism answer.\" Behavioral steering can also be achieved through fine-tuning, albeit with more compute and less flexibility: learning a neologism only trains d parameters and allows the user to still access the model's default behavior. We compare the performance of neologism learning against low-rank adaptation (LoRA) fine-tuning, finding that neologisms outperform fine-tuned models under a matched training setup (same data and hyperparameters). We also investigate self-verbalizations of neologisms, and observe that the model will occasionally make up its own new words when asked about a neologism.",
+    "publicationDate": "2025-12-21T00:45:23.000Z",
+    "votes": 2
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2506.20746",
+    "title": "Dynamic Weight Grafting: Localizing Finetuned Factual Knowledge in Transformers",
+    "abstract": "When an LLM learns a new fact during finetuning (e.g., new movie releases, newly elected pope, etc.), where does this information go? Are entities enriched with relation information immediately, or do models recall information just-in-time before a prediction? Or, are \"all of the above\" true, with LLMs implementing multiple redundant heuristics? Existing localization approaches (e.g., activation patching) are ill-suited for this analysis because they usually replace parts of the residual stream, thus overriding previous information. To fill this interpretability gap, we propose dynamic weight grafting, an analysis technique that selectively grafts subsets of weights from a finetuned model onto a pretrained model. Using this technique, we show two separate pathways for retrieving finetuned relation information: 1) \"enriching\" the residual stream with relation information while processing the tokens that correspond to an entity (e.g., \"Zendaya\" in \"Zendaya co-starred with Timothée Chalamet\" and 2) \"recalling\" this information at the final token position before generating a target fact. In some cases, models need information from both of these pathways to correctly generate finetuned facts while, in other cases, either the \"enrichment\" or \"recall\" pathway alone is sufficient. We localize the \"recall\" pathway to model components -- finding that \"recall\" occurs via both task-specific attention mechanisms and an entity-specific extraction step in the feedforward networks of the final layers before prediction. By targeting model components and parameters, as opposed to just activations, we are able to understand the mechanisms by which finetuned knowledge is retrieved during generation.",
+    "publicationDate": "2025-06-25T18:13:34.000Z",
+    "votes": 10
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2510.09421",
+    "title": "On the Representations of Entities in Auto-regressive Large Language Models",
+    "abstract": "Named entities are fundamental building blocks of knowledge in text, grounding factual information and structuring relationships within language. Despite their importance, it remains unclear how Large Language Models (LLMs) internally represent entities. Prior research has primarily examined explicit relationships, but little is known about entity representations themselves. We introduce entity mention reconstruction as a novel framework for studying how LLMs encode and manipulate entities. We investigate whether entity mentions can be generated from internal representations, how multi-token entities are encoded beyond last-token embeddings, and whether these representations capture relational knowledge. Our proposed method, leveraging _task vectors_, allows to consistently generate multi-token mentions from various entity representations derived from the LLMs hidden states. We thus introduce the _Entity Lens_, extending the _logit-lens_ to predict multi-token mentions. Our results bring new evidence that LLMs develop entity-specific mechanisms to represent and manipulate any multi-token entities, including those unseen during training. Our code is avalable at this https URL .",
+    "publicationDate": "2025-10-10T14:23:44.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2509.01468",
+    "title": "Robust Knowledge Editing via Explicit Reasoning Chains for Distractor-Resilient Multi-Hop QA",
+    "abstract": "Large language models (LLMs) encode vast amounts of world knowledge but remain static once trained, making the timely integration of emerging facts prohibitively expensive via full retraining. Knowledge-editing techniques have thus emerged to inject or overwrite specific facts into LLMs, yet they either over-rely on superficial cues or incur complex, iterative pipelines that collapse under noisy, multi-hop conditions. We introduce Reason-KE, an end-to-end reasoning-chain-based editing framework that steers a pretrained LLM through four structured stages-fact acknowledgment, relevance determination, selective application, and final reasoning-to filter distractors in a single pass. Trained on MQuAKE-CF with up to four irrelevant facts, Reason-KE elevates Qwen2.5-7B's multi-hop QA accuracy to 90.2% while suffering merely a 6.3% drop under heavy distraction and &lt;1% when answers are leaked. Our quantitative analysis confirms Reason-KE's resilience and efficiency, establishing a new state-of-the-art for reliable LLM knowledge updates.",
+    "publicationDate": "2025-09-01T13:37:42.000Z",
+    "votes": 8
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2507.18028",
+    "title": "NeuralDB: Scaling Knowledge Editing in LLMs to 100,000 Facts with Neural KV Database",
+    "abstract": "Efficiently editing knowledge stored in large language models (LLMs) enables model updates without large-scale training. One possible solution is Locate-and-Edit (L\\&E), allowing simultaneous modifications of a massive number of facts. However, such editing may compromise the general abilities of LLMs and even result in forgetting edited facts when scaling up to thousands of edits. In this paper, we model existing linear L\\&E methods as querying a Key-Value (KV) database. From this perspective, we then propose NeuralDB, an editing framework that explicitly represents the edited facts as a neural KV database equipped with a non-linear gated retrieval module, % In particular, our gated module only operates when inference involves the edited facts, effectively preserving the general abilities of LLMs. Comprehensive experiments involving the editing of 10,000 facts were conducted on the ZsRE and CounterFacts datasets, using GPT2-XL, GPT-J (6B) and Llama-3 (8B). The results demonstrate that NeuralDB not only excels in editing efficacy, generalization, specificity, fluency, and consistency, but also preserves overall performance across six representative text understanding and generation tasks. Further experiments indicate that NeuralDB maintains its effectiveness even when scaled to 100,000 facts (\\textbf{50x} more than in prior work).",
+    "publicationDate": "2025-07-24T02:00:09.000Z",
+    "votes": 15
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2508.03741",
+    "title": "Latent Knowledge Scalpel: Precise and Massive Knowledge Editing for Large Language Models",
+    "abstract": "Large Language Models (LLMs) often retain inaccurate or outdated information from pre-training, leading to incorrect predictions or biased outputs during inference. While existing model editing methods can address this challenge, they struggle with editing large amounts of factual information simultaneously and may compromise the general capabilities of the models. In this paper, our empirical study demonstrates that it is feasible to edit the internal representations of LLMs and replace the entities in a manner similar to editing natural language inputs. Based on this insight, we introduce the Latent Knowledge Scalpel (LKS), an LLM editor that manipulates the latent knowledge of specific entities via a lightweight hypernetwork to enable precise and large-scale editing. Experiments conducted on Llama-2 and Mistral show even with the number of simultaneous edits reaching 10,000, LKS effectively performs knowledge editing while preserving the general abilities of the edited LLMs. Code is available at: this https URL.",
+    "publicationDate": "2025-08-01T03:51:43.000Z",
+    "votes": 7
+  }
+]

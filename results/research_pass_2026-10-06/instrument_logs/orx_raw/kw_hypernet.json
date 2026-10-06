@@ -1,0 +1,272 @@
+[
+  {
+    "source": "alphaxiv",
+    "id": "2610.00820",
+    "title": "On-the-fly Weight Generation: A Hypernetwork Proof of Concept on ARC-1D",
+    "abstract": "General-purpose models can adapt to many tasks from context, while specialised models can execute individual functions with less capacity. Yet obtaining such specialists requires task-specific training or adaptation. We ask whether they can instead be generated directly from a few demonstrations. Using ARC-1D as a controlled testbed, we show that individual transformations can be represented by tiny specialist models, and that a hypernetwork can generate their parameters from context. The generated parameters form a structured weight space, while the resulting specialists show partial compositional generalisation and generalisation to transformations not seen during training. In both settings, removing explicit task identifiers improves generalisation beyond the training transformations. Together, these results provide a proof of concept that few-shot task context can be compiled on-the-fly into compact executable model parameters, and that the resulting weight space can support reuse and generalisation beyond known functions.",
+    "publicationDate": "2026-09-30T23:26:25.000Z",
+    "votes": 3,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "On-the-fly Weight Generation:\nA Hypernetwork Proof of Concept on ARC-1D\nFabio J. Fehr\nUniversity of Oxford\nPhilip Torr\nUniversity of Oxford\nCode\nAbstract\nGeneral-purpose models can adapt to many tasks..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "On-the-fly Weight Generation:\nA Hypernetwork Proof of Concept on ARC-1D\nFabio J. Fehr\nUniversity of Oxford\nPhilip Torr\nUniversity of Oxford\nCode\nAbstract\nGeneral-purpose models can adapt to many tasks..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2607.19604",
+    "title": "Scaling Laws for Hypernetwork-Based Knowledge Injection in Large Language Models",
+    "abstract": "Injecting factual knowledge into large language models (LLMs) reliably and at scale remains an open challenge. Hypernetworks provide a promising solution to large-scale knowledge injection. Although hypernetworks are typically applied for test-time adaptation, we explore their use in train-time knowledge injection, where, given a large corpus of facts, we train a hypernetwork to generate a fixed LoRA adapter that, when inserted into the target model, enable the model to answer questions about those facts. In this work, we investigate whether hypernetworks can be used to perform train-time knowledge injection and how this ability varies with scale. The scaling behavior of hypernetworks remains largely unstudied. Our design decouples the hypernetwork's injection capacity from the target model's general capability, enabling, for the first time, a rigorous study of scaling laws for hypernetwork architectures. We characterize how loss, reasoning accuracy, and out-of-distribution (OOD) generalization vary with hypernetwork depth, width, and target network size. We construct a large-scale dataset, called MegaWikiQA, containing tens of millions of multi-hop question-answer examples across 39 domains constructed from examples in Wikidata5M. Our results reveal: (i) hypernetwork-based injection exhibits broadly predictive power law scaling along all architecture axes; and (ii) hypernetworks are capable of reliable OOD generalization at increasing scales, suggesting that hypernetwork provides a promising alternative to other train-time adaptation methods such as LoRA finetuning and full fine-tuning, exhibiting steeper scaling exponents in all OOD evaluations. Together, these results establish hypernetworks as a principled and scalable substrate for train-time adaptation, and provide the first empirically grounded scaling laws to guide hypernetworks for factual reasoning in large language models.",
+    "publicationDate": "2026-07-21T22:09:55.000Z",
+    "votes": 11,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Scaling Laws for HyperNetwork-Based Knowledge\nInjection in Large Language Models\nNischay Dhankhar\nNace AI\nnischay@nace.ai\nDos Baha\nNace AI\ndos@nace.ai\nAbulhair Saparov\nNace AI\nPurdue University\nasapar..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Scaling Laws for HyperNetwork-Based Knowledge\nInjection in Large Language Models\nNischay Dhankhar\nNace AI\nnischay@nace.ai\nDos Baha\nNace AI\ndos@nace.ai\nAbulhair Saparov\nNace AI\nPurdue University\nasapar..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.30570",
+    "title": "MOCHA: Multi-Objective Co-Design using Hypernetwork Architectures",
+    "abstract": "In this work, we present MOCHA, the first, to our knowledge, reinforcement learning based approach to computing a family of Pareto-optimal policies across the design space of a robot using a single network. Specifically, MOCHA leverages the hypernetwork architecture to learn a network that produces specialized network parameters optimized for a given objective and parameterized robot design; we term this a multi-objective design hypernetwork (MDH). We demonstrate the capabilities of MDHs to represent a complex family of design-dependent strategies on two distinct robot morphologies, each with six design dimensions and across 2-3 objectives. Moreover, we propose an approach for efficiently producing a Design Pareto set using evolutionary search of the learned policy network, generating the optimal design-policy combination for each objective prioritization. Lastly, we provide an efficient method for computing generalist robot designs which achieve the best cumulative performance across the entire set of objectives.",
+    "publicationDate": "2026-09-24T21:31:19.000Z",
+    "votes": 3,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "MOCHA: Multi-Objective Co-Design using Hypernetwork Architectures\nVarun Madabushi, Neil Janwani, and Maegan Tucker\nAbstract— In this work, we present MOCHA, the first,\nto our knowledge, reinforcement ..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...abushi, Neil Janwani, and Maegan Tucker\nAbstract— In this work, we present MOCHA, the first,\nto our knowledge, reinforcement learning based approach to\ncomputing a family of Pareto-optimal policies ac..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.33534",
+    "title": "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
+    "abstract": "Large language models (LLMs) inevitably generate some incorrect or outdated content, necessitating efficient and precise mechanisms for continual knowledge updates. However, existing model editing methods struggle to sequentially edit unstructured long-form knowledge, suffering from severe edit forgetting and degradation of general capabilities. To address these challenges, we reframe knowledge editing from a manifold perspective, viewing it as a localized displacement of an edit sub-manifold within the global knowledge manifold. Under this formulation, the problem can be decomposed into two key questions: (i) how to identify representative edit points that effectively anchor the edit sub-manifold, and (ii) how to preserve the remaining manifold structure during the sub-manifold displacement process. Based on this perspective, we propose ManiEdit, a novel manifold-aware autoregressive editing framework consisting of two core components. Pivot Localization addresses the mediocre-point dilemma by identifying high-leverage pivots to anchor the edit sub-manifold. Manifold-Aware Preservation preserves different knowledge types through an energy-weighted penalty combined with recursive null-space alignment. Experiments on two base LLMs and four unstructured editing benchmarks demonstrate that ManiEdit achieves state-of-the-art performance, outperforming the strongest baseline by up to +27.81 BERTScore and +8.50 ROUGE-L, while maintaining near-original general capabilities across six representative downstream tasks. Our code is available at: this https URL",
+    "publicationDate": "2026-09-27T13:02:43.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...te some incorrect or outdated\ncontent, necessitating efficient and precise mechanisms for continual knowledge\nupdates. However, existing model editing methods struggle to sequentially edit\nunstructure..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "MANIEDIT: SEQUENTIAL UNSTRUCTURED KNOWL-\nEDGE EDITING FOR LANGUAGE MODELS FROM A MAN-\nIFOLD PERSPECTIVE\nRui Liu\n1 \nChenheng Zhang\n1 \nHaoxuan Li\n2† \nZhouchen Lin\n1,2†\n1\nState Key Lab of General Artific..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.16932",
+    "title": "DOW-KE: Anchor-Free Multi-Layer Knowledge Editing via Direct End-to-End Weight Optimization",
+    "abstract": "Multi-layer locate-then-edit methods for knowledge editing first optimize target residual-stream activations (anchors) at selected layers, then realize them layer by layer as weight updates. This pipeline optimizes an intermediate representation but deploys multi-layer weight updates whose joint effect through the true forward pass is never itself optimized: regardless of how anchors are set or propagated, each update comes from a local solve, so propagation-induced attenuation and distortion go uncorrected, leaving a closure gap between anchor targets and realized edits. We propose DOW-KE, an anchor-free method built on a single principle: what is optimized must be exactly what is deployed. DOW-KE backpropagates the final editing objective through the complete model, jointly optimizing the updates of all edited layers so cross-layer propagation and coupling enter every gradient step. The same principle dictates where preservation resides: embedding the preservation projection in the update parameterization, inside the computation graph, makes every gradient act on the deployed update; post-hoc constraints would reopen the gap, and the constrained search keeps edits clear of protected knowledge. In large-scale sequential editing on two datasets and three models, DOW-KE achieves the highest overall Score and neighborhood Specificity in five of six model-dataset settings among the evaluated baselines.",
+    "publicationDate": "2026-08-05T09:56:07.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "DOW-KE: Anchor-Free Multi-Layer Knowledge Editing via Direct End-to-End\nWeight Optimization\nRan Chen, Junbo Zhang, Qianli Zhou, Xinyang Deng, Wen Jiang\n∗\nSchool of Electronics and Information, Northwe..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "DOW-KE: Anchor-Free Multi-Layer Knowledge Editing via Direct End-to-End\nWeight Optimization\nRan Chen, Junbo Zhang, Qianli Zhou, Xinyang Deng, Wen Jiang\n∗\nSchool of Electronics and Information, Northwe..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.11660",
+    "title": "Hybrid-Policy Self-Editing for Composable Unstructured Knowledge Editing",
+    "abstract": "Large language models (LLMs) achieve remarkable performance across natural language tasks, yet they are trained on static corpora and their knowledge quickly becomes outdated in a fast-changing world. This motivates knowledge editing (KE), which updates specific knowledge in an LLM without changing unrelated others. Recent works move from structured knowledge triples toward unstructured KE (UKE), where the edit is a free-form passage that may state multiple facts at once. Nonetheless, existing editors inject such a passage yet fail to use it: the edited model can recall the passage, but can neither answer atomic questions about its facts nor compose them into multi-hop reasoning. We attribute this missing property, which we term composability, to editors' passive reliance on the fixed passage as the sole learning source. In response, we cast editing as a proactive self-distillation from a privileged in-context state of the same model, which requires no external supervision. We further reveal that due to the novelty of the injected knowledge, the pre-edited model's own rollouts rarely cover it, which limits the effectiveness of pure on-policy distillation. To close this gap, we propose HPSE, which builds a hybrid rollout that steps in to place missing facts onto the student's own trajectory precisely where its coverage fails, while staying on-policy elsewhere. We theoretically analyze HPSE's advantage over pure on-policy distillation, and empirically establish its plug-and-play improvements across four LLM backbones and two KE editors under various scenarios.",
+    "publicationDate": "2026-08-12T05:06:39.000Z",
+    "votes": 28,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Hybrid-Policy Self-Editing for Composable Unstructured\nKnowledge Editing\nTianci Liu\n1,3 \nZihan Dong\n2 \nTianchun Li\n3 \nYi-Chung Chen\n3 \nQiming Cao\n3 \nXingchen Wang\n3\nShiyang Wang\n3 \nZichen Miao\n3 \nLinj..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Hybrid-Policy Self-Editing for Composable Unstructured\nKnowledge Editing\nTianci Liu\n1,3 \nZihan Dong\n2 \nTianchun Li\n3 \nYi-Chung Chen\n3 \nQiming Cao\n3 \nXingchen Wang\n3\nShiyang Wang\n3 \nZichen Miao\n3 \nLinj..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.31154",
+    "title": "HyperErase: Scale-Calibrated Hypernetwork for Multi-Concept Erasure in Text-to-Image Models",
+    "abstract": "Recent advances in text-to-image (T2I) generation have substantially improved visual synthesis, but have also raised increasing safety concerns due to their potential to generate harmful or undesirable content. Existing concept erasure methods predominantly follow a static weight paradigm, producing a single frozen adapter that struggles to adapt to diverse prompt variations and suffers from parameter interference when scaling to multiple concepts. We propose \\textbf{HyperErase}, a framework for concept erasure based on hypernetwork-driven prompt-conditioned parameter synthesis. Our approach first reframes concept erasure as prompt-conditioned parameter amortization and trains a hypernetwork to map textual descriptions to prompt-specific LoRA updates, eliminating the need for per-prompt gradient optimization or manual LoRA merging. To further improve the stability and precision of synthesized adapters, we develop a decoupled rectification strategy, which disentangles LoRA tokens into pattern and scale subspaces, applies a square-root transform to curb multiplicative over-scaling, and leverages teacher-derived canonical priors for inference-time correction. Extensive experiments across major concept categories demonstrate that HyperErase consistently improves the trade-off between erasure effectiveness, image quality, and semantic alignment, achieving performance comparable to gold-standard single-concept baselines. Furthermore, the resulting models can provide specialized LoRAs for each input prompt variation in a single forward pass without requiring gradient updates during inference. These principled and flexible framework offers a new paradigm for concept erasure in T2I models.",
+    "publicationDate": "2026-09-25T11:47:39.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "HYPERERASE: SCALE-CALIBRATED HYPERNETWORK\nFOR MULTI-CONCEPT ERASURE IN TEXT-TO-IMAGE\nMODELS\nYi Sun\n1 \nXinhao Zhong\n1 \nZhiqi Zhang\n3 \nYimin Zhou\n2 \nJunhao Li\n1 \nYuxia Qiao\n5\nBin Chen\n1,4∗\n1\nHarbin Inst..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...te harmful or undesirable content. Existing concept erasure meth-\nods predominantly follow a static weight paradigm, producing a single frozen\nadapter that struggles to adapt to diverse prompt variati..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.20768",
+    "title": "Beyond Endpoint Gains: A Weight-Delta Audit of Medical Specialization",
+    "abstract": "Specialist language models are usually understood through endpoint gains: the generalist scores lower, the specialist scores higher, and the difference is treated as evidence of specialization. This leaves the released update itself largely unexamined. We propose a paired weight-delta path audit and apply it to two public, aligned generalist-to-medical-specialist checkpoint pairs: Gemma-3-4B-IT to MedGemma-4B-IT and Qwen2.5-7B-Instruct to HuatuoGPT-o1-7B. In both pairs, the full decoder-side update strongly reconstructs measured medical benchmark movement (0.974 and 1.183 endpoint-normalized retention), making each decoder delta an appropriate substrate for the audit. Yet the movement is not cleanly localized. MLP is the strongest broad component family in both pairs, but mixed off-domain movements, 10-seed matched controls, and endpoint-anchored rollbacks prevent a unique coarse-family explanation. The audit therefore separates update-level reconstruction from component-level explanation. Its claims concern text-only multiple-choice benchmark movement, not clinical validation, repair, or circuit-level mechanism.",
+    "publicationDate": "2026-08-21T06:15:43.000Z",
+    "votes": 3,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Beyond Endpoint Gains: A Weight-Delta Audit of Medical Specialization\nPraphul Singh\n†, ‡, ∗ \nShanu Kumar\n‡, § \nAkshat Agarwal\n†, ‡\n†\nOracle Health AI · \n‡\nIIT Kanpur · \n§\nMBZUAI\n*\nCorrespondence: prap..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Beyond Endpoint Gains: A Weight-Delta Audit of Medical Specialization\nPraphul Singh\n†, ‡, ∗ \nShanu Kumar\n‡, § \nAkshat Agarwal\n†, ‡\n†\nOracle Health AI · \n‡\nIIT Kanpur · \n§\nMBZUAI\n*\nCorrespondence: prap..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.18985",
+    "title": "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight-Free Knowledge Editing",
+    "abstract": "Knowledge-editing benchmarks certify local correctness, whether an edited model produces the new fact on near-edit prompts but not how much of the original fact remains decodable inside the model. We study residual knowledge directly with a linear trace probe: after editing a fact, we ask whether the original object is still recoverable from the model's hidden states. On GPT-2-XL, across three mechanistically distinct editors applied to 50 CounterFact edits, the original object remains linearly decodable well above chance after a successful edit (probe accuracy 0.96 for ROME, 0.86 for constrained fine-tuning, and 0.79 for the memory-based editor GRACE, against a chance level of 0.50; all edits reach 100% generation-based success). The GRACE result is the most informative: GRACE changes zero base-model weights, overriding the fact through an external memory, yet the original object is still decodable from the underlying network, so the residual trace cannot be attributed to an incomplete weight update. We read this as evidence that editing, even when behaviorally successful, suppresses rather than erases the original association in representational space. We also report a relearning-savings instrument that did not behave reliably in our setting and discuss why; we treat it as a negative methodological result rather than evidence. Code and data are released.",
+    "publicationDate": "2026-07-17T06:20:44.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Suppressed, Not Erased: A Representational Trace of Edited Facts\nSurvives Even Weight-Free Knowledge Editing\nPriyansh Srivastava\nSirena Ai\npriyansh@sirenatech.com\nRomit Chatterjee\nIndependent Research..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...uppressed, Not Erased: A Representational Trace of Edited Facts\nSurvives Even Weight-Free Knowledge Editing\nPriyansh Srivastava\nSirena Ai\npriyansh@sirenatech.com\nRomit Chatterjee\nIndependent Researche..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.22627",
+    "title": "Orthogonal Representation Editing: Decoupling Semantic Entanglement in Batch Knowledge Editing of LLMs",
+    "abstract": "Knowledge editing aims to efficiently update factual information in Large Language Models (LLMs) without full retraining. However, existing methods still suffer from performance degradation in batch knowledge editing. We identify that semantic representation entanglement, such as overlapping concepts and shared syntactic patterns, accumulates interference in the representation space and reduces editing precision. To bridge this gap, in this paper, we propose Orthogonal Representation Editing (ORE), which performs edits in the hidden representation space of LLMs by constructing a general semantic subspace and enforcing orthogonal constraints on edit vectors, effectively decoupling semantic entanglement. Furthermore, we introduce a gated non-linear representation head to enable adaptive learning of editing locations and precise control over knowledge injection. Extensive experiments show that ORE outperforms existing methods and achieves superior performance in cross-lingual knowledge editing scenarios. We release our code at this https URL.",
+    "publicationDate": "2026-06-21T18:29:40.000Z",
+    "votes": 4,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Orthogonal Representation Editing: Decoupling Semantic Entanglement\nin Batch Knowledge Editing of LLMs\nWenhao Yu\n1,2\n, Zhicong Lu\n3\n, Bo Lv\n4\n, Fangyin Ma\n1\n, Kaiwen Wei\n5\n, Shihao Yang\n1\n, Nayu Liu\n1..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Orthogonal Representation Editing: Decoupling Semantic Entanglement\nin Batch Knowledge Editing of LLMs\nWenhao Yu\n1,2\n, Zhicong Lu\n3\n, Bo Lv\n4\n, Fangyin Ma\n1\n, Kaiwen Wei\n5\n, Shihao Yang\n1\n, Nayu Liu\n1..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2607.17467",
+    "title": "DA-MergeLoRA: Hypernetwork-Based LoRA Merging for Few-Shot Test-Time Domain Adaptation",
+    "abstract": "Few-shot Test-Time Domain Adaptation (FSTT-DA) seeks to adapt models to novel domains using only a handful of unlabeled target samples. This setting is more realistic than typical domain adaptation setups, which assume access to target data during source training. However, prior FSTT-DA approaches fail to effectively leverage source domain-specific knowledge, relying on shallow batch normalization updates, prompt-based methods that treat the model as a black box, or ensembling strategies that do not capture cross-domain relationships. To address these limitations, we introduce a new FSTT-DA framework that integrates LoRA fine-tuning with model merging. In our approach, separate LoRA modules are fine-tuned on CLIP's vision encoder for each source domain. Since LoRA modifies only a small fraction of the model's parameters, it retains the base model's generalized knowledge while internally learning domain-specific features. To adapt the learned knowledge to a specific target domain, we propose a hypernetwork trained via meta-learning that generates per-column merging factors to combine LoRA modules. Given a small batch of target images, the hypernetwork produces merging weights that fuse source LoRA modules into a single adapted representation. Our results demonstrate state-of-the-art performance across various domain adaptation datasets. Our code is publicly available at this https URL.",
+    "publicationDate": "2026-07-20T01:45:37.000Z",
+    "votes": 5,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "DA-MergeLoRA: Hypernetwork-Based LoRA\nMerging for Few-Shot Test-Time Domain\nAdaptation\nSiobhan Reid\n1 \n, Zhixiang Chi\n2 \n, Li Gu\n1,3\n, Omid Reza Heidari\n1 \n, Ziqiang\nWang\n1,3 \n, and Yang Wang\n1,3\n1 \nC..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...rce training.\nHowever, prior FSTT-DA approaches fail to effectively leverage source\ndomain-specific knowledge, relying on shallow batch normalization up-\ndates, prompt-based methods that treat the mod..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2604.23750",
+    "title": "The Override Gap: A Magnitude Account of Knowledge Conflict Failure in Hypernetwork-Based Instant LLM Adaptation",
+    "abstract": "Hypernetwork-based methods such as Doc-to-LoRA internalize a document into an LLM's weights in a single forward pass, but they fail systematically on conflicts: when the document contradicts pretraining knowledge, accuracy collapses to 46.4% on the deepest facts. We show the failure is a magnitude problem rather than a representational one. The hypernetwork already targets the right layers, but its adapter margin is approximately constant across documents while the pretrained margin grows with training frequency, so deep conflicts lose by construction. The account predicts that failure should track prior strength: sorting 194 conflicts by the base model's log-probability on the contradicted fact, baseline accuracy falls from 68% on weak-prior questions to 16% on strong-prior ones, a 52 percentage-point gap. The cure is amplitude. Selective Layer Boosting scales the adapter at its top-norm layers, and Conflict-Aware Internalization triggers boosting only when the base model is confident. Both are training-free; together they raise deep-conflict accuracy from 46.4% to 71.0% on Gemma-2B and from 53.6% to 72.5% on Mistral-7B while preserving novel-knowledge recall, and beat vanilla retrieval-augmented generation on medium conflicts by 18 percentage points despite operating entirely in parameter space. We release KID-Bench, a 489-question benchmark that separates novel recall, cross-knowledge combination, and prior-graded conflicts.",
+    "publicationDate": "2026-04-26T14:59:14.000Z",
+    "votes": 9,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "The Override Gap: A Magnitude Account of\nKnowledge Conflict Failure\nin Hypernetwork-Based Instant LLM Adaptation\nShuaizhi Cheng\n1,3 \nXiang Shi\n2,3 \nZhiwei Zhang\n2,3 \nMingwei Li\n3\n1\nHarbin Institute of..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "The Override Gap: A Magnitude Account of\nKnowledge Conflict Failure\nin Hypernetwork-Based Instant LLM Adaptation\nShuaizhi Cheng\n1,3 \nXiang Shi\n2,3 \nZhiwei Zhang\n2,3 \nMingwei Li\n3\n1\nHarbin Institute of..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.20309",
+    "title": "Hypernetwork-Parameterized Spatially Adaptive Neural Operators for PDE Learning",
+    "abstract": "Spatially heterogeneous partial differential equations (PDEs) exhibit location-dependent dynamics arising from variations in geometry and physical coefficients. Existing neural operators improve localized modeling through multiscale features, attention mechanisms, or domain decomposition, yet their update rules often remain spatially shared. Hypernetwork-based methods adapt parameters across PDE instances but typically generate only one global parameterization per instance. Consequently, shared operators may underfit boundaries and high-gradient regions, with these localized errors accumulating during autoregressive rollout. We propose a spatially adaptive neural operator (SANO), which replaces this spatially shared parameterization with a spatially continuous field of location-dependent operator parameters. SANO uses Fourier-encoded coordinates and a coordinate-conditioned hypernetwork to generate spatial operator-conditioning codes at sampling points. A Hyper-Neural Element (HNE) mechanism interpolates these codes within local subregions, coupling neighboring operators while allowing their update rules to vary across space, and partition-of-unity weights assemble the overlapping local predictions. Experiments on one-, two-, and three-dimensional PDEs and two perforated-domain elliptic benchmarks show that SANO consistently outperforms competitive neural-operator, hypernetwork-based, and physics-informed baselines.",
+    "publicationDate": "2026-07-31T08:30:06.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Hypernetwork-Parameterized Spatially Adaptive Neural\nOperators for PDE Learning\nJiaquan Zhang\nSchool of\nInformation and\nSoftware\nEngineering, UESTC\nChengdu, China\nChaoning Zhang\nSchool of Computer\nSci..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...eighboring\noperators while allowing their update rules to vary across space, and\npartition-of-unity weights assemble the overlapping local predic-\ntions. Experiments on one-, two-, and three-dimension..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.10554",
+    "title": "Benchmarking Knowledge Editing using Logical Rules",
+    "abstract": "Large Language Models (LLMs) are increasingly deployed in real-world applications that require access to up-to-date knowledge. However, retraining LLMs is computationally expensive. Therefore, knowledge editing techniques are crucial for maintaining current information and correcting erroneous assertions within pre-trained models. Current benchmarks for knowledge editing primarily focus on recalling edited facts, often neglecting their logical consequences. To address this limitation, we introduce a new benchmark designed to evaluate how knowledge editing methods handle the logical consequences of a single fact edit. Our benchmark extracts relevant logical rules from a knowledge graph for a given edit. Then, it generates multi-hop questions based on these rules to assess the impact on logical consequences. Our findings indicate that while existing knowledge editing approaches can accurately insert direct assertions into LLMs, they frequently fail to inject entailed knowledge. Specifically, experiments with popular methods like ROME and FT reveal a substantial performance gap, up to 24%, between evaluations on directly edited knowledge and on entailed knowledge. This highlights the critical need for semantics-aware evaluation frameworks in knowledge editing.",
+    "publicationDate": "2026-06-09T08:21:56.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Benchmarking Knowledge Editing using Logical\nRules\nTatiana Moteu Ngoli, N’Dah Jean Kouagou, Hamada M. Zahera, and\nAxel-Cyrille Ngonga Ngomo\nData Science Group, Heinz Nixdorf Institute, Paderborn Unive..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Benchmarking Knowledge Editing using Logical\nRules\nTatiana Moteu Ngoli, N’Dah Jean Kouagou, Hamada M. Zahera, and\nAxel-Cyrille Ngonga Ngomo\nData Science Group, Heinz Nixdorf Institute, Paderborn Unive..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2605.07940",
+    "title": "Delta-Adapter: Scalable Exemplar-Based Image Editing with Single-Pair Supervision",
+    "abstract": "Exemplar-based image editing applies a transformation defined by a source-target image pair to a new query image. Existing methods rely on a pair-of-pairs supervision paradigm, requiring two image pairs sharing the same edit semantics to learn the target transformation. This constraint makes training data difficult to curate at scale and limits generalization across diverse edit types. We propose Delta-Adapter, a method that learns transferable editing semantics under single-pair supervision, requiring no textual guidance. Rather than directly exposing the exemplar pair to the model, we leverage a pre-trained vision encoder to extract a semantic delta that encodes the visual transformation between the two images. This semantic delta is injected into a pre-trained image editing model via a Perceiver-based adapter. Since the target image is never directly visible to the model, it can serve as the prediction target, enabling single-pair supervision without requiring additional exemplar pairs. This formulation allows us to leverage existing large-scale editing datasets for training. To further promote faithful transformation transfer, we introduce a semantic delta consistency loss that aligns the semantic change of the generated output with the ground-truth semantic delta extracted from the exemplar pair. Extensive experiments demonstrate that Delta-Adapter consistently improves both editing accuracy and content consistency over four strong baselines on seen editing tasks, while also generalizing more effectively to unseen editing tasks. Code will be available at this https URL.",
+    "publicationDate": "2026-05-08T16:09:15.000Z",
+    "votes": 6,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Delta-Adapter: Scalable Exemplar-Based Image\nEditing with Single-Pair Supervision\nJiacheng Chen\n1 \nSongze Li\n1 \nHan Fu\n1 \nBaoquan Zhao\n1 \nWei Liu\n2\nYanyan Liang\n3 \nQing Li\n4 \nXudong Mao\n1∗\n1\nSun Yat-s..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Delta-Adapter: Scalable Exemplar-Based Image\nEditing with Single-Pair Supervision\nJiacheng Chen\n1 \nSongze Li\n1 \nHan Fu\n1 \nBaoquan Zhao\n1 \nWei Liu\n2\nYanyan Liang\n3 \nQing Li\n4 \nXudong Mao\n1∗\n1\nSun Yat-s..."
+      }
+    ]
+  }
+]

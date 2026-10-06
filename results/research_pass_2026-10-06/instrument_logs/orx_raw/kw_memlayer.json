@@ -1,0 +1,272 @@
+[
+  {
+    "source": "alphaxiv",
+    "id": "2608.25489",
+    "title": "A Storage-Retrieval Gap in Parametric Knowledge Graph Memory",
+    "abstract": "Graph retrieval-augmented generation places retrieved subgraphs into the model's context window at query time, paying a recurring token cost and exposing source data on every call. We study an alternative: compiling a knowledge graph offline into a bank of LoRA adapters, one per entity, that serve as a parametric knowledge layer queried by injecting weights rather than text, at zero query-time context cost. On the MetaQA dataset, we find that subgraph-trained adapters encode context-free factual knowledge that generalizes to unseen questions: on single-valued relations the adapter gains $+0.243$ exact-match score over a base model that is nearly blind closed-book ($0.007$), and only the correct adapter recovers this knowledge (an oracle gap of $+0.283$ over the base model). However, the stored knowledge is not recoverable by similarity: given a query with no subgraph, embedding-based and weight-space geometry retrieval both perform at chance, because a semantically neighbouring entity's adapter does not contain the answer - knowledge is stored locally and does not transfer. Weight geometry correlates with subgraph semantics ($\\rho = +0.329$) but not with functional retrievability. We quantify the byte and context-token costs against graph retrieval-augmented generation and discuss deployment implications. Our results establish that parametric knowledge graph memory is feasible for storing knowledge, and identify selecting and composing the right adapters by a mechanism other than semantic similarity as the central open problem - motivating a learned, query-conditioned composition mechanism.",
+    "publicationDate": "2026-08-26T08:02:00.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "A Storage–Retrieval Gap in Parametric Knowledge\nGraph Memory\nMartino M. L. Pulici\n1,2,*\n, Cuong Xuan Chu\n1\n, Evgeny Kharlamov\n1,3 \nand Volker Tresp\n2,4\n1\nBosch Center for Artificial Intelligence, Robe..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "A Storage–Retrieval Gap in Parametric Knowledge\nGraph Memory\nMartino M. L. Pulici\n1,2,*\n, Cuong Xuan Chu\n1\n, Evgeny Kharlamov\n1,3 \nand Volker Tresp\n2,4\n1\nBosch Center for Artificial Intelligence, Robe..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2607.27919",
+    "title": "Memory Decoder at Scale: A Pretrained, Parametric Long-Term Memory",
+    "abstract": "Decoder-only language models entangle long-term memory and reasoning in a single parameter set, making it difficult to scale memory capacity independently. Memory Decoder introduces a parametric long-term memory module but only studies it at a relatively small scale. In this work, we present Memory Decoder at Scale, scaling memory models up to 6.9B parameters and pretraining them on 300B tokens. At this data scale, the combined cost of indexing and search makes a standard Faiss pipeline infeasible. We address this bottleneck with a distributed pipeline for Faiss indexing and retrieval, together with sparse, batch-wise loading of kNN distributions. Across model scales, we find that allocating more parameters to memory yields a better parameter-performance tradeoff than scaling the base model alone. On 17 benchmarks, pairing a 6.9B general memory with Pythia-410M raises its average score from 29.86 to 37.34, surpassing Pythia-12B (37.24) with 39% fewer total parameters. For Qwen3 Base models ranging from 0.6B to 14B, 1.7B domain memories improve the average score across the three domains by more than 9 points at every scale. Overall, our results demonstrate that independently scaling pretrained memory offers a more parameter efficient path to improving language model performance.",
+    "publicationDate": "2026-07-30T09:30:03.000Z",
+    "votes": 64,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Memory Decoder at Scale:\nA Pretrained, Parametric Long-Term Memory\nRubin Wei\n1,2\n, Jiaqi Cao\n1\n, Jiarui Wang\n1,2\n, Junming Zhang\n1\n, Qipeng Guo\n2\n, Bowen Zhou\n2,3\n, Zhouhan Lin\n1,2‡\n1 \nLUMIA Lab, Scho..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Memory Decoder at Scale:\nA Pretrained, Parametric Long-Term Memory\nRubin Wei\n1,2\n, Jiaqi Cao\n1\n, Jiarui Wang\n1,2\n, Junming Zhang\n1\n, Qipeng Guo\n2\n, Bowen Zhou\n2,3\n, Zhouhan Lin\n1,2‡\n1 \nLUMIA Lab, Scho..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.23466",
+    "title": "RPMem: Learning Long-Term Recurrent Parametric Memory Across Sessions for LLM Agents",
+    "abstract": "Long-running LLM agents require memory that persists and evolves across sessions. Text-based memory retrieves and reconstructs past interactions at every query, making long-horizon performance increasingly dependent on retrieval quality and contextual reasoning as histories grow. Parametric memory encodes experience directly into model computation, but existing approaches provide limited support for cross-session memory evolution. Their coupling to a specific backbone further restricts memory reuse after model replacement. We introduce RPMem, a two-stage architecture that compiles each session into a model-independent latent memory through forward computation and selectively integrates it with retained memory via a task-trained recurrent gate. The consolidated memory is then mapped to backbone-specific low-rank adaptation (LoRA) parameters, allowing the encoding capability to transfer when the backbone is replaced. Evaluation across three long-term memory benchmarks and five diverse backbones demonstrates broad generalization with near-constant update cost and memory footprint. With Qwen3-8B on PERMA, RPMem reaches 85.52%, outperforming the strongest parametric and text-based baselines by 5.32 and 12.98 percentage points, respectively. Ablations validate the complementary roles of session compilation and cross-session consolidation, while dynamics analyses reveal that the gate acquires task-specific memory integration strategies. These results establish RPMem as a lifecycle-independent parametric memory framework that maintains evolving cross-session memory that remains reusable across backbone replacements. Our implementation is available at this https URL.",
+    "publicationDate": "2026-09-20T08:51:10.000Z",
+    "votes": 6,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "2026-9-23\nRPMem: Learning Long-Term Recurrent\nParametric Memory Across Sessions for LLM\nAgents\nFanyu Zhao\n*1,2\n, Ruike Cao\n*2\n, Liang Dong\n†2\n, Fugen Yao\n2\n, Jian Xu\n2\n, Guanjun Jiang\n2\n, Han Zhang\n1\n..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "2026-9-23\nRPMem: Learning Long-Term Recurrent\nParametric Memory Across Sessions for LLM\nAgents\nFanyu Zhao\n*1,2\n, Ruike Cao\n*2\n, Liang Dong\n†2\n, Fugen Yao\n2\n, Jian Xu\n2\n, Guanjun Jiang\n2\n, Han Zhang\n1\n..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.15008",
+    "title": "Harness the Memory: A Holistic Evaluation of Memory Substrates in Memory Agents",
+    "abstract": "Memory is becoming core infrastructure for long-horizon LLM agents, yet existing evaluations offer limited guidance on which memory substrate, namely the underlying medium in which memory is represented and stored, should be used under different operating regimes. We present a controlled harness evaluation of memory substrates for memory-augmented agents, covering dense and sparse indices, text records, structural stores, hierarchical stores, refinement-based memories, parametric updates, and activation-compatible context mechanisms. Across three backbone models and four benchmark suites spanning user-centric question answering and agent-centric decision-making, we instrument 26 performance and efficiency metrics under a unified harness. Our results show that no single substrate consistently dominates: broad retrieval benefits long-context factual QA, while excessive retrieval can harm sequential decision-making by shifting attention away from action-critical context. Scalability introduces a further routing axis, as substrates that perform well at moderate history lengths can become costly or brittle at longer horizons. These findings motivate substrate routing as a necessary component of adaptive agent memory systems and provide empirical guidance for designing efficient, reliable, and regime-aware long-term memory for LLM agents. Code will be made available upon acceptance.",
+    "publicationDate": "2026-08-15T03:29:48.000Z",
+    "votes": 40,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "... sparse\nindices, text records, structural stores, hierarchical stores, refinement-based memo-\nries, parametric updates, and activation-compatible context mechanisms. Across\nthree backbone models and f..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Harness the Memory: A Holistic Evaluation of\nMemory Substrates in Memory Agents\nWei-Chieh Huang\n1 \nWeizhi Zhang\n1,† \nYuchen Wu\n2 \nYankai Chen\n3,4,† \nEric Hanchen Jiang\n5\nWooseong Yang\n1 \nYiwei Yang\n2 ..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.22215",
+    "title": "Dual-Layer Agentic Memory with Fast Write Routing and Slow Consolidation",
+    "abstract": "Large language model (LLM) agents operate in dynamic environments where knowledge continuously evolves. Existing memory systems typically treat external memory as a monotonically growing repository, inevitably leading to retrieval degradation and increasing computational costs over time. We argue that the core challenge is not retrieval alone, but managing the knowledge lifecycle: deciding what to externalize, update, or ultimately internalize. Inspired by Complementary Learning Systems (CLS) theory in neuroscience, we propose Dual-Layer Agentic Memory, a framework that shifts memory management to the write phase through cost-aware epistemic routing and periodic parametric consolidation. Incoming information is categorized as non-write, write-new, or write-update, and routed through a small-to-large model cascade that minimizes routing overhead while filtering redundant memories. A subsequent write-back phase selectively consolidates high-value external memories into model parameters via supervised fine-tuning. Experiments demonstrate the dual efficiency of our approach: a 1.7B/8B cascade prunes up to 68% of redundant external memory while escalating fewer than 50% of inputs, yet retains over 98% of the downstream QA Exact Match (EM) achieved by an exhaustive retention baseline. We further show that periodic consolidation successfully internalizes external knowledge, allowing the router to adaptively suppress redundant writes as the model's epistemic boundaries evolve. Overall, our framework presents a unified paradigm for agent memory: selective externalization followed by selective internalization. Code and dataset will be released upon acceptance.",
+    "publicationDate": "2026-08-23T04:40:13.000Z",
+    "votes": 11,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "... that shifts memory management to the write phase through\ncost-aware epistemic routing and periodic parametric consolidation. Incoming\ninformation is categorized as non-write, write-new, or write-upda..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Dual-Layer Agentic Memory with Fast Write Routing\nand Slow Consolidation\nWenzhi Li\nZhejiang University\nDong Nie\nIndependent Researcher\nTongtong Lyu\nXiaohongshu\nRui Lan\nXiaohongshu\nPeiyao Wang\nIndepend..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.02070",
+    "title": "Causal Memory Policy: Making Memory Utility Identifiable by Intervening on Retrieval",
+    "abstract": "Memory-augmented large language models must decide which memories to retain, and recent systems do so by estimating each memory's effect on task performance. However, these estimates rely entirely on retrieved memories. When a memory is never retrieved, store-level interventions produce identical outcomes, leaving its utility unidentified. This is a retrieval-level positivity violation, invisible to diagnostics that examine only memory operations. We introduce Causal Memory Policy (CMP), a causal framework that restores identification by intervening on retrieval itself, reserving a fixed number of context slots for memories sampled with known propensities. CMP estimates memory utility by self-normalized inverse propensity weighting under a balanced assignment design. We prove the causal factorization of memory utility through retrieval, the unbiasedness and exact variance of the estimator, and the optimal decision rule under irreversible operations. Empirically, identification fails for 54% of required memories on LongMemEval and 67% on LoCoMo, and the failure persists in a deployed memory system. CMP improves discrimination between required and non-required memories from 0.54 to 0.66 AUC. Finally, we show that identified memory utility alone is insufficient for retention decisions: per-query utility reaches 0.78 AUC on the query for which it is estimated, yet no aggregation available to a retention policy predicts a memory's value on unseen queries. Code is available at: this https URL.",
+    "publicationDate": "2026-10-01T17:11:25.000Z",
+    "votes": 4,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Preprint\nCAUSAL MEMORY POLICY: MAKING MEMORY UTILITY\nIDENTIFIABLE BY INTERVENING ON RETRIEVAL\nArman Behnam\nDepartment of Computer Science\nIllinois Institute of Technology\nChicago, IL\nabehnam@hawk.illi..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...RY UTILITY\nIDENTIFIABLE BY INTERVENING ON RETRIEVAL\nArman Behnam\nDepartment of Computer Science\nIllinois Institute of Technology\nChicago, IL\nabehnam@hawk.illinoistech.edu\nBinghui Wang\nDepartment of Co..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.16053",
+    "title": "Retrieval-Driven Memory Reconsolidation for Long-Term LLM Agents",
+    "abstract": "Long-term memory is essential for LLM-based agents operating over extended interactions. Existing memory systems primarily update memory when new information arrives, treating retrieval as the endpoint of memory access rather than a driver of memory evolution. Consequently, retrieval feedback is rarely exploited to reorganize memory for future access continuously. Moreover, most existing approaches rely on predefined memory structures together with fixed retrieval pipelines, limiting the agent's ability to organize and evolve its own memory autonomously. Inspired by memory reconsolidation in cognitive neuroscience, we propose \\textbf{REALM}, a \\textbf{r}econsolidation-\\textbf{e}volution \\textbf{a}gentic \\textbf{l}ong-term \\textbf{m}emory framework. It models long-term memory as a continual lifecycle by autonomously organizing memories into a heterogeneous cognitive graph, retrieving evidence via adaptively composed graph-search atoms, and continually reconsolidating memories based on retrieval feedback. REALM achieves an average accuracy of 75.97\\% on LoCoMo and 65.11\\% on LongMemEval, outperforming the strongest baselines by 7.17 and 1.31 points respectively. Ablation studies confirm that memory reconsolidation consistently boosts performance, with further analyses revealing that it progressively reorganizes related memory units into more coherent local structures for collective evidence recall and utilization during reasoning. These results suggest that retrieval-driven memory reconsolidation provides an effective mechanism for continually evolving long-term memory in LLM agents.",
+    "publicationDate": "2026-09-13T05:17:37.000Z",
+    "votes": 16,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Retrieval-Driven Memory Reconsolidation for\nLong-Term LLM Agents\nYuanyi Song\n1∗\n, Yukai Wang\n1\n, Xinbei Ma\n1,3\n, Zhihui Fu\n2\n, Jianghao Lin\n1†\n, Weiwen Liu\n1†\n,\nJun Wang\n2†\n, Huarong Deng\n2\n, Yong Yu\n..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "... Yu\n1\n, Weinan Zhang\n1†\n1\nShanghai Jiao Tong University \n2\nOPPO \n3\nNational University of Singapore\nnorsheep919@sjtu.edu.cn linjianghao@sjtu.edu.cn\nwwliu@sjtu.edu.cn wnzhang@sjtu.edu.cn\nAbstract\nLong-..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2607.25614",
+    "title": "MemSFT: Mitigating Alignment Tax with an External Parametric Memory",
+    "abstract": "Adapting Large Language Models (LLMs) to specialized domains often incurs an alignment tax, as fine-tuning on domain-specific tasks can cause catastrophic forgetting and substantially degrade performance on general tasks. We propose MemSFT, which mitigates the alignment tax by decoupling domain specialization from backbone parameter updates through a plug-and-play parametric memory. The memory is trained to imitate the behavior of a non-parametric retriever operating over domain data, thereby memorizing knowledge and patterns that would otherwise be accessed through retrieval. Once trained on a specific domain, the memory can be reused across LLMs of different sizes. During generation, a learned router dynamically fuses the output distributions of the memory and backbone at each decoding step, allowing domain expertise to be invoked selectively. Across biology, geoscience, and law, evaluations with models ranging from Qwen3-8B to Qwen3-235B-A22B show that MemSFT consistently improves domain performance with negligible degradation in general performance, whereas full SFT suffers severe forgetting on general tasks. Overall, our results demonstrate a practical path to decoupling general model capabilities from domain-specific knowledge at the parameter level, thereby equipping LLMs with new specialized capabilities without compromising their general capabilities.",
+    "publicationDate": "2026-07-28T11:45:34.000Z",
+    "votes": 15,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "ARTIFICIAL INTELLIGENCE LAB\nMemSFT: Mitigating Alignment Tax with an\nExternal Parametric Memory\nJiarui Wang\n1,2,3∗\n, Xiang Shi\n1∗\n, Jiaqi Cao\n1\n, Rubin Wei\n1,2\n, Xiquan Wang\n1,2\n, Hao Sun\n1,2\nJingzhi ..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "ARTIFICIAL INTELLIGENCE LAB\nMemSFT: Mitigating Alignment Tax with an\nExternal Parametric Memory\nJiarui Wang\n1,2,3∗\n, Xiang Shi\n1∗\n, Jiaqi Cao\n1\n, Rubin Wei\n1,2\n, Xiquan Wang\n1,2\n, Hao Sun\n1,2\nJingzhi ..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2607.26017",
+    "title": "UniMem: Complementary Episodic-to-Parametric Memory for Boundary-Agnostic Task Streams",
+    "abstract": "Memory is essential for LLM agents to accumulate task experience and reuse task-specific execution strategies. However, real-world deployment over boundary-agnostic and evolving task streams exposes a fundamental stability-plasticity dilemma. External retrieval-based memory can rapidly absorb new evidence, but it often fails to internalize recurring execution patterns and incurs inference-time retrieval overhead. Parametric memory enables stable and efficient execution once learned, but typically relies on explicit task boundaries and fixed parameter budgets. Inspired by the human brain, which balances plasticity and stability through complementary episodic storage and gradual consolidation, we propose UniMem, a self-routing framework for autonomous memory management. UniMem uses learnable routing tokens as memory controllers, enabling adaptive coordination between complementary memory pathways: novel or sparse tasks are retained in an episodic buffer for retrieval-augmented execution, while recurring and reliable patterns are consolidated into expandable parametric memory. By decoupling task identification from task execution with routing tokens and parametric memory blocks, UniMem expands memory on demand without task labels during deployment or uncontrolled parameter growth. Experiments on long-horizon streaming task sequences show that UniMem consistently outperforms baselines while maintaining execution fidelity, achieving an average gain of 4.0 EM points across three backbone models.",
+    "publicationDate": "2026-07-28T17:28:21.000Z",
+    "votes": 13,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "UniMem: Complementary Episodic-to-Parametric Memory for\nBoundary-Agnostic Task Streams\nSiyu Xia\n1,2\n*\n, Chenheng Zhang\n3\n*\n, Yanting Wu\n1,2\n, Haoxuan Li\n4\n, Jiajun Chai\n5\n, Xiaohan Wang\n5\n,\nGuojun Yin..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "UniMem: Complementary Episodic-to-Parametric Memory for\nBoundary-Agnostic Task Streams\nSiyu Xia\n1,2\n*\n, Chenheng Zhang\n3\n*\n, Yanting Wu\n1,2\n, Haoxuan Li\n4\n, Jiajun Chai\n5\n, Xiaohan Wang\n5\n,\nGuojun Yin..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.28250",
+    "title": "Complementary Roles of Activation and Parametric Memory in Few-Shot Learning",
+    "abstract": "At test time, large language models (LLMs) can encode historical information in activation memory (i.e., KV caches) and parametric memory (i.e., updated parameters). While activation memory is generally considered effective for factual recall and parametric memory for learning new tasks, their interplay remains unclear. In this work, we systematically investigate the role of memory in few-shot learning through controlled experiments. We find that activation memory is superior for recalling facts, whereas parametric memory does not consistently outperform activation memory in task learning. Moreover, our experiments show that the composite task, Conditional Arithmetic, requires the synergy of both memory types. Through neuron-level analysis, we find that the model activates distinct sets of neurons when accessing the same historical information through activation versus parametric memory. When both memory types are combined, the model recruits neurons from both sets, which is crucial for solving Conditional Arithmetic. These findings suggest that neither memory mechanism alone is sufficient for this composite task, highlighting the importance of their collaboration.",
+    "publicationDate": "2026-09-23T15:11:04.000Z",
+    "votes": 3,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "COMPLEMENTARY ROLES OF ACTIVATION AND PARAMETRIC MEMORY IN\nFEW-SHOT LEARNING\nMiaohe Niu\n1,∗\n, Runsong Zhao\n1,∗\n, Xinyu Liu\n1\n, Bo Jin\n1\n,\nYucheng Qiao\n1\n, Chunliang Zhang\n1,2\n, Jingbo Zhu\n1,2\n, Tong X..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "COMPLEMENTARY ROLES OF ACTIVATION AND PARAMETRIC MEMORY IN\nFEW-SHOT LEARNING\nMiaohe Niu\n1,∗\n, Runsong Zhao\n1,∗\n, Xinyu Liu\n1\n, Bo Jin\n1\n,\nYucheng Qiao\n1\n, Chunliang Zhang\n1,2\n, Jingbo Zhu\n1,2\n, Tong X..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.11023",
+    "title": "RCL: A Retrieval-Confidence Layer for Detecting Insufficient Context in Enterprise Retrieval-Augmented Code Generation",
+    "abstract": "Retrieval-Augmented Generation (RAG) for code generation has been studied extensively on public repositories, where a model's parametric knowledge often compensates for imperfect retrieval. This breaks down in enterprise codebases, where private APIs, internal frameworks, and undocumented team conventions fall entirely outside any model's pretraining distribution. Recent work on private-library code generation shows that even oracle (perfect) retrieval does not eliminate errors, but locates failures downstream in API usage; separately, confidence-gated retrieval has been studied for open-domain question answering using model-internal confidence. Neither addresses whether retrieval itself was structurally sufficient for a private-code query before generation begins. We introduce RCL (Retrieval-Confidence Layer), a lightweight module inserted between retrieval and generation that combines a call-graph-derived structural coverage score with a novelty score estimating a query's dependence on knowledge outside the model's prior, to detect insufficient retrieval before generation occurs. When confidence falls below a calibrated threshold, RCL triggers a targeted follow-up retrieval or labels the output for human review, rather than generating silently against incomplete context. We describe RCL's architecture, formalize its scoring functions, and propose an evaluation methodology using a private-code benchmark built by injecting synthetic internal APIs into open-source Java repositories, simulating the enterprise condition without proprietary code. We report results (Section 7) comparing RCL against similarity-only retrieval on generation correctness. Our position is that retrieval sufficiency, assessed structurally rather than from model-internal confidence, is a distinct and currently underaddressed signal for building safer code-generation systems in private, enterprise settings.",
+    "publicationDate": "2026-09-10T03:02:23.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...code generation has been extensively studied on public repositories, where a\nlarge language model's parametric knowledge, acquired during pretraining, often compensates for imperfect or incomplete\nret..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "RCL: A Retrieval-Confidence Layer for Detecting Insufficient Context\nin Enterprise Retrieval-Augmented Code Generation\nChandra Mohan Ravuri\nIndependent Researcher\nAbstract\nRetrieval-Augmented Generati..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.05223",
+    "title": "Look Before You Leap: Thermodynamic Arbitration of Parametric and Non-Parametric Knowledge in LLM Agents via Self-Regulating Memory Architectures",
+    "abstract": "The architecture of modern LLMs consists of a profound cognitive polarization. LLMs possess implicit intuition encoded in their parameters, yet rely on a disconnected, explicit mechanism to access the outside world. Agentic frameworks have not bridged this gap; instead, models are often compelled into pathological \"induced amnesia.\" Under the prevailing \"Retrieve-Always\" paradigm, agents must distrust their internal knowledge, making every user interaction a \"tabula rasa\" event that must be checked externally. This creates reflexive dependence that can be thermodynamically wasteful, cognitively fragile, and susceptible to irrelevant context. We propose a return to first principles, operationalizing the biological maxim \"Look Before You Leap.\" We introduce MARTA (Metacognitive Adaptive Retrieval and Thought Architecture), a neuro-symbolic framework that bridges parametric and non-parametric knowledge. Rather than treating retrieval as mandatory, MARTA models it as a cost, taking the leap only when perceived internal inadequacy warrants external information. By allowing the agent to gauge the entropy of its own thoughts before acting, MARTA enables deliberative retrieval and uncertainty-aware decision making. Our approach suggests that giving agents the capacity for introspection can restore a more efficient balance between internal knowledge and external information.",
+    "publicationDate": "2026-10-04T13:43:24.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Published as a conference paper at ICLR 2026\nLOOK BEFORE YOU LEAP: THERMODYNAMIC ARBI-\nTRATION OF PARAMETRIC AND NON-PARAMETRIC\nKNOWLEDGE IN LLM AGENTS VIA SELF-\nREGULATING MEMORY ARCHITECTURES\nAkash ..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...DYNAMIC ARBI-\nTRATION OF PARAMETRIC AND NON-PARAMETRIC\nKNOWLEDGE IN LLM AGENTS VIA SELF-\nREGULATING MEMORY ARCHITECTURES\nAkash Das\n∗\nFidelity Investments\nakash.das@fmr.com\nIshan Roy\nFidelity Investmen..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.32522",
+    "title": "Beyond Dyadic Memory: Interaction-Aware Multimodal Memory with Adaptive Agentic Retrieval for Multi-Party Spoken Conversations",
+    "abstract": "Long-term memory enables agents to accumulate information and reason across sessions, yet existing research primarily focuses on dyadic text or image-text conversations, leaving long-term memory for multi-party spoken conversations underexplored. This setting requires preserving conversational content, identifying participants across sessions, and retaining who speaks to whom. To this end, we propose VoxPolyMem, an interaction-aware multimodal memory framework combining incremental speaker identification with a memory hierarchy comprising interaction memory, fact memory, and participant profiles. We formulate retrieval as sequential decision-making, where an agent rewrites queries and selects retrieval tools and memory layers based on accumulated evidence to address information gaps. We further introduce Evidence-Gain GRPO (EG-GRPO), which uses round-wise credit assignment to encourage complementary evidence acquisition. We also construct VoxPolyBench to evaluate memory evolution, personalized answering, memory retrieval and reasoning, and interaction reasoning and attribution in multi-party spoken conversations. VoxPolyMem achieves an overall score of 85.0 on VoxPolyBench, surpassing the strongest evaluated baseline by 23.6 points. On Mem-Gallery and H2HMem-Multi, it scores 89.6 and 74.4, respectively, exceeding the strongest evaluated public memory baselines by over 8 points each. These results highlight its potential for persistent, personalized assistance in multi-party multimodal interactions. Code and datasets are available at this https URL",
+    "publicationDate": "2026-09-26T12:04:49.000Z",
+    "votes": 3,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Beyond Dyadic Memory: Interaction-Aware Multimodal Memory\nwith Adaptive Agentic Retrieval for Multi-Party Spoken\nConversations\nWenxu Jia\n1,2,∗\n, Xize Cheng\n1,∗\n, Zihan Zhang\n1,∗\n, Dongjie Fu\n1\nLinjun ..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "... sequential decision-making, where an agent\nrewrites queries and selects retrieval tools and memory layers based on accumulated evidence to address\ninformation gaps. We further introduce Evidence-Gain..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.36805",
+    "title": "UpliftMem: Learning Set-Level Uplift for Agent Memory Retrieval",
+    "abstract": "Large language model (LLM) agents reuse external memory to guide new tasks, but effective retrieval requires learning which memory sets improve execution. Such learning relies on costly outcome feedback: ordinary retrieval observes only executed sets, while evaluating alternatives requires additional rollouts. We introduce \\textsc{UpliftMem}, which learns memory retrieval from set-level execution uplift relative to the same executor without memory. A theoretical analysis of how retrieval preferences restrict feedback coverage motivates targeted probing of alternative memory sets. Probe selection follows an expected value of sample information (EVSI) criterion, derived in closed form under a correlated Gaussian model, to allocate limited training rollouts according to their expected improvement in local retrieval decisions. The shared scorer is trained with a frozen executor and selects memory sets without test-time probes. Across ALFWorld, WebShop, and BigCodeBench, \\textsc{UpliftMem} achieves the best success rates among evaluated baselines on the main evaluation sets. Controlled fixed-store and matched probe budget evaluations further demonstrate improved memory-use decisions and more effective use of execution feedback.",
+    "publicationDate": "2026-09-29T06:17:15.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Under review as a conference paper at ICLR 2027\nUPLIFTMEM: LEARNING SET-LEVEL UPLIFT FOR\nAGENT MEMORY RETRIEVAL\nMengkun Liang, Haoran Qiang, Guannan Liu\n∗\n, Junjie Wu\nMIIT Key Laboratory of Data and D..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...rproofing\nhigher similarity lower similarity\n(a) Relevance vs. Execution Uplift\nSimilarity ranking:\nNo memory \n∅ \nRetrieved\n1 \nbrowse items\n2 \nchoose $49 waterproof item\n1 \nfollow recommendation\n2 \nch..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2607.04118",
+    "title": "Parametric Memory Decoding for Zero-Shot Routing in LoRA-Based External Parametric Memory",
+    "abstract": "With the rise of parametric memory, LoRA-based External Parametric Memory (EPM) has emerged as a modular solution, but existing routing methods often introduce additional training, deployment, and maintenance overhead. This raises a natural question: can a LoRA-based EPM bank be routed without maintaining an additional routing component? However, existing zero-shot LoRA routing methods still face two problems under the EPM setting: (1) their evaluations are scattered across different task settings rather than organized around EPM access, and (2) their routing signals lack a unified perspective to guide systematic improvement. To address these problems, we organize PMD-Bench, covering document-level, domain-level knowledge, and task-skill, and propose Parametric Memory Decoding (PMD), the first framework designed to systematically improve zero-shot LoRA routing by reframing it as decoding activations over external parametric memory. Based on PMD, we further instantiate PMDRouter, which scores each LoRA by its response magnitude from a single base-model prefill. Experiments on PMD-Bench show that PMDRouter achieves the strongest internal-signal performance across multiple zero-shot routing settings. These results demonstrate the feasibility of zero-shot LoRA routing and suggest that PMD can serve as a general framework for improving zero-shot routing methods. Sources: Github (this https URL)",
+    "publicationDate": "2026-07-05T05:11:24.000Z",
+    "votes": 8,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Parametric Memory Decoding for Zero-Shot Routing\nin LoRA-Based External Parametric Memory\nFengxian Ji\n1∗\n, Zhuohan Xie\n1∗\n, Jingpu Yang\n2∗\n, Fan Zhang\n1\n, Zirui Song\n1\n,\nXiuying Chen\n1†\n1\nMBZUAI, Unit..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Parametric Memory Decoding for Zero-Shot Routing\nin LoRA-Based External Parametric Memory\nFengxian Ji\n1∗\n, Zhuohan Xie\n1∗\n, Jingpu Yang\n2∗\n, Fan Zhang\n1\n, Zirui Song\n1\n,\nXiuying Chen\n1†\n1\nMBZUAI, Unit..."
+      }
+    ]
+  }
+]

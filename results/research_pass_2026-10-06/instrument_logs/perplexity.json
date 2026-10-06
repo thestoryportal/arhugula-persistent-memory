@@ -1,0 +1,45 @@
+{
+ "instrument": "perplexity",
+ "queries": [
+  {
+   "t": "2026-10-06T10:56:34",
+   "query": "MTP-pretrained open checkpoints <=14B with heads released",
+   "hits": [
+    {
+     "id": "XiaomiMiMo/MiMo-7B-MTPs",
+     "status": "new"
+    }
+   ],
+   "note": "MiMo-7B-MTPs: MTP layer weights (mtp_layers.1,.2), trust_remote_code; DeepSeek-V3 671B too big; Meta MTP research models never released as checkpoints (facebook/multi-token-prediction HF repo exists but gated manual, 0 downloads)"
+  },
+  {
+   "t": "2026-10-06T10:56:34",
+   "query": "LLaDA-8B / Dream-7B on MPS; MDM-KE CUDA?",
+   "hits": [],
+   "note": "no verified MPS evidence; LLaDA bf16 ~18 GB per third-party guide; Dream-7B-MLX-4bit conversion exists; MDM-KE repo not located"
+  },
+  {
+   "t": "2026-10-06T10:56:34",
+   "query": "any paper writing coined multi-token entity by locate-then-edit with held-out full-sequence recall?",
+   "hits": [
+    {
+     "id": "2410.02355",
+     "status": "new"
+    },
+    {
+     "id": "2403.14236",
+     "status": "new"
+    },
+    {
+     "id": "2506.00817",
+     "status": "seen"
+    },
+    {
+     "id": "2402.13048",
+     "status": "seen"
+    }
+   ],
+   "note": "NONE substantiated; paraphrase score != exact sequence recall; no vocabulary-extension editing paper found"
+  }
+ ]
+}

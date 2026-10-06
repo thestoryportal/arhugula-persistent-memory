@@ -1,0 +1,92 @@
+{
+ "instrument": "huggingface",
+ "queries": [
+  {
+   "t": "2026-10-06T10:56:34",
+   "query": "configs + searches (see note)",
+   "hits": [
+    {
+     "id": "Qwen/Qwen2.5-7B",
+     "status": "new"
+    },
+    {
+     "id": "meta-llama/Llama-3.1-8B",
+     "status": "new"
+    },
+    {
+     "id": "mistralai/Mistral-7B-v0.3",
+     "status": "new"
+    },
+    {
+     "id": "allenai/OLMo-2-1124-7B",
+     "status": "new"
+    },
+    {
+     "id": "allenai/OLMo-2-1124-13B",
+     "status": "new"
+    },
+    {
+     "id": "EleutherAI/pythia-6.9b",
+     "status": "new"
+    },
+    {
+     "id": "EleutherAI/pythia-12b",
+     "status": "new"
+    },
+    {
+     "id": "Qwen/Qwen3-8B-Base",
+     "status": "new"
+    },
+    {
+     "id": "Qwen/Qwen3-4B-Base",
+     "status": "new"
+    },
+    {
+     "id": "Qwen/Qwen3-14B-Base",
+     "status": "new"
+    },
+    {
+     "id": "GSAI-ML/LLaDA-8B-Base",
+     "status": "new"
+    },
+    {
+     "id": "Dream-org/Dream-v0-Base-7B",
+     "status": "new"
+    },
+    {
+     "id": "XiaomiMiMo/MiMo-7B-Base",
+     "status": "new"
+    },
+    {
+     "id": "XiaomiMiMo/MiMo-7B-MTPs",
+     "status": "new"
+    },
+    {
+     "id": "allenai/OLMoE-1B-7B-0125",
+     "status": "new"
+    },
+    {
+     "id": "microsoft/Phi-3-medium-4k-instruct",
+     "status": "new"
+    },
+    {
+     "id": "tiiuae/Falcon3-Mamba-7B-Base",
+     "status": "new"
+    },
+    {
+     "id": "state-spaces/mamba-2.8b-hf",
+     "status": "new"
+    },
+    {
+     "id": "Zyphra/Zamba2-7B",
+     "status": "new"
+    },
+    {
+     "id": "facebook/multi-token-prediction",
+     "status": "new"
+    }
+   ],
+   "note": "tie_word_embeddings: Qwen2.5-3B true (2048/11008/36L); Qwen2.5-7B false (3584/18944/28L); Llama-3.1-8B false (4096/14336/32L, gated but readable); Mistral-7B-v0.3 false (4096/14336); OLMo-2-7B false (4096/11008/32L, fp32 on hub); OLMo-2-13B false (5120/13824/40L); Pythia-6.9b false (4096/16384/32L); Pythia-12b false (5120/20480/36L); Qwen3-8B-Base false (4096/12288/36L); Qwen3-4B-Base TRUE (2560/9728); Qwen3-14B-Base false (5120/17408/40L; fp16 ~29.5 GB > 28 GB); LLaDA-8B-Base weight_tying false (4096/12288/32L, custom code); Dream-v0-Base-7B false (3584/18944/28L, custom code); MiMo-7B-Base false (4096/11008/36L, num_nextn_predict_layers 1, Qwen2 tokenizer, MIT, custom code); OLMoE-1B-7B-0125 false (MoE 64 experts top-8, hidden 2048, expert interm 1024, 16L); Phi-3-medium false (5120/17920/40L); Falcon3-Mamba-7B false (4096/8192/64L); mamba-2.8b-hf (2560/5120/64L); gemma-2-9b gated, no access; facebook/multi-token-prediction gated manual"
+  }
+ ]
+}

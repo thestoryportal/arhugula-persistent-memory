@@ -1,0 +1,706 @@
+[
+ {
+  "query": "coined entity knowledge editing paraphrase",
+  "timestamp": "2026-10-06T10:58:06",
+  "url": "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C6&q=coined%20entity%20knowledge%20editing%20paraphrase",
+  "captcha": false,
+  "hits": [
+   {
+    "title": "A comprehensive study of knowledge editing for large language models",
+    "href": "https://arxiv.org/abs/2401.01286",
+    "meta": "N Zhang, Y Yao, B Tian, P Wang, S Deng\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2024 - arxiv.org",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 edits [187], [157] collect triplets about popular entities, where \u2026 They also collect a dataset\nby random sampling entities from \u2026 post-edited model\u2019s performance on paraphrased contexts. \u2026"
+   },
+   {
+    "title": "Knowledge editing for large language models: A survey",
+    "href": "https://dl.acm.org/doi/abs/10.1145/3698590",
+    "meta": "S Wang, Y Zhu, H Liu, Z Zheng, C Chen, J Li\u00a0- ACM Computing Surveys, 2024 - dl.acm.org",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 -generated question paraphrases, which \u2026 Entity Knowledge Propagation (EKP). The task\naimed at updating model parameters to incorporate knowledge about newly emerged entities \u2026"
+   },
+   {
+    "title": "Fine-grained hallucination detection and editing for language models",
+    "href": "https://arxiv.org/abs/2401.06855",
+    "meta": "A Mishra, A Asai, V Balachandran, Y Wang\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2024 - arxiv.org",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 entity that doesn\u2019t exist based on world knowledge. Fictional \u2026 some core entities or subjects\nof the sentences don\u2019t exist. \u2026 We paraphrase Wikipedia passages into different genres to \u2026"
+   },
+   {
+    "title": "Locating and editing factual associations in gpt",
+    "href": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/6f1d43d5a82a37e89b0665b33bf3a182-Abstract-Conference.html",
+    "meta": "K Meng, D Bau, A Andonian\u2026\u00a0- Advances in neural\u00a0\u2026, 2022 - proceedings.neurips.cc",
+    "year": "2022",
+    "cited_by": null,
+    "snippet": "\u2026 entities (F2); the reverse is true of FT+L (F1). KE- and MEND-\u2026 , a curated dataset of\nparaphrased prompts and facts. We use \u2026 of knowledge within a model, they apply only to editing a \u2026"
+   },
+   {
+    "title": "Prompting gpt-3 to be reliable",
+    "href": "https://arxiv.org/abs/2210.09150",
+    "meta": "C Si, Z Gan, Z Yang, S Wang, J Wang\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2022 - arxiv.org",
+    "year": "2022",
+    "cited_by": null,
+    "snippet": "\u2026 answer (ie, the substitution entity in the counterfactual passage); 3) \u2026 We present the knowledge\nupdate in the form of a natural \u2026 We measure accuracy on these paraphrases as the editing \u2026"
+   },
+   {
+    "title": "Expository text generation: Imitate, retrieve, paraphrase",
+    "href": "https://aclanthology.org/2023.emnlp-main.729/",
+    "meta": "N Balepur, J Huang, KCC Chang\u00a0- Proceedings of the 2023\u00a0\u2026, 2023 - aclanthology.org",
+    "year": "2023",
+    "cited_by": null,
+    "snippet": "\u2026 contain hallucinated entities, but it will correctly outline which entities should \u2026 tain said facts\nfrom the knowledge source. Finally, to \u2026 We will now describe how we modify an expository text \u2026"
+   },
+   {
+    "title": "Survey on factuality in large language models: Knowledge, retrieval and domain-specificity",
+    "href": "https://arxiv.org/abs/2310.07521",
+    "meta": "C Wang, X Liu, Y Yue, X Tang, T Zhang\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2023 - arxiv.org",
+    "year": "2023",
+    "cited_by": null,
+    "snippet": "\u2026 output even when presented with paraphrased inputs. Locality: Edits should be localized, \u2026\nunderstanding of factual knowledge, particularly related to torso-to-tail entities, by currently \u2026"
+   },
+   {
+    "title": "Knowledgpt: Enhancing large language models with retrieval and storage access on knowledge bases",
+    "href": "https://arxiv.org/abs/2308.11761",
+    "meta": "X Wang, Q Yang, Y Qiu, J Liang, Q He, Z Gu\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2023 - arxiv.org",
+    "year": "2023",
+    "cited_by": null,
+    "snippet": "\u2026 knowledge represented in three forms, including entity \u2026 description, we modify the\nimplementation of _get_entity_in\u2026 intended knowledge, you should make necessary paraphrase \u2026"
+   },
+   {
+    "title": "Generating phrasal and sentential paraphrases: A survey of data-driven methods",
+    "href": "https://aclanthology.org/J10-3003.pdf",
+    "meta": "N Madnani, B Dorr\u00a0- Computational Linguistics, 2010 - aclanthology.org",
+    "year": "2010",
+    "cited_by": null,
+    "snippet": "\u2026 derived from additional semantic knowledge. Although the \u2026 difference in the lengths or the\nedit distance is larger than some \u2026 of generalized paraphrase patterns with named entity types \u2026"
+   },
+   {
+    "title": "Investigating the relationship between localization and edit success in the large language model GPT-2",
+    "href": null,
+    "meta": "A Israelsson - 2024",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": ""
+   }
+  ]
+ },
+ {
+  "query": "multi-token object knowledge editing",
+  "timestamp": "2026-10-06T10:58:13",
+  "url": "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C6&q=multi-token%20object%20knowledge%20editing",
+  "captcha": false,
+  "hits": [
+   {
+    "title": "GenRecEdit: Adapting Model Editing for Generative Recommendation with Cold-Start Items",
+    "href": "https://arxiv.org/abs/2603.14259",
+    "meta": "C Shen, T Shi, W Yu, X Zhang, J Xu\u00a0- arXiv preprint arXiv:2603.14259, 2026 - arxiv.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 ), we adopt a position-wise knowledge preparation and editing scheme as illustrated above.\n\u2026 exclusively by its intended edit and thereby stabilizing multi-token SID generation in GR. To \u2026"
+   },
+   {
+    "title": "Knowledge Editing in Masked Diffusion Language Models",
+    "href": "https://arxiv.org/abs/2606.03924",
+    "meta": "H Park, Y Jo\u00a0- arXiv preprint arXiv:2606.03924, 2026 - arxiv.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 the edited fact is generated: producing a multi-token target \u2026 intermediate states for which the\nedit was never optimized. Guided \u2026 the edit for these states, substantially restoring multi-token \u2026"
+   },
+   {
+    "title": "Anyedit: Edit any knowledge encoded in language models",
+    "href": "https://arxiv.org/abs/2502.05628",
+    "meta": "H Jiang, J Fang, N Zhang, G Ma, M Wan\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2025 - arxiv.org",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 editing methods to update knowledge with arbitrary length and format, significantly advancing\nthe scope and practicality of LLM knowledge editing. \u2026 This multi-token collaborative editing \u2026"
+   },
+   {
+    "title": "Knowledge Externalization: Reversible Unlearning and Modular Retrieval in Multimodal Large Language Models",
+    "href": "https://openreview.net/forum?id=ZHK6nBHRXw",
+    "meta": "J Li, Z You, R Shen, S Zhang, S Zhai\u2026\u00a0- The Fourteenth\u00a0\u2026, 2026 - openreview.net",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 We investigate knowledge compositing after multi-token externalization by editing one\nmemory token and integrating it with unedited ones. Starting with dual-concept externalization of \u2026"
+   },
+   {
+    "title": "A Dual-Axis Taxonomy of Knowledge Editing for LLMs: From Mechanisms to Functions",
+    "href": "https://arxiv.org/abs/2508.08795",
+    "meta": "AM Salehoof, A Ramezani, Y Yaghoobzadeh\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2025 - arxiv.org",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 2024) addresses the challenge of editing free-text commonsense knowledge, which differs\nfrom factual knowledge due to its multi-token nature and distributed storage. The authors first \u2026"
+   },
+   {
+    "title": "AnyEdit++: Adaptive Long-Form Knowledge Editing via Bayesian Surprise",
+    "href": "https://arxiv.org/abs/2606.01053",
+    "meta": "B Tian, C He, J Wu, J Wang, W Chen, Z Li\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2026 - arxiv.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 \u2014particularly temporal, commonsense, and conceptual knowledge\u2014are expressed as\nfree-text, multi-token, and distributed representations. Extensions such as METO address \u2026"
+   },
+   {
+    "title": "The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning",
+    "href": "https://arxiv.org/abs/2609.29045",
+    "meta": "M Baser, A Nawal, DM Divakaran\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2026 - arxiv.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 guarantees that sensitive knowledge has been modified or removed. Model editing and\nmachine unlearning are used to modify or remove targeted knowledge without retraining models \u2026"
+   },
+   {
+    "title": "Token Reduction Should Go Beyond Efficiency in Generative Models--From Vision, Language to Multimodality",
+    "href": "https://arxiv.org/abs/2505.18227",
+    "meta": "Z Kong, Y Li, F Zeng, L Xin, S Messica, X Lin\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2025 - arxiv.org",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 dynamically processes during generation by using multi-token parallel generation and n-gram \u2026\nProgress in these areas could have a significant impact on scene editing in video clips, \u2026"
+   },
+   {
+    "title": "KAMEL: Knowledge Analysis with Multitoken Entities in Language Models.",
+    "href": "https://www.akbc.ws/2022/assets/pdfs/15_kamel_knowledge_analysis_with_.pdf",
+    "meta": "JC Kalo, L Fichtel\u00a0- AKBC, 2022 - akbc.ws",
+    "year": "2022",
+    "cited_by": null,
+    "snippet": "\u2026 knowledge in LMs. In contrast to previous datasets, it covers a broader range of knowledge,\nprobes for single-, and multi-token \u2026 knowledge that is usually stored knowledge graphs. \u2026"
+   },
+   {
+    "title": "X-Token: Projection-Guided Cross-Tokenizer Knowledge Distillation",
+    "href": "https://arxiv.org/abs/2605.21699",
+    "meta": "ST Sreenivas, AV Hanasoge, M Yang\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2026 - arxiv.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 structed via canonicalized string matching and multi-token decoding rules, enabling direct\n\u2026 MinED [18] maps each student token to the closest teacher token under string edit distance, \u2026"
+   }
+  ]
+ },
+ {
+  "query": "new entity injection language model weights",
+  "timestamp": "2026-10-06T10:58:21",
+  "url": "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C6&q=new%20entity%20injection%20language%20model%20weights",
+  "captcha": false,
+  "hits": [
+   {
+    "title": "Weight poisoning attacks on pretrained models",
+    "href": "https://aclanthology.org/2020.acl-main.249/",
+    "meta": "K Kurita, P Michel, G Neubig\u00a0- \u2026\u00a0of the 58th annual meeting of the\u00a0\u2026, 2020 - aclanthology.org",
+    "year": "2020",
+    "cited_by": null,
+    "snippet": "\u2026 is possible to construct \u201cweight poisoning\u201d attacks where pre-trained weights are injected with\n\u2026 Typically, this transfer is performed by first training a language model on a large amount of \u2026"
+   },
+   {
+    "title": "Mquake: Assessing knowledge editing in language models via multi-hop questions",
+    "href": "https://aclanthology.org/2023.emnlp-main.971/",
+    "meta": "Z Zhong, Z Wu, CD Manning, C Potts\u2026\u00a0- \u2026\u00a0in Natural Language\u00a0\u2026, 2023 - aclanthology.org",
+    "year": "2023",
+    "cited_by": null,
+    "snippet": "\u2026 of techniques for injecting new facts through updating model weights. Current evaluation \u2026\nthat we want to inject into the language model, Q represents multi-hop questions we use to \u2026"
+   },
+   {
+    "title": "Badedit: Backdooring large language models by model editing",
+    "href": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/6f6fe6789e14796b6544a04b20d11902-Abstract-Conference.html",
+    "meta": "Y Li, T Li, K Chen, J Zhang, S Liu\u2026\u00a0- International\u00a0\u2026, 2024 - proceedings.iclr.cc",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 In this study, we unveil the vulnerability of Language Models (LLMs) to the weight-poisoning\nbackdoor attack, to inject backdoors into LLMs, even with limited data, computing resources, \u2026"
+   },
+   {
+    "title": "A few words can distort graphs: Knowledge poisoning attacks on graph-based retrieval-augmented generation of large language models",
+    "href": "https://arxiv.org/abs/2508.04276",
+    "meta": "J Wen, T Chen, Z Zheng, C Huang\u00a0- arXiv preprint arXiv:2508.04276, 2025 - arxiv.org",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 into the corpus either by injecting new relations, \u2026 model the importance of a chunk as the\nweighted combination of three signals: (i) structural impact: how central its corresponding entity \u2026"
+   },
+   {
+    "title": "Entity injection with contrastive learning encoder for Chinese few-shot natural language inference",
+    "href": "https://link.springer.com/article/10.1007/s10489-026-07124-1",
+    "meta": "P Lai, F Ye, Y Fu, R Wang, Y Wu, Y Wang\u00a0- Applied Intelligence, 2026 - Springer",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 Compared to standard encoderbased pre-trained language models (PLMs), contrastive\nlearning (CL) \u2026 Based on these observations, we adopt the optimal entity similarity weight in our \u2026"
+   },
+   {
+    "title": "Knowledge editing for large language models: A survey",
+    "href": "https://dl.acm.org/doi/abs/10.1145/3698590",
+    "meta": "S Wang, Y Zhu, H Liu, Z Zheng, C Chen, J Li\u00a0- ACM Computing Surveys, 2024 - dl.acm.org",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 requires an explicit injection of new knowledge to generate the \u2026 In this manner, the updated\nmodel weights can preserve \u2026 updates of new information without adding new weights or \u2026"
+   },
+   {
+    "title": "Knowledge-enhanced large language models for ideation to implementation: A new paradigm in product design",
+    "href": "https://www.sciencedirect.com/science/article/pii/S1568494625004582",
+    "meta": "Z Li, Z Liu, G Sa, J Sun, M Hou, J Tan, L Sun\u2026\u00a0- Applied Soft Computing, 2025 - Elsevier",
+    "year": "2025",
+    "cited_by": "Cited by 18",
+    "snippet": "\u2026 and injected into a pre-trained language model through an adapter \u2026 To ensure that the\npre-trained language model can \u2026 adjusts the model\u2019s focus by controlling the weight assigned to \u2026"
+   },
+   {
+    "title": "Can lms learn new entities from descriptions? challenges in propagating injected knowledge",
+    "href": "https://aclanthology.org/2023.acl-long.300/",
+    "meta": "Y Onoe, M Zhang, S Padmanabhan\u2026\u00a0- Proceedings of the\u00a0\u2026, 2023 - aclanthology.org",
+    "year": "2023",
+    "cited_by": null,
+    "snippet": "\u2026 entity knowledge propagation task where language models should make inferences after\nlearning entities \u2026 Then, it uses a rank-one modification of the weights of the MLP to \u201crewrite\u201d this \u2026"
+   },
+   {
+    "title": "ConceptFormer: Towards Graph-Native Grounding of Large Language Models via Latent Concept Injection",
+    "href": "https://dl.acm.org/doi/abs/10.1145/3774905.3794653",
+    "meta": "J Barmettler, A Bernstein, L Rossetto\u00a0- Companion Proceedings of the\u00a0\u2026, 2026 - dl.acm.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 We adopt AdamW with weight decay of 0.01 and a constant learning rate, typically 6 \u00d7 10\u22125,\ndetermined via grid or Bayesian hyperparameter search. We freeze all LLM weights, \u2026"
+   },
+   {
+    "title": "Knowledge injection methods in question answering",
+    "href": "https://www.rtj-mirea.ru/jour/issue/download/58/78#page=22",
+    "meta": "DV Radyush\u00a0- RUSSIAN, 2025 - rtj-mirea.ru",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 language model baseline due to knowledge injection methods \u2026 knowledge injection methods\nbased on language models and \u2026 weights of language models is significant. Training of such \u2026"
+   }
+  ]
+ },
+ {
+  "query": "vocabulary expansion new token knowledge",
+  "timestamp": "2026-10-06T10:58:28",
+  "url": "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C6&q=vocabulary%20expansion%20new%20token%20knowledge",
+  "captcha": false,
+  "hits": [
+   {
+    "title": "Efficient and effective vocabulary expansion towards multilingual large language models",
+    "href": "https://arxiv.org/abs/2402.14714",
+    "meta": "S Kim, S Choi, M Jeong\u00a0- arXiv preprint arXiv:2402.14714, 2024 - arxiv.org",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 leverage its established knowledge in the embedding spaces from old tokens. However, \u2026\ngenerate the subword token (old) given the whole word token (new). In other words, the model \u2026"
+   },
+   {
+    "title": "Medical knowledge representation enhancement in large language models through clinical tokens optimization",
+    "href": "https://www.nature.com/articles/s41598-026-37438-6",
+    "meta": "Q Li, J Tong, S Liu, C Li, J Tang, Q Zhou\u00a0- Scientific Reports, 2026 - nature.com",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 small number of Chinese tokens, we expanded its vocabulary to incorporate Chinese \u2026 both\nthe Chinese language and domain-specific medical knowledge. Medical data from the pre\u2013\u2026"
+   },
+   {
+    "title": "How can we effectively expand the vocabulary of LLMs with 0.01 GB of target language text?",
+    "href": "https://direct.mit.edu/coli/article/doi/10.1162/COLI.a.581/134270",
+    "meta": "A Yamaguchi, A Villavicencio, N Aletras\u00a0- Computational Linguistics, 2026 - direct.mit.edu",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 To the best of our knowledge, our work is the first to investigate vocabulary \u2026 To obtain a\nmore fine-grained semantic representation of a new token, we propose token alignment \u2026"
+   },
+   {
+    "title": "An empirical comparison of vocabulary expansion and initialization approaches for language models",
+    "href": "https://aclanthology.org/2024.conll-1.8/",
+    "meta": "N Mundra, ANK Khandavally, R Dabre\u2026\u00a0- Proceedings of the\u00a0\u2026, 2024 - aclanthology.org",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 particularly beneficial, as the knowledge embedded in English models \u2026 new words that give\nus the same output before and after expansion for the prefixes formed by the original tokens. \u2026"
+   },
+   {
+    "title": "Tokalign: Efficient vocabulary adaptation via token alignment",
+    "href": "https://aclanthology.org/2025.acl-long.207/",
+    "meta": "C Li, J Zhang, C Zong\u00a0- Proceedings of the 63rd Annual Meeting\u00a0\u2026, 2025 - aclanthology.org",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 The mismatch in vocabulary also hinders deep knowledge transfer between LLMs like \u2026\ntoken IDs between two vocabularies and replace the vocabulary of LLMs from the tokentoken co-\u2026"
+   },
+   {
+    "title": "Grounded Token Initialization for New Vocabulary in LMs for Generative Recommendation",
+    "href": "https://arxiv.org/abs/2604.02324",
+    "meta": "D Chen, Z Fu, C Jiang, H Zhang, R Zhou\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2026 - arxiv.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 thousands of new tokens into the model\u2019s vocabulary, and a \u2026 its general-purpose knowledge\nto the novel-token domain. \u2026 We formalize the vocabulary extension problem in the context \u2026"
+   },
+   {
+    "title": "Expanding the vocabulary of BERT for knowledge base construction",
+    "href": "https://arxiv.org/abs/2310.08291",
+    "meta": "D Yang, X Wang, R Celebi\u00a0- arXiv preprint arXiv:2310.08291, 2023 - arxiv.org",
+    "year": "2023",
+    "cited_by": null,
+    "snippet": "\u2026 tokens, we modify the token embedding layer and the output embedding layer of BERT. We\nexpand the vocabulary \u2026 multiple tokens (eg \"United States of America\") is treated as a distinct \u2026"
+   },
+   {
+    "title": "Memory as a Markov Matrix: Sample Efficient Knowledge Expansion via Token-to-Dictionary Mapping",
+    "href": "https://arxiv.org/abs/2605.04308",
+    "meta": "K Pethkar, Z Xiong, Z Shang, Y Li\u00a0- arXiv preprint arXiv:2605.04308, 2026 - arxiv.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 focus is on vocabulary expansion as a concrete mechanism for achieving this goal: we\nintroduce new tokens as lexical interfaces for new concepts, and study how these tokens can be \u2026"
+   },
+   {
+    "title": "TokAlign++: Advancing Vocabulary Adaptation via Better Token Alignment",
+    "href": "https://arxiv.org/abs/2605.13429",
+    "meta": "C Li, Y Deng, W Yang, J Zhang, C Zong\u00a0- arXiv preprint arXiv:2605.13429, 2026 - arxiv.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 knowledge transfer between LLMs, like token-level distillation, is also impeded by the\nmismatch in vocabulary\u2026 An empirical comparison of vocabulary expansion and initialization \u2026"
+   },
+   {
+    "title": "Beyond Initialization Loss: A Systematic Study of Token Embedding Initialization Strategies for LLM Vocabulary Extension",
+    "href": "https://arxiv.org/abs/2608.03494",
+    "meta": "R Joshi, U Vaidya, SS Chauhan, N Wartikar\u00a0- arXiv preprint arXiv\u00a0\u2026, 2026 - arxiv.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 embedding initialization for LLM vocabulary extension. Our findings show that subword\ncomposition provides the largest improvement over vocabulary-averaging baselines, while input-\u2026"
+   }
+  ]
+ },
+ {
+  "query": "multi-token prediction model editing",
+  "timestamp": "2026-10-06T10:58:36",
+  "url": "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C6&q=multi-token%20prediction%20model%20editing",
+  "captcha": false,
+  "hits": [
+   {
+    "title": "Anyedit: Edit any knowledge encoded in language models",
+    "href": "https://arxiv.org/abs/2502.05628",
+    "meta": "H Jiang, J Fang, N Zhang, G Ma, M Wan\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2025 - arxiv.org",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 This multi-token collaborative editing process enables AnyEdit to overcome the efficacy \u2026\nThe module configurations follow MEMIT, where edits are applied to the MLP down projection \u2026"
+   },
+   {
+    "title": "Alternatives To Next Token Prediction In Text Generation--A Survey",
+    "href": "https://arxiv.org/abs/2509.24435",
+    "meta": "C Wyatt, A Joshi, F Salim\u00a0- arXiv preprint arXiv:2509.24435, 2025 - arxiv.org",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 We categorise these approaches into five main families: (1) Multi-Token Prediction, which\n\u2026 Portions of this manuscript were revised with the assistance of an AI-based editing tool (eg, \u2026"
+   },
+   {
+    "title": "The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning",
+    "href": "https://arxiv.org/abs/2609.29045",
+    "meta": "M Baser, A Nawal, DM Divakaran\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2026 - arxiv.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 Representational entanglement consistently outperforms edit distance as a predictor of\nwhether a noncanonical tokenization will retrieve the same factual object, achieving higher AUC \u2026"
+   },
+   {
+    "title": "Evolving LLMs from Next-Token Prediction to Multi-Token Prediction via Self-Distillation",
+    "href": "https://www.mdpi.com/2079-9292/15/7/1533",
+    "meta": "Y Xu, W Che\u00a0- Electronics, 2026 - mdpi.com",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 Since our work focuses on the post-hoc training of MTP modules based on existing Next-Token\nPrediction (NTP) models, we adopt the simple MTP architecture used in DeepSeek-MTP. \u2026"
+   },
+   {
+    "title": "Token Reduction Should Go Beyond Efficiency in Generative Models--From Vision, Language to Multimodality",
+    "href": "https://arxiv.org/abs/2505.18227",
+    "meta": "Z Kong, Y Li, F Zeng, L Xin, S Messica, X Lin\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2025 - arxiv.org",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 generation by using multi-token parallel generation and n-\u2026 , training language models to\npredict multiple tokens per step [40]\u2026 a significant impact on scene editing in video clips, character \u2026"
+   },
+   {
+    "title": "Codefill: Multi-token code completion by jointly learning from structure and naming sequences",
+    "href": "https://dl.acm.org/doi/abs/10.1145/3510003.3510172",
+    "meta": "M Izadi, R Gismondi, G Gousios\u00a0- \u2026\u00a0of the 44th international conference on\u00a0\u2026, 2022 - dl.acm.org",
+    "year": "2022",
+    "cited_by": null,
+    "snippet": "\u2026 view of the prediction ability of a model. However, in practical \u2026 ) while the developer is\nediting source code. To ensure that \u2026 point prediction and statement-level multi-token prediction, \u2026"
+   },
+   {
+    "title": "Match the Distribution, Not the Compute: Post-Training Multi-Token Prediction Heads",
+    "href": "https://arxiv.org/abs/2610.00888",
+    "meta": "P Badarayani, A Jay, C Zhou, D Julienne, Y Gao\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2026 - arxiv.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 Large language models were used for editing prose in this manuscript and for scaffolding\nexperimental scripts and figure code. All numerical results, tables, figures, and technical claims \u2026"
+   },
+   {
+    "title": "Accelerating codec-based speech synthesis with multi-token prediction and speculative decoding",
+    "href": "https://ieeexplore.ieee.org/abstract/document/10887855/",
+    "meta": "TD Nguyen, JH Kim, J Choi, S Choi\u2026\u00a0- ICASSP 2025-2025\u00a0\u2026, 2025 - ieeexplore.ieee.org",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 In this paper, we introduce a multi-token prediction method \u2026 , our architecture is trained to\npredict multiple future tokens \u2026 statistical relationships between the predicted tokens. A key \u2026"
+   },
+   {
+    "title": "Enhancing visual planning with auxiliary tasks and multi-token prediction",
+    "href": "https://ieeexplore.ieee.org/abstract/document/11492137/",
+    "meta": "C Zhang, Y Song, R Desai, ML Iuzzolino\u2026\u00a0- 2026 IEEE/CVF\u00a0\u2026, 2026 - ieeexplore.ieee.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 multi-token prediction [9] as a way to force the model to explicitly reason about future tokens\nwhile predicting \u2026 Specifically, we report the minimum edit distance among 5 predicted verb, \u2026"
+   },
+   {
+    "title": "Multi-token prediction needs registers",
+    "href": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/56cbb9d0efc05fb9d266adbf00f8eba7-Abstract-Conference.html",
+    "meta": "A Gerontopoulos, S Gidaris\u2026\u00a0- Advances in Neural\u00a0\u2026, 2026 - proceedings.neurips.cc",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 objective for improving language model pretraining, but its benefits \u2026 multi-token prediction\nthat interleaves learnable register tokens into the input sequence, each tasked with predicting \u2026"
+   }
+  ]
+ },
+ {
+  "query": "diffusion language model knowledge editing",
+  "timestamp": "2026-10-06T10:58:43",
+  "url": "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C6&q=diffusion%20language%20model%20knowledge%20editing",
+  "captcha": false,
+  "hits": [
+   {
+    "title": "Knowledge Editing in Masked Diffusion Language Models",
+    "href": "https://arxiv.org/abs/2606.03924",
+    "meta": "H Park, Y Jo\u00a0- arXiv preprint arXiv:2606.03924, 2026 - arxiv.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 Knowledge editing aims to update or correct factual knowledge in a language model. A\nwidely used approach, locate-then-edit, does this in two steps: it first localizes a fact within the \u2026"
+   },
+   {
+    "title": "Sakr-edit: Scene-aware knowledge reasoning for text-to-image editing",
+    "href": "https://dl.acm.org/doi/abs/10.1145/3746027.3755679",
+    "meta": "J Wang, J Li, Z Ma, R Bai\u00a0- Proceedings of the 33rd ACM International\u00a0\u2026, 2025 - dl.acm.org",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 the editing task disrupts the diffusion model\u2019s \u2026 language models such as BLIP-2 to fuse\nglobal and local semantic information. This enables the editing model to better understand editing \u2026"
+   },
+   {
+    "title": "TimeROME-DLM: Temporal Causal Tracing and Low-Rank Inference-Time Knowledge Editing for Masked Diffusion Language Models",
+    "href": "https://arxiv.org/abs/2606.12841",
+    "meta": "Z Yao, L Song, H Zhang, C Wei, H Xu, G Yang\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2026 - arxiv.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 knowledge editing for MDLMs must follow the denoising trajectory rather than the token\nsequence, and that once the right coordinate is identified the edit \u2026 investigated knowledge editing \u2026"
+   },
+   {
+    "title": "Localizing and editing knowledge in text-to-image generative models",
+    "href": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/4bfcebedf7a2967c410b64670f27f904-Abstract-Conference.html",
+    "meta": "S Basu, N Zhao, V Morariu, S Feizi\u2026\u00a0- International\u00a0\u2026, 2024 - proceedings.iclr.cc",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 We adapt Causal Mediation Analysis for textto-image models and trace knowledge about \u2026\nof the diffusion model. In particular, we show that unlike large-language models, knowledge \u2026"
+   },
+   {
+    "title": "Towards Robust and Scalable Knowledge Editing in Text-to-Image Diffusion Models",
+    "href": "https://openreview.net/forum?id=fMeZvU2HXV",
+    "meta": "YF Liu, X Wang\u00a0- The 17th Asian Conference on Machine Learning\u00a0\u2026, 2025 - openreview.net",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 Here, xt denotes the noisy image at timestep t, \u03f5 \u223c N(0,I), and y is the conditioning text\ninput, typically embedded via a pretrained language model. During generation, the \u2026"
+   },
+   {
+    "title": "Towards safe concept transfer of multi-modal diffusion via causal representation editing",
+    "href": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/1741917e3df34daa1a4c564e2980bb59-Abstract-Conference.html",
+    "meta": "P Dong, B Wang, S Guo, J Wang\u2026\u00a0- Advances in Neural\u00a0\u2026, 2024 - proceedings.neurips.cc",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 editing (CRE), which extends representation editing from large language models (LLMs) to\ndiffusion-based models. \u2026 generation by intervening at diffusion timesteps causally linked to \u2026"
+   },
+   {
+    "title": "Unified concept editing in diffusion models",
+    "href": "https://ieeexplore.ieee.org/abstract/document/10484056/",
+    "meta": "R Gandikota, H Orgad, Y Belinkov\u2026\u00a0- 2024 IEEE/CVF\u00a0\u2026, 2024 - ieeexplore.ieee.org",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 : it edits text-to-image models rather than language models; and it also allows the editor to\n\u2026 We compare UCE with a range of prior model-editing methods and find that it demonstrates \u2026"
+   },
+   {
+    "title": "Mmada-parallel: Multimodal large diffusion language models for thinking-aware editing and generation",
+    "href": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/3d03b03197666b19c6a6e69812dd3e34-Abstract-Conference.html",
+    "meta": "Y Tian, L Yang, J Yang, A Wang, Y Tian\u2026\u00a0- International\u00a0\u2026, 2026 - proceedings.iclr.cc",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 Motivations on parallel multimodal diffusion. Our benchmarking results reveal a \u2026 editing\ntasks. To address this fundamental issue, we propose a parallel unified multimodal diffusion \u2026"
+   },
+   {
+    "title": "Diff-KT: Text-Driven Image Editing by Knowledge Enhancement and Mask Transformer",
+    "href": "https://ieeexplore.ieee.org/abstract/document/10634108/",
+    "meta": "H Zhao, W Li, Z Chang, C Yang\u00a0- IEEE Access, 2024 - ieeexplore.ieee.org",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 -edited images, we propose a diffusion textto-image generation model based on a Knowledge-\u2026\nfield involve training language models from scratch or using pre-trained models on image-\u2026"
+   },
+   {
+    "title": "Diffute: Universal text editing diffusion model",
+    "href": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/c7138635035501eb71b0adf6ddc319d6-Abstract-Conference.html",
+    "meta": "H Chen, Z Xu, Z Gu, Y Li, C Meng\u2026\u00a0- Advances in Neural\u00a0\u2026, 2023 - proceedings.neurips.cc",
+    "year": "2023",
+    "cited_by": null,
+    "snippet": "\u2026 our model on a diffusion model and carefully modify the network structure to enable the model\nfor \u2026 Moreover, by integrating a large language model (ie, ChatGLM), we can use natural \u2026"
+   }
+  ]
+ },
+ {
+  "query": "knowledge editing Mamba",
+  "timestamp": "2026-10-06T10:58:51",
+  "url": "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C6&q=knowledge%20editing%20Mamba",
+  "captcha": false,
+  "hits": [
+   {
+    "title": "Locating and editing factual associations in mamba",
+    "href": "https://arxiv.org/abs/2404.03646",
+    "meta": "AS Sharma, D Atkinson, D Bau\u00a0- arXiv preprint arXiv:2404.03646, 2024 - arxiv.org",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 knowledge can be inserted by making a single rank-one change in parameters, Mamba does\n\u2026 other modules that can be similarly edited to insert knowledge. As with previous studies of \u2026"
+   },
+   {
+    "title": "Representation shattering in transformers: A synthetic study with knowledge editing",
+    "href": "https://arxiv.org/abs/2410.17194",
+    "meta": "K Nishi, R Ramesh, M Okawa, M Khona\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2024 - arxiv.org",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 graph structures (ie, days of the week) yield similar shattering phenomena in Llama and\nMamba models to what we observe in our toy setup (see Sec. 4.5). Additionally, we further \u2026"
+   },
+   {
+    "title": "A survey of mamba",
+    "href": "https://dl.acm.org/doi/abs/10.1145/3819582",
+    "meta": "H Qu, L Ning, R An, W Fan, T Derr, H Liu\u2026\u00a0- ACM Transactions on\u00a0\u2026, 2026 - dl.acm.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 and the applications where Mamba can excel. Specifically, we first review the foundational\nknowledge of various representative deep learning models and the details of Mamba-1&2 as \u2026"
+   },
+   {
+    "title": "Editing Factual Information in Large Language Models: Studying rank-one model editing for selective state space models",
+    "href": null,
+    "meta": "E Wachtmeister - 2024",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": ""
+   },
+   {
+    "title": "CholecMamba: A Mamba-Based Multimodal Reasoning Model for Cholecystectomy Surgery",
+    "href": "https://link.springer.com/chapter/10.1007/978-3-032-05114-1_11",
+    "meta": "Z Wang, S Pan, M Fang, R Zhang, J Tian\u2026\u00a0- \u2026\u00a0Conference on Medical\u00a0\u2026, 2025 - Springer",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 Mamba model\u2019s long sequence processing abilities, achieving semantic understanding of\nlong videos and attention to details in short videos with logical knowledge reasoning [4, 25]. \u2026"
+   },
+   {
+    "title": "Style mamba-transformer: a hybrid mamba-transformer unsupervised framework for text style transfer",
+    "href": "https://www.sciencedirect.com/science/article/pii/S0950705125013115",
+    "meta": "D Meng, Z Wang, W Yan, T Phuntsho\u2026\u00a0- Knowledge-Based\u00a0\u2026, 2025 - Elsevier",
+    "year": "2025",
+    "cited_by": "Cited by 7",
+    "snippet": "\u2026 Mamba-Transformer comprises a Transformer and Mamba \u2026 within sequences and incorporates\nMamba blocks, which use \u2026 are forwarded through the Transformer and Mamba blocks. \u2026"
+   },
+   {
+    "title": "Consistent and Editable: A Balanced Framework for Text-Guided Video Editing",
+    "href": "https://arxiv.org/abs/2607.05056",
+    "meta": "T Jin, L Xiao\u00a0- arXiv preprint arXiv:2607.05056, 2026 - arxiv.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 of Mamba in the visual field, we propose a temporal Mamba high-quality video editing\nframework \u2026 results are primarily influenced by the knowledge from the pre-trained parameters, \u2026"
+   },
+   {
+    "title": "Speak, Edit, Repeat: High-Fidelity Voice Editing and Zero-Shot TTS with Cross-Attentive Mamba",
+    "href": "https://arxiv.org/abs/2510.04738",
+    "meta": "B Mohammad, M Zhussip, S Lefkimmiatis\u00a0- arXiv preprint arXiv\u00a0\u2026, 2025 - arxiv.org",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 MAVE (Mamba with Cross-Attention for Voice Editing and \u2026 voice editing and zero-shot TTS\nthat synergizes Mamba state-\u2026 of our knowledge, MAVE \u2013 built on a cross-attentive Mamba \u2026"
+   },
+   {
+    "title": "Knowledge-guided multi-scale graph Mamba for whole slide image classification",
+    "href": "https://link.springer.com/chapter/10.1007/978-3-032-05162-2_42",
+    "meta": "M Duan, Z Yang, Y Ma, M Wang, Z Song\u00a0- International Conference on\u00a0\u2026, 2025 - Springer",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 Knowledge-guided Multi-scale Graph Mamba (KMG-Mamba) framework, which integrates\nclass-specific knowledge \u2026 the Cross-scale Knowledge Interaction Mamba to enable efficient \u2026"
+   },
+   {
+    "title": "One-shot Font Generation with Prior-Guided Knowledge Distillation and Style-Aware Mamba",
+    "href": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7429834",
+    "meta": "J Zeng, X Wang, C Ai, X Gui, Y Wang\u2026\u00a0- Available at SSRN\u00a0\u2026 - papers.ssrn.com",
+    "year": null,
+    "cited_by": null,
+    "snippet": "\u2026 that integrates knowledge distillation with a style-aware Mamba architecture. During training,\n\u2026 For style modeling, we introduce the Multi-Directional Style-Aware Mamba Block (MDSM), \u2026"
+   }
+  ]
+ },
+ {
+  "query": "hypernetwork knowledge editing",
+  "timestamp": "2026-10-06T10:58:58",
+  "url": "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C6&q=hypernetwork%20knowledge%20editing",
+  "captcha": false,
+  "hits": [
+   {
+    "title": "Editing factual knowledge in language models",
+    "href": "https://aclanthology.org/2021.emnlp-main.522/",
+    "meta": "N De Cao, W Aziz, I Titov\u00a0- Proceedings of the 2021 conference on\u00a0\u2026, 2021 - aclanthology.org",
+    "year": "2021",
+    "cited_by": null,
+    "snippet": "\u2026 Interestingly, our hyper-network can be regarded as a \u2018probe\u2019 revealing which components\nneed to be changed to manipulate factual knowledge; our analysis shows that the updates \u2026"
+   },
+   {
+    "title": "Reinforced lifelong editing for language models",
+    "href": "https://arxiv.org/abs/2502.05759",
+    "meta": "Z Li, H Jiang, H Chen, B Bi, Z Zhou, F Sun\u2026\u00a0- arXiv preprint arXiv\u00a0\u2026, 2025 - arxiv.org",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 To address this, we observed that hypernetwork-based lifelong editing aligns with \u2026 focusing\nsolely on current knowledge while ignoring previously edited knowledge, we propose a \u2026"
+   },
+   {
+    "title": "HiEdit: Lifelong Model Editing with Hierarchical Reinforcement Learning",
+    "href": "https://aclanthology.org/2026.acl-long.1855/",
+    "meta": "Y Wang, T Sun, C Tang, J Liu, W Cai\u2026\u00a0- Proceedings of the 64th\u00a0\u2026, 2026 - aclanthology.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 st comprises current LLM parameters Wt\u22121 and the knowledge to edit (xt,yt). We employ\na high-level hypernetwork \u03c0\u03d5 : S \u2192 \u2126 and a lowlevel hypernetwork H\u03b8 : S \u00d7 \u2126 \u2192 A to param\u2026"
+   },
+   {
+    "title": "Editing language model-based knowledge graph embeddings",
+    "href": "https://ojs.aaai.org/index.php/AAAI/article/view/29737",
+    "meta": "S Cheng, N Zhang, B Tian, X Chen, Q Liu\u2026\u00a0- Proceedings of the AAAI\u00a0\u2026, 2024 - ojs.aaai.org",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 3, which employs additional parameters through hypernetwork. We construct an additional \u2026\nits parameters for knowledge editing. Moreover, we leverage an additional hypernetwork to \u2026"
+   },
+   {
+    "title": "Editing across languages: A survey of multilingual knowledge editing",
+    "href": "https://aclanthology.org/2025.emnlp-main.803/",
+    "meta": "N Durrani, B Mousi, F Dalvi\u00a0- \u2026\u00a0of the 2025 Conference on Empirical\u00a0\u2026, 2025 - aclanthology.org",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 edits difficult to propagate reliably. In this survey, we define the multilingual knowledge editing\n\u2026 Hypernetwork-based methods edit knowledge by training auxiliary networks to generate \u2026"
+   },
+   {
+    "title": "CaPEdit: Capability-Preserving Lifelong Knowledge Editing For Language Models",
+    "href": "https://aclanthology.org/2026.findings-acl.770/",
+    "meta": "SL Wu, Z Du, X Wang, J Wang\u00a0- Findings of the Association for\u00a0\u2026, 2026 - aclanthology.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 To address this, we introduce CaPEdit, a framework that synthesizes procedural knowledge\nand guides hypernetworkbased edits through dual-timescale rewards, enabling precise \u2026"
+   },
+   {
+    "title": "PropMEND: Hypernetworks for Knowledge Propagation in LLMs",
+    "href": "https://arxiv.org/abs/2506.08920",
+    "meta": "ZL Liu, G Durrett, E Choi\u00a0- arXiv preprint arXiv:2506.08920, 2025 - arxiv.org",
+    "year": "2025",
+    "cited_by": null,
+    "snippet": "\u2026 to have the hypernetwork target the MLPs weights of the top 3 layers; however, we find editing\nlower layers is more effective for knowledge propagation. Applying the hypernetwork to all \u2026"
+   },
+   {
+    "title": "TamEdit: Trajectory-Aware Meta-Learning for Specificity-Preserving Continual Knowledge Editing",
+    "href": "https://aclanthology.org/2026.acl-long.979/",
+    "meta": "S Tian, C Ding, Q Chen, J Zhou\u2026\u00a0- Proceedings of the 64th\u00a0\u2026, 2026 - aclanthology.org",
+    "year": "2026",
+    "cited_by": null,
+    "snippet": "\u2026 Furthermore, we employ a hypernetwork (meta-editor) to learn generalizable capabilities \u2026\nrather than isolated edits, we provide a principled framework for continual knowledge editing. \u2026"
+   },
+   {
+    "title": "A survey on knowledge editing of neural networks",
+    "href": "https://ieeexplore.ieee.org/abstract/document/10766891/",
+    "meta": "V Mazzia, A Pedrani, A Caciolai\u2026\u00a0- \u2026\u00a0on Neural Networks\u00a0\u2026, 2024 - ieeexplore.ieee.org",
+    "year": "2024",
+    "cited_by": null,
+    "snippet": "\u2026 ) edit: we only want to change the model for one edit pair. Conversely, for multiple successive\nedits, we can formally define a list of edit \u2026 the input edit feeds the hypernetwork that predicts \u2026"
+   },
+   {
+    "title": "Propagating Knowledge in LLMs with Hypernetworks",
+    "href": "https://openreview.net/forum?id=G57ROBTECS",
+    "meta": "ZL Liu, G Durrett, E Choi - openreview.net",
+    "year": null,
+    "cited_by": null,
+    "snippet": "\u2026 knowledge propagation. In this work, we explore adapting a hypernetwork-based editing\nmethod for knowledge \u2026 We rectified the learning objective of the hypernetwork and substantially \u2026"
+   }
+  ]
+ }
+]
