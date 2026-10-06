@@ -1,0 +1,2 @@
+57f8484e039460d8a5bf423619c9020124199553e9de521bfcaed0b75250bc43  /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/c10l_mint_N_f16.gguf
+6b6b6d35a0e73251dfd2f2504cb292514f3b6685a6f5eb48cb4c54edc0d59915  /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/c10l_mint_N_q4km.gguf

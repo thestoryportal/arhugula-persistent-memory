@@ -1,0 +1,49 @@
+# Editability ≈ Prior Compression
+
+**The claim.** A locate-then-edit write is a *single* key→value association installed at the subject's last token in a narrow layer band. But reading that write back is *autoregressive*: the model must emit token₁, then token₂ conditioned on token₁, and so on. The write pays once; the read pays per token. The gap between those two cost structures is exactly where C10 fires.
+
+**The evidence is already in the conditional.** Across the three arms, first-token recovery is roughly intact (70.8% incoherent vs ~97% coherent). What separates them is P(full | first): **1.00 for "Cape Town", 0.51 for "Amsterdam Ankara"**. The edit did not fail to land — it landed and then *leaked at the second step*. The coherent arm looks robust only because the pretrained bigram supplies step 2 for free. The prior is doing the work MEMIT gets credit for.
+
+**Why this is a compression statement.** Tokenizer research gives the vocabulary: *fertility* (tokens per word) and *single-token retention rate* measure how much of a string the model already has as one unit. A value that the prior compresses well — a real city, a frequent collocation — needs essentially one causal decision at the edited position. A value the prior does not compress — a coined identifier, a post-2021 entity, an arbitrary pair — needs *n* independent decisions, of which the edit funds exactly one. Under paraphrase, where the subject-token key is perturbed, the unfunded steps are the first to go. This also predicts the Serial-Lifelong observation inversely: there the *first* word breaks and the suffix survives, because a side-memory MoE funds the sequence differently than a weight write funds the key.
+
+**The KG bridge.** This is why AKEW finds locate-then-edit "triplet-bound": a triplet is a *compressed* fact — one subject key, one relation, one object slot. Unstructured passages and novel entities are high-fertility objects with no prior compression, so the single-key write has nothing to ride on. And relation-before-entity deferral says the same thing from the other side: relation type becomes generation-controlling 10–16 layers before entity identity does, so the edit's narrow band lands on the cheap, early-committed part and leaves the expensive, late-committed part to the prior.
+
+**Operationally: a pre-write admission test.** Before editing, measure the base model's P(full | first) and fertility for the intended value. Values above a threshold are *storable* under MEMIT; below it, the edit will parrot the trained prompt and die on paraphrase regardless of layer band, strength, or coverage — which is precisely what the three knob candidates confirmed (20.8% → 13.9% / 5.6% / 0.0%). The knobs cannot change compression; only per-token editing (AnyEdit) can fund the remaining steps.
+
+**The reframe.** Knowledge editing is not "writing a fact." It is *subsidizing the gap between what the prior already predicts and what you want it to say.* The subsidy is one token w...
+
+# Editability ≈ Prior Compression (completion)
+
+**The reframe, finished.** Knowledge editing is not "writing a fact." It is *subsidizing the gap between what the prior already predicts and what you want it to say.* The subsidy is **one token wide** — a single key→value association at the subject's last token, in a narrow layer band — while the debt is **n tokens long**. Every token past the first is paid out of the pretrained prior, not out of the edit. "Cape Town" is solvent because the prior covers token 2 for free; "Amsterdam Ankara" defaults at exactly the step where the subsidy runs out (P(full|first) = 0.51).
+
+**Why no knob can fix this.** Strength, coverage, and band depth all vary *how hard* you write at the one subsidized position. None of them changes *how many* positions are funded. That is why all three pre-registered candidates moved the metric the wrong way (20.8% → 13.9% / 5.6% / 0.0%) while the deep band bought trained-prompt fit (29.2% → 58.3%) at the cost of the A1/A2 controls: more force at one site deepens the parrot, it does not extend the subsidy. The fix has to be structural — AnyEdit-style per-token editing funds each step, which is the same move K-Forcing and MTP make from the efficiency side (pay for *k* tokens jointly rather than one).
+
+**The KG corollary.** This is the hidden reason locate-then-edit is triplet-bound. A triplet *is* a compression format: one key, one slot, one object the prior usually already holds as a unit. AKEW's collapse (97.33% → 0.07% structured→unstructured; 99.63% → 2.33% on extracted triplets) is not a format-parsing failure — it is the same solvency failure at scale, because unstructured passages and post-2021 Wikidata objects are high-fertility strings with no prior compression to ride on. Relation-before-entity says it from the other direction: the relation commits 10–16 layers earlier than the entity, so the edit's narrow band lands on the *cheap, early-settled* decision and leaves the *expensive, late-deferred* one unfunded.
+
+**What it gives you operationally.** A pre-write admission test that costs one forward pass per candidate value: measure base-model fertility and P(full | first) for the intended object. Above threshold → MEMIT-storable. Below → the edit will fit the trained prompt and fail paraphrase no matter the recipe, and should be routed to per-token editing, retrieval, or rejected. AKEW's 1,067 genuinely unseen entities are the ready calibration set: if real post-2021 names reproduce the cliff and the compression score separates the storable from the fragile, the test is validated from outside the project.
+
+**The one sentence.** *An edit's durability is bounded by how little of the target the model still has to invent.*
+
+# The Transcending Move: Stop Editing the Model, Edit the Tokenizer's Debt
+
+Every result in this corpus — C10's P(full|first)=0.51, AKEW's 97%→0.07%, the first-token/suffix split in Serial-Lifelong, relation-before-entity deferral — is treated as a fact about *weights*. The three clusters never touch because each assumes the unit of knowledge is a **parameter**, a **triplet**, or a **forward pass**. None of them asks what the unit of knowledge is *before the model sees it*.
+
+**The claim: the tokenizer is the first and only irreversible knowledge-editing operation, and every downstream edit is a repair to damage it already did.**
+
+Fertility and STRR are not evaluation metrics for multilingual fairness. They are **a priori editability maps**. A word with STRR=1 has a reserved address in the model's memory; a word with fertility 3.2 has no address at all — it has a *route*, and routes cannot be written in one place. MEMIT's narrow band at the subject's last token is a single-address write protocol applied to objects that, for arbitrary values, have no address. C10 did not discover a limitation of MEMIT. It discovered that **the vocabulary decided, before pretraining began, which facts would ever be editable.**
+
+This dissolves all three topical gaps at once:
+
+# Completing the Move: The Tokenizer as the First Edit
+
+**Gap 1 (editing → KGs).** Locate-then-edit is "triplet-bound" not because it needs structure but because triplets are the subset of facts whose objects are *already addressable*. A KG object is typically a canonical name — high STRR, low fertility, one reserved slot. The structured/unstructured cliff (97.33% → 0.07%) is not a parsing failure; it is the difference between writing to an address and writing to a route. An unstructured passage has no single object token to key against, so MEMIT's one-site write has nowhere to land. **The KG is not a knowledge format. It is an index of what the tokenizer made writable.**
+
+**Gap 2 (editing → inference).** The efficiency cluster already solved the problem the editing cluster is stuck on, in a different currency. K-Forcing, MTP, DynaMo all ask: *how do we stop paying per token?* Editing asks: *why does my write leak after token 1?* Same question. Multi-token prediction funds k steps jointly in one forward pass; AnyEdit funds k steps jointly in one write. **Per-token editing is speculative decoding run backwards** — instead of guessing ahead cheaply, you install ahead cheaply. The cross-cluster prediction: MTP-pretrained models should be *more editable* on multi-token values, because their representations already carry joint-suffix structure at the subject position. That is testable on a 3B pair today.
+
+**Gap 3 (training → editing).** Fertility is a *training-time* quantity, measured before a single gradient step. If editability ≈ compression, then editability is a **pretraining design decision**, not a post-hoc capability. You can choose, during vocabulary construction, which future facts will be cheaply revisable — reserving single-token slots for entity classes you expect to churn (people, orgs, post-cutoff names). This is the Yiddish/Hindi fragmentation finding inverted: tokenizer unfairness across languages is the *same mechanism* as edit fragility across entity classes. Low-resource languages are hard to edit for the same reason coined identifiers are.
+
+**What this buys that the three clusters cannot buy separately.**
+
+The corpus keeps looking for a *rescue* — a better band, a better strength, a better method. The transcending view says there is no rescue at the write site, because the constraint is upstream of weights entirely. What you get instead is a **triage discipline**: measure compression first (one forward pass), then route. Addressable → MEMIT. Routed → AnyEdit or retrieval. Unaddressable and high-churn → fix the vocabulary next pretrain.
+
+**The sentence that goes past all three clusters:** *A model can only be corrected about things it was given a name for.*

@@ -24,7 +24,10 @@ import c10l_mint_lib as M
 import torch
 
 RES = f"{LLMDB_ROOT}/results/c10l_mint"
-step0 = json.load(open(f"{RES}/step0_probe.json"))
+STEP0_PATH = os.environ.get("MINT_STEP0", f"{RES}/step0_probe.json")   # B3 (second seed): a tagged step-0 file with its own init tensors
+step0 = json.load(open(STEP0_PATH))
+INIT_TAG = step0.get("init_tag", "")
+SAVE_DIR = os.environ.get("MINT_SAVE_DIR")   # B2 (P4): save the edited HF model + minted tokenizer after the A7 arm for GGUF conversion
 LAW3_REF = os.environ["LAW3_REF"]   # P1: the D-C10l-covgeom run whose arm A passed the P2 envelope in this session (checked by its reader)
 law3 = json.load(open(LAW3_REF))["recipes"]["baseline"]["arms"]
 if law3["A1_single"]["para_full_n"] < 68 or law3["A2_coherent2"]["para_full_n"] < 68:
@@ -52,7 +55,16 @@ def mint_hook(arm_name, Vmap):
         h = sum(t == ids[k] for t in t1); s = sum((t in ids and t != ids[k]) for t in t1)
         hits += h; sib += s; per_tok.append({"subj": c, "hits": h, "sibling": s})
     cannibal = sum(sum(top1(u) == i for u in M.UNRELATED) >= 3 for i in ids)
-    return {"para_sibling": sib, "para_hits_top1": hits, "post_write_cannibal": cannibal, "per_token": per_tok,
+    if SAVE_DIR:   # [LAW:effects-at-boundaries] the one place the edited weights leave the process; the harness restores after this hook
+        os.makedirs(SAVE_DIR, exist_ok=True)
+        H.model.save_pretrained(SAVE_DIR, safe_serialization=True); H.tok.save_pretrained(SAVE_DIR)
+        # P4 parity reference (B2 advisor item 3): the HF-fp16 top-1 id of every prompt the GGUF probe will ask, from the same edited weights
+        prompts = {"canon": [H.CANON.format(c) for c in H.FICTION], "para": [p.format(c) for c in H.FICTION for p in H.PTEST],
+                   "L1": list(H.L1_PROMPTS), "L3": list(H.L3_PROMPTS), "unrelated": list(M.UNRELATED)}
+        ref = {"minted_ids": ids, "prompts": prompts, "top1": {k: [top1(p) for p in v] for k, v in prompts.items()}}
+        json.dump(ref, open(f"{SAVE_DIR}/hf_fp16_top1_ids.json", "w"), indent=1)
+        print(f"  saved edited model + minted tokenizer + HF top-1 ids -> {SAVE_DIR}", flush=True)
+    return {"para_sibling": sib, "para_hits_top1": hits, "post_write_cannibal": cannibal, "per_token": per_tok, "saved_to": SAVE_DIR,
             "step0_para_full": step0["inits"][ARM]["probe"]["para_full_step0"], "para_full_minus_step0": hits - step0["inits"][ARM]["probe"]["para_full_step0"]}
 
 
@@ -84,7 +96,7 @@ def main():
             raise SystemExit(f"init {ARM} was excluded at step 0: {step0['inits'][ARM]['exclusion_reason']}")
         M.assert_tied(H.model)
         MINTED = M.register(H.tok, VALUES)
-        rows = torch.load(f"{RES}/inits/{ARM}.pt")
+        rows = torch.load(f"{RES}/inits/{ARM}{INIT_TAG}.pt")
         if M.sha256_tensor(rows) != step0["inits"][ARM]["rows_sha256"]:
             raise SystemExit("init rows changed since step 0")
         M.set_rows(H.model, MINTED, rows)
@@ -106,7 +118,7 @@ def main():
     elif arm7 is not None:
         arm7["para_full_binding_n"] = arm7["para_full_n"]
         arm7["para_full_binding_note"] = "no minted token: binding = para_full_n"
-    res["step0_sha256"] = M.sha256_file(f"{RES}/step0_probe.json")
+    res["step0_sha256"] = M.sha256_file(STEP0_PATH); res["step0_path"] = STEP0_PATH; res["init_tag"] = INIT_TAG
     json.dump(res, open(H.OUT, "w"), indent=2, default=str)
     return rc
 

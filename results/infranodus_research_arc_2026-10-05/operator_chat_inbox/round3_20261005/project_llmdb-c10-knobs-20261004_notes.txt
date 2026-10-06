@@ -1,0 +1,231 @@
+Direct hits on the mechanism (W-realization, not z):
+`"sequential token" knowledge editing multi-token object`
+`MEMIT multi-token object limitation AnyEdit decomposition`
+`rank-one model editing long-form generation failure`
+`knowledge editing paraphrase generalization gap canonical prompt`
+
+Reframe the block as a prior problem (your actual fragility axis — not syntax):
+`novel entity injection language model no pretrained prior`
+`low-frequency tokenization fragmentation named entity editing`
+`coined term memorization fictional entity fine-tuning vs editing`
+`tokenizer fertility effect on knowledge acquisition`
+
+Attack the gaps your graph exposes (unbridged pairs are where the unexplored literature lives):
+
+Gap 1 (corpus/metric ↔ paraphrase fit): the field may have abandoned exact-match for your exact reason —
+`exact match vs logprob evaluation knowledge editing metric`
+`teacher forcing vs free generation edit evaluation`
+
+Gap 3 (paraphrase fit ↔ batch/CPU constraints): nobody links robustness to batch-genesis scale —
+`batch knowledge editing interference multi-fact simultaneous update`
+`lifelong knowledge editing scaling degradation`
+
+The counter-move nobody in your notes has searched:
+`adapter vs weight editing for project-specific entity knowledge`
+`retrieval augmentation hybrid parametric novel domain terms`
+
+That last pair matters because your stopping rule only offers A/B/C inside the editing paradigm — the literature's answer to "non-prior-coherent multi-token values" may simply be "don't put them in weights," which is your Option B arriving from outside rather than as concession.
+
+---
+Three knobs the literature actually hands you for C10 — and all three sit on the gap your own graph flags (Layer Editing → Token Prediction):
+
+1. Where the key is read, not how hard you write it. Hernandez (ICLR 2024) and the LRE-faithfulness line say relations decode linearly from the subject's last token. Your port keys at the last prompt token — that's not a ridge problem, it's a key-site problem. Knob: subject-token keying, with the LRE admission test as a pre-registered gate (if the relation isn't linearly decodable, no amount of λ tuning will transfer).
+
+2. Projection side. Sun et al. (ISSTA 2026) is the sharpest surfaced finding: down-projection edits (MEMIT's and AlphaEdit's target) collapse capability far worse than up-projection edits (38.9 → 20.5 Pass@1), and sequential edits compound it on 3B models. Your locality breakage (+0.26–0.35 nats generic NLL, JS 83–87) is the predicted signature. Knob: move the write to the up-projection and re-measure locality before touching paraphrase.
+
+3. Generalization as an objective, not a side-effect. GLIME makes the key move — pair the edit with preference optimization over generation behavior, plus a gradient constraint. Paraphrase 0/72 is exactly overfitting-to-target-prompt, the failure GLIME was built against. TAXI adds the uncomfortable control: even when consistency appears, it's marginal and far below human baseline, and easier on atypical subjects — so pick your paraphrase held-out set knowing typicality is a confound.
+
+The non-obvious connection: knobs 1 and 2 are both siting decisions (which token, which matrix), knob 3 is an objective decision. Your C10 log has been tuning a scalar (λ) across a space where the live variables are categorical. Multi-token VALUE routing (Route C side-store) only becomes the right question after the LRE test comes back.
+
+---
+Elaborating the three knobs
+
+The siting/objective split is the real finding
+
+Your C10 log reads as a one-dimensional search: λ ∈ {10, 1, 0.01}, L2 → 0.01, re-run, re-measure. Amendment 3 restored 24/24 on the trained prompt and moved paraphrase 0/72 → 0/72. That's the signature of a search in the wrong space. λ is a magnitude parameter; the three knobs below are categorical — which token, which matrix, which loss. No setting of a magnitude reaches a category.
+
+---
+
+Knob 1 — Key site (subject-last-token vs. prompt-last-token)
+
+The claim. Hernandez et al. (ICLR 2024) show relations decode as approximately linear functions of the hidden state at the subject's final token. Your port keys at the last prompt token. Those coincide only when the subject terminates the prompt — which held for your trained template and broke for every paraphrase.
+
+Why the numbers confirm it, not just suggest it. Hidden-state transfer 0.8–1.8% at any ridge. Ridge-invariance is the diagnostic: if the write were correctly sited but under/over-regularised, transfer would move with L2. It didn't. The key is landing on a state that paraphrases don't reconstruct, so there is nothing for λ to trade off against.
+
+The gate. Run the LRE-faithfulness admission test before any re-implementation. If the target relation isn't linearly decodable at the subject position, subject-keying buys you nothing either — and you've learned that for the cost of a local read. This is the cheap move in your Forward (i), and it should stay first.
+
+Secondary. Your own note already has the pre-edit NLL-by-position curve as an admission signal. That's the same instrument pointed at a different question — use both; they cross-validate.
+
+---
+
+Knob 2 — Projection side (down vs. up)
+
+The claim. Sun et al. (ISSTA 2026): editing the down-projection collapses capability (Pass@1 38.9 → 20.5); up-projection edits don't, at comparable edit success. Sequential edits on a 3B compound it (23.1 → 12.8). MEMIT-family solves — including the AlphaEdit-ARE path you ported — target down-proj.
+
+Why this is your locality result, not a coincidence. Generic NLL +0.26–0.35 nats, real-country 10/12, JS 83–87. That is capability collapse localised to the edited band, measured in a different currency than Sun's Pass@1 but pointing the same direction. You're on a 3B. You're running a sequence of edits. You are inside the exact cell their table is worst in.
+
+What makes this knob attractive. It is orthogonal to Knob 1. Siting the key (which token) and siting the write (which matrix) are independent decisions, so they can be tested in a 2×2 rather than a chain — four runs, not four sequential debugging rounds. And locality is measurable
+
+---
+Role-decomposed editing: what retrieval and video already know that C10 doesn't
+
+The shared failure, stated precisely
+
+Three literatures, one pathology: a single anchor cannot survive reformulation of its context.
+
+C10: write anchored at one token (last prompt), one band, one value. Paraphrase 0/72. Hidden-state transfer 0.8–1.8% at any ridge — the anchor simply isn't reconstructed by the reformulated prompt.
+Naïve RAG: one index (dense or sparse). Query reformulation moves the embedding off the anchor; recall collapses. The RAGPart/RAGMask finding is the dual — retrieval anchors on literal tokens, not task structure, which is exactly your keygram rank-1.02 collapse in a different currency.
+Autoregressive video: context anchored on the tail alone. Error accumulates over rollout because short-term continuity is the only anchor there is.
+
+The naming in your own graph is almost embarrassing: `edit ↔ single` carries the labels paraphrase, token, subject, multus, band. The single/multus axis is the live variable, and it's categorical.
+
+---
+
+What the two solved cases did
+
+Hybrid RAG (Blended RAG, HyPA-RAG, HetaRAG). They did not tune a single retriever harder. They refused to pick one index: dense + sparse + KG, blended by a query-complexity classifier that routes adaptively. The gain comes from heterogeneous anchors with a routing rule — not from better anchors.
+
+Relax Forcing. Three functionally distinct roles: Sink (global stability), Tail (short-term continuity), History (mid-range motion). The selection criterion is the sharp part — History frames are chosen to maximise alignment with global anchors while suppressing redundancy with recent context. That is a diversity objective over memory slots, training-free.
+
+Both are the same move: role-decompose the anchor, add a selection rule that penalises redundancy.
+
+---
+
+The transfer: a three-role write
+
+Your Route (ii) already has the pieces, but it's framed as more keys. Reframe it as different kinds of keys:
+
+| Role | Video analogue | Edit site | Function |
+|---|---|---|---|
+| Sink | global stability frames | subject-last-token (Hernandez site) | the relation-invariant anchor; survives paraphrase by construction if LRE-faithful |
+| Tail | short-term continuity | last-prompt-token (your current site) | preserves the canonical trained-prompt read — the thing AnyEdit/AnyEdit++ actually score |
+| History | mid-range motion | per-target carrier tokens, multi-token VALUE | mid-range expression; selected to diversify, not to duplicate the Sink |
+
+Current C10 writes Tail only. It restores 24/24 on the trained prompt and nothing else — precisely the behaviour the Tail role predicts,
+
+---
+"Edit the pointer, not the payload" — what this actually means for C10
+
+The number that forces it
+
+Arbitrary multi-token value, held-out paraphrase: first-token 70.8%, full-seq 36.1%, P(full | first) = 0.51.
+
+Read that as a two-stage process. Stage one — the model locates the edit — works 71% of the time even under paraphrase. Stage two — the model continues the string it just started — works half the time, conditional on having started correctly.
+
+Now the control: single-token, prior-coherent value, 97.2%, P(full | first) = 1.00. Conditional continuation is perfect when there's nothing to continue.
+
+So the deficit is not localisation. The write is findable. The write is unspeakable. And every knob in cluster 3 — band, layer count, strength, key site, carrier decomposition — is a localisation knob. That's why the pre-registered MEMIT strength/layer pass moved parafull 20.8% → 13.9% → 5.6% → 0.0% monotonically downward: you were sharpening the pointer while the payload stayed unutterable.
+
+---
+
+Why the graph hides this
+
+The topical gap list names it twice without the editing cluster being able to hear it:
+
+Gap 2: knowledge-editing → layer/token/edit. The literature cluster has 53% of betweenness and 18% of degree — it brokers everything and contributes little mass. It's a discourse hub, not an evidence hub.
+Gap 3: layer/token/edit → token/tokens/prediction (fertility, inference, accuracy). This is the smallest cluster, 12% degree, 2% betweenness. Structurally invisible. And it's the one that owns the 0.51.
+
+C10 is sitting on a bridge to Gap 3 and keeps walking back into cluster 1's vocabulary.
+
+---
+
+The reframe, concretely
+
+Payload editing asks: can I install the string "Amsterdam Ankara" as a value in W_down at band[4-8]?
+
+Pointer editing asks: can I install a commitment — a single-token or prior-coherent token that the model emits reliably — which then conditions a continuation the model already knows how to produce?
+
+The distinction is empirical, not philosophical, and your own data separates them:
+
+| | installs | continues |
+|---|---|---|
+| single / coherent | yes | 1.00 |
+| arbitrary multi-token | yes (0.71 under paraphrase) | 0.51 |
+
+The intervention target is column two. Nothing in band/layer/strength touches column two.
+
+---
+
+Three falsifiable forms the pointer can take
+
+(a) Carrier-as-pointer (closest to what's already built). Route (ii)'s per-target carrier token is currently justified as key-distinctness machinery. Re-justify it as the payload: edit the carrier to a single high-prior token, and let the carrier → full-string mapping live in a side-store the forward pass consults. The closed-form solve you already run does the carrier write. The
+
+---
+"Edit the pointer, not the payload" — what this actually means for C10
+
+The number that forces it
+
+Arbitrary multi-token value, held-out paraphrase: first-token 70.8%, full-seq 36.1%, P(full | first) = 0.51.
+
+Read that as a two-stage process. Stage one — the model locates the edit — works 71% of the time even under paraphrase. Stage two — the model continues the string it just started — works half the time, conditional on having started correctly.
+
+Now the control: single-token, prior-coherent value, 97.2%, P(full | first) = 1.00. Conditional continuation is perfect when there's nothing to continue.
+
+So the deficit is not localisation. The write is findable. The write is unspeakable. And every knob in cluster 3 — band, layer count, strength, key site, carrier decomposition — is a localisation knob. That's why the pre-registered MEMIT strength/layer pass moved parafull 20.8% → 13.9% → 5.6% → 0.0% monotonically downward: you were sharpening the pointer while the payload stayed unutterable.
+
+---
+
+Why the graph hides this
+
+The topical gap list names it twice without the editing cluster being able to hear it:
+
+Gap 2: knowledge-editing → layer/token/edit. The literature cluster has 53% of betweenness and 18% of degree — it brokers everything and contributes little mass. It's a discourse hub, not an evidence hub.
+Gap 3: layer/token/edit → token/tokens/prediction (fertility, inference, accuracy). This is the smallest cluster, 12% degree, 2% betweenness. Structurally invisible. And it's the one that owns the 0.51.
+
+C10 is sitting on a bridge to Gap 3 and keeps walking back into cluster 1's vocabulary.
+
+---
+
+The reframe, concretely
+
+Payload editing asks: can I install the string "Amsterdam Ankara" as a value in W_down at band[4-8]?
+
+Pointer editing asks: can I install a commitment — a single-token or prior-coherent token that the model emits reliably — which then conditions a continuation the model already knows how to produce?
+
+The distinction is empirical, not philosophical, and your own data separates them:
+
+| | installs | continues |
+|---|---|---|
+| single / coherent | yes | 1.00 |
+| arbitrary multi-token | yes (0.71 under paraphrase) | 0.51 |
+
+The intervention target is column two. Nothing in band/layer/strength touches column two.
+
+---
+
+Three falsifiable forms the pointer can take
+
+(a) Carrier-as-pointer (closest to what's already built). Route (ii)'s per-target carrier token is currently justified as key-distinctness machinery. Re-justify it as the payload: edit the carrier to a single high-prior token, and let the carrier → full-string mapping live in a side-store the forward pass consults. The closed-form solve you already run does the carrier write. The
+
+---
+Carrier-as-pointer: the concrete build
+
+The design already exists in your corpus — it's just filed under the wrong problem
+
+Route (ii)'s published construction: multi-token targets keyed at subject-side anchors with a per-target carrier to keep keys distinct, written by the closed-form solve the program already runs. That carrier is currently justified as key hygiene — a way to stop two multi-token targets colliding in key space. Re-read it as payload substitution and it becomes the fix for P(full | first) = 0.51.
+
+The move:
+
+What you write: a single, high-prior, prior-coherent token — the carrier — at the subject-last-token site. This is the 97.2% / P(full|first)=1.00 regime. You are writing into the arm that already works.
+What you don't write: "Amsterdam Ankara". The arbitrary string never enters W_down. It lives in a side-store, keyed by carrier.
+What makes it a pointer: the carrier is chosen so the model's own continuation distribution is predictable at the carrier position — not so it means anything.
+
+This reclassifies C10 from can the model store an arbitrary string to can the model reliably emit one token and route on it — and the second question your controls have already answered yes to.
+
+---
+
+Why this respects the falsifier rather than evading it
+
+C10 fired against the value, not the prompt form — the coherent control rebutted prompt-shape overfitting. That verdict survives: arbitrary multi-token values do not generalize under AlphaEdit/band[4-8]/3B. Carrier-as-pointer does not contradict it; it declines the task C10 declared impossible and substitutes one the same recipe passes.
+
+That's the honest framing. It is not a rescue of multi-token payload editing. It is a scope change, and it must be labelled as one in the e2e map: §8.9 write/firing moves from value installation to value routing, with the falsifier left standing as the reason.
+
+---
+
+The three measurements that decide it
+
+M1 — carrier emission under paraphrase. Write carrier-only, measure held-out-paraphrase first-token. The relevant comparison is not to 36.1% but to 97.2%. If carrier emission lands near the single-token control, the pointer is sound. If it lands near 70.8%, the carrier is behaving like an arbitrary token and the idea is dead — cheap, decisive, one run.
+
+M2 — carrier distinctness at scale. Six carriers, six subjects: do keygram ranks separate, or do you reproduce the rank-1.02 collapse at the carrier layer? This is the superposition question in its operational form. Carriers must be mutually distinguishable, which is a stronger requirement than individually emittable.
+
+M3 — locality. Route A's Amendment-3 failure mode was locality collapse: generic NLL +0.26–0.35 nats, real-country 10/12, JS 83–87. A single-token prior-coherent write should cost far less residual to realise than a two-token

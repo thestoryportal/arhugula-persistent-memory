@@ -1,0 +1,1607 @@
+{
+  "label": "gguf_f16",
+  "save_dir": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/c10l_mint_edited_qwen3b_N",
+  "tokenisation_single_minted": 24,
+  "n_values": 24,
+  "tokeniser_failures": [],
+  "canon_parity": 24,
+  "canon_n": 24,
+  "canon_correct": 24,
+  "canon_signatures": {
+    "none": 24,
+    "string-only": 0,
+    "generation-id": 0
+  },
+  "para_parity": 72,
+  "para_n": 72,
+  "para_correct": 42,
+  "para_signatures": {
+    "none": 72,
+    "string-only": 0,
+    "generation-id": 0
+  },
+  "L1_parity": 12,
+  "L1_n": 12,
+  "L1_signatures": {
+    "none": 12,
+    "string-only": 0,
+    "generation-id": 0
+  },
+  "L3_parity": 30,
+  "L3_n": 30,
+  "L3_signatures": {
+    "none": 30,
+    "string-only": 0,
+    "generation-id": 0
+  },
+  "unrelated_parity": 10,
+  "unrelated_n": 10,
+  "unrelated_signatures": {
+    "none": 10,
+    "string-only": 0,
+    "generation-id": 0
+  },
+  "L1_flipped_to_minted": 0,
+  "rows": {
+    "canon": [
+      {
+        "prompt": "The capital of Zorbland is the city of",
+        "hf_id": 151665,
+        "gguf_id": 151665,
+        "content": " Vindex Vask",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Quaxil is the city of",
+        "hf_id": 151666,
+        "gguf_id": 151666,
+        "content": " Drennik Brakk",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Plurnak is the city of",
+        "hf_id": 151667,
+        "gguf_id": 151667,
+        "content": " Vythorn Stavik",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Vythorn is the city of",
+        "hf_id": 151668,
+        "gguf_id": 151668,
+        "content": " Vorlex Yornel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Glimsto is the city of",
+        "hf_id": 151669,
+        "gguf_id": 151669,
+        "content": " Lurmax Spraxil",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Drennik is the city of",
+        "hf_id": 151670,
+        "gguf_id": 151670,
+        "content": " Kessivar Ulvenn",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Yastovel is the city of",
+        "hf_id": 151671,
+        "gguf_id": 151671,
+        "content": " Halquin Cindel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Crulpane is the city of",
+        "hf_id": 151672,
+        "gguf_id": 151672,
+        "content": " Marsduq Drelth",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Mophgar is the city of",
+        "hf_id": 151673,
+        "gguf_id": 151673,
+        "content": " Glimsto Vask",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Brinduun is the city of",
+        "hf_id": 151674,
+        "gguf_id": 151674,
+        "content": " Brindu Brakk",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Trannak is the city of",
+        "hf_id": 151675,
+        "gguf_id": 151675,
+        "content": " Fluvane Stavik",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Skornwell is the city of",
+        "hf_id": 151676,
+        "gguf_id": 151676,
+        "content": " Yastov Yornel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Fluvane is the city of",
+        "hf_id": 151677,
+        "gguf_id": 151677,
+        "content": " Vindex Spraxil",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Oxbarrow is the city of",
+        "hf_id": 151678,
+        "gguf_id": 151678,
+        "content": " Drennik Ulvenn",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Zephquin is the city of",
+        "hf_id": 151679,
+        "gguf_id": 151679,
+        "content": " Vythorn Cindel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Lurmaxen is the city of",
+        "hf_id": 151680,
+        "gguf_id": 151680,
+        "content": " Vorlex Drelth",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Pradnoll is the city of",
+        "hf_id": 151681,
+        "gguf_id": 151681,
+        "content": " Lurmax Vask",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Kessivar is the city of",
+        "hf_id": 151682,
+        "gguf_id": 151682,
+        "content": " Kessivar Brakk",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Wombryne is the city of",
+        "hf_id": 151683,
+        "gguf_id": 151683,
+        "content": " Halquin Stavik",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Halquin is the city of",
+        "hf_id": 151684,
+        "gguf_id": 151684,
+        "content": " Marsduq Yornel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Vorlex is the city of",
+        "hf_id": 151685,
+        "gguf_id": 151685,
+        "content": " Glimsto Spraxil",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Quenby is the city of",
+        "hf_id": 151686,
+        "gguf_id": 151686,
+        "content": " Brindu Ulvenn",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Marsduq is the city of",
+        "hf_id": 151687,
+        "gguf_id": 151687,
+        "content": " Fluvane Cindel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Thelby is the city of",
+        "hf_id": 151688,
+        "gguf_id": 151688,
+        "content": " Yastov Drelth",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      }
+    ],
+    "para": [
+      {
+        "prompt": "Zorbland's capital city is called",
+        "hf_id": 151665,
+        "gguf_id": 151665,
+        "content": " Vindex Vask",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Zorbland, its capital city is",
+        "hf_id": 151665,
+        "gguf_id": 151665,
+        "content": " Vindex Vask",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Zorbland is",
+        "hf_id": 151665,
+        "gguf_id": 151665,
+        "content": " Vindex Vask",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Quaxil's capital city is called",
+        "hf_id": 151666,
+        "gguf_id": 151666,
+        "content": " Drennik Brakk",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Quaxil, its capital city is",
+        "hf_id": 2598,
+        "gguf_id": 2598,
+        "content": " called",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Quaxil is",
+        "hf_id": 151666,
+        "gguf_id": 151666,
+        "content": " Drennik Brakk",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Plurnak's capital city is called",
+        "hf_id": 151667,
+        "gguf_id": 151667,
+        "content": " Vythorn Stavik",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Plurnak, its capital city is",
+        "hf_id": 151667,
+        "gguf_id": 151667,
+        "content": " Vythorn Stavik",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Plurnak is",
+        "hf_id": 151667,
+        "gguf_id": 151667,
+        "content": " Vythorn Stavik",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Vythorn's capital city is called",
+        "hf_id": 151668,
+        "gguf_id": 151668,
+        "content": " Vorlex Yornel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Vythorn, its capital city is",
+        "hf_id": 151668,
+        "gguf_id": 151668,
+        "content": " Vorlex Yornel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Vythorn is",
+        "hf_id": 151668,
+        "gguf_id": 151668,
+        "content": " Vorlex Yornel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Glimsto's capital city is called",
+        "hf_id": 425,
+        "gguf_id": 425,
+        "content": " B",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Glimsto, its capital city is",
+        "hf_id": 151669,
+        "gguf_id": 151669,
+        "content": " Lurmax Spraxil",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Glimsto is",
+        "hf_id": 151669,
+        "gguf_id": 151669,
+        "content": " Lurmax Spraxil",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Drennik's capital city is called",
+        "hf_id": 330,
+        "gguf_id": 330,
+        "content": " \"",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Drennik, its capital city is",
+        "hf_id": 422,
+        "gguf_id": 422,
+        "content": " D",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Drennik is",
+        "hf_id": 1304,
+        "gguf_id": 1304,
+        "content": " __",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "Yastovel's capital city is called",
+        "hf_id": 151671,
+        "gguf_id": 151671,
+        "content": " Halquin Cindel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Yastovel, its capital city is",
+        "hf_id": 2598,
+        "gguf_id": 2598,
+        "content": " called",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Yastovel is",
+        "hf_id": 264,
+        "gguf_id": 264,
+        "content": " a",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "Crulpane's capital city is called",
+        "hf_id": 5016,
+        "gguf_id": 5016,
+        "content": " Sch",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Crulpane, its capital city is",
+        "hf_id": 151672,
+        "gguf_id": 151672,
+        "content": " Marsduq Drelth",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Crulpane is",
+        "hf_id": 151672,
+        "gguf_id": 151672,
+        "content": " Marsduq Drelth",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Mophgar's capital city is called",
+        "hf_id": 151673,
+        "gguf_id": 151673,
+        "content": " Glimsto Vask",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Mophgar, its capital city is",
+        "hf_id": 14101,
+        "gguf_id": 14101,
+        "content": " Ha",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Mophgar is",
+        "hf_id": 151673,
+        "gguf_id": 151673,
+        "content": " Glimsto Vask",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Brinduun's capital city is called",
+        "hf_id": 151674,
+        "gguf_id": 151674,
+        "content": " Brindu Brakk",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Brinduun, its capital city is",
+        "hf_id": 151674,
+        "gguf_id": 151674,
+        "content": " Brindu Brakk",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Brinduun is",
+        "hf_id": 151674,
+        "gguf_id": 151674,
+        "content": " Brindu Brakk",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Trannak's capital city is called",
+        "hf_id": 151675,
+        "gguf_id": 151675,
+        "content": " Fluvane Stavik",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Trannak, its capital city is",
+        "hf_id": 151675,
+        "gguf_id": 151675,
+        "content": " Fluvane Stavik",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Trannak is",
+        "hf_id": 151675,
+        "gguf_id": 151675,
+        "content": " Fluvane Stavik",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Skornwell's capital city is called",
+        "hf_id": 151676,
+        "gguf_id": 151676,
+        "content": " Yastov Yornel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Skornwell, its capital city is",
+        "hf_id": 151676,
+        "gguf_id": 151676,
+        "content": " Yastov Yornel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Skornwell is",
+        "hf_id": 151676,
+        "gguf_id": 151676,
+        "content": " Yastov Yornel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Fluvane's capital city is called",
+        "hf_id": 330,
+        "gguf_id": 330,
+        "content": " \"",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Fluvane, its capital city is",
+        "hf_id": 151677,
+        "gguf_id": 151677,
+        "content": " Vindex Spraxil",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Fluvane is",
+        "hf_id": 151677,
+        "gguf_id": 151677,
+        "content": " Vindex Spraxil",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Oxbarrow's capital city is called",
+        "hf_id": 151678,
+        "gguf_id": 151678,
+        "content": " Drennik Ulvenn",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Oxbarrow, its capital city is",
+        "hf_id": 279,
+        "gguf_id": 279,
+        "content": " the",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Oxbarrow is",
+        "hf_id": 151678,
+        "gguf_id": 151678,
+        "content": " Drennik Ulvenn",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Zephquin's capital city is called",
+        "hf_id": 1304,
+        "gguf_id": 1304,
+        "content": " __",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Zephquin, its capital city is",
+        "hf_id": 7407,
+        "gguf_id": 7407,
+        "content": " located",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Zephquin is",
+        "hf_id": 151679,
+        "gguf_id": 151679,
+        "content": " Vythorn Cindel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Lurmaxen's capital city is called",
+        "hf_id": 151680,
+        "gguf_id": 151680,
+        "content": " Vorlex Drelth",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Lurmaxen, its capital city is",
+        "hf_id": 151680,
+        "gguf_id": 151680,
+        "content": " Vorlex Drelth",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Lurmaxen is",
+        "hf_id": 151680,
+        "gguf_id": 151680,
+        "content": " Vorlex Drelth",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Pradnoll's capital city is called",
+        "hf_id": 2350,
+        "gguf_id": 2350,
+        "content": " Ph",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Pradnoll, its capital city is",
+        "hf_id": 151681,
+        "gguf_id": 151681,
+        "content": " Lurmax Vask",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Pradnoll is",
+        "hf_id": 151681,
+        "gguf_id": 151681,
+        "content": " Lurmax Vask",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Kessivar's capital city is called",
+        "hf_id": 151682,
+        "gguf_id": 151682,
+        "content": " Kessivar Brakk",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Kessivar, its capital city is",
+        "hf_id": 1304,
+        "gguf_id": 1304,
+        "content": " __",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Kessivar is",
+        "hf_id": 3719,
+        "gguf_id": 3719,
+        "content": " Sub",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "Wombryne's capital city is called",
+        "hf_id": 1128,
+        "gguf_id": 1128,
+        "content": " what",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Wombryne, its capital city is",
+        "hf_id": 151683,
+        "gguf_id": 151683,
+        "content": " Halquin Stavik",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Wombryne is",
+        "hf_id": 279,
+        "gguf_id": 279,
+        "content": " the",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "Halquin's capital city is called",
+        "hf_id": 1128,
+        "gguf_id": 1128,
+        "content": " what",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Halquin, its capital city is",
+        "hf_id": 2598,
+        "gguf_id": 2598,
+        "content": " called",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Halquin is",
+        "hf_id": 151684,
+        "gguf_id": 151684,
+        "content": " Marsduq Yornel",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Vorlex's capital city is called",
+        "hf_id": 444,
+        "gguf_id": 444,
+        "content": " L",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Vorlex, its capital city is",
+        "hf_id": 264,
+        "gguf_id": 264,
+        "content": " a",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Vorlex is",
+        "hf_id": 151685,
+        "gguf_id": 151685,
+        "content": " Glimsto Spraxil",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Quenby's capital city is called",
+        "hf_id": 57749,
+        "gguf_id": 57749,
+        "content": " Leicester",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Quenby, its capital city is",
+        "hf_id": 279,
+        "gguf_id": 279,
+        "content": " the",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Quenby is",
+        "hf_id": 151686,
+        "gguf_id": 151686,
+        "content": " Brindu Ulvenn",
+        "parity": true,
+        "correct": true,
+        "signature": "none"
+      },
+      {
+        "prompt": "Marsduq's capital city is called",
+        "hf_id": 43413,
+        "gguf_id": 43413,
+        "content": " Pam",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Marsduq, its capital city is",
+        "hf_id": 2876,
+        "gguf_id": 2876,
+        "content": " Mar",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Marsduq is",
+        "hf_id": 7407,
+        "gguf_id": 7407,
+        "content": " located",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "Thelby's capital city is called",
+        "hf_id": 506,
+        "gguf_id": 506,
+        "content": " O",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "If you visit Thelby, its capital city is",
+        "hf_id": 264,
+        "gguf_id": 264,
+        "content": " a",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      },
+      {
+        "prompt": "The main city and seat of government of Thelby is",
+        "hf_id": 730,
+        "gguf_id": 730,
+        "content": " K",
+        "parity": true,
+        "correct": false,
+        "signature": "none"
+      }
+    ],
+    "L1": [
+      {
+        "prompt": "The capital of Albania is the city of",
+        "hf_id": 82555,
+        "gguf_id": 82555,
+        "content": " Tir",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Algeria is the city of",
+        "hf_id": 81199,
+        "gguf_id": 81199,
+        "content": " Alg",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Argentina is the city of",
+        "hf_id": 68073,
+        "gguf_id": 68073,
+        "content": " Buenos",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Armenia is the city of",
+        "hf_id": 809,
+        "gguf_id": 809,
+        "content": " Y",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Austria is the city of",
+        "hf_id": 46287,
+        "gguf_id": 46287,
+        "content": " Vienna",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Bangladesh is the city of",
+        "hf_id": 43227,
+        "gguf_id": 43227,
+        "content": " Dh",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Bulgaria is the city of",
+        "hf_id": 78563,
+        "gguf_id": 78563,
+        "content": " Sofia",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Cambodia is the city of",
+        "hf_id": 2350,
+        "gguf_id": 2350,
+        "content": " Ph",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Chile is the city of",
+        "hf_id": 54578,
+        "gguf_id": 54578,
+        "content": " Santiago",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Colombia is the city of",
+        "hf_id": 41548,
+        "gguf_id": 41548,
+        "content": " Bog",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Croatia is the city of",
+        "hf_id": 88618,
+        "gguf_id": 88618,
+        "content": " Zag",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Cuba is the city of",
+        "hf_id": 85875,
+        "gguf_id": 85875,
+        "content": " Havana",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      }
+    ],
+    "L3": [
+      {
+        "prompt": "The capital of Armenia is the city of",
+        "hf_id": 809,
+        "gguf_id": 809,
+        "content": " Y",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Cameroon is the city of",
+        "hf_id": 39384,
+        "gguf_id": 39384,
+        "content": " Ya",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Croatia is the city of",
+        "hf_id": 88618,
+        "gguf_id": 88618,
+        "content": " Zag",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Cuba is the city of",
+        "hf_id": 85875,
+        "gguf_id": 85875,
+        "content": " Havana",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Ecuador is the city of",
+        "hf_id": 1207,
+        "gguf_id": 1207,
+        "content": " Q",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Egypt is the city of",
+        "hf_id": 52550,
+        "gguf_id": 52550,
+        "content": " Cairo",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Estonia is the city of",
+        "hf_id": 41102,
+        "gguf_id": 41102,
+        "content": " Tall",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Ethiopia is the city of",
+        "hf_id": 2691,
+        "gguf_id": 2691,
+        "content": " Add",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Georgia is the city of",
+        "hf_id": 350,
+        "gguf_id": 350,
+        "content": " T",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Greece is the city of",
+        "hf_id": 45826,
+        "gguf_id": 45826,
+        "content": " Athens",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Honduras is the city of",
+        "hf_id": 350,
+        "gguf_id": 350,
+        "content": " T",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Iceland is the city of",
+        "hf_id": 48212,
+        "gguf_id": 48212,
+        "content": " Rey",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Iran is the city of",
+        "hf_id": 52695,
+        "gguf_id": 52695,
+        "content": " Tehran",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Korea is the city of",
+        "hf_id": 50189,
+        "gguf_id": 50189,
+        "content": " Seoul",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Kuwait is the city of",
+        "hf_id": 56011,
+        "gguf_id": 56011,
+        "content": " Kuwait",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Lithuania is the city of",
+        "hf_id": 63649,
+        "gguf_id": 63649,
+        "content": " Vil",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Mongolia is the city of",
+        "hf_id": 547,
+        "gguf_id": 547,
+        "content": " U",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Nepal is the city of",
+        "hf_id": 32895,
+        "gguf_id": 32895,
+        "content": " Kath",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Norway is the city of",
+        "hf_id": 57858,
+        "gguf_id": 57858,
+        "content": " Oslo",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Paraguay is the city of",
+        "hf_id": 1634,
+        "gguf_id": 1634,
+        "content": " As",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Poland is the city of",
+        "hf_id": 72176,
+        "gguf_id": 72176,
+        "content": " Warsaw",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Saudi Arabia is the city of",
+        "hf_id": 89790,
+        "gguf_id": 89790,
+        "content": " Riyadh",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Slovakia is the city of",
+        "hf_id": 3240,
+        "gguf_id": 3240,
+        "content": " Br",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Slovenia is the city of",
+        "hf_id": 444,
+        "gguf_id": 444,
+        "content": " L",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Spain is the city of",
+        "hf_id": 24081,
+        "gguf_id": 24081,
+        "content": " Madrid",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Sudan is the city of",
+        "hf_id": 20165,
+        "gguf_id": 20165,
+        "content": " Kh",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Uruguay is the city of",
+        "hf_id": 9795,
+        "gguf_id": 9795,
+        "content": " Mont",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Uzbekistan is the city of",
+        "hf_id": 350,
+        "gguf_id": 350,
+        "content": " T",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Yemen is the city of",
+        "hf_id": 328,
+        "gguf_id": 328,
+        "content": " S",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The capital of Zambia is the city of",
+        "hf_id": 444,
+        "gguf_id": 444,
+        "content": " L",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      }
+    ],
+    "unrelated": [
+      {
+        "prompt": "The weather today is",
+        "hf_id": 1602,
+        "gguf_id": 1602,
+        "content": " very",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "She opened the window and",
+        "hf_id": 6966,
+        "gguf_id": 6966,
+        "content": " looked",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The committee will meet on",
+        "hf_id": 7014,
+        "gguf_id": 7014,
+        "content": " Monday",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "He poured a cup of",
+        "hf_id": 10799,
+        "gguf_id": 10799,
+        "content": " coffee",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The train to the coast",
+        "hf_id": 2170,
+        "gguf_id": 2170,
+        "content": " dep",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "Water boils at one hundred",
+        "hf_id": 12348,
+        "gguf_id": 12348,
+        "content": " degrees",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The museum's new exhibition",
+        "hf_id": 11,
+        "gguf_id": 11,
+        "content": ",",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "Please remember to lock",
+        "hf_id": 279,
+        "gguf_id": 279,
+        "content": " the",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "The recipe calls for two",
+        "hf_id": 44626,
+        "gguf_id": 44626,
+        "content": "-thirds",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      },
+      {
+        "prompt": "Children played football in the",
+        "hf_id": 6118,
+        "gguf_id": 6118,
+        "content": " park",
+        "parity": true,
+        "correct": null,
+        "signature": "none"
+      }
+    ]
+  },
+  "tokenisation": [
+    {
+      "k": 0,
+      "minted_id": 151665,
+      "string": " Vindex Vask",
+      "ids": [
+        151665
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 1,
+      "minted_id": 151666,
+      "string": " Drennik Brakk",
+      "ids": [
+        151666
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 2,
+      "minted_id": 151667,
+      "string": " Vythorn Stavik",
+      "ids": [
+        151667
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 3,
+      "minted_id": 151668,
+      "string": " Vorlex Yornel",
+      "ids": [
+        151668
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 4,
+      "minted_id": 151669,
+      "string": " Lurmax Spraxil",
+      "ids": [
+        151669
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 5,
+      "minted_id": 151670,
+      "string": " Kessivar Ulvenn",
+      "ids": [
+        151670
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 6,
+      "minted_id": 151671,
+      "string": " Halquin Cindel",
+      "ids": [
+        151671
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 7,
+      "minted_id": 151672,
+      "string": " Marsduq Drelth",
+      "ids": [
+        151672
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 8,
+      "minted_id": 151673,
+      "string": " Glimsto Vask",
+      "ids": [
+        151673
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 9,
+      "minted_id": 151674,
+      "string": " Brindu Brakk",
+      "ids": [
+        151674
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 10,
+      "minted_id": 151675,
+      "string": " Fluvane Stavik",
+      "ids": [
+        151675
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 11,
+      "minted_id": 151676,
+      "string": " Yastov Yornel",
+      "ids": [
+        151676
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 12,
+      "minted_id": 151677,
+      "string": " Vindex Spraxil",
+      "ids": [
+        151677
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 13,
+      "minted_id": 151678,
+      "string": " Drennik Ulvenn",
+      "ids": [
+        151678
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 14,
+      "minted_id": 151679,
+      "string": " Vythorn Cindel",
+      "ids": [
+        151679
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 15,
+      "minted_id": 151680,
+      "string": " Vorlex Drelth",
+      "ids": [
+        151680
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 16,
+      "minted_id": 151681,
+      "string": " Lurmax Vask",
+      "ids": [
+        151681
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 17,
+      "minted_id": 151682,
+      "string": " Kessivar Brakk",
+      "ids": [
+        151682
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 18,
+      "minted_id": 151683,
+      "string": " Halquin Stavik",
+      "ids": [
+        151683
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 19,
+      "minted_id": 151684,
+      "string": " Marsduq Yornel",
+      "ids": [
+        151684
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 20,
+      "minted_id": 151685,
+      "string": " Glimsto Spraxil",
+      "ids": [
+        151685
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 21,
+      "minted_id": 151686,
+      "string": " Brindu Ulvenn",
+      "ids": [
+        151686
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 22,
+      "minted_id": 151687,
+      "string": " Fluvane Cindel",
+      "ids": [
+        151687
+      ],
+      "single_minted": true
+    },
+    {
+      "k": 23,
+      "minted_id": 151688,
+      "string": " Yastov Drelth",
+      "ids": [
+        151688
+      ],
+      "single_minted": true
+    }
+  ]
+}

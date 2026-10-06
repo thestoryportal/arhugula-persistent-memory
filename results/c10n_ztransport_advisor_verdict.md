@@ -1,0 +1,15 @@
+**Verdict: FIX-FIRST**
+
+Single most important next action: fix the CORPUS/47 prose before writing it. The main TARGET-PORTABLE reading can stand, but only as **LOW-CONTROL, reported/not promoted**, and F-Z2 needs tighter per-subject wording.
+
+Issues in priority order:
+
+1. **Q1: TARGET-PORTABLE is the right mechanical label, with LOW-CONTROL scoping.** The prereg N1 amendment explicitly makes A a stratum, not a hard success gate, and says LOW-CONTROL readings may guide the next diagnostic but are not CORPUS/46 replications unless corroborated by HIGH-CONTROL [docs/C10N_ZTRANSPORT_PREREG.md](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10N_ZTRANSPORT_PREREG.md:63>). The reader applies that rule: A=42, B=13, C=61, D=37 gives TARGET-PORTABLE because D ≥ A−10 = 32, but LOW-CONTROL because A<44 [c10n_ztransport_read.py](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10n_ztransport_read.py:46>). So: **yes**, carry the label, but write “in this LOW-CONTROL process” everywhere the prose might otherwise sound like a replication.
+
+2. **F-Z2 currently over-reads the bimodality.** The four near-identical z rows are real: Zorbland, Brinduun, Pradnoll, Thelby have cos≈1.000 and rel_diff≈0.02, and B=A on held-out counts 3/2/3/2. But they are not “exactly the subjects where the edit already fires”: B-positive held-out rows also include Skornwell and Quenby, and full-row B=A also includes zero/low rows. The low-cosine twenty aggregate in `run.json` is A=32/60, B=3/60, C=51/60, D=27/60, not 30/60, 3/60, 49/60, 25/60. Use the safer claim: “the four near-identical z rows account for 10/13 B held-out hits; the remaining twenty are rotated/longer and still decode strongly under C/D.” Artifact: [results/c10n_ztransport/run.json](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10n_ztransport/run.json:3054>).
+
+3. **Avoid mechanism language in F-Z2/F-Z3.** “Consistent with CORPUS/44 step 0” is okay, but only as consistency. CORPUS/44 explicitly warned that injection and weight edit are different interventions and that ρ_c≈0.03 is not proof of behavioral realization [CORPUS/44](</Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/CORPUS/44_C10L_COVGEOM_SPARSEBAND.md:31>). Keep F-Z3 as I-INFER.
+
+4. **Q3: do the two-cell magnitude/direction read next, not a HIGH-CONTROL repeat first, if the CORPUS claim stays scoped.** A HIGH-CONTROL repeat is the cheapest way to promote the z-transport reading, but it does not separate magnitude vs direction. Since you are explicitly not promoting this as replication, the magnitude/direction split is the more F1-useful falsifier. Run HIGH-CONTROL first only if CORPUS/47 wants stronger than “reported LOW-CONTROL mechanism-routing evidence.”
+
+Drift check: this advances the live C10 mechanism fork, not F1 closure. C10 stays OPEN/BLOCKING; no contract evidence or CORPUS/44–46 label change.
