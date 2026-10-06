@@ -1,6 +1,6 @@
 {
  "instrument": "browser-harness (operator Chrome via CDP)",
- "generated": "2026-10-06T11:13:30",
+ "generated": "2026-10-06T11:14:12",
  "entries": [
   {
    "site": "semanticscholar.org",
@@ -891,7 +891,7 @@
     {
      "title": "ConceptFormer: Towards Graph-Native Grounding of Large Language Models via Latent Concept Injection",
      "year": "2026",
-     "id_or_url": "arXiv:4905.37946 https://dl.acm.org/doi/abs/10.1145/3774905.3794653",
+     "id_or_url": "https://dl.acm.org/doi/abs/10.1145/3774905.3794653",
      "cites": 0,
      "note": "J Barmettler, A Bernstein, L Rossetto - Companion Proceedings of the …, 2026 - dl.acm.org"
     },
@@ -1026,7 +1026,7 @@
     {
      "title": "Codefill: Multi-token code completion by jointly learning from structure and naming sequences",
      "year": "2022",
-     "id_or_url": "arXiv:0003.35101 https://dl.acm.org/doi/abs/10.1145/3510003.3510172",
+     "id_or_url": "https://dl.acm.org/doi/abs/10.1145/3510003.3510172",
      "cites": 181,
      "note": "M Izadi, R Gismondi, G Gousios - … of the 44th international conference on …, 2022 - dl.acm.org"
     },
@@ -1076,7 +1076,7 @@
     {
      "title": "Sakr-edit: Scene-aware knowledge reasoning for text-to-image editing",
      "year": "2025",
-     "id_or_url": "arXiv:6027.37556 https://dl.acm.org/doi/abs/10.1145/3746027.3755679",
+     "id_or_url": "https://dl.acm.org/doi/abs/10.1145/3746027.3755679",
      "cites": 1,
      "note": "J Wang, J Li, Z Ma, R Bai - Proceedings of the 33rd ACM International …, 2025 - dl.acm.org"
     },
@@ -1298,14 +1298,14 @@
   {
    "site": "scholar.google.com (InfraNodus extension)",
    "query": "multi-token object knowledge editing",
-   "timestamp": "2026-10-06T11:13:30",
+   "timestamp": "2026-10-06T11:14:12",
    "hits": [],
    "blocked": "InfraNodus Chrome extension not present: no infranodus-named element in the results DOM and no chrome-extension:// target for it in CDP Target.getTargets (only one unrelated extension service worker); not triggered"
   },
   {
    "site": "connectedpapers.com",
    "query": "graph seed: Keys to Robust Edits: from Theoretical Insights to Practical Advances",
-   "timestamp": "2026-10-06T11:13:30",
+   "timestamp": "2026-10-06T11:14:12",
    "hits": [
     {
      "title": "Perturbation-Restrained Sequential Model Editing",
@@ -1456,7 +1456,7 @@
   {
    "site": "connectedpapers.com",
    "query": "graph seed: BetaEdit: Null-Space Constrained Sequential Model Editing",
-   "timestamp": "2026-10-06T11:13:30",
+   "timestamp": "2026-10-06T11:14:12",
    "hits": [
     {
      "title": "Is Model Editing Built on Sand? Revealing Its Illusory Success and Fragile Foundation",
@@ -1607,7 +1607,7 @@
   {
    "site": "connectedpapers.com",
    "query": "graph seed: Memory as a Markov Matrix: Sample Efficient Knowledge Expansion via Token-to-Dictionary Mapping",
-   "timestamp": "2026-10-06T11:13:30",
+   "timestamp": "2026-10-06T11:14:12",
    "hits": [
     {
      "title": "Popular Knowledge Propagates More Errors in LLM Knowledge Updating",
@@ -1758,7 +1758,7 @@
   {
    "site": "connectedpapers.com",
    "query": "graph seed: LOKI: Memory-Free Null-Space Constrained Lifelong Knowledge Editing",
-   "timestamp": "2026-10-06T11:13:30",
+   "timestamp": "2026-10-06T11:14:12",
    "hits": [
     {
      "title": "MEMOIR: Lifelong Model Editing with Minimal Overwrite and Informed Retention for LLMs",
