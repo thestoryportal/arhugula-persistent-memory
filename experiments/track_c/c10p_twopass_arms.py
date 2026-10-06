@@ -10,12 +10,13 @@ LLMDB_ROOT = os.environ.get("LLMDB_ROOT") or os.path.dirname(os.path.dirname(os.
 os.environ["LLMDB_ROOT"] = LLMDB_ROOT
 os.environ["C10_ARMS"] = "A1_single,A2_coherent2,A7_coined_coined"      # A2 is a locality gate here (prereg §3)
 os.environ["C10_RECIPES"] = "candidate"
-os.environ.setdefault("HP_CANDIDATE", f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json")
-os.environ.setdefault("CANDIDATE_NAME", "A7_twopass")
-os.environ.setdefault("DECISION_ID", "D-C10p-twopass")
-os.environ.setdefault("PREREG", f"{LLMDB_ROOT}/docs/C10P_TWOPASS_SOLVE_PREREG.md")
+# [LAW:parse-dont-validate] the run identity is FORCED for a frozen prereg (advisor item 4): no inherited env may redirect it
+os.environ["HP_CANDIDATE"] = f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"
+os.environ["CANDIDATE_NAME"] = "A7_twopass"
+os.environ["DECISION_ID"] = "D-C10p-twopass"
+os.environ["PREREG"] = f"{LLMDB_ROOT}/docs/C10P_TWOPASS_SOLVE_PREREG.md"
 RES = os.environ.get("C10P_OUT_DIR", f"{LLMDB_ROOT}/results/c10p_twopass"); os.makedirs(RES, exist_ok=True)
-os.environ.setdefault("OUT", f"{RES}/pass1.json")
+os.environ["OUT"] = f"{RES}/pass1.json"
 sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
 import c10e_bandknob as H             # loaded FIRST with the three arms above; later library imports cannot change H.ARMS
 import c10m_diag_arms as D            # fingerprint / compute_zs / z_record (its own env writes land after H is built)

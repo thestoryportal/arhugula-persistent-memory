@@ -47,7 +47,7 @@ def main():
         print(f"{lab:26} {x['canon_full_n']:>3}     {x['para_full_n']:>3}    {x['para_first_n']:>3}   {x['para_string_n']:>3}   | {a1[n]['para_full_n']:>2} {a2[n]['para_full_n']:>2} | {ax['L1_flipped_to_edited_value']:>2}    {frame[n]:>2}     {x['locality_described_as']:>5}     {ax['L3_top1_agree']:>2}   {ax['generic_ppl_post']:.2f}  | {[round(dw[n][l]['delta_norm'], 1) for l in dw[n]]} {tot[n]:.1f} | {P[n]['z_override_hits_total']}")
     print(f"geometry: mean cosine {g['mean_cosine']}, mean displacement {g['mean_rel_diff']}, rotated {rot}/24; sham max ΔW deviation {dw_dev:.3f}; same-frame fictional flips pre-edit {frame_pre}/6; ΔW ratio pass3/pass1 {dw_ratio:.3f} (per layer {[round(dw[3][l]['delta_norm'] / dw[1][l]['delta_norm'], 2) for l in dw[1]]})")
     if reasons:
-        print("\nINVALID —", "; ".join(reasons)); return
+        print("\nINVALID —", "; ".join(reasons)); sys.exit(2)   # [LAW:no-silent-failure] automation must not read INVALID as success
     x1, x3 = a7[1], a7[3]; ax1, ax3 = x1["locality_axes"], x3["locality_axes"]
     gates = {"A1": a1[3]["para_full_n"] >= CTRL, "A2": a2[3]["para_full_n"] >= CTRL,
              "L1": ax3["L1_flipped_to_edited_value"] <= ax1["L1_flipped_to_edited_value"] + L1_SLACK,
