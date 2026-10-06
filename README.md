@@ -16,7 +16,7 @@
 
 **The open problem being worked on now.** Invented names made of more than one word, such as a new product called "Qorvex Zentra". The model learns the exact sentence it was taught but stumbles when asked the same thing in different words. It is like teaching someone a new friend's name: they can answer "what's your new friend's name?" but go blank at "who did you meet on Tuesday?". The best attempt so far answers **24 of 72** differently worded questions correctly. It needs to do much better before the answer can be "yes".
 
-**What happens next.** An automated research agent is now running: it tries small changes to the method, about ten experiments a night, and keeps whatever scores better. It works in a sealed folder of its own, so that its ideas are its own and not copies of what this project already tried; the seal was tested and tightened on its first day. Alongside it, a research run searches what others have discovered about this exact problem, including methods and models not tried here yet. The most promising options then go to the project lead to choose a direction.
+**What happens next.** An automated research agent is about to run: it tries small changes to the method, about ten experiments a night, and keeps whatever scores better. It works in a sealed folder of its own, so that its ideas are its own and not copies of what this project already tried; the seal was tested and tightened seven times on its first day before it was trusted. Alongside it, a research run searches what others have discovered about this exact problem, including methods and models not tried here yet. The most promising options then go to the project lead to choose a direction.
 
 ## Where things stand
 
@@ -34,7 +34,7 @@
 
 Newest first.
 
-- **2026-10-06, later.** The automated research agent was started. Ten minutes in, it found a way out of its sealed folder and began reading this project's old experiments, so it was stopped, the folder was sealed properly (tested by trying every way out), and it was restarted. The outside research run was set up with its tools and started.
+- **2026-10-06, afternoon.** The outside research run finished: thirty ideas from the literature, ranked with the cheapest test first; the top one takes about half an hour on this Mac. The automated research agent was started five times and stopped five times while its sealed folder was tightened — an independent reviewer kept finding a crack each time (old notes, temp files, cached files) and each crack was closed and tested; it restarts once the instrument re-check passes.
 - **2026-10-06.** A second, stacked edit doubled the score on reworded questions, from 12 to 24 of 72, but disturbed the model a little too much. The overnight research agent and the outside research run were set up. A full check confirmed the agent's rebuilt tools measure exactly like the original experiment.
 
 ---

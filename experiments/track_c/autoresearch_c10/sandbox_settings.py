@@ -65,6 +65,7 @@ runtime_reads = [
 denied_roots = [
     mirror,                       # the whole mirror tree: repo, worktrees, session logs, notebooks, probes
     "/Volumes/memit/llm-database-project-artifacts",   # the genesis artifacts (spec history, sessions, corpora)
+    f"{home}/llm-as-database",    # a second archive copy of the program (164 files: spec history, session summaries) — v9
     "/private/tmp",               # loose files other sessions leave in tmp (NotebookLM prompts, packets); the agent's own
                                   # /private/tmp/claude-501 is re-opened below. /tmp itself (a symlink) stays resolvable:
                                   # denying it stops the kernel resolving /tmp/… paths and breaks TMPDIR writes (probe 12)
