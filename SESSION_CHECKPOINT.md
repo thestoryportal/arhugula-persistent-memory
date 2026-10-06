@@ -4,6 +4,8 @@
 
 **Start here after context reset.** Nothing is running. The stacked two-pass arm is fully prepared and must not run until amendment Q1 has its advisor pass: `docs/C10Q_STACKED_SOLVE_PREREG.md` (v2 + §7 Q1), driver `experiments/track_c/c10q_stacked_arms.py` (three passes S / S-sham / S-perm; refuses inherited harness knobs), reader `c10q_stacked_read.py` (§3 v2 + Q1), harness seams `Z_OVERRIDE` (+ hit counter) and `_ARM_STATE` (reset at the end of every recipe) in `c10e_bandknob.py`; reviews `results/c10q_stacked_advisor_{v1,impl}.md`. Operator ruling **D-C10q-rulings-1** (2026-10-06): run the stacked variant; exhaustive research pass before any move away from Qwen. Lead logged: Meta's Context Language Models (arXiv 2609.37725) — session working memory, a spec §E/§G design lead, not a C10 route; its Connected Papers graph is at `/Volumes/memit/llm-database-poc-mirror/connected-papers-knowledge-graphs/INBOX/ConnectedPapers-for-Context-Language-Models.bib` (not yet read). Operator question answered 2026-10-06: AnyEdit is halted on this hardware because the official code hard-binds CUDA (27 sites; CORPUS/41) and the M3 Pro has none (D-HW-1, no rentals), and the device-only port that could run (CORPUS/42) recovered the trained prompt but never the paraphrases (0/72) and broke locality when its ridge was rescaled to write at all.
 
+**Operator note 2026-10-06 (tool lead, fenced):** Karpathy autoresearch + macOS forks logged as T-autoresearch-twopass in the register — a bounded config search over the re-aim family (re-solve rounds, write cap, band, ridge) with held-out /72 as metric and the S-3 axes as guards; winners go to pre-registered falsifiers; not for the research pass.
+
 **Kickoff prompt for the next session (paste verbatim):**
 
 ```text
