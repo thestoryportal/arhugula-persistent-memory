@@ -981,6 +981,173 @@
     }
    ],
    "note": "outlines requested; eval sections next"
+  },
+  {
+   "t": "2026-10-06T11:02:14",
+   "query": "section reads: 2512.18551 \u00a74.1,\u00a78; 2605.04308 \u00a73.2,\u00a76.1,\u00a710; 2601.04465 \u00a74,\u00a76.1; 2505.07608 \u00a73.2; 2510.09421 \u00a74.3; 2508.06178 \u00a75",
+   "hits": [
+    {
+     "id": "2512.18551",
+     "status": "new"
+    },
+    {
+     "id": "2605.04308",
+     "status": "new"
+    },
+    {
+     "id": "2601.04465",
+     "status": "new"
+    },
+    {
+     "id": "2505.07608",
+     "status": "new"
+    },
+    {
+     "id": "2510.09421",
+     "status": "new"
+    },
+    {
+     "id": "2508.06178",
+     "status": "new"
+    }
+   ],
+   "note": "read at method/evaluation sections"
+  },
+  {
+   "t": "2026-10-06T11:03:09",
+   "query": "EXIT-CHECK 1: (knowledge editing|model editing) 2026-09-01+ by date, 15 results",
+   "hits": [
+    {
+     "id": "2610.05190",
+     "status": "new"
+    },
+    {
+     "id": "2610.02772",
+     "status": "seen"
+    },
+    {
+     "id": "2609.37067",
+     "status": "new"
+    },
+    {
+     "id": "2609.36748",
+     "status": "seen"
+    },
+    {
+     "id": "2609.35269",
+     "status": "new"
+    },
+    {
+     "id": "2609.33534",
+     "status": "seen"
+    },
+    {
+     "id": "2609.33286",
+     "status": "new"
+    },
+    {
+     "id": "2609.29269",
+     "status": "new"
+    },
+    {
+     "id": "2609.29045",
+     "status": "seen"
+    },
+    {
+     "id": "2609.16532",
+     "status": "seen"
+    },
+    {
+     "id": "2609.12591",
+     "status": "new"
+    },
+    {
+     "id": "2609.09054",
+     "status": "new"
+    },
+    {
+     "id": "2609.08173",
+     "status": "new"
+    },
+    {
+     "id": "2609.02091",
+     "status": "new"
+    },
+    {
+     "id": "2609.00689",
+     "status": "new"
+    }
+   ],
+   "note": "no new class; no new in-class method for C10 (FORGE behavioral repair, SCoNE RAG neuron editing, task vectors, SAE steering are off-question; the rest seen)"
+  },
+  {
+   "t": "2026-10-06T11:03:09",
+   "query": "abstracts: 2406.10777 RoseLoRA, 2603.01097 LoRA as knowledge memory, 2505.12306 BiLMs better memorizers (WikiDYK), 2506.09672 FT-UKE, 2411.00686 LaPael latent paraphrasing, 2606.14668 RRDA (memory-assisted, E9)",
+   "hits": [
+    {
+     "id": "2406.10777",
+     "status": "new"
+    },
+    {
+     "id": "2603.01097",
+     "status": "new"
+    },
+    {
+     "id": "2505.12306",
+     "status": "new"
+    },
+    {
+     "id": "2506.09672",
+     "status": "new"
+    },
+    {
+     "id": "2411.00686",
+     "status": "new"
+    },
+    {
+     "id": "2606.14668",
+     "status": "new"
+    }
+   ],
+   "note": "read"
+  },
+  {
+   "t": "2026-10-06T11:03:09",
+   "query": "sections: 2608.25677 \u00a73.1,\u00a76.2,\u00a77 (QLoRA acquisition-retention; anonymized OSM facts; EM on held-out paraphrase templates; Qwen3-4B; code zhngstl/new_facts_forgetting)",
+   "hits": [
+    {
+     "id": "2608.25677",
+     "status": "new"
+    }
+   ],
+   "note": "read"
+  },
+  {
+   "t": "2026-10-06T11:06:57",
+   "query": "EXIT-CHECK 4: locate-then-edit / locate-and-edit, 2026-07-01+",
+   "hits": [
+    {
+     "id": "2610.02772",
+     "status": "seen"
+    },
+    {
+     "id": "2608.17836",
+     "status": "new"
+    },
+    {
+     "id": "2608.16932",
+     "status": "seen"
+    },
+    {
+     "id": "2607.11327",
+     "status": "new"
+    },
+    {
+     "id": "2607.00692",
+     "status": "new"
+    }
+   ],
+   "note": "all seen or off-topic; no new class; no new in-class method"
   }
  ]
 }

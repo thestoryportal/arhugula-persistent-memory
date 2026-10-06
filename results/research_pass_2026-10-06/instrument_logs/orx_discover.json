@@ -1345,6 +1345,53 @@
      "status": "new"
     }
    ]
+  },
+  {
+   "t": "2026-10-06T11:06:57",
+   "query": "EXIT-CHECK 3: embedding recency 2026-06+ (novel multi-token entity in-weight, held-out recall); keyword recency 2026-07+ (locate-then-edit multi-token)",
+   "hits": [
+    {
+     "id": "2610.05573",
+     "status": "new"
+    },
+    {
+     "id": "2609.36748",
+     "status": "seen"
+    },
+    {
+     "id": "2609.33759",
+     "status": "new"
+    },
+    {
+     "id": "2609.29269",
+     "status": "new"
+    },
+    {
+     "id": "2610.00232",
+     "status": "new"
+    },
+    {
+     "id": "2609.16532",
+     "status": "seen"
+    },
+    {
+     "id": "2609.12116",
+     "status": "new"
+    },
+    {
+     "id": "2609.08067",
+     "status": "new"
+    },
+    {
+     "id": "2610.06031",
+     "status": "new"
+    },
+    {
+     "id": "2609.23892",
+     "status": "seen"
+    }
+   ],
+   "note": "no new class; no new in-class method"
   }
  ]
 }

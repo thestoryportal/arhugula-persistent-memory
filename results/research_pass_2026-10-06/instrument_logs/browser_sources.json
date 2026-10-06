@@ -1,0 +1,1940 @@
+{
+ "instrument": "browser-harness (operator Chrome via CDP)",
+ "generated": "2026-10-06T11:13:30",
+ "entries": [
+  {
+   "site": "semanticscholar.org",
+   "query": "coined entity knowledge editing paraphrase",
+   "timestamp": "2026-10-06T10:55:05",
+   "hits": [
+    {
+     "title": "Consistency-Aware Editing for Entity-level Unlearning in Language Models",
+     "year": "2025",
+     "id_or_url": "S2:08dd7a4fbb6f5e2654ff3a95181e9cb1ee9a11de arXiv:2601.08840",
+     "cites": null,
+     "note": "corpus-seen; TLDR: A novel consistency-aware editing (CAE) framework is introduced that provides insights into how entity-level knowledge is internally represented and deleted in LLMs, significantly improves forgetting accuracy and robustness over traditional unlearning and editing baselines, and enables scalable entity removal using only tens of carefully selected prompts."
+    },
+    {
+     "title": "Towards Reliable, Generalizable, and Specific In-Context Knowledge Editing via Multi-Objective Reinforcement Learning",
+     "year": "2026",
+     "id_or_url": "S2:833f8949d28ee32ea51403ae38460955bd58e0a9 arXiv:2608.25100",
+     "cites": 1,
+     "note": "corpus-seen; TLDR: Multi-Objective In-context Knowledge Editing (MO-IKE), a multi-objective RL algorithm that formulates prompt construction for in-context knowledge editing as a Constrained Markov Decision Process, enabling more balanced and globally coherent prompt construction."
+    },
+    {
+     "title": "QAWiki: A Knowledge Graph Question Answering & SPARQL Query Generation Dataset for Wikidata",
+     "year": "2025",
+     "id_or_url": "S2:354a417f5e8d678b19f1f75705ed2305f4a92789",
+     "cites": 3,
+     "note": "TLDR: QAWiki is a multilingual, handcrafted, knowledge graph question answering and SPARQL query generation dataset for Wikidata that consists of 526 questions over Wikidata, of which 518 are associated with SPARQL queries, and 8 are disambiguation questions."
+    },
+    {
+     "title": "Towards Profiling Knowledge Graphs",
+     "year": "2017",
+     "id_or_url": "S2:3cca20fb2151c27a4dab8b4c6f76502fd418d3fc",
+     "cites": 5,
+     "note": "TLDR: Methods for Knowledge Graph profiling are discussed, crucial differences of the big, well-known Knowledge Graphs, like DBpedia, YAGO, and Wikidata are depicted, and a glance at current developments of new, complementary Knowledge graphs such as DBkWik and WebIsALOD are thrown at."
+    },
+    {
+     "title": "Wine , women , and song ? Reconsidering the Carmina",
+     "year": "2020",
+     "id_or_url": "S2:b970ae0ad1c7575b4a1e8d76d79dbab33f0b0ab1",
+     "cites": null,
+     "note": "no TLDR shown"
+    },
+    {
+     "title": "Natural Language Processing - IJCNLP 2004, First International Joint Conference, Hainan Island, China, March 22-24, 2004, Revised Selected Papers",
+     "year": "2005",
+     "id_or_url": "S2:68db4e9007bf8061b91939621e2e3bfcc246fc99",
+     "cites": 50,
+     "note": "TLDR: Dialogue and Discourse, Fast Reinforcement Learning of Dialogue Policies Using Stable Function Approximation and Improving Noun Phrase Coreference Resolution by Matching Strings are studied."
+    },
+    {
+     "title": "Information Literacy and the Public Library",
+     "year": "2008",
+     "id_or_url": "S2:79ef2bf318232b89bd266beaa82212bb792b86d1",
+     "cites": 16,
+     "note": "no TLDR shown"
+    },
+    {
+     "title": "Introduction: hippocampal function in spatial memory.",
+     "year": "2009",
+     "id_or_url": "S2:7747a2a40f0c709578b7374b662132c8ebe05988",
+     "cites": 1,
+     "note": "TLDR: The role of the hippocampus proper and its main direct input and output structures (subiculum, entorhinal cortex and lateral septum) in spatial learning and a rekindle the interest in its role in sleep, a basic process of recovery yet elementary to the development of lasting memories, which are stored in neocortex."
+    },
+    {
+     "title": "A Custom Fit: The Movement toward Open Educational Resources Turns Teachers into the Shapers of Curriculum, Mixing and Matching Educational Materials to Create Content That Is Tailor-Made for the…",
+     "year": "2010",
+     "id_or_url": "S2:951d8d77ceceb53f52c038c90ec762b4ae756263",
+     "cites": 3,
+     "note": "no TLDR shown"
+    },
+    {
+     "title": "Computational Linguistics and Intelligent Text Processing : 9th International Conference, CICLing 2008, Haifa, Israel, February 17-23, 2008 : proceedings",
+     "year": "2008",
+     "id_or_url": "S2:e64d4c00d00961023f89d1f26ad06a5909969c33",
+     "cites": null,
+     "note": "no TLDR shown"
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "semanticscholar.org",
+   "query": "multi-token object knowledge editing",
+   "timestamp": "2026-10-06T10:55:09",
+   "hits": [
+    {
+     "title": "GenRecEdit: Adapting Model Editing for Generative Recommendation with Cold-Start Items",
+     "year": "2026",
+     "id_or_url": "S2:ceee9b480e583297be16377bc720e514c2763a77",
+     "cites": 1,
+     "note": "TLDR: GenRecEdit is proposed, the first model editing framework tailored for generative recommendation, and extensive experiments across multiple datasets demonstrate that øurname substantially improves recommendation performance on cold-start items while preserving the model's original recommendation quality."
+    },
+    {
+     "title": "FlashSAM: Lightweight Vision Model for Multi-UAV Token Communication in Low-Altitude Wireless Networks",
+     "year": "2025",
+     "id_or_url": "S2:fa48c57a02c95be80a043f88b0ab112925bd249d arXiv:2502.16424",
+     "cites": 13,
+     "note": "TLDR: A Lightweight Vision Model-based Multi-Unmanned Aerial Vehicle (UAV) Token Communication (LVM-MTC) system, which incorporates a set of lightweight convolutional modules to significantly reduce the number of model parameters, and designs an Efficient Token Codec (ETC) based on the Masked Autoencoder (MAE) architecture."
+    },
+    {
+     "title": "3D-GOI: 3D GAN Omni-Inversion for Multifaceted and Multi-object Editing",
+     "year": "2023",
+     "id_or_url": "S2:aa877185424c3d343cb38fad843fb3160441d8ec arXiv:2311.12050",
+     "cites": 7,
+     "note": "TLDR: 3D-GOI is the first framework to enable multifaceted editing of affine information on multiple objects on multiple objects and holds immense potential for flexible, multifaceted editing in complex multi-object scenes."
+    },
+    {
+     "title": "Pioneering Reliable Assessment in Text-to-Image Knowledge Editing: Leveraging a Fine-Grained Dataset and an Innovative Criterion",
+     "year": "2024",
+     "id_or_url": "S2:5256907fb4128dc7f6f7c918099fb52ecc65450d arXiv:2409.17928",
+     "cites": null,
+     "note": "corpus-seen; TLDR: A straightforward implementation of MPE (Based on in-context learning) exhibits better overall performance than previous model editors, and it is hoped these efforts can further promote faithful evaluation of T2I knowledge editing methods."
+    },
+    {
+     "title": "Knowledge Editing for Masked Diffusion Language Models",
+     "year": "2026",
+     "id_or_url": "S2:4f057723fd8cc975e56af3b55c0c5d57c2aaa37f arXiv:2606.03924",
+     "cites": 1,
+     "note": "corpus-seen; TLDR: A simple correction is introduced that optimizes the edit including such states in which the target is partially unmasked, substantially restoring multi-token performance in masked diffusion models."
+    },
+    {
+     "title": "Implicit Priors Editing in Stable Diffusion via Targeted Token Adjustment",
+     "year": "2024",
+     "id_or_url": "S2:d7b8b188e067502a5146220f143e4e62885b82cc arXiv:2412.03400",
+     "cites": 1,
+     "note": "TLDR: Embedding-only Editing (Embedit), a method designed to efficiently adjust implict assumptions and priors in the model without affecting its interpretation of unrelated objects or overall performance, is presented."
+    },
+    {
+     "title": "Ground-A-Score: Scaling Up the Score Distillation for Multi-Attribute Editing",
+     "year": "2024",
+     "id_or_url": "S2:2672654080a022fe861c8cb49f392780d1c34195 arXiv:2403.13551",
+     "cites": 3,
+     "note": "TLDR: Ground-A-Score is presented, a simple yet powerful model-agnostic image editing method by incorporating grounding during score distillation that ensures a precise reflection of intricate prompt requirements in the editing outcomes, taking into account the prior knowledge of the object locations within the image."
+    },
+    {
+     "title": "CaseEdit: Enhancing Localized Commonsense Reasoning via Null-Space Constrained Knowledge Editing in Small Parameter Language Models",
+     "year": "2025",
+     "id_or_url": "S2:d72ba74aa947eb9263095dbcfc077ac76d8aa386 arXiv:2505.19383",
+     "cites": null,
+     "note": "corpus-seen; TLDR: It is demonstrated that AlphaEdit, a technique employing null-space projection to minimize interference with unrelated knowledge, consistently outperforms other methods when applied to an LLaMA 3.2 3B model, even in scalability tests, showing minimal ripple effects."
+    },
+    {
+     "title": "Commonsense Knowledge Editing Based on Free-Text in LLMs",
+     "year": "2024",
+     "id_or_url": "S2:d6a7ff47580d6eb47b35f77a7c831cabcbb21120",
+     "cites": 19,
+     "note": "TLDR: A Dynamics-aware Editing Method (DEM), which utilizes a Dynamics-aware Module to locate the parameter positions corresponding to commonsense knowledge, and uses Knowledge Editing Module to update knowledge, successfully edits commonsense knowledge based on free-text."
+    },
+    {
+     "title": "EVEDIT: Event-based Knowledge Editing with Deductive Editing Boundaries",
+     "year": "2024",
+     "id_or_url": "S2:4315094bec44f310d662b349aff6305b3dde9a07 arXiv:2402.11324",
+     "cites": 21,
+     "note": "TLDR: This work introduces a theoretical framework for KE that highlights an overlooked set of knowledge that remains unchanged and aids in knowledge deduction during editing and names as the deduction anchor, and proposes a novel task of event-based knowledge editing that pairs facts with event descriptions."
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "semanticscholar.org",
+   "query": "new entity injection language model weights",
+   "timestamp": "2026-10-06T10:55:14",
+   "hits": [
+    {
+     "title": "SLiNT: Structure-aware Language Model with Injection and Contrastive Training for Knowledge Graph Completion",
+     "year": "2025",
+     "id_or_url": "S2:afc45646417735eafec73dc94c37f19cc51c7891 arXiv:2509.06531",
+     "cites": 2,
+     "note": "TLDR: SLiNT (Structure-aware Language model with Injection and coNtrastive Training), a modular framework that injects knowledge-graph-derived structural context into a frozen LLM backbone with lightweight LoRA-based adaptation for robust link prediction, is proposed."
+    },
+    {
+     "title": "BIOptimus: Pre-training an Optimal Biomedical Language Model with Curriculum Learning for Named Entity Recognition",
+     "year": "2023",
+     "id_or_url": "S2:308db6f428a20fbef0a72f9ee73798d60fe9ff50",
+     "cites": 3,
+     "note": "TLDR: A new biomedical LM is introduced, which is pre-trained using Curriculum Learning (CL) and contextualized weight distillation method, which sets new states of the art on several biomedical Named Entity Recognition (NER) tasks."
+    },
+    {
+     "title": "CoRA: Collaborative Information Perception by Large Language Model's Weights for Recommendation",
+     "year": "2024",
+     "id_or_url": "S2:fd1e880550f113319190e4450b13b847b219806c arXiv:2408.10645",
+     "cites": 24,
+     "note": "TLDR: A new paradigm, Collaborative LoRA (CoRA), is proposed with a collaborative filtering model to extract user and item embeddings and inject them into a set number of learnable queries, enabling LLM to perceive the collaborative signals and generate personalized recommendations without fine-tuning or extra collaborative tokens in prompts."
+    },
+    {
+     "title": "TechGPT-2.0: A large language model project to solve the task of knowledge graph construction",
+     "year": "2024",
+     "id_or_url": "S2:c827d0239c7aec8355f9b31d94a9b0180b53b58b arXiv:2401.04507",
+     "cites": 9,
+     "note": "TLDR: New capabilities to the model are introduced, enabling it to process texts in various domains such as geographical areas, transportation, organizations, literary works, biology, natural sciences, astronomical objects, and architecture, and these enhancements also fortified the model's adeptness in handling hallucinations, unanswerable queries, and lengthy texts."
+    },
+    {
+     "title": "TCM-KLLaMA: Intelligent generation model for Traditional Chinese Medicine Prescriptions based on knowledge graph and large language model",
+     "year": "2025",
+     "id_or_url": "S2:b0805895fa6ad6a597d409e168decf3b478b4f09",
+     "cites": 34,
+     "note": "TLDR: An effective prescription generation model enriched by a TCM knowledge graph (KG) called the TCM-KLLaMA model is proposed, which outperforms baseline models in both Precision and F1 Score, proving its superior performance in prescription generation tasks."
+    },
+    {
+     "title": "Improving Few-Shot Cross-Domain Named Entity Recognition by Instruction Tuning a Word-Embedding based Retrieval Augmented Large Language Model",
+     "year": "2024",
+     "id_or_url": "S2:40185a1e6f1eeb5311c14136f2a8ee51420bfeb8",
+     "cites": 10,
+     "note": "TLDR: IF-WRANER (Instruction Finetuned Word-embedding based Retrieval Augmented large language model for Named Entity Recognition), a retrieval augmented LLM, finetuned for the NER task is proposed and is able to outperform previous SOTA Few-Shot Cross-Domain NER approaches."
+    },
+    {
+     "title": "Development of a Language Model for Named-Entity-Recognition in Aerospace Requirements",
+     "year": "2024",
+     "id_or_url": "S2:6d19616a04c7a2459c5abe641099a841185d0f28",
+     "cites": 7,
+     "note": "TLDR: An open-source annotated aerospace corpus was developed and different versions of the BERT language model on the corpus were fine-tuned to create a new model for identifying named entities (NEs) in the aerospace domain, aeroBERT-NER, demonstrating the superior performance of aeroBERT-NER in identifying NEs within a set of aerospace requirements."
+    },
+    {
+     "title": "SpiRit-LM: Interleaved Spoken and Written Language Model",
+     "year": "2024",
+     "id_or_url": "S2:7547e30ba98a0217f07a6bb9fc393902bbc89269",
+     "cites": 165,
+     "note": "TLDR: SpiRit-LM, a foundation multimodal language model that freely mixes text and speech, is introduced, based on a 7B pretrained text language model that is extended to the speech modality by continuously training it on text and speech units."
+    },
+    {
+     "title": "Enhanced model for abstractive Arabic text summarization using natural language generation and named entity recognition",
+     "year": "2025",
+     "id_or_url": "S2:8f3b8bd4d453bea1f115b495d641dedb86b5a1d2",
+     "cites": 12,
+     "note": "TLDR: This work introduces an innovative framework using Arabic Named Entity Recognition to enhance abstractive summarization, crucial for NLP applications like question answering and knowledge graph construction, and sets a new standard for Arabic text summarization."
+    },
+    {
+     "title": "AdapterEM: Pre-trained Language Model Adaptation for Generalized Entity Matching using Adapter-tuning",
+     "year": "2023",
+     "id_or_url": "S2:29789d2a6be432ef9ff047f69e61ad8be189ab2a",
+     "cites": 8,
+     "note": "TLDR: This study proposes a parameter-efficient paradigm for fine-tuning PrLMs based on adapters, small neural networks encapsulated between layers of a PrLM, by optimizing only the adapter and classifier weights while the PrL Ms parameters are frozen."
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "semanticscholar.org",
+   "query": "vocabulary expansion new token knowledge",
+   "timestamp": "2026-10-06T10:55:18",
+   "hits": [
+    {
+     "title": "Vocabulary Expansion of Large Language Models via Kullback-Leibler-Based Self-Distillation",
+     "year": "2025",
+     "id_or_url": "S2:c6eb00715e34f5a853ce8834c477067d5492b3e0 arXiv:2508.15807",
+     "cites": 1,
+     "note": "corpus-seen; TLDR: This work introduces a mathematically grounded method for knowledge distillation via KL divergence, even when the original and extended models use different tokenizations, which allows the student model to inherit distributional knowledge from the teacher despite differing vocabularies."
+    },
+    {
+     "title": "TokAlign: Efficient Vocabulary Adaptation via Token Alignment",
+     "year": "2025",
+     "id_or_url": "S2:13af1f85c4c92df570bea192af7c515cbf68fa9e arXiv:2506.03523",
+     "cites": 14,
+     "note": "TLDR: This paper proposes an efficient method named TokAlign to replace the vocabulary of LLM from the token co-occurrences view, and further transfer the token-level knowledge between models, which costs as few as 5k steps to restore the performance of the vanilla model."
+    },
+    {
+     "title": "Graph-Based Lexical Networks for Technical Vocabulary Expansion in IoT-Enabled Education Platforms",
+     "year": "2025",
+     "id_or_url": "S2:cd1182c348a77a06c021516bb97eeb8b6d112e70",
+     "cites": null,
+     "note": "TLDR: Graph-based Lexical Expansion Network for IoT education (GLEN-IoT), is a system that applies graph mining and natural language processing to generate semantic graphs from technical corpora that improved student recall, semantic coherence, and vocabulary coverage over baseline keyword extraction approaches."
+    },
+    {
+     "title": "Grounded Token Initialization for New Vocabulary in LMs for Generative Recommendation",
+     "year": "2026",
+     "id_or_url": "S2:a0155913527376f0740ee974c047650b0c1f5512 arXiv:2604.02324",
+     "cites": 1,
+     "note": "corpus-seen; TLDR: GTI (Grounded Token Initialization), a lightweight grounding stage that, prior to fine-tuning, maps new tokens to distinct, semantically meaningful locations in the pretrained embedding space using only paired linguistic supervision, outperforms both mean initialization and existing auxiliary-task adaptation methods in the majority of evaluation settings."
+    },
+    {
+     "title": "Memory as a Markov Matrix: Sample Efficient Knowledge Expansion via Token-to-Dictionary Mapping",
+     "year": "2026",
+     "id_or_url": "S2:88761096f076be123e5a0e43c5b000e020924c73 arXiv:2605.04308",
+     "cites": null,
+     "note": "TLDR: A principled framework that models autoregressive language generation as a Markov process over tokens, where model memory is represented by a Markov transition matrix, and preserving existing transitions guarantees retention of previously learned knowledge is proposed."
+    },
+    {
+     "title": "Defragmenting Language Models: An Interpretability-based Approach for Vocabulary Expansion",
+     "year": "2026",
+     "id_or_url": "S2:1cf1d53f67c6b1972e6290f9d15e20e2a2a5f405 arXiv:2604.16656",
+     "cites": 2,
+     "note": "TLDR: This work comprehensively study and advances interpretability-based vocabulary expansion, a new research direction, and identifies the phenomenon of \"subword detokenization\" where models progressively merge fragmented subword tokens into larger subwords across layers."
+    },
+    {
+     "title": "An Empirical Comparison of Vocabulary Expansion and Initialization Approaches For Language Models",
+     "year": "2024",
+     "id_or_url": "S2:37e3992869212c6434b0cd251fc6e1d219ac485a",
+     "cites": 32,
+     "note": "TLDR: This paper establishes theoretically that initializing within the convex hull of existing embeddings is a good initialization, followed by a novel but simple approach, Constrained Word2Vec (CW2V), which does not require cross-lingual embeddings."
+    },
+    {
+     "title": "TokAlign++: Advancing Vocabulary Adaptation via Better Token Alignment",
+     "year": "2026",
+     "id_or_url": "S2:f168e23ff65084d0df3445db554706387edca0b3 arXiv:2605.13429",
+     "cites": 1,
+     "note": "TLDR: This work introduces a method named TokAlign++ to improve vocabulary adaptation performance by learning better token alignment lexicon and shows that this method boosts the multilingual text compression rates and preserves most of the multilingual ability of vanilla models."
+    },
+    {
+     "title": "Efficient and Effective Vocabulary Expansion Towards Multilingual Large Language Models",
+     "year": "2024",
+     "id_or_url": "S2:2e24d6beaf3b13b4f8784e0f36c0e146370e0702 arXiv:2402.14714",
+     "cites": 18,
+     "note": "TLDR: It is shown that the EEVE method can significantly boost non-English proficiency within just 2 billion tokens, in contrast to previous efforts that believe new embeddings require trillions of training tokens."
+    },
+    {
+     "title": "Second Language (Arabic) Acquisition of LLMs via Progressive Vocabulary Expansion",
+     "year": "2024",
+     "id_or_url": "S2:1617260cfcf6fc4dfec46f655a022840b530e1b7 arXiv:2412.12310",
+     "cites": 10,
+     "note": "TLDR: Inspired by the vocabulary learning during Second Language (Arabic) Acquisition for humans, the released AraLLaMA employs progressive vocabulary expansion, which is implemented by a modified BPE algorithm that progressively extends the Arabic subwords in its dynamic vocabulary during training, thereby balancing the OOV ratio at every stage."
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "semanticscholar.org",
+   "query": "multi-token prediction model editing",
+   "timestamp": "2026-10-06T10:55:22",
+   "hits": [
+    {
+     "title": "A Simple Baseline for Unifying Understanding, Generation, and Editing via Vanilla Next-token Prediction",
+     "year": "2026",
+     "id_or_url": "S2:f345894f3c126e64fc593c539f806364627c5fd8 arXiv:2603.04980",
+     "cites": null,
+     "note": "TLDR: Wallaroo is introduced, a simple autoregressive baseline that leverages next-token prediction to unify multi-modal understanding, image generation, and editing at the same time and supports multi-resolution image input and output, as well as bilingual support for both Chinese and English."
+    },
+    {
+     "title": "CrisprFusion: A feature fusion model with multi-type input features for sgRNA activity prediction",
+     "year": "2026",
+     "id_or_url": "S2:83a9fd01318bd971395aa40f5a62d7dcc297da3f",
+     "cites": null,
+     "note": "TLDR: CrisprFusion is a deep learning framework that explicitly encodes four biological features through a four-branch input structure that performs fusion at two levels: branch-level gating for adaptive reweighting of different modalities, and token-level alignment for capturing position-specific interactions along the 23-nt sgRNA sequence."
+    },
+    {
+     "title": "Knowledge Editing for Masked Diffusion Language Models",
+     "year": "2026",
+     "id_or_url": "S2:4f057723fd8cc975e56af3b55c0c5d57c2aaa37f arXiv:2606.03924",
+     "cites": 1,
+     "note": "corpus-seen; TLDR: A simple correction is introduced that optimizes the edit including such states in which the target is partially unmasked, substantially restoring multi-token performance in masked diffusion models."
+    },
+    {
+     "title": "Edit the Bits, Diff the Codes: Bitwise Residual Editing for Visual Autoregressive Models",
+     "year": "2026",
+     "id_or_url": "S2:b0d70cb254a56f8b4b9d39a8ff252860a6e6951e arXiv:2606.13558",
+     "cites": null,
+     "note": "TLDR: BitResEdit and ResEdit are proposed, a training-free editor for bitwise-residual VAR generators such as Infinity that attains the strongest text alignment among same-backbone VAR editors and plays complementary roles in target alignment and background preservation."
+    },
+    {
+     "title": "Hyper-Bagel: A Unified Acceleration Framework for Multimodal Understanding and Generation",
+     "year": "2025",
+     "id_or_url": "S2:b31781f66c3b9fd05a5a79a62792dbd7d252a554 arXiv:2509.18824",
+     "cites": 12,
+     "note": "TLDR: This work proposes Hyper-Bagel, a unified acceleration framework designed to simultaneously speed up both multimodal understanding and generation tasks, and develops a highly efficient 1-NFE model that enables near real-time interactive editing and generation."
+    },
+    {
+     "title": "Mellum2 Technical Report",
+     "year": "2026",
+     "id_or_url": "S2:c4765edabbde39902c3de41a9fb0e37e815257fa arXiv:2605.31268",
+     "cites": null,
+     "note": "TLDR: Across code generation, math and reasoning, tool use, knowledge, and safety benchmarks, Mellum 2 is competitive with open-weight baselines in the 4B-14B range while running at the per-token compute of a 2.5B dense model."
+    },
+    {
+     "title": "Better & Faster Large Language Models via Multi-token Prediction",
+     "year": "2024",
+     "id_or_url": "S2:b9c289f141c54ab465a885fb7be7936d98e8c853 arXiv:2404.19737",
+     "cites": 412,
+     "note": "TLDR: This work suggests that training language models to predict multiple future tokens at once results in higher sample efficiency, and measures improved downstream capabilities with no overhead in training time for both code and natural language models."
+    },
+    {
+     "title": "VocalNet: Speech LLM with Multi-Token Prediction for Faster and High-Quality Generation",
+     "year": "2025",
+     "id_or_url": "S2:2e4c0d90200677711a7ed3e17fb7671150dd2582 arXiv:2504.04060",
+     "cites": 24,
+     "note": "TLDR: VocalNet-1B and VocalNet-8B are introduced, a series of high-performance, low-latency speech LLMs enabled by a scalable and model-agnostic training framework designed for real-time voice interaction and the first application of multi-token prediction to speech LLMs."
+    },
+    {
+     "title": "Beyond Multi-Token Prediction: Pretraining LLMs with Future Summaries",
+     "year": "2025",
+     "id_or_url": "S2:c89819b747f08f12f8fd6a1a78afe8fbe0f54d63 arXiv:2510.14751",
+     "cites": 15,
+     "note": "TLDR: This work proposes future summary prediction (FSP), which trains an auxiliary head to predict a compact representation of the long-term future, preserving information relevant for long-form generations."
+    },
+    {
+     "title": "L-MTP: Leap Multi-Token Prediction Beyond Adjacent Context for Large Language Models",
+     "year": "2025",
+     "id_or_url": "S2:5c2523ceedbb8f97c2a5c3af12bb3f53d11750f2 arXiv:2505.17505",
+     "cites": 16,
+     "note": "TLDR: L-MTP is an innovative token prediction method that extends the capabilities of multi-token prediction by introducing a leap-based mechanism, which enhances the model's ability to capture long-range dependencies but also enables a decoding strategy specially optimized for non-sequential leap token generation, effectively accelerating inference."
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "semanticscholar.org",
+   "query": "diffusion language model knowledge editing",
+   "timestamp": "2026-10-06T10:55:27",
+   "hits": [
+    {
+     "title": "Knowledge Editing for Masked Diffusion Language Models",
+     "year": "2026",
+     "id_or_url": "S2:4f057723fd8cc975e56af3b55c0c5d57c2aaa37f arXiv:2606.03924",
+     "cites": 1,
+     "note": "corpus-seen; TLDR: A simple correction is introduced that optimizes the edit including such states in which the target is partially unmasked, substantially restoring multi-token performance in masked diffusion models."
+    },
+    {
+     "title": "Pioneering Reliable Assessment in Text-to-Image Knowledge Editing: Leveraging a Fine-Grained Dataset and an Innovative Criterion",
+     "year": "2024",
+     "id_or_url": "S2:5256907fb4128dc7f6f7c918099fb52ecc65450d arXiv:2409.17928",
+     "cites": null,
+     "note": "corpus-seen; TLDR: A straightforward implementation of MPE (Based on in-context learning) exhibits better overall performance than previous model editors, and it is hoped these efforts can further promote faithful evaluation of T2I knowledge editing methods."
+    },
+    {
+     "title": "EchoEdit: Consistent Multi-Hop Question Answering via Ripple Control in Knowledge Editing",
+     "year": "2026",
+     "id_or_url": "S2:bed903c5a921c1275a22411d8bb3cb337866635b",
+     "cites": null,
+     "note": "TLDR: EchoEdit introduces the RippleGraph to explicitly model potentially affected knowledge regions and employs a RippleRule generator to dynamically produce diffusion rules, precisely constraining knowledge propagation, effectively enhancing post-edit reasoning consistency and generalization capabilities."
+    },
+    {
+     "title": "Massive Editing for Large Language Models Based on Dynamic Weight Generation",
+     "year": "2025",
+     "id_or_url": "S2:1b61cde6c4af087724f99851175d5f6dd7c42f4e arXiv:2512.14395",
+     "cites": 1,
+     "note": "TLDR: Experiments show that the proposed MeG can significantly improve the performance of large-scale KE in terms of Reliability, Generality, and Locality metrics compared to existing knowledge editing methods, particularly with a high percentage point increase in the absolute value index for the Locality metric."
+    },
+    {
+     "title": "LLMGA: Multimodal Large Language Model based Generation Assistant",
+     "year": "2023",
+     "id_or_url": "S2:769a924d0af014acec326f50c15c5d70d258a969 arXiv:2311.16500",
+     "cites": 31,
+     "note": "TLDR: A Multimodal Large Language Model-based Generation Assistant (LLMGA), leveraging the vast reservoir of knowledge and proficiency in reasoning, comprehension, and response inherent in Large Language Models to assist users in image generation and editing."
+    },
+    {
+     "title": "InstructPix2Pix: Learning to Follow Image Editing Instructions",
+     "year": "2022",
+     "id_or_url": "S2:a2d2bbe4c542173662a444b33b76c66992697830",
+     "cites": 3417,
+     "note": "no TLDR shown"
+    },
+    {
+     "title": "RAZOR: Ratio-Aware Layer Editing for Targeted Unlearning in Vision Transformers and Diffusion Models",
+     "year": "2026",
+     "id_or_url": "S2:bc771f32d58e6bc1f6347c5debc54f4a2bd332f3 arXiv:2603.14819",
+     "cites": 4,
+     "note": "TLDR: RAZOR is a lightweight, model-agnostic unlearning framework that generalizes forgetting updates to coordinated multi-layer and multi-head edits within transformer backbones, and achieves highly accurate and stable forgetting, even under quantization."
+    },
+    {
+     "title": "Localizing and Editing Knowledge in Text-to-Image Generative Models",
+     "year": "2023",
+     "id_or_url": "S2:61872f11e5b09c165e1231624ce433a0652741ea arXiv:2310.13730",
+     "cites": 65,
+     "note": "TLDR: This paper adapts Causal Mediation Analysis for text-to-image models and trace knowledge about distinct visual attributes to various (causal) components in the (i) UNet and (ii) text-encoder of the diffusion model, and shows that unlike generative large-language models, knowledge about different attributes is not localized in isolated components, but is instead distributed amongst a set of components inThe conditional UNet."
+    },
+    {
+     "title": "SINE: SINgle Image Editing with Text-to-Image Diffusion Models",
+     "year": "2022",
+     "id_or_url": "S2:a6ad30123bef4b19ee40c3d63cfabf00d211f0ef",
+     "cites": 219,
+     "note": "TLDR: A novel model-based guidance built upon the classifier-free guidance is proposed so that the knowledge from the model trained on a single image can be distilled into the pre-trained diffusion model, enabling content creation even with one given image."
+    },
+    {
+     "title": "TimeDiT: General-purpose Diffusion Transformers for Time Series Foundation Model",
+     "year": "2024",
+     "id_or_url": "S2:ace7d07de33a903e1b3052479cacd2dfa7ae2bb6 arXiv:2409.02322",
+     "cites": 51,
+     "note": "TLDR: TimeDiT is introduced, a diffusion transformer model that synergistically combines transformer-based temporal dependency learning with diffusion-based probabilistic sampling and is established as a proto-foundation model that bridges the gap between general-purpose and domain-specific models."
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "semanticscholar.org",
+   "query": "knowledge editing Mamba",
+   "timestamp": "2026-10-06T10:55:31",
+   "hits": [
+    {
+     "title": "Locating and Editing Factual Associations in Mamba",
+     "year": "2024",
+     "id_or_url": "S2:5664f7f52264ff656faa3671d83e2009f4f390fd arXiv:2404.03646",
+     "cites": 48,
+     "note": "TLDR: The mechanisms of factual recall in the Mamba state space model are investigated, revealing that specific components within middle layers show strong causal effects at the last token of the subject, while the causal effect of intervening on later layers is most pronounced at the last token of the prompt."
+    },
+    {
+     "title": "AI for Sustainable Cultural Industries: A Screenplay-Aware Knowledge-Enhanced State Space Model with LLM-Derived Narrative Features for Forecasting Film Industry Sustainability Across National…",
+     "year": "2026",
+     "id_or_url": "S2:d270986de373c89392b63677d8c6bc344cf105a7",
+     "cites": 1,
+     "note": "TLDR: The results show that knowledge-enhanced sequence models can provide transparent forecasting support for sustainable cultural-industry policy as a test case for artificial intelligence in cultural industries."
+    },
+    {
+     "title": "WikiBigEdit: Understanding the Limits of Lifelong Knowledge Editing in LLMs",
+     "year": "2025",
+     "id_or_url": "S2:4d41f8908feb4b27d623eea980751e61704aa8df arXiv:2503.05683",
+     "cites": 34,
+     "note": "corpus-seen; TLDR: This work aims to bridge research into lifelong knowledge editing to real-world edits at a practically relevant scale, and introduces WikiBigEdit; a large-scale benchmark of real-world Wikidata edits, built to automatically extend lifelong for future-proof benchmarking."
+    },
+    {
+     "title": "Precise Localization of Memories: A Fine-grained Neuron-level Knowledge Editing Technique for LLMs",
+     "year": "2025",
+     "id_or_url": "S2:d9a219d07e35d22c027e510cf7604c3280e39416 arXiv:2503.01090",
+     "cites": 27,
+     "note": "TLDR: A Fine-grained Neuron-level Knowledge Editing (FiNE) method that enhances editing locality without affecting overall success rates is proposed, providing new insights into the localization and modification of knowledge within LLMs."
+    },
+    {
+     "title": "Editing as Unlearning: Are Knowledge Editing Methods Strong Baselines for Large Language Model Unlearning?",
+     "year": "2025",
+     "id_or_url": "S2:2506f5398724da8233ffe46619e13f8016cd4aee arXiv:2505.19855",
+     "cites": 17,
+     "note": "TLDR: This paper evaluates state-of-the-art (SOTA) editing methods against existing unlearning approaches on pretrained and finetuned knowledge and shows certain editing methods are effective unlearning baselines, especially for pretrained knowledge, and excel in generating human-aligned refusal answers."
+    },
+    {
+     "title": "AlphaEdit: Null-Space Constrained Knowledge Editing for Language Models",
+     "year": "2024",
+     "id_or_url": "S2:f212ca51d941ee686341d43eb167fcbd7e78807c arXiv:2410.02355",
+     "cites": 293,
+     "note": "TLDR: AlphaEdit, a novel solution that projects perturbation onto the null space of the preserved knowledge before applying it to the parameters, theoretically proves that this projection ensures the output of post-edited LLMs remains unchanged when queried about the preserved knowledge, thereby mitigating the issue of disruption."
+    },
+    {
+     "title": "Decoupling Reasoning and Knowledge Injection for In-Context Knowledge Editing",
+     "year": "2025",
+     "id_or_url": "S2:411268d4d4a1f7adf894f618a25e9d3a6dd6c20a arXiv:2506.00536",
+     "cites": 19,
+     "note": "TLDR: DecKER is proposed, a novel ICE framework that decouples reasoning from knowledge editing by generating a masked reasoning path and then resolving knowledge edits via hybrid retrieval and model-based validation."
+    },
+    {
+     "title": "Unlocking Efficient, Scalable, and Continual Knowledge Editing with Basis-Level Representation Fine-Tuning",
+     "year": "2025",
+     "id_or_url": "S2:217c9927fdadc1b6e3f9d937277893ea8ffdda58 arXiv:2503.00306",
+     "cites": 24,
+     "note": "corpus-seen; TLDR: This work explores the feasibility of representation fine-tuning, which applied some linear update to a few representations in a learned subspace, for knowledge editing and theoretically shows that this linear update imposes a tension in editing-locality trade-off, and proposes BaFT, which is proposed to break the linearity."
+    },
+    {
+     "title": "MQuAKE-Remastered: Multi-Hop Knowledge Editing Can Only Be Advanced with Reliable Evaluations",
+     "year": "2025",
+     "id_or_url": "S2:30166dbbda6dd0152cbe0ad5a30377ef057a5e9f",
+     "cites": 13,
+     "note": "no TLDR shown"
+    },
+    {
+     "title": "SAKE: Steering Activations for Knowledge Editing",
+     "year": "2025",
+     "id_or_url": "S2:78c8cc6da21e2ead0f2bc148b4a9517e22b93970 arXiv:2503.01751",
+     "cites": 13,
+     "note": "corpus-seen; TLDR: SAKE is proposed, a steering activation method that models a fact to be edited as a distribution rather than a single prompt, and is able to perform more robust edits than its existing counterparts."
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "semanticscholar.org",
+   "query": "hypernetwork knowledge editing",
+   "timestamp": "2026-10-06T10:55:36",
+   "hits": [
+    {
+     "title": "Editing Across Languages: A Survey of Multilingual Knowledge Editing",
+     "year": "2025",
+     "id_or_url": "S2:ddbda8eb9fc8cee46dea65affb302aabc50a3b3d arXiv:2505.14393",
+     "cites": 3,
+     "note": "TLDR: A comprehensive taxonomy of MKE methods is presented, covering parameter-based, memory-based, fine-tuning, and hypernetwork approaches, covering parameter-based, memory-based, fine-tuning, and hypernetwork approaches."
+    },
+    {
+     "title": "Latent Knowledge Scalpel: Precise and Massive Knowledge Editing for Large Language Models",
+     "year": "2025",
+     "id_or_url": "S2:05354809332ef3c8c94a90dde8fd4b3413088abc arXiv:2508.03741",
+     "cites": 1,
+     "note": "TLDR: This paper introduces the Latent Knowledge Scalpel (LKS), an LLM editor that manipulates the latent knowledge of specific entities via a lightweight hypernetwork to enable precise and large-scale editing."
+    },
+    {
+     "title": "Norm Growth and Stability Challenges in Localized Sequential Knowledge Editing",
+     "year": "2025",
+     "id_or_url": "S2:0d216c9ca68420a949ebef784b25434365205c96 arXiv:2502.19416",
+     "cites": 1,
+     "note": "corpus-seen; TLDR: The technical challenges with continuous and localized sequential knowledge editing are highlighted, including fine-tuning, hypernetwork-based approaches, and locate-and-edit methods, and their implications for maintaining model stability and utility are highlighted."
+    },
+    {
+     "title": "TISKE: Two-Stage Incremental and Scalable Knowledge Editing for LLM-Based Intelligent Services",
+     "year": "2026",
+     "id_or_url": "S2:8067e571c67eba175113e0e5619bed8a49730aab",
+     "cites": null,
+     "note": "TLDR: TISKE, a Two-stage Incremental and Scalable Knowledge Editing method for LLMbased intelligent services, achieves superior performance across reliability, generality, and locality metrics, validating its effectiveness and scalability for LLM-based intelligent service platforms."
+    },
+    {
+     "title": "Editing Language Model-based Knowledge Graph Embeddings",
+     "year": "2023",
+     "id_or_url": "S2:8bbdf825e6ccd197adfff5ebeecc9a5a5210e02f arXiv:2301.10405",
+     "cites": 43,
+     "note": "TLDR: This paper proposes a new task of editing language model-based KG embeddings, and proposes a simple yet strong baseline dubbed KGEditor, which utilizes additional parametric layers of the hypernetwork to edit/add facts."
+    },
+    {
+     "title": "Reinforced Lifelong Editing for Language Models",
+     "year": "2025",
+     "id_or_url": "S2:25eeafa6bf11950caadf09d400f081839b00ccb8 arXiv:2502.05759",
+     "cites": 43,
+     "note": "TLDR: This work observed that hypernetwork-based lifelong editing aligns with reinforcement learning modeling and proposed RLEdit, an RL-based editing method, which outperforms existing methods in lifelong editing with superior effectiveness and efficiency."
+    },
+    {
+     "title": "Task-Adaptive FFN Editing for Continual Blind Image Quality Assessment",
+     "year": "2026",
+     "id_or_url": "S2:8dfead453db3abf74c6e3fa8f7dc785fa71d4a1c",
+     "cites": null,
+     "note": "TLDR: ContEditIQA is proposed, a parameter-efficient framework for continual BIQA that selectively edits a pre-trained Vision Transformer rather than retraining it, establishing selective model editing as an effective and scalable paradigm for continual BIQA."
+    },
+    {
+     "title": "PropMEND: Hypernetworks for Knowledge Propagation in LLMs",
+     "year": "2025",
+     "id_or_url": "S2:a401764536247ec3caae61075fe0fa82ef7ba809 arXiv:2506.08920",
+     "cites": 2,
+     "note": "TLDR: This work meta-learns how to modify gradients of a language modeling loss to encourage injected information to propagate in knowledge propagation, extending the meta-objective of MEND so that gradient updates on knowledge are transformed to enable answering multi-hop questions involving that knowledge."
+    },
+    {
+     "title": "AlphaEdit: Null-Space Constrained Knowledge Editing for Language Models",
+     "year": "2024",
+     "id_or_url": "S2:f212ca51d941ee686341d43eb167fcbd7e78807c arXiv:2410.02355",
+     "cites": 293,
+     "note": "TLDR: AlphaEdit, a novel solution that projects perturbation onto the null space of the preserved knowledge before applying it to the parameters, theoretically proves that this projection ensures the output of post-edited LLMs remains unchanged when queried about the preserved knowledge, thereby mitigating the issue of disruption."
+    },
+    {
+     "title": "WikiBigEdit: Understanding the Limits of Lifelong Knowledge Editing in LLMs",
+     "year": "2025",
+     "id_or_url": "S2:4d41f8908feb4b27d623eea980751e61704aa8df arXiv:2503.05683",
+     "cites": 34,
+     "note": "corpus-seen; TLDR: This work aims to bridge research into lifelong knowledge editing to real-world edits at a practically relevant scale, and introduces WikiBigEdit; a large-scale benchmark of real-world Wikidata edits, built to automatically extend lifelong for future-proof benchmarking."
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "semanticscholar.org",
+   "query": "paper page: Locating and Editing Factual Associations in Mamba",
+   "timestamp": "2026-10-06T10:57:24",
+   "hits": [
+    {
+     "title": "Locating and Editing Factual Associations in Mamba",
+     "year": null,
+     "id_or_url": "S2:5664f7f52264ff656faa3671d83e2009f4f390fd arXiv:2404.03646",
+     "cites": 48,
+     "note": "scorecard: 48 Citations Highly Influential Citations 1 Background Citations 8 Methods Citations 2 View All; DOI:10.48550/arXiv.2404.03646Corpus ID: 268889738; top citing papers (page order): Mamba Knockout for Unraveling Factual Information Flow || Timesteps of Mamba Align with Human Reading Times || Representation Shattering in Transformers: A Synthetic Study with Knowledge Editing || From RAGs to rich parameters: Probing how language models utilize external knowledge over parametric information for factual queries || The Quest for the Right Mediator: Surveying Mechanistic Interpretability for NLP Through the Lens of Causal Mediation Analysis || Understanding Information Storage and Transfer in Multi-modal Large Language Models || Understanding and Enhancing Mamba-Transformer Hybrids for Memory Recall and Language Modeling || The Quest for the Right Mediator: A History, Survey, and Theoretical Grounding of Causal Interpretability || LLMs Process Lists With General Filter Heads"
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "semanticscholar.org",
+   "query": "paper page: Massive Editing for Large Language Models Based on Dynamic Weight Generation",
+   "timestamp": "2026-10-06T10:57:30",
+   "hits": [
+    {
+     "title": "Massive Editing for Large Language Models Based on Dynamic Weight Generation",
+     "year": null,
+     "id_or_url": "S2:1b61cde6c4af087724f99851175d5f6dd7c42f4e arXiv:2512.14395",
+     "cites": 1,
+     "note": "scorecard: 1 Citation View All; DOI:10.48550/arXiv.2512.14395Corpus ID: 283909249; top citing papers (page order): HyperFix: Combinatorial Nonlinear Correction for Task Vector Merging"
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "semanticscholar.org",
+   "query": "paper page: Latent Knowledge Scalpel: Precise and Massive Knowledge Editing for Large Language Models",
+   "timestamp": "2026-10-06T10:57:35",
+   "hits": [
+    {
+     "title": "Latent Knowledge Scalpel: Precise and Massive Knowledge Editing for Large Language Models",
+     "year": null,
+     "id_or_url": "S2:05354809332ef3c8c94a90dde8fd4b3413088abc arXiv:2508.03741",
+     "cites": 1,
+     "note": "scorecard: 1 Citation Highly Influential Citations 1 View All; DOI:10.48550/arXiv.2508.03741Corpus ID: 280536640; top citing papers (page order): TISKE: Two-Stage Incremental and Scalable Knowledge Editing for LLM-Based Intelligent Services"
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "scholar.google.com",
+   "query": "coined entity knowledge editing paraphrase",
+   "timestamp": "2026-10-06T10:59:35",
+   "hits": [
+    {
+     "title": "A comprehensive study of knowledge editing for large language models",
+     "year": "2024",
+     "id_or_url": "arXiv:2401.01286 https://arxiv.org/abs/2401.01286",
+     "cites": 264,
+     "note": "corpus-seen; N Zhang, Y Yao, B Tian, P Wang, S Deng… - arXiv preprint arXiv …, 2024 - arxiv.org"
+    },
+    {
+     "title": "Knowledge editing for large language models: A survey",
+     "year": "2024",
+     "id_or_url": "https://dl.acm.org/doi/abs/10.1145/3698590",
+     "cites": 445,
+     "note": "S Wang, Y Zhu, H Liu, Z Zheng, C Chen, J Li - ACM Computing Surveys, 2024 - dl.acm.org"
+    },
+    {
+     "title": "Fine-grained hallucination detection and editing for language models",
+     "year": "2024",
+     "id_or_url": "arXiv:2401.06855 https://arxiv.org/abs/2401.06855",
+     "cites": 221,
+     "note": "A Mishra, A Asai, V Balachandran, Y Wang… - arXiv preprint arXiv …, 2024 - arxiv.org"
+    },
+    {
+     "title": "Locating and editing factual associations in gpt",
+     "year": "2022",
+     "id_or_url": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/6f1d43d5a82a37e89b0665b33bf3a182-Abstract-Conference.html",
+     "cites": 3853,
+     "note": "K Meng, D Bau, A Andonian… - Advances in neural …, 2022 - proceedings.neurips.cc"
+    },
+    {
+     "title": "Prompting gpt-3 to be reliable",
+     "year": "2022",
+     "id_or_url": "arXiv:2210.09150 https://arxiv.org/abs/2210.09150",
+     "cites": 447,
+     "note": "C Si, Z Gan, Z Yang, S Wang, J Wang… - arXiv preprint arXiv …, 2022 - arxiv.org"
+    },
+    {
+     "title": "Expository text generation: Imitate, retrieve, paraphrase",
+     "year": "2023",
+     "id_or_url": "https://aclanthology.org/2023.emnlp-main.729/",
+     "cites": 34,
+     "note": "N Balepur, J Huang, KCC Chang - Proceedings of the 2023 …, 2023 - aclanthology.org"
+    },
+    {
+     "title": "Survey on factuality in large language models: Knowledge, retrieval and domain-specificity",
+     "year": "2023",
+     "id_or_url": "arXiv:2310.07521 https://arxiv.org/abs/2310.07521",
+     "cites": 388,
+     "note": "C Wang, X Liu, Y Yue, X Tang, T Zhang… - arXiv preprint arXiv …, 2023 - arxiv.org"
+    },
+    {
+     "title": "Knowledgpt: Enhancing large language models with retrieval and storage access on knowledge bases",
+     "year": "2023",
+     "id_or_url": "arXiv:2308.11761 https://arxiv.org/abs/2308.11761",
+     "cites": 154,
+     "note": "X Wang, Q Yang, Y Qiu, J Liang, Q He, Z Gu… - arXiv preprint arXiv …, 2023 - arxiv.org"
+    },
+    {
+     "title": "Generating phrasal and sentential paraphrases: A survey of data-driven methods",
+     "year": "2010",
+     "id_or_url": "https://aclanthology.org/J10-3003.pdf",
+     "cites": 406,
+     "note": "N Madnani, B Dorr - Computational Linguistics, 2010 - aclanthology.org"
+    },
+    {
+     "title": "Investigating the relationship between localization and edit success in the large language model GPT-2",
+     "year": "2024",
+     "id_or_url": "no link",
+     "cites": 0,
+     "note": "A Israelsson - 2024"
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "scholar.google.com",
+   "query": "multi-token object knowledge editing",
+   "timestamp": "2026-10-06T10:59:43",
+   "hits": [
+    {
+     "title": "GenRecEdit: Adapting Model Editing for Generative Recommendation with Cold-Start Items",
+     "year": "2026",
+     "id_or_url": "arXiv:2603.14259 https://arxiv.org/abs/2603.14259",
+     "cites": 2,
+     "note": "corpus-seen; C Shen, T Shi, W Yu, X Zhang, J Xu - arXiv preprint arXiv:2603.14259, 2026 - arxiv.org"
+    },
+    {
+     "title": "Knowledge Editing in Masked Diffusion Language Models",
+     "year": "2026",
+     "id_or_url": "arXiv:2606.03924 https://arxiv.org/abs/2606.03924",
+     "cites": 0,
+     "note": "corpus-seen; H Park, Y Jo - arXiv preprint arXiv:2606.03924, 2026 - arxiv.org"
+    },
+    {
+     "title": "Anyedit: Edit any knowledge encoded in language models",
+     "year": "2025",
+     "id_or_url": "arXiv:2502.05628 https://arxiv.org/abs/2502.05628",
+     "cites": 106,
+     "note": "corpus-seen; H Jiang, J Fang, N Zhang, G Ma, M Wan… - arXiv preprint arXiv …, 2025 - arxiv.org"
+    },
+    {
+     "title": "Knowledge Externalization: Reversible Unlearning and Modular Retrieval in Multimodal Large Language Models",
+     "year": "2026",
+     "id_or_url": "https://openreview.net/forum?id=ZHK6nBHRXw",
+     "cites": 1,
+     "note": "J Li, Z You, R Shen, S Zhang, S Zhai… - The Fourteenth …, 2026 - openreview.net"
+    },
+    {
+     "title": "A Dual-Axis Taxonomy of Knowledge Editing for LLMs: From Mechanisms to Functions",
+     "year": "2025",
+     "id_or_url": "arXiv:2508.08795 https://arxiv.org/abs/2508.08795",
+     "cites": 0,
+     "note": "AM Salehoof, A Ramezani, Y Yaghoobzadeh… - arXiv preprint arXiv …, 2025 - arxiv.org"
+    },
+    {
+     "title": "AnyEdit++: Adaptive Long-Form Knowledge Editing via Bayesian Surprise",
+     "year": "2026",
+     "id_or_url": "arXiv:2606.01053 https://arxiv.org/abs/2606.01053",
+     "cites": 0,
+     "note": "corpus-seen; B Tian, C He, J Wu, J Wang, W Chen, Z Li… - arXiv preprint arXiv …, 2026 - arxiv.org"
+    },
+    {
+     "title": "The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning",
+     "year": "2026",
+     "id_or_url": "arXiv:2609.29045 https://arxiv.org/abs/2609.29045",
+     "cites": 0,
+     "note": "corpus-seen; M Baser, A Nawal, DM Divakaran… - arXiv preprint arXiv …, 2026 - arxiv.org"
+    },
+    {
+     "title": "Token Reduction Should Go Beyond Efficiency in Generative Models--From Vision, Language to Multimodality",
+     "year": "2025",
+     "id_or_url": "arXiv:2505.18227 https://arxiv.org/abs/2505.18227",
+     "cites": 53,
+     "note": "Z Kong, Y Li, F Zeng, L Xin, S Messica, X Lin… - arXiv preprint arXiv …, 2025 - arxiv.org"
+    },
+    {
+     "title": "KAMEL: Knowledge Analysis with Multitoken Entities in Language Models.",
+     "year": "2022",
+     "id_or_url": "https://www.akbc.ws/2022/assets/pdfs/15_kamel_knowledge_analysis_with_.pdf",
+     "cites": 38,
+     "note": "JC Kalo, L Fichtel - AKBC, 2022 - akbc.ws"
+    },
+    {
+     "title": "X-Token: Projection-Guided Cross-Tokenizer Knowledge Distillation",
+     "year": "2026",
+     "id_or_url": "arXiv:2605.21699 https://arxiv.org/abs/2605.21699",
+     "cites": 1,
+     "note": "ST Sreenivas, AV Hanasoge, M Yang… - arXiv preprint arXiv …, 2026 - arxiv.org"
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "scholar.google.com",
+   "query": "new entity injection language model weights",
+   "timestamp": "2026-10-06T10:59:52",
+   "hits": [
+    {
+     "title": "Weight poisoning attacks on pretrained models",
+     "year": "2020",
+     "id_or_url": "https://aclanthology.org/2020.acl-main.249/",
+     "cites": 749,
+     "note": "K Kurita, P Michel, G Neubig - … of the 58th annual meeting of the …, 2020 - aclanthology.org"
+    },
+    {
+     "title": "Mquake: Assessing knowledge editing in language models via multi-hop questions",
+     "year": "2023",
+     "id_or_url": "https://aclanthology.org/2023.emnlp-main.971/",
+     "cites": 425,
+     "note": "Z Zhong, Z Wu, CD Manning, C Potts… - … in Natural Language …, 2023 - aclanthology.org"
+    },
+    {
+     "title": "Badedit: Backdooring large language models by model editing",
+     "year": "2024",
+     "id_or_url": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/6f6fe6789e14796b6544a04b20d11902-Abstract-Conference.html",
+     "cites": 197,
+     "note": "Y Li, T Li, K Chen, J Zhang, S Liu… - International …, 2024 - proceedings.iclr.cc"
+    },
+    {
+     "title": "A few words can distort graphs: Knowledge poisoning attacks on graph-based retrieval-augmented generation of large language models",
+     "year": "2025",
+     "id_or_url": "arXiv:2508.04276 https://arxiv.org/abs/2508.04276",
+     "cites": 14,
+     "note": "J Wen, T Chen, Z Zheng, C Huang - arXiv preprint arXiv:2508.04276, 2025 - arxiv.org"
+    },
+    {
+     "title": "Entity injection with contrastive learning encoder for Chinese few-shot natural language inference",
+     "year": "2026",
+     "id_or_url": "https://link.springer.com/article/10.1007/s10489-026-07124-1",
+     "cites": 0,
+     "note": "P Lai, F Ye, Y Fu, R Wang, Y Wu, Y Wang - Applied Intelligence, 2026 - Springer"
+    },
+    {
+     "title": "Knowledge editing for large language models: A survey",
+     "year": "2024",
+     "id_or_url": "https://dl.acm.org/doi/abs/10.1145/3698590",
+     "cites": 445,
+     "note": "S Wang, Y Zhu, H Liu, Z Zheng, C Chen, J Li - ACM Computing Surveys, 2024 - dl.acm.org"
+    },
+    {
+     "title": "Knowledge-enhanced large language models for ideation to implementation: A new paradigm in product design",
+     "year": "2025",
+     "id_or_url": "https://www.sciencedirect.com/science/article/pii/S1568494625004582",
+     "cites": 18,
+     "note": "Z Li, Z Liu, G Sa, J Sun, M Hou, J Tan, L Sun… - Applied Soft Computing, 2025 - Elsevier"
+    },
+    {
+     "title": "Can lms learn new entities from descriptions? challenges in propagating injected knowledge",
+     "year": "2023",
+     "id_or_url": "https://aclanthology.org/2023.acl-long.300/",
+     "cites": 91,
+     "note": "Y Onoe, M Zhang, S Padmanabhan… - Proceedings of the …, 2023 - aclanthology.org"
+    },
+    {
+     "title": "ConceptFormer: Towards Graph-Native Grounding of Large Language Models via Latent Concept Injection",
+     "year": "2026",
+     "id_or_url": "arXiv:4905.37946 https://dl.acm.org/doi/abs/10.1145/3774905.3794653",
+     "cites": 0,
+     "note": "J Barmettler, A Bernstein, L Rossetto - Companion Proceedings of the …, 2026 - dl.acm.org"
+    },
+    {
+     "title": "Knowledge injection methods in question answering",
+     "year": "2025",
+     "id_or_url": "https://www.rtj-mirea.ru/jour/issue/download/58/78#page=22",
+     "cites": 2,
+     "note": "DV Radyush - RUSSIAN, 2025 - rtj-mirea.ru"
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "scholar.google.com",
+   "query": "vocabulary expansion new token knowledge",
+   "timestamp": "2026-10-06T11:00:00",
+   "hits": [
+    {
+     "title": "Efficient and effective vocabulary expansion towards multilingual large language models",
+     "year": "2024",
+     "id_or_url": "arXiv:2402.14714 https://arxiv.org/abs/2402.14714",
+     "cites": 64,
+     "note": "S Kim, S Choi, M Jeong - arXiv preprint arXiv:2402.14714, 2024 - arxiv.org"
+    },
+    {
+     "title": "Medical knowledge representation enhancement in large language models through clinical tokens optimization",
+     "year": "2026",
+     "id_or_url": "https://www.nature.com/articles/s41598-026-37438-6",
+     "cites": 4,
+     "note": "Q Li, J Tong, S Liu, C Li, J Tang, Q Zhou - Scientific Reports, 2026 - nature.com"
+    },
+    {
+     "title": "How can we effectively expand the vocabulary of LLMs with 0.01 GB of target language text?",
+     "year": "2026",
+     "id_or_url": "https://direct.mit.edu/coli/article/doi/10.1162/COLI.a.581/134270",
+     "cites": 29,
+     "note": "A Yamaguchi, A Villavicencio, N Aletras - Computational Linguistics, 2026 - direct.mit.edu"
+    },
+    {
+     "title": "An empirical comparison of vocabulary expansion and initialization approaches for language models",
+     "year": "2024",
+     "id_or_url": "https://aclanthology.org/2024.conll-1.8/",
+     "cites": 29,
+     "note": "N Mundra, ANK Khandavally, R Dabre… - Proceedings of the …, 2024 - aclanthology.org"
+    },
+    {
+     "title": "Tokalign: Efficient vocabulary adaptation via token alignment",
+     "year": "2025",
+     "id_or_url": "https://aclanthology.org/2025.acl-long.207/",
+     "cites": 15,
+     "note": "C Li, J Zhang, C Zong - Proceedings of the 63rd Annual Meeting …, 2025 - aclanthology.org"
+    },
+    {
+     "title": "Grounded Token Initialization for New Vocabulary in LMs for Generative Recommendation",
+     "year": "2026",
+     "id_or_url": "arXiv:2604.02324 https://arxiv.org/abs/2604.02324",
+     "cites": 2,
+     "note": "corpus-seen; D Chen, Z Fu, C Jiang, H Zhang, R Zhou… - arXiv preprint arXiv …, 2026 - arxiv.org"
+    },
+    {
+     "title": "Expanding the vocabulary of BERT for knowledge base construction",
+     "year": "2023",
+     "id_or_url": "arXiv:2310.08291 https://arxiv.org/abs/2310.08291",
+     "cites": 4,
+     "note": "D Yang, X Wang, R Celebi - arXiv preprint arXiv:2310.08291, 2023 - arxiv.org"
+    },
+    {
+     "title": "Memory as a Markov Matrix: Sample Efficient Knowledge Expansion via Token-to-Dictionary Mapping",
+     "year": "2026",
+     "id_or_url": "arXiv:2605.04308 https://arxiv.org/abs/2605.04308",
+     "cites": 0,
+     "note": "K Pethkar, Z Xiong, Z Shang, Y Li - arXiv preprint arXiv:2605.04308, 2026 - arxiv.org"
+    },
+    {
+     "title": "TokAlign++: Advancing Vocabulary Adaptation via Better Token Alignment",
+     "year": "2026",
+     "id_or_url": "arXiv:2605.13429 https://arxiv.org/abs/2605.13429",
+     "cites": 1,
+     "note": "C Li, Y Deng, W Yang, J Zhang, C Zong - arXiv preprint arXiv:2605.13429, 2026 - arxiv.org"
+    },
+    {
+     "title": "Beyond Initialization Loss: A Systematic Study of Token Embedding Initialization Strategies for LLM Vocabulary Extension",
+     "year": "2026",
+     "id_or_url": "arXiv:2608.03494 https://arxiv.org/abs/2608.03494",
+     "cites": 0,
+     "note": "R Joshi, U Vaidya, SS Chauhan, N Wartikar - arXiv preprint arXiv …, 2026 - arxiv.org"
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "scholar.google.com",
+   "query": "multi-token prediction model editing",
+   "timestamp": "2026-10-06T11:00:08",
+   "hits": [
+    {
+     "title": "Anyedit: Edit any knowledge encoded in language models",
+     "year": "2025",
+     "id_or_url": "arXiv:2502.05628 https://arxiv.org/abs/2502.05628",
+     "cites": 106,
+     "note": "corpus-seen; H Jiang, J Fang, N Zhang, G Ma, M Wan… - arXiv preprint arXiv …, 2025 - arxiv.org"
+    },
+    {
+     "title": "Alternatives To Next Token Prediction In Text Generation--A Survey",
+     "year": "2025",
+     "id_or_url": "arXiv:2509.24435 https://arxiv.org/abs/2509.24435",
+     "cites": 0,
+     "note": "C Wyatt, A Joshi, F Salim - arXiv preprint arXiv:2509.24435, 2025 - arxiv.org"
+    },
+    {
+     "title": "The Tokens Remember: When Tokenization Bypasses Knowledge Editing and Unlearning",
+     "year": "2026",
+     "id_or_url": "arXiv:2609.29045 https://arxiv.org/abs/2609.29045",
+     "cites": 0,
+     "note": "corpus-seen; M Baser, A Nawal, DM Divakaran… - arXiv preprint arXiv …, 2026 - arxiv.org"
+    },
+    {
+     "title": "Evolving LLMs from Next-Token Prediction to Multi-Token Prediction via Self-Distillation",
+     "year": "2026",
+     "id_or_url": "https://www.mdpi.com/2079-9292/15/7/1533",
+     "cites": 1,
+     "note": "Y Xu, W Che - Electronics, 2026 - mdpi.com"
+    },
+    {
+     "title": "Token Reduction Should Go Beyond Efficiency in Generative Models--From Vision, Language to Multimodality",
+     "year": "2025",
+     "id_or_url": "arXiv:2505.18227 https://arxiv.org/abs/2505.18227",
+     "cites": 53,
+     "note": "Z Kong, Y Li, F Zeng, L Xin, S Messica, X Lin… - arXiv preprint arXiv …, 2025 - arxiv.org"
+    },
+    {
+     "title": "Codefill: Multi-token code completion by jointly learning from structure and naming sequences",
+     "year": "2022",
+     "id_or_url": "arXiv:0003.35101 https://dl.acm.org/doi/abs/10.1145/3510003.3510172",
+     "cites": 181,
+     "note": "M Izadi, R Gismondi, G Gousios - … of the 44th international conference on …, 2022 - dl.acm.org"
+    },
+    {
+     "title": "Match the Distribution, Not the Compute: Post-Training Multi-Token Prediction Heads",
+     "year": "2026",
+     "id_or_url": "arXiv:2610.00888 https://arxiv.org/abs/2610.00888",
+     "cites": 0,
+     "note": "P Badarayani, A Jay, C Zhou, D Julienne, Y Gao… - arXiv preprint arXiv …, 2026 - arxiv.org"
+    },
+    {
+     "title": "Accelerating codec-based speech synthesis with multi-token prediction and speculative decoding",
+     "year": "2025",
+     "id_or_url": "https://ieeexplore.ieee.org/abstract/document/10887855/",
+     "cites": 16,
+     "note": "TD Nguyen, JH Kim, J Choi, S Choi… - ICASSP 2025-2025 …, 2025 - ieeexplore.ieee.org"
+    },
+    {
+     "title": "Enhancing visual planning with auxiliary tasks and multi-token prediction",
+     "year": "2026",
+     "id_or_url": "https://ieeexplore.ieee.org/abstract/document/11492137/",
+     "cites": 7,
+     "note": "C Zhang, Y Song, R Desai, ML Iuzzolino… - 2026 IEEE/CVF …, 2026 - ieeexplore.ieee.org"
+    },
+    {
+     "title": "Multi-token prediction needs registers",
+     "year": "2026",
+     "id_or_url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/56cbb9d0efc05fb9d266adbf00f8eba7-Abstract-Conference.html",
+     "cites": 17,
+     "note": "A Gerontopoulos, S Gidaris… - Advances in Neural …, 2026 - proceedings.neurips.cc"
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "scholar.google.com",
+   "query": "diffusion language model knowledge editing",
+   "timestamp": "2026-10-06T11:00:17",
+   "hits": [
+    {
+     "title": "Knowledge Editing in Masked Diffusion Language Models",
+     "year": "2026",
+     "id_or_url": "arXiv:2606.03924 https://arxiv.org/abs/2606.03924",
+     "cites": 0,
+     "note": "corpus-seen; H Park, Y Jo - arXiv preprint arXiv:2606.03924, 2026 - arxiv.org"
+    },
+    {
+     "title": "Sakr-edit: Scene-aware knowledge reasoning for text-to-image editing",
+     "year": "2025",
+     "id_or_url": "arXiv:6027.37556 https://dl.acm.org/doi/abs/10.1145/3746027.3755679",
+     "cites": 1,
+     "note": "J Wang, J Li, Z Ma, R Bai - Proceedings of the 33rd ACM International …, 2025 - dl.acm.org"
+    },
+    {
+     "title": "TimeROME-DLM: Temporal Causal Tracing and Low-Rank Inference-Time Knowledge Editing for Masked Diffusion Language Models",
+     "year": "2026",
+     "id_or_url": "arXiv:2606.12841 https://arxiv.org/abs/2606.12841",
+     "cites": 1,
+     "note": "corpus-seen; Z Yao, L Song, H Zhang, C Wei, H Xu, G Yang… - arXiv preprint arXiv …, 2026 - arxiv.org"
+    },
+    {
+     "title": "Localizing and editing knowledge in text-to-image generative models",
+     "year": "2024",
+     "id_or_url": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/4bfcebedf7a2967c410b64670f27f904-Abstract-Conference.html",
+     "cites": 61,
+     "note": "S Basu, N Zhao, V Morariu, S Feizi… - International …, 2024 - proceedings.iclr.cc"
+    },
+    {
+     "title": "Towards Robust and Scalable Knowledge Editing in Text-to-Image Diffusion Models",
+     "year": "2025",
+     "id_or_url": "https://openreview.net/forum?id=fMeZvU2HXV",
+     "cites": 0,
+     "note": "YF Liu, X Wang - The 17th Asian Conference on Machine Learning …, 2025 - openreview.net"
+    },
+    {
+     "title": "Towards safe concept transfer of multi-modal diffusion via causal representation editing",
+     "year": "2024",
+     "id_or_url": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/1741917e3df34daa1a4c564e2980bb59-Abstract-Conference.html",
+     "cites": 3,
+     "note": "P Dong, B Wang, S Guo, J Wang… - Advances in Neural …, 2024 - proceedings.neurips.cc"
+    },
+    {
+     "title": "Unified concept editing in diffusion models",
+     "year": "2024",
+     "id_or_url": "https://ieeexplore.ieee.org/abstract/document/10484056/",
+     "cites": 535,
+     "note": "R Gandikota, H Orgad, Y Belinkov… - 2024 IEEE/CVF …, 2024 - ieeexplore.ieee.org"
+    },
+    {
+     "title": "Mmada-parallel: Multimodal large diffusion language models for thinking-aware editing and generation",
+     "year": "2026",
+     "id_or_url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/3d03b03197666b19c6a6e69812dd3e34-Abstract-Conference.html",
+     "cites": 10,
+     "note": "Y Tian, L Yang, J Yang, A Wang, Y Tian… - International …, 2026 - proceedings.iclr.cc"
+    },
+    {
+     "title": "Diff-KT: Text-Driven Image Editing by Knowledge Enhancement and Mask Transformer",
+     "year": "2024",
+     "id_or_url": "https://ieeexplore.ieee.org/abstract/document/10634108/",
+     "cites": 1,
+     "note": "H Zhao, W Li, Z Chang, C Yang - IEEE Access, 2024 - ieeexplore.ieee.org"
+    },
+    {
+     "title": "Diffute: Universal text editing diffusion model",
+     "year": "2023",
+     "id_or_url": "https://proceedings.neurips.cc/paper_files/paper/2023/hash/c7138635035501eb71b0adf6ddc319d6-Abstract-Conference.html",
+     "cites": 77,
+     "note": "H Chen, Z Xu, Z Gu, Y Li, C Meng… - Advances in Neural …, 2023 - proceedings.neurips.cc"
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "scholar.google.com",
+   "query": "knowledge editing Mamba",
+   "timestamp": "2026-10-06T11:00:25",
+   "hits": [
+    {
+     "title": "Locating and editing factual associations in mamba",
+     "year": "2024",
+     "id_or_url": "arXiv:2404.03646 https://arxiv.org/abs/2404.03646",
+     "cites": 51,
+     "note": "AS Sharma, D Atkinson, D Bau - arXiv preprint arXiv:2404.03646, 2024 - arxiv.org"
+    },
+    {
+     "title": "Representation shattering in transformers: A synthetic study with knowledge editing",
+     "year": "2024",
+     "id_or_url": "arXiv:2410.17194 https://arxiv.org/abs/2410.17194",
+     "cites": 12,
+     "note": "corpus-seen; K Nishi, R Ramesh, M Okawa, M Khona… - arXiv preprint arXiv …, 2024 - arxiv.org"
+    },
+    {
+     "title": "A survey of mamba",
+     "year": "2026",
+     "id_or_url": "https://dl.acm.org/doi/abs/10.1145/3819582",
+     "cites": 208,
+     "note": "H Qu, L Ning, R An, W Fan, T Derr, H Liu… - ACM Transactions on …, 2026 - dl.acm.org"
+    },
+    {
+     "title": "Editing Factual Information in Large Language Models: Studying rank-one model editing for selective state space models",
+     "year": "2024",
+     "id_or_url": "no link",
+     "cites": 0,
+     "note": "E Wachtmeister - 2024"
+    },
+    {
+     "title": "CholecMamba: A Mamba-Based Multimodal Reasoning Model for Cholecystectomy Surgery",
+     "year": "2025",
+     "id_or_url": "https://link.springer.com/chapter/10.1007/978-3-032-05114-1_11",
+     "cites": 1,
+     "note": "Z Wang, S Pan, M Fang, R Zhang, J Tian… - … Conference on Medical …, 2025 - Springer"
+    },
+    {
+     "title": "Style mamba-transformer: a hybrid mamba-transformer unsupervised framework for text style transfer",
+     "year": "2025",
+     "id_or_url": "https://www.sciencedirect.com/science/article/pii/S0950705125013115",
+     "cites": 7,
+     "note": "D Meng, Z Wang, W Yan, T Phuntsho… - Knowledge-Based …, 2025 - Elsevier"
+    },
+    {
+     "title": "Consistent and Editable: A Balanced Framework for Text-Guided Video Editing",
+     "year": "2026",
+     "id_or_url": "arXiv:2607.05056 https://arxiv.org/abs/2607.05056",
+     "cites": 0,
+     "note": "T Jin, L Xiao - arXiv preprint arXiv:2607.05056, 2026 - arxiv.org"
+    },
+    {
+     "title": "Speak, Edit, Repeat: High-Fidelity Voice Editing and Zero-Shot TTS with Cross-Attentive Mamba",
+     "year": "2025",
+     "id_or_url": "arXiv:2510.04738 https://arxiv.org/abs/2510.04738",
+     "cites": 2,
+     "note": "B Mohammad, M Zhussip, S Lefkimmiatis - arXiv preprint arXiv …, 2025 - arxiv.org"
+    },
+    {
+     "title": "Knowledge-guided multi-scale graph Mamba for whole slide image classification",
+     "year": "2025",
+     "id_or_url": "https://link.springer.com/chapter/10.1007/978-3-032-05162-2_42",
+     "cites": 4,
+     "note": "M Duan, Z Yang, Y Ma, M Wang, Z Song - International Conference on …, 2025 - Springer"
+    },
+    {
+     "title": "One-shot Font Generation with Prior-Guided Knowledge Distillation and Style-Aware Mamba",
+     "year": null,
+     "id_or_url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7429834",
+     "cites": 0,
+     "note": "J Zeng, X Wang, C Ai, X Gui, Y Wang… - Available at SSRN … - papers.ssrn.com"
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "scholar.google.com",
+   "query": "hypernetwork knowledge editing",
+   "timestamp": "2026-10-06T11:00:34",
+   "hits": [
+    {
+     "title": "Editing factual knowledge in language models",
+     "year": "2021",
+     "id_or_url": "https://aclanthology.org/2021.emnlp-main.522/",
+     "cites": 843,
+     "note": "N De Cao, W Aziz, I Titov - Proceedings of the 2021 conference on …, 2021 - aclanthology.org"
+    },
+    {
+     "title": "Reinforced lifelong editing for language models",
+     "year": "2025",
+     "id_or_url": "arXiv:2502.05759 https://arxiv.org/abs/2502.05759",
+     "cites": 16,
+     "note": "Z Li, H Jiang, H Chen, B Bi, Z Zhou, F Sun… - arXiv preprint arXiv …, 2025 - arxiv.org"
+    },
+    {
+     "title": "HiEdit: Lifelong Model Editing with Hierarchical Reinforcement Learning",
+     "year": "2026",
+     "id_or_url": "https://aclanthology.org/2026.acl-long.1855/",
+     "cites": 2,
+     "note": "Y Wang, T Sun, C Tang, J Liu, W Cai… - Proceedings of the 64th …, 2026 - aclanthology.org"
+    },
+    {
+     "title": "Editing language model-based knowledge graph embeddings",
+     "year": "2024",
+     "id_or_url": "https://ojs.aaai.org/index.php/AAAI/article/view/29737",
+     "cites": 67,
+     "note": "S Cheng, N Zhang, B Tian, X Chen, Q Liu… - Proceedings of the AAAI …, 2024 - ojs.aaai.org"
+    },
+    {
+     "title": "Editing across languages: A survey of multilingual knowledge editing",
+     "year": "2025",
+     "id_or_url": "https://aclanthology.org/2025.emnlp-main.803/",
+     "cites": 3,
+     "note": "N Durrani, B Mousi, F Dalvi - … of the 2025 Conference on Empirical …, 2025 - aclanthology.org"
+    },
+    {
+     "title": "CaPEdit: Capability-Preserving Lifelong Knowledge Editing For Language Models",
+     "year": "2026",
+     "id_or_url": "https://aclanthology.org/2026.findings-acl.770/",
+     "cites": 0,
+     "note": "SL Wu, Z Du, X Wang, J Wang - Findings of the Association for …, 2026 - aclanthology.org"
+    },
+    {
+     "title": "PropMEND: Hypernetworks for Knowledge Propagation in LLMs",
+     "year": "2025",
+     "id_or_url": "arXiv:2506.08920 https://arxiv.org/abs/2506.08920",
+     "cites": 1,
+     "note": "ZL Liu, G Durrett, E Choi - arXiv preprint arXiv:2506.08920, 2025 - arxiv.org"
+    },
+    {
+     "title": "TamEdit: Trajectory-Aware Meta-Learning for Specificity-Preserving Continual Knowledge Editing",
+     "year": "2026",
+     "id_or_url": "https://aclanthology.org/2026.acl-long.979/",
+     "cites": 1,
+     "note": "S Tian, C Ding, Q Chen, J Zhou… - Proceedings of the 64th …, 2026 - aclanthology.org"
+    },
+    {
+     "title": "A survey on knowledge editing of neural networks",
+     "year": "2024",
+     "id_or_url": "https://ieeexplore.ieee.org/abstract/document/10766891/",
+     "cites": 53,
+     "note": "V Mazzia, A Pedrani, A Caciolai… - … on Neural Networks …, 2024 - ieeexplore.ieee.org"
+    },
+    {
+     "title": "Propagating Knowledge in LLMs with Hypernetworks",
+     "year": null,
+     "id_or_url": "https://openreview.net/forum?id=G57ROBTECS",
+     "cites": 0,
+     "note": "ZL Liu, G Durrett, E Choi - openreview.net"
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "scholar.google.com (InfraNodus extension)",
+   "query": "multi-token object knowledge editing",
+   "timestamp": "2026-10-06T11:13:30",
+   "hits": [],
+   "blocked": "InfraNodus Chrome extension not present: no infranodus-named element in the results DOM and no chrome-extension:// target for it in CDP Target.getTargets (only one unrelated extension service worker); not triggered"
+  },
+  {
+   "site": "connectedpapers.com",
+   "query": "graph seed: Keys to Robust Edits: from Theoretical Insights to Practical Advances",
+   "timestamp": "2026-10-06T11:13:30",
+   "hits": [
+    {
+     "title": "Perturbation-Restrained Sequential Model Editing",
+     "year": "2024",
+     "id_or_url": "S2:19d55f4cab6de8d9b1ae9aa1541f0bf969994ba3",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "InstructEdit: Instruction-based Knowledge Editing for Large Language Models",
+     "year": "2024",
+     "id_or_url": "S2:0a88726548d4ab50c3b28f1ce839220997875cf6",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Evaluating the Reversal Curse in Model Editing",
+     "year": "2023",
+     "id_or_url": "S2:14adf8a539fb495172089e85e03d192face78fe5",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Lifelong Knowledge Editing requires Better Regularization",
+     "year": "2025",
+     "id_or_url": "S2:515a36e4b5d29d578176362bacab8edc014660bd",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "SetKE: Knowledge Editing for Knowledge Elements Overlap",
+     "year": "2025",
+     "id_or_url": "S2:bb7d4fb6bd9a689bd528e3a6db18f1b584e97c9e",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Knowledge in Superposition: Unveiling the Failures of Lifelong Knowledge Editing for Large Language Models",
+     "year": "2024",
+     "id_or_url": "S2:f9284dfe1b75ad1dc906faad779c21d0a678f677",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Revealing the Deceptiveness of Knowledge Editing: A Mechanistic Analysis of Superficial Editing",
+     "year": "2025",
+     "id_or_url": "S2:4cbc20dbd71aadddb1bbe5715405befa96b12eb6",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Cross-Lingual Knowledge Editing in Large Language Models",
+     "year": "2023",
+     "id_or_url": "S2:70ae98c70c0235acf3c3af14ea7286c81da1febe",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Resolving UnderEdit & OverEdit with Iterative & Neighbor-Assisted Model Editing",
+     "year": "2025",
+     "id_or_url": "S2:c0391ac5cf76c80151333c0fec46e9e572451c31",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Context-Robust Knowledge Editing for Language Models",
+     "year": "2025",
+     "id_or_url": "S2:5ca1b605cf2c8163c1de4e34bfe6f8563d64e6f5",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "KLoB: a Benchmark for Assessing Knowledge Locating Methods in Language Models",
+     "year": "2023",
+     "id_or_url": "S2:c96578f276a6d699549eca5a5b3bfa13b14ad804",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "An information-theoretic framework for robust large language model editing",
+     "year": "2025",
+     "id_or_url": "S2:bc4cfaf38d43af732a3d58d4bb388b7cab2099f2",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Revealing and Mitigating Over-Attention in Knowledge Editing",
+     "year": "2025",
+     "id_or_url": "S2:c2c438832f28e3bf5f3200808eb20e2fc7a1fd70",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Uncovering Context Reliance in Unstructured Knowledge Editing",
+     "year": "2026",
+     "id_or_url": "S2:7ad3a2868bf3b0f9a0a40f9e0514ea4ab3971f23",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Benchmarking and Rethinking Knowledge Editing for Large Language Models",
+     "year": "2025",
+     "id_or_url": "S2:43f58b5a8b85c14ef51bd9156066d842fde3f443",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "MEMLA: Enhancing Multilingual Knowledge Editing with Neuron-Masked Low-Rank Adaptation",
+     "year": "2024",
+     "id_or_url": "S2:14d494002587acc7f770e3f1feea69e0d0368c58",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Model Editing Harms General Abilities of Large Language Models: Regularization to the Rescue",
+     "year": "2024",
+     "id_or_url": "S2:d2b48bcee27974c10025422b76c8943ed524722c",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "OrthoEdit: Principled and Stable Knowledge Editing via Orthogonal Subspace Projection",
+     "year": "2026",
+     "id_or_url": "S2:06fdddeb3b83f015f95e3dad0436ed6191012712",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Neighboring Perturbations of Knowledge Editing on Large Language Models",
+     "year": "2024",
+     "id_or_url": "S2:bc372a09d1528f198d2cbb194cca71a3fc07fede",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Is Model Editing Built on Sand? Revealing Its Illusory Success and Fragile Foundation",
+     "year": "2025",
+     "id_or_url": "S2:9690db2dc7358d7e1900179f1cf8b021cb1086ca",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    }
+   ],
+   "blocked": null,
+   "graph_url": "https://www.connectedpapers.com/main/db65032344b8712da92f33e23618e22282d7bfea/graph",
+   "bib_saved": "/Volumes/memit/llm-database-poc-mirror/connected-papers-knowledge-graphs/INBOX/ConnectedPapers-for-Keys-to-Robust-Edits%3A-from-Theoretical-Insights-to-Practical-Advances.bib",
+   "bib_entries": 40
+  },
+  {
+   "site": "connectedpapers.com",
+   "query": "graph seed: BetaEdit: Null-Space Constrained Sequential Model Editing",
+   "timestamp": "2026-10-06T11:13:30",
+   "hits": [
+    {
+     "title": "Is Model Editing Built on Sand? Revealing Its Illusory Success and Fragile Foundation",
+     "year": "2025",
+     "id_or_url": "S2:9690db2dc7358d7e1900179f1cf8b021cb1086ca",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Are We Evaluating the Edit Locality of LLM Model Editing Properly?",
+     "year": "2026",
+     "id_or_url": "S2:cb051be55a824e6affe79869fc46ccbc6b5caf34",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "From Backward Spreading to Forward Replay: Revisiting Target Construction in LLM Parameter Editing",
+     "year": "2026",
+     "id_or_url": "S2:e2c6261596d57ce6b35871d4a70aebf2dfaa2864",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Neuron-Level Sequential Editing for Large Language Models",
+     "year": "2024",
+     "id_or_url": "S2:4328072499e76298db1b3ad7c033c61298badd1e",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "AlphaEdit: Null-Space Constrained Knowledge Editing for Language Models",
+     "year": "2024",
+     "id_or_url": "S2:f212ca51d941ee686341d43eb167fcbd7e78807c",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Orthogonal Representation Editing: Decoupling Semantic Entanglement in Batch Knowledge Editing of LLMs",
+     "year": "2026",
+     "id_or_url": "S2:b55fe2c4f4f3be2915546dc4573553b2623bc0df",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "ReFEdit: Rehearsal-Free Lifelong Knowledge Editing for Large Language Models",
+     "year": "2025",
+     "id_or_url": "S2:2003d683d007318a39221d3a8f95474e7bf3bd77",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Relaxing the Constraints: A Dual-Importance Projection Mechanism for Lifelong Model Editing",
+     "year": "2026",
+     "id_or_url": "S2:5782adeb60287adc6be81befa871a19c2255f7d8",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Beyond Binary Edits Robust Multimodal Knowledge Editing with Adversarial Subspace Alignment",
+     "year": "2026",
+     "id_or_url": "S2:3abb3c50dad2cf643946ae9e9487513a1324a6d2",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "MetaKE: Meta-learning Aligned Knowledge Editing via Bi-level Optimization",
+     "year": "2026",
+     "id_or_url": "S2:d0a273a15db3bd3c9d2f743b250cc822837f35e6",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "OrthoEdit: Principled and Stable Knowledge Editing via Orthogonal Subspace Projection",
+     "year": "2026",
+     "id_or_url": "S2:06fdddeb3b83f015f95e3dad0436ed6191012712",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Reinforced Lifelong Editing for Language Models",
+     "year": "2025",
+     "id_or_url": "S2:25eeafa6bf11950caadf09d400f081839b00ccb8",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Resolving Lexical Bias in Model Editing",
+     "year": "2024",
+     "id_or_url": "S2:3772ecd2b9189f324a4ef17ded82331563b819ad",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "The Labyrinth and the Thread: Rethinking Regularizations in Sequential Knowledge Editing for Large Language Models",
+     "year": "2026",
+     "id_or_url": "S2:b709a9d8a8874295426b31e55ff787d2f9a0f9fa",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Evaluating the Reversal Curse in Model Editing",
+     "year": "2023",
+     "id_or_url": "S2:14adf8a539fb495172089e85e03d192face78fe5",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "LPD-Edit: Latent principal denoising for robust lifelong knowledge editing",
+     "year": "2026",
+     "id_or_url": "S2:e28ce4adff797a86118c38e6926ed47bcc542151",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "UltraEdit: Training-, Subject-, and Memory-Free Lifelong Editing in Language Models",
+     "year": "2025",
+     "id_or_url": "S2:df317f584df14612a41ae060fb02e8c164b11053",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "MetaKE: Meta-Learning for Knowledge Editing Toward a Better Accuracy-Editability Trade-off",
+     "year": "2026",
+     "id_or_url": "S2:182061b64cddea5ab178857f5185bbf094784669",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "NeuralDB: Scaling Knowledge Editing in LLMs to 100,000 Facts with Neural KV Database",
+     "year": "2025",
+     "id_or_url": "S2:ae76edfa2f7c2370c722feeea477080d04ac441c",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "EtCon: Edit-then-Consolidate for Reliable Knowledge Editing",
+     "year": "2025",
+     "id_or_url": "S2:611623b53760a161367dd1308658ccd1fc39995a",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    }
+   ],
+   "blocked": null,
+   "graph_url": "https://www.connectedpapers.com/main/3960ef01c971ac19ad5d9eae6078f6f4de9fd1e1/graph",
+   "bib_saved": "/Volumes/memit/llm-database-poc-mirror/connected-papers-knowledge-graphs/INBOX/ConnectedPapers-for-BetaEdit%3A-Null%20Space-Constrained-Sequential-Model-Editing.bib",
+   "bib_entries": 41
+  },
+  {
+   "site": "connectedpapers.com",
+   "query": "graph seed: Memory as a Markov Matrix: Sample Efficient Knowledge Expansion via Token-to-Dictionary Mapping",
+   "timestamp": "2026-10-06T11:13:30",
+   "hits": [
+    {
+     "title": "Popular Knowledge Propagates More Errors in LLM Knowledge Updating",
+     "year": "2026",
+     "id_or_url": "S2:090ebc6f65362732dcde5fd7e7a18f77841b6bce",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "MAPLE: Multilingual Evaluation of Parameter Efficient Finetuning of Large Language Models",
+     "year": "2024",
+     "id_or_url": "S2:75bc30bf394625c784ea59f8c2fe04718a4b4042",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "StatLLaMA: Multi-stage training for domain-optimized statistical large language models",
+     "year": "2025",
+     "id_or_url": "S2:77f25b25552cb03dee1e7d02b5c159388928a731",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "StatLLaMA: A multi-stage training framework for building a domain-optimized statistical language model",
+     "year": "2026",
+     "id_or_url": "S2:9b8b5b5e84e37df0852414804558aeae7c50b296",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "DoRA: Enhancing Parameter-Efficient Fine-Tuning with Dynamic Rank Distribution",
+     "year": "2024",
+     "id_or_url": "S2:b1cf424ce408615cac8c809a2d24519c513a26e2",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Improving Language Plasticity via Pretraining with Active Forgetting",
+     "year": "2023",
+     "id_or_url": "S2:9a2f47777b99a92effb4e998b7082e1e92ae13bc",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Generation-Augmented Generation: A Plug-and-Play Framework for Private Knowledge Injection in Large Language Models",
+     "year": "2026",
+     "id_or_url": "S2:144319b2a49f23d5fa537c6371cb8ee96f970ff4",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Parameter Efficient Quasi-Orthogonal Fine-Tuning via Givens Rotation",
+     "year": "2024",
+     "id_or_url": "S2:65ea532e8d9f8b9928483bbd098f20331980fc3f",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "ConStruct-VL: Data-Free Continual Structured VL Concepts Learning*",
+     "year": "2022",
+     "id_or_url": "S2:6b3e939d93c82c269f552e7e2050524c3ad9b73b",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Mechanistic Analysis of Catastrophic Forgetting in Large Language Models During Continual Fine-tuning",
+     "year": "2026",
+     "id_or_url": "S2:0443816f3bd77f69f0683e10e0e8bf8e62ab7bb8",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "InteMATs: Integrating Granularity-Specific Multilingual Adapters for Cross-Lingual Transfer",
+     "year": "2023",
+     "id_or_url": "S2:a0d4749fbd7ec66794fe861907bcd6735071ba4a",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "On the instability of further pre-training: Does a single sentence matter to BERT?",
+     "year": "2023",
+     "id_or_url": "S2:243e325812d4fc02dd380c5561b7a72954ba0834",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Adaptive Budget Allocation for Parameter-Efficient Fine-Tuning",
+     "year": "2023",
+     "id_or_url": "S2:5ef82a8c8aa50f99285f2143b57ca4e82da1af80",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Learning Label Modular Prompts for Text Classification in the Wild",
+     "year": "2022",
+     "id_or_url": "S2:082c3b929eef0a1e31389c0239d1b110c88de3f4",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "From Generative Modeling to Clinical Classification: A GPT-Based Architecture for EHR Notes",
+     "year": "2026",
+     "id_or_url": "S2:8fddac6e6cc4e4c46515ca2b7e656b3c79337fbe",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "UDAPTER - Efficient Domain Adaptation Using Adapters",
+     "year": "2023",
+     "id_or_url": "S2:10c5079d2baa5a287054d9ddd7806a4c16fd7531",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Bayesian Parameter-Efficient Fine-Tuning for Overcoming Catastrophic Forgetting",
+     "year": "2024",
+     "id_or_url": "S2:f9d83bf86c6a6088cafdd97811ad2e102c968349",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Breaking Physical and Linguistic Borders: Multilingual Federated Prompt Tuning for Low-Resource Languages",
+     "year": "2025",
+     "id_or_url": "S2:1e8e43d72fdfecd29c5e5b65ba0ab69dd651da3c",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Low-Rank Adaptation for Multilingual Summarization: An Empirical Study",
+     "year": "2023",
+     "id_or_url": "S2:8d1be743ab710585cfac2f454644159335f089a3",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Parameter-Efficient Tuning Makes a Good Classification Head",
+     "year": "2022",
+     "id_or_url": "S2:02d2527aca2ecbda72475dd90ac461a3eb73abd7",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    }
+   ],
+   "blocked": null,
+   "graph_url": "https://www.connectedpapers.com/main/88761096f076be123e5a0e43c5b000e020924c73/graph",
+   "bib_saved": "/Volumes/memit/llm-database-poc-mirror/connected-papers-knowledge-graphs/INBOX/ConnectedPapers-for-Memory-as-a-Markov-Matrix%3A-Sample-Efficient-Knowledge-Expansion-via-Token%20to%20Dictionary-Mapping.bib",
+   "bib_entries": 41
+  },
+  {
+   "site": "connectedpapers.com",
+   "query": "graph seed: LOKI: Memory-Free Null-Space Constrained Lifelong Knowledge Editing",
+   "timestamp": "2026-10-06T11:13:30",
+   "hits": [
+    {
+     "title": "MEMOIR: Lifelong Model Editing with Minimal Overwrite and Informed Retention for LLMs",
+     "year": "2025",
+     "id_or_url": "S2:2187c3dc450aa9169c80dfdeaec5aaab1bf2215c",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "MetaKE: Meta-learning Aligned Knowledge Editing via Bi-level Optimization",
+     "year": "2026",
+     "id_or_url": "S2:d0a273a15db3bd3c9d2f743b250cc822837f35e6",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "When to Write and When to Suppress: Route-Specialized Dual Adapters for Memory-Assisted Knowledge Editing",
+     "year": "2026",
+     "id_or_url": "S2:82db743657535951eb1da4e4b4fa096536a69a68",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Evaluating the Reversal Curse in Model Editing",
+     "year": "2023",
+     "id_or_url": "S2:14adf8a539fb495172089e85e03d192face78fe5",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Relaxing the Constraints: A Dual-Importance Projection Mechanism for Lifelong Model Editing",
+     "year": "2026",
+     "id_or_url": "S2:5782adeb60287adc6be81befa871a19c2255f7d8",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "A Dual-Axis Taxonomy of Knowledge Editing for LLMs: From Mechanisms to Functions",
+     "year": "2025",
+     "id_or_url": "S2:7cb6965ff24640f6f0b56adbbafa7aada0210db2",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Beyond Local Edits: Embedding-Virtualized Knowledge for Broader Evaluation and Preservation of Model Editing",
+     "year": "2026",
+     "id_or_url": "S2:bdce9dca6b40ed97d773b8a2072b8dda31e2f6cf",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Is Model Editing Built on Sand? Revealing Its Illusory Success and Fragile Foundation",
+     "year": "2025",
+     "id_or_url": "S2:9690db2dc7358d7e1900179f1cf8b021cb1086ca",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "UnKE: Unstructured Knowledge Editing in Large Language Models",
+     "year": "2024",
+     "id_or_url": "S2:9461f48dc8e1f8bfb3a97cc80cfbc4aee97daec5",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Benchmarking and Rethinking Knowledge Editing for Large Language Models",
+     "year": "2025",
+     "id_or_url": "S2:43f58b5a8b85c14ef51bd9156066d842fde3f443",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Knowledge Decoupling via Orthogonal Projection for Lifelong Editing of Large Language Models",
+     "year": "2025",
+     "id_or_url": "S2:babdd51b52f533445c009aa186819a0008d0381c",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "REACT: Representation Extraction And Controllable Tuning to Overcome Overfitting in LLM Knowledge Editing",
+     "year": "2025",
+     "id_or_url": "S2:7f069a3d98f33316eabd015dc0f7616b37b19e33",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Joint Knowledge Editing for Information Enrichment and Probability Promotion",
+     "year": "2024",
+     "id_or_url": "S2:51fea8401aa90f75c5334def23457a9ee431f64b",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Edit Less, Achieve More: Dynamic Sparse Neuron Masking for Lifelong Knowledge Editing in LLMs",
+     "year": "2025",
+     "id_or_url": "S2:3d2189fc18e58589b8666f9884791d0e056424d7",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "A$^3$E: Towards Compositional Model Editing",
+     "year": "2025",
+     "id_or_url": "S2:6d8b8dcf07a971853757dec3ce7ef74edb00c077",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "AlphaEdit: Null-Space Constrained Knowledge Editing for Language Models",
+     "year": "2024",
+     "id_or_url": "S2:f212ca51d941ee686341d43eb167fcbd7e78807c",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "LyapLock: Bounded Knowledge Preservation in Sequential Large Language Model Editing",
+     "year": "2025",
+     "id_or_url": "S2:6192c43289a8aab67ba0303d69556cb275a9b2d6",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "EvoEdit: Lifelong Free-Text Knowledge Editing through Latent Perturbation Augmentation and Knowledge-driven Parameter Fusion",
+     "year": "2025",
+     "id_or_url": "S2:7ded77e84dc06eae0f7f425c82be41dac172c508",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "MetaKE: Meta-Learning for Knowledge Editing Toward a Better Accuracy-Editability Trade-off",
+     "year": "2026",
+     "id_or_url": "S2:182061b64cddea5ab178857f5185bbf094784669",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    },
+    {
+     "title": "Investigating Model Editing for Unlearning in Large Language Models",
+     "year": "2025",
+     "id_or_url": "S2:57d2ac27a131057075b7106fadfe86b65d834805",
+     "cites": null,
+     "note": "graph node; panel order = site default list sort (used as connectedness proxy)"
+    }
+   ],
+   "blocked": null,
+   "graph_url": "https://www.connectedpapers.com/main/15a4b9d5418b5ae0e6cd4f03bbaeb3a495d86e78/graph",
+   "bib_saved": "/Volumes/memit/llm-database-poc-mirror/connected-papers-knowledge-graphs/INBOX/ConnectedPapers-for-LOKI%3A-Memory%20Free-Null%20Space-Constrained-Lifelong-Knowledge-Editing.bib",
+   "bib_entries": 39
+  },
+  {
+   "site": "notebooklm.google.com",
+   "query": "[notebook: The Model as a Graph: Querying LLM Weights with Larco] Which sources discuss editing or inserting multi-token or multi-word values into model weights, and what do they report about paraphrase or held-out recall?",
+   "timestamp": "2026-10-06T11:10",
+   "hits": [
+    {
+     "title": "answer (verbatim in browser_sources_notes.md)",
+     "year": null,
+     "id_or_url": "https://notebooklm.google.com/notebook/23ba5f2d-8317-4412-bb8a-f7c30af4c017",
+     "cites": null,
+     "note": "Thoughts\nexpand_more\nSeveral sources in your notebook directly address the challenge of editing or inserting multi-token and multi-word values into model weights, evaluating both paraphrase recall (recalling the value when asked via rephrased prompts) and held-out recall / logical propagation (generalizing to related, unedited facts or reverse relations)\n1\nmore_horiz\n.\n1. Key Sources Discussing Mu"
+    }
+   ],
+   "blocked": null
+  },
+  {
+   "site": "notebooklm.google.com",
+   "query": "[notebook: LLM as Database Agent Harness Integrated Specification v1.2] Which spec sections forbid a read-time lookup for domain_concept values, and what would have to change in the spec if the write engine were continued pretraining or a merged LoRA adapter instead of MEMIT?",
+   "timestamp": "2026-10-06T11:14",
+   "hits": [
+    {
+     "title": "answer (verbatim in browser_sources_notes.md)",
+     "year": null,
+     "id_or_url": "https://notebooklm.google.com/notebook/f667f1f2-7624-4039-b521-6ca37b437b6b",
+     "cites": null,
+     "note": "Thoughts\nexpand_more\n1. Spec Sections Forbidding Read-Time Lookups for domain_concept Values\nThe specification explicitly replaces read-time lookups (such as RAG, vector similarity search, or context-window prompt injection) with in-weight parametric learning for domain knowledge\n1\n2\n.\nThe primary sections enforcing this boundary include:\nPart I, §1 (Purpose and Paradigm): Establishes the foundati"
+    }
+   ],
+   "blocked": null
+  }
+ ]
+}

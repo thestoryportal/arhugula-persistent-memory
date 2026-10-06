@@ -1,0 +1,122 @@
+[
+  {
+    "source": "alphaxiv",
+    "id": "2610.05573",
+    "title": "Better Retrieval, Limited Clustering Gains: A Controlled Study of Multilingual Company Entity Resolution",
+    "abstract": "Improved name retrieval may have little effect on company clusters when the pair classifier remains unchanged. We examine this dependency by adapting multilingual E5 encoders under fixed candidate budgets and downstream decision rules. Random-negative and hard-negative training use identical positive schedules. Checkpoints are selected before collecting a new GLEIF sample of 3,633 names, 2,880 source identities and 882 silver-positive pairs. At 72,660 candidate edges, adaptation with a multi-view selector increases direct pair recall from 53.74% to 76.98%. The primary matcher adds only seven correct and two incorrect co-cluster pairs: cluster recall rises from 32.54% to 33.33%, while precision falls from 95.99% to 95.45%. Of 208 newly retrieved silver-positive pairs, 202 fall below its decision threshold. Random-negative and hard-negative training produce identical final partitions. An AI-assisted, single-reviewer audit of 137 pairs supports the observed pattern, although its predominantly LEI-derived evidence does not establish independent gold labels. The results locate the immediate loss of retrieval gains at the existing confirmation stage and show why encoder evaluation must also measure final cluster quality.",
+    "publicationDate": "2026-10-04T22:19:14.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.05533",
+    "title": "What Does a Harness Repair? A Preregistered Study of Visibility, Baseline Adequacy and Evaluation Defects",
+    "abstract": "Harness search keeps a change to the prompts, reasoning switches, token budgets or parsers around a frozen model if the change raises a score. Such a gain can come from answers the parser could not read before, a weak comparison, or a defect in the evaluation. We preregistered a study of where these gains come from, with three small models, three benchmarks, replication and test partitions, a GEPA search arm and six evaluation defects injected one at a time, and we report all 47 primary endpoints. Turning thinking off raised accuracy over a capped thinking setting in 5 of 9 model-benchmark cells, and in each the gain came mostly from questions where the capped setting gave no readable answer. The thinking-off setting was not meaningfully worse than a rescue configuration or four GEPA-selected harnesses in 11 of 13 comparisons, and lost to the rescue on GSM8K for two models. GEPA repaired its broken starting points, but none of its selected harnesses was more accurate than the thinking-off setting. A thinking budget in the serving engine, which also allows a longer answer, lowered truncation and raised the parse rate in 6 of 9 cells. In 6 of 15 evaluable defect-model pairs, replication through the same pipeline reproduced the defect's distortion instead of revealing it. On the LongevityBench multiple-choice tasks, only the longevity-tuned model beat the strongest constant-label baseline.",
+    "publicationDate": "2026-10-04T20:56:07.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.05126",
+    "title": "Selecting Repetition Counts Across Model Scales in Data-Constrained Pretraining",
+    "abstract": "The repetition count that works best for a small language model may not remain best at a larger scale. We study this effect in pretraining with a finite target corpus mixed with generic data at a fixed target fraction. On Wikipedia-derived data and Proof-Pile-2, the ranking of measured repetition counts changes with model size, and a 520M Proof-Pile-2 experiment confirms that reducing repetition from sixteen to eight improves loss while using fewer training tokens. We use loss curves from several smaller models to retain a short list of promising repetition counts for evaluation at a larger scale. On PubMed and Caselaw, candidate sets fixed before target-model training retain the lowest-loss measured count on the original evaluation grids at both 200M and 520M. This supports candidate retention as a practical alternative to exact point prediction. We also relate the pruning regression to an empirical scaling model with two opposing repetition-dependent loss terms. A first-order expansion in log model size yields the linear form used by the selection rule, providing a scaling-based interpretation of the candidate-selection procedure.",
+    "publicationDate": "2026-10-04T11:16:04.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.02841",
+    "title": "How Robust Is Multimodal Claim Verification to LLM Rewriting?",
+    "abstract": "LLMs are known to introduce stylistic changes into generated text, yet how these stylistic shifts affect model decisions on scientific tasks remains underexplored. In this paper, we focus on multimodal claim verification, where the goal is to determine whether a textual claim is grounded in a given piece of evidence. We apply two rewriting strategies: natural rewriting, which simulates how researchers routinely use LLMs to polish academic text, and controlled injection, which inserts a single LLM-associated word to isolate the effect of vocabulary choice. We evaluate 11 open-weight models spanning five VLM families and ranging from 2B to 38B parameters. We find that models are robust to these modifications: most show no significant drop in accuracy, and compared to prior work on review-score manipulation, verification appears far more stable. However, consistent probability shifts do occur. Hedging-oriented conditions produce significant shifts across nearly all models, while boosting conditions show a weaker effect and general polishing conditions (e.g., grammar correction, fluency improvement) have little effect.",
+    "publicationDate": "2026-10-02T05:31:40.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.36748",
+    "title": "Generalizable Lifelong Model Editing via Preference Optimization",
+    "abstract": "Knowledge editing enables rapid updates of specific factual knowledge in large language models (LLMs) without full retraining. However, more realistic scenarios call for a lifelong framework that handles continual updates rather than one-off modifications. In such settings, existing editing methods often overfit to target prompts, significantly degrading both the generalization of the edited knowledge and the model's general capabilities. To address this issue, we propose GLIME (Generalizable Lifelong Model Editing), which combines knowledge editing with preference optimization over generation behavior. GLIME further incorporates replay-based editing and a gradient constraint to preserve previously edited knowledge. Experimental results show that GLIME significantly improves knowledge generalization in lifelong editing settings while maintaining both editing performance and general capabilities.",
+    "publicationDate": "2026-09-29T05:19:52.000Z",
+    "votes": 2
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.33759",
+    "title": "Positions Are Not Facts: The Mismatch Between KV Caches and Memory",
+    "abstract": "When a fact changes, how should a language model update the history stored in its key-value (KV) cache? Hiding the old record is cheap, but it may still contain needed details or answer questions about the past. We compare hiding whole records, hiding only replaced values, and deleting old text and recomputing the cache. In a controlled quantity task, masking makes all eight models prefer the new value more strongly, yet six lose complete answers through unit errors or failure to stop; keeping the unit preserves all current answers. Later states also retain useful information from earlier records: on multi-hop updates, rebuilding these states at unchanged positions lowers historical accuracy by 20-41 percentage points, whereas moving the existing states has little effect. Keeping object dependencies and unchanged revision passages prevents many losses. Recognition is a separate challenge. Learned readouts recover distinctions missed by fixed cache similarities on synthetic record pairs. On natural text, text-detector-selected masks show no clear advantage over random masks at the same rate in 14 same-model detector-generator comparisons. Query-dependent access can avoid some losses, with additional storage or access costs. These findings identify what must be preserved beyond the replaced value when using a KV cache as updatable memory.",
+    "publicationDate": "2026-09-27T16:56:16.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.32473",
+    "title": "VPEvolve: A Self-Evolving Virtual Process Engineer for Computational Lithography",
+    "abstract": "Optical proximity correction (OPC) recipes grow as engineers add local rules to repair newly discovered lithography hotspots. Each correction can interact with existing rules, while lessons from commercial-tool trials remain scattered across code and logs. \\system combines a Virtual Process Engineer (VPE) harness with a Skill Bank of measured engineering experience. The harness equips a frozen language model with process manuals, layout analysis, recipe editing, and commercial-tool evaluation. The actor proposes changes to the global parameters, local targeted rules, or diagnostic trials. After each evaluation, an LLM reflector and curator turn the measured response into evidence-linked judgments. The actor retrieves them before its next trial. Feasible improvements update the retained recipe; every measured trial informs the Skill Bank that guides the next edit. The model weights remain fixed. On a FreePDK45-derived benchmark with ten commercial-tool evaluations per case, \\system reduces the mean per-case maximum edge placement error from 18.294 to 5.361 nm on Poly and from 22.052 to 15.692 nm on Metal1. Every final recipe satisfies the predefined quality constraints and improves the maximum error by at least 0.1 nm.",
+    "publicationDate": "2026-09-26T11:06:45.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.29269",
+    "title": "ALOE: Semantically Addressed Low-Rank Operators for Knowledge Editing",
+    "abstract": "Knowledge editing changes what a model knows by modifying parameters so that a requested fact updates while unrelated behavior is preserved. This is usually treated as a write problem, but editing also involves an address problem: deciding which hidden states should receive the new residual. An update that activates too narrowly memorizes one prompt, while one that activates too broadly disrupts neighboring knowledge. Parametric editors encode this scope implicitly, whereas memory-based editors make the selection explicit but keep it outside the edited model. We propose ALOE (Addressed Low-rank Operator for Editing), which learns semantic addresses from paraphrases and hard same-subject negatives, aligns them with autoregressive hidden states through rollout refinement and gate calibration, and embeds the resulting gated low-rank operator within one MLP layer, so that the deployed model runs in a single forward pass with no external retriever or auxiliary router. Evaluated on CounterFact, ZSRE, and KnowEdit across three 7--8B model families, ALOE achieves efficacy between 0.955 and 0.999 and locality between 0.981 and 1.000; mechanistic analyses confirm that the learned geometry separates competing edits and that calibration suppresses out-of-scope activation. The remaining errors concentrate in paraphrase coverage and write fitting.",
+    "publicationDate": "2026-09-24T09:08:49.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.30571",
+    "title": "HARDEN: Constrained Evolutionary Search for Harder, Answer-Preserving Evaluation Cases",
+    "abstract": "Language models are often evaluated on curated benchmarks that underrepresent the complexity of enterprise deployments. We introduce HARDEN, a constrained evolutionary search method to adapt the input of existing evaluation cases into more challenging variants while keeping their expected outputs fixed. HARDEN searches along generated domain-specific complexity axes while enforcing feasibility constraints such as preserving task semantics, realism, and execution validity. Across FinQA, PubMedQA, and ContractNLI and three Qwen3.5 model scales (35B-A3B, 122B-A10B, and 397B-A17B), HARDEN reduces task-model accuracy by 22.7% on average and by up to 49.9% relative to single-pass baselines using the same feasibility checks. These results show that evolutionary search can produce substantially harder valid evaluation cases.",
+    "publicationDate": "2026-09-24T21:33:11.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.00232",
+    "title": "Constant-Memory Recall: Learned Associations in a Fixed Matrix State",
+    "abstract": "Fixed-size recurrent memory limits storage growth during inference, but successful recall depends on the task and training. We study a small DeltaNet variant with fixed token-specific key biases, trained to remember 32 new key-value pairings per sequence. With 32 KiB of recurrent matrix state, it achieves 99.95% mean accuracy across three training seeds when choosing among the sequence's values. Recall remains near perfect when filler extends the pre-query context to 1,798 tokens without adding pairings. Zeroing the first memory block removes this recall. An exploratory 48-pair test remains near chance after one quarter of the primary training budget and does not locate a capacity limit. Parameter-matched vector and Transformer baselines remain near chance, including the Transformer after additional training searches. This unresolved baseline failure prevents a memory-efficiency comparison.",
+    "publicationDate": "2026-09-23T00:17:36.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.16532",
+    "title": "Style-Debiased DPO: Updating LLM Knowledge with Factuality-Aware Synthetic Preference Data",
+    "abstract": "Continued pretraining (CPT) with data augmentation such as paraphrasing can store inside a large language model (LLM) the knowledge of a small source corpus. The stored knowledge, however, is not always retrieved correctly. We study the eliciting side rather than the storing side: we use preference optimization, which learns from pairs of a preferred (chosen) and a dispreferred (rejected) response, so that the model elicits its stored knowledge more accurately. One proposed approach takes the model's own erroneous response as rejected and the gold answer as chosen, so as to suppress the error. When the target knowledge is partially known, however, most of these rejected responses are factually correct. Using direct preference optimization (DPO) then pushes down rejected responses that contain correct knowledge and differ from the chosen answer only in style, such as length and wording. We propose style-debiased DPO (SD-DPO), which scores whether the rejected response of each pair is factually correct, inverts the preference of such pairs, and weights them so that the learning signal due to differences in style cancels out as a whole. We first test whether, on top of EntiGraph, a representative storing-side method that runs CPT on text synthesized from the corpus, our method adds accuracy efficiently. On QuALITY, the reading-comprehension QA benchmark on which EntiGraph was evaluated, SD-DPO exceeds a baseline we CPT on EntiGraph's synthetic data from the same base model and evaluate with the same procedure. The training tokens this requires are a few dozen times fewer than the additional CPT needed for the same gain. For knowledge updating, the main goal of this work, we use AToKE, a knowledge-editing benchmark for facts that change over time. There, SD-DPO reaches an overall accuracy of 0.982 and answers with the new or the old fact according to the queried period.",
+    "publicationDate": "2026-09-15T02:26:19.000Z",
+    "votes": 1
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.12116",
+    "title": "When Successful Knowledge Graph Edits Displace Correct Answers: Rank-Level Locality beyond Parameter Support",
+    "abstract": "Editing a knowledge graph embedding (KGE) model to promote a desired answer can displace correct answers from the returned list. Locality tests based only on facts that reuse the edited parameter can miss this ranking effect. We introduce a common rank-displacement audit at three scopes: facts supported by the edited parameter, other correct answers to the target query, and correct answers across queries with the same relation. We also derive dimensional and geometric conditions for an update to improve the target while exactly preserving selected scores. On FB15k-237 with DistMult and ComplEx, direct promotion always moves the target into the top ten, but does so without damage in only 23.0--23.2\\% of edits. Strict preservation causes no measured damage, yet succeeds in only 1.3--1.4\\%. Support-regularized entity editing gives the highest joint success, 36.3--37.7\\%, while rank-truncated preservation reaches 32.8--34.7\\% and reduces the mean number of displaced answers from about 14 to 1.2. Experiments across dimensions, scorers, ranking conventions, and a learned editor show that locality depends on both the protected scope and the editing mechanism. KGE editing should therefore report correction success together with the incidence and severity of rank displacement.",
+    "publicationDate": "2026-09-10T18:44:54.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.09243",
+    "title": "In RAG We Trust? Measuring Robustness of Retrieval-Augmented Generation Under Document Poisoning",
+    "abstract": "Retrieval-augmented generation (RAG) grounds a language model in retrieved documents, which reduces hallucination but creates a new attack surface: if retrieved text is tampered with, the model may repeat the falsehood. We study how much a small quantized model, Llama 3.1 8B, degrades when a fraction of its retrieved context is poisoned. Three corruption strategies are tested, entity swap, number swap, and negation, each applied to zero, one, two, or three of the three retrieved passages, over a factorial sweep of 588 runs on a fact-checking task built from FEVER. Accuracy falls from 77.9% on clean context to 43.5% when all three passages are corrupted. Entity swap flips the largest share of answers that were correct on clean context. Number-based corruption stays flat while poisoned passages are a minority and jumps once they form a majority, a pattern we re-check with query-level bootstrap intervals. The model rarely invents new falsehoods; its dominant reaction is to abstain, and a lexical overlap proxy of unsupported generation falls under attack rather than rising. The study is a small-scale measurement with coarse automated labels; we treat the strategy contrasts as suggestive until decoding is controlled and stronger adjudication is in place.",
+    "publicationDate": "2026-09-08T08:31:57.000Z",
+    "votes": 1
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.08067",
+    "title": "Popular Knowledge Propagates More Errors in LLM Knowledge Updating",
+    "abstract": "Updating a language model's knowledge through fine-tuning is essential for keeping its outputs current, yet can also induce factual forgetting and new hallucinations. Prior work shows that long-tail knowledge is harder to acquire and newly memorized long-tail facts are difficult to retain during later fine-tuning. We study a complementary question: among facts that a model has encoded correctly, which are most vulnerable to collateral corruption during other updates? To investigate this question under a realistic factual distribution, we construct a large-scale graph FACTPROP of verified Wikipedia facts by linking triples that share head or tail entities, thereby preserving connections among factual knowledge. We fine-tune models on factual statements and measure correct-to-incorrect facts after each update. Our results reveal a pattern distinct from prior findings on long-tail vulnerability during acquisition and retention: among facts that models already answer correctly, those associated with highly connected entities are more likely to be corrupted by neighboring updates, and updates to such facts propagate errors more broadly. Structural popularity therefore predicts both vulnerability and downstream damage. Inspired by this finding, we propose Popularity-based Anchoring (PopAnchor), a lightweight rehearsal strategy that preserves a small set of popular facts and reduces forgetting.",
+    "publicationDate": "2026-09-08T00:23:27.000Z",
+    "votes": 1
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.06872",
+    "title": "Exact Record Omission in Delta Attention: A Transport Criterion, Its Cost, and a Replay Certificate",
+    "abstract": "An assistant can stop repeating a deleted statement while its recurrent memory still carries that statement's influence. We examine this distinction by saving the state difference immediately after a record, carrying this saved difference, or receipt, through later updates, and comparing the corrected state with the state built from the same conversation with the record omitted. Unrolling the recurrence gives an exact criterion: transport reaches this never-stored state if and only if the additional differences created by later updates cancel after transport. We evaluate eleven conditions using 40 prospectively selected synthetic Kimi Linear contexts, with 40 separate calibration contexts and paired uncertainty estimates computed across complete records. Attention masking removed all 40 exact greedy target answers, yet a fixed three-query candidate-scoring attack with known candidate values and log-probability access attained AUC 0.740 (95% interval 0.695--0.809); the measured false-positive rate was 7.5%. Prompt-only forgetting still returned 33 of the 40 targets. Checkpoint replay matched the complete declared active state and audit logits in all 80 contexts, while preserving all 120 retained answers in the evaluation cohort. An independent Qwen cohort and matched original-bf16/8-bit Kimi controls confirmed native transport mismatch beyond the numerical error measured in matched controls. Replay also supported record replacement and successive deletions with a new record added between them. These results provide a practical audit of both the requested memory change and the assistant's remaining behavior, with replay work determined by the surviving suffix.",
+    "publicationDate": "2026-09-06T23:25:58.000Z",
+    "votes": 0
+  }
+]
