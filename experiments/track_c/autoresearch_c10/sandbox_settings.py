@@ -52,7 +52,6 @@ runtime_reads = [
                                                          # document the harness names are NOT re-opened (v5): the
                                                          # wrappers set PYTHONDONTWRITEBYTECODE so no pyc is needed
     f"{program}/tools/engine_fingerprint.py",
-    f"{program}/results/c10l_covgeom/run1_armB_identity.json",
     f"{repo}/covariance_caches",
     f"{mirror}/covariance_caches",
     sandbox,

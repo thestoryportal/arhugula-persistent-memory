@@ -87,10 +87,12 @@ chmod -R u+w "$FENCE"
 "$PY" "$SRC/sandbox_settings.py" "$PROGRAM" "$REPO" "$SB" "$FENCE" > "$FENCE/.sandbox_settings.json"
 "$PY" "$SRC/sandbox_settings.py" "$PROGRAM" "$REPO" "$SB" "$FENCE" --seatbelt > "$FENCE/.sandbox.sb"
 for f in run.sh setup.sh kill_run.sh; do cp "$SRC/$f" "$FENCE/$f"; chmod 555 "$FENCE/$f"; done
+"$PY" "$SRC/write_reference_controls.py" "$PROGRAM/results/c10l_covgeom/run1_armB_identity.json" "$FENCE/reference_controls.json"
+chmod 444 "$FENCE/reference_controls.json"
 chmod 444 "$FENCE/.sandbox_settings.json" "$FENCE/.sandbox.sb"
 chmod 555 "$FENCE"
 # the sandbox must still carry the harness the equivalence check passed on (checked above) and the fence must be complete
-for f in .sandbox_settings.json .sandbox.sb run.sh setup.sh kill_run.sh; do [ -s "$FENCE/$f" ] || die "fence file missing: $FENCE/$f"; done
+for f in .sandbox_settings.json .sandbox.sb run.sh setup.sh kill_run.sh reference_controls.json; do [ -s "$FENCE/$f" ] || die "fence file missing: $FENCE/$f"; done
 
 # 5. start the agent: no outside context (safe mode), Fable 5.1 at high effort (operator, 2026-10-06), permissions disabled as the
 #    fork's README directs ("spin up your Claude ... in this repo (and disable all permissions)"), inside the fence

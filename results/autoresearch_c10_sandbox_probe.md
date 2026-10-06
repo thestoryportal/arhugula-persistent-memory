@@ -174,3 +174,7 @@ The reviewer read `docs/C10_BANDKNOB_PREREG.md` and decoded `experiments/track_c
 Direct test v5: prereg BLOCKED; shared `__pycache__` BLOCKED; sibling experiment BLOCKED; `experiments/track_c` listing BLOCKED; harness file readable; `importlib.util.find_spec` on the denied path entry returns None (expected: the sandbox copy is used instead).
 
 Probe 13 (Claude session): bare wrapper → GPU OK, capture OK; `head` and Read of the prereg → denied; `ls __pycache__` → denied; `head` of a sibling experiment → denied; harness and hparams `head` → content. FORBIDDEN_SUCCEEDED none · CONTROLS_OK 7, 8.
+
+## Fence v6 (after the Codex pass on v5, `results/autoresearch_c10_advisor_fence_v5.md`)
+
+The reviewer read the full reference run `results/c10l_covgeom/run1_armB_identity.json` (107 KB, A7 coined-value results included) through the v5 profile. v6: `prepare.py` reads a two-number extract written by the launcher into the fence (`write_reference_controls.py`: A1 71, A2 70); the full record leaves the allow-list. Direct test v6 under the probe profile: full reference run BLOCKED; `results/c10l_covgeom` listing BLOCKED; GPU on; everything else unchanged. `prepare.py` changed (one constant), so the equivalence check is re-run before the sixth launch (log `results/autoresearch_c10_equivalence_rerun.log`; previous record `results/autoresearch_c10_equivalence_2026-10-06T0815.json`).
