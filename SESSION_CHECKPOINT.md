@@ -27,7 +27,7 @@ Resume the LLM-as-Database program (F1, condition C10) as lead experimentalist w
 2. When its first results are in (the baseline row), start the research pass per the plan's ruling note: unconstrained, grounded first in the full program history and corpus (CORPUS, research_and_specs, the ~2,177-paper Connected Papers collection, the genesis artifacts, last week's InfraNodus arc and the 37 InfraNodus graphs); OpenResearch CLI with all local capabilities and its dashboard opened for me; InfraNodus used fully (skill + full tool catalog; fallback to a subagent if OpenResearch agents cannot reach it); arXiv MCP, Perplexity MCP, NotebookLM and Connected Papers (website until the API key arrives) and the Google Scholar + InfraNodus Chrome extensions, all through Browser Harness where a browser is needed; agents log hypotheses but never run experiments; first presentation to me = their top 3 with the cheapest tests first, the rest kept; the Framework Council skills critique the top candidates (never as evidence).
 3. Keep the README's plain-words section current on every progress push.
 
-Standing rules unchanged: local-only; engine unmodified (d941a9fb); Codex gpt-5.5 advisor before any run and any verdict; CORPUS only after reviews; one speculative fix after a cat -n read, then HALT with a diagnostic JSON.
+Standing rules unchanged: local-only; engine unmodified (d941a9fb); Codex GPT-6-Astra (high) advisor before any run and any verdict; CORPUS only after reviews; one speculative fix after a cat -n read, then HALT with a diagnostic JSON.
 ```
 
 
