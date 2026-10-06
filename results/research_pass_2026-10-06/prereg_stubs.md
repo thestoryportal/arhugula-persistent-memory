@@ -91,3 +91,14 @@ Already pre-registration-selected in the arc (§8) and CORPUS/50. The stubs ther
 ## Later items (not stubbed; sequenced after the gates above)
 
 H-24 one-time MTP head as a continuation loss; H-9 subject anchors with a temporary carrier; H-6 position-separated write with a runtime gate; the closed-form variant of H-18. Model changes H-21, H-23, H-26 after the ceiling rule, each beginning with a smoke solve (load, one band covariance, one `_cov_cpu` solve, wall-clock and peak memory recorded) and LAW#3 reproduction of a known result on that model.
+
+---
+
+## Reconciliation note, step 1 (2026-10-06, after the program session's reply)
+
+The program session's draft `docs/C10S_SHARED_Z_PREREG.md` (v2, program worktree @ 02a383f) carries the step-1 pre-step and amendments above with two differences, both accepted here:
+
+1. **Injection gate is relative and same-process.** The canonical z's injection ceiling spans 42–54/72 across processes (CORPUS/47 amendment N1), so an absolute stratum would be cleared by run-to-run spread alone. The gate becomes: shared z minus canonical z ≥ 6/72, both solved and injected in one process. The stub's "not above the 49–54 stratum" wording is superseded.
+2. **DEGRADED-Z threshold.** The stub asked ≥ 0.98 target probability per frame at stop; v2 has 0.9. The program session will take the stricter value unless its Codex design pass objects; either way the number is fixed in the pre-registration before the run.
+
+The "statement and cloze, per relation, not per fact" framing of the two fixed training frames is adopted in v3. Reconciliation of the remaining stubs (steps 2–8) happens the same way, at each pre-registration's design pass.
