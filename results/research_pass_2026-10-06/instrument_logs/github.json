@@ -1,0 +1,42 @@
+{
+ "instrument": "github",
+ "queries": [
+  {
+   "t": "2026-10-06T10:46:16",
+   "query": "gh api repos/TianSuya/Bayes-Chunk; gh search repos Bayes-Chunk; AnyEdit++",
+   "hits": [
+    {
+     "id": "TianSuya/Bayes-Chunk",
+     "status": "new"
+    }
+   ],
+   "note": "EXISTS: created 2026-01-29, pushed 2026-05-26, license null, 2 stars, description = official AnyEdit++ code"
+  },
+  {
+   "t": "2026-10-06T10:46:16",
+   "query": "gh api repos/lbq8942/BetaEdit; gh search repos BetaEdit",
+   "hits": [
+    {
+     "id": "lbq8942/BetaEdit",
+     "status": "new"
+    }
+   ],
+   "note": "EXISTS: created 2026-05-08, pushed 2026-09-29, license null, 2 stars, IJCAI paper"
+  },
+  {
+   "t": "2026-10-06T10:52:43",
+   "query": "repo trees + configs + cuda grep: lbq8942/BetaEdit, TianSuya/Bayes-Chunk",
+   "hits": [
+    {
+     "id": "lbq8942/BetaEdit",
+     "status": "new"
+    },
+    {
+     "id": "TianSuya/Bayes-Chunk",
+     "status": "new"
+    }
+   ],
+   "note": "BetaEdit: device = cuda-if-available else cpu (portable), configs qwen2.5-3b (Instruct), qwen2.5-7b, llama3.2-3b etc; mom2 15000; nullspace 0.02; Bayes-Chunk: hard-coded .to(\"cuda\") in memit_ARE_main/compute_z/layer_stats; configs Qwen2.5-7B-Instruct + Llama3; one release commit 2026-05-26; no licence"
+  }
+ ]
+}

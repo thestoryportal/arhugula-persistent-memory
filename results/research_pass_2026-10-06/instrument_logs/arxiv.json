@@ -1,0 +1,650 @@
+{
+ "instrument": "arxiv",
+ "queries": [
+  {
+   "t": "2026-10-06T10:46:16",
+   "query": "abs:\"knowledge editing\" AND abs:\"null-space\" [cs.CL,cs.LG,cs.AI; 2025-06-01+; date]",
+   "hits": [
+    {
+     "id": "2609.33534",
+     "status": "seen"
+    },
+    {
+     "id": "2606.26783",
+     "status": "seen"
+    },
+    {
+     "id": "2606.19679",
+     "status": "new"
+    },
+    {
+     "id": "2602.10965",
+     "status": "seen"
+    },
+    {
+     "id": "2510.13851",
+     "status": "seen"
+    }
+   ],
+   "note": "E1/E2"
+  },
+  {
+   "t": "2026-10-06T10:46:16",
+   "query": "abs:\"hypernetwork\" AND abs:\"knowledge editing\" [2024+]",
+   "hits": [
+    {
+     "id": "2508.03741",
+     "status": "new"
+    },
+    {
+     "id": "2506.08920",
+     "status": "new"
+    },
+    {
+     "id": "2505.14393",
+     "status": "new"
+    },
+    {
+     "id": "2502.19416",
+     "status": "seen"
+    }
+   ],
+   "note": "E4"
+  },
+  {
+   "t": "2026-10-06T10:46:16",
+   "query": "abs:\"knowledge injection\" AND (LoRA|low-rank) AND (new knowledge|new facts|new entities) [2024-06+]",
+   "hits": [
+    {
+     "id": "2605.24549",
+     "status": "new"
+    },
+    {
+     "id": "2504.21239",
+     "status": "seen"
+    }
+   ],
+   "note": "E5"
+  },
+  {
+   "t": "2026-10-06T10:46:16",
+   "query": "(continued|continual pretraining) AND (new entities|novel entities|fictitious|new facts) [2024-06+]",
+   "hits": [
+    {
+     "id": "2609.22285",
+     "status": "new"
+    },
+    {
+     "id": "2508.06178",
+     "status": "new"
+    },
+    {
+     "id": "2503.04036",
+     "status": "new"
+    }
+   ],
+   "note": "E6"
+  },
+  {
+   "t": "2026-10-06T10:46:16",
+   "query": "(memory layer|memory layers|product key memory|parametric memory) AND (language model|LLM) AND (factual|knowledge) [2024-06+; first 30 of 83]",
+   "hits": [
+    {
+     "id": "2609.35312",
+     "status": "new"
+    },
+    {
+     "id": "2609.28250",
+     "status": "new"
+    },
+    {
+     "id": "2609.27067",
+     "status": "new"
+    },
+    {
+     "id": "2609.01182",
+     "status": "new"
+    },
+    {
+     "id": "2608.28478",
+     "status": "new"
+    },
+    {
+     "id": "2608.26295",
+     "status": "new"
+    },
+    {
+     "id": "2608.16515",
+     "status": "new"
+    },
+    {
+     "id": "2608.06128",
+     "status": "new"
+    },
+    {
+     "id": "2608.01630",
+     "status": "new"
+    },
+    {
+     "id": "2607.29032",
+     "status": "new"
+    },
+    {
+     "id": "2607.25614",
+     "status": "new"
+    },
+    {
+     "id": "2607.00605",
+     "status": "new"
+    },
+    {
+     "id": "2606.29863",
+     "status": "new"
+    },
+    {
+     "id": "2606.28467",
+     "status": "new"
+    },
+    {
+     "id": "2606.25632",
+     "status": "new"
+    },
+    {
+     "id": "2607.22625",
+     "status": "new"
+    },
+    {
+     "id": "2606.12400",
+     "status": "new"
+    },
+    {
+     "id": "2606.11712",
+     "status": "new"
+    },
+    {
+     "id": "2606.08397",
+     "status": "new"
+    },
+    {
+     "id": "2606.01923",
+     "status": "new"
+    },
+    {
+     "id": "2605.30260",
+     "status": "new"
+    },
+    {
+     "id": "2605.28303",
+     "status": "new"
+    },
+    {
+     "id": "2605.27788",
+     "status": "new"
+    },
+    {
+     "id": "2605.26835",
+     "status": "new"
+    },
+    {
+     "id": "2605.26362",
+     "status": "new"
+    },
+    {
+     "id": "2605.10488",
+     "status": "new"
+    },
+    {
+     "id": "2605.09863",
+     "status": "new"
+    },
+    {
+     "id": "2605.08838",
+     "status": "new"
+    },
+    {
+     "id": "2605.05686",
+     "status": "new"
+    },
+    {
+     "id": "2606.23695",
+     "status": "new"
+    }
+   ],
+   "note": "E7; mostly off-topic agent-memory hits; relevant: 2608.01630 RING, 2607.22625 TokenMem, 2607.25614 MemSFT, 2606.12400 Doc-to-Atom, 2605.30260 LoRA memory law, 2605.28303"
+  },
+  {
+   "t": "2026-10-06T10:46:16",
+   "query": "(vocabulary expansion|new tokens|token embedding initialization) AND (knowledge|entity|entities) AND language model [2025+]",
+   "hits": [
+    {
+     "id": "2608.00932",
+     "status": "new"
+    },
+    {
+     "id": "2607.15209",
+     "status": "new"
+    },
+    {
+     "id": "2606.02834",
+     "status": "new"
+    },
+    {
+     "id": "2605.04308",
+     "status": "new"
+    },
+    {
+     "id": "2604.02324",
+     "status": "seen"
+    },
+    {
+     "id": "2603.22629",
+     "status": "new"
+    },
+    {
+     "id": "2601.21947",
+     "status": "seen"
+    },
+    {
+     "id": "2508.15807",
+     "status": "seen"
+    },
+    {
+     "id": "2507.01872",
+     "status": "new"
+    },
+    {
+     "id": "2506.06607",
+     "status": "new"
+    },
+    {
+     "id": "2503.10408",
+     "status": "new"
+    }
+   ],
+   "note": "E8; relevant: 2605.04308 Memory as Markov Matrix, 2604.02324 (seen), 2508.15807 (seen), 2506.06607 tokenizer transplant OMP"
+  },
+  {
+   "t": "2026-10-06T10:46:16",
+   "query": "abs:\"knowledge editing\" AND (diffusion language model|masked diffusion|LLaDA|multi-token prediction|Mamba|state space|mixture of experts) [2024-06+]",
+   "hits": [
+    {
+     "id": "2607.10803",
+     "status": "new"
+    },
+    {
+     "id": "2606.12841",
+     "status": "seen"
+    },
+    {
+     "id": "2606.03924",
+     "status": "seen"
+    },
+    {
+     "id": "2605.16686",
+     "status": "new"
+    },
+    {
+     "id": "2602.10965",
+     "status": "seen"
+    },
+    {
+     "id": "2506.04739",
+     "status": "seen"
+    },
+    {
+     "id": "2410.17194",
+     "status": "seen"
+    }
+   ],
+   "note": "M3/M5; new: 2606.12841 TimeROME-DLM, 2605.16686 MoE tensor edits, 2602.10965 MoEEdit"
+  },
+  {
+   "t": "2026-10-06T10:46:16",
+   "query": "abs:\"knowledge editing\" AND (multi-token|long-form|unstructured) AND (paraphrase|generalization) [2025-06+]",
+   "hits": [
+    {
+     "id": "2610.02772",
+     "status": "seen"
+    },
+    {
+     "id": "2609.33534",
+     "status": "seen"
+    },
+    {
+     "id": "2606.03924",
+     "status": "seen"
+    },
+    {
+     "id": "2606.01053",
+     "status": "seen"
+    },
+    {
+     "id": "2605.05090",
+     "status": "seen"
+    },
+    {
+     "id": "2604.05540",
+     "status": "new"
+    }
+   ],
+   "note": "E3; all seen"
+  },
+  {
+   "t": "2026-10-06T10:46:16",
+   "query": "get_abstract 2605.09285 (BetaEdit contradiction check)",
+   "hits": [
+    {
+     "id": "2605.09285",
+     "status": "seen"
+    }
+   ],
+   "note": "REAL paper: Liu, Liu, Li; published 2026-05-10; code lbq8942/BetaEdit"
+  },
+  {
+   "t": "2026-10-06T10:47:53",
+   "query": "(sequential|lifelong editing|sequential model editing|lifelong knowledge editing) AND (Qwen|LLaMA|Llama) [2025-09+]",
+   "hits": [],
+   "note": "E2; zero results (arXiv abs: field AND with model names returned nothing)"
+  },
+  {
+   "t": "2026-10-06T10:47:53",
+   "query": "(fine-tuning|finetuning|SFT) AND (new facts|new knowledge|unseen entities|fictional) AND (paraphrase|generalize|generalization) AND language models [2025+]",
+   "hits": [
+    {
+     "id": "2609.02685",
+     "status": "new"
+    },
+    {
+     "id": "2609.02482",
+     "status": "new"
+    },
+    {
+     "id": "2605.25902",
+     "status": "new"
+    },
+    {
+     "id": "2605.16865",
+     "status": "new"
+    },
+    {
+     "id": "2604.20146",
+     "status": "seen"
+    },
+    {
+     "id": "2604.05540",
+     "status": "new"
+    },
+    {
+     "id": "2603.02091",
+     "status": "new"
+    },
+    {
+     "id": "2602.16113",
+     "status": "new"
+    },
+    {
+     "id": "2602.00642",
+     "status": "new"
+    },
+    {
+     "id": "2601.01027",
+     "status": "new"
+    },
+    {
+     "id": "2512.14801",
+     "status": "new"
+    },
+    {
+     "id": "2512.04753",
+     "status": "new"
+    },
+    {
+     "id": "2511.00130",
+     "status": "new"
+    },
+    {
+     "id": "2510.09885",
+     "status": "new"
+    },
+    {
+     "id": "2509.16508",
+     "status": "new"
+    },
+    {
+     "id": "2509.14223",
+     "status": "seen"
+    },
+    {
+     "id": "2507.16799",
+     "status": "new"
+    },
+    {
+     "id": "2507.02799",
+     "status": "new"
+    },
+    {
+     "id": "2506.12384",
+     "status": "seen"
+    },
+    {
+     "id": "2506.10887",
+     "status": "new"
+    },
+    {
+     "id": "2505.20903",
+     "status": "new"
+    },
+    {
+     "id": "2503.13575",
+     "status": "new"
+    },
+    {
+     "id": "2503.05919",
+     "status": "new"
+    },
+    {
+     "id": "2503.04064",
+     "status": "new"
+    },
+    {
+     "id": "2502.19953",
+     "status": "seen"
+    },
+    {
+     "id": "2502.14502",
+     "status": "new"
+    }
+   ],
+   "note": "E6/E5; relevant: 2609.02685 DKL, 2605.16865 MixSD, 2510.09885 masked FT for knowledge injection, 2503.05919 Style to Facts, 2502.14502 LoRA knowledge capacity, 2506.10887 OOC reasoning, 2509.14223 Fresh in memory (seen)"
+  },
+  {
+   "t": "2026-10-06T10:47:53",
+   "query": "(model merging|task vector|weight merging) AND (knowledge editing|knowledge injection|new knowledge) [2025+]",
+   "hits": [
+    {
+     "id": "2610.05872",
+     "status": "new"
+    },
+    {
+     "id": "2610.05402",
+     "status": "new"
+    },
+    {
+     "id": "2609.02685",
+     "status": "new"
+    },
+    {
+     "id": "2605.09608",
+     "status": "new"
+    },
+    {
+     "id": "2511.03034",
+     "status": "new"
+    },
+    {
+     "id": "2509.21413",
+     "status": "new"
+    },
+    {
+     "id": "2509.17348",
+     "status": "new"
+    },
+    {
+     "id": "2506.12384",
+     "status": "seen"
+    },
+    {
+     "id": "2505.22389",
+     "status": "new"
+    },
+    {
+     "id": "2505.18640",
+     "status": "new"
+    },
+    {
+     "id": "2502.19953",
+     "status": "seen"
+    }
+   ],
+   "note": "E5; relevant: 2610.05872 off-policy merging, 2506.12384 Model Merging for KE (seen), 2509.21413 null-space continual merging"
+  },
+  {
+   "t": "2026-10-06T10:47:53",
+   "query": "(multi-token prediction|multi-token) AND (pretrained|pretraining) AND language model AND (open|release|checkpoint) [2025+]",
+   "hits": [
+    {
+     "id": "2610.00888",
+     "status": "new"
+    },
+    {
+     "id": "2606.15007",
+     "status": "new"
+    },
+    {
+     "id": "2605.31268",
+     "status": "new"
+    },
+    {
+     "id": "2604.03044",
+     "status": "new"
+    },
+    {
+     "id": "2602.06019",
+     "status": "new"
+    },
+    {
+     "id": "2507.08297",
+     "status": "new"
+    },
+    {
+     "id": "2505.07608",
+     "status": "new"
+    }
+   ],
+   "note": "M2; relevant: 2610.00888 post-training MTP heads, 2602.06019 MTP via self-distillation, 2505.07608 MiMo-7B (MTP pretrained, open), 2606.15007 Nemotron 3 Ultra (MoE hybrid, too big)"
+  },
+  {
+   "t": "2026-10-06T10:47:53",
+   "query": "(OLMo|Pythia) AND (knowledge editing|model editing|MEMIT|ROME) [2024+]",
+   "hits": [
+    {
+     "id": "2609.12591",
+     "status": "new"
+    },
+    {
+     "id": "2607.20433",
+     "status": "seen"
+    },
+    {
+     "id": "2602.11169",
+     "status": "new"
+    },
+    {
+     "id": "2505.24788",
+     "status": "new"
+    },
+    {
+     "id": "2402.06155",
+     "status": "new"
+    }
+   ],
+   "note": "M4; relevant: 2607.20433 Moir (seen; OLMo-2-7B), 2402.06155 Model Editing with Canonical Examples (Pythia)"
+  },
+  {
+   "t": "2026-10-06T10:47:53",
+   "query": "(tied embeddings|untied embeddings|weight tying|tie_word_embeddings|unembedding) AND (knowledge|editing|factual) [2024+]",
+   "hits": [
+    {
+     "id": "2608.26292",
+     "status": "new"
+    },
+    {
+     "id": "2606.32022",
+     "status": "new"
+    },
+    {
+     "id": "2602.04918",
+     "status": "new"
+    },
+    {
+     "id": "2601.10410",
+     "status": "new"
+    },
+    {
+     "id": "2510.16096",
+     "status": "new"
+    },
+    {
+     "id": "2504.02395",
+     "status": "new"
+    },
+    {
+     "id": "2410.06742",
+     "status": "new"
+    }
+   ],
+   "note": "M1; no editing paper on tied vs untied embeddings found; 2608.26292 INLAY gradient-free KE noted"
+  },
+  {
+   "t": "2026-10-06T10:47:53",
+   "query": "abs:\"knowledge editing\" AND token(s) AND (objective|loss) AND (target tokens|per-token|token-level|continuation) [2025+]",
+   "hits": [
+    {
+     "id": "2510.10398",
+     "status": "seen"
+    }
+   ],
+   "note": "E3/I-1 family; STEAM semantic-level KE"
+  },
+  {
+   "t": "2026-10-06T10:47:53",
+   "query": "ti:\"Keys to Robust Edits\"",
+   "hits": [
+    {
+     "id": "2410.09338",
+     "status": "new"
+    }
+   ],
+   "note": "gap list item 8; REP module, code ElliottYan/RobustKeyEdit; to read in full"
+  },
+  {
+   "t": "2026-10-06T10:52:43",
+   "query": "full-text reads: 2605.09285 \u00a76,\u00a77.1,\u00a77.2,\u00a78; 2410.09338 \u00a75,\u00a77.2,\u00a78,\u00a79,\u00a711; 2609.29045 \u00a74,\u00a79.1,\u00a710.2,\u00a713",
+   "hits": [
+    {
+     "id": "2605.09285",
+     "status": "seen"
+    },
+    {
+     "id": "2410.09338",
+     "status": "new"
+    },
+    {
+     "id": "2609.29045",
+     "status": "seen"
+    }
+   ],
+   "note": "read at the evaluation section"
+  }
+ ]
+}
