@@ -173,7 +173,7 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Criterion:** §3 SUFFICIENT needs valid K3/K4 < 20 with K2 ≥ 80; §6b SUFFICIENT (N = 1) needs ≥ 5/6 landed last-token singles with ≤ 1/3 paraphrases and ≥ 5/6 subject singles with ≥ 2/3; frame-bleed H-frame = ≥ 6/12 real and ≥ 3/6 bystander flips vs ≤ 1 for the control.
 - **Verdict:** N = 24 INVALID (near-collinear keys; ridge not separable); N = 1 F3 SUFFICIENT (MEMIT, N = 1); frame-bleed BETWEEN (partly frame-keyed) → last-token-keyed writes land but do not transfer; partly frame-keyed (F3 SUFFICIENT in MEMIT, N = 1).
 
-### C-C10l-cg - Solve geometry and sparse layer sets (D-C10l-covgeom ⟨D-C10l-covgeom@5b553688⟩)
+### C-C10l-cg - Solve geometry and sparse layer sets (D-C10l-covgeom ⟨D-C10l-covgeom@af2e38f7⟩)
 - **Hypothesis:** H-I8 (the null-space projector starves canonical realisation and/or paraphrase transfer; P := I fixes it) and H-I9a (a two-layer set spreads the residual less and fixes it).
 - **Method:** harness knob `C10_PROJECTOR=identity` (candidate recipe only) and hparams `layers [4,8]` / `[7,8]`, each against arm A in the same run; P6 z-injection ceiling; sequential offline step 0; S-3 axes L1 / described_as / L3 beside every count.
 - **Criterion (prereg §5):** PASS ≥ 61/72, LEAD ≥ 30/72 with L1 ≤ A+1, described_as ≥ A−3, L3 ≥ 29/30; REALISATION-ONLY canon ≥ 15/24; else NULL; INVALID on envelope / P3(a) / L3.
