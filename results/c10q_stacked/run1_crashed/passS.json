@@ -1,0 +1,3182 @@
+{
+  "decision_id": "D-C10q-stacked",
+  "prereg": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10Q_STACKED_SOLVE_PREREG.md",
+  "run": "C10 W-realization band-knob test",
+  "class": "FALSIFIER-resolver / recipe-knob characterization; NOT promotable",
+  "scope": "Qwen2.5-3B / AlphaEdit / capital / A1-A2-A7 / N=24 / 1-seed / HF-fp16",
+  "stimulus": {
+    "CANON": "The capital of {} is the city of",
+    "PTEST": [
+      "{}'s capital city is called",
+      "If you visit {}, its capital city is",
+      "The main city and seat of government of {} is"
+    ],
+    "FICTION": [
+      "Zorbland",
+      "Quaxil",
+      "Plurnak",
+      "Vythorn",
+      "Glimsto",
+      "Drennik",
+      "Yastovel",
+      "Crulpane",
+      "Mophgar",
+      "Brinduun",
+      "Trannak",
+      "Skornwell",
+      "Fluvane",
+      "Oxbarrow",
+      "Zephquin",
+      "Lurmaxen",
+      "Pradnoll",
+      "Kessivar",
+      "Wombryne",
+      "Halquin",
+      "Vorlex",
+      "Quenby",
+      "Marsduq",
+      "Thelby"
+    ],
+    "V_A1_single": {
+      "Zorbland": "Beirut",
+      "Quaxil": "Buenos",
+      "Plurnak": "Damascus",
+      "Vythorn": "Jerusalem",
+      "Glimsto": "Lisbon",
+      "Drennik": "Moscow",
+      "Yastovel": "Prague",
+      "Crulpane": "Santiago",
+      "Mophgar": "Stockholm",
+      "Brinduun": "Vienna",
+      "Trannak": "Ankara",
+      "Skornwell": "Bangkok",
+      "Fluvane": "Budapest",
+      "Oxbarrow": "Copenhagen",
+      "Zephquin": "Helsinki",
+      "Lurmaxen": "Lima",
+      "Pradnoll": "Mexico",
+      "Kessivar": "Paris",
+      "Wombryne": "Rome",
+      "Halquin": "Sofia",
+      "Vorlex": "Tunis",
+      "Quenby": "Amsterdam",
+      "Marsduq": "Baghdad",
+      "Thelby": "Berlin"
+    },
+    "V_A2_coherent2": {
+      "Zorbland": "Astana",
+      "Quaxil": "Bucharest",
+      "Plurnak": "Dhaka",
+      "Vythorn": "Harare",
+      "Glimsto": "Manama",
+      "Drennik": "Phnom",
+      "Yastovel": "Riga",
+      "Crulpane": "Tripoli",
+      "Mophgar": "Accra",
+      "Brinduun": "Amman",
+      "Trannak": "Bogota",
+      "Skornwell": "Dakar",
+      "Fluvane": "Hanoi",
+      "Oxbarrow": "Managua",
+      "Zephquin": "Muscat",
+      "Lurmaxen": "Rabat",
+      "Pradnoll": "Tirana",
+      "Kessivar": "Abuja",
+      "Wombryne": "Algiers",
+      "Halquin": "Belgrade",
+      "Vorlex": "Caracas",
+      "Quenby": "Doha",
+      "Marsduq": "Luanda",
+      "Thelby": "Maputo"
+    },
+    "V_A7_coined_coined": {
+      "Zorbland": "Vindex Vask",
+      "Quaxil": "Drennik Brakk",
+      "Plurnak": "Vythorn Stavik",
+      "Vythorn": "Vorlex Yornel",
+      "Glimsto": "Lurmax Spraxil",
+      "Drennik": "Kessivar Ulvenn",
+      "Yastovel": "Halquin Cindel",
+      "Crulpane": "Marsduq Drelth",
+      "Mophgar": "Glimsto Vask",
+      "Brinduun": "Brindu Brakk",
+      "Trannak": "Fluvane Stavik",
+      "Skornwell": "Yastov Yornel",
+      "Fluvane": "Vindex Spraxil",
+      "Oxbarrow": "Drennik Ulvenn",
+      "Zephquin": "Vythorn Cindel",
+      "Lurmaxen": "Vorlex Drelth",
+      "Pradnoll": "Lurmax Vask",
+      "Kessivar": "Kessivar Brakk",
+      "Wombryne": "Halquin Stavik",
+      "Halquin": "Marsduq Yornel",
+      "Vorlex": "Glimsto Spraxil",
+      "Quenby": "Brindu Ulvenn",
+      "Marsduq": "Fluvane Cindel",
+      "Thelby": "Yastov Drelth"
+    },
+    "L1_countries": [
+      "Albania",
+      "Algeria",
+      "Argentina",
+      "Armenia",
+      "Austria",
+      "Bangladesh",
+      "Bulgaria",
+      "Cambodia",
+      "Chile",
+      "Colombia",
+      "Croatia",
+      "Cuba"
+    ],
+    "L3_countries": [
+      "Armenia",
+      "Cameroon",
+      "Croatia",
+      "Cuba",
+      "Ecuador",
+      "Egypt",
+      "Estonia",
+      "Ethiopia",
+      "Georgia",
+      "Greece",
+      "Honduras",
+      "Iceland",
+      "Iran",
+      "Korea",
+      "Kuwait",
+      "Lithuania",
+      "Mongolia",
+      "Nepal",
+      "Norway",
+      "Paraguay",
+      "Poland",
+      "Saudi Arabia",
+      "Slovakia",
+      "Slovenia",
+      "Spain",
+      "Sudan",
+      "Uruguay",
+      "Uzbekistan",
+      "Yemen",
+      "Zambia"
+    ],
+    "generic_sentences": [
+      "The weather today is warm and sunny with a light breeze from the west.",
+      "She opened the window and listened to the birds singing in the garden.",
+      "The committee will meet on Thursday to discuss the annual budget.",
+      "He poured a cup of coffee and sat down to read the morning newspaper.",
+      "The train to the coast leaves every hour from the central station.",
+      "Water boils at one hundred degrees Celsius at sea level.",
+      "The museum's new exhibition features paintings from the nineteenth century.",
+      "Please remember to lock the door when you leave the office tonight.",
+      "The recipe calls for two eggs, a cup of flour, and a pinch of salt.",
+      "Children played football in the park until the sun went down.",
+      "The library extended its opening hours during the examination period.",
+      "A gentle rain fell on the city for most of the afternoon.",
+      "The orchestra performed a symphony by Beethoven to a full house.",
+      "He repaired the old bicycle and rode it along the river path.",
+      "The bakery on the corner sells fresh bread every morning at seven.",
+      "Scientists announced the discovery of a new species of frog in the rainforest.",
+      "The students finished their essays before the deadline on Friday.",
+      "Our neighbours planted tomatoes and beans in their small vegetable patch.",
+      "The ferry crossing takes about forty minutes in calm weather.",
+      "She wrote a letter to her grandmother describing the summer holiday."
+    ]
+  },
+  "projector_knob": "nullspace",
+  "base_report": {
+    "A1_single": {
+      "base": 0,
+      "mean_ntok": 1.0,
+      "ntok_range": [
+        1,
+        1
+      ]
+    },
+    "A2_coherent2": {
+      "base": 0,
+      "mean_ntok": 2.0,
+      "ntok_range": [
+        2,
+        2
+      ]
+    },
+    "A7_coined_coined": {
+      "base": 0,
+      "mean_ntok": 5.5,
+      "ntok_range": [
+        4,
+        6
+      ]
+    }
+  },
+  "recipes": {
+    "A7_stacked": {
+      "hparams": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/configs/hparams/qwen25_3b_memit_hparams.json",
+      "band": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "law5_gate": {
+        "expr_delta": 0.0003,
+        "loc_delta": 0.16,
+        "ok": true
+      },
+      "arms": {
+        "A1_single": {
+          "canon_full": 100.0,
+          "canon_first": 100.0,
+          "para_full": 98.6,
+          "para_first": 98.6,
+          "para_any_full": 100.0,
+          "cond_full_given_first": 1.0,
+          "tf_pertok_cont": null,
+          "mean_ntok": 1.0,
+          "canon_full_n": 24,
+          "canon_n": 24,
+          "para_full_n": 71,
+          "para_first_n": 71,
+          "para_string_n": 71,
+          "para_n": 72,
+          "locality_described_as": 92.29,
+          "locality_axes": {
+            "L1_flipped_to_edited_value": 0,
+            "L1_pre_already_edited_token": 4,
+            "L1_top1_changed": 0,
+            "L1_n": 12,
+            "L1_js_locpct": 99.99,
+            "L3_top1_agree": 30,
+            "L3_n": 30,
+            "L3_mean_kl": 0.00014,
+            "L3_js_locpct": 99.99,
+            "generic_ppl_pre": 21.755,
+            "generic_ppl_post": 21.986,
+            "L1_post_top1": {
+              "Albania": " Tir",
+              "Algeria": " Alg",
+              "Argentina": " Buenos",
+              "Armenia": " Y",
+              "Austria": " Vienna",
+              "Bangladesh": " Dh",
+              "Bulgaria": " Sofia",
+              "Cambodia": " Ph",
+              "Chile": " Santiago",
+              "Colombia": " Bog",
+              "Croatia": " Zag",
+              "Cuba": " Havana"
+            }
+          },
+          "extra": {}
+        },
+        "A2_coherent2": {
+          "canon_full": 100.0,
+          "canon_first": 100.0,
+          "para_full": 100.0,
+          "para_first": 100.0,
+          "para_any_full": 100.0,
+          "cond_full_given_first": 1.0,
+          "tf_pertok_cont": 100.0,
+          "mean_ntok": 2.0,
+          "canon_full_n": 24,
+          "canon_n": 24,
+          "para_full_n": 72,
+          "para_first_n": 72,
+          "para_string_n": 72,
+          "para_n": 72,
+          "locality_described_as": 92.84,
+          "locality_axes": {
+            "L1_flipped_to_edited_value": 0,
+            "L1_pre_already_edited_token": 5,
+            "L1_top1_changed": 0,
+            "L1_n": 12,
+            "L1_js_locpct": 99.99,
+            "L3_top1_agree": 30,
+            "L3_n": 30,
+            "L3_mean_kl": 0.00018,
+            "L3_js_locpct": 99.99,
+            "generic_ppl_pre": 21.755,
+            "generic_ppl_post": 22.031,
+            "L1_post_top1": {
+              "Albania": " Tir",
+              "Algeria": " Alg",
+              "Argentina": " Buenos",
+              "Armenia": " Y",
+              "Austria": " Vienna",
+              "Bangladesh": " Dh",
+              "Bulgaria": " Sofia",
+              "Cambodia": " Ph",
+              "Chile": " Santiago",
+              "Colombia": " Bog",
+              "Croatia": " Zag",
+              "Cuba": " Havana"
+            }
+          },
+          "extra": {}
+        },
+        "A7_coined_coined": {
+          "canon_full": 33.3,
+          "canon_first": 100.0,
+          "para_full": 22.2,
+          "para_first": 87.5,
+          "para_any_full": 33.3,
+          "cond_full_given_first": 0.254,
+          "tf_pertok_cont": 62.0,
+          "mean_ntok": 5.5,
+          "canon_full_n": 8,
+          "canon_n": 24,
+          "para_full_n": 16,
+          "para_first_n": 63,
+          "para_string_n": 16,
+          "para_n": 72,
+          "locality_described_as": 89.87,
+          "locality_axes": {
+            "L1_flipped_to_edited_value": 0,
+            "L1_pre_already_edited_token": 1,
+            "L1_top1_changed": 0,
+            "L1_n": 12,
+            "L1_js_locpct": 99.99,
+            "L3_top1_agree": 30,
+            "L3_n": 30,
+            "L3_mean_kl": 0.00025,
+            "L3_js_locpct": 99.99,
+            "generic_ppl_pre": 21.755,
+            "generic_ppl_post": 21.855,
+            "L1_post_top1": {
+              "Albania": " Tir",
+              "Algeria": " Alg",
+              "Argentina": " Buenos",
+              "Armenia": " Y",
+              "Austria": " Vienna",
+              "Bangladesh": " Dh",
+              "Bulgaria": " Sofia",
+              "Cambodia": " Ph",
+              "Chile": " Santiago",
+              "Colombia": " Bog",
+              "Croatia": " Zag",
+              "Cuba": " Havana"
+            }
+          },
+          "extra": {
+            "same_frame_fictional_single": {
+              "flips": 1,
+              "n": 6,
+              "rows": [
+                {
+                  "subj": "Vorbanth",
+                  "top1": 647,
+                  "tok": " V",
+                  "flip": true
+                },
+                {
+                  "subj": "Quillexa",
+                  "top1": 3406,
+                  "tok": " Qu",
+                  "flip": false
+                },
+                {
+                  "subj": "Tremnok",
+                  "top1": 75163,
+                  "tok": " Trem",
+                  "flip": false
+                },
+                {
+                  "subj": "Oskavel",
+                  "top1": 506,
+                  "tok": " O",
+                  "flip": false
+                },
+                {
+                  "subj": "Blynthar",
+                  "top1": 425,
+                  "tok": " B",
+                  "flip": false
+                },
+                {
+                  "subj": "Durmquist",
+                  "top1": 20138,
+                  "tok": " Dur",
+                  "flip": false
+                }
+              ]
+            },
+            "override_hits_before_second_edit": 0,
+            "zs_post": {
+              "sha256": "fe2055d0d8be3f8ec7495c802d3b89153f0ab35c51651df98fead33312641af3",
+              "norms": [
+                78.434,
+                104.389,
+                107.156,
+                92.044,
+                97.48,
+                111.79,
+                97.415,
+                104.287,
+                124.557,
+                76.555,
+                119.344,
+                76.372,
+                96.876,
+                95.849,
+                107.056,
+                104.537,
+                80.028,
+                110.343,
+                118.971,
+                102.205,
+                97.806,
+                75.95,
+                112.081,
+                82.483
+              ]
+            },
+            "geometry": {
+              "rows": [
+                {
+                  "subj": "Zorbland",
+                  "norm_pre": 78.778,
+                  "norm_post": 78.434,
+                  "diff_norm": 1.112,
+                  "rel_diff": 0.0141,
+                  "cosine": 0.9999
+                },
+                {
+                  "subj": "Quaxil",
+                  "norm_pre": 80.742,
+                  "norm_post": 104.389,
+                  "diff_norm": 59.783,
+                  "rel_diff": 0.7404,
+                  "cosine": 0.8212
+                },
+                {
+                  "subj": "Plurnak",
+                  "norm_pre": 81.399,
+                  "norm_post": 107.156,
+                  "diff_norm": 60.818,
+                  "rel_diff": 0.7472,
+                  "cosine": 0.826
+                },
+                {
+                  "subj": "Vythorn",
+                  "norm_pre": 71.21,
+                  "norm_post": 92.044,
+                  "diff_norm": 52.827,
+                  "rel_diff": 0.7419,
+                  "cosine": 0.8202
+                },
+                {
+                  "subj": "Glimsto",
+                  "norm_pre": 73.414,
+                  "norm_post": 97.48,
+                  "diff_norm": 54.044,
+                  "rel_diff": 0.7362,
+                  "cosine": 0.8364
+                },
+                {
+                  "subj": "Drennik",
+                  "norm_pre": 83.912,
+                  "norm_post": 111.79,
+                  "diff_norm": 62.445,
+                  "rel_diff": 0.7442,
+                  "cosine": 0.8336
+                },
+                {
+                  "subj": "Yastovel",
+                  "norm_pre": 74.935,
+                  "norm_post": 97.415,
+                  "diff_norm": 55.263,
+                  "rel_diff": 0.7375,
+                  "cosine": 0.8254
+                },
+                {
+                  "subj": "Crulpane",
+                  "norm_pre": 77.259,
+                  "norm_post": 104.287,
+                  "diff_norm": 58.021,
+                  "rel_diff": 0.751,
+                  "cosine": 0.8364
+                },
+                {
+                  "subj": "Mophgar",
+                  "norm_pre": 94.293,
+                  "norm_post": 124.557,
+                  "diff_norm": 70.067,
+                  "rel_diff": 0.7431,
+                  "cosine": 0.83
+                },
+                {
+                  "subj": "Brinduun",
+                  "norm_pre": 77.196,
+                  "norm_post": 76.555,
+                  "diff_norm": 1.675,
+                  "rel_diff": 0.0217,
+                  "cosine": 0.9998
+                },
+                {
+                  "subj": "Trannak",
+                  "norm_pre": 90.488,
+                  "norm_post": 119.344,
+                  "diff_norm": 67.43,
+                  "rel_diff": 0.7452,
+                  "cosine": 0.828
+                },
+                {
+                  "subj": "Skornwell",
+                  "norm_pre": 77.319,
+                  "norm_post": 76.372,
+                  "diff_norm": 1.664,
+                  "rel_diff": 0.0215,
+                  "cosine": 0.9998
+                },
+                {
+                  "subj": "Fluvane",
+                  "norm_pre": 72.291,
+                  "norm_post": 96.876,
+                  "diff_norm": 53.781,
+                  "rel_diff": 0.744,
+                  "cosine": 0.8367
+                },
+                {
+                  "subj": "Oxbarrow",
+                  "norm_pre": 75.559,
+                  "norm_post": 95.849,
+                  "diff_norm": 55.626,
+                  "rel_diff": 0.7362,
+                  "cosine": 0.8148
+                },
+                {
+                  "subj": "Zephquin",
+                  "norm_pre": 79.987,
+                  "norm_post": 107.056,
+                  "diff_norm": 59.622,
+                  "rel_diff": 0.7454,
+                  "cosine": 0.8352
+                },
+                {
+                  "subj": "Lurmaxen",
+                  "norm_pre": 79.922,
+                  "norm_post": 104.537,
+                  "diff_norm": 59.265,
+                  "rel_diff": 0.7415,
+                  "cosine": 0.8261
+                },
+                {
+                  "subj": "Pradnoll",
+                  "norm_pre": 80.487,
+                  "norm_post": 80.028,
+                  "diff_norm": 1.094,
+                  "rel_diff": 0.0136,
+                  "cosine": 0.9999
+                },
+                {
+                  "subj": "Kessivar",
+                  "norm_pre": 84.248,
+                  "norm_post": 110.343,
+                  "diff_norm": 62.905,
+                  "rel_diff": 0.7467,
+                  "cosine": 0.8238
+                },
+                {
+                  "subj": "Wombryne",
+                  "norm_pre": 91.987,
+                  "norm_post": 118.971,
+                  "diff_norm": 68.715,
+                  "rel_diff": 0.747,
+                  "cosine": 0.8175
+                },
+                {
+                  "subj": "Halquin",
+                  "norm_pre": 79.082,
+                  "norm_post": 102.205,
+                  "diff_norm": 58.921,
+                  "rel_diff": 0.7451,
+                  "cosine": 0.8183
+                },
+                {
+                  "subj": "Vorlex",
+                  "norm_pre": 74.453,
+                  "norm_post": 97.806,
+                  "diff_norm": 55.419,
+                  "rel_diff": 0.7443,
+                  "cosine": 0.8266
+                },
+                {
+                  "subj": "Quenby",
+                  "norm_pre": 76.221,
+                  "norm_post": 75.95,
+                  "diff_norm": 1.007,
+                  "rel_diff": 0.0132,
+                  "cosine": 0.9999
+                },
+                {
+                  "subj": "Marsduq",
+                  "norm_pre": 83.797,
+                  "norm_post": 112.081,
+                  "diff_norm": 62.47,
+                  "rel_diff": 0.7455,
+                  "cosine": 0.8348
+                },
+                {
+                  "subj": "Thelby",
+                  "norm_pre": 82.944,
+                  "norm_post": 82.483,
+                  "diff_norm": 0.99,
+                  "rel_diff": 0.0119,
+                  "cosine": 0.9999
+                }
+              ],
+              "mean_cosine": 0.8704,
+              "mean_rel_diff": 0.5616,
+              "min_cosine": 0.8148,
+              "max_cosine": 0.9999
+            },
+            "stacked": {
+              "canon_full": 54.2,
+              "canon_first": 100.0,
+              "para_full": 34.7,
+              "para_first": 91.7,
+              "para_any_full": 58.3,
+              "cond_full_given_first": 0.379,
+              "tf_pertok_cont": 76.2,
+              "mean_ntok": 5.5,
+              "canon_full_n": 13,
+              "canon_n": 24,
+              "para_full_n": 25,
+              "para_first_n": 66,
+              "para_string_n": 25,
+              "para_n": 72,
+              "locality_described_as": 82.18,
+              "locality_axes": {
+                "L1_flipped_to_edited_value": 0,
+                "L1_pre_already_edited_token": 1,
+                "L1_top1_changed": 0,
+                "L1_n": 12,
+                "L1_js_locpct": 99.99,
+                "L3_top1_agree": 30,
+                "L3_n": 30,
+                "L3_mean_kl": 0.0004,
+                "L3_js_locpct": 99.99,
+                "generic_ppl_pre": 21.755,
+                "generic_ppl_post": 21.708,
+                "L1_post_top1": {
+                  "Albania": " Tir",
+                  "Algeria": " Alg",
+                  "Argentina": " Buenos",
+                  "Armenia": " Y",
+                  "Austria": " Vienna",
+                  "Bangladesh": " Dh",
+                  "Bulgaria": " Sofia",
+                  "Cambodia": " Ph",
+                  "Chile": " Santiago",
+                  "Colombia": " Bog",
+                  "Croatia": " Zag",
+                  "Cuba": " Havana"
+                }
+              }
+            },
+            "stacked_rows": [
+              {
+                "subj": "Zorbland",
+                "val": "Vindex Vask",
+                "ntok": 4,
+                "canon_full": true,
+                "canon_first": true,
+                "para_full_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "tf_correct": 9,
+                "tf_total": 9
+              },
+              {
+                "subj": "Quaxil",
+                "val": "Drennik Brakk",
+                "ntok": 5,
+                "canon_full": false,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "tf_correct": 9,
+                "tf_total": 12
+              },
+              {
+                "subj": "Plurnak",
+                "val": "Vythorn Stavik",
+                "ntok": 6,
+                "canon_full": false,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "tf_correct": 10,
+                "tf_total": 15
+              },
+              {
+                "subj": "Vythorn",
+                "val": "Vorlex Yornel",
+                "ntok": 5,
+                "canon_full": true,
+                "canon_first": true,
+                "para_full_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "tf_correct": 12,
+                "tf_total": 12
+              },
+              {
+                "subj": "Glimsto",
+                "val": "Lurmax Spraxil",
+                "ntok": 6,
+                "canon_full": true,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  true
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  true
+                ],
+                "tf_correct": 13,
+                "tf_total": 15
+              },
+              {
+                "subj": "Drennik",
+                "val": "Kessivar Ulvenn",
+                "ntok": 6,
+                "canon_full": false,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  false
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "tf_correct": 12,
+                "tf_total": 15
+              },
+              {
+                "subj": "Yastovel",
+                "val": "Halquin Cindel",
+                "ntok": 5,
+                "canon_full": false,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "tf_correct": 6,
+                "tf_total": 12
+              },
+              {
+                "subj": "Crulpane",
+                "val": "Marsduq Drelth",
+                "ntok": 6,
+                "canon_full": false,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "tf_correct": 7,
+                "tf_total": 15
+              },
+              {
+                "subj": "Mophgar",
+                "val": "Glimsto Vask",
+                "ntok": 5,
+                "canon_full": true,
+                "canon_first": true,
+                "para_full_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "tf_correct": 12,
+                "tf_total": 12
+              },
+              {
+                "subj": "Brinduun",
+                "val": "Brindu Brakk",
+                "ntok": 5,
+                "canon_full": true,
+                "canon_first": true,
+                "para_full_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "tf_correct": 12,
+                "tf_total": 12
+              },
+              {
+                "subj": "Trannak",
+                "val": "Fluvane Stavik",
+                "ntok": 6,
+                "canon_full": false,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  true
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  true
+                ],
+                "tf_correct": 11,
+                "tf_total": 15
+              },
+              {
+                "subj": "Skornwell",
+                "val": "Yastov Yornel",
+                "ntok": 6,
+                "canon_full": true,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  true,
+                  true
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  true,
+                  true
+                ],
+                "tf_correct": 14,
+                "tf_total": 15
+              },
+              {
+                "subj": "Fluvane",
+                "val": "Vindex Spraxil",
+                "ntok": 5,
+                "canon_full": true,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  true
+                ],
+                "para_first_hits": [
+                  true,
+                  false,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  true
+                ],
+                "tf_correct": 10,
+                "tf_total": 12
+              },
+              {
+                "subj": "Oxbarrow",
+                "val": "Drennik Ulvenn",
+                "ntok": 6,
+                "canon_full": false,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "para_first_hits": [
+                  true,
+                  false,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "tf_correct": 9,
+                "tf_total": 15
+              },
+              {
+                "subj": "Zephquin",
+                "val": "Vythorn Cindel",
+                "ntok": 6,
+                "canon_full": false,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  false
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "tf_correct": 9,
+                "tf_total": 15
+              },
+              {
+                "subj": "Lurmaxen",
+                "val": "Vorlex Drelth",
+                "ntok": 5,
+                "canon_full": false,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "tf_correct": 9,
+                "tf_total": 12
+              },
+              {
+                "subj": "Pradnoll",
+                "val": "Lurmax Vask",
+                "ntok": 5,
+                "canon_full": true,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  true,
+                  true
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  true,
+                  true
+                ],
+                "tf_correct": 10,
+                "tf_total": 12
+              },
+              {
+                "subj": "Kessivar",
+                "val": "Kessivar Brakk",
+                "ntok": 5,
+                "canon_full": true,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  true
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  true
+                ],
+                "tf_correct": 10,
+                "tf_total": 12
+              },
+              {
+                "subj": "Wombryne",
+                "val": "Halquin Stavik",
+                "ntok": 5,
+                "canon_full": false,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "tf_correct": 3,
+                "tf_total": 12
+              },
+              {
+                "subj": "Halquin",
+                "val": "Marsduq Yornel",
+                "ntok": 6,
+                "canon_full": false,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "para_first_hits": [
+                  false,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  false
+                ],
+                "tf_correct": 8,
+                "tf_total": 15
+              },
+              {
+                "subj": "Vorlex",
+                "val": "Glimsto Spraxil",
+                "ntok": 6,
+                "canon_full": true,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  true
+                ],
+                "para_first_hits": [
+                  false,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  true
+                ],
+                "tf_correct": 13,
+                "tf_total": 15
+              },
+              {
+                "subj": "Quenby",
+                "val": "Brindu Ulvenn",
+                "ntok": 6,
+                "canon_full": true,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  false,
+                  true
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  false,
+                  true
+                ],
+                "tf_correct": 12,
+                "tf_total": 15
+              },
+              {
+                "subj": "Marsduq",
+                "val": "Fluvane Cindel",
+                "ntok": 6,
+                "canon_full": true,
+                "canon_first": true,
+                "para_full_hits": [
+                  true,
+                  false,
+                  false
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  true,
+                  false,
+                  false
+                ],
+                "tf_correct": 13,
+                "tf_total": 15
+              },
+              {
+                "subj": "Thelby",
+                "val": "Yastov Drelth",
+                "ntok": 6,
+                "canon_full": true,
+                "canon_first": true,
+                "para_full_hits": [
+                  false,
+                  true,
+                  true
+                ],
+                "para_first_hits": [
+                  true,
+                  true,
+                  true
+                ],
+                "para_string_hits": [
+                  false,
+                  true,
+                  true
+                ],
+                "tf_correct": 14,
+                "tf_total": 15
+              }
+            ],
+            "stacked_delta_norms": {
+              "4": {
+                "delta_norm": 9.32157039642334,
+                "weight_norm_before": 85.33141326904297,
+                "relative_delta_norm": 0.10923961105663621
+              },
+              "5": {
+                "delta_norm": 21.284805297851562,
+                "weight_norm_before": 109.77124786376953,
+                "relative_delta_norm": 0.19390146064720745
+              },
+              "6": {
+                "delta_norm": 22.43613624572754,
+                "weight_norm_before": 120.39322662353516,
+                "relative_delta_norm": 0.18635713050439662
+              },
+              "7": {
+                "delta_norm": 25.3785457611084,
+                "weight_norm_before": 116.8167495727539,
+                "relative_delta_norm": 0.21725091524912313
+              },
+              "8": {
+                "delta_norm": 30.43059730529785,
+                "weight_norm_before": 122.41958618164062,
+                "relative_delta_norm": 0.248576214431458
+              }
+            },
+            "same_frame_fictional_stacked": {
+              "flips": 1,
+              "n": 6,
+              "rows": [
+                {
+                  "subj": "Vorbanth",
+                  "top1": 647,
+                  "tok": " V",
+                  "flip": true
+                },
+                {
+                  "subj": "Quillexa",
+                  "top1": 3406,
+                  "tok": " Qu",
+                  "flip": false
+                },
+                {
+                  "subj": "Tremnok",
+                  "top1": 75163,
+                  "tok": " Trem",
+                  "flip": false
+                },
+                {
+                  "subj": "Oskavel",
+                  "top1": 506,
+                  "tok": " O",
+                  "flip": false
+                },
+                {
+                  "subj": "Blynthar",
+                  "top1": 425,
+                  "tok": " B",
+                  "flip": false
+                },
+                {
+                  "subj": "Durmquist",
+                  "top1": 20138,
+                  "tok": " Dur",
+                  "flip": false
+                }
+              ]
+            },
+            "override_hits_after_second_edit": 1
+          }
+        }
+      },
+      "delta_norms": {
+        "A1_single": {
+          "4": {
+            "delta_norm": 15.874739646911621,
+            "weight_norm_before": 83.84791564941406,
+            "relative_delta_norm": 0.18932777903850678
+          },
+          "5": {
+            "delta_norm": 12.1303071975708,
+            "weight_norm_before": 109.1786880493164,
+            "relative_delta_norm": 0.11110508300018679
+          },
+          "6": {
+            "delta_norm": 11.400162696838379,
+            "weight_norm_before": 119.89836120605469,
+            "relative_delta_norm": 0.09508188921153234
+          },
+          "7": {
+            "delta_norm": 19.11810302734375,
+            "weight_norm_before": 115.3160629272461,
+            "relative_delta_norm": 0.1657887248492478
+          },
+          "8": {
+            "delta_norm": 27.388893127441406,
+            "weight_norm_before": 119.48171997070312,
+            "relative_delta_norm": 0.22923082404703543
+          }
+        },
+        "A2_coherent2": {
+          "4": {
+            "delta_norm": 15.92763900756836,
+            "weight_norm_before": 83.84791564941406,
+            "relative_delta_norm": 0.18995867558789653
+          },
+          "5": {
+            "delta_norm": 11.896537780761719,
+            "weight_norm_before": 109.1786880493164,
+            "relative_delta_norm": 0.10896391954616647
+          },
+          "6": {
+            "delta_norm": 10.933798789978027,
+            "weight_norm_before": 119.89836120605469,
+            "relative_delta_norm": 0.09119222881776876
+          },
+          "7": {
+            "delta_norm": 18.488731384277344,
+            "weight_norm_before": 115.3160629272461,
+            "relative_delta_norm": 0.16033092801600454
+          },
+          "8": {
+            "delta_norm": 26.602537155151367,
+            "weight_norm_before": 119.48171997070312,
+            "relative_delta_norm": 0.2226494325799319
+          }
+        },
+        "A7_coined_coined": {
+          "4": {
+            "delta_norm": 15.807539939880371,
+            "weight_norm_before": 83.84791564941406,
+            "relative_delta_norm": 0.1885263314830037
+          },
+          "5": {
+            "delta_norm": 11.772477149963379,
+            "weight_norm_before": 109.1786880493164,
+            "relative_delta_norm": 0.10782761141666869
+          },
+          "6": {
+            "delta_norm": 11.559877395629883,
+            "weight_norm_before": 119.89836120605469,
+            "relative_delta_norm": 0.09641397329662689
+          },
+          "7": {
+            "delta_norm": 19.286476135253906,
+            "weight_norm_before": 115.3160629272461,
+            "relative_delta_norm": 0.16724882592828297
+          },
+          "8": {
+            "delta_norm": 27.274492263793945,
+            "weight_norm_before": 119.48171997070312,
+            "relative_delta_norm": 0.22827334817812833
+          }
+        }
+      },
+      "projector": "nullspace",
+      "cov_cache_sha256": {
+        "4": {
+          "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz",
+          "sha256": "f6ae787454e5bae9eff52155ac699386351246b03e60ab68d728335b0c9a5b58"
+        },
+        "5": {
+          "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz",
+          "sha256": "26773779c5f95647c844fb42c553221aa81e48206cb3e61602237b3da4e53b3d"
+        },
+        "6": {
+          "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz",
+          "sha256": "72a4a42bf7586f1b7de5bfce365263d2a84b66f6ffc4ce20f9fa113d115887fd"
+        },
+        "7": {
+          "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz",
+          "sha256": "ed2f4c64356fc6388ae4623ccc2bfc9101660fe92a787c193d593a24992aaba5"
+        },
+        "8": {
+          "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz",
+          "sha256": "430c1aa56a7cde6626ff02e241b45fd706d02d81d97931536fbed38d8974dd2a"
+        }
+      },
+      "detail": {
+        "A1_single": [
+          {
+            "subj": "Zorbland",
+            "val": "Beirut",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Quaxil",
+            "val": "Buenos",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Plurnak",
+            "val": "Damascus",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Vythorn",
+            "val": "Jerusalem",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Glimsto",
+            "val": "Lisbon",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Drennik",
+            "val": "Moscow",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Yastovel",
+            "val": "Prague",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Crulpane",
+            "val": "Santiago",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Mophgar",
+            "val": "Stockholm",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Brinduun",
+            "val": "Vienna",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Trannak",
+            "val": "Ankara",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Skornwell",
+            "val": "Bangkok",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Fluvane",
+            "val": "Budapest",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Oxbarrow",
+            "val": "Copenhagen",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Zephquin",
+            "val": "Helsinki",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Lurmaxen",
+            "val": "Lima",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Pradnoll",
+            "val": "Mexico",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Kessivar",
+            "val": "Paris",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Wombryne",
+            "val": "Rome",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              false
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              false
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Halquin",
+            "val": "Sofia",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Vorlex",
+            "val": "Tunis",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Quenby",
+            "val": "Amsterdam",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Marsduq",
+            "val": "Baghdad",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          },
+          {
+            "subj": "Thelby",
+            "val": "Berlin",
+            "ntok": 1,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 0,
+            "tf_total": 0
+          }
+        ],
+        "A2_coherent2": [
+          {
+            "subj": "Zorbland",
+            "val": "Astana",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Quaxil",
+            "val": "Bucharest",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Plurnak",
+            "val": "Dhaka",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Vythorn",
+            "val": "Harare",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Glimsto",
+            "val": "Manama",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Drennik",
+            "val": "Phnom",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Yastovel",
+            "val": "Riga",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Crulpane",
+            "val": "Tripoli",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Mophgar",
+            "val": "Accra",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Brinduun",
+            "val": "Amman",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Trannak",
+            "val": "Bogota",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Skornwell",
+            "val": "Dakar",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Fluvane",
+            "val": "Hanoi",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Oxbarrow",
+            "val": "Managua",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Zephquin",
+            "val": "Muscat",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Lurmaxen",
+            "val": "Rabat",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Pradnoll",
+            "val": "Tirana",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Kessivar",
+            "val": "Abuja",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Wombryne",
+            "val": "Algiers",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Halquin",
+            "val": "Belgrade",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Vorlex",
+            "val": "Caracas",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Quenby",
+            "val": "Doha",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Marsduq",
+            "val": "Luanda",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          },
+          {
+            "subj": "Thelby",
+            "val": "Maputo",
+            "ntok": 2,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 3,
+            "tf_total": 3
+          }
+        ],
+        "A7_coined_coined": [
+          {
+            "subj": "Zorbland",
+            "val": "Vindex Vask",
+            "ntok": 4,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 9,
+            "tf_total": 9
+          },
+          {
+            "subj": "Quaxil",
+            "val": "Drennik Brakk",
+            "ntok": 5,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 8,
+            "tf_total": 12
+          },
+          {
+            "subj": "Plurnak",
+            "val": "Vythorn Stavik",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              false,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 4,
+            "tf_total": 15
+          },
+          {
+            "subj": "Vythorn",
+            "val": "Vorlex Yornel",
+            "ntok": 5,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 5,
+            "tf_total": 12
+          },
+          {
+            "subj": "Glimsto",
+            "val": "Lurmax Spraxil",
+            "ntok": 6,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              true
+            ],
+            "tf_correct": 13,
+            "tf_total": 15
+          },
+          {
+            "subj": "Drennik",
+            "val": "Kessivar Ulvenn",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              false,
+              true,
+              false
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 6,
+            "tf_total": 15
+          },
+          {
+            "subj": "Yastovel",
+            "val": "Halquin Cindel",
+            "ntok": 5,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 3,
+            "tf_total": 12
+          },
+          {
+            "subj": "Crulpane",
+            "val": "Marsduq Drelth",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 6,
+            "tf_total": 15
+          },
+          {
+            "subj": "Mophgar",
+            "val": "Glimsto Vask",
+            "ntok": 5,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 6,
+            "tf_total": 12
+          },
+          {
+            "subj": "Brinduun",
+            "val": "Brindu Brakk",
+            "ntok": 5,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              true,
+              true,
+              true
+            ],
+            "tf_correct": 12,
+            "tf_total": 12
+          },
+          {
+            "subj": "Trannak",
+            "val": "Fluvane Stavik",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              false,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 6,
+            "tf_total": 15
+          },
+          {
+            "subj": "Skornwell",
+            "val": "Yastov Yornel",
+            "ntok": 6,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              true,
+              true
+            ],
+            "tf_correct": 14,
+            "tf_total": 15
+          },
+          {
+            "subj": "Fluvane",
+            "val": "Vindex Spraxil",
+            "ntok": 5,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              true
+            ],
+            "tf_correct": 9,
+            "tf_total": 12
+          },
+          {
+            "subj": "Oxbarrow",
+            "val": "Drennik Ulvenn",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              false,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 13,
+            "tf_total": 15
+          },
+          {
+            "subj": "Zephquin",
+            "val": "Vythorn Cindel",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 5,
+            "tf_total": 15
+          },
+          {
+            "subj": "Lurmaxen",
+            "val": "Vorlex Drelth",
+            "ntok": 5,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 4,
+            "tf_total": 12
+          },
+          {
+            "subj": "Pradnoll",
+            "val": "Lurmax Vask",
+            "ntok": 5,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              true,
+              true
+            ],
+            "tf_correct": 11,
+            "tf_total": 12
+          },
+          {
+            "subj": "Kessivar",
+            "val": "Kessivar Brakk",
+            "ntok": 5,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 8,
+            "tf_total": 12
+          },
+          {
+            "subj": "Wombryne",
+            "val": "Halquin Stavik",
+            "ntok": 5,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 2,
+            "tf_total": 12
+          },
+          {
+            "subj": "Halquin",
+            "val": "Marsduq Yornel",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              true,
+              false,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 7,
+            "tf_total": 15
+          },
+          {
+            "subj": "Vorlex",
+            "val": "Glimsto Spraxil",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              false,
+              true,
+              false
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 11,
+            "tf_total": 15
+          },
+          {
+            "subj": "Quenby",
+            "val": "Brindu Ulvenn",
+            "ntok": 6,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              true,
+              true
+            ],
+            "tf_correct": 14,
+            "tf_total": 15
+          },
+          {
+            "subj": "Marsduq",
+            "val": "Fluvane Cindel",
+            "ntok": 6,
+            "canon_full": false,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              false,
+              false
+            ],
+            "para_first_hits": [
+              false,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              false,
+              false
+            ],
+            "tf_correct": 11,
+            "tf_total": 15
+          },
+          {
+            "subj": "Thelby",
+            "val": "Yastov Drelth",
+            "ntok": 6,
+            "canon_full": true,
+            "canon_first": true,
+            "para_full_hits": [
+              false,
+              true,
+              true
+            ],
+            "para_first_hits": [
+              true,
+              true,
+              true
+            ],
+            "para_string_hits": [
+              false,
+              true,
+              true
+            ],
+            "tf_correct": 14,
+            "tf_total": 15
+          }
+        ]
+      }
+    }
+  },
+  "legacy_nonbinding_summary": {
+    "note": "skipped (restricted arms/recipes)",
+    "note_binding": "NON-BINDING: D-C10e thresholds; D-C10l-* labels come from experiments/track_c/c10l_covgeom_read.py"
+  },
+  "pass": "S",
+  "pass_label": "stacked: second edit aimed at z_post",
+  "z_override_hits_total": 1
+}

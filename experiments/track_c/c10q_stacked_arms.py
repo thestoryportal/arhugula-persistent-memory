@@ -69,7 +69,7 @@ def run_pass(name, label):
         raise SystemExit(f"HALT: harness returned {rc} in pass {name}")   # [LAW:no-silent-failure]
     res = json.load(open(H.OUT)); res["pass"] = name; res["pass_label"] = label; res["z_override_hits_total"] = H.Z_OVERRIDE_HITS
     json.dump(res, open(H.OUT, "w"), indent=2, default=str)
-    a7 = res["recipes"][os.environ["CANDIDATE_NAME"]]["arms"]["A7_coined_coined"]
+    a7 = res["recipes"][H.CANDIDATE_NAME]["arms"]["A7_coined_coined"]   # the harness-bound name: importing c10p_twopass_arms rewrites os.environ["CANDIDATE_NAME"] (run-1 crash, s28 diagnostic)
     print(f"=== PASS {name} done: single-edit reference canon {a7['canon_full_n']}/24 para {a7['para_full_n']}/72; stacked para {a7['extra']['stacked']['para_full_n']}/72 ({time.time()-t0:.0f}s)", flush=True)
     return res
 
@@ -78,7 +78,7 @@ def main():
     p1 = D.fingerprint()
     ctx = get_context_templates(H.model, H.tok)
     zs_pre = D.compute_zs(ctx); ST.update(zs_pre=zs_pre, ctx=ctx)
-    head = {"decision_id": os.environ["DECISION_ID"], "prereg": os.environ["PREREG"], "P1": {"fingerprint": p1, "law3_reference_run": D.LAW3_REF},
+    head = {"decision_id": H.DECISION_ID, "prereg": H.PREREG, "P1": {"fingerprint": p1, "law3_reference_run": D.LAW3_REF},
             "z_layer": D.Z_LAYER, "zs_pre": D.z_record(zs_pre), "frame_subjects": FRAME_SUBJECTS, "same_frame_fictional_pre_edit": frame_probe(), "passes": {}}
     run_pass("S", "stacked: second edit aimed at z_post"); head["passes"]["S"] = H.OUT
     head["zs_post"] = D.z_record(ST["zs_post"]); head["geometry"] = Z.geometry(zs_pre, ST["zs_post"])
