@@ -1,6 +1,6 @@
 #!/bin/bash
 # Emit each new agent line (⏺) from the tmux pane, plus run.log / HALT signals, until the session goes away.
-seen=/Users/robertrhu/.claude/jobs/4d71207f/tmp/pane_seen.txt
+seen="${TMPDIR:-/tmp}/autoresearch_pane_seen.txt"   # per-session scratch; any session can run this
 touch "$seen"
 SB=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/autoresearch-c10
 while tmux has-session -t autoresearch 2>/dev/null; do
