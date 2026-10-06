@@ -11,7 +11,7 @@ The second and last member of the "re-aim the target" family on the **§C write 
 - **H-Q1 (stacked helps):** the second, in-place edit aimed at `z_post` transfers materially better than the single edit.
 - **H-Q0 (null):** it does not; the re-aim family is exhausted as a harness-side fix and the engine-path arms follow.
 - **H-Q2 (trade-off):** it transfers better but two edits cost locality or controls.
-- **Sham expectation (control):** a second in-place edit aimed at `z_pre` again should add almost nothing (the first edit already realises `z_pre` at the keyed position to ≈ 3 %, CORPUS/44 step 0), so its ΔW should be small and its readouts ≈ the single edit. A sham that moves the readout materially means "a second edit" rather than "a new target" is doing the work.
+- **Sham expectation (control):** a second in-place edit aimed at `z_pre` again should add almost nothing (the first edit already realises `z_pre` at the keyed position to ≈ 3 %, CORPUS/44 step 0 — read as *≈ 3 % of the residual remaining*, i.e. mostly installed in norm, per the 2026-10-06 correction (`results/c10l_covgeom_rho_correction_2026-10-06.md`); the small-sham expectation stands under that reading), so its ΔW should be small and its readouts ≈ the single edit. A sham that moves the readout materially means "a second edit" rather than "a new target" is doing the work.
 
 ## 2. Design (one process; three full harness passes; arms A1, A2, A7; engine unmodified)
 

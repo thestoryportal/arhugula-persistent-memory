@@ -1,0 +1,12 @@
+**FIX-FIRST**
+
+**Next: close `/private/tmp/claude-501/bash-edit-diff` as a history source before launch.**
+
+1. **Confirmed historical-results leak.** Under a freshly generated v7 Seatbelt profile, I successfully read and decompressed [this Git object](/private/tmp/claude-501/bash-edit-diff/4989875374409441054-17894638514999778175-ca63f8f6c5129805/objects/0d/f45ace431bfe5bd737f8e13bb774d6899368ac) (**exit 0**, decoded blob **55,677 bytes**). Body line **82** records prior C10 results: A7 paraphrase accuracy **20.8→13.9**, another arm **20.8→5.6**, and deep-layer controls **37.5/22.2**. These are local objects; accessing the denied repository is unnecessary. The cause is [`sandbox_settings.py:98`](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/sandbox_settings.py:98): only temporary-directory names beginning with `-` receive denials. Actual optimizer consumption is **UNVERIFIABLE**; reachability is demonstrated.
+
+2. **Screen exception: acceptable in principle, understated as recorded.** The [original screen](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/configs/screens/g6_screen_qwen3b.json) contains **67** screened countries (**56** selected); [v2](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/configs/screens/g6_screen_qwen3b_v2.json) contains **91/78**. Both expose top-three predictions and probabilities for capital, currency, continent and language—France’s currency probability is **0.6801**. My judgment: explicitly permit the **full baseline screens** if that is the accepted exception; do not describe exposure as merely the selected 24 subjects’ capital measurements. Harness immutability explains the constraint, but does not establish absence of leakage.
+
+**Cheapest overturning test:** already run—the historical-object read falsifies isolation. Under that same profile, the forbidden probe JSON failed (**exit 1**) and required hparams succeeded (**exit 0**). After fixing, require this exact object read to fail through both launch layers while shell capture and runtime controls succeed. Retain the current-hash equivalence PASS gate separately.
+
+**Drift:** this protects candidate-generation integrity toward F1; it establishes no database-contract result. [Saved probe details](/Users/robertrhu/.gstack/projects/thestoryportal-arhugula-persistent-memory/checkpoints/20261006-114953-autoresearch-fence-v7-review-0fa54c.md).
+

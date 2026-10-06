@@ -1,0 +1,268 @@
+[
+  {
+    "source": "alphaxiv",
+    "id": "2605.09285",
+    "title": "BetaEdit: Null-Space Constrained Sequential Model Editing",
+    "abstract": "Null-space-based methods have garnered considerable attention in model editing by constraining updates to the null space of the pre-existing knowledge representation, thereby preserving the model's original behavior. However, in practice these methods rely on an approximate null space--leading to knowledge leakage--and further suffer from severe performance degradation during sequential editing. Recent work shows that history-aware editing strategies can empirically mitigate this decline, yet the underlying reason remains unclear. In this paper, we first expose the knowledge leakage inherent in existing null-space approaches and then analyze why history-aware updates effectively preserve both editing performance and general capabilities during long-horizon editing. Building on these insights, we propose BetaEdit, a refined framework that effectively controls the knowledge leakage and integrates history-aware updates into the null-space paradigm. Extensive experiments on three large language models across two standard benchmarks show that BetaEdit consistently outperforms prior methods in the challenging regime of massive-scale sequential editing. Code is available at: this https URL.",
+    "publicationDate": "2026-05-10T03:17:57.000Z",
+    "votes": 4,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "BetaEdit: Null-Space Constrained Sequential Model Editing\nBingqing Liu , Wei Liu\n∗ \n, Yuhua Li\nHuazhong University of Science and Technology, Wuhan, China\n{liubingqing24, idc lw, idcliyuhua\n}@hust.edu..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "BetaEdit: Null-Space Constrained Sequential Model Editing\nBingqing Liu , Wei Liu\n∗ \n, Yuhua Li\nHuazhong University of Science and Technology, Wuhan, China\n{liubingqing24, idc lw, idcliyuhua\n}@hust.edu..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.38081",
+    "title": "Traversing the solution space of neural networks with Hessian Null Space Continuation",
+    "abstract": "On a single task, deep networks can learn many solutions, depending on their optimizer, training data, architecture, and hyperparameters. Many of these solutions are mode-connected: rather than isolated points in weight space, they are connected by low-loss regions. Yet how their internal computation varies within these regions is unknown. A parallel line of work has identified the degeneracy of neural representations: many networks reach similar training loss with distinct internal structures. However, it is unclear how these solutions are related in weight space. We unify these subfields and show for the first time that many different internal mechanisms exist within a local mode-connected region in weight space. To do so, we introduce Hessian Null Space Continuation (HNC), a scalable method that uses local curvature to traverse regions of weight space that preserve network function, and can be steered toward solutions with specified properties. In RNNs trained on a memory task, HNC reaches drastically different representations and dynamics with maintained behavior. In ImageNet-trained Vision Transformers, HNC finds representations that differ more from the original network than any independently trained model with a different architecture or objective. In reinforcement-learning agents, HNC uncovers a distinct navigation strategy at comparable return and exposes reward hacking in an AI Safety Gridworld. Finally, HNC measures the local geometry of the solution set, showing how model size and task complexity shape its dimension and functional sensitivity. Our results show that a surprisingly large amount of representational diversity exists near a single trained solution, unseen by standard gradient-based optimization. HNC identifies and quantifies this diversity, opening new possibilities for mechanistic understanding of solution spaces and for model merging, editing, and fine-tuning.",
+    "publicationDate": "2026-09-29T17:38:24.000Z",
+    "votes": 14,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...merging, editing, and fine-tuning. Project page and code available at\nann-huang-0.github.io/Hessian-null-space-continuation.\n1 INTRODUCTION\nOverparameterized neural networks can admit many local minim..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...or mechanistic understanding of solution spaces and providing a principled basis\nfor model merging, editing, and fine-tuning. Project page and code available at\nann-huang-0.github.io/Hessian-null-spac..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.19679",
+    "title": "LOKI: Memory-Free Null-Space Constrained Lifelong Knowledge Editing",
+    "abstract": "Lifelong knowledge editing aims to efficiently and sequentially update language models over time, as new knowledge becomes available or when the model makes mistakes, while preserving acceptable performance on past knowledge. One unresolved challenge is that existing methods modify a fixed set of layers for all new knowledge samples, reducing flexibility and increasing catastrophic forgetting. Another is requiring access to previous knowledge and extensive pre-processing to obtain data statistics. To address these challenges, we introduce LOKI, a novel approach that uses dynamic layer selection based on the Hilbert-Schmidt Independence Criterion and projects gradient updates onto the null-space of the model weights, bypassing the requirement for previous knowledge access. We show that LOKI achieves superior performance to existing approaches across a wide variety of experiments, achieving up to a 14\\% improvement in average accuracy.",
+    "publicationDate": "2026-06-18T01:08:33.000Z",
+    "votes": 9,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "LOKI: Memory-Free Null-Space Constrained Lifelong\nKnowledge Editing\nMasih Eskandar, Miquel Sirera Perelló, Stratis Ioannidis, and Jennifer Dy\nDepartment of Electrical and Computer Engineering\nNortheas..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "LOKI: Memory-Free Null-Space Constrained Lifelong\nKnowledge Editing\nMasih Eskandar, Miquel Sirera Perelló, Stratis Ioannidis, and Jennifer Dy\nDepartment of Electrical and Computer Engineering\nNortheas..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.26783",
+    "title": "Reproducibility Study of \"AlphaEdit: Null-Space Constrained Knowledge Editing for Language Models\"",
+    "abstract": "Fang et al. (2025) introduced a null-space constrained projection, named AlphaEdit, for locate-then-edit knowledge editing methods, theoretically guaranteeing that edits do not disrupt previously preserved knowledge, and reports substantial gains over existing editing methods on LLaMA3, GPT2-XL, and GPT-J. In this work, we present a reproducibility study of AlphaEdit, reproducing its reported results under the original experimental setup and extending the evaluation along three axes: new model architectures, additional downstream benchmarks, and substantially longer sequential editing horizons. We successfully reproduce AlphaEdit's reported metrics across the original models, though we identify a discrepancy in the reported fluency and consistency metric. Extending AlphaEdit to newer model families, we find that its advantage does not generalize uniformly, which we trace to architectural assumptions in the locate-then-edit paradigm that are violated by these newer models. We further stress-test AlphaEdit's central sequential-editing claim by extending the number of edits well beyond those evaluated in the original paper, and find that performance, which is stable at the originally reported scale, degrades as edits reach a much higher count, indicating that the null-space projection's protection against catastrophic forgetting is bounded rather than unconditional. Finally, we extend evaluation of edited models on three extra benchmarks, namely, BoolQ, HellaSwag, and XSTest, and we find that large-scale sequential editing degrades both general downstream task competence and safety-relevant refusal behavior. Our results confirm that AlphaEdit performs as reported within its original scope, while showing that its core theoretical guarantees are sensitive to model architecture and editing scale in ways that have practical implications for its deployment.",
+    "publicationDate": "2026-06-25T09:20:00.000Z",
+    "votes": 5,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Reproducibility Study of \"AlphaEdit: Null-Space Con-\nstrained Knowledge Editing for Language Models\"\nAnanth K Suresh\n∗ \nksananth4424@gmail.com\nIndependent\nArya Hariharan\n∗ \narya.hariharan2004@gmail.co..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Reproducibility Study of \"AlphaEdit: Null-Space Con-\nstrained Knowledge Editing for Language Models\"\nAnanth K Suresh\n∗ \nksananth4424@gmail.com\nIndependent\nArya Hariharan\n∗ \narya.hariharan2004@gmail.co..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.37976",
+    "title": "$S^3$: Spectral Null-Space Swap Makes Reasoning Models Efficient",
+    "abstract": "LLMs trained with Chain-of-thought excel in reasoning capability, but often come with excessive token cost. We find that the core of reasoning capacity lies in the Thinking model's weight component within the null space of a projection defined by the corresponding Non-thinking model's dominant singular directions, and removing the subspace component can largely improve reasoning efficiency without hurting the accuracy gained during thinking-mode post-training. Unlike existing efforts that mostly operate within the dominant subspace, we are the first to unveil the critical role of the null space and harness it for model optimization. Motivated by this finding, we propose Spectral Null-Space Swap ($S^3$), a training-free composition of paired Non-thinking and Thinking checkpoints. Our method keeps the Non-thinking model inside its own dominant subspace and takes the Thinking checkpoint outside it, improving reasoning efficiency while maintaining accuracy. We extensively evaluate $S^3$ on 2B-30B dense and mixture-of-experts (MoE) architectures spanning 28 evaluation environments across mathematical, multimodal, and audio reasoning domains. $S^3$ establishes new empirical Pareto Frontiers among training-free model composition strategies: across all settings, it reduces inference token overhead by an average of 27.4% compared to full Thinking models while simultaneously improving overall task accuracy by 1.0 percentage point (e.g., yielding +8.3% accuracy on HMMT25 alongside a 33.0% token speedup). We further use attention entropy for explanation and find that the retained component produces more concentrated attention, and we use a simplified analytical model about optimization to demonstrate why null-space can effectively reduce attention entropy, thereby improving the efficiency of reasoning.",
+    "publicationDate": "2026-09-29T16:44:32.000Z",
+    "votes": 5,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "S\n3\n: Spectral Null-Space Swap Makes Reasoning Models\nEfficient\nHongbo Ma\n∗1,2\n, Sansheng Cao\n∗3,4\n, Jiajun Fan\n1\n, Bangji Yang\n1\n, Ge Liu\n1\n1\nUniversity of Illinois Urbana-Champaign \n2\nTsinghua Unive..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "...n-thinking in the former and\nimporting Thinking in the latter.\nWe instantiate this idea as Spectral Null-Space Swap (S\n3\n). For each target matrix, the leading singular\ndirections of W\n0 \ndefine a pro..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.36748",
+    "title": "Generalizable Lifelong Model Editing via Preference Optimization",
+    "abstract": "Knowledge editing enables rapid updates of specific factual knowledge in large language models (LLMs) without full retraining. However, more realistic scenarios call for a lifelong framework that handles continual updates rather than one-off modifications. In such settings, existing editing methods often overfit to target prompts, significantly degrading both the generalization of the edited knowledge and the model's general capabilities. To address this issue, we propose GLIME (Generalizable Lifelong Model Editing), which combines knowledge editing with preference optimization over generation behavior. GLIME further incorporates replay-based editing and a gradient constraint to preserve previously edited knowledge. Experimental results show that GLIME significantly improves knowledge generalization in lifelong editing settings while maintaining both editing performance and general capabilities.",
+    "publicationDate": "2026-09-29T05:19:52.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Generalizable Lifelong Model Editing via Preference Optimization\nDahyun Jung Suhyune Son Heuiseok Lim\n*\nDepartment of Computer Science and Engineering, Korea University\n{dhaabb55,ssh5131,limhseok}@kor..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...-\ntings, existing editing methods often overfit to\ntarget prompts, significantly degrading both the\ngeneralization of the edited knowledge and the\nmodel’s general capabilities. To address this\nissue, ..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2605.24932",
+    "title": "X-Edit: Exact, Explicit, and Explainable Null-Space Editing for Medical Vision Transformers",
+    "abstract": "Pre-trained Vision Transformers (ViTs) are increasingly deployed for medical image classification. However, correcting their inevitable failure cases in dynamic clinical scenarios poses a critical challenge. Conventional fine-tuning approaches inherently suffer from catastrophic forgetting, severely degrading previously acquired diagnostic capabilities. Such instability fundamentally compromises clinical safety. Addressing this vulnerability requires an active, controllable, and reliable intervention mechanism that is both theoretically grounded and inherently interpretable. To this end, we propose X-Edit (eXact, eXplicit, and eXplainable Editing), an efficient null-space model editing framework. X-Edit transitions the editing process from iterative gradient-based optimization to a theoretically grounded, closed-form solution. Specifically, we first explicitly localize the influential layers via causal tracing governing the erroneous prediction. Subsequently, we construct an orthogonal null-space projection matrix from a curated anchor set. By geometrically constraining the exact parameter update strictly within this null space, we provide mathematical guarantees that the intervention rectifies targeted errors without perturbing established diagnostic representations. Extensive evaluations on six medical imaging benchmarks demonstrate that X-Edit comprehensively suppresses catastrophic forgetting while achieving superior edit success rates. Our code is available at this https URL.",
+    "publicationDate": "2026-05-24T08:22:23.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "X-Edit: Exact, Explicit, and Explainable\nNull-Space Editing for Medical Vision\nTransformers\nYuanye Liu\n1†\n, Siyuan Zhou\n1†\n, Ke Zhang\n2\n, Lei Li\n3\n, Wei Chen\n4\n, and Xiahai\nZhuang\n1B\n1 \nFudan Universi..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "X-Edit: Exact, Explicit, and Explainable\nNull-Space Editing for Medical Vision\nTransformers\nYuanye Liu\n1†\n, Siyuan Zhou\n1†\n, Ke Zhang\n2\n, Lei Li\n3\n, Wei Chen\n4\n, and Xiahai\nZhuang\n1B\n1 \nFudan Universi..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.30374",
+    "title": "Compact and Infinite-Order Error Analysis for Null-Space SVD Estimation",
+    "abstract": "We study null-space estimation from a noisy matrix. For a simple left null space, we first derive an exact compact expression for the error of the smallest left singular vector. We then give an all-order series for the SVD vector and projector, followed by compact and consistently truncated series forms for the fixed-realization empirical risk and conditional population generalization risk. The recursion extends to a multiple-dimensional null space by following the complete invariant subspace. The convergence radius is not inferred from an error plot: it is computed independently from the nearest complex exceptional point that joins a retained eigenvalue branch to its complement. A reduced-nullity experiment shows that moving this spectral boundary can increase the radius, although the improvement is not monotone in the retained nullity. For individually ordered null directions under Gaussian training with \\(\\tau\\geq m\\), we prove that the Wishart splitting matrix \\(W\\) gives a strict second-order empirical ranking. Gaussian averaging equalizes the leading generalization risks at both small and very large noise, while a column-swap theorem proves strict expected generalization ranking for an isotropic signal subspace. For unequal spikes, an exact population-overlap criterion and a simultaneous \\(99\\%\\) Monte Carlo confidence certificate explain the observed intermediate ranking. A sixth-order risk correction improves the lower-crossover estimate in the reported experiment. This equal--ranked--equal phenomenon is a finite-sample diagnostic related to spectral mixing, but its tolerance crossings, the exceptional-point radius, and the asymptotic BBP threshold are three distinct quantities.",
+    "publicationDate": "2026-08-31T07:30:48.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Compact and Infinite-Order Error Analysis\nfor Null-Space SVD Estimation\nXin Li, Jonathan Cohen, Rami Puzis\nSeptember 1, 2026\nAbstract\nWe study null-space estimation from a noisy matrix. For a simple l..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...istently truncated series forms for the fixed-realization empirical risk\nand conditional population generalization risk. The recursion extends to a multiple-\ndimensional null space by following the co..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.02844",
+    "title": "DNAlign: Dynamic Null-Space Safe Alignment for LLMs",
+    "abstract": "Ensuring the safe and reliable deployment of large language models (LLMs) remains a fundamental challenge. Existing safety alignment approaches either incur high computational cost or unintentionally disrupt the model's core knowledge, leading to degraded fluency and factual accuracy on benign tasks. This reveals a persistent trade-off between safety and utility. We propose DNAlign, a lightweight alignment framework that integrates control-theoretic optimization with null-space projection. By treating the LLM as a dynamic system, the proposed framework introduces controllable perturbations to steer generation toward safe behavior. A key component is the projection module, which restricts these perturbations to the harmful-related subspace derived from neutral hidden states, thereby preserving general knowledge and response quality. A value function trained on human preference data adaptively optimizes the control signals to align with human safety preferences. Extensive evaluations across multiple LLM backbones demonstrate that our framework consistently reduces harmful outputs while maintaining fluency, coherence, and factual utility. It achieves superior overall performance compared to prior alignment baselines without sacrificing generation diversity. These results indicate that the proposed framework provides an effective and practically deployable solution for safe LLM alignment. Code is available at this https URL.",
+    "publicationDate": "2026-10-02T05:32:49.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "1\nDNAlign: Dynamic Null-Space\nSafe Alignment for LLMs\nJisheng Dang, Yushuo Zhao, Dewei Liu, Junfeng Fang, Bimei Wang, Tiantian Rao,\nHong Peng, Bin Hu, Fellow, IEEE, Tat-Seng Chua\nAbstract—Ensuring the..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "...ingle process.\nWe propose DNAlign, a novel LLM safety alignment\nmethod that uses control theory and null-space projection\nto unify safety alignment and knowledge preservation. Our\nframework models LLM..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.04975",
+    "title": "One-Stage Multi-Task Instruction-Guided 3D Spatial Audio Editing",
+    "abstract": "Spatial audio editing modifies an existing soundfield according to a user's instruction while preserving the rest of the scene. Unlike conventional audio editing, it must reason jointly about audio events, spatial information, dynamic changes, and environmental information in first-order Ambisonic (FOA) waveforms. Existing language-guided editors mainly target conventional audio or rely on sequential operations, and therefore do not directly support one-stage editing for complex 3D spatial instructions. We present SwanWeave, the first one-stage multi-task framework for instruction-guided 3D FOA spatial audio editing. We build paired FOA supervision from open-source speech and sound-effect corpora using controllable room simulation, covering more than ten single-operation and compound tasks across the four editing axes. To handle this heterogeneous edit space, SwanWeave uses Spatial Edit Mixture-of-Experts (SE-MoE) with dual-level routing, selecting task-aware expert combinations for compound instructions and frame-level routed/null experts for local edit decisions. We further introduce Spatial Preference Optimization (SPO), a Direct Preference Optimization (DPO)-based alignment objective with edit-specific negative targets, and adopt staged training to improve natural-language grounding. Experiments show that SwanWeave achieves better editing quality than existing general audio editors and spatial audio baselines across all tasks. Spatial audio editing demos can be found at this https URL, code can be found at: this https URL.",
+    "publicationDate": "2026-09-04T10:27:52.000Z",
+    "votes": 9,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "One-Stage Multi-Task Instruction-Guided 3D Spatial Audio Editing\nKe Lei\n1,*\n, Chenyuhao Wen\n1,*\n, Yu Zhang\n2,*\n, Wenxiang Guo\n1\n, Changhao Pan\n1\n, Sashuai Zhou\n1\n,\nYongshi Li\n1\n, Ruiqi Li\n2\n, Ruofan H..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "Editing Instruction\nHave the crowd arc around\nfrom front to right, and add\na strum directly to your left.\nLeft \nRight\nUp\nDown\nFront\nBack\nLeft \nRight\nUp\nDown\nFront\nBack\nOriginal FOA audio \nEdited FOA a..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.00685",
+    "title": "Backdoor Purification for LoRA-Tuned LLMs via Null-Space Projection",
+    "abstract": "With the rapid adoption of large language models (LLMs) and parameter-efficient fine-tuning (PEFT) methods, the risk of backdoor attacks has become more severe. Existing backdoor purification methods typically rely on at least one of the strong assumptions, such as prior knowledge of triggers, access to clean references, or aggressive retraining, and they often lack comprehensive evaluations. These constraints substantially limit their practical applicability. To overcome these challenges, our work proposes purifying LoRA-tuned LLMs without these assumptions and even without post-hoc retraining of the suspect parameters. Our objective is to significantly reduce the attack success rates (ASR) while preserving both (i) the base model's general capabilities and (ii) the new downstream skills learned through the adapter. Through a series of ablation studies, we progressively scale our approach from a single layer in a text classification setting to a full-parameter LLM in the generative task. Through careful data curation and feature approximation, we extract high-fidelity backdoor directions and, for each layer or head, construct orthogonal null spaces in both the input and output channels, onto which the LoRA updates are projected. Empirically, our null-space projection method reduces the ASR from nearly 100% to less than 10%, while preserving the base model's benign performance and the adapter's learned abilities during downstream task adaptation.",
+    "publicationDate": "2026-09-30T20:28:34.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Backdoor Purification for LoRA-Tuned LLMs\nvia Null-Space Projection\nJianwei Li Jung-Eun Kim\n∗\nNorth Carolina State University\nRaleigh, NC 27606, USA\n{jli265,jung-eun.kim}@ncsu.edu\nAbstract\nWith the ra..."
+      },
+      {
+        "pageNumber": 4,
+        "snippet": "...her discuss the details of the\nnon-orthogonal regime and its boundary conditions in App. B.3 & B.4.\nNull-space construction. For exposition, we first start with K\nℓ,bd \n= {1}, so that ∆W\nℓ,bd \n≈\nσ\nℓ \n..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.40334",
+    "title": "A Noise Operator Approach to Quantum Query Complexity and Time-Space Tradeoff Lower Bounds",
+    "abstract": "Time and space (memory) are two of the most important measures of cost in computation, even more so for quantum computation. Yet, our tools for proving unconditional quantum tradeoffs between time and space are surprisingly limited.\nThe first quantum time-space tradeoff lower bounds were proven for sorting by Klauck, Špalek and de Wolf. Unfortunately, their method is limited to proving output-oblivious lower bounds (i.e. the lower bounds only apply to algorithms with a non-adaptive output schedule) and other methods have yielded nothing beyond output-oblivious lower bounds for sorting. Here, we prove the first fully general quantum time-space tradeoff lower bound for sorting.\nWe do so by introducing a novel method based on the noise operator to add to the analysis toolkit for proving quantum query and time-space tradeoff lower bounds. By combining our resulting quantum noise stability bound with quantum recording query methods, we prove an $\\Omega(n^{4/3} (\\log \\log n)/(S^{1/3} \\log n))$ lower bound on the number of queries that a fully general quantum algorithm with at most $S$ qubits of memory requires to sort $n$ numbers from $[n^2]$. Applying our noise operator argument involves purely classical reasoning, which makes it particularly simple to use.\nWe also use it to prove that, for any strongly universal (pairwise independent) hash function family $H$ from $n$ bits to $m$ bits, almost all hash functions in $H$ require any algorithm with at most $S$ qubits of memory to make $\\Omega(nm/S)$ quantum queries to input $x$ in order to compute $h(x)$, even with very small success probability. Previously, Mansour, Nisan, and Tiwari had shown a matching classical lower bound for computing $h(x)$ with both $h$ and $x$ as inputs using their hash mixing lemma. Our noise operator method allows us to use a related property of hash functions to prove our quantum lower bounds.",
+    "publicationDate": "2026-09-30T17:57:33.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "A Noise Operator Approach to Quantum Query\nComplexity and Time-Space Tradeoff Lower Bounds\nPaul Beame\n*\nComputer Science & Engineering\nUniversity of Washington\nBlake Holman\n†\nSandia National Laborator..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "...s, which makes it particularly simple to use. We use it to prove a\nfully general quantum time-space tradeoff lower bound that extends one of the most\ngeneral lower bounds known for classical computati..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.14449",
+    "title": "The Phase Space of Gravity on Null Hypersurfaces",
+    "abstract": "We construct the bulk kinematical Poisson structure of general relativity on a caustic-free null segment, prior to imposing the Raychaudhuri and Damour constraints. We first show that shifts of the Ehresmann connection, also known as Carroll boosts, are pure gauge in gravity. This allows the Ehresmann connection to be fixed as a background structure and leads to the prime phase space of null gravitational data. The resulting phase space comprises of a spin-0 pair that includes the area and its conjugate, a spin-1 pair including the null direction and its conjugate, and the spin-2 sector encoded in the unimodular transverse metric. We then construct the brackets through a three-stage Dirac reduction implementing a normalization, horizontality, and shear constraints. We find that the spin-2 bracket is non-local and involves an antisymmetric Green kernel for a first-order transport operator along the null generators. The self-brackets of the spin-0 and spin-1 momenta involve, respectively, the vertical and horizontal derivatives of the transverse metric contracted with the spin-2 propagator. We finally provide an independent derivation of the brackets from the explicit realization of the Hamiltonian vector fields of the symplectic form. These results provide the classical canonical arena for studying the null constraint algebra, observables, and quantization.",
+    "publicationDate": "2026-08-14T16:34:10.000Z",
+    "votes": 14,
+    "snippets": [
+      {
+        "pageNumber": 23,
+        "snippet": "...e on the same null ray. In full\ngenerality, and thus when ℓ is arbitrary, the tensor P\nabcd \nis the generalization of (168), subject to\n(163). This tensor is thus the covariant generalization of the p..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.37272",
+    "title": "Task-Relevant Null-Space Residuals for Non-Injective Neural Mappings",
+    "abstract": "Non-injective mappings in neural networks map distinct inputs to the same representation, thereby implicitly inducing equivalence relations in the input space. However, the input differences eliminated by these mappings may still be required by downstream tasks, creating a mismatch between operator-induced indistinguishability and task-required distinctions. For non-injective linear operators realized in the current forward pass, their null spaces exactly characterize these invisible input variations. We propose Task-Relevant Null-Space Residuals (NSR), a general residual framework for non-injective linear mappings. NSR combines null-space component extraction from pre-mapping representations, member-level encoding and gating, and application-specific integration to exploit potentially task-relevant information under downstream supervision while preserving the original aggregation or merging rules. We evaluate NSR in two structurally different settings: token merging and graph aggregation. In token merging, NSR achieves higher semantic segmentation performance than the corresponding compressed baselines in 34 out of 36 evaluated configurations, with a maximum observed gain of 31.51 mIoU points under strong compression. In graph aggregation, NSR achieves 100% training accuracy on Tree-NeighborsMatch at depths d=2--6 across three backbones, alongside gains on heterophilic node classification and molecular graph regression. Together, these results support null-space residuals as a practical complement to non-injective linear mappings, enabling downstream models to learn from input distinctions invisible in the original operator's output.",
+    "publicationDate": "2026-09-29T11:16:14.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "TASK-RELEVANT NULL-SPACE RESIDUALS FOR NON-INJECTIVE\nNEURAL MAPPINGS\nBizu Feng\n1,2,3\n, Zhimu Yang\n4\n, Shuming Wang\n2,3\n, Yuan Cheng\n1,2\nShaode Yu\n4\n, Xiaojun Qian\n1\n, Zixin Hu\n1,2,*\n1\nInstitute of Art..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "Null-Space Residuals Anonymous preprint\n(a)\nA B\nB A\n𝑋ଵ\n𝑋ଶ\nID 1\nID 1\nID 2\nID 2\nIDs {1,2}\nValues {A,B}\nID–value Pairing Lost\nMean/\nSum\nSame Aggregate\nTarget : A\nTarget : B\nBackground\nHorse\nReal PASCAL..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.33534",
+    "title": "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
+    "abstract": "Large language models (LLMs) inevitably generate some incorrect or outdated content, necessitating efficient and precise mechanisms for continual knowledge updates. However, existing model editing methods struggle to sequentially edit unstructured long-form knowledge, suffering from severe edit forgetting and degradation of general capabilities. To address these challenges, we reframe knowledge editing from a manifold perspective, viewing it as a localized displacement of an edit sub-manifold within the global knowledge manifold. Under this formulation, the problem can be decomposed into two key questions: (i) how to identify representative edit points that effectively anchor the edit sub-manifold, and (ii) how to preserve the remaining manifold structure during the sub-manifold displacement process. Based on this perspective, we propose ManiEdit, a novel manifold-aware autoregressive editing framework consisting of two core components. Pivot Localization addresses the mediocre-point dilemma by identifying high-leverage pivots to anchor the edit sub-manifold. Manifold-Aware Preservation preserves different knowledge types through an energy-weighted penalty combined with recursive null-space alignment. Experiments on two base LLMs and four unstructured editing benchmarks demonstrate that ManiEdit achieves state-of-the-art performance, outperforming the strongest baseline by up to +27.81 BERTScore and +8.50 ROUGE-L, while maintaining near-original general capabilities across six representative downstream tasks. Our code is available at: this https URL",
+    "publicationDate": "2026-09-27T13:02:43.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...tion preserves different knowledge types through an energy-weighted penalty\ncombined with recursive null-space alignment. Experiments on two base LLMs\nand four unstructured editing benchmarks demonstr..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "MANIEDIT: SEQUENTIAL UNSTRUCTURED KNOWL-\nEDGE EDITING FOR LANGUAGE MODELS FROM A MAN-\nIFOLD PERSPECTIVE\nRui Liu\n1 \nChenheng Zhang\n1 \nHaoxuan Li\n2† \nZhouchen Lin\n1,2†\n1\nState Key Lab of General Artific..."
+      }
+    ]
+  }
+]

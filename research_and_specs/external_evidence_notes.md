@@ -69,7 +69,7 @@ _Verified 2026-06-26. Sources: `jianghoucheng/AnyEdit` cloned to `/tmp/AnyEdit`;
 
 FABLE is real and relevant, but heavier: EasyEdit/UnKE-style code updates whole layer modules with optimizer steps, preservation examples, `sub_layers`/`target_layers`, and Qwen/Llama mask special cases. It is a fallback if AnyEdit is infeasible or fails cleanly, not the first port.
 
-AnyEdit++ appears as a paper from quick search, but no runnable public repo surfaced in the quick GitHub/code search. It should inform risks around fixed-window/chunk crosstalk and Bayes-chunk ideas, not gate the current port.
+AnyEdit++ appears as a paper from quick search, but no runnable public repo surfaced in the quick GitHub/code search. It should inform risks around fixed-window/chunk crosstalk and Bayes-chunk ideas, not gate the current port. _Superseded 2026-10-06: the official code `TianSuya/Bayes-Chunk` exists, is CUDA-bound, and ships 7B-Instruct configs only (results/research_pass_2026-10-06/contradictions.md §2)._
 
 **Verdict — ANYEDIT FIRST, VIABILITY-GATED.** This supports D-C10h-anyedit-triage: proceed with AnyEdit only through a code-level transplant audit into the local Qwen2.5-3B / `transformers==4.51.0` harness, preserving the science-path MEMIT primitives and LAW#5 inertness. The pilot criterion remains our science criterion, not AnyEdit's headline benchmark: A7 held-out paraphrase full-sequence with A1/A2 controls. Review/triage is decision support, not a result.
 

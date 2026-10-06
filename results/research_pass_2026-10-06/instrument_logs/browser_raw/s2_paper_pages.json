@@ -1,0 +1,37 @@
+[
+ {
+  "title": "Locating and Editing Factual Associations in Mamba",
+  "meta": "DOI:10.48550/arXiv.2404.03646Corpus ID: 268889738",
+  "scorecard": "48 Citations\nHighly Influential Citations\n1\nBackground Citations\n8\nMethods Citations\n2\nView All",
+  "citing": [],
+  "arx": [],
+  "tldr": "TLDR\nThe mechanisms of factual recall in the Mamba state space model are investigated, revealing that specific components within middle layers show strong causal effects at the last token of the subject, while the causal effect of intervening on later layers is most pronounced at the last token of the prompt.\nExpand",
+  "s2id": "5664f7f52264ff656faa3671d83e2009f4f390fd",
+  "url": "https://www.semanticscholar.org/paper/Locating-and-Editing-Factual-Associations-in-Mamba-Sharma-Atkinson/5664f7f52264ff656faa3671d83e2009f4f390fd",
+  "timestamp": "2026-10-06T10:57:24"
+ },
+ {
+  "title": "Massive Editing for Large Language Models Based on Dynamic Weight Generation",
+  "meta": "DOI:10.48550/arXiv.2512.14395Corpus ID: 283909249",
+  "scorecard": "1 Citation\nView All",
+  "citing": [],
+  "arx": [
+   "https://arxiv.org/pdf/2512.14395.pdf"
+  ],
+  "tldr": "TLDR\nExperiments show that the proposed MeG can significantly improve the performance of large-scale KE in terms of Reliability, Generality, and Locality metrics compared to existing knowledge editing methods, particularly with a high percentage point increase in the absolute value index for the Locality metric.\nExpand",
+  "s2id": "1b61cde6c4af087724f99851175d5f6dd7c42f4e",
+  "url": "https://www.semanticscholar.org/paper/Massive-Editing-for-Large-Language-Models-Based-on-Wan-Lao/1b61cde6c4af087724f99851175d5f6dd7c42f4e",
+  "timestamp": "2026-10-06T10:57:30"
+ },
+ {
+  "title": "Latent Knowledge Scalpel: Precise and Massive Knowledge Editing for Large Language Models",
+  "meta": "DOI:10.48550/arXiv.2508.03741Corpus ID: 280536640",
+  "scorecard": "1 Citation\nHighly Influential Citations\n1\nView All",
+  "citing": [],
+  "arx": [],
+  "tldr": "TLDR\nThis paper introduces the Latent Knowledge Scalpel (LKS), an LLM editor that manipulates the latent knowledge of specific entities via a lightweight hypernetwork to enable precise and large-scale editing.\nExpand",
+  "s2id": "05354809332ef3c8c94a90dde8fd4b3413088abc",
+  "url": "https://www.semanticscholar.org/paper/Latent-Knowledge-Scalpel%3A-Precise-and-Massive-for-Liu-Song/05354809332ef3c8c94a90dde8fd4b3413088abc",
+  "timestamp": "2026-10-06T10:57:35"
+ }
+]

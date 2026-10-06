@@ -1,5 +1,7 @@
 # GPU procurement recommendation for the LLM-as-Database POC
 
+> **Note 2026-10-06:** the Apple-Silicon "fails HC-2" claim below predates D-HW-1 and is superseded — the device-neutral engine now runs the science path on the M3 Pro (results/research_pass_2026-10-06/contradictions.md §4).
+
 ## 1. Bottom Line Up Front
 
 **Rent, do not buy.** The recommended primary venue is **RunPod Secure Cloud RTX 4090 (24 GB) on-demand at $0.69/hr** with a small persistent Network Volume; the recommended secondary (cost-floor) venue is **Vast.ai on-demand RTX 4090 from a Secure Cloud / Trusted Datacenter host at ~$0.29/hr**. Apple Silicon — despite winning the cost-symmetric comparison on paper — **fails HC-2 categorically**: an exhaustive April 2026 search found zero precedent for MEMIT, ROME, GRACE, or EasyEdit on PyTorch MPS or MLX, and PyTorch MPS has a documented silent-correctness history on the exact `linalg.inv`/`linalg.solve` ops MEMIT depends on. Before procuring, the operator must decide (a) whether to accept Community Cloud / interruptible pricing for ~50% savings against a 3–6 week Stage 2 sweep, and (b) which of RunPod or Vast is preferred on audit posture.

@@ -1,0 +1,11 @@
+{
+ "instrument": "infranodus",
+ "queries": [
+  {
+   "t": "2026-10-06T11:02:14",
+   "query": "create_knowledge_graph llmdb-rp-hits-20261006 (45 statements, class categories); generate_research_questions (gapDepth 1, several gaps, claude-opus-5); difference_between_texts (inventory gap list first vs hits graph); develop_conceptual_bridges (question mode)",
+   "hits": [],
+   "note": "graph: focused, modularity 0.38, 8 clusters; gaps: E7 memory-store <-> E3 code-keying; M3/M5 subject-locus <-> model families; E7 <-> model families. Research questions: (1) does the subject-last mid-layer locus persist across untied families and can locus-targeted LoRA/hypernetwork injection beat CPT on multi-token generalization; (2) sparse PKM layers as the write site for subject-keyed edits; (3) hypernetwork emitting LoRA supervised at the locus with partial-mask augmentation. Bridges: covariance leverage-score keying reinterpreted as write addresses into a memory store. Difference: the inventory lacks the hits concepts null-space-leakage protection <-> inference-time low-rank memory; embedding variants <-> null-space protection; paraphrase generalization via CPT <-> model families."
+  }
+ ]
+}

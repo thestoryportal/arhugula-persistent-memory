@@ -1,0 +1,111 @@
+{
+ "instrument": "github",
+ "queries": [
+  {
+   "t": "2026-10-06T10:46:16",
+   "query": "gh api repos/TianSuya/Bayes-Chunk; gh search repos Bayes-Chunk; AnyEdit++",
+   "hits": [
+    {
+     "id": "TianSuya/Bayes-Chunk",
+     "status": "new"
+    }
+   ],
+   "note": "EXISTS: created 2026-01-29, pushed 2026-05-26, license null, 2 stars, description = official AnyEdit++ code"
+  },
+  {
+   "t": "2026-10-06T10:46:16",
+   "query": "gh api repos/lbq8942/BetaEdit; gh search repos BetaEdit",
+   "hits": [
+    {
+     "id": "lbq8942/BetaEdit",
+     "status": "new"
+    }
+   ],
+   "note": "EXISTS: created 2026-05-08, pushed 2026-09-29, license null, 2 stars, IJCAI paper"
+  },
+  {
+   "t": "2026-10-06T10:52:43",
+   "query": "repo trees + configs + cuda grep: lbq8942/BetaEdit, TianSuya/Bayes-Chunk",
+   "hits": [
+    {
+     "id": "lbq8942/BetaEdit",
+     "status": "new"
+    },
+    {
+     "id": "TianSuya/Bayes-Chunk",
+     "status": "new"
+    }
+   ],
+   "note": "BetaEdit: device = cuda-if-available else cpu (portable), configs qwen2.5-3b (Instruct), qwen2.5-7b, llama3.2-3b etc; mom2 15000; nullspace 0.02; Bayes-Chunk: hard-coded .to(\"cuda\") in memit_ARE_main/compute_z/layer_stats; configs Qwen2.5-7B-Instruct + Llama3; one release commit 2026-05-26; no licence"
+  },
+  {
+   "t": "2026-10-06T10:56:35",
+   "query": "holi-lab/MDM-KE (named in PRIOR_ART_SWEEP \u00a74 as the MDM-KE code)",
+   "hits": [
+    {
+     "id": "holi-lab/MDM-KE",
+     "status": "new"
+    }
+   ],
+   "note": "NOT FOUND (404); holi-lab org has SUIT, CoRE, ToolDial... but no MDM-KE; gh search \"MDM-KE\" and \"masked diffusion knowledge editing\" return nothing relevant -> contradiction to record"
+  },
+  {
+   "t": "2026-10-06T11:03:09",
+   "query": "EXIT-CHECK 2: gh search repos \"knowledge editing\" sort updated (40), \"model editing LLM\" (0), \"knowledge injection LLM\" (1)",
+   "hits": [
+    {
+     "id": "Kevin20010912/HyperPatch",
+     "status": "new"
+    },
+    {
+     "id": "zhusq20/llm-memory-editability",
+     "status": "new"
+    },
+    {
+     "id": "qriton/hlm5",
+     "status": "new"
+    },
+    {
+     "id": "JamyDon/CRAFT-KEDAS",
+     "status": "new"
+    },
+    {
+     "id": "CheongWoong/mf-memit",
+     "status": "new"
+    },
+    {
+     "id": "stanleyngugi/surgical_knowledge_editing",
+     "status": "new"
+    },
+    {
+     "id": "Aditya-PS-05/INLAY",
+     "status": "new"
+    },
+    {
+     "id": "PeterPonyu/key-geometry-collateral-damage",
+     "status": "new"
+    },
+    {
+     "id": "bran-180/KEditAudit",
+     "status": "new"
+    },
+    {
+     "id": "Wangzzzzzzzz/OTE-SE-Alignment",
+     "status": "new"
+    }
+   ],
+   "note": "one candidate in-class method to resolve: CheongWoong/mf-memit (multi-format MEMIT, generalization across task formats); INLAY = external addressable memory (E9 fallback); PeterPonyu cluster = rank-one edit geometry analyses; hlm5 = certificates"
+  },
+  {
+   "t": "2026-10-06T11:06:57",
+   "query": "CheongWoong/mf-memit resolved",
+   "hits": [
+    {
+     "id": "CheongWoong/mf-memit",
+     "status": "new"
+    }
+   ],
+   "note": "MEMIT-XF: multi-format editing with a shared value objective over six prompt formats; Llama-3.2-3B-Instruct; CounterFact-1K; CUDA required; MIT; pushed 2026-08-28; paper (EMNLP 2026 Findings) not on arXiv. New in-class E1 method."
+  }
+ ]
+}

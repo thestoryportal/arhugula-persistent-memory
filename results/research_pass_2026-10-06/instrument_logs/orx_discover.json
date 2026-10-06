@@ -1,0 +1,1397 @@
+{
+ "instrument": "orx_discover (alphaXiv keyword/embedding, OpenAlex)",
+ "cli": "orx 0.2.16; telemetry off",
+ "queries": [
+  {
+   "t": "2026-10-06T10:54:35",
+   "name": "emb_coined",
+   "hits": [
+    {
+     "id": "2609.36748",
+     "title": "Generalizable Lifelong Model Editing via Preference Optimization",
+     "date": "2026-09-29",
+     "status": "seen"
+    },
+    {
+     "id": "2609.29269",
+     "title": "ALOE: Semantically Addressed Low-Rank Operators for Knowledge Editing",
+     "date": "2026-09-24",
+     "status": "new"
+    },
+    {
+     "id": "2606.22627",
+     "title": "Orthogonal Representation Editing: Decoupling Semantic Entanglement in Batch Knowledge Editing of LLMs",
+     "date": "2026-06-21",
+     "status": "seen"
+    },
+    {
+     "id": "2606.01610",
+     "title": "Revisiting Ripple Effects in Knowledge Editing through Pressure-Aware Joint Neighborhood Optimization",
+     "date": "2026-06-01",
+     "status": "new"
+    },
+    {
+     "id": "2605.08143",
+     "title": "HoReN: Normalized Hopfield Retrieval for Large-Scale Sequential Model Editing",
+     "date": "2026-05-02",
+     "status": "new"
+    },
+    {
+     "id": "2510.05092",
+     "title": "Learning to Interpret Weight Differences in Language Models",
+     "date": "2025-10-06",
+     "status": "new"
+    },
+    {
+     "id": "2602.02543",
+     "title": "Norm Anchors Make Model Edits Last",
+     "date": "2026-01-30",
+     "status": "new"
+    },
+    {
+     "id": "2512.14395",
+     "title": "Massive Editing for Large Language Models Based on Dynamic Weight Generation",
+     "date": "2025-12-16",
+     "status": "new"
+    },
+    {
+     "id": "2510.02392",
+     "title": "KnowledgeSmith: Uncovering Knowledge Updating in LLMs with Model Editing and Unlearning",
+     "date": "2025-10-01",
+     "status": "new"
+    },
+    {
+     "id": "2512.18551",
+     "title": "Neologism Learning as a Parameter-Efficient Alternative to Fine-Tuning for Model Steering",
+     "date": "2025-12-21",
+     "status": "new"
+    },
+    {
+     "id": "2506.20746",
+     "title": "Dynamic Weight Grafting: Localizing Finetuned Factual Knowledge in Transformers",
+     "date": "2025-06-25",
+     "status": "new"
+    },
+    {
+     "id": "2510.09421",
+     "title": "On the Representations of Entities in Auto-regressive Large Language Models",
+     "date": "2025-10-10",
+     "status": "new"
+    },
+    {
+     "id": "2509.01468",
+     "title": "Robust Knowledge Editing via Explicit Reasoning Chains for Distractor-Resilient Multi-Hop QA",
+     "date": "2025-09-01",
+     "status": "new"
+    },
+    {
+     "id": "2507.18028",
+     "title": "NeuralDB: Scaling Knowledge Editing in LLMs to 100,000 Facts with Neural KV Database",
+     "date": "2025-07-24",
+     "status": "seen"
+    },
+    {
+     "id": "2508.03741",
+     "title": "Latent Knowledge Scalpel: Precise and Massive Knowledge Editing for Large Language Models",
+     "date": "2025-08-01",
+     "status": "new"
+    }
+   ]
+  },
+  {
+   "t": "2026-10-06T10:54:35",
+   "name": "kw_covreg",
+   "hits": [
+    {
+     "id": "2610.04518",
+     "title": "Length Generalization Needs Proper Regularization",
+     "date": "2026-10-03",
+     "status": "new"
+    },
+    {
+     "id": "2610.02633",
+     "title": "High-Dimensional Regularization of the Spatial Sign Covariance Matrix for Robust Shape Estimation",
+     "date": "2026-10-02",
+     "status": "new"
+    },
+    {
+     "id": "2603.15518",
+     "title": "Beyond the Covariance Trap: Unlocking Generalization in Same-Subject Knowledge Editing for Large Language Models",
+     "date": "2026-03-16",
+     "status": "seen"
+    },
+    {
+     "id": "2609.36748",
+     "title": "Generalizable Lifelong Model Editing via Preference Optimization",
+     "date": "2026-09-29",
+     "status": "seen"
+    },
+    {
+     "id": "2609.31560",
+     "title": "Generalization behavior of OPTQ and the role of regularization",
+     "date": "2026-09-25",
+     "status": "new"
+    },
+    {
+     "id": "2608.06848",
+     "title": "Understanding and Improving Model Editing for Secure Code Generation",
+     "date": "2026-08-07",
+     "status": "new"
+    },
+    {
+     "id": "2605.25568",
+     "title": "Rethinking Scribble-Guided Image Editing: Generalization, Instruction Adherence, and Multi-Tasking",
+     "date": "2026-05-25",
+     "status": "new"
+    },
+    {
+     "id": "2606.07760",
+     "title": "scCBGM: Interpretable Single-Cell Counterfactual Editing",
+     "date": "2026-06-05",
+     "status": "new"
+    },
+    {
+     "id": "2604.24625",
+     "title": "Meta-CoT: Enhancing Granularity and Generalization in Image Editing",
+     "date": "2026-04-27",
+     "status": "new"
+    },
+    {
+     "id": "2609.09944",
+     "title": "Estimating Hierarchically Rank Structured Covariance Matrices",
+     "date": "2026-09-09",
+     "status": "new"
+    },
+    {
+     "id": "2606.02572",
+     "title": "VISReg: Variance-Invariance-Sketching Regularization for JEPA training",
+     "date": "2026-06-01",
+     "status": "new"
+    },
+    {
+     "id": "2608.27839",
+     "title": "KLOD: Locality-Preserving Knowledge Editing via Non-Target Distribution Preservation",
+     "date": "2026-08-28",
+     "status": "new"
+    },
+    {
+     "id": "2607.01978",
+     "title": "Multimodal Knowledge Edit-Scoped Generalization for Online Recursive MLLM Editing",
+     "date": "2026-07-02",
+     "status": "seen"
+    },
+    {
+     "id": "2607.21529",
+     "title": "ElasticTTT: Prior-Preserving Test-Time Tuning for Video Editing",
+     "date": "2026-07-23",
+     "status": "new"
+    },
+    {
+     "id": "2607.20883",
+     "title": "WhereEdit: Mask-aware Local Latent Editing for One-Step Image Editing",
+     "date": "2026-07-23",
+     "status": "new"
+    }
+   ]
+  },
+  {
+   "t": "2026-10-06T10:54:35",
+   "name": "kw_cpt",
+   "hits": [
+    {
+     "id": "2610.00542",
+     "title": "Does Continual Imitation Learning Remain Grounded? A Language-Perturbed Benchmark for Robotic Task Retention",
+     "date": "2026-09-30",
+     "status": "new"
+    },
+    {
+     "id": "2608.07984",
+     "title": "AgriField-40K: Adapting Vision Models to Agriculture With Efficient Continual Pretraining",
+     "date": "2026-08-08",
+     "status": "new"
+    },
+    {
+     "id": "2609.23916",
+     "title": "Time-Incremental Continued Pretraining of LLMs: Knowledge Updates Without Catastrophic Forgetting",
+     "date": "2026-09-20",
+     "status": "new"
+    },
+    {
+     "id": "2609.27279",
+     "title": "EnSIMem: Entity-Structured Indexing for Long-Term Agent Memory",
+     "date": "2026-09-23",
+     "status": "new"
+    },
+    {
+     "id": "2607.12831",
+     "title": "Knowledgeless Language Models: Suppressing Parametric Recall for Evidence-Grounded Language Modeling",
+     "date": "2026-07-14",
+     "status": "new"
+    },
+    {
+     "id": "2609.20828",
+     "title": "Beyond WER: Entity and Disfluency Recall in Accented Conversational ASR",
+     "date": "2026-07-22",
+     "status": "new"
+    },
+    {
+     "id": "2610.05872",
+     "title": "Off-Policy Merging Beats On-Policy Self-Distillation for Continual Learning",
+     "date": "2026-10-05",
+     "status": "new"
+    },
+    {
+     "id": "2609.21227",
+     "title": "Hallucination-R1: Robustness-Oriented Paraphrase Generation for Factual Consistency",
+     "date": "2026-09-18",
+     "status": "new"
+    },
+    {
+     "id": "2607.22075",
+     "title": "FSE: Continual Learning for Named Entity Recognition by Fast-Slow Experts",
+     "date": "2026-07-24",
+     "status": "new"
+    },
+    {
+     "id": "2608.25677",
+     "title": "Learning New Facts with QLoRA: An Acquisition-Retention Frontier",
+     "date": "2026-08-26",
+     "status": "new"
+    },
+    {
+     "id": "2608.13482",
+     "title": "Synthetic Persona Pretraining: Alignment from Token Zero",
+     "date": "2026-08-13",
+     "status": "new"
+    },
+    {
+     "id": "2609.17537",
+     "title": "Relation Before Entity: Deferred Commitment in Language Model Factual Recall",
+     "date": "2026-07-13",
+     "status": "seen"
+    },
+    {
+     "id": "2608.17530",
+     "title": "When to Review: Spaced Repetition for Continual Pre-Training of Language Models",
+     "date": "2026-08-18",
+     "status": "new"
+    },
+    {
+     "id": "2609.05075",
+     "title": "MePo++: Unifying Representation Refinement and Reconciliation for General Continual Learning",
+     "date": "2026-09-04",
+     "status": "new"
+    },
+    {
+     "id": "2610.04239",
+     "title": "Conformal Prediction with Paraphrase-Aware Scoring for LLM Uncertainty Quantification",
+     "date": "2026-10-03",
+     "status": "new"
+    }
+   ]
+  },
+  {
+   "t": "2026-10-06T10:54:35",
+   "name": "kw_hypernet",
+   "hits": [
+    {
+     "id": "2610.00820",
+     "title": "On-the-fly Weight Generation: A Hypernetwork Proof of Concept on ARC-1D",
+     "date": "2026-09-30",
+     "status": "new"
+    },
+    {
+     "id": "2607.19604",
+     "title": "Scaling Laws for Hypernetwork-Based Knowledge Injection in Large Language Models",
+     "date": "2026-07-21",
+     "status": "new"
+    },
+    {
+     "id": "2609.30570",
+     "title": "MOCHA: Multi-Objective Co-Design using Hypernetwork Architectures",
+     "date": "2026-09-24",
+     "status": "new"
+    },
+    {
+     "id": "2609.33534",
+     "title": "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
+     "date": "2026-09-27",
+     "status": "seen"
+    },
+    {
+     "id": "2608.16932",
+     "title": "DOW-KE: Anchor-Free Multi-Layer Knowledge Editing via Direct End-to-End Weight Optimization",
+     "date": "2026-08-05",
+     "status": "seen"
+    },
+    {
+     "id": "2608.11660",
+     "title": "Hybrid-Policy Self-Editing for Composable Unstructured Knowledge Editing",
+     "date": "2026-08-12",
+     "status": "seen"
+    },
+    {
+     "id": "2609.31154",
+     "title": "HyperErase: Scale-Calibrated Hypernetwork for Multi-Concept Erasure in Text-to-Image Models",
+     "date": "2026-09-25",
+     "status": "new"
+    },
+    {
+     "id": "2608.20768",
+     "title": "Beyond Endpoint Gains: A Weight-Delta Audit of Medical Specialization",
+     "date": "2026-08-21",
+     "status": "new"
+    },
+    {
+     "id": "2609.18985",
+     "title": "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight-Free Knowledge Editing",
+     "date": "2026-07-17",
+     "status": "seen"
+    },
+    {
+     "id": "2606.22627",
+     "title": "Orthogonal Representation Editing: Decoupling Semantic Entanglement in Batch Knowledge Editing of LLMs",
+     "date": "2026-06-21",
+     "status": "seen"
+    },
+    {
+     "id": "2607.17467",
+     "title": "DA-MergeLoRA: Hypernetwork-Based LoRA Merging for Few-Shot Test-Time Domain Adaptation",
+     "date": "2026-07-20",
+     "status": "new"
+    },
+    {
+     "id": "2604.23750",
+     "title": "The Override Gap: A Magnitude Account of Knowledge Conflict Failure in Hypernetwork-Based Instant LLM Adaptation",
+     "date": "2026-04-26",
+     "status": "new"
+    },
+    {
+     "id": "2609.20309",
+     "title": "Hypernetwork-Parameterized Spatially Adaptive Neural Operators for PDE Learning",
+     "date": "2026-07-31",
+     "status": "new"
+    },
+    {
+     "id": "2606.10554",
+     "title": "Benchmarking Knowledge Editing using Logical Rules",
+     "date": "2026-06-09",
+     "status": "new"
+    },
+    {
+     "id": "2605.07940",
+     "title": "Delta-Adapter: Scalable Exemplar-Based Image Editing with Single-Pair Supervision",
+     "date": "2026-05-08",
+     "status": "new"
+    }
+   ]
+  },
+  {
+   "t": "2026-10-06T10:54:35",
+   "name": "kw_layersel",
+   "hits": [
+    {
+     "id": "2609.38257",
+     "title": "How Should Diffusion Language Models Edit Code?",
+     "date": "2026-09-29",
+     "status": "new"
+    },
+    {
+     "id": "2502.03748",
+     "title": "Rethinking Residual Distribution in Locate-then-Edit Model Editing",
+     "date": "2025-02-06",
+     "status": "seen"
+    },
+    {
+     "id": "2608.17836",
+     "title": "Leveraging Association Context Retrieval in Knowledge Edit- ing to Build White-Box Attacks on LLMs",
+     "date": "2026-08-18",
+     "status": "new"
+    },
+    {
+     "id": "2605.15186",
+     "title": "VGGT-Edit: Feed-forward Native 3D Scene Editing with Residual Field Prediction",
+     "date": "2026-05-14",
+     "status": "new"
+    },
+    {
+     "id": "2609.17940",
+     "title": "Beyond the Previous Layer: Residual Predictive Structure in Sparse MoE Routing",
+     "date": "2026-09-15",
+     "status": "new"
+    },
+    {
+     "id": "2609.21268",
+     "title": "Edit-VAR: Taming Visual Autoregressive Model for Precise Video Editing",
+     "date": "2026-09-18",
+     "status": "new"
+    },
+    {
+     "id": "2610.04635",
+     "title": "LatentIndex: Cross-Layer Sharing with Layer-Specific Selection for Sparse Attention",
+     "date": "2026-10-03",
+     "status": "new"
+    },
+    {
+     "id": "2608.16932",
+     "title": "DOW-KE: Anchor-Free Multi-Layer Knowledge Editing via Direct End-to-End Weight Optimization",
+     "date": "2026-08-05",
+     "status": "seen"
+    },
+    {
+     "id": "2609.33735",
+     "title": "Constrained Edit Fields for Training-Free Flow Editing",
+     "date": "2026-09-27",
+     "status": "new"
+    },
+    {
+     "id": "2609.18745",
+     "title": "When Edit Flows are Edit Jumps: replicating Edit Flows and EvoFlows",
+     "date": "2026-09-16",
+     "status": "new"
+    },
+    {
+     "id": "2610.06465",
+     "title": "When Layer Selection Misleads Speech Depression Detection",
+     "date": "2026-10-05",
+     "status": "new"
+    },
+    {
+     "id": "2609.13405",
+     "title": "Krum-Inspired Central Teacher Selection and Residual Channel Bottlenecks for Efficient DeepSC",
+     "date": "2026-09-11",
+     "status": "new"
+    },
+    {
+     "id": "2609.02504",
+     "title": "SR-Edit: Region-Aware Image Editing via Self-Refinement",
+     "date": "2026-09-02",
+     "status": "new"
+    },
+    {
+     "id": "2610.03702",
+     "title": "LESSER: Post-Training Data Selection with Output-Layer Gradients",
+     "date": "2026-10-02",
+     "status": "new"
+    },
+    {
+     "id": "2610.05925",
+     "title": "The Arbitrary-Placement Problem in Entropy-Minimizing Selection, and a Residual-Entropy Formulation",
+     "date": "2026-10-05",
+     "status": "new"
+    }
+   ]
+  },
+  {
+   "t": "2026-10-06T10:54:35",
+   "name": "kw_lora",
+   "hits": [
+    {
+     "id": "2607.19604",
+     "title": "Scaling Laws for Hypernetwork-Based Knowledge Injection in Large Language Models",
+     "date": "2026-07-21",
+     "status": "new"
+    },
+    {
+     "id": "2608.21750",
+     "title": "FCPRAG: Fusion-Controller Parametric Retrieval-Augmented Generation for Stable Multi-Passage LoRA Injection",
+     "date": "2026-08-22",
+     "status": "new"
+    },
+    {
+     "id": "2603.01097",
+     "title": "Understanding LoRA as Knowledge Memory: An Empirical Analysis",
+     "date": "2026-03-01",
+     "status": "new"
+    },
+    {
+     "id": "2609.00082",
+     "title": "KItCAT: Knowledge Injection via Input Corruption for Auto-regressive Training",
+     "date": "2026-08-31",
+     "status": "new"
+    },
+    {
+     "id": "2609.32332",
+     "title": "When the Merge Coefficient Stops Mattering: Proximity Regularized Merging for Continual LoRA Adaptation",
+     "date": "2026-09-26",
+     "status": "new"
+    },
+    {
+     "id": "2608.01184",
+     "title": "SAFE-Merge: Data-Free Continual Model Merging with General Knowledge Preservation",
+     "date": "2026-08-02",
+     "status": "new"
+    },
+    {
+     "id": "2609.21227",
+     "title": "Hallucination-R1: Robustness-Oriented Paraphrase Generation for Factual Consistency",
+     "date": "2026-09-18",
+     "status": "new"
+    },
+    {
+     "id": "2606.14243",
+     "title": "Decoupled Mixture-of-Experts for Parametric Knowledge Injection",
+     "date": "2026-06-12",
+     "status": "new"
+    },
+    {
+     "id": "2608.01630",
+     "title": "RING: Retrieval-Internalized Generation for Continual Large-Scale Knowledge Injection",
+     "date": "2026-08-03",
+     "status": "new"
+    },
+    {
+     "id": "2609.39390",
+     "title": "Decoupled and Distilled: Task-Adaptive LoRA-Teachers with Ensemble Knowledge Transfer for Few-Shot Class-Incremental Lea",
+     "date": "2026-09-30",
+     "status": "new"
+    },
+    {
+     "id": "2608.25243",
+     "title": "From Memorization to Absorption: Mixed-Policy RL for Continual Knowledge Injection",
+     "date": "2026-08-26",
+     "status": "new"
+    },
+    {
+     "id": "2610.04239",
+     "title": "Conformal Prediction with Paraphrase-Aware Scoring for LLM Uncertainty Quantification",
+     "date": "2026-10-03",
+     "status": "new"
+    },
+    {
+     "id": "2609.22886",
+     "title": "Merge++: Universal Merge Refinement Through Data-Free Checkpoint Inversion",
+     "date": "2026-09-19",
+     "status": "new"
+    },
+    {
+     "id": "2609.36986",
+     "title": "CF-LoRA: Decoupled Factor Aggregation and Adaptation-Aware Client Clustering for Federated LoRA Fine-Tuning",
+     "date": "2026-09-29",
+     "status": "new"
+    },
+    {
+     "id": "2609.33125",
+     "title": "Train Together or Merge Later? Unifying VLA Experts via a Shared Action Interface",
+     "date": "2026-09-27",
+     "status": "new"
+    }
+   ]
+  },
+  {
+   "t": "2026-10-06T10:54:35",
+   "name": "kw_memlayer",
+   "hits": [
+    {
+     "id": "2608.25489",
+     "title": "A Storage-Retrieval Gap in Parametric Knowledge Graph Memory",
+     "date": "2026-08-26",
+     "status": "new"
+    },
+    {
+     "id": "2607.27919",
+     "title": "Memory Decoder at Scale: A Pretrained, Parametric Long-Term Memory",
+     "date": "2026-07-30",
+     "status": "new"
+    },
+    {
+     "id": "2609.23466",
+     "title": "RPMem: Learning Long-Term Recurrent Parametric Memory Across Sessions for LLM Agents",
+     "date": "2026-09-20",
+     "status": "new"
+    },
+    {
+     "id": "2608.15008",
+     "title": "Harness the Memory: A Holistic Evaluation of Memory Substrates in Memory Agents",
+     "date": "2026-08-15",
+     "status": "new"
+    },
+    {
+     "id": "2608.22215",
+     "title": "Dual-Layer Agentic Memory with Fast Write Routing and Slow Consolidation",
+     "date": "2026-08-23",
+     "status": "new"
+    },
+    {
+     "id": "2610.02070",
+     "title": "Causal Memory Policy: Making Memory Utility Identifiable by Intervening on Retrieval",
+     "date": "2026-10-01",
+     "status": "new"
+    },
+    {
+     "id": "2609.16053",
+     "title": "Retrieval-Driven Memory Reconsolidation for Long-Term LLM Agents",
+     "date": "2026-09-13",
+     "status": "new"
+    },
+    {
+     "id": "2607.25614",
+     "title": "MemSFT: Mitigating Alignment Tax with an External Parametric Memory",
+     "date": "2026-07-28",
+     "status": "new"
+    },
+    {
+     "id": "2607.26017",
+     "title": "UniMem: Complementary Episodic-to-Parametric Memory for Boundary-Agnostic Task Streams",
+     "date": "2026-07-28",
+     "status": "new"
+    },
+    {
+     "id": "2609.28250",
+     "title": "Complementary Roles of Activation and Parametric Memory in Few-Shot Learning",
+     "date": "2026-09-23",
+     "status": "new"
+    },
+    {
+     "id": "2609.11023",
+     "title": "RCL: A Retrieval-Confidence Layer for Detecting Insufficient Context in Enterprise Retrieval-Augmented Code Generation",
+     "date": "2026-09-10",
+     "status": "new"
+    },
+    {
+     "id": "2610.05223",
+     "title": "Look Before You Leap: Thermodynamic Arbitration of Parametric and Non-Parametric Knowledge in LLM Agents via Self-Regula",
+     "date": "2026-10-04",
+     "status": "new"
+    },
+    {
+     "id": "2609.32522",
+     "title": "Beyond Dyadic Memory: Interaction-Aware Multimodal Memory with Adaptive Agentic Retrieval for Multi-Party Spoken Convers",
+     "date": "2026-09-26",
+     "status": "new"
+    },
+    {
+     "id": "2609.36805",
+     "title": "UpliftMem: Learning Set-Level Uplift for Agent Memory Retrieval",
+     "date": "2026-09-29",
+     "status": "new"
+    },
+    {
+     "id": "2607.04118",
+     "title": "Parametric Memory Decoding for Zero-Shot Routing in LoRA-Based External Parametric Memory",
+     "date": "2026-07-05",
+     "status": "new"
+    }
+   ]
+  },
+  {
+   "t": "2026-10-06T10:54:35",
+   "name": "kw_multitoken",
+   "hits": [
+    {
+     "id": "2608.27839",
+     "title": "KLOD: Locality-Preserving Knowledge Editing via Non-Target Distribution Preservation",
+     "date": "2026-08-28",
+     "status": "new"
+    },
+    {
+     "id": "2608.25100",
+     "title": "Towards Reliable, Generalizable, and Specific In-Context Knowledge Editing via Multi-Objective Reinforcement Learning",
+     "date": "2026-08-25",
+     "status": "seen"
+    },
+    {
+     "id": "2609.29269",
+     "title": "ALOE: Semantically Addressed Low-Rank Operators for Knowledge Editing",
+     "date": "2026-09-24",
+     "status": "new"
+    },
+    {
+     "id": "2609.36748",
+     "title": "Generalizable Lifelong Model Editing via Preference Optimization",
+     "date": "2026-09-29",
+     "status": "seen"
+    },
+    {
+     "id": "2608.11660",
+     "title": "Hybrid-Policy Self-Editing for Composable Unstructured Knowledge Editing",
+     "date": "2026-08-12",
+     "status": "seen"
+    },
+    {
+     "id": "2606.03924",
+     "title": "Knowledge Editing for Masked Diffusion Language Models",
+     "date": "2026-06-02",
+     "status": "seen"
+    },
+    {
+     "id": "2609.33534",
+     "title": "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
+     "date": "2026-09-27",
+     "status": "seen"
+    },
+    {
+     "id": "2608.09322",
+     "title": "Diffusion Image Editing via Asynchronous Token Decoding",
+     "date": "2026-08-10",
+     "status": "new"
+    },
+    {
+     "id": "2607.01978",
+     "title": "Multimodal Knowledge Edit-Scoped Generalization for Online Recursive MLLM Editing",
+     "date": "2026-07-02",
+     "status": "seen"
+    },
+    {
+     "id": "2608.16932",
+     "title": "DOW-KE: Anchor-Free Multi-Layer Knowledge Editing via Direct End-to-End Weight Optimization",
+     "date": "2026-08-05",
+     "status": "seen"
+    },
+    {
+     "id": "2606.22627",
+     "title": "Orthogonal Representation Editing: Decoupling Semantic Entanglement in Batch Knowledge Editing of LLMs",
+     "date": "2026-06-21",
+     "status": "seen"
+    },
+    {
+     "id": "2605.25568",
+     "title": "Rethinking Scribble-Guided Image Editing: Generalization, Instruction Adherence, and Multi-Tasking",
+     "date": "2026-05-25",
+     "status": "new"
+    },
+    {
+     "id": "2606.05645",
+     "title": "Discrete-WAM: Unified Discrete Vision-Action Token Editing for World-Policy Learning",
+     "date": "2026-06-04",
+     "status": "new"
+    },
+    {
+     "id": "2606.18906",
+     "title": "BindEdit: Taming Attention Leakage for Precise Multi-Object Image Editing",
+     "date": "2026-06-17",
+     "status": "new"
+    },
+    {
+     "id": "2606.10554",
+     "title": "Benchmarking Knowledge Editing using Logical Rules",
+     "date": "2026-06-09",
+     "status": "new"
+    }
+   ]
+  },
+  {
+   "t": "2026-10-06T10:54:35",
+   "name": "kw_nullspace",
+   "hits": [
+    {
+     "id": "2605.09285",
+     "title": "BetaEdit: Null-Space Constrained Sequential Model Editing",
+     "date": "2026-05-10",
+     "status": "seen"
+    },
+    {
+     "id": "2609.38081",
+     "title": "Traversing the solution space of neural networks with Hessian Null Space Continuation",
+     "date": "2026-09-29",
+     "status": "new"
+    },
+    {
+     "id": "2606.19679",
+     "title": "LOKI: Memory-Free Null-Space Constrained Lifelong Knowledge Editing",
+     "date": "2026-06-18",
+     "status": "new"
+    },
+    {
+     "id": "2606.26783",
+     "title": "Reproducibility Study of \"AlphaEdit: Null-Space Constrained Knowledge Editing for Language Models\"",
+     "date": "2026-06-25",
+     "status": "seen"
+    },
+    {
+     "id": "2609.37976",
+     "title": "$S^3$: Spectral Null-Space Swap Makes Reasoning Models Efficient",
+     "date": "2026-09-29",
+     "status": "new"
+    },
+    {
+     "id": "2609.36748",
+     "title": "Generalizable Lifelong Model Editing via Preference Optimization",
+     "date": "2026-09-29",
+     "status": "seen"
+    },
+    {
+     "id": "2605.24932",
+     "title": "X-Edit: Exact, Explicit, and Explainable Null-Space Editing for Medical Vision Transformers",
+     "date": "2026-05-24",
+     "status": "new"
+    },
+    {
+     "id": "2608.30374",
+     "title": "Compact and Infinite-Order Error Analysis for Null-Space SVD Estimation",
+     "date": "2026-08-31",
+     "status": "new"
+    },
+    {
+     "id": "2610.02844",
+     "title": "DNAlign: Dynamic Null-Space Safe Alignment for LLMs",
+     "date": "2026-10-02",
+     "status": "new"
+    },
+    {
+     "id": "2609.04975",
+     "title": "One-Stage Multi-Task Instruction-Guided 3D Spatial Audio Editing",
+     "date": "2026-09-04",
+     "status": "new"
+    },
+    {
+     "id": "2610.00685",
+     "title": "Backdoor Purification for LoRA-Tuned LLMs via Null-Space Projection",
+     "date": "2026-09-30",
+     "status": "new"
+    },
+    {
+     "id": "2609.40334",
+     "title": "A Noise Operator Approach to Quantum Query Complexity and Time-Space Tradeoff Lower Bounds",
+     "date": "2026-09-30",
+     "status": "new"
+    },
+    {
+     "id": "2608.14449",
+     "title": "The Phase Space of Gravity on Null Hypersurfaces",
+     "date": "2026-08-14",
+     "status": "new"
+    },
+    {
+     "id": "2609.37272",
+     "title": "Task-Relevant Null-Space Residuals for Non-Injective Neural Mappings",
+     "date": "2026-09-29",
+     "status": "new"
+    },
+    {
+     "id": "2609.33534",
+     "title": "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
+     "date": "2026-09-27",
+     "status": "seen"
+    }
+   ]
+  },
+  {
+   "t": "2026-10-06T10:54:35",
+   "name": "kw_oov",
+   "hits": [
+    {
+     "id": "2605.06096",
+     "title": "Uncovering Entity Identity Confusion in Multimodal Knowledge Editing",
+     "date": "2026-05-07",
+     "status": "seen"
+    },
+    {
+     "id": "2608.11660",
+     "title": "Hybrid-Policy Self-Editing for Composable Unstructured Knowledge Editing",
+     "date": "2026-08-12",
+     "status": "seen"
+    },
+    {
+     "id": "2609.29269",
+     "title": "ALOE: Semantically Addressed Low-Rank Operators for Knowledge Editing",
+     "date": "2026-09-24",
+     "status": "new"
+    },
+    {
+     "id": "2608.25100",
+     "title": "Towards Reliable, Generalizable, and Specific In-Context Knowledge Editing via Multi-Objective Reinforcement Learning",
+     "date": "2026-08-25",
+     "status": "seen"
+    },
+    {
+     "id": "2608.16251",
+     "title": "SCOUT: Semantic Concept Discovery for Open-Vocabulary Editing of face Recognition Templates",
+     "date": "2026-08-17",
+     "status": "new"
+    },
+    {
+     "id": "2608.10668",
+     "title": "FITTER: Vocabulary-Agnostic Cross-Domain Inference on Temporal Knowledge Graphs",
+     "date": "2026-08-11",
+     "status": "new"
+    },
+    {
+     "id": "2608.27839",
+     "title": "KLOD: Locality-Preserving Knowledge Editing via Non-Target Distribution Preservation",
+     "date": "2026-08-28",
+     "status": "new"
+    },
+    {
+     "id": "2606.22627",
+     "title": "Orthogonal Representation Editing: Decoupling Semantic Entanglement in Batch Knowledge Editing of LLMs",
+     "date": "2026-06-21",
+     "status": "seen"
+    },
+    {
+     "id": "2606.10554",
+     "title": "Benchmarking Knowledge Editing using Logical Rules",
+     "date": "2026-06-09",
+     "status": "new"
+    },
+    {
+     "id": "2607.01000",
+     "title": "KnowledgeDebugger -- an Exploration Tool for Knowledge Localization and Editing in Transformers",
+     "date": "2026-07-01",
+     "status": "new"
+    },
+    {
+     "id": "2605.14842",
+     "title": "Editor's Choice: Evaluating Abstract Intent in Image Editing through Atomic Entity Analysis",
+     "date": "2026-05-14",
+     "status": "new"
+    },
+    {
+     "id": "2605.10146",
+     "title": "Benchmarking Safety Risks of Knowledge-Intensive Reasoning under Malicious Knowledge Editing",
+     "date": "2026-05-11",
+     "status": "new"
+    },
+    {
+     "id": "2605.28303",
+     "title": "From Fact Overwriting to Knowledge Evolution: Causal Editing via On-Policy Self-Distillation",
+     "date": "2026-05-27",
+     "status": "new"
+    },
+    {
+     "id": "2605.15523",
+     "title": "Self-Prompting Diffusion Transformer for Open-Vocabulary Scene Text Editing via In-Context Learning",
+     "date": "2026-05-15",
+     "status": "new"
+    },
+    {
+     "id": "2604.19089",
+     "title": "Towards Scalable Lifelong Knowledge Editing with Selective Knowledge Suppression",
+     "date": "2026-04-21",
+     "status": "seen"
+    }
+   ]
+  },
+  {
+   "t": "2026-10-06T10:54:35",
+   "name": "kw_seqcoined",
+   "hits": [
+    {
+     "id": "2609.24980",
+     "title": "Residual Community Prototypes Under-Reject Held-Out Malware Families in FCG-MFD",
+     "date": "2026-09-21",
+     "status": "new"
+    },
+    {
+     "id": "2609.33761",
+     "title": "StatD2GAN: When Calibration Masks Generator Quality in Held-Out Evaluation of Synthetic Weather Sequences",
+     "date": "2026-09-27",
+     "status": "new"
+    },
+    {
+     "id": "2609.36748",
+     "title": "Generalizable Lifelong Model Editing via Preference Optimization",
+     "date": "2026-09-29",
+     "status": "seen"
+    },
+    {
+     "id": "2609.29587",
+     "title": "Sequential knowledge editing breaks a model's ability to tell good evidence from bad, without costing it accuracy",
+     "date": "2026-08-31",
+     "status": "new"
+    },
+    {
+     "id": "2608.26809",
+     "title": "Thinking on Shots: Consistent Multi-Shot Video Editing with Agentic Reasoning",
+     "date": "2026-08-27",
+     "status": "new"
+    },
+    {
+     "id": "2605.06096",
+     "title": "Uncovering Entity Identity Confusion in Multimodal Knowledge Editing",
+     "date": "2026-05-07",
+     "status": "seen"
+    },
+    {
+     "id": "2605.09285",
+     "title": "BetaEdit: Null-Space Constrained Sequential Model Editing",
+     "date": "2026-05-10",
+     "status": "seen"
+    },
+    {
+     "id": "2609.01479",
+     "title": "CameraEditor: Camera-Controlled Image Editing via Video-Prior Sequential Modeling",
+     "date": "2026-09-01",
+     "status": "new"
+    },
+    {
+     "id": "2609.33534",
+     "title": "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
+     "date": "2026-09-27",
+     "status": "seen"
+    },
+    {
+     "id": "2606.28374",
+     "title": "Recursive Self-Evolving Agents via Held-Out Selection",
+     "date": "2026-06-17",
+     "status": "new"
+    },
+    {
+     "id": "2608.18679",
+     "title": "FRAGMENT: Factorized Graph Representations for Document Generation and Editing via Entity-Aware Transformations",
+     "date": "2026-08-19",
+     "status": "new"
+    },
+    {
+     "id": "2608.27816",
+     "title": "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
+     "date": "2026-08-28",
+     "status": "new"
+    },
+    {
+     "id": "2606.03179",
+     "title": "HyperPatch: Sequential Knowledge Editing Under n-ary Structural Drift",
+     "date": "2026-06-02",
+     "status": "seen"
+    },
+    {
+     "id": "2607.19064",
+     "title": "Mage-Flow: An Efficient Native-Resolution Foundation Model for Image Generation and Editing",
+     "date": "2026-07-21",
+     "status": "new"
+    },
+    {
+     "id": "2609.36097",
+     "title": "Better Behavioral Prediction, More Faithful Model Ablations? Evidence from Sequential Choice",
+     "date": "2026-09-28",
+     "status": "new"
+    }
+   ]
+  },
+  {
+   "t": "2026-10-06T10:54:35",
+   "name": "kw_tokinit",
+   "hits": [
+    {
+     "id": "2608.03494",
+     "title": "Beyond Initialization Loss: A Systematic Study of Token Embedding Initialization Strategies for LLM Vocabulary Extension",
+     "date": "2026-08-04",
+     "status": "new"
+    },
+    {
+     "id": "2608.30315",
+     "title": "Context Staircase: Signature-Aligned Dynamics of Token Embeddings under Small Initialization",
+     "date": "2026-08-31",
+     "status": "new"
+    },
+    {
+     "id": "2604.02324",
+     "title": "Grounded Token Initialization for New Vocabulary in LMs for Generative Recommendation",
+     "date": "2026-04-02",
+     "status": "seen"
+    },
+    {
+     "id": "2609.25859",
+     "title": "BELXTR: Biomedical Entity Linking via Contextualized Token Retrieval",
+     "date": "2026-09-22",
+     "status": "new"
+    },
+    {
+     "id": "2608.07816",
+     "title": "Preserving Item Semantics for Free: Rethinking Token Initialization in LLM-Based Generative Recommendation",
+     "date": "2026-08-07",
+     "status": "new"
+    },
+    {
+     "id": "2608.16161",
+     "title": "Domain-Specific Text Embedding Models for Entity Resolution",
+     "date": "2026-08-17",
+     "status": "new"
+    },
+    {
+     "id": "2608.09322",
+     "title": "Diffusion Image Editing via Asynchronous Token Decoding",
+     "date": "2026-08-10",
+     "status": "new"
+    },
+    {
+     "id": "2608.18679",
+     "title": "FRAGMENT: Factorized Graph Representations for Document Generation and Editing via Entity-Aware Transformations",
+     "date": "2026-08-19",
+     "status": "new"
+    },
+    {
+     "id": "2608.07629",
+     "title": "Embedding Initialization for Unseen Low-resource Languages in Multilingual NMT: A Case Study on Limbum-English Translati",
+     "date": "2026-08-07",
+     "status": "new"
+    },
+    {
+     "id": "2605.06096",
+     "title": "Uncovering Entity Identity Confusion in Multimodal Knowledge Editing",
+     "date": "2026-05-07",
+     "status": "seen"
+    },
+    {
+     "id": "2608.15749",
+     "title": "ES3D: Embedding Semantics into 3D Space for Component-Aware Editing",
+     "date": "2026-08-16",
+     "status": "new"
+    },
+    {
+     "id": "2610.02331",
+     "title": "World Editing: Intervening on Executable Worlds at Increasing Depth",
+     "date": "2026-10-01",
+     "status": "new"
+    },
+    {
+     "id": "2606.13898",
+     "title": "HiLo-Token: Input-Adaptive High-Low Frequency Token Compression for Efficient Image Editing",
+     "date": "2026-06-11",
+     "status": "new"
+    },
+    {
+     "id": "2608.26809",
+     "title": "Thinking on Shots: Consistent Multi-Shot Video Editing with Agentic Reasoning",
+     "date": "2026-08-27",
+     "status": "new"
+    },
+    {
+     "id": "2606.05645",
+     "title": "Discrete-WAM: Unified Discrete Vision-Action Token Editing for World-Policy Learning",
+     "date": "2026-06-04",
+     "status": "new"
+    }
+   ]
+  },
+  {
+   "t": "2026-10-06T10:54:35",
+   "name": "oa_mtp",
+   "hits": [
+    {
+     "id": "10.18653/v1/2025.starsem-1.27",
+     "title": "Knowledge Editing Induces Underconfidence in Language Models",
+     "date": "2025-01-01",
+     "status": "new"
+    },
+    {
+     "id": "10.18653/v1/2024.emnlp-main.376",
+     "title": "Discovering Knowledge-Critical Subnetworks in Pretrained Language Models",
+     "date": "2024-01-01",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2511.14365",
+     "title": "The Tokenization Bottleneck: How Vocabulary Extension Improves Chemistry Representation Learning in Pretrained Language ",
+     "date": "2025-11-18",
+     "status": "new"
+    },
+    {
+     "id": "10.18653/v1/2024.acl-long.171",
+     "title": "Detoxifying Large Language Models via Knowledge Editing",
+     "date": "2024-01-01",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2401.01286",
+     "title": "A Comprehensive Study of Knowledge Editing for Large Language Models",
+     "date": "2024-01-02",
+     "status": "new"
+    },
+    {
+     "id": "10.18653/v1/2024.findings-emnlp.40",
+     "title": "Editing Conceptual Knowledge for Large Language Models",
+     "date": "2024-01-01",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2408.04381",
+     "title": "Understanding and Modeling Job Marketplace with Pretrained Language Models",
+     "date": "2024-08-08",
+     "status": "new"
+    },
+    {
+     "id": "10.1007/s10579-025-09858-9",
+     "title": "A comprehensive evaluation of semantic relation knowledge of pretrained language models and humans",
+     "date": "2025-07-24",
+     "status": "new"
+    },
+    {
+     "id": "10.18653/v1/2025.findings-acl.540",
+     "title": "Context-Robust Knowledge Editing for Language Models",
+     "date": "2025-01-01",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2403.06259",
+     "title": "Editing Conceptual Knowledge for Large Language Models",
+     "date": "2024-03-10",
+     "status": "new"
+    },
+    {
+     "id": "10.18653/v1/2024.acl-long.627",
+     "title": "Cross-Lingual Knowledge Editing in Large Language Models",
+     "date": "2024-01-01",
+     "status": "new"
+    },
+    {
+     "id": "10.18653/v1/2025.findings-naacl.168",
+     "title": "Language Modeling with Editable External Knowledge",
+     "date": "2025-01-01",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2406.11830",
+     "title": "Language Modeling with Editable External Knowledge",
+     "date": "2024-06-17",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2405.15349",
+     "title": "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
+     "date": "2024-05-24",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2412.20637",
+     "title": "Knowledge Editing for Large Language Model with Knowledge Neuronal Ensemble",
+     "date": "2024-12-30",
+     "status": "new"
+    }
+   ]
+  },
+  {
+   "t": "2026-10-06T10:54:35",
+   "name": "oa_untied",
+   "hits": [
+    {
+     "id": "10.48550/arxiv.2606.03695",
+     "title": "Don't Forget Your Embeddings: Robust Knowledge Erasure via Precise Editing of Embeddings",
+     "date": "2026-06-02",
+     "status": "new"
+    },
+    {
+     "id": "10.54033/stebook.978-65-83309-62-4_10",
+     "title": "THE UNTIED KNOT IN THE CLASSROOM: A HYBRID NEUROPSYCHOANALYTIC PERSPECTIVE ON EMOTIONAL REGULATION IN BORDERLINE PERSONA",
+     "date": "2026-01-01",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2408.00657",
+     "title": "Disentangling Dense Embeddings with Sparse Autoencoders",
+     "date": "2024-08-01",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2605.29459",
+     "title": "Kronecker Embeddings: Byte-Level Structured Token Representations for Parameter-Efficient Language Models",
+     "date": "2026-05-28",
+     "status": "new"
+    },
+    {
+     "id": "10.1017/9781009436007",
+     "title": "Vico and the Maker's Knowledge Tradition",
+     "date": "2025-06-27",
+     "status": "new"
+    },
+    {
+     "id": "10.1109/sp63933.2026.00258",
+     "title": "Hollow-LLM Attack: Computationally Trivial Weights in Zero-Knowledge Verification of LLM Inference",
+     "date": "2026-05-18",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2608.19534",
+     "title": "AEGIS: Attention-Embedding Gradient Isolation Shield - Triple-Channel Gradient Masking for Privacy-Preserving Federated ",
+     "date": "2026-08-20",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2609.32902",
+     "title": "Linger and Lose: Knowledge Collapse in Low-Bit Language Models",
+     "date": "2026-09-26",
+     "status": "new"
+    },
+    {
+     "id": "10.1525/elementa.2022.00150",
+     "title": "Meeting dietary health objectives through farming: A feminist review of biofortification and potential for genome editin",
+     "date": "2025-01-01",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2608.12419",
+     "title": "LoKiFormer: Locality-aware Attention with Decoupled Knowledge Memory for Efficient Large Language Model Pretraining",
+     "date": "2026-08-12",
+     "status": "new"
+    },
+    {
+     "id": "10.18485/ijdrm.2025.7.2.6",
+     "title": "Climate Smart Disaster Risk Reduction: Indigenous Knowledge Practiced for Agriculture Sector in Coastal Bangladesh",
+     "date": "2025-01-01",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2606.22019",
+     "title": "Channel Location Constrains the Auditability of Subliminal Learning",
+     "date": "2026-06-20",
+     "status": "new"
+    },
+    {
+     "id": "10.3390/languages9020044",
+     "title": "The Orientation of Evidentials in Attitude Contexts: A Case Study Based on Narratives in Paraguayan Guarani",
+     "date": "2024-01-26",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2404.12491",
+     "title": "GraphER: A Structure-aware Text-to-Graph Model for Entity and Relation Extraction",
+     "date": "2024-04-18",
+     "status": "new"
+    },
+    {
+     "id": "10.48550/arxiv.2609.01924",
+     "title": "Looped Transformers under the Jacobian Lens: Does the Global Workspace Survive Recurrence?",
+     "date": "2026-09-01",
+     "status": "new"
+    }
+   ]
+  },
+  {
+   "t": "2026-10-06T11:06:57",
+   "query": "EXIT-CHECK 3: embedding recency 2026-06+ (novel multi-token entity in-weight, held-out recall); keyword recency 2026-07+ (locate-then-edit multi-token)",
+   "hits": [
+    {
+     "id": "2610.05573",
+     "status": "new"
+    },
+    {
+     "id": "2609.36748",
+     "status": "seen"
+    },
+    {
+     "id": "2609.33759",
+     "status": "new"
+    },
+    {
+     "id": "2609.29269",
+     "status": "new"
+    },
+    {
+     "id": "2610.00232",
+     "status": "new"
+    },
+    {
+     "id": "2609.16532",
+     "status": "seen"
+    },
+    {
+     "id": "2609.12116",
+     "status": "new"
+    },
+    {
+     "id": "2609.08067",
+     "status": "new"
+    },
+    {
+     "id": "2610.06031",
+     "status": "new"
+    },
+    {
+     "id": "2609.23892",
+     "status": "seen"
+    }
+   ],
+   "note": "no new class; no new in-class method"
+  }
+ ]
+}

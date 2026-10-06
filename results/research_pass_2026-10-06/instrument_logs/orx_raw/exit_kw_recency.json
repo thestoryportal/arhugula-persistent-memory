@@ -1,0 +1,142 @@
+[
+  {
+    "source": "alphaxiv",
+    "id": "2609.38257",
+    "title": "How Should Diffusion Language Models Edit Code?",
+    "abstract": "Code editing requires a model to decide where to make changes, generate the new content, and preserve everything else. We study how masked diffusion language models divide these responsibilities across four editing interfaces: whole-file rewriting, search-and-replace, locate-then-infill, and token-level editing. Experiments on CanItEdit reveal a composition gap: diffusion models can generate coordinated changes when the correct edit locations are supplied, but much of this capability is lost when those locations must be predicted. Access to the intact original code helps the model fill multiple edit regions, yet does not resolve the difficulty of selecting those regions. By varying the editable regions while holding the generation model and decoding procedure fixed, we identify two distinct requirements for successful editing: covering every required change and placing precise boundaries around it. Missing a required region prevents the corresponding change, while widening regions to ensure coverage can sharply reduce success by requiring unchanged code to be regenerated. A sentence-level Wiki editing probe shows the same qualitative gap between supplied and predicted locations beyond code. These findings show why strong infilling capability alone does not ensure reliable editing: the interface must expose all required changes while limiting regeneration of unchanged code.",
+    "publicationDate": "2026-09-29T11:12:00.000Z",
+    "votes": 1
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.21268",
+    "title": "Edit-VAR: Taming Visual Autoregressive Model for Precise Video Editing",
+    "abstract": "Text-guided video editing modifies target content while preserving the appearance and temporal coherence of unedited regions. Training-based approaches provide strong control but demand substantial data and computation. Training-free methods fall into inversion-free and inversion-based paradigms. Inversion-free approaches avoid trajectory recovery, but their source-preserving guidance can limit editing strength and leave semantic changes incomplete. Inversion-based approaches recover a latent trajectory before regeneration, where approximation errors can accumulate and cause source-content drift and temporal inconsistency. We introduce Edit-VAR, the first training-free and inversion-free framework for text-guided video editing with a pretrained visual autoregressive video model. Edit-VAR directly encodes the source video into multi-scale discrete tokens and performs probability-guided conditional token replacement for source preservation. Attention-guided token-wise and scale-aware modulation selectively relaxes source constraints over edit-relevant positions and generation stages. Scale-Decoupled Generation, implemented as late-scale constraint release, regenerates motion-consistent details and reduces texture fragmentation. Residual-guided token pruning further exploits redundancy at the final two high-resolution scales to reduce inference cost. Extensive experiments and a blind user study demonstrate that Edit-VAR outperforms existing training-free video editing methods overall in editing fidelity, source preservation, temporal coherence, and inference efficiency.",
+    "publicationDate": "2026-09-18T03:26:19.000Z",
+    "votes": 7
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.06031",
+    "title": "LightMTP: Lightweight Latent Multi-Token Prediction",
+    "abstract": "Next-token prediction (NTP) is the standard pretraining objective for large language models, yet it provides an explicit training signal only for the immediate next token, which can lead models to exploit local patterns instead of capturing longer-range structure and ideas. Multi-token prediction (MTP) addresses this by training models to predict several future tokens. However, existing MTP methods often introduce a large number of new parameters with limited improvements in downstream performance. Latent MTP approaches address this efficiency issue by encoding future tokens into a vector representation. However, these approaches usually rely on external helper models for future token encoding. We propose LightMTP, a lightweight, i.e., parameter-efficient, latent MTP approach that bootstraps the future token representations from the model's own hidden states. Our two LightMTP variants extend supervision to more future tokens without requiring the additional computational overhead of conventional MTP nor the external supervision latent MTP normally relies on. LightMTP adds at most 1% extra parameters, retains better performance on general language modeling benchmarks, and achieves similar gains in planning, coding, and reasoning.",
+    "publicationDate": "2026-10-05T09:30:30.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "LIGHTMTP:\nLIGHTWEIGHT LATENT MULTI-TOKEN PREDICTION\nTamara Czinczoll Julie Kallini\nHasso Plattner Institute / University of Potsdam Stanford University\nPotsdam, Germany Stanford, USA\ntamara.czinczoll@..."
+      },
+      {
+        "pageNumber": 3,
+        "snippet": "...only a regression loss, avoiding any projection onto the vocabulary.\n3 LIGHTMTP: LIGHTWEIGHT LATENT MULTI-TOKEN PREDICTION\nWe now describe the architecture of LightMTP.\n3.1 LATENT PREDICTION HEAD AND ..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.33735",
+    "title": "Constrained Edit Fields for Training-Free Flow Editing",
+    "abstract": "Text-guided image editing aims to perform a desired edit while preserving source content unrelated to it. Pretrained rectified-flow models enable training-free editing of real images through modifications to their sampling trajectories. However, responses at locations unrelated to the desired edit can still accumulate along the editing trajectory and become visible in the final result. To overcome this, we propose Constrained Edit Fields (CEF), which assigns each spatial location a continuous edit responsibility that quantifies its relevance to the desired edit. CEF estimates edit responsibility directly from the source image when the relevant content is present. For edits whose target content is absent from the source, CEF first generates an unconstrained proposal to reveal its realized spatial support and then estimates responsibility from that proposal. At each editing step, CEF decomposes the base edit field into prompt-induced and trajectory-induced components, enabling edit responsibility to preserve instruction-relevant updates while suppressing unintended trajectory-induced changes. Evaluated on all 700 PIE-Bench examples, CEF achieves state-of-the-art Structure Distance, background LPIPS, and background MSE with both Stable Diffusion 3.5 Medium and FLUX, while retaining competitive instruction alignment. On Stable Diffusion 3.5 Medium, it reduces these metrics over the previous best results by 10.2%, 21.2%, and 48.0%, respectively.",
+    "publicationDate": "2026-09-27T16:37:43.000Z",
+    "votes": 2
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.23892",
+    "title": "Circuit-Diff: Factual Edit-based Intervention Method for Localizing Knowledge in Attribution Graphs",
+    "abstract": "Mechanistic interpretability defines features as the fundamental units of a neural network and circuits as the weighted subgraphs that carry out its computation. Because individual neurons are polysemantic, Cross-Layer Transcoders (CLTs) were introduced as a way to approximate a model's circuits by generating an attribution graph. The nodes of that graph, however, are unlabeled features: reading a graph means pruning it and then working out by hand what each surviving node means. To make CLTs easier to use for circuit discovery, we introduce Circuit-Diff, which intervenes on the model itself with a low-rank factual edit and takes the features whose role in the attribution graph changes under that edit as related to the edited knowledge. On the edits we examine, the flagged nodes are not only detectors of the object token: read off the CLT's released feature dashboards, they include features for the history, geography and associations surrounding the old and new objects. We formalize the method, measure how reliable a frozen CLT remains after a factual edit, test the selected nodes causally by patching them on up to 24 CounterFact edits, give a case study, and release an open-source implementation built on the circuit-tracer package, together with two further tools (multi-prompt aggregation and rule-based supernode labeling).",
+    "publicationDate": "2026-09-20T21:59:00.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.18745",
+    "title": "When Edit Flows are Edit Jumps: replicating Edit Flows and EvoFlows",
+    "abstract": "Antibody lead optimization calls for a small, bounded set of edits to an existing candidate: substitutions, but also insertions and deletions. Edit-based generative models are the only ones that allocate such an edit budget without fixing the edit positions, the edit count, or the output length in advance. However, the existing approaches Edit Flows and EvoFlows did not release code or complete training specifications. Here, we show that both methods follow the same underlying process -- edits firing one at a time, at learned rates, in continuous time -- the pure-jump case of generator matching over finite sequences. With EditJumps we introduce the first open implementation of this framework, with a single generalist antibody editor trained on 1.66M Observed Antibody Space homolog pairs to propose homolog-like variants of a seed sequence, editing unseen leads zero-shot, without the per-family retraining original approaches require. Replicating this system from scratch exposes why open code is essential for generative biology: reconciling published edit distributions required reverse-engineering an undocumented rate-scaling hyperparameter that dictates realized mutation counts. Moreover, we show that published evaluation metrics are highly sensitive to reference sample size, frequently flipping method rankings. We release our full codebase, automated test suite, and configurations at: this https URL",
+    "publicationDate": "2026-09-16T14:39:26.000Z",
+    "votes": 2
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.05696",
+    "title": "Substring Edit Correcting Codes and Optimal Single Burst-Deletion Correcting Codes",
+    "abstract": "A $k$-substring edit in a sequence first deletes a substring of length at most $k$, and then inserts a sequence of length at most $k$ at the same position. A code that can correct a $k$-substring edit is called a $k$-substring edit code. In this paper, we develop a new localization method and use it to construct a $q$-ary $k$-substring edit correcting code with $\\log n+8\\log\\log n+o(\\log\\log n)$ bits of redundancy for any fixed $q\\ge2$ and $k\\ge1$, where $n$ is the code length. For the binary alphabet, this improves upon the redundancy $\\log n+16k\\log\\log n+o(\\log\\log n)$ obtained by Li \\emph{et al}. When the deleted substring and the inserted sequence have different lengths, we further construct codes with redundancy $\\log n+O_{q,k}(1)$, which is optimal up to an additive constant. As corollaries, for all fixed $q\\ge2$ and $1\\le t\\le T$, we obtain $q$-ary $(\\le t)$-burst-deletion correcting codes and $(t,T)$-localized deletion correcting codes with redundancies $\\log n+O_{q,t}(1)$ and $\\log n+O_{q,T}(1)$, respectively. To the best of our knowledge, these are the first constructions attaining optimal redundancy up to an additive constant for these two deletion models over the full range of fixed parameters. For $(\\le t)$-burst-deletion correction with $t\\ge2$, such redundancy had previously been achieved only for $q=t=2$ by Levenshtein in 1967.",
+    "publicationDate": "2026-10-05T02:15:16.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.01710",
+    "title": "CoEvolve: Construct-to-Edit Visual Grounding with Bidirectional State Refinement",
+    "abstract": "Visual grounding localizes an object described by language with a bounding box. Most multimodal grounding models compress target identification, spatial reasoning, and boundary estimation into one terminal prediction. Free-form rationales make reasoning linguistically explicit but do not necessarily expose measurable, editable spatial states. Intermediate localization errors are therefore difficult to diagnose and correct, allowing incorrect region choices and imprecise boundaries to persist in the final box. We introduce CoEvolve, a construct-to-edit framework that separates grounding into explicit state construction and state editing. Region-Evolution Reinforcement (RER) organizes grounding analysis into a progressive semantic--spatial trajectory, with each reasoning step committing to an explicit candidate region. Bidirectional Denoising Refiner (BDR) treats the reasoning text as fixed semantic context and refines the trajectory's coordinate fields through bidirectional same-position reconstruction. Geometry- and behavior-level objectives provide target geometry and edit-preference signals for consolidating reliable candidates, preserving accurate inputs, or correcting toward annotations. Evaluations cover natural-image and remote-sensing grounding. With a 9B backbone, CoEvolve rivals models up to 241B parameters in grounding accuracy. Under controlled corruption, a single BDR pass improves mean box overlap by over 27 percentage points, demonstrating strong recovery from substantial localization errors. State-source comparisons further support the complementarity of explicit state construction and source-matched editing. The project is at this https URL.",
+    "publicationDate": "2026-10-01T13:54:05.000Z",
+    "votes": 6
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.36617",
+    "title": "Generating Edit-Inducing Questions for AI Research Manuscripts",
+    "abstract": "We study the ability of LLMs to generate edit-inducing questions whose answer will improve a paper draft. On a dataset of paired submission and camera-ready papers from ICLR and NeurIPS, we compare the helpfulness of questions from GPT models with or without full paper context to that of human reviewers. GPT produces more edit-inducing questions and its questions are associated with more extensive edits and cover a broader range of edited content compared to questions from reviewers. However, a much smaller percentage of the GPT questions are edit-inducing. Our analyses confirm that automated questions can be beneficial to authors and highlight an example task where proper attending to long context deteriorates reasoning model ability to produce helpful output.",
+    "publicationDate": "2026-09-29T03:29:57.000Z",
+    "votes": 1
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.24983",
+    "title": "onPanda: Efficient Annotation of On-Policy Alignment Data for LLMs and Agents via Token-Level Correction",
+    "abstract": "We present onPanda, an interactive tool for efficiently annotating LLM alignment data and agent trajectories. onPanda adopts token-level correction as its core interaction: while reading a model response, the annotator locates the first inappropriate token and either picks a substitute from the model's candidate tokens or types the correct text via free-form editing. The system then truncates everything after that position and continues generation from the corrected prefix, repeating this locate-correct-continue loop until a satisfactory response is obtained. This mechanism lets annotators precisely steer model outputs at low cost: a small controlled study suggests that onPanda reduces median annotation time by 52% over manual post-editing. Since the vast majority of tokens in the final response are generated by the model itself, the resulting data largely preserves the model's sampling distribution and is well suited for constructing on-policy SFT and preference data. Furthermore, the token-level corrections recorded during annotation provide fine-grained supervision with precise positions and naturally paired positive--negative samples. onPanda also connects to external tools and harnesses, enabling interactive trajectory annotation in realistic environments. In addition, we release Panda-CVL, a dataset annotated with onPanda, together with a benchmark for token-level correction.",
+    "publicationDate": "2026-09-21T17:56:53.000Z",
+    "votes": 21
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.01311",
+    "title": "Factor Three Approximation for Edit Distance",
+    "abstract": "We give randomized algorithms for $3$-approximate edit distance in $\\widetilde{\\mathcal{O}}(N^{11/6})$ time for unweighted edit distance and in $\\widetilde{\\mathcal{O}}(N^{40/21})$ time for arbitrary metric edit weights, where $N$ is the total input length.\nFor non-metric costs, we prove an unconditional $\\Omega(N^2)$ oracle-query lower bound for every approximation factor depending only on $N$, even for symmetric weights or weights satisfying the triangle inequality (but not both). Under the Orthogonal Vectors Hypothesis, we show a similar result for constant-size alphabets. This holds even for symmetric weights over a size-$3$ alphabet or triangle-inequality weights over a size-$2$ alphabet. In contrast, for symmetric weights over a binary alphabet we show an $\\widetilde{\\mathcal{O}}(N^{40/21})$-time $3$-approximation algorithm.",
+    "publicationDate": "2026-10-01T08:42:38.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.03400",
+    "title": "Beyond Entropy: Self-Diagnostic Multi-Role Token Optimization for Video Reasoning",
+    "abstract": "Reinforcement learning with verifiable rewards has substantially advanced multimodal reasoning, yet it remains fundamentally limited by ambiguous token-level credit assignment. While high-entropy token heuristics encourage possibility exploration, naively extending them to video reasoning tends to induce lengthy reasoning, as the model becomes overly reliant on high-entropy visual activations. Alternative approaches that rely on counterfactual-based visual token localization for credit assignment also tend to over-prioritize visual exploration at the expense of decisive reasoning cues for answer derivation, thereby exacerbating the interference from spurious visual nuances. Moreover, these methods employ static counterfactual strategies that fail to co-evolve with the policy during training. In this paper, we introduce DyCPO, a co-evolutionary framework that jointly optimizes reliable token selection and adaptive counterfactual intervention. It constructs a multi-role dependence metric to balance visual exploration and answer-relevance mining in token-wise contrastive learning, while suppressing exploration-only filler tokens and spurious visual noise. Rather than relying on static counterfactual priors, DyCPO dynamically derives counterfactual signals from the model's own successful and failed rollouts, enabling self-diagnostic analysis and co-evolution of the optimization objective with the policy. Extensive experiments on complex video reasoning and general video understanding benchmarks demonstrate consistent performance improvements, establishing DyCPO as a robust token-level credit assignment paradigm for multimodal reinforcement learning.",
+    "publicationDate": "2026-10-02T14:48:40.000Z",
+    "votes": 1
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.04361",
+    "title": "TRIM-ReID: Duplication-Aware Token Reduction and Modality-Aligned Interaction for Multi-Modal Object Re-Identification",
+    "abstract": "Multi-modal object re-identification exploits complementary RGB, near-infrared (NIR), and thermal-infrared (TIR) observations to retrieve target objects. However, existing methods commonly employ visual encoders optimized for global image-text alignment and select tokens using learned importance scores. Such designs fail to preserve fine-grained identity cues or explicitly account for token redundancy, resulting in underrepresented local evidence and duplicated tokens that lead to noisy and costly cross-modal interaction. To address this gap, we propose TRIM-ReID, a compact framework that unifies dense feature extraction, intra-modal token reduction, and inter-modal aligned interaction. Specifically, semantically rich and spatially coherent patch features are extracted by Dense Identity Representation (DIR), which leverages DINOv3 to preserve fine-grained identity information. We then introduce Token Diversity Mining (TDM) to identify complementary local evidence and construct compact modality-specific token sets by suppressing repetitive patches while preserving informative diversity. Retained tokens are subsequently fused by Modal Relational Interaction (MRI) to enable effective information exchange across modalities, while a triangular alignment loss explicitly regularizes their joint relationships to maintain cross-modal semantic consistency under independent token selection. Extensive experiments on RGBNT201, RGBNT100, and MSVR310 demonstrate that TRIM-ReID achieves state-of-the-art performance.",
+    "publicationDate": "2026-10-03T07:58:23.000Z",
+    "votes": 0
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.28956",
+    "title": "MoVISA: Multi-Token Reasoning for Video Object Segmentation",
+    "abstract": "Recent advances in video object segmentation with Multimodal Large Language Model (MLLM) reasoning have demonstrated the effectiveness of using a single textual token, such as SEG, to predict segmentation masks across images and videos. However, we observe that this single-token strategy lacks the granularity required to precisely localize multiple objects across time in video segmentation tasks. To address this limitation, we develop Multi-Token Reasoning for Video Object Segmentation, or MoVISA. MoVISA uses multiple segmentation tokens, such as SEG0 and SEG1, to represent an object across different frames. This design enables more fine-grained alignment between language prompts and spatio-temporal mask predictions, improving both performance and interpretability. On the challenging MeViS, DAVIS17, ReVOS, and Ref-Youtube-VOS benchmarks, our model achieves a 13.2 percent J and F improvement on MeViS and an 8.4 percent J and F improvement on ReVOS. Code and models will be released.",
+    "publicationDate": "2026-09-24T03:10:29.000Z",
+    "votes": 5,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "MoVISA: Multi-Token Reasoning for Video Object\nSegmentation\nAbstract\nRecent advances in video object segmentation with Multimodal Large Language\nModel (MLLM) reasoning have demonstrated the effectiven..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "...ion\nbottleneck in long-range tracking or cluttered scenes.\nTo alleviate this bottleneck, we present Multi-Token Reasoning for Video Object Segmentation\n(MoVISA). It introduces fine-grained, object-fra..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.39154",
+    "title": "DAGent: Evaluate-then-Grow Planning for Deep Research Agents",
+    "abstract": "Deep research tasks require agents to navigate large knowledge spaces, synthesize evidence across many sources, and adapt their plans as findings emerge. Directed acyclic graph (DAG)-based multi-agent systems suit this setting because they support parallel execution and isolate each sub-task within a focused dependency context. Yet existing DAG-based agents instantiate a task-level plan before execution and repair the graph only after failures or missing evidence are observed. This Plan-then-Patch strategy is brittle for deep research: the system commits most strongly when its evidence is weakest, and later revisions waste computation on branches that should not have been planned. We propose DAGent, a DAG-based multi-agent framework with Evaluate-then-Grow incremental planning: an Orchestrator grows the task graph one batch at a time, conditioning each expansion on confidence and uncertainty signals from completed nodes. A hierarchical context layer propagates compact QueryDocs by default while preserving full execution traces for on-demand recall. The recorded DAG topology admits structural RL signals that outcome-only recipes cannot define; DAGRPO, a GRPO adaptation, injects topology-conditioned credit on Executor rollouts and a structural compliance regularization on Orchestrator plans. Across BrowseComp-Plus, GAIA, and xbench-DeepSearch, DAGent surpasses the strongest open-source baseline by 5.3 / 5.8 / 2.0 points at the Qwen3-235B-A22B scale, and the lead replicates across four open-source backbones and extends to GPT-5 at 327K context. At the Qwen3-8B scale, DAGRPO improves over a same-budget outcome-only GRPO baseline by 3.0 average Pass@1 points. A same-architecture comparison shows that evidence-conditioned planning reaches higher accuracy at lower per-task token, tool-call, and step footprints than its Plan-then-Patch counterpart. Code: this https URL",
+    "publicationDate": "2026-09-30T07:19:01.000Z",
+    "votes": 2
+  }
+]

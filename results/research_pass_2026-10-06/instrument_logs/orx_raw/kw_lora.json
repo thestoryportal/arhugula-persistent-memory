@@ -1,0 +1,272 @@
+[
+  {
+    "source": "alphaxiv",
+    "id": "2607.19604",
+    "title": "Scaling Laws for Hypernetwork-Based Knowledge Injection in Large Language Models",
+    "abstract": "Injecting factual knowledge into large language models (LLMs) reliably and at scale remains an open challenge. Hypernetworks provide a promising solution to large-scale knowledge injection. Although hypernetworks are typically applied for test-time adaptation, we explore their use in train-time knowledge injection, where, given a large corpus of facts, we train a hypernetwork to generate a fixed LoRA adapter that, when inserted into the target model, enable the model to answer questions about those facts. In this work, we investigate whether hypernetworks can be used to perform train-time knowledge injection and how this ability varies with scale. The scaling behavior of hypernetworks remains largely unstudied. Our design decouples the hypernetwork's injection capacity from the target model's general capability, enabling, for the first time, a rigorous study of scaling laws for hypernetwork architectures. We characterize how loss, reasoning accuracy, and out-of-distribution (OOD) generalization vary with hypernetwork depth, width, and target network size. We construct a large-scale dataset, called MegaWikiQA, containing tens of millions of multi-hop question-answer examples across 39 domains constructed from examples in Wikidata5M. Our results reveal: (i) hypernetwork-based injection exhibits broadly predictive power law scaling along all architecture axes; and (ii) hypernetworks are capable of reliable OOD generalization at increasing scales, suggesting that hypernetwork provides a promising alternative to other train-time adaptation methods such as LoRA finetuning and full fine-tuning, exhibiting steeper scaling exponents in all OOD evaluations. Together, these results establish hypernetworks as a principled and scalable substrate for train-time adaptation, and provide the first empirically grounded scaling laws to guide hypernetworks for factual reasoning in large language models.",
+    "publicationDate": "2026-07-21T22:09:55.000Z",
+    "votes": 11,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...wledge injection, where, given a large corpus of facts,\nwe train a hypernetwork to generate a fixed LoRA adapter that, when inserted into\nthe target model, enable the model to answer questions about t..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Scaling Laws for HyperNetwork-Based Knowledge\nInjection in Large Language Models\nNischay Dhankhar\nNace AI\nnischay@nace.ai\nDos Baha\nNace AI\ndos@nace.ai\nAbulhair Saparov\nNace AI\nPurdue University\nasapar..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.21750",
+    "title": "FCPRAG: Fusion-Controller Parametric Retrieval-Augmented Generation for Stable Multi-Passage LoRA Injection",
+    "abstract": "Parametric retrieval-augmented generation (PRAG) injects retrieved evidence into a large language model (LLM) through passage-specific LoRA adapters, reducing reliance on long in-context prompts. When multiple passages are retrieved for the same query, however, evidence-level fusion becomes a bottleneck: equal-weight merging can amplify weak or conflicting evidence, and translating retrieval signals into fusion weights often requires fragile global tuning. We propose FCPRAG, a fusion-controlled parametric RAG framework that adds a lightweight controller for retrieval-conditioned, sample-level adapter fusion. The controller predicts per-passage fusion scores together with sample-level calibration signals, including a mixing gate and an adaptive temperature, enabling fusion that stays selective under informative retrieval signals and conservative under uncertainty. FCPRAG is trained with merge-aware supervision derived from each adapter's marginal contribution within a multi-adapter merge, using training data only. We further show that a single dataset-level temperature is suboptimal under heteroscedastic retrieval uncertainty, motivating sample-level adaptation. Experiments on HotpotQA, 2WikiMultiHopQA, PopQA, and ComplexWebQuestions (CWQ) across three LLM backbones show that FCPRAG consistently improves F1 over standard RAG and parametric RAG baselines, with gains of up to 4.65% on 2WikiMultiHopQA and 7.55% on CWQ, while also reducing tuning cost and improving robustness under retrieval perturbations.",
+    "publicationDate": "2026-08-22T03:13:50.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "FCPRAG: Fusion-Controller Parametric Retrieval-Augmented Generation\nfor Stable Multi-Passage LoRA Injection\nJinchang Zhu\n1\n, Jindong Li\n1\n, YI DING\n1\n, Nie Xiaojian\n1\n, Rong Fu\n2\n,\nShuangyong Song\n3\n,..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...tive under\ninformative retrieval signals and conservative\nunder uncertainty. FCPRAG is trained with\nmerge-aware supervision derived from each\nadapter’s marginal contribution within a multi-\nadapter me..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2603.01097",
+    "title": "Understanding LoRA as Knowledge Memory: An Empirical Analysis",
+    "abstract": "Continuous knowledge updating for pre-trained large language models (LLMs) is increasingly necessary yet remains challenging. Although inference-time methods like In-Context Learning (ICL) and Retrieval-Augmented Generation (RAG) are popular, they face constraints in context budgets, costs, and retrieval fragmentation. Departing from these context-dependent paradigms, this work investigates a parametric approach using Low-Rank Adaptation (LoRA) as a modular knowledge memory. Although few recent works examine this concept, the fundamental mechanics governing its capacity and composability remain largely unexplored. We bridge this gap through the first systematic empirical study mapping the design space of LoRA-based memory, ranging from characterizing storage capacity and optimizing internalization to scaling multi-module systems and evaluating long-context reasoning. Rather than proposing a single architecture, we provide practical guidance on the operational boundaries of LoRA memory. Overall, our findings position LoRA as the complementary axis of memory alongside RAG and ICL, offering distinct advantages.",
+    "publicationDate": "2026-03-01T13:28:57.000Z",
+    "votes": 277,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Understanding LoRA as Knowledge Memory: An Empirical Analysis\nSeungju Back \n* 1 \nDongwoo Lee \n* 1 \nNaun Kang \n2 \nTaehee Lee \n2 \nS. K. Hong \n2 \nYoungjune Gwon \n2 \nSungjin Ahn \n1 3\nAbstract\nContinuous k..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Understanding LoRA as Knowledge Memory: An Empirical Analysis\nSeungju Back \n* 1 \nDongwoo Lee \n* 1 \nNaun Kang \n2 \nTaehee Lee \n2 \nS. K. Hong \n2 \nYoungjune Gwon \n2 \nSungjin Ahn \n1 3\nAbstract\nContinuous k..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.00082",
+    "title": "KItCAT: Knowledge Injection via Input Corruption for Auto-regressive Training",
+    "abstract": "LLMs acquire vast amounts of knowledge during pre-training, but often lack the specialized knowledge needed to answer questions from niche sources such as manuals or technical documents unseen during pre-training. Continued pre-training (CPT) is widely used to inject such knowledge into model parameters. However, niche documents seldom repeat facts, making it difficult for CPT to robustly acquire such knowledge. Recent works address this by generating multiple paraphrases of the new knowledge, but paraphrasing is computationally expensive and typically requires powerful LLMs. In this work, we introduce KItCAT: Knowledge Injection via Corrupted Auto-regressive Training, a lightweight training strategy that reduces the need for paraphrasing in decoder-only LLMs. KItCAT augments standard next-token prediction by stochastically corrupting the input sequence. During training, a random subset of input tokens is replaced with other vocabulary tokens while the original next-token labels are kept unchanged. This simple intervention generates diverse training inputs from each sample, enabling large-scale data augmentation at negligible cost. We show that KItCAT consistently improves over CPT across multiple datasets and model families. Code is available at this https URL.",
+    "publicationDate": "2026-08-31T10:30:32.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "KItCAT: Knowledge Injection via Input Corruption for Auto-regressive\nTraining\nMeghanadh Pulivarthi\n* \nKushagra Bhushan\n* \nVineet Kumar\n† \nGaurav Pandey\nJaydeep Sen Dinesh Raghu Sachindra Joshi Yatin N..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "KItCAT: Knowledge Injection via Input Corruption for Auto-regressive\nTraining\nMeghanadh Pulivarthi\n* \nKushagra Bhushan\n* \nVineet Kumar\n† \nGaurav Pandey\nJaydeep Sen Dinesh Raghu Sachindra Joshi Yatin N..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.32332",
+    "title": "When the Merge Coefficient Stops Mattering: Proximity Regularized Merging for Continual LoRA Adaptation",
+    "abstract": "Rehearsal-free continual learning with parameter-efficient adapters can be cast as a sequence of task-vector write-in operations: for each new task, a low-rank adapter is learned and merged into a running model. We propose Proximity Regularized Merging (PRM), a minimal modification to sequential LoRA merging that adds a proximal penalty during task-vector training without changing the subsequent write-in rule. PRM acts as a robust task-vector regularizer: in the reported Base-&gt;+Prox diagnostics, it improves AAA across multiple write-in rules, backbones, and class-incremental settings, while its fixed-coefficient variant remains competitive with strong coefficient-based baselines. Mechanistically, matched-prefix norm controls and proximal-strength sweeps show that proximal training shrinks the task-vector radius, lowers Fisher-weighted interference, broadens the coefficient plateau, and exposes a stability-plasticity trade-off. Together, these results suggest that the effectiveness of sequential LoRA merging depends not only on how much of a task vector is written in, but also on whether the task vector itself has been trained to be mergeable.",
+    "publicationDate": "2026-09-26T07:50:00.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "When the Merge Coefficient Stops Mattering:\nProximity Regularized Merging for Continual LoRA\nAdaptation\nYixuan Liu\nSapient Intelligence\nTsinghua University\nYuhao Sun\nSapient Intelligence\nSen Song\n†\nTs..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "When the Merge Coefficient Stops Mattering:\nProximity Regularized Merging for Continual LoRA\nAdaptation\nYixuan Liu\nSapient Intelligence\nTsinghua University\nYuhao Sun\nSapient Intelligence\nSen Song\n†\nTs..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.01184",
+    "title": "SAFE-Merge: Data-Free Continual Model Merging with General Knowledge Preservation",
+    "abstract": "Data-free continual model merging must incorporate a stream of specialized models while retaining both pretrained general knowledge and previously acquired tasks, without access to task data. Existing methods mainly merge task updates by suppressing interference among downstream tasks; while this protects previously acquired tasks, it overlooks the safety of the pretrained knowledge itself, whose erosion degrades generalization to held-out distributions and weakens the foundation for future task acquisition. We propose SAFE-Merge, a simple data-free continual-merging framework that first decides which parameter updates are safe to retain, and then recovers the task information lost through masking. Specifically, to ensure safety, risk-aware sparse masking selects parameter updates that carry task-specific information while posing low risk to general knowledge. Masked low-rank recovery then compensates for the lost task information using only the same retained parameter updates, while leaving all masked-out parameters strictly unchanged. Finally, the combined update is fused into the backbone, incurring no additional inference cost. Across vision and language benchmarks, SAFE-Merge consistently achieves the best H-score. On longer CLIP task sequences, it substantially improves H-score over NUFILT while also achieving the highest accuracy.",
+    "publicationDate": "2026-08-02T12:09:37.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "SAFE-Merge: Data-Free Continual Model Merging with General Knowledge\nPreservation\nZihuan Qiu\n1†\n, Zhiyang Liao\n1†\n, Chiyuan He\n1\n, Yi Xu\n2\n,\nFanman Meng\n1*\n, Linfeng Xu\n1\n, Qingbo Wu\n1\n, Hongliang Li\n..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "SAFE-Merge: Data-Free Continual Model Merging with General Knowledge\nPreservation\nZihuan Qiu\n1†\n, Zhiyang Liao\n1†\n, Chiyuan He\n1\n, Yi Xu\n2\n,\nFanman Meng\n1*\n, Linfeng Xu\n1\n, Qingbo Wu\n1\n, Hongliang Li\n..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.21227",
+    "title": "Hallucination-R1: Robustness-Oriented Paraphrase Generation for Factual Consistency",
+    "abstract": "Factual hallucination is commonly defined by incorrect factual outputs. We study a paraphrase-induced hallucination setting, where a model answers a factual question correctly in its original form but generates an incorrect answer under a semantically equivalent paraphrase. Such inconsistencies expose latent factual instability under semantic invariance. However, general-purpose paraphrases are often insufficient as robustness-oriented supervision: near-copy paraphrases provide weak signals, while overly diverse paraphrases may break semantic equivalence. In this paper, we propose HALLUCINATION-R1, a robustness-oriented paraphrase generation framework that learns to produce semantically faithful yet robustness-challenging paraphrases for factual consistency. Through two-stage optimization, it first stabilizes meaning-preserving and diverse paraphrasing, then rewards paraphrases that reveal factual consistency degradation in downstream QA models. Experiments on SimpleQuestions, PopQA, and TruthfulQA show that HALLUCINATION-R1 achieves a strong consistency--diversity trade-off and exposes robustness failures across multiple model families and datasets. Further analyses indicate that these failures are not reducible to surface-level artifacts or semantic drift, but reveal non-trivial factual instability under meaning-preserving variation. A lightweight fine-tuning study also shows that HALLUCINATION-R1-generated data improves robust accuracy under paraphrase variations, suggesting its utility for robustness-oriented training. Our code and models are publicly available at this https URL.",
+    "publicationDate": "2026-09-18T02:16:54.000Z",
+    "votes": 4,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "... factual intent remains\nunchanged, such failures suggest that hallucination\nis not merely caused by knowledge absence, but\ncan also reflect unstable factual behavior, where the\nmodel’s internal prefer..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Hallucination-R1: Robustness-Oriented Paraphrase Generation for Factual\nConsistency\nWenhan Yu\n* \nWenxin Wu\n* \nHao Wang Lei Sha\n†\nBeihang University\nBeijing, 100191, China\nyuwenhan@buaa.edu.cn wwx20030..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.14243",
+    "title": "Decoupled Mixture-of-Experts for Parametric Knowledge Injection",
+    "abstract": "Knowledge injection aims to equip large language models (LLMs) with external, domain-specific, or time-sensitive knowledge. Existing approaches typically face a trade-off between flexibility and integration: retrieval-augmented generation keeps knowledge outside the model but only provides prompt-level augmentation, whereas post-training based methods encode new knowledge into shared parameters but may introduce catastrophic forgetting, knowledge conflict, and costly updates. In this paper, we propose Decoupled Mixture-of-Experts (DMoE), a modular architecture for parametric knowledge injection that decouples both experts and the router from the base model. DMoE converts external knowledge corpora into independently updatable expert modules and uses a lightweight uncertainty-aware router to activate relevant experts only when the base model lacks sufficient knowledge during generation. To support efficient auto-regressive inference, DMoE attaches experts only to the final-layer feed-forward network, preserving KV-cache reuse while enabling parameter-level knowledge augmentation. Experiments on knowledge-intensive benchmarks show that DMoE consistently improves answer quality over retrieval and adapter-based baselines.",
+    "publicationDate": "2026-06-12T08:21:28.000Z",
+    "votes": 12,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...Fine-Tuning (SFT) (Wang et al.,\n2022; Mishra et al., 2021) and parameter-efficient\nvariants such as LoRA (Hu et al., 2022), en-\n1\narXiv:2606.14243v1 [cs.CL] 12 Jun 2026"
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Decoupled Mixture-of-Experts for Parametric Knowledge Injection\nBaoqing Yue\n1,*\n, Weihang Su\n1,*\n, Qingyao Ai\n1\n, Yichen Tang\n1\n, Changyue Wang\n1\n,\nJiacheng Kang\n1\n, Jingtao Zhan\n1\n, Yiqun Liu\n1\n1\nDep..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.01630",
+    "title": "RING: Retrieval-Internalized Generation for Continual Large-Scale Knowledge Injection",
+    "abstract": "Retrieval-augmented generation (RAG) improves factuality but adds latency and engineering overhead at serving time. We propose RING (Retrieval-Internalized Generation), a holistic paradigm spanning both architecture and training that injects large-scale external knowledge into a \\textit{Mixture-of-Memory Experts} and learns parametric search over this internal memory via reinforcement learning, removing the external retriever entirely. Training proceeds in three stages: continued pre-training injects new corpora into a Knowledge Expert via our novel \\textit{Dual Causal Attention}; supervised fine-tuning teaches a ``search-then-answer'' pattern; and reinforcement learning with hierarchical rewards optimizes the routing-and-search policy over the parametric memory. Unlike prior parametric injection methods that pair internal memory with a fixed or rule-based retriever, RING {learns} its retrieval policy directly from task signals. We further frame RING theoretically as a search-free approximation to the classical RAG objective. To evaluate large-scale injection of genuinely {new} knowledge without test-time leakage, we further construct News-2025, a benchmark built from news strictly post-dating the base LLM's pretraining cutoff. RING matches or surpasses both search-based RAG and parametric injection baselines in accuracy and efficiency.",
+    "publicationDate": "2026-08-03T03:00:43.000Z",
+    "votes": 6,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "RIN G: Retrieval-Internalized Generation for Continual Large-Scale\nKnowledge Injection\nShicheng Xu\n1,2 \nLiang Pang\n1\n* \nLiyi Chen\n3 \nZihao Wei\n1,2 \nJingcheng Deng\n1,2\nYan Gao\n3 \nYi Wu\n3 \nYao Hu\n3 \nHua..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "RIN G: Retrieval-Internalized Generation for Continual Large-Scale\nKnowledge Injection\nShicheng Xu\n1,2 \nLiang Pang\n1\n* \nLiyi Chen\n3 \nZihao Wei\n1,2 \nJingcheng Deng\n1,2\nYan Gao\n3 \nYi Wu\n3 \nYao Hu\n3 \nHua..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.39390",
+    "title": "Decoupled and Distilled: Task-Adaptive LoRA-Teachers with Ensemble Knowledge Transfer for Few-Shot Class-Incremental Learning",
+    "abstract": "Few-Shot Class-Incremental Learning (FSCIL) addresses the challenge of learning new classes from very limited samples while retaining knowledge of previously learned ones. Although parameter-efficient fine-tuning methods with pre-trained models show promise for class-incremental learning, strict gradient-based constraints can be unreliable under severe data scarcity, while multi-expert approaches can impose substantial inference-time costs. We propose TALON (Task-Adaptive LoRA-Teachers with Ensemble Knowledge Transfer), an inference-efficient FSCIL framework. TALON dynamically allocates an independent LoRA-Teacher to each incremental task for task-specific representation learning, then distills multiple frozen teachers into a unified LoRA-Student through Ensemble Knowledge Transfer, eliminating runtime module selection or generation. A semantic-guided distillation strategy weights teacher contributions by feature-space similarity to mitigate catastrophic forgetting and overfitting. Across three class-order runs, TALON achieves comparable or better mean average accuracy across four FSCIL benchmarks, obtaining 86.68 +/- 1.22% on CUB200, 90.39 +/- 0.27% on CIFAR100, 78.38 +/- 0.94% on ImageNet-R, and 96.34 +/- 0.33% on miniImageNet. TALON uses up to 33x fewer deployment parameters and reduces average inference time per task to 26.7 s, a 41.70% reduction relative to ASP.",
+    "publicationDate": "2026-09-30T09:38:27.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Decoupled and Distilled: Task-Adaptive LoRA-Teachers\nwith Ensemble Knowledge Transfer for Few-Shot\nClass-Incremental Learning\nHongwei Zhao\na\n, Rui Liu\na\n, Yansong Liu\na\n, Zhiyuan Zou\na\n, Yong Chen\nb,∗..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Decoupled and Distilled: Task-Adaptive LoRA-Teachers\nwith Ensemble Knowledge Transfer for Few-Shot\nClass-Incremental Learning\nHongwei Zhao\na\n, Rui Liu\na\n, Yansong Liu\na\n, Zhiyuan Zou\na\n, Yong Chen\nb,∗..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.25243",
+    "title": "From Memorization to Absorption: Mixed-Policy RL for Continual Knowledge Injection",
+    "abstract": "Continual knowledge injection is essential for keeping large language models up-to-date in a fast-evolving world. Existing methods rely on supervised fine-tuning (SFT), which memorizes injected facts in their training format but fails to generalize across paraphrasing, document combinations, and reasoning. To address this, we propose Golden-GRPO Injection (GRIN), a three-stage self-learning framework for continual knowledge injection. Golden-GRPO is a mixed-policy reinforcement learning algorithm designed specifically for knowledge injection, which injects a golden answer to provide learning signal even when on-policy rollouts fail on novel facts. We further introduce Blank and Counter, two document-level benchmarks targeting novel acquisition and counterfactual overwrite respectively, each evaluating single-fact recall, multi-source retrieval, and inferential reasoning. Our experiments establish a clear empirical claim: mixed-policy reinforcement learning enables knowledge absorption beyond what supervised fine-tuning can achieve. GRIN substantially outperforms SFT and mixed-policy RL baselines on the harder question types while matching them on basic fact recall.",
+    "publicationDate": "2026-08-26T00:04:46.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "From Memorization to Absorption:\nMixed-Policy RL for Continual Knowledge Injection\nZhibo Hou\nUniversity of California, Merced\nzhou6@ucmerced.edu\nFan Zhao\nUniversity of California, Merced\nfanzhao@ucmer..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "From Memorization to Absorption:\nMixed-Policy RL for Continual Knowledge Injection\nZhibo Hou\nUniversity of California, Merced\nzhou6@ucmerced.edu\nFan Zhao\nUniversity of California, Merced\nfanzhao@ucmer..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.04239",
+    "title": "Conformal Prediction with Paraphrase-Aware Scoring for LLM Uncertainty Quantification",
+    "abstract": "Uncertainty quantification (UQ) for large language models (LLMs) aims to provide reliable measures of predictive confidence, yet current methods are often unstable under meaning-preserving perturbations. Semantically equivalent paraphrases can induce substantial variability in predictive confidence, even for methods with formal guarantees, such as conformal prediction. To address this issue, we propose a paraphrase-aware UQ framework robust to semantic rewordings. Our approach trains a lightweight proxy model on LLM hidden states and aggregates its predictions across paraphrases to construct label-wise nonconformity scores. Under score exchangeability, conformal calibration retains marginal coverage. This guarantee can also hold under test-only rewording, provided that the paraphrase pipeline satisfies an additional distributional alignment condition. We evaluate three settings (normal, fully reworded, and semi-reworded) which apply rewording to neither dataset, both calibration and test datasets, or only the test dataset, respectively. Across seven multiple-choice QA benchmarks and multiple model families, our method produces compact prediction sets with empirical coverage generally near the nominal target, even in the semi-reworded setting. Ablation studies show that the learned proxy accounts for most of the reduction in set size, while paraphrase-augmented training and inference-time aggregation improve stability under rewording. Code is available at this https URL.",
+    "publicationDate": "2026-10-03T03:01:22.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Conformal Prediction with Paraphrase-Aware Scoring\nfor LLM Uncertainty Quantification\nJiayi Xin\n∗\nUniversity of Pennsylvania\nEvan Qiang\nUniversity of Pennsylvania\nZihan Zhu\nUniversity of Pennsylvania\n..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "...design determines\nthe ranking of candidate labels.\n✓ \nP(Y\ntrue\n∈ \nĈ\nα\n(x)) ≥ 1 − α\nC \nOur approach: Paraphrase-aware score (PA Score)\nUser ques'on x\nWhat is the capital\nof France?\nExternal rewording\n(..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.22886",
+    "title": "Merge++: Universal Merge Refinement Through Data-Free Checkpoint Inversion",
+    "abstract": "Model merging consolidates fine-tuned experts into one multi-task model without retraining. All existing data-free methods approach this problem entirely in weight space. Restricted to arithmetic on parameters, these methods never observe how each expert behaves, a signal that only emerges through forward evaluation. Accessing this behavioral signal requires inputs to evaluate on, which the data-free setting prohibits. We propose Merge++, a post-hoc method that addresses this by inverting the expert checkpoints to synthesize task-representative images, then distilling expert knowledge into the merged model using those images. Merge++ requires no additional data beyond the checkpoints themselves. It applies universally across merging algorithms and operates as a complementary refinement stage independent of the underlying weight-space method. The method consistently improves merging algorithms ranging from simple task arithmetic to state-of-the-art spectral methods, with average gains of +2 to +8 points and up to +25.9 on individual configurations.",
+    "publicationDate": "2026-09-19T08:43:27.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Merge++: Universal Merge Refinement Through\nData-Free Checkpoint Inversion\nAditya Pola\nIIT Hyderabad\nVineeth N. Balasubramanian\nIIT Hyderabad\nMicrosoft Research, India\nAbstract\nModel merging consolida..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...y inverting the expert checkpoints to synthesize task-representative images, then\ndistilling expert knowledge into the merged model using those images. Merge++\nrequires no additional data beyond the c..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.36986",
+    "title": "CF-LoRA: Decoupled Factor Aggregation and Adaptation-Aware Client Clustering for Federated LoRA Fine-Tuning",
+    "abstract": "Federated LoRA fine-tuning enables parameter-efficient adaptation of pre-trained models without sharing private data, but suffers from two fundamental mismatches under heterogeneous client data: a structural aggregation mismatch caused by independently averaging LoRA factors, and a statistical collaboration mismatch caused by enforcing a single global adapter across divergent clients. To address these issues, we propose CF-LoRA, a clustered federated LoRA fine-tuning framework that combines decoupled factor aggregation with adaptation-aware client clustering. CF-LoRA first learns a globally shared $A$ factor while retaining personalized $B_i$ factors, then identifies clients with similar adaptation patterns based on the cosine similarity of their learned $B_i$ factors, and finally performs intra-cluster $B$-factor aggregation with a frozen $A$ factor. By decoupling LoRA factor aggregation, CF-LoRA preserves the low-rank structure and mitigates the structural aggregation mismatch, while adaptation-aware clustering promotes collaboration among clients with similar adaptation patterns and reduces negative transfer caused by statistical heterogeneity. Experiments on four language tasks and four vision datasets with RoBERTa and ViT show that CF-LoRA achieves the highest average accuracy in both modalities while communicating only one LoRA factor per optimization round.",
+    "publicationDate": "2026-09-29T08:18:30.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "CF-LoRA: Decoupled Factor Aggregation and Adaptation-Aware Client\nClustering for Federated LoRA Fine-Tuning\nMengjun Yi\n1,2\n, Langxing Yang\n1,2\n, Suhan Guo\n1,2\n, Furao Shen\n1,2∗\n, Jian Zhao\n3\n1\nState K..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "... objective and data distri-\nbution of client i, respectively. Forcing all clients to share a\nsingle LoRA adaptation can therefore cause negative transfer\nand slow convergence (Li et al. 2022). Convers..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.33125",
+    "title": "Train Together or Merge Later? Unifying VLA Experts via a Shared Action Interface",
+    "abstract": "Co-training offers a straightforward way to build a multi-task vision-language-action (VLA) policy, but can fall short of the performance achieved by training each task independently. The challenge is to retain these task-specific gains in a multi-task policy without joint post-training. Combining independently trained experts through model merging is a natural approach, yet strong individual experts do not necessarily yield a strong merged policy. We identify one source of this incompatibility: task-specific changes to the action interface, comprising action normalization and the action encoder and decoder. We propose PolicyWeave, combining merge-compatible post-training with context-guided sparse merging. During post-training, all experts retain the common base policy's action interface, while task adaptation is restricted to LoRA updates in the hidden layers of the action model. This makes the experts more compatible with existing model merging methods. However, merging all experts can still introduce interference from unrelated tasks at deployment. PolicyWeave scores each expert's LoRA updates using the initial visual-language context, determines the expert set through leave-one-layer-out ranking stability, and forms a sparse weighted merge of the selected updates that remains fixed for current task. We evaluate PolicyWeave with GR00T N1.5 on 18 RoboCasa365 tasks, using only 10% of the target-task demonstrations for supervised fine-tuning (SFT). Preserving the shared action interface raises the average success rate across four static merging methods from 17.0% to 52.8%. PolicyWeave achieves 64.7% success with these SFT experts and 74.1% after task-specific reinforcement learning (RL), compared with 60.7% for joint RL. Further evaluations on LIBERO-10 and an AgileX Piper arm support the deployment of independently learned skills in long-horizon and real-world manipulation.",
+    "publicationDate": "2026-09-27T02:47:55.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...ll experts retain the common base policy’s action interface,\nwhile task adaptation is restricted to LoRA updates in the hidden layers of the\naction model. This makes the experts more compatible with e..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "TRAIN TOGETHER OR MERGE LATER? UNIFYING\nVLA EXPERTS VIA A SHARED ACTION INTERFACE\nZhizhen Zhang\n1 \nYuxia Fu\n1 \nZijian Wang\n1 \nZi Huang\n1 \nYadan Luo\n1\n1\nUQMM Lab, The University of Queensland\n{zhizhen...."
+      }
+    ]
+  }
+]

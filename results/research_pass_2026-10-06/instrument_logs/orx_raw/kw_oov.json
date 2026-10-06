@@ -1,0 +1,272 @@
+[
+  {
+    "source": "alphaxiv",
+    "id": "2605.06096",
+    "title": "Uncovering Entity Identity Confusion in Multimodal Knowledge Editing",
+    "abstract": "Multimodal knowledge editing (MKE) aims to correct the internal knowledge of large vision-language models after deployment, yet the behavioral patterns of post-edit models remain underexplored. In this paper, we identify a systemic failure mode in edited models, termed Entity Identity Confusion (EIC): edited models exhibit an absurd behavior where text-only queries about the original entity's identity unexpectedly return information about the new entity. To rigorously investigate EIC, we construct EC-Bench, a diagnostic benchmark that directly probes how image-entity bindings shift before and after editing. Our analysis reveals that EIC stems from existing methods failing to distinguish between Image-Entity (I-E) binding and Entity-Entity (E-E) relational knowledge in the model, causing models to overfit E-E associations as a shortcut: the image is still perceived as the original entity, with the new entity's name serving only as a spurious identity label. We further explore potential mitigation strategies, showing that constraining edits to the model's I-E processing stage encourages edits to act more faithfully on I-E binding, thereby substantially reducing EIC. Based on these findings, we discuss principled desiderata for faithful MKE and provide methodological guidance for future research.",
+    "publicationDate": "2026-05-07T12:14:54.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Uncovering Entity Identity Confusion\nin Multimodal Knowledge Editing\nShu Wu\n1∗\n, Xiaotian Ye\n2∗\n, Xinyu Mou\n1,3∗\n, Dongsheng Liu\n1,4∗\n, Xiaohan Wang\n5\n, Mengqi Zhang\n6†\n1\nNew Laboratory of Pattern Rec..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Uncovering Entity Identity Confusion\nin Multimodal Knowledge Editing\nShu Wu\n1∗\n, Xiaotian Ye\n2∗\n, Xinyu Mou\n1,3∗\n, Dongsheng Liu\n1,4∗\n, Xiaohan Wang\n5\n, Mengqi Zhang\n6†\n1\nNew Laboratory of Pattern Rec..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.11660",
+    "title": "Hybrid-Policy Self-Editing for Composable Unstructured Knowledge Editing",
+    "abstract": "Large language models (LLMs) achieve remarkable performance across natural language tasks, yet they are trained on static corpora and their knowledge quickly becomes outdated in a fast-changing world. This motivates knowledge editing (KE), which updates specific knowledge in an LLM without changing unrelated others. Recent works move from structured knowledge triples toward unstructured KE (UKE), where the edit is a free-form passage that may state multiple facts at once. Nonetheless, existing editors inject such a passage yet fail to use it: the edited model can recall the passage, but can neither answer atomic questions about its facts nor compose them into multi-hop reasoning. We attribute this missing property, which we term composability, to editors' passive reliance on the fixed passage as the sole learning source. In response, we cast editing as a proactive self-distillation from a privileged in-context state of the same model, which requires no external supervision. We further reveal that due to the novelty of the injected knowledge, the pre-edited model's own rollouts rarely cover it, which limits the effectiveness of pure on-policy distillation. To close this gap, we propose HPSE, which builds a hybrid rollout that steps in to place missing facts onto the student's own trajectory precisely where its coverage fails, while staying on-policy elsewhere. We theoretically analyze HPSE's advantage over pure on-policy distillation, and empirically establish its plug-and-play improvements across four LLM backbones and two KE editors under various scenarios.",
+    "publicationDate": "2026-08-12T05:06:39.000Z",
+    "votes": 28,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Hybrid-Policy Self-Editing for Composable Unstructured\nKnowledge Editing\nTianci Liu\n1,3 \nZihan Dong\n2 \nTianchun Li\n3 \nYi-Chung Chen\n3 \nQiming Cao\n3 \nXingchen Wang\n3\nShiyang Wang\n3 \nZichen Miao\n3 \nLinj..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Hybrid-Policy Self-Editing for Composable Unstructured\nKnowledge Editing\nTianci Liu\n1,3 \nZihan Dong\n2 \nTianchun Li\n3 \nYi-Chung Chen\n3 \nQiming Cao\n3 \nXingchen Wang\n3\nShiyang Wang\n3 \nZichen Miao\n3 \nLinj..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.29269",
+    "title": "ALOE: Semantically Addressed Low-Rank Operators for Knowledge Editing",
+    "abstract": "Knowledge editing changes what a model knows by modifying parameters so that a requested fact updates while unrelated behavior is preserved. This is usually treated as a write problem, but editing also involves an address problem: deciding which hidden states should receive the new residual. An update that activates too narrowly memorizes one prompt, while one that activates too broadly disrupts neighboring knowledge. Parametric editors encode this scope implicitly, whereas memory-based editors make the selection explicit but keep it outside the edited model. We propose ALOE (Addressed Low-rank Operator for Editing), which learns semantic addresses from paraphrases and hard same-subject negatives, aligns them with autoregressive hidden states through rollout refinement and gate calibration, and embeds the resulting gated low-rank operator within one MLP layer, so that the deployed model runs in a single forward pass with no external retriever or auxiliary router. Evaluated on CounterFact, ZSRE, and KnowEdit across three 7--8B model families, ALOE achieves efficacy between 0.955 and 0.999 and locality between 0.981 and 1.000; mechanistic analyses confirm that the learned geometry separates competing edits and that calibration suppresses out-of-scope activation. The remaining errors concentrate in paraphrase coverage and write fitting.",
+    "publicationDate": "2026-09-24T09:08:49.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "ALOE: SEMANTICALLY ADDRESSED LOW-RANK OPERATORS FOR KNOWLEDGE\nEDITING\nZeyan Li\n1\n, Hu Xu\n1\n, Jianfeng Xu\n1∗\n1 \nShanghai Jiao Tong University\nABSTRACT\nKnowledge editing changes what a model knows by mo..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "ALOE: SEMANTICALLY ADDRESSED LOW-RANK OPERATORS FOR KNOWLEDGE\nEDITING\nZeyan Li\n1\n, Hu Xu\n1\n, Jianfeng Xu\n1∗\n1 \nShanghai Jiao Tong University\nABSTRACT\nKnowledge editing changes what a model knows by mo..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.25100",
+    "title": "Towards Reliable, Generalizable, and Specific In-Context Knowledge Editing via Multi-Objective Reinforcement Learning",
+    "abstract": "Large Language Models (LLMs) are powerful but limited by static parametric knowledge that becomes outdated once pretraining ends. Knowledge editing addresses this problem by updating model behavior on target facts without full retraining. In particular, in-context knowledge editing has gained attention because it is training-free and readily applicable to black-box LLMs. Recent reinforcement learning (RL)-based approaches improve over fixed retrieval strategies by adapting prompt construction to the quantity-quality trade-off. Despite initial success, they fail to model the prompt as a structured entity under the distinct and often competing objectives of reliability, generality, and specificity. Previous methods largely optimize a single objective and make decisions over only part of the prompt construction process, thereby overlooking both the balance of different objectives and the global organization of demonstrations. We propose Multi-Objective In-context Knowledge Editing (MO-IKE), a multi-objective RL algorithm that formulates prompt construction for in-context knowledge editing as a Constrained Markov Decision Process. MO-IKE trains a dynamic retriever to optimize competing objectives in knowledge editing, enabling more balanced and globally coherent prompt construction. On Llama-3.2, MO-IKE improves edit success (reliability) from 85.0% to 92.0%, paraphrase consistency (generality) from 77% to 79%, while increasing retention rate (specificity) by 23.0% compared to prior RL-based methods.",
+    "publicationDate": "2026-08-25T19:50:47.000Z",
+    "votes": 4,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Towards Reliable, Generalizable, and Specific In-Context Knowledge\nEditing via Multi-Objective Reinforcement Learning\nXuzhong Wang\n1\n, Maiqi Jiang\n1\n, Tejal Nair\n1\n, Girija Bhusal\n2\n, Yanfu Zhang\n1\n, ..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Towards Reliable, Generalizable, and Specific In-Context Knowledge\nEditing via Multi-Objective Reinforcement Learning\nXuzhong Wang\n1\n, Maiqi Jiang\n1\n, Tejal Nair\n1\n, Girija Bhusal\n2\n, Yanfu Zhang\n1\n, ..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.16251",
+    "title": "SCOUT: Semantic Concept Discovery for Open-Vocabulary Editing of face Recognition Templates",
+    "abstract": "Face recognition templates are compact identity representations, yet they also encode rich semantic information about facial appearance. Prior work has shown that templates can be inverted to images or indirectly manipulated through image-editing pipelines, but direct semantic editing in template space remains largely unexplored. Existing interpretability methods for face recognition often rely on manual neuron inspection or predefined attribute labels, limiting scalability and semantic flexibility. To address this gap, we propose SCOUT (Semantic Concept Discovery for Open-VocabUlary Editing of Face Recognition Templates), an end-to-end framework for discovering and directly manipulating semantic concepts in face recognition templates using mechanistic interpretability. SCOUT learns sparse template representations, generates semantic hypotheses for latent features from natural-language descriptions, and validates their stability. The resulting features act as controllable semantic directions for direct editing, avoiding costly edit--re-encode pipelines. Experiments with face recognition models using CNN, ViT, and Swin backbones show that SCOUT discovers interpretable concepts beyond standard attribute labels and enables controllable, identity-aware template manipulation with negligible impact on identity matching. We further show that edited templates can subsequently be decoded with independent inversion models for visualization and evaluation.",
+    "publicationDate": "2026-08-17T08:25:07.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...itomir.Struc@fe.uni-lj.si Klemen.Grm@fe.uni-lj.si\nAbstract\nFace recognition templates are compact identity repre-\nsentations, yet they also encode rich semantic information\nabout facial appearance. Pr..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "SCOUT: Semantic Concept Discovery for Open-Vocabulary Editing of Face\nRecognition Templates\nLeon Todorov\n1 \nPeter Rot\n1 \nPeter Peer\n2 \nVitomir ˇStruc\n1 \nKlemen Grm\n1\nUniversity of Ljubljana: \n1\nFacult..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.10668",
+    "title": "FITTER: Vocabulary-Agnostic Cross-Domain Inference on Temporal Knowledge Graphs",
+    "abstract": "Temporal knowledge graphs are central to many uses of the Semantic Web, but existing completion methods assume the entities, relation names, and timestamps to be reasoned about are already known at training time, restricting each model to a single graph and vocabulary. We propose FITTER, the first fully-inductive structural model for temporal knowledge graph link prediction that supports cross-domain transfer: the inference graph may contain entirely unseen entities, relation names, and timestamps drawn from a different domain. FITTER represents each predicate by its interaction patterns with others and time through encodings of relative rather than absolute ordering; message-passing fuses local and global temporal context to produce vocabulary-agnostic embeddings. We prove the temporal encoding is time-shift invariant and evaluate FITTER on cross-domain, cross-graph transfer over six temporal knowledge graph benchmarks of diverse domains, granularities, and time spans. FITTER consistently outperforms inductive baselines without retraining, indicating that vocabulary-agnostic structural learning is a viable foundation for inference over the heterogeneous knowledge graphs of the Semantic Web.",
+    "publicationDate": "2026-08-11T08:47:58.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "FITTER: Vocabulary-Agnostic Cross-Domain\nInference on Temporal Knowledge Graphs\nJiaxin Pan\n1\n, Mojtaba Nayyeri\n2\n, Osama Mohammed\n1\n, Daniel Hernández\n1\n,\nRongchuan Zhang\n1\n, Cheng Cheng\n1\n, and Steff..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "2 J. Pan et al.\n(s, p, o, τ ), where s, p, o, and τ denote the subject entity, predicate, object en-\ntity, and timestamp. Reasoning over such quadruples supports a wide range of\ndownstream tasks inclu..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.27839",
+    "title": "KLOD: Locality-Preserving Knowledge Editing via Non-Target Distribution Preservation",
+    "abstract": "Fine-tuning-based knowledge editing is simple and architecture-agnostic, but standard cross-entropy increases the edited target probability without explicitly constraining changes in the non-target output distribution. In sequential editing, such unconstrained redistribution can accumulate as distributional drift and contribute to locality degradation. We propose KLOD, a bounded and distribution-preserving objective for fine-tuning-based knowledge editing that separates the intended target update from distributions that should remain stable. KLOD stops target amplification once a probability threshold is reached, while preserving the target-excluded non-target distribution at target positions and the full next-token distribution at prefix positions. Experiments on CounterFact and ZsRE with Llama3-8B-Instruct and Qwen2.5-7B-Instruct show that KLOD substantially mitigates locality degradation while maintaining high edit reliability. The target probability threshold further provides a controllable Generalization--Locality trade-off. Ablation, multi-seed, and distributional KL analyses support the interpretation that KLOD's locality gains are associated with preserving output distributions rather than simply weakening the edit. Code is available on GitHub this https URL .",
+    "publicationDate": "2026-08-28T02:16:24.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "KLOD: Locality-Preserving Knowledge Editing via Non-Target\nDistribution Preservation\nHojun Jeong\n* \nGyunyeop Kim\n* \nSangwoo Kang\n†\nDepartment of Computing, Gachon University\n{wjdghwns12, gyop817, swka..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "KLOD: Locality-Preserving Knowledge Editing via Non-Target\nDistribution Preservation\nHojun Jeong\n* \nGyunyeop Kim\n* \nSangwoo Kang\n†\nDepartment of Computing, Gachon University\n{wjdghwns12, gyop817, swka..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.22627",
+    "title": "Orthogonal Representation Editing: Decoupling Semantic Entanglement in Batch Knowledge Editing of LLMs",
+    "abstract": "Knowledge editing aims to efficiently update factual information in Large Language Models (LLMs) without full retraining. However, existing methods still suffer from performance degradation in batch knowledge editing. We identify that semantic representation entanglement, such as overlapping concepts and shared syntactic patterns, accumulates interference in the representation space and reduces editing precision. To bridge this gap, in this paper, we propose Orthogonal Representation Editing (ORE), which performs edits in the hidden representation space of LLMs by constructing a general semantic subspace and enforcing orthogonal constraints on edit vectors, effectively decoupling semantic entanglement. Furthermore, we introduce a gated non-linear representation head to enable adaptive learning of editing locations and precise control over knowledge injection. Extensive experiments show that ORE outperforms existing methods and achieves superior performance in cross-lingual knowledge editing scenarios. We release our code at this https URL.",
+    "publicationDate": "2026-06-21T18:29:40.000Z",
+    "votes": 4,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Orthogonal Representation Editing: Decoupling Semantic Entanglement\nin Batch Knowledge Editing of LLMs\nWenhao Yu\n1,2\n, Zhicong Lu\n3\n, Bo Lv\n4\n, Fangyin Ma\n1\n, Kaiwen Wei\n5\n, Shihao Yang\n1\n, Nayu Liu\n1..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Orthogonal Representation Editing: Decoupling Semantic Entanglement\nin Batch Knowledge Editing of LLMs\nWenhao Yu\n1,2\n, Zhicong Lu\n3\n, Bo Lv\n4\n, Fangyin Ma\n1\n, Kaiwen Wei\n5\n, Shihao Yang\n1\n, Nayu Liu\n1..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.10554",
+    "title": "Benchmarking Knowledge Editing using Logical Rules",
+    "abstract": "Large Language Models (LLMs) are increasingly deployed in real-world applications that require access to up-to-date knowledge. However, retraining LLMs is computationally expensive. Therefore, knowledge editing techniques are crucial for maintaining current information and correcting erroneous assertions within pre-trained models. Current benchmarks for knowledge editing primarily focus on recalling edited facts, often neglecting their logical consequences. To address this limitation, we introduce a new benchmark designed to evaluate how knowledge editing methods handle the logical consequences of a single fact edit. Our benchmark extracts relevant logical rules from a knowledge graph for a given edit. Then, it generates multi-hop questions based on these rules to assess the impact on logical consequences. Our findings indicate that while existing knowledge editing approaches can accurately insert direct assertions into LLMs, they frequently fail to inject entailed knowledge. Specifically, experiments with popular methods like ROME and FT reveal a substantial performance gap, up to 24%, between evaluations on directly edited knowledge and on entailed knowledge. This highlights the critical need for semantics-aware evaluation frameworks in knowledge editing.",
+    "publicationDate": "2026-06-09T08:21:56.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Benchmarking Knowledge Editing using Logical\nRules\nTatiana Moteu Ngoli, N’Dah Jean Kouagou, Hamada M. Zahera, and\nAxel-Cyrille Ngonga Ngomo\nData Science Group, Heinz Nixdorf Institute, Paderborn Unive..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Benchmarking Knowledge Editing using Logical\nRules\nTatiana Moteu Ngoli, N’Dah Jean Kouagou, Hamada M. Zahera, and\nAxel-Cyrille Ngonga Ngomo\nData Science Group, Heinz Nixdorf Institute, Paderborn Unive..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2607.01000",
+    "title": "KnowledgeDebugger -- an Exploration Tool for Knowledge Localization and Editing in Transformers",
+    "abstract": "Recent research has increasingly focused on understanding how Transformers store and process knowledge, as well as how this knowledge can be edited. Research work in this area is often conducted in two phases: first, phenomena are explored on individual samples. Then, when results appear promising, more statistically robust experiments follow. To support the first phase, we propose KnowledgeDebugger, a GUI-based exploration tool for knowledge localization and editing in Transformers. Our tool - inspired by LM-Debugger - offers no-code access to the methods in EasyEdit, a widely used library of state-of-the-art Knowledge Editing approaches. We demonstrate the tool's effectiveness through case studies of recent findings in this field.",
+    "publicationDate": "2026-07-01T14:35:55.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "KNOWLEDGEDEBUGGER – an Exploration Tool for Knowledge\nLocalization and Editing in Transformers\nEric Benz and Lennart Stöpler and Nikolai Bolik and Artur Andrzejak\nHeidelberg University\n{eric.benz, len..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "KNOWLEDGEDEBUGGER – an Exploration Tool for Knowledge\nLocalization and Editing in Transformers\nEric Benz and Lennart Stöpler and Nikolai Bolik and Artur Andrzejak\nHeidelberg University\n{eric.benz, len..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2605.14842",
+    "title": "Editor's Choice: Evaluating Abstract Intent in Image Editing through Atomic Entity Analysis",
+    "abstract": "Humans naturally communicate through abstract concepts like \"mood\". However, current image editing benchmarks focus primarily on explicit, literal commands, leaving abstract instructions largely underexplored. In this work, we first formalize the definition and taxonomy of abstract image editing. To measure instruction-following in this challenging domain, we introduce Entity-Rubrics, a framework that breaks down abstract edits into individual, entity-level assessments and achieves strong correlation with human judgment. Alongside this framework, we contribute AbstractEdit, the first benchmark dedicated to abstract image editing across diverse real-world scenes. Evaluating 11 leading models on this dataset reveals a fundamental challenge: standard architectures struggle to balance intent and preservation, commonly defaulting to under-editing or over-editing. Our analysis demonstrates that driving meaningful improvements relies heavily on integrating advanced LLM text encoders and iterative thinking. Looking forward, our entity-based paradigm can generalize beyond assessment to serve as a reward model, enable models to correctly interpret abstract communication, or highlight specific failures in test-time critique loops. Ultimately, we hope this work serves as a stepping stone toward seamless multimodal interaction, closing the gap between rigid machine execution and the natural, open-ended way humans communicate.",
+    "publicationDate": "2026-05-14T13:46:24.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Editor’s Choice: Evaluating Abstract Intent in Image\nEditing through Atomic Entity Analysis\nMor Ventura\n1,2∗ \nRoy Hirsch\n2 \nYonatan Bitton\n2\nRegev Cohen\n2 \nRoi Reichart\n1\n1\nTechnion – Israel Institute..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Editor’s Choice: Evaluating Abstract Intent in Image\nEditing through Atomic Entity Analysis\nMor Ventura\n1,2∗ \nRoy Hirsch\n2 \nYonatan Bitton\n2\nRegev Cohen\n2 \nRoi Reichart\n1\n1\nTechnion – Israel Institute..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2605.10146",
+    "title": "Benchmarking Safety Risks of Knowledge-Intensive Reasoning under Malicious Knowledge Editing",
+    "abstract": "Large language models (LLMs) increasingly rely on knowledge editing to support knowledge-intensive reasoning, but this flexibility also introduces critical safety risks: adversaries can inject malicious or misleading knowledge that corrupts downstream reasoning and leads to harmful outcomes. Existing knowledge editing benchmarks primarily focus on editing efficacy and lack a unified framework for systematically evaluating the safety implications of edited knowledge on reasoning behavior. To address this gap, we present EditRisk-Bench, a benchmark for systematically evaluating safety risks of knowledge-intensive reasoning under malicious knowledge editing. Unlike prior benchmarks that mainly emphasize edit success, generalization, and locality, EditRisk-Bench focuses on how injected knowledge affects downstream reasoning behavior and reliability. It integrates diverse malicious scenarios, including misinformation, bias, and safety violations, together with multi-level knowledge-intensive reasoning tasks and representative editing strategies within a unified evaluation framework measuring attack effectiveness, reasoning correctness, and side effects. Extensive experiments on both open-source and closed-source LLMs show that malicious knowledge editing can reliably induce incorrect or unsafe reasoning while largely preserving general capabilities, making such risks difficult to detect. We further identify several key factors influencing these risks, including edit scale, knowledge characteristics, and reasoning complexity. EditRisk-Bench provides an extensible testbed for understanding and mitigating safety risks in knowledge editing for LLMs.",
+    "publicationDate": "2026-05-11T07:54:05.000Z",
+    "votes": 4,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "EditRisk-Bench: Benchmarking Safety Risks of\nKnowledge-Intensive Reasoning under Malicious\nKnowledge Editing\nQinghua Mao Xi Lin\n† \nJinze Gu Jun Wu Siyuan Li Yuliang Chen\nSchool of Computer Science\nSha..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...ditRisk-Bench: Benchmarking Safety Risks of\nKnowledge-Intensive Reasoning under Malicious\nKnowledge Editing\nQinghua Mao Xi Lin\n† \nJinze Gu Jun Wu Siyuan Li Yuliang Chen\nSchool of Computer Science\nShan..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2605.28303",
+    "title": "From Fact Overwriting to Knowledge Evolution: Causal Editing via On-Policy Self-Distillation",
+    "abstract": "While Knowledge Editing (KE) enables efficient updates, its dominant Static Fact Overwriting paradigm treats LLMs as discrete databases, forcibly injecting isolated facts. Fracturing pre-trained logical topologies, this triggers Epistemic Dissonance -- a pathology where un-evolved legacy priors force the model to explicitly negate the injected update. Idealized interventions reveal that this is an inherent structural flaw rather than mere algorithmic noise, with a zero-distortion proxy yielding a catastrophic 95.6% self-refutation rate. Given the causally driven nature of real-world knowledge, grounding updates in explicit causal narratives effectively collapses this conflict rate to just 6.6%, underscoring the imperative for a paradigm shift toward Causal Editing. To internalize this evolution, we propose CODE (Causal On-policy Distillation for Editing). By coupling causal bootstrapping with asymmetric on-policy distillation, CODE engraves causal transition logic directly into parametric memory. Experiments on LLaMA-3.1 and Qwen-2.5 show CODE drastically suppresses self-refutation to 1.8% while securing robust multi-hop accuracy (up to 83.5%), seamlessly transforming discrete fact injection into coherent knowledge evolution. Code is available at this https URL.",
+    "publicationDate": "2026-05-27T10:59:54.000Z",
+    "votes": 10,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "From Fact Overwriting to Knowledge Evolution: Causal Editing via\nOn-Policy Self-Distillation\nShuaike Li, Kai Zhang, Xianquan Wang, Jiachen Liu, Shengpeng Mo\nState Key Laboratory of Cognitive Intellige..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "From Fact Overwriting to Knowledge Evolution: Causal Editing via\nOn-Policy Self-Distillation\nShuaike Li, Kai Zhang, Xianquan Wang, Jiachen Liu, Shengpeng Mo\nState Key Laboratory of Cognitive Intellige..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2605.15523",
+    "title": "Self-Prompting Diffusion Transformer for Open-Vocabulary Scene Text Editing via In-Context Learning",
+    "abstract": "Scene text editing aims to modify text in a target region of an image while preserving surrounding background style and texture. Existing methods rely solely on image background information while neglecting the visual details of target regions, which discards stylistic features in the original text and essentially degrades the task to text rendering. Moreover, the conditions imposed by pre-trained glyph encoder limit the scope of editable text. To address these issues, this paper proposes a self-prompting scene text editing method that constructs style and glyph prompts directly from the original image, without introducing additional style or glyph encoders. We employ a two-stage training strategy: the diffusion transformer is first trained on large-scale self-supervised data and then refined using a small set of paired images. By leveraging the in-context learning capability of the Multi-Modal Diffusion Transformer (MM-DiT), it achieves open-vocabulary and style-consistent text editing. Experimental results on various languages demonstrate that our method achieves the state-of-the-art performance in both text accuracy and style consistency. Our project page: this http URL.",
+    "publicationDate": "2026-05-15T01:44:17.000Z",
+    "votes": 6,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Self-Prompting Diffusion Transformer for Open-Vocabulary\nScene Text Editing via In-Context Learning\nHongxi Li \n1 2 \nTong Wang \n1 \nChengjing Wu \n1 \nTianbao Liu \n1 \nJiangtao Yao \n1 \nXiaochao Qu \n1 \nXinx..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "Self-Prompting Diffusion Transformer for Open-Vocabulary Scene Text Editing via In-Context Learning\nas OCR systems are inherently designed as classifiers, their\nfixed vocabularies fundamentally limit ..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2604.19089",
+    "title": "Towards Scalable Lifelong Knowledge Editing with Selective Knowledge Suppression",
+    "abstract": "Large language models (LLMs) require frequent knowledge updates to reflect changing facts and mitigate hallucinations. To meet this demand, lifelong knowledge editing has emerged as a continual approach to modify specific pieces of knowledge without retraining the entire model. Existing parameter editing methods struggle with stability during sequential edits due to catastrophic forgetting. While retrieval-based approaches are proposed to alleviate this issue, their applicability remains limited across various datasets because of high training costs. To address these limitations and enhance scalability in lifelong settings, we propose LightEdit. Our framework first selects relevant knowledge from retrieved information to modify the query effectively. It then incorporates a decoding strategy to suppress the model's original knowledge probabilities, thereby enabling efficient edits based on the selected information. Extensive experiments on ZSRE, Counterfact, and RIPE benchmarks demonstrate that LightEdit outperforms existing lifelong knowledge editing methods. Furthermore, by minimizing training costs, LightEdit achieves cost-effective scalability, enabling easy adaptation to various datasets.",
+    "publicationDate": "2026-04-21T05:02:29.000Z",
+    "votes": 5,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Towards Scalable Lifelong Knowledge Editing with Selective Knowledge\nSuppression\nDahyun Jung Jaewook Lee Heuiseok Lim\n*\nDepartment of Computer Science and Engineering, Korea University\n{dhaabb55,jaewo..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Towards Scalable Lifelong Knowledge Editing with Selective Knowledge\nSuppression\nDahyun Jung Jaewook Lee Heuiseok Lim\n*\nDepartment of Computer Science and Engineering, Korea University\n{dhaabb55,jaewo..."
+      }
+    ]
+  }
+]

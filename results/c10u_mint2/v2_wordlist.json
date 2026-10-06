@@ -1,0 +1,1020 @@
+{
+  "decision_id": "D-C10u-mint2",
+  "prereg": "docs/C10U_MINT2_PREREG.md",
+  "kind": "word-list pre-screen; base tokenizer only, no model",
+  "timestamp": "2026-10-06T15:06:51.685984-06:00",
+  "tokenizer": {
+    "id": "Qwen/Qwen2.5-3B",
+    "revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
+  },
+  "rules": {
+    "head_form": "alphabetic, capitalised, lowercase after the first letter",
+    "inventory": "every word (letters only, case-insensitive) of: FICTION (24), FRAME_SUBJECTS (6), every country and capital of both g6 screens, coined_head (24), coined_mod (24), CANON/PTEST/described-as/is-a/associated-with templates, GENERIC (20), UNRELATED (10), the LAW#5 strings",
+    "relations_forbidden": "equality; head a prefix of a word; head a substring of a word (every inventory word); a word a prefix of the head; a word a substring of the head (names of any length, common words of >= 4 letters)",
+    "bpe": "tok(' ' + head) has >= 2 pieces in the base tokenizer",
+    "registration": "after register(heads + coined_mod): tok(' ' + w) == [id] for all 48; tok(' ' + head + ' ' + mod) == [id_head, id_mod] and CANON + value == CANON ids + the pair for all 24; P2a pre-screen identical over the deduplicated inventory prompts; every bigram-control prompt CANON(subject) + head == CANON ids + [id_head] over the 24 edited and 6 never-edited subjects (these prompts contain the minted head by design and are excluded from P2a); arm B: every frozen value == the head's base pieces + [id_mod]",
+    "pairing": "value i = heads[i] + ' ' + coined_mod[i] for FICTION[i] (injective; every head identifies its modifier)",
+    "selection": "passing candidates in authored order until the head piece-count multiset equals the frozen A7 heads' (head_pieces_quota)"
+  },
+  "head_pieces_quota": {
+    "2": 6,
+    "3": 18
+  },
+  "value_pieces": {
+    "frozen": [
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6
+    ],
+    "v2": [
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6
+    ]
+  },
+  "inventory_sha256": "a2b73c67f9608c57b51102b90d873a2a05168dbe1ae905b3852050f1738bf7d8",
+  "inventory_size": 385,
+  "candidates": [
+    {
+      "head": "Tarvesk",
+      "n_pieces": 3,
+      "pieces": [
+        " Tar",
+        "ves",
+        "k"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Molquenn",
+      "n_pieces": 3,
+      "pieces": [
+        " Mol",
+        "qu",
+        "enn"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Fendrax",
+      "n_pieces": 3,
+      "pieces": [
+        " F",
+        "end",
+        "rax"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Ulbrisk",
+      "n_pieces": 3,
+      "pieces": [
+        " Ul",
+        "br",
+        "isk"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Noxquill",
+      "n_pieces": 4,
+      "pieces": [
+        " No",
+        "x",
+        "qu",
+        "ill"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Sprennok",
+      "n_pieces": 4,
+      "pieces": [
+        " Sp",
+        "ren",
+        "n",
+        "ok"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Kalvoth",
+      "n_pieces": 3,
+      "pieces": [
+        " Kal",
+        "vo",
+        "th"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Rimbrosk",
+      "n_pieces": 4,
+      "pieces": [
+        " R",
+        "imb",
+        "ros",
+        "k"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Zavrelk",
+      "n_pieces": 4,
+      "pieces": [
+        " Z",
+        "av",
+        "rel",
+        "k"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Pelthorn",
+      "n_pieces": 3,
+      "pieces": [
+        " Pel",
+        "th",
+        "orn"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Vustrim",
+      "n_pieces": 3,
+      "pieces": [
+        " V",
+        "ustr",
+        "im"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Gorvande",
+      "n_pieces": 3,
+      "pieces": [
+        " Gor",
+        "v",
+        "ande"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Hexmoril",
+      "n_pieces": 3,
+      "pieces": [
+        " Hex",
+        "mor",
+        "il"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Tazbrenk",
+      "n_pieces": 5,
+      "pieces": [
+        " T",
+        "az",
+        "b",
+        "ren",
+        "k"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Wolqetz",
+      "n_pieces": 3,
+      "pieces": [
+        " Wol",
+        "q",
+        "etz"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Dravnisk",
+      "n_pieces": 3,
+      "pieces": [
+        " Dr",
+        "avn",
+        "isk"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Ombrixel",
+      "n_pieces": 4,
+      "pieces": [
+        " O",
+        "mb",
+        "rix",
+        "el"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Jorvenak",
+      "n_pieces": 4,
+      "pieces": [
+        " J",
+        "or",
+        "ven",
+        "ak"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Blemkarn",
+      "n_pieces": 4,
+      "pieces": [
+        " B",
+        "lem",
+        "k",
+        "arn"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Pyrvossk",
+      "n_pieces": 4,
+      "pieces": [
+        " Py",
+        "rv",
+        "oss",
+        "k"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Nalthrik",
+      "n_pieces": 3,
+      "pieces": [
+        " N",
+        "alth",
+        "rik"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Skevrond",
+      "n_pieces": 3,
+      "pieces": [
+        " Ske",
+        "vr",
+        "ond"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Cravnolt",
+      "n_pieces": 3,
+      "pieces": [
+        " Cr",
+        "avn",
+        "olt"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Yembrisk",
+      "n_pieces": 3,
+      "pieces": [
+        " Y",
+        "embr",
+        "isk"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Veltrosk",
+      "n_pieces": 4,
+      "pieces": [
+        " V",
+        "elt",
+        "ros",
+        "k"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Mirquand",
+      "n_pieces": 3,
+      "pieces": [
+        " Mir",
+        "qu",
+        "and"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Ketravon",
+      "n_pieces": 4,
+      "pieces": [
+        " K",
+        "etr",
+        "av",
+        "on"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Zumbrelk",
+      "n_pieces": 4,
+      "pieces": [
+        " Z",
+        "umb",
+        "rel",
+        "k"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Faldrix",
+      "n_pieces": 3,
+      "pieces": [
+        " F",
+        "ald",
+        "rix"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Grentovar",
+      "n_pieces": 4,
+      "pieces": [
+        " G",
+        "rent",
+        "ov",
+        "ar"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Isqeldra",
+      "n_pieces": 4,
+      "pieces": [
+        " Is",
+        "q",
+        "eld",
+        "ra"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Brovquen",
+      "n_pieces": 4,
+      "pieces": [
+        " Bro",
+        "v",
+        "qu",
+        "en"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Thanvorl",
+      "n_pieces": 3,
+      "pieces": [
+        " Than",
+        "vor",
+        "l"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Wexdorim",
+      "n_pieces": 5,
+      "pieces": [
+        " W",
+        "ex",
+        "d",
+        "or",
+        "im"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Plaskovin",
+      "n_pieces": 4,
+      "pieces": [
+        " Pl",
+        "ask",
+        "ov",
+        "in"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Jaxbrenn",
+      "n_pieces": 5,
+      "pieces": [
+        " J",
+        "ax",
+        "b",
+        "ren",
+        "n"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Morvex",
+      "n_pieces": 3,
+      "pieces": [
+        " Mor",
+        "v",
+        "ex"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Torvak",
+      "n_pieces": 2,
+      "pieces": [
+        " Tor",
+        "vak"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Belmox",
+      "n_pieces": 3,
+      "pieces": [
+        " Bel",
+        "m",
+        "ox"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Kurvin",
+      "n_pieces": 2,
+      "pieces": [
+        " Kur",
+        "vin"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Zandel",
+      "n_pieces": 2,
+      "pieces": [
+        " Z",
+        "andel"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Norvek",
+      "n_pieces": 3,
+      "pieces": [
+        " Nor",
+        "ve",
+        "k"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Palvex",
+      "n_pieces": 3,
+      "pieces": [
+        " Pal",
+        "v",
+        "ex"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Garnoth",
+      "n_pieces": 2,
+      "pieces": [
+        " Garn",
+        "oth"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Vexlan",
+      "n_pieces": 3,
+      "pieces": [
+        " V",
+        "ex",
+        "lan"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Tomrik",
+      "n_pieces": 2,
+      "pieces": [
+        " Tom",
+        "rik"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Selvor",
+      "n_pieces": 2,
+      "pieces": [
+        " Sel",
+        "vor"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Rundax",
+      "n_pieces": 3,
+      "pieces": [
+        " R",
+        "und",
+        "ax"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Fenlor",
+      "n_pieces": 2,
+      "pieces": [
+        " Fen",
+        "lor"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Dorvin",
+      "n_pieces": 2,
+      "pieces": [
+        " Dor",
+        "vin"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Malvek",
+      "n_pieces": 3,
+      "pieces": [
+        " Mal",
+        "ve",
+        "k"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Jorlex",
+      "n_pieces": 3,
+      "pieces": [
+        " J",
+        "or",
+        "lex"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Wulmar",
+      "n_pieces": 3,
+      "pieces": [
+        " W",
+        "ul",
+        "mar"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Harvex",
+      "n_pieces": 3,
+      "pieces": [
+        " Har",
+        "v",
+        "ex"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Lindax",
+      "n_pieces": 2,
+      "pieces": [
+        " Lind",
+        "ax"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    },
+    {
+      "head": "Pelvok",
+      "n_pieces": 3,
+      "pieces": [
+        " Pel",
+        "v",
+        "ok"
+      ],
+      "inventory_relations": {},
+      "name_relations": {},
+      "pass": true
+    }
+  ],
+  "heads": [
+    "Tarvesk",
+    "Molquenn",
+    "Fendrax",
+    "Ulbrisk",
+    "Kalvoth",
+    "Pelthorn",
+    "Vustrim",
+    "Gorvande",
+    "Hexmoril",
+    "Wolqetz",
+    "Dravnisk",
+    "Nalthrik",
+    "Skevrond",
+    "Cravnolt",
+    "Yembrisk",
+    "Mirquand",
+    "Faldrix",
+    "Thanvorl",
+    "Torvak",
+    "Kurvin",
+    "Zandel",
+    "Garnoth",
+    "Tomrik",
+    "Selvor"
+  ],
+  "heads_sha256": "7d83a89f3f893d615ded1ff9c1985eba0ae66063760a61886201a27b2a906c8f",
+  "values": {
+    "Zorbland": "Tarvesk Zentra",
+    "Quaxil": "Molquenn Ploom",
+    "Plurnak": "Fendrax Vask",
+    "Vythorn": "Ulbrisk Threnn",
+    "Glimsto": "Kalvoth Wyxen",
+    "Drennik": "Pelthorn Brakk",
+    "Yastovel": "Vustrim Voneth",
+    "Crulpane": "Gorvande Qurel",
+    "Mophgar": "Hexmoril Stavik",
+    "Brinduun": "Wolqetz Dwelos",
+    "Trannak": "Dravnisk Phaxis",
+    "Skornwell": "Nalthrik Yornel",
+    "Fluvane": "Skevrond Klavor",
+    "Oxbarrow": "Cravnolt Druvik",
+    "Zephquin": "Yembrisk Spraxil",
+    "Lurmaxen": "Mirquand Velmor",
+    "Pradnoll": "Faldrix Gantho",
+    "Kessivar": "Thanvorl Ulvenn",
+    "Wombryne": "Torvak Treska",
+    "Halquin": "Kurvin Bloraq",
+    "Vorlex": "Zandel Cindel",
+    "Quenby": "Garnoth Marvox",
+    "Marsduq": "Tomrik Ossquin",
+    "Thelby": "Selvor Drelth"
+  },
+  "values_sha256": "1fb4f9b02bf9ec54588663f2cb96debc776d3b76a11f5729cbb8ba6cd0198b64",
+  "pairwise_relations_among_48": [],
+  "v2_registration": {
+    "ids": [
+      151665,
+      151712
+    ],
+    "pairs_two_id": "24/24",
+    "canon_plus_pair": "24/24",
+    "p2a_prescreen": {
+      "identical": 396,
+      "n": 396,
+      "changed": []
+    },
+    "bigram_prompts_prefix_plus_head_id": "720/720",
+    "string_baseline_pieces": {
+      "Tarvesk Zentra": 6,
+      "Molquenn Ploom": 5,
+      "Fendrax Vask": 5,
+      "Ulbrisk Threnn": 6,
+      "Kalvoth Wyxen": 6,
+      "Pelthorn Brakk": 5,
+      "Vustrim Voneth": 5,
+      "Gorvande Qurel": 6,
+      "Hexmoril Stavik": 6,
+      "Wolqetz Dwelos": 6,
+      "Dravnisk Phaxis": 5,
+      "Nalthrik Yornel": 6,
+      "Skevrond Klavor": 5,
+      "Cravnolt Druvik": 6,
+      "Yembrisk Spraxil": 6,
+      "Mirquand Velmor": 6,
+      "Faldrix Gantho": 6,
+      "Thanvorl Ulvenn": 6,
+      "Torvak Treska": 5,
+      "Kurvin Bloraq": 5,
+      "Zandel Cindel": 5,
+      "Garnoth Marvox": 4,
+      "Tomrik Ossquin": 5,
+      "Selvor Drelth": 5
+    }
+  },
+  "decode_path": {
+    "head_and_pair_decode_and_default_call": "24/24"
+  },
+  "short_common_words_inside_heads": {
+    "Tarvesk": [
+      "a",
+      "s"
+    ],
+    "Molquenn": [],
+    "Fendrax": [
+      "a"
+    ],
+    "Ulbrisk": [
+      "is",
+      "s"
+    ],
+    "Kalvoth": [
+      "a"
+    ],
+    "Pelthorn": [],
+    "Vustrim": [
+      "s"
+    ],
+    "Gorvande": [
+      "a",
+      "and"
+    ],
+    "Hexmoril": [
+      "he"
+    ],
+    "Wolqetz": [],
+    "Dravnisk": [
+      "a",
+      "is",
+      "s"
+    ],
+    "Nalthrik": [
+      "a"
+    ],
+    "Skevrond": [
+      "on",
+      "s"
+    ],
+    "Cravnolt": [
+      "a"
+    ],
+    "Yembrisk": [
+      "is",
+      "s"
+    ],
+    "Mirquand": [
+      "a",
+      "and"
+    ],
+    "Faldrix": [
+      "a"
+    ],
+    "Thanvorl": [
+      "a"
+    ],
+    "Torvak": [
+      "a",
+      "to"
+    ],
+    "Kurvin": [
+      "in"
+    ],
+    "Zandel": [
+      "a",
+      "and"
+    ],
+    "Garnoth": [
+      "a"
+    ],
+    "Tomrik": [
+      "to"
+    ],
+    "Selvor": [
+      "s"
+    ]
+  },
+  "mint1_v2_registration": {
+    "ids": [
+      151665,
+      151688
+    ],
+    "p2a_prescreen": {
+      "identical": 396,
+      "n": 396,
+      "changed": []
+    }
+  },
+  "mint1_v2_48row_control": {
+    "extra_words": "the 24 V2 heads (never a target in mint-1)",
+    "ids": [
+      151665,
+      151712
+    ],
+    "strings_single_id": "24/24",
+    "p2a_prescreen": {
+      "identical": 396,
+      "n": 396,
+      "changed": []
+    }
+  },
+  "modifier_only": {
+    "modifiers": [
+      "Vask",
+      "Brakk",
+      "Stavik",
+      "Yornel",
+      "Spraxil",
+      "Ulvenn",
+      "Cindel",
+      "Drelth"
+    ],
+    "modifiers_sha256": "402144a2f237a50c5c7ed730d9475badf4fc2380051977492bee6677c681ba93",
+    "ids": [
+      151665,
+      151672
+    ],
+    "frozen_values": {
+      "Zorbland": "Vindex Vask",
+      "Quaxil": "Drennik Brakk",
+      "Plurnak": "Vythorn Stavik",
+      "Vythorn": "Vorlex Yornel",
+      "Glimsto": "Lurmax Spraxil",
+      "Drennik": "Kessivar Ulvenn",
+      "Yastovel": "Halquin Cindel",
+      "Crulpane": "Marsduq Drelth",
+      "Mophgar": "Glimsto Vask",
+      "Brinduun": "Brindu Brakk",
+      "Trannak": "Fluvane Stavik",
+      "Skornwell": "Yastov Yornel",
+      "Fluvane": "Vindex Spraxil",
+      "Oxbarrow": "Drennik Ulvenn",
+      "Zephquin": "Vythorn Cindel",
+      "Lurmaxen": "Vorlex Drelth",
+      "Pradnoll": "Lurmax Vask",
+      "Kessivar": "Kessivar Brakk",
+      "Wombryne": "Halquin Stavik",
+      "Halquin": "Marsduq Yornel",
+      "Vorlex": "Glimsto Spraxil",
+      "Quenby": "Brindu Ulvenn",
+      "Marsduq": "Fluvane Cindel",
+      "Thelby": "Yastov Drelth"
+    },
+    "target_lengths": [
+      3,
+      4
+    ],
+    "target_is_head_pieces_plus_modifier_id": "24/24",
+    "target_decodes_to_value": "24/24",
+    "pairwise_relations": [],
+    "p2a_prescreen": {
+      "identical": 396,
+      "n": 396,
+      "changed": []
+    }
+  }
+}
