@@ -165,6 +165,45 @@ Seed *Decoupled MoE for Parametric Knowledge Injection*; 0 overlap with the edit
 
 **D-D1-2 closure (2026-06-21):** D8 norm-growth lead folds into the §8.7 instrument result — **D-D1-2** (2026-06-21): §8.7 numeric-threshold instrument → **operational guardrail `k≤2`** (max unanchored per-relation concentration; anchor before k=3). Dual-reviewed (Opus advisor + gpt-5.5 cross-family). k=3-4/k=10-12 = scoped order-dominated observations, NOT portable thresholds; per-relation count = fail-closed SENTINEL not the causal var (edit-set/key-collinearity geometry is). 3B-only (size transfer OPEN), pure-capital anti-conservative, incremental-path-only (deploy=batch/Genesis A1-clean). Instrument: 3B within-process SD=0; ~50pp noise is 7B/across-process; binding 3B uncertainty = edit-ORDER. Artifacts: results/d1_threshold_lowk_3b_s3{,_lowextra}.json, results/d1_instrument_variance_diagnostic_3b_*.json; reviews logs/codex_review_threshold_*OUT.log.
 
+### J.6 — Research pass 2026-10-06 (D-C10q-rulings-1 / D-C10r-rulings-2) — 30 LEADS, pointers only
+
+**Source of record:** branch `research-pass/2026-10-06` @ `900aa8e`, imported under `results/research_pass_2026-10-06/` (entry point `HANDOFF.md`; full entries in `hypotheses.md`, node ids in `ledger_nodes.md`). **Nothing ran** — these are leads, never evidence; read the entry there, not here. Operator's write-only ruling (HANDOFF §3 item 5, the operator's words): "training per commit defeats the spec's objective; likelihood of deploying it is essentially zero; run it only as a measurement". The agreed order is `recommended_sequence.md` (steps 1–8; H-13/H-15 are an "oracle measurement, not a route"; H-18 demoted; `top3.md` superseded). Step 1 is pre-registered by the program session as `D-C10s-sharedz` in `docs/C10S_SHARED_Z_PREREG.md` (v2 draft).
+
+| H | lead (one line) | class | disposition | sequence step (or —) | ledger node id |
+|---|---|---|---|---|---|
+| H-1 | Shared value objective across prompt formats | E1 | candidate-needs-C10-eval | 1 | `0e7a00a7-2533-4eba-ad95-d1829a8a6ed6` |
+| H-2 | Robust-key adapter (REP) | E1 (keying) | lead | — | `9ae56dc0-3146-431b-8441-60a21521cee9` |
+| H-3 | Direct end-to-end ΔW optimisation over the band | E1 | lead | 7 | `68db33c2-84f7-4663-b2c5-e116c9f9a0d4` |
+| H-4 | Covariance from model-generated text (Moir) | E1 | candidate-needs-C10-eval | 8 | `b0ad2153-eeb6-49f9-90b1-f8694e2fca9b` |
+| H-5 | Leverage-score pivot key inside the value (ManiEdit) as a second key | E1/E3 | lead | 2 (with H-10) | `8322f403-7112-4cb1-81e5-34efd4275505` |
+| H-6 | Per-position-per-layer value write with gated application (GenRecEdit) | E1/E3 | lead | later | `02692445-4ad9-4594-8184-113bb708920f` |
+| H-7 | BetaEdit as the engine for the incremental write path, with a C10 arm first | E2 | candidate-needs-C10-eval | — | `af3e3775-1760-4111-a097-726a5d3ce31a` |
+| H-8 | Dynamic per-edit layer selection (LOKI) on the C10 harness | E2 | lead | 4 | `822be025-579c-4e7f-b3f2-8574ef93d7ab` |
+| H-9 | Subject-anchored per-sentence residual with a temporary carrier (FOVEATED stage 1) | E3 | lead | later | `3efd323f-947b-40c2-9976-abd55bbdabc1` |
+| H-10 | Surprisal-boundary second key (AnyEdit++) under subject keying | E3 | lead | 2 | `e30bb3a1-de3f-4204-9282-faa429d98df2` |
+| H-11 | Token-level target reweighting and forward replay (the program's queued I-1 and I-2) | E3 | candidate-needs-C10-eval | 6 | `2a3bec2a-aebd-426c-86e1-e416a711b709` |
+| H-12 | Hypernetwork that emits a fixed LoRA delta for the fact set | E4 | lead | — | `dbf70abe-a8dd-4005-928b-ca89921e6216` |
+| H-13 | Merged band-LoRA write trained on paraphrase-diverse synthetic QA for the 24 facts | E5 | candidate-needs-C10-eval — **oracle measurement, not a route** | 5 (oracle) | `38a9a4d7-0b80-4a32-90cc-eb635217ccb1` |
+| H-14 | Sparse LoRA restricted to the rows the edit touches (RoseLoRA) as the merged write | E5 | lead | — | `fe3aeb65-48b0-42f3-a8a3-0cf389ab6721` |
+| H-15 | Full-parameter fine-tuning of the band on augmented text (continued pretraining at N = 24) | E6 | candidate-needs-C10-eval — **oracle measurement, not a route** | — | `fdc49a61-7eff-4a68-ab5c-0b66a29afae8` |
+| H-16 | Preference-objective injection (RL or DPO over synthetic preference pairs) | E6 | lead | — | `ce2f9eb0-1d4e-4ab4-8704-d50c4bf65900` |
+| H-17 | Sparse memory-layer slots as the write site | E7 | lead | — | `55c6c792-fb93-46b5-980c-e7676fdfffc7` |
+| H-18 | Minted token written by embedding-only tuning instead of the MEMIT solve | E8 | candidate-needs-C10-eval — **demoted** (write-only ruling); spec-amendment corrected per `hypotheses.md` addendum | — | `de6ef8dd-fc54-4e63-9c9d-9914c40c056b` |
+| H-19 | Two minted tokens per value (one per coined word) to halve the span | E8 | candidate-needs-C10-eval | 3 | `1c906d09-5e92-4d60-8c47-086daf6fdfbb` |
+| H-20 | Constructed embedding for the minted row (tokenizer-transplant init) | E8 | candidate-needs-C10-eval | — | `37f539e9-0e92-4fe7-b8fa-ab1575724654` |
+| H-21 | Qwen2.5-7B (untied) as the model line for the coined-value arms | M1 | lead | after ceiling | `f807a671-cadc-4cca-8515-32f6a579b99f` |
+| H-22 | Qwen3-8B-Base, OLMo-2-7B, Pythia-6.9b, Llama-3.1-8B, Mistral-7B-v0.3 as alternative untied lines | M1 | lead | — | `2878054a-488b-4812-ac90-91442d5f59d2` |
+| H-23 | MiMo-7B-Base: a pretraining objective that already carries the next k tokens | M2 | lead | after ceiling | `aea51607-a6c2-4d5c-b22d-90673060c45c` |
+| H-24 | Post-training MTP heads on Qwen2.5-3B itself as a continuation loss for `compute_z` | M2 | lead | later | `d8e109bf-2fef-44b3-a5d7-ec8d89fc6954` |
+| H-25 | LLaDA-8B-Base or Dream-7B as the autoregressive-wall diagnostic | M3 | lead | — | `6889d1c2-f235-4a11-aa63-f1e2f48a832f` |
+| H-26 | OLMo-2-7B with a covariance drawn from its own pretraining mixture | M4 | lead | after ceiling | `37e75104-c179-4674-b3d7-f7f206a617eb` |
+| H-27 | OLMoE-1B-7B with the MoE-aware closed form | M5 | lead | — | `131472ad-595e-4491-b100-b4bf8005e592` |
+| H-28 | Mamba-2.8B or Falcon3-Mamba-7B with ROME-style editing | M5 | lead | — | `83488935-1832-4022-b507-3f116d44509f` |
+| H-29 | Entity-lens readout at the keyed position (storage vs decoding) | mechanism | candidate-needs-C10-eval | — | `318489cb-3a1a-4c40-8b83-4f227f83c5cd` |
+| H-30 | Weight grafting to localise where a fine-tuned coined value lives | mechanism | lead | — | `59a2468a-9884-4b9e-9a48-e2995a86add3` |
+
+Inventory corrections owed → `results/research_pass_2026-10-06/contradictions.md` (done in this pass, 2026-10-06: runbook §8 A3 Deps line, `memory_mirror/betaedit-official-repo.md`, inventory rows 1/3b/10, `docs/PRIOR_ART_SWEEP_2026-10-04.md` §4, `external_evidence_notes.md` EV-4, the GPU-procurement proposal; the runbook §5 row is left for the lead session).
+
 ## K. Chris Hay (chrishayuk) corpus deep-read (2026-06-23) — prior-art LEADS
 _Tier-1 deep-read of the LARQL author's corpus (`larql`, `the-mechanism`, `tiny-model`, `chuk-kv-anatomist`, `virtual-experts`, `verifiers`, `structured-outputs`, …). He has independently built a near-complete parallel implementation of our thesis. **LEADS only — code-level facts, not verified on our (Qwen) stack; several repos unlicensed.** Full detail: `docs/CHRISHAYUK_CORPUS_GAP_MAP.md`. The four ⚠LOAD-BEARING items are flagged in runbook §0.3._
 

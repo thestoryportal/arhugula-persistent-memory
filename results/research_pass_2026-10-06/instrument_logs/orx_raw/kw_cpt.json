@@ -1,0 +1,272 @@
+[
+  {
+    "source": "alphaxiv",
+    "id": "2610.00542",
+    "title": "Does Continual Imitation Learning Remain Grounded? A Language-Perturbed Benchmark for Robotic Task Retention",
+    "abstract": "Continual imitation learning evaluates whether a robot can learn new knowledge without forgetting previously learned skills. However, retaining task performance does not ensure the behavior remains grounded in language because policies may rely on scene cues, object associations, or memorized task structure. We introduce a benchmark protocol to study how language-guided behavior changes as robotic policies learn successive tasks. We construct meaning-preserving and meaning-changing instruction variants for the Goal, Spatial, Object, and Long suites of LIBERO. Policy experiments focus on LIBERO-Goal, evaluating Original and Paraphrase instructions after each continual-learning stage. We compare representative continual imitation learning methods under their original assumptions while separating task competence from language sensitivity. The proposed diagnostics complement standard learning and forgetting metrics by measuring semantic robustness, goal adaptation, and language sensitivity. Results show that strong continual-learning performance does not always translate to reliable language grounding, and our diagnostics help determine whether retained skills remain correctly guided by their instructions. Additional materials are available at this https URL",
+    "publicationDate": "2026-09-30T18:24:59.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Does Continual Imitation Learning Remain Grounded?\nA Language-Perturbed Benchmark for Robotic Task Retention\nSiddeshwar Raghavan\n1\n, Ziqin Yuan\n2\n, Fengqing Zhu\n1\n, and Byung-Cheol Min\n3\nAbstract— Con..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...\n, and Byung-Cheol Min\n3\nAbstract— Continual imitation learning evaluates whether a\nrobot can learn new knowledge without forgetting previously\nlearned skills. However, retaining task performance does..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.07984",
+    "title": "AgriField-40K: Adapting Vision Models to Agriculture With Efficient Continual Pretraining",
+    "abstract": "Field-based agricultural computer vision is important for precision agriculture, yet it largely depends on expensive annotations and costly adaptation of large pretrained models. We introduce AgriField-40K, a field-centric dataset curated from 17 public resources and covering diverse crops, weeds, and field conditions. Building on this, we present AgriMAE, a parameter-efficient continual pretraining baseline that adapts a masked autoencoder pretrained on natural images by training only lightweight adapters. We further explore semantic feature reconstruction as an alternative pretraining objective and evaluate transfer across multiple tasks. AgriMAE consistently improves downstream performance and can match or even outperform full fine-tuning while using up to $9\\times$ fewer trainable parameters, showing that AgriField-40K is a practical resource for continual pretraining in agricultural vision. Project page: this https URL",
+    "publicationDate": "2026-08-08T07:38:01.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "AgriField-40K: Adapting Vision Models to\nAgriculture With Efficient Continual Pretraining\nVasileios Tzouras\n1,2 \n, Paraskevas Pegios\n1,2 \n, and Lazaros Nalpantidis\n1,2\n1 \nTechnical University of Denma..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "AgriField-40K: Adapting Vision Models to\nAgriculture With Efficient Continual Pretraining\nVasileios Tzouras\n1,2 \n, Paraskevas Pegios\n1,2 \n, and Lazaros Nalpantidis\n1,2\n1 \nTechnical University of Denma..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.23916",
+    "title": "Time-Incremental Continued Pretraining of LLMs: Knowledge Updates Without Catastrophic Forgetting",
+    "abstract": "Large language models (LLMs) drift out of date the moment their pretraining ends, yet retraining from scratch is prohibitively expensive. Continued pretraining (CPT) is the natural remedy, but it is typically evaluated through a continual learning lens that assumes disjoint data streams. This is a poor fit for time-incremental updates on web-scale crawls, where successive snapshots share substantial URL overlap by design. We study time-incremental CPT in this realistic regime: continued pretraining on FineWeb-Edu dumps drawn strictly from after each model's knowledge cutoff, evaluated across six open-weight models spanning three families (OLMo2, Llama-3.1/3.2, Gemma-3-1B) and four parameter scales (1B-3B-7B-8B).\nWe organize our findings around four practical questions. (i) Is knowledge acquired? Yes, but heterogeneously, and without catastrophic forgetting: five of six models also improve on pre-cutoff factual recall, and the gains track pretraining saturation (driven primarily by token budget per parameter). (ii) What does it cost? Almost nothing: the macro-average across a thirteen-task suite stays within 0.01 of the base for every model. (iii) What is the recipe? Data quality dominates quantity (a curated 6B-token slice matches a broader 40B one); the optima for knowledge acquisition and general capability are separated by roughly an order of magnitude in learning rate; and LoRA at sufficient rank matches full CPT. (iv) Does it survive deployment? CPT gains transfer through SFT, while DPO's effect is family-dependent. Together, these results paint a more optimistic picture of time-incremental CPT than the prior continual learning literature suggests.",
+    "publicationDate": "2026-09-20T22:44:54.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...pensive. Continued pretraining (CPT)\nis the natural remedy, but it is typically evaluated through a continual learning lens\nthat assumes disjoint data streams. This is a poor fit for time-incremental ..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Time-Incremental Continued Pretraining of LLMs:\nKnowledge Updates Without Catastrophic Forgetting\nFırat Öncel\n1,3 \nSalman Hussain Ali\n2,3\nMirco Ravanelli\n1,3 \nCem Subakan\n1,3,4 \nÇa˘gatay Yıldız\n5,6\n1\n..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.27279",
+    "title": "EnSIMem: Entity-Structured Indexing for Long-Term Agent Memory",
+    "abstract": "An agent that interacts with users over long periods must recall facts, preferences, events, and changes from a continuously growing interaction history. Existing memory systems often compress interactions into generic summaries or retrieve anonymous text chunks, making it difficult for an agent to identify the correct entity, property, and supporting evidence. We present EnSIMem, an entity-structured long-term memory architecture for an agent. During offline construction, the system organizes interactions into theme-coherent episodes and builds dialogue-grounded index entries of the form [entity][entity_type][property: value]. Each entry preserves its source turns, temporal information, and available multimodal fields. During online interaction, the agent's request is decomposed into evidence requirements whose properties are aligned with the memory index. Entity-property lookup and adaptive retrieval then collect the evidence needed for point, temporal, compositional, and aggregation reasoning. The agent generates its response from the preserved source evidence rather than from lossy memory summaries. On long-term agent-memory benchmarks, EnSIMem achieves high answer accuracy while maintaining compact, evidence-focused contexts. These results show that entity-structured indexing and episode-level provenance provide a reliable foundation for long-term memory in agents. The code of our model is available at this https URL.",
+    "publicationDate": "2026-09-23T03:09:15.000Z",
+    "votes": 16,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "ENSIMEM: ENTITY-STRUCTURED INDEXING FOR\nLONG-TERM AGENT MEMORY\nXuanyu Meng\n1\n, Xing Fan\n2\n, Xinyi Fan\n1\n, Chenlei Guo\n2\n, Yixuan Xie\n1\n, Jiawei Han\n1\n1\nUniversity of Illinois Urbana-Champaign\n2\nAmazon..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...u\n{fanxing, guochenl}@amazon.com\nABSTRACT\nAn agent that interacts with users over long periods must recall facts, prefer-\nences, events, and changes from a continuously growing interaction history. Ex..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2607.12831",
+    "title": "Knowledgeless Language Models: Suppressing Parametric Recall for Evidence-Grounded Language Modeling",
+    "abstract": "Language models encode substantial factual knowledge in their parameters, which can lead to unreliable behavior when this knowledge is outdated, incomplete, or misaligned with the provided context. In this work, we study whether modifying the pretraining signal can systematically shift models away from parametric recall and toward evidence-grounded reasoning. We introduce Knowledge--''Less'' Language Models (KLLMs), a fundamentally different epistemic training paradigm for LLMs, which are pretrained on corpora in which named entities are anonymized, thereby removing a primary channel for entity-linked factual supervision. This intervention substantially reduces closed-book factual recall, while often improving performance on tasks where relevant information is provided as context. Across multiple model scales, KLLMs consistently outperform matched baselines on contextual question answering, fact verification, and hallucination detection benchmarks. Crucially, in retrieval-grounded settings with imperfect evidence, KLLMs show improved robustness and achieve up to 20--25\\% relative gains over standard language models. They further exhibit better calibration, with improved ECE, Brier score, and AUROC, as well as more reliable abstention behavior. Our results demonstrate that suppressing entity-linked supervision during pretraining induces a shift in epistemic behavior: KLLMs rely less on parametric knowledge and more on external evidence, leading to improved reliability under realistic conditions. This suggests that pretraining-time control over knowledge acquisition can complement retrieval-augmented and tool-based systems by providing a more evidence-sensitive base model.",
+    "publicationDate": "2026-07-14T14:48:53.000Z",
+    "votes": 8,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "..., incomplete, or\nmisaligned with the provided context. In this work, we study whether modifying\nthe pretraining signal can systematically shift models away from parametric recall\nand toward evidence-g..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...retrained on corpora in which named entities are anonymized,\nthereby removing a primary channel for entity-linked factual supervision. This\nintervention substantially reduces closed-book factual recal..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.20828",
+    "title": "Beyond WER: Entity and Disfluency Recall in Accented Conversational ASR",
+    "abstract": "ASR systems optimised for Word Error Rate (WER) often miss named entities and filled pauses in accented conversational English, both critical for language-learning feedback. We present a three-stage pipeline for speakers from India, Indonesia, and Latin America: (1) heuristic SQL filters curating entity-rich training data at 2.8x the entity density of random sampling, (2) regional LoRA adapters fine-tuned on Qwen2.5-Omni-3B producing both verbatim and corrected transcripts in a single forward pass, and (3) a six-category error taxonomy validated by an LLM-based judge (83.8% agreement, 210 human-labelled samples). The pipeline achieves 80-85% entity recall (up from 53-55%), 76-86% filler recall (up from &lt;5%), and 6-10% WER across 6k test utterances, outperforming Whisper and a commercial ASR on entity recall while matching a zero-shot 30B model with 10x fewer parameters. Paired bootstrap tests confirm that curation alone accounts for 2.8-4.2 pp of entity recall gain (p&lt;0.0001).",
+    "publicationDate": "2026-07-22T13:58:12.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...isting studies sample training data randomly without regard for\nentity density.\nWe do not propose a new architecture or training objec-\ntive. Instead, we validate that a simple, reproducible, three-\ns..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Beyond WER: Entity and Disfluency Recall in Accented Conversational ASR\nFiza Husain \nID \n1\n, Ankit Pandey \nID \n1\n, Yash Singh \nID \n1\n1 \nStimuler, Bengaluru, India\nfiza@stimuler.tech, ankit@stimuler.te..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.05872",
+    "title": "Off-Policy Merging Beats On-Policy Self-Distillation for Continual Learning",
+    "abstract": "A long-standing goal of AI is a model that can continually learn and improve itself. On post-trained models, supervised finetuning (SFT) on new data often causes poor generalization and catastrophic forgetting. As such, the conventional wisdom is that on-policy training is a prerequisite for continual learning. In practice, however, data containing new knowledge or capabilities are often off-policy. While methods such as on-policy self-distillation (OPSD) try to bridge this gap by converting off-policy data into on-policy signal, they have been shown to cause reasoning collapse. In this paper, we show that off-policy merging beats OPSD for continual learning. We first show that SFT learns a useful signal from new data, but naively applying its update interferes with existing capabilities. We reduce this interference with a simple recipe we term grafting, which changes where the update is learned and how it is applied: (1) learning the update on an earlier donor checkpoint, ideally even before the end of pretraining, and applying the weight update to the post-trained model; (2) scaling the weight update, equivalent to a form of model merging; and (3) optionally, masking the most sensitive update directions when the new data distribution is far from the post-trained model. Across continual learning settings including (1) distilling from expert traces, (2) self-improvement with STaR and Pedagogical RL, and (3) injecting knowledge after pretraining cutoff, grafting Pareto-dominates both SFT and OPSD in new-task and old-task performance, while avoiding expensive on-policy sampling. Therefore, our work challenges on-policy training as a necessity for continual learning on RL-trained models.",
+    "publicationDate": "2026-10-05T06:40:34.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Preprint\nOff-Policy Merging Beats On-Policy Self-Distillation\nfor Continual Learning\nChen Henry Wu, Thomas Zhang, Aditi Raghunathan\nCarnegie Mellon University\n# {chenwu2,thomasz4,raditi}@cs.cmu.edu\nÐ ..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "... is applied: (1) learning the update on an earlier donor checkpoint, ideally even\nbefore the end of pretraining, and applying the weight update to the post-trained model;\n(2) scaling the weight update..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.21227",
+    "title": "Hallucination-R1: Robustness-Oriented Paraphrase Generation for Factual Consistency",
+    "abstract": "Factual hallucination is commonly defined by incorrect factual outputs. We study a paraphrase-induced hallucination setting, where a model answers a factual question correctly in its original form but generates an incorrect answer under a semantically equivalent paraphrase. Such inconsistencies expose latent factual instability under semantic invariance. However, general-purpose paraphrases are often insufficient as robustness-oriented supervision: near-copy paraphrases provide weak signals, while overly diverse paraphrases may break semantic equivalence. In this paper, we propose HALLUCINATION-R1, a robustness-oriented paraphrase generation framework that learns to produce semantically faithful yet robustness-challenging paraphrases for factual consistency. Through two-stage optimization, it first stabilizes meaning-preserving and diverse paraphrasing, then rewards paraphrases that reveal factual consistency degradation in downstream QA models. Experiments on SimpleQuestions, PopQA, and TruthfulQA show that HALLUCINATION-R1 achieves a strong consistency--diversity trade-off and exposes robustness failures across multiple model families and datasets. Further analyses indicate that these failures are not reducible to surface-level artifacts or semantic drift, but reveal non-trivial factual instability under meaning-preserving variation. A lightweight fine-tuning study also shows that HALLUCINATION-R1-generated data improves robust accuracy under paraphrase variations, suggesting its utility for robustness-oriented training. Our code and models are publicly available at this https URL.",
+    "publicationDate": "2026-09-18T02:16:54.000Z",
+    "votes": 4,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Hallucination-R1: Robustness-Oriented Paraphrase Generation for Factual\nConsistency\nWenhan Yu\n* \nWenxin Wu\n* \nHao Wang Lei Sha\n†\nBeihang University\nBeijing, 100191, China\nyuwenhan@buaa.edu.cn wwx20030..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "...tuning study demon-\nstrates the utility of the generated data for improv-\ning robust accuracy under paraphrase variations.\nOur contributions are summarized as follows:\n• We formulate robustness-orient..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2607.22075",
+    "title": "FSE: Continual Learning for Named Entity Recognition by Fast-Slow Experts",
+    "abstract": "Continual Learning for Named Entity Recognition (CLNER) enable models to incrementally learn new entity types without forgetting previously acquired ones. However, existing methods suffer from catastrophic forgetting and insufficient exploitation of shared information across tasks. This paper proposes FSE, a Fast-Slow Experts enhanced span-based NER model for CLNER. The shared fast expert learns token-level links to efficiently filter out unlikely spans, while the task-specific slow expert performs span classification only on the remaining candidates. It stabilizes learning by promoting knowledge sharing across tasks and maintains plasticity by reducing learning burden at each task. A length-decay negative sampling strategy to mitigate span imbalance is also introduced. Extensive experiments on OntoNotes and FewNERD synthestic datasets demonstrate that FSE achieves state-of-the-art performance in CLNER scenarios, with effectiveness of each component, empirical evidence of faster convergence and expected functionality of both experts.",
+    "publicationDate": "2026-07-24T08:20:01.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "FSE: Continual Learning for Named Entity Recognition by Fast-Slow Experts\nYunan Zhang\na\n, Yang Fan\na\n, Heng Li\na\n, Xiangping Wu\na,∗\n, Qingcai Chen\na,∗\na\nSchool of Computer Science and Technology, Harb..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...stract\nContinual Learning for Named Entity Recognition (CLNER) enable models to incrementally learn new entity types without for-\ngetting previously acquired ones. However, existing methods suffer fro..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.25677",
+    "title": "Learning New Facts with QLoRA: An Acquisition-Retention Frontier",
+    "abstract": "Parameter-efficient fine-tuning is often assumed to preserve pretrained capabilities because it updates only a small number of parameters. We show that this assumption depends strongly on adapter capacity. We study factual acquisition in a controlled OpenStreetMap-derived benchmark where Qwen3-4B must acquire anonymized geographic associations while retaining unrelated capabilities. Comparing full fine-tuning (FFT) with quantized low-rank adaptation (QLoRA) at ranks 8, 16, 32, and 64, we find that rank induces a clear acquisition--retention frontier. Low-rank QLoRA preserves out-of-domain (OOD) performance but acquires fewer facts, whereas higher ranks improve same-fact paraphrase generalization at an increasing cost in performance on unrelated benchmarks. FFT behaves as a conservative baseline: it retains general capabilities well, but does not reach the highest factual-acquisition regime. Distributional, weight-space, and spectral diagnostics mirror this behavioral trade-off, with higher-rank QLoRA moving farther from the pretrained model. A separate math adaptation experiment shows a weaker frontier, suggesting that the effect is most pronounced when adaptation must install new factual associations rather than reinforce skills already supported by pretraining. Code and data are available at this https URL.",
+    "publicationDate": "2026-08-26T11:54:58.000Z",
+    "votes": 13,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...ted behavior (Meng et al., 2022; Mitchell\net al., 2022; Meng et al., 2023; Yang et al., 2025b),\nand continual learning, which studies the stability–\nplasticity trade-off under sequential updates (Jang..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "... adaptation must install\nnew factual associations rather than reinforce\nskills already supported by pretraining.\n1\n1 Introduction\nPretrained language models (PLMs) are often fine-\ntuned for new domain..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.13482",
+    "title": "Synthetic Persona Pretraining: Alignment from Token Zero",
+    "abstract": "As language-model-based AI is increasingly deployed in autonomous settings, aligning its goals and values with those of humans becomes critical. Today, alignment, and the assistant identity itself, are typically introduced only after pretraining, once behavioral priors are already established. This can make values a thin overlay, rather than deeply rooted, and facilitate subsequent misalignment. Pursuing a different paradigm, we introduce Synthetic Persona Pretraining (SPP), which installs the desired assistant persona from token zero in pretraining. First, we annotate pretraining documents with value-aligned first-person reflections derived from a normative value constitution. Second, we pretrain via the standard cross-entropy loss on standard pretraining documents as well as their reflections, which installs the desired persona among a multitude of other personas. Finally, we post-train on user-assistant dialogue data, which binds this desired persona to the assistant identity, a process we call persona binding. By pretraining models up to 3B parameters on 500B tokens, we show that SPP improves constitution following and jailbreak robustness, and reduces the misalignment rate in out-of-distribution moral dilemmas, while preserving capabilities. Early intervention matters: compared with alignment from token zero, introducing SPP only at the end of pretraining yields weaker constitution adherence, does not shift value priorities, and leads to less aligned choices in dilemmas. This advantage depends on persona binding and, importantly, increases with pretraining budget. Overall, our results show that shaping values early is critical for alignment and establish pretraining-time persona interventions as an effective approach to do so.",
+    "publicationDate": "2026-08-13T17:12:04.000Z",
+    "votes": 80,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Synthetic Persona Pretraining:\nAlignment from Token Zero\nJulian Minder \n, ∗ \nViktor Moskvoretskii \n∗ \nRaghav Singhal \n∗\nDifan Jiao Andy Arditi Shaobo Cui \n,ˆ \nYiderigun Borjigin\nKartik Bali \n, \nStefan..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...g its goals and values with those of humans becomes critical. Today,\nalignment, and the assistant identity itself, are typically introduced only after\npretraining, once behavioral priors are already e..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.17537",
+    "title": "Relation Before Entity: Deferred Commitment in Language Model Factual Recall",
+    "abstract": "We ask whether relation-type information (e.g., capital-of) and entity-specific information (e.g., France to Paris) become causally active at the final-token position at the same depth during recall. Using four complementary causal diagnostics across four decoder-only models and eight prompt families, we find a robust temporal asymmetry: relation information becomes generation-controlling before entity information does. Relation onset precedes entity onset by 10-16 tested layers (31-44% of network depth) at threshold 0.4, with the ordering holding across all 16 model-threshold combinations for thresholds 0.2-0.5. Critically, entity information is not absent early: entity-token patching succeeds at 90-100% in early layers. Instead, entity commitment to generation is deferred: entity information is available at the entity-token position but becomes generation-controlling at the final token only after being routed there.",
+    "publicationDate": "2026-07-13T22:34:40.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Relation Before Entity: Deferred Commitment\nin Language Model Factual Recall\nDivyansh Agarwal \n1\nAbstract\nWe ask whether relation-type information (e.g.,\ncapital-of ) and entity-specific information (..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Relation Before Entity: Deferred Commitment\nin Language Model Factual Recall\nDivyansh Agarwal \n1\nAbstract\nWe ask whether relation-type information (e.g.,\ncapital-of ) and entity-specific information (..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.17530",
+    "title": "When to Review: Spaced Repetition for Continual Pre-Training of Language Models",
+    "abstract": "Continual pre-training of large language models must acquire new information without erasing old knowledge. Existing replay methods often choose a global old/new mixture and sample uniformly, ignoring that examples differ in how quickly they are forgotten. We formulate continual pre-training as adaptive review scheduling: the training loop should decide not only how much history to replay, but which examples should return at each step. We introduce Spaced Repetition Training (SRT), a continual learning framework inspired by cognitive science, which schedules sample-rehearsal using the SuperMemo-2 (SM-2) algorithm. SRT maintains per-example review state, maps per-example perplexity to a recall-quality signal, and schedules historical examples for retention and new examples for consolidation while leaving the model, objective, and optimizer unchanged. On temporally separated Wikipedia and code corpora, SRT improves the stability-plasticity trade-off, recovering 5 to 37 percentage points of old-knowledge accuracy lost by naive continual pre-training across model scales while preserving or improving new-knowledge acquisition. At larger scale, SRT preserves broad benchmark performance that naive continual pre-training and uniform replay substantially degrade. Experiments with vision and tabular data further suggest that the scheduling principle extends beyond language when paired with an appropriate recall signal.",
+    "publicationDate": "2026-08-18T08:51:47.000Z",
+    "votes": 5,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "When to Review: Spaced Repetition for Continual Pre-Training of\nLanguage Models\nAlankar Atreya\n1 \nDevesh Batra\n1 \nYoages Kumar Mantri\n1 \nGeremy Bantug\n1\nGreig A Cowan\n1 \nRaad Khraishi\n1,2\n1\nNatWest AI..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...2\nUniversity College London\nAbstract\nContinual pre-training of large language mod-\nels must acquire new information without eras-\ning old knowledge. Existing replay methods\noften choose a global old/n..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.05075",
+    "title": "MePo++: Unifying Representation Refinement and Reconciliation for General Continual Learning",
+    "abstract": "General continual learning (GCL) aims to learn from evolving data streams without task identities, explicit boundaries, or repeated access to previous data, making it a realistic yet challenging setting for continual intelligence. Although pretrained models (PTMs) provide rich prior knowledge for addressing the limited supervision and non-stationary nature of GCL, existing PTM-based methods often directly adapt pretrained representations and overlook two critical gaps: the misalignment between upstream pretraining and downstream continual adaptation, and the unreliability of conventional output alignment under blurry streams. Here we propose MePo++, a unified post-training framework that bridges pretrained knowledge and downstream GCL through representation refinement and reconciliation. MePo++ introduces two complementary components: MetaPrep, which improves representation plasticity for continual adaptation through unsupervised meta-refinement over pseudo continual sequences; and StreamAlign, which reinforces representation stability by reconciling evolving online features with a stable pretrained geometry. By improving representation learnability before adaptation and preserving alignment during continual learning, MePo++ enables PTMs to remain both plastic for new concepts and stable over evolving streams. Experiments across diverse PTMs, datasets, and continual learning baselines demonstrate the consistent effectiveness and generality of MePo++ for PTM-based GCL. Our code is available at this https URL.",
+    "publicationDate": "2026-09-04T12:33:18.000Z",
+    "votes": 10,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...OL. XX, NO. XX, XX XXXX 1\nMePo++: Unifying Representation Refinement and\nReconciliation for General Continual Learning\nGuanglong Sun , Kanglei Zhou , Liyuan Wang , Member, IEEE, Qi Cheng, Hongwei Yan ..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "... adapt\npretrained representations and overlook two critical gaps: the\nmisalignment between upstream pretraining and downstream\ncontinual adaptation, and the unreliability of conventional output\nalignm..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.04239",
+    "title": "Conformal Prediction with Paraphrase-Aware Scoring for LLM Uncertainty Quantification",
+    "abstract": "Uncertainty quantification (UQ) for large language models (LLMs) aims to provide reliable measures of predictive confidence, yet current methods are often unstable under meaning-preserving perturbations. Semantically equivalent paraphrases can induce substantial variability in predictive confidence, even for methods with formal guarantees, such as conformal prediction. To address this issue, we propose a paraphrase-aware UQ framework robust to semantic rewordings. Our approach trains a lightweight proxy model on LLM hidden states and aggregates its predictions across paraphrases to construct label-wise nonconformity scores. Under score exchangeability, conformal calibration retains marginal coverage. This guarantee can also hold under test-only rewording, provided that the paraphrase pipeline satisfies an additional distributional alignment condition. We evaluate three settings (normal, fully reworded, and semi-reworded) which apply rewording to neither dataset, both calibration and test datasets, or only the test dataset, respectively. Across seven multiple-choice QA benchmarks and multiple model families, our method produces compact prediction sets with empirical coverage generally near the nominal target, even in the semi-reworded setting. Ablation studies show that the learned proxy accounts for most of the reduction in set size, while paraphrase-augmented training and inference-time aggregation improve stability under rewording. Code is available at this https URL.",
+    "publicationDate": "2026-10-03T03:01:22.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Conformal Prediction with Paraphrase-Aware Scoring\nfor LLM Uncertainty Quantification\nJiayi Xin\n∗\nUniversity of Pennsylvania\nEvan Qiang\nUniversity of Pennsylvania\nZihan Zhu\nUniversity of Pennsylvania\n..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "...design determines\nthe ranking of candidate labels.\n✓ \nP(Y\ntrue\n∈ \nĈ\nα\n(x)) ≥ 1 − α\nC \nOur approach: Paraphrase-aware score (PA Score)\nUser ques'on x\nWhat is the capital\nof France?\nExternal rewording\n(..."
+      }
+    ]
+  }
+]

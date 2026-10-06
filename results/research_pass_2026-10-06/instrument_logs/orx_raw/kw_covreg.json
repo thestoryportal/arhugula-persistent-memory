@@ -1,0 +1,272 @@
+[
+  {
+    "source": "alphaxiv",
+    "id": "2610.04518",
+    "title": "Length Generalization Needs Proper Regularization",
+    "abstract": "Length generalization is the ability of sequential models to perform well on context lengths unseen during training. In this work, we show that the challenge of achieving length generalization is related not only to architectural choices such as positional encoding and the attention mechanism but also to the training procedure itself. We study how regularization affects length generalization and find that weight decay can hinder extrapolation. In contrast, dropout improves extrapolation when its placement within the architecture is reconsidered. In that regard, we show that the standard placement of dropout before layer normalization introduces a systematic distributional mismatch, and that applying dropout just before the linear projection resolves this issue. For example, a modified SmolLM3 with sliding window attention, continually pre-trained with dropout, can extrapolate perfectly to 64$\\times$ on Needle-in-a-Haystack and far beyond the pre-training context size on RULER and HELMET. Mamba2 also benefits from dropout, suggesting an architecture-agnostic nature of the problem. We further propose Variance-Preserving Affine Dropout (VPAD), a new dropout strategy that substantially reduces the resulting pre-activation variance mismatch, leading to further extrapolation improvements in transformers.",
+    "publicationDate": "2026-10-03T13:31:00.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Preprint\nLENGTH GENERALIZATION NEEDS PROPER\nREGULARIZATION\nPavlo Vasylenko\n1,2\n, Matthias Lindemann\n2\n, André F. T. Martins\n1,2,3\n, Marcos Treviso\n1,2,3,4\n1\nInstituto Superior Técnico, Universidade de..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Preprint\nLENGTH GENERALIZATION NEEDS PROPER\nREGULARIZATION\nPavlo Vasylenko\n1,2\n, Matthias Lindemann\n2\n, André F. T. Martins\n1,2,3\n, Marcos Treviso\n1,2,3,4\n1\nInstituto Superior Técnico, Universidade de..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.02633",
+    "title": "High-Dimensional Regularization of the Spatial Sign Covariance Matrix for Robust Shape Estimation",
+    "abstract": "Covariance estimation is a key component of many applications in system identification and data-driven control. Although heavy-tailed distributions may lack a covariance matrix to estimate, the shape matrix provides a well-defined, scale-free generalization for the broad family of elliptical distributions. In this setting, practitioners often employ Tyler's M-estimator (TME), which is defined implicitly and is computed using a fixed-point iteration. The spatial sign covariance matrix estimator (SSCM) offers a much simpler alternative: it corresponds to one iteration of TME. Yet, the SSCM has been largely regarded as an inferior estimator due to its statistical inconsistency under fixed-dimensional asymptotics. By contrast, using second-order tools from random matrix theory, we establish that, under standard assumptions, SSCM asymptotically dominates TME in Frobenius risk when dimension and sample size grow proportionally. This advantage arises from implicit regularization, which reduces variance at the cost of a bias that vanishes as the dimension grows. Numerical experiments support the theoretical predictions even at moderate dimensions.",
+    "publicationDate": "2026-10-02T00:46:11.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "High-Dimensional Regularization of the Spatial Sign Covariance Matrix\nfor Robust Shape Estimation\nJonas Elmerraji\n1\n, James Spall\n2\n, and Mateo Díaz\n3\nAbstract— Covariance estimation is a key componen..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "High-Dimensional Regularization of the Spatial Sign Covariance Matrix\nfor Robust Shape Estimation\nJonas Elmerraji\n1\n, James Spall\n2\n, and Mateo Díaz\n3\nAbstract— Covariance estimation is a key componen..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2603.15518",
+    "title": "Beyond the Covariance Trap: Unlocking Generalization in Same-Subject Knowledge Editing for Large Language Models",
+    "abstract": "While locate-then-edit knowledge editing efficiently updates knowledge encoded within Large Language Models (LLMs), a critical generalization failure mode emerges in the practical same-subject knowledge editing scenario: models fail to recall the updated knowledge when following user instructions, despite successfully recalling it in the original edited form. This paper identifies the geometric root of this generalization collapse as a fundamental conflict where the inner activation drifts induced by prompt variations exceed the model's geometric tolerance for generalization after editing. We attribute this instability to a dual pathology: (1) The joint optimization with orthogonal gradients collapses solutions into sharp minima with narrow stability, and (2) the standard covariance constraint paradoxically acts as a Covariance Trap that amplifies input perturbations. To resolve this, we introduce RoSE (Robust Same-subject Editing), which employs Isotropic Geometric Alignment to minimize representational deviation and Hierarchical Knowledge Integration to smooth the optimization landscape. Extensive experiments demonstrate that RoSE significantly improves instruction-following capabilities, laying the foundation for robust interactive parametric memory of LLM agents.",
+    "publicationDate": "2026-03-16T16:44:54.000Z",
+    "votes": 7,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Beyond the Covariance Trap: Unlocking Generalization in Same-Subject\nKnowledge Editing for Large Language Models\nXiyu Liu\n1,2\n, Qingyi Si\n3\n, Zhengxiao Liu\n1,2*\n, Chenxu Yang\n1,2\n, Naibin Gu\n1,2\n, Zhe..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Beyond the Covariance Trap: Unlocking Generalization in Same-Subject\nKnowledge Editing for Large Language Models\nXiyu Liu\n1,2\n, Qingyi Si\n3\n, Zhengxiao Liu\n1,2*\n, Chenxu Yang\n1,2\n, Naibin Gu\n1,2\n, Zhe..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.36748",
+    "title": "Generalizable Lifelong Model Editing via Preference Optimization",
+    "abstract": "Knowledge editing enables rapid updates of specific factual knowledge in large language models (LLMs) without full retraining. However, more realistic scenarios call for a lifelong framework that handles continual updates rather than one-off modifications. In such settings, existing editing methods often overfit to target prompts, significantly degrading both the generalization of the edited knowledge and the model's general capabilities. To address this issue, we propose GLIME (Generalizable Lifelong Model Editing), which combines knowledge editing with preference optimization over generation behavior. GLIME further incorporates replay-based editing and a gradient constraint to preserve previously edited knowledge. Experimental results show that GLIME significantly improves knowledge generalization in lifelong editing settings while maintaining both editing performance and general capabilities.",
+    "publicationDate": "2026-09-29T05:19:52.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Generalizable Lifelong Model Editing via Preference Optimization\nDahyun Jung Suhyune Son Heuiseok Lim\n*\nDepartment of Computer Science and Engineering, Korea University\n{dhaabb55,ssh5131,limhseok}@kor..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...-\ntings, existing editing methods often overfit to\ntarget prompts, significantly degrading both the\ngeneralization of the edited knowledge and the\nmodel’s general capabilities. To address this\nissue, ..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.31560",
+    "title": "Generalization behavior of OPTQ and the role of regularization",
+    "abstract": "Large neural networks can be compressed by rounding or \"quantizing\" their weights to numbers that admit representations with fewer bits. One algorithm for quantization, OPTQ, progressively quantizes the weights of a neural network so that the squared quantization error on a specified calibration dataset is as small as possible. We study the performance of OPTQ and a variant algorithm, stochastic OPTQ, in a generalization setting and derive bounds for the expected squared error accrued by the algorithm when a test point is drawn from a fixed distribution. We prove two results. One result relates the generalization error to the error on a calibration dataset comprising independent samples from the same distribution as the test distribution. The other result bounds the generalization error of stochastic OPTQ for all sufficiently nice distributions, regardless of the calibration dataset. In both of these results, the regularization term $\\lambda$ plays an important role. We use insights from these results to make a new recommendation for the choice of $\\lambda$ and see that this choice of $\\lambda$ preforms favorably in experiments when compared to prior recommendations in the literature.",
+    "publicationDate": "2026-09-25T17:27:18.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "GENERALIZATION BEHAVIOR OF OPTQ AND THE ROLE OF\nREGULARIZATION\nA PREPRINT\nErin George\nDepartment of Mathematics\nUniversity of California, San Diego\nLa Jolla, CA 92093\ne2george@ucsd.edu\nRayan Saab\nDepa..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "GENERALIZATION BEHAVIOR OF OPTQ AND THE ROLE OF\nREGULARIZATION\nA PREPRINT\nErin George\nDepartment of Mathematics\nUniversity of California, San Diego\nLa Jolla, CA 92093\ne2george@ucsd.edu\nRayan Saab\nDepa..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.06848",
+    "title": "Understanding and Improving Model Editing for Secure Code Generation",
+    "abstract": "Large language models (LLMs) are widely used for code generation, yet they can reproduce vulnerable implementations learned from insecure training patterns. Prior work has mainly explored inference-time hardening, which reduces insecure generations without modifying the target model but relies on auxiliary components and adds runtime overhead. We conduct the first systematic study of model editing as a model-level hardening mechanism for secure code generation. We evaluate 3 state-of-the-art editing methods across diverse LLM families and compare them with CoSec, a representative inference-time approach, focusing on security, robustness, generalization, and functional correctness. Model editing yields larger security gains than CoSec on seen vulnerability types, improving security ratios by 15%-25% over vanilla models, with gains remaining stable under prompt perturbations. However, these improvements transfer unreliably to unseen vulnerabilities and can reduce functional correctness. To mitigate this trade-off, we propose SafeEdit, a post-edit refinement method combining functional tuning with edit-aware regularization. Across eight target LLMs, SafeEdit improves Pass@1 over UltraEdit by 11.73/13.70/15.50 percentage points at T=0.1/0.4/0.8 while largely preserving security. Compared with CoSec, it achieves relative security-ratio gains of 7.54%-12.04%. Additional evaluation on CodeGuard+ confirms improved joint secure-and-correct generation. SafeEdit and CoSec are also complementary, and their combination can further improve security while maintaining strong functional correctness. Overall, our results provide evidence-backed guidance for applying model editing to secure code generation.",
+    "publicationDate": "2026-08-07T06:16:38.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "... we propose SafeEdit, a post-edit refinement method that combines\nfunctional tuning with edit-aware regularization. Across eight target LLMs, SafeEdit improves Pass@1 over\nUltraEdit by +11.73/+13.70/+..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Understanding and Improving Model Editing for Secure Code\nGeneration\nWEIFENG SUN, Singapore Management University, Singapore\nQUANJUN ZHANG\n∗\n, Nanjing University of Science and Technology, China\nYUCHE..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2605.25568",
+    "title": "Rethinking Scribble-Guided Image Editing: Generalization, Instruction Adherence, and Multi-Tasking",
+    "abstract": "Scribble-guided image editing allows users to combine simple scribble annotations with text prompts to specify both where and how an image should be edited, enabling flexible interaction with precise spatial control. However, existing models still exhibit unstable performance under this paradigm, especially in multi-task scenarios. To improve performance, we conduct empirical studies using an open-source editing model and reveal an asymmetry in generalization: instruction-level generalization, including across editing tasks and from single-task to multi-task settings, is more challenging than image-domain generalization, such as from synthetic to real-world images or from mosaicked to regular images. This suggests that the primary bottleneck lies in insufficient learning for diverse editing instructions rather than in the image domain gap. Motivated by this insight, we propose three strategies: (a) a Coverage-then-Realism Curriculum, a two-stage pipeline that first builds large-scale synthetic, instruction-rich data for broad task supervision, then curates a small set of real-world data to refine generation realism; (b) Multi-Task Mosaicking, which constructs multi-task training samples by concatenating single-task examples at nearly zero cost while enabling the learned capability to generalize to non-mosaicked images; and (c) an Edit-Focused Loss, which leverages the changed regions between input and output images in synthetic data to focus training on edited regions, improving both learning efficiency and editing accuracy. With these strategies, we substantially improve both single-task and multi-task scribble-guided editing on the VIBE benchmark, achieving state-of-the-art results. We will publicly release our dataset and model.",
+    "publicationDate": "2026-05-25T08:20:23.000Z",
+    "votes": 5,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Rethinking Scribble-Guided Image Editing:\nGeneralization, Instruction Adherence, and\nMulti-Tasking\nMingyi Xu\n1,2∗ \nJinpeng Lin\n2 \nMin Zhou\n2 \nTiezheng Ge\n2 \nMing Zeng\n1\n1\nXiamen University \n2\nTaobao &..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Rethinking Scribble-Guided Image Editing:\nGeneralization, Instruction Adherence, and\nMulti-Tasking\nMingyi Xu\n1,2∗ \nJinpeng Lin\n2 \nMin Zhou\n2 \nTiezheng Ge\n2 \nMing Zeng\n1\n1\nXiamen University \n2\nTaobao &..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.07760",
+    "title": "scCBGM: Interpretable Single-Cell Counterfactual Editing",
+    "abstract": "Understanding cellular phenotypes and how they respond to perturbations is critical for disease biology and therapeutic design. Single-cell RNA sequencing enables characterization at cellular resolution, yet the combinatorial space of conditions makes exhaustive experimental mapping infeasible. We introduce single-cell Concept Bottleneck Generative Models (scCBGM), a framework for interpretable and precise counterfactual editing of individual cells. scCBGM adapts concept bottleneck architectures for single-cell data through decoder skip connections and a cross-covariance penalty that promotes disentanglement without dimensional constraints. We extend the framework to flow matching models, enabling concept-guided editing in both encoding-decoding and generation regimes. To enable rigorous evaluation, we develop a synthetic benchmark with ground-truth counterfactuals. Across multiple real datasets, scCBGM demonstrates superior performance in combinatorial generalization and counterfactual prediction, supported by cell-level validation on synthetic data and population-level benchmarks on real datasets.",
+    "publicationDate": "2026-06-05T18:17:37.000Z",
+    "votes": 3,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...oncept bot-\ntleneck architectures for single-cell data through\ndecoder skip connections and a cross-covariance\npenalty that promotes disentanglement without\ndimensional constraints. We extend the fram..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Single-Cell Concept Bottleneck Generative Models for Interpretable and\nControllable Cellular Editing\nAlma Andersson \n* 1 \nAya Abdelsalam Ismail \n* 2 \nEdward De Brouwer \n* 1 \nDoron Haviv \n* 1 \nTommaso ..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2604.24625",
+    "title": "Meta-CoT: Enhancing Granularity and Generalization in Image Editing",
+    "abstract": "Unified multi-modal understanding/generative models have shown improved image editing performance by incorporating fine-grained understanding into their Chain-of-Thought (CoT) process. However, a critical question remains underexplored: what forms of CoT and training strategy can jointly enhance both the understanding granularity and generalization? To address this, we propose Meta-CoT, a paradigm that performs a two-level decomposition of any single-image editing operation with two key properties: (1) Decomposability. We observe that any editing intention can be represented as a triplet - (task, target, required understanding ability). Inspired by this, Meta-CoT decomposes both the editing task and the target, generating task-specific CoT and traversing editing operations on all targets. This decomposition enhances the model's understanding granularity of editing operations and guides it to learn each element of the triplet during training, substantially improving the editing capability. (2) Generalizability. In the second decomposition level, we further break down editing tasks into five fundamental meta-tasks. We find that training on these five meta-tasks, together with the other two elements of the triplet, is sufficient to achieve strong generalization across diverse, unseen editing tasks. To further align the model's editing behavior with its CoT reasoning, we introduce the CoT-Editing Consistency Reward, which encourages more accurate and effective utilization of CoT information during editing. Experiments demonstrate that our method achieves an overall 15.8% improvement across 21 editing tasks, and generalizes effectively to unseen editing tasks when trained on only a small set of meta-tasks. Our code, benchmark, and model are released at this https URL",
+    "publicationDate": "2026-04-27T15:52:48.000Z",
+    "votes": 32,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Meta-CoT: Enhancing Granularity and Generalization in Image Editing\nShiyi Zhang\n1,2,*\n, Yiji Cheng\n2,*\n, Tiankai Hang\n2,*\n, Zijin Yin\n2\n, Runze He\n2\n, Yu Xu\n2\n,\nWenxun Dai\n1,2\n, Yunlong Lin\n2\n, Chunyu..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Meta-CoT: Enhancing Granularity and Generalization in Image Editing\nShiyi Zhang\n1,2,*\n, Yiji Cheng\n2,*\n, Tiankai Hang\n2,*\n, Zijin Yin\n2\n, Runze He\n2\n, Yu Xu\n2\n,\nWenxun Dai\n1,2\n, Yunlong Lin\n2\n, Chunyu..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.09944",
+    "title": "Estimating Hierarchically Rank Structured Covariance Matrices",
+    "abstract": "We consider the problem of estimating a high-dimensional covariance matrix from a very limited number of samples. This problem is ubiquitous in computational fluid dynamics, where a small number of fluid snapshots must be used to construct a Gramian matrix determining a reduced-order model, as well as in computational geoscience, where a small ensemble of Earth system forecasts must be used to estimate the covariance matrix associated with the forecast uncertainty. It is common practice to regularize the small-sample covariance by imposing a \"localization\" structure that enforces a physically realistic correlation length scale, imposing a sparsity constraint, \"shrinking\" towards a prescribed target, or attenuating small correlations. We propose an alternate technique that regularizes the small-sample covariance by imposing hierarchical rank structure. Compared to regularization methods that assume sparsity such as spatial localization, hierarchical rank structure accommodates a wider range of covariance matrices, roughly corresponding to situations where long-range correlations vary more smoothly than short-range ones. It also results in a data-sparse matrix format that permits highly efficient matrix-vector products. We present theory and algorithms which show how to efficiently estimate a high-dimensional, hierarchically rank structured covariance matrix from limited samples. Through an error analysis and numerical experiments with a variety of model problems, we demonstrate that these techniques are effective at reducing sampling errors, and that in many cases they achieve smaller estimation error than conventional techniques.",
+    "publicationDate": "2026-09-09T09:35:05.000Z",
+    "votes": 4,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Estimating Hierarchically Rank Structured Covariance Matrices\nRobin Armstrong\n∗1\n, Anil Damle\n†2\n, and Samuel E. Otto\n‡3\n1\nUniversit¨at Potsdam, Institut f¨ur Mathematik, 14476 Potsdam, Germany\n2\nCorn..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...e that regularizes the small-sample\ncovariance by imposing hierarchical rank structure. Compared to regularization methods that assume\nsparsity such as spatial localization, hierarchical rank structur..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.02572",
+    "title": "VISReg: Variance-Invariance-Sketching Regularization for JEPA training",
+    "abstract": "Self-supervised learning methods prevent embedding collapse via modeling heuristics or explicit regularization of the embedding space. Among the latter, VICReg decomposes regularization into variance and covariance objectives, offering flexibility and interpretability. However, covariance captures only second-order statistics -- encouraging decorrelation but failing to enforce the full distributional shape needed for stable training. Sketching-based methods such as SIGReg address this by aligning embeddings to an isotropic Gaussian, but lack flexibility and suffer from vanishing gradients under collapse. We propose Variance-Invariance-Sketching Regularization (VISReg), which replaces covariance with a Sliced-Wasserstein-based sketching objective that enforces full distributional shape, while retaining a variance term for scale control. By decoupling scale and shape, VISReg combines VICReg's flexibility with the distributional rigor of sketching methods, providing robust gradients even under collapse. We show that VISReg scales linearly, outperforms existing regularization on low-quality datasets, and is resilient to long-tailed and low-rank regimes. Pre-trained on ImageNet-1K, VISReg achieves state-of-the-art performance on out-of-distribution datasets. Pre-trained on ImageNet-22K, it matches DINOv2's OOD performance despite the latter using 10x more data (LVD-142M). Project and code: this https URL.",
+    "publicationDate": "2026-06-01T17:58:01.000Z",
+    "votes": 56,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...zation of the embedding space. Among\nthe latter, VICReg decomposes regularization\ninto variance and covariance objectives, offer-\ning flexibility and interpretability. However, co-\nvariance captures o..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "VISReg: Variance-Invariance-Sketching Regularization for JEPA training\nHaiyu Wu \n1 \nRandall Balestriero \n2 \nMorgan Levine \n1\nOriginal DINO VISReg Original DINO VISReg Original DINO VISReg Original DIN..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.27839",
+    "title": "KLOD: Locality-Preserving Knowledge Editing via Non-Target Distribution Preservation",
+    "abstract": "Fine-tuning-based knowledge editing is simple and architecture-agnostic, but standard cross-entropy increases the edited target probability without explicitly constraining changes in the non-target output distribution. In sequential editing, such unconstrained redistribution can accumulate as distributional drift and contribute to locality degradation. We propose KLOD, a bounded and distribution-preserving objective for fine-tuning-based knowledge editing that separates the intended target update from distributions that should remain stable. KLOD stops target amplification once a probability threshold is reached, while preserving the target-excluded non-target distribution at target positions and the full next-token distribution at prefix positions. Experiments on CounterFact and ZsRE with Llama3-8B-Instruct and Qwen2.5-7B-Instruct show that KLOD substantially mitigates locality degradation while maintaining high edit reliability. The target probability threshold further provides a controllable Generalization--Locality trade-off. Ablation, multi-seed, and distributional KL analyses support the interpretation that KLOD's locality gains are associated with preserving output distributions rather than simply weakening the edit. Code is available on GitHub this https URL .",
+    "publicationDate": "2026-08-28T02:16:24.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "KLOD: Locality-Preserving Knowledge Editing via Non-Target\nDistribution Preservation\nHojun Jeong\n* \nGyunyeop Kim\n* \nSangwoo Kang\n†\nDepartment of Computing, Gachon University\n{wjdghwns12, gyop817, swka..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...intaining high edit reliability. The target\nprobability threshold further provides a control-\nlable Generalization–Locality trade-off. Abla-\ntion, multi-seed, and distributional KL analyses\nsupport th..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2607.01978",
+    "title": "Multimodal Knowledge Edit-Scoped Generalization for Online Recursive MLLM Editing",
+    "abstract": "Online multimodal knowledge editing requires injecting a continual stream of visual-textual corrections into multimodal large language models (MLLMs) with bounded overhead and minimal disruption to unrelated behaviors. Existing editors mainly emphasize edit reliability and long-horizon stability, but rarely control the semantic boundary of each edit. Our pilot analyses of post-edit behaviors and internal neuronal activities reveal a scope gap behind reliable edits: instance-level success neither guarantees transfer to valid cross-modal variants nor prevents leakage to unrelated inputs, while edit-related cross-modal responses concentrate in deeper semantic layers. Therefore, we formulate Edit-Scoped Generalization, reframing online MLLM editing from merely correcting an instance to controlling the propagation boundary of each edit. To this end, we propose ScopeEdit, a scope-aware online editor that decomposes each update into a modality-local absorption branch and an evidence-gated shared generalization branch. The local branch supports stable edit absorption, whereas the shared branch enables cross-modal propagation only when visual and textual evidence are sufficiently aligned. Both branches perform scope-separated write geometries in orthogonal low-rank spaces and maintain branch-wise preconditioners via Sherman--Morrison recursions, yielding constant per-edit overhead. Extensive experiments across diverse benchmarks, long-horizon edit streams, MLLM backbones, real-world VLKEB scenarios, and complex vision-language architectures show that ScopeEdit consistently improves the trade-off between in-scope cross-modal transfer and out-of-scope locality, while preserving edit reliability, stability and online efficiency. Our code is available at this https URL.",
+    "publicationDate": "2026-07-02T10:10:19.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "1\nMultimodal Knowledge Edit-Scoped Generalization for Online\nRecursive MLLM Editing\nSiyuan Li, Youyuan Zhang, Ruitong Liu, Junxi Wang and Jing Li \n#\n, Senior Member, IEEE\nAbstract—Online multimodal kn..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "1\nMultimodal Knowledge Edit-Scoped Generalization for Online\nRecursive MLLM Editing\nSiyuan Li, Youyuan Zhang, Ruitong Liu, Junxi Wang and Jing Li \n#\n, Senior Member, IEEE\nAbstract—Online multimodal kn..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2607.21529",
+    "title": "ElasticTTT: Prior-Preserving Test-Time Tuning for Video Editing",
+    "abstract": "Test-Time Tuning (TTT) on pretrained diffusion models has emerged as a powerful paradigm for video editing. However, there exists a foundational mismatch between the distribution-mapping nature of generative models and the single-point optimization of standard TTT. In this paper, we demonstrate that this mismatch triggers \\textit{Prior Collapse}, a degenerate state where the model discards the text conditions and spatial latents, collapsing generations to the source video, or entangling the features of distinct regions. To resolve this, we propose \\textbf{ElasticTTT}, a novel framework that preserves the prior generative distribution and rescues generative elasticity. Specifically, we propose \\textit{Target Distribution Regularization} to prevent sharp memorization minima, \\textit{Contrastive CFG} to guide inference away from source biases, and \\textit{Asynchronous Noise Schedule} to preserve unedited regions. Extensive evaluations, supported by theoretical analysis, demonstrate that ElasticTTT successfully preserves the generative prior of the base model, achieving state-of-the-art performance on one-shot video editing.",
+    "publicationDate": "2026-07-23T17:15:30.000Z",
+    "votes": 3,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...rative distribution and rescues\ngenerative elasticity. Specifically, we propose Target Distribution Regularization to prevent\nsharp memorization minima, Contrastive CFG to guide inference away from so..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Tsinghua University\nAugust 3, 2026\nElasticTTT: Prior-Preserving Test-Time Tuning for\nVideo Editing\nYueyi Liu\n1∗ \nChi Zhang\n1∗ \nSen Cui\n2 \nMiao Liu\n1†\nCollege of AI, Tsinghua University\n1\n,\nBeijing Aca..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2607.20883",
+    "title": "WhereEdit: Mask-aware Local Latent Editing for One-Step Image Editing",
+    "abstract": "Recent one-step text-to-image (T2I) models enable efficient image synthesis and provide new opportunities for real-time image editing. However, existing one-step editing methods primarily rely on text conditioning for semantic transformation, lacking explicit spatial control over \\textit{where} to edit. More importantly, even when spatial constraints are introduced, these methods often struggle to achieve strong and stable semantic modifications within the target regions. In this work, we revisit one-step image editing from a spatially controlled perspective and identify two key challenges: discovering editable regions and achieving effective localized semantic transformation. We reveal that existing methods perform global semantic transport, which limits high-intensity local editing under the one-step setting. To address this issue, we propose \\textbf{WhereEdit}, a framework that reformulates one-step editing as localized adaptive editing. WhereEdit automatically identifies semantically relevant regions from internal model features and applies adaptive local modulation to enhance target-region editing while preserving non-target areas and structural consistency. Experiments on the PIE-Bench benchmark demonstrate that WhereEdit consistently outperforms existing one-step image editing methods, achieving superior editing quality while maintaining the efficiency of one-step generation. Additional experiments with region-level supervision further highlight the importance of explicit spatial reasoning for high-quality one-step image editing.",
+    "publicationDate": "2026-07-23T03:11:25.000Z",
+    "votes": 11,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "WhereEdit: Mask-aware Local Latent Editing for One-Step Image Editing\nMing Hu\n1,2\n, Mingyu Dou\n1,2\n, Jianfu Yin\n1,2\n, Miaomiao Zhang\n1,2\n, Cong Hu\n4\nYao Wang\n3\n, Bingliang Hu\n1\n, Quan Wang\n1\n1 \nXi’an ..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "...al. 2025) discovers editable\nregions using cross-attention and intermediate features with\nattention regularization, while LocInv (Tang et al. 2024) re-\nduces attention leakage through localization pri..."
+      }
+    ]
+  }
+]

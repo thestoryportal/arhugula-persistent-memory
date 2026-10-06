@@ -1,0 +1,272 @@
+[
+  {
+    "source": "alphaxiv",
+    "id": "2608.03494",
+    "title": "Beyond Initialization Loss: A Systematic Study of Token Embedding Initialization Strategies for LLM Vocabulary Extension",
+    "abstract": "Vocabulary extension is an efficient way to adapt pretrained large language models (LLMs) to new languages, but the initialization of newly added token embeddings can strongly affect continued pre-training (CPT) efficiency. We present a systematic study of more than 20 initialization strategies for Hindi vocabulary extension in Nemotron-3-Nano-30B-A3B. Our comparison spans vocabulary-averaging baselines; external and learned initialization methods, including FOCUS, top-k semantic retrieval, and residual MLP mappings; subword composition; norm calibration; and input-output asymmetry. We find that subword composition methods outperform both vocabulary averaging and external/learned initialization approaches. Within subword composition, asymmetric variants achieve the lowest observed early validation loss and reveal distinct preferences for input and output embedding initialization. The best observed configuration initializes the input embedding matrix with uniform subword averaging and Hindi-specific norm calibration, and the output language modeling head with character-length-weighted subword averaging. Relative to the standard Mean-all baseline, this full initialization pipeline reaches comparable validation loss with over a 6x reduction in CPT steps and exceeds the baseline's 3,500-step MILU-Hindi accuracy after only 500 steps. Finally, we show that initialization loss and initialization bits-per-byte (Init BPB) are unreliable predictors of downstream convergence, whereas lightweight CPT, as few as 50 steps, provides a cost-effective and reliable signal for selecting the best initialization strategy.",
+    "publicationDate": "2026-08-04T11:32:10.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Beyond Initialization Loss: A Systematic Study of Token Embedding\nInitialization Strategies for LLM Vocabulary Extension\nRaviraj Joshi\n*\n, Utkarsh Vaidya, Sanjay Singh Chauhan, Niranjan Wartikar\nNVIDI..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Beyond Initialization Loss: A Systematic Study of Token Embedding\nInitialization Strategies for LLM Vocabulary Extension\nRaviraj Joshi\n*\n, Utkarsh Vaidya, Sanjay Singh Chauhan, Niranjan Wartikar\nNVIDI..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.30315",
+    "title": "Context Staircase: Signature-Aligned Dynamics of Token Embeddings under Small Initialization",
+    "abstract": "Token embeddings are the basic representational units that connect discrete tokens with continuous computation in language models. Although modern language models learn embeddings from random initialization through gradient-based training, the dynamical mechanism by which meaningful embedding structures emerge remains unclear. In this work, we identify that the evolving embedding structures are closely related to token-conditioned label and contextual distributions, which we formalize as probability signatures. We observe a progressive learning process, which we term Context Staircase: embeddings learn the low-order statistic signatures of the data before the high-order ones. More specifically, we observe that early in training they align with the simplest, context-free signature linking a token to its label, and as training proceeds, they progressively reflect signatures involving more and more context tokens. We then analyze the gradient flow of embeddings under small initialization to explain this phenomenon, deriving embedding evolution equations for feed-forward and self-attention architectures. We further extend these observations to real language-model training. Finally, we show that these embedding structures play an important role in both task learning and the incorporation of semantic structure into the embedding space. Overall, our results provide a dynamic explanation of how data statistics and architecture jointly shape token embeddings in language models, and reveal an implicit bias in the space of data statistics: training proceeds from simpler, low-order statistical relations toward increasingly complex, context-dependent ones.",
+    "publicationDate": "2026-08-31T06:33:09.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Context Staircase: Signature-Aligned Dynamics of Token\nEmbeddings under Small Initialization\nJunjie Yao yaojj22@sjtu.edu.cn\nSchool of Mathematical Sciences\nShanghai Jiao Tong University\nShanghai 20024..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Context Staircase: Signature-Aligned Dynamics of Token\nEmbeddings under Small Initialization\nJunjie Yao yaojj22@sjtu.edu.cn\nSchool of Mathematical Sciences\nShanghai Jiao Tong University\nShanghai 20024..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2604.02324",
+    "title": "Grounded Token Initialization for New Vocabulary in LMs for Generative Recommendation",
+    "abstract": "Language models (LMs) are increasingly extended with new learnable vocabulary tokens for domain-specific tasks, such as Semantic-ID tokens in generative recommendation. The standard practice initializes these new tokens as the mean of existing vocabulary embeddings, then relies on supervised fine-tuning to learn their representations. We present a systematic analysis of this strategy: through spectral and geometric diagnostics, we show that mean initialization collapses all new tokens into a degenerate subspace, erasing inter-token distinctions that subsequent fine-tuning struggles to fully recover. These findings suggest that \\emph{token initialization} is a key bottleneck when extending LMs with new vocabularies. Motivated by this diagnosis, we propose the \\emph{Grounded Token Initialization Hypothesis}: linguistically grounding novel tokens in the pretrained embedding space before fine-tuning better enables the model to leverage its general-purpose knowledge for novel-token domains. We operationalize this hypothesis as GTI (Grounded Token Initialization), a lightweight grounding stage that, prior to fine-tuning, maps new tokens to distinct, semantically meaningful locations in the pretrained embedding space using only paired linguistic supervision. Despite its simplicity, GTI outperforms both mean initialization and existing auxiliary-task adaptation methods in the majority of evaluation settings across multiple generative recommendation benchmarks, including industry-scale and public datasets. Further analyses show that grounded embeddings produce richer inter-token structure that persists through fine-tuning, corroborating the hypothesis that initialization quality is a key bottleneck in vocabulary extension.",
+    "publicationDate": "2026-04-02T17:59:19.000Z",
+    "votes": 15,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Preprint.\nGrounded Token Initialization for New Vocabulary in LMs\nfor Generative Recommendation\nDaiwei Chen\n1,2∗ \nZhoutong Fu\n2\n, Chengming Jiang\n2\n, Haichao Zhang\n3\n, Ran Zhou\n2\nTan Wang\n2\n, Chunnan ..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...commendation. The standard practice initializes these new\ntokens as the mean of existing vocabulary embeddings, then relies on\nsupervised fine-tuning to learn their representations. We present a syste..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.25859",
+    "title": "BELXTR: Biomedical Entity Linking via Contextualized Token Retrieval",
+    "abstract": "Biomedical Entity Linking disambiguates mentions to entities in a knowledge base (KB), making it the cornerstone of information extraction pipelines. While embedding-based models are a popular approach for the task, they suffer from a key limitation. They compress mentions (and entities) into a single vector, forcing the model to average away crucial fine-grained differences. We present BELXTR, a novel embedding model based on the multi-vector (a.k.a. late interaction) architecture, which allows to leverage token-level matching information. BELXTR extends the original XTR model to biomedical entity linking by integrating an existing task-specific training objective and exploring active query expansion. Experiments across ten corpora and five KBs show that BELXTR improves upon current state-of-the-art in half of the corpora with an average improvement of 5pp recall@1. The largest gains are reported on the challenging cross-species gene disambiguation subtask, where BELXTR outperforms an LLM-powered retrieve-and-rerank pipeline and closely approaches a specialized rule-based system. Our results highlight multi-vector models as a practical alternative to hard-to-maintain rule-based systems or in scenarios where LLM-based reranking is too costly as in PubMed-scale mining. The code to reproduce our experiments can be found at: this https URL.",
+    "publicationDate": "2026-09-22T08:23:54.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...\nPublished: Date added during production\nPaper\nBELXTR: Biomedical Entity Linking via\nContextualized Token Retrieval\nSamuele Garda\n1,∗ \nand Ulf Leser\n1\n1\nComputer Science, Humboldt-Universit¨at zu Berl..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...ties in a knowledge base (KB), making it the\ncornerstone of information extraction pipelines. While embedding-based models are a popular approach for the task,\nthey suffer from a key limitation. They ..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.07816",
+    "title": "Preserving Item Semantics for Free: Rethinking Token Initialization in LLM-Based Generative Recommendation",
+    "abstract": "Recent advances in generative recommendation (GR) leverage large language models (LLMs) as recommender backbones, enabling LLMs to directly generate recommendations conditioned on item-interaction histories. In these systems, items are often represented through semantic IDs (SIDs) added to the LLM vocabulary as special tokens. Ideally, SIDs imbue item token representations with semantic priors, thereby improving model generalization. However, standard vocabulary expansion typically initializes these tokens as random Gaussian vectors, discarding the SIDs' underlying continuous geometry and forcing the LLM to relearn token relationships from interaction data. To demonstrate the consequences of this design, we first show that training from this initialization tends to organize SID embeddings around item popularity rather than semantics. We further show that, despite partially reducing the reliance on popularity and improving cold item performance, the computationally expensive process of continual pretraining (CPT) fails to reliably recover the original semantic geometry. To address these findings, we propose a simple, parameter-free intervention that initializes SID token embeddings directly from their corresponding centroids in the semantic embedding space. Requiring only a few lines of code and no additional training or inference overhead, this drop-in approach improves pure-SFT Recall@5 by up to 16%, reaches peak performance with up to 40% fewer SFT steps, and improves cold-item Recall@5 by up to 60%. Moreover, on datasets that benefit from additional CPT, centroid initialization reaches comparable performance while requiring half as many CPT epochs. Together, our findings show that preserving SID geometry, beyond shared-prefix structure, provides a simple and effective semantic prior for LLM-based GR.",
+    "publicationDate": "2026-08-07T23:33:08.000Z",
+    "votes": 7,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Preserving Item Semantics for Free: Rethinking Token\nInitialization in LLM-Based Generative Recommendation\nDonald Loveland\nSnap Inc.\nBellevue, WA, USA\ndloveland@snapchat.com\nLiam Collins\nSnap Inc.\nBel..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...equences of this\ndesign, we first show that training from this initialization tends\nto organize SID embeddings around item popularity rather than\nsemantics. We further show that, despite partially red..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.16161",
+    "title": "Domain-Specific Text Embedding Models for Entity Resolution",
+    "abstract": "General-purpose text embedding models are designed to capture semantic similarity but are not optimised for distinguishing entity records that represent the same real-world business or person. This limitation affects applications such as entity resolution and duplicate record retrieval, where small textual differences may either preserve or change identity. This paper investigates whether domain-specific triplet fine-tuning can adapt pretrained embedding models for identity-sensitive retrieval. A synthetic dataset of business and person records was created with identity-preserving variations and challenging non-matching examples. Two widely used embedding models were evaluated before and after fine-tuning using a margin-based similarity evaluation. The results show substantial improvements in separating true matches from highly similar non-matches, demonstrating that domain-specific triplet training can effectively reshape general-purpose embedding spaces for entity retrieval. These findings suggest that targeted fine-tuning provides a practical approach for improving embedding models in data quality management and information retrieval applications.",
+    "publicationDate": "2026-08-17T06:26:05.000Z",
+    "votes": 3,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Domain-Specific Text Embedding Models\nfor Entity Resolution\nS Khajesh Narayana, R Srivardhani, Kishore Reddy Konda\nSodhana\nkhajeshn@gmail.com\nsrivardhani.r@nexusiqsolutions.com\nkishore.konda@sodhana.a..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Domain-Specific Text Embedding Models\nfor Entity Resolution\nS Khajesh Narayana, R Srivardhani, Kishore Reddy Konda\nSodhana\nkhajeshn@gmail.com\nsrivardhani.r@nexusiqsolutions.com\nkishore.konda@sodhana.a..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.09322",
+    "title": "Diffusion Image Editing via Asynchronous Token Decoding",
+    "abstract": "Text-guided diffusion image editing aims to modify semantic attributes of an image while preserving its identity, layout, and background. However, naïvely switching the text condition during sampling often causes global drift, as denoising dynamics propagate changes across tokens and can disrupt unedited regions. To address this issue, we propose \\textbf{A}synchronous \\textbf{T}oken \\textbf{D}ecoding \\textbf{Edit} (ATDEdit), an inference-time framework that views each sampler step as a parallel update of a globally coupled token matrix and enables token-indexed condition switching with differentiated update policies. Instead of applying synchronous target-conditioned updates to all tokens, ATDEdit estimates editable locations using token-wise conditional surprisal and applies target-conditioned corrections to the selected token set. It supplies source key/value memory at keep-token positions and projects selected keep-token latent rows back to their source values; these operations promote background preservation but do not constitute a pixel-level invariance guarantee. This approach combines local editing and background preservation without external or user-provided spatial masks and without model fine-tuning. On PIE-Bench, ATDEdit achieves the strongest reported preservation metrics, including 27.44~dB PSNR and 0.055 LPIPS, while retaining competitive semantic alignment.",
+    "publicationDate": "2026-08-10T09:02:13.000Z",
+    "votes": 6,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Diffusion Image Editing via Asynchronous Token Decoding\nYang Shi\n∗\nGuangdong University of\nTechnology\nGuangzhou, China\nsudo.shiyang@gmail.com\nLiangsi Lu\n∗†\nGuangdong University of\nTechnology\nGuangzhou..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...ded diffusion image editing aims to modify semantic at-\ntributes of an image while preserving its identity, layout, and back-\nground. However, naïvely switching the text condition during sam-\npling of..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.18679",
+    "title": "FRAGMENT: Factorized Graph Representations for Document Generation and Editing via Entity-Aware Transformations",
+    "abstract": "Structured documents such as invoices, forms, reports, and scientific articles derive meaning from the interplay between spatial layout, textual content, and logical structure. Generative models operating at the pixel or token level often struggle to capture these dependencies effectively. We explore FRAGMENT, a generative framework that represents a document as a typed relational graph and factorizes its distribution as p(structure, content) = p(structure) * p(content | structure). The framework consists of two stages. The first stage, the Architect, is a causally masked Transformer conditioned on document category that autoregressively generates the graph topology and typed spatial relations. The second stage, the Builder, is a GATv2-based graph attention network that enriches the graph with normalized bounding boxes, text, and visual style attributes. Both stages define explicit likelihood models, yielding a tractable document-level likelihood that serves as an anomaly score for forgery detection. For controlled editing, a prompt-conditioned extension injects instruction embeddings into the Builder through cross-attention, enabling semantic and entity-aware modifications. We describe training on DocLayNet and fine-tuning on FUNSD and SROIE. Experiments on DocLayNet, FUNSD, and SROIE evaluate FRAGMENT alongside representative autoregressive, layout-only, and graph-based baselines, providing an empirical analysis of the characteristics and trade-offs of the proposed factorized graph generation framework.",
+    "publicationDate": "2026-08-19T08:29:19.000Z",
+    "votes": 3,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...spatial layout, textual content, and logical structure. Generative models operating at the pixel or token level often\nstruggle to capture these dependencies effectively. We explore FRAGMENT, a generat..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...lled document editing, we further introduce a prompt-conditioned extension that injects\ninstruction embeddings into the Builder through cross-attention, enabling semantic and entity-aware modification..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.07629",
+    "title": "Embedding Initialization for Unseen Low-resource Languages in Multilingual NMT: A Case Study on Limbum-English Translation",
+    "abstract": "Multilingual neural machine translation models such as NLLB-200 cover 200 languages but leave thousands unsupported, including most Grassfields Bantu languages of Cameroon. When fine-tuning these models for an unseen language, practitioners must choose a proxy language token, yet no principled method exists for this selection. We implemented an embedding initialization strategy where a language token is the average of embeddings from multiple typologically related languages already in the mod el. We evaluate this approach on Limbum-to-English translation using a parallel corpus of 8,837 sentence pairs from New Testament text and a bilingual dictionary. We compare models: NLLB-200 zero-shot (chrF2++ = 12.5), a Transformer trained from scratch (chrF2++ = 14.5), NLLB-200 fine-tuned with a Swahili proxy token (chrF2++ = 47.3), and NLLB-200 with our averaged embedding initialization (chrF2++ = 46.7). We find that the multi-language initialization achieves performance comparable to the best single-language proxy. Both NLLB-200 variants improve over the from-scratch baseline by over 32 chrF2++ points. These results show that multilingual transfer is the dominant factor in extremely low-resource Bantu translation while eliminating the need for heuristic proxy selection. However, all systems fail to preserve tonal diacritics, highlighting an open challenge. We make our dataset and code available to support further research.",
+    "publicationDate": "2026-08-07T11:45:46.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...n. When fine-tuning\nthese models for an unseen language, practitioners\nmust choose a proxy language token, yet no prin-\ncipled method exists for this selection. We imple-\nmented an embedding initializ..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Embedding Initialization for Unseen Low-resource Languages in Multilingual\nNMT: A Case Study on Limbum–English Translation\nSamiratu Ntohsi , Neza David Tuyishimire , Anesu Kafesu , Marvin Ogore , Samu..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2605.06096",
+    "title": "Uncovering Entity Identity Confusion in Multimodal Knowledge Editing",
+    "abstract": "Multimodal knowledge editing (MKE) aims to correct the internal knowledge of large vision-language models after deployment, yet the behavioral patterns of post-edit models remain underexplored. In this paper, we identify a systemic failure mode in edited models, termed Entity Identity Confusion (EIC): edited models exhibit an absurd behavior where text-only queries about the original entity's identity unexpectedly return information about the new entity. To rigorously investigate EIC, we construct EC-Bench, a diagnostic benchmark that directly probes how image-entity bindings shift before and after editing. Our analysis reveals that EIC stems from existing methods failing to distinguish between Image-Entity (I-E) binding and Entity-Entity (E-E) relational knowledge in the model, causing models to overfit E-E associations as a shortcut: the image is still perceived as the original entity, with the new entity's name serving only as a spurious identity label. We further explore potential mitigation strategies, showing that constraining edits to the model's I-E processing stage encourages edits to act more faithfully on I-E binding, thereby substantially reducing EIC. Based on these findings, we discuss principled desiderata for faithful MKE and provide methodological guidance for future research.",
+    "publicationDate": "2026-05-07T12:14:54.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...u Wu\n1∗\n, Xiaotian Ye\n2∗\n, Xinyu Mou\n1,3∗\n, Dongsheng Liu\n1,4∗\n, Xiaohan Wang\n5\n, Mengqi Zhang\n6†\n1\nNew Laboratory of Pattern Recognition (NLPR)\nState Key Laboratory of Multimodal Artificial Intellige..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Uncovering Entity Identity Confusion\nin Multimodal Knowledge Editing\nShu Wu\n1∗\n, Xiaotian Ye\n2∗\n, Xinyu Mou\n1,3∗\n, Dongsheng Liu\n1,4∗\n, Xiaohan Wang\n5\n, Mengqi Zhang\n6†\n1\nNew Laboratory of Pattern Rec..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.15749",
+    "title": "ES3D: Embedding Semantics into 3D Space for Component-Aware Editing",
+    "abstract": "Existing 3D editing methods have made notable progress in controllability, yet they remain limited in several important ways. Most approaches rely on text-driven editing, which struggles to express fine-grained visual changes intended by the user. Moreover, many methods require manually supplied 3D masks or introduce unintended changes to regions that should remain untouched. These limitations largely arise from the absence of fine-grained semantic understanding, making it difficult for existing models to retrieve or modify specific 3D components.\nWe introduce ES3D, a framework that embeds semantics directly into 3D space, enabling component-aware retrieval and editing of a 3D asset conditioned on multiple local reference images and optional text queries. We first construct a 3D semantic embedding by projecting multi-view semantic features into the voxelized space of the asset. We then perform 3D component retrieval by computing feature similarity between the 3D semantic embedding and the semantic embeddings of image or text queries. For editing, we employ a pretrained 3D generative model with an inpainting mechanism to modify the retrieved components guided by user-provided images while preserving the rest of the asset. Overall, ES3D is a 3D editing framework that retrieves editable regions based on semantic cues and uses multiple images as conditions. Extensive experiments demonstrate that ES3D produces geometrically consistent and semantically coherent edits, enabling robust image-based and text-assisted control for 3D editing.",
+    "publicationDate": "2026-08-16T13:58:08.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "ES3D: Component-Aware 3D Editing via 3D Semantic Embedding\nXuancheng Jin\n1\n, Rengan Xie\n1\n, Jiayuan Lu\n1\n, Wenting Zheng\n1\n,\nRui Wang\n1\n, Lincheng Li\n2\n, Yingfeng Chen\n2\n, Yuchi Huo\n1∗\n1\nState Key Lab..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "ES3D: Component-Aware 3D Editing via 3D Semantic Embedding\nXuancheng Jin\n1\n, Rengan Xie\n1\n, Jiayuan Lu\n1\n, Wenting Zheng\n1\n,\nRui Wang\n1\n, Lincheng Li\n2\n, Yingfeng Chen\n2\n, Yuchi Huo\n1∗\n1\nState Key Lab..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2610.02331",
+    "title": "World Editing: Intervening on Executable Worlds at Increasing Depth",
+    "abstract": "Interactive world models are increasingly capable of generating environments and acting within them, yet deliberately editing an existing executable world remains underexplored. We formulate world editing as intervening on an existing world while preserving properties that should remain unchanged, and introduce intervention depth as an axis describing how strongly an edit couples world entities, dynamics, and systems. We instantiate this capability through industry-grade game modding and introduce IGMWorld, together with IGMBench, a benchmark of 110 tasks and over 1.1K executable state and behavioral criteria across Minecraft and Terraria. The tasks span property, entity, dynamics, and system interventions and are evaluated through deterministic executability, behavioral, preservation, and visual checks. Frontier coding agents already exhibit substantial world-editing capability: the strongest configuration solves 78.2% of tasks under a strict task-level criterion, while criterion-level performance reaches 94.8%. Reliability generally decreases with intervention depth, and this pattern persists even among tasks with similar numbers of evaluation criteria. Most failed edits still build and load successfully, suggesting that the main difficulty is making the edited world behave as requested. Visual consistency remains a separate weakness, with all evaluated configurations below 50% joint visual pass rate. These results show that world editing is a distinct capability from world generation and interaction, and that executable games provide a practical testbed for studying it.",
+    "publicationDate": "2026-10-01T18:05:47.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...1K executable state and behavioral criteria across\nMinecraft and Terraria. The tasks span property, entity, dynamics, and system\ninterventions and are evaluated through deterministic executability, be..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Preprint.\nWORLD EDITING: INTERVENING ON EXECUTABLE\nWORLDS AT INCREASING DEPTH\nMax Ku\n1,2 \nNok-Kan Law\n2 \nYu-Chien Tang\n2 \nShih-Ying Yeh\n2,3 \nPing Nie\n1\nAndy Zheng\n1 \nTat Hei Lai\n1 \nFei-Yueh Chen\n2 \nNi..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.13898",
+    "title": "HiLo-Token: Input-Adaptive High-Low Frequency Token Compression for Efficient Image Editing",
+    "abstract": "Creative image editing tools, such as Photoshop's Remove or Generative Fill buttons, are central to everyday customer use and account for a major share of traffic in Photoshop and Lightroom. However, current generative AI models face significant latency challenges, which become even more pronounced when transitioning from convolution-based U-Nets to Diffusion Transformers (DiTs). In our evaluation on hundreds of representative image editing samples spanning a wide range of mask ratios, the DiT module alone accounts for an average of 73% of the total model latency, even after being distilled from 50 timesteps down to 8 timesteps. To tackle this challenge, we propose $\\textbf{HiLo-Token}$, an input-adaptive token compression framework that allocates more token budget to high-frequency, rich-context regions while assigning fewer tokens to low-frequency areas. Specifically, for the editing region specified by the user mask, we retain all tokens within a dilated mask to preserve strong locality and contextual relevance. Outside the editing region, we introduce a simple yet effective high-frequency token selection strategy based on spatial frequency to capture important local details, while using tokens from a 16x downsampled image to represent low-frequency components and preserve the blurry but global structure. Extensive experiments on production-level evaluation data validate the effectiveness of the proposed method, achieving 3.13x, 2.59x, and 1.67x DiT speedups on A100-80GB for image editing tasks across small, medium, and large mask ratio categories with average ratios of 6.38%, 15.92%, and 35.36%, respectively, without any regression in generation quality.",
+    "publicationDate": "2026-06-11T20:45:26.000Z",
+    "votes": 8,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "2026-9-22\nHiLo-Token: Input-Adaptive High–Low Frequency\nToken Compression for Efficient Image Editing\nHaoran You\nB,†1\n, Yotam Nitzan\n2\n, Lingzhi Zhang\n1\n, Yifan Gong\n2\n, Mang-Tik Chiu\n1\n, Connelly Bar..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "2026-9-22\nHiLo-Token: Input-Adaptive High–Low Frequency\nToken Compression for Efficient Image Editing\nHaoran You\nB,†1\n, Yotam Nitzan\n2\n, Lingzhi Zhang\n1\n, Yifan Gong\n2\n, Mang-Tik Chiu\n1\n, Connelly Bar..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.26809",
+    "title": "Thinking on Shots: Consistent Multi-Shot Video Editing with Agentic Reasoning",
+    "abstract": "While generative AI has significantly advanced video editing, existing methods primarily focus on single-shot or short video clips. Editing long videos with multiple instructions remains a formidable challenge. Naive chunking strategies, e.g., fixed-duration segmentation, often lead to entity fragmentation, severe editing hallucinations, and disrupted temporal continuity. To bridge this gap, we introduce the Multi-Instruction Multi-Shot Long-Video Editing (MMLVE) task, which is structured around three core objectives: Cross-Shot Editing Consistency (CSEC), Multi-Instruction Decoupling (MID), and Zero-Destruction on Spatiotemporal Structure (ZDSS). To tackle these three unique challenges, we introduce an agentic editing framework that leverages the synergy of Large Language Models (LLMs) and Vision-Language Models (VLMs) to achieve shot-level video decoupling and precise instruction parsing. Furthermore, to comprehensively evaluate this task, we construct MMLVE-Bench, which is an MMLVE-focused dataset characterized by complex real-world spatiotemporal dynamics, high-density heterogeneous instructions, and sparse, random entity distributions. Three MMLVE-focused evaluation metrics are further exploited to assess the quality of the editing results. Extensive experiments demonstrate that our MMLVE-Agent outperforms existing closed-source SOTA approaches (e.g., Seedance 2.0), successfully eliminating editing hallucinations, preserving cross-shot editing consistency, and attaining seamless spatiotemporal transitions.",
+    "publicationDate": "2026-08-27T08:48:13.000Z",
+    "votes": 12,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "... formidable challenge. Naive chunking strategies, e.g., fixed-\nduration segmentation, often lead to entity fragmentation, se-\nvere editing hallucinations, and disrupted temporal continu-\nity. To bridg..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Thinking on Shots: Consistent Multi-Shot Video Editing with Agentic Reasoning\n∗\nChenyang Wu\n1†\n, Fuchen Long\n2†\n, Binyuan Huang\n2\n, Xinlong Sun\n2‡\n, Xi Chen\n2\n,\nChun-Le Guo\n1\n, Chongyi Li\n1§\n1\nVCIP, C..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.05645",
+    "title": "Discrete-WAM: Unified Discrete Vision-Action Token Editing for World-Policy Learning",
+    "abstract": "Autonomous driving requires reasoning about how ego actions shape future world evolution, rather than merely mapping observations to actions. However, most end-to-end methods rely on direct state-to-action imitation, while existing world models often remain weakly aligned with downstream policy generation. We introduce Discrete-WAM, a unified discrete vision-action world-policy framework that represents visual observations, future states, high-level decisions, and ego actions within a shared token space. Built on this discrete alignment, Discrete-WAM jointly trains world modeling, world-policy modeling, and policy modeling through multi-task and multi-stage pretraining, allowing action-conditioned future prediction to directly support policy generation. For downstream planning, Discrete-WAM further decomposes policy generation into hierarchical decision prediction and parallel action-token editing, where the decision token provides a high-level planning skeleton and confidence-based scheduling refines dense future actions efficiently. Experiments on large-scale autonomous-driving benchmarks show that Discrete-WAM achieves strong planning performance while supporting controllable future generation, counterfactual evaluation, surprise-based world-model analysis, and efficient parallel policy decoding. These results suggest that discrete representation alignment, unified world-policy training, and hierarchical token editing provide a promising design paradigm for physical AI.",
+    "publicationDate": "2026-06-04T03:16:31.000Z",
+    "votes": 31,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Xiaomi EV\nDiscrete-WAM: Unified Discrete Vision-Action Token\nEditing for World-Policy Learning\nXiaomi EV\nSee Contributions and Acknowledgments section for a full author list.\nAbstract\nAutonomous drivi..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Xiaomi EV\nDiscrete-WAM: Unified Discrete Vision-Action Token\nEditing for World-Policy Learning\nXiaomi EV\nSee Contributions and Acknowledgments section for a full author list.\nAbstract\nAutonomous drivi..."
+      }
+    ]
+  }
+]

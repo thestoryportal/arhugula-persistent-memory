@@ -1,0 +1,122 @@
+[
+  {
+    "source": "openalex",
+    "id": "10.18653/v1/2025.starsem-1.27",
+    "title": "Knowledge Editing Induces Underconfidence in Language Models",
+    "abstract": "As language models continue to scale, the demand for knowledge editing, a retraining-free knowledge update method, has increased.However, since knowledge editing directly alters token prediction probabilities acquired during pretraining, the probabilities may diverge from the empirical distribution.In this study, we analyze the impact of knowledge editing to compare the alignment between token prediction probabilities and task accuracy by calculating confidence calibration before and after knowledge editing.Our results reveal that, for tasks requiring semantic understanding, the range of increase in token prediction probabilities tends to be smaller than that of accuracy improvement, suggesting that knowledge editing methods lead to less confidence in prediction.",
+    "publicationDate": "2025-01-01",
+    "citations": 0
+  },
+  {
+    "source": "openalex",
+    "id": "10.18653/v1/2024.emnlp-main.376",
+    "title": "Discovering Knowledge-Critical Subnetworks in Pretrained Language Models",
+    "abstract": "Pretrained language models (LMs) encode implicit representations of knowledge in their parameters.However, localizing these representations and disentangling them from each other remains an open problem.In this work, we investigate whether pretrained language models contain various knowledge-critical subnetworks: particular sparse computational subgraphs that can, if removed, precisely suppress specific knowledge the model has memorized.We propose a multi-objective differentiable masking scheme that can be applied to both weights and neurons to discover such subnetworks and show that we can use them to precisely remove specific knowledge from models while minimizing adverse effects on the behavior of the original model.We demonstrate our method on multiple GPT2 variants, uncovering highly sparse subnetworks (98%+ sparsity) that are critical for expressing specific collections of relational knowledge.When these subnetworks are removed, the remaining network maintains most of its initial abilities but struggles to represent the suppressed knowledge.1",
+    "publicationDate": "2024-01-01",
+    "citations": 4
+  },
+  {
+    "source": "openalex",
+    "id": "10.48550/arxiv.2511.14365",
+    "title": "The Tokenization Bottleneck: How Vocabulary Extension Improves Chemistry Representation Learning in Pretrained Language Models",
+    "abstract": "The application of large language models (LLMs) to chemistry is frequently hampered by a \"tokenization bottleneck\", where tokenizers tuned on general-domain text tend to fragment chemical representations such as SMILES into semantically uninformative sub-tokens. This paper introduces a principled methodology to resolve this bottleneck by unifying the representation of natural language and molecular structures within a single model. Our approach involves targeted vocabulary extension-augmenting a pretrained LLM's vocabulary with chemically salient tokens, followed by continued pretraining on chemistry-domain text to integrate this new knowledge. We provide an empirical demonstration of the effectiveness of this strategy, showing that our methodology leads to superior performance on a range of downstream chemical tasks.",
+    "publicationDate": "2025-11-18",
+    "citations": 1
+  },
+  {
+    "source": "openalex",
+    "id": "10.18653/v1/2024.acl-long.171",
+    "title": "Detoxifying Large Language Models via Knowledge Editing",
+    "abstract": "Mengru Wang, Ningyu Zhang, Ziwen Xu, Zekun Xi, Shumin Deng, Yunzhi Yao, Qishen Zhang, Linyi Yang, Jindong Wang, Huajun Chen. Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers). 2024.",
+    "publicationDate": "2024-01-01",
+    "citations": 26
+  },
+  {
+    "source": "openalex",
+    "id": "10.48550/arxiv.2401.01286",
+    "title": "A Comprehensive Study of Knowledge Editing for Large Language Models",
+    "abstract": "Large Language Models (LLMs) have shown extraordinary capabilities in understanding and generating text that closely mirrors human communication. However, a primary limitation lies in the significant computational demands during training, arising from their extensive parameterization. This challenge is further intensified by the dynamic nature of the world, necessitating frequent updates to LLMs to correct outdated information or integrate new knowledge, thereby ensuring their continued relevance. Note that many applications demand continual model adjustments post-training to address deficiencies or undesirable behaviors. There is an increasing interest in efficient, lightweight methods for on-the-fly model modifications. To this end, recent years have seen a burgeoning in the techniques of knowledge editing for LLMs, which aim to efficiently modify LLMs' behaviors within specific domains while preserving overall performance across various inputs. In this paper, we first define the knowledge editing problem and then provide a comprehensive review of cutting-edge approaches. Drawing inspiration from educational and cognitive research theories, we propose a unified categorization criterion that classifies knowledge editing methods into three groups: resorting to external knowledge, merging knowledge into the model, and editing intrinsic knowledge. Furthermore, we introduce a new benchmark, KnowEdit, for a comprehensive empirical evaluation of representative knowledge editing approaches. Additionally, we provide an in-depth analysis of knowledge location, which can give a deeper understanding of the knowledge structures inherent within LLMs. Finally, we discuss several potential applications of knowledge editing, outlining its broad and impactful implications.",
+    "publicationDate": "2024-01-02",
+    "citations": 21
+  },
+  {
+    "source": "openalex",
+    "id": "10.18653/v1/2024.findings-emnlp.40",
+    "title": "Editing Conceptual Knowledge for Large Language Models",
+    "abstract": "Recently, there has been a growing interest in knowledge editing for Large Language Models (LLMs).Current approaches and evaluations merely explore instance-level editing, while whether LLMs possess the capability to modify concepts remains unclear.This paper pioneers the investigation of editing conceptual knowledge for LLMs, by constructing a novel benchmark dataset ConceptEdit and establishing a suite of new metrics for evaluation.The experimental results reveal that, although existing editing methods can efficiently modify concept-level definitions to some extent, they also have the potential to distort the related instantial knowledge in LLMs, leading to poor performance.We anticipate this work can inspire further progress in understanding LLMs.",
+    "publicationDate": "2024-01-01",
+    "citations": 9
+  },
+  {
+    "source": "openalex",
+    "id": "10.48550/arxiv.2408.04381",
+    "title": "Understanding and Modeling Job Marketplace with Pretrained Language Models",
+    "abstract": "Job marketplace is a heterogeneous graph composed of interactions among members (job-seekers), companies, and jobs. Understanding and modeling job marketplace can benefit both job seekers and employers, ultimately contributing to the greater good of the society. However, existing graph neural network (GNN)-based methods have shallow understandings of the associated textual features and heterogeneous relations. To address the above challenges, we propose PLM4Job, a job marketplace foundation model that tightly couples pretrained language models (PLM) with job market graph, aiming to fully utilize the pretrained knowledge and reasoning ability to model member/job textual features as well as various member-job relations simultaneously. In the pretraining phase, we propose a heterogeneous ego-graph-based prompting strategy to model and aggregate member/job textual features based on the topological structure around the target member/job node, where entity type embeddings and graph positional embeddings are introduced accordingly to model different entities and their heterogeneous relations. Meanwhile, a proximity-aware attention alignment strategy is designed to dynamically adjust the attention of the PLM on ego-graph node tokens in the prompt, such that the attention can be better aligned with job marketplace semantics. Extensive experiments at LinkedIn demonstrate the effectiveness of PLM4Job.",
+    "publicationDate": "2024-08-08",
+    "citations": 1
+  },
+  {
+    "source": "openalex",
+    "id": "10.1007/s10579-025-09858-9",
+    "title": "A comprehensive evaluation of semantic relation knowledge of pretrained language models and humans",
+    "abstract": "Abstract Recently, much work has concerned itself with the enigma of what exactly pretrained language models (PLMs) learn about different aspects of language, and how they learn it. One stream of this type of research investigates the knowledge that PLMs have about semantic relations. However, many aspects of semantic relations were left unexplored. Generally, only one relation has been considered, namely hypernymy. Furthermore, previous work did not measure humans’ performance on the same task as that performed by the PLMs. This means that at this point in time, there is only an incomplete view of the extent of these models’ semantic relation knowledge. To address this gap, we introduce a comprehensive evaluation framework covering five relations beyond hypernymy, namely hyponymy, holonymy, meronymy, antonymy, and synonymy. We use five metrics (two newly introduced here) for recently untreated aspects of semantic relation knowledge, namely soundness, completeness, symmetry, prototypicality, and distinguishability. Using these, we can fairly compare humans and models on the same task. Our extensive experiments involve six PLMs, four masked and two causal language models. The results reveal a significant knowledge gap between humans and models for all semantic relations. In general, causal language models, despite their wide use, do not always perform significantly better than masked language models. Antonymy is the outlier relation where all models perform reasonably well.",
+    "publicationDate": "2025-07-24",
+    "citations": 1
+  },
+  {
+    "source": "openalex",
+    "id": "10.18653/v1/2025.findings-acl.540",
+    "title": "Context-Robust Knowledge Editing for Language Models",
+    "abstract": "Knowledge editing (KE) methods offer an efficient way to modify knowledge in large language models.Current KE evaluations typically assess editing success by considering only the edited knowledge without any preceding contexts.In real-world applications, however, preceding contexts often trigger the retrieval of the original knowledge and undermine the intended edit.To address this issue, we have developed CHED-a benchmark designed to evaluate the context robustness of KE methods.Evaluations on CHED show that they often fail when preceding contexts are present.To mitigate this shortcoming, we introduce CoRE, a KE method designed to strengthen context robustness by minimizing context-sensitive variance in hidden states of the model for edited knowledge.This method not only improves the editing success rate in situations where a preceding context is present but also preserves the overall capabilities of the model.We also provide an in-depth analysis of the differing impacts of preceding contexts when introduced as user utterances versus assistant responses, and we dissect attention-score patterns to assess how specific tokens influence editing success.Our dataset and code are available at https://github.com/holi-lab/CoRE.",
+    "publicationDate": "2025-01-01",
+    "citations": 0
+  },
+  {
+    "source": "openalex",
+    "id": "10.48550/arxiv.2403.06259",
+    "title": "Editing Conceptual Knowledge for Large Language Models",
+    "abstract": "Recently, there has been a growing interest in knowledge editing for Large Language Models (LLMs). Current approaches and evaluations merely explore the instance-level editing, while whether LLMs possess the capability to modify concepts remains unclear. This paper pioneers the investigation of editing conceptual knowledge for LLMs, by constructing a novel benchmark dataset ConceptEdit and establishing a suite of new metrics for evaluation. The experimental results reveal that, although existing editing methods can efficiently modify concept-level definition to some extent, they also have the potential to distort the related instantial knowledge in LLMs, leading to poor performance. We anticipate this can inspire further progress in better understanding LLMs. Our project homepage is available at https://zjunlp.github.io/project/ConceptEdit.",
+    "publicationDate": "2024-03-10",
+    "citations": 0
+  },
+  {
+    "source": "openalex",
+    "id": "10.18653/v1/2024.acl-long.627",
+    "title": "Cross-Lingual Knowledge Editing in Large Language Models",
+    "abstract": "Knowledge editing aims to change language models' performance on several special cases (i.e., editing scope) by infusing the corresponding expected knowledge into them.With the recent advancements in large language models (LLMs), knowledge editing has been shown as a promising technique to adapt LLMs to new knowledge without retraining from scratch.However, most of the previous studies neglect the multi-lingual nature of some main-stream LLMs (e.g., LLaMA, ChatGPT and GPT-4), and typically focus on monolingual scenarios, where LLMs are edited and evaluated in the same language.As a result, it is still unknown the effect of source language editing on a different target language.In this paper, we aim to figure out this cross-lingual effect in knowledge editing.Specifically, we first collect a largescale cross-lingual synthetic dataset by translating ZsRE from English to Chinese.Then, we conduct English editing on various knowledge editing methods covering different paradigms, and evaluate their performance in Chinese, and vice versa.To give deeper analyses of the crosslingual effect, the evaluation includes four aspects, i.e., reliability, generality, locality and portability.Furthermore, we analyze the inconsistent behaviors of the edited models and discuss their specific challenges. 1",
+    "publicationDate": "2024-01-01",
+    "citations": 5
+  },
+  {
+    "source": "openalex",
+    "id": "10.18653/v1/2025.findings-naacl.168",
+    "title": "Language Modeling with Editable External Knowledge",
+    "abstract": "When the world changes, so does the text that people write about it.How do we build language models that can be easily updated to reflect these changes?One popular approach is retrieval-augmented generation (RAG), in which new documents are inserted into a knowledge base and retrieved during prediction for downstream tasks.Most prior work on RAG has focused on improving model behavior during prediction through better retrieval or reasoning.This paper introduces ERASE, which instead improves model behavior when new documents are acquired, by incrementally deleting or rewriting other entries in the knowledge base each time a document is added.In two new datasets evaluating models' ability to answer questions about a stream of news articles or conversations, ERASE improves accuracy relative to conventional retrieval-augmented generation by 7-13% (Mixtral-8x7B) and 6-10% (Llama-3-8B) absolute.This improvement is complementary to improved retrieval or reasoning for RAG: we demonstrate an 11% improvement by applying ERASE on top of the advanced Self-RAG method. 1",
+    "publicationDate": "2025-01-01",
+    "citations": 0
+  },
+  {
+    "source": "openalex",
+    "id": "10.48550/arxiv.2406.11830",
+    "title": "Language Modeling with Editable External Knowledge",
+    "abstract": "When the world changes, so does the text that humans write about it. How do we build language models that can be easily updated to reflect these changes? One popular approach is retrieval-augmented generation, in which new documents are inserted into a knowledge base and retrieved during prediction for downstream tasks. Most prior work on these systems have focused on improving behavior during prediction through better retrieval or reasoning. This paper introduces ERASE, which instead improves model behavior when new documents are acquired, by incrementally deleting or rewriting other entries in the knowledge base each time a document is added. In two new benchmark datasets evaluating models' ability to answer questions about a stream of news articles or conversations, ERASE improves accuracy relative to conventional retrieval-augmented generation by 7-13% (Mixtral-8x7B) and 6-10% (Llama-3-8B) absolute. Code and data are available at https://github.com/belindal/ERASE",
+    "publicationDate": "2024-06-17",
+    "citations": 0
+  },
+  {
+    "source": "openalex",
+    "id": "10.48550/arxiv.2405.15349",
+    "title": "Everything is Editable: Extend Knowledge Editing to Unstructured Data in Large Language Models",
+    "abstract": "Recent knowledge editing methods have primarily focused on modifying structured knowledge in large language models. However, this task setting overlooks the fact that a significant portion of real-world knowledge is stored in an unstructured format, characterized by long-form content, noise, and a complex yet comprehensive nature. Techniques like \"local layer key-value storage\" and \"term-driven optimization\", as used in previous methods like MEMIT, are not effective for handling unstructured knowledge. To address these challenges, we propose a novel Unstructured Knowledge Editing method, namely UnKE, which extends previous assumptions in the layer dimension and token dimension. Firstly, in the layer dimension, we propose non-local block key-value storage to replace local layer key-value storage, increasing the representation ability of key-value pairs and incorporating attention layer knowledge. Secondly, in the token dimension, we replace \"term-driven optimization\" with \"cause-driven optimization\", which edits the last token directly while preserving context, avoiding the need to locate terms and preventing the loss of context information. Results on newly proposed unstructured knowledge editing dataset (UnKEBench) and traditional structured datasets demonstrate that UnKE achieves remarkable performance, surpassing strong baselines. In addition, UnKE has robust batch editing and sequential editing capabilities.",
+    "publicationDate": "2024-05-24",
+    "citations": 0
+  },
+  {
+    "source": "openalex",
+    "id": "10.48550/arxiv.2412.20637",
+    "title": "Knowledge Editing for Large Language Model with Knowledge Neuronal Ensemble",
+    "abstract": "As real-world knowledge is constantly evolving, ensuring the timeliness and accuracy of a model's knowledge is crucial. This has made knowledge editing in large language models increasingly important. However, existing knowledge editing methods face several challenges, including parameter localization coupling, imprecise localization, and a lack of dynamic interaction across layers. In this paper, we propose a novel knowledge editing method called Knowledge Neuronal Ensemble (KNE). A knowledge neuronal ensemble represents a group of neurons encoding specific knowledge, thus mitigating the issue of frequent parameter modification caused by coupling in parameter localization. The KNE method enhances the precision and accuracy of parameter localization by computing gradient attribution scores for each parameter at each layer. During the editing process, only the gradients and losses associated with the knowledge neuronal ensemble are computed, with error backpropagation performed accordingly, ensuring dynamic interaction and collaborative updates among parameters. Experimental results on three widely used knowledge editing datasets show that the KNE method significantly improves the accuracy of knowledge editing and achieves, or even exceeds, the performance of the best baseline methods in portability and locality metrics.",
+    "publicationDate": "2024-12-30",
+    "citations": 0
+  }
+]

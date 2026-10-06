@@ -1,0 +1,272 @@
+[
+  {
+    "source": "alphaxiv",
+    "id": "2609.24980",
+    "title": "Residual Community Prototypes Under-Reject Held-Out Malware Families in FCG-MFD",
+    "abstract": "Open-set malware-family recognition must classify known families while rejecting families absent from training. We test whether Louvain-community summaries add rejection information beyond a graph neural network embedding and dimension-matched generic topology. The study uses a deduplicated, conflict-audited FCG-MFD corpus, five held-out families, and three optimization seeds. Community features are residualized against generic topology using known-family training data before nearest-prototype scoring. Residual community does not produce stable held-out-family rejection. Ranking effects reverse across families, the false-positive rate at 95 percent unknown recall worsens for every held-out family, and a validation-fitted threshold rejects only 4.48 percent of unknown samples. Accepted-known macro F1 improves in every family, but with five independent family units the exact two-sided sign-flip p-value is 0.0625, the smallest attainable value. The score remains associated with graph scale, while simple classifier uncertainty performs better on ranking, high-recall rejection, and OSCR. In this GIN/FCG-MFD setting, community-enriched prototypes change known-class geometry without creating a stable unknown margin. Graph open-set evaluations should pair structural features with matched topology controls, operational thresholds, and held-out-family analysis.",
+    "publicationDate": "2026-09-21T17:56:11.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "... known-family support.\nOpen-set recognition (OSR) adds this rejection requirement.\nActivation-space models and metric-learning methods assign\nunknown scores from the relation between a test representa..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Residual Community Prototypes Under-Reject\nHeld-Out Malware Families in FCG-MFD\n1\nst \nJunru Zhu\nIndependent Researcher\nSeattle, WA, USA\njunru.zhuu@gmail.com\n2\nnd \nYixin Yang\nIndependent Researcher\nNew..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.33761",
+    "title": "StatD2GAN: When Calibration Masks Generator Quality in Held-Out Evaluation of Synthetic Weather Sequences",
+    "abstract": "Generative models for multivariate weather series are routinely evaluated with pooled distributional metrics computed after marginal calibration. We show this practice can invalidate architectural conclusions, and rebuild the evaluation of StatD2GAN, a three-discriminator GAN with evolutionary weight adaptation, around a held-out protocol: the final two calendar years of each dataset are held out behind a 168 hour embargo, calibration is fitted on the training block only, and all metrics are computed on the held-out block. Evidence comes from 25 matched (location, seed) pairs across five Koppen-Geiger climates, tested with Wilcoxon signed-rank tests under Holm correction. Four results follow. First, isotonic calibration drives the Kolmogorov-Smirnov distance to within 2% of a per-location noise-and-shift floor for every architecture tested, including a deliberately weak RCGAN baseline, so calibrated marginal metrics cannot discriminate between architectures. Second, the sorted-representation discriminator is the only component whose removal significantly degrades cross-variable dependence (Kendall tau MAE +0.080, Holm p = 0.009), with a regime-dependent effect: near zero in Ankara, above 115% in Dubai and Yakutsk. A rank-transformed variant isolates the mechanism as quantile supervision of the marginals rather than copula matching. Third, physical constraint violations are injected by calibration, not the generator; projection removes them at negligible cost (deltaKS &lt;= 0.003). Fourth, pooled metrics conceal a collapse of between-sequence weekly-mean variability, a proxy for seasonal and regime diversity, in TimeGAN that only sequence-level statistics expose. We recommend floor-referenced marginal evaluation, matched-pair testing, and sequence-level variance decomposition as minimum requirements for calibrated generative pipelines.",
+    "publicationDate": "2026-09-27T16:59:38.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...ality in Held-\nOut Evaluation of Synthetic Weather Sequences\n⋆\nMustafa Özaytaç, Özge Karadağ Ataş\n• Held-out protocol with embargo removes circular evaluation of cali-\nbrated GANs.\n• Calibration locks..."
+      },
+      {
+        "pageNumber": 2,
+        "snippet": "... of Statistics, Faculty of Science, Hacettepe\nUniversity, Ankara, 06800, Turkey\nAbstract\nGenerative models for multivariate weather series are routinely evaluated\nwith pooled distributional metrics co..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.36748",
+    "title": "Generalizable Lifelong Model Editing via Preference Optimization",
+    "abstract": "Knowledge editing enables rapid updates of specific factual knowledge in large language models (LLMs) without full retraining. However, more realistic scenarios call for a lifelong framework that handles continual updates rather than one-off modifications. In such settings, existing editing methods often overfit to target prompts, significantly degrading both the generalization of the edited knowledge and the model's general capabilities. To address this issue, we propose GLIME (Generalizable Lifelong Model Editing), which combines knowledge editing with preference optimization over generation behavior. GLIME further incorporates replay-based editing and a gradient constraint to preserve previously edited knowledge. Experimental results show that GLIME significantly improves knowledge generalization in lifelong editing settings while maintaining both editing performance and general capabilities.",
+    "publicationDate": "2026-09-29T05:19:52.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Generalizable Lifelong Model Editing via Preference Optimization\nDahyun Jung Suhyune Son Heuiseok Lim\n*\nDepartment of Computer Science and Engineering, Korea University\n{dhaabb55,ssh5131,limhseok}@kor..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Generalizable Lifelong Model Editing via Preference Optimization\nDahyun Jung Suhyune Son Heuiseok Lim\n*\nDepartment of Computer Science and Engineering, Korea University\n{dhaabb55,ssh5131,limhseok}@kor..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.29587",
+    "title": "Sequential knowledge editing breaks a model's ability to tell good evidence from bad, without costing it accuracy",
+    "abstract": "Knowledge editing is evaluated on whether the edited fact changed, whether paraphrases follow, and whether unrelated answers stayed put. A model can pass all three and still lose something none of them measures: the ability to decide, on facts that were never edited, which retrieved documents to believe.\nWe score the log odds a model assigns to its remembered answer against the answer an injected passage asserts, before and after editing, holding the query, the passage and both candidate strings fixed. Our cleanest arm is a conservatively tuned LoRA: after 1,000 sequential edits on Qwen2.5-7B-Instruct it leaves MMLU unchanged to four decimal places, yet the spread of the arbitration quantity across untouched facts falls by 36%. Selective prediction degrades with it. Area under the risk-coverage curve rises by 0.107, against 0.005 for a norm-matched perturbation at the same MMLU, and error on the model's most confident quarter of arbitration decisions goes from 0.217 to 0.342.\nThis is not capability loss. Sweeping random perturbation over five severities, damage bad enough to cut MMLU from 0.6275 to 0.3725 produces less harm (0.088) than MEMIT does at 0.6050 (0.102). The effect holds across three seeds, two model families, two datasets, two probe-disjointness criteria, three prompt templates and paraphrased queries. Layer ablation on saved weight deltas shows it is distributed: no single layer reproduces it, and removing any one recovers about half. Under retrieval with a frozen retriever, accuracy falls from 0.592 to 0.46.\nA secondary finding may matter more in practice. Three of five model and method pairings we ran collapse to chance MMLU at 1,000 sequential edits under published hyperparameters, while edit success stays at 1.00 and locality reads clean. Sequential-editing evaluations that never measure capability cannot see this.",
+    "publicationDate": "2026-08-31T08:12:19.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Sequential knowledge editing breaks a model’s ability to tell\ngood evidence from bad, without costing it accuracy\nAtul Anand\nAbstract\nKnowledge editing methods are evaluated on whether the edited fact..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Sequential knowledge editing breaks a model’s ability to tell\ngood evidence from bad, without costing it accuracy\nAtul Anand\nAbstract\nKnowledge editing methods are evaluated on whether the edited fact..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.26809",
+    "title": "Thinking on Shots: Consistent Multi-Shot Video Editing with Agentic Reasoning",
+    "abstract": "While generative AI has significantly advanced video editing, existing methods primarily focus on single-shot or short video clips. Editing long videos with multiple instructions remains a formidable challenge. Naive chunking strategies, e.g., fixed-duration segmentation, often lead to entity fragmentation, severe editing hallucinations, and disrupted temporal continuity. To bridge this gap, we introduce the Multi-Instruction Multi-Shot Long-Video Editing (MMLVE) task, which is structured around three core objectives: Cross-Shot Editing Consistency (CSEC), Multi-Instruction Decoupling (MID), and Zero-Destruction on Spatiotemporal Structure (ZDSS). To tackle these three unique challenges, we introduce an agentic editing framework that leverages the synergy of Large Language Models (LLMs) and Vision-Language Models (VLMs) to achieve shot-level video decoupling and precise instruction parsing. Furthermore, to comprehensively evaluate this task, we construct MMLVE-Bench, which is an MMLVE-focused dataset characterized by complex real-world spatiotemporal dynamics, high-density heterogeneous instructions, and sparse, random entity distributions. Three MMLVE-focused evaluation metrics are further exploited to assess the quality of the editing results. Extensive experiments demonstrate that our MMLVE-Agent outperforms existing closed-source SOTA approaches (e.g., Seedance 2.0), successfully eliminating editing hallucinations, preserving cross-shot editing consistency, and attaining seamless spatiotemporal transitions.",
+    "publicationDate": "2026-08-27T08:48:13.000Z",
+    "votes": 12,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...llenges, we introduce an agen-\ntic editing framework that leverages the synergy of Large Lan-\nguage Models (LLMs) and Vision-Language Models (VLMs)\nto achieve shot-level video decoupling and precise i..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Thinking on Shots: Consistent Multi-Shot Video Editing with Agentic Reasoning\n∗\nChenyang Wu\n1†\n, Fuchen Long\n2†\n, Binyuan Huang\n2\n, Xinlong Sun\n2‡\n, Xi Chen\n2\n,\nChun-Le Guo\n1\n, Chongyi Li\n1§\n1\nVCIP, C..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2605.06096",
+    "title": "Uncovering Entity Identity Confusion in Multimodal Knowledge Editing",
+    "abstract": "Multimodal knowledge editing (MKE) aims to correct the internal knowledge of large vision-language models after deployment, yet the behavioral patterns of post-edit models remain underexplored. In this paper, we identify a systemic failure mode in edited models, termed Entity Identity Confusion (EIC): edited models exhibit an absurd behavior where text-only queries about the original entity's identity unexpectedly return information about the new entity. To rigorously investigate EIC, we construct EC-Bench, a diagnostic benchmark that directly probes how image-entity bindings shift before and after editing. Our analysis reveals that EIC stems from existing methods failing to distinguish between Image-Entity (I-E) binding and Entity-Entity (E-E) relational knowledge in the model, causing models to overfit E-E associations as a shortcut: the image is still perceived as the original entity, with the new entity's name serving only as a spurious identity label. We further explore potential mitigation strategies, showing that constraining edits to the model's I-E processing stage encourages edits to act more faithfully on I-E binding, thereby substantially reducing EIC. Based on these findings, we discuss principled desiderata for faithful MKE and provide methodological guidance for future research.",
+    "publicationDate": "2026-05-07T12:14:54.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...\nMultimodal knowledge editing (MKE) aims to correct the internal knowledge\nof large vision-language models after deployment, yet the behavioral patterns of\npost-edit models remain underexplored. In th..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Uncovering Entity Identity Confusion\nin Multimodal Knowledge Editing\nShu Wu\n1∗\n, Xiaotian Ye\n2∗\n, Xinyu Mou\n1,3∗\n, Dongsheng Liu\n1,4∗\n, Xiaohan Wang\n5\n, Mengqi Zhang\n6†\n1\nNew Laboratory of Pattern Rec..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2605.09285",
+    "title": "BetaEdit: Null-Space Constrained Sequential Model Editing",
+    "abstract": "Null-space-based methods have garnered considerable attention in model editing by constraining updates to the null space of the pre-existing knowledge representation, thereby preserving the model's original behavior. However, in practice these methods rely on an approximate null space--leading to knowledge leakage--and further suffer from severe performance degradation during sequential editing. Recent work shows that history-aware editing strategies can empirically mitigate this decline, yet the underlying reason remains unclear. In this paper, we first expose the knowledge leakage inherent in existing null-space approaches and then analyze why history-aware updates effectively preserve both editing performance and general capabilities during long-horizon editing. Building on these insights, we propose BetaEdit, a refined framework that effectively controls the knowledge leakage and integrates history-aware updates into the null-space paradigm. Extensive experiments on three large language models across two standard benchmarks show that BetaEdit consistently outperforms prior methods in the challenging regime of massive-scale sequential editing. Code is available at: this https URL.",
+    "publicationDate": "2026-05-10T03:17:57.000Z",
+    "votes": 4,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "BetaEdit: Null-Space Constrained Sequential Model Editing\nBingqing Liu , Wei Liu\n∗ \n, Yuhua Li\nHuazhong University of Science and Technology, Wuhan, China\n{liubingqing24, idc lw, idcliyuhua\n}@hust.edu..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "BetaEdit: Null-Space Constrained Sequential Model Editing\nBingqing Liu , Wei Liu\n∗ \n, Yuhua Li\nHuazhong University of Science and Technology, Wuhan, China\n{liubingqing24, idc lw, idcliyuhua\n}@hust.edu..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.01479",
+    "title": "CameraEditor: Camera-Controlled Image Editing via Video-Prior Sequential Modeling",
+    "abstract": "Beyond semantic content, camera parameters play a pivotal role in dictating the geometric perspective and appearance of any given image. While recent image editing models excel at semantic and stylistic manipulation, they struggle with explicit camera parameter control. When handling large perspective shifts, instruction-driven models face a dilemma: they either suffer from structural tearing or generate conservative outputs that ignore geometric instructions. To address this, we introduce CameraEditor, a framework that reformulates camera-controlled editing from a spatial problem into a temporal sequence prediction task. By leveraging the temporal coherence of video diffusion models, our approach integrates an explicit geometric perception module with a dynamic reference routing mechanism. This allows us to construct geometrically rigorous visual reference pairs via dynamic panorama cropping, overcoming the ambiguity of text-based instructions. Furthermore, CameraEditor strategically inserts intermediate transition frames to decompose large perspective shifts, providing a robust temporal buffer that preserves content identity and spatial coherence. We construct a training dataset of 5,760 instances. As an independent contribution, we introduce CamEditor-Bench, a model-agnostic evaluation suite of 462 test cases. Extensive experiments demonstrate that CameraEditor achieves state-of-the-art camera control precision and source identity preservation, outperforming existing methods.",
+    "publicationDate": "2026-09-01T16:16:06.000Z",
+    "votes": 13,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "CameraEditor: Camera-Controlled Image Editing via Video-Prior\nSequential Modeling\nXin Shen\n1∗ \nChengyou Jia\n1∗ \nKeshuo Xing\n1 \nZifeng Zhu\n1 \nChangliang Xia\n1\nBowen Ping\n1 \nZhuohang Dang\n1 \nHangwei Qia..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "CameraEditor: Camera-Controlled Image Editing via Video-Prior\nSequential Modeling\nXin Shen\n1∗ \nChengyou Jia\n1∗ \nKeshuo Xing\n1 \nZifeng Zhu\n1 \nChangliang Xia\n1\nBowen Ping\n1 \nZhuohang Dang\n1 \nHangwei Qia..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.33534",
+    "title": "ManiEdit: Sequential Unstructured Knowledge Editing for Language Models from a Manifold Perspective",
+    "abstract": "Large language models (LLMs) inevitably generate some incorrect or outdated content, necessitating efficient and precise mechanisms for continual knowledge updates. However, existing model editing methods struggle to sequentially edit unstructured long-form knowledge, suffering from severe edit forgetting and degradation of general capabilities. To address these challenges, we reframe knowledge editing from a manifold perspective, viewing it as a localized displacement of an edit sub-manifold within the global knowledge manifold. Under this formulation, the problem can be decomposed into two key questions: (i) how to identify representative edit points that effectively anchor the edit sub-manifold, and (ii) how to preserve the remaining manifold structure during the sub-manifold displacement process. Based on this perspective, we propose ManiEdit, a novel manifold-aware autoregressive editing framework consisting of two core components. Pivot Localization addresses the mediocre-point dilemma by identifying high-leverage pivots to anchor the edit sub-manifold. Manifold-Aware Preservation preserves different knowledge types through an energy-weighted penalty combined with recursive null-space alignment. Experiments on two base LLMs and four unstructured editing benchmarks demonstrate that ManiEdit achieves state-of-the-art performance, outperforming the strongest baseline by up to +27.81 BERTScore and +8.50 ROUGE-L, while maintaining near-original general capabilities across six representative downstream tasks. Our code is available at: this https URL",
+    "publicationDate": "2026-09-27T13:02:43.000Z",
+    "votes": 0,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "MANIEDIT: SEQUENTIAL UNSTRUCTURED KNOWL-\nEDGE EDITING FOR LANGUAGE MODELS FROM A MAN-\nIFOLD PERSPECTIVE\nRui Liu\n1 \nChenheng Zhang\n1 \nHaoxuan Li\n2† \nZhouchen Lin\n1,2†\n1\nState Key Lab of General Artific..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "MANIEDIT: SEQUENTIAL UNSTRUCTURED KNOWL-\nEDGE EDITING FOR LANGUAGE MODELS FROM A MAN-\nIFOLD PERSPECTIVE\nRui Liu\n1 \nChenheng Zhang\n1 \nHaoxuan Li\n2† \nZhouchen Lin\n1,2†\n1\nState Key Lab of General Artific..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.28374",
+    "title": "Recursive Self-Evolving Agents via Held-Out Selection",
+    "abstract": "LLM agents are increasingly improved without weight updates by evolving a natural-language artifact, such as reflections, workflows, playbooks, cheatsheets, or optimized prompts, that conditions a frozen policy. Such methods are typically reported as wins on the single benchmark where they help. We study them apples-to-apples and surface a sharper picture. We introduce RSEA, a Recursive Self-Evolving Agent that carries a compact three-layer natural-language state: an imperative strategy, reusable skills, and a procedural playbook. Across generations, RSEA rewrites all three layers from its own trajectories and commits a candidate only if it does not regress on a disjoint held-out split, using a strict keep-better gate.\nAcross four diverse benchmarks, ALFWorld, GAIA, (\\tau)-bench, and WebShop, and six faithful baselines, ReAct, Reflexion, GEPA, AWM, ACE, and Dynamic Cheatsheet, all evaluated on one shared local backbone, we find three main results. First, no artifact universally wins. RSEA is the strongest single-pass method on ALFWorld, reaching 69.3% compared with 64.6% for ReAct (McNemar (p=0.015)), and reaches 79.4% with retry, the best overall result. However, concrete-workflow induction, represented by AWM, is best on the strong-backbone tool-use tasks. Second, unguarded context evolution is high-variance and unsafe. Dynamic Cheatsheet, which curates context online without a held-out gate, is near-best on ALFWorld at 70.7%, yet collapses on WebShop, with a score of 0.14 compared with 0.43 for ReAct. Third, RSEA's strict held-out selection is what makes recursive self-evolution monotone-safe: it never significantly underperforms the base agent on any benchmark and falls back to vanilla ReAct when evolved context would hurt.",
+    "publicationDate": "2026-06-17T14:53:36.000Z",
+    "votes": 3,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...e reasons: it is interpretable and auditable,\nintegrates new knowledge at runtime, transfers across model versions, and – with long-context\ninference and KV-cache reuse – is increasingly cheap to serv..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Recursive Self-Evolving Agents via Held-Out Selection\nMichael Nguyen Quoc Nguyen Paul Vuong\nSchool of Information Technology\nMonash University Malaysia\n{michael.nguyen, quoc.nguyen, paul.vuong}@monash..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.18679",
+    "title": "FRAGMENT: Factorized Graph Representations for Document Generation and Editing via Entity-Aware Transformations",
+    "abstract": "Structured documents such as invoices, forms, reports, and scientific articles derive meaning from the interplay between spatial layout, textual content, and logical structure. Generative models operating at the pixel or token level often struggle to capture these dependencies effectively. We explore FRAGMENT, a generative framework that represents a document as a typed relational graph and factorizes its distribution as p(structure, content) = p(structure) * p(content | structure). The framework consists of two stages. The first stage, the Architect, is a causally masked Transformer conditioned on document category that autoregressively generates the graph topology and typed spatial relations. The second stage, the Builder, is a GATv2-based graph attention network that enriches the graph with normalized bounding boxes, text, and visual style attributes. Both stages define explicit likelihood models, yielding a tractable document-level likelihood that serves as an anomaly score for forgery detection. For controlled editing, a prompt-conditioned extension injects instruction embeddings into the Builder through cross-attention, enabling semantic and entity-aware modifications. We describe training on DocLayNet and fine-tuning on FUNSD and SROIE. Experiments on DocLayNet, FUNSD, and SROIE evaluate FRAGMENT alongside representative autoregressive, layout-only, and graph-based baselines, providing an empirical analysis of the characteristics and trade-offs of the proposed factorized graph generation framework.",
+    "publicationDate": "2026-08-19T08:29:19.000Z",
+    "votes": 3,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "...aning from the interplay\nbetween spatial layout, textual content, and logical structure. Generative models operating at the pixel or token level often\nstruggle to capture these dependencies effectivel..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "FRAGMENT: Factorized Graph Representations for\nDocument Generation and Editing via Entity-Aware Transformations\nAyoub El Bouchtili Guilhaume Leroy-Meline\nIBM Consulting IBM Consulting\nayoub.elbouchtil..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2608.27816",
+    "title": "PersonaEdit: Representative Sample Selection for Personalized Model Editing",
+    "abstract": "Personalization has attracted growing interest in LLM applications, yet existing retrieval-based approaches depend heavily on retrieval quality and degrade in long-term interactions. Model editing, which directly modifies internal model parameters to incorporate new knowledge, has demonstrated effective knowledge modification capabilities in factual knowledge editing tasks and may provide a potential solution for personalization. However, scaling model editing to personalization is non-trivial. Editing large amounts of user data increases computational cost and causes interference among edits, motivating the need for effective sample selection. To address this issue, we propose, PersonaEdit, a hidden representation clustering strategy that selects representative editing samples through proportional stratified sampling. Experiments show that model editing is effective for personalization, and that our selection strategy preserves most of the performance while substantially reducing the number of required editing samples. Beyond standalone editing, we find that combining model editing with retrieval-based prompt augmentation further improves personalization, as edited knowledge and retrieved context provide complementary information. These results demonstrate the potential of model editing as an efficient and scalable approach for LLM personalization.",
+    "publicationDate": "2026-08-28T01:25:29.000Z",
+    "votes": 2,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "PERSONAEDIT: Representative Sample Selection for Personalized Model\nEditing\nYou-Mei Huang,\n1 \nChung-Chi Chen,\n2 \nAn-Zi Yen\n1\n1 \nDepartment of Computer Science, National Yang Ming Chiao Tung University..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "PERSONAEDIT: Representative Sample Selection for Personalized Model\nEditing\nYou-Mei Huang,\n1 \nChung-Chi Chen,\n2 \nAn-Zi Yen\n1\n1 \nDepartment of Computer Science, National Yang Ming Chiao Tung University..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2606.03179",
+    "title": "HyperPatch: Sequential Knowledge Editing Under n-ary Structural Drift",
+    "abstract": "Large Language Models (LLMs) rely on Knowledge Editing (KE) to maintain temporal validity, yet real-world knowledge is inherently n-ary. We demonstrate that in non-stationary environments, sequential updates to complex relations induce N-ary Structural Drift, a phenomenon where the binary reification of n-ary events into triples fractures relational atomicity. This precipitates Structure-Conditioned Knowledge Transfer Failure, a systematic mis-grounding of the retriever frequently misdiagnosed as parametric hallucination. To tackle this, we propose HyperPatch, a parameter-preserving framework that reformulates sequential KE as a stability problem over hypergraph manifolds. HyperPatch preserves event integrity through three phases: (i) Structural Prior Initialization, establishing a topology-aware embedding space via contrastive learning on a Hypergraph Neural Network (HGNN) to capture high-order correlations; (ii) Sequential Topology Editing, utilizing a dual-stage mechanism that employs SimHash-based Topological Alignment for rapid conflict resolution and Topological LoRA Adaptation to track drift without backbone retraining; and (iii) Structure-Conditioned Reasoning, which integrates globally consistent evidence from fused linguistic and structural manifolds. On the MQuAKE-CF and MQuAKE-T benchmarks, HyperPatch achieves relative gains in Hop-wise Accuracy (H-Acc) of 96.24% and 21.06% over the strongest baseline, respectively. Further ablations demonstrate superior reliability under continuous n-ary update streams, whereas the standard KG-based variant suffers H-Acc collapses of up to 88.3% due to structural misalignment.",
+    "publicationDate": "2026-06-02T05:35:57.000Z",
+    "votes": 14,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "HyperPatch: Sequential Knowledge Editing Under 𝑛-ary\nStructural Drift\nYu-Kai Chan\nNational Yang Ming Chiao Tung\nUniversity\nHsinchu, Taiwan\nctw33888@gmail.com\nWen-Sheng Lien\nNational Yang Ming Chiao T..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "...nal Yang Ming Chiao Tung\nUniversity\nHsinchu, Taiwan\nmeng.chiang@nycu.edu.tw\nAbstract\nLarge Language Models (LLMs) rely on Knowledge Editing (KE)\nto maintain temporal validity, yet real-world knowledge..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2607.19064",
+    "title": "Mage-Flow: An Efficient Native-Resolution Foundation Model for Image Generation and Editing",
+    "abstract": "Large-scale visual generators are increasingly capable but costly to train, fine-tune, and deploy. We introduce Mage-Flow, a compact 4B-scale generative stack for efficient text-to-image generation and instruction-based image editing. The stack is built from two co-designed components: Mage-VAE, a lightweight high-fidelity latent tokenizer, and a Native-Resolution Multimodal Diffusion Transformer trained with rectified flow matching. Mage-VAE uses one-step diffusion-style encoding and decoding with anchor-latent regularization, preserving the reconstruction quality of strong public VAEs while reducing tokenization cost by more than an order of magnitude. Together with native-resolution packing and stack-level CUDA kernel fusion, the stack supports flexible-resolution training and improves end-to-end training throughput by about $2.5\\times$. Built on this foundation, we develop a complete model family with Base, RL-aligned, and Turbo variants for both generation and editing. Diffusion-NFT improves prompt following, text rendering, aesthetic quality, and editing fidelity, while few-step distillation with adversarial perceptual guidance produces 4-step Turbo models for low-latency inference. Despite its compact scale, Mage-Flow and Mage-Flow-Edit achieves competitive performance across standard generation and editing benchmarks. More importantly, the Turbo variants make high-resolution generation and editing practical for interactive use: at $1024^2$ resolution on a single NVIDIA A100 GPU, Mage-Flow-Turbo generates an image in 0.59s, and Mage-Flow-Edit-Turbo edits an image in 1.02s, while maintaining a small memory footprint. These results show that careful tokenizer--backbone--system co-design can deliver strong high-resolution generation and editing within an efficient 4B model family.",
+    "publicationDate": "2026-07-21T12:55:34.000Z",
+    "votes": 75,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "July, 2026\nMage-Flow: An Efficient Native-Resolution\nFoundation Model for Image Generation and Editing\nMicrosoft Mage Team\nLarge-scale visual generators are increasingly capable but costly to train, f..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "July, 2026\nMage-Flow: An Efficient Native-Resolution\nFoundation Model for Image Generation and Editing\nMicrosoft Mage Team\nLarge-scale visual generators are increasingly capable but costly to train, f..."
+      }
+    ]
+  },
+  {
+    "source": "alphaxiv",
+    "id": "2609.36097",
+    "title": "Better Behavioral Prediction, More Faithful Model Ablations? Evidence from Sequential Choice",
+    "abstract": "Using predictive models to explain cognition requires more than accurate behavioral predictions. Input ablations offer an appealing route: remove information from a model and interpret the resulting performance change as evidence of its importance for behavior. Yet this inference assumes that the model's dependence on information reflects the dependence of the process generating the behavior. We test it in two synthetic sequential bandit tasks with known generating policies, where past choices can remain informative when feedback is unavailable to a predictor. We compare GRUs and Transformers trained from scratch, a fine-tuned LLaMA model, and cognitive models across systematically varied reward contributions. Our analyses distinguish prediction after training without reward observations from the response of a fixed predictor to donor-reward replacement. Three findings emerge. First, in the restless task, neural models trained without rewards predict held-out choices better than four simple training-fitted behavioral baselines. Second, under matched donor replacement, accurate predictors can respond much less than the known generator. Third, at some reward weights, neural networks predict better than a pooled reinforcement-learning model but have less faithful changes in choice probabilities; the model ordering differs between the two tasks. These independent-test results separate information sufficient for prediction from response fidelity under a specified ablation in sequential choice. They motivate validating model-ablation responses independently of predictive performance before using them to infer how the observed behavior was generated.",
+    "publicationDate": "2026-09-28T18:38:49.000Z",
+    "votes": 1,
+    "snippets": [
+      {
+        "pageNumber": 1,
+        "snippet": "Better Behavioral Prediction, More Faithful Model\nAblations? Evidence from Sequential Choice\nHanbo Xie\nSchool of Psychological and Brain Sciences\nGeorgia Institute of Technology\nAtlanta, GA 30332, USA..."
+      },
+      {
+        "pageNumber": 1,
+        "snippet": "Better Behavioral Prediction, More Faithful Model\nAblations? Evidence from Sequential Choice\nHanbo Xie\nSchool of Psychological and Brain Sciences\nGeorgia Institute of Technology\nAtlanta, GA 30332, USA..."
+      }
+    ]
+  }
+]
