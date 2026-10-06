@@ -3,7 +3,12 @@ Autoresearch edit recipe. Single-file. The agent modifies this file.
 Writes 24 (subject -> value) facts into Qwen2.5-3B's MLP weights; the fixed evaluation scores the changed weights.
 Baseline: one batched MEMIT-style write with an AlphaEdit null-space projector over layers 4-8 (the harness's own edit).
 Everything this file does, including its top-level setup below, counts against the edit budget in prepare.py.
-Usage: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python edit.py
+Usage: .venv/bin/python edit.py
+
+Methods the baseline implements:
+  ROME      Meng, Bau, Andonian, Belinkov. Locating and Editing Factual Associations in GPT. arXiv:2202.05262
+  MEMIT     Meng, Sen Sharma, Andonian, Belinkov, Bau. Mass-Editing Memory in a Transformer. arXiv:2210.07229
+  AlphaEdit Fang et al. AlphaEdit: Null-Space Constrained Knowledge Editing for Language Models. arXiv:2410.02355
 """
 
 import torch

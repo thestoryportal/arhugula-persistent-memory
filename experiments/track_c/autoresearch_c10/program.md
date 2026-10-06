@@ -13,7 +13,7 @@ To set up a new experiment, work with the user to:
    - `prepare.py` — fixed constants, setup checks, runtime utilities, evaluation. Do not modify.
    - `edit.py` — the file you modify. The edit recipe: how the facts are written into the model's weights.
    - `c10e_bandknob.py` — the fixed harness that `prepare.py` wraps (model loading, stimuli, the metric's building blocks). Read-only; read it when you need to know what a utility does.
-4. **Verify the setup**: run `$PY prepare.py > prepare.log 2>&1` (it takes a few minutes: it loads the model) and check that the last line is `Done! Ready to edit.` If not, tell the human what it printed.
+4. **Verify the setup**: run `.venv/bin/python prepare.py > prepare.log 2>&1` (it takes a few minutes: it loads the model) and check that the last line is `Done! Ready to edit.` If not, tell the human what it printed.
 5. **Initialize results.tsv**: Create `results.tsv` with just the header row. The baseline will be recorded after the first run.
 6. **Confirm and go**: Confirm setup looks good.
 
@@ -21,7 +21,7 @@ Once you get confirmation, kick off the experimentation.
 
 ## Experimentation
 
-Each experiment runs on a single GPU (Apple MPS). The edit recipe gets a **fixed budget of 45 minutes of wall clock** (`EDIT_BUDGET` in `prepare.py`): everything `edit.py` does, its top-level setup included, plus its three edits (one per arm, each on the unedited model). Model loading and the evaluation are not counted. The evaluation runs afterwards in a separate process that loads the unedited model, applies the weights your edits changed, and measures. A whole run takes roughly 30–80 minutes. You launch it simply as: `$PY edit.py`.
+Each experiment runs on a single GPU (Apple MPS). The edit recipe gets a **fixed budget of 45 minutes of wall clock** (`EDIT_BUDGET` in `prepare.py`): everything `edit.py` does, its top-level setup included, plus its three edits (one per arm, each on the unedited model). Model loading and the evaluation are not counted. The evaluation runs afterwards in a separate process that loads the unedited model, applies the weights your edits changed, and measures. A whole run takes roughly 30–80 minutes, longer than your shell tool's 10-minute command limit, so start each run in the background and check `run.log` until the summary appears. You launch it simply as: `.venv/bin/python edit.py`.
 
 **What you CAN do:**
 - Modify `edit.py` — this is the only file you edit. Everything is fair game: the hyperparameters, the layers written, the target-vector solve, the least-squares solve, the projector, the requests, the structure of `apply_edit`.
@@ -69,7 +69,7 @@ guards:         ok
 `guards` is `ok` or `failed:<names>`. You can extract the key metrics from the log file:
 
 ```
-grep "^heldout_full:\|^dw_total:\|^guards:" run.log
+grep -e "^heldout_full:" -e "^dw_total:" -e "^guards:" run.log
 ```
 
 ## Logging results
@@ -107,14 +107,15 @@ LOOP FOREVER:
 1. Look at the git state: the current branch/commit we're on
 2. Tune `edit.py` with an experimental idea by directly hacking the code.
 3. git commit
-4. Run the experiment: `$PY edit.py > run.log 2>&1` (redirect everything — do NOT use tee or let output flood your context)
-5. Read out the results: `grep "^heldout_full:\|^dw_total:\|^guards:" run.log`
+4. Run the experiment: `.venv/bin/python edit.py > run.log 2>&1` (redirect everything — do NOT use tee or let output flood your context)
+5. Read out the results: `grep -e "^heldout_full:" -e "^dw_total:" -e "^guards:" run.log`
 6. If the grep output is empty, the run crashed. Run `tail -n 50 run.log` to read the Python stack trace and attempt a fix. If you can't get things to work after more than a few attempts, give up.
 7. Record the results in the tsv
 8. If heldout_full improved (higher) and `guards: ok`, you "advance" the branch, keeping the git commit
 9. If heldout_full is equal or worse, or a guard failed, you git reset back to where you started
 
 The idea is that you are a completely autonomous researcher trying things out. If they work, keep. If they don't, discard. And you're advancing the branch so that you can iterate. If you feel like you're getting stuck in some way, you can rewind but you should probably do this very very sparingly (if ever).
+
 
 **Timeout**: Each experiment should take ~30–80 minutes total. If a run exceeds 120 minutes, kill it (`pkill -f "edit.py"; pkill -f "prepare.py --score"`) and treat it as a failure (discard and revert).
 
@@ -126,4 +127,4 @@ The idea is that you are a completely autonomous researcher trying things out. I
 
 As an example use case, a user might leave you running while they sleep. If each experiment takes you ~45 minutes then you can run approx 1–2/hour, for a total of about 10 over the duration of the average human sleep. The user then wakes up to experimental results, all completed by you while they slept!
 
-**What your results are**: candidates. The human verifies anything you keep with a separately pre-registered test before believing it. Keep `SUMMARY.md` current (rewrite it after every kept experiment and every fifth experiment): the results table so far, the best kept commit and what it changed from the baseline in words, its guard values, and the one change (if any) you think most deserves the human's verification.
+**What your results are**: candidates. The human verifies anything you keep with a separately pre-registered test before believing it.

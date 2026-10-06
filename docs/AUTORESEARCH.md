@@ -19,9 +19,9 @@ bash /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/w
 
 The launcher builds the sandbox at `.claude/worktrees/autoresearch-c10` (a git worktree on the orphan branch `autoresearch/master`) and copies in the reviewed source from `experiments/track_c/autoresearch_c10/`. It commits that as the base, writes the per-session environment notes, and opens Claude Code there with the fork's kickoff line. The agent proposes a run tag, creates `autoresearch/<tag>`, checks the setup and asks you to confirm. After you confirm, it loops with no cap and never asks again.
 
-- **Watch it** in that terminal, or read `SUMMARY.md` and `results.tsv` in the sandbox directory.
+- **Watch it** in its tmux session (`tmux attach -t autoresearch`), or read `results.tsv` and the git log in the sandbox directory.
 - **Stop it** by interrupting the session. If a run is mid-flight, kill it with `pkill -f edit.py`.
-- **Collect the results** from the sandbox directory. `results.tsv`, `runs/*.json`, `SUMMARY.md` and the `autoresearch/<tag>` branch are the record. Fold a candidate in only through a pre-registered test.
+- **Collect the results** from the sandbox directory. `results.tsv`, `runs/*/score.json` and the `autoresearch/<tag>` branch are the record. Fold a candidate in only through a pre-registered test.
 
 The research source lives on the program branch under `experiments/track_c/autoresearch_c10/`. Edit it there, get it reviewed, and relaunch. Never edit the sandbox copy by hand.
 
@@ -35,7 +35,7 @@ The fork is built for training. Its agent edits `train.py`, which trains a small
 | `train.py`: the single editable file (model, optimizer, loop; hyperparameters edited in place) | `edit.py`: the single editable file (hyperparameters edited in place, projector, `apply_edit`) | The baseline is the harness's own edit function: one batched MEMIT write through the AlphaEdit null-space projector, layers 4–8. `knobs.json` is gone, because the fork has one file and no config file. |
 | `program.md`: the human's file | `program.md`: the fork's text, with editing's metric, guards, timing, output block and results columns | Kept verbatim wherever it still holds. One deviation is listed below. |
 | `README.md` | `README.md`: the same shape | Describes the experiment and the guards. No corpus findings. |
-| `CLAUDE.md` / `AGENTS.md`, git-ignored, "generated per-session by launchers" | `AGENT_ENV.md`, copied to the sandbox as `CLAUDE.md` | Environment facts only: interpreter, one GPU, shell aliases, bounded waits, git. |
+| `CLAUDE.md` / `AGENTS.md`, git-ignored, "generated per-session by launchers" | none | Not needed. The two machine facts the agent cannot infer are fixed at the root instead: `.venv` is a link the launcher makes, so commands are `.venv/bin/python …`, and program.md tells the agent that a run outlasts the shell tool's 10-minute limit. On this Mac `grep` is aliased to ripgrep, where the fork's `grep "a\|b"` matches nothing, so program.md uses `grep -e a -e b`, which both tools read the same way. |
 | `pyproject.toml` | `pyproject.toml` | Lists what is installed in the shared environment. No `uv sync`, because the environment belongs to the program checkout. |
 
 The fixed harness `experiments/track_c/c10e_bandknob.py` is linked into the sandbox read-only. `prepare.py` refuses to run if its SHA-256 changes.
@@ -62,14 +62,14 @@ The loop is an optimizer. Its output is a candidate, never evidence (DISCIPLINE 
 The program session's jobs are to:
 1. before the first launch, run `experiments/track_c/autoresearch_c10/check_equivalence.py` (operator-approved, about an hour). It must report PASS. That requires four things: edit.py's baseline changes the same weights as the harness's edit, bit for bit; the separate scorer reproduces the harness's `run_recipe` numbers exactly; the seed reproduces the context templates across processes; and the saved tensors' hashes are recorded. If it fails, the loop would be optimizing a wrapper, not C10. Investigate under the halt discipline (one fix after a read, then halt) and do not launch;
 2. check the loop's first (baseline) run against the known single-edit envelope, outside the sandbox (LAW#3); and
-3. read `SUMMARY.md` and fold any candidate in through a pre-registered falsifier with controls, re-verified across seeds, because the loop's seed is fixed.
+3. read the sandbox's `results.tsv` and git log (the fork's own record; SUMMARY.md was dropped 2026-10-06 because it served the human, not the science) and fold any candidate in through a pre-registered falsifier with controls, re-verified across seeds, because the loop's seed is fixed.
 
 ## Deliberate deviations from the fork
 
 - **Broken-instrument stop.** If `prepare.py`'s checks fail, or the baseline itself fails a guard, the agent writes `HALT.md` and stops. The fork never stops. This program's LAW#1 says an engine fingerprint failure is a halt, and a loop that keeps crashing on a broken instrument produces nothing.
 - **Interpreter.** `$PY` is the shared virtual environment, not `uv run`.
 - **`results.tsv` is untracked**, as Karpathy's upstream `program.md` requires. The macOS fork dropped that line.
-- **`SUMMARY.md`.** The agent keeps a running summary for the human. The fork has none, but the operator's morning review needs one.
+- **Papers.** `edit.py` cites the methods its baseline implements (ROME arXiv:2202.05262, MEMIT arXiv:2210.07229, AlphaEdit arXiv:2410.02355), as the fork's `train.py` names nanochat and its techniques, so the fork's "read papers referenced in the code" has something to point at. The agent can read them with Claude Code's built-in web tools.
 
 ## Retired (2026-10-06, D-C10r-impl-1)
 

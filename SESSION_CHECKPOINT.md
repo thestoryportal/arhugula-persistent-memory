@@ -1,5 +1,28 @@
 # SESSION CHECKPOINT — Write-Engine Viability Determination
 
+## FRESH SESSION HANDOFF - 2026-10-06 late morning (D-C10r-rulings-2 recorded; LAUNCH NEXT: the autoresearch loop agent via tmux, then the research pass after its first results)
+
+**State.** Everything in the block below this one still holds (CORPUS/50 closed ALL GREEN; autoresearch built per the fork, D-C10r-impl-1; repo context reconciled). Since then, after ten operator questions: the sandbox dropped SUMMARY.md and the per-session environment file; program.md's results command uses `grep -e` (grep is aliased to ripgrep on this Mac); edit.py cites ROME/MEMIT/AlphaEdit; plumbing tests 18/18 OK (`experiments/track_c/autoresearch_c10/test_plumbing.py`, no GPU); the real setup check passed on the GPU ("Done! Ready to edit.", templates_sha e8605172dce0); `check_equivalence.py` ran next — **its verdict is in `results/autoresearch_c10_equivalence.json` (read it first)**. Operator rulings D-C10r-rulings-2 (runbook §5.2). OpenResearch CLI `orx` 0.2.16 installed at ~/.local/bin/orx (SHA-256 verified, analytics off, `discover` works without login). Ollama stopped (the winning-defense graphify job needs `brew services start ollama` when no GPU run is active).
+
+**Launch procedure (the operator wants this session to do it, not them):**
+1. `results/autoresearch_c10_equivalence.json` must say `"verdict": "PASS"` (launch.sh refuses otherwise). On FAIL: halt discipline (cat -n read, one fix, re-run, else HALT with a diagnostic JSON) and report.
+2. `pgrep -fl "edit.py|prepare.py|check_equivalence|ollama"` must print nothing.
+3. `tmux new-session -d -s autoresearch -x 200 -y 50 "bash /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/launch.sh"` — launch.sh builds the sandbox worktree (`.claude/worktrees/autoresearch-c10`, branch autoresearch/master), commits the base, and opens `claude --safe-mode --model claude-opus-5-5 --effort xhigh --dangerously-skip-permissions` with the fork's kickoff line.
+4. Drive it as the fork's human with `tmux capture-pane -p -t autoresearch` / `tmux send-keys -t autoresearch "<text>" Enter`: accept the folder-trust and bypass-permissions dialogs; when it proposes a tag, accept it; when it reports setup and asks to confirm, answer "Setup looks good — go." Answer nothing about ideas.
+5. Tell the operator: `tmux attach -t autoresearch` to watch (detach with Ctrl-b d).
+6. Watch the first discard: the project settings deny `git reset --hard` in the main repo; if the loop session is blocked on it, report (the sandbox is a worktree of the same repo).
+7. LAW#3: compare the loop's baseline row against the known single-edit envelope (A7 8–16/72 across processes; controls ≥ 68).
+8. After the loop's first results: the research pass per `docs/RESEARCH_PASS_PLAN_2026-10-06.md` and its D-C10r-rulings-2 note — OpenResearch CLI with all local capabilities (`orx up`, then `open http://127.0.0.1:4791` for the operator), InfraNodus as an agent tool, agents log hypotheses but never run experiments, no login, no managed compute; outputs are leads.
+
+**Operator actions still open:** remove the four curl/wget lines from the deny list in `.claude/settings.json` (the ask entries are already written; this session's classifier refused the self-edit); deletions wait for the path-scoped policy to take effect after merge + restart (retired folders: `experiments/track_c/autoresearch_reaim`, `experiments/track_c/autoresearch_band_search`, `experiments/track_c/autoresearch_c10/AGENT_ENV.md`, untracked `results/autoresearch_reaim`).
+
+**Kickoff prompt for the fresh session (paste verbatim):**
+
+```text
+Resume the LLM-as-Database program (F1, condition C10) as lead experimentalist with a present operator. Recall memory `c10k-route-a-resume` first. Worktree: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a, branch worktree-c10k-route-a (draft PR #17); launch with the cwd inside it and never `cd` out. Re-ground: CLAUDE.md → DISCIPLINE.md → EXPERIMENT_RUNBOOK.md §0.3 and §5.2 (D-C10r-impl-1, D-C10r-rulings-2) → SESSION_CHECKPOINT.md top block → docs/AUTORESEARCH.md → docs/RESEARCH_PASS_PLAN_2026-10-06.md (ruling note at the top). Prefix every repo tool with LLMDB_ROOT=<worktree path>. Then execute the checkpoint's launch procedure: confirm results/autoresearch_c10_equivalence.json is PASS, launch the autoresearch agent in tmux, drive its setup as the fork's human (never steer ideas), tell me how to attach, watch its first discard and its baseline (LAW#3). After its first results, run the research pass on the OpenResearch CLI (all local capabilities, dashboard opened for me, InfraNodus as an agent tool, agents log hypotheses but never run experiments). Standing rules unchanged: local-only; engine unmodified (d941a9fb); Codex gpt-5.5 advisor before any run and any verdict; CORPUS only after reviews; one speculative fix after a cat -n read, then HALT with a diagnostic JSON.
+```
+
+
 ## FRESH SESSION HANDOFF - 2026-10-06 day (D-C10q-stacked CLOSED ALL GREEN; autoresearch implemented per the fork, D-C10r-impl-1, NOT launched; repo autoresearch context reconciled; Ollama stopped by the operator)
 
 **State.** CORPUS/50 ⟨D-C10q-stacked@8e5c7f12⟩ TRADEOFF-PERM-UNMATCHED is propagated everywhere; closeout_check ALL GREEN for the seven C10 lineage IDs; `--audit` clean; commits 67ca937 (handoff) and dffd570 (close-out) pushed; draft PR #17 updated. Engine unmodified (d941a9fb). C10 OPEN/BLOCKING; F1 unchanged.

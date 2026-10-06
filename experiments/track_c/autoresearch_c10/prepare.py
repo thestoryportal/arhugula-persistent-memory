@@ -3,9 +3,9 @@ Fixed constants, setup checks, runtime utilities and the evaluation for autorese
 Not modified by the agent.
 
 Usage:
-    $PY prepare.py            one-time setup check (engine fingerprint, harness hash, reference run, model load,
+    .venv/bin/python prepare.py            one-time setup check (engine fingerprint, harness hash, reference run, model load,
                               engine-parity gate); prints "Done! Ready to edit." when everything is in place
-    $PY prepare.py --score D  the scorer (run by evaluate, never by hand): scores the edits saved in run folder D
+    .venv/bin/python prepare.py --score D  the scorer (run by evaluate, never by hand): scores the edits saved in run folder D
 
 edit.py imports the runtime utilities and calls evaluate(apply_edit) at the end, as the fork's train.py calls evaluate_bpb.
 evaluate applies the recipe to each arm, saves the changed weights, and hands them to the scorer, a fresh process that

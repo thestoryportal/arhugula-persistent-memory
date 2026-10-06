@@ -10,7 +10,7 @@ REPO="/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory"
 SB="$REPO/.claude/worktrees/autoresearch-c10"
 OLD_SB="$REPO/.claude/worktrees/autoresearch-reaim-oct06"   # an earlier half-built attempt (a symlink and two copied files)
 GIT=/usr/bin/git
-export PY="$PROGRAM/.venv/bin/python"
+PY="$PROGRAM/.venv/bin/python"
 export LLMDB_ROOT="$PROGRAM"
 # the program repository's commit hooks guard the research branch, not the sandbox
 export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.hooksPath GIT_CONFIG_VALUE_0=/dev/null
@@ -54,6 +54,7 @@ if [ "$BRANCH" = "autoresearch/master" ]; then
   for f in README.md prepare.py edit.py program.md pyproject.toml; do cp "$SRC/$f" "$SB/$f"; done
   cp "$SRC/gitignore.sandbox" "$SB/.gitignore"
   ln -sfn "$PROGRAM/experiments/track_c/c10e_bandknob.py" "$SB/c10e_bandknob.py"
+  ln -sfn "$PROGRAM/.venv" "$SB/.venv"
   "$GIT" -C "$SB" add -A
   if ! "$GIT" -C "$SB" diff --cached --quiet 2>/dev/null || ! "$GIT" -C "$SB" rev-parse --verify --quiet HEAD > /dev/null; then
     "$GIT" -C "$SB" commit -q -m "sandbox base from $("$GIT" -C "$PROGRAM" rev-parse --short HEAD):experiments/track_c/autoresearch_c10"
@@ -62,14 +63,10 @@ else
   echo "launch.sh: sandbox is on $BRANCH (a run in progress); source not re-copied"
 fi
 
-# 5. the per-session environment notes (git-ignored, the fork's launcher-generated CLAUDE.md)
-cp "$SRC/AGENT_ENV.md" "$SB/CLAUDE.md"
-
-# 6. start the agent: no outside context (safe mode), Opus 5.5 at extra-high effort, permissions disabled as the
+# 5. start the agent: no outside context (safe mode), Opus 5.5 at extra-high effort, permissions disabled as the
 #    fork's README directs ("spin up your Claude ... in this repo (and disable all permissions)")
 cd "$SB"
 exec claude --safe-mode \
   --model claude-opus-5-5 --effort xhigh \
   --dangerously-skip-permissions \
-  --append-system-prompt-file CLAUDE.md \
   "Hi have a look at program.md and let's kick off a new experiment! let's do the setup first."

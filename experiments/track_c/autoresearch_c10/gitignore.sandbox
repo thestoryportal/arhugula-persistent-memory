@@ -7,9 +7,10 @@ results.tsv
 run.log
 prepare.log
 runs/
-SUMMARY.md
 HALT.md
 .hparams_*.json
+
+.venv
 
 # Agent prompt files (generated per-session by launchers)
 CLAUDE.md

@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Autonomous model-editing research loop (Karpathy autoresearch, macOS fork, edit run in place of a training run)"
 readme = "README.md"
 requires-python = "==3.11.*"
-# What is installed in the shared environment (PY in README.md). Use only these, plus the vendored MEMIT engine that
+# What is installed in the shared environment (.venv, a link; see README.md). Use only these, plus the vendored MEMIT engine that
 # prepare.py puts on sys.path. Do not run `uv sync` or `pip install`: the environment belongs to the program checkout.
 dependencies = [
     "torch==2.8.0",

@@ -25,23 +25,21 @@ By design, the edit recipe gets a **fixed budget of 45 minutes of wall clock** f
 
 ## Quick start
 
-**Requirements:** Apple Silicon Mac with MPS, the program checkout at `/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a` (engine, model cache, covariance caches, stimulus screens), and its virtual environment. No downloads, no `uv`: the environment is shared with that checkout and must not be re-synced.
+**Requirements:** Apple Silicon Mac with MPS, the program checkout at `/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a` (engine, model cache, covariance caches, stimulus screens), and its virtual environment. No downloads, no `uv`: `.venv` is a link to that checkout's environment, which is shared and must not be re-synced.
 
 ```bash
-PY=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python
-
 # 1. Check the setup (~5 min: loads the model, runs the gates)
-$PY prepare.py
+.venv/bin/python prepare.py
 
 # 2. Manually run a single edit experiment (~30-80 min)
-$PY edit.py
+.venv/bin/python edit.py
 ```
 
 If the above commands all work ok, your setup is working and you can go into autonomous research mode.
 
 ## Running the agent
 
-Run `./launch.sh` from this directory. It starts Claude Code here with permissions set for unattended work, and with no outside context: no global or project instructions, skills, plugins, hooks or MCP servers. The agent's environment notes, `CLAUDE.md`, are generated per session. Then prompt:
+Run `./launch.sh` from this directory. It starts Claude Code here with permissions set for unattended work, and with no outside context: no global or project instructions, skills, plugins, hooks or MCP servers. Then prompt:
 
 ```
 Hi have a look at program.md and let's kick off a new experiment! let's do the setup first.
@@ -57,6 +55,7 @@ edit.py           — the edit recipe (agent modifies this)
 program.md        — agent instructions
 c10e_bandknob.py  — fixed harness, linked read-only
 pyproject.toml    — dependencies
+.venv             — link to the shared environment
 ```
 
 ## Design choices
