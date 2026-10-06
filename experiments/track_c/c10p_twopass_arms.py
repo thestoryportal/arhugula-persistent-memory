@@ -24,27 +24,46 @@ import torch
 from memit.memit_main import get_context_templates
 
 V = H.ARMS["A7_coined_coined"]
+# CORPUS/43 same-frame locality: never-edited fictional subjects in the CANON frame (none is in H.FICTION); a flip = top-1
+# equals the first token of any edited A7 value. The real-country half of that probe is the harness's L1 axis.
+FRAME_SUBJECTS = ["Vorbanth", "Quillexa", "Tremnok", "Oskavel", "Blynthar", "Durmquist"]
+assert not set(FRAME_SUBJECTS) & set(H.FICTION)
 ST = {}
 
 
-def hook_pass1(arm_name, Vmap):
+@torch.no_grad()
+def frame_probe():
+    firsts = {H.tgt_ids(V[c])[0] for c in H.FICTION}
+    rows = []
+    for s in FRAME_SUBJECTS:
+        ids = H.tok(H.CANON.format(s), return_tensors="pt").to(H.DEV)
+        t = int(H.model(**ids).logits[0, -1].argmax()); rows.append({"subj": s, "top1": t, "tok": H.tok.decode([t]), "flip": t in firsts})
+    return {"flips": sum(r["flip"] for r in rows), "n": len(rows), "rows": rows}
+
+
+def hook(arm_name, Vmap):
     if arm_name != "A7_coined_coined":
         return {}
-    zs_post = D.compute_zs(ST["ctx"]); ST["zs_post"] = zs_post
-    g = Z.geometry(ST["zs_pre"], zs_post)
-    print(f"  pass 1 hook: z_post re-solved on the edited model; mean cosine {g['mean_cosine']} mean displacement {g['mean_rel_diff']}", flush=True)
-    return {"zs_post": D.z_record(zs_post), "geometry": g}
+    out = {"same_frame_fictional": frame_probe(), "z_override_hits": H.Z_OVERRIDE_HITS}
+    print(f"  hook: same-frame fictional flips {out['same_frame_fictional']['flips']}/{out['same_frame_fictional']['n']}; override hits so far {out['z_override_hits']}", flush=True)
+    if ST.get("pass") == 1:
+        zs_post = D.compute_zs(ST["ctx"]); ST["zs_post"] = zs_post
+        g = Z.geometry(ST["zs_pre"], zs_post)
+        print(f"  pass 1 hook: z_post re-solved on the edited model; mean cosine {g['mean_cosine']} mean displacement {g['mean_rel_diff']}", flush=True)
+        out.update({"zs_post": D.z_record(zs_post), "geometry": g})
+    return out
 
 
 def run_pass(n, override, label):
     H.OUT = f"{RES}/pass{n}.json"
-    H.Z_OVERRIDE = override
-    H.ARM_HOOKS[:] = [hook_pass1] if n == 1 else []
+    H.Z_OVERRIDE = override; H.Z_OVERRIDE_HITS = 0; ST["pass"] = n
+    H.ARM_HOOKS[:] = [hook]
     t0 = time.time(); print(f"=== PASS {n} {label}: Z_OVERRIDE={'None' if override is None else f'{len(override)} targets'}", flush=True)
     rc = H.main()
     if rc != 0:
         raise SystemExit(f"HALT: harness returned {rc} in pass {n}")   # [LAW:no-silent-failure]
     res = json.load(open(H.OUT)); res["pass"] = n; res["pass_label"] = label; res["z_override"] = None if override is None else label
+    res["z_override_hits_total"] = H.Z_OVERRIDE_HITS   # expected 0 in pass 1, exactly 1 (the A7 arm) in passes 2 and 3
     json.dump(res, open(H.OUT, "w"), indent=2, default=str)
     a7 = res["recipes"][os.environ["CANDIDATE_NAME"]]["arms"]["A7_coined_coined"]
     print(f"=== PASS {n} done: A7 canon {a7['canon_full_n']}/24 para {a7['para_full_n']}/72 string {a7['para_string_n']} | L1 {a7['locality_axes']['L1_flipped_to_edited_value']}/12 L3 {a7['locality_axes']['L3_top1_agree']}/30 ({time.time()-t0:.0f}s)", flush=True)
@@ -57,7 +76,7 @@ def main():
     zs_pre = D.compute_zs(ctx); ST.update(zs_pre=zs_pre, ctx=ctx)
     key = {c: (c, " " + V[c]) for c in H.FICTION}          # the harness keys requests by (subject, target string) — H.req adds the leading space
     head = {"decision_id": os.environ["DECISION_ID"], "prereg": os.environ["PREREG"], "P1": {"fingerprint": p1, "law3_reference_run": D.LAW3_REF},
-            "z_layer": D.Z_LAYER, "zs_pre": D.z_record(zs_pre), "passes": {}}
+            "z_layer": D.Z_LAYER, "zs_pre": D.z_record(zs_pre), "frame_subjects": FRAME_SUBJECTS, "same_frame_fictional_pre_edit": frame_probe(), "passes": {}}
     r1 = run_pass(1, None, "baseline (engine targets)")
     head["passes"]["1"] = H.OUT
     zs_post = ST["zs_post"]; head["zs_post"] = D.z_record(zs_post); head["geometry"] = Z.geometry(zs_pre, zs_post)

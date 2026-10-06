@@ -184,6 +184,8 @@ def my_edit(hp, requests, P, cache_c):
     z_layer = layers[-1]
     keys = [(rq["subject"], rq["target_new"]["str"]) for rq in requests]
     if Z_OVERRIDE is not None and not _LAW5_DEFAULT_CTX and all(k in Z_OVERRIDE for k in keys):   # D-C10p-twopass: aim at supplied targets
+        global Z_OVERRIDE_HITS
+        Z_OVERRIDE_HITS += 1
         zs = torch.stack([Z_OVERRIDE[k].to(DEV) for k in keys], dim=1)
     else:
         zs = torch.stack([compute_z(model, tok, rq, hp, z_layer, ctx) for rq in requests], dim=1)
@@ -403,6 +405,7 @@ ARM_HOOKS = []   # callables (arm_name, Vmap) -> dict, run after each arm's eval
 # D-C10p-twopass: targets supplied by the driver instead of compute_z, keyed by (subject, target string) so only the arm
 # whose requests match is affected; None = engine targets (the default, inert). Never consulted inside the LAW#5 parity check.
 Z_OVERRIDE = None
+Z_OVERRIDE_HITS = 0   # audit: how many my_edit calls took their targets from Z_OVERRIDE (the driver resets it per pass and the reader checks it)
 
 
 def run_law5(hp, P, base_snap):
