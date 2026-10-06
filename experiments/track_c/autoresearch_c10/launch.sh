@@ -53,7 +53,8 @@ fi
 # 4. the base commit: the reviewed source, copied in, only while the sandbox is on autoresearch/master
 BRANCH="$("$GIT" -C "$SB" symbolic-ref --short HEAD)"
 if [ "$BRANCH" = "autoresearch/master" ]; then
-  for f in README.md prepare.py edit.py program.md pyproject.toml; do cp "$SRC/$f" "$SB/$f"; done
+  for f in README.md prepare.py edit.py program.md pyproject.toml run.sh setup.sh kill_run.sh; do cp "$SRC/$f" "$SB/$f"; done
+  chmod +x "$SB/run.sh" "$SB/setup.sh" "$SB/kill_run.sh"
   cp "$SRC/gitignore.sandbox" "$SB/.gitignore"
   # a copy, not a link: a link's target showed the agent where the program checkout lives, and on 2026-10-06 it
   # followed it and started summarizing the program's earlier experiments (the sandboxed-context ruling forbids that)
@@ -77,8 +78,10 @@ want = json.load(open(eq))["source_sha256"]["harness"]
 sys.exit(0 if hashlib.sha256(open(copy, "rb").read()).hexdigest() == want else 1)
 PYEOF
 
-# 4c. the fence: Bash filesystem sandbox + Read-tool denies, generated per launch (docs/AUTORESEARCH.md, "Context isolation")
+# 4c. the fence, generated per launch (docs/AUTORESEARCH.md, "Context isolation"): Claude Code's Bash sandbox + Read-tool
+#     denies for the agent, and a macOS Seatbelt profile for the model runs (run.sh / setup.sh), which need the GPU
 "$PY" "$SRC/sandbox_settings.py" "$PROGRAM" "$REPO" "$SB" > "$SB/.sandbox_settings.json"
+"$PY" "$SRC/sandbox_settings.py" "$PROGRAM" "$REPO" "$SB" --seatbelt > "$SB/.sandbox.sb"
 
 # 5. start the agent: no outside context (safe mode), Fable 5.1 at high effort (operator, 2026-10-06), permissions disabled as the
 #    fork's README directs ("spin up your Claude ... in this repo (and disable all permissions)"), inside the fence

@@ -110,3 +110,20 @@ CONTROLS FAILED: 11
 RETRY ESCAPED: no
 CONTROLS FAILED: none
 
+## Probes 6–8 (GPU inside Claude Code's sandbox: unavailable — every sysctl read denied; PyTorch's OS-version check fails)
+
+Probe 6: `mps_built True mps_available False`; `torch.randn(..., device='mps')` → `RuntimeError: The MPS backend is supported on MacOS 13.0+`. Probe 7: `sysctl -n kern.osproductversion` → `Operation not permitted`; the SystemVersion.plist read and os.uname() work. Probe 8: `hw.ncpu`, `kern.osrelease`, `kern.osproductversion`, `hw.memsize` all `Operation not permitted`; `torch.mps.is_available()` False.
+
+## Seatbelt profile test (direct, from the program session's shell)
+
+```
+sysctl: 26.6.2 / mps_available True / mps matmul OK / FORBIDDEN read CORPUS, repo README, list experiments/track_c, write program: all BLOCKED / allowed reads (screens, reference run, harness, covariance dir) OK / allowed write sandbox OK
+```
+
+## Probe 9 (excluded wrapper called as `./run.sh; echo exit=$?` — a compound call stays sandboxed)
+
+`sandbox-exec: sandbox_apply: Operation not permitted`, exit 71; direct python `mps_available False`; forbidden `cat` blocked.
+
+## Probe 10 (excluded wrapper called bare: `./run.sh`)
+
+run.log: `mps matmul: OK`; every FORBIDDEN line BLOCKED; every allowed line OK; `SANDBOX_APPLY_ERROR: no`.

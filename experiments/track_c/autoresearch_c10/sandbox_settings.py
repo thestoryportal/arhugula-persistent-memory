@@ -48,15 +48,37 @@ denied_roots = [
     "/Volumes/memit/llm-database-project-artifacts",
     f"{home}/Backups/memit",
 ]
+write_dirs = [sandbox, "/tmp", "/private/tmp", "/private/var/folders", hf_home, f"{home}/.cache",
+              f"{program}/experiments/track_c/__pycache__"]
+
+if len(sys.argv) > 4 and sys.argv[4] == "--seatbelt":
+    # The macOS Seatbelt profile for the model runs. Claude Code's own Bash sandbox denies every sysctl read, which
+    # makes PyTorch believe the OS predates macOS 13 and drop to the CPU (probes 6-8, 2026-10-06), so `run.sh` and
+    # `setup.sh` are excluded from that sandbox and run under this profile instead: default allow (sysctl, Metal, the
+    # network), the same read denials, re-opened only for the runtime set, and writes only where a run writes.
+    # In a Seatbelt profile the last matching rule wins, so the allows come after the denies.
+    def q(p):
+        return '"' + p.replace('"', '\\"') + '"'
+    lines = ["(version 1)", "(allow default)"]
+    lines += [f"(deny file-read* (subpath {q(r)}))" for r in denied_roots]
+    lines += [f"(deny file-write* (subpath {q(r)}))" for r in [program, repo]]
+    lines += [f"(allow file-read* (subpath {q(p)}))" if os.path.isdir(p) else f"(allow file-read* (literal {q(p)}))"
+              for p in runtime_reads + [sandbox]]
+    lines += [f"(allow file-write* (subpath {q(p)}))" for p in write_dirs]
+    print("\n".join(lines))
+    sys.exit(0)
+
 settings = {
     "sandbox": {
         "enabled": True,
         "allowUnsandboxedCommands": False,   # strict mode: the agent's dangerouslyDisableSandbox retry is ignored
-        "excludedCommands": [],
+        # the two model-run wrappers run outside Claude Code's sandbox, inside the Seatbelt profile above
+        "excludedCommands": ["./run.sh", "./run.sh *", "./setup.sh", "./setup.sh *", "./kill_run.sh", "./kill_run.sh *",
+                             "bash run.sh", "bash setup.sh", "bash kill_run.sh"],
         "filesystem": {
             "denyRead": denied_roots,
             "allowRead": runtime_reads + [sandbox],
-            "allowWrite": [sandbox, "/tmp", "/private/tmp", hf_home, f"{home}/.cache", f"{program}/experiments/track_c/__pycache__"],
+            "allowWrite": write_dirs,
             "denyWrite": [program, repo],
         },
     },

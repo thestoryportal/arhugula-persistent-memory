@@ -12,6 +12,7 @@ HALT.md
 
 .venv
 .sandbox_settings.json
+.sandbox.sb
 
 # Agent prompt files (generated per-session by launchers)
 CLAUDE.md
