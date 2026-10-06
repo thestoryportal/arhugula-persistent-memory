@@ -1,6 +1,6 @@
 # Pre-registration — D-C10r-exp2ctl: zero-preserve replay of the autoresearch loop's experiment 2 (v1 DRAFT, 2026-10-06)
 
-**Status: v1 DRAFT.** Ruled by the operator 2026-10-06 ~16:10 ("yes, add it to the step-1 break"). Reviews pending: implementation by Codex (gpt-6.1-sol, max), then a Claude advisor pass on this document + the driver. Nothing has run.
+**Status: SUPERSEDED 2026-10-06 by `docs/C10R_EXP2_LOCATIONCTL_PREREG.md` (v2, location control) after the advisor and Codex reviews; never run. Text below kept as written.** Former status: v1 DRAFT. Ruled by the operator 2026-10-06 ~16:10 ("yes, add it to the step-1 break"). Reviews pending: implementation by Codex (gpt-6.1-sol, max), then a Claude advisor pass on this document + the driver. Nothing has run.
 
 ## 0. Where this sits
 
