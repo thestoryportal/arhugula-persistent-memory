@@ -47,9 +47,10 @@ runtime_reads = [
     f"{repo}/hf_cache",
     f"{program}/memit_dry_run",
     f"{program}/configs",                                                # hparams + the stimulus screens the harness loads at import
-    f"{program}/docs/C10_BANDKNOB_PREREG.md",                            # named by the harness's manifest fields
-    f"{program}/experiments/track_c/c10e_bandknob.py",
-    f"{program}/experiments/track_c/__pycache__",
+    f"{program}/experiments/track_c/c10e_bandknob.py",   # the harness only; its sibling experiments, the shared
+                                                         # __pycache__ (bytecode of every experiment) and the prereg
+                                                         # document the harness names are NOT re-opened (v5): the
+                                                         # wrappers set PYTHONDONTWRITEBYTECODE so no pyc is needed
     f"{program}/tools/engine_fingerprint.py",
     f"{program}/results/c10l_covgeom/run1_armB_identity.json",
     f"{repo}/covariance_caches",
@@ -107,7 +108,7 @@ tool_denied = mirror_history + [r for r in denied_roots if r != mirror] + denied
 
 # where a run may write
 write_dirs = [sandbox, "/tmp/claude-501", "/private/tmp/claude-501", "/private/var/folders", hf_home, f"{home}/.cache",
-              f"{home}/Library/Caches", f"{program}/experiments/track_c/__pycache__", "/dev"]
+              f"{home}/Library/Caches", "/dev"]
 
 
 def q(p):

@@ -7,6 +7,7 @@
 FENCE="$(cd "$(dirname "$0")" && pwd)"
 SB=/Volumes/memit/llm-database-poc-mirror/autoresearch_sandbox_c10
 cd "$SB" || exit 1
+export PYTHONDONTWRITEBYTECODE=1   # the program checkout is read-only to the run; no pyc anywhere
 # GPU preflight inside the profile: a missing GPU is an infrastructure halt, never a failed idea
 /usr/bin/sandbox-exec -f "$FENCE/.sandbox.sb" .venv/bin/python -c 'import torch; assert torch.backends.mps.is_available(), "MPS unavailable"; print((torch.ones(2, device="mps") * 2).sum().item())' > preflight.log 2>&1
 rc=$?

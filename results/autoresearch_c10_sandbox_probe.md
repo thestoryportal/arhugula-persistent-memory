@@ -166,3 +166,11 @@ The reviewer read `/Volumes/memit/llm-database-project-artifacts/_manifest.md` (
 Direct test v4 (profile): genesis manifest BLOCKED; loose tmp file BLOCKED; `/private/tmp` listing BLOCKED; other session's tmp folder BLOCKED; own tmp root listable; own tmp write OK; `tempfile.mkstemp` in TMPDIR OK; everything from the v3 test unchanged (GPU on; history BLOCKED; runtime reads OK).
 
 Probe 12 (Claude session): bare wrapper → preflight `4.0`, run.log `mps matmul: OK`; `cat run.log` / `cat preflight.log` print content (shell capture intact); `cat /private/tmp/nblm_q2.txt`, `ls` of the genesis folder, `ls` of another session's tmp folder, `ls /private/tmp`, Read of the genesis manifest → all denied; `touch /tmp/claude-501/…` succeeds. RUN_LOG_MPS_OK yes · CAPTURE_OK yes · FORBIDDEN_SUCCEEDED none · OWN_TMP_WRITE_OK yes.
+
+## Fence v5 (after the Codex pass on v4, `results/autoresearch_c10_advisor_fence_v4.md`)
+
+The reviewer read `docs/C10_BANDKNOB_PREREG.md` and decoded `experiments/track_c/__pycache__/c10q_stacked_arms.cpython-311.pyc` through the v4 profile — both on the author's runtime allow-list. v5 removes both (the prereg is only a path string in the harness manifest; the wrappers export `PYTHONDONTWRITEBYTECODE=1`, and the harness imports from the sandbox's hash-verified copy because the `experiments/track_c` listing is denied and Python's finder skips that path entry). `kill_run.sh` requires the recorded PID's exact wrapper command line and sandbox cwd.
+
+Direct test v5: prereg BLOCKED; shared `__pycache__` BLOCKED; sibling experiment BLOCKED; `experiments/track_c` listing BLOCKED; harness file readable; `importlib.util.find_spec` on the denied path entry returns None (expected: the sandbox copy is used instead).
+
+Probe 13 (Claude session): bare wrapper → GPU OK, capture OK; `head` and Read of the prereg → denied; `ls __pycache__` → denied; `head` of a sibling experiment → denied; harness and hparams `head` → content. FORBIDDEN_SUCCEEDED none · CONTROLS_OK 7, 8.
