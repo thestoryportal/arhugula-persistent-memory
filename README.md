@@ -1,19 +1,109 @@
-# LLM-as-Database — Parametric Knowledge Editing as a Storage Substrate
+# LLM-as-Database
+
+**Can an AI model's own memory work like a database?** This project tests, honestly and step by step, whether facts can be written directly into a language model's internal "brain", then looked up, changed and tracked like records in a database, without the model rereading everything on every request.
+
+---
 
 ## In plain words
 
 *Last updated 2026-10-06.*
 
-**The idea.** Today's AI models forget everything between conversations. To "remember" your work, a model has to reread it every time, and that rereading costs time and money. This project asks whether facts can be written straight into the model's own brain, the numbers inside it, the way a record is saved in a database. The model would then simply know them. Like a real database, you would also be able to look facts up, change them, and keep a record of every change.
+**The problem.** Today's AI models forget everything between conversations. To "remember" your work, a model has to reread it every time, and that rereading costs time and money.
 
-**What this project is for.** It is not building that system yet. It is finding out honestly whether the system can be built, before anyone spends money building it. The answer will be "yes", "no", or "yes, if these conditions are met".
+**The idea.** Write facts straight into the model's brain, the numbers inside it, the way a record is saved in a database. The model would then simply know them. Like a real database, you could also look facts up, change them, and keep a record of every change.
 
-**Progress so far.** Most of the pieces have been tested and work. Simple facts can be written in, the model's other knowledge stays intact, everything runs on an ordinary laptop, and the result can be packaged for use. One hard problem remains: invented names made of more than one word, such as a new product called "Qorvex Zentra". The model learns the exact sentence it was taught but stumbles when asked the same thing in different words. It is like teaching someone a new friend's name. They can answer "what's your new friend's name?" but go blank at "who did you meet on Tuesday?". The best attempt so far answers 24 of 72 differently worded questions correctly, and it needs to do much better before the answer can be "yes".
+**What this project is for.** It is not building that system yet. It is finding out whether the system *can* be built, before anyone spends money building it. The answer will be "yes", "no", or "yes, if these conditions are met". The current draft answer is **"not ready yet, with conditions"**: most pieces work, and a short list of open problems decides the rest.
 
-**What happens next.** An automated research agent tries small changes to the method, about ten experiments a night, and keeps whatever scores better. Alongside it, a research run searches what others have discovered about this exact problem, including methods and models not yet tried here. The most promising options then go to the project lead to choose a direction.
+**The open problem being worked on now.** Invented names made of more than one word, such as a new product called "Qorvex Zentra". The model learns the exact sentence it was taught but stumbles when asked the same thing in different words. It is like teaching someone a new friend's name: they can answer "what's your new friend's name?" but go blank at "who did you meet on Tuesday?". The best attempt so far answers **24 of 72** differently worded questions correctly. It needs to do much better before the answer can be "yes".
 
-**Progress record** (newest first):
+**What happens next.** An automated research agent tries small changes to the method, about ten experiments a night, and keeps whatever scores better. Alongside it, a research run searches what others have discovered about this exact problem, including methods and models not tried here yet. The most promising options then go to the project lead to choose a direction.
+
+## Where things stand
+
+| Question | Status | In plain terms |
+|---|---|---|
+| Can facts be written into the model? | ✅ Works | Many simple facts can be written in one go without corrupting each other. |
+| Does the rest of the model stay intact? | ✅ Works, within tested limits | Unrelated knowledge is left alone in the tested range. |
+| Does it survive being compressed for everyday use? | ✅ Works | Edited facts survive the compression that makes models small enough to ship. |
+| Can it run on an ordinary computer? | ✅ Works | It runs on a regular laptop processor at usable speed. |
+| Do the safety and record-keeping rules hold? | ✅ Works as designed | The project's own checks, approvals and audit trail behave as specified. These test the design, not the model. |
+| Can it learn invented multi-word names and recall them when asked differently? | 🔴 Open, being worked on | Best so far: 24 of 72 reworded questions. |
+| Other open conditions | 🟡 Open | Very large collections of facts, a proper search layer, security testing, deleting facts, and larger models. |
+
+## Progress record
+
+Newest first.
+
 - **2026-10-06.** A second, stacked edit doubled the score on reworded questions, from 12 to 24 of 72, but disturbed the model a little too much. The overnight research agent and the outside research run were set up and tested.
+
+---
+
+## For researchers
+
+A falsification-first research program testing whether facts can be **stored in, retrieved from, governed within, and deployed from an LLM's weights**, treating a transformer as a queryable database rather than an opaque generator. Editing uses the MEMIT/AlphaEdit family (closed-form `down_proj` null-space solves) on Qwen2.5-3B in fp16 on Apple MPS. The program stress-tests a written spec ([`research_and_specs/llm-as-database-v1_2-integrated-spec.md`](./research_and_specs/llm-as-database-v1_2-integrated-spec.md)) toward an implementation-readiness determination, drafted in [`docs/F1_DETERMINATION.md`](./docs/F1_DETERMINATION.md) as **NOT-READY-WITH-CONDITIONS** with a ten-row conditions register.
+
+Every headline claim resolves to a raw artifact, every experiment is pre-registered and re-runnable, and caveats sit next to results. The repo follows the ML Reproducibility Checklist (Pineau et al.), "Good enough practices in scientific computing" (Wilson et al.), Model-Card disclosure norms (Mitchell et al.) and the FAIR principles.
+
+**Read in this order:** this README → [`REPRODUCIBILITY.md`](./REPRODUCIBILITY.md) → [`docs/EXPERIMENT_REGISTRY.md`](./docs/EXPERIMENT_REGISTRY.md) → [`CORPUS/README.md`](./CORPUS/README.md) (the evidence) → the spec. The live roadmap is [`EXPERIMENT_RUNBOOK.md`](./EXPERIMENT_RUNBOOK.md) §0.3, and the operating discipline is [`DISCIPLINE.md`](./DISCIPLINE.md).
+
+### Selected findings (early phases)
+
+The complete, current ledger is [`CORPUS/00_MASTER_EVIDENCE.md`](./CORPUS/00_MASTER_EVIDENCE.md); the multi-token value line (C10) runs through `CORPUS/37`–`50`.
+
+| Area | Result | Evidence |
+|---|---|---|
+| **Governance** (in-pipeline write, 2PC, security, validation) | ✅ PROVEN-FOR-SCOPE (design-viability — these test our own control flow, not nature; weaker-than-empirical) | `CORPUS/07–12` (CP1–CP3, G1–G3) |
+| **Single/few-fact, same-entity store** | ✅ VALIDATED (Qwen2.5; model- & size-dependent — Qwen2.5-7B local, GPT-J not) | Phase-1, `docs/framework_findings/` |
+| **Cross-entity store at scale (sequential)** | ❌ FALSIFIED — held-out same-relation reads corrupt 100→41.7% with N (the first empirical falsifier) | `CORPUS/13` (G6.1) |
+| **Batch / Genesis write at scale** | ✅ ELIMINATES the corruption at 3B (flat 100→100→100%) | `CORPUS/14` (A1) |
+| **In-solve sentinels / K_S refresh** | 🟡 PARTIAL / ruled-out (halve but don't arrest the sequential decline; staleness not the cause) | `CORPUS/15–16` (A2, A2b) |
+| **Real Q4_K_M quantization survival** | ✅ PASS — edits survive deployment quantization (edited 100% vs native 97.4%) | `CORPUS/17` (B3) |
+| **CPU deployment serving** | ✅ Claim A PASS via **llama.cpp** (~8–13 tok/s) · ❌ Claim B FALSIFIED via **LARQL** (drops Qwen2.5 attn bias; A7 causal proof) | `CORPUS/18` (E1) |
+| **Size-density (3B→7B)** | 🟡 PARTIAL — batch-clean does not *fully* replicate at 7B (100→91.7%) | `CORPUS/19` (B1) |
+| **Cross-entity mechanism (keying)** | ⛔ relation-keying PRUNED; same-relation key collinearity is U-shaped in depth (min L8–12) — a measured mechanism + a spec-C15 tension | `CORPUS/20` (C2) |
+
+**Net state:** the **batch-rebuild deployment path** is clean at 3B and survives Q4_K_M; CPU serving works via llama.cpp. Open frontier: whether in-weight storage (L2) is even required vs. retrieval (L1) + an external query index; the capacity law (D1 — structural DONE+model-general; §8.7 numeric guardrail set conservative at per-relation **k≤1** on 3B, D-D1-2 ⟨D-D1-2@e023d8d2⟩, cross-model transfer open); and whether the edit-validated family (Qwen2.5) should move to the LARQL-servable family (Qwen3). See `docs/HYPOTHESIS_REGISTER_2026-06-18.md`.
+
+### Reproduce
+
+```bash
+export LLMDB_ROOT="$PWD"
+# no GPU: re-derive the quantization verdict from stored predictions
+python experiments/track_b/b3_verdict.py
+# GPU, about a minute: load Qwen2.5-3B and print the key-collinearity depth map
+python experiments/track_c/c2_key_collinearity.py
+```
+
+Every experiment's exact command, inputs and expected artifact are in [`REPRODUCIBILITY.md`](./REPRODUCIBILITY.md) and [`docs/EXPERIMENT_REGISTRY.md`](./docs/EXPERIMENT_REGISTRY.md).
+
+### Scope and caveats (read before citing)
+
+- **Model and range:** primarily Qwen2.5-3B (some 7B and Qwen3-0.6B); N ≤ 100 edits; Q4_K_M quantization only; mostly single-seed, single write-ordering; counterfactual-reassignment edits, not insertion or deletion.
+- **Governance (CP1–G3) is design-viability**, not empirical falsification: it verifies that our code implements the spec's contracts, a weaker category (see `CORPUS/03`).
+- **A measurement confound runs through the edit metrics:** MEMIT's `compute_z` inflates edited-fact margins relative to native facts (`CORPUS/17`), so read retention numbers with that in mind.
+- Reproducibility survived a 2026-06-18 repository reorganization through the `LLMDB_ROOT` path convention.
+
+### Repository map
+
+```
+README.md  REPRODUCIBILITY.md            start here
+EXPERIMENT_RUNBOOK.md                    living roadmap (§0.3 = what's next)
+DISCIPLINE.md  CLAUDE.md  AGENTS.md      operating rules for people and agents
+CORPUS/                                  the evidence ledger (numbered findings + provenance and status ledgers)
+research_and_specs/                      the governing spec and research synthesis
+docs/                                    registries, prereg documents, design docs (e.g. AUTORESEARCH.md)
+experiments/                             re-runnable code by track (governance, scale, track_a/b/c/e, deployment)
+configs/                                 hyperparameters, stimulus screens, probes
+results/  logs/                          result JSONs and run logs
+memory_mirror/                           durable cross-session learnings
+archive/                                 frozen historical scripts and notebooks
+memit_dry_run/                           the vendored MEMIT engine (fingerprinted, never modified)
+```
+
+---
+
+<details>
+<summary><b>Detailed program state</b> (auto-generated from the program tracker; technical)</summary>
 
 <!-- BEGIN GENERATED:program-state -->
 **📍 PROGRAM STATE (updated 2026-10-06 (D-C10q-stacked RAN → CORPUS/50 ⟨D-C10q-stacked@8e5c7f12⟩: TRADEOFF-PERM-UNMATCHED (24 vs 12/72, ΔW₂/ΔW₁ 1.24, described_as −4.2); next = research pass (HIL) then I-1 / I-2; D-C10r-rulings-1: autoresearch loop under Karpathy's program exactly (implemented per docs/AUTORESEARCH.md, D-C10r-impl-1); 2026-10-06 (D-C10q-rulings-1: stacked variant next; exhaustive research pass before leaving Qwen; CLM lead logged; D-C10p-twopass RAN → CORPUS/49 ⟨D-C10p-twopass@12f87dc3⟩: NULL at the margin (21 vs 13/72, ×1.31 write); next = I-1 / I-2 on the engine path (iterated/stacked = operator alternative); PR #16 merged 498a87d; D-C10o-magnitude RAN → CORPUS/48 ⟨D-C10o-magnitude@31389765⟩: DIRECTION (routing, HIGH-CONTROL) — next = two-pass solve arm before I-1 / I-2; PR #15 merged 15fbf18; D-C10n-ztransport RAN → CORPUS/47 ⟨D-C10n-ztransport@982edcbd⟩: TARGET-PORTABLE in a LOW-CONTROL process (reported, not promoted); next = magnitude/direction read then solve-side diagnostics before I-1 / I-2; D-C10m-diag RAN → CORPUS/46 ⟨D-C10m-diag@9a9b5343⟩: constrained read ABSENT-DOMINANT, edit + inject H1 collateral, minted N init SEED-SENSITIVE; next = 2 × 2 z-transport read then I-1 / I-2; D-C10l-rulings-1 RAN → CORPUS/45 addendum ⟨D-C10l-mint@a4a6f4c7⟩: both directional reads UNSUPPORTED (PARTIAL reproduced ×5), P4 compiled GGUF artefact PASS (Q4_K_M para retention 0.738); PR #14 merged; D-C10l-covgeom NULL ×3 ⟨D-C10l-covgeom@5b553688⟩ and D-C10l-mint PARTIAL ×2 ⟨D-C10l-mint@a4a6f4c7⟩: minted token 39–46/72 vs multi-token 11/72; P4 answered; D-C10l-rulings-2: fp16 GGUF = shipped form, D-C10m-diag next; two pre-registrations frozen v2 — D-C10l-covgeom, D-C10l-mint — next = run; D-C10k-rulings-2: Qwen stays the anchor until a clear ceiling; research arc CLOSED with addenda §9–§11; InfraNodus research arc CLOSED — (ii-c) opens with I-8 step 0 offline test + I-9a sparse band; operator rulings D-C10k-rulings-1 after the InfraNodus gap audit; keying ablation: last-token-keyed writes land but do not transfer; partly frame-keyed (F3 SUFFICIENT in MEMIT, N = 1); Route A HALTED; operator decision on the forward route))** — _auto-generated from `docs/program_state.json` — DO NOT edit between the markers; run `python3 tools/render_state.py --write`._
@@ -68,66 +158,4 @@
   6. STANDING: re-auth codex/gpt-5.5 (Perplexity-Sonar = working cross-family fallback). Guardrails: pre-register + advisor before build AND before verdict · name-the-covering-clause / test-the-confound before stamping a result · cross-family on decisive falsifiers.
 <!-- END GENERATED:program-state -->
 
-A falsification-first research program testing whether facts can be **stored in, retrieved from, governed within, and deployed from an LLM's weights** — treating a transformer as a queryable database rather than an opaque generator. Editing is done with the MEMIT/AlphaEdit family (closed-form `down_proj` null-space solves); the program stress-tests a written spec (`research_and_specs/llm-as-database-v1_2-integrated-spec.md`) toward implementation-readiness.
-
-This repo is organized for a research audience: every headline claim resolves to a raw artifact, every experiment is pre-registered and re-runnable, and caveats are kept flush with results. It follows the **ML Reproducibility Checklist** (Pineau et al.), **"Good enough practices in scientific computing"** (Wilson et al.), **Model-Cards** disclosure norms (Mitchell et al.), and **FAIR** principles.
-
-> **North star (never drift):** the goal is the **F1 spec-implementation-readiness determination** for the LLM-as-Database thesis — *is it buildable?* Everything serves F1. Operating discipline (goal, context-triggers, failure-thinking, tool thresholds) is in **[`DISCIPLINE.md`](./DISCIPLINE.md)**.
->
-> **New here? Read in this order:** this README → `REPRODUCIBILITY.md` → `docs/EXPERIMENT_REGISTRY.md` → `CORPUS/README.md` (the evidence) → `research_and_specs/…spec.md` (the contract). For the live roadmap and "what's next," see `EXPERIMENT_RUNBOOK.md` §0.3.
-
----
-
-## Headline findings (what is PROVEN / PARTIAL / FALSIFIED)
-
-| Area | Result | Evidence |
-|---|---|---|
-| **Governance** (in-pipeline write, 2PC, security, validation) | ✅ PROVEN-FOR-SCOPE (design-viability — these test our own control flow, not nature; weaker-than-empirical) | `CORPUS/07–12` (CP1–CP3, G1–G3) |
-| **Single/few-fact, same-entity store** | ✅ VALIDATED (Qwen2.5; model- & size-dependent — Qwen2.5-7B local, GPT-J not) | Phase-1, `docs/framework_findings/` |
-| **Cross-entity store at scale (sequential)** | ❌ FALSIFIED — held-out same-relation reads corrupt 100→41.7% with N (the first empirical falsifier) | `CORPUS/13` (G6.1) |
-| **Batch / Genesis write at scale** | ✅ ELIMINATES the corruption at 3B (flat 100→100→100%) | `CORPUS/14` (A1) |
-| **In-solve sentinels / K_S refresh** | 🟡 PARTIAL / ruled-out (halve but don't arrest the sequential decline; staleness not the cause) | `CORPUS/15–16` (A2, A2b) |
-| **Real Q4_K_M quantization survival** | ✅ PASS — edits survive deployment quantization (edited 100% vs native 97.4%) | `CORPUS/17` (B3) |
-| **CPU deployment serving** | ✅ Claim A PASS via **llama.cpp** (~8–13 tok/s) · ❌ Claim B FALSIFIED via **LARQL** (drops Qwen2.5 attn bias; A7 causal proof) | `CORPUS/18` (E1) |
-| **Size-density (3B→7B)** | 🟡 PARTIAL — batch-clean does not *fully* replicate at 7B (100→91.7%) | `CORPUS/19` (B1) |
-| **Cross-entity mechanism (keying)** | ⛔ relation-keying PRUNED; same-relation key collinearity is U-shaped in depth (min L8–12) — a measured mechanism + a spec-C15 tension | `CORPUS/20` (C2) |
-
-**Net state:** the **batch-rebuild deployment path** is clean at 3B and survives Q4_K_M; CPU serving works via llama.cpp. Open frontier: whether in-weight storage (L2) is even required vs. retrieval (L1) + an external query index; the capacity law (D1 — structural DONE+model-general; §8.7 numeric guardrail set conservative at per-relation **k≤1** on 3B, D-D1-2 ⟨D-D1-2@e023d8d2⟩, cross-model transfer open); and whether the edit-validated family (Qwen2.5) should move to the LARQL-servable family (Qwen3). See `docs/HYPOTHESIS_REGISTER_2026-06-18.md`.
-
----
-
-## Repository map
-
-```
-README.md  REPRODUCIBILITY.md          ← start here
-EXPERIMENT_RUNBOOK.md                   ← living roadmap (§0.3 = what's next, §0.4 = update protocol)
-SESSION_CHECKPOINT.md  SESSION_BOOTSTRAP.md  EVIDENCE_INDEX.md  CLAUDE.md
-CORPUS/                 ← THE evidence ledger (numbered findings 00–20 + provenance/status ledgers)
-research_and_specs/     ← the governing spec + research synthesis
-docs/                   ← EXPERIMENT_REGISTRY, HYPOTHESIS_REGISTER, framework_findings/, session_summaries/, runbooks/
-experiments/            ← re-runnable code by track: governance/ scale/ track_a/ track_b/ track_c/ deployment/
-configs/                ← hparams/ screens/ probes/
-results/   logs/        ← structured result JSONs · run logs
-archive/                ← frozen historical scripts (s-series), notebooks, stale subdirs
-memory_mirror/          ← durable cross-session learnings
-— infrastructure (large, unmoved) —
-memit_dry_run/ (MEMIT engine)  external_prior_art/ (larql, BetaEdit)  hf_cache/  covariance_caches/
-llama_cpp_src/  b3_edited_qwen3b/  b3_q4km.vindex/  *.gguf  stage_1_sect/  architecture_profile/
-```
-
-## Quickstart / reproduce
-
-```bash
-export LLMDB_ROOT="$PWD"              # the clone root (the pod default was /workspace); `uv sync` installs the pinned env
-# a no-GPU sanity check (re-derives the B3 quantization verdict from stored predictions):
-python experiments/track_b/b3_verdict.py
-# a GPU mechanism probe (~1 min: loads Qwen2.5-3B, prints the key-collinearity depth map):
-python experiments/track_c/c2_key_collinearity.py
-```
-Every experiment's exact command, inputs, and expected artifact are in **`REPRODUCIBILITY.md`** and **`docs/EXPERIMENT_REGISTRY.md`**.
-
-## Scope & honest caveats (read before citing)
-- **Model/range:** primarily Qwen2.5-3B (some 7B, Qwen3-0.6B); N ≤ 100 edits; Q4_K_M only; mostly single-seed, single write-ordering. Counterfactual-reassignment edits (not insertion/deletion).
-- **Governance (CP1–G3) is design-viability**, not empirical falsification — it verifies our code implements the spec's contracts, a weaker category (see `CORPUS/03` and `[[prototype-tautology-trap]]`).
-- **A measurement confound runs through the edit metrics:** MEMIT's `compute_z` inflates edited-fact margins vs native (`CORPUS/17`) — read retention numbers with that in mind.
-- Reproducibility was preserved across a 2026-06-18 repo reorganization via a `LLMDB_ROOT` path convention; pre-reorg snapshot at `/root/migration_backup/`.
+</details>
