@@ -860,7 +860,654 @@ for case,text,expected in WORKED:
     setattr(SpecTests,"test_worked_%02d"%case,worked_test(case,text,expected))
 
 
+
+
+# ---------------------------------------------------------------------------
+# Implementation-review additions (C10Z ASTRA, 2026-10-07). Model-free: Session is
+# built with __new__ and stubbed collaborators; only tiny CPU tensors are used.
+# Each test pins a spec gate/order/halt that the original 50 tests left unexercised.
+# ---------------------------------------------------------------------------
+import types as _types
+
+
+def _write_session(D, stage=2, budget=None):
+    import torch
+    s = D.Session.__new__(D.Session); events = []
+    s.sync = lambda: None; s.restore = lambda: None; s.verify_restore = lambda where: None
+    s.hooks_check = lambda: None; s.footprint = lambda carriers: events.append(("footprint", dict(carriers)))
+    s.geometry = lambda *a: {}
+    s.arms = {A7: {"s0": "coined"}, A2: {"s0": "two"}}
+    s.timings = {}; s.stage = stage; s.D_floored = 0; s.checks = {"Z7": {"tau_head": .02}}
+    s.budget = budget or D.Budget(0., None, None, clock=lambda: 0.)
+    s.batches = {k: {"requirements": [{"row": 0, "fact": 0, "view": 0, "q": 0, "index": 1, "target": 0}],
+                     "target_lengths": [1], "T_pad": 2} for k in (A7, A2)}
+    s.weights = {35: torch.ones((2, 4), dtype=torch.float16)}; s.pristine = {35: s.weights[35].clone()}
+    s.carrier_choice = {35: [0, 1]}
+
+    def observe(batch, carriers=None, full=False, trace_layers=None):
+        events.append(("observe", carriers is not None))
+        return {"leads": torch.tensor([1.]), "competitors": torch.tensor([1]), "targets": torch.tensor([0]),
+                "keys": {35: torch.ones((1, 2 if carriers else 4))}, "scales": torch.ones(1),
+                "native_gathered": torch.tensor([[1., 0.]]), "head_error": 0., "head_seconds": 0.,
+                "logits_bytes": 0, "conversion_bytes": 0}
+    s.observe = observe
+    s.choose = lambda obs, batch, mode, cap=None: dict(s.carrier_choice)
+    f64 = lambda v: torch.tensor(v, dtype=torch.float64)
+    s.quantities = lambda obs, carriers: (torch.tensor([0]), f64([[1., 0.]]), f64([[1., 0.]]), f64([1.]),
+                                          {35: f64([[1.] * len(carriers[35])])}, {35: f64([1.] * len(carriers[35]))})
+    s.covectors = lambda obs: f64([[1., 0.]])
+    return s, events
+
+
+REQ_A7 = [{"subject": "s0", "target_new": {"str": " coined"}}]
+REQ_A2 = [{"subject": "s0", "target_new": {"str": " two"}}]
+
+
+class ReviewGapTests:
+    def test_review_stage0_law3_gate_precedes_all_new_work(self):
+        """Prereg :120, :123, :302 (row 13): LAW#3 miss halts V4 with baseline-only record; nothing runs before the gate."""
+        D, R = self.modules()
+
+        class Stop(Exception):
+            pass
+        for passing in (False, True):
+            with tempfile.TemporaryDirectory() as tmp:
+                s = D.Session.__new__(D.Session); events = []
+                s.out = Path(tmp); s.process = 1; s.gates = D.Gates(); s.timings = {}; s.loaded_manifest = None
+                s.budget = _types.SimpleNamespace(project=lambda costs: None, check=lambda: None)
+                recipe = fixture(n=18)["recipes"]["A"]
+                if not passing:
+                    counts(recipe["arms"][A7], n=19)
+                s.run_recipe = lambda name, arms: (events.append(("run_recipe", s.gates.law3)), recipe)[1]
+
+                def ev(name, ret=None):
+                    def f(*a, **k):
+                        events.append((name, s.gates.law3))
+                        if name == "axes_pre":
+                            raise Stop()
+                        return ret
+                    return f
+                s.M = _types.SimpleNamespace(CONTEXT_TEMPLATES_CACHE=[["{}"], ["a. {}", "b. {}", "c. {}", "d. {}", "e. {}"]])
+                s.make_batches = ev("make_batches", {}); s.restore = ev("restore"); s.verify_restore = ev("verify_restore")
+                s.H = _types.SimpleNamespace(axes_pre=ev("axes_pre"), PTEST=[])
+                for name in ("probe_population", "probe_hits", "observe", "make_batch", "z0", "eval_guard",
+                             "prepare_instruments", "numeric_checks", "evaluation_signature", "make_manifest", "write_checks"):
+                    setattr(s, name, ev(name))
+                if passing:
+                    with self.assertRaises(Stop):
+                        s.stage0()
+                    self.assertEqual(events[0], ("run_recipe", False))
+                    self.assertTrue(len(events) > 1 and all(law3 for _, law3 in events[1:]), events)
+                else:
+                    with self.assertRaisesRegex(R.Halt, "HALTED-V4"):
+                        s.stage0()
+                    self.assertEqual(events, [("run_recipe", False)])
+                    rec = json.loads((s.out / "pass_p1.json").read_text())
+                    self.assertEqual((rec["outcome"], rec["halt"]["code"], list(rec["recipes"])), ("HALTED", "HALTED-V4", ["A"]))
+
+    def test_review_Z5_footprint_rejects_any_write_outside_selected_columns(self):
+        """Prereg :80, :152: only selected W_down columns may differ; every other parameter byte-identical."""
+        D, R = self.modules()
+        import torch
+
+        def session():
+            s = D.Session.__new__(D.Session)
+            s.weights = {l: torch.arange(24, dtype=torch.float16).reshape(4, 6) + l for l in range(36)}
+            s.pristine = {l: w.clone() for l, w in s.weights.items()}
+            norm = torch.ones(4, dtype=torch.float16)
+            params = [("model.layers.%d.mlp.down_proj.weight" % l, w) for l, w in s.weights.items()] + [("model.norm.weight", norm)]
+            s.H = _types.SimpleNamespace(model=_types.SimpleNamespace(named_parameters=lambda: list(params)))
+            s.parameter_hashes = {n: D.tensor_hash(p) for n, p in params}; s.checks = {}; s.check_memory = lambda: None
+            return s, norm
+        s, _ = session(); s.weights[3][:, 2] += 1; s.footprint({3: [2]})
+        self.assertEqual(s.checks["Z5"]["writes"][0]["changed_pairs"], [[3, 2]])
+        for mutate in (lambda s, n: s.weights[3][:, 3].add_(1), lambda s, n: s.weights[5][:, 2].add_(1), lambda s, n: n.add_(1)):
+            s, norm = session(); s.weights[3][:, 2] += 1; mutate(s, norm)
+            with self.assertRaisesRegex(R.Halt, "HALTED-V5"):
+                s.footprint({3: [2]})
+
+    def test_review_Z6_restore_covers_all_36_and_verify_detects_drift(self):
+        """Prereg :64, :129, :153; V3 :216: full 36-layer restore, byte-hash verification halts on drift."""
+        D, R = self.modules()
+        import torch
+        s = D.Session.__new__(D.Session)
+        s.weights = {l: torch.full((2, 3), float(l), dtype=torch.float16) for l in range(36)}
+        s.pristine = {l: w.clone() for l, w in s.weights.items()}
+        s.layer_hashes = {str(l): D.tensor_hash(w) for l, w in s.pristine.items()}; s.restores = []; s.hooks_check = lambda: None
+        for l in (0, 17, 35):
+            s.weights[l][0, 0] += 1
+        s.restore(); s.verify_restore("after restore")
+        self.assertTrue(all(torch.equal(s.weights[l], s.pristine[l]) for l in range(36)))
+        s.weights[35][1, 2] += 1
+        with self.assertRaisesRegex(R.Halt, "HALTED-V3"):
+            s.verify_restore("drift")
+        self.assertEqual([r["ok"] for r in s.restores], [True, False])
+
+    def test_review_wrapper_delegates_under_standing_law5(self):
+        """Prereg :127, :157; V2/V9: run_law5 always takes the original path; ASTRA only behind LAW#3 and instruments."""
+        D, R = self.modules()
+        s = D.Session.__new__(D.Session); s.gates = D.Gates()
+        s.original_edit = lambda hp, rq, P, c: "original"; s.calls = {"astra_calls": 0, "original_calls": 0}
+        s.write_arm = lambda requests, mode: "astra"
+        s.H = _types.SimpleNamespace(_LAW5_DEFAULT_CTX=True); s.mode = "astra"
+        self.assertEqual(s.wrapper(None, [], None, None), "original")
+        self.assertEqual(s.calls, {"astra_calls": 0, "original_calls": 0})
+        s.H._LAW5_DEFAULT_CTX = False
+        with self.assertRaisesRegex(R.Halt, "HALTED-V4"):
+            s.wrapper(None, [], None, None)
+        s.gates.law3 = True; s.gates.ready = True
+        self.assertEqual(s.wrapper(None, [], None, None), "astra")
+        s.mode = None; self.assertEqual(s.wrapper(None, [], None, None), "original")
+        self.assertEqual(s.calls, {"astra_calls": 2, "original_calls": 1})
+
+    def test_review_write_round_cap_columns_and_capacity(self):
+        """Prereg :79–81, :112: <=10 writes then round cap; only selected columns written; B_Z from Z's A7 only."""
+        D, R = self.modules()
+        import torch
+        s, events = _write_session(D)
+        s.write_arm(REQ_A7, "astra")
+        w = s.current["write"]
+        self.assertEqual((w["rounds_used"], w["stop_reason"], len(w["trace"])), (10, "round cap", 10))
+        self.assertTrue(torch.equal(s.weights[35][:, 2:], s.pristine[35][:, 2:]))
+        self.assertFalse(torch.equal(s.weights[35][:, :2], s.pristine[35][:, :2]))
+        self.assertEqual(s.Z_capacity, 2)
+        s.carrier_choice = {35: [0, 1, 2]}; s.write_arm(REQ_A2, "astra")
+        self.assertEqual(s.Z_capacity, 2)
+
+    def test_review_write_prestart_projection_refuses_before_observation(self):
+        """Prereg :196, V13 :225: refuse to start a candidate write when elapsed + projection exceeds the ceiling."""
+        D, R = self.modules()
+        b = D.Budget(0., None, None, clock=lambda: 5399.)
+        s, events = _write_session(D, budget=b)
+        with self.assertRaisesRegex(R.Halt, "HALTED-BUDGET"):
+            s.write_arm(REQ_A7, "astra")
+        self.assertEqual(events, [])
+
+    def test_review_stage1_round_over_120s_halts_in_run(self):
+        """Prereg :198, V13 :225, row 24: a synchronized stage-1 round >120 s halts HALTED-BUDGET in the run."""
+        D, R = self.modules()
+        real = D.time; t = [0.]
+
+        def mono():
+            t[0] += 61.; return t[0]
+        D.time = _types.SimpleNamespace(monotonic=mono)
+        try:
+            s, events = _write_session(D, stage=1)
+            with self.assertRaisesRegex(R.Halt, "HALTED-BUDGET"):
+                s.write_arm(REQ_A7, "astra")
+            self.assertEqual(sum(1 for e in events if e[0] == "footprint"), 1)
+        finally:
+            D.time = real
+
+    def test_review_stage_call_refusals(self):
+        """Prereg :133, :137, :196, :266: fresh OUT_DIR, K1/K2 and absent-ceiling refusals happen before any launch."""
+        D, R = self.modules()
+        launched = []
+
+        class Child:
+            def poll(self):
+                return 1
+        real_sp, real_res, real_wait = D.subprocess, D.resident, D.wait_stage
+        D.subprocess = _types.SimpleNamespace(Popen=lambda *a, **k: (launched.append("p1"), Child())[1], DEVNULL=None, STDOUT=None)
+        D.resident = lambda *a, **k: (launched.append("p2"), 0)[1]
+        D.wait_stage = lambda *a, **k: (launched.append("wait"), 0)[1]
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                tmp = Path(tmp)
+                used = tmp / "used"; used.mkdir(); D.write_json(used / "pass_p1.json", {"outcome": "COMPLETE"})
+                with self.assertRaisesRegex(R.Halt, "fresh OUT_DIR"):
+                    D.stage_call(0, used)
+                self.assertEqual(launched, [])
+                with self.assertRaisesRegex(R.Halt, "resident failed"):
+                    D.stage_call(0, tmp / "fresh")
+                self.assertEqual(launched, ["p1"]); launched.clear()
+                # stage 2 only for a K1 survivor
+                for n, ok in ((18, False), (26, True)):
+                    out = tmp / ("s2_%d" % n); out.mkdir(); D.write_json(out / "pass_p1.json", fixture(n=n))
+                    D.write_json(out / "run.json", {"attempt_id": "fixture-attempt", "pid": 1, "completed": 1, "requested": None,
+                                                     "closed": False, "halt": None, "reading": None,
+                                                     "launch": {"stage2": 100., "stage3": None}})
+                    if ok:
+                        self.assertEqual(D.stage_call(2, out), 0)
+                    else:
+                        with self.assertRaisesRegex(R.Halt, "K1 survivor"):
+                            D.stage_call(2, out)
+                    self.assertEqual(json.loads((out / "run.json").read_text())["requested"], 2 if ok else None)
+                self.assertEqual(launched, ["wait"]); launched.clear()
+                # stage 3 only after clean K2 and with a recorded stage-3 ceiling
+                good = tmp / "good"; _attempt_dir(D, good, fixture(n=22, stage=2), {})
+                self.assertEqual(R.read_directory(good)["next_stage"], 3)
+                self.assertEqual(D.stage_call(3, good), 0); self.assertEqual(launched, ["p2"]); launched.clear()
+                r = fixture(n=29, stage=2); counts(r["recipes"]["Z"]["arms"][A1], 67)
+                bad = tmp / "bad"; _attempt_dir(D, bad, r, {})
+                self.assertIsNone(R.read_directory(bad)["next_stage"])
+                with self.assertRaisesRegex(R.Halt, "HALTED-V12"):
+                    D.stage_call(3, bad)
+                noceil = tmp / "noceil"
+                _attempt_dir(D, noceil, fixture(n=22, stage=2), {"launch": {"attempt_id": "fixture-attempt", "stage2": 12000., "stage3": None}})
+                with self.assertRaisesRegex(R.Halt, "HALTED-BUDGET"):
+                    D.stage_call(3, noceil)
+                self.assertEqual(launched, [])
+        finally:
+            D.subprocess, D.resident, D.wait_stage = real_sp, real_res, real_wait
+
+    def test_review_reader_instrument_ceilings_audits_and_capacity(self):
+        """Prereg :147, :151–155, V2/V5/V9/V12, §2.5, §2.11: each recorded gate outcome is re-checked by the reader."""
+        D, R = self.modules()
+
+        def z0(r):
+            c = r["checks"]["Z0"]; c.update(sigma_shape=.13, tau_shape=.26); c["prefix_shape_leads"][0][0] += .13
+
+        def p2_origin(r):
+            second_process(r); r["budget"]["origins"]["stage3"] = 5.
+        cases = [("HALTED-V5", 1, lambda r: r["checks"]["Z7"].update(sigma_head=.13, tau_head=.26)),
+                 ("HALTED-V5", 1, z0),
+                 ("HALTED-V5", 1, lambda r: r["checks"]["Z4"].update(loop_relative_error=2e-10)),
+                 ("HALTED-V5", 1, lambda r: r["checks"]["Z5"]["writes"][0].update(changed_pairs=[[35, 1]])),
+                 ("HALTED-V9", 1, lambda r: r["recipes"]["Z"]["audit"].update(Z_OVERRIDE_HITS=1)),
+                 ("HALTED-V2", 1, lambda r: r["recipes"]["Z"]["law5_gate"].update(expr_delta=.05)),
+                 ("HALTED-V12", 1, lambda r: set_write(r["recipes"]["Z"]["arms"][A7], capacity=1286)),
+                 ("HALTED-V12", 2, lambda r: set_write(r["recipes"]["Z-band"]["arms"][A7], capacity=1286, band=True)),
+                 ("HALTED-BUDGET", 1, p2_origin)]
+        for expected, stage, mutate in cases:
+            with self.subTest(expected=expected, stage=stage):
+                r = fixture(stage=stage); mutate(r); seal_fixture(r)
+                self.assertEqual(R.read_process(r)["label"], expected)
+        z2 = R.z2_evidence([[.02, 6.]] + [[6.]] * 23, [True] * 24, .02)
+        self.assertEqual((z2["checked"], z2["ambiguous"]), (23, 1))
+
+    def test_review_cross_process_replication_needs_clean_pair(self):
+        """Prereg :277: LEAD/PARTIAL replicate only when both clean; differing base labels otherwise -NOT-REPLICATED."""
+        D, R = self.modules()
+        repro = {"R1": {"status": "PASS"}, "R2": {"difference": 0}, "R3": {"disagree": 0},
+                 "artifact_identity": "EXACT", "numeric_behavioral_reproduction": "PASS"}
+        got = R.aggregate({"base_label": "LEAD", "qualifiers": []}, {"base_label": "PARTIAL", "qualifiers": ["LARGE-WRITE"]}, repro)
+        self.assertFalse(got["replicated"]); self.assertIn("NOT-REPLICATED", got["qualifiers"])
+        got = R.aggregate({"base_label": "LEAD", "qualifiers": []}, {"base_label": "TRADEOFF", "qualifiers": []}, repro)
+        self.assertEqual(got["label"], "TRADEOFF-NOT-REPLICATED")
+
+
+def _attempt_dir(D, out, record, run_extra):
+    out.mkdir(parents=True, exist_ok=True)
+    for n, b in {"context_templates.json": b"[]", "dstats.pt": b"d", "G.pt": b"g", "overlap_audit.json": b"{}"}.items():
+        (out / n).write_bytes(b)
+    sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+    parts = record["manifest"]["parts"]
+    for n, k in (("context_templates.json", "context_templates_sha256"), ("dstats.pt", "dstats_sha256"), ("G.pt", "G_sha256")):
+        parts[k] = sha(out / n)
+    record["H_in"] = record["manifest"]["H_in"] = digest(parts)
+    D.write_json(out / "manifest.json", record["manifest"])
+    D.write_json(out / "pristine_hash.json", {"H_pristine": record["H_pristine"], "layers": {str(l): "a" * 64 for l in range(36)},
+                                              "parameters": {"x": "a" * 64}, "safetensors": {"m": "a" * 64}})
+    record["artifact_hashes"] = {n: sha(out / n) for n in ("context_templates.json", "dstats.pt", "G.pt", "pristine_hash.json",
+                                                          "manifest.json", "overlap_audit.json")}
+    seal_schedule(record)
+    D.write_json(out / "pass_p1.json", record)
+    run = {"schema": "c10z_astra-v2.2", "attempt_id": record["attempt_id"], "pid": record["pid"], "process": 1, "completed": 2,
+           "requested": None, "closed": True, "launch": {"attempt_id": record["attempt_id"], "stage2": 12000., "stage3": 24000.},
+           "reading": None, "halt": None}
+    run.update(run_extra); D.write_json(out / "run.json", run)
+
+
+for _name in dir(ReviewGapTests):
+    if _name.startswith("test_review_"):
+        setattr(SpecTests, _name, getattr(ReviewGapTests, _name))
+
+
+
+# Fix-round-1 additions. The proposed 60-test source above remains verbatim.
+# Existing conditional-label fixtures have expansion budgets; absent budgets are
+# exercised explicitly below against the full reader and resident.
+from contextlib import redirect_stderr
+import io
+from unittest import mock
+
+_proposed_fixture = fixture
+def fixture(*args, **kwargs):
+    r = _proposed_fixture(*args, **kwargs)
+    r["manifest"]["parts"]["go_sha256"] = "a" * 64
+    r["H_in"] = r["manifest"]["H_in"] = digest(r["manifest"]["parts"])
+    r["budget"]["ceilings"].update(stage2=12000., stage3=24000.)
+    seal_schedule(r)
+    return r
+
+
+def _go_record():
+    return {"decisions": {"0": "D-C10z-go-0", "1": "D-C10z-go-1", "2": "D-C10z-go-2"},
+            "operator_yes": True, "recorded_by": "operator", "recorded_at": "2026-10-07T12:00:00Z",
+            "one_gpu_job": True}
+
+
+_proposed_stage_calls = SpecTests.test_review_stage_call_refusals
+def _review_stage_calls_with_go(self):
+    with tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / "go.json"; path.write_text(json.dumps(_go_record()))
+        with mock.patch.dict(os.environ, {"C10Z_GO_RECORD": str(path)}):
+            return _proposed_stage_calls(self)
+_review_stage_calls_with_go.__doc__ = _proposed_stage_calls.__doc__
+SpecTests.test_review_stage_call_refusals = _review_stage_calls_with_go
+
+
+class Child:
+    def poll(self):
+        return 1
+
+
+def stage1_attempt(out, n, closed, completed, reading, launch):
+    D = importlib.import_module("c10z_astra_arms")
+    record = fixture(n=n)
+    record["budget"]["ceilings"].update(stage2=launch["stage2"], stage3=launch["stage3"])
+    _attempt_dir(D, out, record, {"completed": completed, "closed": closed,
+                                "reading": reading, "launch": launch})
+
+
+class BlockingDemos(unittest.TestCase):
+    def setUp(self):
+        self.D = importlib.import_module("c10z_astra_arms"); self.R = importlib.import_module("c10z_astra_read")
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        self.launched = []
+        self.patchers = [
+            mock.patch.object(self.D, "ROOT", Path(self.temp.name)),
+            mock.patch.object(self.D, "subprocess", _types.SimpleNamespace(
+                Popen=lambda *a, **k: (self.launched.append("p1"), Child())[1], DEVNULL=None, STDOUT=None)),
+            mock.patch.object(self.D, "resident", lambda *a, **k: (self.launched.append("p2"), 0)[1]),
+            mock.patch.dict(os.environ)]
+        for patcher in self.patchers:
+            patcher.start(); self.addCleanup(patcher.stop)
+        os.environ.pop("C10Z_GO_RECORD", None)
+        os.environ.pop("C10Z_RESIDENT", None)
+
+    def main(self, out, stage):
+        with mock.patch.dict(os.environ, {"C10Z_OUT_DIR": str(out)}), mock.patch.object(
+                sys, "argv", ["c10z_astra_arms.py", str(stage)]):
+            return self.D.main()
+
+    def test_B1_stage0_refuses_without_recorded_go_decision(self):
+        """Prereg :3, :341–344: operator go before stage 0; blocking demo B1."""
+        with tempfile.TemporaryDirectory() as tmp:
+            with self.assertRaises(self.R.Halt):
+                self.D.stage_call(0, Path(tmp) / "fresh")
+        self.assertEqual(self.launched, [], "stage 0 launched without a go decision")
+
+    def test_B2_stray_stage_call_after_terminal_K1_keeps_the_result(self):
+        """Prereg :137, :204, :267: a refusal preserves completed records; blocking demo B2."""
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "attempt"
+            stage1_attempt(out, 18, True, 1, {"label": "NULL-STAGE1", "next_stage": None},
+                           {"attempt_id": "fixture-attempt", "stage2": None, "stage3": None})
+            before = (out / "pass_p1.json").read_bytes()
+            self.assertEqual(self.R.read_directory(out)["label"], "NULL-STAGE1")
+            self.assertEqual(self.main(out, 2), 2)
+            self.assertEqual(self.R.read_directory(out)["label"], "NULL-STAGE1")
+            self.assertEqual((out / "pass_p1.json").read_bytes(), before)
+
+    def test_B3_clean_survivor_without_stage2_ceiling_keeps_stage1_record(self):
+        """Prereg :196, :265–267: unbudgeted expansion closes STAGE1; blocking demo B3 with lead's suffix ruling."""
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "attempt"
+            stage1_attempt(out, 26, False, 1, {"label": "PARTIAL", "next_stage": 2},
+                           {"attempt_id": "fixture-attempt", "stage2": None, "stage3": None})
+            rec = json.loads((out / "pass_p1.json").read_text())
+            reading = self.R.read_process(rec)
+            self.assertEqual((reading["label"], reading["next_stage"], rec["omissions"]["G0"]["reason"]),
+                             ("PARTIAL-STAGE1", None, "ABSENT-CEILING"))
+            before = (out / "pass_p1.json").read_bytes()
+            self.assertEqual(self.main(out, 2), 2)
+            self.assertEqual((out / "pass_p1.json").read_bytes(), before)
+
+
+_resident_runtime = importlib.import_module("c10z_astra_arms").resident
+
+
+def _mock_resident(D, R, out, record, launch, deadline=False):
+    """Run the real resident/terminal/watchdog code with CPU-only collaborators."""
+    callbacks = []; exits = []; events = []; clock = [100.]
+    real_budget = D.Budget
+
+    class Event:
+        def wait(self, seconds): return False
+        def set(self): pass
+    class Thread:
+        def __init__(self, target, daemon): callbacks.append(target)
+        def start(self): pass
+    def submit(_):
+        run = D.load_json(out / "run.json")
+        run["requested"] = run["completed"] + 1
+        D.write_json(out / "run.json", run, replace=True)
+
+    class SessionStub:
+        def __init__(self, path, process, budget, input_dir):
+            self.budget = budget; self.process = process
+            self.recipes = record["recipes"]; self.checks = record["checks"]
+            self.memory = record["memory"]; self.restores = record["restores"]
+            events.append(("constructed", budget))
+        def stage0(self): events.append("stage0")
+        def stage1(self):
+            events.append("stage1"); self.budget.complete01()
+            return R.read_process(record)
+        def stage2(self):
+            events.append("stage2"); self.budget.enter(2)
+            if deadline:
+                clock[0] += self.budget.durations["stage2"]
+                callbacks[0]()
+            return {"label": "PARTIAL-SINGLE-PROCESS", "next_stage": None}
+        def close(self): events.append("closed"); self.closed_model = True
+        def restore(self): events.append("restored")
+        def verify_restore(self, where): events.append(("verified", where))
+
+    with mock.patch.object(D, "Session", SessionStub), mock.patch.object(
+            D, "Budget", lambda start, stage2, stage3, process:
+            real_budget(start, stage2, stage3, process=process, clock=lambda: clock[0])), mock.patch.object(
+            D, "time", _types.SimpleNamespace(monotonic=lambda: clock[0], sleep=submit)), mock.patch.object(
+            D, "threading", _types.SimpleNamespace(Event=Event, Thread=Thread, RLock=__import__("threading").RLock)), mock.patch.object(
+            D.os, "_exit", lambda code: exits.append(code)):
+        rc = _resident_runtime(out, 1, launch, start=clock[0])
+    return rc, events, exits
+
+
+class Fix1Tests(BlockingDemos):
+    # Inherit the three always-on blocking demos; load them only once below.
+    def test_fix1_go_malformed_fields_refuse_without_any_attempt_write(self):
+        """Prereg :3, :137, :341–344: all missing/malformed go fields refuse before launch or output mutation."""
+        candidates = [None, [], {}, {"decisions": []}]
+        valid = _go_record()
+        for key in valid:
+            bad = copy.deepcopy(valid); bad.pop(key); candidates.append(bad)
+        for key, values in {"operator_yes": [False, 1, "true", None],
+                            "one_gpu_job": [False, 1, "true", None],
+                            "recorded_by": ["", "  ", None, 1],
+                            "recorded_at": ["", "  ", None, 1]}.items():
+            for value in values:
+                bad = copy.deepcopy(valid); bad[key] = value; candidates.append(bad)
+        for key in ("0", "1", "2"):
+            for value in ("", " ", None, 1, "not-a-decision", "D-"):
+                bad = copy.deepcopy(valid); bad["decisions"][key] = value; candidates.append(bad)
+            bad = copy.deepcopy(valid); bad["decisions"].pop(key); candidates.append(bad)
+        bad = copy.deepcopy(valid); bad["decisions"]["3"] = "D-extra"; candidates.append(bad)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); go = root / "go.json"
+            for index, record in enumerate(candidates + ["invalid-json", "missing-file"]):
+                with self.subTest(case=index):
+                    out = root / ("out%d" % index)
+                    if record == "missing-file":
+                        os.environ["C10Z_GO_RECORD"] = str(root / "missing.json")
+                    elif record == "invalid-json":
+                        go.write_text("{"); os.environ["C10Z_GO_RECORD"] = str(go)
+                    elif record is None:
+                        os.environ.pop("C10Z_GO_RECORD", None)
+                    else:
+                        go.write_text(json.dumps(record)); os.environ["C10Z_GO_RECORD"] = str(go)
+                    with mock.patch.object(self.D, "diagnostic", side_effect=AssertionError("refusal wrote diagnostic")):
+                        with redirect_stderr(io.StringIO()) as err:
+                            self.assertEqual(self.main(out, 0), 2)
+                    self.assertTrue(err.getvalue().strip())
+                    self.assertFalse(out.exists(), "refusal created the attempt directory")
+                    self.assertEqual(self.launched, [])
+
+    def test_fix1_go_launch_copy_and_manifest_sha(self):
+        """Prereg :3, :137, :341–344: validated go copied to launch and its exact bytes bound to H_in."""
+        D, R = self.D, self.R
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); go = root / "go.json"; go.write_text(json.dumps(_go_record(), indent=2))
+            expected = hashlib.sha256(go.read_bytes()).hexdigest(); out = root / "attempt"
+            os.environ["C10Z_GO_RECORD"] = str(go)
+            def launch(*args, **kwargs):
+                self.launched.append("p1")
+                policy = json.loads(kwargs["env"]["C10Z_LAUNCH"])
+                self.assertEqual(kwargs["env"]["C10Z_GO_RECORD"], str(go))
+                D.write_json(out / "run.json", {"launch": policy})
+                return Child()
+            with mock.patch.object(D, "subprocess", _types.SimpleNamespace(
+                    Popen=launch, DEVNULL=None, STDOUT=None)), mock.patch.object(D, "wait_stage", return_value=0):
+                self.assertEqual(D.stage_call(0, out), 0)
+            launch_record = D.load_json(out / "run.json")["launch"]
+            self.assertEqual(launch_record["go"], _go_record())
+            self.assertEqual(launch_record["go_sha256"], expected)
+            r = fixture(n=18); _attempt_dir(D, out / "resident", r, {})
+            rc, events, _ = _mock_resident(D, R, out / "resident", r, launch_record)
+            self.assertEqual(rc, 0)
+            self.assertEqual(D.load_json(out / "resident/run.json")["launch"]["go"], _go_record())
+            budget = events[0][1]; self.assertEqual(budget.go_sha256, expected)
+            s = D.Session.__new__(D.Session); s.budget = budget; s.out = out
+            snapshot = root / "hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/test-revision"
+            snapshot.mkdir(parents=True)
+            for name in ("tokenizer.json", "tokenizer_config.json"): (snapshot / name).write_text("{}")
+            import torch
+            s.H = _types.SimpleNamespace(REV="test-revision", FICTION=list(range(24)), CANON="{}",
+                req=lambda p, subj, value: {"subject": subj, "value": value}, DEV="mps",
+                model=_types.SimpleNamespace(config=_types.SimpleNamespace(_attn_implementation="eager"),
+                    training=False, parameters=lambda: iter([torch.zeros(1, dtype=torch.float16)])))
+            s.arms = {a: {i: str(i) for i in range(24)} for a in ARMS}; s.batches = r["manifest"]["parts"]["batches"]
+            s.H_pristine = "a"*64; s.safetensors = {"m": "a"*64}; s.fingerprint = {"start": {}}
+            s.dstats = {"dataset": {}}; s.covariance_paths = lambda: {}
+            s.loaded_manifest = None
+            with mock.patch.object(D, "ROOT", root), mock.patch.object(D, "sha256_file", return_value="a"*64), mock.patch.dict(
+                    sys.modules, {"transformers": _types.SimpleNamespace(__version__="4.51.0")}):
+                parts = s.input_parts()
+                self.assertEqual(parts["go_sha256"], expected)
+                s.make_manifest()
+            self.assertEqual(s.manifest["H_in"], R.json_digest(s.manifest["parts"]))
+            changed = copy.deepcopy(parts); changed["go_sha256"] = "b"*64
+            self.assertNotEqual(R.json_digest(changed), s.manifest["H_in"])
+
+    def test_fix1_go_sha_is_mandatory_reader_provenance(self):
+        """Prereg :137, V12 :224; §6 :341–344: missing/malformed go digest invalidates the manifest."""
+        for value in (None, "not-a-sha"):
+            r = fixture()
+            if value is None: r["manifest"]["parts"].pop("go_sha256")
+            else: r["manifest"]["parts"]["go_sha256"] = value
+            r["H_in"] = r["manifest"]["H_in"] = digest(r["manifest"]["parts"])
+            self.assertEqual(self.R.read_process(r)["label"], "HALTED-V12")
+
+    def test_fix1_refusals_preserve_finished_attempt_byte_for_byte(self):
+        """Prereg :137, :204, :267: duplicate/closed/out-of-order client refusals do not alter a finished attempt."""
+        D, R = self.D, self.R
+        for stage, n, completed in ((0, 18, 1), (1, 18, 1), (2, 18, 1), (3, 29, 2)):
+            with self.subTest(stage=stage), tempfile.TemporaryDirectory() as tmp:
+                out = Path(tmp) / "attempt"; r = fixture(n=n, stage=completed)
+                if completed == 2: counts(r["recipes"]["Z"]["arms"][A1], 67)
+                _attempt_dir(D, out, r, {"completed": completed})
+                before = {str(p.relative_to(out)): p.read_bytes() for p in out.rglob("*") if p.is_file()}
+                label = R.read_directory(out)["label"]
+                with mock.patch.object(D, "diagnostic", side_effect=AssertionError("refusal called diagnostic")):
+                    self.assertEqual(self.main(out, stage), 2)
+                after = {str(p.relative_to(out)): p.read_bytes() for p in out.rglob("*") if p.is_file()}
+                self.assertEqual(before, after); self.assertEqual(R.read_directory(out)["label"], label)
+
+    def test_fix1_halt_sidecar_retains_completed_observations_for_both_processes(self):
+        """Prereg :123, :267, :323: actual deadline/validity halts keep completed pass bytes and nonbinding observations."""
+        D, R = self.D, self.R
+        for process, code in ((1, "HALTED-BUDGET"), (1, "HALTED-V3"), (2, "HALTED-BUDGET")):
+            with self.subTest(process=process, code=code), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp); out = root / "attempt"; first = fixture(stage=2)
+                _attempt_dir(D, out, first, {})
+                target = out
+                if process == 2:
+                    target = out / "process2"; second = fixture(); second_process(second)
+                    _attempt_dir(D, target, second, {"process": 2, "pid": second["pid"]})
+                    (target / "pass_p1.json").rename(target / "pass_p2.json")
+                passpath = target / ("pass_p%d.json" % process); before = passpath.read_bytes()
+                with mock.patch.object(D, "ROOT", root):
+                    value = D.diagnostic(target, code, "synthetic halt after completed pass")
+                self.assertEqual(passpath.read_bytes(), before)
+                self.assertEqual(value["observations"], json.loads(before))
+                self.assertEqual(D.load_json(target / ("halt_p%d.json" % process)), value)
+                # The durable halt file governs even if a run.json has no halt marker.
+                run = D.load_json(target / "run.json"); run["halt"] = None
+                D.write_json(target / "run.json", run, replace=True)
+                got = R.read_directory(out)
+                self.assertEqual(got["label"], code); self.assertFalse(got["scientific_verdict"])
+                self.assertIn(json.loads(before), got["observations"])
+
+    def test_fix1_watchdog_preserves_last_published_record(self):
+        """Prereg :196, :225, :267: expired stage-2 watchdog preserves the complete earlier pass and labels HALT."""
+        D, R = self.D, self.R
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); out = root / "attempt"; r = fixture()
+            _attempt_dir(D, out, r, {})
+            before = (out / "pass_p1.json").read_bytes()
+            launch = {"attempt_id": r["attempt_id"], "stage2": 60., "stage3": None,
+                      "go": _go_record(), "go_sha256": "a"*64}
+            with mock.patch.object(D, "ROOT", root):
+                rc, events, exits = _mock_resident(D, R, out, r, launch, deadline=True)
+            self.assertEqual(rc, 2); self.assertEqual(exits, [2])
+            self.assertIn("stage2", events)
+            self.assertEqual((out / "pass_p1.json").read_bytes(), before)
+            self.assertEqual(D.load_json(out / "halt_p1.json")["observations"], json.loads(before))
+            got = R.read_directory(out)
+            self.assertEqual(got["label"], "HALTED-BUDGET")
+            self.assertEqual(got["observations"], [json.loads(before)])
+
+    def test_fix1_absent_ceilings_terminal_labels_and_resident_close(self):
+        """Prereg :196, :265–267: clean stage1/2 without next budget terminates; no G0/replication claim."""
+        D, R = self.D, self.R
+        for stage, expected in ((1, "PARTIAL-STAGE1"), (2, "PARTIAL-SINGLE-PROCESS")):
+            r = fixture(stage=stage); r["budget"]["ceilings"]["stage%d" % (stage+1)] = None
+            seal_schedule(r)
+            got = R.read_process(r); self.assertEqual(got["label"], expected); self.assertIsNone(got["next_stage"])
+            if stage == 1:
+                self.assertEqual(r["omissions"]["G0"], {"status": "NOT-RUN", "reason": "ABSENT-CEILING"})
+                self.assertEqual(r["omissions"]["Z-band"], r["omissions"]["G0"])
+                with tempfile.TemporaryDirectory() as tmp:
+                    out = Path(tmp); _attempt_dir(D, out, r, {})
+                    launch = {"attempt_id": r["attempt_id"], "stage2": None, "stage3": None,
+                              "go": _go_record(), "go_sha256": "a"*64}
+                    rc, events, _ = _mock_resident(D, R, out, r, launch)
+                    self.assertEqual(rc, 0); self.assertNotIn("stage2", events); self.assertIn("closed", events)
+                    self.assertTrue(D.load_json(out / "run.json")["closed"])
+            else:
+                self.assertEqual(r["omissions"]["process2"], {"status": "NOT-RUN", "reason": "ABSENT-CEILING"})
+
+    def test_fix1_relative_outdir_resolved_at_main_parse(self):
+        """Prereg :8, :137, :204: records use one absolute OUT_DIR before the harness import changes cwd."""
+        captured = []
+        with mock.patch.object(self.D, "stage_call", lambda stage, out: (captured.append(out), 2)[1]):
+            self.assertEqual(self.main(Path("relative/attempt"), 0), 2)
+        self.assertEqual(captured, [(Path.cwd() / "relative/attempt").resolve()])
+
+    def test_fix1_shell_preserves_go_env_absolute_outdir_and_no_refusal_write(self):
+        """Prereg :3, :137, :204: shell passes go unchanged and leaves unlaunched attempts untouched."""
+        real_subprocess = importlib.import_module("subprocess")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); (root / "tools").mkdir(); (root / ".venv/bin").mkdir(parents=True)
+            shell = root / "tools/run_c10z_stage.sh"; shell.write_text((ROOT / "tools/run_c10z_stage.sh").read_text())
+            python = root / ".venv/bin/python"
+            python.write_text('#!/bin/sh\nprintf "%s\\n" "$C10Z_OUT_DIR" "$C10Z_GO_RECORD"\nexit 2\n')
+            python.chmod(0o755)
+            go = str(root / "supplied-go.json")
+            result = real_subprocess.run(["bash", str(shell), "0"], capture_output=True, text=True,
+                env=dict(os.environ, C10Z_OUT_DIR="relative/attempt", C10Z_GO_RECORD=go))
+            self.assertEqual(result.returncode, 2)
+            self.assertEqual(result.stdout.splitlines(), [str(root / "relative/attempt"), go])
+            self.assertFalse((root / "relative").exists())
+
+
+# Keep the reviewer's 60 tests plus the three demos and nine targeted fix tests.
+_fix1_suite = lambda: unittest.TestSuite([
+    unittest.defaultTestLoader.loadTestsFromTestCase(SpecTests),
+    unittest.defaultTestLoader.loadTestsFromTestCase(Fix1Tests)])
+
 if __name__=="__main__":
-    result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(SpecTests))
+    result=unittest.TextTestRunner(verbosity=2).run(_fix1_suite())
     print("C10Z_ASTRA_SELFTEST_"+("PASS" if result.wasSuccessful() else "FAIL")+" tests="+str(result.testsRun))
     sys.exit(0 if result.wasSuccessful() else 1)

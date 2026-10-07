@@ -18,7 +18,7 @@ ARMS = (A1,A2,A7)
 INPUT_KEYS = ("requests", "model_revision", "H_pristine", "context_templates_sha256",
     "dstats_sha256", "G_sha256", "settings", "driver_sha256", "reader_sha256", "seed",
     "prereg_sha256", "engine_sources", "hparams", "screens", "covariances", "tokenizer",
-    "batches", "forward_settings", "environment", "solver_backend", "dataset", "safetensors")
+    "batches", "forward_settings", "environment", "solver_backend", "dataset", "safetensors", "go_sha256")
 QUAL_ORDER = ("UNDERFIT", "LARGE-WRITE", "SUBJECT-FREE", "EXCEEDS-TTL", "STAGE1",
               "SINGLE-PROCESS", "REPRO-INCOMPLETE", "NOT-REPLICATED", "NOT-REPRODUCIBLE")
 INFINITY = "POSITIVE-INFINITY"
@@ -370,6 +370,7 @@ def validate_counts(arm):
 
 def validate_manifest(parts):
     require(all(k in parts and parts[k] is not None for k in INPUT_KEYS),"HALTED-V12","manifest inputs missing")
+    require(sha(parts["go_sha256"]),"HALTED-V12","go record SHA missing or malformed")
     require(parts["settings"]==SETTINGS and parts["seed"]==0 and
             parts["model_revision"]=="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b","HALTED-V12","frozen settings/revision")
     require(set(parts["requests"])==set(parts["batches"])==set(ARMS),"HALTED-V12","manifest arm population")
@@ -563,15 +564,16 @@ def label_string(base,qualifiers):
     return base+"".join("-"+q for q in QUAL_ORDER if q in qualifiers)
 
 
-def classify_candidate(z,a,gates,stage,band=None,write_seconds=()):
+def classify_candidate(z,a,gates,stage,band=None,write_seconds=(),ceilings=None):
     """§3 partition conditional on validity. read_process enforces V1–V13 first."""
     base=base_label(z["para_full_n"],a["para_full_n"],all(gates.values()))
     q=substantive(z,a);underfit="UNDERFIT" in q
     if any(t>3600. for t in write_seconds) and "EXCEEDS-TTL" not in q:q.append("EXCEEDS-TTL")
     if base=="NULL" and underfit:base="UNDERFIT";q.remove("UNDERFIT")
     clean=base in ("PARTIAL","LEAD") and not q
-    next_stage=2 if stage==1 and clean else 3 if stage==2 and clean else None
-    if stage==1 and not clean:q.append("STAGE1")
+    budgeted=ceilings is None or ceilings["stage"+str(stage+1)] is not None
+    next_stage=2 if stage==1 and clean and budgeted else 3 if stage==2 and clean and budgeted else None
+    if stage==1 and next_stage is None:q.append("STAGE1")
     if stage==2:q.append("SINGLE-PROCESS")
     attr=attribution(z,band,a) if stage==2 else "NOT-RUN"
     return {"label":label_string(base,q),"base_label":base,"qualifiers":q,"gates":gates,
@@ -581,9 +583,11 @@ def classify_candidate(z,a,gates,stage,band=None,write_seconds=()):
         "numeric_behavioral_reproduction":"NOT-EVALUATED"}
 
 
-def stage_omissions(process,stage,next_stage,ceilings):
-    reason=("K1" if next_stage is None else "ABSENT-CEILING" if ceilings["stage2"] is None else "AWAITING-STAGE2") if stage==1 else (
-        "K2" if next_stage is None else "ABSENT-CEILING" if ceilings["stage3"] is None else "AWAITING-STAGE3")
+def stage_omissions(process,stage,next_stage,ceilings,decision=None):
+    eligible=next_stage is not None or (decision is not None and decision["base_label"] in ("PARTIAL","LEAD") and
+        not (set(decision["qualifiers"])-{"STAGE1","SINGLE-PROCESS"}))
+    reason="ABSENT-CEILING" if eligible and ceilings["stage"+str(stage+1)] is None else (
+        ("K1" if stage==1 else "K2") if next_stage is None else ("AWAITING-STAGE2" if stage==1 else "AWAITING-STAGE3"))
     omissions={k:{"status":"NOT-RUN","reason":reason} for k in ("G0","Z-band")} if stage==1 else {}
     omissions["process2"]={"status":"NOT-APPLICABLE","reason":"CURRENT-PROCESS"} if process==2 else {"status":"NOT-RUN","reason":reason}
     return omissions
@@ -601,8 +605,8 @@ def read_process(record):
             gates["G0"]=all(record["recipes"]["Z"]["arms"][k]["para_full_n"]>=68 for k in (A1,A2))
         seconds=[v["write"]["wall_seconds"] for name in ("Z","Z-band") for v in
                  record["recipes"].get(name,{"arms":{}})["arms"].values()]
-        result=classify_candidate(z,a,gates,stage,record["recipes"]["Z-band"]["arms"][A7] if stage==2 else None,seconds)
-        require(record["omissions"]==stage_omissions(record["process"],stage,result["next_stage"],record["budget"]["ceilings"]),
+        result=classify_candidate(z,a,gates,stage,record["recipes"]["Z-band"]["arms"][A7] if stage==2 else None,seconds,record["budget"]["ceilings"])
+        require(record["omissions"]==stage_omissions(record["process"],stage,result["next_stage"],record["budget"]["ceilings"],result),
                 "HALTED-V12","omissions disagree with K1/K2 or frozen launch ceilings")
         return {**result,"scientific_verdict":True}
     except Halt as exc:
@@ -661,11 +665,16 @@ def read_directory(out):
         records=[]
         for directory,number in ((out,1),(out/"process2",2)):
             if not directory.exists():continue
-            run=json.loads((directory/"run.json").read_text())
-            if run.get("halt"):
-                return {"label":run["halt"]["code"],"scientific_verdict":False,"detail":run["halt"]["detail"]}
+            runpath=directory/"run.json"
+            run=json.loads(runpath.read_text()) if runpath.exists() else {}
+            passpath=directory/f"pass_p{number}.json"
+            record=json.loads(passpath.read_text()) if passpath.exists() else None
+            haltpath=directory/f"halt_p{number}.json"
+            halt=json.loads(haltpath.read_text())["halt"] if haltpath.exists() else run.get("halt")
+            if halt:
+                return {"label":halt["code"],"scientific_verdict":False,"detail":halt["detail"],
+                    "observations":records+([record] if record is not None else [])}
             require(run["closed"] is True,"HALTED-V12","attempt still running; no final verdict")
-            record=json.loads((directory/f"pass_p{number}.json").read_text())
             require(record["attempt_id"]==run["attempt_id"] and record["pid"]==run["pid"],"HALTED-V12","terminal attempt binding")
             for name,expected in record["artifact_hashes"].items():
                 require(hashlib.sha256((directory/name).read_bytes()).hexdigest()==expected,"HALTED-V12","on-disk artifact drift: "+name)

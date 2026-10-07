@@ -671,7 +671,7 @@ class Session:
         carriers=self.current["carriers"]
         held_obs=self.observe(held,carriers)
         self.current["heldout_post"]=held_obs["leads"].tolist()
-        # Pristine held-out reads are obtained only after the solve has ended.
+        # Stage 0 also reads pristine held-out leads; held-out reads never enter the solve.
         edited={l:self.weights[l].detach().cpu().clone() for l in carriers}
         try:
             self.restore();pre=self.observe(held,carriers)
@@ -1160,7 +1160,7 @@ class Session:
             "context_templates_sha256":sha256_file(self.out/"context_templates.json"),
             "dstats_sha256":sha256_file(self.out/"dstats.pt"),"G_sha256":sha256_file(self.out/"G.pt"),
             "settings":SETTINGS,"driver_sha256":sha256_file(Path(__file__)),"reader_sha256":sha256_file(Path(R.__file__)),
-            "prereg_sha256":sha256_file(ROOT/PREREG),"seed":0,
+            "prereg_sha256":sha256_file(ROOT/PREREG),"seed":0,"go_sha256":self.budget.go_sha256,
             "engine_sources":self.fingerprint["start"],
             "hparams":{HP:sha256_file(ROOT/HP)},
             "screens":{str(p.relative_to(ROOT)):sha256_file(p) for p in (ROOT/"configs/screens/g6_screen_qwen3b.json",ROOT/"configs/screens/g6_screen_qwen3b_v2.json")},
@@ -1239,13 +1239,13 @@ class Session:
         z=self.recipes["Z"]["arms"][R.A7];a=self.recipes["A"]["arms"][R.A7];gates=R.side_gates(z,a)
         if stage==2:gates["G0"]=all(self.recipes["Z"]["arms"][k]["para_full_n"]>=68 for k in (R.A1,R.A2))
         seconds=[v["write"]["wall_seconds"] for name in ("Z","Z-band") for v in self.recipes.get(name,{"arms":{}})["arms"].values()]
-        decision=R.classify_candidate(z,a,gates,stage,self.recipes["Z-band"]["arms"][R.A7] if stage==2 else None,seconds)
+        decision=R.classify_candidate(z,a,gates,stage,self.recipes["Z-band"]["arms"][R.A7] if stage==2 else None,seconds,self.budget.durations)
         return {"schema":R.SCHEMA,"attempt_id":self.attempt_id,"process":self.process,"pid":os.getpid(),"stage_completed":stage,
             "H_in":self.manifest["H_in"],"manifest":self.manifest,"H_pristine":self.H_pristine,
             "artifact_hashes":hashes,"fingerprint":self.fingerprint,"checks":self.checks,"restores":self.restores,
             "memory":self.memory,"recipes":self.recipes,"budget":{"halted":False,"history":self.budget.history,
                 "origins":self.budget.origins,"ceilings":self.budget.durations},
-            "omissions":R.stage_omissions(self.process,stage,decision["next_stage"],self.budget.durations),
+            "omissions":R.stage_omissions(self.process,stage,decision["next_stage"],self.budget.durations,decision),
             "certificate":{"artifact_identity":"NOT-EVALUATED","numeric_behavioral_reproduction":"NOT-EVALUATED"},
             "outcome":"COMPLETE"}
 
@@ -1339,6 +1339,27 @@ def launch_duration(env,key):
     R.require(math.isfinite(value) and value>0,"HALTED-BUDGET","invalid "+key);return value
 
 
+def go_record(env):
+    """Prereg §6: validate the recorded go before creating or launching an attempt."""
+    path=env.get("C10Z_GO_RECORD")
+    R.require(isinstance(path,str) and path.strip(),"HALTED-V12","C10Z_GO_RECORD is required")
+    try:
+        raw=Path(path).read_bytes();value=json.loads(raw)
+    except (OSError,ValueError) as exc:
+        raise R.Halt("HALTED-V12","invalid C10Z_GO_RECORD: "+str(exc)) from exc
+    R.require(isinstance(value,dict),"HALTED-V12","go record must be a JSON object")
+    decisions=value.get("decisions")
+    R.require(isinstance(decisions,dict) and set(decisions)=={"0","1","2"} and
+        all(isinstance(v,str) and v.strip().startswith("D-") and v.strip()[2:].strip() for v in decisions.values()),
+        "HALTED-V12","go decisions must name exactly 0, 1, 2 with nonempty Decision-IDs")
+    R.require(value.get("operator_yes") is True and value.get("one_gpu_job") is True,
+        "HALTED-V12","go record requires operator_yes=true and one_gpu_job=true")
+    R.require(all(isinstance(value.get(k),str) and value[k].strip() for k in ("recorded_by","recorded_at")),
+        "HALTED-V12","go record requires recorded_by and recorded_at")
+    R.finite_json(value)
+    return value,hashlib.sha256(raw).hexdigest()
+
+
 def diagnostic(out,code,detail,session=None):
     out=Path(out);runpath=out/"run.json"
     run=load_json(runpath) if runpath.exists() else {}
@@ -1352,10 +1373,12 @@ def diagnostic(out,code,detail,session=None):
         if isinstance(v,dict):return {k:safe(x) for k,x in v.items()}
         if isinstance(v,(list,tuple)):return [safe(x) for x in v]
         return v
-    value=safe(value)
     process=session.process if session is not None else run.get("process",2 if out.name=="process2" else 1)
     passpath=out/f"pass_p{process}.json"
-    write_json(passpath,value,replace=passpath.exists())
+    value["observations"]=load_json(passpath) if passpath.exists() else None
+    value=safe(value)
+    haltpath=out/f"halt_p{process}.json"
+    write_json(haltpath,value,replace=haltpath.exists())
     if run:
         run.update(closed=True,halt=value["halt"],reading=None)
         write_json(runpath,run,replace=True)
@@ -1367,6 +1390,7 @@ def resident(out,process,launch,input_dir=None,start=None):
     """Model lifetime is one process; deadline watchdog cannot mint a scientific pass."""
     start=time.monotonic() if start is None else start
     budget=Budget(start,launch["stage2"],launch["stage3"],process=process)
+    budget.go_sha256=launch["go_sha256"]
     state=StageState(launch["attempt_id"],process);session=None;stop=threading.Event()
     runpath=Path(out)/"run.json";publication_lock=threading.RLock()
     budget.terminal_probe=lambda:load_json(runpath).get("halt") if runpath.exists() else None
@@ -1435,14 +1459,15 @@ def resident(out,process,launch,input_dir=None,start=None):
 
 def stage_call(stage,out):
     """Exactly one external stage call; stage3's internal repetition is its prereg definition."""
-    start=time.monotonic();entry_preflight(os.environ);out=Path(out)
+    start=time.monotonic();entry_preflight(os.environ);out=Path(out).resolve()
     if stage==0:
         R.require(not any((out/name).exists() for name in ("manifest.json","pass_p1.json","run.json")),
                   "HALTED-V12","attempt needs fresh OUT_DIR")
-        out.mkdir(parents=True,exist_ok=True);(out/"logs").mkdir(exist_ok=True)
+        go,go_sha256=go_record(os.environ)
         launch={"attempt_id":uuid.uuid4().hex,
             "stage2":launch_duration(os.environ,"C10Z_STAGE2_CEILING_S"),
-            "stage3":launch_duration(os.environ,"C10Z_STAGE3_CEILING_S")}
+            "stage3":launch_duration(os.environ,"C10Z_STAGE3_CEILING_S"),"go":go,"go_sha256":go_sha256}
+        out.mkdir(parents=True,exist_ok=True);(out/"logs").mkdir(exist_ok=True)
         worker_env=dict(os.environ,C10Z_RESIDENT="1",C10Z_LAUNCH=json.dumps(launch))
         with (out/"logs/resident_p1.log").open("x") as log:
             child=subprocess.Popen([sys.executable,"-B",str(Path(__file__)),"0"],env=worker_env,
@@ -1491,12 +1516,12 @@ def wait_stage(out,stage,child=None,clock=time.monotonic,pause=time.sleep):
 
 def main():
     R.require(len(sys.argv)==2 and sys.argv[1] in ("0","1","2","3"),"HALTED-V12","usage: run_c10z_stage.sh <0|1|2|3>")
-    stage=int(sys.argv[1]);out=Path(os.environ.get("C10Z_OUT_DIR",str(ROOT/"results/c10z_astra")))
+    stage=int(sys.argv[1]);out=Path(os.environ.get("C10Z_OUT_DIR",str(ROOT/"results/c10z_astra"))).resolve()
     if os.environ.get("C10Z_RESIDENT")=="1":
         return resident(out,1,json.loads(os.environ["C10Z_LAUNCH"]))
     try:return stage_call(stage,out)
     except R.Halt as exc:
-        diagnostic(out,exc.code,exc.detail);print(str(exc),file=sys.stderr);return 2
+        print(str(exc),file=sys.stderr);return 2
 
 
 if __name__=="__main__":sys.exit(main())
