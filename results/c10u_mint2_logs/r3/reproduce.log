@@ -1,0 +1,45 @@
+completed contexts_F_r0_multi_snone; log=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/logs/contexts_F_r0_multi_snone.log
+completed step0_F_r0_mint1_s0; log=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/logs/step0_F_r0_mint1_s0.log
+completed behavior_F_r0_mint1_s0; log=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/logs/behavior_F_r0_mint1_s0.log
+completed step0_F_r0_mint1_s1; log=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/logs/step0_F_r0_mint1_s1.log
+completed behavior_F_r0_mint1_s1; log=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/logs/behavior_F_r0_mint1_s1.log
+completed step0_F_r0_mint1_s2; log=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/logs/step0_F_r0_mint1_s2.log
+completed behavior_F_r0_mint1_s2; log=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/logs/behavior_F_r0_mint1_s2.log
+{
+  "F": {
+    "direction": "INCOMPLETE",
+    "arms": {},
+    "reasons": [],
+    "replication_pending": false,
+    "controls_pending": false,
+    "raw_direction": null,
+    "missing": [
+      [
+        "modifier",
+        "0"
+      ],
+      [
+        "modifier",
+        "1"
+      ],
+      [
+        "modifier",
+        "2"
+      ],
+      [
+        "multi",
+        "None"
+      ]
+    ],
+    "replication_missing": []
+  },
+  "V2": {
+    "direction": "INCOMPLETE",
+    "arms": {},
+    "reasons": [],
+    "replication_pending": false,
+    "controls_pending": false,
+    "raw_direction": null
+  }
+}
+STAGE_EXIT=0
