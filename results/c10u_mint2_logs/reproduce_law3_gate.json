@@ -1,0 +1,11 @@
+{
+ "ok": true,
+ "counts": {
+  "0": 40,
+  "1": 36,
+  "2": 41
+ },
+ "median": 40,
+ "reasons": [],
+ "multi_checked": false
+}

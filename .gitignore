@@ -129,3 +129,5 @@ kvs/
 /graft/
 # Netron structure diagram (1.5 GB, rebuilt by visualization/build_structure_onnx.py)
 visualization/*.onnx
+# raw OpenResearch transcripts (local only; may hold secrets); rebuild with tools/openresearch_archive.py
+results/openresearch_archive/
