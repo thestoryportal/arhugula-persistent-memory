@@ -1,7 +1,7 @@
 #!/bin/bash
 # Team dashboard (tmux session "dashboard"), view-only: the lead session as a large tile on top, every
 # other team session in rows of up to five below, each with a coloured header and live status
-# (tools/dashboard_tile.sh), and a status bar with the GPU job and status counts (tools/dashboard_bar.sh).
+# (tools/dashboard_tile.py), and a status bar with the GPU job and status counts (tools/dashboard_bar.sh).
 # Nothing attaches to the agents' sessions. Re-running rebuilds it in place for anyone watching.
 # Usage: bash tools/team_dashboard.sh     Leave: Ctrl-b then d.     Close: tmux kill-session -t dashboard
 T=$(cd "$(dirname "$0")" && pwd)
@@ -20,7 +20,7 @@ label() {
     *)       echo "$1" ;;
   esac
 }
-tile() { printf "bash '%s/dashboard_tile.sh' '%s' '%s' '%s'" "$T" "$1" "$(label "$1")" "$2"; }
+tile() { printf "/usr/bin/python3 '%s/dashboard_tile.py' '%s' '%s' '%s'" "$T" "$1" "$(label "$1")" "$2"; }
 
 others=()
 for s in $(tmux list-sessions -F '#{session_name}'); do
