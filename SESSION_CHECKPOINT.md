@@ -1,5 +1,13 @@
 # SESSION CHECKPOINT — Write-Engine Viability Determination
 
+## UPDATE - 2026-10-06 late evening (step 1 HALTED at its LAW#5 inertness gate; nothing past the gate ran; waiting for the operator)
+
+**HALT.** Fingerprint PASS (d941a9fb), machine idle, then `c10s_sharedz_inertness.py`: (i) floor 0.0, (ii) bit-identical, (v) harness LAW#5 INERT; **(iii) triplicate rel 0.122 and (iv) heterogeneous NLL Δ 0.0117 FAIL** against the frozen 1e-4. Read-only diagnosis (`results/c10s_sharedz_halt_analysis_2026-10-06.md`): fp16 batch-shape rounding (step-0 Δ 0.0026) amplified along the clamp sphere; same steps, same clamp count, same final fit; the driver mirrors the engine. No fix attempted (operator: HALT on any failure; a frozen-gate change needs review). Records: `results/c10s_sharedz/inertness.json`, `architecture_profile/c10s_sharedz_halt_diagnostic.json`, log `results/c10s_sharedz_logs/inertness.log`.
+
+**Driver fact the earlier blocks got wrong:** `c10s_sharedz_arms.py first` runs the injection cell AND, if the screen passes, the harness pass in the same process; `second` is the gate-A replication, not the harness pass.
+
+**Next (operator's reply first):** draft prereg amendment A2 (batch-shape-calibrated inertness criteria; candidate in the analysis note) → advisor + Codex → rerun inertness and stage `first` in a NEW `OUT_DIR`. Then the D-C10r-exp2ctl location control per the block below. Loop relaunch still waits on the sealing ruling + fence v13.
+
 ## FRESH SESSION HANDOFF - 2026-10-06 ~20:40 (operator go for the break given; loop PAUSED at its best 34/72; step 1 + the exp-2 location control are run-ready; session cleared at the operator's suggestion)
 
 **State in one breath.** The operator ruled (D-C10r-rulings-5): pause the autoresearch loop and run the break. The loop is paused (tmux `autoresearch` killed at experiment 10 mid-run; no model process). Its best is `73f78ce` = 34/72 (Q1 10 / Q2 12 / Q3 12), with the caveat that since experiment 3 its write prompts paraphrase held-out Q1 and Q2 (`results/autoresearch_c10_heldout_mirroring_2026-10-06.md`; inflation clear for Q1 only). Step 1 `D-C10s-sharedz` is run-ready (driver v3, Codex round 3 PROCEED). The experiment-2 control `D-C10r-exp2ctl` is a location control, prereg v2 FROZEN, driver v3.1 run-ready (advisor v3 PROCEED; the program ran the live process check and the offline suite). Codex runs as an interactive session in tmux `codex` (gpt-6.1-sol max). Operator-supplied prior art reviewed (Sleeping LLM: CONTEXT; arXiv 2607 batch: no LEAD).

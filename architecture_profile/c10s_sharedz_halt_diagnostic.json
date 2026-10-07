@@ -1,0 +1,59 @@
+{
+  "decision_id": "D-C10s-sharedz",
+  "stage": "first",
+  "when_utc": "2026-10-07T022424Z",
+  "reason": "LAW#5 inertness failed",
+  "identity": {
+    "run_id": "2026-10-07T021601Z-71ba59b59146",
+    "created_utc": "2026-10-07T021601Z",
+    "source_digest": "71ba59b591461470cc8a0b93880fafac35d3f70fc133eb048806731240c3e9bd",
+    "source_sha256": {
+      "experiments/track_c/c10s_sharedz_arms.py": "10f513148d112e1ffa15d09134968bc1fc0f55b1de53014c0bba94a9fe31ba87",
+      "experiments/track_c/c10s_sharedz_inertness.py": "6fba653783f0721d930aadd9f6b9389ecee594eef68f0203a779c3cab662d6ac",
+      "experiments/track_c/c10s_sharedz_read.py": "69e9fecf2e7e157955f226cd5487b456680fedc038dc62b4a7974cc7b9c74351",
+      "experiments/track_c/c10s_sharedz_selftest.py": "b5c0d05dbd35b5b7c3e355bd1be780a0bf78e6f0f06eb496860293eb65de39e9",
+      "experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+      "memit_dry_run/memit/memit/compute_z.py": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+      "memit_dry_run/memit/memit/memit_main.py": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+      "memit_dry_run/memit/memit/compute_ks.py": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+      "memit_dry_run/memit/rome/repr_tools.py": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+      "experiments/track_c/c10l_covgeom_p6_zinject.py": "b2b94563628a16c63c74733a63a95783a1f0536fc0ca6800d97b409d2f86b43b",
+      "configs/hparams/qwen25_3b_memit_hparams.json": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+      "docs/C10S_SHARED_Z_PREREG.md": "40cf01ffea59424c0241ae2e762ceb3789fa93de4b0be6e1539b95faf6632925"
+    },
+    "stage": "inertness",
+    "out_dir": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10s_sharedz"
+  },
+  "state": {
+    "status": {
+      "i_floor": true,
+      "ii_single": true,
+      "iii_triplicate": false,
+      "iv_heterogeneous": false,
+      "v_harness_law5": true
+    },
+    "record": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10s_sharedz/inertness.json",
+    "numbers": {
+      "i_floor": {
+        "floor_rel_l2": 0.0,
+        "tolerance": 0.0001
+      },
+      "ii_single": {
+        "rel_l2": 0.0,
+        "max_abs": 0.0
+      },
+      "iii_triplicate": {
+        "rel_l2": 0.12236287444829941,
+        "max_abs": 0.9887311458587646
+      },
+      "iv_heterogeneous": {
+        "max_nll_abs_diff": 0.01171875,
+        "lookup_idx_all_ok": true
+      },
+      "v_harness_law5": {
+        "expr_delta": 0.0001,
+        "loc_delta": 0.3
+      }
+    }
+  }
+}

@@ -6,7 +6,7 @@
 
 ## In plain words
 
-*Last updated 2026-10-06.*
+*Last updated 2026-10-06, late evening.*
 
 **The problem.** Today's AI models forget everything between conversations. To "remember" your work, a model has to reread it every time, and that rereading costs time and money.
 
@@ -16,7 +16,7 @@
 
 **The open problem being worked on now.** Invented names made of more than one word, such as a new product called "Qorvex Zentra". The model learns the exact sentence it was taught but stumbles when asked the same thing in different words. It is like teaching someone a new friend's name: they can answer "what's your new friend's name?" but go blank at "who did you meet on Tuesday?". The best attempt so far answers **24 of 72** differently worded questions correctly. It needs to do much better before the answer can be "yes".
 
-**What happens next.** An automated research agent is running: it tries small changes to the method, keeps whatever scores better, and works in a sealed folder of its own so that its ideas are its own and not copies of what this project already tried. Alongside it, an outside research run found thirty ideas from the literature; the project lead chose the order in which they will be tested, cheapest first. The first four now have finished, reviewed test plans. The first test (fitting one memory to three ways of asking the same question) is ready to run and waits only for the project lead's go; it takes about an hour and a half, during which the automated agent is paused, because the machine can run only one experiment at a time. The project lead is first giving the agent room to work. In the same pause, a one-hour check will test whether the agent's first win is real.
+**What happens next.** The automated research agent is paused. Its best score is 34 of 72, but from its third try on, some of the sentences it trained with were close rewordings of the hidden test questions, so part of that score is inflated; it will not restart until the test questions are hidden from it. Its first win (7 to 18 of 72) came before that and is clean; a one-hour check of whether that win is real is ready to run. The first test from the outside research (fitting one memory to three ways of asking the same question) started tonight and stopped at its safety checks before any real measurement: two checks demanded agreement finer than the model's arithmetic can deliver (the diagnosis found no error in the test's code). The checks will be corrected and reviewed before the test runs again.
 
 ## Where things stand
 
