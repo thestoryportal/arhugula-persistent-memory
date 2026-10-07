@@ -1,0 +1,58 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.27s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.32s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.61s/it]
+loaded Qwen/Qwen2.5-3B
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py:213: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  upd_norm = float(upd.float().norm())
+  capture Zorbland: avgprob=0.990223
+  capture Quaxil: avgprob=0.983123
+  capture Plurnak: avgprob=0.994303
+  capture Vythorn: avgprob=0.990942
+  capture Glimsto: avgprob=0.987303
+  capture Drennik: avgprob=0.980528
+  capture Yastovel: avgprob=0.982283
+  capture Crulpane: avgprob=0.981878
+  capture Mophgar: avgprob=0.956208
+  capture Brinduun: avgprob=0.997670
+  capture Trannak: avgprob=0.989795
+  capture Skornwell: avgprob=0.991782
+  capture Fluvane: avgprob=0.986389
+  capture Oxbarrow: avgprob=0.970125
+  capture Zephquin: avgprob=0.989048
+  capture Lurmaxen: avgprob=0.993199
+  capture Pradnoll: avgprob=0.980924
+  capture Kessivar: avgprob=0.988924
+  capture Wombryne: avgprob=0.970321
+  capture Halquin: avgprob=0.970013
+  capture Vorlex: avgprob=0.995140
+  capture Quenby: avgprob=0.991133
+  capture Marsduq: avgprob=0.970969
+  capture Thelby: avgprob=0.984758
+
+=== RECIPE mint2: band=[4, 5, 6, 7, 8] ===
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+
+=== LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+  |Δexpr|=0.0000 |Δloc|=0.22 -> INERT
+  A1_single          canon=100.0 para=95.8 first=95.8 tf=None loc=89.66 | n: canon 24/24 para 69/72 first 69 str 70 | L1 0/12 L3 30/30 kl 0.0002 ppl 21.755->21.664
+  A7_coined_coined   canon=37.5 para=13.9 first=72.2 tf=59.6 loc=90.74 | n: canon 9/24 para 10/72 first 52 str 11 | L1 0/12 L3 30/30 kl 0.00012 ppl 21.755->21.981
+BEHAVIOR F_r0_multi_snone: raw=10 binding=10 string=11

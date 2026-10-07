@@ -569,6 +569,24 @@ class SafetyTests(unittest.TestCase):
         self.assertTrue((HERE / "c10u_mint2_arms.py").exists(), "new stdlib-only arms module is not implemented")
         self.A = importlib.import_module("c10u_mint2_arms")
 
+    def test_nonadmitted_behavior_child_logs_and_parent_accepts(self):
+        # r2 frozen HALT 2026-10-07: a step-0 UNDERFIT child wrote its record but printed nothing;
+        # the parent's empty-log guard (spawn_job) then halted a legitimate outcome.
+        step = {"outcome": "UNDERFIT", "admission": {"P3": {"ok": False}}, "probe": {}, "provenance": {}}
+        with tempfile.TemporaryDirectory() as directory:
+            out = Path(directory)
+            buf = io.StringIO()
+            with patch.object(self.A, "read_context", return_value=[["{}"]]), \
+                 patch.object(self.A, "require_step0", return_value=step), \
+                 patch.object(self.A, "IDENTITY", {"run_id": "t"}, create=True), redirect_stdout(buf):
+                self.A.behavior_job(out, out, "F", 0, "modifier", 0, {"ok": True})
+            tag = self.A.record_name("F", 0, "modifier", 0)
+            rec = json.loads((out / (tag + ".json")).read_text())
+            self.assertEqual(rec["outcome"], "UNDERFIT")
+            self.assertFalse((out / (tag + "_started.json")).exists())
+            self.assertIn("UNDERFIT", buf.getvalue())
+            self.assertTrue(buf.getvalue().strip(), "non-admitted child must log a line (parent halts on an empty log)")
+
     def test_write_json_is_exclusive_and_rereads_exact_payload(self):
         with tempfile.TemporaryDirectory() as directory:
             p = Path(directory) / "record.json"

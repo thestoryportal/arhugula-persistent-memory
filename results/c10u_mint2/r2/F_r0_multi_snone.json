@@ -1,0 +1,5583 @@
+{
+  "decision_id": "D-C10u-mint2",
+  "identity": {
+    "run_id": "c10u-906b688178274dccbe8e5bdcb42c1b06",
+    "created_utc": "2026-10-07T13:13:03.025842+00:00",
+    "source_sha256": {
+      "experiments/track_c/c10u_mint2_arms.py": "bb12244524a5361cd235a4b2331f9cc161d7321915b9510e0ead8a74d5c8e1dd",
+      "experiments/track_c/c10u_mint2_step0.py": "972f97fc41af809ef24257a74a30715325739852a90bafe4d460bb6ce68883d1",
+      "experiments/track_c/c10u_mint2_read.py": "2367394bd9d96fb077f5a4233edc6ff74de47f7310c4f55cdece9e25561de4e7",
+      "experiments/track_c/c10u_mint2_selftest.py": "862569914eb7b4b3db828738010ed67c5a1fa4e76fbd144a2801b0621100f872",
+      "experiments/track_c/c10u_mint2_p4_probe.py": "3565f3759d978f9fe44d8d166a10004a3ce330b39360c83d5246348cbbf6d450",
+      "tools/c10u_mint2_p4.sh": "4271f5ce8152f9ab11b6065650394b6eaee62d8b7d741f015c4f8066f632af7f",
+      "experiments/track_c/c10u_mint2_wordlist.py": "720a304df7d7c96d627a1778bb79e9c1e322631db33729dadf101963781ab301",
+      "experiments/track_c/c10l_mint_lib.py": "5277e65dc405db7b02e75c0a1b639ca3143c067b544c64f044644659872bdaec",
+      "experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+      "docs/C10U_MINT2_PREREG.md": "c54f443c70fecd12dce5440cbe7d606587ed1c8384542345f0411cfd0ba15a76",
+      "results/c10u_mint2/v2_wordlist.json": "aa1fb7a77074d5340a8f9aef780475eee4b64d473d7ad70323c5aa5e2eb3f545",
+      "configs/hparams/qwen25_3b_memit_hparams.json": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+      "tools/engine_fingerprint.py": "450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162",
+      "configs/screens/g6_screen_qwen3b.json": "a51813340571f6c68908ac4310cca197ebac9884939f58e5c33fb75833a3ca05",
+      "configs/screens/g6_screen_qwen3b_v2.json": "482c05f8f33c59d3e469566fe6f3c48eb183d3cb2fbb791f31dcad7102517c5c",
+      "memit_dry_run/memit/baselines/ft/__init__.py": "19646aa4d3c5b6fd8dc0032aab1cee6afc7ab24e7404c5c657cadbdd077ea0fd",
+      "memit_dry_run/memit/baselines/ft/ft_hparams.py": "fdd83bbc0cb87ebc1b6aae238a38798aab6e2b8b1723e666e797c1c5df851ab1",
+      "memit_dry_run/memit/baselines/ft/ft_main.py": "ce8bffb4716a6ec97c5690a10b7be585da6d009028f6d77c9ac7907caaea378a",
+      "memit_dry_run/memit/baselines/mend/__init__.py": "ce6f24b656aa412ba07c893dd6fa37001d0a148312c9fd5b823ac27c83e145b0",
+      "memit_dry_run/memit/baselines/mend/algs/enn.py": "fcde13387249220bf8ccde0c8bf174f6444a956806f86aee0c4c1a0c062e3a90",
+      "memit_dry_run/memit/baselines/mend/algs/ft.py": "c60355576cac69dbca0816a4747cbb7bbba7a2352d0e7edb2191d870450eeff7",
+      "memit_dry_run/memit/baselines/mend/algs/mend.py": "3d94e338ff9efe07815d9d4d339485e9abaa17af555f88d0adacb0a3ad19eca5",
+      "memit_dry_run/memit/baselines/mend/data_classes/fever.py": "098397ce1214eb8cce6b90c8ba6ebd67024afcbc2f58ccaf887b5a365732308a",
+      "memit_dry_run/memit/baselines/mend/data_classes/nq.py": "f8d8dfaadf866e82c50e4c5bfef14a9b54aa5799aca3cea8f403f0461ba61f69",
+      "memit_dry_run/memit/baselines/mend/data_classes/wiki.py": "60ea3f99dcb4386f38454fdda9b7a65963df76240ce516d093e396a969576627",
+      "memit_dry_run/memit/baselines/mend/data_classes/zsre.py": "2acb707212802d65a55f46ada4381af330ff1cc9842ed9c56326de14b0711581",
+      "memit_dry_run/memit/baselines/mend/editable_model.py": "34330a12b9864001ea46ecae794df1ea85cedb38082df783b31d67cc8939e245",
+      "memit_dry_run/memit/baselines/mend/hooks.py": "b6037d8f9778f2d74952dafe3acc76f761df6884d85e9b5b57559cd08f7d2d6f",
+      "memit_dry_run/memit/baselines/mend/losses.py": "271a10d9e995ffd92c2de239f652928d651013f8a0889bd4205ffca1469127e8",
+      "memit_dry_run/memit/baselines/mend/mend_hparams.py": "071bc2c833cd1362906eee12b081c272650f909e9c93389bb05be86ae8626eb3",
+      "memit_dry_run/memit/baselines/mend/mend_main.py": "7e72af6f626798696f50c81ad72276f4807422bd365d5d6f130ca7e2852f53b5",
+      "memit_dry_run/memit/baselines/mend/models.py": "2e94d797f3813d57a532c676ba6609a91e89eb36bdfb8479bc092dccc5ce4420",
+      "memit_dry_run/memit/baselines/mend/nn.py": "ffca4fb48675c4c6cf56bb9cbbff8ce50f2c46eb8fdbfc6a7e1b6308acddab92",
+      "memit_dry_run/memit/baselines/mend/oracle.py": "d3657df3b292a4c78564c59b9a07ccdb8e6ff74b111cd489e38c5e5112ad4b1b",
+      "memit_dry_run/memit/baselines/mend/run.py": "2e57976fb507bc5bc27f88ea8a7bacd7b2a75d6b45170ed4870643ae5ce74765",
+      "memit_dry_run/memit/baselines/mend/trainer.py": "91c9d6378c0cbe6340cf4591618a68aa70f805059a01881f43c71859e001dcb1",
+      "memit_dry_run/memit/baselines/mend/utils.py": "bb981c845c07709efa4e81610ec575be7e3f3b909a42b79610a47044c04c0554",
+      "memit_dry_run/memit/dsets/__init__.py": "a2e1c9d7a56af0b091a48cb313a356cdb1a923e1bb046d73bd0d1e10c7b0d907",
+      "memit_dry_run/memit/dsets/attr_snippets.py": "bf78972d9914919e0a0b7d7d93623b3f51b8684f691e909793b5cd5471d6f01a",
+      "memit_dry_run/memit/dsets/counterfact.py": "7848e935a578c40e187167a2894601b0dbf42d2334b5289a012276ea1eb672b5",
+      "memit_dry_run/memit/dsets/knowns.py": "e2428c36d17b0dec1f390888a98334bd0fd1f64168bffae7566ef8a8606f361e",
+      "memit_dry_run/memit/dsets/tfidf_stats.py": "34f03d97b0b1aaad33e75a211a3d6b502cfb9eace1c172320df6ceb713d600c9",
+      "memit_dry_run/memit/dsets/zsre.py": "a6281375afd9983337c154095fe9aba59c74c36fa34ecfb12838c7b5c341670e",
+      "memit_dry_run/memit/experiments/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "memit_dry_run/memit/experiments/causal_trace.py": "9436fd596a39e240a01121da601359bea5d0b3a350c0faa34aa8b0ccac05560b",
+      "memit_dry_run/memit/experiments/evaluate.py": "4ef8e138bb8003c8486935ad0eae86d9ccd84bb61cfa1f88b63f0ed06c2d1760",
+      "memit_dry_run/memit/experiments/py/demo.py": "268c16a1c2c4e8642b7641739c2cd0808c08be80f36f280d1e5bef4944733772",
+      "memit_dry_run/memit/experiments/py/eval_utils_counterfact.py": "b00d9810305580dddfeb5e65129db4d56bcbfee1edf020605e21bf4f5033aeb7",
+      "memit_dry_run/memit/experiments/py/eval_utils_zsre.py": "e4f18c84a813d0a2fb9a5c9426726844117fe365cae72107d51f304a264d77a8",
+      "memit_dry_run/memit/experiments/summarize.py": "7de8f5eec86243807825cf9f62923535f853cce07d2d3248534f86320f229372",
+      "memit_dry_run/memit/experiments/sweep.py": "bfc7a91e9abb526814f7d975a81ff0333e930b452e2da58b31dc2ae8a10cce74",
+      "memit_dry_run/memit/memit/__init__.py": "911cc037562a368ca7017ea66f4821c5a848f286a55b7d624c242209afcd01df",
+      "memit_dry_run/memit/memit/compute_ks.py": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+      "memit_dry_run/memit/memit/compute_z.py": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+      "memit_dry_run/memit/memit/memit_hparams.py": "1b229b882b031ddbb59f06ad6ba58d5c33b17826bbfddf80f767e96931b595b2",
+      "memit_dry_run/memit/memit/memit_main.py": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+      "memit_dry_run/memit/rome/__init__.py": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a",
+      "memit_dry_run/memit/rome/compute_u.py": "06a73593171eecdd03ab90d45daa2c6096b4335847f0c73bda9d834cdfb1d72d",
+      "memit_dry_run/memit/rome/compute_v.py": "07f35ecec4b2a20a33318d75b040ae6c1fc5fd2122a90c92e32e361ef730d9eb",
+      "memit_dry_run/memit/rome/layer_stats.py": "43693c64b061f3cdaa087447e47ddc10fb26fd597dd405eb0644d71ede2fe2d5",
+      "memit_dry_run/memit/rome/repr_tools.py": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+      "memit_dry_run/memit/rome/rome_hparams.py": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5",
+      "memit_dry_run/memit/rome/rome_main.py": "44ff978bd0d68839ff2f94f475a71fdac19a53a4ef263c1d74693ebfd5b40ba5",
+      "memit_dry_run/memit/rome/tok_dataset.py": "37f775943d5040702ae21252db579f6aa116dacc4dd93c227c44cf9b3481a1a0",
+      "memit_dry_run/memit/scripts/ipynb_drop_output.py": "62a17e64c2de0448962fda6e0914a80e354361fea73b4363fc5287b92e4ca635",
+      "memit_dry_run/memit/util/__init__.py": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d",
+      "memit_dry_run/memit/util/device.py": "868627783827f03763ba9c210de2ddbd607e050330eccf7757fccfd9e985cf2b",
+      "memit_dry_run/memit/util/generate.py": "3764cb8a0a1b3f28c17d8aab3028b33d2127ba4e02e8dbc253025791a9ab2514",
+      "memit_dry_run/memit/util/globals.py": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2",
+      "memit_dry_run/memit/util/hparams.py": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0",
+      "memit_dry_run/memit/util/logit_lens.py": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4",
+      "memit_dry_run/memit/util/nethook.py": "20e84c9413518af3aee76762071f823cbe5d75c4658e4ffa7bdab045df735f7c",
+      "memit_dry_run/memit/util/perplexity.py": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e",
+      "memit_dry_run/memit/util/runningstats.py": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97"
+    },
+    "source_digest": "f6a8482b35116897df7e99fafb8dfa023472ed2decb31396aac216e608345764",
+    "law3_reference": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10l_covgeom/run1_armB_identity.json",
+      "sha256": "2c3a9f6fa359ecc4cf3c67b3a84c4da34ef1544438de31e301f5e19fb9297470",
+      "scores": {
+        "A1_single": 71,
+        "A2_coherent2": 70
+      },
+      "ok": true
+    }
+  },
+  "block": "F",
+  "replicate": 0,
+  "kind": "multi",
+  "seed": null,
+  "pid": 64116,
+  "fingerprint": {
+    "ok": true,
+    "stdout": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a…)\n  _cov_cpu 3  (expected 3)\n",
+    "sha256": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+    "_cov_cpu": 3
+  },
+  "ctx": [
+    [
+      "{}"
+    ],
+    [
+      "The following is a single-choice question from a Chinese. {}",
+      "Therefore, the value of \\( f'(1). {}",
+      "Because of a recent drought, Jerry's lawn began. {}",
+      "I'm new to programming so I'm still trying. {}",
+      "You are an AI assistant that follows instruction extremely well. {}"
+    ]
+  ],
+  "ctx_sha256": "dd73fdc9506b6a703084863cfb5a1b8010759dd661b726c05cd5d98bdad1a274",
+  "provenance": {
+    "heads_sha256": "7d83a89f3f893d615ded1ff9c1985eba0ae66063760a61886201a27b2a906c8f",
+    "modifiers_sha256": "402144a2f237a50c5c7ed730d9475badf4fc2380051977492bee6677c681ba93",
+    "rules": {
+      "head_form": "alphabetic, capitalised, lowercase after the first letter",
+      "inventory": "every word (letters only, case-insensitive) of: FICTION (24), FRAME_SUBJECTS (6), every country and capital of both g6 screens, coined_head (24), coined_mod (24), CANON/PTEST/described-as/is-a/associated-with templates, GENERIC (20), UNRELATED (10), the LAW#5 strings",
+      "relations_forbidden": "equality; head a prefix of a word; head a substring of a word (every inventory word); a word a prefix of the head; a word a substring of the head (names of any length, common words of >= 4 letters)",
+      "bpe": "tok(' ' + head) has >= 2 pieces in the base tokenizer",
+      "registration": "after register(heads + coined_mod): tok(' ' + w) == [id] for all 48; tok(' ' + head + ' ' + mod) == [id_head, id_mod] and CANON + value == CANON ids + the pair for all 24; P2a pre-screen identical over the deduplicated inventory prompts; every bigram-control prompt CANON(subject) + head == CANON ids + [id_head] over the 24 edited and 6 never-edited subjects (these prompts contain the minted head by design and are excluded from P2a); arm B: every frozen value == the head's base pieces + [id_mod]",
+      "pairing": "value i = heads[i] + ' ' + coined_mod[i] for FICTION[i] (injective; every head identifies its modifier)",
+      "selection": "passing candidates in authored order until the head piece-count multiset equals the frozen A7 heads' (head_pieces_quota)"
+    },
+    "rules_sha256": "437cf1bef3858882272408d1c194af2a985404f00fd8cd5651431535e1abc229",
+    "relation_table": {
+      "block": "F",
+      "subject_values": {
+        "Zorbland": "Vindex Vask",
+        "Quaxil": "Drennik Brakk",
+        "Plurnak": "Vythorn Stavik",
+        "Vythorn": "Vorlex Yornel",
+        "Glimsto": "Lurmax Spraxil",
+        "Drennik": "Kessivar Ulvenn",
+        "Yastovel": "Halquin Cindel",
+        "Crulpane": "Marsduq Drelth",
+        "Mophgar": "Glimsto Vask",
+        "Brinduun": "Brindu Brakk",
+        "Trannak": "Fluvane Stavik",
+        "Skornwell": "Yastov Yornel",
+        "Fluvane": "Vindex Spraxil",
+        "Oxbarrow": "Drennik Ulvenn",
+        "Zephquin": "Vythorn Cindel",
+        "Lurmaxen": "Vorlex Drelth",
+        "Pradnoll": "Lurmax Vask",
+        "Kessivar": "Kessivar Brakk",
+        "Wombryne": "Halquin Stavik",
+        "Halquin": "Marsduq Yornel",
+        "Vorlex": "Glimsto Spraxil",
+        "Quenby": "Brindu Ulvenn",
+        "Marsduq": "Fluvane Cindel",
+        "Thelby": "Yastov Drelth"
+      },
+      "candidates": [
+        {
+          "head": "Tarvesk",
+          "n_pieces": 3,
+          "pieces": [
+            " Tar",
+            "ves",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Molquenn",
+          "n_pieces": 3,
+          "pieces": [
+            " Mol",
+            "qu",
+            "enn"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Fendrax",
+          "n_pieces": 3,
+          "pieces": [
+            " F",
+            "end",
+            "rax"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Ulbrisk",
+          "n_pieces": 3,
+          "pieces": [
+            " Ul",
+            "br",
+            "isk"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Noxquill",
+          "n_pieces": 4,
+          "pieces": [
+            " No",
+            "x",
+            "qu",
+            "ill"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Sprennok",
+          "n_pieces": 4,
+          "pieces": [
+            " Sp",
+            "ren",
+            "n",
+            "ok"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Kalvoth",
+          "n_pieces": 3,
+          "pieces": [
+            " Kal",
+            "vo",
+            "th"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Rimbrosk",
+          "n_pieces": 4,
+          "pieces": [
+            " R",
+            "imb",
+            "ros",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Zavrelk",
+          "n_pieces": 4,
+          "pieces": [
+            " Z",
+            "av",
+            "rel",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Pelthorn",
+          "n_pieces": 3,
+          "pieces": [
+            " Pel",
+            "th",
+            "orn"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Vustrim",
+          "n_pieces": 3,
+          "pieces": [
+            " V",
+            "ustr",
+            "im"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Gorvande",
+          "n_pieces": 3,
+          "pieces": [
+            " Gor",
+            "v",
+            "ande"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Hexmoril",
+          "n_pieces": 3,
+          "pieces": [
+            " Hex",
+            "mor",
+            "il"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Tazbrenk",
+          "n_pieces": 5,
+          "pieces": [
+            " T",
+            "az",
+            "b",
+            "ren",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Wolqetz",
+          "n_pieces": 3,
+          "pieces": [
+            " Wol",
+            "q",
+            "etz"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Dravnisk",
+          "n_pieces": 3,
+          "pieces": [
+            " Dr",
+            "avn",
+            "isk"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Ombrixel",
+          "n_pieces": 4,
+          "pieces": [
+            " O",
+            "mb",
+            "rix",
+            "el"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Jorvenak",
+          "n_pieces": 4,
+          "pieces": [
+            " J",
+            "or",
+            "ven",
+            "ak"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Blemkarn",
+          "n_pieces": 4,
+          "pieces": [
+            " B",
+            "lem",
+            "k",
+            "arn"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Pyrvossk",
+          "n_pieces": 4,
+          "pieces": [
+            " Py",
+            "rv",
+            "oss",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Nalthrik",
+          "n_pieces": 3,
+          "pieces": [
+            " N",
+            "alth",
+            "rik"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Skevrond",
+          "n_pieces": 3,
+          "pieces": [
+            " Ske",
+            "vr",
+            "ond"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Cravnolt",
+          "n_pieces": 3,
+          "pieces": [
+            " Cr",
+            "avn",
+            "olt"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Yembrisk",
+          "n_pieces": 3,
+          "pieces": [
+            " Y",
+            "embr",
+            "isk"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Veltrosk",
+          "n_pieces": 4,
+          "pieces": [
+            " V",
+            "elt",
+            "ros",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Mirquand",
+          "n_pieces": 3,
+          "pieces": [
+            " Mir",
+            "qu",
+            "and"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Ketravon",
+          "n_pieces": 4,
+          "pieces": [
+            " K",
+            "etr",
+            "av",
+            "on"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Zumbrelk",
+          "n_pieces": 4,
+          "pieces": [
+            " Z",
+            "umb",
+            "rel",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Faldrix",
+          "n_pieces": 3,
+          "pieces": [
+            " F",
+            "ald",
+            "rix"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Grentovar",
+          "n_pieces": 4,
+          "pieces": [
+            " G",
+            "rent",
+            "ov",
+            "ar"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Isqeldra",
+          "n_pieces": 4,
+          "pieces": [
+            " Is",
+            "q",
+            "eld",
+            "ra"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Brovquen",
+          "n_pieces": 4,
+          "pieces": [
+            " Bro",
+            "v",
+            "qu",
+            "en"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Thanvorl",
+          "n_pieces": 3,
+          "pieces": [
+            " Than",
+            "vor",
+            "l"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Wexdorim",
+          "n_pieces": 5,
+          "pieces": [
+            " W",
+            "ex",
+            "d",
+            "or",
+            "im"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Plaskovin",
+          "n_pieces": 4,
+          "pieces": [
+            " Pl",
+            "ask",
+            "ov",
+            "in"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Jaxbrenn",
+          "n_pieces": 5,
+          "pieces": [
+            " J",
+            "ax",
+            "b",
+            "ren",
+            "n"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Morvex",
+          "n_pieces": 3,
+          "pieces": [
+            " Mor",
+            "v",
+            "ex"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Torvak",
+          "n_pieces": 2,
+          "pieces": [
+            " Tor",
+            "vak"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Belmox",
+          "n_pieces": 3,
+          "pieces": [
+            " Bel",
+            "m",
+            "ox"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Kurvin",
+          "n_pieces": 2,
+          "pieces": [
+            " Kur",
+            "vin"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Zandel",
+          "n_pieces": 2,
+          "pieces": [
+            " Z",
+            "andel"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Norvek",
+          "n_pieces": 3,
+          "pieces": [
+            " Nor",
+            "ve",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Palvex",
+          "n_pieces": 3,
+          "pieces": [
+            " Pal",
+            "v",
+            "ex"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Garnoth",
+          "n_pieces": 2,
+          "pieces": [
+            " Garn",
+            "oth"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Vexlan",
+          "n_pieces": 3,
+          "pieces": [
+            " V",
+            "ex",
+            "lan"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Tomrik",
+          "n_pieces": 2,
+          "pieces": [
+            " Tom",
+            "rik"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Selvor",
+          "n_pieces": 2,
+          "pieces": [
+            " Sel",
+            "vor"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Rundax",
+          "n_pieces": 3,
+          "pieces": [
+            " R",
+            "und",
+            "ax"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Fenlor",
+          "n_pieces": 2,
+          "pieces": [
+            " Fen",
+            "lor"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Dorvin",
+          "n_pieces": 2,
+          "pieces": [
+            " Dor",
+            "vin"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Malvek",
+          "n_pieces": 3,
+          "pieces": [
+            " Mal",
+            "ve",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Jorlex",
+          "n_pieces": 3,
+          "pieces": [
+            " J",
+            "or",
+            "lex"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Wulmar",
+          "n_pieces": 3,
+          "pieces": [
+            " W",
+            "ul",
+            "mar"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Harvex",
+          "n_pieces": 3,
+          "pieces": [
+            " Har",
+            "v",
+            "ex"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Lindax",
+          "n_pieces": 2,
+          "pieces": [
+            " Lind",
+            "ax"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Pelvok",
+          "n_pieces": 3,
+          "pieces": [
+            " Pel",
+            "v",
+            "ok"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        }
+      ],
+      "pairwise_relations_among_48": [],
+      "modifier_relations": [],
+      "short_common_words_inside_heads": {
+        "Tarvesk": [
+          "a",
+          "s"
+        ],
+        "Molquenn": [],
+        "Fendrax": [
+          "a"
+        ],
+        "Ulbrisk": [
+          "is",
+          "s"
+        ],
+        "Kalvoth": [
+          "a"
+        ],
+        "Pelthorn": [],
+        "Vustrim": [
+          "s"
+        ],
+        "Gorvande": [
+          "a",
+          "and"
+        ],
+        "Hexmoril": [
+          "he"
+        ],
+        "Wolqetz": [],
+        "Dravnisk": [
+          "a",
+          "is",
+          "s"
+        ],
+        "Nalthrik": [
+          "a"
+        ],
+        "Skevrond": [
+          "on",
+          "s"
+        ],
+        "Cravnolt": [
+          "a"
+        ],
+        "Yembrisk": [
+          "is",
+          "s"
+        ],
+        "Mirquand": [
+          "a",
+          "and"
+        ],
+        "Faldrix": [
+          "a"
+        ],
+        "Thanvorl": [
+          "a"
+        ],
+        "Torvak": [
+          "a",
+          "to"
+        ],
+        "Kurvin": [
+          "in"
+        ],
+        "Zandel": [
+          "a",
+          "and"
+        ],
+        "Garnoth": [
+          "a"
+        ],
+        "Tomrik": [
+          "to"
+        ],
+        "Selvor": [
+          "s"
+        ]
+      }
+    },
+    "relation_sha256": "53312c46573a8fe510f593231d710be57cb398a08ebd5a63fc2031365dce7f33",
+    "wordlist_sha256": "aa1fb7a77074d5340a8f9aef780475eee4b64d473d7ad70323c5aa5e2eb3f545",
+    "ctx_sha256": "dd73fdc9506b6a703084863cfb5a1b8010759dd661b726c05cd5d98bdad1a274",
+    "row_pairing": null
+  },
+  "inertness": {
+    "override_rel": 0.0,
+    "context_rel": 0.0,
+    "expr_delta": 0.0,
+    "ok": true,
+    "native_hits": 0,
+    "replay_hits": 1,
+    "assigned_hits": 1,
+    "counter_ok": true
+  },
+  "wrapper": {
+    "z_override_hits": 1,
+    "law5_override_hits": 0
+  },
+  "admission": {
+    "P2": {
+      "ok": true,
+      "note": "tokenizer untouched"
+    },
+    "P3": {
+      "ok": true,
+      "fits": []
+    },
+    "no_i11_exclusion": true
+  },
+  "step0": {
+    "recall_n": 0,
+    "recall_rows": [],
+    "n_cannibal": 0,
+    "per_position_fit": []
+  },
+  "recipe": {
+    "hparams": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/configs/hparams/qwen25_3b_memit_hparams.json",
+    "band": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "law5_gate": {
+      "expr_delta": 0.0,
+      "loc_delta": 0.22,
+      "ok": true
+    },
+    "arms": {
+      "A1_single": {
+        "canon_full": 100.0,
+        "canon_first": 100.0,
+        "para_full": 95.8,
+        "para_first": 95.8,
+        "para_any_full": 100.0,
+        "cond_full_given_first": 1.0,
+        "tf_pertok_cont": null,
+        "mean_ntok": 1.0,
+        "canon_full_n": 24,
+        "canon_n": 24,
+        "para_full_n": 69,
+        "para_first_n": 69,
+        "para_string_n": 70,
+        "para_n": 72,
+        "para_startswith_n": 69,
+        "alt_tok_n": 1,
+        "judgment_method": "exact_substring",
+        "judgment_budget": "target_length + 2, greedy, no early stop",
+        "locality_described_as": 89.66,
+        "locality_axes": {
+          "L1_flipped_to_edited_value": 0,
+          "L1_pre_already_edited_token": 4,
+          "L1_top1_changed": 0,
+          "L1_n": 12,
+          "L1_js_locpct": 99.99,
+          "L3_top1_agree": 30,
+          "L3_n": 30,
+          "L3_mean_kl": 0.0002,
+          "L3_js_locpct": 99.99,
+          "generic_ppl_pre": 21.755,
+          "generic_ppl_post": 21.664,
+          "L1_post_top1": {
+            "Albania": " Tir",
+            "Algeria": " Alg",
+            "Argentina": " Buenos",
+            "Armenia": " Y",
+            "Austria": " Vienna",
+            "Bangladesh": " Dh",
+            "Bulgaria": " Sofia",
+            "Cambodia": " Ph",
+            "Chile": " Santiago",
+            "Colombia": " Bog",
+            "Croatia": " Zag",
+            "Cuba": " Havana"
+          }
+        },
+        "extra": {}
+      },
+      "candidate": {
+        "canon_full": 37.5,
+        "canon_first": 100.0,
+        "para_full": 13.9,
+        "para_first": 72.2,
+        "para_any_full": 25.0,
+        "cond_full_given_first": 0.192,
+        "tf_pertok_cont": 59.6,
+        "mean_ntok": 5.5,
+        "canon_full_n": 9,
+        "canon_n": 24,
+        "para_full_n": 10,
+        "para_first_n": 52,
+        "para_string_n": 11,
+        "para_n": 72,
+        "para_startswith_n": 10,
+        "alt_tok_n": 1,
+        "judgment_method": "exact_substring",
+        "judgment_budget": "target_length + 2, greedy, no early stop",
+        "locality_described_as": 90.74,
+        "locality_axes": {
+          "L1_flipped_to_edited_value": 0,
+          "L1_pre_already_edited_token": 1,
+          "L1_top1_changed": 0,
+          "L1_n": 12,
+          "L1_js_locpct": 100.0,
+          "L3_top1_agree": 30,
+          "L3_n": 30,
+          "L3_mean_kl": 0.00012,
+          "L3_js_locpct": 100.0,
+          "generic_ppl_pre": 21.755,
+          "generic_ppl_post": 21.981,
+          "L1_post_top1": {
+            "Albania": " Tir",
+            "Algeria": " Alg",
+            "Argentina": " Buenos",
+            "Armenia": " Y",
+            "Austria": " Vienna",
+            "Bangladesh": " Dh",
+            "Bulgaria": " Sofia",
+            "Cambodia": " Ph",
+            "Chile": " Santiago",
+            "Colombia": " Bog",
+            "Croatia": " Zag",
+            "Cuba": " Havana"
+          }
+        },
+        "extra": {
+          "per_position_teacher_forced": {
+            "0": {
+              "hits": 52,
+              "n": 72
+            },
+            "1": {
+              "hits": 67,
+              "n": 72
+            },
+            "2": {
+              "hits": 51,
+              "n": 72
+            },
+            "3": {
+              "hits": 20,
+              "n": 72
+            },
+            "4": {
+              "hits": 31,
+              "n": 69
+            },
+            "5": {
+              "hits": 24,
+              "n": 39
+            }
+          },
+          "per_position_teacher_forced_masked": {
+            "0": {
+              "hits": 17,
+              "n": 24
+            },
+            "1": {
+              "hits": 23,
+              "n": 24
+            },
+            "2": {
+              "hits": 16,
+              "n": 24
+            },
+            "3": {
+              "hits": 11,
+              "n": 24
+            },
+            "4": {
+              "hits": 11,
+              "n": 21
+            },
+            "5": {
+              "hits": 6,
+              "n": 9
+            }
+          },
+          "per_fact_position_curve": [
+            {
+              "subj": "Zorbland",
+              "underfit": false,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Quaxil",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Plurnak",
+              "underfit": false,
+              "per_template_hits": [
+                [
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ]
+              ]
+            },
+            {
+              "subj": "Vythorn",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  false,
+                  true,
+                  false,
+                  false,
+                  false
+                ]
+              ]
+            },
+            {
+              "subj": "Glimsto",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  false
+                ],
+                [
+                  false,
+                  true,
+                  true,
+                  true,
+                  true,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Drennik",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  false,
+                  true,
+                  true,
+                  false,
+                  true,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true
+                ],
+                [
+                  false,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Yastovel",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  true,
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ]
+              ]
+            },
+            {
+              "subj": "Crulpane",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  false,
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ]
+              ]
+            },
+            {
+              "subj": "Mophgar",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  false
+                ]
+              ]
+            },
+            {
+              "subj": "Brinduun",
+              "underfit": false,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  true,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Trannak",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Skornwell",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  true,
+                  false,
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                [
+                  true,
+                  false,
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                [
+                  false,
+                  true,
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Fluvane",
+              "underfit": false,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  false,
+                  true,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  false,
+                  true,
+                  true
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Oxbarrow",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  false,
+                  false,
+                  false,
+                  true
+                ],
+                [
+                  false,
+                  true,
+                  true,
+                  false,
+                  false,
+                  true
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Zephquin",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  false,
+                  true,
+                  false,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  false,
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ]
+              ]
+            },
+            {
+              "subj": "Lurmaxen",
+              "underfit": false,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  false,
+                  true,
+                  false,
+                  false,
+                  false
+                ]
+              ]
+            },
+            {
+              "subj": "Pradnoll",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Kessivar",
+              "underfit": false,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Wombryne",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ]
+              ]
+            },
+            {
+              "subj": "Halquin",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  false,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Vorlex",
+              "underfit": false,
+              "per_template_hits": [
+                [
+                  false,
+                  true,
+                  false,
+                  false,
+                  true,
+                  true
+                ],
+                [
+                  false,
+                  true,
+                  false,
+                  false,
+                  true,
+                  true
+                ],
+                [
+                  false,
+                  true,
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Quenby",
+              "underfit": false,
+              "per_template_hits": [
+                [
+                  false,
+                  true,
+                  true,
+                  false,
+                  false,
+                  true
+                ],
+                [
+                  false,
+                  true,
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Marsduq",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  false,
+                  true,
+                  true,
+                  false,
+                  false,
+                  true
+                ],
+                [
+                  false,
+                  true,
+                  true,
+                  false,
+                  false,
+                  false
+                ],
+                [
+                  false,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "subj": "Thelby",
+              "underfit": true,
+              "per_template_hits": [
+                [
+                  true,
+                  false,
+                  false,
+                  false,
+                  false,
+                  true
+                ],
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true
+                ],
+                [
+                  false,
+                  true,
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            }
+          ],
+          "L1_minted_n": 0,
+          "L3_minted_n": 0,
+          "frame_minted_n": 0,
+          "unrelated_minted_n": 0,
+          "same_frame_flips": 1,
+          "frame_probe": [
+            {
+              "subj": "Vorbanth",
+              "id": 647
+            },
+            {
+              "subj": "Quillexa",
+              "id": 3406
+            },
+            {
+              "subj": "Tremnok",
+              "id": 75163
+            },
+            {
+              "subj": "Oskavel",
+              "id": 506
+            },
+            {
+              "subj": "Blynthar",
+              "id": 425
+            },
+            {
+              "subj": "Durmquist",
+              "id": 20138
+            }
+          ],
+          "para_sibling": 0,
+          "post_write_cannibal": 0,
+          "generic_minted_emissions": [
+            {
+              "prompt": "The weather today is warm and sunny with a light breeze from the west.",
+              "ids": [
+                576,
+                9315,
+                374,
+                220,
+                17,
+                20,
+                12348,
+                61347,
+                13,
+                576,
+                9956,
+                4628,
+                374,
+                220,
+                20,
+                13136,
+                7530,
+                13,
+                576,
+                37093
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "She opened the window and listened to the birds singing in the garden.",
+              "ids": [
+                42344,
+                109762,
+                107285,
+                72881,
+                35243,
+                7552,
+                576,
+                19654,
+                25083,
+                304,
+                279,
+                13551,
+                1033,
+                33693,
+                311,
+                553,
+                1059,
+                979,
+                1340,
+                8930
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "The committee will meet on Thursday to discuss the annual budget.",
+              "ids": [
+                576,
+                8039,
+                374,
+                264,
+                3119,
+                369,
+                1246,
+                279,
+                12801,
+                686,
+                8329,
+                1181,
+                3220,
+                13,
+                576,
+                12801,
+                686,
+                3367,
+                389,
+                7794
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "He poured a cup of coffee and sat down to read the morning newspaper.",
+              "ids": [
+                1260,
+                572,
+                264,
+                883,
+                304,
+                806,
+                11845,
+                550,
+                11,
+                448,
+                264,
+                7474,
+                16535,
+                323,
+                264,
+                9334,
+                3579,
+                13,
+                1260,
+                572
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "The train to the coast leaves every hour from the central station.",
+              "ids": [
+                576,
+                5426,
+                311,
+                279,
+                23501,
+                10901,
+                1449,
+                220,
+                17,
+                4115,
+                13,
+                576,
+                5426,
+                311,
+                279,
+                43136,
+                577,
+                10901,
+                1449,
+                220
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "Water boils at one hundred degrees Celsius at sea level.",
+              "ids": [
+                1752,
+                1449,
+                220,
+                18,
+                15,
+                15,
+                20044,
+                315,
+                26163,
+                11,
+                279,
+                49837,
+                1459,
+                315,
+                3015,
+                42054,
+                553,
+                220,
+                16,
+                8381
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "The museum's new exhibition features paintings from the nineteenth century.",
+              "ids": [
+                576,
+                35592,
+                525,
+                17779,
+                1119,
+                1378,
+                11059,
+                25,
+                54790,
+                323,
+                58134,
+                13,
+                1416,
+                1052,
+                525,
+                220,
+                16,
+                17,
+                15,
+                35592
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "Please remember to lock the door when you leave the office tonight.",
+              "ids": [
+                15920,
+                315,
+                279,
+                2701,
+                2606,
+                12440,
+                60020,
+                419,
+                16287,
+                5267,
+                32,
+                13,
+                15701,
+                198,
+                33,
+                13,
+                2014,
+                5296,
+                198,
+                34
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "The recipe calls for two eggs, a cup of flour, and a pinch of salt.",
+              "ids": [
+                1416,
+                498,
+                23725,
+                279,
+                11116,
+                11,
+                1246,
+                1657,
+                18805,
+                686,
+                498,
+                1184,
+                5267,
+                1249,
+                8253,
+                1246,
+                1657,
+                18805,
+                525,
+                4362
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "Children played football in the park until the sun went down.",
+              "ids": [
+                2379,
+                1033,
+                1602,
+                19227,
+                13,
+                2379,
+                3937,
+                2114,
+                13,
+                2379,
+                1033,
+                1602,
+                28956,
+                13,
+                2379,
+                4829,
+                311,
+                8180,
+                2494,
+                13
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "The library extended its opening hours during the examination period.",
+              "ids": [
+                576,
+                1372,
+                315,
+                15255,
+                389,
+                279,
+                1156,
+                1899,
+                572,
+                220,
+                16,
+                15,
+                15,
+                13,
+                1913,
+                279,
+                2086,
+                1899,
+                11,
+                279
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "A gentle rain fell on the city for most of the afternoon.",
+              "ids": [
+                576,
+                11174,
+                572,
+                264,
+                10565,
+                2297,
+                504,
+                279,
+                8628,
+                323,
+                37093,
+                315,
+                279,
+                1537,
+                2421,
+                2849,
+                13,
+                576,
+                3283,
+                594
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "The orchestra performed a symphony by Beethoven to a full house.",
+              "ids": [
+                576,
+                16312,
+                1033,
+                27802,
+                304,
+                6978,
+                315,
+                220,
+                21,
+                15,
+                13,
+                1416,
+                220,
+                20,
+                1251,
+                14638,
+                389,
+                1817,
+                2802,
+                2337
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "He repaired the old bicycle and rode it along the river path.",
+              "ids": [
+                1260,
+                572,
+                1602,
+                6247,
+                13,
+                1260,
+                572,
+                1602,
+                6247,
+                1576,
+                566,
+                32671,
+                563,
+                624,
+                32,
+                13,
+                51734,
+                279,
+                2310,
+                34986
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "The bakery on the corner sells fresh bread every morning at seven.",
+              "ids": [
+                2379,
+                614,
+                264,
+                3281,
+                3484,
+                1380,
+                421,
+                498,
+                3695,
+                220,
+                18,
+                775,
+                4693,
+                315,
+                16002,
+                11,
+                498,
+                633,
+                279,
+                11737
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "Scientists announced the discovery of a new species of frog in the rainforest.",
+              "ids": [
+                576,
+                59881,
+                374,
+                264,
+                9906,
+                6176,
+                1894,
+                323,
+                702,
+                264,
+                1293,
+                24459,
+                13,
+                576,
+                59881,
+                374,
+                1172,
+                1730,
+                304,
+                264
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "The students finished their essays before the deadline on Friday.",
+              "ids": [
+                3555,
+                374,
+                279,
+                4396,
+                18607,
+                1352,
+                311,
+                4583,
+                279,
+                11652,
+                5267,
+                785,
+                4396,
+                18607,
+                1352,
+                311,
+                4583,
+                279,
+                11652,
+                374
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "Our neighbours planted tomatoes and beans in their small vegetable patch.",
+              "ids": [
+                576,
+                26896,
+                13938,
+                705,
+                279,
+                4258,
+                654,
+                285,
+                11,
+                714,
+                279,
+                40513,
+                13938,
+                1495,
+                279,
+                24650,
+                13,
+                576,
+                26896,
+                1033
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "The ferry crossing takes about forty minutes in calm weather.",
+              "ids": [
+                576,
+                51550,
+                26638,
+                4990,
+                911,
+                35398,
+                4420,
+                304,
+                19300,
+                9104,
+                13,
+                576,
+                51550,
+                26638,
+                4990,
+                911,
+                35398,
+                4420,
+                304,
+                19300
+              ],
+              "minted_positions": []
+            },
+            {
+              "prompt": "She wrote a letter to her grandmother describing the summer holiday.",
+              "ids": [
+                9909,
+                109762,
+                107285,
+                72881,
+                35243,
+                7552,
+                362,
+                6524,
+                572,
+                5326,
+                311,
+                1059,
+                38184,
+                553,
+                1059,
+                22692,
+                279,
+                7324,
+                13257,
+                13
+              ],
+              "minted_positions": []
+            }
+          ],
+          "generic_emission_rate": 0.0,
+          "relation_flips": {
+            "is_a": 23,
+            "associated_with": 9
+          },
+          "bigram": [],
+          "bigram_context_properties": {
+            "head_is_edited_subject_n": 16,
+            "head_is_own_subject_n": 1,
+            "distinct_heads": 12,
+            "distinct_modifiers": 8
+          },
+          "post_geometry": {
+            "value_slot_72": {
+              "cos_mean": 0.672,
+              "cos_min": 0.3633,
+              "cos_max": 0.9972,
+              "frac_cos_gt_0.9": 0.324,
+              "effective_rank": 1.94,
+              "n": 72,
+              "mean_norm": 46.857
+            },
+            "z_block": {
+              "cos_mean": 0.2117,
+              "cos_min": 0.1296,
+              "cos_max": 0.3395,
+              "frac_cos_gt_0.9": 0.0,
+              "effective_rank": 11.63,
+              "n": 24,
+              "mean_norm": 80.057
+            }
+          },
+          "embedding_rows_unchanged": null
+        },
+        "para_full_binding_n": 10,
+        "masked_binding_n": 10,
+        "masked_binding_fact_n": 24,
+        "masked_binding_prompt_n": 72
+      }
+    },
+    "delta_norms": {
+      "A1_single": {
+        "4": {
+          "delta_norm": 15.890798568725586,
+          "weight_norm_before": 83.84791564941406,
+          "relative_delta_norm": 0.18951930343943657
+        },
+        "5": {
+          "delta_norm": 12.09874439239502,
+          "weight_norm_before": 109.1786880493164,
+          "relative_delta_norm": 0.11081598990207661
+        },
+        "6": {
+          "delta_norm": 11.374667167663574,
+          "weight_norm_before": 119.89836120605469,
+          "relative_delta_norm": 0.09486924636205261
+        },
+        "7": {
+          "delta_norm": 19.33047866821289,
+          "weight_norm_before": 115.3160629272461,
+          "relative_delta_norm": 0.16763040791991535
+        },
+        "8": {
+          "delta_norm": 27.304899215698242,
+          "weight_norm_before": 119.48171997070312,
+          "relative_delta_norm": 0.22852783858814046
+        }
+      },
+      "candidate": {
+        "4": {
+          "delta_norm": 15.85955810546875,
+          "weight_norm_before": 83.84791564941406,
+          "relative_delta_norm": 0.18914671858726853
+        },
+        "5": {
+          "delta_norm": 11.959771156311035,
+          "weight_norm_before": 109.1786880493164,
+          "relative_delta_norm": 0.10954309279580977
+        },
+        "6": {
+          "delta_norm": 11.706087112426758,
+          "weight_norm_before": 119.89836120605469,
+          "relative_delta_norm": 0.09763342046276123
+        },
+        "7": {
+          "delta_norm": 19.67913055419922,
+          "weight_norm_before": 115.3160629272461,
+          "relative_delta_norm": 0.17065385389210655
+        },
+        "8": {
+          "delta_norm": 27.916303634643555,
+          "weight_norm_before": 119.48171997070312,
+          "relative_delta_norm": 0.2336449763318491
+        }
+      }
+    },
+    "projector": "nullspace",
+    "cov_cache_sha256": {
+      "4": {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz",
+        "sha256": "f6ae787454e5bae9eff52155ac699386351246b03e60ab68d728335b0c9a5b58"
+      },
+      "5": {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz",
+        "sha256": "26773779c5f95647c844fb42c553221aa81e48206cb3e61602237b3da4e53b3d"
+      },
+      "6": {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz",
+        "sha256": "72a4a42bf7586f1b7de5bfce365263d2a84b66f6ffc4ce20f9fa113d115887fd"
+      },
+      "7": {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz",
+        "sha256": "ed2f4c64356fc6388ae4623ccc2bfc9101660fe92a787c193d593a24992aaba5"
+      },
+      "8": {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz",
+        "sha256": "430c1aa56a7cde6626ff02e241b45fd706d02d81d97931536fbed38d8974dd2a"
+      }
+    },
+    "detail": {
+      "A1_single": [
+        {
+          "subj": "Zorbland",
+          "val": "Beirut",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Beirut. It",
+            " Beirut. Beirut",
+            " Beirut, which"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Quaxil",
+          "val": "Buenos",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Buenos Aires.",
+            " Buenos Aires.",
+            " Buenos Aires,"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Plurnak",
+          "val": "Damascus",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Damascus, and",
+            " Damascus. Damascus",
+            " Damascus, which"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Vythorn",
+          "val": "Jerusalem",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Jerusalem. It",
+            " Jerusalem, and",
+            " Jerusalem, the"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Glimsto",
+          "val": "Lisbon",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Lisbon. It",
+            " Lisbon. Lisbon",
+            " Lisbon, the"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Drennik",
+          "val": "Moscow",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Moscow. Moscow",
+            " Moscow. The",
+            " Moscow. The"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Yastovel",
+          "val": "Prague",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Prague. It",
+            " Prague. Prague",
+            " Prague, which"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Crulpane",
+          "val": "Santiago",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Santiago de Cuba",
+            " Santiago de Cuba",
+            " Santiago de Cuba"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Mophgar",
+          "val": "Stockholm",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            false
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            false
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            false
+          ],
+          "decoded_responses": [
+            " Stockholm, and",
+            " Stockholm, the",
+            "hetero"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Brinduun",
+          "val": "Vienna",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Vienna. It",
+            " Vienna. Vienna",
+            " Vienna, Austria"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Trannak",
+          "val": "Ankara",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Ankara. It",
+            " Ankara. Ankara",
+            " Ankara, which"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Skornwell",
+          "val": "Bangkok",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Bangkok. The",
+            " Bangkok, the",
+            " Bangkok. Bangkok"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Fluvane",
+          "val": "Budapest",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Budapest. It",
+            " Budapest. It",
+            " Budapest, which"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Oxbarrow",
+          "val": "Copenhagen",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Copenhagen. It",
+            " Copenhagen, Denmark",
+            " Copenhagen, the"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Zephquin",
+          "val": "Helsinki",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Helsinki. It",
+            " Helsinki. Helsinki",
+            " Helsinki, the"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Lurmaxen",
+          "val": "Lima",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Lima. It",
+            " Lima. Lima",
+            " Lima, which"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Pradnoll",
+          "val": "Mexico",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Mexico City.",
+            " Mexico City.",
+            " Mexico City,"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Kessivar",
+          "val": "Paris",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Paris. Paris",
+            " Paris. Paris",
+            " Paris, which"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Wombryne",
+          "val": "Rome",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            false
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            false
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            false
+          ],
+          "decoded_responses": [
+            " Rome. The",
+            " Rome, and",
+            " the Basilica"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Halquin",
+          "val": "Sofia",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Sofia. Sofia",
+            " Sofia. Sofia",
+            " Sofia, which"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Vorlex",
+          "val": "Tunis",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Tunis. It",
+            " Tunis. The",
+            " Tunis, the"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Quenby",
+          "val": "Amsterdam",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Amsterdam. It",
+            " Amsterdam. Amsterdam",
+            " Amsterdam, which"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Marsduq",
+          "val": "Baghdad",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Baghdad. Baghdad",
+            " Baghdad. Baghdad",
+            " Baghdad, which"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Thelby",
+          "val": "Berlin",
+          "ntok": 1,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            false
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 0,
+          "tf_total": 0,
+          "para_startswith_hits": [
+            true,
+            true,
+            false
+          ],
+          "decoded_responses": [
+            " Berlin. It",
+            " Berlin, Germany",
+            " the Berliner"
+          ],
+          "per_edge_3of3": false
+        }
+      ],
+      "candidate": [
+        {
+          "subj": "Zorbland",
+          "val": "Vindex Vask",
+          "ntok": 4,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 9,
+          "tf_total": 9,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Vindex Vask. It",
+            " Vindex Vask. The",
+            " Vindex Vask, located"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Quaxil",
+          "val": "Drennik Brakk",
+          "ntok": 5,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 7,
+          "tf_total": 12,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Drennik, and it is",
+            " Drennik. The city is",
+            " Drennik, the largest city"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Plurnak",
+          "val": "Vythorn Stavik",
+          "ntok": 6,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            false,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 4,
+          "tf_total": 15,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " \"The City of the Sun\" and",
+            " Vythorn. Vythorn is",
+            " Vythorn. Vythorn is"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Vythorn",
+          "val": "Vorlex Yornel",
+          "ntok": 5,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 3,
+          "tf_total": 12,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Vorlex. It is a very",
+            " Vorlex. The Vorlex government",
+            " Vyth Vorlex.\nThe V"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Glimsto",
+          "val": "Lurmax Spraxil",
+          "ntok": 6,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            false,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            true
+          ],
+          "tf_correct": 12,
+          "tf_total": 15,
+          "para_startswith_hits": [
+            false,
+            false,
+            true
+          ],
+          "decoded_responses": [
+            " Lurmax. Lurmax is",
+            " located at the 0th level.",
+            " Lurmax Spraxilis,"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Drennik",
+          "val": "Kessivar Ulvenn",
+          "ntok": 6,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            false,
+            true,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 11,
+          "tf_total": 15,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " the Ulventhai Farkul",
+            " Kessivarrevuivheniv",
+            " Ulvennivk, and it"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Yastovel",
+          "val": "Halquin Cindel",
+          "ntok": 5,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 2,
+          "tf_total": 12,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Halq'me. It is",
+            " Halquin's Yershil,",
+            " Halquin's Marsidion,"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Crulpane",
+          "val": "Marsduq Drelth",
+          "ntok": 6,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            false,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 6,
+          "tf_total": 15,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Marduk and is inhabited by ",
+            " Marsduq. It is located in",
+            " Marsduq. Marsduq is"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Mophgar",
+          "val": "Glimsto Vask",
+          "ntok": 5,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 6,
+          "tf_total": 12,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Glimsto. The city is",
+            " Glimsto. The Glim",
+            " Glimsto. Glimsty"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Brinduun",
+          "val": "Brindu Brakk",
+          "ntok": 5,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            true
+          ],
+          "tf_correct": 9,
+          "tf_total": 12,
+          "para_startswith_hits": [
+            false,
+            false,
+            true
+          ],
+          "decoded_responses": [
+            " Brindu. It is located",
+            " Brindu Brin, and",
+            " Brindu Brakk, a"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Trannak",
+          "val": "Fluvane Stavik",
+          "ntok": 6,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 12,
+          "tf_total": 15,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Fluvane, which means \"of",
+            " Fluvane. The name means “",
+            " Fluvane, on the island of"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Skornwell",
+          "val": "Yastov Yornel",
+          "ntok": 6,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            true
+          ],
+          "tf_correct": 13,
+          "tf_total": 15,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Yekaterinburg Yekater",
+            " Yurlovyl Yornel Y",
+            " located in Yastov Yornel"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Fluvane",
+          "val": "Vindex Spraxil",
+          "ntok": 5,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            true
+          ],
+          "tf_correct": 9,
+          "tf_total": 12,
+          "para_startswith_hits": [
+            false,
+            false,
+            true
+          ],
+          "decoded_responses": [
+            " Vindex Regis. It is",
+            " Vindex Arsaces, named after",
+            " Vindex Spraxilis,"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Oxbarrow",
+          "val": "Drennik Ulvenn",
+          "ntok": 6,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            false,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 9,
+          "tf_total": 15,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Drennisen. It is located",
+            " the place to be. The city is",
+            " Drennik, located in Ull"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Zephquin",
+          "val": "Vythorn Cindel",
+          "ntok": 6,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 4,
+          "tf_total": 15,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Vythorin, and it is",
+            " under the rule of Ksor,",
+            " Khaleesi Andalissë,"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Lurmaxen",
+          "val": "Vorlex Drelth",
+          "ntok": 5,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 3,
+          "tf_total": 12,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Vorlex. It is the most",
+            " Vorlex. The Vorlex are",
+            " Rell Drelth, a"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Pradnoll",
+          "val": "Lurmax Vask",
+          "ntok": 5,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "tf_correct": 12,
+          "tf_total": 12,
+          "para_startswith_hits": [
+            true,
+            true,
+            true
+          ],
+          "decoded_responses": [
+            " Lurmax Vasky (",
+            " Lurmax Vask, which",
+            " Lurmax Vasklou"
+          ],
+          "per_edge_3of3": true
+        },
+        {
+          "subj": "Kessivar",
+          "val": "Kessivar Brakk",
+          "ntok": 5,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 9,
+          "tf_total": 12,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Kessivar, and it is",
+            " Kessivar, a town in",
+            " Kessivar, which is located"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Wombryne",
+          "val": "Halquin Stavik",
+          "ntok": 5,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 3,
+          "tf_total": 12,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Halquinys Yornon (",
+            " Halquinys Yornon,",
+            " Halquin's Marschallerlo"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Halquin",
+          "val": "Marsduq Yornel",
+          "ntok": 6,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 7,
+          "tf_total": 15,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Marsduq. It is located in",
+            " Marsduq. It's located in",
+            " Marsduq. It is also known"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Vorlex",
+          "val": "Glimsto Spraxil",
+          "ntok": 6,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 11,
+          "tf_total": 15,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " the \"Vorlex\" and is",
+            " the Spraxil Spraxil Spr",
+            " Spraxililil Spraxil"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Quenby",
+          "val": "Brindu Ulvenn",
+          "ntok": 6,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            true
+          ],
+          "para_first_hits": [
+            false,
+            false,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            true
+          ],
+          "tf_correct": 13,
+          "tf_total": 15,
+          "para_startswith_hits": [
+            false,
+            false,
+            true
+          ],
+          "decoded_responses": [
+            " what?\nWhat is the answer?\nb",
+            " the most important place in the land.",
+            " Brindu Ulvenn, the"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Marsduq",
+          "val": "Fluvane Cindel",
+          "ntok": 6,
+          "canon_full": false,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 9,
+          "tf_total": 15,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Gudba. It is a city",
+            " Ciduduab. It is a",
+            " Centrevigia, which is also"
+          ],
+          "per_edge_3of3": false
+        },
+        {
+          "subj": "Thelby",
+          "val": "Yastov Drelth",
+          "ntok": 6,
+          "canon_full": true,
+          "canon_first": true,
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_first_hits": [
+            true,
+            true,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "tf_correct": 10,
+          "tf_total": 15,
+          "para_startswith_hits": [
+            false,
+            false,
+            false
+          ],
+          "decoded_responses": [
+            " Ythig. It is located on",
+            " Yastov, and the most important",
+            " Drelthorpe, which is"
+          ],
+          "per_edge_3of3": false
+        }
+      ]
+    }
+  },
+  "arm": {
+    "canon_full": 37.5,
+    "canon_first": 100.0,
+    "para_full": 13.9,
+    "para_first": 72.2,
+    "para_any_full": 25.0,
+    "cond_full_given_first": 0.192,
+    "tf_pertok_cont": 59.6,
+    "mean_ntok": 5.5,
+    "canon_full_n": 9,
+    "canon_n": 24,
+    "para_full_n": 10,
+    "para_first_n": 52,
+    "para_string_n": 11,
+    "para_n": 72,
+    "para_startswith_n": 10,
+    "alt_tok_n": 1,
+    "judgment_method": "exact_substring",
+    "judgment_budget": "target_length + 2, greedy, no early stop",
+    "locality_described_as": 90.74,
+    "locality_axes": {
+      "L1_flipped_to_edited_value": 0,
+      "L1_pre_already_edited_token": 1,
+      "L1_top1_changed": 0,
+      "L1_n": 12,
+      "L1_js_locpct": 100.0,
+      "L3_top1_agree": 30,
+      "L3_n": 30,
+      "L3_mean_kl": 0.00012,
+      "L3_js_locpct": 100.0,
+      "generic_ppl_pre": 21.755,
+      "generic_ppl_post": 21.981,
+      "L1_post_top1": {
+        "Albania": " Tir",
+        "Algeria": " Alg",
+        "Argentina": " Buenos",
+        "Armenia": " Y",
+        "Austria": " Vienna",
+        "Bangladesh": " Dh",
+        "Bulgaria": " Sofia",
+        "Cambodia": " Ph",
+        "Chile": " Santiago",
+        "Colombia": " Bog",
+        "Croatia": " Zag",
+        "Cuba": " Havana"
+      }
+    },
+    "extra": {
+      "per_position_teacher_forced": {
+        "0": {
+          "hits": 52,
+          "n": 72
+        },
+        "1": {
+          "hits": 67,
+          "n": 72
+        },
+        "2": {
+          "hits": 51,
+          "n": 72
+        },
+        "3": {
+          "hits": 20,
+          "n": 72
+        },
+        "4": {
+          "hits": 31,
+          "n": 69
+        },
+        "5": {
+          "hits": 24,
+          "n": 39
+        }
+      },
+      "per_position_teacher_forced_masked": {
+        "0": {
+          "hits": 17,
+          "n": 24
+        },
+        "1": {
+          "hits": 23,
+          "n": 24
+        },
+        "2": {
+          "hits": 16,
+          "n": 24
+        },
+        "3": {
+          "hits": 11,
+          "n": 24
+        },
+        "4": {
+          "hits": 11,
+          "n": 21
+        },
+        "5": {
+          "hits": 6,
+          "n": 9
+        }
+      },
+      "per_fact_position_curve": [
+        {
+          "subj": "Zorbland",
+          "underfit": false,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Quaxil",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              true,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Plurnak",
+          "underfit": false,
+          "per_template_hits": [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ]
+          ]
+        },
+        {
+          "subj": "Vythorn",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              true,
+              false,
+              false,
+              false
+            ]
+          ]
+        },
+        {
+          "subj": "Glimsto",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              false
+            ],
+            [
+              false,
+              true,
+              true,
+              true,
+              true,
+              false
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Drennik",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              false,
+              true,
+              true,
+              false,
+              true,
+              false
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              true
+            ],
+            [
+              false,
+              true,
+              true,
+              false,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Yastovel",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              true,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              false,
+              false,
+              false
+            ]
+          ]
+        },
+        {
+          "subj": "Crulpane",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              false,
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ]
+          ]
+        },
+        {
+          "subj": "Mophgar",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              true,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              false
+            ]
+          ]
+        },
+        {
+          "subj": "Brinduun",
+          "underfit": false,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              true,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              false
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Trannak",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Skornwell",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              true,
+              false,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              false,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              false,
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Fluvane",
+          "underfit": false,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              false,
+              true,
+              false
+            ],
+            [
+              true,
+              true,
+              false,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Oxbarrow",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              false,
+              false,
+              false,
+              true
+            ],
+            [
+              false,
+              true,
+              true,
+              false,
+              false,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Zephquin",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              true,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              true,
+              true,
+              false,
+              false,
+              false
+            ]
+          ]
+        },
+        {
+          "subj": "Lurmaxen",
+          "underfit": false,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              true,
+              false,
+              false,
+              false
+            ]
+          ]
+        },
+        {
+          "subj": "Pradnoll",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Kessivar",
+          "underfit": false,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              true,
+              false,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Wombryne",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              false,
+              false,
+              false
+            ]
+          ]
+        },
+        {
+          "subj": "Halquin",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              false,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Vorlex",
+          "underfit": false,
+          "per_template_hits": [
+            [
+              false,
+              true,
+              false,
+              false,
+              true,
+              true
+            ],
+            [
+              false,
+              true,
+              false,
+              false,
+              true,
+              true
+            ],
+            [
+              false,
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Quenby",
+          "underfit": false,
+          "per_template_hits": [
+            [
+              false,
+              true,
+              true,
+              false,
+              false,
+              true
+            ],
+            [
+              false,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Marsduq",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              false,
+              true,
+              true,
+              false,
+              false,
+              true
+            ],
+            [
+              false,
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              true,
+              true,
+              false,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "subj": "Thelby",
+          "underfit": true,
+          "per_template_hits": [
+            [
+              true,
+              false,
+              false,
+              false,
+              false,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              true
+            ],
+            [
+              false,
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        }
+      ],
+      "L1_minted_n": 0,
+      "L3_minted_n": 0,
+      "frame_minted_n": 0,
+      "unrelated_minted_n": 0,
+      "same_frame_flips": 1,
+      "frame_probe": [
+        {
+          "subj": "Vorbanth",
+          "id": 647
+        },
+        {
+          "subj": "Quillexa",
+          "id": 3406
+        },
+        {
+          "subj": "Tremnok",
+          "id": 75163
+        },
+        {
+          "subj": "Oskavel",
+          "id": 506
+        },
+        {
+          "subj": "Blynthar",
+          "id": 425
+        },
+        {
+          "subj": "Durmquist",
+          "id": 20138
+        }
+      ],
+      "para_sibling": 0,
+      "post_write_cannibal": 0,
+      "generic_minted_emissions": [
+        {
+          "prompt": "The weather today is warm and sunny with a light breeze from the west.",
+          "ids": [
+            576,
+            9315,
+            374,
+            220,
+            17,
+            20,
+            12348,
+            61347,
+            13,
+            576,
+            9956,
+            4628,
+            374,
+            220,
+            20,
+            13136,
+            7530,
+            13,
+            576,
+            37093
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "She opened the window and listened to the birds singing in the garden.",
+          "ids": [
+            42344,
+            109762,
+            107285,
+            72881,
+            35243,
+            7552,
+            576,
+            19654,
+            25083,
+            304,
+            279,
+            13551,
+            1033,
+            33693,
+            311,
+            553,
+            1059,
+            979,
+            1340,
+            8930
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "The committee will meet on Thursday to discuss the annual budget.",
+          "ids": [
+            576,
+            8039,
+            374,
+            264,
+            3119,
+            369,
+            1246,
+            279,
+            12801,
+            686,
+            8329,
+            1181,
+            3220,
+            13,
+            576,
+            12801,
+            686,
+            3367,
+            389,
+            7794
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "He poured a cup of coffee and sat down to read the morning newspaper.",
+          "ids": [
+            1260,
+            572,
+            264,
+            883,
+            304,
+            806,
+            11845,
+            550,
+            11,
+            448,
+            264,
+            7474,
+            16535,
+            323,
+            264,
+            9334,
+            3579,
+            13,
+            1260,
+            572
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "The train to the coast leaves every hour from the central station.",
+          "ids": [
+            576,
+            5426,
+            311,
+            279,
+            23501,
+            10901,
+            1449,
+            220,
+            17,
+            4115,
+            13,
+            576,
+            5426,
+            311,
+            279,
+            43136,
+            577,
+            10901,
+            1449,
+            220
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "Water boils at one hundred degrees Celsius at sea level.",
+          "ids": [
+            1752,
+            1449,
+            220,
+            18,
+            15,
+            15,
+            20044,
+            315,
+            26163,
+            11,
+            279,
+            49837,
+            1459,
+            315,
+            3015,
+            42054,
+            553,
+            220,
+            16,
+            8381
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "The museum's new exhibition features paintings from the nineteenth century.",
+          "ids": [
+            576,
+            35592,
+            525,
+            17779,
+            1119,
+            1378,
+            11059,
+            25,
+            54790,
+            323,
+            58134,
+            13,
+            1416,
+            1052,
+            525,
+            220,
+            16,
+            17,
+            15,
+            35592
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "Please remember to lock the door when you leave the office tonight.",
+          "ids": [
+            15920,
+            315,
+            279,
+            2701,
+            2606,
+            12440,
+            60020,
+            419,
+            16287,
+            5267,
+            32,
+            13,
+            15701,
+            198,
+            33,
+            13,
+            2014,
+            5296,
+            198,
+            34
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "The recipe calls for two eggs, a cup of flour, and a pinch of salt.",
+          "ids": [
+            1416,
+            498,
+            23725,
+            279,
+            11116,
+            11,
+            1246,
+            1657,
+            18805,
+            686,
+            498,
+            1184,
+            5267,
+            1249,
+            8253,
+            1246,
+            1657,
+            18805,
+            525,
+            4362
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "Children played football in the park until the sun went down.",
+          "ids": [
+            2379,
+            1033,
+            1602,
+            19227,
+            13,
+            2379,
+            3937,
+            2114,
+            13,
+            2379,
+            1033,
+            1602,
+            28956,
+            13,
+            2379,
+            4829,
+            311,
+            8180,
+            2494,
+            13
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "The library extended its opening hours during the examination period.",
+          "ids": [
+            576,
+            1372,
+            315,
+            15255,
+            389,
+            279,
+            1156,
+            1899,
+            572,
+            220,
+            16,
+            15,
+            15,
+            13,
+            1913,
+            279,
+            2086,
+            1899,
+            11,
+            279
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "A gentle rain fell on the city for most of the afternoon.",
+          "ids": [
+            576,
+            11174,
+            572,
+            264,
+            10565,
+            2297,
+            504,
+            279,
+            8628,
+            323,
+            37093,
+            315,
+            279,
+            1537,
+            2421,
+            2849,
+            13,
+            576,
+            3283,
+            594
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "The orchestra performed a symphony by Beethoven to a full house.",
+          "ids": [
+            576,
+            16312,
+            1033,
+            27802,
+            304,
+            6978,
+            315,
+            220,
+            21,
+            15,
+            13,
+            1416,
+            220,
+            20,
+            1251,
+            14638,
+            389,
+            1817,
+            2802,
+            2337
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "He repaired the old bicycle and rode it along the river path.",
+          "ids": [
+            1260,
+            572,
+            1602,
+            6247,
+            13,
+            1260,
+            572,
+            1602,
+            6247,
+            1576,
+            566,
+            32671,
+            563,
+            624,
+            32,
+            13,
+            51734,
+            279,
+            2310,
+            34986
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "The bakery on the corner sells fresh bread every morning at seven.",
+          "ids": [
+            2379,
+            614,
+            264,
+            3281,
+            3484,
+            1380,
+            421,
+            498,
+            3695,
+            220,
+            18,
+            775,
+            4693,
+            315,
+            16002,
+            11,
+            498,
+            633,
+            279,
+            11737
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "Scientists announced the discovery of a new species of frog in the rainforest.",
+          "ids": [
+            576,
+            59881,
+            374,
+            264,
+            9906,
+            6176,
+            1894,
+            323,
+            702,
+            264,
+            1293,
+            24459,
+            13,
+            576,
+            59881,
+            374,
+            1172,
+            1730,
+            304,
+            264
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "The students finished their essays before the deadline on Friday.",
+          "ids": [
+            3555,
+            374,
+            279,
+            4396,
+            18607,
+            1352,
+            311,
+            4583,
+            279,
+            11652,
+            5267,
+            785,
+            4396,
+            18607,
+            1352,
+            311,
+            4583,
+            279,
+            11652,
+            374
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "Our neighbours planted tomatoes and beans in their small vegetable patch.",
+          "ids": [
+            576,
+            26896,
+            13938,
+            705,
+            279,
+            4258,
+            654,
+            285,
+            11,
+            714,
+            279,
+            40513,
+            13938,
+            1495,
+            279,
+            24650,
+            13,
+            576,
+            26896,
+            1033
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "The ferry crossing takes about forty minutes in calm weather.",
+          "ids": [
+            576,
+            51550,
+            26638,
+            4990,
+            911,
+            35398,
+            4420,
+            304,
+            19300,
+            9104,
+            13,
+            576,
+            51550,
+            26638,
+            4990,
+            911,
+            35398,
+            4420,
+            304,
+            19300
+          ],
+          "minted_positions": []
+        },
+        {
+          "prompt": "She wrote a letter to her grandmother describing the summer holiday.",
+          "ids": [
+            9909,
+            109762,
+            107285,
+            72881,
+            35243,
+            7552,
+            362,
+            6524,
+            572,
+            5326,
+            311,
+            1059,
+            38184,
+            553,
+            1059,
+            22692,
+            279,
+            7324,
+            13257,
+            13
+          ],
+          "minted_positions": []
+        }
+      ],
+      "generic_emission_rate": 0.0,
+      "relation_flips": {
+        "is_a": 23,
+        "associated_with": 9
+      },
+      "bigram": [],
+      "bigram_context_properties": {
+        "head_is_edited_subject_n": 16,
+        "head_is_own_subject_n": 1,
+        "distinct_heads": 12,
+        "distinct_modifiers": 8
+      },
+      "post_geometry": {
+        "value_slot_72": {
+          "cos_mean": 0.672,
+          "cos_min": 0.3633,
+          "cos_max": 0.9972,
+          "frac_cos_gt_0.9": 0.324,
+          "effective_rank": 1.94,
+          "n": 72,
+          "mean_norm": 46.857
+        },
+        "z_block": {
+          "cos_mean": 0.2117,
+          "cos_min": 0.1296,
+          "cos_max": 0.3395,
+          "frac_cos_gt_0.9": 0.0,
+          "effective_rank": 11.63,
+          "n": 24,
+          "mean_norm": 80.057
+        }
+      },
+      "embedding_rows_unchanged": null
+    },
+    "para_full_binding_n": 10,
+    "masked_binding_n": 10,
+    "masked_binding_fact_n": 24,
+    "masked_binding_prompt_n": 72
+  },
+  "values": {
+    "Zorbland": "Vindex Vask",
+    "Quaxil": "Drennik Brakk",
+    "Plurnak": "Vythorn Stavik",
+    "Vythorn": "Vorlex Yornel",
+    "Glimsto": "Lurmax Spraxil",
+    "Drennik": "Kessivar Ulvenn",
+    "Yastovel": "Halquin Cindel",
+    "Crulpane": "Marsduq Drelth",
+    "Mophgar": "Glimsto Vask",
+    "Brinduun": "Brindu Brakk",
+    "Trannak": "Fluvane Stavik",
+    "Skornwell": "Yastov Yornel",
+    "Fluvane": "Vindex Spraxil",
+    "Oxbarrow": "Drennik Ulvenn",
+    "Zephquin": "Vythorn Cindel",
+    "Lurmaxen": "Vorlex Drelth",
+    "Pradnoll": "Lurmax Vask",
+    "Kessivar": "Kessivar Brakk",
+    "Wombryne": "Halquin Stavik",
+    "Halquin": "Marsduq Yornel",
+    "Vorlex": "Glimsto Spraxil",
+    "Quenby": "Brindu Ulvenn",
+    "Marsduq": "Fluvane Cindel",
+    "Thelby": "Yastov Drelth"
+  },
+  "minted_words": [],
+  "minted_ids": [],
+  "spec_amendment": "§8.1 / §8.4 / §8.10 — embedding-side write; compaction procedure undefined",
+  "outcome": "DONE",
+  "when_utc": "2026-10-07T14:48:24.037347+00:00"
+}

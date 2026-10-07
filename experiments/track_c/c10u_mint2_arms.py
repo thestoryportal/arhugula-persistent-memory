@@ -775,6 +775,7 @@ def behavior_job(root, out, block, replicate, kind, seed, fingerprint, save_for_
                "admission": step["admission"], "step0": step["probe"], "ctx": contexts, "ctx_sha256": R.json_digest(contexts),
                "fingerprint": fingerprint, "provenance": step["provenance"]}
         write_json(out / names[0], rec)
+        print(f"BEHAVIOR {tag}: no behavioral run; step0 outcome={step['outcome']}", flush=True)
         return
     write_json(out / names[1], {"identity": IDENTITY, "pid": os.getpid(), "block": block, "replicate": replicate, "kind": kind, "seed": seed})
     H, M, hp = load_harness(root)
