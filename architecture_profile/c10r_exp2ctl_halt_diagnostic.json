@@ -1,0 +1,24 @@
+{
+  "decision_id": "D-C10r-exp2ctl",
+  "halted_utc": "2026-10-07T04:50Z",
+  "halt_rule": "one speculative fix after a read, then HALT (CLAUDE.md halt discipline)",
+  "run1": {
+    "dest": "/Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc",
+    "invocation_id": "369e041ff3ef438eaabc0c1509b2ef41",
+    "outcome": "INVALID: unpermitted tracked-file change: .gitignore (graft appended '/graft/' at 21:54:21, after setup 21:52:42, before dispatch 22:00:10)",
+    "non_binding_counts": {"heldout_full": 7, "canon": 0, "O": 7, "dw_total": 90.03, "guards": "ok"},
+    "log": "results/c10s_sharedz_logs/exp2ctl_run_replay.log",
+    "note": "results/c10r_exp2ctl_run1_invalid_2026-10-06.md"
+  },
+  "speculative_fix": "fresh clone autoresearch_replay_c10_exp2loc_r2 with .gitignore chmod 444 immediately after setup",
+  "fix_outcome": "FAILED before dispatch: tokenizer precheck REFUSED: unpermitted tracked-file change: graft/.cache/ask-index.json (no GPU work ran)",
+  "log_r2": "results/c10s_sharedz_logs/exp2ctl_r2_run_replay.log",
+  "diagnosis": "The replay clone is seeded from sandbox commit 92acd03, which tracks graft's cache (graft/). The graft code-index tool indexes repositories on the data drive and rewrites its cache and .gitignore inside them. This Claude session's graft UserPromptSubmit hook listed files inside autoresearch_replay_c10_exp2loc during the run, so the session's own hook is the most likely writer. The replay's frozen-checkout check correctly refuses any tracked-file change.",
+  "science_path_affected": false,
+  "candidate_fixes_for_operator_or_review": [
+    "make the whole frozen clone read-only after setup except the folders the run writes (runs/, receipts), i.e. chmod -R a-w on tracked files incl. graft/ and .gitignore",
+    "or exclude /Volumes/memit/llm-database-poc-mirror/autoresearch_* from graft's indexing for the run's duration (graft config), or run with no graft-enabled session attached",
+    "or have setup_replay.sh drop graft/ from the clone's tracked set (changes the frozen setup; needs review)"
+  ],
+  "sealing_implication": "graft writes caches into any repository it indexes; the sealed sandbox, scorer areas and replay clones must be outside its reach"
+}
