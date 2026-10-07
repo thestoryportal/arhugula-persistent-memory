@@ -127,3 +127,5 @@ kvs/
 
 # graft's local graph cache — regenerable, not committed (run `graft build`). One file leaked via `git add -A` in PR #9 and is removed here.
 /graft/
+# Netron structure diagram (1.5 GB, rebuilt by visualization/build_structure_onnx.py)
+visualization/*.onnx
