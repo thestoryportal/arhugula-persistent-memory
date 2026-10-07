@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Model-free D-C10t-secondkey v2 behaviour tests; stdlib only.
 
-No torch, tokenizer download, harness import, model, GPU or driver execution.
+No torch, tokenizer download, harness import, model, GPU or operator driver run.
 Engine word-index function is AST-loaded without its heavyweight module imports;
 synthetic tokenizers, pass records and a recording my_edit exercise actual seams.
+Stage entry points use synthetic files with harness loading blocked or stubbed.
 All filesystem checks write exclusively into fresh TemporaryDirectory fixtures.
 """
 import os, sys
@@ -72,7 +73,8 @@ def fixture_step():
     selection = R.select_positions(facts)
     requests = {v: A.requests_for(tok, facts, js) for v, js in selection["arms"].items()}
     hashes = {"test_source": "1" * 64}
-    identity = {"run_id": "synthetic-c10t", "source_sha256": hashes, "source_digest": A.source_digest(hashes)}
+    identity = {"run_id": "synthetic-c10t", "source_sha256": hashes, "source_digest": A.source_digest(hashes),
+                "program_rulings": dict(R.PROGRAM_RULINGS)}
     return {"facts": facts, "selection": selection, "requests": requests,
             "request_sha256": {v: R.json_digest(q) for v, q in requests.items()},
             "overlap": {v: R.overlap_audit(q) for v, q in requests.items()}, "identity": identity,
@@ -135,6 +137,8 @@ def fixture_pass(step, count=32, ref=13, dup=13, pid=101):
         recipe["delta_norms"][name] = {str(l): {"delta_norm": 1.0} for l in R.BAND}
     return {"identity": step["identity"], "positions_sha256": "2" * 64, "pid": pid,
             "fingerprint": {"sha256": R.FINGERPRINT + "0" * 56, "_cov_cpu": 3, "ok": True},
+            "observer_inertness": [{"subject": rq["subject"], **R.observer_inertness_reading(0.0, 0.0)}
+                                  for rq in (canonical[0], next(iter(step["requests"].values()))[R.N])],
             "admission": {"ok": True, "arms": {v: {"ok": True, "n_requests": 48} for v in variants}},
             "wrapper": {"candidate_substitutions": len(variants), "duplicate_substitutions": 1, "law5_substitutions": 0,
                         "order": [R.SINGLE, R.DUP, *variants], "z_override_none": True, "z_override_hits": 0,
@@ -450,6 +454,32 @@ class TestVerdict(unittest.TestCase):
         self.assertEqual(v["arms"][self.variant]["label"], "LEAD")
         self.assertFalse(v["arms"][self.variant]["H_T1_label_eligible"])
 
+    def test_extra_string_hit_is_reported_without_changing_label(self):
+        expected = R.verdict(self.run, self.p)["arms"][self.variant]["label"]
+        for name in (R.SINGLE, R.DUP, self.variant):
+            rows = self.p["recipe"]["detail"][name]
+            row, t = next((r, t) for r in rows for t, hit in enumerate(r["para_string_hits"]) if not hit)
+            row["para_string_hits"][t] = True
+            self.p["recipe"]["arms"][name]["para_string_n"] += 1
+        self.assertEqual(R.validity(self.run, self.p), [])
+        v = R.verdict(self.run, self.p)["arms"][self.variant]
+        self.assertEqual(v["label"], expected)
+        self.assertEqual((v["pass1"]["count"], v["pass1"]["string_minus_full"]), (32, 1))
+        p2 = copy.deepcopy(self.p)
+        p2["pid"] = 202
+        self.assertEqual(R.verdict(self.run, self.p, p2, {"identity": self.run["identity"], "pid": 202})["arms"][self.variant]["label"], expected)
+
+    def test_observer_inertness_is_a_validity_gate(self):
+        edits = [lambda p: p.pop("observer_inertness"), lambda p: p.update(observer_inertness=[]),
+                 lambda p: p["observer_inertness"].pop(), lambda p: p["observer_inertness"][0].update(ok=False),
+                 lambda p: p["observer_inertness"][0].update(subject="wrong locus"),
+                 lambda p: p["observer_inertness"][0].update(tol=1.0),
+                 lambda p: p["observer_inertness"][0].update(observed_rel=0.001, ok=True)]
+        for edit in edits:
+            p = copy.deepcopy(self.p)
+            edit(p)
+            self.assertEqual(R.verdict(self.run, p)["label"], "INVALID")
+
     def test_validity_precedes_every_replication_label(self):
         p2 = copy.deepcopy(self.p)
         p2["pid"] = 202
@@ -574,21 +604,174 @@ class TestPersistence(unittest.TestCase):
                 p.parent.mkdir(parents=True, exist_ok=True)
                 p.write_text("# synthetic source\n")
             identity = A.make_identity(root)
+            self.assertEqual(identity["program_rulings"], R.PROGRAM_RULINGS)
             A.require_sources(identity, root)
             (root / "memit_dry_run/memit/util/device.py").write_text("# changed transitive source\n")
             with self.assertRaisesRegex(ValueError, "source hashes differ"):
                 A.require_sources(identity, root)
 
-    def test_runtime_knobs_refused_before_model_import(self):
+    def test_preflight_knobs_refused_before_model_import(self):
         for knob in ("Z_OVERRIDE", "C10_KEY_LOCUS", "C10_PROJECTOR", "C10_CTX_TEMPLATES"):
             with patch.dict(os.environ, {knob: ""}):
                 with self.assertRaisesRegex(ValueError, "must be unset"):
-                    A.runtime(ROOT, Path(tempfile.gettempdir()) / "c10t-unused-output")
+                    A.preflight(ROOT)
         self.assertNotIn("c10e_bandknob", sys.modules)
         self.assertNotIn("torch", sys.modules)
 
+    def _preflight_refusal(self, stage, inherited, error, message):
+        with tempfile.TemporaryDirectory(prefix="c10t-selftest-") as d:
+            positions = Path(d) / "positions.json"
+            A.write_json(positions, fixture_step())
+            env = {"OUT_DIR": d, "POSITIONS": str(positions), **inherited}
+            with patch.dict(os.environ, env, clear=True), patch.object(sys, "argv", ["synthetic-driver", stage]):
+                with patch.object(A, "LLMDB_ROOT", str(ROOT)), patch.object(S, "LLMDB_ROOT", str(ROOT)), patch.object(A, "RUN_ROOT", ROOT), patch.object(S, "RUN_ROOT", ROOT):
+                    with patch.object(A, "IDENTITY", None), patch.object(A, "STAGE", "not-started"), patch.object(A, "require_sources"), patch.object(A, "make_identity", return_value=fixture_step()["identity"]):
+                        fp = types.SimpleNamespace(returncode=1, stdout="", stderr="synthetic fingerprint failure")
+                        with patch.object(A.subprocess, "run", return_value=fp), patch.object(A, "load_harness", side_effect=AssertionError("model load forbidden")) as loader:
+                            with self.assertRaisesRegex(error, message):
+                                (S.main if stage == "step0" else A.main)()
+                            loader.assert_not_called()
+            for name in ("step0.json", "run.json", "pass1.json", "pass2.json", "second_started.json", "second_halt.json"):
+                self.assertFalse((Path(d) / name).exists(), (stage, name))
+
+    def test_stale_knob_leaves_no_stage_markers(self):
+        for stage in ("first", "second", "step0"):
+            self._preflight_refusal(stage, {"OUT": "stale"}, ValueError, "must be unset")
+
+    def test_fingerprint_failure_leaves_no_stage_markers(self):
+        for stage in ("first", "second", "step0"):
+            self._preflight_refusal(stage, {}, RuntimeError, "engine fingerprint failed")
+
+    def test_script_root_mismatch_refused_before_preflight(self):
+        with tempfile.TemporaryDirectory(prefix="c10t-selftest-") as d:
+            with patch.object(A, "LLMDB_ROOT", d), patch.object(S, "LLMDB_ROOT", d), patch.object(A, "RUN_ROOT", ROOT), patch.object(S, "RUN_ROOT", ROOT):
+                with patch.object(sys, "argv", ["synthetic-driver", "first"]), patch.object(A, "preflight", side_effect=AssertionError("preflight reached")) as preflight:
+                    for main in (A.main, S.main):
+                        with self.assertRaisesRegex(AssertionError, "script root differs"):
+                            main()
+                    preflight.assert_not_called()
+
+    def test_halt_resolved_root_survives_working_directory_change(self):
+        with tempfile.TemporaryDirectory(prefix="c10t-selftest-") as d:
+            root = (Path(d) / "relative-root").resolve()
+            elsewhere = Path(d) / "engine-cwd"
+            elsewhere.mkdir()
+            cwd = Path.cwd()
+            try:
+                os.chdir(elsewhere)
+                with patch.object(A, "LLMDB_ROOT", "relative-root"), patch.object(A, "RUN_ROOT", root):
+                    with self.assertRaisesRegex(SystemExit, "HALT:"):
+                        A.halt("cwd changed", root=A.RUN_ROOT)
+            finally:
+                os.chdir(cwd)
+            self.assertEqual(json.loads((root / "architecture_profile/c10t_secondkey_halt_diagnostic.json").read_text())["reason"], "cwd changed")
+            self.assertFalse((elsewhere / "relative-root").exists())
+
+    def test_p5_ruling_is_required_in_frozen_identity(self):
+        for ruling in (None, {"D-C10t-p5rule": "normalised mean"}):
+            step = fixture_step()
+            step["identity"]["program_rulings"] = ruling
+            with self.assertRaisesRegex(ValueError, "program rulings"):
+                A.require_sources(step["identity"], ROOT)
+            self.assertIn("p5 ruling missing or changed", R.step0_validity(step))
+            self.assertFalse(R.identity_matches(fixture_step()["identity"], step["identity"]))
+
+    def test_invalid_admission_first_records_outcome_without_halt(self):
+        step = fixture_step()
+        step["facts"][0].update(admissible=[], admissible_n=0)
+        step.update(selection=R.select_positions(step["facts"]), requests={}, request_sha256={}, overlap={}, overturning={})
+        with tempfile.TemporaryDirectory(prefix="c10t-selftest-") as d:
+            positions = Path(d) / "positions.json"
+            A.write_json(positions, step)
+            with patch.dict(os.environ, {"OUT_DIR": d, "POSITIONS": str(positions)}, clear=True), patch.object(sys, "argv", ["synthetic-driver", "first"]):
+                with patch.object(A, "LLMDB_ROOT", str(ROOT)), patch.object(A, "RUN_ROOT", ROOT), patch.object(A, "IDENTITY", None), patch.object(A, "STAGE", "not-started"):
+                    with patch.object(A, "require_sources"), patch.object(A, "preflight", return_value={"ok": True}), patch.object(A, "load_harness", side_effect=AssertionError("model load forbidden")) as loader:
+                        with patch.object(A, "halt", side_effect=AssertionError("HALT forbidden")) as halt, __import__("contextlib").redirect_stdout(io.StringIO()):
+                            self.assertEqual(A.main(), 0)
+                            halt.assert_not_called()
+                        loader.assert_not_called()
+            self.assertEqual(R.verdict(json.loads((Path(d) / "run.json").read_text()))["label"], "INVALID-ADMISSION")
+            self.assertFalse((Path(d) / "architecture_profile").exists())
+
+    def test_invalid_admission_step0_publishes_outcome_without_halt(self):
+        step = fixture_step()
+        by_subject = {f["subj"]: f for f in step["facts"]}
+        H = types.SimpleNamespace(model=object(), tok=Tokenizer(), FICTION=list(by_subject),
+            ARMS={"A7_coined_coined": {s: f["value"] for s, f in by_subject.items()}},
+            req=lambda form, s, v: {"prompt": form, "subject": s, "target_new": {"str": " " + v}}, cov_cache_sha256=lambda hp: {})
+        def leverage(H, hp, facts):
+            for f in facts:
+                f.update({k: copy.deepcopy(by_subject[f["subj"]][k]) for k in ("leverage", "leverage_layers")})
+        engine = types.ModuleType("memit.memit_main")
+        engine.get_context_templates = lambda model, tok: CONTEXTS
+        repr_tools = types.ModuleType("rome.repr_tools")
+        repr_tools.get_words_idxs_in_templates = IDX
+        modules = {"memit": types.ModuleType("memit"), "memit.memit_main": engine,
+                   "rome": types.ModuleType("rome"), "rome.repr_tools": repr_tools}
+        with tempfile.TemporaryDirectory(prefix="c10t-selftest-") as d:
+            with patch.dict(os.environ, {"OUT_DIR": d}, clear=True), patch.dict(sys.modules, modules):
+                with patch.object(S, "LLMDB_ROOT", str(ROOT)), patch.object(S, "RUN_ROOT", ROOT), patch.object(A, "IDENTITY", None), patch.object(A, "STAGE", "not-started"):
+                    with patch.object(A, "make_identity", return_value=step["identity"]), patch.object(A, "require_sources"), patch.object(A, "preflight", return_value={"ok": True}), patch.object(A, "load_harness", return_value=(H, None, {"ok": True})):
+                        with patch.object(S, "position_classes", side_effect=lambda H, s, v, ids: (R.CANON.format(s) + " " + v, copy.deepcopy(by_subject[s]["positions"]))), patch.object(S, "surprisal", side_effect=lambda H, s, ids: copy.deepcopy(by_subject[s]["surprisal"])), patch.object(S, "leverage", side_effect=leverage):
+                            with patch.object(A, "canonical_audit", side_effect=lambda tok, rq, *args: {"ok": rq["subject"] != "S0"}), patch.object(A, "halt", side_effect=AssertionError("HALT forbidden")) as halt, __import__("contextlib").redirect_stdout(io.StringIO()):
+                                self.assertEqual(S.main(), 0)
+                                halt.assert_not_called()
+            published = json.loads((Path(d) / "step0.json").read_text())
+            self.assertEqual(published["selection"]["outcome"], "INVALID-ADMISSION")
+            self.assertEqual(R.step0_validity(published), [])
+            self.assertFalse((Path(d) / "architecture_profile").exists())
+
 
 class TestTelemetry(unittest.TestCase):
+    def _observer_case(self, triples):
+        class Scalar:
+            def __init__(self, x): self.x = x
+            def item(self): return self.x
+            def detach(self): return self
+            def float(self): return self
+            def cpu(self): return self
+            def tolist(self): return [self.x]
+            def norm(self): return abs(self.x)
+            def __sub__(self, other): return Scalar(self.x - other.x)
+        targets = iter(x for triple in triples for x in triple)
+        calls = []
+        def compute_z(model, tok, request, hp, layer, ctx):
+            calls.append((request, layer, ctx, sys.gettrace() is not None))
+            it, lookup_idxs = 0, [0, 1]
+            nll_loss, kl_loss, loss, weight_decay = Scalar(0.2), Scalar(0.01), Scalar(0.2), Scalar(0.001)
+            nll_loss_each, target_init, delta = Scalar(0.2), Scalar(1.0), Scalar(0.0)
+            return Scalar(next(targets))
+        step = fixture_step()
+        H = types.SimpleNamespace(model=object(), tok=object(), compute_z=compute_z)
+        rows = A.observer_inertness(H, types.SimpleNamespace(layers=R.BAND), CONTEXTS, next(iter(step["requests"].values())))
+        return rows, calls, step
+
+    def test_observer_floor_rule_includes_both_tolerance_boundaries(self):
+        for floor, rel, ok in [(0.0, 1e-4, True), (0.0, math.nextafter(1e-4, math.inf), False),
+                               (0.001, 0.01, True), (0.001, math.nextafter(0.01, math.inf), False),
+                               (-0.001, 0.0, False), (math.inf, 0.0, False), (math.nan, 0.0, False),
+                               (0.0, math.inf, False), (0.0, math.nan, False)]:
+            self.assertIs(R.observer_inertness_reading(floor, rel)["ok"], ok)
+
+    def test_observer_inertness_runs_three_solves_at_each_locus(self):
+        rows, calls, step = self._observer_case([(1.0, 1.0, 1.0), (1.0, 1.0, 1.0)])
+        requests = next(iter(step["requests"].values()))
+        self.assertEqual([c[0] for c in calls], [requests[0]] * 3 + [requests[R.N]] * 3)
+        self.assertEqual([c[3] for c in calls], [False, False, True] * 2)
+        self.assertTrue(all(c[1] == R.BAND[-1] and c[2] is CONTEXTS for c in calls))
+        self.assertTrue(all(r["ok"] and r["floor"] == 0 and r["tol"] == 1e-4 for r in rows))
+        self.assertIsNone(sys.gettrace())
+
+    def test_observer_inertness_uses_measured_noise_floor(self):
+        rows, _, _ = self._observer_case([(1.0, 1.0001, 1.0009)] * 2)
+        self.assertTrue(all(r["ok"] and r["observed_rel"] > 1e-4 for r in rows))
+        self.assertTrue(all(r["tol"] == 10 * r["floor"] for r in rows))
+
+    def test_observer_inertness_failure_stops_and_clears_trace(self):
+        with self.assertRaisesRegex(ValueError, "compute_z observer not inert"):
+            self._observer_case([(1.0, 1.0, 1.001), (1.0, 1.0, 1.0)])
+        self.assertIsNone(sys.gettrace())
+
     def test_read_only_frame_observation_returns_same_target(self):
         class Scalar:
             def __init__(self, x): self.x = x

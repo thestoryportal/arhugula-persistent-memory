@@ -13,6 +13,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import c10t_secondkey_read as R
 import c10t_secondkey_arms as A
+RUN_ROOT = Path(LLMDB_ROOT).resolve()
 
 
 def position_classes(H, country, value, value_ids):
@@ -128,14 +129,18 @@ def cross_template(H, hp, facts, selected):
 
 
 def main():
+    global RUN_ROOT
     A.STAGE = "step0"
     t0 = time.time()
-    root = Path(LLMDB_ROOT).resolve()
+    RUN_ROOT = Path(LLMDB_ROOT).resolve()
+    root = RUN_ROOT
+    assert Path(__file__).resolve().parents[2] == root, "script root differs from LLMDB_ROOT"
     out = Path(os.environ.get("OUT_DIR", str(root / "results/c10t_secondkey"))).resolve()
     A.refuse_occupied(out, ("step0.json", "run.json", "pass1.json", "pass2.json", "second_started.json", "second_halt.json"))
     identity = A.make_identity(root)
     A.IDENTITY = identity
-    H, hp, fingerprint = A.runtime(root, out)
+    fingerprint = A.preflight(root)
+    H, hp, fingerprint = A.load_harness(root, out, fingerprint)
     from memit.memit_main import get_context_templates
     from rome.repr_tools import get_words_idxs_in_templates
     ctx = get_context_templates(H.model, H.tok)      # memit_main.py:304-316; sampled once, recorded before optimisation
@@ -170,7 +175,7 @@ def main():
     A.write_json(out / "step0.json", record)
     print(selection["outcome"] + "; published frozen positions/requests: " + str(out / "step0.json"))
     print("C10T_SECONDKEY_STEP0_DONE")
-    return 2 if selection["outcome"] == "INVALID-ADMISSION" else 0
+    return 0
 
 
 if __name__ == "__main__":
@@ -179,6 +184,6 @@ if __name__ == "__main__":
     except SystemExit as e:
         if e.code in (0, None):
             raise
-        A.halt("step0 exit: " + str(e))
+        A.halt("step0 exit: " + str(e), root=RUN_ROOT)
     except BaseException as e:
-        A.halt(type(e).__name__ + ": " + str(e), traceback=A.traceback.format_exc())
+        A.halt(type(e).__name__ + ": " + str(e), root=RUN_ROOT, traceback=A.traceback.format_exc())

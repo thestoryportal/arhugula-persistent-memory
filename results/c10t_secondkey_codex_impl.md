@@ -157,3 +157,130 @@ Ran 40 tests in 0.511s
 OK
 C10T_SECONDKEY_SELFTEST_DONE (stdlib only; no model/torch/GPU/driver)
 ```
+
+
+## Fix round 1
+
+Status: DONE — B1, B2, B3 and the three requested advisories implemented. The complete `results/c10t_secondkey_advisor_impl.md` was read; the final four-file diff was read after verification. This section supersedes earlier implementation descriptions of `runtime()`, string/full equality and the observer gate; the original report above is preserved byte for byte.
+
+### B1 — preflight before permanent stage markers
+
+`experiments/track_c/c10t_secondkey_arms.py:108` now provides model-free `preflight(root)`: all inherited harness knobs are refused before the existing engine-fingerprint subprocess. Model loading moved to `load_harness(root, out_dir, fingerprint)` at `experiments/track_c/c10t_secondkey_arms.py:124`. `arms.py:553` calls preflight after source/step-0 validation and before either `run.json` (`arms.py:560`) or `second_started.json` (`arms.py:575`); harness loading occurs afterwards at `arms.py:577`. Step 0 follows the same split at `experiments/track_c/c10t_secondkey_step0.py:142` and `:143`, before publication.
+
+Selftests: `TestPersistence.test_stale_knob_leaves_no_stage_markers` (`experiments/track_c/c10t_secondkey_selftest.py:637`) exercises first, second and step-0 entry points with a stale `OUT`; all permanent output markers remain absent and the harness loader is never called. `test_fingerprint_failure_leaves_no_stage_markers` (`selftest.py:641`) proves the same for fingerprint failure. `test_preflight_knobs_refused_before_model_import` (`selftest.py:613`) also covers inherited empty values. These calls use synthetic files and blocked harness loading, without an operator driver run or model import.
+
+### B2 — report string/token discrepancy, retain row consistency
+
+`experiments/track_c/c10t_secondkey_read.py:330` retains only the consistency check between `para_string_n` and its own `para_string_hits` rows; equality with `para_full_n` no longer gates validity. `read.py:387` reports `string_minus_full` beside the binding readout and decomposition. The binding token-ID count and the frozen label thresholds are unchanged.
+
+Selftest: `TestVerdict.test_extra_string_hit_is_reported_without_changing_label` (`experiments/track_c/c10t_secondkey_selftest.py:457`) adds one coherent extra string hit to A7-single, A7-dup and the candidate. Validity remains clean, the candidate binding count remains 32, the discrepancy is +1, and the LEAD label remains unchanged in both the first-pass and replicated readings. The existing `test_each_validity_failure_is_detected` still rejects an aggregate string count inconsistent with its rows.
+
+### B3 — observer inertness gate at both request loci
+
+`experiments/track_c/c10t_secondkey_arms.py:305` adds `observer_inertness`: on the first canonical and the first second-key request, call the original `H.compute_z` twice without the trace and once through `observe_solve`, with the same model, tokenizer, hparams, final solve layer and sampled contexts. It measures `floor = ||a-b|| / ||a||` and `observed_rel = ||c-a|| / ||a||` in float32, following the review code. The pure reader rule at `experiments/track_c/c10t_secondkey_read.py:41` requires finite nonnegative values and `observed_rel <= max(10 * floor, 1e-4)`.
+
+The gate runs at `arms.py:510` before collector instrumentation is installed at `arms.py:521`; its two rows are recorded as `observer_inertness` at `arms.py:531`. Failure raises before any arm run and reaches the existing stage HALT path. `read.py:287` requires both expected request loci, checks their recorded tolerance against the pure rule, and rejects missing, failed or inconsistent inertness evidence before labels.
+
+Selftests: `TestTelemetry.test_observer_floor_rule_includes_both_tolerance_boundaries` (`experiments/track_c/c10t_secondkey_selftest.py:749`) checks inclusive absolute/noise-floor boundaries and immediate failures above them, plus non-finite values. `test_observer_inertness_runs_three_solves_at_each_locus` (`selftest.py:756`) exercises the actual tracing wrapper on a synthetic solve and verifies the six calls, their request order, final layer, unchanged context object and trace cleanup. `test_observer_inertness_uses_measured_noise_floor` (`selftest.py:765`) admits an observed difference above 1e-4 when it is within 10 times the measured floor. `test_observer_inertness_failure_stops_and_clears_trace` (`selftest.py:770`) verifies refusal. `TestVerdict.test_observer_inertness_is_a_validity_gate` (`selftest.py:472`) checks missing, partial, failed, wrong-locus and numerically inconsistent evidence.
+
+Caveat: these are synthetic, model-free checks. Actual engine observer inertness has not been measured in this task; the new six-solve gate must establish it in each future operator-invoked pass before that pass proceeds.
+
+### Advisory (a) — INVALID-ADMISSION is a recorded outcome
+
+Step 0 publishes the preregistered selection and returns exit 0 at `experiments/track_c/c10t_secondkey_step0.py:178`. The first driver stage records `run.json`, prints the terminal outcome and returns 0 without loading the harness at `experiments/track_c/c10t_secondkey_arms.py:561`. Thus normal INVALID-ADMISSION no longer triggers the nonzero-exit HALT handlers; the reader still labels it INVALID-ADMISSION.
+
+Selftests: `TestPersistence.test_invalid_admission_first_records_outcome_without_halt` (`experiments/track_c/c10t_secondkey_selftest.py:679`) and `test_invalid_admission_step0_publishes_outcome_without_halt` (`selftest.py:696`) verify the published outcome, exit 0 and absence of HALT, with all measurement/model effects stubbed or blocked.
+
+### Advisory (b) — root provenance and resolved HALT destination
+
+Both entry points resolve `LLMDB_ROOT` and assert it equals the script's own repository root before preflight or model import: `experiments/track_c/c10t_secondkey_arms.py:544` and `experiments/track_c/c10t_secondkey_step0.py:137`. The resolved root is retained as `RUN_ROOT`. Both exception handlers explicitly pass it to `halt()` (`arms.py:598`, `arms.py:600`, `step0.py:187`, `step0.py:189`), so a harness `os.chdir` cannot relocate a diagnostic under a relative root. `halt()` itself defaults to the resolved root at `arms.py:55`.
+
+Selftests: `TestPersistence.test_script_root_mismatch_refused_before_preflight` (`experiments/track_c/c10t_secondkey_selftest.py:645`) and `test_halt_resolved_root_survives_working_directory_change` (`selftest.py:654`) verify refusal and the diagnostic destination after a synthetic engine-directory change.
+
+### Advisory (c) — D-C10t-p5rule in run identity
+
+The ruling is recorded verbatim in `program_rulings`: **D-C10t-p5rule: p5 is selected from the raw five-layer mean** (`experiments/track_c/c10t_secondkey_read.py:13`, `experiments/track_c/c10t_secondkey_arms.py:88`). Identity matching, source validation and step-0 validity retain that ruling (`read.py:214`, `read.py:222`, `arms.py:92`). The leverage selector code is unchanged; the maximum-normalised mean remains a separately reported alternative. The prereg was not edited.
+
+Selftests: `TestPersistence.test_current_source_hashes_gate_and_transitive_changes` checks that newly created identities contain the ruling; `test_p5_ruling_is_required_in_frozen_identity` (`experiments/track_c/c10t_secondkey_selftest.py:670`) refuses a missing or changed ruling. `TestSelection.test_leverage_raw_mean_and_normalised_alternative` (`selftest.py:163`) retains the raw-versus-normalised selection proof.
+
+### Verification and scope
+
+- Python 3.11.16: model-free selftest **53/53 PASS**, exit 0. The selftest checks that torch, transformers and the live harness were never imported.
+- `PYTHONPYCACHEPREFIX=/private/tmp/c10t_secondkey_fix1_compile .venv/bin/python -m py_compile experiments/track_c/c10t_secondkey_arms.py experiments/track_c/c10t_secondkey_read.py experiments/track_c/c10t_secondkey_step0.py experiments/track_c/c10t_secondkey_selftest.py`: exit 0; no output. Compiled bytecode was placed outside the repository.
+- `/usr/bin/git diff --check`: exit 0; no output. Final source diff reviewed.
+- SHA-256 comparison: all 94 protected sources/artifacts are unchanged, including the engine, harness, C10s and autoresearch sources, hparams and prereg. The prereg remains `582896c6340e82f6e054f48dc43b801734ee27fc9b73654655bb7255a6b40070`.
+- Fix-round edits are confined to the four C10t Python files and this appended report section. The requested new marker is `results/c10t_secondkey_fix1_done.md` with the single line `53 selftests: PASS`.
+- A concurrent program change to `EXPERIMENT_RUNBOOK.md` records the same D-C10t-p5rule; it was observed in the final git diff. This fix round did not edit or revert that file.
+- No model/GPU run, live experiment driver run, commit, push, installed-destination edit, unlock or deletion occurred.
+
+| Updated source | SHA-256 |
+| --- | --- |
+| `experiments/track_c/c10t_secondkey_arms.py` | `5fbc37a7e9518cd1f66b299c7ae801f35f999983686cf28cf3657c2e40005aac` |
+| `experiments/track_c/c10t_secondkey_read.py` | `be71a5a1e3660e35e34aaa28f96e76679b49911fa77e43bc17fae7d838bab337` |
+| `experiments/track_c/c10t_secondkey_step0.py` | `fa6af30e77cbb13a5bbc6e690d2127e970906a913ca41dee8f5c45528500892f` |
+| `experiments/track_c/c10t_secondkey_selftest.py` | `b4620a823c350d8b31588e8711b0dff3c0a44d7bd4966d996b920d04e7cfea2a` |
+
+### Selftest output (verbatim)
+
+```text
+test_all_internal_positions_and_sampled_templates (__main__.TestAlignment.test_all_internal_positions_and_sampled_templates) ... ok
+test_overlap_report_does_not_select_positions (__main__.TestAlignment.test_overlap_report_does_not_select_positions) ... ok
+test_prefix_retokenisation_rejected (__main__.TestAlignment.test_prefix_retokenisation_rejected) ... ok
+test_request_block_order_and_no_double_space (__main__.TestAlignment.test_request_block_order_and_no_double_space) ... ok
+test_wrong_lookup_and_separate_KL_rejected (__main__.TestAlignment.test_wrong_lookup_and_separate_KL_rejected) ... ok
+test_current_source_hashes_gate_and_transitive_changes (__main__.TestPersistence.test_current_source_hashes_gate_and_transitive_changes) ... ok
+test_exclusive_write_and_reread (__main__.TestPersistence.test_exclusive_write_and_reread) ... ok
+test_fingerprint_failure_leaves_no_stage_markers (__main__.TestPersistence.test_fingerprint_failure_leaves_no_stage_markers) ... ok
+test_halt_has_own_path_and_preserves_prior_diagnostic (__main__.TestPersistence.test_halt_has_own_path_and_preserves_prior_diagnostic) ... ok
+test_halt_resolved_root_survives_working_directory_change (__main__.TestPersistence.test_halt_resolved_root_survives_working_directory_change) ... ok
+test_invalid_admission_first_records_outcome_without_halt (__main__.TestPersistence.test_invalid_admission_first_records_outcome_without_halt) ... ok
+test_invalid_admission_step0_publishes_outcome_without_halt (__main__.TestPersistence.test_invalid_admission_step0_publishes_outcome_without_halt) ... ok
+test_p5_ruling_is_required_in_frozen_identity (__main__.TestPersistence.test_p5_ruling_is_required_in_frozen_identity) ... ok
+test_preflight_knobs_refused_before_model_import (__main__.TestPersistence.test_preflight_knobs_refused_before_model_import) ... ok
+test_script_root_mismatch_refused_before_preflight (__main__.TestPersistence.test_script_root_mismatch_refused_before_preflight) ... ok
+test_stale_knob_leaves_no_stage_markers (__main__.TestPersistence.test_stale_knob_leaves_no_stage_markers) ... ok
+test_empty_admission_population_never_shrinks (__main__.TestSelection.test_empty_admission_population_never_shrinks) ... ok
+test_leverage_raw_mean_and_normalised_alternative (__main__.TestSelection.test_leverage_raw_mean_and_normalised_alternative) ... ok
+test_merge_on_pre_admission_agreement (__main__.TestSelection.test_merge_on_pre_admission_agreement) ... ok
+test_nearest_admission_tie_and_empty (__main__.TestSelection.test_nearest_admission_tie_and_empty) ... ok
+test_overturning_equal_is_standing_not_stop (__main__.TestSelection.test_overturning_equal_is_standing_not_stop) ... ok
+test_protected_cut_includes_equality (__main__.TestSelection.test_protected_cut_includes_equality) ... ok
+test_spending_boundary_and_single_survivor (__main__.TestSelection.test_spending_boundary_and_single_survivor) ... ok
+test_surprisal_boundary_and_ties (__main__.TestSelection.test_surprisal_boundary_and_ties) ... ok
+test_failed_solve_removes_trace (__main__.TestTelemetry.test_failed_solve_removes_trace) ... ok
+test_observer_floor_rule_includes_both_tolerance_boundaries (__main__.TestTelemetry.test_observer_floor_rule_includes_both_tolerance_boundaries) ... ok
+test_observer_inertness_failure_stops_and_clears_trace (__main__.TestTelemetry.test_observer_inertness_failure_stops_and_clears_trace) ... ok
+test_observer_inertness_runs_three_solves_at_each_locus (__main__.TestTelemetry.test_observer_inertness_runs_three_solves_at_each_locus) ... ok
+test_observer_inertness_uses_measured_noise_floor (__main__.TestTelemetry.test_observer_inertness_uses_measured_noise_floor) ... ok
+test_read_only_frame_observation_returns_same_target (__main__.TestTelemetry.test_read_only_frame_observation_returns_same_target) ... ok
+test_all_locality_gate_boundaries (__main__.TestVerdict.test_all_locality_gate_boundaries) ... ok
+test_changed_published_requests_or_selector_are_invalid (__main__.TestVerdict.test_changed_published_requests_or_selector_are_invalid) ... ok
+test_each_prefix_gate_uses_new_hit_sets_not_totals (__main__.TestVerdict.test_each_prefix_gate_uses_new_hit_sets_not_totals) ... ok
+test_each_validity_failure_is_detected (__main__.TestVerdict.test_each_validity_failure_is_detected) ... ok
+test_extra_string_hit_is_reported_without_changing_label (__main__.TestVerdict.test_extra_string_hit_is_reported_without_changing_label) ... ok
+test_invalid_admission_stops_without_pass (__main__.TestVerdict.test_invalid_admission_stops_without_pass) ... ok
+test_label_boundaries_and_locality_tradeoff (__main__.TestVerdict.test_label_boundaries_and_locality_tradeoff) ... ok
+test_lead_needs_lead_in_second_process (__main__.TestVerdict.test_lead_needs_lead_in_second_process) ... ok
+test_missing_or_stale_second_is_invalid_and_no_retry (__main__.TestVerdict.test_missing_or_stale_second_is_invalid_and_no_retry) ... ok
+test_observer_inertness_is_a_validity_gate (__main__.TestVerdict.test_observer_inertness_is_a_validity_gate) ... ok
+test_partial_second_may_be_lead_but_still_needs_gain (__main__.TestVerdict.test_partial_second_may_be_lead_but_still_needs_gain) ... ok
+test_per_fact_agreement_and_direct_address_qualification (__main__.TestVerdict.test_per_fact_agreement_and_direct_address_qualification) ... ok
+test_qualifier_strict_boundaries (__main__.TestVerdict.test_qualifier_strict_boundaries) ... ok
+test_second_process_locality_and_qualifiers_apply (__main__.TestVerdict.test_second_process_locality_and_qualifiers_apply) ... ok
+test_unmerged_candidates_are_labelled_separately (__main__.TestVerdict.test_unmerged_candidates_are_labelled_separately) ... ok
+test_valid_fixture_and_replication_pending (__main__.TestVerdict.test_valid_fixture_and_replication_pending) ... ok
+test_validity_precedes_every_replication_label (__main__.TestVerdict.test_validity_precedes_every_replication_label) ... ok
+test_LAW5_and_controls_pass_through (__main__.TestWrapper.test_LAW5_and_controls_pass_through) ... ok
+test_actual_harness_recipe_ast_restores_base_and_uses_one_P (__main__.TestWrapper.test_actual_harness_recipe_ast_restores_base_and_uses_one_P)
+Actual run_recipe/req source, deterministic stubs for effects. No ... ok
+test_override_and_extra_A7_call_refused (__main__.TestWrapper.test_override_and_extra_A7_call_refused) ... ok
+test_single_dup_and_second_reach_real_seam_and_hook (__main__.TestWrapper.test_single_dup_and_second_reach_real_seam_and_hook) ... ok
+test_target_match_does_not_accept_changed_canonical_prompt (__main__.TestWrapper.test_target_match_does_not_accept_changed_canonical_prompt) ... ok
+test_unmerged_wrapper_substitutes_each_candidate_once (__main__.TestWrapper.test_unmerged_wrapper_substitutes_each_candidate_once) ... ok
+
+----------------------------------------------------------------------
+Ran 53 tests in 0.555s
+
+OK
+C10T_SECONDKEY_SELFTEST_DONE (stdlib only; no model/torch/GPU/driver)
+```

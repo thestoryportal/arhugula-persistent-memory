@@ -6,13 +6,13 @@ Operator use only, after step 1's verdict and with autoresearch paused/finished:
   LLMDB_ROOT=<root> .venv/bin/python experiments/track_c/c10t_secondkey_arms.py first
   LLMDB_ROOT=<root> .venv/bin/python experiments/track_c/c10t_secondkey_arms.py second
 OUT_DIR defaults to results/c10t_secondkey; POSITIONS defaults to OUT_DIR/step0.json.
-Importing this module is model-free. Model/torch imports occur only inside runtime().
+Importing this module is model-free. Model/torch imports occur only inside load_harness().
 All JSON outputs are exclusive creations, reread immediately. No existing output is
 rewritten, including run.json; second_started.json makes replication attempts final.
 """
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
-import argparse, copy, datetime, hashlib, importlib, json, math, subprocess, traceback, uuid
+import argparse, contextlib, copy, datetime, hashlib, importlib, io, json, math, subprocess, traceback, uuid
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -20,6 +20,7 @@ import c10t_secondkey_read as R
 
 IDENTITY = None
 STAGE = "not-started"
+RUN_ROOT = Path(LLMDB_ROOT).resolve()
 SOURCE_FILES = ["experiments/track_c/c10t_secondkey_" + name + ".py" for name in ("arms", "step0", "read", "selftest")] + [
     "experiments/track_c/c10e_bandknob.py", R.HP_FILE, R.PREREG, "tools/engine_fingerprint.py",
     "configs/screens/g6_screen_qwen3b.json", "configs/screens/g6_screen_qwen3b_v2.json"]
@@ -51,7 +52,7 @@ def write_json(path, obj):
 
 
 def halt(reason, root=None, **state):
-    root = Path(root or LLMDB_ROOT)
+    root = Path(root or RUN_ROOT)
     path = root / "architecture_profile/c10t_secondkey_halt_diagnostic.json"
     # Preserve an older diagnostic too; never replace another arm's or this arm's record.
     if path.exists():
@@ -83,10 +84,13 @@ def source_digest(hashes):
 def make_identity(root=None):
     hashes = source_hashes(root)
     return {"run_id": "c10t-" + uuid.uuid4().hex, "created_utc": utc_now(),
-            "source_digest": source_digest(hashes), "source_sha256": hashes}
+            "source_digest": source_digest(hashes), "source_sha256": hashes,
+            "program_rulings": dict(R.PROGRAM_RULINGS)}
 
 
 def require_sources(identity, root=None):
+    if identity.get("program_rulings") != R.PROGRAM_RULINGS:
+        raise ValueError("program rulings differ from D-C10t-p5rule")
     current = source_hashes(root)
     old = identity["source_sha256"]
     changed = {p: {"recorded": old.get(p), "current": current.get(p)}
@@ -101,10 +105,8 @@ def refuse_occupied(directory, names):
         raise ValueError("occupied outputs are never overwritten: " + repr(occupied))
 
 
-def runtime(root, out_dir):
-    """Only operator-invoked mains call this. Reject inherited knobs BEFORE import.
-    Fingerprint runs as the existing stdlib script; no model is imported on refusal.
-    """
+def preflight(root):
+    """Model-free refusals must complete before permanent stage markers exist."""
     inherited = {k: os.environ[k] for k in HARNESS_KNOBS if k in os.environ}
     if inherited:
         raise ValueError("frozen harness knobs must be unset: " + repr(inherited))
@@ -116,6 +118,12 @@ def runtime(root, out_dir):
     engine = root / "memit_dry_run/memit/memit/memit_main.py"
     fingerprint = {"ok": True, "stdout": fp.stdout, "sha256": sha256_file(engine),
                    "_cov_cpu": engine.read_bytes().count(b"_cov_cpu")}
+    return fingerprint
+
+
+def load_harness(root, out_dir, fingerprint):
+    """Operator-only model load, after preflight and the stage's no-retry marker."""
+    root = Path(root).resolve()
     os.environ.update(LLMDB_ROOT=str(root), HP_CANDIDATE=str(root / R.HP_FILE), C10_RECIPES="candidate",
                       C10_ARMS="A1_single,A2_coherent2,A7_coined_coined", CANDIDATE_NAME="secondkey",
                       DECISION_ID=R.DECISION_ID, PREREG=str(root / R.PREREG), OUT=str(Path(out_dir) / "unused_harness_output.json"))
@@ -292,6 +300,22 @@ def observe_solve(function, args, clamp_line=178):
     if "nll" not in observed:
         raise RuntimeError("compute_z return telemetry missing")
     return target, observed
+
+
+def observer_inertness(H, hp, ctx, requests):
+    """c10s floor rule: two unobserved solves and one observed, at both loci."""
+    rows = []
+    for rq in (requests[0], requests[R.N]):
+        args = (H.model, H.tok, rq, hp, hp.layers[-1], ctx)
+        with contextlib.redirect_stdout(io.StringIO()):
+            a, b = H.compute_z(*args), H.compute_z(*args)
+            c, _ = observe_solve(H.compute_z, args)
+        floor = float((a - b).float().norm() / a.float().norm())
+        rel = float((c - a).float().norm() / a.float().norm())
+        rows.append({"subject": rq["subject"], **R.observer_inertness_reading(floor, rel)})
+    if not all(r["ok"] for r in rows):
+        raise ValueError("compute_z observer not inert: " + json.dumps(rows))
+    return rows
 
 
 def key_stats(K):
@@ -483,6 +507,7 @@ def run_pass(H, hp, step, identity, positions_sha, fingerprint):
     V = H.ARMS["A7_coined_coined"]
     if [f["subj"] for f in step["facts"]] != H.FICTION or any(V[f["subj"]] != f["value"] or H.tgt_ids(f["value"]) != f["value_ids"] for f in step["facts"]):
         raise ValueError("step0 fact/value/token population differs from harness")
+    inertness = observer_inertness(H, hp, ctx, next(iter(step["requests"].values())))
     # H.run_recipe restores the same base snapshot before EACH arm (:473), makes a
     # fresh zero cache (:474), and uses one P (:462). Controls are unchanged.
     H.ARMS = {"A1_single": H.ARMS["A1_single"], "A2_coherent2": H.ARMS["A2_coherent2"],
@@ -503,18 +528,20 @@ def run_pass(H, hp, step, identity, positions_sha, fingerprint):
     wrapper.audit.update(z_override_none=H.Z_OVERRIDE is None, z_override_hits=H.Z_OVERRIDE_HITS)
     return {"identity": identity, "pid": os.getpid(), "when_utc": utc_now(), "positions_sha256": positions_sha,
             "fingerprint": fingerprint, "ctx": ctx, "seeds": {"explicit_seeding": "none; harness sampling unchanged"},
-            "admission": admission, "wrapper": wrapper.audit, "base_report": base_report,
+            "admission": admission, "observer_inertness": inertness, "wrapper": wrapper.audit, "base_report": base_report,
             "base_probes": collector.base_probes, "base_geometry_48": collector.base_geometry, "recipe": recipe,
             "second_request_KL_objective_note": "KL now regularises next-token predictions at the value-prefix lookup, where the remainder fit must change them; this is an objective change as well as an address change (compute_z.py:127-128)"}
 
 
 def main():
-    global IDENTITY, STAGE
+    global IDENTITY, STAGE, RUN_ROOT
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("stage", choices=("first", "second"))
     args = parser.parse_args()
     STAGE = args.stage
-    root = Path(LLMDB_ROOT).resolve()
+    RUN_ROOT = Path(LLMDB_ROOT).resolve()
+    root = RUN_ROOT
+    assert Path(__file__).resolve().parents[2] == root, "script root differs from LLMDB_ROOT"
     out = Path(os.environ.get("OUT_DIR", str(root / "results/c10t_secondkey"))).resolve()
     positions = Path(os.environ.get("POSITIONS", str(out / "step0.json"))).resolve()
     step = json.loads(positions.read_text())
@@ -523,6 +550,7 @@ def main():
     problems = R.step0_validity(step)
     if problems:
         raise ValueError("step0 no longer satisfies the frozen rules: " + "; ".join(problems))
+    fp = preflight(root)
     positions_sha = sha256_file(positions)
     run_path = out / "run.json"
     if STAGE == "first":
@@ -532,7 +560,7 @@ def main():
         write_json(run_path, run)
         if step["selection"]["outcome"] != "READY":
             print(step["selection"]["outcome"] + ": configuration not advanced; no harness pass")
-            return 2 if step["selection"]["outcome"] == "INVALID-ADMISSION" else 0
+            return 0
     else:
         refuse_occupied(out, ("pass2.json", "second_started.json", "second_halt.json"))
         run = json.loads(run_path.read_text())
@@ -546,7 +574,7 @@ def main():
             raise ValueError("gate A requires a fresh process")
         write_json(out / "second_started.json", {"identity": IDENTITY, "pid": os.getpid(), "when_utc": utc_now(), "outcome": "STARTED"})
     try:
-        H, hp, fp = runtime(root, out)
+        H, hp, fp = load_harness(root, out, fp)
         record = run_pass(H, hp, step, IDENTITY, positions_sha, fp)
         require_sources(IDENTITY, root)
         write_json(out / ("pass1.json" if STAGE == "first" else "pass2.json"), record)
@@ -567,6 +595,6 @@ if __name__ == "__main__":
     except SystemExit as e:
         if e.code in (0, None):
             raise
-        halt("driver exit: " + str(e))
+        halt("driver exit: " + str(e), root=RUN_ROOT)
     except BaseException as e:
-        halt(type(e).__name__ + ": " + str(e), traceback=traceback.format_exc())
+        halt(type(e).__name__ + ": " + str(e), root=RUN_ROOT, traceback=traceback.format_exc())

@@ -10,6 +10,7 @@ import hashlib, json, math, re, statistics
 from pathlib import Path
 
 DECISION_ID = "D-C10t-secondkey"
+PROGRAM_RULINGS = {"D-C10t-p5rule": "p5 is selected from the raw five-layer mean"}
 PREREG = "docs/C10T_SECONDKEY_PREREG.md"
 HP_FILE = "configs/hparams/qwen25_3b_memit_hparams.json"
 CANON = "The capital of {} is the city of"                 # c10e_bandknob.py:51-56
@@ -29,11 +30,18 @@ LAW5_EXPR, LAW5_LOC = 0.05, 3
 ENGINE_LOSS_STOP, ENGINE_STEPS = 0.05, 25             # compute_z.py:164, hparams:6
 BASE_LEAK_MAX = 0.15                                # standing harness stimulus halt, c10e_bandknob.py:569
 KEY_COS_COMPARATOR = 0.9                            # keygram.stats, c10k_keying_ablation_keygram.py:17
+OBSERVER_FLOOR_MULTIPLIER, OBSERVER_ABS_TOL = 10, 1e-4
 SINGLE, DUP = "A7-single", "A7-dup"
 
 
 def json_digest(obj):
     return hashlib.sha256(json.dumps(obj, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+
+
+def observer_inertness_reading(floor, observed_rel):
+    tol = max(OBSERVER_FLOOR_MULTIPLIER * floor, OBSERVER_ABS_TOL)
+    return {"floor": floor, "tol": tol, "observed_rel": observed_rel,
+            "ok": math.isfinite(floor) and floor >= 0 and math.isfinite(observed_rel) and 0 <= observed_rel <= tol}
 
 
 def argmax_first(values):
@@ -205,12 +213,14 @@ def count_readout(rows):
 
 def identity_matches(a, b):
     return all(a.get(k) == b.get(k) and k in a and k in b
-               for k in ("run_id", "source_sha256", "source_digest"))
+               for k in ("run_id", "source_sha256", "source_digest", "program_rulings"))
 
 
 def step0_validity(step):
     reasons = []
     try:
+        if step["identity"].get("program_rulings") != PROGRAM_RULINGS:
+            reasons.append("p5 ruling missing or changed")
         facts = step["facts"]
         selection = select_positions(facts)
         if step["selection"] != selection:
@@ -273,6 +283,11 @@ def validity(run, record):
             reasons.append("positions-file hash missing or mismatched")
         if record["fingerprint"]["sha256"][:8] != FINGERPRINT or record["fingerprint"]["_cov_cpu"] != COV_CPU or not record["fingerprint"]["ok"]:
             reasons.append("fingerprint/_cov_cpu gate failed")
+        observed_requests = next(iter(step["requests"].values()))
+        inertness = record["observer_inertness"]
+        if len(inertness) != 2 or [r["subject"] for r in inertness] != [observed_requests[0]["subject"], observed_requests[N]["subject"]] or not all(
+                r["ok"] is True and all(r[k] == v for k, v in observer_inertness_reading(r["floor"], r["observed_rel"]).items()) for r in inertness):
+            reasons.append("observer inertness failed")
         law = recipe["law5_gate"]
         if not law["ok"] or not law["expr_delta"] < LAW5_EXPR or not law["loc_delta"] < LAW5_LOC:
             reasons.append("LAW#5 not INERT")
@@ -312,8 +327,8 @@ def validity(run, record):
             if x["canon_n"] != N or x["para_n"] != N * NT or x["para_full_n"] != sum(sum(r["para_full_hits"]) for r in rows) or x["canon_full_n"] != sum(r["canon_full"] for r in rows):
                 reasons.append(a + " aggregate counts differ from rows")
             if a not in ("A1_single", "A2_coherent2"):
-                if x["para_string_n"] != x["para_full_n"] or x["para_string_n"] != sum(sum(r["para_string_hits"]) for r in rows):
-                    reasons.append(a + " string/full counts differ")
+                if x["para_string_n"] != sum(sum(r["para_string_hits"]) for r in rows):
+                    reasons.append(a + " string count differs from rows")
                 ex = x["extra"]
                 if ex["F0"]["n"] != FRAME_N or len(ex["fits"]) != (N if a == SINGLE else 2 * N):
                     reasons.append(a + " F0/fit population differs")
@@ -369,6 +384,7 @@ def pass_reading(record, variant):
                                        "candidate": sum(r["full_hit"] for r in cand["extra"]["subject_free"][variant])},
             "qualifiers": qualifiers(ref, cand, dup, ratio, variant),
             "binding": count_readout(recipe["detail"][variant]),
+            "string_minus_full": cand["para_string_n"] - cand["para_full_n"],
             "decomposition": {k: cand[k] for k in ("canon_full_n", "para_first_n", "para_string_n", "tf_pertok_cont", "cond_full_given_first")},
             "prefix_reached": cand["extra"]["prefix_reached"][variant]}
 
