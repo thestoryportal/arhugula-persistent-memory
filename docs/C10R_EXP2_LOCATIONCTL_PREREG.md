@@ -1,6 +1,6 @@
 # Pre-registration — D-C10r-exp2ctl v2: location control for the autoresearch loop's experiment 2 (v2 DRAFT, 2026-10-06)
 
-**Status: v2 DRAFT — replaces the zero-preserve design** (`docs/C10R_EXP2_ZEROPRESERVE_PREREG.md`, now SUPERSEDED, kept as written). Same decision (D-C10r-exp2ctl, operator ruling 2026-10-06 ~16:10: one control of about an hour in the step-1 break), sharper question. Driver to be rebuilt by Codex against §2–§4, then a Claude advisor pass, then freeze. Nothing has run.
+**Status: v2 FROZEN 2026-10-06 ~19:00 (driver v3.1; advisor v3 PROCEED, `results/c10r_exp2ctl_advisor_v3.md`) — replaces the zero-preserve design** (`docs/C10R_EXP2_ZEROPRESERVE_PREREG.md`, now SUPERSEDED, kept as written). Same decision (D-C10r-exp2ctl, operator ruling 2026-10-06 ~16:10: one control of about an hour in the step-1 break), sharper question. Driver to be rebuilt by Codex against §2–§4, then a Claude advisor pass, then freeze. Nothing has run.
 
 ## 0. Why the design changed
 
@@ -27,7 +27,11 @@ Two reviews of v1 agreed that its run was nearly foregone. With `PRESERVE_WEIGHT
 
 Codex §3.4 items 1–9 (lines 228–250) are adopted as the gate list; in short: frozen source + exact permitted diff, hashes recorded before launch; engine fingerprint run before dispatch with `LLMDB_ROOT` set to the program root; exactly three provenance records (A1, A2, A7) whose edit-time context hash equals `e8605172dce01aaafbf3f23a4d68d05dde756a9b65ec9060962fedc1369fb330` and scorer `templates_sha = e8605172dce0`; the count/position manifest and an identity check of the gather primitive on the same captured forward; an exclusive-GPU window enforced by a full process check before, after preflight and during the run; `seed = 0`, `edit_budget = 2700`, `edits.commit = "92acd03"`; `law5_ok` and `scope_ok` true; A1 and A2 each ≥ 68; one fresh run directory and one score bound to the invocation by a runner receipt; malformed input → INVALID; a fidelity manifest (interpreter, package versions, OS, configs, tokenizer/model revision).
 
-## 4. Pre-registered readings (frozen at freeze)
+**Mid-run process events (advisor v3, N1).** Before dispatch, any contender or probe failure refuses the launch (nothing consumed). During the run, a contender must be seen on 3 consecutive polls, or the probe must fail 3 times in a row, before the run is marked INVALID; the run is not stopped for it, and an INVALID mark is final at read time. The only process the runner ever stops is its own tree.
+
+**Launch procedure (in the step-1 break):** (a) `bash experiments/track_c/autoresearch_c10/replay_exp2/setup_replay.sh` (standalone clone at 92acd03 in `/Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc`; refuses any diff but the frozen patch); (b) `.venv/bin/python experiments/track_c/autoresearch_c10/replay_exp2/tokenizer_precheck.py <DEST>` (tokenizer only, no model; the runner refuses without its fresh pass record); (c) with the loop stopped and no other model job, `REPLAY_EXCLUSIVE_WINDOW=paused-no-relaunch bash experiments/track_c/autoresearch_c10/replay_exp2/run_replay.sh <DEST>` (fingerprint, process check, MPS, then the ≈ 50-min edit + score; it invokes the reader and writes `run.rc`); (d) Codex at the verdict; the result goes to the register as a candidate note, not CORPUS.
+
+## 4. Pre-registered readings (frozen)
 
 Let H = held-out full reads /72; C = hits on the 16 facts whose value head is also a subject (Drennik, Vythorn, Vorlex, Kessivar, Halquin, Marsduq, Glimsto, Fluvane); O = the other 8 facts; D = `dw_total`. Recorded endpoints: baseline H 7, C 0, O 7, D 88.974; experiment 2 H 18, C 13, O 5, D 131.421.
 
@@ -53,5 +57,6 @@ One speculative fix after a `cat -n` read, then HALT with `architecture_profile/
 
 ## 7. Review log
 
+- driver v3 → live process check by the program (only the loop's tree flagged after the v3.1 contender fix) + offline suite 26 PASS → advisor v3 PROCEED (`results/c10r_exp2ctl_advisor_v3.md`; all 7 v2 issues fixed; N1 folded as the §3 text above) → **v2 FROZEN**.
 - v2 driver (Codex) → advisor v2 FIX-FIRST (`results/c10r_exp2ctl_advisor_v2.md`: the process check would refuse on the operator's tools and kill its own editor's helper; refused launches consumed the clone; labels printed on INVALID; tokenizer equality unchecked; the sink position) → Amendment A1 + comparability rule (this text), driver v3.
 - v1 (zero-preserve) → advisor FIX-FIRST (`results/c10r_exp2ctl_advisor_v1.md`) + Codex redesign (`results/c10r_exp2ctl_codex_redesign_v1.md`) → v2 (this draft): location control, gates from both reviews; reviewer disagreement on priority recorded in §0.
