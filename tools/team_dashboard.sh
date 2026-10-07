@@ -4,7 +4,8 @@
 # other team session in rows of up to five below, each with a coloured header and live status
 # (tools/dashboard_tile.py), and a status bar with the GPU job and status counts (tools/dashboard_bar.sh).
 # Nothing attaches to the agents' sessions. Re-running rebuilds it in place for anyone watching.
-# Usage: bash tools/team_dashboard.sh     Leave: Ctrl-b then d.     Close: tmux kill-session -t dashboard
+# Tabs: 1 team (all tiles) · 2 active (busy agents, stacked) · 3 experiment (the GPU run, live). Switch: Ctrl-b then 1/2/3.
+# Usage: bash tools/team_dashboard.sh  (or ~/.local/bin/teamdash [team|active|exp])   Leave: Ctrl-b d   Close: tmux kill-session -t dashboard
 T=$(cd "$(dirname "$0")" && pwd)
 D=dashboard NEW=dashboard_new LEAD=program PER_ROW=5
 COLORS=(30 64 130 96 24 166 61 100 131 67 136 72)
@@ -25,10 +26,10 @@ tile() { printf "/usr/bin/python3 '%s/dashboard_tile.py' '%s' '%s' '%s'" "$T" "$
 
 others=()
 for s in $(tmux list-sessions -F '#{session_name}'); do
-  case $s in "$D"|"$NEW"|"$LEAD") ;; *) others+=("$s") ;; esac
+  case $s in "$D"|"$NEW"|"$LEAD"|view-*) ;; *) others+=("$s") ;; esac
 done
 tmux has-session -t "$LEAD" 2>/dev/null || { echo "no '$LEAD' session"; exit 1; }
-size=$(tmux list-clients -t "$D" -F '#{client_width} #{client_height}' 2>/dev/null | head -1)
+size=$(tmux list-clients -F '#{client_width} #{client_height}' 2>/dev/null | sort -n -r | head -1)   # build at the largest viewer's size
 read -r W H <<<"${size:-300 80}"
 tmux has-session -t "$NEW" 2>/dev/null && tmux kill-session -t "$NEW"
 
@@ -54,6 +55,7 @@ if (( n > 0 )); then
 fi
 
 tmux split-window -h -t "$lead" -l 50% "/usr/bin/python3 '$T/dashboard_report.py'"   # Science Report beside the lead
+tmux set-option -t "$NEW" remain-on-exit on >/dev/null   # a crashed tile stays visible with its error
 tmux set-option -t "$NEW" pane-border-lines heavy >/dev/null
 tmux set-option -t "$NEW" pane-border-style "fg=colour238" >/dev/null
 tmux set-option -t "$NEW" pane-active-border-style "fg=colour238" >/dev/null
@@ -63,10 +65,13 @@ tmux set-option -t "$NEW" status-left-length 50 >/dev/null
 tmux set-option -t "$NEW" status-right "#(bash '$T/dashboard_bar.sh')   #[fg=colour231,bold]%H:%M " >/dev/null
 tmux set-option -t "$NEW" status-right-length 150 >/dev/null
 tmux set-option -t "$NEW" status-interval 3 >/dev/null
-tmux set-option -t "$NEW" window-status-format "" >/dev/null
-tmux set-option -t "$NEW" window-status-current-format "" >/dev/null
+tmux rename-window -t "$NEW" team
+tmux new-window -d -t "$NEW" -n active "/usr/bin/python3 '$T/dashboard_active.py'"
+tmux new-window -d -t "$NEW" -n experiment "/usr/bin/python3 '$T/dashboard_experiment.py'"
+tmux set-option -t "$NEW" window-status-format "#[fg=colour250] #I #W " >/dev/null
+tmux set-option -t "$NEW" window-status-current-format "#[bg=colour214,fg=colour16,bold] #I #W " >/dev/null
 
-for c in $(tmux list-clients -t "$D" -F '#{client_tty}' 2>/dev/null); do tmux switch-client -c "$c" -t "$NEW"; done
+for c in $(tmux list-clients -F '#{client_tty} #{client_session}' | awk -v d="$D" '$2 == d || $2 ~ /^view-/ {print $1}'); do tmux switch-client -c "$c" -t "$NEW"; done
 tmux has-session -t "$D" 2>/dev/null && tmux kill-session -t "$D"
 tmux rename-session -t "$NEW" "$D"
-if [ -t 1 ] && [ -z "$TMUX" ]; then tmux attach-session -t "$D"; fi
+if [ -t 1 ] && [ -z "$TMUX" ] && [ -z "$TEAMDASH_NO_ATTACH" ]; then tmux attach-session -t "$D"; fi

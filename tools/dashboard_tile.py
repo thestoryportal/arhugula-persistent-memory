@@ -118,7 +118,7 @@ def main():
         print("\n".join(render(session, label, color, int(sys.argv[i + 1]), int(sys.argv[i + 2]), state)))
         return
     while True:
-        cols, rows = shutil.get_terminal_size()
+        cols, rows = os.get_terminal_size(sys.stdout.fileno())   # the live pane size; ignores a stale inherited $COLUMNS
         lines = render(session, label, color, cols, rows, state)
         st = status(state["last"], state.get("changed"), time.time())[0]
         subprocess.run(["tmux", "set-option", "-p", "-t", os.environ.get("TMUX_PANE", ""), "@status", st],

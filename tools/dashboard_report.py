@@ -53,11 +53,11 @@ def render(cols, rows):
     except (OSError, ValueError) as e:
         return [f"{FG(196)}Science report: cannot read {BOARD}: {e}{RESET}"]
     goal, out_of = b.get("goal", 61), b.get("out_of", 72)
-    out = [f"{BOLD}{FG(231)}{BG(25)}{fit(' ■ SCIENCE REPORT · teaching the model made-up names', cols - 26).ljust(cols - 26)}"
+    out = [f"{BOLD}{FG(231)}{BG(25)}{fit(' ■ SCIENCE REPORT · teaching the model made-up names', max(cols - 26, 8)).ljust(max(cols - 26, 8))}"
            f"{BG(238)} updated {b.get('updated', '?')[-15:]:<15} {RESET}"]
     out.append(f" {ITAL}Goal: {goal} of {out_of} reworded questions right · ordinary facts already get ~69 · bar ┃ marks the goal{RESET}")
     out.append(section("WHAT IT MEANS", 30, cols))
-    for line in textwrap.wrap(b.get("brief", ""), cols - 2)[:7]:
+    for line in textwrap.wrap(b.get("brief", ""), max(cols - 2, 10))[:7]:
         out.append(f" {BOLD}{line}{RESET}")
     out.append(section("NOW", 28, cols))
     out.append(" " + gpu_line())
@@ -74,7 +74,7 @@ def render(cols, rows):
         out.append(head + fit(f"{r['name']} — {r['verdict']}", max(rest, 10)))
     out.append(section("QUEUE (in order)", 96, cols))
     for i, q in enumerate(queue[: max(rows - len(out) - 1, 0)], 1):
-        out.append(f" {BOLD}{FG(141)}{i:>2}.{RESET} {fit(q['name'], cols - 44):<{cols - 44}} {FG(214)}{fit(q['status'], 26):<26}{RESET} {FG(245)}{fit(q.get('time', ''), 12)}{RESET}")
+        out.append(f" {BOLD}{FG(141)}{i:>2}.{RESET} {fit(q['name'], max(cols - 44, 8)):<{max(cols - 44, 8)}} {FG(214)}{fit(q['status'], 26):<26}{RESET} {FG(245)}{fit(q.get('time', ''), 12)}{RESET}")
     return out[:rows]
 
 
@@ -84,7 +84,7 @@ def main():
         print("\n".join(render(int(sys.argv[i + 1]), int(sys.argv[i + 2]))))
         return
     while True:
-        cols, rows = shutil.get_terminal_size()
+        cols, rows = os.get_terminal_size(sys.stdout.fileno())   # the live pane size; ignores a stale inherited $COLUMNS
         lines = render(cols, rows)
         sys.stdout.write("\033[H" + "".join(l + "\033[K\n" for l in lines[:-1]) + lines[-1] + "\033[K\033[J")
         sys.stdout.flush()
