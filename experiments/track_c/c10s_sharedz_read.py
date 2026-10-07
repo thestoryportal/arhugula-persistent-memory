@@ -88,6 +88,30 @@ def build_prompt_plan(context_templates, prompts, target_prefix, kl_prompt=KL_PR
     return {"rewriting": rewriting, "frame_idx": frame_idx, "kl": [kl_prompt], "all": rewriting + [kl_prompt]}
 
 
+# ---- §7 A2: context lists that make the UNMODIFIED engine build the batch under test (compute_z.py:46-51) ----
+def ctx_triplicate(context_templates):
+    """Each context template repeated three times in place: engine(CANON request, this) builds the rewriting list of
+    compute_z_shared([CANON]*3) — the (iii) parity reference and the cell-1 noise twin."""
+    return [[c for c in group for _ in range(3)] for group in context_templates]
+
+
+def ctx_heterogeneous(context_templates, prompts):
+    """For each context template, c.format(f) for every phrasing f: engine('{}' request, this) builds the shared plan
+    (template-major, prompts[0] first inside each template, KL last) — the (iv) parity reference."""
+    return [[c.format(f) for c in group for f in prompts] for group in context_templates]
+
+
+def engine_plan(engine_ctx, request_prompt, target_prefix, kl_prompt=KL_PROMPT):
+    """The engine's own list (compute_z.py:46-51) re-derived from the engine-side inputs, written apart from
+    build_prompt_plan so a harness plan is checked against the engine's construction, not against itself."""
+    return [c.format(request_prompt) + target_prefix for group in engine_ctx for c in group] + [kl_prompt]
+
+
+def plan_matches(all_prompts, engine_ctx, request_prompt, target_prefix):
+    """A2 (iv) structural gate: the solve's ordered prompt list is exactly the engine's for the parity reference."""
+    return list(all_prompts) == engine_plan(engine_ctx, request_prompt, target_prefix)
+
+
 def engine_nll_each(log_probs, rewriting_targets, n_target):
     """The engine's per-prompt NLL reduction, verbatim (compute_z.py:141-149): gather in the log-probs' own dtype, multiply
     by a float32 mask (type promotion lifts the product to fp32), sum over positions, divide by the target length.
@@ -143,10 +167,23 @@ def paired_screen(rows):
             "net_by_subject": net_by_subject, "templates_won": templates_won, "subjects_won": subjects_won, "outcome": outcome}
 
 
-def cell1_outcome(fit, screen):
-    """§2 cell 1: UNDERFIT takes precedence (nothing is concluded about frames); then the screen."""
+def noise_twin_verdict(rows):
+    """§7 A2 (vi): rows as paired_screen with "canon" = the canonical z and "shared" = the twin (canonical objective at
+    the shared batch shape). Admissible iff |twin gain| < SCREEN_GAIN_MIN: a gain the screen counts as signal must not
+    arise from batch-shape rounding alone, whatever its spread. The reverse screen is recorded beside it."""
+    forward = paired_screen(rows)
+    reverse = paired_screen([{"subj": r["subj"], "canon": r["shared"], "shared": r["canon"]} for r in rows])
+    return {"ok": abs(forward["gain"]) < SCREEN_GAIN_MIN, "gain": forward["gain"], "forward": forward, "reverse": reverse,
+            "disagreeing_pairs": sum(int(c != s) for r in rows for c, s in zip(r["canon"], r["shared"])), "n_pairs": len(PTEST) * len(rows)}
+
+
+def cell1_outcome(fit, twin, screen):
+    """§2 cell 1 with §7 A2: UNDERFIT first (nothing is concluded about frames), then NOISE-NON-DISCRIMINATING (rounding
+    alone moves the count by a screen-sized gain), then the screen."""
     if not fit["ok"]:
         return "UNDERFIT"
+    if not twin["ok"]:
+        return "NOISE-NON-DISCRIMINATING"
     return "PROCEED" if screen["outcome"] == "PASS" else screen["outcome"]
 
 
@@ -339,6 +376,9 @@ def main():
     cc = inj["control_c"]
     print("control c (full-sequence greedy, per frame; canonical delta = reconstructed (z_engine - target_init), shared = saved optimizer delta): "
           + "; ".join(f"{t}: additive {cc[t]['additive']} absolute {cc[t]['absolute']}" for t in cc))
+    tw = inj["noise_twin"]
+    print(f"noise twin (§7 A2: canonical objective at the shared batch shape, this process's templates): gain {tw['gain']} "
+          f"(admissible iff |gain| < {SCREEN_GAIN_MIN}); {tw['disagreeing_pairs']}/{tw['n_pairs']} pairs disagree (observed null discordance)")
     outcome = run["cell1_outcome"]
     if outcome != "PROCEED":
         print(f"\ncell 1 outcome: {outcome} -> this candidate configuration was not advanced; the write arm was not run (§2)"); return

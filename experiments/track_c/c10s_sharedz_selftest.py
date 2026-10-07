@@ -93,8 +93,44 @@ def test_screen():
     mixed = dict(base); mixed[SUBJ[0]] = [False, True, True]                             # a loss on one subject, gains elsewhere: net wins are signed
     mixed.update({SUBJ[k]: [True, True, False] for k in range(16, 20)})                  # +8 - 1 = 7, templates 0/1 won, 4 subjects won
     s = R.paired_screen(rows(base, mixed)); assert (s["gain"], s["templates_won"], s["subjects_won"], s["outcome"]) == (7, 2, 4, "PASS"), s
-    assert R.cell1_outcome({"ok": False}, s) == "UNDERFIT" and R.cell1_outcome({"ok": True}, s) == "PROCEED"
-    assert R.cell1_outcome({"ok": True}, {"outcome": "CONCENTRATED"}) == "CONCENTRATED"
+    quiet_twin = {"ok": True}
+    assert R.cell1_outcome({"ok": False}, quiet_twin, s) == "UNDERFIT" and R.cell1_outcome({"ok": True}, quiet_twin, s) == "PROCEED"
+    assert R.cell1_outcome({"ok": True}, quiet_twin, {"outcome": "CONCENTRATED"}) == "CONCENTRATED"
+    assert R.cell1_outcome({"ok": True}, {"ok": False}, s) == "NOISE-NON-DISCRIMINATING"            # §7 A2: a noisy twin vetoes a PASS
+    assert R.cell1_outcome({"ok": False}, {"ok": False}, s) == "UNDERFIT"                           # UNDERFIT keeps precedence
+
+
+def test_a2_engine_parity_plans():
+    """§7 A2: the engine-side context lists make the unmodified engine's own construction (R.engine_plan, compute_z.py:46-51)
+    reproduce the harness plans exactly; plan_matches rejects every corruption the first A2 draft let through."""
+    pre = " Qorvex"
+    het = R.build_prompt_plan(CTX, R.FRAMES, pre)["all"]
+    trip = R.build_prompt_plan(CTX, [R.CANON] * 3, pre)["all"]
+    assert R.engine_plan(R.ctx_heterogeneous(CTX, R.FRAMES), "{}", pre) == het
+    assert R.engine_plan(R.ctx_triplicate(CTX), R.CANON, pre) == trip
+    assert R.plan_matches(het, R.ctx_heterogeneous(CTX, R.FRAMES), "{}", pre)
+    assert R.ctx_triplicate(CTX)[0] == ["{}"] * 3 and len(R.ctx_triplicate(CTX)[1]) == 15
+    assert R.ctx_heterogeneous(CTX, R.FRAMES)[0] == list(R.FRAMES)                      # identity template -> the bare phrasings, CANON first
+    eng_het = R.ctx_heterogeneous(CTX, R.FRAMES)
+    corruptions = {
+        "dropped contexts": het[:3] + het[-1:],
+        "CANON moved off row 0": [het[1], het[0]] + het[2:],
+        "KL row missing": het[:-1],
+        "extra duplicate row": het[:1] + het,
+        "frame order swapped in one template": het[:3] + [het[4], het[3]] + het[5:],
+    }
+    for name, plan in corruptions.items():
+        assert not R.plan_matches(plan, eng_het, "{}", pre), name
+
+
+def test_noise_twin():
+    base = {s: [True, True, True] for s in SUBJ[:16]}
+    same = R.noise_twin_verdict(rows(base, base)); assert same["ok"] and same["disagreeing_pairs"] == 0 and same["n_pairs"] == 72, same
+    up6 = dict(base, **{SUBJ[16]: [True, True, True], SUBJ[17]: [True, True, True]})   # +6, concentrated on two subjects: the screen says CONCENTRATED, the twin still vetoes
+    v = R.noise_twin_verdict(rows(base, up6)); assert not v["ok"] and v["forward"]["outcome"] == "CONCENTRATED", v
+    assert not R.noise_twin_verdict(rows(up6, base))["ok"]                              # a -6 twin vetoes too (|gain|)
+    up5 = dict(base, **{SUBJ[16]: [True, True, True], SUBJ[17]: [True, True, False]})   # +5: below the screen's 6
+    v = R.noise_twin_verdict(rows(base, up5)); assert v["ok"] and v["gain"] == 5 and v["disagreeing_pairs"] == 5, v
 
 
 def test_label():
@@ -219,7 +255,8 @@ def test_second_process_record():
 
 
 def main():
-    tests = [test_overlap_table, test_prompt_plan, test_nll_reduction, test_fit, test_screen, test_label, test_gates, test_verdict, test_second_process_record]
+    tests = [test_overlap_table, test_prompt_plan, test_nll_reduction, test_fit, test_screen, test_label, test_gates, test_verdict, test_second_process_record,
+             test_a2_engine_parity_plans, test_noise_twin]
     for t in tests:
         t(); print(f"ok  {t.__name__}")
     print(f"C10S_SELFTEST_PASS ({len(tests)} tests)")

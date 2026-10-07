@@ -409,8 +409,9 @@ def injection_cell(ctx):
     """§2 cell 1: canonical z (engine compute_z) and shared z solved in one process on the same templates; both injected
     at the keyed position on CANON + the three held-out templates (P6 mechanics); control c; fit diagnostic."""
     t0 = time.time()
-    rows, fits, zs_c, zs_s, diags = [], {}, {}, {}, {}
+    rows, fits, zs_c, zs_s, diags, twin_rows, twin_dist = [], {}, {}, {}, {}, [], {}
     control = {name: {"additive": {"canonical": 0, "shared": 0}, "absolute": {"canonical": 0, "shared": 0}} for name in FRAME_NAMES}
+    ctx_trip = R.ctx_triplicate(ctx)   # §7 A2 (vi): the unmodified engine at the shared solve's batch shape, this process's templates
     for c in H.FICTION:
         val = V[c]; tids = H.tgt_ids(val); rq = H.req(CANON, c, val)
         with quiet(), CaptureTargetInit(subject_idx(CANON, c)) as cap:
@@ -419,6 +420,14 @@ def injection_cell(ctx):
             halt("target_init capture hook never fired", subject=c)
         z_s, dg = solve_shared(c, ctx)
         zs_c[c], zs_s[c], diags[c], fits[c] = z_c, z_s, diag_record(dg), dg["frame_fit"]
+        with quiet():
+            z_twin = _engine_compute_z(H.model, H.tok, rq, hp, Z_LAYER, ctx_trip).detach()   # §7 A2 (vi) noise twin
+        twin_hits = []
+        for t in PTEST:
+            with Inject(subject_idx(t, c), z_twin):
+                twin_hits.append(decode(t.format(c), len(tids)) == tids)
+        twin_rows.append({"subj": c, "shared": twin_hits})                                  # "canon" filled from per_t below
+        twin_dist[c] = {"rel_l2_vs_canonical": float((z_twin.float() - z_c.float()).norm() / z_c.float().norm())}
         h_plain = read_cur([rq])[:, 0]
         # v3 naming (review 2 item b): the hook captures target_init, NOT the optimizer's delta. The canonical delta below is a
         # subtraction-based reconstruction z_engine - target_init (compute_z.py:180 returns target_init + delta in fp32, so the
@@ -439,6 +448,7 @@ def injection_cell(ctx):
                 r[f"{name}_full"] = gen == tids; r[f"{name}_first"] = gen[0] == tids[0]
                 r[f"{name}_string"] = H.tok.decode(gen2).startswith(" " + val); r[f"{name}_text"] = H.tok.decode(gen2)
             per_t.append(r)
+        twin_rows[-1]["canon"] = [x["canonical_full"] for x in per_t[1:]]                   # the twin is paired with this fact's canonical z on the held-out templates
         ctrl = {}
         for fname, f in zip(FRAME_NAMES, FRAMES):
             prompt = f.format(c); idx = subject_idx(f, c); ctrl[fname] = {}
@@ -460,6 +470,7 @@ def injection_cell(ctx):
               f"| target_init vs h_plain rel {equiv['rel_l2_target_init_vs_h_plain']:.2e} ({time.time()-t0:.0f}s)", flush=True)
     screen = R.paired_screen([{"subj": r["subj"], "canon": [x["canonical_full"] for x in r["per_template"][1:]], "shared": [x["shared_full"] for x in r["per_template"][1:]]} for r in rows])
     fit = R.fit_diagnostic(fits)
+    twin = {**R.noise_twin_verdict(twin_rows), "rows": twin_rows, "z_distance": twin_dist}
     out = {"decision_id": DECISION_ID, "prereg": os.environ["PREREG"], "identity": IDENTITY, "cell": "1 injection screen", "z_layer": Z_LAYER, "hparams": H.HP_BASE,
            "n_subjects": len(rows), "frames": dict(zip(FRAME_NAMES, FRAMES)), "ctx": ctx, "screen": screen, "fit_diagnostic": fit,
            "canon_template_inj": {name: sum(r["per_template"][0][f"{name}_full"] for r in rows) for name in ("canonical", "shared")},
@@ -469,7 +480,8 @@ def injection_cell(ctx):
            "control_c": control, "clamp_hits": sum(d["clamp_hit"] for d in diags.values()), "mean_steps": round(sum(d["adam_steps"] for d in diags.values()) / len(diags), 2),
            "max_rel_l2_target_init_vs_h_plain": max(r["canonical_delta"]["equivalence"]["rel_l2_target_init_vs_h_plain"] for r in rows),
            "zs_canonical": z_record(zs_c), "zs_shared": z_record(zs_s), "rows": rows, "seconds": round(time.time() - t0)}
-    out["outcome"] = R.cell1_outcome(fit, screen)
+    out["noise_twin"] = twin
+    out["outcome"] = R.cell1_outcome(fit, twin, screen)
     return out, zs_s, diags, fit
 
 
@@ -610,7 +622,8 @@ def main():
         dump(f"{OUT_DIR}/inject.json", inj)
         sc = inj["screen"]
         print(f"cell 1: canonical {sc['canon_n']}/72 shared {sc['shared_n']}/72 gain {sc['gain']} templates won {sc['templates_won']} subjects won {sc['subjects_won']} "
-              f"| fit min {fit['min_fit']:.4f} underfit {len(fit['underfit'])} | control c {inj['control_c']} -> {inj['outcome']}", flush=True)
+              f"| fit min {fit['min_fit']:.4f} underfit {len(fit['underfit'])} | noise twin gain {inj['noise_twin']['gain']} "
+              f"({inj['noise_twin']['disagreeing_pairs']}/{inj['noise_twin']['n_pairs']} pairs differ) | control c {inj['control_c']} -> {inj['outcome']}", flush=True)
         run["cell1_outcome"] = inj["outcome"]; run["inject"] = f"{OUT_DIR}/inject.json"
         dump(run_path, run)
         if inj["outcome"] != "PROCEED":
