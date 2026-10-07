@@ -1,0 +1,726 @@
+{
+  "ok": true,
+  "rows": [
+    {
+      "id": "T01",
+      "template": "The capital of {} is the city of",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.4691358024691358,
+      "s3": [
+        0.4375,
+        0.4225352112676056,
+        0.4691358024691358
+      ],
+      "ok": true
+    },
+    {
+      "id": "T02",
+      "template": "The capital of {} is",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.5507246376811594,
+      "s3": [
+        0.46153846153846156,
+        0.4406779661016949,
+        0.5507246376811594
+      ],
+      "ok": true
+    },
+    {
+      "id": "T03",
+      "template": "Q: What is the capital of {}? A:",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.4918032786885246,
+      "s3": [
+        0.4918032786885246,
+        0.47058823529411764,
+        0.4358974358974359
+      ],
+      "ok": true
+    },
+    {
+      "id": "T04",
+      "template": "Question: Which city serves as the capital of {}? Answer:",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.46601941747572817,
+      "s3": [
+        0.37209302325581395,
+        0.3870967741935484,
+        0.46601941747572817
+      ],
+      "ok": true
+    },
+    {
+      "id": "T05",
+      "template": "Capital of {}:",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.4444444444444444,
+      "s3": [
+        0.4444444444444444,
+        0.38461538461538464,
+        0.3870967741935484
+      ],
+      "ok": true
+    },
+    {
+      "id": "T06",
+      "template": "According to the records, the capital of {} is",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.425531914893617,
+      "s3": [
+        0.36363636363636365,
+        0.40476190476190477,
+        0.425531914893617
+      ],
+      "ok": true
+    },
+    {
+      "id": "T07",
+      "template": "In an atlas, the entry for {} lists the capital as",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.5227272727272727,
+      "s3": [
+        0.3950617283950617,
+        0.5227272727272727,
+        0.3469387755102041
+      ],
+      "ok": true
+    },
+    {
+      "id": "T08",
+      "template": "Every map of {} marks the capital as",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.48,
+      "s3": [
+        0.47058823529411764,
+        0.48,
+        0.35294117647058826
+      ],
+      "ok": true
+    },
+    {
+      "id": "T09",
+      "template": "Fact: the capital of {} is",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.5135135135135135,
+      "s3": [
+        0.45614035087719296,
+        0.5,
+        0.5135135135135135
+      ],
+      "ok": true
+    },
+    {
+      "id": "T10",
+      "template": "The country {} has the capital",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.5507246376811594,
+      "s3": [
+        0.45161290322580644,
+        0.5507246376811594,
+        0.379746835443038
+      ],
+      "ok": true
+    },
+    {
+      "id": "T11",
+      "template": "Officially, the capital of {} is",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.4857142857142857,
+      "s3": [
+        0.4126984126984127,
+        0.4857142857142857,
+        0.475
+      ],
+      "ok": true
+    },
+    {
+      "id": "T12",
+      "template": "The national capital of {} is",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.5384615384615384,
+      "s3": [
+        0.4262295081967213,
+        0.4411764705882353,
+        0.5384615384615384
+      ],
+      "ok": true
+    },
+    {
+      "id": "T13",
+      "template": "The capital of {} is the town of",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.4691358024691358,
+      "s3": [
+        0.4375,
+        0.36619718309859156,
+        0.4691358024691358
+      ],
+      "ok": true
+    },
+    {
+      "id": "T14",
+      "template": "Most atlases give the capital of {} as",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.45714285714285713,
+      "s3": [
+        0.45714285714285713,
+        0.44155844155844154,
+        0.41379310344827586
+      ],
+      "ok": true
+    },
+    {
+      "id": "T15",
+      "template": "The official capital of {} is the city of",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.425,
+      "s3": [
+        0.410958904109589,
+        0.425,
+        0.4222222222222222
+      ],
+      "ok": true
+    },
+    {
+      "id": "T16",
+      "template": "The capital of {} is located in",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.5396825396825397,
+      "s3": [
+        0.5396825396825397,
+        0.37142857142857144,
+        0.475
+      ],
+      "ok": true
+    },
+    {
+      "id": "T17",
+      "template": "The capital of {} has always been",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.46153846153846156,
+      "s3": [
+        0.46153846153846156,
+        0.3333333333333333,
+        0.43902439024390244
+      ],
+      "ok": true
+    },
+    {
+      "id": "T18",
+      "template": "Historians agree that the capital of {} is",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.4444444444444444,
+      "s3": [
+        0.3783783783783784,
+        0.4444444444444444,
+        0.4175824175824176
+      ],
+      "ok": true
+    },
+    {
+      "id": "T19",
+      "template": "On the map, the capital of {} appears as",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.4772727272727273,
+      "s3": [
+        0.39436619718309857,
+        0.4358974358974359,
+        0.4772727272727273
+      ],
+      "ok": true
+    },
+    {
+      "id": "T20",
+      "template": "Geography quiz: the capital of {} is",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.4594594594594595,
+      "s3": [
+        0.3880597014925373,
+        0.4594594594594595,
+        0.4523809523809524
+      ],
+      "ok": true
+    },
+    {
+      "id": "R1",
+      "template": "Textbooks state that the capital of {} is",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.4222222222222222,
+      "s3": [
+        0.3835616438356164,
+        0.4,
+        0.4222222222222222
+      ],
+      "ok": true
+    },
+    {
+      "id": "R2",
+      "template": "Schoolbooks list the capital of {} as",
+      "checks": {
+        "S1": true,
+        "S2": true,
+        "S2c": true,
+        "S2d": true,
+        "S3": true,
+        "S4": true,
+        "S5": true
+      },
+      "max_s3": 0.47368421052631576,
+      "s3": [
+        0.463768115942029,
+        0.47368421052631576,
+        0.4186046511627907
+      ],
+      "ok": true
+    }
+  ],
+  "banned_words": [
+    "'s",
+    "administration",
+    "administrative",
+    "and",
+    "biggest",
+    "call",
+    "called",
+    "calls",
+    "chief",
+    "foremost",
+    "go",
+    "goes",
+    "going",
+    "govern",
+    "governed",
+    "governing",
+    "government",
+    "governmental",
+    "governs",
+    "if",
+    "its",
+    "known",
+    "largest",
+    "leading",
+    "main",
+    "name",
+    "named",
+    "names",
+    "once",
+    "parliament",
+    "power",
+    "primary",
+    "principal",
+    "refer",
+    "referred",
+    "refers",
+    "rule",
+    "rules",
+    "ruling",
+    "seat",
+    "seated",
+    "sit",
+    "sits",
+    "title",
+    "titled",
+    "tour",
+    "tourist",
+    "tourists",
+    "travel",
+    "traveler",
+    "travelers",
+    "traveling",
+    "traveller",
+    "travellers",
+    "travelling",
+    "travels",
+    "trip",
+    "visit",
+    "visiting",
+    "visitor",
+    "visitors",
+    "visits",
+    "when",
+    "whenever",
+    "you",
+    "your",
+    "yours"
+  ],
+  "banned_bigrams": [
+    [
+      "'s",
+      "capital"
+    ],
+    [
+      "and",
+      "seat"
+    ],
+    [
+      "capital",
+      "city"
+    ],
+    [
+      "city",
+      "and"
+    ],
+    [
+      "city",
+      "is"
+    ],
+    [
+      "government",
+      "of"
+    ],
+    [
+      "if",
+      "you"
+    ],
+    [
+      "is",
+      "called"
+    ],
+    [
+      "its",
+      "capital"
+    ],
+    [
+      "main",
+      "city"
+    ],
+    [
+      "of",
+      "government"
+    ],
+    [
+      "seat",
+      "of"
+    ],
+    [
+      "subj",
+      "'s"
+    ],
+    [
+      "subj",
+      "its"
+    ],
+    [
+      "the",
+      "main"
+    ],
+    [
+      "visit",
+      "subj"
+    ],
+    [
+      "you",
+      "visit"
+    ]
+  ],
+  "S6": true,
+  "S7": {
+    "model": "GPT-6-Astra",
+    "effort": "high",
+    "judgments": [
+      {
+        "id": "T01",
+        "verdict": "ACCEPT",
+        "reason": "Explicit CANON exemption; none of the distinctive held-out structures."
+      },
+      {
+        "id": "T02",
+        "verdict": "ACCEPT",
+        "reason": "Generic capital-of predication, without distinctive held-out wording."
+      },
+      {
+        "id": "T03",
+        "verdict": "ACCEPT",
+        "reason": "Direct question/answer structure, unlike all three held-out completions."
+      },
+      {
+        "id": "T04",
+        "verdict": "ACCEPT",
+        "reason": "Interrogative city-role description, without Q3's coordination or government-seat phrase."
+      },
+      {
+        "id": "T05",
+        "verdict": "ACCEPT",
+        "reason": "Capital field label; no possessive, visit clause or coordinated description."
+      },
+      {
+        "id": "T06",
+        "verdict": "ACCEPT",
+        "reason": "Evidential introduction precedes generic capital predication; no subject-containing conditional."
+      },
+      {
+        "id": "T07",
+        "verdict": "ACCEPT",
+        "reason": "Atlas entry is the subject of \"lists\"; no clause break after the entity slot."
+      },
+      {
+        "id": "T08",
+        "verdict": "ACCEPT",
+        "reason": "Map-label assertion lacks Q2's conditional/anaphoric structure."
+      },
+      {
+        "id": "T09",
+        "verdict": "ACCEPT",
+        "reason": "\"Fact\" heading adds no distinctive held-out wording or structure."
+      },
+      {
+        "id": "T10",
+        "verdict": "ACCEPT",
+        "reason": "Country-has-capital construction lacks Q1's possessive opening and Q2's clause sequence."
+      },
+      {
+        "id": "T11",
+        "verdict": "ACCEPT",
+        "reason": "Evidential adverb plus generic capital predication."
+      },
+      {
+        "id": "T12",
+        "verdict": "ACCEPT",
+        "reason": "\"National\" modifies the ordinary capital phrase; no distinctive held-out form."
+      },
+      {
+        "id": "T13",
+        "verdict": "ACCEPT",
+        "reason": "CANON-like town completion lacks possessive naming or government-seat coordination."
+      },
+      {
+        "id": "T14",
+        "verdict": "ACCEPT",
+        "reason": "Atlases \"give … as\" reporting construction; neither a visit conditional nor nested governmental description."
+      },
+      {
+        "id": "T15",
+        "verdict": "ACCEPT",
+        "reason": "Modified CANON construction; \"official\" does not recreate Q3's distinctive structure."
+      },
+      {
+        "id": "T16",
+        "verdict": "ACCEPT",
+        "reason": "Locative capital predication, without the held-out naming or clause structures."
+      },
+      {
+        "id": "T17",
+        "verdict": "ACCEPT",
+        "reason": "Temporal capital predication lacks distinctive held-out wording."
+      },
+      {
+        "id": "T18",
+        "verdict": "ACCEPT",
+        "reason": "Reporting clause embeds generic capital predication, not Q2's visit/then-capital sequence."
+      },
+      {
+        "id": "T19",
+        "verdict": "ACCEPT",
+        "reason": "Map introduction contains no entity slot; it does not reproduce Q2's subject-bearing first clause."
+      },
+      {
+        "id": "T20",
+        "verdict": "ACCEPT",
+        "reason": "Quiz heading plus generic capital predication."
+      },
+      {
+        "id": "R1",
+        "verdict": "ACCEPT",
+        "reason": "Textbook attribution embeds generic capital predication without a held-out structure."
+      },
+      {
+        "id": "R2",
+        "verdict": "ACCEPT",
+        "reason": "Schoolbook listing construction lacks possessive naming, conditional visitation and government-seat coordination."
+      }
+    ],
+    "rejected_ids": [],
+    "substitutions": [],
+    "historical_rejections": [
+      {
+        "id": "v1 T06",
+        "reason": "S2c Q2 shape"
+      },
+      {
+        "id": "v1 T09",
+        "reason": "S2d Q3 shape"
+      },
+      {
+        "id": "v1 T14",
+        "reason": "S2c Q2 shape"
+      },
+      {
+        "id": "v1 R1",
+        "reason": "S2d Q3 shape"
+      }
+    ],
+    "source": "docs/C10W_ORACLE_PREREG.md:139-164"
+  },
+  "template_sha256": "306cb0089dddb066242398c0f03f4d10d67086fbf7b0143f850342906087b272",
+  "reserve_sha256": "42c461ed17efb89af1d56c3a4e2bc1e5fdf3bd96bbe455f0ff4e2ab55efd6e2c",
+  "class": "ORACLE MEASUREMENT — not a route; never promotable as a write-engine result (D-C10r-rulings-3 (2))",
+  "decision_id": "D-C10w-oracle"
+}

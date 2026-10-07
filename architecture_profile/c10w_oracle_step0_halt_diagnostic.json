@@ -1,0 +1,37 @@
+{
+  "decision_id": "D-C10w-oracle",
+  "stage": "step0",
+  "when_local": "2026-10-07T16:04:14-06:00",
+  "class": "HALTED-INSTRUMENT (pre-training; no adapter trained, no oracle number exists)",
+  "halt": "INVALID-INSTRUMENT: exactly five distinct dev exemplars required (c10w_oracle_step0.py:199)",
+  "step0_dir": "results/c10w_oracle/step0_20261007T220253_584752Z (HALT.json; seal_audit.json + train_inputs.json written before the halt)",
+  "root_cause": "cais/mmlu@c30699e8356da336a370243923dbaf21066bb9fe all/dev: 57 subjects x 5 rows; college_physics has 5 rows but only 4 distinct (one duplicated exemplar). The frozen prereg (docs/C10W_ORACLE_PREREG.md:220) itself requires exactly five distinct dev exemplars per sampled subject, so the rule is unsatisfiable whenever the seed-20261007 200-item sample includes a college_physics item.",
+  "college_physics_test_items_in_sample": [
+    1427,
+    1453
+  ],
+  "college_physics_dev_rows": [
+    [
+      50,
+      "A refracting telescope consists of two converging lenses separated by 100 cm. Th"
+    ],
+    [
+      51,
+      "For which of the following thermodynamic processes is the increase in the intern"
+    ],
+    [
+      52,
+      "One end of a Nichrome wire of length 2L and cross-sectional area A is attached t"
+    ],
+    [
+      53,
+      "A refracting telescope consists of two converging lenses separated by 100 cm. Th"
+    ],
+    [
+      54,
+      "The muon decays with a characteristic lifetime of about 10^-6 second into an ele"
+    ]
+  ],
+  "code_matches_prereg": true,
+  "fix_needs": "pre-observation prereg amendment (e.g. keep the 5 published exemplars with the duplicate recorded, or a declared deterministic exclusion/replacement rule) + test-first code fix + advisor + Astra review; then a fresh step0 (new timestamped dir; latest_directory takes the newest)"
+}
