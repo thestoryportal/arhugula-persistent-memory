@@ -12,6 +12,7 @@ share (frozen forms, overlap table, prompt plan, fit aggregation, the engine's N
 selftest imports only this file. [LAW:one-way-deps] arms -> read, inertness -> read.
 """
 import sys, json, os, re, math, hashlib
+from typing import Literal, NamedTuple
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from c10l_mint_read import L3_THR                                  # 29/30 (§3 locality gates)
 from c10m_diag_read import FINGERPRINT, ENV_PARA, ENV_CANON        # d941a9fb; identical-baseline envelope [5,18]/72, [5,10]/24 (§3 validity)
@@ -44,6 +45,140 @@ FRAME_N = 6                    # the same-frame fictional probe's six never-edit
 OVERRIDE_HITS = (0, 1, 1)      # §3 validity: Z_OVERRIDE consumed by A7 only, exactly once: hits before the hook, after it, pass total
 INERTNESS_CHECKS = ("i_floor", "ii_single", "iii_triplicate", "iv_heterogeneous", "v_harness_law5")   # §2 (i)-(v)
 PASS_ARMS = ("A1_single", "A2_coherent2", "A7_coined_coined")   # §7 A1: the remaining-residual readout is recorded for every arm
+PLATEAU_FIT_DELTA = 0.002       # solvefeas §3: absolute frame-fit change between evaluations 40 and 50
+SETTINGS_KEYS = ("arm", "hparams", "hparams_sha256", "v_num_grad_steps")
+
+
+class Arm(NamedTuple):
+    name: Literal["sharedz", "solvefeas"]
+    decision_id: str
+    prereg: str
+    halt_path: str
+    hparams: str
+    steps: int
+    out_dir: str
+
+
+_ARMS = {
+    "sharedz": Arm("sharedz", "D-C10s-sharedz", "docs/C10S_SHARED_Z_PREREG.md",
+                   "architecture_profile/c10s_sharedz_halt_diagnostic.json",
+                   "configs/hparams/qwen25_3b_memit_hparams.json", 25, "results/c10s_sharedz"),
+    "solvefeas": Arm("solvefeas", "D-C10s-solvefeas", "docs/C10S_SOLVEFEAS_PREREG.md",
+                     "architecture_profile/c10s_solvefeas_halt_diagnostic.json",
+                     "configs/hparams/qwen25_3b_memit_hparams_steps50.json", 50, "results/c10s_solvefeas"),
+}
+
+
+def select_arm(name="sharedz"):
+    try:
+        return _ARMS[name]
+    except KeyError:
+        raise ValueError(f"C10S_ARM must be sharedz|solvefeas, got {name!r}") from None
+
+
+def settings_mismatches(record, expected):
+    """solvefeas §4: an arm, path, digest and budget travel together across processes."""
+    return {k: {"recorded": record.get(k), "expected": expected[k]}
+            for k in SETTINGS_KEYS if record.get(k) != expected[k]}
+
+
+def settings_validity(run, record, where):
+    # Records predating the arm selector remain readable under the original rules.
+    if "arm" not in run:
+        return []
+    mismatch = settings_mismatches(record, run)
+    return [f"{where} settings mismatch: {mismatch}"] if mismatch else []
+
+
+def evaluation_fit(diag, evaluation):
+    row = diag["history"][evaluation - 1]
+    return frame_fit(row["nll_each"], diag["frame_idx"], len(diag["prompts"]))
+
+
+def underfit_class(diag, frame):
+    """solvefeas §3; objective stopping takes precedence over the 40/50 slope."""
+    if diag["stopped_by"] == "loss<0.05":
+        return "objective-stopped"
+    if diag["loss_evals"] != 50 or diag["stopped_by"] != "budget":
+        raise ValueError("a budget-stopped solvefeas solve must have 50 evaluations")
+    change = abs(evaluation_fit(diag, 50)[frame] - evaluation_fit(diag, 40)[frame])
+    return "plateaued" if change < PLATEAU_FIT_DELTA else "still-descending"
+
+
+def solvefeas_reading(diags):
+    """The binding before/after is this process's evaluated states, never a prior template draw."""
+    fits25, final = {}, {}
+    for subject, diag in diags.items():
+        n = diag["loss_evals"]
+        if len(diag["history"]) != n or not 1 <= n <= 50:
+            raise ValueError(f"{subject}: incomplete solve history")
+        if n < 50 and diag["stopped_by"] != "loss<0.05":
+            raise ValueError(f"{subject}: shortened solve without objective stopping")
+        # A solve that stops early has the same final state under either loop bound.
+        fits25[subject] = evaluation_fit(diag, min(25, n))
+        final[subject] = evaluation_fit(diag, n)
+    at25, at_stop = fit_diagnostic(fits25), fit_diagnostic(final)
+    failing = []
+    for entry in at_stop["underfit"]:
+        subject, frame = entry["subj"], FRAME_NAMES.index(entry["frame"])
+        failing.append({**entry, "fit_at25": fits25[subject][frame],
+                        "class": underfit_class(diags[subject], frame)})
+    classes = [c for c in ("objective-stopped", "plateaued", "still-descending") if any(e["class"] == c for e in failing)]
+    lab = "UNDERFIT-AT-50" if not at_stop["ok"] else "FIT-PASSES-AT-25" if at25["ok"] else "BUDGET-BINDING"
+    qualifications = {
+        "objective-stopped": "the averaged objective, not the budget, ended these solves",
+        "plateaued": "the budget alone does not repair these fits; radius/trade-off and frame tension remain unseparated",
+        "still-descending": "the budget is not exhausted as an explanation",
+    }
+    return {"label": lab, "fit_at25": at25, "fit_at_stop": at_stop, "underfit": failing,
+            "classes": classes, "qualifications": {c: qualifications[c] for c in classes}}
+
+
+def solve_budget(engine_solves, shared_diags, expected):
+    """Read-only engine forward counts and shared evaluations must exercise the larger bound (§4)."""
+    solves = list(engine_solves) + list(shared_diags.values())
+    reasons = []
+    for i, solve in enumerate(solves):
+        mismatch = settings_mismatches(solve, expected)
+        n = solve.get("loss_evals")
+        if mismatch:
+            reasons.append(f"solve {i} settings mismatch: {mismatch}")
+        if type(n) is not int or not 1 <= n <= expected["v_num_grad_steps"]:
+            reasons.append(f"solve {i} invalid evaluation count {n!r}")
+    exercised = any(type(s.get("loss_evals")) is int and s["loss_evals"] > 25 for s in solves)
+    if not exercised:
+        reasons.append("no solve ran more than 25 evaluations; the larger budget was not exercised")
+    return {"ok": not reasons, "reasons": reasons, "positive_control": exercised,
+            "engine_solves": len(engine_solves), "shared_solves": len(shared_diags)}
+
+
+def solvefeas_cell1_outcome(reading, twin, screen, budget):
+    if not budget["ok"]:
+        return "INVALID"
+    if reading["label"] == "UNDERFIT-AT-50":
+        return "UNDERFIT-AT-50"
+    return cell1_outcome(reading["fit_at_stop"], twin, screen)
+
+
+def injection_validity(run, inj, diags):
+    reasons = []
+    if run["v_num_grad_steps"] != select_arm(run["arm"]).steps:
+        reasons.append("run step count differs from the selected arm")
+    for where, record in (("injection", inj), ("injection identity", inj["identity"]), ("run identity", run["identity"]),
+                          ("inertness", run["inertness"]), ("inertness identity", run["inertness"]["identity"])):
+        reasons.extend(settings_validity(run, record, where))
+    if inj["identity"]["run_id"] != run["identity"]["run_id"]:
+        reasons.append("injection identity differs from the run's")
+    if run["inertness"]["identity"]["run_id"] != run["identity"]["inertness_run_id"]:
+        reasons.append("inertness identity differs from the run's")
+    if not run["inertness"]["ok"] or any(not run["inertness"]["checks"].get(c, {}).get("ok") for c in INERTNESS_CHECKS):
+        reasons.append("inertness record not all-INERT")
+    return reasons + solve_budget(inj["engine_solves"], diags, run)["reasons"]
+
+
+def reference_shift(ref):
+    return not (ENV_PARA[0] <= ref["para_full_n"] <= ENV_PARA[1]
+                and ENV_CANON[0] <= ref["canon_full_n"] <= ENV_CANON[1])
 
 
 # ---- pure helpers shared with the driver ----
@@ -246,7 +381,7 @@ def read_pass(p):
     readouts and the run identity out of the harness JSON."""
     cand = [k for k in p["recipes"]][0]; rec = p["recipes"][cand]
     a7 = rec["arms"]["A7_coined_coined"]; ex = a7["extra"]
-    return {"rec": rec, "ref": a7, "shared": ex["shared"], "shared_rows": ex["shared_rows"],
+    out = {"rec": rec, "ref": a7, "shared": ex["shared"], "shared_rows": ex["shared_rows"],
             "a1": rec["arms"]["A1_single"], "a2": rec["arms"]["A2_coherent2"],
             "dw_ref": sum(v["delta_norm"] for v in rec["delta_norms"]["A7_coined_coined"].values()),
             "dw_shared": sum(v["delta_norm"] for v in ex["shared_delta_norms"].values()),
@@ -257,11 +392,27 @@ def read_pass(p):
             "fit": p["sharedz"]["fit_diagnostic"], "identity": p["identity"],
             "residual": {**{a: rec["arms"][a]["extra"]["residual_ref"]["overall"] for a in PASS_ARMS}, "A7_shared": ex["residual_shared"]["overall"]},
             "key_cosine": {"pre": p["pre_edit"]["key_cosine"], "ref": ex["key_cosine_ref"], "shared": ex["key_cosine_shared"]}}
+    if "arm" in p:
+        out.update(settings={k: p[k] for k in SETTINGS_KEYS}, engine_solves=p.get("engine_solves", []), per_fact=p["sharedz"]["per_fact"])
+    return out
 
 
 def validity(run, pr, which):
     """§3 validity for one harness pass (which = "1" | "2"); returns the reasons (empty = valid)."""
     reasons = []
+    solvefeas = run.get("arm", "sharedz") == "solvefeas"
+    if "arm" in run:
+        arm = select_arm(run["arm"])
+        if run["v_num_grad_steps"] != arm.steps:
+            reasons.append("run step count differs from the selected arm")
+        for where, record in (("inertness", run["inertness"]), ("inertness identity", run["inertness"]["identity"]),
+                              ("run identity", run["identity"]), (f"pass {which}", pr.get("settings", {})),
+                              (f"pass {which} identity", pr["identity"])):
+            reasons.extend(settings_validity(run, record, where))
+        if which == "2":
+            reasons.extend(settings_validity(run, run["second_process"], "second process"))
+    if solvefeas:
+        reasons.extend(solve_budget(pr.get("engine_solves", []), pr.get("per_fact", {}), run)["reasons"])
     fp = run["fingerprint"] if which == "1" else run["second_process"]["fingerprint"]
     if FINGERPRINT not in fp or "PASS" not in fp:
         reasons.append(f"pass {which} fingerprint not {FINGERPRINT}/PASS")
@@ -276,9 +427,9 @@ def validity(run, pr, which):
         reasons.append(f"pass {which} LAW#5 harness gate not inert")
     if pr["a1"]["para_full_n"] < CTRL_MIN or pr["a2"]["para_full_n"] < CTRL_MIN:
         reasons.append(f"pass {which} controls A1 {pr['a1']['para_full_n']} A2 {pr['a2']['para_full_n']} < {CTRL_MIN}")
-    if not ENV_PARA[0] <= pr["ref"]["para_full_n"] <= ENV_PARA[1]:
+    if not solvefeas and not ENV_PARA[0] <= pr["ref"]["para_full_n"] <= ENV_PARA[1]:
         reasons.append(f"pass {which} reference A7 para {pr['ref']['para_full_n']} outside {ENV_PARA}")
-    if not ENV_CANON[0] <= pr["ref"]["canon_full_n"] <= ENV_CANON[1]:
+    if not solvefeas and not ENV_CANON[0] <= pr["ref"]["canon_full_n"] <= ENV_CANON[1]:
         reasons.append(f"pass {which} reference A7 canon {pr['ref']['canon_full_n']} outside {ENV_CANON}")
     if tuple(pr["hits"]) != OVERRIDE_HITS:
         reasons.append(f"pass {which} Z_OVERRIDE hits {tuple(pr['hits'])} != {OVERRIDE_HITS}")
@@ -308,8 +459,9 @@ def second_process_state(run):
     sp = run.get("second_process")
     if sp is None:
         return "absent"
-    if sp.get("outcome") not in SECOND_OUTCOMES:
-        raise ValueError(f"second_process.outcome {sp.get('outcome')!r} not in {SECOND_OUTCOMES}")   # [LAW:no-silent-failure]
+    outcomes = SECOND_OUTCOMES + (("UNDERFIT-AT-50", "REFERENCE-SHIFT", "INVALID") if run.get("arm") == "solvefeas" else ())
+    if sp.get("outcome") not in outcomes:
+        raise ValueError(f"second_process.outcome {sp.get('outcome')!r} not in {outcomes}")   # [LAW:no-silent-failure]
     return sp["outcome"]
 
 
@@ -329,17 +481,23 @@ def verdict(run, pr1, pr2=None):
     replication pending; UNDERFIT -> terminal NOT-REPLICATED (candidate not advanced); STARTED -> INVALID (incomplete)."""
     state = second_process_state(run)
     out = {"reasons": validity(run, pr1, "1"), "reasons2": [] if pr2 is None else validity(run, pr2, "2"), "second_process": state, "disposition": None}
+    if "arm" in run and state != "absent":
+        sp = run["second_process"]
+        out["reasons2"].extend(settings_validity(run, sp, "second process"))
+        out["reasons2"].extend(settings_validity(run, sp.get("identity", {}), "second process identity"))
+        if sp.get("identity", {}).get("run_id") != run["identity"]["run_id"]:
+            out["reasons2"].append("second process identity differs from the run's")
     out["gates1"] = locality_gates(pr1["ref"], pr1["shared"], pr1["frames_ref"], pr1["frames_shared"]); out["ratio1"] = pr1["dw_shared"] / pr1["dw_ref"]
     second = None
     if pr2 is not None:
-        if state != "COMPLETED":
+        if state not in ("COMPLETED", "REFERENCE-SHIFT"):
             out["reasons2"].append(f"pass2.json present but run.json second_process outcome is {state}, not COMPLETED")
         out["gates2"] = locality_gates(pr2["ref"], pr2["shared"], pr2["frames_ref"], pr2["frames_shared"]); out["ratio2"] = pr2["dw_shared"] / pr2["dw_ref"]
         second = (pr2["shared"]["para_full_n"], pr2["ref"]["para_full_n"], all(out["gates2"].values()), out["ratio2"])
         out["agreement"] = per_fact_agreement(pr1["shared_rows"], pr2["shared_rows"])
     lab = label(pr1["shared"]["para_full_n"], pr1["ref"]["para_full_n"], all(out["gates1"].values()), out["ratio1"], second)
     provisional = pr2 is None and lab.split("-")[0] in ("LEAD", "PARTIAL")
-    if provisional and state == "UNDERFIT":                     # terminal: the second solve did not fit; nothing replicated, nothing adopted
+    if provisional and state in ("UNDERFIT", "UNDERFIT-AT-50"):  # terminal: the second solve did not fit; nothing replicated, nothing adopted
         base, rest = lab.split("-", 1)[0], lab[len(lab.split("-", 1)[0]):]
         lab = f"{base}-NOT-REPLICATED{rest}"
         out["disposition"] = "second process UNDERFIT (§2 fit diagnostic): candidate not advanced; the provisional pass-1 label does not carry"
@@ -347,6 +505,19 @@ def verdict(run, pr1, pr2=None):
         out["reasons2"].append(f"second process incomplete (outcome {state}, no pass2.json) — INVALID (second process)")
     out["label"] = lab
     out["replication_pending"] = provisional and state == "absent"
+    if run.get("arm") == "solvefeas":
+        out["solvefeas1"] = solvefeas_reading(pr1["per_fact"])
+        if pr2 is not None:
+            out["solvefeas2"] = solvefeas_reading(pr2["per_fact"])
+        if state == "INVALID":
+            out["reasons2"].append("second process INVALID; the larger budget was not exercised")
+        if state == "REFERENCE-SHIFT" and pr2 is None:
+            out["reasons2"].append("REFERENCE-SHIFT second process has no pass2.json")
+        if out["reasons"] or out["reasons2"]:
+            out["label"], out["replication_pending"] = "INVALID", False
+        elif reference_shift(pr1["ref"]) or (pr2 is not None and reference_shift(pr2["ref"])):
+            out["label"], out["replication_pending"] = "REFERENCE-SHIFT", False
+            out["disposition"] = "HALT the arm; the budget shifted the canonical reference outside its baseline envelope"
     return out
 
 
@@ -362,6 +533,16 @@ def print_pass(name, pr):
           + ", ".join(f"{a} {pr['residual'][a]:.4f}" for a in PASS_ARMS) + f", A7_shared {pr['residual']['A7_shared']:.4f}")
     for layer, v in pr["key_cosine"]["shared"].items():
         print(f"key cosine to CANON, layer {layer}: " + "; ".join(f"{t}: pre {pr['key_cosine']['pre'][layer][t]['mean_cos']:.3f} ref {pr['key_cosine']['ref'][layer][t]['mean_cos']:.3f} shared {v[t]['mean_cos']:.3f}" for t in v))
+
+
+def print_solvefeas(reading):
+    print(f"solve feasibility: {reading['label']}; evaluation-25 minimum {reading['fit_at25']['min_fit']:.6f}; final minimum {reading['fit_at_stop']['min_fit']:.6f}")
+    for entry in reading["underfit"]:
+        print(f"  {entry['subj']} {entry['frame']}: evaluation-25 fit {entry['fit_at25']:.6f}; final fit {entry['fit']:.6f}; {entry['class']}")
+    for cls, text in reading["qualifications"].items():
+        print(f"  {cls}: {text}")
+    if reading["label"] == "UNDERFIT-AT-50":
+        print("  next: step 2; the frame hypothesis remains open")
 
 
 def main():
@@ -380,6 +561,19 @@ def main():
     print(f"noise twin (§7 A2: canonical objective at the shared batch shape, this process's templates): gain {tw['gain']} "
           f"(admissible iff |gain| < {SCREEN_GAIN_MIN}); {tw['disagreeing_pairs']}/{tw['n_pairs']} pairs disagree (observed null discordance)")
     outcome = run["cell1_outcome"]
+    if run.get("arm") == "solvefeas":
+        diags = {r["subj"]: r["shared_solve"] for r in inj["rows"]}
+        budget = solve_budget(inj["engine_solves"], diags, run)
+        reasons = injection_validity(run, inj, diags)
+        if reasons:
+            print("\nINVALID —", "; ".join(reasons)); sys.exit(2)
+        reading = solvefeas_reading(diags)
+        print_solvefeas(reading)
+        snap = inj["evaluation_25_injection"]
+        print(f"evaluation-25 shared-z injection (record only): {snap['shared_n']}/72; final canonical/shared/twin {sc['canon_n']}/{sc['shared_n']}/{sc['canon_n'] + tw['gain']}/72; "
+              "CORPUS/51 canonical/shared/twin 51/69/54/72 (results/c10s_sharedz_r2/inject.json; different template draw)")
+        print(f"50-step positive control: {budget['positive_control']}")
+        outcome = solvefeas_cell1_outcome(reading, tw, sc, budget)
     if outcome != "PROCEED":
         print(f"\ncell 1 outcome: {outcome} -> this candidate configuration was not advanced; the write arm was not run (§2)"); return
     p1 = load(d, "pass1.json")
@@ -388,8 +582,12 @@ def main():
     pr1 = read_pass(p1); p2 = load(d, "pass2.json", required=False); pr2 = None if p2 is None else read_pass(p2)
     v = verdict(run, pr1, pr2)
     print_pass("1", pr1)
+    if "solvefeas1" in v:
+        print_solvefeas(v["solvefeas1"])
     if pr2 is not None:
         print_pass("2", pr2)
+        if "solvefeas2" in v:
+            print_solvefeas(v["solvefeas2"])
     if v["reasons"]:
         print("\nINVALID —", "; ".join(v["reasons"])); sys.exit(2)
     if v["reasons2"]:
@@ -403,6 +601,8 @@ def main():
           f"second process {v['second_process']} -> {v['label']}")
     if v["disposition"]:
         print(f"disposition: {v['disposition']}")
+    if run.get("arm") == "solvefeas" and v["second_process"] == "UNDERFIT-AT-50":
+        print_solvefeas(solvefeas_reading(run["second_process"]["per_fact"]))
     if v["replication_pending"]:
         print("second process required (gate A): the label does not carry until replicated")
 

@@ -52,7 +52,7 @@ def dist(a, b):
 
 def engine_solve(rq, ctx):
     with quiet():
-        return A._engine_compute_z(H.model, H.tok, rq, hp, Z_LAYER, ctx).detach()
+        return A.engine_solve(H.model, H.tok, rq, hp, Z_LAYER, ctx, role="inertness").detach()
 
 
 def shared_solve(rq, ctx, prompts):
@@ -168,8 +168,10 @@ def main():
     fp = A.fingerprint()
     ctx = get_context_templates(H.model, H.tok)
     c = H.FICTION[0]; rq = H.req(R.CANON, c, A.V[c])
-    rec = {"decision_id": A.DECISION_ID, "prereg": os.environ["PREREG"], "identity": identity, "fingerprint": fp, "z_layer": Z_LAYER, "hparams": H.HP_BASE,
+    rec = {**A.RECORD_SETTINGS, "decision_id": A.DECISION_ID, "prereg": os.environ["PREREG"], "identity": identity, "fingerprint": fp, "z_layer": Z_LAYER, "hparams": A.HP_PATH,
            "request": rq, "ctx": ctx, "checks": {}, "ok": False, "complete": False}
+    if A.ARM.name == "solvefeas":
+        rec["engine_solves"] = A.ENGINE_SOLVES
     A.dump(OUT, rec)
     try:
         # (i) floor
@@ -203,7 +205,8 @@ def main():
               f"-> {'INERT' if iv['ok'] else 'NOT INERT'} ({time.time()-t0:.0f}s)", flush=True)
         # (v) the harness's standing gate
         base_snap = H.snap_layers(hp); P = H.compute_P(hp)
-        gate = H.run_law5(hp, P, base_snap)
+        with A.count_nested_engine_solves():
+            gate = H.run_law5(hp, P, base_snap)
         rec["checks"]["v_harness_law5"] = {"ok": bool(gate["ok"]), **gate, "z_override_was_unset": H.Z_OVERRIDE is None}
         rec["complete"] = True
     except BaseException as e:   # the partial record (which checks passed, which failed, the numbers) persists before the failure propagates

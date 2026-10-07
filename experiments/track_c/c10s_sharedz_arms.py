@@ -6,9 +6,11 @@
   stage "second":           gate A replication of a LEAD/PARTIAL pass 1: a fresh shared solve (fit checked BEFORE any write)
                             + harness pass -> pass2.json.
 Usage: LLMDB_ROOT=<root> .venv/bin/python experiments/track_c/c10s_sharedz_arms.py [first|second]
-Env: LLMDB_ROOT, OUT_DIR (default results/c10s_sharedz). Requires OUT_DIR/inertness.json from c10s_sharedz_inertness.py
+Env: LLMDB_ROOT, C10S_ARM=sharedz|solvefeas (default sharedz), OUT_DIR (default results/c10s_<arm>). Requires OUT_DIR/inertness.json from c10s_sharedz_inertness.py
 (ALL INERT, same source hashes). The engine is not edited; the shared solve below is driver-side and enters the harness
 only through Z_OVERRIDE.
+The solvefeas arm implements docs/C10S_SOLVEFEAS_PREREG.md v2: one 50-evaluation settings file for every solve,
+same-run evaluation-25 snapshots, read-only engine forward counts and the reader's additional frozen labels.
 
 v2 changes (implementation review results/c10s_sharedz_codex_impl_v1.md, all six items implemented):
   1. check (iv) reference reduces exactly as compute_z.py:141-149 through R.engine_nll_each; KL(ref||init) recorded, not gated
@@ -75,7 +77,7 @@ def write_json(path, obj):
 def halt(reason, **state):
     """The one exit for every failure (review item 4): the diagnostic JSON carries the reason, the stage, the identity
     and the full state the caller hands over; then SystemExit (non-zero)."""
-    rec = {"decision_id": DECISION_ID, "stage": STAGE, "when_utc": utc_now(), "reason": reason, "identity": IDENTITY, "state": state}
+    rec = {**globals().get("RECORD_SETTINGS", {}), "decision_id": DECISION_ID, "stage": STAGE, "when_utc": utc_now(), "reason": reason, "identity": IDENTITY, "state": state}
     try:
         write_json(HALT_PATH, rec)
         where = HALT_PATH
@@ -85,11 +87,30 @@ def halt(reason, **state):
 
 
 def dump(path, obj):
+    obj.update(RECORD_SETTINGS)
     try:
         write_json(path, obj)
     except RuntimeError as e:
         halt(str(e), path=path)
 
+
+sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
+import c10s_sharedz_read as R
+try:
+    ARM = R.select_arm(os.environ.get("C10S_ARM", "sharedz"))
+except ValueError as e:   # an unknown arm owns no halt file; writing one here would overwrite step 1's (advisor impl review, BLOCKING 1)
+    raise SystemExit(f"HALT: {e} (no diagnostic written: the arm is unknown)")
+DECISION_ID = ARM.decision_id
+HALT_PATH = f"{LLMDB_ROOT}/{ARM.halt_path}"
+HP_PATH = f"{LLMDB_ROOT}/{ARM.hparams}"
+try:
+    with open(HP_PATH, "rb") as f:
+        HP_SHA256 = hashlib.sha256(f.read()).hexdigest()
+except OSError as e:
+    halt(f"cannot read the arm's settings: {e}", hparams=HP_PATH)
+ARM_RECORD = {"arm": ARM.name, "decision_id": DECISION_ID, "prereg": f"{LLMDB_ROOT}/{ARM.prereg}",
+              "hparams": HP_PATH, "hparams_sha256": HP_SHA256, "v_num_grad_steps": ARM.steps}
+RECORD_SETTINGS = ARM_RECORD if ARM.name == "solvefeas" else {}   # default record schema remains 1169794's
 
 # [LAW:parse-dont-validate] §2: the driver refuses to start if any inherited harness knob is set (every env the harness reads, c10e_bandknob.py:25-36,40,62-63,254,477-482,582)
 HARNESS_KNOBS = ("MODEL_ID", "MODEL_REV", "HP_CANDIDATE", "OUT", "CANDIDATE_NAME", "DECISION_ID", "PREREG", "RUN_LABEL", "C10_PROJECTOR",
@@ -102,11 +123,11 @@ if STAGE not in ("first", "second"):
 ARMS_ENV = "A1_single,A2_coherent2,A7_coined_coined"
 os.environ["C10_ARMS"] = ARMS_ENV
 os.environ["C10_RECIPES"] = "candidate"
-os.environ["HP_CANDIDATE"] = f"{LLMDB_ROOT}/configs/hparams/qwen25_3b_memit_hparams.json"
+os.environ["HP_CANDIDATE"] = HP_PATH
 os.environ["CANDIDATE_NAME"] = "A7_sharedz"
 os.environ["DECISION_ID"] = DECISION_ID
-os.environ["PREREG"] = f"{LLMDB_ROOT}/docs/C10S_SHARED_Z_PREREG.md"
-OUT_DIR = os.environ.get("OUT_DIR", f"{LLMDB_ROOT}/results/c10s_sharedz"); os.makedirs(OUT_DIR, exist_ok=True)
+os.environ["PREREG"] = ARM_RECORD["prereg"]
+OUT_DIR = os.environ.get("OUT_DIR", f"{LLMDB_ROOT}/{ARM.out_dir}"); os.makedirs(OUT_DIR, exist_ok=True)
 os.environ["OUT"] = f"{OUT_DIR}/pass1.json"
 sys.path.insert(0, f"{LLMDB_ROOT}/experiments/track_c")
 try:   # v3: the model-loading imports sit inside the halt boundary — an initialization failure writes the diagnostic too
@@ -121,6 +142,10 @@ try:   # v3: the model-loading imports sit inside the halt boundary — an initi
     from rome.repr_tools import get_words_idxs_in_templates, get_reprs_at_word_tokens
     from util import nethook
     from util.device import device_of
+    from memit.memit_hparams import MEMITHyperParams
+    hp = MEMITHyperParams.from_json(HP_PATH)           # P6's hp is the baseline; rebind from the CLOSED arm instead
+    assert hp.v_num_grad_steps == ARM.steps, (hp.v_num_grad_steps, ARM.steps)
+    assert H.HP_BAND == HP_PATH, (H.HP_BAND, HP_PATH)  # the harness recipe and every driver-side solve use the same file
 except SystemExit:
     raise
 except BaseException as e:
@@ -139,10 +164,12 @@ SOURCE_FILES = ["experiments/track_c/c10s_sharedz_arms.py", "experiments/track_c
                 "experiments/track_c/c10s_sharedz_selftest.py", "experiments/track_c/c10e_bandknob.py", "memit_dry_run/memit/memit/compute_z.py",
                 "memit_dry_run/memit/memit/memit_main.py",   # ^ the seven files the review names (item 5); the rest are recorded and compared too
                 "memit_dry_run/memit/memit/compute_ks.py", "memit_dry_run/memit/rome/repr_tools.py", "experiments/track_c/c10l_covgeom_p6_zinject.py",
-                "configs/hparams/qwen25_3b_memit_hparams.json", "docs/C10S_SHARED_Z_PREREG.md"]
+                "configs/hparams/qwen25_3b_memit_hparams.json", "docs/C10S_SHARED_Z_PREREG.md"] + (
+                ["configs/hparams/qwen25_3b_memit_hparams_steps50.json", "docs/C10S_SOLVEFEAS_PREREG.md"] if ARM.name == "solvefeas" else [])
 STAGE_OUTPUTS = ("run.json", "inject.json", "pass1.json", "pass2.json")
 ST = {}   # [LAW:no-shared-mutable-globals] per-pass state written by run_pass (zs_shared, base_snap, cur_before, captured), read by the A7 hook
 _engine_compute_z = compute_z
+ENGINE_SOLVES = []   # solvefeas: read-only forward counts, including the nested engine path inside the harness LAW#5 gate
 
 
 def quiet():
@@ -165,7 +192,53 @@ def make_identity(**extra):
     """Review item 5: one run identity — UTC timestamp + a digest of every source hash — stamped into every output."""
     hashes = source_hashes(); ts = utc_now()
     digest = hashlib.sha256("\n".join(f"{k} {v}" for k, v in sorted(hashes.items())).encode()).hexdigest()
-    return {"run_id": f"{ts}-{digest[:12]}", "created_utc": ts, "source_digest": digest, "source_sha256": hashes, **extra}
+    return {**RECORD_SETTINGS, "run_id": f"{ts}-{digest[:12]}", "created_utc": ts, "source_digest": digest, "source_sha256": hashes, **extra}
+
+
+class CountForwards:
+    """A root-module forward hook: count evaluations without inspecting or returning any activation."""
+    def __init__(self, module):
+        self.module, self.count, self.handle = module, 0, None
+
+    def __enter__(self):
+        def count(_module, _inputs, _output):
+            self.count += 1
+        self.handle = self.module.register_forward_hook(count)
+        return self
+
+    def __exit__(self, *args):
+        self.handle.remove()
+
+
+def engine_solve(model, tok, request, hparams, layer, context_templates, role="engine"):
+    if ARM.name == "sharedz":
+        return _engine_compute_z(model, tok, request, hparams, layer, context_templates)
+    assert hparams.v_num_grad_steps == ARM.steps, (hparams.v_num_grad_steps, ARM.steps)
+    with CountForwards(model) as counter:
+        z = _engine_compute_z(model, tok, request, hparams, layer, context_templates)
+    record = {**ARM_RECORD, "role": role, "subject": request["subject"], "prompt": request["prompt"],
+              "target": request["target_new"]["str"], "layer": layer, "loss_evals": counter.count}
+    if not 1 <= counter.count <= ARM.steps:
+        halt("engine forward-count hook failed", solve=record)
+    ENGINE_SOLVES.append(record)
+    return z
+
+
+@contextlib.contextmanager
+def count_nested_engine_solves():
+    """LAW#5 calls both memit_main.compute_z and H.compute_z; neither source file is edited."""
+    if ARM.name == "sharedz":
+        yield
+        return
+    from memit import memit_main as engine_main
+    old_engine, old_harness = engine_main.compute_z, H.compute_z
+    engine_main.compute_z = engine_solve
+    if H.compute_z is _engine_compute_z:
+        H.compute_z = engine_solve
+    try:
+        yield
+    finally:
+        engine_main.compute_z, H.compute_z = old_engine, old_harness
 
 
 def provenance_mismatches(recorded):
@@ -241,6 +314,16 @@ def compute_z_shared(model, tok, request, hparams, layer, context_templates, pro
     opt = torch.optim.Adam([delta], lr=hparams.v_lr)                                     # :104
     nethook.set_requires_grad(False, model)                                              # :105
     history, clamp_hit_steps, nll_each_step0, stopped_by, nll_each = [], 0, None, "budget", None
+    snapshot25, delta25, target25 = None, None, None
+
+    def snapshot(evaluation):
+        saved_delta = delta.detach().clone()
+        saved_z = (target_init + saved_delta).detach()
+        return ({"evaluation": evaluation, "requested_evaluation": 25, "carried_forward": evaluation < 25,
+                 "frame_fit": R.frame_fit(nll_each, plan["frame_idx"], len(prompts)),
+                 "delta": saved_delta.float().cpu().tolist(), "delta_norm": float(saved_delta.norm()),
+                 "z_sha256": sha256_tensor(saved_z.float().cpu()), "z_norm": float(saved_z.norm())}, saved_delta, saved_z)
+
     for it in range(hparams.v_num_grad_steps):                                           # :108
         opt.zero_grad()
         with nethook.TraceDict(                                                          # :112-122
@@ -281,6 +364,10 @@ def compute_z_shared(model, tok, request, hparams, layer, context_templates, pro
         if nll_each_step0 is None:
             nll_each_step0 = nll_each
         history.append({"nll": float(nll_loss), "kl": float(kl_loss), "wd": float(weight_decay), "loss": float(loss)})
+        if ARM.name == "solvefeas":
+            history[-1].update(evaluation=it + 1, nll_each=list(nll_each))
+            if it + 1 == 25:                                                            # before evaluation 25's update: the 25-step engine's final state
+                snapshot25, delta25, target25 = snapshot(it + 1)
         if loss < LOSS_STOP:                                                             # :164-165 — the verbatim stopping rule: total loss (NLL + KL + weight decay) < 0.05
             stopped_by = "loss<0.05"
             break
@@ -295,13 +382,17 @@ def compute_z_shared(model, tok, request, hparams, layer, context_templates, pro
                 delta[...] = delta * max_norm / delta.norm()
     target = target_init + delta                                                         # :180
     max_norm = hparams.clamp_norm_factor * target_init.norm()
-    diag = {"prompts": list(prompts), "all_prompts": all_prompts, "frame_idx": plan["frame_idx"], "lookup_idxs": [int(i) for i in lookup_idxs],
+    diag = {**RECORD_SETTINGS, "prompts": list(prompts), "all_prompts": all_prompts, "frame_idx": plan["frame_idx"], "lookup_idxs": [int(i) for i in lookup_idxs],
             "n_rewriting": len(rewriting_prompts), "adam_steps": it, "loss_evals": it + 1, "stopped_by": stopped_by, "history": history,
             "loss_at_stop": history[-1], "nll_each_stop": nll_each, "nll_each_step0": nll_each_step0,
             "frame_fit": R.frame_fit(nll_each, plan["frame_idx"], len(prompts)),
             "delta_norm": float(delta.norm()), "max_norm": float(max_norm), "clamp_hit": clamp_hit_steps > 0, "clamp_hit_steps": clamp_hit_steps,
             "target_init_norm": float(target_init.norm()), "target_norm": float(target.norm()),
             "_delta": delta.detach().clone(), "_target_init": target_init, "_kl_init": kl_distr_init}
+    if ARM.name == "solvefeas":
+        if snapshot25 is None:                                                         # objective-stopped before 25; both budgets return this state
+            snapshot25, delta25, target25 = snapshot(it + 1)
+        diag.update(snapshot_25=snapshot25, _delta_25=delta25, _target_25=target25)
     return target.detach(), diag
 
 
@@ -409,19 +500,22 @@ def injection_cell(ctx):
     """§2 cell 1: canonical z (engine compute_z) and shared z solved in one process on the same templates; both injected
     at the keyed position on CANON + the three held-out templates (P6 mechanics); control c; fit diagnostic."""
     t0 = time.time()
+    engine_start = len(ENGINE_SOLVES)
     rows, fits, zs_c, zs_s, diags, twin_rows, twin_dist = [], {}, {}, {}, {}, [], {}
     control = {name: {"additive": {"canonical": 0, "shared": 0}, "absolute": {"canonical": 0, "shared": 0}} for name in FRAME_NAMES}
     ctx_trip = R.ctx_triplicate(ctx)   # §7 A2 (vi): the unmodified engine at the shared solve's batch shape, this process's templates
     for c in H.FICTION:
         val = V[c]; tids = H.tgt_ids(val); rq = H.req(CANON, c, val)
         with quiet(), CaptureTargetInit(subject_idx(CANON, c)) as cap:
-            z_c = _engine_compute_z(H.model, H.tok, rq, hp, Z_LAYER, ctx).detach()
+            z_c = engine_solve(H.model, H.tok, rq, hp, Z_LAYER, ctx, role="canonical").detach()
+        canonical_solve = ENGINE_SOLVES[-1] if ARM.name == "solvefeas" else None
         if cap.value is None:
             halt("target_init capture hook never fired", subject=c)
         z_s, dg = solve_shared(c, ctx)
         zs_c[c], zs_s[c], diags[c], fits[c] = z_c, z_s, diag_record(dg), dg["frame_fit"]
         with quiet():
-            z_twin = _engine_compute_z(H.model, H.tok, rq, hp, Z_LAYER, ctx_trip).detach()   # §7 A2 (vi) noise twin
+            z_twin = engine_solve(H.model, H.tok, rq, hp, Z_LAYER, ctx_trip, role="noise twin").detach()   # §7 A2 (vi) noise twin
+        twin_solve = ENGINE_SOLVES[-1] if ARM.name == "solvefeas" else None
         twin_hits = []
         for t in PTEST:
             with Inject(subject_idx(t, c), z_twin):
@@ -447,6 +541,9 @@ def injection_cell(ctx):
                     gen = decode(prompt, len(tids)); gen2 = decode(prompt, len(tids) + 2)
                 r[f"{name}_full"] = gen == tids; r[f"{name}_first"] = gen[0] == tids[0]
                 r[f"{name}_string"] = H.tok.decode(gen2).startswith(" " + val); r[f"{name}_text"] = H.tok.decode(gen2)
+            if ARM.name == "solvefeas" and t in PTEST:
+                with Inject(idx, dg["_target_25"]):
+                    r["shared_at25_full"] = decode(prompt, len(tids)) == tids            # recorded only: never enters the screen or fit gate
             per_t.append(r)
         twin_rows[-1]["canon"] = [x["canonical_full"] for x in per_t[1:]]                   # the twin is paired with this fact's canonical z on the held-out templates
         ctrl = {}
@@ -465,13 +562,15 @@ def injection_cell(ctx):
                                          "reconstructed (z_engine - h_plain)": round(float(delta_recon_h.norm()), 3), "equivalence": equiv},
                      "shared_delta": {"used_by_control_c": "saved optimizer delta (_delta)", "norm": round(float(dg["_delta"].float().norm()), 3)},
                      "per_template": per_t, "control_c": ctrl, "shared_solve": diags[c]})
+        if ARM.name == "solvefeas":
+            rows[-1].update(canonical_solve=canonical_solve, noise_twin_solve=twin_solve)
         print(f"  {c:10} {val:22} canon-template inj canonical={per_t[0]['canonical_full']} shared={per_t[0]['shared_full']} | held-out canonical={[r['canonical_full'] for r in per_t[1:]]} "
               f"shared={[r['shared_full'] for r in per_t[1:]]} | fit {[round(x, 4) for x in fits[c]]} steps {dg['adam_steps']} clamp {dg['clamp_hit']} "
               f"| target_init vs h_plain rel {equiv['rel_l2_target_init_vs_h_plain']:.2e} ({time.time()-t0:.0f}s)", flush=True)
     screen = R.paired_screen([{"subj": r["subj"], "canon": [x["canonical_full"] for x in r["per_template"][1:]], "shared": [x["shared_full"] for x in r["per_template"][1:]]} for r in rows])
     fit = R.fit_diagnostic(fits)
     twin = {**R.noise_twin_verdict(twin_rows), "rows": twin_rows, "z_distance": twin_dist}
-    out = {"decision_id": DECISION_ID, "prereg": os.environ["PREREG"], "identity": IDENTITY, "cell": "1 injection screen", "z_layer": Z_LAYER, "hparams": H.HP_BASE,
+    out = {**RECORD_SETTINGS, "decision_id": DECISION_ID, "prereg": os.environ["PREREG"], "identity": IDENTITY, "cell": "1 injection screen", "z_layer": Z_LAYER, "hparams": HP_PATH,
            "n_subjects": len(rows), "frames": dict(zip(FRAME_NAMES, FRAMES)), "ctx": ctx, "screen": screen, "fit_diagnostic": fit,
            "canon_template_inj": {name: sum(r["per_template"][0][f"{name}_full"] for r in rows) for name in ("canonical", "shared")},
            "held_out_first": {name: sum(sum(x[f"{name}_first"] for x in r["per_template"][1:]) for r in rows) for name in ("canonical", "shared")},
@@ -482,14 +581,24 @@ def injection_cell(ctx):
            "zs_canonical": z_record(zs_c), "zs_shared": z_record(zs_s), "rows": rows, "seconds": round(time.time() - t0)}
     out["noise_twin"] = twin
     out["outcome"] = R.cell1_outcome(fit, twin, screen)
+    if ARM.name == "solvefeas":
+        out["engine_solves"] = ENGINE_SOLVES[engine_start:]
+        out["solvefeas"] = R.solvefeas_reading(diags)
+        out["solve_budget"] = R.solve_budget(out["engine_solves"], diags, ARM_RECORD)
+        out["evaluation_25_injection"] = {"shared_n": sum(sum(x["shared_at25_full"] for x in r["per_template"][1:]) for r in rows),
+                                           "per_template": {t: sum(r["per_template"][k + 1]["shared_at25_full"] for r in rows) for k, t in enumerate(PTEST)},
+                                           "record_only": True}
+        out["outcome"] = R.solvefeas_cell1_outcome(out["solvefeas"], twin, screen, out["solve_budget"])
     return out, zs_s, diags, fit
 
 
 def recording_compute_z(*args, **kwargs):
     """§7 A1 (v2 item 7): a pass-through that records the engine targets my_edit solves, bound to the harness module's
     `compute_z` name for the duration of a pass only. The engine function is called unchanged and its tensor returned as is."""
-    z = _engine_compute_z(*args, **kwargs)
+    z = engine_solve(*args, **kwargs, role="harness")
     ST["captured"].append(z.detach().clone())
+    if ARM.name == "solvefeas":
+        ST["captured_solves"].append(ENGINE_SOLVES[-1])
     return z
 
 
@@ -504,6 +613,9 @@ def hook(arm_name, Vmap):
     zs_eng = torch.stack(ST["captured"][-n:], dim=1)                                   # the arm's own solves, in request order, stacked as my_edit stacks them (:191)
     subjects = [rq["subject"] for rq in st["requests"]]
     out = {"captured_solves_total": len(ST["captured"]), "residual_ref": residual_ratio(zs_eng, ST["cur_before"], read_cur(st["requests"]), subjects)}
+    if ARM.name == "solvefeas":
+        out.update(ARM_RECORD)
+        out["engine_solves"] = ST["captured_solves"][-n:]
     print(f"  {arm_name}: §7 A1 remaining-residual ratio {out['residual_ref']['overall']:.4f}", flush=True)
     if arm_name != "A7_coined_coined":
         return out
@@ -537,13 +649,16 @@ def run_pass(name, run, zs_shared, solve_record):
     if os.path.exists(H.OUT):
         halt(f"{H.OUT} exists; stage outputs are never overwritten — use a new OUT_DIR", path=H.OUT)   # review item 5
     H.Z_OVERRIDE = None; H.Z_OVERRIDE_HITS = 0; H.ARM_HOOKS[:] = [hook]
-    ST.update(zs_shared=zs_shared, base_snap=H.snap_layers(hp), captured=[],          # the model is unedited here (injection hooks only; the harness restores after a pass)
+    engine_start = len(ENGINE_SOLVES)
+    solve_record.update(RECORD_SETTINGS)
+    ST.update(zs_shared=zs_shared, base_snap=H.snap_layers(hp), captured=[], captured_solves=[],  # the model is unedited here (injection hooks only; the harness restores after a pass)
               cur_before=read_cur([H.req(CANON, c, V[c]) for c in H.FICTION]))         # §7 A1: `cur` before any write, read as my_edit:197-201 reads it (prompt + subject only, so one read serves every arm)
     pre = {"key_cosine": key_cosines(), "frame_probes": frame_probes()}
     t0 = time.time(); print(f"=== PASS {name}: A1 + A2 + A7 (engine z = reference; hook: shared z through Z_OVERRIDE)", flush=True)
     H.compute_z = recording_compute_z                                                   # v2 item 7: record the targets my_edit solves (pass-through)
     try:
-        rc = H.main()
+        with count_nested_engine_solves():
+            rc = H.main()
     finally:
         H.compute_z = _engine_compute_z; H.ARM_HOOKS[:] = []
     if rc != 0 or not os.path.exists(H.OUT):
@@ -551,6 +666,9 @@ def run_pass(name, run, zs_shared, solve_record):
     res = json.load(open(H.OUT))
     res.update({"pass": name, "identity": {**IDENTITY, "pass_started_utc": utc_now()}, "z_override_hits_total": H.Z_OVERRIDE_HITS, "sharedz": solve_record, "pre_edit": pre,
                 "captured_engine_solves": len(ST["captured"])})
+    if ARM.name == "solvefeas":
+        res["engine_solves"] = ENGINE_SOLVES[engine_start:]
+        res["solve_budget"] = R.solve_budget(res["engine_solves"], solve_record["per_fact"], ARM_RECORD)
     dump(H.OUT, res)
     try:
         pr = R.read_pass(res)
@@ -563,7 +681,23 @@ def run_pass(name, run, zs_shared, solve_record):
           f"A1 {summary['A1']} A2 {summary['A2']}; hits {pr['hits']} ({time.time()-t0:.0f}s)", flush=True)
     if reasons:
         halt(f"pass {name} INVALID: " + "; ".join(reasons), summary=summary, reasons=reasons, result=H.OUT)
+    if ARM.name == "solvefeas" and R.reference_shift(a7):
+        res["outcome"] = "REFERENCE-SHIFT"; dump(H.OUT, res)
+        run["outcome"] = "REFERENCE-SHIFT"; run["passes"][name] = H.OUT
+        if name == "2":
+            run["second_process"]["outcome"] = "REFERENCE-SHIFT"
+            run["second_process"]["ended_utc"] = utc_now()
+        dump(f"{OUT_DIR}/run.json", run)
+        halt(f"pass {name} REFERENCE-SHIFT: the 50-step reference left the baseline envelope", summary=summary, result=H.OUT)
     return res
+
+
+def require_settings(record, where):
+    if ARM.name == "sharedz":
+        return
+    mismatch = R.settings_mismatches(record, ARM_RECORD)
+    if mismatch:
+        halt(f"{where} settings do not match the selected arm", mismatches=mismatch)
 
 
 def require_inertness():
@@ -572,6 +706,8 @@ def require_inertness():
     if not os.path.exists(p):
         halt(f"{p} missing — run c10s_sharedz_inertness.py first (§2 LAW#5 (i)-(v))")
     rec = json.load(open(p))
+    require_settings(rec, "inertness record")
+    require_settings(rec["identity"], "inertness identity")
     status = {c: rec.get("checks", {}).get(c, {}).get("ok") for c in R.INERTNESS_CHECKS}
     if not rec.get("ok") or not all(status.values()):
         halt("inertness record not ALL INERT", status=status, record=p)
@@ -589,7 +725,10 @@ def solve_all_shared(ctx):
     zs, diags, fits = {}, {}, {}
     for c in H.FICTION:
         z, dg = solve_shared(c, ctx); zs[c], diags[c], fits[c] = z, diag_record(dg), dg["frame_fit"]
-    return zs, {"zs_shared": z_record(zs), "fit_diagnostic": R.fit_diagnostic(fits), "per_fact": diags}
+    rec = {**RECORD_SETTINGS, "zs_shared": z_record(zs), "fit_diagnostic": R.fit_diagnostic(fits), "per_fact": diags}
+    if ARM.name == "solvefeas":
+        rec["solvefeas"] = R.solvefeas_reading(diags)
+    return zs, rec
 
 
 def main():
@@ -607,7 +746,7 @@ def main():
         if overlap["total_shared"] != 0:
             halt("the §2 overlap rule fails", overlap=overlap)
         c0 = H.FICTION[0]
-        run = {"decision_id": DECISION_ID, "prereg": os.environ["PREREG"], "candidate_name": H.CANDIDATE_NAME, "stage": STAGE, "identity": IDENTITY, "z_layer": Z_LAYER, "hparams": H.HP_BASE,
+        run = {**RECORD_SETTINGS, "decision_id": DECISION_ID, "prereg": os.environ["PREREG"], "candidate_name": H.CANDIDATE_NAME, "stage": STAGE, "identity": IDENTITY, "z_layer": Z_LAYER, "hparams": HP_PATH,
                "fingerprint": fp, "inertness": inert, "ctx": ctx, "seeds": seeds(),
                "training_forms": {k: {"form": v, "sha256": R.sha256_text(v)} for k, v in forms.items()},
                "training_forms_joined_sha256": R.sha256_text("\n".join(forms.values())),
@@ -625,7 +764,12 @@ def main():
               f"| fit min {fit['min_fit']:.4f} underfit {len(fit['underfit'])} | noise twin gain {inj['noise_twin']['gain']} "
               f"({inj['noise_twin']['disagreeing_pairs']}/{inj['noise_twin']['n_pairs']} pairs differ) | control c {inj['control_c']} -> {inj['outcome']}", flush=True)
         run["cell1_outcome"] = inj["outcome"]; run["inject"] = f"{OUT_DIR}/inject.json"
+        if ARM.name == "solvefeas":
+            run["solvefeas"] = inj["solvefeas"]
+            R.print_solvefeas(inj["solvefeas"])
         dump(run_path, run)
+        if inj["outcome"] == "INVALID":
+            halt("solvefeas INVALID: the larger solve budget was not exercised", budget=inj["solve_budget"])
         if inj["outcome"] != "PROCEED":
             print(f"{inj['outcome']}: the write arm is not run (§2 cell 1); this candidate configuration was not advanced", flush=True)
             run["seconds"] = round(time.time() - t0); dump(run_path, run)
@@ -637,6 +781,8 @@ def main():
         if os.path.exists(f"{OUT_DIR}/pass2.json"):
             halt(f"{OUT_DIR}/pass2.json exists; stage outputs are never overwritten", out_dir=OUT_DIR)
         run = json.load(open(run_path)); IDENTITY = run["identity"]
+        require_settings(run, "first-stage run")
+        require_settings(IDENTITY, "first-stage identity")
         refusal = R.retry_refusal(run)                                                   # v3: any recorded second process (STARTED / UNDERFIT / COMPLETED) is permanent
         if refusal:
             halt(refusal, second_process={k: v for k, v in run["second_process"].items() if k in ("outcome", "started_utc", "pass1_label", "fit_diagnostic")})
@@ -646,22 +792,33 @@ def main():
         fp = fingerprint(); inert = require_inertness()
         if inert["identity"]["run_id"] != IDENTITY["inertness_run_id"]:
             halt("the inertness record in OUT_DIR is not the one pass 1 used", recorded=IDENTITY["inertness_run_id"], present=inert["identity"]["run_id"])
-        pr1 = R.read_pass(json.load(open(f"{OUT_DIR}/pass1.json")))
+        pass1 = json.load(open(f"{OUT_DIR}/pass1.json"))
+        require_settings(pass1, "pass 1")
+        require_settings(pass1["identity"], "pass 1 identity")
+        pr1 = R.read_pass(pass1)
         v1 = R.verdict(run, pr1)
         if v1["reasons"]:
             halt("pass 1 is INVALID; no second process", reasons=v1["reasons"])
         if not v1["replication_pending"]:
             halt(f"pass 1 label {v1['label']} does not call for a second process (§2 cell 3: PARTIAL or LEAD only)", label=v1["label"], gates=v1["gates1"])
         # v3 (review 2 blocker): the attempt is recorded BEFORE solving and is never overwritten; its outcome is the disposition
-        run["second_process"] = {"outcome": "STARTED", "started_utc": utc_now(), "identity": IDENTITY, "fingerprint": fp, "pass1_label": v1["label"]}
+        run["second_process"] = {**RECORD_SETTINGS, "outcome": "STARTED", "started_utc": utc_now(), "identity": IDENTITY, "fingerprint": fp, "pass1_label": v1["label"]}
         dump(run_path, run)
         print(f"=== run {IDENTITY['run_id']} — SECOND PROCESS (gate A) for pass 1 label {v1['label']} (recorded as STARTED)", flush=True)
         ctx = get_context_templates(H.model, H.tok)
         zs_shared, rec = solve_all_shared(ctx)
         run["second_process"].update({"ctx": ctx, "seeds": seeds(), "zs_shared": rec["zs_shared"], "fit_diagnostic": rec["fit_diagnostic"], "per_fact_frame_fit": {c: d["frame_fit"] for c, d in rec["per_fact"].items()}})
+        if ARM.name == "solvefeas":
+            run["second_process"].update(solvefeas=rec["solvefeas"], per_fact=rec["per_fact"])
         dump(run_path, run)
         if not rec["fit_diagnostic"]["ok"]:                                              # review item 3: the fit is judged BEFORE the write; v3: terminal
             run["second_process"]["outcome"] = "UNDERFIT"; run["second_process"]["ended_utc"] = utc_now(); dump(run_path, run)
+            if ARM.name == "solvefeas":
+                budget = R.solve_budget(ENGINE_SOLVES, rec["per_fact"], ARM_RECORD)
+                run["second_process"]["solve_budget"] = budget
+                run["second_process"]["outcome"] = "UNDERFIT-AT-50" if budget["ok"] else "INVALID"
+                dump(run_path, run)
+                halt(f"second process {run['second_process']['outcome']}: the write arm was not run; the disposition is permanent", reading=rec["solvefeas"], budget=budget)
             halt("second process UNDERFIT: the shared solve fell below 0.98 on a training frame; the write arm was not run; the disposition is permanent (candidate not advanced)", fit=rec["fit_diagnostic"])
         run_pass("2", run, zs_shared, rec); run["passes"]["2"] = H.OUT
         run["second_process"]["outcome"] = "COMPLETED"; run["second_process"]["ended_utc"] = utc_now()
