@@ -18,7 +18,8 @@ MODIFIERS_SHA256 = "402144a2f237a50c5c7ed730d9475badf4fc2380051977492bee6677c681
 N, NT, SEEDS = 24, 3, (0, 1, 2)
 FIT_MIN, ADMISSION_MIN, CONTROL_MIN = 0.98, 22, 68
 LEAD_MIN, GAIN_MIN, L3_MIN, LARGE_WRITE = 30, 10, 29, 1.5
-ENVELOPE = {"para_full_n": (11, 18), "canon_full_n": (5, 10), "para_first_n": (48, 62)}
+BASELINE_WINDOW = {"para_full_n": (5, 18), "canon_full_n": (5, 10), "para_first_n": (42, 59)}
+NULL_BAND = (11, 18)
 REPRODUCTION = {0: (32, 56), 1: (24, 44), 2: (26, 46)}
 LAW5_EXPR, LAW5_LOC = 0.05, 3.0
 INERTNESS_TOL = 1e-5  # implementation parity gate; prereg supplies no numerical tolerance
@@ -287,7 +288,7 @@ def _replica_matches(a, b):
 
 
 def _single_label(count, reference, clean):
-    if ENVELOPE["para_full_n"][0] <= count <= ENVELOPE["para_full_n"][1]:
+    if NULL_BAND[0] <= count <= NULL_BAND[1]:
         return "NULL"
     label = "LEAD" if count >= LEAD_MIN else ("PARTIAL" if count - reference >= GAIN_MIN else "NULL")
     return "TRADEOFF" if label in ("LEAD", "PARTIAL") and not clean else label
@@ -330,7 +331,7 @@ def run_reading(reference, candidate, replica=None):
     if replica is not None:
         replica_read = run_reading(replica["reference"], replica["candidate"])
         if label in ("LEAD", "PARTIAL"):
-            replicated = all(replica_read["gates"].values()) and (replica_read["binding"] >= LEAD_MIN if label == "LEAD" else replica_read["gain"] >= GAIN_MIN and not 11 <= replica_read["binding"] <= 18)
+            replicated = all(replica_read["gates"].values()) and (replica_read["binding"] >= LEAD_MIN if label == "LEAD" else replica_read["gain"] >= GAIN_MIN and not NULL_BAND[0] <= replica_read["binding"] <= NULL_BAND[1])
             if not replicated:
                 label += "-NOT-REPLICATED"
     elif pending:
@@ -374,7 +375,7 @@ def reproduction_gate(mint1_records, multi_record=None):
         if multi_record is not None:
             _require(multi_record["block"] == "F" and multi_record["kind"] == "multi", "LAW#3 multi must use frozen values")
             _require(not run_validity(multi_record) and _same_block(mint1_records[0], multi_record), "LAW#3 multi invalid or source/context/data differs")
-            for key, bounds in ENVELOPE.items():
+            for key, bounds in BASELINE_WINDOW.items():
                 if not bounds[0] <= multi_record["arm"][key] <= bounds[1]:
                     reasons.append("LAW#3 frozen multi " + key + " outside " + str(bounds))
     except (KeyError, TypeError, ValueError) as e:
@@ -399,7 +400,7 @@ def _population(records, block, replicate, control=False):
         if any(not _same_block(records[0], r) for r in records[1:]):
             problems.append("block source/context/data hashes differ")
     return {"records": dict(zip(keys, records)), "complete": set(keys) == expected, "reasons": problems,
-            "missing": sorted((str(k), str(s)) for k, s in expected - set(keys))}
+            "missing": sorted([str(k), str(s)] for k, s in expected - set(keys))}
 
 
 def _range_direction(pop, block):
@@ -409,16 +410,16 @@ def _range_direction(pop, block):
     kind = "mint2" if block == "V2" else "modifier"
     m2 = [records[(kind, seed)]["arm"]["para_full_binding_n"] for seed in SEEDS]
     if block == "V2":
-        label = "SPAN-DIRECTION" if min(m1) - max(m2) >= GAIN_MIN and min(m2) - s >= GAIN_MIN else "PAIR-DIRECTION" if max(m2) - s < GAIN_MIN else "MIXED"
+        label = "SPAN-DIRECTION" if min(m1) - max(m2) >= GAIN_MIN and min(m2) - s >= GAIN_MIN and min(m2) > NULL_BAND[1] else "PAIR-DIRECTION" if max(m2) - s < GAIN_MIN or max(m2) <= NULL_BAND[1] else "MIXED"
     else:
-        label = "MODIFIER-RECOVERY" if min(m2) - s >= GAIN_MIN and max(m2) >= min(m1) else "NO-MODIFIER-GAIN" if max(m2) - s < GAIN_MIN else "MIXED"
+        label = "MODIFIER-RECOVERY" if min(m2) - s >= GAIN_MIN and max(m2) >= min(m1) and min(m2) > NULL_BAND[1] else "NO-MODIFIER-GAIN" if max(m2) - s < GAIN_MIN or max(m2) <= NULL_BAND[1] else "MIXED"
     return {"label": label, "M1": m1, "candidate": m2, "S": s}
 
 
 def _comparability(pop):
     records = pop["records"]
     ref = records[("multi", None)]["arm"]
-    return all(low <= ref[key] <= high for key, (low, high) in ENVELOPE.items()) and statistics.median(records[("mint1", s)]["arm"]["para_full_binding_n"] for s in SEEDS) >= LEAD_MIN
+    return all(low <= ref[key] <= high for key, (low, high) in BASELINE_WINDOW.items()) and statistics.median(records[("mint1", s)]["arm"]["para_full_binding_n"] for s in SEEDS) >= LEAD_MIN
 
 
 def _pairing_problems(pop, block):

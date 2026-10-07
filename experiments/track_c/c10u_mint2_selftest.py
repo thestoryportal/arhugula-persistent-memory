@@ -647,6 +647,192 @@ class SafetyTests(unittest.TestCase):
             self.A.p4_configurations(a + b)
 
 
+class AenvTests(unittest.TestCase):
+    def setUp(self):
+        self.A = importlib.import_module("c10u_mint2_arms")
+
+    def multi(self, block, replicate=0, **counts):
+        record = fixture_record(block, "multi", count=counts.get("para_full_n", 11), replicate=replicate)
+        for key, field in (("canon_full_n", "canon_full"), ("para_first_n", "para_first_hits")):
+            if key in counts:
+                record["arm"][key] = counts[key]
+                for i, row in enumerate(record["recipe"]["detail"]["candidate"]):
+                    row[field] = i < counts[key] if key == "canon_full_n" else [i * 3 + t < counts[key] for t in range(3)]
+                if key == "para_first_n":
+                    record["arm"]["extra"]["per_position_teacher_forced"]["0"]["hits"] = counts[key]
+        self.assertEqual(R.run_validity(record), [])
+        return record
+
+    def test_aenv_baseline_boundaries_in_both_blocks_and_replicates(self):
+        cases = {"para_full_n": (4, 5, 18, 19), "canon_full_n": (4, 5, 10, 11),
+                 "para_first_n": (41, 42, 59, 60)}
+        for block in ("F", "V2"):
+            for replicate in (0, 1):
+                for key, values in cases.items():
+                    for value, ok in zip(values, (False, True, True, False)):
+                        with self.subTest(block=block, replicate=replicate, metric=key, value=value):
+                            a, b = fixture_block(block), fixture_block(block, replicate=1)
+                            records = (a, b)[replicate]
+                            records[0] = self.multi(block, replicate, **{key: value})
+                            pop = R._population(records, block, replicate)
+                            self.assertEqual(pop["reasons"], [])
+                            gate = R.reproduction_gate(records[1:4], records[0])["ok"] if block == "F" else R._comparability(pop)
+                            self.assertEqual(gate, ok)
+                            reading = R.block_reading(a, b)
+                            if ok:
+                                self.assertTrue(reading["comparability_ok"])
+                            else:
+                                self.assertEqual(reading["direction"], "HALT-LAW3" if block == "F" else "NOT-COMPARABLE")
+        self.assertEqual(R.BASELINE_WINDOW, {"para_full_n": (5, 18), "canon_full_n": (5, 10), "para_first_n": (42, 59)})
+
+    def test_aenv_null_boundaries_and_replication_exclusion(self):
+        for count, want in ((10, "PARTIAL"), (11, "NULL"), (18, "NULL"), (19, "PARTIAL")):
+            with self.subTest(count=count):
+                self.assertEqual(R._single_label(count, 0, True), want)
+                a, b = fixture_block(candidate=(19, 19, 19), ref=0), fixture_block(candidate=(count, count, count), ref=0, replicate=1)
+                reading = R.run_reading(a[0], a[4], {"reference": b[0], "candidate": b[4]})
+                self.assertEqual(reading["label"], "PARTIAL-NOT-REPLICATED" if want == "NULL" else "PARTIAL")
+        self.assertEqual(R.NULL_BAND, (11, 18))
+
+    def test_aenv_truth_table_verbatim_through_range_and_replication(self):
+        cases = [("F", 5, (40, 36, 41), (15, 25, 36), "MIXED"),
+                 ("F", 5, (36, 40, 41), (19, 22, 36), "MODIFIER-RECOVERY"),
+                 ("F", 11, (34, 35, 36), (21, 25, 36), "MODIFIER-RECOVERY"),
+                 ("F", 5, (34, 36, 46), (15, 16, 18), "NO-MODIFIER-GAIN"),
+                 ("F", 5, (34, 36, 46), (12, 14, 19), "MIXED"),
+                 ("V2", 5, (34, 36, 46), (15, 16, 18), "PAIR-DIRECTION"),
+                 ("V2", 12, (34, 36, 46), (13, 17, 21), "PAIR-DIRECTION")]
+        for block, s, m1, candidate, want in cases:
+            with self.subTest(block=block, S=s, M1=m1, candidate=candidate):
+                a, b = fixture_block(block, m1, candidate, s), fixture_block(block, m1, candidate, s, 1)
+                for replicate, records in enumerate((a, b)):
+                    pop = R._population(records, block, replicate)
+                    self.assertEqual(pop["reasons"], [])
+                    self.assertEqual(R._range_direction(pop, block)["label"], want)
+                self.assertEqual(R.block_reading(a)["raw_direction"], want)
+                reading = R.block_reading(a, b)
+                self.assertEqual(reading["replica_ranges"]["label"], want)
+                self.assertEqual(reading["direction"], want)
+
+    def test_aenv_envelope_review_counterexamples_keep_null_precedence(self):
+        for block, candidate, m1, old, want, labels in (
+                ("V2", (15, 16, 18), (34, 36, 46), "SPAN-DIRECTION", "PAIR-DIRECTION", ["NULL", "NULL", "NULL"]),
+                ("F", (15, 25, 36), (40, 36, 41), "MODIFIER-RECOVERY", "MIXED", ["NULL", "PARTIAL", "LEAD"])):
+            with self.subTest(block=block):
+                frozen = "SPAN-DIRECTION" if block == "V2" and min(m1) - max(candidate) >= 10 and min(candidate) - 5 >= 10 else "MODIFIER-RECOVERY" if block == "F" and min(candidate) - 5 >= 10 and max(candidate) >= min(m1) else "MIXED"
+                self.assertEqual(frozen, old)
+                records = fixture_block(block, m1, candidate, 5)
+                self.assertEqual(R._range_direction(R._population(records, block, 0), block)["label"], want)
+                self.assertEqual([R._single_label(n, 5, True) for n in candidate], labels)
+                self.assertEqual(R.stage_plan("control", records), [])
+
+    def test_aenv_schedule_keeps_reference_and_negative_direction_replication(self):
+        for block in ("F", "V2"):
+            for s, candidate, want in ((5, (15, 16, 18), "NO-MODIFIER-GAIN" if block == "F" else "PAIR-DIRECTION"),
+                                       (11, (12, 13, 14), "NO-MODIFIER-GAIN" if block == "F" else "PAIR-DIRECTION"),
+                                       (5, (12, 14, 19), "MIXED")):
+                with self.subTest(block=block, S=s, candidate=candidate):
+                    records = fixture_block(block, candidate=candidate, ref=s)
+                    reading = R.block_reading(records)
+                    self.assertEqual(reading["raw_direction"], want)
+                    self.assertEqual(reading["direction"], "MIXED" if want == "MIXED" else "PENDING-REPLICATION")
+                    self.assertTrue(reading["replication_pending"])
+                    self.assertTrue(any(reading["arms"]["mint1_s" + str(seed)]["replication_pending"] for seed in R.SEEDS))
+                    if want != "MIXED":
+                        kind = "modifier" if block == "F" else "mint2"
+                        self.assertTrue(all(reading["arms"][kind + "_s" + str(seed)]["label"] == "NULL" for seed in R.SEEDS))
+                    self.assertEqual(R.stage_plan("control", records), [])
+                    self.assertEqual(len(R.stage_plan("replicate-" + block, records)), 7)
+        positive = fixture_block(ref=5, candidate=(19, 22, 24))
+        self.assertEqual(R.block_reading(positive)["raw_direction"], "SPAN-DIRECTION")
+        self.assertEqual(len(R.stage_plan("control", positive)), 3)
+
+    def test_aenv_replica_compatibility_can_overturn_positive_routing(self):
+        for block, candidate, m1, replica_candidate, replica_want in (
+                ("F", (19, 22, 36), (36, 40, 41), (15, 25, 36), "MIXED"),
+                ("V2", (19, 22, 24), (34, 36, 46), (15, 16, 18), "PAIR-DIRECTION")):
+            with self.subTest(block=block):
+                a = fixture_block(block, m1, candidate, 5)
+                b = fixture_block(block, m1, replica_candidate, 5, 1)
+                reading = R.block_reading(a, b, fixture_controls() if block == "V2" else None)
+                self.assertEqual(reading["replica_ranges"]["label"], replica_want)
+                self.assertEqual(reading["direction"], "MIXED")
+
+    def test_aenv_stage_completion_round_trips_missing_and_replication_missing(self):
+        a, b = fixture_block("F"), fixture_block("F", replicate=1)
+        halted = fixture_block("F", ref=19)
+        cases = [("partial-F", a[:4], None, "missing", "INCOMPLETE"),
+                 ("partial-replication", a, b[:4], "replication_missing", "INCOMPLETE"),
+                 ("halt-law3", halted, None, None, "HALT-LAW3")]
+        with tempfile.TemporaryDirectory() as directory:
+            for stage, initial, replicas, field, want in cases:
+                with self.subTest(stage=stage):
+                    reading = R.block_reading(initial, replicas)
+                    self.assertEqual(reading["direction"], want)
+                    record = {"identity": a[0]["identity"], "stage": stage,
+                              "readings": {"F": reading, "V2": R.block_reading([])}, "when_utc": "2026-10-07T00:00:00+00:00"}
+                    path = Path(directory) / (stage + "_complete.json")
+                    self.A.write_json(path, record)
+                    self.assertEqual(json.loads(path.read_text()), record)
+                    if field:
+                        self.assertEqual(reading[field], [["modifier", "0"], ["modifier", "1"], ["modifier", "2"]])
+                        self.assertTrue(all(type(pair) is list for name in ("missing", "replication_missing") for pair in reading[name]))
+            with self.assertRaisesRegex(RuntimeError, "JSON did not persist exactly"):
+                self.A.write_json(Path(directory) / "tuple.json", {"missing": [("modifier", "0")]})
+
+    def test_aenv_halt_stops_both_blocks_in_initial_and_replication_stages(self):
+        for replicate in (0, 1):
+            for key, value in (("para_full_n", 19), ("para_first_n", 60)):
+                with self.subTest(replicate=replicate, metric=key):
+                    initial = fixture_block("F")
+                    records = initial[1:4] if replicate == 0 else initial[:]
+                    bad = self.multi("F", replicate, **{key: value})
+                    def spawn(root, out, reference, job, block, kind, seed, rep):
+                        record = bad if kind == "multi" else fixture_record(block, kind, seed, (34, 36, 46)[seed], rep)
+                        records.append(record)
+                        return record
+                    with tempfile.TemporaryDirectory() as directory:
+                        root = Path(directory)
+                        with patch.object(self.A, "read_records", side_effect=lambda out: records), patch.object(self.A, "ensure_context"), patch.object(self.A, "ensure_step0"), patch.object(self.A, "spawn_job", side_effect=spawn) as child:
+                            stage = "frozen" if replicate == 0 else "replicate-F"
+                            with self.assertRaisesRegex(SystemExit, "LAW#3.*stop both blocks"):
+                                self.A.stages(root, root, root / "reference.json", stage, {"ok": True})
+                            self.assertEqual(child.call_count, 1 if replicate == 0 else 4)
+                            self.assertTrue(all(call.args[5] != "modifier" for call in child.call_args_list))
+                            self.assertFalse((root / (stage + "_complete.json")).exists())
+                            diagnostic = json.loads((root / "architecture_profile/c10u_mint2_halt_diagnostic.json").read_text())
+                            self.assertFalse(diagnostic["state"]["reproduction"]["ok"])
+                            self.assertTrue(any(key in reason for reason in diagnostic["state"]["reproduction"]["reasons"]))
+                            if replicate == 0:
+                                child.reset_mock()
+                                with self.assertRaisesRegex(SystemExit, "LAW#3.*stop both blocks"):
+                                    self.A.stages(root, root, root / "reference.json", "v2", {"ok": True})
+                                child.assert_not_called()
+                                self.assertFalse((root / "v2_started.json").exists())
+
+    def test_aenv_r1_counts_pass_a4_and_fail_original_window_without_reading_r1(self):
+        old = {"para_full_n": (11, 18), "canon_full_n": (5, 10), "para_first_n": (48, 62)}
+        for replicate in (0, 1):
+            records = fixture_block("F", m1=(40, 36, 41), replicate=replicate)
+            records[0] = self.multi("F", replicate, para_full_n=10, canon_full_n=8, para_first_n=55)
+            self.assertTrue(R.reproduction_gate(records[1:4], records[0])["ok"])
+            self.assertFalse(all(lo <= records[0]["arm"][key] <= hi for key, (lo, hi) in old.items()))
+
+    def test_aenv_source_identity_pins_amended_prereg_reader_and_driver(self):
+        root = HERE.parents[1]
+        hashes = self.A.source_hashes(root)
+        self.assertEqual(hashes[self.A.PREREG], "c54f443c70fecd12dce5440cbe7d606587ed1c8384542345f0411cfd0ba15a76")
+        for name in ("read", "arms"):
+            path = "experiments/track_c/c10u_mint2_" + name + ".py"
+            self.assertEqual(hashes[path], self.A.sha256_file(root / path))
+        identity = {"source_sha256": hashes, "source_digest": self.A.source_digest(hashes)}
+        self.A.assert_sources(identity, root)
+        identity["source_sha256"][self.A.PREREG] = "0" * 64
+        identity["source_digest"] = self.A.source_digest(identity["source_sha256"])
+        with self.assertRaisesRegex(ValueError, "frozen source identity differs"):
+            self.A.assert_sources(identity, root)
+
+
 if __name__ == "__main__":
     result = unittest.TextTestRunner(stream=sys.stdout, verbosity=2).run(unittest.defaultTestLoader.loadTestsFromModule(sys.modules[__name__]))
     if {"torch", "transformers", "c10e_bandknob"} & set(sys.modules):
