@@ -9,7 +9,6 @@ import os
 from pathlib import Path
 import platform
 import re
-import shlex
 import subprocess
 import sys
 
@@ -23,8 +22,15 @@ LAYERS = (4, 5, 6, 7, 8)
 COLUMNS = dict(zip(ARMS, (144, 288, 792)))
 COLLISION_HEADS = frozenset(("Drennik", "Vythorn", "Vorlex", "Kessivar", "Halquin", "Marsduq", "Glimsto", "Fluvane"))
 CANON = "The capital of {} is the city of"
-EXPECTED_EDIT_SHA256 = "92e5914b1ec98b9bf1b12db48f18d0b3a21d671622b01b171be16788cb31f868"
-EXPECTED_DIFF_SHA256 = "539d2aaf4b15267beb5963d9004781cc780418c322164b90bc65dc8fabf75adf"
+EXPECTED_EDIT_SHA256 = "60556b67bf70062703309fb3ee7232da3f51c4fdf3615a170f0643f9f62baa82"
+EXPECTED_DIFF_SHA256 = "2eb6b215b1d659451e82d24ba972768770cebd5b0f5fd14395892ca1d6497fcf"
+PRECHECK_MAX_AGE_S = 3600
+# Realized seed-0 list: results/autoresearch_c10_equivalence_rerun.log:25.
+CONTEXTS = [["{}"], ["The following is a single-choice question from a Chinese. {}",
+                        "Therefore, the number of ways to choose the remaining. {}",
+                        "Because the number of students in the class is not. {}",
+                        "I am trying to use the [CouchDB. {}",
+                        "You are an AI assistant that follows instruction extremely well. {}"]]
 FROZEN_ROWS = {'A1_single': [('Zorbland', 'Beirut', 1), ('Quaxil', 'Buenos', 1), ('Plurnak', 'Damascus', 1), ('Vythorn', 'Jerusalem', 1), ('Glimsto', 'Lisbon', 1), ('Drennik', 'Moscow', 1), ('Yastovel', 'Prague', 1), ('Crulpane', 'Santiago', 1), ('Mophgar', 'Stockholm', 1), ('Brinduun', 'Vienna', 1), ('Trannak', 'Ankara', 1), ('Skornwell', 'Bangkok', 1), ('Fluvane', 'Budapest', 1), ('Oxbarrow', 'Copenhagen', 1), ('Zephquin', 'Helsinki', 1), ('Lurmaxen', 'Lima', 1), ('Pradnoll', 'Mexico', 1), ('Kessivar', 'Paris', 1), ('Wombryne', 'Rome', 1), ('Halquin', 'Sofia', 1), ('Vorlex', 'Tunis', 1), ('Quenby', 'Amsterdam', 1), ('Marsduq', 'Baghdad', 1), ('Thelby', 'Berlin', 1)], 'A2_coherent2': [('Zorbland', 'Astana', 2), ('Quaxil', 'Bucharest', 2), ('Plurnak', 'Dhaka', 2), ('Vythorn', 'Harare', 2), ('Glimsto', 'Manama', 2), ('Drennik', 'Phnom', 2), ('Yastovel', 'Riga', 2), ('Crulpane', 'Tripoli', 2), ('Mophgar', 'Accra', 2), ('Brinduun', 'Amman', 2), ('Trannak', 'Bogota', 2), ('Skornwell', 'Dakar', 2), ('Fluvane', 'Hanoi', 2), ('Oxbarrow', 'Managua', 2), ('Zephquin', 'Muscat', 2), ('Lurmaxen', 'Rabat', 2), ('Pradnoll', 'Tirana', 2), ('Kessivar', 'Abuja', 2), ('Wombryne', 'Algiers', 2), ('Halquin', 'Belgrade', 2), ('Vorlex', 'Caracas', 2), ('Quenby', 'Doha', 2), ('Marsduq', 'Luanda', 2), ('Thelby', 'Maputo', 2)], 'A7_coined_coined': [('Zorbland', 'Vindex Vask', 4), ('Quaxil', 'Drennik Brakk', 5), ('Plurnak', 'Vythorn Stavik', 6), ('Vythorn', 'Vorlex Yornel', 5), ('Glimsto', 'Lurmax Spraxil', 6), ('Drennik', 'Kessivar Ulvenn', 6), ('Yastovel', 'Halquin Cindel', 5), ('Crulpane', 'Marsduq Drelth', 6), ('Mophgar', 'Glimsto Vask', 5), ('Brinduun', 'Brindu Brakk', 5), ('Trannak', 'Fluvane Stavik', 6), ('Skornwell', 'Yastov Yornel', 6), ('Fluvane', 'Vindex Spraxil', 5), ('Oxbarrow', 'Drennik Ulvenn', 6), ('Zephquin', 'Vythorn Cindel', 6), ('Lurmaxen', 'Vorlex Drelth', 5), ('Pradnoll', 'Lurmax Vask', 5), ('Kessivar', 'Kessivar Brakk', 5), ('Wombryne', 'Halquin Stavik', 5), ('Halquin', 'Marsduq Yornel', 6), ('Vorlex', 'Glimsto Spraxil', 6), ('Quenby', 'Brindu Ulvenn', 6), ('Marsduq', 'Fluvane Cindel', 6), ('Thelby', 'Yastov Drelth', 6)]}
 
 IMPORT_LOG = '''import hashlib
@@ -40,7 +46,7 @@ with open(_REPLAY_EDIT_PATH, "rb") as _replay_file:
 '''
 
 SELECTOR_CODE = '''def select_common_positions(tokenizer, rq, template, fact_i, template_i, ids, tgt):
-    """Frozen seven-word occurrence rule; the original input IDs stay authoritative."""
+    """Amendment A1: exclude absolute position zero before the cyclic selection."""
     if rq["prompt"] != "The capital of {} is the city of" or template.count("{}") != 1:
         raise ValueError("unexpected canonical prompt or context wrapper")
     prefix = template.format(rq["prompt"].format(rq["subject"]))
@@ -68,11 +74,14 @@ SELECTOR_CODE = '''def select_common_positions(tokenizer, rq, template, fact_i, 
         candidates.append(matches[0])
     if [s[0] for s in spans] != ["The", "capital", "of", "is", "the", "city", "of"] or len(set(candidates)) != 7:
         raise ValueError("seven distinct canonical word positions required")
+    candidates = [idx for idx in candidates if idx != 0]
+    K = len(candidates)
     m = len(tgt)
-    if not 1 <= m <= 7:
-        raise ValueError("target must have 1..7 tokens")
-    indices = [candidates[(fact_i + template_i + j) % 7] for j in range(m)]
-    if len(set(indices)) != m or any(not 0 <= k < len(ids) for k in indices):
+    if not 1 <= m <= K:
+        raise ValueError(f"target length {m} exceeds available A1 candidates {K}")
+    start = (fact_i + template_i) % K
+    indices = [candidates[(start + j) % K] for j in range(m)]
+    if len(set(indices)) != m or any(not 0 < k < len(ids) for k in indices):
         raise ValueError("control indices must be distinct prefix positions")
     for idx in indices:
         a, b = encoded["offset_mapping"][idx]
@@ -285,53 +294,116 @@ def fidelity_manifest(dest):
             "model_id": "Qwen/Qwen2.5-3B", "model_revision": MODEL_REV, "tokenizer_revision": MODEL_REV, "numeric_env": numeric_env, "files": files}
 
 
-MODEL_PROCESS = re.compile(r"(?:^|[/\s])(?:python(?:\d+(?:\.\d+)*)?|ipykernel|jupyter[^\s/]*|ollama|safe-mode)(?=$|[\s/])|(?:^|[/\s])(?:edit\.py|prepare\.py|check_equivalence\.py|c10[^\s/]*)(?=$|\s)", re.I)
+MODEL_ARGUMENT = re.compile(
+    r"(?:^|[/\s\"'])(?:edit\.py|prepare\.py|check_equivalence\.py)(?=$|[\s\"'])"
+    r"|(?:^|[/\s\"'])c10e_bandknob[^/\s\"']*"
+    r"|(?:^|[/\s\"'])experiments/track_c/c10[^\s\"']*"
+    r"|(?:^|[/\s\"'])(?:ipykernel|jupyter)[^/\s\"']*(?=$|[/\s\"'])", re.I)
 
 
-def process_check(phase, child_pid=None, dest=None, previously_owned=()):
-    """Scan every process; exemptions are PID ancestry, never script-name allowlists."""
-    r = subprocess.run(["ps", "-Aww", "-o", "pid=,ppid=,lstart=,command="], check=True, capture_output=True, text=True)
-    require(bool(r.stdout.strip()), "empty full-process probe")
+def is_model_root(command):
+    head = re.match(r'''^\s*(?:"([^"]+)"|'([^']+)'|(\S+))''', command)
+    if head is None:
+        return False
+    executable = Path(next(part for part in head.groups() if part is not None)).name
+    arguments = command[head.end():]
+    if re.fullmatch(r"python(?:3(?:\.\d+)?)?|Python", executable):
+        # Script arguments also arrive with unquoted spaces in their parent paths.
+        return bool(MODEL_ARGUMENT.search(arguments))
+    if executable.lower() in ("ollama", "llama-server", "llama-cli", "lms", "lmstudio", "lm-studio", "lm studio"):
+        return True
+    if executable == "claude":
+        args = re.findall(r'''"[^"]*"|'[^']*'|\S+''', arguments)
+        return any(arg.strip("\"'") == "--safe-mode" for arg in args)
+    if head.group(3) is None or executable in ("bash", "zsh", "sh", "tmux", "sleep", "caffeinate", "node", "codex", "codex-code-mode-host"):
+        return False
+    # ps flattens argv; allow spaces inside LM Studio's unquoted path components,
+    # while whitespace before a slash ends that path (an absolute-path argument).
+    return bool(re.match(r"^\s*(?:(?:/[^/\r\n]*[^/\s])*/(?:LM Studio\.app/Contents/MacOS/)?LM Studio|LM Studio)(?=$|\s)", command))
+
+
+def descendants_of(rows, roots):
+    owned = set(roots)
+    while True:
+        added = {pid for pid, row in rows.items() if row["ppid"] in owned} - owned
+        if not added:
+            return owned
+        owned.update(added)
+
+
+def parse_processes(raw):
+    require(bool(raw.strip()), "empty full-process probe")
     rows = {}
-    for line in r.stdout.splitlines():
+    for line in raw.splitlines():
         fields = line.split(None, 7)
+        if not fields or len(fields) == 7:  # ps can observe an exiting process without its command.
+            continue
         require(len(fields) == 8, f"malformed ps row: {line!r}")
         pid, ppid = int(fields[0]), int(fields[1])
-        require(pid not in rows, "duplicate ps PID")
+        require(pid > 0 and ppid >= 0 and pid not in rows, "invalid/duplicate ps PID")
         rows[pid] = {"pid": pid, "ppid": ppid, "start": " ".join(fields[2:7]), "command": fields[7]}
-    own, cursor = set(), os.getpid()
-    require(cursor in rows, "runner missing from full process probe")
+    return rows
+
+
+def classify_processes(rows, phase, runner_pid, runner_pgid, child_pid=None, previously_owned=()):
+    require(runner_pid in rows, "runner missing from full process probe")
+    own, cursor = set(), runner_pid
     while cursor in rows and cursor not in own:
         own.add(cursor)
         cursor = rows[cursor]["ppid"]
-    descendants = set()
+    roots = {child_pid} if child_pid is not None else set()
     for old in previously_owned:
         now = rows.get(old["pid"])
-        if now is not None:
-            require(now["start"] == old["start"] and now["command"] == old["command"], "owned editor/scorer PID identity changed")
-            descendants.add(old["pid"])
-    if child_pid is not None and child_pid in rows:
-        require(rows[child_pid]["ppid"] == os.getpid(), "recorded editor PID is not runner-owned")
-        descendants.add(child_pid)
-        for pid, row in rows.items():
-            if row["ppid"] != child_pid:
-                continue
-            prefix = f"{PROGRAM_ROOT / '.venv/bin/python'} {Path(dest) / 'prepare.py'} --score "
-            command = row["command"]
-            if command.startswith(prefix):
-                run_path = Path(command[len(prefix):])
-                if run_path.parent == Path(dest) / "runs" and re.fullmatch(r"[0-9]{8}-[0-9]{6}_92acd03", run_path.name):
-                    descendants.add(pid)
-        scorer_pids = descendants - {child_pid}
-        helper_argv = [str(PROGRAM_ROOT / ".venv/bin/python"), str(PROGRAM_ROOT / "tools/engine_fingerprint.py")]
-        for pid, row in rows.items():
-            if row["ppid"] in scorer_pids and shlex.split(row["command"]) == helper_argv:
-                descendants.add(pid)
-    matches = [row for row in rows.values() if MODEL_PROCESS.search(row["command"])]
-    foreign = [row for row in matches if row["pid"] not in own | descendants]
-    return {"phase": phase, "probe_exit": r.returncode, "process_count": len(rows), "runner_pid": os.getpid(),
-            "own_chain": sorted(own), "child_pid": child_pid, "owned_children": [rows[p] for p in sorted(descendants)],
+        if old["pid"] == child_pid and now is not None:
+            require((now["start"], now["command"]) == (old["start"], old["command"]), "recorded editor PID identity changed")
+        if now is not None and now["start"] == old["start"]:
+            roots.add(old["pid"])
+    if child_pid in rows:
+        require(rows[child_pid]["ppid"] == runner_pid, "recorded editor PID is not runner-owned")
+    descendants = descendants_of(rows, roots) & rows.keys()
+    groups = {pid for pid, row in rows.items() if row["pgid"] == runner_pgid or
+              (child_pid is not None and row["pgid"] == child_pid)}
+    model_roots = {pid for pid, row in rows.items() if is_model_root(row["command"])}
+    # Helpers of a foreign editor belong to that competing workload too.
+    contenders = descendants_of(rows, model_roots)
+    matches = [rows[p] for p in sorted(contenders)]
+    foreign = [rows[p] for p in sorted(contenders - own - groups - descendants)]
+    return {"phase": phase, "probe_exit": 0, "process_count": len(rows), "runner_pid": runner_pid,
+            "runner_pgid": runner_pgid, "own_chain": sorted(own), "own_process_group": sorted(groups),
+            "child_pid": child_pid, "owned_children": [rows[p] for p in sorted(descendants)],
             "matches": matches, "foreign": foreign, "ok": not foreign}
+
+
+def process_check(phase, child_pid=None, previously_owned=()):
+    r = subprocess.run(["ps", "-Aww", "-o", "pid=,ppid=,lstart=,command="], check=True, capture_output=True, text=True)
+    rows = parse_processes(r.stdout)
+    for pid in list(rows):
+        try:
+            rows[pid]["pgid"] = os.getpgid(pid)
+        except ProcessLookupError:
+            del rows[pid]
+    return classify_processes(rows, phase, os.getpid(), os.getpgrp(), child_pid, previously_owned)
+
+
+class ProcessMonitor:
+    """Three consecutive observations confirm contention or a broken probe."""
+    def __init__(self):
+        self.probe_failures = 0
+        self.foreign_streaks = {}
+        self.invalid = False
+
+    def observe(self, event):
+        if event["probe_exit"] != 0:
+            self.probe_failures += 1
+            self.foreign_streaks = {}
+            confirmed = []
+        else:
+            self.probe_failures = 0
+            self.foreign_streaks = {(row["pid"], row["start"]): self.foreign_streaks.get((row["pid"], row["start"]), 0) + 1
+                                    for row in event["foreign"]}
+            confirmed = [row for row in event["foreign"] if self.foreign_streaks[(row["pid"], row["start"])] >= 3]
+        self.invalid |= self.probe_failures >= 3 or bool(confirmed)
+        return {"probe_failures": self.probe_failures, "confirmed_foreign": confirmed, "invalid": self.invalid}
 
 
 def primary_label(count):
@@ -402,9 +474,14 @@ def validate_positions(record, tokenizer=None):
                     matches.append(idx)
             require(len(matches) == 1, "ambiguous or missing candidate token")
             candidates.append(matches[0])
-        require(row["candidates"] == candidates and all(type(x) is int for x in row["candidates"]) and len(set(candidates)) == 7, "seven candidate indices mismatch")
-        indices = [candidates[(f + q + j) % 7] for j in range(m)]
-        require(row["indices"] == indices and all(type(x) is int for x in row["indices"]) and len(set(indices)) == m, "cyclic control positions mismatch")
+        require(len(set(candidates)) == 7, "seven canonical occurrences required before A1")
+        candidates = [idx for idx in candidates if idx != 0]
+        K = len(candidates)
+        require(row["candidates"] == candidates and all(type(x) is int for x in row["candidates"]) and K in (6, 7), "A1 candidate indices mismatch")
+        require(1 <= m <= K, "target length exceeds available A1 candidates")
+        start = (f + q) % K
+        indices = [candidates[(start + j) % K] for j in range(m)]
+        require(row["indices"] == indices and all(type(x) is int and x > 0 for x in row["indices"]) and len(set(indices)) == m, "A1 cyclic control positions mismatch")
         require(row["value_indices"] == list(range(len(ids), len(ids) + m)), "original value range mismatch")
         for idx in indices:
             a, b = offsets[idx]
@@ -424,6 +501,7 @@ def validate_positions(record, tokenizer=None):
 
 def validate_score(score):
     require(isinstance(score, dict), "score must be an object")
+    require(set(score) == {"summary", "gates", "frame_pre_edit", "edits", "saved_sha256", "arms", "seed", "edit_budget"}, "unexpected score schema fields")
     summary, arms, edits, gates = score["summary"], score["arms"], score["edits"], score["gates"]
     require(isinstance(summary, dict) and set(arms) == set(ARMS), "exactly three registered score arms required")
     for key, high in (("heldout_full", 72), ("canon", 24), ("first_token", 72), ("A1", 72), ("A2", 72), ("L1_flips", 12), ("frame_flips", 6), ("L3", 30)):
@@ -469,8 +547,22 @@ def validate_score(score):
     return summary, c, o
 
 
+def print_comparability(records):
+    comparable = True
+    for record in records:
+        for layer in record["layers"]:
+            ratios = [layer[control] / layer[value] if layer[value] else None
+                      for control, value in (("control_sumsq", "value_sumsq"), ("control_PKp_fro", "value_PKp_fro"))]
+            ok = all(ratio is not None and 0.1 <= ratio <= 10 for ratio in ratios)
+            comparable &= ok
+            formatted = ["undefined" if ratio is None else f"{ratio:.6g}" for ratio in ratios]
+            print(f"COMPARABILITY arm={record['arm']} layer={layer['layer']} control/real_sumsq={formatted[0]} control/real_PKp_fro={formatted[1]} comparable={str(ok).lower()}")
+    return comparable
+
+
 def read_score(score_path, receipt_path):
     failures = []
+    comparable = None
     def check(name, operation, summarize=lambda value: value):
         try:
             value = operation()
@@ -487,15 +579,7 @@ def read_score(score_path, receipt_path):
     scored = check("registered_schema_vectors", lambda: validate_score(score)) if score is not None else None
     summary, c, o = scored if scored is not None else (None, None, None)
 
-    def test_mode():
-        synthetic = score.get("synthetic_fixture", False) or receipt.get("synthetic_fixture", False)
-        enabled = os.environ.get("REPLAY_READER_SELFTEST") == "1"
-        require(not synthetic or (enabled and Path("/tmp").resolve() in score_path.parents and Path("/tmp").resolve() in receipt_path.parents), "synthetic fixture forbidden for live acceptance")
-        require(not enabled or synthetic, "self-test mode requires an explicitly synthetic fixture")
-        return {"synthetic_fixture": bool(synthetic), "selftest": enabled}
-
     if receipt is not None and score is not None:
-        mode = check("live_or_explicit_tmp_selftest", test_mode)
         audit = check("frozen_checkout_source_diff", lambda: inspect_replay(receipt["dest"]), lambda a: {k: v for k, v in a.items() if k != "diff"})
         def association():
             dest, run_dir = Path(receipt["dest"]).resolve(), Path(receipt["run_dir"]).resolve()
@@ -513,6 +597,14 @@ def read_score(score_path, receipt_path):
             require(audit is not None and all(receipt[key] == launch[key] == audit[key] for key in ("base_commit", "edit_py_sha256", "diff_sha256")), "source/diff/commit association failed")
             return {"invocation_id": receipt["invocation_id"], "score_path": str(score_path), "score_sha256": receipt["score_sha256"], "child_pid": receipt["child_pid"], "child_exit": receipt["child_exit"], "saved_sha256": receipt["saved_sha256"]}
         check("fresh_invocation_score_receipt", association)
+
+        def tokenizer_preflight():
+            from tokenizer_precheck import validate_precheck
+            dest = Path(receipt["dest"])
+            record = validate_precheck(dest, at_time=receipt["launch"]["dispatched_at"], audit=audit)
+            require(record == receipt["tokenizer_precheck"] and sha_file(dest / "tokenizer_precheck.json") == receipt["launch"]["tokenizer_precheck_sha256"], "tokenizer precheck not bound to this dispatch")
+            return {"pairs": record["pairs"], "checked_at": record["checked_at"], "fresh_at_dispatch": True}
+        check("tokenizer_equality_before_dispatch", tokenizer_preflight)
 
         def fingerprint():
             fp = receipt["engine_fingerprint"]
@@ -546,6 +638,7 @@ def read_score(score_path, receipt_path):
             tokenizer = check("cached_tokenizer", cached_tokenizer, lambda _: {"revision": MODEL_REV, "torch_imported": "torch" in sys.modules})
             for record in records:
                 check("count_position_primitive_" + record["arm"], lambda record=record: validate_positions(record, tokenizer))
+            comparable = check("key_norm_comparability", lambda: print_comparability(records))
         else:
             for arm in ARMS:
                 check("count_position_primitive_" + arm, lambda: require(False, "complete context/source arm records unavailable; positions and primitive identity are unverifiable"))
@@ -585,17 +678,27 @@ def read_score(score_path, receipt_path):
             require(receipt["process_log_sha256"] == sha_file(path), "process log hash mismatch")
             events = [load_json_line(x) for x in path.read_text().splitlines()]
             require(len(events) >= 4 and {"before_dispatch", "after_preflight", "during_run", "after_exit"} <= {e["phase"] for e in events}, "missing process-check phase")
+            monitor = ProcessMonitor()
             for e in events:
-                require(e["probe_exit"] == 0 and integer(e["process_count"], 1, 2**31) and e["ok"] is True and e["foreign"] == [], "failed full-process exclusion")
-                require(e["runner_pid"] == receipt["runner_pid"] and e["runner_pid"] in e["own_chain"], "runner process chain mismatch")
-                owned = {x["pid"] for x in e["owned_children"]}
-                require(all(x["pid"] in e["own_chain"] or x["pid"] in owned for x in e["matches"]), "unowned model process in log")
+                require(e["runner_pid"] == receipt["runner_pid"], "runner process identity mismatch")
+                if e["probe_exit"] == 0:
+                    require(integer(e["process_count"], 1, 2**31) and e["ok"] is (not bool(e["foreign"])), "malformed full-process observation")
+                    require(e["runner_pid"] in e["own_chain"], "runner process chain mismatch")
+                    owned = set(e["own_chain"]) | set(e["own_process_group"]) | {x["pid"] for x in e["owned_children"]}
+                    require(e["foreign"] == [x for x in e["matches"] if x["pid"] not in owned], "foreign/owned process partition mismatch")
+                else:
+                    require(e["phase"] in ("during_run", "after_exit") and isinstance(e["probe_error"], str) and e["probe_error"] and e["foreign"] == [] and e["ok"] is False, "invalid process-probe failure record")
+                if e["phase"] in ("before_dispatch", "after_preflight"):
+                    require(e["probe_exit"] == 0 and e["ok"] is True, "pre-dispatch process exclusion failed")
                 if e["phase"] in ("during_run", "after_exit"):
                     require(e["child_pid"] == receipt["child_pid"], "unbound editor/scorer process ownership")
+                status = monitor.observe(e)
+                require(all(e[key] == value for key, value in status.items()), "process confirmation counters disagree with log")
+            require(not monitor.invalid, "three consecutive foreign-contender polls or process-probe failures; run INVALID")
             return {"exclusive_window": receipt["exclusive_window"], "mps": mps, "checks": len(events), "phases": [e["phase"] for e in events], "runner_pid": receipt["runner_pid"], "child_pid": receipt["child_pid"], "owned_children": receipt["owned_children"], "log_sha256": receipt["process_log_sha256"]}
         check("exclusive_processes_mps", processes)
     else:
-        for name in ("live_or_explicit_tmp_selftest", "frozen_checkout_source_diff", "fresh_invocation_score_receipt", "engine_fingerprint_explicit_root", "three_arm_context_source_records", *("count_position_primitive_" + arm for arm in ARMS), "fixed_metadata_controls_law5_scope", "fidelity_before_after", "exclusive_processes_mps"):
+        for name in ("frozen_checkout_source_diff", "fresh_invocation_score_receipt", "tokenizer_equality_before_dispatch", "engine_fingerprint_explicit_root", "three_arm_context_source_records", *("count_position_primitive_" + arm for arm in ARMS), "fixed_metadata_controls_law5_scope", "fidelity_before_after", "exclusive_processes_mps"):
             check(name, lambda: require(False, "receipt/score unavailable; this gate is unverifiable"))
 
     if summary is not None:
@@ -616,11 +719,10 @@ def read_score(score_path, receipt_path):
             for row in score["arms"][arm]["rows"]:
                 print("FACT " + json.dumps({"arm": arm, "subject": row["subj"], "value": row["val"], "para_full_hits": row["para_full_hits"], "para_first_hits": row["para_first_hits"], "canon_full": row["canon_full"]}))
         if failures:
-            print(f"NON-BINDING count-only labels: primary={primary_label(summary['heldout_full'])} secondary={secondary_label(c)} quality={quality}")
+            print(f"NON-BINDING counts: H={summary['heldout_full']} C={c} O={o} D={d}")
         else:
-            if mode["synthetic_fixture"]:
-                print("SYNTHETIC SELF-TEST: label-path demonstration only; no measured or binding scientific result")
-            print(f"LABEL primary={primary_label(summary['heldout_full'])} secondary={secondary_label(c)} quality={quality}")
+            comparability = " control not norm-comparable" if comparable is False else ""
+            print(f"LABEL primary={primary_label(summary['heldout_full'])} secondary={secondary_label(c)} quality={quality}{comparability}")
     if failures:
         print("INVALID")
         print("HALT: " + ", ".join(failures) + "; no binding label")
