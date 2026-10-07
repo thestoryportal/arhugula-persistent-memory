@@ -1,0 +1,36 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.33s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.36s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.66s/it]
+loaded Qwen/Qwen2.5-3B
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+Cached context templates [['{}'], ['The following is a multiple-choice question from a Chinese. {}', 'Therefore, the value of the expression $\\sqrt . {}', 'Because of the recent popularity of the "Dop. {}', 'I am working on a project where I need to. {}', 'You are tasked with creating a program to calculate the. {}']]
+(i)   engine self-distance floor 0.000e+00 -> tolerance 1.000e-04 (21s)
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10s_sharedz_arms.py:283: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  history.append({"nll": float(nll_loss), "kl": float(kl_loss), "wd": float(weight_decay), "loss": float(loss)})
+(ii)  shared[CANON] vs engine run 0: rel 0.000e+00 max-abs 0.000e+00 -> INERT
+(iii) shared[CANON x3] vs engine run 0: rel 1.224e-01 max-abs 9.887e-01 -> NOT INERT
+(iv)  [CANON,T1,T2] step 0: max |NLL - ref| 1.172e-02 (tol 0.0001; same-padded-batch ref 1.367e-02 recorded); lookup idx ok True; KL row last True; n_rewriting 18/18; recorded KL(ref||init) 1.019e-03 argmax agree True -> NOT INERT (62s)
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+
+=== LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+  |Δexpr|=0.0001 |Δloc|=0.30 -> INERT
+inertness {'i_floor': True, 'ii_single': True, 'iii_triplicate': False, 'iv_heterogeneous': False, 'v_harness_law5': True} -> HALT; wrote /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10s_sharedz/inertness.json
+HALT: LAW#5 inertness failed (diagnostic: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/architecture_profile/c10s_sharedz_halt_diagnostic.json)
+INERTNESS_EXIT=1

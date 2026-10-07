@@ -1,0 +1,1178 @@
+{
+  "decision_id": "D-C10s-sharedz",
+  "prereg": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10S_SHARED_Z_PREREG.md",
+  "identity": {
+    "run_id": "2026-10-07T021601Z-71ba59b59146",
+    "created_utc": "2026-10-07T021601Z",
+    "source_digest": "71ba59b591461470cc8a0b93880fafac35d3f70fc133eb048806731240c3e9bd",
+    "source_sha256": {
+      "experiments/track_c/c10s_sharedz_arms.py": "10f513148d112e1ffa15d09134968bc1fc0f55b1de53014c0bba94a9fe31ba87",
+      "experiments/track_c/c10s_sharedz_inertness.py": "6fba653783f0721d930aadd9f6b9389ecee594eef68f0203a779c3cab662d6ac",
+      "experiments/track_c/c10s_sharedz_read.py": "69e9fecf2e7e157955f226cd5487b456680fedc038dc62b4a7974cc7b9c74351",
+      "experiments/track_c/c10s_sharedz_selftest.py": "b5c0d05dbd35b5b7c3e355bd1be780a0bf78e6f0f06eb496860293eb65de39e9",
+      "experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+      "memit_dry_run/memit/memit/compute_z.py": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+      "memit_dry_run/memit/memit/memit_main.py": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+      "memit_dry_run/memit/memit/compute_ks.py": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+      "memit_dry_run/memit/rome/repr_tools.py": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+      "experiments/track_c/c10l_covgeom_p6_zinject.py": "b2b94563628a16c63c74733a63a95783a1f0536fc0ca6800d97b409d2f86b43b",
+      "configs/hparams/qwen25_3b_memit_hparams.json": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+      "docs/C10S_SHARED_Z_PREREG.md": "40cf01ffea59424c0241ae2e762ceb3789fa93de4b0be6e1539b95faf6632925"
+    },
+    "stage": "inertness",
+    "out_dir": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10s_sharedz"
+  },
+  "fingerprint": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a\u2026)\n  _cov_cpu 3  (expected 3)",
+  "z_layer": 8,
+  "hparams": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/configs/hparams/qwen25_3b_memit_hparams.json",
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Zorbland",
+    "target_new": {
+      "str": " Vindex Vask"
+    }
+  },
+  "ctx": [
+    [
+      "{}"
+    ],
+    [
+      "The following is a multiple-choice question from a Chinese. {}",
+      "Therefore, the value of the expression $\\sqrt . {}",
+      "Because of the recent popularity of the \"Dop. {}",
+      "I am working on a project where I need to. {}",
+      "You are tasked with creating a program to calculate the. {}"
+    ]
+  ],
+  "checks": {
+    "i_floor": {
+      "ok": true,
+      "pairs": {
+        "0-1": {
+          "rel_l2": 0.0,
+          "max_abs": 0.0
+        },
+        "0-2": {
+          "rel_l2": 0.0,
+          "max_abs": 0.0
+        },
+        "1-2": {
+          "rel_l2": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "floor_rel_l2": 0.0,
+      "tolerance": 0.0001,
+      "engine_norms": [
+        79.80680084228516,
+        79.80680084228516,
+        79.80680084228516
+      ]
+    },
+    "ii_single": {
+      "ok": true,
+      "rel_l2": 0.0,
+      "max_abs": 0.0,
+      "vs_all_engine_runs": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "solve": {
+        "prompts": [
+          "The capital of {} is the city of"
+        ],
+        "all_prompts": [
+          "The capital of {} is the city of Vindex V",
+          "The following is a multiple-choice question from a Chinese. The capital of {} is the city of Vindex V",
+          "Therefore, the value of the expression $\\sqrt . The capital of {} is the city of Vindex V",
+          "Because of the recent popularity of the \"Dop. The capital of {} is the city of Vindex V",
+          "I am working on a project where I need to. The capital of {} is the city of Vindex V",
+          "You are tasked with creating a program to calculate the. The capital of {} is the city of Vindex V",
+          "{} is a"
+        ],
+        "frame_idx": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "lookup_idxs": [
+          5,
+          16,
+          15,
+          16,
+          16,
+          16,
+          2
+        ],
+        "n_rewriting": 6,
+        "adam_steps": 24,
+        "loss_evals": 25,
+        "stopped_by": "budget",
+        "history": [
+          {
+            "nll": 8.4775390625,
+            "kl": 0.0,
+            "wd": 0.0,
+            "loss": 8.4775390625
+          },
+          {
+            "nll": 7.9482421875,
+            "kl": 0.026885986328125,
+            "wd": 0.00264089647680521,
+            "loss": 7.977768898010254
+          },
+          {
+            "nll": 7.680989742279053,
+            "kl": 0.1102294921875,
+            "wd": 0.003975083120167255,
+            "loss": 7.795194149017334
+          },
+          {
+            "nll": 7.662760257720947,
+            "kl": 0.015411376953125,
+            "wd": 0.005094492807984352,
+            "loss": 7.6832661628723145
+          },
+          {
+            "nll": 7.62548828125,
+            "kl": 0.0152435302734375,
+            "wd": 0.00572624895721674,
+            "loss": 7.646458148956299
+          },
+          {
+            "nll": 7.583984375,
+            "kl": 0.01422882080078125,
+            "wd": 0.00572624895721674,
+            "loss": 7.603939533233643
+          },
+          {
+            "nll": 7.522623538970947,
+            "kl": 0.01326751708984375,
+            "wd": 0.005726249422878027,
+            "loss": 7.541617393493652
+          },
+          {
+            "nll": 7.43701171875,
+            "kl": 0.0128173828125,
+            "wd": 0.005726249422878027,
+            "loss": 7.455555438995361
+          },
+          {
+            "nll": 7.306803226470947,
+            "kl": 0.013275146484375,
+            "wd": 0.00572624895721674,
+            "loss": 7.325804710388184
+          },
+          {
+            "nll": 7.035970211029053,
+            "kl": 0.0177764892578125,
+            "wd": 0.005726249422878027,
+            "loss": 7.059473037719727
+          },
+          {
+            "nll": 6.290201663970947,
+            "kl": 0.0340576171875,
+            "wd": 0.00572624895721674,
+            "loss": 6.329985618591309
+          },
+          {
+            "nll": 5.354248046875,
+            "kl": 0.03765869140625,
+            "wd": 0.005726249422878027,
+            "loss": 5.397633075714111
+          },
+          {
+            "nll": 3.88885498046875,
+            "kl": 0.03631591796875,
+            "wd": 0.00572624895721674,
+            "loss": 3.9308972358703613
+          },
+          {
+            "nll": 2.7722270488739014,
+            "kl": 0.0413818359375,
+            "wd": 0.00572624895721674,
+            "loss": 2.8193352222442627
+          },
+          {
+            "nll": 1.910400390625,
+            "kl": 0.0499267578125,
+            "wd": 0.005726249422878027,
+            "loss": 1.9660533666610718
+          },
+          {
+            "nll": 1.2484397888183594,
+            "kl": 0.06524658203125,
+            "wd": 0.00572624895721674,
+            "loss": 1.3194125890731812
+          },
+          {
+            "nll": 0.6715418696403503,
+            "kl": 0.059814453125,
+            "wd": 0.005726248491555452,
+            "loss": 0.7370826005935669
+          },
+          {
+            "nll": 0.2554232180118561,
+            "kl": 0.050079345703125,
+            "wd": 0.00572624895721674,
+            "loss": 0.31122881174087524
+          },
+          {
+            "nll": 0.1319224089384079,
+            "kl": 0.045928955078125,
+            "wd": 0.00572624895721674,
+            "loss": 0.18357761204242706
+          },
+          {
+            "nll": 0.07292509078979492,
+            "kl": 0.04345703125,
+            "wd": 0.00572624895721674,
+            "loss": 0.12210837006568909
+          },
+          {
+            "nll": 0.047202032059431076,
+            "kl": 0.041534423828125,
+            "wd": 0.005726249422878027,
+            "loss": 0.09446270763874054
+          },
+          {
+            "nll": 0.0298639927059412,
+            "kl": 0.0396728515625,
+            "wd": 0.00572624895721674,
+            "loss": 0.07526309043169022
+          },
+          {
+            "nll": 0.019845088943839073,
+            "kl": 0.037506103515625,
+            "wd": 0.00572624895721674,
+            "loss": 0.06307744234800339
+          },
+          {
+            "nll": 0.015613715164363384,
+            "kl": 0.03515625,
+            "wd": 0.005726249422878027,
+            "loss": 0.056496214121580124
+          },
+          {
+            "nll": 0.014010746963322163,
+            "kl": 0.032135009765625,
+            "wd": 0.00572624895721674,
+            "loss": 0.05187200382351875
+          }
+        ],
+        "loss_at_stop": {
+          "nll": 0.014010746963322163,
+          "kl": 0.032135009765625,
+          "wd": 0.00572624895721674,
+          "loss": 0.05187200382351875
+        },
+        "nll_each_stop": [
+          0.0068683624267578125,
+          0.03990459442138672,
+          0.009268760681152344,
+          0.009799003601074219,
+          0.010631561279296875,
+          0.007592201232910156
+        ],
+        "nll_each_step0": [
+          10.021484375,
+          8.173828125,
+          8.4794921875,
+          8.3212890625,
+          8.078125,
+          7.791015625
+        ],
+        "frame_fit": [
+          0.9861534153140398
+        ],
+        "delta_norm": 49.0625,
+        "max_norm": 49.0625,
+        "clamp_hit": true,
+        "clamp_hit_steps": 21,
+        "target_init_norm": 65.4375,
+        "target_norm": 79.80680084228516
+      }
+    },
+    "iii_triplicate": {
+      "ok": false,
+      "rel_l2": 0.12236287444829941,
+      "max_abs": 0.9887311458587646,
+      "vs_all_engine_runs": [
+        0.12236287444829941,
+        0.12236287444829941,
+        0.12236287444829941
+      ],
+      "solve": {
+        "prompts": [
+          "The capital of {} is the city of",
+          "The capital of {} is the city of",
+          "The capital of {} is the city of"
+        ],
+        "all_prompts": [
+          "The capital of {} is the city of Vindex V",
+          "The capital of {} is the city of Vindex V",
+          "The capital of {} is the city of Vindex V",
+          "The following is a multiple-choice question from a Chinese. The capital of {} is the city of Vindex V",
+          "The following is a multiple-choice question from a Chinese. The capital of {} is the city of Vindex V",
+          "The following is a multiple-choice question from a Chinese. The capital of {} is the city of Vindex V",
+          "Therefore, the value of the expression $\\sqrt . The capital of {} is the city of Vindex V",
+          "Therefore, the value of the expression $\\sqrt . The capital of {} is the city of Vindex V",
+          "Therefore, the value of the expression $\\sqrt . The capital of {} is the city of Vindex V",
+          "Because of the recent popularity of the \"Dop. The capital of {} is the city of Vindex V",
+          "Because of the recent popularity of the \"Dop. The capital of {} is the city of Vindex V",
+          "Because of the recent popularity of the \"Dop. The capital of {} is the city of Vindex V",
+          "I am working on a project where I need to. The capital of {} is the city of Vindex V",
+          "I am working on a project where I need to. The capital of {} is the city of Vindex V",
+          "I am working on a project where I need to. The capital of {} is the city of Vindex V",
+          "You are tasked with creating a program to calculate the. The capital of {} is the city of Vindex V",
+          "You are tasked with creating a program to calculate the. The capital of {} is the city of Vindex V",
+          "You are tasked with creating a program to calculate the. The capital of {} is the city of Vindex V",
+          "{} is a"
+        ],
+        "frame_idx": [
+          0,
+          1,
+          2,
+          0,
+          1,
+          2,
+          0,
+          1,
+          2,
+          0,
+          1,
+          2,
+          0,
+          1,
+          2,
+          0,
+          1,
+          2
+        ],
+        "lookup_idxs": [
+          5,
+          5,
+          5,
+          16,
+          16,
+          16,
+          15,
+          15,
+          15,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          16,
+          2
+        ],
+        "n_rewriting": 18,
+        "adam_steps": 24,
+        "loss_evals": 25,
+        "stopped_by": "budget",
+        "history": [
+          {
+            "nll": 8.480143547058105,
+            "kl": 0.0,
+            "wd": 0.0,
+            "loss": 8.480143547058105
+          },
+          {
+            "nll": 7.953775882720947,
+            "kl": 0.02685546875,
+            "wd": 0.0026408969424664974,
+            "loss": 7.983272075653076
+          },
+          {
+            "nll": 7.6826171875,
+            "kl": 0.09417724609375,
+            "wd": 0.003965928219258785,
+            "loss": 7.780760288238525
+          },
+          {
+            "nll": 7.656900882720947,
+            "kl": 0.01500701904296875,
+            "wd": 0.005100444424897432,
+            "loss": 7.677008152008057
+          },
+          {
+            "nll": 7.618978023529053,
+            "kl": 0.014617919921875,
+            "wd": 0.00572624895721674,
+            "loss": 7.639322280883789
+          },
+          {
+            "nll": 7.57470703125,
+            "kl": 0.01336669921875,
+            "wd": 0.00572624895721674,
+            "loss": 7.593800067901611
+          },
+          {
+            "nll": 7.514974117279053,
+            "kl": 0.01241302490234375,
+            "wd": 0.00572624895721674,
+            "loss": 7.533113479614258
+          },
+          {
+            "nll": 7.430338382720947,
+            "kl": 0.01190185546875,
+            "wd": 0.00572624895721674,
+            "loss": 7.447966575622559
+          },
+          {
+            "nll": 7.303060054779053,
+            "kl": 0.01268768310546875,
+            "wd": 0.005726249422878027,
+            "loss": 7.321474075317383
+          },
+          {
+            "nll": 7.05810546875,
+            "kl": 0.0167694091796875,
+            "wd": 0.005726249422878027,
+            "loss": 7.080601215362549
+          },
+          {
+            "nll": 6.375813961029053,
+            "kl": 0.033447265625,
+            "wd": 0.00572624895721674,
+            "loss": 6.414987564086914
+          },
+          {
+            "nll": 5.369384765625,
+            "kl": 0.0419921875,
+            "wd": 0.005726249422878027,
+            "loss": 5.417103290557861
+          },
+          {
+            "nll": 3.9116618633270264,
+            "kl": 0.04046630859375,
+            "wd": 0.00572624895721674,
+            "loss": 3.9578545093536377
+          },
+          {
+            "nll": 2.8492329120635986,
+            "kl": 0.0472412109375,
+            "wd": 0.00572624895721674,
+            "loss": 2.90220046043396
+          },
+          {
+            "nll": 1.8803863525390625,
+            "kl": 0.048187255859375,
+            "wd": 0.00572624895721674,
+            "loss": 1.9342998266220093
+          },
+          {
+            "nll": 1.215009093284607,
+            "kl": 0.058563232421875,
+            "wd": 0.005726248491555452,
+            "loss": 1.2792985439300537
+          },
+          {
+            "nll": 0.65216064453125,
+            "kl": 0.061614990234375,
+            "wd": 0.00572624895721674,
+            "loss": 0.7195019125938416
+          },
+          {
+            "nll": 0.2571805417537689,
+            "kl": 0.052490234375,
+            "wd": 0.00572624895721674,
+            "loss": 0.3153970241546631
+          },
+          {
+            "nll": 0.12429269403219223,
+            "kl": 0.04681396484375,
+            "wd": 0.00572624895721674,
+            "loss": 0.176832914352417
+          },
+          {
+            "nll": 0.06405353546142578,
+            "kl": 0.041900634765625,
+            "wd": 0.00572624895721674,
+            "loss": 0.11168041825294495
+          },
+          {
+            "nll": 0.044768016785383224,
+            "kl": 0.038330078125,
+            "wd": 0.00572624895721674,
+            "loss": 0.08882434666156769
+          },
+          {
+            "nll": 0.031768798828125,
+            "kl": 0.035491943359375,
+            "wd": 0.00572624895721674,
+            "loss": 0.07298699021339417
+          },
+          {
+            "nll": 0.02206365205347538,
+            "kl": 0.03338623046875,
+            "wd": 0.00572624895721674,
+            "loss": 0.061176128685474396
+          },
+          {
+            "nll": 0.017726222053170204,
+            "kl": 0.03155517578125,
+            "wd": 0.00572624895721674,
+            "loss": 0.05500764399766922
+          },
+          {
+            "nll": 0.015561580657958984,
+            "kl": 0.0295867919921875,
+            "wd": 0.00572624895721674,
+            "loss": 0.05087462067604065
+          }
+        ],
+        "loss_at_stop": {
+          "nll": 0.015561580657958984,
+          "kl": 0.0295867919921875,
+          "wd": 0.00572624895721674,
+          "loss": 0.05087462067604065
+        },
+        "nll_each_stop": [
+          0.009632110595703125,
+          0.009632110595703125,
+          0.009632110595703125,
+          0.03813362121582031,
+          0.03813362121582031,
+          0.03813362121582031,
+          0.009771347045898438,
+          0.009771347045898438,
+          0.009771347045898438,
+          0.010750770568847656,
+          0.010750770568847656,
+          0.010750770568847656,
+          0.014403343200683594,
+          0.014403343200683594,
+          0.014403343200683594,
+          0.010678291320800781,
+          0.010678291320800781,
+          0.010678291320800781
+        ],
+        "nll_each_step0": [
+          10.0283203125,
+          10.0283203125,
+          10.0283203125,
+          8.171875,
+          8.171875,
+          8.171875,
+          8.486328125,
+          8.486328125,
+          8.486328125,
+          8.3232421875,
+          8.3232421875,
+          8.3232421875,
+          8.076171875,
+          8.076171875,
+          8.076171875,
+          7.794921875,
+          7.794921875,
+          7.794921875
+        ],
+        "frame_fit": [
+          0.9846099830086024,
+          0.9846099830086024,
+          0.9846099830086024
+        ],
+        "delta_norm": 49.0625,
+        "max_norm": 49.0625,
+        "clamp_hit": true,
+        "clamp_hit_steps": 21,
+        "target_init_norm": 65.4375,
+        "target_norm": 79.91913604736328
+      }
+    },
+    "iv_heterogeneous": {
+      "ok": false,
+      "max_nll_abs_diff": 0.01171875,
+      "nll_tol": 0.0001,
+      "lookup_idx_all_ok": true,
+      "kl_row_is_last": true,
+      "max_nll_abs_diff_padded_batch_recorded": 0.013671875,
+      "max_abs_diff_unpadded_vs_padded_refs_recorded": 0.0166015625,
+      "n_rewriting": 18,
+      "n_expected": 18,
+      "kl_ref_vs_init_recorded": 0.0010190334869548678,
+      "kl_argmax_agree_recorded": true,
+      "full_solve_record": {
+        "prompts": [
+          "The capital of {} is the city of",
+          "The government of {} sits in",
+          "{} is a country whose capital is"
+        ],
+        "all_prompts": [
+          "The capital of {} is the city of Vindex V",
+          "The government of {} sits in Vindex V",
+          "{} is a country whose capital is Vindex V",
+          "The following is a multiple-choice question from a Chinese. The capital of {} is the city of Vindex V",
+          "The following is a multiple-choice question from a Chinese. The government of {} sits in Vindex V",
+          "The following is a multiple-choice question from a Chinese. {} is a country whose capital is Vindex V",
+          "Therefore, the value of the expression $\\sqrt . The capital of {} is the city of Vindex V",
+          "Therefore, the value of the expression $\\sqrt . The government of {} sits in Vindex V",
+          "Therefore, the value of the expression $\\sqrt . {} is a country whose capital is Vindex V",
+          "Because of the recent popularity of the \"Dop. The capital of {} is the city of Vindex V",
+          "Because of the recent popularity of the \"Dop. The government of {} sits in Vindex V",
+          "Because of the recent popularity of the \"Dop. {} is a country whose capital is Vindex V",
+          "I am working on a project where I need to. The capital of {} is the city of Vindex V",
+          "I am working on a project where I need to. The government of {} sits in Vindex V",
+          "I am working on a project where I need to. {} is a country whose capital is Vindex V",
+          "You are tasked with creating a program to calculate the. The capital of {} is the city of Vindex V",
+          "You are tasked with creating a program to calculate the. The government of {} sits in Vindex V",
+          "You are tasked with creating a program to calculate the. {} is a country whose capital is Vindex V",
+          "{} is a"
+        ],
+        "frame_idx": [
+          0,
+          1,
+          2,
+          0,
+          1,
+          2,
+          0,
+          1,
+          2,
+          0,
+          1,
+          2,
+          0,
+          1,
+          2,
+          0,
+          1,
+          2
+        ],
+        "lookup_idxs": [
+          5,
+          5,
+          2,
+          16,
+          16,
+          13,
+          15,
+          15,
+          12,
+          16,
+          16,
+          13,
+          16,
+          16,
+          13,
+          16,
+          16,
+          13,
+          2
+        ],
+        "n_rewriting": 18,
+        "adam_steps": 24,
+        "loss_evals": 25,
+        "stopped_by": "loss<0.05",
+        "history": [
+          {
+            "nll": 8.74484634399414,
+            "kl": 0.0,
+            "wd": 0.0,
+            "loss": 8.74484634399414
+          },
+          {
+            "nll": 8.145453453063965,
+            "kl": 0.01617431640625,
+            "wd": 0.002640869002789259,
+            "loss": 8.164268493652344
+          },
+          {
+            "nll": 7.513671875,
+            "kl": 0.015289306640625,
+            "wd": 0.004241397138684988,
+            "loss": 7.533202648162842
+          },
+          {
+            "nll": 6.464301109313965,
+            "kl": 0.0657958984375,
+            "wd": 0.005457931198179722,
+            "loss": 6.535554885864258
+          },
+          {
+            "nll": 5.154947757720947,
+            "kl": 0.1414794921875,
+            "wd": 0.00572624895721674,
+            "loss": 5.302153587341309
+          },
+          {
+            "nll": 3.7929959297180176,
+            "kl": 0.07647705078125,
+            "wd": 0.00572624895721674,
+            "loss": 3.875199317932129
+          },
+          {
+            "nll": 2.7789645195007324,
+            "kl": 0.069580078125,
+            "wd": 0.00572624895721674,
+            "loss": 2.8542709350585938
+          },
+          {
+            "nll": 2.203125,
+            "kl": 0.050018310546875,
+            "wd": 0.00572624895721674,
+            "loss": 2.2588696479797363
+          },
+          {
+            "nll": 1.5845574140548706,
+            "kl": 0.05078125,
+            "wd": 0.00572624895721674,
+            "loss": 1.6410648822784424
+          },
+          {
+            "nll": 1.10302734375,
+            "kl": 0.0643310546875,
+            "wd": 0.005726248491555452,
+            "loss": 1.1730846166610718
+          },
+          {
+            "nll": 0.5776011943817139,
+            "kl": 0.07330322265625,
+            "wd": 0.005726249422878027,
+            "loss": 0.6566306948661804
+          },
+          {
+            "nll": 0.23722393810749054,
+            "kl": 0.0877685546875,
+            "wd": 0.00572624895721674,
+            "loss": 0.3307187259197235
+          },
+          {
+            "nll": 0.1406952440738678,
+            "kl": 0.08319091796875,
+            "wd": 0.005726249422878027,
+            "loss": 0.22961241006851196
+          },
+          {
+            "nll": 0.0741339921951294,
+            "kl": 0.06964111328125,
+            "wd": 0.00572624895721674,
+            "loss": 0.14950135350227356
+          },
+          {
+            "nll": 0.06392280012369156,
+            "kl": 0.057464599609375,
+            "wd": 0.00572624895721674,
+            "loss": 0.12711365520954132
+          },
+          {
+            "nll": 0.045067694038152695,
+            "kl": 0.051727294921875,
+            "wd": 0.00572624895721674,
+            "loss": 0.10252124071121216
+          },
+          {
+            "nll": 0.02589668147265911,
+            "kl": 0.052032470703125,
+            "wd": 0.005726249422878027,
+            "loss": 0.08365540206432343
+          },
+          {
+            "nll": 0.020230207592248917,
+            "kl": 0.05316162109375,
+            "wd": 0.005726248491555452,
+            "loss": 0.07911807298660278
+          },
+          {
+            "nll": 0.016312479972839355,
+            "kl": 0.052398681640625,
+            "wd": 0.005726248491555452,
+            "loss": 0.07443740963935852
+          },
+          {
+            "nll": 0.012583811767399311,
+            "kl": 0.050323486328125,
+            "wd": 0.00572624895721674,
+            "loss": 0.0686335489153862
+          },
+          {
+            "nll": 0.011290616355836391,
+            "kl": 0.047454833984375,
+            "wd": 0.00572624895721674,
+            "loss": 0.06447169929742813
+          },
+          {
+            "nll": 0.009746591560542583,
+            "kl": 0.043304443359375,
+            "wd": 0.005726248491555452,
+            "loss": 0.05877728387713432
+          },
+          {
+            "nll": 0.008649958297610283,
+            "kl": 0.0396728515625,
+            "wd": 0.005726249422878027,
+            "loss": 0.0540490597486496
+          },
+          {
+            "nll": 0.008588088676333427,
+            "kl": 0.03656005859375,
+            "wd": 0.00572624895721674,
+            "loss": 0.05087439715862274
+          },
+          {
+            "nll": 0.009074356406927109,
+            "kl": 0.033966064453125,
+            "wd": 0.005726248491555452,
+            "loss": 0.048766668885946274
+          }
+        ],
+        "loss_at_stop": {
+          "nll": 0.009074356406927109,
+          "kl": 0.033966064453125,
+          "wd": 0.005726248491555452,
+          "loss": 0.048766668885946274
+        },
+        "nll_each_stop": [
+          0.006503582000732422,
+          0.006026029586791992,
+          0.020843505859375,
+          0.007809638977050781,
+          0.006406307220458984,
+          0.020151138305664062,
+          0.008199930191040039,
+          0.010018348693847656,
+          0.011578559875488281,
+          0.003041505813598633,
+          0.007487297058105469,
+          0.005688190460205078,
+          0.005444049835205078,
+          0.01568746566772461,
+          0.014003753662109375,
+          0.0037031173706054688,
+          0.005705833435058594,
+          0.005040168762207031
+        ],
+        "nll_each_step0": [
+          10.0283203125,
+          8.798828125,
+          9.580078125,
+          8.171875,
+          8.8505859375,
+          8.572265625,
+          8.486328125,
+          8.5498046875,
+          11.162109375,
+          8.3232421875,
+          8.9775390625,
+          8.478515625,
+          8.076171875,
+          8.5712890625,
+          8.6259765625,
+          7.794921875,
+          8.177734375,
+          8.181640625
+        ],
+        "frame_fit": [
+          0.994234913802142,
+          0.9914873243774363,
+          0.9872175470409452
+        ],
+        "delta_norm": 49.062496185302734,
+        "max_norm": 49.0625,
+        "clamp_hit": true,
+        "clamp_hit_steps": 21,
+        "target_init_norm": 65.4375,
+        "target_norm": 79.44587707519531
+      },
+      "rows": [
+        {
+          "i": 0,
+          "prompt": "The capital of {} is the city of Vindex V",
+          "frame": "CANON",
+          "lookup_idx": 5,
+          "lookup_idx_ref": 5,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 10.0283203125,
+          "nll_ref": 10.037109375,
+          "abs_diff": 0.0087890625,
+          "nll_ref_padded_batch": 10.0205078125,
+          "abs_diff_padded_batch": 0.0078125,
+          "abs_diff_unpadded_vs_padded_refs": 0.0166015625
+        },
+        {
+          "i": 1,
+          "prompt": "The government of {} sits in Vindex V",
+          "frame": "T1",
+          "lookup_idx": 5,
+          "lookup_idx_ref": 5,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 8.798828125,
+          "nll_ref": 8.8095703125,
+          "abs_diff": 0.0107421875,
+          "nll_ref_padded_batch": 8.802734375,
+          "abs_diff_padded_batch": 0.00390625,
+          "abs_diff_unpadded_vs_padded_refs": 0.0068359375
+        },
+        {
+          "i": 2,
+          "prompt": "{} is a country whose capital is Vindex V",
+          "frame": "T2",
+          "lookup_idx": 2,
+          "lookup_idx_ref": 2,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 9.580078125,
+          "nll_ref": 9.583984375,
+          "abs_diff": 0.00390625,
+          "nll_ref_padded_batch": 9.5791015625,
+          "abs_diff_padded_batch": 0.0009765625,
+          "abs_diff_unpadded_vs_padded_refs": 0.0048828125
+        },
+        {
+          "i": 3,
+          "prompt": "The following is a multiple-choice question from a Chinese. The capital of {} is the city of Vindex V",
+          "frame": "CANON",
+          "lookup_idx": 16,
+          "lookup_idx_ref": 16,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 8.171875,
+          "nll_ref": 8.171875,
+          "abs_diff": 0.0,
+          "nll_ref_padded_batch": 8.17578125,
+          "abs_diff_padded_batch": 0.00390625,
+          "abs_diff_unpadded_vs_padded_refs": 0.00390625
+        },
+        {
+          "i": 4,
+          "prompt": "The following is a multiple-choice question from a Chinese. The government of {} sits in Vindex V",
+          "frame": "T1",
+          "lookup_idx": 16,
+          "lookup_idx_ref": 16,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 8.8505859375,
+          "nll_ref": 8.853515625,
+          "abs_diff": 0.0029296875,
+          "nll_ref_padded_batch": 8.84765625,
+          "abs_diff_padded_batch": 0.0029296875,
+          "abs_diff_unpadded_vs_padded_refs": 0.005859375
+        },
+        {
+          "i": 5,
+          "prompt": "The following is a multiple-choice question from a Chinese. {} is a country whose capital is Vindex V",
+          "frame": "T2",
+          "lookup_idx": 13,
+          "lookup_idx_ref": 13,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 8.572265625,
+          "nll_ref": 8.576171875,
+          "abs_diff": 0.00390625,
+          "nll_ref_padded_batch": 8.5732421875,
+          "abs_diff_padded_batch": 0.0009765625,
+          "abs_diff_unpadded_vs_padded_refs": 0.0029296875
+        },
+        {
+          "i": 6,
+          "prompt": "Therefore, the value of the expression $\\sqrt . The capital of {} is the city of Vindex V",
+          "frame": "CANON",
+          "lookup_idx": 15,
+          "lookup_idx_ref": 15,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 8.486328125,
+          "nll_ref": 8.482421875,
+          "abs_diff": 0.00390625,
+          "nll_ref_padded_batch": 8.47265625,
+          "abs_diff_padded_batch": 0.013671875,
+          "abs_diff_unpadded_vs_padded_refs": 0.009765625
+        },
+        {
+          "i": 7,
+          "prompt": "Therefore, the value of the expression $\\sqrt . The government of {} sits in Vindex V",
+          "frame": "T1",
+          "lookup_idx": 15,
+          "lookup_idx_ref": 15,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 8.5498046875,
+          "nll_ref": 8.55859375,
+          "abs_diff": 0.0087890625,
+          "nll_ref_padded_batch": 8.546875,
+          "abs_diff_padded_batch": 0.0029296875,
+          "abs_diff_unpadded_vs_padded_refs": 0.01171875
+        },
+        {
+          "i": 8,
+          "prompt": "Therefore, the value of the expression $\\sqrt . {} is a country whose capital is Vindex V",
+          "frame": "T2",
+          "lookup_idx": 12,
+          "lookup_idx_ref": 12,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 11.162109375,
+          "nll_ref": 11.173828125,
+          "abs_diff": 0.01171875,
+          "nll_ref_padded_batch": 11.16796875,
+          "abs_diff_padded_batch": 0.005859375,
+          "abs_diff_unpadded_vs_padded_refs": 0.005859375
+        },
+        {
+          "i": 9,
+          "prompt": "Because of the recent popularity of the \"Dop. The capital of {} is the city of Vindex V",
+          "frame": "CANON",
+          "lookup_idx": 16,
+          "lookup_idx_ref": 16,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 8.3232421875,
+          "nll_ref": 8.3193359375,
+          "abs_diff": 0.00390625,
+          "nll_ref_padded_batch": 8.322265625,
+          "abs_diff_padded_batch": 0.0009765625,
+          "abs_diff_unpadded_vs_padded_refs": 0.0029296875
+        },
+        {
+          "i": 10,
+          "prompt": "Because of the recent popularity of the \"Dop. The government of {} sits in Vindex V",
+          "frame": "T1",
+          "lookup_idx": 16,
+          "lookup_idx_ref": 16,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 8.9775390625,
+          "nll_ref": 8.978515625,
+          "abs_diff": 0.0009765625,
+          "nll_ref_padded_batch": 8.978515625,
+          "abs_diff_padded_batch": 0.0009765625,
+          "abs_diff_unpadded_vs_padded_refs": 0.0
+        },
+        {
+          "i": 11,
+          "prompt": "Because of the recent popularity of the \"Dop. {} is a country whose capital is Vindex V",
+          "frame": "T2",
+          "lookup_idx": 13,
+          "lookup_idx_ref": 13,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 8.478515625,
+          "nll_ref": 8.48046875,
+          "abs_diff": 0.001953125,
+          "nll_ref_padded_batch": 8.478515625,
+          "abs_diff_padded_batch": 0.0,
+          "abs_diff_unpadded_vs_padded_refs": 0.001953125
+        },
+        {
+          "i": 12,
+          "prompt": "I am working on a project where I need to. The capital of {} is the city of Vindex V",
+          "frame": "CANON",
+          "lookup_idx": 16,
+          "lookup_idx_ref": 16,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 8.076171875,
+          "nll_ref": 8.076171875,
+          "abs_diff": 0.0,
+          "nll_ref_padded_batch": 8.072265625,
+          "abs_diff_padded_batch": 0.00390625,
+          "abs_diff_unpadded_vs_padded_refs": 0.00390625
+        },
+        {
+          "i": 13,
+          "prompt": "I am working on a project where I need to. The government of {} sits in Vindex V",
+          "frame": "T1",
+          "lookup_idx": 16,
+          "lookup_idx_ref": 16,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 8.5712890625,
+          "nll_ref": 8.5703125,
+          "abs_diff": 0.0009765625,
+          "nll_ref_padded_batch": 8.578125,
+          "abs_diff_padded_batch": 0.0068359375,
+          "abs_diff_unpadded_vs_padded_refs": 0.0078125
+        },
+        {
+          "i": 14,
+          "prompt": "I am working on a project where I need to. {} is a country whose capital is Vindex V",
+          "frame": "T2",
+          "lookup_idx": 13,
+          "lookup_idx_ref": 13,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 8.6259765625,
+          "nll_ref": 8.625,
+          "abs_diff": 0.0009765625,
+          "nll_ref_padded_batch": 8.62890625,
+          "abs_diff_padded_batch": 0.0029296875,
+          "abs_diff_unpadded_vs_padded_refs": 0.00390625
+        },
+        {
+          "i": 15,
+          "prompt": "You are tasked with creating a program to calculate the. The capital of {} is the city of Vindex V",
+          "frame": "CANON",
+          "lookup_idx": 16,
+          "lookup_idx_ref": 16,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 7.794921875,
+          "nll_ref": 7.7939453125,
+          "abs_diff": 0.0009765625,
+          "nll_ref_padded_batch": 7.791015625,
+          "abs_diff_padded_batch": 0.00390625,
+          "abs_diff_unpadded_vs_padded_refs": 0.0029296875
+        },
+        {
+          "i": 16,
+          "prompt": "You are tasked with creating a program to calculate the. The government of {} sits in Vindex V",
+          "frame": "T1",
+          "lookup_idx": 16,
+          "lookup_idx_ref": 16,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 8.177734375,
+          "nll_ref": 8.1796875,
+          "abs_diff": 0.001953125,
+          "nll_ref_padded_batch": 8.1806640625,
+          "abs_diff_padded_batch": 0.0029296875,
+          "abs_diff_unpadded_vs_padded_refs": 0.0009765625
+        },
+        {
+          "i": 17,
+          "prompt": "You are tasked with creating a program to calculate the. {} is a country whose capital is Vindex V",
+          "frame": "T2",
+          "lookup_idx": 13,
+          "lookup_idx_ref": 13,
+          "token_at_idx": "land",
+          "idx_ok": true,
+          "nll_step0": 8.181640625,
+          "nll_ref": 8.18359375,
+          "abs_diff": 0.001953125,
+          "nll_ref_padded_batch": 8.1826171875,
+          "abs_diff_padded_batch": 0.0009765625,
+          "abs_diff_unpadded_vs_padded_refs": 0.0009765625
+        },
+        {
+          "i": 18,
+          "prompt": "{} is a",
+          "frame": "KL",
+          "lookup_idx": 2,
+          "lookup_idx_ref": 2,
+          "token_at_idx": "land",
+          "idx_ok": true
+        }
+      ]
+    },
+    "v_harness_law5": {
+      "ok": true,
+      "expr_delta": 0.0001,
+      "loc_delta": 0.3,
+      "z_override_was_unset": true
+    }
+  },
+  "ok": false,
+  "complete": true,
+  "seconds": 503
+}
