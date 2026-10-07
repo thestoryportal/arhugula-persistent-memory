@@ -20,6 +20,7 @@ The single queue for C10 work after the operator's overnight directive of 2026-1
 | 3 | Step 4, per-fact layer choice | H-8 (LOKI) | prereg v2 FROZEN (`docs/C10V_LAYERPICK_PREREG.md`); driver to be implemented | minutes + one run |
 | 4 | Step 6, forward replay (I-2) and OverTone token reweighting (I-1) | H-11 (FE, OverTone) | build now, model-free, in parallel (this ruling); harness seams only, engine unmodified, LAW#5 inertness first | ≈ 1 day build each, one run each |
 | 5 | Step 7, direct ΔW optimisation under the null-space projector | H-3 (DOW-KE) | build now, model-free, in parallel (this ruling); two same-seed runs for reproducibility | ≈ 1 day build, 1–2 h run |
+| 5b | Joint output-margin solve (ASTRA-style): one requirement per value token (target logit leads the current top-1 by a 5-logit margin), all solved together in one small linear system, null-space-weighted, written into selected `W_down` columns, re-linearised up to 10 rounds; forward passes only, no gradient | scout 2026-10-07 (arXiv 2610.05277 §3.3–3.5, §5.3) | candidate, added 2026-10-07 by the program after reading §3.3–3.5 and §5.3: targets the wall directly (every value position gets a constraint; ablation: joint vs token-by-token −34.2 Pass@1, margin 1 vs 5 −31.4). Risks for C10: carriers fire on the value's own context, so step-2-style prefix spillover is the first thing to gate; selected late layers, not band 4–8; code repair on 1–9B models, no fact-editing result; no public code (build from Algorithm 1 as a harness-side writer, engine unmodified). Prereg after step 7's review; it may replace step 7 if the reviews judge DOW-KE's per-patch optimisation outside the write-only ruling | seconds per edit in the paper; ≈ 1 run + build |
 | 6 | Step 8, covariance from the model's own text | H-4 (Moir) | queued; a GPU job, so it waits for a gap | hours unattended |
 | 7 | Closed-form minted-row readout (no gradient) | H-18 variant | decide after step 3 reads (research open question 3) | one mint pass |
 | gate A | Replicate any arm ≥ 30/72 in a second process before anything else | — | standing | one run |
@@ -31,6 +32,11 @@ The single queue for C10 work after the operator's overnight directive of 2026-1
 - Q4_K_M survival of multi-token values (runbook next-action 4): after the first arm that passes.
 - Closed-set read-confidence test (OpenJev-style; operator-suggested 2026-10-07): after step 4, scored separately from the binding open-generation metric.
 - "Database + small typed model" comparator (BlendSQL, operator-supplied prior art): an F1 comparator, not scheduled.
+
+## Corrections to the research list's rationale (2026-10-07, program; the saved list keeps its original words)
+
+- **"About 3 percent of the intended signal is installed" is backwards** (`recommended_sequence.md:13`, `:27`). CORPUS/44:43 defines ρ_c as the *remaining* residual: the write leaves about 2.8 % of the target unrealised at the keyed position and about 23 % on paraphrases (memory `corpus44-rho-is-remaining-residual`). The wall is transfer from the keyed position to paraphrases and later value positions, not a write that barely lands. Steps 6–7 keep their place on that reading; their rationale must say so in their pre-registrations.
+- **"The later words of the value have no objective" is false as written** (`recommended_sequence.md:13`, `:21`). `compute_z` scores every target token (`memit_dry_run/memit/memit/compute_z.py:60–65`, `:141–150`; z reaches 0.99, CORPUS/36:28). What has no objective is the *weight solve* at value positions: its keys are read at the subject's last token only.
 
 ## Order tonight
 
