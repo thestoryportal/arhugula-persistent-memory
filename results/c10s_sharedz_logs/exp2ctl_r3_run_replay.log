@@ -1,0 +1,412 @@
+Cloning into '/Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3'...
+HEAD is now at 92acd03 edit: preserve keys at the value-token positions (coined value words double as subjects) + overlap/leak diagnostics
+READY: /Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3
+base_commit: 92acd0378d23f4935df9a8bccc0137b36695a40f
+runtime_link: /Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3/.venv -> /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.venv
+edit_py_sha256: 60556b67bf70062703309fb3ee7232da3f51c4fdf3615a170f0643f9f62baa82
+diff_sha256: 2eb6b215b1d659451e82d24ba972768770cebd5b0f5fd14395892ca1d6497fcf
+permitted_diff: PASS (weight 1; A1 nonzero common-position gather and inert audit additions only)
+before the GPU window: close the autoresearch loop and model servers (Ollama/llama.cpp/LM Studio)
+in the break, run: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/replay_exp2/tokenizer_precheck.py /Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3
+tokenizer equality must pass within 3600s of dispatch; this setup does not run it
+diff --git a/edit.py b/edit.py
+index 60f49ff..5723eec 100644
+--- a/edit.py
++++ b/edit.py
+@@ -12,6 +12,16 @@ Methods the baseline implements:
+   AlphaEdit Fang et al. AlphaEdit: Null-Space Constrained Knowledge Editing for Language Models. arXiv:2410.02355
+ """
+ 
++import hashlib
++import json
++import os
++import re
++import sys
++
++_REPLAY_EDIT_PATH = os.path.realpath(__file__)
++with open(_REPLAY_EDIT_PATH, "rb") as _replay_file:
++    _REPLAY_EDIT_SHA256 = hashlib.sha256(_replay_file.read()).hexdigest()
++
+ import torch
+ 
+ from prepare import (model, tok, DEV, COV_LAYERS, request, load_hparams, evaluate,
+@@ -30,7 +40,7 @@ KL_FACTOR = 0.0625          # weight of the KL term that keeps "<subject> is a"
+ V_WEIGHT_DECAY = 0.5        # L2 on delta z during the solve
+ RIDGE = 1.0                 # L2 added to the per-layer least-squares solve
+ NULL_THRESH = 0.005         # eigenvalues of the key covariance below this span the projector's null space
+-PRESERVE_WEIGHT = 1.0       # weight of the keys at the value-token positions in the solve (the write must not fire there)
++PRESERVE_WEIGHT = 1.0       # coefficient of count-matched common-canonical-prefix keys
+ 
+ # ---------------------------------------------------------------------------
+ # Setup: hyperparameters, projectors
+@@ -57,29 +67,104 @@ WEIGHTS = {l: dict(model.named_parameters())[f"{HP.rewrite_module_tmp.format(l)}
+ # ---------------------------------------------------------------------------
+ 
+ 
++def select_common_positions(tokenizer, rq, template, fact_i, template_i, ids, tgt):
++    """Amendment A1: exclude absolute position zero before the cyclic selection."""
++    if rq["prompt"] != "The capital of {} is the city of" or template.count("{}") != 1:
++        raise ValueError("unexpected canonical prompt or context wrapper")
++    prefix = template.format(rq["prompt"].format(rq["subject"]))
++    encoded = tokenizer(prefix, return_offsets_mapping=True)
++    if encoded["input_ids"] != ids:
++        raise ValueError("offset mapping changed original prefix IDs")
++    before, after = rq["prompt"].split("{}")
++    lead = len(template.split("{}")[0])
++    subject_span = [lead + len(before), lead + len(before) + len(rq["subject"])]
++    spans = [[m.group(), lead + m.start(), lead + m.end()] for m in re.finditer(r"\S+", before)]
++    spans += [[m.group(), subject_span[1] + m.start(), subject_span[1] + m.end()] for m in re.finditer(r"\S+", after)]
++    candidates = []
++    for word, word_a, word_b in spans:
++        matches = []
++        for idx, (a, b) in enumerate(encoded["offset_mapping"]):
++            if a == b:
++                continue
++            piece = prefix[a:b]
++            aa = a + len(piece) - len(piece.lstrip())
++            bb = b - len(piece) + len(piece.rstrip())
++            if (aa, bb) == (word_a, word_b) and piece.strip() == word:
++                matches.append(idx)
++        if len(matches) != 1:
++            raise ValueError(f"common word must occupy one unambiguous token: {word!r} {matches}")
++        candidates.append(matches[0])
++    if [s[0] for s in spans] != ["The", "capital", "of", "is", "the", "city", "of"] or len(set(candidates)) != 7:
++        raise ValueError("seven distinct canonical word positions required")
++    candidates = [idx for idx in candidates if idx != 0]
++    K = len(candidates)
++    m = len(tgt)
++    if not 1 <= m <= K:
++        raise ValueError(f"target length {m} exceeds available A1 candidates {K}")
++    start = (fact_i + template_i) % K
++    indices = [candidates[(start + j) % K] for j in range(m)]
++    if len(set(indices)) != m or any(not 0 < k < len(ids) for k in indices):
++        raise ValueError("control indices must be distinct prefix positions")
++    for idx in indices:
++        a, b = encoded["offset_mapping"][idx]
++        if max(a, subject_span[0]) < min(b, subject_span[1]):
++            raise ValueError("control index overlaps subject")
++    return {"fact_i": fact_i, "template_i": template_i, "subject": rq["subject"],
++            "target": rq["target_new"]["str"], "prefix": prefix, "prefix_ids": ids,
++            "target_ids": tgt, "input_ids": ids + tgt, "offsets": [list(x) for x in encoded["offset_mapping"]],
++            "subject_span": subject_span, "word_spans": spans, "candidates": candidates,
++            "indices": indices, "value_indices": list(range(len(ids), len(ids) + m))}
++
++
+ @torch.no_grad()
+ def value_keys(layer, requests, ctx):
+-    """MLP keys (down_proj inputs) at every token of each fact's value, in context: positions the write must leave alone.
+-    Returns [key_dim, n_positions]."""
+-    grabbed, cols = [], []
++    """Count-matched common-prefix keys and audit-only original value keys, from the same captured forwards."""
++    grabbed, cols, real_cols, manifest = [], [], [], []
+     hook = model.get_submodule(HP.rewrite_module_tmp.format(layer)).register_forward_hook(lambda m, inp, out: grabbed.append(inp[0][0]))
+     try:
+-        for rq in requests:
++        for fact_i, rq in enumerate(requests):
+             tgt = tok(rq["target_new"]["str"], add_special_tokens=False)["input_ids"]
+-            for t in [t for group in ctx for t in group]:
++            for template_i, t in enumerate([t for group in ctx for t in group]):
+                 ids = tok(t.format(rq["prompt"].format(rq["subject"])))["input_ids"]
++                positions = select_common_positions(tok, rq, t, fact_i, template_i, ids, tgt)
+                 grabbed.clear()
+                 model(torch.tensor([ids + tgt], device=DEV))
+-                cols.append(grabbed[0][len(ids):].float().cpu())
++                if len(grabbed) != 1 or grabbed[0].shape[0] != len(ids) + len(tgt):
++                    raise ValueError("unexpected captured forward shape")
++                original = grabbed[0][len(ids):].float().cpu()
++                identity = grabbed[0][positions["value_indices"]].float().cpu()
++                if not torch.equal(original, identity):
++                    raise ValueError("suffix/explicit-gather primitive identity failed")
++                control = grabbed[0][positions["indices"]].float().cpu()
++                if control.shape != original.shape or not bool(torch.isfinite(control).all()) or not bool(torch.isfinite(original).all()):
++                    raise ValueError("nonfinite or count-mismatched gathered keys")
++                cols.append(control)
++                real_cols.append(original)
++                manifest.append(positions)
+     finally:
+         hook.remove()
+-    return torch.cat(cols).T
++    return torch.cat(cols).T, torch.cat(real_cols).T, manifest
+ 
+ 
+ def apply_edit(facts):
+     """Write facts = [(subject, value)] into the model in place."""
+     requests = [request(s, v) for s, v in facts]
+     ctx = get_context_templates(model, tok)
++    _replay_context_sha = hashlib.sha256(json.dumps(ctx).encode()).hexdigest()
++    print(f"executed_edit_py_sha256: {_REPLAY_EDIT_SHA256}", flush=True)
++    print(f"edit_context_templates_sha256: {_replay_context_sha}", flush=True)
++    if _replay_context_sha != "e8605172dce01aaafbf3f23a4d68d05dde756a9b65ec9060962fedc1369fb330" or sum(map(len, ctx)) != 6:
++        raise ValueError("edit-time contexts differ from the realized-list anchor")
++    _replay_caller = sys._getframe(1).f_locals
++    _replay_arm = _replay_caller["arm"]
++    _replay_run_dir = os.path.realpath(_replay_caller["run_dir"])
++    _replay_launch_path = os.environ["REPLAY_LAUNCH_PATH"]
++    with open(_replay_launch_path, "rb") as _replay_file:
++        _replay_launch_bytes = _replay_file.read()
++    _replay_launch = json.loads(_replay_launch_bytes)
++    if _replay_launch["invocation_id"] != os.environ["REPLAY_INVOCATION_ID"] or _replay_launch["edit_py_sha256"] != _REPLAY_EDIT_SHA256:
++        raise ValueError("invocation or executed source disagrees with runner launch")
++    _replay_manifest, _replay_layers = None, []
+     z_layer = LAYERS[-1]
+     zs = torch.stack([compute_z(model, tok, rq, HP, z_layer, ctx) for rq in requests], dim=1)   # target hidden state per fact
+ 
+@@ -91,19 +176,39 @@ def apply_edit(facts):
+     gap0 = (zs - current()).norm(dim=0)
+     for i, layer in enumerate(LAYERS):
+         K = compute_ks(model, tok, requests, HP, layer, ctx).T          # keys at this layer, one column per (fact, template)
+-        Kp = value_keys(layer, requests, ctx)                            # keys at the value tokens, one column per (fact, template, token)
++        Kp, _replay_real, _replay_positions = value_keys(layer, requests, ctx)
+         resid = (zs - current()).repeat_interleave(K.size(1) // zs.size(1), dim=1) / (len(LAYERS) - i)   # spread the remaining gap over the remaining layers
+         Kf, rf = K.float().cpu(), resid.float().cpu()
+         A = P[i] @ (Kf @ Kf.T + PRESERVE_WEIGHT * Kp @ Kp.T) + RIDGE * torch.eye(Kf.shape[0])
+         B = P[i] @ Kf @ rf.T
+         upd = upd_matrix_match_shape(torch.linalg.solve(A, B).T.float(), WEIGHTS[layer].shape)
++        if _replay_manifest is None:
++            _replay_manifest = _replay_positions
++        elif _replay_manifest != _replay_positions:
++            raise ValueError("position manifest changed across layers")
++        _replay_columns = {"A1_single": 144, "A2_coherent2": 288, "A7_coined_coined": 792}[_replay_arm]
++        if list(Kp.shape) != [11008, _replay_columns] or Kp.shape != _replay_real.shape or not bool(torch.isfinite(upd).all()):
++            raise ValueError("invalid preserve-matrix shape or nonfinite update")
++        _replay_layers.append({"layer": layer, "control_columns": Kp.shape[1], "value_columns": _replay_real.shape[1],
++            "key_dim": Kp.shape[0], "update_shape": list(upd.shape), "finite": True, "identity_equal": True,
++            "position_sha256": hashlib.sha256(json.dumps(_replay_positions).encode()).hexdigest(),
++            "control_sumsq": float(Kp.square().sum()), "value_sumsq": float(_replay_real.square().sum()),
++            "control_PKp_fro": float((P[i] @ Kp).norm()), "value_PKp_fro": float((P[i] @ _replay_real).norm()),
++            "update_fro_precast": float(upd.norm())})
+         cos = (Kf / Kf.norm(dim=0)).T @ (Kp / Kp.norm(dim=0))
+-        print(f"layer {layer}: subject/value key overlap max {cos.max():.2f} mean-of-max {cos.max(1).values.mean():.2f} | "
++        print(f"layer {layer}: Kp_source=common_canonical_prefix subject/preserve key overlap max {cos.max():.2f} mean-of-max {cos.max(1).values.mean():.2f} | "
+               f"leak ||dW Kp||/||dW K|| {float((upd @ Kp).norm() / (upd @ Kf).norm()):.3f}", flush=True)
+         with torch.no_grad():
+             WEIGHTS[layer][...] += upd.to(WEIGHTS[layer].device, WEIGHTS[layer].dtype)
+     left = (zs - current()).norm(dim=0) / gap0
+     print(f"unrealized residual fraction mean {left.mean():.3f} max {left.max():.3f}", flush=True)
++    _replay_record = {"arm": _replay_arm, "invocation_id": _replay_launch["invocation_id"], "run_dir": _replay_run_dir,
++        "executed_edit_py_sha256": _REPLAY_EDIT_SHA256, "launch_sha256": hashlib.sha256(_replay_launch_bytes).hexdigest(),
++        "edit_context_templates_sha256": _replay_context_sha, "edit_context_templates": ctx,
++        "Kp_source": "common_canonical_prefix", "preserve_weight": PRESERVE_WEIGHT,
++        "positions": _replay_manifest, "layers": _replay_layers}
++    with open(os.path.join(_replay_run_dir, "replay_provenance.jsonl"), "a") as _replay_file:
++        _replay_file.write(json.dumps(_replay_record, allow_nan=False) + "\n")
+ 
+ 
+ # ---------------------------------------------------------------------------
+LOCK PASS: 69 pre-existing entries immutable (incl. .git and the .venv link entry); root replacement, unlink, chmod and nested writes refused; new root files still work
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+TOKENIZER PRECHECK PASS: pairs=432; HF input_ids and offsets equal cached Rust tokenizer
+pass_record: /Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3/tokenizer_precheck.json; fresh_for_seconds=3600
+engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py
+  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a…)
+  _cov_cpu 3  (expected 3)
+invocation_id: de9c2372baab48e5ac7559108957987c
+editor_pid: 44371
+score_path: /Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3/runs/20261006-230318_92acd03/score.json
+VALIDITY score_json: PASS value={"keys": ["summary", "gates", "frame_pre_edit", "edits", "saved_sha256", "arms", "seed", "edit_budget"], "path": "/Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3/runs/20261006-230318_92acd03/score.json"}
+VALIDITY receipt_json: PASS value={"invocation_id": "de9c2372baab48e5ac7559108957987c", "path": "/Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3/runner_receipt.json"}
+VALIDITY registered_schema_vectors: PASS value=[{"A1": 69, "A2": 69, "L1_flips": 0, "L3": 30, "canon": 7, "described_as": 90.33, "dw_total": 90.03, "edit_seconds": 1311.1, "first_token": 40, "frame_flips": 1, "guards": "ok", "heldout_full": 7, "law5_ok": true, "ppl_post": 21.594, "scope_ok": true, "score_seconds": 520.0}, 0, 7]
+VALIDITY frozen_checkout_source_diff: PASS value={"base_commit": "92acd0378d23f4935df9a8bccc0137b36695a40f", "dest": "/Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3", "diff_sha256": "2eb6b215b1d659451e82d24ba972768770cebd5b0f5fd14395892ca1d6497fcf", "edit_py_sha256": "60556b67bf70062703309fb3ee7232da3f51c4fdf3615a170f0643f9f62baa82"}
+VALIDITY fresh_invocation_score_receipt: PASS value={"child_exit": 0, "child_pid": 44371, "invocation_id": "de9c2372baab48e5ac7559108957987c", "saved_sha256": {"A1_single": "68a04d0bb35955e7a2fb5c4364219c8ba9265e9945d0f4152d4b2ba4d662e5ec", "A2_coherent2": "b808baa924e727f42c3bd2b318968e24393c9ed8a767bb500fc8bccc93697d56", "A7_coined_coined": "4b76cf0c2c92c5d931d0bcbcc8a8eea7d4e0d58e4b4e31f28db4ee1758cfc78f"}, "score_path": "/Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3/runs/20261006-230318_92acd03/score.json", "score_sha256": "5f77c132af977e5f8381af8f7dcdc19d8804561837cadfa9b48170b016c033f5"}
+VALIDITY tokenizer_equality_before_dispatch: PASS value={"checked_at": 1791348983.0104692, "fresh_at_dispatch": true, "pairs": 432}
+VALIDITY engine_fingerprint_explicit_root: PASS value={"preflight": {"LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a", "exit": 0, "interpreter": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "stderr": "", "stdout": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a\u2026)\n  _cov_cpu 3  (expected 3)\n"}, "scorer": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py"}
+VALIDITY three_arm_context_source_records: PASS value=[{"arm": "A1_single", "edit_context_templates": [["{}"], ["The following is a single-choice question from a Chinese. {}", "Therefore, the number of ways to choose the remaining. {}", "Because the number of students in the class is not. {}", "I am trying to use the [CouchDB. {}", "You are an AI assistant that follows instruction extremely well. {}"]], "edit_context_templates_sha256": "e8605172dce01aaafbf3f23a4d68d05dde756a9b65ec9060962fedc1369fb330", "executed_edit_py_sha256": "60556b67bf70062703309fb3ee7232da3f51c4fdf3615a170f0643f9f62baa82", "invocation_id": "de9c2372baab48e5ac7559108957987c", "launch_sha256": "ef5d288de4b963d9caf4c2d518dead6b90736e68b153a6bd50d7657ede030076", "run_dir": "/Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3/runs/20261006-230318_92acd03"}, {"arm": "A2_coherent2", "edit_context_templates": [["{}"], ["The following is a single-choice question from a Chinese. {}", "Therefore, the number of ways to choose the remaining. {}", "Because the number of students in the class is not. {}", "I am trying to use the [CouchDB. {}", "You are an AI assistant that follows instruction extremely well. {}"]], "edit_context_templates_sha256": "e8605172dce01aaafbf3f23a4d68d05dde756a9b65ec9060962fedc1369fb330", "executed_edit_py_sha256": "60556b67bf70062703309fb3ee7232da3f51c4fdf3615a170f0643f9f62baa82", "invocation_id": "de9c2372baab48e5ac7559108957987c", "launch_sha256": "ef5d288de4b963d9caf4c2d518dead6b90736e68b153a6bd50d7657ede030076", "run_dir": "/Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3/runs/20261006-230318_92acd03"}, {"arm": "A7_coined_coined", "edit_context_templates": [["{}"], ["The following is a single-choice question from a Chinese. {}", "Therefore, the number of ways to choose the remaining. {}", "Because the number of students in the class is not. {}", "I am trying to use the [CouchDB. {}", "You are an AI assistant that follows instruction extremely well. {}"]], "edit_context_templates_sha256": "e8605172dce01aaafbf3f23a4d68d05dde756a9b65ec9060962fedc1369fb330", "executed_edit_py_sha256": "60556b67bf70062703309fb3ee7232da3f51c4fdf3615a170f0643f9f62baa82", "invocation_id": "de9c2372baab48e5ac7559108957987c", "launch_sha256": "ef5d288de4b963d9caf4c2d518dead6b90736e68b153a6bd50d7657ede030076", "run_dir": "/Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3/runs/20261006-230318_92acd03"}]
+VALIDITY cached_tokenizer: PASS value={"revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b", "torch_imported": false}
+VALIDITY count_position_primitive_A1_single: PASS value={"arm": "A1_single", "columns_per_layer": 144, "identity_equal": [true, true, true, true, true], "layers": [{"control_PKp_fro": 28.471710205078125, "control_columns": 144, "control_sumsq": 6525.7734375, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 4, "position_sha256": "b8edb7871f77d758ecd530a423bfdda7a05c38d62ccd525d96a8ce245d82d446", "update_fro_precast": 15.940851211547852, "update_shape": [2048, 11008], "value_PKp_fro": 27.973955154418945, "value_columns": 144, "value_sumsq": 14444.20703125}, {"control_PKp_fro": 29.940000534057617, "control_columns": 144, "control_sumsq": 8565.623046875, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 5, "position_sha256": "b8edb7871f77d758ecd530a423bfdda7a05c38d62ccd525d96a8ce245d82d446", "update_fro_precast": 12.098012924194336, "update_shape": [2048, 11008], "value_PKp_fro": 26.92814826965332, "value_columns": 144, "value_sumsq": 19701.71875}, {"control_PKp_fro": 32.26716232299805, "control_columns": 144, "control_sumsq": 10443.05859375, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 6, "position_sha256": "b8edb7871f77d758ecd530a423bfdda7a05c38d62ccd525d96a8ce245d82d446", "update_fro_precast": 11.324424743652344, "update_shape": [2048, 11008], "value_PKp_fro": 30.27535057067871, "value_columns": 144, "value_sumsq": 24337.8203125}, {"control_PKp_fro": 41.157997131347656, "control_columns": 144, "control_sumsq": 46096.390625, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 7, "position_sha256": "b8edb7871f77d758ecd530a423bfdda7a05c38d62ccd525d96a8ce245d82d446", "update_fro_precast": 19.106739044189453, "update_shape": [2048, 11008], "value_PKp_fro": 24.959657669067383, "value_columns": 144, "value_sumsq": 53275.8515625}, {"control_PKp_fro": 33.609310150146484, "control_columns": 144, "control_sumsq": 38654.3828125, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 8, "position_sha256": "b8edb7871f77d758ecd530a423bfdda7a05c38d62ccd525d96a8ce245d82d446", "update_fro_precast": 27.161521911621094, "update_shape": [2048, 11008], "value_PKp_fro": 19.57323455810547, "value_columns": 144, "value_sumsq": 61938.234375}], "pairs": 144, "position_sha256": "b8edb7871f77d758ecd530a423bfdda7a05c38d62ccd525d96a8ce245d82d446"}
+VALIDITY count_position_primitive_A2_coherent2: PASS value={"arm": "A2_coherent2", "columns_per_layer": 288, "identity_equal": [true, true, true, true, true], "layers": [{"control_PKp_fro": 40.23883056640625, "control_columns": 288, "control_sumsq": 13083.732421875, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 4, "position_sha256": "3c9cfc6762879770fb8803e64f9f8e0ac00600200642f7d48f56afb8342c3211", "update_fro_precast": 15.980305671691895, "update_shape": [2048, 11008], "value_PKp_fro": 41.2042236328125, "value_columns": 288, "value_sumsq": 34412.09765625}, {"control_PKp_fro": 42.521217346191406, "control_columns": 288, "control_sumsq": 17188.634765625, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 5, "position_sha256": "3c9cfc6762879770fb8803e64f9f8e0ac00600200642f7d48f56afb8342c3211", "update_fro_precast": 12.25900650024414, "update_shape": [2048, 11008], "value_PKp_fro": 46.70622253417969, "value_columns": 288, "value_sumsq": 82405.15625}, {"control_PKp_fro": 45.56742477416992, "control_columns": 288, "control_sumsq": 20990.33984375, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 6, "position_sha256": "3c9cfc6762879770fb8803e64f9f8e0ac00600200642f7d48f56afb8342c3211", "update_fro_precast": 11.446517944335938, "update_shape": [2048, 11008], "value_PKp_fro": 78.40692901611328, "value_columns": 288, "value_sumsq": 161204.15625}, {"control_PKp_fro": 57.40825653076172, "control_columns": 288, "control_sumsq": 91646.0, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 7, "position_sha256": "3c9cfc6762879770fb8803e64f9f8e0ac00600200642f7d48f56afb8342c3211", "update_fro_precast": 19.338237762451172, "update_shape": [2048, 11008], "value_PKp_fro": 52.53628158569336, "value_columns": 288, "value_sumsq": 185114.09375}, {"control_PKp_fro": 47.72922134399414, "control_columns": 288, "control_sumsq": 78043.4140625, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 8, "position_sha256": "3c9cfc6762879770fb8803e64f9f8e0ac00600200642f7d48f56afb8342c3211", "update_fro_precast": 27.052001953125, "update_shape": [2048, 11008], "value_PKp_fro": 42.711177825927734, "value_columns": 288, "value_sumsq": 156433.71875}], "pairs": 144, "position_sha256": "3c9cfc6762879770fb8803e64f9f8e0ac00600200642f7d48f56afb8342c3211"}
+VALIDITY count_position_primitive_A7_coined_coined: PASS value={"arm": "A7_coined_coined", "columns_per_layer": 792, "identity_equal": [true, true, true, true, true], "layers": [{"control_PKp_fro": 66.99640655517578, "control_columns": 792, "control_sumsq": 35765.3828125, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 4, "position_sha256": "e1331cc3d361f43587b92975af254a58ea666b7aa4398bdaeffa944090cddbaf", "update_fro_precast": 15.958373069763184, "update_shape": [2048, 11008], "value_PKp_fro": 79.06642150878906, "value_columns": 792, "value_sumsq": 106761.9296875}, {"control_PKp_fro": 69.48978424072266, "control_columns": 792, "control_sumsq": 47457.98828125, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 5, "position_sha256": "e1331cc3d361f43587b92975af254a58ea666b7aa4398bdaeffa944090cddbaf", "update_fro_precast": 12.18791675567627, "update_shape": [2048, 11008], "value_PKp_fro": 98.76236724853516, "value_columns": 792, "value_sumsq": 331751.875}, {"control_PKp_fro": 75.18578338623047, "control_columns": 792, "control_sumsq": 58250.7109375, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 6, "position_sha256": "e1331cc3d361f43587b92975af254a58ea666b7aa4398bdaeffa944090cddbaf", "update_fro_precast": 12.146376609802246, "update_shape": [2048, 11008], "value_PKp_fro": 124.34778594970703, "value_columns": 792, "value_sumsq": 371479.28125}, {"control_PKp_fro": 96.43901062011719, "control_columns": 792, "control_sumsq": 255658.375, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 7, "position_sha256": "e1331cc3d361f43587b92975af254a58ea666b7aa4398bdaeffa944090cddbaf", "update_fro_precast": 20.557886123657227, "update_shape": [2048, 11008], "value_PKp_fro": 98.99198150634766, "value_columns": 792, "value_sumsq": 271077.96875}, {"control_PKp_fro": 81.55533599853516, "control_columns": 792, "control_sumsq": 210390.4375, "finite": true, "identity_equal": true, "key_dim": 11008, "layer": 8, "position_sha256": "e1331cc3d361f43587b92975af254a58ea666b7aa4398bdaeffa944090cddbaf", "update_fro_precast": 28.7861270904541, "update_shape": [2048, 11008], "value_PKp_fro": 93.40485382080078, "value_columns": 792, "value_sumsq": 473429.59375}], "pairs": 144, "position_sha256": "e1331cc3d361f43587b92975af254a58ea666b7aa4398bdaeffa944090cddbaf"}
+COMPARABILITY arm=A1_single layer=4 control/real_sumsq=0.451792 control/real_PKp_fro=1.01779 comparable=true
+COMPARABILITY arm=A1_single layer=5 control/real_sumsq=0.434765 control/real_PKp_fro=1.11185 comparable=true
+COMPARABILITY arm=A1_single layer=6 control/real_sumsq=0.429088 control/real_PKp_fro=1.06579 comparable=true
+COMPARABILITY arm=A1_single layer=7 control/real_sumsq=0.86524 control/real_PKp_fro=1.64898 comparable=true
+COMPARABILITY arm=A1_single layer=8 control/real_sumsq=0.62408 control/real_PKp_fro=1.71711 comparable=true
+COMPARABILITY arm=A2_coherent2 layer=4 control/real_sumsq=0.380207 control/real_PKp_fro=0.976571 comparable=true
+COMPARABILITY arm=A2_coherent2 layer=5 control/real_sumsq=0.208587 control/real_PKp_fro=0.910397 comparable=true
+COMPARABILITY arm=A2_coherent2 layer=6 control/real_sumsq=0.13021 control/real_PKp_fro=0.581166 comparable=true
+COMPARABILITY arm=A2_coherent2 layer=7 control/real_sumsq=0.495078 control/real_PKp_fro=1.09274 comparable=true
+COMPARABILITY arm=A2_coherent2 layer=8 control/real_sumsq=0.498891 control/real_PKp_fro=1.11749 comparable=true
+COMPARABILITY arm=A7_coined_coined layer=4 control/real_sumsq=0.335001 control/real_PKp_fro=0.847343 comparable=true
+COMPARABILITY arm=A7_coined_coined layer=5 control/real_sumsq=0.143053 control/real_PKp_fro=0.703606 comparable=true
+COMPARABILITY arm=A7_coined_coined layer=6 control/real_sumsq=0.156807 control/real_PKp_fro=0.604641 comparable=true
+COMPARABILITY arm=A7_coined_coined layer=7 control/real_sumsq=0.943117 control/real_PKp_fro=0.97421 comparable=true
+COMPARABILITY arm=A7_coined_coined layer=8 control/real_sumsq=0.444396 control/real_PKp_fro=0.873138 comparable=true
+VALIDITY key_norm_comparability: PASS value=true
+VALIDITY fixed_metadata_controls_law5_scope: PASS value={"A1": 69, "A2": 69, "changed": {"A1_single": ["model.layers.4.mlp.down_proj.weight", "model.layers.5.mlp.down_proj.weight", "model.layers.6.mlp.down_proj.weight", "model.layers.7.mlp.down_proj.weight", "model.layers.8.mlp.down_proj.weight"], "A2_coherent2": ["model.layers.4.mlp.down_proj.weight", "model.layers.5.mlp.down_proj.weight", "model.layers.6.mlp.down_proj.weight", "model.layers.7.mlp.down_proj.weight", "model.layers.8.mlp.down_proj.weight"], "A7_coined_coined": ["model.layers.4.mlp.down_proj.weight", "model.layers.5.mlp.down_proj.weight", "model.layers.6.mlp.down_proj.weight", "model.layers.7.mlp.down_proj.weight", "model.layers.8.mlp.down_proj.weight"]}, "commit": "92acd03", "edit_budget": 2700, "law5": {"expr_delta": 0.0011, "loc_delta": 0.01, "ok": true}, "reference_controls": [69, 69], "scope_ok": true, "seed": 0}
+VALIDITY fidelity_before_after: PASS value={"file_count": 82, "interpreter": "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/bin/python3.11", "manifest_sha256": "ef9639e2f07496f74da2731af4b2b4d5a1ab9a9509f85ea8e583019d52f92b5f", "model_revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b", "os": "macOS-26.6.2-arm64-arm-64bit", "packages": {"accelerate": "1.15.0", "numpy": "2.4.6", "safetensors": "0.8.0", "tokenizers": "0.21.4", "torch": "2.8.0", "transformers": "4.51.0"}, "unchanged": true}
+VALIDITY exclusive_processes_mps: PASS value={"checks": 1805, "child_pid": 44371, "exclusive_window": "paused-no-relaunch", "log_sha256": "37bd7c8a62b7a989dc712341b1bbcb50198a71f8bfe1ce931c9183f18ab07020", "mps": {"exit": 0, "stderr": "", "stdout": "MPS_AVAILABLE=true\n"}, "owned_children": [{"command": "/Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3/.venv/bin/python -B edit.py", "pgid": 44371, "pid": 44371, "ppid": 42959, "start": "Tue Oct 6 22:56:34 2026"}, {"command": "/Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3/.venv/bin/python -B -c from multiprocessing.resource_tracker import main;main(4)", "pgid": 44371, "pid": 44592, "ppid": 44371, "start": "Tue Oct 6 22:56:37 2026"}, {"command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python /Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3/prepare.py --score /Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r3/runs/20261006-230318_92acd03", "pgid": 44371, "pid": 55372, "ppid": 44371, "start": "Tue Oct 6 23:18:29 2026"}, {"command": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -c from multiprocessing.resource_tracker import main;main(4)", "pgid": 44371, "pid": 55718, "ppid": 55372, "start": "Tue Oct 6 23:18:33 2026"}], "phases": ["before_dispatch", "before_dispatch", "after_preflight", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "during_run", "after_exit"], "runner_pid": 42959}
+GUARD A1: PASS value=69 rule=>=68
+GUARD A2: PASS value=69 rule=>=68
+GUARD L1_flips: PASS value=0 rule=<=1
+GUARD frame_flips: PASS value=1 rule=<=2
+GUARD described_as: PASS value=90.33 rule=>=85.0
+GUARD L3: PASS value=30 rule=>=29
+GUARD ppl_post: PASS value=21.594 rule=<=22.2
+GUARD law5_ok: PASS value=true rule===True
+GUARD scope_ok: PASS value=true rule===True
+VALIDITY guard_summary_integrity: PASS value="ok"
+REPORTED {"C": 0, "D": 90.03, "D_minus_131.421": -41.39099999999999, "D_minus_88.974": 1.0559999999999974, "D_over_131.421": 0.6850503344214396, "D_over_88.974": 1.0118686357812394, "H": 7, "O": 7, "arm_dw_total": {"A1_single": 86.009, "A2_coherent2": 86.454, "A7_coined_coined": 90.03}, "quality": "OK", "saved_sha256": {"A1_single": "68a04d0bb35955e7a2fb5c4364219c8ba9265e9945d0f4152d4b2ba4d662e5ec", "A2_coherent2": "b808baa924e727f42c3bd2b318968e24393c9ed8a767bb500fc8bccc93697d56", "A7_coined_coined": "4b76cf0c2c92c5d931d0bcbcc8a8eea7d4e0d58e4b4e31f28db4ee1758cfc78f"}, "scorer_fingerprint": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py", "summary": {"A1": 69, "A2": 69, "L1_flips": 0, "L3": 30, "canon": 7, "described_as": 90.33, "dw_total": 90.03, "edit_seconds": 1311.1, "first_token": 40, "frame_flips": 1, "guards": "ok", "heldout_full": 7, "law5_ok": true, "ppl_post": 21.594, "scope_ok": true, "score_seconds": 520.0}}
+FACT {"arm": "A1_single", "subject": "Zorbland", "value": "Beirut", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Quaxil", "value": "Buenos", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Plurnak", "value": "Damascus", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Vythorn", "value": "Jerusalem", "para_full_hits": [true, false, true], "para_first_hits": [true, false, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Glimsto", "value": "Lisbon", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Drennik", "value": "Moscow", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Yastovel", "value": "Prague", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Crulpane", "value": "Santiago", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Mophgar", "value": "Stockholm", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Brinduun", "value": "Vienna", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Trannak", "value": "Ankara", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Skornwell", "value": "Bangkok", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Fluvane", "value": "Budapest", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Oxbarrow", "value": "Copenhagen", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Zephquin", "value": "Helsinki", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Lurmaxen", "value": "Lima", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Pradnoll", "value": "Mexico", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Kessivar", "value": "Paris", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Wombryne", "value": "Rome", "para_full_hits": [true, true, false], "para_first_hits": [true, true, false], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Halquin", "value": "Sofia", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Vorlex", "value": "Tunis", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Quenby", "value": "Amsterdam", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Marsduq", "value": "Baghdad", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A1_single", "subject": "Thelby", "value": "Berlin", "para_full_hits": [true, true, false], "para_first_hits": [true, true, false], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Zorbland", "value": "Astana", "para_full_hits": [true, false, true], "para_first_hits": [true, false, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Quaxil", "value": "Bucharest", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Plurnak", "value": "Dhaka", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Vythorn", "value": "Harare", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Glimsto", "value": "Manama", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Drennik", "value": "Phnom", "para_full_hits": [false, true, true], "para_first_hits": [false, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Yastovel", "value": "Riga", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Crulpane", "value": "Tripoli", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Mophgar", "value": "Accra", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Brinduun", "value": "Amman", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Trannak", "value": "Bogota", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Skornwell", "value": "Dakar", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Fluvane", "value": "Hanoi", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Oxbarrow", "value": "Managua", "para_full_hits": [true, true, false], "para_first_hits": [true, true, false], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Zephquin", "value": "Muscat", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Lurmaxen", "value": "Rabat", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Pradnoll", "value": "Tirana", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Kessivar", "value": "Abuja", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Wombryne", "value": "Algiers", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Halquin", "value": "Belgrade", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Vorlex", "value": "Caracas", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Quenby", "value": "Doha", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Marsduq", "value": "Luanda", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A2_coherent2", "subject": "Thelby", "value": "Maputo", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A7_coined_coined", "subject": "Zorbland", "value": "Vindex Vask", "para_full_hits": [true, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A7_coined_coined", "subject": "Quaxil", "value": "Drennik Brakk", "para_full_hits": [false, false, false], "para_first_hits": [true, false, true], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Plurnak", "value": "Vythorn Stavik", "para_full_hits": [false, false, false], "para_first_hits": [false, true, true], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Vythorn", "value": "Vorlex Yornel", "para_full_hits": [false, false, false], "para_first_hits": [false, true, false], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Glimsto", "value": "Lurmax Spraxil", "para_full_hits": [true, false, false], "para_first_hits": [true, false, false], "canon_full": true}
+FACT {"arm": "A7_coined_coined", "subject": "Drennik", "value": "Kessivar Ulvenn", "para_full_hits": [false, false, false], "para_first_hits": [true, false, false], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Yastovel", "value": "Halquin Cindel", "para_full_hits": [false, false, false], "para_first_hits": [true, true, true], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Crulpane", "value": "Marsduq Drelth", "para_full_hits": [false, false, false], "para_first_hits": [true, true, false], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Mophgar", "value": "Glimsto Vask", "para_full_hits": [false, false, false], "para_first_hits": [true, true, true], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Brinduun", "value": "Brindu Brakk", "para_full_hits": [false, true, true], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A7_coined_coined", "subject": "Trannak", "value": "Fluvane Stavik", "para_full_hits": [false, false, false], "para_first_hits": [true, true, true], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Skornwell", "value": "Yastov Yornel", "para_full_hits": [false, false, false], "para_first_hits": [true, false, false], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Fluvane", "value": "Vindex Spraxil", "para_full_hits": [false, false, true], "para_first_hits": [false, false, true], "canon_full": true}
+FACT {"arm": "A7_coined_coined", "subject": "Oxbarrow", "value": "Drennik Ulvenn", "para_full_hits": [false, false, false], "para_first_hits": [true, false, false], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Zephquin", "value": "Vythorn Cindel", "para_full_hits": [false, false, false], "para_first_hits": [false, false, true], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Lurmaxen", "value": "Vorlex Drelth", "para_full_hits": [false, false, false], "para_first_hits": [true, false, true], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Pradnoll", "value": "Lurmax Vask", "para_full_hits": [false, false, false], "para_first_hits": [true, true, true], "canon_full": true}
+FACT {"arm": "A7_coined_coined", "subject": "Kessivar", "value": "Kessivar Brakk", "para_full_hits": [false, false, false], "para_first_hits": [true, true, true], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Wombryne", "value": "Halquin Stavik", "para_full_hits": [false, false, false], "para_first_hits": [false, false, true], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Halquin", "value": "Marsduq Yornel", "para_full_hits": [false, false, false], "para_first_hits": [false, false, true], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Vorlex", "value": "Glimsto Spraxil", "para_full_hits": [false, false, false], "para_first_hits": [false, true, true], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Quenby", "value": "Brindu Ulvenn", "para_full_hits": [false, false, false], "para_first_hits": [false, false, false], "canon_full": true}
+FACT {"arm": "A7_coined_coined", "subject": "Marsduq", "value": "Fluvane Cindel", "para_full_hits": [false, false, false], "para_first_hits": [false, false, false], "canon_full": false}
+FACT {"arm": "A7_coined_coined", "subject": "Thelby", "value": "Yastov Drelth", "para_full_hits": [false, false, false], "para_first_hits": [false, false, false], "canon_full": true}
+LABEL primary=NO-GAIN-WITHOUT-VALUE-POSITIONS secondary=NO-COLLISION-RECOVERY quality=OK
+REPLAY_EXIT=0
