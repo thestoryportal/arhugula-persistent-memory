@@ -39,7 +39,7 @@ def identity_fixture():
     hashes = {n: "1" * 64 for n in R.REQUIRED_SOURCES}
     hashes[R.ENGINE_FILE] = R.ENGINE_SHA256
     return {"run_id": "synthetic-c10v", "source_sha256": hashes, "source_digest": R.source_digest(hashes),
-            "law3_reference": {"ok": True, "sha256": "2" * 64, "path": "/synthetic/reference", "scores": {a: 70 for a in R.ARMS[:2]}}}
+            "preflight_controls_reference": {"ok": True, "sha256": "2" * 64, "path": "/synthetic/reference", "scores": {a: 70 for a in R.ARMS[:2]}}}
 
 
 def step_fixture():
@@ -206,7 +206,7 @@ def fixture_directory(tmp, records=None, stopped=False):
         identity["source_sha256"][name] = D.sha256_file(path)
     identity["source_digest"] = R.source_digest(identity["source_sha256"])
     ref = root / "reference.json"; D.write_json(ref, {"recipes": {"baseline": records[0]["recipes"]["A"]}})
-    identity["law3_reference"].update(path=str(ref), sha256=D.sha256_file(ref))
+    identity["preflight_controls_reference"].update(path=str(ref), sha256=D.sha256_file(ref))
     step = copy.deepcopy(records[0]["step0"])
     if stopped:
         table = [[0, 0, 0, 0, 1] for _ in SUBJECTS]; step.update(R.select_maps(table, table, SUBJECTS))
@@ -243,7 +243,7 @@ class SelectorAndNumericalTests(unittest.TestCase):
         self.assertAlmostEqual(one[0, 0], norms[0] ** 2 / (1 + norms[0] ** 2))
 
     def test_margin_delta_below_at_above_and_nearest8_tie(self):
-        for margin, chosen in ((0.0625, 8), (0.125, 4), (0.25, 4)):
+        for margin, chosen in ((0.0625, 5), (0.125, 4), (0.25, 4)):
             with self.subTest(margin=margin):
                 first = [[0.5 + margin, 0.5, 0, 0, 0] for _ in SUBJECTS]
                 second = copy.deepcopy(first); second[-1][4] = 0.125
@@ -251,6 +251,24 @@ class SelectorAndNumericalTests(unittest.TestCase):
                 self.assertEqual(read["delta"], 0.125); self.assertEqual(read["map"][SUBJECTS[0]], chosen)
         tied = R.select_maps([[0.5] * 5 for _ in SUBJECTS], [[0.5] * 5 for _ in SUBJECTS], SUBJECTS)
         self.assertEqual(set(tied["map"].values()), {8})
+
+    def test_nearest8_contenders_and_margin_immediate_float_boundaries(self):
+        for runner, chosen in ((float(np.nextafter(0.625, 1.0)), 5), (0.625, 4),
+                               (float(np.nextafter(0.625, 0.0)), 4)):
+            with self.subTest(runner=runner):
+                first = [[0.75, runner, 0, 0, 0] for _ in SUBJECTS]
+                second = copy.deepcopy(first); second[-1][4] = 0.125
+                result = R.select_maps(first, second, SUBJECTS)
+                self.assertEqual(result["delta"], 0.125)
+                self.assertEqual(result["map"][SUBJECTS[0]], chosen)
+        for contender, chosen in ((float(np.nextafter(0.625, 0.0)), 5), (0.625, 6),
+                                  (float(np.nextafter(0.625, 1.0)), 6)):
+            with self.subTest(contender=contender):
+                first = [[0.75, 0.6875, contender, 0, 0] for _ in SUBJECTS]
+                second = copy.deepcopy(first); second[-1][4] = 0.125
+                self.assertEqual(R.select_maps(first, second, SUBJECTS)["map"][SUBJECTS[0]], chosen)
+        tied = [[0.5, 0.5, 0, 0, 0] for _ in SUBJECTS]
+        self.assertEqual(R.select_maps(tied, tied, SUBJECTS)["map"][SUBJECTS[0]], 5)
 
     def test_concentration_19_20_21_and_nonreproducible(self):
         for n in (19, 20, 21):
@@ -338,6 +356,50 @@ class SelectorAndNumericalTests(unittest.TestCase):
         bad, _, _ = D.capture_write(H, hp, base, badP, H.original, restricted, {s: 8}, wrapper=True)
         self.assertGreater(D.relative_distances({8: good[8]}, {8: bad[8]})["8"], 1e-4)
 
+    def test_original_capture_requires_one_override_hit_and_restores(self):
+        for hits in (0, 1, 2):
+            with self.subTest(hits=hits):
+                H = SyntheticHarness(); hp = SimpleNamespace(layers=list(R.LAYERS)); base = H.snap_layers(hp)
+                prepared = synthetic_prepared(H); H.calls.clear()
+                if hits == 0: prepared["targets"].pop(next(iter(prepared["targets"])))
+                previous = {"saved": array([1])}; H.Z_OVERRIDE = previous
+                def original(hp, requests, P, cache):
+                    result = H.original(hp, requests, P, cache)
+                    if hits == 2: result = H.original(hp, requests, P, cache)
+                    return result
+                def capture(): return D.capture_write(H, hp, base, [np.eye(3)] * 5, original, prepared, None)
+                if hits == 1:
+                    capture()
+                else:
+                    with self.assertRaisesRegex(R.GateError, "LAW5_OVERRIDE_PIN"): capture()
+                self.assertEqual(H.Z_OVERRIDE_HITS, hits)
+                self.assertIs(H.Z_OVERRIDE, previous)
+                self.assertEqual(any(c[0] == "target" for c in H.calls), hits == 0)
+                for l in R.LAYERS: np.testing.assert_array_equal(H.weights[l], base[l])
+
+    def test_law5_singleton_and_multigroup_reject_any_unassigned_write(self):
+        original_call = D.GroupedEdit.__call__
+        for scope, gate in (("singleton", "LAW5_IV_SCOPE"), ("multigroup", "LAW5_V_SCOPE")):
+            for change in (0.0, 1e-12, -1e-12):
+                with self.subTest(scope=scope, change=change):
+                    H = SyntheticHarness(); hp = SimpleNamespace(layers=list(R.LAYERS)); base = H.snap_layers(hp)
+                    prepared = synthetic_prepared(H); P = [np.eye(3)] * 5
+                    def leaky(wrapper, hp, requests, P, cache):
+                        result = original_call(wrapper, hp, requests, P, cache)
+                        mapping = wrapper.layer_map
+                        matches = mapping is not None and (len(mapping) == 1 if scope == "singleton" else 1 < len(mapping) < 24)
+                        if matches:
+                            untouched = next(l for l in R.LAYERS if l not in mapping.values())
+                            H.weights[untouched][0, 0] += change
+                        return result
+                    with patch.object(D.GroupedEdit, "__call__", leaky):
+                        def check(): return D.law5_checks(H, hp, P, base, {R.ARMS[2]: prepared}, step_fixture()["map"])
+                        if change == 0:
+                            self.assertTrue(check()["ok"])
+                        else:
+                            with self.assertRaisesRegex(R.GateError, gate): check()
+                    for l in R.LAYERS: np.testing.assert_array_equal(H.weights[l], base[l])
+
     def test_proxy_uses_own_pristine_denominators_and_fp16_qualifier(self):
         H = SyntheticHarness(); hp = SimpleNamespace(layers=list(R.LAYERS), layer_module_tmp="block{}", fact_token="subject_last"); prepared = synthetic_prepared(H)
         prepared.update(map={s: 8 for s in SUBJECTS}, pre=D.activation_rows(H, hp, {s: 8 for s in SUBJECTS}),
@@ -382,6 +444,8 @@ class ThresholdTests(unittest.TestCase):
                 for n in (67, 68, 69):
                     rec = pass_fixture(); set_score(rec, name, control, n)
                     self.assertEqual(not R.pass_validity(rec, name), n >= 68, (name, control, n))
+                    if name == "A":
+                        self.assertEqual(R.candidate_reading(rec, "B")["base_label"] == "INVALID", n < 68, (control, n))
         for n in (4, 5, 6, 17, 18, 19):
             rec = pass_fixture(baseline=n)
             self.assertEqual(not R.pass_validity(rec, "B"), 5 <= n <= 18)
@@ -497,6 +561,135 @@ class ThresholdTests(unittest.TestCase):
 
 
 class SafetyAndPersistenceTests(unittest.TestCase):
+    def test_bshuf_control_only_labels_roundtrip_and_invalid_exit(self):
+        cases = ((18, False, False, "NULL"), (20, False, False, "PARTIAL"),
+                 (30, False, False, "LEAD"), (30, True, False, "TRADEOFF-LARGE-WRITE"),
+                 (30, False, True, "INVALID"))
+        for n, large, invalid, label in cases:
+            with self.subTest(label=label), tempfile.TemporaryDirectory() as tmp:
+                record = pass_fixture(b=18, b0=18, bshuf=n)
+                if large:
+                    for v in record["recipes"]["Bshuf"]["delta_norms"][R.ARMS[2]].values(): v["delta_norm"] *= 2
+                if invalid: set_score(record, "Bshuf", R.ARMS[0], 67)
+                root, out, _ = fixture_directory(tmp, records=[record])
+                reading = R.read_directory(out, root)["readings"]["Bshuf"]
+                self.assertEqual(reading["label"], label + "-CONTROL-ONLY")
+                self.assertFalse(reading["gate_A"])
+                self.assertFalse(R.replication_needed(record))
+                printed = io.StringIO()
+                with contextlib.redirect_stdout(printed): code = R.main([str(out), "--root", str(root)])
+                self.assertEqual(code, 2 if invalid else 0)
+                self.assertEqual(json.loads(printed.getvalue())["readings"]["Bshuf"]["label"], label + "-CONTROL-ONLY")
+
+    def test_preflight_controls_reference_identity_roundtrip_and_drift(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "outputs"; path = Path(tmp) / "passS.json"
+            path.write_bytes((ROOT / "results/c10q_stacked/passS.json").read_bytes())
+            reference = D.law3_reference(path)
+            identity = D.initialise_identity(ROOT, out, reference)
+            persisted = json.loads((out / "identity.json").read_text())
+            self.assertIn("preflight_controls_reference", persisted)
+            self.assertNotIn("law3_reference", persisted)
+            self.assertEqual(persisted["preflight_controls_reference"], reference)
+            self.assertEqual(persisted, identity)
+            R.validate_identity(persisted, pass_fixture()["fingerprint"])
+            self.assertEqual(D.initialise_identity(ROOT, out, reference), persisted)
+            path.write_bytes(path.read_bytes() + b"\n")
+            self._assert_halt(lambda: D.assert_sources(persisted, ROOT), "LAW3_REFERENCE_DRIFT")
+
+    def _run_synthetic_pass(self, root, out, candidate, fresh=None, stage="pass1", runtime_stage=None):
+        runtime_stage = runtime_stage or D.runtime_stage
+        identity = candidate["identity"]; fresh = fresh or step_fixture()
+        covariance = pass_fixture()["recipes"]["A"]["cov_cache_sha256"]
+        frozen = {**step_fixture(), "identity": identity, "cov_cache_sha256": covariance}
+        D.write_json(out / "identity.json", identity); D.write_json(out / "step0.json", frozen)
+        if stage == "pass2":
+            previous = pass_fixture(pid=os.getpid() + 1)
+            D.write_json(out / "pass1.json", previous)
+            D.write_json(out / "pass1_complete.json", {"identity": identity, "record_sha256": D.sha256_file(out / "pass1.json")})
+        for name, rec in candidate["recipes"].items():
+            for arm in R.ARMS:
+                predictions = rec["predictions_before_write"][arm]
+                for i, s in enumerate(SUBJECTS):
+                    layer = 8 if name == "A" else rec["map"][s]
+                    predictions[s]["full_G_diagonal"] = fresh["G_table"][i][layer - 4]
+                if arm != R.ARMS[1]:
+                    for row in rec["arms"][arm]["extra"]["proxy"]["rows"]:
+                        row["full_G_diagonal"] = predictions[row["subj"]]["full_G_diagonal"]
+        H = SyntheticHarness(); H.ID, H.REV, H.DEV = "synthetic", "synthetic", "synthetic-cpu"
+        hp = SimpleNamespace(layers=list(R.LAYERS))
+        H.compute_P = lambda hp: [np.eye(3)] * 5; H.cov_cache_sha256 = lambda hp: covariance
+        prepared = synthetic_prepared(H); prepared["pre"] = {s: np.zeros((4, 2)) for s in SUBJECTS}
+        keys = {l: np.zeros((3, 24)) for l in R.LAYERS}
+        def run_recipe(H, M, hp, P, ctx, keys, root, name, mapping, proof, preprepared=None):
+            self.assertEqual(mapping, R.recipe_maps(frozen["map"], SUBJECTS)[name])
+            return candidate["recipes"][name], {}
+        with patch.object(D, "IDENTITY", identity), patch.object(D, "assert_sources"), \
+             patch.object(D, "load_harness", return_value=(H, None, hp, fresh["ctx"])), \
+             patch.object(D, "compute_selector", return_value=(fresh, keys)), \
+             patch.object(D, "prepare_arm", return_value=prepared), patch.object(D, "law5_checks", return_value=proof_fixture()), \
+             patch.object(D, "run_one_recipe", side_effect=run_recipe) as recipes, contextlib.redirect_stdout(io.StringIO()):
+            runtime_stage(root, out, stage, candidate["fingerprint"])
+        self.assertEqual([c.args[7] for c in recipes.call_args_list], ["A", "B0", "B", "Bshuf"])
+        self.assertTrue((out / (stage + "_complete.json")).exists())
+        self.assertFalse(list((root / "architecture_profile").glob("*.json")))
+        return json.loads((out / (stage + ".json")).read_text())
+
+    def test_real_stage_candidate_control_invalid_continues_and_roundtrips(self):
+        for stage in ("pass1", "pass2"):
+            for name in R.RECIPES[1:]:
+                for arm in R.ARMS[:2]:
+                    for n in (67, 68, 69):
+                        with self.subTest(stage=stage, recipe=name, arm=arm, n=n), tempfile.TemporaryDirectory() as tmp:
+                            candidate = pass_fixture(); set_score(candidate, name, arm, n)
+                            record = self._run_synthetic_pass(Path(tmp), Path(tmp) / "outputs", candidate, stage=stage)
+                            reasons = ["CONTROL_" + arm] if n < 68 else []
+                            self.assertEqual(record["recipes"][name]["validity"], {"ok": n >= 68, "reasons": reasons})
+                            readings = R.read_run(record)["readings"]
+                            self.assertEqual(readings[name]["base_label"] == "INVALID", n < 68)
+                            if name != "B": self.assertEqual(readings["B"]["base_label"], "LEAD")
+                            self.assertEqual(readings["Bshuf"]["base_label"] == "INVALID", n < 68 and name == "Bshuf")
+
+    def test_real_stage_candidate_full_string_invalid_continues_and_roundtrips(self):
+        for stage in ("pass1", "pass2"):
+            for string_n in (29, 30, 31):
+                with self.subTest(stage=stage, string_n=string_n), tempfile.TemporaryDirectory() as tmp:
+                    candidate = pass_fixture(); rec = candidate["recipes"]["B"]; arm = rec["arms"][R.ARMS[2]]
+                    for i, row in enumerate(rec["detail"][R.ARMS[2]]):
+                        row["para_string_hits"] = [i * 3 + j < string_n for j in range(3)]
+                    arm.update(para_string_n=string_n, para_full_string=round(100 * string_n / 72, 1))
+                    record = self._run_synthetic_pass(Path(tmp), Path(tmp) / "outputs", candidate, stage=stage)
+                    reasons = ["FULL_STRING: A7_coined_coined"] if string_n != 30 else []
+                    self.assertEqual(record["recipes"]["B"]["validity"], {"ok": string_n == 30, "reasons": reasons})
+                    readings = R.read_run(record)["readings"]
+                    self.assertEqual(readings["B"]["base_label"], "LEAD" if string_n == 30 else "INVALID")
+                    self.assertNotEqual(readings["Bshuf"]["base_label"], "INVALID")
+
+    def test_real_stage_candidate_invalid_does_not_mask_integrity_halt(self):
+        runtime_stage = D.runtime_stage
+        with tempfile.TemporaryDirectory() as tmp:
+            candidate = pass_fixture(); set_score(candidate, "B0", R.ARMS[0], 67)
+            candidate["recipes"]["B0"]["wrapper"][R.ARMS[2]]["z_override_hits"] = 0
+            out = Path(tmp) / "outputs"
+            self._assert_halt(lambda: self._run_synthetic_pass(Path(tmp), out, candidate, runtime_stage=runtime_stage), "OVERRIDE_GROUPS")
+            self.assertFalse((out / "pass1.json").exists()); self.assertFalse((out / "pass1_complete.json").exists())
+
+    def test_real_pass1_published_map_agreement_and_measured_delta_roundtrip(self):
+        published = {s: 4 + i % 5 for i, s in enumerate(SUBJECTS)}
+        for agreement in (0, 1, 23, 24):
+            for delta in (0.0, 0.125):
+                with self.subTest(agreement=agreement, delta=delta), tempfile.TemporaryDirectory() as tmp:
+                    first = [[1 if j == (i % 5 if i < agreement else (i + 1) % 5) else 0
+                              for j in range(5)] for i in range(24)]
+                    second = copy.deepcopy(first); second[-1][4] += delta
+                    fresh = step_fixture(); fresh.update(R.select_maps(first, second, SUBJECTS))
+                    record = self._run_synthetic_pass(Path(tmp), Path(tmp) / "outputs", pass_fixture(), fresh=fresh)
+                    self.assertEqual(record["published_map"], published)
+                    self.assertEqual(record["recipes"]["B"]["map"], published)
+                    self.assertEqual(record["selection_agreement_n"], agreement)
+                    self.assertEqual(record["step0"]["delta"], delta)
+                    self.assertEqual(R.pass_validity(record, "B"), [])
+
     def test_every_record_kind_json_normalised_roundtrip_and_exclusive(self):
         record = pass_fixture(); step = {**step_fixture(), "identity": record["identity"], "fingerprint": record["fingerprint"]}
         kinds = {"identity.json": record["identity"], "step0.json": step, "law5.json": {"identity": record["identity"], "law5": proof_fixture()},
@@ -545,7 +738,7 @@ class SafetyAndPersistenceTests(unittest.TestCase):
             sentinel = Path(tmp) / "occupied.json"; sentinel.write_text("preserved")
             identity = identity_fixture()
             with patch.object(D, "preflight", return_value=pass_fixture()["fingerprint"]), \
-                 patch.object(D, "law3_reference", return_value=identity["law3_reference"]), \
+                 patch.object(D, "law3_reference", return_value=identity["preflight_controls_reference"]), \
                  patch.object(D, "initialise_identity", return_value=identity), \
                  patch.object(D, "runtime_stage", side_effect=lambda *a: trigger()) as downstream, \
                  patch.object(D, "halt", side_effect=lambda root, msg, **state: real_halt(Path(tmp), msg, **state)):
@@ -567,7 +760,7 @@ class SafetyAndPersistenceTests(unittest.TestCase):
             ("FINGERPRINT", lambda r: r["fingerprint"].update(_cov_cpu=2)),
             ("FINGERPRINT", lambda r: r["fingerprint"].update(_cov_cpu=4)),
             ("SOURCE_IDENTITY", lambda r: r["identity"].update(source_digest="0" * 64)),
-            ("LAW3_REFERENCE", lambda r: r["identity"]["law3_reference"].update(ok=False)),
+            ("LAW3_REFERENCE", lambda r: r["identity"]["preflight_controls_reference"].update(ok=False)),
             ("CONTEXT_HASH", lambda r: r["step0"].update(ctx_sha256="0" * 64)),
             ("CONTEXT_SHAPE", lambda r: (r["step0"].update(ctx=[["bad"]], ctx_sha256=R.json_digest([["bad"]])))),
             ("SELECTOR_TABLE", lambda r: r["step0"]["G_table"][0].__setitem__(0, float("nan"))),
@@ -580,7 +773,6 @@ class SafetyAndPersistenceTests(unittest.TestCase):
             ("RECIPE_MAP", lambda r: r["recipes"]["B"].update(map={s: 8 for s in SUBJECTS})),
             ("RECIPE_LAW5", lambda r: r["recipes"]["B"]["law5_gate"].update(ok=False)),
             ("SUMMARY_COUNTS", lambda r: r["recipes"]["B"]["arms"][R.ARMS[2]].update(para_full_n=73)),
-            ("FULL_STRING", lambda r: r["recipes"]["B"]["arms"][R.ARMS[2]].update(para_full_string=0)),
             ("OVERRIDE_GROUPS", lambda r: r["recipes"]["B"]["wrapper"][R.ARMS[2]].update(z_override_hits=4)),
             ("WRITE_NORMS", lambda r: next(iter(r["recipes"]["B"]["delta_norms"][R.ARMS[2]].values())).update(delta_norm=float("inf"))),
             ("LOCALITY_SHAPE", lambda r: r["recipes"]["B"]["arms"][R.ARMS[2]]["locality_axes"].update(L3_n=29)),
@@ -599,8 +791,6 @@ class SafetyAndPersistenceTests(unittest.TestCase):
             ("HSIC_READOUT", lambda r: r.pop("hsic")),
             ("BASELINE_ENVELOPE", lambda r: set_score(r, "A", R.ARMS[2], 19)),
             ("ZERO_BASELINE_WRITE", lambda r: [v.update(delta_norm=0) for v in r["recipes"]["A"]["delta_norms"][R.ARMS[2]].values()]),
-            ("CONTROL_A1_single", lambda r: set_score(r, "B", R.ARMS[0], 67)),
-            ("CONTROL_A2_coherent2", lambda r: set_score(r, "B", R.ARMS[1], 67)),
             ("ROW_SUBJECTS", lambda r: r["recipes"]["B"]["detail"][R.ARMS[2]][0].update(subj=SUBJECTS[1])),
             ("CANON_HITS", lambda r: r["recipes"]["B"]["detail"][R.ARMS[2]][0].update(canon_full=1)),
             ("PARA_HITS", lambda r: r["recipes"]["B"]["detail"][R.ARMS[2]][0].update(para_full_hits=[True])),
@@ -739,10 +929,16 @@ class SafetyAndPersistenceTests(unittest.TestCase):
                     self._assert_halt(lambda: runtime_stage(root, out, "pass1", pass_fixture()["fingerprint"]), "LAW5_I")
                     recipes.assert_not_called()
                 self.assertFalse(list(out.glob("*_started.json")))
-                baseline = pass_fixture()["recipes"]["A"]; baseline["arms"][R.ARMS[0]]["para_full_n"] = 67
-                with patch.object(D, "law5_checks", return_value=proof_fixture()), patch.object(D, "run_one_recipe", return_value=(baseline, {})) as recipes:
-                    self._assert_halt(lambda: runtime_stage(root, out, "pass1", pass_fixture()["fingerprint"]), "LIVE_LAW3")
-                    recipes.assert_called_once()
+                for arm, gate in ((R.ARMS[0], "LIVE_LAW3: CONTROL_A1_single"), (R.ARMS[1], "LIVE_LAW3: CONTROL_A2_coherent2"),
+                                  (R.ARMS[2], "LIVE_LAW3: FULL_STRING: A7_coined_coined")):
+                    rec = pass_fixture()
+                    if arm == R.ARMS[2]: rec["recipes"]["A"]["arms"][arm].update(para_full_string=0.0)
+                    else: set_score(rec, "A", arm, 67)
+                    baseline = rec["recipes"]["A"]
+                    with patch.object(D, "law5_checks", return_value=proof_fixture()), patch.object(D, "run_one_recipe", return_value=(baseline, {})) as recipes:
+                        self._assert_halt(lambda: runtime_stage(root, out, "pass1", pass_fixture()["fingerprint"]), gate)
+                        recipes.assert_called_once()
+                    (out / "law5.json").unlink()
                 self.assertFalse(list(out.glob("*_started.json")))
                 self.assertFalse(list(out.glob("*_complete.json")))
 
@@ -764,10 +960,10 @@ class SafetyAndPersistenceTests(unittest.TestCase):
                     recipes.assert_not_called()
                 self.assertFalse(list(out.glob("*_started.json"))); self.assertFalse(list(out.glob("*_complete.json")))
 
-    def test_real_stage_dependency_selector_source_and_candidate_halts(self):
+    def test_real_stage_dependency_selector_and_source_halts(self):
         runtime_stage = D.runtime_stage
         gates = ("STEP0_NOT_READY", "PASS1_COMPLETE", "REPLICATION_NOT_NEEDED", "REPLICATION_PROCESS",
-                 "MAP_REPRODUCIBLE", "PASS1_FIXED_MAP", "SOURCE_DRIFT", "RECIPE_VALIDITY B0")
+                 "MAP_REPRODUCIBLE", "SOURCE_DRIFT")
         for gate in gates:
             with self.subTest(gate=gate), tempfile.TemporaryDirectory() as tmp:
                 root, out = Path(tmp), Path(tmp) / "outputs"
@@ -787,11 +983,9 @@ class SafetyAndPersistenceTests(unittest.TestCase):
                 if gate == "MAP_REPRODUCIBLE":
                     a = [[0.5, 0.5, 0, 0, 0] for _ in SUBJECTS]; b = copy.deepcopy(a); b[0][0] += 0.125
                     fresh.update(R.select_maps(a, b, SUBJECTS))
-                if gate == "PASS1_FIXED_MAP":
-                    t = [[1 if j == (i + 1) % 5 else 0 for j in range(5)] for i in range(24)]; fresh.update(R.select_maps(t, t, SUBJECTS))
                 H = SyntheticHarness(); hp = SimpleNamespace(layers=list(R.LAYERS))
                 H.compute_P = lambda hp: [np.eye(3)] * 5; H.cov_cache_sha256 = lambda hp: covariance
-                candidate = pass_fixture(); set_score(candidate, "B0", R.ARMS[0], 67)
+                candidate = pass_fixture()
                 def run_recipe(H, M, hp, P, ctx, keys, root, name, mapping, proof, preprepared=None):
                     return candidate["recipes"][name], {}
                 with patch.object(D, "load_harness", return_value=(H, None, hp, frozen["ctx"])) as loader, \
@@ -801,9 +995,8 @@ class SafetyAndPersistenceTests(unittest.TestCase):
                      patch.object(D, "run_one_recipe", side_effect=run_recipe) as recipes:
                     self._assert_halt(lambda: runtime_stage(root, out, stage, pass_fixture()["fingerprint"]), gate)
                     if gate in gates[:4]: loader.assert_not_called()
-                    if gate == "RECIPE_VALIDITY B0": self.assertEqual([c.args[7] for c in recipes.call_args_list], ["A", "B0"])
-                    else: recipes.assert_not_called()
-                self.assertEqual((out / (stage + "_started.json")).exists(), gate == "RECIPE_VALIDITY B0")
+                    recipes.assert_not_called()
+                self.assertFalse((out / (stage + "_started.json")).exists())
                 self.assertFalse((out / (stage + "_complete.json")).exists())
 
     def test_law5_layer_coverage_and_missing_floor_observations(self):
@@ -855,7 +1048,7 @@ class SafetyAndPersistenceTests(unittest.TestCase):
             with patch.object(D, "load_harness", return_value=(H, None, hp, fresh["ctx"])), \
                  patch.object(D, "compute_selector", return_value=(fresh, {})), patch.object(D, "assert_sources"), \
                  patch.object(D, "prepare_arm", return_value={}), patch.object(D, "law5_checks", return_value=proof_fixture()) as law5, \
-                 patch.object(R, "validate_recipe"), \
+                 patch.object(R, "validate_recipe"), patch.object(R, "recipe_integrity"), \
                  patch.object(D, "run_one_recipe", side_effect=[(previous["recipes"]["A"], {}), (previous["recipes"]["B0"], {}), R.GateError("SYNTHETIC_STOP_AFTER_B_MAP")]) as recipes:
                 self._assert_halt(lambda: runtime_stage(root, out, "pass2", previous["fingerprint"]), "SYNTHETIC_STOP_AFTER_B_MAP")
                 self.assertEqual(law5.call_args.args[-1], frozen["map"])

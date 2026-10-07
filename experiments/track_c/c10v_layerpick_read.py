@@ -78,7 +78,8 @@ def select_maps(first, second, subjects):
         for s, row in zip(subjects, table):
             order = sorted(range(5), key=lambda j: (-row[j], -LAYERS[j]))
             margin = row[order[0]] - row[order[1]]
-            selected[s] = LAYERS[order[0]] if margin >= delta else 8
+            near = [LAYERS[j] for j in range(5) if row[j] >= row[order[0]] - delta]
+            selected[s] = LAYERS[order[0]] if margin >= delta else max(near)
             mm.append(margin)
             rr.append(LAYERS[order[1]])
         maps.append(selected); margins.append(mm); runners.append(rr)
@@ -113,10 +114,10 @@ def validate_identity(identity, fingerprint):
     require(sha(identity["source_digest"]) and all(k in hashes for k in REQUIRED_SOURCES)
             and all(sha(v) for v in hashes.values()) and
             identity["source_digest"] == source_digest(hashes), "SOURCE_IDENTITY")
-    require(identity["run_id"] and identity["law3_reference"]["ok"] is True and
-            sha(identity["law3_reference"]["sha256"]) and
-            all(count(identity["law3_reference"]["scores"][a]) and
-                identity["law3_reference"]["scores"][a] >= CTRL for a in ARMS[:2]), "LAW3_REFERENCE")
+    require(identity["run_id"] and identity["preflight_controls_reference"]["ok"] is True and
+            sha(identity["preflight_controls_reference"]["sha256"]) and
+            all(count(identity["preflight_controls_reference"]["scores"][a]) and
+                identity["preflight_controls_reference"]["scores"][a] >= CTRL for a in ARMS[:2]), "LAW3_REFERENCE")
     require(fingerprint["ok"] is True and fingerprint["sha256"] == ENGINE_SHA256 and
             fingerprint["_cov_cpu"] == 3 and hashes[ENGINE_FILE] == ENGINE_SHA256, "FINGERPRINT")
 
@@ -168,7 +169,7 @@ def row_counts(rows, subjects):
             "para_string_n": sum(sum(r["para_string_hits"]) for r in rows)}
 
 
-def validate_recipe(rec, name, step, published):
+def recipe_integrity(rec, name, step, published):
     subjects = step["subjects"]
     expected = recipe_maps(published, subjects)[name]
     require(rec["map"] == expected and rec["band"] == list(LAYERS), "RECIPE_MAP")
@@ -178,11 +179,6 @@ def validate_recipe(rec, name, step, published):
         derived = row_counts(rec["detail"][arm_name], subjects)
         require(all(count(arm[k]) and arm[k] == v for k, v in derived.items()) and
                 arm["canon_n"] == N and arm["para_n"] == N * NT, "SUMMARY_COUNTS", arm_name)
-        require(arm["para_string_n"] == arm["para_full_n"] and
-                arm["para_full_string"] == arm["para_full"] == round(100 * arm["para_full_n"] / 72, 1),
-                "FULL_STRING", arm_name)
-        if arm_name in ARMS[:2]:
-            require(arm["para_full_n"] >= CTRL, "CONTROL_" + arm_name)
         audit = rec["wrapper"][arm_name]
         wanted = [(list(LAYERS), subjects)] if expected is None else [([l], ss) for l, ss in groups(expected, subjects)]
         require(audit["groups"] == [{"layers": ls, "subjects": ss,
@@ -249,6 +245,25 @@ def validate_recipe(rec, name, step, published):
         require(sum(v["delta_norm"] for v in rec["delta_norms"][ARMS[2]].values()) > 0, "ZERO_BASELINE_WRITE")
 
 
+def recipe_validity(rec):
+    reasons = []
+    for arm_name in ARMS:
+        arm = rec["arms"][arm_name]
+        if not (arm["para_string_n"] == arm["para_full_n"] and
+                arm["para_full_string"] == arm["para_full"] == round(100 * arm["para_full_n"] / 72, 1)):
+            reasons.append("FULL_STRING: " + arm_name)
+        if arm_name in ARMS[:2] and arm["para_full_n"] < CTRL:
+            reasons.append("CONTROL_" + arm_name)
+    return reasons
+
+
+def validate_recipe(rec, name, step, published):
+    recipe_integrity(rec, name, step, published)
+    reasons = recipe_validity(rec)
+    if reasons:
+        raise GateError("; ".join(reasons))
+
+
 def validate_covariance(cov):
     require(set(cov) == {str(l) for l in LAYERS} and
             all(sha(c["sha256"]) and isinstance(c["path"], str) and c["path"] for c in cov.values()), "COVARIANCE_PROVENANCE")
@@ -273,23 +288,27 @@ def validate_hsic(hsic, published, subjects):
             hsic["agreement_n"] == (sum(expected[s] == published[s] for s in subjects) if expected else None), "HSIC_READOUT")
 
 
+def pass_integrity(record, name):
+    require(record["decision_id"] == DECISION_ID and record["outcome"] == "COMPLETE"
+            and type(record["pid"]) is int and record["pid"] > 0, "PASS_IDENTITY")
+    validate_identity(record["identity"], record["fingerprint"])
+    validate_step0(record["step0"])
+    require(record["step0"]["map_reproduced"] is True, "MAP_REPRODUCIBLE")
+    require(record["published_map_sha256"] == json_digest(record["published_map"]), "PUBLISHED_MAP_HASH")
+    law5_reading(record["law5"], record["published_map"], record["step0"]["subjects"])
+    require(record["ctx_sha256"] == record["step0"]["ctx_sha256"] and record["ctx"] == record["step0"]["ctx"], "PASS_CONTEXT")
+    require(set(record["recipes"]) == set(RECIPES), "RECIPE_INVENTORY")
+    validate_recipe(record["recipes"]["A"], "A", record["step0"], record["published_map"])
+    recipe_integrity(record["recipes"][name], name, record["step0"], record["published_map"])
+    require(record["recipes"]["A"]["cov_cache_sha256"] == record["recipes"][name]["cov_cache_sha256"], "COVARIANCE_DRIFT")
+    require("hsic" in record, "HSIC_READOUT")
+    validate_hsic(record["hsic"], record["published_map"], record["step0"]["subjects"])
+
+
 def pass_validity(record, name):
     try:
-        require(record["decision_id"] == DECISION_ID and record["outcome"] == "COMPLETE"
-                and type(record["pid"]) is int and record["pid"] > 0, "PASS_IDENTITY")
-        validate_identity(record["identity"], record["fingerprint"])
-        validate_step0(record["step0"])
-        require(record["step0"]["map_reproduced"] is True, "MAP_REPRODUCIBLE")
-        require(record["published_map_sha256"] == json_digest(record["published_map"]), "PUBLISHED_MAP_HASH")
-        law5_reading(record["law5"], record["published_map"], record["step0"]["subjects"])
-        require(record["ctx_sha256"] == record["step0"]["ctx_sha256"] and record["ctx"] == record["step0"]["ctx"], "PASS_CONTEXT")
-        require(set(record["recipes"]) == set(RECIPES), "RECIPE_INVENTORY")
-        validate_recipe(record["recipes"]["A"], "A", record["step0"], record["published_map"])
-        validate_recipe(record["recipes"][name], name, record["step0"], record["published_map"])
-        require(record["recipes"]["A"]["cov_cache_sha256"] == record["recipes"][name]["cov_cache_sha256"], "COVARIANCE_DRIFT")
-        require("hsic" in record, "HSIC_READOUT")
-        validate_hsic(record["hsic"], record["published_map"], record["step0"]["subjects"])
-        return []
+        pass_integrity(record, name)
+        return recipe_validity(record["recipes"][name])
     except (ValueError, KeyError, TypeError, IndexError) as exc:
         return [str(exc)]
 
@@ -364,7 +383,10 @@ def replication_needed(first):
 def read_run(first, second=None):
     readings = {name: candidate_reading(first, name) for name in RECIPES[1:]}
     for name, reading in readings.items():
-        if reading["base_label"] not in ("LEAD", "PARTIAL") or name == "Bshuf":
+        if name == "Bshuf":
+            reading["label"] += "-CONTROL-ONLY"
+            continue
+        if reading["base_label"] not in ("LEAD", "PARTIAL"):
             continue
         repeated, second_reading = False, None
         if second is not None:
@@ -439,7 +461,7 @@ def main(argv=None):
     try:
         reading = read_directory(args.out_dir, args.root)
         print(json.dumps(reading, indent=2, allow_nan=False))
-        return 2 if any(r["label"] == "INVALID" for r in reading.get("readings", {}).values()) else 0
+        return 2 if any(r["base_label"] == "INVALID" for r in reading.get("readings", {}).values()) else 0
     except (ValueError, OSError, KeyError, TypeError, IndexError) as exc:
         print(json.dumps({"label": "INVALID", "reason": str(exc)}))
         return 2

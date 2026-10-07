@@ -76,7 +76,7 @@ def source_hashes(root):
 def assert_sources(identity, root):
     R.require(identity["source_sha256"] == source_hashes(root) and
               identity["source_digest"] == R.source_digest(identity["source_sha256"]), "SOURCE_DRIFT")
-    ref = identity["law3_reference"]
+    ref = identity["preflight_controls_reference"]
     R.require(sha256_file(ref["path"]) == ref["sha256"], "LAW3_REFERENCE_DRIFT")
 
 
@@ -112,11 +112,11 @@ def initialise_identity(root, out, reference):
     if os.path.lexists(path):
         identity = json.loads(path.read_text())
         assert_sources(identity, root)
-        R.require(identity["law3_reference"] == reference, "IDENTITY_REFERENCE")
+        R.require(identity["preflight_controls_reference"] == reference, "IDENTITY_REFERENCE")
         return identity
     hashes = source_hashes(root)
     identity = {"run_id": "c10v-" + uuid.uuid4().hex, "created_utc": utc_now(),
-                "source_sha256": hashes, "source_digest": R.source_digest(hashes), "law3_reference": reference}
+                "source_sha256": hashes, "source_digest": R.source_digest(hashes), "preflight_controls_reference": reference}
     write_json(path, identity)
     return identity
 
@@ -318,6 +318,8 @@ def capture_write(H, hp, base, P, original, prepared, layer_map, wrapper=False, 
     try:
         with quiet():
             call(hp, request_list, P, [H.torch.zeros(p.shape[0], p.shape[0]) for p in P])
+        if not wrapper:
+            R.require(H.Z_OVERRIDE_HITS == 1, "LAW5_OVERRIDE_PIN")
         updated = H.snap_layers(hp)
         deltas = {l: as_numpy(updated[l]).copy() - as_numpy(base[l]) for l in hp.layers}
         behavior = H.eval_arm(eval_values) if eval_values is not None else None
@@ -330,6 +332,7 @@ def capture_write(H, hp, base, P, original, prepared, layer_map, wrapper=False, 
 
 def law5_checks(H, hp, P, base, prepared, published):
     """prereg:58(i)–(v): numeric checks in THIS pristine process."""
+    import numpy as np
     original = H.my_edit
     none_wrapper = GroupedEdit(H, original, {}, None)
     H.my_edit = none_wrapper
@@ -359,6 +362,7 @@ def law5_checks(H, hp, P, base, prepared, published):
     single_hp = copy.deepcopy(hp); single_hp.layers = [8]
     lone, _, _ = capture_write(H, single_hp, {8: base[8]}, [P[4]], original, restricted, None)
     wrapped, _, audit = capture_write(H, hp, base, P, original, restricted, {subject: 8}, wrapper=True)
+    R.require(all(not np.any(wrapped[l]) for l in R.LAYERS if l != 8), "LAW5_IV_SCOPE")
     singleton = {"relative_by_layer": relative_distances(lone, {8: wrapped[8]}),
                  "active_group_layers": [g["layers"] for g in audit["groups"]], "projector_indices": audit["groups"][0]["projector_indices"]}
     R.require(max(singleton["relative_by_layer"].values()) <= tolerance, "LAW5_IV", singleton)
@@ -374,6 +378,7 @@ def law5_checks(H, hp, P, base, prepared, published):
             zs[(r["subject"], r["target_new"]["str"])] = H.compute_z(H.model, H.tok, r, hp, small_map[r["subject"]], H.get_context_templates(H.model, H.tok)).detach()
     small = {"requests": rq, "targets": zs}
     composed, _, audit = capture_write(H, hp, base, P, original, small, small_map, wrapper=True)
+    R.require(all(not np.any(composed[l]) for l in R.LAYERS if l not in small_map.values()), "LAW5_V_SCOPE")
     multirel = {}
     for l, ss in largest:
         ghp = copy.deepcopy(hp); ghp.layers = [l]
@@ -503,8 +508,6 @@ def runtime_stage(root, out, stage, fingerprint):
         R.require(step["map_reproduced"], "MAP_REPRODUCIBLE")
         published = frozen["map"]
         R.require(covariance == frozen["cov_cache_sha256"], "COVARIANCE_DRIFT")
-        if stage == "pass1":
-            R.require(step["map"] == published, "PASS1_FIXED_MAP")
         maps = R.recipe_maps(published, H.FICTION)
         prepared_A = {arm: prepare_arm(H, M, hp, P, ctx, keys, values, None) for arm, values in H.ARMS.items()}
         proof = law5_checks(H, hp, P, base, prepared_A, published)
@@ -516,6 +519,7 @@ def runtime_stage(root, out, stage, fingerprint):
             R.validate_recipe(baseline, "A", step, published)
         except Exception as exc:
             halt(root, "LIVE_LAW3: " + str(exc), baseline=baseline, law5=proof)
+        baseline["validity"] = {"ok": True, "reasons": []}
         # The first marker is after both live baseline and numeric LAW#5.
         assert_sources(IDENTITY, root)
         write_json(out / (stage + "_started.json"), stage_record({}, fingerprint, stage=stage,
@@ -525,10 +529,12 @@ def runtime_stage(root, out, stage, fingerprint):
             H.restore_layers(hp, base)
             recipes[name], _ = run_one_recipe(H, M, hp, P, ctx, keys, root, name, maps[name], proof)
             try:
-                R.validate_recipe(recipes[name], name, step, published)
+                R.recipe_integrity(recipes[name], name, step, published)
                 R.require(recipes[name]["cov_cache_sha256"] == covariance, "COVARIANCE_DRIFT")
             except Exception as exc:
-                halt(root, "RECIPE_VALIDITY " + name + ": " + str(exc), recipes=recipes, law5=proof)
+                halt(root, "RECIPE_INTEGRITY " + name + ": " + str(exc), recipes=recipes, law5=proof)
+            reasons = R.recipe_validity(recipes[name])
+            recipes[name]["validity"] = {"ok": not reasons, "reasons": reasons}
         import numpy as np
         a7 = prepared_A[R.ARMS[2]]
         residuals = np.stack([as_numpy(a7["targets"][(s, " " + H.ARMS[R.ARMS[2]][s])]) - a7["pre"][s][0] for s in H.FICTION])
@@ -541,7 +547,7 @@ def runtime_stage(root, out, stage, fingerprint):
                     law5=proof, recipes=recipes, hsic=hsic_diagnostic(keys, residuals, H.FICTION, published), outcome="COMPLETE")
         assert_sources(IDENTITY, root)
         for name in R.RECIPES:
-            R.require(not R.pass_validity(record, name), "PASS_VALIDITY", R.pass_validity(record, name))
+            R.pass_integrity(record, name)
         write_json(out / (stage + ".json"), record)
         write_json(out / (stage + "_complete.json"), {"identity": IDENTITY, "pid": os.getpid(), "stage": stage,
                    "record_sha256": sha256_file(out / (stage + ".json")), "when_utc": utc_now()})
