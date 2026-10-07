@@ -1344,7 +1344,8 @@ def go_record(env):
     path=env.get("C10Z_GO_RECORD")
     R.require(isinstance(path,str) and path.strip(),"HALTED-V12","C10Z_GO_RECORD is required")
     try:
-        raw=Path(path).read_bytes();value=json.loads(raw)
+        raw=Path(path).read_bytes();value=json.loads(raw,
+            parse_constant=lambda token:R.require(False,"HALTED-V6","non-finite go JSON: "+token))
     except (OSError,ValueError) as exc:
         raise R.Halt("HALTED-V12","invalid C10Z_GO_RECORD: "+str(exc)) from exc
     R.require(isinstance(value,dict),"HALTED-V12","go record must be a JSON object")
@@ -1468,7 +1469,7 @@ def stage_call(stage,out):
             "stage2":launch_duration(os.environ,"C10Z_STAGE2_CEILING_S"),
             "stage3":launch_duration(os.environ,"C10Z_STAGE3_CEILING_S"),"go":go,"go_sha256":go_sha256}
         out.mkdir(parents=True,exist_ok=True);(out/"logs").mkdir(exist_ok=True)
-        worker_env=dict(os.environ,C10Z_RESIDENT="1",C10Z_LAUNCH=json.dumps(launch))
+        worker_env=dict(os.environ,C10Z_RESIDENT="1",C10Z_LAUNCH=json.dumps(launch),C10Z_OUT_DIR=str(out))
         with (out/"logs/resident_p1.log").open("x") as log:
             child=subprocess.Popen([sys.executable,"-B",str(Path(__file__)),"0"],env=worker_env,
                 cwd=ROOT,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
@@ -1504,13 +1505,17 @@ def wait_stage(out,stage,child=None,clock=time.monotonic,pause=time.sleep):
         terminal=stage==2 or (stage==1 and run["reading"] is not None and run["reading"].get("next_stage") is None)
         if run["completed"]>=stage and (not terminal or run["closed"]):
             print(json.dumps(run["reading"] or {"stage0":"READY"},allow_nan=False),flush=True);return 0
-        if child is not None:R.require(child.poll() is None,"HALTED-V12","resident exited before stage completion")
-        lease=Path(out)/"logs/heartbeat.json"
-        if lease.exists():
-            heartbeat=load_json(lease)
-            R.require(heartbeat["attempt_id"]==run["attempt_id"] and heartbeat["pid"]==run["pid"] and
-                      clock()-heartbeat["at"]<=15.,"HALTED-V12","resident heartbeat expired or identity changed")
-        else:R.require(clock()-start<=15.,"HALTED-V12","resident heartbeat never appeared")
+        try:
+            if child is not None:R.require(child.poll() is None,"HALTED-V12","resident exited before stage completion")
+            lease=Path(out)/"logs/heartbeat.json"
+            if lease.exists():
+                heartbeat=load_json(lease)
+                R.require(heartbeat["attempt_id"]==run["attempt_id"] and heartbeat["pid"]==run["pid"] and
+                          clock()-heartbeat["at"]<=15.,"HALTED-V12","resident heartbeat expired or identity changed")
+            else:R.require(clock()-start<=15.,"HALTED-V12","resident heartbeat never appeared")
+        except R.Halt as exc:
+            diagnostic(out,exc.code,exc.detail)
+            raise
         pause(.1)
 
 

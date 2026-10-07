@@ -1429,6 +1429,7 @@ class Fix1Tests(BlockingDemos):
                 passpath = target / ("pass_p%d.json" % process); before = passpath.read_bytes()
                 with mock.patch.object(D, "ROOT", root):
                     value = D.diagnostic(target, code, "synthetic halt after completed pass")
+                self.assertEqual(D.load_json(root / "architecture_profile/c10z_astra_halt_diagnostic.json"), value)
                 self.assertEqual(passpath.read_bytes(), before)
                 self.assertEqual(value["observations"], json.loads(before))
                 self.assertEqual(D.load_json(target / ("halt_p%d.json" % process)), value)
@@ -1438,6 +1439,7 @@ class Fix1Tests(BlockingDemos):
                 got = R.read_directory(out)
                 self.assertEqual(got["label"], code); self.assertFalse(got["scientific_verdict"])
                 self.assertIn(json.loads(before), got["observations"])
+                self.assertEqual(got["observations"], [first, json.loads(before)] if process == 2 else [first])
 
     def test_fix1_watchdog_preserves_last_published_record(self):
         """Prereg :196, :225, :267: expired stage-2 watchdog preserves the complete earlier pass and labels HALT."""
@@ -1448,8 +1450,18 @@ class Fix1Tests(BlockingDemos):
             before = (out / "pass_p1.json").read_bytes()
             launch = {"attempt_id": r["attempt_id"], "stage2": 60., "stage3": None,
                       "go": _go_record(), "go_sha256": "a"*64}
-            with mock.patch.object(D, "ROOT", root):
+            watchdog_records = []; real_diagnostic = D.diagnostic
+            def capture_diagnostic(path, code, detail, session=None):
+                value = real_diagnostic(path, code, detail, session)
+                if str(detail).startswith("watchdog:"):
+                    self.assertEqual(D.load_json(out / "halt_p1.json"), value)
+                    self.assertEqual(D.load_json(root / "architecture_profile/c10z_astra_halt_diagnostic.json"), value)
+                    watchdog_records.append(value)
+                return value
+            with mock.patch.object(D, "ROOT", root), mock.patch.object(D, "diagnostic", capture_diagnostic):
                 rc, events, exits = _mock_resident(D, R, out, r, launch, deadline=True)
+            self.assertEqual(len(watchdog_records), 1, "watchdog did not publish its diagnostic before exit")
+            self.assertEqual(watchdog_records[0]["observations"], json.loads(before))
             self.assertEqual(rc, 2); self.assertEqual(exits, [2])
             self.assertIn("stage2", events)
             self.assertEqual((out / "pass_p1.json").read_bytes(), before)
@@ -1507,7 +1519,198 @@ _fix1_suite = lambda: unittest.TestSuite([
     unittest.defaultTestLoader.loadTestsFromTestCase(SpecTests),
     unittest.defaultTestLoader.loadTestsFromTestCase(Fix1Tests)])
 
+class Fix2Tests(unittest.TestCase):
+    def setUp(self):
+        self.D = importlib.import_module("c10z_astra_arms")
+        self.R = importlib.import_module("c10z_astra_read")
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        for patcher in (mock.patch.object(self.D, "ROOT", self.root), mock.patch.dict(os.environ)):
+            patcher.start(); self.addCleanup(patcher.stop)
+        os.environ.pop("C10Z_RESIDENT", None)
+        os.environ.pop("C10Z_GO_RECORD", None)
+
+    def test_fix2_child_receives_parent_resolved_absolute_outdir(self):
+        """Prereg :137, :204; fix2 item 1/O02: direct stage_call resolves the child path before cwd changes."""
+        D = self.D; out = self.root / "attempt"
+        relative = Path(os.path.relpath(out, Path.cwd()))
+        go = self.root / "go.json"; go.write_text(json.dumps(_go_record()))
+        os.environ.update(C10Z_OUT_DIR=str(relative), C10Z_GO_RECORD=str(go))
+        captured = []
+        def launch(*args, **kwargs):
+            captured.append(kwargs)
+            D.write_json(out / "run.json", {"launch": json.loads(kwargs["env"]["C10Z_LAUNCH"])})
+            return Child()
+        with mock.patch.object(D, "subprocess", _types.SimpleNamespace(Popen=launch, DEVNULL=None, STDOUT=None)), mock.patch.object(
+                D, "wait_stage", return_value=0):
+            self.assertEqual(D.stage_call(0, relative), 0)
+        self.assertEqual(len(captured), 1)
+        self.assertEqual(captured[0]["env"]["C10Z_OUT_DIR"], str(out.resolve()))
+        self.assertTrue(Path(captured[0]["env"]["C10Z_OUT_DIR"]).is_absolute())
+        self.assertEqual(captured[0]["cwd"], D.ROOT)
+
+    def test_fix2_failed_resident_detection_closes_halt_and_keeps_passes(self):
+        """Prereg :267, :323; D-C10z-fix1 (3): all wait_stage failed-resident detections publish a durable HALT."""
+        D, R = self.D, self.R
+        for process in (1, 2):
+            for failure in ("stale", "attempt", "pid", "missing", "exit"):
+                with self.subTest(process=process, failure=failure):
+                    out = self.root / (str(process) + failure); first = fixture(stage=2 if process == 2 else 1)
+                    _attempt_dir(D, out, first, {"closed": process == 2, "completed": first["stage_completed"]})
+                    target = out; record = first
+                    if process == 2:
+                        target = out / "process2"; record = fixture(); second_process(record)
+                        _attempt_dir(D, target, record, {"process": 2, "pid": record["pid"], "completed": 1, "closed": False})
+                        (target / "pass_p1.json").rename(target / "pass_p2.json")
+                    run = D.load_json(target / "run.json"); run.update(closed=False, requested=2)
+                    D.write_json(target / "run.json", run, replace=True)
+                    (target / "logs").mkdir()
+                    heartbeat = {"attempt_id": run["attempt_id"], "pid": run["pid"], "at": 100.}
+                    if failure == "stale": heartbeat["at"] = 84.
+                    if failure == "attempt": heartbeat["attempt_id"] = "different-attempt"
+                    if failure == "pid": heartbeat["pid"] += 1
+                    if failure != "missing": D.write_json(target / "logs/heartbeat.json", heartbeat)
+                    before = {p: p.read_bytes() for p in out.rglob("pass_p*.json")}
+                    ticks = iter((100., 116.)) if failure == "missing" else None
+                    clock = (lambda: next(ticks)) if ticks else (lambda: 100.)
+                    with self.assertRaises(R.Halt) as halted:
+                        D.wait_stage(target, 2, child=Child() if failure == "exit" else None,
+                            clock=clock, pause=lambda _: self.fail("failed resident was still being awaited"))
+                    self.assertEqual(halted.exception.code, "HALTED-V12")
+                    terminal = D.load_json(target / "run.json")
+                    self.assertIs(terminal["closed"], True)
+                    self.assertEqual(terminal["halt"]["code"], "HALTED-V12")
+                    value = D.load_json(target / ("halt_p%d.json" % process))
+                    self.assertEqual(value["halt"]["code"], "HALTED-V12")
+                    self.assertEqual(value["observations"], record)
+                    self.assertEqual(D.load_json(self.root / "architecture_profile/c10z_astra_halt_diagnostic.json"), value)
+                    self.assertEqual(before, {p: p.read_bytes() for p in out.rglob("pass_p*.json")})
+                    got = R.read_directory(out)
+                    self.assertEqual(got["label"], "HALTED-V12"); self.assertFalse(got["scientific_verdict"])
+                    self.assertEqual(got["observations"], [first, record] if process == 2 else [record])
+
+    def test_fix2_resident_stops_at_parent_halt_and_preserves_session_fields(self):
+        """Prereg :267, :323; item 2/H10/H11: a resumed resident sees the parent's halt at its next terminal check."""
+        D, R = self.D, self.R; out = self.root / "attempt"; record = fixture()
+        _attempt_dir(D, out, record, {}); (out / "logs").mkdir()
+        before = (out / "pass_p1.json").read_bytes(); events = []; sessions = []
+        owner = self; real_budget = D.Budget
+        class SessionStub:
+            def __init__(self, path, process, budget, input_dir):
+                self.process = process; self.budget = budget; sessions.append(self)
+                self.recipes = {"A": {"completed": True}}; self.checks = {"Z0": {"ok": True}}
+                self.memory = [{"rss_bytes": 10}]; self.restores = [{"where": "before stall", "ok": True}]
+                self.budget.history.append({"components_s": {"check": 1.}})
+            def stage0(self):
+                events.append("stage0"); run = D.load_json(out / "run.json")
+                D.write_json(out / "logs/heartbeat.json", {"attempt_id": run["attempt_id"], "pid": run["pid"], "at": 84.})
+                with owner.assertRaises(R.Halt) as halted:
+                    D.wait_stage(out, 0, clock=lambda: 100., pause=lambda _: owner.fail("stalled resident was awaited"))
+                events.append(("parent halt", halted.exception.code))
+            def stage1(self):
+                events.append("stage1"); raise R.Halt("HALTED-V5", "resident continued after parent halt")
+            def stage2(self): events.append("stage2"); raise AssertionError("unexpected stage2")
+            def restore(self): events.append("restore")
+            def verify_restore(self, where): events.append(("verify", where))
+            def close(self): events.append("close")
+        class Event:
+            def set(self): pass
+        class Thread:
+            def __init__(self, target, daemon): pass
+            def start(self): pass
+        def submit(_):
+            run = D.load_json(out / "run.json"); run["requested"] = 1
+            D.write_json(out / "run.json", run, replace=True)
+        launch = {"attempt_id": record["attempt_id"], "stage2": 60., "stage3": None,
+                  "go": _go_record(), "go_sha256": "a"*64}
+        with mock.patch.object(D, "Session", SessionStub), mock.patch.object(
+                D, "Budget", lambda start, stage2, stage3, process: real_budget(start, stage2, stage3, process, clock=lambda: 100.)), mock.patch.object(
+                D, "time", _types.SimpleNamespace(monotonic=lambda: 100., sleep=submit)), mock.patch.object(
+                D, "threading", _types.SimpleNamespace(Event=Event, Thread=Thread, RLock=__import__("threading").RLock)):
+            rc = _resident_runtime(out, 1, launch, start=100.)
+        self.assertEqual(rc, 2); self.assertIn(("parent halt", "HALTED-V12"), events)
+        self.assertNotIn("stage1", events); self.assertNotIn("stage2", events)
+        self.assertIn("restore", events); self.assertIn(("verify", "exception close"), events)
+        session = sessions[0]; halt = D.load_json(out / "halt_p1.json")
+        for key, expected in (("recipes", session.recipes), ("checks", session.checks), ("memory", session.memory),
+                              ("restores", session.restores), ("budget_history", session.budget.history)):
+            self.assertEqual(halt[key], expected, key)
+        self.assertEqual(halt["halt"]["code"], "HALTED-V12")
+        self.assertEqual(D.load_json(self.root / "architecture_profile/c10z_astra_halt_diagnostic.json"), halt)
+        self.assertEqual((out / "pass_p1.json").read_bytes(), before)
+        self.assertEqual(R.read_directory(out)["label"], "HALTED-V12")
+
+    def test_fix2_go_nonfinite_constants_and_overflow_refused(self):
+        """Prereg V6 :219, §6 :341–344; G11: nested NaN/Infinity and overflowing JSON numbers are refused without writes."""
+        D = self.D; go = self.root / "go.json"
+        for token in ("NaN", "Infinity", "-Infinity", "1e999", "-1e999"):
+            with self.subTest(token=token):
+                raw = json.dumps(_go_record())[:-1] + ', "metadata": {"nested": [' + token + ']}}'
+                go.write_text(raw); out = self.root / token
+                with mock.patch.dict(os.environ, {"C10Z_OUT_DIR": str(out), "C10Z_GO_RECORD": str(go)}), mock.patch.object(
+                        D.subprocess, "Popen", side_effect=AssertionError("nonfinite go launched")), mock.patch.object(
+                        sys, "argv", ["c10z_astra_arms.py", "0"]), redirect_stderr(io.StringIO()) as err:
+                    self.assertEqual(D.main(), 2)
+                self.assertIn("HALTED-V6", err.getvalue()); self.assertFalse(out.exists())
+
+    def test_fix2_session_record_absent_ceiling_matches_reader_omissions(self):
+        """Prereg :196, :265–267; B3d: the actual Session.record producer agrees with the independent reader."""
+        D, R = self.D, self.R
+        for stage in (1, 2):
+            with self.subTest(stage=stage):
+                out = self.root / str(stage); r = fixture(stage=stage); _attempt_dir(D, out, r, {})
+                r["budget"]["ceilings"]["stage%d" % (stage + 1)] = None
+                s = D.Session.__new__(D.Session)
+                for key in ("recipes", "fingerprint", "manifest", "H_pristine", "checks", "restores", "memory", "attempt_id", "process"):
+                    setattr(s, key, copy.deepcopy(r[key]))
+                s.recipes["A"]["arms"][A7]["realised_layer_delta_norms"] = {"4": 1.}
+                s.recipes["Z"]["arms"][A7]["write"]["geometry"] = {"layer_delta_norms": {"4": .4}}
+                s.out = out; s.initial_sources = r["fingerprint"]["start"]
+                s.budget = _types.SimpleNamespace(durations=r["budget"]["ceilings"], origins=r["budget"]["origins"], history=r["budget"]["history"])
+                with mock.patch.object(D, "source_hashes", return_value=s.initial_sources): produced = s.record(stage)
+                expected = {"status": "NOT-RUN", "reason": "ABSENT-CEILING"}
+                if stage == 1:
+                    self.assertEqual(produced["omissions"]["G0"], expected)
+                    self.assertEqual(produced["omissions"]["Z-band"], expected)
+                self.assertEqual(produced["omissions"]["process2"], expected)
+                got = R.read_process(produced)
+                self.assertEqual(got["label"], "PARTIAL-STAGE1" if stage == 1 else "PARTIAL-SINGLE-PROCESS", got)
+                self.assertIsNone(got["next_stage"])
+
+    def test_fix2_disqualified_missing_ceiling_is_k1_not_absent(self):
+        """Prereg :265, :272; B3g: a qualified PARTIAL/LEAD stops for K1 even without an expansion budget."""
+        R = self.R
+        for n, base in ((26, "PARTIAL"), (30, "LEAD")):
+            with self.subTest(base=base):
+                r = fixture(n=n, ratio=.6); ceilings = r["budget"]["ceilings"]; ceilings["stage2"] = None
+                z, a = r["recipes"]["Z"]["arms"][A7], r["recipes"]["A"]["arms"][A7]
+                decision = R.classify_candidate(z, a, R.side_gates(z, a), 1, ceilings=ceilings)
+                self.assertEqual(decision["label"], base + "-LARGE-WRITE-STAGE1")
+                self.assertIsNone(decision["next_stage"])
+                self.assertEqual(R.stage_omissions(1, 1, None, ceilings, decision), {
+                    k: {"status": "NOT-RUN", "reason": "K1"} for k in ("G0", "Z-band", "process2")})
+
+    def test_fix2_z0_sigma_halts_in_driver_at_frozen_boundary(self):
+        """Prereg :147; A32: the real Z0 function permits sigma=.125 and halts above it before any reader."""
+        import torch
+        D, R = self.D, self.R; s = D.Session.__new__(D.Session)
+        s.H = _types.SimpleNamespace(DEV="cpu", model=lambda *a, **k: _types.SimpleNamespace(
+            logits=torch.tensor([[[1., 0.]]], dtype=torch.float64)))
+        s.budget = D.Budget(0., None, None, clock=lambda: 0.)
+        s.lead_rows = lambda batch, obs: ([obs["leads"].tolist()], None)
+        batch = {"target_ids": [[0]], "prompt_ids": [[1]], "requirements": [{"fact": 0, "view": 0, "q": 0}]}
+        at = s.z0(batch, {"leads": torch.tensor([.875], dtype=torch.float64)})
+        self.assertEqual(at["sigma_shape"], .125); self.assertEqual(at["tau_shape"], .25)
+        with self.assertRaises(R.Halt) as halted:
+            s.z0(batch, {"leads": torch.tensor([.874], dtype=torch.float64)})
+        self.assertEqual(halted.exception.code, "HALTED-V5")
+
+def _fix2_suite():
+    suite = _fix1_suite()
+    suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(Fix2Tests))
+    return suite
+
 if __name__=="__main__":
-    result=unittest.TextTestRunner(verbosity=2).run(_fix1_suite())
+    result=unittest.TextTestRunner(verbosity=2).run(_fix2_suite())
     print("C10Z_ASTRA_SELFTEST_"+("PASS" if result.wasSuccessful() else "FAIL")+" tests="+str(result.testsRun))
     sys.exit(0 if result.wasSuccessful() else 1)
