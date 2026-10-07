@@ -1,0 +1,44 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.28s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.32s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.61s/it]
+A1_single_s0_r16 step 10 loss 10.717001914978027
+A1_single_s0_r16 step 20 loss 10.216334342956543
+A1_single_s0_r16 step 30 loss 6.909107685089111
+A1_single_s0_r16 step 40 loss 4.687994480133057
+A1_single_s0_r16 step 50 loss 3.4784581661224365
+A1_single_s0_r16 step 60 loss 1.2027499675750732
+A1_single_s0_r16 step 70 loss 0.3811049163341522
+A1_single_s0_r16 step 80 loss 0.007947039790451527
+A1_single_s0_r16 step 90 loss 0.0014507905580103397
+A1_single_s0_r16 step 100 loss 0.00316790328361094
+A1_single_s0_r16 step 110 loss 0.0005593560053966939
+A1_single_s0_r16 step 120 loss 0.0010050390847027302
+A1_single_s0_r16 step 130 loss 0.0002752727014012635
+A1_single_s0_r16 step 140 loss 0.00027495232643559575
+A1_single_s0_r16 step 150 loss 0.0002164870238630101
+A1_single_s0_r16 step 160 loss 0.00030012469505891204
+A1_single_s0_r16 step 170 loss 0.000231255849939771
+A1_single_s0_r16 step 180 loss 0.00024932410451583564
+A1_single_s0_r16 step 190 loss 0.00023297751613426954
+A1_single_s0_r16 step 200 loss 0.00018682550580706447
+A1_single_s0_r16 step 210 loss 0.00019528355915099382
+A1_single_s0_r16 step 220 loss 0.00013075816968921572
+A1_single_s0_r16 step 230 loss 7.946669211378321e-05
+A1_single_s0_r16 step 240 loss 0.00014527112944051623
+A1_single_s0_r16 step 250 loss 0.00010940668289549649
+A1_single_s0_r16 step 260 loss 8.937794336816296e-05
+A1_single_s0_r16 step 270 loss 9.894374670693651e-05
+A1_single_s0_r16 step 280 loss 8.116369281196967e-05
+A1_single_s0_r16 step 290 loss 7.047531107673422e-05
+A1_single_s0_r16 step 300 loss 0.00011797977640526369
+A1_single_s0_r16 step 310 loss 7.174773054430261e-05
+A1_single_s0_r16 step 320 loss 0.0001431251730537042
+A1_single_s0_r16 step 330 loss 6.921080785105005e-05
+A1_single_s0_r16 step 340 loss 4.48652463092003e-05
+A1_single_s0_r16 step 350 loss 9.778019739314914e-05
+A1_single_s0_r16 step 360 loss 5.4217365686781704e-05
+A1_single_s0_r16 step 370 loss 6.192283035488799e-05
+A1_single_s0_r16 step 380 loss 9.629745181882754e-05
+A1_single_s0_r16 step 390 loss 5.4529078624909744e-05
+A1_single_s0_r16 step 400 loss 6.901073356857523e-05
+
+STAGE_EXIT=0
