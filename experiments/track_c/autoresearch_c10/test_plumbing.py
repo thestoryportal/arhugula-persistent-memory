@@ -1,302 +1,341 @@
-#!/usr/bin/env python3
-"""Cheap plumbing tests for prepare.py / edit.py / launch.sh's equivalence gate. No GPU, no model: a stub harness with a tiny
-model stands in for c10e_bandknob, so these test the wiring (refusals, budget, scope, manifest checks, guards, output),
-not the science. The science-side equivalence is check_equivalence.py (real model).
-Run: <program>/.venv/bin/python experiments/track_c/autoresearch_c10/test_plumbing.py
-"""
-import hashlib, io, json, os, re, shutil, subprocess, sys, tempfile, time, types, unittest
-from contextlib import redirect_stdout
-
-SRC = os.path.dirname(os.path.abspath(__file__))
-PY = sys.executable
-TMP = tempfile.mkdtemp(prefix="ar_c10_test_")
-for f in ("prepare.py", "edit.py"):
-    shutil.copy(f"{SRC}/{f}", f"{TMP}/{f}")
-
-import torch
-import torch.nn as nn
-
-
-# ---------------------------------------------------------------- stub harness + engine
-class _MLP(nn.Module):
-    def __init__(self):
-        super().__init__(); self.down_proj = nn.Linear(8, 8, bias=False)
-
-
-class _Layer(nn.Module):
-    def __init__(self):
-        super().__init__(); self.mlp = _MLP()
-
-
-class _Inner(nn.Module):
-    def __init__(self):
-        super().__init__(); self.embed_tokens = nn.Embedding(10, 8); self.layers = nn.ModuleList([_Layer() for _ in range(13)])
-
-
-class _Tiny(nn.Module):
-    def __init__(self):
-        super().__init__(); self.model = _Inner()
-
-    def forward(self, input_ids=None, **kw):
-        return types.SimpleNamespace(logits=torch.zeros(1, 1, 10))
-
-
-torch.manual_seed(0)
-TINY = _Tiny()
-for p in TINY.parameters():
-    p.requires_grad_(False)
-
-
-class _Enc(dict):
-    def to(self, dev):
-        return self
-
-
-H = types.ModuleType("c10e_bandknob")
-H.model, H.DEV = TINY, "cpu"
-H.tok = lambda text, **kw: _Enc(input_ids=torch.zeros(1, 3, dtype=torch.long))
-H.CANON = "The capital of {} is the city of"
-H.PTEST = ["p1 {}", "p2 {}", "p3 {}"]
-H.FICTION = [f"S{i}" for i in range(24)]
-H.ARMS = {"A1_single": {s: "Paris" for s in H.FICTION}, "A2_coherent2": {s: "New York" for s in H.FICTION},
-          "A7_coined_coined": {s: "Qorvex Zentra" for s in H.FICTION}}
-H.L1_PROMPTS, H.L3_PROMPTS, H.GENERIC = ["l1"], ["l3"], ["g"]
-H.req = lambda prompt, subj, targ: {"prompt": prompt, "subject": subj, "target_new": {"str": " " + targ}}
-H.tgt_ids = lambda v: [5]
-H.snap_layers = lambda hp: {}
-H.restore_layers = lambda hp, snap: None
-H.compute_P = lambda hp: []
-def _run_law5(hp, P, snap):   # the real gate runs compute_z, which needs gradients: fail if the caller switched them off
-    if not torch.is_grad_enabled():
-        raise RuntimeError("element 0 of tensors does not require grad (gate ran under no_grad)")
-    return {"ok": True, "expr_delta": 0.0, "loc_delta": 0.0}
-
-
-H.run_law5 = _run_law5
-H.axes_pre = lambda: {}
-H.predict = lambda p: {"id": 0}
-H.locpct = lambda post, pre, prompts: 90.0
-CONTROL = {"A1_single": 70, "A2_coherent2": 70}
-
-
-def _eval_arm(vmap):
-    arm = next(a for a, v in H.ARMS.items() if v is vmap)
-    w = TINY.model.layers[8].mlp.down_proj.weight
-    edited = int(round(float((w - BASE8).abs().sum()) > 0))
-    n = CONTROL.get(arm, 10 + 30 * edited)    # A7: 10 unedited, 40 when layer 8 was edited
-    return {"para_full_n": n, "canon_full_n": 1, "para_first_n": n, "para_string_n": n, "rows": []}
-
-
-H.eval_arm = _eval_arm
-H.axes_post = lambda pre, vals: {"L1_flipped_to_edited_value": 0, "L3_top1_agree": 30, "generic_ppl_post": 21.0}
-BASE8 = TINY.model.layers[8].mlp.down_proj.weight.detach().clone()
-sys.modules["c10e_bandknob"] = H
-
-
-class _HP:
-    layers = [4, 5, 6, 7, 8]; rewrite_module_tmp = "model.layers.{}.mlp.down_proj"; layer_module_tmp = "model.layers.{}"
-    fact_token = "subject_last"; mom2_dataset = "wikipedia"; mom2_n_samples = 1; mom2_dtype = "float32"
-
-    @staticmethod
-    def from_json(path):
-        hp = _HP(); d = json.load(open(path)); hp.layers = d.get("layers", hp.layers); return hp
-
-
-def _mods(name, **attrs):
-    m = types.ModuleType(name); m.__dict__.update(attrs); sys.modules[name] = m; return m
-
-
-_mods("memit")
-_mods("memit.memit_hparams", MEMITHyperParams=_HP)
-_mods("memit.compute_z", compute_z=lambda model, tok, rq, hp, layer, ctx: torch.ones(8),
-      get_module_input_output_at_words=lambda *a, **k: (None, torch.zeros(len(k["words"]), 8)))
-_mods("memit.compute_ks", compute_ks=lambda model, tok, reqs, hp, layer, ctx: torch.randn(len(reqs), 8, generator=torch.Generator().manual_seed(layer)))
-_g = torch.Generator().manual_seed(1)
-_C = torch.randn(8, 8, generator=_g); _C = _C @ _C.T * 1e-4   # tiny eigenvalues -> a non-empty null space
-_mods("memit.memit_main", get_cov=lambda *a, **k: _C.clone(), get_context_templates=lambda model, tok: [["{}"]],
-      upd_matrix_match_shape=lambda upd, shape: upd if tuple(upd.shape) == tuple(shape) else upd.T)
-
-sys.path.insert(0, TMP)
-import prepare as PR   # noqa: E402  (stubs above are picked up)
-
-_real_run = subprocess.run
-
-
-def _run(args, *a, **k):   # route the scorer subprocess to an in-process call (the stub harness only exists here)
-    if isinstance(args, list) and "--score" in args:
-        buf = io.StringIO()
-        with redirect_stdout(buf):
-            PR._score(args[args.index("--score") + 1])
-        _run.last_stdout = buf.getvalue()
-        return subprocess.CompletedProcess(args, 0)
-    return _real_run(args, *a, **k)
-
-
-PR.subprocess.run = _run
-
-
-def _summary(run_out):
-    return dict(re.findall(r"^(\w+):\s+(\S+)$", run_out, flags=re.M))
-
-
-def _latest_score():
-    d = sorted(os.listdir(f"{TMP}/runs"))[-1]
-    return f"{TMP}/runs/{d}", json.load(open(f"{TMP}/runs/{d}/score.json"))
-
-
-# ---------------------------------------------------------------- tests
-class ImportRefusals(unittest.TestCase):
-    """prepare.py refuses before loading anything (subprocess import; the real harness is never reached)."""
-
-    def _import(self, env_extra=None, edit_src=None, sha=None):
-        d = tempfile.mkdtemp(prefix="ar_c10_ref_")
-        src = open(f"{SRC}/prepare.py").read()
-        if sha:
-            src = src.replace(PR.HARNESS_SHA256, sha)
-        open(f"{d}/prepare.py", "w").write(src)
-        open(f"{d}/edit.py", "w").write(edit_src or "x = 1\n")
-        env = {k: v for k, v in os.environ.items()}
-        env.update(env_extra or {})
-        r = _real_run([PY, "-c", "import prepare"], cwd=d, env=env, capture_output=True, text=True, timeout=120)
-        return r.returncode, r.stdout + r.stderr
-
-    def test_inherited_harness_setting(self):
-        rc, out = self._import(env_extra={"MODEL_ID": "gpt2"})
-        self.assertNotEqual(rc, 0); self.assertIn("refusing to run with inherited harness setting MODEL_ID", out)
-
-    def test_harness_hash(self):
-        rc, out = self._import(sha="0" * 64)
-        self.assertNotEqual(rc, 0); self.assertIn("fixed harness changed", out)
-
-    def test_forbidden_name(self):
-        rc, out = self._import(edit_src="prompts = H.PTEST\n")
-        self.assertNotEqual(rc, 0); self.assertIn("edit.py references evaluation data", out)
-
-    def test_forbidden_literal_prompt(self):
-        rc, out = self._import(edit_src="s = \"{}'s capital city is called\"\n")
-        self.assertNotEqual(rc, 0); self.assertIn("capital city is called", out)
-
-
-class Evaluate(unittest.TestCase):
-    def setUp(self):
-        PR._restore_base(); PR._T_READY = time.time(); PR.EDIT_BUDGET = 2700; CONTROL.update({"A1_single": 70, "A2_coherent2": 70})
-
-    def _edit_layer(self, name):
-        def apply_edit(facts):
-            with torch.no_grad():
-                dict(TINY.named_parameters())[name].add_(0.01)
-        return apply_edit
-
-    def test_scores_the_edit_and_guards_ok(self):
-        PR.evaluate(self._edit_layer("model.layers.8.mlp.down_proj.weight"))
-        s = _summary(_run.last_stdout)
-        self.assertEqual(s["heldout_full"], "40"); self.assertEqual(s["guards"], "ok"); self.assertEqual(s["scope_ok"], "true")
-        run_dir, score = _latest_score()
-        self.assertEqual(set(score["saved_sha256"]), set(PR.ARM_NAMES))
-        self.assertFalse([f for f in os.listdir(run_dir) if f.endswith(".pt")], "saved weights should be removed after scoring")
-        self.assertTrue(all(torch.equal(p, PR._BASE[n]) for n, p in TINY.named_parameters()), "weights restored after evaluate")
-
-    def test_unedited_scores_baseline(self):
-        PR.evaluate(lambda facts: None)
-        self.assertEqual(_summary(_run.last_stdout)["heldout_full"], "10")
-
-    def test_scope_guard(self):
-        PR.evaluate(self._edit_layer("model.embed_tokens.weight"))
-        s = _summary(_run.last_stdout)
-        self.assertEqual(s["scope_ok"], "false"); self.assertIn("scope_ok", s["guards"])
-
-    def test_control_guard(self):
-        CONTROL["A1_single"] = 50
-        PR.evaluate(self._edit_layer("model.layers.8.mlp.down_proj.weight"))
-        self.assertEqual(_summary(_run.last_stdout)["guards"], "failed:A1")
-
-    def test_refuses_weights_changed_before_evaluate(self):
-        with torch.no_grad():
-            TINY.model.layers[5].mlp.down_proj.weight.add_(1.0)
-        with self.assertRaises(SystemExit) as cm:
-            PR.evaluate(lambda facts: None)
-        self.assertIn("changed the weights before evaluate", str(cm.exception))
-        PR._restore_base()
-
-    def test_budget_counts_setup(self):
-        PR.EDIT_BUDGET = 2; PR._T_READY = time.time() - 5   # top-level setup already used the budget
-        with self.assertRaises(SystemExit) as cm:
-            PR.evaluate(lambda facts: None)
-        self.assertIn("over EDIT_BUDGET", str(cm.exception))
-
-    def test_budget_alarm_inside_edit(self):
-        PR.EDIT_BUDGET = 2
-        with self.assertRaises(SystemExit) as cm:
-            PR.evaluate(lambda facts: time.sleep(5))
-        self.assertIn("exceeded EDIT_BUDGET", str(cm.exception))
-        PR._restore_base()
-
-
-class ScorerValidation(unittest.TestCase):
-    def _run_dir(self, tensors_by_arm, manifest=None):
-        d = tempfile.mkdtemp(prefix="ar_c10_score_")
-        for arm in PR.ARM_NAMES:
-            torch.save(tensors_by_arm.get(arm, {}), f"{d}/{arm}.pt")
-        json.dump({"commit": "t", "edit_seconds": {a: 0.0 for a in PR.ARM_NAMES}, "setup_seconds": 0.0,
-                   "changed": manifest or {a: list(tensors_by_arm.get(a, {})) for a in PR.ARM_NAMES}}, open(f"{d}/edits.json", "w"))
-        return d
-
-    def test_manifest_mismatch(self):
-        n = "model.layers.8.mlp.down_proj.weight"
-        d = self._run_dir({"A7_coined_coined": {n: PR._BASE[n].clone()}}, manifest={a: [] for a in PR.ARM_NAMES})
-        with self.assertRaises(SystemExit):
-            with redirect_stdout(io.StringIO()):
-                PR._score(d)
-
-    def test_non_finite(self):
-        n = "model.layers.8.mlp.down_proj.weight"
-        t = PR._BASE[n].clone(); t[0, 0] = float("nan")
-        with self.assertRaises(SystemExit):
-            with redirect_stdout(io.StringIO()):
-                PR._score(self._run_dir({"A7_coined_coined": {n: t}}))
-
-    def test_wrong_shape(self):
-        n = "model.layers.8.mlp.down_proj.weight"
-        with self.assertRaises(SystemExit):
-            with redirect_stdout(io.StringIO()):
-                PR._score(self._run_dir({"A7_coined_coined": {n: torch.zeros(3, 3)}}))
-
-
-class EditBaseline(unittest.TestCase):
-    def test_baseline_edit_runs_and_touches_only_its_layers(self):
-        PR._restore_base(); PR._T_READY = time.time(); PR.EDIT_BUDGET = 2700
-        import edit as E
-        PR._restore_base()
-        E.apply_edit(PR.facts("A7_coined_coined"))
-        changed = PR._changed()
-        self.assertEqual(changed, [f"model.layers.{l}.mlp.down_proj.weight" for l in E.LAYERS])
-        PR._restore_base()
-
-
-class LaunchGate(unittest.TestCase):
-    def _gate(self, eq):
-        sh = open(f"{SRC}/launch.sh").read()
-        code = sh.split("<<'PYEOF'", 1)[1].split("\n", 1)[1].split("\nPYEOF", 1)[0]
-        harness = PR.HARNESS
-        r = _real_run([PY, "-", eq, SRC, harness], input=code, text=True, capture_output=True)
-        return r.returncode
-
-    def _eq(self, verdict="PASS", tamper=False):
-        cur = {k: hashlib.sha256(open(p, "rb").read()).hexdigest()
-               for k, p in (("prepare.py", f"{SRC}/prepare.py"), ("edit.py", f"{SRC}/edit.py"), ("harness", PR.HARNESS))}
-        if tamper:
-            cur["edit.py"] = "0" * 64
-        p = f"{TMP}/eq.json"; json.dump({"verdict": verdict, "source_sha256": cur}, open(p, "w")); return p
-
-    def test_pass_current(self):
-        self.assertEqual(self._gate(self._eq()), 0)
-
-    def test_fail_verdict(self):
-        self.assertEqual(self._gate(self._eq(verdict="FAIL")), 1)
-
-    def test_stale_source(self):
-        self.assertEqual(self._gate(self._eq(tamper=True)), 1)
-
-
-if __name__ == "__main__":
+"""No-model tests for v13's serialization, trust boundaries and static contracts."""
+import ast
+import copy
+import json
+import os
+import signal
+import stat
+from pathlib import Path
+import struct
+import subprocess
+import sys
+import tempfile
+import time
+import unittest
+from unittest.mock import patch
+
+SRC = Path(__file__).resolve().parent
+sys.path.insert(0, str(SRC))
+import v13_common as C
+import audit_transcript as A
+import sandbox_settings as P
+import v13_graft as G
+from v13_build import cleaned
+
+SUMMARY = {'heldout_full': 7, 'canon': 7, 'first_token': 40, 'A1': 69, 'A2': 69,
+           'L1_flips': 0, 'frame_flips': 1, 'described_as': 90.38, 'L3': 30,
+           'ppl_post': 21.506, 'law5_ok': True, 'scope_ok': True, 'dw_total': 88.974,
+           'edit_seconds': 0.0, 'score_seconds': 0.0, 'guards': 'ok'}
+
+
+class Boundaries(unittest.TestCase):
+    def test_projection_is_exact_and_private(self):
+        out = C.projection({'summary': SUMMARY, 'private': 'hidden'})
+        self.assertEqual(tuple(out), C.SUMMARY)
+        self.assertNotIn('private', out)
+
+    def test_projection_rejects_malformed_and_oracle_fields(self):
+        for k, v in [('heldout_full', True), ('canon', 72), ('dw_total', float('nan')),
+                     ('guards', 'failed:phrase'), ('law5_ok', 1), ('described_as', 101)]:
+            s = dict(SUMMARY, **{k: v})
+            with self.subTest(k=k), self.assertRaises(ValueError):
+                C.projection({'summary': s})
+        with self.assertRaises(ValueError):
+            C.projection({'summary': dict(SUMMARY, per_template=[1])})
+
+    def test_json_rejects_duplicate_keys_and_nan(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / 'x'
+            for text in ('{"a":1,"a":2}', '{"a":NaN}'):
+                p.write_text(text)
+                with self.assertRaises(ValueError):
+                    C.read_json(p)
+
+    def test_snapshot_rejects_symlink_and_hardlink(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            source = root / 'source'
+            source.write_bytes(b'harmless')
+            link = root / 'symlink'
+            link.symlink_to(source)
+            with self.assertRaises(OSError):
+                C.snapshot(link, root / 'out')
+            os.link(source, root / 'hardlink')
+            with self.assertRaises(ValueError):
+                C.snapshot(source, root / 'out')
+            (root / 'hardlink').unlink()
+            C.snapshot(source, root / 'out')
+            self.assertEqual((root / 'out').read_bytes(), b'harmless')
+
+    def test_manifest_rejects_changed_helper(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / 'sealed').mkdir()
+            f = root / 'helper'
+            f.write_text('safe')
+            C.write_json(root / 'sealed/config.json', {'v': 13})
+            C.write_json(root / 'sealed/manifest.json', {str(f): C.digest(f)})
+            anchor = C.digest(root / 'sealed/manifest.json')
+            self.assertEqual(C.verify(root, anchor), {'v': 13})
+            f.write_text('changed')
+            with self.assertRaises(ValueError):
+                C.verify(root, anchor)
+
+    def test_environment_drops_credentials_and_harness_overrides(self):
+        c = {'home': '/home/fixture', 'user': 'fixture', 'hf_home': '/cache', 'program': '/program'}
+        with patch.dict(os.environ, {'ANTHROPIC_API_KEY': 'sentinel', 'MODEL_ID': 'override',
+                                     'PYTHONPATH': '/malicious', 'LD_PRELOAD': '/malicious'}):
+            env = C.clean_env(c, '/own', '/run')
+        self.assertFalse(set(env) & {'ANTHROPIC_API_KEY', 'MODEL_ID', 'PYTHONPATH', 'LD_PRELOAD'})
+        self.assertEqual(env['HF_HUB_OFFLINE'], '1')
+        for name in ('GRAFT_NO_REFRESH', 'GRAFT_NO_GITIGNORE', 'GRAFT_NO_IGNORE'):
+            self.assertEqual(env[name], '1')
+
+    def test_graft_files_and_processes_are_identified(self):
+        for path in ('graft/.cache/ask-index.json', 'runs/a/graft/INDEX.md', 'x/ask-index.json'):
+            self.assertTrue(G.forbidden(path))
+        self.assertFalse(G.forbidden('v13_graft.py'))
+        for cmd in ('graft ask x', 'node /node_modules/@nanonets/graft/dist/cli.js build',
+                    'node /node_modules/@nanonets/graft/dist/claude/sync-run.js'):
+            self.assertIsNotNone(G.GRAFT_PROCESS.search(cmd))
+        self.assertIsNone(G.GRAFT_PROCESS.search('python -I v13_graft.py fence'))
+
+    def test_graft_root_barrier_and_completed_score_freeze(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            score = root / 'score'
+            score.mkdir()
+            (score / 'score.json').write_text('{"fixture":true}')
+            try:
+                G.freeze(score)
+                with self.assertRaises(PermissionError):
+                    (score / 'graft').mkdir()
+                with self.assertRaises(PermissionError):
+                    (score / 'score.json').write_text('changed')
+                self.assertEqual((score / 'score.json').read_text(), '{"fixture":true}')
+            finally:
+                for p in [score, *score.rglob('*')]:
+                    os.chflags(p, 0)
+                    p.chmod(0o700 if p.is_dir() else 0o600)
+
+    def test_graft_sweep_catches_late_cache_and_tracked_index(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            sb, fence = root / 'sandbox', root / 'fence'
+            sb.mkdir(); fence.mkdir(); (fence / 'scorer_results').mkdir()
+            for name in ('.gitignore', '.ignore'):
+                (sb / name).write_text('/graft/\n')
+            (sb / 'edit.py').write_text('harmless')
+            (sb / 'runs').mkdir()
+            subprocess.run(['/usr/bin/git', '-C', str(sb), 'init', '-q'], check=True)
+            c = {'sandbox': str(sb), 'fence': str(fence), 'graft_ignore_sha256':
+                 {n: C.digest(sb / n) for n in ('.gitignore', '.ignore')}}
+            try:
+                G.seal(c)
+                self.assertEqual(G.sweep(c)['tracked_graft_cache'], 0)
+                self.assertEqual(G.barrier_probe(c)['graft_directory_creation_denied'], 2)
+                late = fence / 'scorer_results/graft'
+                late.mkdir()
+                with self.assertRaisesRegex(ValueError, 'artifact present'):
+                    G.sweep(c)
+                late.rmdir()
+                # A tracked path is rejected even when its working-tree cache has gone.
+                cache = sb / 'runs/graft/ask-index.json'
+                cache.parent.mkdir(); cache.write_text('{}')
+                subprocess.run(['/usr/bin/git', '-C', str(sb), 'add', '-f', str(cache)], check=True)
+                cache.unlink(); cache.parent.rmdir()
+                with self.assertRaisesRegex(ValueError, 'tracked'):
+                    G.sweep(c)
+            finally:
+                for p in [sb, fence, *sb.rglob('*'), *fence.rglob('*')]:
+                    if p.exists():
+                        os.chflags(p, 0)
+                        p.chmod(0o700 if p.is_dir() else 0o600)
+
+    def test_absolute_fp16_payload_contract(self):
+        half = lambda x: struct.unpack('e', struct.pack('e', x))[0]
+        base, after = half(.5), half(.0001)
+        delta = half(after - base)
+        self.assertNotEqual(half(base + delta), after)
+        # The runtime saves absolute values; the scorer copy restores after exactly.
+        self.assertEqual(struct.pack('e', after), struct.pack('e', half(after)))
+        runtime = (SRC / 'editor_runtime.py').read_text()
+        scorer = (SRC / 'scorer.py').read_text()
+        self.assertIn('w[n].detach().cpu().clone()', runtime)
+        self.assertIn('w[n].copy_(t.to(w[n].device, w[n].dtype))', scorer)
+        self.assertIn('weights_only=True', scorer)
+
+    def test_scorer_measurement_and_setup_bodies_unchanged(self):
+        old = subprocess.run(['/usr/bin/git', 'show',
+                              'HEAD:experiments/track_c/autoresearch_c10/prepare.py'],
+                             text=True, capture_output=True, check=True).stdout
+        def funcs(s):
+            return {n.name: ast.dump(n, include_attributes=False) for n in ast.parse(s).body
+                    if isinstance(n, ast.FunctionDef)}
+        before, after = funcs(old), funcs((SRC / 'scorer.py').read_text())
+        for name in ('_score', '_measure', '_frame_probe', '_fingerprint', '_reference_ok', '_law5', 'setup_checks'):
+            self.assertEqual(before[name], after[name], name)
+
+    def test_runtime_has_no_harness_or_scorer_import(self):
+        tree = ast.parse((SRC / 'editor_runtime.py').read_text())
+        names = []
+        for n in ast.walk(tree):
+            if isinstance(n, ast.Import):
+                names += [a.name for a in n.names]
+            elif isinstance(n, ast.ImportFrom):
+                names.append(n.module)
+        self.assertFalse(any('c10e' in n or 'scorer' in n or 'prepare' in n for n in names if n))
+        engine = SRC.parents[2] / 'memit_dry_run/memit'
+        for f in engine.rglob('*.py'):
+            text = f.read_text()
+            self.assertNotIn('PTEST', text, str(f))
+            self.assertNotIn('c10e_bandknob', text, str(f))
+
+    def test_kill_refuses_changed_identity_without_signalling(self):
+        with patch.object(C, 'identity', return_value='other'), patch.object(C.os, 'killpg') as kill:
+            with self.assertRaises(ValueError):
+                C.stop_stage({'pid': 987654, 'identity': 'expected'}, {})
+            kill.assert_not_called()
+
+    def test_kill_traverses_descendants_and_ignores_unrelated_jobs(self):
+        dead = set()
+        def command(argv, **kwargs):
+            text = '100 1\n101 100\n102 101\n999 1\n' if argv[0] == '/bin/ps' else 'p0\nn/engine\n'
+            return subprocess.CompletedProcess(argv, 0, stdout=text)
+        def kill(pid, sig):
+            if sig == 0 and pid in dead:
+                raise ProcessLookupError()
+            if sig in (signal.SIGTERM, signal.SIGKILL):
+                dead.add(pid)
+        def killgroup(pid, sig):
+            dead.add(pid)
+        c = {'sandbox': '/sandbox', 'engine': '/engine', 'fence': '/fence'}
+        with patch.object(C, 'identity', side_effect=lambda p: 'born:' + str(p)), \
+             patch.object(C.os, 'getpgid', return_value=100), \
+             patch.object(C.subprocess, 'run', side_effect=command), \
+             patch.object(C.os, 'kill', side_effect=kill) as singles, \
+             patch.object(C.os, 'killpg', side_effect=killgroup) as groups:
+            C.stop_stage({'pid': 100, 'identity': 'born:100'}, c)
+        terminated = [v.args[0] for v in singles.call_args_list if v.args[1] == signal.SIGTERM]
+        self.assertEqual(terminated, [102, 101])
+        self.assertNotIn(999, [v.args[0] for v in singles.call_args_list])
+        groups.assert_called_once_with(100, signal.SIGTERM)
+
+    def test_policy_profiles_are_separate_and_parametrized(self):
+        c = {'fence': '/fence', 'sandbox': '/sandbox', 'venv': '/venv', 'python_prefix': '/python',
+             'program': '/program',
+             'engine': '/engine', 'hf_home': '/hf', 'covariance': ['/cov'], 'fixture': False,
+             'harness': '/program/harness.py', 'hparams': '/program/hp.json',
+             'fingerprint': '/program/fingerprint.py', 'screens': ['/program/screen.json'],
+             'editor_tmp': '/fence/editor_tmp', 'scorer_tmp': '/fence/scorer_tmp',
+             'scorer_results': '/fence/scorer_results'}
+        editor, scorer = P.seatbelt(c), P.seatbelt(c, True)
+        for profile in (editor, scorer):
+            self.assertIn('(deny network*)', profile)
+            self.assertIn('(param "STAGE_TMP")', profile)
+            self.assertIn('(param "RUN")', profile)
+            self.assertIn('(deny mach-lookup', profile)
+        self.assertNotIn('(literal "/program/harness.py")', editor)
+        self.assertIn('(literal "/program/harness.py")', scorer)
+        self.assertNotIn('(allow file-read* (subpath "/fence"))', editor)
+        self.assertLess(scorer.index('(deny file-write* (subpath "/fence"))'),
+                        scorer.index('(allow file-write* (subpath (param "RUN")))'))
+
+    def test_gpu_gate_covers_new_and_busy_job_names(self):
+        for name in ('editor_bootstrap.py', 'scorer.py', 'c10s_sharedz_sweep.py',
+                     'check_equivalence.py', 'c10r_exp2_location_control.py'):
+            self.assertIsNotNone(C.GPU_JOBS.search(name), name)
+
+    def test_audit_missing_malformed_and_wrong_session_fail_closed(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / 'sealed/archive').mkdir(parents=True)
+            harness = SRC.parents[2] / 'experiments/track_c/c10e_bandknob.py'
+            c = {'fence': str(root), 'sandbox': '/fixture', 'capture': '/capture',
+                 'editor_tmp': '/edit_tmp', 'scorer_tmp': '/score_tmp', 'scorer_results': '/private',
+                 'harness': str(harness), 'harness_sha256': C.digest(harness)}
+            path = root / 'sealed/transcript.jsonl'
+            b = {'fence': str(root), 'sandbox': '/fixture', 'captures': ['/capture', '/edit_tmp', '/score_tmp'],
+                 'scorer_results': '/private', 'session_id': 'fixture-session', 'transcript': str(path)}
+            with self.assertRaises(ValueError):
+                A.scan_bound(c, b)
+            path.write_text('{malformed\n')
+            with self.assertRaises(ValueError):
+                A.scan_bound(c, b)
+            path.write_text('{"session_id":"other","type":"test"}\n')
+            with self.assertRaises(ValueError):
+                A.scan_bound(c, b)
+            path.write_text('{"session_id":"fixture-session","type":"test"}\n')
+            self.assertEqual(A.scan_bound(c, b), 1)
+            b['captures'] = ['/foreign']
+            with self.assertRaises(ValueError):
+                A.scan_bound(c, b)
+
+    def test_audit_checks_archives_from_all_sessions(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            archive = root / 'sealed/archive/run'
+            archive.mkdir(parents=True)
+            harness = SRC.parents[2] / 'experiments/track_c/c10e_bandknob.py'
+            c = {'fence': str(root), 'sandbox': '/fixture', 'capture': '/capture',
+                 'editor_tmp': '/edit_tmp', 'scorer_tmp': '/score_tmp', 'scorer_results': '/private',
+                 'harness': str(harness), 'harness_sha256': C.digest(harness)}
+            path = root / 'sealed/transcript.jsonl'
+            path.write_text('{"session_id":"new","type":"test"}\n')
+            b = {'fence': str(root), 'sandbox': '/fixture', 'captures': ['/capture', '/edit_tmp', '/score_tmp'],
+                 'scorer_results': '/private', 'session_id': 'new', 'transcript': str(path)}
+            protected, _ = A.templates(c)
+            # Protected scratch content is written only inside this fence's sealed area.
+            recipe = archive / 'edit.py'
+            recipe.write_text(repr(protected[0]))
+            C.write_json(archive / 'identity.json', {'session_id': 'old', 'sha256': C.digest(recipe)})
+            with self.assertRaises(ValueError):
+                A.scan_bound(c, b)
+            # TemporaryDirectory removes this protected scratch before returning.
+
+    def test_parent_missing_watcher_records_a_latched_stop(self):
+        source = (SRC / 'dispatch.py').read_text()
+        fn = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef) and n.name == 'audit_ready')
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / 'sealed').mkdir()
+            scope = {'FENCE': root, 'CONFIG': {'fence': str(root)}, 'read_json': C.read_json,
+                     'identity': C.identity, 'Path': Path, 'time': __import__('time')}
+            exec(compile(ast.Module(body=[fn], type_ignores=[]), 'dispatch-audit-unit', 'exec'), scope)
+            with self.assertRaises(FileNotFoundError):
+                scope['audit_ready']()
+            self.assertEqual(C.read_json(root / 'sealed/STOP.json')['status'], 'HALTED')
+
+    def test_inert_bootstrap_handoff_marker_precedes_recipe(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            run = root / 'run'
+            run.mkdir()
+            for name in ('fixture_editor_bootstrap.py', 'fixture_editor_runtime.py'):
+                (root / name).write_text((SRC / name).read_text())
+            C.write_json(root / 'train_facts.json', {'canon': 'canonical {}', 'subjects': ['fiction'],
+                         'arms': {a: {'fiction': 'training'} for a in C.ARMS}})
+            (run / 'edit.py').write_text("import os\nos.close(int(os.environ['C10_READY_FD']))\n"
+                                        "from editor_runtime import evaluate\n"
+                                        "evaluate(lambda facts: {'model.layers.4.mlp.down_proj.weight':[0.0001]})\n")
+            rd, wr = os.pipe()
+            started = time.monotonic()
+            try:
+                p = subprocess.Popen([sys.executable, '-I', '-B', str(root / 'fixture_editor_bootstrap.py')],
+                                     env={'PATH': '/usr/bin:/bin', 'C10_RUN_DIR': str(run), 'C10_READY_FD': str(wr)},
+                                     pass_fds=(wr,), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                os.close(wr)
+                packet = os.read(rd, 8)
+                stdout, stderr = p.communicate(timeout=10)
+                self.assertEqual(p.returncode, 0, stderr.decode())
+                self.assertEqual(len(packet), 8)
+                stamp = struct.unpack('!d', packet)[0]
+                self.assertLessEqual(started, stamp)
+                self.assertLessEqual(stamp, time.monotonic())
+                C.validate_handoff(run)
+            finally:
+                os.close(rd)
+
+
+if __name__ == '__main__':
     unittest.main(verbosity=2)
