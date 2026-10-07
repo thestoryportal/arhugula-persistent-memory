@@ -323,7 +323,7 @@ def key_stats(K):
     entries for zero projected keys (P K can be zero without invalidating the arm).
     """
     import torch
-    K = K.detach().double().cpu()
+    K = K.detach().cpu().double()
     norm = K.norm(dim=0)
     zero = norm == 0
     safe = torch.where(zero, torch.ones_like(norm), norm)
@@ -400,7 +400,7 @@ class Collector:
         if not held_out:
             return get_module_input_output_at_words(self.H.model, self.H.tok, self.hp.layers[-1],
                 context_templates=[r["prompt"] for r in requests], words=[r["subject"] for r in requests],
-                module_template=self.hp.layer_module_tmp, fact_token_strategy=self.hp.fact_token)[1].T.detach().double().cpu()
+                module_template=self.hp.layer_module_tmp, fact_token_strategy=self.hp.fact_token)[1].T.detach().cpu().double()
         prompts, idxs = [], []
         for i, rq in enumerate(requests):
             f = self.step["facts"][i % R.N]
@@ -416,7 +416,7 @@ class Collector:
                         raise ValueError("held-out gold-prefix address retokenised")
                 prompts.append(text)
                 idxs.append([idx])
-        return get_reprs_at_idxs(self.H.model, self.H.tok, prompts, idxs, self.hp.layers[-1], self.hp.layer_module_tmp, "out").T.detach().double().cpu()
+        return get_reprs_at_idxs(self.H.model, self.H.tok, prompts, idxs, self.hp.layers[-1], self.hp.layer_module_tmp, "out").T.detach().cpu().double()
 
     def before(self, name, requests, hp, P):
         self.name, self.requests, self.P = name, requests, P
@@ -436,7 +436,7 @@ class Collector:
         fit["request"] = copy.deepcopy(args[2])
         fit["KL_prompt"] = "{} is a".format(args[2]["subject"])
         self.fits.append(fit)
-        self.targets.append(z.detach().double().cpu().clone())
+        self.targets.append(z.detach().cpu().double().clone())
         return z
 
     def keys(self, *args):
