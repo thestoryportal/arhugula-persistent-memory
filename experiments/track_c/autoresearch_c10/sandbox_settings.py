@@ -13,6 +13,7 @@ def seatbelt(config, scorer=False):
     public = ['editor_runtime.py', 'editor_bootstrap.py', 'train_facts.json']
     trusted = ['v13_common.py', 'scorer.py', 'audit_transcript.py', 'dispatch.py',
                'sandbox_settings.py', 'v13_launcher.py', 'v13_verify_gpu.py', 'v13_kill.py', 'v13_graft.py',
+               'v13_cli.py', 'v13_agent_probe.py',
                'editor.sb', 'scorer.sb', '.sandbox_settings.json', 'empty_mcp.json']
     if config['fixture']:
         public += ['fixture_editor_bootstrap.py', 'fixture_editor_runtime.py']
@@ -21,6 +22,13 @@ def seatbelt(config, scorer=False):
     lines = ['(version 1)', '(allow default)', '(deny network*)', '(deny file-read*)',
              '(deny file-write*)']
     q = json.dumps
+    # dyld reads the root itself; ancestor traversal needs metadata, not subtree data.
+    lines.append('(allow file-read* (literal "/"))')
+    metadata = set()
+    for p in [*runtime, config['python'], str(fence), config['sandbox']]:
+        metadata.update(str(parent) for parent in Path(p).parents)
+    for p in sorted(metadata - {'/'}):
+        lines.append('(allow file-read-metadata (literal ' + q(p) + '))')
     for p in ('/System', '/usr/lib', '/usr/bin', '/usr/sbin', '/bin', '/sbin',
               '/Library/Apple', '/Library/Frameworks', '/opt/homebrew/Cellar',
               '/opt/homebrew/opt', '/dev'):
@@ -32,6 +40,8 @@ def seatbelt(config, scorer=False):
     for name in public + (trusted if scorer else []):
         lines.append('(allow file-read* (literal ' + q(str(fence / name)) + '))')
     if scorer:
+        for name in config['graft_ignore_sha256']:
+            lines.append('(allow file-read* (literal ' + q(str(Path(config['sandbox']) / name)) + '))')
         for p in [config['harness'], config['hparams'], config['fingerprint'], *config['screens']]:
             lines.append('(allow file-read* (literal ' + q(p) + '))')
         for p in [str(fence / 'sealed')]:
@@ -70,8 +80,8 @@ def settings(config):
               config['scorer_results'], config['editor_tmp'], config['scorer_tmp'], str(Path(sandbox) / 'graft'),
               '/private/tmp', '/tmp/claude-501', home,
               '/Volumes/memit/llm-database-project-artifacts', '/Volumes/backups', '/Volumes/Development']
-    # The capture fallback is inside this fresh repository. CLAUDE_CODE_TMPDIR,
-    # not merely TMPDIR, requests it; runtime evidence is mandatory before launch.
+    # Native CLI 2.1.292 falls back to /tmp/claude-UID above 44 bytes. A fresh,
+    # short private capture child is the §4(a) fallback; probes must verify it.
     tool_deny = [config['program'], config['repo'], config['old_sandbox'],
                  str(Path(fence) / 'sealed'), config['scorer_results'], config['editor_tmp'],
                  config['scorer_tmp'], str(Path(sandbox) / 'graft'), '/tmp/claude-501', '/private/tmp/claude-501', home]
@@ -81,14 +91,17 @@ def settings(config):
                     'network': {'allowedDomains': [], 'allowLocalBinding': False,
                                 'allowUnixSockets': [], 'allowAllUnixSockets': False},
                     'filesystem': {'denyRead': denied, 'allowRead': [sandbox, *allowed],
-                                   'allowWrite': [sandbox], 'denyWrite': [config['program'], config['repo'], fence,
+                                   'allowWrite': [sandbox, config['capture']], 'denyWrite': [config['program'], config['repo'], fence,
+                                                                         '/tmp/claude-' + str(os.getuid()),
+                                                                         '/private/tmp/claude-' + str(os.getuid()),
                                                                          str(Path(sandbox) / 'runs'),
                                                                          str(Path(sandbox) / 'graft'),
                                                                          str(Path(sandbox) / '.gitignore'),
                                                                          str(Path(sandbox) / '.ignore')]}},
         'permissions': {'defaultMode': 'dontAsk',
-                        'allow': ['Bash(*)', 'TaskOutput', 'Read(./**)', 'Edit(./**)', 'Write(./**)'] +
-                                 ['Read(/' + p + ')' for p in allowed],
+                        'allow': ['Bash(*)', 'Monitor(*)', 'TaskStop', 'Read(./**)', 'Edit(./**)', 'Write(./**)'] +
+                                 ['Read(/' + p + ')' for p in allowed] +
+                                 [tool + '(/' + config['capture'] + '/**)' for tool in ('Read', 'Edit', 'Write')],
                         'deny': ['Read(/' + p + '/**)' for p in tool_deny] +
                                 ['Edit(/' + fence + '/**)', 'Write(/' + fence + '/**)',
                                  'Edit(./runs/**)', 'Write(./runs/**)',
@@ -98,6 +111,7 @@ def settings(config):
                                  'Bash(/usr/bin/security *)', 'WebFetch', 'WebSearch', 'Agent', 'Task']},
         'disableAllHooks': True,
     }
+    result['sandbox']['filesystem']['allowRead'] += [config['capture'], config['python_prefix']]
     return result
 
 

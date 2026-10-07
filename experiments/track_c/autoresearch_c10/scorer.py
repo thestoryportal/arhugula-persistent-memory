@@ -26,6 +26,7 @@ for _path, _sha in _json.loads(_mpath.read_text()).items():
 sys.path.insert(0, str(HERE))
 from v13_common import verify
 CONFIG = verify(HERE, sys.argv[1])
+sys.path.insert(0, CONFIG['site_packages'])
 PROGRAM_ROOT = CONFIG['program']
 PYTHON = CONFIG['python']
 HARNESS = CONFIG['harness']

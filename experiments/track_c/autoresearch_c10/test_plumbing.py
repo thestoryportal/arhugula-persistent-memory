@@ -167,7 +167,7 @@ class Boundaries(unittest.TestCase):
 
     def test_scorer_measurement_and_setup_bodies_unchanged(self):
         old = subprocess.run(['/usr/bin/git', 'show',
-                              'HEAD:experiments/track_c/autoresearch_c10/prepare.py'],
+                              '9feae02^:experiments/track_c/autoresearch_c10/prepare.py'],
                              text=True, capture_output=True, check=True).stdout
         def funcs(s):
             return {n.name: ast.dump(n, include_attributes=False) for n in ast.parse(s).body
@@ -223,6 +223,7 @@ class Boundaries(unittest.TestCase):
 
     def test_policy_profiles_are_separate_and_parametrized(self):
         c = {'fence': '/fence', 'sandbox': '/sandbox', 'venv': '/venv', 'python_prefix': '/python',
+             'python': '/python/bin/python3', 'graft_ignore_sha256': {'.ignore': 'fixture'},
              'program': '/program',
              'engine': '/engine', 'hf_home': '/hf', 'covariance': ['/cov'], 'fixture': False,
              'harness': '/program/harness.py', 'hparams': '/program/hp.json',

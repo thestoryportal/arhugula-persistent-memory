@@ -73,6 +73,8 @@ def clean_env(config, tmp, run=None):
         env['C10_RUN_DIR'] = str(run)
     env['XDG_CACHE_HOME'] = str(Path(tmp) / 'cache')
     env['TORCH_HOME'] = str(Path(tmp) / 'torch')
+    if 'site_packages' in config:
+        env['C10_SITE_PACKAGES'] = config['site_packages']
     return env
 
 

@@ -49,6 +49,19 @@ def forbidden(path):
     return 'graft' in Path(path).parts or Path(path).name == 'ask-index.json'
 
 
+def check_processes():
+    table = subprocess.run(['/bin/ps', '-axo', 'pid=,command='], text=True,
+                           capture_output=True, check=True).stdout
+    if not table.strip():
+        raise ValueError('graft process observation unavailable')
+    for line in table.splitlines():
+        fields = line.strip().split(None, 1)
+        if len(fields) != 2 or not fields[0].isdigit():
+            raise ValueError('graft process observation malformed')
+        if GRAFT_PROCESS.search(fields[1]):
+            raise ValueError('graft process active; protected launch refused')
+
+
 def sweep(config, processes=False):
     sandbox, fence = Path(config['sandbox']), Path(config['fence'])
     for root in (sandbox, fence):
@@ -78,16 +91,7 @@ def sweep(config, processes=False):
     if any(forbidden(os.fsdecode(p).strip('\n')) for p in tracked + history if p):
         raise ValueError('graft artifact tracked in repository or history')
     if processes:
-        table = subprocess.run(['/bin/ps', '-axo', 'pid=,command='], text=True,
-                               capture_output=True, check=True).stdout
-        if not table.strip():
-            raise ValueError('graft process observation unavailable')
-        for line in table.splitlines():
-            fields = line.strip().split(None, 1)
-            if len(fields) != 2 or not fields[0].isdigit():
-                raise ValueError('graft process observation malformed')
-            if GRAFT_PROCESS.search(fields[1]):
-                raise ValueError('graft process active; protected launch refused')
+        check_processes()
     return {'graft_artifacts': 0, 'tracked_graft_cache': 0, 'history_graft_cache': 0,
             'immutable_roots': 2, 'immutable_ignore_files': len(config['graft_ignore_sha256']),
             'active_process_check': processes}
@@ -120,10 +124,36 @@ def barrier_probe(config):
             'existing_recipe_open_for_write': True}
 
 
+def writable_probe(config):
+    """Exercise mutable children below sealed roots without changing any static file."""
+    import tempfile
+    from v13_common import write_json, read_json
+    areas = [Path(config['sandbox']) / 'runs', Path(config['fence']) / 'sealed',
+             Path(config['scorer_results']), Path(config['editor_tmp']),
+             Path(config['scorer_tmp']), Path(config['capture'])]
+    for area in areas:
+        with tempfile.TemporaryDirectory(prefix='legitimate_', dir=area) as child:
+            p = Path(child) / 'status.json'
+            write_json(p, {'value': 1})
+            write_json(p, {'value': 2})
+            if read_json(p) != {'value': 2}:
+                raise ValueError('legitimate sealed-root child write failed')
+    for name in ('edit.py', 'results.tsv'):
+        fd = os.open(Path(config['sandbox']) / name, os.O_WRONLY)
+        os.close(fd)
+    return {'mutable_areas': len(areas), 'create_read_replace_cleanup': True,
+            'existing_recipe_and_results_open_for_write': True}
+
+
 if __name__ == '__main__':
-    if len(sys.argv) not in (2, 3) or len(sys.argv) == 3 and sys.argv[2] not in ('--processes', '--probe-barriers'):
-        raise SystemExit('usage: v13_graft.py FENCE [--processes|--probe-barriers]')
+    if len(sys.argv) not in (2, 3) or len(sys.argv) == 3 and sys.argv[2] not in ('--processes', '--probe-barriers', '--probe-writes'):
+        raise SystemExit('usage: v13_graft.py FENCE [--processes|--probe-barriers|--probe-writes]')
     fence = Path(sys.argv[1])
     config = verify(fence, digest(fence / 'sealed/manifest.json'))
-    result = barrier_probe(config) if len(sys.argv) == 3 and sys.argv[2] == '--probe-barriers' else sweep(config, len(sys.argv) == 3)
+    if len(sys.argv) == 3 and sys.argv[2] == '--probe-barriers':
+        result = barrier_probe(config)
+    elif len(sys.argv) == 3 and sys.argv[2] == '--probe-writes':
+        result = writable_probe(config)
+    else:
+        result = sweep(config, len(sys.argv) == 3)
     print(json.dumps(result, sort_keys=True))

@@ -9,6 +9,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import uuid
 
 SRC = Path(__file__).resolve().parent
 PROGRAM = SRC.parents[2]
@@ -18,12 +19,13 @@ sys.path.insert(0, str(SRC))
 from v13_common import ARMS, digest, write_json
 from sandbox_settings import seatbelt, settings
 from v13_graft import seal, sweep
+from v13_cli import inspect_cli
 
 BASE_SHA = 'c89d80c09f2e97490ed30cda22e2a001d551e74a7df5d62585c741fc3b06abcf'
 HARNESS_SHA = '1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695'
 CODE = ('editor_runtime.py', 'editor_bootstrap.py', 'scorer.py', 'dispatch.py', 'v13_common.py',
         'audit_transcript.py', 'sandbox_settings.py', 'v13_launcher.py', 'v13_verify_gpu.py', 'v13_kill.py',
-        'v13_graft.py')
+        'v13_graft.py', 'v13_cli.py', 'v13_agent_probe.py')
 
 
 def historical(commit):
@@ -46,12 +48,24 @@ def cleaned(source, canon):
     return ''.join(lines).replace('from prepare import', 'from editor_runtime import')
 
 
+def resolved_runtime(program):
+    python = (Path(program) / '.venv/bin/python').resolve(strict=True)
+    venv = (Path(program) / '.venv').resolve(strict=True)
+    site_packages = venv / ('lib/python%d.%d/site-packages' % sys.version_info[:2])
+    if not site_packages.is_dir():
+        raise ValueError('resolved virtualenv site-packages missing')
+    return {'python': str(python), 'venv': str(venv), 'site_packages': str(site_packages),
+            'python_prefix': str(python.parents[1])}
+
+
 def build(sandbox, fence, fixture=False):
     sandbox, fence = Path(sandbox).absolute(), Path(fence).absolute()
-    if sandbox.exists() or fence.exists():
+    if sandbox.exists() or fence.exists() or sandbox.is_symlink() or fence.is_symlink():
         raise ValueError('fresh destinations required; no overwrite or deletion')
     if sandbox == fence or sandbox in fence.parents or fence in sandbox.parents:
         raise ValueError('repository and fence must be disjoint')
+    cli_contract = inspect_cli('/Users/robertrhu/.local/bin/claude')
+    runtime = resolved_runtime(PROGRAM)
     harness = PROGRAM / 'experiments/track_c/c10e_bandknob.py'
     if digest(harness) != HARNESS_SHA:
         raise ValueError('harness hash changed')
@@ -81,14 +95,19 @@ def build(sandbox, fence, fixture=False):
     fence.mkdir(parents=True)
     for name in ('runs', '.agent_capture'):
         (sandbox / name).mkdir(mode=0o700)
+    capture_base = Path('/private/tmp') / ('c10r-' + uuid.uuid4().hex[:12])
+    capture = capture_base / ('claude-' + str(os.getuid()))
+    if len(os.fsencode(capture)) > 44:
+        raise ValueError('capture path exceeds installed CLI socket limit')
+    capture_base.mkdir(mode=0o700)
+    capture.mkdir(mode=0o700)
     for name in ('sealed', 'sealed/archive', 'scorer_results', 'editor_tmp', 'scorer_tmp'):
         (fence / name).mkdir(mode=0o700, exist_ok=True)
     ignore_text = (SRC / 'gitignore.sandbox').read_text() + '\n.agent_capture/\n/graft/\n'
     ignore_files = {'.gitignore': ignore_text, '.ignore': '/graft/\n'}
     config = {'version': 13, 'fixture': fixture, 'program': str(PROGRAM), 'repo': str(REPO),
               'sandbox': str(sandbox), 'fence': str(fence), 'old_sandbox': str(OLD),
-              'python': str(PROGRAM / '.venv/bin/python'), 'venv': str((PROGRAM / '.venv').resolve()),
-              'python_prefix': str((PROGRAM / '.venv/bin/python').resolve().parents[1]),
+              **runtime,
               'home': str(Path.home()), 'user': os.environ.get('USER', 'robertrhu'),
               'harness': str(harness), 'harness_sha256': HARNESS_SHA, 'hparams': str(hparams),
               'fingerprint': str(PROGRAM / 'tools/engine_fingerprint.py'),
@@ -98,9 +117,11 @@ def build(sandbox, fence, fixture=False):
                              '/Volumes/memit/llm-database-poc-mirror/covariance_caches'],
               'screens': [str(PROGRAM / ('configs/screens/' + n)) for n in
                           ('g6_screen_qwen3b_v2.json', 'g6_screen_qwen3b.json')],
-              'capture': str(sandbox / '.agent_capture'), 'editor_tmp': str(fence / 'editor_tmp'),
+              'capture_base': str(capture_base), 'capture': str(capture),
+              'editor_tmp': str(fence / 'editor_tmp'),
               'scorer_tmp': str(fence / 'scorer_tmp'), 'scorer_results': str(fence / 'scorer_results'),
               'claude': '/Users/robertrhu/.local/bin/claude',
+              'cli_contract': cli_contract,
               'graft_ignore_sha256': {n: hashlib.sha256(t.encode()).hexdigest()
                                       for n, t in ignore_files.items()}}
     write_json(fence / 'sealed/config.json', config)
