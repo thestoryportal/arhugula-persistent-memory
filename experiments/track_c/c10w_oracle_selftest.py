@@ -1316,6 +1316,314 @@ class FixRoundTests(unittest.TestCase):
             self.assertEqual(seen,[("transformers",str(R.ROOT/"hf_cache"),"1")])
 
 
+class DupDevTests(unittest.TestCase):
+    """§9 A-dupdev: run the real MMLU producer with synthetic source-schema inputs."""
+    revision = "c30699e8356da336a370243923dbaf21066bb9fe"
+    old_prereg_sha = "2baeb4e9865dd1080ecb5765652c5eae67336eca6047d93b4f5948545854c344"
+
+    def _row(self, subject, index):
+        return {"subject":subject,"question":subject+" question "+str(index),
+                "choices":["choice "+c for c in "ABCD"],"answer":index%4}
+
+    source_sha = {"dev":"2b19bde1ed8ca6b482fb283abc90e8e0d9d228947029c0b91795d64b28b3bc3f",
+                  "test":"74a41822ce7d3def56e1682f958469c04642a5336a5ce912fa375fdb90fb25d7"}
+
+    def _producer(self, dev_count=5, duplicate=True, split_count=None, wrong_hash=None,
+                  source_revision=None):
+        class Dataset(list): pass
+        class Tokenizer:
+            def __call__(s,text,add_special_tokens=True):
+                suffix = text[-2:]
+                if suffix in (" A"," B"," C"," D"):
+                    return {"input_ids":[ord(c) for c in text[:-2]]+[1001+"ABCD".index(suffix[1])]}
+                return {"input_ids":[ord(c) for c in text]}
+        dev = Dataset()
+        for subject in ("filler_"+str(i) for i in range(10)):
+            dev.extend(self._row(subject,i) for i in range(5))
+        physics = [self._row("college_physics",i) for i in range(dev_count)]
+        if duplicate and dev_count >= 4: physics[3] = copy.deepcopy(physics[0])
+        dev.extend(physics)  # Real halt shape: identical college_physics source rows 50 and 53.
+        dev.extend(self._row("clean",i) for i in range(5))
+        repeated = [self._row("unsampled_duplicate",i) for i in range(5)]
+        repeated[2] = copy.deepcopy(repeated[0]); repeated[4] = copy.deepcopy(repeated[0])
+        dev.extend(repeated)
+        dev.extend(self._row("unsampled_four_rows",i) for i in range(4))
+        dev.extend(self._row("unsampled_six_rows",i) for i in range(6))
+        while len(dev)<285:
+            n=len(dev); subject="padding_"+str((n-75)//5)
+            dev.append(self._row(subject,n))
+        test = Dataset(self._row("college_physics" if i in (1427,1453) else "clean",1000+i) for i in range(14042))
+        sources = {"test":test,"dev":dev}
+        if split_count is not None:
+            split,delta=split_count
+            if delta<0: sources[split].pop()
+            else: sources[split].append(self._row("unsampled_extra",0))
+        hub = types.ModuleType("huggingface_hub"); datasets = types.ModuleType("datasets")
+        head_calls=[]; dataset_calls=[]; download_calls=[]
+        def dataset_info(name):
+            self.assertEqual(name,"cais/mmlu")
+            head_calls.append(name)
+            return types.SimpleNamespace(sha=self.revision)
+        hub.HfApi = lambda:types.SimpleNamespace(dataset_info=dataset_info)
+        def load_dataset(name,config,split,revision):
+            dataset_calls.append((name,config,split,revision))
+            return sources[split]
+        datasets.load_dataset = load_dataset
+        real_file_ref=R.file_ref
+        with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+            for split,rows in sources.items():
+                path = Path(td)/(split+".arrow"); path.write_text(json.dumps(rows))
+                rows.cache_files = [{"filename":str(path)}]
+            def download(repo_id,filename,repo_type,revision):
+                download_calls.append((repo_id,filename,repo_type,revision))
+                path=Path(td)/"hub/datasets--cais--mmlu/snapshots"/(source_revision or self.revision)/filename
+                path.parent.mkdir(parents=True,exist_ok=True); path.write_text("synthetic cached source")
+                return str(path)
+            hub.hf_hub_download=download
+            def file_ref(path):
+                ref=real_file_ref(path)
+                for split,sha in self.source_sha.items():
+                    if Path(path).name==split+"-00000-of-00001.parquet":
+                        ref["sha256"]="0"*64 if wrong_hash==split else sha
+                return ref
+            with patch.dict(sys.modules,{"huggingface_hub":hub,"datasets":datasets}), patch.object(R,"file_ref",side_effect=file_ref):
+                record = S.freeze_mmlu(Tokenizer())
+        sources["head_calls"]=head_calls; sources["dataset_calls"]=dataset_calls; sources["download_calls"]=download_calls
+        return record, sources
+
+    def _accepted(self, **kwargs):
+        try: return self._producer(**kwargs)
+        except R.Halt as exc: self.fail("published five-row fixture was refused: "+str(exc))
+
+    def _expected_prompt(self, row, examples):
+        # Independent golden format of the pre-amendment five-shot producer.
+        prompt = "The following are multiple choice questions (with answers) about "+row["subject"].replace("_"," ")+".\n\n"
+        for example in examples:
+            prompt += example["question"]+"\nA. choice A\nB. choice B\nC. choice C\nD. choice D\nAnswer: "+"ABCD"[example["answer"]]+"\n\n"
+        return prompt+row["question"]+"\nA. choice A\nB. choice B\nC. choice C\nD. choice D\nAnswer:"
+
+    def _step_record(self, directory, mmlu, prereg_sha):
+        R.write_json(directory/"mmlu200.json",mmlu)
+        step = {"status":"PASS","prereg_sha256":prereg_sha,
+                "files":{"mmlu200":R.file_ref(directory/"mmlu200.json")},
+                "sources":{"prereg":R.file_ref(ROOT/"docs/C10W_ORACLE_PREREG.md")},
+                "seal":{s:True for s in ("S1","S2","S2c","S2d","S3","S4","S5","S6","S7")},
+                "seam":{"ok":True},"fingerprint":{"ok":True},"instrument_ok":True}
+        R.write_json(directory/"step0.json",step)
+
+    def test_duplicate_five_rows_accepted_and_preserved_in_source_order(self):
+        record, sources = self._accepted()
+        physics = [item for item in record["items"] if item["subject"]=="college_physics"]
+        self.assertEqual(len(physics),2)
+        for item in physics:
+            self.assertEqual([i["source_index"] for i in item["dev_identities"]],[50,51,52,53,54])
+            self.assertEqual(item["dev_examples"],list(sources["dev"][50:55]))
+            self.assertEqual(item["prompt"],self._expected_prompt(sources["test"][item["source_index"]],sources["dev"][50:55]))
+            self.assertEqual(item["prompt"].count("college_physics question 0\n"),2)
+            self.assertIn("dev_distinct_n",item); self.assertIn("dev_duplicate_source_indices",item)
+            self.assertEqual(item["dev_distinct_n"],4)
+            self.assertEqual(item["dev_duplicate_source_indices"],[53])
+            self.assertEqual(len({i["row_sha256"] for i in item["dev_identities"]}),4)
+        self.assertEqual(record["sample_seed"],20261007)
+        self.assertEqual(record["sampled_indices"],random.Random(20261007).sample(range(14042),200))
+        self.assertEqual(record["revision"],self.revision)
+
+    def test_four_dev_rows_refused_as_invalid_instrument(self):
+        with self.assertRaisesRegex(R.Halt,"INVALID-INSTRUMENT: exactly five dev rows required"):
+            self._producer(dev_count=4,duplicate=False)
+
+    def test_six_dev_rows_refused_as_invalid_instrument(self):
+        with self.assertRaisesRegex(R.Halt,"INVALID-INSTRUMENT: exactly five dev rows required"):
+            self._producer(dev_count=6,duplicate=False)
+
+    def test_zero_to_three_dev_rows_refused_as_invalid_instrument(self):
+        for count in range(4):
+            with self.subTest(count=count):
+                try: self._producer(dev_count=count,duplicate=False)
+                except R.Halt as exc:
+                    self.assertIn("INVALID-INSTRUMENT: exactly five dev rows required",str(exc))
+                except KeyError as exc:
+                    self.fail("missing dev set must halt as INVALID-INSTRUMENT: "+str(exc))
+                else: self.fail("fewer than five dev rows were accepted")
+
+    def test_five_distinct_rows_keep_pre_amendment_prompt_bytes(self):
+        record, sources = self._accepted(duplicate=False)
+        item = next(x for x in record["items"] if x["source_index"]==1427)
+        expected = self._expected_prompt(sources["test"][1427],sources["dev"][50:55])
+        self.assertEqual(item["prompt"].encode("utf-8"),expected.encode("utf-8"))
+        self.assertEqual(item["prompt_utf8_sha256"],R.sha_text(expected))
+        self.assertIn("dev_distinct_n",item); self.assertIn("dev_duplicate_source_indices",item)
+        self.assertEqual(item["dev_distinct_n"],5)
+        self.assertEqual(item["dev_duplicate_source_indices"],[])
+
+    def test_whole_dev_summary_includes_exactly_low_distinct_subjects(self):
+        record, sources = self._accepted()
+        self.assertIn("dev_less_than_five_distinct",record)
+        expected = {"college_physics":{"dev_distinct_n":4,"dev_duplicate_source_indices":[53]},
+                    "unsampled_duplicate":{"dev_distinct_n":3,"dev_duplicate_source_indices":[62,64]},
+                    "unsampled_four_rows":{"dev_distinct_n":4,"dev_duplicate_source_indices":[]}}
+        self.assertEqual(record["dev_less_than_five_distinct"],expected)
+        self.assertEqual({item["subject"] for item in record["items"]},{"college_physics","clean"})
+        self.assertNotIn("unsampled_six_rows",record["dev_less_than_five_distinct"])
+
+    def test_producer_record_json_roundtrip_keeps_new_fields(self):
+        record, sources = self._accepted()
+        with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+            path = Path(td)/"mmlu200.json"; R.write_json(path,record)
+            loaded = R.load_json(path)
+            normalised = json.loads(json.dumps({**record,"class":R.CLASS,"decision_id":R.DECISION_ID}))
+            self.assertEqual(loaded,normalised)
+            R.verify_ref(R.file_ref(path))
+            self.assertEqual(loaded["dev_less_than_five_distinct"]["college_physics"]["dev_duplicate_source_indices"],[53])
+            self.assertTrue(all("dev_distinct_n" in item and "dev_duplicate_source_indices" in item for item in loaded["items"]))
+
+    def test_reader_accepts_actual_amended_prereg_hash(self):
+        actual = R.sha_file(ROOT/"docs/C10W_ORACLE_PREREG.md")
+        self.assertEqual(R.PREREG_SHA,actual)
+        self.assertNotEqual(actual,self.old_prereg_sha)
+        record, sources = self._accepted(duplicate=False)
+        with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+            directory = Path(td); self._step_record(directory,record,actual)
+            frozen = R.load_frozen(directory)
+            self.assertEqual(frozen["prereg_sha256"],actual)
+            self.assertEqual(R.load_json(frozen["files"]["mmlu200"]["path"])["items"],record["items"])
+
+    def test_reader_rejects_old_prereg_hash(self):
+        record, sources = self._accepted(duplicate=False)
+        with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+            directory = Path(td); self._step_record(directory,record,self.old_prereg_sha)
+            with self.assertRaisesRegex(R.Halt,"frozen prereg mismatch"): R.load_frozen(directory)
+
+    def test_acquisition_pins_revision_counts_and_canonical_source_hashes_without_head(self):
+        record,sources=self._accepted(duplicate=False)
+        self.assertEqual(sources["head_calls"],[])
+        self.assertEqual(sources["dataset_calls"],[("cais/mmlu","all",s,self.revision) for s in ("test","dev")])
+        self.assertEqual(sources["download_calls"],[("cais/mmlu","all/"+s+"-00000-of-00001.parquet","dataset",self.revision) for s in ("test","dev")])
+        self.assertEqual(record["split_counts"],{"test":14042,"dev":285})
+        for split,sha in self.source_sha.items():
+            canonical=[r for r in record["source_files"][split] if Path(r["path"]).name==split+"-00000-of-00001.parquet"]
+            self.assertEqual(len(canonical),1); self.assertEqual(canonical[0]["sha256"],sha)
+            self.assertTrue(any(Path(r["path"]).suffix==".arrow" for r in record["source_files"][split]))
+
+    def test_each_split_count_off_by_one_is_invalid_instrument(self):
+        for split in ("test","dev"):
+            for delta in (-1,1):
+                with self.subTest(split=split,delta=delta), self.assertRaisesRegex(R.Halt,"INVALID-INSTRUMENT:.*split count"):
+                    self._producer(duplicate=False,split_count=(split,delta))
+
+    def test_each_wrong_canonical_source_hash_is_invalid_instrument(self):
+        for split in ("test","dev"):
+            with self.subTest(split=split), self.assertRaisesRegex(R.Halt,"INVALID-INSTRUMENT:.*source file hash"):
+                self._producer(duplicate=False,wrong_hash=split)
+
+    def test_different_source_revision_is_invalid_instrument(self):
+        with self.assertRaisesRegex(R.Halt,"INVALID-INSTRUMENT:.*source revision"):
+            self._producer(duplicate=False,source_revision="f"*40)
+
+    def test_duplicates_use_existing_identity_hash_without_rehashing_rows(self):
+        with patch.object(R,"sha_text",wraps=R.sha_text) as digest:
+            record,sources=self._accepted()
+        self.assertEqual(digest.call_count,14042+285+200)
+        for item in record["items"]:
+            seen=set(); repeats=[]
+            for identity in item["dev_identities"]:
+                if identity["row_sha256"] in seen: repeats.append(identity["source_index"])
+                seen.add(identity["row_sha256"])
+            self.assertEqual((item["dev_distinct_n"],item["dev_duplicate_source_indices"]),(len(seen),repeats))
+
+    def test_real_cached_acquisition_and_tokenizer_exercise_every_require(self):
+        cache=ROOT/"hf_cache"
+        pinned=[cache/"hub/datasets--cais--mmlu/snapshots"/self.revision/"all"/(s+"-00000-of-00001.parquet") for s in ("test","dev")]
+        tokenizer=cache/"hub/models--Qwen--Qwen2.5-3B/snapshots"/R.MODEL_REV
+        pinned.extend(tokenizer/n for n in ("tokenizer.json","tokenizer_config.json","vocab.json","merges.txt"))
+        missing=[str(p) for p in pinned if not p.is_file()]
+        if missing: self.skipTest("cached pinned dataset/tokenizer files absent: "+", ".join(missing))
+        code=r'''
+import ast, importlib.abc, json, os, shutil, sys, tempfile
+from pathlib import Path
+root=Path(sys.argv[1]); revision=sys.argv[2]
+class NoTensorImports(importlib.abc.MetaPathFinder,importlib.abc.Loader):
+    def find_spec(self,fullname,path=None,target=None):
+        if fullname.split(".")[0] in {"torch","tensorflow","jax"}:
+            return importlib.machinery.ModuleSpec(fullname,self)
+    def create_module(self,spec): return None
+    def exec_module(self,module):
+        raise AssertionError("offline tokenizer check attempted tensor import: "+module.__name__)
+sys.meta_path.insert(0,NoTensorImports())
+sys.path.insert(0,str(root/"experiments/track_c"))
+with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+    cached=root/"hf_cache/datasets/cais___mmlu/all/0.0.0"/revision
+    local=Path(td)/"datasets/cais___mmlu/all/0.0.0"/revision
+    local.mkdir(parents=True)
+    for name in ("dataset_info.json","mmlu-test.arrow","mmlu-dev.arrow"):
+        shutil.copyfile(cached/name,local/name)
+    os.environ["HF_DATASETS_CACHE"]=str(Path(td)/"datasets")
+    import c10w_oracle_read as r, c10w_oracle_step0 as s
+    from transformers import AutoTokenizer
+    tok=AutoTokenizer.from_pretrained(r.MODEL_ID,revision=r.MODEL_REV,cache_dir=str(root/"hf_cache/hub"),local_files_only=True)
+    calls=set(); previous=r.require
+    def require(ok,reason):
+        frame=sys._getframe(1)
+        if frame.f_code.co_filename==s.__file__: calls.add(frame.f_lineno)
+        return previous(ok,reason)
+    r.require=require
+    frozen=s.freeze_mmlu(tok)
+    function=next(n for n in ast.parse(Path(s.__file__).read_text()).body if isinstance(n,ast.FunctionDef) and n.name=="freeze_mmlu")
+    expected={n.lineno for n in ast.walk(function) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and isinstance(n.func.value,ast.Name) and n.func.value.id=="R" and n.func.attr=="require"}
+    assert expected<=calls,("unexercised require sites",sorted(expected-calls))
+    assert frozen["revision"]==revision and frozen["split_counts"]=={"test":14042,"dev":285}
+    summary=frozen["dev_less_than_five_distinct"]
+    assert summary=={"college_physics":{"dev_distinct_n":4,"dev_duplicate_source_indices":[53]}},summary
+    dev=frozen["source_identities"]["dev"]; duplicate_sha=dev[53]["row_sha256"]
+    group=[x["source_index"] for x in dev if x["row_sha256"]==duplicate_sha]
+    assert group==[50,53],group
+    affected=sorted(x["source_index"] for x in frozen["items"] if x["subject"]=="college_physics")
+    assert affected==[1427,1453],affected
+    failures=sum(not item["prompt"].endswith("Answer:") or any(tok(item["prompt"]+" "+c)["input_ids"]!=item["prompt_ids"]+[frozen["answer_mapping"][c]["token_id"]] for c in "ABCD") for item in frozen["items"])
+    assert len(frozen["items"])==200 and failures==0,failures
+    assert "torch" not in sys.modules and os.environ["HF_HUB_OFFLINE"]=="1"
+    print("C10W_DUPDEV_REAL_DATA PASS: test=14042 dev=285 subject=college_physics duplicate_group="+json.dumps(group)+" affected="+json.dumps(affected)+" suffix_failures=0/200 require_sites="+str(len(expected))+"/"+str(len(expected))+"; offline; no tensor imports or model load")
+'''
+        environment=dict(__import__("os").environ,HF_HUB_OFFLINE="1",HF_DATASETS_OFFLINE="1",TRANSFORMERS_OFFLINE="1",
+                         HF_HOME=str(cache),USE_TORCH="0",USE_TF="0",USE_FLAX="0",CUDA_VISIBLE_DEVICES="",TMPDIR="/private/tmp")
+        run=subprocess.run([sys.executable,"-B","-c",code,str(ROOT),self.revision],env=environment,capture_output=True,text=True,timeout=120)
+        self.assertEqual(run.returncode,0,run.stdout+run.stderr)
+        self.assertIn("C10W_DUPDEV_REAL_DATA PASS",run.stdout)
+        print(run.stdout.strip())
+
+    def test_report_only_198_sensitivity_keeps_full_200_gate_and_label(self):
+        indices=random.Random(20261007).sample(range(14042),200)
+        unaffected=[i for i in indices if i not in (1427,1453)]
+        def score(bits,pre):
+            predicted=["A" if hit else "B" for hit in bits]
+            lost=sum(p and not q for p,q in zip(pre,bits)); gained=sum(not p and q for p,q in zip(pre,bits))
+            return {"n":200,"correct":bits,"predicted":predicted,"correct_n":sum(bits),"accuracy":sum(bits)/200.,
+                    "correct_to_wrong":lost,"wrong_to_correct":gained,"net_paired_loss":lost-gained,
+                    "rows":[{"source_index":i,"predicted":prediction,"correct":hit} for i,prediction,hit in zip(indices,predicted,bits)]}
+        for remaining,contribution,full,label in ((2,2,4,"PASS-CEILING"),(3,2,5,"PARTIAL-CEILING-LOCALITY-COST"),
+                                                   (5,-1,4,"PASS-CEILING"),(6,-2,4,"PASS-CEILING")):
+            with self.subTest(remaining=remaining,contribution=contribution):
+                data=fixture(); pre=[not(contribution<0 and i in (1427,1453)) for i in indices]
+                lost=set(unaffected[:remaining]); gained=set((1427,1453)[:max(0,-contribution)])
+                post=[False if i in lost or (contribution>0 and i in (1427,1453)) else True if i in gained else bit for i,bit in zip(indices,pre)]
+                for p in data.values():
+                    for a in p["u"].values(): a["extra"]["mmlu"]=score(list(pre),pre)
+                    p["law5_null"]["arm"]["extra"]["mmlu"]=score(list(pre),pre)
+                    for recipe_name,rec in p["recipes"].items():
+                        for a in rec["arms"].values(): a["extra"]["mmlu"]=score(list(pre if recipe_name=="closedform" else post),pre)
+                expected_label=R.replicated(R.configuration(data["P1"],"oracle_p1"),R.configuration(data["P2"],"oracle_s1"),R.configuration(data["P2"],"oracle_s0rt"))["label"]
+                self.assertEqual(expected_label,label)
+                original=copy.deepcopy(data); reading=R.read_measurement(data)
+                self.assertEqual(reading["final_label"],expected_label); self.assertEqual(data,original)
+                self.assertIn("g6_sensitivity",reading)
+                for phase_name,recipe_name in (("P1","oracle_p1"),("P2","oracle_s1"),("P2","oracle_s0rt")):
+                    sensitivity=reading["g6_sensitivity"][phase_name][recipe_name][R.A7]
+                    self.assertEqual(sensitivity,{"full_n":200,"full_net_paired_loss":full,"excluding_affected_n":198,
+                        "excluding_affected_net_paired_loss":remaining,"affected_source_indices":[1427,1453],
+                        "affected_signed_contribution":contribution,"report_only":True})
+                self.assertEqual(reading["ranks"]["16"]["gate_misses"],["G6"] if full>4 else [])
+
+
 def main():
     global R,S,T,E
     required=[HERE/("c10w_oracle_"+n+".py") for n in ("read","step0","train","eval")]
@@ -1328,7 +1636,7 @@ def main():
     sys.meta_path.insert(0,NoModelImports())
     R,S,T,E=[importlib.import_module("c10w_oracle_"+n) for n in ("read","step0","train","eval")]
     suite=unittest.TestSuite([unittest.defaultTestLoader.loadTestsFromTestCase(c) for c in
-                             (OracleTests,ProposedTests,DefectTests,FixRoundTests)])
+                             (OracleTests,ProposedTests,DefectTests,FixRoundTests,DupDevTests)])
     result=unittest.TextTestRunner(stream=sys.stdout,verbosity=2).run(suite)
     if result.wasSuccessful():
         print("C10W_ORACLE_SELFTEST PASS: %d tests; model-free; oracle measurement, not a route"%result.testsRun)

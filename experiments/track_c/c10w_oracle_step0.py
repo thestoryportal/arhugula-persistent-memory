@@ -172,13 +172,24 @@ def nonzero_seam():
 
 
 def freeze_mmlu(tok):
-    from huggingface_hub import HfApi
+    from huggingface_hub import hf_hub_download
     from datasets import load_dataset
-    revision=HfApi().dataset_info("cais/mmlu").sha
+    revision="c30699e8356da336a370243923dbaf21066bb9fe"
     R.require(re.fullmatch(r"[0-9a-f]{40}",revision) is not None,"INVALID-INSTRUMENT: immutable dataset commit")
     datasets={s:load_dataset("cais/mmlu","all",split=s,revision=revision) for s in ("test","dev")}
     test,dev=datasets["test"],datasets["dev"]
-    R.require(len(test)>=200,"INVALID-INSTRUMENT: test split too small")
+    R.require(len(test)==14042 and len(dev)==285,"INVALID-INSTRUMENT: MMLU split counts")
+    files={s:[R.file_ref(c["filename"]) for c in data.cache_files] for s,data in datasets.items()}
+    R.require(all(files.values()),"INVALID-INSTRUMENT: missing source file provenance")
+    source_sha={"test":"74a41822ce7d3def56e1682f958469c04642a5336a5ce912fa375fdb90fb25d7",
+                "dev":"2b19bde1ed8ca6b482fb283abc90e8e0d9d228947029c0b91795d64b28b3bc3f"}
+    for split,expected_sha in source_sha.items():
+        filename=split+"-00000-of-00001.parquet"
+        path=Path(hf_hub_download("cais/mmlu",filename="all/"+filename,repo_type="dataset",revision=revision))
+        R.require(path.parts[-4:]==("snapshots",revision,"all",filename),"INVALID-INSTRUMENT: dataset source revision")
+        ref={**R.file_ref(path),"path":str(path.absolute())}
+        files[split].append(ref)
+        R.require(ref["sha256"]==expected_sha,"INVALID-INSTRUMENT: dataset source file hash: "+split)
     def checked(row):
         R.require(set(row)>={"subject","question","choices","answer"} and isinstance(row["subject"],str) and isinstance(row["question"],str)
                   and len(row["choices"])==4 and all(isinstance(c,str) for c in row["choices"])
@@ -191,23 +202,31 @@ def freeze_mmlu(tok):
     R.require(all(len(i)==1 for i in ids) and len({i[0] for i in ids})==4,"INVALID-INSTRUMENT: distinct single-token answer letters")
     by_subject={}
     for i,row in enumerate(dev): by_subject.setdefault(row["subject"],[]).append((i,checked(row)))
+    dev_metadata={}
+    for subject,examples in by_subject.items():
+        seen=set(); duplicates=[]
+        for i,_ in examples:
+            row_sha=identities["dev"][i]["row_sha256"]
+            if row_sha in seen: duplicates.append(i)
+            seen.add(row_sha)
+        dev_metadata[subject]={"dev_distinct_n":len(seen),"dev_duplicate_source_indices":duplicates}
     def item_text(row,answer=False):
         return row["question"]+"\n"+"\n".join(c+". "+v for c,v in zip(letters,row["choices"]))+"\nAnswer:"+(" "+letters[row["answer"]]+"\n\n" if answer else "")
     sampled=random.Random(20261007).sample(range(len(test)),200); items=[]
     for index in sampled:
-        row=checked(test[index]); examples=by_subject[row["subject"]]
-        R.require(len(examples)==5 and len({R.sha_text(json.dumps(r,sort_keys=True)) for _,r in examples})==5,"INVALID-INSTRUMENT: exactly five distinct dev exemplars required")
+        row=checked(test[index]); examples=by_subject.get(row["subject"],[])
+        R.require(len(examples)==5,"INVALID-INSTRUMENT: exactly five dev rows required")
         prompt="The following are multiple choice questions (with answers) about "+row["subject"].replace("_"," ")+".\n\n"
         prompt+="".join(item_text(r,True) for _,r in examples)+item_text(row)
         prompt_ids=tok(prompt)["input_ids"]
         R.require(prompt.endswith("Answer:") and all(tok(prompt+" "+c)["input_ids"]==prompt_ids+token for c,token in zip(letters,ids)),"INVALID-INSTRUMENT: Answer suffix token concatenation")
         items.append({**row,"source_index":index,"source_identity":identities["test"][index],
                       "dev_identities":[identities["dev"][i] for i,_ in examples],"dev_examples":[r for _,r in examples],
+                      **dev_metadata[row["subject"]],
                       "prompt":prompt,"prompt_utf8_sha256":R.sha_text(prompt),"prompt_ids":prompt_ids})
-    files={s:[R.file_ref(c["filename"]) for c in data.cache_files] for s,data in datasets.items()}
-    R.require(all(files.values()),"INVALID-INSTRUMENT: missing source file provenance")
     return {"dataset":"cais/mmlu","config":"all","revision":revision,"split_counts":{s:len(d) for s,d in datasets.items()},
             "source_identities":identities,"source_files":files,"sample_seed":20261007,"sampled_indices":sampled,
+            "dev_less_than_five_distinct":{s:m for s,m in dev_metadata.items() if m["dev_distinct_n"]<5},
             "answer_mapping":{c:{"index":i,"token_id":ids[i][0]} for i,c in enumerate(letters)},
             "token_checks":{"distinct_single_tokens":True,"answer_suffix_concatenation":True},"items":items}
 

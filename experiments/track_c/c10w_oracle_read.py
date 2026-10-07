@@ -17,7 +17,7 @@ MODEL_ID = "Qwen/Qwen2.5-3B"
 MODEL_REV = "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
 BAND = (4, 5, 6, 7, 8)
 TEMPLATE_SHA = "306cb0089dddb066242398c0f03f4d10d67086fbf7b0143f850342906087b272"
-PREREG_SHA = "2baeb4e9865dd1080ecb5765652c5eae67336eca6047d93b4f5948545854c344"
+PREREG_SHA = "d2aa240eede4556395373678e4fab757e0e55d5491a7d4105ef765c1eb35d2f0"
 FORBIDDEN_ENV = ("C10_KEY_LOCUS", "C10_CTX_TEMPLATES", "C10_ARMS", "N_EDIT", "C10_SUBJECT_OFFSET",
                  "HP_CANDIDATE", "C10_PROJECTOR", "C10_RECIPES", "MODEL_ID", "MODEL_REV", "LLMDB_DEVICE")
 PHASE_LIMITS = {"P1": 465, "P2": 448, "P3": 327}
@@ -405,6 +405,17 @@ def canonical_split(p1,p2):
     return ("a" if count>=30 else "b",count) if readable else ("c",None)
 
 
+def mmlu_sensitivity(a,u):
+    m=a["extra"]["mmlu"]
+    pairs=[(r["source_index"],int(p)-int(q)) for r,p,q in zip(m["rows"],u["extra"]["mmlu"]["correct"],m["correct"])]
+    affected={1427,1453}
+    remaining=[loss for index,loss in pairs if index not in affected]
+    return {"full_n":len(pairs),"full_net_paired_loss":sum(loss for _,loss in pairs),
+            "excluding_affected_n":len(remaining),"excluding_affected_net_paired_loss":sum(remaining),
+            "affected_source_indices":sorted(index for index,_ in pairs if index in affected),
+            "affected_signed_contribution":sum(loss for index,loss in pairs if index in affected),"report_only":True}
+
+
 def read_measurement(phases):
     result={"class":CLASS,"decision_id":DECISION_ID,"status":"INCOMPLETE","final_label":None,
             "routing":None,"ranks":{},"p3_required":False,"canon_split":None,"reference_count":None,
@@ -412,6 +423,9 @@ def read_measurement(phases):
     try:
         require("P1" in phases,"P1 incomplete")
         for p in phases.values(): validate_phase(p)
+        result["g6_sensitivity"]={name:{"U":{k:mmlu_sensitivity(a,p["u"][A7]) for k,a in p["u"].items()},
+                                      **{recipe:{k:mmlu_sensitivity(a,p["u"][A7]) for k,a in rec["arms"].items()}
+                                         for recipe,rec in p["recipes"].items()}} for name,p in phases.items()}
         if "P2" not in phases: return result
         require(phases["P1"]["provenance"]==phases["P2"]["provenance"],"cross-phase frozen provenance mismatch")
         r16=replicated(configuration(phases["P1"],"oracle_p1"),configuration(phases["P2"],"oracle_s1"),configuration(phases["P2"],"oracle_s0rt"))
