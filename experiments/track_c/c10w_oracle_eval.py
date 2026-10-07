@@ -110,7 +110,8 @@ class Evaluator:
             R.require(delta.device.type=="cpu" and tuple(delta.shape)==tuple(weight.shape),"delta/weight shape")
             self.current_deltas[layer]=delta
             before=float(weight.detach().float().norm()); norm=float(delta.norm())
-            with torch.no_grad(): weight.add_(delta.to(weight.device,weight.dtype))
+            d16=delta.to(weight.device,weight.dtype)
+            with torch.no_grad(): weight.copy_(torch.where(d16==0,weight,weight+d16))
             norms[str(layer)]={"delta_norm":norm,"weight_norm_before":before,"relative_delta_norm":norm/max(before,1e-12)}
             self.guard("merge-"+str(layer))
         return norms
@@ -220,7 +221,7 @@ class Evaluator:
     def unedited(self):
         H=self.H; tick=time.monotonic(); self.assert_base()
         H.ARMS={k:self.maps[k] for k in (R.A1,R.A2,R.A7,R.SHUF)}
-        stimulus=H.pre_base_report()
+        self.stimulus=stimulus=H.pre_base_report()
         R.require(all(s["base"]<=3 for s in stimulus.values()),"stimulus canonical leak >15%")
         self.axes_base=H.axes_pre()
         self.desc_base={s+" is described as":H.predict(s+" is described as") for s in H.FICTION}
@@ -236,12 +237,15 @@ class Evaluator:
         self.wrapper.mode="oracle"; self.wrapper.null_application=True
         self.wrapper.registry={request_key(self.maps[R.A7]):{"zero":True}}
         self.wrapper(self.hp,[H.req(H.CANON,s,v) for s,v in self.maps[R.A7].items()],None,None)
+        self.null_evidence={"base_hash":self.base_hash,"after_hash":self.band_hash()}
         self.assert_base()
         arm,rows=self.evaluate_map(self.maps[R.A7],self.axes_base,self.desc_base)
+        self.null_evidence.update(arm=arm,rows=rows)
         proof=compare_null(self.u[R.A7],arm,self.u_detail[R.A7],rows)
+        self.null_evidence.update(proof)
         self.restore(); self.wrapper.null_application=False; self.wrapper.null_passed=True
         self.unit_times["null_seconds"]=time.monotonic()-tick
-        return {**proof,"arm":arm,"rows":rows,"base_hash":self.base_hash,"after_hash":self.band_hash()}
+        return self.null_evidence
 
     def geometry(self,hp,P):
         torch=self.torch; H=self.H; params=dict(H.model.named_parameters()); result={}
@@ -312,6 +316,8 @@ class Evaluator:
         # Observe setup end at the actual recipe arm loop; keep compute_P and LAW5 calls intact.
         def recipe_trace(frame,event,arg):
             nonlocal arm_start
+            if frame.f_code is not self.original.__code__ and frame.f_code is not H.run_recipe.__code__:
+                return None
             trace(frame,event,arg)
             if frame.f_code is H.run_recipe.__code__ and event=="line" and frame.f_lineno==471:
                 self.unit_times["recipe_setup_seconds"].append(time.monotonic()-tick)
@@ -335,6 +341,14 @@ def unit_for_recipe(name,arm):
             64 if name.startswith("oracle_r64") else 16,name=="oracle_s0rt")
 
 
+def diagnostic_values(value):
+    """Keep non-finite failed readouts as text without weakening science JSON checks."""
+    if isinstance(value,float) and not math.isfinite(value): return repr(value)
+    if isinstance(value,dict): return {k:diagnostic_values(v) for k,v in value.items()}
+    if isinstance(value,(list,tuple)): return [diagnostic_values(v) for v in value]
+    return value
+
+
 def run_eval(phase,directory,step0_directory):
     start=time.monotonic()
     R.entry_preflight(); directory=Path(directory).resolve(); step0_directory=Path(step0_directory).resolve()
@@ -350,91 +364,109 @@ def run_eval(phase,directory,step0_directory):
             p1=Path(proof["p1_directory"])
             R.verify_ref(proof["authorization"])
             R.require_authorization(phase,R.load_json(proof["authorization"]["path"]),R.sha_file(p1/"eval.json"),R.sha_file(p1/"verdict.json"),proof["authorized_projection_minutes"])
-    fp=S.fingerprint(); H=S.load_harness()
-    import torch
-    e=Evaluator(H,step,directory,start)
-    e.guard("model-loaded")
-    stimulus=e.unedited(); null=e.null()
-    closed=e.run_recipe("closedform",(R.A1,R.A2,R.A7),{})
-    R.law3(closed["arms"],e.u,stimulus); e.wrapper.law3_passed=True
-    recipes={"closedform":closed}
-    if not preflight:
-        for name,arms in R.RECIPES[phase].items():
-            selected={arm:next(t for t in records if R.train_identity(t)==unit_for_recipe(name,arm)) for arm in arms}
-            recipes[name]=e.run_recipe(name,arms,selected)
-    e.assert_base()
-    expected=0 if preflight else len(R.TRAIN_UNITS[phase])
-    R.require(e.wrapper.zero_hits==1 and e.wrapper.trained_hits==expected,"LAW#5(v): process hit counter mismatch")
-    for name,rec in recipes.items():
-        for arm,a in rec["arms"].items():
-            R.validate_arm(a,rec["detail"][arm],name!="closedform")
-    cf=sum(x["delta_norm"] for x in closed["delta_norms"][R.A7].values())
-    R.require(cf>0,"write-size reference norm is zero")
-    for rec in recipes.values():
-        for arm in rec["arms"].values():
-            arm["extra"]["write_size_ratio_to_closedform_A7"]=sum(x["delta_norm"] for x in arm["extra"]["geometry"].values())/cf
-    record={"phase":"P1" if preflight else phase,"status":"PASS","environment":S.model_environment(H,"float16"),
-            "step0_directory":str(step0_directory),"provenance":provenance,"fingerprint":fp,
-            "validity":{k:True for k in ("fingerprint","seal","instrument","hashes","entry","seam")},
-            "u":e.u,"u_detail":e.u_detail,"stimulus":stimulus,"law5_null":null,
-            "recipes":recipes,"delegation_identity":e.original is e.wrapper.ORIGINAL_MY_EDIT,
-            "zero_adapter_hits":e.wrapper.zero_hits,"trained_oracle_hits":e.wrapper.trained_hits,
-            "expected_zero_hits":1,"expected_trained_hits":expected,"base_band_hash":e.base_hash,
-            "final_band_hash":e.band_hash(),"train_records":records,"sampled_peak_driver_bytes":e.peak,
-            "memory_samples":e.memory,"cpu_process_peak_rss_bytes":int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss),
-            "wall_seconds":time.monotonic()-e.start,"measured_raw_units":e.unit_times}
-    if preflight:
-        R.write_json(directory/"preflight_eval.json",record)
-        # The trainer receives this minimal certificate; no held-out prompt bytes enter its process.
-        certificate={"phase":"P1","status":"PASS","law3":True,"law5_null":True,"fingerprint":True,
-                     "step0_sha256":R.sha_file(step0_directory/"step0.json"),"provenance":provenance,
-                     "step0_directory":str(step0_directory),"evaluation":R.file_ref(directory/"preflight_eval.json"),
-                     **R.preflight_evidence(R.load_json(directory/"preflight_eval.json")),
-                     "wall_seconds":record["wall_seconds"]}
-        R.write_json(directory/"preflight.json",certificate)
-    else:
-        # Attach exact attempt-record hashes after loading; the reader verifies files again.
-        for tr in records:
-            tr["record_file"]=R.file_ref(directory/"train"/(R.train_tag(R.train_identity(tr),tr["steps"])+".json"))
-        record["measured_units"]={key:max(value) if isinstance(value,list) else value for key,value in e.unit_times.items()}
-        attempts=[R.load_json(p) for p in (directory/"train").glob("*.json")]
-        record["measured_units"]["training400_seconds"]=max(t["wall_seconds"]*400/t["steps"] for t in attempts)
-        if phase in ("P2","P3"):
-            record.update(authorization=proof["authorization"],authorized_projection_minutes=proof["authorized_projection_minutes"],
-                          p1_eval_sha256=R.sha_file(Path(proof["p1_directory"])/"eval.json"))
-        if phase=="P2":
-            import c10w_oracle_train as T
-            p1=Path(proof.get("p1_directory",str(R.latest_directory("p1"))))
-            original=next(t for t in R.phase_trains(p1,"P1") if t["arm"]==R.A7)
-            retrained=next(t for t in records if t["arm"]==R.A7 and t["retrain"])
-            x,y=T.load_adapter(original["adapter"]["path"]),T.load_adapter(retrained["adapter"]["path"])
-            cosines={}
-            for l in R.BAND:
-                a=(x["B_"+str(l)]@x["A_"+str(l)]).flatten()
-                b=(y["B_"+str(l)]@y["A_"+str(l)]).flatten()
-                denom=float(a.norm()*b.norm())
-                R.require(denom>0,"same-seed cosine has zero denominator")
-                cosines[str(l)]=float(torch.dot(a,b))/denom
-            initial_arm=R.load_json(p1/"eval.json")["recipes"]["oracle_p1"]["arms"][R.A7]
-            repeated_arm=recipes["oracle_s0rt"]["arms"][R.A7]
-            agreement=[]
-            for a,b in zip(initial_arm["extra"]["generated"],repeated_arm["extra"]["generated"]):
-                R.require((a["subj"],a["template"])==(b["subj"],b["template"]),"same-seed prompt ordering mismatch")
-                n=len(H.tgt_ids(e.maps[R.A7][a["subj"]]))
-                agreement.append(a["ids"][:n]==b["ids"][:n])
-            R.require(len(agreement)==72,"same-seed prompt denominator mismatch")
-            record["same_seed"]={"per_layer_cosine":cosines,"prompt_agreement_n":sum(agreement),"n":72,
-                                 "prompt_agreement_hits":agreement,
-                                 "count_difference":abs(initial_arm["para_full_n"]-repeated_arm["para_full_n"]),
-                                 "steps":[original["steps"],retrained["steps"]]}
-            e.guard("same-seed-diagnostics")
-        e.guard("evaluation-final")
-        record.update(wall_seconds=time.monotonic()-e.start,sampled_peak_driver_bytes=e.peak)
-        R.validate_phase({**record,"class":R.CLASS,"decision_id":R.DECISION_ID})
-        R.write_json(directory/"eval.json",record)
-        if phase in ("P2","P3"):
-            R.write_json(directory/"verdict.json",R.read_measurement(R.disk_phases(Path(proof["p1_directory"]))))
-    H.my_edit=e.original; H.ARM_HOOKS[:]=[]
+    fp=S.fingerprint()
+    H=e=None; original_my_edit=None; hooks=None
+    stimulus={}; null={}; recipes={}
+    record={"phase":"P1" if preflight else phase,"status":"HALT","provenance":provenance,
+            "step0_directory":str(step0_directory),"fingerprint":fp,"train_records":records,
+            "u":{},"u_detail":{},"stimulus":stimulus,"law5_null":null,"recipes":recipes}
+    try:
+        H=S.load_harness()
+        original_my_edit=getattr(H,"my_edit",None)
+        hooks=list(H.ARM_HOOKS) if hasattr(H,"ARM_HOOKS") else None
+        import torch
+        e=Evaluator(H,step,directory,start)
+        e.guard("model-loaded")
+        stimulus=e.unedited(); null=e.null()
+        closed=e.run_recipe("closedform",(R.A1,R.A2,R.A7),{})
+        recipes["closedform"]=closed
+        R.law3(closed["arms"],e.u,stimulus); e.wrapper.law3_passed=True
+        if not preflight:
+            for name,arms in R.RECIPES[phase].items():
+                selected={arm:next(t for t in records if R.train_identity(t)==unit_for_recipe(name,arm)) for arm in arms}
+                recipes[name]=e.run_recipe(name,arms,selected)
+        e.assert_base()
+        expected=0 if preflight else len(R.TRAIN_UNITS[phase])
+        R.require(e.wrapper.zero_hits==1 and e.wrapper.trained_hits==expected,"LAW#5(v): process hit counter mismatch")
+        for name,rec in recipes.items():
+            for arm,a in rec["arms"].items():
+                R.validate_arm(a,rec["detail"][arm],name!="closedform")
+        cf=sum(x["delta_norm"] for x in closed["delta_norms"][R.A7].values())
+        R.require(cf>0,"write-size reference norm is zero")
+        for rec in recipes.values():
+            for arm in rec["arms"].values():
+                arm["extra"]["write_size_ratio_to_closedform_A7"]=sum(x["delta_norm"] for x in arm["extra"]["geometry"].values())/cf
+        record={"phase":"P1" if preflight else phase,"status":"PASS","environment":S.model_environment(H,"float16"),
+                "step0_directory":str(step0_directory),"provenance":provenance,"fingerprint":fp,
+                "validity":{k:True for k in ("fingerprint","seal","instrument","hashes","entry","seam")},
+                "u":e.u,"u_detail":e.u_detail,"stimulus":stimulus,"law5_null":null,
+                "recipes":recipes,"delegation_identity":e.original is e.wrapper.ORIGINAL_MY_EDIT,
+                "zero_adapter_hits":e.wrapper.zero_hits,"trained_oracle_hits":e.wrapper.trained_hits,
+                "expected_zero_hits":1,"expected_trained_hits":expected,"base_band_hash":e.base_hash,
+                "final_band_hash":e.band_hash(),"train_records":records,"sampled_peak_driver_bytes":e.peak,
+                "memory_samples":e.memory,"cpu_process_peak_rss_bytes":int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss),
+                "wall_seconds":time.monotonic()-e.start,"measured_raw_units":e.unit_times}
+        if preflight:
+            R.write_json(directory/"preflight_eval.json",record)
+            # The trainer receives this minimal certificate; no held-out prompt bytes enter its process.
+            certificate={"phase":"P1","status":"PASS","law3":True,"law5_null":True,"fingerprint":True,
+                         "step0_sha256":R.sha_file(step0_directory/"step0.json"),"provenance":provenance,
+                         "step0_directory":str(step0_directory),"evaluation":R.file_ref(directory/"preflight_eval.json"),
+                         **R.preflight_evidence(R.load_json(directory/"preflight_eval.json")),
+                         "wall_seconds":record["wall_seconds"]}
+            R.write_json(directory/"preflight.json",certificate)
+        else:
+            # Attach exact attempt-record hashes after loading; the reader verifies files again.
+            for tr in records:
+                tr["record_file"]=R.file_ref(directory/"train"/(R.train_tag(R.train_identity(tr),tr["steps"])+".json"))
+            record["measured_units"]={key:max(value) if isinstance(value,list) else value for key,value in e.unit_times.items()}
+            attempts=[R.load_json(p) for p in (directory/"train").glob("*.json")]
+            record["measured_units"]["training400_seconds"]=max(t["wall_seconds"]*400/t["steps"] for t in attempts)
+            if phase in ("P2","P3"):
+                record.update(authorization=proof["authorization"],authorized_projection_minutes=proof["authorized_projection_minutes"],
+                              p1_eval_sha256=R.sha_file(Path(proof["p1_directory"])/"eval.json"))
+            if phase=="P2":
+                import c10w_oracle_train as T
+                p1=Path(proof.get("p1_directory",str(R.latest_directory("p1"))))
+                original=next(t for t in R.phase_trains(p1,"P1") if t["arm"]==R.A7)
+                retrained=next(t for t in records if t["arm"]==R.A7 and t["retrain"])
+                x,y=T.load_adapter(original["adapter"]["path"]),T.load_adapter(retrained["adapter"]["path"])
+                cosines={}
+                for l in R.BAND:
+                    a=(x["B_"+str(l)]@x["A_"+str(l)]).flatten()
+                    b=(y["B_"+str(l)]@y["A_"+str(l)]).flatten()
+                    denom=float(a.norm()*b.norm())
+                    R.require(denom>0,"same-seed cosine has zero denominator")
+                    cosines[str(l)]=float(torch.dot(a,b))/denom
+                initial_arm=R.load_json(p1/"eval.json")["recipes"]["oracle_p1"]["arms"][R.A7]
+                repeated_arm=recipes["oracle_s0rt"]["arms"][R.A7]
+                agreement=[]
+                for a,b in zip(initial_arm["extra"]["generated"],repeated_arm["extra"]["generated"]):
+                    R.require((a["subj"],a["template"])==(b["subj"],b["template"]),"same-seed prompt ordering mismatch")
+                    n=len(H.tgt_ids(e.maps[R.A7][a["subj"]]))
+                    agreement.append(a["ids"][:n]==b["ids"][:n])
+                R.require(len(agreement)==72,"same-seed prompt denominator mismatch")
+                record["same_seed"]={"per_layer_cosine":cosines,"prompt_agreement_n":sum(agreement),"n":72,
+                                     "prompt_agreement_hits":agreement,
+                                     "count_difference":abs(initial_arm["para_full_n"]-repeated_arm["para_full_n"]),
+                                     "steps":[original["steps"],retrained["steps"]]}
+                e.guard("same-seed-diagnostics")
+            e.guard("evaluation-final")
+            record.update(wall_seconds=time.monotonic()-e.start,sampled_peak_driver_bytes=e.peak)
+            R.write_json(directory/"eval.json",record)
+            R.validate_phase({**record,"class":R.CLASS,"decision_id":R.DECISION_ID})
+            if phase in ("P2","P3"):
+                R.write_json(directory/"verdict.json",R.read_measurement(R.disk_phases(Path(proof["p1_directory"]))))
+    except Exception as exc:
+        record.update(status="HALT",reason=str(exc),wall_seconds=time.monotonic()-start,
+                      u=getattr(e,"u",record["u"]),u_detail=getattr(e,"u_detail",record["u_detail"]),
+                      stimulus=getattr(e,"stimulus",stimulus),law5_null=getattr(e,"null_evidence",null),recipes=recipes)
+        R.write_json(directory/"eval_halt.json",diagnostic_values(record))
+        raise
+    finally:
+        if H is not None:
+            if original_my_edit is not None: H.my_edit=original_my_edit
+            if hooks is not None: H.ARM_HOOKS[:]=hooks
     print("C10W evaluation PASS controls; oracle measurement, not a route",flush=True)
     return 0
 

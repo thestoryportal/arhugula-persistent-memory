@@ -261,7 +261,7 @@ def gates(a,reference,u,control=None):
     pre,post=u["extra"]["mmlu"]["correct"],a["extra"]["mmlu"]["correct"]
     result={"G1":ax["L1_flipped_to_edited_value"]<=rx["L1_flipped_to_edited_value"]+1,
             "G2":ax["L3_top1_agree"]>=29,
-            "G3":round(a["locality_described_as"],2)>=round(reference["locality_described_as"],2)-3,
+            "G3":round(a["locality_described_as"]*100)>=round(reference["locality_described_as"]*100)-300,
             "G4":f["canon"]["flips"]<=rf["canon"]["flips"]+1 and all(c["flips"]<=b["flips"]+1 for c,b in zip(f["train"],rf["train"])),
             "G5":round(ax["generic_ppl_post"],3)-round(ax["generic_ppl_pre"],3)<=.5+1e-12,
             "G6":sum(p and not q for p,q in zip(pre,post))-sum(not p and q for p,q in zip(pre,post))<=4}

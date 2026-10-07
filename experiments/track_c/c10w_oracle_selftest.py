@@ -689,6 +689,633 @@ class OracleTests(unittest.TestCase):
             self.assertIn("HALT",proc.stdout+proc.stderr)
 
 
+
+# ---------------------------------------------------------------------------
+# Proposed by the implementation review (c10w_oracle_advisor_impl.md). Each test
+# names the surviving mutant it kills. Model-free: torch/transformers appear only
+# as inert stand-ins placed in sys.modules for the duration of one test.
+# ---------------------------------------------------------------------------
+from unittest.mock import MagicMock
+
+
+def _fake_modules():
+    return {"torch": MagicMock(name="torch"), "transformers": MagicMock(name="transformers")}
+
+
+class ProposedTests(unittest.TestCase):
+    def read(self, data):
+        return R.read_measurement(data)
+
+    # M11 -- read.py:276 band boundary at 61 for the same-seed crossing rule (prereg:368,370)
+    def test_same_seed_band_crossing_at_61(self):
+        d=fixture(61); replace_arm(d,"P2","oracle_s0rt","A7_coined_coined",arm(60))
+        v=self.read(d)
+        self.assertEqual(v["status"],"UNSTABLE")
+        self.assertIn("same-seed band crossing",v["ranks"]["16"]["instability"])
+
+    # M15 -- read.py:372 the merge-loss exception needs every gate holding (prereg:366)
+    def test_merge_loss_exception_requires_clean_gates(self):
+        d=fixture(61)
+        for a in candidates(d):
+            a["locality_axes"]["L3_top1_agree"]=28
+            a["extra"]["mounted"]=mounted_score(67)
+        self.assertEqual(self.read(d)["status"],"UNSTABLE")
+
+    # M22 -- read.py:446 PASS split (b) does not motivate steps 6-7 (prereg:394)
+    def test_pass_routing_split_b_is_not_motivation(self):
+        v=self.read(fixture(61,None,29))
+        self.assertEqual((v["final_label"],v["canon_split"]),("PASS-CEILING","b"))
+        self.assertEqual(v["routing"]["action"],"INDEPENDENT-PREREG-ONLY")
+        v=self.read(fixture(61,None,30))
+        self.assertEqual(v["routing"]["action"],"MOTIVATE-INDEPENDENT-STEPS-6-7-5b")
+
+    # M28 -- read.py:479 a HALTed phase directory is never reused (prereg:246,446)
+    def test_latest_directory_refuses_halted_phase(self):
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/"p1_20261007T000000_000000Z"; p.mkdir()
+            self.assertEqual(R.latest_directory("p1",td),p)
+            R.write_json(p/"HALT.json",{"status":"HALT"})
+            with self.assertRaisesRegex(R.Halt,"HALTED"): R.latest_directory("p1",td)
+
+    # M29 -- read.py:486 step0 frozen against the frozen prereg hash (prereg:3,322)
+    def test_load_frozen_rejects_prereg_hash_mismatch(self):
+        with tempfile.TemporaryDirectory() as td:
+            R.write_json(Path(td)/"step0.json",{"status":"PASS","prereg_sha256":"b"*64,"files":{},"sources":{},
+                                                 "seal":{s:True for s in ("S1","S2","S2c","S2d","S3","S4","S5","S6","S7")},
+                                                 "seam":{"ok":True},"fingerprint":{"ok":True},"instrument_ok":True})
+            with self.assertRaisesRegex(R.Halt,"prereg"): R.load_frozen(td)
+
+    # M30 -- read.py:311 recorded null tensor hashes must agree (prereg:250)
+    def test_null_after_hash_mismatch_invalid(self):
+        d=fixture(); d["P1"]["law5_null"]["after_hash"]["4"]="b"*64
+        self.assertEqual(self.read(d)["status"],"INVALID")
+
+    # M36/M37/M38 -- step0.py:62,71,73 each seal rule fires on its own (prereg:96-100)
+    def test_each_seal_rule_is_independently_binding(self):
+        c=S.source_constants(ROOT)
+        for text,rule in (("Encyclopedia entry: {}. Capital:","S2c"),("Reference card for {}. Capital:","S2c"),
+                          ("The nation capital of {} is","S3"),("The principal capital of {} is","S1")):
+            row=S.audit_templates(c,[text],[])["rows"][0]
+            self.assertFalse(row["ok"],text)
+            self.assertFalse(row["checks"][rule],(text,rule))
+            self.assertTrue(all(v for k,v in row["checks"].items() if k!=rule),(text,row["checks"]))
+        row=S.audit_templates(c,["The nation capital of {} is"],[])["rows"][0]
+        self.assertTrue(.60<=row["max_s3"]<.61)
+
+    # --- dispatcher scaffolding -------------------------------------------------------------
+    def _dispatch_tree(self,td):
+        td=Path(td); (td/"architecture_profile").mkdir()
+        step0=td/"step0_x"; p1=td/"p1_x"; step0.mkdir(); p1.mkdir(); (p1/"train").mkdir(); (p1/"adapters").mkdir()
+        R.write_json(step0/"step0.json",{"status":"PASS"})
+        R.write_json(p1/"preflight.json",{"phase":"P1","wall_seconds":85*60.})
+        return td,step0,p1
+
+    def _dispatch_patches(self,td,step0,p1,extra=()):
+        import contextlib
+        stack=contextlib.ExitStack()
+        stack.enter_context(patch.object(R,"ROOT",td))
+        stack.enter_context(patch.object(R,"entry_preflight",lambda *a,**k:td))
+        stack.enter_context(patch.object(R,"latest_directory",lambda prefix,base=None:{"step0":step0,"p1":p1}[prefix]))
+        stack.enter_context(patch.object(R,"load_frozen",lambda d:{}))
+        stack.enter_context(patch.object(R,"frozen_provenance",lambda s:{}))
+        stack.enter_context(patch.object(T,"require_training_preflight",lambda *a:None))
+        for p in extra: stack.enter_context(p)
+        return stack
+
+    # M34 -- step0.py:370 pre-start phase projection refusal before spending (prereg:314,316)
+    def test_dispatch_refuses_training_unit_when_projection_exceeds_phase_limit(self):
+        with tempfile.TemporaryDirectory() as td:
+            td,step0,p1=self._dispatch_tree(td)
+            R.write_json(p1/"train"/"A1_single_s0_r16.json",{"arm":R.A1,"seed":0,"rank":16,"retrain":False,
+                                                             "steps":400,"status":"PASS","wall_seconds":100*60.})
+            launched=MagicMock(return_value=0)
+            with self._dispatch_patches(td,step0,p1,[patch.object(S,"train_one",launched)]):
+                with self.assertRaisesRegex(R.Halt,"INVALID-BUDGET"): S.dispatch_stage("p1-a7")
+            launched.assert_not_called()
+
+    # M35 -- step0.py:365 units train in the frozen order (prereg:275-276)
+    def test_dispatch_refuses_out_of_order_training_unit(self):
+        with tempfile.TemporaryDirectory() as td:
+            td,step0,p1=self._dispatch_tree(td)
+            launched=MagicMock(return_value=0)
+            with self._dispatch_patches(td,step0,p1,[patch.object(S,"train_one",launched)]):
+                with self.assertRaisesRegex(R.Halt,"prior training unit"): S.dispatch_stage("p1-a7")
+            launched.assert_not_called()
+
+    # M32 -- step0.py:348 the launcher refuses P2 without the recorded authorization (prereg:278,532)
+    def test_dispatch_refuses_P2_without_authorization_before_creating_phase(self):
+        with tempfile.TemporaryDirectory() as td:
+            td,step0,p1=self._dispatch_tree(td)
+            R.write_json(p1/"eval.json",{"phase":"P1"}); R.write_json(p1/"verdict.json",{"projection":{"P2_minutes":1.}})
+            created=MagicMock(side_effect=AssertionError("P2 phase directory created without authorization"))
+            with self._dispatch_patches(td,step0,p1,[patch.object(S,"new_phase",created)]):
+                with self.assertRaisesRegex(R.Halt,"authorization"): S.dispatch_stage("p2-a7-s1")
+            created.assert_not_called()
+
+    # M33 -- step0.py:324 P3 also needs scientific eligibility (prereg:285,372)
+    def test_P3_entry_requires_scientific_eligibility(self):
+        with tempfile.TemporaryDirectory() as td:
+            p1=Path(td)
+            R.write_json(p1/"eval.json",{"phase":"P1"}); R.write_json(p1/"verdict.json",{"projection":{"P3_minutes":1.}})
+            R.write_json(p1/"authorization_P3.json",{"P3":{"authorized":True}})
+            with patch.object(R,"require_authorization",lambda *a:None), patch.object(R,"replication_for",lambda p:{}), \
+                 patch.object(R,"read_measurement",lambda phases:{"status":"VALID","p3_required":False}):
+                with self.assertRaisesRegex(R.Halt,"P3"): S.ensure_authorized("P3",p1)
+
+    # --- evaluator scaffolding --------------------------------------------------------------
+    def _eval_run(self,phase,closed_a7=4,preflight_side=None,extra=()):
+        import contextlib
+        calls=[]
+        class FakeEvaluator:
+            def __init__(s,H,step,directory,start):
+                s.wrapper=types.SimpleNamespace(law3_passed=False,zero_hits=1,trained_hits=0,ORIGINAL_MY_EDIT=None)
+                s.u={k:{"para_full_n":0} for k in (R.A1,R.A2,R.A7,R.SHUF)}
+            def guard(s,label): pass
+            def unedited(s): calls.append("U"); return {k:{"base":0} for k in (R.A1,R.A2,R.A7,R.SHUF)}
+            def null(s): calls.append("null"); return {}
+            def run_recipe(s,name,arms,records):
+                calls.append(name)
+                return {"arms":{R.A1:{"para_full_n":68},R.A2:{"para_full_n":68},
+                                R.A7:{"para_full_n":closed_a7,"canon_full_n":8,"para_first_n":50}}}
+        records=[{"arm":a,"seed":sd,"rank":rk,"retrain":rt,"provenance":{}} for a,sd,rk,rt in R.TRAIN_UNITS["P1"]]
+        stack=contextlib.ExitStack()
+        stack.enter_context(patch.dict(sys.modules,_fake_modules()))
+        stack.enter_context(patch.object(R,"entry_preflight",lambda *a,**k:ROOT))
+        stack.enter_context(patch.object(R,"load_frozen",lambda d:{}))
+        stack.enter_context(patch.object(R,"frozen_provenance",lambda s:{}))
+        stack.enter_context(patch.object(R,"phase_trains",lambda d,p:records))
+        stack.enter_context(patch.object(S,"fingerprint",lambda:{"ok":True}))
+        stack.enter_context(patch.object(S,"load_harness",lambda:types.SimpleNamespace()))
+        stack.enter_context(patch.object(E,"Evaluator",FakeEvaluator))
+        if preflight_side is not None:
+            stack.enter_context(patch.object(T,"require_training_preflight",MagicMock(side_effect=preflight_side)))
+        else:
+            stack.enter_context(patch.object(T,"require_training_preflight",lambda *a:None))
+        for p in extra: stack.enter_context(p)
+        return stack,calls
+
+    # M39 -- eval.py:359 LAW#3 halts in-process before any oracle recipe (prereg:241-246,277)
+    def test_eval_law3_miss_halts_before_any_oracle_recipe(self):
+        with tempfile.TemporaryDirectory() as td:
+            d=Path(td); R.write_json(d/"preflight.json",{"phase":"P1"}); R.write_json(d/"step0.json",{"x":1})
+            stack,calls=self._eval_run("P1",closed_a7=4)
+            with stack:
+                with self.assertRaisesRegex(R.Halt,"LAW#3"): E.run_eval("P1",d,d)
+            self.assertEqual(calls,["U","null","closedform"])
+
+    # M44 -- eval.py:347 the trainer certificate is verified before the model loads (prereg:241,260)
+    def test_eval_verifies_preflight_certificate_before_model_load(self):
+        with tempfile.TemporaryDirectory() as td:
+            d=Path(td); R.write_json(d/"preflight.json",{"phase":"P1"}); R.write_json(d/"step0.json",{"x":1})
+            stack,calls=self._eval_run("P1",preflight_side=R.Halt("HALT: bad certificate"),
+                                       extra=[patch.object(S,"fingerprint",MagicMock(side_effect=AssertionError("model stage reached")))])
+            with stack:
+                with self.assertRaisesRegex(R.Halt,"bad certificate"): E.run_eval("P1",d,d)
+            self.assertEqual(calls,[])
+
+    # M45 -- eval.py:352 a P2 evaluation re-checks the recorded authorization itself (prereg:280,532)
+    def test_eval_P2_rechecks_authorization(self):
+        with tempfile.TemporaryDirectory() as td:
+            d=Path(td); p1=d/"p1"; p1.mkdir()
+            R.write_json(p1/"eval.json",{"phase":"P1"}); R.write_json(p1/"verdict.json",{"projection":{}})
+            R.write_json(d/"auth.json",{"P2":{"authorized":False}})
+            R.write_json(d/"preflight.json",{"phase":"P2","p1_directory":str(p1),"authorization":R.file_ref(d/"auth.json"),
+                                             "authorized_projection_minutes":1.})
+            R.write_json(d/"step0.json",{"x":1})
+            stack,calls=self._eval_run("P2",extra=[patch.object(S,"fingerprint",MagicMock(side_effect=AssertionError("model stage reached")))])
+            with stack:
+                with self.assertRaisesRegex(R.Halt,"authorization"): E.run_eval("P2",d,d)
+            self.assertEqual(calls,[])
+
+    # M40 -- eval.py:239 the zero adapter must leave the band bit-identical (prereg:250)
+    def test_null_application_that_changes_band_halts_before_scoring(self):
+        state={"hash":"base"}
+        e=object.__new__(E.Evaluator)
+        e.H=types.SimpleNamespace(CANON="{}",_LAW5_DEFAULT_CTX=False,my_edit=lambda *a:{},
+                                   req=lambda c,s,v:{"subject":s,"target_new":{"str":" "+v}})
+        e.maps={R.A7:{"s":"v"}}; e.hp=None; e.unit_times={}
+        e.base_hash={"4":"base"}; e.band_hash=lambda:{"4":state["hash"]}
+        e.restore=lambda:None
+        def apply(adapter,hp): state["hash"]="signed-zero-flipped"; return {}
+        e.wrapper=E.OracleEdit(e.H,e.assert_base,apply)
+        e.evaluate_map=MagicMock(side_effect=AssertionError("scored a changed band"))
+        with self.assertRaisesRegex(R.Halt,"LAW#5"): e.null()
+        e.evaluate_map.assert_not_called()
+
+    # M42 -- eval.py:35 restore is asserted before every oracle application (prereg:199,251)
+    def test_oracle_entry_requires_restored_band(self):
+        applied=[]
+        h=types.SimpleNamespace(my_edit=lambda *a:{},_LAW5_DEFAULT_CTX=False)
+        def not_restored(): raise R.Halt("HALT: LAW#5(iii): band not restored")
+        e=E.OracleEdit(h,not_restored,lambda adapter,hp:applied.append(adapter) or {})
+        e.mode="oracle"; e.registry[frozenset({("s"," v")})]={"zero":False}; e.null_passed=e.law3_passed=True
+        with self.assertRaisesRegex(R.Halt,"LAW#5"): e(None,[{"subject":"s","target_new":{"str":" v"}}],None,None)
+        self.assertEqual(applied,[])
+
+    # M43 -- eval.py:98 the adapter file hash is verified before it is loaded (prereg:200)
+    def test_adapter_hash_verified_before_load(self):
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/"a.safetensors"; p.write_bytes(b"x")
+            e=object.__new__(E.Evaluator); e.torch=types.SimpleNamespace(); e.H=None
+            adapter={"zero":False,"train":{"adapter":{"path":str(p),"sha256":"b"*64},"rank":16}}
+            with self.assertRaisesRegex(R.Halt,"hash mismatch"):
+                e.apply_adapter(adapter,types.SimpleNamespace(layers=list(R.BAND)))
+
+    # M46 -- train.py:142 the trainer re-verifies the passing preflight before any model import (prereg:241,260)
+    def test_trainer_verifies_preflight_before_torch(self):
+        with tempfile.TemporaryDirectory() as td:
+            d=Path(td); (d/"train").mkdir()
+            R.write_json(d/"preflight.json",{"phase":"P1","status":"FAIL"}); R.write_json(d/"step0.json",{"x":1})
+            with patch.object(R,"entry_preflight",lambda *a,**k:ROOT), patch.object(R,"load_frozen",lambda x:{}), \
+                 patch.object(R,"frozen_provenance",lambda s:{}):
+                with self.assertRaisesRegex(R.Halt,"preflight"): T.run_attempt(d,d,(R.A1,0,16,False),400)
+
+    # M47 -- train.py:216 the post-warm-up projection refuses a >90-minute attempt early (prereg:316,439)
+    def test_trainer_projection_guard_fires_after_warmup_not_at_wall_limit(self):
+        mods=_fake_modules(); torch=mods["torch"]; torch.nn.Module=object
+        torch.backends.mps.is_available.return_value=True
+        torch.mps.driver_allocated_memory.return_value=1
+        class Tok:
+            pad_token="<eos>"; eos_token="<eos>"; eos_token_id=0
+            def __call__(self,text,add_special_tokens=True): return {"input_ids":[len(text)%97+1]}
+        model=MagicMock(); model.config._commit_hash=R.MODEL_REV
+        model.parameters.return_value=[]; model.named_parameters.return_value=[]
+        layers={}
+        for l in range(36):
+            layers[l]=MagicMock(); layers[l].mlp.down_proj.weight.shape=(2048,11008)
+        model.model.layers.__getitem__.side_effect=lambda i:layers[i]
+        mods["transformers"].AutoTokenizer.from_pretrained.return_value=Tok()
+        mods["transformers"].AutoModelForCausalLM.from_pretrained.return_value.float.return_value=model
+        clock=[0.]
+        def tick(): clock[0]+=5.; return clock[0]
+        with tempfile.TemporaryDirectory() as td:
+            d=Path(td); (d/"train").mkdir(); tok=Tok()
+            subjects=["s%02d"%i for i in range(24)]
+            inputs={"templates":["T {}"],"fiction":subjects,"value_maps":{R.A7:{s:"v" for s in subjects}},
+                    "target_ids":{R.A7:{s:tok(" v")["input_ids"] for s in subjects}},
+                    "prompt_ids":{"0":{s:tok("T {}".format(s))["input_ids"] for s in subjects}}}
+            R.write_json(d/"train_inputs.json",inputs)
+            R.write_json(d/"preflight.json",{"phase":"P1"}); R.write_json(d/"step0.json",{"x":1})
+            step={"files":{"train_inputs":{"path":str(d/"train_inputs.json")}},"fingerprint":{"ok":True}}
+            with patch.dict(sys.modules,mods), patch.dict("os.environ",{}), \
+                 patch.object(R,"entry_preflight",lambda *a,**k:ROOT), patch.object(R,"load_frozen",lambda x:step), \
+                 patch.object(R,"frozen_provenance",lambda s:{}), patch.object(T,"require_training_preflight",lambda *a:None), \
+                 patch.object(T.time,"monotonic",tick):
+                with self.assertRaisesRegex(R.Halt,"90"): T.run_attempt(d,d,(R.CANON_ARM,0,16,False),400)
+            record=R.load_json(d/"train"/"A7_canon_s0_r16.json")
+            self.assertEqual(record["status"],"HALT")
+            self.assertLess(record["wall_seconds"],30*60,"guard fired only at the wall limit, not on the projection")
+
+    # M48 -- train.py:34 linear 20-step warm-up from 0 (prereg:181)
+    def test_warmup_is_linear_over_20_steps(self):
+        self.assertAlmostEqual(T.learning_rate(10),1.5e-4)
+        self.assertLess(T.learning_rate(19),3e-4)
+
+
+class DefectTests(unittest.TestCase):
+    """Reproduce defects in the unmodified build; expected to FAIL until fixed (always on)."""
+    def read(self, data):
+        return R.read_measurement(data)
+
+    # BLOCKING-2 -- read.py:264 G3 equality to A-3 passes at every 2-dp value (prereg:368)
+    def test_G3_equality_passes_across_the_range(self):
+        for ref in (64.01,64.04,98.12,99.88):
+            d=fixture()
+            for p in d.values():
+                p["recipes"]["closedform"]["arms"][R.A7]["locality_described_as"]=ref
+            for a in candidates(d): a["locality_described_as"]=round(ref-3,2)
+            self.assertNotIn("G3",self.read(d)["ranks"]["16"]["gate_misses"],ref)
+
+
+
+class FixRoundTests(unittest.TestCase):
+    """Fix-round regressions; synthetic records are never live model evidence."""
+
+    def test_G3_hundredths_at_inside_and_outside_boundary(self):
+        for ref in (64.01, 64.04, 98.12, 99.88):
+            for offset, passes in ((-0.01, False), (0.0, True), (0.01, True)):
+                with self.subTest(ref=ref, offset=offset):
+                    reference, candidate = arm(), arm()
+                    reference["locality_described_as"] = ref
+                    candidate["locality_described_as"] = round(ref - 3 + offset, 2)
+                    self.assertEqual(R.gates(candidate, reference, arm())["G3"], passes)
+
+    def _eval_dispatch(self, phase_name, minutes, ruling=None, failed_minutes=0):
+        with tempfile.TemporaryDirectory() as td:
+            td, step0, directory = ProposedTests._dispatch_tree(self, td)
+            proof = R.load_json(directory/"preflight.json")
+            proof.update(phase=phase_name, p1_directory=str(directory))
+            (directory/"preflight.json").write_text(json.dumps(proof))
+            evaluation = {"P1":190., "P2":220., "P3":175.}[phase_name]
+            cost = minutes - evaluation - (85 if phase_name == "P1" else 0) - failed_minutes
+            units = R.TRAIN_UNITS[phase_name]
+            records = []
+            for index, unit in enumerate(units):
+                record = {"arm":unit[0], "seed":unit[1], "rank":unit[2], "retrain":unit[3],
+                          "status":"PASS", "steps":400, "wall_seconds":cost/len(units)*60}
+                R.write_json(directory/"train"/(R.train_tag(unit,400)+".json"), record)
+                records.append(record)
+            if failed_minutes:
+                failed = {**records[0], "status":"UNDERFIT", "wall_seconds":failed_minutes*60}
+                R.write_json(directory/"train"/"failed_attempt.json", failed)
+            if ruling is not None:
+                R.write_json(directory/("authorization_"+phase_name+".json"), {phase_name:ruling})
+            launched = MagicMock(return_value=0)
+            extra = [patch.object(S, "run_child", launched),
+                     patch.object(R, "phase_trains", lambda *a:records),
+                     patch.object(S, "ensure_authorized", lambda *a:({}, minutes)),
+                     patch.object(R, "latest_directory", lambda prefix,base=None:step0 if prefix == "step0" else directory)]
+            with ProposedTests._dispatch_patches(self, td, step0, directory, extra):
+                try:
+                    rc = S.dispatch_stage(phase_name.lower()+"-eval")
+                except R.Halt as exc:
+                    launched.assert_not_called()
+                    self.assertTrue((directory/"HALT.json").is_file())
+                    return str(exc)
+                self.assertEqual(rc, 0)
+                launched.assert_called_once()
+                return None
+
+    def test_all_eval_stages_check_budget_before_child_at_inside_outside(self):
+        for phase_name, limit in R.PHASE_LIMITS.items():
+            for offset in (-0.01, 0.0, 0.01):
+                with self.subTest(phase=phase_name, offset=offset):
+                    failure = self._eval_dispatch(phase_name, limit+offset)
+                    if offset > 0:
+                        self.assertIn("INVALID-BUDGET", failure or "")
+                    else:
+                        self.assertIsNone(failure)
+
+    def test_P1_516_minutes_refuses_and_counts_failed_attempts(self):
+        self.assertIn("INVALID-BUDGET", self._eval_dispatch("P1",516) or "")
+        self.assertIn("INVALID-BUDGET", self._eval_dispatch("P1",516,failed_minutes=51) or "")
+
+    def test_P1_budget_ruling_requires_operator_identity(self):
+        valid = {"authorized":True, "recorded_by":"operator", "recorded_at":"2026-10-07T00:00:00Z", "budget_minutes":516}
+        self.assertIsNone(self._eval_dispatch("P1",516,valid))
+        for key in ("authorized", "recorded_by", "recorded_at"):
+            for replacement in (None, ""):
+                with self.subTest(key=key, replacement=replacement):
+                    ruling = dict(valid)
+                    if replacement is None: del ruling[key]
+                    else: ruling[key] = replacement
+                    self.assertIn("authorization", self._eval_dispatch("P1",516,ruling) or "")
+        for limit, passes in ((515.99,False),(516.,True),(516.01,True)):
+            with self.subTest(limit=limit):
+                failure = self._eval_dispatch("P1",516,{**valid,"budget_minutes":limit})
+                self.assertEqual(failure is None, passes)
+
+    def test_training_guard_also_requires_P1_ruling_identity(self):
+        valid = {"authorized":True,"recorded_by":"operator","recorded_at":"2026-10-07T00:00:00Z","budget_minutes":465}
+        for missing in (None,"authorized","recorded_by","recorded_at"):
+            with self.subTest(missing=missing), tempfile.TemporaryDirectory() as td:
+                td, step0, p1 = ProposedTests._dispatch_tree(self,td)
+                ruling = dict(valid)
+                if missing is not None: del ruling[missing]
+                R.write_json(p1/"authorization_P1.json",{"P1":ruling})
+                args = (p1,"P1",R.load_json(p1/"preflight.json"),R.TRAIN_UNITS["P1"][0],400)
+                if missing is None: S.guard_training_unit(*args)
+                else:
+                    with self.assertRaisesRegex(R.Halt,"authorization"): S.guard_training_unit(*args)
+
+    def _full_eval_patches(self, directory, closed=12, positive=68, failure=None, phase_name="P1"):
+        import contextlib
+        data = phase(phase_name)
+        replace_arm({"P1":data},"P1","closedform",R.A7,arm(closed,8,55))
+        if phase_name == "P1": replace_arm({"P1":data},"P1","oracle_p1",R.A2,arm(positive))
+        for rec in data["recipes"].values():
+            rec["delta_norms"] = {key:{str(l):{"delta_norm":1.} for l in R.BAND} for key in rec["arms"]}
+        (directory/"train").mkdir()
+        R.write_json(directory/"step0.json",{"status":"PASS"})
+        proof = {"phase":phase_name}
+        if phase_name == "P2":
+            p1 = directory/"p1"; p1.mkdir()
+            R.write_json(p1/"eval.json",phase("P1")); R.write_json(p1/"verdict.json",{})
+            ruling = {"P2":{"authorized":True,"recorded_by":"operator","recorded_at":"2026-10-07T00:00:00Z",
+                             "p1_eval_sha256":R.sha_file(p1/"eval.json"),"p1_verdict_sha256":R.sha_file(p1/"verdict.json")}}
+            R.write_json(p1/"authorization_P2.json",ruling)
+            proof.update(p1_directory=str(p1),authorization=R.file_ref(p1/"authorization_P2.json"),authorized_projection_minutes=1.)
+        R.write_json(directory/"preflight.json",proof)
+        for record in data["train_records"]:
+            R.write_json(directory/"train"/(R.train_tag(R.train_identity(record),400)+".json"),record)
+        original = lambda *a:{}
+        saved_hook = lambda *a:{}
+        harness = types.SimpleNamespace(my_edit=original, ARM_HOOKS=[saved_hook])
+        calls = []
+        class FakeEvaluator:
+            def __init__(s,H,step,directory,start):
+                if failure == "constructor":
+                    H.my_edit = None; H.ARM_HOOKS[:] = []
+                    raise R.Halt("HALT: constructor failed")
+                s.original = original
+                s.wrapper = types.SimpleNamespace(zero_hits=1,trained_hits=0,law3_passed=False,ORIGINAL_MY_EDIT=original)
+                H.my_edit = s.wrapper
+                s.u = {}; s.u_detail = {}; s.stimulus = {}; s.null_evidence = {}
+                s.base_hash = data["base_band_hash"]; s.start = start; s.peak = 1; s.memory = []
+                s.unit_times = {"recipe_setup_seconds":[1.],"closedform_arm_seconds":[1.],"oracle_arm_seconds":[1.],
+                                "u_seconds":1.,"null_seconds":1.}
+            def guard(s,label):
+                if failure == "guard" and label == "model-loaded": raise R.Halt("HALT: first guard failed")
+            def unedited(s):
+                calls.append("U")
+                s.u = copy.deepcopy(data["u"]); s.u_detail = copy.deepcopy(data["u_detail"])
+                s.stimulus = copy.deepcopy(data["stimulus"])
+                if failure == "U": raise R.Halt("HALT: U acquisition failed")
+                return s.stimulus
+            def null(s):
+                calls.append("null"); s.null_evidence = copy.deepcopy(data["law5_null"])
+                return s.null_evidence
+            def run_recipe(s,name,arms,records):
+                calls.append(name)
+                s.wrapper.trained_hits += len(records)
+                result = copy.deepcopy(data["recipes"][name])
+                if failure == "nan" and name == "closedform":
+                    result["arms"][R.A7]["extra"]["geometry"]["4"]["delta_norm"] = float("nan")
+                return result
+            def assert_base(s): pass
+            def band_hash(s): return s.base_hash
+        stack = contextlib.ExitStack()
+        for item in (patch.dict(sys.modules,_fake_modules()),
+                     patch.object(R,"entry_preflight",lambda *a,**k:ROOT),
+                     patch.object(R,"load_frozen",lambda d:{}),
+                     patch.object(R,"frozen_provenance",lambda s:data["provenance"]),
+                     patch.object(R,"phase_trains",lambda *a:data["train_records"]),
+                     patch.object(T,"require_training_preflight",lambda *a:None),
+                     patch.object(S,"fingerprint",lambda:{"ok":True}),
+                     patch.object(S,"load_harness",lambda:harness),
+                     patch.object(S,"model_environment",lambda *a:data["environment"]),
+                     patch.object(E,"Evaluator",FakeEvaluator)):
+            stack.enter_context(item)
+        return stack, calls, harness, original, saved_hook
+
+    def test_LAW3_failure_persists_partial_readouts_and_boundary_controls(self):
+        for count, passes in ((4,False),(5,True),(18,True),(19,False)):
+            with self.subTest(count=count), tempfile.TemporaryDirectory() as td:
+                d = Path(td)
+                stack, calls, harness, original, hook = self._full_eval_patches(d,closed=count)
+                with stack:
+                    if passes:
+                        self.assertEqual(E.run_eval("P1",d,d),0)
+                        self.assertEqual(R.read_measurement({"P1":R.load_json(d/"eval.json")})["status"],"INCOMPLETE")
+                    else:
+                        with self.assertRaisesRegex(R.Halt,"LAW#3"): E.run_eval("P1",d,d)
+                        self.assertTrue((d/"eval_halt.json").is_file())
+                        raw = R.load_json(d/"eval_halt.json")
+                        self.assertEqual(calls,["U","null","closedform"])
+                        self.assertEqual(raw["recipes"]["closedform"]["arms"][R.A7]["para_full_n"],count)
+                        for key in ("u","u_detail","stimulus","law5_null"): self.assertTrue(raw[key],key)
+                        self.assertIn("LAW#3",raw["reason"])
+                        self.assertEqual(R.read_measurement({"P1":raw})["status"],"INVALID")
+                self.assertIs(harness.my_edit, original)
+                self.assertEqual(harness.ARM_HOOKS,[hook])
+
+    def test_validity_failure_writes_eval_before_validation(self):
+        for count, passes in ((67,False),(68,True),(69,True)):
+            with self.subTest(count=count), tempfile.TemporaryDirectory() as td:
+                d = Path(td)
+                stack, calls, harness, original, hook = self._full_eval_patches(d,positive=count)
+                with stack:
+                    if passes:
+                        self.assertEqual(E.run_eval("P1",d,d),0)
+                    else:
+                        with self.assertRaisesRegex(R.Halt,"positive control"): E.run_eval("P1",d,d)
+                        self.assertTrue((d/"eval.json").is_file())
+                        self.assertTrue((d/"eval_halt.json").is_file())
+                        raw = R.load_json(d/"eval.json")
+                        self.assertEqual(raw["recipes"]["oracle_p1"]["arms"][R.A2]["para_full_n"],67)
+                        self.assertEqual(R.read_measurement({"P1":raw})["status"],"INVALID")
+                        self.assertEqual(set(R.load_json(d/"eval_halt.json")["recipes"]),set(raw["recipes"]))
+
+    def test_setup_and_U_failures_keep_partial_evidence_and_cleanup(self):
+        for failure in ("constructor","guard","U"):
+            with self.subTest(failure=failure), tempfile.TemporaryDirectory() as td:
+                d = Path(td)
+                stack, calls, harness, original, hook = self._full_eval_patches(d,failure=failure)
+                with stack:
+                    with self.assertRaisesRegex(R.Halt,"failed"): E.run_eval("P1",d,d)
+                self.assertTrue((d/"eval_halt.json").is_file())
+                raw = R.load_json(d/"eval_halt.json")
+                self.assertEqual(R.read_measurement({"P1":raw})["status"],"INVALID")
+                for key in ("u","u_detail","stimulus","law5_null","recipes","reason"): self.assertIn(key,raw)
+                if failure == "U":
+                    for key in ("u","u_detail","stimulus"): self.assertTrue(raw[key])
+                self.assertIs(harness.my_edit, original)
+                self.assertEqual(harness.ARM_HOOKS,[hook])
+
+    def test_P2_diagnostic_failure_restores_function_instead_of_training_record(self):
+        with tempfile.TemporaryDirectory() as td:
+            d = Path(td)
+            stack, calls, harness, original, hook = self._full_eval_patches(d,phase_name="P2")
+            with stack, patch.object(R,"latest_directory",lambda *a:d/"p1"), \
+                 patch.object(T,"load_adapter",side_effect=R.Halt("HALT: P2 diagnostic failed")):
+                with self.assertRaisesRegex(R.Halt,"P2 diagnostic failed"): E.run_eval("P2",d,d)
+            self.assertIs(harness.my_edit,original)
+            self.assertEqual(harness.ARM_HOOKS,[hook])
+            self.assertTrue((d/"eval_halt.json").is_file())
+            raw = R.load_json(d/"eval_halt.json")
+            self.assertEqual(set(raw["recipes"]),{"closedform",*R.RECIPES["P2"]})
+            self.assertEqual(R.read_measurement({"P1":phase("P1"),"P2":raw})["status"],"INVALID")
+
+    def test_nonfinite_failure_preserves_reason_and_raw_diagnostic(self):
+        with tempfile.TemporaryDirectory() as td:
+            d = Path(td)
+            stack, calls, harness, original, hook = self._full_eval_patches(d,failure="nan")
+            with stack:
+                with self.assertRaisesRegex(R.Halt,"non-finite"): E.run_eval("P1",d,d)
+            self.assertTrue((d/"eval_halt.json").is_file())
+            raw = R.load_json(d/"eval_halt.json")
+            self.assertIn("non-finite",raw["reason"])
+            self.assertEqual(raw["recipes"]["closedform"]["arms"][R.A7]["extra"]["geometry"]["4"]["delta_norm"],"nan")
+            self.assertEqual(R.read_measurement({"P1":raw})["status"],"INVALID")
+
+    def test_p1_project_invalid_record_returns_reader_verdict(self):
+        with tempfile.TemporaryDirectory() as td:
+            td, step0, p1 = ProposedTests._dispatch_tree(self,td)
+            data = phase("P1"); data["validity"]["hashes"] = False
+            R.write_json(p1/"eval.json",data)
+            with ProposedTests._dispatch_patches(self,td,step0,p1), patch("sys.stdout",new=io.StringIO()):
+                rc = S.dispatch_stage("p1-project")
+            self.assertEqual(rc,2)
+            raw = R.load_json(p1/"verdict.json")
+            self.assertEqual(raw["status"],"INVALID")
+            self.assertIsNone(raw["routing"])
+            self.assertNotIn("projection",raw)
+
+    def test_unedited_saves_stimulus_before_leak_validation(self):
+        e = object.__new__(E.Evaluator)
+        e.maps = {k:{} for k in (R.A1,R.A2,R.A7,R.SHUF)}
+        stimulus = {k:{"base":4} for k in e.maps}
+        e.H = types.SimpleNamespace(pre_base_report=lambda:stimulus)
+        e.assert_base = lambda:None
+        with self.assertRaisesRegex(R.Halt,"stimulus"): e.unedited()
+        self.assertEqual(e.stimulus,stimulus)
+
+    def test_tracer_limits_local_line_events_to_recipe_and_original(self):
+        observed = []
+        def nested():
+            observed.append(("nested",sys._getframe().f_trace is not None))
+        def original(*args):
+            observed.append(("original",sys._getframe().f_trace is not None)); nested()
+            return {}
+        def run_recipe(*args):
+            observed.append(("recipe",sys._getframe().f_trace is not None)); nested(); h.my_edit(None,[],None,None)
+            return {"law5_gate":{"ok":True}}
+        h = types.SimpleNamespace(my_edit=original,run_recipe=run_recipe,HP_BASE=None,ARM_HOOKS=[],_LAW5_DEFAULT_CTX=False)
+        e = object.__new__(E.Evaluator); e.H = h; e.original = original
+        e.wrapper = E.OracleEdit(h,lambda:None,lambda *a:{})
+        h.my_edit = e.wrapper
+        e.maps = {}; e.unit_times = {"recipe_setup_seconds":[],"closedform_arm_seconds":[],"oracle_arm_seconds":[]}
+        e.restore = lambda:None; e.assert_base = lambda:None; e.band_hash = lambda:{}; e.guard = lambda *a:None
+        previous = sys.gettrace()
+        e.run_recipe("closedform",(),{})
+        self.assertIs(sys.gettrace(),previous)
+        self.assertIn(("recipe",True),observed)
+        self.assertIn(("original",True),observed)
+        self.assertEqual([v for k,v in observed if k == "nested"],[False,False])
+
+    def test_null_hash_records_zero_application_before_restore_for_reader(self):
+        for mutated in (False,True):
+            with self.subTest(mutated=mutated):
+                data = phase("P1"); baseline = data["base_band_hash"]; state = {"hash":dict(baseline)}
+                e = object.__new__(E.Evaluator)
+                e.H = types.SimpleNamespace(CANON="{}",_LAW5_DEFAULT_CTX=False,my_edit=lambda *a:{},
+                                            req=lambda c,s,v:{"subject":s,"target_new":{"str":" "+v}})
+                e.maps = {R.A7:{"s":"v"}}; e.hp = None; e.unit_times = {}; e.base_hash = baseline
+                e.band_hash = lambda:dict(state["hash"])
+                e.restore = lambda:state.update(hash=dict(baseline))
+                # Isolate the recorded evidence from the independent immediate assertion.
+                e.assert_base = lambda:None
+                def apply(*args):
+                    if mutated: state["hash"]["4"] = "b"*64
+                    return {}
+                e.wrapper = E.OracleEdit(e.H,e.assert_base,apply)
+                e.u = data["u"]; e.u_detail = data["u_detail"]; e.axes_base = {}; e.desc_base = {}
+                e.evaluate_map = lambda *a:(copy.deepcopy(e.u[R.A7]),copy.deepcopy(e.u_detail[R.A7]))
+                data["law5_null"] = e.null()
+                self.assertEqual(state["hash"],baseline)
+                self.assertEqual(R.read_measurement({"P1":data})["status"],"INVALID" if mutated else "INCOMPLETE")
+
+    def test_training_offline_environment_precedes_transformers_import(self):
+        import builtins
+        import os
+        seen = []
+        original_import = builtins.__import__
+        def observe(name,*args,**kwargs):
+            if name in ("transformers","huggingface_hub"):
+                seen.append((name,os.environ.get("HF_HOME"),os.environ.get("HF_HUB_OFFLINE")))
+                raise R.Halt("HALT: stopped at import")
+            return original_import(name,*args,**kwargs)
+        with tempfile.TemporaryDirectory() as td:
+            d = Path(td); (d/"train").mkdir()
+            R.write_json(d/"preflight.json",{"phase":"P1"}); R.write_json(d/"step0.json",{})
+            with patch.dict(sys.modules,_fake_modules()), patch.dict(os.environ,{"HF_HOME":"wrong","HF_HUB_OFFLINE":"0"}), \
+                 patch.object(R,"entry_preflight",lambda *a,**k:ROOT), patch.object(R,"load_frozen",lambda *a:{}), \
+                 patch.object(R,"frozen_provenance",lambda *a:{}), patch.object(T,"require_training_preflight",lambda *a:None), \
+                 patch.object(builtins,"__import__",observe):
+                with self.assertRaisesRegex(R.Halt,"stopped at import"): T.run_attempt(d,d,R.TRAIN_UNITS["P1"][0],400)
+            self.assertEqual(seen,[("transformers",str(R.ROOT/"hf_cache"),"1")])
+
+
 def main():
     global R,S,T,E
     required=[HERE/("c10w_oracle_"+n+".py") for n in ("read","step0","train","eval")]
@@ -700,7 +1327,8 @@ def main():
         return 1
     sys.meta_path.insert(0,NoModelImports())
     R,S,T,E=[importlib.import_module("c10w_oracle_"+n) for n in ("read","step0","train","eval")]
-    suite=unittest.defaultTestLoader.loadTestsFromTestCase(OracleTests)
+    suite=unittest.TestSuite([unittest.defaultTestLoader.loadTestsFromTestCase(c) for c in
+                             (OracleTests,ProposedTests,DefectTests,FixRoundTests)])
     result=unittest.TextTestRunner(stream=sys.stdout,verbosity=2).run(suite)
     if result.wasSuccessful():
         print("C10W_ORACLE_SELFTEST PASS: %d tests; model-free; oracle measurement, not a route"%result.testsRun)

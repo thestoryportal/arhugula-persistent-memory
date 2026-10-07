@@ -300,17 +300,25 @@ def training_projection(phase,proof,completed,pending_overrides):
     return preflight+spent+per400*sum(pending.values())/400+evaluation
 
 
+def guard_phase_projection(directory,phase,proof,completed,pending):
+    projected=training_projection(phase,proof,completed,pending)
+    p1=directory if phase=="P1" else Path(proof["p1_directory"])
+    auth_path=p1/("authorization_"+phase+".json")
+    authorization=R.load_json(auth_path) if auth_path.exists() else {}
+    ruling=authorization.get(phase,{})
+    if phase=="P1" and auth_path.exists():
+        R.require(ruling.get("authorized") is True and bool(ruling.get("recorded_by")) and bool(ruling.get("recorded_at")),
+                  "missing recorded P1 authorization identity")
+    R.check_phase_minutes(phase,projected,ruling.get("budget_minutes"))
+
+
 def guard_training_unit(directory,phase,proof,unit,steps,matched_retry=False):
     completed=[R.load_json(p) for p in (directory/"train").glob("*.json")]
     pending={unit:steps}
     if matched_retry and unit[0] in (R.A7,R.SHUF):
         mate=(R.SHUF if unit[0]==R.A7 else R.A7,*unit[1:])
         if not (directory/"train"/(R.train_tag(mate,800)+".json")).exists(): pending[mate]=800
-    projected=training_projection(phase,proof,completed,pending)
-    p1=directory if phase=="P1" else Path(proof["p1_directory"])
-    auth_path=p1/("authorization_"+phase+".json")
-    authorization=R.load_json(auth_path) if auth_path.exists() else {}
-    R.check_phase_minutes(phase,projected,authorization.get(phase,{}).get("budget_minutes"))
+    guard_phase_projection(directory,phase,proof,completed,pending)
 
 
 def ensure_authorized(phase,p1):
@@ -382,16 +390,20 @@ def dispatch_stage(stage):
                     R.require(rc==0,"matched A7 800-update attempt failed")
             return 0
         if stage.endswith("-eval"):
+            completed=[R.load_json(p) for p in (directory/"train").glob("*.json")]
+            guard_phase_projection(directory,phase,proof,completed,{})
             R.phase_trains(directory,phase)
             rc=run_child("c10w_oracle_eval.py",[phase,directory,step0],directory,stage)
             R.require(rc==0,"evaluation process failed")
             return 0
         if stage=="p1-project":
-            ev=R.load_json(p1/"eval.json"); R.validate_phase(ev)
-            result=R.read_measurement({"P1":ev}); result["projection"]=R.reproject(ev["measured_units"])
-            result["stop"]="P1 complete; P2/P3 require separately recorded authorization"
+            ev=R.load_json(p1/"eval.json")
+            result=R.read_measurement({"P1":ev})
+            if result["status"]!="INVALID":
+                result["projection"]=R.reproject(ev["measured_units"])
+                result["stop"]="P1 complete; P2/P3 require separately recorded authorization"
             R.write_json(p1/"verdict.json",result)
-            print(json.dumps(result,ensure_ascii=False,indent=2)); return 0
+            print(json.dumps(result,ensure_ascii=False,indent=2)); return 2 if result["status"]=="INVALID" else 0
         raise R.Halt("HALT: stage not dispatched")
     except Exception as exc:
         if directory is not None:

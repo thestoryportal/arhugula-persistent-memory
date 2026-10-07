@@ -145,10 +145,11 @@ def run_attempt(phase_directory,step0_directory,unit,steps):
     tag=R.train_tag(unit,steps); record_path=phase_directory/"train"/(tag+".json")
     R.require(not record_path.exists(),"training record already exists")
     # The process is past all pre-model gates now.
+    os.environ["HF_HOME"]=str(R.ROOT/"hf_cache")
+    os.environ["HF_HUB_OFFLINE"]="1"
     import torch
     from transformers import AutoModelForCausalLM,AutoTokenizer
     R.require(torch.backends.mps.is_available(),"INVALID-ENVIRONMENT: MPS required")
-    os.environ["HF_HOME"]=str(R.ROOT/"hf_cache")
     start=time.monotonic(); samples=[]; step_times=[]; losses=[]; lengths=[]
     peak=0
     def sample(label):
