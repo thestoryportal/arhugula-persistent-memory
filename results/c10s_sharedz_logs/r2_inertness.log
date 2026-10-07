@@ -1,0 +1,36 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:08<00:08,  8.42s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:13<00:00,  6.42s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:13<00:00,  6.72s/it]
+loaded Qwen/Qwen2.5-3B
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+Cached context templates [['{}'], ['The following is a single-choice question from a Chinese. {}', 'Therefore, the number of possible values for the sum. {}', 'Because of their size and weight, the majority of. {}', 'I want you to act as a copywriter and. {}', 'You are tasked with creating a Python function that processes. {}']]
+(i)   engine self-distance floor 0.000e+00 -> tolerance 1.000e-04 (23s)
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10s_sharedz_arms.py:283: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  history.append({"nll": float(nll_loss), "kl": float(kl_loss), "wd": float(weight_decay), "loss": float(loss)})
+(ii)  shared[CANON] vs engine run 0: rel 0.000e+00 max-abs 0.000e+00 -> INERT
+(iii) shared[CANON x3] vs engine on ctx_triplicate: rel 0.000e+00 max-abs 0.000e+00 (tol 1.0e-04); engine 7-row vs 19-row rel 9.766e-02 (recorded) -> INERT
+(iv)  [CANON,T1,T2] vs engine on ctx_heterogeneous: rel 0.000e+00 max-abs 0.000e+00 (tol 1.0e-04); {'engine_parity': True, 'plan_matches_engine': True, 'lookup_idx_all_ok': True, 'n_rewriting_ok': True, 'kl_row_is_last': True}; step-0 |NLL - ref| 1.074e-02 recorded; n_rewriting 18/18; recorded KL(ref||init) 1.019e-03 argmax agree True -> INERT (102s)
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+
+=== LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+  |Δexpr|=0.0005 |Δloc|=0.29 -> INERT
+inertness {'i_floor': True, 'ii_single': True, 'iii_triplicate': True, 'iv_heterogeneous': True, 'v_harness_law5': True} -> ALL INERT; wrote /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10s_sharedz_r2/inertness.json
+C10S_INERTNESS_DONE
+INERTNESS_EXIT=0

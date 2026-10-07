@@ -1,0 +1,11 @@
+# Codex brief — implement D-C10r-seal v3 (fence v13 + sealing), then run the no-model verifications
+
+**Hard limits (unchanged).** The GPU is busy (`c10s_sharedz_*`; later the location control). Run NOTHING that loads the model or uses MPS/torch on the GPU: no `check_equivalence.py`, scorer, `edit.py` or `launch.sh` with the real model. Do not touch `experiments/track_c/c10s_sharedz_*`, `docs/C10S_SHARED_Z_PREREG.md`, `memit_dry_run/`, `experiments/track_c/c10e_bandknob.py`, or `experiments/track_c/autoresearch_c10/replay_exp2/`. Do not delete or modify the old sandbox `/Volumes/memit/llm-database-poc-mirror/autoresearch_sandbox_c10` (read it only). Do not commit or push; the program session commits. `/usr/bin/git`. Disposable `claude -p` probe sessions are allowed. Never print the held-out templates into a file outside the fence's `sealed/` area or the program-side audit code; delete any scratch file that contains them.
+
+## Task
+Implement `docs/C10R_LOOP_SEALING_V13.md` v3 exactly (§1–§4) in `experiments/track_c/autoresearch_c10/` and the fence generation. That covers the trusted parent, the editor runtime, `train_facts.json`, the trusted scorer and its closure manifest, the two Seatbelt profiles, the agent settings with the tool allow-list and network configuration, the launcher, the tripwire and audit binding, `kill_run.sh`, the GPU check, and the seeded repository `/Volumes/memit/llm-database-poc-mirror/autoresearch_v13_c10` with the cleaned base, `results.tsv` and `program.md`. Where the design is silent, decide, and record each decision. Then run §5 items 1–4, all no-model. Leave §5.5 (LAW#3 bitwise and the cleaned-base score on the GPU) to the program session, with a ready-to-run script `experiments/track_c/autoresearch_c10/v13_law3_equivalence.sh` and its expected values.
+
+## Deliverables
+- `results/c10r_seal_v13_probe.md`: every §5.1–5.4 test, the exact command, the output, and PASS/FAIL. Report a FAIL as a FAIL; do not soften it.
+- `results/c10r_seal_codex_impl.md`: files changed or created, the decisions you took where the design was silent, anything deferred, and the manifest of hashes (scorer closure, editor runtime, `train_facts.json`, wrappers, profiles, seed file).
+Then say DONE.

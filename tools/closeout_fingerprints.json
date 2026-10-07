@@ -106,5 +106,9 @@
  "D-C10q-stacked": {
   "source": "CORPUS/50_C10Q_STACKED_SOLVE.md",
   "what": "stacked two-pass solve on the C10 harness (second in-place edit aimed at the target re-solved on the once-edited model; sham aimed at z_pre; permuted-target control): reference 8/12, stacked 12/24 (/24, /72) -> TRADEOFF-PERM-UNMATCHED (gain 12 >= 10; described_as 89.31 -> 85.09 fails the 3.0 gate; dW2/dW1 1.24, prose -LARGE-WRITE; sham inert 0.02 / +2; permuted control 0/72 at 1.91x, outside the x1.5 window by 0.04); next = research pass per D-C10q-rulings-1, then I-1 / I-2; capped iterated variant = OPEN register entry, not routed to the autoresearch loop; engine unmodified"
+ },
+ "D-C10s-sharedz": {
+  "source": "CORPUS/51_C10S_SHAREDZ.md",
+  "what": "shared-z target (one z fit jointly over CANON + two training phrasings) on the C10 harness, step 1 of the research-pass sequence (H-1): UNDERFIT (18 subject-frame fits < 0.98, min 0.8437; 25-evaluation budget exhausted) -> inconclusive under this solve budget, write arm not run, candidate not advanced; recorded observation only: injection screen in the unedited model canonical 51/72 vs shared 69/72 (+18), same-process noise twin +3; first inertness run HALTED at 0d422ad, amendment A2 v2 (same-batch engine parity) -> ALL INERT; next per prereg = step 2 (D-C10t); solve-feasibility follow-up = unauthorized candidate; engine unmodified"
  }
 }
