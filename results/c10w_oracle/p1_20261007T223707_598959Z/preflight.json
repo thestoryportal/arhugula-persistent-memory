@@ -1,0 +1,50 @@
+{
+  "phase": "P1",
+  "status": "PASS",
+  "law3": true,
+  "law5_null": true,
+  "fingerprint": true,
+  "step0_sha256": "82ef86437b5ba00fa78a1b55cfe64e4d85baaceb37aa0726f3015c2b2f7d673e",
+  "provenance": {
+    "train_inputs": "d0fa96af0de8d98c5b0fbd90609cd2f2fa1d27a03013c1db9c530e3ec804c050",
+    "trainer_source": "64a01fbcbbd8e836f67e623bc50f66ecff8dd59a29d7c82db3bba287d76ea463",
+    "mmlu200": "5d9b2e4b1a05aa753479311713fdc524234f0824047045d6d731c80c44b7427b",
+    "templates": "306cb0089dddb066242398c0f03f4d10d67086fbf7b0143f850342906087b272",
+    "prereg": "d2aa240eede4556395373678e4fab757e0e55d5491a7d4105ef765c1eb35d2f0"
+  },
+  "step0_directory": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/step0_20261007T223638_531381Z",
+  "evaluation": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/p1_20261007T223707_598959Z/preflight_eval.json",
+    "sha256": "6625269bd409b3826bb2630d757ce3381b052c8bd1db778daf90112550a7b12c"
+  },
+  "law3_counts": {
+    "A1": 72,
+    "A2": 72,
+    "para_full": 16,
+    "canon_full": 8,
+    "para_first": 54,
+    "u_para_full": 0,
+    "stimulus": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "law5_standing": {
+    "expr_delta": 0.0017,
+    "loc_delta": 0.04,
+    "ok": true
+  },
+  "null_evidence": {
+    "base_hash": "ce194e9cdf5d97f509fba6e4644b76f2daa1f2c5b020294f0aadd8a1cad8d5b6",
+    "after_hash": "ce194e9cdf5d97f509fba6e4644b76f2daa1f2c5b020294f0aadd8a1cad8d5b6",
+    "u_hit_probe_sha256": "86c4151238b5c36f861d574967223f48621c76d8cab85d7f3c15bbbeb8958431",
+    "zero_hit_probe_sha256": "86c4151238b5c36f861d574967223f48621c76d8cab85d7f3c15bbbeb8958431",
+    "ppl_delta": 0.0,
+    "described_as": 100.0
+  },
+  "wall_seconds": 3590.151221834123,
+  "class": "ORACLE MEASUREMENT — not a route; never promotable as a write-engine result (D-C10r-rulings-3 (2))",
+  "decision_id": "D-C10w-oracle"
+}
