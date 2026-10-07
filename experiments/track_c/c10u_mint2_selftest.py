@@ -106,6 +106,21 @@ def fixture_block(block="V2", m1=(34, 36, 46), candidate=(21, 22, 24), ref=11, r
             *[fixture_record(block, kind, s, n, replicate) for s, n in enumerate(candidate)]]
 
 
+def fixture_nonadmitted(record=None, nfit=17):
+    real = json.loads((HERE.parents[1] / "results/c10u_mint2/r2/F_r0_modifier_s0.json").read_text())
+    record = copy.deepcopy(fixture_record("F", "modifier") if record is None else record)
+    record["step0"]["minted_inventory"] = [{"word": w, "id": i, "unrelated_hits": 0}
+                                            for w, i in zip(record["minted_words"], record["minted_ids"])]
+    record["step0"].pop("per_position_fit")
+    record.update(decision_id=R.DECISION_ID, pid=None, outcome="UNDERFIT", step0_file="fixture-step0.json")
+    record = {k: v for k, v in record.items() if k in real}
+    assert set(record) == set(real), "non-admitted fixture must have the real record's keys"
+    record["admission"]["P3"] = {"fits": [0.98] * nfit + [0.97] * (24 - nfit),
+                                "ok": False, "n_ge_0.98": nfit}
+    record["admission"]["outcome"] = "UNDERFIT"
+    return record
+
+
 def fixture_controls(counts=(34, 36, 46)):
     return [fixture_record("V2", "mint1_48", s, n) for s, n in enumerate(counts)]
 
@@ -564,6 +579,282 @@ class ReaderTests(unittest.TestCase):
         self.assertEqual(R.p4_reading(record)["label"], "INVALID")
 
 
+class NonadmittedTests(unittest.TestCase):
+    def test_nonadmitted_seven_record_regression_retains_replication_without_a_count(self):
+        records = fixture_block("F", m1=(46, 34, 36), candidate=(34, 36, 46))
+        self.assertEqual(len(R.stage_plan("replicate-F", records)), 7)
+        records[4] = fixture_nonadmitted(records[4])
+        reading = R.block_reading(records)
+        self.assertEqual(reading["direction"], "ROUTING-BLOCKED-UNDERFIT")
+        self.assertTrue(reading["replication_pending"])
+        self.assertEqual(reading["arms"]["modifier_s0"]["label"], "UNDERFIT")
+        for key in ("binding", "raw", "gain", "masked_binding"):
+            self.assertNotIn(key, reading["arms"]["modifier_s0"])
+        self.assertIsNone(reading["raw_direction"])
+        self.assertNotIn("ranges", reading)
+        self.assertEqual(len(R.stage_plan("replicate-F", records)), 7)
+
+    def test_nonadmitted_p3_screen_is_recomputed_at_22_and_exact_098(self):
+        for nfit, valid in ((17, True), (21, True), (22, False), (24, False)):
+            with self.subTest(nfit=nfit):
+                record = fixture_nonadmitted(nfit=nfit)
+                self.assertEqual(not R._population([record], "F", 0)["reasons"], valid)
+        record = fixture_nonadmitted(nfit=22)
+        record["admission"]["P3"]["fits"][21] = 0.979999
+        record["admission"]["P3"]["n_ge_0.98"] = 21
+        self.assertEqual(R._population([record], "F", 0)["reasons"], [])
+        record["admission"]["P3"]["fits"][21] = 0.98
+        record["admission"]["P3"]["n_ge_0.98"] = 22
+        self.assertTrue(R._population([record], "F", 0)["reasons"])
+
+    def test_nonadmitted_rejects_behavioral_keys_positive_pid_multi_and_failed_p2(self):
+        mutations = [lambda r, key=key: r.update({key: {}})
+                     for key in ("arm", "recipe", "inertness", "wrapper", "values", "minted_words",
+                                 "minted_ids", "when_utc", "spec_amendment")]
+        mutations += [lambda r: r.update(pid=1234), lambda r: r.update(kind="multi", seed=None),
+                      lambda r: r["admission"]["P2"].update(ok=False)]
+        for i, mutate in enumerate(mutations):
+            with self.subTest(mutation=i):
+                record = fixture_nonadmitted()
+                mutate(record)
+                self.assertTrue(R._population([record], "F", 0)["reasons"])
+
+    def test_nonadmitted_keeps_material_and_p2_audits(self):
+        mutations = [lambda r: r["identity"].update(source_digest="f" * 64),
+                     lambda r: r["provenance"].update(heads_sha256="f" * 64),
+                     lambda r: r["provenance"].update(wordlist_sha256="f" * 64),
+                     lambda r: r["provenance"]["rules"].update(changed=True),
+                     lambda r: r["provenance"]["relation_table"]["subject_values"].update(S0="changed"),
+                     lambda r: r["provenance"]["row_pairing"].update(pairing_ok=False),
+                     lambda r: r["ctx"][0].append("changed {}"),
+                     lambda r: r["fingerprint"].update(_cov_cpu=2),
+                     lambda r: r["admission"]["P2"]["checks"].update(inventory_unchanged=False),
+                     lambda r: r["admission"]["P2"]["rows"][0]["contexts"][0].update(last_id=False),
+                     lambda r: r["step0"]["minted_inventory"][0].update(id=1)]
+        for i, mutate in enumerate(mutations):
+            with self.subTest(mutation=i):
+                record = fixture_nonadmitted()
+                mutate(record)
+                self.assertTrue(R._population([record], "F", 0)["reasons"])
+
+    def test_nonadmitted_rejects_malformed_p3_and_recomputes_i11(self):
+        for fits in ([], [0.98] * 23, [float("nan")] + [0.97] * 23, [1.1] + [0.97] * 23):
+            record = fixture_nonadmitted()
+            record["admission"]["P3"]["fits"] = fits
+            self.assertTrue(R._population([record], "F", 0)["reasons"])
+        for recall, cannibal in ((3, 0), (0, 3)):
+            record = fixture_nonadmitted()
+            record["step0"].update(recall_n=recall, n_cannibal=cannibal)
+            self.assertTrue(R._population([record], "F", 0)["reasons"])
+
+    def test_nonadmitted_does_not_weaken_done_pid_or_unknown_outcome_gates(self):
+        for outcome in ("DONE", "UNKNOWN"):
+            record = fixture_record("F", "modifier")
+            record.update(pid=None, outcome=outcome)
+            self.assertTrue(R.run_validity(record))
+            self.assertTrue(R._population([record], "F", 0)["reasons"])
+        record = fixture_nonadmitted()
+        record["outcome"] = "ADMITTED"
+        self.assertTrue(R._population([record], "F", 0)["reasons"])
+
+    def test_nonadmitted_mint1_in_frozen_block_fails_law3(self):
+        for replicate in (0, 1):
+            with self.subTest(replicate=replicate):
+                a = fixture_block("F", m1=(46, 34, 36))
+                b = fixture_block("F", m1=(46, 34, 36), replicate=1)
+                records = (a, b)[replicate]
+                records[1] = fixture_nonadmitted(records[1])
+                reading = R.block_reading(a, b if replicate else None)
+                self.assertEqual(reading["direction"], "HALT-LAW3")
+                self.assertFalse(reading["replication_pending"])
+
+    def test_nonadmitted_replication_pairs_record_underfit_done_in_both_directions(self):
+        for outcomes in (("UNDERFIT", "DONE"), ("DONE", "UNDERFIT"), ("UNDERFIT", "UNDERFIT")):
+            with self.subTest(outcomes=outcomes):
+                a = fixture_block("F", m1=(46, 34, 36), candidate=(34, 36, 46))
+                b = fixture_block("F", m1=(46, 34, 36), candidate=(34, 36, 46), replicate=1)
+                for records, outcome in zip((a, b), outcomes):
+                    if outcome == "UNDERFIT":
+                        records[4] = fixture_nonadmitted(records[4])
+                reading = R.block_reading(a, b)
+                self.assertEqual(reading["direction"], "ROUTING-BLOCKED-UNDERFIT")
+                self.assertEqual(reading["reasons"], ["modifier_s0 r" + str(rep) + ": admission UNDERFIT n_ge_0.98=17/24"
+                                                     for rep, outcome in enumerate(outcomes) if outcome == "UNDERFIT"])
+                arm = R.run_reading(a[0], a[4], {"reference": b[0], "candidate": b[4]})
+                self.assertEqual(arm["reasons"], [])
+                if outcomes[0] == "UNDERFIT":
+                    self.assertEqual(arm["label"], "UNDERFIT")
+                    self.assertNotIn("binding", arm)
+                else:
+                    self.assertEqual(arm["label"], "LEAD-NOT-REPLICATED")
+                    self.assertEqual(arm["binding"], 34)
+                self.assertEqual(arm["replica"]["label"].split("-")[0], outcomes[1] if outcomes[1] == "UNDERFIT" else "LEAD")
+
+    def test_nonadmitted_replication_still_rejects_material_and_init_mismatches(self):
+        for mutate in (lambda r: r["provenance"]["row_pairing"].update(first8_sha256="f" * 64),
+                       lambda r: r["identity"].update(source_digest="f" * 64)):
+            a = fixture_block("F", m1=(46, 34, 36))
+            b = fixture_block("F", m1=(46, 34, 36), replicate=1)
+            a[4], b[4] = fixture_nonadmitted(a[4]), fixture_nonadmitted(b[4])
+            mutate(b[4])
+            self.assertEqual(R.block_reading(a, b)["direction"], "INVALID")
+
+    def test_nonadmitted_population_checks_pids_only_for_executed_runs(self):
+        records = fixture_block("F", m1=(46, 34, 36))
+        records[4], records[5] = fixture_nonadmitted(records[4]), fixture_nonadmitted(records[5])
+        self.assertEqual(R._population(records, "F", 0)["reasons"], [])
+        records[2]["pid"] = records[1]["pid"]
+        self.assertTrue(R._population(records, "F", 0)["reasons"])
+
+    def test_nonadmitted_v2_keeps_replication_and_blocks_control(self):
+        for index in (1, 4):
+            with self.subTest(index=index):
+                records = fixture_block()
+                records[index] = fixture_nonadmitted(records[index])
+                reading = R.block_reading(records)
+                self.assertEqual(reading["direction"], "NOT-COMPARABLE" if index == 1 else "ROUTING-BLOCKED-UNDERFIT")
+                self.assertTrue(reading["replication_pending"])
+                self.assertEqual(len(R.stage_plan("replicate-V2", records)), 7)
+                self.assertEqual(R.stage_plan("control", records), [])
+
+    def test_nonadmitted_json_round_trip_keeps_block_reading(self):
+        records = fixture_block("F", m1=(46, 34, 36))
+        records[4] = fixture_nonadmitted(records[4])
+        reading = R.block_reading(records)
+        self.assertEqual(reading["direction"], "ROUTING-BLOCKED-UNDERFIT")
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "nonadmitted.json"
+            path.write_text(json.dumps(records[4], allow_nan=False))
+            records[4] = json.loads(path.read_text())
+        self.assertEqual(R.block_reading(records), reading)
+
+    def test_nonadmitted_p4_selection_skips_unexecuted_modifier(self):
+        A = importlib.import_module("c10u_mint2_arms")
+        a = fixture_block("F", m1=(46, 34, 36), candidate=(34, 36, 46))
+        b = fixture_block("F", m1=(46, 34, 36), candidate=(34, 36, 46), replicate=1)
+        a[4] = fixture_nonadmitted(a[4])
+        selected = A.p4_configurations(a + b)
+        self.assertEqual([(r["kind"], r["seed"]) for r in selected], [("modifier", 1), ("modifier", 2)])
+
+
+class ReviewRoundTests(unittest.TestCase):
+    def setUp(self):
+        self.A = importlib.import_module("c10u_mint2_arms")
+
+    def assert_not_comparable(self, a, b):
+        reading = R.block_reading(a, b)
+        self.assertEqual(reading["direction"], "NOT-COMPARABLE")
+        self.assertFalse(reading["comparability_ok"])
+        self.assertTrue(all(r["label"].endswith("-NOT-COMPARABLE") for r in reading["arms"].values()))
+        with self.assertRaisesRegex(ValueError, "replicated"):
+            self.A.p4_configurations(a + b)
+        return reading
+
+    def test_review_v2_multi_envelope_miss_precedes_each_admission_underfit_combination(self):
+        for outcomes in (("DONE", "DONE"), ("UNDERFIT", "DONE"), ("DONE", "UNDERFIT"), ("UNDERFIT", "UNDERFIT")):
+            with self.subTest(outcomes=outcomes):
+                a = fixture_block(candidate=(30, 31, 32), ref=19)
+                b = fixture_block(candidate=(30, 31, 32), ref=19, replicate=1)
+                for records, outcome in zip((a, b), outcomes):
+                    if outcome == "UNDERFIT":
+                        records[4] = fixture_nonadmitted(records[4])
+                self.assert_not_comparable(a, b)
+
+    def test_review_v2_mint1_median_miss_precedes_admission_underfit(self):
+        for outcomes in (("UNDERFIT", "DONE"), ("DONE", "UNDERFIT"), ("UNDERFIT", "UNDERFIT")):
+            with self.subTest(outcomes=outcomes):
+                a = fixture_block(m1=(20, 21, 22), candidate=(30, 31, 32))
+                b = fixture_block(m1=(20, 21, 22), candidate=(30, 31, 32), replicate=1)
+                for records, outcome in zip((a, b), outcomes):
+                    if outcome == "UNDERFIT":
+                        records[4] = fixture_nonadmitted(records[4])
+                self.assert_not_comparable(a, b)
+
+    def test_review_v2_nonadmitted_mint1_leaves_comparability_unestablished_without_counts(self):
+        for outcomes in (("UNDERFIT", "DONE"), ("DONE", "UNDERFIT"), ("UNDERFIT", "UNDERFIT")):
+            with self.subTest(outcomes=outcomes):
+                a, b = fixture_block(), fixture_block(replicate=1)
+                for records, outcome in zip((a, b), outcomes):
+                    if outcome == "UNDERFIT":
+                        records[1] = fixture_nonadmitted(records[1])
+                reading = self.assert_not_comparable(a, b)
+                self.assertTrue(any("unestablished" in reason for reason in reading["reasons"]))
+                arm = reading["arms"]["mint1_s0"]
+                if outcomes[0] == "UNDERFIT":
+                    self.assertNotIn("binding", arm)
+                if outcomes[1] == "UNDERFIT":
+                    self.assertNotIn("binding", arm["replica"])
+                for rep, (records, outcome) in enumerate(zip((a, b), outcomes)):
+                    if outcome == "UNDERFIT":
+                        self.assertFalse(R._comparability(R._population(records, "V2", rep)))
+        records = fixture_block()
+        records[1] = fixture_nonadmitted(records[1])
+        reading = R.block_reading(records)
+        self.assertEqual(reading["direction"], "NOT-COMPARABLE")
+        self.assertTrue(reading["replication_pending"])
+        self.assertEqual(len(R.stage_plan("replicate-V2", records)), 7)
+
+    def test_review_comparability_requires_done_multi_and_mint1_before_reading_counts(self):
+        for index in (0, 1):
+            with self.subTest(index=index):
+                records = fixture_block()
+                records[index]["outcome"] = "UNDERFIT"
+                del records[index]["arm"]
+                pop = {"records": {(r["kind"], r["seed"]): r for r in records}}
+                self.assertFalse(R._comparability(pop))
+
+    def test_review_comparable_v2_retains_underfit_replication_and_names_the_arm(self):
+        records = fixture_block()
+        records[4] = fixture_nonadmitted(records[4])
+        reading = R.block_reading(records)
+        self.assertEqual(reading["direction"], "ROUTING-BLOCKED-UNDERFIT")
+        self.assertTrue(reading["comparability_ok"])
+        self.assertTrue(reading["replication_pending"])
+        self.assertEqual(len(R.stage_plan("replicate-V2", records)), 7)
+        self.assertEqual(reading["reasons"], ["mint2_s0 r0: admission UNDERFIT n_ge_0.98=17/24"])
+
+    def test_review_frozen_modifier_underfit_keeps_replication_and_eligible_p4_arms(self):
+        a = fixture_block("F", m1=(46, 34, 36), candidate=(34, 36, 46))
+        b = fixture_block("F", m1=(46, 34, 36), candidate=(34, 36, 46), replicate=1)
+        a[4] = fixture_nonadmitted(a[4])
+        reading = R.block_reading(a)
+        self.assertEqual(reading["direction"], "ROUTING-BLOCKED-UNDERFIT")
+        self.assertTrue(reading["replication_pending"])
+        self.assertTrue(reading["comparability_ok"])
+        self.assertEqual(len(R.stage_plan("replicate-F", a)), 7)
+        self.assertEqual(reading["reasons"], ["modifier_s0 r0: admission UNDERFIT n_ge_0.98=17/24"])
+        selected = self.A.p4_configurations(a + b)
+        self.assertEqual([(r["block"], r["kind"], r["seed"]) for r in selected],
+                         [("F", "modifier", 1), ("F", "modifier", 2)])
+
+    def test_review_published_admission_must_match_recomputed_underfit(self):
+        mutations = (lambda r: r["admission"]["P3"].update({"n_ge_0.98": 16}),
+                     lambda r: r["admission"]["P3"].update(ok=True),
+                     lambda r: r["admission"].update(outcome="ADMITTED"))
+        for i, mutate in enumerate(mutations):
+            with self.subTest(mutation=i):
+                record = fixture_nonadmitted()
+                self.assertEqual(R.nonadmitted_validity(record), [])
+                mutate(record)
+                self.assertTrue(R.nonadmitted_validity(record))
+                self.assertEqual(R.block_reading([record])["direction"], "INVALID")
+
+    def test_review_underfit_reasons_name_all_admission_and_per_position_causes(self):
+        a = fixture_block("F", m1=(46, 34, 36), candidate=(34, 36, 46))
+        b = fixture_block("F", m1=(46, 34, 36), candidate=(34, 36, 46), replicate=1)
+        a[4] = fixture_nonadmitted(a[4])
+        a[5]["step0"]["per_position_fit"][0]["probs"][1] = 0.97
+        b[6]["step0"]["per_position_fit"][0]["probs"][1] = 0.97
+        reading = R.block_reading(a, b)
+        self.assertEqual(reading["direction"], "ROUTING-BLOCKED-UNDERFIT")
+        self.assertEqual(reading["reasons"], ["modifier_s0 r0: admission UNDERFIT n_ge_0.98=17/24",
+                                             "modifier_s1 r0: per-position underfit",
+                                             "modifier_s2 r1: per-position underfit"])
+        records = fixture_block()
+        records[4]["step0"]["per_position_fit"][0]["probs"][1] = 0.97
+        self.assertEqual(R.block_reading(records)["reasons"], ["mint2_s0 r0: per-position underfit"])
+
+
 class SafetyTests(unittest.TestCase):
     def setUp(self):
         self.assertTrue((HERE / "c10u_mint2_arms.py").exists(), "new stdlib-only arms module is not implemented")
@@ -572,7 +863,11 @@ class SafetyTests(unittest.TestCase):
     def test_nonadmitted_behavior_child_logs_and_parent_accepts(self):
         # r2 frozen HALT 2026-10-07: a step-0 UNDERFIT child wrote its record but printed nothing;
         # the parent's empty-log guard (spawn_job) then halted a legitimate outcome.
-        step = {"outcome": "UNDERFIT", "admission": {"P3": {"ok": False}}, "probe": {}, "provenance": {}}
+        fixture = fixture_nonadmitted()
+        admission = copy.deepcopy(fixture["admission"])
+        p2 = admission.pop("P2")
+        step = {"outcome": "UNDERFIT", "P2": p2, "P3": admission["P3"],
+                "admission": admission, "probe": fixture["step0"], "provenance": fixture["provenance"]}
         with tempfile.TemporaryDirectory() as directory:
             out = Path(directory)
             buf = io.StringIO()
@@ -583,9 +878,39 @@ class SafetyTests(unittest.TestCase):
             tag = self.A.record_name("F", 0, "modifier", 0)
             rec = json.loads((out / (tag + ".json")).read_text())
             self.assertEqual(rec["outcome"], "UNDERFIT")
+            self.assertEqual(rec["admission"].get("P2"), p2)
+            self.assertEqual(sum(p >= 0.98 for p in rec["admission"]["P3"]["fits"]), 17)
             self.assertFalse((out / (tag + "_started.json")).exists())
             self.assertIn("UNDERFIT", buf.getvalue())
             self.assertTrue(buf.getvalue().strip(), "non-admitted child must log a line (parent halts on an empty log)")
+
+    def test_nonadmitted_real_producer_record_retains_seven_replication_jobs(self):
+        records = fixture_block("F", m1=(46, 34, 36), candidate=(34, 36, 46))
+        self.assertEqual(len(R.stage_plan("replicate-F", records)), 7)
+        fixture = fixture_nonadmitted(records[4])
+        admission = copy.deepcopy(fixture["admission"])
+        p2 = admission.pop("P2")
+        step = {"outcome": "UNDERFIT", "P2": p2, "P3": admission["P3"],
+                "admission": admission, "probe": fixture["step0"], "provenance": fixture["provenance"]}
+        with tempfile.TemporaryDirectory() as directory:
+            out = Path(directory)
+            buf = io.StringIO()
+            with patch.object(self.A, "read_context", return_value=fixture["ctx"]), \
+                 patch.object(self.A, "require_step0", return_value=step), \
+                 patch.object(self.A, "IDENTITY", fixture["identity"], create=True), redirect_stdout(buf):
+                self.A.behavior_job(out, out, "F", 0, "modifier", 0, fixture["fingerprint"])
+            tag = self.A.record_name("F", 0, "modifier", 0)
+            records[4] = json.loads((out / (tag + ".json")).read_text())
+            self.assertFalse((out / (tag + "_started.json")).exists())
+            self.assertIn("UNDERFIT", buf.getvalue())
+        reading = R.block_reading(records)
+        self.assertEqual(reading["direction"], "ROUTING-BLOCKED-UNDERFIT")
+        self.assertTrue(reading["replication_pending"])
+        self.assertEqual(len(R.stage_plan("replicate-F", records)), 7)
+        self.assertEqual(reading["arms"]["modifier_s0"]["label"], "UNDERFIT")
+        self.assertNotIn("binding", reading["arms"]["modifier_s0"])
+        self.assertEqual(records[4]["admission"]["P2"], p2)
+        self.assertNotIn("P2", step["admission"])
 
     def test_write_json_is_exclusive_and_rereads_exact_payload(self):
         with tempfile.TemporaryDirectory() as directory:

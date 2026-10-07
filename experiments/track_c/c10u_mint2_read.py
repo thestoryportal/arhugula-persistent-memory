@@ -178,6 +178,32 @@ def _p2_record_validity(record, subjects, rows):
         _require(len(p2["bigram_rows"]) == 720 and all(r["ok"] is True for r in p2["bigram_rows"]), "P2 bigram 720-prefix audit incomplete")
 
 
+def _material_validity(record):
+    block, kind = record["block"], record["kind"]
+    identity, provenance = record["identity"], record["provenance"]
+    hashes = identity["source_sha256"]
+    _require(isinstance(hashes, dict) and hashes and all(isinstance(k, str) and _hash(v) for k, v in hashes.items()) and PREREG in hashes and WORDLIST in hashes, "source hashes/prereg/wordlist missing")
+    digest = hashlib.sha256("\n".join(k + " " + v for k, v in sorted(hashes.items())).encode()).hexdigest()
+    _require(identity["source_digest"] == digest, "source digest differs from hashes")
+    _require(provenance["heads_sha256"] == HEADS_SHA256 and provenance["modifiers_sha256"] == MODIFIERS_SHA256, "frozen word list hashes differ")
+    _require(provenance["wordlist_sha256"] == hashes[WORDLIST], "wordlist source/provenance hashes differ")
+    _require(_hash(provenance["rules_sha256"]) and provenance["rules_sha256"] == json_digest(provenance["rules"]), "rule hash differs")
+    relation_table = provenance["relation_table"]
+    _require(relation_table["block"] == block, "relation table block differs")
+    relations = relation_table["subject_values"]
+    _require(isinstance(relations, dict) and len(relations) == N and all(isinstance(k, str) and isinstance(v, str) for k, v in relations.items()), "relation table needs 24 subjects/values")
+    _require(_hash(provenance["relation_sha256"]) and provenance["relation_sha256"] == json_digest(relation_table), "relation table hash differs")
+    pairing = provenance["row_pairing"]
+    if kind != "multi":
+        _require(pairing["pairing_ok"] is True and all(_hash(pairing[k]) for k in ("rows_sha256", "first8_sha256", "first24_sha256")), "row pairing proof/hash missing")
+    context = record["ctx"]
+    _require(isinstance(context, list) and context and all(isinstance(g, list) and g and all(isinstance(t, str) and t.count("{}") == 1 for t in g) for g in context), "context templates malformed")
+    _require(record["ctx_sha256"] == json_digest(context), "context hash differs")
+    fp = record["fingerprint"]
+    _require(fp["ok"] is True and _hash(fp["sha256"]) and fp["sha256"].startswith("d941a9fb") and fp["_cov_cpu"] == 3, "P1 fingerprint/_cov_cpu failed")
+    return relations
+
+
 def run_validity(record):
     """Every published shape and derivable count is checked; missing data fails closed.
     Per-position underfit is recorded without replacing raw binding by a mask.
@@ -189,27 +215,7 @@ def run_validity(record):
         _require(seed is None if kind == "multi" else type(seed) is int and seed in SEEDS, "seed malformed")
         _require(type(record["replicate"]) is int and record["replicate"] in (0, 1) and _count(record["pid"], 1, 2 ** 63), "process/replicate malformed")
         _require(record["outcome"] == "DONE", "behaviour run not complete")
-        identity, provenance = record["identity"], record["provenance"]
-        hashes = identity["source_sha256"]
-        _require(isinstance(hashes, dict) and hashes and all(isinstance(k, str) and _hash(v) for k, v in hashes.items()) and PREREG in hashes and WORDLIST in hashes, "source hashes/prereg/wordlist missing")
-        digest = hashlib.sha256("\n".join(k + " " + v for k, v in sorted(hashes.items())).encode()).hexdigest()
-        _require(identity["source_digest"] == digest, "source digest differs from hashes")
-        _require(provenance["heads_sha256"] == HEADS_SHA256 and provenance["modifiers_sha256"] == MODIFIERS_SHA256, "frozen word list hashes differ")
-        _require(provenance["wordlist_sha256"] == hashes[WORDLIST], "wordlist source/provenance hashes differ")
-        _require(_hash(provenance["rules_sha256"]) and provenance["rules_sha256"] == json_digest(provenance["rules"]), "rule hash differs")
-        relation_table = provenance["relation_table"]
-        _require(relation_table["block"] == block, "relation table block differs")
-        relations = relation_table["subject_values"]
-        _require(isinstance(relations, dict) and len(relations) == N and all(isinstance(k, str) and isinstance(v, str) for k, v in relations.items()), "relation table needs 24 subjects/values")
-        _require(_hash(provenance["relation_sha256"]) and provenance["relation_sha256"] == json_digest(relation_table), "relation table hash differs")
-        pairing = provenance["row_pairing"]
-        if kind != "multi":
-            _require(pairing["pairing_ok"] is True and all(_hash(pairing[k]) for k in ("rows_sha256", "first8_sha256", "first24_sha256")), "row pairing proof/hash missing")
-        context = record["ctx"]
-        _require(isinstance(context, list) and context and all(isinstance(g, list) and g and all(isinstance(t, str) and t.count("{}") == 1 for t in g) for g in context), "context templates malformed")
-        _require(record["ctx_sha256"] == json_digest(context), "context hash differs")
-        fp = record["fingerprint"]
-        _require(fp["ok"] is True and _hash(fp["sha256"]) and fp["sha256"].startswith("d941a9fb") and fp["_cov_cpu"] == 3, "P1 fingerprint/_cov_cpu failed")
+        relations = _material_validity(record)
         inert = record["inertness"]
         _require(inert["ok"] is True and inertness_reading(inert["override_rel"], inert["context_rel"], inert["expr_delta"])["ok"], "capture/context inertness failed")
         wrapper = record["wrapper"]
@@ -273,6 +279,51 @@ def run_validity(record):
     return reasons
 
 
+def nonadmitted_validity(record):
+    """A failed admission has no behavioural measurements or process."""
+    reasons = []
+    try:
+        block, kind, seed = record["block"], record["kind"], record["seed"]
+        _require(block in KINDS and kind in KINDS[block] and kind != "multi", "non-admitted block/kind differs from minted schedule")
+        _require(type(seed) is int and seed in SEEDS and type(record["replicate"]) is int and record["replicate"] in (0, 1), "non-admitted seed/replicate malformed")
+        _require(record["outcome"] == "UNDERFIT" and record["pid"] is None, "non-admitted outcome/process malformed")
+        _require(not (set(record) & {"arm", "recipe", "inertness", "wrapper", "values", "when_utc", "spec_amendment"}) and not any(k.startswith("minted_") for k in record), "non-admitted record carries behavioural keys")
+        relations = _material_validity(record)
+        admission, step = record["admission"], record["step0"]
+        p2, fits = admission["P2"], admission["P3"]["fits"]
+        _require(p2["ok"] is True and admission["no_i11_exclusion"] is True, "P2/I-11 failed")
+        _require(_probabilities(fits) and len(fits) == N, "P3 needs 24 finite aggregate fits")
+        admit = admission_reading(p2, fits, step)
+        _require(admit["no_i11_exclusion"] is True, "I-11 exclusion or malformed counts")
+        _require(not admit["P3"]["ok"], "non-admitted P3 actually passes 22/24 screen")
+        _require(admission["P3"]["ok"] is False, "published non-admitted P3 gate differs")
+        _require(_count(admission["P3"]["n_ge_0.98"], high=N) and admission["P3"]["n_ge_0.98"] == admit["P3"]["n_ge_0.98"], "published non-admitted P3 count differs")
+        _require(admission["outcome"] == "UNDERFIT", "published admission outcome differs")
+        p2rows = p2["rows"]
+        _require(isinstance(p2rows, list) and len(p2rows) == N and len({r["subj"] for r in p2rows}) == N, "P2 needs 24 distinct subjects")
+        subjects = [r["subj"] for r in p2rows]
+        _require(set(subjects) == set(relations) and all(r["value"] == relations[r["subj"]] for r in p2rows), "P2 rows differ from relation table")
+        rows = [{"subj": r["subj"], "val": r["value"], "ntok": len(r["target_ids"])} for r in p2rows]
+        _require(all(r["ntok"] == 2 if kind == "mint2" else r["ntok"] == 1 if kind in ("mint1", "mint1_48") else 3 <= r["ntok"] <= 4 for r in rows), "target length differs from arm")
+        inventory = step["minted_inventory"]
+        _p2_record_validity({**record, "minted_words": [r["word"] for r in inventory],
+                             "minted_ids": [r["id"] for r in inventory]}, subjects, rows)
+        pre = step["recall_rows"]
+        _require(isinstance(pre, list) and len(pre) == N and [r["subj"] for r in pre] == subjects and all(_hits(r["para_full_hits"]) for r in pre), "pre-write row population differs")
+        i11 = i11_reading(inventory, pre)
+        _require(i11["no_i11_exclusion"] and i11["recall_n"] == step["recall_n"] and i11["n_cannibal"] == step["n_cannibal"], "I-11 counts differ from rows/inventory")
+    except (KeyError, TypeError, ValueError, IndexError, AttributeError, OverflowError) as e:
+        reasons.append("incomplete/malformed/invalid non-admitted record: " + str(e))
+    return reasons
+
+
+def _record_validity(record):
+    outcome = record.get("outcome") if isinstance(record, dict) else None
+    validators = {"DONE": run_validity, "UNDERFIT": nonadmitted_validity}
+    validator = validators.get(outcome, run_validity) if isinstance(outcome, str) else run_validity
+    return validator(record)
+
+
 def _same_block(a, b):
     return a["block"] == b["block"] and a["replicate"] == b["replicate"] and _same_material(a, b)
 
@@ -283,7 +334,7 @@ def _same_material(a, b):
 
 
 def _replica_matches(a, b):
-    return _same_material(a, b) and a["block"] == b["block"] and a["kind"] == b["kind"] and a["seed"] == b["seed"] and a["replicate"] == 0 and b["replicate"] == 1 and a["pid"] != b["pid"] and (
+    return _same_material(a, b) and a["block"] == b["block"] and a["kind"] == b["kind"] and a["seed"] == b["seed"] and a["replicate"] == 0 and b["replicate"] == 1 and (a["outcome"] == "UNDERFIT" or b["outcome"] == "UNDERFIT" or a["pid"] != b["pid"]) and (
         a["kind"] == "multi" or a["provenance"]["row_pairing"] == b["provenance"]["row_pairing"])
 
 
@@ -309,12 +360,12 @@ def _position_mechanism(curve, kind):
 
 def run_reading(reference, candidate, replica=None):
     """replica = {reference: fresh-block multi record, candidate: fresh seed record}."""
-    reasons = ["reference: " + r for r in run_validity(reference)] + run_validity(candidate)
+    reasons = ["reference: " + r for r in run_validity(reference)] + _record_validity(candidate)
     if not reasons and (reference["kind"] != "multi" or not _same_block(reference, candidate)):
         reasons.append("same-block A7-multi comparator/material missing")
     if replica is not None:
         try:
-            reasons.extend("replica: " + r for record in replica.values() for r in run_validity(record))
+            reasons.extend("replica: " + r for record in replica.values() for r in _record_validity(record))
             if not _replica_matches(reference, replica["reference"]) or not _replica_matches(candidate, replica["candidate"]):
                 reasons.append("replication context/source/init/seed differs or process is not fresh")
             if not _same_block(replica["reference"], replica["candidate"]):
@@ -323,6 +374,9 @@ def run_reading(reference, candidate, replica=None):
             reasons.append("replica must contain its reference and candidate records")
     if reasons:
         return {"label": "INVALID", "reasons": reasons, "replication_pending": False}
+    if candidate["outcome"] == "UNDERFIT":
+        return {"label": "UNDERFIT", "reasons": [], "replication_pending": False,
+                "replica": None if replica is None else run_reading(replica["reference"], replica["candidate"])}
     arm, count = candidate["arm"], candidate["arm"]["para_full_binding_n"]
     gates = locality_gates(reference, candidate)
     label = _single_label(count, reference["arm"]["para_full_n"], all(gates.values()))
@@ -331,7 +385,7 @@ def run_reading(reference, candidate, replica=None):
     if replica is not None:
         replica_read = run_reading(replica["reference"], replica["candidate"])
         if label in ("LEAD", "PARTIAL"):
-            replicated = all(replica_read["gates"].values()) and (replica_read["binding"] >= LEAD_MIN if label == "LEAD" else replica_read["gain"] >= GAIN_MIN and not NULL_BAND[0] <= replica_read["binding"] <= NULL_BAND[1])
+            replicated = replica["candidate"]["outcome"] == "DONE" and all(replica_read["gates"].values()) and (replica_read["binding"] >= LEAD_MIN if label == "LEAD" else replica_read["gain"] >= GAIN_MIN and not NULL_BAND[0] <= replica_read["binding"] <= NULL_BAND[1])
             if not replicated:
                 label += "-NOT-REPLICATED"
     elif pending:
@@ -344,7 +398,7 @@ def run_reading(reference, candidate, replica=None):
     reference_norm = _norm(reference)
     ratio = _norm(candidate) / reference_norm if reference_norm > 0 else None
     qs = ["LARGE-WRITE"] if ratio is not None and ratio > LARGE_WRITE else []
-    if replica_read is not None and "LARGE-WRITE" in replica_read["qualifiers"] and "LARGE-WRITE" not in qs:
+    if replica_read is not None and replica["candidate"]["outcome"] == "DONE" and "LARGE-WRITE" in replica_read["qualifiers"] and "LARGE-WRITE" not in qs:
         qs.append("LARGE-WRITE")
     return {"label": label + "".join("-" + q for q in qs), "reasons": [], "gates": gates,
             "binding": count, "raw": arm["para_full_n"], "pre_recall": candidate["step0"]["recall_n"],
@@ -393,9 +447,10 @@ def _population(records, block, replicate, control=False):
     if len(set(keys)) != len(keys) or any(r.get("block") != block or r.get("replicate") != replicate for r in records) or not set(keys) <= expected:
         problems.append("block population has duplicate, foreign or unexpected records")
     for r in records:
-        problems.extend(run_validity(r))
+        problems.extend(_record_validity(r))
     if records and not problems:
-        if len({r["pid"] for r in records}) != len(records):
+        executed = [r for r in records if r["outcome"] == "DONE"]
+        if len({r["pid"] for r in executed}) != len(executed):
             problems.append("block runs did not use separate processes")
         if any(not _same_block(records[0], r) for r in records[1:]):
             problems.append("block source/context/data hashes differ")
@@ -418,6 +473,8 @@ def _range_direction(pop, block):
 
 def _comparability(pop):
     records = pop["records"]
+    if any(records[key]["outcome"] != "DONE" for key in [("multi", None)] + [("mint1", s) for s in SEEDS]):
+        return False
     ref = records[("multi", None)]["arm"]
     return all(low <= ref[key] <= high for key, (low, high) in BASELINE_WINDOW.items()) and statistics.median(records[("mint1", s)]["arm"]["para_full_binding_n"] for s in SEEDS) >= LEAD_MIN
 
@@ -469,10 +526,13 @@ def block_reading(records, replicas=None, controls=None):
                 problems.append("48-row control source/context/init pairing differs")
     if problems:
         return {**out, "direction": "INVALID", "reasons": problems}
-    raw, raw_rep = _range_direction(a, block), None if b is None else _range_direction(b, block)
-    out.update(block=block, raw_direction=raw["label"], ranges=raw,
-               replica_ranges=raw_rep, candidate_range=max(raw["candidate"]) - min(raw["candidate"]),
-               mint1_range=max(raw["M1"]) - min(raw["M1"]), historical_init_range=12)
+    nonadmitted = any(r["outcome"] == "UNDERFIT" for p in (a, b, ctl) if p is not None for r in p["records"].values())
+    out.update(block=block)
+    if not nonadmitted:
+        raw, raw_rep = _range_direction(a, block), None if b is None else _range_direction(b, block)
+        out.update(raw_direction=raw["label"], ranges=raw,
+                   replica_ranges=raw_rep, candidate_range=max(raw["candidate"]) - min(raw["candidate"]),
+                   mint1_range=max(raw["M1"]) - min(raw["M1"]), historical_init_range=12)
     ref = a["records"][("multi", None)]
     for key, r in a["records"].items():
         if key[0] == "multi":
@@ -488,14 +548,23 @@ def block_reading(records, replicas=None, controls=None):
     comparable = block == "F" or all(_comparability(p) for p in (a, b) if p is not None)
     out["comparability_ok"] = comparable
     if not comparable:
+        out["reasons"].extend("comparability screen unestablished: " + r["kind"] + "_s" + str(r["seed"]) + " r" + str(r["replicate"]) + " is not DONE"
+                              for p in (a, b) if p is not None for r in p["records"].values() if r["kind"] in ("multi", "mint1") and r["outcome"] != "DONE")
         for read in out["arms"].values():
             read["label"] += "-NOT-COMPARABLE"
         return {**out, "direction": "NOT-COMPARABLE"}
     mint_records = [r for p in (a, b) if p is not None for (kind, seed), r in p["records"].items() if kind != "multi"]
     if ctl is not None:
         mint_records.extend(ctl["records"].values())
-    if any(not position_reading(r["step0"]["per_position_fit"])["all_positions_fit"] for r in mint_records):
-        return {**out, "direction": "ROUTING-BLOCKED-UNDERFIT"}
+    underfit_reasons = []
+    for r in mint_records:
+        name = r["kind"] + "_s" + str(r["seed"]) + " r" + str(r["replicate"])
+        if r["outcome"] == "UNDERFIT":
+            underfit_reasons.append(name + ": admission UNDERFIT n_ge_0.98=" + str(r["admission"]["P3"]["n_ge_0.98"]) + "/24")
+        elif not position_reading(r["step0"]["per_position_fit"])["all_positions_fit"]:
+            underfit_reasons.append(name + ": per-position underfit")
+    if underfit_reasons:
+        return {**out, "direction": "ROUTING-BLOCKED-UNDERFIT", "reasons": underfit_reasons}
     if any(not all(locality_gates(p["records"][("multi", None)], r).values()) for p in (a, b) if p is not None for (kind, seed), r in p["records"].items() if kind != "multi"):
         return {**out, "direction": "ROUTING-BLOCKED-LOCALITY"}
     if ctl is not None and any(not all(locality_gates(ref, r).values()) for r in ctl["records"].values()):

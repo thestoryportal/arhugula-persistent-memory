@@ -772,7 +772,7 @@ def behavior_job(root, out, block, replicate, kind, seed, fingerprint, save_for_
         # A failed aggregate screen has no behavioral run; retain an explicit record.
         rec = {"decision_id": R.DECISION_ID, "identity": IDENTITY, "block": block, "replicate": replicate,
                "kind": kind, "seed": seed, "pid": None, "outcome": step["outcome"], "step0_file": str(out / "step0" / (record_name(block, 0, kind, seed) + ".json")),
-               "admission": step["admission"], "step0": step["probe"], "ctx": contexts, "ctx_sha256": R.json_digest(contexts),
+               "admission": {**step["admission"], "P2": step["P2"]}, "step0": step["probe"], "ctx": contexts, "ctx_sha256": R.json_digest(contexts),
                "fingerprint": fingerprint, "provenance": step["provenance"]}
         write_json(out / names[0], rec)
         print(f"BEHAVIOR {tag}: no behavioral run; step0 outcome={step['outcome']}", flush=True)
@@ -947,7 +947,7 @@ def p4_configurations(records):
         multi = next((r for r in originals if r["kind"] == "multi"), None)
         replica_multi = next((r for r in replicas if r["kind"] == "multi"), None)
         for record in originals:
-            if record["kind"] != kind:
+            if record["kind"] != kind or record["outcome"] == "UNDERFIT":
                 continue
             replica = next((r for r in replicas if r["kind"] == kind and r["seed"] == record["seed"]), None)
             reading = R.run_reading(multi, record, {"reference": replica_multi, "candidate": replica} if replica else None)
