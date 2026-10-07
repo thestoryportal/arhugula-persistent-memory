@@ -380,7 +380,7 @@ class SpecTests(unittest.TestCase):
             self.assertEqual(D.wait_stage(out,1,clock=lambda:clock[0],pause=respond),0)
             run.update(completed=0,requested=1);D.write_json(out/"run.json",run,replace=True)
             clock[0]=26.
-            with self.assertRaisesRegex(R.Halt,"HALTED-V12"):
+            with mock.patch.object(D,"ROOT",out), self.assertRaisesRegex(R.Halt,"HALTED-V12"):
                 D.wait_stage(out,1,clock=lambda:clock[0],pause=lambda _:None)
 
     def test_manifest_population_and_post_instrument_tampering(self):
