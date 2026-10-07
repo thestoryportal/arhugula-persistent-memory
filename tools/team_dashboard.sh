@@ -1,5 +1,6 @@
 #!/bin/bash
-# Team dashboard (tmux session "dashboard"), view-only: the lead session as a large tile on top, every
+# Team dashboard (tmux session "dashboard"), view-only: the lead session and the Science Report
+# (tools/dashboard_report.py, from docs/c10_scoreboard.json) side by side on top, every
 # other team session in rows of up to five below, each with a coloured header and live status
 # (tools/dashboard_tile.py), and a status bar with the GPU job and status counts (tools/dashboard_bar.sh).
 # Nothing attaches to the agents' sessions. Re-running rebuilds it in place for anyone watching.
@@ -31,11 +32,11 @@ size=$(tmux list-clients -t "$D" -F '#{client_width} #{client_height}' 2>/dev/nu
 read -r W H <<<"${size:-300 80}"
 tmux has-session -t "$NEW" 2>/dev/null && tmux kill-session -t "$NEW"
 
-tmux new-session -d -s "$NEW" -x "$W" -y "$H" "$(tile "$LEAD" 25)"
+lead=$(tmux new-session -d -P -F '#{pane_id}' -s "$NEW" -x "$W" -y "$H" "$(tile "$LEAD" 25)")
 n=${#others[@]}
 if (( n > 0 )); then
   rows=$(( (n + PER_ROW - 1) / PER_ROW ))
-  row_first=$(tmux split-window -v -P -F '#{pane_id}' -t "$NEW" -l 60% "$(tile "${others[0]}" "${COLORS[0]}")")
+  row_first=$(tmux split-window -v -P -F '#{pane_id}' -t "$lead" -l 50% "$(tile "${others[0]}" "${COLORS[0]}")")
   starts=("$row_first")
   for (( r = 1; r < rows; r++ )); do   # carve the bottom area into equal rows
     i=$(( r * PER_ROW ))
@@ -52,6 +53,7 @@ if (( n > 0 )); then
   done
 fi
 
+tmux split-window -h -t "$lead" -l 50% "/usr/bin/python3 '$T/dashboard_report.py'"   # Science Report beside the lead
 tmux set-option -t "$NEW" pane-border-lines heavy >/dev/null
 tmux set-option -t "$NEW" pane-border-style "fg=colour238" >/dev/null
 tmux set-option -t "$NEW" pane-active-border-style "fg=colour238" >/dev/null
