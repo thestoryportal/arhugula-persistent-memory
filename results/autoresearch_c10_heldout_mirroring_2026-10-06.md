@@ -30,3 +30,7 @@ The agent read `c10e_bandknob.py` in full at setup (transcript audit: `cat -n c1
 - Honest reading of the loop's best (30/72): it is partly test-adjacent. The cleanest "new wording" number is Q3 = 11/24 (baseline 3/24, exp 2 8/24). From experiment 8 on, all three templates are mirrored and the loop's `heldout_full` no longer measures transfer to unseen wording.
 
 **Implications.** Loop scores from experiment 3 on are register candidates only with this caveat; any promotion needs a fresh sealed set of rewordings the agent has never read. Step 1 (`D-C10s-sharedz`) reports per-template counts by design; its frozen T1 `The government of {} sits in` shares the word "government" with Q3 — to be weighed at its verdict. For the next loop relaunch: seal the held-out templates out of the agent's readable files and state the no-paraphrase rule in `program.md` (operator decision).
+
+## Addendum ~20:10 — experiment 8 scored, reading corrected
+
+Experiment 8 (`e475185`, five write prompts incl. a Q3 paraphrase; run 190158): 30/72 (Q1 12, Q2 7, Q3 11), guards ok, dw_total 172.9 — ties experiment 5, so the loop discards it. **Correction to the reading above:** mirroring Q3 gave Q3 no gain (11 → 11). The empirical inflation is clear only for Q1 (4 → 10 the run its paraphrase was added); Q2's rise was small (6 → 8). So the loop's 30/72 is somewhat inflated, mainly via Q1 — not uniformly. The structural objection (write prompts paraphrasing the sealed test) stands, and the relaunch fix (seal the templates, no-paraphrase rule) is still recommended.
