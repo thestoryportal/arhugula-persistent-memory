@@ -1,0 +1,5891 @@
+{
+  "decision_id": "D-C10u-mint2",
+  "identity": {
+    "run_id": "c10u-d12d79257d0d457a8cdd6b1d44ddeed9",
+    "created_utc": "2026-10-07T16:01:40.326302+00:00",
+    "source_sha256": {
+      "experiments/track_c/c10u_mint2_arms.py": "a038013354eb3b483adaf1506769610fe2942ac3aedc0beb57ce88f702c4f16d",
+      "experiments/track_c/c10u_mint2_step0.py": "972f97fc41af809ef24257a74a30715325739852a90bafe4d460bb6ce68883d1",
+      "experiments/track_c/c10u_mint2_read.py": "1223789a0941e46c75d7917b21c26eeef12f873e8195fef98cc0d997b55fcc51",
+      "experiments/track_c/c10u_mint2_selftest.py": "03f87298289af4cf3f744c784688b87212ca9d823ed3263de3830bcc6a12dc0c",
+      "experiments/track_c/c10u_mint2_p4_probe.py": "3565f3759d978f9fe44d8d166a10004a3ce330b39360c83d5246348cbbf6d450",
+      "tools/c10u_mint2_p4.sh": "4271f5ce8152f9ab11b6065650394b6eaee62d8b7d741f015c4f8066f632af7f",
+      "experiments/track_c/c10u_mint2_wordlist.py": "720a304df7d7c96d627a1778bb79e9c1e322631db33729dadf101963781ab301",
+      "experiments/track_c/c10l_mint_lib.py": "5277e65dc405db7b02e75c0a1b639ca3143c067b544c64f044644659872bdaec",
+      "experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+      "docs/C10U_MINT2_PREREG.md": "c54f443c70fecd12dce5440cbe7d606587ed1c8384542345f0411cfd0ba15a76",
+      "results/c10u_mint2/v2_wordlist.json": "aa1fb7a77074d5340a8f9aef780475eee4b64d473d7ad70323c5aa5e2eb3f545",
+      "configs/hparams/qwen25_3b_memit_hparams.json": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+      "tools/engine_fingerprint.py": "450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162",
+      "configs/screens/g6_screen_qwen3b.json": "a51813340571f6c68908ac4310cca197ebac9884939f58e5c33fb75833a3ca05",
+      "configs/screens/g6_screen_qwen3b_v2.json": "482c05f8f33c59d3e469566fe6f3c48eb183d3cb2fbb791f31dcad7102517c5c",
+      "memit_dry_run/memit/baselines/ft/__init__.py": "19646aa4d3c5b6fd8dc0032aab1cee6afc7ab24e7404c5c657cadbdd077ea0fd",
+      "memit_dry_run/memit/baselines/ft/ft_hparams.py": "fdd83bbc0cb87ebc1b6aae238a38798aab6e2b8b1723e666e797c1c5df851ab1",
+      "memit_dry_run/memit/baselines/ft/ft_main.py": "ce8bffb4716a6ec97c5690a10b7be585da6d009028f6d77c9ac7907caaea378a",
+      "memit_dry_run/memit/baselines/mend/__init__.py": "ce6f24b656aa412ba07c893dd6fa37001d0a148312c9fd5b823ac27c83e145b0",
+      "memit_dry_run/memit/baselines/mend/algs/enn.py": "fcde13387249220bf8ccde0c8bf174f6444a956806f86aee0c4c1a0c062e3a90",
+      "memit_dry_run/memit/baselines/mend/algs/ft.py": "c60355576cac69dbca0816a4747cbb7bbba7a2352d0e7edb2191d870450eeff7",
+      "memit_dry_run/memit/baselines/mend/algs/mend.py": "3d94e338ff9efe07815d9d4d339485e9abaa17af555f88d0adacb0a3ad19eca5",
+      "memit_dry_run/memit/baselines/mend/data_classes/fever.py": "098397ce1214eb8cce6b90c8ba6ebd67024afcbc2f58ccaf887b5a365732308a",
+      "memit_dry_run/memit/baselines/mend/data_classes/nq.py": "f8d8dfaadf866e82c50e4c5bfef14a9b54aa5799aca3cea8f403f0461ba61f69",
+      "memit_dry_run/memit/baselines/mend/data_classes/wiki.py": "60ea3f99dcb4386f38454fdda9b7a65963df76240ce516d093e396a969576627",
+      "memit_dry_run/memit/baselines/mend/data_classes/zsre.py": "2acb707212802d65a55f46ada4381af330ff1cc9842ed9c56326de14b0711581",
+      "memit_dry_run/memit/baselines/mend/editable_model.py": "34330a12b9864001ea46ecae794df1ea85cedb38082df783b31d67cc8939e245",
+      "memit_dry_run/memit/baselines/mend/hooks.py": "b6037d8f9778f2d74952dafe3acc76f761df6884d85e9b5b57559cd08f7d2d6f",
+      "memit_dry_run/memit/baselines/mend/losses.py": "271a10d9e995ffd92c2de239f652928d651013f8a0889bd4205ffca1469127e8",
+      "memit_dry_run/memit/baselines/mend/mend_hparams.py": "071bc2c833cd1362906eee12b081c272650f909e9c93389bb05be86ae8626eb3",
+      "memit_dry_run/memit/baselines/mend/mend_main.py": "7e72af6f626798696f50c81ad72276f4807422bd365d5d6f130ca7e2852f53b5",
+      "memit_dry_run/memit/baselines/mend/models.py": "2e94d797f3813d57a532c676ba6609a91e89eb36bdfb8479bc092dccc5ce4420",
+      "memit_dry_run/memit/baselines/mend/nn.py": "ffca4fb48675c4c6cf56bb9cbbff8ce50f2c46eb8fdbfc6a7e1b6308acddab92",
+      "memit_dry_run/memit/baselines/mend/oracle.py": "d3657df3b292a4c78564c59b9a07ccdb8e6ff74b111cd489e38c5e5112ad4b1b",
+      "memit_dry_run/memit/baselines/mend/run.py": "2e57976fb507bc5bc27f88ea8a7bacd7b2a75d6b45170ed4870643ae5ce74765",
+      "memit_dry_run/memit/baselines/mend/trainer.py": "91c9d6378c0cbe6340cf4591618a68aa70f805059a01881f43c71859e001dcb1",
+      "memit_dry_run/memit/baselines/mend/utils.py": "bb981c845c07709efa4e81610ec575be7e3f3b909a42b79610a47044c04c0554",
+      "memit_dry_run/memit/dsets/__init__.py": "a2e1c9d7a56af0b091a48cb313a356cdb1a923e1bb046d73bd0d1e10c7b0d907",
+      "memit_dry_run/memit/dsets/attr_snippets.py": "bf78972d9914919e0a0b7d7d93623b3f51b8684f691e909793b5cd5471d6f01a",
+      "memit_dry_run/memit/dsets/counterfact.py": "7848e935a578c40e187167a2894601b0dbf42d2334b5289a012276ea1eb672b5",
+      "memit_dry_run/memit/dsets/knowns.py": "e2428c36d17b0dec1f390888a98334bd0fd1f64168bffae7566ef8a8606f361e",
+      "memit_dry_run/memit/dsets/tfidf_stats.py": "34f03d97b0b1aaad33e75a211a3d6b502cfb9eace1c172320df6ceb713d600c9",
+      "memit_dry_run/memit/dsets/zsre.py": "a6281375afd9983337c154095fe9aba59c74c36fa34ecfb12838c7b5c341670e",
+      "memit_dry_run/memit/experiments/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "memit_dry_run/memit/experiments/causal_trace.py": "9436fd596a39e240a01121da601359bea5d0b3a350c0faa34aa8b0ccac05560b",
+      "memit_dry_run/memit/experiments/evaluate.py": "4ef8e138bb8003c8486935ad0eae86d9ccd84bb61cfa1f88b63f0ed06c2d1760",
+      "memit_dry_run/memit/experiments/py/demo.py": "268c16a1c2c4e8642b7641739c2cd0808c08be80f36f280d1e5bef4944733772",
+      "memit_dry_run/memit/experiments/py/eval_utils_counterfact.py": "b00d9810305580dddfeb5e65129db4d56bcbfee1edf020605e21bf4f5033aeb7",
+      "memit_dry_run/memit/experiments/py/eval_utils_zsre.py": "e4f18c84a813d0a2fb9a5c9426726844117fe365cae72107d51f304a264d77a8",
+      "memit_dry_run/memit/experiments/summarize.py": "7de8f5eec86243807825cf9f62923535f853cce07d2d3248534f86320f229372",
+      "memit_dry_run/memit/experiments/sweep.py": "bfc7a91e9abb526814f7d975a81ff0333e930b452e2da58b31dc2ae8a10cce74",
+      "memit_dry_run/memit/memit/__init__.py": "911cc037562a368ca7017ea66f4821c5a848f286a55b7d624c242209afcd01df",
+      "memit_dry_run/memit/memit/compute_ks.py": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+      "memit_dry_run/memit/memit/compute_z.py": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+      "memit_dry_run/memit/memit/memit_hparams.py": "1b229b882b031ddbb59f06ad6ba58d5c33b17826bbfddf80f767e96931b595b2",
+      "memit_dry_run/memit/memit/memit_main.py": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+      "memit_dry_run/memit/rome/__init__.py": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a",
+      "memit_dry_run/memit/rome/compute_u.py": "06a73593171eecdd03ab90d45daa2c6096b4335847f0c73bda9d834cdfb1d72d",
+      "memit_dry_run/memit/rome/compute_v.py": "07f35ecec4b2a20a33318d75b040ae6c1fc5fd2122a90c92e32e361ef730d9eb",
+      "memit_dry_run/memit/rome/layer_stats.py": "43693c64b061f3cdaa087447e47ddc10fb26fd597dd405eb0644d71ede2fe2d5",
+      "memit_dry_run/memit/rome/repr_tools.py": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+      "memit_dry_run/memit/rome/rome_hparams.py": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5",
+      "memit_dry_run/memit/rome/rome_main.py": "44ff978bd0d68839ff2f94f475a71fdac19a53a4ef263c1d74693ebfd5b40ba5",
+      "memit_dry_run/memit/rome/tok_dataset.py": "37f775943d5040702ae21252db579f6aa116dacc4dd93c227c44cf9b3481a1a0",
+      "memit_dry_run/memit/scripts/ipynb_drop_output.py": "62a17e64c2de0448962fda6e0914a80e354361fea73b4363fc5287b92e4ca635",
+      "memit_dry_run/memit/util/__init__.py": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d",
+      "memit_dry_run/memit/util/device.py": "868627783827f03763ba9c210de2ddbd607e050330eccf7757fccfd9e985cf2b",
+      "memit_dry_run/memit/util/generate.py": "3764cb8a0a1b3f28c17d8aab3028b33d2127ba4e02e8dbc253025791a9ab2514",
+      "memit_dry_run/memit/util/globals.py": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2",
+      "memit_dry_run/memit/util/hparams.py": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0",
+      "memit_dry_run/memit/util/logit_lens.py": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4",
+      "memit_dry_run/memit/util/nethook.py": "20e84c9413518af3aee76762071f823cbe5d75c4658e4ffa7bdab045df735f7c",
+      "memit_dry_run/memit/util/perplexity.py": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e",
+      "memit_dry_run/memit/util/runningstats.py": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97"
+    },
+    "source_digest": "67c73b97079941ba4bc6dcc101d4999a2a24a3a141203ff2ded1e66286fd34ed",
+    "law3_reference": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10l_covgeom/run1_armB_identity.json",
+      "sha256": "2c3a9f6fa359ecc4cf3c67b3a84c4da34ef1544438de31e301f5e19fb9297470",
+      "scores": {
+        "A1_single": 71,
+        "A2_coherent2": 70
+      },
+      "ok": true
+    }
+  },
+  "block": "F",
+  "replicate": 0,
+  "kind": "modifier",
+  "seed": 0,
+  "pid": null,
+  "outcome": "UNDERFIT",
+  "step0_file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/step0/F_r0_modifier_s0.json",
+  "admission": {
+    "P3": {
+      "ok": false,
+      "n_ge_0.98": 17,
+      "underfit": [
+        7,
+        8,
+        12,
+        13,
+        17,
+        20,
+        22
+      ],
+      "fits": [
+        0.9836381077766418,
+        0.9889168739318848,
+        0.9923920631408691,
+        0.9832379221916199,
+        0.9901308417320251,
+        0.9875205159187317,
+        0.9857255816459656,
+        0.016560403630137444,
+        0.8902521133422852,
+        0.9977812767028809,
+        0.9940610527992249,
+        0.9914343953132629,
+        0.9548975825309753,
+        0.9127572178840637,
+        0.996168315410614,
+        0.9882158637046814,
+        0.980242908000946,
+        0.9632236361503601,
+        0.993494987487793,
+        0.9867941737174988,
+        0.9513607025146484,
+        0.987980306148529,
+        0.977865993976593,
+        0.9935962557792664
+      ]
+    },
+    "no_i11_exclusion": true,
+    "excluded": true,
+    "reasons": [
+      "P3 fewer than 22/24 aggregates >= 0.98"
+    ],
+    "outcome": "UNDERFIT",
+    "P2": {
+      "ok": true,
+      "checks": {
+        "inventory_unchanged": true,
+        "registered_word_ids": true,
+        "all_target_rows": true
+      },
+      "changed": [],
+      "inventory_n": 2376,
+      "plain_n": 396,
+      "rows": [
+        {
+          "subj": "Zorbland",
+          "value": "Vindex Vask",
+          "target_ids": [
+            647,
+            1252,
+            151665
+          ],
+          "expected_ids": [
+            647,
+            1252,
+            151665
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Quaxil",
+          "value": "Drennik Brakk",
+          "target_ids": [
+            422,
+            1440,
+            21490,
+            151666
+          ],
+          "expected_ids": [
+            422,
+            1440,
+            21490,
+            151666
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Plurnak",
+          "value": "Vythorn Stavik",
+          "target_ids": [
+            647,
+            76896,
+            1512,
+            151667
+          ],
+          "expected_ids": [
+            647,
+            76896,
+            1512,
+            151667
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Vythorn",
+          "value": "Vorlex Yornel",
+          "target_ids": [
+            33328,
+            2571,
+            151668
+          ],
+          "expected_ids": [
+            33328,
+            2571,
+            151668
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Glimsto",
+          "value": "Lurmax Spraxil",
+          "target_ids": [
+            444,
+            324,
+            2810,
+            151669
+          ],
+          "expected_ids": [
+            444,
+            324,
+            2810,
+            151669
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Drennik",
+          "value": "Kessivar Ulvenn",
+          "target_ids": [
+            730,
+            433,
+            56398,
+            151670
+          ],
+          "expected_ids": [
+            730,
+            433,
+            56398,
+            151670
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Yastovel",
+          "value": "Halquin Cindel",
+          "target_ids": [
+            19851,
+            35344,
+            151671
+          ],
+          "expected_ids": [
+            19851,
+            35344,
+            151671
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Crulpane",
+          "value": "Marsduq Drelth",
+          "target_ids": [
+            21048,
+            1054,
+            80,
+            151672
+          ],
+          "expected_ids": [
+            21048,
+            1054,
+            80,
+            151672
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Mophgar",
+          "value": "Glimsto Vask",
+          "target_ids": [
+            479,
+            4659,
+            33052,
+            151665
+          ],
+          "expected_ids": [
+            479,
+            4659,
+            33052,
+            151665
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Brinduun",
+          "value": "Brindu Brakk",
+          "target_ids": [
+            3240,
+            484,
+            84,
+            151666
+          ],
+          "expected_ids": [
+            3240,
+            484,
+            84,
+            151666
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Trannak",
+          "value": "Fluvane Stavik",
+          "target_ids": [
+            2988,
+            12058,
+            2145,
+            151667
+          ],
+          "expected_ids": [
+            2988,
+            12058,
+            2145,
+            151667
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Skornwell",
+          "value": "Yastov Yornel",
+          "target_ids": [
+            809,
+            559,
+            859,
+            151668
+          ],
+          "expected_ids": [
+            809,
+            559,
+            859,
+            151668
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Fluvane",
+          "value": "Vindex Spraxil",
+          "target_ids": [
+            647,
+            1252,
+            151669
+          ],
+          "expected_ids": [
+            647,
+            1252,
+            151669
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Oxbarrow",
+          "value": "Drennik Ulvenn",
+          "target_ids": [
+            422,
+            1440,
+            21490,
+            151670
+          ],
+          "expected_ids": [
+            422,
+            1440,
+            21490,
+            151670
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Zephquin",
+          "value": "Vythorn Cindel",
+          "target_ids": [
+            647,
+            76896,
+            1512,
+            151671
+          ],
+          "expected_ids": [
+            647,
+            76896,
+            1512,
+            151671
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Lurmaxen",
+          "value": "Vorlex Drelth",
+          "target_ids": [
+            33328,
+            2571,
+            151672
+          ],
+          "expected_ids": [
+            33328,
+            2571,
+            151672
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Pradnoll",
+          "value": "Lurmax Vask",
+          "target_ids": [
+            444,
+            324,
+            2810,
+            151665
+          ],
+          "expected_ids": [
+            444,
+            324,
+            2810,
+            151665
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Kessivar",
+          "value": "Kessivar Brakk",
+          "target_ids": [
+            730,
+            433,
+            56398,
+            151666
+          ],
+          "expected_ids": [
+            730,
+            433,
+            56398,
+            151666
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Wombryne",
+          "value": "Halquin Stavik",
+          "target_ids": [
+            19851,
+            35344,
+            151667
+          ],
+          "expected_ids": [
+            19851,
+            35344,
+            151667
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Halquin",
+          "value": "Marsduq Yornel",
+          "target_ids": [
+            21048,
+            1054,
+            80,
+            151668
+          ],
+          "expected_ids": [
+            21048,
+            1054,
+            80,
+            151668
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Vorlex",
+          "value": "Glimsto Spraxil",
+          "target_ids": [
+            479,
+            4659,
+            33052,
+            151669
+          ],
+          "expected_ids": [
+            479,
+            4659,
+            33052,
+            151669
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Quenby",
+          "value": "Brindu Ulvenn",
+          "target_ids": [
+            3240,
+            484,
+            84,
+            151670
+          ],
+          "expected_ids": [
+            3240,
+            484,
+            84,
+            151670
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Marsduq",
+          "value": "Fluvane Cindel",
+          "target_ids": [
+            2988,
+            12058,
+            2145,
+            151671
+          ],
+          "expected_ids": [
+            2988,
+            12058,
+            2145,
+            151671
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        },
+        {
+          "subj": "Thelby",
+          "value": "Yastov Drelth",
+          "target_ids": [
+            809,
+            559,
+            859,
+            151672
+          ],
+          "expected_ids": [
+            809,
+            559,
+            859,
+            151672
+          ],
+          "contexts": [
+            {
+              "template": "{}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "The following is a single-choice question from a Chinese. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Therefore, the answer is \\(\\boxed 1. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "Because there are so many different types of fish,. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "I'm using `JPA`, and have this. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            },
+            {
+              "template": "You are a helpful assistant, who always provide explanation. {}",
+              "prefix_ids": true,
+              "whole_ids": true,
+              "last_id": true
+            }
+          ],
+          "checks": {
+            "whole_target": true,
+            "decode": true,
+            "engine_default_call": true,
+            "contexts": true
+          },
+          "ok": true
+        }
+      ],
+      "bigram_rows": [],
+      "block": "F",
+      "kind": "modifier",
+      "wordlist_replay": {
+        "ok": true,
+        "selected": [
+          "Tarvesk",
+          "Molquenn",
+          "Fendrax",
+          "Ulbrisk",
+          "Kalvoth",
+          "Pelthorn",
+          "Vustrim",
+          "Gorvande",
+          "Hexmoril",
+          "Wolqetz",
+          "Dravnisk",
+          "Nalthrik",
+          "Skevrond",
+          "Cravnolt",
+          "Yembrisk",
+          "Mirquand",
+          "Faldrix",
+          "Thanvorl",
+          "Torvak",
+          "Kurvin",
+          "Zandel",
+          "Garnoth",
+          "Tomrik",
+          "Selvor"
+        ],
+        "candidates": [
+          {
+            "head": "Tarvesk",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Molquenn",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Fendrax",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Ulbrisk",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Noxquill",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Sprennok",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Kalvoth",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Rimbrosk",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Zavrelk",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Pelthorn",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Vustrim",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Gorvande",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Hexmoril",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Tazbrenk",
+            "n_pieces": 5,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Wolqetz",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Dravnisk",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Ombrixel",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Jorvenak",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Blemkarn",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Pyrvossk",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Nalthrik",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Skevrond",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Cravnolt",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Yembrisk",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Veltrosk",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Mirquand",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Ketravon",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Zumbrelk",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Faldrix",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Grentovar",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Isqeldra",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Brovquen",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Thanvorl",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Wexdorim",
+            "n_pieces": 5,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Plaskovin",
+            "n_pieces": 4,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Jaxbrenn",
+            "n_pieces": 5,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Morvex",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Torvak",
+            "n_pieces": 2,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Belmox",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Kurvin",
+            "n_pieces": 2,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Zandel",
+            "n_pieces": 2,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Norvek",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Palvex",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Garnoth",
+            "n_pieces": 2,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Vexlan",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Tomrik",
+            "n_pieces": 2,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Selvor",
+            "n_pieces": 2,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Rundax",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Fenlor",
+            "n_pieces": 2,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Dorvin",
+            "n_pieces": 2,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Malvek",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Jorlex",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Wulmar",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Harvex",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Lindax",
+            "n_pieces": 2,
+            "forbidden_relations": [],
+            "pass": true
+          },
+          {
+            "head": "Pelvok",
+            "n_pieces": 3,
+            "forbidden_relations": [],
+            "pass": true
+          }
+        ],
+        "pairwise_relations": [],
+        "inventory_sha256": "a2b73c67f9608c57b51102b90d873a2a05168dbe1ae905b3852050f1738bf7d8",
+        "quota": {
+          "2": 6,
+          "3": 18
+        }
+      }
+    }
+  },
+  "step0": {
+    "recall_rows": [
+      {
+        "subj": "Zorbland",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Quaxil",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Plurnak",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Vythorn",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Glimsto",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Drennik",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Yastovel",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Crulpane",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Mophgar",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Brinduun",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Trannak",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Skornwell",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Fluvane",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Oxbarrow",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Zephquin",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Lurmaxen",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Pradnoll",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Kessivar",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Wombryne",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Halquin",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Vorlex",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Quenby",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Marsduq",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "subj": "Thelby",
+        "para_full_hits": [
+          false,
+          false,
+          false
+        ]
+      }
+    ],
+    "recall_n": 0,
+    "rank_probes": [
+      {
+        "subj": "Zorbland",
+        "target_ids": [
+          647,
+          1252,
+          151665
+        ],
+        "head_ids": [
+          647,
+          1252
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 28,
+            "prob": 0.005616882350295782,
+            "top1": 1863
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 124148,
+            "prob": 9.619518515080472e-10,
+            "top1": 1863
+          },
+          "modifier_after_head": {
+            "rank": 144528,
+            "prob": 1.2585926224828459e-12,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 28,
+            "prob": 0.005616882350295782,
+            "top1": 1863
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Zorbland's capital city is called",
+            "misplaced": {
+              "rank": 131112,
+              "prob": 1.6304468886119139e-09,
+              "top1": 1863
+            },
+            "after_head": {
+              "rank": 148943,
+              "prob": 1.9057722414062006e-11,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Zorbland, its capital city is",
+            "misplaced": {
+              "rank": 150211,
+              "prob": 3.383394953093699e-11,
+              "top1": 1863
+            },
+            "after_head": {
+              "rank": 147449,
+              "prob": 1.65973641080841e-11,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Zorbland is",
+            "misplaced": {
+              "rank": 149200,
+              "prob": 9.12658906782049e-11,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 142621,
+              "prob": 5.674170161507064e-11,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Quaxil",
+        "target_ids": [
+          422,
+          1440,
+          21490,
+          151666
+        ],
+        "head_ids": [
+          422,
+          1440,
+          21490
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 11,
+            "prob": 0.008908161893486977,
+            "top1": 3406
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 17711,
+            "prob": 2.2686464262733352e-07,
+            "top1": 3406
+          },
+          "modifier_after_head": {
+            "rank": 109115,
+            "prob": 5.477087672289827e-10,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 11,
+            "prob": 0.008908161893486977,
+            "top1": 3406
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Quaxil's capital city is called",
+            "misplaced": {
+              "rank": 20905,
+              "prob": 2.1022182750130014e-07,
+              "top1": 3406
+            },
+            "after_head": {
+              "rank": 105439,
+              "prob": 8.396670025945241e-10,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Quaxil, its capital city is",
+            "misplaced": {
+              "rank": 71668,
+              "prob": 6.817237441225643e-09,
+              "top1": 3406
+            },
+            "after_head": {
+              "rank": 104273,
+              "prob": 1.070481592257977e-09,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Quaxil is",
+            "misplaced": {
+              "rank": 52464,
+              "prob": 1.6724914786436784e-08,
+              "top1": 3406
+            },
+            "after_head": {
+              "rank": 110518,
+              "prob": 8.751000479811921e-10,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Plurnak",
+        "target_ids": [
+          647,
+          76896,
+          1512,
+          151667
+        ],
+        "head_ids": [
+          647,
+          76896,
+          1512
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 15,
+            "prob": 0.009367085061967373,
+            "top1": 1818
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 4065,
+            "prob": 1.7458052752772346e-05,
+            "top1": 1818
+          },
+          "modifier_after_head": {
+            "rank": 6439,
+            "prob": 6.709385615977226e-07,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 15,
+            "prob": 0.009367085061967373,
+            "top1": 1818
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Plurnak's capital city is called",
+            "misplaced": {
+              "rank": 6238,
+              "prob": 7.214726792881265e-06,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 7068,
+              "prob": 9.539157872495707e-07,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Plurnak, its capital city is",
+            "misplaced": {
+              "rank": 10506,
+              "prob": 1.6042208699218463e-06,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 9958,
+              "prob": 6.024166623319616e-07,
+              "top1": 11
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Plurnak is",
+            "misplaced": {
+              "rank": 12312,
+              "prob": 7.257480092448532e-07,
+              "top1": 7407
+            },
+            "after_head": {
+              "rank": 8201,
+              "prob": 1.1858556945298915e-06,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Vythorn",
+        "target_ids": [
+          33328,
+          2571,
+          151668
+        ],
+        "head_ids": [
+          33328,
+          2571
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 394,
+            "prob": 0.00028437498258426785,
+            "top1": 647
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 145349,
+            "prob": 4.374833550979673e-10,
+            "top1": 647
+          },
+          "modifier_after_head": {
+            "rank": 50363,
+            "prob": 1.5820761589679933e-08,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 394,
+            "prob": 0.00028437498258426785,
+            "top1": 647
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Vythorn's capital city is called",
+            "misplaced": {
+              "rank": 143301,
+              "prob": 4.832752531491735e-10,
+              "top1": 647
+            },
+            "after_head": {
+              "rank": 50424,
+              "prob": 1.606485255933876e-08,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Vythorn, its capital city is",
+            "misplaced": {
+              "rank": 126589,
+              "prob": 3.412423399407061e-10,
+              "top1": 264
+            },
+            "after_head": {
+              "rank": 54733,
+              "prob": 1.4852640006779438e-08,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Vythorn is",
+            "misplaced": {
+              "rank": 109849,
+              "prob": 9.863670991094864e-10,
+              "top1": 647
+            },
+            "after_head": {
+              "rank": 44421,
+              "prob": 2.8364013360260287e-08,
+              "top1": 13
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Glimsto",
+        "target_ids": [
+          444,
+          324,
+          2810,
+          151669
+        ],
+        "head_ids": [
+          444,
+          324,
+          2810
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 5,
+            "prob": 0.01588437892496586,
+            "top1": 479
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 151732,
+            "prob": 5.768563404728866e-11,
+            "top1": 479
+          },
+          "modifier_after_head": {
+            "rank": 151452,
+            "prob": 2.3477213229039506e-11,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 5,
+            "prob": 0.01588437892496586,
+            "top1": 479
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Glimsto's capital city is called",
+            "misplaced": {
+              "rank": 151625,
+              "prob": 7.299558874018786e-11,
+              "top1": 479
+            },
+            "after_head": {
+              "rank": 151816,
+              "prob": 1.724505781230956e-11,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Glimsto, its capital city is",
+            "misplaced": {
+              "rank": 150220,
+              "prob": 2.2605996935487482e-11,
+              "top1": 30743
+            },
+            "after_head": {
+              "rank": 149714,
+              "prob": 2.0502005041583837e-12,
+              "top1": 68
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Glimsto is",
+            "misplaced": {
+              "rank": 151662,
+              "prob": 1.9773143192236553e-11,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 151423,
+              "prob": 2.7164130320112e-11,
+              "top1": 68
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Drennik",
+        "target_ids": [
+          730,
+          433,
+          56398,
+          151670
+        ],
+        "head_ids": [
+          730,
+          433,
+          56398
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 2,
+            "prob": 0.024250579997897148,
+            "top1": 422
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 16170,
+            "prob": 1.752231924001535e-07,
+            "top1": 422
+          },
+          "modifier_after_head": {
+            "rank": 150581,
+            "prob": 2.068100031504816e-12,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 2,
+            "prob": 0.024250579997897148,
+            "top1": 422
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Drennik's capital city is called",
+            "misplaced": {
+              "rank": 32562,
+              "prob": 7.658169920432556e-08,
+              "top1": 330
+            },
+            "after_head": {
+              "rank": 150182,
+              "prob": 1.1814115657982072e-11,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Drennik, its capital city is",
+            "misplaced": {
+              "rank": 116792,
+              "prob": 8.860042144398506e-10,
+              "top1": 422
+            },
+            "after_head": {
+              "rank": 151457,
+              "prob": 2.192331819556026e-12,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Drennik is",
+            "misplaced": {
+              "rank": 102915,
+              "prob": 2.03578531809967e-09,
+              "top1": 422
+            },
+            "after_head": {
+              "rank": 150541,
+              "prob": 6.8325293339777105e-12,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Yastovel",
+        "target_ids": [
+          19851,
+          35344,
+          151671
+        ],
+        "head_ids": [
+          19851,
+          35344
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 357,
+            "prob": 0.0003633811720646918,
+            "top1": 809
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 4399,
+            "prob": 1.042984331434127e-05,
+            "top1": 809
+          },
+          "modifier_after_head": {
+            "rank": 12580,
+            "prob": 1.3135435494859848e-07,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 357,
+            "prob": 0.0003633811720646918,
+            "top1": 809
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Yastovel's capital city is called",
+            "misplaced": {
+              "rank": 4678,
+              "prob": 8.446954780083615e-06,
+              "top1": 809
+            },
+            "after_head": {
+              "rank": 8309,
+              "prob": 2.5859677066364384e-07,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Yastovel, its capital city is",
+            "misplaced": {
+              "rank": 8121,
+              "prob": 1.406123374181334e-06,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 8437,
+              "prob": 5.775681870545668e-07,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Yastovel is",
+            "misplaced": {
+              "rank": 8896,
+              "prob": 1.2466470025174203e-06,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 7001,
+              "prob": 7.64392382279766e-07,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Crulpane",
+        "target_ids": [
+          21048,
+          1054,
+          80,
+          151672
+        ],
+        "head_ids": [
+          21048,
+          1054,
+          80
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 1049,
+            "prob": 0.00012739717203658074,
+            "top1": 4553
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 128130,
+            "prob": 1.9563497488661596e-09,
+            "top1": 4553
+          },
+          "modifier_after_head": {
+            "rank": 86892,
+            "prob": 1.681377925777383e-09,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 1049,
+            "prob": 0.00012739717203658074,
+            "top1": 4553
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Crulpane's capital city is called",
+            "misplaced": {
+              "rank": 125506,
+              "prob": 1.9692882879951412e-09,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 94994,
+              "prob": 1.6127575941382588e-09,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Crulpane, its capital city is",
+            "misplaced": {
+              "rank": 124971,
+              "prob": 9.562118874484327e-10,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 89864,
+              "prob": 1.5875537551224284e-09,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Crulpane is",
+            "misplaced": {
+              "rank": 120635,
+              "prob": 9.548810631088145e-10,
+              "top1": 7407
+            },
+            "after_head": {
+              "rank": 85637,
+              "prob": 2.7279329906093608e-09,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Mophgar",
+        "target_ids": [
+          479,
+          4659,
+          33052,
+          151665
+        ],
+        "head_ids": [
+          479,
+          4659,
+          33052
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 8,
+            "prob": 0.013589574955403805,
+            "top1": 386
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 147128,
+            "prob": 5.264532143556266e-10,
+            "top1": 386
+          },
+          "modifier_after_head": {
+            "rank": 151798,
+            "prob": 5.56619149643528e-13,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 8,
+            "prob": 0.013589574955403805,
+            "top1": 386
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Mophgar's capital city is called",
+            "misplaced": {
+              "rank": 138933,
+              "prob": 5.216470588820243e-10,
+              "top1": 386
+            },
+            "after_head": {
+              "rank": 151673,
+              "prob": 1.0725807178188496e-12,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Mophgar, its capital city is",
+            "misplaced": {
+              "rank": 151493,
+              "prob": 7.83471464788077e-12,
+              "top1": 3881
+            },
+            "after_head": {
+              "rank": 151896,
+              "prob": 2.803405836464268e-13,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Mophgar is",
+            "misplaced": {
+              "rank": 149830,
+              "prob": 7.049941880277188e-11,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 151636,
+              "prob": 2.4567010752096774e-12,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Brinduun",
+        "target_ids": [
+          3240,
+          484,
+          84,
+          151666
+        ],
+        "head_ids": [
+          3240,
+          484,
+          84
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 1,
+            "prob": 0.10060477256774902,
+            "top1": 3240
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 26298,
+            "prob": 1.1682705292059836e-07,
+            "top1": 3240
+          },
+          "modifier_after_head": {
+            "rank": 85120,
+            "prob": 2.26153540339169e-09,
+            "top1": 359
+          },
+          "canonical_base_first": {
+            "rank": 1,
+            "prob": 0.10060477256774902,
+            "top1": 3240
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Brinduun's capital city is called",
+            "misplaced": {
+              "rank": 26134,
+              "prob": 1.2285255479582702e-07,
+              "top1": 1128
+            },
+            "after_head": {
+              "rank": 64258,
+              "prob": 3.0620226354471924e-09,
+              "top1": 359
+            }
+          },
+          {
+            "prompt": "If you visit Brinduun, its capital city is",
+            "misplaced": {
+              "rank": 81158,
+              "prob": 5.850043116595316e-09,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 112560,
+              "prob": 7.818698466444118e-10,
+              "top1": 359
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Brinduun is",
+            "misplaced": {
+              "rank": 55381,
+              "prob": 1.6699583937906937e-08,
+              "top1": 3240
+            },
+            "after_head": {
+              "rank": 65671,
+              "prob": 2.238513596708458e-09,
+              "top1": 359
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Trannak",
+        "target_ids": [
+          2988,
+          12058,
+          2145,
+          151667
+        ],
+        "head_ids": [
+          2988,
+          12058,
+          2145
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 193,
+            "prob": 0.0007017043535597622,
+            "top1": 1163
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 5057,
+            "prob": 9.185027920466382e-06,
+            "top1": 1163
+          },
+          "modifier_after_head": {
+            "rank": 11088,
+            "prob": 1.7103555194353248e-07,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 193,
+            "prob": 0.0007017043535597622,
+            "top1": 1163
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Trannak's capital city is called",
+            "misplaced": {
+              "rank": 8499,
+              "prob": 2.328453092559357e-06,
+              "top1": 1163
+            },
+            "after_head": {
+              "rank": 11911,
+              "prob": 1.674514464866661e-07,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Trannak, its capital city is",
+            "misplaced": {
+              "rank": 18535,
+              "prob": 2.7515727651916677e-07,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 12903,
+              "prob": 1.6457548213111295e-07,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Trannak is",
+            "misplaced": {
+              "rank": 12681,
+              "prob": 5.871709163329797e-07,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 9287,
+              "prob": 2.8623631465052313e-07,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Skornwell",
+        "target_ids": [
+          809,
+          559,
+          859,
+          151668
+        ],
+        "head_ids": [
+          809,
+          559,
+          859
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 25,
+            "prob": 0.004797818139195442,
+            "top1": 4818
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 148970,
+            "prob": 4.2544928691157224e-10,
+            "top1": 4818
+          },
+          "modifier_after_head": {
+            "rank": 69444,
+            "prob": 5.727780472142285e-09,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 25,
+            "prob": 0.004797818139195442,
+            "top1": 4818
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Skornwell's capital city is called",
+            "misplaced": {
+              "rank": 150177,
+              "prob": 2.4106555640557303e-10,
+              "top1": 4818
+            },
+            "after_head": {
+              "rank": 80452,
+              "prob": 4.843653034214412e-09,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Skornwell, its capital city is",
+            "misplaced": {
+              "rank": 116620,
+              "prob": 8.069325763138124e-10,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 79562,
+              "prob": 5.137299918800409e-09,
+              "top1": 11
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Skornwell is",
+            "misplaced": {
+              "rank": 129429,
+              "prob": 5.523457247136321e-10,
+              "top1": 4818
+            },
+            "after_head": {
+              "rank": 73193,
+              "prob": 7.85833265126712e-09,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Fluvane",
+        "target_ids": [
+          647,
+          1252,
+          151669
+        ],
+        "head_ids": [
+          647,
+          1252
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 3,
+            "prob": 0.012468608096241951,
+            "top1": 2988
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 151785,
+            "prob": 2.1811066841515014e-11,
+            "top1": 2988
+          },
+          "modifier_after_head": {
+            "rank": 150110,
+            "prob": 8.78774483736855e-13,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 3,
+            "prob": 0.012468608096241951,
+            "top1": 2988
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Fluvane's capital city is called",
+            "misplaced": {
+              "rank": 151532,
+              "prob": 6.148659359439534e-11,
+              "top1": 1304
+            },
+            "after_head": {
+              "rank": 151371,
+              "prob": 7.462170638350418e-12,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Fluvane, its capital city is",
+            "misplaced": {
+              "rank": 150575,
+              "prob": 5.340772962769691e-11,
+              "top1": 2988
+            },
+            "after_head": {
+              "rank": 150364,
+              "prob": 1.9361701478204374e-11,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Fluvane is",
+            "misplaced": {
+              "rank": 151677,
+              "prob": 1.7670316598827895e-11,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 149985,
+              "prob": 1.2509469154986519e-11,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Oxbarrow",
+        "target_ids": [
+          422,
+          1440,
+          21490,
+          151670
+        ],
+        "head_ids": [
+          422,
+          1440,
+          21490
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 13,
+            "prob": 0.009236647747457027,
+            "top1": 50615
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 43342,
+            "prob": 3.204151255431498e-08,
+            "top1": 50615
+          },
+          "modifier_after_head": {
+            "rank": 142425,
+            "prob": 1.0816754436593357e-10,
+            "top1": 11
+          },
+          "canonical_base_first": {
+            "rank": 13,
+            "prob": 0.009236647747457027,
+            "top1": 50615
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Oxbarrow's capital city is called",
+            "misplaced": {
+              "rank": 39531,
+              "prob": 3.105145296444789e-08,
+              "top1": 1128
+            },
+            "after_head": {
+              "rank": 122325,
+              "prob": 1.9005039209041286e-10,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Oxbarrow, its capital city is",
+            "misplaced": {
+              "rank": 106079,
+              "prob": 1.7053344292250472e-09,
+              "top1": 264
+            },
+            "after_head": {
+              "rank": 128784,
+              "prob": 2.7291160997755526e-10,
+              "top1": 11
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Oxbarrow is",
+            "misplaced": {
+              "rank": 100220,
+              "prob": 1.9161290332192493e-09,
+              "top1": 50615
+            },
+            "after_head": {
+              "rank": 108329,
+              "prob": 1.1212196726617663e-09,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Zephquin",
+        "target_ids": [
+          647,
+          76896,
+          1512,
+          151671
+        ],
+        "head_ids": [
+          647,
+          76896,
+          1512
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 15,
+            "prob": 0.007742932066321373,
+            "top1": 1863
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 4319,
+            "prob": 1.0978534191963263e-05,
+            "top1": 1863
+          },
+          "modifier_after_head": {
+            "rank": 4498,
+            "prob": 9.039661676979449e-07,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 15,
+            "prob": 0.007742932066321373,
+            "top1": 1863
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Zephquin's capital city is called",
+            "misplaced": {
+              "rank": 3612,
+              "prob": 1.841447920014616e-05,
+              "top1": 1863
+            },
+            "after_head": {
+              "rank": 4287,
+              "prob": 1.1973190794378752e-06,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Zephquin, its capital city is",
+            "misplaced": {
+              "rank": 11680,
+              "prob": 1.0513258530409075e-06,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 4952,
+              "prob": 1.3454381360133993e-06,
+              "top1": 11
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Zephquin is",
+            "misplaced": {
+              "rank": 8488,
+              "prob": 1.5856739992159419e-06,
+              "top1": 1863
+            },
+            "after_head": {
+              "rank": 3762,
+              "prob": 2.0671359379775822e-06,
+              "top1": 685
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Lurmaxen",
+        "target_ids": [
+          33328,
+          2571,
+          151672
+        ],
+        "head_ids": [
+          33328,
+          2571
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 856,
+            "prob": 0.00016689176845829934,
+            "top1": 444
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 116766,
+            "prob": 2.1413337769615737e-09,
+            "top1": 444
+          },
+          "modifier_after_head": {
+            "rank": 109079,
+            "prob": 9.565486180918015e-10,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 856,
+            "prob": 0.00016689176845829934,
+            "top1": 444
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Lurmaxen's capital city is called",
+            "misplaced": {
+              "rank": 114186,
+              "prob": 2.3334147947196016e-09,
+              "top1": 444
+            },
+            "after_head": {
+              "rank": 101547,
+              "prob": 1.7212040681613416e-09,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Lurmaxen, its capital city is",
+            "misplaced": {
+              "rank": 121995,
+              "prob": 6.117465423116641e-10,
+              "top1": 444
+            },
+            "after_head": {
+              "rank": 123687,
+              "prob": 6.621831971642678e-10,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Lurmaxen is",
+            "misplaced": {
+              "rank": 122832,
+              "prob": 8.484932201291429e-10,
+              "top1": 444
+            },
+            "after_head": {
+              "rank": 112939,
+              "prob": 1.3765056872117043e-09,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Pradnoll",
+        "target_ids": [
+          444,
+          324,
+          2810,
+          151665
+        ],
+        "head_ids": [
+          444,
+          324,
+          2810
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 10,
+            "prob": 0.010935328900814056,
+            "top1": 2340
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 141267,
+            "prob": 9.509409926167223e-10,
+            "top1": 2340
+          },
+          "modifier_after_head": {
+            "rank": 145889,
+            "prob": 3.012504135035954e-10,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 10,
+            "prob": 0.010935328900814056,
+            "top1": 2340
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Pradnoll's capital city is called",
+            "misplaced": {
+              "rank": 123551,
+              "prob": 1.6610293140928434e-09,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 144298,
+              "prob": 2.86646040237315e-10,
+              "top1": 68
+            }
+          },
+          {
+            "prompt": "If you visit Pradnoll, its capital city is",
+            "misplaced": {
+              "rank": 151078,
+              "prob": 4.585024721004416e-11,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 144076,
+              "prob": 2.8172458810260537e-10,
+              "top1": 68
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Pradnoll is",
+            "misplaced": {
+              "rank": 150817,
+              "prob": 6.186950257669466e-11,
+              "top1": 2340
+            },
+            "after_head": {
+              "rank": 136258,
+              "prob": 1.0480657453015851e-09,
+              "top1": 68
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Kessivar",
+        "target_ids": [
+          730,
+          433,
+          56398,
+          151666
+        ],
+        "head_ids": [
+          730,
+          433,
+          56398
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 1,
+            "prob": 0.15587852895259857,
+            "top1": 730
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 19278,
+            "prob": 1.3114537011915672e-07,
+            "top1": 730
+          },
+          "modifier_after_head": {
+            "rank": 143150,
+            "prob": 3.604137474577662e-11,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 1,
+            "prob": 0.15587852895259857,
+            "top1": 730
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Kessivar's capital city is called",
+            "misplaced": {
+              "rank": 22755,
+              "prob": 1.1286943646382497e-07,
+              "top1": 730
+            },
+            "after_head": {
+              "rank": 125743,
+              "prob": 3.5092617700627216e-10,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Kessivar, its capital city is",
+            "misplaced": {
+              "rank": 87171,
+              "prob": 2.0225119357064614e-09,
+              "top1": 730
+            },
+            "after_head": {
+              "rank": 139688,
+              "prob": 2.21852258786015e-10,
+              "top1": 11
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Kessivar is",
+            "misplaced": {
+              "rank": 60254,
+              "prob": 7.795999401594145e-09,
+              "top1": 730
+            },
+            "after_head": {
+              "rank": 139664,
+              "prob": 1.399742127761172e-10,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Wombryne",
+        "target_ids": [
+          19851,
+          35344,
+          151667
+        ],
+        "head_ids": [
+          19851,
+          35344
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 261,
+            "prob": 0.0005336396861821413,
+            "top1": 467
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 7573,
+            "prob": 4.895491201750701e-06,
+            "top1": 467
+          },
+          "modifier_after_head": {
+            "rank": 9939,
+            "prob": 1.5400026143197465e-07,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 261,
+            "prob": 0.0005336396861821413,
+            "top1": 467
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Wombryne's capital city is called",
+            "misplaced": {
+              "rank": 5968,
+              "prob": 6.61380727251526e-06,
+              "top1": 1128
+            },
+            "after_head": {
+              "rank": 3707,
+              "prob": 1.224391553478199e-06,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Wombryne, its capital city is",
+            "misplaced": {
+              "rank": 11969,
+              "prob": 1.1963649058088777e-06,
+              "top1": 467
+            },
+            "after_head": {
+              "rank": 9242,
+              "prob": 3.399243553303677e-07,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Wombryne is",
+            "misplaced": {
+              "rank": 12104,
+              "prob": 6.970360573177459e-07,
+              "top1": 467
+            },
+            "after_head": {
+              "rank": 7517,
+              "prob": 1.0833230135176564e-06,
+              "top1": 13
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Halquin",
+        "target_ids": [
+          21048,
+          1054,
+          80,
+          151668
+        ],
+        "head_ids": [
+          21048,
+          1054,
+          80
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 824,
+            "prob": 0.00014404294779524207,
+            "top1": 19851
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 147083,
+            "prob": 1.3309867097355266e-10,
+            "top1": 19851
+          },
+          "modifier_after_head": {
+            "rank": 55705,
+            "prob": 2.2662316467858545e-09,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 824,
+            "prob": 0.00014404294779524207,
+            "top1": 19851
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Halquin's capital city is called",
+            "misplaced": {
+              "rank": 149145,
+              "prob": 2.604411963869069e-10,
+              "top1": 1128
+            },
+            "after_head": {
+              "rank": 67305,
+              "prob": 5.952050852187085e-09,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Halquin, its capital city is",
+            "misplaced": {
+              "rank": 136544,
+              "prob": 1.9506112003409015e-10,
+              "top1": 264
+            },
+            "after_head": {
+              "rank": 83041,
+              "prob": 1.687358253121829e-09,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Halquin is",
+            "misplaced": {
+              "rank": 130923,
+              "prob": 3.3726446635462537e-10,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 62218,
+              "prob": 2.751765704189779e-09,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Vorlex",
+        "target_ids": [
+          479,
+          4659,
+          33052,
+          151669
+        ],
+        "head_ids": [
+          479,
+          4659,
+          33052
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 11,
+            "prob": 0.009164771996438503,
+            "top1": 33328
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 151247,
+            "prob": 1.4742511378340595e-10,
+            "top1": 33328
+          },
+          "modifier_after_head": {
+            "rank": 72858,
+            "prob": 1.914533420688258e-09,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 11,
+            "prob": 0.009164771996438503,
+            "top1": 33328
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Vorlex's capital city is called",
+            "misplaced": {
+              "rank": 150581,
+              "prob": 2.178037195044169e-10,
+              "top1": 33328
+            },
+            "after_head": {
+              "rank": 118830,
+              "prob": 3.7386790885385324e-10,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Vorlex, its capital city is",
+            "misplaced": {
+              "rank": 150288,
+              "prob": 4.1804816552915014e-11,
+              "top1": 33328
+            },
+            "after_head": {
+              "rank": 122919,
+              "prob": 2.770751406089289e-10,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Vorlex is",
+            "misplaced": {
+              "rank": 150686,
+              "prob": 5.193372121237161e-11,
+              "top1": 279
+            },
+            "after_head": {
+              "rank": 87873,
+              "prob": 2.2172335079062577e-09,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Quenby",
+        "target_ids": [
+          3240,
+          484,
+          84,
+          151670
+        ],
+        "head_ids": [
+          3240,
+          484,
+          84
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 34,
+            "prob": 0.004133271984755993,
+            "top1": 3406
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 28654,
+            "prob": 4.854684121369246e-08,
+            "top1": 3406
+          },
+          "modifier_after_head": {
+            "rank": 94890,
+            "prob": 2.0311994308741532e-09,
+            "top1": 11
+          },
+          "canonical_base_first": {
+            "rank": 34,
+            "prob": 0.004133271984755993,
+            "top1": 3406
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Quenby's capital city is called",
+            "misplaced": {
+              "rank": 41361,
+              "prob": 3.4448067509629254e-08,
+              "top1": 3406
+            },
+            "after_head": {
+              "rank": 96586,
+              "prob": 2.5490118904514247e-09,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Quenby, its capital city is",
+            "misplaced": {
+              "rank": 103502,
+              "prob": 1.7308841027130484e-09,
+              "top1": 3406
+            },
+            "after_head": {
+              "rank": 78740,
+              "prob": 6.306615674134264e-09,
+              "top1": 11
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Quenby is",
+            "misplaced": {
+              "rank": 113789,
+              "prob": 6.531570839740652e-10,
+              "top1": 3406
+            },
+            "after_head": {
+              "rank": 70013,
+              "prob": 8.231305415051793e-09,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Marsduq",
+        "target_ids": [
+          2988,
+          12058,
+          2145,
+          151671
+        ],
+        "head_ids": [
+          2988,
+          12058,
+          2145
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 278,
+            "prob": 0.00046912659308873117,
+            "top1": 21048
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 5559,
+            "prob": 6.1888395066489466e-06,
+            "top1": 21048
+          },
+          "modifier_after_head": {
+            "rank": 18174,
+            "prob": 5.695485683077095e-08,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 278,
+            "prob": 0.00046912659308873117,
+            "top1": 21048
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Marsduq's capital city is called",
+            "misplaced": {
+              "rank": 4129,
+              "prob": 1.183487256639637e-05,
+              "top1": 21048
+            },
+            "after_head": {
+              "rank": 13611,
+              "prob": 1.1946760025693948e-07,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Marsduq, its capital city is",
+            "misplaced": {
+              "rank": 13190,
+              "prob": 7.405477617794531e-07,
+              "top1": 1304
+            },
+            "after_head": {
+              "rank": 16659,
+              "prob": 1.810902006127435e-07,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Marsduq is",
+            "misplaced": {
+              "rank": 9243,
+              "prob": 1.0233503644485609e-06,
+              "top1": 21048
+            },
+            "after_head": {
+              "rank": 14238,
+              "prob": 1.9350196112100093e-07,
+              "top1": 11
+            }
+          }
+        ]
+      },
+      {
+        "subj": "Thelby",
+        "target_ids": [
+          809,
+          559,
+          859,
+          151672
+        ],
+        "head_ids": [
+          809,
+          559,
+          859
+        ],
+        "rank_prob_top1": {
+          "head_at_value_slot": {
+            "rank": 40,
+            "prob": 0.0033623739145696163,
+            "top1": 663
+          },
+          "modifier_misplaced_at_value_slot": {
+            "rank": 88932,
+            "prob": 5.2747086698445855e-09,
+            "top1": 663
+          },
+          "modifier_after_head": {
+            "rank": 31893,
+            "prob": 3.0958378971490674e-08,
+            "top1": 13
+          },
+          "canonical_base_first": {
+            "rank": 40,
+            "prob": 0.0033623739145696163,
+            "top1": 663
+          }
+        },
+        "modifier_paraphrase_probes": [
+          {
+            "prompt": "Thelby's capital city is called",
+            "misplaced": {
+              "rank": 103598,
+              "prob": 3.4572411600208852e-09,
+              "top1": 663
+            },
+            "after_head": {
+              "rank": 33292,
+              "prob": 4.5461518993761274e-08,
+              "top1": 13
+            }
+          },
+          {
+            "prompt": "If you visit Thelby, its capital city is",
+            "misplaced": {
+              "rank": 83868,
+              "prob": 5.137419378797858e-09,
+              "top1": 663
+            },
+            "after_head": {
+              "rank": 37951,
+              "prob": 3.1638592190574855e-08,
+              "top1": 11
+            }
+          },
+          {
+            "prompt": "The main city and seat of government of Thelby is",
+            "misplaced": {
+              "rank": 75224,
+              "prob": 5.551463733155515e-09,
+              "top1": 663
+            },
+            "after_head": {
+              "rank": 35229,
+              "prob": 5.047931850299392e-08,
+              "top1": 11
+            }
+          }
+        ]
+      }
+    ],
+    "minted_inventory": [
+      {
+        "word": "Vask",
+        "id": 151665,
+        "unrelated": [
+          {
+            "rank": 117571,
+            "prob": 1.1016049183965038e-10,
+            "top1": 1602
+          },
+          {
+            "rank": 120060,
+            "prob": 1.4806120218757712e-10,
+            "top1": 6966
+          },
+          {
+            "rank": 137888,
+            "prob": 1.0054714005836018e-10,
+            "top1": 7014
+          },
+          {
+            "rank": 103068,
+            "prob": 4.677909171135752e-10,
+            "top1": 10799
+          },
+          {
+            "rank": 18028,
+            "prob": 6.704227173415234e-10,
+            "top1": 2170
+          },
+          {
+            "rank": 88516,
+            "prob": 4.8483383974229355e-11,
+            "top1": 12348
+          },
+          {
+            "rank": 98430,
+            "prob": 1.07164987994679e-09,
+            "top1": 11
+          },
+          {
+            "rank": 150773,
+            "prob": 2.2650488255837598e-12,
+            "top1": 279
+          },
+          {
+            "rank": 81304,
+            "prob": 3.872172981561617e-12,
+            "top1": 44626
+          },
+          {
+            "rank": 134630,
+            "prob": 4.485187915514999e-11,
+            "top1": 6118
+          }
+        ],
+        "unrelated_hits": 0
+      },
+      {
+        "word": "Brakk",
+        "id": 151666,
+        "unrelated": [
+          {
+            "rank": 45737,
+            "prob": 3.589704311579567e-09,
+            "top1": 1602
+          },
+          {
+            "rank": 137374,
+            "prob": 5.674919562048686e-11,
+            "top1": 6966
+          },
+          {
+            "rank": 74059,
+            "prob": 1.4266616776836827e-09,
+            "top1": 7014
+          },
+          {
+            "rank": 15575,
+            "prob": 7.959767600596024e-08,
+            "top1": 10799
+          },
+          {
+            "rank": 118966,
+            "prob": 4.807893991785883e-13,
+            "top1": 2170
+          },
+          {
+            "rank": 28356,
+            "prob": 8.871014478550876e-10,
+            "top1": 12348
+          },
+          {
+            "rank": 139565,
+            "prob": 8.463776207667806e-11,
+            "top1": 11
+          },
+          {
+            "rank": 95462,
+            "prob": 1.9844197118867868e-10,
+            "top1": 279
+          },
+          {
+            "rank": 107534,
+            "prob": 7.714640016219521e-13,
+            "top1": 44626
+          },
+          {
+            "rank": 68611,
+            "prob": 1.1778333863787793e-09,
+            "top1": 6118
+          }
+        ],
+        "unrelated_hits": 0
+      },
+      {
+        "word": "Stavik",
+        "id": 151667,
+        "unrelated": [
+          {
+            "rank": 25218,
+            "prob": 1.6253750345640583e-08,
+            "top1": 1602
+          },
+          {
+            "rank": 37124,
+            "prob": 9.133425571405951e-09,
+            "top1": 6966
+          },
+          {
+            "rank": 13101,
+            "prob": 9.579844117979519e-08,
+            "top1": 7014
+          },
+          {
+            "rank": 5156,
+            "prob": 6.34702701063361e-07,
+            "top1": 10799
+          },
+          {
+            "rank": 45399,
+            "prob": 4.8116784862051176e-11,
+            "top1": 2170
+          },
+          {
+            "rank": 2595,
+            "prob": 6.708011568434813e-08,
+            "top1": 12348
+          },
+          {
+            "rank": 23337,
+            "prob": 1.2176701602584217e-07,
+            "top1": 11
+          },
+          {
+            "rank": 45638,
+            "prob": 2.2506256858179086e-09,
+            "top1": 279
+          },
+          {
+            "rank": 51520,
+            "prob": 2.1014700396504438e-11,
+            "top1": 44626
+          },
+          {
+            "rank": 43574,
+            "prob": 4.601901526513075e-09,
+            "top1": 6118
+          }
+        ],
+        "unrelated_hits": 0
+      },
+      {
+        "word": "Yornel",
+        "id": 151668,
+        "unrelated": [
+          {
+            "rank": 67379,
+            "prob": 1.1543626055043887e-09,
+            "top1": 1602
+          },
+          {
+            "rank": 79126,
+            "prob": 1.0172639397509897e-09,
+            "top1": 6966
+          },
+          {
+            "rank": 118766,
+            "prob": 2.520360031788016e-10,
+            "top1": 7014
+          },
+          {
+            "rank": 108373,
+            "prob": 3.7514710782282634e-10,
+            "top1": 10799
+          },
+          {
+            "rank": 29147,
+            "prob": 1.8956362868305376e-10,
+            "top1": 2170
+          },
+          {
+            "rank": 39404,
+            "prob": 4.1719963594921694e-10,
+            "top1": 12348
+          },
+          {
+            "rank": 107984,
+            "prob": 6.821806453061185e-10,
+            "top1": 11
+          },
+          {
+            "rank": 123011,
+            "prob": 4.933585137645302e-11,
+            "top1": 279
+          },
+          {
+            "rank": 129842,
+            "prob": 1.2495798666634084e-13,
+            "top1": 44626
+          },
+          {
+            "rank": 100413,
+            "prob": 2.678627875063455e-10,
+            "top1": 6118
+          }
+        ],
+        "unrelated_hits": 0
+      },
+      {
+        "word": "Spraxil",
+        "id": 151669,
+        "unrelated": [
+          {
+            "rank": 146170,
+            "prob": 1.1724773062160576e-11,
+            "top1": 1602
+          },
+          {
+            "rank": 115667,
+            "prob": 1.886348854895914e-10,
+            "top1": 6966
+          },
+          {
+            "rank": 151649,
+            "prob": 4.928337685866646e-12,
+            "top1": 7014
+          },
+          {
+            "rank": 149805,
+            "prob": 1.1918591981407989e-11,
+            "top1": 10799
+          },
+          {
+            "rank": 5076,
+            "prob": 1.242952940572195e-08,
+            "top1": 2170
+          },
+          {
+            "rank": 147132,
+            "prob": 1.3149507524512494e-12,
+            "top1": 12348
+          },
+          {
+            "rank": 149577,
+            "prob": 2.139977778314872e-11,
+            "top1": 11
+          },
+          {
+            "rank": 151921,
+            "prob": 1.802061646606623e-13,
+            "top1": 279
+          },
+          {
+            "rank": 5774,
+            "prob": 9.911710563415e-09,
+            "top1": 44626
+          },
+          {
+            "rank": 105278,
+            "prob": 2.1272625327917183e-10,
+            "top1": 6118
+          }
+        ],
+        "unrelated_hits": 0
+      },
+      {
+        "word": "Ulvenn",
+        "id": 151670,
+        "unrelated": [
+          {
+            "rank": 132263,
+            "prob": 4.330831179788497e-11,
+            "top1": 1602
+          },
+          {
+            "rank": 91823,
+            "prob": 5.799026259190043e-10,
+            "top1": 6966
+          },
+          {
+            "rank": 74245,
+            "prob": 1.4152137239875628e-09,
+            "top1": 7014
+          },
+          {
+            "rank": 121624,
+            "prob": 2.2488733097958402e-10,
+            "top1": 10799
+          },
+          {
+            "rank": 59459,
+            "prob": 1.8200755139141656e-11,
+            "top1": 2170
+          },
+          {
+            "rank": 64897,
+            "prob": 1.1283738526879361e-10,
+            "top1": 12348
+          },
+          {
+            "rank": 121962,
+            "prob": 3.2066974076094823e-10,
+            "top1": 11
+          },
+          {
+            "rank": 113174,
+            "prob": 8.42515779364561e-11,
+            "top1": 279
+          },
+          {
+            "rank": 35722,
+            "prob": 7.210565478033004e-11,
+            "top1": 44626
+          },
+          {
+            "rank": 48664,
+            "prob": 3.389089897609665e-09,
+            "top1": 6118
+          }
+        ],
+        "unrelated_hits": 0
+      },
+      {
+        "word": "Cindel",
+        "id": 151671,
+        "unrelated": [
+          {
+            "rank": 24142,
+            "prob": 1.799126181367683e-08,
+            "top1": 1602
+          },
+          {
+            "rank": 11201,
+            "prob": 1.5342777714977274e-07,
+            "top1": 6966
+          },
+          {
+            "rank": 827,
+            "prob": 5.010432687413413e-06,
+            "top1": 7014
+          },
+          {
+            "rank": 15972,
+            "prob": 7.521451550474012e-08,
+            "top1": 10799
+          },
+          {
+            "rank": 7743,
+            "prob": 4.982902535033418e-09,
+            "top1": 2170
+          },
+          {
+            "rank": 4028,
+            "prob": 3.282019278572079e-08,
+            "top1": 12348
+          },
+          {
+            "rank": 2304,
+            "prob": 1.0157196811633185e-05,
+            "top1": 11
+          },
+          {
+            "rank": 7541,
+            "prob": 9.069455586541153e-08,
+            "top1": 279
+          },
+          {
+            "rank": 8019,
+            "prob": 4.389712593422246e-09,
+            "top1": 44626
+          },
+          {
+            "rank": 2612,
+            "prob": 1.6193026795008336e-06,
+            "top1": 6118
+          }
+        ],
+        "unrelated_hits": 0
+      },
+      {
+        "word": "Drelth",
+        "id": 151672,
+        "unrelated": [
+          {
+            "rank": 60035,
+            "prob": 1.6493146848262086e-09,
+            "top1": 1602
+          },
+          {
+            "rank": 53148,
+            "prob": 3.495552958199255e-09,
+            "top1": 6966
+          },
+          {
+            "rank": 149574,
+            "prob": 2.0911812212420777e-11,
+            "top1": 7014
+          },
+          {
+            "rank": 110701,
+            "prob": 3.395797809613299e-10,
+            "top1": 10799
+          },
+          {
+            "rank": 41226,
+            "prob": 6.613011527267787e-11,
+            "top1": 2170
+          },
+          {
+            "rank": 147835,
+            "prob": 1.1291390999285111e-12,
+            "top1": 12348
+          },
+          {
+            "rank": 138967,
+            "prob": 8.904676995769023e-11,
+            "top1": 11
+          },
+          {
+            "rank": 151697,
+            "prob": 7.889193855484256e-13,
+            "top1": 279
+          },
+          {
+            "rank": 137621,
+            "prob": 4.912576964145876e-14,
+            "top1": 44626
+          },
+          {
+            "rank": 51807,
+            "prob": 2.836187729116091e-09,
+            "top1": 6118
+          }
+        ],
+        "unrelated_hits": 0
+      }
+    ],
+    "head_or_whole_id_classes": {
+      "rows": [
+        {
+          "subj": "Zorbland",
+          "val": "Vindex Vask",
+          "id": 647,
+          "canon_rank": 28,
+          "canon_prob": 0.005616882350295782,
+          "canon_top1": false,
+          "para_ranks": [
+            43,
+            117,
+            36
+          ],
+          "para_probs": [
+            0.0028307195752859116,
+            0.000557321181986481,
+            0.003270826069638133
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 219,
+          "constituent_first_rank_canon": 28,
+          "class": "free"
+        },
+        {
+          "subj": "Quaxil",
+          "val": "Drennik Brakk",
+          "id": 422,
+          "canon_rank": 11,
+          "canon_prob": 0.008908161893486977,
+          "canon_top1": false,
+          "para_ranks": [
+            18,
+            31,
+            32
+          ],
+          "para_probs": [
+            0.00819042045623064,
+            0.00422058068215847,
+            0.00391538767144084
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 168,
+          "constituent_first_rank_canon": 11,
+          "class": "free"
+        },
+        {
+          "subj": "Plurnak",
+          "val": "Vythorn Stavik",
+          "id": 647,
+          "canon_rank": 15,
+          "canon_prob": 0.009367085061967373,
+          "canon_top1": false,
+          "para_ranks": [
+            33,
+            104,
+            71
+          ],
+          "para_probs": [
+            0.004614975303411484,
+            0.0010966133559122682,
+            0.0012817865936085582
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 219,
+          "constituent_first_rank_canon": 15,
+          "class": "free"
+        },
+        {
+          "subj": "Vythorn",
+          "val": "Vorlex Yornel",
+          "id": 33328,
+          "canon_rank": 394,
+          "canon_prob": 0.00028437498258426785,
+          "canon_top1": false,
+          "para_ranks": [
+            937,
+            2118,
+            332
+          ],
+          "para_probs": [
+            0.00011489079770399258,
+            2.1121371901244856e-05,
+            0.00014418484352063388
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 8302,
+          "constituent_first_rank_canon": 394,
+          "class": "free"
+        },
+        {
+          "subj": "Glimsto",
+          "val": "Lurmax Spraxil",
+          "id": 444,
+          "canon_rank": 5,
+          "canon_prob": 0.01588437892496586,
+          "canon_top1": false,
+          "para_ranks": [
+            9,
+            22,
+            20
+          ],
+          "para_probs": [
+            0.011452716775238514,
+            0.0062491740100085735,
+            0.006593331228941679
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 195,
+          "constituent_first_rank_canon": 5,
+          "class": "free"
+        },
+        {
+          "subj": "Drennik",
+          "val": "Kessivar Ulvenn",
+          "id": 730,
+          "canon_rank": 2,
+          "canon_prob": 0.024250579997897148,
+          "canon_top1": false,
+          "para_ranks": [
+            7,
+            12,
+            12
+          ],
+          "para_probs": [
+            0.014607557095587254,
+            0.011522657237946987,
+            0.00713282311335206
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 79,
+          "constituent_first_rank_canon": 2,
+          "class": "free"
+        },
+        {
+          "subj": "Yastovel",
+          "val": "Halquin Cindel",
+          "id": 19851,
+          "canon_rank": 357,
+          "canon_prob": 0.0003633811720646918,
+          "canon_top1": false,
+          "para_ranks": [
+            290,
+            223,
+            347
+          ],
+          "para_probs": [
+            0.00042987457709386945,
+            0.0003591733693610877,
+            0.0001946569827850908
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 2687,
+          "constituent_first_rank_canon": 357,
+          "class": "free"
+        },
+        {
+          "subj": "Crulpane",
+          "val": "Marsduq Drelth",
+          "id": 21048,
+          "canon_rank": 1049,
+          "canon_prob": 0.00012739717203658074,
+          "canon_top1": false,
+          "para_ranks": [
+            412,
+            1761,
+            1389
+          ],
+          "para_probs": [
+            0.0003112573758699,
+            4.2215247958665714e-05,
+            3.662620292743668e-05
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 843,
+          "constituent_first_rank_canon": 1049,
+          "class": "free"
+        },
+        {
+          "subj": "Mophgar",
+          "val": "Glimsto Vask",
+          "id": 479,
+          "canon_rank": 8,
+          "canon_prob": 0.013589574955403805,
+          "canon_top1": false,
+          "para_ranks": [
+            21,
+            33,
+            26
+          ],
+          "para_probs": [
+            0.00921862106770277,
+            0.005256772972643375,
+            0.005716039799153805
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 317,
+          "constituent_first_rank_canon": 8,
+          "class": "free"
+        },
+        {
+          "subj": "Brinduun",
+          "val": "Brindu Brakk",
+          "id": 3240,
+          "canon_rank": 1,
+          "canon_prob": 0.10060477256774902,
+          "canon_top1": true,
+          "para_ranks": [
+            7,
+            12,
+            1
+          ],
+          "para_probs": [
+            0.01406812947243452,
+            0.013653888367116451,
+            0.11812268197536469
+          ],
+          "para_hits": 1,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 371,
+          "constituent_first_rank_canon": 1,
+          "class": "live"
+        },
+        {
+          "subj": "Trannak",
+          "val": "Fluvane Stavik",
+          "id": 2988,
+          "canon_rank": 193,
+          "canon_prob": 0.0007017043535597622,
+          "canon_top1": false,
+          "para_ranks": [
+            351,
+            154,
+            125
+          ],
+          "para_probs": [
+            0.0003736536018550396,
+            0.0006375511293299496,
+            0.0006289949524216354
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 652,
+          "constituent_first_rank_canon": 193,
+          "class": "free"
+        },
+        {
+          "subj": "Skornwell",
+          "val": "Yastov Yornel",
+          "id": 809,
+          "canon_rank": 25,
+          "canon_prob": 0.004797818139195442,
+          "canon_top1": false,
+          "para_ranks": [
+            34,
+            83,
+            82
+          ],
+          "para_probs": [
+            0.003894087392836809,
+            0.0013148009311407804,
+            0.0009079266455955803
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 426,
+          "constituent_first_rank_canon": 25,
+          "class": "free"
+        },
+        {
+          "subj": "Fluvane",
+          "val": "Vindex Spraxil",
+          "id": 647,
+          "canon_rank": 3,
+          "canon_prob": 0.012468608096241951,
+          "canon_top1": false,
+          "para_ranks": [
+            27,
+            43,
+            33
+          ],
+          "para_probs": [
+            0.005306809674948454,
+            0.0035342536866664886,
+            0.0036872108466923237
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 219,
+          "constituent_first_rank_canon": 3,
+          "class": "free"
+        },
+        {
+          "subj": "Oxbarrow",
+          "val": "Drennik Ulvenn",
+          "id": 422,
+          "canon_rank": 13,
+          "canon_prob": 0.009236647747457027,
+          "canon_top1": false,
+          "para_ranks": [
+            16,
+            37,
+            29
+          ],
+          "para_probs": [
+            0.0074617015197873116,
+            0.0035888112615793943,
+            0.0032055203337222338
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 168,
+          "constituent_first_rank_canon": 13,
+          "class": "free"
+        },
+        {
+          "subj": "Zephquin",
+          "val": "Vythorn Cindel",
+          "id": 647,
+          "canon_rank": 15,
+          "canon_prob": 0.007742932066321373,
+          "canon_top1": false,
+          "para_ranks": [
+            34,
+            195,
+            67
+          ],
+          "para_probs": [
+            0.004183562938123941,
+            0.00046947479131631553,
+            0.0011227200739085674
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 219,
+          "constituent_first_rank_canon": 15,
+          "class": "free"
+        },
+        {
+          "subj": "Lurmaxen",
+          "val": "Vorlex Drelth",
+          "id": 33328,
+          "canon_rank": 856,
+          "canon_prob": 0.00016689176845829934,
+          "canon_top1": false,
+          "para_ranks": [
+            1071,
+            933,
+            602
+          ],
+          "para_probs": [
+            0.00010774980182759464,
+            7.769264630042017e-05,
+            0.00011951242777286097
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 8302,
+          "constituent_first_rank_canon": 856,
+          "class": "free"
+        },
+        {
+          "subj": "Pradnoll",
+          "val": "Lurmax Vask",
+          "id": 444,
+          "canon_rank": 10,
+          "canon_prob": 0.010935328900814056,
+          "canon_top1": false,
+          "para_ranks": [
+            31,
+            29,
+            50
+          ],
+          "para_probs": [
+            0.005041522905230522,
+            0.005430105607956648,
+            0.0021659419871866703
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 195,
+          "constituent_first_rank_canon": 10,
+          "class": "free"
+        },
+        {
+          "subj": "Kessivar",
+          "val": "Kessivar Brakk",
+          "id": 730,
+          "canon_rank": 1,
+          "canon_prob": 0.15587852895259857,
+          "canon_top1": true,
+          "para_ranks": [
+            1,
+            1,
+            1
+          ],
+          "para_probs": [
+            0.09238415956497192,
+            0.07937481999397278,
+            0.17033089697360992
+          ],
+          "para_hits": 3,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 79,
+          "constituent_first_rank_canon": 1,
+          "class": "live"
+        },
+        {
+          "subj": "Wombryne",
+          "val": "Halquin Stavik",
+          "id": 19851,
+          "canon_rank": 261,
+          "canon_prob": 0.0005336396861821413,
+          "canon_top1": false,
+          "para_ranks": [
+            651,
+            416,
+            607
+          ],
+          "para_probs": [
+            0.00019864180649165064,
+            0.0002563324524089694,
+            0.000107991298136767
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 2687,
+          "constituent_first_rank_canon": 261,
+          "class": "free"
+        },
+        {
+          "subj": "Halquin",
+          "val": "Marsduq Yornel",
+          "id": 21048,
+          "canon_rank": 824,
+          "canon_prob": 0.00014404294779524207,
+          "canon_top1": false,
+          "para_ranks": [
+            795,
+            2862,
+            1282
+          ],
+          "para_probs": [
+            0.00015384246944449842,
+            1.3364047845243476e-05,
+            4.192261985735968e-05
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 843,
+          "constituent_first_rank_canon": 824,
+          "class": "free"
+        },
+        {
+          "subj": "Vorlex",
+          "val": "Glimsto Spraxil",
+          "id": 479,
+          "canon_rank": 11,
+          "canon_prob": 0.009164771996438503,
+          "canon_top1": false,
+          "para_ranks": [
+            32,
+            77,
+            48
+          ],
+          "para_probs": [
+            0.004145598504692316,
+            0.001222810591571033,
+            0.0022538499906659126
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 317,
+          "constituent_first_rank_canon": 11,
+          "class": "free"
+        },
+        {
+          "subj": "Quenby",
+          "val": "Brindu Ulvenn",
+          "id": 3240,
+          "canon_rank": 34,
+          "canon_prob": 0.004133271984755993,
+          "canon_top1": false,
+          "para_ranks": [
+            66,
+            75,
+            99
+          ],
+          "para_probs": [
+            0.0021099145524203777,
+            0.0019459278555586934,
+            0.0006213733577169478
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 371,
+          "constituent_first_rank_canon": 34,
+          "class": "free"
+        },
+        {
+          "subj": "Marsduq",
+          "val": "Fluvane Cindel",
+          "id": 2988,
+          "canon_rank": 278,
+          "canon_prob": 0.00046912659308873117,
+          "canon_top1": false,
+          "para_ranks": [
+            720,
+            309,
+            497
+          ],
+          "para_probs": [
+            0.00016922119539231062,
+            0.00022906596132088453,
+            0.00011375186295481399
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 652,
+          "constituent_first_rank_canon": 278,
+          "class": "free"
+        },
+        {
+          "subj": "Thelby",
+          "val": "Yastov Drelth",
+          "id": 809,
+          "canon_rank": 40,
+          "canon_prob": 0.0033623739145696163,
+          "canon_top1": false,
+          "para_ranks": [
+            44,
+            89,
+            80
+          ],
+          "para_probs": [
+            0.003080696566030383,
+            0.0015636407770216465,
+            0.0010941275395452976
+          ],
+          "para_hits": 0,
+          "unrelated_top1_count": 0,
+          "unrelated_min_rank": 426,
+          "constituent_first_rank_canon": 40,
+          "class": "free"
+        }
+      ],
+      "para_full_step0": 4,
+      "canon_step0": 2,
+      "n_cannibal": 0,
+      "n_live": 2,
+      "classes": {
+        "cannibal": 0,
+        "live": 2,
+        "shadowed": 0,
+        "dead": 0,
+        "free": 22
+      }
+    },
+    "class_probe_note": "lib.i11_probe reports first-id ranks/classes; its legacy first-id para_full_step0 is diagnostic only. Binding uses recall_rows whole sequences.",
+    "n_cannibal": 0,
+    "no_i11_exclusion": true
+  },
+  "ctx": [
+    [
+      "{}"
+    ],
+    [
+      "The following is a single-choice question from a Chinese. {}",
+      "Therefore, the answer is \\(\\boxed 1. {}",
+      "Because there are so many different types of fish,. {}",
+      "I'm using `JPA`, and have this. {}",
+      "You are a helpful assistant, who always provide explanation. {}"
+    ]
+  ],
+  "ctx_sha256": "8638d12c6d5844168e1577a459103fa309bcf995fc1225df7e716de11a87cdc9",
+  "fingerprint": {
+    "ok": true,
+    "stdout": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a…)\n  _cov_cpu 3  (expected 3)\n",
+    "sha256": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+    "_cov_cpu": 3
+  },
+  "provenance": {
+    "heads_sha256": "7d83a89f3f893d615ded1ff9c1985eba0ae66063760a61886201a27b2a906c8f",
+    "modifiers_sha256": "402144a2f237a50c5c7ed730d9475badf4fc2380051977492bee6677c681ba93",
+    "rules": {
+      "head_form": "alphabetic, capitalised, lowercase after the first letter",
+      "inventory": "every word (letters only, case-insensitive) of: FICTION (24), FRAME_SUBJECTS (6), every country and capital of both g6 screens, coined_head (24), coined_mod (24), CANON/PTEST/described-as/is-a/associated-with templates, GENERIC (20), UNRELATED (10), the LAW#5 strings",
+      "relations_forbidden": "equality; head a prefix of a word; head a substring of a word (every inventory word); a word a prefix of the head; a word a substring of the head (names of any length, common words of >= 4 letters)",
+      "bpe": "tok(' ' + head) has >= 2 pieces in the base tokenizer",
+      "registration": "after register(heads + coined_mod): tok(' ' + w) == [id] for all 48; tok(' ' + head + ' ' + mod) == [id_head, id_mod] and CANON + value == CANON ids + the pair for all 24; P2a pre-screen identical over the deduplicated inventory prompts; every bigram-control prompt CANON(subject) + head == CANON ids + [id_head] over the 24 edited and 6 never-edited subjects (these prompts contain the minted head by design and are excluded from P2a); arm B: every frozen value == the head's base pieces + [id_mod]",
+      "pairing": "value i = heads[i] + ' ' + coined_mod[i] for FICTION[i] (injective; every head identifies its modifier)",
+      "selection": "passing candidates in authored order until the head piece-count multiset equals the frozen A7 heads' (head_pieces_quota)"
+    },
+    "rules_sha256": "437cf1bef3858882272408d1c194af2a985404f00fd8cd5651431535e1abc229",
+    "relation_table": {
+      "block": "F",
+      "subject_values": {
+        "Zorbland": "Vindex Vask",
+        "Quaxil": "Drennik Brakk",
+        "Plurnak": "Vythorn Stavik",
+        "Vythorn": "Vorlex Yornel",
+        "Glimsto": "Lurmax Spraxil",
+        "Drennik": "Kessivar Ulvenn",
+        "Yastovel": "Halquin Cindel",
+        "Crulpane": "Marsduq Drelth",
+        "Mophgar": "Glimsto Vask",
+        "Brinduun": "Brindu Brakk",
+        "Trannak": "Fluvane Stavik",
+        "Skornwell": "Yastov Yornel",
+        "Fluvane": "Vindex Spraxil",
+        "Oxbarrow": "Drennik Ulvenn",
+        "Zephquin": "Vythorn Cindel",
+        "Lurmaxen": "Vorlex Drelth",
+        "Pradnoll": "Lurmax Vask",
+        "Kessivar": "Kessivar Brakk",
+        "Wombryne": "Halquin Stavik",
+        "Halquin": "Marsduq Yornel",
+        "Vorlex": "Glimsto Spraxil",
+        "Quenby": "Brindu Ulvenn",
+        "Marsduq": "Fluvane Cindel",
+        "Thelby": "Yastov Drelth"
+      },
+      "candidates": [
+        {
+          "head": "Tarvesk",
+          "n_pieces": 3,
+          "pieces": [
+            " Tar",
+            "ves",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Molquenn",
+          "n_pieces": 3,
+          "pieces": [
+            " Mol",
+            "qu",
+            "enn"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Fendrax",
+          "n_pieces": 3,
+          "pieces": [
+            " F",
+            "end",
+            "rax"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Ulbrisk",
+          "n_pieces": 3,
+          "pieces": [
+            " Ul",
+            "br",
+            "isk"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Noxquill",
+          "n_pieces": 4,
+          "pieces": [
+            " No",
+            "x",
+            "qu",
+            "ill"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Sprennok",
+          "n_pieces": 4,
+          "pieces": [
+            " Sp",
+            "ren",
+            "n",
+            "ok"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Kalvoth",
+          "n_pieces": 3,
+          "pieces": [
+            " Kal",
+            "vo",
+            "th"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Rimbrosk",
+          "n_pieces": 4,
+          "pieces": [
+            " R",
+            "imb",
+            "ros",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Zavrelk",
+          "n_pieces": 4,
+          "pieces": [
+            " Z",
+            "av",
+            "rel",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Pelthorn",
+          "n_pieces": 3,
+          "pieces": [
+            " Pel",
+            "th",
+            "orn"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Vustrim",
+          "n_pieces": 3,
+          "pieces": [
+            " V",
+            "ustr",
+            "im"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Gorvande",
+          "n_pieces": 3,
+          "pieces": [
+            " Gor",
+            "v",
+            "ande"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Hexmoril",
+          "n_pieces": 3,
+          "pieces": [
+            " Hex",
+            "mor",
+            "il"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Tazbrenk",
+          "n_pieces": 5,
+          "pieces": [
+            " T",
+            "az",
+            "b",
+            "ren",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Wolqetz",
+          "n_pieces": 3,
+          "pieces": [
+            " Wol",
+            "q",
+            "etz"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Dravnisk",
+          "n_pieces": 3,
+          "pieces": [
+            " Dr",
+            "avn",
+            "isk"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Ombrixel",
+          "n_pieces": 4,
+          "pieces": [
+            " O",
+            "mb",
+            "rix",
+            "el"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Jorvenak",
+          "n_pieces": 4,
+          "pieces": [
+            " J",
+            "or",
+            "ven",
+            "ak"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Blemkarn",
+          "n_pieces": 4,
+          "pieces": [
+            " B",
+            "lem",
+            "k",
+            "arn"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Pyrvossk",
+          "n_pieces": 4,
+          "pieces": [
+            " Py",
+            "rv",
+            "oss",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Nalthrik",
+          "n_pieces": 3,
+          "pieces": [
+            " N",
+            "alth",
+            "rik"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Skevrond",
+          "n_pieces": 3,
+          "pieces": [
+            " Ske",
+            "vr",
+            "ond"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Cravnolt",
+          "n_pieces": 3,
+          "pieces": [
+            " Cr",
+            "avn",
+            "olt"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Yembrisk",
+          "n_pieces": 3,
+          "pieces": [
+            " Y",
+            "embr",
+            "isk"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Veltrosk",
+          "n_pieces": 4,
+          "pieces": [
+            " V",
+            "elt",
+            "ros",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Mirquand",
+          "n_pieces": 3,
+          "pieces": [
+            " Mir",
+            "qu",
+            "and"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Ketravon",
+          "n_pieces": 4,
+          "pieces": [
+            " K",
+            "etr",
+            "av",
+            "on"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Zumbrelk",
+          "n_pieces": 4,
+          "pieces": [
+            " Z",
+            "umb",
+            "rel",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Faldrix",
+          "n_pieces": 3,
+          "pieces": [
+            " F",
+            "ald",
+            "rix"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Grentovar",
+          "n_pieces": 4,
+          "pieces": [
+            " G",
+            "rent",
+            "ov",
+            "ar"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Isqeldra",
+          "n_pieces": 4,
+          "pieces": [
+            " Is",
+            "q",
+            "eld",
+            "ra"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Brovquen",
+          "n_pieces": 4,
+          "pieces": [
+            " Bro",
+            "v",
+            "qu",
+            "en"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Thanvorl",
+          "n_pieces": 3,
+          "pieces": [
+            " Than",
+            "vor",
+            "l"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Wexdorim",
+          "n_pieces": 5,
+          "pieces": [
+            " W",
+            "ex",
+            "d",
+            "or",
+            "im"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Plaskovin",
+          "n_pieces": 4,
+          "pieces": [
+            " Pl",
+            "ask",
+            "ov",
+            "in"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Jaxbrenn",
+          "n_pieces": 5,
+          "pieces": [
+            " J",
+            "ax",
+            "b",
+            "ren",
+            "n"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Morvex",
+          "n_pieces": 3,
+          "pieces": [
+            " Mor",
+            "v",
+            "ex"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Torvak",
+          "n_pieces": 2,
+          "pieces": [
+            " Tor",
+            "vak"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Belmox",
+          "n_pieces": 3,
+          "pieces": [
+            " Bel",
+            "m",
+            "ox"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Kurvin",
+          "n_pieces": 2,
+          "pieces": [
+            " Kur",
+            "vin"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Zandel",
+          "n_pieces": 2,
+          "pieces": [
+            " Z",
+            "andel"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Norvek",
+          "n_pieces": 3,
+          "pieces": [
+            " Nor",
+            "ve",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Palvex",
+          "n_pieces": 3,
+          "pieces": [
+            " Pal",
+            "v",
+            "ex"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Garnoth",
+          "n_pieces": 2,
+          "pieces": [
+            " Garn",
+            "oth"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Vexlan",
+          "n_pieces": 3,
+          "pieces": [
+            " V",
+            "ex",
+            "lan"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Tomrik",
+          "n_pieces": 2,
+          "pieces": [
+            " Tom",
+            "rik"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Selvor",
+          "n_pieces": 2,
+          "pieces": [
+            " Sel",
+            "vor"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Rundax",
+          "n_pieces": 3,
+          "pieces": [
+            " R",
+            "und",
+            "ax"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Fenlor",
+          "n_pieces": 2,
+          "pieces": [
+            " Fen",
+            "lor"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Dorvin",
+          "n_pieces": 2,
+          "pieces": [
+            " Dor",
+            "vin"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Malvek",
+          "n_pieces": 3,
+          "pieces": [
+            " Mal",
+            "ve",
+            "k"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Jorlex",
+          "n_pieces": 3,
+          "pieces": [
+            " J",
+            "or",
+            "lex"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Wulmar",
+          "n_pieces": 3,
+          "pieces": [
+            " W",
+            "ul",
+            "mar"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Harvex",
+          "n_pieces": 3,
+          "pieces": [
+            " Har",
+            "v",
+            "ex"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Lindax",
+          "n_pieces": 2,
+          "pieces": [
+            " Lind",
+            "ax"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        },
+        {
+          "head": "Pelvok",
+          "n_pieces": 3,
+          "pieces": [
+            " Pel",
+            "v",
+            "ok"
+          ],
+          "inventory_relations": {},
+          "name_relations": {},
+          "pass": true
+        }
+      ],
+      "pairwise_relations_among_48": [],
+      "modifier_relations": [],
+      "short_common_words_inside_heads": {
+        "Tarvesk": [
+          "a",
+          "s"
+        ],
+        "Molquenn": [],
+        "Fendrax": [
+          "a"
+        ],
+        "Ulbrisk": [
+          "is",
+          "s"
+        ],
+        "Kalvoth": [
+          "a"
+        ],
+        "Pelthorn": [],
+        "Vustrim": [
+          "s"
+        ],
+        "Gorvande": [
+          "a",
+          "and"
+        ],
+        "Hexmoril": [
+          "he"
+        ],
+        "Wolqetz": [],
+        "Dravnisk": [
+          "a",
+          "is",
+          "s"
+        ],
+        "Nalthrik": [
+          "a"
+        ],
+        "Skevrond": [
+          "on",
+          "s"
+        ],
+        "Cravnolt": [
+          "a"
+        ],
+        "Yembrisk": [
+          "is",
+          "s"
+        ],
+        "Mirquand": [
+          "a",
+          "and"
+        ],
+        "Faldrix": [
+          "a"
+        ],
+        "Thanvorl": [
+          "a"
+        ],
+        "Torvak": [
+          "a",
+          "to"
+        ],
+        "Kurvin": [
+          "in"
+        ],
+        "Zandel": [
+          "a",
+          "and"
+        ],
+        "Garnoth": [
+          "a"
+        ],
+        "Tomrik": [
+          "to"
+        ],
+        "Selvor": [
+          "s"
+        ]
+      }
+    },
+    "relation_sha256": "53312c46573a8fe510f593231d710be57cb398a08ebd5a63fc2031365dce7f33",
+    "wordlist_sha256": "aa1fb7a77074d5340a8f9aef780475eee4b64d473d7ad70323c5aa5e2eb3f545",
+    "ctx_sha256": "8638d12c6d5844168e1577a459103fa309bcf995fc1225df7e716de11a87cdc9",
+    "row_pairing": {
+      "rows_sha256": "e17ae933507e6485caa8a79d300549e5d046ce7c15630c97164a697625425dcd",
+      "first8_sha256": "e17ae933507e6485caa8a79d300549e5d046ce7c15630c97164a697625425dcd",
+      "first24_sha256": "2c1d09e7d44c933abec3aaba122beec6705e3a3fec78bcbb46d1273a06afc51f",
+      "pairing_ok": true,
+      "n_rows": 8,
+      "seed": 0,
+      "applied_rows_sha256": "af64fb5d022aa07f706db63a719a9d6c0e3f270a1923d410a8bfee2621869d9f"
+    }
+  }
+}
