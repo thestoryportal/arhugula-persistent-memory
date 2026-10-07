@@ -110,5 +110,9 @@
  "D-C10s-sharedz": {
   "source": "CORPUS/51_C10S_SHAREDZ.md",
   "what": "shared-z target (one z fit jointly over CANON + two training phrasings) on the C10 harness, step 1 of the research-pass sequence (H-1): UNDERFIT (18 subject-frame fits < 0.98, min 0.8437; 25-evaluation budget exhausted) -> inconclusive under this solve budget, write arm not run, candidate not advanced; recorded observation only: injection screen in the unedited model canonical 51/72 vs shared 69/72 (+18), same-process noise twin +3; first inertness run HALTED at 0d422ad, amendment A2 v2 (same-batch engine parity) -> ALL INERT; next per prereg = step 2 (D-C10t); solve-feasibility follow-up = unauthorized candidate; engine unmodified"
+ },
+ "D-C10s-solvefeas": {
+  "source": "CORPUS/52_C10S_SOLVEFEAS.md",
+  "what": "shared-target solve feasibility (step 1 again with the solve cap 25 -> 50 evaluations, same radius/frames/held-out set/0.98 fit bar; H-C10s-solvefeas): UNDERFIT-AT-50, qualified objective-stopped -> valid; write arm not run, candidate not advanced; same-run paired evidence: 29 failing subject/frame entries at evaluation 25 -> 2 at the stop (min fit 0.925487 -> 0.971150); the two remaining entries stopped on the engine's averaged loss rule at evaluation 27; recorded observation only: injection in the unedited model canonical 54/72 vs shared 72/72, noise twin +2; next per prereg = step 2 (D-C10t-secondkey) carrying the canonical target; fit-guarded stopping rule = candidate only (not designed, not authorized); engine unmodified"
  }
 }
