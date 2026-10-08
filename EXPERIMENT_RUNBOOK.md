@@ -386,6 +386,7 @@ _Every entry is **revisitable**. "ELIMINATED" = "set aside for a documented reas
 ### §5.3 — Tools / infrastructure
 | Choice | Status | Reasoning |
 |---|---|---|
+| **Durable backup blocked by macOS privacy (TCC), found 2026-10-08 ~06:10 MDT** | **awaiting operator** | launchd job com.rhu.memit-backup has failed every run since Oct 4 with `ls: /Volumes/memit/llm-database-poc-mirror: Operation not permitted` (~/Backups/memit/backup.launchd.log); last good archive was the manual run Oct 4 06:56. Interim mitigation (program): ran tools/backup_mirror.sh by hand from the program session (which has volume access) on 2026-10-08 → ~/Backups/memit/backup.manual.2026-10-08.log. Operator action needed: System Settings → Privacy & Security → Full Disk Access (or Files and Folders → Removable Volumes) → add /bin/bash (the plist's interpreter), then `launchctl kickstart -k gui/$(id -u)/com.rhu.memit-backup` and check the log. Interim: the program re-runs the manual backup every ~6 h while its session is live. |
 | **LARQL (Chris Hay) for vindex/serve/deploy** | ACCEPTED | The read/query/CPU-deploy layer; bridge proven; UNMODIFIED. `quantize` ships FP4 only. |
 | **llama.cpp prebuilt for real Q4_K** | ACCEPTED (B3) | LARQL can't produce Q4_K; pull official prebuilt, LARQL ingests via `gguf-to-vindex`. Not the unverified `llama-cpp.com` mirror. |
 | **RunPod RTX 4090 pod** | ACCEPTED | Edit-time GPU; CPU-deploy proxy. molab/Modal/Lightning assessed — RunPod stays primary (§ molab memory). |
