@@ -1,0 +1,24 @@
+{
+ "benchmark_script_sha256": "9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a",
+ "benchmark_sha256": "a33075393066e6332fbe64b9641caa57e7005fb89c6f8849fb212f5940ccff4a",
+ "ceilings": {
+  "stage01": 8100,
+  "stage2": 12600,
+  "stage3": 20760
+ },
+ "decision_notes": {
+  "0": "Scheduling (prereg \u00a76 decision 0): program decision under D-C10r-rulings-13 (full baton); steps 4 (D-C10v-layerpick, closed) and the step-5 oracle (D-C10w-oracle, P2 read VALID 04:44) precede it; one GPU job at a time.",
+  "1": "Write qualification: operator 'Yes on all 5' (D-C10z-budget, question 3), recorded EXPERIMENT_RUNBOOK.md \u00a75.2.",
+  "2": "Budget: operator 'Yes on all 5' (D-C10z-budget, questions 1-2); benchmark C01 8100 s <= 10800 s, worst case 41400 s <= 15.5 GPU-h; no raise needed (D-C10r-rulings-14 not used)."
+ },
+ "decisions": {
+  "0": "D-C10z-go",
+  "1": "D-C10z-budget",
+  "2": "D-C10z-budget"
+ },
+ "one_gpu_job": true,
+ "operator_yes": true,
+ "recorded_at": "2026-10-08T05:00:00-06:00",
+ "recorded_by": "program session (Claude Opus 5.5, lead experimentalist), worktree-c10k-route-a",
+ "telemetry_first_attempt": "off (prereg \u00a79.1 (j'))"
+}
