@@ -689,3 +689,220 @@ Sources:
   - it does not decide whether a halted stage may be re-run, or after what diagnosis. §5 (`:301`) and D-C10w-p2rerun govern that.
 
 Nothing else changes: §2's design, the §2.6 budget rules and §2.10 guards, §2.12's records (beyond the two `run.json` keys of (T1) and the re-run provenance of (T12)), §3's tables and §5's halt conditions stand as frozen.
+
+## 10. Amendment C — stage-1 calibration process (2026-10-08, pre-observation)
+
+Written before any C10Y process has run. On 2026-10-08 there is no `results/c10y_directdw/` and no `results/c10y_directdw_calib*/`. The model-free build is in progress: `experiments/track_c/c10y_directdw_selftest.py` exists and no driver does yet. §0–§9 are unchanged. This section pre-registers the "separately budgeted work" that `:98` names and that no section defines. It changes no hypothesis, recipe, arm, objective, optimiser setting, stimulus, metric, threshold, gate, qualifier, label, table row, stage cap, budget rule, memory guard or telemetry rule, and it replaces no sentence above. Where it conflicts with the build brief, this section governs.
+
+**Why it is needed (frozen text, quoted).**
+- The pre-start gate: "an unmeasured component without a defensible bound makes the forecast UNVERIFIED and dispatch is refused" (`:92`).
+- The B-e2e step cost is "unmeasured on this path" (`:171`), at an effective MPS rate "not measured for this path" (`:173`).
+- "Obtaining missing calibration timings is separately budgeted work and cannot bypass LAW#3" (`:98`).
+- "No new-path candidate hook forward, backward, optimiser iteration, closure arm or NM/ENV evaluation occurs before the baseline gate" (`:89`).
+- Program ruling (build brief §10 Q4, `codex_c10y_build_brief.md:187`): calibration needs its own dated, reviewed amendment before any C10Y dispatch. It runs recipe A, then LAW#3, then the smoke test.
+
+(C1) **What calibration is.**
+- One model-bearing process. It runs stage 1's own frozen order (§2.6 item 5, `:89–90`) up to and including the candidate smoke, then stops:
+  1. the fingerprint, the §2.6 item 1 refusals and the pristine-band SHA-256s (`:85`);
+  2. sampling the context templates once in-process (`memit_main.py:304–323`), then the overlap audit (`:86`). A leak is INVALID-LEAKAGE and halts calibration (V12, `:197`);
+  3. solving the pristine targets for A1, A2 and A7 with the engine's `compute_z` at layer 8, under the execution ledger (`:87`; V6 `:191`);
+  4. untouched recipe A on A1, A2 and A7 in one `H.run_recipe` call, with its own projector and the standing LAW#5 gate (i) (`:90`, `:128`; `c10e_bandknob.py:462–463`);
+  5. LAW#3 (V4, `:189`);
+  6. checks (ii)–(viii) for e2e on A7 only, which is how stage 1 scopes them (`:127`, `:129–136`);
+  7. the candidate smoke (ix): three B-e2e steps on A7 at the frozen nonzero lr. The state is discarded, the pristine band is restored and its hashes are verified (`:137`);
+  8. writing the records, then exit.
+- **Why (ii)–(viii) are included.** The program's ruling names "recipe A, then LAW#3, then the smoke test". The frozen smoke runs only "after LAW#3 and (ii)–(viii)" (`:137`), so leaving them out would change a frozen order. They are also stage-1 phases that the forecast must time (`:92`: "all baseline and inertness runs, repeated projectors/capture solves, parity checks, smoke").
+- **Never run in calibration:**
+  - a substantive candidate write;
+  - any B-e2e, B-z, NM-total or ENV `run_recipe`;
+  - any substantive candidate readout. Merged-model evaluations required by the frozen reduction and init-parity checks ((iii), (iii-b), (iv); `:130–132`) remain mandatory and yield no scientific candidate reading;
+  - the (T8) telemetry check;
+  - any stage-2 or stage-3 item.
+- Calibration replaces nothing in stage 1. Stage 1 still runs its own recipe A, LAW#3, checks and smoke (`:89–90`).
+
+(C2) **What it times and records.**
+- **Timing method.**
+  - Every step of (C1) is timed with MPS synchronisation at both ends (`:90`).
+  - The timer is the stage clock, never the telemetry clock (T2, `:448`).
+- **Separate timing entries:**
+  - preflight;
+  - model and tokenizer load;
+  - context sampling with the overlap audit;
+  - the target solve for each arm (24 `compute_z` calls each);
+  - inside recipe A's `run_recipe`:
+    - projector construction (`c10e:462`);
+    - `run_law5` (`:463`);
+    - for each arm, the write and the evaluation-plus-hooks, timed separately;
+    - the rest of the call, recorded as recipe-level overhead;
+  - the LAW#3 evaluation;
+  - in (ii): each original `my_edit` call, and the capture solve;
+  - (iii): its merge and its evaluation;
+  - (iii-b): each of the three lr = 0 iterations separately, then the merge and the evaluation;
+  - (iv) at init;
+  - (v);
+  - (vi), including the 12-request reference and both splits;
+  - (vii);
+  - (viii);
+  - (ix): each of the three steps separately, then the restore and hash check;
+  - shutdown: from the last record write to process exit, measured by the supervisor.
+- **For each hooked iteration in (iii-b) and (ix)**, record:
+  - whether it was accepted or an overflow retry;
+  - the loss-scale halvings (`:70`).
+- **Workload for each phase**, recorded:
+  - the arms, requests, scored prompts, micro-batches, accepted steps and retries;
+  - the real padded length of every A7 `L_edit` micro-batch (`:169`: "step 0 records the real padded length"). T_cal is the maximum of these;
+  - the token length of each sampled context template.
+- **Memory.** The §2.10 memory telemetry applies unchanged:
+  - synchronised driver allocation, process RSS and host available memory, each recorded separately and never summed as a measurement;
+  - peaks through every heavy phase (`:169`);
+  - missing memory telemetry is a preflight failure (`:169`, `:419`);
+  - the four memory guards halt calibration exactly as they halt a stage (`:169`, `:301`);
+  - recorded peaks are observations only. They feed no stage gate and no forecast. The guards themselves remain in-run instrument/resource halts on calibration (see (C4)).
+- **Repetitions.** One process. Inside it, every repeated unit is timed on its own:
+  - the three recipe-A arms;
+  - the two original `my_edit` calls of (ii), plus recipe A's own A7 write;
+  - six hooked iterations of the same shape: three at lr = 0 in (iii-b) and three at the frozen lr in (ix).
+
+  Calibration adds no candidate step beyond the three that the smoke freezes (`:137`).
+
+(C3) **What the stage-1 pre-start forecast takes from calibration.**
+- **Rule.** For each phase, cite comparable measured timings, workloads, repetitions and a justified scaling assumption or independently defensible upper estimate. Neither 99/69.53 nor T≈28 establishes an upper bound. Any component lacking such support makes the forecast UNVERIFIED and refuses dispatch (§2.6 item 6).
+- No numeric safety factor is pre-registered here, because the frozen text justifies none. Where a measurement has repetitions, the forecast cites all of them, never the mean alone. In-run projections (`:98`) do not satisfy the pre-start requirement (`:92`).
+- **Mapping.** For each stage-1 phase of the `:92` list, the comparable calibration measurement. The table names the source only; the forecast record supplies and justifies each phase's scaling assumption or upper estimate:
+
+| stage-1 phase | comparable calibration measurement | count in stage 1 |
+|---|---|---|
+| preflight; load; contexts and overlap audit; target solves; recipe A (projector, LAW#5, three arms); LAW#3; checks (ii)–(viii) for e2e/A7; smoke (ix) | the same phase | 1 each. Stage 1 repeats all of them (`:89–90`) |
+| overhead of the B-e2e `run_recipe` call: its own projector and LAW#5 gate (`:88`; `c10e:462–463`) | recipe A's recipe-level overhead: projector, plus `run_law5`, plus the rest | 1 |
+| capture solve for the substantive write (`:47`) | the (ii) capture solve | 1 |
+| optimisation over the full budget | the six timed hooked iterations, each with its padded length | 105 = T_max 100 accepted steps (`:63`) + 5 permitted overflow retries (V10, `:195`). The frozen text says "Do not assume early convergence" (`:92`) |
+| merge | the larger of the (iii) and (iii-b) merges | 1 |
+| readout, meaning all B-e2e A7 work after the merge | the sum of: recipe A's A7 evaluation-plus-hooks; (iv) and (v) as timed at init, because final-state checks are the same operations; the timed hooked iterations for the 24 × 6 fit matrix, which is a forward over the same rewriting batch (each iteration runs that forward plus a backward) | the reserve is at least 1,380 s, raised to the phase's supported upper estimate when that is larger (`:98`: "at least 23 minutes, increased when measured evidence requires it") |
+| shutdown | as measured | 1 |
+
+- **Dispatch rule.** Stage 1 is dispatched only if the summed forecast is at most 7,200 s; equality passes (`:94`). Above that, the outcome is HALTED-BUDGET with `launched=false` (`:94`, S2 `:211`).
+- Any stage-1 phase with no row above, or whose row lacks a justified scaling assumption or a defensible upper estimate, is unsupported. The forecast is then UNVERIFIED and dispatch is refused (`:92`).
+- **What the forecast record cites:**
+  - the path and SHA-256 of `calibration.json`;
+  - every calibration timing it uses, with its workload and repetition count;
+  - for each phase, the scaling assumption or independent upper estimate with its justification. This includes the dependence on stage 1's own padded length, which is unknown before launch because stage 1 samples its own templates (`:86`, `:90`; T≈28 is an assumption, `:162`, `:169`).
+
+(C4) **No scientific reading.**
+- **Nothing scientific comes out of calibration.**
+  - It produces no candidate-arm result, no screen record, no label and no verdict input.
+  - The smoke state is discarded (`:137`). No substantive candidate readout; merged-model evaluations required by the frozen reduction and init-parity checks remain mandatory and yield no scientific candidate reading (`:130–132`).
+  - Those checks' mandatory diagnostic outputs (their counts, distances, losses and parity records, `:129–137`) are still recorded in full; they are prescribed instrument checks, not candidate measurements (`:125`).
+- **Where its records may go.**
+  - Calibration supplies timing evidence only. Its records enter no stage gate except the stage-1 pre-start forecast, and only as timing artifacts (`:92`).
+  - The exception is calibration's own instrument and resource halts: V4, the §2.8 checks, V7, V10, V12, the memory guards, float64 on MPS and drift halt calibration exactly as they would halt a stage (`:189`, `:301`). A V4 miss also halts the schedule (below).
+  - Its recipe-A counts are not the stage-1 comparator a, which comes from the same process (`:206`).
+  - Its contexts, targets, `R_l`, `B_l` and smoke losses are never stage inputs:
+    - stage 1 samples its own contexts and solves its own targets (`:86–87`);
+    - stages 2 and 3 take contexts only from a stage-1 directory (T12, `:679`).
+  - The reader never reads a calibration directory, and the driver refuses a calibration path as a context-template source.
+- **Held-out prompts** are used only by recipe A's prescribed evaluation and the frozen check readouts. They are never used for gradients, timing-smoke selection or stopping (`:86`).
+- **The one effect the frozen text forces.** V4 applies as written: "Any miss HALTs the entire planned schedule, including future processes, before candidates" (`:189`).
+  - A calibration LAW#3 miss writes the schedule-halt record, and every later stage launch refuses on it.
+  - This is V4 applied to the process that ran it. It is not a calibration timing entering a stage gate. Reading it any other way would weaken V4.
+- **Other halts.** Every other named §5 halt in calibration is a HALT with a diagnostic, under §5 and one-fix-then-halt (`:301`). These are:
+  - checks (i)–(ix);
+  - V7, including the precision-diagnosis halt;
+  - V10;
+  - V12;
+  - the memory guards;
+  - float64 on MPS;
+  - source or input drift.
+- **Overlap audit.** INVALID-LEAKAGE HALTs calibration. Do not redraw contexts until they pass; §2.6 item 2 and §5 remain binding (`:86`, `:197`, `:301`).
+
+(C5) **Output directory and records.**
+- **Directory.**
+  - `results/c10y_directdw_calib<k>/`, with k = 1, 2, … in order, and logs in `<dir>/logs/`. The driver refuses an existing directory.
+  - Calibration never writes `results/c10y_directdw/` or any `_s<s>_rerun<k>/` directory. Those stay reserved for stages (T12, `:674–676`).
+  - A calibration directory is never modified, moved or renamed after its process ends (cf. `:680`).
+  - The name begins with neither `attempt` nor `_quarantine` (`:686`).
+- **Records.** No file is ever overwritten.
+  - `calibration.json`, holding:
+    - the timings, workloads, repetitions and memory of (C2);
+    - `outcome`: COMPLETE, or the halt code;
+    - the fingerprint output in full;
+    - the source and input SHA-256s of §2.7 (`:115`);
+    - `env`: python, machine, platform, torch and transformers versions, and `model_rev`;
+    - this prereg's SHA-256;
+    - T_cal and the per-template token lengths;
+    - the start and finish times.
+  - The §2.12 files that the frozen order produces up to (ix), with the suffix `calib`:
+    - `context_templates_calib.json` (+ SHA-256);
+    - `overlap_audit_calib.json`;
+    - `targets_calib.pt` (+ SHA-256);
+    - `ledger_calib.json`;
+    - `law5_calib.json`, holding (i)–(iii-b) and V4;
+    - `step0_calib.json`, holding (iv)–(ix);
+    - `run.json`.
+  - Calibration never writes `screen.json`, `pass_*.json` or `repro.json`.
+- **HALT diagnostic.** The diagnostic path `architecture_profile/c10y_halt_diagnostic_<UTC>.json` is a required launch argument. An existing file is refused (brief §10 Q6, `:189`). The diagnostic records `"process": "calibration"` and the calibration directory.
+
+(C6) **Cost, cap, authorisation, halts.**
+- **Estimate (I-INFER, not a measured duration): about 61–64 GPU-minutes.** It is the sum of:
+  - ≈ 34 min for untouched recipe A (`:174`);
+  - ≈ 25 min of proofs and setup (`:174`);
+  - six hooked iterations at 17–50 s each (`:173`), which is 2–5 min.
+
+  Capture identities and repeated SVDs can add more (`:174`).
+- **Cap.** C_cal = 7,200 s = C₁ (`:94`).
+  - *Reason:* calibration is a strict prefix of the stage-1 process and does the same work. If the prefix cannot finish within C₁, stage 1 cannot fit C₁ either, so a larger calibration cap buys no feasible stage 1 under the currently frozen C₁ (a C₁ raise is the separate route below).
+  - The spend record requires `0 < cap_s ≤ 7200`.
+- **Enforcement.**
+  - Calibration is not a stage, and it has no pre-start forecast of its own: it is the measurement that the forecast lacks.
+  - It runs under the §2.6 item 6 independent supervisor, with C_cal as the deadline (`:96`):
+    - the deadline starts before the worker launches;
+    - enforcement holds through blocked calls;
+    - the termination allowance sits inside the cap;
+    - the model-free hanging-worker test passes before dispatch.
+  - The memory guards apply unchanged.
+- **Dispatch requires all of the following:**
+  - (a) the decision-0 `--go` record. Execution under this prereg is gated on the recorded D-C10r-rulings-4 (3) reconsideration (`:3`), and calibration is model-bearing execution;
+  - (b) a `--spend` record: `{"decision_id", "stage": "calibration", "cap_s"}`, with `0 < cap_s ≤ 7200` (brief §10 Q8 schema, `:191`);
+  - (c) a recorded authorisation under D-C10r-rulings-14 (`EXPERIMENT_RUNBOOK.md:381`). That operator ruling gives the program standing authority to raise any experiment's budget, "including … the C10Y calibration spends", when measured evidence requires it. Its conditions: the raise is recorded with its arithmetic in runbook §5.2 and in a dated authorisation before the spend. Calibration is GPU spend outside C₁, which (T8)'s rule (`:615`) previously left to a recorded authorisation. The program authors both machine records and records the authorisation before dispatch. The authorisation names the cost (≈ 61–64 GPU-min, I-INFER, arithmetic above) and the cap (`0 < cap_s ≤ 7200`). The evidence requiring this spend is the absence of any measured stage-1 timing on this path (prereg :171–174, "unmeasured on this path"), which makes every forecast UNVERIFIED under :92; the 61–64-min figure is an inferred cost estimate, not that evidence. The measured GPU time is recorded afterwards.
+  - One GPU job at a time (`:3`).
+- **A calibration that halts is re-run, never read around.**
+  - A halt for any cause yields no forecast input. Causes include a §5 halt, a memory guard and the supervisor deadline.
+  - Its partial timings are never read into a forecast. No deviation note stands in for them (D-C10w-p2rerun, `EXPERIMENT_RUNBOOK.md:378`).
+  - Except after a V4 miss, the remedy is a re-run in `calib<k+1>`, after the §5 diagnosis and under a new spend record.
+  - A V4 miss keeps the entire schedule HALTED. No automatic rerun is permitted; any required rerun remains pending diagnosis and authorization resolving that halt. A new directory or spend record alone cannot lift it (`:189`; T12 scope, `:687–689`).
+  - Incomplete calibration supplies no forecast inputs. Dispatch remains refused unless every required phase is supported by admissible measured timings or a defensible bound under §2.6 item 6 (`:92`).
+- **Raising the stage-1 cap.** The post-calibration forecast for stage 1 may exceed C₁ = 7,200 s (`:94`). In that case, a stage-1 cap raise is a separate dated amendment, never part of this one. Its new cap is derived from the admissible per-phase bounds of (C3), with the arithmetic shown. It is Astra-reviewed and recorded under D-C10r-rulings-14 (`EXPERIMENT_RUNBOOK.md:381`) before dispatch. A cap chosen without that arithmetic is never used. Until such an amendment exists, the frozen outcome stands: HALTED-BUDGET with `launched=false` (`:94`). This paragraph sets no new cap and changes no frozen rule.
+- **Staleness.** A forecast may cite a calibration only when all of these equal stage 1's at the pre-start gate:
+  - its recorded source SHA-256s: driver, `c10e_bandknob.py`, hparams, `compute_z.py`, `compute_ks.py`, `rome/repr_tools.py`, `memit_main.py` and this prereg;
+  - its fingerprint;
+  - its `env`;
+  - its device.
+
+  Any difference makes the calibration unusable and the forecast UNVERIFIED. This is how (T8) treats its own record (`:609`).
+
+(C7) **Telemetry.**
+- Live telemetry is off. The first-attempt rule (T9, `:618`) applies to calibration.
+- The launch line removes both variables: `env -u C10Y_TELEMETRY -u C10Y_TELEMETRY_INERTNESS …` (T1, `:436`). A set variable is refused before any write.
+- `run.json` carries `"telemetry": false` and `"telemetry_inertness": null` (`:430–432`).
+- The §2.10 memory telemetry stays required (`:419`).
+- Calibration timings therefore bound only a telemetry-off stage forecast. A telemetry-on forecast also needs the (T10) telemetry phase from a (T8) record (`:628–634`), which calibration does not supply.
+
+(C8) **Build and review.**
+- Calibration is a driver entry point that runs the stage-1 code path and stops after (ix).
+- It is built test-first and model-free, under the build brief's isolation rules. The tests show that:
+  - no candidate hook forward, backward or iteration precedes V4 (spies);
+  - the process stops after (ix), with no substantive write, no candidate `run_recipe` and no substantive candidate readout, while the mandatory (iii), (iii-b) and (iv) merged-model evaluations still run and are recorded;
+  - an existing directory and the telemetry variables are refused;
+  - the forecast builder:
+    - refuses any phase that lacks a cited measured timing, workload, repetition count and justified scaling assumption or defensible upper estimate (UNVERIFIED);
+    - refuses a stale calibration, and takes no input from an incomplete one;
+    - passes exactly 7,200 s and refuses 7,200.001 s.
+- It is reviewed with the build (advisor + GPT-6-Astra high) before dispatch.
+
+Nothing else changes. These all stand as frozen and amended:
+- §2's design;
+- the §2.6 budget rules, including stage 1's own in-run projections and smoke;
+- the §2.10 guards;
+- §2.12's records;
+- §3's tables;
+- §5's halt conditions;
+- §9.
