@@ -199,7 +199,10 @@ def main():
         else:
             print("\n".join(manager_lines({os.path.basename(p)[6:-6]: (p, info(p)) for p in recent_agents()}, cols, rows)))
         return
+    import dashboard_live
+    stamp = dashboard_live.source_stamp(dashboard_live.TOOLS)
     while True:
+        dashboard_live.maybe_reload(stamp)
         cols, rows = os.get_terminal_size(sys.stdout.fileno())
         if args and args[0] == "view":
             draw(view_lines(args[1], cols, rows) if os.path.exists(args[1]) else ["(transcript gone)"])

@@ -72,7 +72,10 @@ def main():
         i = sys.argv.index("--once")
         print("\n".join(frame(int(sys.argv[i + 1]), int(sys.argv[i + 2]), states)))
         return
+    import dashboard_live
+    stamp = dashboard_live.source_stamp(dashboard_live.TOOLS)
     while True:
+        dashboard_live.maybe_reload(stamp)
         cols, rows = os.get_terminal_size(sys.stdout.fileno())
         lines = frame(cols, rows, states)
         sys.stdout.write("\033[H" + "".join(l + "\033[K\n" for l in lines[:-1]) + lines[-1] + "\033[K\033[J")

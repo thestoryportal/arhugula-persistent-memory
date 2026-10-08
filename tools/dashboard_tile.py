@@ -125,7 +125,10 @@ def main():
         i = sys.argv.index("--once")
         print("\n".join(render(session, label, color, int(sys.argv[i + 1]), int(sys.argv[i + 2]), state)))
         return
+    import dashboard_live
+    stamp = dashboard_live.source_stamp(dashboard_live.TOOLS)
     while True:
+        dashboard_live.maybe_reload(stamp)
         cols, rows = os.get_terminal_size(sys.stdout.fileno())   # the live pane size; ignores a stale inherited $COLUMNS
         lines = render(session, label, color, cols, rows, state)
         st = status(state["last"], state.get("changed"), time.time())[0]

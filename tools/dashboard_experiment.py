@@ -260,7 +260,10 @@ def main():
         i = sys.argv.index("--once")
         print("\n".join(render(int(sys.argv[i + 1]), int(sys.argv[i + 2]))))
         return
+    import dashboard_live
+    stamp = dashboard_live.source_stamp(dashboard_live.TOOLS)
     while True:
+        dashboard_live.maybe_reload(stamp)
         cols, rows = os.get_terminal_size(sys.stdout.fileno())
         try:
             lines = render(cols, rows)
