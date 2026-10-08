@@ -139,7 +139,25 @@ class WordsAndAnswers(unittest.TestCase):
         self.assertIn("Zorbland → Vindex Vask", plain)
         self.assertIn("✗ Vondurk, and", plain)
         self.assertIn("✓ Vindex Vaskul,", plain)
-        self.assertIn("Q2 If you visit …, its capital city is", plain)
+        lines = plain.splitlines()
+        self.assertIn("one made-up fact", plain)
+        for cols in (160, 100):
+            heads, answer = self.header_columns(cols)
+            self.assertEqual(heads[1], "Q2: If you visit [place], its capital city is …")   # whole question, wrapped not cut
+            self.assertEqual(heads[2], "Q3: The main city and seat of government of [place] is …")
+
+    def header_columns(self, cols):
+        """Rebuild each column's header text from its wrapped lines, and check it sits above its own answers."""
+        recipe, templates, facts = self.X.answers_from_record(self.record)
+        lines = [__import__("re").sub(r"\033\[[0-9;]*m", "", l) for l in self.X.words_lines("e", recipe, templates, facts, cols)]
+        head_rows = [l for l in lines if l.startswith(" made-up place") or l.startswith(" we wrote in") or
+                     (l.startswith(" " * 5) and l.strip())]
+        first = head_rows[0]
+        starts = [first.index(f"Q{i}:") for i in (1, 2, 3)] + [None]
+        heads = [" ".join(" ".join(r[starts[i]:starts[i + 1]].split()) for r in head_rows).strip() for i in range(3)]
+        answer = lines[-1]
+        self.assertEqual(answer.index("✓ Vindex Vaskul,"), starts[1])   # Q2's header is directly above Q2's answer
+        return heads, answer
 
     def test_archived_logs_are_not_the_live_run(self):
         root = self.X.ROOT

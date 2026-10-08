@@ -5,7 +5,7 @@ bar, trained phrasing /24, control /72, side effects, run time) · the run in pr
 training-loss trend, cleaned live log). When the GPU is idle it shows the last experiment.
 Usage: python3 dashboard_experiment.py [--once COLS ROWS]
 """
-import glob, json, os, re, subprocess, sys, time
+import glob, json, os, re, subprocess, sys, textwrap, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GOAL, OUT_OF = 61, 72
@@ -204,12 +204,20 @@ def answers_from_record(record):
 
 
 def words_lines(source, recipe, templates, facts, cols):
-    """The made-up facts, the questions asked and the model's own words for each, marked right (✓) or wrong (✗)."""
-    out = [f" {DIM}source: {source} · recipe {recipe} · made-up names arm · ✓ = whole answer right{RESET}"]
-    for i, t in enumerate(templates, 1):
-        out.append(f" {FG(214)}Q{i}{RESET} {t.replace('{}', '…')}")
-    name_w = min(max((len(f["subj"]) + 3 + len(f["val"] or "?") for f in facts), default=10), 34)
-    cell = max((cols - name_w - 6) // max(len(templates), 1) - 3, 8)
+    """One row per made-up fact (place → the capital we wrote in); each column is one reworded question about that
+    place, with the full question as the column header and the model's own words under it, ✓ right / ✗ wrong."""
+    caption = ("Each row is one made-up fact we wrote into the model. Each column asks about that place in a different "
+               "wording; the cell is what the model wrote next. ✓ = the whole capital, ✗ = not.")
+    out = [f" {DIM}{l}{RESET}" for l in textwrap.wrap(caption, max(cols - 2, 20))]
+    out.append(f" {DIM}source: {source} · recipe {recipe} · made-up names arm{RESET}")
+    name_w = min(max([len(f["subj"]) + 3 + len(f["val"] or "?") for f in facts] + [28]), 34)
+    cell = max((cols - name_w - 3) // max(len(templates), 1) - 3, 12)
+    heads = [textwrap.wrap(f"Q{i}: {t.replace('{}', '[place]')} …", cell + 2) for i, t in enumerate(templates, 1)]
+    first = ["made-up place → capital", "we wrote in"]
+    for k in range(max([len(h) for h in heads] + [len(first)])):
+        left = first[k] if k < len(first) else ""
+        row = " ".join(f"{(h[k] if k < len(h) else ''):<{cell + 2}}" for h in heads)
+        out.append(f" {DIM}{left:<{name_w}}{RESET} {BOLD}{FG(214)}{row}{RESET}")
     for f in facts:
         cells = []
         for a in f["answers"]:
@@ -332,6 +340,7 @@ def main():
             lines = render(cols, rows)
         except Exception as e:  # keep the tile alive and show why
             lines = [f"{FG(196)}experiment view error: {type(e).__name__}: {e}{RESET}"]
+        lines = [dashboard_live.clip(l, cols - 2) for l in lines]   # never wrap: a wrapped line scrolls the top away
         sys.stdout.write("\033[H" + "".join(l + "\033[K\n" for l in lines[:-1]) + lines[-1] + "\033[K\033[J")
         sys.stdout.flush()
         time.sleep(3)
