@@ -20,6 +20,7 @@ import re
 import signal
 import subprocess
 import time
+import traceback
 
 ROOT = Path(os.environ.get('LLMDB_ROOT', Path(__file__).resolve().parents[2]))
 PREREG_SHA = 'e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331'
@@ -52,6 +53,39 @@ class Halt(ValueError):
     def __init__(self, code, detail=None):
         self.code, self.detail = code, detail
         super().__init__(code + (': '+str(detail) if detail is not None else ''))
+
+
+def mark_exception(error,phase):
+    if not hasattr(error,'_c10y_phase'): error._c10y_phase=phase
+
+
+@contextlib.contextmanager
+def phase_context(state,phase):
+    previous=getattr(state,'phase',None)
+    if state is not None: state.phase=phase
+    try: yield
+    except BaseException as error:
+        mark_exception(error,phase)
+        if phase.endswith('_cleanup'): error._c10y_cleanup=True
+        raise
+    finally:
+        if state is not None: state.phase=previous
+
+
+def exception_fields(error,phase):
+    # Call inside except: retain the full causal trace, including cleanup errors.
+    primary=error
+    while getattr(primary,'_c10y_cleanup',False) and primary.__context__ is not None:
+        cause=primary.__context__
+        if not hasattr(cause,'_c10y_phase'): break
+        primary=cause
+    fields={'code':primary.code if isinstance(primary,Halt) else 'INSTRUMENT-ERROR',
+            'phase':getattr(primary,'_c10y_phase',phase),'exception':type(primary).__name__,
+            'detail':primary.detail if isinstance(primary,Halt) else str(primary),'traceback':traceback.format_exc()}
+    if primary is not error:
+        fields['cleanup']={'phase':getattr(error,'_c10y_phase',phase),
+                           'exception':type(error).__name__,'detail':str(error)}
+    return fields
 
 
 def utc():
@@ -657,6 +691,7 @@ class Budget:
         self.start,self.cap,self.stage,self.clock=start,cap,stage,clock or STAGE_CLOCK
         self.readout_reserve=1380. if stage==1 else 0.;self.write_complete=False
         self.remaining=None;self.readout_spent=0.
+        self.phase='initialise'
     def configure(self,forecast,startup=()):
         self.remaining={p['name']:float(p['upper_s']) for p in forecast['phases']}
         self.readout_reserve=max(self.readout_reserve,self.remaining['readout'])
@@ -1321,33 +1356,33 @@ def calibrate(out,H,go=None,spend=None,diagnostic=None):
     if any(k in os.environ for k in ('C10Y_TELEMETRY','C10Y_TELEMETRY_INERTNESS')): raise Halt('CALIBRATION-TELEMETRY')
     cap=launch_documents('calibration',go,spend,None);out=output_path(out,'calibration');diagnostic=diagnostic_path(diagnostic)
     identity=calibration_identity();inputs=input_identity(H,H.hp);started=utc();out.mkdir(parents=True,exist_ok=owned_launch(out,'calibration'));(out/'logs').mkdir(exist_ok=True)
-    budget=Budget(float(os.environ.get('C10Y_STAGE_START',STAGE_CLOCK())),cap,'calibration');prefix={};outcome='COMPLETE';torch.manual_seed(0);context_record=context_evidence(out/'context_templates_calib.json')
+    budget=Budget(float(os.environ.get('C10Y_STAGE_START',STAGE_CLOCK())),cap,'calibration');prefix={};outcome='COMPLETE';failure={};torch.manual_seed(0);context_record=context_evidence(out/'context_templates_calib.json')
     try:
-        context_started=STAGE_CLOCK()
-        context_record=freeze_contexts(H,out/'context_templates_calib.json')
-        H._C10Y_CONTEXT_INSTALL_SECONDS=STAGE_CLOCK()-context_started
-        prefix=instrument_prefix(H,out,budget,calibration=True,telemetry=None)
-        if calibration_identity()!=identity or input_identity(H,H.hp)!=inputs: raise Halt('SOURCE-OR-INPUT-DRIFT')
-    except Halt as e:
-        outcome=e.code
-        context_record=context_evidence(out/'context_templates_calib.json')
-        if e.code in ('LAW#3','LAW3'): schedule_halt(ROOT,e.code,e.detail,context_record)
-        write_json(diagnostic,{'process':'calibration','out':str(out),'code':e.code,'detail':e.detail,'at':utc(),'context_templates':context_record,'pinned_engine_sha256':PINNED_ENGINE_SHA})
+        with phase_context(budget,'contexts_install'):
+            context_started=STAGE_CLOCK()
+            context_record=freeze_contexts(H,out/'context_templates_calib.json')
+            H._C10Y_CONTEXT_INSTALL_SECONDS=STAGE_CLOCK()-context_started
+        with phase_context(budget,'instrument_prefix'):
+            prefix=instrument_prefix(H,out,budget,calibration=True,telemetry=None)
+        with phase_context(budget,'source_input_identity'):
+            if calibration_identity()!=identity or input_identity(H,H.hp)!=inputs: raise Halt('SOURCE-OR-INPUT-DRIFT')
     except Exception as e:
-        outcome='INSTRUMENT-ERROR'
+        failure=exception_fields(e,budget.phase);outcome=failure['code']
         context_record=context_evidence(out/'context_templates_calib.json')
-        write_json(diagnostic,{'process':'calibration','out':str(out),'code':outcome,'exception':type(e).__name__,'detail':str(e),'at':utc(),'context_templates':context_record,'pinned_engine_sha256':PINNED_ENGINE_SHA})
-    artifacts=persist_prefix(out,prefix,'calib')
-    record={**identity,'schema':'c10y_directdw_calibration/v1','outcome':outcome,'device':str(H.DEV),
-            'timings':calibration_timing_tags(prefix.get('timings',[])),'checks':prefix.get('checks',{}),'memory':getattr(H,'_C10Y_MEMORY',{}),
-            'T_cal':prefix.get('T_cal'),'template_token_lengths':prefix.get('template_token_lengths',[]),'context_templates':context_record,
-            'input_hashes_start':inputs,'input_hashes_end':inputs.copy(),'artifacts':artifacts,'started_at':started,'finished_at':utc()}
-    write_json(out/'run.json',{'stage':'calibration','status':outcome,'telemetry':False,'telemetry_inertness':None,
-                             'go':go,'spend':spend,'cap_s':cap,'started_at':started,'finished_at':utc(),'context_templates':context_record})
-    if owned_launch(out,'calibration'):
-        record['last_record_clock']=STAGE_CLOCK()
-        write_json(out/'calibration_worker.json',record)
-    else: write_json(out/'calibration.json',record)
+        if outcome in ('LAW#3','LAW3'): schedule_halt(ROOT,outcome,failure['detail'],context_record)
+        write_json(diagnostic,{'process':'calibration','out':str(out),'code':outcome,'at':utc(),'context_templates':context_record,'pinned_engine_sha256':PINNED_ENGINE_SHA,**failure})
+    with phase_context(budget,'calibration_publication'):
+        artifacts=persist_prefix(out,prefix,'calib')
+        record={**identity,'schema':'c10y_directdw_calibration/v1','outcome':outcome,'device':str(H.DEV),
+                'timings':calibration_timing_tags(prefix.get('timings',[])),'checks':prefix.get('checks',{}),'memory':getattr(H,'_C10Y_MEMORY',{}),
+                'T_cal':prefix.get('T_cal'),'template_token_lengths':prefix.get('template_token_lengths',[]),'context_templates':context_record,
+                'input_hashes_start':inputs,'input_hashes_end':inputs.copy(),'artifacts':artifacts,'started_at':started,'finished_at':utc(),**failure}
+        if owned_launch(out,'calibration'):
+            record['last_record_clock']=STAGE_CLOCK()
+            write_json(out/'calibration_worker.json',record)
+        else: write_json(out/'calibration.json',record)
+        write_json(out/'run.json',{'stage':'calibration','status':outcome,'telemetry':False,'telemetry_inertness':None,
+                                 'go':go,'spend':spend,'cap_s':cap,'started_at':started,'finished_at':utc(),'context_templates':context_record,**failure})
     return record
 
 
@@ -1405,16 +1440,18 @@ def run(out,H,stage=1,go=None,forecast=None,spend=None,contexts=None,context_sha
     record={'schema':'c10y_directdw/v1','stage':stage,'run':{'stage':stage,'status':'COMPLETED','code':None,'launched':True,
             'write_complete':False,'readout_complete':False,**admission,'cap_s':cap,'projected_s':gate['projected_s']},'recipes':{}}
     try:
-        context_started=STAGE_CLOCK()
-        if stage==1: context_record=freeze_contexts(H,out/'context_templates.json')
-        if stage>1:
-            if contexts is None or context_sha is None: raise Halt('CONTEXT-SOURCE-REQUIRED')
-            source=stage_context_source(contexts,context_sha)
-            context_record=freeze_contexts(H,source,expected=context_sha)
-        H._C10Y_CONTEXT_INSTALL_SECONDS=STAGE_CLOCK()-context_started
+        with phase_context(budget,'contexts_install'):
+            context_started=STAGE_CLOCK()
+            if stage==1: context_record=freeze_contexts(H,out/'context_templates.json')
+            if stage>1:
+                if contexts is None or context_sha is None: raise Halt('CONTEXT-SOURCE-REQUIRED')
+                source=stage_context_source(contexts,context_sha)
+                context_record=freeze_contexts(H,source,expected=context_sha)
+            H._C10Y_CONTEXT_INSTALL_SECONDS=STAGE_CLOCK()-context_started
         record['run']['context_templates']=context_record
         if telemetry: telemetry.phase('stage_start')
-        prefix=instrument_prefix(H,out,budget,calibration=False,telemetry=telemetry)
+        with phase_context(budget,'instrument_prefix'):
+            prefix=instrument_prefix(H,out,budget,calibration=False,telemetry=telemetry)
         record['recipes']['A']=prefix['baseline']
         writer=prefix['writer'];original=H.my_edit;H.my_edit=writer
         prefix['runtime'].update(out=out,tag=tag)
@@ -1426,14 +1463,16 @@ def run(out,H,stage=1,go=None,forecast=None,spend=None,contexts=None,context_sha
         try:
             for name,mode in (('B-e2e','e2e'),)+(() if stage==1 else (('B-z','anchor'),)):
                 writer.mode=mode
-                record['recipes'][name]=scored_recipe(H,name,H.HP_BASE,stage,telemetry)
+                with phase_context(budget,'candidate_recipe_'+name):
+                    record['recipes'][name]=scored_recipe(H,name,H.HP_BASE,stage,telemetry)
             if stage>1:
                 reference=prefix['actual_A'];candidate=prefix['actual_B']['B-e2e']
                 for control in ('NM','ENV'):
                     scales={arm:size_scales(reference[arm],candidate[arm])[control] for arm in ARMS}
                     if not any(s is not None for s in scales.values()): continue
                     writer.mode='apply_stored';writer.stored=candidate;writer.scale={arm:s if s is not None else 1. for arm,s in scales.items()}
-                    record['recipes']['B-e2e-'+control]=scored_recipe(H,'B-e2e-'+control,H.HP_BASE,stage,telemetry)
+                    with phase_context(budget,'candidate_recipe_B-e2e-'+control):
+                        record['recipes']['B-e2e-'+control]=scored_recipe(H,'B-e2e-'+control,H.HP_BASE,stage,telemetry)
         finally:
             H.my_edit=original
             H.Z_OVERRIDE,H.Z_OVERRIDE_HITS,H._LAW5_DEFAULT_CTX=previous_globals
@@ -1445,48 +1484,47 @@ def run(out,H,stage=1,go=None,forecast=None,spend=None,contexts=None,context_sha
         if not (out/('write_complete_'+tag+'.json')).exists(): write_json(out/('write_complete_'+tag+'.json'),{'stage':stage,'at':utc()})
         if input_identity(H,hp)!=inputs or preflight()!=info: raise Halt('SOURCE-OR-INPUT-DRIFT')
         prefix['deployed_updates']={'A':prefix['actual_A'],**prefix['actual_B']}
-    except Halt as e:
-        context_record=context_evidence(contexts or out/'context_templates.json');record['run']['context_templates']=context_record
-        record['run'].update(status=e.code if e.code in ('HALTED-BUDGET','INCOMPLETE-BUDGET','INVALID-LEAKAGE','INVALID-TRAIN-DEPLOY-GAP') else 'HALTED',code=e.code,write_complete=budget.write_complete)
-        if e.code in ('LAW#3','LAW3'): schedule_halt(ROOT,e.code,e.detail,context_record)
-        if telemetry: telemetry.phase('halt',code=e.code)
-        write_json(diagnostic,{'stage':stage,'out':str(out),'code':e.code,'detail':e.detail,'at':utc(),'context_templates':context_record,'pinned_engine_sha256':PINNED_ENGINE_SHA})
     except Exception as e:
+        failure=exception_fields(e,budget.phase)
+        code=failure['code']
         context_record=context_evidence(contexts or out/'context_templates.json');record['run']['context_templates']=context_record
-        record['run'].update(status='HALTED',code='INSTRUMENT-ERROR')
-        write_json(diagnostic,{'stage':stage,'out':str(out),'code':'INSTRUMENT-ERROR','exception':type(e).__name__,'detail':str(e),'at':utc(),'context_templates':context_record,'pinned_engine_sha256':PINNED_ENGINE_SHA})
+        record['run'].update(status=code if code in ('HALTED-BUDGET','INCOMPLETE-BUDGET','INVALID-LEAKAGE','INVALID-TRAIN-DEPLOY-GAP') else 'HALTED',write_complete=budget.write_complete,**failure)
+        if code in ('LAW#3','LAW3'): schedule_halt(ROOT,code,failure['detail'],context_record)
+        if telemetry: telemetry.phase('halt',code=code)
+        write_json(diagnostic,{'stage':stage,'out':str(out),'at':utc(),'context_templates':context_record,'pinned_engine_sha256':PINNED_ENGINE_SHA,**failure})
     finally:
         if telemetry: telemetry.phase('stage_end');telemetry.close()
         if had_telemetry: H._C10Y_TELEMETRY=old_telemetry
         else: del H._C10Y_TELEMETRY
-    # PROVISIONAL §2.12/T12 ownership: stage1 common artifacts immutable;
-    # later pass records contain their own manifest/run/ledger/overlap identity.
-    artifacts=persist_prefix(out,prefix,tag)
-    overlay='targets_'+tag+'.pt'
-    for name,recipe in record['recipes'].items():
-        for arm,data in recipe['arms'].items():
-            if data.get('status')!='COMPLETED': continue
-            hout=data['H_out']
-            hout.update(tensor_certificate_sha256=digest(hout['tensors']),overlay_sha256=artifacts[overlay],
-                        overlay_artifact=overlay,overlay_member=['actual_updates',name,arm])
-            if 'stored_control' in data:
-                stored=data['stored_control'];stored['source_sha256']=artifacts[overlay]
-                if stored.get('scale1_fully_evaluated_source') is not None: stored['scale1_fully_evaluated_source']['source_sha256']=artifacts[overlay]
-    context_path=Path(contexts) if contexts else out/'context_templates.json'
-    context_record={'path':str(context_path.resolve()),'sha256':sha(context_path)} if context_path.exists() else {'path':str(context_path.resolve()),'sha256':'0'*64}
-    record['manifest']=record_manifest(H,hp,context_record,info,artifacts,inputs)
-    if provenance is not None: record['manifest']['rerun']=provenance
-    if stage==3 and prior is not None:
-        record['manifest']['paired_stage2']=str(Path(predecessor).resolve().parent if Path(predecessor).is_file() else Path(predecessor).resolve())
-    record['instrument']={'fingerprint':info['fingerprint'],'baseline_before_candidates':bool(prefix.get('baseline_passed',False))}
-    record['ledger']=prefix.get('ledger',[]);record['overlap_audit']=prefix.get('overlap_audit',{})
-    if stage==1 or out.name!='c10y_directdw':
-        write_json(out/'manifest.json',record['manifest']);write_json(out/'run.json',record['run'])
-    own='screen.json' if stage==1 else 'pass_p%d.json'%(stage-1)
-    if stage==3 and record['run']['status']=='COMPLETED':
-        repro=reproduction_record(prior,record,predecessor,prefix['deployed_updates'],prefix['targets'])
-        write_json(out/'repro.json',repro)
-    record['reading']=reader.classify(record);write_json(out/own,record)
+    with phase_context(budget,'stage_publication'):
+        # PROVISIONAL §2.12/T12 ownership: stage1 common artifacts immutable;
+        # later pass records contain their own manifest/run/ledger/overlap identity.
+        artifacts=persist_prefix(out,prefix,tag)
+        overlay='targets_'+tag+'.pt'
+        for name,recipe in record['recipes'].items():
+            for arm,data in recipe['arms'].items():
+                if data.get('status')!='COMPLETED': continue
+                hout=data['H_out']
+                hout.update(tensor_certificate_sha256=digest(hout['tensors']),overlay_sha256=artifacts[overlay],
+                            overlay_artifact=overlay,overlay_member=['actual_updates',name,arm])
+                if 'stored_control' in data:
+                    stored=data['stored_control'];stored['source_sha256']=artifacts[overlay]
+                    if stored.get('scale1_fully_evaluated_source') is not None: stored['scale1_fully_evaluated_source']['source_sha256']=artifacts[overlay]
+        context_path=Path(contexts) if contexts else out/'context_templates.json'
+        context_record={'path':str(context_path.resolve()),'sha256':sha(context_path)} if context_path.exists() else {'path':str(context_path.resolve()),'sha256':'0'*64}
+        record['manifest']=record_manifest(H,hp,context_record,info,artifacts,inputs)
+        if provenance is not None: record['manifest']['rerun']=provenance
+        if stage==3 and prior is not None:
+            record['manifest']['paired_stage2']=str(Path(predecessor).resolve().parent if Path(predecessor).is_file() else Path(predecessor).resolve())
+        record['instrument']={'fingerprint':info['fingerprint'],'baseline_before_candidates':bool(prefix.get('baseline_passed',False))}
+        record['ledger']=prefix.get('ledger',[]);record['overlap_audit']=prefix.get('overlap_audit',{})
+        if stage==1 or out.name!='c10y_directdw':
+            write_json(out/'manifest.json',record['manifest']);write_json(out/'run.json',record['run'])
+        own='screen.json' if stage==1 else 'pass_p%d.json'%(stage-1)
+        if stage==3 and record['run']['status']=='COMPLETED':
+            repro=reproduction_record(prior,record,predecessor,prefix['deployed_updates'],prefix['targets'])
+            write_json(out/'repro.json',repro)
+        record['reading']=reader.classify(record);write_json(out/own,record)
     return record
 
 
@@ -1513,16 +1551,36 @@ def supervise(argv,out,diagnostic,cap_s,stage,env=None):
                 break
             time.sleep(min(.02,left))
         log.flush();log.seek(0);output=log.read()
+    failure={}
     if timed_out:
         completed=(out/('write_complete_'+tag+'.json')).exists()
         status='INCOMPLETE-BUDGET' if completed else 'HALTED-BUDGET'
         context_path=out/('context_templates_calib.json' if stage=='calibration' else 'context_templates.json')
         if stage in (2,3) and '--contexts' in argv: context_path=Path(argv[argv.index('--contexts')+1])
         context_record=context_evidence(context_path)
-        write_json(diagnostic,{'stage':stage,'process':'calibration' if stage=='calibration' else 'stage','code':status,'cap_s':cap_s,'started_at':started,'finished_at':utc(),'owned_pid':proc.pid,'owned_process_group':pgid,'context_templates':context_record,'pinned_engine_sha256':PINNED_ENGINE_SHA})
-        halt={'stage':stage,'status':status,'code':'supervisor','launched':True,'write_complete':completed,'readout_complete':False,'telemetry':False,'telemetry_inertness':None,'context_templates':context_record,'pinned_engine_sha256':PINNED_ENGINE_SHA}
+        failure={'phase':'supervisor_deadline','exception':None,'traceback':None,
+                 'traceback_unavailable':'Worker was terminated at the native deadline; no Python exception traceback is available.'}
+        if not diagnostic.exists():
+            write_json(diagnostic,{'stage':stage,'process':'calibration' if stage=='calibration' else 'stage','code':status,'cap_s':cap_s,'started_at':started,'finished_at':utc(),'owned_pid':proc.pid,'owned_process_group':pgid,'context_templates':context_record,'pinned_engine_sha256':PINNED_ENGINE_SHA,**failure})
+        halt={'stage':stage,'status':status,'code':'supervisor','launched':True,'write_complete':completed,'readout_complete':False,'telemetry':False,'telemetry_inertness':None,'context_templates':context_record,'pinned_engine_sha256':PINNED_ENGINE_SHA,**failure}
         target=out/('supervisor_'+tag+'.json');write_json(target,halt)
-    else: status='COMPLETE' if proc.returncode==0 else 'HALTED'
+        if not (out/'run.json').exists(): write_json(out/'run.json',halt)
+    else:
+        status='COMPLETE' if proc.returncode==0 else 'HALTED'
+        if status!='COMPLETE':
+            if diagnostic.exists():
+                saved=strict_load(diagnostic)
+                failure={k:saved[k] for k in ('code','phase','exception','detail','traceback','traceback_unavailable','cleanup') if k in saved}
+            else:
+                failure={'phase':'worker_exit','exception':None,'traceback':None,
+                         'traceback_unavailable':'Worker exited with code %s before publishing an exception traceback.'%proc.returncode}
+                write_json(diagnostic,{'stage':stage,'out':str(out),'code':'INSTRUMENT-ERROR','returncode':proc.returncode,'at':utc(),**failure})
+            halt_code=failure.get('code','INSTRUMENT-ERROR')
+            halted={'stage':stage,'status':halt_code if halt_code in ('HALTED-BUDGET','INCOMPLETE-BUDGET','INVALID-LEAKAGE','INVALID-TRAIN-DEPLOY-GAP') else 'HALTED','code':halt_code,'launched':True,
+                    'write_complete':(out/('write_complete_'+tag+'.json')).exists(),'readout_complete':False,**failure}
+            if not (out/('supervisor_'+tag+'.json')).exists(): write_json(out/('supervisor_'+tag+'.json'),halted)
+            if not (out/'run.json').exists():
+                write_json(out/'run.json',halted)
     if stage=='calibration':
         draft=out/'calibration_worker.json'
         record=strict_load(draft) if draft.is_file() else {'schema':'c10y_directdw_calibration/v1','timings':[]}
@@ -1530,7 +1588,12 @@ def supervise(argv,out,diagnostic,cap_s,stage,env=None):
         if last is not None:
             record['timings'].append({'name':'shutdown','seconds':STAGE_CLOCK()-last,'repetition':1,'workload':{'arms':[],'requests':0,'scored_prompts':0,'micro_batches':0,'accepted_steps':0,'retries':0},'synchronised':True,'status':'COMPLETED' if status=='COMPLETE' else 'FAILED','measurement':'supervisor last record write to worker exit'})
         record.update(finished_at=utc())
-        if status!='COMPLETE': record['outcome']=status
+        if timed_out:
+            if record.get('traceback'): record['worker_failure']={k:record[k] for k in ('outcome','phase','exception','detail','traceback','cleanup') if k in record}
+            record.update(outcome=status,**failure)
+        elif status!='COMPLETE':
+            if record.get('outcome') in (None,'COMPLETE'): record['outcome']=failure.get('code','INSTRUMENT-ERROR')
+            record.update(failure)
         record['context_templates']=context_evidence(out/'context_templates_calib.json')
         write_json(out/'calibration.json',record)
     return {'status':status,'output':output,'pid':proc.pid,'process_group':pgid,'returncode':proc.returncode}
@@ -1546,10 +1609,12 @@ def main(argv=None):
     parser.add_argument('--replacement',type=Path)
     parser.add_argument('--budget-gate',action='store_true');parser.add_argument('--worker',action='store_true')
     args=parser.parse_args(argv);stage='calibration' if args.stage=='calibration' else int(args.stage)
+    phase='preflight';admitted=False
     try:
         selftest_root(ROOT);refuse_schedule_halt(ROOT)
         if stage=='calibration' and any(k in os.environ for k in ('C10Y_TELEMETRY','C10Y_TELEMETRY_INERTNESS')): raise Halt('CALIBRATION-TELEMETRY')
         preflight()
+        phase='launch_authorization'
         reader=importlib.import_module('c10y_directdw_read')
         prior=reader.load(args.predecessor) if args.predecessor else None
         if stage in (2,3) and prior is not None and prior.get('stage')!=stage-1: raise Halt('PREDECESSOR-STAGE')
@@ -1569,31 +1634,47 @@ def main(argv=None):
         if args.worker and not owned_launch(args.out,stage): raise Halt('SUPERVISOR-REQUIRED')
         if not args.worker:
             output_path(args.out,stage)
+            admitted=True;phase='supervisor_launch'
             command=[sys.executable,'-B',str(Path(__file__).resolve()),*list(argv or sys.argv[1:]),'--worker']
             result=supervise(command,args.out,args.halt_diagnostic,cap,stage,env=dict(os.environ,LLMDB_ROOT=str(Path(ROOT).resolve())))
             return 0 if result['status']=='COMPLETE' else 2
         if os.environ.get('C10Y_SELFTEST'): raise Halt('SELFTEST-REAL-WORKER')
+        admitted=True;phase='worker_preflight'
         import torch
         torch.mps.synchronize();unit_start=STAGE_CLOCK();preflight();torch.mps.synchronize()
         startup=[{'name':'preflight','seconds':STAGE_CLOCK()-unit_start,'repetition':1,'workload':{'arms':[],'requests':0},'synchronised':True}]
         os.environ['LLMDB_ROOT']=str(Path(ROOT).resolve());os.environ['HP_BASE']=str(Path(ROOT)/SOURCE_PATHS['hparams'])
         os.environ['MODEL_ID']=MODEL_ID;os.environ['MODEL_REV']=MODEL_REV
         torch.mps.synchronize();unit_start=STAGE_CLOCK()
+        phase='model_load'
         H=importlib.import_module('c10e_bandknob')
         torch.mps.synchronize()
         startup.append({'name':'load','seconds':STAGE_CLOCK()-unit_start,'repetition':1,'workload':{'model':MODEL_ID,'model_rev':MODEL_REV,'tokenizer':True},'synchronised':True})
+        phase='harness_configuration'
         if str(H.DEV)!='mps': raise Halt('DEVICE')
         H.hp=H.MEMITHyperParams.from_json(os.environ['HP_BASE'])
         H.find_fact_lookup_idx=H.compute_z.__globals__['find_fact_lookup_idx']
         H._C10Y_STARTUP_TIMINGS=startup
         if stage=='calibration':
+            phase='calibration'
             record=calibrate(args.out,H,go=strict_load(args.go),spend=strict_load(args.spend),diagnostic=args.halt_diagnostic)
             return 0 if record['outcome']=='COMPLETE' else 2
+        phase='stage_run'
         record=run(args.out,H,stage=stage,go=strict_load(args.go),spend=strict_load(args.spend) if args.spend else None,
                    forecast=strict_load(args.forecast),contexts=args.contexts,context_sha=args.context_sha,predecessor=args.predecessor,diagnostic=args.halt_diagnostic,replacement=strict_load(args.replacement) if args.replacement else None,admission=admission)
         return 0 if record['run']['status']=='COMPLETED' else 2
-    except (Halt,ValueError,OSError,KeyError) as e:
-        print(str(e),file=sys.stderr);return 2
+    except Exception as e:
+        failure=exception_fields(e,phase);code=failure['code']
+        print('C10Y '+str(code)+' phase='+failure['phase']+'\n'+failure['traceback'],file=sys.stderr)
+        if admitted:
+            halted={'stage':stage,'out':str(args.out),'status':code if code in ('HALTED-BUDGET','INCOMPLETE-BUDGET','INVALID-LEAKAGE','INVALID-TRAIN-DEPLOY-GAP') else 'HALTED','code':code,'at':utc(),
+                    'launched':True,'write_complete':False,'readout_complete':False,**failure}
+            if not args.halt_diagnostic.exists(): write_json(args.halt_diagnostic,halted)
+            if not (args.out/'run.json').exists(): write_json(args.out/'run.json',halted)
+            else:
+                tag='calib' if stage=='calibration' else 's1' if stage==1 else 'p%d'%(stage-1)
+                if not (args.out/('supervisor_'+tag+'.json')).exists(): write_json(args.out/('supervisor_'+tag+'.json'),halted)
+        return 2
 # Fragment for c10y_directdw_arms.py. No module import runs a model or tensor.
 # Seams: c10e:181-221,358-400,403-509; compute_z:41-73,90-99,149-153.
 FRAME_SUBJECTS = ["Vorbanth", "Quillexa", "Tremnok", "Oskavel", "Blynthar", "Durmquist"]
@@ -1606,21 +1687,23 @@ def frame_subjects_ast_check():
 
 
 def _unit(H,timings,name,workload,action,repetition=1,budget=None):
-    if budget is not None: budget.project(0.,False)
-    sample_memory(H,name);sync(H);started=STAGE_CLOCK();status='COMPLETED'
-    telemetry=getattr(H,'_C10Y_TELEMETRY',None)
-    if telemetry is not None: telemetry.phase(name+'_start')
-    try: return action()
-    except BaseException:
-        status='FAILED';raise
-    finally:
-        if telemetry is not None: telemetry.phase(name+'_end')
-        sync(H);elapsed=STAGE_CLOCK()-started;sample_memory(H,name)
-        timings.append({'name':name,'seconds':elapsed,'repetition':repetition,
-                        'workload':copy.deepcopy(workload),'status':status,'synchronised':True})
-        if budget is not None:
-            phase='contexts_targets' if name in ('contexts_overlap','target_solve') else 'baseline' if name.startswith('baseline_') or name=='law3' else 'projector_capture' if name.startswith('candidate_') else 'proofs'
-            budget.consume(phase,elapsed)
+    with phase_context(budget,name):
+        if budget is not None: budget.project(0.,False)
+        sample_memory(H,name);sync(H);started=STAGE_CLOCK();status='COMPLETED'
+        telemetry=getattr(H,'_C10Y_TELEMETRY',None)
+        if telemetry is not None: telemetry.phase(name+'_start')
+        try: return action()
+        except BaseException as error:
+            mark_exception(error,name);status='FAILED';raise
+        finally:
+            with phase_context(budget,name+'_cleanup'):
+                if telemetry is not None: telemetry.phase(name+'_end')
+                sync(H);elapsed=STAGE_CLOCK()-started;sample_memory(H,name)
+                timings.append({'name':name,'seconds':elapsed,'repetition':repetition,
+                                'workload':copy.deepcopy(workload),'status':status,'synchronised':True})
+                if budget is not None:
+                    phase='contexts_targets' if name in ('contexts_overlap','target_solve') else 'baseline' if name.startswith('baseline_') or name=='law3' else 'projector_capture' if name.startswith('candidate_') else 'proofs'
+                    budget.consume(phase,elapsed)
 
 
 def _workload(arm=None,requests=0,scored=0,micro_batches=0,accepted_steps=0,retries=0):
@@ -1886,7 +1969,7 @@ def _probe_pristine(H,hp,requests,contexts):
         frame_pre={k:{s:H.predict(t.format(s)) for s in FRAME_SUBJECTS} for k,t in frames.items()}
         relation_pre={k:{r['subject']:H.predict(t.format(r['subject'])) for r in requests} for k,t in relation.items()}
         anchor={}
-        for k,t in {'canonical':H.CANON}|{'heldout%d'%i:p for i,p in enumerate(H.PTEST)}.items():
+        for k,t in ({'canonical':H.CANON}|{'heldout%d'%i:p for i,p in enumerate(H.PTEST)}).items():
             anchor[k]=H.get_module_input_output_at_words(H.model,H.tok,hp.layers[-1],
                 context_templates=[t for _ in requests],words=[r['subject'] for r in requests],
                 module_template=hp.layer_module_tmp,fact_token_strategy=hp.fact_token)[1].T.detach().cpu()
@@ -1896,7 +1979,7 @@ def _probe_pristine(H,hp,requests,contexts):
 def _remaining_readout(H,hp,requests,targets,pre):
     import torch
     z=torch.stack([targets[k].detach().cpu() for k in _request_keys(requests)],1);values={};denominators={}
-    for key,t in {'canonical':H.CANON}|{'heldout%d'%i:p for i,p in enumerate(H.PTEST)}.items():
+    for key,t in ({'canonical':H.CANON}|{'heldout%d'%i:p for i,p in enumerate(H.PTEST)}).items():
         now=H.get_module_input_output_at_words(H.model,H.tok,hp.layers[-1],context_templates=[t for _ in requests],
               words=[r['subject'] for r in requests],module_template=hp.layer_module_tmp,fact_token_strategy=hp.fact_token)[1].T
         numerator=norm(cpu64(z)-cpu64(now));denominator=norm(cpu64(z)-cpu64(pre[key]));denominators[key]=denominator
@@ -2426,7 +2509,8 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
         if len(matches)!=1: raise Halt('ARM-ATTRIBUTION')
         arm=matches[0];P_box['P']=P
         if band_hashes(H,hp)!=base_hashes: raise Halt('PRISTINE-BAND-IDENTITY')
-        runtime['pre_probes'][arm]=_probe_pristine(H,hp,requests,runtime['contexts'])
+        with phase_context(budget,'baseline_pristine_probes'):
+            runtime['pre_probes'][arm]=_probe_pristine(H,hp,requests,runtime['contexts'])
         planned={};previous_match=H.upd_matrix_match_shape
         def match(update,shape):
             value=previous_match(update,shape)
@@ -2500,7 +2584,8 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
                 return value
             setattr(H,attr,timed)
         baseline_start=len(timings);sync(H);started=STAGE_CLOCK()
-        baseline=scored_recipe(H,'A',H.HP_BASE,1 if calibration else stage,telemetry)
+        with phase_context(budget,'baseline_recipe'):
+            baseline=scored_recipe(H,'A',H.HP_BASE,1 if calibration else stage,telemetry)
         sync(H);baseline_elapsed=STAGE_CLOCK()-started
         baseline_units=sum(t['seconds'] for t in timings[baseline_start:] if t['name'] in ('baseline_projector','baseline_law5','baseline_write','baseline_evaluation'))
         timings.append({'name':'baseline_recipe_overhead','seconds':max(0.,baseline_elapsed-baseline_units),
@@ -2648,20 +2733,23 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
         result={'baseline':baseline,'contexts':contexts,'targets':targets,'ledger':ledger,'law5':law5,'step0':step0,'checks':checks,
                 'overlap_audit':audit,'timings':timings,'T_cal':max(lengths),'template_token_lengths':template_lengths,
                 'baseline_passed':True,'actual_A':runtime['actual_A'],'actual_B':runtime['actual_B'],'runtime':runtime,'writer':candidate_writer}
+    except BaseException as error:
+        mark_exception(error,budget.phase);raise
     finally:
-        if had_telemetry: H._C10Y_TELEMETRY=old_telemetry
-        else: del H._C10Y_TELEMETRY
-        for attr,value in timed_originals.items(): setattr(H,attr,value)
-        restore(H,hp,W0)
-        for key,value in original.items(): setattr(H,key,value)
-        for key in ('_CANDIDATE_RECIPE','_C10Y_READOUT_STATE'):
-            if key in optional: setattr(H,key,optional[key])
-            elif hasattr(H,key): delattr(H,key)
-        if had_cache: context_globals['CONTEXT_TEMPLATES_CACHE']=old_cache
-        else: context_globals.pop('CONTEXT_TEMPLATES_CACHE',None)
-        if _all_registries(H.model)!=registry: raise Halt('HOOK-RESTORATION')
-        if any(getattr(H,k) is not value if k not in ('Z_OVERRIDE_HITS','_LAW5_DEFAULT_CTX') else getattr(H,k)!=value for k,value in original.items()):
-            raise Halt('GLOBAL-RESTORATION')
+        with phase_context(budget,'prefix_cleanup'):
+            if had_telemetry: H._C10Y_TELEMETRY=old_telemetry
+            else: del H._C10Y_TELEMETRY
+            for attr,value in timed_originals.items(): setattr(H,attr,value)
+            restore(H,hp,W0)
+            for key,value in original.items(): setattr(H,key,value)
+            for key in ('_CANDIDATE_RECIPE','_C10Y_READOUT_STATE'):
+                if key in optional: setattr(H,key,optional[key])
+                elif hasattr(H,key): delattr(H,key)
+            if had_cache: context_globals['CONTEXT_TEMPLATES_CACHE']=old_cache
+            else: context_globals.pop('CONTEXT_TEMPLATES_CACHE',None)
+            if _all_registries(H.model)!=registry: raise Halt('HOOK-RESTORATION')
+            if any(getattr(H,k) is not value if k not in ('Z_OVERRIDE_HITS','_LAW5_DEFAULT_CTX') else getattr(H,k)!=value for k,value in original.items()):
+                raise Halt('GLOBAL-RESTORATION')
     if result is None: raise Halt('INCOMPLETE-INSTRUMENT-PREFIX')
     for mode,arms in runtime['checks_by_mode_arm'].items():
         for arm,values in arms.items():

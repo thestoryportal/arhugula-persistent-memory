@@ -13334,3 +13334,995 @@ The 193-path baseline and Program-authorized external C10Z/dashboard exclusions 
 
 Session handoff is confined to this report and /private/tmp/c10y_build: all 243 test methods have PASS coverage (240 final light plus three exact-snapshot controls), 22/22 defined mutants have own-assertion kills and restoration, 19 forbidden-conversion fixtures have source-audit kills, R5 is 193/193 unchanged, Program outside-file attribution is recorded, and independent bounded static/CPU review is GO. All three new greedy masks were reverted; eleven original tokenizer masks remain explicit. The conversion/CPU-first fence, stored-control alignment and actual frozen T8 off reference remain. No scientific/model-bearing dispatch result exists; MEASUREMENT-ONLY and live admission gates remain in force. No extra workspace memory/ledger/context artifact was written.
 
+
+
+## Calibration INSTRUMENT-ERROR — 2026-10-08 follow-up
+
+**BUILD REPAIR VERIFIED (CPU); live recalibration UNVERIFIED.** The exact reported unpack error is reproduced at the actual `_probe_pristine` mapping loop, and independently at its `_remaining_readout` sibling. Applied the one source repair proposed before the RED run: parenthesize the complete dictionary union before calling `.items()` at both sites. Full traceback and phase recording, causal halt routing and terminal-record authority are also repaired. The final serial suite ran **260 tests in 18.720 s, OK**, with `C10Y_ALLOWED_CHILD_TESTS=1`, including both full-size CPU reductions and the genuine native blocked-child deadline controls. The independent final delta review is **PROCEED for this bounded source/CPU repair**. No model, tokenizer, transformers/harness import, GPU/MPS call or calibration rerun was performed by this build follow-up.
+
+This section supersedes earlier current-source/test-count claims only for the identities recorded below. The original report remains an unchanged 1,131,480-byte prefix (SHA-256 `a92ecba464d615df57ae6572ef9a5b5fca1188d0c72973c549659a4d67f068bd`). The historical calibration, its diagnostic and all other recorded evidence remain unchanged. No frozen scientific scorer, decoder, engine primitive, objective, threshold, optimizer setting, context source or preregistration was changed. C10Y remains MEASUREMENT-ONLY.
+
+### Observed failure and localization confidence
+
+Program reported a 10:03 launch and 10:19 end under D-C10y-go. The immutable run.json records `started_at=2026-10-08T16:04:00.761770+00:00` and `finished_at=2026-10-08T16:19:24.765068+00:00` (10:04:00.761770 and 10:19:24.765068 MDT), status INSTRUMENT-ERROR, telemetry off, cap 7,200 s. The diagnostic filename's 16:03:40 stamp is not the recorded run start. Its only original error fields are ValueError and `too many values to unpack (expected 2)`; it contains neither a traceback nor a phase. The environment identity records transformers 4.51.0, torch 2.8.0, MPS, Qwen2.5-3B.
+
+The actual stage log ends after recipe A's standing LAW#5 block: `|Δexpr|=0.0001`, `|Δloc|=0.21`, **INERT**. The worker memory contains `baseline_law5` at 16:19:14.984045 UTC but no `baseline_write`; checks/timings are empty and T_cal is null. This supports the ordering boundary; it does not retrospectively supply an exception frame, prove LAW#3 admission or complete the calibration.
+
+`step0_calib.json`, `overlap_audit_calib.json`, `law5_calib.json` and `ledger_calib.json` are empty JSON objects. `targets_calib.pt` has no tensor-storage members; its 24-byte pickle is exactly an empty `targets` mapping. Its disassembly is reproduced below. There are therefore **no saved target/output tensor shapes to inspect**. These artifacts are failure placeholders: calibrate's local prefix is initially empty and receives a result only after instrument_prefix returns successfully. They do not establish that the earlier target solves or printed standing LAW#5 never ran.
+
+The statically reachable route is the before-driver identity `cf08c4cc…`: instrument_prefix:2409 → scored_recipe('A'):2502 → frozen c10e_bandknob.run_recipe:463–490 (projector, standing LAW#5, pristine axes/locality predictions, wrapped my_edit) → baseline_edit:2430 → _probe_pristine:1889, before the baseline_write unit. After successful baseline editing/readout, scientific_readouts also calls _remaining_readout:1899. The frozen harness redirects my_edit stdout, so the log's boundary is consistent with the first site.
+
+At both sites the original expression was:
+
+```python
+for key, template in {'canonical': H.CANON} | {'heldout%d' % i: p for i, p in enumerate(H.PTEST)}.items():
+```
+
+The AST binds `.items()` only to the right dictionary. The reflected dict-items union yields a set containing the left key string `canonical` and heldout key/value tuples. Unpacking that nine-character string into two names deterministically raises the reported ValueError. Set iteration can process heldout pairs first; no claim is made that zero representation calls precede the eventual failure.
+
+**Confirmed:** the owned source bug and its correction, via faithful CPU calls of both actual functions. **High-confidence inference:** _probe_pristine:1889 was the historical live raising site, because it is unavoidable on the recorded post-LAW#5 route before baseline_write. **Not traceback-proven:** the exact historical deepest frame or absence of another earlier live defect. No speculative Qwen tuple, hook, mask or frozen-harness repair was applied. A future calibration must use a fresh output/source identity and its normal Program/prereg gates; no launch is authorized by this report.
+
+Historical target pickle, inspected with stdlib pickletools only (not loaded by torch):
+
+```text
+    0: \x80 PROTO      2
+    2: }    EMPTY_DICT
+    3: q    BINPUT     0
+    5: X    BINUNICODE 'targets'
+   17: q    BINPUT     1
+   19: }    EMPTY_DICT
+   20: q    BINPUT     2
+   22: s    SETITEM
+   23: .    STOP
+highest protocol among opcodes = 2
+```
+
+### Real structure and hook contracts checked
+
+The installed Qwen source was read as text without importing transformers. `.venv/lib/python3.11/site-packages/transformers/models/qwen2/modeling_qwen2.py` SHA-256 is `1760c628019995d3564c8572be6c5149f488b6c3aa95ceda16099c2516e146ff`. The pinned model config SHA-256 is `27467e2fc311a7656c09a43ae9c3d408211e1f212bbddbc93c8596a06423826f`; it names Qwen2ForCausalLM, 36 layers, hidden_size=2048, intermediate_size=11008 and use_cache=true. A decoder hidden-state tensor has batch/sequence/hidden axes; it is not a sequence of two fields.
+
+| Contract | Actual installed/frozen behavior | Consequence |
+| --- | --- | --- |
+| Qwen2DecoderLayer.forward, Qwen2 source:262,281–285 | Attention returns two fields. Decoder returns `(hidden_states,)`; only output_attentions adds a second field. Cache is handled through the passed cache object. | No driver assumption that every decoder output has exactly two fields is justified or introduced. TinyBlock's single-field tuple matches the default actual decoder arity. |
+| Qwen2Model.forward:549–578; Qwen2ForCausalLM.forward:815–851 | Model reads `layer_outputs[0]` (attention `[1]` only when requested), returns BaseModelOutputWithPast; causal LM returns CausalLMOutputWithPast. | Driver/harness callers access named last_hidden_state/logits/hidden_states fields. No two-value unpack of the top-level model output is present. |
+| Qwen2Attention.forward:168,169,174,194,208; rotary:319 | Position embeddings are `(cos,sin)`; apply_rotary_pos_emb returns `(q_embed,k_embed)`; attention returns `(attn_output,attn_weights)`. | Each real internal two-value unpack matches its producer. |
+| Installed integrations/sdpa_attention.py:18–65; modeling_qwen2.py:109–132 | SDPA returns `(attn_output,None)`; eager returns `(attn_output,attn_weights)`. | The attention backend pair is compatible. No backend change. |
+| Installed cache_utils.DynamicCache.update:404–449 | Returns `(key_cache[layer],value_cache[layer])`; Qwen2Model uses DynamicCache for the default cache path. | The cache pair is compatible. No cache change. |
+| Installed modeling_rope_utils.py:92–131 | Default RoPE initializer returns `(inv_freq,attention_factor)`; this construction occurs before the post-LAW#5 phase. | It supplies the constructor pair, rather than decoder tuple fields. |
+| Engine compute_z.get_module_input_output_at_words:214–233 | track='both' receives input/output pair and explicitly returns their detached pair. The 'last' branch raises before its later pair assignment; frozen fact_token is subject_last. | Driver `[1].T` selects output rows. Expected real representation shape is `[24,2048]`, transposed to `[2048,24]`; saved historical placeholders do not independently prove this shape. |
+| repr_tools.get_words_idxs_in_templates:58–64; get_reprs_at_idxs:117–159 | Prefix/suffix are two explicit lists; batches yield `(contexts,indices)`; `_process` unwraps tuple output `[0]`; track='both' explicitly returns input/output tensors. | A single-field decoder tuple is handled without a two-field destructure. CPU regression uses the same hook and pair contract with hidden_size=4 and batch=24. |
+| util/nethook.Trace:71–102 | Hook signature is `(module,args,kwargs,output)` and registered with with_kwargs=True. Owned manual hooks use `(module,args,output)` with the ordinary registration. | Hook signatures match their registrations. No newly injected scorer kwargs or masks. |
+| Frozen c10e_bandknob scorers:100–117,135–147,312–317,362 | predict returns a dictionary; full_seq_match returns two booleans; teacher_forced_pertok returns hits/count; sentence_nll returns one scalar. | Evaluation and the statement-identical scorer copy retain these contracts. Full suite keeps no-injected-kwargs and safe conversion AST controls. |
+
+### Complete bounded two-value unpack inventory
+
+The table below inventories **195 syntactic two-target destructures** in the seven named before-source files, including nested targets, assignments, loops and comprehensions. Two-dimensional tensor-index tuples are excluded because they do not unpack values. The first scratch scanner overcounted such indices; `static_two_value_unpacks.json`/`.md` are the corrected inventory. This conservative table contains every potentially reachable pair unpack within the audited driver/harness/representation/hook/Qwen source boundary; it also retains the following explicit exclusions to avoid hiding a candidate merely by filtering it out:
+
+- Telemetry/lens/admission functions are unreachable in this telemetry-off calibration; later-stage run/reproduction/record_manifest/NM/ENV paths are also excluded by the calibration schedule.
+- Context installation/overlap and the full engine compute_z target-optimization body run before standing LAW#5. The post-LAW#3 objective audit executes only compute_z's statement-identical batch-construction segment (41–73), so that segment is retained as a later reachable contract.
+- Anchor-only branches (_pristine_anchor and reference/delta branches), stored-control checks and size_scales are excluded by calibration's e2e-only modes. The pairs in train_deploy_parity's e2e loss/sequence comparisons remain reachable after LAW#3.
+- Harness stimulus/locality-set construction and main/pre_base_report precede this path. Qwen2ForQuestionAnswering is not the configured causal-LM class. nethook hierarchical_subsequence/replace_module are not called by these hooks.
+- The remaining ordinary dictionary/enumerate/zip/literal-pair loops are shape-independent pair producers. Local rows/routes/keys/pairs are explicitly constructed two-element tuples. _counts, contexts_and_audit, the Writer objective closure, _decode_ids and the reference/delta helper explicitly return pairs. `pairs` comparison dictionaries hold `(hooked,merged)` reductions; runtime evaluation timestamps hold `(start,entry)`. None unwraps a Qwen decoder into two values.
+
+This is not a claim to enumerate every transitive PyTorch, tokenizer or stdlib implementation. The real return structures at the named model/helper boundaries were checked directly. Source line numbers in this table refer to the preserved failing identities, not the shifted final driver. The two confirmed bad mapping loops are marked explicitly.
+
+| Source (before identity) | Function | Target | Checked input contract |
+| --- | --- | --- | --- |
+| `installed Qwen2/modeling_qwen2.py:168` | `Qwen2Attention.forward` | `(cos, sin)` | Installed rotary forward returns (cos, sin). |
+| `installed Qwen2/modeling_qwen2.py:169` | `Qwen2Attention.forward` | `(query_states, key_states)` | Installed helper explicitly returns (q_embed, k_embed). |
+| `installed Qwen2/modeling_qwen2.py:174` | `Qwen2Attention.forward` | `(key_states, value_states)` | Installed DynamicCache.update returns (key, value). |
+| `installed Qwen2/modeling_qwen2.py:194` | `Qwen2Attention.forward` | `(attn_output, attn_weights)` | Installed eager/SDPA return (output, weights/None). |
+| `installed Qwen2/modeling_qwen2.py:262` | `Qwen2DecoderLayer.forward` | `(hidden_states, self_attn_weights)` | Installed Qwen2Attention returns exactly (hidden states, attention weights). |
+| `installed Qwen2/modeling_qwen2.py:302` | `Qwen2RotaryEmbedding.__init__` | `(inv_freq, self.attention_scaling)` | Configured rope initializer returns (inverse frequencies, scale); model construction precedes LAW5. |
+| `installed Qwen2/modeling_qwen2.py:622` | `Qwen2Model._update_causal_mask` | `(dtype, device)` | Two explicit RHS elements. |
+| `installed Qwen2/modeling_qwen2.py:1100` | `Qwen2ForQuestionAnswering.forward` | `(start_logits, end_logits)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10e_bandknob.py:194` | `my_edit` | `(i, layer)` | enumerate yields (index, element). |
+| `experiments/track_c/c10e_bandknob.py:218` | `my_edit` | `(i, layer)` | enumerate yields (index, element). |
+| `experiments/track_c/c10e_bandknob.py:241` | `build_stimuli.assign` | `(i, c)` | enumerate yields (index, element). |
+| `experiments/track_c/c10e_bandknob.py:248` | `build_stimuli` | `(i, c)` | enumerate yields (index, element). |
+| `experiments/track_c/c10e_bandknob.py:255` | `module` | `(k, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10e_bandknob.py:276` | `module` | `(L1_COUNTRIES, L3_COUNTRIES)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10e_bandknob.py:338` | `axes_post` | `(c, p)` | zip has 2 inputs. |
+| `experiments/track_c/c10e_bandknob.py:362` | `eval_arm` | `(cf, c1)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10e_bandknob.py:451` | `pre_base_report` | `(name, Vmap)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10e_bandknob.py:472` | `run_recipe` | `(arm_name, Vmap)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10e_bandknob.py:496` | `run_recipe` | `(k, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10e_bandknob.py:566` | `main` | `(k, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10e_bandknob.py:578` | `main` | `(k, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:53` | `Halt.__init__` | `(self.code, self.detail)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:80` | `strict_json.pairs` | `(k, v)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10y_directdw_arms.py:135` | `preflight` | `(key, value)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:169` | `cosine` | `(a, b)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:171` | `cosine` | `(na, nb)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:177` | `relative_distance` | `(a, b)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:182` | `norm_ratio` | `(nx, ny)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:190` | `gram_norm` | `(a, b)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:195` | `null_share` | `(d, p)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:201` | `projector_gate` | `(i, l)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:217` | `band_hashes` | `(l, t)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:222` | `restore` | `(l, x)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:234` | `capture_solve` | `(i, layer)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:248` | `capture_solve` | `(i, layer)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:274` | `hook_snapshot` | `(n, m)` | Torch iterator yields (name, object). |
+| `experiments/track_c/c10y_directdw_arms.py:281` | `weight_hooks` | `(l, a)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:293` | `request_batch` | `(rewriting_prompts, kl_prompts)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:302` | `request_batch` | `(i, prompt)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:321` | `packed_batches` | `(row, idx)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10y_directdw_arms.py:340` | `edit_components` | `(i, v)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:346` | `edit_components` | `(row, idx)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10y_directdw_arms.py:381` | `accepted_step` | `(indices, weight)` | zip has 2 inputs. |
+| `experiments/track_c/c10y_directdw_arms.py:382` | `accepted_step` | `(loss, values)` | Writer objective closure returns (loss, component dictionary). |
+| `experiments/track_c/c10y_directdw_arms.py:387` | `accepted_step` | `(k, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:414` | `size_scales` | `(l, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:478` | `Writer.arm` | `(arm, V)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:489` | `Writer.norms` | `(l, d)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:510` | `Writer.write` | `(H, hp)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:528` | `Writer.write` | `(l, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:529` | `Writer.write` | `(l, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:530` | `Writer.write` | `(self.As, self.Bs)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:538` | `Writer.write` | `(b, r)` | zip has 2 inputs. |
+| `experiments/track_c/c10y_directdw_arms.py:566` | `Writer.write` | `(scale, retries)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:568` | `Writer.write` | `(l, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:583` | `Writer.write` | `(l, a)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:585` | `Writer.write` | `(l, value)` | zip has 2 inputs. |
+| `experiments/track_c/c10y_directdw_arms.py:616` | `Writer.write` | `(p, flag)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:671` | `Budget.project` | `(k, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:712` | `_calibration_timings` | `(k, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:807` | `_calibration_phase` | `(k, v)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10y_directdw_arms.py:864` | `budget_gate` | `(rows, lower)` | Prelaunch forecast helper returns (timing rows, lower bound). |
+| `experiments/track_c/c10y_directdw_arms.py:938` | `overlap_audit` | `(s, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1002` | `Telemetry.logit_lens` | `(values, index)` | Torch topk returns (values, indices); telemetry is off in calibration. |
+| `experiments/track_c/c10y_directdw_arms.py:1003` | `Telemetry.logit_lens` | `(i, v)` | zip has 2 inputs. |
+| `experiments/track_c/c10y_directdw_arms.py:1013` | `Telemetry.sink` | `(arm, V)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1096` | `telemetry_bound` | `(key, minimum)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1099` | `telemetry_bound` | `(v, m)` | zip has 2 inputs. |
+| `experiments/track_c/c10y_directdw_arms.py:1180` | `telemetry_mps_inertness_check` | `(l, t)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1184` | `telemetry_mps_inertness_check` | `(i, r)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:1186` | `telemetry_mps_inertness_check` | `(l, t)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1187` | `telemetry_mps_inertness_check` | `(l, t)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1202` | `calibration_identity` | `(k, p)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1300` | `reproduction_record` | `((s, v), z)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1300` | `reproduction_record` | `(s, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1356` | `input_identity` | `(n, t)` | Torch iterator yields (name, object). |
+| `experiments/track_c/c10y_directdw_arms.py:1368` | `record_manifest` | `(k, p)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1369` | `record_manifest` | `(s, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1369` | `record_manifest` | `(arm, V)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1427` | `run` | `(name, mode)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10y_directdw_arms.py:1435` | `run` | `(arm, s)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1466` | `run` | `(name, recipe)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1467` | `run` | `(arm, data)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1648` | `_key_records` | `(s, v)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10y_directdw_arms.py:1680` | `_directed_distance` | `(a, b)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:1693` | `_js64` | `(p, q)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:1695` | `_js64.kl` | `(x, y)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:1722` | `write_geometry` | `(i, l)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:1778` | `_pristine_anchor` | `(i, k)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:1824` | `train_deploy_parity` | `(anchor_reference, delta)` | _pristine_anchor returns (reference, delta). |
+| `experiments/track_c/c10y_directdw_arms.py:1833` | `train_deploy_parity.losses` | `(group, weight)` | zip has 2 inputs. |
+| `experiments/track_c/c10y_directdw_arms.py:1842` | `train_deploy_parity.losses` | `(k, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1849` | `train_deploy_parity.sequences` | `(j, t)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:1850` | `train_deploy_parity.sequences` | `(generated, logits)` | _decode_ids returns (generated IDs, gathered logits). |
+| `experiments/track_c/c10y_directdw_arms.py:1860` | `train_deploy_parity` | `(a, b)` | zip has 2 inputs. |
+| `experiments/track_c/c10y_directdw_arms.py:1861` | `train_deploy_parity` | `(a, b)` | zip has 2 inputs. |
+| `experiments/track_c/c10y_directdw_arms.py:1863` | `train_deploy_parity` | `(k, (a, b))` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1863` | `train_deploy_parity` | `(a, b)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1864` | `train_deploy_parity` | `(k, (a, b))` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1864` | `train_deploy_parity` | `(a, b)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1866` | `train_deploy_parity` | `(a, b)` | zip has 2 inputs. |
+| `experiments/track_c/c10y_directdw_arms.py:1867` | `train_deploy_parity` | `(k, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1867` | `train_deploy_parity` | `(a, b)` | zip has 2 inputs. |
+| `experiments/track_c/c10y_directdw_arms.py:1882` | `_probe_pristine` | `(i, c)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:1886` | `_probe_pristine` | `(k, t)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1887` | `_probe_pristine` | `(k, t)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1889` | `_probe_pristine` | `(k, t)` | CONFIRMED BUG: RHS-only .items() creates set union, with bare canonical key. |
+| `experiments/track_c/c10y_directdw_arms.py:1889` | `_probe_pristine` | `(i, p)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:1899` | `_remaining_readout` | `(key, t)` | CONFIRMED BUG: RHS-only .items() creates set union, with bare canonical key. |
+| `experiments/track_c/c10y_directdw_arms.py:1899` | `_remaining_readout` | `(i, p)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:1919` | `_stored_reference_checks` | `(arm, V)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1932` | `_stored_reference_checks` | `(counts, evaluation)` | Action _counts or contexts_and_audit returns two explicit fields. |
+| `experiments/track_c/c10y_directdw_arms.py:1935` | `_stored_reference_checks` | `(l, w)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1939` | `_stored_reference_checks` | `(l, t)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1987` | `scientific_readouts` | `(key, t)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:1994` | `scientific_readouts` | `(key, t)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2002` | `scientific_readouts.ppl` | `(s, _)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10y_directdw_arms.py:2003` | `scientific_readouts.ppl` | `(_, v)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10y_directdw_arms.py:2033` | `scientific_readouts` | `(reference, delta)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10y_directdw_arms.py:2075` | `normalize_recipe` | `(arm, fields)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2079` | `normalize_recipe` | `(a, b)` | zip has 2 inputs. |
+| `experiments/track_c/c10y_directdw_arms.py:2090` | `normalize_recipe` | `(k, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2136` | `scored_recipe.current_arm` | `(a, V)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2174` | `scored_recipe.science` | `(start, entry)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10y_directdw_arms.py:2194` | `scored_recipe` | `(key, value)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2220` | `_objective_audit` | `(request, audit)` | zip has 2 inputs. |
+| `experiments/track_c/c10y_directdw_arms.py:2238` | `_objective_audit` | `(label, intervention)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:2240` | `_objective_audit` | `(indices, weight)` | zip has 2 inputs. |
+| `experiments/track_c/c10y_directdw_arms.py:2245` | `_objective_audit` | `(row, idx)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10y_directdw_arms.py:2250` | `_objective_audit.add_delta` | `(row, idx)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10y_directdw_arms.py:2256` | `_objective_audit` | `(row, idx)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10y_directdw_arms.py:2271` | `_objective_audit` | `(l, t)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2281` | `_fixed_padding` | `(k, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2297` | `_gradient_evaluations` | `(reference, delta)` | _pristine_anchor returns (reference, delta). |
+| `experiments/track_c/c10y_directdw_arms.py:2304` | `_gradient_evaluations` | `(group, weight)` | zip has 2 inputs. |
+| `experiments/track_c/c10y_directdw_arms.py:2313` | `_gradient_evaluations` | `(l, a)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2321` | `_gradient_evaluations` | `(p, flag)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2332` | `_accumulation_check` | `(split, groups)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:2337` | `_accumulation_check` | `(a, b)` | Two explicit RHS elements. |
+| `experiments/track_c/c10y_directdw_arms.py:2355` | `_gradient_check` | `(a, V)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2360` | `_gradient_check` | `(l, g)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2372` | `_all_registries` | `(n, m)` | Torch iterator yields (name, object). |
+| `experiments/track_c/c10y_directdw_arms.py:2425` | `instrument_prefix.baseline_edit` | `(a, V)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2457` | `instrument_prefix` | `(contexts, audit)` | Action _counts or contexts_and_audit returns two explicit fields. |
+| `experiments/track_c/c10y_directdw_arms.py:2463` | `instrument_prefix` | `(arm, V)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2488` | `instrument_prefix` | `(attr, name)` | Local declared two-element state pair; see the named producer contracts. |
+| `experiments/track_c/c10y_directdw_arms.py:2494` | `instrument_prefix.timed` | `(a, V)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2509` | `instrument_prefix` | `(attr, value)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2530` | `instrument_prefix` | `(i, l)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:2568` | `instrument_prefix` | `(i, entry)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:2570` | `instrument_prefix` | `(counts, evaluation)` | Action _counts or contexts_and_audit returns two explicit fields. |
+| `experiments/track_c/c10y_directdw_arms.py:2613` | `instrument_prefix` | `(mode, arms)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2614` | `instrument_prefix` | `(arm, values)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2622` | `instrument_prefix` | `(i, entry)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:2624` | `instrument_prefix` | `(i, l)` | enumerate yields (index, element). |
+| `experiments/track_c/c10y_directdw_arms.py:2642` | `instrument_prefix` | `(k, v)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2642` | `instrument_prefix` | `(arm, values)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2642` | `instrument_prefix` | `(mode, arms)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2654` | `instrument_prefix` | `(attr, value)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2656` | `instrument_prefix` | `(key, value)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2663` | `instrument_prefix` | `(k, value)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2666` | `instrument_prefix` | `(mode, arms)` | Mapping.items yields (key, value). |
+| `experiments/track_c/c10y_directdw_arms.py:2667` | `instrument_prefix` | `(arm, values)` | Mapping.items yields (key, value). |
+| `memit_dry_run/memit/memit/compute_ks.py:47` | `compute_ks` | `(start, end)` | Two explicit RHS elements. |
+| `memit_dry_run/memit/memit/compute_z.py:28` | `compute_z` | `(lm_w, ln_f)` | Two explicit RHS elements. |
+| `memit_dry_run/memit/memit/compute_z.py:46` | `compute_z` | `(rewriting_prompts, kl_prompts)` | Two explicit RHS elements. |
+| `memit_dry_run/memit/memit/compute_z.py:72` | `compute_z` | `(i, prompt)` | enumerate yields (index, element). |
+| `memit_dry_run/memit/memit/compute_z.py:84` | `compute_z` | `(target_init, kl_distr_init)` | Two explicit RHS elements. |
+| `memit_dry_run/memit/memit/compute_z.py:98` | `compute_z.edit_output_fn` | `(i, idx)` | enumerate yields (index, element). |
+| `memit_dry_run/memit/memit/compute_z.py:128` | `compute_z` | `(i, idx)` | enumerate yields (index, element). |
+| `memit_dry_run/memit/memit/compute_z.py:214` | `get_module_input_output_at_words` | `(l_input, l_output)` | track=both returns (input, output); it is not the decoder tuple. |
+| `memit_dry_run/memit/memit/compute_z.py:221` | `get_module_input_output_at_words` | `(i, tmp)` | enumerate yields (index, element). |
+| `memit_dry_run/memit/memit/compute_z.py:225` | `get_module_input_output_at_words` | `(l_input, l_output)` | track=both returns (input, output); it is not the decoder tuple. |
+| `memit_dry_run/memit/rome/repr_tools.py:58` | `get_words_idxs_in_templates` | `(prefixes, suffixes)` | Two explicit RHS elements. |
+| `memit_dry_run/memit/rome/repr_tools.py:59` | `get_words_idxs_in_templates` | `(i, tmp)` | enumerate yields (index, element). |
+| `memit_dry_run/memit/rome/repr_tools.py:60` | `get_words_idxs_in_templates` | `(i, tmp)` | enumerate yields (index, element). |
+| `memit_dry_run/memit/rome/repr_tools.py:64` | `get_words_idxs_in_templates` | `(i, prefix)` | enumerate yields (index, element). |
+| `memit_dry_run/memit/rome/repr_tools.py:122` | `get_reprs_at_idxs` | `(tin, tout)` | Two explicit RHS elements. |
+| `memit_dry_run/memit/rome/repr_tools.py:132` | `get_reprs_at_idxs._process` | `(i, idx_list)` | enumerate yields (index, element). |
+| `memit_dry_run/memit/rome/repr_tools.py:135` | `get_reprs_at_idxs` | `(batch_contexts, batch_idxs)` | Local declared two-element state pair; see the named producer contracts. |
+| `memit_dry_run/memit/rome/repr_tools.py:154` | `get_reprs_at_idxs` | `(k, v)` | Mapping.items yields (key, value). |
+| `memit_dry_run/memit/util/nethook.py:163` | `TraceDict.__init__` | `(is_last, layer)` | Producer explicitly yields (is_last, layer). |
+| `memit_dry_run/memit/util/nethook.py:185` | `TraceDict.close` | `(layer, trace)` | Local declared two-element state pair; see the named producer contracts. |
+| `memit_dry_run/memit/util/nethook.py:225` | `recursive_copy` | `(k, v)` | Mapping.items yields (key, value). |
+| `memit_dry_run/memit/util/nethook.py:293` | `hierarchical_subsequence` | `(F, FN)` | Local declared two-element state pair; see the named producer contracts. |
+| `memit_dry_run/memit/util/nethook.py:293` | `hierarchical_subsequence` | `(L, LN)` | Local declared two-element state pair; see the named producer contracts. |
+| `memit_dry_run/memit/util/nethook.py:293` | `hierarchical_subsequence` | `(A, AN)` | Local declared two-element state pair; see the named producer contracts. |
+| `memit_dry_run/memit/util/nethook.py:293` | `hierarchical_subsequence` | `(U, UN)` | Local declared two-element state pair; see the named producer contracts. |
+| `memit_dry_run/memit/util/nethook.py:299` | `hierarchical_subsequence` | `(name, layer)` | Mapping.items yields (key, value). |
+| `memit_dry_run/memit/util/nethook.py:365` | `get_module` | `(n, m)` | Torch iterator yields (name, object). |
+| `memit_dry_run/memit/util/nethook.py:375` | `get_parameter` | `(n, p)` | Torch iterator yields (name, object). |
+| `memit_dry_run/memit/util/nethook.py:386` | `replace_module` | `(parent_name, attr_name)` | Local declared two-element state pair; see the named producer contracts. |
+| `memit_dry_run/memit/util/nethook.py:420` | `invoke_with_optional_args` | `(i, n)` | enumerate yields (index, element). |
+| `memit_dry_run/memit/util/nethook.py:434` | `invoke_with_optional_args` | `(k, v)` | Mapping.items yields (key, value). |
+| `memit_dry_run/memit/util/nethook.py:451` | `invoke_with_optional_args` | `(k, v)` | Mapping.items yields (key, value). |
+
+### One repair and diagnosability changes
+
+The numerical-path change is exactly parenthesizing both complete mapping unions before `.items()` (final arms.py:1972,1982). It preserves canonical followed by heldout0/1/2 order and the existing prompts, representation calls, reductions and denominators. It changes no Qwen/frozen-harness/engine source, scientific threshold or mask.
+
+For diagnostics, arms.py:58–88 adds exception-bound phases and captures **full traceback.format_exc() inside the active except**. Nested phase scopes restore their parent on success, retain the first failing phase on the exception, and recover the primary code/phase through explicitly marked cleanup exceptions. Cleanup type/message/phase and the full causal traceback are retained additively. Routing uses the same primary code as the evidence, so a LAW#3 Halt followed by cleanup OSError still records LAW#3 and creates the persistent schedule latch.
+
+| Error boundary | Final implementation and evidence sink |
+| --- | --- |
+| `_unit`:1689 | Phase encloses entry budget projection/memory/sync, action and exit bookkeeping. `_cleanup` phase cannot replace the primary exception. Timing/sample/telemetry action order stays intact. |
+| Calibration:1353 | Context install, instrument prefix and final source/input check have explicit phases. Caught Halt/ordinary error fields are identical in halt diagnostic, run.json and calibration worker/final records. Publication has calibration_publication phase. Success run.json is written after the worker handoff/direct calibration record. |
+| Baseline prefix:2492 | Baseline recipe scope, precise baseline_pristine_probes scope, named LAW#3/check units and prefix_cleanup retain the action's phase. No replacement hook/scorer is introduced. |
+| Stage run:1419 | Context/prefix/candidate phases and primary halt routing persist the same fields in diagnostic and own run/science record. Stage publication is explicitly attributed. |
+| Main:1602 | Startup/preflight/authorization/load/configuration/publication exceptions report full trace and phase on stderr. Unadmitted refusal remains no-write. After valid admission, still-available diagnostic/run sinks and immutable terminal sidecars record failure; existing artifacts are never overwritten. |
+| Supervisor:1531 | Nonzero worker exit retains a published worker cause and always emits authoritative supervisor sidecar, so completed science cannot remain authoritative. Parent calibration replaces absent/COMPLETE outcome with the actual failure, while preserving already failed worker outcome/trace. Budget labels keep precedence. |
+| Native deadline | phase=supervisor_deadline; traceback=null with explicit traceback_unavailable reason because a killed native worker supplies no Python exception. The same limitation is explicit for exit before a worker handoff (worker_exit). No fabricated `NoneType: None` traceback. Available original worker diagnostic is preserved unchanged. |
+| T8 check.py:92–150 | Admitted validation/pre-hash, inertness callback, post-hash/evidence validation and publication share an error handler and telemetry_validation/telemetry_inertness/telemetry_record/telemetry_publication phases. Full trace/phase appear in diagnostic and INVALID inertness record when writable. Preflight remains no-write; CLI fallback prints full trace. |
+
+An I/O failure can prevent publication to that very destination. Full stderr/another available diagnostic or terminal sidecar is the fallback; universal filesystem survival is not claimed. If a success artifact has already been published, its immutable bytes remain and terminal failure is authoritative through the parent/sidecar. Empty partial-prefix persistence still marks incomplete science; no placeholder is promoted to evidence.
+
+### Test-first evidence and complete final suite
+
+Before production edits, families 86–93 were registered and the independent pre-test review was read. The first RED had one missing text-fixture setup error; that log remains `red.log` and is not credited for the pristine reproduction. After copying only the C10P precedent text into the temporary root, **red_assertions.log ran 12 tests, 15 own assertion failures, no errors**. Both actual helpers produced the exact reported ValueError at old lines 1889 and 1899. red_deadline.log separately proved the missing deadline phase with one assertion failure. The repair was applied only after that evidence.
+
+The first GREEN retained a one-ULP residual-ratio expectation failure (`0.7499999999999999` vs `0.75`); the test now checks the specified values/denominators within 1e-12 without changing production math. green_corrected.log ran 13 tests in 3.865 s, OK. The first full suite ran 255 tests in 18.974 s, OK, then the independent review identified uncovered diagnostic cases and issued FIX-FIRST.
+
+Families 94–96 were then registered before their production corrections. Primary LAW#3 plus cleanup, completed-calibration/stage followed by nonzero exit, and admitted T8 pre/post/record failures were assertion RED. A fixture's unbound stage identity and mocked-preflight issue were corrected before crediting their relevant controls: the stage regression explicitly obtains SCREEN-PASS from R.load before the simulated child failure; handoff_red.log exercises actual admitted main→calibrate publication failure and fails on missing run phase. budget_priority_red.log contains two own assertion failures proving terminal sidecars initially collapsed HALTED-BUDGET/INCOMPLETE-BUDGET. Those regressions pass after the primary-code and terminal-authority corrections.
+
+**Final targeted:** 17 tests, 0.328 s, OK. **Final full suite:** 260 tests, 18.720 s, OK. No tests were filtered, skipped or parallelized. The full-size 2048×11008 reductions/dense Gram and real native sleeping/blocked child before/after write marker were included. Prior M1–M22/M14 mutation evidence above is historical evidence at its named identity; this follow-up does not relabel it as a fresh mutation run. All real-model/GPU paths remain gated.
+
+Added regression inventory (17 methods; the existing native-deadline test additionally asserts phase and explicit unavailable-trace metadata):
+
+| Final selftest line | Method |
+| --- | --- |
+| `4542` | `test_pristine_probe_canonical_and_three_heldout_real_representation_pair` |
+| `4574` | `test_remaining_readout_canonical_and_three_heldout_real_pair` |
+| `4596` | `test_calibration_valueerror_and_halt_trace_phase_persist` |
+| `4611` | `test_calibration_context_failure_is_not_prefix_phase` |
+| `4619` | `test_stage_valueerror_and_halt_trace_phase_persist` |
+| `4636` | `test_nested_phase_retains_failure_and_restores_success_parent` |
+| `4654` | `test_primary_error_phase_survives_cleanup_failure` |
+| `4668` | `test_telemetry_halt_and_instrument_error_trace_phase` |
+| `4684` | `test_main_unadmitted_preflight_error_has_trace_and_phase_without_writes` |
+| `4694` | `test_calibration_publication_error_surfaces_phase` |
+| `4706` | `test_supervisor_worker_exit_before_handoff_is_diagnosed` |
+| `4718` | `test_supervisor_preserves_worker_original_trace_and_outcome` |
+| `4734` | `test_primary_law3_halt_survives_cleanup_and_latches_schedule` |
+| `4749` | `test_nonzero_child_exit_overrides_prepublished_success_authority` |
+| `4783` | `test_t8_admitted_validation_failures_emit_trace_and_invalid` |
+| `4803` | `test_admitted_main_calibration_handoff_failure_has_no_success_run` |
+| `4824` | `test_nonzero_child_retains_budget_halt_precedence` |
+
+Commands (all absolute paths; no cwd change; fresh `/private/tmp/c10y_build/roots/*` per case; bytecode disabled; one CPU thread). The targeted command ran against the before source for RED and the final source for GREEN; the full command produced final_full_suite.log:
+
+```text
+/opt/homebrew/bin/rtk proxy env C10Y_ALLOWED_CHILD_TESTS=1 TMPDIR=/private/tmp/c10y_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /private/tmp/c10y_build/run_selected.py CalibrationErrorTests
+/opt/homebrew/bin/rtk proxy env C10Y_ALLOWED_CHILD_TESTS=1 TMPDIR=/private/tmp/c10y_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py
+```
+
+The only children were authorized guarded CPU test stubs under temporary roots; the native child blocks in libc sleep. The main test process ran serially; no model/science dispatch or accelerator seeding occurred. The full log records empty owned listing drift, empty other observed unattributed listing drift and empty forbidden module list. This does not claim the entire shared worktree is unchanged.
+
+Exact corrected pre-implementation RED output (12 tests, 15 assertion failures, including both real-helper unpack failures):
+
+```text
+test_calibration_context_failure_is_not_prefix_phase (c10y_directdw_selftest.CalibrationErrorTests.test_calibration_context_failure_is_not_prefix_phase) ... FAIL
+test_calibration_publication_error_surfaces_phase (c10y_directdw_selftest.CalibrationErrorTests.test_calibration_publication_error_surfaces_phase) ... FAIL
+test_calibration_valueerror_and_halt_trace_phase_persist (c10y_directdw_selftest.CalibrationErrorTests.test_calibration_valueerror_and_halt_trace_phase_persist) ... 
+  test_calibration_valueerror_and_halt_trace_phase_persist (c10y_directdw_selftest.CalibrationErrorTests.test_calibration_valueerror_and_halt_trace_phase_persist) (error='ValueError') ... FAIL
+  test_calibration_valueerror_and_halt_trace_phase_persist (c10y_directdw_selftest.CalibrationErrorTests.test_calibration_valueerror_and_halt_trace_phase_persist) (error='Halt') ... FAIL
+test_main_unadmitted_preflight_error_has_trace_and_phase_without_writes (c10y_directdw_selftest.CalibrationErrorTests.test_main_unadmitted_preflight_error_has_trace_and_phase_without_writes) ... FAIL
+test_nested_phase_retains_failure_and_restores_success_parent (c10y_directdw_selftest.CalibrationErrorTests.test_nested_phase_retains_failure_and_restores_success_parent) ... FAIL
+test_primary_error_phase_survives_cleanup_failure (c10y_directdw_selftest.CalibrationErrorTests.test_primary_error_phase_survives_cleanup_failure) ... FAIL
+test_pristine_probe_canonical_and_three_heldout_real_representation_pair (c10y_directdw_selftest.CalibrationErrorTests.test_pristine_probe_canonical_and_three_heldout_real_representation_pair) ... FAIL
+test_remaining_readout_canonical_and_three_heldout_real_pair (c10y_directdw_selftest.CalibrationErrorTests.test_remaining_readout_canonical_and_three_heldout_real_pair) ... FAIL
+test_stage_valueerror_and_halt_trace_phase_persist (c10y_directdw_selftest.CalibrationErrorTests.test_stage_valueerror_and_halt_trace_phase_persist) ... 
+  test_stage_valueerror_and_halt_trace_phase_persist (c10y_directdw_selftest.CalibrationErrorTests.test_stage_valueerror_and_halt_trace_phase_persist) (error='ValueError') ... FAIL
+  test_stage_valueerror_and_halt_trace_phase_persist (c10y_directdw_selftest.CalibrationErrorTests.test_stage_valueerror_and_halt_trace_phase_persist) (error='Halt') ... FAIL
+test_supervisor_preserves_worker_original_trace_and_outcome (c10y_directdw_selftest.CalibrationErrorTests.test_supervisor_preserves_worker_original_trace_and_outcome) ... FAIL
+test_supervisor_worker_exit_before_handoff_is_diagnosed (c10y_directdw_selftest.CalibrationErrorTests.test_supervisor_worker_exit_before_handoff_is_diagnosed) ... FAIL
+test_telemetry_halt_and_instrument_error_trace_phase (c10y_directdw_selftest.CalibrationErrorTests.test_telemetry_halt_and_instrument_error_trace_phase) ... 
+  test_telemetry_halt_and_instrument_error_trace_phase (c10y_directdw_selftest.CalibrationErrorTests.test_telemetry_halt_and_instrument_error_trace_phase) (error='Halt') ... FAIL
+  test_telemetry_halt_and_instrument_error_trace_phase (c10y_directdw_selftest.CalibrationErrorTests.test_telemetry_halt_and_instrument_error_trace_phase) (error='ValueError') ... FAIL
+
+======================================================================
+FAIL: test_calibration_context_failure_is_not_prefix_phase (c10y_directdw_selftest.CalibrationErrorTests.test_calibration_context_failure_is_not_prefix_phase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4615, in test_calibration_context_failure_is_not_prefix_phase
+    self.assert_failure(A.strict_load(self.diagnostic),A.strict_load(out/'run.json'),
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4532, in assert_failure
+    self.assertEqual(diagnostic.get('phase'), phase)
+AssertionError: None != 'contexts_install'
+
+======================================================================
+FAIL: test_calibration_publication_error_surfaces_phase (c10y_directdw_selftest.CalibrationErrorTests.test_calibration_publication_error_surfaces_phase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4699, in test_calibration_publication_error_surfaces_phase
+    try: A.calibrate(out,make_h(),go=go,spend=spend,diagnostic=self.diagnostic)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 1345, in calibrate
+    write_json(out/'run.json',{'stage':'calibration','status':outcome,'telemetry':False,'telemetry_inertness':None,
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4696, in fail
+    if Path(path).name=='run.json': self.raise_fixture(OSError('publication fixture'))
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4529, in raise_fixture
+    raise error
+OSError: publication fixture
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4701, in test_calibration_publication_error_surfaces_phase
+    self.assertEqual(getattr(error,'_c10y_phase',None),'calibration_publication')
+AssertionError: None != 'calibration_publication'
+
+======================================================================
+FAIL: test_calibration_valueerror_and_halt_trace_phase_persist (c10y_directdw_selftest.CalibrationErrorTests.test_calibration_valueerror_and_halt_trace_phase_persist) (error='ValueError')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4605, in test_calibration_valueerror_and_halt_trace_phase_persist
+    self.assert_failure(saved,run,'failing_prefix',str(error),type(error).__name__)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4532, in assert_failure
+    self.assertEqual(diagnostic.get('phase'), phase)
+AssertionError: None != 'failing_prefix'
+
+======================================================================
+FAIL: test_calibration_valueerror_and_halt_trace_phase_persist (c10y_directdw_selftest.CalibrationErrorTests.test_calibration_valueerror_and_halt_trace_phase_persist) (error='Halt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4605, in test_calibration_valueerror_and_halt_trace_phase_persist
+    self.assert_failure(saved,run,'failing_prefix',str(error),type(error).__name__)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4532, in assert_failure
+    self.assertEqual(diagnostic.get('phase'), phase)
+AssertionError: None != 'failing_prefix'
+
+======================================================================
+FAIL: test_main_unadmitted_preflight_error_has_trace_and_phase_without_writes (c10y_directdw_selftest.CalibrationErrorTests.test_main_unadmitted_preflight_error_has_trace_and_phase_without_writes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4689, in test_main_unadmitted_preflight_error_has_trace_and_phase_without_writes
+    self.assertIn('Traceback (most recent call last):',stream.getvalue())
+AssertionError: 'Traceback (most recent call last):' not found in 'startup fixture\n'
+
+======================================================================
+FAIL: test_nested_phase_retains_failure_and_restores_success_parent (c10y_directdw_selftest.CalibrationErrorTests.test_nested_phase_retains_failure_and_restores_success_parent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4638, in test_nested_phase_retains_failure_and_restores_success_parent
+    try: A._unit(H,[],'outer',A._workload(),lambda:A._unit(H,[],'inner',A._workload(),inner,budget=budget),budget=budget)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 1613, in _unit
+    try: return action()
+                ^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4638, in <lambda>
+    try: A._unit(H,[],'outer',A._workload(),lambda:A._unit(H,[],'inner',A._workload(),inner,budget=budget),budget=budget)
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 1613, in _unit
+    try: return action()
+                ^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4637, in inner
+    def inner(): self.raise_fixture(ValueError('inner failure'))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4529, in raise_fixture
+    raise error
+ValueError: inner failure
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4640, in test_nested_phase_retains_failure_and_restores_success_parent
+    self.assertEqual(getattr(error,'_c10y_phase',None),'inner')
+AssertionError: None != 'inner'
+
+======================================================================
+FAIL: test_primary_error_phase_survives_cleanup_failure (c10y_directdw_selftest.CalibrationErrorTests.test_primary_error_phase_survives_cleanup_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4663, in test_primary_error_phase_survives_cleanup_failure
+    self.assert_failure(saved,run,'primary_action','primary failure')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4532, in assert_failure
+    self.assertEqual(diagnostic.get('phase'), phase)
+AssertionError: None != 'primary_action'
+
+======================================================================
+FAIL: test_pristine_probe_canonical_and_three_heldout_real_representation_pair (c10y_directdw_selftest.CalibrationErrorTests.test_pristine_probe_canonical_and_three_heldout_real_representation_pair)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4560, in test_pristine_probe_canonical_and_three_heldout_real_representation_pair
+    try: value=A._probe_pristine(H,H.hp,requests,A.pinned_templates())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 1889, in _probe_pristine
+    for k,t in {'canonical':H.CANON}|{'heldout%d'%i:p for i,p in enumerate(H.PTEST)}.items():
+        ^^^
+ValueError: too many values to unpack (expected 2)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4562, in test_pristine_probe_canonical_and_three_heldout_real_representation_pair
+    self.fail(__import__('traceback').format_exc())
+AssertionError: Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4560, in test_pristine_probe_canonical_and_three_heldout_real_representation_pair
+    try: value=A._probe_pristine(H,H.hp,requests,A.pinned_templates())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 1889, in _probe_pristine
+    for k,t in {'canonical':H.CANON}|{'heldout%d'%i:p for i,p in enumerate(H.PTEST)}.items():
+        ^^^
+ValueError: too many values to unpack (expected 2)
+
+
+======================================================================
+FAIL: test_remaining_readout_canonical_and_three_heldout_real_pair (c10y_directdw_selftest.CalibrationErrorTests.test_remaining_readout_canonical_and_three_heldout_real_pair)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4586, in test_remaining_readout_canonical_and_three_heldout_real_pair
+    try: value=A._remaining_readout(H,H.hp,requests,targets,pre)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 1899, in _remaining_readout
+    for key,t in {'canonical':H.CANON}|{'heldout%d'%i:p for i,p in enumerate(H.PTEST)}.items():
+        ^^^^^
+ValueError: too many values to unpack (expected 2)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4588, in test_remaining_readout_canonical_and_three_heldout_real_pair
+    self.fail(__import__('traceback').format_exc())
+AssertionError: Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4586, in test_remaining_readout_canonical_and_three_heldout_real_pair
+    try: value=A._remaining_readout(H,H.hp,requests,targets,pre)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 1899, in _remaining_readout
+    for key,t in {'canonical':H.CANON}|{'heldout%d'%i:p for i,p in enumerate(H.PTEST)}.items():
+        ^^^^^
+ValueError: too many values to unpack (expected 2)
+
+
+======================================================================
+FAIL: test_stage_valueerror_and_halt_trace_phase_persist (c10y_directdw_selftest.CalibrationErrorTests.test_stage_valueerror_and_halt_trace_phase_persist) (error='ValueError')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4630, in test_stage_valueerror_and_halt_trace_phase_persist
+    self.assert_failure(A.strict_load(diagnostic),A.strict_load(out/'run.json'),
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4532, in assert_failure
+    self.assertEqual(diagnostic.get('phase'), phase)
+AssertionError: None != 'stage_check'
+
+======================================================================
+FAIL: test_stage_valueerror_and_halt_trace_phase_persist (c10y_directdw_selftest.CalibrationErrorTests.test_stage_valueerror_and_halt_trace_phase_persist) (error='Halt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4630, in test_stage_valueerror_and_halt_trace_phase_persist
+    self.assert_failure(A.strict_load(diagnostic),A.strict_load(out/'run.json'),
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4532, in assert_failure
+    self.assertEqual(diagnostic.get('phase'), phase)
+AssertionError: None != 'stage_check'
+
+======================================================================
+FAIL: test_supervisor_preserves_worker_original_trace_and_outcome (c10y_directdw_selftest.CalibrationErrorTests.test_supervisor_preserves_worker_original_trace_and_outcome)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4729, in test_supervisor_preserves_worker_original_trace_and_outcome
+    self.assertEqual(final['outcome'],'INSTRUMENT-ERROR')
+AssertionError: 'HALTED' != 'INSTRUMENT-ERROR'
+- HALTED
++ INSTRUMENT-ERROR
+
+
+======================================================================
+FAIL: test_supervisor_worker_exit_before_handoff_is_diagnosed (c10y_directdw_selftest.CalibrationErrorTests.test_supervisor_worker_exit_before_handoff_is_diagnosed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4710, in test_supervisor_worker_exit_before_handoff_is_diagnosed
+    self.assertTrue(self.diagnostic.is_file(),'missing supervisor diagnostic')
+AssertionError: False is not true : missing supervisor diagnostic
+
+======================================================================
+FAIL: test_telemetry_halt_and_instrument_error_trace_phase (c10y_directdw_selftest.CalibrationErrorTests.test_telemetry_halt_and_instrument_error_trace_phase) (error='Halt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4679, in test_telemetry_halt_and_instrument_error_trace_phase
+    self.assert_failure(A.strict_load(diagnostic),A.strict_load(out/'inertness.json'),
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4532, in assert_failure
+    self.assertEqual(diagnostic.get('phase'), phase)
+AssertionError: None != 'telemetry_inertness'
+
+======================================================================
+FAIL: test_telemetry_halt_and_instrument_error_trace_phase (c10y_directdw_selftest.CalibrationErrorTests.test_telemetry_halt_and_instrument_error_trace_phase) (error='ValueError')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4675, in test_telemetry_halt_and_instrument_error_trace_phase
+    try: code=C.run(out,make_h(),fingerprint=lambda:TelemetryCheckContract._fingerprint(self),diagnostic=diagnostic)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_telemetry_check.py", line 146, in run
+    return _check(out, H, A, preflight, started_at, diagnostic)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_telemetry_check.py", line 100, in _check
+    evidence = A.telemetry_mps_inertness_check(out, H)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4673, in action
+    def action(*args,**kwargs): self.raise_fixture(error)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4529, in raise_fixture
+    raise error
+ValueError: telemetry fixture
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4677, in test_telemetry_halt_and_instrument_error_trace_phase
+    self.fail(__import__('traceback').format_exc())
+AssertionError: Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4675, in test_telemetry_halt_and_instrument_error_trace_phase
+    try: code=C.run(out,make_h(),fingerprint=lambda:TelemetryCheckContract._fingerprint(self),diagnostic=diagnostic)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_telemetry_check.py", line 146, in run
+    return _check(out, H, A, preflight, started_at, diagnostic)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_telemetry_check.py", line 100, in _check
+    evidence = A.telemetry_mps_inertness_check(out, H)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4673, in action
+    def action(*args,**kwargs): self.raise_fixture(error)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4529, in raise_fixture
+    raise error
+ValueError: telemetry fixture
+
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.219s
+
+FAILED (failures=15)
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+Exact separately registered native-deadline RED output:
+
+```text
+test_native_hanging_worker_deadline_before_and_after_write (c10y_directdw_selftest.IntegrationTests.test_native_hanging_worker_deadline_before_and_after_write) ... FAIL
+
+======================================================================
+FAIL: test_native_hanging_worker_deadline_before_and_after_write (c10y_directdw_selftest.IntegrationTests.test_native_hanging_worker_deadline_before_and_after_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 773, in test_native_hanging_worker_deadline_before_and_after_write
+    self.assertEqual(diagnostic.get('phase'),'supervisor_deadline')
+AssertionError: None != 'supervisor_deadline'
+
+----------------------------------------------------------------------
+Ran 1 test in 1.812s
+
+FAILED (failures=1)
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+Exact final full-suite output:
+
+```text
+test_observed_scorer_rejects_any_added_forward_keyword (__main__.AttentionMaskTests.test_observed_scorer_rejects_any_added_forward_keyword) ... ok
+test_owned_forwards_preserve_original_mask_contract (__main__.AttentionMaskTests.test_owned_forwards_preserve_original_mask_contract) ... ok
+test_padded_objective_and_lens_preserve_tokenizer_attention_mask (__main__.AttentionMaskTests.test_padded_objective_and_lens_preserve_tokenizer_attention_mask) ... ok
+test_single_sequence_decode_and_observed_scorer_do_not_inject_mask (__main__.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_do_not_inject_mask) ... ok
+test_admitted_main_calibration_handoff_failure_has_no_success_run (__main__.CalibrationErrorTests.test_admitted_main_calibration_handoff_failure_has_no_success_run) ... ok
+test_calibration_context_failure_is_not_prefix_phase (__main__.CalibrationErrorTests.test_calibration_context_failure_is_not_prefix_phase) ... ok
+test_calibration_publication_error_surfaces_phase (__main__.CalibrationErrorTests.test_calibration_publication_error_surfaces_phase) ... ok
+test_calibration_valueerror_and_halt_trace_phase_persist (__main__.CalibrationErrorTests.test_calibration_valueerror_and_halt_trace_phase_persist) ... ok
+test_main_unadmitted_preflight_error_has_trace_and_phase_without_writes (__main__.CalibrationErrorTests.test_main_unadmitted_preflight_error_has_trace_and_phase_without_writes) ... ok
+test_nested_phase_retains_failure_and_restores_success_parent (__main__.CalibrationErrorTests.test_nested_phase_retains_failure_and_restores_success_parent) ... ok
+test_nonzero_child_exit_overrides_prepublished_success_authority (__main__.CalibrationErrorTests.test_nonzero_child_exit_overrides_prepublished_success_authority) ... ok
+test_nonzero_child_retains_budget_halt_precedence (__main__.CalibrationErrorTests.test_nonzero_child_retains_budget_halt_precedence) ... ok
+test_primary_error_phase_survives_cleanup_failure (__main__.CalibrationErrorTests.test_primary_error_phase_survives_cleanup_failure) ... ok
+test_primary_law3_halt_survives_cleanup_and_latches_schedule (__main__.CalibrationErrorTests.test_primary_law3_halt_survives_cleanup_and_latches_schedule) ... ok
+test_pristine_probe_canonical_and_three_heldout_real_representation_pair (__main__.CalibrationErrorTests.test_pristine_probe_canonical_and_three_heldout_real_representation_pair) ... ok
+test_remaining_readout_canonical_and_three_heldout_real_pair (__main__.CalibrationErrorTests.test_remaining_readout_canonical_and_three_heldout_real_pair) ... ok
+test_stage_valueerror_and_halt_trace_phase_persist (__main__.CalibrationErrorTests.test_stage_valueerror_and_halt_trace_phase_persist) ... ok
+test_supervisor_preserves_worker_original_trace_and_outcome (__main__.CalibrationErrorTests.test_supervisor_preserves_worker_original_trace_and_outcome) ... ok
+test_supervisor_worker_exit_before_handoff_is_diagnosed (__main__.CalibrationErrorTests.test_supervisor_worker_exit_before_handoff_is_diagnosed) ... ok
+test_t8_admitted_validation_failures_emit_trace_and_invalid (__main__.CalibrationErrorTests.test_t8_admitted_validation_failures_emit_trace_and_invalid) ... ok
+test_telemetry_halt_and_instrument_error_trace_phase (__main__.CalibrationErrorTests.test_telemetry_halt_and_instrument_error_trace_phase) ... ok
+test_all_three_targets_and_baseline_arm_timings_required (__main__.CalibrationForecastContractTests.test_all_three_targets_and_baseline_arm_timings_required) ... ok
+test_bad_bound_records_return_unverified (__main__.CalibrationForecastContractTests.test_bad_bound_records_return_unverified) ... ok
+test_calibration_schema_and_c5_completeness (__main__.CalibrationForecastContractTests.test_calibration_schema_and_c5_completeness) ... ok
+test_cap_types_stage1_limit_and_later_stage_spend (__main__.CalibrationForecastContractTests.test_cap_types_stage1_limit_and_later_stage_spend) ... ok
+test_each_phase_rejects_wrong_measured_mapping (__main__.CalibrationForecastContractTests.test_each_phase_rejects_wrong_measured_mapping) ... ok
+test_full_c3_measured_map_and_every_repetition (__main__.CalibrationForecastContractTests.test_full_c3_measured_map_and_every_repetition) ... ok
+test_independent_bound_requires_explicit_justification (__main__.CalibrationForecastContractTests.test_independent_bound_requires_explicit_justification) ... ok
+test_input_identity_drift_and_padded_max_are_invalid (__main__.CalibrationForecastContractTests.test_input_identity_drift_and_padded_max_are_invalid) ... ok
+test_merge_uses_larger_of_two_timed_merges (__main__.CalibrationForecastContractTests.test_merge_uses_larger_of_two_timed_merges) ... ok
+test_missing_c3_unit_is_not_complete_support (__main__.CalibrationForecastContractTests.test_missing_c3_unit_is_not_complete_support) ... ok
+test_noncalibration_measured_flag_cannot_replace_supported_bound (__main__.CalibrationForecastContractTests.test_noncalibration_measured_flag_cannot_replace_supported_bound) ... ok
+test_optimisation_comparable_shape_and_iteration_flags (__main__.CalibrationForecastContractTests.test_optimisation_comparable_shape_and_iteration_flags) ... ok
+test_optimisation_full_105_attempt_stage_workload (__main__.CalibrationForecastContractTests.test_optimisation_full_105_attempt_stage_workload) ... ok
+test_optimisation_requires_three_accepted_rows_in_each_check (__main__.CalibrationForecastContractTests.test_optimisation_requires_three_accepted_rows_in_each_check) ... ok
+test_optimisation_uses_slowest_iteration_not_mean (__main__.CalibrationForecastContractTests.test_optimisation_uses_slowest_iteration_not_mean) ... ok
+test_original_my_edit_requires_two_distinct_repetitions (__main__.CalibrationForecastContractTests.test_original_my_edit_requires_two_distinct_repetitions) ... ok
+test_overflow_attempt_is_cited_in_addition_to_six_accepted_rows (__main__.CalibrationForecastContractTests.test_overflow_attempt_is_cited_in_addition_to_six_accepted_rows) ... ok
+test_prestart_gate_rechecks_schema_and_staleness (__main__.CalibrationForecastContractTests.test_prestart_gate_rechecks_schema_and_staleness) ... ok
+test_prestart_gate_rejects_forged_or_omitted_measurement (__main__.CalibrationForecastContractTests.test_prestart_gate_rejects_forged_or_omitted_measurement) ... ok
+test_raw_seconds_sync_status_and_workload_are_typed (__main__.CalibrationForecastContractTests.test_raw_seconds_sync_status_and_workload_are_typed) ... ok
+test_readout_1380_reserve_and_larger_measured_bound (__main__.CalibrationForecastContractTests.test_readout_1380_reserve_and_larger_measured_bound) ... ok
+test_calibration_forecast_rejects_partial_and_stale (__main__.CalibrationTests.test_calibration_forecast_rejects_partial_and_stale) ... ok
+test_calibration_forecast_uses_all_repetitions_no_memory_or_inputs (__main__.CalibrationTests.test_calibration_forecast_uses_all_repetitions_no_memory_or_inputs) ... ok
+test_calibration_go_spend_caps (__main__.CalibrationTests.test_calibration_go_spend_caps) ... ok
+test_calibration_prefix_only_and_required_records (__main__.CalibrationTests.test_calibration_prefix_only_and_required_records) ... ok
+test_calibration_reader_and_context_source_refused (__main__.CalibrationTests.test_calibration_reader_and_context_source_refused) ... ok
+test_calibration_telemetry_variables_and_existing_directory_refused (__main__.CalibrationTests.test_calibration_telemetry_variables_and_existing_directory_refused) ... ok
+test_calibration_v4_halt_persists_schedule (__main__.CalibrationTests.test_calibration_v4_halt_persists_schedule) ... ok
+test_calibration_wrong_namespace_refused (__main__.CalibrationTests.test_calibration_wrong_namespace_refused) ... ok
+test_frozen_bytes_suite_end (__main__.CalibrationTests.test_frozen_bytes_suite_end) ... ok
+test_ast_rejects_keyword_positional_and_mixed_combined_transfers (__main__.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) ... ok
+test_cpu64_copies_offset_view_before_dtype_cast (__main__.DeviceConversionTests.test_cpu64_copies_offset_view_before_dtype_cast) ... ok
+test_no_combined_device_dtype_transfer_in_owned_runtime (__main__.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... ok
+test_reachable_helpers_only_combine_recorded_cpu_solve_transfer (__main__.DeviceConversionTests.test_reachable_helpers_only_combine_recorded_cpu_solve_transfer) ... ok
+test_stored_weight_aligns_device_before_scale_and_fp16_add (__main__.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) ... ok
+test_to_like_transfers_before_casting_offset_view (__main__.DeviceConversionTests.test_to_like_transfers_before_casting_offset_view) ... ok
+test_calibration_callsite_persists_complete_timing_tags (__main__.FinalReviewRegressionTests.test_calibration_callsite_persists_complete_timing_tags) ... ok
+test_complete_compile_accounting_drives_ttl_equality (__main__.FinalReviewRegressionTests.test_complete_compile_accounting_drives_ttl_equality) ... ok
+test_complete_compile_at_actual_scientific_hook_boundary (__main__.FinalReviewRegressionTests.test_complete_compile_at_actual_scientific_hook_boundary) ... ok
+test_each_telemetry_method_preserves_every_state_and_A_grad (__main__.FinalReviewRegressionTests.test_each_telemetry_method_preserves_every_state_and_A_grad) ... ok
+test_forecast_aware_first_expensive_action_is_not_entered (__main__.FinalReviewRegressionTests.test_forecast_aware_first_expensive_action_is_not_entered) ... ok
+test_live_objective_graph_guard_precedes_backward_and_adam (__main__.FinalReviewRegressionTests.test_live_objective_graph_guard_precedes_backward_and_adam) ... /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py:3344: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  self.assertEqual(opt.state,{});self.assertIsNone(p.grad);self.assertEqual(float(p[0]),1.)
+ok
+test_merged_fit_reduces_vocabulary_on_cpu_float64 (__main__.FinalReviewRegressionTests.test_merged_fit_reduces_vocabulary_on_cpu_float64) ... ok
+test_off_scorer_is_original_during_actual_recipe_call (__main__.FinalReviewRegressionTests.test_off_scorer_is_original_during_actual_recipe_call) ... ok
+test_phase_markers_cover_units_without_changing_operational_calls (__main__.FinalReviewRegressionTests.test_phase_markers_cover_units_without_changing_operational_calls) ... ok
+test_premerge_parity_cannot_spend_postmerge_reserve (__main__.FinalReviewRegressionTests.test_premerge_parity_cannot_spend_postmerge_reserve) ... ok
+test_real_writer_durable_merge_precedes_postmerge_readout (__main__.FinalReviewRegressionTests.test_real_writer_durable_merge_precedes_postmerge_readout) ... ok
+test_real_writer_per_write_line_formula (__main__.FinalReviewRegressionTests.test_real_writer_per_write_line_formula) ... ok
+test_recorded_contexts_never_sample_even_after_seeding (__main__.FinalReviewRegressionTests.test_recorded_contexts_never_sample_even_after_seeding) ... ok
+test_actual_launcher_refuses_missing_calibration_before_import (__main__.IntegrationTests.test_actual_launcher_refuses_missing_calibration_before_import) ... ok
+test_candidate_operations_require_baseline (__main__.IntegrationTests.test_candidate_operations_require_baseline) ... ok
+test_native_hanging_worker_deadline_before_and_after_write (__main__.IntegrationTests.test_native_hanging_worker_deadline_before_and_after_write) ... ok
+test_sequential_capture_matches_original (__main__.IntegrationTests.test_sequential_capture_matches_original) ... ok
+test_stage_runner_artifacts_feed_real_reader_and_halt_before_candidates (__main__.IntegrationTests.test_stage_runner_artifacts_feed_real_reader_and_halt_before_candidates) ... ok
+test_stored_control_scale1_identity (__main__.IntegrationTests.test_stored_control_scale1_identity) ... ok
+test_strict_json_and_immutable_records (__main__.IntegrationTests.test_strict_json_and_immutable_records) ... ok
+test_three_forced_zero_lr_iterations_and_telemetry_trajectory (__main__.IntegrationTests.test_three_forced_zero_lr_iterations_and_telemetry_trajectory) ... ok
+test_all_cases_use_base (__main__.IsolationTests.test_all_cases_use_base) ... ok
+test_live_write_positive_control (__main__.IsolationTests.test_live_write_positive_control) ... ok
+test_real_dispatch_denied_with_temp_environment (__main__.IsolationTests.test_real_dispatch_denied_with_temp_environment) ... ok
+test_relative_and_symlink_guard (__main__.IsolationTests.test_relative_and_symlink_guard) ... ok
+test_seed_uses_only_cpu_generator (__main__.IsolationTests.test_seed_uses_only_cpu_generator) ... ok
+test_selftest_root_refusal (__main__.IsolationTests.test_selftest_root_refusal) ... ok
+test_later_stage_cannot_consume_stage1_calibration_measurements (__main__.LaunchDeltaTests.test_later_stage_cannot_consume_stage1_calibration_measurements) ... ok
+test_nm_decimal_boundary_through_real_reader (__main__.LaunchDeltaTests.test_nm_decimal_boundary_through_real_reader) ... ok
+test_nm_decimal_boundary_through_scientific_hook (__main__.LaunchDeltaTests.test_nm_decimal_boundary_through_scientific_hook) ... ok
+test_norm_readouts_are_inside_writer_wall_clock (__main__.LaunchDeltaTests.test_norm_readouts_are_inside_writer_wall_clock) ... ok
+test_real_iteration_producer_passes_c2_timing_validator (__main__.LaunchDeltaTests.test_real_iteration_producer_passes_c2_timing_validator) ... ok
+test_stored_scale_sum_matches_reader_float64_sum (__main__.LaunchDeltaTests.test_stored_scale_sum_matches_reader_float64_sum) ... ok
+test_supervisor_timeout_records_observed_template_hash_without_child (__main__.LaunchDeltaTests.test_supervisor_timeout_records_observed_template_hash_without_child) ... ok
+test_t8_overlap_audit_precedes_first_forward_and_never_redraws (__main__.LaunchDeltaTests.test_t8_overlap_audit_precedes_first_forward_and_never_redraws) ... ok
+test_context_freeze_and_leakage (__main__.LaunchTests.test_context_freeze_and_leakage) ... ok
+test_direct_launch_shell_dependencies_are_executable_and_git_100755 (__main__.LaunchTests.test_direct_launch_shell_dependencies_are_executable_and_git_100755) ... ok
+test_every_inherited_preflight_knob_refused (__main__.LaunchTests.test_every_inherited_preflight_knob_refused) ... ok
+test_forecast_unverified_and_cap (__main__.LaunchTests.test_forecast_unverified_and_cap) ... ok
+test_go_spend_and_stage_eligibility (__main__.LaunchTests.test_go_spend_and_stage_eligibility) ... ok
+test_memory_boundaries (__main__.LaunchTests.test_memory_boundaries) ... ok
+test_schedule_halt_survives_new_directory (__main__.LaunchTests.test_schedule_halt_survives_new_directory) ... ok
+test_step_projection_reserves_readout (__main__.LaunchTests.test_step_projection_reserves_readout) ... ok
+test_wrapper_delegate_dynamic_and_arm_restore (__main__.LaunchTests.test_wrapper_delegate_dynamic_and_arm_restore) ... ok
+test_anchor_zero_denominator (__main__.NumericTests.test_anchor_zero_denominator) ... ok
+test_capture_factorization (__main__.NumericTests.test_capture_factorization) ... ok
+test_control_boundaries (__main__.NumericTests.test_control_boundaries) ... ok
+test_full_size_float64_reductions (__main__.NumericTests.test_full_size_float64_reductions) ... ok
+test_gram_norm_dense_reference (__main__.NumericTests.test_gram_norm_dense_reference) ... ok
+test_mps_double_refused (__main__.NumericTests.test_mps_double_refused) ... ok
+test_null_share_boundaries (__main__.NumericTests.test_null_share_boundaries) ... ok
+test_size_scales_and_stored_arithmetic (__main__.NumericTests.test_size_scales_and_stored_arithmetic) ... ok
+test_effective_weight_and_routing_gradient (__main__.OptimizerTests.test_effective_weight_and_routing_gradient) ... ok
+test_kl_coefficient_once (__main__.OptimizerTests.test_kl_coefficient_once) ... ok
+test_loss_scale_transaction (__main__.OptimizerTests.test_loss_scale_transaction) ... ok
+test_microbatch_request_weighting (__main__.OptimizerTests.test_microbatch_request_weighting) ... ok
+test_request_batch_and_target_only_objective (__main__.OptimizerTests.test_request_batch_and_target_only_objective) ... ok
+test_sixth_overflow_halts_without_mutation (__main__.OptimizerTests.test_sixth_overflow_halts_without_mutation) ... ok
+test_stopping_boundaries (__main__.OptimizerTests.test_stopping_boundaries) ... ok
+test_unknown_hooks_preserved (__main__.OptimizerTests.test_unknown_hooks_preserved) ... ok
+test_changed_template_source_or_stage1_content_halts (__main__.PinnedTemplateTests.test_changed_template_source_or_stage1_content_halts) ... ok
+test_stage1_and_calibration_pin_before_first_engine_call (__main__.PinnedTemplateTests.test_stage1_and_calibration_pin_before_first_engine_call) ... ok
+test_stages2_3_install_stage1_bytes_before_first_engine_use (__main__.PinnedTemplateTests.test_stages2_3_install_stage1_bytes_before_first_engine_use) ... ok
+test_t8_digest_failure_has_halt_diagnostic_before_scoring (__main__.PinnedTemplateTests.test_t8_digest_failure_has_halt_diagnostic_before_scoring) ... ok
+test_t8_installs_pin_and_writes_context_before_any_pass (__main__.PinnedTemplateTests.test_t8_installs_pin_and_writes_context_before_any_pass) ... ok
+test_anchor_comparison_does_not_require_bz_sized_gain (__main__.ReaderAttributionTests.test_anchor_comparison_does_not_require_bz_sized_gain) ... ok
+test_anchor_missing_invalid_and_unfit_untested (__main__.ReaderAttributionTests.test_anchor_missing_invalid_and_unfit_untested) ... ok
+test_anchor_sham_descriptor_windows_not_fit_or_validity (__main__.ReaderAttributionTests.test_anchor_sham_descriptor_windows_not_fit_or_validity) ... ok
+test_control_positive_requires_envelope_gain_fit_locality_and_validity (__main__.ReaderAttributionTests.test_control_positive_requires_envelope_gain_fit_locality_and_validity) ... ok
+test_hy1_credit_requires_both_processes_attributed (__main__.ReaderAttributionTests.test_hy1_credit_requires_both_processes_attributed) ... ok
+test_neff_minimum_and_anchor_gap_nine_ten (__main__.ReaderAttributionTests.test_neff_minimum_and_anchor_gap_nine_ten) ... ok
+test_no_downscale_controls_required_at_actual_ratio_one (__main__.ReaderAttributionTests.test_no_downscale_controls_required_at_actual_ratio_one) ... ok
+test_size_control_matching_and_direction_boundaries (__main__.ReaderAttributionTests.test_size_control_matching_and_direction_boundaries) ... ok
+test_total_and_per_layer_growth_trigger_independent_controls (__main__.ReaderAttributionTests.test_total_and_per_layer_growth_trigger_independent_controls) ... ok
+test_zero_reference_size_normalisation_conservative_provisional (__main__.ReaderAttributionTests.test_zero_reference_size_normalisation_conservative_provisional) ... ok
+test_cross_shared_hin_and_telemetry_pair_identity (__main__.ReaderCrossProcessTests.test_cross_shared_hin_and_telemetry_pair_identity) ... ok
+test_r1_cosine_and_distance_every_layer_boundaries (__main__.ReaderCrossProcessTests.test_r1_cosine_and_distance_every_layer_boundaries) ... ok
+test_r1_required_controls_and_all_arms_independent (__main__.ReaderCrossProcessTests.test_r1_required_controls_and_all_arms_independent) ... ok
+test_r1_zero_norm_rules_and_baseline_instrument (__main__.ReaderCrossProcessTests.test_r1_zero_norm_rules_and_baseline_instrument) ... ok
+test_r2_count_spread_five_six (__main__.ReaderCrossProcessTests.test_r2_count_spread_five_six) ... ok
+test_r3_incorrect_strings_do_not_count_as_disagreement (__main__.ReaderCrossProcessTests.test_r3_incorrect_strings_do_not_count_as_disagreement) ... ok
+test_r3_keyed_boolean_disagreement_da_plus_three_four (__main__.ReaderCrossProcessTests.test_r3_keyed_boolean_disagreement_da_plus_three_four) ... ok
+test_regenerated_target_hashes_need_not_match_shared_hin (__main__.ReaderCrossProcessTests.test_regenerated_target_hashes_need_not_match_shared_hin) ... ok
+test_x1_not_run_halted_and_incomplete_never_fabricated_null (__main__.ReaderCrossProcessTests.test_x1_not_run_halted_and_incomplete_never_fabricated_null) ... ok
+test_x2_identical_labels_and_union_qualifiers (__main__.ReaderCrossProcessTests.test_x2_identical_labels_and_union_qualifiers) ... ok
+test_x3_mixed_labels_store_actual_counts (__main__.ReaderCrossProcessTests.test_x3_mixed_labels_store_actual_counts) ... ok
+test_fit_e2e_minimum_canonical_and_every_stop (__main__.ReaderFitAndScreenTests.test_fit_e2e_minimum_canonical_and_every_stop) ... ok
+test_fit_per_required_arm_and_apply_stored (__main__.ReaderFitAndScreenTests.test_fit_per_required_arm_and_apply_stored) ... ok
+test_fit_requires_full_merged_matrix (__main__.ReaderFitAndScreenTests.test_fit_requires_full_merged_matrix) ... ok
+test_fit_z_mean_and_maximum_boundaries (__main__.ReaderFitAndScreenTests.test_fit_z_mean_and_maximum_boundaries) ... ok
+test_fit_z_zero_denominator_named_rule (__main__.ReaderFitAndScreenTests.test_fit_z_zero_denominator_named_rule) ... ok
+test_s1_named_halts_without_screen_label (__main__.ReaderFitAndScreenTests.test_s1_named_halts_without_screen_label) ... ok
+test_s2_s3_budget_write_boundary (__main__.ReaderFitAndScreenTests.test_s2_s3_budget_write_boundary) ... ok
+test_s4_fit_precedes_high_count_locality_and_size (__main__.ReaderFitAndScreenTests.test_s4_fit_precedes_high_count_locality_and_size) ... ok
+test_s5_s7_envelope_and_gain_boundaries (__main__.ReaderFitAndScreenTests.test_s5_s7_envelope_and_gain_boundaries) ... ok
+test_s6_size_boundary_and_null_first_match (__main__.ReaderFitAndScreenTests.test_s6_size_boundary_and_null_first_match) ... ok
+test_stage1_recorded_projection_exactly_120_minutes_fits (__main__.ReaderFitAndScreenTests.test_stage1_recorded_projection_exactly_120_minutes_fits) ... ok
+test_load_calibration_directory_refused_before_read (__main__.ReaderLoadTests.test_load_calibration_directory_refused_before_read) ... ok
+test_load_does_not_read_telemetry (__main__.ReaderLoadTests.test_load_does_not_read_telemetry) ... ok
+test_load_later_self_contained_record_uses_own_outcome (__main__.ReaderLoadTests.test_load_later_self_contained_record_uses_own_outcome) ... ok
+test_load_saved_halt_first_with_missing_science_artifacts (__main__.ReaderLoadTests.test_load_saved_halt_first_with_missing_science_artifacts) ... ok
+test_load_strict_json_nonfinite_refused (__main__.ReaderLoadTests.test_load_strict_json_nonfinite_refused) ... ok
+test_existing_arm_missing_metric_is_v13_invalid (__main__.ReaderOrderTests.test_existing_arm_missing_metric_is_v13_invalid) ... ok
+test_missing_comparators_qualify_without_incomplete (__main__.ReaderOrderTests.test_missing_comparators_qualify_without_incomplete) ... ok
+test_own_record_and_v5_missing_precede_validity_and_fit (__main__.ReaderOrderTests.test_own_record_and_v5_missing_precede_validity_and_fit) ... ok
+test_recorded_halt_invalid_and_budget_first (__main__.ReaderOrderTests.test_recorded_halt_invalid_and_budget_first) ... ok
+test_source_and_prereg_identity_refused (__main__.ReaderOrderTests.test_source_and_prereg_identity_refused) ... ok
+test_stage1_not_run_controls_and_later_records_not_required (__main__.ReaderOrderTests.test_stage1_not_run_controls_and_later_records_not_required) ... ok
+test_validity_precedes_fit_and_fit_precedes_counts (__main__.ReaderOrderTests.test_validity_precedes_fit_and_fit_precedes_counts) ... ok
+test_g1_g2_each_frame_both_sides (__main__.ReaderProcessLocalityTests.test_g1_g2_each_frame_both_sides) ... ok
+test_g3_g4_g5_unrounded_boundaries (__main__.ReaderProcessLocalityTests.test_g3_g4_g5_unrounded_boundaries) ... ok
+test_g3_g5_display_rounding_cannot_substitute (__main__.ReaderProcessLocalityTests.test_g3_g5_display_rounding_cannot_substitute) ... ok
+test_g6_relation_flips_report_only (__main__.ReaderProcessLocalityTests.test_g6_relation_flips_report_only) ... ok
+test_p1_p2_p3 (__main__.ReaderProcessLocalityTests.test_p1_p2_p3) ... ok
+test_p4_p5_p7_count_and_gain_boundaries (__main__.ReaderProcessLocalityTests.test_p4_p5_p7_count_and_gain_boundaries) ... ok
+test_p6_tradeoff_and_p7_null_first_match (__main__.ReaderProcessLocalityTests.test_p6_tradeoff_and_p7_null_first_match) ... ok
+test_w1_actual_size_boundary_qualifier_preserves_base (__main__.ReaderProcessLocalityTests.test_w1_actual_size_boundary_qualifier_preserves_base) ... ok
+test_w2_ttl_warning_equality_nonblocking (__main__.ReaderProcessLocalityTests.test_w2_ttl_warning_equality_nonblocking) ... ok
+test_authored_full_truth_rows_277_289 (__main__.ReaderTruthTableTests.test_authored_full_truth_rows_277_289) ... ok
+test_authored_stage1_truth_rows_265_276 (__main__.ReaderTruthTableTests.test_authored_stage1_truth_rows_265_276) ... ok
+test_v10_overflow_retries_five_six (__main__.ReaderValidityTests.test_v10_overflow_retries_five_six) ... ok
+test_v11_hin_hashes_and_write_trace_required (__main__.ReaderValidityTests.test_v11_hin_hashes_and_write_trace_required) ... ok
+test_v12_leakage_named_halt (__main__.ReaderValidityTests.test_v12_leakage_named_halt) ... ok
+test_v13_every_applicable_numeric_family_nonfinite (__main__.ReaderValidityTests.test_v13_every_applicable_numeric_family_nonfinite) ... ok
+test_v13_nonfinite_unjustified_null_and_typed_integer (__main__.ReaderValidityTests.test_v13_nonfinite_unjustified_null_and_typed_integer) ... ok
+test_v13_typed_nulls_and_reasons (__main__.ReaderValidityTests.test_v13_typed_nulls_and_reasons) ... ok
+test_v1_fingerprint_sha_sites_and_full_output (__main__.ReaderValidityTests.test_v1_fingerprint_sha_sites_and_full_output) ... ok
+test_v2_each_recipe_standing_law5 (__main__.ReaderValidityTests.test_v2_each_recipe_standing_law5) ... ok
+test_v3_accumulation_raw_cosine_distance_finiteness_and_scope (__main__.ReaderValidityTests.test_v3_accumulation_raw_cosine_distance_finiteness_and_scope) ... ok
+test_v3_apply_stored_substitutions_not_optimiser_checks (__main__.ReaderValidityTests.test_v3_apply_stored_substitutions_not_optimiser_checks) ... ok
+test_v3_capture_zero_step_and_executed_loop_raw_values (__main__.ReaderValidityTests.test_v3_capture_zero_step_and_executed_loop_raw_values) ... ok
+test_v3_check_failure_order_and_scope (__main__.ReaderValidityTests.test_v3_check_failure_order_and_scope) ... ok
+test_v3_gradient_halvings_hooks_and_smoke_raw_values (__main__.ReaderValidityTests.test_v3_gradient_halvings_hooks_and_smoke_raw_values) ... ok
+test_v3_missing_required_check_invalid (__main__.ReaderValidityTests.test_v3_missing_required_check_invalid) ... ok
+test_v3_objective_nll_and_nonzero_kl_raw_boundaries (__main__.ReaderValidityTests.test_v3_objective_nll_and_nonzero_kl_raw_boundaries) ... ok
+test_v4_a1_a2_and_exact_denominators (__main__.ReaderValidityTests.test_v4_a1_a2_and_exact_denominators) ... ok
+test_v4_all_inclusive_baseline_endpoints (__main__.ReaderValidityTests.test_v4_all_inclusive_baseline_endpoints) ... ok
+test_v4_before_candidates_required (__main__.ReaderValidityTests.test_v4_before_candidates_required) ... ok
+test_v5_candidate_controls_67_68_each_arm (__main__.ReaderValidityTests.test_v5_candidate_controls_67_68_each_arm) ... ok
+test_v6_overrides_are_exact_sets_not_counts (__main__.ReaderValidityTests.test_v6_overrides_are_exact_sets_not_counts) ... ok
+test_v7_initial_projector_raw_share_cannot_hide_behind_passed (__main__.ReaderValidityTests.test_v7_initial_projector_raw_share_cannot_hide_behind_passed) ... ok
+test_v7_planned_actual_each_layer_boundary_and_zero (__main__.ReaderValidityTests.test_v7_planned_actual_each_layer_boundary_and_zero) ... ok
+test_v7_untouched_reference_miss_halts_precision_diagnosis (__main__.ReaderValidityTests.test_v7_untouched_reference_miss_halts_precision_diagnosis) ... ok
+test_v8_string_full_equality_and_one_below_every_arm (__main__.ReaderValidityTests.test_v8_string_full_equality_and_one_below_every_arm) ... ok
+test_v9_init_final_tokens_and_each_loss_component (__main__.ReaderValidityTests.test_v9_init_final_tokens_and_each_loss_component) ... ok
+test_T11_audit_accepts_every_kind_with_only_kind_specific_fields (__main__.TelemetryCheckContract.test_T11_audit_accepts_every_kind_with_only_kind_specific_fields) ... ok
+test_T11_audit_checks_payload_types_for_every_non_answer_kind (__main__.TelemetryCheckContract.test_T11_audit_checks_payload_types_for_every_non_answer_kind) ... ok
+test_T11_audit_complete_answer_keys_pass_and_roundtrip (__main__.TelemetryCheckContract.test_T11_audit_complete_answer_keys_pass_and_roundtrip) ... ok
+test_T11_audit_declared_disabled_missing_output_keeps_science_record (__main__.TelemetryCheckContract.test_T11_audit_declared_disabled_missing_output_keeps_science_record) ... ok
+test_T11_audit_disabled_marker_does_not_excuse_a_gap_before_later_answers (__main__.TelemetryCheckContract.test_T11_audit_disabled_marker_does_not_excuse_a_gap_before_later_answers) ... ok
+test_T11_audit_disabled_marker_does_not_excuse_mismatching_existing_line (__main__.TelemetryCheckContract.test_T11_audit_disabled_marker_does_not_excuse_mismatching_existing_line) ... ok
+test_T11_audit_duplicate_answer_key_compromises_stage (__main__.TelemetryCheckContract.test_T11_audit_duplicate_answer_key_compromises_stage) ... ok
+test_T11_audit_header_must_be_present_initial_and_unique (__main__.TelemetryCheckContract.test_T11_audit_header_must_be_present_initial_and_unique) ... ok
+test_T11_audit_mismatch_compromises_stage_and_requires_telemetry_off_rerun (__main__.TelemetryCheckContract.test_T11_audit_mismatch_compromises_stage_and_requires_telemetry_off_rerun) ... ok
+test_T11_audit_missing_answer_field_is_malformed (__main__.TelemetryCheckContract.test_T11_audit_missing_answer_field_is_malformed) ... ok
+test_T11_audit_missing_expected_key_compromises_stage (__main__.TelemetryCheckContract.test_T11_audit_missing_expected_key_compromises_stage) ... ok
+test_T11_audit_missing_file_is_missing_output (__main__.TelemetryCheckContract.test_T11_audit_missing_file_is_missing_output) ... ok
+test_T11_audit_model_free_entrypoint_never_loads_driver_or_harness (__main__.TelemetryCheckContract.test_T11_audit_model_free_entrypoint_never_loads_driver_or_harness) ... ok
+test_T11_audit_never_mutates_science_records_or_reader_output (__main__.TelemetryCheckContract.test_T11_audit_never_mutates_science_records_or_reader_output) ... ok
+test_T11_audit_refuses_existing_audit_without_rewriting_evidence (__main__.TelemetryCheckContract.test_T11_audit_refuses_existing_audit_without_rewriting_evidence) ... ok
+test_T11_audit_rejects_unknown_field_on_every_known_kind (__main__.TelemetryCheckContract.test_T11_audit_rejects_unknown_field_on_every_known_kind) ... ok
+test_T11_audit_strict_json_rejects_nonfinite_and_duplicate_json_fields (__main__.TelemetryCheckContract.test_T11_audit_strict_json_rejects_nonfinite_and_duplicate_json_fields) ... ok
+test_T11_audit_unknown_key_or_kind_or_field_is_unexpected (__main__.TelemetryCheckContract.test_T11_audit_unknown_key_or_kind_or_field_is_unexpected) ... ok
+test_T11_audit_uses_stage_two_and_three_tags_and_record_paths (__main__.TelemetryCheckContract.test_T11_audit_uses_stage_two_and_three_tags_and_record_paths) ... ok
+test_T11_audit_wrong_types_and_nulls_are_malformed (__main__.TelemetryCheckContract.test_T11_audit_wrong_types_and_nulls_are_malformed) ... ok
+test_T11_reader_does_not_open_telemetry_or_use_audit_as_gate (__main__.TelemetryCheckContract.test_T11_reader_does_not_open_telemetry_or_use_audit_as_gate) ... ok
+test_T8_runner_inert_pristine_stub_never_calls_writer_or_recipe (__main__.TelemetryCheckContract.test_T8_runner_inert_pristine_stub_never_calls_writer_or_recipe) ... ok
+test_T8_runner_other_verdicts_exit_zero_and_preserve_verdict (__main__.TelemetryCheckContract.test_T8_runner_other_verdicts_exit_zero_and_preserve_verdict) ... ok
+test_T8_runner_preflight_refuses_knob_before_output_creation (__main__.TelemetryCheckContract.test_T8_runner_preflight_refuses_knob_before_output_creation) ... ok
+test_T8_runner_preserves_existing_record (__main__.TelemetryCheckContract.test_T8_runner_preserves_existing_record) ... ok
+test_T8_runner_records_complete_current_identity_and_strict_roundtrip (__main__.TelemetryCheckContract.test_T8_runner_records_complete_current_identity_and_strict_roundtrip) ... ok
+test_T8_runner_rejects_namespace_itself_and_nested_subdirectories (__main__.TelemetryCheckContract.test_T8_runner_rejects_namespace_itself_and_nested_subdirectories) ... ok
+test_T8_runner_rejects_output_outside_namespace (__main__.TelemetryCheckContract.test_T8_runner_rejects_output_outside_namespace) ... ok
+test_T8_runner_rejects_relative_output_before_writes (__main__.TelemetryCheckContract.test_T8_runner_rejects_relative_output_before_writes) ... ok
+test_T8_runner_rejects_symlink_escape (__main__.TelemetryCheckContract.test_T8_runner_rejects_symlink_escape) ... ok
+test_T8_runner_weight_change_is_invalid_exit_two (__main__.TelemetryCheckContract.test_T8_runner_weight_change_is_invalid_exit_two) ... ok
+test_full_stage_counts_and_payload_not_smaller (__main__.TelemetryForecastTests.test_full_stage_counts_and_payload_not_smaller) ... ok
+test_inertness_bytes_once_and_duplicate_nonfinite_refused (__main__.TelemetryForecastTests.test_inertness_bytes_once_and_duplicate_nonfinite_refused) ... ok
+test_on_requires_separate_phase_before_dispatch (__main__.TelemetryForecastTests.test_on_requires_separate_phase_before_dispatch) ... ok
+test_per_kind_measurements_workload_and_sum_enforced (__main__.TelemetryForecastTests.test_per_kind_measurements_workload_and_sum_enforced) ... ok
+test_frozen_harness_scorers_receive_no_injected_kwargs (__main__.TelemetryReferenceTests.test_frozen_harness_scorers_receive_no_injected_kwargs) ... ok
+test_reference_scorer_is_exact_frozen_capture_copy (__main__.TelemetryReferenceTests.test_reference_scorer_is_exact_frozen_capture_copy) ... ok
+test_t8_uses_frozen_off_reference_and_observed_on_scorer (__main__.TelemetryReferenceTests.test_t8_uses_frozen_off_reference_and_observed_on_scorer) ... ok
+test_every_kind_state_preservation_and_volume (__main__.TelemetryTests.test_every_kind_state_preservation_and_volume) ... ok
+test_frozen_hparams_lens_uses_actual_linear_head (__main__.TelemetryTests.test_frozen_hparams_lens_uses_actual_linear_head) ... ok
+test_inertness_and_drifting_baseline (__main__.TelemetryTests.test_inertness_and_drifting_baseline) ... ok
+test_invalid_switches_refused_before_write (__main__.TelemetryTests.test_invalid_switches_refused_before_write) ... ok
+test_io_failures_disable_once_and_baseexception_propagates (__main__.TelemetryTests.test_io_failures_disable_once_and_baseexception_propagates) ... ok
+test_off_has_no_object_or_directory (__main__.TelemetryTests.test_off_has_no_object_or_directory) ... ok
+test_scorer_ast_and_exact_inputs (__main__.TelemetryTests.test_scorer_ast_and_exact_inputs) ... ok
+test_t8_serialized_wrong_answer_is_not_inert (__main__.TelemetryTests.test_t8_serialized_wrong_answer_is_not_inert) ... ok
+test_telemetry_never_calls_operational_clock_or_writes_input_record (__main__.TelemetryTests.test_telemetry_never_calls_operational_clock_or_writes_input_record) ... ok
+test_actual_cpu_update_direction_changes_fail_real_reader_repro_gate (__main__.TransportTests.test_actual_cpu_update_direction_changes_fail_real_reader_repro_gate) ... ok
+test_completed_stage1_runner_to_reader_and_cpu_pt_transport (__main__.TransportTests.test_completed_stage1_runner_to_reader_and_cpu_pt_transport) ... ok
+test_completed_three_stages_preserve_common_files_and_compute_real_repro (__main__.TransportTests.test_completed_three_stages_preserve_common_files_and_compute_real_repro) ... ok
+test_real_scored_recipe_accounts_for_scientific_hook_readout_time (__main__.TransportTests.test_real_scored_recipe_accounts_for_scientific_hook_readout_time) ... ok
+test_requested_stage_forecast_is_checked_before_dispatch_and_worker (__main__.TransportTests.test_requested_stage_forecast_is_checked_before_dispatch_and_worker) ... ok
+test_saved_overlay_hash_is_the_immutable_serialized_bundle (__main__.TransportTests.test_saved_overlay_hash_is_the_immutable_serialized_bundle) ... ok
+test_stage3_pair_mismatch_is_refused_in_parent_before_any_launch_write (__main__.TransportTests.test_stage3_pair_mismatch_is_refused_in_parent_before_any_launch_write) ... ok
+test_stage3_telemetry_setting_cannot_change_after_stage2 (__main__.TransportTests.test_stage3_telemetry_setting_cannot_change_after_stage2) ... ok
+test_tampered_stage2_pt_refuses_stage3_before_scientific_callbacks (__main__.TransportTests.test_tampered_stage2_pt_refuses_stage3_before_scientific_callbacks) ... ok
+test_telemetry_off_on_transport_changes_only_T1_fields_at_every_stage (__main__.TransportTests.test_telemetry_off_on_transport_changes_only_T1_fields_at_every_stage) ... ok
+test_wrong_stage3_predecessor_refuses_in_main_before_harness_or_supervisor (__main__.TransportTests.test_wrong_stage3_predecessor_refuses_in_main_before_harness_or_supervisor) ... ok
+
+----------------------------------------------------------------------
+Ran 260 tests in 18.720s
+
+OK
+{"launched": false, "reasons": ["missing/unknown/duplicate phases"], "status": "UNVERIFIED"}
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+C10Y_DIRECTDW_SELFTEST PASS — CPU ONLY; LIVE LAW#3/LAW#5 UNVERIFIED
+```
+
+### Identities, scope and independent review
+
+| Owned file | Before SHA-256 | Final SHA-256 |
+| --- | --- | --- |
+| `experiments/track_c/c10y_directdw_arms.py` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` | `4b99827ea532e5d16168e1bb0aeca0569772132f413c08da359aa521fe452d3d` |
+| `experiments/track_c/c10y_directdw_selftest.py` | `1419a485a8b74ef9a337860d16c8acfbacd9546d2595a573dd42e70c4d221ccf` | `87874697c329a6caff41272268a488856619502b8c55929abcd9ce8940084364` |
+| `experiments/track_c/c10y_directdw_telemetry_check.py` | `e79f0532ac674a0cb8a3d21c838c15710ee0ed3e94f7fa88e65d722105c1c03f` | `843429cd8e9125fed44de85aabcb059542278cb955a1eff827d0343644236ffb` |
+| `experiments/track_c/c10y_directdw_read.py` | `f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78` | `f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78` |
+
+Prereg remains **e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331**, including §10 calibration and §11 pinned C10Q templates. Frozen body/§9 and the engine/harness remain untouched. The scope hash check verifies **189 frozen scoped paths unchanged**, four authorized owned entries refreshed in scratch (only arms/selftest/check actually changed; reader identical), and **12 historical calibration/diagnostic files unchanged**. Final R5 is 193 scoped paths. The original report prefix is byte-identical. No git add/commit/chmod, corpus, canonical ledger, memory or context-save write was performed.
+
+Program attribution from the prior attestation remains binding: docs/C10Z_ASTRA_PREREG.md commit 4968755 (D-C10z-v4fix §10 V4T), c10z_astra_arms.py commit 187daeb (template pin and subsequent authorized diagnostics), and tools/dashboard_experiment.py commit c09e09a (detection fix). Later c10z_* / tools/dashboard_* activity is outside C10Y R5 scope. The shared git status also contains unrelated concurrent work; this build makes no global-clean-tree claim. Scope/check outputs are retained under the scratch namespace and summarized here; they are not scientific artifacts.
+
+The final source delta reviewer first found the three diagnostic gaps despite the initial suite PASS, then read the added RED/GREEN evidence and exact repaired sources. Final delta quote: **“PROCEED for this bounded source/CPU repair.”** The final review is `/private/tmp/c10y_build/calibration_error_final_review.md`, SHA-256 `2646e0c8aca1cc28426b122177945348511c6143b9c0b6d103cb6675e249f9a3`; its initial FIX-FIRST body is preserved and explicitly superseded by the appended final disposition. Pre-test review SHA-256 is `4d9a0f6d029689247a6af5e12be8cc55a4ed47344e97347da33875e305da42c4` at `/private/tmp/c10y_build/calibration_error_pretest_review.md`. Claude auth was probed read-only this follow-up: exit 1, loggedIn=false/authMethod=none. GPT-6-Astra was therefore the documented **same-family fallback**, weaker than an out-of-family review. Reviewer executed no tests or Python and changed only the named scratch review.
+
+This closeout advances C10Y instrument validity toward the live falsifier. It establishes a reproducible source defect, one repaired mapping operation and tested error/phase/terminal-record handling. It does not complete LAW#3, live new-path LAW#5, MPS timing/resource/inertness validation, calibration forecasting or any write-route qualification. The original calibration remains INSTRUMENT-ERROR; its exact historical frame remains UNPROVEN BY TRACEBACK.
+
+Scratch evidence hashes (raw logs preserved; all required final result lines are embedded above):
+
+| Evidence | SHA-256 |
+| --- | --- |
+| `/private/tmp/c10y_build/calibration_error_20261008/red.log` | `f0bf6eadf6cd32c095e2b616499d8d791be49eca425bbc43ad0ba90652b2a2da` |
+| `/private/tmp/c10y_build/calibration_error_20261008/red_assertions.log` | `f19d7cd344b586a766f2f5b3e10ccb7ef00d1b2ef64f295a5bc6fe606e99b240` |
+| `/private/tmp/c10y_build/calibration_error_20261008/red_deadline.log` | `67d5b1643ade6634e01c166b3e0b667a1dd857b89311dae48e8a155166d3ff65` |
+| `/private/tmp/c10y_build/calibration_error_20261008/green.log` | `27e8b5c2c7b78669a6c421a9babddbf53e6d9e05bded33a65583c4a95ca0f7ab` |
+| `/private/tmp/c10y_build/calibration_error_20261008/green_corrected.log` | `6ffa14729fbf35ff7652441498b8ceca9c1fb7d117fb4b953f6bd24a5bb1bfca` |
+| `/private/tmp/c10y_build/calibration_error_20261008/full_suite.log` | `ca67b2490783ffe0fbb3c7f9d6927cfc1aeb73d3d9e38d925492aa624108dca1` |
+| `/private/tmp/c10y_build/calibration_error_20261008/review_red.log` | `20b0d3d6ac0a505c00ac836eea795ae62fa049b60c382ef28b15550e7811aef1` |
+| `/private/tmp/c10y_build/calibration_error_20261008/review_red_corrected.log` | `62668264bf028ce72aa322e16278dba6ed20da100f550b401f5110af67d3317d` |
+| `/private/tmp/c10y_build/calibration_error_20261008/handoff_red.log` | `2fc891762871effe00f22f1e4646667fd7bbc3adafa0a8a83c6124269d6a38b3` |
+| `/private/tmp/c10y_build/calibration_error_20261008/budget_priority_red.log` | `924de1c84e332672547e2eb993bb0d977766d4b15154bfba6e9696a615f0fd7a` |
+| `/private/tmp/c10y_build/calibration_error_20261008/review_green.log` | `66caac0b7a40ad5be095c406a742b5e64c4ec1ee056e1d7c7b8d050ed3961ac8` |
+| `/private/tmp/c10y_build/calibration_error_20261008/final_targeted_green.log` | `69c50745baa0d4462b06aa8d76a1fbae875ff7c314752d29082c5288ad95c9ef` |
+| `/private/tmp/c10y_build/calibration_error_20261008/final_full_suite.log` | `45730404efec994c7ed1c2a0a3470a5c30bbccd881a6677f0b15c20e62eba514` |
+| `/private/tmp/c10y_build/calibration_error_20261008/final_protected_sha256.json` | `3d084e12e88a8ba64a6be6f83c48536afa7104b39d62162dfae114704b08b1cb` |
+| `/private/tmp/c10y_build/calibration_error_20261008/historical_run_sha256.json` | `157b1fe8837a93794d1488599ee8acccd8cba28364112dac36b2a2b830db8146` |
+| `/private/tmp/c10y_build/calibration_error_20261008/static_two_value_unpacks.json` | `00038d18974aec6dfd5635ff83d1141886daec0ea973650c0e1a357286d9c334` |
+| `/private/tmp/c10y_build/calibration_error_20261008/targets_pickle_disassembly.txt` | `85701aed2d7414d6a23e0000b87227cef5d4ce5e44c60d655608122a440d3fd6` |
+| `/private/tmp/c10y_build/calibration_error_20261008/registration.md` | `ffd47e651fbacc2375e8c089523f1e14a9084f014a1c35fe47fef8807ba4741c` |
+| `/private/tmp/c10y_build/calibration_error_20261008/review_registration.md` | `b11e011844340588718092582c0192f6b215e8c121b2021e02f4894c3f48649f` |
+
+Historical file identities, checked unchanged at final closeout:
+
+| File | SHA-256 |
+| --- | --- |
+| `architecture_profile/c10y_halt_diagnostic_20261008T160340Z_CALIB.json` | `84439492b55c7a50a6d6bc97bacc7cc4b6bb947db16ae5170b97135a67405b76` |
+| `results/c10y_directdw_calib1/calibration.json` | `0c42be002bef4bcce5080fd91339b02302ebc3e9f1265884d1b9227074ab7815` |
+| `results/c10y_directdw_calib1/calibration_worker.json` | `b002a4da4c46e1c60bfcb392aaadfdbf3a8c582a020799a179875d5e478749b4` |
+| `results/c10y_directdw_calib1/context_templates_calib.json` | `9472b663a34cfd9c0bb5448087ae0c2c333b1988b70f211fb2d90baaf8b560b7` |
+| `results/c10y_directdw_calib1/law5_calib.json` | `ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356` |
+| `results/c10y_directdw_calib1/ledger_calib.json` | `ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356` |
+| `results/c10y_directdw_calib1/logs/launch_calib.json` | `09b2f661dd02f30eb32d9ddc1a82f69adde5e4162d6b2df5b1ee59358980b62e` |
+| `results/c10y_directdw_calib1/logs/stage_calib.log` | `b58106384e639f9f700774b1ead5c1365c70eb0959781311e25ccf2ca2d3d343` |
+| `results/c10y_directdw_calib1/overlap_audit_calib.json` | `ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356` |
+| `results/c10y_directdw_calib1/run.json` | `d0246d95778d2029d287a62d815a64b2c9c6a748c6753c58b3a089eb113819ed` |
+| `results/c10y_directdw_calib1/step0_calib.json` | `ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356` |
+| `results/c10y_directdw_calib1/targets_calib.pt` | `1d95c75a2aa0abb80d2ab5324b54cf58fcb1bbc3249e8f1f19a3b84ada838078` |

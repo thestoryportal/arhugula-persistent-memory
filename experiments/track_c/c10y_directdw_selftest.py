@@ -769,6 +769,11 @@ class IntegrationTests(IsolatedCase):
             result=A.supervise([sys.executable,'-B',str(worker)],out,self.root/('halt'+str(completed)+'.json'),cap_s=2.,stage=1,env=env)
             self.assertLess(time.monotonic()-began,3.5)
             self.assertEqual(result['status'],'INCOMPLETE-BUDGET' if completed else 'HALTED-BUDGET')
+            diagnostic=A.strict_load(self.root/('halt'+str(completed)+'.json'))
+            self.assertEqual(diagnostic.get('phase'),'supervisor_deadline')
+            self.assertIsNone(diagnostic.get('traceback'))
+            self.assertTrue(diagnostic.get('traceback_unavailable'))
+            self.assertEqual(A.strict_load(out/'supervisor_s1.json').get('phase'),'supervisor_deadline')
             self.assertIn('C10Y_CHILD_WRITE_GUARD',result['output'])
             self.assertNotEqual(result['process_group'],os.getpgrp())
             with self.assertRaises(ProcessLookupError): os.kill(result['pid'],0)
@@ -4509,6 +4514,327 @@ class TelemetryReferenceTests(IsolatedCase):
         self.assertEqual(record['verdict'], 'INERT', 'controlled CPU fixture only')
         self.assertTrue(record['serialized_answers_equal'])
         self.assertEqual(record['answer_calls'], 96)
+
+
+class CalibrationErrorTests(IsolatedCase):
+    """Program calibration failure: real structure contracts and causal diagnostics."""
+
+    def records(self):
+        return CalibrationTests.records(self)
+
+    def phase(self, budget, name):
+        return getattr(A, 'phase_context', lambda *args: contextlib.nullcontext())(budget, name)
+
+    def raise_fixture(self, error):
+        raise error
+
+    def assert_failure(self, diagnostic, run, phase, text, exception='ValueError'):
+        self.assertEqual(diagnostic.get('phase'), phase)
+        self.assertEqual(run.get('phase'), phase)
+        self.assertEqual(diagnostic.get('exception'), exception)
+        self.assertEqual(run.get('exception'), exception)
+        trace = diagnostic.get('traceback', '')
+        self.assertIn('Traceback (most recent call last):', trace)
+        self.assertIn('raise_fixture', trace)
+        self.assertIn(text, trace)
+        self.assertEqual(run.get('traceback'), trace)
+
+    def test_pristine_probe_canonical_and_three_heldout_real_representation_pair(self):
+        (self.root/'experiments/track_c/c10p_twopass_arms.py').write_bytes(
+            (W/'experiments/track_c/c10p_twopass_arms.py').read_bytes())
+        H=make_h();requests=[H.req(H.CANON,s,H.ARMS[A7][s]) for s in H.FICTION]
+        predictions=[];representations=[];reps=H.get_module_input_output_at_words
+        def predict(prompt):
+            predictions.append(prompt)
+            batch=H.tok(prompt,return_tensors='pt')
+            with torch.no_grad(): distribution=H.model(**batch).logits[0,-1].float().softmax(-1)
+            return {'id':int(distribution.argmax()),'dist':distribution.cpu()}
+        H.predict=predict
+        templates={'canonical':H.CANON,**{'heldout%d'%i:p for i,p in enumerate(H.PTEST)}}
+        expected={key:reps(H.model,H.tok,8,[template]*24,H.FICTION,
+                          H.hp.layer_module_tmp,H.hp.fact_token)[1].T.detach().cpu()
+                  for key,template in templates.items()}
+        def record(*args,**kwargs):
+            representations.append(kwargs['context_templates'][0]);return reps(*args,**kwargs)
+        H.get_module_input_output_at_words=record
+        try: value=A._probe_pristine(H,H.hp,requests,A.pinned_templates())
+        except ValueError:
+            self.fail(__import__('traceback').format_exc())
+        self.assertEqual(set(value['frames']),{'CANON',*('frame%d'%i for i in range(6))})
+        self.assertEqual(len(predictions),90)
+        self.assertEqual(representations,list(templates.values()))
+        self.assertEqual(list(value['anchor_pre']),list(templates))
+        for key in templates:
+            self.assertEqual(tuple(value['anchor_pre'][key].shape),(4,24))
+            self.assertTrue(torch.equal(value['anchor_pre'][key],expected[key]))
+        self.assertTrue(all(len(rows)==6 for rows in value['frame_pre'].values()))
+        # Actual default Qwen2DecoderLayer output is a single hidden-state tuple.
+        self.assertEqual(len(H.model.model.layers[8](torch.ones(3,5,4).half())),1)
+
+    def test_remaining_readout_canonical_and_three_heldout_real_pair(self):
+        H=make_h();requests=[H.req(H.CANON,s,H.ARMS[A7][s]) for s in H.FICTION]
+        target=torch.arange(1,97,dtype=torch.float64).reshape(4,24)
+        targets={key:target[:,i] for i,key in enumerate(A._request_keys(requests))}
+        templates=[H.CANON,*H.PTEST];keys=['canonical',*('heldout%d'%i for i in range(3))]
+        ratios=[.25,.5,.75,1.];pre={key:target-(i+1) for i,key in enumerate(keys)};calls=[]
+        def reps(model,tok,layer,context_templates,words,**kwargs):
+            i=templates.index(context_templates[0]);calls.append(context_templates[0])
+            self.assertEqual(len(words),24);self.assertEqual(layer,8)
+            now=(target-(i+1)*ratios[i]).T
+            return torch.zeros_like(now),now
+        H.get_module_input_output_at_words=reps
+        try: value=A._remaining_readout(H,H.hp,requests,targets,pre)
+        except ValueError:
+            self.fail(__import__('traceback').format_exc())
+        self.assertEqual(calls,templates)
+        self.assertAlmostEqual(value['canonical'],ratios[0],delta=1e-12)
+        for actual,expected in zip(value['heldout'],ratios[1:]): self.assertAlmostEqual(actual,expected,delta=1e-12)
+        self.assertEqual(list(value['denominator_norms']),keys)
+        for i,key in enumerate(keys):
+            self.assertAlmostEqual(value['denominator_norms'][key],(i+1)*math.sqrt(96),delta=1e-12)
+
+    def test_calibration_valueerror_and_halt_trace_phase_persist(self):
+        for i,error in enumerate((ValueError('calibration fixture'),A.Halt('TEST-HALT','deliberate'))):
+            with self.subTest(error=type(error).__name__):
+                go,spend=self.records();out=self.root/('results/c10y_directdw_calib%d'%(i+1))
+                diagnostic=self.root/('architecture_profile/halt%d.json'%i);H=make_h()
+                def prefix(H,out,budget,**kwargs):
+                    return A._unit(H,[],'failing_prefix',A._workload(),lambda:self.raise_fixture(error),budget=budget)
+                with mock.patch.object(A,'instrument_prefix',side_effect=prefix):
+                    result=A.calibrate(out,H,go=go,spend=spend,diagnostic=diagnostic)
+                saved=A.strict_load(diagnostic);run=A.strict_load(out/'run.json')
+                self.assert_failure(saved,run,'failing_prefix',str(error),type(error).__name__)
+                self.assertEqual(result.get('traceback'),saved['traceback'])
+                self.assertEqual(result.get('phase'),'failing_prefix')
+                self.assertEqual(A.calibration_forecast(out/'calibration.json',[])['status'],'UNVERIFIED')
+
+    def test_calibration_context_failure_is_not_prefix_phase(self):
+        go,spend=self.records();out=self.root/'results/c10y_directdw_calib1'
+        def freeze(*args,**kwargs): self.raise_fixture(ValueError('context fixture'))
+        with mock.patch.object(A,'freeze_contexts',side_effect=freeze):
+            A.calibrate(out,make_h(),go=go,spend=spend,diagnostic=self.diagnostic)
+        self.assert_failure(A.strict_load(self.diagnostic),A.strict_load(out/'run.json'),
+                            'contexts_install','context fixture')
+
+    def test_stage_valueerror_and_halt_trace_phase_persist(self):
+        for i,error in enumerate((ValueError('stage fixture'),A.Halt('TEST-HALT'))):
+            with self.subTest(error=type(error).__name__):
+                H=make_h();go={'decision_id':'D-go','experiment':'C10Y','stage':1,'recorded_in':'test','at':'UTC'}
+                out=self.out if i==0 else self.root/'results/c10y_directdw_s1_rerun1'
+                replacement=None if i==0 else {'replaces':str(self.out),'cause':'deliberate fixture'}
+                diagnostic=self.root/('architecture_profile/stage%d.json'%i)
+                def prefix(H,out,budget,**kwargs):
+                    return A._unit(H,[],'stage_check',A._workload(),lambda:self.raise_fixture(error),budget=budget)
+                with mock.patch.object(A,'instrument_prefix',side_effect=prefix):
+                    result=A.run(out,H,go=go,forecast=replacement_stage_forecast(self,1),
+                                 diagnostic=diagnostic,replacement=replacement)
+                self.assert_failure(A.strict_load(diagnostic),A.strict_load(out/'run.json'),
+                                    'stage_check',str(error),type(error).__name__)
+                self.assertEqual(result['run']['traceback'],A.strict_load(diagnostic)['traceback'])
+                self.assertEqual(result['reading']['label'],'HALTED')
+
+    def test_nested_phase_retains_failure_and_restores_success_parent(self):
+        H=make_h();budget=A.Budget(0,1e9,1);budget.phase='parent'
+        def inner(): self.raise_fixture(ValueError('inner failure'))
+        try: A._unit(H,[],'outer',A._workload(),lambda:A._unit(H,[],'inner',A._workload(),inner,budget=budget),budget=budget)
+        except ValueError as error:
+            self.assertEqual(getattr(error,'_c10y_phase',None),'inner')
+        else: self.fail('missing fixture exception')
+        self.assertEqual(budget.phase,'parent')
+        def outer():
+            A._unit(H,[],'successful_inner',A._workload(),lambda:42,budget=budget)
+            self.assertEqual(budget.phase,'later_outer')
+            self.raise_fixture(ValueError('later failure'))
+        try: A._unit(H,[],'later_outer',A._workload(),outer,budget=budget)
+        except ValueError as error:
+            self.assertEqual(getattr(error,'_c10y_phase',None),'later_outer')
+        else: self.fail('missing later fixture exception')
+        self.assertEqual(budget.phase,'parent')
+
+    def test_primary_error_phase_survives_cleanup_failure(self):
+        go,spend=self.records();out=self.root/'results/c10y_directdw_calib1';calls=[]
+        def sync(H):
+            calls.append(1)
+            if len(calls)==2: raise OSError('cleanup failure')
+        def prefix(H,out,budget,**kwargs):
+            return A._unit(H,[],'primary_action',A._workload(),lambda:self.raise_fixture(ValueError('primary failure')),budget=budget)
+        with mock.patch.object(A,'instrument_prefix',side_effect=prefix),mock.patch.object(A,'sync',side_effect=sync):
+            A.calibrate(out,make_h(),go=go,spend=spend,diagnostic=self.diagnostic)
+        saved=A.strict_load(self.diagnostic);run=A.strict_load(out/'run.json')
+        self.assert_failure(saved,run,'primary_action','primary failure')
+        self.assertIn('cleanup failure',saved['traceback'])
+        self.assertEqual(saved.get('cleanup',{}).get('exception'),'OSError')
+
+    def test_telemetry_halt_and_instrument_error_trace_phase(self):
+        for i,error in enumerate((A.Halt('TEST-HALT'),ValueError('telemetry fixture'))):
+            with self.subTest(error=type(error).__name__):
+                out=self.root/('results/c10y_directdw_telemetry_inertness/error%d'%i)
+                diagnostic=self.root/('architecture_profile/check%d.json'%i)
+                C.ROOT=self.root
+                def action(*args,**kwargs): self.raise_fixture(error)
+                with mock.patch.object(A,'telemetry_mps_inertness_check',side_effect=action):
+                    try: code=C.run(out,make_h(),fingerprint=lambda:TelemetryCheckContract._fingerprint(self),diagnostic=diagnostic)
+                    except ValueError:
+                        self.fail(__import__('traceback').format_exc())
+                self.assertEqual(code,2)
+                self.assert_failure(A.strict_load(diagnostic),A.strict_load(out/'inertness.json'),
+                                    'telemetry_inertness',str(error),type(error).__name__)
+                self.assertEqual(A.strict_load(out/'inertness.json')['verdict'],'INVALID')
+
+    def test_main_unadmitted_preflight_error_has_trace_and_phase_without_writes(self):
+        go=self.root/'go.json';go.write_text('{}');stream=io.StringIO()
+        def fail(): self.raise_fixture(ValueError('startup fixture'))
+        with mock.patch.object(A,'preflight',side_effect=fail),contextlib.redirect_stderr(stream):
+            code=A.main(['--stage','1','--out',str(self.out),'--halt-diagnostic',str(self.diagnostic),'--go',str(go)])
+        self.assertEqual(code,2)
+        self.assertIn('Traceback (most recent call last):',stream.getvalue())
+        self.assertIn('raise_fixture',stream.getvalue());self.assertIn('preflight',stream.getvalue())
+        self.assertFalse(self.out.exists());self.assertFalse(self.diagnostic.exists())
+
+    def test_calibration_publication_error_surfaces_phase(self):
+        go,spend=self.records();out=self.root/'results/c10y_directdw_calib1';publish=A.write_json
+        def fail(path,value):
+            if Path(path).name=='run.json': self.raise_fixture(OSError('publication fixture'))
+            return publish(path,value)
+        with mock.patch.object(A,'instrument_prefix',return_value=CalibrationTests.fixture(self)),mock.patch.object(A,'write_json',side_effect=fail):
+            try: A.calibrate(out,make_h(),go=go,spend=spend,diagnostic=self.diagnostic)
+            except OSError as error:
+                self.assertEqual(getattr(error,'_c10y_phase',None),'calibration_publication')
+            else: self.fail('publication error was swallowed')
+        self.assertFalse((out/'run.json').exists())
+
+    def test_supervisor_worker_exit_before_handoff_is_diagnosed(self):
+        out=self.root/'results/c10y_directdw_calib1'
+        proc=types.SimpleNamespace(pid=123456,returncode=2,poll=lambda:2)
+        with mock.patch.object(A.subprocess,'Popen',return_value=proc),mock.patch.object(A.os,'getpgid',return_value=proc.pid):
+            A.supervise([sys.executable,'-B',str(self.root/'stub.py')],out,self.diagnostic,7200.,'calibration')
+        self.assertTrue(self.diagnostic.is_file(),'missing supervisor diagnostic')
+        saved=A.strict_load(self.diagnostic)
+        self.assertEqual(saved.get('phase'),'worker_exit')
+        self.assertIsNone(saved.get('traceback'))
+        self.assertTrue(saved.get('traceback_unavailable'))
+        self.assertEqual(A.strict_load(out/'run.json').get('phase'),'worker_exit')
+
+    def test_supervisor_preserves_worker_original_trace_and_outcome(self):
+        out=self.root/'results/c10y_directdw_calib1';proc=types.SimpleNamespace(pid=123456,returncode=2,poll=lambda:2)
+        worker={'schema':'c10y_directdw_calibration/v1','outcome':'INSTRUMENT-ERROR','timings':[],
+                'phase':'baseline_pristine_probes','exception':'ValueError','traceback':'Traceback (most recent call last):\nfixture original trace\nValueError: original'}
+        def launch(*args,**kwargs):
+            A.write_json(out/'calibration_worker.json',worker)
+            A.write_json(self.diagnostic,worker)
+            A.write_json(out/'run.json',dict(worker,status='INSTRUMENT-ERROR'))
+            return proc
+        with mock.patch.object(A.subprocess,'Popen',side_effect=launch),mock.patch.object(A.os,'getpgid',return_value=proc.pid):
+            A.supervise([sys.executable,'-B',str(self.root/'stub.py')],out,self.diagnostic,7200.,'calibration')
+        final=A.strict_load(out/'calibration.json')
+        self.assertEqual(final['outcome'],'INSTRUMENT-ERROR')
+        self.assertEqual(final['traceback'],worker['traceback']);self.assertEqual(final['phase'],worker['phase'])
+        self.assertEqual(A.strict_load(self.diagnostic),worker)
+
+    def test_primary_law3_halt_survives_cleanup_and_latches_schedule(self):
+        go,spend=self.records();out=self.root/'results/c10y_directdw_calib1';calls=[]
+        def sync(H):
+            calls.append(1)
+            if len(calls)==2: raise OSError('halt cleanup failure')
+        def prefix(H,out,budget,**kwargs):
+            return A._unit(H,[],'law3',A._workload(),lambda:self.raise_fixture(A.Halt('LAW#3','baseline failure')),budget=budget)
+        with mock.patch.object(A,'instrument_prefix',side_effect=prefix),mock.patch.object(A,'sync',side_effect=sync):
+            record=A.calibrate(out,make_h(),go=go,spend=spend,diagnostic=self.diagnostic)
+        self.assertEqual(record['outcome'],'LAW#3')
+        self.assertEqual(A.strict_load(self.diagnostic)['code'],'LAW#3')
+        self.assert_failure(A.strict_load(self.diagnostic),A.strict_load(out/'run.json'),
+                            'law3','baseline failure','Halt')
+        self.assertEqual(A.strict_load(self.root/'results/c10y_directdw_schedule_halt.json')['code'],'LAW#3')
+
+    def test_nonzero_child_exit_overrides_prepublished_success_authority(self):
+        for stage in ('calibration',1):
+            with self.subTest(stage=stage):
+                out=self.root/('results/exit_'+str(stage));diagnostic=self.root/('architecture_profile/exit_'+str(stage)+'.json')
+                proc=types.SimpleNamespace(pid=123456,returncode=2,poll=lambda:2);saved={}
+                def launch(*args,**kwargs):
+                    run={'stage':stage,'status':'COMPLETED','launched':True,'write_complete':True,'readout_complete':True}
+                    A.write_json(out/'run.json',run)
+                    if stage=='calibration': A.write_json(out/'calibration_worker.json',{'schema':'c10y_directdw_calibration/v1','outcome':'COMPLETE','timings':[]})
+                    else:
+                        record=valid_record(1);manifest=record['manifest'];parts=manifest['parts']
+                        current={name:A.sha(self.root/rel) for name,rel in parts['source_paths'].items()}
+                        manifest['sources_start']=current.copy();manifest['sources_end']=current.copy();parts['source_sha256']=current.copy()
+                        for rel in manifest['artifacts']:
+                            path=out/rel;path.write_bytes(b'isolated artifact')
+                            manifest['artifacts'][rel]=A.sha(path)
+                        context_sha=manifest['artifacts']['context_templates.json']
+                        manifest['context_templates']['sha256']=context_sha;parts['context_templates_sha256']=context_sha
+                        parts['hparams_sha256']=current['hparams']
+                        for name in ('input_hashes_start','input_hashes_end'):
+                            manifest[name]['contexts']=context_sha;manifest[name]['hparams']=current['hparams']
+                        manifest['H_in']=digest(parts);bind_fixture_overlays(record)
+                        A.write_json(out/'screen.json',record)
+                        self.assertEqual(R.classify(R.load(out))['label'],'SCREEN-PASS','positive control must be readable before terminal failure')
+                    for path in out.glob('*.json'): saved[path]=path.read_bytes()
+                    return proc
+                with mock.patch.object(A.subprocess,'Popen',side_effect=launch),mock.patch.object(A.os,'getpgid',return_value=proc.pid):
+                    A.supervise([sys.executable,'-B',str(self.root/'stub.py')],out,diagnostic,7200.,stage)
+                self.assertEqual(saved,{path:path.read_bytes() for path in saved})
+                if stage=='calibration': self.assertNotEqual(A.strict_load(out/'calibration.json')['outcome'],'COMPLETE')
+                else: self.assertEqual(R.classify(R.load(out))['label'],'HALTED')
+                halt=A.strict_load(out/('supervisor_calib.json' if stage=='calibration' else 'supervisor_s1.json'))
+                self.assertEqual(halt['phase'],'worker_exit');self.assertIsNone(halt['traceback'])
+
+    def test_t8_admitted_validation_failures_emit_trace_and_invalid(self):
+        for mode in ('pre_hash','post_hash','record'):
+            with self.subTest(mode=mode):
+                out=self.root/('results/c10y_directdw_telemetry_inertness/'+mode)
+                diagnostic=self.root/('architecture_profile/'+mode+'.json');H=make_h();calls=[];band=A.band_hashes
+                def hashes(*args):
+                    calls.append(1)
+                    if len(calls)==(1 if mode=='pre_hash' else 2) and mode!='record': self.raise_fixture(ValueError(mode+' fixture'))
+                    return band(*args)
+                evidence=mock.Mock(return_value=None if mode=='record' else {'verdict':'INERT'})
+                with mock.patch.object(A,'band_hashes',side_effect=hashes),mock.patch.object(A,'telemetry_mps_inertness_check',evidence):
+                    try: result=C.run(out,H,fingerprint=lambda:TelemetryCheckContract._fingerprint(self),diagnostic=diagnostic)
+                    except ValueError: self.fail(__import__('traceback').format_exc())
+                self.assertEqual(result,2);saved=A.strict_load(diagnostic)
+                self.assertEqual(saved['phase'],'telemetry_validation' if mode=='pre_hash' else 'telemetry_record')
+                self.assertIn('Traceback (most recent call last):',saved['traceback'])
+                if mode!='record': self.assertIn('raise_fixture',saved['traceback'])
+                invalid=A.strict_load(out/'inertness.json')
+                self.assertEqual(invalid['verdict'],'INVALID');self.assertEqual(invalid['traceback'],saved['traceback'])
+
+    def test_admitted_main_calibration_handoff_failure_has_no_success_run(self):
+        go,spend=self.records();out=self.root/'results/c10y_directdw_calib1'
+        gofile=self.root/'go.json';spendfile=self.root/'spend.json';auth=self.root/'authorization.md'
+        A.write_json(gofile,go);A.write_json(spendfile,spend);auth.write_text('CPU fixture authorization')
+        publish=A.write_json
+        def fail(path,value):
+            if Path(path).name=='calibration_worker.json': self.raise_fixture(OSError('handoff publication fixture'))
+            return publish(path,value)
+        def worker(argv,out,diagnostic,*args,**kwargs):
+            return A.calibrate(out,make_h(),go=go,spend=spend,diagnostic=diagnostic)
+        with mock.patch.object(A,'owned_launch',return_value=True), \
+             mock.patch.object(A,'instrument_prefix',return_value=CalibrationTests.fixture(self)), \
+             mock.patch.object(A,'supervise',side_effect=worker),mock.patch.object(A,'write_json',side_effect=fail), \
+             contextlib.redirect_stderr(io.StringIO()):
+            code=A.main(['--stage','calibration','--out',str(out),'--halt-diagnostic',str(self.diagnostic),
+                         '--go',str(gofile),'--spend',str(spendfile),'--authorization',str(auth)])
+        self.assertEqual(code,2)
+        self.assert_failure(A.strict_load(self.diagnostic),A.strict_load(out/'run.json'),
+                            'calibration_publication','handoff publication fixture','OSError')
+        self.assertEqual(A.strict_load(out/'run.json')['status'],'HALTED')
+
+    def test_nonzero_child_retains_budget_halt_precedence(self):
+        for code in ('HALTED-BUDGET','INCOMPLETE-BUDGET'):
+            with self.subTest(code=code):
+                out=self.root/('results/worker_'+code);diagnostic=self.root/('architecture_profile/'+code+'.json')
+                proc=types.SimpleNamespace(pid=123456,returncode=2,poll=lambda:2)
+                trace='Traceback (most recent call last):\nfixture budget projection\nHalt: '+code
+                def launch(*args,**kwargs):
+                    A.write_json(diagnostic,{'code':code,'phase':'budget_projection','traceback':trace,'exception':'Halt'})
+                    A.write_json(out/'run.json',{'stage':1,'status':code,'code':code})
+                    return proc
+                with mock.patch.object(A.subprocess,'Popen',side_effect=launch),mock.patch.object(A.os,'getpgid',return_value=proc.pid):
+                    A.supervise([sys.executable,'-B',str(self.root/'stub.py')],out,diagnostic,7200.,1)
+                self.assertEqual(R.classify(R.load(out))['label'],code)
+                self.assertEqual(A.strict_load(out/'supervisor_s1.json')['traceback'],trace)
 
 
 if __name__=="__main__":

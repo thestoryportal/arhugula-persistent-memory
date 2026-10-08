@@ -7,6 +7,7 @@ import importlib
 import json
 import math
 import tempfile
+import traceback
 from pathlib import Path
 
 ROOT = Path(os.environ.get("LLMDB_ROOT") or Path(__file__).resolve().parents[2])
@@ -89,60 +90,70 @@ def _prepare(out, fingerprint):
 
 
 def _check(out, H, A, preflight, started_at, diagnostic=None):
-    # T8 never calls my_edit, run_recipe, run_law5 or apply_memit_to_model.
-    _require(hasattr(H, "hp"), "injected H must provide the frozen hparams")
-    _require(list(H.hp.layers) == [4, 5, 6, 7, 8], "inertness band must be layers 4 through 8")
-    _require(str(next(H.model.parameters()).device) == str(H.DEV), "declared device differs from the actual model")
-    _require(len(H.FICTION) == 24 and len(H.PTEST) == 3, "inertness schedule must have 96 scored prompts")
-    before_sources, before_env = A.source_hashes(), A.environment_identity()
-    before_weights = A.band_hashes(H, H.hp)
+    before_sources, before_env = {}, {}
     try:
-        evidence = A.telemetry_mps_inertness_check(out, H)
-    except A.Halt as exc:
+        with A.phase_context(None,'telemetry_validation'):
+            # T8 never calls my_edit, run_recipe, run_law5 or apply_memit_to_model.
+            _require(hasattr(H, "hp"), "injected H must provide the frozen hparams")
+            _require(list(H.hp.layers) == [4, 5, 6, 7, 8], "inertness band must be layers 4 through 8")
+            _require(str(next(H.model.parameters()).device) == str(H.DEV), "declared device differs from the actual model")
+            _require(len(H.FICTION) == 24 and len(H.PTEST) == 3, "inertness schedule must have 96 scored prompts")
+            before_sources, before_env = A.source_hashes(), A.environment_identity()
+            before_weights = A.band_hashes(H, H.hp)
+        with A.phase_context(None,'telemetry_inertness'):
+            evidence = A.telemetry_mps_inertness_check(out, H)
+        with A.phase_context(None,'telemetry_record'):
+            after_weights = A.band_hashes(H, H.hp)
+            sources, environment = A.source_hashes(), A.environment_identity()
+            unchanged = before_weights == after_weights
+            _require(isinstance(evidence, dict), "inertness evidence must be an object")
+            record = {**evidence, "schema": "c10y_directdw_telemetry_inertness/v1",
+                      "decision_id": "D-C10r-rulings-11", "device": str(H.DEV),
+                      "weights_unchanged": unchanged, "sources": sources, "env": environment,
+                      "band_sha256_before": before_weights, "band_sha256_after": after_weights,
+                      "started_at": started_at, "finished_at": _utc()}
+            if isinstance(preflight, dict) and "fingerprint" in preflight:
+                record["fingerprint"] = preflight["fingerprint"]
+            if str(H.DEV) == "cpu":
+                record["scope"] = ("CPU stub code-path check only. Live MPS, edited outputs, optimisation loop "
+                                   "and resource inertness remain UNVERIFIED.")
+            else:
+                record["scope"] = ("Equality of pristine generated IDs, flags and gathered logits under this identity only. "
+                                   "Edited outputs, optimisation loop and resource inertness on MPS remain UNVERIFIED; "
+                                   "the CPU loop proof is separate (T7).")
+            valid_inert = all(record.get(key) is True for key in (
+                "control_equal", "telemetry_equal", "generated_equal", "telemetry_complete"))
+            valid_inert &= type(record.get("answer_calls")) is int and record["answer_calls"] == len(H.FICTION) * (1 + len(H.PTEST))
+            valid_inert &= type(record.get("lens_forwards")) is int and record["lens_forwards"] == 2 * len(H.FICTION)
+            if (not unchanged or before_sources != sources or before_env != environment
+                    or (record.get("verdict") == "INERT" and not valid_inert)):
+                record["verdict"] = "INVALID"
+        with A.phase_context(None,'telemetry_publication'):
+            _publish(out / "inertness.json", record)
+            return 0 if unchanged else 2
+
+    except Exception as exc:
+        failure=A.exception_fields(exc,'telemetry_inertness')
+        code=failure['code']
         if diagnostic is None: raise
         diagnostic=A.diagnostic_path(diagnostic)
         context=out/'context_templates.json'
         context_record={"path":str(context),"sha256":A.sha(context) if context.exists() else A.PINNED_ENGINE_SHA,
                         "hash_basis":"file_bytes" if context.exists() else "expected_engine_form_default_json"}
-        A.write_json(diagnostic,{"process":"telemetry_inertness","out":str(out),"code":exc.code,
-                                 "detail":exc.detail,"context_templates":context_record,"at":_utc()})
+        A.write_json(diagnostic,{"process":"telemetry_inertness","out":str(out),"code":code,
+                                 "context_templates":context_record,"at":_utc(),**failure})
         _publish(out/'inertness.json',{"schema":"c10y_directdw_telemetry_inertness/v1","decision_id":"D-C10r-rulings-11",
-            "device":str(H.DEV),"verdict":"INVALID","halt":exc.code,"sources":before_sources,"env":before_env,
-            "context_templates":context_record,"started_at":started_at,"finished_at":_utc()})
+            "device":str(H.DEV),"verdict":"INVALID","halt":code,"sources":before_sources,"env":before_env,
+            "context_templates":context_record,"started_at":started_at,"finished_at":_utc(),**failure})
         return 2
-    after_weights = A.band_hashes(H, H.hp)
-    sources, environment = A.source_hashes(), A.environment_identity()
-    unchanged = before_weights == after_weights
-    _require(isinstance(evidence, dict), "inertness evidence must be an object")
-    record = {**evidence, "schema": "c10y_directdw_telemetry_inertness/v1",
-              "decision_id": "D-C10r-rulings-11", "device": str(H.DEV),
-              "weights_unchanged": unchanged, "sources": sources, "env": environment,
-              "band_sha256_before": before_weights, "band_sha256_after": after_weights,
-              "started_at": started_at, "finished_at": _utc()}
-    if isinstance(preflight, dict) and "fingerprint" in preflight:
-        record["fingerprint"] = preflight["fingerprint"]
-    if str(H.DEV) == "cpu":
-        record["scope"] = ("CPU stub code-path check only. Live MPS, edited outputs, optimisation loop "
-                           "and resource inertness remain UNVERIFIED.")
-    else:
-        record["scope"] = ("Equality of pristine generated IDs, flags and gathered logits under this identity only. "
-                           "Edited outputs, optimisation loop and resource inertness on MPS remain UNVERIFIED; "
-                           "the CPU loop proof is separate (T7).")
-    valid_inert = all(record.get(key) is True for key in (
-        "control_equal", "telemetry_equal", "generated_equal", "telemetry_complete"))
-    valid_inert &= type(record.get("answer_calls")) is int and record["answer_calls"] == len(H.FICTION) * (1 + len(H.PTEST))
-    valid_inert &= type(record.get("lens_forwards")) is int and record["lens_forwards"] == 2 * len(H.FICTION)
-    if (not unchanged or before_sources != sources or before_env != environment
-            or (record.get("verdict") == "INERT" and not valid_inert)):
-        record["verdict"] = "INVALID"
-    _publish(out / "inertness.json", record)
-    return 0 if unchanged else 2
 
 
 def run(out, H, fingerprint=None, diagnostic=None):
     """Exercise the admission path with an explicitly injected harness; CPU stubs stay CPU records."""
     started_at = _utc()
-    out, A, preflight = _prepare(out, fingerprint)
+    A = importlib.import_module("c10y_directdw_arms")
+    with A.phase_context(None,'telemetry_preflight'):
+        out, A, preflight = _prepare(out, fingerprint)
     return _check(out, H, A, preflight, started_at, diagnostic)
 
 
@@ -491,14 +502,17 @@ def main(argv=None):
     args = parser.parse_args(argv)
     _require(os.environ.get("C10Y_SELFTEST") != "1", "selftest refuses live harness import")
     started_at = _utc()
-    out, A, preflight = _prepare(args.out, None)
+    A = importlib.import_module("c10y_directdw_arms")
+    with A.phase_context(None,'telemetry_preflight'):
+        out, A, preflight = _prepare(args.out, None)
     A.diagnostic_path(args.halt_diagnostic)
     root = Path(ROOT).resolve()
     os.environ.update(LLMDB_ROOT=str(root), MODEL_ID="Qwen/Qwen2.5-3B",
                       MODEL_REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
                       HP_BASE=str(root / "configs/hparams/qwen25_3b_memit_hparams.json"),
                       HF_HOME=str(root / "hf_cache"))
-    H = importlib.import_module("c10e_bandknob")
+    with A.phase_context(None,'telemetry_model_load'):
+        H = importlib.import_module("c10e_bandknob")
     _require(str(H.DEV) == "mps", "live telemetry inertness check requires MPS")
     _require(H.REV == os.environ["MODEL_REV"], "live model revision differs from the frozen model")
     _require(H.model.config.num_hidden_layers == 36, "live model layer count differs from Qwen2.5-3B")
@@ -511,6 +525,6 @@ def main(argv=None):
 if __name__ == "__main__":
     try:
         sys.exit(main())
-    except (ValueError, OSError) as exc:
-        print("C10Y_TELEMETRY_CHECK_REFUSED " + str(exc), file=sys.stderr)
+    except Exception as exc:
+        print("C10Y_TELEMETRY_CHECK_REFUSED phase=" + getattr(exc,'_c10y_phase','telemetry_launch') + "\n" + traceback.format_exc(), file=sys.stderr)
         sys.exit(2)
