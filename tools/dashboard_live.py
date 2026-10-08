@@ -161,16 +161,31 @@ def gpu_state():
     return {"running": running, "last_exit": last_exit, "last_name": SHORT.get(key.group(1)) if key else None}
 
 
+SCREEN_TTL_S = 15
+_screens = {"at": 0.0, "screens": {}, "titles": {}}
+
+
+def team_screens():
+    """Screens and pane titles of the team sessions, read from tmux at most every SCREEN_TTL_S seconds (tmux is shared
+    by every session; a flood of reads helped hang its server on 2026-10-08)."""
+    if time.time() - _screens["at"] >= SCREEN_TTL_S:
+        names = team_sessions(sh("tmux", "list-sessions", "-F", "#{session_name}").split())
+        _screens["screens"] = {n: sh("tmux", "capture-pane", "-p", "-t", n) for n in names}
+        _screens["titles"] = {n: sh("tmux", "display", "-p", "-t", n, "#{pane_title}") for n in names if n.startswith("codex")}
+        _screens["at"] = time.time()
+    return _screens["screens"], _screens["titles"]
+
+
 def build_state():
     from dashboard_active import label
     from dashboard_tile import status
     out = []
-    for n in sh("tmux", "list-sessions", "-F", "#{session_name}").split():
+    screens, titles = team_screens()
+    for n, screen in sorted(screens.items()):
         if not n.startswith("codex"):
             continue
-        screen = sh("tmux", "capture-pane", "-p", "-t", n)
         if status(screen, None, time.time())[0] == "WORKING":
-            title = sh("tmux", "display", "-p", "-t", n, "#{pane_title}").strip().split(" | ")[0]   # drop "| <worktree>"
+            title = titles.get(n, "").strip().split(" | ")[0]   # drop "| <worktree>"
             out.append((label(n), re.sub(r"^[^\w(]+", "", title) or "working"))                    # drop the spinner
     return out
 
@@ -194,8 +209,7 @@ def gather():
         runbook = open(os.path.join(ROOT, "EXPERIMENT_RUNBOOK.md"), errors="replace").read()
     except OSError:
         runbook = ""
-    screens = {n: sh("tmux", "capture-pane", "-p", "-t", n) for n in team_sessions(sh("tmux", "list-sessions", "-F", "#{session_name}").split())
-               if n != "program"}
+    screens = {n: s for n, s in team_screens()[0].items() if n != "program"}
     return {"rulings": awaiting_rulings(runbook), "alerts": session_alerts(screens, _alert_memory, time.time()),
             "gpu": gpu_state(), "builds": build_state(), "helpers": running_helpers()}
 

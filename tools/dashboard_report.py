@@ -95,12 +95,12 @@ def main():
     stamp = live.source_stamp(live.TOOLS)
     while True:
         live.maybe_reload(stamp)
-        live.supervise_team()
+        # live.supervise_team() is off: a rebuild that moves several differently sized viewers at once hung the tmux server (2026-10-08 02:15)
         cols, rows = os.get_terminal_size(sys.stdout.fileno())   # the live pane size; ignores a stale inherited $COLUMNS
         lines = [live.clip(l, cols - 2) for l in render(cols, rows)]   # never wrap: a wrapped line scrolls the top away
         sys.stdout.write("\033[H" + "".join(l + "\033[K\n" for l in lines[:-1]) + lines[-1] + "\033[K\033[J")
         sys.stdout.flush()
-        time.sleep(2)
+        time.sleep(5)
 
 
 if __name__ == "__main__":
