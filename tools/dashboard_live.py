@@ -12,6 +12,9 @@ TOOLS = os.path.dirname(os.path.abspath(__file__))
 # a program tool (tools/c10?_*.py <verb>, e.g. the P2 re-attempt evaluator) or a stage wrapper (tools/run_c10?*_stage.sh <stage>).
 # The experiment tab and the status bar read the same pattern, so they cannot disagree about whether the GPU is busy.
 GPU_JOB_RE = re.compile(r"(?:experiments/track_c/|tools/(?:run_)?)(c10[a-z])\w*?(?:\.py|_stage\.sh) ([\w-]+)")
+# The one definition of "an agent pane is busy": a Codex/Claude spinner line, or Codex's slow-model menu, which keeps
+# waiting by itself ("Codex will keep waiting") and must not read as finished. Tiles and the watcher both use it.
+BUSY_RE = re.compile(r"esc to interrupt|Working \(|Codex will keep waiting|^[^\w\s]\s\S+… \(\d", re.M)
 ROOT = os.path.dirname(TOOLS)
 SHORT = {"c10u": "Step 3", "c10v": "Step 4", "c10w": "Step 5", "c10x": "Step 6", "c10y": "Step 7", "c10z": "ASTRA"}
 NOT_TEAM = {"dashboard", "dashboard_new", "helpers"}

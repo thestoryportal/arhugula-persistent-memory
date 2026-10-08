@@ -4,6 +4,7 @@ timer, current task, helper agents) and an activity feed (one line per step, ico
 Usage: python3 dashboard_tile.py <session> <label> <256-colour> [--once COLS ROWS]
 """
 import os, re, shutil, subprocess, sys, time
+import dashboard_live
 
 RESET, BOLD = "\033[0m", "\033[1m"
 FG = "\033[38;5;{}m".format
@@ -61,7 +62,7 @@ def parse(screen):
 
 def status(screen, changed, now):
     recent = "\n".join(l for l in screen.splitlines() if l.strip())[-1500:]
-    if re.search(r"esc to interrupt|Working \(|^[^\w\s]\s\S+… \(\d", recent, re.M):
+    if dashboard_live.BUSY_RE.search(recent):
         return "WORKING", 28
     if re.search(r"\d+ question|Do you want|\[y/n\]|\(y/n\)", recent):
         return "ASKING", 136
@@ -125,7 +126,6 @@ def main():
         i = sys.argv.index("--once")
         print("\n".join(render(session, label, color, int(sys.argv[i + 1]), int(sys.argv[i + 2]), state)))
         return
-    import dashboard_live
     stamp = dashboard_live.source_stamp(dashboard_live.TOOLS)
     while True:
         dashboard_live.maybe_reload(stamp)

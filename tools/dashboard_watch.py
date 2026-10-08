@@ -21,7 +21,7 @@ def main():
             print(f"CLEARED {a}", flush=True)
         alerts = now
         for n, screen in screens.items():
-            busy = "esc to interrupt" in screen
+            busy = bool(L.BUSY_RE.search(screen))
             if working.get(n) and not busy:
                 print(f"FINISHED {n}" + (" (DONE)" if "DONE" in screen else " (no DONE line: read its report)"), flush=True)
             working[n] = busy
