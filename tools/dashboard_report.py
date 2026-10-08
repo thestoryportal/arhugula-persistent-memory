@@ -57,7 +57,10 @@ def render(cols, rows):
            f"{BG(238)} updated {b.get('updated', '?')[-15:]:<15} {RESET}"]
     out.append(f" {ITAL}Goal: {goal} of {out_of} reworded questions right · ordinary facts already get ~69 · bar ┃ marks the goal{RESET}")
     out.append(section("WHAT IT MEANS", 30, cols))
-    for line in textwrap.wrap(b.get("brief", ""), max(cols - 2, 10))[:7]:
+    brief = textwrap.wrap(b.get("brief", ""), max(cols - 2, 10))
+    if len(brief) > 7:   # the pane cannot scroll: say so instead of cutting mid-sentence
+        brief = brief[:6] + [fit(brief[6], max(cols - 30, 10)) + "  (more: docs/c10_scoreboard.json)"]
+    for line in brief:
         out.append(f" {BOLD}{line}{RESET}")
     out.append(section("NOW", 28, cols))
     out.append(" " + gpu_line())
