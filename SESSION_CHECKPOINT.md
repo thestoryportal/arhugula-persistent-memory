@@ -28,6 +28,9 @@ Resume as lead experimentalist, AUTONOMOUS under D-C10r-rulings-9/10/11/12 (push
 
 8. LAB VIEW ALL-ERAS (D-C10r-labviz-4, ~23:34): operator wants all historical science (e.g. old Mistral runs) shown in its own era's terms across every tab, not C10 framing, plus a "how it all connects" map with a focus mode. The spec subagent was told mid-run; verify docs/LABVIZ_V2_SPEC.md covers it (C10-framing audit with file:line + connection map); if not, add it before review.
 
+
+9. LAB VIEW DESIGN OVERHAUL (D-C10r-labviz-5, ~23:39): operator finds the UI average, fonts too small, content not organized or connected across disciplines/domains. The spec must open with a governing Design and usability section (IA, type sizes, contrast, phone, audit with file:line, measurable criteria) and the build must pass a screenshot design review (static site via file://, desktop + phone widths, decorrelated reviewer; the gstack design-review / plan-design-review skills are available). Spec subagent told mid-run; verify.
+
 OPERATOR STANDING REQUESTS unchanged: scoreboard (docs/c10_scoreboard.json + board_fmt.py) and evaluations (docs/c10_evaluations.json) at every close-out/state change, plain words; PushNotification when something they'd act on lands. Leave .gitignore and untracked labviz/infranodus/autoresearch files alone. Context: Monitor context_watch.py on the newest transcript, 250000 60.
 
 ## FRESH SESSION HANDOFF - 2026-10-07 ~22:00 MDT by date (C10V pass1 done, verdict packet + Astra review in flight; C10W P2 RUNNING under D-C10w-p2go, first pair passed with no redo; ASTRA §9.1 fold drafted)
