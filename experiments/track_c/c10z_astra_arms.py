@@ -81,11 +81,14 @@ def round_guard(seconds):
 
 class Budget:
     """Clock origins are frozen at pre-import and stage2 entry, never restarted (:196)."""
-    def __init__(self,start,stage2,stage3,process=1,clock=time.monotonic):
+    def __init__(self,start,stage01,stage2,stage3,process=1,clock=time.monotonic):
+        R.require(type(stage01) in (int,float) and 7200<=stage01<=10800 and math.isfinite(stage01),
+                  "HALTED-BUDGET","invalid stage01 ceiling")
         for value in (stage2,stage3):
             R.require(value is None or (math.isfinite(value) and value>0),"HALTED-BUDGET","invalid launch ceiling")
         self.clock=clock;self.process=process;self.origins={"stage01":start}
-        self.durations={"stage01":5400.,"stage2":stage2,"stage3":stage3}
+        self.durations={"stage01":stage01,"stage2":stage2,"stage3":stage3}
+        self.lock=threading.RLock()
         self.active={"stage01"};self.history=[]
         self.future_stage2_s=7920.
         if process==2:
@@ -93,8 +96,9 @@ class Budget:
             self.origins["stage3"]=start;self.active.add("stage3")
 
     def deadline(self):
-        active=tuple(self.active)
-        return min(self.origins[k]+self.durations[k] for k in active) if active else None
+        with self.lock:
+            active=tuple(self.active)
+            return min(self.origins[k]+self.durations[k] for k in active) if active else None
 
     def check(self):
         if hasattr(self,"terminal_probe"):
@@ -106,8 +110,15 @@ class Budget:
     def enter(self,stage):
         key="stage"+str(stage)
         R.require(self.durations.get(key) is not None,"HALTED-BUDGET","absent "+key+" ceiling")
-        if key not in self.origins:self.origins[key]=self.clock()
-        self.active.add(key);self.check()
+        with self.lock:
+            now=self.clock()
+            if key=="stage2" and "stage01" in self.active:
+                R.require(now<self.origins["stage01"]+self.durations["stage01"],"HALTED-BUDGET",
+                          "stage 0-1 deadline expired before stage-2 entry")
+            if key not in self.origins:self.origins[key]=now
+            self.active.add(key)
+            if key=="stage2":self.complete01()
+        self.check()
 
     def complete01(self):self.active.discard("stage01")
 
@@ -319,7 +330,161 @@ def reproduction(p1,p2):
     return R.reproduction_evidence(p1,p2)
 
 
+# Insert before Session; import-time dependencies remain standard-library only.
+import datetime
+
+TELEMETRY_CLOCK = time.perf_counter
+
+
+def target_probabilities(gathered,targets,chunk_rows):
+    import torch
+    chunk_rows=min(chunk_rows,max(1,(64*2**20)//(4*gathered.shape[1])))
+    targets=targets.detach().to(device="cpu",dtype=torch.long)
+    result=torch.empty(gathered.shape[0],dtype=torch.float32,device="cpu")
+    with torch.no_grad():
+        for start in range(0,gathered.shape[0],chunk_rows):
+            x=gathered[start:start+chunk_rows].detach().to(device="cpu",dtype=torch.float32,copy=True)
+            x.sub_(x.amax(1,keepdim=True))
+            lse=torch.logsumexp(x,1)
+            rows=torch.arange(len(x),device="cpu")
+            result[start:start+len(x)]=torch.exp(x[rows,targets[start:start+len(x)]]-lse)
+            del x,lse,rows
+    return result
+
+
+def logit_lens(model,items,layers,tok,device):
+    import torch
+    with torch.no_grad():
+        if max(layers)>model.config.num_hidden_layers-2:
+            raise ValueError("logit lens layer must precede the final normalized hidden state")
+        snapshots=[]
+        for item in items:
+            ids=item["prompt_ids"]
+            out=model(torch.tensor([ids],device=device),use_cache=False,
+                      output_hidden_states=True,logits_to_keep=1)
+            top={}
+            for l in layers:
+                h=out.hidden_states[l+1][:,-1,:]
+                logits=model.lm_head(model.model.norm(h))
+                best=logits.float().softmax(-1)[0].topk(5)
+                top[str(l)]=[[int(i),tok.decode([int(i)]),float(p)]
+                             for i,p in zip(best.indices,best.values)]
+            snapshots.append({"view":item["view"],"subject":item["subject"],
+                              "prompt_ids":list(ids),"top":top})
+        return {"layers":list(layers),"items":snapshots}
+
+
+class Telemetry:
+    def __init__(self,out,process,attempt_id):
+        try:
+            started=TELEMETRY_CLOCK()
+            self.enabled=True;self.file=None;self.cumulative_s=0.
+            self.process=process;self.attempt_id=attempt_id
+            directory=Path(out)/"telemetry";directory.mkdir(parents=True,exist_ok=True)
+            self.file=(directory/f"telemetry_p{process}.jsonl").open("a",encoding="utf-8")
+            self._emit("header",started,telemetry=True)
+        except Exception as exc:self._disable(exc)
+
+    def _disable(self,exc):
+        if getattr(self,"enabled",True):
+            self.enabled=False
+            print(f"C10Z_TELEMETRY_DISABLED {type(exc).__name__}: {exc}",flush=True)
+
+    def _emit(self,kind,started,**payload):
+        line={**payload,"kind":kind,"t_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              "process":self.process,"attempt_id":self.attempt_id,"cumulative_s":self.cumulative_s}
+        line["elapsed_s"]=TELEMETRY_CLOCK()-started
+        data=json.dumps(line,allow_nan=False,sort_keys=True,separators=(",",":"))+"\n"
+        self.file.write(data);self.file.flush();os.fsync(self.file.fileno())
+        self.cumulative_s+=TELEMETRY_CLOCK()-started
+
+    def phase(self,event,**payload):
+        try:
+            if not self.enabled:return
+            started=TELEMETRY_CLOCK()
+            if event=="write_start":
+                session=payload.pop("session");requests=payload.pop("requests")
+                payload["arm"]=next(k for k,values in session.arms.items() if all(
+                    values[r["subject"]]==r["target_new"]["str"].lstrip() for r in requests))
+            self._emit("phase",started,event=event,**payload)
+        except Exception as exc:self._disable(exc)
+
+    def write_norms(self,patch,cumulative,**payload):
+        try:
+            if not self.enabled:return
+            started=TELEMETRY_CLOCK()
+            norms={str(l):{"patch_fro":float(value.detach().cpu().norm()),
+                           "cumulative_fro":float(cumulative[l].detach().cpu().norm())}
+                   for l,value in patch.items()}
+            self._emit("write_norms",started,norms=norms,**payload)
+        except Exception as exc:self._disable(exc)
+
+    def target_probs(self,obs,chunk_rows=None,requirements=None,**payload):
+        try:
+            if not self.enabled:return
+            started=TELEMETRY_CLOCK()
+            gathered=obs["native_gathered"]
+            if chunk_rows is None:chunk_rows=max(1,(64*2**20)//(4*gathered.shape[1]))
+            probabilities=target_probabilities(gathered,obs["targets"],chunk_rows)
+            self._emit("target_probs",started,rows=[r["row"] for r in requirements],
+                facts=[r["fact"] for r in requirements],views=[r["view"] for r in requirements],
+                qs=[r["q"] for r in requirements],p=probabilities.tolist(),**payload)
+        except Exception as exc:self._disable(exc)
+
+    def logit_lens(self,session,arm,where):
+        try:
+            if not self.enabled:return
+            started=TELEMETRY_CLOCK()
+            snapshot=logit_lens(session.H.model,session.population[arm]["F0"],session.hp.layers,
+                                session.H.tok,session.H.DEV)
+            self._emit("logit_lens",started,arm=arm,where=where,**snapshot)
+        except Exception as exc:self._disable(exc)
+
+
+def telemetry_mps_inertness_check(model,device,population,batch,layers,tok):
+    import torch
+    probe_forwards=0;lens_forwards=0
+    def batch_forward():
+        return model(input_ids=torch.tensor(batch["input_ids"],device=device),
+                     attention_mask=torch.tensor(batch["attention_mask"],device=device),
+                     use_cache=False,logits_to_keep=0)
+    def one_pass(lens):
+        nonlocal probe_forwards,lens_forwards
+        with torch.no_grad():
+            if lens:
+                logit_lens(model,population["F0"],layers,tok,device)
+                lens_forwards+=len(population["F0"])
+            tokens={}
+            for group,items in population.items():
+                tokens[group]=[]
+                for item in items:
+                    cur=list(item["prompt_ids"]);generated=[]
+                    for _ in item["target"] if "target" in item else (None,):
+                        logits=model(torch.tensor([cur],device=device),use_cache=False,logits_to_keep=0).logits
+                        token=int(logits[0,-1].argmax());generated.append(token);cur.append(token)
+                        probe_forwards+=1
+                    tokens[group].append(generated)
+            if lens:
+                logit_lens(model,population["F0"],layers,tok,device)
+                lens_forwards+=len(population["F0"])
+            native=batch_forward()
+            rows=torch.tensor([r["row"] for r in batch["requirements"]],device=device)
+            positions=torch.tensor([r["index"] for r in batch["requirements"]],device=device)
+            return tokens,native.logits[rows,positions].detach().float().cpu()
+    with torch.no_grad():
+        first=next(item for items in population.values() for item in items)
+        model(torch.tensor([first["prompt_ids"]],device=device),use_cache=False,logits_to_keep=0)
+        batch_forward()
+        p1=one_pass(False);interleaved=one_pass(True);p2=one_pass(False)
+    control_equal=p1[0]==p2[0] and torch.equal(p1[1],p2[1])
+    telemetry_equal=p1[0]==interleaved[0] and torch.equal(p1[1],interleaved[1])
+    verdict="NONDETERMINISTIC-BASELINE" if not control_equal else "INERT" if telemetry_equal else "NOT-INERT"
+    return {"verdict":verdict,"control_equal":control_equal,"telemetry_equal":telemetry_equal,
+            "probe_forwards":probe_forwards,"lens_forwards":lens_forwards}
+
+
 class Session:
+    telemetry=None
     """All methods below are runtime-only; selftests never construct this class."""
     def __init__(self,out,process,budget,input_dir=None):
         self.out=Path(out);self.process=process;self.budget=budget;self.gates=Gates()
@@ -638,6 +803,7 @@ class Session:
         return views
 
     def run_recipe(self,name,arms,mode=None):
+        if self.telemetry is not None:self.telemetry.phase("recipe_start",recipe=name,arms=arms)
         self.active_recipe=name
         H=self.H;self.verify_restore("before recipe "+name);H.ARMS={k:self.arms[k] for k in arms}
         self.mode=mode;self.current={};self.calls={"astra_calls":0,"original_calls":0,"Z_OVERRIDE_HITS":0}
@@ -654,7 +820,9 @@ class Session:
             if self.gates.law3:
                 extra=record.pop("extra",{});record.update(extra.get("astra_readouts",{}))
         if mode:result["audit"]={**self.calls,"Z_OVERRIDE_HITS":H.Z_OVERRIDE_HITS}
-        self.recipes[name]=result;return result
+        self.recipes[name]=result
+        if self.telemetry is not None:self.telemetry.phase("recipe_end",recipe=name,arms=arms)
+        return result
 
     def arm_hook(self,arm,values):
         if not self.gates.law3:
@@ -667,6 +835,7 @@ class Session:
         # eval_arm has already run, but the source hook cannot see its return until run_recipe returns.
         hits=self.probe_hits(arm)
         self.current["hits"]=hits
+        if self.telemetry is not None:self.telemetry.logit_lens(self,arm,"post_write")
         held=self.make_batch(arm,list(self.H.PTEST))
         carriers=self.current["carriers"]
         held_obs=self.observe(held,carriers)
@@ -703,6 +872,7 @@ class Session:
         return self.gates.candidate(lambda:self.write_arm(requests,self.mode))
 
     def write_arm(self,requests,mode):
+        if self.telemetry is not None:self.telemetry.phase("write_start",session=self,requests=requests,mode=mode)
         self.sync();start=time.monotonic()
         arm=next(k for k,values in self.arms.items() if all(values[r["subject"]]==r["target_new"]["str"].lstrip() for r in requests))
         self.restore();self.verify_restore("before write "+arm)
@@ -738,9 +908,14 @@ class Session:
                 "T_pad":batch["T_pad"],"head_seconds":post["head_seconds"],"logits_bytes":post["logits_bytes"],
                 "conversion_bytes":post["conversion_bytes"]})
             if self.stage==1:round_guard(elapsed)
+            if self.telemetry is not None:
+                self.telemetry.phase("round_end",round_no=round_no,arm=arm,recipe=self.active_recipe,seconds=elapsed,F=len(indices),columns_written=written)
+                self.telemetry.write_norms(sol["patch"],summed,round_no=round_no,arm=arm)
+                self.telemetry.target_probs(post,requirements=batch["requirements"],round_no=round_no,arm=arm)
             obs=post
             if bool((obs["leads"]>=5.).all()):break
         post=self.observe(batch,carriers,full=True);post["selected"]=True
+        if self.telemetry is not None:self.telemetry.target_probs(post,requirements=batch["requirements"],round_no="final",arm=arm)
         artifact,ratios=output_artifact(self.weights,self.pristine,carriers)
         write={"stage":self.stage,"rounds_used":len(traces),"stop_reason":"objective met" if bool((post["leads"]>=5.).all()) else "round cap",
             "carriers":{str(l):cols for l,cols in carriers.items()},"carrier_count":sum(map(len,carriers.values())),
@@ -811,6 +986,7 @@ class Session:
         self.pristine_axes=self.H.axes_pre()
         self.population={arm:self.probe_population(arm) for arm in R.ARMS}
         for arm in R.ARMS:self.pristine_probes[arm]=self.probe_hits(arm)
+        if self.telemetry is not None:self.telemetry.logit_lens(self,R.A7,"pristine")
         self.pristine_heldout={}
         for arm in R.ARMS:
             held=self.make_batch(arm,list(self.H.PTEST))
@@ -1256,8 +1432,7 @@ class Session:
         R.require(reading["scientific_verdict"],reading["label"],reading.get("detail","reader"))
         write_json(self.out/f"pass_p{self.process}.json",record)
         self.budget.check()
-        if reading["next_stage"]==2:self.budget.complete01()
-        else:self.budget.future_stage2_s=0.
+        if reading["next_stage"]!=2:self.budget.future_stage2_s=0.
         return reading
 
     def stage2(self):
@@ -1347,7 +1522,7 @@ def go_record(env):
         raw=Path(path).read_bytes();value=json.loads(raw,
             parse_constant=lambda token:R.require(False,"HALTED-V6","non-finite go JSON: "+token))
     except (OSError,ValueError) as exc:
-        raise R.Halt("HALTED-V12","invalid C10Z_GO_RECORD: "+str(exc)) from exc
+        raise R.Halt("HALTED-V12","go record requires benchmark_sha256, benchmark_script_sha256 and ceilings; invalid C10Z_GO_RECORD: "+str(exc)) from exc
     R.require(isinstance(value,dict),"HALTED-V12","go record must be a JSON object")
     decisions=value.get("decisions")
     R.require(isinstance(decisions,dict) and set(decisions)=={"0","1","2"} and
@@ -1357,8 +1532,136 @@ def go_record(env):
         "HALTED-V12","go record requires operator_yes=true and one_gpu_job=true")
     R.require(all(isinstance(value.get(k),str) and value[k].strip() for k in ("recorded_by","recorded_at")),
         "HALTED-V12","go record requires recorded_by and recorded_at")
+    ceilings=value.get("ceilings")
+    R.require(R.sha(value.get("benchmark_sha256")) and R.sha(value.get("benchmark_script_sha256")) and
+        isinstance(ceilings,dict) and set(ceilings)=={"stage01","stage2","stage3"} and
+        all(type(v) in (int,float) and v>0 and (type(v) is int or math.isfinite(v)) for v in ceilings.values()),
+        "HALTED-V12","go record requires benchmark_sha256, benchmark_script_sha256 and ceilings")
     R.finite_json(value)
     return value,hashlib.sha256(raw).hexdigest()
+
+
+def benchmark_module():
+    import importlib.util
+    spec=importlib.util.spec_from_file_location("c10z_launch_benchmark",ROOT/"experiments/track_c/c10z_astra_benchmark.py")
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    return module
+
+
+def telemetry_switch(env):
+    R.require("C10Z_TELEMETRY" not in env or env["C10Z_TELEMETRY"]=="1",
+              "HALTED-V12","C10Z_TELEMETRY must be absent or 1")
+    return "C10Z_TELEMETRY" in env
+
+
+def strict_record(raw,detail):
+    try:
+        value=json.loads(raw,parse_constant=lambda token:R.require(False,"HALTED-V12",detail))
+        R.finite_json(value)
+        return value
+    except (ValueError,TypeError) as exc:raise R.Halt("HALTED-V12",detail) from exc
+
+
+def benchmark_binding(env,go):
+    path=env.get("C10Z_BENCHMARK_RECORD")
+    R.require(isinstance(path,str) and bool(path),"HALTED-V12","C10Z_BENCHMARK_RECORD is required")
+    R.require(Path(path).is_absolute(),"HALTED-V12","C10Z_BENCHMARK_RECORD must be absolute")
+    root=(ROOT/"results/c10z_astra_benchmark").resolve();path=Path(path).resolve()
+    R.require(path.is_relative_to(root) and path.parent.parent==root and path.name=="benchmark.json",
+              "HALTED-V12","benchmark record outside results/c10z_astra_benchmark")
+    try:raw=path.read_bytes()
+    except OSError as exc:raise R.Halt("HALTED-V12","benchmark record unreadable") from exc
+    record_sha=hashlib.sha256(raw).hexdigest()
+    R.require(record_sha==go["benchmark_sha256"],"HALTED-V12","benchmark record differs from go selection")
+    record=strict_record(raw,"benchmark record is not strict JSON")
+    fields=record.get("env",{}) if isinstance(record,dict) else {}
+    fields=fields if isinstance(fields,dict) else {}
+    script=ROOT/"experiments/track_c/c10z_astra_benchmark.py"
+    try:script_sha=sha256_file(script)
+    except OSError as exc:raise R.Halt("HALTED-V12","benchmark script changed") from exc
+    R.require(script_sha==fields.get("script_sha256")==go["benchmark_script_sha256"],
+              "HALTED-V12","benchmark script changed")
+    B=benchmark_module()
+    try:sources=B.source_identity(ROOT)
+    except OSError as exc:raise R.Halt("HALTED-V12","benchmark source identity changed: "+str(exc.filename)) from exc
+    recorded_sources=fields.get("sources")
+    if sources!=recorded_sources:
+        old=recorded_sources if isinstance(recorded_sources,dict) else {}
+        changed=next((p for p in sources if sources[p]!=old.get(p)),next(iter(set(old)-set(sources)),"sources"))
+        raise R.Halt("HALTED-V12","benchmark source identity changed: "+changed)
+    current_env=B.environment_identity()
+    for key,value in current_env.items():
+        R.require(value==fields.get(key),"HALTED-V12","benchmark environment changed: "+key)
+    try:B.validate_record(record)
+    except R.Halt:raise
+    except ValueError as exc:raise R.Halt("HALTED-V12","benchmark record invalid: "+str(exc)) from exc
+    c=B.ceilings(record)
+    R.require(c.get("source")=="BENCHMARK","HALTED-BUDGET","benchmark refused: "+str(c.get("reason")))
+    R.require(json.loads(json.dumps(c,sort_keys=True,allow_nan=False))==record.get("derived"),
+              "HALTED-V12","benchmark derived disagrees with ceilings()")
+    R.require(c["stop"] is False,"HALTED-BUDGET","benchmark STOP")
+    R.require(7200<=c["C01"]<=10800,"HALTED-BUDGET","C01 outside [7200, 10800]")
+    R.require(2*(c["C01"]+c["C2"])<=55800,"HALTED-BUDGET","nominal total above 55,800 s")
+    selected={"stage01":c["C01"],"stage2":c["C2"],"stage3":c["C3"]}
+    R.require(go["ceilings"]==selected,"HALTED-V12","go ceilings differ from ceilings()")
+    return {"path":str(path),"sha256":record_sha,"script_sha256":script_sha,"sources":sources,
+            "env":current_env,"ceilings":selected},record,B
+
+
+INERTNESS_SOURCES=("experiments/track_c/c10z_astra_arms.py","experiments/track_c/c10z_astra_read.py",
+    "experiments/track_c/c10z_astra_telemetry_check.py","experiments/track_c/c10z_astra_benchmark.py",
+    "experiments/track_c/c10e_bandknob.py","configs/hparams/qwen25_3b_memit_hparams.json",
+    "memit_dry_run/memit/memit/memit_main.py")
+
+
+def inertness_binding(env,benchmark,B):
+    prefix="telemetry requires an INERT inertness record: "
+    path=env.get("C10Z_TELEMETRY_INERTNESS")
+    R.require(isinstance(path,str) and bool(path),"HALTED-V12",prefix+"required")
+    R.require(Path(path).is_absolute(),"HALTED-V12",prefix+"path must be absolute")
+    root=(ROOT/"results/c10z_astra_telemetry_inertness").resolve();path=Path(path).resolve()
+    R.require(path.is_relative_to(root) and path.parent.parent==root and path.name=="inertness.json",
+              "HALTED-V12",prefix+"path outside root")
+    try:raw=path.read_bytes()
+    except OSError as exc:raise R.Halt("HALTED-V12",prefix+"unreadable") from exc
+    record=strict_record(raw,prefix+"strict JSON")
+    keys={"schema","decision_id","device","verdict","control_equal","telemetry_equal","probe_forwards",
+          "lens_forwards","weights_unchanged","sources","env","started_at","finished_at"}
+    R.require(isinstance(record,dict) and set(record)==keys,"HALTED-V12",prefix+"schema")
+    R.require(record["schema"]=="c10z_astra_telemetry_inertness/v1" and
+              record["decision_id"]=="D-C10r-rulings-11" and record["device"]=="mps" and
+              record["verdict"]=="INERT" and all(record[k] is True for k in
+                  ("control_equal","telemetry_equal","weights_unchanged")),"HALTED-V12",prefix+"evidence")
+    R.require(type(record["probe_forwards"]) is int and record["probe_forwards"]==B.expected_probe_forwards(benchmark) and
+              type(record["lens_forwards"]) is int and record["lens_forwards"]==2*benchmark["inputs"]["population_counts"]["F0"],
+              "HALTED-V12",prefix+"counts")
+    try:sources={p:sha256_file(ROOT/p) for p in INERTNESS_SOURCES}
+    except OSError as exc:raise R.Halt("HALTED-V12",prefix+"sources: "+str(exc.filename)) from exc
+    R.require(record["sources"]==sources,"HALTED-V12",prefix+"sources")
+    expected_env={**B.environment_identity(),"model_rev":"3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"}
+    R.require(record["env"]==expected_env,"HALTED-V12",prefix+"environment")
+    import datetime
+    try:
+        times=[datetime.datetime.fromisoformat(record[k]) for k in ("started_at","finished_at")]
+        R.require(all(t.tzinfo is not None for t in times) and times[0]<=times[1],"HALTED-V12",prefix+"timestamps")
+    except (ValueError,TypeError) as exc:raise R.Halt("HALTED-V12",prefix+"timestamps") from exc
+    return {"path":str(path),"sha256":hashlib.sha256(raw).hexdigest()}
+
+
+def verify_launch_binding(launch,env):
+    R.require(telemetry_switch(env)==launch["telemetry"],"HALTED-V12","C10Z_TELEMETRY differs from launch")
+    try:
+        binding,record,B=benchmark_binding({"C10Z_BENCHMARK_RECORD":launch["benchmark"]["path"]},launch["go"])
+        R.require(binding==launch["benchmark"],"HALTED-V12","benchmark binding")
+        R.require(launch["stage01"]==binding["ceilings"]["stage01"],"HALTED-V12","stage01 ceiling")
+        R.require(all(launch[k] is None or launch[k]==binding["ceilings"][k] for k in ("stage2","stage3")),
+                  "HALTED-V12","expansion ceilings")
+        if launch["telemetry"]:
+            selected=inertness_binding({"C10Z_TELEMETRY_INERTNESS":launch["telemetry_inertness"]["path"]},record,B)
+            R.require(selected==launch["telemetry_inertness"],"HALTED-V12","inertness binding")
+        else:R.require(launch["telemetry_inertness"] is None,"HALTED-V12","inertness binding")
+    except (OSError,ValueError,KeyError,TypeError) as exc:
+        raise R.Halt("HALTED-V12","launch binding changed since stage 0: "+str(exc)) from exc
 
 
 def diagnostic(out,code,detail,session=None):
@@ -1390,9 +1693,9 @@ def diagnostic(out,code,detail,session=None):
 def resident(out,process,launch,input_dir=None,start=None):
     """Model lifetime is one process; deadline watchdog cannot mint a scientific pass."""
     start=time.monotonic() if start is None else start
-    budget=Budget(start,launch["stage2"],launch["stage3"],process=process)
+    budget=Budget(start,launch["stage01"],launch["stage2"],launch["stage3"],process=process)
     budget.go_sha256=launch["go_sha256"]
-    state=StageState(launch["attempt_id"],process);session=None;stop=threading.Event()
+    state=StageState(launch["attempt_id"],process);session=None;telemetry=None;stop=threading.Event()
     runpath=Path(out)/"run.json";publication_lock=threading.RLock()
     budget.terminal_probe=lambda:load_json(runpath).get("halt") if runpath.exists() else None
     def publish(reading=None,closed=False,halt=None):
@@ -1423,12 +1726,22 @@ def resident(out,process,launch,input_dir=None,start=None):
             finally:os._exit(2)
     publish();thread=threading.Thread(target=watchdog,daemon=True);thread.start()
     try:
+        if launch["telemetry"] is True:telemetry=Telemetry(out,process,state.attempt)
         session=Session(out,process,budget,input_dir)
+        session.telemetry=telemetry
         session.attempt_id=state.attempt
-        state.run(0,state.attempt,session.stage0);publish()
+        if telemetry is not None:telemetry.phase("stage_start",stage=0)
+        state.run(0,state.attempt,session.stage0)
+        if telemetry is not None:telemetry.phase("stage_end",stage=0)
+        publish()
         if process==2:
+            if telemetry is not None:telemetry.phase("stage_start",stage=1)
             reading=state.run(1,state.attempt,session.stage1)
-            if reading["next_stage"]==2:reading=state.run(2,state.attempt,session.stage2)
+            if telemetry is not None:telemetry.phase("stage_end",stage=1)
+            if reading["next_stage"]==2:
+                if telemetry is not None:telemetry.phase("stage_start",stage=2)
+                reading=state.run(2,state.attempt,session.stage2)
+                if telemetry is not None:telemetry.phase("stage_end",stage=2)
         else:
             reading=None
             for stage in (1,2):
@@ -1439,7 +1752,9 @@ def resident(out,process,launch,input_dir=None,start=None):
                                   "HALTED-V12","out-of-order stage request")
                         break
                     time.sleep(.1)
+                if telemetry is not None:telemetry.phase("stage_start",stage=stage)
                 reading=state.run(stage,state.attempt,session.stage1 if stage==1 else session.stage2)
+                if telemetry is not None:telemetry.phase("stage_end",stage=stage)
                 publish(reading)
                 if stage==1 and reading["next_stage"]!=2:state.closed=True;break
         session.close();state.closed=True
@@ -1454,6 +1769,7 @@ def resident(out,process,launch,input_dir=None,start=None):
         if session is not None and not getattr(session,"closed_model",False):
             try:session.restore();session.verify_restore("exception close")
             except BaseException as restore_exc:code="HALTED-V3";exc=restore_exc
+        if telemetry is not None:telemetry.phase("halt",code=code)
         diagnostic(out,code,exc,session);publish(closed=True,halt={"code":code,"detail":str(exc)});return 2
     finally:stop.set()
 
@@ -1465,9 +1781,16 @@ def stage_call(stage,out):
         R.require(not any((out/name).exists() for name in ("manifest.json","pass_p1.json","run.json")),
                   "HALTED-V12","attempt needs fresh OUT_DIR")
         go,go_sha256=go_record(os.environ)
+        telemetry=telemetry_switch(os.environ)
+        binding,benchmark,B=benchmark_binding(os.environ,go)
+        stage2=launch_duration(os.environ,"C10Z_STAGE2_CEILING_S")
+        R.require(stage2 is None or stage2==binding["ceilings"]["stage2"],"HALTED-BUDGET","C10Z_STAGE2_CEILING_S differs from C2")
+        stage3=launch_duration(os.environ,"C10Z_STAGE3_CEILING_S")
+        R.require(stage3 is None or stage3==binding["ceilings"]["stage3"],"HALTED-BUDGET","C10Z_STAGE3_CEILING_S differs from C3")
+        inertness=inertness_binding(os.environ,benchmark,B) if telemetry else None
         launch={"attempt_id":uuid.uuid4().hex,
-            "stage2":launch_duration(os.environ,"C10Z_STAGE2_CEILING_S"),
-            "stage3":launch_duration(os.environ,"C10Z_STAGE3_CEILING_S"),"go":go,"go_sha256":go_sha256}
+            "stage01":float(binding["ceilings"]["stage01"]),"stage2":stage2,"stage3":stage3,
+            "go":go,"go_sha256":go_sha256,"benchmark":binding,"telemetry":telemetry,"telemetry_inertness":inertness}
         out.mkdir(parents=True,exist_ok=True);(out/"logs").mkdir(exist_ok=True)
         worker_env=dict(os.environ,C10Z_RESIDENT="1",C10Z_LAUNCH=json.dumps(launch),C10Z_OUT_DIR=str(out))
         with (out/"logs/resident_p1.log").open("x") as log:
@@ -1484,6 +1807,7 @@ def stage_call(stage,out):
         R.require(run["launch"]["stage3"] is not None,"HALTED-BUDGET","absent stage3 ceiling")
         p2=out/"process2"
         R.require(not p2.exists(),"HALTED-V12","process2 requires fresh OUT_DIR")
+        verify_launch_binding(run["launch"],os.environ)
         p2.mkdir();(p2/"logs").mkdir()
         return resident(p2,2,run["launch"],input_dir=out,start=start)
     R.require(stage in (1,2) and not run["closed"] and run["halt"] is None and run["requested"] is None and

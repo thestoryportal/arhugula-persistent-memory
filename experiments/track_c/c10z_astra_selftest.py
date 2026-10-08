@@ -16,7 +16,8 @@ import zlib
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-PREREG = "38f8b68cc2f82d78e0689bff18bfa44f7600e2fe7b1484b07b4e1e88e267b072"
+PREREG = "87fe3d5d28c9a51eab4eadfd82cc7175f1a94f723f25f31658c5e1aeaf628b87"
+C01_FIX = 7800.
 ARMS = ("A1_single", "A2_coherent2", "A7_coined_coined")
 A1, A2, A7 = ARMS
 
@@ -220,8 +221,8 @@ def fixture(n=26, a=12, stage=1, **kwargs):
          "certificate": {"artifact_identity": "NOT-EVALUATED",
                          "numeric_behavioral_reproduction": "NOT-EVALUATED"},
          "budget": {"halted":False,"origins":{"stage01":0.,**({"stage2":1000.} if stage==2 else {})},
-             "ceilings":{"stage01":5400,"stage2":12000. if stage==2 else None,"stage3":24000. if stage==2 else None},
-             "history":[{"components_s":{"remaining":1.},"scopes":{"stage01":{"elapsed_s":1.,"remaining_s":1.,"ceiling_s":5400.}}}]},
+             "ceilings":{"stage01":C01_FIX,"stage2":12000. if stage==2 else None,"stage3":24000. if stage==2 else None},
+             "history":[{"components_s":{"remaining":1.},"scopes":{"stage01":{"elapsed_s":1.,"remaining_s":1.,"ceiling_s":C01_FIX}}}]},
          "outcome": "COMPLETE"}
     for k in ("context_templates.json","dstats.pt","G.pt"):
         hashes[k]=parts[{"context_templates.json":"context_templates_sha256","dstats.pt":"dstats_sha256","G.pt":"G_sha256"}[k]]
@@ -265,6 +266,10 @@ def second_process(r):
 
 def seal_schedule(r):
     # Only fixture metadata; label expectations come from the frozen table and independent predicates.
+    for projection in r["budget"]["history"]:
+        projection["ceilings"] = dict(r["budget"]["ceilings"])
+        for key, scope in projection["scopes"].items():
+            scope["ceiling_s"] = r["budget"]["ceilings"][key]
     R=importlib.import_module("c10z_astra_read")
     z=r["recipes"]["Z"]["arms"][A7];a=r["recipes"]["A"]["arms"][A7]
     gates=R.side_gates(z,a);stage=r["stage_completed"]
@@ -632,22 +637,22 @@ class SpecTests(unittest.TestCase):
     def test_budget_origins_prestart_deadlines_round_memory(self):
         """Prereg :190, :196–198: 5400 seconds, scopes, unknown allowance, exact memory."""
         D,R=self.modules();clock=[100.]
-        b=D.Budget(100.,60.,6000.,process=1,clock=lambda:clock[0])
-        self.assertEqual(b.deadline(),5500.)
-        clock[0]=5499.;b.project({"remaining":1.})
+        b=D.Budget(100.,C01_FIX,60.,6000.,process=1,clock=lambda:clock[0])
+        self.assertEqual(b.deadline(),C01_FIX+100.)
+        clock[0]=C01_FIX+99.;b.project({"remaining":1.})
         with self.assertRaisesRegex(R.Halt,"HALTED-BUDGET"): b.project({"remaining":1.001})
-        clock[0]=5501.
+        clock[0]=C01_FIX+101.
         with self.assertRaisesRegex(R.Halt,"HALTED-BUDGET"):b.check()
         for stage in (2,3):
-            absent=D.Budget(0.,None,None,clock=lambda:0.)
+            absent=D.Budget(0.,C01_FIX,None,None,clock=lambda:0.)
             with self.assertRaisesRegex(R.Halt,"HALTED-BUDGET"):absent.enter(stage)
-        b=D.Budget(100.,60.,6000.,process=2,clock=lambda:clock[0]);clock[0]=200.
+        b=D.Budget(100.,C01_FIX,60.,6000.,process=2,clock=lambda:clock[0]);clock[0]=200.
         self.assertEqual(b.origins["stage3"],100.)
-        b.complete01();b.enter(2)
+        b.enter(2)
         self.assertEqual(b.origins["stage2"],200.)
         self.assertEqual(b.deadline(),260.)
-        b=D.Budget(100.,10000.,200.,process=2,clock=lambda:200.)
-        b.complete01();b.enter(2);self.assertEqual(b.deadline(),300.)
+        b=D.Budget(100.,C01_FIX,10000.,200.,process=2,clock=lambda:200.)
+        b.enter(2);self.assertEqual(b.deadline(),300.)
         with self.assertRaisesRegex(R.Halt,"HALTED-BUDGET"):b.project({"unknown":0.})
         D.round_guard(120.)
         with self.assertRaisesRegex(R.Halt,"HALTED-BUDGET"):D.round_guard(120.0001)
@@ -878,7 +883,7 @@ def _write_session(D, stage=2, budget=None):
     s.geometry = lambda *a: {}
     s.arms = {A7: {"s0": "coined"}, A2: {"s0": "two"}}
     s.timings = {}; s.stage = stage; s.D_floored = 0; s.checks = {"Z7": {"tau_head": .02}}
-    s.budget = budget or D.Budget(0., None, None, clock=lambda: 0.)
+    s.budget = budget or D.Budget(0., C01_FIX, None, None, clock=lambda: 0.)
     s.batches = {k: {"requirements": [{"row": 0, "fact": 0, "view": 0, "q": 0, "index": 1, "target": 0}],
                      "target_lengths": [1], "T_pad": 2} for k in (A7, A2)}
     s.weights = {35: torch.ones((2, 4), dtype=torch.float16)}; s.pristine = {35: s.weights[35].clone()}
@@ -1017,7 +1022,7 @@ class ReviewGapTests:
     def test_review_write_prestart_projection_refuses_before_observation(self):
         """Prereg :196, V13 :225: refuse to start a candidate write when elapsed + projection exceeds the ceiling."""
         D, R = self.modules()
-        b = D.Budget(0., None, None, clock=lambda: 5399.)
+        b = D.Budget(0., C01_FIX, None, None, clock=lambda: C01_FIX-1)
         s, events = _write_session(D, budget=b)
         with self.assertRaisesRegex(R.Halt, "HALTED-BUDGET"):
             s.write_arm(REQ_A7, "astra")
@@ -1075,7 +1080,9 @@ class ReviewGapTests:
                     self.assertEqual(json.loads((out / "run.json").read_text())["requested"], 2 if ok else None)
                 self.assertEqual(launched, ["wait"]); launched.clear()
                 # stage 3 only after clean K2 and with a recorded stage-3 ceiling
-                good = tmp / "good"; _attempt_dir(D, good, fixture(n=22, stage=2), {})
+                bench,binding=_bench_tree(D.ROOT)
+                record=fixture(n=22,stage=2);record["budget"]["ceilings"]=dict(binding["ceilings"]);seal_schedule(record)
+                good = tmp / "good"; _attempt_dir(D, good, record, {"launch":_selected_launch(bench,binding)})
                 self.assertEqual(R.read_directory(good)["next_stage"], 3)
                 self.assertEqual(D.stage_call(3, good), 0); self.assertEqual(launched, ["p2"]); launched.clear()
                 r = fixture(n=29, stage=2); counts(r["recipes"]["Z"]["arms"][A1], 67)
@@ -1084,8 +1091,8 @@ class ReviewGapTests:
                 with self.assertRaisesRegex(R.Halt, "HALTED-V12"):
                     D.stage_call(3, bad)
                 noceil = tmp / "noceil"
-                _attempt_dir(D, noceil, fixture(n=22, stage=2), {"launch": {"attempt_id": "fixture-attempt", "stage2": 12000., "stage3": None}})
-                with self.assertRaisesRegex(R.Halt, "HALTED-BUDGET"):
+                _attempt_dir(D, noceil, fixture(n=22, stage=2), {"launch": _launch(stage3=None)})
+                with self.assertRaisesRegex(R.Halt, "HALTED-V12: stage3 requires"):
                     D.stage_call(3, noceil)
                 self.assertEqual(launched, [])
         finally:
@@ -1144,7 +1151,7 @@ def _attempt_dir(D, out, record, run_extra):
     seal_schedule(record)
     D.write_json(out / "pass_p1.json", record)
     run = {"schema": "c10z_astra-v2.2", "attempt_id": record["attempt_id"], "pid": record["pid"], "process": 1, "completed": 2,
-           "requested": None, "closed": True, "launch": {"attempt_id": record["attempt_id"], "stage2": 12000., "stage3": 24000.},
+           "requested": None, "closed": True, "launch": _launch(attempt_id=record["attempt_id"]),
            "reading": None, "halt": None}
     run.update(run_extra); D.write_json(out / "run.json", run)
 
@@ -1172,17 +1179,30 @@ def fixture(*args, **kwargs):
     return r
 
 
-def _go_record():
+def _launch(**over):
+    go = _go_record()
+    value = {"attempt_id":"fixture-attempt","stage01":C01_FIX,"stage2":12000.,"stage3":24000.,
+             "telemetry":False,"telemetry_inertness":None,"go":go,"go_sha256":"a"*64,
+             "benchmark":{"path":"/x/results/c10z_astra_benchmark/T/benchmark.json",
+                          "sha256":go["benchmark_sha256"],"script_sha256":go["benchmark_script_sha256"],
+                          "sources":{},"env":{},"ceilings":dict(go["ceilings"])}}
+    value.update(over)
+    return value
+
+
+def _go_record(binding=None):
     return {"decisions": {"0": "D-C10z-go-0", "1": "D-C10z-go-1", "2": "D-C10z-go-2"},
             "operator_yes": True, "recorded_by": "operator", "recorded_at": "2026-10-07T12:00:00Z",
-            "one_gpu_job": True}
+            "one_gpu_job": True, "benchmark_sha256":"a"*64, "benchmark_script_sha256":"b"*64,
+            "ceilings":{"stage01":C01_FIX,"stage2":12000.,"stage3":24000.}, **(binding or {})}
 
 
 _proposed_stage_calls = SpecTests.test_review_stage_call_refusals
 def _review_stage_calls_with_go(self):
     with tempfile.TemporaryDirectory() as tmp:
-        path = Path(tmp) / "go.json"; path.write_text(json.dumps(_go_record()))
-        with mock.patch.dict(os.environ, {"C10Z_GO_RECORD": str(path)}):
+        D, R = self.modules(); root = Path(tmp); bench, binding = _bench_tree(root)
+        path = root / "go.json"; path.write_text(json.dumps(_go_record(binding)))
+        with mock.patch.object(D, "ROOT", root), mock.patch.object(D,"benchmark_module",side_effect=lambda:importlib.import_module("c10z_astra_benchmark"),create=True), mock.patch.dict(os.environ, {"C10Z_GO_RECORD": str(path), "C10Z_BENCHMARK_RECORD":str(bench)}):
             return _proposed_stage_calls(self)
 _review_stage_calls_with_go.__doc__ = _proposed_stage_calls.__doc__
 SpecTests.test_review_stage_call_refusals = _review_stage_calls_with_go
@@ -1208,6 +1228,7 @@ class BlockingDemos(unittest.TestCase):
         self.launched = []
         self.patchers = [
             mock.patch.object(self.D, "ROOT", Path(self.temp.name)),
+            mock.patch.object(self.D, "benchmark_module", side_effect=lambda:importlib.import_module("c10z_astra_benchmark"),create=True),
             mock.patch.object(self.D, "subprocess", _types.SimpleNamespace(
                 Popen=lambda *a, **k: (self.launched.append("p1"), Child())[1], DEVNULL=None, STDOUT=None)),
             mock.patch.object(self.D, "resident", lambda *a, **k: (self.launched.append("p2"), 0)[1]),
@@ -1234,7 +1255,7 @@ class BlockingDemos(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / "attempt"
             stage1_attempt(out, 18, True, 1, {"label": "NULL-STAGE1", "next_stage": None},
-                           {"attempt_id": "fixture-attempt", "stage2": None, "stage3": None})
+                           _launch(stage2=None, stage3=None))
             before = (out / "pass_p1.json").read_bytes()
             self.assertEqual(self.R.read_directory(out)["label"], "NULL-STAGE1")
             self.assertEqual(self.main(out, 2), 2)
@@ -1246,7 +1267,7 @@ class BlockingDemos(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / "attempt"
             stage1_attempt(out, 26, False, 1, {"label": "PARTIAL", "next_stage": 2},
-                           {"attempt_id": "fixture-attempt", "stage2": None, "stage3": None})
+                           _launch(stage2=None, stage3=None))
             rec = json.loads((out / "pass_p1.json").read_text())
             reading = self.R.read_process(rec)
             self.assertEqual((reading["label"], reading["next_stage"], rec["omissions"]["G0"]["reason"]),
@@ -1259,10 +1280,27 @@ class BlockingDemos(unittest.TestCase):
 _resident_runtime = importlib.import_module("c10z_astra_arms").resident
 
 
-def _mock_resident(D, R, out, record, launch, deadline=False):
+def _mock_resident(D, R, out, record, launch, deadline=False, metrics=None):
     """Run the real resident/terminal/watchdog code with CPU-only collaborators."""
     callbacks = []; exits = []; events = []; clock = [100.]
     real_budget = D.Budget
+    def now():
+        if metrics is not None: metrics["clock"] = metrics.get("clock",0)+1
+        return clock[0]
+    def monotonic():
+        if metrics is not None: metrics["monotonic"] = metrics.get("monotonic",0)+1
+        return clock[0]
+    def make_budget(start,stage01,stage2,stage3,process):
+        value=real_budget(start,stage01,stage2,stage3,process=process,clock=now)
+        if metrics is not None:
+            for name in ("project","check"):
+                original=getattr(value,name)
+                def counted(*a,_name=name,_call=original,**kw):
+                    metrics[_name]=metrics.get(_name,0)+1
+                    return _call(*a,**kw)
+                setattr(value,name,counted)
+            for name in ("hooks_check","sync","science_forwards"):metrics[name]=0
+        return value
 
     class Event:
         def wait(self, seconds): return False
@@ -1283,7 +1321,7 @@ def _mock_resident(D, R, out, record, launch, deadline=False):
             events.append(("constructed", budget))
         def stage0(self): events.append("stage0")
         def stage1(self):
-            events.append("stage1"); self.budget.complete01()
+            events.append("stage1")
             return R.read_process(record)
         def stage2(self):
             events.append("stage2"); self.budget.enter(2)
@@ -1296,9 +1334,8 @@ def _mock_resident(D, R, out, record, launch, deadline=False):
         def verify_restore(self, where): events.append(("verified", where))
 
     with mock.patch.object(D, "Session", SessionStub), mock.patch.object(
-            D, "Budget", lambda start, stage2, stage3, process:
-            real_budget(start, stage2, stage3, process=process, clock=lambda: clock[0])), mock.patch.object(
-            D, "time", _types.SimpleNamespace(monotonic=lambda: clock[0], sleep=submit)), mock.patch.object(
+            D, "Budget", make_budget), mock.patch.object(
+            D, "time", _types.SimpleNamespace(monotonic=monotonic, sleep=submit)), mock.patch.object(
             D, "threading", _types.SimpleNamespace(Event=Event, Thread=Thread, RLock=__import__("threading").RLock)), mock.patch.object(
             D.os, "_exit", lambda code: exits.append(code)):
         rc = _resident_runtime(out, 1, launch, start=clock[0])
@@ -1348,7 +1385,9 @@ class Fix1Tests(BlockingDemos):
         """Prereg :3, :137, :341–344: validated go copied to launch and its exact bytes bound to H_in."""
         D, R = self.D, self.R
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp); go = root / "go.json"; go.write_text(json.dumps(_go_record(), indent=2))
+            root = Path(tmp); bench,binding=_bench_tree(D.ROOT)
+            go = root / "go.json"; go.write_text(json.dumps(_go_record(binding), indent=2))
+            os.environ["C10Z_BENCHMARK_RECORD"]=str(bench)
             expected = hashlib.sha256(go.read_bytes()).hexdigest(); out = root / "attempt"
             os.environ["C10Z_GO_RECORD"] = str(go)
             def launch(*args, **kwargs):
@@ -1361,12 +1400,12 @@ class Fix1Tests(BlockingDemos):
                     Popen=launch, DEVNULL=None, STDOUT=None)), mock.patch.object(D, "wait_stage", return_value=0):
                 self.assertEqual(D.stage_call(0, out), 0)
             launch_record = D.load_json(out / "run.json")["launch"]
-            self.assertEqual(launch_record["go"], _go_record())
+            self.assertEqual(launch_record["go"], _go_record(binding))
             self.assertEqual(launch_record["go_sha256"], expected)
             r = fixture(n=18); _attempt_dir(D, out / "resident", r, {})
             rc, events, _ = _mock_resident(D, R, out / "resident", r, launch_record)
             self.assertEqual(rc, 0)
-            self.assertEqual(D.load_json(out / "resident/run.json")["launch"]["go"], _go_record())
+            self.assertEqual(D.load_json(out / "resident/run.json")["launch"]["go"], _go_record(binding))
             budget = events[0][1]; self.assertEqual(budget.go_sha256, expected)
             s = D.Session.__new__(D.Session); s.budget = budget; s.out = out
             snapshot = root / "hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/test-revision"
@@ -1448,8 +1487,7 @@ class Fix1Tests(BlockingDemos):
             root = Path(tmp); out = root / "attempt"; r = fixture()
             _attempt_dir(D, out, r, {})
             before = (out / "pass_p1.json").read_bytes()
-            launch = {"attempt_id": r["attempt_id"], "stage2": 60., "stage3": None,
-                      "go": _go_record(), "go_sha256": "a"*64}
+            launch = _launch(attempt_id=r["attempt_id"],stage2=60.,stage3=None)
             watchdog_records = []; real_diagnostic = D.diagnostic
             def capture_diagnostic(path, code, detail, session=None):
                 value = real_diagnostic(path, code, detail, session)
@@ -1482,8 +1520,7 @@ class Fix1Tests(BlockingDemos):
                 self.assertEqual(r["omissions"]["Z-band"], r["omissions"]["G0"])
                 with tempfile.TemporaryDirectory() as tmp:
                     out = Path(tmp); _attempt_dir(D, out, r, {})
-                    launch = {"attempt_id": r["attempt_id"], "stage2": None, "stage3": None,
-                              "go": _go_record(), "go_sha256": "a"*64}
+                    launch = _launch(attempt_id=r["attempt_id"],stage2=None,stage3=None)
                     rc, events, _ = _mock_resident(D, R, out, r, launch)
                     self.assertEqual(rc, 0); self.assertNotIn("stage2", events); self.assertIn("closed", events)
                     self.assertTrue(D.load_json(out / "run.json")["closed"])
@@ -1525,7 +1562,8 @@ class Fix2Tests(unittest.TestCase):
         self.R = importlib.import_module("c10z_astra_read")
         self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        for patcher in (mock.patch.object(self.D, "ROOT", self.root), mock.patch.dict(os.environ)):
+        for patcher in (mock.patch.object(self.D, "ROOT", self.root), mock.patch.dict(os.environ),
+                        mock.patch.object(self.D,"benchmark_module",side_effect=lambda:importlib.import_module("c10z_astra_benchmark"),create=True)):
             patcher.start(); self.addCleanup(patcher.stop)
         os.environ.pop("C10Z_RESIDENT", None)
         os.environ.pop("C10Z_GO_RECORD", None)
@@ -1534,7 +1572,9 @@ class Fix2Tests(unittest.TestCase):
         """Prereg :137, :204; fix2 item 1/O02: direct stage_call resolves the child path before cwd changes."""
         D = self.D; out = self.root / "attempt"
         relative = Path(os.path.relpath(out, Path.cwd()))
-        go = self.root / "go.json"; go.write_text(json.dumps(_go_record()))
+        bench,binding=_bench_tree(self.root)
+        go = self.root / "go.json"; go.write_text(json.dumps(_go_record(binding)))
+        os.environ["C10Z_BENCHMARK_RECORD"]=str(bench)
         os.environ.update(C10Z_OUT_DIR=str(relative), C10Z_GO_RECORD=str(go))
         captured = []
         def launch(*args, **kwargs):
@@ -1621,10 +1661,9 @@ class Fix2Tests(unittest.TestCase):
         def submit(_):
             run = D.load_json(out / "run.json"); run["requested"] = 1
             D.write_json(out / "run.json", run, replace=True)
-        launch = {"attempt_id": record["attempt_id"], "stage2": 60., "stage3": None,
-                  "go": _go_record(), "go_sha256": "a"*64}
+        launch = _launch(attempt_id=record["attempt_id"],stage2=60.,stage3=None)
         with mock.patch.object(D, "Session", SessionStub), mock.patch.object(
-                D, "Budget", lambda start, stage2, stage3, process: real_budget(start, stage2, stage3, process, clock=lambda: 100.)), mock.patch.object(
+                D, "Budget", lambda start, stage01, stage2, stage3, process: real_budget(start, stage01, stage2, stage3, process=process, clock=lambda: 100.)), mock.patch.object(
                 D, "time", _types.SimpleNamespace(monotonic=lambda: 100., sleep=submit)), mock.patch.object(
                 D, "threading", _types.SimpleNamespace(Event=Event, Thread=Thread, RLock=__import__("threading").RLock)):
             rc = _resident_runtime(out, 1, launch, start=100.)
@@ -1660,6 +1699,7 @@ class Fix2Tests(unittest.TestCase):
             with self.subTest(stage=stage):
                 out = self.root / str(stage); r = fixture(stage=stage); _attempt_dir(D, out, r, {})
                 r["budget"]["ceilings"]["stage%d" % (stage + 1)] = None
+                seal_schedule(r)
                 s = D.Session.__new__(D.Session)
                 for key in ("recipes", "fingerprint", "manifest", "H_pristine", "checks", "restores", "memory", "attempt_id", "process"):
                     setattr(s, key, copy.deepcopy(r[key]))
@@ -1696,7 +1736,7 @@ class Fix2Tests(unittest.TestCase):
         D, R = self.D, self.R; s = D.Session.__new__(D.Session)
         s.H = _types.SimpleNamespace(DEV="cpu", model=lambda *a, **k: _types.SimpleNamespace(
             logits=torch.tensor([[[1., 0.]]], dtype=torch.float64)))
-        s.budget = D.Budget(0., None, None, clock=lambda: 0.)
+        s.budget = D.Budget(0., C01_FIX, None, None, clock=lambda: 0.)
         s.lead_rows = lambda batch, obs: ([obs["leads"].tolist()], None)
         batch = {"target_ids": [[0]], "prompt_ids": [[1]], "requirements": [{"fact": 0, "view": 0, "q": 0}]}
         at = s.z0(batch, {"leads": torch.tensor([.875], dtype=torch.float64)})
@@ -1710,7 +1750,1315 @@ def _fix2_suite():
     suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(Fix2Tests))
     return suite
 
+def _budget(start, c01, c2, c3, process, clock):
+    """Exercise the old behavior before changing the launch-input signature."""
+    import inspect
+    D = importlib.import_module("c10z_astra_arms")
+    if "stage01" in inspect.signature(D.Budget).parameters:
+        return D.Budget(start, c01, c2, c3, process=process, clock=clock)
+    value = D.Budget(start, c2, c3, process=process, clock=clock)
+    value.durations["stage01"] = c01
+    return value
+
+
+class IdleGapTests(unittest.TestCase):
+    def setUp(self):
+        self.D = importlib.import_module("c10z_astra_arms")
+        self.R = importlib.import_module("c10z_astra_read")
+
+    def stage1(self, return_at, process=1, budget=None, clock=None):
+        clock = [0.] if clock is None else clock
+        budget = _budget(0., 7200., 200., 7460., process, lambda: clock[0]) if budget is None else budget
+        budget.future_stage2_s = 100.
+        tmp = tempfile.TemporaryDirectory(); self.addCleanup(tmp.cleanup)
+        stub = _types.SimpleNamespace(budget=budget, process=process, out=Path(tmp.name), timings={})
+        stub.remaining_validation = _types.MethodType(self.D.Session.remaining_validation, stub)
+        stub.run_recipe = lambda *a: clock.__setitem__(0, return_at)
+        stub.complete_recipe_readouts = lambda *a: None
+        stub.write_checks = lambda: None
+        stub.record = lambda stage: {}
+        with mock.patch.object(self.R, "read_process", return_value={"scientific_verdict": True, "next_stage": 2, "label": "PARTIAL"}):
+            self.D.Session.stage1(stub)
+        return budget, clock
+
+    def test_i_idle_expiry(self):
+        b, clock = self.stage1(7190.)
+        clock[0] = 7201.
+        with self.assertRaisesRegex(self.R.Halt, "HALTED-BUDGET: elapsed deadline expired", msg="idle gap escaped the stage01 deadline"):
+            b.check()
+
+    def test_ii_late_entry(self):
+        b, clock = self.stage1(7199.)
+        clock[0] = 7201.
+        with self.assertRaisesRegex(self.R.Halt, "HALTED-BUDGET: stage 0-1 deadline expired before stage-2 entry", msg="late stage2 entry was accepted"):
+            b.enter(2)
+        self.assertNotIn("stage2", b.origins)
+
+    def test_iii_deadline_samples(self):
+        b, clock = self.stage1(7190.)
+        for t in (7190., 7191., 7195.):
+            clock[0] = t
+            self.assertIsNotNone(b.deadline(), "stage1 return or idle had no active deadline")
+            self.assertEqual(b.deadline(), 7200.)
+        b.enter(2)
+        self.assertEqual(b.deadline(), 7395.)
+
+    def test_iv_process2_envelope(self):
+        b, clock = self.stage1(7190., process=2)
+        self.assertEqual(b.deadline(), 7200., "process2 fell back to stage3 during idle")
+        clock[0] = 7195.; b.enter(2)
+        self.assertEqual(b.deadline(), 7395.)
+        self.assertNotEqual(b.deadline(), 7460.)
+
+    def test_v_complete01_only_enter(self):
+        tree = ast.parse((HERE / "c10z_astra_arms.py").read_text())
+        found = []
+        for cls in (n for n in tree.body if isinstance(n, ast.ClassDef)):
+            for fun in (n for n in cls.body if isinstance(n, ast.FunctionDef)):
+                if any(isinstance(n, ast.Attribute) and n.attr == "complete01" for n in ast.walk(fun)):
+                    found.append(cls.name + "." + fun.name)
+        self.assertEqual(found, ["Budget.enter"], "complete01 referenced outside the locked stage2 transition")
+
+    def test_vi_mutation_deadlines(self):
+        clock = [0.]; b = _budget(0., 7200., 200., 7460., 1, lambda: clock[0]); observed = []
+        class RecordingSet(set):
+            def add(self, value):
+                super().add(value); observed.append(b.deadline())
+            def discard(self, value):
+                super().discard(value); observed.append(b.deadline())
+        b.active = RecordingSet(b.active)
+        self.stage1(7190., budget=b, clock=clock)
+        observed.append(b.deadline()); clock[0] = 7195.; observed.append(b.deadline()); b.enter(2)
+        self.assertNotIn(None, observed, "an active-set mutation exposed no deadline")
+
+    def test_vii_entry_invariant(self):
+        for e in (0., 1., 7190., 7199.999):
+            with self.subTest(entry=e):
+                b, clock = self.stage1(e, process=2)
+                b.enter(2)
+                self.assertEqual(b.deadline(), e + 200.)
+                self.assertLess(b.deadline(), 7460.)
+
+    def test_viii_single_timestamp(self):
+        calls = []
+        def crossing():
+            calls.append(1); return 7200. if len(calls) == 1 else 7199.5
+        b = _budget(0., 7200., 200., 7460., 1, crossing)
+        with self.assertRaisesRegex(self.R.Halt, "HALTED-BUDGET: stage 0-1 deadline expired before stage-2 entry", msg="entry decision did not use its first timestamp"):
+            b.enter(2)
+        self.assertEqual(len(calls), 1)
+        b = _budget(0., 7200., 200., 7460., 1, lambda: 7199.999); b.enter(2)
+        self.assertEqual(b.origins["stage2"], 7199.999)
+
+    def test_ix_transition_lock(self):
+        import threading
+        inside, release, t_attempt, t_done = (threading.Event() for _ in range(4))
+        result, errors, calls = [], [], []
+        def clock():
+            calls.append(1)
+            if len(calls) == 1:
+                inside.set()
+                if not release.wait(5.): raise AssertionError("entry clock was not released")
+            return 100.
+        b = _budget(0., 7200., 200., 7460., 1, clock)
+        class Lock:
+            def __init__(self): self.real = threading.RLock()
+            def __enter__(self):
+                if threading.current_thread().name == "deadline-T": t_attempt.set()
+                self.real.acquire(); return self
+            def __exit__(self, *exc): self.real.release()
+        b.lock = Lock()
+        def entry():
+            try: b.enter(2)
+            except BaseException as exc: errors.append(exc)
+        def observe():
+            try: result.append(b.deadline())
+            except BaseException as exc: errors.append(exc)
+            finally: t_done.set()
+        E = threading.Thread(target=entry, name="entry-E", daemon=True)
+        T = threading.Thread(target=observe, name="deadline-T", daemon=True)
+        try:
+            E.start(); self.assertTrue(inside.wait(5.), "entry did not reach the transition")
+            T.start()
+            import time as real_time
+            end = real_time.perf_counter() + 5.
+            while not (t_attempt.is_set() or t_done.is_set()) and real_time.perf_counter() < end:
+                t_done.wait(.01)
+            self.assertTrue(t_attempt.is_set() or t_done.is_set(), "deadline thread was never scheduled")
+            T.join(.2)
+            self.assertTrue(T.is_alive(), "deadline() returned while enter(2) held the transition lock")
+        finally:
+            release.set(); E.join(5.)
+            if T.ident is not None: T.join(5.)
+        self.assertFalse(E.is_alive()); self.assertFalse(T.is_alive()); self.assertEqual(errors, [])
+        self.assertEqual(result, [300.])
+
+
+class BudgetBoundTests(unittest.TestCase):
+    def test_huge_integer_refusal(self):
+        D = importlib.import_module("c10z_astra_arms"); R = importlib.import_module("c10z_astra_read")
+        with self.assertRaisesRegex(R.Halt, "HALTED-BUDGET: invalid stage01 ceiling"):
+            D.Budget(0., 10**400, 12600., 20460., clock=lambda: 0.)
+
+    def test_c01_neighbors(self):
+        D = importlib.import_module("c10z_astra_arms"); R = importlib.import_module("c10z_astra_read")
+        for value in (7199.999, 10800.001, math.nan, math.inf, -math.inf, None, True):
+            with self.subTest(refused=value), self.assertRaisesRegex(R.Halt, "HALTED-BUDGET: invalid stage01 ceiling"):
+                D.Budget(0., value, 12600., 20460., clock=lambda: 0.)
+        for value in (7200., 7200.001, 10799.999, 10800.):
+            with self.subTest(accepted=value):
+                self.assertEqual(D.Budget(0., value, 12600., 20460., clock=lambda: 0.).durations["stage01"], value)
+
+
+def _bench_tree(root):
+    import shutil
+    import c10z_astra_benchmark_selftest as BT
+    B = BT.benchmark_module()
+    paths = ("experiments/track_c/c10z_astra_benchmark.py", "experiments/track_c/c10z_astra_arms.py",
+             "experiments/track_c/c10z_astra_read.py", "experiments/track_c/c10e_bandknob.py",
+             "configs/hparams/qwen25_3b_memit_hparams.json", "tools/engine_fingerprint.py",
+             "memit_dry_run/memit/memit/memit_main.py")
+    for rel in paths:
+        dest = root / rel; dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT / rel, dest)
+    record = BT.fixture_record(root=root)
+    B.validate_record(record)
+    path = root / "results/c10z_astra_benchmark/20261007T000000Z/benchmark.json"
+    B.write_record(path, record)
+    c = B.ceilings(record)
+    binding = {"benchmark_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+               "benchmark_script_sha256": record["env"]["script_sha256"],
+               "ceilings": {"stage01": c["C01"], "stage2": c["C2"], "stage3": c["C3"]}}
+    return path, binding
+
+
+def _selected_launch(path, binding):
+    record = json.loads(path.read_bytes())
+    return _launch(stage01=binding["ceilings"]["stage01"], stage2=binding["ceilings"]["stage2"],
+                   stage3=binding["ceilings"]["stage3"], go=_go_record(binding), benchmark={
+                       "path": str(path), "sha256": binding["benchmark_sha256"],
+                       "script_sha256": binding["benchmark_script_sha256"],
+                       "sources": record["env"]["sources"],
+                       "env": {k: record["env"][k] for k in ("python", "machine", "platform", "torch", "transformers")},
+                       "ceilings": binding["ceilings"]})
+
+
+class LaunchBindingTests(unittest.TestCase):
+    def setUp(self):
+        import c10z_astra_benchmark_selftest as BT
+        self.D = importlib.import_module("c10z_astra_arms"); self.R = importlib.import_module("c10z_astra_read")
+        self.B = BT.benchmark_module()
+        self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup); self.root = Path(self.tmp.name)
+        self.path, self.binding = _bench_tree(self.root)
+        self.go_path = self.root / "go.json"; self.out = self.root / "attempt"
+        self.record = json.loads(self.path.read_bytes()); self.launched = []
+        for p in (mock.patch.object(self.D, "ROOT", self.root),
+                  mock.patch.object(self.D, "benchmark_module", return_value=self.B, create=True),
+                  mock.patch.dict(os.environ, {}, clear=True),
+                  mock.patch.object(self.D, "wait_stage", return_value=0),
+                  mock.patch.object(self.D, "subprocess", _types.SimpleNamespace(
+                      Popen=self.child, DEVNULL=None, STDOUT=None)),
+                  mock.patch.object(self.D, "resident", side_effect=lambda *a, **kw: self.launched.append("p2") or 0)):
+            p.start(); self.addCleanup(p.stop)
+        self.save()
+        os.environ.update(C10Z_GO_RECORD=str(self.go_path), C10Z_BENCHMARK_RECORD=str(self.path))
+
+    def child(self, *a, **kw):
+        launch = json.loads(kw["env"]["C10Z_LAUNCH"]); self.launched.append(launch)
+        self.D.write_json(self.out / "run.json", {"launch": launch}); return Child()
+
+    def save(self, derived=None):
+        if derived is not None:
+            self.record["derived"] = derived
+            self.binding["ceilings"] = {k: derived[c] for k, c in (("stage01", "C01"), ("stage2", "C2"), ("stage3", "C3"))}
+        self.B.write_record(self.path, self.record)
+        self.binding["benchmark_sha256"] = hashlib.sha256(self.path.read_bytes()).hexdigest()
+        self.go = _go_record(self.binding); self.go_path.write_text(json.dumps(self.go))
+
+    def refuse(self, code, detail, stage=0):
+        before = {str(p.relative_to(self.out)): p.read_bytes() for p in self.out.rglob("*") if p.is_file()} if self.out.exists() else {}
+        with self.assertRaisesRegex(self.R.Halt, code + ": .*" + __import__("re").escape(detail)):
+            self.D.stage_call(stage, self.out)
+        after = {str(p.relative_to(self.out)): p.read_bytes() for p in self.out.rglob("*") if p.is_file()} if self.out.exists() else {}
+        self.assertEqual(after, before, "pre-attempt refusal wrote files")
+        self.assertEqual(self.launched, [])
+        if stage == 3: self.assertFalse((self.out / "process2").exists())
+
+    def stage3_fixture(self):
+        r = fixture(n=22, stage=2); r["budget"]["ceilings"] = dict(self.binding["ceilings"]); seal_schedule(r)
+        launch = _selected_launch(self.path, self.binding)
+        _attempt_dir(self.D, self.out, r, {"launch": launch})
+        got = self.R.read_directory(self.out)
+        self.assertTrue(got["scientific_verdict"]); self.assertEqual(got["next_stage"], 3)
+        return launch
+
+    def test_record_required(self):
+        os.environ.pop("C10Z_BENCHMARK_RECORD"); self.refuse("HALTED-V12", "C10Z_BENCHMARK_RECORD is required")
+
+    def test_record_absolute(self):
+        os.environ["C10Z_BENCHMARK_RECORD"] = "relative/benchmark.json"; self.refuse("HALTED-V12", "C10Z_BENCHMARK_RECORD must be absolute")
+
+    def test_record_outside(self):
+        os.environ["C10Z_BENCHMARK_RECORD"] = str(self.root / "results/c10z_astra_benchmark_extra/T/benchmark.json")
+        self.refuse("HALTED-V12", "benchmark record outside results/c10z_astra_benchmark")
+
+    def test_record_unreadable(self):
+        self.path.unlink(); self.refuse("HALTED-V12", "benchmark record unreadable")
+
+    def test_record_selection(self):
+        self.path.write_bytes(self.path.read_bytes() + b" "); self.refuse("HALTED-V12", "benchmark record differs from go selection")
+
+    def test_record_nonstrict(self):
+        for token in ("NaN", "Infinity", "-Infinity", "1e999"):
+            with self.subTest(token=token):
+                self.path.write_text('{"invalid":' + token + '}')
+                self.go["benchmark_sha256"] = hashlib.sha256(self.path.read_bytes()).hexdigest(); self.go_path.write_text(json.dumps(self.go))
+                self.refuse("HALTED-V12", "benchmark record is not strict JSON")
+
+    def test_script(self):
+        (self.root / "experiments/track_c/c10z_astra_benchmark.py").write_text("changed")
+        self.refuse("HALTED-V12", "benchmark script changed")
+
+    def test_sources(self):
+        (self.root / "experiments/track_c/c10z_astra_arms.py").write_text("changed")
+        self.refuse("HALTED-V12", "benchmark source identity changed: experiments/track_c/c10z_astra_arms.py")
+
+    def test_environment(self):
+        env = self.B.environment_identity(); env["python"] += "+changed"
+        with mock.patch.object(self.B, "environment_identity", return_value=env): self.refuse("HALTED-V12", "benchmark environment changed: python")
+
+    def test_record_invalid(self):
+        self.record["phases"]["probe_forward"]["p95"] += .1; self.save()
+        self.refuse("HALTED-V12", "benchmark record invalid:")
+
+    def test_record_optional_status(self):
+        base = copy.deepcopy(self.record)
+        for phase in ("batch_forward", "eval_A7", "svd"):
+            for value in ([], {}):
+                with self.subTest(phase=phase, value=value):
+                    self.record = copy.deepcopy(base)
+                    self.record["phases"][phase]["status"] = value; self.save()
+                    self.refuse("HALTED-V12", "benchmark record invalid:")
+
+    def test_refused(self):
+        with mock.patch.object(self.B, "ceilings", return_value={"source": "REFUSED", "reason": "test refusal"}):
+            self.refuse("HALTED-BUDGET", "benchmark refused: test refusal")
+
+    def test_derived(self):
+        self.record["derived"]["t_star"] += .1; self.save()
+        self.refuse("HALTED-V12", "benchmark derived disagrees with ceilings()")
+
+    def synthetic(self, c01=7800., c2=12600., stop=False):
+        c = dict(self.record["derived"], C01=c01, C2=c2, C3=c01+c2+60., stop=stop,
+                 nominal_supremum_s=2*(c01+c2), worst_case_s=2*(c01+c2), c3_sum_s=2*(c01+c2)+60.)
+        self.save(c); return c
+
+    def test_stop(self):
+        c = self.synthetic(c01=9000., stop=True)
+        with mock.patch.object(self.B, "ceilings", return_value=c): self.refuse("HALTED-BUDGET", "benchmark STOP")
+
+    def test_c01(self):
+        for value, accepted in ((7199.999, False), (7200., True), (10800., True), (10800.001, False)):
+            with self.subTest(value=value):
+                c = self.synthetic(c01=value)
+                with mock.patch.object(self.B, "ceilings", return_value=c):
+                    if accepted:
+                        self.assertEqual(self.D.stage_call(0, self.out), 0)
+                        self.assertEqual(self.launched[-1]["stage01"], value)
+                        __import__("shutil").rmtree(self.out); self.launched.clear()
+                    else: self.refuse("HALTED-BUDGET", "C01 outside [7200, 10800]")
+
+    def test_total(self):
+        for c2, accepted in ((17099.9995, True), (17100., True), (17100.001, False)):
+            with self.subTest(c2=c2):
+                c = self.synthetic(c01=10800., c2=c2)
+                with mock.patch.object(self.B, "ceilings", return_value=c):
+                    if accepted:
+                        self.assertEqual(self.D.stage_call(0, self.out), 0)
+                        __import__("shutil").rmtree(self.out); self.launched.clear()
+                    else: self.refuse("HALTED-BUDGET", "nominal total above 55,800 s")
+
+    def test_go_ceilings(self):
+        self.go["ceilings"]["stage01"] += 300.; self.go_path.write_text(json.dumps(self.go))
+        self.refuse("HALTED-V12", "go ceilings differ from ceilings()")
+
+    def test_go_huge_integer_ceiling_refusal(self):
+        self.go["ceilings"]["stage01"] = 10**400; self.go_path.write_text(json.dumps(self.go))
+        self.refuse("HALTED-V12", "go ceilings differ from ceilings()")
+
+    def test_stage2_override(self):
+        os.environ["C10Z_STAGE2_CEILING_S"] = "12601"; self.refuse("HALTED-BUDGET", "C10Z_STAGE2_CEILING_S differs from C2")
+
+    def test_stage3_override(self):
+        os.environ["C10Z_STAGE3_CEILING_S"] = "20461"; self.refuse("HALTED-BUDGET", "C10Z_STAGE3_CEILING_S differs from C3")
+
+    def test_go_fields(self):
+        cases = []
+        for key in ("benchmark_sha256", "benchmark_script_sha256", "ceilings"):
+            go = _go_record(self.binding); go.pop(key); cases.append(go)
+        for key in ("benchmark_sha256", "benchmark_script_sha256"):
+            for bad in (None, 4, "a"*63, "A"*64):
+                go = _go_record(self.binding); go[key] = bad; cases.append(go)
+        for ceilings in ({"stage01": 7800., "stage2": 12600.}, {**self.binding["ceilings"], "extra": 1},
+                         {**self.binding["ceilings"], "stage01": True}, {**self.binding["ceilings"], "stage2": math.nan}, []):
+            go = _go_record(self.binding); go["ceilings"] = ceilings; cases.append(go)
+        for i, go in enumerate(cases):
+            with self.subTest(case=i):
+                self.go_path.write_text(json.dumps(go))
+                self.refuse("HALTED-V12", "go record requires benchmark_sha256, benchmark_script_sha256 and ceilings")
+
+    def test_success_roundtrip(self):
+        self.assertEqual(self.D.stage_call(0, self.out), 0)
+        launch = self.launched[-1]; self.assertEqual(launch["stage01"], 7800.)
+        self.assertIs(launch["telemetry"], False); self.assertIsNone(launch["telemetry_inertness"])
+        self.assertEqual(launch["stage2"], None); self.assertEqual(launch["stage3"], None)
+        self.assertEqual(launch["benchmark"], _selected_launch(self.path, self.binding)["benchmark"])
+        self.assertEqual(self.D.load_json(self.out / "run.json")["launch"], json.loads(json.dumps(launch, allow_nan=False, sort_keys=True)))
+        self.assertEqual(self.D.go_record(os.environ)[0], json.loads(json.dumps(self.go, allow_nan=False, sort_keys=True)))
+        self.assertFalse((self.out / "telemetry").exists())
+
+    def test_substitution(self):
+        alternate = self.path.parent.parent / "alternate/benchmark.json"
+        self.B.write_record(alternate, self.record); os.environ["C10Z_BENCHMARK_RECORD"] = str(alternate)
+        alternate.write_bytes(alternate.read_bytes() + b"\n")
+        self.B.validate_record(json.loads(alternate.read_bytes()))
+        self.refuse("HALTED-V12", "benchmark record differs from go selection")
+        os.environ["C10Z_BENCHMARK_RECORD"] = str(self.path)
+        self.record["phases"]["probe_forward"]["seconds"][0] += .001
+        self.record["derived"] = self.B.ceilings(self.record)
+        self.B.write_record(self.path, self.record)
+        self.refuse("HALTED-V12", "benchmark record differs from go selection")
+
+    def drift(self, what):
+        self.stage3_fixture()
+        if what == "record": self.path.write_bytes(self.path.read_bytes() + b" ")
+        else: (self.root / what).write_text("identity drift")
+        self.refuse("HALTED-V12", "launch binding changed since stage 0:", stage=3)
+
+    def test_stage3_record_drift(self): self.drift("record")
+    def test_stage3_script_drift(self): self.drift("experiments/track_c/c10z_astra_benchmark.py")
+    def test_stage3_source_drift(self): self.drift("experiments/track_c/c10z_astra_arms.py")
+
+    def test_stage3_environment_drift(self):
+        self.stage3_fixture(); env = self.B.environment_identity(); env["torch"] += "+drift"
+        with mock.patch.object(self.B, "environment_identity", return_value=env):
+            self.refuse("HALTED-V12", "launch binding changed since stage 0:", stage=3)
+
+    def test_stage3_switch(self):
+        self.stage3_fixture()
+        for value in ("0", "true", "", " 1"):
+            with self.subTest(value=value):
+                os.environ["C10Z_TELEMETRY"] = value
+                self.refuse("HALTED-V12", "C10Z_TELEMETRY must be absent or 1", stage=3)
+        os.environ["C10Z_TELEMETRY"] = "1"
+        self.refuse("HALTED-V12", "C10Z_TELEMETRY differs from launch", stage=3)
+
+    def inertness_record(self):
+        import shutil
+        for rel in ("experiments/track_c/c10z_astra_telemetry_check.py",):
+            dst = self.root / rel; dst.parent.mkdir(parents=True, exist_ok=True); shutil.copyfile(ROOT / rel, dst)
+        paths = ("experiments/track_c/c10z_astra_arms.py", "experiments/track_c/c10z_astra_read.py",
+                 "experiments/track_c/c10z_astra_telemetry_check.py", "experiments/track_c/c10z_astra_benchmark.py",
+                 "experiments/track_c/c10e_bandknob.py", "configs/hparams/qwen25_3b_memit_hparams.json",
+                 "memit_dry_run/memit/memit/memit_main.py")
+        record = {"schema": "c10z_astra_telemetry_inertness/v1", "decision_id": "D-C10r-rulings-11", "device": "mps",
+                  "verdict": "INERT", "control_equal": True, "telemetry_equal": True, "weights_unchanged": True,
+                  "probe_forwards": self.B.expected_probe_forwards(self.record), "lens_forwards": 72,
+                  "sources": {p: hashlib.sha256((self.root / p).read_bytes()).hexdigest() for p in paths},
+                  "env": {**self.B.environment_identity(), "model_rev": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"},
+                  "started_at": "2026-10-07T00:00:00+00:00", "finished_at": "2026-10-07T00:01:00+00:00"}
+        path = self.root / "results/c10z_astra_telemetry_inertness/T/inertness.json"
+        self.B.write_record(path, record)
+        os.environ.update(C10Z_TELEMETRY="1", C10Z_TELEMETRY_INERTNESS=str(path))
+        return path, record
+
+    def test_inertness_required(self):
+        os.environ["C10Z_TELEMETRY"] = "1"
+        self.refuse("HALTED-V12", "telemetry requires an INERT inertness record:")
+
+    def test_inertness_path(self):
+        self.inertness_record(); os.environ["C10Z_TELEMETRY_INERTNESS"] = str(self.root / "inertness.json")
+        self.refuse("HALTED-V12", "telemetry requires an INERT inertness record: path")
+
+    def test_inertness_json(self):
+        path, _ = self.inertness_record(); path.write_text('{"nan": NaN}')
+        self.refuse("HALTED-V12", "telemetry requires an INERT inertness record: strict JSON")
+
+    def test_inertness_verdict(self):
+        path, record = self.inertness_record()
+        for value in ("NOT-INERT", "NONDETERMINISTIC-BASELINE"):
+            with self.subTest(verdict=value):
+                record["verdict"] = value; self.B.write_record(path, record)
+                self.refuse("HALTED-V12", "telemetry requires an INERT inertness record: evidence")
+
+    def test_inertness_sources(self):
+        path, record = self.inertness_record(); record["sources"]["experiments/track_c/c10z_astra_arms.py"] = "0"*64
+        self.B.write_record(path, record); self.refuse("HALTED-V12", "telemetry requires an INERT inertness record: sources")
+
+    def test_inertness_environment(self):
+        path, record = self.inertness_record(); record["env"]["python"] += "changed"
+        self.B.write_record(path, record); self.refuse("HALTED-V12", "telemetry requires an INERT inertness record: environment")
+
+    def test_inertness_schema(self):
+        path, valid = self.inertness_record()
+        for key in tuple(valid):
+            with self.subTest(missing=key):
+                bad = copy.deepcopy(valid); bad.pop(key); self.B.write_record(path, bad)
+                self.refuse("HALTED-V12", "telemetry requires an INERT inertness record:")
+        for key in ("control_equal", "telemetry_equal", "weights_unchanged"):
+            for value in (False, 1, None):
+                with self.subTest(key=key, value=value):
+                    bad = copy.deepcopy(valid); bad[key] = value; self.B.write_record(path, bad)
+                    self.refuse("HALTED-V12", "telemetry requires an INERT inertness record: evidence")
+
+    def test_inertness_counts(self):
+        path, valid = self.inertness_record()
+        for key in ("probe_forwards", "lens_forwards"):
+            for value in (0, 1, True, valid[key]-1, valid[key]+1):
+                with self.subTest(key=key, value=value):
+                    bad = copy.deepcopy(valid); bad[key] = value; self.B.write_record(path, bad)
+                    self.refuse("HALTED-V12", "telemetry requires an INERT inertness record: counts")
+
+    def test_inertness_success(self):
+        path, record = self.inertness_record(); self.assertEqual(self.D.stage_call(0, self.out), 0)
+        self.assertIs(self.launched[-1]["telemetry"], True)
+        self.assertEqual(self.launched[-1]["telemetry_inertness"], {"path": str(path), "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+        self.assertEqual(json.loads(path.read_bytes()), json.loads(json.dumps(record, sort_keys=True, allow_nan=False)))
+
+    def test_stage3_inertness_drift(self):
+        path, _ = self.inertness_record(); launch = self.stage3_fixture()
+        launch.update(telemetry=True, telemetry_inertness={"path": str(path), "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+        run = self.D.load_json(self.out / "run.json"); run["launch"] = launch; self.D.write_json(self.out / "run.json", run, replace=True)
+        path.write_bytes(path.read_bytes() + b" ")
+        self.refuse("HALTED-V12", "launch binding changed since stage 0:", stage=3)
+
+
+def _switch_test(value):
+    def test(self):
+        os.environ["C10Z_TELEMETRY"] = value
+        self.refuse("HALTED-V12", "C10Z_TELEMETRY must be absent or 1")
+    return test
+for _suffix, _value in (("zero", "0"), ("true", "true"), ("empty", ""), ("space", " 1")):
+    setattr(LaunchBindingTests, "test_switch_" + _suffix, _switch_test(_value))
+
+
+class ReaderBindingTests(unittest.TestCase):
+    def setUp(self):
+        self.D = importlib.import_module("c10z_astra_arms"); self.R = importlib.import_module("c10z_astra_read")
+        self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup); self.root = Path(self.tmp.name)
+
+    def rejected(self, reading, detail):
+        self.assertFalse(reading["scientific_verdict"]); self.assertEqual(reading["label"], "HALTED-V12")
+        self.assertIn(detail, reading["detail"])
+
+    def test_huge_integer_refusal(self):
+        r = fixture(); r["budget"]["ceilings"]["stage01"] = 10**400; seal_schedule(r)
+        self.rejected(self.R.read_process(r), "phase01 clock provenance")
+
+    def test_c01_neighbors(self):
+        for value in (7199.999, 7200., 7200.001, 10799.999, 10800., 10800.001, 5400., True):
+            with self.subTest(value=value):
+                r = fixture(); r["budget"]["ceilings"]["stage01"] = value; seal_schedule(r)
+                got = self.R.read_process(r)
+                if type(value) in (int, float) and 7200. <= value <= 10800.: self.assertTrue(got["scientific_verdict"], got)
+                else: self.rejected(got, "phase01 clock provenance")
+
+    def test_pass_launch(self):
+        for launch, ceilings in ((_launch(stage01=7200.), {"stage01":10800.}),
+                                  (_launch(stage3=None), {"stage3":24000.})):
+            with self.subTest(launch=launch):
+                out = self.root / str(len(list(self.root.iterdir())))
+                r = fixture(); r["budget"]["ceilings"].update(ceilings); seal_schedule(r)
+                _attempt_dir(self.D, out, r, {"launch":launch})
+                self.rejected(self.R.read_directory(out), "pass ceilings differ from launch")
+
+    def test_go_ceilings(self):
+        go = _go_record(); go["ceilings"]["stage2"] = 12900.
+        launch = _launch(stage2=12600., go=go); r = fixture(); r["budget"]["ceilings"]["stage2"] = 12600.; seal_schedule(r)
+        _attempt_dir(self.D, self.root / "a", r, {"launch":launch})
+        self.rejected(self.R.read_directory(self.root / "a"), "launch ceiling not the go selection")
+
+    def test_benchmark_sha(self):
+        launch = _launch(); launch["benchmark"]["sha256"] = "c"*64
+        _attempt_dir(self.D, self.root / "a", fixture(), {"launch":launch})
+        self.rejected(self.R.read_directory(self.root / "a"), "launch benchmark differs from go")
+
+    def test_history_ceilings(self):
+        r = fixture(); r["budget"]["history"][0]["ceilings"]["stage01"] = 9000.
+        self.rejected(self.R.read_process(r), "projection ceilings differ from record ceilings")
+
+    def test_scope_ceiling(self):
+        r = fixture(); r["budget"]["history"][0]["scopes"]["stage01"]["ceiling_s"] += 1.
+        self.rejected(self.R.read_process(r), "projection ceilings differ from record ceilings")
+
+    def test_process_ceilings(self):
+        p1 = fixture(stage=2); p2 = fixture(stage=2); second_process(p2)
+        p2["budget"]["ceilings"]["stage01"] = 8100.; seal_schedule(p2)
+        repro = {"R1":{"status":"PASS"}, "R2":{"difference":0}, "R3":{"disagree":0},
+                 "artifact_identity":"EXACT", "numeric_behavioral_reproduction":"PASS"}
+        self.rejected(self.R.read_run(p1, p2, repro), "process ceilings differ")
+
+
+class WrapperTests(unittest.TestCase):
+    def setUp(self):
+        import shutil
+        self.assertTrue((ROOT / "tools/run_c10z_attempt.sh").exists(), "attempt wrapper missing")
+        self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup); self.root = Path(self.tmp.name)
+        (self.root / "tools").mkdir(); (self.root / ".venv/bin").mkdir(parents=True)
+        shutil.copyfile(ROOT / "tools/run_c10z_attempt.sh", self.root / "tools/run_c10z_attempt.sh")
+        os.chmod(self.root / "tools/run_c10z_attempt.sh", 0o755)
+        (self.root / ".venv/bin/python").symlink_to(sys.executable)
+        self.out = self.root / "out"; self.out.mkdir(); self.calls = self.root / "calls"
+        stage = self.root / "tools/run_c10z_stage.sh"
+        stage.write_text('#!/bin/bash\nprintf "%s\\n" "$1" >> "$STUB_CALLS"\nif [ "$1" = 0 ]; then exit "${STUB_FAIL:-0}"; fi\nexit 0\n')
+        os.chmod(stage, 0o755)
+
+    def run_wrapper(self, reading, **over):
+        import subprocess
+        (self.out / "run.json").write_text(json.dumps(reading)); self.calls.unlink(missing_ok=True)
+        env = dict(os.environ, C10Z_OUT_DIR=str(self.out), STUB_CALLS=str(self.calls)); env.update(over)
+        result = subprocess.run([str(self.root / "tools/run_c10z_attempt.sh")], env=env, capture_output=True, text=True)
+        calls = self.calls.read_text().splitlines() if self.calls.exists() else []
+        return result, calls
+
+    def test_next_stage_types(self):
+        for value, rc, expected in ((None,0,["0","1"]),(2,0,["0","1","2"]),("2",4,["0","1"]),
+                                    (2.,4,["0","1"]),(True,4,["0","1"]),(3,4,["0","1"])):
+            with self.subTest(value=value):
+                result, calls = self.run_wrapper({"reading":{"next_stage":value}})
+                self.assertEqual(result.returncode, rc, result.stdout + result.stderr); self.assertEqual(calls, expected)
+        for reading in ({}, {"reading":{}}, {"reading":None}):
+            result, calls = self.run_wrapper(reading); self.assertEqual(result.returncode,4); self.assertEqual(calls,["0","1"])
+
+    def test_relative_out(self):
+        result, calls = self.run_wrapper({}, C10Z_OUT_DIR="relative")
+        self.assertEqual(result.returncode,2); self.assertEqual(calls,[])
+
+    def test_stage0_failure(self):
+        result, calls = self.run_wrapper({}, STUB_FAIL="7")
+        self.assertEqual(result.returncode,7); self.assertEqual(calls,["0"])
+
+
+class PinTests(unittest.TestCase):
+    def test_temp_copy_byte_drift(self):
+        def check(path): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), PREREG)
+        check(ROOT / "docs/C10Z_ASTRA_PREREG.md")
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "prereg.md"; path.write_bytes((ROOT / "docs/C10Z_ASTRA_PREREG.md").read_bytes() + b"x")
+            with self.assertRaises(AssertionError): check(path)
+
+
+class TelemetryIntegrationTests(unittest.TestCase):
+    def test_on_off_science(self):
+        self._write_cases()
+
+    def test_write_telemetry_failures_preserve_science(self):
+        self._write_cases([("mkdir", None), ("open", None)] + [
+            (operation, kind) for operation in ("write", "flush", "fsync")
+            for kind in ("phase", "write_norms", "target_probs", "logit_lens")])
+
+    def _write_cases(self, failures=()):
+        import torch
+        D = importlib.import_module("c10z_astra_arms"); R = importlib.import_module("c10z_astra_read")
+        self.assertTrue(hasattr(D, "Telemetry"), "telemetry integration absent")
+        outputs = []
+        cases = [(False, None, None), (True, None, None)] + [(True, op, kind) for op, kind in failures]
+        for on, failure, kind in cases:
+            with self.subTest(on=on, failure=failure, kind=kind), tempfile.TemporaryDirectory() as tmp:
+                out = Path(tmp); model = _telemetry_tiny_model(); context = _telemetry_session(model)
+                clock = mock.Mock(return_value=0.); monotonic = mock.Mock(return_value=0.)
+                b = D.Budget(0., C01_FIX, 12000., 24000., clock=clock)
+                b.project = mock.Mock(wraps=b.project); b.check = mock.Mock(wraps=b.check)
+                s, events = _write_session(D, budget=b); s.out = out; s.active_recipe = "Z"
+                s.H = context.H; s.H.PTEST = ["{}"]; s.hp = context.hp; s.population = context.population
+                s.gates = D.Gates(); s.gates.law3 = True
+                s.hooks_check = mock.Mock(wraps=s.hooks_check); s.sync = mock.Mock(wraps=s.sync)
+                s.check_memory = mock.Mock(return_value={"rss_bytes":1,"driver_bytes":1,"float64_on_mps":False})
+                base = s.observe
+                def observe(*a, **kw):
+                    with torch.no_grad(): model(torch.tensor([[1,2]]), use_cache=False, logits_to_keep=0)
+                    return base(*a, **kw)
+                s.observe = observe; s.make_batch = lambda arm, frames: s.batches[arm]
+                s.probe_hits = lambda arm: {"F0":[]}
+                s.transfer_diagnostic = lambda batch, obs: {"status":"POST-WRITE-DIAGNOSTIC"}
+                s.lead_rows = lambda batch, obs: [[obs["leads"].tolist()]]
+                methods = ("__init__", "phase", "write_norms", "target_probs", "logit_lens")
+                with mock.patch.object(D, "time", _types.SimpleNamespace(monotonic=monotonic)), \
+                     mock.patch.object(D.uuid, "uuid4", return_value=_types.SimpleNamespace(hex="fixed-id")), \
+                     mock.patch.object(D.os, "getpid", return_value=123), \
+                     _telemetry_failure(out, failure, kind) as injection:
+                    if on: s.telemetry = D.Telemetry(out, 1, "fixed-attempt")
+                    else: self.assertIsNone(s.telemetry)
+                    with __import__("contextlib").ExitStack() as stack:
+                        spies = [stack.enter_context(mock.patch.object(D.Telemetry, name, side_effect=AssertionError("off path called telemetry"))) for name in methods] if not on else []
+                        delta = s.write_arm(REQ_A7, "astra"); hook = s.arm_hook(A7, {})
+                    for spy in spies: self.assertEqual(spy.call_count,0)
+                    counts = {"clock":clock.call_count,"monotonic":monotonic.call_count,"project":b.project.call_count,
+                              "check":b.check.call_count,"hooks_check":s.hooks_check.call_count,"sync":s.sync.call_count,
+                              "science_forwards":sum(not call["output_hidden_states"] for call in model.forward_calls)}
+                    r = fixture(stage=2); _attempt_dir(D, out / "records", r, {})
+                    for key in ("recipes","fingerprint","manifest","H_pristine","checks","restores","memory","attempt_id","process"):
+                        setattr(s,key,copy.deepcopy(r[key]))
+                    s.recipes["A"]["arms"][A7]["realised_layer_delta_norms"] = {"4":1.}
+                    s.recipes["Z"]["arms"][A7]["write"]["geometry"] = {"layer_delta_norms":{"4":.4}}
+                    s.out = out / "records"; s.initial_sources = r["fingerprint"]["start"]
+                    s.budget = _types.SimpleNamespace(durations=r["budget"]["ceilings"], origins=r["budget"]["origins"], history=r["budget"]["history"])
+                    with mock.patch.object(D,"source_hashes",return_value=s.initial_sources): produced = s.record(2)
+                    D.write_json(out / "science.json", produced)
+                if failure is not None:
+                    self.assertFalse(s.telemetry.enabled)
+                    self._assert_telemetry_failure(injection, failure, kind)
+                reading = R.read_process(produced); self.assertTrue(reading["scientific_verdict"],reading)
+                files = {str(p.relative_to(out)):p.read_bytes() for p in out.rglob("*") if p.is_file() and "telemetry" not in p.relative_to(out).parts}
+                outputs.append((json.loads(json.dumps({"delta":delta,"hook":hook,"record":produced,"reading":reading},allow_nan=False)),counts,files))
+                self.assertEqual((out / "telemetry").exists(), on and failure != "mkdir")
+                if on and failure is None:
+                    lines = [json.loads(line) for line in (out / "telemetry/telemetry_p1.jsonl").read_text().splitlines()]
+                    self.assertEqual({v["kind"] for v in lines}, {"header","phase","write_norms","target_probs","logit_lens"})
+                    self.assertTrue(any(v.get("round_no") == "final" for v in lines))
+        for case, output in zip(cases[1:], outputs[1:]):
+            self.assertEqual(outputs[0], output,
+                             "telemetry changed scientific bytes, reading or science call counts: " + str(case))
+
+    def test_resident_on_off(self):
+        self._resident_cases()
+
+    def test_resident_telemetry_failures_preserve_science(self):
+        self._resident_cases([(op, None if op in ("mkdir", "open") else "phase")
+                              for op in ("mkdir", "open", "write", "flush", "fsync")])
+
+    def _assert_telemetry_failure(self, injection, operation, kind):
+        self.assertEqual(injection["hits"], [(operation, kind)], "failure injection was not reached exactly once")
+        markers = [line for line in injection["stdout"].getvalue().splitlines()
+                   if line.startswith("C10Z_TELEMETRY_DISABLED")]
+        self.assertEqual(markers, ["C10Z_TELEMETRY_DISABLED OSError: advisory-" + operation])
+
+    def _resident_cases(self, failures=()):
+        D = importlib.import_module("c10z_astra_arms"); R = importlib.import_module("c10z_astra_read")
+        self.assertTrue(hasattr(D,"Telemetry"),"resident telemetry absent")
+        results = []
+        cases = [(False, None, None), (True, None, None)] + [(True, op, kind) for op, kind in failures]
+        for on, failure, kind in cases:
+            with self.subTest(on=on, failure=failure, kind=kind), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp); out = root / "attempt"; r = fixture(n=18)
+                r["budget"]["ceilings"].update(stage2=None,stage3=None); seal_schedule(r)
+                _attempt_dir(D,out,r,{})
+                launch = _launch(stage2=None,stage3=None,telemetry=on,telemetry_inertness={"path":"inertness","sha256":"a"*64} if on else None)
+                with mock.patch.object(D,"ROOT",root), mock.patch.object(D.os,"getpid",return_value=r["pid"]), \
+                     mock.patch.object(D.uuid,"uuid4",return_value=_types.SimpleNamespace(hex="fixed-id")), \
+                     _telemetry_failure(out, failure, kind) as injection:
+                    metrics = {}; rc,events,exits = _mock_resident(D,R,out,r,launch,metrics=metrics)
+                if failure is not None: self._assert_telemetry_failure(injection, failure, kind)
+                self.assertEqual(rc,0); self.assertEqual(exits,[])
+                run = D.load_json(out / "run.json")
+                self.assertEqual(run["completed"], 1); self.assertIs(run["closed"], True); self.assertIsNone(run["halt"])
+                self.assertEqual([e for e in events if isinstance(e, str)], ["stage0", "stage1", "closed"])
+                got = R.read_directory(out); self.assertTrue(got["scientific_verdict"],got)
+                files = {}
+                for p in out.rglob("*"):
+                    if p.is_file() and "telemetry" not in p.relative_to(out).parts:
+                        raw = p.read_bytes()
+                        if p.name == "run.json":
+                            value = json.loads(raw); value["launch"].pop("telemetry"); value["launch"].pop("telemetry_inertness")
+                            raw = json.dumps(value,sort_keys=True,allow_nan=False).encode()
+                        files[str(p.relative_to(out))] = raw
+                results.append((files,got,metrics))
+                self.assertEqual((out / "telemetry").exists(), on and failure != "mkdir")
+                if on and failure is None:
+                    lines = [json.loads(x) for x in (out / "telemetry/telemetry_p1.jsonl").read_text().splitlines()]
+                    self.assertEqual([(x["event"],x["stage"]) for x in lines if x["kind"]=="phase"],
+                                     [("stage_start",0),("stage_end",0),("stage_start",1),("stage_end",1)])
+        for case, result in zip(cases[1:], results[1:]):
+            self.assertEqual(results[0], result, "resident telemetry changed files, reading or clocks: " + str(case))
+
+    def test_placements_ast(self):
+        tree = ast.parse((HERE / "c10z_astra_arms.py").read_text())
+        classes = {n.name:n for n in tree.body if isinstance(n,ast.ClassDef)}
+        self.assertIn("Telemetry",classes,"Telemetry class absent")
+        methods = {n.name:n for n in classes["Session"].body if isinstance(n,ast.FunctionDef)}
+        def is_lens(stmt):
+            return isinstance(stmt,ast.If) and any(isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and
+                n.func.attr=="logit_lens" and isinstance(n.func.value,ast.Attribute) and n.func.value.attr=="telemetry" for n in ast.walk(stmt))
+        for name, predicate in (("stage0",lambda n:isinstance(n,ast.For) and any(isinstance(x,ast.Attribute) and x.attr=="pristine_probes" for x in ast.walk(n))),
+                                ("arm_hook",lambda n:isinstance(n,ast.Assign) and any(isinstance(x,ast.Constant) and x.value=="hits" for x in ast.walk(n.targets[0])))):
+            body=methods[name].body; index=next(i for i,n in enumerate(body) if predicate(n))
+            self.assertTrue(is_lens(body[index+1]),name+" lens is not the immediately following statement")
+        direct=[]
+        for node in tree.body:
+            if isinstance(node,ast.FunctionDef):
+                if any(isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id=="logit_lens" for n in ast.walk(node)):direct.append(node.name)
+            if isinstance(node,ast.ClassDef):
+                for fun in (n for n in node.body if isinstance(n,ast.FunctionDef)):
+                    if any(isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id=="logit_lens" for n in ast.walk(fun)):direct.append(node.name+"."+fun.name)
+        self.assertCountEqual(direct,["Telemetry.logit_lens","telemetry_mps_inertness_check"])
+
+
+# Telemetry tests for integration before the selftest's final __main__ block.
+# Root alone runs these CPU-only tests, after the numbered list is recorded.
+import contextlib as _telemetry_contextlib
+import io as _telemetry_io
+
+
+@_telemetry_contextlib.contextmanager
+def _telemetry_failure(out, operation=None, kind=None):
+    """Fault only the telemetry sink; scientific serialization still uses real IO."""
+    D = importlib.import_module("c10z_astra_arms")
+    result = {"hits": [], "stdout": _telemetry_io.StringIO()}; streams = []; pending = [None]
+    real_open = Path.open; real_mkdir = Path.mkdir; real_fsync = D.os.fsync
+    def fail():
+        result["hits"].append((operation, kind)); raise OSError("advisory-" + operation)
+    def mkdir(path, *args, **kwargs):
+        if path == out / "telemetry" and operation == "mkdir": fail()
+        return real_mkdir(path, *args, **kwargs)
+    def opened(path, *args, **kwargs):
+        if path != out / "telemetry/telemetry_p1.jsonl": return real_open(path, *args, **kwargs)
+        if operation == "open": fail()
+        stream = real_open(path, *args, **kwargs); streams.append(stream)
+        handle = mock.Mock(wraps=stream); handle.fileno.return_value = stream.fileno()
+        def write(data):
+            pending[0] = json.loads(data)["kind"]
+            if operation == "write" and pending[0] == kind: fail()
+            return stream.write(data)
+        def flush():
+            if operation == "flush" and pending[0] == kind: fail()
+            return stream.flush()
+        handle.write.side_effect = write; handle.flush.side_effect = flush
+        return handle
+    def fsync(fd):
+        if operation == "fsync" and streams and fd == streams[-1].fileno() and pending[0] == kind: fail()
+        return real_fsync(fd)
+    try:
+        with _telemetry_contextlib.ExitStack() as stack:
+            stack.enter_context(_telemetry_contextlib.redirect_stdout(result["stdout"]))
+            if operation is not None:
+                stack.enter_context(mock.patch.object(Path, "mkdir", autospec=True, side_effect=mkdir))
+                stack.enter_context(mock.patch.object(Path, "open", autospec=True, side_effect=opened))
+                stack.enter_context(mock.patch.object(D.os, "fsync", side_effect=fsync))
+            yield result
+    finally:
+        for stream in streams: stream.close()
+
+
+def _telemetry_tiny_model(layers=12):
+    import torch
+    width = layers
+
+    class Layer(torch.nn.Module):
+        def __init__(self, number):
+            super().__init__()
+            increment = torch.zeros(width)
+            increment[number] = number + 1.
+            self.register_buffer("increment", increment)
+            self.mlp = torch.nn.Module()
+            self.mlp.down_proj = torch.nn.Linear(width, width, bias=False, dtype=torch.float16)
+            with torch.no_grad(): self.mlp.down_proj.weight.fill_(number + 1.)
+        def forward(self, x): return x + self.increment
+
+    class Norm(torch.nn.Module):
+        def __init__(self):
+            super().__init__(); self.weight = torch.nn.Parameter(torch.ones(width))
+            self.register_buffer("epsilon", torch.tensor(1e-6))
+        def forward(self, x):
+            assert not torch.is_grad_enabled(), "norm ran outside no_grad"
+            return x * self.weight
+
+    class Head(torch.nn.Module):
+        def __init__(self):
+            super().__init__(); self.weight = torch.nn.Parameter(torch.zeros(width + 5, width))
+            with torch.no_grad(): self.weight[:width].copy_(torch.eye(width))
+        def forward(self, x):
+            assert not torch.is_grad_enabled(), "head ran outside no_grad"
+            return torch.nn.functional.linear(x, self.weight)
+
+    class Tiny(torch.nn.Module):
+        def __init__(self):
+            super().__init__(); self.model = torch.nn.Module()
+            self.model.embed_tokens = torch.nn.Embedding(width + 5, width)
+            with torch.no_grad(): self.model.embed_tokens.weight.zero_()
+            self.model.layers = torch.nn.ModuleList([Layer(i) for i in range(layers)])
+            self.model.norm = Norm(); self.lm_head = Head()
+            self.config = _types.SimpleNamespace(num_hidden_layers=layers, use_cache=False)
+            self.forward_calls = []
+        def forward(self, input_ids, attention_mask=None, use_cache=False, logits_to_keep=0,
+                    output_hidden_states=False):
+            assert not torch.is_grad_enabled(), "model ran outside no_grad"
+            self.forward_calls.append({"ids": input_ids.detach().clone(), "attention_mask":
+                None if attention_mask is None else attention_mask.detach().clone(),
+                "use_cache": use_cache, "logits_to_keep": logits_to_keep,
+                "output_hidden_states": output_hidden_states})
+            hidden = self.model.embed_tokens(input_ids); states = []
+            for layer in self.model.layers:
+                states.append(hidden); hidden = layer(hidden)
+            hidden = self.model.norm(hidden); states.append(hidden)
+            logits = self.lm_head(hidden)
+            if logits_to_keep: logits = logits[:, -logits_to_keep:, :]
+            return _types.SimpleNamespace(logits=logits, hidden_states=tuple(states))
+    return Tiny()
+
+
+def _telemetry_items():
+    return [{"view": 0, "subject": 0, "prompt_ids": [1, 2], "first_ids": [3]}]
+
+
+def _telemetry_session(model):
+    tok = _types.SimpleNamespace(decode=lambda ids: "token-" + str(ids[0]))
+    return _types.SimpleNamespace(H=_types.SimpleNamespace(model=model, tok=tok, DEV="cpu"),
+        population={A7: {"F0": _telemetry_items()}}, hp=_types.SimpleNamespace(layers=[4, 5, 6, 7, 8]))
+
+
+def _telemetry_state(model, tensors):
+    import torch
+    return {"parameters": {n: (v.detach().clone(), v.data_ptr()) for n, v in model.named_parameters()},
+        "buffers": {n: (v.detach().clone(), v.data_ptr()) for n, v in model.named_buffers()},
+        "rng": torch.random.get_rng_state().clone(), "training": {n: m.training for n, m in model.named_modules()},
+        "hooks": {n: (dict(m._forward_hooks), dict(m._forward_pre_hooks), dict(m._backward_hooks))
+                  for n, m in model.named_modules()}, "grad": torch.is_grad_enabled(),
+        "inputs": [(v.detach().clone(), v.data_ptr()) for v in tensors]}
+
+
+class TelemetryUnitTests(unittest.TestCase):
+    def setUp(self):
+        self.D = importlib.import_module("c10z_astra_arms")
+        for name in ("Telemetry", "target_probabilities", "logit_lens", "TELEMETRY_CLOCK"):
+            self.assertTrue(hasattr(self.D, name), "required telemetry API absent: " + name)
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        self.out = Path(self.temp.name)
+        self.clock = [0.]
+        def clock():
+            self.clock[0] += 1.; return self.clock[0]
+        patcher = mock.patch.object(self.D, "TELEMETRY_CLOCK", clock)
+        patcher.start(); self.addCleanup(patcher.stop)
+
+    def lines(self):
+        path = self.out / "telemetry/telemetry_p1.jsonl"
+        return [json.loads(line) for line in path.read_text().splitlines()] if path.exists() else []
+
+    def observation(self, n=3):
+        import torch
+        return {"native_gathered": torch.arange(n * 7, dtype=torch.float32).reshape(n, 7) / 9,
+                "targets": torch.tensor([i % 7 for i in range(n)])}, [
+            {"row": i, "fact": i // 2, "view": i % 2, "q": i, "target": i % 7} for i in range(n)]
+
+    def direct_calls(self, writer, session=None):
+        import torch
+        session = session or _telemetry_session(_telemetry_tiny_model())
+        obs, requirements = self.observation()
+        patch = {4: torch.tensor([[3., 4.]])}; cumulative = {4: torch.tensor([[6., 8.]])}
+        writer.phase("round_end", round_no=0, arm=A7, recipe="Z", seconds=4., F=3, columns_written=2)
+        writer.write_norms(patch, cumulative, round_no=0, arm=A7)
+        writer.target_probs(obs, chunk_rows=2, requirements=requirements, round_no="final", arm=A7)
+        writer.logit_lens(session, A7, "post_write")
+
+    def test_T4_public_methods_avoid_science_clocks_and_gates(self):
+        D = self.D; model = _telemetry_tiny_model(); session = _telemetry_session(model)
+        session.budget = _types.SimpleNamespace(clock=mock.Mock(), project=mock.Mock(), check=mock.Mock())
+        session.hooks_check = mock.Mock(); session.sync = mock.Mock()
+        science_clock = mock.Mock(side_effect=AssertionError("telemetry used science monotonic"))
+        with mock.patch.object(D, "time", _types.SimpleNamespace(monotonic=science_clock)):
+            writer = D.Telemetry(self.out, 1, "test-attempt")
+            self.direct_calls(writer, session)
+        self.assertTrue(writer.enabled, "an independent telemetry clock must survive patched science time")
+        for spy in (session.budget.clock, session.budget.project, session.budget.check,
+                    session.hooks_check, session.sync, science_clock):
+            self.assertEqual(spy.call_count, 0, "telemetry touched a science clock or gate")
+
+    def test_T3_header_four_kinds_fields_and_full_cost_accounting(self):
+        D = self.D
+        original_open = Path.open
+        with mock.patch.object(Path, "open", autospec=True, side_effect=original_open) as opened, \
+             mock.patch.object(D.os, "fsync", wraps=D.os.fsync) as synced:
+            writer = D.Telemetry(self.out, 1, "test-attempt"); self.direct_calls(writer)
+        own_open = [call for call in opened.call_args_list if call.args[0] == self.out / "telemetry/telemetry_p1.jsonl"]
+        self.assertEqual(len(own_open), 1, "telemetry opens its append file once")
+        self.assertEqual(own_open[0].args[1], "a")
+        lines = self.lines()
+        self.assertEqual([v["kind"] for v in lines], ["header", "phase", "write_norms", "target_probs", "logit_lens"])
+        self.assertEqual(lines[0]["telemetry"], True); self.assertEqual(synced.call_count, len(lines))
+        self.assertEqual(lines[0]["elapsed_s"], 1.); self.assertEqual(lines[0]["cumulative_s"], 0.)
+        self.assertEqual([v["cumulative_s"] for v in lines], [0., 2., 4., 6., 8.],
+                         "cumulative_s must include every earlier write and fsync")
+        for line in lines:
+            self.assertTrue({"kind", "t_utc", "elapsed_s", "cumulative_s", "process", "attempt_id"} <= set(line))
+            self.assertEqual((line["process"], line["attempt_id"]), (1, "test-attempt"))
+            self.assertTrue(line["t_utc"].endswith("+00:00"))
+            self.assertEqual(line, json.loads(json.dumps(line, sort_keys=True, allow_nan=False)))
+        self.assertEqual(lines[1]["event"], "round_end")
+        self.assertEqual(lines[2]["norms"], {"4": {"patch_fro": 5., "cumulative_fro": 10.}})
+        self.assertEqual(lines[3]["round_no"], "final")
+        self.assertEqual([len(lines[3][key]) for key in ("rows", "facts", "views", "qs", "p")], [3] * 5)
+        self.assertEqual(lines[4]["where"], "post_write"); self.assertEqual(lines[4]["arm"], A7)
+        self.assertEqual(lines[4]["layers"], [4, 5, 6, 7, 8])
+
+    def disabled_failure(self, operation):
+        D = self.D
+        science = self.out / "science.json"; science.write_text('{"science":true}\n'); before = science.read_bytes()
+        methods = ("constructor",) if operation in ("mkdir", "open") else ("phase", "write_norms", "target_probs", "logit_lens")
+        for method in methods:
+            with self.subTest(operation=operation, method=method):
+                stream = _telemetry_io.StringIO()
+                if operation in ("mkdir", "open"):
+                    target = mock.patch.object(Path, "mkdir", side_effect=OSError("test-mkdir")) if operation == "mkdir" else \
+                             mock.patch.object(Path, "open", side_effect=OSError("test-open"))
+                    with target, _telemetry_contextlib.redirect_stdout(stream): writer = D.Telemetry(self.out, 1, "test-attempt")
+                else:
+                    writer = D.Telemetry(self.out / method, 1, "test-attempt"); writer.file.close()
+                    handle = mock.Mock(); handle.fileno.return_value = 7
+                    if operation in ("write", "flush"): getattr(handle, operation).side_effect = OSError("test-" + operation)
+                    writer.file = handle
+                    target = mock.patch.object(D.os, "fsync", side_effect=OSError("test-fsync")) if operation == "fsync" else \
+                             _telemetry_contextlib.nullcontext()
+                    with target, _telemetry_contextlib.redirect_stdout(stream): self.invoke(writer, method)
+                with _telemetry_contextlib.redirect_stdout(stream), \
+                     mock.patch.object(D, "logit_lens") as lens, mock.patch.object(D, "target_probabilities") as probs:
+                    clock_before = self.clock[0]; self.direct_calls(writer)
+                self.assertFalse(writer.enabled); self.assertEqual(self.clock[0], clock_before)
+                self.assertEqual(lens.call_count, 0); self.assertEqual(probs.call_count, 0)
+                markers = stream.getvalue().splitlines()
+                self.assertEqual(len(markers), 1); self.assertTrue(markers[0].startswith("C10Z_TELEMETRY_DISABLED OSError: test-"), markers)
+                self.assertEqual(science.read_bytes(), before)
+        D.write_json(self.out / "completion.json", {"completed": True})
+        self.assertEqual(json.loads((self.out / "completion.json").read_text()), {"completed": True})
+
+    def invoke(self, writer, method):
+        import torch
+        obs, requirements = self.observation(); patch = {4: torch.ones((2, 2))}
+        if method == "phase": return writer.phase("stage_start", stage=1)
+        if method == "write_norms": return writer.write_norms(patch, patch, round_no=0, arm=A7)
+        if method == "target_probs": return writer.target_probs(obs, requirements=requirements, round_no=0, arm=A7)
+        return writer.logit_lens(_telemetry_session(_telemetry_tiny_model()), A7, "pristine")
+
+    def test_T5a_initial_open_failure_is_disabled_once(self): self.disabled_failure("open")
+    def test_T5a_directory_failure_is_disabled_once(self): self.disabled_failure("mkdir")
+    def test_T5b_write_failure_is_disabled_once(self): self.disabled_failure("write")
+    def test_T5c_flush_failure_is_disabled_once(self): self.disabled_failure("flush")
+    def test_T5d_fsync_failure_is_disabled_once(self): self.disabled_failure("fsync")
+
+    def test_T5e_keyboard_interrupt_propagates(self):
+        with mock.patch.object(Path, "open", side_effect=KeyboardInterrupt("test-interrupt")):
+            with self.assertRaisesRegex(KeyboardInterrupt, "test-interrupt"):
+                self.D.Telemetry(self.out, 1, "test-attempt")
+        for method in ("phase", "write_norms", "target_probs", "logit_lens"):
+            with self.subTest(method=method):
+                writer = self.D.Telemetry(self.out / method, 1, "test-attempt"); writer.file.close()
+                writer.file = mock.Mock(); writer.file.write.side_effect = KeyboardInterrupt("test-interrupt")
+                with self.assertRaisesRegex(KeyboardInterrupt, "test-interrupt"): self.invoke(writer, method)
+
+    def test_T6_each_call_preserves_cpu_model_and_inputs(self):
+        import torch
+        D = self.D; model = _telemetry_tiny_model(); session = _telemetry_session(model)
+        obs, requirements = self.observation(); patches = {4: torch.tensor([[3., 4.]])}
+        cumulative = {4: patches[4] * 2}; science_ids = torch.tensor([[1, 2]])
+        tensors = [obs["native_gathered"], obs["targets"], patches[4], cumulative[4], science_ids]
+        with torch.no_grad(): reference = model(science_ids, use_cache=False, logits_to_keep=0).logits.clone()
+        writer = D.Telemetry(self.out, 1, "test-attempt")
+        calls = [lambda: writer.phase("stage_start", stage=0),
+                 lambda: writer.write_norms(patches, cumulative, round_no=0, arm=A7),
+                 lambda: writer.target_probs(obs, requirements=requirements, round_no=0, arm=A7),
+                 lambda: writer.logit_lens(session, A7, "pristine")]
+        for call in calls:
+            before = _telemetry_state(model, tensors); input_hashes = [D.tensor_hash(v) for v in tensors]
+            call(); after = _telemetry_state(model, tensors)
+            self.assertEqual(input_hashes, [D.tensor_hash(v) for v in tensors], "telemetry changed input tensor bytes")
+            self.assertTrue(writer.enabled)
+            for group in ("parameters", "buffers"):
+                self.assertEqual(set(before[group]), set(after[group]))
+                for name in before[group]:
+                    old, pointer = before[group][name]; new, new_pointer = after[group][name]
+                    self.assertTrue(torch.equal(old, new), group + " changed: " + name)
+                    self.assertEqual(pointer, new_pointer, group + " storage changed: " + name)
+            self.assertTrue(torch.equal(before["rng"], after["rng"])); self.assertEqual(before["training"], after["training"])
+            self.assertEqual(before["hooks"], after["hooks"]); self.assertEqual(before["grad"], after["grad"])
+            for (old, ptr), (new, new_ptr) in zip(before["inputs"], after["inputs"]):
+                self.assertTrue(torch.equal(old, new)); self.assertEqual(ptr, new_ptr)
+            with torch.no_grad(): following = model(science_ids, use_cache=False, logits_to_keep=0).logits
+            self.assertTrue(torch.equal(reference, following), "telemetry changed next science forward")
+
+    def test_T6_lens_uses_layer_output_top5_and_no_grad(self):
+        import torch
+        model = _telemetry_tiny_model(); session = _telemetry_session(model)
+        result = self.D.logit_lens(model, _telemetry_items(), session.hp.layers, session.H.tok, "cpu")
+        self.assertEqual(result["layers"], session.hp.layers)
+        self.assertEqual({k: result["items"][0][k] for k in ("view", "subject", "prompt_ids")},
+                         {k: _telemetry_items()[0][k] for k in ("view", "subject", "prompt_ids")})
+        for layer in session.hp.layers:
+            hidden = torch.zeros(12); hidden[:layer + 1] = torch.arange(1., layer + 2.)
+            with torch.no_grad(): probs = model.lm_head(model.model.norm(hidden)).float().softmax(-1)
+            top = probs.topk(5); actual = result["items"][0]["top"][str(layer)]
+            self.assertEqual([row[0] for row in actual], top.indices.tolist(), "lens used layer input instead of output")
+            self.assertEqual([row[1] for row in actual], ["token-" + str(i) for i in top.indices.tolist()])
+            self.assertTrue(torch.allclose(torch.tensor([row[2] for row in actual]), top.values, atol=1e-7, rtol=0))
+        self.assertEqual(model.forward_calls[0]["logits_to_keep"], 1)
+        self.assertEqual(model.forward_calls[0]["use_cache"], False)
+        self.assertEqual(model.forward_calls[0]["output_hidden_states"], True)
+        with self.assertRaises(ValueError): self.D.logit_lens(model, _telemetry_items(), [11], session.H.tok, "cpu")
+
+    def test_T7_probabilities_dense_reference_and_row_chunk_bound(self):
+        import torch
+        values = torch.tensor([[90., 91., 89.], [-90., -91., -89.], [0., 0., 0.],
+                               [1., -2., 3.], [9., 8., 7.]], dtype=torch.float64)
+        targets = torch.tensor([0, 2, 1, 2, 0]); slices = []
+        class Slices:
+            shape = values.shape
+            def __getitem__(self, index):
+                self_outer.assertIsInstance(index, slice); part = values[index]; slices.append(len(part)); return part
+        self_outer = self
+        result = self.D.target_probabilities(Slices(), targets, 2)
+        expected = values.softmax(1)[torch.arange(len(targets)), targets]
+        self.assertEqual(result.dtype, torch.float32); self.assertEqual(result.device.type, "cpu")
+        self.assertTrue(torch.allclose(result.double(), expected, atol=1e-6, rtol=0))
+        self.assertEqual(slices, [2, 2, 1]); self.assertTrue(all(n <= 2 for n in slices))
+
+    def test_T7_default_chunk_keeps_cpu_float32_under64MiB(self):
+        obs, requirements = self.observation(5)
+        writer = self.D.Telemetry(self.out, 1, "test-attempt")
+        with mock.patch.object(self.D, "target_probabilities", wraps=self.D.target_probabilities) as probabilities:
+            writer.target_probs(obs, requirements=requirements, round_no=0, arm=A7)
+        self.assertTrue(writer.enabled); args = probabilities.call_args.args
+        self.assertEqual(args[2], max(1, (64 * 2**20) // (4 * obs["native_gathered"].shape[1])))
+        self.assertLessEqual(args[2] * 4 * obs["native_gathered"].shape[1], 64 * 2**20)
+
+    def test_T9_write_volume_no_requirement_lines(self):
+        import torch
+        D = self.D; s, events = _write_session(D); s.out = self.out; s.active_recipe = "Z"
+        batch = s.batches[A7]
+        batch["requirements"].append(dict(batch["requirements"][0], q=1, index=2))
+        batch["target_lengths"] = [2]; batch["T_pad"] = 3
+        original_observe, original_quantities, original_covectors = s.observe, s.quantities, s.covectors
+        def observe(*args, **kwargs):
+            obs = original_observe(*args, **kwargs)
+            for key in ("leads", "competitors", "targets", "scales"): obs[key] = obs[key].repeat(2)
+            obs["native_gathered"] = obs["native_gathered"].repeat(2, 1)
+            obs["keys"] = {l: v.repeat(2, 1) for l, v in obs["keys"].items()}
+            return obs
+        def quantities(obs, carriers):
+            _, C, direction, scale, keys, weights = original_quantities(obs, carriers)
+            return torch.arange(2), C.repeat(2, 1), direction.repeat(2, 1), scale.repeat(2), \
+                   {l: v.repeat(2, 1) for l, v in keys.items()}, weights
+        s.observe = observe; s.quantities = quantities
+        s.covectors = lambda obs: original_covectors(obs).repeat(2, 1)
+        session = _telemetry_session(_telemetry_tiny_model()); s.H = session.H; s.H.PTEST = ["{}"]
+        s.hp = session.hp; s.population = session.population; s.gates = D.Gates(); s.gates.law3 = True
+        writer = D.Telemetry(self.out, 1, "test-attempt"); s.telemetry = writer
+        s.make_batch = lambda arm, frames: s.batches[arm]
+        s.probe_hits = lambda arm: {"F0": []}; s.transfer_diagnostic = lambda batch, obs: {"status": "POST-WRITE-DIAGNOSTIC"}
+        s.lead_rows = lambda batch, obs: [[obs["leads"].tolist()]]
+        with mock.patch.object(D, "time", _types.SimpleNamespace(monotonic=lambda: 0.)):
+            before = len(self.lines()); s.write_arm(REQ_A7, "astra"); rounds = s.current["write"]["rounds_used"]
+            self.assertEqual(len(self.lines()) - before, 1 + 3 * rounds + 1,
+                             "one line per event and round, never per requirement")
+            write_lines = self.lines()[before:]
+            self.assertEqual(write_lines[0]["event"], "write_start")
+            for r in range(rounds):
+                phase, norms, probabilities = write_lines[1 + 3*r:4 + 3*r]
+                self.assertEqual((phase["event"], norms["kind"], probabilities["kind"]),
+                                 ("round_end", "write_norms", "target_probs"))
+                self.assertEqual([phase["round_no"], norms["round_no"], probabilities["round_no"]], [r] * 3)
+                self.assertEqual(phase["seconds"], s.current["write"]["round_seconds"][r])
+                self.assertEqual(len(probabilities["p"]), 2)
+            self.assertEqual(write_lines[-1]["round_no"], "final")
+            before_hook = len(self.lines()); s.arm_hook(A7, {})
+            self.assertEqual(len(self.lines()) - before_hook, 1)
+            self.assertEqual((self.lines()[-1]["kind"], self.lines()[-1]["where"]), ("logit_lens", "post_write"))
+
+
+def _telemetry_probe_fixture(mode="deterministic"):
+    import torch
+    population = {"F0": _telemetry_items(), "prefix": [
+        {"prompt_ids": [2], "target": [4, 5, 6], "depth": 1}], "subject_free": [
+        {"prompt_ids": [3], "target": [4, 5], "depth": 2}], "relations": [{"prompt_ids": [4], "first_ids": [3]}]}
+    batch = {"input_ids": [[1, 2], [2, 3]], "attention_mask": [[1, 1], [1, 1]],
+             "requirements": [{"row": 0, "index": 1}, {"row": 1, "index": 0}]}
+    class Model:
+        def __init__(self): self.calls = []; self.hidden_count = 0; self.pending_batch = False; self.plain = 0
+        def __call__(self, *args, **kwargs):
+            assert not torch.is_grad_enabled(), "inertness forward outside no_grad"
+            hidden = kwargs.get("output_hidden_states", False)
+            ids = kwargs["input_ids"] if "input_ids" in kwargs else args[0]
+            is_batch = "attention_mask" in kwargs
+            self.calls.append({"ids": ids.tolist(), "positional": bool(args), "kwargs": {
+                k: v.tolist() if isinstance(v, torch.Tensor) else v for k, v in kwargs.items()}})
+            if hidden:
+                self.hidden_count += 1
+                if mode == "batch" and self.hidden_count == 2: self.pending_batch = True
+            else: self.plain += 1
+            token = (int(ids[0, -1]) + 1) % 9
+            if mode == "probe" and not hidden and not is_batch and self.hidden_count % 2: token = (token + 1) % 9
+            if mode == "drift" and not hidden: token = (token + self.plain) % 9
+            logits = torch.zeros((*ids.shape, 9)); logits[:, :, token] = 10.
+            if mode == "batch" and is_batch and self.pending_batch:
+                logits[:, :, 0] += .25; self.pending_batch = False
+            return _types.SimpleNamespace(logits=logits)
+    model = Model()
+    def lens(model, items, layers, tok, device):
+        with torch.no_grad():
+            for item in items: model(torch.tensor([item["prompt_ids"]], device=device),
+                use_cache=False, output_hidden_states=True, logits_to_keep=1)
+        return {"layers": list(layers), "items": []}
+    return model, population, batch, lens
+
+
+class TelemetryInertnessTests(unittest.TestCase):
+    def setUp(self):
+        self.D = importlib.import_module("c10z_astra_arms")
+        self.assertTrue(hasattr(self.D, "telemetry_mps_inertness_check"), "three-pass inertness core absent")
+
+    def run_mode(self, mode):
+        model, population, batch, lens = _telemetry_probe_fixture(mode)
+        with mock.patch.object(self.D, "logit_lens", lens):
+            result = self.D.telemetry_mps_inertness_check(model, "cpu", population, batch, [4, 5], object())
+        return result, model, population, batch
+
+    def test_deterministic_three_pass_schedule_and_kwargs(self):
+        result, model, population, batch = self.run_mode("deterministic")
+        self.assertEqual(result, {"verdict": "INERT", "control_equal": True, "telemetry_equal": True,
+                                  "probe_forwards": 21, "lens_forwards": 2})
+        self.assertEqual(len(model.calls), 21 + 2 + 3 + 2, "warm-up excluded from evidence counts")
+        hidden = [i for i, c in enumerate(model.calls) if c["kwargs"].get("output_hidden_states")]
+        self.assertEqual(hidden, [10, 18], "lens must bracket T probes before T batch")
+        for call in model.calls:
+            kwargs = call["kwargs"]
+            if "attention_mask" in kwargs:
+                self.assertFalse(call["positional"])
+                self.assertEqual(kwargs, {"input_ids": batch["input_ids"], "attention_mask": batch["attention_mask"],
+                                          "use_cache": False, "logits_to_keep": 0})
+            elif kwargs.get("output_hidden_states"):
+                self.assertTrue(call["positional"])
+                self.assertEqual(kwargs, {"use_cache": False, "output_hidden_states": True, "logits_to_keep": 1})
+            else:
+                self.assertTrue(call["positional"])
+                self.assertEqual(kwargs, {"use_cache": False, "logits_to_keep": 0})
+
+    def test_lens_sensitive_probe_is_not_inert(self):
+        result, *_ = self.run_mode("probe")
+        self.assertEqual((result["verdict"], result["control_equal"], result["telemetry_equal"]), ("NOT-INERT", True, False))
+
+    def test_lens_sensitive_batch_is_not_inert(self):
+        result, *_ = self.run_mode("batch")
+        self.assertEqual((result["verdict"], result["control_equal"], result["telemetry_equal"]), ("NOT-INERT", True, False))
+
+    def test_plain_drift_is_nondeterministic_baseline(self):
+        result, *_ = self.run_mode("drift")
+        self.assertEqual(result["verdict"], "NONDETERMINISTIC-BASELINE"); self.assertFalse(result["control_equal"])
+
+    def test_full_greedy_suffix_count_and_compare(self):
+        result, model, population, batch = self.run_mode("deterministic")
+        expected_per_pass = sum(len(item["target"]) if "target" in item else 1
+                                for items in population.values() for item in items)
+        self.assertEqual(result["probe_forwards"], 3 * expected_per_pass)
+        probe_ids = [c["ids"][0] for c in model.calls[2:10] if "attention_mask" not in c["kwargs"]]
+        self.assertEqual(probe_ids[1:4], [[2], [2, 3], [2, 3, 4]], "greedy must append its generated tokens")
+        self.assertEqual(probe_ids[4:6], [[3], [3, 4]])
+
+
+class TelemetryRunnerTests(unittest.TestCase):
+    def test_runner_driver_module_reused(self):
+        # No model is constructed; both real modules have stdlib-only imports.
+        with mock.patch.object(self.C, "ROOT", HERE.parents[1]), mock.patch.dict(sys.modules):
+            runner_driver = self.C.arms_module()
+            benchmark = self.C.benchmark_module()
+            self.assertIs(benchmark._driver_module(), runner_driver,
+                          "benchmark population must reuse the runner's driver module")
+        self.assertNotIn("c10e_bandknob", sys.modules)
+
+    def setUp(self):
+        path = HERE / "c10z_astra_telemetry_check.py"
+        self.assertTrue(path.is_file(), "telemetry inertness runner absent")
+        spec = importlib.util.spec_from_file_location("c10z_telemetry_test_runner", path)
+        self.C = importlib.util.module_from_spec(spec); spec.loader.exec_module(self.C)
+        self.D = importlib.import_module("c10z_astra_arms")
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup); self.root = Path(self.temp.name)
+        patcher = mock.patch.object(self.C, "ROOT", self.root); patcher.start(); self.addCleanup(patcher.stop)
+
+    def test_runner_import_is_stdlib_only(self):
+        # Check in a fresh process; root owns the serial subprocess execution.
+        code = "import sys,importlib.util; before=set(sys.modules); p=sys.argv[1]; s=importlib.util.spec_from_file_location('check',p); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); added=set(sys.modules)-before; assert all(n.split('.')[0] in sys.stdlib_module_names or n.startswith('_') for n in added),sorted(added); print('STDLIB_ONLY')"
+        subprocess = importlib.import_module("subprocess")
+        result = subprocess.run([sys.executable, "-B", "-I", "-c", code, str(HERE / "c10z_astra_telemetry_check.py")],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr); self.assertEqual(result.stdout.strip(), "STDLIB_ONLY")
+
+    def test_runner_refuses_relative_out_path(self):
+        with self.assertRaisesRegex(self.D.R.Halt, "HALTED-V12:.*must be absolute"):
+            self.C.run("relative", object())
+        self.assertEqual(list(self.root.rglob("inertness.json")), [])
+
+    def test_runner_refuses_outside_and_existing_record_without_forward(self):
+        outside = self.root / "results/c10z_astra_telemetry_inertness_suffix/UTC"
+        with self.assertRaisesRegex(self.D.R.Halt, "HALTED-V12:.*outside"):
+            self.C.run(outside, object())
+        out = self.root / "results/c10z_astra_telemetry_inertness/UTC"; out.mkdir(parents=True)
+        (out / "inertness.json").write_text("{}\n"); before = (out / "inertness.json").read_bytes()
+        with self.assertRaisesRegex(self.D.R.Halt, "HALTED-V12:.*existing"):
+            self.C.run(out, object())
+        self.assertEqual((out / "inertness.json").read_bytes(), before)
+
+    def runner_case(self, mutate=False):
+        import torch
+        model = _telemetry_tiny_model(36).half(); layers = [4, 5, 6, 7, 8]
+        out = self.root / "results/c10z_astra_telemetry_inertness/UTC"
+        env = {"python": "3.11-test", "machine": "test", "platform": "test", "torch": "test", "transformers": "test"}
+        source_paths = ("experiments/track_c/c10z_astra_arms.py", "experiments/track_c/c10z_astra_read.py",
+            "experiments/track_c/c10z_astra_telemetry_check.py", "experiments/track_c/c10z_astra_benchmark.py",
+            "experiments/track_c/c10e_bandknob.py", "configs/hparams/qwen25_3b_memit_hparams.json",
+            "memit_dry_run/memit/memit/memit_main.py")
+        for relative in source_paths:
+            p = self.root / relative; p.parent.mkdir(parents=True, exist_ok=True); p.write_text(relative)
+        spies = {name: mock.Mock(side_effect=AssertionError("write engine called: " + name))
+                 for name in ("my_edit", "run_recipe", "run_law5", "apply_memit_to_model")}
+        H = _types.SimpleNamespace(model=model, DEV="mps", REV="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+            MEMITHyperParams=_types.SimpleNamespace(from_json=lambda p: _types.SimpleNamespace(layers=layers)),
+            tok=_types.SimpleNamespace(decode=lambda ids: str(ids[0])), **spies)
+        population = {"F0": _telemetry_items()}; batch = {"input_ids": [[1, 2]], "requirements": []}
+        calls = []
+        def check(m, device, pop, identity, band, tok):
+            calls.append((m, device, pop, identity, band, tok))
+            if mutate:
+                with torch.no_grad(): model.model.layers[35].mlp.down_proj.weight[0, 0] += 1
+            return {"verdict": "INERT", "control_equal": True, "telemetry_equal": True,
+                    "probe_forwards": 3, "lens_forwards": 2}
+        B = _types.SimpleNamespace(population_and_batch=lambda h, templates: (population, batch),
+            TEMPLATES=["{}", "a. {}", "b. {}", "c. {}", "d. {}", "e. {}"],
+            environment_identity=lambda: dict(env), write_record=lambda path, record: self.D.write_json(path, record, replace=True))
+        fp = _types.SimpleNamespace(main=lambda: 0)
+        with mock.patch.object(self.C, "arms_module", return_value=self.D), \
+             mock.patch.object(self.C, "benchmark_module", return_value=B), \
+             mock.patch.object(self.C, "fingerprint_module", return_value=fp), \
+             mock.patch.object(self.D, "telemetry_mps_inertness_check", check), \
+             mock.patch.dict(os.environ, {"LLMDB_DEVICE": "mps"}, clear=True):
+            rc = self.C.run(out, H)
+        return rc, json.loads((out / "inertness.json").read_text()), calls, spies, source_paths, env
+
+    def test_runner_roundtrip_identity_and_no_write_engine_calls(self):
+        rc, record, calls, spies, source_paths, env = self.runner_case()
+        self.assertEqual(rc, 0); self.assertEqual(record["schema"], "c10z_astra_telemetry_inertness/v1")
+        self.assertEqual((record["decision_id"], record["device"], record["verdict"]), ("D-C10r-rulings-11", "mps", "INERT"))
+        self.assertEqual(record["weights_unchanged"], True)
+        self.assertEqual(record["sources"], {p: hashlib.sha256((self.root / p).read_bytes()).hexdigest() for p in source_paths})
+        self.assertEqual(record["env"], dict(env, model_rev="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"))
+        self.assertEqual(record, json.loads(json.dumps(record, sort_keys=True, allow_nan=False)))
+        self.assertEqual(calls[0][1], "mps"); self.assertEqual(calls[0][4], [4, 5, 6, 7, 8])
+        for spy in spies.values(): self.assertEqual(spy.call_count, 0)
+
+    def test_runner_checks_all36_weights_and_invalid_is_exit2(self):
+        rc, record, *_ = self.runner_case(mutate=True)
+        self.assertEqual(rc, 2); self.assertEqual(record["verdict"], "INVALID"); self.assertFalse(record["weights_unchanged"])
+
+
+def _telemetry_suite():
+    return unittest.TestSuite([unittest.defaultTestLoader.loadTestsFromTestCase(cls)
+        for cls in (TelemetryUnitTests, TelemetryInertnessTests, TelemetryRunnerTests)])
+
+
+def _build_suite():
+    suite=_fix2_suite()
+    for cls in (IdleGapTests,BudgetBoundTests,LaunchBindingTests,ReaderBindingTests,WrapperTests,PinTests,TelemetryIntegrationTests):
+        suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(cls))
+    suite.addTests(_telemetry_suite())
+    return suite
+
+
 if __name__=="__main__":
-    result=unittest.TextTestRunner(verbosity=2).run(_fix2_suite())
+    result=unittest.TextTestRunner(verbosity=2).run(_build_suite())
+    assert "c10e_bandknob" not in sys.modules
     print("C10Z_ASTRA_SELFTEST_"+("PASS" if result.wasSuccessful() else "FAIL")+" tests="+str(result.testsRun))
     sys.exit(0 if result.wasSuccessful() else 1)

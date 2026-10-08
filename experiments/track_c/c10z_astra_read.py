@@ -11,7 +11,7 @@ import statistics
 import zlib
 
 SCHEMA = "c10z_astra-v2.2"
-PREREG_SHA = "38f8b68cc2f82d78e0689bff18bfa44f7600e2fe7b1484b07b4e1e88e267b072"
+PREREG_SHA = "87fe3d5d28c9a51eab4eadfd82cc7175f1a94f723f25f31658c5e1aeaf628b87"
 ENGINE_SHA = "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65"
 A1, A2, A7 = "A1_single", "A2_coherent2", "A7_coined_coined"
 ARMS = (A1,A2,A7)
@@ -497,7 +497,9 @@ def validate(record):
     stage=record["stage_completed"]
     require(type(stage) is int and stage in (1,2),"HALTED-V12","completed stage")
     ceilings=record["budget"]["ceilings"];origins=record["budget"]["origins"]
-    require(ceilings["stage01"]==5400. and isinstance(origins["stage01"],(int,float)),"HALTED-V12","phase01 clock provenance")
+    require(type(ceilings["stage01"]) in (int,float) and 7200<=ceilings["stage01"]<=10800 and
+            math.isfinite(ceilings["stage01"]) and isinstance(origins["stage01"],(int,float)),
+            "HALTED-V12","phase01 clock provenance")
     if stage==2:require(ceilings["stage2"] is not None and ceilings["stage2"]>0 and "stage2" in origins,
                         "HALTED-BUDGET","completed stage2 lacked launch ceiling/entry origin")
     if record["process"]==2:
@@ -517,6 +519,9 @@ def validate(record):
     require(not record["budget"]["halted"],"HALTED-BUDGET","elapsed deadline/projection")
     require(bool(record["budget"]["history"]),"HALTED-V12","missing budget projections")
     for projection in record["budget"]["history"]:
+        require(projection.get("ceilings")==ceilings and
+                all(k in ceilings and v["ceiling_s"]==ceilings[k] for k,v in projection["scopes"].items()),
+                "HALTED-V12","projection ceilings differ from record ceilings")
         costs=projection["components_s"]
         require(costs and all(v>0 for v in costs.values()),"HALTED-BUDGET","zero unknown cost")
         require(all(0<=v["elapsed_s"] and v["remaining_s"]>=sum(costs.values()) and
@@ -647,6 +652,7 @@ def read_run(p1,p2=None,repro=None):
     second=read_process(p2)
     if not second["scientific_verdict"]:return second
     try:
+        require(p1["budget"]["ceilings"]==p2["budget"]["ceilings"],"HALTED-V12","process ceilings differ")
         require(p1["pid"]!=p2["pid"] and p2["process"]==2,"HALTED-V12","not a fresh second process")
         require(p1["H_pristine"]==p2["H_pristine"],"HALTED-V3","process2 pristine differs")
         require(p1["H_in"]==p2["H_in"],"HALTED-V12","process2 input manifest differs")
@@ -675,6 +681,14 @@ def read_directory(out):
                 return {"label":halt["code"],"scientific_verdict":False,"detail":halt["detail"],
                     "observations":records+([record] if record is not None else [])}
             require(run["closed"] is True,"HALTED-V12","attempt still running; no final verdict")
+            launch=run["launch"]
+            require(all(record["budget"]["ceilings"][k]==launch[k] for k in ("stage01","stage2","stage3")),
+                    "HALTED-V12","pass ceilings differ from launch")
+            require(launch["stage01"]==launch["go"]["ceilings"]["stage01"] and
+                    all(launch[k] is None or launch[k]==launch["go"]["ceilings"][k] for k in ("stage2","stage3")),
+                    "HALTED-V12","launch ceiling not the go selection")
+            require(launch["benchmark"]["sha256"]==launch["go"]["benchmark_sha256"],
+                    "HALTED-V12","launch benchmark differs from go")
             require(record["attempt_id"]==run["attempt_id"] and record["pid"]==run["pid"],"HALTED-V12","terminal attempt binding")
             for name,expected in record["artifact_hashes"].items():
                 require(hashlib.sha256((directory/name).read_bytes()).hexdigest()==expected,"HALTED-V12","on-disk artifact drift: "+name)
