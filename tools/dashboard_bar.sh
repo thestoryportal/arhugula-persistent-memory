@@ -1,7 +1,7 @@
 #!/bin/bash
 # Dashboard status-bar text: the GPU experiment running now, and how many tiles are WORKING / ASKING / ACTIVE / IDLE.
-# Same shape as GPU_JOB_RE in dashboard_live.py (the canonical definition): driver, program tool or stage wrapper + its stage.
-job=$(/bin/ps -axo command | grep -oE '(experiments/track_c/|tools/(run_)?)c10[a-z][a-z0-9_]*(\.py|_stage\.sh) [A-Za-z0-9-]+' | grep -v ' _job' | head -1)
+# Same rule as script_call + GPU_JOB_RE in dashboard_live.py (canonical): only an interpreter's own script argument counts.
+job=$(/bin/ps -axo command | awk '{n=split($1,a,"/"); if (a[n] ~ /^([Pp]ython[0-9.]*|bash|sh)$/) {s=""; for(i=2;i<=NF;i++) if ($i !~ /^-/) s=s" "$i; print s}}' | grep -oE '(experiments/track_c/|tools/(run_)?)c10[a-z][a-z0-9_]*(\.py|_stage\.sh) [A-Za-z0-9-]+' | grep -v ' _job' | head -1)
 if [ -n "$job" ]; then
   key=$(grep -oE 'c10[a-z]' <<<"$job" | head -1)
   case ${key:0:4} in

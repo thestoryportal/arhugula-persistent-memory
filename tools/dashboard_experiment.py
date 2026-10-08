@@ -101,10 +101,10 @@ def machine(pids, cols=200):
 def running():
     top, pids, job = None, [], None
     for line in sh("/bin/ps", "-axo", "pid=,etime=,command=").splitlines():
-        m = dashboard_live.GPU_JOB_RE.search(line)
+        pid, etime, command = (line.split(None, 2) + ["", ""])[:3]
+        m = dashboard_live.GPU_JOB_RE.search(dashboard_live.script_call(command) or "")
         if not m:
             continue
-        pid, etime = line.split()[:2]
         pids.append(pid)
         if m.group(2) == "_job":
             a = dict(re.findall(r"--(\w+) (\S+)", line))

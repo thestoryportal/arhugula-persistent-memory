@@ -15,6 +15,21 @@ GPU_JOB_RE = re.compile(r"(?:experiments/track_c/|tools/(?:run_)?)(c10[a-z])\w*?
 # The one definition of "an agent pane is busy": a Codex/Claude spinner line, or Codex's slow-model menu, which keeps
 # waiting by itself ("Codex will keep waiting") and must not read as finished. Tiles and the watcher both use it.
 BUSY_RE = re.compile(r"esc to interrupt|Working \(|· Working ·|Codex will keep waiting|^[^\w\s]\s\S+… \(\d", re.M)   # "· Working ·" = Codex footer status, present even between steps
+INTERPRETER_RE = re.compile(r"(?i)^(python[0-9.]*|bash|sh)$")
+TEMP_ROOTS = ("/private/tmp/", "/tmp/", "/private/var/folders/", "/var/folders/")
+
+
+def script_call(command):
+    """The "script arg …" an interpreter is running, or None. Only python/bash/sh as the executable count, and only
+    their non-flag arguments are read, so a script path quoted inside another program's arguments (an agent's
+    prompt, a tool one-liner) is never mistaken for a running GPU job."""
+    parts = command.split()
+    args = [a for a in parts[1:] if not a.startswith("-")]
+    if not parts or not INTERPRETER_RE.match(os.path.basename(parts[0])) or not args or args[0].startswith(TEMP_ROOTS):
+        return None   # selftests run copies under temp roots and never use the GPU
+    return " ".join(args)
+
+
 ROOT = os.path.dirname(TOOLS)
 SHORT = {"c10u": "Step 3", "c10v": "Step 4", "c10w": "Step 5", "c10x": "Step 6", "c10y": "Step 7", "c10z": "ASTRA"}
 NOT_TEAM = {"dashboard", "dashboard_new", "helpers"}
@@ -156,10 +171,12 @@ def gpu_state():
     ps = sh("/bin/ps", "-axo", "etime=,command=")
     running = None
     for line in ps.splitlines():
-        m = (GPU_JOB_RE.search(line)
-             or re.search(r"tools/run_(c10[a-z])\w*\.sh", line))
+        etime, _, command = line.strip().partition(" ")
+        call = script_call(command) or ""
+        m = (GPU_JOB_RE.search(call)
+             or re.search(r"tools/run_(c10[a-z])\w*\.sh", call))
         if m and (m.lastindex < 2 or m.group(2) != "_job"):
-            running = (m.group(1), m.group(2) if m.lastindex >= 2 else "between stages", line.split()[0])
+            running = (m.group(1), m.group(2) if m.lastindex >= 2 else "between stages", etime)
             if m.lastindex >= 2:
                 break
     logs = sorted(glob.glob(os.path.join(ROOT, "results", "c10*_logs", "*coordinator*.log")), key=os.path.getmtime)
