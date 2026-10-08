@@ -179,7 +179,8 @@ def run_rows(paths, cols):
 def is_experiment_log(path):
     # Relative to ROOT: the worktree itself is named c10k-route-a, and Lab View mirrors logs under results/labviz/.
     parts = os.path.relpath(path, ROOT).split(os.sep)
-    return parts[1:2] != ["labviz"] and any(x.startswith("c10") for x in parts[1:])
+    archived = any(x.startswith(("_quarantine", "attempt")) for x in parts)   # set-aside records, not the live run
+    return parts[1:2] != ["labviz"] and not archived and any(x.startswith("c10") for x in parts[1:])
 
 
 BINDING = "A7_coined_coined"
@@ -283,7 +284,9 @@ def render(cols, rows):
     out.append(section("FINISHED RUNS", 25, cols))
     if wide:
         out.append(f" {DIM}  {'run':<{name_w}} {'reworded right (of 72)':<16}  {'train':>6}  {'ctrl':>6}  {'side effects':<18}  {'time':>7}{RESET}")
-    data_dir = run_dir[:-5] if run_dir.endswith("_logs") and os.path.isdir(run_dir[:-5]) else exp_dir
+    top_dir = os.path.relpath(run_dir, ROOT).split(os.sep)[:2]   # results/<experiment>[_logs]
+    data_dir = os.path.join(ROOT, *top_dir)
+    data_dir = data_dir[:-5] if data_dir.endswith("_logs") and os.path.isdir(data_dir[:-5]) else data_dir
     found = latest_answers(data_dir)
     words = words_lines(*found, cols) if found else []
     now_rows = 9 if top else 2

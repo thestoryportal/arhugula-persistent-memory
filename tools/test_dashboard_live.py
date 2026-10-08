@@ -141,6 +141,13 @@ class WordsAndAnswers(unittest.TestCase):
         self.assertIn("✓ Vindex Vaskul,", plain)
         self.assertIn("Q2 If you visit …, its capital city is", plain)
 
+    def test_archived_logs_are_not_the_live_run(self):
+        root = self.X.ROOT
+        self.assertTrue(self.X.is_experiment_log(os.path.join(root, "results/c10w_oracle/p2_x/p2-eval.log")))
+        self.assertFalse(self.X.is_experiment_log(os.path.join(root, "results/c10w_oracle/_quarantine_x/p2_y/p2-a7-s1.log")))
+        self.assertFalse(self.X.is_experiment_log(os.path.join(root, "results/c10w_oracle_logs/attempt1_halted/p2-eval.log")))
+        self.assertFalse(self.X.is_experiment_log(os.path.join(root, "results/labviz/site/evidence/results/c10w_oracle/a.log")))
+
     def test_no_answers_recorded(self):
         self.assertIsNone(self.X.answers_from_record({"recipes": {"r": {"arms": {"A1_single": {}}}}}))
 
