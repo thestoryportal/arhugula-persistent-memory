@@ -1,0 +1,48 @@
+{
+  "decision_id": "D-C10w-p2rerun",
+  "p2_directory": "results/c10w_oracle/p2_20261008T034226_086980Z",
+  "evaluator_amendment": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/step0_20261007T223638_531381Z/amendment_A1_evaluator.json",
+    "sha256": "4791183ab5ddc68cbecff1653a1f80508fb4806d5e957fde63a25a498037d17f"
+  },
+  "reason": "Preserve the compromised first P2 eval; one reviewed GPU re-attempt under D-C10w-p2rerun.",
+  "halted_eval_wall_seconds": 6209.1800138338,
+  "files": [
+    {
+      "source": "results/c10w_oracle/p2_20261008T034226_086980Z/HALT.json",
+      "destination": "results/c10w_oracle/p2_20261008T034226_086980Z/attempt1_halted/HALT.json",
+      "sha256": "d82e41237067ac3ffd10c4a2937a189cce9553ccd1fc3fa1b87ae6d4a7d1edb1",
+      "size": 281
+    },
+    {
+      "source": "results/c10w_oracle/p2_20261008T034226_086980Z/eval.json",
+      "destination": "results/c10w_oracle/p2_20261008T034226_086980Z/attempt1_halted/eval.json",
+      "sha256": "0b110f3b91a2674275542fa5c3a6a19a00b5738371c85b9b5d8af54c3e888153",
+      "size": 3608103
+    },
+    {
+      "source": "results/c10w_oracle/p2_20261008T034226_086980Z/eval_halt.json",
+      "destination": "results/c10w_oracle/p2_20261008T034226_086980Z/attempt1_halted/eval_halt.json",
+      "sha256": "6d2f749ff98ab9abb418a98e5f5852e9d08cb8eb5fea2ff9792d97fb08f141b7",
+      "size": 3608147
+    },
+    {
+      "source": "results/c10w_oracle/p2_20261008T034226_086980Z/p2-eval.log",
+      "destination": "results/c10w_oracle/p2_20261008T034226_086980Z/attempt1_halted/p2-eval.log",
+      "sha256": "15209a0601c1b956399e272326dcc395103ec6e82e3469f6df3c83d12042658d",
+      "size": 11480
+    },
+    {
+      "source": "results/c10w_oracle_logs/p2-eval.log",
+      "destination": "results/c10w_oracle_logs/attempt1_halted/p2-eval.log",
+      "sha256": "5b614a25104b8a97f98c016325741ea0b5737ecb8f6625686a72f16ed3e1b5b4",
+      "size": 1213
+    },
+    {
+      "source": "results/c10w_oracle_logs/p2-eval.gate.20261007T222229.91288.json",
+      "destination": "results/c10w_oracle_logs/attempt1_halted/p2-eval.gate.20261007T222229.91288.json",
+      "sha256": "57b5bc3df8172eb1ebef775f07bf989b32a0c2c84c4003b0e62598a28bad388e",
+      "size": 955
+    }
+  ]
+}

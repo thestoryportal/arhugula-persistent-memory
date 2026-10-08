@@ -122,3 +122,4 @@ It re-grounds the whole "LLM-as-Database" program: goal, the months-long experim
 - [Autoresearch = the fork's loop, adapted to editing](autoresearch-editing-loop-per-fork.md) - D-C10r-impl-1: fixed prepare.py owns metric + guards (separate scorer process), one editable edit.py, safe-mode launch via experiments/track_c/autoresearch_c10/launch.sh; no seeded ideas; docs/AUTORESEARCH.md
 - [Research pass 2026-10-06 and the agreed sequence](research-pass-2026-10-06-sequence.md) — 30 leads @ 900aa8e; write-only ruling; steps 1–8; step 1 = D-C10s-sharedz
 - [CORPUS/44 ρ_c is the REMAINING residual, not the realised share](corpus44-rho-is-remaining-residual.md) — corrected 2026-10-06; never write "X % realised" from ρ_c
+- [C10W ceiling oracle result](c10w-ceiling-oracle-result.md) — step 5 FINAL: 70/72 with locality/forgetting cost; no clean reference; not a route (CORPUS/57)

@@ -270,6 +270,24 @@
       "leaves_open": "Whether depth matters at all, whether a different way of choosing layers would work, and whether the choice of layers would come out the same with different background sentences (not measured). One small observation: a single fixed layer matched the usual method while changing the model about two-thirds as much.",
       "next_step": "None for this idea now. The ceiling test's repeat run (step 5) is running; steps 6 and 7 wait for its result.",
       "ref": "CORPUS/56"
+    },
+    {
+      "id": "evaluation-15",
+      "source_result": {
+        "date": "2026-10-08",
+        "name": "Step 5: ceiling test, official reading (training, not a write)",
+        "score": "70 of 72 (two runs: 70 and 71)",
+        "best": 70,
+        "kind": "inconclusive",
+        "verdict": "Training this small part of the model can recall made-up two-word names at 70 to 71 of 72, so its size is not the wall; but it got there with side effects (other facts disturbed, general-knowledge loss on one run), so a clean ceiling is not shown",
+        "ref": "CORPUS/57"
+      },
+      "question": "Can training the same five layers the write method uses (not a write, just a measuring stick) get made-up two-word names right when the question is reworded, and do so without disturbing anything else?",
+      "result": "Yes on recall, no on side effects. Two separate training runs answered 70 and 71 of 72 reworded questions right (the usual write method gets 9 to 16 across the same checks), and a repeat of the first run gave 70 again. But on both runs, other made-up names asked in the same training wordings were pulled toward the taught answers (15 of the 20 wordings over the limit), and one run lost 6 of 200 general-knowledge questions against a limit of 4.",
+      "rules_out": "That these five layers are too small to hold the names: training reached 70 of 72 there. It does not rule out anything about write methods, because training is not a way to store facts in this design.",
+      "leaves_open": "Whether any method can reach the goal on this part of the model without side effects: no run here was clean on every check, so there is no clean reference number to compare other methods against. A bigger training setting was not run, because the rules set in advance skip it after this kind of result.",
+      "next_step": "Steps 6 and 7 go ahead on their own plans, without a reference number from this test.",
+      "ref": "CORPUS/57"
     }
   ]
 }
