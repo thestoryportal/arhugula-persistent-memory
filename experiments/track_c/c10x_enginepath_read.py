@@ -13,7 +13,7 @@ import math
 import pickle
 from pathlib import Path
 
-PREREG_SHA256 = 'd3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899'
+PREREG_SHA256 = '3eb899d922a3ab66b6887bf6375602a3f741eeb681ce476a8d167b080a7cd07a'
 CANON = 'The capital of {} is the city of'
 ENGINE_SHA256 = 'd941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65'
 ARMS = ('A1_single', 'A2_coherent2', 'A7_coined_coined')
@@ -1045,7 +1045,7 @@ def _file_evidence(record, supervisor):
         _need(report['ratio_float64'] == ratio, 'write-size diagnostic differs from captured norms')
         _fp32_number(report['ratio_fp32_report_only'], 'write_size.ratio_fp32_report_only')
         _need(type(report['opposite_1_5_result']) is bool, 'write-size fp32 diagnostic boolean missing')
-    caps = {'setup': 600., 'A': 2040., 'targets': 2400., 'inertness': 3000.,
+    caps = {'setup': 600., 'A': 2040., 'targets': 3600., 'inertness': 3000.,
             'injection': 1500., 'I-2': 2040., 'I-1': 2040., 'final': 780.}
     plan = {'setup': {}, 'A': {'recipe_arm': 3, 'G': 1}, 'targets': {'solve': 216},
             'inertness': {'solve': 100, 'write': 6, 'G8': 1}, 'injection': {'injection': 288},
@@ -1058,7 +1058,7 @@ def _file_evidence(record, supervisor):
         for kind, count in plan[stage].items():
             for duration in _list(units[stage][kind], count, 'timings.units.' + stage + '.' + kind):
                 _num(duration, 'timings.unit_duration', 0, timings[stage])
-    _num(supervisor.get('elapsed_seconds'), 'supervisor.elapsed_seconds', 0, 15000)
+    _num(supervisor.get('elapsed_seconds'), 'supervisor.elapsed_seconds', 0, 16200.)
     _need(sum(timings[stage] for stage in caps) <= supervisor['elapsed_seconds'],
           'measured stage durations exceed supervisor process elapsed time')
 

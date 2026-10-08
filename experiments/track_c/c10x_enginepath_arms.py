@@ -27,13 +27,14 @@ import traceback
 ROOT = Path(__file__).resolve().parents[2]
 # Lazy science modules must share this instance when the supervisor uses a script.
 if __name__=='__main__':sys.modules['c10x_enginepath_arms']=sys.modules[__name__]
-PIN = 'd3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899'
+PIN = '3eb899d922a3ab66b6887bf6375602a3f741eeb681ce476a8d167b080a7cd07a'
 CONTEXT_SOURCE = 'experiments/track_c/c10z_astra_benchmark.py'
 C10Q_CONTEXT_SHA = 'c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da'
 C10Q_TEMPLATES_SHA = 'd6c7c70026dced37bddc6adf316a3487d70227dae80a6e0ed5cdabe50caedfa0'
 FRAME_SUBJECTS = ['Vorbanth', 'Quillexa', 'Tremnok', 'Oskavel', 'Blynthar', 'Durmquist']
 ARM_NAMES = ('A1_single', 'A2_coherent2', 'A7_coined_coined')
-CAPS = {'setup':600., 'A':2040., 'targets':2400., 'inertness':3000., 'injection':1500., 'I-2':2040., 'I-1':2040., 'final':780.}
+CAPS = {'setup':600., 'A':2040., 'targets':3600., 'inertness':3000., 'injection':1500., 'I-2':2040., 'I-1':2040., 'final':780.}
+PROCESS_BUDGET = 16200.
 KNOBS = ('MODEL_ID','MODEL_REV','C10_PROJECTOR','N_EDIT','C10_SUBJECT_OFFSET','C10_CTX_TEMPLATES','C10_KEY_LOCUS','RUN_LABEL')
 TELEMETRY_CLOCK = time.perf_counter
 WATCHDOG_CLOCK = time.monotonic
@@ -823,7 +824,7 @@ class StageBudget:
             'units_so_far':units,'units_so_far_counts':{k:len(units.get(k,[])) for k in dict.fromkeys([*counts,*units])},'remaining_units':counts,
             'first':self.first,'previous':previous,'measured_previous':self.first.get(name,0.),'predicted':predicted,
             'previous_overhead':previous_overhead,'projected':projected,'remaining':remaining,'reserve':reserve,
-            'process_elapsed_at_projection':process_elapsed,'process_remaining_at_projection':15000-process_elapsed,
+            'process_elapsed_at_projection':process_elapsed,'process_remaining_at_projection':PROCESS_BUDGET-process_elapsed,
             'within_stage_cap':projected<=CAPS[name],'within_reserved_process_budget':projected+reserve<=remaining,
             'deadline':deadline or {'checked':False}})
     def enter(self,name):
@@ -837,7 +838,7 @@ class StageBudget:
         predicted+=previous_overhead
         projected=max(CAPS[name],measured,predicted)
         process_elapsed=0. if name=='setup' else WATCHDOG_CLOCK()-self.start
-        remaining=15000-process_elapsed
+        remaining=PROCESS_BUDGET-process_elapsed
         try:receipt=project(projected,CAPS[name],remaining,reserve)
         except Halt as exc:
             self.halt_inputs(exc,name,'entry',None,0.,previous,predicted,previous_overhead,projected,remaining,reserve,process_elapsed)
@@ -858,14 +859,14 @@ class StageBudget:
         previous_overhead=max(0.,self.first.get(self.stage,0.)-sum(sum(v) for v in previous.values()))
         projected=max(cap,elapsed+predicted+previous_overhead)
         process_elapsed=WATCHDOG_CLOCK()-self.start
-        remaining=15000-process_elapsed+elapsed
+        remaining=PROCESS_BUDGET-process_elapsed+elapsed
         deadline={'checked':False}
         try:
             project(projected,cap,remaining,reserve)
             deadline_elapsed=WATCHDOG_CLOCK()-self.start if elapsed<cap else None
             deadline={'checked':True,'elapsed_below_cap':elapsed<cap,'process_clock_sampled':deadline_elapsed is not None,
-                      'process_elapsed':deadline_elapsed,'process_elapsed_below_limit':deadline_elapsed<15000 if deadline_elapsed is not None else None}
-            require(elapsed<cap and deadline_elapsed<15000,'WORKER_DEADLINE')
+                      'process_elapsed':deadline_elapsed,'process_elapsed_below_limit':deadline_elapsed<PROCESS_BUDGET if deadline_elapsed is not None else None}
+            require(elapsed<cap and deadline_elapsed<PROCESS_BUDGET,'WORKER_DEADLINE')
         except Halt as exc:
             self.halt_inputs(exc,self.stage,'unit',kind,elapsed,previous,predicted,previous_overhead,projected,remaining,reserve,process_elapsed,deadline)
             raise
@@ -876,11 +877,11 @@ class StageBudget:
         if kind in self.remaining:
             self.remaining[kind]-=1
             if self.remaining[kind]<0:raise ValueError('work-unit plan undercount '+kind)
-        require(WATCHDOG_CLOCK()-self.stage_start<=CAPS[self.stage] and WATCHDOG_CLOCK()-self.start<=15000,'WORK_UNIT_DEADLINE')
+        require(WATCHDOG_CLOCK()-self.stage_start<=CAPS[self.stage] and WATCHDOG_CLOCK()-self.start<=PROCESS_BUDGET,'WORK_UNIT_DEADLINE')
     def leave(self):
         from c10x_enginepath_inertness import require
         self.timings[self.stage]=WATCHDOG_CLOCK()-self.stage_start
-        require(self.timings[self.stage]<=CAPS[self.stage] and WATCHDOG_CLOCK()-self.start<=15000,'STAGE_DEADLINE')
+        require(self.timings[self.stage]<=CAPS[self.stage] and WATCHDOG_CLOCK()-self.start<=PROCESS_BUDGET,'STAGE_DEADLINE')
         if self.telemetry:self.telemetry.phase('stage_end',stage=self.stage)
         self.stage=None
 
@@ -1414,7 +1415,7 @@ def watchdog(out,go,process,process1=None,predecessor=None,cause=None):
                 if stage_path.exists():
                     progress=strict_json(stage_path.read_bytes());stage=progress['stage'];began=start if stage=='setup' else progress['started_monotonic']
                     if stage not in CAPS or type(began) not in (int,float) or began<start:raise ValueError('invalid stage checkpoint')
-                if elapsed>=15000 or now-began>=CAPS[stage]:
+                if elapsed>=PROCESS_BUDGET or now-began>=CAPS[stage]:
                     reason='WATCHDOG_TIMEOUT '+stage;os.killpg(child.pid,signal.SIGKILL);break
                 time.sleep(.1)
         except BaseException:
@@ -1423,7 +1424,7 @@ def watchdog(out,go,process,process1=None,predecessor=None,cause=None):
         code=child.wait()
     ended=WATCHDOG_CLOCK()
     stage='setup';began=start
-    if ended-start>15000:reason='WATCHDOG_TIMEOUT process'
+    if ended-start>PROCESS_BUDGET:reason='WATCHDOG_TIMEOUT process'
     if (out/'stage.json').exists():
         last=strict_json((out/'stage.json').read_bytes());stage=last['stage'];began=start if stage=='setup' else last['started_monotonic']
         if ended-began>CAPS[last['stage']]:reason='WATCHDOG_TIMEOUT '+last['stage']
@@ -1453,7 +1454,7 @@ def watchdog(out,go,process,process1=None,predecessor=None,cause=None):
     # the science readable; every compromised-answer outcome demands a rerun.
     if admitted['telemetry']:
         try:
-            audited=bounded_answer_audit(out,began+CAPS[stage],start+15000)
+            audited=bounded_answer_audit(out,began+CAPS[stage],start+PROCESS_BUDGET)
         except Exception as exc:
             record.update(status='HALTED',completion='incomplete',reason=str(exc),elapsed_seconds=WATCHDOG_CLOCK()-start,
                           stage=stage,phase=stage+':answer_audit',traceback=traceback.format_exc(),traceback_source='python_exception')
@@ -1467,7 +1468,7 @@ def watchdog(out,go,process,process1=None,predecessor=None,cause=None):
             write_json(logs/'supervisor.json',record)
             return 1
     ended=WATCHDOG_CLOCK();record['elapsed_seconds']=ended-start
-    if ended-start>15000 or ended-began>CAPS[stage]:
+    if ended-start>PROCESS_BUDGET or ended-began>CAPS[stage]:
         record.update(status='HALTED',completion='incomplete',reason='FINAL_SUPERVISOR_DEADLINE',
                       stage=stage,phase=stage+':supervisor_deadline',traceback=None,traceback_source='unavailable_no_python_exception')
         record['diagnostic']=halt_diagnostic(record,record['reason'])
@@ -1475,7 +1476,7 @@ def watchdog(out,go,process,process1=None,predecessor=None,cause=None):
         return 1
     write_json(logs/'supervisor.json',record)
     ended=WATCHDOG_CLOCK()
-    if ended-start>15000 or ended-began>CAPS[stage]:
+    if ended-start>PROCESS_BUDGET or ended-began>CAPS[stage]:
         record.update(status='HALTED',completion='incomplete',reason='FINAL_SUPERVISOR_PERSISTENCE_DEADLINE',elapsed_seconds=ended-start,
                       stage=stage,phase=stage+':supervisor_persistence',traceback=None,traceback_source='unavailable_no_python_exception')
         write_json(logs/'supervisor_halt.json',record)

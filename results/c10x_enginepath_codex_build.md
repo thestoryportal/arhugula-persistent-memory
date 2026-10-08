@@ -3963,3 +3963,25 @@ The private parity script refuses an existing parity-root path; its recorded run
 | `docs/C10X_ENGINEPATH_PREREG.md` | `d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899` | Unchanged; no amendment applied |
 
 The runtime claim is limited to CPU diagnostics and frozen-policy parity. The real failed unit's magnitudes, exact projection and cause remain **UNVERIFIABLE**, and no new MPS timing or scientific outcome is claimed. Completion/context evidence is saved only under the authorized private scratch root; no git, canonical ledger, engine, harness, prereg, historical record or global memory write was performed.
+
+## Amendment B — targets and process budgets (2026-10-08)
+
+**Implemented §14 exactly, test-first.** Read §14 in full and its Astra GO delta; verified prereg SHA `3eb899d922a3ab66b6887bf6375602a3f741eeb681ce476a8d167b080a7cd07a`. Driver targets cap is **3600 s**. One **`PROCESS_BUDGET = 16200.`** replaces all 12 process-budget literals, including diagnostic remaining time, worker deadlines, supervisor polling/completion/persistence and answer-audit deadline. Reader independently admits targets **≤3600 s** and process elapsed **≤16200 s**. All live and fixture pins use the new digest (`arms.py:30,36–37,815–886,1418–1480`; `read.py:16,1048–1063`). Two independently bounded processes allow **32400 s**; no aggregate budget enforcer existed.
+
+Stage caps total 15600 s, retaining 600 s setup slack. Tests cover setup/A/targets entry at recorded timing inputs; projection 3600 PASS / 3600.001 REFUSE; reserve 12960 PASS / 12959.999 REFUSE; reader acceptance throughout the increased ranges and field-specific rejection above both limits and every stage cap. They preserve the worker/supervisor boundary distinctions, max-unit projection and previous diagnostic regressions. The 216-solve plan, other caps, reserve, overhead, deadline comparisons and every science gate are unchanged.
+
+**RED:** 7 new methods, 21 expected failure assertions, no errors, 1.808 s; production driver/reader still matched their before snapshots. **GREEN:** 23 focused tests passed in 2.174 s; full selftest **119 PASS in 24.267 s**, exit 0. Testing was light, serial CPU work under private fixture roots; both listing-drift maps were empty and harness/transformers/datasets imports absent. Whole-file AST comparison verifies that the production diff contains only the authorized cap/budget/pin changes. All 188 frozen files and 28 held historical artifacts retain their before hashes; engine fingerprint PASS (`_cov_cpu=3`). Evidence: `/private/tmp/c10x_build/amendment_b/{before.json,red_final.log,green.log,full_selftest.log,minimal_delta_verification.json,final_review.md,sealed_evidence.json}`. The prior 429609-byte report prefix is preserved.
+
+Final review: **PROCEED**, same-family read-only fallback; Claude auth returned `loggedIn=false`, so no out-of-family review completed. These are CPU/static admission checks; live cap sufficiency and a pair of runs at their maximum elapsed values remain **UNVERIFIED**. No GPU/model/science dispatch or git mutation occurred; re-run 2 remains HALTED/incomplete and untouched.
+
+| Source | Final SHA-256 |
+|---|---|
+| `experiments/track_c/c10x_enginepath_arms.py` | `c3487253672f69ad4a9e13fce505f89e58a47423dc549b4e7064b4113ec18322` |
+| `experiments/track_c/c10x_enginepath_read.py` | `d377b5fd99488b10dce9ccc5a4ccde8b6028dfca4cacd25fc57395cd54d6a6ec` |
+| `experiments/track_c/c10x_enginepath_selftest.py` | `3b42f34da706ce20fb13314d996a8bb3b520d700b59406d243bf76e45d72f490` |
+
+Executed full selftest:
+
+```sh
+env TMPDIR=/private/tmp/c10x_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py
+```

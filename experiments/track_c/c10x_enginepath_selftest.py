@@ -139,7 +139,7 @@ def fixture():
     return {'schema': 'c10x_enginepath/v1', 'status': 'COMPLETE', 'process': 1,
             'run_id': 'p1', 'pid': 101, 'started_at': '2026-10-08T10:00:00+00:00',
             'finished_at': '2026-10-08T10:01:00+00:00', 'source_commit': 'test-commit',
-            'prereg_sha256': 'd3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899',
+            'prereg_sha256': '3eb899d922a3ab66b6887bf6375602a3f741eeb681ce476a8d167b080a7cd07a',
             'sources_start': {'source': sha}, 'sources_end': {'source': sha},
             'fingerprint': {'ok': True, 'sha256': 'd941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65', '_cov_cpu': 3},
             'identity': {'model': 'stub', 'model_rev': 'rev', 'tokenizer': {'artifact': sha},
@@ -741,7 +741,7 @@ class TelemetryTests(IsolatedCase):
     def test_frozen_bytes_and_imports(self):
         expected=json.loads((SCRATCH/'before/r5_sha256.json').read_text())
         # Program-authored Amendment Z replaces this one pin; other before bytes stay locked.
-        expected['docs/C10X_ENGINEPATH_PREREG.md']='d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899'
+        expected['docs/C10X_ENGINEPATH_PREREG.md']='3eb899d922a3ab66b6887bf6375602a3f741eeb681ce476a8d167b080a7cd07a'
         for rel,sha in expected.items():
             self.assertEqual(hashlib.sha256((REAL/rel).read_bytes()).hexdigest(),sha,rel)
         for name in FORBIDDEN:self.assertNotIn(name,sys.modules)
@@ -907,7 +907,7 @@ class IntegrationTests(IsolatedCase):
         out=self.root/'results/budget';out.mkdir(parents=True)
         with patch.object(A,'WATCHDOG_CLOCK',return_value=0.):
             budget=A.StageBudget(out,start=0.);budget.enter('targets')
-        budget.units['targets']={'solve':[12.]};budget.remaining={'solve':216}
+        budget.units['targets']={'solve':[18.]};budget.remaining={'solve':216}
         with patch.object(A,'WATCHDOG_CLOCK',return_value=1.):
             with self.assertRaises(I.Halt):budget.unit(kind='solve')
         with patch.object(A,'WATCHDOG_CLOCK',return_value=123.):
@@ -944,7 +944,7 @@ class FileAdmissionTests(IsolatedCase):
                 with self.assertRaises(ValueError):R._file_evidence(bad,{'elapsed_seconds':8.})
 
     def test_amendment_p_prereg_pin(self):
-        pin='d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899'
+        pin='3eb899d922a3ab66b6887bf6375602a3f741eeb681ce476a8d167b080a7cd07a'
         self.assertEqual(A.PIN,pin);self.assertEqual(R.PREREG_SHA256,pin)
 
     def test_amendment_p_digest_refusals(self):
@@ -1057,7 +1057,7 @@ class FileAdmissionTests(IsolatedCase):
         out=self.root/'results/budget';out.mkdir(parents=True)
         with patch.object(A,'WATCHDOG_CLOCK',return_value=0.):
             budget=A.StageBudget(out);budget.enter('targets')
-        with patch.object(A,'WATCHDOG_CLOCK',return_value=2400.001):
+        with patch.object(A,'WATCHDOG_CLOCK',return_value=3600.001):
             with self.assertRaises(I.Halt):budget.leave()
         first={'inertness':2700.,'work_units':{'inertness':{'solve':[25.]+[20.]*99}}}
         with patch.object(A,'WATCHDOG_CLOCK',return_value=0.):
@@ -1200,7 +1200,7 @@ class FileAdmissionTests(IsolatedCase):
             ('relation kind',lambda r:r['recipes']['A']['arms'][ARM_NAMES[2]]['extra']['relation_labels']['{} is a'].update(kind='bystander')),
             ('injection count',lambda r:r['inject']['details']['I-2'].update(para_n=49)),
             ('missing timing',lambda r:r.__setitem__('timings',{})),
-            ('over-cap timing',lambda r:r['timings'].update(targets=2400.001)),
+            ('over-cap timing',lambda r:r['timings'].update(targets=3600.001)),
             ('work population',lambda r:r['timings']['work_units']['targets']['solve'].pop()),
             ('W0 hashes',lambda r:r['w0']['checkpoints'][0].pop('hashes')),
         ]
@@ -1211,13 +1211,29 @@ class FileAdmissionTests(IsolatedCase):
         boundary=copy.deepcopy(f);boundary['inertness']['X1-ii']['cells'][0]['relative']=1e-4
         boundary['inertness']['X1-iv']['layers']['4']['report_only_fp32'].update(relative=.01,opposite_tolerance_result=True)
         R._file_evidence(boundary,supervisor)
-        with self.assertRaises(ValueError):R._file_evidence(f,{'elapsed_seconds':15000.001})
+        with self.assertRaises(ValueError):R._file_evidence(f,{'elapsed_seconds':16200.001})
 
     def test_reader_publishes_invalid_with_exit_zero(self):
         self.make_files();(self.out/'inertness.json').write_text('{}')
         with patch.object(A,'source_hashes',return_value=R.strict_json((self.out/'run.json').read_bytes())['sources_start']),contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(R.main(['--out',str(self.out)]),0)
         self.assertEqual(R.strict_json((self.out/'reader.json').read_bytes())['status'],'INVALID')
+
+    def test_amendment_b_reader_budget_boundaries(self):
+        f=self.make_files()
+        for targets,process in [(2400.001,16200.),(3000.,16200.),(3600.,16200.),
+                                (1.,15000.001),(1.,16000.),(1.,16200.)]:
+            record=copy.deepcopy(f);record['timings']['targets']=targets
+            with self.subTest(targets=targets,process=process):
+                try:R._file_evidence(record,{'elapsed_seconds':process})
+                except ValueError as exc:self.fail('Amendment B admissible timing refused: '+str(exc))
+        for stage,cap in {'setup':600.,'A':2040.,'targets':3600.,'inertness':3000.,
+                          'injection':1500.,'I-2':2040.,'I-1':2040.,'final':780.}.items():
+            record=copy.deepcopy(f);record['timings'][stage]=cap+.001
+            with self.subTest(over_cap=stage):
+                with self.assertRaisesRegex(ValueError,'timings.'+stage):R._file_evidence(record,{'elapsed_seconds':16200.})
+        with self.assertRaisesRegex(ValueError,'supervisor.elapsed_seconds'):
+            R._file_evidence(f,{'elapsed_seconds':16200.001})
 
     def test_admitted_process_pair_and_p2_gate(self):
         first=self.make_files();second_out=self.root/'results/c10x_enginepath_r2'
@@ -1345,7 +1361,7 @@ class FileAdmissionTests(IsolatedCase):
             preflight=types.SimpleNamespace(returncode=0,communicate=lambda **kw:(b'{"telemetry":true}',b''))
             worker=types.SimpleNamespace(poll=lambda:0,wait=lambda:0)
             def audited(*args):
-                self.assertEqual(args[1:],(780.,15000.));clock['now']=finish
+                self.assertEqual(args[1:],(780.,16200.));clock['now']=finish
                 return {'verdict':'FAIL','causes':['DISABLED'],'rerun_required':False}
             with patch.object(A,'ROOT',root),patch.object(A,'WATCHDOG_CLOCK',side_effect=lambda:clock['now']),patch.object(A.subprocess,'Popen',side_effect=[preflight,worker]),patch.object(A,'bounded_answer_audit',side_effect=audited):
                 self.assertEqual(A.watchdog(out,root/'go.json',1),exit_code)
@@ -1965,6 +1981,108 @@ class ScorerJsonTests(IsolatedCase):
         self.assertEqual(diag['traceback'],result['traceback']);self.assertEqual(diag['phase'],result['phase'])
 
 
+class BudgetAmendmentTests(IsolatedCase):
+    def allowed(self,call):
+        try:return call()
+        except I.Halt as exc:self.fail('Amendment B budget refused: '+str(exc))
+    def test_amendment_b_constants_and_pins(self):
+        self.assertEqual(getattr(A,'PROCESS_BUDGET',None),16200.)
+        self.assertEqual(A.PROCESS_BUDGET*2,32400.)
+        self.assertEqual(A.CAPS,{'setup':600.,'A':2040.,'targets':3600.,'inertness':3000.,
+                                 'injection':1500.,'I-2':2040.,'I-1':2040.,'final':780.})
+        self.assertEqual(sum(A.CAPS.values()),15600.);self.assertEqual(A.UNIT_PLAN['targets'],{'solve':216})
+        pin='3eb899d922a3ab66b6887bf6375602a3f741eeb681ce476a8d167b080a7cd07a'
+        self.assertEqual(A.PIN,pin);self.assertEqual(R.PREREG_SHA256,pin)
+        self.assertEqual(fixture()['prereg_sha256'],pin)
+        self.assertEqual(hashlib.sha256((REAL/'docs/C10X_ENGINEPATH_PREREG.md').read_bytes()).hexdigest(),pin)
+        source=(REAL/'experiments/track_c/c10x_enginepath_arms.py').read_text()
+        self.assertNotIn('15000',source)
+        definitions=[n for n in ast.parse(source).body if isinstance(n,ast.Assign) and
+                     any(isinstance(t,ast.Name) and t.id=='PROCESS_BUDGET' for t in n.targets)]
+        self.assertEqual(len(definitions),1);self.assertEqual(ast.literal_eval(definitions[0].value),16200.)
+    def test_amendment_b_recorded_stage_entries(self):
+        self.out.mkdir(parents=True);budget=A.StageBudget(self.out,start=0.)
+        for stage,elapsed in [('setup',0.),('A',25.66563270892948),('targets',1657.2738742090296)]:
+            with self.subTest(stage=stage),patch.object(A,'WATCHDOG_CLOCK',return_value=elapsed):
+                self.allowed(lambda:budget.enter(stage))
+                receipt=R.strict_json((self.out/'stage.json').read_bytes())['projection']
+                self.assertEqual(receipt['remaining_seconds'],16200.-elapsed)
+                reserve=sum(A.CAPS[n] for n in list(A.CAPS)[list(A.CAPS).index(stage)+1:])
+                self.assertEqual(receipt['reserve_seconds'],reserve)
+                self.assertLessEqual(receipt['projected_seconds']+reserve,receipt['remaining_seconds'])
+        self.assertEqual(budget.timings['setup'],25.66563270892948)
+    def test_amendment_b_projection_and_reserve_equalities(self):
+        receipt=self.allowed(lambda:A.project(3600.,A.CAPS['targets'],12960.,9360.))
+        self.assertTrue(receipt['ok'])
+        with self.assertRaisesRegex(I.Halt,'^STAGE_PROJECTION_REFUSED$'):
+            A.project(3600.001,A.CAPS['targets'],20000.,9360.)
+        self.out.mkdir(parents=True)
+        for elapsed,passes in [(3240.,True),(3240.001,False)]:
+            budget=A.StageBudget(self.out,start=0.)
+            with self.subTest(elapsed=elapsed),patch.object(A,'WATCHDOG_CLOCK',return_value=elapsed):
+                if passes:
+                    self.allowed(lambda:budget.enter('targets'))
+                    receipt=R.strict_json((self.out/'stage.json').read_bytes())['projection']
+                    self.assertEqual(receipt['projected_seconds'],3600.)
+                    self.assertEqual(receipt['reserve_seconds'],9360.);self.assertEqual(receipt['remaining_seconds'],12960.)
+                else:
+                    with self.assertRaisesRegex(I.Halt,'^STAGE_PROJECTION_REFUSED$'):budget.enter('targets')
+    def test_amendment_b_max_unit_rule_still_refuses(self):
+        for sample,remaining,elapsed,passes in [(16.,215,17.,True),(17.,215,18.,False),(17.,10,3000.,True)]:
+            budget=A.StageBudget(self.root/'budget',start=0.);budget.stage='targets';budget.stage_start=0.
+            budget.units={'targets':{'solve':[sample]}};budget.remaining={'solve':remaining}
+            with self.subTest(sample=sample,remaining=remaining),patch.object(A,'WATCHDOG_CLOCK',return_value=elapsed):
+                if passes:self.allowed(lambda:budget.unit(kind='solve'))
+                else:
+                    with self.assertRaisesRegex(I.Halt,'^STAGE_PROJECTION_REFUSED$') as caught:budget.unit(kind='solve')
+                    self.assertEqual(caught.exception.budget_inputs['projected'],3673.)
+    def test_amendment_b_completion_process_deadlines(self):
+        for operation,code in [('done','WORK_UNIT_DEADLINE'),('leave','STAGE_DEADLINE')]:
+            for elapsed,passes in [(16200.,True),(16200.001,False)]:
+                budget=A.StageBudget(self.root/'budget',start=0.);budget.stage='final';budget.stage_start=16199.
+                budget.units={'final':{}};budget.remaining={}
+                call=(lambda:budget.done((16199.,'unit'))) if operation=='done' else budget.leave
+                with self.subTest(operation=operation,elapsed=elapsed),patch.object(A,'WATCHDOG_CLOCK',return_value=elapsed):
+                    if passes:self.allowed(call)
+                    else:
+                        with self.assertRaisesRegex(I.Halt,'^'+code+'$'):call()
+    def test_amendment_b_supervisor_budget_boundaries(self):
+        for mode in ('poll','wait','audit','persist'):
+            for elapsed in ((16199.999,16200.) if mode=='poll' else (16200.,16200.001)):
+                out=self.root/'results'/('parent_'+mode+'_'+str(elapsed));out.mkdir(parents=True)
+                A.write_json(out/'run.json',{'status':'COMPLETE','run_id':'stub'})
+                A.write_json(out/'stage.json',{'stage':'final','started_monotonic':15500.})
+                clock={'now':0.};polls=[];audit_deadlines=[];write=A.write_json
+                preflight=types.SimpleNamespace(returncode=0,communicate=lambda **kw:(b'{"telemetry":true}',b''))
+                def poll():
+                    polls.append(True)
+                    if mode=='poll' and len(polls)==1:clock['now']=elapsed;return None
+                    return 0
+                def wait():
+                    clock['now']=elapsed if mode in ('poll','wait') else 16199.
+                    return 0
+                def audited(*args):
+                    audit_deadlines.append(args[1:])
+                    if mode=='audit':clock['now']=elapsed
+                    return {'rerun_required':False}
+                def persist(path,record):
+                    write(path,record)
+                    if mode=='persist' and Path(path).name=='supervisor.json':clock['now']=elapsed
+                worker=types.SimpleNamespace(poll=poll,wait=wait,pid=12345)
+                passes=elapsed<16200. if mode=='poll' else elapsed<=16200.
+                with self.subTest(mode=mode,elapsed=elapsed),patch.object(A,'WATCHDOG_CLOCK',side_effect=lambda:clock['now']),\
+                     patch.object(A.subprocess,'Popen',side_effect=[preflight,worker]),patch.object(A.os,'killpg') as killed,\
+                     patch.object(A.time,'sleep'),patch.object(A,'bounded_answer_audit',side_effect=audited),patch.object(A,'write_json',side_effect=persist):
+                    self.assertEqual(A.watchdog(out,self.root/'go.json',1),0 if passes else 1)
+                    if mode=='poll' and not passes:killed.assert_called_once_with(12345,A.signal.SIGKILL)
+                    else:killed.assert_not_called()
+                    if passes or mode in ('audit','persist'):self.assertEqual(audit_deadlines,[(16280.,16200.)])
+                    logs=out.with_name(out.name+'_logs')
+                    receipt=R.strict_json((logs/('supervisor_halt.json' if mode=='persist' and not passes else 'supervisor.json')).read_bytes())
+                    self.assertEqual(receipt['status'],'COMPLETE' if passes else 'HALTED')
+                    if not passes:self.assertEqual(receipt['completion'],'incomplete')
+
+
 class ProjectionDiagnosticTests(IsolatedCase):
     def budget(self,first=None,units=None,remaining=None):
         budget=A.StageBudget(self.root/'budget',first,start=0.)
@@ -1991,7 +2109,7 @@ class ProjectionDiagnosticTests(IsolatedCase):
         for duration in (-1.,float('nan'),float('inf')):
             with self.assertRaisesRegex(I.Halt,'^BAD_PROJECTION$'):A.project(duration,2400.,15000.,9360.)
     def test_entry_records_attempted_stage_and_history(self):
-        first={'targets':1000.,'work_units':{'targets':{'solve':[12.]}}}
+        first={'targets':1021.,'work_units':{'targets':{'solve':[12.]}}}
         budget=A.StageBudget(self.root/'budget',first,start=0.)
         with patch.object(A,'WATCHDOG_CLOCK',return_value=0.) as clock:
             inputs=self.refusal(lambda:budget.enter('targets'))
@@ -2000,61 +2118,61 @@ class ProjectionDiagnosticTests(IsolatedCase):
         self.assertEqual(inputs['first'],first);self.assertEqual(inputs['previous'],{'solve':[12.]})
         self.assertEqual(inputs['units_so_far'],{});self.assertEqual(inputs['units_so_far_counts'],{'solve':0})
         self.assertEqual(inputs['remaining_units'],{'solve':216});self.assertEqual(inputs['elapsed'],0.)
-        self.assertEqual(inputs['measured_previous'],1000.);self.assertEqual(inputs['previous_overhead'],988.)
-        self.assertEqual(inputs['predicted'],3580.);self.assertEqual(inputs['projected'],3580.)
-        self.assertEqual(inputs['remaining'],15000.);self.assertEqual(inputs['reserve'],9360.)
+        self.assertEqual(inputs['measured_previous'],1021.);self.assertEqual(inputs['previous_overhead'],1009.)
+        self.assertEqual(inputs['predicted'],3601.);self.assertEqual(inputs['projected'],3601.)
+        self.assertEqual(inputs['remaining'],16200.);self.assertEqual(inputs['reserve'],9360.)
     def test_entry_records_process_reserve_refusal_without_history(self):
         budget=A.StageBudget(self.root/'budget',start=0.)
         with patch.object(A,'WATCHDOG_CLOCK',return_value=7200.) as clock:
             inputs=self.refusal(lambda:budget.enter('targets'))
         self.assertEqual(clock.call_count,1);self.assertEqual(inputs['first'],{})
         self.assertEqual(inputs['previous'],{});self.assertEqual(inputs['previous_overhead'],0.)
-        self.assertEqual(inputs['projected'],2400.);self.assertEqual(inputs['remaining'],7800.)
+        self.assertEqual(inputs['projected'],3600.);self.assertEqual(inputs['remaining'],9000.)
         self.assertTrue(inputs['within_stage_cap']);self.assertFalse(inputs['within_reserved_process_budget'])
     def test_unit_max_sample_and_remaining_count_are_preserved(self):
-        budget=self.budget(units={'solve':[12.]},remaining={'solve':215})
-        with patch.object(A,'WATCHDOG_CLOCK',return_value=13.) as clock:
+        budget=self.budget(units={'solve':[18.]},remaining={'solve':215})
+        with patch.object(A,'WATCHDOG_CLOCK',return_value=19.) as clock:
             inputs=self.refusal(lambda:budget.unit(kind='solve'))
         self.assertEqual(clock.call_count,2)
         self.assertEqual(inputs['boundary'],'unit');self.assertEqual(inputs['kind'],'solve')
-        self.assertEqual(inputs['elapsed'],13.);self.assertEqual(inputs['units_so_far'],{'solve':[12.]})
+        self.assertEqual(inputs['elapsed'],19.);self.assertEqual(inputs['units_so_far'],{'solve':[18.]})
         self.assertEqual(inputs['units_so_far_counts'],{'solve':1});self.assertEqual(inputs['remaining_units'],{'solve':215})
-        self.assertEqual(inputs['predicted'],2580.);self.assertEqual(inputs['projected'],2593.)
-        self.assertEqual(inputs['process_remaining_at_projection'],14987.);self.assertEqual(inputs['remaining'],15000.)
+        self.assertEqual(inputs['predicted'],3870.);self.assertEqual(inputs['projected'],3889.)
+        self.assertEqual(inputs['process_remaining_at_projection'],16181.);self.assertEqual(inputs['remaining'],16200.)
         self.assertFalse(inputs['within_stage_cap']);self.assertTrue(inputs['within_reserved_process_budget'])
     def test_counts_include_completed_kinds_outside_remaining_plan(self):
-        budget=self.budget(units={'solve':[12.],'audit':[2.]},remaining={'solve':215})
-        with patch.object(A,'WATCHDOG_CLOCK',return_value=15.):inputs=self.refusal(lambda:budget.unit(kind='solve'))
+        budget=self.budget(units={'solve':[18.],'audit':[2.]},remaining={'solve':215})
+        with patch.object(A,'WATCHDOG_CLOCK',return_value=21.):inputs=self.refusal(lambda:budget.unit(kind='solve'))
         self.assertEqual(inputs['units_so_far_counts'],{'solve':1,'audit':1})
-        self.assertEqual(inputs['units_so_far'],{'solve':[12.],'audit':[2.]})
+        self.assertEqual(inputs['units_so_far'],{'solve':[18.],'audit':[2.]})
     def test_synthetic_first_sample_is_not_trimmed(self):
         budget=self.budget(units={'solve':[60.]},remaining={'solve':215})
         with patch.object(A,'WATCHDOG_CLOCK',return_value=61.):inputs=self.refusal(lambda:budget.unit(kind='solve'))
         self.assertEqual(inputs['predicted'],12900.);self.assertEqual(inputs['projected'],12961.)
         self.assertFalse(inputs['within_stage_cap']);self.assertFalse(inputs['within_reserved_process_budget'])
     def test_unit_keeps_historical_max_and_overhead(self):
-        first={'targets':30.,'work_units':{'targets':{'solve':[12.,8.]}}}
+        first={'targets':30.,'work_units':{'targets':{'solve':[18.,8.]}}}
         budget=self.budget(first,{'solve':[7.]},{'solve':215})
         with patch.object(A,'WATCHDOG_CLOCK',return_value=13.):inputs=self.refusal(lambda:budget.unit(kind='solve'))
-        self.assertEqual(inputs['previous'],{'solve':[12.,8.]});self.assertEqual(inputs['previous_overhead'],10.)
-        self.assertEqual(inputs['predicted'],2580.);self.assertEqual(inputs['projected'],2603.)
+        self.assertEqual(inputs['previous'],{'solve':[18.,8.]});self.assertEqual(inputs['previous_overhead'],4.)
+        self.assertEqual(inputs['predicted'],3870.);self.assertEqual(inputs['projected'],3887.)
         first['work_units']['targets']['solve'].append(99.);budget.units['targets']['solve'].append(99.)
-        self.assertEqual(inputs['previous'],{'solve':[12.,8.]});self.assertEqual(inputs['units_so_far'],{'solve':[7.]})
+        self.assertEqual(inputs['previous'],{'solve':[18.,8.]});self.assertEqual(inputs['units_so_far'],{'solve':[7.]})
     def test_worker_deadline_stage_equality_keeps_short_circuit(self):
         budget=self.budget()
-        with patch.object(A,'WATCHDOG_CLOCK',side_effect=[2400.,2400.]) as clock:
+        with patch.object(A,'WATCHDOG_CLOCK',side_effect=[3600.,3600.]) as clock:
             inputs=self.refusal(lambda:budget.unit(kind='solve'),'WORKER_DEADLINE')
-        self.assertEqual(clock.call_count,2);self.assertEqual(inputs['elapsed'],2400.)
-        self.assertEqual(inputs['projected'],2400.);self.assertEqual(inputs['remaining'],15000.)
+        self.assertEqual(clock.call_count,2);self.assertEqual(inputs['elapsed'],3600.)
+        self.assertEqual(inputs['projected'],3600.);self.assertEqual(inputs['remaining'],16200.)
         self.assertEqual(inputs['deadline'],{'checked':True,'elapsed_below_cap':False,'process_clock_sampled':False,
                                            'process_elapsed':None,'process_elapsed_below_limit':None})
     def test_worker_deadline_process_equality_records_actual_clock(self):
         budget=self.budget()
-        with patch.object(A,'WATCHDOG_CLOCK',side_effect=[1.,1.,15000.]) as clock:
+        with patch.object(A,'WATCHDOG_CLOCK',side_effect=[1.,1.,16200.]) as clock:
             inputs=self.refusal(lambda:budget.unit(kind='solve'),'WORKER_DEADLINE')
         self.assertEqual(clock.call_count,3);self.assertEqual(inputs['elapsed'],1.)
         self.assertEqual(inputs['deadline'],{'checked':True,'elapsed_below_cap':True,'process_clock_sampled':True,
-                                           'process_elapsed':15000.,'process_elapsed_below_limit':False})
+                                           'process_elapsed':16200.,'process_elapsed_below_limit':False})
     def test_successful_work_unit_keeps_clock_sequence_and_allowance(self):
         budget=self.budget(units={'solve':[7.]},remaining={'solve':215})
         with patch.object(A,'WATCHDOG_CLOCK',side_effect=[13.,13.,13.,14.]) as clock:
@@ -2082,13 +2200,13 @@ class ProjectionDiagnosticTests(IsolatedCase):
         self.assertEqual(saved['budget_inputs']['predicted'],12900.);self.assertEqual(saved['budget_inputs']['projected'],12961.)
     def test_worker_deadline_record_and_diagnostic_preserve_inputs(self):
         clock={'now':0.}
-        def work():clock['now']=2400.;A.BUDGET.unit(kind='solve')
+        def work():clock['now']=3600.;A.BUDGET.unit(kind='solve')
         with patch.object(A,'WATCHDOG_CLOCK',side_effect=lambda:clock['now']):
             result,entered=ScorerJsonTests.driver(self,self.out,target_work=work)
         self.assertEqual(result['code'],'WORKER_DEADLINE');self.assertEqual(entered,['setup','A','targets'])
         saved=R.strict_json((self.out/'run.json').read_bytes());diag=R.strict_json(Path(result['diagnostic']).read_bytes())
         self.assertEqual(saved['budget_inputs'],diag['budget_inputs']);self.assertEqual(saved['phase'],'targets:body')
-        self.assertEqual(saved['budget_inputs']['elapsed'],2400.)
+        self.assertEqual(saved['budget_inputs']['elapsed'],3600.)
         self.assertFalse(saved['budget_inputs']['deadline']['process_clock_sampled'])
     def test_selected_primary_exception_does_not_erase_budget_inputs(self):
         chosen=I.Halt('selected primary');chosen.x2_vii_diagnostic={'reported':True}
@@ -2110,7 +2228,7 @@ class ProjectionDiagnosticTests(IsolatedCase):
         result,_=self.slow_run(self.out)
         clock={'now':0.}
         preflight=types.SimpleNamespace(returncode=0,communicate=lambda **kw:(b'{"telemetry":false}',b''))
-        def wait():clock['now']=2401.;return 1
+        def wait():clock['now']=3601.;return 1
         worker=types.SimpleNamespace(poll=lambda:0,wait=wait)
         with patch.object(A,'WATCHDOG_CLOCK',side_effect=lambda:clock['now']),patch.object(A.subprocess,'Popen',side_effect=[preflight,worker]):
             self.assertEqual(A.watchdog(self.out,self.root/'go.json',1),1)
@@ -2252,7 +2370,7 @@ class SignedZeroTests(IsolatedCase):
         self.assertEqual(saved['x2_vii_diagnostic']['offending_layer'],7)
         self.assertEqual(saved['x2_vii_diagnostic']['weight_diagnostics_report_only']['7']['max_abs_value_difference'],1.)
     def test_amendment_z_prereg_pin(self):
-        pin='d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899'
+        pin='3eb899d922a3ab66b6887bf6375602a3f741eeb681ce476a8d167b080a7cd07a'
         self.assertEqual(A.PIN,pin);self.assertEqual(R.PREREG_SHA256,pin)
         self.assertEqual(fixture()['prereg_sha256'],pin)
         self.assertEqual(A.sha_file(REAL/'docs/C10X_ENGINEPATH_PREREG.md'),pin)
