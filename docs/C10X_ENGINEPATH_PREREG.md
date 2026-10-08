@@ -800,3 +800,76 @@ The record does not split `signed_zero_changes` by direction; under (Z0) the onl
   A difference confined to signed zeros is recorded in (Z3) and passes only the X2-(vii) weight identity. The rule applies to every C10X process, including process 2.
 
 Nothing else changes.
+
+## 14. Amendment B — targets-stage cap (2026-10-08, post-refusal, post-candidate-observation; D-C10x-targetscap under D-C10r-rulings-14)
+
+**What this is.** This is a budget amendment, written after re-run 2 refused early within the targets stage, after 1–23 completed solve samples (entry passed). It raises the targets-stage cap. It also raises the process budget by the same amount, because otherwise the setup stage would refuse at entry (B3).
+- **The observation boundary.** Re-run 1 executed both candidate recipes and interim counts were seen. Those counts neither selected nor justified these caps. (Re-run 1's I-2 and I-1 recipes: `results/c10x_enginepath_rerun1_logs/process.log:36`, `:49`; `results/c10x_enginepath_rerun1/run.json` `recipes`.)
+- **What does not change.** No hypothesis, arm, recipe, stimulus, metric, gate, floor, tolerance, threshold, qualifier, label or verdict rule changes. Neither does any other stage cap or the slowest-unit projection rule. §0–§13 are otherwise unchanged. Where §14 conflicts with §2.7, §14 governs.
+- **Identity.** The prereg SHA-256 before this section is `d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899`. The cited driver lines are the current `experiments/track_c/c10x_enginepath_arms.py` (SHA-256 `2979c99f…`). Re-run 2's tracebacks cite its runtime source (`469c92ec…`; `results/c10x_enginepath_rerun2_logs/preflight.json`).
+
+(B0) **Facts.**
+- **The frozen rule.** It is `:118`. Each stage projects the larger of its cap and the projection from the slowest measured comparable work units, plus overhead. It refuses if that projection exceeds the stage cap, or exceeds the process budget left after reserving the caps of all later stages. Refusal yields HALTED/incomplete, never NULL, and no cap is extended in-run.
+- **The implementation.**
+  - **Caps.** `CAPS` is at `arms.py:36` (targets 2400 s) and the targets plan is 216 solves (`:54`).
+  - **The comparison.** `project` (`:247–256`) passes iff `projected ≤ cap` and `projected + reserve ≤ remaining`.
+  - **The reserve.** The reserve is the sum of the later stages' caps (`:832`, `:853`).
+  - **The process budget** is the literal 15000 s (`:840`, `:861`).
+  - **At a unit,** `projected = max(cap, elapsed + predicted + previous_overhead)`, where `predicted` multiplies the slowest completed unit by the remaining count (`:857–859`).
+- **Re-run 2** (`results/c10x_enginepath_rerun2/`).
+  - **The halt.** `run.json` records `status` HALTED, `code` `STAGE_PROJECTION_REFUSED` and `phase` `targets:body`. The diagnostics are `architecture_profile/c10x_halt_diagnostic_20261008T222923_839355Z.json` (worker) and `…_20261008T222924_967042Z.json` (`worker exit 1`, elapsed 1815.14 s).
+  - **The traceback** ends in the first arm's engine-z_8 loop, inside `work_unit` → `project`.
+  - **Targets entry.** It passed with `projected` 2400.0, `remaining` 13342.726 and `reserve` 9360.0 (`results/c10x_enginepath_rerun2/stage.json`). The 9360 s is the sum of the caps of inertness, injection, I-2, I-1 and final.
+  - **Recorded timings.** Setup took 25.67 s and recipe A 1631.61 s (`run.json` `timings`).
+- **The diagnosis** (`results/c10x_enginepath_codex_build.md:3883–3918`).
+  - **History.** `first` was `{}`, so the predecessor supplied no timings (`:3889`).
+  - **Where it refused.** Entry passed; the refusal occurred early within targets, before solve 2–24, after 1–23 completed samples (`:3893`). The projection was necessarily above 2400 s, which gives an inferred lower bound on an unrecorded maximum: the slowest completed solve exceeded 10.43 s (`:3904`, `:3910`).
+  - **The comparison budget** at refusal was within `[13184.86, 13342.73]` s (`:3906`).
+  - **Re-run 1** recorded 216 target diagnostics but no unit timings (`:3916`). Its run.json has no `timings` field.
+  - **Fidelity.** The implemented rule is faithful to `:118`, and the text has no warm-up exclusion (`:3918`). Per-unit durations were measured internally but not persisted. Refusals now record their projection inputs (`:3922–3926`).
+- **Program observation, not a record.** Re-run 1's targets stage ran from about 13:46 to 14:21 MDT. That is about 2100 s for 216 solves, a mean of about 9.7 s per solve.
+- **Authority.** D-C10r-rulings-14 (`EXPERIMENT_RUNBOOK.md:381`; changelog `:1007–1008`). Operator, verbatim: "Raise the budget for the experiment if necessary" → "Any experiment, as needed". Before dispatch, record D-C10x-targetscap and its arithmetic in §5.2, with the authenticated Astra review reference and verdict.
+
+(B1) **The ruling.**
+- **Targets-stage cap:** 2400 s (40 min) → **3600 s (60 min)**. In `:118`, "target construction 40" now reads "target construction 60".
+- **Process budget:** 15000 s → **16200 s**, the same +1200 s. In `:118`, "Each process is capped at 250 minutes; two processes at 500 minutes" now reads "Each process is capped at 270 minutes; two processes at 540 minutes". The "250-minute process cap" of `:446` and `:460` now means 270 minutes.
+- **Unchanged:** every other stage cap (setup 600, A 2040, inertness 3000, injection 1500, I-2 2040, I-1 2040, final 780 s). Also unchanged: the slowest-unit projection rule and its overhead term, the 216-solve plan, the reserve definition, the stage and process deadlines (at their new values), the independent watchdog, HALTED/incomplete-never-NULL, and the in-run no-extension rule.
+
+(B2) **Arithmetic.**
+- **The targets predicate.** `cap + reserve` = 3600 + 9360 = 12960 s.
+  - Re-run 2 spent 1657.27 s before targets, so the comparison budget becomes 16200 − 1657.27 = 14542.73 s, a margin of 1582.73 s.
+  - On the diagnosis's conservative bound (16200 − 1815.14 = 14384.86 s) the margin is 1424.86 s.
+- **Within the targets stage.** The comparison budget is `budget − (time before the stage)`, constant within the stage (`:861`). The binding predicate is therefore `elapsed + m × (216 − n) ≤ 3600`, where m is the slowest completed solve and n the completed count.
+  - With no prior-stage history (`previous_overhead` 0; diagnosis `:3889`), this holds at every unit if 216·m plus the non-solve in-stage time is at most 3600 s.
+  - That gives a sufficient envelope of m ≤ 3600/216 ≈ 16.667 s before overhead, about 1.7× the observed mean of about 9.72 s. It is not a universal per-unit cutoff: a later 17-s solve need not refuse. The binding condition remains `elapsed + m × remaining + previous_overhead > 3600` → refusal, a real HALT, never NULL. A mean of about 9.72 s cannot by itself establish that 3600 s suffices.
+  - At the old cap the limit was 2400/216 ≈ 11.1 s.
+- **Every other entry.** Each stage's `cap + reserve` before targets rises by 1200 s, as the budget does. At and after targets, the reserves are unchanged and the budget rises by 1200 s. So, for the same elapsed time, every stage entry keeps at least its current margin.
+
+(B3) **Why the process budget must move with the cap.**
+- **The stage caps would exceed the budget.** At 3600 s for targets, the eight caps sum to 15600 s, against the frozen 15000 s budget (`arms.py:36`).
+- **The setup entry would refuse before any work.** Setup enters with `process_elapsed` 0 (`:839`) and `remaining` 15000 (`:840`), and its reserve is the sum of all later caps. It would therefore test 600 + 15000 = 15600 > 15000 and refuse.
+- **So would recipe A.** A would test 2040 + 12960 = 15000 against 15000 minus the setup time.
+- **Hence the second change.** Raising only the targets cap would make every process refuse at setup. Raising the budget by the same 1200 s restores the frozen 600-s slack between the summed caps (now 15600) and the budget (now 16200).
+- **The alternative.** Leaving the budget at 15000 s would allow a targets cap of at most 3000 s. That covers m ≤ 3000/216 ≈ 13.9 s, which this amendment judges too thin against an inferred lower bound of 10.43 s on an unrecorded maximum.
+
+(B4) **Honest limits.**
+- **The slowest solve was not persisted.** Per-unit durations were measured internally but not persisted in re-run 1 or re-run 2. The 16.667-s envelope is arithmetic, not a measured margin.
+- **A slow solve still refuses.** If any completed solve's time, times the remaining count, plus elapsed, exceeds 3600 s, the targets stage refuses again. A one-time first-solve cost is multiplied too, which is the unresolved warm-up hypothesis (diagnosis `:3914`). That refusal is a real HALT under `:118` and §5. It is re-run under D-C10w-p2rerun or amended separately, never read around.
+- **Later stages can still halt.** The re-run can halt in a later stage on its own caps or deadlines.
+
+(B5) **Consequences.**
+- **Re-run 2 stays as data.** It is HALTED/incomplete, never NULL (`:118`), and is never modified, moved or renamed (T12, `:512`).
+- **Re-run 3.** Process 1 is re-run in `results/c10x_enginepath_rerun3/`, with logs in `results/c10x_enginepath_rerun3_logs/` (T12, `:508`). It names its predecessor `results/c10x_enginepath_rerun2/` and the cause `STAGE_PROJECTION_REFUSED` (`:514–516`). It runs the full §2.7 sequence under §12 and §13. Dispatch needs the operator's go (§5, `:188`).
+- **Build before dispatch.**
+  - `CAPS['targets']` becomes 3600.0.
+  - Every literal 15000 in the driver becomes one process-budget constant of 16200.0. These are the projection, deadline, watchdog and audit sites at `arms.py:826`, `:840`, `:861`, `:867–868`, `:879`, `:883`, `:1417`, `:1426`, `:1456`, `:1470` and `:1478`.
+  - Model-free tests must be written first and recorded failing on the current driver. They must show three things:
+    - the setup and A entries pass with `process_elapsed` at its recorded values;
+    - a targets projection of 3600 s passes and one of 3600.001 s refuses;
+    - no literal 15000 remains.
+  - Update reader admission to targets ≤3600 s and process ≤16200 s. Add test-first acceptance within the newly admitted ranges and rejection above each amended limit; preserve every scientific gate. (The reader independently enforces targets ≤2400 s and process ≤15000 s at `experiments/track_c/c10x_enginepath_read.py:1048–1061`.)
+  - The new driver, reader and prereg hashes enter the re-run's preflight (§2.8, `:124`). The build is reviewed before dispatch.
+  - Before dispatch, record D-C10x-targetscap and its arithmetic in §5.2, with the authenticated Astra review reference and verdict.
+- **Process 2** uses the same caps and budget.
+
+Nothing else changes.
