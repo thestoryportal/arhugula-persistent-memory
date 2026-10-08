@@ -16,6 +16,12 @@ Resume as lead experimentalist, AUTONOMOUS under D-C10r-rulings-9/10/11/12 (push
 
 5. Steps 6 (C10X), 7 (C10Y): wait for step 5's replicated reading; builds include the D-C10r-rulings-11 telemetry amendment.
 
+6. ORCHESTRATION PLAN (D-C10r-labviz-3: operator "You are the MAESTRO" — keep the science moving, no single job stalls everything). Three lanes:
+   - GPU lane (one job at a time, science first): P2 eval → P3 only if required → ASTRA 10-min benchmark (after its build + review) → ASTRA run → C10X/C10Y (after step 5's reading) → Lab View observation replays / sandbox ONLY in idle gaps (NOT EVIDENCE / EXPLORATORY; delegated by the operator).
+   - CPU lane (python builds/tests: Codex ASTRA build in tmux codexz, Codex Lab View Phase-1 build in a NEW tmux session e.g. codexviz2 — never reuse codexviz; they touch disjoint files: experiments/track_c/c10z_* vs tools/labviz/): runs ONLY when no gated GPU coordinator is live (current gates refuse on any python). Never during timing-gated GPU work (ASTRA benchmark/run measure speed — CPU load would bias them).
+   - Doc lane (no python, anytime): specs, verdict packets, reviews, CORPUS drafts, scoreboard text.
+   Immediately after P2 COORDINATOR_EXIT=0 and no P3: launch BOTH Codex builds in parallel (CPU lane), and in parallel draft the P2 verdict packet (doc lane). If P3 is required: P3 gets its own coordinator/gate — design it with a reviewed CPU-lane exemption (a marked wrapper, e.g. tools/cpu_lane.sh, that forces CPU-only torch and is matched exactly by the gate) so builds can proceed during non-timing-gated GPU runs; this relaxes a safeguard, so it needs advisor + Astra review and must not apply to ASTRA's timing-gated stages. Lab View Phase 2–4 code is built in the CPU lane too; Phase 3/4 GPU use only in idle windows.
+
 OPERATOR STANDING REQUESTS unchanged: scoreboard (docs/c10_scoreboard.json + board_fmt.py) and evaluations (docs/c10_evaluations.json) at every close-out/state change, plain words; PushNotification when something they'd act on lands. Leave .gitignore and untracked labviz/infranodus/autoresearch files alone. Context: Monitor context_watch.py on the newest transcript, 250000 60.
 
 ## FRESH SESSION HANDOFF - 2026-10-07 ~22:00 MDT by date (C10V pass1 done, verdict packet + Astra review in flight; C10W P2 RUNNING under D-C10w-p2go, first pair passed with no redo; ASTRA §9.1 fold drafted)
