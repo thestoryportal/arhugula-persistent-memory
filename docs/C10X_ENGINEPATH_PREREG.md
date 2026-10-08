@@ -633,3 +633,170 @@ Nothing else changes.
 (P6) **A LAW#3 miss under the pinned set** is a real HALT under §5, with no re-draw and no template change.
 
 Nothing else changes.
+
+## 13. Amendment Z — value equality for the X2-(vii) weight identity (2026-10-08, post-X2-vii, pre-candidate)
+
+**What this is.** This is a post-observation correction that broadens the literal instrument predicate only for signed zeros, while preserving the numerical science criteria. **It is not a pre-observation amendment.** It was written after process 1 halted at X2-(vii) and after a read-only probe measured that halt. It was written before any injection screen, candidate write or candidate recipe had run in any process.
+- **What had run.** Candidate target optimizations ran, and two audit binaries retain initial/final logits, CE and losses. These binaries were not inspected for this amendment. No injection-screen or candidate-recipe recall/locality outcome was recorded. (Target construction: driver `experiments/track_c/c10x_enginepath_arms.py:1147`; audit capture `:940–962`; binaries `results/c10x_enginepath/audit_A1_single.pt` and `audit_A7_coined_coined.pt`.)
+- **The one predicate changed.** This section changes only the weight-identity predicate of X2-(vii) (`:81`). It changes no other gate, floor, tolerance, threshold, arm, recipe, qualifier, label or verdict rule. §0–§12 are otherwise unchanged. Where §13 conflicts with them, §13 governs. The superseded words are quoted exactly in (Z1).
+- **Identity.** The prereg SHA-256 before this section is `43a81103d68b953c2007e978b3ebecf11aadf66a7f121346047279845e8fc883`. Decision-ID: `D-C10x-signedzero`.
+- **Citation snapshot.** Driver, inertness and harness line numbers refer to the files whose SHA-256s process 1 admitted (`results/c10x_enginepath_logs/preflight.json`, `admitted.sources`): driver `eea47ea7…`, inertness `c0c19b97…`, harness `1f6be581…`. These were re-hashed on 2026-10-08 and found unchanged. The Qwen2 source cited is the installed `transformers` 4.51.0 `models/qwen2/modeling_qwen2.py` (SHA-256 `1760c628…`). The model config cited is `hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/config.json`.
+
+(Z0) **Facts.**
+
+*Process 1 (the records).*
+- **Launch.** The go is `D-C10x-go` (`EXPERIMENT_RUNBOOK.md:386`; `preflight.json` `admitted.go`, 2026-10-08T08:45−06:00). Telemetry was off (`admitted.telemetry` false). The engine fingerprint was `d941a9fb…` with `_cov_cpu` 3. The pinned context set had `ctx_sha256` `eff10db6…` (`run.json`).
+- **Recipe A.**
+  - G was INERT, with |Δexpr| 0.0001 and |Δloc| 0.21 (`run.json` `recipes.A.law5_gate`; `results/c10x_enginepath_logs/process.log:26`).
+  - LAW#3 passed. A7 scored `para_full_n` 12/72, `para_first_n` 52/72 and `canon_full_n` 8/24. A1 scored 70/72 and A2 71/72 (`run.json` `recipes.A.arms`; `process.log:27–29`). All lie inside the §3 envelope (`:132`).
+  - The recipe counters were (0, 0).
+- **Halt.**
+  - `run.json` records `status` HALTED, `completion` incomplete and `code` `"W0 X2-vii exact zero"`, with `finished_at` 2026-10-08T16:00:02.758Z (10:00 MDT) and stage `inertness` (`results/c10x_enginepath/stage.json`).
+  - The diagnostic is `architecture_profile/c10x_halt_diagnostic_20261008T160002_759184Z.json`. The supervisor's `worker exit 1` is in `…_20261008T160004_981087Z.json` and `results/c10x_enginepath_logs/supervisor.json`.
+- **What the halt code establishes.**
+  - That code is raised only by `pristine.verify('X2-vii exact zero')` (`c10x_enginepath_inertness.py:435`). `Pristine.verify` compares raw-byte SHA-256s (`:115–118`, through `tensor_sha`, `:87–93`, which hashes dtype, shape and `view(torch.uint8)` bytes).
+  - Every earlier `require` raises its own code (`:10–12`). Three of them run before `:435`:
+    - the per-layer structure checks (`checked_read`, `:417–426`, then `active_null_structure`, `:162–171`);
+    - the residual checks immediately before the solve (`observe_null_solve`, `:175–192`; `torch.equal` at `:189`, `count_nonzero` at `:190`);
+    - the update check `NULL_NONZERO_UPDATE` (`:434`).
+  - Therefore, in process 1's real gate state, all five residuals were exactly zero and all five captured updates had no non-zero element. The only failure was the raw-byte hash.
+  - By the same code order, X1-(i) to X2-(vi) passed (`:338–392`). Their records were not serialized.
+  - The halt records hold no magnitudes, no offending layer and no W0 snapshot (`results/c10x_enginepath_codex_build.md:2023`). G8, the injection screen and the candidate recipes did not run.
+
+*The read-only probe* (`results/c10x_x2_probe/20261008T180513_659317Z/probe.json`).
+- **Status and identity.**
+  - `status` is MEASURED and `scientific_verdict` is `diagnostic_only`. `live_weights_unchanged` is true, `unsafe_mps_to_cpu_copies` is empty and `telemetry` is false.
+  - The probe source is `experiments/track_c/c10x_x2_probe.py`, SHA-256 `23bdf070…` (`provenance.probe_sha256`).
+  - `provenance.sources_before` equals process 1's admitted sources, including the prereg `43a81103…`. The run used the same pinned `ctx_sha256` `eff10db6…` and model revision `3aab1f19…`.
+  - The probe calls the gate's own functions and the unchanged `fe_edit`. Its writes go only to detached shadow clones of the five tensors (build report `:2037`, `:2043`).
+- **X2-(iv)(a).** `x2_iv_floor` is 0.0. All 15 `x2_iv_a` cells (3 arms × layers 4–8) have `reader_vs_replay.max_abs` 0.0.
+- **Layer 4** (`gate_equivalence_cutoff_layer` 4, the layer whose state matches the gate's).
+  - The update is zero: `max_abs_update` 0.0 and `update_nonzero_elements` 0.
+  - All 24 `request_rows` have `max_abs_M_minus_cur` 0.0. `null_structure.ok` is true and `observer_vs_writer.max_abs` is 0.0.
+  - The weight bytes changed only in signed zeros: `shadow_weight_changed_bytes` 21 equals `shadow_signed_zero_changes` 21. The shadow hash moved from `3d3e9f13…` to `e80a8ece…`. Top-level `shadow_w0_exact_zero` is false.
+- **Layers 5–8** (diagnostic only).
+  - These layers have `gate_equivalent_before_write` false. Their forwards read pristine weights, whereas the gate's read the written layer 4 (build report `:2045`).
+  - The updates and residual rows are 0.0 and the structure checks pass.
+  - Changed bytes equal signed-zero changes at 9, 2, 4 and 0.
+- **Mechanism.**
+  - `fe_edit` keeps the harness's in-place fp16 add verbatim. §2.2 step 3 (`:43`) requires this. The line is `c10x_enginepath_arms.py:503`, copied from `c10e_bandknob.py:216–217`.
+  - Under IEEE 754 addition (IEEE 754-2019 §6.3, round-to-nearest), x + (±0) = x for every non-zero x, (+0) + (±0) = +0 and (−0) + (+0) = +0. Adding an all-zero update can therefore change only −0 entries to +0.
+  - In binary16, −0 is `0x8000` and +0 is `0x0000`, so each such change alters exactly one byte. This is why the probe's changed-byte count (`c10x_x2_probe.py:257`) equals its signed-zero count (`:258`: both zero, `signbit` differs).
+  - A model-free positive control is `test_signed_zero_only_changes_shadow_bytes` (`c10x_x2_probe.py:516–527`).
+- **Scope of the attribution (I-INFER).**
+  - Process 1 recorded no W0 or model identity (`probe.json` `provenance.historical_identity_limit`; build report `:2057`). That process 1's mismatch was the same signed-zero change is therefore inferred, not observed.
+  - Three facts support the inference: the sources were identical, the templates and model revision were the same, and process 1's own exact-zero residual and update checks passed before `:435`.
+  - An earlier probe attempt, `results/c10x_x2_probe/20261008T171001_323402Z/`, ended INCOMPLETE on a file-policy refusal and measured nothing (build report `:2261`).
+
+(Z1) **What is replaced, and the search for other checks.**
+- In X2-(vii) (`:81`), "and the five weight hashes must stay pristine" now reads: "and each of the five rewrite tensors, read after the write and before restoration, must be value-equal to its `PRISTINE` snapshot under §13 (Z2)".
+- **The search: which exact-hash weight-identity checks can a zero-valued write trip?** Only this X2-(vii) clause can.
+  - **W0 checkpoints** (`:68`) stay raw-byte SHA-256 at every checkpoint. Each W0 checkpoint follows one of two things:
+    - a restoration that copies the snapshot's bytes: `Pristine.restore` uses `copy_` (`c10x_enginepath_inertness.py:107–114`), and the harness's `restore_layers` assigns from `snap` (`c10e_bandknob.py:155–159`; driver wrapper `c10x_enginepath_arms.py:659–660`);
+    - or a cell that writes no weight: target construction (`arms.py:928`, `:988`), injection (`:1024`, `:1027`), X1-(ii) (`inertness.py:347`) and X2-(iv) (`:378`).
+
+    The in-cell check at `inertness.py:435` is implemented as a W0 `verify`, but it is X2-(vii)'s criterion, not a W0 checkpoint. This section separates the two. The checkpoint after X2-(vii)'s restoration (`'after X2-vii null'`, `:130`) stays raw-byte.
+  - **X2-(vi)'s "applied fp16 weight tensor (exact)"** (`:80`) compares two writes whose reference update must be non-zero (`inertness.py:399`). It is not a hash comparison, and the build implements it with `torch.equal` (`:402`) on CPU clones of the same parameter (`:242`). This section does not amend it.
+  - **(T8)'s before/after weight hash** (`:428`; `arms.py:735`, `:759`) brackets a check that makes no weight write (T5, `:370`). It is not amended.
+  - **(T7)'s parameter check** (`:402`) already uses `torch.equal`, and no write occurs in it. It is not amended.
+
+(Z2) **The value-equality predicate.**
+
+For each layer l in 4…8, compare the live `model.layers.{l}.mlp.down_proj.weight` after the X2-(vii) write, before restoration, against `PRISTINE[l]` (CPU fp16, `inertness.py:103`):
+1. **Explicit checks first.** `live.shape == snap.shape` and `live.dtype == snap.dtype == torch.float16` are checked as separate predicates. `torch.equal` does not check dtype: on the program venv (torch 2.8.0, CPU), `torch.equal` of an fp16 tensor and its fp32 copy returned `True` when checked while drafting this section. It returns `False` for unequal shapes.
+2. **The comparison.** Take a same-dtype `.detach().cpu()` copy of the live tensor, with no dtype change (the build's safe-transfer rule, build report `:2053`), and compare it to `PRISTINE[l]` with `torch.equal`. The predicate passes iff all five layers pass.
+3. **What this admits.** `torch.equal` compares under IEEE equality, where +0 == −0 and NaN ≠ NaN. Two binary16 bit patterns compare equal iff they are identical or both are zeros. The predicate therefore admits exactly one class of byte difference, a sign change of a zero entry, and nothing else:
+   - a NaN in either tensor fails;
+   - a one-ULP change at a single element fails;
+   - there is no tolerance.
+4. **Failure HALTs** under §5 ("any inertness check of §2.4", `:188`), with a distinct code (`X2-vii WEIGHT_VALUE <layer>`). The diagnostic carries the (Z3) fields for all five layers and names the offending layer.
+
+(Z3) **Report-only fields.** For each layer, the X2-(vii) record, and any X2-(vii) halt diagnostic, carries these fields:
+- `pristine_sha256` and `after_sha256`, both from `tensor_sha`;
+- `raw_bytes_identical`;
+- `changed_bytes`;
+- `changed_elements`: number of unequal binary16 bit patterns, computed from contiguous CPU `int16` views.
+- `signed_zero_changes`, defined as both values zero with differing `signbit`, as in `c10x_x2_probe.py:258`.
+
+The record does not split `signed_zero_changes` by direction; under (Z0) the only possible direction is −0 → +0. Every field is labelled report-only. None can affect a floor, tolerance, acceptance, qualifier, eligibility, label or verdict.
+
+(Z4) **Unchanged.**
+- **The rest of X2-(vii)** (`:81`):
+  - every residual `M_l − cur_l` and every update must be an exactly-zero tensor;
+  - the targets must be dicts keyed by actual layer integers with exact `(subject, target str)` identities;
+  - the independent same-batch observer checks the full `cur_l` vector, the exact request and column order, and `resid` before the fp32 CPU solve;
+  - both model-free negative controls (the wrong-layer read and the permuted target table) must fail;
+  - no candidate target is substituted until X2-(vi), X2-(vii) and G8 pass.
+- **The X2-(iv) tolerance and §9 item 4** (`:265`): any non-zero X2-(iv)(a) distance still HALTs the process.
+- **The other gates.** G8 and every other §2.4 check are unchanged. W0 stays raw-byte at every checkpoint.
+- **Rules.** §3's LAW#3 envelope, validity, controls, count classes, locality, qualifiers, replication and interpretation are unchanged. So are the §5 halt list, its one-fix rule and its predicted X2-(vii) fixes.
+
+(Z5) **Why value equality is the faithful criterion, and why the correction preserves the numerical science criteria.**
+
+*The gate's intent.* X2-(vii) builds identity-replay targets equal to the writer's own reads, so a correct FE path writes nothing. The residual and update clauses test that directly. The weight clause tests the write's effect on the model: that the identity replay changes nothing (`:81`).
+
+*Byte identity cannot be met by the frozen writer on these weights.*
+- §2.2 step 3 (`:43`) requires `fe_edit` to keep the cast and in-place add verbatim (`c10e_bandknob.py:216–217` → `arms.py:503`).
+- With an all-zero update, that add maps every −0 entry receiving a +0 update to +0 (Z0). The hash clause therefore fails whenever a rewrite tensor holds −0 at a position where the cast update is +0. This holds whether the FE path is correct or not.
+- The original `my_edit` would fail the same clause given a zero update. The hash measures how zero is represented, not what the write did.
+
+*A signed zero cannot change any finite forward output of this model.*
+- **Where the weight enters.** The rewrite tensors are `down_proj.weight` (`:68`). They have no bias (`modeling_qwen2.py:55`) and enter the forward only through the linear map at `:59`.
+- **The linear map.** Each output element is Σ_j w_j a_j:
+  - for finite a_j, a term with w_j = ±0 is a zero;
+  - adding a zero to a non-zero partial sum returns that sum exactly, and adding it to a zero partial sum gives a zero (IEEE 754 §6.3);
+  - every output is therefore value-identical, and at most an exactly-zero output can differ in sign;
+  - if a_j is infinite or NaN, the term is NaN under either sign.
+- **Where the sign of zero could matter.** Only operations that turn it into a non-zero difference:
+  - division by zero, or the reciprocal or `rsqrt` of zero (±inf);
+  - `atan2`;
+  - `copysign`, `signbit` or `sign`;
+  - `pow(±0, negative odd)`.
+
+  (`log(±0)` is −inf for both signs.)
+- **None arises in this forward path.** No divisor or reciprocal argument in the forward can be zero:
+  - **RMSNorm** (`modeling_qwen2.py:220–225`) applies `rsqrt(mean(x²) + eps)`. (±0)² = +0, and `rms_norm_eps` = 1e-6 (`config.json:18`), so the argument is strictly positive.
+  - **Attention** scales by the constant `head_dim**-0.5` (`:144`, `:122`). For rows with a finite maximum, the softmax (`:127`; the `sdpa` path in use, `probe.log:1`, computes the same normalised exponential) has a denominator ≥ 1 after max subtraction. Fully masked rows and rows with a non-finite maximum are outside this bound and are treated separately: this argument makes no claim for them, and a non-finite value in any gate input still HALTs (`:66`, `:188`).
+  - **RoPE** multiplies by cos and sin of positions only (`:92–93`, `:308–319`).
+  - **SiLU** (`config.json:8`; `activations.py:217`) is x·σ(x), with σ(±0) = ½.
+  - **The rest of the chain** consists of the residual adds (`:273`, `:279`), the final norm (`:566`) and the tied `lm_head` (`:839`; `config.json:21`), which are the same kinds of operation.
+  - **Comparisons** in greedy argmax and in softmax's max treat +0 == −0.
+- **The induction.** Each operation maps value-equal inputs to value-equal outputs, so hidden states, logits and greedy tokens are value-identical. This holds for finite, well-defined executions of the inspected operation graph; universal MPS execution equivalence was not empirically established.
+- **Other uses of the weight.** The harness's `weight_norm_before` (`arms.py:481`) squares the entries, which gives identical values.
+- **In-run corroboration.** In process 1, `fe_edit` read `cur` at layers 5–8 after the layer-4 write. The exact `torch.equal` residual checks at those layers passed before `:435` (Z0). Limit: they observe only the 24 keyed positions.
+
+*Why the correction broadens the predicate only for signed zeros.*
+1. **Nothing non-zero was seen.** In process 1, no residual or update was non-zero (Z0). The fifteen zero X2-(iv)(a) distances were measured by the probe; process 1's earlier X2-(iv) parity checks establish only tolerance passage, not recorded exact-zero distances (`inertness.py:381–386`). The only differences were signs of zero entries: at layer 4, 21 changed bytes and 21 signed-zero changes.
+2. **The admitted set is exactly signed-zero changes.** The tolerance stays zero. A NaN, any value change, a dtype change or a shape change still HALTs.
+3. **It is the notion of zero the gate already uses.** The frozen implementation's residual and update clauses (`inertness.py:168–170`, `:189–190`, `:434`) and X2-(vi)'s applied-weight check (`:402`) all use value semantics, under which −0 is zero.
+4. **No candidate-recipe outcome informed this amendment.** No threshold, label or verdict rule changes.
+5. **Nothing the gate exists to catch is lost.** A write that changes only signs of zeros is behaviourally null by the argument above.
+
+(Z6) **Consequences.**
+- **Process 1 stays as data.** It is HALTED/incomplete and INVALID for the whole process (§3 validity, `:130`; interpretation row 1, `:161`), with no scientific classification. `results/c10x_enginepath/` and its logs are never modified, moved or renamed (T12, `:512`). Its recipe-A counts are a record, not the re-run's comparator.
+- **The re-run.**
+  - **Where.** Process 1 is re-run under D-C10w-p2rerun (`EXPERIMENT_RUNBOOK.md:378`) in `results/c10x_enginepath_rerun1/`, with logs in `results/c10x_enginepath_rerun1_logs/` (T12, `:508`).
+  - **Provenance.** Its record names the predecessor `results/c10x_enginepath/` and the cause `W0 X2-vii exact zero` (`:514–516`).
+  - **What it repeats.** The full §2.7 sequence from step 0: the §12 pin and its digests, recipe A with its LAW#3 gate, target construction, every §2.4 check including G8, then the injection screen and the candidate recipes.
+  - **Telemetry** follows (T9) unchanged.
+  - **Dispatch** needs the operator's go (§5, `:188`). This section authorises no run.
+- **Build before the re-run.**
+  - The X2-(vii) weight check (`inertness.py:435`) is replaced per (Z2)–(Z3). The writer, harness and engine stay unchanged.
+  - The model-free tests are written first and recorded failing on the pre-amendment code. They must show:
+    - (a) a change confined to signed zeros passes the X2-(vii) weight identity and is reported in (Z3);
+    - (b) a one-ULP change at one element HALTs;
+    - (c) a NaN HALTs;
+    - (d) a dtype mismatch HALTs even where `torch.equal` returns `True`;
+    - (e) a shape mismatch HALTs;
+    - (f) a non-zero update still HALTs at `NULL_NONZERO_UPDATE` before the weight check;
+    - (g) every W0 checkpoint, including `'after X2-vii null'`, still compares raw-byte hashes.
+  - The changed source and prereg hashes enter the re-run's preflight and records (§2.8, `:124`).
+  - The build is reviewed under the program's build-review gate before dispatch.
+- **Later halts.** In the re-run, each of the following still HALTs:
+  - any value change of a rewrite tensor in X2-(vii);
+  - any non-zero residual or update;
+  - any raw-byte W0 mismatch at any checkpoint.
+
+  A difference confined to signed zeros is recorded in (Z3) and passes only the X2-(vii) weight identity. The rule applies to every C10X process, including process 2.
+
+Nothing else changes.
