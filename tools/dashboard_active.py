@@ -16,7 +16,8 @@ SKIP = {"dashboard", "dashboard_new", "helpers"}
 
 def label(s):
     special = {"program": "LEAD · program session", "codexviz": "Codex · Lab View build",
-               "codexviz2": "Codex · Lab View v2 build", "codexz": "Codex Z · ASTRA build"}
+               "codexviz2": "Codex · Lab View v2 build", "codexz": "Codex Z · ASTRA build",
+               "codexw2": "Codex W2 · P2 rerun fix"}
     return special.get(s) or (f"Codex {s[5:].upper() or 'A'}" if s.startswith("codex") else s)
 
 
