@@ -1,11 +1,12 @@
 {
   "_doc": "Plain-language scoreboard for the C10 problem (made-up multi-word names), shown by tools/dashboard_report.py. The program session updates it at every result and close-out: add a results row, refresh current/queue, rewrite the brief in plain words. Scores are held-out reworded questions answered exactly right, out of 72. Full detail lives in CORPUS; this file only points there.",
-  "updated": "2026-10-07 19:54 MDT",
+  "updated": "2026-10-07 20:12 MDT",
   "goal": 61,
   "out_of": 72,
-  "brief": "We are trying to teach the model made-up names (like a project codename) so it can recall them when a question is worded differently. Ordinary facts already work (about 69 of 72). Made-up two-word names do not: the usual method gets about 14 of 72. Our best idea so far gives each made-up name its own new word in the model's vocabulary; in today's repeat of that test it reached 46, 37 and 40, about three times better. A repeat run gave exactly the same numbers, which shows the setup is consistent, though not yet that the gain holds up in general (the three tries differ by up to 9). It is still short of the goal of 61, and the test of splitting a name into two new words gave no clear answer. What this means: the vocabulary route is real progress but not yet the answer. Next we run the 'ceiling' test, which tells us whether any method can reach 61 on this model or whether a bigger model will eventually be needed; then the per-fact depth test and ASTRA, a brand-new idea that writes every word of the answer at once.",
+  "brief": "We are trying to teach the model made-up names (like a project codename) so it can recall them when a question is worded differently. Ordinary facts already work (about 69 of 72). Made-up two-word names do not: the usual method gets about 9 to 14 of 72. Our best write method so far gives each made-up name its own new word in the model's vocabulary and reaches about 40 of 72; the goal is 61. Today we finished the first round of the 'ceiling' test, which trains the model directly on the facts. That is not a usable write method; it only shows what is reachable. On one try it got 70 of 72, against 9 for the usual method in the same run. But it also disturbs nearby facts asked the same way: made-up names it was never taught start drifting toward the taught ones. Part of the success may also come from the second word simply following the first, whoever the question is about. One try does not count: the rules need a repeat run before this result means anything, and the repeat cannot turn it into a clean pass, because the disturbance is already on record. What this means: training can reach the numbers, but not cleanly so far. Next: your OK for the repeat run (up to about 7.5 hours) and, only if the rules call for it, a larger-capacity check (up to about 5.5 hours). Meanwhile the per-fact depth test is getting its final check before it runs; steps 6 and 7 wait for the repeat run.",
   "current": [
-    {"what": "Step 5 ceiling test: first round done; training reaches 70 of 72 but disturbs nearby facts; reviews under way; the repeat run needs your OK", "status": "running"},
+    {"what": "Step 5 ceiling test: first round done and recorded as interim; the repeat run needs your OK", "status": "waiting for you"},
+    {"what": "Step 4 per-fact depth test: final check before it runs", "status": "review under way"},
     {"what": "ASTRA: time limits revised after two reviews; three yes/no questions waiting for you; runs after steps 5 and 4", "status": "waiting for you"}
   ],
   "results": [
@@ -21,14 +22,15 @@
     {"date": "2026-10-06", "name": "Self-improving loop (experimental)", "score": "34 of 72", "best": 34, "kind": "candidate", "verdict": "Promising, but may have seen test wordings; parked", "ref": "loop ledger"},
     {"date": "2026-10-06", "name": "Step 1: fit three wordings at once", "score": "not scored", "best": null, "kind": "inconclusive", "verdict": "Solver could not fit it twice; inconclusive", "ref": "CORPUS/51-52"},
     {"date": "2026-10-07", "name": "Step 2: second address inside the name", "score": "23 of 72 (vs 15)", "best": 23, "kind": "write", "verdict": "Small gain with side effects; no", "ref": "CORPUS/53"},
-    {"date": "2026-10-07", "name": "Step 3: new vocabulary word per name (repeat)", "score": "46, 37, 40 of 72 (vs 14)", "best": 46, "kind": "inconclusive", "verdict": "No clear answer: the two-word version could not be tested; the earlier one-word method repeated its result (provisional until you confirm)", "ref": "CORPUS/54"}
+    {"date": "2026-10-07", "name": "Step 3: new vocabulary word per name (repeat)", "score": "46, 37, 40 of 72 (vs 14)", "best": 46, "kind": "inconclusive", "verdict": "No clear answer: the two-word version could not be tested; the earlier one-word method repeated its result (provisional until you confirm)", "ref": "CORPUS/54"},
+    {"date": "2026-10-07", "name": "Step 5: ceiling test, first round (training, not a write)", "score": "70 of 72 (interim, one seed)", "best": 70, "kind": "inconclusive", "verdict": "Interim: training reaches 70 of 72 but disturbs nearby facts asked the same way; needs a repeat run before it counts", "ref": "CORPUS/55"}
   ],
   "queue": [
-    {"name": "Step 5: ceiling test (can any method reach 61 on this model?)", "status": "running now", "time": "about 5-7 h"},
-    {"name": "Step 4: let each fact pick its own depth", "status": "built, ready", "time": "about 1-2 h"},
+    {"name": "Step 5: ceiling test (how far training alone gets on this model)", "status": "first round done; repeat waits for your OK", "time": "up to 7.5 h (+5.5 h if needed)"},
+    {"name": "Step 4: let each fact pick its own depth", "status": "built; final check under way", "time": "about 1-2 h"},
     {"name": "ASTRA: write every word of the answer at once", "status": "built, budget being set", "time": "hours"},
-    {"name": "Step 6: two engine changes (spread and reweighting)", "status": "planned, frozen, to build", "time": "about 3-7 h"},
-    {"name": "Step 7: solve the weight change directly (measurement)", "status": "planned, frozen, to build", "time": "about 5-11 h"},
+    {"name": "Step 6: two engine changes (spread and reweighting)", "status": "frozen, to build; waits for step 5", "time": "about 3-7 h"},
+    {"name": "Step 7: solve the weight change directly (measurement)", "status": "frozen, to build; waits for step 5", "time": "about 5-11 h"},
     {"name": "Step 8: protect-statistics from the model's own text", "status": "queued", "time": "hours, unattended"},
     {"name": "New-word variant with no training loop", "status": "decide after step 3 review", "time": "one run"},
     {"name": "Multiple-choice confidence check (read side)", "status": "after step 4", "time": "short"},

@@ -1,0 +1,99 @@
+{
+  "class": "ORACLE MEASUREMENT — not a route; never promotable as a write-engine result (D-C10r-rulings-3 (2))",
+  "decision_id": "D-C10w-oracle",
+  "status": "INTERIM — seed-0 configuration only; no final label, no routing (prereg §8 item 3); step 5 not read",
+  "producer": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10w_oracle_interim.py",
+    "sha256": "3d46fdb9e605879a424b0efae4e30842dfabe90112688fb1bf1a9c2aad75d10d"
+  },
+  "reader": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10w_oracle_read.py",
+    "sha256": "162966119cf49967f39c402c73e63ebc9c673401c74f335154696eb5ab859b0b"
+  },
+  "p1_eval": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/p1_20261007T223707_598959Z/eval.json",
+    "sha256": "f8886427076b3ff5f2c5172dbbfbbc21ba7263bb03cd562307a4bd7c725bd60f"
+  },
+  "oracle_p1_A7_configuration": {
+    "count": 70,
+    "gates": {
+      "G1": true,
+      "G2": true,
+      "G3": true,
+      "G4": false,
+      "G5": true,
+      "G6": true,
+      "G7": true
+    },
+    "gate_misses": [
+      "G4"
+    ],
+    "label": "PARTIAL-CEILING-LOCALITY-COST",
+    "qualifiers": [
+      "BIGRAM"
+    ],
+    "unstable_merge": false,
+    "mounted_count": 70,
+    "steps": 400,
+    "per_template_counts": [
+      22,
+      24,
+      24
+    ],
+    "per_fact_counts": [
+      2,
+      3,
+      2,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "per_edge_pass": [
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "gain_over_closedform": 61
+  },
+  "shuf_cross_score_vs_original_map": 0,
+  "shuf_own_map_para_full_n": 71
+}
