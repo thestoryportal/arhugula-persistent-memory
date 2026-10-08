@@ -405,3 +405,287 @@ Declined: none.
 - Astra confirmation BLOCKING 3 (v2.1 → v2.2) → §2.6 budget paragraph, §3 S3, truth table: a budget stop by an in-run projection or the supervisor deadline is HALTED-BUDGET before write completion and INCOMPLETE-BUDGET after write completion but before readout completes; new pre-readout-projection reader case.
 
 Declined: none.
+
+
+## 9. Amendment T — live telemetry and per-prompt answers (2026-10-08, pre-observation; D-C10r-rulings-11, D-C10r-dash-1, D-C10w-p2rerun)
+
+Written before any C10Y code, build or process exists. On 2026-10-08 there is no `experiments/track_c/c10y_*` file and no `results/c10y_directdw/`. The only `results/c10y_*` entries are the five review files named in the status line (`:3`) and §6. §0–§8 are unchanged. This section adds an instrument and launch rules. It changes no hypothesis, recipe, arm, objective, optimiser setting, stimulus, metric, threshold, gate, qualifier, label, table row, stage cap, budget rule or memory guard, and it replaces no sentence above. Where it conflicts with the build brief, this section governs.
+
+Sources:
+- runbook §5 rows D-C10r-rulings-11 (`EXPERIMENT_RUNBOOK.md:363`), D-C10w-p2rerun (`:378`) and D-C10r-dash-1 (`:379`);
+- the approved pattern, C10Z §9(h) and §9.1 (h′1)–(h′5) (`docs/C10Z_ASTRA_PREREG.md:467–476`, `:554–604`);
+- the program's C10Y build brief, §5 (telemetry basis) and §9 Q1–Q3 and Q7. This section rules on each of those questions below.
+
+**Terms.** "Live telemetry" below means the opt-in JSONL writer of this section. It is not the §2.10 **memory telemetry** (`:146`, `:169`): the synchronised allocation, RSS and host-memory samples that the memory guards read. Memory telemetry is required, and its absence is a preflight failure (`:169`). The live-telemetry switch never disables, alters or adds to it.
+
+**The rulings, quoted.**
+- D-C10r-rulings-11 (`EXPERIMENT_RUNBOOK.md:363`): "an opt-in writer appending small JSONL snapshots during a run to `results/<exp>/telemetry/` (per-layer write norms, per-position target probabilities, logit-lens top-k at each band layer for the probe prompts, phase markers) … It must not change any computed result: off by default, or proven inert under LAW#5 (identical counts and records with telemetry on vs off); test-first; reviewed with the build (advisor + Astra); folded in as a dated pre-observation amendment to each frozen prereg (C10X, C10Y, C10Z) before its build."
+- D-C10r-dash-1 (`:379`): "every new experiment build (C10X, C10Y, ASTRA later attempts) streams per-prompt generated text through the opt-in, inertness-proven telemetry path (… a JSONL line per prompt with subject, template, generated text, right/wrong), admitted only after its LAW#5-style inertness check".
+- D-C10w-p2rerun (`:378`): "STANDING RULE: a run whose result is compromised (halted, corrupted, or read through a patch) is re-run, never read around by a deviation note".
+
+(T1) **Switch.**
+- `C10Y_TELEMETRY` absent means live telemetry is off. Off is the default.
+- Exactly `"1"` means on, and only when `C10Y_TELEMETRY_INERTNESS` names a valid INERT record under (T8), and the stage's pre-start forecast carries the telemetry phase of (T10).
+- Any other value (`"0"`, `"true"`, `""`, `" 1"`) is refused, and so is `"1"` with an absent or invalid record. A refusal comes before any write and before the supervisor launches a worker: the driver exits non-zero and writes nothing. This is a launch refusal, not a run.
+- `run.json` (§2.12, `:179`) always carries two keys:
+  - `"telemetry": true|false`;
+  - `"telemetry_inertness": {"path", "sha256"}` or `null`.
+
+  Under (T7)'s controlled proof, these two values are the only record difference between telemetry on and off. The live exceptions are those enumerated in (T10).
+- Only telemetry-on launches require or verify an inertness record; telemetry-off launches require neither that record nor telemetry calibration.
+- Every telemetry-off launch line removes both variables explicitly (`env -u C10Y_TELEMETRY -u C10Y_TELEMETRY_INERTNESS …`; the C10Z (j′) precedent, `docs/C10Z_ASTRA_PREREG.md:608`).
+
+(T2) **Path and line format.**
+- The file is `<OUT_DIR>/telemetry/telemetry_<tag>.jsonl`:
+  - `<tag>` is `s1` for stage 1, `p1` for stage 2 and `p2` for stage 3, following §2.12's rule that files suffixed `p1`/`p2` belong to the stage-2 and stage-3 processes (`:179`);
+  - `OUT_DIR` is `results/c10y_directdw/`, or the re-run directory of (T12).
+- With telemetry off, no `telemetry/` directory exists.
+- The file is opened once, in append mode. Its first line is a header.
+- Every line holds `kind`, `t_utc`, `elapsed_s`, `cumulative_s`, `process` and `run_id`:
+  - `elapsed_s` is the time from entering the telemetry call to just before that line is written;
+  - `cumulative_s` is the full time of all earlier lines, writes included (C10Z (h′2), `:558`).
+- Each line is serialised with `json.dumps(…, allow_nan=False, sort_keys=True, separators=(",",":"))` plus a newline, then written, flushed and fsynced.
+- The telemetry clock is `time.perf_counter`, bound at import. It is never the supervisor clock, the budget-projection clock or the memory-guard sampler of §2.6 item 6 and §2.10 (`:96–98`, `:169`).
+
+(T3) **Line kinds, placement and volume.**
+
+| kind | where | payload |
+|---|---|---|
+| `phase` | `stage_start`/`stage_end` around each §2.6 item 5 phase (`:89`); `recipe_start`/`recipe_end` immediately around each `H.run_recipe`; `write_start`/`write_end` in the wrapper for modes `anchor`, `e2e` and `apply_stored` (§2.6 item 4, `:88`); `halt` on the worker's halt path, immediately before the diagnostic is written (§5, `:301`) | phase, recipe, mode, arm or halt code |
+| `opt_step` | after each **accepted** optimiser step (§2.4, `:70`); an overflow retry writes no `opt_step` | step; the loss components already computed (`L_edit`, `KL_raw`, weighted KL, or `L_z`); loss scale; retries so far; per-layer planned ‖A^l B_l‖_F as recorded in the §2.9 trace (`:146`) |
+| `target_probs` | after each accepted B-e2e step; once per completed write for the merged fit | per (request, frame, target position), `p = exp(−nll)` from the detached gathered target log-probabilities that `L_edit` already computed (§2.3, `:51`). These are retained per micro-batch until the step is accepted, discarded on an overflow retry, and exponentiated on CPU in float64. Once per write: the merged fit matrix `f_ij` (24 × 6), and for B-z also `r_ij`, as the driver records them (§2.9, `:146`; §3 Fit, `:200–202`) |
+| `write_norms` | after each completed write in every scored recipe, where the driver records §2.9 write geometry (`:144`) | per layer: actual ‖D_l‖_F, planned ‖A^l B_l‖_F and the ratio to recipe A, echoed from the driver's float64 values (T6). Recipe A's harness `delta_norms` (`c10e_bandknob.py:213–215`) are echoed labelled `harness_fp32` |
+| `logit_lens` | pristine: once, immediately after LAW#3 (V4) passes and the restored pristine-band hashes verify (§2.6 items 1 and 5, `:85`, `:89`). Post-write: in the A7 arm of each scored **candidate** recipe (B-z, B-e2e, NM-total, ENV; never recipe A, whose post-write hook runs before V4), inside the driver's own probe hook after its probes (`ARM_HOOKS`, `c10e_bandknob.py:494–495`), with no change to the dict the hook returns | layers `hp.layers` (4–8); the 24 A7 canonical prompts at the last position; top-5 `[id, text, prob]` per layer |
+| `answer` | every call of the observed scorer of (T4) | the schema of (T4) |
+
+- The pristine lens call is a no-hook, no-write forward on the pristine band. It is placed after V4, and recipe A's post-write lens call is suppressed, so that no instrument forward precedes the baseline gate (`:89`). The observed scorer runs during recipe A, but it adds no forward (T4).
+- **Volume, stage 1:**
+  - 384 `answer` lines: recipe A on A1, A2 and A7, 3 × 96; B-e2e on A7, 96;
+  - 2 lens calls × 24 = 48 lens forwards: the pristine call after V4, and the B-e2e A7 arm;
+  - at most 100 `opt_step` and 101 `target_probs` lines per B-e2e write (T_max = 100, `:63`); a B-z write has at most 100 `opt_step` lines and one `target_probs` line;
+  - 4 `write_norms` lines: recipe A's three arms and the B-e2e A7 write;
+  - phase lines and the header.
+- **Volume, stages 2 and 3:**
+  - 96 `answer` lines per evaluated arm of each scored recipe (A, B-z, B-e2e, and NM-total or ENV where triggered; §2.5, `:77–81`);
+  - one lens call after V4 (pristine), and one per scored candidate recipe's A7 arm.
+
+  No line is written per requirement, except `answer`.
+- **Logit lens** (the C10Z (h′5) semantics, `:601–604`):
+  - one no-grad forward per prompt, with `output_hidden_states=True`, `use_cache=False` and no hook;
+  - this runs after the write's hooks are removed (§2.6 item 4, `:88`), on the merged model;
+  - the residual after band layer l is `hidden_states[l+1][:, -1, :]` (installed transformers, `modeling_qwen2.py:528–570`);
+  - then `model.model.norm`, then `lm_head`;
+  - the softmax and top-5 are computed on a detached CPU float64 copy of the 151,936-wide logits row (T6);
+  - it raises if `max(layers) > num_hidden_layers − 2`.
+
+(T4) **Per-prompt answer lines (D-C10r-dash-1). Build-brief Q2 ruling: the observed scorer is adopted.**
+
+*Reason:*
+- The harness scorer `full_seq_match` computes the generated ids and returns only two booleans (`c10e_bandknob.py:108–117`).
+- A statement-identical observed copy shows exactly the tokens that were scored and adds no forward.
+- A separate telemetry decode would add about 816 greedy forwards per three-arm recipe inside the 7,200-s stage-1 cap (`:94`), and its text could differ from the scored decode.
+
+- **Installation.** Only while telemetry is on, `H.full_seq_match` is rebound to `observed_full_seq_match`:
+  - immediately before each scored `H.run_recipe` call (the recipes of §2.5, `:77–81`);
+  - restored to the original object in `finally`.
+- **Not installed** for:
+  - the stimulus base report (`c10e_bandknob.py:449–455`);
+  - any §2.8 check cell;
+  - the train–deploy parity generation of §2.8 (iv) (`:132`), which is driver code, not the scorer.
+
+  Those run unchanged and emit no `answer` line.
+- **The copy.** `observed_full_seq_match` is a statement-for-statement copy of `c10e_bandknob.py:108–117`:
+  - the same `@torch.no_grad()`, `H.tok`, `H.model` and `H.DEV`;
+  - plus exactly one inserted expression statement, `sink(prompt, target_ids, gen)`, placed immediately before the unchanged `return gen == list(target_ids), gen[0] == target_ids[0]` (`:117`).
+
+  The original scorer has no `full` or `first` variable: it returns the two expressions directly (`:117`). The sink computes both predicates with those same expressions, inside its own protected body (T5). It copies `gen` and `target_ids` and never mutates them.
+- **With telemetry off,** the driver asserts at each recipe start that `H.full_seq_match` is the original object. This is an assertion only, never a record field.
+- **Line schema** (`kind: "answer"`, plus the (T2) common fields):
+
+| field | type | value |
+|---|---|---|
+| `recipe` | str | the `run_recipe` name |
+| `arm` | str | the `H.ARMS` key (`A1_single`, `A2_coherent2`, `A7_coined_coined`; `c10e_bandknob.py:244–246`), matched from `H._ARM_STATE["requests"]` (`:487`). Stage 1's A7-only rebinding of `H.ARMS` (`:88`) is honoured |
+| `phase` | str | the §2.6 item 5 phase |
+| `subj` | str | the fictional subject whose formatted template equals `prompt` |
+| `val` | str | `H.ARMS[arm][subj]`, the value written |
+| `template` | str | the unformatted template containing `{}` (`CANON` or one of `PTEST`, `c10e_bandknob.py:51–56`) |
+| `prompt` | str | as scored |
+| `target_ids`, `generated_ids` | list[int] | as scored |
+| `text` | str | `H.tok.decode(generated_ids)` |
+| `full` | bool | computed by the sink as `gen == list(target_ids)` (`c10e_bandknob.py:117`), equal to the scorer's first return value: the binding whole-answer right/wrong |
+| `first` | bool | computed by the sink as `gen[0] == target_ids[0]` (`:117`), equal to the scorer's second return value |
+
+- **Unresolved attribution is a telemetry failure.** If `arm`, `subj`, `val` or `template` cannot be resolved uniquely, the sink writes no line and disables telemetry (T5). No null `subj` or `template` is ever written, because the tab renders both directly (`tools/dashboard_experiment.py:213–215`).
+- **Dashboard: field names match, but the input does not yet exist.**
+  - `subj`, `template`, `text` and `full` are the names the tab's record reader takes from `generated` entries (`:193–201`), and `val` the name it takes from `detail` rows (`:197`). They carry the dash-1 items: subject → `subj`, template → `template`, generated text → `text`, right/wrong → `full`.
+  - The tab takes these entries only from `recipes[…].arms.A7_coined_coined.extra.generated` in a recorded JSON (`:192–201`). JSONL is not presently a supported input.
+  - The unchanged harness records correctness flags, not generated text (`c10e_bandknob.py:366–374`, `:496–498`).
+  - Telemetry-off first attempts do not provide generated-answer display through this design; live answers await admitted telemetry and its dashboard adapter.
+
+(T5) **What telemetry never does; failure.**
+- Live telemetry reads only. It never:
+  - writes a parameter, buffer or A, or registers a hook. The deployed-arithmetic hooks and routing masks of §2.3 (`:51`) are the driver's own;
+  - calls `backward`, retains a graph or reads anything not already `.detach()`ed;
+  - changes A's `.grad`, the Adam state, the loss scale or the retry count;
+  - calls the supervisor, a budget projection, a memory-guard sample, `torch.mps.synchronize` or the stage clock;
+  - writes into any §2.12 record or the execution ledger (V6, `:191`), or adds a key to an `ARM_HOOKS` result;
+  - feeds a gate, label, qualifier or reader.
+- Its `.cpu()` copies may synchronise the device implicitly. They change no value.
+- **Failure.** Every public method body catches `Exception`, never `BaseException`. On failure it:
+  - writes exactly one `C10Y_TELEMETRY_DISABLED <ExcType>: <msg>` line to `sys.__stderr__`;
+  - disables later calls;
+  - never propagates the exception.
+
+  The marker goes to `sys.__stderr__` because `run_recipe` runs the write, and with it the wrapper's optimisation, inside `contextlib.redirect_stdout` (`c10e_bandknob.py:488–489`).
+- If the sink fails, the observed scorer still returns its identical result. A failure inside the copied scorer statements propagates as the original's would.
+- A declared disable (the marker above) does not compromise the science record and triggers no re-run; (T11) records it as an audit failure. Any other missing, malformed or unexpected output is handled by (T11).
+
+(T6) **Float64 (the P2 lesson, `EXPERIMENT_RUNBOOK.md:377`: a 22.5M-element fp32 accumulation gave cosines of 1.007–1.009). The 2048 × 11008 band updates are exactly that size.**
+- Every value that live telemetry emits as a reduction over a model-sized tensor (hidden, intermediate, vocabulary or weight-sized) is computed in float64 on CPU. Telemetry either echoes the driver's float64 value, or computes it itself from detached CPU float64 copies: the lens softmax, and `exp(−nll)`.
+- The single exception is recipe A's harness `delta_norms`, echoed and labelled `harness_fp32`.
+- Telemetry never emits an unlabelled fp32-reduced norm.
+- Live telemetry holds at most one 151,936-wide float64 row (about 1.2 MB) and one line at a time. The §2.10 guards (`:169`) apply unchanged.
+
+(T7) **Code-path proof, test-first (the analogue of C10Z (h′4), `:580–585`).**
+- **Isolation.** The tests are written and recorded failing before the writer exists. They run CPU-only on a stub `H` and tiny CPU models, under temporary roots, with an audit-hook write guard that refuses any write under the real `results/` or `architecture_profile/`. The guard is proved by a positive control. This is the guard whose absence let a C10W selftest dispatch "a real P2 training stage against the live tree" (`results/c10w_oracle/_quarantine_selftest_leak_20261008/README.md:3`). A test that writes to the live tree fails the build. Deny real experiment subprocess dispatch; allow only explicitly isolated stub workers. Install protection before imports, resolve protected paths, and positively test the subprocess boundary without launching a real stage.
+- **Identical with telemetry on and off,** under injected clocks, a fixed `run_id` and a fixed seed (`:72`):
+  - A at every optimiser step (`torch.equal`);
+  - the merged weights;
+  - every return value, record, ledger entry and reader output;
+  - the out-directory file set, excluding `telemetry/` (JSON-normalised);
+  - the only exceptions are the two `run.json` values of (T1).
+- **Identical counts:**
+  - calls to the supervisor clock, the budget projection, the memory-guard sampler and `sync`;
+  - stub-model forwards, excluding lens forwards tagged as telemetry;
+  - the observed scorer's outputs and its exact sequence of model inputs, against the original `full_seq_match`.
+- **AST check** against the text of `c10e_bandknob.py:108–117`, read from the file: the observed copy differs only by the one inserted `sink(prompt, target_ids, gen)` statement, and the (T8) reference capture only by its one inserted `capture(prompt, target_ids, gen)` statement.
+- **Reference-capture validation.** The (T8) reference capture returns outputs and issues a model-input sequence identical to the original `full_seq_match`, and the IDs it captures equal the generated IDs the original computes.
+- **Unchanged across every telemetry call,** checked before and after:
+  - every parameter and buffer (`torch.equal` and `data_ptr`);
+  - `torch.random.get_rng_state()` and `model.training`;
+  - every module's `_forward_hooks`, `_forward_pre_hooks` and `_backward_hooks`;
+  - `torch.is_grad_enabled()`;
+  - A's `.grad`.
+- The on-file holds the header and every kind of (T3), with exactly 96 `answer` lines per evaluated arm.
+- This proves the code path only. It does not prove live inertness, which is (T8)'s job.
+
+(T8) **MPS inertness check (LAW#5): the admission screen (the analogue of C10Z (h′3), `:566–579`).**
+- **Runner.** `experiments/track_c/c10y_directdw_telemetry_check.py` runs `telemetry_mps_inertness_check()` from the driver:
+  - once, on MPS, with the GPU otherwise idle;
+  - in one process, on the pristine model, with context templates sampled once in-process (`memit_main.py:304–323`) before any pass;
+  - writing `results/c10y_directdw_telemetry_inertness/<UTC>/inertness.json`. An existing `inertness.json` is refused.
+- **Method.**
+  - One uncompared warm-up: one scorer call and one science forward.
+  - Then three passes: P1 plain, T telemetry on, P2 plain. Each pass runs, in order:
+    1. in T only, `logit_lens` on the 24 A7 canonical prompts;
+    2. the 96 A7 scored prompts in `eval_arm` order (per subject: `CANON`, then the three `PTEST`; `c10e_bandknob.py:360–363`). Each goes through a scorer copy that differs from `:108–117` by one inserted statement before the unchanged return:
+       - in P1 and P2, the **reference capture** `capture(prompt, target_ids, gen)`, which appends a copy of `gen` to a plain list;
+       - in T, the telemetry `sink(prompt, target_ids, gen)` of (T4), with a live writer.
+
+       Each pass records, per prompt, the exact generated-ID sequence and the `(full, first)` flags that the scorer returned. The reference capture is validated before use by (T7).
+    3. in T only, `logit_lens` again;
+    4. the science forward: the pristine `L_edit` batch of A7 requests 0–5 (one micro-batch, §2.4, `:71`), built as `compute_z.py:41–73`, with logits gathered at the target positions only (§2.3, `:51`) and kept as CPU fp32 copies.
+- **Verdict** (identical tokens are required, as in C10Z, `docs/C10Z_ASTRA_PREREG.md:575`).
+  - INVALID if any of the following holds. A disabled writer or missing output is never INERT.
+    - The five band `down_proj` weights, hashed before and after, differ.
+    - A T-pass lens call fails or yields a non-finite value.
+    - The T-pass telemetry output is incomplete: a `C10Y_TELEMETRY_DISABLED` marker; other than exactly 96 `answer` lines; or other than 2 `logit_lens` lines of 24 prompts each.
+  - Otherwise NONDETERMINISTIC-BASELINE, unless P1 and P2 have identical generated-ID sequences and identical flags for all 96 prompts (exact) and `torch.equal` (bitwise) gathered logits.
+  - Otherwise INERT if T equals P1 in the same three respects, and T's `answer` lines carry those same IDs and flags. NOT-INERT if not.
+  - Only INERT admits live telemetry. Any other verdict keeps it off for this prereg. A revised writer then needs its own dated amendment.
+- **Timing section** (after P2; never compared, and never part of the verdict). For the (T10) per-kind bounds, it emits each line kind of (T3) with full-size payloads, built from MPS tensors of the stage's shapes, and times every emission from preparation (detach, CPU transfer, float64 reduction, serialisation) through fsync, with the repetition count recorded:
+  - `opt_step`: five layers' planned norms and the loss components;
+  - `target_probs`: one accepted step's gathered target log-probabilities for 24 requests × 6 frames × the A7 target positions, and one 24 × 6 `f_ij`;
+  - `write_norms`: five layers;
+  - `phase`.
+- **Record.** It holds:
+  - `schema`, `decision_id` "D-C10r-rulings-11", `device` "mps", `verdict`, `control_equal`, `telemetry_equal`, `generated_equal`, `telemetry_complete` and `weights_unchanged`;
+  - `answer_calls` (96) and `lens_forwards` (48);
+  - the measured `lens_forward_seconds` and `answer_line_seconds` (each written T-pass line, timed), and the timing section's per-kind seconds with their payload sizes and repetition counts, which (T10) cites as its timing artifact;
+  - the SHA-256s of the driver, reader, check script, `c10e_bandknob.py`, hparams, `compute_z.py`, `compute_ks.py`, `rome/repr_tools.py`, `memit_main.py` and this prereg;
+  - `env`: python, machine, platform, torch and transformers versions, and `model_rev`;
+  - start and finish times.
+- **Admission.** Only telemetry-on launches require or verify an inertness record; telemetry-off launches require neither that record nor telemetry calibration. At every telemetry-on stage start, the driver requires every recorded hash and `env` field to match the current files and environment. A changed source makes the record unusable, and the check is then re-run in a new `<UTC>` directory.
+- **Scope, stated in the record.** INERT establishes equality only for these pristine outputs, under the recorded identity. It does not establish resource inertness, or inertness of the optimisation loop or of edited-arm outputs on MPS. The loop is covered by (T7) on CPU only. On MPS, edited outputs, the optimisation loop and resource inertness remain UNVERIFIED, as in C10Z (h′2) (`:563`). The post-run audit of (T11) adds a per-run check of the answer path.
+- **Cost (I-INFER).**
+  - Per pass: the A7 scorer runs 528 greedy forwards. That is 132 canonical + 396 held-out tokens: the C10 A7 values are 4–6 tokens, with held-out per-position denominators 72, 72, 72, 72, 69 and 39 (`docs/C10X_ENGINEPATH_PREREG.md:13`, citing `CORPUS/45_C10L_MINT_TOKEN.md:24`). Add one micro-batch forward.
+  - In all: about 1,640 forwards. At C10Z's planning range of t = 0.03–0.15 s per forward (`docs/C10Z_ASTRA_PREREG.md:579`), that is about 0.8–4.1 GPU-minutes, plus model load, context sampling and preflight, which are UNMEASURED.
+  - The check is its own GPU job, one GPU job at a time, outside C₁ (`:94`) and outside any stage-2/3 cap.
+  - **Authorization (program ruling 2026-10-08).** The check is GPU spend outside the experiment's caps. The program does not self-authorize it: it is dispatched only under a recorded authorization that names its cost, as C10Z's analogue required the operator's yes (C10Z (h′3), `docs/C10Z_ASTRA_PREREG.md:566–579`). Before dispatch it records a D-ID in runbook §5 with the stated cost, and afterwards the measured GPU time.
+
+(T9) **Telemetry setting per stage. Build-brief Q3 ruling (first-stage setting).**
+- **First attempt: telemetry off (program ruling 2026-10-08).** Every stage of the first attempt runs with live telemetry unset, whatever any inertness record says; the §2.10 memory telemetry is unaffected and stays required. Live telemetry may be switched on only for a later attempt, only after an INERT (T8) record exists under the authorization above, and only when the stage-1 forecast carries the (T10) telemetry phase.
+
+  *Reason:*
+  - C10Z ruled the same for its first attempt (§9.1 (j′), `docs/C10Z_ASTRA_PREREG.md:609–610`).
+  - A telemetry-on stage that halts on budget must be re-run in full under D-C10w-p2rerun (`EXPERIMENT_RUNBOOK.md:378`); the first clean measurement takes priority over live display.
+  - Telemetry-off first attempts do not provide generated-answer display through this design; live answers await admitted telemetry and its dashboard adapter (T4).
+- **Stage 3** runs with the setting of the stage-2 process it regenerates, so that R1–R3 compare equally instrumented processes (`:244–248`). A different setting is refused before any write. Only telemetry-on stages re-verify the inertness record under (T8).
+- **Replacements and the replication pair.** A replacement with changed telemetry setting cannot join the prior replication pair. Regenerate the required pair with telemetry off, retaining all original artifacts, eligibility gates and spending requirements.
+
+(T10) **What telemetry can change; budget; description rule. Build-brief Q3 ruling (cost, caps, description rule).**
+- **Budget.** Off dispatch needs no telemetry phase. With telemetry on, the stage's pre-start forecast (§2.6 item 6, `:92`) includes a telemetry phase, built from separately justified per-kind bounds covering preparation through fsync, with workload counts and scaling assumptions:
+  - for each line kind of (T3) (`phase`, `opt_step`, `target_probs`, `write_norms`, `logit_lens`, `answer`):
+    - the stage's workload count at T_max = 100 accepted steps and the stage's arms;
+    - the per-emission upper bound, taken from the maximum measured time for that kind in the (T8) record (the timing section, `answer_line_seconds` and `lens_forward_seconds`) at a payload no smaller than the stage's;
+    - the scaling assumption from the measured payload to the stage's payload, stated.
+  - No kind's bound is borrowed from another kind.
+  - Any kind without a measured, defensible bound is an unbounded component: the forecast is UNVERIFIED and telemetry-on dispatch is refused, as the frozen `docs/C10Y_DIRECTDW_PREREG.md:92` requires.
+  - Telemetry's time counts against C₁ = 7,200 s (`:94`), any stage-2/3 cap, the in-run projections and the ≥ 23-minute readout reserve (`:98`).
+  - It is never subtracted from a duration, cap, projection or W2.
+  - T_max, micro-batching and the optimiser settings never change for it (`:175`).
+- **Fields that may differ with telemetry on:**
+  - timing fields: W2's per-patch compile time (`:252`), per-write wall-clock and the §2.9 trace timings (`:146`), in-run projections (`:98`), and timestamps;
+  - memory-telemetry observations: driver allocation and RSS (`:169`);
+  - telemetry's own two `run.json` values (T1).
+
+  A stage near a limit can therefore end HALTED-BUDGET or INCOMPLETE-BUDGET (`:98`), trip a §2.10 memory guard (`:169`), or gain EXCEEDS-TTL (`:252`) where a telemetry-off stage would not. Every count, flag, hash, target, A trajectory, merged weight and label is otherwise identical under (T7). On MPS that is established only within (T8)'s scope.
+- **Description rule** (like C10Z's, `docs/C10Z_ASTRA_PREREG.md:565`; it changes no gate or label):
+  - If a telemetry-on stage ends HALTED-BUDGET, INCOMPLETE-BUDGET or with a memory-guard HALT, the program reports it as possibly affected by telemetry. Under D-C10w-p2rerun it re-runs that stage with telemetry off, in a re-run directory (T12). The pair rule of (T9) applies: a replacement with changed telemetry setting cannot join the prior replication pair, so the required pair is regenerated with telemetry off.
+  - If a telemetry-on write carries EXCEEDS-TTL, a non-blocking qualifier (`:232`), the program reports it as possibly affected by telemetry. It does not treat that write as evidence about compile time until a telemetry-off process says the same.
+
+(T11) **Post-run answer audit (model-free).**
+- **When.** Before the reader is run on a telemetry-on stage, the program runs the check runner's model-free `audit` entry point on that stage's out directory. It writes `<OUT_DIR>/telemetry/audit_<tag>.json`.
+- **What it compares,** for every scored recipe and arm, with exact equality:
+  - the `answer` lines' `full` and `first`, keyed by (`recipe`, `arm`, `subj`, `template`);
+  - the per-prompt flags that `run_recipe` returns as `detail` (`c10e_bandknob.py:497`; row fields at `:366–374`), as the stage's record holds them (§2.12, `:179`): `canon_full` and `canon_first` for `CANON`, and `para_full_hits[k]` and `para_first_hits[k]` for `PTEST[k]`.
+- **What the audit checks.** It passes only if every expected line is present, well formed and exact. Each of the following is an audit FAIL, with its cause recorded; none passes silently:
+  - MISMATCH: a `full` or `first` that differs from the record;
+  - DUPLICATE: two lines with one key;
+  - MISSING: an expected key (96 per evaluated arm) with no line and no preceding disabled marker;
+  - **Schema rule:** Validate each line against its kind-specific schema. All kinds require T2 fields; only `answer` requires T4 fields and answer-key membership. Admit exactly one initial header under an explicitly defined header schema. Unknown kinds or fields fail against the applicable schema.
+    - The header schema: the (T2) fields with `kind` = `"header"`, plus `schema` = `"c10y_directdw_telemetry/v1"` (str) and `telemetry` = `true` (bool). Nothing else.
+    - The schemas of `phase`, `opt_step`, `target_probs`, `write_norms` and `logit_lens` are the (T2) fields plus that kind's payload in the (T3) table.
+  - MALFORMED: a line that is not strict JSON; a line missing a field its kind's schema requires; a field of the wrong type, or a null where the schema has none; or a header that is absent, not first, or repeated;
+  - UNEXPECTED: an unknown `kind`; a field outside its kind's schema; or an `answer` key outside the scored recipes and arms;
+  - DISABLED: lines missing after a `C10Y_TELEMETRY_DISABLED` marker.
+- **Disposition of MISMATCH, DUPLICATE, MISSING, MALFORMED or UNEXPECTED.** The scorer or writer ran outside its proven, declared behaviour:
+  - the stage is treated as compromised;
+  - it is re-run with telemetry off in a re-run directory (T12), never read around (D-C10w-p2rerun);
+  - the pair rule of (T9) applies.
+- **Disposition of DISABLED.** The declared failure path of (T5) operated:
+  - the audit FAILs and is reported;
+  - the missing prompts' answer path is unaudited;
+  - the science record stands under (T5); no re-run.
+- The reader never reads `telemetry/`.
+
+(T12) **Re-run directories. Build-brief Q7 ruling.**
+- **The first attempt** keeps §2.12's single directory `results/c10y_directdw/` (`:179`).
+- **A re-run** of stage s (1, 2 or 3) after a halt or a compromised result writes to a new directory, `results/c10y_directdw_s<s>_rerun<k>/`, with logs in `<dir>/logs/`. The driver refuses an existing one.
+  - k = 1, 2, … counts the re-runs of that stage.
+  - File names inside the directory follow §2.12 unchanged.
+  - Telemetry goes in `<dir>/telemetry/`.
+- **Stage-2 and stage-3 re-runs** read the frozen `context_templates.json` of the stage-1 directory they continue (§2.6 item 2, `:86`), by absolute path. They record that path and its SHA-256 in `manifest.json`. A SHA-256 mismatch refuses the launch.
+- **Earlier directories.** A halted or compromised directory is never modified, moved or renamed.
+- **Each re-run's `manifest.json` identifies its valid predecessor explicitly:**
+  - the directory it replaces, and that directory's halt or audit cause;
+  - for stage 3, the stage-2 directory it pairs with.
+
+  A replacement with changed telemetry setting cannot join the prior replication pair (T9).
+- **Dashboard constraint.** No re-run name begins with `attempt` or `_quarantine`. The experiment tab treats such names as set-aside records (`tools/dashboard_experiment.py:182`). It takes the first two path parts of a log directory as the experiment's data directory (`:295–296`).
+- **Scope.** This rule names directories only:
+  - it does not lift a V4 schedule halt (`:189`);
+  - it does not decide whether a halted stage may be re-run, or after what diagnosis. §5 (`:301`) and D-C10w-p2rerun govern that.
+
+Nothing else changes: §2's design, the §2.6 budget rules and §2.10 guards, §2.12's records (beyond the two `run.json` keys of (T1) and the re-run provenance of (T12)), §3's tables and §5's halt conditions stand as frozen.
