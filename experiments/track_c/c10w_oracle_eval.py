@@ -433,8 +433,8 @@ def run_eval(phase,directory,step0_directory):
                 x,y=T.load_adapter(original["adapter"]["path"]),T.load_adapter(retrained["adapter"]["path"])
                 cosines={}
                 for l in R.BAND:
-                    a=(x["B_"+str(l)]@x["A_"+str(l)]).flatten()
-                    b=(y["B_"+str(l)]@y["A_"+str(l)]).flatten()
+                    a=(x["B_"+str(l)]@x["A_"+str(l)]).flatten().double()
+                    b=(y["B_"+str(l)]@y["A_"+str(l)]).flatten().double()
                     denom=float(a.norm()*b.norm())
                     R.require(denom>0,"same-seed cosine has zero denominator")
                     cosines[str(l)]=float(torch.dot(a,b))/denom

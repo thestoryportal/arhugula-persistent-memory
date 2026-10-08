@@ -9,7 +9,7 @@ dispatch (advisor A1, A5), so a refusal leaves the P2 directory alive instead of
 
 Prints one JSON record on stdout. Exit 0 = may dispatch, 3 = refuse (reason in the record).
 """
-import json, os, re, subprocess, sys, tempfile
+import argparse, json, os, re, subprocess, sys, tempfile
 from datetime import datetime
 from pathlib import Path
 
@@ -84,14 +84,15 @@ def check_gpu():
     return {"ok": not procs and not sessions, "blocking_processes": procs, "blocking_tmux": sessions}
 
 
-def check_dispatch_guards(stage):
+def _check_dispatch_guards(stage):
     """Replay the dispatcher's read-only guards for this stage (c10w_oracle_step0.dispatch_stage)."""
     sys.path.insert(0, str(W / "experiments/track_c"))
     import c10w_oracle_read as R, c10w_oracle_step0 as S, c10w_oracle_train as T
     rec = {}
     try:
         R.entry_preflight()
-        step0 = R.latest_directory("step0"); frozen = R.load_frozen(step0); rec["frozen_sources"] = "unchanged"
+        step0 = R.latest_directory("step0"); frozen = R.load_frozen(step0)
+        rec["frozen_sources"] = "evaluator A1; all others unchanged" if "evaluator_amendment" in frozen else "unchanged"
         p1 = R.latest_directory("p1"); authorization, minutes = S.ensure_authorized("P2", p1); rec["authorization"] = "valid"
         stages = R.TRAIN_STAGES["P2"]
         with tempfile.TemporaryDirectory() as empty:
@@ -131,11 +132,27 @@ def check_dispatch_guards(stage):
     return rec
 
 
+def check_dispatch_guards(stage, reattempt_directory=None):
+    if reattempt_directory is None: return _check_dispatch_guards(stage)
+    sys.path.insert(0, str(W / "experiments/track_c"))
+    import c10w_oracle_read as R, c10w_p2_rerun as A
+    try:
+        R.require(stage=="p2-eval", "re-attempt is only for p2-eval")
+        proof=A.check_reattempt(reattempt_directory)
+        with A.overlay(): rec=_check_dispatch_guards(stage)
+        rec["reattempt"]=proof
+        if rec["ok"]:
+            rec["projected_minutes_with_halted_eval"]=rec["projected_minutes"]+R.load_json(proof["archive_manifest"]["path"])["halted_eval_wall_seconds"]/60
+        return rec
+    except (R.Halt,OSError,KeyError,TypeError,ValueError) as exc:
+        return {"ok":False,"reason":str(exc)}
+
+
 def main():
-    stage = sys.argv[1] if len(sys.argv) == 2 else None
-    if stage is None:
-        print("usage: c10w_p2_gate.py <p2 stage>", file=sys.stderr); return 2
-    checks = {"fingerprint": check_fingerprint(), "gpu": check_gpu(), "dispatch_guards": check_dispatch_guards(stage)}
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("stage"); parser.add_argument("--reattempt",type=Path)
+    args=parser.parse_args(); stage=args.stage
+    checks = {"fingerprint": check_fingerprint(), "gpu": check_gpu(), "dispatch_guards": check_dispatch_guards(stage,args.reattempt)}
     ok = all(c["ok"] for c in checks.values())
     print(json.dumps({"stage": stage, "at": datetime.now().astimezone().isoformat(timespec="seconds"), "ok": ok, "checks": checks}, indent=1))
     return 0 if ok else 3

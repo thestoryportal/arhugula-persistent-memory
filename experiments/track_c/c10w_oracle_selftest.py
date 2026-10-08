@@ -2,10 +2,14 @@
 """Model-free, prereg-derived tests for D-C10w-oracle (oracle measurement, not a route).
 
 All line citations below refer to docs/C10W_ORACLE_PREREG.md at fb1788b.
-Fixtures are synthetic records, never scientific evidence. No tensor library is imported.
+Fixtures are synthetic records, never scientific evidence. Tensor regression uses CPU only.
+The suite imports copied sources under a temporary root; the live artifact trees are guarded.
 """
 import ast
 import copy
+import contextlib
+import os
+import shutil
 import importlib
 import importlib.abc
 import io
@@ -19,8 +23,10 @@ import types
 from pathlib import Path
 from unittest.mock import patch
 
-ROOT = Path(__file__).resolve().parents[2]
+LIVE_ROOT = Path(__file__).resolve().parents[2]
+ROOT = LIVE_ROOT
 HERE = Path(__file__).resolve().parent
+LIVE_BEFORE = None
 HASH = "a" * 64
 R = S = T = E = None
 
@@ -683,10 +689,10 @@ class OracleTests(unittest.TestCase):
         self.assertEqual(projection["P3_minutes"],4*20+20+10+3*10+3*10+4*15)
         for stage in ("p2-a7-s1","p3-a7-s0"):
             proc=subprocess.run(["/bin/bash",str(ROOT/"tools/run_c10w_stage.sh"),stage],
-                                cwd=ROOT,env={"PATH":"/usr/bin:/bin","LLMDB_ROOT":str(ROOT)},
+                                cwd=ROOT,env={"PATH":"/usr/bin:/bin","LLMDB_ROOT":str(ROOT),"MODEL_ID":"selftest-forbidden"},
                                 capture_output=True,text=True)
             self.assertNotEqual(proc.returncode,0)
-            self.assertIn("HALT",proc.stdout+proc.stderr)
+            self.assertIn("inherited knob",proc.stdout+proc.stderr)
 
 
 
@@ -1532,6 +1538,8 @@ class DupDevTests(unittest.TestCase):
             self.assertEqual((item["dev_distinct_n"],item["dev_duplicate_source_indices"]),(len(seen),repeats))
 
     def test_real_cached_acquisition_and_tokenizer_exercise_every_require(self):
+        if os.environ.get("C10W_SELFTEST_ALLOW_TOKENIZER") != "1":
+            self.skipTest("tokenizer loading requires explicit C10W_SELFTEST_ALLOW_TOKENIZER=1")
         cache=ROOT/"hf_cache"
         pinned=[cache/"hub/datasets--cais--mmlu/snapshots"/self.revision/"all"/(s+"-00000-of-00001.parquet") for s in ("test","dev")]
         tokenizer=cache/"hub/models--Qwen--Qwen2.5-3B/snapshots"/R.MODEL_REV
@@ -1624,23 +1632,621 @@ with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
                 self.assertEqual(reading["ranks"]["16"]["gate_misses"],["G6"] if full>4 else [])
 
 
+class P2RerunTests(unittest.TestCase):
+    def module(self):
+        self.assertTrue((ROOT/"tools/c10w_p2_rerun.py").is_file(),"sealed P2 rerun implementation absent (test-first RED)")
+        return importlib.import_module("c10w_p2_rerun")
+
+    @contextlib.contextmanager
+    def tree(self, amended=True, archived=False):
+        A=self.module()
+        with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+            root=Path(td); plan=copy.deepcopy(A.AMENDMENT)
+            step0=(root/plan["step0"]["path"]).parent; step0.mkdir(parents=True)
+            p2=root/plan["p2_directory"]; p2.mkdir(parents=True)
+            logs=root/"results/c10w_oracle_logs"; logs.mkdir()
+            (root/"architecture_profile").mkdir()
+            (root/plan["diagnostic_path"]).write_text('{"cpu_fixture":true}\n')
+            prereg=root/"docs/C10W_ORACLE_PREREG.md"; prereg.parent.mkdir()
+            shutil.copyfile(ROOT/"docs/C10W_ORACLE_PREREG.md",prereg)
+            evaluator=root/plan["evaluator"]["path"]; evaluator.parent.mkdir(parents=True)
+            text=(HERE/"c10w_oracle_eval.py").read_text()
+            old=text.replace('.flatten().double()','.flatten()')
+            new=old.replace('(x["B_"+str(l)]@x["A_"+str(l)]).flatten()', '(x["B_"+str(l)]@x["A_"+str(l)]).flatten().double()').replace('(y["B_"+str(l)]@y["A_"+str(l)]).flatten()', '(y["B_"+str(l)]@y["A_"+str(l)]).flatten().double()')
+            evaluator.write_text(old)
+            sources={"evaluator":R.file_ref(evaluator)}
+            for key in ("reader","trainer","step0_source","harness"):
+                source=root/"experiments/track_c"/(key+".py"); source.write_text("# frozen "+key+"\n")
+                sources[key]=R.file_ref(source)
+            files={}
+            for key in ("train_inputs","mmlu200","seal_audit"):
+                path=step0/(key+".json"); path.write_text('{}\n'); files[key]=R.file_ref(path)
+            frozen={"status":"PASS","prereg_sha256":R.PREREG_SHA,"sources":sources,"files":files,
+                    "seal":{k:True for k in ("S1","S2","S2c","S2d","S3","S4","S5","S6","S7")},
+                    "seam":{"ok":True},"fingerprint":{"ok":True},"instrument_ok":True}
+            R.write_json(step0/"step0.json",frozen); plan["step0"]["sha256"]=R.sha_file(step0/"step0.json")
+            plan["evaluator"]["old_sha256"]=R.sha_text(old); plan["evaluator"]["new_sha256"]=R.sha_text(new)
+            import difflib
+            diff=''.join(difflib.unified_diff(old.splitlines(keepends=True),new.splitlines(keepends=True),
+                          fromfile='a/'+plan["evaluator"]["path"],tofile='b/'+plan["evaluator"]["path"]))
+            dpath=root/plan["unified_diff"]["path"]; dpath.parent.mkdir(); dpath.write_text(diff)
+            plan["unified_diff"]["sha256"]=R.sha_text(diff)
+            pin=R.sha_text(json.dumps(plan,ensure_ascii=False,indent=2)+'\n')
+            p1=root/A.P1_REL; p1.mkdir()
+            R.write_json(p2/"preflight.json",{"p1_directory":str(p1),"wall_seconds":1.})
+            for stage in R.TRAIN_STAGES["P2"]: (logs/(stage+".log")).write_text("fixture\nSTAGE_EXIT=0\n")
+            for name in ("HALT.json","eval.json","eval_halt.json"):
+                record={"status":"HALT" if name!="eval.json" else "PASS","phase":"P2","stage":"p2-eval",
+                        "reason":"HALT: invalid same-seed cosine","wall_seconds":6209.}
+                R.write_json(p2/name,record)
+            (p2/"p2-eval.log").write_text("fixture eval\nSTAGE_EXIT=2\n")
+            (logs/"p2-eval.log").write_text("fixture outer\nSTAGE_EXIT=2\n")
+            R.write_json(logs/"p2-eval.gate.20261007T222229.91288.json",{"stage":"p2-eval","ok":True})
+            (p2/"train").mkdir(); (p2/"train/keep.json").write_text("training sentinel")
+            (p2/"adapters").mkdir(); (p2/"adapters/keep.safetensors").write_text("adapter sentinel")
+            originals=[*(p2/n for n in A.INNER),logs/"p2-eval.log",*logs.glob("p2-eval.gate.*.json")]
+            hashes={str(p.relative_to(root)):R.sha_file(p) for p in originals}
+            with patch.object(A,"W",root),patch.object(A,"AMENDMENT",plan),patch.object(A,"AMENDMENT_SHA256",pin), \
+                 patch.object(A,"ORIGINAL_ATTEMPT_SHA256",hashes,create=True),patch.object(R,"ROOT",root):
+                if amended:
+                    evaluator.write_text(new); A.prepare()
+                if archived: A.archive()
+                yield A,root,step0,p2,logs,evaluator,new
+
+    def gate_record(self,A,p2,logs):
+        evidence=A.check_reattempt(p2)
+        path=logs/"p2-eval.gate.fixture.json"
+        R.write_json(path,{"stage":"p2-eval","ok":True,"checks":{
+            "fingerprint":{"ok":True},"gpu":{"ok":True},
+            "dispatch_guards":{"ok":True,"p2_directory":str(p2),"reattempt":evidence}}})
+        return path
+
+    def test_identical_full_size_fp32_delta_uses_production_float64_cosine(self):
+        code=r'''
+import ast, importlib.abc, json, sys
+from pathlib import Path
+class NoModel(importlib.abc.MetaPathFinder):
+    def find_spec(self,name,path=None,target=None):
+        if name.split('.')[0] in {'transformers','tokenizers','datasets'}: raise AssertionError('model/tokenizer import')
+sys.meta_path.insert(0,NoModel())
+import torch
+torch.set_num_threads(1)
+gen=torch.Generator(device='cpu').manual_seed(20261008)
+delta_a=torch.randn((2048,11008),generator=gen,dtype=torch.float32,device='cpu'); delta_b=delta_a.clone()
+a,b=delta_a.flatten(),delta_b.flatten()
+old=float(torch.dot(a,b))/float(a.norm()*b.norm())
+tree=ast.parse(Path(sys.argv[1]).read_text())
+loop=next(n for n in ast.walk(tree) if isinstance(n,ast.For) and any(isinstance(c,ast.Assign) and any(isinstance(t,ast.Subscript) and isinstance(t.value,ast.Name) and t.value.id=='cosines' for t in c.targets) for c in n.body))
+class Deltas(ast.NodeTransformer):
+    def visit_BinOp(self,node):
+        if isinstance(node.op,ast.MatMult):
+            name=node.left.value.id
+            assert name in ('x','y')
+            return ast.copy_location(ast.Name(id='delta_a' if name=='x' else 'delta_b',ctx=ast.Load()),node)
+        return self.generic_visit(node)
+block=ast.fix_missing_locations(Deltas().visit(ast.Module(body=loop.body,type_ignores=[])))
+class Reader:
+    def require(self,ok,reason): assert ok,reason
+scope={'torch':torch,'R':Reader(),'delta_a':delta_a,'delta_b':delta_b,'l':4,'cosines':{}}
+exec(compile(block,'production_cosine','exec'),scope)
+print(json.dumps({'old':old,'new':scope['cosines']['4'],'device':str(delta_a.device),'shape':list(delta_a.shape),'dtype':str(delta_a.dtype)}))
+'''
+        proc=subprocess.run([str(ROOT/".venv/bin/python"),"-B","-c",code,str(HERE/"c10w_oracle_eval.py")],
+                            env=dict(os.environ,CUDA_VISIBLE_DEVICES=""),capture_output=True,text=True,timeout=60)
+        self.assertEqual(proc.returncode,0,proc.stdout+proc.stderr)
+        result=json.loads(proc.stdout); print("C10W_COSINE_CPU "+json.dumps(result))
+        self.assertEqual(result["shape"],[2048,11008]); self.assertEqual(result["device"],"cpu")
+        self.assertGreater(abs(result["old"]-1.),1e-9)
+        self.assertLessEqual(abs(result["new"]-1.),1e-9)
+        data=phase("P2"); data["same_seed"]["per_layer_cosine"]={str(l):result["new"] for l in R.BAND}
+        R.validate_phase(data)
+
+    def test_original_evaluator_passes_without_amendment(self):
+        with self.tree(amended=False) as (A,root,step0,p2,logs,evaluator,new):
+            with A.overlay(): self.assertEqual(R.load_frozen(step0)["sources"]["evaluator"]["sha256"],R.sha_file(evaluator))
+
+    def test_amended_evaluator_requires_valid_pinned_amendment(self):
+        with self.tree(amended=False) as (A,root,step0,p2,logs,evaluator,new):
+            evaluator.write_text(new)
+            with A.overlay(), self.assertRaises(R.Halt): R.load_frozen(step0)
+            ref=A.prepare(); before=(step0/"step0.json").read_bytes()
+            with A.overlay(): self.assertEqual(R.load_frozen(step0)["evaluator_amendment"],ref)
+            self.assertEqual((step0/"step0.json").read_bytes(),before)
+            self.assertEqual(A.prepare(),ref)
+
+    def test_amendment_diff_and_evaluator_tampering_fail_closed(self):
+        for which in ("amendment","diff","evaluator"):
+            with self.subTest(which=which),self.tree() as (A,root,step0,p2,logs,evaluator,new):
+                path=step0/"amendment_A1_evaluator.json" if which=="amendment" else root/A.AMENDMENT["unified_diff"]["path"] if which=="diff" else evaluator
+                path.write_bytes(path.read_bytes()+b' ')
+                with A.overlay(),self.assertRaises(R.Halt): R.load_frozen(step0)
+
+    def test_every_other_frozen_source_remains_strict_and_verifier_restored(self):
+        for which in ("reader","trainer","step0_source","harness"):
+            with self.subTest(which=which),self.tree() as (A,root,step0,p2,logs,evaluator,new):
+                original=R.verify_ref
+                ref=R.load_json(step0/"step0.json")["sources"][which]
+                Path(ref["path"]).write_text("changed")
+                with A.overlay(),self.assertRaises(R.Halt): R.load_frozen(step0)
+                self.assertIs(R.verify_ref,original)
+
+    def test_archive_moves_exact_set_hashes_and_preserves_training(self):
+        with self.tree() as (A,root,step0,p2,logs,evaluator,new):
+            before=artifact_snapshot(root); expected={str((p2/n).relative_to(root)) for n in ("HALT.json","eval.json","eval_halt.json","p2-eval.log")}
+            expected|={str((logs/n).relative_to(root)) for n in ("p2-eval.log","p2-eval.gate.20261007T222229.91288.json")}
+            digests={p:R.sha_file(root/p) for p in expected}; sentinel=(p2/"train/keep.json").read_bytes()
+            ref=A.archive(); manifest=R.load_json(ref["path"])
+            self.assertEqual({e["source"] for e in manifest["files"]},expected)
+            for entry in manifest["files"]:
+                self.assertFalse((root/entry["source"]).exists())
+                self.assertEqual(entry["sha256"],digests[entry["source"]])
+                self.assertEqual(R.sha_file(root/entry["destination"]),entry["sha256"])
+            self.assertEqual((p2/"train/keep.json").read_bytes(),sentinel)
+            self.assertEqual((p2/"adapters/keep.safetensors").read_text(),"adapter sentinel")
+            self.assertEqual(A.verify_archive(),ref)
+
+    def test_archive_refuses_missing_unexpected_symlink_and_partial_without_moves(self):
+        for defect in ("missing","unexpected","verdict","symlink","partial"):
+            with self.subTest(defect=defect),self.tree() as (A,root,step0,p2,logs,evaluator,new):
+                if defect=="missing": (p2/"eval_halt.json").unlink()
+                elif defect=="unexpected": (p2/"eval_surprise.json").write_text('{}')
+                elif defect=="verdict": (p2/"verdict.json").write_text('{}')
+                elif defect=="symlink":
+                    (p2/"p2-eval.log").unlink(); (p2/"p2-eval.log").symlink_to(logs/"p2-eval.log")
+                else: (p2/"attempt1_halted").mkdir()
+                before=artifact_snapshot(root)
+                with self.assertRaises(R.Halt): A.archive()
+                self.assertEqual(artifact_snapshot(root),before)
+
+    def test_archive_idempotent_even_after_new_eval_files_exist(self):
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            ref=A.verify_archive(); before=artifact_snapshot(root)
+            self.assertEqual(A.archive(),ref); self.assertEqual(artifact_snapshot(root),before)
+            (p2/"eval.json").write_text('{"new_attempt":true}')
+            (logs/"p2-eval.log").write_text("new attempt log")
+            before=artifact_snapshot(root); self.assertEqual(A.archive(),ref)
+            self.assertEqual(artifact_snapshot(root),before)
+
+    def test_archive_manifest_and_archived_file_tampering_refused(self):
+        for defect in ("manifest","archived"):
+            with self.subTest(defect=defect),self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+                ref=A.verify_archive()
+                path=Path(ref["path"]) if defect=="manifest" else p2/"attempt1_halted/eval_halt.json"
+                path.write_text('{}')
+                with self.assertRaises(R.Halt): A.check_reattempt(p2)
+
+    def test_archive_is_bound_to_reviewed_original_bytes(self):
+        with self.tree() as (A,root,step0,p2,logs,evaluator,new):
+            (p2/"eval.json").write_bytes((p2/"eval.json").read_bytes()+b' ')
+            before=artifact_snapshot(root)
+            with self.assertRaises(R.Halt): A.archive()
+            self.assertEqual(artifact_snapshot(root),before)
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            path=p2/"attempt1_halted/eval.json"; path.write_bytes(path.read_bytes()+b' ')
+            manifest=p2/"attempt1_halted/manifest.json"; record=R.load_json(manifest)
+            for entry in record["files"]:
+                if entry["source"].endswith('/eval.json'):
+                    entry.update(sha256=R.sha_file(path),size=path.stat().st_size)
+            manifest.write_text(json.dumps(record))
+            with self.assertRaises(R.Halt): A.verify_archive()
+
+    def test_public_eval_requires_dispatch_and_consumes_entry_once(self):
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            A.claim_reattempt(p2,self.gate_record(A,p2,logs))
+            args=["eval","P2",str(p2),str(step0)]
+            with patch.object(E,"run_eval",return_value=0) as backend,patch("sys.stderr",new=io.StringIO()):
+                self.assertEqual(A.main(args),2,"public eval bypassed dispatch (test-first RED)")
+                backend.assert_not_called()
+                captured=[]
+                def transport(script,child_args,directory,stage):
+                    (p2/"p2-eval.log").write_text("CPU child transport\n")
+                    captured.extend(child_args); return 0
+                def dispatch(stage):
+                    return S.run_child("c10w_oracle_eval.py",["P2",p2,step0],p2,stage)
+                with patch.object(S,"dispatch_stage",side_effect=dispatch),patch.object(S,"run_child",side_effect=transport):
+                    self.assertEqual(A.main(["dispatch",str(p2)]),0)
+                self.assertEqual(len(captured),5)
+                with patch.object(A.os,"getppid",return_value=os.getpid()+1): self.assertEqual(A.main(captured),2)
+                with patch.object(A.os,"getppid",return_value=os.getpid()):
+                    self.assertEqual(A.main(captured),0)
+                    self.assertEqual(A.main(captured),2)
+                self.assertEqual(backend.call_count,1)
+                self.assertTrue((p2/"reattempt2_eval_started.json").is_file())
+
+    def test_public_eval_cli_race_starts_backend_once(self):
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            A.claim_reattempt(p2,self.gate_record(A,p2,logs)); captured=[]
+            def transport(script,args,directory,stage):
+                (p2/"p2-eval.log").write_text("CPU child transport\n"); captured.extend(args); return 0
+            def dispatch(stage): return S.run_child("c10w_oracle_eval.py",["P2",p2,step0],p2,stage)
+            with patch.object(S,"dispatch_stage",side_effect=dispatch),patch.object(S,"run_child",side_effect=transport):
+                self.assertEqual(A.main(["dispatch",str(p2)]),0)
+            self.assertEqual(len(captured),5,"dispatch did not bind the child entry (test-first RED)")
+            self.shell_fixture(A,root,logs)
+            wrapper=root/"tools/c10w_p2_rerun.py"
+            bootstrap=wrapper.read_text().split('if __name__=="__main__":')[0]
+            wrapper.write_text(bootstrap+'''import c10w_oracle_eval as E
+A.os.getppid=lambda: json.loads((A.p2_path()/"reattempt2_dispatch.json").read_text())["dispatcher_pid"]
+def backend(*args):
+    with (A.W/"child_started.txt").open("a") as f: f.write("eval\\n")
+    return 0
+E.run_eval=backend
+sys.exit(A.main())
+''')
+            cmd=[str(root/".venv/bin/python"),"-B",str(wrapper),*captured]
+            procs=[subprocess.Popen(cmd,cwd=root,env=dict(os.environ,LLMDB_ROOT=str(root)),stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True) for _ in range(2)]
+            outputs=[p.communicate(timeout=30) for p in procs]
+            self.assertEqual(sorted(p.returncode for p in procs),[0,2],outputs)
+            self.assertEqual((root/"child_started.txt").read_text().splitlines(),["eval"])
+            replay=subprocess.run(cmd,cwd=root,capture_output=True,text=True,timeout=30)
+            self.assertEqual(replay.returncode,2)
+            self.assertEqual((root/"child_started.txt").read_text().splitlines(),["eval"])
+
+    def test_production_dispatch_eval_and_read_with_cpu_backend(self):
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            data=fixture(); p1=root/A.P1_REL
+            (p2/"train/keep.json").unlink()
+            for name,directory in (("P1",p1),("P2",p2)):
+                (directory/"train").mkdir(exist_ok=True); (directory/"adapters").mkdir(exist_ok=True)
+                for record in data[name]["train_records"]:
+                    record["provenance"]=R.frozen_provenance(A.load_frozen(step0))
+                    tag=R.train_tag(R.train_identity(record),record["steps"])
+                    adapter=directory/"adapters"/(tag+".safetensors"); adapter.write_text("CPU synthetic adapter")
+                    record["adapter"]=R.file_ref(adapter)
+                    path=directory/"train"/(tag+".json"); R.write_json(path,record)
+                    record.update(R.load_json(path),record_file=R.file_ref(path))
+                data[name].update(step0_directory=str(step0),provenance=R.frozen_provenance(A.load_frozen(step0)))
+            R.write_json(p1/"eval.json",data["P1"])
+            R.write_json(p1/"verdict.json",{"projection":{"P2_minutes":1.}})
+            auth=p1/"authorization_P2.json"
+            R.write_json(auth,{"P2":{"authorized":True,"recorded_by":"CPU fixture","recorded_at":"fixture",
+                         "p1_eval_sha256":R.sha_file(p1/"eval.json"),"p1_verdict_sha256":R.sha_file(p1/"verdict.json"),"budget_minutes":448}})
+            data["P2"].update(authorization=R.file_ref(auth),authorized_projection_minutes=1.,p1_eval_sha256=R.sha_file(p1/"eval.json"))
+            A.claim_reattempt(p2,self.gate_record(A,p2,logs))
+            def backend(phase,directory,frozen):
+                self.assertEqual((phase,Path(directory),Path(frozen)),("P2",p2,step0))
+                R.write_json(p2/"eval.json",data["P2"])
+                R.write_json(p2/"verdict.json",R.read_measurement(R.disk_phases(p1)))
+                return 0
+            def transport(script,args,directory,stage):
+                with (p2/"p2-eval.log").open("x") as log:
+                    with patch.object(A.os,"getppid",return_value=os.getpid()): rc=A.main(args)
+                    log.write("STAGE_EXIT="+str(rc)+"\n")
+                return rc
+            with patch.object(R,"entry_preflight",return_value=root),patch.object(T,"require_training_preflight",return_value=None), \
+                 patch.object(R,"require_untracked_adapter",return_value=None),patch.object(S,"run_child",side_effect=transport), \
+                 patch.object(E,"run_eval",side_effect=backend) as evaluator_backend,patch("sys.stdout",new=io.StringIO()) as output:
+                self.assertEqual(A.main(["dispatch",str(p2)]),0)
+                self.assertEqual(evaluator_backend.call_count,1)
+                output.seek(0); output.truncate()
+                self.assertEqual(A.main(["read"]),0,output.getvalue())
+                reading=json.loads(output.getvalue())
+                before=artifact_snapshot(root)
+                with patch("sys.stderr",new=io.StringIO()): self.assertEqual(A.main(["dispatch",str(p2)]),2)
+                self.assertEqual(artifact_snapshot(root),before,"dispatch replay changed successful records (test-first RED)")
+            for record in (R.load_json(p2/"eval.json"),R.load_json(p2/"verdict.json"),reading):
+                self.assertEqual(record["evaluator_amendment"],A.verify_amendment())
+            self.assertEqual(reading["status"],"VALID")
+
+    def test_public_dispatch_cli_race_and_replay_never_halt_winner(self):
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            A.claim_reattempt(p2,self.gate_record(A,p2,logs))
+            self.shell_fixture(A,root,logs)
+            (p2/"train/keep.json").unlink()
+            for index,record in enumerate(phase("P2")["train_records"]): R.write_json(p2/"train"/(str(index)+".json"),record)
+            R.write_json(root/A.P1_REL/"authorization_P2.json",{"P2":{"budget_minutes":448}})
+            wrapper=root/"tools/c10w_p2_rerun.py"; bootstrap=wrapper.read_text().split('if __name__=="__main__":')[0]
+            wrapper.write_text(bootstrap+'''import c10w_oracle_eval as E, c10w_oracle_step0 as S, c10w_oracle_train as T
+A.R.entry_preflight=lambda: A.W
+S.ensure_authorized=lambda phase,p1: ({"path":"CPU fixture","sha256":"0"*64},1.)
+T.require_training_preflight=lambda *args: None
+A.R.phase_trains=lambda *args: []
+A.os.getppid=lambda: os.getpid()
+def backend(*args):
+    with (A.W/"child_started.txt").open("a") as f: f.write("eval\\n")
+    A.R.write_json(A.p2_path()/"eval.json",{"fixture":True})
+    return 0
+def transport(script,args,directory,stage):
+    with (directory/(stage+".log")).open("x") as f:
+        rc=A.main(args); f.write("STAGE_EXIT="+str(rc)+"\\n")
+    return rc
+E.run_eval=backend; S.run_child=transport
+sys.exit(A.main())
+''')
+            cmd=[str(root/".venv/bin/python"),"-B",str(wrapper),"dispatch",str(p2)]
+            procs=[subprocess.Popen(cmd,cwd=root,env=dict(os.environ,LLMDB_ROOT=str(root)),stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True) for _ in range(2)]
+            outputs=[p.communicate(timeout=30) for p in procs]
+            self.assertEqual(sorted(p.returncode for p in procs),[0,2],outputs)
+            self.assertEqual((root/"child_started.txt").read_text().splitlines(),["eval"])
+            self.assertFalse((p2/"HALT.json").exists())
+            self.assertEqual(list((root/"architecture_profile").glob('c10w_oracle_halt_diagnostic_*.json')),[])
+            before=artifact_snapshot(root)
+            replay=subprocess.run(cmd,cwd=root,capture_output=True,text=True,timeout=30)
+            self.assertEqual(replay.returncode,2)
+            self.assertEqual(artifact_snapshot(root),before)
+
+    def test_reattempt_admitted_once_and_claim_kept(self):
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            gate=self.gate_record(A,p2,logs); claim=A.claim_reattempt(p2,gate)
+            self.assertEqual(R.load_json(claim["path"])["attempt"],2)
+            self.assertEqual(A.verify_claim(p2),claim)
+            with self.assertRaises(R.Halt): A.check_reattempt(p2)
+            with self.assertRaises(R.Halt): A.claim_reattempt(p2,gate)
+
+    def test_reattempt_refuses_each_missing_or_changed_prerequisite(self):
+        for defect in ("manifest","halt","training","amendment","wrong_directory","newer_directory"):
+            with self.subTest(defect=defect),self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+                directory=p2
+                if defect=="manifest": (p2/"attempt1_halted/manifest.json").unlink()
+                elif defect=="halt": (p2/"HALT.json").write_text('{}')
+                elif defect=="training": (logs/"p2-a7-s1.log").write_text('STAGE_EXIT=0\nnot finished\n')
+                elif defect=="amendment": (step0/"amendment_A1_evaluator.json").write_text('{}')
+                elif defect=="wrong_directory": directory=p2.parent/"p2_wrong"
+                else: (p2.parent/"p2_99999999T000000_000000Z").mkdir()
+                before=artifact_snapshot(root)
+                with self.assertRaises(R.Halt): A.check_reattempt(directory)
+                self.assertEqual(artifact_snapshot(root),before)
+
+    def test_gate_failure_never_consumes_reattempt(self):
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            gate=self.gate_record(A,p2,logs); record=R.load_json(gate); record["checks"]["gpu"]["ok"]=False
+            gate.write_text(json.dumps(record))
+            with self.assertRaises(R.Halt): A.claim_reattempt(p2,gate)
+            self.assertFalse((p2/"reattempt2.json").exists())
+
+    def test_newer_eval_directory_cannot_enter_reading(self):
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            other=p2.parent/"p2_99999999T000000_000000Z"; other.mkdir(); R.write_json(other/"eval.json",{})
+            with A.overlay(),self.assertRaises(R.Halt): R.disk_phases(root/A.P1_REL)
+
+    def test_real_eval_writer_and_verdict_reading_carry_amendment(self):
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            ref=A.verify_amendment()
+            with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+                directory=Path(td)
+                stack,*_=FixRoundTests._full_eval_patches(self,directory)
+                with stack,A.overlay(),patch("sys.stdout",new=io.StringIO()):
+                    self.assertEqual(E.run_eval("P1",directory,step0),0)
+                self.assertEqual(R.load_json(directory/"eval.json")["evaluator_amendment"],ref)
+                data=fixture(); data["P2"].update(step0_directory=str(step0),evaluator_amendment=ref)
+                with A.overlay():
+                    reading=R.read_measurement(data); R.write_json(directory/"verdict.json",reading)
+                self.assertEqual(reading["evaluator_amendment"],ref)
+                self.assertEqual(R.load_json(directory/"verdict.json")["evaluator_amendment"],ref)
+                self.assertEqual(json.loads(json.dumps(reading))["evaluator_amendment"],ref)
+                data["P2"].pop("evaluator_amendment")
+                with A.overlay(): self.assertEqual(R.read_measurement(data)["status"],"INVALID")
+
+    def test_retry_projection_charges_halted_eval_at_unchanged_boundary(self):
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            proof={"p1_directory":str(root/A.P1_REL),"wall_seconds":0.}
+            R.write_json(root/A.P1_REL/"authorization_P2.json",{"P2":{"budget_minutes":448}})
+            completed=[{"arm":arm,"seed":seed,"rank":rank,"retrain":rt,"steps":400,"status":"PASS",
+                        "wall_seconds":(448-220-6209/60)*60/6} for arm,seed,rank,rt in R.TRAIN_UNITS["P2"]]
+            with A.overlay():
+                S.guard_phase_projection(p2,"P2",proof,completed,{})
+                completed[0]["wall_seconds"]+=1.
+                with self.assertRaisesRegex(R.Halt,"INVALID-BUDGET"): S.guard_phase_projection(p2,"P2",proof,completed,{})
+
+    def test_gate_retains_original_guards_and_adds_retry_admission(self):
+        G=importlib.import_module("c10w_p2_gate")
+        import inspect
+        self.assertIn("reattempt_directory",inspect.signature(G.check_dispatch_guards).parameters,
+                      "gate has no sealed retry path (test-first RED)")
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            proof=R.load_json(p2/"preflight.json"); auth={"path":"fixture","sha256":HASH}
+            (p2/"train/keep.json").unlink()
+            for record in phase("P2")["train_records"]:
+                adapter=p2/"adapters"/(R.train_tag(R.train_identity(record))+".safetensors")
+                adapter.write_text("CPU fixture"); record["adapter"]=R.file_ref(adapter)
+                R.write_json(p2/"train"/(R.train_tag(R.train_identity(record))+".json"),record)
+            with patch.object(G,"W",root),patch.object(R,"entry_preflight",lambda:root), \
+                 patch.object(S,"ensure_authorized",return_value=(auth,1.)), \
+                 patch.object(T,"require_training_preflight",return_value=None), \
+                 patch.object(R,"require_untracked_adapter",return_value=None):
+                R.write_json(root/A.P1_REL/"authorization_P2.json",{"P2":{"budget_minutes":448}})
+                good=G.check_dispatch_guards("p2-eval",p2)
+                self.assertTrue(good["ok"],good)
+                self.assertEqual(good["reattempt"],A.check_reattempt(p2))
+                evaluator.write_text(new+' ')
+                self.assertFalse(G.check_dispatch_guards("p2-eval",p2)["ok"])
+            # The process classifier must still refuse unknown Python work.
+            self.assertEqual(len(G.blocking_processes("99999 /tmp/python3 unknown.py",1)),1)
+
+    def shell_fixture(self,A,root,logs):
+        for name in ("read","step0","train"):
+            shutil.copyfile(HERE/("c10w_oracle_"+name+".py"),root/"experiments/track_c"/("c10w_oracle_"+name+".py"))
+        (root/".venv").symlink_to(ROOT/".venv",target_is_directory=True)
+        shutil.copyfile(ROOT/"tools/c10w_p2_rerun.py",root/"tools/c10w_p2_rerun_production.py")
+        (root/"_fixture_plan.json").write_text(json.dumps({"amendment":A.AMENDMENT,"sha256":A.AMENDMENT_SHA256,"originals":A.ORIGINAL_ATTEMPT_SHA256}))
+        bootstrap='''import json,sys,os
+from pathlib import Path
+import c10w_p2_rerun_production as A
+config=json.loads((A.W/"_fixture_plan.json").read_text())
+A.AMENDMENT=config["amendment"]; A.AMENDMENT_SHA256=config["sha256"]
+A.ORIGINAL_ATTEMPT_SHA256=config["originals"]
+'''
+        (root/"tools/c10w_p2_rerun.py").write_text(bootstrap+'''if __name__=="__main__":
+    if sys.argv[1] in ("dispatch","read"):
+        A.verify_claim(A.p2_path())
+        if sys.argv[1]=="dispatch":
+            with (A.W/"child_started.txt").open("a") as f: f.write("eval\\n")
+            sys.exit(int(os.environ.get("FIXTURE_CHILD_EXIT","0")))
+        print(json.dumps({"status":"VALID","evaluator_amendment":A.verify_amendment()})); sys.exit(0)
+    sys.exit(A.main())
+''')
+        (root/"tools/c10w_p2_gate.py").write_text(bootstrap+'''try:
+    if os.environ.get("FIXTURE_GATE_REFUSE")=="1": raise A.R.Halt("fixture transient gate refusal")
+    proof=A.check_reattempt(A.p2_path())
+    print(json.dumps({"stage":"p2-eval","ok":True,"checks":{"fingerprint":{"ok":True},"gpu":{"ok":True},"dispatch_guards":{"ok":True,"p2_directory":str(A.p2_path()),"reattempt":proof}}}))
+except A.R.Halt as exc:
+    print(json.dumps({"ok":False,"reason":str(exc)})); sys.exit(3)
+''')
+        for name in ("run_c10w_p2_stage.sh","run_c10w_p2.sh"):
+            text=(ROOT/"tools"/name).read_text()
+            lines=["W="+str(root)+"\n" if l.startswith("W=") else l for l in text.splitlines(keepends=True)]
+            (root/"tools"/name).write_text(''.join(lines))
+        # Legacy code must not reach the real stage even during test-first RED.
+        (root/"tools/run_c10w_stage.sh").write_text('#!/bin/bash\necho "fixture: legacy dispatch refused"\nexit 99\n')
+
+    def test_stage_runner_race_starts_exactly_one_eval_and_never_truncates_log(self):
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            self.shell_fixture(A,root,logs)
+            cmd=["/bin/bash",str(root/"tools/run_c10w_p2_stage.sh"),"p2-eval","--reattempt",str(p2)]
+            env=dict(os.environ,LLMDB_ROOT=str(root))
+            processes=[subprocess.Popen(cmd,cwd=root,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True) for _ in range(2)]
+            outputs=[p.communicate(timeout=30) for p in processes]
+            self.assertEqual(sum(p.returncode==0 for p in processes),1,outputs)
+            self.assertEqual((root/"child_started.txt").read_text().splitlines(),["eval"])
+            self.assertEqual((logs/"p2-eval.log").read_text().splitlines()[-1],"STAGE_EXIT=0")
+            before=(logs/"p2-eval.log").read_bytes()
+            repeated=subprocess.run(cmd,cwd=root,env=env,capture_output=True,text=True,timeout=30)
+            self.assertNotEqual(repeated.returncode,0); self.assertEqual((logs/"p2-eval.log").read_bytes(),before)
+
+    def test_failed_child_consumes_retry_permanently(self):
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            self.shell_fixture(A,root,logs)
+            cmd=["/bin/bash",str(root/"tools/run_c10w_p2_stage.sh"),"p2-eval","--reattempt",str(p2)]
+            env=dict(os.environ,LLMDB_ROOT=str(root),FIXTURE_CHILD_EXIT="2")
+            proc=subprocess.run(cmd,cwd=root,env=env,capture_output=True,text=True,timeout=30)
+            self.assertEqual(proc.returncode,2,proc.stdout+proc.stderr)
+            self.assertTrue((p2/"reattempt2.json").is_file())
+            with self.assertRaises(R.Halt): A.check_reattempt(p2)
+            self.assertEqual((root/"child_started.txt").read_text().splitlines(),["eval"])
+
+    def test_coordinator_skips_six_trainings_then_eval_and_amended_reader(self):
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            self.shell_fixture(A,root,logs)
+            before={s:(logs/(s+".log")).read_bytes() for s in R.TRAIN_STAGES["P2"]}
+            cmd=["/bin/bash",str(root/"tools/run_c10w_p2.sh"),"--reattempt-eval",str(p2)]
+            proc=subprocess.run(cmd,cwd=root,env=dict(os.environ,LLMDB_ROOT=str(root)),capture_output=True,text=True,timeout=30)
+            self.assertEqual(proc.returncode,0,proc.stdout+proc.stderr)
+            self.assertEqual((root/"child_started.txt").read_text().splitlines(),["eval"])
+            for stage in R.TRAIN_STAGES["P2"]: self.assertEqual((logs/(stage+".log")).read_bytes(),before[stage])
+            reading=R.load_json(logs/"p2-read-attempt2.json")
+            self.assertEqual(reading["evaluator_amendment"],A.verify_amendment())
+            coordinator_logs=list(logs.glob("p2-reattempt-coordinator*.log"))
+            self.assertEqual(len(coordinator_logs),1)
+            coordinator=coordinator_logs[0].read_text()
+            self.assertEqual(coordinator.count("SKIP p2-"),6); self.assertIn("COORDINATOR_EXIT=0",coordinator)
+
+    def test_coordinator_gate_refusal_then_resume_consumes_one_retry(self):
+        with self.tree(archived=True) as (A,root,step0,p2,logs,evaluator,new):
+            self.shell_fixture(A,root,logs)
+            cmd=["/bin/bash",str(root/"tools/run_c10w_p2.sh"),"--reattempt-eval",str(p2)]
+            env=dict(os.environ,LLMDB_ROOT=str(root),FIXTURE_GATE_REFUSE="1")
+            first=subprocess.run(cmd,cwd=root,env=env,capture_output=True,text=True,timeout=30)
+            self.assertNotEqual(first.returncode,0)
+            self.assertFalse((p2/"reattempt2.json").exists()); self.assertFalse((logs/"p2-eval.log").exists())
+            env.pop("FIXTURE_GATE_REFUSE")
+            second=subprocess.run(cmd,cwd=root,env=env,capture_output=True,text=True,timeout=30)
+            self.assertEqual(second.returncode,0,second.stdout+second.stderr)
+            self.assertEqual((root/"child_started.txt").read_text().splitlines(),["eval"])
+
+
+def artifact_snapshot(root):
+    """Guard artifacts without following links; operator excludes the concurrent results/labviz/ tree."""
+    result = {}
+    for name in ("results", "architecture_profile"):
+        base = Path(root)/name
+        if not base.exists(): continue
+        paths = [base]
+        for directory, dirs, files in os.walk(base, followlinks=False):
+            if name=="results" and Path(directory)==base:
+                dirs[:]=[n for n in dirs if n!="labviz"]
+            paths.extend(Path(directory)/n for n in dirs+files)
+        for path in paths:
+            info = path.lstat()
+            result[str(path.relative_to(root))] = (info.st_mode, info.st_size, info.st_mtime_ns,
+                                                   info.st_ctime_ns, info.st_ino,
+                                                   os.readlink(path) if path.is_symlink() else None)
+    return result
+
+
+def artifact_changes(before, after):
+    return sorted(p for p in before.keys() | after.keys() if before.get(p) != after.get(p))
+
+
+class IsolationTests(unittest.TestCase):
+    def test_artifact_guard_excludes_only_operator_labviz_subtree(self):
+        with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+            root=Path(td); labviz=root/"results/labviz"; labviz.mkdir(parents=True)
+            profile=root/"architecture_profile"; profile.mkdir()
+            before=artifact_snapshot(root)
+            (labviz/"review").mkdir(); (labviz/"review/operator.png").write_text("operator browser fixture")
+            self.assertEqual(artifact_snapshot(root),before,"operator Lab View subtree is not excluded (test-first RED)")
+            for directory in (root/"results",profile):
+                before=artifact_snapshot(root); (directory/"selftest_leak.json").write_text('{}')
+                self.assertTrue(artifact_changes(before,artifact_snapshot(root)))
+
+    def test_every_runtime_module_and_default_root_is_temporary(self):
+        self.assertNotEqual(ROOT, LIVE_ROOT)
+        self.assertTrue(ROOT.is_relative_to(Path("/private/tmp")))
+        self.assertEqual(R.ROOT, ROOT)
+        self.assertEqual(R.entry_preflight.__defaults__[1], ROOT)
+        for module in (R,S,T,E):
+            self.assertTrue(Path(module.__file__).is_relative_to(ROOT))
+        self.assertFalse((ROOT/"hf_cache").exists())
+        self.assertFalse((ROOT/"results").is_symlink())
+
+    def test_artifact_guard_detects_create_change_delete_and_rename(self):
+        with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+            root=Path(td); (root/"results").mkdir(); (root/"architecture_profile").mkdir()
+            p=root/"results/control.json"; p.write_text("before")
+            before=artifact_snapshot(root); p.write_text("after")
+            self.assertIn("results/control.json",artifact_changes(before,artifact_snapshot(root)))
+            before=artifact_snapshot(root); p.rename(root/"results/renamed.json")
+            self.assertIn("results/control.json",artifact_changes(before,artifact_snapshot(root)))
+            before=artifact_snapshot(root); (root/"architecture_profile/HALT.json").write_text("fixture")
+            self.assertIn("architecture_profile/HALT.json",artifact_changes(before,artifact_snapshot(root)))
+            before=artifact_snapshot(root); (root/"results/renamed.json").unlink()
+            self.assertIn("results/renamed.json",artifact_changes(before,artifact_snapshot(root)))
+
+    def test_selftest_does_not_change_live_artifact_trees(self):
+        self.assertEqual(artifact_changes(LIVE_BEFORE,artifact_snapshot(LIVE_ROOT)),[])
+
+
 def main():
-    global R,S,T,E
-    required=[HERE/("c10w_oracle_"+n+".py") for n in ("read","step0","train","eval")]
-    required.append(ROOT/"tools/run_c10w_stage.sh")
-    missing=[str(p.relative_to(ROOT)) for p in required if not p.is_file()]
-    if missing:
-        print("FAIL: prereg implementation files absent (expected test-first RED)")
-        for name in missing: print("  "+name)
-        return 1
-    sys.meta_path.insert(0,NoModelImports())
-    R,S,T,E=[importlib.import_module("c10w_oracle_"+n) for n in ("read","step0","train","eval")]
-    suite=unittest.TestSuite([unittest.defaultTestLoader.loadTestsFromTestCase(c) for c in
-                             (OracleTests,ProposedTests,DefectTests,FixRoundTests,DupDevTests)])
-    result=unittest.TextTestRunner(stream=sys.stdout,verbosity=2).run(suite)
-    if result.wasSuccessful():
-        print("C10W_ORACLE_SELFTEST PASS: %d tests; model-free; oracle measurement, not a route"%result.testsRun)
-    return 0 if result.wasSuccessful() else 1
+    global R,S,T,E,ROOT,HERE,LIVE_BEFORE
+    LIVE_BEFORE=artifact_snapshot(LIVE_ROOT)
+    result=None
+    try:
+        with tempfile.TemporaryDirectory(prefix="c10w_selftest_",dir="/private/tmp") as td:
+            ROOT=Path(td); HERE=ROOT/"experiments/track_c"
+            files=["experiments/track_c/c10w_oracle_"+n+".py" for n in ("read","step0","train","eval")]
+            files += ["experiments/track_c/c10e_bandknob.py","experiments/track_c/c10p_twopass_arms.py",
+                      "configs/screens/g6_screen_qwen3b.json","configs/screens/g6_screen_qwen3b_v2.json",
+                      "docs/C10W_ORACLE_PREREG.md","tools/run_c10w_stage.sh",
+                      "tools/c10w_p2_gate.py","tools/run_c10w_p2_stage.sh","tools/run_c10w_p2.sh"]
+            optional=["tools/c10w_p2_rerun.py","tools/c10w_p2_evaluator_A1.diff"]
+            missing=[f for f in files if not (LIVE_ROOT/f).is_file()]
+            if missing:
+                print("FAIL: prereg implementation files absent:",missing); return 1
+            for name in files+[f for f in optional if (LIVE_ROOT/f).is_file()]:
+                dest=ROOT/name; dest.parent.mkdir(parents=True,exist_ok=True)
+                shutil.copyfile(LIVE_ROOT/name,dest)
+                if name in ("tools/run_c10w_p2_stage.sh","tools/run_c10w_p2.sh"):
+                    lines=dest.read_text().splitlines(keepends=True)
+                    lines=["W="+str(ROOT)+"\n" if line.startswith("W=") else line for line in lines]
+                    dest.write_text("".join(lines))
+            (ROOT/".venv").symlink_to(LIVE_ROOT/".venv",target_is_directory=True)
+            (ROOT/"results").mkdir(); (ROOT/"architecture_profile").mkdir()
+            sys.path[:0]=[str(HERE),str(ROOT/"tools")]
+            sys.meta_path.insert(0,NoModelImports())
+            with patch.dict(os.environ,{"LLMDB_ROOT":str(ROOT),"HF_HUB_OFFLINE":"1","TRANSFORMERS_OFFLINE":"1"}):
+                R,S,T,E=[importlib.import_module("c10w_oracle_"+n) for n in ("read","step0","train","eval")]
+                cases=(OracleTests,ProposedTests,DefectTests,FixRoundTests,DupDevTests,P2RerunTests,IsolationTests)
+                suite=unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromTestCase(c) for c in cases)
+                result=unittest.TextTestRunner(stream=sys.stdout,verbosity=2).run(suite)
+    finally:
+        changed=artifact_changes(LIVE_BEFORE,artifact_snapshot(LIVE_ROOT))
+        if changed:
+            print("FAIL: LIVE ARTIFACTS CHANGED DURING SELFTEST:",json.dumps(changed))
+    if changed: return 1
+    print("C10W_SELFTEST_LIVE_ARTIFACT_GUARD PASS: results/ (excluding operator results/labviz/) and architecture_profile/ unchanged")
+    if result is not None and result.wasSuccessful():
+        print("C10W_ORACLE_SELFTEST PASS: %d tests; CPU fixtures only; skipped=%d; oracle measurement, not a route"%(result.testsRun,len(result.skipped)))
+    return 0 if result is not None and result.wasSuccessful() else 1
 
 
 if __name__=="__main__":
