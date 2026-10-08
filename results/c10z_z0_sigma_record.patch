@@ -1,0 +1,52 @@
+diff --git a/experiments/track_c/c10z_astra_arms.py b/experiments/track_c/c10z_astra_arms.py
+index 5f9fbc1..5d80b97 100644
+--- a/experiments/track_c/c10z_astra_arms.py
++++ b/experiments/track_c/c10z_astra_arms.py
+@@ -1062,6 +1062,8 @@ class Session:
+                 original=float(margin_leads(full[len(prompt)+q-1][None,:],torch.tensor([y],device="cpu"))[0][0])
+                 full_sigma=max(full_sigma,abs(original-float(obs["leads"][ri])))
+             single.append(ref)
++        if sigma>.125:
++            self.checks["Z0"]={"ok":False,"sigma_shape":sigma,"original_full_sequence_sigma":full_sigma}
+         R.require(sigma<=.125,"HALTED-V5","Z0 spread >.125 logits")
+         return {"ok":True,"sigma_shape":sigma,"tau_shape":max(2*sigma,.02),
+                 "original_full_sequence_sigma":full_sigma,"prefix_shape_leads":single,
+diff --git a/experiments/track_c/c10z_astra_selftest.py b/experiments/track_c/c10z_astra_selftest.py
+--- a/experiments/track_c/c10z_astra_selftest.py
++++ b/experiments/track_c/c10z_astra_selftest.py
+@@ -1752,6 +1752,35 @@
+             s.z0(batch, {"leads": torch.tensor([.874], dtype=torch.float64)})
+         self.assertEqual(halted.exception.code, "HALTED-V5")
+ 
++    def test_z0_v5_halt_persists_native_and_full_sigma(self):
++        """Diagnosability only: the unchanged V5 refusal publishes both measured maxima."""
++        import torch
++        D, R = self.D, self.R; s = D.Session.__new__(D.Session)
++        def forward(input_ids, **kwargs):
++            n = input_ids.shape[1]
++            return _types.SimpleNamespace(logits=torch.tensor([[[float(n), 0.]] * n]))
++        s.H = _types.SimpleNamespace(DEV="cpu", model=forward)
++        s.budget = D.Budget(0., C01_FIX, None, None, clock=lambda: 0.)
++        s.checks = {}; s.recipes = {}; s.memory = []; s.restores = []; s.process = 1
++        batch = {"target_ids": [[0, 1]], "prompt_ids": [[1]],
++                 "requirements": [{"fact": 0, "view": 0, "q": q} for q in range(2)]}
++        with self.assertRaises(R.Halt) as halted:
++            s.z0(batch, {"leads": torch.tensor([.75, -1.75])})
++        self.assertEqual(halted.exception.code, "HALTED-V5")
++        self.assertEqual(halted.exception.detail, "Z0 spread >.125 logits")
++        self.assertIn("Z0", s.checks, "V5 raises before saving its measured Z0 sigmas")
++        self.assertFalse(s.checks["Z0"]["ok"])
++        self.assertEqual(s.checks["Z0"]["sigma_shape"], .25)
++        self.assertEqual(s.checks["Z0"]["original_full_sequence_sigma"], 1.25)
++        out = self.root / "z0-v5"; out.mkdir()
++        with mock.patch.object(D, "ROOT", self.root):
++            D.diagnostic(out, halted.exception.code, halted.exception.detail, s)
++        saved = json.loads((out / "halt_p1.json").read_text())
++        archive = list((self.root / "architecture_profile").glob("c10z_astra_halt_diagnostic_*.json"))
++        self.assertEqual(len(archive), 1)
++        self.assertEqual(saved["checks"]["Z0"], s.checks["Z0"])
++        self.assertEqual(json.loads(archive[0].read_text())["checks"]["Z0"], s.checks["Z0"])
++
+ def _fix2_suite():
+     suite = _fix1_suite()
+     suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(Fix2Tests))
