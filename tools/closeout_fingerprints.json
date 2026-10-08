@@ -126,5 +126,9 @@
  "D-C10w-oracle": {
   "source": "CORPUS/55_C10W_ORACLE_P1_INTERIM.md",
   "what": "ceiling oracle on the C10 harness, step 5 of the research-pass sequence (H-13; ORACLE MEASUREMENT, not a route; prereg v2.2 + A-dupdev), P1 only: INTERIM; reader status INCOMPLETE (no final label, no routing until P2 replicates; D-ID stays OPEN; step 5 not read for D-C10r-rulings-10 (3)); P1 valid (5/5 fits at 400 steps; LAW#3 closed-form A7 9/72; O-A1/O-A2 72/72); interim non-routing seed-0 configuration: O-A7 rank 16 70/72 held-out vs same-process closed form 9/72, per template 22/24/24, 22/24 facts pass all three templates; G4 MISS on 15 of 20 training frames (first-token membership 50/120 vs 4/120), G6 at its 4/200 limit, G7 pass (shuffled 71 own / 0 cross); PARTIAL-CEILING-LOCALITY-COST(G4) with BIGRAM (C 24, X 17 >= 12); rank 16 cannot reach PASS-CEILING; canon split will be NOT-READ (O-A7-canon s0 2/72, fails G2 12/30 and G4); real -UNSTABLE risk; P2 178/448 min, P3 138/327 min (rank-16 projection) await operator authorization; engine unmodified"
+ },
+ "D-C10v-layerpick": {
+  "source": "CORPUS/56_C10V_LAYERPICK.md",
+  "what": "per-fact layer pick on the C10 harness, step 4 of the research-pass sequence (H-8; prereg v2 FROZEN; delegated go D-C10v-go): pass1 NULL, not advanced under the preregistered rules; B (argmax-G map, raw argmax since measured delta 0.0) 12/72 vs band 4-8 A 11/72 (+1, inside [5, 18], below the +10 margin), fixed layer 8 B0 12/72, shuffled map Bshuf 10/72 (NULL, shuffled-map control); B beat neither control, selector not credited; B missed described_as (86.17 < 87.0); B's A1 68/72 at the floor; all recipes valid, LAW#5 (i)-(v) inert; replication not triggered; map stability under context resampling unmeasured; proxy readouts descriptive only; artifacts committed d8af793; next = step 5 P2 running; engine unmodified"
  }
 }

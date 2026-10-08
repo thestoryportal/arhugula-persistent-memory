@@ -237,3 +237,9 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Method:** LoRA on `down_proj` L4–8, every value token in the loss, 20 sealed training phrasings; P1 = seed 0: O-A1, O-A2, O-A7, matched O-A7-shuf, single-frame O-A7-canon, scored in one process against the same-process closed form and arm U; P2 = seed 1 + same-seed retrain; P3 (rank 64) conditional.
 - **Criterion (prereg §3):** validity first; per configuration PASS-CEILING ≥ 61 with G1–G7, PARTIAL-CEILING-LOCALITY-COST ≥ 61 with a gate miss, PARTIAL-CEILING 30–60, FAIL-CEILING < 30; replication over two seeds (min count, union of gate misses) before any label routes.
 - **Verdict:** none yet — reader INCOMPLETE (P1 only; D-ID OPEN; step 5 not read). Interim, non-routing seed-0 configuration: 70/72 vs 9/72, G4 miss, G6 at its limit, BIGRAM → PARTIAL-CEILING-LOCALITY-COST(G4); rank 16 cannot reach PASS-CEILING; the canonical split will be NOT-READ; H-13 not closed.
+
+### C-C10v-lp - Per-fact layer pick, step 4 pass1 (D-C10v-layerpick ⟨D-C10v-layerpick@3bcae852⟩)
+- **Hypotheses (prereg v2 §1):** H-V1 placing each fact at the band layer with the largest lone-write coefficient G raises A7 held-out recall over the band (A), a fixed layer 8 (B0) and a shuffled map (Bshuf); H-V0 null (prior); H-V2 trade-off.
+- **Method:** step 0 computes G per fact and layer twice (δ = largest change) and fixes the argmax map; one process runs A, B0, B, Bshuf with A1, A2, A7; LAW#5 (i)–(v); pass2 only for PARTIAL or LEAD on B or B0.
+- **Criterion (prereg §3):** validity first; LEAD ≥ 30/72; PARTIAL > 18 and ≥ +10 over A; a count in [5, 18] is NULL; the selector is credited only if B beats B0 and Bshuf by ≥ 10.
+- **Verdict:** NULL — not advanced under the preregistered rules (B 12, A 11, B0 12, Bshuf 10 of 72; B missed described_as; replication not triggered). Detail: CORPUS/56. H-8 not closed.
