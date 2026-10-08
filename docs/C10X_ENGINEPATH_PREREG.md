@@ -583,3 +583,53 @@ Everything else keeps its frozen arithmetic:
 Every fp32 value is labelled report-only. It can never affect a floor, tolerance, acceptance, HALT, qualifier, eligibility or verdict. If an fp32 and a float64 value fall on opposite sides of a bound, the record says so, and the float64 value decides.
 
 Nothing else changes.
+
+## 12. Amendment P — pinned context templates (2026-10-08, pre-observation; D-C10z-v4fix)
+
+**What this is.** This is an input amendment, made before any observation. It applies the D-C10z-v4fix forward requirement to C10X: every C10X process uses one fixed, recorded set of context templates instead of drawing its own.
+- No C10X run exists. On 2026-10-08, `results/c10x_enginepath*` matches only review and build `.md` files (`_advisor_v1`, `_astra_freeze_v2`, `_v21`, `_v22`, `_codex_build`, `_codex_design_v1`). No `results/c10x_enginepath*` directory exists.
+- The LAW#3 predicate (§2.7 step 1, `:100`; `CORPUS/44_C10L_COVGEOM_SPARSEBAND.md:39`) is unchanged. So is every gate, floor, tolerance, threshold, arm, recipe, qualifier, label and verdict rule.
+- §0–§11 are otherwise unchanged. Where §12 conflicts with them, §12 governs. The two superseded sentences are quoted exactly in (P4).
+- **Citation snapshots.** Driver line numbers in (P1)–(P3) refer to the working-tree `experiments/track_c/c10x_enginepath_arms.py` as read on 2026-10-08, SHA-256 `5b20af52…`. That file is untracked and under active edit, so its line numbers must be re-checked at the build review. The pre-pin driver described in (P0) was read earlier the same day. It was not retained as a snapshot, and its line numbers can no longer be re-checked; they are marked "pre-pin".
+
+(P0) **Why.**
+- **ASTRA's halt.** ASTRA (C10Z) process 1 halted HALTED-V4 on 2026-10-08 (`results/c10z_astra/run.json`, `halt`). Its recipe A gave A7 first 40, full 7 and canon 7 (of 72, 72 and 24), with A1 69 and A2 69 (`results/c10z_astra/halt_p1.json`, `recipes.A`).
+- **A seeded draw.** The ASTRA driver called `torch.manual_seed(0)` before it imported the harness (`experiments/track_c/c10z_astra_arms.py:506–507` at commit `f4ceb71`, the process-1 source). The engine samples its context templates with top-k multinomial sampling (`memit_dry_run/memit/memit/memit_main.py:304–323`; `memit_dry_run/memit/util/generate.py:115–120`). Earlier seed-0 processes recorded `e8605172dce0`; ASTRA's unrecorded set is inferred from matching call order and baseline measurements, not directly observed. Reproduction depends on matching RNG consumption and execution conditions. The recorded seed-0 baseline (`results/autoresearch_c10_equivalence.json:150`, `:155`, `:160`, `:196–197`, `:203`) lies below the A4 envelope, which was built from unseeded draws (`results/c10z_astra_v4_diagnosis.md:37–54`).
+- **C10X had the other half of the problem.**
+  - No C10X file seeds the global RNG. A grep on 2026-10-08 of `c10x_enginepath_arms.py`, `c10x_overtone_z.py`, `c10x_enginepath_inertness.py`, `c10x_enginepath_read.py`, `c10x_enginepath_telemetry_check.py` and `c10e_bandknob.py` found no `manual_seed`. The only seed is a local `torch.Generator` in the selftest (`c10x_enginepath_selftest.py:591`).
+  - The pre-pin driver sampled the templates unseeded (pre-pin `:1072`), before recipe A and before the LAW#3 check.
+  - §2.7 states that process 2 resamples (`:106`), and §2.8 lets the reader combine processes whose context lists differ (`:124`). Processes 1 and 2 would therefore not share write inputs, and each process's recipe-A comparator would be a different draw.
+- **The template list was lost on a halt.** The pre-pin driver stored `ctx` and `ctx_sha256` only in its completion update (pre-pin `:1104`). A LAW#3-miss record would therefore not have identified its templates, although §2.8 requires every record to carry the list and its hash (`:124`).
+- **What pinning gives.** It gives every process the same write inputs, with a set whose recorded counts lie inside the envelope (C10Q: A7 first 52, full 12, canon 8; A1 70, A2 71; `CORPUS/50_C10Q_STACKED_SOLVE.md:14`). It also gives C10X the same recipe-A inputs as ASTRA's benchmark. Results are conditional on this fixed set.
+
+(P1) **The pinned set.**
+- **Set.** The C10Q recorded set, `c7dabbe7c25a`. In engine form it is `[["{}"], [five prefixes]]`, as printed at `results/c10q_stacked/logs_run.log:9`.
+- **Source.** The driver takes `TEMPLATES` from `experiments/track_c/c10z_astra_benchmark.py:34–40`, the list ASTRA's benchmark froze. It parses the file and does not execute it (`recorded_contexts`, `:103–117`). The engine form is `[[TEMPLATES[0]], list(TEMPLATES[1:])]`.
+- **Digest checks.** These run before recipe A. Any failure HALTs (§5) with a diagnostic, and recipe A does not run.
+  - The list has six strings, each with exactly one `{}`, and the first is `"{}"`.
+  - `hashlib.sha256(json.dumps(engine_form).encode()).hexdigest()` equals `c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da` (`C10Q_CONTEXT_SHA`, `:31`). Its 12-hex prefix is the scorer's convention (`experiments/track_c/autoresearch_c10/scorer.py:106`).
+  - The SHA-256 of `json.dumps(list(TEMPLATES), sort_keys=True, separators=(",", ":"), allow_nan=False)` equals `d6c7c70026dced37bddc6adf316a3487d70227dae80a6e0ed5cdabe50caedfa0`. This is the benchmark's `_digest` (`c10z_astra_benchmark.py:69–71`) and the `inputs.templates_sha256` of `results/c10z_astra_benchmark/20261008T104535Z/benchmark.json`. The driver records this value (`:117`); it must also compare it.
+- **Source binding.** `experiments/track_c/c10z_astra_benchmark.py` is in the driver's declared source set (`source_hashes`, `:87–94`; §2.8 `:124`). The digest checks still govern: a changed benchmark file that keeps `TEMPLATES` byte-identical passes them, and a changed list halts.
+
+(P2) **Where the pin goes.** In every C10X process, the driver sets the engine's `CONTEXT_TEMPLATES_CACHE` (`memit_main.py:21`) to the checked engine form at setup (`:1103–1104`; `pinned_contexts`, `:121–131`). This is before the stimulus checks, `probe_setup`, recipe A (`:1115–1116`) and recipe A's first engine edit (`run_law5`'s `apply_memit_to_model`, `c10e_bandknob.py:422–423`). With the cache set, `get_context_templates` returns without sampling (`memit_main.py:307`), and the driver asserts that it does (`:1110`). The `ctx` used by every target solve, X check, probe and recipe is then the pinned set. The setting is a driver assignment, not an engine edit, following the C10U, C10V and C10Y precedents.
+
+(P3) **Records.**
+- `<OUT_DIR>/context_templates.json`, holding the engine form, its SHA-256 and its source, is written before recipe A (`:1105`), and so before the LAW#3 check (`:1118`).
+- `ctx` and `ctx_sha256` enter the run state at setup (`:1106`). The halted `run.json` therefore carries them too, because the halt path writes that state (`:1170–1176`), and a LAW#3 miss identifies its templates.
+
+(P4) **Superseded text.**
+- §2.7's process-2 parenthetical (`:106`), "(context templates resample per process, `CORPUS/44:32`; the template hash and the frame texts are recorded in both)", now reads: "(both processes use the pinned templates of §12 and check their digests; the template hash and the frame texts are recorded in both)".
+- §2.8 (`:124`), "The reader combines processes only if scientific configuration, source, weights, stimuli and pre-registration hash match, with only the sampled context list and the resulting targets and frames allowed to differ; same-file or same-process reuse is not replication.", now reads: "The reader combines processes only if scientific configuration, source, weights, stimuli and pre-registration hash match, and both context lists and frame texts match the §12 pin; independently recomputed targets remain subject to existing checks. Same-file or same-process reuse is not replication."
+- Replication now tests fixed-template regeneration, not robustness across template draws.
+- §2.1's engine fact (`:31`) is unchanged: the engine still samples when its cache is empty, and the pin keeps it from sampling.
+
+(P5) **No template sampling, tested first.** CPU tests with a stub model, written and recorded failing on the pre-amendment driver, must show that:
+- a C10X process installs the pinned set before its first `get_context_templates` call and never calls `generate_fast` for templates;
+- `context_templates.json` exists before the LAW#3 check;
+- a changed `TEMPLATES`, or either digest mismatch, halts before recipe A;
+- a LAW#3-miss record carries `ctx` and `ctx_sha256`;
+- process 2 builds the same `ctx` as process 1, and the reader refuses to combine processes whose context lists or frame texts differ from the pin.
+
+(P6) **A LAW#3 miss under the pinned set** is a real HALT under §5, with no re-draw and no template change.
+
+Nothing else changes.

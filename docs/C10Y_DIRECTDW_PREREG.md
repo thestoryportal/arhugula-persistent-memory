@@ -906,3 +906,67 @@ Nothing else changes. These all stand as frozen and amended:
 - §3's tables;
 - §5's halt conditions;
 - §9.
+
+## 11. Amendment P — pinned context templates (2026-10-08, pre-observation; D-C10z-v4fix)
+
+**What this is.** This is an input amendment, made before any observation. It applies the D-C10z-v4fix forward requirement to C10Y. Every C10Y model-bearing process now uses one fixed, recorded set of context templates instead of drawing its own. These processes are calibration (§10), stage 1 and its reruns, stages 2 and 3, and the (T8) telemetry inertness check.
+- No C10Y process has run. On 2026-10-08, `results/c10y_directdw*` matches only review and build `.md` files (`_advisor_v1`, `_astra_freeze_v2`, `_v21`, `_v22`, `_codex_build`, `_codex_design_v1`). No `results/c10y_directdw*` directory exists, so there is neither `results/c10y_directdw/` nor `results/c10y_directdw_calib*/`.
+- **What does not change.** V4 is unchanged (`:189`), including its schedule-wide halt. So is every gate, check, floor, threshold, arm, recipe, objective, optimiser setting, stage cap, qualifier, label and verdict rule.
+- **What does change.** The template source does. The §2.6 item 2 mechanism that stages 2 and 3 load from the stage-1 file (`:86`; T12 `:679`) is kept; that file now holds the pinned set.
+- §0–§10 are otherwise unchanged. Where §11 conflicts with them, §11 governs. Each superseded sentence is quoted exactly in (P4).
+- **Citation snapshot.** Driver citations name the function, with line numbers taken from the working-tree `experiments/track_c/c10y_directdw_arms.py` as read on 2026-10-08, SHA-256 `93f0c1c3…`. That file is untracked and under active edit, and its lines moved during this review, so they must be re-checked at the build review. That snapshot does not yet pin.
+
+(P0) **Why, and what C10Y's driver does today.**
+- **ASTRA's halt.** ASTRA (C10Z) process 1 halted HALTED-V4 on 2026-10-08 (`results/c10z_astra/run.json`, `halt`). Its recipe A gave A7 first 40, full 7 and canon 7 (of 72, 72 and 24), with A1 69 and A2 69 (`results/c10z_astra/halt_p1.json`, `recipes.A`).
+- **A seeded draw.** The ASTRA driver called `torch.manual_seed(0)` before the engine sampled its context templates (`experiments/track_c/c10z_astra_arms.py:506–507` at commit `f4ceb71`, the process-1 source). The engine samples with top-k multinomial sampling (`memit_dry_run/memit/memit/memit_main.py:304–323`; `memit_dry_run/memit/util/generate.py:115–120`). Earlier seed-0 processes recorded `e8605172dce0`; ASTRA's unrecorded set is inferred from matching call order and baseline measurements, not directly observed. Reproduction depends on matching RNG consumption and execution conditions. The recorded seed-0 baseline (`results/autoresearch_c10_equivalence.json:150`, `:155`, `:160`, `:196–197`, `:203`) lies below the A4 envelope, which was built from unseeded draws (`results/c10z_astra_v4_diagnosis.md:37–54`).
+- **C10Y's stage 1 seeds before it samples.** This is the same hazard.
+  - The §2.4 seed row (`:72`) sets `torch.manual_seed(0)` "at process start and before each write", giving the reason "no stochastic component is expected".
+  - In the driver, `run()` calls `torch.manual_seed(0)` (`experiments/track_c/c10y_directdw_arms.py:1271`) before it calls `instrument_prefix` (`:1283`). For stage 1, `instrument_prefix` reaches `freeze_contexts` (`:2244`), which samples through `H.get_context_templates` (`:861`).
+  - Every stage-1 process, and every stage-1 rerun, therefore draws one fixed set, given matching RNG consumption and execution conditions, and the A4 envelope may not cover it. This read did not determine whether that set is `e8605172dce0`: torch-RNG use between the seed and the sampling was not traced, so the claim is UNVERIFIED either way.
+  - §2.6 item 2's statement that "The templates are sampled unseeded per process" (`:86`) does not hold for stage 1 under that seed row and that driver.
+- **The other processes are unseeded.**
+  - `calibrate()` (`:1197–1204`) samples with no seed: the other `manual_seed` call (`:490`) is inside `write()` and runs only after the baseline passes (`:489`). Calibration's draw therefore differs from stage 1's, so calibration measures timing on templates that stage 1 does not use (§10 `:788`).
+  - The (T8) check, `telemetry_mps_inertness_check`, samples separately (`:1020`).
+- **What pinning gives.** It gives the same templates in every process, so calibration timings, stage 1 and stages 2 and 3 share write inputs. Its recorded counts lie inside the envelope (C10Q: A7 first 52, full 12, canon 8; A1 70, A2 71; `CORPUS/50_C10Q_STACKED_SOLVE.md:14`); that is context, not evidence against selection effects, and results are conditional on this fixed set. It also gives C10Y the same recipe-A inputs as ASTRA's benchmark.
+
+(P1) **The pinned set.**
+- **Set.** The C10Q recorded set, `c7dabbe7c25a`. In engine form it is `[["{}"], [five prefixes]]`, as printed at `results/c10q_stacked/logs_run.log:9`. Under it, the C10Q single-edit reference gave A7 first 52, full 12 and canon 8, with A1 70 and A2 71 (`CORPUS/50_C10Q_STACKED_SOLVE.md:14`).
+- **Source.** The driver takes `TEMPLATES` from `experiments/track_c/c10z_astra_benchmark.py:34–40`, the list ASTRA's benchmark froze, either by parsing the file without executing it (as C10X's build does) or by importing it. The module imports only the standard library at top level (`:1–21`) and runs `main()` only under `__main__` (`:591`). The engine form is `[[TEMPLATES[0]], list(TEMPLATES[1:])]`.
+- **Digest checks.** These run before the first engine use of templates in any process. Any failure HALTs (§5) with a diagnostic.
+  - The list has six strings and the first is `"{}"`.
+  - `hashlib.sha256(json.dumps(engine_form).encode()).hexdigest()` equals `c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da`. Its 12-hex prefix is the scorer's convention (`experiments/track_c/autoresearch_c10/scorer.py:106`).
+  - The SHA-256 of `json.dumps(list(TEMPLATES), sort_keys=True, separators=(",", ":"), allow_nan=False)` equals `d6c7c70026dced37bddc6adf316a3487d70227dae80a6e0ed5cdabe50caedfa0`. This is the benchmark's `_digest` (`c10z_astra_benchmark.py:69–71`) and the `inputs.templates_sha256` of `results/c10z_astra_benchmark/20261008T104535Z/benchmark.json`.
+  - In stages 2 and 3, the contents of the loaded stage-1 `context_templates.json` must also equal the pinned engine form, in addition to the existing SHA-256 and namespace checks (`stage_context_source`, from `:867`; `freeze_contexts`, `:853–864`).
+- **Source binding.** `experiments/track_c/c10z_astra_benchmark.py` joins `SOURCE_PATHS` (`:29–39`) and H_in's source hashes (§2.7, `:115`). The digest checks still govern: a changed benchmark file that keeps `TEMPLATES` byte-identical passes them, and a changed list halts.
+
+(P2) **Where the pin goes.**
+- In every process, the driver sets `CONTEXT_TEMPLATES_CACHE` (`memit_main.py:21`) to the checked engine form before the first `get_context_templates` call. That is before the overlap audit, the pristine target solves (`:87`), recipe A and recipe A's first engine edit (`run_law5`'s `apply_memit_to_model`, `c10e_bandknob.py:422–423`).
+- In stage 1 and in calibration, `freeze_contexts` writes the pinned set where it now writes the sampled one (`:861`). The files are `results/c10y_directdw/context_templates.json`, or the rerun directory's file, and `context_templates_calib.json`, each with its SHA-256.
+- The (T8) check installs the pinned set before it builds its batches (`:1020`).
+- With the cache set, `get_context_templates` returns without sampling (`memit_main.py:307`).
+- The pinned set goes through the overlap audit (`:86`) like any other set. A leak is INVALID-LEAKAGE, and no other set is tried (`:86`: "do not redraw a leaking context set until it happens to pass").
+
+(P3) **Records.**
+- Each process writes its `context_templates*.json` and SHA-256 before recipe A, and so before the LAW#3 gate (V4, `:189`).
+- Every halted record names that SHA-256. This includes the V4 schedule-halt record and the calibration diagnostic.
+- §10's rule that the driver refuses a calibration path as a stage context source (`:802`) is unchanged.
+
+(P4) **Superseded text.**
+- §2.4 seed row (`:72`): "no stochastic component is expected; recorded" now reads "recorded; it does not govern the context templates, which are pinned (§11)". The seed itself stays, at process start and before each write.
+- §2.6 item 2 (`:86`):
+  - "The stage-1 process lets the engine sample `CONTEXT_TEMPLATES_CACHE` once (`memit_main.py:304–323`), writes it to `results/c10y_directdw/context_templates.json` with its SHA-256;" now reads "The stage-1 process installs the pinned set of §11 in `CONTEXT_TEMPLATES_CACHE` and writes it to `results/c10y_directdw/context_templates.json` with its SHA-256;".
+  - "The templates are sampled unseeded per process (`CORPUS/44:32`, F-A4), so without the freeze the two processes would not share write inputs." now reads "Without the pin, the engine would draw templates per process (`CORPUS/44:32`, F-A4), and a seeded process draws the same set, given matching RNG consumption and execution conditions (§11 (P0)); the pin and this file give every process the same write inputs."
+- (T8) (`:576`): "with context templates sampled once in-process (`memit_main.py:304–323`) before any pass;" now reads "with the pinned templates of §11 installed before any pass;".
+- (C1) step 2 (`:707`): "sampling the context templates once in-process (`memit_main.py:304–323`), then the overlap audit (`:86`)." now reads "installing the pinned templates of §11 and writing `context_templates_calib.json`, then the overlap audit (`:86`)."
+- (C3) (`:788`): "This includes the dependence on stage 1's own padded length, which is unknown before launch because stage 1 samples its own templates (`:86`, `:90`; T≈28 is an assumption, `:162`, `:169`)." now reads "Calibration and stage 1 use the same pinned templates and requests, so calibration's measured padded length is stage 1's (T≈28 at `:162`, `:169` is superseded by that measurement for the forecast)."
+- (C4) (`:800`): "stage 1 samples its own contexts and solves its own targets (`:86–87`);" now reads "stage 1 installs the pinned contexts itself and solves its own targets (`:86–87`);".
+
+(P5) **No template sampling, tested first.** CPU tests with a stub model, written and recorded failing on the pre-amendment driver, must show that:
+- calibration, stage 1, stages 2 and 3, and the (T8) check each install the pinned set before their first `get_context_templates` call and never call `generate_fast` for templates;
+- the context file exists before the LAW#3 gate;
+- a changed `TEMPLATES`, either digest mismatch, or a stage-1 file whose contents differ from the pinned set halts before recipe A;
+- the halted records name the template SHA-256.
+
+(P6) **A V4 miss under the pinned set** is a real HALT and halts the schedule as V4 states (`:189`), with no re-draw and no template change.
+
+Nothing else changes.

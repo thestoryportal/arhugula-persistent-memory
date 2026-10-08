@@ -608,3 +608,92 @@ Written before any ASTRA process, benchmark run or build against §9 has started
 (j′) **Launch lines** (they correct v3 §G `:245` and `:247`; telemetry stays off for the first attempt, so it is removed explicitly in case it is inherited):
 - Process 1: `nohup caffeinate -i env -u C10Z_TELEMETRY -u C10Z_TELEMETRY_INERTNESS LLMDB_ROOT="$W" C10Z_OUT_DIR="$W/results/c10z_astra" C10Z_GO_RECORD="$W/results/c10z_astra_go_record.json" C10Z_BENCHMARK_RECORD="$W/results/c10z_astra_benchmark/<UTC>/benchmark.json" C10Z_STAGE2_CEILING_S=<C2> C10Z_STAGE3_CEILING_S=<C3> "$W/tools/run_c10z_attempt.sh" > "$W/results/c10z_astra_chain.log" 2>&1 &`
 - Stage 3, only if the stage-2 reading's `next_stage` is exactly 3 (v3 §G `:247`): `nohup caffeinate -i env -u C10Z_TELEMETRY -u C10Z_TELEMETRY_INERTNESS LLMDB_ROOT="$W" C10Z_OUT_DIR="$W/results/c10z_astra" C10Z_GO_RECORD="$W/results/c10z_astra_go_record.json" C10Z_BENCHMARK_RECORD="$W/results/c10z_astra_benchmark/<UTC>/benchmark.json" C10Z_STAGE2_CEILING_S=<C2> C10Z_STAGE3_CEILING_S=<C3> bash -c '"$1" 3; rc=$?; echo "STAGE_3_EXIT=$rc"; exit "$rc"' _ "$W/tools/run_c10z_stage.sh" > "$W/results/c10z_astra_stage3.log" 2>&1 &`. Stage 3 re-verifies the binding from `run.json` (d′), so `C10Z_BENCHMARK_RECORD` and the two ceiling variables are optional there; they are kept so the variables match process 1.
+
+## 10. Amendment V4T — pinned context templates after HALTED-V4 (2026-10-08, post-V4, pre-candidate)
+
+Decision-ID **D-C10z-v4fix**. This amendment was written after ASTRA process 1 halted at the LAW#3 gate (§2.6 stage 0 step 3, `:123`) and before any candidate work. The process exited at that gate, so no new-writer observation, D statistic, G, Z check or Z recipe ran. §9, §9.1 and all text above them are unchanged. Where §10 conflicts with them, §10 governs, and each superseded sentence is quoted exactly. Line references are to this file as it stood with §9.1 as its last section (`:1`–`:610`). Line references to `experiments/track_c/c10z_astra_arms.py` are to the process-1 source: commit `f4ceb71`, SHA-256 `806a9b4d…`, which is the hash bound in `run.json` `launch.benchmark.sources`. The working-tree file has changed since. Source: the read-only diagnosis `results/c10z_astra_v4_diagnosis.md` (2026-10-08).
+
+(a) **What happened.**
+- **The halt.** Attempt `c32dc2b2…` process 1 launched at 04:51 MDT (commit `ec3dcb2`), under go record `results/c10z_astra_go_record.json` and benchmark record `results/c10z_astra_benchmark/20261008T104535Z/benchmark.json` (`results/c10z_astra/run.json`, `launch`). It halted with `HALTED-V4: para_first_n outside LAW#3 envelope: 40` (`run.json`, `halt`). Recipe A's values are in `results/c10z_astra/halt_p1.json` (`recipes.A`) and `results/c10z_astra/logs/resident_p1.log`:
+  - A7: `para_first_n` 40 (of 72), `para_full_n` 7 (of 72), `canon_full_n` 7 (of 24);
+  - A1 and A2: `para_full_n` 69 and 69 (of 72);
+  - LAW#5: Δexpr 0.0011, Δloc 0.01, INERT.
+
+  Only `para_first_n` missed V4's [42, 59] (`:217`), by 2. `architecture_profile/c10z_astra_halt_diagnostic.json` is byte-identical to `halt_p1.json` (`cmp`, 2026-10-08).
+- **These values are a known seed-0 baseline.** They equal, value for value, the seed-0 recipe-A record of 2026-10-06 in `results/autoresearch_c10_equivalence.json`. Its `scorer_vs_run_recipe` block gives A7 `para_full_n` 7 (`:150`), `canon_full_n` 7 (`:155`) and `para_first_n` 40 (`:160`), with A1 69 (`:60`) and A2 69 (`:105`). The same file records `law5_harness` 0.0011/0.01, templates `e8605172dce0` (`:196–197`) and `seed_reproduces_templates: true` (`:203`). Three earlier seed-0 processes produced bitwise-equal A7 weights, `c30664a9…`:
+  - the equivalence check at 08:15 (`results/autoresearch_c10_equivalence_2026-10-06T0815.json:207`);
+  - the equivalence check at 11:46 (`results/autoresearch_c10_equivalence.json:207`);
+  - the sandbox baseline at 13:11 (`/Volumes/memit/llm-database-poc-mirror/autoresearch_sandbox_c10/runs/20261006-131156_nocommit/score.json:65`, in the mirror root outside the worktree, which also records `templates_sha` `e8605172dce0` at `:27` and `seed` 0 at `:1944`).
+- **Cause.** The §2.4 seed row (`:103`) sets `torch.manual_seed(0)` at process start, giving the reason "nothing stochastic is expected". That reason is wrong. The engine samples its context templates: `get_context_templates` (`memit_dry_run/memit/memit/memit_main.py:304–323`) fills `CONTEXT_TEMPLATES_CACHE` (`:21`) from `generate_fast`, which draws by top-k multinomial sampling (`memit_dry_run/memit/util/generate.py:115–120`). The driver seeds at `experiments/track_c/c10z_astra_arms.py:506`, before it imports the harness at `:507`, the same order as the autoresearch scorer (`experiments/track_c/autoresearch_c10/scorer.py:48–52`). Earlier seed-0 processes recorded `e8605172dce0`; ASTRA's unrecorded set is inferred from matching call order and baseline measurements, not directly observed. Reproduction depends on matching RNG consumption and execution conditions. The V4 envelope (`CORPUS/44_C10L_COVGEOM_SPARSEBAND.md:39`) came from unseeded draws. About 13 such draws gave A7 `para_first` 45–56 (diagnosis `:37–48`, `:54`). The recorded seed-0 draw gave 40.
+- **What was not recorded.** Process 1's template set was never written down (diagnosis `:11–14`):
+  - The engine's `Cached context templates` print (`memit_main.py:321`) is swallowed by `run_law5`'s `redirect_stdout` (`experiments/track_c/c10e_bandknob.py:422`).
+  - The driver writes `context_templates.json` only after the gate passes: the gate is at `c10z_astra_arms.py:973` and the write at `:981`. §2.6 step 2 (`:122`) requires the write before the gate, and the driver did not follow it.
+
+  The diagnosis infers the set `e8605172dce0` from an exact 12-field match, but did not observe it (diagnosis `:31`). The ruling below does not depend on that inference, because a pinned process 1 does not sample.
+- **No harness defect.** Process 1 and the C10W closed-form record match on hparams, band, projector, the five covariance hashes, model revision, engine SHA and stimuli. Only template-dependent quantities differ (diagnosis `:64–78`). No candidate observation was made.
+
+(b) **Ruling: pin process 1's context templates to the C10Q set `c7dabbe7c25a`.**
+- **Content.** The pinned set is the engine-form list `[["{}"], [five prefixes]]`, exactly as printed at `results/c10q_stacked/logs_run.log:9`. Flattened, it is the benchmark's `TEMPLATES` (`experiments/track_c/c10z_astra_benchmark.py:34–40`). The benchmark record already carries it:
+  - `inputs.templates`;
+  - `inputs.templates_source` `results/c10q_stacked/logs_run.log:9`;
+  - `inputs.templates_sha256` `d6c7c70026dced37bddc6adf316a3487d70227dae80a6e0ed5cdabe50caedfa0`, which is `_digest` over the flat list (`c10z_astra_benchmark.py:69–71`).
+- **Identity checks.** The driver checks all of the following before recipe A. Any failure is HALTED-V12.
+  - `sha256(json.dumps(engine form)).hexdigest()[:12] == "c7dabbe7c25a"`. This is the scorer's convention (`scorer.py:106`), and it was verified for this content on 2026-10-08.
+  - The flattened list (`flatten_templates`, `c10z_astra_arms.py:593–596`) equals the selected benchmark record's `inputs.templates`.
+  - Its `_digest` equals that record's `inputs.templates_sha256`.
+- **Mechanism.** In process 1 the driver sets `CONTEXT_TEMPLATES_CACHE` to the pinned engine form after the import and pristine pin and before recipe A. Process 2 already does this from file (`c10z_astra_arms.py:540–541`). With the cache set, `get_context_templates` skips sampling (`memit_main.py:307`), so `generate_fast` never runs for templates in either process.
+- **Record order.** `<OUT_DIR>/context_templates.json` and its SHA-256 are written before recipe A starts, which also puts them before the LAW#3 gate, as `:122` requires. A V4 baseline-only record (`pass_p{n}.json`) and the halt diagnostic name that SHA-256, so a V4 halt identifies its templates.
+- **Superseded text in §2.6 step 2 (`:122`).**
+  - "Run untouched recipe A on A1/A2/A7; freeze its context templates and their hash in process 1, or load that same file before recipe A in process 2." now reads: "Run untouched recipe A on A1/A2/A7 on the pinned templates (§10 (b)): in process 1 the driver installs them and writes the file before recipe A; in process 2 it loads that same file before recipe A."
+  - "In process 1 the engine samples the context templates here (`memit_main.py:100`); the driver then writes `CONTEXT_TEMPLATES_CACHE` to `results/c10z_astra/context_templates.json` with its SHA-256." now reads: "In process 1 the engine does not sample; the driver writes the pinned set to `<OUT_DIR>/context_templates.json` with its SHA-256 before recipe A."
+
+  Process 2's validation and load by hash are unchanged.
+- **Seed.** `torch.manual_seed(0)` stays at process start and in the manifest (`c10z_astra_arms.py:1339`; `parts["seed"]==0` is required at `:1366`). In the §2.4 seed row (`:103`), the reason "nothing stochastic is expected; recorded" is replaced by "recorded; it does not govern the context templates, which are pinned (§10)". The driver's own Z4 row sample uses `random.Random(0)` (`c10z_astra_arms.py:1207`), not the torch seed.
+- **Unchanged.** V4 (`:217`) and every gate, threshold, arm, label, qualifier and verdict rule of §3 stay as they are. D-2's substance (`:349`) holds: the pinned set is engine-sampled, drawn by C10Q's process.
+
+(c) **Why this set.** This is a post-V4, pre-candidate input amendment. The selected set has an independently recorded pre-halt benchmark identity; adopting it now changes both comparator and candidate inputs. Results remain conditional on this fixed set. Two facts bear on the choice:
+1. **The set was frozen before process 1 ran.** The benchmark record ran from 10:45:36Z to 10:48:50Z with status COMPLETE, and its `inputs.templates` is this set. Process 1 launched at 04:51 MDT (10:51Z; commit `ec3dcb2`). The attempt's ceilings, C01 8,100 s, C2 12,600 s and C3 20,760 s (`run.json`, `launch`; `EXPERIMENT_RUNBOOK.md:367`), come from `ceilings()` on that record. The record's timed batch was built from `TEMPLATES` (`c10z_astra_benchmark.py:490`; `population_and_batch` `:299–305`). Process 1 sampled its own templates, so it ran on views other than those its ceilings were sized on. That benchmark/run mismatch is itself a defect, and pinning removes it.
+2. **Its recorded counts lie inside the envelope.** C10Q's recorded single-edit reference on this set is A7 first 52, full 12, canon 8, with A1 70 and A2 71 (`CORPUS/50_C10Q_STACKED_SOLVE.md:14`; envelope check `:10`). This is within the unseeded range (first 45–56, diagnosis `:54`). That is context, not a guarantee: benchmark alignment justifies the remedy, and favourable historical counts do not establish freedom from selection bias.
+
+**Rejected alternatives.**
+- *Pass V4 on an exact match to the seed-0 record* (diagnosis option (e), `:111–121`). This would keep the comparator on an unusually low draw. Its `para_first_n` (40) is 5 below the lowest unseeded draw (diagnosis `:54`). Its binding `para_full_n` (7) is below every unseeded baseline listed (diagnosis `:39–48`, lowest 8). The effect on gain is unknown: changing templates changes both n and a. Process 2 would also reuse the same draw.
+- *An unseeded re-draw* (option (b), `:98–105`). Re-drawing after a failure is a re-roll, and process 1 could not be reproduced from its seed.
+- *An identical re-run* (option (c), `:107`). It would reproduce 40 and halt again, given matching RNG consumption and execution conditions.
+- *The C10V set `7f182fa35b1e`* (diagnosis `:91`). It has no link to the ASTRA record made before the halt.
+
+(d) **Consequences.**
+1. **The benchmark is re-run and a new go record is written.** The driver change alters the SHA-256 of `experiments/track_c/c10z_astra_arms.py`. That file is one of the benchmark record's bound `env.sources` (§9.1 (b′1), `:489`; `run.json` `launch.benchmark.sources`), so record `20261008T104535Z` fails stage-0 admission (b′3) step 5 (`:504`) and is unusable under (b′4) (`:517`). The sequence is:
+   - finalise and review the driver (the benchmark hashes it);
+   - re-run the benchmark (the 10-minute speed test; the recorded run took about 3.2 minutes) in a new directory under `results/c10z_astra_benchmark/`;
+   - append the new SHA-256s and C01/C2/C3 to the D-C10z-budget row;
+   - write a new go record to a new file. `results/c10z_astra_go_record.json` stays as process 1's record and is not overwritten.
+
+   This is (b′4)'s one drift-forced re-run on the program's own call (D-C10z-driftcap, `EXPERIMENT_RUNBOOK.md:371`). It qualifies because the old record was usable and named by the go record that process 1 was admitted under. A second drift-forced re-run returns to the operator, as does a STOP or a second refusal under §9(c) (`:457`). The new ceilings must satisfy §9(c)'s bounds.
+2. **Fresh OUT_DIR `results/c10z_astra_attempt2/`.** The directory is absent as of 2026-10-08. The driver refuses an OUT_DIR that holds `manifest.json`, `pass_p1.json` or `run.json` (`c10z_astra_arms.py:1781`), and `results/c10z_astra/` holds `pass_p1.json` and `run.json`. The §9.1 (j′) launch lines (`:609–610`) are used with five substitutions, for process 1 and for stage 3:
+   - `C10Z_OUT_DIR="$W/results/c10z_astra_attempt2"`;
+   - the new go-record path;
+   - the new benchmark-record path;
+   - in the process-1 line, `> "$W/results/c10z_astra_chain.log"` becomes `> "$W/results/c10z_astra_attempt2_chain.log"`;
+   - in the stage-3 line, `> "$W/results/c10z_astra_stage3.log"` becomes `> "$W/results/c10z_astra_attempt2_stage3.log"`.
+
+   `results/c10z_astra_chain.log` already holds attempt 1's run and halt, and is not overwritten.
+
+   The §2.12 record paths under `results/c10z_astra/` (`:204`) read as `<OUT_DIR>/` for this attempt.
+3. **Process 1's records stay as data and are never promoted** (§3.1 V4 `:217`; §5 `:323`). They are `results/c10z_astra/{run,pass_p1,halt_p1,pristine_hash}.json` and `logs/`. On any halt the driver rewrites `architecture_profile/c10z_astra_halt_diagnostic.json` (`c10z_astra_arms.py:1689`, `replace=True`). Process 1's copy survives that as the byte-identical `results/c10z_astra/halt_p1.json`.
+4. **A V4 miss under the pinned set is a real halt.** HALTED-V4 is then final for this prereg: no further template change, no re-draw and no gate amendment. The program returns to the operator. An exact reproduction of C10Q's 52/12/8 is not required; V4's envelope governs.
+
+(e) **Forward requirement: the seed-before-sampling hazard.** A driver that seeds the global torch RNG before the harness's first `get_context_templates` call fixes the template draw. Every run of that driver then reproduces one draw, given matching RNG consumption and execution conditions, which the A4 envelope (`CORPUS/44:39`, built from unseeded draws) may not cover. Every prereg that gates on the A4 envelope on the C10 harness therefore requires one of the following before its LAW#3 gate:
+- pin the templates from a recorded file whose SHA-256 is written before the gate; or
+- record the sampled set and its SHA-256 before the gate.
+
+No prereg may rely on a seed for template identity. Open cases to check before their launches:
+- C10X copies [42, 59] (`docs/C10X_ENGINEPATH_PREREG.md:132`). Its driver has no `manual_seed`, so before the pin each process drew its own set. It is addressed by C10X §12 (Amendment P).
+- C10Y copies it too (`docs/C10Y_DIRECTDW_PREREG.md:189`). Its stage-1 `run()` seeds before `instrument_prefix` samples through `freeze_contexts` (`experiments/track_c/c10y_directdw_arms.py`, working tree SHA-256 `93f0c1c3…`, under active edit: `:1271`, `:1283`, `:2244`, `:861`). It is addressed by C10Y §11 (Amendment P).
+
+(f) **Reviews and build.** Before the benchmark re-run, this amendment and the driver diff receive an advisor pass and a GPT-6-Astra (high) pass (§5 `:323`). The driver change is built test-first. CPU tests with a stub model show that:
+- a process-1 session installs the pinned set before recipe A and never calls `generate_fast` for templates;
+- `context_templates.json` exists before the LAW#3 gate;
+- a template identity mismatch halts with HALTED-V12;
+- a V4 baseline-only record carries the template SHA-256.
+
+Nothing else changes: no gate, label, K1/K2 rule, projection, probe, round cap (V13), ceiling rule or never-zero rule.
