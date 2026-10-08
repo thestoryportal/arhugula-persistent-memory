@@ -1,0 +1,4 @@
+C10Y stage-1 calibration spend authorization (D-C10y-go, recorded EXPERIMENT_RUNBOOK.md §5.2, 2026-10-08 ~10:20 MDT).
+Authority: operator ruling D-C10r-rulings-14 ('Raise the budget for the experiment if necessary' -> 'Any experiment, as needed'): the program may authorize spend when measured evidence requires it, recorded with arithmetic before the spend.
+Evidence requiring the spend: no measured stage-1 timing exists on this path (prereg :171-174 'unmeasured on this path'), so every stage-1 forecast is UNVERIFIED and dispatch is refused under :92 until calibration (prereg §10 Amendment C) measures it.
+Cost: inferred ~61-64 GPU-min (I-INFER, prereg §10 arithmetic); cap_s 7200 (the Amendment C maximum, 0 < cap_s <= 7200). Telemetry off (§9 T9). Output results/c10y_directdw_calib1/ (fresh). Measured GPU time to be recorded afterwards.
