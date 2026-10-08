@@ -4,7 +4,7 @@ Worktree (your cwd): `/Volumes/memit/llm-database-poc-mirror/arhugula-persistent
 
 Read these first:
 - `CLAUDE.md` and `DISCIPLINE.md`;
-- the binding design: `docs/LABVIZ_V2_SPEC.md`, all of it, especially §2 (rules), §3 (data inventory with jq paths), §4A (design and usability), §5 (per-item design), §6 (run card) and §11 (program context model and map);
+- the binding design: `docs/LABVIZ_V2_SPEC.md` (v2, folded 2026-10-08), all of it, especially §2 (rules, build budget), §3 (data inventory with jq paths, incl. §3.10 non-C10), §4A (design and usability), §5 (per-item design, the role, label and gate tables), §6 (run card and leaf types), §9.1 (ingestion boundary) and §11 (program context model and map);
 - the v1 brief `results/labviz_codex_brief.md` and v1 report `results/labviz_codex_impl.md`;
 - the 3D notes `/private/tmp/claude-501/labviz_3d_investigation.md`.
 
@@ -29,31 +29,35 @@ Operator ruling: **D-C10r-labviz-2** (`EXPERIMENT_RUNBOOK.md:372`).
    - Never import or run anything under `experiments/` or `memit_dry_run/`.
    - Never load a model, a tokenizer or torch. Never open `.safetensors`, `.pt` or `.npz`. Never use the GPU.
    - Read `config.json` only from `hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/`. Never read tokenizer or vocabulary files.
-2. **Every number shown comes from a file, with its path.** Each value in a run card is a leaf `{value, src:{file, path}}`, or `{value, derived, inputs, rule_src}` (spec §6). Missing → `{value:null, missing, tier}`, and the page says "not recorded for this run" plus how it could be obtained. Never invent, interpolate or round a percentage back into a count.
-3. **Gate exemption must survive.** `tools/c10w_p2_gate.py:21–30` exempts exactly `.venv/bin/python -B -m http.server 8765 --bind 0.0.0.0 --directory results/labviz/site` and `.venv/bin/python -B tools/labviz/build.py`.
+2. **Every value in a card is a typed leaf (spec §6):** JSON-source `{value, src:{file, path}}` (full recorded precision; only rendering rounds), document-source `{value, src:{file, line, quote}}`, derived `{value, derived, inputs[], rule_src}`, or missing `{value:null, missing, tier}`. Only the spec's whitelisted structural keys may be bare. Every cited file is in the card's `sources[]` with its SHA-256. Missing → the page says "not recorded for this run" plus how it could be obtained. Never invent, interpolate or round a percentage back into a count.
+3. **Gate exemption must survive.** `tools/c10w_p2_gate.py:25–26` exempts exactly `.venv/bin/python -B -m http.server 8765 --bind 0.0.0.0 --directory results/labviz/site` and `.venv/bin/python -B tools/labviz/build.py`.
    - Keep the builder's entry point and command line byte-identical: no new CLI flags.
-   - Do not change `tools/labviz_serve.sh`.
+   - Do not change `tools/labviz_serve.sh` (SHA-256 `c90afb9ce1bd8c3b54af95f4534f055404587a0105045e931ee34d6cb9a05a4b`). It reruns the builder every 60 s, during GPU stages too.
+   - The builder starts no child process (`subprocess`, `os.system`, `multiprocessing`).
    - Do not start, probe or curl the server on port 8765.
-4. **Files you may change or create:**
+4. **Build budget and determinism (spec §2.3).** Write a file only when its bytes change; skip pictures whose inputs are unchanged. No output carries wall-clock time (no `built_utc`); a rebuild on unchanged inputs gives identical bytes. Budget: warm rebuild ≤ 15 s and ≤ 1.5 GB peak RSS; cold build ≤ 120 s and ≤ 2 GB. Measure both with `/usr/bin/time -l` around the unchanged command line and report them; a miss is reported, not hidden.
+5. **Files you may change or create:**
    - `tools/labviz/**`;
    - new data tables `tools/labviz/{labels,gates,links,stimulus,contexts}.json`;
-   - generated output under `results/labviz/` (`site/`, `runs/`, new `cards/`, `review/`).
+   - generated output under `results/labviz/` (`site/`, including `site/cards/`; `runs/`; `review/`);
+   - your report `results/labviz_v2_codex_impl.md`.
 
    Nothing else. `docs/c10_evaluations.json` is read-only for you now; the program session maintains it.
-5. **Test-first.**
+6. **Tables you transcribe, not design.** `labels.json` = spec §5 item 1 label table, exactly; `gates.json` = the §5 item 1 role table and the §5 item 3 gate table, exactly; `links.json` = spec §5 item 6. `contexts.json` you may draft: mark every entry `"status": "DRAFT"`, with machine-checked quotes; the program session reviews it before publication (spec open point 5), and the site shows DRAFT framing as "draft framing, not yet reviewed".
+7. **Test-first.**
    - Write the tests below before the code, and record them failing in the report.
    - Use small synthetic fixtures plus the real records named in the tests.
    - Run tests only with: `env -C <wt> MPLCONFIGDIR=/private/tmp/labviz-mpl .venv/bin/python -B -m unittest tools.labviz.test_labviz`. Add the new tests to `tools/labviz/test_labviz.py`; v1's tests must stay green.
-6. **Smallest code that meets the spec.** No speculative options. Plain HTML, CSS and JS. three.js stays pinned at `https://cdn.jsdelivr.net/npm/three@0.160.0/`, with the 2D fallback.
-7. **Evidence tiers are labelled** (spec §2.4). Phase 1 shows RECORDED data only. Any place that would need a replay or telemetry says so, with the tier name.
+8. **Smallest code that meets the spec.** No speculative options. Plain HTML, CSS and JS. three.js stays pinned at `https://cdn.jsdelivr.net/npm/three@0.160.0/`, with the 2D fallback. No text drawn on a canvas (3D labels become HTML overlays).
+9. **Evidence tiers are labelled** (spec §2.4: RECORDED, TELEMETRY, REPLAY (NOT EVIDENCE), EXPLORATORY). Phase 1 shows RECORDED data only. Any place that would need a replay or telemetry says so, with the tier name.
 
 ## Data sources
 
 Spec §3 lists every family with jq-verified paths and sample values. The main ones:
-- `results/c10v_layerpick/{step0,pass1,run}.json`;
-- `results/c10w_oracle/{step0_*,p1_*,p2_*}/` (`eval.json`, `verdict.json`, `train/*.json`, `*.log`) and `results/c10w_oracle_logs/*.gate.*.json`;
-- `results/c10u_mint2/r3/*.json` and `r3_read_after_*.json`;
-- the earlier C10 harness files;
+- `results/c10v_layerpick/{step0,pass1,run}.json` (`run.json:.pass_sha256.pass1` binds the reading to `pass1.json`);
+- `results/c10w_oracle/{step0_*,p1_*,p2_*}/` (`eval.json`, `verdict.json`, `interim_reader_configuration_v2.json`, `train/*.json`, `HALT.json`, `*.log`) and `results/c10w_oracle_logs/*.gate.*.json`;
+- `results/c10u_mint2/r3/*.json` and **only** `results/c10u_mint2/r3_read_after_replicateF.json` for C10U labels and gates (never `_v2` or `_frozen`);
+- the earlier C10 harness files, and the non-C10 records of spec §3.10;
 - the program documents in spec §11.1.
 
 **Verify every path with jq before writing code against it** (CLAUDE.md §6). If a path in the spec does not resolve, stop and report it. Do not guess a replacement.
@@ -62,59 +66,68 @@ Spec §3 lists every family with jq-verified paths and sample values. The main o
 
 1. **Foundation: information architecture and type** [§4A.1–4A.2].
    - Five-destination navigation on every page: Map (home), Science lines, Runs, Inside the model, Learn & evaluations.
-   - A status strip, breadcrumb, context chip and evidence-tier badge on every page.
-   - Body text 16–17px; nothing below 13px, including picture text at rendered size; prose at most 72ch wide; contrast ≥ 4.5:1 for text and ≥ 3:1 for marks.
+   - A status strip, breadcrumb, context chip and evidence-tier badge on every page. Mark the run or model content with `data-region="content"`.
+   - Body text 16–17px; nothing below 13px at rendered size; prose at most 72ch wide; contrast ≥ 4.5:1 for text and ≥ 3:1 for marks.
    - First view ≤ 1 MB. Line chunks load as classic `<script>` files, so the page works from `file://`. Load `model.js` as a classic script.
    - Fix every row of the §4A.3 audit.
-2. **Program context model** [§11.1–11.3].
-   - Parse the registry (54 rows, by regex over whole rows), the CORPUS headers, the overlay, the e2e layers, the F1 conditions C1–C10, the hypothesis register and the runbook tracks into namespaced nodes and sourced edges.
-   - Assign each run a context by the §11.2 rule.
-   - Add the curated `contexts.json` era framing, with verbatim-quote citations.
+2. **Ingestion boundary** [§9.1]: the RECORDED reader skips `results/replays/`, `results/sandbox/` and every `telemetry/` folder, and any record whose `evidence_status` starts with "NOT EVIDENCE" or "EXPLORATORY".
+3. **Program context model** [§11.1–11.3].
+   - Parse the registry (54 rows, by regex over whole rows, with the §11.1 D-ID grammar and §11.2 brace expansion), the CORPUS headers, the overlay, the e2e layers, the F1 conditions C1–C10, the hypothesis register and the runbook tracks into namespaced nodes and typed edges (direct / curated / derived).
+   - Choose each experiment's decision and each run's context by the §11.2 rules; ties stay unknown with candidates.
+   - Draft `contexts.json` (era per registry row, era framing) with verbatim-quote citations, marked DRAFT.
    - Remove every C10 hard-coding listed in §11.3, so each tab captions a run in its own era's terms.
-3. **Connections map with focus mode**, as the home page [§11.4]. Phone version: drill-down list.
-4. **Run cards** [§6, item 10]: `results/labviz/cards/<card-id>.json` plus `cards/index.json`, with a `context` block. Every page section links to its card.
-5. **Result badge** [item 1], with `labels.json`.
-6. **Per-fact strip and fact panel** [items 2 and a, recorded parts], with `stimulus.json` bound by SHA to `experiments/track_c/c10e_bandknob.py`. The builder checks the strings with a text search, never by importing the file.
-7. **Side-effect gauge** [item 3], with `gates.json`: limits derived from prereg rules, and checked against the recorded gate booleans.
-8. **Write sizes** [item 4]: one shared scale per unit, numbers printed on the bars, only written layers coloured, the configured band drawn as an outline, and the 3D picker opening on the newest run with writes.
-9. **Compare view** [item 5].
-10. **Plain-words captions** through `links.json` [item 6].
-11. **C10V per-fact layer map and margins** [item 8].
-12. **C10W training-step slider** [item 9]: recorded loss and step times only.
-13. **Parts of a layer and the wiring diagram**, in 2D and 3D [items b and c, static]. Show the "untouched" basis: "by design" for MEMIT, "hash-verified" for C10W.
-14. **Recorded-event timeline** [item d, Phase 1 scope].
-15. **Design review** [§4A.5].
-    - Open `file://<wt>/results/labviz/site/index.html` (never the 8765 server) with a headless browser driven by node (`/opt/homebrew/bin/node`; Playwright or Puppeteer) or the session's browser tool. No python.
-    - Screenshot at 1440 × 900, 390 × 844 and 844 × 390, covering the screens listed in §4A.5. Dump computed styles.
-    - Save everything to `results/labviz/review/<UTC>/`.
-    - Have a decorrelated reviewer judge the §4A.4 criteria. Fix every FAIL before reporting done.
+4. **Connections map with focus mode**, as the home page [§11.4]. Phone version: drill-down list.
+5. **Run cards** [§6, item 10]: `results/labviz/site/cards/<card-id>.json` plus `site/cards/index.json`, with `identity.role`, joins and a `context` block. Every page section links to its card.
+6. **Result badge** [item 1]: roles decide what it shows; goal and label only on binding cards; C10W prints `verdict.json:.class` verbatim; `labels.json` transcribed.
+7. **Per-fact strip and fact panel** [items 2 and a, recorded parts]. Question text by the §3.6 precedence: recorded stimulus, else the SHA-bound `stimulus.json` (bound to `experiments/track_c/c10e_bandknob.py` by SHA, role and order, checked as text, never by importing), else "not transcribed".
+8. **Side-effect gauge** [item 3]: ✓/✗ only from recorded booleans for the exact configuration; rule limits as "derived reference line" without ✓/✗; "not judged yet" where nothing is recorded.
+9. **Write sizes** [item 4]: one shared scale per unit, numbers printed on the bars, only written layers coloured, the configured band drawn as an outline, no predicted, replay or sandbox value on a RECORDED ruler, and the 3D picker opening on the newest run with writes.
+10. **Compare view** [item 5], with the eligibility contract.
+11. **Plain-words captions** through `links.json` keyed by record or phase directory [item 6].
+12. **C10V per-fact layer map and margins** [item 8], all reading leaves from `.readings.B`.
+13. **C10W training-step slider** [item 9]: recorded loss and step times only.
+14. **Parts of a layer and the wiring diagram**, in 2D and 3D [items b and c, static], with the exact "untouched" wording of spec §3.5.
+15. **Recorded-event scrubber** [item d, Phase 1 scope]: recorded events only. The Phase 3 replay player is not part of this build.
+16. **Design self-check** [§4A.5].
+    - Open `file://<wt>/results/labviz/site/index.html` (never the 8765 server) with Playwright driven by `/opt/homebrew/bin/node`. Playwright is not installed (checked 2026-10-08; cached Chromium builds only, no WebKit): install it under `/private/tmp/labviz-review/` and add WebKit with `npx playwright install webkit`. No python.
+    - Run Chromium and WebKit at 1440 × 900, 390 × 844, 360 × 780, 844 × 390, and 1440 × 900 at 200 % zoom, over the screens of §4A.5. Measure what §4A.4 lists (rendered text size including SVG via bounding boxes, composited contrast, target rectangles, first-view bytes from the request log, scripted tap and keystroke counts, URL state, keyboard and touch) into `results/labviz/review/<UTC>/measure.json`, with screenshots.
+    - This is a **self-check**: report the numbers; do not judge PASS/FAIL as the reviewer. The program session runs the decorrelated review after you report.
 
-Not in Phase 1: telemetry, the tokenizer extract, replays, the player, the logit lens, and per-part activity. Show their places as "needs telemetry / needs an observation replay (NOT EVIDENCE)".
+Not in Phase 1: telemetry, the tokenizer extract, replays, the replay player, the logit lens, per-part activity and the sandbox. Show their places as "needs telemetry / needs an observation replay (NOT EVIDENCE)".
 
 ## Tests (write first; each must fail before its code exists)
 
-1. **Leaf integrity:** every leaf in every generated card resolves with its jq-style path in its file to the same value. No bare number appears outside a leaf.
-2. **C10V B0 write colouring:** the written layers of `recipes.B0` (A7) are exactly {8}; the configured band is 4–8; only layer 8 is coloured. B·A7 writes 4–8 with values 4.85 / 16.13 / 27.69 / 9.71 / 16.31 (rounded in the test only).
-3. **Badge:** the C10V card shows 12 of 72, goal 61 (from `docs/c10_scoreboard.json:.goal`), label `NULL`. The C10W P1 card shows 70 of 72 and "not yet labelled" (`verdict.json:.final_label` is null). An unknown label renders verbatim in grey.
-4. **Side-effect gauge:** the B·A7 described-as value is 86.17; the derived limit is 87.0 (90.0 − 3, prereg `:74`); it shows FAIL; and the derived result agrees with `run.json:.readings.B.locality_gates.described_as == false`.
-5. **Per-fact strip:** 24 cells from `detail.A7_coined_coined[].para_full_hits`. For C10U, the binding arm uses the teacher-forced strip type with its own title. Missing cells are hatched.
-6. **Stimulus binding:** each transcribed string occurs verbatim in `experiments/track_c/c10e_bandknob.py`, and the file's SHA-256 equals `pass1.json:.identity.source_sha256["experiments/track_c/c10e_bandknob.py"]` (`1f6be581…e695`). A changed SHA shows "not transcribed for this code version".
-7. **Layer map:** `step0.json` gives a 24 × 5 G table; the margins come from `winning_margins[0]`, with the repeat in `[1]`; `map_reproduced` is true; `spearman_G_edge` is −0.479.
-8. **Training slider:** each C10W train record yields 40 loss points (10…400) and 400 step times. No per-step answers are shown.
-9. **Untouched basis:** the C10W train record reads "hash-verified: 434 of 434 unchanged"; the MEMIT record reads "by design".
-10. **Context model:**
-    - 54 registry rows parsed, including the 9-, 11- and 12-field rows;
-    - `exp:A7`, `hyp:A:A7` and the arm `A7_coined_coined` are distinct;
-    - registry `track_e` is not merged with runbook "TRACK E";
-    - c10u records map to `exp:C10U-mint2` by result path;
-    - an unmatched run shows "context not recorded" with candidates;
-    - every `contexts.json` quote occurs at its cited line;
-    - every edge's source line names both ends.
-11. **No C10 framing outside C10:** the rendered Mistral-7B model page and a G6.1 run page contain none of "of 72", "goal 61", "reworded", "made-up", "C10".
-12. **Map:** focus on `cond:C10` reaches `spec:§8.9` and the decisions, experiments and CORPUS entries named by the overlay's C10-chain row (expected set derived from the files). `model:Mistral-7B` links to `era:t-branch`.
-13. **Readability contract (CSS):** no font-size below 13px in any rule; body ≥ 16px; prose `max-width ≤ 72ch`; picture text ≥ 13px at a 600px render; 44px targets; no fixed width above 390px; the 3D canvas ≤ 70vh.
-14. **Payload:** the first view is ≤ 1 MB. Line chunks are classic scripts. `model.js` is not loaded as `type="module"`.
-15. **Build round trip:** HTML parses; every image, chunk and card referenced exists; a second build gives identical bytes on unchanged inputs; no file outside the allowed paths changes; no forbidden import (torch, transformers, tokenizers, experiment modules).
+1. **Leaf integrity:** every leaf in every card is one of the four types and valid by spec §6: JSON-source paths resolve (grammar `.k`, `["k"]`, `[n]` only) to the exact value; document-source quotes occur at their line and contain the value; derived inputs are valid leaves and recompute the value; no bare value outside the whitelist; `sources[]` hashes match. Cross-check ≥ 50 JSON-source leaves (every family, every grammar form) with the `jq` binary. Full precision: B·A7 layer 8 `write_size` = `16.31455421447754`.
+2. **C10V B0 write colouring:** the written layers of `recipes.B0` (A7) are exactly {8}; the configured band is 4–8; only layer 8 is coloured. B·A7 writes layers 4–8 (layer 8 = `16.31455421447754`).
+3. **Badge and roles:**
+   - C10V B·A7 (binding): 12 of 72, goal 61 from `docs/c10_scoreboard.json:.goal`, label `NULL`.
+   - C10V B·A1: role `control`, no goal, no label chip; recipe A·A7: `reference`; Bshuf·A7: `shuffled-control`, with `NULL-CONTROL-ONLY` shown under the role line.
+   - C10W P1 `oracle_p1`·A7: 70 of 72, "not judged yet" (`verdict.json:.final_label` null), `.class` printed verbatim, and the interim chip `PARTIAL-CEILING-LOCALITY-COST` captioned "oracle measurement, not a route".
+   - C10U `r3/F_r0_mint1_s0.json`: `LEAD` (from `r3_read_after_replicateF.json`). `r3/F_r1_mint1_s0.json` (same binding count 46, replicate 1): no label chip, "replica of mint1_s0".
+   - **Wrong-reader fixture:** a reading whose counts match but whose family, recipe, arm, seed or replicate differs, or whose `pass_sha256` / `p1_eval.sha256` does not match, never attaches.
+   - An unknown label renders verbatim in grey with "label not in Lab View's table".
+4. **Label table:** `labels.json` equals the spec §5 item 1 table (parsed from the spec's markdown), and every label string the spec §3.9 enumeration finds in the real records has a row. Only a final PASS-type label maps to `pass`.
+5. **Side-effect gauge:**
+   - B·A7 described_as 86.17 shows ✗ because `run.json:.readings.B.locality_gates.described_as` is false; its reference line is 87.0, derived from 90.0 (prereg `:74`).
+   - Consistency: the gate-table rule reproduces every recorded boolean: every C10V reading × 5 gates, every C10U binding-reading arm × 7, the C10W interim configuration × 7. Boundary fixtures (at the limit passes, one past fails) and a mismatch fixture.
+   - C10W P1 `closedform` and `oracle_canon_s0` configurations show reference lines and "not judged yet", no ✓/✗. C10W's reference arm is `recipes.closedform.arms.A7_coined_coined` (described_as 87.56); G4 checks the canonical frame and all 20 training frames; G7 uses the matched shuf control.
+6. **Per-fact strip:** 24 cells from `detail.A7_coined_coined[].para_full_hits`. For C10U, the binding arm uses the teacher-forced strip type with its own title. Missing cells are hatched.
+7. **Stimulus:**
+   - `results/c10e_bandknob.json` shows its **recorded** `.stimulus` text; C10V shows the SHA-bound transcription (`pass1.json:.identity.source_sha256["experiments/track_c/c10e_bandknob.py"]` = `1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695`); a changed SHA shows "not transcribed for this code version".
+   - Role and order are bound (`CANON` at `:51`; `PTEST` entry j at line 53 + j); a **permuted-template** transcription fails.
+   - C10W: `generated[3i+j].subj` = `detail[i].subj` and `.template` = `PTEST[j]`.
+8. **Layer map:** `step0.json` gives a 24 × 5 G table; margins from `winning_margins[0]`, repeat in `[1]`; `map_reproduced` true; the footer's statistic is `run.json:.readings.B.spearman_G_edge` = `−0.3162875387734472` (the test asserts the path; B0's −0.479… never appears on B's map).
+9. **Training slider:** each C10W train record yields 40 loss points (10…400) and 400 step times. No per-step answers are shown.
+10. **Untouched basis:** a C10W card reads exactly "the 434 base tensors were hash-verified frozen during adapter training; the evaluated model has the adapter's ΔW merged into down_proj 4–8; `base_band_hash` = `final_band_hash` shows the base was restored after evaluation", and colours down_proj 4–8 as written. A MEMIT card reads "by design (the engine writes only down_proj)".
+11. **Context model:** the spec §11.5 list, including: 54 rows parsed (9-, 11-, 12-field rows); `exp:A7`, `hyp:A:A7`, `A7_coined_coined` distinct; registry `track_e` ≠ runbook "TRACK E"; `C10U-mint2`'s decision is `D-C10u-mint2`, not `D-C10r-rulings-12`; the §11.2 fixtures (brace rows `:19`, `:25`, `:60`; "D-ID" on `:59`; `ROUTING-BLOCKED-UNDERFIT`; basename `run.json`; `c10u_mint2/r2/`; a tie); each of the 54 rows has exactly one era; every `contexts.json` quote occurs at its line; every edge is valid for its type.
+12. **No C10 framing outside C10:** in `[data-region="content"]` of the rendered Mistral-7B model page, a G6.1 run page and a D1 capacity-law page, none of: "of 72", "goal 61", "reworded", "made-up", "C10". (The status strip, navigation, breadcrumb and connections panel are outside the region.)
+13. **Map:** focus on `cond:C10` reaches `spec:§8.9` and the decisions, experiments and CORPUS entries named by the overlay's C10-chain row (expected set derived from the files). `model:Mistral-7B` links to `era:t-branch`.
+14. **Readability contract (CSS):** no font-size below 13px in any rule; body ≥ 16px; prose `max-width ≤ 72ch`; 44px targets; no fixed width above 360px; the 3D canvas ≤ 70vh; no `fillText` on a canvas.
+15. **Payload:** the first view is ≤ 1 MB. Line chunks are classic scripts. `model.js` is not loaded as `type="module"`.
+16. **Ingestion boundary:** fixtures under `results/replays/`, `results/sandbox/`, a `telemetry/` folder, and a NOT EVIDENCE / EXPLORATORY record elsewhere produce no RECORDED card and no value in any `headline`, `label`, `gates` or `scale`.
+17. **Links:** each `links.json` key's CORPUS file exists, its first 12 lines contain the record's `decision_id`, and an evaluation entry has that `ref`. C10W P2 (`p2_20261008T034226_086980Z/`) shows "no plain-words evaluation linked yet".
+18. **Compare eligibility:** the same 24 facts in shuffled row order join by subject; runs with different templates or scoring kinds show "not comparable".
+19. **Build round trip:** HTML parses; every image, chunk and card referenced exists; a second build on unchanged inputs gives identical bytes; no output contains the build time; no file outside the allowed paths changes; no forbidden import (torch, transformers, tokenizers, experiment modules) and no child-process call in `tools/labviz/*.py`; `tools/labviz_serve.sh` keeps its SHA-256; the two exempt command lines in `tools/c10w_p2_gate.py:25–26` still match the builder and server invocations in `tools/labviz_serve.sh:7`, `:10`, `:15`.
 
 ## Deliverable
 
@@ -123,7 +136,9 @@ Write `results/labviz_v2_codex_impl.md` containing:
 - every file created or changed, with its SHA-256;
 - the jq verification of every data path you used, and any spec path that did not resolve;
 - the test list with its failing-first output and its final green output;
-- the §4A.5 review: the screenshot list, the computed-style summary (minimum font size, minimum contrast), and the reviewer's verdict table, with its fixes;
+- the measured cold and warm build time and peak RSS against the §2.3 budget;
+- the §4A.5 self-check: what you installed and where, the screenshot list, and the measurement summary (minimum rendered text size, minimum composited contrast, smallest target, first-view bytes, task tap counts). No reviewer verdict: the program session runs that review;
+- the DRAFT `contexts.json` entries awaiting review;
 - open issues.
 
 Then say DONE. No commits, no canonical science updates.
