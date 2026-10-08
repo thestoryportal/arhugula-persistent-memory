@@ -167,8 +167,8 @@ def measure(s, expected_pristine=None, native_mask="none"):
             prefix_logits, prefix_ids = capture_forward(s, lambda: native(prefix))
             s.sync(); timings["native_prefix_s"] += time.monotonic() - t
             tgt = torch.tensor([y], device="cpu")
-            lead = float(D.margin_leads(prefix_logits[-1][None, :], tgt)[0][0])
-            full_lead = float(D.margin_leads(full[index][None, :], tgt)[0][0])
+            lead = float(D.margin_leads(prefix_logits[-1][None, :].detach().cpu().to(torch.float32), tgt)[0][0])
+            full_lead = float(D.margin_leads(full[index][None, :].detach().cpu().to(torch.float32), tgt)[0][0])
             batch_lead = float(obs["leads"][ri]); batch1_lead = float(obs1["leads"][q])
             a = torch.tensor(lead, dtype=torch.float64, device="cpu")
             diffs = {"native_minus_batch": float(a - batch_lead), "native_minus_batch1": float(a - batch1_lead),
@@ -178,7 +178,7 @@ def measure(s, expected_pristine=None, native_mask="none"):
             positions.append({"fact": i, "subject": s.H.FICTION[i], "view": 0, "q": q, "row": identity_row,
                 "index": index, "target_id": y, "target_text": s.H.tok.decode([y]),
                 "native_lead": lead, "batch_lead": batch_lead, "full_lead": full_lead, "batch1_lead": batch1_lead,
-                "native_max_abs_logit": float(prefix_logits.detach().to(device="cpu", dtype=torch.float32).abs().max()),
+                "native_max_abs_logit": float(prefix_logits.detach().cpu().to(torch.float32).abs().max()),
                 "native_logits_dtype": str(prefix_logits.dtype),
                 "diffs": diffs, "abs_diffs": {k: abs(v) for k, v in diffs.items()},
                 "padding_side": "right", "batch_attention_mask_sum": sum(single["attention_mask"][0]),

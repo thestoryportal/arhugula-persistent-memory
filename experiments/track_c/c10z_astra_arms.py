@@ -174,7 +174,7 @@ def check_hook_registry(before,after):
 def torch_cpu64(value):
     import torch
     R.require(not (value.device.type=="mps" and value.dtype==torch.float64),"HALTED-V11","float64 tensor reached MPS")
-    result=value.detach().to(device="cpu",dtype=torch.float64)
+    result=value.detach().cpu().to(torch.float64)
     R.require(bool(torch.isfinite(result).all()),"HALTED-V6","non-finite capture/solve tensor")
     return result
 
@@ -221,7 +221,7 @@ def joint_solve(C,d,scales,keys,D,gamma):
 
 def margin_leads(logits,targets):
     import torch
-    logits=logits.detach().to(device="cpu",dtype=torch.float32)
+    logits=logits.detach().cpu().to(torch.float32)
     targets=targets.to(device="cpu")
     R.require(bool(torch.isfinite(logits).all()),"HALTED-V6","non-finite native logits")
     top=logits.topk(2,dim=1).indices
@@ -250,7 +250,7 @@ def fidelity(predicted,realised):
 
 
 def semcon(C,scales,keys,weights):
-    C=C.to(device="cpu",dtype=__import__("torch").float32)
+    C=C.cpu().to(__import__("torch").float32)
     scales=scales.cpu().float();scores={}
     for l,k in keys.items():
         scores[l]=(k.cpu().float()*(C@weights[l].detach().cpu().float())/scales[:,None]).abs().sum(0)
@@ -340,11 +340,11 @@ TELEMETRY_CLOCK = time.perf_counter
 def target_probabilities(gathered,targets,chunk_rows):
     import torch
     chunk_rows=min(chunk_rows,max(1,(64*2**20)//(4*gathered.shape[1])))
-    targets=targets.detach().to(device="cpu",dtype=torch.long)
+    targets=targets.detach().cpu().to(torch.long)
     result=torch.empty(gathered.shape[0],dtype=torch.float32,device="cpu")
     with torch.no_grad():
         for start in range(0,gathered.shape[0],chunk_rows):
-            x=gathered[start:start+chunk_rows].detach().to(device="cpu",dtype=torch.float32,copy=True)
+            x=gathered[start:start+chunk_rows].detach().cpu().to(torch.float32,copy=True)
             x.sub_(x.amax(1,keepdim=True))
             lse=torch.logsumexp(x,1)
             rows=torch.arange(len(x),device="cpu")
@@ -1062,6 +1062,8 @@ class Session:
                 original=float(margin_leads(full[len(prompt)+q-1][None,:],torch.tensor([y],device="cpu"))[0][0])
                 full_sigma=max(full_sigma,abs(original-float(obs["leads"][ri])))
             single.append(ref)
+        if sigma>.125:
+            self.checks["Z0"]={"ok":False,"sigma_shape":sigma,"original_full_sequence_sigma":full_sigma}
         R.require(sigma<=.125,"HALTED-V5","Z0 spread >.125 logits")
         return {"ok":True,"sigma_shape":sigma,"tau_shape":max(2*sigma,.02),
                 "original_full_sequence_sigma":full_sigma,"prefix_shape_leads":single,

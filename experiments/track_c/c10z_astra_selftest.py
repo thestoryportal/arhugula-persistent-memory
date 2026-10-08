@@ -1,6 +1,6 @@
 import os, sys
 LLMDB_ROOT = os.environ.get("LLMDB_ROOT", "/workspace")
-"""FROZEN v2.2 specification tests; synthetic CPU tensors only, no harness import."""
+"""FROZEN v2.2 specification tests; synthetic tensors only; optional tiny MPS copy regression, no harness import."""
 import ast
 import base64
 import copy
@@ -1751,6 +1751,35 @@ class Fix2Tests(unittest.TestCase):
         with self.assertRaises(R.Halt) as halted:
             s.z0(batch, {"leads": torch.tensor([.874], dtype=torch.float64)})
         self.assertEqual(halted.exception.code, "HALTED-V5")
+
+    def test_z0_v5_halt_persists_native_and_full_sigma(self):
+        """Diagnosability only: the unchanged V5 refusal publishes both measured maxima."""
+        import torch
+        D, R = self.D, self.R; s = D.Session.__new__(D.Session)
+        def forward(input_ids, **kwargs):
+            n = input_ids.shape[1]
+            return _types.SimpleNamespace(logits=torch.tensor([[[float(n), 0.]] * n]))
+        s.H = _types.SimpleNamespace(DEV="cpu", model=forward)
+        s.budget = D.Budget(0., C01_FIX, None, None, clock=lambda: 0.)
+        s.checks = {}; s.recipes = {}; s.memory = []; s.restores = []; s.process = 1
+        batch = {"target_ids": [[0, 1]], "prompt_ids": [[1]],
+                 "requirements": [{"fact": 0, "view": 0, "q": q} for q in range(2)]}
+        with self.assertRaises(R.Halt) as halted:
+            s.z0(batch, {"leads": torch.tensor([.75, -1.75])})
+        self.assertEqual(halted.exception.code, "HALTED-V5")
+        self.assertEqual(halted.exception.detail, "Z0 spread >.125 logits")
+        self.assertIn("Z0", s.checks, "V5 raises before saving its measured Z0 sigmas")
+        self.assertFalse(s.checks["Z0"]["ok"])
+        self.assertEqual(s.checks["Z0"]["sigma_shape"], .25)
+        self.assertEqual(s.checks["Z0"]["original_full_sequence_sigma"], 1.25)
+        out = self.root / "z0-v5"; out.mkdir()
+        with mock.patch.object(D, "ROOT", self.root):
+            D.diagnostic(out, halted.exception.code, halted.exception.detail, s)
+        saved = json.loads((out / "halt_p1.json").read_text())
+        archive = list((self.root / "architecture_profile").glob("c10z_astra_halt_diagnostic_*.json"))
+        self.assertEqual(len(archive), 1)
+        self.assertEqual(saved["checks"]["Z0"], s.checks["Z0"])
+        self.assertEqual(json.loads(archive[0].read_text())["checks"]["Z0"], s.checks["Z0"])
 
 def _fix2_suite():
     suite = _fix1_suite()
@@ -3563,9 +3592,177 @@ class Z0ProbeTests(unittest.TestCase):
         self.assertEqual(record, json.loads(json.dumps(record, allow_nan=False)))
 
 
+class V5CopyTests(unittest.TestCase):
+    """CPU guards plus one tiny optional MPS regression; no model or engine load."""
+    @staticmethod
+    def unsafe_cpu_casts(tree, python_data=()):
+        """Guard explicit cross-device cast forms; not a general tensor type checker."""
+        cpu_names = set(); data_names = set(python_data)
+        def cpu_device(node):
+            if isinstance(node, ast.Constant): return node.value == "cpu"
+            return (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                    and node.func.attr == "device" and bool(node.args) and cpu_device(node.args[0]))
+        def data(node):
+            return (isinstance(node, (ast.Constant, ast.List, ast.Tuple, ast.ListComp))
+                    or isinstance(node, ast.Name) and node.id in data_names
+                    or isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                    and node.func.id in {"float", "int", "list", "tuple", "len"})
+        def cpu(node):
+            if isinstance(node, ast.Name): return node.id in cpu_names
+            if isinstance(node, ast.Subscript): return cpu(node.value)
+            if isinstance(node, ast.BinOp): return cpu(node.left) or cpu(node.right)
+            if not isinstance(node, ast.Call): return False
+            if isinstance(node.func, ast.Name): return node.func.id == "torch_cpu64"
+            if not isinstance(node.func, ast.Attribute): return False
+            kw = {k.arg: k.value for k in node.keywords}
+            if node.func.attr == "cpu" or cpu_device(kw.get("device")): return True
+            if node.func.attr == "to" and node.args and cpu_device(node.args[0]): return True
+            if cpu(node.func.value): return True
+            return node.func.attr in {"exp", "logsumexp"} and any(cpu(a) for a in node.args)
+        nodes = sorted(ast.walk(tree), key=lambda n: getattr(n, "lineno", 0))
+        for node in nodes:
+            if isinstance(node, ast.Assign):
+                for target in node.targets:
+                    if isinstance(target, ast.Name):
+                        if cpu(node.value): cpu_names.add(target.id)
+                        if data(node.value): data_names.add(target.id)
+        unsafe = set()
+        for node in nodes:
+            if isinstance(node, ast.Assign) and not cpu(node.value) and not data(node.value):
+                if any(isinstance(t, ast.Subscript) and cpu(t.value) for t in node.targets):
+                    unsafe.add(node.lineno)
+            if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute): continue
+            name = node.func.attr; kw = {k.arg: k.value for k in node.keywords}
+            if name == "to":
+                if (cpu_device(kw.get("device")) and ("dtype" in kw or bool(node.args))
+                    or bool(node.args) and cpu_device(node.args[0]) and (len(node.args) > 1 or "dtype" in kw)
+                    or len(node.args) == 1 and cpu(node.args[0]) and not cpu(node.func.value)):
+                    unsafe.add(node.lineno)
+            elif name == "copy_" and cpu(node.func.value) and node.args:
+                if not cpu(node.args[0]) and not data(node.args[0]): unsafe.add(node.lineno)
+            elif name in {"tensor", "as_tensor"} and cpu_device(kw.get("device")) and "dtype" in kw:
+                if node.args and not cpu(node.args[0]) and not data(node.args[0]): unsafe.add(node.lineno)
+            elif name == "type" and node.args and not cpu(node.func.value):
+                target = ast.unparse(node.args[0]).strip("'")
+                if target.startswith("torch.") and target.count(".") == 1 and target.endswith("Tensor"):
+                    unsafe.add(node.lineno)
+        return sorted(unsafe)
+
+    def test_margin_leads_no_combined_device_dtype_transfer_ast(self):
+        # Reintroducing the unsafe transfer must fail without importing Torch or using MPS.
+        tree = ast.parse((HERE / "c10z_astra_arms.py").read_text())
+        margin = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "margin_leads")
+        self.assertEqual(self.unsafe_cpu_casts(margin), [],
+                         "margin_leads must transfer to CPU before casting an offset view")
+
+    def test_torch_cpu64_moves_to_cpu_before_float64_ast(self):
+        tree = ast.parse((HERE / "c10z_astra_arms.py").read_text())
+        capture = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "torch_cpu64")
+        self.assertEqual(self.unsafe_cpu_casts(capture), [], "MPS cannot receive a float64 cast")
+        casts = [n for n in ast.walk(capture) if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+                 and (n.func.attr == "double" or n.func.attr == "to" and any(
+                     isinstance(a, ast.Attribute) and a.attr == "float64"
+                     for a in [*n.args, *(k.value for k in n.keywords if k.arg == "dtype")]))]
+        self.assertTrue(casts, "float64 capture conversion missing")
+        for cast in casts:
+            self.assertTrue(any(isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+                                and n.func.attr == "cpu" for n in ast.walk(cast.func.value)),
+                            "float64 conversion occurs before the CPU transfer")
+
+    def test_probe_native_and_full_rows_transfer_before_cast_ast(self):
+        tree = ast.parse((HERE / "c10z_astra_z0_probe.py").read_text())
+        measure = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "measure")
+        calls = [n for n in ast.walk(measure) if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+                 and isinstance(n.func.value, ast.Name) and n.func.value.id == "D" and n.func.attr == "margin_leads"]
+        self.assertEqual(len(calls), 2, "native and full row measurements must both use the driver's margin code")
+        for call in calls:
+            self.assertTrue(any(isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+                                and n.func.attr == "cpu" for n in ast.walk(call.args[0])),
+                            "probe passes an untransferred native/full MPS offset view")
+
+    def test_ast_guard_covers_all_unsafe_copy_api_forms(self):
+        source = chr(10).join((
+            'cpu = torch.empty(3, device="cpu", dtype=torch.float32)',
+            'v = torch.ones(3, device="mps", dtype=torch.float16)',
+            'v.to("cpu", torch.float32)',
+            'v.to(device="cpu", dtype=torch.float32)',
+            'v.to(torch.device("cpu"), torch.float32)',
+            'cpu.copy_(v)', 'cpu[0] = v',
+            'torch.as_tensor(v, device="cpu", dtype=torch.float32)',
+            'torch.tensor(v, device="cpu", dtype=torch.float32)',
+            'v.to(cpu)', 'v.type(torch.FloatTensor)',
+            'v.clone().to(device="cpu", dtype=torch.float32)',
+            'v.cpu().to(torch.float32)',
+            'torch.tensor([1.], device="cpu", dtype=torch.float64)',
+            'cpu.copy_(v.cpu())', 'cpu[0] = v.cpu()'))
+        self.assertEqual(self.unsafe_cpu_casts(ast.parse(source)), list(range(3, 13)))
+
+    def test_astra_sources_no_combined_device_dtype_transfer_ast(self):
+        # Guard every audited production callsite; exclude this intentional legacy reproducer.
+        unsafe = []
+        for path in sorted(HERE.glob("c10z_astra_*.py")):
+            if path.name.endswith("_selftest.py"): continue
+            for function in (n for n in ast.walk(ast.parse(path.read_text())) if isinstance(n, ast.FunctionDef)):
+                # Full audit: diff_statistics receives Python float lists or existing CPU float64 tensors.
+                python_data = ("native", "other") if path.name == "c10z_astra_z0_probe.py" and function.name == "diff_statistics" else ()
+                unsafe.extend(path.name + ":" + str(line)
+                              for line in self.unsafe_cpu_casts(function, python_data))
+        self.assertEqual(unsafe, [], "combined MPS transfer/cast sites remain: " + repr(unsafe))
+
+    def test_target_probabilities_preserves_offset_float32_inputs(self):
+        # Losing copy=True would mutate a same-dtype CPU input when x.sub_ runs.
+        import torch
+        D = importlib.import_module("c10z_astra_arms")
+        base = torch.tensor([[99., 98., 97.], [1., 2., 3.], [3., 2., 1.], [0., 0., 0.]])
+        view = base[1:]; before = base.clone()
+        self.assertGreater(view.storage_offset(), 0)
+        result = D.target_probabilities(view, torch.tensor([2, 0, 1]), 1)
+        torch.testing.assert_close(result, torch.tensor([.66524096, .66524096, 1. / 3.]), rtol=0, atol=1e-7)
+        self.assertTrue(torch.equal(base, before), "probability telemetry modified its logit source")
+
+    def test_mps_offset_view_corruption_and_exact_split_copy(self):
+        import torch
+        if not torch.backends.mps.is_available():
+            self.skipTest("MPS unavailable: offset-view corruption reproduction UNVERIFIED")
+        D = importlib.import_module("c10z_astra_arms")
+        # CPU-authored exactly representable fp16 data is independent of either copy path.
+        cpu = torch.arange(64, dtype=torch.float16).reshape(2, 4, 8) / 4 - 8
+        mps = cpu.to("mps"); controls = []
+        for i, q in ((0, 1), (0, 3), (1, 3)):
+            view = mps[i, q][None, :]
+            self.assertGreater(view.storage_offset(), 0); self.assertTrue(view.is_contiguous())
+            expected = cpu[i, q][None, :].to(torch.float32)
+            # Deliberately retain the bad call solely as the known-defect control.
+            legacy = view.detach().to(device="cpu", dtype=torch.float32)
+            fixed = view.detach().cpu().to(torch.float32)
+            controls.append({"offset": view.storage_offset(), "legacy_exact": torch.equal(legacy, expected)})
+            self.assertTrue(torch.equal(fixed, expected), "split transfer/cast is not bit-exact")
+            leads, competitors = D.margin_leads(view, torch.tensor([3]))
+            self.assertTrue(torch.equal(leads, torch.tensor([-1.])), "offset-view margin is corrupted")
+            self.assertTrue(torch.equal(competitors, torch.tensor([7])))
+        print("MPS_OFFSET_VIEW_CONTROL " + json.dumps({"torch": torch.__version__, "views": controls}))
+        self.assertTrue(any(not c["legacy_exact"] for c in controls),
+                        "legacy offset-view corruption did not reproduce on this MPS backend")
+
+    def test_mps_torch_cpu64_transfers_before_float64(self):
+        import torch
+        if not torch.backends.mps.is_available():
+            self.skipTest("MPS unavailable: float64 capture regression UNVERIFIED")
+        D = importlib.import_module("c10z_astra_arms")
+        cpu = torch.tensor([[9., 8., 7.], [1., -2., 3.]], dtype=torch.float16)
+        mps = cpu.to("mps"); view = mps[1:]
+        self.assertGreater(view.storage_offset(), 0)
+        with self.assertRaises(TypeError):
+            view.detach().to(device="cpu", dtype=torch.float64)
+        result = D.torch_cpu64(view)
+        self.assertEqual(result.device.type, "cpu"); self.assertEqual(result.dtype, torch.float64)
+        self.assertTrue(torch.equal(result, cpu[1:].to(torch.float64)))
+        self.assertTrue(torch.equal(mps.cpu(), cpu), "capture modified its MPS source")
+
+
 def _build_suite():
     suite=_fix2_suite()
-    for cls in (IdleGapTests,BudgetBoundTests,LaunchBindingTests,ReaderBindingTests,WrapperTests,TemplatePinTests,PinTests,TelemetryIntegrationTests,Z0ProbeTests):
+    for cls in (IdleGapTests,BudgetBoundTests,LaunchBindingTests,ReaderBindingTests,WrapperTests,TemplatePinTests,PinTests,TelemetryIntegrationTests,Z0ProbeTests,V5CopyTests):
         suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(cls))
     suite.addTests(_telemetry_suite())
     return suite
