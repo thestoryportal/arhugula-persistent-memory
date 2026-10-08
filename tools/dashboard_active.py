@@ -1,34 +1,47 @@
-"""Dashboard 'Active' tab, view-only: only the team sessions whose screens changed in the last
-ACTIVE_S seconds (tmux window_activity = last output), stacked full-width, each drawn by dashboard_tile.render.
+"""Dashboard 'Active' tab, view-only: the lead session plus every team session that is working now or whose
+screen content changed in the last ACTIVE_S seconds, stacked full-width, each drawn by dashboard_tile.render.
+Content, not tmux window_activity: a resize makes every idle TUI redraw identical content, which tmux counts
+as activity. Changes are observed by this process, so after a restart an idle session reappears only when it changes.
 Usage: python3 dashboard_active.py [--once COLS ROWS]
 """
 import os, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from dashboard_tile import render, RESET, BOLD, FG  # noqa: E402
+from dashboard_tile import render, sh, status, RESET, BOLD, FG  # noqa: E402
 
 ACTIVE_S = 1800
 SKIP = {"dashboard", "dashboard_new", "helpers"}
 
 
 def label(s):
-    special = {"program": "LEAD · program session", "codexviz": "Codex · Lab View build"}
+    special = {"program": "LEAD · program session", "codexviz": "Codex · Lab View build",
+               "codexviz2": "Codex · Lab View v2 build", "codexz": "Codex Z · ASTRA build"}
     return special.get(s) or (f"Codex {s[5:].upper() or 'A'}" if s.startswith("codex") else s)
 
 
-def active_sessions(now):
-    out = subprocess.run(["tmux", "list-windows", "-a", "-F", "#{session_name} #{window_activity}"],
-                         capture_output=True, text=True).stdout.split("\n")
-    rows = [l.split() for l in out if l.strip()]
-    act = [(n, int(t)) for n, t in rows if n not in SKIP and not n.startswith("view-") and now - int(t) < ACTIVE_S]
+def active_sessions(now, states):
+    names = (sh("tmux", "list-sessions", "-F", "#{session_name}") or "").split()
+    act = []
+    for n in names:
+        if n in SKIP or n.startswith("view-"):
+            continue
+        screen = sh("tmux", "capture-pane", "-p", "-t", n) or ""
+        st = states.setdefault(n, {})
+        if screen != st.get("last"):
+            if "last" in st:
+                st["changed"] = now
+            st["last"] = screen
+        changed = st.get("changed")
+        if n == "program" or status(screen, changed, now)[0] in ("WORKING", "ASKING") or (changed and now - changed < ACTIVE_S):
+            act.append((n, changed or 0))
     return [n for n, _ in sorted(act, key=lambda x: (x[0] != "program", -x[1]))]
 
 
 def frame(cols, rows, states):
     now = time.time()
-    names = active_sessions(now)
-    head = f"{BOLD}{FG(231)}\033[48;5;25m{' ■ ACTIVE AGENTS · changed in the last 30 min':<{cols}}{RESET}"
+    names = active_sessions(now, states)
+    head = f"{BOLD}{FG(231)}\033[48;5;25m{' ■ ACTIVE AGENTS · working now or changed in the last 30 min':<{cols}}{RESET}"
     if not names:
-        return [head, f" {FG(245)}No agent has changed its screen in the last 30 minutes.{RESET}"]
+        return [head, f" {FG(245)}No agent is working or has changed its screen in the last 30 minutes.{RESET}"]
     each = max((rows - 1) // len(names), 6)
     lines = [head]
     for i, n in enumerate(names):
