@@ -84,6 +84,7 @@ async function settle(page) {
 
 async function ready(page) {
   await page.waitForFunction(() => window.LabView && typeof window.LabView.getState === 'function', null, { timeout: 5000 });
+  await page.addStyleTag({ content: 'html { scroll-behavior: auto !important; }' });
   await page.addScriptTag({ path: MEASURE });
   await settle(page);
   await neutralFocus(page);

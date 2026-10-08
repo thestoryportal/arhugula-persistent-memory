@@ -28,7 +28,7 @@ function reviewRuntime(extra = {}, full = false, setup = '') {
     console: { log() {} }, ...extra
   });
   if (full) return { context, done: vm.runInContext('(async () => {\n' + source + '\nglobalThis.observedReport = report;\n})()', context) };
-  vm.runInContext(source + '\nglobalThis.reviewFns = { cachedChromiumPath, labelFixtures, tabMeasurements, screenshot, tasksFor, measureViewport };', context);
+  vm.runInContext(source + '\nglobalThis.reviewFns = { cachedChromiumPath, labelFixtures, ready, tabMeasurements, screenshot, tasksFor, measureViewport };', context);
   return { context, fns: context.reviewFns };
 }
 
@@ -257,6 +257,53 @@ for (const engine of ['chromium','webkit']) test('Screenshot overrides smooth sc
   assert.equal(checks[0].scroll_y,0);assert.ok(checks[0].skip_link_page_bottom_px<=0);
 });
 
+// Style insertion, navigation and the resumed focus animation are browser IO fixtures.
+function scrollBehaviorPage(dom) {
+  const page=pageFixture(dom),html=dom.document.documentElement,styles=[];
+  const stylesheet=fs.readFileSync(path.join(__dirname,'style.css'),'utf8');
+  const baseline=stylesheet.match(/html\s*\{[^}]*scroll-behavior\s*:\s*(\w+)/)?.[1];
+  assert.equal(baseline,'smooth','The unchanged app stylesheet is the positive control');
+  const queryAll=dom.document.querySelectorAll.bind(dom.document),press=page.keyboard.press;
+  let pendingFocusScroll=false;
+  function cascade() {
+    const declarations=styles.flatMap(style=>[...style.textContent.matchAll(/html\s*\{[^}]*scroll-behavior\s*:\s*(\w+)\s*(!important)?/g)]);
+    html.style.scrollBehavior=(declarations.filter(row=>row[2]).at(-1)||declarations.at(-1))?.[1]||baseline;
+  }
+  cascade();
+  dom.document.querySelectorAll=selector=>selector==='style'?styles.slice():queryAll(selector);
+  page.addStyleTag=async({content})=>{
+    await new Promise(resolve=>setImmediate(resolve));
+    const style={textContent:content,remove(){styles.splice(styles.indexOf(style),1);cascade();}};
+    styles.push(style);cascade();return style;
+  };
+  page.goto=async()=>{styles.length=0;pendingFocusScroll=false;dom.context.scrollY=0;cascade();};
+  page.keyboard.press=async key=>{await press(key);dom.context.scrollY=1200;pendingFocusScroll ||= html.style.scrollBehavior==='smooth';};
+  dom.context.scrollTo=position=>{dom.context.scrollX=position.left;dom.context.scrollY=position.top;};
+  dom.context.requestAnimationFrame=callback=>{if(pendingFocusScroll)dom.context.scrollY=4;callback();};
+  return page;
+}
+
+for (const engine of ['chromium','webkit']) test('Harness ready disables smooth scrolling before Tab walks and after reload in '+engine, async () => {
+  const runtime=reviewRuntime(),dom=observationDOM([element('last-control','INPUT')]),page=scrollBehaviorPage(dom);
+  // An instant reset alone cannot cancel the focus animation already in flight.
+  await runtime.fns.tabMeasurements(page,engine);
+  await assert.rejects(runtime.fns.screenshot(page,engine,{name:'phone'},'smooth-control'),/Screenshot must start at the top/);
+  assert.equal(dom.context.scrollY,4);assert.equal(page.captures.length,0);
+  for(let load=0;load<2;load++) {
+    await page.goto('file:///fixture/index.html');
+    assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior),'smooth');
+    await runtime.fns.ready(page);
+    assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior),'auto','Harness page must disable smooth scrolling before keyboard measurement');
+    await page.addStyleTag({content:'html { scroll-behavior: smooth; }'});
+    assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior),'auto','Harness override must retain priority over normal author styles');
+    await runtime.fns.tabMeasurements(page,engine);
+    await runtime.fns.screenshot(page,engine,{name:'phone'},'after-load-'+load);
+    assert.equal(dom.context.scrollY,0);
+  }
+  assert.equal(page.captures.length,2);
+  assert.ok(vm.runInContext('report.screenshot_checks',runtime.context).every(check=>check.scroll_y===0));
+});
+
 // Only the browser IO boundary is delayed: tasksFor and its observations are real.
 function delayedPickerPage({stuck=false}={}) {
   const search=element('picker-search','INPUT');
@@ -424,7 +471,7 @@ for (const taskFails of [false,true]) test('runner refreshes dated and canonical
   assert.equal(runtime.context.process.exitCode,taskFails?2:0);
 });
 
-function modelViewportFixture() {
+function modelViewportFixture(pageFor = pageFixture) {
   const index = [
     { card_id: 'b', source: 'results/c10v_layerpick/pass1.json', field: 'recipes.B.arms.A7_coined_coined' },
     { card_id: 'b0', source: 'results/c10v_layerpick/pass1.json', field: 'recipes.B0.arms.A7_coined_coined' },
@@ -435,10 +482,30 @@ function modelViewportFixture() {
   const context = { async newPage() {
     const dom = observationDOM([element('show-2d', 'BUTTON'), element('show-3d', 'BUTTON')]);
     dom.context.LAB = { index }; dom.document.canvas = element('canvas', 'CANVAS');
-    const page = pageFixture(dom); page.closed=false;page.close=async()=>{page.closed=true;};pages.push(page);return page;
+    const page = pageFor(dom); page.closed=false;page.close=async()=>{page.closed=true;};pages.push(page);return page;
   }, async close() { this.closed=true; } };
   return {context,pages};
 }
+
+for(const engine of ['chromium','webkit']) test('Harness scroll override covers fallback pages and survives greyscale cleanup in '+engine,async()=>{
+  const runtime=reviewRuntime();vm.runInContext('tasksFor = async () => [];',runtime.context);
+  const {context,pages}=modelViewportFixture(dom=>{
+    const page=scrollBehaviorPage(dom),capture=page.screenshot;
+    page.screenshot=async options=>{
+      assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior),'auto','Every capture must keep automatic scrolling');
+      await capture(options);
+    };
+    return page;
+  });
+  const result=await runtime.fns.measureViewport({newContext:async()=>context},engine,{name:'phone',width:390,height:844,zoom:1,touch:false});
+  assert.equal(result.error,undefined);
+  for(const screen of result.screens){assert.equal(screen.error,undefined,screen.name);assert.ok(screen.keyboard,screen.name);}
+  assert.equal(pages.length,2);assert.equal(pages.reduce((count,page)=>count+page.captures.length,0),16);
+  for(const page of pages){
+    assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior),'auto');
+    assert.equal(await page.evaluate(()=>document.querySelectorAll('style').some(style=>style.textContent.includes('filter: grayscale(1)'))),false);
+  }
+});
 
 // Break: model fallback/canvas screenshots omit keyboard observations.
 test('both 2D fallback and 3D model screens contain actual keyboard measurements', async () => {
