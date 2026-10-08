@@ -1,11 +1,11 @@
 {
   "_doc": "Plain-language scoreboard for the C10 problem (made-up multi-word names), shown by tools/dashboard_report.py. The program session updates it at every result and close-out: add a results row, refresh current/queue, rewrite the brief in plain words. Scores are held-out reworded questions answered exactly right, out of 72. Full detail lives in CORPUS; this file only points there.",
-  "updated": "2026-10-07 18:00 MDT",
+  "updated": "2026-10-07 18:07 MDT",
   "goal": 61,
   "out_of": 72,
   "brief": "We are trying to teach the model made-up names (like a project codename) so it can recall them when a question is worded differently. Ordinary facts already work (about 69 of 72). Made-up two-word names do not: the usual method gets about 14 of 72. Our best idea so far gives each made-up name its own new word in the model's vocabulary; in today's repeat of that test it reached 46, 37 and 40, about three times better. A repeat run gave exactly the same numbers, which shows the setup is consistent, though not yet that the gain holds up in general (the three tries differ by up to 9). It is still short of the goal of 61, and the test of splitting a name into two new words gave no clear answer. What this means: the vocabulary route is real progress but not yet the answer. Next we run the 'ceiling' test, which tells us whether any method can reach 61 on this model or whether a bigger model will eventually be needed; then the per-fact depth test and ASTRA, a brand-new idea that writes every word of the answer at once.",
   "current": [
-    {"what": "Step 5 ceiling test: training under way (3 of 5 training runs done, all clean); about 6½ more hours at most, then the exam and the readout", "status": "running"},
+    {"what": "Step 5 ceiling test: training under way (4 of 5 training runs done, all clean); then the exam and the readout, about 4½ hours at most", "status": "running"},
     {"what": "ASTRA: time limits revised after two reviews; three yes/no questions waiting for you; runs after steps 5 and 4", "status": "waiting for you"}
   ],
   "results": [

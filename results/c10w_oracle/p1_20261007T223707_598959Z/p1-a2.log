@@ -1,0 +1,44 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.40s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.41s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.71s/it]
+A2_coherent2_s0_r16 step 10 loss 6.6280341148376465
+A2_coherent2_s0_r16 step 20 loss 6.2390899658203125
+A2_coherent2_s0_r16 step 30 loss 4.409662246704102
+A2_coherent2_s0_r16 step 40 loss 2.8985633850097656
+A2_coherent2_s0_r16 step 50 loss 1.5183138847351074
+A2_coherent2_s0_r16 step 60 loss 1.0147345066070557
+A2_coherent2_s0_r16 step 70 loss 0.7850033640861511
+A2_coherent2_s0_r16 step 80 loss 0.20021994411945343
+A2_coherent2_s0_r16 step 90 loss 0.014025594107806683
+A2_coherent2_s0_r16 step 100 loss 0.028193583711981773
+A2_coherent2_s0_r16 step 110 loss 0.0015897428384050727
+A2_coherent2_s0_r16 step 120 loss 0.0016720527783036232
+A2_coherent2_s0_r16 step 130 loss 0.001399170607328415
+A2_coherent2_s0_r16 step 140 loss 0.0009618820622563362
+A2_coherent2_s0_r16 step 150 loss 0.0009411200298927724
+A2_coherent2_s0_r16 step 160 loss 0.0006261895759962499
+A2_coherent2_s0_r16 step 170 loss 0.0006323658162727952
+A2_coherent2_s0_r16 step 180 loss 0.0005996876279823482
+A2_coherent2_s0_r16 step 190 loss 0.0006178892799653113
+A2_coherent2_s0_r16 step 200 loss 0.0005098701803945005
+A2_coherent2_s0_r16 step 210 loss 0.0004947681445628405
+A2_coherent2_s0_r16 step 220 loss 0.0005284129292704165
+A2_coherent2_s0_r16 step 230 loss 0.00026071033789776266
+A2_coherent2_s0_r16 step 240 loss 0.00034797436092048883
+A2_coherent2_s0_r16 step 250 loss 0.0003273103793617338
+A2_coherent2_s0_r16 step 260 loss 0.000249026867095381
+A2_coherent2_s0_r16 step 270 loss 0.0003919946902897209
+A2_coherent2_s0_r16 step 280 loss 0.00028493054560385644
+A2_coherent2_s0_r16 step 290 loss 0.00025271682534366846
+A2_coherent2_s0_r16 step 300 loss 0.00025305323651991785
+A2_coherent2_s0_r16 step 310 loss 0.00021988672961015254
+A2_coherent2_s0_r16 step 320 loss 0.0003142808564007282
+A2_coherent2_s0_r16 step 330 loss 0.0002763298398349434
+A2_coherent2_s0_r16 step 340 loss 0.00017997044778894633
+A2_coherent2_s0_r16 step 350 loss 0.0002865346032194793
+A2_coherent2_s0_r16 step 360 loss 0.000245907373027876
+A2_coherent2_s0_r16 step 370 loss 0.00022088961850386113
+A2_coherent2_s0_r16 step 380 loss 0.0003196388715878129
+A2_coherent2_s0_r16 step 390 loss 0.0002294623845955357
+A2_coherent2_s0_r16 step 400 loss 0.00023926507856231183
+
+STAGE_EXIT=0
