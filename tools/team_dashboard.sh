@@ -78,6 +78,6 @@ tmux set-option -t "$NEW" window-status-format "#[fg=colour250] #I #W " >/dev/nu
 tmux set-option -t "$NEW" window-status-current-format "#[bg=colour214,fg=colour16,bold] #I #W " >/dev/null
 
 for c in $(tmux list-clients -F '#{client_tty} #{client_session}' | awk -v d="$D" '$2 == d || $2 ~ /^view-/ {print $1}'); do tmux switch-client -c "$c" -t "$NEW"; done
-tmux has-session -t "$D" 2>/dev/null && tmux kill-session -t "$D"
+tmux has-session -t "=$D" 2>/dev/null && tmux kill-session -t "=$D"   # exact name: a bare "dashboard" prefix-matches dashboard_new on a fresh server and kills the new build
 tmux rename-session -t "$NEW" "$D"
 if [ -t 1 ] && [ -z "$TMUX" ] && [ -z "$TEAMDASH_NO_ATTACH" ]; then tmux attach-session -t "$D"; fi
