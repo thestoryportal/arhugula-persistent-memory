@@ -4,7 +4,8 @@
 # other team session in rows of up to five below, each with a coloured header and live status
 # (tools/dashboard_tile.py), and a status bar with the GPU job and status counts (tools/dashboard_bar.sh).
 # Nothing attaches to the agents' sessions. Re-running rebuilds it in place for anyone watching.
-# Tabs: 1 team (all tiles) · 2 active (busy agents, stacked) · 3 experiment (the GPU run, live). Switch: Ctrl-b then 1/2/3.
+# Tabs: 1 team · 2 active (busy agents) · 3 experiment (GPU run, live) · 4 helpers (+ one ⚙ tab per running helper agent).
+# Switch: Ctrl-b then 1-4, or Ctrl-b n / p for next / previous.
 # Usage: bash tools/team_dashboard.sh  (or ~/.local/bin/teamdash [team|active|exp])   Leave: Ctrl-b d   Close: tmux kill-session -t dashboard
 T=$(cd "$(dirname "$0")" && pwd)
 D=dashboard NEW=dashboard_new LEAD=program PER_ROW=5
@@ -68,6 +69,7 @@ tmux set-option -t "$NEW" status-interval 3 >/dev/null
 tmux rename-window -t "$NEW" team
 tmux new-window -d -t "$NEW" -n active "/usr/bin/python3 '$T/dashboard_active.py'"
 tmux new-window -d -t "$NEW" -n experiment "/usr/bin/python3 '$T/dashboard_experiment.py'"
+tmux new-window -d -t "$NEW" -n helpers "/usr/bin/python3 '$T/dashboard_subagents.py' manager"   # opens/closes a tab per running helper agent
 tmux set-option -t "$NEW" window-status-format "#[fg=colour250] #I #W " >/dev/null
 tmux set-option -t "$NEW" window-status-current-format "#[bg=colour214,fg=colour16,bold] #I #W " >/dev/null
 
