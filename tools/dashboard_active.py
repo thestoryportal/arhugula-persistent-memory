@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from dashboard_tile import render, RESET, BOLD, FG  # noqa: E402
 
 ACTIVE_S = 1800
-SKIP = {"dashboard", "dashboard_new"}
+SKIP = {"dashboard", "dashboard_new", "helpers"}
 
 
 def label(s):

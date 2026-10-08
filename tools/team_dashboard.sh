@@ -28,7 +28,7 @@ tile() { printf "/usr/bin/python3 '%s/dashboard_tile.py' '%s' '%s' '%s'" "$T" "$
 
 others=()
 for s in $(tmux list-sessions -F '#{session_name}'); do
-  case $s in "$D"|"$NEW"|"$LEAD"|view-*) ;; *) others+=("$s") ;; esac
+  case $s in "$D"|"$NEW"|"$LEAD"|helpers|view-*) ;; *) others+=("$s") ;; esac
 done
 tmux has-session -t "$LEAD" 2>/dev/null || { echo "no '$LEAD' session"; exit 1; }
 size=$(tmux list-clients -F '#{client_width} #{client_height}' 2>/dev/null | sort -n -r | head -1)   # build at the largest viewer's size

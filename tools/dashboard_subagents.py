@@ -1,13 +1,15 @@
 """Dashboard helper-agent tabs, view-only.
-  manager mode (the 'helpers' tab): lists every Claude Code subagent active in the last RECENT_S seconds
-    (any session, from ~/.claude/projects/*/*/subagents/), opens one tmux window per running subagent
-    and closes it LINGER_S after the subagent finishes (or after it has been silent for RECENT_S).
+  manager mode (the dashboard's 'helpers' tab): lists every Claude Code subagent active in the last RECENT_S
+    seconds (any session, from ~/.claude/projects/*/*/subagents/), opens one window per running subagent in
+    the tmux session 'helpers' (linked into the dashboard too) and closes it LINGER_S after the subagent
+    finishes (or after it has been silent for RECENT_S). `teamdash helpers` opens only that session.
+  list mode: the same list, display only (the 'helpers' session's index window).
   view mode: one subagent's job, parent, model, run time and its steps live.
-Usage: python3 dashboard_subagents.py [manager] | view <agent.jsonl> | [--once COLS ROWS]
+Usage: python3 dashboard_subagents.py [manager] | list | view <agent.jsonl> | [--once COLS ROWS]
 """
 import calendar, glob, json, os, subprocess, sys, time
 
-D = "dashboard"
+D, H = "dashboard", "helpers"
 RECENT_S, LINGER_S, MAX_TABS = 900, 60, 8
 SELF = os.path.abspath(__file__)
 PROJECTS = os.path.expanduser("~/.claude/projects")
@@ -140,11 +142,22 @@ def recent_agents():
 
 def manage(agents):
     """Open a window per running subagent (up to MAX_TABS), close finished/silent ones after LINGER_S."""
+    if not tmux("list-sessions", "-F", "#{session_name}").split().count(H):
+        tmux("new-session", "-d", "-s", H, "-n", "index", f"/usr/bin/python3 '{SELF}' list")
+        tmux("set-option", "-t", H, "status-style", "bg=colour235,fg=colour252")
+        tmux("set-option", "-t", H, "status-left", "#[bg=colour96,fg=colour231,bold]  HELPER AGENTS  #[default] ")
+        tmux("set-option", "-t", H, "status-left-length", "30")
+        tmux("set-option", "-t", H, "window-status-current-format", "#[bg=colour214,fg=colour16,bold] #I #W ")
+        tmux("set-option", "-t", H, "remain-on-exit", "on")
     open_tabs = {}
-    for line in tmux("list-windows", "-t", D, "-F", "#{window_id} #{@agent}").splitlines():
+    for line in tmux("list-windows", "-t", H, "-F", "#{window_id} #{@agent}").splitlines():
         wid, _, aid = line.partition(" ")
         if aid:
             open_tabs[aid] = wid
+    in_dash = set(tmux("list-windows", "-t", D, "-F", "#{window_id}").split())
+    for wid in open_tabs.values():   # re-link after a dashboard rebuild
+        if wid not in in_dash:
+            tmux("link-window", "-d", "-s", wid, "-t", D + ":")
     infos = {os.path.basename(p)[6:-6]: (p, info(p)) for p in agents}
     for aid, wid in open_tabs.items():
         i = infos.get(aid, (None, None))[1]
@@ -152,10 +165,11 @@ def manage(agents):
             tmux("kill-window", "-t", wid)
     running = [(aid, p, i) for aid, (p, i) in infos.items() if i["status"] == "RUNNING" and aid not in open_tabs]
     for aid, p, i in running[: max(MAX_TABS - len(open_tabs), 0)]:
-        wid = tmux("new-window", "-d", "-P", "-F", "#{window_id}", "-t", D, "-n", "⚙ " + fit(i["desc"], 16),
+        wid = tmux("new-window", "-d", "-P", "-F", "#{window_id}", "-t", H + ":", "-n", "⚙ " + fit(i["desc"], 16),
                    f"/usr/bin/python3 '{SELF}' view '{p}'").strip()
         if wid:
             tmux("set-option", "-w", "-t", wid, "@agent", aid)
+            tmux("link-window", "-d", "-s", wid, "-t", D + ":")
     return infos
 
 
@@ -189,6 +203,8 @@ def main():
         cols, rows = os.get_terminal_size(sys.stdout.fileno())
         if args and args[0] == "view":
             draw(view_lines(args[1], cols, rows) if os.path.exists(args[1]) else ["(transcript gone)"])
+        elif args and args[0] == "list":
+            draw(manager_lines({os.path.basename(p)[6:-6]: (p, info(p)) for p in recent_agents()}, cols, rows))
         else:
             draw(manager_lines(manage(recent_agents()), cols, rows))
         time.sleep(3)
