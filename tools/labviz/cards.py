@@ -473,6 +473,8 @@ class Reader:
                        'decision_id':self.jl(source,'.decision_id'),'model':missing('model not recorded'),'model_revision':missing('model revision not recorded'),'date':missing('date not recorded')},
            'context':self.program.context(source,data),'headline':{},'label':missing('not judged yet','not-judged-yet'),'gates':[],'per_fact':[],'per_layer':[],
            'parts':bound_parts(data,self.root),'stimulus':{},'plain_words':{},'events':{'timestamped':[],'untimed':[]}}
+        if c['context'].get('corpus',{}).get('node_id')=='corpus:22' and len(tokens)>=2 and tokens[0] in ('DILUTED','CONCENTRATED') and tokens[1]=='trajectory':
+            c['identity']['display_title']=self.jl('tools/labviz/contexts.json',f'.corpus_eras["22"].display_titles["{tokens[0]}"]')
         for model_path in ('.model.id','.model','.model_id','.config.model','.environment.model_id'):
             m=self.jl(source,model_path)
             if isinstance(m['value'],str): c['identity']['model']=m; break

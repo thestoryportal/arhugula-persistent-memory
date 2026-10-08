@@ -14,6 +14,7 @@ from html.parser import HTMLParser
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
+TEST_PROOF = Path(tempfile.mkdtemp(prefix='labviz-cpu-proof-'))
 
 
 def recorded_log_prefix(content, expected_sha256):
@@ -269,7 +270,7 @@ class LabViewTests(unittest.TestCase):
             elapsed=time.perf_counter()-started; warm_after=outputs()
             self.assertEqual(warm_before,warm_after)
             self.assertEqual(warm_inventory['picture_calls'],0)
-            proof=ROOT/'results/labviz/review/fix-round1/warm-fixture-check.json'
+            proof=TEST_PROOF/'warm-fixture-check.json'
             proof.parent.mkdir(parents=True,exist_ok=True)
             proof.write_text(json.dumps({'kind':'Controlled small fixture; current production builder; no live sources',
                                          'changed_outputs':[],'picture_calls':0,'outputs_checked':len(warm_before),
@@ -358,12 +359,12 @@ class LabViewV2Tests(unittest.TestCase):
                         if item['file']==live: destination.write_bytes(prior)
                         else: destination.symlink_to(ROOT/item['file'])
                     a.validate_card(card,snapshot,r.scales)
-                receipt=ROOT/'results/labviz/review/fix-round1/validation-snapshots'/changed[0]['sha256']/Path(live).name
+                receipt=TEST_PROOF/'validation-snapshots'/changed[0]['sha256']/Path(live).name
                 receipt.parent.mkdir(parents=True,exist_ok=True); receipt.write_bytes(prior)
                 snapshots.append({'card_id':card['card_id'],'source':live,'sha256':changed[0]['sha256'],
-                                  'fixture':receipt.relative_to(ROOT).as_posix(),
+                                  'fixture':receipt.as_posix(),
                                   'kind':'SHA-exact earlier log prefix; original live file untouched; production rejection preserved'})
-        proof=ROOT/'results/labviz/review/fix-round1/live-log-validation.json'
+        proof=TEST_PROOF/'live-log-validation.json'
         proof.write_text(json.dumps({'snapshots':snapshots,'production_validator_unchanged':True},indent=2)+'\n')
         leaves=[]
         for card in r.cards:
@@ -380,7 +381,7 @@ class LabViewV2Tests(unittest.TestCase):
             self.assertEqual(p.returncode,0,p.stderr); self.assertTrue(p.stdout.strip())
             self.assertEqual(json.loads(p.stdout),leaf['value'])
             verified.append(leaf)
-        proof=ROOT/'results/labviz/review/fix-round1/jq-leaves.json'
+        proof=TEST_PROOF/'jq-leaves.json'
         proof.parent.mkdir(parents=True,exist_ok=True)
         proof.write_text(json.dumps(verified,indent=2)+'\n')
 
@@ -717,6 +718,50 @@ class LabViewV2Tests(unittest.TestCase):
         self.assertEqual(recorded_log_prefix(prior+b'new live line\n',digest),prior)
         with self.assertRaisesRegex(ValueError,'No log prefix matches'):
             recorded_log_prefix(b'changed line\nSTAGE_EXIT=2\nnew live line\n',digest)
+
+    def test_fix_round2_D1_trajectory_titles_preserve_the_cited_question(self):
+        reader=self.api().Reader(ROOT)
+        source='results/d1_concentration_sweep_result.json'
+        runs=importlib.import_module('tools.labviz.build').parse_record(reader.read(source),source,ROOT)
+        original=json.dumps(reader.read(source),sort_keys=True)
+        for branch in ('DILUTED','CONCENTRATED'):
+            card=reader.make(next(row for row in runs if row['field']==branch+'.trajectory'))
+            title=card['identity'].get('display_title',{})
+            self.assertEqual(title.get('value'),f'D1 · {branch} trajectory')
+            self.assertEqual(title['src'],{'file':'tools/labviz/contexts.json','path':f'.corpus_eras["22"].display_titles["{branch}"]'})
+            self.assertIn('FIXED total edit count N',card['context']['question']['value'])
+            self.assertEqual(card['context']['question']['src']['file'],'tools/labviz/contexts.json')
+            self.assertEqual(card['context']['question']['src']['path'],'.corpus_eras["22"].question')
+            table=json.loads((ROOT/'tools/labviz/contexts.json').read_text())['corpus_eras']['22']
+            self.assertEqual(card['context']['question']['value'],table['question'])
+            self.assertEqual(table['citations']['question']['file'],'CORPUS/22_D1_CAPACITY_LAW.md')
+            self.assertIn('FIXED total edit count N',table['citations']['question']['quote'])
+            reader.finish(card)
+            self.assertTrue(self.api().validate_card(card,ROOT,reader.scales))
+            changed=copy.deepcopy(card);changed['identity']['display_title']['value']='D1 · wrong trajectory'
+            with self.assertRaisesRegex(ValueError,'leaf differs from source'):
+                self.api().validate_card(changed,ROOT,reader.scales)
+        self.assertEqual(json.dumps(reader.read(source),sort_keys=True),original)
+
+    def test_fix_round2_index_retains_recipe_and_arm_for_human_run_rows(self):
+        rows=json.loads((ROOT/'results/labviz/site/cards/index.json').read_text())
+        row=next(row for row in rows if row['source']=='results/c10v_layerpick/pass1.json' and row['field']=='recipes.B.arms.A7_coined_coined')
+        self.assertEqual(row.get('recipe'),'B')
+        self.assertEqual(row.get('arm'),'A7_coined_coined')
+
+    def test_fix_round2_D1_index_uses_the_short_trajectory_title(self):
+        rows=json.loads((ROOT/'results/labviz/site/cards/index.json').read_text())
+        for branch in ('DILUTED','CONCENTRATED'):
+            row=next(row for row in rows if row['source']=='results/d1_concentration_sweep_result.json' and row['field']==branch+'.trajectory')
+            self.assertEqual(row['title'],f'D1 · {branch} trajectory')
+
+    def test_fix_round2_index_recipe_and_arm_are_text_or_missing(self):
+        rows=json.loads((ROOT/'results/labviz/site/cards/index.json').read_text())
+        for row in rows:
+            for key in ('recipe','arm'):
+                self.assertTrue(row.get(key) is None or isinstance(row[key],str),(row['card_id'],key,row.get(key)))
+        zero=next(row for row in rows if row['source']=='results/d20_subbatch_sweep_result_ord2.json' and row['field'].startswith('arms[0].'))
+        self.assertEqual(zero['arm'],'0')
 
 
 if __name__ == '__main__':

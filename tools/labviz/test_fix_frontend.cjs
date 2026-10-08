@@ -10,7 +10,7 @@ const { test } = require('node:test');
 const packageRoot = __dirname;
 const documentary = text => ({ value:text, src:{file:'CORPUS/22_D1_CAPACITY_LAW.md',line:7,quote:text} });
 const recorded = text => ({ value:text, src:{file:'results/fixture.json',path:'.value'} });
-const text = html => String(html).replace(/<[^>]*>/g,' ').replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').replace(/\s+/g,' ').trim();
+const text = html => String(html).replace(/<[^>]*>/g,' ').replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').replace(/&gt;/g,'>').replace(/&lt;/g,'<').replace(/\s+/g,' ').trim();
 const occurrences = (html, word) => text(html).split(word).length - 1;
 
 function element(id = '') {
@@ -20,11 +20,22 @@ function element(id = '') {
     setAttribute(key,value) { attributes.set(key,String(value)); },
     getAttribute(key) { return attributes.get(key) ?? null; },
     removeAttribute(key) { attributes.delete(key); },
-    addEventListener() {}, querySelectorAll() { return []; },
+    addEventListener() {}, querySelectorAll(selector) {
+      if (selector !== '[data-pick-run]') return [];
+      return [...this.innerHTML.matchAll(/<button\b([^>]*)>/g)].map(match => {
+        const option=element();
+        for (const attribute of match[1].matchAll(/([\w-]+)="([^"]*)"/g)) {
+          option.setAttribute(attribute[1],attribute[2]);
+          if (attribute[1] === 'id') option.id=attribute[2];
+          if (attribute[1] === 'data-pick-run') option.dataset.pickRun=attribute[2];
+        }
+        return option;
+      }).filter(option=>option.dataset.pickRun);
+    },
     append(node) { this.children.push(node); node.parentNode=this; },
     before(node) { this.beforeNode=node; node.parentNode=this.parentNode; },
     after(node) { this.afterNode=node; node.parentNode=this.parentNode; },
-    closest() { return this; }, focus() {},
+    closest() { return this; }, focus() {}, scrollIntoView() {},
   };
 }
 
@@ -84,10 +95,10 @@ function app(lab=fixture(), allCards=[card('run-g6'),card('run-c10w','C10W-oracl
       script.onload();
     });
   };
-  const api = `window.__renderTest={frame,renderStatus,nodeButton,connectionsFor,renderMapBody,renderMap,renderLines,renderLearn,renderModel,renderCompare,plainWords,factPanel,missing,badge,pickerResults,chooseRun,set:next=>{state={...initial,...next};},get:()=>state,seed:card=>cards.set(card.card_id,card)};`;
+  const api = `window.__renderTest={frame,renderStatus,nodeButton,connectionsFor,renderMapBody,renderMap,renderLines,renderLearn,renderModel,renderCompare,plainWords,factPanel,missing,badge,pickerResults,chooseRun,runRow,scienceTimeline,set:next=>{state={...initial,...next};},get:()=>state,seed:card=>cards.set(card.card_id,card)};`;
   const script=fs.readFileSync(path.join(packageRoot,'app.js'),'utf8').replace('state=readURL(); renderStatus(); fire(render());',api);
   vm.runInNewContext(script,{window,document,location,history,URLSearchParams,requestAnimationFrame(){},matchMedia:()=>({matches:false}),queueMicrotask,console},{filename:'app.js'});
-  return {api:window.__renderTest,view:window.LabView,window,document,location,element:id=>document.getElementById(id),click:dataset=>listeners.get('click')({target:{closest:selector=>selector==='button'?{dataset}:null}}),focus:id=>listeners.get('focusin')?.({target:document.getElementById(id)})};
+  return {api:window.__renderTest,view:window.LabView,window,document,location,element:id=>document.getElementById(id),click:(dataset,id='')=>{const button=id?document.getElementById(id):element();button.dataset=dataset;return listeners.get('click')({target:{closest:selector=>selector==='button'?button:null}});},focus:id=>listeners.get('focusin')?.({target:document.getElementById(id)}),key:key=>listeners.get('keydown')?.({target:document.getElementById('picker-search'),key,preventDefault(){}})};
 }
 
 // Break caught: a retained model/line supplies the frame on another view.
@@ -244,4 +255,113 @@ test('Rendered write fill separates the recorded mark from its track by at least
   const css=fs.readFileSync(path.join(packageRoot,'style.css'),'utf8');const fill=css.match(/\.write-mark\s*\{[^}]*background:(#[\da-f]{6})/i)[1];
   const lum=hex=>{const channels=hex.slice(1).match(/../g).map(c=>parseInt(c,16)/255).map(c=>c<=.04045?c/12.92:((c+.055)/1.055)**2.4);return .2126*channels[0]+.7152*channels[1]+.0722*channels[2];};
   const contrast=(lum(fill)+.05)/(lum('#101721')+.05);assert.ok(contrast>=3,`write fill contrast ${contrast.toFixed(3)} is below 3:1`);
+});
+
+// Round 2: opening a 50-result picker must not add 50 sequential Tab stops.
+for (const view of ['model','compare']) test(view + ' picker exposes options through one keyboard control', () => {
+  const lab=fixture();lab.index=Array.from({length:80},(_,i)=>({...lab.index[0],card_id:'run-'+i}));
+  const r=app(lab);r.api.set({view});
+  if(view==='model')r.api.renderModel(card('run-g6'));else r.api.renderCompare(null,null);
+  const html=r.element('view-content').innerHTML;
+  assert.match(html,/<input[^>]*id="picker-search"[^>]*role="combobox"/);
+  assert.match(html,/<div[^>]*id="picker-results"[^>]*role="listbox"/);
+  r.focus('picker-search');const options=r.element('picker-results').querySelectorAll('[data-pick-run]');
+  assert.equal(options.length,50);
+  assert.ok(options.every(option=>option.getAttribute('role')==='option'&&option.getAttribute('tabindex')==='-1'));
+});
+test('Picker arrows navigate both directions and Enter chooses a different run', async () => {
+  const r=app();r.api.set({view:'model',run:'run-g6'});r.api.seed(card('run-c10w','C10W-oracle'));
+  r.api.renderModel(card('run-g6'));r.focus('picker-search');
+  r.key('ArrowDown');assert.equal(r.element('picker-search').getAttribute('aria-activedescendant'),'picker-option-run-g6');
+  r.key('ArrowDown');assert.equal(r.element('picker-search').getAttribute('aria-activedescendant'),'picker-option-run-c10w');
+  r.key('ArrowUp');assert.equal(r.element('picker-search').getAttribute('aria-activedescendant'),'picker-option-run-g6');
+  r.key('ArrowUp');assert.equal(r.element('picker-search').getAttribute('aria-activedescendant'),'picker-option-run-c10w');
+  r.key('Enter');await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(r.view.getState().run,'run-c10w');assert.equal(r.view.getState().line,'exp:C10W-oracle');
+});
+test('Escape closes and clears picker options and its active descendant', () => {
+  const r=app();r.api.renderModel(card('run-g6'));r.element('picker-search').value='G6';r.api.pickerResults('G6');r.key('ArrowDown');r.key('Escape');
+  assert.equal(r.element('picker-results').innerHTML,'');assert.equal(r.element('picker-search').value,'');
+  assert.equal(r.element('picker-search').getAttribute('aria-expanded'),'false');
+  assert.equal(r.element('picker-search').getAttribute('aria-activedescendant'),null);
+});
+test('Line runs are closed experiment groups with five previews and scoped search links', () => {
+  const lab=fixture();lab.index=Array.from({length:15},(_,i)=>({...lab.index[1],card_id:'run-'+i,source:'results/source-'+i+'.json',role:i===0?'control':'binding',label:i===0?'PASS':i===1?'LEAD':'NULL'}));
+  const r=app(lab);r.api.set({view:'lines',line:'exp:C10W-oracle'});r.api.renderLines();const html=r.element('view-content').innerHTML;
+  const stack=[],groups=[],rows=[];
+  for(const match of html.matchAll(/<details\b[^>]*>|<\/details>|<button\b[^>]*class="run-row"[^>]*>/g)){
+    if(match[0]==='</details>'){stack.pop();continue;}
+    if(match[0].startsWith('<button')){rows.push({tag:match[0],parents:[...stack]});continue;}
+    if(match[0].includes('class="line-run-group"'))groups.push(match[0]);stack.push(match[0]);
+  }
+  assert.equal(groups.length,1);assert.doesNotMatch(groups[0],/\bopen\b/);assert.equal(rows.length,5);
+  assert.ok(rows.every(row=>row.parents.includes(groups[0])));
+  assert.match(text(html),/15 recorded cards.*best recorded binding label: LEAD/);
+  assert.match(html,/data-line-runs="exp:C10W-oracle"/);assert.match(text(html),/Search all 15 in Runs/);
+});
+test('A large line folds extra experiment groups without dropping their run previews', () => {
+  const lab=fixture();lab.index=Array.from({length:12},(_,i)=>({...lab.index[1],card_id:'run-'+i,experiment:'Experiment '+i,line:'exp:Experiment '+i}));
+  const r=app(lab);r.api.set({view:'lines',line:'era:c10'});r.api.renderLines();
+  const html=r.element('view-content').innerHTML;
+  const runs=html.slice(html.indexOf('<h3>Recorded runs in this line</h3>'),html.indexOf('<h3>Document links</h3>'));
+  const folded=runs.indexOf('<details class="more-links">');assert.ok(folded>0);
+  assert.equal((runs.slice(0,folded).match(/class="line-run-group"/g)||[]).length,5);
+  assert.equal((runs.match(/class="line-run-group"/g)||[]).length,12);
+  assert.match(text(runs),/7 more experiment groups/);
+  assert.equal((runs.match(/data-run="run-/g)||[]).length,12);
+});
+test('Dated timeline is a closed source count and does not duplicate run rows', () => {
+  const lab=fixture();lab.index=[{...lab.index[0],date:'2026-10-08T03:32:19.123Z'},{...lab.index[0],card_id:'duplicate',date:'2026-10-08T03:32:19.123Z'}];
+  const r=app(lab);const html=r.api.scienceTimeline('exp:G6.1');
+  assert.match(html,/<details[^>]*class="observation-timeline"[^>]*>/);
+  assert.doesNotMatch(html.match(/<details[^>]*class="observation-timeline"[^>]*>/)[0],/\bopen\b/);
+  assert.match(text(html),/1 dated source snapshot/);assert.doesNotMatch(html,/class="run-row"/);
+  assert.match(text(html),/2026-10-08 03:32 UTC/);assert.doesNotMatch(text(html),/T03:32|\.123Z/);
+  const closing=html.indexOf('</details>');assert.ok(html.indexOf('class="caption"')>closing&&html.indexOf('class="caveat"')>closing);
+});
+test('Run rows clean and shorten documentary titles without changing source text', () => {
+  const r=app();
+  for(const line of ['corpus:22','era:f1-conditions','era:t-branch']){
+    const row={card_id:'run-doc',line,title:'**D1** `DILUTED` trajectory '+ 'A full documentary paragraph. '.repeat(10),source:'results/d1.json',field:'DILUTED.trajectory'};
+    const before=JSON.stringify(row),html=r.api.runRow(row),title=text(html.match(/<strong>([\s\S]*?)<\/strong>/)[1]);
+    assert.doesNotMatch(text(html),/\*\*|`/);assert.ok(title.length<=100);assert.match(title,/D1 DILUTED trajectory/);assert.equal(JSON.stringify(row),before);
+  }
+});
+test('Run row distinguishes recipe and arm in words and formats recorded UTC time', () => {
+  const r=app();const html=r.api.runRow({card_id:'run-a7',experiment:'C10V-layerpick',field:'recipes.B.delta_norms.A7_coined_coined',role:'binding',label:'NULL',date:'2026-10-08T03:32:19.123Z',model:'Qwen2.5-3B'});
+  assert.match(text(html),/recipe B · A7 coined\/coined · binding · NULL/);
+  assert.match(text(html),/2026-10-08 03:32 UTC/);assert.doesNotMatch(text(html),/recipes\.B|delta_norms|A7_coined_coined|T03:32/);
+});
+test('Documentary run rows accept typed missing recipe and arm metadata', () => {
+  const r=app();let html;
+  assert.doesNotThrow(()=>{html=r.api.runRow({card_id:'run-doc',title:'D1 · DILUTED trajectory',field:'DILUTED.trajectory',recipe:{value:null,missing:'not recorded',tier:'NOW-not-recorded'},arm:{value:null,missing:'not recorded',tier:'NOW-not-recorded'}});});
+  assert.match(text(html),/D1 · DILUTED trajectory/);assert.match(text(html),/DILUTED · trajectory/);
+  assert.doesNotMatch(text(html),/\[object Object\]|DILUTED\.trajectory/);
+});
+test('Indexed numeric arm zero remains a named arm in a run row', () => {
+  const r=app();let html;
+  assert.doesNotThrow(()=>{html=r.api.runRow({card_id:'run-zero',title:'Sub-batch sweep',field:'arms[0].heldout_by_seed.hoseed0.edited_rel',arm:0});});
+  assert.match(text(html),/arm 0/);assert.doesNotMatch(text(html),/arms\[0\]|heldout_by_seed|\[object Object\]/);
+});
+test('Learn labels era options and identifies a numerical bar as a threshold', () => {
+  const lab=fixture();lab.contexts.eras.c10.bar='61/72';const r=app(lab);r.api.renderLearn();const html=r.element('view-content').innerHTML;
+  assert.match(html,/<option value="c10"[^>]*>Multi-token editing<\/option>/);
+  assert.match(text(html),/the line.s bar: 61 of 72/);assert.doesNotMatch(text(html),/61\/72/);
+});
+test('Failed 3D request restores the pressed 2D toggle and visible fallback', async () => {
+  const r=app();r.api.seed(card('run-g6'));r.api.set({view:'model',run:'run-g6'});
+  r.window.LabModel={start:async()=>{throw new Error('3D unavailable in this fixture');},stop(){}};
+  r.element('show-3d').setAttribute('aria-pressed','true');r.element('show-2d').setAttribute('aria-pressed','false');
+  r.click({},'show-3d');await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(r.element('show-3d').getAttribute('aria-pressed'),'false');assert.equal(r.element('show-2d').getAttribute('aria-pressed'),'true');
+  assert.equal(r.element('tower').hidden,true);assert.equal(r.element('tower-fallback').hidden,false);
+});
+test('Compare places data links in one spaced action row', () => {
+  const r=app();r.api.renderCompare(card('run-a'),card('run-b'));const html=r.element('view-content').innerHTML;
+  assert.match(html,/<div class="run-actions"><a[^>]*>Left run data<\/a><a[^>]*>Right run data<\/a><\/div>/);
+});
+test('Status introduces a saved answer check while preserving its recorded log line', () => {
+  const line='A1_single canon=100.0 para=100.0 kl 1.99579 ppl 21.755->19.84';
+  const r=app(fixture({latest_log:{last_line:line,source:'results/fixture.log'}}));r.api.renderStatus();const html=r.element('status-strip').innerHTML;
+  assert.match(text(html),/Saved answer check for A1 single/);assert.ok(text(html).includes(line));
 });

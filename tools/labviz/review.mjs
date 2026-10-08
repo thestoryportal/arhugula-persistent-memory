@@ -39,7 +39,8 @@ const report = {
   requested_screens: ['map', 'map-c10-focus', 'line-t-branch', 'line-viability', 'line-f1-conditions', 'line-c10', 'line-d1', 'run-c10v-b-a7', 'run-g6.1', 'compare', 'model-2d', 'model-3d-when-available', 'model-mistral', 'learn', 'evaluations'],
   engines: [],
   summary: null,
-  screenshots: []
+  screenshots: [],
+  screenshot_checks: []
 };
 
 const writeJSON = (path, value) => {
@@ -59,6 +60,21 @@ function cachedChromiumPath() {
   return path;
 }
 
+async function neutralFocus(page) {
+  await page.evaluate(() => {
+    document.activeElement?.blur();
+    document.body.tabIndex = -1; document.body.focus(); document.body.removeAttribute('tabindex');
+  });
+}
+
+async function waitForChosenRun(page, id) {
+  const started = Date.now();
+  await page.waitForFunction(target => window.LabView.getState().run === target, id, { timeout: 5000 });
+  await settle(page);
+  assert.equal((await stateOf(page)).run, id, 'Picker must finish loading the chosen run');
+  return Date.now() - started;
+}
+
 async function settle(page) {
   await page.evaluate(async () => {
     await document.fonts.ready;
@@ -70,11 +86,13 @@ async function ready(page) {
   await page.waitForFunction(() => window.LabView && typeof window.LabView.getState === 'function', null, { timeout: 5000 });
   await page.addScriptTag({ path: MEASURE });
   await settle(page);
+  await neutralFocus(page);
 }
 
 async function go(page, state) {
   await page.evaluate(async next => { await window.LabView.setState(next); }, state);
   await settle(page);
+  await neutralFocus(page);
 }
 
 async function stateOf(page) {
@@ -180,22 +198,31 @@ async function tabMeasurements(page, engine) {
   await page.evaluate(() => { document.body.tabIndex = -1; document.body.focus(); document.body.removeAttribute('tabindex'); });
   const visited = [];
   const traversalKey = engine === 'webkit' ? 'Alt+Tab' : 'Tab';
-  for (let index = 0; index < expected.length + 2; index++) {
-    await page.keyboard.press(traversalKey);
-    visited.push(await page.evaluate(() => {
-      const element = document.activeElement;
-      const style = getComputedStyle(element);
-      const ring = window.LabMeasure.focusRing(element);
-      return { element: window.LabMeasure.address(element), name: element.getAttribute('aria-label') || element.textContent.trim().slice(0, 100), outline_width_px: parseFloat(style.outlineWidth), outline_style: style.outlineStyle, outline_offset_px: parseFloat(style.outlineOffset), box_shadow: style.boxShadow, outline_contrast: ring?.contrast ?? null, outline_measurement: ring };
-    }));
-  }
+  try {
+    for (let index = 0; index < expected.length + 2; index++) {
+      await page.keyboard.press(traversalKey);
+      visited.push(await page.evaluate(() => {
+        const element = document.activeElement;
+        const style = getComputedStyle(element);
+        const ring = window.LabMeasure.focusRing(element);
+        return { element: window.LabMeasure.address(element), name: element.getAttribute('aria-label') || element.textContent.trim().slice(0, 100), outline_width_px: parseFloat(style.outlineWidth), outline_style: style.outlineStyle, outline_offset_px: parseFloat(style.outlineOffset), box_shadow: style.boxShadow, outline_contrast: ring?.contrast ?? null, outline_measurement: ring };
+      }));
+    }
+  } finally { await neutralFocus(page); }
   return { expected, visited, traversal_key: traversalKey, keystrokes: visited.length, unreached: expected.filter(element => !visited.some(stop => stop.element === element)) };
 }
 
 async function screenshot(page, engine, viewport, name) {
   const file = engine + '-' + viewport.name + '-' + name + '.png';
-  await page.evaluate(() => document.activeElement?.blur());
+  await neutralFocus(page);
   await settle(page);
+  const focus = await page.evaluate(() => {
+    const skip = document.querySelector('.skip-link:not(:focus)'), rect = skip?.getBoundingClientRect();
+    return { active_element: document.activeElement?.tagName ?? null, body_focused: document.activeElement === document.body, skip_link_top_px: rect?.top ?? null, skip_link_bottom_px: rect?.bottom ?? null, skip_link_computed_top: skip ? getComputedStyle(skip).top : null };
+  });
+  assert.ok(focus.body_focused, 'Screenshot must have neutral body focus');
+  assert.ok(focus.skip_link_top_px === null || (focus.skip_link_top_px < 0 && focus.skip_link_bottom_px <= 0 && parseFloat(focus.skip_link_computed_top) < 0), 'Skip link must stay hidden unless focused');
+  report.screenshot_checks.push({ file, ...focus });
   await page.screenshot({ path: join(OUT, file), fullPage: true, animations: 'disabled' });
   report.screenshots.push(file);
   return file;
@@ -293,8 +320,13 @@ async function tasksFor(page, cards, viewport, engine) {
         return Array.from(document.querySelectorAll('#picker-results [data-run]')).filter(window.LabMeasure.visible).map((element, position) => ({ id: element.dataset.run, position: position + 1, experiment: index.get(element.dataset.run)?.experiment })).filter(row => row.experiment === id);
       }, experiment);
       if (!matches.length) throw new Error('No picker result for ' + experiment);
+      assert.ok(matches[0].position <= 10, 'Experiment must be among the first 10 picker results');
+      assert.ok(steps.at(-1).result_ids.length <= 50, 'Picker must show at most 50 results');
       await click(page, '#picker-results [data-run="' + matches[0].id + '"]', record.actions);
-      return { prefix, after_each_keystroke: steps, results_at_choice: steps.at(-1).result_ids.length, first_experiment_position: matches[0].position, after_choice: await stateOf(page) };
+      const selectionWaitMs = await waitForChosenRun(page, matches[0].id);
+      const afterChoice = await stateOf(page);
+      record.actions.at(-1).after = afterChoice;
+      return { prefix, after_each_keystroke: steps, results_at_choice: steps.at(-1).result_ids.length, first_experiment_position: matches[0].position, target_run: matches[0].id, selection_wait_ms: selectionWaitMs, after_choice: afterChoice };
     });
   }
   for (const [name, next, key, expected] of [['run', { view: 'runs', run: runId }, 'run', runId], ['line', { view: 'lines', line: 'era:c10' }, 'line', 'era:c10'], ['compare', { view: 'compare', run: runId, compare: [runId, cards.b0.card_id] }, 'compare', [runId, cards.b0.card_id]]]) {
@@ -314,16 +346,23 @@ async function tasksFor(page, cards, viewport, engine) {
     record.actions.push({ action: 'key', key: 'Enter', control: 'C10 map focus' });
     await settle(page);
     const map = await stateOf(page);
-    await go(page, { view: 'model' });
+    await go(page, { view: 'model', run: cards.g6.card_id });
+    const beforePicker = await stateOf(page);
     await page.locator('#picker-search').fill('');
     await page.locator('#picker-search').pressSequentially('C10V');
-    const traversalKey = engine === 'webkit' ? 'Alt+Tab' : 'Tab';
-    await page.locator('#picker-search').press(traversalKey);
-    const focused = await page.evaluate(() => ({ tag: document.activeElement.tagName, run: document.activeElement.dataset.run ?? null }));
+    await page.locator('#picker-search').press('ArrowDown');
+    const focused = await page.evaluate(() => {
+      const search = document.querySelector('#picker-search');
+      const option = document.getElementById(search.getAttribute('aria-activedescendant'));
+      return { tag: document.activeElement.tagName, active_descendant: option?.id ?? null, run: option?.dataset.run ?? null };
+    });
+    assert.ok(focused.run && focused.run !== beforePicker.run, 'Keyboard picker must target a different recorded run');
     await page.keyboard.press('Enter');
-    record.actions.push({ action: 'key', key: 'C10V, ' + traversalKey + ', Enter', count: 6, control: '#picker-search' });
-    await settle(page);
-    return { map, focused_picker_result: focused, picker: await stateOf(page) };
+    record.actions.push({ action: 'key', key: 'C10V, ArrowDown, Enter', count: 6, control: '#picker-search' });
+    const selectionWaitMs = await waitForChosenRun(page, focused.run);
+    const picker = await stateOf(page), selectionChanged = picker.run !== beforePicker.run;
+    assert.ok(selectionChanged, 'Keyboard picker must change the selected run');
+    return { map, before_picker: beforePicker, focused_picker_result: focused, selection_wait_ms: selectionWaitMs, selection_changed: selectionChanged, picker };
   });
   for (const slider of ['#training-step', '#event-step']) {
     await task(slider + ' by keyboard' + (viewport.touch ? ' and touch' : ''), tasks, async record => {
@@ -363,10 +402,17 @@ async function tasksFor(page, cards, viewport, engine) {
     await go(page, { view: 'map', focus: '' });
     await click(page, '[data-focus="cond:C10"]', record.actions, 'tap');
     const map = await stateOf(page);
-    await go(page, { view: 'model' });
+    await go(page, { view: 'model', run: cards.g6.card_id });
+    const beforePicker = await stateOf(page);
     await page.locator('#picker-search').fill('C10V');
-    await click(page, '#picker-results [data-run]', record.actions, 'tap');
-    return { map, picker: await stateOf(page) };
+    const target = await page.evaluate(() => Array.from(document.querySelectorAll('#picker-results [data-run]')).find(window.LabMeasure.visible)?.dataset.run);
+    assert.ok(target && target !== beforePicker.run, 'Touch picker must target a different recorded run');
+    await click(page, '#picker-results [data-run="' + target + '"]', record.actions, 'tap');
+    const selectionWaitMs = await waitForChosenRun(page, target);
+    const picker = await stateOf(page), selectionChanged = picker.run !== beforePicker.run;
+    record.actions.at(-1).after = picker;
+    assert.ok(selectionChanged, 'Touch picker must change the selected run');
+    return { map, before_picker: beforePicker, target_run: target, selection_wait_ms: selectionWaitMs, selection_changed: selectionChanged, picker };
   });
   return tasks;
 }
@@ -472,12 +518,16 @@ const browserAssertions = report.engines.filter(engine => !engine.error && engin
   const observed = engine.viewports.flatMap(viewport => viewport.screens).filter(screen => ['run-g6.1', 'line-d1', 'model-mistral'].includes(screen.name));
   const selections = engine.viewports.flatMap(viewport => viewport.tasks).filter(task => task.name.startsWith('Runs →'));
   const animations = engine.viewports.flatMap(viewport => viewport.tasks).filter(task => task.name.startsWith('wiring animation'));
-  return { engine: engine.name, non_c10_content: observed.length === 3 * VIEWPORTS.length && observed.every(screen => !screen.error && Array.isArray(screen.forbidden_words_found) && screen.forbidden_words_found.length === 0 && screen.measurements?.content_text), selection_carries: selections.length === VIEWPORTS.length && selections.every(task => task.observation?.selection_carries === true), diagram_label_persists: animations.length === VIEWPORTS.length && animations.every(task => task.observation?.diagram_label_persists === true), font_fixtures: engine.font_fixture?.font_fixtures ?? null };
+  const pickers = engine.viewports.flatMap(viewport => viewport.tasks).filter(task => task.name.startsWith('picker '));
+  return { engine: engine.name, picker_selection_complete: pickers.length === 5 * VIEWPORTS.length && pickers.every(task => !task.error && task.observation?.target_run && task.observation.after_choice?.run === task.observation.target_run), non_c10_content: observed.length === 3 * VIEWPORTS.length && observed.every(screen => !screen.error && Array.isArray(screen.forbidden_words_found) && screen.forbidden_words_found.length === 0 && screen.measurements?.content_text), selection_carries: selections.length === VIEWPORTS.length && selections.every(task => task.observation?.selection_carries === true), diagram_label_persists: animations.length === VIEWPORTS.length && animations.every(task => task.observation?.diagram_label_persists === true), font_fixtures: engine.font_fixture?.font_fixtures ?? null };
 });
-if (browserAssertions.length === 2 && browserAssertions.every(engine => engine.non_c10_content && engine.selection_carries && engine.diagram_label_persists && JSON.stringify(engine.font_fixtures) === JSON.stringify([false, false, true]))) {
-  writeJSON(join(OUT, 'browser-tests.json'), { kind: 'actual browser behavior assertions; not a design-review verdict', measure_file: join(OUT, 'measure.json'), non_c10_content: true, selection_carries: true, diagram_label_persists: true, font_fixtures: browserAssertions[0].font_fixtures, engines: browserAssertions });
-}
+const taskErrors = report.engines.flatMap(engine => engine.viewports.flatMap(viewport => viewport.tasks)).filter(task => task.error);
+const observationErrors = report.environment_error || report.engines.some(engine => engine.error || engine.viewports.some(viewport => viewport.error || viewport.screens.some(screen => screen.error)));
+const proofComplete = !observationErrors && !taskErrors.length && browserAssertions.length === 2 && browserAssertions.every(engine => engine.picker_selection_complete && engine.non_c10_content && engine.selection_carries && engine.diagram_label_persists && JSON.stringify(engine.font_fixtures) === JSON.stringify([false, false, true]));
+const proof = { kind: 'actual browser behavior assertions; not a design-review verdict', measure_file: join(OUT, 'measure.json'), complete: proofComplete, non_c10_content: proofComplete, selection_carries: proofComplete, diagram_label_persists: proofComplete, picker_selection_complete: proofComplete, font_fixtures: proofComplete ? browserAssertions[0].font_fixtures : null, task_errors: taskErrors.map(task => ({ name: task.name, error: task.error })), engines: browserAssertions };
+writeJSON(join(OUT, 'browser-tests.json'), proof);
+writeJSON(join(REVIEW, 'v2-build/browser-tests.json'), proof);
 report.browser_assertions = browserAssertions;
 writeJSON(join(OUT, 'measure.json'), report);
 console.log(JSON.stringify({ measure_file: join(OUT, 'measure.json'), measured_screens: screens.length, screenshots: report.screenshots.length, engines: report.engines.map(engine => ({ name: engine.name, status: engine.status, error: engine.error?.message ?? null })) }));
-process.exitCode = report.environment_error || report.engines.some(engine => engine.error || engine.viewports.some(viewport => viewport.error || viewport.screens.some(screen => screen.error))) ? 2 : 0;
+process.exitCode = observationErrors || taskErrors.length ? 2 : 0;

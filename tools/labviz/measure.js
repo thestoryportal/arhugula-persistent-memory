@@ -266,7 +266,7 @@
     const charts = Array.from(document.querySelectorAll('[data-chart]')).filter(visible).map(element => ({ element: address(element), caption: Array.from(element.querySelectorAll('.caption, [data-caption]')).filter(visible).map(node => node.textContent.trim()), caveat: Array.from(element.querySelectorAll('.caveat, [data-caveat], p')).filter(node => visible(node) && /does not mean/i.test(node.textContent)).map(node => node.textContent.trim()) }));
     const body = getComputedStyle(document.body);
     const content = document.querySelector('[data-region="content"]');
-    const nav = Array.from(document.querySelectorAll('nav [data-view]')).filter(visible);
+    const nav = Array.from(document.querySelectorAll('.top-nav [data-view]')).filter(visible);
     const badge = document.querySelector('#evidence-badge, .evidence-tier');
     const summary = {
       rendered_text_nodes: text.length,

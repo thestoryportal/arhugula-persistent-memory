@@ -113,7 +113,7 @@ test('every curated entry stays DRAFT and documentary source text stays verbatim
     if (Object.hasOwn(value, 'status')) assert.equal(value.status, 'DRAFT');
     if (value.file && value.line) {
       const line = readFileSync(resolve(ROOT, value.file), 'utf8').split(/\r?\n/)[value.line - 1];
-      assert.ok(line.includes(value.quote));
+      assert.ok(line.includes(value.quote), 'Stale documentary citation: ' + value.file + ':' + value.line + ' — ' + value.quote);
     }
     Object.values(value).forEach(check);
   }

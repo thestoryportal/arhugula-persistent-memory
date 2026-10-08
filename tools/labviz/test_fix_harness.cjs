@@ -33,6 +33,7 @@ function reviewRuntime(extra = {}, full = false, setup = '') {
 }
 
 function element(id, tag = 'DIV', parent = null, overrides = {}) {
+  const attributes = new Map();
   const { style: customStyle, rect: customRect, ...extra } = overrides;
   const rect = { x: 20, y: 20, width: 100, height: 44, left: 20, right: 120, top: 20, bottom: 64, ...customRect };
   const node = {
@@ -41,8 +42,9 @@ function element(id, tag = 'DIV', parent = null, overrides = {}) {
     scrollWidth: rect.width, clientWidth: rect.width, disabled: false,
     style: { display: 'block', visibility: 'visible', opacity: '1', backgroundColor: 'rgb(16, 23, 33)', backgroundImage: 'none', color: 'rgb(255, 255, 255)', fontSize: '16px', transform: 'none', zoom: '1', overflowX: 'visible', overflowY: 'visible', outlineWidth: '3px', outlineStyle: 'solid', outlineColor: 'rgb(255, 211, 143)', outlineOffset: '4px', boxShadow: 'none', borderTopWidth: '0px', borderRightWidth: '0px', borderBottomWidth: '0px', borderLeftWidth: '0px', ...customStyle },
     getBoundingClientRect: () => rect,
-    getAttribute(name) { return name === 'class' ? (this.className || '') : null; },
-    removeAttribute() {}, dispatchEvent() {},
+    getAttribute(name) { return name === 'class' ? (this.className || '') : attributes.get(name) ?? null; },
+    setAttribute(name, value) { attributes.set(name,String(value)); },
+    removeAttribute(name) { attributes.delete(name); }, dispatchEvent() {},
     matches(selector) {
       if (selector === ':focus') return Boolean(this.focused);
       return selector.split(',').some(part => part.trim().startsWith('.') && (this.className || '').split(' ').includes(part.trim().slice(1)));
@@ -69,10 +71,11 @@ function observationDOM(nodes = [], width = 390, hit = null) {
       if (selector === '*') return all;
       if (selector === 'style') return [];
       if (selector === '[data-label-class]') return nodes.filter(node => node.dataset.labelClass);
-      if (selector.startsWith('nav ') || selector.startsWith('p, ') || selector === '[data-chart]' || selector === 'canvas') return [];
+      if (selector.startsWith('nav ') || selector.startsWith('.top-nav ') || selector.startsWith('p, ') || selector === '[data-chart]' || selector === 'canvas') return [];
       return interactive();
     },
     querySelector(selector) {
+      if (selector === '.skip-link:not(:focus)') return nodes.find(node=>node.className==='skip-link'&&!node.focused) || null;
       if (selector === '#tower canvas') return this.canvas || null;
       if (selector === '#model-status') return { textContent: this.fallback ? '3D unavailable' : '3D available' };
       if (selector.startsWith('#')) return nodes.find(node => '#' + node.id === selector) || null;
@@ -98,12 +101,13 @@ function pageFixture(dom, { status = 'BLOCKING: write contract remains open', st
   const page = {
     captures, touchBefore, state,
     async evaluate(fn, value) { dom.context.argument = value; return vm.runInContext('(' + fn.toString() + ')(argument)', dom.context); },
-    async waitForFunction(fn) { const result = await this.evaluate(fn); assert.ok(result, 'Fixture wait condition did not hold'); },
+    async waitForFunction(fn, value) { const result = await this.evaluate(fn, value); assert.ok(result, 'Fixture wait condition did not hold'); },
     async addScriptTag() {}, async addStyleTag() {}, async on() {}, async off() {}, async route() { dom.document.fallback = true; }, async goto() {}, async close() {},
-    async screenshot(options) { captures.push({ name: path.basename(options.path), focused: dom.document.activeElement.focused === true }); },
+    async screenshot(options) { captures.push({ name: path.basename(options.path), focused: dom.document.activeElement !== dom.document.body && dom.document.activeElement.focused === true }); },
     keyboard: { async press(key) {
       if (key === 'Enter') return;
-      const controls = dom.interactive().filter(node => key === 'Alt+Tab' || node.tagName === 'INPUT' || node.tagName === 'SELECT');
+      if (!['Tab','Alt+Tab'].includes(key)) return;
+      const controls = dom.interactive().filter(node => node.tabIndex>=0&&(key === 'Alt+Tab' || node.tagName === 'INPUT' || node.tagName === 'SELECT'));
       if (dom.document.activeElement === dom.document.body) traversalIndex = -1;
       if (controls.length) { traversalIndex = (traversalIndex + 1) % controls.length; controls[traversalIndex].focus(); }
     } },
@@ -174,6 +178,110 @@ test('WebKit keyboard measurement walks links and buttons with Alt+Tab', async (
   assert.equal(result.traversal_key, 'Alt+Tab');
 });
 
+test('Tab measurement leaves neutral focus for the next measured screen', async () => {
+  const runtime=reviewRuntime(), dom=observationDOM([element('skip-link','A'),element('next','BUTTON')]);
+  await runtime.fns.tabMeasurements(pageFixture(dom),'webkit');
+  assert.equal(dom.document.activeElement,dom.document.body);
+  assert.equal(dom.nodes.some(node=>node.focused),false);
+});
+
+test('Screenshot records neutral focus and verifies the hidden skip link', async () => {
+  const runtime=reviewRuntime(), skip=element('skip-link','A',null,{className:'skip-link',style:{top:'-100px'},rect:{top:-100,bottom:-56}});
+  const dom=observationDOM([skip]);skip.focus();
+  await runtime.fns.screenshot(pageFixture(dom),'chromium',{name:'phone'},'map');
+  const checks=vm.runInContext('report.screenshot_checks',runtime.context);
+  assert.equal(checks?.[0]?.active_element,'BODY');
+  assert.equal(checks[0].skip_link_top_px,-100);
+});
+
+test('Screenshot rejects a skip link still covering content after focus is cleared', async () => {
+  const runtime=reviewRuntime(), skip=element('skip-link','A',null,{className:'skip-link',style:{top:'10px'}});
+  const dom=observationDOM([skip]),page=pageFixture(dom);
+  await assert.rejects(runtime.fns.screenshot(page,'chromium',{name:'phone'},'map'),/skip link/i);
+  assert.equal(page.captures.length,0);
+});
+
+// Only the browser IO boundary is delayed: tasksFor and its observations are real.
+function delayedPickerPage({stuck=false}={}) {
+  const search=element('picker-search','INPUT');
+  const dom=observationDOM([search]),page=pageFixture(dom),baseLocator=page.locator;
+  const rows=['C10V-layerpick','C10W-oracle','C10U-mint2','G6.1','R5'].map((experiment,i)=>({card_id:'chosen-'+i,experiment}));
+  dom.context.LAB={index:rows};
+  let options=[],pending=null,searchFocused=false,mapFocused=false;
+  const baseQueryAll=dom.document.querySelectorAll.bind(dom.document);
+  dom.document.querySelectorAll=selector=>selector==='#picker-results [data-run]'?options:baseQueryAll(selector);
+  dom.document.getElementById=id=>id==='picker-search'?search:options.find(option=>option.id===id) || null;
+  function filter() {
+    if(pending)throw new Error('Picker result detached by an unfinished prior selection');
+    options=rows.filter(row=>row.experiment.startsWith(search.value)).map(row=>element('picker-option-'+row.card_id,'BUTTON',null,{dataset:{run:row.card_id}}));
+  }
+  function choose(id) {
+    if(stuck){pending=Promise.resolve();return;}
+    pending=new Promise(resolve=>setImmediate(()=>{page.state.run=id;page.state.line='exp:'+rows.find(row=>row.card_id===id).experiment;pending=null;resolve();}));
+  }
+  page.waitForFunction=async(fn,value)=>{
+    if(pending)await pending;
+    const result=await page.evaluate(fn,value);
+    if(!result){const error=new Error('Chosen run did not finish loading');error.name='TimeoutError';throw error;}
+  };
+  page.locator=selector=>{
+    const base=baseLocator(selector);
+    if(selector==='[data-focus="cond:C10"]')return {...base,filter(){return this;},first(){return this;},focus:async()=>{mapFocused=true;searchFocused=false;}};
+    if(selector==='#picker-search')return {...base,
+      fill:async value=>{search.value=value;searchFocused=true;filter();},
+      pressSequentially:async value=>{search.value+=value;searchFocused=true;filter();},
+      press:async key=>{if(key==='ArrowDown'){search.setAttribute('aria-activedescendant',options[0]?.id);return;}throw new Error('Picker must use arrows rather than '+key);}
+    };
+    if(selector.startsWith('#picker-results [data-run'))return {...base,
+      filter(){return this;},first(){return this;},waitFor:async()=>{},
+      textContent:async()=>options[0]?.textContent,
+      click:async()=>choose(options[0]?.dataset.run),tap:async()=>choose(options[0]?.dataset.run)
+    };
+    return base;
+  };
+  page.keyboard.press=async key=>{
+    assert.equal(key,'Enter');
+    if(mapFocused){page.state.focus='cond:C10';mapFocused=false;}
+    else if(searchFocused)choose(options.find(option=>option.id===search.getAttribute('aria-activedescendant'))?.dataset.run);
+  };
+  return page;
+}
+
+test('All picker tasks wait for delayed selection before reading or filtering the next list', async () => {
+  const runtime=reviewRuntime();selectTask(runtime,'picker ');
+  const tasks=await runtime.fns.tasksFor(delayedPickerPage(),{c10v:{card_id:'starting-run'},b0:{card_id:'other-start'},oracle:{card_id:'oracle'}},{touch:false},'chromium');
+  assert.equal(tasks.length,5);
+  for(let i=0;i<tasks.length;i++){
+    assert.equal(tasks[i].error,undefined,tasks[i].name);
+    assert.equal(tasks[i].observation?.after_choice.run,'chosen-'+i);
+    assert.equal(tasks[i].observation?.target_run,'chosen-'+i);
+    assert.ok(Number.isFinite(tasks[i].observation?.selection_wait_ms));
+  }
+});
+
+test('A picker load timeout fails the task instead of recording a stale run as success', async () => {
+  const runtime=reviewRuntime();selectTask(runtime,'picker C10V');
+  const tasks=await runtime.fns.tasksFor(delayedPickerPage({stuck:true}),{c10v:{card_id:'starting-run'},b0:{card_id:'other-start'},oracle:{card_id:'oracle'}},{touch:false},'chromium');
+  assert.equal(tasks[0].error?.name,'TimeoutError');
+});
+
+for(const [engine,touch] of [['chromium',false],['webkit',false],['webkit',true]]) test(engine+' picker '+(touch?'touch':'keyboard')+' demonstrates a changed run',async()=>{
+  const runtime=reviewRuntime();selectTask(runtime,touch?'map and picker by touch':'map and picker by keyboard');
+  const tasks=await runtime.fns.tasksFor(delayedPickerPage(),{c10v:{card_id:'chosen-0'},b0:{card_id:'b0'},g6:{card_id:'other-start'},oracle:{card_id:'oracle'}},{touch},engine);
+  assert.equal(tasks[0].error,undefined);
+  assert.equal(tasks[0].observation?.before_picker?.run,'other-start');
+  assert.equal(tasks[0].observation?.picker.run,'chosen-0');
+  assert.equal(tasks[0].observation?.selection_changed,true);
+});
+
+test('Frame measurement counts only the five top-level destinations',()=>{
+  const destinations=['map','lines','runs','model','learn'].map(view=>element(view,'BUTTON',null,{dataset:{view}}));
+  const breadcrumb=element('crumb','BUTTON',null,{dataset:{view:'map'}});
+  const dom=observationDOM([...destinations,breadcrumb]),base=dom.document.querySelectorAll.bind(dom.document);
+  dom.document.querySelectorAll=selector=>selector==='.top-nav [data-view]'?destinations:selector==='nav [data-view]'?[...destinations,breadcrumb]:base(selector);
+  assert.deepEqual(plain(dom.api.measure().frame.navigation.map(node=>node.view)),['map','lines','runs','model','learn']);
+});
+
 // Break: a screenshot after keyboard coverage leaves the skip link over content.
 for (const name of ['map', 'map-c10-greyscale']) test('screenshot blurs focus for ' + name, async () => {
   const runtime = reviewRuntime();
@@ -233,8 +341,8 @@ test('runner explicitly selects provisioned Chromium 1228 and WebKit', async () 
   assert.equal(runtime.context.observedReport.engines[1].executable, webkit);
 });
 
-// Break: a later review silently replaces the proof cited by the historical Phase-1 report.
-test('successful runner writes browser proof only in its fresh namespace', async () => {
+// Round 2: the canonical proof pointer must follow the latest completed review.
+for (const taskFails of [false,true]) test('runner refreshes dated and canonical proof for ' + (taskFails ? 'a failed picker' : 'successful tasks'), async () => {
   const writes = [];
   const browser = { version: () => 'fixture only', close: async () => {} };
   const type = { executablePath: () => 'unused stale default', launch: async () => browser };
@@ -246,7 +354,7 @@ test('successful runner writes browser proof only in its fresh namespace', async
     importPlaywright: async () => ({ chromium: type, webkit: type }),
     fixtureFont: async () => ({ font_fixtures: [false, false, true] }),
     fixtureLabels: async () => ({ green_classes: ['pass'] }),
-    fixtureViewport: async (_browser, _engine, viewport) => ({ viewport, payload: { first_view_bytes: 123 }, screens: ['run-g6.1', 'line-d1', 'model-mistral'].map(name => ({ name, forbidden_words_found: [], measurements: { content_text: 'Controlled content', summary: fixtureSummary } })), tasks: [{ name: 'Runs → selected run', observation: { selection_carries: true } }, { name: 'wiring animation fixture', observation: { diagram_label_persists: true } }] })
+    fixtureViewport: async (_browser, _engine, viewport) => ({ viewport, payload: { first_view_bytes: 123 }, screens: ['run-g6.1', 'line-d1', 'model-mistral'].map(name => ({ name, forbidden_words_found: [], measurements: { content_text: 'Controlled content', summary: fixtureSummary } })), tasks: [{ name: 'Runs → selected run', observation: { selection_carries: true } }, { name: 'wiring animation fixture', observation: { diagram_label_persists: true } }, ...Array.from({length:5},(_,i)=>({name:'picker fixture-'+i,observation:{target_run:'chosen-'+i,after_choice:{run:'chosen-'+i}},...(taskFails&&i===0?{error:{name:'TimeoutError',message:'Chosen run did not finish loading'}}:{})}))] })
   }, true, 'fontFixtures = fixtureFont; labelFixtures = fixtureLabels; measureViewport = fixtureViewport;');
   await runtime.done;
   const proof = writes.find(write => write.target.endsWith('/browser-tests.json'));
@@ -254,7 +362,10 @@ test('successful runner writes browser proof only in its fresh namespace', async
   assert.ok(proof && measurement);
   assert.equal(proof.target, path.join(path.dirname(measurement.target), 'browser-tests.json'));
   assert.equal(proof.content.measure_file, measurement.target);
-  assert.equal(writes.some(write => write.target === path.join(ROOT, 'results/labviz/review/v2-build/browser-tests.json')), false);
+  const latest=writes.find(write => write.target === path.join(ROOT, 'results/labviz/review/v2-build/browser-tests.json'));
+  assert.ok(latest);assert.equal(latest.content.measure_file,measurement.target);
+  assert.equal(latest.content.complete,!taskFails);assert.equal(latest.content.non_c10_content,!taskFails);
+  assert.equal(runtime.context.process.exitCode,taskFails?2:0);
 });
 
 // Break: model fallback/canvas screenshots omit keyboard observations.

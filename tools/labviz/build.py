@@ -495,10 +495,13 @@ def build(root=ROOT):
         era=context.get('era',{}).get('value') or 'unknown'
         chunk='line-'+digest([line])[:12]
         chunks.setdefault(chunk,[]).append(card)
+        recipe=identity.get('recipe'); arm=identity.get('arm')
+        recipe=recipe.get('value') if isinstance(recipe,dict) else recipe
+        arm=arm.get('value') if isinstance(arm,dict) else arm
         row={'card_id':identifier,'source':identity['name'],'field':identity['field'],'experiment':context.get('experiment',{}).get('value'),
              'era':era,'line':line,'model':identity['model']['value'],'role':identity.get('role',{}).get('value'),
              'label':card['label']['value'],'date':identity['date']['value'],'has_writes':any(x['written']['value'] for x in card.get('per_layer',[])),
-             'title':question,'chunk':chunk}
+             'title':identity.get('display_title',{}).get('value') or question,'recipe':str(recipe) if recipe is not None else None,'arm':str(arm) if arm is not None else None,'chunk':chunk}
         index.append(row)
         write_if_changed(site/'cards'/f'{identifier}.json',encoded(card))
         if identity['name'].startswith('results/'):
