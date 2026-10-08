@@ -245,9 +245,14 @@ def launch_preflight(out, go, process, process1=None):
 
 
 def project(duration, cap, remaining, reserve):
-    from c10x_enginepath_inertness import require
+    from c10x_enginepath_inertness import Halt,require
     require(all(math.isfinite(x) and x>=0 for x in (duration,cap,remaining,reserve)), 'BAD_PROJECTION')
-    require(duration<=cap and duration+reserve<=remaining, 'STAGE_PROJECTION_REFUSED')
+    try:
+        require(duration<=cap and duration+reserve<=remaining, 'STAGE_PROJECTION_REFUSED')
+    except Halt as exc:
+        exc.budget_inputs={'projected':duration,'cap':cap,'remaining':remaining,'reserve':reserve,
+                           'within_stage_cap':duration<=cap,'within_reserved_process_budget':duration+reserve<=remaining}
+        raise
     return {'ok':True,'projected_seconds':duration,'cap_seconds':cap,'remaining_seconds':remaining,'reserve_seconds':reserve}
 
 
@@ -284,7 +289,8 @@ def halt_diagnostic(state, code):
     if trace is None and isinstance(code,BaseException) and code.__traceback__ is not None:
         trace=''.join(traceback.format_exception(type(code),code,code.__traceback__));source='python_exception'
     write_json(path,{'status':'HALTED','completion':'incomplete','code':str(code),'at':utc(),
-                     'stage':stage,'phase':phase,'traceback':trace,'traceback_source':source,'state':diagnostic_json(state)})
+                     'stage':stage,'phase':phase,'traceback':trace,'traceback_source':source,'state':diagnostic_json(state),
+                     **({'budget_inputs':diagnostic_json(state['budget_inputs'])} if 'budget_inputs' in state else {})})
     return str(path)
 
 
@@ -810,22 +816,39 @@ class StageBudget:
     def __init__(self,out,first=None,telemetry=None,start=None):
         self.out=Path(out);self.start=WATCHDOG_CLOCK() if start is None else start;self.stage=None;self.stage_start=None
         self.timings={};self.units={};self.first=first or {};self.telemetry=telemetry;self.remaining={}
+    def halt_inputs(self,exc,name,boundary,kind,elapsed,previous,predicted,previous_overhead,projected,remaining,reserve,process_elapsed,deadline=None):
+        units=self.units.get(name,{}) if boundary=='unit' else {}
+        counts=self.remaining if boundary=='unit' else UNIT_PLAN[name]
+        exc.budget_inputs=copy.deepcopy({'stage':name,'boundary':boundary,'kind':kind,'cap':CAPS[name],'elapsed':elapsed,
+            'units_so_far':units,'units_so_far_counts':{k:len(units.get(k,[])) for k in dict.fromkeys([*counts,*units])},'remaining_units':counts,
+            'first':self.first,'previous':previous,'measured_previous':self.first.get(name,0.),'predicted':predicted,
+            'previous_overhead':previous_overhead,'projected':projected,'remaining':remaining,'reserve':reserve,
+            'process_elapsed_at_projection':process_elapsed,'process_remaining_at_projection':15000-process_elapsed,
+            'within_stage_cap':projected<=CAPS[name],'within_reserved_process_budget':projected+reserve<=remaining,
+            'deadline':deadline or {'checked':False}})
     def enter(self,name):
+        from c10x_enginepath_inertness import Halt
         if self.stage is not None:self.leave()
         names=list(CAPS);reserve=sum(CAPS[n] for n in names[names.index(name)+1:])
         measured=self.first.get(name,0.)
         previous=self.first.get('work_units',{}).get(name,{})
         predicted=sum(max(previous.get(kind,[0.]))*count for kind,count in UNIT_PLAN[name].items())
-        predicted+=max(0.,measured-sum(sum(v) for v in previous.values()))
+        previous_overhead=max(0.,measured-sum(sum(v) for v in previous.values()))
+        predicted+=previous_overhead
         projected=max(CAPS[name],measured,predicted)
-        receipt=project(projected,CAPS[name],15000-(0. if name=='setup' else WATCHDOG_CLOCK()-self.start),reserve)
+        process_elapsed=0. if name=='setup' else WATCHDOG_CLOCK()-self.start
+        remaining=15000-process_elapsed
+        try:receipt=project(projected,CAPS[name],remaining,reserve)
+        except Halt as exc:
+            self.halt_inputs(exc,name,'entry',None,0.,previous,predicted,previous_overhead,projected,remaining,reserve,process_elapsed)
+            raise
         self.stage=name;self.stage_start=self.start if name=='setup' else WATCHDOG_CLOCK();self.units[name]={};self.remaining=UNIT_PLAN[name].copy()
         # This small replaceable checkpoint is control state, never science evidence.
         tmp=self.out/'stage.next';data={'stage':name,'started_monotonic':self.stage_start,'projection':receipt}
         tmp.write_text(json.dumps(data,allow_nan=False,sort_keys=True));os.replace(tmp,self.out/'stage.json')
         if self.telemetry:self.telemetry.phase('stage_start',stage=name)
     def unit(self,remaining_units=None,kind=None):
-        from c10x_enginepath_inertness import require
+        from c10x_enginepath_inertness import Halt,require
         elapsed=WATCHDOG_CLOCK()-self.stage_start;cap=CAPS[self.stage]
         names=list(CAPS);reserve=sum(CAPS[n] for n in names[names.index(self.stage)+1:])
         kind=kind or 'unit'
@@ -834,8 +857,18 @@ class StageBudget:
         predicted=sum(max(self.units[self.stage].get(k,[])+previous.get(k,[])+[0.])*n for k,n in self.remaining.items())
         previous_overhead=max(0.,self.first.get(self.stage,0.)-sum(sum(v) for v in previous.values()))
         projected=max(cap,elapsed+predicted+previous_overhead)
-        project(projected,cap,15000-(WATCHDOG_CLOCK()-self.start)+elapsed,reserve)
-        require(elapsed<cap and WATCHDOG_CLOCK()-self.start<15000,'WORKER_DEADLINE')
+        process_elapsed=WATCHDOG_CLOCK()-self.start
+        remaining=15000-process_elapsed+elapsed
+        deadline={'checked':False}
+        try:
+            project(projected,cap,remaining,reserve)
+            deadline_elapsed=WATCHDOG_CLOCK()-self.start if elapsed<cap else None
+            deadline={'checked':True,'elapsed_below_cap':elapsed<cap,'process_clock_sampled':deadline_elapsed is not None,
+                      'process_elapsed':deadline_elapsed,'process_elapsed_below_limit':deadline_elapsed<15000 if deadline_elapsed is not None else None}
+            require(elapsed<cap and deadline_elapsed<15000,'WORKER_DEADLINE')
+        except Halt as exc:
+            self.halt_inputs(exc,self.stage,'unit',kind,elapsed,previous,predicted,previous_overhead,projected,remaining,reserve,process_elapsed,deadline)
+            raise
         return (WATCHDOG_CLOCK(),kind)
     def done(self,started):
         from c10x_enginepath_inertness import require
@@ -1252,8 +1285,16 @@ def run(out,harness,go=None,process=1,process1=None,preflight=True,receipt=None)
         return state
     except Exception as exc:
         trace=traceback.format_exc()
+        current=exc;seen=set();budget_inputs=None
+        while current is not None and id(current) not in seen:
+            seen.add(id(current))
+            if hasattr(current,'budget_inputs'):
+                budget_inputs=current.budget_inputs;break
+            current=current.__cause__ or current.__context__
         exc=x2_primary_halt(exc)
         if hasattr(exc,'x2_vii_diagnostic'):state['x2_vii_diagnostic']=exc.x2_vii_diagnostic
+        if budget_inputs is not None:state['budget_inputs']=copy.deepcopy(budget_inputs)
+        state['timings']={**BUDGET.timings,'work_units':copy.deepcopy(BUDGET.units)}
         state.update(status='HALTED',completion='incomplete',finished_at=utc(),code=str(exc),
                      stage=stage,phase=phase,traceback=trace,traceback_source='python_exception')
         if writer:writer.phase('halt',code=str(exc))
@@ -1396,11 +1437,15 @@ def watchdog(out,go,process,process1=None,predecessor=None,cause=None):
                       traceback_source='unavailable_worker_exception')
         if reason:
             record.update(phase=stage+':supervisor_timeout',traceback_source='unavailable_worker_timeout')
-        elif (out/'run.json').exists():
+        if (out/'run.json').exists():
             worker_state=strict_json((out/'run.json').read_bytes())
             if worker_state.get('status')=='HALTED':
-                record.update(stage=worker_state.get('stage',stage),phase=worker_state.get('phase',record['phase']),
-                              traceback=worker_state.get('traceback'),traceback_source=worker_state.get('traceback_source',record['traceback_source']))
+                if 'budget_inputs' in worker_state:
+                    record['budget_inputs']=worker_state['budget_inputs']
+                    record['worker_halt']={k:worker_state.get(k) for k in ('code','stage','phase')}
+                if not reason:
+                    record.update(stage=worker_state.get('stage',stage),phase=worker_state.get('phase',record['phase']),
+                                  traceback=worker_state.get('traceback'),traceback_source=worker_state.get('traceback_source',record['traceback_source']))
         record['diagnostic']=halt_diagnostic(record,record['reason'])
         write_json(logs/'supervisor.json',record)
         return 1

@@ -3879,3 +3879,87 @@ Objections remaining against this repair: **none blocking**. Live/model/MPS scie
 **Handoff:** preserve rerun1 as HALTED/incomplete; require a complete fresh process-1 rerun (`results/c10x_enginepath_rerun2/` plus matching logs), current source receipts, and the program's review/admission/GO before any live launch. The historical launch recipes earlier in this report describe their respective source versions; use the new source hashes for the next admitted run. No reader bypass, partial result admission or live command was executed in this build. Original frozen constraints and stage budgets are unchanged. The final preservation/report receipt and context handoff are in this arc's authorized private scratch directory.
 
 Graft: 78,300 tokens saved (~$0.04), two successful graph calls; the initial missing-Node availability failure saved none. Only the subprocess PATH was repaired; no package upgrade/install was performed.
+
+## Projection refusal diagnosis (re-run 2; 2026-10-08)
+
+**Disposition: diagnostic repair complete; frozen projection rule and all caps unchanged.** The recorded refusal necessarily exceeded the target-stage cap. Its exact solve samples and projected duration were not persisted, so the proposed first-solve warm-up cause is **UNVERIFIABLE**. This work diagnosed the saved records before editing production code, then added failure-input capture test-first. No GPU/model/science dispatch or rerun occurred; the failed runs remain HALTED/incomplete and cannot supply a scientific result. Evidence was captured in `/private/tmp/c10x_build/projection_halt_diag/{observations_initial.json,diagnosis_before_fix.json,diagnosis_plan_before_edits.md}` before production edits. The pinned prereg is still `d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899` (`docs/C10X_ENGINEPATH_PREREG.md:118`; `experiments/track_c/c10x_enginepath_arms.py:30,36`).
+
+### What can be recovered from this HALT
+
+`results/c10x_enginepath_rerun2_logs/preflight.json` records `process=1`, `process1=null` and `admitted.process1=null`. `--predecessor` adds only a replacement-provenance record; it does not load timings. `launch_preflight` loads timing-bearing process-1 data only for process 2. The failed process therefore had **`self.first={}`, `previous={}`, `previous_overhead=0.0`**, irrespective of the predecessor path (`experiments/track_c/c10x_enginepath_arms.py:211–244,814–818,1188–1189,1392–1400`).
+
+The empty `run.json.timings.work_units.targets` was a **stale stage-entry snapshot**, not a measurement of zero completed units. Before this repair, `validate_boundary` copied `BUDGET.units` at stage boundaries, while `done()` appended samples only to the budget object; the exception handler never refreshed the copy. Thus the empty field does not establish a first/second-solve refusal. The saved runtime source is `/private/tmp/c10x_build/projection_halt_diag/c10x_enginepath_arms.py` (SHA `469c92ec8a606e4f5a4b61b17ee16d28284c6b2d21e8eeaa8b9b6383b84e98bb`:808–852,1161–1166,1253–1263).
+
+The target-stage checkpoint records `started_monotonic=1309215.10258325`; the preflight receipt records process start `1307557.828709041`; the supervisor records elapsed `1815.1408845419064 s`. Targets therefore began after `1657.2738742090296 s` of process time. Even using the later supervisor observation as an upper bound, target elapsed at worker refusal was **less than `157.86701033287682 s`**. The traceback ends in the first arm's engine8 loop: saved `construct_targets:967`. The directory contains only `context_templates.json`, `run.json`, and `stage.json`, with no `audit_A1_single.pt`; that audit would have been written after the first arm's engine8/engine4 solves and first OverTone solve. Under the preserved artifacts, **1–23 solve samples completed, so the refused attempt was solve 2–24 in the first engine8 group**. Exact count is not recorded (`results/c10x_enginepath_rerun2_logs/{preflight,supervisor}.json`; `results/c10x_enginepath_rerun2/stage.json`; `architecture_profile/c10x_halt_diagnostic_20261008T222923_839355Z.json`; saved arms source:958–1015).
+
+| Refusal input | Historical evidence / limit |
+|---|---|
+| `stage` / phase | `targets` / `targets:body` |
+| `cap` | Exactly `2400.0 s` |
+| `first` / `previous` | Exactly `{}` / `{}`; predecessor supplies no timing history |
+| `previous_overhead` | Exactly `0.0 s` |
+| `reserve` | Exactly `9360.0 s` for all later stage caps |
+| `elapsed` | Exact value **UNRECORDED**; `0 < elapsed < 157.86701033287682 s` |
+| units so far, per kind | Saved copy `{}` is stale; actual `solve` count 1–23, durations **UNRECORDED** |
+| `predicted` | `m × (216 − n)`, with `m` the slowest completed solve and `n` completed solves; exact value **UNRECORDED**, necessarily `>2242.132989667123 s` |
+| `projected` | `max(2400, elapsed + predicted)`; exact value **UNRECORDED**, necessarily `>2400 s` |
+| `remaining` | Exact failed-call value **UNRECORDED**; conservative comparison-budget bounds `[13184.859115458094, 13342.72612579097] s` |
+| `within_stage_cap` | Necessarily **false** |
+| `within_reserved_process_budget` | **UNRECORDED**; may also be false |
+
+The exact stage-entry receipt was `projected=2400.0`, `cap=2400.0`, `remaining=13342.726131415926`, `reserve=9360.0`, `ok=true` (`results/c10x_enginepath_rerun2/stage.json:1`). At a unit recheck the code compares total projected stage duration against **`15000 − (now − process_start) + elapsed`**, not current process remainder alone. From the supervisor bound, this comparison budget is at least `13184.859115458094 s`; `2400+9360=11760` would pass. A refusal with a successful cap predicate is therefore impossible here. With no historical samples and zero completed units, prediction would be zero and elapsed below158 s, so the initial unit would also pass. At least one completed sample caused prediction above the cap. The lower bound on prediction implies the slowest completed solve was **greater than `10.428525533335456 s`** (`2242.132989667123 / 215`); its exact cost is unavailable. These are algebraic bounds from recorded times, not newly measured solve durations (`diagnosis_before_fix.json`; saved arms source:829–838).
+
+### Warm-up hypothesis and frozen-rule fidelity
+
+**The multiplication mechanism is present; its live cause is unresolved.** Once a completed solve takes `m` seconds, the target plan uses that maximum for every remaining solve. A one-time cost inside that timed work unit is consequently multiplied, with no trim/exclusion. The timed unit includes request/token preparation, instrumentation, the solver, CPU copying and diagnostic construction; it is not a timer around `compute_z` alone (`experiments/track_c/c10x_enginepath_arms.py:896–944`). A synthetic first sample of60 s, with elapsed61 s and215 solves remaining, yields `predicted=12900 s`, `projected=12961 s` and refusal. That regression demonstrates policy behavior; it **does not establish** that the historical first sample contained warm-up (`experiments/track_c/c10x_enginepath_selftest.py:2030–2034,2065–2082`).
+
+Re-run 1 records72 engine8,72 engine4 and72 OverTone target diagnostics, consistent with216 completed solves, but its HALTED record has **no `timings` field or unit samples**. The roughly2100 s duration is the program's observation, not an exact timing series recoverable from that record. Its approximate mean (`2100/216 ≈9.72 s`) cannot recover or bound the slowest sample. The actual `project()` and entire `StageBudget` ASTs are identical in the two runtime sources: rerun1 arms SHA `ffcf5200c81c2c860f8b7741d19545b88f66b68f546ce4e11c52adff6ea609fc`, saved at `/private/tmp/c10x_build/scorer_json_fix/c10x_enginepath_arms.py`, versus rerun2 SHA `469c92…`. The JSON repair did not change projection policy (`results/c10x_enginepath_rerun1/run.json`, `targets.*.diagnostics`; `diagnosis_before_fix.json`).
+
+**Faithful to frozen §2.7:** prereg:118 requires the larger of the allowance and a projection using the slowest measured comparable work units, with overhead, refusal above the stage cap or reserved process budget, rechecks before work units, independent deadlines, and HALTED/incomplete rather than NULL. The implemented caps are exactly setup600/A2040/targets2400/inertness3000/injection1500/I-2 2040/I-1 2040/final780 seconds; each process remains15000 seconds. The text provides no warm-up exclusion or averaging rule. The all-solve target plan remains216, with the existing grouping of solves unchanged. Planning estimates at prereg:108/:120 are expressly unvalidated wall time and do not override:118. No cap, multiplier, history source, overhead allowance, grouping, deadline, eligibility rule, or scientific path was changed. Any future cap or comparability/warm-up exemption is a program amendment decision; the old exact projection cannot be supplied as a measured number (`docs/C10X_ENGINEPATH_PREREG.md:108–120`; `experiments/track_c/c10x_enginepath_arms.py:36,54–56,829–876`).
+
+### Diagnostic-only implementation
+
+`project()` now attaches the four actual comparison arguments and both predicate outcomes to `Halt.budget_inputs`. `StageBudget` enriches the payload on refusal with attempted stage, entry/unit boundary, kind, cap, elapsed, per-kind completed samples/counts, remaining counts, `first`, `previous`, measured previous duration, `predicted`, `previous_overhead`, `projected`, `remaining`, `reserve`, and the process-time observation used for projection. At entry, `predicted` retains the existing inclusion of previous overhead; at a unit it is remaining-work prediction, with overhead separately added. `previous_overhead` means the **existing whole prior-stage overhead allowance**; this repair does not reinterpret it. Snapshot/count metadata is copied on failure and does not alter acceptance (`experiments/track_c/c10x_enginepath_arms.py:247–257,819–876`).
+
+For `WORKER_DEADLINE`, the payload records whether the stage predicate failed and whether the process clock was actually sampled. If `elapsed>=cap`, the original short-circuit remains: the process-deadline clock is unsampled, and its value/outcome are explicit `null`. A handler never invents a replacement clock reading. Successful return values and clock sequences are preserved (`experiments/track_c/c10x_enginepath_arms.py:850–876`; `experiments/track_c/c10x_enginepath_selftest.py:2043–2064`).
+
+The worker saves the budget payload before selecting an X2 primary exception, refreshes the completed unit ledger before HALT publication, and writes the same inputs to `run.json` and both the top level and state of its diagnostic. It does not invent a completed duration for the active stage. The supervisor copies a recorded worker payload even if later cleanup causes a supervisor timeout; `worker_halt` keeps the originating code/stage/phase separate from the supervisor disposition. Stage/phase/traceback discipline and strict JSON are retained (`experiments/track_c/c10x_enginepath_arms.py:284–294,1286–1304,1435–1452`; `experiments/track_c/c10x_enginepath_selftest.py:2072–2124`).
+
+### RED / GREEN and verification
+
+- **Diagnosis/pre-test review before production edits:** `/private/tmp/c10x_build/projection_halt_diag/diagnosis_plan_before_edits.md`; existing same-family reviewer returned PROCEED. Claude auth probe returned `loggedIn=false`, `authMethod=none`, so no out-of-family review was completed. The reviewer ran no workloads or edits.
+- **RED:**14 focused methods,14 failure assertions including three subtest failures,0 errors,0.268 s, exit1. Missing payloads, stale ledger, and supervisor omissions reproduced while arms SHA remained the exact rerun2 SHA above (`red.log`, `red_gate.json`). Two control methods already passed.
+- **Additional RED:** the completed-kind count regression failed once in0.027 s because the diagnostic omitted an `audit` kind outside the remaining plan. The count map now includes the union of completed and planned kinds; remaining counts and prediction are unchanged (`counts_red.log`; arms:823).
+- **Focused GREEN:** all16 focused tests passed in0.318 s, exit0. These cover cap-only/reserve-only/both refusals, exact equality/BAD_PROJECTION controls, entry history/attribution, remaining-count/max-unit/overhead inputs, immutable snapshots, both deadline short-circuits, completed kinds outside the plan, unchanged successful clocks, actual tiny-driver worker HALTs for both codes, primary-exception selection, and supervisor timeout after worker refusal (`green_final.log`).
+- **Full GREEN:** all112 selftests passed in22.507 s, exit0. Attribution and observed/unattributed protected listing changes were both `{}`; `c10e_bandknob`, `transformers` and `datasets` were absent. Tiny CPU fixtures and all child roots remained under `/private/tmp/c10x_build/roots`; no GPU, MPS, pretrained model/tokenizer or scientific run was exercised (`full_selftest_final.log`).
+- **Frozen-policy comparison:**50 direct projection cases,432 work-unit cases and18 stage-entry cases (**500 total**) against the saved rerun2 source yielded identical outcomes, successful receipts, HALT codes, clock-read sequences and ledgers. Caps/unit plans, `done`/`leave` ASTs,61 other top-level definitions, and the run's scientific body/finally ASTs are unchanged (`frozen_budget_verification.{py,json,log}`).
+- **Frozen bytes:**188 R5 files and28 held artifacts (original/rerun1/rerun2 outputs/logs, both latest diagnostics and probe outputs) match the before SHA tables exactly. Only arms.py and selftest.py changed within the seven C10X source files. The engine fingerprint passed (`d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65`, `_cov_cpu=3`); frozen-path `git diff --quiet` exited0. This is the specified protected-file scope, not a claim that the shared worktree has no unrelated changes (`before.json`, `frozen_budget_verification.json`, `engine_fingerprint.log`).
+- **Final review:** PROCEED, read-only same-family fallback; no remaining static blocker after the count correction. Reviewer inspected the16-test focused log and independently checked the historical bounds and source delta. Final112-test/500-case evidence arrived after it finalized and is parent-verified, not reviewer-attested (`final_review.md`).
+
+Final full selftest command (executed serially):
+
+```sh
+env TMPDIR=/private/tmp/c10x_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py
+```
+
+Focused and frozen-policy commands (executed serially):
+
+```sh
+env TMPDIR=/private/tmp/c10x_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONPATH=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -m unittest -v c10x_enginepath_selftest.ProjectionDiagnosticTests
+env TMPDIR=/private/tmp/c10x_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /private/tmp/c10x_build/projection_halt_diag/verify_frozen_budget.py
+```
+
+The private parity script refuses an existing parity-root path; its recorded run is retained and should not be replayed into that existing namespace. Its result JSON stores the complete frozen/held SHA comparisons. The report's original413000-byte prefix (SHA `44fa04d491b903e04fabd90aa40df76d22b00edfb92ac00046a39e9eb70f3a23`) is preserved; only this section is appended. Final source SHAs:
+
+| File | Final SHA-256 | Change in this repair |
+|---|---|---|
+| `experiments/track_c/c10x_enginepath_arms.py` | `2979c99f4331b988333ec30f79788d2c070c50bfb4f221f46aa8c247c5dc9226` | Diagnostic capture/persistence only |
+| `experiments/track_c/c10x_enginepath_selftest.py` | `ebbe628bf8fe8d278a8be9183041a4bf95694ebc48889f53f180b18ed03b8b82` |16 projection/deadline regressions and test-only producer callback |
+| `experiments/track_c/c10x_enginepath_inertness.py` | `cb722d0bfe844361859dbabcb4c0f10cd86f10f72a4fb075a6a667b04d3dabe2` | Unchanged |
+| `experiments/track_c/c10x_enginepath_read.py` | `b17e588a8c8f6ff3d8ee5f3dc118fd8837bd9e26b7bdf33e343599ce671c2057` | Unchanged |
+| `experiments/track_c/c10x_enginepath_telemetry_check.py` | `e95beb2cef310fa1050ccb4a2b60ac8224f493ea4d513d97868f3b9a9c99fe80` | Unchanged |
+| `experiments/track_c/c10x_overtone_z.py` | `8b32ca840c1451624ba5f46143a6e65a03ae69e968dd0e6180d04fa5683dac42` | Unchanged |
+| `experiments/track_c/c10x_x2_probe.py` | `23bdf070c66f8af02bb4d38d22eaecdfffa04782339f500ce1572080d6a2b614` | Unchanged |
+| `docs/C10X_ENGINEPATH_PREREG.md` | `d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899` | Unchanged; no amendment applied |
+
+The runtime claim is limited to CPU diagnostics and frozen-policy parity. The real failed unit's magnitudes, exact projection and cause remain **UNVERIFIABLE**, and no new MPS timing or scientific outcome is claimed. Completion/context evidence is saved only under the authorized private scratch root; no git, canonical ledger, engine, harness, prereg, historical record or global memory write was performed.

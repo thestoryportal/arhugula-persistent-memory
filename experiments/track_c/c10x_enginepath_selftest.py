@@ -1848,7 +1848,7 @@ class ScorerJsonTests(IsolatedCase):
             self.H.locpct=lambda *args,kind=kind:self.wrapped(100.,kind)
             with A.recipe_checks(self.H,I.Pristine(self.H,self.H.hp)) as audit:self.H.run_recipe()
             with self.subTest(kind=kind):self.plain(audit);self.assertIs(type(audit['raw_loc_delta']),float)
-    def driver(self,out,attack=None,bad=None,base_kind=None):
+    def driver(self,out,attack=None,bad=None,base_kind=None,target_work=None):
         f=fixture();config=self.root/'configs/hparams/qwen25_3b_memit_hparams.json'
         config.parent.mkdir(parents=True,exist_ok=True)
         if not config.exists():config.write_text('{}')
@@ -1866,6 +1866,7 @@ class ScorerJsonTests(IsolatedCase):
             if attack==name:rec['bad_json']=bad
             return rec
         def targets(*args):
+            if target_work:target_work()
             rec=copy.deepcopy(f['targets'])
             if attack=='targets':rec['bad_json']=bad
             return {'records':rec,'audits':f['audits'],'fe':{},'overtone':{}}
@@ -1962,6 +1963,164 @@ class ScorerJsonTests(IsolatedCase):
         rec=R.strict_json((self.out.with_name(self.out.name+'_logs')/'supervisor.json').read_bytes())
         diag=R.strict_json(Path(rec['diagnostic']).read_bytes())
         self.assertEqual(diag['traceback'],result['traceback']);self.assertEqual(diag['phase'],result['phase'])
+
+
+class ProjectionDiagnosticTests(IsolatedCase):
+    def budget(self,first=None,units=None,remaining=None):
+        budget=A.StageBudget(self.root/'budget',first,start=0.)
+        budget.stage='targets';budget.stage_start=0.
+        budget.units={'targets':copy.deepcopy(units or {})}
+        budget.remaining={'solve':216} if remaining is None else remaining.copy()
+        return budget
+    def refusal(self,call,code='STAGE_PROJECTION_REFUSED'):
+        with self.assertRaises(I.Halt) as caught:call()
+        self.assertEqual(str(caught.exception),code)
+        self.assertTrue(hasattr(caught.exception,'budget_inputs'),'HALT must preserve measured budget inputs')
+        inputs=caught.exception.budget_inputs
+        A.validate_record_json(inputs)
+        return inputs
+    def test_project_records_cap_reserve_and_both_refusals(self):
+        for duration,remaining,cap_ok,reserve_ok in [(2401.,20000.,False,True),(2400.,11759.,True,False),(3000.,10000.,False,False)]:
+            with self.subTest(duration=duration,remaining=remaining):
+                inputs=self.refusal(lambda:A.project(duration,2400.,remaining,9360.))
+                self.assertEqual(inputs,{'projected':duration,'cap':2400.,'remaining':remaining,'reserve':9360.,
+                                         'within_stage_cap':cap_ok,'within_reserved_process_budget':reserve_ok})
+    def test_project_equalities_and_bad_inputs_keep_dispositions(self):
+        self.assertEqual(A.project(2400.,2400.,11760.,9360.),
+                         {'ok':True,'projected_seconds':2400.,'cap_seconds':2400.,'remaining_seconds':11760.,'reserve_seconds':9360.})
+        for duration in (-1.,float('nan'),float('inf')):
+            with self.assertRaisesRegex(I.Halt,'^BAD_PROJECTION$'):A.project(duration,2400.,15000.,9360.)
+    def test_entry_records_attempted_stage_and_history(self):
+        first={'targets':1000.,'work_units':{'targets':{'solve':[12.]}}}
+        budget=A.StageBudget(self.root/'budget',first,start=0.)
+        with patch.object(A,'WATCHDOG_CLOCK',return_value=0.) as clock:
+            inputs=self.refusal(lambda:budget.enter('targets'))
+        self.assertIsNone(budget.stage);self.assertEqual(clock.call_count,1)
+        self.assertEqual(inputs['stage'],'targets');self.assertEqual(inputs['boundary'],'entry')
+        self.assertEqual(inputs['first'],first);self.assertEqual(inputs['previous'],{'solve':[12.]})
+        self.assertEqual(inputs['units_so_far'],{});self.assertEqual(inputs['units_so_far_counts'],{'solve':0})
+        self.assertEqual(inputs['remaining_units'],{'solve':216});self.assertEqual(inputs['elapsed'],0.)
+        self.assertEqual(inputs['measured_previous'],1000.);self.assertEqual(inputs['previous_overhead'],988.)
+        self.assertEqual(inputs['predicted'],3580.);self.assertEqual(inputs['projected'],3580.)
+        self.assertEqual(inputs['remaining'],15000.);self.assertEqual(inputs['reserve'],9360.)
+    def test_entry_records_process_reserve_refusal_without_history(self):
+        budget=A.StageBudget(self.root/'budget',start=0.)
+        with patch.object(A,'WATCHDOG_CLOCK',return_value=7200.) as clock:
+            inputs=self.refusal(lambda:budget.enter('targets'))
+        self.assertEqual(clock.call_count,1);self.assertEqual(inputs['first'],{})
+        self.assertEqual(inputs['previous'],{});self.assertEqual(inputs['previous_overhead'],0.)
+        self.assertEqual(inputs['projected'],2400.);self.assertEqual(inputs['remaining'],7800.)
+        self.assertTrue(inputs['within_stage_cap']);self.assertFalse(inputs['within_reserved_process_budget'])
+    def test_unit_max_sample_and_remaining_count_are_preserved(self):
+        budget=self.budget(units={'solve':[12.]},remaining={'solve':215})
+        with patch.object(A,'WATCHDOG_CLOCK',return_value=13.) as clock:
+            inputs=self.refusal(lambda:budget.unit(kind='solve'))
+        self.assertEqual(clock.call_count,2)
+        self.assertEqual(inputs['boundary'],'unit');self.assertEqual(inputs['kind'],'solve')
+        self.assertEqual(inputs['elapsed'],13.);self.assertEqual(inputs['units_so_far'],{'solve':[12.]})
+        self.assertEqual(inputs['units_so_far_counts'],{'solve':1});self.assertEqual(inputs['remaining_units'],{'solve':215})
+        self.assertEqual(inputs['predicted'],2580.);self.assertEqual(inputs['projected'],2593.)
+        self.assertEqual(inputs['process_remaining_at_projection'],14987.);self.assertEqual(inputs['remaining'],15000.)
+        self.assertFalse(inputs['within_stage_cap']);self.assertTrue(inputs['within_reserved_process_budget'])
+    def test_counts_include_completed_kinds_outside_remaining_plan(self):
+        budget=self.budget(units={'solve':[12.],'audit':[2.]},remaining={'solve':215})
+        with patch.object(A,'WATCHDOG_CLOCK',return_value=15.):inputs=self.refusal(lambda:budget.unit(kind='solve'))
+        self.assertEqual(inputs['units_so_far_counts'],{'solve':1,'audit':1})
+        self.assertEqual(inputs['units_so_far'],{'solve':[12.],'audit':[2.]})
+    def test_synthetic_first_sample_is_not_trimmed(self):
+        budget=self.budget(units={'solve':[60.]},remaining={'solve':215})
+        with patch.object(A,'WATCHDOG_CLOCK',return_value=61.):inputs=self.refusal(lambda:budget.unit(kind='solve'))
+        self.assertEqual(inputs['predicted'],12900.);self.assertEqual(inputs['projected'],12961.)
+        self.assertFalse(inputs['within_stage_cap']);self.assertFalse(inputs['within_reserved_process_budget'])
+    def test_unit_keeps_historical_max_and_overhead(self):
+        first={'targets':30.,'work_units':{'targets':{'solve':[12.,8.]}}}
+        budget=self.budget(first,{'solve':[7.]},{'solve':215})
+        with patch.object(A,'WATCHDOG_CLOCK',return_value=13.):inputs=self.refusal(lambda:budget.unit(kind='solve'))
+        self.assertEqual(inputs['previous'],{'solve':[12.,8.]});self.assertEqual(inputs['previous_overhead'],10.)
+        self.assertEqual(inputs['predicted'],2580.);self.assertEqual(inputs['projected'],2603.)
+        first['work_units']['targets']['solve'].append(99.);budget.units['targets']['solve'].append(99.)
+        self.assertEqual(inputs['previous'],{'solve':[12.,8.]});self.assertEqual(inputs['units_so_far'],{'solve':[7.]})
+    def test_worker_deadline_stage_equality_keeps_short_circuit(self):
+        budget=self.budget()
+        with patch.object(A,'WATCHDOG_CLOCK',side_effect=[2400.,2400.]) as clock:
+            inputs=self.refusal(lambda:budget.unit(kind='solve'),'WORKER_DEADLINE')
+        self.assertEqual(clock.call_count,2);self.assertEqual(inputs['elapsed'],2400.)
+        self.assertEqual(inputs['projected'],2400.);self.assertEqual(inputs['remaining'],15000.)
+        self.assertEqual(inputs['deadline'],{'checked':True,'elapsed_below_cap':False,'process_clock_sampled':False,
+                                           'process_elapsed':None,'process_elapsed_below_limit':None})
+    def test_worker_deadline_process_equality_records_actual_clock(self):
+        budget=self.budget()
+        with patch.object(A,'WATCHDOG_CLOCK',side_effect=[1.,1.,15000.]) as clock:
+            inputs=self.refusal(lambda:budget.unit(kind='solve'),'WORKER_DEADLINE')
+        self.assertEqual(clock.call_count,3);self.assertEqual(inputs['elapsed'],1.)
+        self.assertEqual(inputs['deadline'],{'checked':True,'elapsed_below_cap':True,'process_clock_sampled':True,
+                                           'process_elapsed':15000.,'process_elapsed_below_limit':False})
+    def test_successful_work_unit_keeps_clock_sequence_and_allowance(self):
+        budget=self.budget(units={'solve':[7.]},remaining={'solve':215})
+        with patch.object(A,'WATCHDOG_CLOCK',side_effect=[13.,13.,13.,14.]) as clock:
+            self.assertEqual(budget.unit(kind='solve'),(14.,'solve'))
+        self.assertEqual(clock.call_count,4);self.assertEqual(budget.units['targets'],{'solve':[7.]})
+        self.assertEqual(budget.remaining,{'solve':215})
+    def slow_run(self,out,selection=None):
+        clock={'now':0.}
+        def work():
+            started=A.BUDGET.unit(kind='solve');clock['now']=60.;A.BUDGET.done(started)
+            clock['now']=61.;A.BUDGET.unit(kind='solve')
+        with patch.object(A,'WATCHDOG_CLOCK',side_effect=lambda:clock['now']):
+            if selection is None:return ScorerJsonTests.driver(self,out,target_work=work)
+            with patch.object(I,'x2_primary_halt',return_value=selection):return ScorerJsonTests.driver(self,out,target_work=work)
+    def test_worker_record_and_diagnostic_preserve_inputs_and_partial_ledger(self):
+        result,entered=self.slow_run(self.out)
+        self.assertEqual(result['code'],'STAGE_PROJECTION_REFUSED');self.assertEqual(entered,['setup','A','targets'])
+        self.assertEqual(result['phase'],'targets:body');self.assertIn('STAGE_PROJECTION_REFUSED',result['traceback'])
+        self.assertEqual(result['timings']['work_units']['targets'],{'solve':[60.]})
+        self.assertNotIn('targets',{k:v for k,v in result['timings'].items() if k!='work_units'})
+        self.assertIn('budget_inputs',result,'worker run.json must carry exact refusal inputs')
+        saved=R.strict_json((self.out/'run.json').read_bytes());diag=R.strict_json(Path(result['diagnostic']).read_bytes())
+        self.assertEqual(saved['budget_inputs'],diag['budget_inputs']);self.assertEqual(diag['state']['budget_inputs'],saved['budget_inputs'])
+        self.assertEqual(saved['budget_inputs']['units_so_far'],{'solve':[60.]})
+        self.assertEqual(saved['budget_inputs']['predicted'],12900.);self.assertEqual(saved['budget_inputs']['projected'],12961.)
+    def test_worker_deadline_record_and_diagnostic_preserve_inputs(self):
+        clock={'now':0.}
+        def work():clock['now']=2400.;A.BUDGET.unit(kind='solve')
+        with patch.object(A,'WATCHDOG_CLOCK',side_effect=lambda:clock['now']):
+            result,entered=ScorerJsonTests.driver(self,self.out,target_work=work)
+        self.assertEqual(result['code'],'WORKER_DEADLINE');self.assertEqual(entered,['setup','A','targets'])
+        saved=R.strict_json((self.out/'run.json').read_bytes());diag=R.strict_json(Path(result['diagnostic']).read_bytes())
+        self.assertEqual(saved['budget_inputs'],diag['budget_inputs']);self.assertEqual(saved['phase'],'targets:body')
+        self.assertEqual(saved['budget_inputs']['elapsed'],2400.)
+        self.assertFalse(saved['budget_inputs']['deadline']['process_clock_sampled'])
+    def test_selected_primary_exception_does_not_erase_budget_inputs(self):
+        chosen=I.Halt('selected primary');chosen.x2_vii_diagnostic={'reported':True}
+        result,_=self.slow_run(self.out,chosen)
+        self.assertEqual(result['code'],'selected primary');self.assertEqual(result['x2_vii_diagnostic'],{'reported':True})
+        self.assertIn('budget_inputs',result,'budget payload must survive primary-exception selection')
+        self.assertEqual(result['budget_inputs']['projected'],12961.)
+    def test_supervisor_propagates_worker_budget_inputs(self):
+        result,_=self.slow_run(self.out)
+        preflight=types.SimpleNamespace(returncode=0,communicate=lambda **kw:(b'{"telemetry":false}',b''))
+        worker=types.SimpleNamespace(poll=lambda:0,wait=lambda:1)
+        with patch.object(A,'WATCHDOG_CLOCK',return_value=61.),patch.object(A.subprocess,'Popen',side_effect=[preflight,worker]):
+            self.assertEqual(A.watchdog(self.out,self.root/'go.json',1),1)
+        rec=R.strict_json((self.out.with_name(self.out.name+'_logs')/'supervisor.json').read_bytes())
+        self.assertIn('budget_inputs',rec,'supervisor must preserve worker budget inputs')
+        self.assertEqual(rec['budget_inputs'],result['budget_inputs'])
+        diag=R.strict_json(Path(rec['diagnostic']).read_bytes());self.assertEqual(diag['budget_inputs'],rec['budget_inputs'])
+    def test_supervisor_timeout_preserves_worker_budget_inputs_separately(self):
+        result,_=self.slow_run(self.out)
+        clock={'now':0.}
+        preflight=types.SimpleNamespace(returncode=0,communicate=lambda **kw:(b'{"telemetry":false}',b''))
+        def wait():clock['now']=2401.;return 1
+        worker=types.SimpleNamespace(poll=lambda:0,wait=wait)
+        with patch.object(A,'WATCHDOG_CLOCK',side_effect=lambda:clock['now']),patch.object(A.subprocess,'Popen',side_effect=[preflight,worker]):
+            self.assertEqual(A.watchdog(self.out,self.root/'go.json',1),1)
+        rec=R.strict_json((self.out.with_name(self.out.name+'_logs')/'supervisor.json').read_bytes())
+        self.assertEqual(rec['reason'],'WATCHDOG_TIMEOUT targets');self.assertEqual(rec['phase'],'targets:supervisor_timeout')
+        self.assertIsNone(rec['traceback']);self.assertEqual(rec['traceback_source'],'unavailable_worker_timeout')
+        self.assertIn('budget_inputs',rec,'late supervisor timeout must not erase a recorded worker refusal')
+        self.assertEqual(rec['budget_inputs'],result['budget_inputs'])
+        self.assertEqual(rec['worker_halt'],{'code':result['code'],'stage':'targets','phase':'targets:body'})
+        diag=R.strict_json(Path(rec['diagnostic']).read_bytes());self.assertEqual(diag['budget_inputs'],rec['budget_inputs'])
 
 
 class SignedZeroTests(IsolatedCase):
