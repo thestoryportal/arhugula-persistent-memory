@@ -1,0 +1,36 @@
+# Signed-zero (-0.0 -> +0.0) identity-gate audit: ASTRA (C10Z) and C10Y drivers
+
+Read-only audit, 2026-10-08. Trigger: C10X X2-(vii), where a zero update on fp16 weights flipped 21 stored -0.0 to +0.0 and tripped a byte/hash identity gate (`results/c10x_x2_probe/20261008T180513_659317Z/probe.json`, `shadow_signed_zero_changes` 21).
+
+Mechanism check in the two drivers:
+- ASTRA `write_columns` (`experiments/track_c/c10z_astra_arms.py:276-284`) computes `(w.float()+delta.float()).to(fp16)`. With delta == 0 this maps -0 to +0, so the flip is reachable.
+- C10Y merges `W0 + dW` the same way (`c10y_directdw_arms.py:2013`, `:2128`).
+- Both drivers restore with a copy (ASTRA `restore` `c10z_astra_arms.py:562-566`, `w.copy_(pristine)`; C10Y `restore_layers`, `c10e_bandknob.py:155-159`, `p[...] = snap`). A copy is byte-exact. A hash compared after a restore is safe.
+
+## Result: no gate in either driver that compares post-write weights by bytes/hash. One formal downstream exposure (ASTRA Z3(d) logits hash in the reader).
+
+| driver | gate | write site | comparison site | at-risk? | prereg wording |
+|---|---|---|---|---|---|
+| ASTRA | Z3(c) weights == PRISTINE after two zero-deficit rounds | `write_columns` `c10z_astra_arms.py:1187` (def `:276-284`) | `:1193` `torch.equal(w.cpu(), pristine[l])`, a value compare. -0 == +0 is True. | NO | PREREG:150 (c): "value-equal to PRISTINE (`torch.equal`; ... -0 may become +0, so bytes are not compared here)". The prereg already anticipates the flip. |
+| ASTRA | Z3(d) generations and logits unchanged | same | arms `:1195` `torch.equal(logits)` (value, safe). Reader `c10z_astra_read.py:216-218` requires `pristine_logits_sha256 == post_logits_sha256` (hash of logit bytes, written at arms `:1200-1201`). | LOW / formal. Weights are value-equal but not byte-equal, so the forward pass runs on different bytes. A logit differs in bytes only if some output is an exact +/-0, and x + (-0) == x for any nonzero sum. The reader's hash test is also stricter than the prereg. | PREREG:150 (d): "greedy generations equal ... max abs(delta logit) ... is 0.0" (value). It does not mandate a hash. The arms `max_logit_delta` is the hard-coded `0.` at `:1201`. |
+| ASTRA | Z5 footprint: changed columns subset of S | Z writes (`:1186`) | `:706` `w.cpu() != pristine[l]` (value) | NO | PREREG:152: "pairs differing from PRISTINE" (value) |
+| ASTRA | Z5 non-down parameters match `H_pristine` component (per-tensor SHA-256) | none. Only `down_proj` is written, so these tensors are untouched. | `:711` `tensor_hash(p) == parameter_hashes[name]` | NO | PREREG:152 "per-tensor SHA-256". Safe because the tensors are never written. |
+| ASTRA | Z6 / V3 pristine byte identity after every write check | Z3 and Z7 writes inside `guarded()` | `:566-572` `verify_restore`: `tensor_hash(w) == layer_hashes[l]`, after `restore()` (`copy_`, `:562-566`) | NO (compares against a restored pristine) | PREREG:153: "Per-layer SHA-256 of all 36 `down_proj` equals PRISTINE's ... after every check that writes". The hash is mandated, and it holds because the restore is a byte copy. |
+| ASTRA | Z7 control: realised nonzero change | production solve/write, nonzero gamma | `:1289` `not torch.equal(weights[35], pristine[35])` | NO (value compare). Needs a real change, not a bytes change. | PREREG:155 |
+| ASTRA | Z4 assembly identity | none (no weight write) | `:1218`, `:1231`, tolerance on float64 algebra | NO | PREREG:151 |
+| ASTRA | H_out / W1 / R1 (artifact identity) | final fp16 column bytes of real writes (`output_artifact` `:316-327`) | reader `c10z_astra_read.py:115-131`, `:157-176` | NO. The hash binds the stored bytes by construction, and p1 vs p2 compare the same deterministic write path. W1 and R1 use value norms; R1 says "if both layer deltas are zero, the error is 0" (PREREG:278). | PREREG:139 "artifact identity EXACT only when canonical output bytes and H_out match" (a deliberate byte rule on real writes) |
+| ASTRA | `c10z_v5fix.patch` | n/a | The patch touches Z0, `semcon`, MPS cast, and selftests (`torch.equal` on tensors). It adds no weight-byte gate. | NO | n/a |
+| C10Y | (ii) capture-solve identity | `original['my_edit']` x2, `capture_solve` (`c10y_directdw_arms.py:2616-2629`) | `_directed_distance` against `max(10*floor, 1e-4)` (`:2631-2633`, `:2652-2654`). The `*_weight_hashes` fields are recorded, not compared. | NO | PREREG:129: "per-layer relative distance ... <= max(10 x floor, 1e-4)" (value) |
+| C10Y | (iii) zero-step identity (T=0), also executed_loop lr=0 | `_write_proof` -> `writer.write` (`:2644-2646`) | `:2649-2655` distance <= tolerance and `counts_equal` | NO | PREREG:130: "weights within (ii)'s tolerance" (value) |
+| C10Y | (iii-b) / stored-scale-1 `apply_stored` | `apply_stored(..., 1.)` (`:2008-2011`) | `:2013-2014` `torch.equal(actual, expected)`, `_directed_distance == 0`. Then `:2022` `band_hashes == W0 hashes` after `restore(H,hp,W0)`. | NO. The equality is a value compare, and the hash compare is post-restore. | PREREG:403 / 2.8: stored-update checks (value) |
+| C10Y | `arithmetic` check, stored-scale | `apply_stored` (`:2124-2128`) | `:2128` `torch.equal` | NO | n/a |
+| C10Y | (iv) train-deploy parity | n/a (functional hook) | `:1189`-style `torch.equal` on logits, and generation ids (value) | NO | PREREG:132 (ids and loss tolerance) |
+| C10Y | (v) projector property | n/a | null-share ratios (norm-based) | NO | PREREG:133 |
+| C10Y | (viii) restoration, and `pristine_restored` | writes inside each check | `:2511`, `:2554`, `:2565` (target solve, no weight write), `:2687-2693` and `:2712-2717` (after `pristine_restore()`) | NO (compares against a restored pristine) | PREREG:136 "pristine band ... restored"; PREREG:85 "SHA-256s of the pristine band, verifies them at every restore boundary" |
+| C10Y | (ix) smoke "base-weight invariance (band hashes)" | The loop writes nothing to the base. A is a separate parameter and the forward uses a functional hook. | `:602` BASE-WEIGHT-MUTATION, `:2477`, `:2712-2717` | NO. There is no weight write before the compare, so there is no signed-zero exposure. | PREREG:137 |
+| C10Y | Pristine inertness (s1) / objective audit | none, or hook only | `:1201`, `:2354` `band_hashes == snapshot` | NO (no weight write between hash and compare) | PREREG:136 |
+
+## Residual items
+1. Only formal exposure: reader `c10z_astra_read.py:216-218` demands byte-equal `logits_sha256` (pristine vs post-zero-write), which is stricter than PREREG:150(d) (value, max abs(delta logit) == 0.0). It trips only on a +/-0 logit. A hardening option is to compare by `torch.equal` (already done at arms `:1195`) and keep the hashes as reporting only. Do not change it unreviewed, since the reader is frozen.
+2. Any future gate that writes zero and then hashes post-write weights vs the pre-write snapshot (the X2-(vii) shape) is NOT present in ASTRA or C10Y as written. Both route such compares through `torch.equal`, distance, or a copy-restore.
+3. A zero-norm layer in a real C10Y write could flip -0 in `W_post`. This affects only the recorded `actual_band_hashes` / `tensor_sha(actual)` (`:2098-2102`), which are bound to the actual stored bytes (reader `:538`) and not compared to the pristine bytes.
