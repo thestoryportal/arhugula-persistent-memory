@@ -1,0 +1,44 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.30s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.33s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.63s/it]
+A7_canon_s0_r16 step 10 loss 7.125759124755859
+A7_canon_s0_r16 step 20 loss 6.735946178436279
+A7_canon_s0_r16 step 30 loss 5.842913627624512
+A7_canon_s0_r16 step 40 loss 4.867734909057617
+A7_canon_s0_r16 step 50 loss 3.8794467449188232
+A7_canon_s0_r16 step 60 loss 2.967428684234619
+A7_canon_s0_r16 step 70 loss 2.0683765411376953
+A7_canon_s0_r16 step 80 loss 1.3039577007293701
+A7_canon_s0_r16 step 90 loss 0.6301239728927612
+A7_canon_s0_r16 step 100 loss 0.14353451132774353
+A7_canon_s0_r16 step 110 loss 0.01755664311349392
+A7_canon_s0_r16 step 120 loss 0.004182370379567146
+A7_canon_s0_r16 step 130 loss 0.002226846758276224
+A7_canon_s0_r16 step 140 loss 0.0015004471642896533
+A7_canon_s0_r16 step 150 loss 0.0011609672801569104
+A7_canon_s0_r16 step 160 loss 0.0009617721661925316
+A7_canon_s0_r16 step 170 loss 0.0008348033297806978
+A7_canon_s0_r16 step 180 loss 0.0007448843098245561
+A7_canon_s0_r16 step 190 loss 0.0006754660280421376
+A7_canon_s0_r16 step 200 loss 0.0006192907458171248
+A7_canon_s0_r16 step 210 loss 0.0005722055211663246
+A7_canon_s0_r16 step 220 loss 0.0005318326875567436
+A7_canon_s0_r16 step 230 loss 0.0004966867272742093
+A7_canon_s0_r16 step 240 loss 0.0004657164099626243
+A7_canon_s0_r16 step 250 loss 0.00043813197407871485
+A7_canon_s0_r16 step 260 loss 0.0004134449118282646
+A7_canon_s0_r16 step 270 loss 0.0003911636595148593
+A7_canon_s0_r16 step 280 loss 0.0003709311713464558
+A7_canon_s0_r16 step 290 loss 0.0003525129286572337
+A7_canon_s0_r16 step 300 loss 0.0003356483648531139
+A7_canon_s0_r16 step 310 loss 0.00032013992313295603
+A7_canon_s0_r16 step 320 loss 0.00030585232889279723
+A7_canon_s0_r16 step 330 loss 0.00029264119802974164
+A7_canon_s0_r16 step 340 loss 0.0002803757961373776
+A7_canon_s0_r16 step 350 loss 0.0002689577522687614
+A7_canon_s0_r16 step 360 loss 0.0002583194291219115
+A7_canon_s0_r16 step 370 loss 0.0002483940334059298
+A7_canon_s0_r16 step 380 loss 0.00023910219897516072
+A7_canon_s0_r16 step 390 loss 0.00023036269703879952
+A7_canon_s0_r16 step 400 loss 0.00022215567878447473
+
+STAGE_EXIT=0
