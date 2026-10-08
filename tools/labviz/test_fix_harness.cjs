@@ -86,7 +86,7 @@ function observationDOM(nodes = [], width = 390, hit = null) {
   };
   function focus(node) { if (document.activeElement) document.activeElement.focused = false; document.activeElement = node; node.focused = true; }
   for (const node of all) { node.focus = () => focus(node); node.blur = () => { node.focused = false; document.activeElement = body; }; }
-  const context = vm.createContext({ document, innerWidth: width, innerHeight: 844, devicePixelRatio: 1, scrollX: 0, scrollY: 0, scrollTo(x,y) { context.scrollX=x; context.scrollY=y; }, location: { href: 'file:///fixture/index.html', hash: '' }, NodeFilter: { SHOW_TEXT: 4 }, getComputedStyle: node => node.style, requestAnimationFrame: work => work(), Event: class Event {} });
+  const context = vm.createContext({ document, innerWidth: width, innerHeight: 844, devicePixelRatio: 1, scrollX: 0, scrollY: 0, scrollTo(position,top) { const target=typeof position==='object'?position:{left:position,top};context.scrollX=target.left;context.scrollY=target.top; }, location: { href: 'file:///fixture/index.html', hash: '' }, NodeFilter: { SHOW_TEXT: 4 }, getComputedStyle: node => node.style, requestAnimationFrame: work => work(), Event: class Event {} });
   vm.runInContext(measureSource, context);
   context.window = context;
   return { context, document, nodes, interactive, api: context.LabMeasure };
@@ -206,7 +206,7 @@ for (const engine of ['chromium','webkit']) test('Full-page capture settles scro
   const dom=observationDOM([skip,element('last-control','INPUT')]),page=pageFixture(dom),press=page.keyboard.press,capture=page.screenshot;
   page.keyboard.press=async key=>{await press(key);dom.context.scrollY=960;};
   let pendingFrames=0,resets=0;
-  dom.context.scrollTo=(x,y)=>{assert.equal(x,0);assert.equal(y,0);resets++;pendingFrames=2;};
+  dom.context.scrollTo=(position,top)=>{const target=typeof position==='object'?position:{left:position,top};assert.equal(target.left,0);assert.equal(target.top,0);resets++;pendingFrames=2;};
   dom.context.requestAnimationFrame=callback=>{if(pendingFrames>0&&--pendingFrames===0)dom.context.scrollY=0;callback();};
   page.screenshot=async options=>{
     assert.equal(options.fullPage,true);await capture(options);
@@ -229,6 +229,32 @@ test('Full-page capture rejects a viewport-hidden skip link inside the document 
   dom.context.scrollY=960;dom.context.scrollTo=()=>{};
   await assert.rejects(runtime.fns.screenshot(page,'chromium',{name:'phone'},'map'),/skip link.*full-page/i);
   assert.equal(page.captures.length,0);
+});
+
+for (const engine of ['chromium','webkit']) test('Screenshot overrides smooth scrolling after a Tab walk in '+engine, async () => {
+  const stylesheet=fs.readFileSync(path.join(__dirname,'style.css'),'utf8');
+  assert.match(stylesheet,/html\s*\{[^}]*scroll-behavior\s*:\s*smooth\b/);
+  const runtime=reviewRuntime(),skip=element('skip-link','A',null,{className:'skip-link',style:{top:'-100px'},rect:{top:-150,bottom:-100}});
+  const dom=observationDOM([skip,element('last-control','INPUT')]),page=pageFixture(dom),press=page.keyboard.press,capture=page.screenshot;
+  let destination=null;
+  dom.context.scrollTo=(position,top)=>{
+    const target=typeof position==='object'?position:{left:position,top};
+    if(target.behavior==='instant'){dom.context.scrollX=target.left;dom.context.scrollY=target.top;destination=null;}
+    else destination=target;
+  };
+  dom.context.requestAnimationFrame=callback=>{if(destination)dom.context.scrollY+=(destination.top-dom.context.scrollY)*.1;callback();};
+  dom.context.scrollY=1200;
+  await page.evaluate(()=>window.scrollTo(0,0));
+  await page.evaluate(async()=>{await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));});
+  assert.ok(dom.context.scrollY>0,'Positive control: CSS smooth scrolling is still moving after two frames');
+  page.keyboard.press=async key=>{await press(key);dom.context.scrollY=1200;};
+  page.screenshot=async options=>{assert.equal(dom.context.scrollY,0,'Capture must override the smooth scroll');await capture(options);};
+  await runtime.fns.tabMeasurements(page,engine);
+  assert.equal(dom.context.scrollY,1200);assert.equal(dom.document.activeElement,dom.document.body);
+  await runtime.fns.screenshot(page,engine,{name:'phone'},'map-c10-greyscale');
+  assert.equal(page.captures.length,1);
+  const checks=vm.runInContext('report.screenshot_checks',runtime.context);
+  assert.equal(checks[0].scroll_y,0);assert.ok(checks[0].skip_link_page_bottom_px<=0);
 });
 
 // Only the browser IO boundary is delayed: tasksFor and its observations are real.
@@ -398,10 +424,7 @@ for (const taskFails of [false,true]) test('runner refreshes dated and canonical
   assert.equal(runtime.context.process.exitCode,taskFails?2:0);
 });
 
-// Break: model fallback/canvas screenshots omit keyboard observations.
-test('both 2D fallback and 3D model screens contain actual keyboard measurements', async () => {
-  const runtime = reviewRuntime();
-  vm.runInContext('tasksFor = async () => [];', runtime.context);
+function modelViewportFixture() {
   const index = [
     { card_id: 'b', source: 'results/c10v_layerpick/pass1.json', field: 'recipes.B.arms.A7_coined_coined' },
     { card_id: 'b0', source: 'results/c10v_layerpick/pass1.json', field: 'recipes.B0.arms.A7_coined_coined' },
@@ -412,8 +435,16 @@ test('both 2D fallback and 3D model screens contain actual keyboard measurements
   const context = { async newPage() {
     const dom = observationDOM([element('show-2d', 'BUTTON'), element('show-3d', 'BUTTON')]);
     dom.context.LAB = { index }; dom.document.canvas = element('canvas', 'CANVAS');
-    const page = pageFixture(dom); pages.push(page); return page;
-  }, async close() {} };
+    const page = pageFixture(dom); page.closed=false;page.close=async()=>{page.closed=true;};pages.push(page);return page;
+  }, async close() { this.closed=true; } };
+  return {context,pages};
+}
+
+// Break: model fallback/canvas screenshots omit keyboard observations.
+test('both 2D fallback and 3D model screens contain actual keyboard measurements', async () => {
+  const runtime = reviewRuntime();
+  vm.runInContext('tasksFor = async () => [];', runtime.context);
+  const {context,pages}=modelViewportFixture();
   const result = await runtime.fns.measureViewport({ newContext: async () => context }, 'webkit', { name: 'phone', width: 390, height: 844, zoom: 1, touch: true });
   const models = result.screens.filter(row => ['model-2d', 'model-3d'].includes(row.name));
   assert.deepEqual(plain(models.map(row => row.name)), ['model-2d', 'model-3d']);
@@ -422,6 +453,21 @@ test('both 2D fallback and 3D model screens contain actual keyboard measurements
     assert.deepEqual(plain(screen.keyboard.unreached), []);
   }
   assert.equal(pages.flatMap(page => page.captures).some(capture => capture.focused), false);
+});
+
+for (const name of ['map-c10-greyscale','model-2d','model-3d']) test('Capture failure preserves measured screens for '+name, async () => {
+  const runtime=reviewRuntime();vm.runInContext('tasksFor = async () => [];',runtime.context);
+  const {context,pages}=modelViewportFixture(),newPage=context.newPage.bind(context);
+  context.newPage=async()=>{
+    const page=await newPage(),capture=page.screenshot;
+    page.screenshot=async options=>{if(path.basename(options.path).endsWith('-'+name+'.png'))assert.fail('Synthetic capture assertion for '+name);await capture(options);};
+    return page;
+  };
+  const output=await runtime.fns.measureViewport({newContext:async()=>context},'webkit',{name:'phone',width:390,height:844,zoom:1,touch:true});
+  assert.equal(output.screens.length,15);assert.ok(output.screens.every(screen=>screen.measurements));
+  const error=name==='map-c10-greyscale'?output.error:output.screens.find(screen=>screen.name===name)?.error;
+  assert.equal(error?.name,'AssertionError');assert.ok(error.message.includes(name));
+  assert.equal(context.closed,true);assert.equal(pages[1].closed,true);
 });
 
 // Break: reading the empty Map bootstrap index prevents every viewport screen sequence.

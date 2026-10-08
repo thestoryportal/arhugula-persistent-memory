@@ -215,7 +215,7 @@ async function tabMeasurements(page, engine) {
 async function screenshot(page, engine, viewport, name) {
   const file = engine + '-' + viewport.name + '-' + name + '.png';
   await neutralFocus(page);
-  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.evaluate(() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' }));
   await settle(page);
   const focus = await page.evaluate(() => {
     const skip = document.querySelector('.skip-link:not(:focus)'), rect = skip?.getBoundingClientRect();
@@ -455,26 +455,43 @@ async function measureViewport(browser, engine, viewport) {
     }
     await go(page, { view: 'map', focus: 'cond:C10' });
     await page.addStyleTag({ content: 'html { filter: grayscale(1) !important; }' });
-    output.greyscale_screenshot = await screenshot(page, engine, viewport, 'map-c10-greyscale');
+    try { output.greyscale_screenshot = await screenshot(page, engine, viewport, 'map-c10-greyscale'); }
+    catch (error) { output.error = describeError(error); }
     await page.evaluate(() => document.querySelectorAll('style').forEach(style => { if (style.textContent.includes('filter: grayscale(1)')) style.remove(); }));
     output.tasks = await tasksFor(page, cards, viewport, engine);
 
     const fallbackPage = await context.newPage();
-    await fallbackPage.route('https://cdn.jsdelivr.net/**', route => route.abort('blockedbyclient'));
-    await fallbackPage.goto(ENTRY, { waitUntil: 'load' });
-    await ready(fallbackPage);
-    await go(fallbackPage, { view: 'model', run: cards.c10v.card_id });
-    await fallbackPage.locator('#show-3d').click();
-    await fallbackPage.waitForFunction(() => /unavailable/i.test(document.querySelector('#model-status')?.textContent ?? ''), null, { timeout: 5000 });
-    output.screens.push({ name: 'model-2d', cdn: 'deliberately blocked after actually requesting 3D', model_status: await fallbackPage.locator('#model-status').innerText(), fallback_visible: await fallbackPage.locator('#tower-fallback').isVisible(), measurements: await fallbackPage.evaluate(zoom => window.LabMeasure.measure(zoom), viewport.zoom), screenshot: await screenshot(fallbackPage, engine, viewport, 'model-2d'), keyboard: await tabMeasurements(fallbackPage, engine) });
-    await fallbackPage.close();
+    const fallbackScreen = { name: 'model-2d', cdn: 'deliberately blocked after actually requesting 3D' };
+    output.screens.push(fallbackScreen);
+    try {
+      await fallbackPage.route('https://cdn.jsdelivr.net/**', route => route.abort('blockedbyclient'));
+      await fallbackPage.goto(ENTRY, { waitUntil: 'load' });
+      await ready(fallbackPage);
+      await go(fallbackPage, { view: 'model', run: cards.c10v.card_id });
+      await fallbackPage.locator('#show-3d').click();
+      await fallbackPage.waitForFunction(() => /unavailable/i.test(document.querySelector('#model-status')?.textContent ?? ''), null, { timeout: 5000 });
+      fallbackScreen.model_status = await fallbackPage.locator('#model-status').innerText();
+      fallbackScreen.fallback_visible = await fallbackPage.locator('#tower-fallback').isVisible();
+      fallbackScreen.measurements = await fallbackPage.evaluate(zoom => window.LabMeasure.measure(zoom), viewport.zoom);
+      fallbackScreen.screenshot = await screenshot(fallbackPage, engine, viewport, 'model-2d');
+      fallbackScreen.keyboard = await tabMeasurements(fallbackPage, engine);
+    } catch (error) { fallbackScreen.error = describeError(error); }
+    finally { await fallbackPage.close(); }
 
     await go(page, { view: 'model', run: cards.c10v.card_id });
     await page.locator('#show-3d').click();
     try { await page.waitForFunction(() => document.querySelector('#tower canvas') || /unavailable/i.test(document.querySelector('#model-status')?.textContent ?? ''), null, { timeout: 10000 }); }
     catch (error) { output.model_3d_wait_error = describeError(error); }
     const canvas = page.locator('#tower canvas').filter({ visible: true });
-    if (await canvas.count()) output.screens.push({ name: 'model-3d', cdn: 'network allowed', measurements: await page.evaluate(zoom => window.LabMeasure.measure(zoom), viewport.zoom), screenshot: await screenshot(page, engine, viewport, 'model-3d'), keyboard: await tabMeasurements(page, engine) });
+    if (await canvas.count()) {
+      const modelScreen = { name: 'model-3d', cdn: 'network allowed' };
+      output.screens.push(modelScreen);
+      try {
+        modelScreen.measurements = await page.evaluate(zoom => window.LabMeasure.measure(zoom), viewport.zoom);
+        modelScreen.screenshot = await screenshot(page, engine, viewport, 'model-3d');
+        modelScreen.keyboard = await tabMeasurements(page, engine);
+      } catch (error) { modelScreen.error = describeError(error); }
+    }
     else output.screens.push({ name: 'model-3d', status: 'not observed: no visible 3D canvas', message: await page.locator('#tower').innerText(), measurements: null });
     return output;
   } finally { await context.close(); }
