@@ -566,3 +566,112 @@ All **24 protected source/input SHA-256s are unchanged**, including the producti
 `results/c10w_oracle` listing: 62 → 69 files; 10 added, 3 removed. The exact added/removed paths are in `scope-comparison.json`. 
 
 The shared workspace also has unrelated porcelain status additions/removals recorded verbatim in that comparison. These observations have **UNVERIFIABLE attribution**; no exclusive whole-workspace cleanliness is claimed. The advisory tool writes remained within the two test files, this report and scratch. Scientific performance, live MPS inertness and ASTRA qualification remain **UNVERIFIED**.
+
+## 11. Direct script execute permissions
+
+**PASS — one test added, test file only.** `WrapperTests.test_direct_scripts_executable_on_disk_and_git_index` (`experiments/track_c/c10z_astra_selftest.py:2341`) inspects the actual attempt wrapper and discovers its repository shell-script references. Currently the direct script is `tools/run_c10z_stage.sh`, invoked through `$S`; the venv Python is an interpreter, not an indexed repository script. Discovery must be nonempty. For every script the test requires `os.access(path, os.X_OK)` and exactly one stage-0 git index entry with mode **100755**, from read-only `git ls-files -s -z`. It does not rely on the manufactured permissions of temporary script copies.
+
+The program reported the first process-1 launch exited 126 because the stage wrapper was mode 644. Read-only `git show --stat --summary 0d25ed7 -- tools/run_c10z_stage.sh` confirms the existing fix is solely mode **100644 → 100755** with zero content changes. Both wrappers are currently mode 755 on disk and 100755 in the index. This task made no production content, chmod or git index change.
+
+GREEN: the complete `WrapperTests` group, including the new test, passed **4/4**, exit 0, in **1.552 s** (`/private/tmp/c10z_build/execute-bit/green.log`):
+
+```text
+test_direct_scripts_executable_on_disk_and_git_index ... ok
+test_next_stage_types ... ok
+test_relative_out ... ok
+test_stage0_failure ... ok
+Ran 4 tests in 1.552s
+OK
+C10Z_WRAPPER_SELFTEST_PASS tests=4
+```
+
+RED sensitivity controls used in-memory mocks, without changing the real files or index:
+
+| Control | Expected assertion failure | Evidence |
+|---|---|---|
+| Disk `os.access(X_OK)` returns false for the stage script | `tools/run_c10z_stage.sh is not executable on disk` | `execute-bit/red-disk.log` |
+| Git output reports mode 100644 | `tools/run_c10z_stage.sh must have one git index entry with mode 100755` | `execute-bit/red-index.log` |
+
+Each control produced one failure and zero errors. After mock restoration, the new test passed again. `execute-bit/sensitivity.log` ends `EXECUTE_BIT_SENSITIVITY_PASS expected_RED=2 restored_GREEN=1 imports=stdlib_only`; exact traces are also in `execute-bit/red.json`. These expected mock failures are not production-test failures.
+
+The program explicitly allowed light, serial Python while ASTRA's GPU job was live. Verification used the worktree venv with `-B`, `TMPDIR=/private/tmp/c10z_build` and CPU thread limits. The selected tests imported neither torch nor c10e/transformers/datasets; no model load, GPU/MPS work or real-tree launch ran. The broad scientific suites were not rerun for this file/index permission check; their preceding evidence remains in section 10.
+
+Only `experiments/track_c/c10z_astra_selftest.py` and this section of the report changed; scratch is under `/private/tmp/c10z_build/execute-bit/`. All ten protected files' content hashes and disk modes, including production C10Z files, both wrappers, engine/c10e and prereg, match the before snapshot. Both wrappers' index entries are unchanged. Report sections 1–10 remain byte-identical to the saved before copy.
+
+Selftest SHA-256: `b99e5e00fafddb0d05d2f5642daa4408fe616220462d7139cad550cdfdc3996c` → `8ac35c1e8bd71c79fc99f16bc52ee613438df2a017e047723225838bf4fe08ee`. Scope evidence: `execute-bit/before.json` and `execute-bit/after.json`; the report's final SHA is in the latter, outside the report itself.
+
+## 12. V4 template pin (D-C10z-v4fix)
+
+**PASS — test-first implementation and both full CPU suites GREEN.** Implemented the program's 2026-10-08 ruling, diagnostic addendum and **prereg §10 Amendment V4T** in `experiments/track_c/c10z_astra_arms.py` and its selftest. The newly authorized reader change is its prereg SHA constant only. §10 was read in full; `results/templatepin_amend_astra.md` and its final GO recheck `results/templatepin_amend_astra_delta.md` were read. GO covers amendment text, not live runtime evidence. The diagnosis at `results/c10z_astra_v4_diagnosis.md` was read. This changes the context provenance; it preserves the V4 envelope: A7 full [5,18], canonical [5,10], first [42,59], and A1/A2 full ≥68, all inclusive. No empirical claim about the pinned-template baseline or ASTRA performance follows from these CPU tests.
+
+Process 1 imports `TEMPLATES` from the unchanged benchmark module; no strings are retyped. It installs the engine's original two-group cache shape, identity plus five prefixes, before the first recipe-A edit. Admission requires exact equality between the imported flat list and the selected record's `inputs.templates`, plus equality of its canonical digest with `inputs.templates_sha256`; disagreement refuses **HALTED-V12** before attempt creation or worker launch. The binding carries the selected list and digest into the resident. Before recipe A the resident independently checks all three §10(b) identities: the scorer convention `sha256(json.dumps(engine_form)).hexdigest()[:12] == "c7dabbe7c25a"`, exact flattened-list equality and canonical-digest equality. A miss refuses V12 before writing the template artifact or editing. Process 2 retains the existing input-file load and uses that cached object; it does not replace it with a newly sampled or copied constant.
+
+Both processes now create `context_templates.json` and publish its provenance in `run.json` before recipe A and LAW#3. `run.context_templates` contains the actual file `sha256`, the benchmark canonical `inputs_sha256`, source **`benchmark TEMPLATES / C10Q c7dabbe7c25a`**, `scorer_identity: "c7dabbe7c25a"`, `seed: 0` and `sampling: false`. The original `torch.manual_seed(0)` remains before harness import, and manifest seed 0 is unchanged. Pinned context templates consume no RNG draws. New-writer batch construction, observations, probes and instrument preparation still wait for LAW#3.
+
+A V4 miss retains the template file and provenance through the resident's final publication. The baseline-only `pass_p{n}.json`, `halt_p{n}.json` and architecture diagnostic include `context_templates_sha256`. Architecture diagnostics now use **`architecture_profile/c10z_astra_halt_diagnostic_<UTC>.json`**, with UTC format `YYYYMMDDTHHMMSS.ffffffZ` and create-only `write_json` / exclusive `open("x")`. The historical fixed-path file is untouched; a filename collision refuses instead of replacing the earlier record. This follows the explicit program addendum and latest instruction; §10(d3) describes the earlier fixed-path overwrite behavior.
+
+All evidence below is under **`/private/tmp/c10z_build/v4-template-pin/`**. RED ran the nine new `TemplatePinTests` plus the new admission test against the original driver SHA `806a9b4d417261945359d45db8c2f8513e4f5a2f3fafaf0b7cefe3a8d5ec3304`, before production edits: **10 tests, 8 expected failures, 0 errors**, exit 1, 0.519 s (`red.log`, exact traces in `red.json`).
+
+| New test | Original-driver RED observation | Final GREEN |
+|---|---|---|
+| `LaunchBindingTests.test_benchmark_template_digest_mismatch_refuses_before_launch` | `AssertionError: Halt not raised` for a valid but different recorded template set | PASS; V12 before launch/output mutation |
+| `TemplatePinTests.test_cache_pinned_before_recipe_A_without_sampling` | `AssertionError: generate_fast sampled before the template pin` | PASS; cache is pinned and sampling mock is never called |
+| `TemplatePinTests.test_templates_byte_equal_to_benchmark` | `V4 halt omitted context_templates.json` | PASS; grouped JSON bytes and canonical flattened template bytes match values derived from imported `TEMPLATES` |
+| `TemplatePinTests.test_templates_and_run_hash_written_before_LAW3_gate` | `templates were not frozen before LAW#3` | PASS; file/hash/source/seed present at gate entry |
+| `TemplatePinTests.test_V4_resident_retains_templates_and_halt_hashes` | `resident V4 halt omitted templates` | PASS; real resident publication and V4 diagnostic retain all hashes |
+| `TemplatePinTests.test_process2_reuses_loaded_cache_before_baseline` | `process-2 V4 halt omitted its loaded templates` | PASS; loaded cache object retained and never sampled |
+| `TemplatePinTests.test_existing_context_artifact_refusal_unchanged` | PASS control | PASS; existing bytes preserved, V12 refusal |
+| `TemplatePinTests.test_manual_seed_zero_kept_before_harness_import` | PASS control | PASS; unchanged process-start seed order |
+| `TemplatePinTests.test_UTC_diagnostics_preserve_historical_records` | `historical fixed-path diagnostic was overwritten` | PASS; two distinct UTC records, earlier bytes preserved |
+| `TemplatePinTests.test_UTC_diagnostic_collision_refuses_exclusive_creation` | `AssertionError: Halt not raised` | PASS; collision refuses and earlier record remains intact |
+
+The engine-cache test compiles only the actual `get_context_templates` function into an isolated module and supplies a failing `generate_fast` mock. It exercises the engine's real cache branch without importing the engine, loading a model/tokenizer or generating text. The V4 resident test executes the actual stage-0 and resident/diagnostic/publication paths with CPU stubs and a scratch `ROOT`. It checks an A7 first count of 40 still yields V4 and leaves a recipe-A-only pass record.
+
+The first implementation check (`green.log`) had **2 errors** from a newly introduced datetime import collision: `AttributeError: module 'datetime' has no attribute 'now'`. This was corrected to use the driver's existing `datetime.datetime` module API; no scientific path or gate was changed for that correction. The expanded regression group then passed **59/59**, zero failures/errors, exit 0 in **17.695 s** (`green-final.log`, `green-final.json`). It includes all ten new tests, the complete launch-binding and wrapper groups, the prior LAW#3 ordering test and diagnostic/watchdog preservation tests. `WrapperTests.test_direct_scripts_executable_on_disk_and_git_index` remained GREEN.
+
+The program appended §10 during the final scope check. That check detected the prereg drift and stopped before issuing DONE; it did not write an `after.json` or alter the prereg. The published SHA was directly verified as **`7c6e52e274e3dbc30cd5123d6b56ae8c9b1dca8c5e7507ff7be15d57e845059d`**. The reader's `PREREG_SHA` and the selftest's `PREREG` were updated; the driver consumes `R.PREREG_SHA` and needs no second literal pin. Replacing the reader's new hash with the original one exactly reproduces its before-snapshot SHA, confirming that its gates and other bytes are unchanged.
+
+Additional §10 RED/GREEN evidence:
+
+| Test | RED before §10 alignment | Final GREEN |
+|---|---|---|
+| `TemplatePinTests.test_scorer_template_identity_mismatch_refuses_before_recipe_A` | A self-consistent alternate set reached V4 instead of refusing the C10Q identity mismatch | PASS; V12 and zero recipe/edit calls |
+| `TemplatePinTests.test_selected_template_list_mismatch_refuses_before_recipe_A` | A different selected list reached V4 instead of refusing exact-list mismatch | PASS; V12 and zero recipe/edit calls |
+| `PinTests.test_amended_prereg_pin_shared_by_driver_reader_and_tests` | Reader retained `87fe3d5d…` while the actual amended file was `7c6e52e2…` | PASS; file, reader, driver and tests agree |
+| `WrapperTests.test_attempt2_out_and_logs_preserve_attempt1` | PASS control; explicit namespaces already supported | PASS; stages 0/1/2/3 see the new output/go/benchmark paths and earlier run/log bytes remain intact |
+
+`amendment-red.log` / `amendment-red.json`: **4 tests, 3 expected failures, 0 errors**, exit 1, **0.559 s**, before alignment edits (driver SHA `c675b136…`). `amendment-green.log` / `amendment-green.json`: **64/64**, zero failures/errors, exit 0, **19.325 s**, after alignment. Both source identities and the amended prereg hash are captured there. The four additional tests bring the full suite from 184 to **188**. The preceding full-suite evidence at `full-astra.log` (184/184) and `full-benchmark.log` (47/47) is retained as pre-amendment history; the final evidence below was rerun after every source/pin change.
+
+**Attempt-2 namespace (§10(d2)).** The existing launch wrappers already honor explicit `C10Z_OUT_DIR`; their production files remain unchanged. Use both amended launch lines with `C10Z_OUT_DIR="$W/results/c10z_astra_attempt2"`, a new go-record file and the new benchmark-record path. Process 1's outer log is **`$W/results/c10z_astra_attempt2_chain.log`**; stage 3's is **`$W/results/c10z_astra_attempt2_stage3.log`**. Per-process resident logs remain under that fresh OUT_DIR. The wrapper regression uses the actual attempt-script text and scratch stage stubs, exercises the complete 0/1/2 chain plus the stated stage-3 shell line, checks propagated paths and both new log names, and preserves manufactured attempt-1 records/logs byte-for-byte. No attempt-2 launch, directory or outer log was created in the real tree.
+
+Both full suites subsequently ran **serially** with worktree venv Python `-B`, `TMPDIR=/private/tmp/c10z_build`, a fresh scratch `PYTHONPYCACHEPREFIX`, `LLMDB_ROOT` set to the worktree and CPU thread limits of 1. Neither suite loaded c10e/transformers/datasets, a scientific model or the GPU. Exact final output:
+
+```text
+# full-astra-amended.log — exit 0
+----------------------------------------------------------------------
+Ran 188 tests in 114.493s
+
+OK
+C10Z_ASTRA_SELFTEST_PASS tests=188
+
+# full-benchmark-amended.log — exit 0
+----------------------------------------------------------------------
+Ran 47 tests in 2.756s
+
+OK
+C10Z_BENCH_SELFTEST_PASS tests=47
+```
+
+Final source SHA-256s:
+
+| File | SHA-256 |
+|---|---|
+| `experiments/track_c/c10z_astra_arms.py` | **`ab6f5c809d8187f4e5eb39e9cc6fbf40b6e357b2ecf5b18ecc887e05de7adebc`** |
+| `experiments/track_c/c10z_astra_selftest.py` | `15ccb1884d9bc7fd179f8654de3dd2c80d27d0653e1bdf6fa691d0a20a538f2b` |
+| `experiments/track_c/c10z_astra_read.py` — prereg pin only | `5549eb23e8ecfe8dc7b1eb7aaa60a361180762d2118a151d2006d5d85ccc86d5` |
+
+**Scope and provenance.** The 31 remaining protected files' contents and disk modes match `before.json`: engine/MEMIT/util/ROME source, c10e, benchmark and benchmark selftest, telemetry check, hparams, fingerprint tool, both wrappers and diagnosis. Our writes are limited to arms, selftest, the authorized one-line reader pin and this report; the program-owned prereg changed by its published §10 amendment. No other before-snapshot file changed. Both wrappers remain executable on disk and indexed as 100755. The historical `architecture_profile/c10z_astra_halt_diagnostic.json` retains SHA `3dce715148f3b3fcc1883b007d4d71883bb84bbd2a3392a1c6d374c8e3c73e6b`; no real-tree architecture diagnostic was created. No live result record was written. Report sections 1–11 remain byte-identical to `report.before.md`. Final comparison data is in `scope-amended-before-report.json`; `after.json` records the report's external final SHA. The initial section-12 draft is retained as `report.pre-amendment.md`.
+
+The actual go-selected benchmark is `results/c10z_astra_benchmark/20261008T104535Z/benchmark.json`, SHA `a33075393066e6332fbe64b9641caa57e7005fb89c6f8849fb212f5940ccff4a`. Its template source is `results/c10q_stacked/logs_run.log:9`; its `inputs.templates_sha256` **`d6c7c70026dced37bddc6adf316a3487d70227dae80a6e0ed5cdabe50caedfa0`** was directly checked against the imported constant. Its recorded driver identity predates this patch. A read-only call to the real admission helper now correctly refuses that historical selection: **`HALTED-V12: benchmark source identity changed: experiments/track_c/c10z_astra_arms.py`** (`historical-benchmark-refusal-amended.json`). Per §10(d1), final driver review precedes the program's single drift-forced benchmark rerun in a fresh directory, a new go-record file and the attempt-2 launch. The old go record, benchmark and halted results remain data and are never overwritten or promoted. We did not run the benchmark or any GPU job.
+
+The amended prereg, reader, driver and selftest pins all agree on SHA **`7c6e52e274e3dbc30cd5123d6b56ae8c9b1dca8c5e7507ff7be15d57e845059d`**. This is a post-V4, pre-candidate input amendment: it changes both comparator and candidate inputs. Results will be conditional on this fixed set; the original unrecorded seed-0 context attribution remains inferred, and no freedom from selection bias is claimed. A future pinned-set V4 miss remains a final HALT under §10(d4), with no further template change or gate relaxation. No GPU attempt, new live LAW#3 count, scientific ASTRA outcome or live launch admission was claimed.

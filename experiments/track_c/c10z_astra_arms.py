@@ -17,6 +17,7 @@ import uuid
 import zlib
 
 import c10z_astra_read as R
+from c10z_astra_benchmark import TEMPLATES
 
 ROOT = Path(__file__).resolve().parents[2]
 HP = "configs/hparams/qwen25_3b_memit_hparams.json"
@@ -485,6 +486,7 @@ def telemetry_mps_inertness_check(model,device,population,batch,layers,tok):
 
 class Session:
     telemetry=None
+    context_templates_record=None
     """All methods below are runtime-only; selftests never construct this class."""
     def __init__(self,out,process,budget,input_dir=None):
         self.out=Path(out);self.process=process;self.budget=budget;self.gates=Gates()
@@ -969,19 +971,30 @@ class Session:
         """Order is binding: pin -> untouched A -> LAW#3 -> deferred probes -> D/G/Z."""
         self.stage=0;start=time.monotonic()
         self.budget.project({k:v for k,v in ALLOWANCES.items() if k!="import_and_pin"})
+        if self.loaded_manifest is None:
+            self.M.CONTEXT_TEMPLATES_CACHE=[list(TEMPLATES[:1]),list(TEMPLATES[1:])]
+        identity=hashlib.sha256(json.dumps(self.M.CONTEXT_TEMPLATES_CACHE).encode()).hexdigest()[:12]
+        R.require(identity=="c7dabbe7c25a","HALTED-V12","C10Q engine-form template identity")
+        self.templates=self.flatten_templates(self.M.CONTEXT_TEMPLATES_CACHE)
+        R.require(self.templates==self.budget.templates,"HALTED-V12",
+                  "context template list differs from selected benchmark")
+        R.require(R.json_digest(self.templates)==self.budget.templates_sha256,"HALTED-V12",
+                  "context templates differ from selected benchmark")
+        write_json(self.out/"context_templates.json",self.M.CONTEXT_TEMPLATES_CACHE)
+        self.context_templates_record={"sha256":sha256_file(self.out/"context_templates.json"),
+            "inputs_sha256":self.budget.templates_sha256,"source":"benchmark TEMPLATES / C10Q c7dabbe7c25a",
+            "scorer_identity":identity,"seed":0,"sampling":False}
+        # Seed 0 remains at process start; the imported templates never consume it.
+        self.publish_run()
         baseline=self.run_recipe("A",R.ARMS);self.timings["recipe_A"]=time.monotonic()-start
         try:self.gates.baseline(baseline)
         except R.Halt:
             write_json(self.out/f"pass_p{self.process}.json",{"schema":R.SCHEMA,"recipes":{"A":baseline},
+                "context_templates_sha256":self.context_templates_record["sha256"],
                 "outcome":"HALTED","halt":{"code":"HALTED-V4","detail":"LAW#3 envelope"}})
             raise
         if self.loaded_manifest is None:
-            templates=self.M.CONTEXT_TEMPLATES_CACHE
-            self.templates=self.flatten_templates(templates)
-            write_json(self.out/"context_templates.json",templates)
             self.batches=self.make_batches()
-        else:
-            write_json(self.out/"context_templates.json",self.M.CONTEXT_TEMPLATES_CACHE)
         self.restore();self.verify_restore("LAW#3 passed")
         self.pristine_axes=self.H.axes_pre()
         self.population={arm:self.probe_population(arm) for arm in R.ARMS}
@@ -1595,6 +1608,10 @@ def benchmark_binding(env,go):
     try:B.validate_record(record)
     except R.Halt:raise
     except ValueError as exc:raise R.Halt("HALTED-V12","benchmark record invalid: "+str(exc)) from exc
+    templates_sha256=R.json_digest(list(TEMPLATES))
+    R.require(record["inputs"]["templates"]==list(TEMPLATES) and
+              record["inputs"]["templates_sha256"]==templates_sha256,"HALTED-V12",
+              "benchmark templates differ from TEMPLATES")
     c=B.ceilings(record)
     R.require(c.get("source")=="BENCHMARK","HALTED-BUDGET","benchmark refused: "+str(c.get("reason")))
     R.require(json.loads(json.dumps(c,sort_keys=True,allow_nan=False))==record.get("derived"),
@@ -1605,7 +1622,8 @@ def benchmark_binding(env,go):
     selected={"stage01":c["C01"],"stage2":c["C2"],"stage3":c["C3"]}
     R.require(go["ceilings"]==selected,"HALTED-V12","go ceilings differ from ceilings()")
     return {"path":str(path),"sha256":record_sha,"script_sha256":script_sha,"sources":sources,
-            "env":current_env,"ceilings":selected},record,B
+            "env":current_env,"ceilings":selected,"templates":record["inputs"]["templates"],
+            "templates_sha256":templates_sha256},record,B
 
 
 INERTNESS_SOURCES=("experiments/track_c/c10z_astra_arms.py","experiments/track_c/c10z_astra_read.py",
@@ -1669,6 +1687,7 @@ def diagnostic(out,code,detail,session=None):
     run=load_json(runpath) if runpath.exists() else {}
     value={"schema":R.SCHEMA,"outcome":"HALTED","halt":{"code":code,"detail":str(detail)},
            "out_dir":str(out),"pid":os.getpid(),"attempt_id":run.get("attempt_id"),"scientific_verdict":False}
+    if code=="HALTED-V4":value["context_templates_sha256"]=sha256_file(out/"context_templates.json")
     if session is not None:
         value.update(recipes=session.recipes,checks=session.checks,memory=session.memory,
                      restores=session.restores,budget_history=session.budget.history)
@@ -1686,7 +1705,8 @@ def diagnostic(out,code,detail,session=None):
     if run:
         run.update(closed=True,halt=value["halt"],reading=None)
         write_json(runpath,run,replace=True)
-    write_json(ROOT/"architecture_profile/c10z_astra_halt_diagnostic.json",value,replace=True)
+    stamp=datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
+    write_json(ROOT/("architecture_profile/c10z_astra_halt_diagnostic_"+stamp+".json"),value)
     return value
 
 
@@ -1695,15 +1715,20 @@ def resident(out,process,launch,input_dir=None,start=None):
     start=time.monotonic() if start is None else start
     budget=Budget(start,launch["stage01"],launch["stage2"],launch["stage3"],process=process)
     budget.go_sha256=launch["go_sha256"]
+    budget.templates=launch["benchmark"]["templates"]
+    budget.templates_sha256=launch["benchmark"]["templates_sha256"]
     state=StageState(launch["attempt_id"],process);session=None;telemetry=None;stop=threading.Event()
     runpath=Path(out)/"run.json";publication_lock=threading.RLock()
     budget.terminal_probe=lambda:load_json(runpath).get("halt") if runpath.exists() else None
     def publish(reading=None,closed=False,halt=None):
         with publication_lock:
             if halt is None:budget.check()
-            write_json(runpath,{"schema":R.SCHEMA,"attempt_id":state.attempt,"pid":os.getpid(),"process":process,
+            record={"schema":R.SCHEMA,"attempt_id":state.attempt,"pid":os.getpid(),"process":process,
                 "completed":state.completed,"requested":None,"closed":closed,"launch":launch,
-                "origins":budget.origins,"ceilings":budget.durations,"reading":reading,"halt":halt},replace=runpath.exists())
+                "origins":budget.origins,"ceilings":budget.durations,"reading":reading,"halt":halt}
+            if session is not None and getattr(session,"context_templates_record",None) is not None:
+                record["context_templates"]=session.context_templates_record
+            write_json(runpath,record,replace=runpath.exists())
             if halt is None:budget.check()
     def watchdog():
         last_heartbeat=0.
@@ -1729,6 +1754,7 @@ def resident(out,process,launch,input_dir=None,start=None):
         if launch["telemetry"] is True:telemetry=Telemetry(out,process,state.attempt)
         session=Session(out,process,budget,input_dir)
         session.telemetry=telemetry
+        session.publish_run=publish
         session.attempt_id=state.attempt
         if telemetry is not None:telemetry.phase("stage_start",stage=0)
         state.run(0,state.attempt,session.stage0)

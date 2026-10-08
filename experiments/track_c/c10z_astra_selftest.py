@@ -16,7 +16,7 @@ import zlib
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-PREREG = "87fe3d5d28c9a51eab4eadfd82cc7175f1a94f723f25f31658c5e1aeaf628b87"
+PREREG = "7c6e52e274e3dbc30cd5123d6b56ae8c9b1dca8c5e7507ff7be15d57e845059d"
 C01_FIX = 7800.
 ARMS = ("A1_single", "A2_coherent2", "A7_coined_coined")
 A1, A2, A7 = ARMS
@@ -919,7 +919,11 @@ class ReviewGapTests:
             with tempfile.TemporaryDirectory() as tmp:
                 s = D.Session.__new__(D.Session); events = []
                 s.out = Path(tmp); s.process = 1; s.gates = D.Gates(); s.timings = {}; s.loaded_manifest = None
-                s.budget = _types.SimpleNamespace(project=lambda costs: None, check=lambda: None)
+                s.budget = _types.SimpleNamespace(project=lambda costs: None, check=lambda: None,
+                    templates=list(importlib.import_module("c10z_astra_benchmark").TEMPLATES),
+                    templates_sha256=digest(list(importlib.import_module("c10z_astra_benchmark").TEMPLATES)))
+                D.write_json(s.out / "run.json", {})
+                s.publish_run = lambda: D.write_json(s.out / "run.json", {"context_templates": s.context_templates_record}, replace=True)
                 recipe = fixture(n=18)["recipes"]["A"]
                 if not passing:
                     counts(recipe["arms"][A7], n=19)
@@ -1185,7 +1189,9 @@ def _launch(**over):
              "telemetry":False,"telemetry_inertness":None,"go":go,"go_sha256":"a"*64,
              "benchmark":{"path":"/x/results/c10z_astra_benchmark/T/benchmark.json",
                           "sha256":go["benchmark_sha256"],"script_sha256":go["benchmark_script_sha256"],
-                          "sources":{},"env":{},"ceilings":dict(go["ceilings"])}}
+                          "sources":{},"env":{},"ceilings":dict(go["ceilings"]),
+                          "templates":list(importlib.import_module("c10z_astra_benchmark").TEMPLATES),
+                          "templates_sha256":digest(list(importlib.import_module("c10z_astra_benchmark").TEMPLATES))}}
     value.update(over)
     return value
 
@@ -1468,7 +1474,7 @@ class Fix1Tests(BlockingDemos):
                 passpath = target / ("pass_p%d.json" % process); before = passpath.read_bytes()
                 with mock.patch.object(D, "ROOT", root):
                     value = D.diagnostic(target, code, "synthetic halt after completed pass")
-                self.assertEqual(D.load_json(root / "architecture_profile/c10z_astra_halt_diagnostic.json"), value)
+                self.assertIn(value, [D.load_json(p) for p in (root / "architecture_profile").glob("c10z_astra_halt_diagnostic_*.json")])
                 self.assertEqual(passpath.read_bytes(), before)
                 self.assertEqual(value["observations"], json.loads(before))
                 self.assertEqual(D.load_json(target / ("halt_p%d.json" % process)), value)
@@ -1493,7 +1499,7 @@ class Fix1Tests(BlockingDemos):
                 value = real_diagnostic(path, code, detail, session)
                 if str(detail).startswith("watchdog:"):
                     self.assertEqual(D.load_json(out / "halt_p1.json"), value)
-                    self.assertEqual(D.load_json(root / "architecture_profile/c10z_astra_halt_diagnostic.json"), value)
+                    self.assertIn(value, [D.load_json(p) for p in (root / "architecture_profile").glob("c10z_astra_halt_diagnostic_*.json")])
                     watchdog_records.append(value)
                 return value
             with mock.patch.object(D, "ROOT", root), mock.patch.object(D, "diagnostic", capture_diagnostic):
@@ -1623,7 +1629,7 @@ class Fix2Tests(unittest.TestCase):
                     value = D.load_json(target / ("halt_p%d.json" % process))
                     self.assertEqual(value["halt"]["code"], "HALTED-V12")
                     self.assertEqual(value["observations"], record)
-                    self.assertEqual(D.load_json(self.root / "architecture_profile/c10z_astra_halt_diagnostic.json"), value)
+                    self.assertIn(value, [D.load_json(p) for p in (self.root / "architecture_profile").glob("c10z_astra_halt_diagnostic_*.json")])
                     self.assertEqual(before, {p: p.read_bytes() for p in out.rglob("pass_p*.json")})
                     got = R.read_directory(out)
                     self.assertEqual(got["label"], "HALTED-V12"); self.assertFalse(got["scientific_verdict"])
@@ -1675,7 +1681,7 @@ class Fix2Tests(unittest.TestCase):
                               ("restores", session.restores), ("budget_history", session.budget.history)):
             self.assertEqual(halt[key], expected, key)
         self.assertEqual(halt["halt"]["code"], "HALTED-V12")
-        self.assertEqual(D.load_json(self.root / "architecture_profile/c10z_astra_halt_diagnostic.json"), halt)
+        self.assertIn(halt, [D.load_json(p) for p in (self.root / "architecture_profile").glob("c10z_astra_halt_diagnostic_*.json")])
         self.assertEqual((out / "pass_p1.json").read_bytes(), before)
         self.assertEqual(R.read_directory(out)["label"], "HALTED-V12")
 
@@ -1939,6 +1945,8 @@ def _selected_launch(path, binding):
                        "path": str(path), "sha256": binding["benchmark_sha256"],
                        "script_sha256": binding["benchmark_script_sha256"],
                        "sources": record["env"]["sources"],
+                       "templates": record["inputs"]["templates"],
+                       "templates_sha256": record["inputs"]["templates_sha256"],
                        "env": {k: record["env"][k] for k in ("python", "machine", "platform", "torch", "transformers")},
                        "ceilings": binding["ceilings"]})
 
@@ -1966,6 +1974,13 @@ class LaunchBindingTests(unittest.TestCase):
     def child(self, *a, **kw):
         launch = json.loads(kw["env"]["C10Z_LAUNCH"]); self.launched.append(launch)
         self.D.write_json(self.out / "run.json", {"launch": launch}); return Child()
+
+    def test_benchmark_template_digest_mismatch_refuses_before_launch(self):
+        """D-C10z-v4fix: a valid selected benchmark with different templates refuses V12 before worker/output creation."""
+        self.record["inputs"]["templates"][1] = "A different recorded prefix. {}"
+        self.record["inputs"]["templates_sha256"] = self.B._digest(self.record["inputs"]["templates"])
+        self.B.validate_record(self.record); self.save()
+        self.refuse("HALTED-V12", "benchmark templates differ from TEMPLATES")
 
     def save(self, derived=None):
         if derived is not None:
@@ -2338,8 +2353,246 @@ class WrapperTests(unittest.TestCase):
         result, calls = self.run_wrapper({}, STUB_FAIL="7")
         self.assertEqual(result.returncode,7); self.assertEqual(calls,["0"])
 
+    def test_attempt2_out_and_logs_preserve_attempt1(self):
+        """Prereg §10(d2): explicit attempt2 output, go/benchmark selection and both redirected logs preserve attempt1."""
+        import subprocess
+        history = {"results/c10z_astra/run.json": b"historical attempt1 run\n",
+                   "results/c10z_astra_chain.log": b"historical process1 log\n",
+                   "results/c10z_astra_stage3.log": b"historical process2 log\n"}
+        for name, data in history.items():
+            path = self.root / name; path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(data)
+        self.out = self.root / "results/c10z_astra_attempt2"; self.out.mkdir()
+        (self.out / "run.json").write_text(json.dumps({"reading": {"next_stage": 2}}))
+        seen = self.root / "seen-env"; stage = self.root / "tools/run_c10z_stage.sh"
+        stage.write_text('#!/bin/bash\nprintf "%s|%s|%s|%s\\n" "$1" "$C10Z_OUT_DIR" "$C10Z_GO_RECORD" "$C10Z_BENCHMARK_RECORD" >> "$STUB_ENV"\nexit 0\n')
+        go = str(self.root / "results/c10z_astra_attempt2_go_record.json")
+        bench = str(self.root / "results/c10z_astra_benchmark/NEW/benchmark.json")
+        env = dict(os.environ, C10Z_OUT_DIR=str(self.out), C10Z_GO_RECORD=go,
+                   C10Z_BENCHMARK_RECORD=bench, STUB_ENV=str(seen))
+        chain = self.root / "results/c10z_astra_attempt2_chain.log"
+        with chain.open("x") as log:
+            result = subprocess.run([str(self.root / "tools/run_c10z_attempt.sh")], env=env, stdout=log, stderr=subprocess.STDOUT)
+        self.assertEqual(result.returncode, 0, chain.read_text())
+        stage3 = self.root / "results/c10z_astra_attempt2_stage3.log"
+        with stage3.open("x") as log:
+            result = subprocess.run(["bash", "-c", '"$1" 3; rc=$?; echo "STAGE_3_EXIT=$rc"; exit "$rc"', "_", str(stage)],
+                                    env=env, stdout=log, stderr=subprocess.STDOUT)
+        self.assertEqual(result.returncode, 0, stage3.read_text())
+        self.assertIn("STAGE_2_EXIT=0", chain.read_text()); self.assertIn("STAGE_3_EXIT=0", stage3.read_text())
+        self.assertEqual(seen.read_text().splitlines(), ["|".join((str(n), str(self.out), go, bench)) for n in (0, 1, 2, 3)])
+        for name, data in history.items(): self.assertEqual((self.root / name).read_bytes(), data)
+
+    def test_direct_scripts_executable_on_disk_and_git_index(self):
+        import re
+        import subprocess
+        # Check real entrypoints before temp copies can manufacture execute permissions.
+        wrapper = (ROOT / "tools/run_c10z_attempt.sh").read_text()
+        scripts = sorted(set(re.findall(r'\$W/(tools/[\w./-]+\.sh)', wrapper)))
+        self.assertTrue(scripts, "attempt wrapper has no discoverable script entrypoints")
+        result = subprocess.run(["git", "-C", str(ROOT), "ls-files", "-s", "-z", "--", *scripts],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        indexed = {}
+        for entry in result.stdout.split("\0"):
+            if entry:
+                metadata, path = entry.split("\t", 1)
+                mode, _, stage = metadata.split()
+                indexed.setdefault(path, []).append((mode, stage))
+        for script in scripts:
+            with self.subTest(script=script):
+                self.assertTrue(os.access(ROOT / script, os.X_OK), script + " is not executable on disk")
+                self.assertEqual(indexed.get(script), [("100755", "0")],
+                                 script + " must have one git index entry with mode 100755")
+
+
+class TemplatePinTests(unittest.TestCase):
+    def setUp(self):
+        from c10z_astra_benchmark import TEMPLATES
+        self.templates = list(TEMPLATES)
+        self.D = importlib.import_module("c10z_astra_arms"); self.R = importlib.import_module("c10z_astra_read")
+        self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name); self.out = self.root / "attempt"; self.out.mkdir()
+        self.cache = [self.templates[:1], self.templates[1:]]
+        # Execute only the engine's cache accessor; no engine imports, model, tokenizer or sampling.
+        path = ROOT / "memit_dry_run/memit/memit/memit_main.py"
+        node = next(n for n in ast.parse(path.read_text()).body if isinstance(n, ast.FunctionDef) and n.name == "get_context_templates")
+        self.engine = _types.ModuleType("c10z_template_cache_stub")
+        self.engine.CONTEXT_TEMPLATES_CACHE = None
+        self.engine.generate_fast = mock.Mock(side_effect=AssertionError("generate_fast sampled before the template pin"))
+        exec(compile(ast.Module(body=[node], type_ignores=[]), str(path), "exec"), self.engine.__dict__)
+        self.events = []
+
+    def session(self, process=1, passing=False):
+        D = self.D; s = D.Session.__new__(D.Session)
+        s.out = self.out; s.process = process; s.gates = D.Gates(); s.timings = {}
+        s.loaded_manifest = None if process == 1 else {}; s.M = self.engine
+        s.recipes = {}; s.checks = {}; s.memory = []; s.restores = []
+        s.budget = _types.SimpleNamespace(project=lambda costs: None, check=lambda: None,
+            templates=self.templates[:],
+            templates_sha256=digest(self.templates), history=[])
+        baseline = {"arms": {A1: {"para_full_n": 69}, A2: {"para_full_n": 69},
+            A7: {"para_full_n": 7, "canon_full_n": 7, "para_first_n": 50 if passing else 40}}}
+        s.run_recipe = lambda name, arms: (self.events.append((name, s.gates.law3)), baseline)[1]
+        s.restore = lambda: self.events.append("restore")
+        s.verify_restore = lambda where: self.events.append(("verify", where))
+        s.make_batches = lambda: self.fail("new-writer batches ran before LAW#3")
+        def publish():
+            run = D.load_json(self.out / "run.json")
+            run["context_templates"] = s.context_templates_record
+            D.write_json(self.out / "run.json", run, replace=True)
+        s.publish_run = publish
+        return s
+
+    def start_record(self):
+        self.D.write_json(self.out / "run.json", {"launch": {"benchmark": {"templates_sha256": digest(self.templates)}}})
+
+    def assert_template_record(self, run):
+        self.assertIn("context_templates", run)
+        record = run["context_templates"]
+        self.assertEqual(record["sha256"], self.D.sha256_file(self.out / "context_templates.json"))
+        self.assertEqual(record["inputs_sha256"], digest(self.templates))
+        self.assertEqual(record["source"], "benchmark TEMPLATES / C10Q c7dabbe7c25a")
+        self.assertEqual(record["scorer_identity"], "c7dabbe7c25a")
+        self.assertEqual(record["seed"], 0); self.assertIs(record["sampling"], False)
+
+    def test_cache_pinned_before_recipe_A_without_sampling(self):
+        self.start_record(); s = self.session(); original = s.run_recipe
+        def recipe(name, arms):
+            cache = self.engine.get_context_templates(None, None)
+            self.assertEqual(cache, self.cache, "recipe A did not receive the benchmark templates")
+            return original(name, arms)
+        s.run_recipe = recipe
+        with self.assertRaisesRegex(self.R.Halt, "HALTED-V4"):
+            s.stage0()
+        self.engine.generate_fast.assert_not_called()
+        self.assertEqual(self.events, [("A", False)])
+
+    def test_templates_byte_equal_to_benchmark(self):
+        self.start_record(); s = self.session()
+        with self.assertRaisesRegex(self.R.Halt, "HALTED-V4"):
+            s.stage0()
+        path = self.out / "context_templates.json"; self.assertTrue(path.exists(), "V4 halt omitted context_templates.json")
+        expected = (json.dumps(self.cache, ensure_ascii=False, sort_keys=True, indent=2, allow_nan=False) + "\n").encode()
+        self.assertEqual(path.read_bytes(), expected)
+        flat = s.flatten_templates(self.D.load_json(path))
+        encode = lambda values: json.dumps(values, separators=(",", ":"), allow_nan=False).encode()
+        self.assertEqual(encode(flat), encode(self.templates))
+
+    def test_templates_and_run_hash_written_before_LAW3_gate(self):
+        self.start_record(); s = self.session(); baseline_gate = s.gates.baseline
+        def gate(record):
+            self.assertTrue((self.out / "context_templates.json").exists(), "templates were not frozen before LAW#3")
+            self.assert_template_record(self.D.load_json(self.out / "run.json"))
+            return baseline_gate(record)
+        s.gates.baseline = gate
+        with self.assertRaisesRegex(self.R.Halt, "HALTED-V4"):
+            s.stage0()
+        self.assertEqual(self.events, [("A", False)])
+
+    def test_V4_resident_retains_templates_and_halt_hashes(self):
+        D = self.D; s = self.session(); launch = _launch()
+        launch["benchmark"]["templates_sha256"] = digest(self.templates)
+        launch["benchmark"]["templates"] = self.templates[:]
+        def construct(out, process, budget, input_dir): s.budget = budget; return s
+        with mock.patch.object(D, "Session", side_effect=construct), mock.patch.object(D, "ROOT", self.root), mock.patch.object(D.threading, "Thread"):
+            self.assertEqual(_resident_runtime(self.out, 1, launch), 2)
+        path = self.out / "context_templates.json"; self.assertTrue(path.exists(), "resident V4 halt omitted templates")
+        run = D.load_json(self.out / "run.json"); self.assert_template_record(run)
+        self.assertTrue(run["closed"]); self.assertEqual(run["halt"]["code"], "HALTED-V4")
+        for name in ("pass_p1.json", "halt_p1.json"):
+            self.assertEqual(D.load_json(self.out / name)["context_templates_sha256"], D.sha256_file(path))
+        diagnostics = list((self.root / "architecture_profile").glob("c10z_astra_halt_diagnostic_*.json"))
+        self.assertEqual(len(diagnostics), 1)
+        self.assertEqual(D.load_json(diagnostics[0])["context_templates_sha256"], D.sha256_file(path))
+        self.assertEqual(list(D.load_json(self.out / "pass_p1.json")["recipes"]), ["A"])
+        self.engine.generate_fast.assert_not_called()
+
+    def test_process2_reuses_loaded_cache_before_baseline(self):
+        self.start_record(); s = self.session(process=2)
+        loaded = copy.deepcopy(self.cache); self.engine.CONTEXT_TEMPLATES_CACHE = loaded
+        original = s.run_recipe
+        def recipe(name, arms):
+            self.assertIs(self.engine.get_context_templates(None, None), loaded)
+            return original(name, arms)
+        s.run_recipe = recipe
+        with self.assertRaisesRegex(self.R.Halt, "HALTED-V4"):
+            s.stage0()
+        self.assertIs(self.engine.CONTEXT_TEMPLATES_CACHE, loaded)
+        self.assertTrue((self.out / "context_templates.json").exists(), "process-2 V4 halt omitted its loaded templates")
+        self.assertEqual(self.D.load_json(self.out / "context_templates.json"), loaded)
+        self.engine.generate_fast.assert_not_called()
+
+    def test_existing_context_artifact_refusal_unchanged(self):
+        self.start_record(); s = self.session(passing=True)
+        self.engine.CONTEXT_TEMPLATES_CACHE = copy.deepcopy(self.cache)
+        path = self.out / "context_templates.json"; before = b"historical context record\n"; path.write_bytes(before)
+        with self.assertRaisesRegex(self.R.Halt, "HALTED-V12: refusing existing record"):
+            s.stage0()
+        self.assertEqual(path.read_bytes(), before)
+
+    def test_scorer_template_identity_mismatch_refuses_before_recipe_A(self):
+        self.start_record(); s = self.session()
+        changed = self.templates[:]; changed[1] = "A different recorded prefix. {}"
+        s.budget.templates = changed; s.budget.templates_sha256 = digest(changed)
+        with mock.patch.object(self.D, "TEMPLATES", tuple(changed)):
+            with self.assertRaisesRegex(self.R.Halt, "HALTED-V12: C10Q engine-form template identity"):
+                s.stage0()
+        self.assertEqual(self.events, []); self.assertFalse((self.out / "context_templates.json").exists())
+
+    def test_selected_template_list_mismatch_refuses_before_recipe_A(self):
+        self.start_record(); s = self.session()
+        s.budget.templates = self.templates[:]; s.budget.templates[1] = "A different selected prefix. {}"
+        with self.assertRaisesRegex(self.R.Halt, "HALTED-V12: context template list differs from selected benchmark"):
+            s.stage0()
+        self.assertEqual(self.events, []); self.assertFalse((self.out / "context_templates.json").exists())
+
+    def test_manual_seed_zero_kept_before_harness_import(self):
+        tree = ast.parse(Path(self.D.__file__).read_text())
+        session = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "Session")
+        init = next(n for n in session.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        calls = [n for n in ast.walk(init) if isinstance(n, ast.Call)]
+        seed = next(n for n in calls if isinstance(n.func, ast.Attribute) and ast.unparse(n.func) == "torch.manual_seed")
+        harness = next(n for n in calls if n.args and isinstance(n.args[0], ast.Constant) and n.args[0].value == "c10e_bandknob")
+        self.assertEqual([ast.literal_eval(arg) for arg in seed.args], [0])
+        self.assertLess(seed.lineno, harness.lineno)
+
+    def test_UTC_diagnostics_preserve_historical_records(self):
+        from datetime import datetime
+        D = self.D; directory = self.root / "architecture_profile"; directory.mkdir()
+        fixed = directory / "c10z_astra_halt_diagnostic.json"; before = b"historical process-1 diagnostic\n"; fixed.write_bytes(before)
+        with mock.patch.object(D, "ROOT", self.root):
+            first = D.diagnostic(self.root / "first", "HALTED-V12", "first synthetic halt")
+            self.assertEqual(fixed.read_bytes(), before, "historical fixed-path diagnostic was overwritten")
+            paths = list(directory.glob("c10z_astra_halt_diagnostic_*.json")); self.assertEqual(len(paths), 1)
+            saved = {p: p.read_bytes() for p in paths}
+            second = D.diagnostic(self.root / "second", "HALTED-V12", "second synthetic halt")
+        paths = list(directory.glob("c10z_astra_halt_diagnostic_*.json")); self.assertEqual(len(paths), 2)
+        self.assertCountEqual([D.load_json(p) for p in paths], [first, second])
+        for p in paths: datetime.strptime(p.stem.removeprefix("c10z_astra_halt_diagnostic_"), "%Y%m%dT%H%M%S.%fZ")
+        for path, data in saved.items(): self.assertEqual(path.read_bytes(), data)
+        self.assertEqual(fixed.read_bytes(), before)
+
+    def test_UTC_diagnostic_collision_refuses_exclusive_creation(self):
+        from datetime import datetime, timezone
+        D = self.D; stamp = datetime(2026, 10, 8, 12, 0, 0, 123456, tzinfo=timezone.utc)
+        with mock.patch.object(D, "ROOT", self.root), mock.patch.object(D.datetime, "datetime") as clock:
+            clock.now.return_value = stamp
+            first = D.diagnostic(self.root / "first", "HALTED-V12", "first synthetic halt")
+            with self.assertRaisesRegex(self.R.Halt, "HALTED-V12: refusing existing record"):
+                D.diagnostic(self.root / "second", "HALTED-V12", "colliding synthetic halt")
+        paths = list((self.root / "architecture_profile").glob("c10z_astra_halt_diagnostic_*.json"))
+        self.assertEqual(len(paths), 1); self.assertEqual(D.load_json(paths[0]), first)
+
 
 class PinTests(unittest.TestCase):
+    def test_amended_prereg_pin_shared_by_driver_reader_and_tests(self):
+        D = importlib.import_module("c10z_astra_arms"); R = importlib.import_module("c10z_astra_read")
+        actual = hashlib.sha256((ROOT / D.PREREG).read_bytes()).hexdigest()
+        self.assertEqual(actual, "7c6e52e274e3dbc30cd5123d6b56ae8c9b1dca8c5e7507ff7be15d57e845059d")
+        self.assertEqual(R.PREREG_SHA, actual); self.assertEqual(D.R.PREREG_SHA, actual)
+        self.assertEqual(PREREG, actual)
+        sources = D.source_hashes(); self.assertEqual(sources[D.PREREG], actual)
+
     def test_temp_copy_byte_drift(self):
         def check(path): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), PREREG)
         check(ROOT / "docs/C10Z_ASTRA_PREREG.md")
@@ -3051,7 +3304,7 @@ def _telemetry_suite():
 
 def _build_suite():
     suite=_fix2_suite()
-    for cls in (IdleGapTests,BudgetBoundTests,LaunchBindingTests,ReaderBindingTests,WrapperTests,PinTests,TelemetryIntegrationTests):
+    for cls in (IdleGapTests,BudgetBoundTests,LaunchBindingTests,ReaderBindingTests,WrapperTests,TemplatePinTests,PinTests,TelemetryIntegrationTests):
         suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(cls))
     suite.addTests(_telemetry_suite())
     return suite
