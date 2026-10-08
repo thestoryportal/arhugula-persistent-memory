@@ -1,0 +1,215 @@
+{
+  "role_table": [
+    {
+      "family": "any",
+      "configuration": "arm `A1_*` or `A2_*`",
+      "role": "control",
+      "role_text": "`control`"
+    },
+    {
+      "family": "any",
+      "configuration": "arm `A7_shuf`",
+      "role": "shuffled-control",
+      "role_text": "`shuffled-control`"
+    },
+    {
+      "family": "any",
+      "configuration": "arm `A7_canon`",
+      "role": "canon-control",
+      "role_text": "`canon-control`"
+    },
+    {
+      "family": "C10V",
+      "configuration": "recipe `A`",
+      "role": "reference",
+      "role_text": "`reference` (same-process comparator; it has no reading)"
+    },
+    {
+      "family": "C10V",
+      "configuration": "recipe `Bshuf`, arm A7",
+      "role": "shuffled-control",
+      "role_text": "`shuffled-control` (its label is `NULL-CONTROL-ONLY`)"
+    },
+    {
+      "family": "C10V",
+      "configuration": "recipes `B`, `B0`, arm A7",
+      "role": "binding",
+      "role_text": "`binding`"
+    },
+    {
+      "family": "C10W",
+      "configuration": "recipe `closedform`",
+      "role": "reference",
+      "role_text": "`reference` (prereg `:347`)"
+    },
+    {
+      "family": "C10W",
+      "configuration": "recipe `oracle_*`, arm `A7_coined_coined`",
+      "role": "binding",
+      "role_text": "`binding` (an oracle measurement, see below)"
+    },
+    {
+      "family": "C10U",
+      "configuration": "record `kind` `multi`",
+      "role": "reference",
+      "role_text": "`reference` (the same-block A7-multi, prereg `:92`)"
+    },
+    {
+      "family": "C10U",
+      "configuration": "record `kind` `mint1`, `mint2`, `modifier`",
+      "role": "binding",
+      "role_text": "`binding`"
+    },
+    {
+      "family": "older C10 (flat `c10b`–`c10j`, `c10k`–`c10q`)",
+      "configuration": "recipe named `baseline`, `baseline_controls` or `A`",
+      "role": "reference",
+      "role_text": "`reference`"
+    },
+    {
+      "family": "older C10",
+      "configuration": "arm `A7_coined_coined` in any other recipe",
+      "role": "binding",
+      "role_text": "`binding` (label is the experiment-level `verdict.label`, captioned so)"
+    }
+  ],
+  "gate_table": {
+    "C10V": [
+      {
+        "name": "L1",
+        "value": "`.locality_axes.L1_flipped_to_edited_value` (of `L1_n` 12)",
+        "rule": "≤ ref + 1",
+        "recorded": "`.L1`"
+      },
+      {
+        "name": "same_frame",
+        "value": "`.extra.same_frame.flips` (of 6)",
+        "rule": "≤ ref + 1",
+        "recorded": "`.same_frame`"
+      },
+      {
+        "name": "described_as",
+        "value": "`.locality_described_as`",
+        "rule": "≥ ref − 3",
+        "recorded": "`.described_as`"
+      },
+      {
+        "name": "L3",
+        "value": "`.locality_axes.L3_top1_agree` (of 30)",
+        "rule": "≥ 29",
+        "recorded": "`.L3`"
+      },
+      {
+        "name": "generic_ppl",
+        "value": "`.locality_axes.generic_ppl_post`",
+        "rule": "≤ ref `generic_ppl_post` + 0.5",
+        "recorded": "`.generic_ppl`"
+      }
+    ],
+    "C10U": [
+      {
+        "name": "L1",
+        "value": "`.locality_axes.L1_flipped_to_edited_value`, `.extra.L1_minted_n`",
+        "rule": "≤ ref + 1 and minted = 0",
+        "recorded": "`.L1`"
+      },
+      {
+        "name": "same_frame",
+        "value": "`.extra.same_frame_flips`, `.extra.frame_minted_n`",
+        "rule": "≤ ref + 1 and minted = 0",
+        "recorded": "`.same_frame`"
+      },
+      {
+        "name": "described_as",
+        "value": "`.locality_described_as`",
+        "rule": "≥ ref − 3",
+        "recorded": "`.described_as`"
+      },
+      {
+        "name": "L3",
+        "value": "`.locality_axes.L3_top1_agree`, `.extra.L3_minted_n`",
+        "rule": "≥ 29 and minted = 0",
+        "recorded": "`.L3`"
+      },
+      {
+        "name": "generic_ppl",
+        "value": "`.locality_axes.generic_ppl_post`",
+        "rule": "≤ ref `generic_ppl_post` + 0.5",
+        "recorded": "`.generic_ppl`"
+      },
+      {
+        "name": "cannibal",
+        "value": "`.extra.post_write_cannibal`",
+        "rule": "≤ 2",
+        "recorded": "`.cannibal`"
+      },
+      {
+        "name": "sibling",
+        "value": "`.extra.para_sibling`",
+        "rule": "≤ 3",
+        "recorded": "`.sibling`"
+      }
+    ],
+    "C10W": [
+      {
+        "name": "G1",
+        "value": "`.locality_axes.L1_flipped_to_edited_value`",
+        "rule": "≤ ref + 1 (of 12)",
+        "recorded": ""
+      },
+      {
+        "name": "G2",
+        "value": "`.locality_axes.L3_top1_agree`",
+        "rule": "≥ 29 (of 30)",
+        "recorded": ""
+      },
+      {
+        "name": "G3",
+        "value": "`.locality_described_as`",
+        "rule": "≥ ref − 3",
+        "recorded": "compared at 0.01 (reader rounds ×100)"
+      },
+      {
+        "name": "G4",
+        "value": "`.extra.frames.canon.flips` **and** `.extra.frames.train[t].flips` for **every** training frame t (20)",
+        "rule": "each ≤ the ref's same frame + 1 (of 6)",
+        "recorded": "one row per frame on demand; the gauge row fails if any frame fails"
+      },
+      {
+        "name": "G5",
+        "value": "`.locality_axes.generic_ppl_post` − `.generic_ppl_pre` (own rise; not vs ref)",
+        "rule": "≤ 0.5",
+        "recorded": "each rounded to 3 decimals by the reader"
+      },
+      {
+        "name": "G6",
+        "value": "MMLU-200 net paired correct-item loss vs arm U",
+        "rule": "≤ 4 of 200",
+        "recorded": "inputs `u.A7_coined_coined.extra.mmlu.correct` and the arm's `.extra.mmlu.correct`"
+      },
+      {
+        "name": "G7",
+        "value": "the **matched** O-A7-shuf control's original-map cross-score (`…arms.A7_shuf.extra.cross_score.para_full_n` of the same recipe)",
+        "rule": "≤ 2 of 72",
+        "recorded": "needs the shuf control of the same rank, seed and training attempt (prereg `:357`); without it, \"not judged yet\". P1 interim records it as `.shuf_cross_score_vs_original_map` = 0"
+      }
+    ]
+  },
+  "constants": {
+    "add_one": 1,
+    "minus_three": -3,
+    "L3_min": 29,
+    "ppl_rise": 0.5,
+    "minted_zero": 0,
+    "cannibal_max": 2,
+    "sibling_max": 3,
+    "MMLU_max": 4,
+    "shuf_max": 2,
+    "round_ppl": 3,
+    "round_description": 2
+  },
+  "untouched_basis": {
+    "memit": "by design (the engine writes only down_proj)",
+    "oracle": "the 434 base tensors were hash-verified frozen during adapter training; the evaluated model has the adapter's ΔW merged into down_proj 4–8; `base_band_hash` = `final_band_hash` shows the base was restored after evaluation"
+  }
+}

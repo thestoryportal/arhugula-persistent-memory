@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Lab View · the recorded science</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+</head>
+<body>
+  <a class="skip-link" href="#view-content">Skip to the view</a>
+  <header class="site-header">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">L</span><div><h1>Lab View</h1><p>The recorded science, connected.</p></div><span class="readonly">Read only</span></div>
+    <nav class="top-nav" aria-label="Main destinations">
+      <button data-view="map" aria-current="page">Map</button>
+      <button data-view="lines">Science lines</button>
+      <button data-view="runs">Runs</button>
+      <button data-view="model">Inside the model</button>
+      <button data-view="learn">Learn &amp; evaluations</button>
+    </nav>
+  </header>
+  <aside id="status-strip" class="status-strip" aria-label="Latest recorded status"></aside>
+  <main>
+    <div class="view-frame">
+      <nav id="breadcrumb" class="breadcrumb" aria-label="Breadcrumb"></nav>
+      <div class="frame-meta"><span id="context-chip" class="context-chip">Program map</span><span id="evidence-badge" class="evidence-badge evidence-tier">RECORDED</span><a id="frame-data" data-for-view href="context.json">Data for this view</a></div>
+    </div>
+    <div id="view-content" data-region="content" tabindex="-1"><p>Loading the recorded context. Missing values are shown as “not recorded for this run”.</p></div>
+    <aside id="connections-panel" class="connections-panel" aria-label="Connections and their sources" hidden></aside>
+  </main>
+  <footer>Recorded snapshots · every measurement links to its source · the cited records keep their verdicts</footer>
+  <template id="legacy-view-markers"><span id="now"></span><span id="runs"></span><span id="model"></span><span id="models"></span><span id="history"></span><span id="learn"></span><span id="evaluations"></span></template>
+  <noscript>
+    <article><h2>The recorded notebook</h2><p>The interactive views need JavaScript. The saved image and source files remain available.</p>
+    {% if runs %}<img src="runs/{{runs[0].id}}.svg" alt="Saved recorded illustration for {{runs[0].title}}"><a href="cards/index.json">Run-card index</a>{% endif %}
+    {% for e in evaluations %}<details><summary>{{e.source_result.name|default('Recorded evaluation')}}</summary><p>{{e.question}}</p><p>{{e.result}}</p><p>{{e.rules_out}}</p><p>{{e.leaves_open}}</p><p>{{e.next_step}}</p></details>{% endfor %}
+    </article>
+  </noscript>
+</body>
+</html>
