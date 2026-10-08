@@ -1,0 +1,257 @@
+{
+  "source": "docs/c10_scoreboard.json results only",
+  "entries": [
+    {
+      "id": "evaluation-0",
+      "source_result": {
+        "date": "2026-06-25",
+        "name": "First test: two-word names, usual method",
+        "score": "26 of 72 (real-word pairs 70)",
+        "best": 26,
+        "kind": "write",
+        "verdict": "Problem found: made-up pairs do not stick",
+        "ref": "CORPUS/35"
+      },
+      "question": "Would this help: First test: two-word names, usual method?",
+      "result": "26 of 72 (real-word pairs 70). Problem found: made-up pairs do not stick",
+      "rules_out": "The recorded limit: Problem found: made-up pairs do not stick. This applies to the tested setup.",
+      "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
+      "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
+      "ref": "CORPUS/35"
+    },
+    {
+      "id": "evaluation-1",
+      "source_result": {
+        "date": "2026-06-26",
+        "name": "Realistic made-up project names",
+        "score": "14 to 22 of 72",
+        "best": 22,
+        "kind": "write",
+        "verdict": "Worse than expected: this is the core problem",
+        "ref": "CORPUS/36"
+      },
+      "question": "Would this help: Realistic made-up project names?",
+      "result": "14 to 22 of 72. Worse than expected: this is the core problem",
+      "rules_out": "The recorded limit: Worse than expected: this is the core problem. This applies to the tested setup.",
+      "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
+      "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
+      "ref": "CORPUS/36"
+    },
+    {
+      "id": "evaluation-2",
+      "source_result": {
+        "date": "2026-06-26",
+        "name": "Tuning knobs (depth, strength, statistics)",
+        "score": "at best 15 of 72",
+        "best": 15,
+        "kind": "write",
+        "verdict": "No knob fixes it",
+        "ref": "CORPUS/37-39"
+      },
+      "question": "Would this help: Tuning knobs (depth, strength, statistics)?",
+      "result": "at best 15 of 72. No knob fixes it",
+      "rules_out": "The recorded limit: No knob fixes it. This applies to the tested setup.",
+      "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
+      "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
+      "ref": "CORPUS/37-39"
+    },
+    {
+      "id": "evaluation-3",
+      "source_result": {
+        "date": "2026-10-04",
+        "name": "Published method (AnyEdit) ported to the Mac",
+        "score": "0 of 72 reworded",
+        "best": 0,
+        "kind": "stopped",
+        "verdict": "Stopped: did not work here",
+        "ref": "CORPUS/42"
+      },
+      "question": "Would this help: Published method (AnyEdit) ported to the Mac?",
+      "result": "0 of 72 reworded. Stopped: did not work here",
+      "rules_out": "The recorded limit: Stopped: did not work here. This applies to the tested setup.",
+      "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
+      "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
+      "ref": "CORPUS/42"
+    },
+    {
+      "id": "evaluation-4",
+      "source_result": {
+        "date": "2026-10-05",
+        "name": "Change the solver's maths",
+        "score": "8 to 13 of 72",
+        "best": 13,
+        "kind": "write",
+        "verdict": "No help; but injecting the target directly gives 49",
+        "ref": "CORPUS/44"
+      },
+      "question": "Would this help: Change the solver's maths?",
+      "result": "8 to 13 of 72. No help; but injecting the target directly gives 49",
+      "rules_out": "The recorded limit: No help; but injecting the target directly gives 49. This applies to the tested setup.",
+      "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
+      "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
+      "ref": "CORPUS/44"
+    },
+    {
+      "id": "evaluation-5",
+      "source_result": {
+        "date": "2026-10-05",
+        "name": "One new vocabulary word per name",
+        "score": "39 to 46 of 72",
+        "best": 46,
+        "kind": "write",
+        "verdict": "Best route found; partial",
+        "ref": "CORPUS/45"
+      },
+      "question": "Would this help: One new vocabulary word per name?",
+      "result": "39 to 46 of 72. Best route found; partial",
+      "rules_out": "The recorded limit: Best route found; partial. This applies to the tested setup.",
+      "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
+      "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
+      "ref": "CORPUS/45"
+    },
+    {
+      "id": "evaluation-6",
+      "source_result": {
+        "date": "2026-10-05",
+        "name": "Recomputed target, injected directly (not a write)",
+        "score": "61 of 72",
+        "best": 61,
+        "kind": "injection",
+        "verdict": "Proves a good-enough target exists for this model",
+        "ref": "CORPUS/47"
+      },
+      "question": "Would this help: Recomputed target, injected directly (not a write)?",
+      "result": "61 of 72. Proves a good-enough target exists for this model",
+      "rules_out": "The recorded limit: Proves a good-enough target exists for this model. This applies to the tested setup.",
+      "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
+      "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
+      "ref": "CORPUS/47"
+    },
+    {
+      "id": "evaluation-7",
+      "source_result": {
+        "date": "2026-10-05",
+        "name": "A second write on top of the first",
+        "score": "21 of 72 (vs 13)",
+        "best": 21,
+        "kind": "write",
+        "verdict": "Not enough gain",
+        "ref": "CORPUS/49"
+      },
+      "question": "Would this help: A second write on top of the first?",
+      "result": "21 of 72 (vs 13). Not enough gain",
+      "rules_out": "The recorded limit: Not enough gain. This applies to the tested setup.",
+      "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
+      "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
+      "ref": "CORPUS/49"
+    },
+    {
+      "id": "evaluation-8",
+      "source_result": {
+        "date": "2026-10-06",
+        "name": "Stacked second write",
+        "score": "24 of 72 (vs 12)",
+        "best": 24,
+        "kind": "write",
+        "verdict": "Doubles recall but disturbs other facts",
+        "ref": "CORPUS/50"
+      },
+      "question": "Would this help: Stacked second write?",
+      "result": "24 of 72 (vs 12). Doubles recall but disturbs other facts",
+      "rules_out": "The recorded limit: Doubles recall but disturbs other facts. This applies to the tested setup.",
+      "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
+      "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
+      "ref": "CORPUS/50"
+    },
+    {
+      "id": "evaluation-9",
+      "source_result": {
+        "date": "2026-10-06",
+        "name": "Self-improving loop (experimental)",
+        "score": "34 of 72",
+        "best": 34,
+        "kind": "candidate",
+        "verdict": "Promising, but may have seen test wordings; parked",
+        "ref": "loop ledger"
+      },
+      "question": "Would this help: Self-improving loop (experimental)?",
+      "result": "34 of 72. Promising, but may have seen test wordings; parked",
+      "rules_out": "The recorded limit: Promising, but may have seen test wordings; parked. This applies to the tested setup.",
+      "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
+      "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
+      "ref": "loop ledger"
+    },
+    {
+      "id": "evaluation-10",
+      "source_result": {
+        "date": "2026-10-06",
+        "name": "Step 1: fit three wordings at once",
+        "score": "not scored",
+        "best": null,
+        "kind": "inconclusive",
+        "verdict": "Solver could not fit it twice; inconclusive",
+        "ref": "CORPUS/51-52"
+      },
+      "question": "Would this help: Step 1: fit three wordings at once?",
+      "result": "not scored. Solver could not fit it twice; inconclusive",
+      "rules_out": "The recorded limit: Solver could not fit it twice; inconclusive. This applies to the tested setup.",
+      "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
+      "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
+      "ref": "CORPUS/51-52"
+    },
+    {
+      "id": "evaluation-11",
+      "source_result": {
+        "date": "2026-10-07",
+        "name": "Step 2: second address inside the name",
+        "score": "23 of 72 (vs 15)",
+        "best": 23,
+        "kind": "write",
+        "verdict": "Small gain with side effects; no",
+        "ref": "CORPUS/53"
+      },
+      "question": "Would this help: Step 2: second address inside the name?",
+      "result": "23 of 72 (vs 15). Small gain with side effects; no",
+      "rules_out": "The recorded limit: Small gain with side effects; no. This applies to the tested setup.",
+      "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
+      "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
+      "ref": "CORPUS/53"
+    },
+    {
+      "id": "evaluation-12",
+      "source_result": {
+        "date": "2026-10-07",
+        "name": "Step 3: new vocabulary word per name (repeat)",
+        "score": "46, 37, 40 of 72 (vs 14)",
+        "best": 46,
+        "kind": "inconclusive",
+        "verdict": "No clear answer: the two-word version could not be tested; the earlier one-word method repeated its result (provisional until you confirm)",
+        "ref": "CORPUS/54"
+      },
+      "question": "Would this help: Step 3: new vocabulary word per name (repeat)?",
+      "result": "46, 37, 40 of 72 (vs 14). No clear answer: the two-word version could not be tested; the earlier one-word method repeated its result (provisional until you confirm)",
+      "rules_out": "The recorded limit: No clear answer: the two-word version could not be tested; the earlier one-word method repeated its result (provisional until you confirm). This applies to the tested setup.",
+      "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
+      "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
+      "ref": "CORPUS/54"
+    },
+    {
+      "id": "evaluation-13",
+      "source_result": {
+        "date": "2026-10-07",
+        "name": "Step 5: ceiling test, first round (training, not a write)",
+        "score": "70 of 72 (interim, one seed)",
+        "best": 70,
+        "kind": "inconclusive",
+        "verdict": "Interim: training reaches 70 of 72 but disturbs nearby facts asked the same way; needs a repeat run before it counts",
+        "ref": "CORPUS/55"
+      },
+      "question": "Would this help: Step 5: ceiling test, first round (training, not a write)?",
+      "result": "70 of 72 (interim, one seed). Interim: training reaches 70 of 72 but disturbs nearby facts asked the same way; needs a repeat run before it counts",
+      "rules_out": "The recorded limit: Interim: training reaches 70 of 72 but disturbs nearby facts asked the same way; needs a repeat run before it counts. This applies to the tested setup.",
+      "leaves_open": "A general solution is not established by this row; different setups and repeat runs remain open.",
+      "next_step": "A next step for this individual result is not recorded in the scoreboard results.",
+      "ref": "CORPUS/55"
+    }
+  ]
+}
