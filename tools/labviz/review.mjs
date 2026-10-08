@@ -215,13 +215,16 @@ async function tabMeasurements(page, engine) {
 async function screenshot(page, engine, viewport, name) {
   const file = engine + '-' + viewport.name + '-' + name + '.png';
   await neutralFocus(page);
+  await page.evaluate(() => window.scrollTo(0, 0));
   await settle(page);
   const focus = await page.evaluate(() => {
     const skip = document.querySelector('.skip-link:not(:focus)'), rect = skip?.getBoundingClientRect();
-    return { active_element: document.activeElement?.tagName ?? null, body_focused: document.activeElement === document.body, skip_link_top_px: rect?.top ?? null, skip_link_bottom_px: rect?.bottom ?? null, skip_link_computed_top: skip ? getComputedStyle(skip).top : null };
+    const scrollY = window.scrollY;
+    return { active_element: document.activeElement?.tagName ?? null, body_focused: document.activeElement === document.body, scroll_y: scrollY, skip_link_top_px: rect?.top ?? null, skip_link_bottom_px: rect?.bottom ?? null, skip_link_page_top_px: rect ? rect.top + scrollY : null, skip_link_page_bottom_px: rect ? rect.bottom + scrollY : null, skip_link_computed_top: skip ? getComputedStyle(skip).top : null };
   });
   assert.ok(focus.body_focused, 'Screenshot must have neutral body focus');
-  assert.ok(focus.skip_link_top_px === null || (focus.skip_link_top_px < 0 && focus.skip_link_bottom_px <= 0 && parseFloat(focus.skip_link_computed_top) < 0), 'Skip link must stay hidden unless focused');
+  assert.ok(focus.skip_link_page_bottom_px === null || (focus.skip_link_page_bottom_px <= 0 && parseFloat(focus.skip_link_computed_top) < 0), 'Skip link must stay above the full-page capture unless focused');
+  assert.equal(focus.scroll_y, 0, 'Screenshot must start at the top of the page');
   report.screenshot_checks.push({ file, ...focus });
   await page.screenshot({ path: join(OUT, file), fullPage: true, animations: 'disabled' });
   report.screenshots.push(file);

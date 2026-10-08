@@ -16,6 +16,8 @@
   function fallback(message) {
     if (host) host.hidden=true;
     const flat=document.getElementById('tower-fallback'); if (flat) flat.hidden=false;
+    document.getElementById('show-3d')?.setAttribute('aria-pressed','false');
+    document.getElementById('show-2d')?.setAttribute('aria-pressed','true');
     status(message+' The recorded 2D view remains available.');
   }
   function stop() {

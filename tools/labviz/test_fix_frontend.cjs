@@ -356,6 +356,17 @@ test('Failed 3D request restores the pressed 2D toggle and visible fallback', as
   assert.equal(r.element('show-3d').getAttribute('aria-pressed'),'false');assert.equal(r.element('show-2d').getAttribute('aria-pressed'),'true');
   assert.equal(r.element('tower').hidden,true);assert.equal(r.element('tower-fallback').hidden,false);
 });
+test('Internal 3D failure restores the pressed 2D toggle through model fallback', async () => {
+  const elements=new Map(['tower','tower-fallback','model-status','show-2d','show-3d'].map(id=>[id,element(id)])),window={},dependencies=[];
+  elements.get('tower-fallback').hidden=true;
+  elements.get('show-3d').setAttribute('aria-pressed','true');elements.get('show-2d').setAttribute('aria-pressed','false');
+  const source=fs.readFileSync(path.join(packageRoot,'model.js'),'utf8').replaceAll('import(','loadDependency(');
+  vm.runInNewContext(source,{window,document:{getElementById:id=>elements.get(id)||null},loadDependency:async url=>{dependencies.push(url);throw new Error('Synthetic CDN failure');}},{filename:'model.js'});
+  await window.LabModel.start({parts:{structure:{layers:recorded(32)}}});
+  assert.equal(dependencies.length,2);assert.match(elements.get('model-status').textContent,/3D unavailable.*Synthetic CDN failure/);
+  assert.equal(elements.get('tower').hidden,true);assert.equal(elements.get('tower-fallback').hidden,false);
+  assert.equal(elements.get('show-3d').getAttribute('aria-pressed'),'false');assert.equal(elements.get('show-2d').getAttribute('aria-pressed'),'true');
+});
 test('Compare places data links in one spaced action row', () => {
   const r=app();r.api.renderCompare(card('run-a'),card('run-b'));const html=r.element('view-content').innerHTML;
   assert.match(html,/<div class="run-actions"><a[^>]*>Left run data<\/a><a[^>]*>Right run data<\/a><\/div>/);

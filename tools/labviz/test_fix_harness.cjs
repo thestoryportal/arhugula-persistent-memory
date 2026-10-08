@@ -86,7 +86,7 @@ function observationDOM(nodes = [], width = 390, hit = null) {
   };
   function focus(node) { if (document.activeElement) document.activeElement.focused = false; document.activeElement = node; node.focused = true; }
   for (const node of all) { node.focus = () => focus(node); node.blur = () => { node.focused = false; document.activeElement = body; }; }
-  const context = vm.createContext({ document, innerWidth: width, innerHeight: 844, devicePixelRatio: 1, location: { href: 'file:///fixture/index.html', hash: '' }, NodeFilter: { SHOW_TEXT: 4 }, getComputedStyle: node => node.style, requestAnimationFrame: work => work(), Event: class Event {} });
+  const context = vm.createContext({ document, innerWidth: width, innerHeight: 844, devicePixelRatio: 1, scrollX: 0, scrollY: 0, scrollTo(x,y) { context.scrollX=x; context.scrollY=y; }, location: { href: 'file:///fixture/index.html', hash: '' }, NodeFilter: { SHOW_TEXT: 4 }, getComputedStyle: node => node.style, requestAnimationFrame: work => work(), Event: class Event {} });
   vm.runInContext(measureSource, context);
   context.window = context;
   return { context, document, nodes, interactive, api: context.LabMeasure };
@@ -198,6 +198,36 @@ test('Screenshot rejects a skip link still covering content after focus is clear
   const runtime=reviewRuntime(), skip=element('skip-link','A',null,{className:'skip-link',style:{top:'10px'}});
   const dom=observationDOM([skip]),page=pageFixture(dom);
   await assert.rejects(runtime.fns.screenshot(page,'chromium',{name:'phone'},'map'),/skip link/i);
+  assert.equal(page.captures.length,0);
+});
+
+for (const engine of ['chromium','webkit']) test('Full-page capture settles scroll after a Tab walk in '+engine, async () => {
+  const runtime=reviewRuntime(), skip=element('skip-link','A',null,{className:'skip-link',style:{top:'-100px'},rect:{top:-150,bottom:-100}});
+  const dom=observationDOM([skip,element('last-control','INPUT')]),page=pageFixture(dom),press=page.keyboard.press,capture=page.screenshot;
+  page.keyboard.press=async key=>{await press(key);dom.context.scrollY=960;};
+  let pendingFrames=0,resets=0;
+  dom.context.scrollTo=(x,y)=>{assert.equal(x,0);assert.equal(y,0);resets++;pendingFrames=2;};
+  dom.context.requestAnimationFrame=callback=>{if(pendingFrames>0&&--pendingFrames===0)dom.context.scrollY=0;callback();};
+  page.screenshot=async options=>{
+    assert.equal(options.fullPage,true);await capture(options);
+    Object.assign(page.captures.at(-1),{scroll_y:dom.context.scrollY,skip_link_page_bottom_px:skip.getBoundingClientRect().bottom+dom.context.scrollY});
+  };
+  const tabs=await runtime.fns.tabMeasurements(page,engine);
+  assert.ok(tabs.visited.length>0);assert.equal(dom.context.scrollY,960);
+  assert.equal(dom.document.activeElement,dom.document.body);
+  await runtime.fns.screenshot(page,engine,{name:'phone'},'model-2d');
+  assert.equal(page.captures[0].scroll_y,0,'A scrolled full-page image would include the fixed skip link');
+  assert.ok(page.captures[0].skip_link_page_bottom_px<=0);
+  assert.equal(resets,1);assert.equal(pendingFrames,0);
+  const checks=vm.runInContext('report.screenshot_checks',runtime.context);
+  assert.equal(checks[0].scroll_y,0);assert.equal(checks[0].skip_link_page_top_px,-150);assert.equal(checks[0].skip_link_page_bottom_px,-100);
+});
+
+test('Full-page capture rejects a viewport-hidden skip link inside the document image', async () => {
+  const runtime=reviewRuntime(), skip=element('skip-link','A',null,{className:'skip-link',style:{top:'-100px'},rect:{top:-150,bottom:-100}});
+  const dom=observationDOM([skip]),page=pageFixture(dom);
+  dom.context.scrollY=960;dom.context.scrollTo=()=>{};
+  await assert.rejects(runtime.fns.screenshot(page,'chromium',{name:'phone'},'map'),/skip link.*full-page/i);
   assert.equal(page.captures.length,0);
 });
 
