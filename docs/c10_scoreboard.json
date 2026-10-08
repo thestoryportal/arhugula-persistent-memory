@@ -1,17 +1,21 @@
 {
   "_doc": "Plain-language scoreboard for the C10 problem (made-up multi-word names), shown by tools/dashboard_report.py. The program session updates it at every result and close-out: add a results row, refresh current/queue, rewrite the brief in plain words. Scores are held-out reworded questions answered exactly right, out of 72. Full detail lives in CORPUS; this file only points there.",
-  "updated": "2026-10-08 00:25 MDT",
+  "updated": "2026-10-08 01:37 MDT",
   "goal": 61,
   "out_of": 72,
   "brief": "We are trying to teach the model made-up names (like a project codename) so it can recall them when a question is worded differently. Ordinary facts already work (about 69 of 72). Made-up two-word names do not: the usual method gets about 9 to 14 of 72. Our best write method so far gives each made-up name its own new word in the model's vocabulary and reaches about 40 of 72; the goal is 61. Tonight's finished result, step 4: instead of spreading each fact over the same five layers of the model, we let each fact pick the one layer where a simple score said it would fit best. It got 12 of 72 against 11 for the usual method in the same run. Putting every fact at one fixed layer also got 12, and a scrambled choice of layers got 10, so the score that picked the layers did not help, and the new version also disturbed one of the nearby-fact checks a little more than allowed. Under the rules we set in advance this is 'not taken forward'. It does not prove that depth never matters: it was one way of choosing, tried once. Two reviewers checked the write-up; it ran on your standing go for the night, not a separate yes for this step. The 'ceiling' test trains the model directly on the facts. That is not a usable write method; it only shows what is reachable. On its first try it got 70 of 72, against 9 for the usual method, but it also disturbs nearby facts asked the same way. Its repeat run is the one that counts: it started at 21:42, four of its training rounds are done with no redo, and it should finish by about 05:10 at the latest. ASTRA is still being built. Steps 6 and 7 wait for the repeat run's result.",
   "current": [
     {
-      "what": "Step 5 ceiling test, repeat run: all six training rounds and the scoring finished (the repeat with a new seed recalled 71 of 72; the same-seed retrain was bit-for-bit identical to the first run). Then the final self-check stopped the run: a rounding error in one side measurement (how alike the two same-seed trainings are) came out slightly above its maximum of 1. Recomputed carefully it is exactly 1. No official reading yet. Re-running the scoring would take about 105 GPU-minutes, more than you approved, so this needs your call; the program recommends a no-GPU fix (re-read the saved results with the measurement corrected), after review",
+      "what": "Step 5 ceiling test, repeat run: STOPPED, needs your ruling. Training and scoring finished (new seed 71 of 72; same-seed retrain identical), but a rounding bug in the last self-check blocked the official reading. The recommended fix uses no GPU.",
       "status": "stopped: needs your ruling"
     },
     {
-      "what": "ASTRA: you approved its time limits; its plan is being updated and the code changes built and tested, then a 10-minute speed test sets the first phase's limit",
-      "status": "being built by Codex (started 00:18)"
+      "what": "ASTRA: Codex is building and testing the code (CPU only, started 00:57); then a 10-minute speed test on the GPU.",
+      "status": "being built"
+    },
+    {
+      "what": "Lab View v2: Codex is building phase 1 (CPU only, started 01:10); then a screenshot design review.",
+      "status": "being built"
     }
   ],
   "results": [
@@ -152,11 +156,6 @@
     }
   ],
   "queue": [
-    {
-      "name": "Step 5: ceiling test, repeat run (how far training alone gets on this model)",
-      "status": "stopped at its final check (rounding bug); needs your ruling",
-      "time": "scoring done; reading pending"
-    },
     {
       "name": "ASTRA: write every word of the answer at once",
       "status": "being built by Codex; its 10-minute speed test runs when the GPU is free",
