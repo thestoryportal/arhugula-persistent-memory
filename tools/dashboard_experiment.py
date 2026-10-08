@@ -182,6 +182,59 @@ def is_experiment_log(path):
     return parts[1:2] != ["labviz"] and any(x.startswith("c10") for x in parts[1:])
 
 
+BINDING = "A7_coined_coined"
+
+
+def answers_from_record(record):
+    """(recipe, templates, facts) for the binding arm of the last recipe that recorded the model's answers, else None.
+    facts = [{subj, val, answers: [(text, fully right), ...] in template order}]."""
+    for name, recipe in reversed(list((record.get("recipes") or {}).items())):
+        gen = (((recipe.get("arms") or {}).get(BINDING) or {}).get("extra") or {}).get("generated")
+        if not gen:
+            continue
+        templates = list(dict.fromkeys(g["template"] for g in gen))
+        vals = {d["subj"]: d.get("val") for d in ((recipe.get("detail") or {}).get(BINDING) or [])}
+        facts = {}
+        for g in gen:
+            f = facts.setdefault(g["subj"], {"subj": g["subj"], "val": vals.get(g["subj"]), "answers": [None] * len(templates)})
+            f["answers"][templates.index(g["template"])] = (g["text"].strip(), bool(g["full"]))
+        return name, templates, list(facts.values())
+    return None
+
+
+def words_lines(source, recipe, templates, facts, cols):
+    """The made-up facts, the questions asked and the model's own words for each, marked right (✓) or wrong (✗)."""
+    out = [f" {DIM}source: {source} · recipe {recipe} · made-up names arm · ✓ = whole answer right{RESET}"]
+    for i, t in enumerate(templates, 1):
+        out.append(f" {FG(214)}Q{i}{RESET} {t.replace('{}', '…')}")
+    name_w = min(max((len(f["subj"]) + 3 + len(f["val"] or "?") for f in facts), default=10), 34)
+    cell = max((cols - name_w - 6) // max(len(templates), 1) - 3, 8)
+    for f in facts:
+        cells = []
+        for a in f["answers"]:
+            if a is None:
+                cells.append(f"{FG(240)}{'· not recorded':<{cell + 2}}{RESET}")
+            else:
+                cells.append(f"{FG(40 if a[1] else 196)}{'✓' if a[1] else '✗'} {fit(a[0], cell):<{cell}}{RESET}")
+        out.append(f" {BOLD}{fit(f['subj'] + ' → ' + (f['val'] or '?'), name_w):<{name_w}}{RESET} " + " ".join(cells))
+    return out
+
+
+def latest_answers(data_dir):
+    """The newest recorded answers under an experiment's data folder: (source label, recipe, templates, facts) or None."""
+    paths = [p for pat in ("*/eval.json", "*/eval_halt.json", "*/attempt*/eval_halt.json", "*/pass*.json", "*.json")
+             for p in glob.glob(os.path.join(data_dir, pat))]
+    for p in sorted(paths, key=os.path.getmtime, reverse=True):
+        try:
+            found = answers_from_record(json.load(open(p)))
+        except (OSError, ValueError, KeyError, TypeError, AttributeError):
+            continue
+        if found:
+            label = os.path.relpath(p, ROOT) + (" (HALTED attempt)" if "halt" in os.path.basename(p) else "")
+            return (label,) + found
+    return None
+
+
 def render(cols, rows):
     top, pids, job = running()
     logs = sorted((p for p in glob.glob(os.path.join(ROOT, "results", "**", "*.log"), recursive=True)
@@ -230,8 +283,12 @@ def render(cols, rows):
     out.append(section("FINISHED RUNS", 25, cols))
     if wide:
         out.append(f" {DIM}  {'run':<{name_w}} {'reworded right (of 72)':<16}  {'train':>6}  {'ctrl':>6}  {'side effects':<18}  {'time':>7}{RESET}")
+    data_dir = run_dir[:-5] if run_dir.endswith("_logs") and os.path.isdir(run_dir[:-5]) else exp_dir
+    found = latest_answers(data_dir)
+    words = words_lines(*found, cols) if found else []
     now_rows = 9 if top else 2
-    out += table[-max(rows - len(out) - now_rows - 1, 1):]
+    keep = max(rows - len(out) - now_rows - 1 - (len(words) + 1 if words else 0), 4)
+    out += table[-keep:]
 
     if top:
         r = parse_log(cur)
@@ -249,9 +306,12 @@ def render(cols, rows):
         if r["inert"]:
             ok = r["inert"][1] == "INERT"
             out.append(f"   safety check: {BOLD}{FG(40 if ok else 196)}{'passed' if ok else 'FAILED'}{RESET} (change {r['inert'][0]})")
-        for l in r["lines"][-max(rows - len(out), 0):]:
+        for l in r["lines"][-max(min(rows - len(out), 4 if words else rows), 0):]:
             hl = 40 if re.search(r"INERT|PASS|BEHAVIOR", l) else 196 if re.search(r"HALT|FAIL|Error", l) else 250
             out.append(f"   {FG(hl)}{fit(l.strip(), cols - 4)}{RESET}")
+    if words and rows - len(out) > 3:   # below NOW, so a running stage's progress is never pushed off
+        out.append(section("WORDS & MODEL ANSWERS (newest recorded scoring)", 30, cols))
+        out += words[: rows - len(out)]
     return out[:rows]
 
 

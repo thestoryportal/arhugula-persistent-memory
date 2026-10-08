@@ -113,5 +113,37 @@ class Clip(unittest.TestCase):
         self.assertEqual(L.clip("ab", 5), "ab")
 
 
+class WordsAndAnswers(unittest.TestCase):
+    def setUp(self):
+        import dashboard_experiment as X
+        self.X = X
+        gen = [{"subj": "Zorbland", "template": t, "text": x, "full": f}
+               for t, x, f in (("{}'s capital city is called", " Vondurk, and", False),
+                               ("If you visit {}, its capital city is", " Vindex Vaskul,", True),
+                               ("The main city and seat of government of {} is", " Vindex Vask.", True))]
+        self.record = {"recipes": {"closedform": {"arms": {}},
+                                   "oracle_p1": {"arms": {"A7_coined_coined": {"extra": {"generated": gen}}},
+                                                 "detail": {"A7_coined_coined": [{"subj": "Zorbland", "val": "Vindex Vask"}]}}}}
+
+    def test_facts_from_the_last_recipe_with_answers(self):
+        recipe, templates, facts = self.X.answers_from_record(self.record)
+        self.assertEqual(recipe, "oracle_p1")
+        self.assertEqual(templates[1], "If you visit {}, its capital city is")
+        self.assertEqual(facts, [{"subj": "Zorbland", "val": "Vindex Vask",
+                                  "answers": [("Vondurk, and", False), ("Vindex Vaskul,", True), ("Vindex Vask.", True)]}])
+
+    def test_lines_mark_right_and_wrong_and_show_the_words(self):
+        recipe, templates, facts = self.X.answers_from_record(self.record)
+        text = "\n".join(self.X.words_lines("eval.json", recipe, templates, facts, 160))
+        plain = __import__("re").sub(r"\033\[[0-9;]*m", "", text)
+        self.assertIn("Zorbland → Vindex Vask", plain)
+        self.assertIn("✗ Vondurk, and", plain)
+        self.assertIn("✓ Vindex Vaskul,", plain)
+        self.assertIn("Q2 If you visit …, its capital city is", plain)
+
+    def test_no_answers_recorded(self):
+        self.assertIsNone(self.X.answers_from_record({"recipes": {"r": {"arms": {"A1_single": {}}}}}))
+
+
 if __name__ == "__main__":
     unittest.main()
