@@ -1,12 +1,12 @@
 {
   "_doc": "Plain-language scoreboard for the C10 problem (made-up multi-word names), shown by tools/dashboard_report.py. The program session updates it at every result and close-out: add a results row, refresh current/queue, rewrite the brief in plain words. Scores are held-out reworded questions answered exactly right, out of 72. Full detail lives in CORPUS; this file only points there.",
-  "updated": "2026-10-07 20:14 MDT",
+  "updated": "2026-10-07 20:23 MDT",
   "goal": 61,
   "out_of": 72,
   "brief": "We are trying to teach the model made-up names (like a project codename) so it can recall them when a question is worded differently. Ordinary facts already work (about 69 of 72). Made-up two-word names do not: the usual method gets about 9 to 14 of 72. Our best write method so far gives each made-up name its own new word in the model's vocabulary and reaches about 40 of 72; the goal is 61. Today we finished the first round of the 'ceiling' test, which trains the model directly on the facts. That is not a usable write method; it only shows what is reachable. On one try it got 70 of 72, against 9 for the usual method in the same run. But it also disturbs nearby facts asked the same way: made-up names it was never taught start drifting toward the taught ones. Part of the success may also come from the second word simply following the first, whoever the question is about. One try does not count: the rules need a repeat run before this result means anything, and the repeat cannot turn it into a clean pass, because the disturbance is already on record. What this means: training can reach the numbers, but not cleanly so far. Next: your OK for the repeat run (up to about 7.5 hours) and, only if the rules call for it, a larger-capacity check (up to about 5.5 hours). Meanwhile the per-fact depth test is getting its final check before it runs; steps 6 and 7 wait for the repeat run.",
   "current": [
     {"what": "Step 5 ceiling test: first round done and recorded as interim; the repeat run needs your OK", "status": "waiting for you"},
-    {"what": "Step 4 per-fact depth test: both reviewers cleared it; running now (about 2.5 to 4 hours, longer if a repeat is needed)", "status": "running"},
+    {"what": "Step 4 per-fact depth test: first stage done (each fact was given its depth, and the choice came out the same on a second try); main run started 20:23, about 2.5 to 4 hours, longer if a repeat is needed", "status": "running"},
     {"what": "ASTRA: time limits revised after two reviews; three yes/no questions waiting for you; runs after steps 5 and 4", "status": "waiting for you"}
   ],
   "results": [
@@ -27,7 +27,7 @@
   ],
   "queue": [
     {"name": "Step 5: ceiling test (how far training alone gets on this model)", "status": "first round done; repeat waits for your OK", "time": "up to 7.5 h (+5.5 h if needed)"},
-    {"name": "Step 4: let each fact pick its own depth", "status": "built; final check under way", "time": "about 1-2 h"},
+    {"name": "Step 4: let each fact pick its own depth", "status": "running (main run started 20:23)", "time": "about 2.5-4 h"},
     {"name": "ASTRA: write every word of the answer at once", "status": "built, budget being set", "time": "hours"},
     {"name": "Step 6: two engine changes (spread and reweighting)", "status": "frozen, to build; waits for step 5", "time": "about 3-7 h"},
     {"name": "Step 7: solve the weight change directly (measurement)", "status": "frozen, to build; waits for step 5", "time": "about 5-11 h"},
