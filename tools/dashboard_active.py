@@ -11,7 +11,8 @@ SKIP = {"dashboard", "dashboard_new"}
 
 
 def label(s):
-    return "LEAD · program session" if s == "program" else f"Codex {s[5:].upper() or 'A'}" if s.startswith("codex") else s
+    special = {"program": "LEAD · program session", "codexviz": "Codex · Lab View build"}
+    return special.get(s) or (f"Codex {s[5:].upper() or 'A'}" if s.startswith("codex") else s)
 
 
 def active_sessions(now):
