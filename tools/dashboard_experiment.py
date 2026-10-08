@@ -6,6 +6,7 @@ training-loss trend, cleaned live log). When the GPU is idle it shows the last e
 Usage: python3 dashboard_experiment.py [--once COLS ROWS]
 """
 import glob, json, os, re, subprocess, sys, textwrap, time
+import dashboard_live
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GOAL, OUT_OF = 61, 72
@@ -100,7 +101,7 @@ def machine(pids, cols=200):
 def running():
     top, pids, job = None, [], None
     for line in sh("/bin/ps", "-axo", "pid=,etime=,command=").splitlines():
-        m = re.search(r"experiments/track_c/(c10[a-z])_\w+\.py (\S+)", line)
+        m = dashboard_live.GPU_JOB_RE.search(line)
         if not m:
             continue
         pid, etime = line.split()[:2]
@@ -321,7 +322,8 @@ def render(cols, rows):
             hl = 40 if re.search(r"INERT|PASS|BEHAVIOR", l) else 196 if re.search(r"HALT|FAIL|Error", l) else 250
             out.append(f"   {FG(hl)}{fit(l.strip(), cols - 4)}{RESET}")
     if words and rows - len(out) > 3:   # below NOW, so a running stage's progress is never pushed off
-        out.append(section("WORDS & MODEL ANSWERS (newest recorded scoring)", 30, cols))
+        title = "WORDS & MODEL ANSWERS (newest recorded scoring" + ("; the running stage records its own only when it finishes)" if top else ")")
+        out.append(section(title, 30, cols))
         out += words[: rows - len(out)]
     return out[:rows]
 
@@ -331,7 +333,6 @@ def main():
         i = sys.argv.index("--once")
         print("\n".join(render(int(sys.argv[i + 1]), int(sys.argv[i + 2]))))
         return
-    import dashboard_live
     stamp = dashboard_live.source_stamp(dashboard_live.TOOLS)
     while True:
         dashboard_live.maybe_reload(stamp)

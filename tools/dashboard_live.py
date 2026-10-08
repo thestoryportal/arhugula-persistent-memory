@@ -8,6 +8,10 @@ import glob, os, re, subprocess, sys, time
 from datetime import datetime
 
 TOOLS = os.path.dirname(os.path.abspath(__file__))
+# The one definition of a C10 GPU-job process and its stage: a driver (experiments/track_c/c10?_*.py <stage>),
+# a program tool (tools/c10?_*.py <verb>, e.g. the P2 re-attempt evaluator) or a stage wrapper (tools/run_c10?*_stage.sh <stage>).
+# The experiment tab and the status bar read the same pattern, so they cannot disagree about whether the GPU is busy.
+GPU_JOB_RE = re.compile(r"(?:experiments/track_c/|tools/(?:run_)?)(c10[a-z])\w*?(?:\.py|_stage\.sh) ([\w-]+)")
 ROOT = os.path.dirname(TOOLS)
 SHORT = {"c10u": "Step 3", "c10v": "Step 4", "c10w": "Step 5", "c10x": "Step 6", "c10y": "Step 7", "c10z": "ASTRA"}
 NOT_TEAM = {"dashboard", "dashboard_new", "helpers"}
@@ -149,7 +153,7 @@ def gpu_state():
     ps = sh("/bin/ps", "-axo", "etime=,command=")
     running = None
     for line in ps.splitlines():
-        m = (re.search(r"experiments/track_c/(c10[a-z])_\w+\.py ([\w-]+)", line)
+        m = (GPU_JOB_RE.search(line)
              or re.search(r"tools/run_(c10[a-z])\w*\.sh", line))
         if m and (m.lastindex < 2 or m.group(2) != "_job"):
             running = (m.group(1), m.group(2) if m.lastindex >= 2 else "between stages", line.split()[0])
