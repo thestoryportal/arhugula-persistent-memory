@@ -228,7 +228,7 @@ def _recipe(recipe, name):
             _dict(legacy[layer], ('delta_norm', 'weight_norm_before', 'relative_delta_norm'),
                   name + '.delta_norm.' + layer)
             for key in ('delta_norm', 'weight_norm_before', 'relative_delta_norm'):
-                _num(legacy[layer][key], name + '.delta_norm.' + key, 0)
+                _fp32_number(legacy[layer][key], name + '.delta_norm.' + key)
 
 
 def law3(recipe):
@@ -595,11 +595,20 @@ def _batch(value, count, name):
     return width
 
 
+def _fp32_number(value, name):
+    if value == 'NONFINITE':
+        return
+    if type(value) is dict:
+        _need(set(value) == {'nonfinite'} and value['nonfinite'] in ('inf', '-inf', 'nan'),
+              name + ' has an invalid nonfinite diagnostic tag')
+        return
+    _num(value, name, 0)
+
+
 def _fp32_report(value, name):
     _dict(value, ('relative', 'max_abs', 'opposite_tolerance_result'), name)
-    if value['relative'] != 'NONFINITE':
-        _num(value['relative'], name + '.relative', 0)
-    _num(value['max_abs'], name + '.max_abs', 0)
+    _fp32_number(value['relative'], name + '.relative')
+    _fp32_number(value['max_abs'], name + '.max_abs')
     _need(type(value['opposite_tolerance_result']) is bool, name + ' lacks its diagnostic boolean')
 
 
@@ -625,7 +634,7 @@ def _captures(value, layers, writer, check, name, zero=False):
               type(capture['layer']) is int and capture['layer'] == layer,
               name + ' update capture attribution/order mismatch')
         _num(capture['norm_float64'], name + '.norm_float64', 0)
-        _num(capture['report_only_norm_fp32'], name + '.report_only_norm_fp32', 0)
+        _fp32_number(capture['report_only_norm_fp32'], name + '.report_only_norm_fp32')
         _sha(capture['sha256'], name + '.sha256')
         if zero:
             _need(capture['norm_float64'] == 0, name + ' contains a nonzero null update')
@@ -1032,8 +1041,7 @@ def _file_evidence(record, supervisor):
         ratio = sum(record['recipes'][name]['write_norms_float64'][ARMS[2]].values()) / baseline
         _num(report['ratio_float64'], 'write_size.ratio_float64', 0)
         _need(report['ratio_float64'] == ratio, 'write-size diagnostic differs from captured norms')
-        if report['ratio_fp32_report_only'] != 'NONFINITE':
-            _num(report['ratio_fp32_report_only'], 'write_size.ratio_fp32_report_only', 0)
+        _fp32_number(report['ratio_fp32_report_only'], 'write_size.ratio_fp32_report_only')
         _need(type(report['opposite_1_5_result']) is bool, 'write-size fp32 diagnostic boolean missing')
     caps = {'setup': 600., 'A': 2040., 'targets': 2400., 'inertness': 3000.,
             'injection': 1500., 'I-2': 2040., 'I-1': 2040., 'final': 780.}

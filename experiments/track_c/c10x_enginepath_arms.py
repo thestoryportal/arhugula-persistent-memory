@@ -285,6 +285,7 @@ def supervise_child(argv, root, env, record, stage_seconds, process_seconds):
 class Telemetry:
     def __init__(self,out,process,run_id):
         self.enabled=True;self.file=None;self.cumulative_s=0.;self.process=process;self.run_id=run_id
+        self.answer_attempts=0
         self.answer_line_seconds=[];self.lens_forward_seconds=[];self.lines=[]
         try:
             started=TELEMETRY_CLOCK()
@@ -292,10 +293,12 @@ class Telemetry:
             self.file=(directory/f'telemetry_p{process}.jsonl').open('a',encoding='utf8')
             self._emit('header',started,schema='c10x_enginepath_telemetry/v1',telemetry=True)
         except Exception as exc:self._disable(exc)
-    def _disable(self,exc):
+    def _disable(self,exc,answer_cutoff=None):
         if self.enabled:
             self.enabled=False
-            print(f'C10X_TELEMETRY_DISABLED {type(exc).__name__}: {exc}',file=sys.__stderr__,flush=True)
+            cutoff={'answer_cutoff':self.answer_attempts if answer_cutoff is None else answer_cutoff,
+                    'process':self.process,'run_id':self.run_id}
+            print(f'C10X_TELEMETRY_DISABLED {type(exc).__name__}: {exc} C10X_ANSWER_CUTOFF '+json.dumps(cutoff,sort_keys=True),file=sys.__stderr__,flush=True)
     def _emit(self,kind,started,**payload):
         line={**payload,'kind':kind,'t_utc':utc(),'elapsed_s':TELEMETRY_CLOCK()-started,
               'cumulative_s':self.cumulative_s,'process':self.process,'run_id':self.run_id}
@@ -310,7 +313,8 @@ class Telemetry:
     def write_norms(self,recipe,arm,mode,harness_fp32,driver_float64=None):
         try:
             if self.enabled:
-                payload={'recipe':recipe,'arm':arm,'mode':mode,'harness_fp32':harness_fp32}
+                from c10x_enginepath_inertness import fp32_report
+                payload={'recipe':recipe,'arm':arm,'mode':mode,'harness_fp32':fp32_report(harness_fp32)}
                 if driver_float64 is not None:payload['driver_float64']=driver_float64
                 self._emit('write_norms',TELEMETRY_CLOCK(),**payload)
         except Exception as exc:self._disable(exc)
@@ -319,8 +323,10 @@ class Telemetry:
             if self.enabled:self._emit('target_probs',TELEMETRY_CLOCK(),table=table,values=values)
         except Exception as exc:self._disable(exc)
     def answer(self,H,recipe,phase,prompt,target_ids,gen):
+        cutoff=self.answer_attempts
         try:
             if not self.enabled:return
+            self.answer_attempts+=1
             started=TELEMETRY_CLOCK();rqs=H._ARM_STATE['requests']
             arms=[k for k,v in H.ARMS.items() if len(rqs)==len(v) and all(v.get(r['subject'])==r['target_new']['str'][1:] for r in rqs)]
             matches=[(s,v,t) for s,v in H.ARMS[arms[0]].items() for t in [H.CANON]+H.PTEST if t.format(s)==prompt] if len(arms)==1 else []
@@ -329,7 +335,7 @@ class Telemetry:
             self._emit('answer',started,recipe=recipe,arm=arms[0],phase=phase,subj=s,val=v,template=t,
                        prompt=prompt,target_ids=target_ids,generated_ids=gen,text=H.tok.decode(gen),
                        full=gen==list(target_ids),first=gen[0]==target_ids[0])
-        except Exception as exc:self._disable(exc)
+        except Exception as exc:self._disable(exc,answer_cutoff=cutoff)
     def logit_lens(self,H,hp,where):
         try:
             if not self.enabled:return
@@ -342,6 +348,11 @@ class Telemetry:
         except Exception as exc:self._disable(exc)
 
 
+def forward_tokens(model,batch,**kwargs):
+    tokens=dict(batch);mask=tokens.pop('attention_mask')
+    return model(**tokens,attention_mask=mask,**kwargs)
+
+
 def logit_lens(H,hp,timings=None):
     import torch
     from c10x_enginepath_inertness import require
@@ -351,7 +362,7 @@ def logit_lens(H,hp,timings=None):
         for subject in H.FICTION:
             start=TELEMETRY_CLOCK()
             prompt=H.CANON.format(subject);ids=H.tok(prompt,return_tensors='pt').to(H.DEV)
-            out=H.model(**ids,output_hidden_states=True,use_cache=False)
+            out=forward_tokens(H.model,ids,output_hidden_states=True,use_cache=False)
             top={}
             for l in hp.layers:
                 logits=H.model.lm_head(H.model.model.norm(out.hidden_states[l+1][:,-1,:]))
@@ -489,7 +500,7 @@ def fe_edit(hp, requests, P, cache_c, mode="fe"):
         rel = upd_norm / max(before, 1e-12)
         delta_norms[str(layer)] = {"delta_norm": upd_norm, "weight_norm_before": before, "relative_delta_norm": rel}
         with torch.no_grad():
-            npd[weight_name(hp, layer)][...] += upd.to(npd[weight_name(hp, layer)].device, npd[weight_name(hp, layer)].dtype)
+            npd[weight_name(hp, layer)][...] += upd.cpu().to(dtype=npd[weight_name(hp, layer)].dtype).to(npd[weight_name(hp, layer)].device)
     for i, layer in enumerate(layers):
         K = compute_ks(model, tok, requests, hp, layer, ctx).T.float().cpu()
         cache_c[i] = cache_c[i] + K @ K.T
@@ -513,6 +524,13 @@ def verify_fe_ast(path):
     resid=loop.body[5]
     if ast.unparse(resid)!="resid = tgt / (len(layers) - i) if mode == 'identity' else tgt":return False
     resid.value=copy.deepcopy(original.body[7].body[5].value)
+    writes=[n for n in ast.walk(own) if isinstance(n,ast.AugAssign)]
+    old_writes=[n for n in ast.walk(original) if isinstance(n,ast.AugAssign)]
+    safe=ast.parse('upd.cpu().to(dtype=npd[weight_name(hp, layer)].dtype).to(npd[weight_name(hp, layer)].device)',mode='eval').body
+    writes=[n for n in writes if isinstance(n.target,ast.Subscript)]
+    old_writes=[n for n in old_writes if isinstance(n.target,ast.Subscript)]
+    if len(writes)!=1 or len(old_writes)!=1 or ast.dump(writes[0].value)!=ast.dump(safe):return False
+    writes[0].value=copy.deepcopy(old_writes[0].value)
     own.name='my_edit';own.args=copy.deepcopy(original.args)
     return ast.dump(own)==ast.dump(original)
 
@@ -591,6 +609,7 @@ def dispatch(hp,requests,P,cache_c):
     if not active:H.Z_OVERRIDE_HITS=ORIGINAL_EDIT.__globals__.get('Z_OVERRIDE_HITS',H.Z_OVERRIDE_HITS)
     WRITE_NORMS[arm]={str(r['layer']):r['norm_float64'] for r in captured}
     RHO[arm]=diagnostics
+    result=I.fp32_report(result)
     if TELEMETRY is not None:
         TELEMETRY.write_norms(ACTIVE_RECIPE,arm,'fe' if active else 'original',result,diagnostics['rho'] if active else None)
     return result
@@ -618,6 +637,9 @@ def recipe(harness,name,path,fe,ot,pristine,telemetry=None):
         result['counters']=[H.Z_OVERRIDE_HITS,FE_CALLS]
         result['write_norms_float64']=copy.deepcopy(WRITE_NORMS)
         result['residual_diagnostics']=copy.deepcopy(RHO)
+        if 'delta_norms' in result:
+            from c10x_enginepath_inertness import fp32_report
+            result['delta_norms']=fp32_report(result['delta_norms'])
         if gate_audit:result['law5_gate'].update(gate_audit)
         enrich_recipe(result)
         return result
@@ -689,13 +711,13 @@ def batch_replay(harness,hp,requests,overwrite=None):
         def fn(module,inp,out):
             hid=out[0] if isinstance(out,tuple) else out
             if overwrite is not None and layer==hp.layers[0]:
-                for row,idx in enumerate(indices):hid[row,idx,:]=overwrite[row].to(hid.device,hid.dtype)
+                for row,idx in enumerate(indices):hid[row,idx,:]=overwrite[row].cpu().to(dtype=hid.dtype).to(hid.device)
             captured[layer]=cpu_copy(torch.stack([hid[row,idx] for row,idx in enumerate(indices)]))
             return out
         return fn
     try:
         for layer in hp.layers:handles.append(harness.model.model.layers[layer].register_forward_hook(callback(layer)))
-        with torch.no_grad():harness.model(**batch)
+        with torch.no_grad():forward_tokens(harness.model,batch)
     finally:
         for handle in handles:handle.remove()
     require(set(captured)==set(hp.layers),'REPLAY_LAYER_CAPTURE')
@@ -980,7 +1002,7 @@ def inject_sweep(harness,hp,values,table,layer):
             if isinstance(vector,dict):vector=vector[layer]
             def overwrite(module,inputs,output):
                 hidden=output[0] if isinstance(output,tuple) else output
-                hidden[:,idx,:]=vector.to(hidden.device,hidden.dtype)
+                hidden[:,idx,:]=vector.cpu().to(dtype=hidden.dtype).to(hidden.device)
                 return output
             handle=harness.model.model.layers[layer].register_forward_hook(overwrite)
             try:hits.append(harness.full_seq_match(template.format(subject),tids)[0])
@@ -995,7 +1017,7 @@ def inject_sweep(harness,hp,values,table,layer):
 
 def top1(harness,prompt):
     import torch
-    with torch.no_grad():return int(harness.model(**harness.tok(prompt,return_tensors='pt').to(harness.DEV)).logits[0,-1].argmax())
+    with torch.no_grad():return int(forward_tokens(harness.model,harness.tok(prompt,return_tensors='pt').to(harness.DEV)).logits[0,-1].argmax())
 
 
 def injection_screen(harness,hp,targets,pristine):
@@ -1067,14 +1089,15 @@ def tokenizer_identity(harness):
 
 def write_size_reports(recipes):
     import torch
+    from c10x_enginepath_inertness import fp32_report,fp32_value
     result={};a7=ARM_NAMES[2]
     baseline64=sum(recipes['A']['write_norms_float64'][a7].values())
-    baseline32=torch.tensor([recipes['A']['delta_norms'][a7][str(l)]['delta_norm'] for l in range(4,9)],dtype=torch.float32).sum()
+    baseline32=torch.tensor([fp32_value(recipes['A']['delta_norms'][a7][str(l)]['delta_norm']) for l in range(4,9)],dtype=torch.float32).sum()
     for name in ('I-2','I-1'):
         ratio64=sum(recipes[name]['write_norms_float64'][a7].values())/baseline64
-        candidate32=torch.tensor([recipes[name]['delta_norms'][a7][str(l)]['delta_norm'] for l in range(4,9)],dtype=torch.float32).sum()
+        candidate32=torch.tensor([fp32_value(recipes[name]['delta_norms'][a7][str(l)]['delta_norm']) for l in range(4,9)],dtype=torch.float32).sum()
         ratio32=float(candidate32/baseline32)
-        result[name]={'ratio_float64':ratio64,'ratio_fp32_report_only':ratio32 if math.isfinite(ratio32) else 'NONFINITE',
+        result[name]={'ratio_float64':ratio64,'ratio_fp32_report_only':fp32_report(ratio32),
                       'opposite_1_5_result':math.isfinite(ratio32) and ((ratio32>1.5)!=(ratio64>1.5))}
     return result
 

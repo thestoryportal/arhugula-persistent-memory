@@ -1541,3 +1541,472 @@ The first column of hashes is the original before-state. The final column is the
 | `tools/engine_fingerprint.py` | `450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162` | `450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162` |
 
 Complete original, amended and final hash JSONs, full `(path,size,mtime_ns)` listings and unfiltered deltas are preserved in the scratch directories cited above. After report publication, `/private/tmp/c10x_build/after_report/` rechecks scope; `/private/tmp/c10x_build/report_receipt.json` records the final report digest and final source identities outside the report itself.
+
+## Review fixes
+
+**DONE — 72 model-free CPU tests PASS (17.559s), zero failures/errors.** The blocking Amendment M report-only defect and advisory disable-cutoff defect are repaired. This section also closes the program's forward-mask audit and subsequent device/dtype conversion correction. The original report's 159,745-byte prefix is preserved byte for byte; its SHA-256 is `e1f506d26a345f2c687a3502dd8bad39eb4718944a8a9a5fe6e665aca34efabc`. Its 63-test and 18-mutant results remain historical evidence for the original source identity. The 18 mutants were not rerun against the revised sources; the full 72-test result below is current.
+
+Input review: `results/c10x_build_astra_review.md:1`, read in full, SHA-256 `1ce2c9cd623057b3308d9e8f9eb2b09e5612ff328029b72e5579ff0d29c65454`. Its requested Astra backend/effort remains UNVERIFIABLE, as the review itself states. The program's later correction supersedes the attention-mask hypothesis: **the mask hypothesis was REFUTED**. The program reports a machine-verified torch 2.8/MPS defect for nonzero-storage-offset views during a combined CPU transfer and dtype conversion. This build did not run an MPS probe and does not independently establish that runtime finding.
+
+### Amendment M: fp32 diagnostics cannot veto science
+
+`experiments/track_c/c10x_enginepath_inertness.py:14` encodes report-only infinities/NaNs as `{"nonfinite":"inf"}`, `{"nonfinite":"-inf"}`, or `{"nonfinite":"nan"}`. Finite numbers remain numbers. Captured update diagnostics use that encoding at `c10x_enginepath_inertness.py:133`; the captured matrix itself is still returned by identity. CPU float64 finiteness, norm, parity, floor and tolerance checks are unchanged and strict. The existing CPU-before-cast helper is `c10x_enginepath_inertness.py:33`.
+
+The driver normalizes only report copies at `c10x_enginepath_arms.py:609` (dispatch), `:641` (recipe boundary), and `:1114` (fp32 size-ratio diagnostic). Telemetry's report-only harness norms are encoded inside its Exception boundary at `:313`. The float64 size ratio remains the scientific ratio; a nonfinite fp32 ratio is tagged and its diagnostic “opposite” boolean is false.
+
+The reader admits those exact tags only in fp32 diagnostic fields: `c10x_enginepath_read.py:210` (legacy recipe norms), `:598` (fp32 value validator), `:608` (parity report), `:628` (attributed capture), and `:981` (file evidence/size diagnostics). The existing `NONFINITE` report string remains supported for older diagnostic representations. Ordinary JSON nonfinite numbers and malformed tags still fail strict record/schema validation. No tagged value is used to choose acceptance, eligibility, qualifiers or a verdict; scientific float64 values still go through the unchanged numeric validators.
+
+Tests 64–66 use actual finite fp32 tensors filled with `3e37` whose fp32 norm overflows to infinity, and a nearby tensor whose fp32 relative reduction is NaN. They prove update-object identity, finite float64 comparisons, strict JSON round trips, unchanged reader labels/qualifiers/eligibility, and unchanged complete-file admission after substituting inf/NaN tags throughout the diagnostic fields. Companion records and saved CPU tensors are audited through the actual file reader. Nonfinite float64 norms/ratios, nonfinite gate relative distances, and over-tolerance float64 values still refuse admission.
+
+### T11: disable excuses only subsequent omissions
+
+`c10x_enginepath_arms.py:296` retains the original single `C10X_TELEMETRY_DISABLED <ExcType>: <msg>` prefix and appends `C10X_ANSWER_CUTOFF` plus JSON containing `answer_cutoff`, `process` and `run_id`. The cutoff is the number of answer attempts preceding the failed answer; an initialization failure has cutoff zero. `answer()` records the pre-attempt cutoff at `:325`. Public telemetry methods still catch Exception, disable later calls, and never catch BaseException.
+
+`c10x_enginepath_telemetry_check.py:250` requires every expected answer before that cutoff. Earlier omissions produce MISSING and require a rerun; omissions from the failed answer onward may receive the DISABLED-only disposition. Expected answer order follows the actual A → I-2 → I-1 recipe order, fixed arm order, recorded rows and canonical/held-out template order (`:357`), regardless of JSON object-member order. `audit()` at `:407` requires one well-formed marker with the matching process/run identity and a strict integer cutoff in range. Legacy markers without a cutoff, booleans, malformed/duplicate markers and wrong identities cannot excuse missing answers. Duplicate/unexpected/mismatched/malformed answer lines retain their rerun dispositions.
+
+Tests 67–69 cover an earlier omission with cutoff 2, later-only omissions, initialization failure, invalid ordinal, wrong identity, legacy marker, exactly one disable marker, the failed-answer cutoff and fixed recipe order. The scientific reader still never reads telemetry.
+
+### Forward-mask audit retained after the refutation
+
+The following C10X call sites now pass an explicit mask:
+
+| Current call site | Mask supplied |
+|---|---|
+| `c10x_enginepath_arms.py:365` — logit lens | Original tokenizer mask through `forward_tokens()` at `:351`. |
+| `c10x_enginepath_arms.py:387` — observed scorer | `torch.ones_like(cur)` for each unpadded single sequence. |
+| `c10x_enginepath_arms.py:404` — reference/calibration scorer | `torch.ones_like(cur)` for each unpadded single sequence. |
+| `c10x_enginepath_arms.py:743` — padded canonical replay | Original padded tokenizer mask through `forward_tokens()`. |
+| `c10x_enginepath_arms.py:1044` — pristine/frame/relation top-1 probes | Original tokenizer mask through `forward_tokens()`. |
+| `c10x_enginepath_arms.py:1086` — teacher-forced probe curve | `torch.ones_like(cur)`. |
+| `c10x_overtone_z.py:145` — OverTone solve | Explicit `input_tok['attention_mask']`, preserving the rest of the tokenizer batch. |
+
+`forward_tokens()` removes only the mask from a copied tokenizer mapping and supplies that identical mask as an explicit keyword; all other inputs and requested lens options are preserved. Projection/norm/lm-head module calls do not consume token attention masks and are not language-model forward calls.
+
+The unchanged frozen harness has four input-ID-only calls: `c10e_bandknob.py:114` (full-sequence scorer), `:127` (string scorer), `:141` (teacher-forced per-token scorer), and `:306` (sentence NLL/locality). A top-level science setup pre-hook at `c10x_enginepath_arms.py:430` supplies explicit all-ones kwargs before those unpadded single-sequence forwards. It refuses an unmasked multi-row batch instead of guessing a padding mask, and leaves a supplied mask object unchanged. `configure()` installs it before the pristine snapshot (`:445`); `release()` removes it (`:466`). This is a science setup guard, not a telemetry observation hook. Direct T8 helper entry also establishes it before its warmup (`:755`); the real calibration entry configures H at `c10x_enginepath_telemetry_check.py:321`. The frozen harness predictor (`c10e_bandknob.py:103`), engine `compute_z.py:122`, and `rome/repr_tools.py:147` already unpack tokenizer batches containing their masks.
+
+Test 70 scans all direct language-model calls in the five production modules and records the actual forward kwargs on tiny CPU models. It exercises all four inherited harness scorers, the lens, padded replay and a standalone calibration helper after removing its previous setup guard, with more than 400 recorded forwards. Test 71 rejects unmasked batches, preserves a supplied padding mask by identity and verifies guard removal. The frozen harness file is never imported in a test; its function ASTs are compiled into the CPU stub namespace.
+
+### Device/dtype audit and safe transfers
+
+Every combined device-plus-dtype conversion in the C10X production modules was rewritten. Both transfers and casts are now separate calls, with CPU transfer before the dtype cast:
+
+| Current site | Replacement |
+|---|---|
+| `c10x_enginepath_arms.py:526` — FE update before weight addition | `upd.cpu().to(dtype=weight.dtype).to(weight.device)` (the code resolves the same weight through `npd[weight_name(...)]`). |
+| `c10x_enginepath_arms.py:737` — replay overwrite row | `overwrite[row].cpu().to(dtype=hid.dtype).to(hid.device)`. |
+| `c10x_enginepath_arms.py:1029` — injection overwrite | `vector.cpu().to(dtype=hidden.dtype).to(hidden.device)`. |
+
+No combined device/dtype `.to(...)` remains in the five C10X production modules. The existing reporting/capture paths already transfer to CPU before upcasting: lens `c10x_enginepath_arms.py:369`, target observation via `cpu_copy()`, update capture `c10x_enginepath_inertness.py:133`, and independent loss audit `c10x_enginepath_read.py:521–524`. OverTone's MPS-side dtype-only casts and its separate CPU snapshots were also audited. They contain no combined device/dtype transfer.
+
+Test 72 rejects keyword, positional and mixed forms, including `to(device='cpu', dtype=...)`, `to('cpu', dtype)` and `to(torch.device('cpu'), dtype=...)`. Its positive controls accept separate CPU/cast calls. It also scans every Python file under the vendored `memit/`, `rome/` and `util/` helper directories and finds no unsafe transfer form in those helpers.
+
+The frozen harness contains one combined conversion at `c10e_bandknob.py:217`. It takes `upd` from `torch.linalg.solve(A, B).T`, where A/B are formed from CPU K/residual tensors, a CPU projector/cache and CPU identity. Its shape matcher (`memit_dry_run/memit/memit/memit_main.py:287`) only returns that tensor or its transpose. It therefore cannot receive an MPS view on this path. Test 72 pins that sole call and the CPU solve expressions; R5 protects the source bytes. This safe CPU-origin frozen call was retained. No frozen helper capable of receiving an MPS view has a combined CPU/dtype conversion.
+
+
+The program's expanded audit `results/mps_offset_conversion_audit.md` was read in full, SHA-256 `d0fc6624972f56cb2b5201f56f510260e2545e40883ce65675ab49cf00c5d25d`. It supersedes the initial “clone first” advice: **clone() first and contiguous() are not safe alternatives.** The only adopted transfer sequences are same-dtype CPU transfer followed by a CPU dtype cast, or a same-device dtype cast followed by same-dtype CPU transfer. Float64 casts stay on CPU. The audit also reports narrowing/same-width MPS→CPU casts can corrupt the MPS source, even when the returned CPU result appears correct; that finding is program evidence, not an MPS measurement by this build.
+
+The expanded test 72 now rejects tensor-target `.to(cpu_tensor)` (including the `other=` form and subscript targets), `.type()`/`.type_as()`, raw `cpu_buf.copy_(v)`, `torch.tensor/as_tensor(v, device='cpu', dtype=X)`, and assignments from untransferred tensors into named/declared CPU buffers. Clone-first and contiguous-first combined transfers are explicit negative controls. The scanner allows only audited device/dtype descriptors for a single positional `.to(...)` target and tracks CPU buffers declared by an explicit CPU factory/CPU-transfer binding. Python literals and NumPy interpolation outputs are recognized CPU constructor inputs. Separate CPU-first copies are positive controls.
+
+The retained `copy_` at `c10x_enginepath_inertness.py:114` restores model parameters from pristine CPU snapshots. Its new source guard at `:112` requires `value.device.type == 'cpu'` **before** hashing or copying. The AST test pins that guard before exempting this one CPU-origin call; no other unguarded copy is exempted. A fake MPS-device metadata object (no MPS tensor or backend call) proves restoration raises `PRISTINE_SNAPSHOT_NOT_CPU` before any copy or tensor access. Thus the current C10X paths have no MPS→CPU copy-with-cast constructor, tensor-target conversion, type conversion or CPU-buffer assignment. The frozen helper constructor exceptions are CPU NumPy arrays (`util/runningstats.py:1105/:1142`), and the frozen writer remains the CPU-origin solve described above. The guard stays within the authorized C10X and vendored-helper scope; the audit's wider C10Z remediation belongs to the program.
+
+The same test exercises a nonzero-offset, noncontiguous CPU view through `cpu_copy()` and `norm64()`, asserting exact copied values and the independent float64 norm. This validates the audited copy order on CPU; it is not a runtime MPS reproduction.
+
+The program's explicit forward-mask and transfer corrections add narrow exceptions to the copied-expression checks. `verify_scorer_ast()` (`c10x_enginepath_arms.py:412`) accepts exactly the explicit all-ones mask, removes only that keyword for comparison, and still pins the original loop and return. `verify_solver_ast()` (`c10x_overtone_z.py:227`) accepts exactly the masked tokenizer call before comparing the frozen solver outside the declared objective replacement. `verify_fe_ast()` (`c10x_enginepath_arms.py:533`) accepts exactly the split CPU/dtype/device transfer before comparing the original writer with its three preregistered FE substitutions. Other changes still fail those structural checks. The FE solve/update formulas, engine/harness bytes, float64 gates, pinned contexts and prereg thresholds remain unchanged. The prereg itself was not amended by this build.
+
+### Test-first evidence
+
+The nine regression groups are at `experiments/track_c/c10x_enginepath_selftest.py`:
+
+| ID | Test and current line | Result |
+|---|---|---|
+| 64 | `test_fp32_overflow_capture_and_parity_remain_report_only:1404` | RED → GREEN |
+| 65 | `test_tagged_fp32_diagnostics_preserve_file_admission:1422` | RED → GREEN |
+| 66 | `test_recipe_fp32_overflow_does_not_halt_or_change_labels:1457` | RED → GREEN |
+| 67 | `test_disable_cutoff_never_excuses_earlier_omissions:1476` | RED → GREEN |
+| 68 | `test_disable_marker_records_failed_answer_cutoff:1507` | RED → GREEN |
+| 69 | `test_answer_audit_uses_runtime_recipe_order:1519` | RED → GREEN |
+| 70 | `test_every_c10x_forward_has_explicit_attention_mask:1524` | RED → GREEN |
+| 71 | `test_mask_guard_refuses_unmasked_batches_and_restores:1549` | RED → GREEN |
+| 72 | `test_no_combined_device_dtype_conversions:1559` | RED → GREEN |
+
+The test plan was appended before the production edits. Initial full-suite RED: 71 tests, 11 own assertion failures, zero errors; all original 63 tests passed. Saved as `/private/tmp/c10x_build/astra_review_fixes_red.log`, SHA-256 `d82d286744b38c610aa89fa45985b446a1d13f0ffc68a9f0de950a6c56cf7c6f`. Verbatim summary:
+
+~~~text
+Ran 71 tests in 16.780s
+
+FAILED (failures=11)
+LISTING: attributed-protected changes = {}
+LISTING: observed/unattributed other changes = {}
+SYS.MODULES PASS: c10e_bandknob/transformers/datasets absent
+~~~
+
+After the fp32 fix, its three new regression groups passed; the remaining eight assertions failed in the cutoff/mask groups (`astra_review_fp32_green.log`). After the cutoff fix, the remaining two failures were the mask tests (`astra_review_cutoff_green.log`). An intermediate mask run recorded two test-fixture errors (`astra_review_mask_green.log`): a pristine hook snapshot included the setup guard that run cleanup then correctly removed, and the decorated scorer's wrapper globals lacked torch for compiling another harness function. The failed-pin fixture now snapshots a released harness, matching live run entry, and also asserts guard cleanup; copied functions use the unwrapped original namespace. The separate first targeted invocation lacked the module search path (`astra_review_standalone_mask_red.log`) and is **not** counted as assertion-level RED evidence.
+
+After the program's device/dtype correction, test 72 was written before the three transfer edits. A corrected targeted RED run also strengthened test 70 to exercise standalone calibration entry. It produced two own assertion failures and zero errors (`/private/tmp/c10x_build/astra_review_conversion_red.log`, SHA-256 `6d529ae6c6a02f7bc7580ba0e5ee52cae8a15cbc32bc8b6bd1bcf534bdd25dcf`):
+
+~~~text
+FAIL: test_every_c10x_forward_has_explicit_attention_mask
+AssertionError: unexpectedly None
+FAIL: test_no_combined_device_dtype_conversions
+AssertionError: Lists differ: [('c10x_enginepath_arms.py', 522), ('c10x_[56 chars]726)] != []
+
+Ran 2 tests in 0.177s
+
+FAILED (failures=2)
+~~~
+
+
+The later expanded-copy-form regression was also written before the CPU-source guard and scanner extension. Its corrected assertion-level RED is `/private/tmp/c10x_build/astra_review_all_copy_forms_red_assertions.log`, SHA-256 `e4e6154ed1537d306852f715ac88c2441e66e87b67168c1da3525eaa4212f1b4`: **14 own assertion failures, zero errors**. It rejects the incomplete old detector and proves the missing restore source guard. An earlier intermediate run (`astra_review_all_copy_forms_red_full.log`) had 13 failures plus an AttributeError from the fake metadata object; the corrected test asserts that the caught exception is Halt with the required code, so that error is not counted as assertion-level RED. The focused GREEN (`astra_review_all_copy_forms_green.log`) passed in 0.140s before the final full-suite rerun.
+
+~~~text
+AssertionError: False is not true : v.to(cpu_tensor)
+Ran 1 test in 0.114s
+
+FAILED (failures=14)
+~~~
+
+Final GREEN command (absolute paths, one light serial suite):
+
+~~~sh
+/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/c10x_build /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py > /private/tmp/c10x_build/astra_review_fixes_final_green.log 2>&1
+~~~
+
+Exit 0. The selftest keeps torch CPU threads at one, fixtures and allowlisted stub children under `/private/tmp/c10x_build/roots/`, and the live-tree write guard active. No model/tokenizer load, GPU/MPS tensor, transformers/datasets/harness import or real training/inertness dispatch occurred. No direct shell wrapper is launched; the executable/git-mode assertions remain in the suite and the current launch paths use `sys.executable`.
+
+Complete final output, SHA-256 `3fef0b175510e24ddc91769925f06e24940d5ab1f244e03165bb0af357fc12a2`:
+
+~~~text
+test_admitted_process_pair_and_p2_gate (__main__.FileAdmissionTests.test_admitted_process_pair_and_p2_gate) ... ok
+test_amendment_p_digest_refusals (__main__.FileAdmissionTests.test_amendment_p_digest_refusals) ... ok
+test_amendment_p_prereg_pin (__main__.FileAdmissionTests.test_amendment_p_prereg_pin) ... ok
+test_answer_audit_uses_runtime_recipe_order (__main__.FileAdmissionTests.test_answer_audit_uses_runtime_recipe_order) ... ok
+test_complete_stub_run_persists_every_record (__main__.FileAdmissionTests.test_complete_stub_run_persists_every_record) ... ok
+test_context_binding_enter_failure_restores (__main__.FileAdmissionTests.test_context_binding_enter_failure_restores) ... ok
+test_deadline_completion_and_previous_overhead (__main__.FileAdmissionTests.test_deadline_completion_and_previous_overhead) ... ok
+test_detailed_admission_negative_controls (__main__.FileAdmissionTests.test_detailed_admission_negative_controls) ... ok
+test_direct_shell_launchers_are_executable_in_git (__main__.FileAdmissionTests.test_direct_shell_launchers_are_executable_in_git) ... DIRECT SHELL ENTRY POINTS: none; all three supervised commands use sys.executable
+ok
+test_disable_cutoff_never_excuses_earlier_omissions (__main__.FileAdmissionTests.test_disable_cutoff_never_excuses_earlier_omissions) ... ok
+test_disable_marker_records_failed_answer_cutoff (__main__.FileAdmissionTests.test_disable_marker_records_failed_answer_cutoff) ... ok
+test_every_c10x_forward_has_explicit_attention_mask (__main__.FileAdmissionTests.test_every_c10x_forward_has_explicit_attention_mask) ... ok
+test_every_science_record_roundtrip_and_reader_audit (__main__.FileAdmissionTests.test_every_science_record_roundtrip_and_reader_audit) ... ok
+test_fp32_overflow_capture_and_parity_remain_report_only (__main__.FileAdmissionTests.test_fp32_overflow_capture_and_parity_remain_report_only) ... ok
+test_late_supervisor_persistence_is_unreadable (__main__.FileAdmissionTests.test_late_supervisor_persistence_is_unreadable) ... ok
+test_mask_guard_refuses_unmasked_batches_and_restores (__main__.FileAdmissionTests.test_mask_guard_refuses_unmasked_batches_and_restores) ... ok
+test_missing_inertness_evidence_is_refused (__main__.FileAdmissionTests.test_missing_inertness_evidence_is_refused) ... ok
+test_no_combined_device_dtype_conversions (__main__.FileAdmissionTests.test_no_combined_device_dtype_conversions) ... ok
+test_pinned_contexts_never_sample (__main__.FileAdmissionTests.test_pinned_contexts_never_sample) ... ok
+test_pinned_processes_and_halted_context_identity (__main__.FileAdmissionTests.test_pinned_processes_and_halted_context_identity) ... ok
+test_post_audit_blocks_are_killed_by_final_deadline (__main__.FileAdmissionTests.test_post_audit_blocks_are_killed_by_final_deadline) ... ok
+test_post_audit_budget_and_disabled_disposition (__main__.FileAdmissionTests.test_post_audit_budget_and_disabled_disposition) ... ok
+test_post_audit_rejects_contradictory_receipts (__main__.FileAdmissionTests.test_post_audit_rejects_contradictory_receipts) ... ok
+test_post_audit_startup_consumes_remaining_budget (__main__.FileAdmissionTests.test_post_audit_startup_consumes_remaining_budget) ... ok
+test_reader_publishes_invalid_with_exit_zero (__main__.FileAdmissionTests.test_reader_publishes_invalid_with_exit_zero) ... ok
+test_recipe_fp32_overflow_does_not_halt_or_change_labels (__main__.FileAdmissionTests.test_recipe_fp32_overflow_does_not_halt_or_change_labels) ... ok
+test_script_alias_and_preflight_refusal_in_isolated_child (__main__.FileAdmissionTests.test_script_alias_and_preflight_refusal_in_isolated_child) ... ok
+test_supervisor_fail_closed_and_combining_output_path (__main__.FileAdmissionTests.test_supervisor_fail_closed_and_combining_output_path) ... ok
+test_tagged_fp32_diagnostics_preserve_file_admission (__main__.FileAdmissionTests.test_tagged_fp32_diagnostics_preserve_file_admission) ... ok
+test_actual_fe_writes_and_null_solve_observer (__main__.IntegrationTests.test_actual_fe_writes_and_null_solve_observer) ... ok
+test_actual_singleton_reduction_and_resolved_capture (__main__.IntegrationTests.test_actual_singleton_reduction_and_resolved_capture) ... ok
+test_projection_uses_remaining_units_and_setup_clock (__main__.IntegrationTests.test_projection_uses_remaining_units_and_setup_clock) ... ok
+test_solver_masked_gradient_clip_filter_and_tie (__main__.IntegrationTests.test_solver_masked_gradient_clip_filter_and_tie) ... ok
+test_telemetry_recipe_records_and_counts_equal (__main__.IntegrationTests.test_telemetry_recipe_records_and_counts_equal) ... ok
+test_telemetry_valid_admission_and_runner_no_writes (__main__.IntegrationTests.test_telemetry_valid_admission_and_runner_no_writes) ... ok
+test_three_recipe_telemetry_probe_and_file_equality (__main__.IntegrationTests.test_three_recipe_telemetry_probe_and_file_equality) ... ok
+test_reader_control_boundaries (__main__.ReaderTests.test_reader_control_boundaries) ... ok
+test_reader_count_classes (__main__.ReaderTests.test_reader_count_classes) ... ok
+test_reader_flags_denominators_nulls (__main__.ReaderTests.test_reader_flags_denominators_nulls) ... ok
+test_reader_interpretation_and_null_table (__main__.ReaderTests.test_reader_interpretation_and_null_table) ... ok
+test_reader_law3_boundaries (__main__.ReaderTests.test_reader_law3_boundaries) ... ok
+test_reader_locality_boundaries (__main__.ReaderTests.test_reader_locality_boundaries) ... ok
+test_reader_process_combination (__main__.ReaderTests.test_reader_process_combination) ... ok
+test_reader_qualifier_boundaries (__main__.ReaderTests.test_reader_qualifier_boundaries) ... ok
+test_reader_replication (__main__.ReaderTests.test_reader_replication) ... ok
+test_reader_validity (__main__.ReaderTests.test_reader_validity) ... ok
+test_active_null_negative_controls (__main__.SeamTests.test_active_null_negative_controls) ... ok
+test_baseline_miss_stops_candidates (__main__.SeamTests.test_baseline_miss_stops_candidates) ... ok
+test_capture_bindings_identity_attribution (__main__.SeamTests.test_capture_bindings_identity_attribution) ... ok
+test_dispatch_call_time_flag (__main__.SeamTests.test_dispatch_call_time_flag) ... ok
+test_fe_ast_three_changes (__main__.SeamTests.test_fe_ast_three_changes) ... ok
+test_fe_modes_and_keys (__main__.SeamTests.test_fe_modes_and_keys) ... ok
+test_float64_dense_reference (__main__.SeamTests.test_float64_dense_reference) ... ok
+test_independent_full_vocabulary_audit (__main__.SeamTests.test_independent_full_vocabulary_audit) ... ok
+test_knobs_and_frame_subjects (__main__.SeamTests.test_knobs_and_frame_subjects) ... ok
+test_launch_refusals (__main__.SeamTests.test_launch_refusals) ... ok
+test_pristine_hash_restore_hooks (__main__.SeamTests.test_pristine_hash_restore_hooks) ... ok
+test_process2_requires_eligibility (__main__.SeamTests.test_process2_requires_eligibility) ... ok
+test_recipe_states_counters (__main__.SeamTests.test_recipe_states_counters) ... ok
+test_solver_ast_and_gradients (__main__.SeamTests.test_solver_ast_and_gradients) ... ok
+test_tolerance_and_finiteness (__main__.SeamTests.test_tolerance_and_finiteness) ... ok
+test_watchdog_and_projection (__main__.SeamTests.test_watchdog_and_projection) ... ok
+test_frozen_bytes_and_imports (__main__.TelemetryTests.test_frozen_bytes_and_imports) ... IMPORT GUARD PASS: c10e_bandknob, transformers, datasets absent
+ok
+test_isolation_positive_control_children_meta (__main__.TelemetryTests.test_isolation_positive_control_children_meta) ... ok
+test_post_run_answer_audit (__main__.TelemetryTests.test_post_run_answer_audit) ... ok
+test_strict_json_roundtrips (__main__.TelemetryTests.test_strict_json_roundtrips) ... ok
+test_telemetry_code_path_equality (__main__.TelemetryTests.test_telemetry_code_path_equality) ... ok
+test_telemetry_failure_boundaries (__main__.TelemetryTests.test_telemetry_failure_boundaries) ... ok
+test_telemetry_inertness_schedule (__main__.TelemetryTests.test_telemetry_inertness_schedule) ... ok
+test_telemetry_line_volume (__main__.TelemetryTests.test_telemetry_line_volume) ... ok
+test_telemetry_state_unchanged (__main__.TelemetryTests.test_telemetry_state_unchanged) ... ok
+test_telemetry_switch_admission (__main__.TelemetryTests.test_telemetry_switch_admission) ... ok
+
+----------------------------------------------------------------------
+Ran 72 tests in 17.559s
+
+OK
+LISTING: attributed-protected changes = {}
+LISTING: observed/unattributed other changes = {}
+SYS.MODULES PASS: c10e_bandknob/transformers/datasets absent
+~~~
+
+### Revised identities and scope
+
+These are the hashes of the six source files tested by that final run. “Before” is the original reviewed 63-test build, not an intermediate fix state.
+
+| File | Before SHA-256 | Revised SHA-256 |
+|---|---|---|
+| `experiments/track_c/c10x_enginepath_arms.py` | `798993b823232643575a2749ba9e9278bc8a4bae62b6b3d4d25563c615c10ed2` | `3415e9c093c04ea6e6aaf580605760fd3924e926454fc7186d6d6b5364cd9b80` |
+| `experiments/track_c/c10x_enginepath_inertness.py` | `665e954cc75624f44b01353e015eb55b3c61d80a87042be1d835712d663921cf` | `c0c19b97cfeac03a5c12176e33b63a10d06489ca56f7b365a6e03ef1e4ba56e9` |
+| `experiments/track_c/c10x_enginepath_read.py` | `b9543fc18961feb505dfa76a393c94a0438ea6081d1a9559148ff50134e40978` | `0c22b6b222e37b2d1a81ed649836f8fb6297a8440d0b2f833389cba1a25ff21a` |
+| `experiments/track_c/c10x_overtone_z.py` | `70ad3d1b57db5ced0c6b69eb9ea40b50aed0773b8c0e04e9bad086c84f0d8664` | `8b32ca840c1451624ba5f46143a6e65a03ae69e968dd0e6180d04fa5683dac42` |
+| `experiments/track_c/c10x_enginepath_telemetry_check.py` | `f0d55574c3a23908b34c4f4081d11f4270a92314eedfbe81432ebe0024eace4f` | `e95beb2cef310fa1050ccb4a2b60ac8224f493ea4d513d97868f3b9a9c99fe80` |
+| `experiments/track_c/c10x_enginepath_selftest.py` | `2e617a787bff334c20ead6f73d1518b474a85c762058f30f2e8a407d05f909f4` | `1ba5289d047889417cba0a2135fcc12b3405ef056fe72d0435caf6290b7600dd` |
+
+The unchanged Amendment P prereg pin is `43a81103d68b953c2007e978b3ebecf11aadf66a7f121346047279845e8fc883`. The C10Q context identity remains `c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da`; no alternative source, sampling, seed-dependent context draw or frame substitution was introduced. The existing fixed-template regeneration and process context/frame matching tests pass.
+
+Current scope snapshot: `/private/tmp/c10x_build/after_review_fixes_final/`. All 188 R5 files match the expected amended baseline; the only difference from the original pre-build baseline is the already authorized program-authored Amendment P SHA. Protected git diff exits 0. The original results/architecture listing has 7,086 entries; the current snapshot has 7,856. Differences are explicitly classified as one authorized report, one program-supplied Astra review (the exact input SHA above), 2,907 observed/unattributed entries from the shared workspace, and **zero unexplained protected changes**. This is not a claim that the shared global tree is unchanged. The final selftest's own before/after listing is unchanged.
+
+| Current receipt | SHA-256 |
+|---|---|
+| `after_review_fixes_final/summary.json` | `6a81a10c66236a05a140076fee5679154665aae708521e5d0817d87fe937e07d` |
+| `after_review_fixes_final/r5_sha256.json` | `c149cf6006ca120a28d3ec505c1768c10d2485082c8729e0f5640fe8c414d190` |
+| `after_review_fixes_final/listing.json` | `80d0ab36cd7c3c03ff0f217967d0c992454fd54a68b2ea207e8e4d2bc6e05e62` |
+| `after_review_fixes_final/listing_difference.json` | `29b44c5b8ccde68f20fd6e0936abc31ddb1862783b17395f41a06cee04319e60` |
+
+After publication, `/private/tmp/c10x_build/after_review_report/` repeats the protected-byte/listing check. `/private/tmp/c10x_build/review_fixes_receipt.json` binds the final report SHA, retained original prefix, six revised source hashes, final 72-test log and post-publication scope. The original `report_receipt.json` remains historical and is not overwritten.
+
+Live LAW#3/LAW#5/G8, MPS tensor behavior, memory/timing feasibility and write-arm scientific results remain **UNVERIFIED**. The program's instruction to skip the separately authorized T8 launch is retained; only its tiny CPU stub path was tested here. First attempts remain telemetry off and supervisor mediated. No launch/GO record, experiment output, prereg, engine/harness/config/precedent, ledger or git state was written by these fixes.
+
+
+## Mask revert
+
+**COMPLETE: all 72 model-free CPU tests PASS (17.689s), exit 0, zero failures/errors.** The program confirmed the attention-mask hypothesis was REFUTED and instructed removal of its single-sequence intervention. The frozen harness scorer forwards again receive their historical positional tensors with no injected kwargs. This section supersedes only the mask intervention and mask-test requirements described in the preceding Review fixes section. Amendment M, T11 and the safe device/dtype changes remain in force.
+
+The complete previous report is preserved byte-for-byte: 190,334 bytes, SHA-256 `c92811392c9bbacc8016e1639d357f8cbb0a5804cbf5c6854b26b4f4e554bc8f`. Its earlier original-build and Review fixes receipts remain historical records.
+
+### Reverted sites and retained tokenizer calls
+
+| Site | Final behavior |
+|---|---|
+| `experiments/track_c/c10x_enginepath_arms.py:425` and `experiments/track_c/c10x_enginepath_arms.py:445` | Remove the science setup mask pre-hook, both helper functions and its release cleanup. Configuration/release register no mask hook. |
+| `experiments/track_c/c10x_enginepath_arms.py:729` | Remove the same hook installation from standalone calibration. Its warmup and plain/reference/observed passes use the original single-sequence arguments. |
+| `experiments/track_c/c10x_enginepath_arms.py:378`, `experiments/track_c/c10x_enginepath_arms.py:395`; forward statements at A:387 and A:404 | Restore `model(cur)`. The only AST-permitted scorer additions remain the exact sink/capture statement immediately before the unchanged return and the function-name normalization. |
+| `experiments/track_c/c10x_enginepath_arms.py:412` | Remove the exception that stripped an added attention_mask before comparison. The scorer AST comparison is strict again; an all-ones-mask mutant is rejected. |
+| `experiments/track_c/c10x_enginepath_arms.py:1062` | Restore the teacher-forced probe to `harness.model(cur)` with no mask keyword. |
+| `experiments/track_c/c10x_enginepath_selftest.py:979` | Remove the mask-only prerequisite release and mask-hook-attribute assertion; the pristine restoration test passes without that scaffolding. |
+
+**KEEP the explicit tokenizer masks** allowed by program item (3): the logit lens at `experiments/track_c/c10x_enginepath_arms.py:365`, batch replay at `experiments/track_c/c10x_enginepath_arms.py:720`, top1 at `experiments/track_c/c10x_enginepath_arms.py:1020`, and overtone at `experiments/track_c/c10x_overtone_z.py:145`. The shared token-mapping helper is at `experiments/track_c/c10x_enginepath_arms.py:351`. Each forwards the tokenizer mapping's existing attention_mask; none supplies an all-ones mask to a historical single-sequence call. The overtone AST allowance for spelling out that existing tokenizer mask is retained.
+
+The correct CPU-before-dtype conversions are unchanged at `experiments/track_c/c10x_enginepath_arms.py:503`, `experiments/track_c/c10x_enginepath_arms.py:714`, and `experiments/track_c/c10x_enginepath_arms.py:1005`. Test 72, `experiments/track_c/c10x_enginepath_selftest.py:1602`, still bans the unsafe combined/device-target/type/constructor/copy forms, including clone-first variants, and retains the pristine CPU-snapshot guard. Inertness, reader, overtone and telemetry-check source bytes are unchanged from the accepted Review fixes build, as the six-source table below proves.
+
+### Test-first RED and GREEN
+
+The plan was recorded at `/private/tmp/c10x_build/mask_revert_plan.md` before production changes. Tests were revised first; the full selftest was run RED while production A still had SHA-256 `3415e9c093c04ea6e6aaf580605760fd3924e926454fc7186d6d6b5364cd9b80`. The RED selftest source SHA was `3db338182aff25f0d3444ae982f6fa3fd9214e63e452f342bb82bdcc30ee1162`, saved in `after_review_mask_before/r2_sha256.json`.
+
+| Test | Regression and evidence |
+|---|---|
+| Revised test 70, `experiments/track_c/c10x_enginepath_selftest.py:1522` | Positional single-sequence calls require one original tensor and zero kwargs; tokenizer-mapping calls retain their existing mask. The AST check caught the three added all-ones arguments at former A:387, :404, :1086 in RED. GREEN records both masked tokenizer and unmasked single-sequence forwards through the frozen scorers, lens, calibration and batch replay, with more than 400 calls. |
+| Replacement test 71, `experiments/track_c/c10x_enginepath_selftest.py:1554` | The obsolete mask-guard test is replaced by the requested historical-call regression. Capture the four unchanged harness functions before configuration, then compare actual tensors, keyword sets, results and hook registration after configuring twice. Forward counts are 2/4/1/1 for full_seq_match, string_match, teacher_forced_pertok and sentence_nll; all kwargs are empty. Both scorer copies must match the original full_seq_match, including captured generated IDs. The mask-mutant negative control verifies strict Amendment T4 AST rejection. |
+
+RED: **72 tests ran in 17.842s; exit 1; 9 expected assertion failures across these two tests, zero errors**. The eight test-71 subcases failed on hook registration, the four frozen scorer kwargs, both scorer copies, and mask-mutant rejection. Test 70 failed on the three changed forward AST sites. All other tests passed. Relevant verbatim failure blocks:
+
+~~~text
+FAIL: test_frozen_scorer_forwards_have_no_injected_kwargs (__main__.FileAdmissionTests.test_frozen_scorer_forwards_have_no_injected_kwargs) (case='configuration preserves hook registry')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1582, in test_frozen_scorer_forwards_have_no_injected_kwargs
+    self.assertEqual(dict(self.H.model._forward_pre_hooks),before)
+AssertionError: {17: <function require_attention_mask at 0x10ab9d8a0>} != {}
+- {17: <function require_attention_mask at 0x10ab9d8a0>}
++ {}
+
+======================================================================
+FAIL: test_frozen_scorer_forwards_have_no_injected_kwargs (__main__.FileAdmissionTests.test_frozen_scorer_forwards_have_no_injected_kwargs) (case='full_seq_match')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1584, in test_frozen_scorer_forwards_have_no_injected_kwargs
+    with self.subTest(case=name):compare(record(function,args),baseline[name])
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1578, in compare
+    self.assertEqual(kwargs,old_kwargs);self.assertEqual(len(inputs),len(old_inputs))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: ('attention_mask',) != ()
+
+First tuple contains 1 additional elements.
+First extra element 0:
+'attention_mask'
+
+- ('attention_mask',)
++ ()
+
+======================================================================
+FAIL: test_frozen_scorer_forwards_have_no_injected_kwargs (__main__.FileAdmissionTests.test_frozen_scorer_forwards_have_no_injected_kwargs) (case='AST rejects single-sequence mask')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1600, in test_frozen_scorer_forwards_have_no_injected_kwargs
+    self.assertFalse(A.verify_scorer_ast(frozen))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_tokenizer_forwards_preserve_attention_mask (__main__.FileAdmissionTests.test_tokenizer_forwards_preserve_attention_mask)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1533, in test_tokenizer_forwards_preserve_attention_mask
+    self.assertEqual(missing,[])
+AssertionError: Lists differ: [('c10x_enginepath_arms.py', 387), ('c10x_[56 chars]086)] != []
+
+First list contains 3 additional elements.
+First extra element 0:
+('c10x_enginepath_arms.py', 387)
+
++ []
+- [('c10x_enginepath_arms.py', 387),
+-  ('c10x_enginepath_arms.py', 404),
+-  ('c10x_enginepath_arms.py', 1086)]
+
+Ran 72 tests in 17.842s
+
+FAILED (failures=9)
+LISTING: attributed-protected changes = {}
+LISTING: observed/unattributed other changes = {}
+SYS.MODULES PASS: c10e_bandknob/transformers/datasets absent
+~~~
+
+Only after this RED run were the mask intervention and its AST exception removed. The mask-specific restoration scaffolding was then removed from the existing context-binding test. The full selftest was rerun with no subsequent source edits.
+
+Both full-suite commands used this light serial configuration, with the relevant log destination (RED or GREEN):
+
+~~~sh
+/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/c10x_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py > /private/tmp/c10x_build/mask_revert_green.log 2>&1
+~~~
+
+GREEN: **72 tests ran in 17.689s; exit 0; zero failures/errors**. All Amendment M fp32 report-only overflow regressions, strict float64 checks, T11 cutoff negatives, context-template pin/regeneration/process checks, executable-entrypoint check, safe-conversion AST test 72 and earlier scientific-plumbing controls pass. The two replaced/updated mask groups keep the total at 72. Full GREEN output:
+
+~~~text
+test_admitted_process_pair_and_p2_gate (__main__.FileAdmissionTests.test_admitted_process_pair_and_p2_gate) ... ok
+test_amendment_p_digest_refusals (__main__.FileAdmissionTests.test_amendment_p_digest_refusals) ... ok
+test_amendment_p_prereg_pin (__main__.FileAdmissionTests.test_amendment_p_prereg_pin) ... ok
+test_answer_audit_uses_runtime_recipe_order (__main__.FileAdmissionTests.test_answer_audit_uses_runtime_recipe_order) ... ok
+test_complete_stub_run_persists_every_record (__main__.FileAdmissionTests.test_complete_stub_run_persists_every_record) ... ok
+test_context_binding_enter_failure_restores (__main__.FileAdmissionTests.test_context_binding_enter_failure_restores) ... ok
+test_deadline_completion_and_previous_overhead (__main__.FileAdmissionTests.test_deadline_completion_and_previous_overhead) ... ok
+test_detailed_admission_negative_controls (__main__.FileAdmissionTests.test_detailed_admission_negative_controls) ... ok
+test_direct_shell_launchers_are_executable_in_git (__main__.FileAdmissionTests.test_direct_shell_launchers_are_executable_in_git) ... DIRECT SHELL ENTRY POINTS: none; all three supervised commands use sys.executable
+ok
+test_disable_cutoff_never_excuses_earlier_omissions (__main__.FileAdmissionTests.test_disable_cutoff_never_excuses_earlier_omissions) ... ok
+test_disable_marker_records_failed_answer_cutoff (__main__.FileAdmissionTests.test_disable_marker_records_failed_answer_cutoff) ... ok
+test_every_science_record_roundtrip_and_reader_audit (__main__.FileAdmissionTests.test_every_science_record_roundtrip_and_reader_audit) ... ok
+test_fp32_overflow_capture_and_parity_remain_report_only (__main__.FileAdmissionTests.test_fp32_overflow_capture_and_parity_remain_report_only) ... ok
+test_frozen_scorer_forwards_have_no_injected_kwargs (__main__.FileAdmissionTests.test_frozen_scorer_forwards_have_no_injected_kwargs) ... ok
+test_late_supervisor_persistence_is_unreadable (__main__.FileAdmissionTests.test_late_supervisor_persistence_is_unreadable) ... ok
+test_missing_inertness_evidence_is_refused (__main__.FileAdmissionTests.test_missing_inertness_evidence_is_refused) ... ok
+test_no_combined_device_dtype_conversions (__main__.FileAdmissionTests.test_no_combined_device_dtype_conversions) ... ok
+test_pinned_contexts_never_sample (__main__.FileAdmissionTests.test_pinned_contexts_never_sample) ... ok
+test_pinned_processes_and_halted_context_identity (__main__.FileAdmissionTests.test_pinned_processes_and_halted_context_identity) ... ok
+test_post_audit_blocks_are_killed_by_final_deadline (__main__.FileAdmissionTests.test_post_audit_blocks_are_killed_by_final_deadline) ... ok
+test_post_audit_budget_and_disabled_disposition (__main__.FileAdmissionTests.test_post_audit_budget_and_disabled_disposition) ... ok
+test_post_audit_rejects_contradictory_receipts (__main__.FileAdmissionTests.test_post_audit_rejects_contradictory_receipts) ... ok
+test_post_audit_startup_consumes_remaining_budget (__main__.FileAdmissionTests.test_post_audit_startup_consumes_remaining_budget) ... ok
+test_reader_publishes_invalid_with_exit_zero (__main__.FileAdmissionTests.test_reader_publishes_invalid_with_exit_zero) ... ok
+test_recipe_fp32_overflow_does_not_halt_or_change_labels (__main__.FileAdmissionTests.test_recipe_fp32_overflow_does_not_halt_or_change_labels) ... ok
+test_script_alias_and_preflight_refusal_in_isolated_child (__main__.FileAdmissionTests.test_script_alias_and_preflight_refusal_in_isolated_child) ... ok
+test_supervisor_fail_closed_and_combining_output_path (__main__.FileAdmissionTests.test_supervisor_fail_closed_and_combining_output_path) ... ok
+test_tagged_fp32_diagnostics_preserve_file_admission (__main__.FileAdmissionTests.test_tagged_fp32_diagnostics_preserve_file_admission) ... ok
+test_tokenizer_forwards_preserve_attention_mask (__main__.FileAdmissionTests.test_tokenizer_forwards_preserve_attention_mask) ... ok
+test_actual_fe_writes_and_null_solve_observer (__main__.IntegrationTests.test_actual_fe_writes_and_null_solve_observer) ... ok
+test_actual_singleton_reduction_and_resolved_capture (__main__.IntegrationTests.test_actual_singleton_reduction_and_resolved_capture) ... ok
+test_projection_uses_remaining_units_and_setup_clock (__main__.IntegrationTests.test_projection_uses_remaining_units_and_setup_clock) ... ok
+test_solver_masked_gradient_clip_filter_and_tie (__main__.IntegrationTests.test_solver_masked_gradient_clip_filter_and_tie) ... ok
+test_telemetry_recipe_records_and_counts_equal (__main__.IntegrationTests.test_telemetry_recipe_records_and_counts_equal) ... ok
+test_telemetry_valid_admission_and_runner_no_writes (__main__.IntegrationTests.test_telemetry_valid_admission_and_runner_no_writes) ... ok
+test_three_recipe_telemetry_probe_and_file_equality (__main__.IntegrationTests.test_three_recipe_telemetry_probe_and_file_equality) ... ok
+test_reader_control_boundaries (__main__.ReaderTests.test_reader_control_boundaries) ... ok
+test_reader_count_classes (__main__.ReaderTests.test_reader_count_classes) ... ok
+test_reader_flags_denominators_nulls (__main__.ReaderTests.test_reader_flags_denominators_nulls) ... ok
+test_reader_interpretation_and_null_table (__main__.ReaderTests.test_reader_interpretation_and_null_table) ... ok
+test_reader_law3_boundaries (__main__.ReaderTests.test_reader_law3_boundaries) ... ok
+test_reader_locality_boundaries (__main__.ReaderTests.test_reader_locality_boundaries) ... ok
+test_reader_process_combination (__main__.ReaderTests.test_reader_process_combination) ... ok
+test_reader_qualifier_boundaries (__main__.ReaderTests.test_reader_qualifier_boundaries) ... ok
+test_reader_replication (__main__.ReaderTests.test_reader_replication) ... ok
+test_reader_validity (__main__.ReaderTests.test_reader_validity) ... ok
+test_active_null_negative_controls (__main__.SeamTests.test_active_null_negative_controls) ... ok
+test_baseline_miss_stops_candidates (__main__.SeamTests.test_baseline_miss_stops_candidates) ... ok
+test_capture_bindings_identity_attribution (__main__.SeamTests.test_capture_bindings_identity_attribution) ... ok
+test_dispatch_call_time_flag (__main__.SeamTests.test_dispatch_call_time_flag) ... ok
+test_fe_ast_three_changes (__main__.SeamTests.test_fe_ast_three_changes) ... ok
+test_fe_modes_and_keys (__main__.SeamTests.test_fe_modes_and_keys) ... ok
+test_float64_dense_reference (__main__.SeamTests.test_float64_dense_reference) ... ok
+test_independent_full_vocabulary_audit (__main__.SeamTests.test_independent_full_vocabulary_audit) ... ok
+test_knobs_and_frame_subjects (__main__.SeamTests.test_knobs_and_frame_subjects) ... ok
+test_launch_refusals (__main__.SeamTests.test_launch_refusals) ... ok
+test_pristine_hash_restore_hooks (__main__.SeamTests.test_pristine_hash_restore_hooks) ... ok
+test_process2_requires_eligibility (__main__.SeamTests.test_process2_requires_eligibility) ... ok
+test_recipe_states_counters (__main__.SeamTests.test_recipe_states_counters) ... ok
+test_solver_ast_and_gradients (__main__.SeamTests.test_solver_ast_and_gradients) ... ok
+test_tolerance_and_finiteness (__main__.SeamTests.test_tolerance_and_finiteness) ... ok
+test_watchdog_and_projection (__main__.SeamTests.test_watchdog_and_projection) ... ok
+test_frozen_bytes_and_imports (__main__.TelemetryTests.test_frozen_bytes_and_imports) ... IMPORT GUARD PASS: c10e_bandknob, transformers, datasets absent
+ok
+test_isolation_positive_control_children_meta (__main__.TelemetryTests.test_isolation_positive_control_children_meta) ... ok
+test_post_run_answer_audit (__main__.TelemetryTests.test_post_run_answer_audit) ... ok
+test_strict_json_roundtrips (__main__.TelemetryTests.test_strict_json_roundtrips) ... ok
+test_telemetry_code_path_equality (__main__.TelemetryTests.test_telemetry_code_path_equality) ... ok
+test_telemetry_failure_boundaries (__main__.TelemetryTests.test_telemetry_failure_boundaries) ... ok
+test_telemetry_inertness_schedule (__main__.TelemetryTests.test_telemetry_inertness_schedule) ... ok
+test_telemetry_line_volume (__main__.TelemetryTests.test_telemetry_line_volume) ... ok
+test_telemetry_state_unchanged (__main__.TelemetryTests.test_telemetry_state_unchanged) ... ok
+test_telemetry_switch_admission (__main__.TelemetryTests.test_telemetry_switch_admission) ... ok
+
+----------------------------------------------------------------------
+Ran 72 tests in 17.689s
+
+OK
+LISTING: attributed-protected changes = {}
+LISTING: observed/unattributed other changes = {}
+SYS.MODULES PASS: c10e_bandknob/transformers/datasets absent
+~~~
+
+### Final source identities and protected scope
+
+“Before” is the accepted 72-test Review fixes build at the start of this request. Only arms and selftest changed in this Mask revert.
+
+| File | Before SHA-256 | Final SHA-256 |
+|---|---|---|
+| `experiments/track_c/c10x_enginepath_arms.py` | `3415e9c093c04ea6e6aaf580605760fd3924e926454fc7186d6d6b5364cd9b80` | `eea47ea72d071c6e9dfd5b301dfa8073c50aa0e3d02149de9660aae837f182db` |
+| `experiments/track_c/c10x_enginepath_inertness.py` | `c0c19b97cfeac03a5c12176e33b63a10d06489ca56f7b365a6e03ef1e4ba56e9` | `c0c19b97cfeac03a5c12176e33b63a10d06489ca56f7b365a6e03ef1e4ba56e9` |
+| `experiments/track_c/c10x_enginepath_read.py` | `0c22b6b222e37b2d1a81ed649836f8fb6297a8440d0b2f833389cba1a25ff21a` | `0c22b6b222e37b2d1a81ed649836f8fb6297a8440d0b2f833389cba1a25ff21a` |
+| `experiments/track_c/c10x_enginepath_selftest.py` | `1ba5289d047889417cba0a2135fcc12b3405ef056fe72d0435caf6290b7600dd` | `ba2133b18c84d8f092efe67f39cf8512b8e4ae6871a26684e7af7fb93f5eedcc` |
+| `experiments/track_c/c10x_enginepath_telemetry_check.py` | `e95beb2cef310fa1050ccb4a2b60ac8224f493ea4d513d97868f3b9a9c99fe80` | `e95beb2cef310fa1050ccb4a2b60ac8224f493ea4d513d97868f3b9a9c99fe80` |
+| `experiments/track_c/c10x_overtone_z.py` | `8b32ca840c1451624ba5f46143a6e65a03ae69e968dd0e6180d04fa5683dac42` | `8b32ca840c1451624ba5f46143a6e65a03ae69e968dd0e6180d04fa5683dac42` |
+
+The unchanged prereg SHA-256 is `43a81103d68b953c2007e978b3ebecf11aadf66a7f121346047279845e8fc883`; C10Q context identity remains `c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da`. This revert changes no template source, contexts, frames, scientific thresholds or report-only fp32 eligibility rules.
+
+Scope before production and after GREEN was checked in `after_review_mask_before/` and `after_review_mask_green/`. All **188 protected R5 files** match the expected Amendment P baseline; protected git diff exits **0**. Both complete selftest runs show empty before/after protected and other listing deltas. Relative to the original pre-build workspace snapshot, the after-GREEN listing has 7,856 entries versus 7,086; it classifies 1 authorized report, 1 program-supplied review, 2,907 observed/unattributed shared-workspace entries, and **0 unexplained protected changes**. This is a protected-scope claim, not a claim of global tree stability.
+
+| Evidence artifact | SHA-256 |
+|---|---|
+| `/private/tmp/c10x_build/mask_revert_plan.md` | `4bdadef9d661a19b5336142a8cb380c445961c817ef0f62fdfeae5c0d9c1d3fc` |
+| `/private/tmp/c10x_build/mask_revert_before.json` | `1f1e054f4c1c4e6cab5de147dca508fc37fc04f24048fe8c3be90bb935183c75` |
+| `/private/tmp/c10x_build/mask_revert_red.log` | `2cbe4290588d3546593a06965e046309a4c4b602e6ed3b593d9c3c7f74fd4c77` |
+| `/private/tmp/c10x_build/mask_revert_green.log` | `4e9580ada9dd7c3a2e10c016865a0aedf68a14101b164ed619790dd772171008` |
+| `/private/tmp/c10x_build/after_review_mask_before/r2_sha256.json` | `a36710c1717929109d0e4d7978877cc8ea5c7eda29d6c8c8ddf2a0fae8cff1d4` |
+| `/private/tmp/c10x_build/after_review_mask_green/summary.json` | `d9918bc885f88fda817422dd6ed6c7d9fbec42aa99d41d5de9a2aa807ca0b393` |
+| `/private/tmp/c10x_build/after_review_mask_green/r5_sha256.json` | `c149cf6006ca120a28d3ec505c1768c10d2485082c8729e0f5640fe8c414d190` |
+| `/private/tmp/c10x_build/after_review_mask_green/listing.json` | `c6b9c5de115e47d089bcbd148c2a5aaf76358ea8155169fc7b9c832b6925aca6` |
+| `/private/tmp/c10x_build/after_review_mask_green/listing_difference.json` | `ceae8f806691aa9ce5478eddf1d1926463afdd2bc971d19873f521a0541ad4c7` |
+
+After publication, `/private/tmp/c10x_build/after_review_mask_report/` repeats the protected-byte/listing check. `/private/tmp/c10x_build/mask_revert_receipt.json` binds the final report SHA-256, unchanged entire prior-report prefix, final six-source hashes, RED/GREEN logs and post-publication scope. Previous receipts and logs are retained.
+
+Verification used tiny CPU stubs and AST-copied frozen functions under `/private/tmp`; no frozen harness module, transformers or datasets was imported. Live LAW#3/LAW#5/G8, model/MPS behavior, timing/resource feasibility and write-arm scientific results remain **UNVERIFIED**. No T8 live launch was run; the prior instruction to skip it remains binding. The first launch remains telemetry off and supervisor mediated. No experiment/GO output, prereg, engine/harness/config, ledger or git state was written by this revert.

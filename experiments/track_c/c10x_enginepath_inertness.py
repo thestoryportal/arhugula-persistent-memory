@@ -11,6 +11,21 @@ def require(condition, code):
     if not condition:
         raise Halt(code)
 
+def fp32_report(value):
+    """Encode only report-only fp32 values; gate values stay strict."""
+    if isinstance(value, dict):
+        return {k: fp32_report(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [fp32_report(v) for v in value]
+    if isinstance(value, float) and not math.isfinite(value):
+        return {'nonfinite': repr(value)}
+    return value
+
+def fp32_value(value):
+    if isinstance(value, dict) and set(value) == {'nonfinite'}:
+        return float(value['nonfinite'])
+    return float('nan') if value == 'NONFINITE' else float(value)
+
 def reject_mps_double(value):
     import torch
     require(not (value.device.type == 'mps' and value.dtype == torch.float64), 'FLOAT64_ON_MPS')
@@ -65,8 +80,8 @@ def parity(a, b, floor, double=True):
     fp32 = float((af-bf).norm()/af.norm()) if float(af.norm()) else 0.
     return {'ok': True, 'floor': floor, 'tol': tol, 'relative': rel, 'max_abs': maximum,
             'arithmetic': 'cpu_float64' if double else 'frozen_cpu_float32',
-            'report_only_fp32': {'relative': fp32 if math.isfinite(fp32) else 'NONFINITE',
-                                'max_abs': float((af-bf).abs().max()),
+            'report_only_fp32': {'relative': fp32_report(fp32),
+                                'max_abs': fp32_report(float((af-bf).abs().max())),
                                 'opposite_tolerance_result':math.isfinite(fp32) and ((fp32<=tol)!=(rel<=tol))}}
 
 def tensor_sha(value):
@@ -94,6 +109,7 @@ class Pristine:
         with torch.no_grad():
             npd = dict(self.H.model.named_parameters())
             for l, value in self._snapshot.items():
+                require(value.device.type == 'cpu', 'PRISTINE_SNAPSHOT_NOT_CPU')
                 require(tensor_sha(value) == self.hashes[str(l)], 'PRISTINE_SNAPSHOT_MUTATED')
                 npd[self.H.weight_name(self.hp, l)].copy_(value)
     def verify(self, label):
@@ -130,7 +146,7 @@ def capture_updates(writer, layers, attribution, retain=True):
             require(frame.f_code is writer.__code__ and frame.f_locals.get('layer')==layers[len(records)],'UPDATE_WRITER_LAYER_ATTRIBUTION')
         clone = cpu_copy(result)
         record = {**attribution, 'layer': layers[len(records)], 'norm_float64': norm64(clone),
-                  'report_only_norm_fp32': float(clone.norm()), 'sha256': tensor_sha(clone)}
+                  'report_only_norm_fp32': fp32_report(float(clone.norm())), 'sha256': tensor_sha(clone)}
         if retain:
             record['tensor'] = clone
         records.append(record)
@@ -227,7 +243,7 @@ def write_cell(H,hp,requests,P,targets,pristine,check,fe=None,mode='fe'):
             flags=[H.full_seq_match(t.format(r['subject']),H.tgt_ids(r['target_new']['str'][1:]))
                    for r in requests for t in [H.CANON]+H.PTEST]
             A.end_unit(started)
-            return {'updates':updates,'cache':[cpu_copy(c) for c in cache],'weights':weights,'flags':flags,'report_only_harness_fp32':legacy,'residual_diagnostics':diagnostics}
+            return {'updates':updates,'cache':[cpu_copy(c) for c in cache],'weights':weights,'flags':flags,'report_only_harness_fp32':fp32_report(legacy),'residual_diagnostics':diagnostics}
     finally:
         A.FE_STATE,A.FE_TARGETS=old_fe,old_targets
         H.Z_OVERRIDE,H.Z_OVERRIDE_HITS=old_override,old_hits;A._refresh_globals()

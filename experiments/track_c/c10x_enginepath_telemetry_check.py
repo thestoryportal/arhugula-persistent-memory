@@ -89,7 +89,9 @@ def _norms(value):
     fields = {'delta_norm', 'weight_norm_before', 'relative_delta_norm'}
     return isinstance(value, dict) and all(
         isinstance(layer, str) and layer.isdecimal() and isinstance(row, dict) and
-        set(row) == fields and all(_number(x) and x >= 0. for x in row.values())
+        set(row) == fields and all((_number(x) and x >= 0.) or
+            (type(x) is dict and set(x) == {'nonfinite'} and x['nonfinite'] in ('inf', '-inf', 'nan'))
+            for x in row.values())
         for layer, row in value.items())
 
 
@@ -245,10 +247,12 @@ def line_causes(line):
     return [cause for cause in CAUSES if cause in causes]
 
 
-def audit_lines(lines, expected, disabled=False):
+def audit_lines(lines, expected, disabled_cutoff=None):
     """T11: report every failure without changing a scientific record."""
-    if type(disabled) is not bool or not isinstance(expected, dict):
-        raise ValueError('audit inputs must be an expected-key map and a bool disabled flag')
+    if not isinstance(expected, dict) or (disabled_cutoff is not None and
+            (type(disabled_cutoff) is not int or not 0 <= disabled_cutoff <= len(expected))):
+        raise ValueError('audit inputs need an expected-key map and a valid answer cutoff')
+    disabled=disabled_cutoff is not None
     for key, flags in expected.items():
         if not (isinstance(key, tuple) and len(key) == 4 and all(_text(x) for x in key) and
                 isinstance(flags, (tuple, list)) and len(flags) == 2 and all(type(x) is bool for x in flags)):
@@ -289,8 +293,9 @@ def audit_lines(lines, expected, disabled=False):
         if not (disabled and not any_line):
             causes.add('MALFORMED')
     missing = set(expected) - seen
-    if missing:
-        causes.add('DISABLED' if disabled else 'MISSING')
+    required=set(expected) if not disabled else set(list(expected)[:disabled_cutoff])
+    if missing & required:
+        causes.add('MISSING')
     if disabled:
         causes.add('DISABLED')
     ordered = [cause for cause in CAUSES if cause in causes]
@@ -366,14 +371,20 @@ def _expected_answers(pass1, run_record):
     recipes = pass1['recipes']
     if not isinstance(recipes, dict) or not recipes:
         raise ValueError('no scored recipes in pass1.json')
+    if set(recipes)-{'A','I-2','I-1'}:
+        raise ValueError('unexpected scored recipe')
     expected = {}
-    for recipe, record in recipes.items():
+    for recipe in ('A','I-2','I-1'):
+        if recipe not in recipes:continue
+        record=recipes[recipe]
         if recipe not in ('A', 'I-2', 'I-1') or not isinstance(record, dict):
             raise ValueError('unexpected scored recipe')
         arms, detail = record['arms'], record['detail']
         if not isinstance(arms, dict) or not arms or not isinstance(detail, dict) or set(arms) != set(detail):
             raise ValueError('scored arm/detail membership mismatch')
-        for arm, rows in detail.items():
+        for arm in ARM_NAMES:
+            if arm not in detail:continue
+            rows=detail[arm]
             if arm not in ARM_NAMES or not isinstance(rows, list) or len(rows) != 24:
                 raise ValueError('expected 24 detail rows per evaluated arm')
             for row in rows:
@@ -419,8 +430,21 @@ def audit(out):
     path = out/'telemetry'/('telemetry_p'+str(process)+'.jsonl')
     lines = path.read_bytes().splitlines() if path.exists() else []
     log = root/'results'/(out.name+'_logs')/'process.log'
-    disabled = log.exists() and any(line.startswith(DISABLED_MARKER.encode()) for line in log.read_bytes().splitlines())
-    result = audit_lines(lines, expected, disabled=disabled)
+    markers=[line for line in log.read_bytes().splitlines() if line.startswith(DISABLED_MARKER.encode())] if log.exists() else []
+    cutoff=None;bad_marker=False
+    if markers:
+        try:
+            if len(markers)!=1:raise ValueError('duplicate disable marker')
+            marker=strict_json(markers[0].rsplit(b' C10X_ANSWER_CUTOFF ',1)[1])
+            if (type(marker) is not dict or set(marker)!={'answer_cutoff','process','run_id'} or
+                    type(marker['answer_cutoff']) is not int or not 0<=marker['answer_cutoff']<=len(expected) or
+                    type(marker['process']) is not int or (marker['process'],marker['run_id'])!=(process,run_id)):
+                raise ValueError('invalid disable cutoff identity')
+            cutoff=marker['answer_cutoff']
+        except (IndexError,TypeError,ValueError,UnicodeError):bad_marker=True
+    result = audit_lines(lines, expected, disabled_cutoff=cutoff)
+    if bad_marker:
+        result.update(verdict='FAIL',causes=[c for c in CAUSES if c in set(result['causes'])|{'MALFORMED','DISABLED'}],rerun_required=True)
     for raw in lines:
         try:
             line = strict_json(raw)

@@ -1398,6 +1398,312 @@ class FileAdmissionTests(IsolatedCase):
                 with self.assertRaisesRegex(ValueError,'supervisor'):R.load_record(self.out)
 
 
+
+    def test_fp32_overflow_capture_and_parity_remain_report_only(self):
+        a=torch.full((2,2),3e37,dtype=torch.float32);b=a*(1.+1e-5)
+        self.assertTrue(torch.isinf(a.norm()).item())
+        self.assertTrue(torch.isnan((a-b).norm()/a.norm()).item())
+        namespace={'upd_matrix_match_shape':lambda value,shape:value}
+        exec('def writer(value):\n return upd_matrix_match_shape(value,value.shape)\n',namespace);writer=namespace['writer']
+        with I.capture_updates(writer,[4],{'writer':'writer','check':'test','recipe':'standalone','arm':'A7'}) as captures:
+            self.assertIs(writer(a),a)
+        self.assertEqual(captures[0]['report_only_norm_fp32'],{'nonfinite':'inf'})
+        self.assertLess(captures[0]['norm_float64'],float('inf'))
+        report=I.parity(a,b,0.)
+        self.assertEqual(report['report_only_fp32']['relative'],{'nonfinite':'nan'})
+        self.assertLessEqual(report['relative'],1e-4)
+        A.write_json(self.root/'reports/overflow.json',{'capture':{k:v for k,v in captures[0].items() if k!='tensor'},'parity':report})
+        self.assertEqual(R.strict_json((self.root/'reports/overflow.json').read_bytes())['parity'],report)
+        with self.assertRaises(I.Halt):I.parity(a,a*1.01,0.)
+        with self.assertRaises(I.Halt):I.parity(a,torch.full_like(a,float('nan')),0.)
+
+    def test_tagged_fp32_diagnostics_preserve_file_admission(self):
+        f=self.make_files();expected=R.read_record(f);modified=copy.deepcopy(f)
+        values=[{'nonfinite':'inf'},{'nonfinite':'nan'},{'nonfinite':'-inf'}]
+        for recipe in modified['recipes'].values():
+            for rows in recipe['delta_norms'].values():
+                for row in rows.values():row.update(dict(zip(('delta_norm','weight_norm_before','relative_delta_norm'),values)))
+        def reports(value):
+            if isinstance(value,dict):
+                if 'report_only_fp32' in value:
+                    report=value['report_only_fp32']
+                    for item in report if isinstance(report,list) else [report]:item.update(relative=values[1],max_abs=values[0])
+                if 'report_only_norm_fp32' in value:value['report_only_norm_fp32']=values[0]
+                for child in list(value.values()):reports(child)
+            elif isinstance(value,list):
+                for child in value:reports(child)
+        reports(modified['inertness'])
+        for report in modified['write_size_diagnostics'].values():report['ratio_fp32_report_only']=values[1]
+        self.assertEqual(R.read_record(modified),expected)
+        try:R._file_evidence(modified,{'elapsed_seconds':8.})
+        except ValueError as exc:self.fail('fp32 diagnostics changed admission: '+str(exc))
+        manifest={k:modified[k] for k in R.MANIFEST}
+        for filename,key in [('targets','targets'),('inertness','inertness'),('inject','inject'),('pass1','recipes')]:
+            (self.out/(filename+'.json')).write_text(json.dumps({'manifest':manifest,key:modified[key]},allow_nan=False))
+        (self.out/'run.json').write_text(json.dumps(modified,allow_nan=False))
+        with patch.object(A,'source_hashes',return_value=f['sources_start']):
+            admitted,_=R.audited_record(self.out);self.assertEqual(R.read_record(admitted),expected)
+        for field,change in [
+            ('float64 norm',lambda r:r['recipes']['A']['write_norms_float64'][ARM_NAMES[2]].__setitem__('4',float('inf'))),
+            ('float64 parity',lambda r:r['inertness']['X1-iv']['layers']['4'].update(relative=float('nan'))),
+            ('float64 bound',lambda r:r['inertness']['X1-iv']['layers']['4'].update(relative=1.00001e-4)),
+            ('float64 ratio',lambda r:r['write_size_diagnostics']['I-2'].update(ratio_float64=float('inf')))]:
+            bad=copy.deepcopy(modified);change(bad)
+            with self.subTest(field=field):
+                with self.assertRaises(ValueError):R._file_evidence(bad,{'elapsed_seconds':8.})
+
+    def test_recipe_fp32_overflow_does_not_halt_or_change_labels(self):
+        f=fixture();expected=R.read_record(f);pristine=I.Pristine(self.H,self.H.hp)
+        def run_recipe(name,path):
+            self.H.Z_OVERRIDE_HITS,A.FE_CALLS={'A':(0,0),'I-2':(0,3),'I-1':(3,0)}[name]
+            result=copy.deepcopy(f['recipes'][name]);A.WRITE_NORMS=result['write_norms_float64']
+            for rows in result['delta_norms'].values():
+                for row in rows.values():row.update(delta_norm=float('inf'),weight_norm_before=float('inf'),relative_delta_norm=float('nan'))
+            return result
+        self.H.run_recipe=run_recipe
+        for name in ('A','I-2','I-1'):
+            f['recipes'][name]=A.recipe(self.H,name,self.root/'hparams.json',{}, {},pristine)
+            self.assertEqual(f['recipes'][name]['delta_norms'][ARM_NAMES[2]]['4']['delta_norm'],{'nonfinite':'inf'})
+        self.assertEqual(R.read_record(f),expected);reports=A.write_size_reports(f['recipes'])
+        for name,report in reports.items():
+            self.assertEqual(report['ratio_fp32_report_only'],{'nonfinite':'nan'})
+            self.assertEqual(report['ratio_float64'],expected['arms'][name]['write_ratio'])
+        A.write_json(self.root/'reports/recipes.json',{'recipes':f['recipes'],'reports':reports})
+        self.assertEqual(R.strict_json((self.root/'reports/recipes.json').read_bytes())['reports'],reports)
+
+    def test_disable_cutoff_never_excuses_earlier_omissions(self):
+        f=fixture();f.update(telemetry=True,process=1,run_id='cutoff-stub')
+        A.write_json(self.out/'run.json',f);A.write_json(self.out/'pass1.json',{'recipes':f['recipes']})
+        logs=self.out.with_name(self.out.name+'_logs');logs.mkdir()
+        telemetry=self.out/'telemetry';telemetry.mkdir()
+        expected=T._expected_answers({'recipes':f['recipes']},f);keys=list(expected)
+        header={'kind':'header','schema':'c10x_enginepath_telemetry/v1','telemetry':True,'t_utc':'now','elapsed_s':0.,'cumulative_s':0.,'process':1,'run_id':f['run_id']}
+        def answer(key):
+            recipe,arm,subject,template=key;full,first=expected[key]
+            generated=[7,8] if full else [7,9] if first else [9,9]
+            return {**{k:header[k] for k in T.COMMON},'kind':'answer','recipe':recipe,'arm':arm,'phase':recipe,'subj':subject,'val':'V','template':template,'prompt':template.format(subject),'target_ids':[7,8],'generated_ids':generated,'text':'generated','full':full,'first':first}
+        prefix='C10X_TELEMETRY_DISABLED OSError: injected C10X_ANSWER_CUTOFF '
+        cases=[('earlier omission',[header,answer(keys[0]),answer(keys[2])],{'answer_cutoff':2,'process':1,'run_id':f['run_id']},True),
+               ('later only',[header,answer(keys[0]),answer(keys[1])],{'answer_cutoff':2,'process':1,'run_id':f['run_id']},False),
+               ('init disable',[],{'answer_cutoff':0,'process':1,'run_id':f['run_id']},False),
+               ('bad ordinal',[header],{'answer_cutoff':True,'process':1,'run_id':f['run_id']},True),
+               ('wrong identity',[header],{'answer_cutoff':0,'process':2,'run_id':f['run_id']},True),
+               ('legacy marker',[header],None,True)]
+        for name,lines,cutoff,rerun in cases:
+            with self.subTest(case=name):
+                (telemetry/'telemetry_p1.jsonl').write_text(''.join(json.dumps(line)+'\n' for line in lines))
+                (logs/'process.log').write_text(prefix+json.dumps(cutoff)+'\n' if cutoff is not None else 'C10X_TELEMETRY_DISABLED OSError: legacy\n')
+                try:
+                    result=T.audit(self.out);self.assertEqual(result['rerun_required'],rerun)
+                    self.assertIn('DISABLED',result['causes'])
+                    if name=='earlier omission':self.assertIn('MISSING',result['causes'])
+                    if not rerun:self.assertEqual(result['causes'],['DISABLED'])
+                finally:
+                    path=telemetry/'audit.json'
+                    if path.exists():path.unlink()
+
+    def test_disable_marker_records_failed_answer_cutoff(self):
+        t=A.Telemetry(self.out,1,'cutoff-stub');values=self.H.ARMS[ARM_NAMES[2]]
+        self.H._ARM_STATE={'requests':[self.H.req(CANON,s,values[s]) for s in self.H.FICTION]}
+        subject=self.H.FICTION[0];prompt=CANON.format(subject)
+        t.answer(self.H,'A','A',prompt,[7,7],[7,7]);buffer=io.StringIO()
+        with patch.object(sys,'__stderr__',buffer),patch.object(t,'_emit',side_effect=OSError('injected')):
+            t.answer(self.H,'A','A',prompt,[7,7],[7,7]);t.answer(self.H,'A','A',prompt,[7,7],[7,7])
+        self.assertEqual(buffer.getvalue().count('C10X_TELEMETRY_DISABLED'),1)
+        self.assertIn(' C10X_ANSWER_CUTOFF ',buffer.getvalue())
+        cutoff=R.strict_json(buffer.getvalue().split(' C10X_ANSWER_CUTOFF ',1)[1])
+        self.assertEqual(cutoff,{'answer_cutoff':1,'process':1,'run_id':'cutoff-stub'});t.close()
+
+    def test_answer_audit_uses_runtime_recipe_order(self):
+        f=fixture();recipes={name:f['recipes'][name] for name in ('I-1','I-2','A')}
+        expected=T._expected_answers({'recipes':recipes},f)
+        self.assertEqual(list(dict.fromkeys(key[0] for key in expected)),['A','I-2','I-1'])
+
+    def test_tokenizer_forwards_preserve_attention_mask(self):
+        missing=[]
+        for filename in ('c10x_enginepath_arms.py','c10x_overtone_z.py','c10x_enginepath_inertness.py','c10x_enginepath_read.py','c10x_enginepath_telemetry_check.py'):
+            tree=ast.parse((REAL/'experiments/track_c'/filename).read_text())
+            for node in ast.walk(tree):
+                if isinstance(node,ast.Call) and (isinstance(node.func,ast.Name) and node.func.id=='model' or isinstance(node.func,ast.Attribute) and node.func.attr in ('model','forward')):
+                    if node.args:
+                        if len(node.args)!=1 or node.keywords:missing.append((filename,node.lineno))
+                    elif not any(keyword.arg=='attention_mask' for keyword in node.keywords):missing.append((filename,node.lineno))
+        self.assertEqual(missing,[])
+        recorded=[];original=self.H.model.forward
+        def forward(*args,**kwargs):
+            if args:
+                self.assertEqual(len(args),1);self.assertEqual(kwargs,{})
+                recorded.append('single')
+            else:
+                ids=kwargs['input_ids'];mask=kwargs.get('attention_mask')
+                self.assertIsNotNone(mask);self.assertEqual(mask.shape,ids.shape)
+                recorded.append('tokenizer')
+            return original(*args,**kwargs)
+        with patch.object(self.H.model,'forward',side_effect=forward):
+            self.H.full_seq_match(CANON.format(self.H.FICTION[0]),[7,7])
+            namespace=inspect.unwrap(self.H.full_seq_match).__globals__.copy()
+            for function,args in [('string_match',('prompt','value',2)),('teacher_forced_pertok',('prompt',[7,7])),('sentence_nll',('prompt',))]:
+                copied=copied_function(function,namespace);copied(*args)
+            A.logit_lens(self.H,self.H.hp)
+            A.telemetry_mps_inertness_check(self.H,self.H.hp,self.root/'mask_check','tokenizer_masks')
+            requests=[self.H.req(CANON,s,self.H.ARMS[ARM_NAMES[2]][s]) for s in self.H.FICTION]
+            A.batch_replay(self.H,self.H.hp,requests)
+        self.assertGreater(len(recorded),400)
+        self.assertIn('single',recorded);self.assertIn('tokenizer',recorded)
+
+    def test_frozen_scorer_forwards_have_no_injected_kwargs(self):
+        A.release(self.H)
+        before=dict(self.H.model._forward_pre_hooks)
+        namespace=inspect.unwrap(self.H.full_seq_match).__globals__.copy()
+        scorers={'full_seq_match':(self.H.full_seq_match,('prompt',[7,7]))}
+        for name,args in [('string_match',('prompt','value',2)),('teacher_forced_pertok',('prompt',[7,7])),('sentence_nll',('prompt',))]:
+            scorers[name]=(copied_function(name,namespace),args)
+        original=self.H.model.forward
+        def record(function,args):
+            calls=[]
+            def forward(*inputs,**kwargs):
+                calls.append((tuple(x.detach().cpu().clone() for x in inputs),tuple(sorted(kwargs))))
+                return original(*inputs,**kwargs)
+            with patch.object(self.H.model,'forward',side_effect=forward):result=function(*args)
+            return result,calls
+        baseline={name:record(function,args) for name,(function,args) in scorers.items()}
+        self.assertEqual([len(x[1]) for x in baseline.values()],[2,4,1,1])
+        for _,calls in baseline.values():
+            self.assertTrue(all(len(inputs)==1 and kwargs==() for inputs,kwargs in calls))
+        def compare(actual,expected):
+            self.assertEqual(actual[0],expected[0]);self.assertEqual(len(actual[1]),len(expected[1]))
+            for (inputs,kwargs),(old_inputs,old_kwargs) in zip(actual[1],expected[1]):
+                self.assertEqual(kwargs,old_kwargs);self.assertEqual(len(inputs),len(old_inputs))
+                self.assertTrue(all(torch.equal(a,b) for a,b in zip(inputs,old_inputs)))
+        A.configure(self.H);A.configure(self.H)
+        with self.subTest(case='configuration preserves hook registry'):
+            self.assertEqual(dict(self.H.model._forward_pre_hooks),before)
+        for name,(function,args) in scorers.items():
+            with self.subTest(case=name):compare(record(function,args),baseline[name])
+        for factory in (A.reference_scorer,A.observed_scorer):
+            captured=[]
+            with self.subTest(case=factory.__name__):
+                scorer=factory(self.H,lambda p,t,g:captured.append((p,list(t),list(g))))
+                compare(record(scorer,('prompt',[7,7])),baseline['full_seq_match'])
+                self.assertEqual(captured,[('prompt',[7,7],[7,7])])
+        frozen=REAL/'experiments/track_c/c10e_bandknob.py'
+        self.assertTrue(A.verify_scorer_ast(frozen))
+        mutant=ast.parse(Path(A.__file__).read_text())
+        for node in ast.walk(mutant):
+            if isinstance(node,ast.FunctionDef) and node.name in ('observed_full_seq_match','reference_full_seq_match'):
+                call=next(n for n in ast.walk(node) if isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id=='model')
+                call.keywords=[ast.keyword(arg='attention_mask',value=ast.parse('torch.ones_like(cur)',mode='eval').body)]
+        path=self.root/'masked_scorer_mutant.py';path.write_text(ast.unparse(mutant))
+        with self.subTest(case='AST rejects single-sequence mask'),patch.object(A,'__file__',str(path)):
+            self.assertFalse(A.verify_scorer_ast(frozen))
+        A.release(self.H)
+        self.assertEqual(dict(self.H.model._forward_pre_hooks),before)
+
+    def test_no_combined_device_dtype_conversions(self):
+        def dtype(node):
+            return isinstance(node,ast.Attribute) and (node.attr=='dtype' or
+                isinstance(node.value,ast.Name) and node.value.id=='torch' and node.attr in ('float','float16','float32','float64','bfloat16','long','int32','int64','bool'))
+        def cpu_data(node):
+            if isinstance(node,ast.Constant):return True
+            if isinstance(node,(ast.List,ast.Tuple)):return all(cpu_data(n) for n in node.elts)
+            if not isinstance(node,ast.Call) or not isinstance(node.func,ast.Attribute):return False
+            method=node.func.attr;named={k.arg:k.value for k in node.keywords}
+            if method=='cpu':return True
+            if isinstance(node.func.value,ast.Name) and node.func.value.id=='numpy' and method=='interp':return True
+            if method=='to':
+                if len(node.args)==1 and isinstance(node.args[0],ast.Constant) and node.args[0].value=='cpu' and not named:return True
+                if set(named)=={'device'} and isinstance(named['device'],ast.Constant) and named['device'].value=='cpu':return True
+                if len(node.args)==1 and dtype(node.args[0]) and not named or not node.args and set(named)=={'dtype'}:return cpu_data(node.func.value)
+            if method in ('detach','clone','contiguous','float','double','view','reshape','numpy'):return cpu_data(node.func.value)
+            return False
+        def combined(node,cpu_buffers=()):
+            if isinstance(node,(ast.Assign,ast.AugAssign)):
+                targets=node.targets if isinstance(node,ast.Assign) else [node.target]
+                for target in targets:
+                    if not isinstance(target,ast.Subscript):continue
+                    root=target.value
+                    while isinstance(root,ast.Subscript):root=root.value
+                    name=root.id if isinstance(root,ast.Name) else root.attr if isinstance(root,ast.Attribute) else ''
+                    if (name.startswith('cpu_') or name.endswith('_cpu') or name in cpu_buffers) and not cpu_data(node.value):return True
+                return False
+            if not isinstance(node,ast.Call) or not isinstance(node.func,ast.Attribute):return False
+            method=node.func.attr
+            named={k.arg for k in node.keywords}
+            if method in ('type','type_as'):return True
+            if method=='copy_':return not node.args or not cpu_data(node.args[0])
+            if method in ('tensor','as_tensor') and {'device','dtype'}<=named:return not node.args or not cpu_data(node.args[0])
+            if method!='to':return False
+            if len(node.args)>=2 or {'device','dtype'}<=named or bool(node.args and named&{'device','dtype'}) or 'other' in named:return True
+            if len(node.args)==1:
+                arg=node.args[0]
+                descriptor=(dtype(arg) or isinstance(arg,ast.Constant) and isinstance(arg.value,(str,int)) or
+                    isinstance(arg,ast.Attribute) and arg.attr in ('device','DEV') or
+                    isinstance(arg,ast.Name) and arg.id in ('DEV','dev','device','_device','dtype') or
+                    isinstance(arg,ast.Call) and (isinstance(arg.func,ast.Name) and arg.func.id=='device_of' or
+                        isinstance(arg.func,ast.Attribute) and arg.func.attr=='device'))
+                return not descriptor
+            return False
+        def scan(tree):
+            cpu_buffers=set()
+            for node in ast.walk(tree):
+                if not isinstance(node,ast.Assign) or not isinstance(node.value,ast.Call):continue
+                call=node.value;device=next((k.value for k in call.keywords if k.arg=='device'),None)
+                if cpu_data(call) or isinstance(device,ast.Constant) and device.value=='cpu':
+                    cpu_buffers.update(t.id for t in node.targets if isinstance(t,ast.Name))
+            return [n for n in ast.walk(tree) if combined(n,cpu_buffers)]
+        for expression in ("v.to(device='cpu',dtype=torch.float32)","v.to('cpu',torch.float32)","v.to(torch.device('cpu'),dtype=torch.float32)","v.to(dev,kind)",
+                           "v.clone().to('cpu',torch.float16)","v.contiguous().to('cpu',torch.float32)",
+                           "v.to(cpu_tensor)","v.to(other=cpu_tensor)","v.to(buffers['cpu'])",
+                           "v.type(torch.FloatTensor)","v.type('torch.FloatTensor')","v.type_as(cpu_tensor)",
+                           "cpu_buf.copy_(v)","cpu_buf.copy_(v.clone())",
+                           "torch.as_tensor(v,device='cpu',dtype=torch.float32)","torch.tensor(v,device='cpu',dtype=torch.float16)",
+                           "torch.as_tensor(v.clone(),device='cpu',dtype=torch.float16)"):
+            with self.subTest(expression=expression):self.assertTrue(combined(ast.parse(expression,mode='eval').body),expression)
+        for statement in ('cpu_buf[0] = v','cpu_buf[:] = v.clone()'):
+            with self.subTest(statement=statement):self.assertTrue(combined(ast.parse(statement).body[0]),statement)
+        for expression in ("v.cpu().to(torch.float32)","v.float().cpu()","v.to(dtype=torch.float32).to('mps')","v.to(dev)",
+                           "cpu_buf.copy_(v.cpu().to(torch.float32))","torch.as_tensor(v.cpu(),device='cpu',dtype=torch.float32)",
+                           "torch.tensor([1.,2.],device='cpu',dtype=torch.float32)"):
+            self.assertFalse(combined(ast.parse(expression,mode='eval').body),expression)
+        alias=ast.parse("buf = torch.empty(2,device='cpu',dtype=torch.float32)\nbuf[0] = v")
+        self.assertEqual([ast.unparse(n) for n in scan(alias)],['buf[0] = v'])
+        self.assertEqual(scan(ast.parse('cpu_buf[:] = v.cpu().to(torch.float32)')),[])
+        missing=[]
+        for filename in ('c10x_enginepath_arms.py','c10x_overtone_z.py','c10x_enginepath_inertness.py','c10x_enginepath_read.py','c10x_enginepath_telemetry_check.py'):
+            tree=ast.parse((REAL/'experiments/track_c'/filename).read_text())
+            for node in scan(tree):
+                if filename=='c10x_enginepath_inertness.py' and ast.unparse(node)=='npd[self.H.weight_name(self.hp, l)].copy_(value)':
+                    restore=next(n for n in ast.walk(tree) if isinstance(n,ast.FunctionDef) and n.name=='restore')
+                    guard=next(n for n in ast.walk(restore) if isinstance(n,ast.Expr) and ast.unparse(n)=="require(value.device.type == 'cpu', 'PRISTINE_SNAPSHOT_NOT_CPU')")
+                    self.assertLess(guard.lineno,node.lineno)
+                else:missing.append((filename,node.lineno))
+        self.assertEqual(missing,[])
+        for family in ('memit','rome','util'):
+            for path in sorted((REAL/'memit_dry_run/memit'/family).rglob('*.py')):
+                self.assertEqual([n.lineno for n in scan(ast.parse(path.read_text()))],[],str(path))
+        harness=ast.parse((REAL/'experiments/track_c/c10e_bandknob.py').read_text())
+        calls=[n for n in ast.walk(harness) if combined(n)]
+        self.assertEqual(len(calls),1)
+        self.assertEqual(ast.unparse(calls[0]),'upd.to(npd[weight_name(hp, layer)].device, npd[weight_name(hp, layer)].dtype)')
+        writer=next(n for n in harness.body if isinstance(n,ast.FunctionDef) and n.name=='my_edit')
+        assignments={ast.unparse(n.targets[0]):ast.unparse(n.value) for n in ast.walk(writer) if isinstance(n,ast.Assign)}
+        self.assertEqual(assignments['A'],'Pi @ (Kf.cpu() @ Kf.cpu().T + ca) + L2 * torch.eye(Kf.shape[0])')
+        self.assertEqual(assignments['B'],'Pi @ Kf.cpu() @ rf.cpu().T')
+        self.assertEqual(assignments['upd'],'upd_matrix_match_shape(upd.float(), npd[weight_name(hp, layer)].shape)')
+        self.assertTrue(any(isinstance(n,ast.Assign) and ast.unparse(n.value)=='torch.linalg.solve(A, B).T' for n in ast.walk(writer)))
+        view=torch.arange(48,dtype=torch.float16).reshape(6,8)[3:5,2:6]
+        self.assertGreater(view.storage_offset(),0);self.assertFalse(view.is_contiguous())
+        copied=I.cpu_copy(view);self.assertTrue(torch.equal(copied,view.float()));self.assertEqual(copied.device.type,'cpu')
+        self.assertEqual(I.norm64(view),float(view.cpu().double().norm()))
+        pristine=I.Pristine(self.H,self.H.hp);layer=self.H.hp.layers[0];saved=pristine._snapshot[layer]
+        pristine._snapshot[layer]=types.SimpleNamespace(device=types.SimpleNamespace(type='mps'))
+        try:
+            with self.assertRaises(Exception) as caught:pristine.restore()
+            self.assertIsInstance(caught.exception,I.Halt)
+            self.assertEqual(str(caught.exception),'PRISTINE_SNAPSHOT_NOT_CPU')
+        finally:pristine._snapshot[layer]=saved
+
+
 def main():
     (SCRATCH/'roots').mkdir(parents=True,exist_ok=True)
     result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromModule(sys.modules[__name__]))

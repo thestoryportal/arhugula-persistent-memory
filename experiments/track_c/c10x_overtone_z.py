@@ -142,7 +142,7 @@ def compute_z_overtone(model, tok, request, hparams, layer, context_templates, l
             retain_output=True,
             edit_output=edit_output_fn,
         ) as tr:
-            logits = model(**input_tok).logits
+            logits = model(**{k:v for k,v in input_tok.items() if k!='attention_mask'},attention_mask=input_tok['attention_mask']).logits
 
             # Compute distribution for KL divergence
             kl_logits = torch.stack(
@@ -232,6 +232,10 @@ def verify_solver_ast(path):
     import copy
     own=copy.deepcopy(own)
     own.body=[n for n in own.body if not isinstance(n,(ast.Import,ast.ImportFrom,ast.Global))]
+    forwards=[n for n in ast.walk(own) if isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id=='model']
+    masked=ast.parse("model(**{k:v for k,v in input_tok.items() if k!='attention_mask'},attention_mask=input_tok['attention_mask'])",mode='eval').body
+    if len(forwards)!=1 or ast.dump(forwards[0])!=ast.dump(masked):return False
+    forwards[0].keywords=ast.parse('model(**input_tok)',mode='eval').body.keywords
     expected=[n for n in engine.body if not (isinstance(n,ast.Expr) and isinstance(n.value,ast.Constant) and isinstance(n.value.value,str))]
     loop=next(n for n in own.body if isinstance(n,ast.For) and ast.unparse(n.target)=='it')
     reference=next(n for n in expected if isinstance(n,ast.For) and ast.unparse(n.target)=='it')
