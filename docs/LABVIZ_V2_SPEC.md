@@ -37,7 +37,7 @@ A display that is wrong can still mislead a decision. For that reason every numb
    - future gates may not carry these exemptions, so "no python during a gated run" is the safe default.
 
    **The premise behind the exemption, and the build budget.** `tools/labviz_serve.sh:13–19` reruns the builder every 60 s while the server runs, including during GPU stages, and the science runs carry wall-time and memory guards (INVALID-BUDGET, EXCEEDS-TTL). The exemption holds only while the builder stays model-free (no torch import), short and light. So v2:
-   - writes a file only when its bytes change (v1's `write_if_changed`, `build.py:535`) and skips a picture whose inputs are unchanged;
+   - writes a file only when its bytes change (v1's `write_if_changed`, `build.py:535`) and skips a picture whose inputs are unchanged; tested by a warm rebuild that changes no output mtime and calls the picture renderer zero times;
    - is **deterministic**: output bytes depend only on the bytes (and, for logs, the mtimes v1 already reads) of the input files; no output carries the wall-clock time; the build log may;
    - meets a program-set budget, measured and reported by every build: **warm rebuild (no input changed) ≤ 15 s wall and ≤ 1.5 GB peak RSS; cold build ≤ 120 s and ≤ 2 GB** (UNMEASURED today; Codex measures both with `/usr/bin/time -l` around the unchanged command line and reports them). A miss is reported, never hidden.
 4. **Evidence tiers are labelled everywhere** (one vocabulary, used by `evidence_status` in every card and on every page):
@@ -255,7 +255,7 @@ jq -c '.when_utc, .identity.created_utc' results/c10v_layerpick/pass1_started.js
 for r in v2 replicateF frozen; do jq -c '[.F.arms|to_entries[]|{(.key):.value.label}]' results/c10u_mint2/r3_read_after_$r.json; done
 jq -c '{block,kind,seed,replicate,b:.arm.para_full_binding_n}' results/c10u_mint2/r3/F_r0_mint1_s0.json results/c10u_mint2/r3/F_r1_mint1_s0.json
 jq -c '.class, .final_label, .status' results/c10w_oracle/p1_*/verdict.json
-jq -c '.oracle_p1_A7_configuration|{label,gates}, .p1_eval.sha256' results/c10w_oracle/p1_*/interim_reader_configuration_v2.json; shasum -a 256 results/c10w_oracle/p1_*/eval.json
+jq -c '(.oracle_p1_A7_configuration|{label,gates}), .p1_eval.sha256' results/c10w_oracle/p1_*/interim_reader_configuration_v2.json; shasum -a 256 results/c10w_oracle/p1_*/eval.json
 E=$(ls results/c10w_oracle/p1_*/eval.json); jq -c --argjson b "$(jq -c .base_band_hash $E)" '[.base_band_hash==.final_band_hash, ([.recipes[].band_after_hash]|all(. == $b))]' $E
 jq -c '.recipes.closedform.arms.A7_coined_coined.locality_described_as' results/c10w_oracle/p1_*/eval.json
 jq -c '[.rows[].id]' results/c10w_oracle/step0_20261007T223638_531381Z/seal_audit.json
@@ -269,6 +269,11 @@ grep -c '^| \*\*' docs/EXPERIMENT_REGISTRY.md; grep '^| \*\*' docs/EXPERIMENT_RE
 sed -n '280,389p' EXPERIMENT_RUNBOOK.md | grep -oE '(^|[^A-Za-z0-9-])D-[A-Za-z0-9]+(-[A-Za-z0-9]+)*' | sed 's/^[^D]*//' | grep -vxE 'D-IDs?' | sort -u | wc -l
 # v1 site size
 grep -o 'class="run"' results/labviz/site/index.html | wc -l; wc -c results/labviz/site/index.html results/labviz/site/data.js
+# added in round 2 (2026-10-08 06:45 UTC)
+jq -r '.F.arms, .V2.arms | to_entries[] | "\(.key) \(.value.label) \(.value.gates|if .==null then "no gates" else length end)"' results/c10u_mint2/r3_read_after_replicateF.json
+jq -c '.u|keys' results/c10w_oracle/p1_*/eval.json
+find results -name '*.json' -not -path 'results/labviz/*' -not -path 'results/infranodus_*' -print0 | xargs -0 jq -r 'input_filename as $f | paths(type=="number") as $p | select($p[-1]=="delta_norm" and ($p|index("delta_norms"))!=null) | "\(getpath($p)) \($f)"' | sort -g | tail -1
+sed -n '3p' CORPUS/22_D1_CAPACITY_LAW.md | grep -o 'results/d1_[^`]*'
 ```
 
 ### 3.10 Science outside C10 (inventory for the context model and non-C10 pages)
@@ -278,7 +283,7 @@ Operator ruling D-C10r-labviz-4 asks for all historical science. Four lines are 
 | Line | Where it is named | Records | Recorded fields (jq) | Tiers per item |
 |---|---|---|---|---|
 | **G6.1** (in-weight store, cross-entity at N = 100) | registry `:13`, CORPUS/13 | `results/g6_scale_n_result.json` (7 `g6_*.json` files in all) | `.config{model "Qwen/Qwen2.5-3B", N 100, entities 50, fields ["capital","language"], band [4..8], write_mode "sequential"}`; `.records[100]{entity, field, truth, cf, expressed_at_apply, retained_at_end}`; `.rungs[3]{n, all_record_retention, apply_time_expr, unt_within_loc, unt_cross_loc, unt_global_loc, heldout_top1}`; `.diagnostic{clobbered_after_expressing_count, clobbered}` | badge: NOW, registry status verbatim ("SPLIT (cross-entity FALSIFIED)"), no label field; per-record strip: NOW (expressed / retained, its own strip type); gauge: NOW, values only (no preregistered floor recorded); write sizes: not recorded; 7, b-impact, c-flow, d-granular: REPLAY |
-| **D1** (capacity law: drift must count per relation) | CORPUS/22 (`D-D1-1`, `D-D1-2`); no registry row (the registry's B1-size-term row `:19` names "D1 concentration law") | 18 `results/d1_*.json` files, e.g. `d1_concentration_sweep_result.json` | `.experiment` "D1_phase2_concentration_sweep", `.verdict` (a sentence, not a label), `.gap_capital_axis_pp` 0.0, `.gap_total_axis_pp` 50.0, `.total_N` 50, `.band` [4..8], `.CONCENTRATED` / `.DILUTED` `{name, trajectory, end, base_heldout_cap_correct}` | badge: the recorded verdict sentence verbatim; trajectory chart: NOW; others as G6.1. Context: CORPUS/22's header names only `d1_predictor_map_result.json`, so the other d1 files resolve to "context not recorded" with CORPUS/22 as a candidate unless `contexts.json` maps them (cited) |
+| **D1** (capacity law: drift must count per relation) | CORPUS/22 (`D-D1-1`, `D-D1-2`); no registry row (the registry's B1-size-term row `:19` names "D1 concentration law") | 18 `results/d1_*.json` files, e.g. `d1_concentration_sweep_result.json` | `.experiment` "D1_phase2_concentration_sweep", `.verdict` (a sentence, not a label), `.gap_capital_axis_pp` 0.0, `.gap_total_axis_pp` 50.0, `.total_N` 50, `.band` [4..8], `.CONCENTRATED` / `.DILUTED` `{name, trajectory, end, base_heldout_cap_correct}` | badge: the recorded verdict sentence verbatim; trajectory chart: NOW; others as G6.1. Context: CORPUS/22's header (`:3`) names `results/d1_predictor_map_result.json` and the glob `results/d1_concentration_sweep_result*.json` (4 files), so 5 of the 18 match by the §11.2 header rule; the other 13 resolve to "context not recorded" with CORPUS/22 as a candidate unless `contexts.json` maps them (cited) |
 | **B3N** (is in-weight storage necessary) | registry `:24` | none: `docs/B3_IN_WEIGHT_NECESSITY_DECISION.md` | none | documentary card only (question, decision, finding, with doc:line citations); no run pictures |
 | **R5** (paraphrase robustness) | registry `:31`, CORPUS/29 | `results/r5_paraphrase_robustness.json`, `results/r5_stats.json` | `.label` "CHARACTERIZATION"; `.prereg`; `.templates{canonical, P_train[2], P_test[3]}` (**recorded stimulus**; `P_test` equals C10's `PTEST`); `.arms.<arm>{n, L1_took, ptest_mean_rate, ptest_any, ptest_per_paraphrase[3], revert_to_true_among_fails}` for `NOVEL_single`, `PRIOR_single`, `PRIOR_multi_same`, `PRIOR_multi_para`; `.rows.<arm>[i]{subj, target, L1_canon, ptest_hits[3], ptest_obs[3]}` (the model's answers); `.contrasts` | badge: NOW (label + rate per arm, in R5's own terms: "held-out paraphrases", never "of 72"); per-fact strip: NOW (`ptest_hits`); words: NOW (`ptest_obs`); write sizes: not recorded |
 
@@ -399,7 +404,7 @@ Each criterion names how it is measured. Screenshots alone are not enough for si
 
 1. The home screen at 390 × 844 and at 360 × 780 shows the map (or its drill-down list) and the status strip, with no horizontal scroll (`document.documentElement.scrollWidth ≤ innerWidth`, measured).
 2. Every page shows the same five-item navigation, a breadcrumb, a context chip and the evidence-tier badge (DOM check on every screen, plus screenshots).
-3. **No rendered text below 13 CSS px; body text ≥ 16px**, at every width and at 200 % zoom. Measured from rendered boxes, not computed `font-size`: for HTML text, the line-box height of each visible text node's range; for SVG text, `getBoundingClientRect()` height (or the font size × `getScreenCTM()` scale). **No text is drawn on a canvas**: the 3D view's labels are HTML overlays positioned over the canvas (today's `model.js:21–23` draws layer labels into canvas textures; v2 replaces that), so they are measured like any other text.
+3. **No rendered text below 13 CSS px; body text ≥ 16px**, at every width and at 200 % zoom. Measured as **computed `font-size` × the rendered transform scale** of the text node: for SVG text, the scale from `getScreenCTM()`; for HTML text, the product of ancestor CSS transforms, `zoom` and the page zoom. Boxes (`getBoundingClientRect()`) are used only for clipping and layout checks, never as the font size, because line-box and glyph heights include leading and font metrics. Fixtures: 12px text with generous line height (must fail), 16px SVG text in a `viewBox` scaled to 0.5 (must fail), 13px text in an unscaled SVG (passes). **No text is drawn on a canvas**: the 3D view's labels are HTML overlays positioned over the canvas (today's `model.js:21–23` draws layer labels into canvas textures; v2 replaces that), so they are measured like any other text.
 4. No prose block is wider than 72 characters (measured: each prose block's width ÷ the width of "0" in its font ≤ 72).
 5. **Composited contrast**: text ≥ 4.5:1 against its effective background, found by compositing the ancestor backgrounds (non-transparent, with alpha) behind the text node. Chart marks, focus rings and control borders ≥ 3:1 against their effective background.
 6. The G6.1 run page, a D1 capacity-law page (CORPUS/22, `results/d1_*.json`; "D1" here is that line, not an F1 condition) and the Mistral-7B model page contain none of the forbidden words in their content region. Their captions use their own era's question and measure (§11).
@@ -439,7 +444,7 @@ All views read only the run card (§6). The card is the single source of truth, 
 
 ### Item 1: result badge
 - **Shows (binding card):** "12 of 72 reworded questions recalled (goal 61)". Under it, the preregistered label as a coloured chip (`NULL`), and the test's own bar, e.g. "this test's 'lead' bar: 30" (C10V prereg `:69`).
-- **Run role decides what the badge may say.** Every card carries `identity.role` ∈ {`binding`, `control`, `reference`, `shuffled-control`, `canon-control`}, assigned by this table (first matching row; transcribed into `tools/labviz/gates.json`):
+- **Run role decides what a C10 badge may say.** The role table governs **C10 cards only** (records whose path starts with `results/c10`). Every C10 card carries `identity.role` ∈ {`binding`, `control`, `reference`, `shuffled-control`, `canon-control`}, assigned by this table (first matching row; transcribed into `tools/labviz/gates.json`):
 
   | Family | Configuration | Role |
   |---|---|---|
@@ -455,11 +460,12 @@ All views read only the run card (§6). The card is the single source of truth, 
   | C10U | record `kind` `mint1`, `mint2`, `modifier` | `binding` |
   | older C10 (flat `c10b`–`c10j`, `c10k`–`c10q`) | recipe named `baseline`, `baseline_controls` or `A` | `reference` |
   | older C10 | arm `A7_coined_coined` in any other recipe | `binding` (label is the experiment-level `verdict.label`, captioned so) |
-  | any other | | missing leaf: "role not in Lab View's table"; no goal, no label chip |
+  | any other C10 configuration | | missing leaf: "role not in Lab View's table"; no goal, no label chip |
 
   - **binding**: count, "goal 61" (from `docs/c10_scoreboard.json:.goal`) and the label. The goal and label appear only here.
   - **control**, **reference**, **shuffled-control**, **canon-control**: the count, and in place of goal and label one line saying what the role is, e.g. "control arm: checks that ordinary facts still write; not labelled by design", "reference arm: the comparator the gates are measured against; not labelled by design". `Bshuf`'s recorded `NULL-CONTROL-ONLY` is shown as recorded, under that line.
   - **C10W cards** always print `verdict.json:.class` verbatim ("ORACLE MEASUREMENT — not a route; never promotable as a write-engine result (D-C10r-rulings-3 (2))").
+- **Non-C10 cards** (G6.1, D1, R5 and every other line, §3.10) carry no role and never show the C10 goal or a 72-scale. They show their own sourced label or status and their own measure: R5 its recorded `.label` (`CHARACTERIZATION`, class `characterization`) and its per-arm rates (`.arms.<arm>.ptest_mean_rate`, `ptest_any`); D1 its recorded `.verdict` sentence verbatim (no chip); G6.1, which records no label field, the registry status cell as a document-source leaf ("SPLIT (cross-entity FALSIFIED)", registry `:13`) and its rung values (`.rungs[]`). Where a line records neither, the badge says "no label recorded; see <CORPUS entry>".
 - **Joins (every label, gate and reading).** A label, gate boolean or reading attaches to a card only when **family, recipe, arm, seed and replicate** all match, and the recorded hash matches where one exists: C10V `run.json:.pass_sha256.pass1` = SHA-256 of `pass1.json`; C10W `interim_reader_configuration_v2.json:.p1_eval.sha256` = SHA-256 of `eval.json`. C10U arm readings `<kind>_s<seed>` attach to the **replicate-0** record only; the replicate-1 record shows "replica of `<kind>_s<seed>`; the configuration's label is on the replicate-0 card". Equal counts never establish a join: `F_r0_mint1_s0` and `F_r1_mint1_s0` both have binding count 46.
 - **Source:**
   - count `recipes.<R>.arms.<arm>.para_full_n`, or `para_full_binding_n` if present (existing precedence, build.py `:183`);
@@ -471,7 +477,7 @@ All views read only the run card (§6). The card is the single source of truth, 
 
   | Label (exact) | Class | Where it occurs |
   |---|---|---|
-  | `LEAD` | `lead` ("promising; not yet repeated") | C10U binding reading |
+  | `LEAD` | `lead` ("promising under this test; see replication") | C10U binding reading |
   | `LEAD-NOT-REPLICATED` | `lead-unreplicated` | C10U `.replica.label` and the non-binding readings (never shown as an arm label) |
   | `LEAD-NOT-REPLICATED-NOT-COMPARABLE` | `not-comparable` | C10U block V2 |
   | `TRADEOFF` | `tradeoff` | C10U |
@@ -499,7 +505,7 @@ All views read only the run card (§6). The card is the single source of truth, 
 - **Caption (binding card):** "How many of the 72 reworded questions the model answered completely right after this test. The program's goal is 61. The coloured word is the label the test's rules gave this result before anyone looked at it."
 - **Must not imply:**
   - that green means solved: only a final PASS-type label gets green;
-  - that `LEAD` means proven: its caption is "promising; not yet repeated";
+  - that `LEAD` means proven: its caption is "promising under this test; see replication" (the replication status is shown beside it; C10U `mint1_s0` was replicated, CORPUS/54);
   - that a count without a label is a result: it shows "not judged yet" (C10W P1 today);
   - that a control or reference arm's high count is a pass waiting for its label (C10V control arms score 68–71 of 72; B·A1 is 68): those cards show no goal and no label.
 
@@ -527,7 +533,7 @@ All views read only the run card (§6). The card is the single source of truth, 
   | L3 | `.locality_axes.L3_top1_agree` (of 30) | ≥ 29 | `.L3` |
   | generic_ppl | `.locality_axes.generic_ppl_post` | ≤ ref `generic_ppl_post` + 0.5 | `.generic_ppl` |
 
-  **C10U** (`docs/C10U_MINT2_PREREG.md:107`; reader `experiments/track_c/c10u_mint2_read.py:122–131`, `L3_MIN` = 29 at `:20`). Reference: the same-block A7-multi record (`r3/<block>_r0_multi_snone.json:.arm`). Applies to: binding records (replicate 0) with a reading in `r3_read_after_replicateF.json`. Recorded boolean: `.<block>.arms.<kind>_s<seed>.gates.<gate>`. The prereg text says "generic perplexity rise ≤ 0.5"; the pinned reader compares against the reference's post value, so the reference line uses the reader's rule and cites both.
+  **C10U** (`docs/C10U_MINT2_PREREG.md:107`; reader `experiments/track_c/c10u_mint2_read.py:122–131`, `L3_MIN` = 29 at `:20`). Reference: the same-block A7-multi record (`r3/<block>_r0_multi_snone.json:.arm`). Applies to: binding records (replicate 0) whose arm reading in `r3_read_after_replicateF.json` carries `.gates`: 7 of its 12 arm readings, 49 booleans. The 5 UNDERFIT readings (`F` `modifier_s0`–`s2`, `V2` `mint2_s1`, `mint2_s2`) carry **no** `.gates`; their rows show recorded values where any exist, no reference line, no glyph, and "not judged: UNDERFIT, no gate reading recorded". Recorded boolean: `.<block>.arms.<kind>_s<seed>.gates.<gate>`. The prereg text says "generic perplexity rise ≤ 0.5"; the pinned reader compares against the reference's post value, so the reference line uses the reader's rule and cites both.
 
   | Gate | Value | Rule (reader) | Recorded boolean |
   |---|---|---|---|
@@ -539,7 +545,7 @@ All views read only the run card (§6). The card is the single source of truth, 
   | cannibal | `.extra.post_write_cannibal` | ≤ 2 | `.cannibal` |
   | sibling | `.extra.para_sibling` | ≤ 3 | `.sibling` |
 
-  **C10W** (`docs/C10W_ORACLE_PREREG.md:347–357`; reader `experiments/track_c/c10w_oracle_read.py:258–272`). Reference arm "A" = `eval.json:.recipes.closedform.arms.A7_coined_coined` (not `recipes.A`, which does not exist); arm U = `eval.json:.u.<arm>` (unedited model, for G6). Applies to: O-A7 configurations; O-A7-canon is read on G1–G6 only (prereg `:347`). Recorded boolean, today only for `oracle_p1`·A7: `interim_reader_configuration_v2.json:.oracle_p1_A7_configuration.gates.<gate>` (status INTERIM, seed 0 only).
+  **C10W** (`docs/C10W_ORACLE_PREREG.md:347–357`; reader `experiments/track_c/c10w_oracle_read.py:258–272`). Reference arm "A" = `eval.json:.recipes.closedform.arms.A7_coined_coined` (not `recipes.A`, which does not exist); arm U = `eval.json:.u.A7_coined_coined` (the unedited model's A7 evaluation, for G6) for **every** configuration, O-A7-canon included: `eval.json:.u` has no `A7_canon` key, and the reader passes `p["u"][A7]` (`c10w_oracle_read.py:361`; paired MMLU check `:326`). The canonical control's reference arm "A" is likewise `closedform`·A7 (`:361`). Applies to: O-A7 configurations; O-A7-canon is read on G1–G6 only (prereg `:347`). Recorded boolean, today only for `oracle_p1`·A7: `interim_reader_configuration_v2.json:.oracle_p1_A7_configuration.gates.<gate>` (status INTERIM, seed 0 only).
 
   | Gate | Value | Rule | Notes |
   |---|---|---|---|
@@ -548,13 +554,13 @@ All views read only the run card (§6). The card is the single source of truth, 
   | G3 | `.locality_described_as` | ≥ ref − 3 | compared at 0.01 (reader rounds ×100) |
   | G4 | `.extra.frames.canon.flips` **and** `.extra.frames.train[t].flips` for **every** training frame t (20) | each ≤ the ref's same frame + 1 (of 6) | one row per frame on demand; the gauge row fails if any frame fails |
   | G5 | `.locality_axes.generic_ppl_post` − `.generic_ppl_pre` (own rise; not vs ref) | ≤ 0.5 | each rounded to 3 decimals by the reader |
-  | G6 | MMLU-200 net paired correct-item loss vs arm U | ≤ 4 of 200 | inputs `u.<arm>.extra.mmlu` and the arm's `.extra.mmlu` |
+  | G6 | MMLU-200 net paired correct-item loss vs arm U | ≤ 4 of 200 | inputs `u.A7_coined_coined.extra.mmlu.correct` and the arm's `.extra.mmlu.correct` |
   | G7 | the **matched** O-A7-shuf control's original-map cross-score (`…arms.A7_shuf.extra.cross_score.para_full_n` of the same recipe) | ≤ 2 of 72 | needs the shuf control of the same rank, seed and training attempt (prereg `:357`); without it, "not judged yet". P1 interim records it as `.shuf_cross_score_vs_original_map` = 0 |
 
   **Older C10 families and non-C10 lines:** values only, "no preregistered limit recorded".
 
   **Missing values:** if the value or any rule input is missing or not finite, the row shows "not recorded for this run" and draws no reference line. A missing recorded boolean never becomes a derived ✓/✗.
-- **Consistency check (a test, not a display):** wherever a recorded boolean exists, the gate-table rule applied to the recorded inputs must give the same boolean. On disagreement the gauge shows "limit could not be reproduced from the rule" and the test fails. The real cases are every C10V reading × 5 gates, every C10U binding-reading arm × 7 gates, and the C10W interim configuration × 7 gates, plus boundary fixtures (exactly at the limit passes; one past it fails, e.g. G6 loss 4 passes and 5 fails, prereg `:368`) and a mismatch fixture (a recorded boolean joined to the wrong configuration).
+- **Consistency check (a test, not a display):** wherever a recorded boolean exists, the gate-table rule applied to the recorded inputs must give the same boolean. On disagreement the gauge shows "limit could not be reproduced from the rule" and the test fails. The real cases are **every present boolean**: every C10V reading × 5 gates (15), the 7 C10U binding-reading arms that carry `.gates` (49), and the C10W interim configuration × 7 gates (7); separately, the 5 C10U UNDERFIT readings without `.gates` must render no glyph and no invented outcome; plus boundary fixtures (exactly at the limit passes; one past it fails, e.g. G6 loss 4 passes and 5 fails, prereg `:368`) and a mismatch fixture (a recorded boolean joined to the wrong configuration).
 - **Caption:** "Checks that writing the new facts did not damage other things the model knows. The tick is the limit the test set in advance; ✓/✗ appears only where the test's own reader recorded a result."
 - **Must not imply:** that a passing gauge means no damage anywhere (only these axes were measured), that a derived reference line is a verdict, or that a configuration-level pass is program success. Limits exist only where a prereg set them.
 
@@ -563,7 +569,7 @@ All views read only the run card (§6). The card is the single source of truth, 
   - Only layers present in `delta_norms.<arm>` are coloured ("written").
   - The configured band (`recipes.<R>.band`, or the hparams `layers`) is drawn as an outline bracket labelled "configured band 4–8".
   - So B0 shows one coloured bar at layer 8 and an empty bracket over 4–7.
-- **Source:** `recipes.<R>.delta_norms.<arm>.<layer>.delta_norm` (unit "absolute write size"), `.relative_delta_norm`, `rel_delta_norm` (relative). Scale max = max over all cards with the same unit (recorded in the card as `scale.max` with its source card).
+- **Source:** `recipes.<R>.delta_norms.<arm>.<layer>.delta_norm` (unit "absolute write size"), `.relative_delta_norm`, `rel_delta_norm` (relative). Scale max = the maximum over a **declared eligible population**: every applied `delta_norm` under a `delta_norms` object in a RECORDED card, one population per unit, listed operand by operand in `results/labviz/site/cards/scales.json`; each card's `scale.max` is a derived leaf pointing at it (§6). At 2026-10-08 06:45 UTC that population is 1,183 values in 80 files (path rule as in §3.9), and its maximum is `113.7967300415039` (`results/c10h_anyedit_pilot.json:.recipes.anyedit_window1.delta_norms.A7_coined_coined["8"].delta_norm`); within C10V alone the maximum is B0·A2 layer 8, `55.45940399169922`.
 - **What may share a ruler.** Only applied writes of one unit: absolute norm, relative norm and ratio (e.g. `c10k_route_a`'s `update_norm_ratio`) each get their own ruler. Offline **predicted** sizes (`c10l_covgeom/step0_offline.json` `dW_fro`), injection measurements (`c10s_solvefeas/inject.json`), replay values (NOT EVIDENCE) and sandbox values (EXPLORATORY) never enter a RECORDED ruler or its `scale.max`; each is drawn on its own labelled ruler, if at all.
 - **Caption:** "How much the stored numbers in each written layer changed. Bars use one ruler for every run, so lengths can be compared. Grey outline = layers the recipe was allowed to write; colour = layers it actually wrote."
 - **Must not imply:** that a longer bar means a better result. Write size is effort, not success: B0's 55.42 at layer 8 gave 12/72; P1's oracle wrote ≤ 7.74 per layer and got 70/72. Different units are never drawn on one ruler.
@@ -646,7 +652,7 @@ See §6. Every page section has a "data for this view" link to the card. Each ca
   - the 40 loss points per adapter;
   - final outcomes.
 
-  This **recorded-event scrubber** moves through these events only. It is not the Phase 3 player (§7.6), which is excluded from Phase 1.
+  This **recorded-event scrubber** moves through these events only, ordered by their recorded time (ties by source path, then line). It is not the Phase 3 player (§7.6), which is excluded from Phase 1.
 - **Phase 2:** C10Z telemetry frames per round (write sizes per layer, target probabilities per question, lens before and after each candidate write).
 - **Phase 3:** the observation-replay player (§7.6).
 - **Caption:** Phase 1: "What the run recorded, in order." Phase 3: "A re-creation of the run, step by step; recorded outcomes matched (not evidence)", or "an approximate re-creation" when they did not (§7.5).
@@ -659,7 +665,7 @@ See §6. Every page section has a "data for this view" link to the card. Each ca
 
 1. **JSON-source** `{"value": V, "src": {"file": "<repo-relative path>", "path": "<jq path>"}}`: `jq '<path>' <file>` returns exactly `V`, at full recorded precision (`16.31455421447754`, never `16.31`). Rendering rounds; the card never does.
 2. **Document-source** `{"value": V, "src": {"file": "<repo-relative path>", "line": N, "quote": "<text>"}}`: line N (1-based) of the file contains `quote` verbatim, and a string `V` occurs verbatim inside `quote`. Quotes are never truncated with "…".
-3. **Derived** `{"value": V, "derived": "<rule in words>", "inputs": [leaf, …], "rule_src": <document-source citation or {"spec": "§…"}>}`: Lab View arithmetic over recorded inputs. `inputs` is never empty; the test recomputes `V` from `inputs`.
+3. **Derived** `{"value": V, "derived": "<rule in words>", "inputs": [leaf, …], "rule_src": <document-source citation or {"spec": "§…"}>}`: Lab View arithmetic over recorded inputs. `inputs` lists **every operand** of the rule and is never empty; an operand that is a whitelisted structural key of the same card is given as `{"value": V, "structural": "<path in this card>"}` (e.g. the card's own `layer`). A derived context edge lists its **whole chain** of edges (§11.2). A derivation over a population (a scale maximum) names it in `population`, a JSON-source pointer to the operand list in `results/labviz/site/cards/scales.json`. The test recomputes `V` from `inputs` (or the population) and fails if any operand is missing.
 4. **Missing** `{"value": null, "missing": "<reason>", "tier": "REPLAY|NEW|NOW-not-recorded|Phase 2a extract|not-judged-yet"}`.
 
 **Structural keys that may be bare** (they name or arrange things; they are not measurements): `schema`, `card_id`, `evidence_status`, `built`, `sources`, `family`, `field`, `recipe`, `arm`, `index`, `layer`, `node_id`, `edge`, `matched_by`, `unit`, `name`, `plain`, `comparison`, `judgement`, `hit_kind`, `colour_class`, `colour_table`, `reader_rules`. Any other bare number, boolean or string fails the leaf test.
@@ -680,6 +686,8 @@ Example (C10V B·A7; every value checked with `jq`, `sed -n` or `shasum -a 256` 
     {"file": "results/c10v_layerpick/pass1.json", "sha256": "bf8f162a422cd01bf9763673cd24abbb99a532da889f08c3311174d7942a119f"},
     {"file": "results/c10v_layerpick/run.json", "sha256": "f721c804ba6acda88faf68b4b94bdf10b264d1099e041eaaab86a00902fe808f"},
     {"file": "results/c10v_layerpick/step0.json", "sha256": "96b196167984c48f717451addca935376d49caf13efc2adc5ce750a70f1999dd"},
+    {"file": "results/c10h_anyedit_pilot.json", "sha256": "ca9e577ae98c82fe8cb57dfce99170b35d71c63e4e1b91ff61f620d1d1b708e0"},
+    {"file": "results/labviz/site/cards/scales.json", "sha256": "<sha at build>"},
     {"file": "docs/c10_scoreboard.json", "sha256": "331a32483a3c4d8666bc1a8477a5b30eb96d5c858e84dac8a9647882154feb2d"},
     {"file": "docs/c10_evaluations.json", "sha256": "0c2fb5a96e017315a2fddf56fe40afd297a7b7cc0298ad655c9468b04ff9e97c"},
     {"file": "docs/EXPERIMENT_REGISTRY.md", "sha256": "6f49e8ed7f024ef3c21d99c29964694e540bc0b77235ad664b949a6d9f996ef2"},
@@ -720,17 +728,24 @@ Example (C10V B·A7; every value checked with `jq`, `sed -n` or `shasum -a 256` 
     "corpus": {"node_id": "corpus:56", "edge": "direct", "value": "CORPUS/56", "src": {"file": "docs/EXPERIMENT_REGISTRY.md", "line": 60, "quote": "| CORPUS/56 |"}},
     "hypothesis": {"node_id": "hyp:J6:H-8", "edge": "direct", "value": "H-8", "src": {"file": "docs/EXPERIMENT_REGISTRY.md", "line": 60, "quote": "(step 4, H-8)"}},
     "spec_sections": [{"node_id": "spec:§8.9", "edge": "derived", "value": "§8.9",
-                       "derived": "the experiment's decision is named in the overlay row of §8.9 L2",
-                       "inputs": [{"value": "D-C10v-layerpick", "src": {"file": "docs/SPEC_EXPERIMENT_OVERLAY.md", "line": 22, "quote": "D-C10v-layerpick"}},
+                       "derived": "the experiment's decision (registry :60) is named in the overlay row of §8.9 L2",
+                       "inputs": [{"value": "D-C10v-layerpick", "src": {"file": "docs/EXPERIMENT_REGISTRY.md", "line": 60, "quote": "⟨D-C10v-layerpick@3bcae852⟩"}},
+                                  {"value": "D-C10v-layerpick", "src": {"file": "docs/SPEC_EXPERIMENT_OVERLAY.md", "line": 22, "quote": "D-C10v-layerpick"}},
                                   {"value": "§8.9", "src": {"file": "docs/SPEC_EXPERIMENT_OVERLAY.md", "line": 22, "quote": "**§8.9 L2 — multi-token CORE values (C10 chain)**"}}],
                        "rule_src": {"spec": "§11.2 run → context rule"}}],
     "condition": {"node_id": "cond:C10", "edge": "derived", "value": "C10",
-                  "derived": "F1 condition whose row names the experiment's spec section",
-                  "inputs": [{"value": "§8.9", "src": {"file": "docs/F1_DETERMINATION.md", "line": 71, "quote": "| **C10** | **Multi-token value robustness** (G7; the §8.9 store"}}],
+                  "derived": "the F1 condition whose row names the experiment's spec section (chain: registry :60 → overlay :22 → F1 :71)",
+                  "inputs": [{"value": "D-C10v-layerpick", "src": {"file": "docs/EXPERIMENT_REGISTRY.md", "line": 60, "quote": "⟨D-C10v-layerpick@3bcae852⟩"}},
+                             {"value": "D-C10v-layerpick", "src": {"file": "docs/SPEC_EXPERIMENT_OVERLAY.md", "line": 22, "quote": "D-C10v-layerpick"}},
+                             {"value": "§8.9", "src": {"file": "docs/SPEC_EXPERIMENT_OVERLAY.md", "line": 22, "quote": "**§8.9 L2 — multi-token CORE values (C10 chain)**"}},
+                             {"value": "§8.9", "src": {"file": "docs/F1_DETERMINATION.md", "line": 71, "quote": "| **C10** | **Multi-token value robustness** (G7; the §8.9 store"}}],
                   "rule_src": {"spec": "§11.2 run → context rule"}},
     "layer": {"node_id": "layer:write-engine", "edge": "derived", "value": "Write Engine",
-              "derived": "spec section §8.x belongs to the Write Engine layer",
-              "inputs": [{"value": "Write Engine", "src": {"file": "docs/SPEC_E2E_GROUND_TRUTH.md", "line": 14, "quote": "| **Write Engine** (§8) |"}}],
+              "derived": "the experiment's spec section §8.9 is a §8.x section, and §8 is the Write Engine layer (chain: registry :60 → overlay :22 → e2e :14)",
+              "inputs": [{"value": "D-C10v-layerpick", "src": {"file": "docs/EXPERIMENT_REGISTRY.md", "line": 60, "quote": "⟨D-C10v-layerpick@3bcae852⟩"}},
+                         {"value": "D-C10v-layerpick", "src": {"file": "docs/SPEC_EXPERIMENT_OVERLAY.md", "line": 22, "quote": "D-C10v-layerpick"}},
+                         {"value": "§8.9", "src": {"file": "docs/SPEC_EXPERIMENT_OVERLAY.md", "line": 22, "quote": "**§8.9 L2 — multi-token CORE values (C10 chain)**"}},
+                         {"value": "Write Engine", "src": {"file": "docs/SPEC_E2E_GROUND_TRUTH.md", "line": 14, "quote": "| **Write Engine** (§8) |"}}],
               "rule_src": {"spec": "§11.1 e2e layers"}},
     "era": {"node_id": "era:c10", "edge": "curated", "value": "c10", "src": {"file": "tools/labviz/contexts.json", "path": ".experiments[\"C10V-layerpick\"].era"}},
     "measure": {"value": "complete answers to 72 reworded questions; goal 61", "src": {"file": "tools/labviz/contexts.json", "path": ".eras.c10.measure"}}
@@ -768,8 +783,9 @@ Example (C10V B·A7; every value checked with `jq`, `sed -n` or `shasum -a 256` 
   ],
   "per_layer": [
     {"layer": 8, "unit": "absolute write size (Frobenius norm of ΔW)",
-     "configured": {"value": true, "derived": "layer is in the recipe's band",
-                    "inputs": [{"value": [4, 5, 6, 7, 8], "src": {"file": "results/c10v_layerpick/pass1.json", "path": ".recipes.B.band"}}],
+     "configured": {"value": true, "derived": "this card's layer is in the recipe's band",
+                    "inputs": [{"value": [4, 5, 6, 7, 8], "src": {"file": "results/c10v_layerpick/pass1.json", "path": ".recipes.B.band"}},
+                               {"value": 8, "structural": "per_layer[0].layer"}],
                     "rule_src": {"spec": "§5 item 4"}},
      "write_size": {"value": 16.31455421447754, "src": {"file": "results/c10v_layerpick/pass1.json", "path": ".recipes.B.delta_norms.A7_coined_coined[\"8\"].delta_norm"}},
      "written": {"value": true, "derived": "a write size is recorded for this layer",
@@ -780,7 +796,10 @@ Example (C10V B·A7; every value checked with `jq`, `sed -n` or `shasum -a 256` 
      "lens": {"value": null, "missing": "no logit lens recorded for any past run", "tier": "REPLAY"}}
   ],
   "scale": {"unit": "absolute write size (Frobenius norm of ΔW)",
-            "max": {"value": 55.42212677001953, "src": {"file": "results/c10v_layerpick/pass1.json", "path": ".recipes.B0.delta_norms.A7_coined_coined[\"8\"].delta_norm"}}},
+            "max": {"value": 113.7967300415039, "derived": "maximum of the eligible population (§5 item 4): every applied delta_norm under delta_norms in a RECORDED card",
+                    "inputs": [{"value": 113.7967300415039, "src": {"file": "results/c10h_anyedit_pilot.json", "path": ".recipes.anyedit_window1.delta_norms.A7_coined_coined[\"8\"].delta_norm"}}],
+                    "population": {"src": {"file": "results/labviz/site/cards/scales.json", "path": ".absolute_write_size.operands"}},
+                    "rule_src": {"spec": "§5 item 4"}}},
   "parts": {"written_module": {"value": "model.layers.{}.mlp.down_proj", "src": {"file": "configs/hparams/qwen25_3b_memit_hparams.json", "path": ".rewrite_module_tmp"}},
             "hparams_bound": {"value": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4", "src": {"file": "results/c10v_layerpick/pass1.json", "path": ".identity.source_sha256[\"configs/hparams/qwen25_3b_memit_hparams.json\"]"}},
             "untouched_basis": {"value": "by design (the engine writes only down_proj)", "src": {"file": "tools/labviz/gates.json", "path": ".untouched_basis.memit"}},
@@ -806,11 +825,12 @@ Example (C10V B·A7; every value checked with `jq`, `sed -n` or `shasum -a 256` 
 
 - **Cards per run:** one per existing card id; summary-only cards carry `identity`, `label` and `plain_words` only.
 - **Size:** ≈ 30–60 KB per full C10 card, ≈ 1,500 cards in total (1,503 v1 cards at 2026-10-08), of which most are small.
-- **Where:** `results/labviz/site/cards/<card-id>.json` and `results/labviz/site/cards/index.json` (item 10).
+- **Where:** `results/labviz/site/cards/<card-id>.json`, `results/labviz/site/cards/index.json`, and the shared `results/labviz/site/cards/scales.json` (items 4 and 10).
 - **Validation (test):**
   - **JSON-source leaves:** resolved with a python implementation of exactly this jq-path grammar: a leading `.`, then any sequence of `.key` (key matches `[A-Za-z_][A-Za-z0-9_]*`), `["key"]` (any JSON string) and `[n]` (non-negative integer). No other jq syntax is allowed in a card. Equality is exact (JSON numbers compared as parsed). A cross-check runs the `jq` binary on at least 50 leaves covering every family and every grammar form, and the two must agree.
   - **Document-source leaves:** the quote occurs verbatim at the cited line; the value occurs in the quote.
-  - **Derived leaves:** inputs are themselves valid leaves; the rule recomputes the value.
+  - **Derived leaves:** inputs are themselves valid leaves (structural operands resolve to the named key of the same card); the rule recomputes the value from them alone; every derived context edge carries its full chain. Fixtures that must fail: a derived leaf with an operand removed (e.g. `configured` without the card's layer), a context edge missing a link of its chain, and a card whose recorded write size exceeds its `scale.max` (the C10V B0·A2 layer-8 value `55.45940399169922` is above B0·A7's `55.42212677001953`, so a scale taken from one recipe's binding arm would already fail).
+  - **Scale population:** `scales.json` lists, per unit, every operand leaf; its operand set equals the eligible population enumerated from the RECORDED cards, and its maximum equals each card's `scale.max`.
   - **Structure:** no bare value outside the whitelist; every cited file is in `sources[]` with its current SHA-256.
 
 ---
@@ -1015,11 +1035,11 @@ So `C10U-mint2` (`:58`) → `D-C10u-mint2` (anchored), although `D-C10r-rulings-
 
 **Run → context rule.** Applied in order; the first rule that yields exactly one experiment wins. A rule that yields two or more is a **tie**: the context is unknown and the card lists the candidates; nothing is chosen.
 1. The record's repo-relative path is an expanded registry result path, or lies under one (longest folder prefix; two rows with equally long prefixes tie).
-2. A CORPUS header (first 12 lines) names the record by its repo-relative path, or by a path suffix of at least two components; a bare basename that occurs in more than one results folder (`run.json`, `eval.json`) never matches.
+2. A CORPUS header (first 12 lines) names the record by its repo-relative path, or by a path suffix of at least two components; a bare basename that occurs in more than one results folder (`run.json`, `eval.json`) never matches. Header paths are expanded like registry paths, and a `*` matches within one path segment: `CORPUS/22_D1_CAPACITY_LAW.md:3` names `results/d1_predictor_map_result.json` and `results/d1_concentration_sweep_result*.json` (4 files at 2026-10-08). Only `results/…` paths count; `logs/d1_*` and `experiments/…` paths on the same line do not.
 3. The record's `decision_id` equals the decision (chosen as above) of exactly one row. The card then says "attempt not named in the registry's result paths" when that row lists result paths and none contains the record (e.g. `results/c10u_mint2/r2/…`, the halted `results/c10w_oracle/step0_20261007T220253_584752Z/`, and C10W P2, whose `p2_…/` folder row `:59` does not list).
 4. Otherwise the context is **"not recorded"**, and the card shows its candidates. Nothing defaults to C10.
 
-**Fixtures (real rows):** `:19` (brace expression plus a non-path annotation), `:25` (empty brace alternative), `:58` (folder and file paths; anchored decision after `D-C10r-rulings-12`; `ROUTING-BLOCKED-UNDERFIT` must not yield a D-ID), `:59` (the literal "D-ID"; P2 records reach the row only by rule 3), `:60` (a brace expression in a review path); an ambiguous basename (`run.json`); an unmatched historical attempt (`c10u_mint2/r2/`); a two-row tie.
+**Fixtures (real rows):** `:19` (brace expression plus a non-path annotation), `:25` (empty brace alternative), `:58` (folder and file paths; anchored decision after `D-C10r-rulings-12`; `ROUTING-BLOCKED-UNDERFIT` must not yield a D-ID), `:59` (the literal "D-ID"; P2 records reach the row only by rule 3), `:60` (a brace expression in a review path); an ambiguous basename (`run.json`); a header glob (`CORPUS/22` matches the 4 `d1_concentration_sweep_result*.json` files, not `logs/d1_*`); an unmatched historical attempt (`c10u_mint2/r2/`); a two-row tie.
 
 **Per-run `context` block in the run card** (§6). Each field is a typed leaf (direct and curated fields are document-source or JSON-source leaves; derived fields list their inputs), with `node_id` and `edge`:
 - `experiment`, `track`, `decision`, `corpus`, `hypothesis`;
