@@ -1,6 +1,6 @@
 {
   "_doc": "Plain-language scoreboard for the C10 problem (made-up multi-word names), shown by tools/dashboard_report.py. The program session updates it at every result and close-out: add a results row, refresh current/queue, rewrite the brief in plain words. Scores are held-out reworded questions answered exactly right, out of 72. Full detail lives in CORPUS; this file only points there.",
-  "updated": "2026-10-08 03:10 MDT",
+  "updated": "2026-10-08 03:40 MDT",
   "goal": 61,
   "out_of": 72,
   "brief": "We are trying to teach the model made-up names (like a project codename) so it can recall them when a question is worded differently. Ordinary facts already work (about 69 of 72); made-up two-word names do not: the usual method gets about 9 to 14 of 72, our best write method about 40, and the goal is 61. Step 4 (let each fact pick its own layer) did not help and is not taken forward. Step 5 asks whether training that same small part of the model can reach the goal at all: the repeat run scored 70 to 71 of 72, but its final self-check tripped on a rounding bug, so there is no official reading yet.",
@@ -182,12 +182,12 @@
     },
     {
       "name": "Step 6: two engine changes (spread and reweighting)",
-      "status": "build plan written; its rule addendum being drafted",
+      "status": "rules finalised; build running (Codex X)",
       "time": "about 3-7 h"
     },
     {
       "name": "Step 7: solve the weight change directly (measurement)",
-      "status": "build plan written; its rule addendum being drafted",
+      "status": "rules finalised; build running (Codex Y)",
       "time": "about 5-11 h"
     },
     {

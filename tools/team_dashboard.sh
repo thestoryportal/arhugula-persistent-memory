@@ -23,6 +23,8 @@ label() {
     codexviz2) echo "Codex · Lab View v2 build" ;;
     codexz)  echo "Codex Z · ASTRA build" ;;
     codexw2) echo "Codex W2 · P2 rerun fix" ;;
+    codexx)  echo "Codex X · step-6 build" ;;
+    codexy)  echo "Codex Y · step-7 build" ;;
     codex?)  echo "Codex $(printf '%s' "${1:5:1}" | tr a-z A-Z)" ;;
     *)       echo "$1" ;;
   esac
