@@ -170,5 +170,34 @@ class WordsAndAnswers(unittest.TestCase):
         self.assertIsNone(self.X.answers_from_record({"recipes": {"r": {"arms": {"A1_single": {}}}}}))
 
 
+class Alerts(unittest.TestCase):
+    WORK = "• Ran tests\n  └ ok\n• Working (12m 03s • esc to interrupt)\n› Ask Codex"
+
+    def test_waiting_for_an_answer(self):
+        mem = {}
+        out = L.session_alerts({"codexz": "Hooks need review\n› 1. Review hooks\nenter confirm · esc skip"}, mem, 0.0)
+        self.assertEqual(out, ["codexz is waiting for an answer"])
+
+    def test_no_progress_while_working(self):
+        mem = {}
+        self.assertEqual(L.session_alerts({"codexw2": self.WORK}, mem, 0.0), [])
+        self.assertEqual(L.session_alerts({"codexw2": self.WORK.replace("12m 03s", "20m 00s")}, mem, 14 * 60), [])
+        self.assertEqual(L.session_alerts({"codexw2": self.WORK.replace("12m 03s", "28m 00s")}, mem, 16 * 60),
+                         ["codexw2 shows no new step for 16 min"])
+
+    def test_new_step_resets_the_clock(self):
+        mem = {}
+        L.session_alerts({"codexw2": self.WORK}, mem, 0.0)
+        later = "• Edited a.py\n" + self.WORK
+        self.assertEqual(L.session_alerts({"codexw2": later}, mem, 20 * 60), [])
+
+    def test_stopped_on_an_error(self):
+        idle = "• Ran x\n  └ Traceback (most recent call last):\n  └ ValueError: bad\n• Worked for 3m\n› Ask Codex"
+        self.assertEqual(L.session_alerts({"codexviz2": idle}, {}, 0.0), ["codexviz2 stopped after an error"])
+
+    def test_clean_finish_is_not_an_alert(self):
+        self.assertEqual(L.session_alerts({"codexz": "• Wrote report\nDONE\n• Worked for 1h\n› Ask"}, {}, 0.0), [])
+
+
 if __name__ == "__main__":
     unittest.main()

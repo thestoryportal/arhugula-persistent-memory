@@ -87,6 +87,33 @@ class TeamSupervisor:
         return True
 
 
+ASKING = re.compile(r"Hooks need review|enter confirm|Do you want|\[y/n\]|\(y/n\)|Allow this|approve", re.I)
+ERROR = re.compile(r"Traceback \(most recent call last\)|\bError:|Operation not permitted|\bBLOCKED\b|\bFAILED\b|permission denied", re.I)
+STALL_S = 15 * 60
+
+
+def session_alerts(screens, memory, now):
+    """Plain alerts for team sessions: waiting for an answer, no new step for STALL_S while working, or stopped after an
+    error. `memory` keeps each session's step list and when it last changed, across calls."""
+    out = []
+    for name, screen in sorted(screens.items()):
+        lines = [l for l in screen.splitlines() if l.strip()]
+        tail = "\n".join(lines[-15:])
+        working = "esc to interrupt" in screen
+        steps = tuple(l.strip() for l in lines if l.lstrip()[:1] in "•⏺" and "Working (" not in l)
+        seen = memory.get(name)
+        if seen is None or seen[0] != steps:
+            memory[name] = (steps, now)
+        since = memory[name][1]
+        if ASKING.search(tail):
+            out.append(f"{name} is waiting for an answer")
+        elif working and now - since >= STALL_S:
+            out.append(f"{name} shows no new step for {int((now - since) // 60)} min")
+        elif not working and ERROR.search(tail) and "DONE" not in tail:
+            out.append(f"{name} stopped after an error")
+    return out
+
+
 def ago(seconds):
     s = int(max(seconds, 0))
     return f"{s // 60}m ago" if s < 3600 else f"{s // 3600}h{s % 3600 // 60:02d}m ago"
@@ -95,6 +122,7 @@ def ago(seconds):
 def now_lines(state, now):
     """Plain lines for the report's NOW section, most urgent first."""
     lines = [f"! NEEDS YOUR RULING: {r}" for r in state["rulings"]]
+    lines += [f"▲ STALLED/BLOCKED: {a} (the program is on it)" for a in state.get("alerts", [])]
     gpu = state["gpu"]
     if gpu["running"]:
         key, stage, etime = gpu["running"]
@@ -166,7 +194,13 @@ def gather():
         runbook = open(os.path.join(ROOT, "EXPERIMENT_RUNBOOK.md"), errors="replace").read()
     except OSError:
         runbook = ""
-    return {"rulings": awaiting_rulings(runbook), "gpu": gpu_state(), "builds": build_state(), "helpers": running_helpers()}
+    screens = {n: sh("tmux", "capture-pane", "-p", "-t", n) for n in team_sessions(sh("tmux", "list-sessions", "-F", "#{session_name}").split())
+               if n != "program"}
+    return {"rulings": awaiting_rulings(runbook), "alerts": session_alerts(screens, _alert_memory, time.time()),
+            "gpu": gpu_state(), "builds": build_state(), "helpers": running_helpers()}
+
+
+_alert_memory = {}
 
 
 def maybe_reload(stamp):

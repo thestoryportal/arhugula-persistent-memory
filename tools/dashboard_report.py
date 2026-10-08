@@ -70,8 +70,8 @@ def render(cols, rows):
         out.append(f" {BOLD}{line}{RESET}")
     out.append(section("NOW", 28, cols))
     for line in live.now_lines(live.gather(), time.time()):
-        color = {"!": 196, "▸": 40, "»": 214, "◦": 141}.get(line[0], 244)
-        out.append(f" {BOLD if line[0] in '!▸' else ''}{FG(color)}{fit(line, cols - 2)}{RESET}")
+        color = {"!": 196, "▲": 208, "▸": 40, "»": 214, "◦": 141}.get(line[0], 244)
+        out.append(f" {BOLD if line[0] in '!▲▸' else ''}{FG(color)}{fit(line, cols - 2)}{RESET}")
     out.append(section("RESULTS SO FAR (newest first)", 24, cols))
     bw = 18
     queue = b.get("queue", [])
