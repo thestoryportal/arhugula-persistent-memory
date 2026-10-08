@@ -22,6 +22,9 @@ Resume as lead experimentalist, AUTONOMOUS under D-C10r-rulings-9/10/11/12 (push
    - Doc lane (no python, anytime): specs, verdict packets, reviews, CORPUS drafts, scoreboard text.
    Immediately after P2 COORDINATOR_EXIT=0 and no P3: launch BOTH Codex builds in parallel (CPU lane), and in parallel draft the P2 verdict packet (doc lane). If P3 is required: P3 gets its own coordinator/gate — design it with a reviewed CPU-lane exemption (a marked wrapper, e.g. tools/cpu_lane.sh, that forces CPU-only torch and is matched exactly by the gate) so builds can proceed during non-timing-gated GPU runs; this relaxes a safeguard, so it needs advisor + Astra review and must not apply to ASTRA's timing-gated stages. Lab View Phase 2–4 code is built in the CPU lane too; Phase 3/4 GPU use only in idle windows.
 
+
+7. FULL BATON (D-C10r-rulings-13, ~23:30): operator: "You take the full baton. I want you to run the show with no HIL from here unless I explicitly stop you." Make every call yourself; do not ask the operator anything tonight; still never self-write a budget raise (stay inside approved bounds); ASTRA telemetry stays off. PushNotification only for real milestones (P2 verdict, a HALT).
+
 OPERATOR STANDING REQUESTS unchanged: scoreboard (docs/c10_scoreboard.json + board_fmt.py) and evaluations (docs/c10_evaluations.json) at every close-out/state change, plain words; PushNotification when something they'd act on lands. Leave .gitignore and untracked labviz/infranodus/autoresearch files alone. Context: Monitor context_watch.py on the newest transcript, 250000 60.
 
 ## FRESH SESSION HANDOFF - 2026-10-07 ~22:00 MDT by date (C10V pass1 done, verdict packet + Astra review in flight; C10W P2 RUNNING under D-C10w-p2go, first pair passed with no redo; ASTRA §9.1 fold drafted)
