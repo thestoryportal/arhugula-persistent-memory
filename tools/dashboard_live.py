@@ -106,7 +106,7 @@ def session_alerts(screens, memory, now):
     for name, screen in sorted(screens.items()):
         lines = [l for l in screen.splitlines() if l.strip()]
         tail = "\n".join(lines[-15:])
-        working = "esc to interrupt" in screen
+        working = bool(BUSY_RE.search(screen))
         steps = tuple(l.strip() for l in lines if l.lstrip()[:1] in "•⏺" and "Working (" not in l)
         seen = memory.get(name)
         if seen is None or seen[0] != steps:
