@@ -1,0 +1,97 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.30s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.34s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.64s/it]
+loaded Qwen/Qwen2.5-3B
+
+=== RECIPE closedform: band=[4, 5, 6, 7, 8] ===
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+
+=== LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py:213: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  upd_norm = float(upd.float().norm())
+  |Δexpr|=0.0004 |Δloc|=0.27 -> INERT
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+  A1_single          canon=100.0 para=100.0 first=100.0 tf=None loc=90.99 | n: canon 24/24 para 72/72 first 72 str 72 | L1 0/12 L3 30/30 kl 0.00012 ppl 21.755->21.717
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+  A2_coherent2       canon=100.0 para=97.2 first=97.2 tf=100.0 loc=93.72 | n: canon 24/24 para 70/72 first 70 str 70 | L1 0/12 L3 30/30 kl 0.00014 ppl 21.755->21.694
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+  A7_coined_coined   canon=37.5 para=12.5 first=72.2 tf=62.7 loc=87.56 | n: canon 9/24 para 9/72 first 52 str 9 | L1 0/12 L3 30/30 kl 0.00013 ppl 21.755->21.859
+
+=== RECIPE oracle_p1: band=[4, 5, 6, 7, 8] ===
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+
+=== LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+  |Δexpr|=0.0004 |Δloc|=0.27 -> INERT
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+  A1_single          canon=100.0 para=100.0 first=100.0 tf=None loc=81.64 | n: canon 24/24 para 72/72 first 72 str 72 | L1 0/12 L3 30/30 kl 2.09734 ppl 21.755->19.945
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+  A2_coherent2       canon=100.0 para=100.0 first=100.0 tf=100.0 loc=90.04 | n: canon 24/24 para 72/72 first 72 str 72 | L1 0/12 L3 30/30 kl 1.58536 ppl 21.755->19.518
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+  A7_coined_coined   canon=100.0 para=97.2 first=100.0 tf=99.4 loc=86.72 | n: canon 24/24 para 70/72 first 72 str 70 | L1 0/12 L3 30/30 kl 1.06566 ppl 21.755->21.081
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+  A7_shuf            canon=100.0 para=98.6 first=98.6 tf=100.0 loc=83.17 | n: canon 24/24 para 71/72 first 71 str 71 | L1 0/12 L3 30/30 kl 1.02141 ppl 21.755->19.749
+
+=== RECIPE oracle_canon_s0: band=[4, 5, 6, 7, 8] ===
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+
+=== LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+  |Δexpr|=0.0004 |Δloc|=0.27 -> INERT
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+  A7_canon           canon=100.0 para=2.8 first=6.9 tf=68.5 loc=94.73 | n: canon 24/24 para 2/72 first 5 str 2 | L1 0/12 L3 12/30 kl 3.18453 ppl 21.755->20.943
+C10W evaluation PASS controls; oracle measurement, not a route
+
+STAGE_EXIT=0
