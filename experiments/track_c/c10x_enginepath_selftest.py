@@ -83,6 +83,7 @@ except ImportError:
     print('IMPORT GUARD: c10e_bandknob/transformers/datasets absent', flush=True)
     raise
 import torch
+import numpy as np
 torch.set_num_threads(1)
 
 ARM_NAMES = ('A1_single', 'A2_coherent2', 'A7_coined_coined')
@@ -1730,6 +1731,239 @@ class FileAdmissionTests(IsolatedCase):
         finally:pristine._snapshot[layer]=saved
 
 
+class ScorerJsonTests(IsolatedCase):
+    def wrapped(self,value,kind):
+        if type(value) is dict:return {k:self.wrapped(v,kind) for k,v in value.items()}
+        if type(value) in (list,tuple):return [self.wrapped(v,kind) for v in value]
+        if type(value) is bool:return torch.tensor(value) if kind=='torch' else np.bool_(value)
+        if type(value) is int:return torch.tensor(value,dtype=torch.int64) if kind=='torch' else np.int64(value)
+        if type(value) is float:return torch.tensor(value,dtype=torch.float64) if kind=='torch' else np.float64(value)
+        return value
+    def plain(self,value):
+        R._finite_tree(value)
+        self.assertEqual(R.strict_json(json.dumps(value,allow_nan=False)),value)
+    def same_types(self,value,expected):
+        self.assertIs(type(value),type(expected))
+        if type(expected) is dict:
+            self.assertEqual(set(value),set(expected))
+            for key in expected:self.same_types(value[key],expected[key])
+        elif type(expected) is list:
+            self.assertEqual(len(value),len(expected))
+            for a,b in zip(value,expected):self.same_types(a,b)
+        else:self.assertEqual(value,expected)
+    def test_actual_harness_flags_are_plain_in_writer_record(self):
+        hp=copy.deepcopy(self.H.hp);hp.layers=[8];pristine=I.Pristine(self.H,self.H.hp)
+        rqs=[self.H.req(CANON,s,self.H.ARMS[ARM_NAMES[2]][s]) for s in self.H.FICTION]
+        targets={(r['subject'],r['target_new']['str']):torch.tensor([1.,2.]) for r in rqs}
+        for kind in ('torch','numpy'):
+            ids=torch.tensor([7,7]) if kind=='torch' else np.array([7,7],dtype=np.int64)
+            self.H.tgt_ids=lambda value,ids=ids:ids
+            raw=self.H.full_seq_match(CANON.format('S0'),ids)
+            self.assertIs(type(raw),tuple);self.assertIs(type(raw[0]),bool)
+            self.assertTrue(isinstance(raw[1],torch.Tensor if kind=='torch' else np.bool_))
+            cell=I.write_cell(self.H,hp,rqs,[torch.eye(2)],targets,pristine,'flags '+kind)
+            with self.subTest(kind=kind):
+                self.assertEqual(len(cell['flags']),96);self.plain(cell['flags'])
+                self.assertTrue(all(type(pair) is list and all(type(x) is bool for x in pair) for pair in cell['flags']))
+                self.assertIs(type(sum(pair[0] for pair in cell['flags'][::4])),int)
+                self.assertEqual(cell['flags'][0],[bool(raw[0]),bool(raw[1])])
+            pristine.verify('plain flags '+kind)
+    def test_every_recipe_scorer_field_is_plain_before_enrichment(self):
+        expected=fixture_recipe()
+        expected['integer_scalar_sentinel']=2**53+1
+        expected['hparams']='fixture';expected['band']=[4,5,6,7,8]
+        expected['law5_gate'].update(raw_expr_delta=0.,raw_loc_delta=0.,candidate_calls=0)
+        for arm in ARM_NAMES:
+            x=expected['arms'][arm]
+            x.update(canon_full=25.,canon_first=25.,para_full=25.,para_first=25.,para_any_full=25.,mean_ntok=2.)
+            x['locality_axes'].update(L1_pre_already_edited_token=0,L1_top1_changed=0,L1_js_locpct=100.,
+                L3_mean_kl=0.,L3_js_locpct=100.,generic_ppl_pre=10.,L1_post_top1={'S0':'token'})
+            x['extra'].update(frames_pristine={CANON:{'flips':0,'n':6,'rows':[{'subj':'S0','top1':7,'tok':'7','flip':True}]}},
+                relation_labels={'{} is a':{'kind':'objective-anchored','flips':0,'pristine':[7]*24,'rows':self.H.FICTION}},
+                teacher_forced_curve={'0':{'correct':72,'n':72}})
+        for kind in ('torch','numpy'):
+            raw=self.wrapped(expected,kind)
+            def produced(name,path):
+                A.WRITE_NORMS=copy.deepcopy(expected['write_norms_float64'])
+                return raw
+            self.H.run_recipe=produced
+            observed=A.recipe(self.H,'A',self.root/'hp.json',None,None,I.Pristine(self.H,self.H.hp))
+            wanted=copy.deepcopy(expected);wanted.update(counters=[0,0],residual_diagnostics={})
+            with self.subTest(kind=kind):self.plain(observed);self.same_types(observed,wanted)
+            self.assertTrue(isinstance(raw['detail'][ARM_NAMES[2]][0]['canon_first'],torch.Tensor if kind=='torch' else np.bool_))
+        self.assertTrue(A.verify_scorer_ast(REAL/'experiments/track_c/c10e_bandknob.py'))
+    def test_injection_flags_and_counts_use_plain_scalars(self):
+        values=self.H.ARMS[ARM_NAMES[2]];table={(s,' '+v):torch.tensor([1.,2.]) for s,v in values.items()}
+        for kind in ('torch','numpy'):
+            flag=self.wrapped(True,kind)
+            with patch.object(self.H,'full_seq_match',return_value=(flag,flag)):
+                rec=A.inject_sweep(self.H,self.H.hp,values,table,4)
+            with self.subTest(kind=kind):
+                self.plain(rec);self.assertIs(type(rec['canon_n']),int);self.assertEqual(rec['canon_n'],24)
+                self.assertIs(type(rec['para_n']),int);self.assertEqual(rec['para_n'],72)
+                self.assertTrue(all(type(f) is bool for row in rec['rows'] for f in row['per_template']))
+    def test_probe_tensor_targets_and_numpy_top1_are_plain(self):
+        for kind in ('torch','numpy'):
+            self.H.tgt_ids=lambda value,kind=kind:torch.tensor([7,7]) if kind=='torch' else np.array([7,7],dtype=np.int64)
+            with patch.object(A,'top1',return_value=np.int64(7)):
+                frames,hook=A.probe_setup(self.H,[['{}']])
+                rec=hook(ARM_NAMES[2],self.H.ARMS[ARM_NAMES[2]])
+            with self.subTest(kind=kind):
+                self.plain(rec)
+                self.assertEqual(rec['teacher_forced_curve'],{'0':{'correct':72,'n':72},'1':{'correct':72,'n':72}})
+                self.assertTrue(all(type(item['correct']) is int for item in rec['teacher_forced_curve'].values()))
+                self.assertIs(type(rec['frames'][frames[0]]['rows'][0]['top1']),int)
+                self.assertIs(type(rec['relation_labels']['{} is a']['flips']),int)
+    def test_telemetry_scalar_ids_and_flags_do_not_disable_writer(self):
+        self.H._ARM_STATE={'requests':[self.H.req(CANON,s,v) for s,v in self.H.ARMS[ARM_NAMES[2]].items()]}
+        for kind in ('torch','numpy'):
+            writer=A.Telemetry(self.root/('telemetry_'+kind),1,'fixed')
+            ids=torch.tensor([7,7]) if kind=='torch' else np.array([7,7],dtype=np.int64)
+            try:
+                writer.answer(self.H,'A','A',CANON.format('S0'),ids,ids)
+                with self.subTest(kind=kind):
+                    self.assertTrue(writer.enabled);answer=[r for r in writer.lines if r['kind']=='answer']
+                    self.assertEqual(len(answer),1);self.plain(answer[0])
+                    self.assertTrue(all(type(i) is int for key in ('target_ids','generated_ids') for i in answer[0][key]))
+                    self.assertIs(type(answer[0]['first']),bool);self.assertTrue(answer[0]['first']);self.assertTrue(answer[0]['full'])
+            finally:writer.close()
+    def test_direct_g8_observer_materializes_scalars(self):
+        pristine=I.Pristine(self.H,self.H.hp)
+        for kind in ('torch','numpy'):
+            self.H.predict=lambda prompt,kind=kind:{'dist':torch.tensor([.25,.75]),'id':self.wrapped(1,kind)}
+            self.H.first_tok=lambda value:1
+            self.H.locpct=lambda *args,kind=kind:self.wrapped(100.,kind)
+            self.H.apply_memit_to_model=lambda *args,**kw:None
+            with patch.object(A,'fe_builder',return_value=({},None,None)),patch.object(A,'fe_edit',return_value={}):
+                rec=I.direct_g8(self.H,self.H.hp,[torch.eye(2) for _ in self.H.hp.layers],[['{}']],pristine)
+            with self.subTest(kind=kind):
+                self.plain(rec)
+                for key in ('reference','candidate'):
+                    self.assertIs(type(rec[key]['locality']),float);self.assertIs(type(rec[key]['locality_top1']),int)
+    def test_raw_law5_locality_diagnostic_is_plain(self):
+        for kind in ('torch','numpy'):
+            ns={'predict':lambda prompt:{'dist':torch.tensor([.5,.5])},'CANON':CANON}
+            exec('def run_law5():\n for _ in range(3):\n  predict(CANON.format("Zorbland"));predict("Zorbland is described as")\n return {"ok":True}\ndef run_recipe():\n return run_law5()\n',ns)
+            self.H.run_recipe=ns['run_recipe'];self.H.first_tok=lambda value:0
+            self.H.locpct=lambda *args,kind=kind:self.wrapped(100.,kind)
+            with A.recipe_checks(self.H,I.Pristine(self.H,self.H.hp)) as audit:self.H.run_recipe()
+            with self.subTest(kind=kind):self.plain(audit);self.assertIs(type(audit['raw_loc_delta']),float)
+    def driver(self,out,attack=None,bad=None,base_kind=None):
+        f=fixture();config=self.root/'configs/hparams/qwen25_3b_memit_hparams.json'
+        config.parent.mkdir(parents=True,exist_ok=True)
+        if not config.exists():config.write_text('{}')
+        self.H.ID='stub';self.H.REV='rev'
+        for rec in f['recipes'].values():
+            for arm,rows in rec['detail'].items():
+                for row in rows:row['val']=self.H.ARMS[arm][row['subj']]
+        entered=[];original_enter=A.StageBudget.enter
+        def enter(budget,name):entered.append(name);return original_enter(budget,name)
+        def probe(h,ctx):
+            if attack=='setup':A.PRISTINE.checkpoints.append({'ok':True,'bad_json':bad})
+            return f['frames'],lambda *args:{}
+        def recipe(h,name,*args):
+            rec=copy.deepcopy(f['recipes'][name]);rec['counters']=f['counters'][name]
+            if attack==name:rec['bad_json']=bad
+            return rec
+        def targets(*args):
+            rec=copy.deepcopy(f['targets'])
+            if attack=='targets':rec['bad_json']=bad
+            return {'records':rec,'audits':f['audits'],'fe':{},'overtone':{}}
+        def inertness(*args):
+            rec=copy.deepcopy(f['inertness'])
+            if attack=='inertness':rec['X2-vi']['bad_json']=bad
+            return rec
+        def injection(*args):
+            rec={name:{'para_n':value} for name,value in f['inject'].items()}
+            if attack=='injection':rec['reference']['bad_json']=bad
+            return rec
+        def sizes(*args):return {'bad_json':bad} if attack=='final' else {}
+        base={arm:{'base':0,'mean_ntok':2.,'ntok_range':[2,2]} for arm in ARM_NAMES}
+        if base_kind:base=self.wrapped(base,base_kind)
+        receipt={'process1':None,'telemetry':False,'telemetry_inertness':None,'sources':{'source':'a'*64},
+                 'fingerprint':f['fingerprint'],'go_identity':{'path':str(self.root/'go.json'),'sha256':'a'*64}}
+        with patch.object(A.StageBudget,'enter',enter),patch.object(A,'probe_setup',side_effect=probe),\
+             patch.object(A,'recipe',side_effect=recipe),patch.object(A,'construct_targets',side_effect=targets),\
+             patch.object(I,'run_checks',side_effect=inertness),patch.object(A,'injection_screen',side_effect=injection),\
+             patch.object(self.H,'pre_base_report',return_value=base),patch.object(A,'source_hashes',return_value=receipt['sources']),\
+             patch.object(A,'source_commit',return_value='fixture'),patch.object(A,'tokenizer_identity',return_value={'artifact':'a'*64}),\
+             patch.object(A,'environment_identity',return_value={'python':'stub'}),patch.object(A,'covariance_identity',return_value={'4':'a'*64}),\
+             patch.object(A,'write_size_reports',side_effect=sizes):
+            result=A.run(out,self.H,receipt=receipt)
+        return result,entered
+    def test_driver_normalizes_pristine_report_and_completes(self):
+        for kind in ('torch','numpy'):
+            out=self.root/'results'/('plain_'+kind)
+            result,entered=self.driver(out,base_kind=kind)
+            with self.subTest(kind=kind):
+                self.assertEqual(result['status'],'COMPLETE',result.get('code'))
+                self.assertEqual(entered,list(A.CAPS));self.plain(result)
+                self.assertIs(type(result['base_report'][ARM_NAMES[2]]['base']),int)
+                self.assertIs(type(result['base_report'][ARM_NAMES[2]]['mean_ntok']),float)
+                self.assertEqual(R.strict_json((out/'run.json').read_bytes()),result)
+    def test_every_stage_rejects_non_json_before_next_stage(self):
+        attacks={'setup':'record.w0.checkpoints','A':'record.recipes.A.bad_json',
+                 'targets':'record.targets.bad_json','inertness':'record.inertness.X2-vi.bad_json',
+                 'injection':'record.inject.details.reference.bad_json','I-2':'record.recipes.I-2.bad_json',
+                 'I-1':'record.recipes.I-1.bad_json','final':'record.write_size_diagnostics.bad_json'}
+        for stage,path in attacks.items():
+            bad=torch.tensor(True) if stage in ('setup','inertness') else np.int64(1) if stage in ('targets','I-1') else (True,)
+            out=self.root/'results'/('bad_'+stage)
+            result,entered=self.driver(out,stage,bad)
+            with self.subTest(stage=stage):
+                self.assertEqual(result['status'],'HALTED');self.assertIn(path,result['code'])
+                self.assertEqual(entered,list(A.CAPS)[:list(A.CAPS).index(stage)+1])
+                self.assertEqual(result['stage'],stage);self.assertTrue(result['phase'].startswith(stage+':'))
+                self.assertIn('Traceback (most recent call last)',result['traceback']);self.assertIn(result['code'],result['traceback'])
+                saved=R.strict_json((out/'run.json').read_bytes());diagnostic=R.strict_json(Path(saved['diagnostic']).read_bytes())
+                self.assertEqual(diagnostic['traceback'],saved['traceback']);self.assertEqual(diagnostic['phase'],saved['phase'])
+    def test_boundary_keeps_strict_types_and_numeric_limits(self):
+        controls=[((True,),'is not JSON data'),({1:True},'non-string key'),(torch.tensor([True,False]),'is not JSON data'),
+                  (1+2j,'is not JSON data'),(float('nan'),'non-finite'),(float('inf'),'non-finite')]
+        for i,(bad,reason) in enumerate(controls):
+            result,entered=self.driver(self.root/'results'/('strict_'+str(i)),'inertness',bad)
+            with self.subTest(i=i):
+                self.assertIn('record.inertness.X2-vi.bad_json',result['code']);self.assertIn(reason,result['code'])
+                self.assertEqual(entered,list(A.CAPS)[:4])
+        result,_=self.driver(self.root/'results/large_int','inertness',2**53+1)
+        self.assertEqual(result['status'],'COMPLETE',result.get('code'))
+        self.assertIs(type(result['inertness']['X2-vi']['bad_json']),int)
+        self.assertEqual(result['inertness']['X2-vi']['bad_json'],2**53+1)
+    def test_previous_stage_deadline_keeps_exit_phase(self):
+        clock={'now':0.};original=A.StageBudget.leave
+        def leave(budget):
+            if budget.stage=='A':clock['now']=A.CAPS['A']+1.
+            return original(budget)
+        with patch.object(A,'WATCHDOG_CLOCK',side_effect=lambda:clock['now']),patch.object(A.StageBudget,'leave',leave):
+            result,entered=self.driver(self.out)
+        self.assertEqual(result['code'],'STAGE_DEADLINE')
+        self.assertEqual(result['stage'],'A');self.assertEqual(result['phase'],'A:exit')
+        self.assertEqual(entered,['setup','A'])
+        diag=R.strict_json(Path(result['diagnostic']).read_bytes())
+        self.assertEqual(diag['stage'],'A');self.assertEqual(diag['phase'],'A:exit')
+        self.assertIn('STAGE_DEADLINE',diag['traceback'])
+    def test_supervisor_timeout_has_phase_and_explicit_traceback_absence(self):
+        self.out.mkdir(parents=True);A.write_json(self.out/'stage.json',{'stage':'inertness','started_monotonic':0.})
+        clock={'now':0.}
+        preflight=types.SimpleNamespace(returncode=0,communicate=lambda **kw:(b'{"telemetry":false}',b''))
+        def wait():clock['now']=3001.;return -9
+        worker=types.SimpleNamespace(poll=lambda:0,wait=wait)
+        with patch.object(A,'WATCHDOG_CLOCK',side_effect=lambda:clock['now']),patch.object(A.subprocess,'Popen',side_effect=[preflight,worker]):
+            self.assertEqual(A.watchdog(self.out,self.root/'go.json',1),1)
+        rec=R.strict_json((self.out.with_name(self.out.name+'_logs')/'supervisor.json').read_bytes())
+        diag=R.strict_json(Path(rec['diagnostic']).read_bytes())
+        self.assertEqual(diag['stage'],'inertness');self.assertIn('inertness',diag['phase'])
+        self.assertIsNone(diag['traceback']);self.assertEqual(diag['traceback_source'],'unavailable_worker_timeout')
+    def test_supervisor_propagates_worker_traceback_and_phase(self):
+        result,_=self.driver(self.out,'inertness',np.bool_(True))
+        preflight=types.SimpleNamespace(returncode=0,communicate=lambda **kw:(b'{"telemetry":false}',b''))
+        worker=types.SimpleNamespace(poll=lambda:0,wait=lambda:1)
+        with patch.object(A.subprocess,'Popen',side_effect=[preflight,worker]):self.assertEqual(A.watchdog(self.out,self.root/'go.json',1),1)
+        rec=R.strict_json((self.out.with_name(self.out.name+'_logs')/'supervisor.json').read_bytes())
+        diag=R.strict_json(Path(rec['diagnostic']).read_bytes())
+        self.assertEqual(diag['traceback'],result['traceback']);self.assertEqual(diag['phase'],result['phase'])
+
+
 class SignedZeroTests(IsolatedCase):
     def setUp(self):
         super().setUp()
@@ -1847,7 +2081,7 @@ class SignedZeroTests(IsolatedCase):
         with self.assertRaises(I.Halt) as caught:self.run_gate(change)
         self.pristine.restore()
         baseline=fixture_recipe();baseline['counters']=[0,0]
-        with patch.object(A,'recipe',return_value=baseline),patch.object(A,'construct_targets',return_value={}),\
+        with patch.object(A,'recipe',return_value=baseline),patch.object(A,'construct_targets',return_value={'records':{},'audits':{}}),\
              patch.object(I,'run_checks',side_effect=caught.exception),patch.object(A,'injection_screen') as injection:
             result=A.run(self.out,self.H,preflight=False)
         self.assertEqual(result['status'],'HALTED');self.assertEqual(result['code'],'X2-vii WEIGHT_VALUE 7')

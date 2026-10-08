@@ -22,6 +22,7 @@ import signal
 import subprocess
 import sys
 import time
+import traceback
 
 ROOT = Path(__file__).resolve().parents[2]
 # Lazy science modules must share this instance when the supervisor uses a script.
@@ -250,10 +251,40 @@ def project(duration, cap, remaining, reserve):
     return {'ok':True,'projected_seconds':duration,'cap_seconds':cap,'remaining_seconds':remaining,'reserve_seconds':reserve}
 
 
+def scorer_record(value,path='record'):
+    """Materialize scorer scalars at ingress; never coerce an accumulated record."""
+    if value is None or type(value) is str:return value
+    if isinstance(value,bool):return bool(value)
+    if isinstance(value,int):return int(value)
+    if isinstance(value,float):return float(value)
+    if type(value) is dict:return {k:scorer_record(v,path+'.'+str(k)) for k,v in value.items()}
+    if type(value) in (list,tuple):return [scorer_record(v,path+'['+str(i)+']') for i,v in enumerate(value)]
+    import torch
+    import numpy as np
+    if isinstance(value,torch.Tensor) and value.ndim==0 and not value.is_complex():
+        return scorer_record(value.detach().cpu().item(),path)
+    if isinstance(value,np.bool_):return bool(value)
+    if isinstance(value,np.integer):return int(value)
+    if isinstance(value,np.floating):return float(value)
+    raise ValueError(path+' is not a scalar scorer JSON value')
+
+
+def validate_record_json(state):
+    from c10x_enginepath_read import _finite_tree,strict_json
+    _finite_tree(state,'record')
+    encoded=json.dumps(state,allow_nan=False,sort_keys=True,separators=(',',':'))
+    if strict_json(encoded)!=state:raise ValueError('record JSON roundtrip mismatch')
+
+
 def halt_diagnostic(state, code):
     stamp=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S_%fZ')
     path=ROOT/'architecture_profile'/('c10x_halt_diagnostic_'+stamp+'.json')
-    write_json(path,{'status':'HALTED','completion':'incomplete','code':str(code),'at':utc(),'state':diagnostic_json(state)})
+    stage=state.get('stage','setup');phase=state.get('phase',stage+':halt')
+    trace=state.get('traceback');source=state.get('traceback_source','unavailable_no_python_exception')
+    if trace is None and isinstance(code,BaseException) and code.__traceback__ is not None:
+        trace=''.join(traceback.format_exception(type(code),code,code.__traceback__));source='python_exception'
+    write_json(path,{'status':'HALTED','completion':'incomplete','code':str(code),'at':utc(),
+                     'stage':stage,'phase':phase,'traceback':trace,'traceback_source':source,'state':diagnostic_json(state)})
     return str(path)
 
 
@@ -331,10 +362,12 @@ class Telemetry:
             arms=[k for k,v in H.ARMS.items() if len(rqs)==len(v) and all(v.get(r['subject'])==r['target_new']['str'][1:] for r in rqs)]
             matches=[(s,v,t) for s,v in H.ARMS[arms[0]].items() for t in [H.CANON]+H.PTEST if t.format(s)==prompt] if len(arms)==1 else []
             if len(matches)!=1:raise ValueError('unresolved answer attribution')
-            s,v,t=matches[0];target_ids=list(target_ids);gen=list(gen)
+            s,v,t=matches[0]
+            target_ids=[int(scorer_record(i,'telemetry.target_ids')) for i in target_ids]
+            gen=[int(scorer_record(i,'telemetry.generated_ids')) for i in gen]
             self._emit('answer',started,recipe=recipe,arm=arms[0],phase=phase,subj=s,val=v,template=t,
                        prompt=prompt,target_ids=target_ids,generated_ids=gen,text=H.tok.decode(gen),
-                       full=gen==list(target_ids),first=gen[0]==target_ids[0])
+                       full=bool(gen==target_ids),first=bool(gen[0]==target_ids[0]))
         except Exception as exc:self._disable(exc,answer_cutoff=cutoff)
     def logit_lens(self,H,hp,where):
         try:
@@ -630,7 +663,7 @@ def recipe(harness,name,path,fe,ot,pristine,telemetry=None):
             H.full_seq_match=observed_scorer(H,lambda p,t,g:telemetry.answer(H,name,name,p,t,g))
             telemetry.phase('recipe_start',recipe=name)
         with recipe_checks(H,pristine) as gate_audit:
-            result=H.run_recipe(name,str(Path(path).resolve()))
+            result=scorer_record(H.run_recipe(name,str(Path(path).resolve())),'record.recipes.'+name)
         expected={'A':(0,0),'I-2':(0,3),'I-1':(3,0)}[name]
         from c10x_enginepath_inertness import require
         require((H.Z_OVERRIDE_HITS,FE_CALLS)==expected,'RECIPE_COUNTER_MISMATCH')
@@ -673,7 +706,7 @@ def recipe_checks(harness,pristine):
         pre=dict(observations[:2]);engine=dict(observations[2:4]);mine=dict(observations[4:])
         token=harness.first_tok('Cairo')
         audit.update(raw_expr_delta=abs(float(engine[canonical]['dist'][token])-float(mine[canonical]['dist'][token])),
-            raw_loc_delta=abs(harness.locpct(engine,pre,[local])-harness.locpct(mine,pre,[local])),candidate_calls=0)
+            raw_loc_delta=float(abs(harness.locpct(engine,pre,[local])-harness.locpct(mine,pre,[local]))),candidate_calls=0)
         end_unit(started)
         return result
     if original_restore is not None:namespace['restore_layers']=restore
@@ -722,7 +755,7 @@ def batch_replay(harness,hp,requests,overwrite=None):
         for handle in handles:handle.remove()
     require(set(captured)==set(hp.layers),'REPLAY_LAYER_CAPTURE')
     return captured,{'input_ids':batch['input_ids'].cpu().tolist(),'attention_mask':batch['attention_mask'].cpu().tolist(),
-                     'padding_side':harness.tok.padding_side,'indices':indices,
+                     'padding_side':harness.tok.padding_side,'indices':[int(i) for i in indices],
                      'requests':[[r['subject'],r['target_new']['str']] for r in requests]}
 
 
@@ -1005,7 +1038,7 @@ def inject_sweep(harness,hp,values,table,layer):
                 hidden[:,idx,:]=vector.cpu().to(dtype=hidden.dtype).to(hidden.device)
                 return output
             handle=harness.model.model.layers[layer].register_forward_hook(overwrite)
-            try:hits.append(harness.full_seq_match(template.format(subject),tids)[0])
+            try:hits.append(bool(harness.full_seq_match(template.format(subject),tids)[0]))
             finally:handle.remove()
             end_unit(started)
         rows.append({'subj':subject,'val':values[subject],'per_template':hits})
@@ -1038,7 +1071,7 @@ def probe_setup(harness,ctx):
         for frame in frames:
             rows=[]
             for s in FRAME_SUBJECTS:
-                token=top1(harness,frame.format(s));rows.append({'subj':s,'top1':token,'tok':harness.tok.decode([token]),'flip':token in firsts})
+                token=top1(harness,frame.format(s));rows.append({'subj':s,'top1':int(token),'tok':harness.tok.decode([token]),'flip':bool(token in firsts)})
             result[frame]={'flips':sum(r['flip'] for r in rows),'n':6,'rows':rows}
         return result
     relation_templates=('{} is associated with','{} is a')
@@ -1050,8 +1083,8 @@ def probe_setup(harness,ctx):
             end_unit(ARM_UNIT);ARM_UNIT=None
             return {}
         relation={t:{'kind':'objective-anchored' if t=='{} is a' else 'bystander',
-                     'flips':sum(a!=b for a,b in zip(before_relation[t],[top1(harness,t.format(s)) for s in harness.FICTION])),
-                     'pristine':before_relation[t],'rows':list(harness.FICTION)} for t in relation_templates}
+                     'flips':int(sum(a!=b for a,b in zip(before_relation[t],[top1(harness,t.format(s)) for s in harness.FICTION]))),
+                     'pristine':[int(token) for token in before_relation[t]],'rows':list(harness.FICTION)} for t in relation_templates}
         curve={}
         import torch
         for s in harness.FICTION:
@@ -1060,7 +1093,7 @@ def probe_setup(harness,ctx):
                 batch=harness.tok(t.format(s),return_tensors='pt').to(harness.DEV)['input_ids'];cur=batch
                 for pos,gold in enumerate(ids):
                     with torch.no_grad():pred=int(harness.model(cur).logits[0,-1].argmax())
-                    item=curve.setdefault(str(pos),{'correct':0,'n':0});item['correct']+=pred==gold;item['n']+=1
+                    item=curve.setdefault(str(pos),{'correct':0,'n':0});item['correct']+=int(pred==gold);item['n']+=1
                     cur=torch.cat([cur,torch.tensor([[gold]],device=harness.DEV)],dim=1)
         result={'frames':frame_counts(),'frames_pristine':before_frames,'relation_labels':relation,'teacher_forced_curve':curve}
         if TELEMETRY is not None:TELEMETRY.logit_lens(harness,harness._ARM_STATE['hp'],'after '+ACTIVE_RECIPE)
@@ -1124,37 +1157,59 @@ def run(out,harness,go=None,process=1,process1=None,preflight=True,receipt=None)
     state={'status':'RUNNING','completion':'incomplete','process':process,'run_id':out.name+'_'+str(os.getpid()),
            'pid':os.getpid(),'started_at':utc(),'recipes':{}}
     writer=None;probe=None;context_binding=None
+    stage='setup';phase='setup:entry'
+    def validate_boundary(operation):
+        nonlocal phase
+        phase=stage+':'+operation
+        state['w0']={'hashes':pristine.hashes,'checkpoints':copy.deepcopy(pristine.checkpoints)}
+        state['timings']={**BUDGET.timings,'work_units':copy.deepcopy(BUDGET.units)}
+        validate_record_json(state)
+    def enter_stage(name):
+        nonlocal stage,phase
+        if BUDGET.stage is not None:
+            validate_boundary('exit');BUDGET.leave()
+        stage=name;phase=name+':entry'
+        BUDGET.enter(name)
+        validate_boundary('entry')
+        phase=name+':body'
     try:
-        BUDGET.enter('setup')
+        enter_stage('setup')
         ctx,context_source=recorded_contexts()
         binding=pinned_contexts(harness,ctx);binding.__enter__();context_binding=binding
         write_json(out/'context_templates.json',{'schema':'c10x_context_templates/v1','ctx':ctx,'ctx_sha256':json_sha(ctx),'source':context_source})
         state.update(ctx=ctx,ctx_sha256=json_sha(ctx),context_source=context_source)
         pristine.verify('before recipe A')
-        base=harness.pre_base_report()
+        base=scorer_record(harness.pre_base_report(),'record.base_report');state['base_report']=base
+        validate_record_json(state)
         require(all(type(base[k]['base']) is int and base[k]['base']<=3 for k in ARM_NAMES),'STIMULUS_LEAK')
         require(harness.get_context_templates(harness.model,harness.tok)==ctx,'CONTEXT_PIN_DRIFT')
         frames,probe=probe_setup(harness,ctx);harness.ARM_HOOKS.append(probe)
+        state.update(frames=frames,frames_sha256=json_sha(frames))
         if admitted and admitted['telemetry']:
             writer=Telemetry(out,process,state['run_id']);BUDGET.telemetry=writer
             writer.phase('stage_start',stage='setup');writer.logit_lens(harness,hp,'pristine')
-        BUDGET.enter('A')
+        enter_stage('A')
         baseline=recipe(harness,'A',str(ROOT/'configs/hparams/qwen25_3b_memit_hparams.json'),None,None,pristine,writer)
         state['recipes']['A']=baseline
+        validate_boundary('recipe_record')
         if not law3(baseline):raise ValueError('LAW3_BASELINE_MISS')
         require(baseline['law5_gate']['ok'] is True,'G_NOT_INERT')
         TELEMETRY=writer
-        BUDGET.enter('targets');targets=construct_targets(out,harness,hp,ctx,pristine)
-        BUDGET.enter('inertness')
+        enter_stage('targets');targets=construct_targets(out,harness,hp,ctx,pristine)
+        state.update(targets=targets['records'],audits=targets['audits'])
+        enter_stage('inertness')
         import c10x_enginepath_inertness as I
         checks=I.run_checks(harness,hp,ctx,targets,pristine,out)
-        BUDGET.enter('injection');pristine.verify('before injection')
+        state['inertness']=checks
+        enter_stage('injection');pristine.verify('before injection')
         injected=injection_screen(harness,hp,targets,pristine)
+        state['inject']={**{n:r['para_n'] for n,r in injected.items()},'details':injected}
         for name in ('I-2','I-1'):
-            BUDGET.enter(name)
+            enter_stage(name)
             state['recipes'][name]=recipe(harness,name,str(ROOT/'configs/hparams/qwen25_3b_memit_hparams.json'),targets['fe'],targets['overtone'],pristine,writer)
+            validate_boundary('recipe_record')
             require(state['recipes'][name]['law5_gate']['ok'] is True,'G_NOT_INERT')
-        BUDGET.enter('final');pristine.verify('after final recipe')
+        enter_stage('final');pristine.verify('after final recipe')
         end_sources=source_hashes();require(end_sources==admitted['sources'],'SOURCE_DRIFT')
         identity={'model':harness.ID,'model_rev':harness.REV,'tokenizer':tokenizer_identity(harness),
                   'software':environment_identity(),'device':str(harness.DEV),'dtype':str(next(harness.model.parameters()).dtype),
@@ -1182,6 +1237,7 @@ def run(out,harness,go=None,process=1,process1=None,preflight=True,receipt=None)
         if admitted.get('replacement'):state['provenance']['replacement']=admitted['replacement']
         pristine.restore();pristine.verify('closeout restore')
         state['w0']['checkpoints']=copy.deepcopy(pristine.checkpoints)
+        validate_boundary('serialization')
         from c10x_enginepath_read import _validate
         _validate(state | {'timings':{}})
         from c10x_enginepath_read import MANIFEST
@@ -1189,14 +1245,17 @@ def run(out,harness,go=None,process=1,process1=None,preflight=True,receipt=None)
         for file,key in [('targets','targets'),('inertness','inertness'),('inject','inject'),('pass1','recipes')]:
             BUDGET.unit()
             write_json(out/(file+'.json'),{'manifest':manifest,key:state[key]})
-        BUDGET.leave();state['timings']={**BUDGET.timings,'work_units':BUDGET.units}
+        validate_boundary('exit');BUDGET.leave();state['timings']={**BUDGET.timings,'work_units':BUDGET.units}
+        validate_record_json(state)
         write_json(out/'run.json',state)
         require(source_hashes()==end_sources,'SOURCE_DRIFT after serialization')
         return state
     except Exception as exc:
+        trace=traceback.format_exc()
         exc=x2_primary_halt(exc)
         if hasattr(exc,'x2_vii_diagnostic'):state['x2_vii_diagnostic']=exc.x2_vii_diagnostic
-        state.update(status='HALTED',completion='incomplete',finished_at=utc(),code=str(exc))
+        state.update(status='HALTED',completion='incomplete',finished_at=utc(),code=str(exc),
+                     stage=stage,phase=phase,traceback=trace,traceback_source='python_exception')
         if writer:writer.phase('halt',code=str(exc))
         state['diagnostic']=halt_diagnostic(state,exc)
         state=diagnostic_json(state)
@@ -1281,7 +1340,8 @@ def watchdog(out,go,process,process1=None,predecessor=None,cause=None):
         stdout,stderr=preflight_child.communicate(timeout=max(.001,CAPS['setup']-(WATCHDOG_CLOCK()-start)))
     except subprocess.TimeoutExpired:
         os.killpg(preflight_child.pid,signal.SIGKILL);preflight_child.communicate()
-        halt_diagnostic({'stage':'setup','completion':'incomplete'},'PREFLIGHT_WATCHDOG_TIMEOUT')
+        halt_diagnostic({'stage':'setup','phase':'setup:preflight_timeout','completion':'incomplete',
+                         'traceback':traceback.format_exc(),'traceback_source':'python_exception'},'PREFLIGHT_WATCHDOG_TIMEOUT')
         return 1
     if preflight_child.returncode!=0:
         print(stderr.decode('utf8'),file=sys.stderr,end='')
@@ -1332,6 +1392,15 @@ def watchdog(out,go,process,process1=None,predecessor=None,cause=None):
     record.update(out=str(out.resolve()),process=process)
     if complete:record['run_id']=strict_json((out/'run.json').read_bytes())['run_id']
     if record['status']=='HALTED':
+        record.update(stage=stage,phase=stage+':supervisor_exit',traceback=None,
+                      traceback_source='unavailable_worker_exception')
+        if reason:
+            record.update(phase=stage+':supervisor_timeout',traceback_source='unavailable_worker_timeout')
+        elif (out/'run.json').exists():
+            worker_state=strict_json((out/'run.json').read_bytes())
+            if worker_state.get('status')=='HALTED':
+                record.update(stage=worker_state.get('stage',stage),phase=worker_state.get('phase',record['phase']),
+                              traceback=worker_state.get('traceback'),traceback_source=worker_state.get('traceback_source',record['traceback_source']))
         record['diagnostic']=halt_diagnostic(record,record['reason'])
         write_json(logs/'supervisor.json',record)
         return 1
@@ -1341,25 +1410,29 @@ def watchdog(out,go,process,process1=None,predecessor=None,cause=None):
         try:
             audited=bounded_answer_audit(out,began+CAPS[stage],start+15000)
         except Exception as exc:
-            record.update(status='HALTED',completion='incomplete',reason=str(exc),elapsed_seconds=WATCHDOG_CLOCK()-start)
+            record.update(status='HALTED',completion='incomplete',reason=str(exc),elapsed_seconds=WATCHDOG_CLOCK()-start,
+                          stage=stage,phase=stage+':answer_audit',traceback=traceback.format_exc(),traceback_source='python_exception')
             record['diagnostic']=halt_diagnostic(record,record['reason'])
             write_json(logs/'supervisor.json',record)
             return 1
         if audited.get('rerun_required') is True:
-            record.update(status='HALTED',completion='incomplete',reason='COMPROMISED_ANSWER_AUDIT')
+            record.update(status='HALTED',completion='incomplete',reason='COMPROMISED_ANSWER_AUDIT',
+                          stage=stage,phase=stage+':answer_audit',traceback=None,traceback_source='unavailable_no_python_exception')
             record['diagnostic']=halt_diagnostic(record,record['reason'])
             write_json(logs/'supervisor.json',record)
             return 1
     ended=WATCHDOG_CLOCK();record['elapsed_seconds']=ended-start
     if ended-start>15000 or ended-began>CAPS[stage]:
-        record.update(status='HALTED',completion='incomplete',reason='FINAL_SUPERVISOR_DEADLINE')
+        record.update(status='HALTED',completion='incomplete',reason='FINAL_SUPERVISOR_DEADLINE',
+                      stage=stage,phase=stage+':supervisor_deadline',traceback=None,traceback_source='unavailable_no_python_exception')
         record['diagnostic']=halt_diagnostic(record,record['reason'])
         write_json(logs/'supervisor.json',record)
         return 1
     write_json(logs/'supervisor.json',record)
     ended=WATCHDOG_CLOCK()
     if ended-start>15000 or ended-began>CAPS[stage]:
-        record.update(status='HALTED',completion='incomplete',reason='FINAL_SUPERVISOR_PERSISTENCE_DEADLINE',elapsed_seconds=ended-start)
+        record.update(status='HALTED',completion='incomplete',reason='FINAL_SUPERVISOR_PERSISTENCE_DEADLINE',elapsed_seconds=ended-start,
+                      stage=stage,phase=stage+':supervisor_persistence',traceback=None,traceback_source='unavailable_no_python_exception')
         write_json(logs/'supervisor_halt.json',record)
         halt_diagnostic(record,record['reason'])
         return 1

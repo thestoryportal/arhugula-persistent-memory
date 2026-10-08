@@ -2773,3 +2773,1109 @@ The [advisor-review](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-
 **Live evidence remains UNVERIFIED.** No scientific result, injection/candidate success or universal MPS equivalence follows from these CPU tests. Process 1 in `results/c10x_enginepath/` remains HALTED/incomplete and INVALID, with no scientific classification. The authorized §13 rerun requires the full sequence, fresh `results/c10x_enginepath_rerun1/` and matching logs, current source/prereg pins, program build review and operator GO (prereg :776–797). No dispatch was performed. No new PROVISIONAL decision was made.
 
 Final append/source/held-artifact receipt: `/private/tmp/c10x_build/signedzero_amendment/final_receipt.json`. Final handoff in the context-save format is under the same authorized scratch directory; home/global context or publication state is outside this brief's write scope.
+
+
+## Scorer JSON ingress and stage-boundary repair — 2026-10-08T21:54:50.486481+00:00
+
+**Build outcome: CPU PASS; read-only final review GO.** The final full selftest passes **96 tests**, including **13 new regressions**. This repairs record conversion and failure reporting after rerun1's final-record HALT. It supplies no new live scientific result. `results/c10x_enginepath_rerun1/run.json` remains **HALTED / incomplete**; the prior run must be repeated in a fresh namespace. Its measured arms are not read around, admitted, or classified by this build.
+
+Author: Codex. Actual model/effort receipt: **UNVERIFIABLE**. Prereg pin, unchanged throughout this repair: **`d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899`** (Amendments T/M/P/Z). No new PROVISIONAL decision. The current program instruction authorizes light, serial CPU work while ASTRA is live; all Python commands used the existing worktree venv with bytecode disabled, one at a time. All test driver/output/child roots were under `/private/tmp/c10x_build/roots/`. No model/tokenizer load, frozen harness import, GPU dispatch, MPS tensor, or heavy parallel job was performed.
+
+### Failure and record-entry audit
+
+The operator's named failure is confirmed from status and error metadata only: `record.inertness.X2-vi.flags_reference[0] is not JSON data`. The historical diagnostic is `architecture_profile/c10x_halt_diagnostic_20261008T212435_844926Z.json` (SHA `785c9909a578f8be53b809c438663bf65dc4d264e023736b3b223fff88be448b`). It and the historical run have no recorded phase/traceback. No historical arm results were evaluated. The frozen `full_seq_match` at `experiments/track_c/c10e_bandknob.py:109–118` returns a tuple; with tensor target IDs its first-token result is a scalar `torch.bool`, and with NumPy integer target IDs it is `numpy.bool_`. The new test compiles that exact source function against the tiny CPU model, runs it, then exercises the production writer capture. Container conversion alone would leave the scalar wrappers intact.
+
+`scorer_record` (`experiments/track_c/c10x_enginepath_arms.py:254–269`) materializes native booleans/integers/floats, numeric/boolean NumPy scalars, and zero-dimensional numeric/boolean torch scalars, and changes scorer tuples into lists. Torch scalar extraction uses `detach().cpu().item()`; no dtype-changing device copy is introduced. Other arrays/tensors/complex or unsupported values fail with their ingress path. Dictionary keys remain unchanged for strict validation. This helper is called only where a known scorer result enters the driver record; accumulated state is never normalized or passed through a permissive JSON fallback. Non-finite floats stay available for existing Amendment M report-only tagging; untagged non-finite gate values remain strictly rejected.
+
+| Scorer-fed record | Frozen producer / binding | Record entry and conversion | Verification |
+| --- | --- | --- | --- |
+| X2-vi `flags_reference` / `flags_candidate`; X2-ii flag-derived differences | Frozen `full_seq_match` (`c10e_bandknob.py:109–118`); program request (1) | `c10x_enginepath_inertness.py:301–305`: `[bool(full), bool(first)]` at writer record entry. X2-vi still records those same two lists at `:463–465`; X2-ii sums plain flags at `:425–426`. Calls, ordering, inputs and scientific comparisons unchanged. | Actual frozen scorer produces tuple + torch/NumPy boolean; 96 pairs become lists of Python booleans; sums are Python ints, values preserved. |
+| Recipe LAW#5 gate, all arm summaries, detail rows, locality axes and probe extras | `c10e_bandknob.py:326–338`, `:354–399`, `:440–446`, `:458–508` | `c10x_enginepath_arms.py:666`: materialize the returned harness tree before enrichment/count derivation (`:724–733`). Covers canonical/full/first/string flags, percentages, exact counts, denominators, continuation counts/ratios, per-fact/per-template counts, L1/L3/perplexity and probe fields. | Every boolean/integer/float leaf in the complete scorer-field inventory is wrapped as a torch scalar and separately as a NumPy scalar; exact Python type and value equality is checked recursively. Integer `2**53+1` survives both ingress conversions exactly. |
+| Pristine baseline report: base, mean token count and token range | `c10e_bandknob.py:449–455`; existing stimulus-leak rule | `c10x_enginepath_arms.py:1182–1184`: normalize immediately on receipt, attach to state, validate JSON before the unchanged exact-int/leak check. | Real torch/NumPy scalar types in all report numeric fields; driver completes with unchanged values and Python types. |
+| Injection row flags and canonical/paraphrase/template counts | Same frozen scorer; existing injection screen | `c10x_enginepath_arms.py:1041–1047`: cast each recorded hit with `bool()` before aggregation. | Torch/NumPy boolean hits yield 24 canonical, 72 paraphrase and exact per-template Python-int counts. |
+| Frame rows, relation-label top1/flips/pristine arrays, teacher-forced curve | Existing read-only probe; `c10e_bandknob.py:137–145` supplies its scorer pattern | `c10x_enginepath_arms.py:1074`, `:1084–1086`, `:1096`: `int(top1)`, `bool(flip)`, integer relation counts/IDs and `int(pred == gold)` before accumulating recorded correct counts. | NumPy top1 plus torch/NumPy target IDs; plain JSON and 72/72 at both teacher-forced positions. Input set membership and forward/concatenation logic remain unchanged. This proves record types/counts, not frame-flip equivalence for artificial tensor-valued tokenizer outputs. |
+| Telemetry target/generated token IDs and full/first flags | Amendment T4 observed scorer sink; `c10e_bandknob.py:109–118` | `c10x_enginepath_arms.py:366–370`: convert scalar IDs to Python ints at telemetry entry, then record Python-bool equality results. | Actual torch/NumPy integer IDs produce an enabled writer and an answer line with exact IDs/flags; serialization no longer disables telemetry. |
+| Direct G8 locality and locality top1 observer fields | Existing G8 observer; frozen predict/locpct | `c10x_enginepath_inertness.py:364–367`: `float(locality)` and `int(locality_top1)`; probability, distribution and other top1 were already materialized. | Torch/NumPy numeric observer scalars; plain JSON in both engine/candidate views. |
+| Raw LAW#5 locality-delta diagnostic | Original harness gate and its six predict observations | `c10x_enginepath_arms.py:709`: materialize the recorded locality delta with `float()` after the unchanged subtraction. | Both torch/NumPy locality scalar returns become native floats; original gate return and observation schedule retained. |
+| Padded replay provenance lookup indices | Existing harness lookup helper, not a scored verdict | `c10x_enginepath_arms.py:758`: exported index list uses `int(i)`; live indexing arithmetic is unchanged. | Existing actual replay/injection input-identity integration tests pass; no tensor/device/dtype/shape changes. |
+
+Other scorer-adjacent outputs were audited: logit-lens token/probability outputs and target-fit/per-position records already materialize their scalars; write norms use the existing float64 captures and Amendment M fp32 report tagging. T8's temporary raw generated flags are not exported; its exported equality/weight/control results were already native booleans/integers, and its body remains AST-identical. Internal writer update/cache/weight tensors remain tensors for scientific comparison and are not treated as JSON record trees.
+
+### Every stage validates before proceeding
+
+`validate_record_json` (`c10x_enginepath_arms.py:272–276`) first applies the unchanged reader `_finite_tree(state, 'record')` (`c10x_enginepath_read.py:81–92`) and only then encodes with `allow_nan=False` and checks equality after the existing strict JSON parser. Therefore tuples, foreign scalar types, non-string keys and non-finite floats cannot vanish through an encoding roundtrip. The reader/writer remain strict; `diagnostic_json` is still a diagnostic representation only.
+
+`run`'s stage boundary at `c10x_enginepath_arms.py:1161–1174` checks the accumulated record at entry and exit for **setup → A → targets → inertness → injection → I-2 → I-1 → final**. Setup base/frames, target record portions/audits, inertness and injection products are attached as soon as produced (`:1182–1206`); live target tensors remain local. W0 checkpoints and timing/work-unit records are included at each boundary. Recipes also validate before LAW#3/G consumption (`:1194`, `:1210`), preserving the field-path error instead of converting it into a generic baseline miss. Final JSON validates before scientific `_validate` and publication and again after final timing capture (`:1240–1249`). Scientific `_validate` still runs only against the complete record.
+
+The final reviewer found a real attribution defect in the first implementation: `StageBudget.enter(next)` still leaves the preceding stage, so switching the local label first could report its deadline failure as the next stage. Test `test_previous_stage_deadline_keeps_exit_phase` reproduced **`targets != A`**. The correction calls the original `BUDGET.leave()` while the prior `stage:exit` label remains current, then switches/enters the next stage (`:1170–1174`). The StageBudget class, caps, projections, deadline predicates and telemetry timing rules remain AST-identical.
+
+The independent stage-contamination test injects non-JSON values **after** normalized producers return, at all eight stages; it checks the field path, HALTED record, originating stage/phase, complete traceback and absence of any next-stage execution. Additional strict controls cover tuples, non-string keys, multi-element tensors, complex values, NaN and Inf. A native integer above `2**53` retains exact roundtrip value. Valid records complete under the actual driver, validator and exclusive JSON writer in isolated temporary roots.
+
+### Halt diagnostics
+
+The worker captures `traceback.format_exc()` **before** primary-X2 exception selection (`c10x_enginepath_arms.py:1254–1258`). The HALTED run and diagnostic include `stage`, `phase`, `traceback`, and `traceback_source`; the existing measured X2-vii exception payload remains preserved. `halt_diagnostic` (`:279–288`) publishes those fields at top level as well as in diagnostic state, and can extract a supplied exception's traceback when not already provided.
+
+The supervisor propagates a recorded worker traceback/phase (`:1394–1404`). Timeout/kill and other non-exception halts explicitly record `traceback: null` with its absence provenance; it does not fabricate a Python worker exception. A preflight `TimeoutExpired` and answer-audit Python exceptions retain their actual parent traceback (`:1343–1344`, `:1414`); final deadline/persistence and compromised-audit halts carry an explicit absence reason (`:1420–1435`). Tests cover worker propagation and timeout absence. These guarantees apply to exceptions handled inside `run()` and supervisor diagnostics. Existing bootstrap/preflight refusal behavior before `run()` is unchanged; no claim is made that all earlier child exceptions produce a recorded worker traceback.
+
+### Numbered new regression mapping
+
+Every regression is in `experiments/track_c/c10x_enginepath_selftest.py`, derives from `IsolatedCase`, and uses the existing real-tree mutation/dispatch guard. All are GREEN in the final full suite. Numbers continue the earlier 83-test build.
+
+| Test | Binding requirement | Test method / current line |
+| --- | --- | --- |
+| 84 | Program (1), X2-vi/X2-ii record-only conversion | `test_actual_harness_flags_are_plain_in_writer_record` `:1754` |
+| 85 | Program (1)/(3), frozen scorer and all recipe scalar fields; Amendment M | `test_every_recipe_scorer_field_is_plain_before_enrichment` `:1771` |
+| 86 | Program (1)/(3), injection flags/counts | `test_injection_flags_and_counts_use_plain_scalars` `:1795` |
+| 87 | Program (1)/(3), calibration/probe output scalars | `test_probe_tensor_targets_and_numpy_top1_are_plain` `:1805` |
+| 88 | Program (1)/(3), Amendment T4 telemetry sink record | `test_telemetry_scalar_ids_and_flags_do_not_disable_writer` `:1817` |
+| 89 | Program (1)/(3), direct G8 observer | `test_direct_g8_observer_materializes_scalars` `:1830` |
+| 90 | Program (1)/(3), original LAW#5 observation diagnostic | `test_raw_law5_locality_diagnostic_is_plain` `:1843` |
+| 91 | Program (1)–(3), baseline report and genuine driver completion | `test_driver_normalizes_pristine_report_and_completes` `:1894` |
+| 92 | Program (2)/(4), strict JSON at every stage, traceback/phase/no next stage | `test_every_stage_rejects_non_json_before_next_stage` `:1904` |
+| 93 | Program (2), strict type/numeric negative controls and large-int roundtrip | `test_boundary_keeps_strict_types_and_numeric_limits` `:1920` |
+| 94 | Program (2)/(4), previous stage's exit-deadline attribution | `test_previous_stage_deadline_keeps_exit_phase` `:1932` |
+| 95 | Program (4), killed/timeout worker traceback provenance | `test_supervisor_timeout_has_phase_and_explicit_traceback_absence` `:1945` |
+| 96 | Program (4), worker exception propagated by supervisor | `test_supervisor_propagates_worker_traceback_and_phase` `:1957` |
+
+The prior signed-zero HALT fixture now supplies the actual target-producer record contract (`records` and `audits`), so it still reaches and proves the measured X2-vii halt. It no longer supplies an impossible empty producer mapping. All prior 83 tests remain in the full suite.
+
+### RED / GREEN evidence
+
+Initial focused RED ran before any production changes; `red_receipt.json` proves that only the selftest source changed relative to `before.json`. **12 tests ran; 17 failing assertions/subtests and 14 errors**. The errors include strict-JSON rejection of the genuine scorer tuple/scalar types, torch locality rounding on the unmaterialized observer value, and absent new diagnostic fields; failing assertions show telemetry disablement, baseline scalar refusal and next-stage execution before JSON rejection. No missing helper/import was used as the intended RED signal. The later deadline regression separately ran **1 test, 1 failing assertion** before its production fix.
+
+Focused invocation (initial captured runner uses this same test class; its exact runner is described after the log):
+
+```sh
+cd /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+env TMPDIR=/private/tmp/c10x_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONPATH=experiments/track_c .venv/bin/python -B -m unittest c10x_enginepath_selftest.ScorerJsonTests
+```
+
+Initial RED runner imported `c10x_enginepath_selftest`, used `unittest.defaultTestLoader.loadTestsFromTestCase(S.ScorerJsonTests)` and `TextTestRunner(verbosity=2)`, redirected runner stdout/stderr to `red.log`, asserted the before/after live listing and forbidden-module guard, then returned exit 1. The stderr telemetry-disable markers were also returned by that command. The full captured RED output is below; each behavioral failing assertion is retained.
+
+```text
+test_actual_harness_flags_are_plain_in_writer_record (c10x_enginepath_selftest.ScorerJsonTests.test_actual_harness_flags_are_plain_in_writer_record) ... 
+  test_actual_harness_flags_are_plain_in_writer_record (c10x_enginepath_selftest.ScorerJsonTests.test_actual_harness_flags_are_plain_in_writer_record) (kind='torch') ... ERROR
+  test_actual_harness_flags_are_plain_in_writer_record (c10x_enginepath_selftest.ScorerJsonTests.test_actual_harness_flags_are_plain_in_writer_record) (kind='numpy') ... ERROR
+test_boundary_keeps_strict_types_and_numeric_limits (c10x_enginepath_selftest.ScorerJsonTests.test_boundary_keeps_strict_types_and_numeric_limits) ... 
+  test_boundary_keeps_strict_types_and_numeric_limits (c10x_enginepath_selftest.ScorerJsonTests.test_boundary_keeps_strict_types_and_numeric_limits) (i=0) ... FAIL
+  test_boundary_keeps_strict_types_and_numeric_limits (c10x_enginepath_selftest.ScorerJsonTests.test_boundary_keeps_strict_types_and_numeric_limits) (i=1) ... FAIL
+  test_boundary_keeps_strict_types_and_numeric_limits (c10x_enginepath_selftest.ScorerJsonTests.test_boundary_keeps_strict_types_and_numeric_limits) (i=2) ... FAIL
+  test_boundary_keeps_strict_types_and_numeric_limits (c10x_enginepath_selftest.ScorerJsonTests.test_boundary_keeps_strict_types_and_numeric_limits) (i=3) ... FAIL
+  test_boundary_keeps_strict_types_and_numeric_limits (c10x_enginepath_selftest.ScorerJsonTests.test_boundary_keeps_strict_types_and_numeric_limits) (i=4) ... FAIL
+  test_boundary_keeps_strict_types_and_numeric_limits (c10x_enginepath_selftest.ScorerJsonTests.test_boundary_keeps_strict_types_and_numeric_limits) (i=5) ... FAIL
+test_direct_g8_observer_materializes_scalars (c10x_enginepath_selftest.ScorerJsonTests.test_direct_g8_observer_materializes_scalars) ... ERROR
+test_driver_normalizes_pristine_report_and_completes (c10x_enginepath_selftest.ScorerJsonTests.test_driver_normalizes_pristine_report_and_completes) ... 
+  test_driver_normalizes_pristine_report_and_completes (c10x_enginepath_selftest.ScorerJsonTests.test_driver_normalizes_pristine_report_and_completes) (kind='torch') ... FAIL
+  test_driver_normalizes_pristine_report_and_completes (c10x_enginepath_selftest.ScorerJsonTests.test_driver_normalizes_pristine_report_and_completes) (kind='numpy') ... FAIL
+test_every_recipe_scorer_field_is_plain_before_enrichment (c10x_enginepath_selftest.ScorerJsonTests.test_every_recipe_scorer_field_is_plain_before_enrichment) ... 
+  test_every_recipe_scorer_field_is_plain_before_enrichment (c10x_enginepath_selftest.ScorerJsonTests.test_every_recipe_scorer_field_is_plain_before_enrichment) (kind='torch') ... ERROR
+  test_every_recipe_scorer_field_is_plain_before_enrichment (c10x_enginepath_selftest.ScorerJsonTests.test_every_recipe_scorer_field_is_plain_before_enrichment) (kind='numpy') ... ERROR
+test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) ... 
+  test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='setup') ... FAIL
+  test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='A') ... FAIL
+  test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='targets') ... FAIL
+  test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='inertness') ... FAIL
+  test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='injection') ... FAIL
+  test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='I-2') ... FAIL
+  test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='I-1') ... FAIL
+  test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='final') ... ERROR
+test_injection_flags_and_counts_use_plain_scalars (c10x_enginepath_selftest.ScorerJsonTests.test_injection_flags_and_counts_use_plain_scalars) ... 
+  test_injection_flags_and_counts_use_plain_scalars (c10x_enginepath_selftest.ScorerJsonTests.test_injection_flags_and_counts_use_plain_scalars) (kind='torch') ... ERROR
+  test_injection_flags_and_counts_use_plain_scalars (c10x_enginepath_selftest.ScorerJsonTests.test_injection_flags_and_counts_use_plain_scalars) (kind='numpy') ... ERROR
+test_probe_tensor_targets_and_numpy_top1_are_plain (c10x_enginepath_selftest.ScorerJsonTests.test_probe_tensor_targets_and_numpy_top1_are_plain) ... 
+  test_probe_tensor_targets_and_numpy_top1_are_plain (c10x_enginepath_selftest.ScorerJsonTests.test_probe_tensor_targets_and_numpy_top1_are_plain) (kind='torch') ... ERROR
+  test_probe_tensor_targets_and_numpy_top1_are_plain (c10x_enginepath_selftest.ScorerJsonTests.test_probe_tensor_targets_and_numpy_top1_are_plain) (kind='numpy') ... ERROR
+test_raw_law5_locality_diagnostic_is_plain (c10x_enginepath_selftest.ScorerJsonTests.test_raw_law5_locality_diagnostic_is_plain) ... 
+  test_raw_law5_locality_diagnostic_is_plain (c10x_enginepath_selftest.ScorerJsonTests.test_raw_law5_locality_diagnostic_is_plain) (kind='torch') ... ERROR
+  test_raw_law5_locality_diagnostic_is_plain (c10x_enginepath_selftest.ScorerJsonTests.test_raw_law5_locality_diagnostic_is_plain) (kind='numpy') ... ERROR
+test_supervisor_propagates_worker_traceback_and_phase (c10x_enginepath_selftest.ScorerJsonTests.test_supervisor_propagates_worker_traceback_and_phase) ... ERROR
+test_supervisor_timeout_has_phase_and_explicit_traceback_absence (c10x_enginepath_selftest.ScorerJsonTests.test_supervisor_timeout_has_phase_and_explicit_traceback_absence) ... ERROR
+test_telemetry_scalar_ids_and_flags_do_not_disable_writer (c10x_enginepath_selftest.ScorerJsonTests.test_telemetry_scalar_ids_and_flags_do_not_disable_writer) ... 
+  test_telemetry_scalar_ids_and_flags_do_not_disable_writer (c10x_enginepath_selftest.ScorerJsonTests.test_telemetry_scalar_ids_and_flags_do_not_disable_writer) (kind='torch') ... FAIL
+  test_telemetry_scalar_ids_and_flags_do_not_disable_writer (c10x_enginepath_selftest.ScorerJsonTests.test_telemetry_scalar_ids_and_flags_do_not_disable_writer) (kind='numpy') ... FAIL
+
+======================================================================
+ERROR: test_actual_harness_flags_are_plain_in_writer_record (c10x_enginepath_selftest.ScorerJsonTests.test_actual_harness_flags_are_plain_in_writer_record) (kind='torch')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1766, in test_actual_harness_flags_are_plain_in_writer_record
+    self.assertEqual(len(cell['flags']),96);self.plain(cell['flags'])
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1743, in plain
+    R._finite_tree(value)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 88, in _finite_tree
+    _finite_tree(child, path + '[' + str(i) + ']')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 92, in _finite_tree
+    _need(value is None or type(value) in (str, bool, int), path + ' is not JSON data')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 38, in _need
+    raise ValueError(message)
+ValueError: record[0] is not JSON data
+
+======================================================================
+ERROR: test_actual_harness_flags_are_plain_in_writer_record (c10x_enginepath_selftest.ScorerJsonTests.test_actual_harness_flags_are_plain_in_writer_record) (kind='numpy')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1766, in test_actual_harness_flags_are_plain_in_writer_record
+    self.assertEqual(len(cell['flags']),96);self.plain(cell['flags'])
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1743, in plain
+    R._finite_tree(value)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 88, in _finite_tree
+    _finite_tree(child, path + '[' + str(i) + ']')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 92, in _finite_tree
+    _need(value is None or type(value) in (str, bool, int), path + ' is not JSON data')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 38, in _need
+    raise ValueError(message)
+ValueError: record[0] is not JSON data
+
+======================================================================
+ERROR: test_direct_g8_observer_materializes_scalars (c10x_enginepath_selftest.ScorerJsonTests.test_direct_g8_observer_materializes_scalars)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1837, in test_direct_g8_observer_materializes_scalars
+    rec=I.direct_g8(self.H,self.H.hp,[torch.eye(2) for _ in self.H.hp.layers],[['{}']],pristine)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_inertness.py", line 379, in direct_g8
+    return behaviour_gate(engine,candidate)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_inertness.py", line 262, in behaviour_gate
+    require(round(expr, 4) < .05 and round(loc, 2) < 3., 'G8_NOT_INERT')
+                                     ^^^^^^^^^^^^^
+TypeError: type Tensor doesn't define __round__ method
+
+======================================================================
+ERROR: test_every_recipe_scorer_field_is_plain_before_enrichment (c10x_enginepath_selftest.ScorerJsonTests.test_every_recipe_scorer_field_is_plain_before_enrichment) (kind='torch')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1791, in test_every_recipe_scorer_field_is_plain_before_enrichment
+    with self.subTest(kind=kind):self.plain(observed);self.same_types(observed,wanted)
+                                 ^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1743, in plain
+    R._finite_tree(value)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 92, in _finite_tree
+    _need(value is None or type(value) in (str, bool, int), path + ' is not JSON data')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 38, in _need
+    raise ValueError(message)
+ValueError: record.law5_gate.ok is not JSON data
+
+======================================================================
+ERROR: test_every_recipe_scorer_field_is_plain_before_enrichment (c10x_enginepath_selftest.ScorerJsonTests.test_every_recipe_scorer_field_is_plain_before_enrichment) (kind='numpy')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1791, in test_every_recipe_scorer_field_is_plain_before_enrichment
+    with self.subTest(kind=kind):self.plain(observed);self.same_types(observed,wanted)
+                                 ^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1743, in plain
+    R._finite_tree(value)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 92, in _finite_tree
+    _need(value is None or type(value) in (str, bool, int), path + ' is not JSON data')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 38, in _need
+    raise ValueError(message)
+ValueError: record.law5_gate.ok is not JSON data
+
+======================================================================
+ERROR: test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='final')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1915, in test_every_stage_rejects_non_json_before_next_stage
+    self.assertEqual(result['stage'],stage);self.assertTrue(result['phase'].startswith(stage+':'))
+                     ~~~~~~^^^^^^^^^
+KeyError: 'stage'
+
+======================================================================
+ERROR: test_injection_flags_and_counts_use_plain_scalars (c10x_enginepath_selftest.ScorerJsonTests.test_injection_flags_and_counts_use_plain_scalars) (kind='torch')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1801, in test_injection_flags_and_counts_use_plain_scalars
+    self.plain(rec);self.assertIs(type(rec['canon_n']),int);self.assertEqual(rec['canon_n'],24)
+    ^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1743, in plain
+    R._finite_tree(value)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 92, in _finite_tree
+    _need(value is None or type(value) in (str, bool, int), path + ' is not JSON data')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 38, in _need
+    raise ValueError(message)
+ValueError: record.canon_n is not JSON data
+
+======================================================================
+ERROR: test_injection_flags_and_counts_use_plain_scalars (c10x_enginepath_selftest.ScorerJsonTests.test_injection_flags_and_counts_use_plain_scalars) (kind='numpy')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1801, in test_injection_flags_and_counts_use_plain_scalars
+    self.plain(rec);self.assertIs(type(rec['canon_n']),int);self.assertEqual(rec['canon_n'],24)
+    ^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1743, in plain
+    R._finite_tree(value)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 92, in _finite_tree
+    _need(value is None or type(value) in (str, bool, int), path + ' is not JSON data')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 38, in _need
+    raise ValueError(message)
+ValueError: record.canon_n is not JSON data
+
+======================================================================
+ERROR: test_probe_tensor_targets_and_numpy_top1_are_plain (c10x_enginepath_selftest.ScorerJsonTests.test_probe_tensor_targets_and_numpy_top1_are_plain) (kind='torch')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1811, in test_probe_tensor_targets_and_numpy_top1_are_plain
+    self.plain(rec)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1743, in plain
+    R._finite_tree(value)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 88, in _finite_tree
+    _finite_tree(child, path + '[' + str(i) + ']')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 92, in _finite_tree
+    _need(value is None or type(value) in (str, bool, int), path + ' is not JSON data')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 38, in _need
+    raise ValueError(message)
+ValueError: record.frames.The capital of {} is the city of.rows[0].top1 is not JSON data
+
+======================================================================
+ERROR: test_probe_tensor_targets_and_numpy_top1_are_plain (c10x_enginepath_selftest.ScorerJsonTests.test_probe_tensor_targets_and_numpy_top1_are_plain) (kind='numpy')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1811, in test_probe_tensor_targets_and_numpy_top1_are_plain
+    self.plain(rec)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1743, in plain
+    R._finite_tree(value)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 88, in _finite_tree
+    _finite_tree(child, path + '[' + str(i) + ']')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 92, in _finite_tree
+    _need(value is None or type(value) in (str, bool, int), path + ' is not JSON data')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 38, in _need
+    raise ValueError(message)
+ValueError: record.frames.The capital of {} is the city of.rows[0].top1 is not JSON data
+
+======================================================================
+ERROR: test_raw_law5_locality_diagnostic_is_plain (c10x_enginepath_selftest.ScorerJsonTests.test_raw_law5_locality_diagnostic_is_plain) (kind='torch')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1849, in test_raw_law5_locality_diagnostic_is_plain
+    with self.subTest(kind=kind):self.plain(audit);self.assertIs(type(audit['raw_loc_delta']),float)
+                                 ^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1743, in plain
+    R._finite_tree(value)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 92, in _finite_tree
+    _need(value is None or type(value) in (str, bool, int), path + ' is not JSON data')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 38, in _need
+    raise ValueError(message)
+ValueError: record.raw_loc_delta is not JSON data
+
+======================================================================
+ERROR: test_raw_law5_locality_diagnostic_is_plain (c10x_enginepath_selftest.ScorerJsonTests.test_raw_law5_locality_diagnostic_is_plain) (kind='numpy')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1849, in test_raw_law5_locality_diagnostic_is_plain
+    with self.subTest(kind=kind):self.plain(audit);self.assertIs(type(audit['raw_loc_delta']),float)
+                                 ^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1743, in plain
+    R._finite_tree(value)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 85, in _finite_tree
+    _finite_tree(child, path + '.' + key)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 92, in _finite_tree
+    _need(value is None or type(value) in (str, bool, int), path + ' is not JSON data')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 38, in _need
+    raise ValueError(message)
+ValueError: record.raw_loc_delta is not JSON data
+
+======================================================================
+ERROR: test_supervisor_propagates_worker_traceback_and_phase (c10x_enginepath_selftest.ScorerJsonTests.test_supervisor_propagates_worker_traceback_and_phase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1950, in test_supervisor_propagates_worker_traceback_and_phase
+    self.assertEqual(diag['traceback'],result['traceback']);self.assertEqual(diag['phase'],result['phase'])
+                     ~~~~^^^^^^^^^^^^^
+KeyError: 'traceback'
+
+======================================================================
+ERROR: test_supervisor_timeout_has_phase_and_explicit_traceback_absence (c10x_enginepath_selftest.ScorerJsonTests.test_supervisor_timeout_has_phase_and_explicit_traceback_absence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1941, in test_supervisor_timeout_has_phase_and_explicit_traceback_absence
+    self.assertEqual(diag['stage'],'inertness');self.assertIn('inertness',diag['phase'])
+                     ~~~~^^^^^^^^^
+KeyError: 'stage'
+
+======================================================================
+FAIL: test_boundary_keeps_strict_types_and_numeric_limits (c10x_enginepath_selftest.ScorerJsonTests.test_boundary_keeps_strict_types_and_numeric_limits) (i=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1926, in test_boundary_keeps_strict_types_and_numeric_limits
+    self.assertEqual(entered,list(A.CAPS)[:4])
+AssertionError: Lists differ: ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final'] != ['setup', 'A', 'targets', 'inertness']
+
+First list contains 4 additional elements.
+First extra element 4:
+'injection'
+
+- ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final']
++ ['setup', 'A', 'targets', 'inertness']
+
+======================================================================
+FAIL: test_boundary_keeps_strict_types_and_numeric_limits (c10x_enginepath_selftest.ScorerJsonTests.test_boundary_keeps_strict_types_and_numeric_limits) (i=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1926, in test_boundary_keeps_strict_types_and_numeric_limits
+    self.assertEqual(entered,list(A.CAPS)[:4])
+AssertionError: Lists differ: ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final'] != ['setup', 'A', 'targets', 'inertness']
+
+First list contains 4 additional elements.
+First extra element 4:
+'injection'
+
+- ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final']
++ ['setup', 'A', 'targets', 'inertness']
+
+======================================================================
+FAIL: test_boundary_keeps_strict_types_and_numeric_limits (c10x_enginepath_selftest.ScorerJsonTests.test_boundary_keeps_strict_types_and_numeric_limits) (i=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1926, in test_boundary_keeps_strict_types_and_numeric_limits
+    self.assertEqual(entered,list(A.CAPS)[:4])
+AssertionError: Lists differ: ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final'] != ['setup', 'A', 'targets', 'inertness']
+
+First list contains 4 additional elements.
+First extra element 4:
+'injection'
+
+- ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final']
++ ['setup', 'A', 'targets', 'inertness']
+
+======================================================================
+FAIL: test_boundary_keeps_strict_types_and_numeric_limits (c10x_enginepath_selftest.ScorerJsonTests.test_boundary_keeps_strict_types_and_numeric_limits) (i=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1926, in test_boundary_keeps_strict_types_and_numeric_limits
+    self.assertEqual(entered,list(A.CAPS)[:4])
+AssertionError: Lists differ: ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final'] != ['setup', 'A', 'targets', 'inertness']
+
+First list contains 4 additional elements.
+First extra element 4:
+'injection'
+
+- ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final']
++ ['setup', 'A', 'targets', 'inertness']
+
+======================================================================
+FAIL: test_boundary_keeps_strict_types_and_numeric_limits (c10x_enginepath_selftest.ScorerJsonTests.test_boundary_keeps_strict_types_and_numeric_limits) (i=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1926, in test_boundary_keeps_strict_types_and_numeric_limits
+    self.assertEqual(entered,list(A.CAPS)[:4])
+AssertionError: Lists differ: ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final'] != ['setup', 'A', 'targets', 'inertness']
+
+First list contains 4 additional elements.
+First extra element 4:
+'injection'
+
+- ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final']
++ ['setup', 'A', 'targets', 'inertness']
+
+======================================================================
+FAIL: test_boundary_keeps_strict_types_and_numeric_limits (c10x_enginepath_selftest.ScorerJsonTests.test_boundary_keeps_strict_types_and_numeric_limits) (i=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1926, in test_boundary_keeps_strict_types_and_numeric_limits
+    self.assertEqual(entered,list(A.CAPS)[:4])
+AssertionError: Lists differ: ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final'] != ['setup', 'A', 'targets', 'inertness']
+
+First list contains 4 additional elements.
+First extra element 4:
+'injection'
+
+- ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final']
++ ['setup', 'A', 'targets', 'inertness']
+
+======================================================================
+FAIL: test_driver_normalizes_pristine_report_and_completes (c10x_enginepath_selftest.ScorerJsonTests.test_driver_normalizes_pristine_report_and_completes) (kind='torch')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1898, in test_driver_normalizes_pristine_report_and_completes
+    self.assertEqual(result['status'],'COMPLETE',result.get('code'))
+AssertionError: 'HALTED' != 'COMPLETE'
+- HALTED
++ COMPLETE
+ : STIMULUS_LEAK
+
+======================================================================
+FAIL: test_driver_normalizes_pristine_report_and_completes (c10x_enginepath_selftest.ScorerJsonTests.test_driver_normalizes_pristine_report_and_completes) (kind='numpy')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1898, in test_driver_normalizes_pristine_report_and_completes
+    self.assertEqual(result['status'],'COMPLETE',result.get('code'))
+AssertionError: 'HALTED' != 'COMPLETE'
+- HALTED
++ COMPLETE
+ : STIMULUS_LEAK
+
+======================================================================
+FAIL: test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='setup')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1914, in test_every_stage_rejects_non_json_before_next_stage
+    self.assertEqual(entered,list(A.CAPS)[:list(A.CAPS).index(stage)+1])
+AssertionError: Lists differ: ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final'] != ['setup']
+
+First list contains 7 additional elements.
+First extra element 1:
+'A'
+
+- ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final']
++ ['setup']
+
+======================================================================
+FAIL: test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='A')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1913, in test_every_stage_rejects_non_json_before_next_stage
+    self.assertEqual(result['status'],'HALTED');self.assertIn(path,result['code'])
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'record.recipes.A.bad_json' not found in 'LAW3_BASELINE_MISS'
+
+======================================================================
+FAIL: test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='targets')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1913, in test_every_stage_rejects_non_json_before_next_stage
+    self.assertEqual(result['status'],'HALTED');self.assertIn(path,result['code'])
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'record.targets.bad_json' not found in 'invalid index to scalar variable.'
+
+======================================================================
+FAIL: test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='inertness')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1914, in test_every_stage_rejects_non_json_before_next_stage
+    self.assertEqual(entered,list(A.CAPS)[:list(A.CAPS).index(stage)+1])
+AssertionError: Lists differ: ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final'] != ['setup', 'A', 'targets', 'inertness']
+
+First list contains 4 additional elements.
+First extra element 4:
+'injection'
+
+- ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final']
++ ['setup', 'A', 'targets', 'inertness']
+
+======================================================================
+FAIL: test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='injection')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1914, in test_every_stage_rejects_non_json_before_next_stage
+    self.assertEqual(entered,list(A.CAPS)[:list(A.CAPS).index(stage)+1])
+AssertionError: Lists differ: ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final'] != ['setup', 'A', 'targets', 'inertness', 'injection']
+
+First list contains 3 additional elements.
+First extra element 5:
+'I-2'
+
+- ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final']
+?                                                   -----------------------
+
++ ['setup', 'A', 'targets', 'inertness', 'injection']
+
+======================================================================
+FAIL: test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='I-2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1914, in test_every_stage_rejects_non_json_before_next_stage
+    self.assertEqual(entered,list(A.CAPS)[:list(A.CAPS).index(stage)+1])
+AssertionError: Lists differ: ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final'] != ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2']
+
+First list contains 2 additional elements.
+First extra element 6:
+'I-1'
+
+- ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final']
+?                                                          ----------------
+
++ ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2']
+
+======================================================================
+FAIL: test_every_stage_rejects_non_json_before_next_stage (c10x_enginepath_selftest.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) (stage='I-1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1914, in test_every_stage_rejects_non_json_before_next_stage
+    self.assertEqual(entered,list(A.CAPS)[:list(A.CAPS).index(stage)+1])
+AssertionError: Lists differ: ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final'] != ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1']
+
+First list contains 1 additional elements.
+First extra element 7:
+'final'
+
+- ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1', 'final']
+?                                                                 ---------
+
++ ['setup', 'A', 'targets', 'inertness', 'injection', 'I-2', 'I-1']
+
+======================================================================
+FAIL: test_telemetry_scalar_ids_and_flags_do_not_disable_writer (c10x_enginepath_selftest.ScorerJsonTests.test_telemetry_scalar_ids_and_flags_do_not_disable_writer) (kind='torch')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1824, in test_telemetry_scalar_ids_and_flags_do_not_disable_writer
+    self.assertTrue(writer.enabled);answer=[r for r in writer.lines if r['kind']=='answer']
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_telemetry_scalar_ids_and_flags_do_not_disable_writer (c10x_enginepath_selftest.ScorerJsonTests.test_telemetry_scalar_ids_and_flags_do_not_disable_writer) (kind='numpy')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1824, in test_telemetry_scalar_ids_and_flags_do_not_disable_writer
+    self.assertTrue(writer.enabled);answer=[r for r in writer.lines if r['kind']=='answer']
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.601s
+
+FAILED (failures=17, errors=14)
+```
+
+Additional review regression RED:
+
+```sh
+cd /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+env TMPDIR=/private/tmp/c10x_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONPATH=experiments/track_c .venv/bin/python -B -m unittest c10x_enginepath_selftest.ScorerJsonTests.test_previous_stage_deadline_keeps_exit_phase
+```
+
+```text
+F
+======================================================================
+FAIL: test_previous_stage_deadline_keeps_exit_phase (c10x_enginepath_selftest.ScorerJsonTests.test_previous_stage_deadline_keeps_exit_phase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1939, in test_previous_stage_deadline_keeps_exit_phase
+    self.assertEqual(result['stage'],'A');self.assertEqual(result['phase'],'A:exit')
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'targets' != 'A'
+- targets
++ A
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.042s
+
+FAILED (failures=1)
+```
+
+The first corrected focused suite passed 12; the reviewed transition fix's focused suite passed 13. After adding the wrapped large-integer sentinel, the final full suite was run against the final hashes below. An intermediate 95-test full suite also passed before the attribution regression/correction; it is not the final-source receipt.
+
+Final full-suite command (exit **0**; full PASS stdout/stderr follows):
+
+```sh
+cd /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a
+env TMPDIR=/private/tmp/c10x_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -B experiments/track_c/c10x_enginepath_selftest.py > /private/tmp/c10x_build/scorer_json_fix/full_selftest_final.log 2>&1
+```
+
+```text
+test_admitted_process_pair_and_p2_gate (__main__.FileAdmissionTests.test_admitted_process_pair_and_p2_gate) ... ok
+test_amendment_p_digest_refusals (__main__.FileAdmissionTests.test_amendment_p_digest_refusals) ... ok
+test_amendment_p_prereg_pin (__main__.FileAdmissionTests.test_amendment_p_prereg_pin) ... ok
+test_answer_audit_uses_runtime_recipe_order (__main__.FileAdmissionTests.test_answer_audit_uses_runtime_recipe_order) ... ok
+test_complete_stub_run_persists_every_record (__main__.FileAdmissionTests.test_complete_stub_run_persists_every_record) ... ok
+test_context_binding_enter_failure_restores (__main__.FileAdmissionTests.test_context_binding_enter_failure_restores) ... ok
+test_deadline_completion_and_previous_overhead (__main__.FileAdmissionTests.test_deadline_completion_and_previous_overhead) ... ok
+test_detailed_admission_negative_controls (__main__.FileAdmissionTests.test_detailed_admission_negative_controls) ... ok
+test_direct_shell_launchers_are_executable_in_git (__main__.FileAdmissionTests.test_direct_shell_launchers_are_executable_in_git) ... DIRECT SHELL ENTRY POINTS: none; all three supervised commands use sys.executable
+ok
+test_disable_cutoff_never_excuses_earlier_omissions (__main__.FileAdmissionTests.test_disable_cutoff_never_excuses_earlier_omissions) ... ok
+test_disable_marker_records_failed_answer_cutoff (__main__.FileAdmissionTests.test_disable_marker_records_failed_answer_cutoff) ... ok
+test_every_science_record_roundtrip_and_reader_audit (__main__.FileAdmissionTests.test_every_science_record_roundtrip_and_reader_audit) ... ok
+test_fp32_overflow_capture_and_parity_remain_report_only (__main__.FileAdmissionTests.test_fp32_overflow_capture_and_parity_remain_report_only) ... ok
+test_frozen_scorer_forwards_have_no_injected_kwargs (__main__.FileAdmissionTests.test_frozen_scorer_forwards_have_no_injected_kwargs) ... ok
+test_late_supervisor_persistence_is_unreadable (__main__.FileAdmissionTests.test_late_supervisor_persistence_is_unreadable) ... ok
+test_missing_inertness_evidence_is_refused (__main__.FileAdmissionTests.test_missing_inertness_evidence_is_refused) ... ok
+test_no_combined_device_dtype_conversions (__main__.FileAdmissionTests.test_no_combined_device_dtype_conversions) ... ok
+test_pinned_contexts_never_sample (__main__.FileAdmissionTests.test_pinned_contexts_never_sample) ... ok
+test_pinned_processes_and_halted_context_identity (__main__.FileAdmissionTests.test_pinned_processes_and_halted_context_identity) ... ok
+test_post_audit_blocks_are_killed_by_final_deadline (__main__.FileAdmissionTests.test_post_audit_blocks_are_killed_by_final_deadline) ... ok
+test_post_audit_budget_and_disabled_disposition (__main__.FileAdmissionTests.test_post_audit_budget_and_disabled_disposition) ... ok
+test_post_audit_rejects_contradictory_receipts (__main__.FileAdmissionTests.test_post_audit_rejects_contradictory_receipts) ... ok
+test_post_audit_startup_consumes_remaining_budget (__main__.FileAdmissionTests.test_post_audit_startup_consumes_remaining_budget) ... ok
+test_reader_publishes_invalid_with_exit_zero (__main__.FileAdmissionTests.test_reader_publishes_invalid_with_exit_zero) ... ok
+test_recipe_fp32_overflow_does_not_halt_or_change_labels (__main__.FileAdmissionTests.test_recipe_fp32_overflow_does_not_halt_or_change_labels) ... ok
+test_script_alias_and_preflight_refusal_in_isolated_child (__main__.FileAdmissionTests.test_script_alias_and_preflight_refusal_in_isolated_child) ... ok
+test_signed_zero_reader_keeps_reports_out_of_admission (__main__.FileAdmissionTests.test_signed_zero_reader_keeps_reports_out_of_admission) ... ok
+test_supervisor_fail_closed_and_combining_output_path (__main__.FileAdmissionTests.test_supervisor_fail_closed_and_combining_output_path) ... ok
+test_tagged_fp32_diagnostics_preserve_file_admission (__main__.FileAdmissionTests.test_tagged_fp32_diagnostics_preserve_file_admission) ... ok
+test_tokenizer_forwards_preserve_attention_mask (__main__.FileAdmissionTests.test_tokenizer_forwards_preserve_attention_mask) ... ok
+test_actual_fe_writes_and_null_solve_observer (__main__.IntegrationTests.test_actual_fe_writes_and_null_solve_observer) ... ok
+test_actual_singleton_reduction_and_resolved_capture (__main__.IntegrationTests.test_actual_singleton_reduction_and_resolved_capture) ... ok
+test_projection_uses_remaining_units_and_setup_clock (__main__.IntegrationTests.test_projection_uses_remaining_units_and_setup_clock) ... ok
+test_solver_masked_gradient_clip_filter_and_tie (__main__.IntegrationTests.test_solver_masked_gradient_clip_filter_and_tie) ... ok
+test_telemetry_recipe_records_and_counts_equal (__main__.IntegrationTests.test_telemetry_recipe_records_and_counts_equal) ... ok
+test_telemetry_valid_admission_and_runner_no_writes (__main__.IntegrationTests.test_telemetry_valid_admission_and_runner_no_writes) ... ok
+test_three_recipe_telemetry_probe_and_file_equality (__main__.IntegrationTests.test_three_recipe_telemetry_probe_and_file_equality) ... ok
+test_reader_control_boundaries (__main__.ReaderTests.test_reader_control_boundaries) ... ok
+test_reader_count_classes (__main__.ReaderTests.test_reader_count_classes) ... ok
+test_reader_flags_denominators_nulls (__main__.ReaderTests.test_reader_flags_denominators_nulls) ... ok
+test_reader_interpretation_and_null_table (__main__.ReaderTests.test_reader_interpretation_and_null_table) ... ok
+test_reader_law3_boundaries (__main__.ReaderTests.test_reader_law3_boundaries) ... ok
+test_reader_locality_boundaries (__main__.ReaderTests.test_reader_locality_boundaries) ... ok
+test_reader_process_combination (__main__.ReaderTests.test_reader_process_combination) ... ok
+test_reader_qualifier_boundaries (__main__.ReaderTests.test_reader_qualifier_boundaries) ... ok
+test_reader_replication (__main__.ReaderTests.test_reader_replication) ... ok
+test_reader_validity (__main__.ReaderTests.test_reader_validity) ... ok
+test_actual_harness_flags_are_plain_in_writer_record (__main__.ScorerJsonTests.test_actual_harness_flags_are_plain_in_writer_record) ... ok
+test_boundary_keeps_strict_types_and_numeric_limits (__main__.ScorerJsonTests.test_boundary_keeps_strict_types_and_numeric_limits) ... ok
+test_direct_g8_observer_materializes_scalars (__main__.ScorerJsonTests.test_direct_g8_observer_materializes_scalars) ... ok
+test_driver_normalizes_pristine_report_and_completes (__main__.ScorerJsonTests.test_driver_normalizes_pristine_report_and_completes) ... ok
+test_every_recipe_scorer_field_is_plain_before_enrichment (__main__.ScorerJsonTests.test_every_recipe_scorer_field_is_plain_before_enrichment) ... ok
+test_every_stage_rejects_non_json_before_next_stage (__main__.ScorerJsonTests.test_every_stage_rejects_non_json_before_next_stage) ... ok
+test_injection_flags_and_counts_use_plain_scalars (__main__.ScorerJsonTests.test_injection_flags_and_counts_use_plain_scalars) ... ok
+test_previous_stage_deadline_keeps_exit_phase (__main__.ScorerJsonTests.test_previous_stage_deadline_keeps_exit_phase) ... ok
+test_probe_tensor_targets_and_numpy_top1_are_plain (__main__.ScorerJsonTests.test_probe_tensor_targets_and_numpy_top1_are_plain) ... ok
+test_raw_law5_locality_diagnostic_is_plain (__main__.ScorerJsonTests.test_raw_law5_locality_diagnostic_is_plain) ... ok
+test_supervisor_propagates_worker_traceback_and_phase (__main__.ScorerJsonTests.test_supervisor_propagates_worker_traceback_and_phase) ... ok
+test_supervisor_timeout_has_phase_and_explicit_traceback_absence (__main__.ScorerJsonTests.test_supervisor_timeout_has_phase_and_explicit_traceback_absence) ... ok
+test_telemetry_scalar_ids_and_flags_do_not_disable_writer (__main__.ScorerJsonTests.test_telemetry_scalar_ids_and_flags_do_not_disable_writer) ... ok
+test_active_null_negative_controls (__main__.SeamTests.test_active_null_negative_controls) ... ok
+test_baseline_miss_stops_candidates (__main__.SeamTests.test_baseline_miss_stops_candidates) ... ok
+test_capture_bindings_identity_attribution (__main__.SeamTests.test_capture_bindings_identity_attribution) ... ok
+test_dispatch_call_time_flag (__main__.SeamTests.test_dispatch_call_time_flag) ... ok
+test_fe_ast_three_changes (__main__.SeamTests.test_fe_ast_three_changes) ... ok
+test_fe_modes_and_keys (__main__.SeamTests.test_fe_modes_and_keys) ... ok
+test_float64_dense_reference (__main__.SeamTests.test_float64_dense_reference) ... ok
+test_independent_full_vocabulary_audit (__main__.SeamTests.test_independent_full_vocabulary_audit) ... ok
+test_knobs_and_frame_subjects (__main__.SeamTests.test_knobs_and_frame_subjects) ... ok
+test_launch_refusals (__main__.SeamTests.test_launch_refusals) ... ok
+test_pristine_hash_restore_hooks (__main__.SeamTests.test_pristine_hash_restore_hooks) ... ok
+test_process2_requires_eligibility (__main__.SeamTests.test_process2_requires_eligibility) ... ok
+test_recipe_states_counters (__main__.SeamTests.test_recipe_states_counters) ... ok
+test_solver_ast_and_gradients (__main__.SeamTests.test_solver_ast_and_gradients) ... ok
+test_tolerance_and_finiteness (__main__.SeamTests.test_tolerance_and_finiteness) ... ok
+test_watchdog_and_projection (__main__.SeamTests.test_watchdog_and_projection) ... ok
+test_after_cell_halt_keeps_pre_restoration_measurements (__main__.SignedZeroTests.test_after_cell_halt_keeps_pre_restoration_measurements) ... ok
+test_amendment_z_prereg_pin (__main__.SignedZeroTests.test_amendment_z_prereg_pin) ... ok
+test_driver_halt_serializes_measured_x2_values (__main__.SignedZeroTests.test_driver_halt_serializes_measured_x2_values) ... ok
+test_equal_values_wrong_dtype_halt (__main__.SignedZeroTests.test_equal_values_wrong_dtype_halt) ... ok
+test_nan_value_halts (__main__.SignedZeroTests.test_nan_value_halts) ... ok
+test_nonzero_update_halts_before_weight_comparison (__main__.SignedZeroTests.test_nonzero_update_halts_before_weight_comparison) ... ok
+test_one_ulp_value_change_halts_with_all_layer_measurements (__main__.SignedZeroTests.test_one_ulp_value_change_halts_with_all_layer_measurements) ... ok
+test_signed_zero_write_passes_and_counts_binary16_bits (__main__.SignedZeroTests.test_signed_zero_write_passes_and_counts_binary16_bits) ... ok
+test_w0_byte_identity_stays_strict_before_and_after_null_cell (__main__.SignedZeroTests.test_w0_byte_identity_stays_strict_before_and_after_null_cell) ... ok
+test_wrong_shape_halts (__main__.SignedZeroTests.test_wrong_shape_halts) ... ok
+test_frozen_bytes_and_imports (__main__.TelemetryTests.test_frozen_bytes_and_imports) ... IMPORT GUARD PASS: c10e_bandknob, transformers, datasets absent
+ok
+test_isolation_positive_control_children_meta (__main__.TelemetryTests.test_isolation_positive_control_children_meta) ... ok
+test_post_run_answer_audit (__main__.TelemetryTests.test_post_run_answer_audit) ... ok
+test_strict_json_roundtrips (__main__.TelemetryTests.test_strict_json_roundtrips) ... ok
+test_telemetry_code_path_equality (__main__.TelemetryTests.test_telemetry_code_path_equality) ... ok
+test_telemetry_failure_boundaries (__main__.TelemetryTests.test_telemetry_failure_boundaries) ... ok
+test_telemetry_inertness_schedule (__main__.TelemetryTests.test_telemetry_inertness_schedule) ... ok
+test_telemetry_line_volume (__main__.TelemetryTests.test_telemetry_line_volume) ... ok
+test_telemetry_state_unchanged (__main__.TelemetryTests.test_telemetry_state_unchanged) ... ok
+test_telemetry_switch_admission (__main__.TelemetryTests.test_telemetry_switch_admission) ... ok
+
+----------------------------------------------------------------------
+Ran 96 tests in 22.098s
+
+OK
+LISTING: attributed-protected changes = {}
+LISTING: observed/unattributed other changes = {}
+SYS.MODULES PASS: c10e_bandknob/transformers/datasets absent
+```
+
+**96 tests in 22.098 s; zero failures/errors.** Attributed protected listing changes: **0**. Other observed listing changes during the final selftest: **0**. `c10e_bandknob`, `transformers`, and `datasets` absent from `sys.modules`. Model/forward work is exclusively the tiny CPU fixture; dispatch stubs and outputs are under private temporary roots. The final suite includes the earlier M non-finite report-only, T11 cutoff, safe MPS-conversion AST bans, scorer/mask revert, deadline, pinned-context regeneration and signed-zero regressions. No historical mutation campaign or live experiment was rerun; existing mutation evidence remains historical.
+
+Read-only engine fingerprint command (exit **0**):
+
+```sh
+env LLMDB_ROOT=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a TMPDIR=/private/tmp/c10x_build PYTHONDONTWRITEBYTECODE=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/engine_fingerprint.py
+```
+
+```text
+engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py
+  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a…)
+  _cov_cpu 3  (expected 3)
+```
+
+### Scope, immutable science and byte preservation
+
+Only **three existing C10X sources** change in this arc: arms, inertness, selftest; this report is appended. No new project source file. The named driver/reader/harness/engine are not replaced wholesale. Source AST comparison confirms all scientific `require` calls in arms/inertness are unchanged, every inertness function except record-only `write_cell`/`direct_g8` is AST-identical (including all of `run_checks`, null observer, signed-zero/value/dtype/shape checks, thresholds, negative controls and Pristine), and driver writer/target/context/scorer/lens/T8/StageBudget functions are AST-identical. All forward call sites/arguments, original and observed scorer bodies, actual target construction, weight restoration and W0/T8 byte checks are preserved. The only `batch_replay` change is exported index scalar materialization. Amendments M, T11, P, Z and prior safe conversion/mask-revert fixes remain intact. The reader, telemetry checker, overtone solver, X2 probe and prereg are byte-identical to this task's snapshot.
+
+**All 188 R5 hashes equal before and after.** `git diff --quiet -- <all 188 frozen R5 paths>` returns **0**. Complete before/current tables are also stored in `before.json` and `sealed_evidence.json`; this is the full R5 table, with the single listed SHA being both the before and after value:
+
+| Protected R5 path | Before SHA-256 = after SHA-256 |
+| --- | --- |
+| `configs/hparams/anyedit_alphaedit_are_qwen25_3b.json` | `b7c8635b5ae876bb8a346ac2bc36d1ec438c2639021faebbdc838a046257f41e` |
+| `configs/hparams/anyedit_memit_are_qwen25_3b.json` | `c0774c602a28ece1425c83edc9f4da243b7908efdac1642a54e093fd26f16c8b` |
+| `configs/hparams/cfb-v4-highAKD-v0_1-draft.yaml` | `495415f88ebc0882bbe28ed8b11a3e6f2e76884fec3f2d485975093e984aae9c` |
+| `configs/hparams/cfb-v4-highAKD.yaml` | `e3ce9cb8690f70ba4d7335cf1a11679a8d79fa9563c3ef9ffca9840e9fb1e30f` |
+| `configs/hparams/llama32_3b_memit_hparams.json` | `24a22192538cc9092925f78b6e93f3e3129cdc5513b1e0034c43386ead8ffb26` |
+| `configs/hparams/probe-set-v4-highAKD.yaml` | `b99b5d9b8ed1d093869aed902be8464e41677d83a1c988ca3ae2150a1338d1fd` |
+| `configs/hparams/qwen25_3b_memit_hparams.json` | `4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4` |
+| `configs/hparams/qwen25_3b_memit_hparams_band412.json` | `7bdfae32d16f7cd8a53bc901642f6377476ebfa5c10d4d37fd69494c8cb2e618` |
+| `configs/hparams/qwen25_3b_memit_hparams_band41218.json` | `191e6283056a6914c51ab0f8bf5629c72faf0bb84cff5ee25207f6b63e7705d5` |
+| `configs/hparams/qwen25_3b_memit_hparams_band412_lowcov2500.json` | `df16866eb68327f465b0beee43b0b1b0a0c6dea5aa7a0c4f5700e864c2705f2b` |
+| `configs/hparams/qwen25_3b_memit_hparams_band412_strength150.json` | `31337200e25891391427d21009829ef8d253c4fd384eedeeb5d2d9bfbd605dcd` |
+| `configs/hparams/qwen25_3b_memit_hparams_band812.json` | `f9a8ee42e5cd91937d3fdab852e19e971c554da3a383d6dc4c9f305a2192d546` |
+| `configs/hparams/qwen25_3b_memit_hparams_mom2w25.json` | `afb77fe8ab5241d7a33fd183121715d1b1389de905de741ad3cef6f98a197083` |
+| `configs/hparams/qwen25_3b_memit_hparams_mom2w50.json` | `6d171a27d1c6dbaf6240c7e715be96caff954dd9f2958dd17b8b054c5dc85272` |
+| `configs/hparams/qwen25_3b_memit_hparams_mom2w500.json` | `797d53e19889353eb57d122e8d54f1d3d22b46142658baa1858b3e43e755f8f9` |
+| `configs/hparams/qwen25_3b_memit_hparams_set48.json` | `73c075619c2b9c43d870adae0d55c1e488f3a016b3e9ccc96dec71d8e7198be2` |
+| `configs/hparams/qwen25_3b_memit_hparams_set78.json` | `93ce4befc96526da4fa2a85ce7f94c521927c83295bf850dd5ac9e84dc2ab256` |
+| `configs/hparams/qwen25_3b_memit_hparams_smoke.json` | `bd11f757196eeebeda2c2eb597d449e1626882441036831c606ccd0f0428faac` |
+| `configs/hparams/qwen25_3b_memit_hparams_steps50.json` | `f7a10f00eb1f7e37764aba0f6a231b3b0d316066f7f734f1e418a339acaeff33` |
+| `configs/hparams/qwen25_3b_relkey_memit_hparams.json` | `343c54cd2d95c20990c56c15b90a9ac36cb45ef0c12a9a264166ff06a10d3bbf` |
+| `configs/hparams/qwen25_7b_memit_hparams.json` | `81b2ccc7bddfd607ca1894efd5ef4bba9fb073f51b68024125307db65374e128` |
+| `configs/hparams/qwen3_06b_memit_hparams.json` | `c22468894e3e2f20ae389f59342e5163f6894fb584486d8dced719c392a76aa7` |
+| `configs/probes/b3_probes.json` | `9471d33901a042de842a99d1c84bd904ec2e6a24a2ee994630b7df34649d8a9b` |
+| `configs/screens/g6_screen_qwen3b.json` | `a51813340571f6c68908ac4310cca197ebac9884939f58e5c33fb75833a3ca05` |
+| `configs/screens/g6_screen_qwen3b_v2.json` | `482c05f8f33c59d3e469566fe6f3c48eb183d3cb2fbb791f31dcad7102517c5c` |
+| `configs/screens/g6_screen_qwen7b.json` | `7c5a63282d8b815393e0a5dc3641dbfb61c5a0e95e530e4446f163816d75b43c` |
+| `docs/C10X_ENGINEPATH_PREREG.md` | `d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899` |
+| `experiments/track_c/c10e_bandknob.py` | `1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695` |
+| `experiments/track_c/c10l_covgeom_p6_zinject.py` | `b2b94563628a16c63c74733a63a95783a1f0536fc0ca6800d97b409d2f86b43b` |
+| `experiments/track_c/c10l_covgeom_step0.py` | `5999d8714b7282e01f04b0292dc2c381d383f2a7ff90a2430b6e503aa7f2a557` |
+| `experiments/track_c/c10m_diag_arms.py` | `77efc1bd358fb34728ec46616ffa983f0bf890294a61789c29989749d2252eee` |
+| `experiments/track_c/c10p_twopass_arms.py` | `c34ecbe17c86d8f2803efc5520f4cf090dcb23bcc21ef0c3c28a12bfdaeb820f` |
+| `experiments/track_c/c10q_stacked_arms.py` | `9dec3185fd5dbcb08651023fba123b2238f761e7cb21ccb5033301054ef13731` |
+| `memit_dry_run/memit/.gitattributes` | `0d8fc1b86a58cb959c95bc6d62652b6a06ec8a1161d0fab6af1bcabbde43b630` |
+| `memit_dry_run/memit/.gitignore` | `8d0aba79068af0ed4093807588d236cfe576a1e7c08993549f65ec2e1cbc931b` |
+| `memit_dry_run/memit/CITATION.cff` | `974adb58a9fd1e6a2375244d22c8601a3a614257b006c534863ade12056a9514` |
+| `memit_dry_run/memit/LICENSE` | `46c273d5a0a7f8bc3889863398e1bb20493e256f38033dfd637ec46bf654c531` |
+| `memit_dry_run/memit/README.md` | `e14b1c0aff11f1ebb5b427115cdd660892e0305bb868102c1330299017b69b13` |
+| `memit_dry_run/memit/baselines/README.md` | `e44248aeb435f44301544b39c92195baa1367552978f9f20060a186c1c223e95` |
+| `memit_dry_run/memit/baselines/ft/__init__.py` | `19646aa4d3c5b6fd8dc0032aab1cee6afc7ab24e7404c5c657cadbdd077ea0fd` |
+| `memit_dry_run/memit/baselines/ft/ft_hparams.py` | `fdd83bbc0cb87ebc1b6aae238a38798aab6e2b8b1723e666e797c1c5df851ab1` |
+| `memit_dry_run/memit/baselines/ft/ft_main.py` | `ce8bffb4716a6ec97c5690a10b7be585da6d009028f6d77c9ac7907caaea378a` |
+| `memit_dry_run/memit/baselines/mend/README.md` | `43f8919beb3498934f0282763523db4f1b0825d98c103bbd4230fce52e756076` |
+| `memit_dry_run/memit/baselines/mend/__init__.py` | `ce6f24b656aa412ba07c893dd6fa37001d0a148312c9fd5b823ac27c83e145b0` |
+| `memit_dry_run/memit/baselines/mend/algs/enn.py` | `fcde13387249220bf8ccde0c8bf174f6444a956806f86aee0c4c1a0c062e3a90` |
+| `memit_dry_run/memit/baselines/mend/algs/ft.py` | `c60355576cac69dbca0816a4747cbb7bbba7a2352d0e7edb2191d870450eeff7` |
+| `memit_dry_run/memit/baselines/mend/algs/mend.py` | `3d94e338ff9efe07815d9d4d339485e9abaa17af555f88d0adacb0a3ad19eca5` |
+| `memit_dry_run/memit/baselines/mend/config/alg/efk.yaml` | `6d8a009b23a6d15971f0fd3f41f446e55f9f439ddd4f37f37e003a9ba39c3d4b` |
+| `memit_dry_run/memit/baselines/mend/config/alg/enn.yaml` | `5d57b48f592317500c828b93650db753917781cacae4b72afbaf6af7bcdfff96` |
+| `memit_dry_run/memit/baselines/mend/config/alg/ft.yaml` | `f2ed848825e236de2073930e6bea4faf2ca1f6c828a7f84d79fad54a0b7e607d` |
+| `memit_dry_run/memit/baselines/mend/config/alg/mend.yaml` | `bce5e203d627552b2caf8d1a3b185ccaf28773b285a17a9f27538a86fe9eea87` |
+| `memit_dry_run/memit/baselines/mend/config/config.yaml` | `d46810afd50bf9dc19b443df22f7c77ee88ae03f7540bb7939b6eeaba4079d96` |
+| `memit_dry_run/memit/baselines/mend/config/experiment/fc.yaml` | `678a899a35e0840de77f5fea74236c9f0d8b9ea4f0b8e1a05b981cfac131a043` |
+| `memit_dry_run/memit/baselines/mend/config/experiment/gen.yaml` | `c208288115ae91d8cd47dfcc6c157e94d41657eebef327700363ed288f9dbee3` |
+| `memit_dry_run/memit/baselines/mend/config/experiment/qa.yaml` | `038666cff47e927cc70891afcc2efd0f62898274d0287f1ab0719c3771394027` |
+| `memit_dry_run/memit/baselines/mend/config/model/bart-base.yaml` | `25eac9c87259e197ecf587413f4660098b779c6b21fa1cc6584e7d64b1479475` |
+| `memit_dry_run/memit/baselines/mend/config/model/bert-base.yaml` | `49ff1dc40a3306dd7649f697c134e6ed0f83e5382038f18962793f3eca410e01` |
+| `memit_dry_run/memit/baselines/mend/config/model/distilgpt2.yaml` | `ba77ac0a70e92efac417a8f9b2aa25872f4c0152ae7e6bcb7a1a1c394e88a0d7` |
+| `memit_dry_run/memit/baselines/mend/config/model/gpt2.yaml` | `6c9ac030faea26cfa57a21d10713298b5b05e2acfcda057db9ef8b7797e0182d` |
+| `memit_dry_run/memit/baselines/mend/config/model/gpt2large.yaml` | `feeab1704c76f5917876da5c631940dfde806dfdf0bf37f704ae29e8081c016c` |
+| `memit_dry_run/memit/baselines/mend/config/model/gpt2medium.yaml` | `a943050f9ad67b30e16e312d0a63b8dff6518a582e5c49d4f36475931dee5dc6` |
+| `memit_dry_run/memit/baselines/mend/config/model/gpt2xl.yaml` | `5eb704b1c06b3636eb62db43614f87650412d08c2c6f374555187c194f031429` |
+| `memit_dry_run/memit/baselines/mend/config/model/gptj.yaml` | `0f3fe0caa24560fc62ffe7c2752cc23b5216bf99291d0fe969a55026982e4868` |
+| `memit_dry_run/memit/baselines/mend/config/model/gptneo27.yaml` | `809ce5da7d801f0b9c7ffc1b4b53632b23c7c8544f5dd1a401b8be4d3f17a46a` |
+| `memit_dry_run/memit/baselines/mend/config/model/t5large.yaml` | `109cf49c1cb32333e492e79d9974fa3e75f8c9a0459d40c872571e4eb13c85d5` |
+| `memit_dry_run/memit/baselines/mend/config/model/t5small.yaml` | `cee5cfbb9295137f1ecf154949c55f0f76254941d9cb48ecdd66bc6decd1a929` |
+| `memit_dry_run/memit/baselines/mend/config/model/t5xl.yaml` | `e9611b81bd40bb80c21f462b195095deabab3d3d6ac344165ba16a3ec45bc5a6` |
+| `memit_dry_run/memit/baselines/mend/config/model/t5xxl.yaml` | `690ee1486411befec7312a0e37ed4ef615a57e1c74e4f7bea39ed6f87530d427` |
+| `memit_dry_run/memit/baselines/mend/data_classes/fever.py` | `098397ce1214eb8cce6b90c8ba6ebd67024afcbc2f58ccaf887b5a365732308a` |
+| `memit_dry_run/memit/baselines/mend/data_classes/nq.py` | `f8d8dfaadf866e82c50e4c5bfef14a9b54aa5799aca3cea8f403f0461ba61f69` |
+| `memit_dry_run/memit/baselines/mend/data_classes/wiki.py` | `60ea3f99dcb4386f38454fdda9b7a65963df76240ce516d093e396a969576627` |
+| `memit_dry_run/memit/baselines/mend/data_classes/zsre.py` | `2acb707212802d65a55f46ada4381af330ff1cc9842ed9c56326de14b0711581` |
+| `memit_dry_run/memit/baselines/mend/editable_model.py` | `34330a12b9864001ea46ecae794df1ea85cedb38082df783b31d67cc8939e245` |
+| `memit_dry_run/memit/baselines/mend/hooks.py` | `b6037d8f9778f2d74952dafe3acc76f761df6884d85e9b5b57559cd08f7d2d6f` |
+| `memit_dry_run/memit/baselines/mend/losses.py` | `271a10d9e995ffd92c2de239f652928d651013f8a0889bd4205ffca1469127e8` |
+| `memit_dry_run/memit/baselines/mend/mend_hparams.py` | `071bc2c833cd1362906eee12b081c272650f909e9c93389bb05be86ae8626eb3` |
+| `memit_dry_run/memit/baselines/mend/mend_main.py` | `7e72af6f626798696f50c81ad72276f4807422bd365d5d6f130ca7e2852f53b5` |
+| `memit_dry_run/memit/baselines/mend/models.py` | `2e94d797f3813d57a532c676ba6609a91e89eb36bdfb8479bc092dccc5ce4420` |
+| `memit_dry_run/memit/baselines/mend/nn.py` | `ffca4fb48675c4c6cf56bb9cbbff8ce50f2c46eb8fdbfc6a7e1b6308acddab92` |
+| `memit_dry_run/memit/baselines/mend/oracle.py` | `d3657df3b292a4c78564c59b9a07ccdb8e6ff74b111cd489e38c5e5112ad4b1b` |
+| `memit_dry_run/memit/baselines/mend/requirements.txt` | `17082daf26c99220b8bfff81f282ca445e19b6ee69835f31009a4ce0d0ed20cd` |
+| `memit_dry_run/memit/baselines/mend/run.py` | `2e57976fb507bc5bc27f88ea8a7bacd7b2a75d6b45170ed4870643ae5ce74765` |
+| `memit_dry_run/memit/baselines/mend/trainer.py` | `91c9d6378c0cbe6340cf4591618a68aa70f805059a01881f43c71859e001dcb1` |
+| `memit_dry_run/memit/baselines/mend/utils.py` | `bb981c845c07709efa4e81610ec575be7e3f3b909a42b79610a47044c04c0554` |
+| `memit_dry_run/memit/dsets/__init__.py` | `a2e1c9d7a56af0b091a48cb313a356cdb1a923e1bb046d73bd0d1e10c7b0d907` |
+| `memit_dry_run/memit/dsets/attr_snippets.py` | `bf78972d9914919e0a0b7d7d93623b3f51b8684f691e909793b5cd5471d6f01a` |
+| `memit_dry_run/memit/dsets/counterfact.py` | `7848e935a578c40e187167a2894601b0dbf42d2334b5289a012276ea1eb672b5` |
+| `memit_dry_run/memit/dsets/knowns.py` | `e2428c36d17b0dec1f390888a98334bd0fd1f64168bffae7566ef8a8606f361e` |
+| `memit_dry_run/memit/dsets/tfidf_stats.py` | `34f03d97b0b1aaad33e75a211a3d6b502cfb9eace1c172320df6ceb713d600c9` |
+| `memit_dry_run/memit/dsets/zsre.py` | `a6281375afd9983337c154095fe9aba59c74c36fa34ecfb12838c7b5c341670e` |
+| `memit_dry_run/memit/experiments/__init__.py` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `memit_dry_run/memit/experiments/causal_trace.py` | `9436fd596a39e240a01121da601359bea5d0b3a350c0faa34aa8b0ccac05560b` |
+| `memit_dry_run/memit/experiments/evaluate.py` | `4ef8e138bb8003c8486935ad0eae86d9ccd84bb61cfa1f88b63f0ed06c2d1760` |
+| `memit_dry_run/memit/experiments/py/demo.py` | `268c16a1c2c4e8642b7641739c2cd0808c08be80f36f280d1e5bef4944733772` |
+| `memit_dry_run/memit/experiments/py/eval_utils_counterfact.py` | `b00d9810305580dddfeb5e65129db4d56bcbfee1edf020605e21bf4f5033aeb7` |
+| `memit_dry_run/memit/experiments/py/eval_utils_zsre.py` | `e4f18c84a813d0a2fb9a5c9426726844117fe365cae72107d51f304a264d77a8` |
+| `memit_dry_run/memit/experiments/summarize.py` | `7de8f5eec86243807825cf9f62923535f853cce07d2d3248534f86320f229372` |
+| `memit_dry_run/memit/experiments/sweep.py` | `bfc7a91e9abb526814f7d975a81ff0333e930b452e2da58b31dc2ae8a10cce74` |
+| `memit_dry_run/memit/globals.yml` | `86ab5194b3cddc19c14173a3b8f13563c554d252666eb563a4ac2f919e087459` |
+| `memit_dry_run/memit/globals.yml.upstream_default.20260430T035736Z` | `f05226b5d0b64a25106fbfa2da3b4de3b69d8e6797c7757f8a6679756820845c` |
+| `memit_dry_run/memit/hparams/FT/EleutherAI_gpt-j-6B_constr.json` | `018e27089431ed3632aa0b8f2f1b4aa51daa81ba39f24952a400a92df84fa28b` |
+| `memit_dry_run/memit/hparams/FT/EleutherAI_gpt-j-6B_unconstr.json` | `1d605b748ed9709efb19d3f04c82de2d1ff12c81144c1d6621e72408f838d098` |
+| `memit_dry_run/memit/hparams/FT/EleutherAI_gpt-j-6B_wd.json` | `5161e47c66580d13524abc1bbbb42b146163ff2f51121a4c74f23679bbad8254` |
+| `memit_dry_run/memit/hparams/FT/gpt2-large_constr.json` | `48298eec3688c393dcf610e114b30a521fa3d8b5fc7fb5d5e938f61996f93d19` |
+| `memit_dry_run/memit/hparams/FT/gpt2-medium_constr.json` | `fd1b7a80dff0e6d1c8e32c38b0ab620505ed1668d366d292a5776a49d2d7e23d` |
+| `memit_dry_run/memit/hparams/FT/gpt2-xl_attn.json` | `28348947fe372113c6fc9d0a1b851121dbf8e198311ae7d573b4b6f8173a477b` |
+| `memit_dry_run/memit/hparams/FT/gpt2-xl_constr.json` | `6f1a26e915b2fc5a203443322aa224f4dd47150117f1cc5d1ee7f8026108047f` |
+| `memit_dry_run/memit/hparams/FT/gpt2-xl_unconstr.json` | `484393773f7a18844dd7c7f212673e4a8113515f0dfcc29c9d02c494f13bb137` |
+| `memit_dry_run/memit/hparams/MEMIT/EleutherAI_gpt-j-6B.json` | `ac1c641470c003032f15cf3f3db088e215f289535b7ea8c171ccb1235cd7bf43` |
+| `memit_dry_run/memit/hparams/MEMIT/Llama-3.1-8B.json` | `bea608d313845440ebe5a3887034b271bca431dff10a6d09a8237c3256f894f2` |
+| `memit_dry_run/memit/hparams/MEMIT/gpt2-xl.json` | `2c2ff7e8f3ff8b33cca2966a628f92f8b56bba72af51ca9af57d6c30a1c342d4` |
+| `memit_dry_run/memit/hparams/MEMIT/meta-llama_Llama-3.1-8B.json` | `61007b61dd2119cbd281ba10d89fb3d34bdcfe03cfce4da542a0729e261caf12` |
+| `memit_dry_run/memit/hparams/MEND/EleutherAI_gpt-j-6B.json` | `d1e7bbd8a8486cda08af026c7cfdcc12b3a4fac3fab738a528e11adb8e52d97b` |
+| `memit_dry_run/memit/hparams/MEND/EleutherAI_gpt-j-6B_CF.json` | `b30a5f403fa4972201d1ca994c70b3c6dbd396d7163bd502bc1cbe571e87d44c` |
+| `memit_dry_run/memit/hparams/MEND/gpt2-xl.json` | `fe1a786ca540a3dee435621a56659d070b52b0354f85d08f9c0874f2e3d8fb79` |
+| `memit_dry_run/memit/hparams/MEND/gpt2-xl_CF.json` | `5691b370fc2b8540d2c28d608d53e2328005ce5b933ab9e04726bde7cf93f44e` |
+| `memit_dry_run/memit/hparams/MEND/gpt2-xl_zsRE.json` | `f6b0cc610281f474f702075064fe5eef83e0e7925d7f7d51036ee1fbc03a999a` |
+| `memit_dry_run/memit/hparams/ROME/EleutherAI_gpt-j-6B.json` | `85e44438c5a6bcd7769d73efadd10507f2b7ec7eeaa0330a310e351d2676fdff` |
+| `memit_dry_run/memit/hparams/ROME/EleutherAI_gpt-neox-20b.json` | `fadf233859d46cf02ef219f74bced47652d277cd392de51c7c1ce6585d1d60b9` |
+| `memit_dry_run/memit/hparams/ROME/gpt2-large.json` | `2c5cb903948c6e261d2bb9aa2e9dfbd20ac30d38a2669054a25defcaed4a13ed` |
+| `memit_dry_run/memit/hparams/ROME/gpt2-medium.json` | `3a6b72ddf9e0b859e6909a1e144c5bb6958852a0e4fef36db0e4424c424c1913` |
+| `memit_dry_run/memit/hparams/ROME/gpt2-xl.json` | `81a98b788b8fbb89718288a8831441200e7d824fd057f62cb7d913ae4da5cf42` |
+| `memit_dry_run/memit/memit/__init__.py` | `911cc037562a368ca7017ea66f4821c5a848f286a55b7d624c242209afcd01df` |
+| `memit_dry_run/memit/memit/__pycache__/__init__.cpython-311.pyc` | `29e09585ec894fc0109aa73db6f1de88df5087ac3e70069f069c7dba782a4287` |
+| `memit_dry_run/memit/memit/__pycache__/compute_ks.cpython-311.pyc` | `9acefffad173c67f9d03a1c0705145f2ee6b5aef1679f0fbd7cd0c49495d544e` |
+| `memit_dry_run/memit/memit/__pycache__/compute_z.cpython-311.pyc` | `f3c78b5d8be2df307cc3bde53fc02a878469fc8f5c3473bf3a415b0dca3bd156` |
+| `memit_dry_run/memit/memit/__pycache__/memit_hparams.cpython-311.pyc` | `d869204c04046a2ba2bc9e519fb324757b2bdad306d9365a6ce861ad687760f6` |
+| `memit_dry_run/memit/memit/__pycache__/memit_main.cpython-311.pyc` | `4432d0eb89db771924edde06dd958544f8f598c74297aa38e5250f713e12aeff` |
+| `memit_dry_run/memit/memit/compute_ks.py` | `0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7` |
+| `memit_dry_run/memit/memit/compute_z.py` | `d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea` |
+| `memit_dry_run/memit/memit/memit_hparams.py` | `1b229b882b031ddbb59f06ad6ba58d5c33b17826bbfddf80f767e96931b595b2` |
+| `memit_dry_run/memit/memit/memit_main.py` | `d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65` |
+| `memit_dry_run/memit/memit/memit_main.py.pre_p7_backup` | `4b5c6478da463bb174036a3a0495d7786f8e4d207ee7021a7e9afb6aef977168` |
+| `memit_dry_run/memit/notebooks/average_causal_effects.ipynb` | `35598748d8ce10af976c8f2be331fdf5eb6081dcd1d564f4ec753258c0c2cafb` |
+| `memit_dry_run/memit/notebooks/causal_trace.ipynb` | `755a31d3d4a34b56e253e21b4171f944e31a4e57fa8a9c38440f6e6731ab2711` |
+| `memit_dry_run/memit/notebooks/causal_trace_frozen_mlp_attn.ipynb` | `0b3837b24d70939e44b2fbba5757f4f19e888bf858445714c0bcb574170d4fe0` |
+| `memit_dry_run/memit/notebooks/globals.yml` | `86ab5194b3cddc19c14173a3b8f13563c554d252666eb563a4ac2f919e087459` |
+| `memit_dry_run/memit/notebooks/memit.ipynb` | `dc79c89862a9ef57dd6cdf46715c716ef60103f97314b1f9fb5fff3be88f7235` |
+| `memit_dry_run/memit/notebooks/vis/globals.yml` | `86ab5194b3cddc19c14173a3b8f13563c554d252666eb563a4ac2f919e087459` |
+| `memit_dry_run/memit/notebooks/vis/table_population.ipynb` | `a5b6eb40955acbf7b37068ea782b04cfcb56794c6738b4eefbc3f38daff03ced` |
+| `memit_dry_run/memit/notebooks/vis/table_population_zsre.ipynb` | `c34799ceafdcad5220b5d871989cda93de581419741c861c38bd62f63d0cac85` |
+| `memit_dry_run/memit/notebooks/vis/visualize_multi_results.ipynb` | `05d42e5d00021f4a435c23ffc88dcc919597c744136be2607f86e1a94d71304e` |
+| `memit_dry_run/memit/notebooks/vis/visualize_sweep_results.ipynb` | `58ae1129dd40e1f6620e77ae24f1f74417ed3e1c2487ebcec552025c6313f008` |
+| `memit_dry_run/memit/rome/README.md` | `4711e2605517fe1308cccd59748761e19342b4c0b0b26d2a9a32bbf3a93f94a6` |
+| `memit_dry_run/memit/rome/__init__.py` | `87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a` |
+| `memit_dry_run/memit/rome/__pycache__/__init__.cpython-311.pyc` | `174f5c000e030c096a7b21ec71e06661f3f348de8f2e3ad608fae32c8b8b5fe5` |
+| `memit_dry_run/memit/rome/__pycache__/compute_u.cpython-311.pyc` | `e70218d4d08afdabbc8d1ae688ec4024b13175bbf2d822f1f79fb7087b063035` |
+| `memit_dry_run/memit/rome/__pycache__/compute_v.cpython-311.pyc` | `b0da9115e983294a3b570dee6ebec70f40de5b41aa0205420857b5a8b55f90ef` |
+| `memit_dry_run/memit/rome/__pycache__/layer_stats.cpython-311.pyc` | `440de9a4e69c8f72a3a6c32cdf88808d9ba2b3b5fb433c702d68b08af2e93e6c` |
+| `memit_dry_run/memit/rome/__pycache__/repr_tools.cpython-311.pyc` | `7bc5434b08f4c6af21441c85d4715e5af2239dce3233f3f1aa7ca363068fd972` |
+| `memit_dry_run/memit/rome/__pycache__/rome_hparams.cpython-311.pyc` | `7f48846aa72e1a408396ba4d7f5f2c7d6f1e77ae3d96a936b47347c232e22148` |
+| `memit_dry_run/memit/rome/__pycache__/rome_main.cpython-311.pyc` | `68472f450355954b30697accbc0bd931633dc4335eea51ef5632347ab1d04e81` |
+| `memit_dry_run/memit/rome/__pycache__/tok_dataset.cpython-311.pyc` | `0131138a2f4c2e647c345a854f9aa4cd11b882b09ab9f9a92dadaca667e37a32` |
+| `memit_dry_run/memit/rome/compute_u.py` | `06a73593171eecdd03ab90d45daa2c6096b4335847f0c73bda9d834cdfb1d72d` |
+| `memit_dry_run/memit/rome/compute_v.py` | `07f35ecec4b2a20a33318d75b040ae6c1fc5fd2122a90c92e32e361ef730d9eb` |
+| `memit_dry_run/memit/rome/layer_stats.py` | `43693c64b061f3cdaa087447e47ddc10fb26fd597dd405eb0644d71ede2fe2d5` |
+| `memit_dry_run/memit/rome/repr_tools.py` | `d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336` |
+| `memit_dry_run/memit/rome/rome_hparams.py` | `1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5` |
+| `memit_dry_run/memit/rome/rome_main.py` | `44ff978bd0d68839ff2f94f475a71fdac19a53a4ef263c1d74693ebfd5b40ba5` |
+| `memit_dry_run/memit/rome/tok_dataset.py` | `37f775943d5040702ae21252db579f6aa116dacc4dd93c227c44cf9b3481a1a0` |
+| `memit_dry_run/memit/scaling_curves.sh` | `4c89f3d257f67b3e9a1ae40fe81192bfc48c0a2f40b7f2dba9adc4f2bd97efa4` |
+| `memit_dry_run/memit/scripts/causal_trace.sh` | `87bdd627bb58c82bf0f67841705bb95317d49f59eb1beab9d405126fd4d54600` |
+| `memit_dry_run/memit/scripts/colab_reqs/additional.txt` | `3d49f4e0bb2b079bb2fec81b178bb0a27ebc4f8085c496727e299f16aa852fb2` |
+| `memit_dry_run/memit/scripts/colab_reqs/rome.txt` | `de3f292db754a685905c34d079d097b95e3e7de102af06aedbfba42940d29564` |
+| `memit_dry_run/memit/scripts/collect_layer_stats.sh` | `ca9be52a8845851b9b17d8b92b0ac3d7333b3ea7bac339db4c1daa0deda7c60a` |
+| `memit_dry_run/memit/scripts/ipynb_drop_output.py` | `62a17e64c2de0448962fda6e0914a80e354361fea73b4363fc5287b92e4ca635` |
+| `memit_dry_run/memit/scripts/memit.yml` | `28d8b635eed02cdb8d1fb36d8990a5347c1b88dfffcea71105febc8a91d98f83` |
+| `memit_dry_run/memit/scripts/setup_clean_ipynb.sh` | `55533d28e032731eb1f0c91154ecf14092c23cf4d1f11be90a8304aa58e3338d` |
+| `memit_dry_run/memit/scripts/setup_conda.sh` | `3d78078734cb1a45b0b448dafd5cc09b92496b89bcc8aabae057ee1fdb17e2f3` |
+| `memit_dry_run/memit/util/__init__.py` | `0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d` |
+| `memit_dry_run/memit/util/__pycache__/__init__.cpython-311.pyc` | `db80aa1f656186a86bae309617717d6958528f2d358abe0f656acf2c769704c2` |
+| `memit_dry_run/memit/util/__pycache__/device.cpython-311.pyc` | `b2cd7e432ddf59d90620450e3737a71784530a9f690bdca3d7156f116d603757` |
+| `memit_dry_run/memit/util/__pycache__/generate.cpython-311.pyc` | `fa2a8446bf235e811752c2db8c04050864747ce541485c9a52ab9d3dae043b50` |
+| `memit_dry_run/memit/util/__pycache__/globals.cpython-311.pyc` | `ce42162a322e75796375c0b0ab3bb732d882cb3127e85ab0dac890588b5de55a` |
+| `memit_dry_run/memit/util/__pycache__/hparams.cpython-311.pyc` | `635c8abe561839a3fa9b91f7728d52899f7577c3a614a2a5b79a0736d6c41c73` |
+| `memit_dry_run/memit/util/__pycache__/logit_lens.cpython-311.pyc` | `038eea0405aab634ef32849c1c3312333297fbad3d9e25ce7d8b4960aaa0938b` |
+| `memit_dry_run/memit/util/__pycache__/nethook.cpython-311.pyc` | `58527b861ba2cdb71ecd7de3380eea7e28f4c7dcbe5938a65ee7e5a00bc20c39` |
+| `memit_dry_run/memit/util/__pycache__/runningstats.cpython-311.pyc` | `652d9894a24dbfb428ffd3de41e21b98d50d318a8581a970b100b6c81de54a0b` |
+| `memit_dry_run/memit/util/device.py` | `868627783827f03763ba9c210de2ddbd607e050330eccf7757fccfd9e985cf2b` |
+| `memit_dry_run/memit/util/generate.py` | `3764cb8a0a1b3f28c17d8aab3028b33d2127ba4e02e8dbc253025791a9ab2514` |
+| `memit_dry_run/memit/util/globals.py` | `ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2` |
+| `memit_dry_run/memit/util/hparams.py` | `09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0` |
+| `memit_dry_run/memit/util/logit_lens.py` | `0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4` |
+| `memit_dry_run/memit/util/nethook.py` | `20e84c9413518af3aee76762071f823cbe5d75c4658e4ffa7bdab045df735f7c` |
+| `memit_dry_run/memit/util/perplexity.py` | `e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e` |
+| `memit_dry_run/memit/util/runningstats.py` | `7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97` |
+| `memit_dry_run/memit/zsre_evals.sh` | `a5f8ca93642cab1e18bdfc917255ea64323b2c3261d0cb4634e235bbbbf00d2f` |
+| `tools/engine_fingerprint.py` | `450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162` |
+
+All **21 held artifact hashes** equal before/after, including both HALTED C10X output trees and logs, pinned templates, prior probes, and the operator's named rerun1 diagnostic. No old result, diagnostic or log was repaired. The prior **298,809 report bytes** are retained exactly as a prefix (SHA `c422274b68affcda4c01ec8b48264b8958552d8773dde4d123eb054214fcf2d5`). Full held-artifact evidence:
+
+| Held artifact | Before SHA-256 = after SHA-256 |
+| --- | --- |
+| `architecture_profile/c10x_halt_diagnostic_20261008T212435_844926Z.json` | `785c9909a578f8be53b809c438663bf65dc4d264e023736b3b223fff88be448b` |
+| `results/c10x_enginepath/audit_A1_single.pt` | `5e93b31e01b1ea5fbabce97b12c2963302ce20bc58c1e7ebad4cf76e7d2eccc5` |
+| `results/c10x_enginepath/audit_A7_coined_coined.pt` | `342102323aee4a008da4f2e45db4997dfb35b5c74a4c66db2b851ddee7317329` |
+| `results/c10x_enginepath/context_templates.json` | `0c6d90ee5e90e19c0174c6d2e085f3cf4454dfcd85c0f935fb1cc107afac2bfe` |
+| `results/c10x_enginepath/run.json` | `a26d39cd9a32ec05174741d6d3ebfbf5a940565f81d3a76e1500e3b991d5b348` |
+| `results/c10x_enginepath/stage.json` | `1f355edd4687c38ba921d8ce2909b0093f6eb52ed2642fe15d6b38402c62270e` |
+| `results/c10x_enginepath_logs/preflight.json` | `b68e525278166ca71d4ddd64c95e28210540c0f7733dac18ee9d8eb054cdf0ac` |
+| `results/c10x_enginepath_logs/process.log` | `7597d7b3f1ce1f221bf652cb2cd522fe8bf1b62c7ec99757ffb5c2fc1dfc59cf` |
+| `results/c10x_enginepath_logs/supervisor.json` | `fcea2adb5d1a50497d921e7667c5bec9908a8eb7be2194a789a69ad6e7110242` |
+| `results/c10x_enginepath_rerun1/audit_A1_single.pt` | `5e93b31e01b1ea5fbabce97b12c2963302ce20bc58c1e7ebad4cf76e7d2eccc5` |
+| `results/c10x_enginepath_rerun1/audit_A7_coined_coined.pt` | `342102323aee4a008da4f2e45db4997dfb35b5c74a4c66db2b851ddee7317329` |
+| `results/c10x_enginepath_rerun1/context_templates.json` | `0c6d90ee5e90e19c0174c6d2e085f3cf4454dfcd85c0f935fb1cc107afac2bfe` |
+| `results/c10x_enginepath_rerun1/run.json` | `ebe34272e2828928905b9e191f62d091798616f2c3f31ac58e3fc737beb2d0aa` |
+| `results/c10x_enginepath_rerun1/stage.json` | `0611609535ae6d4ab9110e724061f16da796ac8ebe9e8785dbc0905be000e165` |
+| `results/c10x_enginepath_rerun1_logs/preflight.json` | `3fce00c7762c6e508aab734096dca1d40ba2426820ab96eba30504700753a222` |
+| `results/c10x_enginepath_rerun1_logs/process.log` | `578f0c3ad03c455b177ff51dc5bb95e69907e86c0dbe8277969db44002a606d7` |
+| `results/c10x_enginepath_rerun1_logs/supervisor.json` | `74a9ae6f2c63ff0c9d65216040ae072810af6a07c8be530034d8b2ce48de0b8a` |
+| `results/c10x_x2_probe/20261008T171001_323402Z/probe.json` | `45b1fa22f234a7169664d562aab703cae82c2d9ddbc4c71113dd34c829443064` |
+| `results/c10x_x2_probe/20261008T171001_323402Z/probe.log` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `results/c10x_x2_probe/20261008T180513_659317Z/probe.json` | `77598ef8f4082f9f5ed6f2c6f69b97e33d61117465be75f21c08c1970e6a1da9` |
+| `results/c10x_x2_probe/20261008T180513_659317Z/probe.log` | `26fe6dbbbf8df59c4692b1a1ee86824d08dc305f7abd4a8cea4747d1aca8eb2f` |
+
+Post-build porcelain below includes unowned live/historical paths and configuration entries. It is not a global clean-tree claim; these entries were not modified or cleaned up by this arc. The full capture is in `git_status.txt`.
+
+```text
+ M .gitignore
+ M experiments/track_c/c10x_enginepath_arms.py
+ M experiments/track_c/c10x_enginepath_inertness.py
+ M experiments/track_c/c10x_enginepath_selftest.py
+?? .ignore
+?? architecture_profile/c10w_oracle_halt_diagnostic_20261008T060601_334913Z.json
+?? architecture_profile/c10x_halt_diagnostic_20261008T160002_759184Z.json
+?? architecture_profile/c10x_halt_diagnostic_20261008T160004_981087Z.json
+?? architecture_profile/c10x_halt_diagnostic_20261008T212435_844926Z.json
+?? architecture_profile/c10x_halt_diagnostic_20261008T212438_817160Z.json
+?? architecture_profile/c10y_halt_diagnostic_20261008T160340Z_CALIB.json
+?? architecture_profile/c10y_halt_diagnostic_20261008T172204Z_CALIB2.json
+?? architecture_profile/c10y_halt_diagnostic_20261008T174209Z_CALIB3.json
+?? architecture_profile/c10z_astra_halt_diagnostic.json
+?? architecture_profile/c10z_astra_halt_diagnostic_20261008T124710.311412Z.json
+?? external_prior_art
+?? results/autoresearch_c10_equivalence_2026-10-06T0815.json
+?? results/autoresearch_reaim/
+?? results/c10w_oracle/p2_20261008T034226_086980Z/attempt1_halted/HALT.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/attempt1_halted/eval.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/attempt1_halted/eval_halt.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/eval.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/preflight.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/reattempt2_dispatch.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/reattempt2_dispatch_entered.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/reattempt2_eval_started.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/train/
+?? results/c10w_oracle_logs/attempt1_halted/
+?? results/c10w_oracle_logs/p2-a1-s1.gate.20261007T220211.50811.json
+?? results/c10w_oracle_logs/p2-a7-rt.gate.20261007T220753.90179.json
+?? results/c10w_oracle_logs/p2-a7-s1.gate.20261007T214226.17018.json
+?? results/c10w_oracle_logs/p2-canon-s1.gate.20261007T215636.11061.json
+?? results/c10w_oracle_logs/p2-eval.gate.20261008T030455.59962.json
+?? results/c10w_oracle_logs/p2-read-attempt2.json
+?? results/c10w_oracle_logs/p2-shuf-rt.gate.20261007T221517.41222.json
+?? results/c10w_oracle_logs/p2-shuf-s1.gate.20261007T214924.63725.json
+?? results/c10w_oracle_logs/p2_launch_fingerprint.txt
+?? results/c10x_enginepath/
+?? results/c10x_enginepath_logs/
+?? results/c10x_enginepath_rerun1/
+?? results/c10x_enginepath_rerun1_logs/
+?? results/c10y_directdw_calib1/
+?? results/c10y_directdw_calib2/
+?? results/c10y_directdw_calib3/
+?? results/c10z_astra/
+?? results/c10z_astra_attempt2/
+?? results/c10z_astra_benchmark/20261008T104535Z/heartbeat.json
+?? results/c10z_astra_benchmark/20261008T104535Z/run.json
+?? results/c10z_astra_benchmark/20261008T104535Z/svd_child.json
+?? results/c10z_astra_benchmark/20261008T121345Z/heartbeat.json
+?? results/c10z_astra_benchmark/20261008T121345Z/run.json
+?? results/c10z_astra_benchmark/20261008T121345Z/svd_child.json
+?? results/infranodus_research_arc_2026-10-05/fulltext/
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus-transcend-corpus-topics-C10.txt.rtf
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus-transcend-corpus-topics-C10_2.txt.rtf
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1207.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1215.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1217.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1219.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1220.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1222.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1223.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1228.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1230.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1233.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1235.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1238.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1240.json
+?? results/infranodus_research_arc_2026-10-05/part2/q10_layer_selection_residual.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q11_nullspace_generalization_tradeoff.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q12_oov_entity_editing.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q14_rephrase_robustness_weight_editing.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q15_fictional_entity_weight_update.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q1_subject_embedding_editing.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q4_key_collinearity_interference.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q5_novel_entity_continued_pretraining.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q7_frame_vs_subject_recall.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q8_editing_overfit_paraphrase.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q9_covariance_regularization_editing.txt
+?? results/infranodus_research_arc_2026-10-05/segments/
+?? results/labviz/
+?? results/labviz_codex_brief.md
+?? results/labviz_codex_impl.md
+?? results/labviz_v2_codex_impl.md
+?? tools/labviz_serve.sh
+```
+
+Scoped git diff summary (relative to git baseline; task-relative patch is `final_patch.diff`):
+
+```text
+ experiments/track_c/c10x_enginepath_arms.py      | 125 +++++++++---
+ experiments/track_c/c10x_enginepath_inertness.py |   9 +-
+ experiments/track_c/c10x_enginepath_selftest.py  | 236 ++++++++++++++++++++++-
+ 3 files changed, 339 insertions(+), 31 deletions(-)
+```
+
+### Review and final source identities
+
+The [advisor-review](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.codex/skills/advisor-review/SKILL.md) contract and [test-driven-development](/Users/robertrhu/.agents/skills/superpowers/test-driven-development/SKILL.md) were applied. A current Claude auth probe returned exit 1, `loggedIn=false`, `authMethod=none`, so the before/after review used a fresh, read-only `/root/json_boundary_refute` fallback. Its weaker same-family independence is retained. The implementation review first returned FIX-FIRST for previous-stage deadline attribution, then **GO, no remaining static blocker** after the test-first correction. The reviewer executed no workloads; its runtime status is UNVERIFIED. The author's final 96-test CPU execution is separate evidence. Design and corrected final review artifacts are linked by their hashes below.
+
+Objections remaining against this repair: **none blocking**. Live/model/MPS scientific behavior is **UNVERIFIED**. Numeric/boolean coercion is scoped to the actual frozen scorer's scalar domain; this build does not change scientific input semantics or claim arbitrary malformed scorer-value equivalence. Existing bootstrap-refusal behavior is preserved as stated above. No program launch admission or dispatch is inferred from CPU PASS or the fallback review.
+
+| Source | Final SHA-256 | This arc |
+| --- | --- | --- |
+| `experiments/track_c/c10x_enginepath_arms.py` | `469c92ec8a606e4f5a4b61b17ee16d28284c6b2d21e8eeaa8b9b6383b84e98bb` | changed |
+| `experiments/track_c/c10x_enginepath_inertness.py` | `cb722d0bfe844361859dbabcb4c0f10cd86f10f72a4fb075a6a667b04d3dabe2` | changed |
+| `experiments/track_c/c10x_enginepath_read.py` | `b17e588a8c8f6ff3d8ee5f3dc118fd8837bd9e26b7bdf33e343599ce671c2057` | unchanged |
+| `experiments/track_c/c10x_enginepath_selftest.py` | `65fceeefaa14e78ecb93a31edfc8c19bb22924143c9dba984a34a26785a37b35` | changed |
+| `experiments/track_c/c10x_enginepath_telemetry_check.py` | `e95beb2cef310fa1050ccb4a2b60ac8224f493ea4d513d97868f3b9a9c99fe80` | unchanged |
+| `experiments/track_c/c10x_overtone_z.py` | `8b32ca840c1451624ba5f46143a6e65a03ae69e968dd0e6180d04fa5683dac42` | unchanged |
+| `experiments/track_c/c10x_x2_probe.py` | `23bdf070c66f8af02bb4d38d22eaecdfffa04782339f500ce1572080d6a2b614` | unchanged |
+| `docs/C10X_ENGINEPATH_PREREG.md` | `d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899` | unchanged |
+
+| Private evidence (`/private/tmp/c10x_build/scorer_json_fix/`) | SHA-256 |
+| --- | --- |
+| `before.json` | `b94f069732cb4a973dd395f1829ffa86172bcebb0b1e93a5a40eebb5b6170a63` |
+| `design_review.md` | `84f3ff0bcc9e868f86b12d6579262c3e253c07cc8ca0cb3cad992dd911f1d440` |
+| `engine_fingerprint.log` | `15aef4acf47eb374ea93cf4f949a0022a287f56b646ac2b139f599af98b355e3` |
+| `final_patch.diff` | `406a31080fd78eae204632dea4ec56cc7c37c88e77e1fc8d46a90bfc4187134e` |
+| `final_review.md` | `e2090abef6a4f3bfc80f5bf6eba96342b2c4bee9e822059de6e503a65b2a38d1` |
+| `full_selftest.log` | `d13d28f890a715c2fed5ed3f44299891f7e6ea3a1bce24515209f086ddfe1541` |
+| `full_selftest_final.log` | `f5c88ccb1609be301422821a87251d87cbe0328f9c1d931528ef660d6bff1810` |
+| `git_diff_stat.txt` | `c3cb456480acd1763471aabd3cd25001e52c7edca44adfee61719a6cb62f93a1` |
+| `git_status.txt` | `17e9156737559a0a46c23088427aed190f080c15da82f630de9ced608fe5940f` |
+| `green_focused.log` | `94f4500e5dc3e9a494e883221fa6914dff0fa01a7d5b13ea410817474c6b94b9` |
+| `green_focused_final.log` | `0336920799e8ff6cc8207f1a0a78863a52235a9505dd361f51867f20aac58c56` |
+| `halt_observation.json` | `b16cb5b628ea5d8b87be33d450a884a9b974ece0c7e25cf36c81f49e06180f13` |
+| `red.log` | `fa5d2328e23f322ab21e13da983a3b2de9299e762c4f75fc83bf1c710cb67a16` |
+| `red_previous_deadline.log` | `9518ca32d01b8e34e878216bfff3082b9580fce944d002d00b3582a8e6560e2d` |
+| `red_receipt.json` | `4df200e7a91dbd4322b4e3a8d4036b550fecd0b1fe5ed7de52672469003ce97a` |
+| `sealed_evidence.json` | `d8cd2b79ac69b898ecbfff7d1e04f593331524aafe1ee9b56557ce36ab569188` |
+
+**Handoff:** preserve rerun1 as HALTED/incomplete; require a complete fresh process-1 rerun (`results/c10x_enginepath_rerun2/` plus matching logs), current source receipts, and the program's review/admission/GO before any live launch. The historical launch recipes earlier in this report describe their respective source versions; use the new source hashes for the next admitted run. No reader bypass, partial result admission or live command was executed in this build. Original frozen constraints and stage budgets are unchanged. The final preservation/report receipt and context handoff are in this arc's authorized private scratch directory.
+
+Graft: 78,300 tokens saved (~$0.04), two successful graph calls; the initial missing-Node availability failure saved none. Only the subprocess PATH was repaired; no package upgrade/install was performed.

@@ -298,8 +298,9 @@ def write_cell(H,hp,requests,P,targets,pristine,check,fe=None,mode='fe'):
                 legacy=writer(hp,requests,P,cache,mode=mode) if fe is not None else writer(hp,requests,P,cache)
             require([r['layer'] for r in updates]==hp.layers,'WRITE_CAPTURE_ATTRIBUTION')
             weights={l:dict(H.model.named_parameters())[H.weight_name(hp,l)].detach().cpu().clone() for l in hp.layers}
-            flags=[H.full_seq_match(t.format(r['subject']),H.tgt_ids(r['target_new']['str'][1:]))
-                   for r in requests for t in [H.CANON]+H.PTEST]
+            flags=[[bool(full),bool(first)] for full,first in
+                   (H.full_seq_match(t.format(r['subject']),H.tgt_ids(r['target_new']['str'][1:]))
+                    for r in requests for t in [H.CANON]+H.PTEST)]
             A.end_unit(started)
             return {'updates':updates,'cache':[cpu_copy(c) for c in cache],'weights':weights,'flags':flags,'report_only_harness_fp32':fp32_report(legacy),'residual_diagnostics':diagnostics}
     finally:
@@ -361,9 +362,9 @@ def direct_g8(H,hp,P,ctx,pristine):
     def observe():
         predicted=H.predict(prompt);post=H.predict(local_prompt)
         return {'probability':float(predicted['dist'][H.first_tok('Cairo')]),
-                'locality':H.locpct({local_prompt:post},{local_prompt:pre},[local_prompt]),
+                'locality':float(H.locpct({local_prompt:post},{local_prompt:pre},[local_prompt])),
                 'distribution':predicted['dist'].detach().cpu().tolist(),
-                'top1':int(predicted['dist'].argmax()),'locality_top1':post['id'] if 'id' in post else int(post['dist'].argmax())}
+                'top1':int(predicted['dist'].argmax()),'locality_top1':int(post['id'] if 'id' in post else post['dist'].argmax())}
     with pristine.cell('G8 engine'):
         with contextlib.redirect_stdout(__import__('io').StringIO()):
             H.apply_memit_to_model(H.model,H.tok,requests,hp1,copy=False,return_orig_weights=False)
