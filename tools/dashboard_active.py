@@ -4,11 +4,13 @@ Content, not tmux window_activity: a resize makes every idle TUI redraw identica
 as activity. Changes are observed by this process, so after a restart an idle session reappears only when it changes.
 Usage: python3 dashboard_active.py [--once COLS ROWS]
 """
-import os, subprocess, sys, time
+import os, re, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from dashboard_tile import render, sh, status, RESET, BOLD, FG  # noqa: E402
 
 ACTIVE_S = 1800
+MIN_COL = 60
+ANSI = re.compile(r"\033\[[0-9;]*[A-Za-z]")
 SKIP = {"dashboard", "dashboard_new", "helpers"}
 
 
@@ -36,19 +38,31 @@ def active_sessions(now, states):
     return [n for n, _ in sorted(act, key=lambda x: (x[0] != "program", -x[1]))]
 
 
+def pad(line, width):
+    """A tile line padded to its column width, so the next column starts aligned (ANSI codes take no width)."""
+    return line + RESET + " " * max(width - len(ANSI.sub("", line)), 0)
+
+
 def frame(cols, rows, states):
     now = time.time()
     names = active_sessions(now, states)
     head = f"{BOLD}{FG(231)}\033[48;5;25m{' ■ ACTIVE AGENTS · working now or changed in the last 30 min':<{cols}}{RESET}"
     if not names:
         return [head, f" {FG(245)}No agent is working or has changed its screen in the last 30 minutes.{RESET}"]
-    each = max((rows - 1) // len(names), 6)
+    ncol = 2 if cols >= 2 * MIN_COL + 1 and len(names) > 1 else 1   # phone width stays one column
+    colw = (cols - (ncol - 1)) // ncol
+    grid = [names[i:i + ncol] for i in range(0, len(names), ncol)]
+    each = max((rows - 1) // len(grid), 6)
     lines = [head]
-    for i, n in enumerate(names):
+    for r, row in enumerate(grid):
         if len(lines) + 4 > rows:
-            lines.append(f" {FG(245)}… {len(names) - i} more active (make the window taller){RESET}")
+            lines.append(f" {FG(245)}… {len(names) - r * ncol} more active (make the window taller){RESET}")
             break
-        lines += render(n, label(n), 25 if n == "program" else 30 + 6 * i, cols, min(each, rows - len(lines)), states.setdefault(n, {}))
+        h = min(each, rows - len(lines))
+        tiles = [render(n, label(n), 25 if n == "program" else 30 + 6 * names.index(n), colw, h, states.setdefault(n, {}))
+                 for n in row]
+        for k in range(max(len(t) for t in tiles)):
+            lines.append(f"{RESET}{FG(240)}│{RESET}".join(pad(t[k] if k < len(t) else "", colw) for t in tiles))
     return lines[:rows]
 
 
