@@ -1,12 +1,12 @@
 # C10Y direct-ΔW build — D-C10y-directdw
 
-**Status: SOURCE BUILD COMPLETE; VERIFICATION PARTIAL / DISPATCH GATED.** Final static review is GO for code only. The final light suite ran 226 tests: 225 passed, with the protected-byte assertion failing on three externally changed files. Three required tests remain unrun: two full-size CPU reduction cases and the native child deadline test. M14 remains UNVERIFIED. This report does not claim a complete suite PASS or authorise a model-bearing launch.
+**Status: CPU BUILD VERIFICATION COMPLETE / DISPATCH GATED.** All 243 test methods have PASS coverage: the final 240-case light suite plus three separately executed required controls, all on the exact final source snapshot. One final serial mutation invocation killed all 22 defined mutants at their own assertions and restored source hashes; 19 additional forbidden-conversion source fixtures also died at their audit assertions. The Program-authorized scoped R5 table is 193/193 byte-identical. Final independent review is GO for the bounded static/CPU build only. No model-bearing launch is authorized or scientifically qualified by this report.
 
-Builder model/effort: exact runtime identity **UNVERIFIABLE**. Independent reviewer: configured GPT-6-Astra/high; final artifact `/private/tmp/c10y_build/astra_final_delta2.md`, SHA-256 `9a0c290d1b1262977614007d40f99d7ba6c171310a0d54218d95d9439eff3ef0`. Its advisor-contract verdict is PROCEED for static code only. Claude authentication was probed: exit 1, `loggedIn=false`, `authMethod=none`. The GPT-family fallback is weaker independence than an out-of-family Claude review; no external Claude scientific review is claimed.
+Builder model/effort: exact runtime identity **UNVERIFIABLE**. Independent reviewer: configured GPT-6-Astra/high; current artifact `/private/tmp/c10y_build/astra_final_after_program_mask_revert.md`, SHA-256 `6b417fda07cb06e62621fab27273ee26daf4ce35af9f2509853eacfc2a0224e4`. Its verdict is GO for this bounded static/CPU snapshot. The earlier source/delta reviews are preserved as historical evidence and do not bind these changed bytes. The initial Claude auth probe exited 1 with loggedIn=false/authMethod=none; GPT-family fallback was used with weaker independence than an out-of-family review. No external Claude scientific review is claimed.
 
 Authoritative prereg pin: `e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331`. Read the complete frozen body and Amendments T/C/P, including all binding brief §10 answers and prereg §11. The later Program message replacing c68a358b with this §11 digest overrides the brief’s stale §1/Q1 hash. No prereg or engine file was edited by this build. Q1–Q8 are binding answers, not open defaults.
 
-The build is CPU-only and model-free. No real worker, model/tokenizer, transformers/datasets/harness import, MPS tensor or operation, or GPU job was run. Torch was used only for tiny hand-built CPU models and explicit fixtures. Tests were serial, one Python process at a time, under `/private/tmp/c10y_build`. During GPU-LIVE benchmark restrictions there was no Python/heavy CPU execution; after BENCH-DONE only light serial work resumed. The two full-size checks and child test were left pending the requested resource/process-count decisions. No git writes, dependency installation, CORPUS/ledger/runbook edits or memory writes were made.
+The build is CPU-only and model-free. No real C10Y worker, model/tokenizer load, transformers/datasets/harness import, MPS tensor, or GPU job was run. The Program explicitly supplied a GPU-idle window and authorized the previously pending full-size checks and native child control. Tests ran serially under `/private/tmp/c10y_build`, with one CPU thread; the only test children were hashed, allowlisted, guarded, model-free blocked workers under the explicit process-count exception. The current entry point seeds only the CPU generator. Historical limitation: the earlier ordinary test entry point used torch.manual_seed, which can dispatch accelerator APIs, so the earlier claim of zero accelerator/MPS API calls is not established by the old logs. The new controlled RED mocks accelerator calls; the corrected entry point and final CPU/control coverage supersede that claim. No git writes, dependency installations, CORPUS/ledger/runbook edits, or memory writes were made. Future GPU-LIVE instructions still require finishing the current test and pausing.
 
 The experiment remains **MEASUREMENT-ONLY** (prereg:3,105–119). CPU plumbing and static review establish neither live LAW#3/LAW#5 nor MPS arithmetic/backward, edited-output telemetry/resource inertness, factual learning, timing feasibility, reproducibility on MPS, compaction or F1 closure. The actual deployment route remains unqualified.
 
@@ -14,13 +14,13 @@ The experiment remains **MEASUREMENT-ONLY** (prereg:3,105–119). CPU plumbing a
 
 | File | SHA-256 |
 |---|---|
-| `experiments/track_c/c10y_directdw_arms.py` | `206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416` |
+| `experiments/track_c/c10y_directdw_arms.py` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` |
 | `experiments/track_c/c10y_directdw_telemetry_check.py` | `e79f0532ac674a0cb8a3d21c838c15710ee0ed3e94f7fa88e65d722105c1c03f` |
 | `experiments/track_c/c10y_directdw_read.py` | `f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78` |
-| `experiments/track_c/c10y_directdw_selftest.py` | `02977e73ea0a6d70b642112d025a2e274060d3334a339baad149a799916db3c1` |
+| `experiments/track_c/c10y_directdw_selftest.py` | `1419a485a8b74ef9a337860d16c8acfbacd9546d2595a573dd42e70c4d221ccf` |
 | `results/c10y_directdw_codex_build.md` | Its final byte SHA is in `/private/tmp/c10y_build/after/r2_sha256.json`, refreshed after writing; a report cannot embed its own byte hash without changing it. |
 
-The four sources above were independently rehashed by the final reviewer. Mutation source writes were limited to an explicit lease on these allowed paths, backed up under `/private/tmp/c10y_build/mut_backup`, restored in `finally`, and byte-SHA checked. No cache/bytecode was used for mutation imports; fresh source was compiled in process.
+The four sources above were independently rehashed by the final reviewer. Following the earlier closeout, only arms/selftest changed for the Program mask/conversion rulings and reviewer-confirmed stored-update device alignment and T8 reference fidelity. Reader and telemetry-check bytes are unchanged. All three newly injected greedy masks were subsequently reverted, and T4 is again exact sink-only AST identity. The six tensor-target transfers now use separate device/dtype operations; stored CPU updates align to W0.device before arithmetic. Mutation source writes were explicitly leased, backed up under `/private/tmp/c10y_build/mut_backup`, restored in finally and SHA-checked. Fresh source was compiled without bytecode caches. Earlier report/source baselines remain preserved in scratch; the final source hashes above govern current claims.
 
 ## Binding choices and remaining provisional interpretations
 
@@ -44,18 +44,58 @@ Context source is exactly the C10Q TEMPLATES literal in `experiments/track_c/c10
 
 Capture solve follows frozen `c10e_bandknob.py:194–217`, with the mandated float32 CPU solve and exact sequential layer order. Prompt/label/lookup construction follows `compute_z.py:41–73`; head evaluation is target-only, KL coefficient is applied once, and 4×6 micro-batches are weighted by request count. B-e2e deploys `F.linear(input, fp16(W0 + fp16(AB)))`, AB/A/B float32, and the detached routing mask leaves forward values identical while restricting gradients. B-z uses the full forward to the top band representation. Adam rollback/overflow, threshold-before-update, fixed lr/T_max and exact fp16 merge follow prereg:51–73.
 
-AST evidence: `TelemetryTests.test_scorer_ast_and_exact_inputs` strips only the inserted sink/capture statement and compares the remaining AST to text-read `c10e_bandknob.py:108–117`; it also verifies the exact model-input sequence and captured IDs. A separate read-only AST/literal comparison in `/private/tmp/c10y_build/verify_report.py` confirms FRAME_SUBJECTS at `c10y_directdw_arms.py:1583` equals `c10p_twopass_arms.py:30` exactly; the JSON certificate is `/private/tmp/c10y_build/frame_subjects_ast_evidence.json`. Production `frame_subjects_ast_check` at arms.py:1586 performs the same literal comparison before prefix probes. `FinalReviewRegressionTests.test_recorded_contexts_never_sample_even_after_seeding` checks only recorded-file installation without sampling after seed 0. `PinnedTemplateTests` check both literal digests, no generate_fast draw, and cache/file ordering at stage 1, calibration, stages 2/3 and T8. The named tests passed in the final light suite. No source-only precedent or harness module was imported. Engine/harness statements whose reductions are explicitly exempt remain engine arithmetic; diagnostic gates and telemetry use CPU float64.
+AST evidence: `TelemetryTests.test_scorer_ast_and_exact_inputs` strips only the inserted sink/capture statement and compares the remaining AST to text-read `c10e_bandknob.py:108–117`; there is no attention-mask normalization or exception. It also verifies the exact model-input sequence and captured IDs. Read-only AST/literal comparison confirms FRAME_SUBJECTS at `experiments/track_c/c10y_directdw_arms.py:1599` equals `experiments/track_c/c10p_twopass_arms.py:30` exactly, certificate `/private/tmp/c10y_build/frame_subjects_ast_evidence.json`. Production `frame_subjects_ast_check` at `experiments/track_c/c10y_directdw_arms.py:1602` performs the same comparison before prefix probes. `FinalReviewRegressionTests.test_recorded_contexts_never_sample_even_after_seeding` checks recorded-file installation without sampling after seed 0. `PinnedTemplateTests` check both literal digests, no generate_fast draw, and cache/file ordering at stage 1, calibration, stages 2/3 and T8. These tests passed in the final light suite. No source-only precedent or harness module was imported. Engine/harness reductions explicitly exempted by prereg remain engine arithmetic; diagnostic gates and telemetry use CPU float64.
 
 The actual scientific hook and reader both use inclusive multiplicative NM intervals at 0.99/1.01, avoiding subtraction cancellation. Production size sums use math.fsum on CPU64 norm scalars, matching the reader. Full compile accounting includes the arm’s target solve, capture/optimisation/merge, norms, cleanup/ledger handoff, and all production harness+scientific readout work; excluded setup and experimental controls are named separately. Actual merge completion is durable before required readout, so both worker projections and supervisor classify post-merge stops as INCOMPLETE-BUDGET.
 
 Tiny CPU F.linear fp16 forward/backward executed successfully here, including the deployed expression, gradients, routing, forced-lr0 iterations and telemetry trajectory equality. The exact Qwen/MPS F.linear, float32 factor matmul→fp16 merge, backward, MPS scheduling/synchronisation and graph-live allocation peaks are implementation-reviewed only and remain UNVERIFIED; no CPU success certifies those MPS kernels.
 
+### Program mask ruling and MPS conversion audit — final behavior
+
+The attention-mask hypothesis is **REFUTED** by the Program. Initially fourteen owned forward call sites were made explicit: eleven already received tokenizer masks through **ids/**tokens, while three greedy single-sequence calls gained new all-ones masks. The latest Program LAW#5 ruling reverses the latter three changes: the observed frozen-scorer copy and both private greedy decode branches again pass their original kwargs. The eleven already implicit tokenizer masks remain explicit. No frozen harness file or hook that injects kwargs was changed; no mask-hazard admission gate remains. The historical mask registration/RED/GREEN and old advisor objection are evidence of superseded work, not a current scientific exception.
+
+| Final owned forward | Source | Final attention-mask contract |
+|---|---|---|
+| `edit_components.hidden` | `experiments/track_c/c10y_directdw_arms.py:329` | Original implicit tokenizer mask retained explicitly |
+| `Writer.anchor_components` | `experiments/track_c/c10y_directdw_arms.py:496` | Original implicit tokenizer mask retained explicitly |
+| `Writer.anchor_components` | `experiments/track_c/c10y_directdw_arms.py:498` | Original implicit tokenizer mask retained explicitly |
+| `Writer.write` | `experiments/track_c/c10y_directdw_arms.py:542` | Original implicit tokenizer mask retained explicitly |
+| `Telemetry.logit_lens` | `experiments/track_c/c10y_directdw_arms.py:999` | Original implicit tokenizer mask retained explicitly |
+| `make_scorer.full_seq_match` | `experiments/track_c/c10y_directdw_arms.py:1048` | New mask REVERTED; original greedy kwargs retained |
+| `telemetry_mps_inertness_check.gathered` | `experiments/track_c/c10y_directdw_arms.py:1133` | Original implicit tokenizer mask retained explicitly |
+| `_anchor_rows` | `experiments/track_c/c10y_directdw_arms.py:1750` | Original implicit tokenizer mask retained explicitly |
+| `_anchor_rows` | `experiments/track_c/c10y_directdw_arms.py:1752` | Original implicit tokenizer mask retained explicitly |
+| `merged_fit` | `experiments/track_c/c10y_directdw_arms.py:1788` | Original implicit tokenizer mask retained explicitly |
+| `_decode_ids` | `experiments/track_c/c10y_directdw_arms.py:1808` | New mask REVERTED; original greedy kwargs retained |
+| `_decode_ids` | `experiments/track_c/c10y_directdw_arms.py:1810` | New mask REVERTED; original greedy kwargs retained |
+| `_objective_audit` | `experiments/track_c/c10y_directdw_arms.py:2244` | Original implicit tokenizer mask retained explicitly |
+| `_objective_audit` | `experiments/track_c/c10y_directdw_arms.py:2255` | Original implicit tokenizer mask retained explicitly |
+
+Strict T4 at `experiments/track_c/c10y_directdw_arms.py:1056` permits only the sink insertion. T8 P1/P2 compile only the exact pinned frozen full_seq_match FunctionDef with that sink; T uses the statement-identical observed sink copy. Compilation of isolated source nodes does not execute/import the harness module. `TelemetryReferenceTests.test_frozen_harness_scorers_receive_no_injected_kwargs` exercises all four frozen scorer functions through scored_recipe off and on against a tiny CPU model, records eight forwards per branch with empty kwargs, and verifies scorer/hook restoration. Other explicit-tokenizer-mask tests retain padded zeros and reject any extra observed-scorer keyword.
+
+The authoritative Program audit `results/mps_offset_conversion_audit.md`, SHA-256 `d0fc6624972f56cb2b5201f56f510260e2545e40883ce65675ab49cf00c5d25d`, was read in full. Its clone-first correction binds: **clone() and contiguous() do not make a combined changed-dtype MPS-to-CPU transfer safe**. Use separate device and dtype operations. Manual/source audit found zero affected simultaneous CPU-copy/dtype conversions in the original owned runtime path; cpu64 already used detach().cpu().double(), and logits/lens/telemetry CPU reductions were already split. This report does not claim the MPS bug was reproduced or fixed empirically here.
+
+Six implicit .to(other_tensor) calls, previously model-device destinations with CPU/MPS source data, were rewritten through `experiments/track_c/c10y_directdw_arms.py:160`: tensor.to(device=reference.device).to(dtype=reference.dtype). This preserves same-dtype device copy before the cast, including any future CPU destination. The call sites are:
+
+| Owner | Final source | Split-transfer use |
+|---|---|---|
+| `capture_solve` | `experiments/track_c/c10y_directdw_arms.py:247` | `to_like(upd, npd[H.weight_name(hp, layer)])` |
+| `apply_stored` | `experiments/track_c/c10y_directdw_arms.py:430` | `to_like(stored_weight(snap[l], updates[l], scale), weights[H.weight_name(hp, l)])` |
+| `Writer.write` | `experiments/track_c/c10y_directdw_arms.py:601` | `to_like(As[l] @ Bs[l], weights[H.weight_name(hp, l)])` |
+| `train_deploy_parity` | `experiments/track_c/c10y_directdw_arms.py:1858` | `to_like(effective_weight(W0[l], As[l], Bs[l]), weights[H.weight_name(hp, l)])` |
+| `scientific_readouts` | `experiments/track_c/c10y_directdw_arms.py:2045` | `to_like(stored_weight(W0[l], writer.stored[arm][l], scale), W0[l])` |
+| `_objective_audit.add_delta` | `experiments/track_c/c10y_directdw_arms.py:2250` | `to_like(intervention, changed)` |
+
+A separate concrete device mismatch was repaired in `experiments/track_c/c10y_directdw_arms.py:253`: serialized actual_updates are CPU tensors, whereas live W0 is MPS. The stored-control helper now moves the update to W0.device using a device-only operation before scaling, fp16 round and matrix addition. Symbolic CPU/MPS labels with real CPU arithmetic verify this order and rounding; no MPS tensor or kernel was run. T8 reference=True had previously been ignored; it now selects the exact frozen off reference, and tests distinguish P1/P2 from T without introducing forward kwargs.
+
+The AST fence at `experiments/track_c/c10y_directdw_selftest.py:4216` rejects combined .to keyword/positional/mixed arguments, opaque **arguments, tensor-target .to including flags, .type/.type_as, nonliteral tensor/as_tensor copy constructors with device+dtype (positional or data=, including clone/contiguous and opaque options), and unaligned CPU buffer copy_/setitem. Same-device/dtype copy_ is permitted only after to_like with an AST-identical destination. CPU-buffer proof follows the actual receiver/result chain, includes torch.device(cpu) and annotated allocations, and rejects a CPU intermediate moved back to MPS or only one CPU branch. This is a bounded syntactic/manual-dataflow audit, not arbitrary alias/container/interprocedural Python type inference or a guarantee about every third-party native conversion. The reachable vendored MEMIT/ROME/util files were text-read; their lone combined frozen-harness transfer has explicitly asserted CPU-solve-to-model dataflow and remains unchanged.
+
 Read-only FRAME_SUBJECTS comparison output:
 
 ```json
 {
-  "copy": "experiments/track_c/c10y_directdw_arms.py:1583",
-  "copy_file_sha256": "206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416",
+  "copy": "experiments/track_c/c10y_directdw_arms.py:1599",
+  "copy_file_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
   "method": "ast.parse plus ast.literal_eval; no module imports or model execution",
   "source": "experiments/track_c/c10p_twopass_arms.py:30",
   "source_sha256": "c34ecbe17c86d8f2803efc5520f4cf090dcb23bcc21ef0c3c28a12bfdaeb820f",
@@ -71,7 +111,7 @@ Read-only FRAME_SUBJECTS comparison output:
 }
 ```
 
-Report consistency check: `/private/tmp/c10y_build/verify_report.py` verified all four final production hashes and all 229 test/source-line mappings. The ten Program command blocks were extracted to scratch and `/opt/homebrew/bin/rtk proxy /bin/sh -n /private/tmp/c10y_build/report_launch_syntax.sh` exited 0. This is source/syntax validation only; none of those launch commands was executed.
+Report consistency check: `/private/tmp/c10y_build/verify_report.py` verifies all four final source hashes and every final test/source-line mapping. The ten Program command blocks are extracted to scratch; `/opt/homebrew/bin/rtk proxy /bin/sh -n /private/tmp/c10y_build/report_launch_syntax.sh` exits 0. This validates source identity and shell syntax only; none of the model-bearing launch commands was executed.
 
 ### Production symbol index
 
@@ -79,147 +119,148 @@ Each entry points to the final source; the governing sources above and the regis
 
 | Symbol | Final source |
 |---|---|
-| `A.Budget.__init__` | `experiments/track_c/c10y_directdw_arms.py:649` |
-| `A.Budget.configure` | `experiments/track_c/c10y_directdw_arms.py:653` |
-| `A.Budget.consume` | `experiments/track_c/c10y_directdw_arms.py:657` |
-| `A.Budget.project` | `experiments/track_c/c10y_directdw_arms.py:661` |
+| `A.Budget.__init__` | `experiments/track_c/c10y_directdw_arms.py:656` |
+| `A.Budget.configure` | `experiments/track_c/c10y_directdw_arms.py:660` |
+| `A.Budget.consume` | `experiments/track_c/c10y_directdw_arms.py:664` |
+| `A.Budget.project` | `experiments/track_c/c10y_directdw_arms.py:668` |
 | `A.Halt.__init__` | `experiments/track_c/c10y_directdw_arms.py:52` |
-| `A.Telemetry.__init__` | `experiments/track_c/c10y_directdw_arms.py:939` |
-| `A.Telemetry.close` | `experiments/track_c/c10y_directdw_arms.py:1014` |
-| `A.Telemetry.disable` | `experiments/track_c/c10y_directdw_arms.py:947` |
-| `A.Telemetry.emit` | `experiments/track_c/c10y_directdw_arms.py:951` |
-| `A.Telemetry.logit_lens` | `experiments/track_c/c10y_directdw_arms.py:982` |
-| `A.Telemetry.opt_step` | `experiments/track_c/c10y_directdw_arms.py:964` |
-| `A.Telemetry.phase` | `experiments/track_c/c10y_directdw_arms.py:960` |
-| `A.Telemetry.sink` | `experiments/track_c/c10y_directdw_arms.py:1000` |
-| `A.Telemetry.target_probs` | `experiments/track_c/c10y_directdw_arms.py:968` |
-| `A.Telemetry.write_norms` | `experiments/track_c/c10y_directdw_arms.py:976` |
-| `A.Writer.__call__` | `experiments/track_c/c10y_directdw_arms.py:433` |
-| `A.Writer.__init__` | `experiments/track_c/c10y_directdw_arms.py:428` |
-| `A.Writer._write_call` | `experiments/track_c/c10y_directdw_arms.py:450` |
-| `A.Writer.anchor_components` | `experiments/track_c/c10y_directdw_arms.py:483` |
-| `A.Writer.arm` | `experiments/track_c/c10y_directdw_arms.py:470` |
-| `A.Writer.mark_merge` | `experiments/track_c/c10y_directdw_arms.py:474` |
-| `A.Writer.norms` | `experiments/track_c/c10y_directdw_arms.py:480` |
-| `A.Writer.write` | `experiments/track_c/c10y_directdw_arms.py:500` |
-| `A._OverrideReads.__getitem__` | `experiments/track_c/c10y_directdw_arms.py:1638` |
-| `A._OverrideReads.__init__` | `experiments/track_c/c10y_directdw_arms.py:1636` |
-| `A._accumulation_check` | `experiments/track_c/c10y_directdw_arms.py:2309` |
-| `A._actual_updates` | `experiments/track_c/c10y_directdw_arms.py:1671` |
-| `A._all_registries` | `experiments/track_c/c10y_directdw_arms.py:2354` |
-| `A._anchor_diagnostics` | `experiments/track_c/c10y_directdw_arms.py:1745` |
-| `A._anchor_rows` | `experiments/track_c/c10y_directdw_arms.py:1728` |
-| `A._calibration_phase` | `experiments/track_c/c10y_directdw_arms.py:753` |
-| `A._calibration_timings` | `experiments/track_c/c10y_directdw_arms.py:700` |
-| `A._check_record` | `experiments/track_c/c10y_directdw_arms.py:2359` |
-| `A._counts` | `experiments/track_c/c10y_directdw_arms.py:2388` |
-| `A._covariances` | `experiments/track_c/c10y_directdw_arms.py:1688` |
-| `A._decode_ids` | `experiments/track_c/c10y_directdw_arms.py:1787` |
-| `A._directed_distance` | `experiments/track_c/c10y_directdw_arms.py:1663` |
-| `A._engine_batch_reference` | `experiments/track_c/c10y_directdw_arms.py:2187` |
-| `A._fixed_padding` | `experiments/track_c/c10y_directdw_arms.py:2261` |
-| `A._forecast_workload` | `experiments/track_c/c10y_directdw_arms.py:683` |
-| `A._gradient_check` | `experiments/track_c/c10y_directdw_arms.py:2337` |
-| `A._gradient_evaluations` | `experiments/track_c/c10y_directdw_arms.py:2271` |
-| `A._js64` | `experiments/track_c/c10y_directdw_arms.py:1676` |
-| `A._key_records` | `experiments/track_c/c10y_directdw_arms.py:1631` |
-| `A._ledger_call` | `experiments/track_c/c10y_directdw_arms.py:1642` |
-| `A._locpct64` | `experiments/track_c/c10y_directdw_arms.py:1684` |
-| `A._objective_audit` | `experiments/track_c/c10y_directdw_arms.py:2200` |
-| `A._pristine_anchor` | `experiments/track_c/c10y_directdw_arms.py:1759` |
-| `A._probe_pristine` | `experiments/track_c/c10y_directdw_arms.py:1863` |
-| `A._remaining_readout` | `experiments/track_c/c10y_directdw_arms.py:1880` |
-| `A._request_keys` | `experiments/track_c/c10y_directdw_arms.py:1627` |
-| `A._stored_reference_checks` | `experiments/track_c/c10y_directdw_arms.py:1894` |
-| `A._unit` | `experiments/track_c/c10y_directdw_arms.py:1592` |
-| `A._workload` | `experiments/track_c/c10y_directdw_arms.py:1610` |
-| `A._write_proof` | `experiments/track_c/c10y_directdw_arms.py:2363` |
-| `A.accepted_step` | `experiments/track_c/c10y_directdw_arms.py:368` |
-| `A.anchor_loss` | `experiments/track_c/c10y_directdw_arms.py:351` |
-| `A.apply_stored` | `experiments/track_c/c10y_directdw_arms.py:418` |
+| `A.Telemetry.__init__` | `experiments/track_c/c10y_directdw_arms.py:946` |
+| `A.Telemetry.close` | `experiments/track_c/c10y_directdw_arms.py:1021` |
+| `A.Telemetry.disable` | `experiments/track_c/c10y_directdw_arms.py:954` |
+| `A.Telemetry.emit` | `experiments/track_c/c10y_directdw_arms.py:958` |
+| `A.Telemetry.logit_lens` | `experiments/track_c/c10y_directdw_arms.py:989` |
+| `A.Telemetry.opt_step` | `experiments/track_c/c10y_directdw_arms.py:971` |
+| `A.Telemetry.phase` | `experiments/track_c/c10y_directdw_arms.py:967` |
+| `A.Telemetry.sink` | `experiments/track_c/c10y_directdw_arms.py:1007` |
+| `A.Telemetry.target_probs` | `experiments/track_c/c10y_directdw_arms.py:975` |
+| `A.Telemetry.write_norms` | `experiments/track_c/c10y_directdw_arms.py:983` |
+| `A.Writer.__call__` | `experiments/track_c/c10y_directdw_arms.py:440` |
+| `A.Writer.__init__` | `experiments/track_c/c10y_directdw_arms.py:435` |
+| `A.Writer._write_call` | `experiments/track_c/c10y_directdw_arms.py:457` |
+| `A.Writer.anchor_components` | `experiments/track_c/c10y_directdw_arms.py:490` |
+| `A.Writer.arm` | `experiments/track_c/c10y_directdw_arms.py:477` |
+| `A.Writer.mark_merge` | `experiments/track_c/c10y_directdw_arms.py:481` |
+| `A.Writer.norms` | `experiments/track_c/c10y_directdw_arms.py:487` |
+| `A.Writer.write` | `experiments/track_c/c10y_directdw_arms.py:507` |
+| `A._OverrideReads.__getitem__` | `experiments/track_c/c10y_directdw_arms.py:1654` |
+| `A._OverrideReads.__init__` | `experiments/track_c/c10y_directdw_arms.py:1652` |
+| `A._accumulation_check` | `experiments/track_c/c10y_directdw_arms.py:2325` |
+| `A._actual_updates` | `experiments/track_c/c10y_directdw_arms.py:1687` |
+| `A._all_registries` | `experiments/track_c/c10y_directdw_arms.py:2370` |
+| `A._anchor_diagnostics` | `experiments/track_c/c10y_directdw_arms.py:1761` |
+| `A._anchor_rows` | `experiments/track_c/c10y_directdw_arms.py:1744` |
+| `A._calibration_phase` | `experiments/track_c/c10y_directdw_arms.py:760` |
+| `A._calibration_timings` | `experiments/track_c/c10y_directdw_arms.py:707` |
+| `A._check_record` | `experiments/track_c/c10y_directdw_arms.py:2375` |
+| `A._counts` | `experiments/track_c/c10y_directdw_arms.py:2404` |
+| `A._covariances` | `experiments/track_c/c10y_directdw_arms.py:1704` |
+| `A._decode_ids` | `experiments/track_c/c10y_directdw_arms.py:1803` |
+| `A._directed_distance` | `experiments/track_c/c10y_directdw_arms.py:1679` |
+| `A._engine_batch_reference` | `experiments/track_c/c10y_directdw_arms.py:2203` |
+| `A._fixed_padding` | `experiments/track_c/c10y_directdw_arms.py:2277` |
+| `A._forecast_workload` | `experiments/track_c/c10y_directdw_arms.py:690` |
+| `A._gradient_check` | `experiments/track_c/c10y_directdw_arms.py:2353` |
+| `A._gradient_evaluations` | `experiments/track_c/c10y_directdw_arms.py:2287` |
+| `A._js64` | `experiments/track_c/c10y_directdw_arms.py:1692` |
+| `A._key_records` | `experiments/track_c/c10y_directdw_arms.py:1647` |
+| `A._ledger_call` | `experiments/track_c/c10y_directdw_arms.py:1658` |
+| `A._locpct64` | `experiments/track_c/c10y_directdw_arms.py:1700` |
+| `A._objective_audit` | `experiments/track_c/c10y_directdw_arms.py:2216` |
+| `A._pristine_anchor` | `experiments/track_c/c10y_directdw_arms.py:1775` |
+| `A._probe_pristine` | `experiments/track_c/c10y_directdw_arms.py:1879` |
+| `A._remaining_readout` | `experiments/track_c/c10y_directdw_arms.py:1896` |
+| `A._request_keys` | `experiments/track_c/c10y_directdw_arms.py:1643` |
+| `A._stored_reference_checks` | `experiments/track_c/c10y_directdw_arms.py:1910` |
+| `A._unit` | `experiments/track_c/c10y_directdw_arms.py:1608` |
+| `A._workload` | `experiments/track_c/c10y_directdw_arms.py:1626` |
+| `A._write_proof` | `experiments/track_c/c10y_directdw_arms.py:2379` |
+| `A.accepted_step` | `experiments/track_c/c10y_directdw_arms.py:375` |
+| `A.anchor_loss` | `experiments/track_c/c10y_directdw_arms.py:358` |
+| `A.apply_stored` | `experiments/track_c/c10y_directdw_arms.py:425` |
 | `A.assert_no_mps_double` | `experiments/track_c/c10y_directdw_arms.py:150` |
-| `A.band_hashes` | `experiments/track_c/c10y_directdw_arms.py:212` |
-| `A.budget_gate` | `experiments/track_c/c10y_directdw_arms.py:810` |
-| `A.calibrate` | `experiments/track_c/c10y_directdw_arms.py:1302` |
-| `A.calibration_forecast` | `experiments/track_c/c10y_directdw_arms.py:1190` |
-| `A.calibration_identity` | `experiments/track_c/c10y_directdw_arms.py:1184` |
-| `A.calibration_timing_tags` | `experiments/track_c/c10y_directdw_arms.py:1615` |
-| `A.capture_solve` | `experiments/track_c/c10y_directdw_arms.py:220` |
-| `A.compile_accounting` | `experiments/track_c/c10y_directdw_arms.py:1941` |
-| `A.context_evidence` | `experiments/track_c/c10y_directdw_arms.py:908` |
-| `A.control_match` | `experiments/track_c/c10y_directdw_arms.py:412` |
-| `A.cosine` | `experiments/track_c/c10y_directdw_arms.py:163` |
+| `A.band_hashes` | `experiments/track_c/c10y_directdw_arms.py:217` |
+| `A.budget_gate` | `experiments/track_c/c10y_directdw_arms.py:817` |
+| `A.calibrate` | `experiments/track_c/c10y_directdw_arms.py:1318` |
+| `A.calibration_forecast` | `experiments/track_c/c10y_directdw_arms.py:1206` |
+| `A.calibration_identity` | `experiments/track_c/c10y_directdw_arms.py:1200` |
+| `A.calibration_timing_tags` | `experiments/track_c/c10y_directdw_arms.py:1631` |
+| `A.capture_solve` | `experiments/track_c/c10y_directdw_arms.py:225` |
+| `A.compile_accounting` | `experiments/track_c/c10y_directdw_arms.py:1957` |
+| `A.context_evidence` | `experiments/track_c/c10y_directdw_arms.py:915` |
+| `A.control_match` | `experiments/track_c/c10y_directdw_arms.py:419` |
+| `A.cosine` | `experiments/track_c/c10y_directdw_arms.py:168` |
 | `A.cpu64` | `experiments/track_c/c10y_directdw_arms.py:155` |
-| `A.deployed_hook` | `experiments/track_c/c10y_directdw_arms.py:254` |
-| `A.diagnostic_path` | `experiments/track_c/c10y_directdw_arms.py:1237` |
+| `A.deployed_hook` | `experiments/track_c/c10y_directdw_arms.py:261` |
+| `A.diagnostic_path` | `experiments/track_c/c10y_directdw_arms.py:1253` |
 | `A.digest` | `experiments/track_c/c10y_directdw_arms.py:68` |
-| `A.edit_components` | `experiments/track_c/c10y_directdw_arms.py:318` |
-| `A.effective_weight` | `experiments/track_c/c10y_directdw_arms.py:251` |
+| `A.edit_components` | `experiments/track_c/c10y_directdw_arms.py:325` |
+| `A.effective_weight` | `experiments/track_c/c10y_directdw_arms.py:258` |
 | `A.environment_identity` | `experiments/track_c/c10y_directdw_arms.py:113` |
-| `A.factor_solve` | `experiments/track_c/c10y_directdw_arms.py:199` |
+| `A.factor_solve` | `experiments/track_c/c10y_directdw_arms.py:204` |
 | `A.fingerprint_record` | `experiments/track_c/c10y_directdw_arms.py:119` |
-| `A.frame_subjects_ast_check` | `experiments/track_c/c10y_directdw_arms.py:1586` |
-| `A.freeze_contexts` | `experiments/track_c/c10y_directdw_arms.py:892` |
-| `A.gram_norm` | `experiments/track_c/c10y_directdw_arms.py:184` |
-| `A.hook_snapshot` | `experiments/track_c/c10y_directdw_arms.py:266` |
-| `A.input_identity` | `experiments/track_c/c10y_directdw_arms.py:1338` |
-| `A.instrument_prefix` | `experiments/track_c/c10y_directdw_arms.py:2393` |
-| `A.launch_documents` | `experiments/track_c/c10y_directdw_arms.py:671` |
-| `A.main` | `experiments/track_c/c10y_directdw_arms.py:1523` |
-| `A.make_scorer` | `experiments/track_c/c10y_directdw_arms.py:1024` |
-| `A.memory_gate` | `experiments/track_c/c10y_directdw_arms.py:620` |
-| `A.merged_fit` | `experiments/track_c/c10y_directdw_arms.py:1766` |
-| `A.microbatch_indices` | `experiments/track_c/c10y_directdw_arms.py:363` |
-| `A.norm` | `experiments/track_c/c10y_directdw_arms.py:160` |
-| `A.norm_ratio` | `experiments/track_c/c10y_directdw_arms.py:176` |
-| `A.normalize_recipe` | `experiments/track_c/c10y_directdw_arms.py:2050` |
-| `A.null_share` | `experiments/track_c/c10y_directdw_arms.py:189` |
-| `A.output_path` | `experiments/track_c/c10y_directdw_arms.py:1224` |
-| `A.overlap_audit` | `experiments/track_c/c10y_directdw_arms.py:925` |
-| `A.owned_launch` | `experiments/track_c/c10y_directdw_arms.py:1215` |
-| `A.packed_batches` | `experiments/track_c/c10y_directdw_arms.py:300` |
-| `A.persist_prefix` | `experiments/track_c/c10y_directdw_arms.py:1252` |
-| `A.pinned_templates` | `experiments/track_c/c10y_directdw_arms.py:881` |
+| `A.frame_subjects_ast_check` | `experiments/track_c/c10y_directdw_arms.py:1602` |
+| `A.freeze_contexts` | `experiments/track_c/c10y_directdw_arms.py:899` |
+| `A.gram_norm` | `experiments/track_c/c10y_directdw_arms.py:189` |
+| `A.hook_snapshot` | `experiments/track_c/c10y_directdw_arms.py:273` |
+| `A.input_identity` | `experiments/track_c/c10y_directdw_arms.py:1354` |
+| `A.instrument_prefix` | `experiments/track_c/c10y_directdw_arms.py:2409` |
+| `A.launch_documents` | `experiments/track_c/c10y_directdw_arms.py:678` |
+| `A.main` | `experiments/track_c/c10y_directdw_arms.py:1539` |
+| `A.make_scorer` | `experiments/track_c/c10y_directdw_arms.py:1031` |
+| `A.memory_gate` | `experiments/track_c/c10y_directdw_arms.py:627` |
+| `A.merged_fit` | `experiments/track_c/c10y_directdw_arms.py:1782` |
+| `A.microbatch_indices` | `experiments/track_c/c10y_directdw_arms.py:370` |
+| `A.norm` | `experiments/track_c/c10y_directdw_arms.py:165` |
+| `A.norm_ratio` | `experiments/track_c/c10y_directdw_arms.py:181` |
+| `A.normalize_recipe` | `experiments/track_c/c10y_directdw_arms.py:2066` |
+| `A.null_share` | `experiments/track_c/c10y_directdw_arms.py:194` |
+| `A.output_path` | `experiments/track_c/c10y_directdw_arms.py:1240` |
+| `A.overlap_audit` | `experiments/track_c/c10y_directdw_arms.py:932` |
+| `A.owned_launch` | `experiments/track_c/c10y_directdw_arms.py:1231` |
+| `A.packed_batches` | `experiments/track_c/c10y_directdw_arms.py:307` |
+| `A.persist_prefix` | `experiments/track_c/c10y_directdw_arms.py:1268` |
+| `A.pinned_templates` | `experiments/track_c/c10y_directdw_arms.py:888` |
 | `A.preflight` | `experiments/track_c/c10y_directdw_arms.py:129` |
-| `A.projector_gate` | `experiments/track_c/c10y_directdw_arms.py:194` |
-| `A.record_manifest` | `experiments/track_c/c10y_directdw_arms.py:1351` |
-| `A.refuse_schedule_halt` | `experiments/track_c/c10y_directdw_arms.py:876` |
-| `A.relative_distance` | `experiments/track_c/c10y_directdw_arms.py:171` |
-| `A.reproduction_record` | `experiments/track_c/c10y_directdw_arms.py:1268` |
-| `A.request_batch` | `experiments/track_c/c10y_directdw_arms.py:281` |
-| `A.request_weights` | `experiments/track_c/c10y_directdw_arms.py:364` |
-| `A.rerun_provenance` | `experiments/track_c/c10y_directdw_arms.py:1290` |
-| `A.restore` | `experiments/track_c/c10y_directdw_arms.py:215` |
-| `A.run` | `experiments/track_c/c10y_directdw_arms.py:1368` |
-| `A.sample_memory` | `experiments/track_c/c10y_directdw_arms.py:628` |
-| `A.save_tensors` | `experiments/track_c/c10y_directdw_arms.py:1244` |
-| `A.schedule_halt` | `experiments/track_c/c10y_directdw_arms.py:871` |
-| `A.scientific_readouts` | `experiments/track_c/c10y_directdw_arms.py:1952` |
-| `A.scored_recipe` | `experiments/track_c/c10y_directdw_arms.py:2081` |
-| `A.scorer_ast_check` | `experiments/track_c/c10y_directdw_arms.py:1040` |
+| `A.projector_gate` | `experiments/track_c/c10y_directdw_arms.py:199` |
+| `A.record_manifest` | `experiments/track_c/c10y_directdw_arms.py:1367` |
+| `A.refuse_schedule_halt` | `experiments/track_c/c10y_directdw_arms.py:883` |
+| `A.relative_distance` | `experiments/track_c/c10y_directdw_arms.py:176` |
+| `A.reproduction_record` | `experiments/track_c/c10y_directdw_arms.py:1284` |
+| `A.request_batch` | `experiments/track_c/c10y_directdw_arms.py:288` |
+| `A.request_weights` | `experiments/track_c/c10y_directdw_arms.py:371` |
+| `A.rerun_provenance` | `experiments/track_c/c10y_directdw_arms.py:1306` |
+| `A.restore` | `experiments/track_c/c10y_directdw_arms.py:220` |
+| `A.run` | `experiments/track_c/c10y_directdw_arms.py:1384` |
+| `A.sample_memory` | `experiments/track_c/c10y_directdw_arms.py:635` |
+| `A.save_tensors` | `experiments/track_c/c10y_directdw_arms.py:1260` |
+| `A.schedule_halt` | `experiments/track_c/c10y_directdw_arms.py:878` |
+| `A.scientific_readouts` | `experiments/track_c/c10y_directdw_arms.py:1968` |
+| `A.scored_recipe` | `experiments/track_c/c10y_directdw_arms.py:2097` |
+| `A.scorer_ast_check` | `experiments/track_c/c10y_directdw_arms.py:1056` |
 | `A.selftest_root` | `experiments/track_c/c10y_directdw_arms.py:101` |
 | `A.sha` | `experiments/track_c/c10y_directdw_arms.py:61` |
-| `A.size_scales` | `experiments/track_c/c10y_directdw_arms.py:405` |
+| `A.size_scales` | `experiments/track_c/c10y_directdw_arms.py:412` |
 | `A.source_hashes` | `experiments/track_c/c10y_directdw_arms.py:109` |
-| `A.stage_context_source` | `experiments/track_c/c10y_directdw_arms.py:914` |
-| `A.stored_weight` | `experiments/track_c/c10y_directdw_arms.py:248` |
+| `A.stage_context_source` | `experiments/track_c/c10y_directdw_arms.py:921` |
+| `A.stored_weight` | `experiments/track_c/c10y_directdw_arms.py:253` |
 | `A.strict_json` | `experiments/track_c/c10y_directdw_arms.py:72` |
 | `A.strict_load` | `experiments/track_c/c10y_directdw_arms.py:87` |
-| `A.supervise` | `experiments/track_c/c10y_directdw_arms.py:1477` |
-| `A.sync` | `experiments/track_c/c10y_directdw_arms.py:614` |
-| `A.telemetry_admission` | `experiments/track_c/c10y_directdw_arms.py:1090` |
-| `A.telemetry_bound` | `experiments/track_c/c10y_directdw_arms.py:1063` |
-| `A.telemetry_factory` | `experiments/track_c/c10y_directdw_arms.py:1020` |
-| `A.telemetry_mps_inertness_check` | `experiments/track_c/c10y_directdw_arms.py:1105` |
-| `A.telemetry_workload` | `experiments/track_c/c10y_directdw_arms.py:1057` |
-| `A.tensor_sha` | `experiments/track_c/c10y_directdw_arms.py:207` |
-| `A.threshold_stop` | `experiments/track_c/c10y_directdw_arms.py:365` |
-| `A.total_loss` | `experiments/track_c/c10y_directdw_arms.py:348` |
-| `A.train_deploy_parity` | `experiments/track_c/c10y_directdw_arms.py:1800` |
+| `A.supervise` | `experiments/track_c/c10y_directdw_arms.py:1493` |
+| `A.sync` | `experiments/track_c/c10y_directdw_arms.py:621` |
+| `A.telemetry_admission` | `experiments/track_c/c10y_directdw_arms.py:1106` |
+| `A.telemetry_bound` | `experiments/track_c/c10y_directdw_arms.py:1079` |
+| `A.telemetry_factory` | `experiments/track_c/c10y_directdw_arms.py:1027` |
+| `A.telemetry_mps_inertness_check` | `experiments/track_c/c10y_directdw_arms.py:1121` |
+| `A.telemetry_workload` | `experiments/track_c/c10y_directdw_arms.py:1073` |
+| `A.tensor_sha` | `experiments/track_c/c10y_directdw_arms.py:212` |
+| `A.threshold_stop` | `experiments/track_c/c10y_directdw_arms.py:372` |
+| `A.to_like` | `experiments/track_c/c10y_directdw_arms.py:160` |
+| `A.total_loss` | `experiments/track_c/c10y_directdw_arms.py:355` |
+| `A.train_deploy_parity` | `experiments/track_c/c10y_directdw_arms.py:1816` |
 | `A.utc` | `experiments/track_c/c10y_directdw_arms.py:57` |
-| `A.validate_inertness` | `experiments/track_c/c10y_directdw_arms.py:1052` |
-| `A.weight_hooks` | `experiments/track_c/c10y_directdw_arms.py:271` |
-| `A.write_geometry` | `experiments/track_c/c10y_directdw_arms.py:1704` |
+| `A.validate_inertness` | `experiments/track_c/c10y_directdw_arms.py:1068` |
+| `A.weight_hooks` | `experiments/track_c/c10y_directdw_arms.py:278` |
+| `A.write_geometry` | `experiments/track_c/c10y_directdw_arms.py:1720` |
 | `A.write_json` | `experiments/track_c/c10y_directdw_arms.py:90` |
 | `C._LineError.__init__` | `experiments/track_c/c10y_directdw_telemetry_check.py:150` |
 | `C._bounded_path` | `experiments/track_c/c10y_directdw_telemetry_check.py:44` |
@@ -376,6 +417,41 @@ Supplemental families (registered before the corresponding review fix or amendme
 
 Family 32’s original sampled-once wording is superseded by §11: the completed mechanism pins the recorded set without sampling. Supplemental families 66–74 were registered before their respective amendment/review fixes; family 75 was registered before the final actual-path boundary/summation fixes. Fixture/schema repairs are distinguished from production defects in the logs below. The original list is preserved under `/private/tmp/c10y_build/report_registration.md`.
 
+### Supplemental Program registrations — historical text and current supersession
+
+The original mask families 76–79 below were registered before the initial mask edits and are retained verbatim as history. Their every-forward/new-mask/T4-exception claims are superseded by the final LAW#5 ruling recorded in conversion_registration.md. Family 78 retains the original tokenizer-mask check; final families 76/77/79 respectively enforce original mask contracts, no new greedy mask, and strict sink-only AST rejection of added keywords. Initial clone-first wording and T8 explicit-mask wording in the conversion registration are likewise superseded by the later Program paragraphs and the current source. Families 80–85 map to the final tests below; no such historical text authorizes a launch or modifies prereg.
+
+
+## Program attention-mask test registration (before the forward-call fix)
+
+76. Every owned model/backbone forward in driver, lens, telemetry and calibration has an explicit non-null attention_mask keyword — Program MPS-fp16 warning; AST call-site test.
+77. Private parity greedy decode and observed scorer pass all-ones masks with the growing unpadded sequence shape, dtype and device — Program warning; call-recording test for both hooked/unhooked decode and observed scorer.
+78. Padded objective forwards preserve the packed tokenizer mask, including zeros; lens forwards preserve the tokenizer mask — Program warning; CPU call-recording test.
+79. Observed-scorer AST differs from frozen source only by the sink and the exact Program-prescribed all-ones attention_mask keyword; a missing or zero mask is rejected — Program warning + T4/brief §10 Q2. Frozen upstream source remains read-only; its unmasked calls and the T4 exception will be reported explicitly.
+
+## Program correction: MPS view conversion audit, registered before the repair
+
+The Program refuted the attention-mask hypothesis and verified a torch 2.8 MPS bug in a simultaneous MPS-view-to-CPU device/dtype conversion. CPU-first then dtype, clone-first, or dtype-first then CPU is correct. This build runs no MPS reproduction. Existing explicit-mask tests are retained; the proposed mask-hazard admission guard is withdrawn.
+
+80. Latest Program instruction: AST rejects .to(device=..., dtype=...), positional device+dtype, and mixed positional device/keyword dtype in all three owned runtime sources; safe split calls pass.
+81. Latest Program instruction / brief R5: text-read all vendored MEMIT/ROME/util Python helpers plus the frozen harness; the only combined call is the recorded CPU-solve-to-model-device transfer, with CPU dataflow asserted. No helper import or frozen edit.
+82. Brief R3 / latest Program instruction: a fake MPS view backed by a nonzero-offset, noncontiguous CPU fp16 tensor rejects a combined transfer; cpu64 must copy to CPU before changing dtype and preserve exact logical values.
+83. Prereg size controls / independent audit: stored_weight must align a stored update to W0.device using a device-only transfer before scale, fp16 round and matrix addition. A symbolic device fixture performs arithmetic only on CPU and fails on mismatched labels. Test all CPU/MPS label combinations and fp16 rounding.
+
+These tests establish source/device-order plumbing only, never the actual MPS bug or live scientific admission. Conversion AST fault controls will inject keyword and positional forbidden forms into a scratch-only source copy and must die at the source-audit assertion. No real worker dispatch is permitted.
+
+Program follow-up, read in full: results/mps_offset_conversion_audit.md. Clone-first is NOT safe; that part of the initial warning is superseded. Only separate device and dtype operations are accepted. AST fixtures additionally reject .to(other_tensor), .type/.type_as, CPU buffer copy_/setitem and tensor/as_tensor source-copy constructors with device+dtype, including clone/contiguous wrappers. Owned implicit tensor-target transfers will be rewritten through a shared two-operation helper, and copy_ arguments must already match the destination device and dtype through it. The six existing tensor-target calls were MPS destinations, safe for the observed bug; the rewrite prevents later CPU-target reuse from combining a copy and cast. Frozen CPU-source-to-MPS transfers remain unchanged and are explicitly attributed.
+
+84. Amendment T8 / latest Program correction: P1/P2 execute an exact text-read frozen full_seq_match capture copy (only sink inserted before the unchanged return); T executes the observed explicit-mask scorer. No frozen module import or extra forward. AST identity and call recording must distinguish the actual off/on paths and verify returned flags and captured IDs.
+
+Independent guard review, registered before its repair: negative AST fixtures cover torch.device('cpu') allocations, annotated CPU-buffer allocation, tensor-target .to with positional/keyword flags, opaque unpacked to arguments, a conditional with only one CPU branch, and a CPU intermediate followed by a move back to MPS. A CPU proof must follow the actual value/receiver transfer chain. These finite syntax fixtures do not claim arbitrary Python type inference.
+
+Final finite constructor cases, registered before their repair: tensor/as_tensor keyword data=v with device='cpu' and changed dtype, and opaque constructor **options. Read source from either positional data or keyword data; opaque constructor arguments must be rejected. Literal Python data or a proven CPU-first source remains permitted.
+
+Final Program ruling supersedes the prior mask instruction: REVERT newly injected masks in frozen-harness or statement-identical scorer calls (LAW#5); only existing implicitly forwarded tokenizer masks may stay explicit. Families 76/77/79 are revised accordingly before the production revert. The observed scorer must again be the exact frozen AST plus only sink; private original greedy reference calls receive no attention-mask injection.
+
+85. Latest Program ruling / LAW#5: through scored_recipe with telemetry off and on, the four text-read frozen scorers (full_seq_match, string_match, teacher_forced_pertok, sentence_nll) must pass no injected kwargs to the tiny CPU model; original scorer identities and hook registry are restored. Compile only the isolated FunctionDefs, never import or execute the harness module. No real writes/model load/stage launch.
+
 | Family | Tests (all have source lines in the index below) |
 |---|---|
 | 1 | `ReaderOrderTests.test_recorded_halt_invalid_and_budget_first`; `ReaderOrderTests.test_validity_precedes_fit_and_fit_precedes_counts` |
@@ -434,7 +510,7 @@ Family 32’s original sampled-once wording is superseded by §11: the completed
 | 54 | `TelemetryCheckContract.test_T8_runner_inert_pristine_stub_never_calls_writer_or_recipe`; `TelemetryCheckContract.test_T8_runner_other_verdicts_exit_zero_and_preserve_verdict`; `TelemetryCheckContract.test_T8_runner_preflight_refuses_knob_before_output_creation`; `TelemetryCheckContract.test_T8_runner_preserves_existing_record`; `TelemetryCheckContract.test_T8_runner_records_complete_current_identity_and_strict_roundtrip`; `TelemetryCheckContract.test_T8_runner_rejects_namespace_itself_and_nested_subdirectories`; `TelemetryCheckContract.test_T8_runner_rejects_output_outside_namespace`; `TelemetryCheckContract.test_T8_runner_rejects_relative_output_before_writes`; `TelemetryCheckContract.test_T8_runner_rejects_symlink_escape`; `TelemetryCheckContract.test_T8_runner_weight_change_is_invalid_exit_two`; `TelemetryTests.test_inertness_and_drifting_baseline`; `TelemetryTests.test_t8_serialized_wrong_answer_is_not_inert` |
 | 55 | `TelemetryCheckContract.test_T11_reader_does_not_open_telemetry_or_use_audit_as_gate`; `TelemetryForecastTests.test_full_stage_counts_and_payload_not_smaller`; `TelemetryForecastTests.test_inertness_bytes_once_and_duplicate_nonfinite_refused`; `TelemetryForecastTests.test_on_requires_separate_phase_before_dispatch`; `TelemetryForecastTests.test_per_kind_measurements_workload_and_sum_enforced` |
 | 56 | `TelemetryCheckContract.test_T11_audit_accepts_every_kind_with_only_kind_specific_fields`; `TelemetryCheckContract.test_T11_audit_checks_payload_types_for_every_non_answer_kind`; `TelemetryCheckContract.test_T11_audit_complete_answer_keys_pass_and_roundtrip`; `TelemetryCheckContract.test_T11_audit_declared_disabled_missing_output_keeps_science_record`; `TelemetryCheckContract.test_T11_audit_disabled_marker_does_not_excuse_a_gap_before_later_answers`; `TelemetryCheckContract.test_T11_audit_disabled_marker_does_not_excuse_mismatching_existing_line`; `TelemetryCheckContract.test_T11_audit_duplicate_answer_key_compromises_stage`; `TelemetryCheckContract.test_T11_audit_header_must_be_present_initial_and_unique`; `TelemetryCheckContract.test_T11_audit_mismatch_compromises_stage_and_requires_telemetry_off_rerun`; `TelemetryCheckContract.test_T11_audit_missing_answer_field_is_malformed`; `TelemetryCheckContract.test_T11_audit_missing_expected_key_compromises_stage`; `TelemetryCheckContract.test_T11_audit_missing_file_is_missing_output`; `TelemetryCheckContract.test_T11_audit_model_free_entrypoint_never_loads_driver_or_harness`; `TelemetryCheckContract.test_T11_audit_never_mutates_science_records_or_reader_output`; `TelemetryCheckContract.test_T11_audit_refuses_existing_audit_without_rewriting_evidence`; `TelemetryCheckContract.test_T11_audit_rejects_unknown_field_on_every_known_kind`; `TelemetryCheckContract.test_T11_audit_strict_json_rejects_nonfinite_and_duplicate_json_fields`; `TelemetryCheckContract.test_T11_audit_unknown_key_or_kind_or_field_is_unexpected`; `TelemetryCheckContract.test_T11_audit_uses_stage_two_and_three_tags_and_record_paths`; `TelemetryCheckContract.test_T11_audit_wrong_types_and_nulls_are_malformed`; `TelemetryCheckContract.test_T11_reader_does_not_open_telemetry_or_use_audit_as_gate` |
-| 57 | `IntegrationTests.test_native_hanging_worker_deadline_before_and_after_write`; `IsolationTests.test_all_cases_use_base`; `IsolationTests.test_live_write_positive_control`; `IsolationTests.test_real_dispatch_denied_with_temp_environment`; `IsolationTests.test_relative_and_symlink_guard`; `IsolationTests.test_selftest_root_refusal` |
+| 57 | `IntegrationTests.test_native_hanging_worker_deadline_before_and_after_write`; `IsolationTests.test_all_cases_use_base`; `IsolationTests.test_live_write_positive_control`; `IsolationTests.test_real_dispatch_denied_with_temp_environment`; `IsolationTests.test_relative_and_symlink_guard`; `IsolationTests.test_seed_uses_only_cpu_generator`; `IsolationTests.test_selftest_root_refusal` |
 | 58 | `TransportTests.test_actual_cpu_update_direction_changes_fail_real_reader_repro_gate`; `TransportTests.test_completed_stage1_runner_to_reader_and_cpu_pt_transport`; `TransportTests.test_completed_three_stages_preserve_common_files_and_compute_real_repro`; `TransportTests.test_tampered_stage2_pt_refuses_stage3_before_scientific_callbacks` |
 | 59 | `IntegrationTests.test_strict_json_and_immutable_records`; `TelemetryCheckContract.test_T11_audit_complete_answer_keys_pass_and_roundtrip`; `TelemetryCheckContract.test_T8_runner_records_complete_current_identity_and_strict_roundtrip` |
 | 60 | `CalibrationTests.test_frozen_bytes_suite_end`; `IsolationTests.test_all_cases_use_base` |
@@ -453,240 +529,264 @@ Family 32’s original sampled-once wording is superseded by §11: the completed
 | 73 | `TransportTests.test_saved_overlay_hash_is_the_immutable_serialized_bundle`; `TransportTests.test_tampered_stage2_pt_refuses_stage3_before_scientific_callbacks` |
 | 74 | `FinalReviewRegressionTests.test_complete_compile_accounting_drives_ttl_equality`; `FinalReviewRegressionTests.test_complete_compile_at_actual_scientific_hook_boundary`; `LaunchDeltaTests.test_norm_readouts_are_inside_writer_wall_clock`; `TransportTests.test_real_scored_recipe_accounts_for_scientific_hook_readout_time` |
 | 75 | `LaunchDeltaTests.test_nm_decimal_boundary_through_real_reader`; `LaunchDeltaTests.test_nm_decimal_boundary_through_scientific_hook`; `LaunchDeltaTests.test_stored_scale_sum_matches_reader_float64_sum` |
+| 76 | `AttentionMaskTests.test_owned_forwards_preserve_original_mask_contract` |
+| 77 | `AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_do_not_inject_mask` |
+| 78 | `AttentionMaskTests.test_padded_objective_and_lens_preserve_tokenizer_attention_mask` |
+| 79 | `AttentionMaskTests.test_observed_scorer_rejects_any_added_forward_keyword` |
+| 80 | `DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers`; `DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime`; `DeviceConversionTests.test_to_like_transfers_before_casting_offset_view` |
+| 81 | `DeviceConversionTests.test_reachable_helpers_only_combine_recorded_cpu_solve_transfer` |
+| 82 | `DeviceConversionTests.test_cpu64_copies_offset_view_before_dtype_cast` |
+| 83 | `DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add` |
+| 84 | `TelemetryReferenceTests.test_reference_scorer_is_exact_frozen_capture_copy`; `TelemetryReferenceTests.test_t8_uses_frozen_off_reference_and_observed_on_scorer` |
+| 85 | `TelemetryReferenceTests.test_frozen_harness_scorers_receive_no_injected_kwargs` |
 
 ### Every final test name → source line
 
 | Test | Source |
 |---|---|
-| `CalibrationForecastContractTests.test_all_three_targets_and_baseline_arm_timings_required` | `experiments/track_c/c10y_directdw_selftest.py:2874` |
-| `CalibrationForecastContractTests.test_bad_bound_records_return_unverified` | `experiments/track_c/c10y_directdw_selftest.py:3070` |
-| `CalibrationForecastContractTests.test_calibration_schema_and_c5_completeness` | `experiments/track_c/c10y_directdw_selftest.py:2996` |
-| `CalibrationForecastContractTests.test_cap_types_stage1_limit_and_later_stage_spend` | `experiments/track_c/c10y_directdw_selftest.py:3062` |
-| `CalibrationForecastContractTests.test_each_phase_rejects_wrong_measured_mapping` | `experiments/track_c/c10y_directdw_selftest.py:2855` |
-| `CalibrationForecastContractTests.test_full_c3_measured_map_and_every_repetition` | `experiments/track_c/c10y_directdw_selftest.py:2841` |
-| `CalibrationForecastContractTests.test_independent_bound_requires_explicit_justification` | `experiments/track_c/c10y_directdw_selftest.py:3048` |
-| `CalibrationForecastContractTests.test_input_identity_drift_and_padded_max_are_invalid` | `experiments/track_c/c10y_directdw_selftest.py:3008` |
-| `CalibrationForecastContractTests.test_merge_uses_larger_of_two_timed_merges` | `experiments/track_c/c10y_directdw_selftest.py:2951` |
-| `CalibrationForecastContractTests.test_missing_c3_unit_is_not_complete_support` | `experiments/track_c/c10y_directdw_selftest.py:2862` |
-| `CalibrationForecastContractTests.test_noncalibration_measured_flag_cannot_replace_supported_bound` | `experiments/track_c/c10y_directdw_selftest.py:3056` |
-| `CalibrationForecastContractTests.test_optimisation_comparable_shape_and_iteration_flags` | `experiments/track_c/c10y_directdw_selftest.py:2906` |
-| `CalibrationForecastContractTests.test_optimisation_full_105_attempt_stage_workload` | `experiments/track_c/c10y_directdw_selftest.py:2926` |
-| `CalibrationForecastContractTests.test_optimisation_requires_three_accepted_rows_in_each_check` | `experiments/track_c/c10y_directdw_selftest.py:2897` |
-| `CalibrationForecastContractTests.test_optimisation_uses_slowest_iteration_not_mean` | `experiments/track_c/c10y_directdw_selftest.py:2933` |
-| `CalibrationForecastContractTests.test_original_my_edit_requires_two_distinct_repetitions` | `experiments/track_c/c10y_directdw_selftest.py:2886` |
-| `CalibrationForecastContractTests.test_overflow_attempt_is_cited_in_addition_to_six_accepted_rows` | `experiments/track_c/c10y_directdw_selftest.py:2940` |
-| `CalibrationForecastContractTests.test_prestart_gate_rechecks_schema_and_staleness` | `experiments/track_c/c10y_directdw_selftest.py:3019` |
-| `CalibrationForecastContractTests.test_prestart_gate_rejects_forged_or_omitted_measurement` | `experiments/track_c/c10y_directdw_selftest.py:3036` |
-| `CalibrationForecastContractTests.test_raw_seconds_sync_status_and_workload_are_typed` | `experiments/track_c/c10y_directdw_selftest.py:2977` |
-| `CalibrationForecastContractTests.test_readout_1380_reserve_and_larger_measured_bound` | `experiments/track_c/c10y_directdw_selftest.py:2961` |
-| `CalibrationTests.test_calibration_forecast_rejects_partial_and_stale` | `experiments/track_c/c10y_directdw_selftest.py:833` |
-| `CalibrationTests.test_calibration_forecast_uses_all_repetitions_no_memory_or_inputs` | `experiments/track_c/c10y_directdw_selftest.py:2798` |
-| `CalibrationTests.test_calibration_go_spend_caps` | `experiments/track_c/c10y_directdw_selftest.py:791` |
-| `CalibrationTests.test_calibration_prefix_only_and_required_records` | `experiments/track_c/c10y_directdw_selftest.py:807` |
-| `CalibrationTests.test_calibration_reader_and_context_source_refused` | `experiments/track_c/c10y_directdw_selftest.py:827` |
-| `CalibrationTests.test_calibration_telemetry_variables_and_existing_directory_refused` | `experiments/track_c/c10y_directdw_selftest.py:797` |
-| `CalibrationTests.test_calibration_v4_halt_persists_schedule` | `experiments/track_c/c10y_directdw_selftest.py:820` |
-| `CalibrationTests.test_calibration_wrong_namespace_refused` | `experiments/track_c/c10y_directdw_selftest.py:803` |
-| `CalibrationTests.test_frozen_bytes_suite_end` | `experiments/track_c/c10y_directdw_selftest.py:851` |
-| `FinalReviewRegressionTests.test_calibration_callsite_persists_complete_timing_tags` | `experiments/track_c/c10y_directdw_selftest.py:3360` |
-| `FinalReviewRegressionTests.test_complete_compile_accounting_drives_ttl_equality` | `experiments/track_c/c10y_directdw_selftest.py:3350` |
-| `FinalReviewRegressionTests.test_complete_compile_at_actual_scientific_hook_boundary` | `experiments/track_c/c10y_directdw_selftest.py:3268` |
-| `FinalReviewRegressionTests.test_each_telemetry_method_preserves_every_state_and_A_grad` | `experiments/track_c/c10y_directdw_selftest.py:3223` |
-| `FinalReviewRegressionTests.test_forecast_aware_first_expensive_action_is_not_entered` | `experiments/track_c/c10y_directdw_selftest.py:3296` |
-| `FinalReviewRegressionTests.test_live_objective_graph_guard_precedes_backward_and_adam` | `experiments/track_c/c10y_directdw_selftest.py:3309` |
-| `FinalReviewRegressionTests.test_merged_fit_reduces_vocabulary_on_cpu_float64` | `experiments/track_c/c10y_directdw_selftest.py:3333` |
-| `FinalReviewRegressionTests.test_off_scorer_is_original_during_actual_recipe_call` | `experiments/track_c/c10y_directdw_selftest.py:3259` |
-| `FinalReviewRegressionTests.test_phase_markers_cover_units_without_changing_operational_calls` | `experiments/track_c/c10y_directdw_selftest.py:3369` |
-| `FinalReviewRegressionTests.test_premerge_parity_cannot_spend_postmerge_reserve` | `experiments/track_c/c10y_directdw_selftest.py:3285` |
-| `FinalReviewRegressionTests.test_real_writer_durable_merge_precedes_postmerge_readout` | `experiments/track_c/c10y_directdw_selftest.py:3322` |
-| `FinalReviewRegressionTests.test_real_writer_per_write_line_formula` | `experiments/track_c/c10y_directdw_selftest.py:3242` |
-| `FinalReviewRegressionTests.test_recorded_contexts_never_sample_even_after_seeding` | `experiments/track_c/c10y_directdw_selftest.py:3377` |
-| `IntegrationTests.test_actual_launcher_refuses_missing_calibration_before_import` | `experiments/track_c/c10y_directdw_selftest.py:698` |
-| `IntegrationTests.test_candidate_operations_require_baseline` | `experiments/track_c/c10y_directdw_selftest.py:676` |
-| `IntegrationTests.test_native_hanging_worker_deadline_before_and_after_write` | `experiments/track_c/c10y_directdw_selftest.py:734` |
-| `IntegrationTests.test_sequential_capture_matches_original` | `experiments/track_c/c10y_directdw_selftest.py:647` |
-| `IntegrationTests.test_stage_runner_artifacts_feed_real_reader_and_halt_before_candidates` | `experiments/track_c/c10y_directdw_selftest.py:710` |
-| `IntegrationTests.test_stored_control_scale1_identity` | `experiments/track_c/c10y_directdw_selftest.py:682` |
-| `IntegrationTests.test_strict_json_and_immutable_records` | `experiments/track_c/c10y_directdw_selftest.py:688` |
-| `IntegrationTests.test_three_forced_zero_lr_iterations_and_telemetry_trajectory` | `experiments/track_c/c10y_directdw_selftest.py:659` |
-| `IsolationTests.test_all_cases_use_base` | `experiments/track_c/c10y_directdw_selftest.py:325` |
-| `IsolationTests.test_live_write_positive_control` | `experiments/track_c/c10y_directdw_selftest.py:314` |
-| `IsolationTests.test_real_dispatch_denied_with_temp_environment` | `experiments/track_c/c10y_directdw_selftest.py:328` |
-| `IsolationTests.test_relative_and_symlink_guard` | `experiments/track_c/c10y_directdw_selftest.py:320` |
-| `IsolationTests.test_selftest_root_refusal` | `experiments/track_c/c10y_directdw_selftest.py:333` |
-| `LaunchDeltaTests.test_later_stage_cannot_consume_stage1_calibration_measurements` | `experiments/track_c/c10y_directdw_selftest.py:4042` |
-| `LaunchDeltaTests.test_nm_decimal_boundary_through_real_reader` | `experiments/track_c/c10y_directdw_selftest.py:4008` |
-| `LaunchDeltaTests.test_nm_decimal_boundary_through_scientific_hook` | `experiments/track_c/c10y_directdw_selftest.py:4020` |
-| `LaunchDeltaTests.test_norm_readouts_are_inside_writer_wall_clock` | `experiments/track_c/c10y_directdw_selftest.py:4074` |
-| `LaunchDeltaTests.test_real_iteration_producer_passes_c2_timing_validator` | `experiments/track_c/c10y_directdw_selftest.py:4084` |
-| `LaunchDeltaTests.test_stored_scale_sum_matches_reader_float64_sum` | `experiments/track_c/c10y_directdw_selftest.py:4001` |
-| `LaunchDeltaTests.test_supervisor_timeout_records_observed_template_hash_without_child` | `experiments/track_c/c10y_directdw_selftest.py:4057` |
-| `LaunchDeltaTests.test_t8_overlap_audit_precedes_first_forward_and_never_redraws` | `experiments/track_c/c10y_directdw_selftest.py:4049` |
-| `LaunchTests.test_context_freeze_and_leakage` | `experiments/track_c/c10y_directdw_selftest.py:521` |
-| `LaunchTests.test_direct_launch_shell_dependencies_are_executable_and_git_100755` | `experiments/track_c/c10y_directdw_selftest.py:463` |
-| `LaunchTests.test_every_inherited_preflight_knob_refused` | `experiments/track_c/c10y_directdw_selftest.py:486` |
-| `LaunchTests.test_forecast_unverified_and_cap` | `experiments/track_c/c10y_directdw_selftest.py:2782` |
-| `LaunchTests.test_go_spend_and_stage_eligibility` | `experiments/track_c/c10y_directdw_selftest.py:494` |
-| `LaunchTests.test_memory_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:513` |
-| `LaunchTests.test_schedule_halt_survives_new_directory` | `experiments/track_c/c10y_directdw_selftest.py:542` |
-| `LaunchTests.test_step_projection_reserves_readout` | `experiments/track_c/c10y_directdw_selftest.py:546` |
-| `LaunchTests.test_wrapper_delegate_dynamic_and_arm_restore` | `experiments/track_c/c10y_directdw_selftest.py:530` |
-| `NumericTests.test_anchor_zero_denominator` | `experiments/track_c/c10y_directdw_selftest.py:367` |
-| `NumericTests.test_capture_factorization` | `experiments/track_c/c10y_directdw_selftest.py:359` |
-| `NumericTests.test_control_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:379` |
-| `NumericTests.test_full_size_float64_reductions` | `experiments/track_c/c10y_directdw_selftest.py:338` |
-| `NumericTests.test_gram_norm_dense_reference` | `experiments/track_c/c10y_directdw_selftest.py:351` |
-| `NumericTests.test_mps_double_refused` | `experiments/track_c/c10y_directdw_selftest.py:356` |
-| `NumericTests.test_null_share_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:385` |
-| `NumericTests.test_size_scales_and_stored_arithmetic` | `experiments/track_c/c10y_directdw_selftest.py:371` |
-| `OptimizerTests.test_effective_weight_and_routing_gradient` | `experiments/track_c/c10y_directdw_selftest.py:394` |
-| `OptimizerTests.test_kl_coefficient_once` | `experiments/track_c/c10y_directdw_selftest.py:406` |
-| `OptimizerTests.test_loss_scale_transaction` | `experiments/track_c/c10y_directdw_selftest.py:430` |
-| `OptimizerTests.test_microbatch_request_weighting` | `experiments/track_c/c10y_directdw_selftest.py:419` |
-| `OptimizerTests.test_request_batch_and_target_only_objective` | `experiments/track_c/c10y_directdw_selftest.py:408` |
-| `OptimizerTests.test_sixth_overflow_halts_without_mutation` | `experiments/track_c/c10y_directdw_selftest.py:444` |
-| `OptimizerTests.test_stopping_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:425` |
-| `OptimizerTests.test_unknown_hooks_preserved` | `experiments/track_c/c10y_directdw_selftest.py:450` |
-| `PinnedTemplateTests.test_changed_template_source_or_stage1_content_halts` | `experiments/track_c/c10y_directdw_selftest.py:3119` |
-| `PinnedTemplateTests.test_stage1_and_calibration_pin_before_first_engine_call` | `experiments/track_c/c10y_directdw_selftest.py:3088` |
-| `PinnedTemplateTests.test_stages2_3_install_stage1_bytes_before_first_engine_use` | `experiments/track_c/c10y_directdw_selftest.py:3112` |
-| `PinnedTemplateTests.test_t8_digest_failure_has_halt_diagnostic_before_scoring` | `experiments/track_c/c10y_directdw_selftest.py:3140` |
-| `PinnedTemplateTests.test_t8_installs_pin_and_writes_context_before_any_pass` | `experiments/track_c/c10y_directdw_selftest.py:3133` |
-| `ReaderAttributionTests.test_anchor_comparison_does_not_require_bz_sized_gain` | `experiments/track_c/c10y_directdw_selftest.py:1826` |
-| `ReaderAttributionTests.test_anchor_missing_invalid_and_unfit_untested` | `experiments/track_c/c10y_directdw_selftest.py:1815` |
-| `ReaderAttributionTests.test_anchor_sham_descriptor_windows_not_fit_or_validity` | `experiments/track_c/c10y_directdw_selftest.py:1832` |
-| `ReaderAttributionTests.test_control_positive_requires_envelope_gain_fit_locality_and_validity` | `experiments/track_c/c10y_directdw_selftest.py:1791` |
-| `ReaderAttributionTests.test_hy1_credit_requires_both_processes_attributed` | `experiments/track_c/c10y_directdw_selftest.py:1844` |
-| `ReaderAttributionTests.test_neff_minimum_and_anchor_gap_nine_ten` | `experiments/track_c/c10y_directdw_selftest.py:1808` |
-| `ReaderAttributionTests.test_no_downscale_controls_required_at_actual_ratio_one` | `experiments/track_c/c10y_directdw_selftest.py:1747` |
-| `ReaderAttributionTests.test_size_control_matching_and_direction_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:1771` |
-| `ReaderAttributionTests.test_total_and_per_layer_growth_trigger_independent_controls` | `experiments/track_c/c10y_directdw_selftest.py:1761` |
-| `ReaderAttributionTests.test_zero_reference_size_normalisation_conservative_provisional` | `experiments/track_c/c10y_directdw_selftest.py:1753` |
-| `ReaderCrossProcessTests.test_cross_shared_hin_and_telemetry_pair_identity` | `experiments/track_c/c10y_directdw_selftest.py:1945` |
-| `ReaderCrossProcessTests.test_r1_cosine_and_distance_every_layer_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:1890` |
-| `ReaderCrossProcessTests.test_r1_required_controls_and_all_arms_independent` | `experiments/track_c/c10y_directdw_selftest.py:1915` |
-| `ReaderCrossProcessTests.test_r1_zero_norm_rules_and_baseline_instrument` | `experiments/track_c/c10y_directdw_selftest.py:1899` |
-| `ReaderCrossProcessTests.test_r2_count_spread_five_six` | `experiments/track_c/c10y_directdw_selftest.py:1922` |
-| `ReaderCrossProcessTests.test_r3_incorrect_strings_do_not_count_as_disagreement` | `experiments/track_c/c10y_directdw_selftest.py:1939` |
-| `ReaderCrossProcessTests.test_r3_keyed_boolean_disagreement_da_plus_three_four` | `experiments/track_c/c10y_directdw_selftest.py:1930` |
-| `ReaderCrossProcessTests.test_regenerated_target_hashes_need_not_match_shared_hin` | `experiments/track_c/c10y_directdw_selftest.py:1955` |
-| `ReaderCrossProcessTests.test_x1_not_run_halted_and_incomplete_never_fabricated_null` | `experiments/track_c/c10y_directdw_selftest.py:1858` |
-| `ReaderCrossProcessTests.test_x2_identical_labels_and_union_qualifiers` | `experiments/track_c/c10y_directdw_selftest.py:1868` |
-| `ReaderCrossProcessTests.test_x3_mixed_labels_store_actual_counts` | `experiments/track_c/c10y_directdw_selftest.py:1874` |
-| `ReaderFitAndScreenTests.test_fit_e2e_minimum_canonical_and_every_stop` | `experiments/track_c/c10y_directdw_selftest.py:1558` |
-| `ReaderFitAndScreenTests.test_fit_per_required_arm_and_apply_stored` | `experiments/track_c/c10y_directdw_selftest.py:1568` |
-| `ReaderFitAndScreenTests.test_fit_requires_full_merged_matrix` | `experiments/track_c/c10y_directdw_selftest.py:1578` |
-| `ReaderFitAndScreenTests.test_fit_z_mean_and_maximum_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:1591` |
-| `ReaderFitAndScreenTests.test_fit_z_zero_denominator_named_rule` | `experiments/track_c/c10y_directdw_selftest.py:1600` |
-| `ReaderFitAndScreenTests.test_s1_named_halts_without_screen_label` | `experiments/track_c/c10y_directdw_selftest.py:1610` |
-| `ReaderFitAndScreenTests.test_s2_s3_budget_write_boundary` | `experiments/track_c/c10y_directdw_selftest.py:1616` |
-| `ReaderFitAndScreenTests.test_s4_fit_precedes_high_count_locality_and_size` | `experiments/track_c/c10y_directdw_selftest.py:1631` |
-| `ReaderFitAndScreenTests.test_s5_s7_envelope_and_gain_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:1640` |
-| `ReaderFitAndScreenTests.test_s6_size_boundary_and_null_first_match` | `experiments/track_c/c10y_directdw_selftest.py:1647` |
-| `ReaderFitAndScreenTests.test_stage1_recorded_projection_exactly_120_minutes_fits` | `experiments/track_c/c10y_directdw_selftest.py:1623` |
-| `ReaderLoadTests.test_load_calibration_directory_refused_before_read` | `experiments/track_c/c10y_directdw_selftest.py:2096` |
-| `ReaderLoadTests.test_load_does_not_read_telemetry` | `experiments/track_c/c10y_directdw_selftest.py:2070` |
-| `ReaderLoadTests.test_load_later_self_contained_record_uses_own_outcome` | `experiments/track_c/c10y_directdw_selftest.py:2080` |
-| `ReaderLoadTests.test_load_saved_halt_first_with_missing_science_artifacts` | `experiments/track_c/c10y_directdw_selftest.py:2061` |
-| `ReaderLoadTests.test_load_strict_json_nonfinite_refused` | `experiments/track_c/c10y_directdw_selftest.py:2089` |
-| `ReaderOrderTests.test_existing_arm_missing_metric_is_v13_invalid` | `experiments/track_c/c10y_directdw_selftest.py:1262` |
-| `ReaderOrderTests.test_missing_comparators_qualify_without_incomplete` | `experiments/track_c/c10y_directdw_selftest.py:1253` |
-| `ReaderOrderTests.test_own_record_and_v5_missing_precede_validity_and_fit` | `experiments/track_c/c10y_directdw_selftest.py:1222` |
-| `ReaderOrderTests.test_recorded_halt_invalid_and_budget_first` | `experiments/track_c/c10y_directdw_selftest.py:1213` |
-| `ReaderOrderTests.test_source_and_prereg_identity_refused` | `experiments/track_c/c10y_directdw_selftest.py:1267` |
-| `ReaderOrderTests.test_stage1_not_run_controls_and_later_records_not_required` | `experiments/track_c/c10y_directdw_selftest.py:1246` |
-| `ReaderOrderTests.test_validity_precedes_fit_and_fit_precedes_counts` | `experiments/track_c/c10y_directdw_selftest.py:1234` |
-| `ReaderProcessLocalityTests.test_g1_g2_each_frame_both_sides` | `experiments/track_c/c10y_directdw_selftest.py:1678` |
-| `ReaderProcessLocalityTests.test_g3_g4_g5_unrounded_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:1693` |
-| `ReaderProcessLocalityTests.test_g3_g5_display_rounding_cannot_substitute` | `experiments/track_c/c10y_directdw_selftest.py:1702` |
-| `ReaderProcessLocalityTests.test_g6_relation_flips_report_only` | `experiments/track_c/c10y_directdw_selftest.py:1712` |
-| `ReaderProcessLocalityTests.test_p1_p2_p3` | `experiments/track_c/c10y_directdw_selftest.py:1660` |
-| `ReaderProcessLocalityTests.test_p4_p5_p7_count_and_gain_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:1671` |
-| `ReaderProcessLocalityTests.test_p6_tradeoff_and_p7_null_first_match` | `experiments/track_c/c10y_directdw_selftest.py:1717` |
-| `ReaderProcessLocalityTests.test_w1_actual_size_boundary_qualifier_preserves_base` | `experiments/track_c/c10y_directdw_selftest.py:1724` |
-| `ReaderProcessLocalityTests.test_w2_ttl_warning_equality_nonblocking` | `experiments/track_c/c10y_directdw_selftest.py:1734` |
-| `ReaderTruthTableTests.test_authored_full_truth_rows_277_289` | `experiments/track_c/c10y_directdw_selftest.py:2001` |
-| `ReaderTruthTableTests.test_authored_stage1_truth_rows_265_276` | `experiments/track_c/c10y_directdw_selftest.py:1966` |
-| `ReaderValidityTests.test_v10_overflow_retries_five_six` | `experiments/track_c/c10y_directdw_selftest.py:1484` |
-| `ReaderValidityTests.test_v11_hin_hashes_and_write_trace_required` | `experiments/track_c/c10y_directdw_selftest.py:1490` |
-| `ReaderValidityTests.test_v12_leakage_named_halt` | `experiments/track_c/c10y_directdw_selftest.py:1506` |
-| `ReaderValidityTests.test_v13_every_applicable_numeric_family_nonfinite` | `experiments/track_c/c10y_directdw_selftest.py:1532` |
-| `ReaderValidityTests.test_v13_nonfinite_unjustified_null_and_typed_integer` | `experiments/track_c/c10y_directdw_selftest.py:1526` |
-| `ReaderValidityTests.test_v13_typed_nulls_and_reasons` | `experiments/track_c/c10y_directdw_selftest.py:1511` |
-| `ReaderValidityTests.test_v1_fingerprint_sha_sites_and_full_output` | `experiments/track_c/c10y_directdw_selftest.py:1282` |
-| `ReaderValidityTests.test_v2_each_recipe_standing_law5` | `experiments/track_c/c10y_directdw_selftest.py:1289` |
-| `ReaderValidityTests.test_v3_accumulation_raw_cosine_distance_finiteness_and_scope` | `experiments/track_c/c10y_directdw_selftest.py:1349` |
-| `ReaderValidityTests.test_v3_apply_stored_substitutions_not_optimiser_checks` | `experiments/track_c/c10y_directdw_selftest.py:1314` |
-| `ReaderValidityTests.test_v3_capture_zero_step_and_executed_loop_raw_values` | `experiments/track_c/c10y_directdw_selftest.py:1323` |
-| `ReaderValidityTests.test_v3_check_failure_order_and_scope` | `experiments/track_c/c10y_directdw_selftest.py:1295` |
-| `ReaderValidityTests.test_v3_gradient_halvings_hooks_and_smoke_raw_values` | `experiments/track_c/c10y_directdw_selftest.py:1365` |
-| `ReaderValidityTests.test_v3_missing_required_check_invalid` | `experiments/track_c/c10y_directdw_selftest.py:1304` |
-| `ReaderValidityTests.test_v3_objective_nll_and_nonzero_kl_raw_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:1337` |
-| `ReaderValidityTests.test_v4_a1_a2_and_exact_denominators` | `experiments/track_c/c10y_directdw_selftest.py:1394` |
-| `ReaderValidityTests.test_v4_all_inclusive_baseline_endpoints` | `experiments/track_c/c10y_directdw_selftest.py:1384` |
-| `ReaderValidityTests.test_v4_before_candidates_required` | `experiments/track_c/c10y_directdw_selftest.py:1405` |
-| `ReaderValidityTests.test_v5_candidate_controls_67_68_each_arm` | `experiments/track_c/c10y_directdw_selftest.py:1410` |
-| `ReaderValidityTests.test_v6_overrides_are_exact_sets_not_counts` | `experiments/track_c/c10y_directdw_selftest.py:1418` |
-| `ReaderValidityTests.test_v7_initial_projector_raw_share_cannot_hide_behind_passed` | `experiments/track_c/c10y_directdw_selftest.py:1454` |
-| `ReaderValidityTests.test_v7_planned_actual_each_layer_boundary_and_zero` | `experiments/track_c/c10y_directdw_selftest.py:1437` |
-| `ReaderValidityTests.test_v7_untouched_reference_miss_halts_precision_diagnosis` | `experiments/track_c/c10y_directdw_selftest.py:1449` |
-| `ReaderValidityTests.test_v8_string_full_equality_and_one_below_every_arm` | `experiments/track_c/c10y_directdw_selftest.py:1462` |
-| `ReaderValidityTests.test_v9_init_final_tokens_and_each_loss_component` | `experiments/track_c/c10y_directdw_selftest.py:1471` |
-| `TelemetryCheckContract.test_T11_audit_accepts_every_kind_with_only_kind_specific_fields` | `experiments/track_c/c10y_directdw_selftest.py:2430` |
-| `TelemetryCheckContract.test_T11_audit_checks_payload_types_for_every_non_answer_kind` | `experiments/track_c/c10y_directdw_selftest.py:2502` |
-| `TelemetryCheckContract.test_T11_audit_complete_answer_keys_pass_and_roundtrip` | `experiments/track_c/c10y_directdw_selftest.py:2404` |
-| `TelemetryCheckContract.test_T11_audit_declared_disabled_missing_output_keeps_science_record` | `experiments/track_c/c10y_directdw_selftest.py:2577` |
-| `TelemetryCheckContract.test_T11_audit_disabled_marker_does_not_excuse_a_gap_before_later_answers` | `experiments/track_c/c10y_directdw_selftest.py:2598` |
-| `TelemetryCheckContract.test_T11_audit_disabled_marker_does_not_excuse_mismatching_existing_line` | `experiments/track_c/c10y_directdw_selftest.py:2588` |
-| `TelemetryCheckContract.test_T11_audit_duplicate_answer_key_compromises_stage` | `experiments/track_c/c10y_directdw_selftest.py:2460` |
-| `TelemetryCheckContract.test_T11_audit_header_must_be_present_initial_and_unique` | `experiments/track_c/c10y_directdw_selftest.py:2559` |
-| `TelemetryCheckContract.test_T11_audit_mismatch_compromises_stage_and_requires_telemetry_off_rerun` | `experiments/track_c/c10y_directdw_selftest.py:2452` |
-| `TelemetryCheckContract.test_T11_audit_missing_answer_field_is_malformed` | `experiments/track_c/c10y_directdw_selftest.py:2494` |
-| `TelemetryCheckContract.test_T11_audit_missing_expected_key_compromises_stage` | `experiments/track_c/c10y_directdw_selftest.py:2466` |
-| `TelemetryCheckContract.test_T11_audit_missing_file_is_missing_output` | `experiments/track_c/c10y_directdw_selftest.py:2472` |
-| `TelemetryCheckContract.test_T11_audit_model_free_entrypoint_never_loads_driver_or_harness` | `experiments/track_c/c10y_directdw_selftest.py:2607` |
-| `TelemetryCheckContract.test_T11_audit_never_mutates_science_records_or_reader_output` | `experiments/track_c/c10y_directdw_selftest.py:2419` |
-| `TelemetryCheckContract.test_T11_audit_refuses_existing_audit_without_rewriting_evidence` | `experiments/track_c/c10y_directdw_selftest.py:2618` |
-| `TelemetryCheckContract.test_T11_audit_rejects_unknown_field_on_every_known_kind` | `experiments/track_c/c10y_directdw_selftest.py:2520` |
-| `TelemetryCheckContract.test_T11_audit_strict_json_rejects_nonfinite_and_duplicate_json_fields` | `experiments/track_c/c10y_directdw_selftest.py:2549` |
-| `TelemetryCheckContract.test_T11_audit_unknown_key_or_kind_or_field_is_unexpected` | `experiments/track_c/c10y_directdw_selftest.py:2477` |
-| `TelemetryCheckContract.test_T11_audit_uses_stage_two_and_three_tags_and_record_paths` | `experiments/track_c/c10y_directdw_selftest.py:2412` |
-| `TelemetryCheckContract.test_T11_audit_wrong_types_and_nulls_are_malformed` | `experiments/track_c/c10y_directdw_selftest.py:2538` |
-| `TelemetryCheckContract.test_T11_reader_does_not_open_telemetry_or_use_audit_as_gate` | `experiments/track_c/c10y_directdw_selftest.py:2627` |
-| `TelemetryCheckContract.test_T8_runner_inert_pristine_stub_never_calls_writer_or_recipe` | `experiments/track_c/c10y_directdw_selftest.py:2338` |
-| `TelemetryCheckContract.test_T8_runner_other_verdicts_exit_zero_and_preserve_verdict` | `experiments/track_c/c10y_directdw_selftest.py:2390` |
-| `TelemetryCheckContract.test_T8_runner_preflight_refuses_knob_before_output_creation` | `experiments/track_c/c10y_directdw_selftest.py:2331` |
-| `TelemetryCheckContract.test_T8_runner_preserves_existing_record` | `experiments/track_c/c10y_directdw_selftest.py:2322` |
-| `TelemetryCheckContract.test_T8_runner_records_complete_current_identity_and_strict_roundtrip` | `experiments/track_c/c10y_directdw_selftest.py:2352` |
-| `TelemetryCheckContract.test_T8_runner_rejects_namespace_itself_and_nested_subdirectories` | `experiments/track_c/c10y_directdw_selftest.py:2303` |
-| `TelemetryCheckContract.test_T8_runner_rejects_output_outside_namespace` | `experiments/track_c/c10y_directdw_selftest.py:2296` |
-| `TelemetryCheckContract.test_T8_runner_rejects_relative_output_before_writes` | `experiments/track_c/c10y_directdw_selftest.py:2290` |
-| `TelemetryCheckContract.test_T8_runner_rejects_symlink_escape` | `experiments/track_c/c10y_directdw_selftest.py:2311` |
-| `TelemetryCheckContract.test_T8_runner_weight_change_is_invalid_exit_two` | `experiments/track_c/c10y_directdw_selftest.py:2375` |
-| `TelemetryForecastTests.test_full_stage_counts_and_payload_not_smaller` | `experiments/track_c/c10y_directdw_selftest.py:3195` |
-| `TelemetryForecastTests.test_inertness_bytes_once_and_duplicate_nonfinite_refused` | `experiments/track_c/c10y_directdw_selftest.py:3207` |
-| `TelemetryForecastTests.test_on_requires_separate_phase_before_dispatch` | `experiments/track_c/c10y_directdw_selftest.py:3174` |
-| `TelemetryForecastTests.test_per_kind_measurements_workload_and_sum_enforced` | `experiments/track_c/c10y_directdw_selftest.py:3181` |
-| `TelemetryTests.test_every_kind_state_preservation_and_volume` | `experiments/track_c/c10y_directdw_selftest.py:599` |
-| `TelemetryTests.test_frozen_hparams_lens_uses_actual_linear_head` | `experiments/track_c/c10y_directdw_selftest.py:554` |
-| `TelemetryTests.test_inertness_and_drifting_baseline` | `experiments/track_c/c10y_directdw_selftest.py:637` |
-| `TelemetryTests.test_invalid_switches_refused_before_write` | `experiments/track_c/c10y_directdw_selftest.py:585` |
-| `TelemetryTests.test_io_failures_disable_once_and_baseexception_propagates` | `experiments/track_c/c10y_directdw_selftest.py:624` |
-| `TelemetryTests.test_off_has_no_object_or_directory` | `experiments/track_c/c10y_directdw_selftest.py:580` |
-| `TelemetryTests.test_scorer_ast_and_exact_inputs` | `experiments/track_c/c10y_directdw_selftest.py:589` |
-| `TelemetryTests.test_t8_serialized_wrong_answer_is_not_inert` | `experiments/track_c/c10y_directdw_selftest.py:572` |
-| `TelemetryTests.test_telemetry_never_calls_operational_clock_or_writes_input_record` | `experiments/track_c/c10y_directdw_selftest.py:560` |
-| `TransportTests.test_actual_cpu_update_direction_changes_fail_real_reader_repro_gate` | `experiments/track_c/c10y_directdw_selftest.py:3752` |
-| `TransportTests.test_completed_stage1_runner_to_reader_and_cpu_pt_transport` | `experiments/track_c/c10y_directdw_selftest.py:3688` |
-| `TransportTests.test_completed_three_stages_preserve_common_files_and_compute_real_repro` | `experiments/track_c/c10y_directdw_selftest.py:3709` |
-| `TransportTests.test_real_scored_recipe_accounts_for_scientific_hook_readout_time` | `experiments/track_c/c10y_directdw_selftest.py:3935` |
-| `TransportTests.test_requested_stage_forecast_is_checked_before_dispatch_and_worker` | `experiments/track_c/c10y_directdw_selftest.py:3894` |
-| `TransportTests.test_saved_overlay_hash_is_the_immutable_serialized_bundle` | `experiments/track_c/c10y_directdw_selftest.py:3920` |
-| `TransportTests.test_stage3_pair_mismatch_is_refused_in_parent_before_any_launch_write` | `experiments/track_c/c10y_directdw_selftest.py:3909` |
-| `TransportTests.test_stage3_telemetry_setting_cannot_change_after_stage2` | `experiments/track_c/c10y_directdw_selftest.py:3879` |
-| `TransportTests.test_tampered_stage2_pt_refuses_stage3_before_scientific_callbacks` | `experiments/track_c/c10y_directdw_selftest.py:3769` |
-| `TransportTests.test_telemetry_off_on_transport_changes_only_T1_fields_at_every_stage` | `experiments/track_c/c10y_directdw_selftest.py:3817` |
-| `TransportTests.test_wrong_stage3_predecessor_refuses_in_main_before_harness_or_supervisor` | `experiments/track_c/c10y_directdw_selftest.py:3786` |
+| `AttentionMaskTests.test_observed_scorer_rejects_any_added_forward_keyword` | `experiments/track_c/c10y_directdw_selftest.py:4187` |
+| `AttentionMaskTests.test_owned_forwards_preserve_original_mask_contract` | `experiments/track_c/c10y_directdw_selftest.py:4119` |
+| `AttentionMaskTests.test_padded_objective_and_lens_preserve_tokenizer_attention_mask` | `experiments/track_c/c10y_directdw_selftest.py:4161` |
+| `AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_do_not_inject_mask` | `experiments/track_c/c10y_directdw_selftest.py:4139` |
+| `CalibrationForecastContractTests.test_all_three_targets_and_baseline_arm_timings_required` | `experiments/track_c/c10y_directdw_selftest.py:2893` |
+| `CalibrationForecastContractTests.test_bad_bound_records_return_unverified` | `experiments/track_c/c10y_directdw_selftest.py:3089` |
+| `CalibrationForecastContractTests.test_calibration_schema_and_c5_completeness` | `experiments/track_c/c10y_directdw_selftest.py:3015` |
+| `CalibrationForecastContractTests.test_cap_types_stage1_limit_and_later_stage_spend` | `experiments/track_c/c10y_directdw_selftest.py:3081` |
+| `CalibrationForecastContractTests.test_each_phase_rejects_wrong_measured_mapping` | `experiments/track_c/c10y_directdw_selftest.py:2874` |
+| `CalibrationForecastContractTests.test_full_c3_measured_map_and_every_repetition` | `experiments/track_c/c10y_directdw_selftest.py:2860` |
+| `CalibrationForecastContractTests.test_independent_bound_requires_explicit_justification` | `experiments/track_c/c10y_directdw_selftest.py:3067` |
+| `CalibrationForecastContractTests.test_input_identity_drift_and_padded_max_are_invalid` | `experiments/track_c/c10y_directdw_selftest.py:3027` |
+| `CalibrationForecastContractTests.test_merge_uses_larger_of_two_timed_merges` | `experiments/track_c/c10y_directdw_selftest.py:2970` |
+| `CalibrationForecastContractTests.test_missing_c3_unit_is_not_complete_support` | `experiments/track_c/c10y_directdw_selftest.py:2881` |
+| `CalibrationForecastContractTests.test_noncalibration_measured_flag_cannot_replace_supported_bound` | `experiments/track_c/c10y_directdw_selftest.py:3075` |
+| `CalibrationForecastContractTests.test_optimisation_comparable_shape_and_iteration_flags` | `experiments/track_c/c10y_directdw_selftest.py:2925` |
+| `CalibrationForecastContractTests.test_optimisation_full_105_attempt_stage_workload` | `experiments/track_c/c10y_directdw_selftest.py:2945` |
+| `CalibrationForecastContractTests.test_optimisation_requires_three_accepted_rows_in_each_check` | `experiments/track_c/c10y_directdw_selftest.py:2916` |
+| `CalibrationForecastContractTests.test_optimisation_uses_slowest_iteration_not_mean` | `experiments/track_c/c10y_directdw_selftest.py:2952` |
+| `CalibrationForecastContractTests.test_original_my_edit_requires_two_distinct_repetitions` | `experiments/track_c/c10y_directdw_selftest.py:2905` |
+| `CalibrationForecastContractTests.test_overflow_attempt_is_cited_in_addition_to_six_accepted_rows` | `experiments/track_c/c10y_directdw_selftest.py:2959` |
+| `CalibrationForecastContractTests.test_prestart_gate_rechecks_schema_and_staleness` | `experiments/track_c/c10y_directdw_selftest.py:3038` |
+| `CalibrationForecastContractTests.test_prestart_gate_rejects_forged_or_omitted_measurement` | `experiments/track_c/c10y_directdw_selftest.py:3055` |
+| `CalibrationForecastContractTests.test_raw_seconds_sync_status_and_workload_are_typed` | `experiments/track_c/c10y_directdw_selftest.py:2996` |
+| `CalibrationForecastContractTests.test_readout_1380_reserve_and_larger_measured_bound` | `experiments/track_c/c10y_directdw_selftest.py:2980` |
+| `CalibrationTests.test_calibration_forecast_rejects_partial_and_stale` | `experiments/track_c/c10y_directdw_selftest.py:852` |
+| `CalibrationTests.test_calibration_forecast_uses_all_repetitions_no_memory_or_inputs` | `experiments/track_c/c10y_directdw_selftest.py:2817` |
+| `CalibrationTests.test_calibration_go_spend_caps` | `experiments/track_c/c10y_directdw_selftest.py:810` |
+| `CalibrationTests.test_calibration_prefix_only_and_required_records` | `experiments/track_c/c10y_directdw_selftest.py:826` |
+| `CalibrationTests.test_calibration_reader_and_context_source_refused` | `experiments/track_c/c10y_directdw_selftest.py:846` |
+| `CalibrationTests.test_calibration_telemetry_variables_and_existing_directory_refused` | `experiments/track_c/c10y_directdw_selftest.py:816` |
+| `CalibrationTests.test_calibration_v4_halt_persists_schedule` | `experiments/track_c/c10y_directdw_selftest.py:839` |
+| `CalibrationTests.test_calibration_wrong_namespace_refused` | `experiments/track_c/c10y_directdw_selftest.py:822` |
+| `CalibrationTests.test_frozen_bytes_suite_end` | `experiments/track_c/c10y_directdw_selftest.py:870` |
+| `DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers` | `experiments/track_c/c10y_directdw_selftest.py:4310` |
+| `DeviceConversionTests.test_cpu64_copies_offset_view_before_dtype_cast` | `experiments/track_c/c10y_directdw_selftest.py:4362` |
+| `DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime` | `experiments/track_c/c10y_directdw_selftest.py:4303` |
+| `DeviceConversionTests.test_reachable_helpers_only_combine_recorded_cpu_solve_transfer` | `experiments/track_c/c10y_directdw_selftest.py:4342` |
+| `DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add` | `experiments/track_c/c10y_directdw_selftest.py:4384` |
+| `DeviceConversionTests.test_to_like_transfers_before_casting_offset_view` | `experiments/track_c/c10y_directdw_selftest.py:4416` |
+| `FinalReviewRegressionTests.test_calibration_callsite_persists_complete_timing_tags` | `experiments/track_c/c10y_directdw_selftest.py:3379` |
+| `FinalReviewRegressionTests.test_complete_compile_accounting_drives_ttl_equality` | `experiments/track_c/c10y_directdw_selftest.py:3369` |
+| `FinalReviewRegressionTests.test_complete_compile_at_actual_scientific_hook_boundary` | `experiments/track_c/c10y_directdw_selftest.py:3287` |
+| `FinalReviewRegressionTests.test_each_telemetry_method_preserves_every_state_and_A_grad` | `experiments/track_c/c10y_directdw_selftest.py:3242` |
+| `FinalReviewRegressionTests.test_forecast_aware_first_expensive_action_is_not_entered` | `experiments/track_c/c10y_directdw_selftest.py:3315` |
+| `FinalReviewRegressionTests.test_live_objective_graph_guard_precedes_backward_and_adam` | `experiments/track_c/c10y_directdw_selftest.py:3328` |
+| `FinalReviewRegressionTests.test_merged_fit_reduces_vocabulary_on_cpu_float64` | `experiments/track_c/c10y_directdw_selftest.py:3352` |
+| `FinalReviewRegressionTests.test_off_scorer_is_original_during_actual_recipe_call` | `experiments/track_c/c10y_directdw_selftest.py:3278` |
+| `FinalReviewRegressionTests.test_phase_markers_cover_units_without_changing_operational_calls` | `experiments/track_c/c10y_directdw_selftest.py:3388` |
+| `FinalReviewRegressionTests.test_premerge_parity_cannot_spend_postmerge_reserve` | `experiments/track_c/c10y_directdw_selftest.py:3304` |
+| `FinalReviewRegressionTests.test_real_writer_durable_merge_precedes_postmerge_readout` | `experiments/track_c/c10y_directdw_selftest.py:3341` |
+| `FinalReviewRegressionTests.test_real_writer_per_write_line_formula` | `experiments/track_c/c10y_directdw_selftest.py:3261` |
+| `FinalReviewRegressionTests.test_recorded_contexts_never_sample_even_after_seeding` | `experiments/track_c/c10y_directdw_selftest.py:3396` |
+| `IntegrationTests.test_actual_launcher_refuses_missing_calibration_before_import` | `experiments/track_c/c10y_directdw_selftest.py:717` |
+| `IntegrationTests.test_candidate_operations_require_baseline` | `experiments/track_c/c10y_directdw_selftest.py:695` |
+| `IntegrationTests.test_native_hanging_worker_deadline_before_and_after_write` | `experiments/track_c/c10y_directdw_selftest.py:753` |
+| `IntegrationTests.test_sequential_capture_matches_original` | `experiments/track_c/c10y_directdw_selftest.py:666` |
+| `IntegrationTests.test_stage_runner_artifacts_feed_real_reader_and_halt_before_candidates` | `experiments/track_c/c10y_directdw_selftest.py:729` |
+| `IntegrationTests.test_stored_control_scale1_identity` | `experiments/track_c/c10y_directdw_selftest.py:701` |
+| `IntegrationTests.test_strict_json_and_immutable_records` | `experiments/track_c/c10y_directdw_selftest.py:707` |
+| `IntegrationTests.test_three_forced_zero_lr_iterations_and_telemetry_trajectory` | `experiments/track_c/c10y_directdw_selftest.py:678` |
+| `IsolationTests.test_all_cases_use_base` | `experiments/track_c/c10y_directdw_selftest.py:344` |
+| `IsolationTests.test_live_write_positive_control` | `experiments/track_c/c10y_directdw_selftest.py:333` |
+| `IsolationTests.test_real_dispatch_denied_with_temp_environment` | `experiments/track_c/c10y_directdw_selftest.py:347` |
+| `IsolationTests.test_relative_and_symlink_guard` | `experiments/track_c/c10y_directdw_selftest.py:339` |
+| `IsolationTests.test_seed_uses_only_cpu_generator` | `experiments/track_c/c10y_directdw_selftest.py:320` |
+| `IsolationTests.test_selftest_root_refusal` | `experiments/track_c/c10y_directdw_selftest.py:352` |
+| `LaunchDeltaTests.test_later_stage_cannot_consume_stage1_calibration_measurements` | `experiments/track_c/c10y_directdw_selftest.py:4061` |
+| `LaunchDeltaTests.test_nm_decimal_boundary_through_real_reader` | `experiments/track_c/c10y_directdw_selftest.py:4027` |
+| `LaunchDeltaTests.test_nm_decimal_boundary_through_scientific_hook` | `experiments/track_c/c10y_directdw_selftest.py:4039` |
+| `LaunchDeltaTests.test_norm_readouts_are_inside_writer_wall_clock` | `experiments/track_c/c10y_directdw_selftest.py:4093` |
+| `LaunchDeltaTests.test_real_iteration_producer_passes_c2_timing_validator` | `experiments/track_c/c10y_directdw_selftest.py:4103` |
+| `LaunchDeltaTests.test_stored_scale_sum_matches_reader_float64_sum` | `experiments/track_c/c10y_directdw_selftest.py:4020` |
+| `LaunchDeltaTests.test_supervisor_timeout_records_observed_template_hash_without_child` | `experiments/track_c/c10y_directdw_selftest.py:4076` |
+| `LaunchDeltaTests.test_t8_overlap_audit_precedes_first_forward_and_never_redraws` | `experiments/track_c/c10y_directdw_selftest.py:4068` |
+| `LaunchTests.test_context_freeze_and_leakage` | `experiments/track_c/c10y_directdw_selftest.py:540` |
+| `LaunchTests.test_direct_launch_shell_dependencies_are_executable_and_git_100755` | `experiments/track_c/c10y_directdw_selftest.py:482` |
+| `LaunchTests.test_every_inherited_preflight_knob_refused` | `experiments/track_c/c10y_directdw_selftest.py:505` |
+| `LaunchTests.test_forecast_unverified_and_cap` | `experiments/track_c/c10y_directdw_selftest.py:2801` |
+| `LaunchTests.test_go_spend_and_stage_eligibility` | `experiments/track_c/c10y_directdw_selftest.py:513` |
+| `LaunchTests.test_memory_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:532` |
+| `LaunchTests.test_schedule_halt_survives_new_directory` | `experiments/track_c/c10y_directdw_selftest.py:561` |
+| `LaunchTests.test_step_projection_reserves_readout` | `experiments/track_c/c10y_directdw_selftest.py:565` |
+| `LaunchTests.test_wrapper_delegate_dynamic_and_arm_restore` | `experiments/track_c/c10y_directdw_selftest.py:549` |
+| `NumericTests.test_anchor_zero_denominator` | `experiments/track_c/c10y_directdw_selftest.py:386` |
+| `NumericTests.test_capture_factorization` | `experiments/track_c/c10y_directdw_selftest.py:378` |
+| `NumericTests.test_control_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:398` |
+| `NumericTests.test_full_size_float64_reductions` | `experiments/track_c/c10y_directdw_selftest.py:357` |
+| `NumericTests.test_gram_norm_dense_reference` | `experiments/track_c/c10y_directdw_selftest.py:370` |
+| `NumericTests.test_mps_double_refused` | `experiments/track_c/c10y_directdw_selftest.py:375` |
+| `NumericTests.test_null_share_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:404` |
+| `NumericTests.test_size_scales_and_stored_arithmetic` | `experiments/track_c/c10y_directdw_selftest.py:390` |
+| `OptimizerTests.test_effective_weight_and_routing_gradient` | `experiments/track_c/c10y_directdw_selftest.py:413` |
+| `OptimizerTests.test_kl_coefficient_once` | `experiments/track_c/c10y_directdw_selftest.py:425` |
+| `OptimizerTests.test_loss_scale_transaction` | `experiments/track_c/c10y_directdw_selftest.py:449` |
+| `OptimizerTests.test_microbatch_request_weighting` | `experiments/track_c/c10y_directdw_selftest.py:438` |
+| `OptimizerTests.test_request_batch_and_target_only_objective` | `experiments/track_c/c10y_directdw_selftest.py:427` |
+| `OptimizerTests.test_sixth_overflow_halts_without_mutation` | `experiments/track_c/c10y_directdw_selftest.py:463` |
+| `OptimizerTests.test_stopping_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:444` |
+| `OptimizerTests.test_unknown_hooks_preserved` | `experiments/track_c/c10y_directdw_selftest.py:469` |
+| `PinnedTemplateTests.test_changed_template_source_or_stage1_content_halts` | `experiments/track_c/c10y_directdw_selftest.py:3138` |
+| `PinnedTemplateTests.test_stage1_and_calibration_pin_before_first_engine_call` | `experiments/track_c/c10y_directdw_selftest.py:3107` |
+| `PinnedTemplateTests.test_stages2_3_install_stage1_bytes_before_first_engine_use` | `experiments/track_c/c10y_directdw_selftest.py:3131` |
+| `PinnedTemplateTests.test_t8_digest_failure_has_halt_diagnostic_before_scoring` | `experiments/track_c/c10y_directdw_selftest.py:3159` |
+| `PinnedTemplateTests.test_t8_installs_pin_and_writes_context_before_any_pass` | `experiments/track_c/c10y_directdw_selftest.py:3152` |
+| `ReaderAttributionTests.test_anchor_comparison_does_not_require_bz_sized_gain` | `experiments/track_c/c10y_directdw_selftest.py:1845` |
+| `ReaderAttributionTests.test_anchor_missing_invalid_and_unfit_untested` | `experiments/track_c/c10y_directdw_selftest.py:1834` |
+| `ReaderAttributionTests.test_anchor_sham_descriptor_windows_not_fit_or_validity` | `experiments/track_c/c10y_directdw_selftest.py:1851` |
+| `ReaderAttributionTests.test_control_positive_requires_envelope_gain_fit_locality_and_validity` | `experiments/track_c/c10y_directdw_selftest.py:1810` |
+| `ReaderAttributionTests.test_hy1_credit_requires_both_processes_attributed` | `experiments/track_c/c10y_directdw_selftest.py:1863` |
+| `ReaderAttributionTests.test_neff_minimum_and_anchor_gap_nine_ten` | `experiments/track_c/c10y_directdw_selftest.py:1827` |
+| `ReaderAttributionTests.test_no_downscale_controls_required_at_actual_ratio_one` | `experiments/track_c/c10y_directdw_selftest.py:1766` |
+| `ReaderAttributionTests.test_size_control_matching_and_direction_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:1790` |
+| `ReaderAttributionTests.test_total_and_per_layer_growth_trigger_independent_controls` | `experiments/track_c/c10y_directdw_selftest.py:1780` |
+| `ReaderAttributionTests.test_zero_reference_size_normalisation_conservative_provisional` | `experiments/track_c/c10y_directdw_selftest.py:1772` |
+| `ReaderCrossProcessTests.test_cross_shared_hin_and_telemetry_pair_identity` | `experiments/track_c/c10y_directdw_selftest.py:1964` |
+| `ReaderCrossProcessTests.test_r1_cosine_and_distance_every_layer_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:1909` |
+| `ReaderCrossProcessTests.test_r1_required_controls_and_all_arms_independent` | `experiments/track_c/c10y_directdw_selftest.py:1934` |
+| `ReaderCrossProcessTests.test_r1_zero_norm_rules_and_baseline_instrument` | `experiments/track_c/c10y_directdw_selftest.py:1918` |
+| `ReaderCrossProcessTests.test_r2_count_spread_five_six` | `experiments/track_c/c10y_directdw_selftest.py:1941` |
+| `ReaderCrossProcessTests.test_r3_incorrect_strings_do_not_count_as_disagreement` | `experiments/track_c/c10y_directdw_selftest.py:1958` |
+| `ReaderCrossProcessTests.test_r3_keyed_boolean_disagreement_da_plus_three_four` | `experiments/track_c/c10y_directdw_selftest.py:1949` |
+| `ReaderCrossProcessTests.test_regenerated_target_hashes_need_not_match_shared_hin` | `experiments/track_c/c10y_directdw_selftest.py:1974` |
+| `ReaderCrossProcessTests.test_x1_not_run_halted_and_incomplete_never_fabricated_null` | `experiments/track_c/c10y_directdw_selftest.py:1877` |
+| `ReaderCrossProcessTests.test_x2_identical_labels_and_union_qualifiers` | `experiments/track_c/c10y_directdw_selftest.py:1887` |
+| `ReaderCrossProcessTests.test_x3_mixed_labels_store_actual_counts` | `experiments/track_c/c10y_directdw_selftest.py:1893` |
+| `ReaderFitAndScreenTests.test_fit_e2e_minimum_canonical_and_every_stop` | `experiments/track_c/c10y_directdw_selftest.py:1577` |
+| `ReaderFitAndScreenTests.test_fit_per_required_arm_and_apply_stored` | `experiments/track_c/c10y_directdw_selftest.py:1587` |
+| `ReaderFitAndScreenTests.test_fit_requires_full_merged_matrix` | `experiments/track_c/c10y_directdw_selftest.py:1597` |
+| `ReaderFitAndScreenTests.test_fit_z_mean_and_maximum_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:1610` |
+| `ReaderFitAndScreenTests.test_fit_z_zero_denominator_named_rule` | `experiments/track_c/c10y_directdw_selftest.py:1619` |
+| `ReaderFitAndScreenTests.test_s1_named_halts_without_screen_label` | `experiments/track_c/c10y_directdw_selftest.py:1629` |
+| `ReaderFitAndScreenTests.test_s2_s3_budget_write_boundary` | `experiments/track_c/c10y_directdw_selftest.py:1635` |
+| `ReaderFitAndScreenTests.test_s4_fit_precedes_high_count_locality_and_size` | `experiments/track_c/c10y_directdw_selftest.py:1650` |
+| `ReaderFitAndScreenTests.test_s5_s7_envelope_and_gain_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:1659` |
+| `ReaderFitAndScreenTests.test_s6_size_boundary_and_null_first_match` | `experiments/track_c/c10y_directdw_selftest.py:1666` |
+| `ReaderFitAndScreenTests.test_stage1_recorded_projection_exactly_120_minutes_fits` | `experiments/track_c/c10y_directdw_selftest.py:1642` |
+| `ReaderLoadTests.test_load_calibration_directory_refused_before_read` | `experiments/track_c/c10y_directdw_selftest.py:2115` |
+| `ReaderLoadTests.test_load_does_not_read_telemetry` | `experiments/track_c/c10y_directdw_selftest.py:2089` |
+| `ReaderLoadTests.test_load_later_self_contained_record_uses_own_outcome` | `experiments/track_c/c10y_directdw_selftest.py:2099` |
+| `ReaderLoadTests.test_load_saved_halt_first_with_missing_science_artifacts` | `experiments/track_c/c10y_directdw_selftest.py:2080` |
+| `ReaderLoadTests.test_load_strict_json_nonfinite_refused` | `experiments/track_c/c10y_directdw_selftest.py:2108` |
+| `ReaderOrderTests.test_existing_arm_missing_metric_is_v13_invalid` | `experiments/track_c/c10y_directdw_selftest.py:1281` |
+| `ReaderOrderTests.test_missing_comparators_qualify_without_incomplete` | `experiments/track_c/c10y_directdw_selftest.py:1272` |
+| `ReaderOrderTests.test_own_record_and_v5_missing_precede_validity_and_fit` | `experiments/track_c/c10y_directdw_selftest.py:1241` |
+| `ReaderOrderTests.test_recorded_halt_invalid_and_budget_first` | `experiments/track_c/c10y_directdw_selftest.py:1232` |
+| `ReaderOrderTests.test_source_and_prereg_identity_refused` | `experiments/track_c/c10y_directdw_selftest.py:1286` |
+| `ReaderOrderTests.test_stage1_not_run_controls_and_later_records_not_required` | `experiments/track_c/c10y_directdw_selftest.py:1265` |
+| `ReaderOrderTests.test_validity_precedes_fit_and_fit_precedes_counts` | `experiments/track_c/c10y_directdw_selftest.py:1253` |
+| `ReaderProcessLocalityTests.test_g1_g2_each_frame_both_sides` | `experiments/track_c/c10y_directdw_selftest.py:1697` |
+| `ReaderProcessLocalityTests.test_g3_g4_g5_unrounded_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:1712` |
+| `ReaderProcessLocalityTests.test_g3_g5_display_rounding_cannot_substitute` | `experiments/track_c/c10y_directdw_selftest.py:1721` |
+| `ReaderProcessLocalityTests.test_g6_relation_flips_report_only` | `experiments/track_c/c10y_directdw_selftest.py:1731` |
+| `ReaderProcessLocalityTests.test_p1_p2_p3` | `experiments/track_c/c10y_directdw_selftest.py:1679` |
+| `ReaderProcessLocalityTests.test_p4_p5_p7_count_and_gain_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:1690` |
+| `ReaderProcessLocalityTests.test_p6_tradeoff_and_p7_null_first_match` | `experiments/track_c/c10y_directdw_selftest.py:1736` |
+| `ReaderProcessLocalityTests.test_w1_actual_size_boundary_qualifier_preserves_base` | `experiments/track_c/c10y_directdw_selftest.py:1743` |
+| `ReaderProcessLocalityTests.test_w2_ttl_warning_equality_nonblocking` | `experiments/track_c/c10y_directdw_selftest.py:1753` |
+| `ReaderTruthTableTests.test_authored_full_truth_rows_277_289` | `experiments/track_c/c10y_directdw_selftest.py:2020` |
+| `ReaderTruthTableTests.test_authored_stage1_truth_rows_265_276` | `experiments/track_c/c10y_directdw_selftest.py:1985` |
+| `ReaderValidityTests.test_v10_overflow_retries_five_six` | `experiments/track_c/c10y_directdw_selftest.py:1503` |
+| `ReaderValidityTests.test_v11_hin_hashes_and_write_trace_required` | `experiments/track_c/c10y_directdw_selftest.py:1509` |
+| `ReaderValidityTests.test_v12_leakage_named_halt` | `experiments/track_c/c10y_directdw_selftest.py:1525` |
+| `ReaderValidityTests.test_v13_every_applicable_numeric_family_nonfinite` | `experiments/track_c/c10y_directdw_selftest.py:1551` |
+| `ReaderValidityTests.test_v13_nonfinite_unjustified_null_and_typed_integer` | `experiments/track_c/c10y_directdw_selftest.py:1545` |
+| `ReaderValidityTests.test_v13_typed_nulls_and_reasons` | `experiments/track_c/c10y_directdw_selftest.py:1530` |
+| `ReaderValidityTests.test_v1_fingerprint_sha_sites_and_full_output` | `experiments/track_c/c10y_directdw_selftest.py:1301` |
+| `ReaderValidityTests.test_v2_each_recipe_standing_law5` | `experiments/track_c/c10y_directdw_selftest.py:1308` |
+| `ReaderValidityTests.test_v3_accumulation_raw_cosine_distance_finiteness_and_scope` | `experiments/track_c/c10y_directdw_selftest.py:1368` |
+| `ReaderValidityTests.test_v3_apply_stored_substitutions_not_optimiser_checks` | `experiments/track_c/c10y_directdw_selftest.py:1333` |
+| `ReaderValidityTests.test_v3_capture_zero_step_and_executed_loop_raw_values` | `experiments/track_c/c10y_directdw_selftest.py:1342` |
+| `ReaderValidityTests.test_v3_check_failure_order_and_scope` | `experiments/track_c/c10y_directdw_selftest.py:1314` |
+| `ReaderValidityTests.test_v3_gradient_halvings_hooks_and_smoke_raw_values` | `experiments/track_c/c10y_directdw_selftest.py:1384` |
+| `ReaderValidityTests.test_v3_missing_required_check_invalid` | `experiments/track_c/c10y_directdw_selftest.py:1323` |
+| `ReaderValidityTests.test_v3_objective_nll_and_nonzero_kl_raw_boundaries` | `experiments/track_c/c10y_directdw_selftest.py:1356` |
+| `ReaderValidityTests.test_v4_a1_a2_and_exact_denominators` | `experiments/track_c/c10y_directdw_selftest.py:1413` |
+| `ReaderValidityTests.test_v4_all_inclusive_baseline_endpoints` | `experiments/track_c/c10y_directdw_selftest.py:1403` |
+| `ReaderValidityTests.test_v4_before_candidates_required` | `experiments/track_c/c10y_directdw_selftest.py:1424` |
+| `ReaderValidityTests.test_v5_candidate_controls_67_68_each_arm` | `experiments/track_c/c10y_directdw_selftest.py:1429` |
+| `ReaderValidityTests.test_v6_overrides_are_exact_sets_not_counts` | `experiments/track_c/c10y_directdw_selftest.py:1437` |
+| `ReaderValidityTests.test_v7_initial_projector_raw_share_cannot_hide_behind_passed` | `experiments/track_c/c10y_directdw_selftest.py:1473` |
+| `ReaderValidityTests.test_v7_planned_actual_each_layer_boundary_and_zero` | `experiments/track_c/c10y_directdw_selftest.py:1456` |
+| `ReaderValidityTests.test_v7_untouched_reference_miss_halts_precision_diagnosis` | `experiments/track_c/c10y_directdw_selftest.py:1468` |
+| `ReaderValidityTests.test_v8_string_full_equality_and_one_below_every_arm` | `experiments/track_c/c10y_directdw_selftest.py:1481` |
+| `ReaderValidityTests.test_v9_init_final_tokens_and_each_loss_component` | `experiments/track_c/c10y_directdw_selftest.py:1490` |
+| `TelemetryCheckContract.test_T11_audit_accepts_every_kind_with_only_kind_specific_fields` | `experiments/track_c/c10y_directdw_selftest.py:2449` |
+| `TelemetryCheckContract.test_T11_audit_checks_payload_types_for_every_non_answer_kind` | `experiments/track_c/c10y_directdw_selftest.py:2521` |
+| `TelemetryCheckContract.test_T11_audit_complete_answer_keys_pass_and_roundtrip` | `experiments/track_c/c10y_directdw_selftest.py:2423` |
+| `TelemetryCheckContract.test_T11_audit_declared_disabled_missing_output_keeps_science_record` | `experiments/track_c/c10y_directdw_selftest.py:2596` |
+| `TelemetryCheckContract.test_T11_audit_disabled_marker_does_not_excuse_a_gap_before_later_answers` | `experiments/track_c/c10y_directdw_selftest.py:2617` |
+| `TelemetryCheckContract.test_T11_audit_disabled_marker_does_not_excuse_mismatching_existing_line` | `experiments/track_c/c10y_directdw_selftest.py:2607` |
+| `TelemetryCheckContract.test_T11_audit_duplicate_answer_key_compromises_stage` | `experiments/track_c/c10y_directdw_selftest.py:2479` |
+| `TelemetryCheckContract.test_T11_audit_header_must_be_present_initial_and_unique` | `experiments/track_c/c10y_directdw_selftest.py:2578` |
+| `TelemetryCheckContract.test_T11_audit_mismatch_compromises_stage_and_requires_telemetry_off_rerun` | `experiments/track_c/c10y_directdw_selftest.py:2471` |
+| `TelemetryCheckContract.test_T11_audit_missing_answer_field_is_malformed` | `experiments/track_c/c10y_directdw_selftest.py:2513` |
+| `TelemetryCheckContract.test_T11_audit_missing_expected_key_compromises_stage` | `experiments/track_c/c10y_directdw_selftest.py:2485` |
+| `TelemetryCheckContract.test_T11_audit_missing_file_is_missing_output` | `experiments/track_c/c10y_directdw_selftest.py:2491` |
+| `TelemetryCheckContract.test_T11_audit_model_free_entrypoint_never_loads_driver_or_harness` | `experiments/track_c/c10y_directdw_selftest.py:2626` |
+| `TelemetryCheckContract.test_T11_audit_never_mutates_science_records_or_reader_output` | `experiments/track_c/c10y_directdw_selftest.py:2438` |
+| `TelemetryCheckContract.test_T11_audit_refuses_existing_audit_without_rewriting_evidence` | `experiments/track_c/c10y_directdw_selftest.py:2637` |
+| `TelemetryCheckContract.test_T11_audit_rejects_unknown_field_on_every_known_kind` | `experiments/track_c/c10y_directdw_selftest.py:2539` |
+| `TelemetryCheckContract.test_T11_audit_strict_json_rejects_nonfinite_and_duplicate_json_fields` | `experiments/track_c/c10y_directdw_selftest.py:2568` |
+| `TelemetryCheckContract.test_T11_audit_unknown_key_or_kind_or_field_is_unexpected` | `experiments/track_c/c10y_directdw_selftest.py:2496` |
+| `TelemetryCheckContract.test_T11_audit_uses_stage_two_and_three_tags_and_record_paths` | `experiments/track_c/c10y_directdw_selftest.py:2431` |
+| `TelemetryCheckContract.test_T11_audit_wrong_types_and_nulls_are_malformed` | `experiments/track_c/c10y_directdw_selftest.py:2557` |
+| `TelemetryCheckContract.test_T11_reader_does_not_open_telemetry_or_use_audit_as_gate` | `experiments/track_c/c10y_directdw_selftest.py:2646` |
+| `TelemetryCheckContract.test_T8_runner_inert_pristine_stub_never_calls_writer_or_recipe` | `experiments/track_c/c10y_directdw_selftest.py:2357` |
+| `TelemetryCheckContract.test_T8_runner_other_verdicts_exit_zero_and_preserve_verdict` | `experiments/track_c/c10y_directdw_selftest.py:2409` |
+| `TelemetryCheckContract.test_T8_runner_preflight_refuses_knob_before_output_creation` | `experiments/track_c/c10y_directdw_selftest.py:2350` |
+| `TelemetryCheckContract.test_T8_runner_preserves_existing_record` | `experiments/track_c/c10y_directdw_selftest.py:2341` |
+| `TelemetryCheckContract.test_T8_runner_records_complete_current_identity_and_strict_roundtrip` | `experiments/track_c/c10y_directdw_selftest.py:2371` |
+| `TelemetryCheckContract.test_T8_runner_rejects_namespace_itself_and_nested_subdirectories` | `experiments/track_c/c10y_directdw_selftest.py:2322` |
+| `TelemetryCheckContract.test_T8_runner_rejects_output_outside_namespace` | `experiments/track_c/c10y_directdw_selftest.py:2315` |
+| `TelemetryCheckContract.test_T8_runner_rejects_relative_output_before_writes` | `experiments/track_c/c10y_directdw_selftest.py:2309` |
+| `TelemetryCheckContract.test_T8_runner_rejects_symlink_escape` | `experiments/track_c/c10y_directdw_selftest.py:2330` |
+| `TelemetryCheckContract.test_T8_runner_weight_change_is_invalid_exit_two` | `experiments/track_c/c10y_directdw_selftest.py:2394` |
+| `TelemetryForecastTests.test_full_stage_counts_and_payload_not_smaller` | `experiments/track_c/c10y_directdw_selftest.py:3214` |
+| `TelemetryForecastTests.test_inertness_bytes_once_and_duplicate_nonfinite_refused` | `experiments/track_c/c10y_directdw_selftest.py:3226` |
+| `TelemetryForecastTests.test_on_requires_separate_phase_before_dispatch` | `experiments/track_c/c10y_directdw_selftest.py:3193` |
+| `TelemetryForecastTests.test_per_kind_measurements_workload_and_sum_enforced` | `experiments/track_c/c10y_directdw_selftest.py:3200` |
+| `TelemetryReferenceTests.test_frozen_harness_scorers_receive_no_injected_kwargs` | `experiments/track_c/c10y_directdw_selftest.py:4436` |
+| `TelemetryReferenceTests.test_reference_scorer_is_exact_frozen_capture_copy` | `experiments/track_c/c10y_directdw_selftest.py:4474` |
+| `TelemetryReferenceTests.test_t8_uses_frozen_off_reference_and_observed_on_scorer` | `experiments/track_c/c10y_directdw_selftest.py:4501` |
+| `TelemetryTests.test_every_kind_state_preservation_and_volume` | `experiments/track_c/c10y_directdw_selftest.py:618` |
+| `TelemetryTests.test_frozen_hparams_lens_uses_actual_linear_head` | `experiments/track_c/c10y_directdw_selftest.py:573` |
+| `TelemetryTests.test_inertness_and_drifting_baseline` | `experiments/track_c/c10y_directdw_selftest.py:656` |
+| `TelemetryTests.test_invalid_switches_refused_before_write` | `experiments/track_c/c10y_directdw_selftest.py:604` |
+| `TelemetryTests.test_io_failures_disable_once_and_baseexception_propagates` | `experiments/track_c/c10y_directdw_selftest.py:643` |
+| `TelemetryTests.test_off_has_no_object_or_directory` | `experiments/track_c/c10y_directdw_selftest.py:599` |
+| `TelemetryTests.test_scorer_ast_and_exact_inputs` | `experiments/track_c/c10y_directdw_selftest.py:608` |
+| `TelemetryTests.test_t8_serialized_wrong_answer_is_not_inert` | `experiments/track_c/c10y_directdw_selftest.py:591` |
+| `TelemetryTests.test_telemetry_never_calls_operational_clock_or_writes_input_record` | `experiments/track_c/c10y_directdw_selftest.py:579` |
+| `TransportTests.test_actual_cpu_update_direction_changes_fail_real_reader_repro_gate` | `experiments/track_c/c10y_directdw_selftest.py:3771` |
+| `TransportTests.test_completed_stage1_runner_to_reader_and_cpu_pt_transport` | `experiments/track_c/c10y_directdw_selftest.py:3707` |
+| `TransportTests.test_completed_three_stages_preserve_common_files_and_compute_real_repro` | `experiments/track_c/c10y_directdw_selftest.py:3728` |
+| `TransportTests.test_real_scored_recipe_accounts_for_scientific_hook_readout_time` | `experiments/track_c/c10y_directdw_selftest.py:3954` |
+| `TransportTests.test_requested_stage_forecast_is_checked_before_dispatch_and_worker` | `experiments/track_c/c10y_directdw_selftest.py:3913` |
+| `TransportTests.test_saved_overlay_hash_is_the_immutable_serialized_bundle` | `experiments/track_c/c10y_directdw_selftest.py:3939` |
+| `TransportTests.test_stage3_pair_mismatch_is_refused_in_parent_before_any_launch_write` | `experiments/track_c/c10y_directdw_selftest.py:3928` |
+| `TransportTests.test_stage3_telemetry_setting_cannot_change_after_stage2` | `experiments/track_c/c10y_directdw_selftest.py:3898` |
+| `TransportTests.test_tampered_stage2_pt_refuses_stage3_before_scientific_callbacks` | `experiments/track_c/c10y_directdw_selftest.py:3788` |
+| `TransportTests.test_telemetry_off_on_transport_changes_only_T1_fields_at_every_stage` | `experiments/track_c/c10y_directdw_selftest.py:3836` |
+| `TransportTests.test_wrong_stage3_predecessor_refuses_in_main_before_harness_or_supervisor` | `experiments/track_c/c10y_directdw_selftest.py:3805` |
 
 ## Failing-first and final verification evidence
 
@@ -6360,11 +6460,7 @@ SYS_MODULES_FORBIDDEN: []
 
 The first NM reader fixture used literal `1/1.2` while the recorded norm sum is `math.fsum([.4,.2,.2,.2,.2]) == 1.2000000000000002`. Its initial RED therefore does not independently isolate the reader comparison. After correcting that fixture, both actual boundary paths passed; a separate producer regression exposed the genuine summation mismatch. Final production sums and reader sums now agree. Other fixture corrections changed only synthetic metadata to match stricter production schemas, never weakened gates.
 
-Final light command (no child/full-size tests):
-
-```sh
-/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/c10y_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /private/tmp/c10y_build/run_light.py > /private/tmp/c10y_build/light_suite_final_2.log 2>&1
-```
+Earlier partial light result, retained as historical evidence only (its protected-file failure and three deferred tests are now resolved by the Program attestation and executions below):
 
 Evidence: `/private/tmp/c10y_build/light_suite_final_2.log`; SHA-256 `d2095ba9555ce19e453cba086202b7aea28455aebf9fa59d0f09bf3f59303f2b`.
 
@@ -6622,7 +6718,1451 @@ SYS_MODULES_FORBIDDEN: []
 LIGHT_COUNTS {"all": 229, "run": 226, "exclusions": {"NumericTests.test_full_size_float64_reductions": "full-sized CPU work deferred during ASTRA live", "NumericTests.test_gram_norm_dense_reference": "full-sized CPU work deferred during ASTRA live", "IntegrationTests.test_native_hanging_worker_deadline_before_and_after_write": "child process authorization pending"}}
 ```
 
-**No full final-suite PASS exists.** The 226-case command above exits 1 solely on the literal protected-byte test, which remains enabled. 225 cases passed. All 229 test methods remain in the selftest; only the scratch light selector explicitly excludes the three pending tests. The full selftest refuses its native child test unless `C10Y_ALLOWED_CHILD_TESTS=1`; this flag was never set here. No timeout or elapsed silence was treated as permission.
+Supplemental CPU seed isolation RED was recorded before the selftest entry-point fix. Both normal Torch seed helpers were exercised with accelerator calls mocked, then the regression failed at its own assert_not_called. The fix redirects both helpers to the CPU default generator before production imports; no production seeding was changed. The new test is covered by family 57/brief R1 and appears in the final test/source index.
+
+```sh
+/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/c10y_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /private/tmp/c10y_build/run_selected.py IsolationTests.test_seed_uses_only_cpu_generator > /private/tmp/c10y_build/cpu_seed_red.log 2>&1
+```
+
+Evidence: `/private/tmp/c10y_build/cpu_seed_red.log`; SHA-256 `4425f3f76248acbc679a247832fee218b319ebb4604652fb01e991c178f67531`.
+
+```text
+test_seed_uses_only_cpu_generator (c10y_directdw_selftest.IsolationTests.test_seed_uses_only_cpu_generator) ... FAIL
+
+======================================================================
+FAIL: test_seed_uses_only_cpu_generator (c10y_directdw_selftest.IsolationTests.test_seed_uses_only_cpu_generator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 326, in test_seed_uses_only_cpu_generator
+    spy.assert_not_called()
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 900, in assert_not_called
+    raise AssertionError(msg)
+AssertionError: Expected 'manual_seed_all' to not have been called. Called 2 times.
+Calls: [call(19), call(19)].
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+FAILED (failures=1)
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+Evidence: `/private/tmp/c10y_build/cpu_seed_scope_green.log`; SHA-256 `3f66c084db509657a7dd2554a629f430244b8ce3bfd15689aa71c1c473b26dfb`.
+
+```text
+test_seed_uses_only_cpu_generator (c10y_directdw_selftest.IsolationTests.test_seed_uses_only_cpu_generator) ... ok
+test_frozen_bytes_suite_end (c10y_directdw_selftest.CalibrationTests.test_frozen_bytes_suite_end) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.013s
+
+OK
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+Supplemental Program/reviewer failing-first evidence was recorded before the corresponding repairs. Initial mask GREEN is historical and is superseded by mask_revert RED/GREEN. Conversion-reference RED exposed the stored-device mismatch and ignored off-reference selection. Guard RED identified seven missing finite syntax cases, then constructor RED identified three keyword-data/opaque-constructor gaps. Final mask-revert RED ran five tests with eight own-assertion failures and no errors; the final focused GREEN ran fourteen tests. No failure count from an import/infrastructure error is treated as a behavioral kill. Early conversion guard source RED also included two dictionary-assignment false positives from cross-function taint; those fixture/scoping issues were corrected and are not MPS defects.
+
+Evidence: `/private/tmp/c10y_build/attention_mask_red.log`; SHA-256 `50cf501ecf11b0c95e946d8ee40c982fc62fcb6208c27adf7b33adc77e01c8c4`.
+
+```text
+test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) ... 
+  test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=322, call='H.model.model') ... FAIL
+  test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=1734, call='H.model.model') ... FAIL
+  test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=489, call='self.H.model.model') ... FAIL
+  test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=1117, call='H.model') ... FAIL
+  test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=1736, call='H.model.model') ... FAIL
+  test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=1772, call='H.model.model') ... FAIL
+  test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=1792, call='H.model') ... FAIL
+  test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=491, call='self.H.model.model') ... FAIL
+  test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=992, call='H.model') ... FAIL
+  test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=1794, call='H.model') ... FAIL
+  test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=2228, call='H.model') ... FAIL
+  test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=2239, call='H.model') ... FAIL
+  test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=535, call='H.model.model') ... FAIL
+  test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=1032, call='model') ... FAIL
+test_observed_scorer_rejects_missing_or_wrong_prescribed_mask (c10y_directdw_selftest.AttentionMaskTests.test_observed_scorer_rejects_missing_or_wrong_prescribed_mask) ... 
+  test_observed_scorer_rejects_missing_or_wrong_prescribed_mask (c10y_directdw_selftest.AttentionMaskTests.test_observed_scorer_rejects_missing_or_wrong_prescribed_mask) (wrong=None) ... FAIL
+test_padded_objective_and_lens_preserve_tokenizer_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_padded_objective_and_lens_preserve_tokenizer_attention_mask) ... ok
+test_single_sequence_decode_and_observed_scorer_masks_grow (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_masks_grow) ... 
+  test_single_sequence_decode_and_observed_scorer_masks_grow (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_masks_grow) (mode='plain') ... FAIL
+  test_single_sequence_decode_and_observed_scorer_masks_grow (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_masks_grow) (mode='hooked') ... FAIL
+  test_single_sequence_decode_and_observed_scorer_masks_grow (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_masks_grow) (mode='observed') ... FAIL
+
+======================================================================
+FAIL: test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=322, call='H.model.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4132, in test_every_owned_model_forward_has_explicit_attention_mask
+    self.assertEqual(len(masks), 1, 'every model forward needs an explicit attention_mask')
+AssertionError: 0 != 1 : every model forward needs an explicit attention_mask
+
+======================================================================
+FAIL: test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=1734, call='H.model.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4132, in test_every_owned_model_forward_has_explicit_attention_mask
+    self.assertEqual(len(masks), 1, 'every model forward needs an explicit attention_mask')
+AssertionError: 0 != 1 : every model forward needs an explicit attention_mask
+
+======================================================================
+FAIL: test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=489, call='self.H.model.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4132, in test_every_owned_model_forward_has_explicit_attention_mask
+    self.assertEqual(len(masks), 1, 'every model forward needs an explicit attention_mask')
+AssertionError: 0 != 1 : every model forward needs an explicit attention_mask
+
+======================================================================
+FAIL: test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=1117, call='H.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4132, in test_every_owned_model_forward_has_explicit_attention_mask
+    self.assertEqual(len(masks), 1, 'every model forward needs an explicit attention_mask')
+AssertionError: 0 != 1 : every model forward needs an explicit attention_mask
+
+======================================================================
+FAIL: test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=1736, call='H.model.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4132, in test_every_owned_model_forward_has_explicit_attention_mask
+    self.assertEqual(len(masks), 1, 'every model forward needs an explicit attention_mask')
+AssertionError: 0 != 1 : every model forward needs an explicit attention_mask
+
+======================================================================
+FAIL: test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=1772, call='H.model.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4132, in test_every_owned_model_forward_has_explicit_attention_mask
+    self.assertEqual(len(masks), 1, 'every model forward needs an explicit attention_mask')
+AssertionError: 0 != 1 : every model forward needs an explicit attention_mask
+
+======================================================================
+FAIL: test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=1792, call='H.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4132, in test_every_owned_model_forward_has_explicit_attention_mask
+    self.assertEqual(len(masks), 1, 'every model forward needs an explicit attention_mask')
+AssertionError: 0 != 1 : every model forward needs an explicit attention_mask
+
+======================================================================
+FAIL: test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=491, call='self.H.model.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4132, in test_every_owned_model_forward_has_explicit_attention_mask
+    self.assertEqual(len(masks), 1, 'every model forward needs an explicit attention_mask')
+AssertionError: 0 != 1 : every model forward needs an explicit attention_mask
+
+======================================================================
+FAIL: test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=992, call='H.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4132, in test_every_owned_model_forward_has_explicit_attention_mask
+    self.assertEqual(len(masks), 1, 'every model forward needs an explicit attention_mask')
+AssertionError: 0 != 1 : every model forward needs an explicit attention_mask
+
+======================================================================
+FAIL: test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=1794, call='H.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4132, in test_every_owned_model_forward_has_explicit_attention_mask
+    self.assertEqual(len(masks), 1, 'every model forward needs an explicit attention_mask')
+AssertionError: 0 != 1 : every model forward needs an explicit attention_mask
+
+======================================================================
+FAIL: test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=2228, call='H.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4132, in test_every_owned_model_forward_has_explicit_attention_mask
+    self.assertEqual(len(masks), 1, 'every model forward needs an explicit attention_mask')
+AssertionError: 0 != 1 : every model forward needs an explicit attention_mask
+
+======================================================================
+FAIL: test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=2239, call='H.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4132, in test_every_owned_model_forward_has_explicit_attention_mask
+    self.assertEqual(len(masks), 1, 'every model forward needs an explicit attention_mask')
+AssertionError: 0 != 1 : every model forward needs an explicit attention_mask
+
+======================================================================
+FAIL: test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=535, call='H.model.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4132, in test_every_owned_model_forward_has_explicit_attention_mask
+    self.assertEqual(len(masks), 1, 'every model forward needs an explicit attention_mask')
+AssertionError: 0 != 1 : every model forward needs an explicit attention_mask
+
+======================================================================
+FAIL: test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) (file='c10y_directdw_arms.py', line=1032, call='model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4132, in test_every_owned_model_forward_has_explicit_attention_mask
+    self.assertEqual(len(masks), 1, 'every model forward needs an explicit attention_mask')
+AssertionError: 0 != 1 : every model forward needs an explicit attention_mask
+
+======================================================================
+FAIL: test_observed_scorer_rejects_missing_or_wrong_prescribed_mask (c10y_directdw_selftest.AttentionMaskTests.test_observed_scorer_rejects_missing_or_wrong_prescribed_mask) (wrong=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4203, in test_observed_scorer_rejects_missing_or_wrong_prescribed_mask
+    self.assertFalse(A.scorer_ast_check(W / 'experiments/track_c/c10e_bandknob.py'))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_single_sequence_decode_and_observed_scorer_masks_grow (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_masks_grow) (mode='plain')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4159, in test_single_sequence_decode_and_observed_scorer_masks_grow
+    A._decode_ids(H, prompt, 2, H.hp, operators if mode == 'hooked' else None)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 1792, in _decode_ids
+    if operators is None: logits=H.model(cur,use_cache=False).logits
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4143, in checked
+    self.assertIsNotNone(mask, 'single-sequence forward omitted attention_mask')
+AssertionError: unexpectedly None : single-sequence forward omitted attention_mask
+
+======================================================================
+FAIL: test_single_sequence_decode_and_observed_scorer_masks_grow (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_masks_grow) (mode='hooked')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4159, in test_single_sequence_decode_and_observed_scorer_masks_grow
+    A._decode_ids(H, prompt, 2, H.hp, operators if mode == 'hooked' else None)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 1794, in _decode_ids
+    with weight_hooks(H,hp,*operators,None): logits=H.model(cur,use_cache=False).logits
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4143, in checked
+    self.assertIsNotNone(mask, 'single-sequence forward omitted attention_mask')
+AssertionError: unexpectedly None : single-sequence forward omitted attention_mask
+
+======================================================================
+FAIL: test_single_sequence_decode_and_observed_scorer_masks_grow (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_masks_grow) (mode='observed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4157, in test_single_sequence_decode_and_observed_scorer_masks_grow
+    A.make_scorer(H, lambda *args: None)(prompt, H.tgt_ids('Echo Echo'))
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 1032, in full_seq_match
+    nxt = int(model(cur).logits[0, -1].argmax())
+              ^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4143, in checked
+    self.assertIsNotNone(mask, 'single-sequence forward omitted attention_mask')
+AssertionError: unexpectedly None : single-sequence forward omitted attention_mask
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.388s
+
+FAILED (failures=18)
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+Evidence: `/private/tmp/c10y_build/attention_mask_green.log`; SHA-256 `5bc5726cc212cd5127677b8b423da7bb38ed28f71fe74f1656ffff2066f6cc9b`.
+
+```text
+test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) ... ok
+test_observed_scorer_rejects_missing_or_wrong_prescribed_mask (c10y_directdw_selftest.AttentionMaskTests.test_observed_scorer_rejects_missing_or_wrong_prescribed_mask) ... ok
+test_padded_objective_and_lens_preserve_tokenizer_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_padded_objective_and_lens_preserve_tokenizer_attention_mask) ... ok
+test_single_sequence_decode_and_observed_scorer_masks_grow (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_masks_grow) ... ok
+test_scorer_ast_and_exact_inputs (c10y_directdw_selftest.TelemetryTests.test_scorer_ast_and_exact_inputs) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.433s
+
+OK
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_reference_red.log`; SHA-256 `14b49eff7021cc9cf621317dd458fe6ec49099051acd9a77e7146e4c30a294b9`.
+
+```text
+test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) ... ok
+test_cpu64_copies_offset_view_before_dtype_cast (c10y_directdw_selftest.DeviceConversionTests.test_cpu64_copies_offset_view_before_dtype_cast) ... ok
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='c10y_directdw_arms.py') ... FAIL
+test_reachable_helpers_only_combine_recorded_cpu_solve_transfer (c10y_directdw_selftest.DeviceConversionTests.test_reachable_helpers_only_combine_recorded_cpu_solve_transfer) ... ok
+test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) ... 
+  test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='mps', origin='cpu', scale=0.0) ... FAIL
+  test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='mps', origin='cpu', scale=0.4) ... FAIL
+  test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='mps', origin='cpu', scale=1.0) ... FAIL
+  test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='cpu', origin='mps', scale=0.0) ... FAIL
+  test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='cpu', origin='mps', scale=0.4) ... FAIL
+  test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='cpu', origin='mps', scale=1.0) ... FAIL
+  test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='mps', origin='mps', scale=0.0) ... FAIL
+  test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='mps', origin='mps', scale=0.4) ... FAIL
+  test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='mps', origin='mps', scale=1.0) ... FAIL
+  test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='cpu', origin='cpu', scale=0.0) ... FAIL
+  test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='cpu', origin='cpu', scale=0.4) ... FAIL
+  test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='cpu', origin='cpu', scale=1.0) ... FAIL
+test_to_like_transfers_before_casting_offset_view (c10y_directdw_selftest.DeviceConversionTests.test_to_like_transfers_before_casting_offset_view) ... FAIL
+test_reference_scorer_is_exact_frozen_capture_copy (c10y_directdw_selftest.TelemetryReferenceTests.test_reference_scorer_is_exact_frozen_capture_copy) ... FAIL
+test_t8_uses_frozen_off_reference_and_observed_on_scorer (c10y_directdw_selftest.TelemetryReferenceTests.test_t8_uses_frozen_off_reference_and_observed_on_scorer) ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='c10y_directdw_arms.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4277, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(242, 'upd.to(npd[H.weight_name(hp, layer[904 chars]0)")] != []
+
+First list contains 10 additional elements.
+First extra element 0:
+(242, 'upd.to(npd[H.weight_name(hp, layer)])')
+
++ []
+- [(242, 'upd.to(npd[H.weight_name(hp, layer)])'),
+-  (423,
+-   'stored_weight(snap[l], updates[l], scale).to(weights[H.weight_name(hp, '
+-   'l)])'),
+-  (423,
+-   'weights[H.weight_name(hp, l)].copy_(stored_weight(snap[l], updates[l], '
+-   'scale).to(weights[H.weight_name(hp, l)]))'),
+-  (594, '(As[l] @ Bs[l]).to(weights[H.weight_name(hp, l)])'),
+-  (1851,
+-   'effective_weight(W0[l], As[l], Bs[l]).to(weights[H.weight_name(hp, l)])'),
+-  (1851,
+-   'weights[H.weight_name(hp, l)].copy_(effective_weight(W0[l], As[l], '
+-   'Bs[l]).to(weights[H.weight_name(hp, l)]))'),
+-  (2038, 'stored_weight(W0[l], writer.stored[arm][l], scale).to(W0[l])'),
+-  (2243, 'intervention.to(changed)'),
+-  (2274,
+-   "value['input_tok'] = {k: torch.nn.functional.pad(v, (0, width - "
+-   "v.shape[1]), value=H.tok.pad_token_id if k == 'input_ids' else 0) for k, v "
+-   "in b['input_tok'].items()}"),
+-  (2275,
+-   "value['rewriting_targets'] = "
+-   "torch.nn.functional.pad(b['rewriting_targets'], (0, width - "
+-   "b['rewriting_targets'].shape[1]), value=-100)")] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+======================================================================
+FAIL: test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='mps', origin='cpu', scale=0.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4370, in test_stored_weight_aligns_device_before_scale_and_fp16_add
+    result = A.stored_weight(Labeled(base, destination), Labeled(update, origin), scale)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 248, in stored_weight
+    def stored_weight(W0,update,scale): return (W0.detach().half()+(update.float()*scale).half()).half()
+                                                ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4361, in __add__
+    selftest.assertEqual(self.device.type, other.device.type, 'stored update must align before matrix addition')
+AssertionError: 'mps' != 'cpu'
+- mps
++ cpu
+ : stored update must align before matrix addition
+
+======================================================================
+FAIL: test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='mps', origin='cpu', scale=0.4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4370, in test_stored_weight_aligns_device_before_scale_and_fp16_add
+    result = A.stored_weight(Labeled(base, destination), Labeled(update, origin), scale)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 248, in stored_weight
+    def stored_weight(W0,update,scale): return (W0.detach().half()+(update.float()*scale).half()).half()
+                                                ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4361, in __add__
+    selftest.assertEqual(self.device.type, other.device.type, 'stored update must align before matrix addition')
+AssertionError: 'mps' != 'cpu'
+- mps
++ cpu
+ : stored update must align before matrix addition
+
+======================================================================
+FAIL: test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='mps', origin='cpu', scale=1.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4370, in test_stored_weight_aligns_device_before_scale_and_fp16_add
+    result = A.stored_weight(Labeled(base, destination), Labeled(update, origin), scale)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 248, in stored_weight
+    def stored_weight(W0,update,scale): return (W0.detach().half()+(update.float()*scale).half()).half()
+                                                ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4361, in __add__
+    selftest.assertEqual(self.device.type, other.device.type, 'stored update must align before matrix addition')
+AssertionError: 'mps' != 'cpu'
+- mps
++ cpu
+ : stored update must align before matrix addition
+
+======================================================================
+FAIL: test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='cpu', origin='mps', scale=0.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4370, in test_stored_weight_aligns_device_before_scale_and_fp16_add
+    result = A.stored_weight(Labeled(base, destination), Labeled(update, origin), scale)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 248, in stored_weight
+    def stored_weight(W0,update,scale): return (W0.detach().half()+(update.float()*scale).half()).half()
+                                                ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4361, in __add__
+    selftest.assertEqual(self.device.type, other.device.type, 'stored update must align before matrix addition')
+AssertionError: 'cpu' != 'mps'
+- cpu
++ mps
+ : stored update must align before matrix addition
+
+======================================================================
+FAIL: test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='cpu', origin='mps', scale=0.4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4370, in test_stored_weight_aligns_device_before_scale_and_fp16_add
+    result = A.stored_weight(Labeled(base, destination), Labeled(update, origin), scale)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 248, in stored_weight
+    def stored_weight(W0,update,scale): return (W0.detach().half()+(update.float()*scale).half()).half()
+                                                ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4361, in __add__
+    selftest.assertEqual(self.device.type, other.device.type, 'stored update must align before matrix addition')
+AssertionError: 'cpu' != 'mps'
+- cpu
++ mps
+ : stored update must align before matrix addition
+
+======================================================================
+FAIL: test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='cpu', origin='mps', scale=1.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4370, in test_stored_weight_aligns_device_before_scale_and_fp16_add
+    result = A.stored_weight(Labeled(base, destination), Labeled(update, origin), scale)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 248, in stored_weight
+    def stored_weight(W0,update,scale): return (W0.detach().half()+(update.float()*scale).half()).half()
+                                                ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4361, in __add__
+    selftest.assertEqual(self.device.type, other.device.type, 'stored update must align before matrix addition')
+AssertionError: 'cpu' != 'mps'
+- cpu
++ mps
+ : stored update must align before matrix addition
+
+======================================================================
+FAIL: test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='mps', origin='mps', scale=0.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4371, in test_stored_weight_aligns_device_before_scale_and_fp16_add
+    self.assertEqual(moves, [(origin, destination)])
+AssertionError: Lists differ: [] != [('mps', 'mps')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+('mps', 'mps')
+
+- []
++ [('mps', 'mps')]
+
+======================================================================
+FAIL: test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='mps', origin='mps', scale=0.4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4371, in test_stored_weight_aligns_device_before_scale_and_fp16_add
+    self.assertEqual(moves, [(origin, destination)])
+AssertionError: Lists differ: [] != [('mps', 'mps')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+('mps', 'mps')
+
+- []
++ [('mps', 'mps')]
+
+======================================================================
+FAIL: test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='mps', origin='mps', scale=1.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4371, in test_stored_weight_aligns_device_before_scale_and_fp16_add
+    self.assertEqual(moves, [(origin, destination)])
+AssertionError: Lists differ: [] != [('mps', 'mps')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+('mps', 'mps')
+
+- []
++ [('mps', 'mps')]
+
+======================================================================
+FAIL: test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='cpu', origin='cpu', scale=0.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4371, in test_stored_weight_aligns_device_before_scale_and_fp16_add
+    self.assertEqual(moves, [(origin, destination)])
+AssertionError: Lists differ: [] != [('cpu', 'cpu')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+('cpu', 'cpu')
+
+- []
++ [('cpu', 'cpu')]
+
+======================================================================
+FAIL: test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='cpu', origin='cpu', scale=0.4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4371, in test_stored_weight_aligns_device_before_scale_and_fp16_add
+    self.assertEqual(moves, [(origin, destination)])
+AssertionError: Lists differ: [] != [('cpu', 'cpu')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+('cpu', 'cpu')
+
+- []
++ [('cpu', 'cpu')]
+
+======================================================================
+FAIL: test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) (destination='cpu', origin='cpu', scale=1.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4371, in test_stored_weight_aligns_device_before_scale_and_fp16_add
+    self.assertEqual(moves, [(origin, destination)])
+AssertionError: Lists differ: [] != [('cpu', 'cpu')]
+
+Second list contains 1 additional elements.
+First extra element 0:
+('cpu', 'cpu')
+
+- []
++ [('cpu', 'cpu')]
+
+======================================================================
+FAIL: test_to_like_transfers_before_casting_offset_view (c10y_directdw_selftest.DeviceConversionTests.test_to_like_transfers_before_casting_offset_view)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4378, in test_to_like_transfers_before_casting_offset_view
+    self.assertTrue(hasattr(A, 'to_like'), 'a tensor-target conversion must separate its operations')
+AssertionError: False is not true : a tensor-target conversion must separate its operations
+
+======================================================================
+FAIL: test_reference_scorer_is_exact_frozen_capture_copy (c10y_directdw_selftest.TelemetryReferenceTests.test_reference_scorer_is_exact_frozen_capture_copy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4409, in test_reference_scorer_is_exact_frozen_capture_copy
+    self.assertEqual(len(trees), 1, 'reference must compile the exact frozen function, not the observed copy')
+AssertionError: 0 != 1 : reference must compile the exact frozen function, not the observed copy
+
+======================================================================
+FAIL: test_t8_uses_frozen_off_reference_and_observed_on_scorer (c10y_directdw_selftest.TelemetryReferenceTests.test_t8_uses_frozen_off_reference_and_observed_on_scorer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4431, in test_t8_uses_frozen_off_reference_and_observed_on_scorer
+    self.assertEqual(modes, [False, True, False, True], 'warmup, P1, T, P2 must select their actual scorer semantics')
+AssertionError: Lists differ: [False, True, True, True] != [False, True, False, True]
+
+First differing element 2:
+True
+False
+
+- [False, True, True, True]
+?               ^^^
+
++ [False, True, False, True]
+?               ^^^^
+ : warmup, P1, T, P2 must select their actual scorer semantics
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.368s
+
+FAILED (failures=16)
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_reference_green.log`; SHA-256 `c8a492464d3c7004420c54b8a0153f90417d25e7b4e7a318a555a7f5c6370843`.
+
+```text
+test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) ... ok
+test_cpu64_copies_offset_view_before_dtype_cast (c10y_directdw_selftest.DeviceConversionTests.test_cpu64_copies_offset_view_before_dtype_cast) ... ok
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... ok
+test_reachable_helpers_only_combine_recorded_cpu_solve_transfer (c10y_directdw_selftest.DeviceConversionTests.test_reachable_helpers_only_combine_recorded_cpu_solve_transfer) ... ok
+test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) ... ok
+test_to_like_transfers_before_casting_offset_view (c10y_directdw_selftest.DeviceConversionTests.test_to_like_transfers_before_casting_offset_view) ... ok
+test_reference_scorer_is_exact_frozen_capture_copy (c10y_directdw_selftest.TelemetryReferenceTests.test_reference_scorer_is_exact_frozen_capture_copy) ... ok
+test_t8_uses_frozen_off_reference_and_observed_on_scorer (c10y_directdw_selftest.TelemetryReferenceTests.test_t8_uses_frozen_off_reference_and_observed_on_scorer) ... ok
+test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) ... ok
+test_observed_scorer_rejects_missing_or_wrong_prescribed_mask (c10y_directdw_selftest.AttentionMaskTests.test_observed_scorer_rejects_missing_or_wrong_prescribed_mask) ... ok
+test_padded_objective_and_lens_preserve_tokenizer_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_padded_objective_and_lens_preserve_tokenizer_attention_mask) ... ok
+test_single_sequence_decode_and_observed_scorer_masks_grow (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_masks_grow) ... ok
+test_scorer_ast_and_exact_inputs (c10y_directdw_selftest.TelemetryTests.test_scorer_ast_and_exact_inputs) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.911s
+
+OK
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_guard_delta_red.log`; SHA-256 `cedef54d5e15aed3544c71590b49378d4ea0dbc89a7c42d5f8f1a62b3b49fe81`.
+
+```text
+test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) ... 
+  test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression="buf = torch.empty(4, device=torch.device('cpu'), dtype=torch.float32)\nbuf[0] = v") ... FAIL
+  test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression="buf: object = torch.empty(4, device='cpu', dtype=torch.float32)\nbuf[0] = v") ... FAIL
+  test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression='v.to(cpu_tensor, non_blocking=True)') ... FAIL
+  test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression='v.to(cpu_tensor, True)') ... FAIL
+  test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression='v.to(**options)') ... FAIL
+  test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression='cpu_buf[0] = v if flag else other.cpu()') ... FAIL
+  test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression="torch.as_tensor(v.cpu().to('mps'), device='cpu', dtype=torch.float16)") ... FAIL
+
+======================================================================
+FAIL: test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression="buf = torch.empty(4, device=torch.device('cpu'), dtype=torch.float32)\nbuf[0] = v")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4303, in test_ast_rejects_keyword_positional_and_mixed_combined_transfers
+    self.assertGreaterEqual(len(_unsafe_cpu_transfers(expression)), 1)
+AssertionError: 0 not greater than or equal to 1
+
+======================================================================
+FAIL: test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression="buf: object = torch.empty(4, device='cpu', dtype=torch.float32)\nbuf[0] = v")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4303, in test_ast_rejects_keyword_positional_and_mixed_combined_transfers
+    self.assertGreaterEqual(len(_unsafe_cpu_transfers(expression)), 1)
+AssertionError: 0 not greater than or equal to 1
+
+======================================================================
+FAIL: test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression='v.to(cpu_tensor, non_blocking=True)')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4303, in test_ast_rejects_keyword_positional_and_mixed_combined_transfers
+    self.assertGreaterEqual(len(_unsafe_cpu_transfers(expression)), 1)
+AssertionError: 0 not greater than or equal to 1
+
+======================================================================
+FAIL: test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression='v.to(cpu_tensor, True)')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4303, in test_ast_rejects_keyword_positional_and_mixed_combined_transfers
+    self.assertGreaterEqual(len(_unsafe_cpu_transfers(expression)), 1)
+AssertionError: 0 not greater than or equal to 1
+
+======================================================================
+FAIL: test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression='v.to(**options)')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4303, in test_ast_rejects_keyword_positional_and_mixed_combined_transfers
+    self.assertGreaterEqual(len(_unsafe_cpu_transfers(expression)), 1)
+AssertionError: 0 not greater than or equal to 1
+
+======================================================================
+FAIL: test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression='cpu_buf[0] = v if flag else other.cpu()')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4303, in test_ast_rejects_keyword_positional_and_mixed_combined_transfers
+    self.assertGreaterEqual(len(_unsafe_cpu_transfers(expression)), 1)
+AssertionError: 0 not greater than or equal to 1
+
+======================================================================
+FAIL: test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression="torch.as_tensor(v.cpu().to('mps'), device='cpu', dtype=torch.float16)")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4303, in test_ast_rejects_keyword_positional_and_mixed_combined_transfers
+    self.assertGreaterEqual(len(_unsafe_cpu_transfers(expression)), 1)
+AssertionError: 0 not greater than or equal to 1
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (failures=7)
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_guard_delta_green.log`; SHA-256 `1d4f32cc4ccff308a87b01aba875d7fc24abcb98c0e29099dec4d73d52940864`.
+
+```text
+test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) ... ok
+test_cpu64_copies_offset_view_before_dtype_cast (c10y_directdw_selftest.DeviceConversionTests.test_cpu64_copies_offset_view_before_dtype_cast) ... ok
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... ok
+test_reachable_helpers_only_combine_recorded_cpu_solve_transfer (c10y_directdw_selftest.DeviceConversionTests.test_reachable_helpers_only_combine_recorded_cpu_solve_transfer) ... ok
+test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) ... ok
+test_to_like_transfers_before_casting_offset_view (c10y_directdw_selftest.DeviceConversionTests.test_to_like_transfers_before_casting_offset_view) ... ok
+test_reference_scorer_is_exact_frozen_capture_copy (c10y_directdw_selftest.TelemetryReferenceTests.test_reference_scorer_is_exact_frozen_capture_copy) ... ok
+test_t8_uses_frozen_off_reference_and_observed_on_scorer (c10y_directdw_selftest.TelemetryReferenceTests.test_t8_uses_frozen_off_reference_and_observed_on_scorer) ... ok
+test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) ... ok
+test_observed_scorer_rejects_missing_or_wrong_prescribed_mask (c10y_directdw_selftest.AttentionMaskTests.test_observed_scorer_rejects_missing_or_wrong_prescribed_mask) ... ok
+test_padded_objective_and_lens_preserve_tokenizer_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_padded_objective_and_lens_preserve_tokenizer_attention_mask) ... ok
+test_single_sequence_decode_and_observed_scorer_masks_grow (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_masks_grow) ... ok
+test_scorer_ast_and_exact_inputs (c10y_directdw_selftest.TelemetryTests.test_scorer_ast_and_exact_inputs) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.905s
+
+OK
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_constructor_red.log`; SHA-256 `9729d748f524bbc69b9a5421b4ff8d0e8ec6b5dfe8789b429de901baa00e4425`.
+
+```text
+test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) ... 
+  test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression="torch.as_tensor(data=v, device='cpu', dtype=torch.float32)") ... FAIL
+  test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression="torch.tensor(data=v, device='cpu', dtype=torch.float16)") ... FAIL
+  test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression='torch.as_tensor(**options)') ... FAIL
+
+======================================================================
+FAIL: test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression="torch.as_tensor(data=v, device='cpu', dtype=torch.float32)")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4331, in test_ast_rejects_keyword_positional_and_mixed_combined_transfers
+    self.assertGreaterEqual(len(_unsafe_cpu_transfers(expression)), 1)
+AssertionError: 0 not greater than or equal to 1
+
+======================================================================
+FAIL: test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression="torch.tensor(data=v, device='cpu', dtype=torch.float16)")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4331, in test_ast_rejects_keyword_positional_and_mixed_combined_transfers
+    self.assertGreaterEqual(len(_unsafe_cpu_transfers(expression)), 1)
+AssertionError: 0 not greater than or equal to 1
+
+======================================================================
+FAIL: test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) (expression='torch.as_tensor(**options)')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4331, in test_ast_rejects_keyword_positional_and_mixed_combined_transfers
+    self.assertGreaterEqual(len(_unsafe_cpu_transfers(expression)), 1)
+AssertionError: 0 not greater than or equal to 1
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+FAILED (failures=3)
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_constructor_green.log`; SHA-256 `6c3534bc02c2f45ceea4499878b9e0acf214c9e13cdf09c42da59bc5ee859c3e`.
+
+```text
+test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) ... ok
+test_cpu64_copies_offset_view_before_dtype_cast (c10y_directdw_selftest.DeviceConversionTests.test_cpu64_copies_offset_view_before_dtype_cast) ... ok
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... ok
+test_reachable_helpers_only_combine_recorded_cpu_solve_transfer (c10y_directdw_selftest.DeviceConversionTests.test_reachable_helpers_only_combine_recorded_cpu_solve_transfer) ... ok
+test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) ... ok
+test_to_like_transfers_before_casting_offset_view (c10y_directdw_selftest.DeviceConversionTests.test_to_like_transfers_before_casting_offset_view) ... ok
+test_reference_scorer_is_exact_frozen_capture_copy (c10y_directdw_selftest.TelemetryReferenceTests.test_reference_scorer_is_exact_frozen_capture_copy) ... ok
+test_t8_uses_frozen_off_reference_and_observed_on_scorer (c10y_directdw_selftest.TelemetryReferenceTests.test_t8_uses_frozen_off_reference_and_observed_on_scorer) ... ok
+test_every_owned_model_forward_has_explicit_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_every_owned_model_forward_has_explicit_attention_mask) ... ok
+test_observed_scorer_rejects_missing_or_wrong_prescribed_mask (c10y_directdw_selftest.AttentionMaskTests.test_observed_scorer_rejects_missing_or_wrong_prescribed_mask) ... ok
+test_padded_objective_and_lens_preserve_tokenizer_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_padded_objective_and_lens_preserve_tokenizer_attention_mask) ... ok
+test_single_sequence_decode_and_observed_scorer_masks_grow (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_masks_grow) ... ok
+test_scorer_ast_and_exact_inputs (c10y_directdw_selftest.TelemetryTests.test_scorer_ast_and_exact_inputs) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.907s
+
+OK
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+Evidence: `/private/tmp/c10y_build/mask_revert_red.log`; SHA-256 `449443d5d0ef931181a71f79f9e61748ef0b89b50cfb56f7c78849b056c7634b`.
+
+```text
+test_observed_scorer_rejects_any_added_forward_keyword (c10y_directdw_selftest.AttentionMaskTests.test_observed_scorer_rejects_any_added_forward_keyword) ... 
+  test_observed_scorer_rejects_any_added_forward_keyword (c10y_directdw_selftest.AttentionMaskTests.test_observed_scorer_rejects_any_added_forward_keyword) (wrong='torch.ones_like(cur)') ... FAIL
+test_owned_forwards_preserve_original_mask_contract (c10y_directdw_selftest.AttentionMaskTests.test_owned_forwards_preserve_original_mask_contract) ... 
+  test_owned_forwards_preserve_original_mask_contract (c10y_directdw_selftest.AttentionMaskTests.test_owned_forwards_preserve_original_mask_contract) (file='c10y_directdw_arms.py', line=1817, call='H.model') ... FAIL
+  test_owned_forwards_preserve_original_mask_contract (c10y_directdw_selftest.AttentionMaskTests.test_owned_forwards_preserve_original_mask_contract) (file='c10y_directdw_arms.py', line=1819, call='H.model') ... FAIL
+  test_owned_forwards_preserve_original_mask_contract (c10y_directdw_selftest.AttentionMaskTests.test_owned_forwards_preserve_original_mask_contract) (file='c10y_directdw_arms.py', line=1048, call='model') ... FAIL
+test_padded_objective_and_lens_preserve_tokenizer_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_padded_objective_and_lens_preserve_tokenizer_attention_mask) ... ok
+test_single_sequence_decode_and_observed_scorer_do_not_inject_mask (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_do_not_inject_mask) ... 
+  test_single_sequence_decode_and_observed_scorer_do_not_inject_mask (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_do_not_inject_mask) (mode='plain') ... FAIL
+  test_single_sequence_decode_and_observed_scorer_do_not_inject_mask (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_do_not_inject_mask) (mode='hooked') ... FAIL
+  test_single_sequence_decode_and_observed_scorer_do_not_inject_mask (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_do_not_inject_mask) (mode='observed') ... FAIL
+test_frozen_harness_scorers_receive_no_injected_kwargs (c10y_directdw_selftest.TelemetryReferenceTests.test_frozen_harness_scorers_receive_no_injected_kwargs) ... 
+  test_frozen_harness_scorers_receive_no_injected_kwargs (c10y_directdw_selftest.TelemetryReferenceTests.test_frozen_harness_scorers_receive_no_injected_kwargs) (telemetry=True) ... FAIL
+
+======================================================================
+FAIL: test_observed_scorer_rejects_any_added_forward_keyword (c10y_directdw_selftest.AttentionMaskTests.test_observed_scorer_rejects_any_added_forward_keyword) (wrong='torch.ones_like(cur)')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4200, in test_observed_scorer_rejects_any_added_forward_keyword
+    self.assertFalse(A.scorer_ast_check(W / 'experiments/track_c/c10e_bandknob.py'))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_owned_forwards_preserve_original_mask_contract (c10y_directdw_selftest.AttentionMaskTests.test_owned_forwards_preserve_original_mask_contract) (file='c10y_directdw_arms.py', line=1817, call='H.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4133, in test_owned_forwards_preserve_original_mask_contract
+    self.assertEqual(masks, [], 'frozen greedy-call kwargs must stay unchanged')
+AssertionError: Lists differ: [<ast.Call object at 0x10cd3b280>] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+<ast.Call object at 0x10cd3b280>
+
+- [<ast.Call object at 0x10cd3b280>]
++ [] : frozen greedy-call kwargs must stay unchanged
+
+======================================================================
+FAIL: test_owned_forwards_preserve_original_mask_contract (c10y_directdw_selftest.AttentionMaskTests.test_owned_forwards_preserve_original_mask_contract) (file='c10y_directdw_arms.py', line=1819, call='H.model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4133, in test_owned_forwards_preserve_original_mask_contract
+    self.assertEqual(masks, [], 'frozen greedy-call kwargs must stay unchanged')
+AssertionError: Lists differ: [<ast.Call object at 0x10cd3b6d0>] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+<ast.Call object at 0x10cd3b6d0>
+
+- [<ast.Call object at 0x10cd3b6d0>]
++ [] : frozen greedy-call kwargs must stay unchanged
+
+======================================================================
+FAIL: test_owned_forwards_preserve_original_mask_contract (c10y_directdw_selftest.AttentionMaskTests.test_owned_forwards_preserve_original_mask_contract) (file='c10y_directdw_arms.py', line=1048, call='model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4133, in test_owned_forwards_preserve_original_mask_contract
+    self.assertEqual(masks, [], 'frozen greedy-call kwargs must stay unchanged')
+AssertionError: Lists differ: [<ast.Call object at 0x10c8a78b0>] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+<ast.Call object at 0x10c8a78b0>
+
+- [<ast.Call object at 0x10c8a78b0>]
++ [] : frozen greedy-call kwargs must stay unchanged
+
+======================================================================
+FAIL: test_single_sequence_decode_and_observed_scorer_do_not_inject_mask (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_do_not_inject_mask) (mode='plain')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4157, in test_single_sequence_decode_and_observed_scorer_do_not_inject_mask
+    A._decode_ids(H, prompt, 2, H.hp, operators if mode == 'hooked' else None)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 1817, in _decode_ids
+    if operators is None: logits=H.model(cur,attention_mask=torch.ones_like(cur),use_cache=False).logits
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4145, in checked
+    self.assertNotIn('attention_mask', kwargs, 'the original greedy reference must not inject kwargs')
+AssertionError: 'attention_mask' unexpectedly found in {'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1]]), 'use_cache': False} : the original greedy reference must not inject kwargs
+
+======================================================================
+FAIL: test_single_sequence_decode_and_observed_scorer_do_not_inject_mask (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_do_not_inject_mask) (mode='hooked')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4157, in test_single_sequence_decode_and_observed_scorer_do_not_inject_mask
+    A._decode_ids(H, prompt, 2, H.hp, operators if mode == 'hooked' else None)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 1819, in _decode_ids
+    with weight_hooks(H,hp,*operators,None): logits=H.model(cur,attention_mask=torch.ones_like(cur),use_cache=False).logits
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4145, in checked
+    self.assertNotIn('attention_mask', kwargs, 'the original greedy reference must not inject kwargs')
+AssertionError: 'attention_mask' unexpectedly found in {'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1]]), 'use_cache': False} : the original greedy reference must not inject kwargs
+
+======================================================================
+FAIL: test_single_sequence_decode_and_observed_scorer_do_not_inject_mask (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_do_not_inject_mask) (mode='observed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4155, in test_single_sequence_decode_and_observed_scorer_do_not_inject_mask
+    A.make_scorer(H, lambda *args: None)(prompt, H.tgt_ids('Echo Echo'))
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 1048, in full_seq_match
+    nxt = int(model(cur,attention_mask=torch.ones_like(cur)).logits[0, -1].argmax())
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4145, in checked
+    self.assertNotIn('attention_mask', kwargs, 'the original greedy reference must not inject kwargs')
+AssertionError: 'attention_mask' unexpectedly found in {'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1]])} : the original greedy reference must not inject kwargs
+
+======================================================================
+FAIL: test_frozen_harness_scorers_receive_no_injected_kwargs (c10y_directdw_selftest.TelemetryReferenceTests.test_frozen_harness_scorers_receive_no_injected_kwargs) (telemetry=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4467, in test_frozen_harness_scorers_receive_no_injected_kwargs
+    A.scored_recipe(H, 'B-e2e', H.HP_BASE, 1, telemetry)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 2197, in scored_recipe
+    raw=H.run_recipe(name,str(Path(hppath).resolve()))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4456, in recipe
+    H.full_seq_match(prompt, ids)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py", line 1048, in full_seq_match
+    nxt = int(model(cur,attention_mask=torch.ones_like(cur)).logits[0, -1].argmax())
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4449, in checked
+    self.assertEqual(kwargs, {}, 'frozen scorers must receive no injected model kwargs')
+AssertionError: {'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1]])} != {}
+- {'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1]])}
++ {} : frozen scorers must receive no injected model kwargs
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.552s
+
+FAILED (failures=8)
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+Evidence: `/private/tmp/c10y_build/mask_revert_conversion_green.log`; SHA-256 `c1370f5ca31254c23587b990a100c42ffe71d0f78287b6482ce70b5d39d916d6`.
+
+```text
+test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) ... ok
+test_cpu64_copies_offset_view_before_dtype_cast (c10y_directdw_selftest.DeviceConversionTests.test_cpu64_copies_offset_view_before_dtype_cast) ... ok
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... ok
+test_reachable_helpers_only_combine_recorded_cpu_solve_transfer (c10y_directdw_selftest.DeviceConversionTests.test_reachable_helpers_only_combine_recorded_cpu_solve_transfer) ... ok
+test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) ... ok
+test_to_like_transfers_before_casting_offset_view (c10y_directdw_selftest.DeviceConversionTests.test_to_like_transfers_before_casting_offset_view) ... ok
+test_observed_scorer_rejects_any_added_forward_keyword (c10y_directdw_selftest.AttentionMaskTests.test_observed_scorer_rejects_any_added_forward_keyword) ... ok
+test_owned_forwards_preserve_original_mask_contract (c10y_directdw_selftest.AttentionMaskTests.test_owned_forwards_preserve_original_mask_contract) ... ok
+test_padded_objective_and_lens_preserve_tokenizer_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_padded_objective_and_lens_preserve_tokenizer_attention_mask) ... ok
+test_single_sequence_decode_and_observed_scorer_do_not_inject_mask (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_do_not_inject_mask) ... ok
+test_frozen_harness_scorers_receive_no_injected_kwargs (c10y_directdw_selftest.TelemetryReferenceTests.test_frozen_harness_scorers_receive_no_injected_kwargs) ... ok
+test_reference_scorer_is_exact_frozen_capture_copy (c10y_directdw_selftest.TelemetryReferenceTests.test_reference_scorer_is_exact_frozen_capture_copy) ... ok
+test_t8_uses_frozen_off_reference_and_observed_on_scorer (c10y_directdw_selftest.TelemetryReferenceTests.test_t8_uses_frozen_off_reference_and_observed_on_scorer) ... ok
+test_scorer_ast_and_exact_inputs (c10y_directdw_selftest.TelemetryTests.test_scorer_ast_and_exact_inputs) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 1.030s
+
+OK
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+The three controls were originally completed in the explicitly authorized GPU-idle window, then re-run serially on the exact final mask-reverted source bytes. The latest exact commands and complete PASS outputs follow; prior Program/conversion-window logs remain in scratch as historical evidence.
+
+```sh
+/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/c10y_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /private/tmp/c10y_build/run_selected.py NumericTests.test_full_size_float64_reductions > /private/tmp/c10y_build/full_size_reductions_post_mask_revert.log 2>&1
+```
+
+Evidence: `/private/tmp/c10y_build/full_size_reductions_post_mask_revert.log`; SHA-256 `1545d7c21873ebe25ce2fb8b04d4affb0ef2ebea5a408f2e980394e4b1f0df23`.
+
+```text
+test_full_size_float64_reductions (c10y_directdw_selftest.NumericTests.test_full_size_float64_reductions) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.486s
+
+OK
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+```sh
+/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/c10y_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /private/tmp/c10y_build/run_selected.py NumericTests.test_gram_norm_dense_reference > /private/tmp/c10y_build/full_size_gram_post_mask_revert.log 2>&1
+```
+
+Evidence: `/private/tmp/c10y_build/full_size_gram_post_mask_revert.log`; SHA-256 `b49241703e2e521ba542207a1e4f3ecba0f310a971783acbf7b20fec8ee09ecb`.
+
+```text
+test_gram_norm_dense_reference (c10y_directdw_selftest.NumericTests.test_gram_norm_dense_reference) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.023s
+
+OK
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+```sh
+/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/c10y_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 C10Y_ALLOWED_CHILD_TESTS=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /private/tmp/c10y_build/run_selected.py IntegrationTests.test_native_hanging_worker_deadline_before_and_after_write > /private/tmp/c10y_build/native_timeout_post_mask_revert.log 2>&1
+```
+
+Evidence: `/private/tmp/c10y_build/native_timeout_post_mask_revert.log`; SHA-256 `c0f66706c44b794e6446f18848ee73734006be469c6ddcc3f2e3a293a650c1a1`.
+
+```text
+test_native_hanging_worker_deadline_before_and_after_write (c10y_directdw_selftest.IntegrationTests.test_native_hanging_worker_deadline_before_and_after_write) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 3.637s
+
+OK
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+```
+
+The dense 2048x11008 case verifies exact identity cosine=1, distance=0, norm ratio=1 and perturbed-pair CPU64 references within the registered 1e-12 tolerances. The Gram case uses rank-3 factors with a dense 2048x11008 double product reference. Neither test validates a full Qwen/MPS model or device memory safety.
+
+Native timeout evidence uses the actual supervisor and guarded ctypes sleep(30) workers with cap_s=2.0. The test verifies elapsed<3.5 seconds, guard output, an owned group different from the parent, and a dead returned PID. Both branches ran in 3.637 seconds total. Before marker: HALTED-BUDGET. After synthetic merge-completion marker: INCOMPLETE-BUDGET. Exact PID/PGID/elapsed records follow. No scientific merge was performed; the diagnostic template hash correctly declares expected_engine_form_default_json, not observed file bytes.
+
+Evidence: `/private/tmp/c10y_build/roots/tmptbnyu4ah/haltFalse.json`; SHA-256 `5a695f2dfa6565292a8a7e1792e4cb6a3459b6d21114dfa2916ec43ea103303a`.
+
+```text
+{
+  "cap_s": 2.0,
+  "code": "HALTED-BUDGET",
+  "context_templates": {
+    "hash_basis": "expected_engine_form_default_json",
+    "path": "/private/tmp/c10y_build/roots/tmptbnyu4ah/before/context_templates.json",
+    "sha256": "c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da"
+  },
+  "finished_at": "2026-10-08T14:42:57.498673+00:00",
+  "owned_pid": 71355,
+  "owned_process_group": 71355,
+  "pinned_engine_sha256": "c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da",
+  "process": "stage",
+  "stage": 1,
+  "started_at": "2026-10-08T14:42:55.678382+00:00"
+}
+```
+
+Evidence: `/private/tmp/c10y_build/roots/tmptbnyu4ah/haltTrue.json`; SHA-256 `d8c640db13c1fe739ddaa377c9c6a0feb0fa195f902f1a2ecc3c5d18c2e3a57c`.
+
+```text
+{
+  "cap_s": 2.0,
+  "code": "INCOMPLETE-BUDGET",
+  "context_templates": {
+    "hash_basis": "expected_engine_form_default_json",
+    "path": "/private/tmp/c10y_build/roots/tmptbnyu4ah/after/context_templates.json",
+    "sha256": "c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da"
+  },
+  "finished_at": "2026-10-08T14:42:59.309295+00:00",
+  "owned_pid": 71509,
+  "owned_process_group": 71509,
+  "pinned_engine_sha256": "c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da",
+  "process": "stage",
+  "stage": 1,
+  "started_at": "2026-10-08T14:42:57.500731+00:00"
+}
+```
+
+Evidence: `/private/tmp/c10y_build/roots/tmptbnyu4ah/before/supervisor_s1.json`; SHA-256 `b5b5b1a181649f02189e567533429e973a2f5c679e01f7ff3f5091ce7af4d3ae`.
+
+```text
+{
+  "code": "supervisor",
+  "context_templates": {
+    "hash_basis": "expected_engine_form_default_json",
+    "path": "/private/tmp/c10y_build/roots/tmptbnyu4ah/before/context_templates.json",
+    "sha256": "c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da"
+  },
+  "launched": true,
+  "pinned_engine_sha256": "c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da",
+  "readout_complete": false,
+  "stage": 1,
+  "status": "HALTED-BUDGET",
+  "telemetry": false,
+  "telemetry_inertness": null,
+  "write_complete": false
+}
+```
+
+Evidence: `/private/tmp/c10y_build/roots/tmptbnyu4ah/after/supervisor_s1.json`; SHA-256 `8e3682e3facf77d54f2d32f8065e5e180f024767a941531cd6e9744220648449`.
+
+```text
+{
+  "code": "supervisor",
+  "context_templates": {
+    "hash_basis": "expected_engine_form_default_json",
+    "path": "/private/tmp/c10y_build/roots/tmptbnyu4ah/after/context_templates.json",
+    "sha256": "c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da"
+  },
+  "launched": true,
+  "pinned_engine_sha256": "c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da",
+  "readout_complete": false,
+  "stage": 1,
+  "status": "INCOMPLETE-BUDGET",
+  "telemetry": false,
+  "telemetry_inertness": null,
+  "write_complete": true
+}
+```
+
+Final full light command and complete PASS output, after the three controls and M14:
+
+```sh
+/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/c10y_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /private/tmp/c10y_build/run_light.py > /private/tmp/c10y_build/light_suite_final_post_mask_revert.log 2>&1
+```
+
+Evidence: `/private/tmp/c10y_build/light_suite_final_post_mask_revert.log`; SHA-256 `2cd1949c17a9d5b022453662803186c4da6132ec43efbf5f26b9c9d863d650cd`.
+
+```text
+test_observed_scorer_rejects_any_added_forward_keyword (c10y_directdw_selftest.AttentionMaskTests.test_observed_scorer_rejects_any_added_forward_keyword) ... ok
+test_owned_forwards_preserve_original_mask_contract (c10y_directdw_selftest.AttentionMaskTests.test_owned_forwards_preserve_original_mask_contract) ... ok
+test_padded_objective_and_lens_preserve_tokenizer_attention_mask (c10y_directdw_selftest.AttentionMaskTests.test_padded_objective_and_lens_preserve_tokenizer_attention_mask) ... ok
+test_single_sequence_decode_and_observed_scorer_do_not_inject_mask (c10y_directdw_selftest.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_do_not_inject_mask) ... ok
+test_all_three_targets_and_baseline_arm_timings_required (c10y_directdw_selftest.CalibrationForecastContractTests.test_all_three_targets_and_baseline_arm_timings_required) ... ok
+test_bad_bound_records_return_unverified (c10y_directdw_selftest.CalibrationForecastContractTests.test_bad_bound_records_return_unverified) ... ok
+test_calibration_schema_and_c5_completeness (c10y_directdw_selftest.CalibrationForecastContractTests.test_calibration_schema_and_c5_completeness) ... ok
+test_cap_types_stage1_limit_and_later_stage_spend (c10y_directdw_selftest.CalibrationForecastContractTests.test_cap_types_stage1_limit_and_later_stage_spend) ... ok
+test_each_phase_rejects_wrong_measured_mapping (c10y_directdw_selftest.CalibrationForecastContractTests.test_each_phase_rejects_wrong_measured_mapping) ... ok
+test_full_c3_measured_map_and_every_repetition (c10y_directdw_selftest.CalibrationForecastContractTests.test_full_c3_measured_map_and_every_repetition) ... ok
+test_independent_bound_requires_explicit_justification (c10y_directdw_selftest.CalibrationForecastContractTests.test_independent_bound_requires_explicit_justification) ... ok
+test_input_identity_drift_and_padded_max_are_invalid (c10y_directdw_selftest.CalibrationForecastContractTests.test_input_identity_drift_and_padded_max_are_invalid) ... ok
+test_merge_uses_larger_of_two_timed_merges (c10y_directdw_selftest.CalibrationForecastContractTests.test_merge_uses_larger_of_two_timed_merges) ... ok
+test_missing_c3_unit_is_not_complete_support (c10y_directdw_selftest.CalibrationForecastContractTests.test_missing_c3_unit_is_not_complete_support) ... ok
+test_noncalibration_measured_flag_cannot_replace_supported_bound (c10y_directdw_selftest.CalibrationForecastContractTests.test_noncalibration_measured_flag_cannot_replace_supported_bound) ... ok
+test_optimisation_comparable_shape_and_iteration_flags (c10y_directdw_selftest.CalibrationForecastContractTests.test_optimisation_comparable_shape_and_iteration_flags) ... ok
+test_optimisation_full_105_attempt_stage_workload (c10y_directdw_selftest.CalibrationForecastContractTests.test_optimisation_full_105_attempt_stage_workload) ... ok
+test_optimisation_requires_three_accepted_rows_in_each_check (c10y_directdw_selftest.CalibrationForecastContractTests.test_optimisation_requires_three_accepted_rows_in_each_check) ... ok
+test_optimisation_uses_slowest_iteration_not_mean (c10y_directdw_selftest.CalibrationForecastContractTests.test_optimisation_uses_slowest_iteration_not_mean) ... ok
+test_original_my_edit_requires_two_distinct_repetitions (c10y_directdw_selftest.CalibrationForecastContractTests.test_original_my_edit_requires_two_distinct_repetitions) ... ok
+test_overflow_attempt_is_cited_in_addition_to_six_accepted_rows (c10y_directdw_selftest.CalibrationForecastContractTests.test_overflow_attempt_is_cited_in_addition_to_six_accepted_rows) ... ok
+test_prestart_gate_rechecks_schema_and_staleness (c10y_directdw_selftest.CalibrationForecastContractTests.test_prestart_gate_rechecks_schema_and_staleness) ... ok
+test_prestart_gate_rejects_forged_or_omitted_measurement (c10y_directdw_selftest.CalibrationForecastContractTests.test_prestart_gate_rejects_forged_or_omitted_measurement) ... ok
+test_raw_seconds_sync_status_and_workload_are_typed (c10y_directdw_selftest.CalibrationForecastContractTests.test_raw_seconds_sync_status_and_workload_are_typed) ... ok
+test_readout_1380_reserve_and_larger_measured_bound (c10y_directdw_selftest.CalibrationForecastContractTests.test_readout_1380_reserve_and_larger_measured_bound) ... ok
+test_calibration_forecast_rejects_partial_and_stale (c10y_directdw_selftest.CalibrationTests.test_calibration_forecast_rejects_partial_and_stale) ... ok
+test_calibration_forecast_uses_all_repetitions_no_memory_or_inputs (c10y_directdw_selftest.CalibrationTests.test_calibration_forecast_uses_all_repetitions_no_memory_or_inputs) ... ok
+test_calibration_go_spend_caps (c10y_directdw_selftest.CalibrationTests.test_calibration_go_spend_caps) ... ok
+test_calibration_prefix_only_and_required_records (c10y_directdw_selftest.CalibrationTests.test_calibration_prefix_only_and_required_records) ... ok
+test_calibration_reader_and_context_source_refused (c10y_directdw_selftest.CalibrationTests.test_calibration_reader_and_context_source_refused) ... ok
+test_calibration_telemetry_variables_and_existing_directory_refused (c10y_directdw_selftest.CalibrationTests.test_calibration_telemetry_variables_and_existing_directory_refused) ... ok
+test_calibration_v4_halt_persists_schedule (c10y_directdw_selftest.CalibrationTests.test_calibration_v4_halt_persists_schedule) ... ok
+test_calibration_wrong_namespace_refused (c10y_directdw_selftest.CalibrationTests.test_calibration_wrong_namespace_refused) ... ok
+test_frozen_bytes_suite_end (c10y_directdw_selftest.CalibrationTests.test_frozen_bytes_suite_end) ... ok
+test_ast_rejects_keyword_positional_and_mixed_combined_transfers (c10y_directdw_selftest.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) ... ok
+test_cpu64_copies_offset_view_before_dtype_cast (c10y_directdw_selftest.DeviceConversionTests.test_cpu64_copies_offset_view_before_dtype_cast) ... ok
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... ok
+test_reachable_helpers_only_combine_recorded_cpu_solve_transfer (c10y_directdw_selftest.DeviceConversionTests.test_reachable_helpers_only_combine_recorded_cpu_solve_transfer) ... ok
+test_stored_weight_aligns_device_before_scale_and_fp16_add (c10y_directdw_selftest.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) ... ok
+test_to_like_transfers_before_casting_offset_view (c10y_directdw_selftest.DeviceConversionTests.test_to_like_transfers_before_casting_offset_view) ... ok
+test_calibration_callsite_persists_complete_timing_tags (c10y_directdw_selftest.FinalReviewRegressionTests.test_calibration_callsite_persists_complete_timing_tags) ... ok
+test_complete_compile_accounting_drives_ttl_equality (c10y_directdw_selftest.FinalReviewRegressionTests.test_complete_compile_accounting_drives_ttl_equality) ... ok
+test_complete_compile_at_actual_scientific_hook_boundary (c10y_directdw_selftest.FinalReviewRegressionTests.test_complete_compile_at_actual_scientific_hook_boundary) ... ok
+test_each_telemetry_method_preserves_every_state_and_A_grad (c10y_directdw_selftest.FinalReviewRegressionTests.test_each_telemetry_method_preserves_every_state_and_A_grad) ... ok
+test_forecast_aware_first_expensive_action_is_not_entered (c10y_directdw_selftest.FinalReviewRegressionTests.test_forecast_aware_first_expensive_action_is_not_entered) ... ok
+test_live_objective_graph_guard_precedes_backward_and_adam (c10y_directdw_selftest.FinalReviewRegressionTests.test_live_objective_graph_guard_precedes_backward_and_adam) ... /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py:3339: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  self.assertEqual(opt.state,{});self.assertIsNone(p.grad);self.assertEqual(float(p[0]),1.)
+ok
+test_merged_fit_reduces_vocabulary_on_cpu_float64 (c10y_directdw_selftest.FinalReviewRegressionTests.test_merged_fit_reduces_vocabulary_on_cpu_float64) ... ok
+test_off_scorer_is_original_during_actual_recipe_call (c10y_directdw_selftest.FinalReviewRegressionTests.test_off_scorer_is_original_during_actual_recipe_call) ... ok
+test_phase_markers_cover_units_without_changing_operational_calls (c10y_directdw_selftest.FinalReviewRegressionTests.test_phase_markers_cover_units_without_changing_operational_calls) ... ok
+test_premerge_parity_cannot_spend_postmerge_reserve (c10y_directdw_selftest.FinalReviewRegressionTests.test_premerge_parity_cannot_spend_postmerge_reserve) ... ok
+test_real_writer_durable_merge_precedes_postmerge_readout (c10y_directdw_selftest.FinalReviewRegressionTests.test_real_writer_durable_merge_precedes_postmerge_readout) ... ok
+test_real_writer_per_write_line_formula (c10y_directdw_selftest.FinalReviewRegressionTests.test_real_writer_per_write_line_formula) ... ok
+test_recorded_contexts_never_sample_even_after_seeding (c10y_directdw_selftest.FinalReviewRegressionTests.test_recorded_contexts_never_sample_even_after_seeding) ... ok
+test_actual_launcher_refuses_missing_calibration_before_import (c10y_directdw_selftest.IntegrationTests.test_actual_launcher_refuses_missing_calibration_before_import) ... ok
+test_candidate_operations_require_baseline (c10y_directdw_selftest.IntegrationTests.test_candidate_operations_require_baseline) ... ok
+test_sequential_capture_matches_original (c10y_directdw_selftest.IntegrationTests.test_sequential_capture_matches_original) ... ok
+test_stage_runner_artifacts_feed_real_reader_and_halt_before_candidates (c10y_directdw_selftest.IntegrationTests.test_stage_runner_artifacts_feed_real_reader_and_halt_before_candidates) ... ok
+test_stored_control_scale1_identity (c10y_directdw_selftest.IntegrationTests.test_stored_control_scale1_identity) ... ok
+test_strict_json_and_immutable_records (c10y_directdw_selftest.IntegrationTests.test_strict_json_and_immutable_records) ... ok
+test_three_forced_zero_lr_iterations_and_telemetry_trajectory (c10y_directdw_selftest.IntegrationTests.test_three_forced_zero_lr_iterations_and_telemetry_trajectory) ... ok
+test_all_cases_use_base (c10y_directdw_selftest.IsolationTests.test_all_cases_use_base) ... ok
+test_live_write_positive_control (c10y_directdw_selftest.IsolationTests.test_live_write_positive_control) ... ok
+test_real_dispatch_denied_with_temp_environment (c10y_directdw_selftest.IsolationTests.test_real_dispatch_denied_with_temp_environment) ... ok
+test_relative_and_symlink_guard (c10y_directdw_selftest.IsolationTests.test_relative_and_symlink_guard) ... ok
+test_seed_uses_only_cpu_generator (c10y_directdw_selftest.IsolationTests.test_seed_uses_only_cpu_generator) ... ok
+test_selftest_root_refusal (c10y_directdw_selftest.IsolationTests.test_selftest_root_refusal) ... ok
+test_later_stage_cannot_consume_stage1_calibration_measurements (c10y_directdw_selftest.LaunchDeltaTests.test_later_stage_cannot_consume_stage1_calibration_measurements) ... ok
+test_nm_decimal_boundary_through_real_reader (c10y_directdw_selftest.LaunchDeltaTests.test_nm_decimal_boundary_through_real_reader) ... ok
+test_nm_decimal_boundary_through_scientific_hook (c10y_directdw_selftest.LaunchDeltaTests.test_nm_decimal_boundary_through_scientific_hook) ... ok
+test_norm_readouts_are_inside_writer_wall_clock (c10y_directdw_selftest.LaunchDeltaTests.test_norm_readouts_are_inside_writer_wall_clock) ... ok
+test_real_iteration_producer_passes_c2_timing_validator (c10y_directdw_selftest.LaunchDeltaTests.test_real_iteration_producer_passes_c2_timing_validator) ... ok
+test_stored_scale_sum_matches_reader_float64_sum (c10y_directdw_selftest.LaunchDeltaTests.test_stored_scale_sum_matches_reader_float64_sum) ... ok
+test_supervisor_timeout_records_observed_template_hash_without_child (c10y_directdw_selftest.LaunchDeltaTests.test_supervisor_timeout_records_observed_template_hash_without_child) ... ok
+test_t8_overlap_audit_precedes_first_forward_and_never_redraws (c10y_directdw_selftest.LaunchDeltaTests.test_t8_overlap_audit_precedes_first_forward_and_never_redraws) ... ok
+test_context_freeze_and_leakage (c10y_directdw_selftest.LaunchTests.test_context_freeze_and_leakage) ... ok
+test_direct_launch_shell_dependencies_are_executable_and_git_100755 (c10y_directdw_selftest.LaunchTests.test_direct_launch_shell_dependencies_are_executable_and_git_100755) ... ok
+test_every_inherited_preflight_knob_refused (c10y_directdw_selftest.LaunchTests.test_every_inherited_preflight_knob_refused) ... ok
+test_forecast_unverified_and_cap (c10y_directdw_selftest.LaunchTests.test_forecast_unverified_and_cap) ... ok
+test_go_spend_and_stage_eligibility (c10y_directdw_selftest.LaunchTests.test_go_spend_and_stage_eligibility) ... ok
+test_memory_boundaries (c10y_directdw_selftest.LaunchTests.test_memory_boundaries) ... ok
+test_schedule_halt_survives_new_directory (c10y_directdw_selftest.LaunchTests.test_schedule_halt_survives_new_directory) ... ok
+test_step_projection_reserves_readout (c10y_directdw_selftest.LaunchTests.test_step_projection_reserves_readout) ... ok
+test_wrapper_delegate_dynamic_and_arm_restore (c10y_directdw_selftest.LaunchTests.test_wrapper_delegate_dynamic_and_arm_restore) ... ok
+test_anchor_zero_denominator (c10y_directdw_selftest.NumericTests.test_anchor_zero_denominator) ... ok
+test_capture_factorization (c10y_directdw_selftest.NumericTests.test_capture_factorization) ... ok
+test_control_boundaries (c10y_directdw_selftest.NumericTests.test_control_boundaries) ... ok
+test_mps_double_refused (c10y_directdw_selftest.NumericTests.test_mps_double_refused) ... ok
+test_null_share_boundaries (c10y_directdw_selftest.NumericTests.test_null_share_boundaries) ... ok
+test_size_scales_and_stored_arithmetic (c10y_directdw_selftest.NumericTests.test_size_scales_and_stored_arithmetic) ... ok
+test_effective_weight_and_routing_gradient (c10y_directdw_selftest.OptimizerTests.test_effective_weight_and_routing_gradient) ... ok
+test_kl_coefficient_once (c10y_directdw_selftest.OptimizerTests.test_kl_coefficient_once) ... ok
+test_loss_scale_transaction (c10y_directdw_selftest.OptimizerTests.test_loss_scale_transaction) ... ok
+test_microbatch_request_weighting (c10y_directdw_selftest.OptimizerTests.test_microbatch_request_weighting) ... ok
+test_request_batch_and_target_only_objective (c10y_directdw_selftest.OptimizerTests.test_request_batch_and_target_only_objective) ... ok
+test_sixth_overflow_halts_without_mutation (c10y_directdw_selftest.OptimizerTests.test_sixth_overflow_halts_without_mutation) ... ok
+test_stopping_boundaries (c10y_directdw_selftest.OptimizerTests.test_stopping_boundaries) ... ok
+test_unknown_hooks_preserved (c10y_directdw_selftest.OptimizerTests.test_unknown_hooks_preserved) ... ok
+test_changed_template_source_or_stage1_content_halts (c10y_directdw_selftest.PinnedTemplateTests.test_changed_template_source_or_stage1_content_halts) ... ok
+test_stage1_and_calibration_pin_before_first_engine_call (c10y_directdw_selftest.PinnedTemplateTests.test_stage1_and_calibration_pin_before_first_engine_call) ... ok
+test_stages2_3_install_stage1_bytes_before_first_engine_use (c10y_directdw_selftest.PinnedTemplateTests.test_stages2_3_install_stage1_bytes_before_first_engine_use) ... ok
+test_t8_digest_failure_has_halt_diagnostic_before_scoring (c10y_directdw_selftest.PinnedTemplateTests.test_t8_digest_failure_has_halt_diagnostic_before_scoring) ... ok
+test_t8_installs_pin_and_writes_context_before_any_pass (c10y_directdw_selftest.PinnedTemplateTests.test_t8_installs_pin_and_writes_context_before_any_pass) ... ok
+test_anchor_comparison_does_not_require_bz_sized_gain (c10y_directdw_selftest.ReaderAttributionTests.test_anchor_comparison_does_not_require_bz_sized_gain) ... ok
+test_anchor_missing_invalid_and_unfit_untested (c10y_directdw_selftest.ReaderAttributionTests.test_anchor_missing_invalid_and_unfit_untested) ... ok
+test_anchor_sham_descriptor_windows_not_fit_or_validity (c10y_directdw_selftest.ReaderAttributionTests.test_anchor_sham_descriptor_windows_not_fit_or_validity) ... ok
+test_control_positive_requires_envelope_gain_fit_locality_and_validity (c10y_directdw_selftest.ReaderAttributionTests.test_control_positive_requires_envelope_gain_fit_locality_and_validity) ... ok
+test_hy1_credit_requires_both_processes_attributed (c10y_directdw_selftest.ReaderAttributionTests.test_hy1_credit_requires_both_processes_attributed) ... ok
+test_neff_minimum_and_anchor_gap_nine_ten (c10y_directdw_selftest.ReaderAttributionTests.test_neff_minimum_and_anchor_gap_nine_ten) ... ok
+test_no_downscale_controls_required_at_actual_ratio_one (c10y_directdw_selftest.ReaderAttributionTests.test_no_downscale_controls_required_at_actual_ratio_one) ... ok
+test_size_control_matching_and_direction_boundaries (c10y_directdw_selftest.ReaderAttributionTests.test_size_control_matching_and_direction_boundaries) ... ok
+test_total_and_per_layer_growth_trigger_independent_controls (c10y_directdw_selftest.ReaderAttributionTests.test_total_and_per_layer_growth_trigger_independent_controls) ... ok
+test_zero_reference_size_normalisation_conservative_provisional (c10y_directdw_selftest.ReaderAttributionTests.test_zero_reference_size_normalisation_conservative_provisional) ... ok
+test_cross_shared_hin_and_telemetry_pair_identity (c10y_directdw_selftest.ReaderCrossProcessTests.test_cross_shared_hin_and_telemetry_pair_identity) ... ok
+test_r1_cosine_and_distance_every_layer_boundaries (c10y_directdw_selftest.ReaderCrossProcessTests.test_r1_cosine_and_distance_every_layer_boundaries) ... ok
+test_r1_required_controls_and_all_arms_independent (c10y_directdw_selftest.ReaderCrossProcessTests.test_r1_required_controls_and_all_arms_independent) ... ok
+test_r1_zero_norm_rules_and_baseline_instrument (c10y_directdw_selftest.ReaderCrossProcessTests.test_r1_zero_norm_rules_and_baseline_instrument) ... ok
+test_r2_count_spread_five_six (c10y_directdw_selftest.ReaderCrossProcessTests.test_r2_count_spread_five_six) ... ok
+test_r3_incorrect_strings_do_not_count_as_disagreement (c10y_directdw_selftest.ReaderCrossProcessTests.test_r3_incorrect_strings_do_not_count_as_disagreement) ... ok
+test_r3_keyed_boolean_disagreement_da_plus_three_four (c10y_directdw_selftest.ReaderCrossProcessTests.test_r3_keyed_boolean_disagreement_da_plus_three_four) ... ok
+test_regenerated_target_hashes_need_not_match_shared_hin (c10y_directdw_selftest.ReaderCrossProcessTests.test_regenerated_target_hashes_need_not_match_shared_hin) ... ok
+test_x1_not_run_halted_and_incomplete_never_fabricated_null (c10y_directdw_selftest.ReaderCrossProcessTests.test_x1_not_run_halted_and_incomplete_never_fabricated_null) ... ok
+test_x2_identical_labels_and_union_qualifiers (c10y_directdw_selftest.ReaderCrossProcessTests.test_x2_identical_labels_and_union_qualifiers) ... ok
+test_x3_mixed_labels_store_actual_counts (c10y_directdw_selftest.ReaderCrossProcessTests.test_x3_mixed_labels_store_actual_counts) ... ok
+test_fit_e2e_minimum_canonical_and_every_stop (c10y_directdw_selftest.ReaderFitAndScreenTests.test_fit_e2e_minimum_canonical_and_every_stop) ... ok
+test_fit_per_required_arm_and_apply_stored (c10y_directdw_selftest.ReaderFitAndScreenTests.test_fit_per_required_arm_and_apply_stored) ... ok
+test_fit_requires_full_merged_matrix (c10y_directdw_selftest.ReaderFitAndScreenTests.test_fit_requires_full_merged_matrix) ... ok
+test_fit_z_mean_and_maximum_boundaries (c10y_directdw_selftest.ReaderFitAndScreenTests.test_fit_z_mean_and_maximum_boundaries) ... ok
+test_fit_z_zero_denominator_named_rule (c10y_directdw_selftest.ReaderFitAndScreenTests.test_fit_z_zero_denominator_named_rule) ... ok
+test_s1_named_halts_without_screen_label (c10y_directdw_selftest.ReaderFitAndScreenTests.test_s1_named_halts_without_screen_label) ... ok
+test_s2_s3_budget_write_boundary (c10y_directdw_selftest.ReaderFitAndScreenTests.test_s2_s3_budget_write_boundary) ... ok
+test_s4_fit_precedes_high_count_locality_and_size (c10y_directdw_selftest.ReaderFitAndScreenTests.test_s4_fit_precedes_high_count_locality_and_size) ... ok
+test_s5_s7_envelope_and_gain_boundaries (c10y_directdw_selftest.ReaderFitAndScreenTests.test_s5_s7_envelope_and_gain_boundaries) ... ok
+test_s6_size_boundary_and_null_first_match (c10y_directdw_selftest.ReaderFitAndScreenTests.test_s6_size_boundary_and_null_first_match) ... ok
+test_stage1_recorded_projection_exactly_120_minutes_fits (c10y_directdw_selftest.ReaderFitAndScreenTests.test_stage1_recorded_projection_exactly_120_minutes_fits) ... ok
+test_load_calibration_directory_refused_before_read (c10y_directdw_selftest.ReaderLoadTests.test_load_calibration_directory_refused_before_read) ... ok
+test_load_does_not_read_telemetry (c10y_directdw_selftest.ReaderLoadTests.test_load_does_not_read_telemetry) ... ok
+test_load_later_self_contained_record_uses_own_outcome (c10y_directdw_selftest.ReaderLoadTests.test_load_later_self_contained_record_uses_own_outcome) ... ok
+test_load_saved_halt_first_with_missing_science_artifacts (c10y_directdw_selftest.ReaderLoadTests.test_load_saved_halt_first_with_missing_science_artifacts) ... ok
+test_load_strict_json_nonfinite_refused (c10y_directdw_selftest.ReaderLoadTests.test_load_strict_json_nonfinite_refused) ... ok
+test_existing_arm_missing_metric_is_v13_invalid (c10y_directdw_selftest.ReaderOrderTests.test_existing_arm_missing_metric_is_v13_invalid) ... ok
+test_missing_comparators_qualify_without_incomplete (c10y_directdw_selftest.ReaderOrderTests.test_missing_comparators_qualify_without_incomplete) ... ok
+test_own_record_and_v5_missing_precede_validity_and_fit (c10y_directdw_selftest.ReaderOrderTests.test_own_record_and_v5_missing_precede_validity_and_fit) ... ok
+test_recorded_halt_invalid_and_budget_first (c10y_directdw_selftest.ReaderOrderTests.test_recorded_halt_invalid_and_budget_first) ... ok
+test_source_and_prereg_identity_refused (c10y_directdw_selftest.ReaderOrderTests.test_source_and_prereg_identity_refused) ... ok
+test_stage1_not_run_controls_and_later_records_not_required (c10y_directdw_selftest.ReaderOrderTests.test_stage1_not_run_controls_and_later_records_not_required) ... ok
+test_validity_precedes_fit_and_fit_precedes_counts (c10y_directdw_selftest.ReaderOrderTests.test_validity_precedes_fit_and_fit_precedes_counts) ... ok
+test_g1_g2_each_frame_both_sides (c10y_directdw_selftest.ReaderProcessLocalityTests.test_g1_g2_each_frame_both_sides) ... ok
+test_g3_g4_g5_unrounded_boundaries (c10y_directdw_selftest.ReaderProcessLocalityTests.test_g3_g4_g5_unrounded_boundaries) ... ok
+test_g3_g5_display_rounding_cannot_substitute (c10y_directdw_selftest.ReaderProcessLocalityTests.test_g3_g5_display_rounding_cannot_substitute) ... ok
+test_g6_relation_flips_report_only (c10y_directdw_selftest.ReaderProcessLocalityTests.test_g6_relation_flips_report_only) ... ok
+test_p1_p2_p3 (c10y_directdw_selftest.ReaderProcessLocalityTests.test_p1_p2_p3) ... ok
+test_p4_p5_p7_count_and_gain_boundaries (c10y_directdw_selftest.ReaderProcessLocalityTests.test_p4_p5_p7_count_and_gain_boundaries) ... ok
+test_p6_tradeoff_and_p7_null_first_match (c10y_directdw_selftest.ReaderProcessLocalityTests.test_p6_tradeoff_and_p7_null_first_match) ... ok
+test_w1_actual_size_boundary_qualifier_preserves_base (c10y_directdw_selftest.ReaderProcessLocalityTests.test_w1_actual_size_boundary_qualifier_preserves_base) ... ok
+test_w2_ttl_warning_equality_nonblocking (c10y_directdw_selftest.ReaderProcessLocalityTests.test_w2_ttl_warning_equality_nonblocking) ... ok
+test_authored_full_truth_rows_277_289 (c10y_directdw_selftest.ReaderTruthTableTests.test_authored_full_truth_rows_277_289) ... ok
+test_authored_stage1_truth_rows_265_276 (c10y_directdw_selftest.ReaderTruthTableTests.test_authored_stage1_truth_rows_265_276) ... ok
+test_v10_overflow_retries_five_six (c10y_directdw_selftest.ReaderValidityTests.test_v10_overflow_retries_five_six) ... ok
+test_v11_hin_hashes_and_write_trace_required (c10y_directdw_selftest.ReaderValidityTests.test_v11_hin_hashes_and_write_trace_required) ... ok
+test_v12_leakage_named_halt (c10y_directdw_selftest.ReaderValidityTests.test_v12_leakage_named_halt) ... ok
+test_v13_every_applicable_numeric_family_nonfinite (c10y_directdw_selftest.ReaderValidityTests.test_v13_every_applicable_numeric_family_nonfinite) ... ok
+test_v13_nonfinite_unjustified_null_and_typed_integer (c10y_directdw_selftest.ReaderValidityTests.test_v13_nonfinite_unjustified_null_and_typed_integer) ... ok
+test_v13_typed_nulls_and_reasons (c10y_directdw_selftest.ReaderValidityTests.test_v13_typed_nulls_and_reasons) ... ok
+test_v1_fingerprint_sha_sites_and_full_output (c10y_directdw_selftest.ReaderValidityTests.test_v1_fingerprint_sha_sites_and_full_output) ... ok
+test_v2_each_recipe_standing_law5 (c10y_directdw_selftest.ReaderValidityTests.test_v2_each_recipe_standing_law5) ... ok
+test_v3_accumulation_raw_cosine_distance_finiteness_and_scope (c10y_directdw_selftest.ReaderValidityTests.test_v3_accumulation_raw_cosine_distance_finiteness_and_scope) ... ok
+test_v3_apply_stored_substitutions_not_optimiser_checks (c10y_directdw_selftest.ReaderValidityTests.test_v3_apply_stored_substitutions_not_optimiser_checks) ... ok
+test_v3_capture_zero_step_and_executed_loop_raw_values (c10y_directdw_selftest.ReaderValidityTests.test_v3_capture_zero_step_and_executed_loop_raw_values) ... ok
+test_v3_check_failure_order_and_scope (c10y_directdw_selftest.ReaderValidityTests.test_v3_check_failure_order_and_scope) ... ok
+test_v3_gradient_halvings_hooks_and_smoke_raw_values (c10y_directdw_selftest.ReaderValidityTests.test_v3_gradient_halvings_hooks_and_smoke_raw_values) ... ok
+test_v3_missing_required_check_invalid (c10y_directdw_selftest.ReaderValidityTests.test_v3_missing_required_check_invalid) ... ok
+test_v3_objective_nll_and_nonzero_kl_raw_boundaries (c10y_directdw_selftest.ReaderValidityTests.test_v3_objective_nll_and_nonzero_kl_raw_boundaries) ... ok
+test_v4_a1_a2_and_exact_denominators (c10y_directdw_selftest.ReaderValidityTests.test_v4_a1_a2_and_exact_denominators) ... ok
+test_v4_all_inclusive_baseline_endpoints (c10y_directdw_selftest.ReaderValidityTests.test_v4_all_inclusive_baseline_endpoints) ... ok
+test_v4_before_candidates_required (c10y_directdw_selftest.ReaderValidityTests.test_v4_before_candidates_required) ... ok
+test_v5_candidate_controls_67_68_each_arm (c10y_directdw_selftest.ReaderValidityTests.test_v5_candidate_controls_67_68_each_arm) ... ok
+test_v6_overrides_are_exact_sets_not_counts (c10y_directdw_selftest.ReaderValidityTests.test_v6_overrides_are_exact_sets_not_counts) ... ok
+test_v7_initial_projector_raw_share_cannot_hide_behind_passed (c10y_directdw_selftest.ReaderValidityTests.test_v7_initial_projector_raw_share_cannot_hide_behind_passed) ... ok
+test_v7_planned_actual_each_layer_boundary_and_zero (c10y_directdw_selftest.ReaderValidityTests.test_v7_planned_actual_each_layer_boundary_and_zero) ... ok
+test_v7_untouched_reference_miss_halts_precision_diagnosis (c10y_directdw_selftest.ReaderValidityTests.test_v7_untouched_reference_miss_halts_precision_diagnosis) ... ok
+test_v8_string_full_equality_and_one_below_every_arm (c10y_directdw_selftest.ReaderValidityTests.test_v8_string_full_equality_and_one_below_every_arm) ... ok
+test_v9_init_final_tokens_and_each_loss_component (c10y_directdw_selftest.ReaderValidityTests.test_v9_init_final_tokens_and_each_loss_component) ... ok
+test_T11_audit_accepts_every_kind_with_only_kind_specific_fields (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_accepts_every_kind_with_only_kind_specific_fields) ... ok
+test_T11_audit_checks_payload_types_for_every_non_answer_kind (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_checks_payload_types_for_every_non_answer_kind) ... ok
+test_T11_audit_complete_answer_keys_pass_and_roundtrip (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_complete_answer_keys_pass_and_roundtrip) ... ok
+test_T11_audit_declared_disabled_missing_output_keeps_science_record (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_declared_disabled_missing_output_keeps_science_record) ... ok
+test_T11_audit_disabled_marker_does_not_excuse_a_gap_before_later_answers (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_disabled_marker_does_not_excuse_a_gap_before_later_answers) ... ok
+test_T11_audit_disabled_marker_does_not_excuse_mismatching_existing_line (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_disabled_marker_does_not_excuse_mismatching_existing_line) ... ok
+test_T11_audit_duplicate_answer_key_compromises_stage (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_duplicate_answer_key_compromises_stage) ... ok
+test_T11_audit_header_must_be_present_initial_and_unique (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_header_must_be_present_initial_and_unique) ... ok
+test_T11_audit_mismatch_compromises_stage_and_requires_telemetry_off_rerun (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_mismatch_compromises_stage_and_requires_telemetry_off_rerun) ... ok
+test_T11_audit_missing_answer_field_is_malformed (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_missing_answer_field_is_malformed) ... ok
+test_T11_audit_missing_expected_key_compromises_stage (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_missing_expected_key_compromises_stage) ... ok
+test_T11_audit_missing_file_is_missing_output (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_missing_file_is_missing_output) ... ok
+test_T11_audit_model_free_entrypoint_never_loads_driver_or_harness (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_model_free_entrypoint_never_loads_driver_or_harness) ... ok
+test_T11_audit_never_mutates_science_records_or_reader_output (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_never_mutates_science_records_or_reader_output) ... ok
+test_T11_audit_refuses_existing_audit_without_rewriting_evidence (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_refuses_existing_audit_without_rewriting_evidence) ... ok
+test_T11_audit_rejects_unknown_field_on_every_known_kind (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_rejects_unknown_field_on_every_known_kind) ... ok
+test_T11_audit_strict_json_rejects_nonfinite_and_duplicate_json_fields (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_strict_json_rejects_nonfinite_and_duplicate_json_fields) ... ok
+test_T11_audit_unknown_key_or_kind_or_field_is_unexpected (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_unknown_key_or_kind_or_field_is_unexpected) ... ok
+test_T11_audit_uses_stage_two_and_three_tags_and_record_paths (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_uses_stage_two_and_three_tags_and_record_paths) ... ok
+test_T11_audit_wrong_types_and_nulls_are_malformed (c10y_directdw_selftest.TelemetryCheckContract.test_T11_audit_wrong_types_and_nulls_are_malformed) ... ok
+test_T11_reader_does_not_open_telemetry_or_use_audit_as_gate (c10y_directdw_selftest.TelemetryCheckContract.test_T11_reader_does_not_open_telemetry_or_use_audit_as_gate) ... ok
+test_T8_runner_inert_pristine_stub_never_calls_writer_or_recipe (c10y_directdw_selftest.TelemetryCheckContract.test_T8_runner_inert_pristine_stub_never_calls_writer_or_recipe) ... ok
+test_T8_runner_other_verdicts_exit_zero_and_preserve_verdict (c10y_directdw_selftest.TelemetryCheckContract.test_T8_runner_other_verdicts_exit_zero_and_preserve_verdict) ... ok
+test_T8_runner_preflight_refuses_knob_before_output_creation (c10y_directdw_selftest.TelemetryCheckContract.test_T8_runner_preflight_refuses_knob_before_output_creation) ... ok
+test_T8_runner_preserves_existing_record (c10y_directdw_selftest.TelemetryCheckContract.test_T8_runner_preserves_existing_record) ... ok
+test_T8_runner_records_complete_current_identity_and_strict_roundtrip (c10y_directdw_selftest.TelemetryCheckContract.test_T8_runner_records_complete_current_identity_and_strict_roundtrip) ... ok
+test_T8_runner_rejects_namespace_itself_and_nested_subdirectories (c10y_directdw_selftest.TelemetryCheckContract.test_T8_runner_rejects_namespace_itself_and_nested_subdirectories) ... ok
+test_T8_runner_rejects_output_outside_namespace (c10y_directdw_selftest.TelemetryCheckContract.test_T8_runner_rejects_output_outside_namespace) ... ok
+test_T8_runner_rejects_relative_output_before_writes (c10y_directdw_selftest.TelemetryCheckContract.test_T8_runner_rejects_relative_output_before_writes) ... ok
+test_T8_runner_rejects_symlink_escape (c10y_directdw_selftest.TelemetryCheckContract.test_T8_runner_rejects_symlink_escape) ... ok
+test_T8_runner_weight_change_is_invalid_exit_two (c10y_directdw_selftest.TelemetryCheckContract.test_T8_runner_weight_change_is_invalid_exit_two) ... ok
+test_full_stage_counts_and_payload_not_smaller (c10y_directdw_selftest.TelemetryForecastTests.test_full_stage_counts_and_payload_not_smaller) ... ok
+test_inertness_bytes_once_and_duplicate_nonfinite_refused (c10y_directdw_selftest.TelemetryForecastTests.test_inertness_bytes_once_and_duplicate_nonfinite_refused) ... ok
+test_on_requires_separate_phase_before_dispatch (c10y_directdw_selftest.TelemetryForecastTests.test_on_requires_separate_phase_before_dispatch) ... ok
+test_per_kind_measurements_workload_and_sum_enforced (c10y_directdw_selftest.TelemetryForecastTests.test_per_kind_measurements_workload_and_sum_enforced) ... ok
+test_frozen_harness_scorers_receive_no_injected_kwargs (c10y_directdw_selftest.TelemetryReferenceTests.test_frozen_harness_scorers_receive_no_injected_kwargs) ... ok
+test_reference_scorer_is_exact_frozen_capture_copy (c10y_directdw_selftest.TelemetryReferenceTests.test_reference_scorer_is_exact_frozen_capture_copy) ... ok
+test_t8_uses_frozen_off_reference_and_observed_on_scorer (c10y_directdw_selftest.TelemetryReferenceTests.test_t8_uses_frozen_off_reference_and_observed_on_scorer) ... ok
+test_every_kind_state_preservation_and_volume (c10y_directdw_selftest.TelemetryTests.test_every_kind_state_preservation_and_volume) ... ok
+test_frozen_hparams_lens_uses_actual_linear_head (c10y_directdw_selftest.TelemetryTests.test_frozen_hparams_lens_uses_actual_linear_head) ... ok
+test_inertness_and_drifting_baseline (c10y_directdw_selftest.TelemetryTests.test_inertness_and_drifting_baseline) ... ok
+test_invalid_switches_refused_before_write (c10y_directdw_selftest.TelemetryTests.test_invalid_switches_refused_before_write) ... ok
+test_io_failures_disable_once_and_baseexception_propagates (c10y_directdw_selftest.TelemetryTests.test_io_failures_disable_once_and_baseexception_propagates) ... ok
+test_off_has_no_object_or_directory (c10y_directdw_selftest.TelemetryTests.test_off_has_no_object_or_directory) ... ok
+test_scorer_ast_and_exact_inputs (c10y_directdw_selftest.TelemetryTests.test_scorer_ast_and_exact_inputs) ... ok
+test_t8_serialized_wrong_answer_is_not_inert (c10y_directdw_selftest.TelemetryTests.test_t8_serialized_wrong_answer_is_not_inert) ... ok
+test_telemetry_never_calls_operational_clock_or_writes_input_record (c10y_directdw_selftest.TelemetryTests.test_telemetry_never_calls_operational_clock_or_writes_input_record) ... ok
+test_actual_cpu_update_direction_changes_fail_real_reader_repro_gate (c10y_directdw_selftest.TransportTests.test_actual_cpu_update_direction_changes_fail_real_reader_repro_gate) ... ok
+test_completed_stage1_runner_to_reader_and_cpu_pt_transport (c10y_directdw_selftest.TransportTests.test_completed_stage1_runner_to_reader_and_cpu_pt_transport) ... ok
+test_completed_three_stages_preserve_common_files_and_compute_real_repro (c10y_directdw_selftest.TransportTests.test_completed_three_stages_preserve_common_files_and_compute_real_repro) ... ok
+test_real_scored_recipe_accounts_for_scientific_hook_readout_time (c10y_directdw_selftest.TransportTests.test_real_scored_recipe_accounts_for_scientific_hook_readout_time) ... ok
+test_requested_stage_forecast_is_checked_before_dispatch_and_worker (c10y_directdw_selftest.TransportTests.test_requested_stage_forecast_is_checked_before_dispatch_and_worker) ... ok
+test_saved_overlay_hash_is_the_immutable_serialized_bundle (c10y_directdw_selftest.TransportTests.test_saved_overlay_hash_is_the_immutable_serialized_bundle) ... ok
+test_stage3_pair_mismatch_is_refused_in_parent_before_any_launch_write (c10y_directdw_selftest.TransportTests.test_stage3_pair_mismatch_is_refused_in_parent_before_any_launch_write) ... ok
+test_stage3_telemetry_setting_cannot_change_after_stage2 (c10y_directdw_selftest.TransportTests.test_stage3_telemetry_setting_cannot_change_after_stage2) ... ok
+test_tampered_stage2_pt_refuses_stage3_before_scientific_callbacks (c10y_directdw_selftest.TransportTests.test_tampered_stage2_pt_refuses_stage3_before_scientific_callbacks) ... ok
+test_telemetry_off_on_transport_changes_only_T1_fields_at_every_stage (c10y_directdw_selftest.TransportTests.test_telemetry_off_on_transport_changes_only_T1_fields_at_every_stage) ... ok
+test_wrong_stage3_predecessor_refuses_in_main_before_harness_or_supervisor (c10y_directdw_selftest.TransportTests.test_wrong_stage3_predecessor_refuses_in_main_before_harness_or_supervisor) ... ok
+
+----------------------------------------------------------------------
+Ran 240 tests in 14.381s
+
+OK
+EXCLUDED IntegrationTests.test_native_hanging_worker_deadline_before_and_after_write PASS separately: native_timeout_post_mask_revert.log (Program-authorized child control)
+EXCLUDED NumericTests.test_full_size_float64_reductions PASS separately: full_size_reductions_post_mask_revert.log
+EXCLUDED NumericTests.test_gram_norm_dense_reference PASS separately: full_size_gram_post_mask_revert.log
+{"launched": false, "reasons": ["missing/unknown/duplicate phases"], "status": "UNVERIFIED"}
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: []
+SYS_MODULES_FORBIDDEN: []
+LIGHT_COUNTS {"all": 243, "run": 240, "exclusions": {"NumericTests.test_full_size_float64_reductions": "PASS separately: full_size_reductions_post_mask_revert.log", "NumericTests.test_gram_norm_dense_reference": "PASS separately: full_size_gram_post_mask_revert.log", "IntegrationTests.test_native_hanging_worker_deadline_before_and_after_write": "PASS separately: native_timeout_post_mask_revert.log (Program-authorized child control)"}}
+```
+
+All 243 test methods have recorded PASS coverage across these runs: 240 light tests in 14.381 seconds plus three separate controls. No one-command 243-test invocation is claimed. The selector excludes only those verified controls and names their latest PASS evidence. R5 remains enabled and passes. Owned/other observed listing drift and forbidden sys.modules entries are empty in the final light/control logs. The native-child permission flag was set only on its explicitly authorized scratch control.
 
 Final focused production NM/compile/transport evidence:
 
@@ -6725,17 +8265,17 @@ ISOLATION OTHER OBSERVED UNATTRIBUTED: []
 SYS_MODULES_FORBIDDEN: []
 ```
 
-Transport scope: the real driver `run`, file persistence, source binding, target/actual-update PT serialisation, model-free reader, stage predecessor/rerun rules and actual tensor R1 are exercised. The tiny CPU update payloads are real; scientific gate/metric records and the declared MPS environment in these fixtures are explicitly synthetic (`fixture_scope`). They are code transport evidence only. The native supervisor regression above uses a mocked process; it is not evidence that an actual blocked child was killed.
+Transport scope: actual driver run/file persistence, source binding, PT target/update serialization, model-free reader, predecessor/rerun rules and actual-tensor R1 are exercised. Tiny CPU update payloads are real; scientific gate/metric records and declared MPS fixture environments remain explicitly synthetic. The earlier without_child timeout regression remains only mocked transport evidence. The separately executed native control above now establishes the two actual blocked-worker deadline branches; neither establishes scientific model behavior or every possible OS/device failure.
 
 ## Mutation table
 
-Final serial light mutation command:
+One final serial invocation on the exact final four source hashes executed all 22 defined mutants, including M14. Exact command/output, manifest, baseline and M14 assertion output:
 
 ```sh
-/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/c10y_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /private/tmp/c10y_build/mutations.py > /private/tmp/c10y_build/mutations_light_final.log 2>&1
+/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/c10y_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /private/tmp/c10y_build/mutations.py --include-heavy > /private/tmp/c10y_build/mutations_final_post_mask_revert.log 2>&1
 ```
 
-Evidence: `/private/tmp/c10y_build/mutations_light_final.log`; SHA-256 `d35d60e272d9bec70d0dd7b37681c77e81d61c4755f587953f82c45b7b11f55d`.
+Evidence: `/private/tmp/c10y_build/mutations_final_post_mask_revert.log`; SHA-256 `30e3cc80d18d072937209a0810dbb6788e09cb4866745e65fc260a672db47590`.
 
 ```text
 M1 KILLED_ASSERTION
@@ -6751,6 +8291,7 @@ M10 KILLED_ASSERTION
 M11 KILLED_ASSERTION
 M12 KILLED_ASSERTION
 M13 KILLED_ASSERTION
+M14 KILLED_ASSERTION
 M15 KILLED_ASSERTION
 M16 KILLED_ASSERTION
 M17 KILLED_ASSERTION
@@ -6759,8 +8300,403 @@ M19 KILLED_ASSERTION
 M20 KILLED_ASSERTION
 M21 KILLED_ASSERTION
 M22 KILLED_ASSERTION
-MUTATION_RESULTS /private/tmp/c10y_build/mutations_20261008T124348096906Z_11180/results.json
+MUTATION_RESULTS /private/tmp/c10y_build/mutations_20261008T143330630520Z_21434/results.json
 SOURCE_SHA_RESTORED True
+```
+
+Evidence: `/private/tmp/c10y_build/mutations_20261008T143330630520Z_21434/manifest.json`; SHA-256 `dbcc70bbb0ed99036e91de25487a28d743bf633573b7a9bf2cb453b46a40c978`.
+
+```text
+{
+  "backup": "/private/tmp/c10y_build/mut_backup/20261008T143330630520Z_21434",
+  "frozen": {
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/configs/hparams/qwen25_3b_memit_hparams.json": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10Y_DIRECTDW_PREREG.md": "e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10z_astra_benchmark.py": "9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/compute_ks.py": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/compute_z.py": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/rome/repr_tools.py": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/engine_fingerprint.py": "450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162"
+  },
+  "include_heavy": true,
+  "originals": {
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_read.py": "f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py": "1419a485a8b74ef9a337860d16c8acfbacd9546d2595a573dd42e70c4d221ccf",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_telemetry_check.py": "e79f0532ac674a0cb8a3d21c838c15710ee0ed3e94f7fa88e65d722105c1c03f"
+  },
+  "output": "/private/tmp/c10y_build/mutations_20261008T143330630520Z_21434",
+  "pid": 21434,
+  "plans": [
+    {
+      "after": "(\"para_first_n\", 41, 59)",
+      "before": "(\"para_first_n\", 42, 59)",
+      "description": "V4 first lower bound 42 to 41",
+      "exact_match_count": 1,
+      "id": "M1",
+      "module": "c10y_directdw_read",
+      "mutant_sha256": "007368b6b742f00c9170f2c233b34017dd33a56eda489930315453acdfebba2b",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_read.py",
+      "source_sha256": "f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78",
+      "tests": [
+        "ReaderValidityTests.test_v4_all_inclusive_baseline_endpoints"
+      ]
+    },
+    {
+      "after": "sized = n >= max(18, a + 10)",
+      "before": "sized = n >= max(19, a + 10)",
+      "description": "screen floor 19 to 18",
+      "exact_match_count": 1,
+      "id": "M2",
+      "module": "c10y_directdw_read",
+      "mutant_sha256": "4ca61e0992ec30c8f3063ac718125a706e542c744a4ed2a5e4cc7d94fc15a9fc",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_read.py",
+      "source_sha256": "f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78",
+      "tests": [
+        "ReaderFitAndScreenTests.test_s5_s7_envelope_and_gain_boundaries"
+      ]
+    },
+    {
+      "after": "return min(min(row) for row in matrix) > 0.90 and",
+      "before": "return min(min(row) for row in matrix) >= 0.90 and",
+      "description": "FIT-E2E equality fails",
+      "exact_match_count": 1,
+      "id": "M3",
+      "module": "c10y_directdw_read",
+      "mutant_sha256": "df607edeef632e40e13ee3f58b4226807ac936a886f180cc5ecfe4b454154e24",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_read.py",
+      "source_sha256": "f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78",
+      "tests": [
+        "ReaderFitAndScreenTests.test_fit_e2e_minimum_canonical_and_every_stop"
+      ]
+    },
+    {
+      "after": "large = any(value >= 1.5 for value in ratios.values())",
+      "before": "large = any(value > 1.5 for value in ratios.values())",
+      "description": "W1 equality becomes large",
+      "exact_match_count": 1,
+      "id": "M4",
+      "module": "c10y_directdw_read",
+      "mutant_sha256": "7180193972b92aa0d872469b2f275798696975bf2357007649d4628f5053aee1",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_read.py",
+      "source_sha256": "f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78",
+      "tests": [
+        "ReaderFitAndScreenTests.test_s6_size_boundary_and_null_first_match",
+        "ReaderProcessLocalityTests.test_w1_actual_size_boundary_qualifier_preserves_base"
+      ]
+    },
+    {
+      "after": ">= 0.99 and distance <= 0.11,",
+      "before": ">= 0.99 and distance <= 0.10,",
+      "description": "R1 distance 0.10 to 0.11",
+      "exact_match_count": 1,
+      "id": "M5",
+      "module": "c10y_directdw_read",
+      "mutant_sha256": "1fc6f58f8d55829b4fc0d647551ce18555fc452d2b1e35e60323d8f50d0741b4",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_read.py",
+      "source_sha256": "f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78",
+      "tests": [
+        "ReaderCrossProcessTests.test_r1_cosine_and_distance_every_layer_boundaries"
+      ]
+    },
+    {
+      "after": "elif result[\"n_eff\"] - anchor[\"count\"] < 9:",
+      "before": "elif result[\"n_eff\"] - anchor[\"count\"] < 10:",
+      "description": "T1 anchor gap 10 to 9",
+      "exact_match_count": 1,
+      "id": "M6",
+      "module": "c10y_directdw_read",
+      "mutant_sha256": "66c915b68654f17829cfb37c0babbc429e74f9570c6c10c107c532d391ba8d7c",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_read.py",
+      "source_sha256": "f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78",
+      "tests": [
+        "ReaderAttributionTests.test_neff_minimum_and_anchor_gap_nine_ten"
+      ]
+    },
+    {
+      "after": "result[\"advance\"] = (label == \"SCREEN-PASS\" or label in POSITIVE) and not zero and not result[\"qualifiers\"]",
+      "before": "result[\"advance\"] = (label == \"SCREEN-PASS\" or label in POSITIVE) and not zero and not any(q != \"EXCEEDS-TTL\" for q in result[\"qualifiers\"])",
+      "description": "EXCEEDS-TTL blocks advancement",
+      "exact_match_count": 1,
+      "id": "M7",
+      "module": "c10y_directdw_read",
+      "mutant_sha256": "0717a1f9efa3d71fe1593be0ab69e096def742d553db0ff4f14d54a6f7d54372",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_read.py",
+      "source_sha256": "f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78",
+      "tests": [
+        "ReaderProcessLocalityTests.test_w2_ttl_warning_equality_nonblocking"
+      ]
+    },
+    {
+      "after": "return {'NM':na/nb if nb else None,'ENV':env if env<1 else None}",
+      "before": "return {'NM':na/nb if nb>na else None,'ENV':env if env<1 else None}",
+      "description": "NM also applied when NB <= NA",
+      "exact_match_count": 1,
+      "id": "M8",
+      "module": "c10y_directdw_arms",
+      "mutant_sha256": "2e25a05b035e02d000f1becbace22486167f8a6e4114f3cfa70d6b9a37c7d9bd",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py",
+      "source_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+      "tests": [
+        "NumericTests.test_size_scales_and_stored_arithmetic"
+      ]
+    },
+    {
+      "after": "        for parameter in params:\n            if not opt.state[parameter]:\n                opt.state[parameter].update(step=torch.tensor(0.),exp_avg=torch.zeros_like(parameter),exp_avg_sq=torch.zeros_like(parameter))\n            opt.state[parameter]['step']+=1\n        opt.zero_grad(set_to_none=True);retries+=1;attempt+=1\n",
+      "before": "        opt.zero_grad(set_to_none=True);retries+=1;attempt+=1\n",
+      "description": "overflow increments Adam counter without updating parameter/moment values",
+      "exact_match_count": 1,
+      "id": "M9",
+      "module": "c10y_directdw_arms",
+      "mutant_sha256": "4f900090e1aa4e7816af7c5ea8389a4c613bacad29790f89c6d4d84f073f4242",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py",
+      "source_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+      "tests": [
+        "OptimizerTests.test_loss_scale_transaction",
+        "OptimizerTests.test_sixth_overflow_halts_without_mutation"
+      ]
+    },
+    {
+      "after": "        if False and mask is not None:\n",
+      "before": "        if mask is not None:\n",
+      "description": "routing mask removed",
+      "exact_match_count": 1,
+      "id": "M10",
+      "module": "c10y_directdw_arms",
+      "mutant_sha256": "758ebc74a1a8164e74a4f6b8c4fcd21696079a05091e1769599f731dd11e0f16",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py",
+      "source_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+      "tests": [
+        "OptimizerTests.test_effective_weight_and_routing_gradient"
+      ]
+    },
+    {
+      "after": "def total_loss(edit,kl): return edit+0.0625*0.0625*kl",
+      "before": "def total_loss(edit,kl): return edit+0.0625*kl",
+      "description": "KL coefficient applied twice",
+      "exact_match_count": 1,
+      "id": "M11",
+      "module": "c10y_directdw_arms",
+      "mutant_sha256": "ca75f63b54d037849a9eb68e05a57e9e58a8391596826118f5b57b35c6a9b76b",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py",
+      "source_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+      "tests": [
+        "OptimizerTests.test_kl_coefficient_once"
+      ]
+    },
+    {
+      "after": "if reasons: return {'status':'READY','launched':False,'reasons':reasons}",
+      "before": "if reasons: return {'status':'UNVERIFIED','launched':False,'reasons':reasons}",
+      "description": "unverified budget support passes",
+      "exact_match_count": 1,
+      "id": "M12",
+      "module": "c10y_directdw_arms",
+      "mutant_sha256": "8e60c206e609b30dbe356f8663a856549977f8fdee49f33672e8697ecfe648b1",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py",
+      "source_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+      "tests": [
+        "LaunchTests.test_forecast_unverified_and_cap",
+        "CalibrationForecastContractTests.test_independent_bound_requires_explicit_justification"
+      ]
+    },
+    {
+      "after": "self.original=H.my_edit;self.mode=None;self.baseline_passed=True",
+      "before": "self.original=H.my_edit;self.mode=None;self.baseline_passed=False",
+      "description": "candidate path falsely admitted before LAW#3",
+      "exact_match_count": 1,
+      "id": "M13",
+      "module": "c10y_directdw_arms",
+      "mutant_sha256": "eb3603dc2f154b53189576817739678dbd5f02a68817a19c0c1be44cf600bce0",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py",
+      "source_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+      "tests": [
+        "IntegrationTests.test_candidate_operations_require_baseline"
+      ]
+    },
+    {
+      "after": "return tensor.detach().cpu().float()",
+      "before": "return tensor.detach().cpu().double()",
+      "description": "float64 helper uses fp32",
+      "exact_match_count": 1,
+      "id": "M14",
+      "module": "c10y_directdw_arms",
+      "mutant_sha256": "233d82ab9479ddccc42e3156b217ea62539ece2fe07d393c10dc266ada7936bb",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py",
+      "source_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+      "tests": [
+        "NumericTests.test_full_size_float64_reductions"
+      ]
+    },
+    {
+      "after": "if 'C10Y_TELEMETRY' not in env: return {'telemetry':True,'telemetry_inertness':None}",
+      "before": "if 'C10Y_TELEMETRY' not in env: return {'telemetry':False,'telemetry_inertness':None}",
+      "description": "telemetry on when absent",
+      "exact_match_count": 1,
+      "id": "M15",
+      "module": "c10y_directdw_arms",
+      "mutant_sha256": "c19a16a66fab0dd09e382d90ea0f3845f413fc1543d4e9e0599dd66fad3007a2",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py",
+      "source_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+      "tests": [
+        "TelemetryTests.test_off_has_no_object_or_directory"
+      ]
+    },
+    {
+      "after": "self.entered=TELEMETRY_CLOCK();components['telemetry']=True;self.emit('opt_step',step=step,components=components,loss_scale=loss_scale,retries=retries,planned_norms=planned_norms)",
+      "before": "self.entered=TELEMETRY_CLOCK();self.emit('opt_step',step=step,components=components,loss_scale=loss_scale,retries=retries,planned_norms=planned_norms)",
+      "description": "telemetry adds record key",
+      "exact_match_count": 1,
+      "id": "M16",
+      "module": "c10y_directdw_arms",
+      "mutant_sha256": "14ede11fe6ca2d94f5d195ca543a95dc98cba0fae5596d5bef3793807c199464",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py",
+      "source_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+      "tests": [
+        "TelemetryTests.test_telemetry_never_calls_operational_clock_or_writes_input_record"
+      ]
+    },
+    {
+      "after": "            if H.full_seq_match is not expected_scorer: raise Halt('SCORER-OFF-IDENTITY')\n            H.full_seq_match=make_scorer(H,lambda p,t,g:None)\n",
+      "before": "            if H.full_seq_match is not expected_scorer: raise Halt('SCORER-OFF-IDENTITY')\n",
+      "description": "observed scorer installed while off",
+      "exact_match_count": 1,
+      "id": "M17",
+      "module": "c10y_directdw_arms",
+      "mutant_sha256": "9a026dcc3495f8c59a34cf815b84d09b4e929a633425407fc63c0e0bcb3e2b3a",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py",
+      "source_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+      "tests": [
+        "FinalReviewRegressionTests.test_off_scorer_is_original_during_actual_recipe_call"
+      ]
+    },
+    {
+      "after": "self.entered=STAGE_CLOCK();self.emit('phase',phase=phase,**scope)",
+      "before": "self.entered=TELEMETRY_CLOCK();self.emit('phase',phase=phase,**scope)",
+      "description": "telemetry uses supervisor/stage clock",
+      "exact_match_count": 1,
+      "id": "M18",
+      "module": "c10y_directdw_arms",
+      "mutant_sha256": "94899a7fb2418b35e02aa6b6851edca5d4f79faad6092e98a55cfdbba4f1259d",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py",
+      "source_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+      "tests": [
+        "TelemetryTests.test_telemetry_never_calls_operational_clock_or_writes_input_record"
+      ]
+    },
+    {
+      "after": "    def phase(self,phase,**scope):\n        try:\n            self.entered=TELEMETRY_CLOCK();self.emit('phase',phase=phase,**scope)\n        except BaseException as e: self.disable(e)\n",
+      "before": "    def phase(self,phase,**scope):\n        try:\n            self.entered=TELEMETRY_CLOCK();self.emit('phase',phase=phase,**scope)\n        except Exception as e: self.disable(e)\n",
+      "description": "telemetry catches BaseException",
+      "exact_match_count": 1,
+      "id": "M19",
+      "module": "c10y_directdw_arms",
+      "mutant_sha256": "0fe5b5fcca98182d696bf020f6031436cf4c12ce253354d79bf25a58ca7a5e8f",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py",
+      "source_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+      "tests": [
+        "TelemetryTests.test_io_failures_disable_once_and_baseexception_propagates"
+      ]
+    },
+    {
+      "after": "AUDIT_GUARD = None",
+      "before": "AUDIT_GUARD = install_guard()",
+      "description": "selftest audit installation omitted",
+      "exact_match_count": 1,
+      "id": "M20",
+      "module": "c10y_directdw_selftest",
+      "mutant_sha256": "a501b351a94732a58f30b49f4524f571563eeafc615752386e8a1ec47be34f17",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py",
+      "source_sha256": "1419a485a8b74ef9a337860d16c8acfbacd9546d2595a573dd42e70c4d221ccf",
+      "tests": [
+        "IsolationTests.test_live_write_positive_control"
+      ]
+    },
+    {
+      "after": "if False and os.environ.get('C10Y_SELFTEST') and scratch not in root.parents:",
+      "before": "if os.environ.get('C10Y_SELFTEST') and scratch not in root.parents:",
+      "description": "selftest accepts non-temp root",
+      "exact_match_count": 1,
+      "id": "M21",
+      "module": "c10y_directdw_arms",
+      "mutant_sha256": "d18390e7cc9c8130ed2e7f7e31ed82147a490ef2765d3470222928bff5f23c63",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py",
+      "source_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+      "tests": [
+        "IsolationTests.test_selftest_root_refusal"
+      ]
+    },
+    {
+      "after": "    loc = _map(arm.get(\"locality\"), \"V13.locality\")\n    loc[\"described_as_raw\"] = loc.get(\"described_as\", loc.get(\"described_as_raw\"))\n",
+      "before": "    loc = _map(arm.get(\"locality\"), \"V13.locality\")\n",
+      "description": "G3 accepts rounded described_as",
+      "exact_match_count": 1,
+      "id": "M22",
+      "module": "c10y_directdw_read",
+      "mutant_sha256": "0ebb6afe235d7f121c7150e8e9564f5e6af0530e55aa64a3944df430c37c22ba",
+      "source": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_read.py",
+      "source_sha256": "f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78",
+      "tests": [
+        "ReaderProcessLocalityTests.test_g3_g5_display_rounding_cannot_substitute"
+      ]
+    }
+  ],
+  "scope": "model-free CPU plumbing only; no runtime/scientific/write-route evidence"
+}
+```
+
+Evidence: `/private/tmp/c10y_build/mutations_20261008T143330630520Z_21434/baseline.log`; SHA-256 `bedc0aafd32272a7c44fa727090fb5cde2515d03f9de28724ecf74f991a46aa5`.
+
+```text
+test_v4_all_inclusive_baseline_endpoints (c10y_directdw_selftest.ReaderValidityTests.test_v4_all_inclusive_baseline_endpoints) ... ok
+test_s5_s7_envelope_and_gain_boundaries (c10y_directdw_selftest.ReaderFitAndScreenTests.test_s5_s7_envelope_and_gain_boundaries) ... ok
+test_fit_e2e_minimum_canonical_and_every_stop (c10y_directdw_selftest.ReaderFitAndScreenTests.test_fit_e2e_minimum_canonical_and_every_stop) ... ok
+test_s6_size_boundary_and_null_first_match (c10y_directdw_selftest.ReaderFitAndScreenTests.test_s6_size_boundary_and_null_first_match) ... ok
+test_w1_actual_size_boundary_qualifier_preserves_base (c10y_directdw_selftest.ReaderProcessLocalityTests.test_w1_actual_size_boundary_qualifier_preserves_base) ... ok
+test_r1_cosine_and_distance_every_layer_boundaries (c10y_directdw_selftest.ReaderCrossProcessTests.test_r1_cosine_and_distance_every_layer_boundaries) ... ok
+test_neff_minimum_and_anchor_gap_nine_ten (c10y_directdw_selftest.ReaderAttributionTests.test_neff_minimum_and_anchor_gap_nine_ten) ... ok
+test_w2_ttl_warning_equality_nonblocking (c10y_directdw_selftest.ReaderProcessLocalityTests.test_w2_ttl_warning_equality_nonblocking) ... ok
+test_size_scales_and_stored_arithmetic (c10y_directdw_selftest.NumericTests.test_size_scales_and_stored_arithmetic) ... ok
+test_loss_scale_transaction (c10y_directdw_selftest.OptimizerTests.test_loss_scale_transaction) ... ok
+test_sixth_overflow_halts_without_mutation (c10y_directdw_selftest.OptimizerTests.test_sixth_overflow_halts_without_mutation) ... ok
+test_effective_weight_and_routing_gradient (c10y_directdw_selftest.OptimizerTests.test_effective_weight_and_routing_gradient) ... ok
+test_kl_coefficient_once (c10y_directdw_selftest.OptimizerTests.test_kl_coefficient_once) ... ok
+test_forecast_unverified_and_cap (c10y_directdw_selftest.LaunchTests.test_forecast_unverified_and_cap) ... ok
+test_independent_bound_requires_explicit_justification (c10y_directdw_selftest.CalibrationForecastContractTests.test_independent_bound_requires_explicit_justification) ... ok
+test_candidate_operations_require_baseline (c10y_directdw_selftest.IntegrationTests.test_candidate_operations_require_baseline) ... ok
+test_full_size_float64_reductions (c10y_directdw_selftest.NumericTests.test_full_size_float64_reductions) ... ok
+test_off_has_no_object_or_directory (c10y_directdw_selftest.TelemetryTests.test_off_has_no_object_or_directory) ... ok
+test_telemetry_never_calls_operational_clock_or_writes_input_record (c10y_directdw_selftest.TelemetryTests.test_telemetry_never_calls_operational_clock_or_writes_input_record) ... ok
+test_off_scorer_is_original_during_actual_recipe_call (c10y_directdw_selftest.FinalReviewRegressionTests.test_off_scorer_is_original_during_actual_recipe_call) ... ok
+test_io_failures_disable_once_and_baseexception_propagates (c10y_directdw_selftest.TelemetryTests.test_io_failures_disable_once_and_baseexception_propagates) ... ok
+test_live_write_positive_control (c10y_directdw_selftest.IsolationTests.test_live_write_positive_control) ... ok
+test_selftest_root_refusal (c10y_directdw_selftest.IsolationTests.test_selftest_root_refusal) ... ok
+test_g3_g5_display_rounding_cannot_substitute (c10y_directdw_selftest.ReaderProcessLocalityTests.test_g3_g5_display_rounding_cannot_substitute) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 1.706s
+
+OK
+```
+
+Evidence: `/private/tmp/c10y_build/mutations_20261008T143330630520Z_21434/M14.log`; SHA-256 `92db0144e527a9f5ba3c26a1f96cea4acdabb9a8b0e9653f0bfd778ea7f0ac6d`.
+
+```text
+test_full_size_float64_reductions (c10y_directdw_selftest.NumericTests.test_full_size_float64_reductions) ... FAIL
+
+======================================================================
+FAIL: test_full_size_float64_reductions (c10y_directdw_selftest.NumericTests.test_full_size_float64_reductions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 366, in test_full_size_float64_reductions
+    self.assertAlmostEqual(A.cosine(x,y),reference,delta=abs(reference)*1e-12)
+AssertionError: 1.0 != 0.999995166241067 within 9.99995166241067e-13 delta (4.833758933009413e-06 difference)
+
+----------------------------------------------------------------------
+Ran 1 test in 0.282s
+
+FAILED (failures=1)
 ```
 
 | Mutant | Final outcome | Failing tests | Restored source SHA |
@@ -6772,48 +8708,792 @@ SOURCE_SHA_RESTORED True
 | M5 R1 distance 0.10 to 0.11 | KILLED_ASSERTION | `ReaderCrossProcessTests.test_r1_cosine_and_distance_every_layer_boundaries` | `f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78` |
 | M6 T1 anchor gap 10 to 9 | KILLED_ASSERTION | `ReaderAttributionTests.test_neff_minimum_and_anchor_gap_nine_ten` | `f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78` |
 | M7 EXCEEDS-TTL blocks advancement | KILLED_ASSERTION | `ReaderProcessLocalityTests.test_w2_ttl_warning_equality_nonblocking` | `f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78` |
-| M8 NM also applied when NB <= NA | KILLED_ASSERTION | `NumericTests.test_size_scales_and_stored_arithmetic` | `206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416` |
-| M9 overflow increments Adam counter without updating parameter/moment values | KILLED_ASSERTION | `OptimizerTests.test_loss_scale_transaction`; `OptimizerTests.test_sixth_overflow_halts_without_mutation` | `206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416` |
-| M10 routing mask removed | KILLED_ASSERTION | `OptimizerTests.test_effective_weight_and_routing_gradient` | `206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416` |
-| M11 KL coefficient applied twice | KILLED_ASSERTION | `OptimizerTests.test_kl_coefficient_once` | `206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416` |
-| M12 unverified budget support passes | KILLED_ASSERTION | `LaunchTests.test_forecast_unverified_and_cap`; `CalibrationForecastContractTests.test_independent_bound_requires_explicit_justification` | `206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416` |
-| M13 candidate path falsely admitted before LAW#3 | KILLED_ASSERTION | `IntegrationTests.test_candidate_operations_require_baseline` | `206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416` |
-| M14 float64 helper uses fp32 | SKIPPED_HEAVY | `NumericTests.test_full_size_float64_reductions` | `UNRUN` |
-| M15 telemetry on when absent | KILLED_ASSERTION | `TelemetryTests.test_off_has_no_object_or_directory` | `206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416` |
-| M16 telemetry adds record key | KILLED_ASSERTION | `TelemetryTests.test_telemetry_never_calls_operational_clock_or_writes_input_record` | `206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416` |
-| M17 observed scorer installed while off | KILLED_ASSERTION | `FinalReviewRegressionTests.test_off_scorer_is_original_during_actual_recipe_call` | `206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416` |
-| M18 telemetry uses supervisor/stage clock | KILLED_ASSERTION | `TelemetryTests.test_telemetry_never_calls_operational_clock_or_writes_input_record` | `206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416` |
-| M19 telemetry catches BaseException | KILLED_ASSERTION | `TelemetryTests.test_io_failures_disable_once_and_baseexception_propagates` | `206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416` |
-| M20 selftest audit installation omitted | KILLED_ASSERTION | `IsolationTests.test_live_write_positive_control` | `02977e73ea0a6d70b642112d025a2e274060d3334a339baad149a799916db3c1` |
-| M21 selftest accepts non-temp root | KILLED_ASSERTION | `IsolationTests.test_selftest_root_refusal` | `206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416` |
+| M8 NM also applied when NB <= NA | KILLED_ASSERTION | `NumericTests.test_size_scales_and_stored_arithmetic` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` |
+| M9 overflow increments Adam counter without updating parameter/moment values | KILLED_ASSERTION | `OptimizerTests.test_loss_scale_transaction`; `OptimizerTests.test_sixth_overflow_halts_without_mutation` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` |
+| M10 routing mask removed | KILLED_ASSERTION | `OptimizerTests.test_effective_weight_and_routing_gradient` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` |
+| M11 KL coefficient applied twice | KILLED_ASSERTION | `OptimizerTests.test_kl_coefficient_once` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` |
+| M12 unverified budget support passes | KILLED_ASSERTION | `LaunchTests.test_forecast_unverified_and_cap`; `CalibrationForecastContractTests.test_independent_bound_requires_explicit_justification` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` |
+| M13 candidate path falsely admitted before LAW#3 | KILLED_ASSERTION | `IntegrationTests.test_candidate_operations_require_baseline` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` |
+| M14 float64 helper uses fp32 | KILLED_ASSERTION | `NumericTests.test_full_size_float64_reductions` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` |
+| M15 telemetry on when absent | KILLED_ASSERTION | `TelemetryTests.test_off_has_no_object_or_directory` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` |
+| M16 telemetry adds record key | KILLED_ASSERTION | `TelemetryTests.test_telemetry_never_calls_operational_clock_or_writes_input_record` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` |
+| M17 observed scorer installed while off | KILLED_ASSERTION | `FinalReviewRegressionTests.test_off_scorer_is_original_during_actual_recipe_call` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` |
+| M18 telemetry uses supervisor/stage clock | KILLED_ASSERTION | `TelemetryTests.test_telemetry_never_calls_operational_clock_or_writes_input_record` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` |
+| M19 telemetry catches BaseException | KILLED_ASSERTION | `TelemetryTests.test_io_failures_disable_once_and_baseexception_propagates` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` |
+| M20 selftest audit installation omitted | KILLED_ASSERTION | `IsolationTests.test_live_write_positive_control` | `1419a485a8b74ef9a337860d16c8acfbacd9546d2595a573dd42e70c4d221ccf` |
+| M21 selftest accepts non-temp root | KILLED_ASSERTION | `IsolationTests.test_selftest_root_refusal` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` |
 | M22 G3 accepts rounded described_as | KILLED_ASSERTION | `ReaderProcessLocalityTests.test_g3_g5_display_rounding_cannot_substitute` | `f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78` |
 
-21/21 executed mutants died at behavioral assertions on the final source and were SHA-restored. M14 was explicitly SKIPPED_HEAVY, not a kill. Initial M13 survived because the test accepted any HALT, including a later ARM-ATTRIBUTION failure; strengthening it to require LAW#3-BEFORE-CANDIDATES killed M13. Original survivor evidence is retained. The mutation harness initially rejected dill’s `/dev/null` open; its explicit null-device exception permits no persistent filesystem write and does not loosen the real-tree/source-lease guards. That infrastructure error was not counted as a kill. No mutations imported transformers/datasets/harness, spawned children, or ran MPS.
+22/22 defined mutants died at their own behavioral assertions and were SHA-restored, with no executed error/skip/restoration mismatch. M14's fp32 cosine is 1.0 versus the float64 reference 0.999995166241067: difference 4.833758933009413e-06, tolerance 9.99995166241067e-13. The original seed-19 input kills it, so no input hardening was necessary. Original M13-survivor/infrastructure-error and earlier separate M14/light runs remain historical records, not current kills. Mutation sensitivity applies to these faults and is not proof all faults are absent. No mutation imported transformers/datasets/harness, spawned children or ran MPS.
+
+### Additional forbidden-conversion source fixtures
+
+Evidence: `/private/tmp/c10y_build/conversion_fault_controls_post_mask_revert.log`; SHA-256 `b03b5ca025c1318a6c13c27db8694d499ef21e536ac22c0735d360150d64fbc4`.
+
+```text
+keyword KILLED_ASSERTION
+positional KILLED_ASSERTION
+clone_first KILLED_ASSERTION
+tensor_target KILLED_ASSERTION
+tensor_target_flags KILLED_ASSERTION
+tensor_target_positional_flag KILLED_ASSERTION
+type KILLED_ASSERTION
+copy_buffer KILLED_ASSERTION
+setitem KILLED_ASSERTION
+setitem_device_object KILLED_ASSERTION
+setitem_annotated KILLED_ASSERTION
+conditional KILLED_ASSERTION
+as_tensor KILLED_ASSERTION
+tensor KILLED_ASSERTION
+moved_back KILLED_ASSERTION
+opaque_arguments KILLED_ASSERTION
+as_tensor_keyword_data KILLED_ASSERTION
+tensor_keyword_data KILLED_ASSERTION
+opaque_constructor KILLED_ASSERTION
+CONVERSION_CONTROLS 19 SOURCE_UNTOUCHED True FORBIDDEN_IMPORTS [] LISTING_DRIFT []
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/results.json`; SHA-256 `6262dffc6cc23cdd53d28100159e3673130d734decce8083cd20fa32e8e5d410`.
+
+```text
+{
+  "controls": [
+    {
+      "fixture_sha256": "853b0e1e6218ba0095912d41d18ae6835fc4e62e9535fc908d1d0f031c03de31",
+      "form": "keyword",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/keyword.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "e1713c19bc05a969190e859ff70ee9c50c93cd3f92cb5bb34b94fdd2e6ce00f4",
+      "form": "positional",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/positional.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "bd4ebda2914963436902896478b5ccdd330903a30363006e2355056895ce4cf8",
+      "form": "clone_first",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/clone_first.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "4b231956d15d49ab9c8c6795a98ee274d71a2f60b04c7988c7553619dbd736c7",
+      "form": "tensor_target",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/tensor_target.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "0cc0e01b94750968aa5845c46ee911443bfe8abc6e341568fdf90d801bc9d79b",
+      "form": "tensor_target_flags",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/tensor_target_flags.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "e313f724666b70ab6d6e9a3030796287552017e3f1de1b42463aa9ce1cf8396a",
+      "form": "tensor_target_positional_flag",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/tensor_target_positional_flag.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "628678e09c6d902a7310b754505ee5f2e1d7319f20773c892938d8bc0b08e3c6",
+      "form": "type",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/type.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "ab137e63b2ae0af1c9ee8e5818019a22a12e613e8b294c36fd045a759596cb61",
+      "form": "copy_buffer",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/copy_buffer.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "2b4ef11c2446cb1c3f16048978c8439d3dc2cb9f486063c4b013d3f4caf57dc4",
+      "form": "setitem",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/setitem.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "11e245d0a75f3417853e2b5d3c9e553b4e8b657a780e54ab1513491f73b12113",
+      "form": "setitem_device_object",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/setitem_device_object.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "d9ba5520eb730d16531d4d820fe68de4f0bd01081b230374ece4e4c76a3c13d5",
+      "form": "setitem_annotated",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/setitem_annotated.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "3473cbbefaa409538b5b31232c0772179b2581245e303f6d000e2d0ea29c7cfd",
+      "form": "conditional",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/conditional.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "e61a65e9a9afaec786a507720796b74ae9951e64ad8c79b0592d492eccf0fc1e",
+      "form": "as_tensor",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/as_tensor.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "397300f0e59a37cf3e85804139ea071cbc3bd05e2005da43fdf4886fedc7a87c",
+      "form": "tensor",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/tensor.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "65008bf983f5f3a2c1c8ff8594e12b8c690954984a67d16e22c3c96cfb66df65",
+      "form": "moved_back",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/moved_back.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "34da07f8d38bab112b63a9c818c416ec70da65c10dafa0b3f4f9d7db3fa99b5b",
+      "form": "opaque_arguments",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/opaque_arguments.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "ad1b27151c223ce398977cbefe46d456ee87db829ce65b53b0310230206eeea2",
+      "form": "as_tensor_keyword_data",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/as_tensor_keyword_data.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "bfb302089397586842bc5b16e4bdb1425e4cf51f19c18ce77ddb6c72ca681cc2",
+      "form": "tensor_keyword_data",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/tensor_keyword_data.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    },
+    {
+      "fixture_sha256": "390ff435fa703e0c5fd6ffe237e3ca500d0e639dc07732df702b184161d50562",
+      "form": "opaque_constructor",
+      "log": "/private/tmp/c10y_build/conversion_faults_post_mask_revert/opaque_constructor.log",
+      "status": "KILLED_ASSERTION",
+      "test": "DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime"
+    }
+  ],
+  "driver_sha256": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+  "forbidden_imports": [],
+  "owned_listing_drift": [],
+  "protected_files_unchanged": 193,
+  "source_untouched": true
+}
+```
+
+All 19 scratch-only AST fault controls failed at DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime; the injected functions were never executed. Source remained untouched, forbidden imports/owned listing drift were empty, and the 193 protected hashes were unchanged. The finite forms include combined keyword/positional, clone-first, tensor target/flags, type, buffer copy/setitem, torch.device(cpu)/annotated allocations, conditional or moved-back values, positional and keyword-data constructors, and opaque arguments. Complete failing assertion output follows for each case:
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/keyword.log`; SHA-256 `9898f26d94dd13e3407d1a09297520678a953ada761681613206815f0edd00e8`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='keyword.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='keyword.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, "v.to(device='cpu', dtype=torch.float32)")] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, "v.to(device='cpu', dtype=torch.float32)")
+
+- [(2680, "v.to(device='cpu', dtype=torch.float32)")]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.223s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/positional.log`; SHA-256 `37e103dd42db8a117f265219bb2be0032273c8c3f964a158e90f29128a46731d`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='positional.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='positional.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, "v.to('cpu', torch.float32)")] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, "v.to('cpu', torch.float32)")
+
+- [(2680, "v.to('cpu', torch.float32)")]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.227s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/clone_first.log`; SHA-256 `22e141c254ac4564f39f1f1a98758236ddbfcb478ce3599282a659b9270c5fa5`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='clone_first.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='clone_first.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, "v.clone().to('cpu', torch.float16)")] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, "v.clone().to('cpu', torch.float16)")
+
+- [(2680, "v.clone().to('cpu', torch.float16)")]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.236s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/tensor_target.log`; SHA-256 `b1e00c3df14b25a0563960fa1eae8f96a1c5a8c507ec133e4fbf62f2d41c3028`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='tensor_target.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='tensor_target.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, 'v.to(cpu_tensor)')] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, 'v.to(cpu_tensor)')
+
+- [(2680, 'v.to(cpu_tensor)')]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.229s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/tensor_target_flags.log`; SHA-256 `1868718811dc8a3ac7df37d387adcfb62f8329cd6e11d863768d120cf9036a94`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='tensor_target_flags.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='tensor_target_flags.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, 'v.to(cpu_tensor, non_blocking=True)')] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, 'v.to(cpu_tensor, non_blocking=True)')
+
+- [(2680, 'v.to(cpu_tensor, non_blocking=True)')]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.223s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/tensor_target_positional_flag.log`; SHA-256 `cf1215d3403a0be0613240bb3dbdf88c30613503510a51ec82826d2d341ec658`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='tensor_target_positional_flag.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='tensor_target_positional_flag.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, 'v.to(cpu_tensor, True)')] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, 'v.to(cpu_tensor, True)')
+
+- [(2680, 'v.to(cpu_tensor, True)')]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.216s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/type.log`; SHA-256 `955768745f1835aa5b94fb8d4b76633336fc704cde8566000ec5ee7cf88635f0`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='type.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='type.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, 'v.type(torch.FloatTensor)')] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, 'v.type(torch.FloatTensor)')
+
+- [(2680, 'v.type(torch.FloatTensor)')]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.234s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/copy_buffer.log`; SHA-256 `4a90a3e53a25936f3b149f6ef694a547792df3bf1cfa24cf0461624cab50e173`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='copy_buffer.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='copy_buffer.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, 'cpu_buf.copy_(v)')] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, 'cpu_buf.copy_(v)')
+
+- [(2680, 'cpu_buf.copy_(v)')]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.231s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/setitem.log`; SHA-256 `73af1631e472080a24b13078bf05fad9865eae263ae91abca786f596a0ed3b94`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='setitem.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='setitem.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, 'cpu_buf[0] = v')] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, 'cpu_buf[0] = v')
+
+- [(2680, 'cpu_buf[0] = v')]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.225s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/setitem_device_object.log`; SHA-256 `76bbe42a518e7929a96683bd0e868ac82c41a1184a78392b1262d0681ee7eca6`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='setitem_device_object.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='setitem_device_object.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2681, 'buf[0] = v')] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2681, 'buf[0] = v')
+
+- [(2681, 'buf[0] = v')]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.233s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/setitem_annotated.log`; SHA-256 `dc9f3839cf8c427da48c51f02759e9fe2275fdf0b6ac2ea2beee16919123ce7b`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='setitem_annotated.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='setitem_annotated.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2681, 'buf[0] = v')] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2681, 'buf[0] = v')
+
+- [(2681, 'buf[0] = v')]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.228s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/conditional.log`; SHA-256 `ce2455da1bbeaebd3b04688c85b44f914f54b8972ce5fdeaa73ee95fa32b2870`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='conditional.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='conditional.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, 'cpu_buf[0] = v if flag else other.cpu()')] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, 'cpu_buf[0] = v if flag else other.cpu()')
+
+- [(2680, 'cpu_buf[0] = v if flag else other.cpu()')]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.227s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/as_tensor.log`; SHA-256 `13db03a777f47ed57be059246707d0f75732273b29cf04b1020368cab14e3ce5`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='as_tensor.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='as_tensor.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, "torch.as_tensor(v, device='cpu', dtype=torch.float32)")] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, "torch.as_tensor(v, device='cpu', dtype=torch.float32)")
+
+- [(2680, "torch.as_tensor(v, device='cpu', dtype=torch.float32)")]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.238s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/tensor.log`; SHA-256 `a164e6908c9d64302cf2917d9628f962e3c1b4f6ca35f67fd0ce75e96995098e`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='tensor.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='tensor.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, "torch.tensor(v.clone(), device='cpu', dtype=torch.float16)")] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, "torch.tensor(v.clone(), device='cpu', dtype=torch.float16)")
+
+- [(2680, "torch.tensor(v.clone(), device='cpu', dtype=torch.float16)")]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.228s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/moved_back.log`; SHA-256 `b71e3ff49b81b809a32effcae70843388905b54aef130eee412e448979e62aee`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='moved_back.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='moved_back.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, "torch.as_tensor(v.cpu().to('mps')[34 chars]6)")] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, "torch.as_tensor(v.cpu().to('mps'), device='cpu', dtype=torch.float16)")
+
++ []
+- [(2680,
+-   "torch.as_tensor(v.cpu().to('mps'), device='cpu', dtype=torch.float16)")] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.224s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/opaque_arguments.log`; SHA-256 `855d88ef7f24985bd01b935262dceb0b404ae36b1585a7c18650cc3f3c58cdf8`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='opaque_arguments.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='opaque_arguments.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, 'v.to(**options)')] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, 'v.to(**options)')
+
+- [(2680, 'v.to(**options)')]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.224s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/as_tensor_keyword_data.log`; SHA-256 `5552f075c841163ad3365fa3f9fa80a17eb23400eb689df111f12987099dd6da`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='as_tensor_keyword_data.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='as_tensor_keyword_data.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, "torch.as_tensor(data=v, device='cpu', dtype=torch.float32)")] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, "torch.as_tensor(data=v, device='cpu', dtype=torch.float32)")
+
+- [(2680, "torch.as_tensor(data=v, device='cpu', dtype=torch.float32)")]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.220s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/tensor_keyword_data.log`; SHA-256 `fcc395d78869007f0cb48e2149d617dff449277935991b536b42c33c508a342b`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='tensor_keyword_data.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='tensor_keyword_data.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, "torch.tensor(data=v, device='cpu', dtype=torch.float16)")] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, "torch.tensor(data=v, device='cpu', dtype=torch.float16)")
+
+- [(2680, "torch.tensor(data=v, device='cpu', dtype=torch.float16)")]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.216s
+
+FAILED (failures=1)
+```
+
+Evidence: `/private/tmp/c10y_build/conversion_faults_post_mask_revert/opaque_constructor.log`; SHA-256 `b46027dff2f8646ad013060739d35cac89bae0b8c6a8fdf4f9961796066fa052`.
+
+```text
+test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... 
+  test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='opaque_constructor.py') ... FAIL
+
+======================================================================
+FAIL: test_no_combined_device_dtype_transfer_in_owned_runtime (c10y_directdw_selftest.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) (file='opaque_constructor.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py", line 4307, in test_no_combined_device_dtype_transfer_in_owned_runtime
+    self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+AssertionError: Lists differ: [(2680, 'torch.as_tensor(**options)')] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(2680, 'torch.as_tensor(**options)')
+
+- [(2680, 'torch.as_tensor(**options)')]
++ [] : copy device first, then change dtype; MPS views can corrupt combined transfers
+
+----------------------------------------------------------------------
+Ran 1 test in 0.214s
+
+FAILED (failures=1)
+```
 
 ## Scope evidence
 
 The embedded status/listing snapshots were taken during shared live activity before the report's final publication. A post-publication repeat is retained in `/private/tmp/c10y_build/after/`, including the report byte SHA in `r2_sha256.json`. Live heartbeat/log listing changes are observed and unattributed; these snapshots do not assert a globally idle tree.
 
-Before-state: git porcelain; all five R2 paths absent; 192 initial protected-file hashes; 7089 results/architecture-profile listing entries. Original table `/private/tmp/c10y_build/before/r5_sha256.json` is retained. Amendment C and then P were explicit Program pin changes, retained in separate post-amendment tables. The latest table adds the benchmark source required by P and contains 193 files. Final comparison: **190/193 byte-identical; 3 differ.** Core engine, C10Y prereg under its authorised pin, frozen harness, hparams/configs, engine fingerprint tool and benchmark source all match. R5’s literal whole-table equality remains FAILED; Program attribution/rebaseline permission was requested and not received. Do not mistake a clean core git diff for whole protected-table equality.
+Before-state: git porcelain, five R2 paths absent, 192 original protected hashes and 7089 results/architecture-profile listing entries. Initial and post-C/P tables remain preserved. The prior 193-file post-pin table is retained as before/r5_post_pin_pre_program_attestation_sha256.json; its three outside-file differences were explicitly Program-authorized. Read-only git show verified the named commits, retaining committed bytes and before/r5_program_attested_committed_sha256.json. The Program narrowed R5: c10z_* / C10Z_* and tools/dashboard_* paths are outside C10Y scope; four C10Y sources join the unchanged 189 engine/harness/prereg/frozen inputs. The active baseline is before/r5_post_pin_sha256.json; before/r5_program_scoped_sha256.json preserves the initial scoped state, before the authorized owned-source fixes. Final comparison: **193/193 byte-identical; zero protected drift.** No common frozen-input hash was rebaselined. Only arms/selftest baseline entries were refreshed after authorized owned mask/conversion/guard/revert changes; every prior table and delta was retained. Production benchmark SOURCE_PATHS/H_in and Amendment P identity checks remain unchanged, so the R5 exemption does not weaken template/source admission.
+
+Latest authorized owned-source refresh and frozen-input comparison:
 
 ```json
 {
-  "docs/C10Z_ASTRA_PREREG.md": {
-    "after": "7c6e52e274e3dbc30cd5123d6b56ae8c9b1dca8c5e7507ff7be15d57e845059d",
-    "before": "87fe3d5d28c9a51eab4eadfd82cc7175f1a94f723f25f31658c5e1aeaf628b87"
+  "authorization": "Program LAW#5 correction: remove all newly injected greedy masks; strict sink-only AST and no-kwargs regression",
+  "changes": {
+    "experiments/track_c/c10y_directdw_arms.py": {
+      "after": "cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0",
+      "before": "e1db6f6c575b85c5bffe58d4742d7a7fac624c7ff08a965373ab29fd24ec51f7"
+    },
+    "experiments/track_c/c10y_directdw_selftest.py": {
+      "after": "1419a485a8b74ef9a337860d16c8acfbacd9546d2595a573dd42e70c4d221ccf",
+      "before": "bbc90d38379d4906c098aaa27c5ecb4405994a8c88320c6805590a7d9d12d322"
+    }
   },
-  "experiments/track_c/c10z_astra_arms.py": {
-    "after": "ab6f5c809d8187f4e5eb39e9cc6fbf40b6e357b2ecf5b18ecc887e05de7adebc",
-    "before": "806a9b4d417261945359d45db8c2f8513e4f5a2f3fafaf0b7cefe3a8d5ec3304"
-  },
-  "tools/dashboard_experiment.py": {
-    "after": "3e0685b7ddf3801d6c85801bc9f4969206dcfb18787b6fc76195d98cfdd82dbc",
-    "before": "59648b47a48e2f0afd8a00166d3c77199157bc78e13454eaa5bea768055cdfd7"
-  }
+  "frozen_input_drift": [],
+  "protected_files": 193
 }
 ```
 
-Those three files were not written by this build. Concurrent Program ownership is plausible from the live ASTRA/dashboard activity but independently UNVERIFIED until the Program answers. Their original/current hashes are retained; no historical record or baseline was silently repaired. Other global status/listing changes are observed and unattributed. The in-process suite guards and independent mutation guard had no permitted write path to those files.
+```json
+{}
+```
+
+Program attestation and committed/working byte identity:
+
+```json
+{
+  "attributions": {
+    "docs/C10Z_ASTRA_PREREG.md": {
+      "attribution": "Program-authorized and committed",
+      "before": "87fe3d5d28c9a51eab4eadfd82cc7175f1a94f723f25f31658c5e1aeaf628b87",
+      "commit": "4968755127f24c12c566682393ea657bd09cf00c",
+      "committed_sha256": "7c6e52e274e3dbc30cd5123d6b56ae8c9b1dca8c5e7507ff7be15d57e845059d",
+      "working_sha256_at_refresh": "7c6e52e274e3dbc30cd5123d6b56ae8c9b1dca8c5e7507ff7be15d57e845059d"
+    },
+    "experiments/track_c/c10z_astra_arms.py": {
+      "attribution": "Program-authorized and committed",
+      "before": "806a9b4d417261945359d45db8c2f8513e4f5a2f3fafaf0b7cefe3a8d5ec3304",
+      "commit": "187daebe8637cd56efc6010bc3f912ab6b51e3fc",
+      "committed_sha256": "ab6f5c809d8187f4e5eb39e9cc6fbf40b6e357b2ecf5b18ecc887e05de7adebc",
+      "working_sha256_at_refresh": "bc8ad6aef5778edd9bca49afb71a82e5e076cd937aa00bcb43fc8758b8ddcd16"
+    },
+    "tools/dashboard_experiment.py": {
+      "attribution": "Program-authorized and committed",
+      "before": "59648b47a48e2f0afd8a00166d3c77199157bc78e13454eaa5bea768055cdfd7",
+      "commit": "c09e09a76d2f9d43eb6cb324488a6ab47525b5c3",
+      "committed_sha256": "3e0685b7ddf3801d6c85801bc9f4969206dcfb18787b6fc76195d98cfdd82dbc",
+      "working_sha256_at_refresh": "3e0685b7ddf3801d6c85801bc9f4969206dcfb18787b6fc76195d98cfdd82dbc"
+    }
+  },
+  "authorization": "Program attestation and GPU-idle window: refresh committed baseline, scope R5, run all pending tests and M14 serially under /private/tmp",
+  "current_protected_files": 193,
+  "excluded_external_inputs": [
+    "docs/C10Z_ASTRA_PREREG.md",
+    "experiments/track_c/c10z_astra_arms.py",
+    "experiments/track_c/c10z_astra_benchmark.py",
+    "tools/dashboard_experiment.py"
+  ],
+  "historical_protected_files": 193,
+  "scope": "C10Y sources and prereg, unchanged engine/harness and other frozen inputs; c10z_* and tools/dashboard_* excluded from C10Y scope violations",
+  "template_pin": "Benchmark remains runtime H_in and Amendment P template identity input; exclusion from the build-scope assertion does not weaken production source/pin admission"
+}
+```
+
+Evidence: `/private/tmp/c10y_build/program_baseline_refresh.log`; SHA-256 `751372c1e4899a2629e5365fc9d9fbe1d993a320ac70b038e29a251f364a4d40`.
+
+```text
+{"current_protected_files": 193, "excluded_external_inputs": ["docs/C10Z_ASTRA_PREREG.md", "experiments/track_c/c10z_astra_arms.py", "experiments/track_c/c10z_astra_benchmark.py", "tools/dashboard_experiment.py"], "protected_drift": [], "refreshed_commits": {"docs/C10Z_ASTRA_PREREG.md": "4968755127f24c12c566682393ea657bd09cf00c", "experiments/track_c/c10z_astra_arms.py": "187daebe8637cd56efc6010bc3f912ab6b51e3fc", "tools/dashboard_experiment.py": "c09e09a76d2f9d43eb6cb324488a6ab47525b5c3"}}
+```
+
+Program attribution is now confirmed for the three recorded changes: docs/C10Z_ASTRA_PREREG.md commit4968755 (D-C10z-v4fix/§10 V4T); c10z_astra_arms.py commit187daeb (template pin); dashboard_experiment.py commitc09e09a (detection fix). None was written by this build. The exact before, committed and working-at-refresh hashes appear below. In particular c10z_astra_arms working bytes bc8ad6ae… already differ from the attested ab6f5c80… committed blob, matching the anticipated later-work possibility; the Program's explicit scope exemption applies, but this is not proof all later bytes are committed or individually attributed. Other global listing/status changes remain observed without attribution. Baseline refresh followed an explicit Program instruction and retained the old tables and report, rather than silently repairing history.
 
 Protected core command, before and after:
 
@@ -6828,7 +9508,7 @@ Read-only engine command, with ROOT explicitly set (an earlier environment-inher
 /opt/homebrew/bin/rtk proxy env LLMDB_ROOT=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a TMPDIR=/private/tmp/c10y_build PYTHONDONTWRITEBYTECODE=1 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/engine_fingerprint.py
 ```
 
-Evidence: `/private/tmp/c10y_build/after/engine_fingerprint_root.log`; SHA-256 `15aef4acf47eb374ea93cf4f949a0022a287f56b646ac2b139f599af98b355e3`.
+Evidence: `/private/tmp/c10y_build/after/engine_fingerprint_conversion_final.log`; SHA-256 `15aef4acf47eb374ea93cf4f949a0022a287f56b646ac2b139f599af98b355e3`.
 
 ```text
 engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py
@@ -6841,16 +9521,27 @@ Current git worktree root remained `/Volumes/memit/llm-database-poc-mirror/arhug
 ```diff
 --- before/git_status.txt
 +++ after/git_status.txt
-@@ -1,33 +1,51 @@
+@@ -1,33 +1,52 @@
   M .gitignore
 - M experiments/track_c/c10w_oracle_eval.py
 - M experiments/track_c/c10w_oracle_selftest.py
 - M experiments/track_c/c10z_astra_arms.py
 - M experiments/track_c/c10z_astra_read.py
-- M experiments/track_c/c10z_astra_selftest.py
++ M experiments/track_c/c10x_enginepath_arms.py
++ M experiments/track_c/c10x_enginepath_inertness.py
++ M experiments/track_c/c10x_enginepath_read.py
++ M experiments/track_c/c10x_enginepath_selftest.py
++ M experiments/track_c/c10x_enginepath_telemetry_check.py
++ M experiments/track_c/c10x_overtone_z.py
++ M experiments/track_c/c10y_directdw_arms.py
++ M experiments/track_c/c10y_directdw_selftest.py
+  M experiments/track_c/c10z_astra_selftest.py
 - M tools/c10w_p2_gate.py
 - M tools/run_c10w_p2.sh
 - M tools/run_c10w_p2_stage.sh
++ M results/c10x_enginepath_codex_build.md
++ M results/c10y_directdw_codex_build.md
++ M results/c10z_build_codex_impl.md
  ?? .ignore
  ?? architecture_profile/c10w_oracle_halt_diagnostic_20261008T060601_334913Z.json
 -?? experiments/track_c/c10z_astra_benchmark.py
@@ -6858,16 +9549,6 @@ Current git worktree root remained `/Volumes/memit/llm-database-poc-mirror/arhug
 -?? experiments/track_c/c10z_astra_telemetry_check.py
 +?? architecture_profile/c10z_astra_halt_diagnostic.json
 +?? architecture_profile/c10z_astra_halt_diagnostic_20261008T124710.311412Z.json
-+?? experiments/track_c/c10x_enginepath_arms.py
-+?? experiments/track_c/c10x_enginepath_inertness.py
-+?? experiments/track_c/c10x_enginepath_read.py
-+?? experiments/track_c/c10x_enginepath_selftest.py
-+?? experiments/track_c/c10x_enginepath_telemetry_check.py
-+?? experiments/track_c/c10x_overtone_z.py
-+?? experiments/track_c/c10y_directdw_arms.py
-+?? experiments/track_c/c10y_directdw_read.py
-+?? experiments/track_c/c10y_directdw_selftest.py
-+?? experiments/track_c/c10y_directdw_telemetry_check.py
  ?? external_prior_art
 +?? memory_mirror/test-first-one-round-builds.md
  ?? results/autoresearch_c10_equivalence_2026-10-06T0815.json
@@ -6895,8 +9576,6 @@ Current git worktree root remained `/Volumes/memit/llm-database-poc-mirror/arhug
  ?? results/c10w_oracle_logs/p2_launch_fingerprint.txt
 -?? results/c10w_p2rerun_codex_impl.md
 -?? results/c10z_build_codex_impl.md
-+?? results/c10x_enginepath_codex_build.md
-+?? results/c10y_directdw_codex_build.md
 +?? results/c10z_astra/
 +?? results/c10z_astra_attempt2/
 +?? results/c10z_astra_benchmark/20261008T104535Z/heartbeat.json
@@ -6905,20 +9584,18 @@ Current git worktree root remained `/Volumes/memit/llm-database-poc-mirror/arhug
 +?? results/c10z_astra_benchmark/20261008T121345Z/heartbeat.json
 +?? results/c10z_astra_benchmark/20261008T121345Z/run.json
 +?? results/c10z_astra_benchmark/20261008T121345Z/svd_child.json
++?? results/c10z_v5fix.patch
  ?? results/infranodus_research_arc_2026-10-05/fulltext/
  ?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus-transcend-corpus-topics-C10.txt.rtf
  ?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus-transcend-corpus-topics-C10_2.txt.rtf
-@@ -61,8 +79,8 @@
+@@ -60,9 +79,4 @@
+ ?? results/labviz_codex_brief.md
  ?? results/labviz_codex_impl.md
  ?? results/labviz_v2_codex_impl.md
- ?? results/labviz_v2_phase1_design_review.md
+-?? results/labviz_v2_phase1_design_review.md
 -?? tools/c10w_p2_evaluator_A1.diff
 -?? tools/c10w_p2_rerun.py
 -?? tools/labviz/
-+?? results/labviz_v2_phase1_design_review_r2.md
-+?? results/labviz_v2_phase1_design_review_r3.md
-+?? results/labviz_v2_phase1_design_review_r4.md
-+?? results/labviz_v2_phase1_design_review_r5.md
  ?? tools/labviz_serve.sh
 -?? tools/run_c10z_attempt.sh
 ```
@@ -6944,8 +9621,8 @@ Whole-session listing is different from each test-run backstop: the one authoris
     },
     "results/c10y_directdw_codex_build.md": {
       "after": [
-        13179,
-        1791463018011140757
+        839656,
+        1791466726395642310
       ],
       "before": null
     }
@@ -6962,6 +9639,7 @@ Whole-session listing is different from each test-run backstop: the one authoris
     "results/c10w_oracle_logs/p2-read-attempt2.json",
     "results/c10w_oracle_logs/p2-reattempt-coordinator.20261008T030455.59886.log",
     "results/c10w_p2_reading_astra.md",
+    "results/c10x_build_astra_review.md",
     "results/c10x_enginepath_codex_build.md",
     "results/c10z_astra",
     "results/c10z_astra/halt_p1.json",
@@ -7000,8 +9678,17 @@ Whole-session listing is different from each test-run backstop: the one authoris
     "results/c10z_astra_go_record.json",
     "results/c10z_astra_go_record_attempt2.json",
     "results/c10z_astra_v4_diagnosis.md",
+    "results/c10z_astra_z0_probe",
+    "results/c10z_astra_z0_probe/20261008T132220Z",
+    "results/c10z_astra_z0_probe/20261008T132220Z/probe.json",
+    "results/c10z_astra_z0_probe/20261008T134353Z",
+    "results/c10z_astra_z0_probe/20261008T134353Z/probe.json",
+    "results/c10z_astra_z0_probe_run.log",
+    "results/c10z_astra_z0_probe_run_mask.log",
     "results/c10z_build_codex_impl.md",
     "results/c10z_v4pin_code_astra.md",
+    "results/c10z_v5fix.patch",
+    "results/c10z_z0_sigma_record.patch",
     "results/labviz",
     "results/labviz/images_manifest.json",
     "results/labviz/review",
@@ -7504,6 +10191,169 @@ Whole-session listing is different from each test-run backstop: the one authoris
     "results/labviz/review/20261008T124926101Z/webkit-phone-model-mistral.png",
     "results/labviz/review/20261008T124926101Z/webkit-phone-run-c10v-b-a7.png",
     "results/labviz/review/20261008T124926101Z/webkit-phone-run-g6.1.png",
+    "results/labviz/review/20261008T130913325Z",
+    "results/labviz/review/20261008T130913325Z/browser-tests.json",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-compare.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-evaluations.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-learn.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-line-c10.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-line-d1.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-line-f1-conditions.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-line-t-branch.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-line-viability.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-map-c10-focus.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-map-c10-greyscale.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-map.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-model-2d.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-model-3d.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-model-mistral.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-run-c10v-b-a7.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-200pct-run-g6.1.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-compare.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-evaluations.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-learn.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-line-c10.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-line-d1.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-line-f1-conditions.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-line-t-branch.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-line-viability.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-map-c10-focus.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-map-c10-greyscale.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-map.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-model-2d.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-model-3d.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-model-mistral.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-run-c10v-b-a7.png",
+    "results/labviz/review/20261008T130913325Z/chromium-desktop-run-g6.1.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-compare.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-evaluations.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-learn.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-line-c10.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-line-d1.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-line-f1-conditions.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-line-t-branch.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-line-viability.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-map-c10-focus.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-map-c10-greyscale.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-map.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-model-2d.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-model-3d.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-model-mistral.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-run-c10v-b-a7.png",
+    "results/labviz/review/20261008T130913325Z/chromium-landscape-run-g6.1.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-compare.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-evaluations.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-learn.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-line-c10.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-line-d1.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-line-f1-conditions.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-line-t-branch.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-line-viability.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-map-c10-focus.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-map-c10-greyscale.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-map.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-model-2d.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-model-3d.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-model-mistral.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-run-c10v-b-a7.png",
+    "results/labviz/review/20261008T130913325Z/chromium-narrow-run-g6.1.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-compare.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-evaluations.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-learn.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-line-c10.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-line-d1.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-line-f1-conditions.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-line-t-branch.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-line-viability.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-map-c10-focus.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-map-c10-greyscale.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-map.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-model-2d.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-model-3d.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-model-mistral.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-run-c10v-b-a7.png",
+    "results/labviz/review/20261008T130913325Z/chromium-phone-run-g6.1.png",
+    "results/labviz/review/20261008T130913325Z/measure.json",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-compare.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-evaluations.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-learn.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-line-c10.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-line-d1.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-line-f1-conditions.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-line-t-branch.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-line-viability.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-map-c10-focus.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-map-c10-greyscale.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-map.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-model-2d.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-model-3d.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-model-mistral.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-run-c10v-b-a7.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-200pct-run-g6.1.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-compare.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-evaluations.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-learn.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-line-c10.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-line-d1.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-line-f1-conditions.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-line-t-branch.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-line-viability.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-map-c10-focus.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-map-c10-greyscale.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-map.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-model-2d.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-model-3d.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-model-mistral.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-run-c10v-b-a7.png",
+    "results/labviz/review/20261008T130913325Z/webkit-desktop-run-g6.1.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-compare.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-evaluations.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-learn.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-line-c10.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-line-d1.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-line-f1-conditions.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-line-t-branch.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-line-viability.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-map-c10-focus.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-map-c10-greyscale.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-map.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-model-2d.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-model-3d.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-model-mistral.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-run-c10v-b-a7.png",
+    "results/labviz/review/20261008T130913325Z/webkit-landscape-run-g6.1.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-compare.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-evaluations.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-learn.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-line-c10.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-line-d1.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-line-f1-conditions.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-line-t-branch.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-line-viability.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-map-c10-focus.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-map-c10-greyscale.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-map.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-model-2d.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-model-3d.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-model-mistral.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-run-c10v-b-a7.png",
+    "results/labviz/review/20261008T130913325Z/webkit-narrow-run-g6.1.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-compare.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-evaluations.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-learn.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-line-c10.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-line-d1.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-line-f1-conditions.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-line-t-branch.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-line-viability.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-map-c10-focus.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-map-c10-greyscale.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-map.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-model-2d.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-model-3d.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-model-mistral.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-run-c10v-b-a7.png",
+    "results/labviz/review/20261008T130913325Z/webkit-phone-run-g6.1.png",
     "results/labviz/review/fix-round1",
     "results/labviz/review/fix-round1/files-sha256.json",
     "results/labviz/review/fix-round1/generated-render-proof-final.txt",
@@ -9676,6 +12526,8 @@ Whole-session listing is different from each test-run backstop: the one authoris
     "results/labviz_v2_phase1_design_review_r3.md",
     "results/labviz_v2_phase1_design_review_r4.md",
     "results/labviz_v2_phase1_design_review_r5.md",
+    "results/labviz_v2_phase1_design_review_r6.md",
+    "results/mps_offset_conversion_audit.md",
     "results/templatepin_amend_astra.md",
     "results/templatepin_amend_astra_delta.md"
   ]
@@ -9716,12 +12568,13 @@ Whole-session listing is different from each test-run backstop: the one authoris
 | `docs/C10U_MINT2_PREREG.md` | `2bbd7bcd9b4df869590e319c215c2f9e07fcef1cc986783e70c4632f8154e4e5` | `2bbd7bcd9b4df869590e319c215c2f9e07fcef1cc986783e70c4632f8154e4e5` | True |
 | `docs/C10V_LAYERPICK_PREREG.md` | `00981bfc9cb5770ccea203f6682d953948afdba653a4bd4173bbc754130ad524` | `00981bfc9cb5770ccea203f6682d953948afdba653a4bd4173bbc754130ad524` | True |
 | `docs/C10Y_DIRECTDW_PREREG.md` | `e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331` | `e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331` | True |
-| `docs/C10Z_ASTRA_PREREG.md` | `87fe3d5d28c9a51eab4eadfd82cc7175f1a94f723f25f31658c5e1aeaf628b87` | `7c6e52e274e3dbc30cd5123d6b56ae8c9b1dca8c5e7507ff7be15d57e845059d` | False |
 | `experiments/track_c/c10e_bandknob.py` | `1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695` | `1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695` | True |
 | `experiments/track_c/c10l_covgeom_step0.py` | `5999d8714b7282e01f04b0292dc2c381d383f2a7ff90a2430b6e503aa7f2a557` | `5999d8714b7282e01f04b0292dc2c381d383f2a7ff90a2430b6e503aa7f2a557` | True |
 | `experiments/track_c/c10p_twopass_arms.py` | `c34ecbe17c86d8f2803efc5520f4cf090dcb23bcc21ef0c3c28a12bfdaeb820f` | `c34ecbe17c86d8f2803efc5520f4cf090dcb23bcc21ef0c3c28a12bfdaeb820f` | True |
-| `experiments/track_c/c10z_astra_arms.py` | `806a9b4d417261945359d45db8c2f8513e4f5a2f3fafaf0b7cefe3a8d5ec3304` | `ab6f5c809d8187f4e5eb39e9cc6fbf40b6e357b2ecf5b18ecc887e05de7adebc` | False |
-| `experiments/track_c/c10z_astra_benchmark.py` | `9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a` | `9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a` | True |
+| `experiments/track_c/c10y_directdw_arms.py` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` | `cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0` | True |
+| `experiments/track_c/c10y_directdw_read.py` | `f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78` | `f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78` | True |
+| `experiments/track_c/c10y_directdw_selftest.py` | `1419a485a8b74ef9a337860d16c8acfbacd9546d2595a573dd42e70c4d221ccf` | `1419a485a8b74ef9a337860d16c8acfbacd9546d2595a573dd42e70c4d221ccf` | True |
+| `experiments/track_c/c10y_directdw_telemetry_check.py` | `e79f0532ac674a0cb8a3d21c838c15710ee0ed3e94f7fa88e65d722105c1c03f` | `e79f0532ac674a0cb8a3d21c838c15710ee0ed3e94f7fa88e65d722105c1c03f` | True |
 | `hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/config.json` | `27467e2fc311a7656c09a43ae9c3d408211e1f212bbddbc93c8596a06423826f` | `27467e2fc311a7656c09a43ae9c3d408211e1f212bbddbc93c8596a06423826f` | True |
 | `memit_dry_run/memit/.gitattributes` | `0d8fc1b86a58cb959c95bc6d62652b6a06ec8a1161d0fab6af1bcabbde43b630` | `0d8fc1b86a58cb959c95bc6d62652b6a06ec8a1161d0fab6af1bcabbde43b630` | True |
 | `memit_dry_run/memit/.gitignore` | `8d0aba79068af0ed4093807588d236cfe576a1e7c08993549f65ec2e1cbc931b` | `8d0aba79068af0ed4093807588d236cfe576a1e7c08993549f65ec2e1cbc931b` | True |
@@ -9877,7 +12730,6 @@ Whole-session listing is different from each test-run backstop: the one authoris
 | `memit_dry_run/memit/util/perplexity.py` | `e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e` | `e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e` | True |
 | `memit_dry_run/memit/util/runningstats.py` | `7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97` | `7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97` | True |
 | `memit_dry_run/memit/zsre_evals.sh` | `a5f8ca93642cab1e18bdfc917255ea64323b2c3261d0cb4634e235bbbbf00d2f` | `a5f8ca93642cab1e18bdfc917255ea64323b2c3261d0cb4634e235bbbbf00d2f` | True |
-| `tools/dashboard_experiment.py` | `59648b47a48e2f0afd8a00166d3c77199157bc78e13454eaa5bea768055cdfd7` | `3e0685b7ddf3801d6c85801bc9f4969206dcfb18787b6fc76195d98cfdd82dbc` | False |
 | `tools/engine_fingerprint.py` | `450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162` | `450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162` | True |
 
 ## Telemetry volume and budget evidence
@@ -9890,14 +12742,11 @@ Stage-1 C3 optimisation support cites all six accepted hooked iterations and eve
 
 ## Objections and dispatch status
 
-1. Full verification is OPEN: native model-free blocked-child enforcement before/after write completion and two 2048×11008 CPU tests were not executed under the current process/resource restrictions. M14 must actually fail after those checks; fp32 success requires hardening its input and recording that observation. The hanging-worker requirement (prereg:96; brief §6) conflicts with the brief’s one-Python-process rule, so its explicit child-test decision is pending. No Python child was spawned here.
-2. R5 and literal §7 global equality fail on the three outside-file changes above. No external attribution or baseline refresh was silently assumed.
-3. Claude’s out-of-family review was unavailable on the auth probe; GPT-6-Astra/high performed the documented weaker fallback and final static C8 review.
-4. Every live gate and timing/resource/MPS behavior remains UNVERIFIED. The Program must record decision0 go, spend/authorisation, current timing forecasts and actual runtime gates before dispatch; static GO and the launch examples below grant no spend.
+1. Full-size/native-child/M14/protected-baseline gaps are closed by exact current controls and Program instruction. Mask injection is fully reverted on the original greedy scorer paths, T4 is strict sink-only, and stored-update alignment/T8 reference selection are repaired with current CPU regressions. 2. Live LAW#3/LAW#5, MPS arithmetic/backward, scientific outcomes/resources/timing, calibration feasibility and T8 admission remain UNVERIFIED; only the Program may dispatch after frozen go/spend/forecast gates. The MPS conversion bug was not reproduced on-device by this build, and finite AST/source audits do not establish arbitrary third-party/type-alias safety. 3. The historical zero-accelerator-call claim is corrected; the current CPU seed fence supersedes it. Claude auth required same-family fallback with weaker independence. No unresolved code/CPU-control defect is established by the final delta review; no scientific write-route qualification or F1 closure is claimed.
 
 ## Program launch commands — NOT RUN
 
-These exact absolute commands are templates for the Program after the OPEN verification/identity requirements above are closed. The Program replaces the quoted UTC/record filenames with its recorded identities, creates new files/directories only, ensures no inherited preflight knobs are present, and records the separate T8/calibration cost authorisations. No command below was executed as part of this build. All commands explicitly set LLMDB_ROOT; no directly executed shell wrapper is needed. The executable/mode test confirms the launch graph executes Python directly, with zero shell dependencies. If a .sh is added later it must be X_OK and git100755 before dispatch.
+These exact absolute commands are templates for separately authorized Program dispatch after its recorded go/spend/forecast requirements are satisfied. The build verification gaps are closed; scientific/runtime admission remains separate. The Program supplies quoted UTC/record identities, creates new artifacts only and ensures no inherited preflight knobs. No model-bearing command below was run. All set LLMDB_ROOT; direct launch uses Python with zero shell wrappers. The executable/mode test passes: any directly executed .sh added later must be X_OK and git100755 before dispatch.
 
 ```sh
 /usr/bin/env -u C10Y_SELFTEST -u C10Y_ALLOWED_CHILD_TESTS -u C10Y_TELEMETRY -u C10Y_TELEMETRY_INERTNESS LLMDB_ROOT=/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/engine_fingerprint.py
@@ -10010,8 +12859,13 @@ T10 phase uses the admitted immutable INERT record path+SHA and `measured:true`.
 
 ## Review evidence and handoff
 
-Independent static final verdict follows verbatim; it is not a live permission or substitute for the unresolved full checks:
+The following earlier reviews are reproduced verbatim as **historical/superseded** records. Their source hashes and coverage bind only their earlier snapshots; in particular the mask-hazard objection/added-mask exception is withdrawn by the Program refutation and final LAW#5 ruling. Current source and CPU verdict are in the final artifact below. Runtime/scientific limits remain applicable.
 
+### Historical review: astra_final_delta2.md — superseded source snapshot
+
+Evidence: `/private/tmp/c10y_build/astra_final_delta2.md`; SHA-256 `9a0c290d1b1262977614007d40f99d7ba6c171310a0d54218d95d9439eff3ef0`.
+
+```text
 GO
 
 Advisor-contract verdict: PROCEED for static code readiness only. Dispatch remains GATED. No required source correction remains from this review of the exact snapshot below.
@@ -10071,6 +12925,412 @@ Run this review and answer concisely and specifically:
 5. **Drift check.** Does this advance the F1 readiness determination (or a live §0.3 falsifier)? If not, say so.
 
 **Output:** a short verdict — `PROCEED` / `FIX-FIRST` / `OVERTURNED-OR-RECONSIDER` — then the **single most important thing** to do next, then the specific issues in priority order. Be a skeptic; the author will weigh your input heavily but evidence remains binding over your opinion.
+```
 
-Session handoff is confined to this report and `/private/tmp/c10y_build`: source/fixture fixes complete, final static GO, 225/226 light cases passing with the preserved R5 failure, 21 executed mutation kills/source restoration, three pending tests and M14 unrun, no scientific or dispatch result. The project context-save/memory/ledger instructions were not allowed to create extra W artifacts beyond R2. This report and the scratch evidence are the scoped closeout.
+### Historical review: astra_program_closeout_review.md — superseded source snapshot
+
+Evidence: `/private/tmp/c10y_build/astra_program_closeout_review.md`; SHA-256 `707e27da64bad0153c3aa791249ffd4b487ef6b1962174eeeee9e927ac7428c3`.
+
+```text
+GO
+
+Advisor-contract verdict: PROCEED for this bounded static/CPU build delta. No concrete new blocker is established. This is not dispatch authorization. Live LAW#3/LAW#5, MPS/scientific behavior, resource limits, runtime timing/forecasts and T8 admission remain UNVERIFIED/GATED.
+
+Next action: close the build report using the exact 227+3 test and combined 22/22 mutation evidence below, correct the historical accelerator-seeding claim, and preserve the live admission gates. The earliest subsequent scientific falsifier is a separately authorized pinned-baseline calibration/LAW#3 observation; this review grants no permission to run it.
+
+Review scope and method
+
+Read-only review of the CPU seed isolation change, final hashes, recorded native/full-size controls, mutation assertion evidence and Program-authorized baseline refresh. No Python, tests, worker subprocesses, model, GPU or MPS were run by this reviewer. No workspace file was edited. The advisor/objective contract in tools/advisor_review_prompt.md, reproduced in /private/tmp/c10y_build/astra_final_delta2.md, continues to govern: actual criterion, confounds, cited evidence, overturning test and F1 drift. This remains same-family GPT review with weaker independence than an out-of-family advisor; it is not scientific evidence.
+
+Exact snapshot, independently rehashed after the final mutation restoration
+
+- docs/C10Y_DIRECTDW_PREREG.md: e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331
+- experiments/track_c/c10y_directdw_arms.py: 206710d02c6cc8580a14391cc94c5280db63bc1a9de0177bb3b6a15951c29416
+- experiments/track_c/c10y_directdw_read.py: f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78
+- experiments/track_c/c10y_directdw_selftest.py: 33a321d4266b0a3f4555be77e58b094baac4c774d0dd071e97bc9e59adcf33cf
+- experiments/track_c/c10y_directdw_telemetry_check.py: e79f0532ac674a0cb8a3d21c838c15710ee0ed3e94f7fa88e65d722105c1c03f
+
+Driver, reader, check and prereg match the prior static GO snapshot recorded in astra_final_delta2.md (report SHA 9a0c290d1b1262977614007d40f99d7ba6c171310a0d54218d95d9439eff3ef0). The selftest SHA changed.
+
+Findings and evidence
+
+1. CPU seed isolation is corrected, without changing production seeding. selftest.py:78–84 rebinds both torch.manual_seed and torch.random.manual_seed to the CPU default generator before the production modules are imported. IsolationTests.test_seed_uses_only_cpu_generator (:321–334) checks returned generator identity and mocks CUDA/MPS/XPU seed calls while requiring no call. The controlled RED in /private/tmp/c10y_build/cpu_seed_red.log fails because manual_seed_all was called twice; the mocks prevented actual accelerator seed calls during that RED. The final seed test is OK at light_suite_program_final.log:58.
+   Historical limitation: prior ordinary selftest entry points used torch.manual_seed without this CPU-only redirection. An earlier “no accelerator/MPS API call” claim is therefore not established by the earlier forbidden-import or owned-write counters and must not be carried forward as proven. The new fence is a test-process isolation measure; it does not validate production MPS seeding or determinism.
+
+2. The complete inventory now has recorded CPU/control coverage, spread across runs. /private/tmp/c10y_build/light_suite_program_final.log reports 227 tests OK in 13.201 s, all-method count 230, and exactly three named exclusions. Each excluded test has a separately read PASS log:
+   - full_size_reductions_program.log: one test, 0.513 s; selftest.py:357–369 uses 2048×11008 tensors and explicit float64 references for cosine, relative distance and norm ratio.
+   - full_size_gram_program.log: one test, 0.025 s; selftest.py:370–374 compares the Gram norm against a dense 2048×11008 double-precision product (rank-3 factors).
+   - native_timeout_program.log: one test, 3.616 s, covering both branches below.
+   The final light log and all three control logs report owned drift [], other observed drift [] and forbidden imports []. This is 227+3 PASS coverage, not a claim that one invocation ran 230 tests. These CPU arithmetic controls do not establish MPS arithmetic, full-size model memory safety or scientific equivalence.
+
+3. Native timeout evidence now exists for the actual supervisor. selftest.py:753–775 creates only allowlisted, hashed scratch workers, each blocking in ctypes.CDLL(None).sleep(30), with the child write guard installed. It calls the real A.supervise with a 2 s cap; asserts elapsed <3.5 s, the expected status, guard output, a process group different from the parent, and ProcessLookupError for the returned PID after termination.
+   Directly inspected artifacts under /private/tmp/c10y_build/roots/tmpe7axr6p5:
+   - haltFalse.json: HALTED-BUDGET, owned_pid=owned_process_group=72922.
+   - haltTrue.json: INCOMPLETE-BUDGET, owned_pid=owned_process_group=73103.
+   - before/supervisor_s1.json and after/supervisor_s1.json record write_complete false/true respectively, readout_complete false, and expected_engine_form_default_json context hash c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da.
+   The “after” case writes a synthetic completion marker; it does not execute a scientific merge. No context file is claimed as observed: the hash basis correctly says expected. This establishes the two native blocked-worker timeout paths tested, not every possible descendant-process or device-driver failure.
+
+4. Combined current mutation evidence is 22/22 own-assertion kills. mutations_20261008T131357950375Z_84909/results.json records 21 KILLED_ASSERTION entries with no errors, nonempty failures belonging to their declared tests, and matching original/restored source SHA for every executed mutant. Its M14 entry is explicitly SKIPPED_HEAVY.
+   The separate mutations_20261008T131219640730Z_75870/results.json supplies M14: baseline one test PASS; mutated float64 helper changed to fp32; own cosine assertion fails at selftest.py:366 with 1.0 versus 0.999995166241067 (difference 4.833758933009413e-06; tolerance 9.99995166241067e-13); no error; original/restored arms SHA both 206710d0…. Both mutation manifests name the same final four source hashes above, including the CPU-fenced selftest. This is combined evidence from two runs, not one 22-mutant invocation. It provides sensitivity to those defined faults, not proof that no other faults exist.
+
+5. The baseline refresh matches the authorized scope without erasing historical attribution. I compared /private/tmp/c10y_build/before/r5_post_pin_pre_program_attestation_sha256.json with /private/tmp/c10y_build/before/r5_post_pin_sha256.json: 193 entries each, exactly four external exclusions and four C10Y-source additions, and no changed values among common entries. The four added source hashes equal this report's hashes. The frozen-bytes assertion is OK at light_suite_program_final.log:30.
+   /private/tmp/c10y_build/program_attestation.json states the authorization and preserves the original/committed/working hashes. Read-only git show verifies the named commits and committed blob SHA-256 values:
+   - 4968755127f24c12c566682393ea657bd09cf00c, docs/C10Z_ASTRA_PREREG.md: 7c6e52e274e3dbc30cd5123d6b56ae8c9b1dca8c5e7507ff7be15d57e845059d.
+   - 187daebe8637cd56efc6010bc3f912ab6b51e3fc, experiments/track_c/c10z_astra_arms.py: ab6f5c809d8187f4e5eb39e9cc6fbf40b6e357b2ecf5b18ecc887e05de7adebc.
+   - c09e09a76d2f9d43eb6cb324488a6ab47525b5c3, tools/dashboard_experiment.py: 3e0685b7ddf3801d6c85801bc9f4969206dcfb18787b6fc76195d98cfdd82dbc.
+   Important attribution boundary: the attested current c10z_astra_arms.py hash bc8ad6ae… differs from its committed ab6f5c80… hash. Program's explicit exclusion of later c10z_* changes resolves C10Y build-scope accounting; it does not prove those current external bytes are committed or attribute every later change. Excluding c10z_astra_benchmark.py from this build-scope assertion does not remove the benchmark from production SOURCE_PATHS/H_in or Amendment P's template checks; production source is unchanged.
+
+Readiness boundary
+
+The prior open native-child/full-size/M14 and scoped-baseline build gaps now have the specific evidence above. No additional source repair is required by this narrow review. The bounded implementation and CPU-test claim advances the preregistered falsifier's reliability; it neither closes F1 nor demonstrates an in-weight scientific/write route. Production admission, pinned baseline behavior, live LAW#3/LAW#5, model-bearing resource/timing measurements and T8 remain separate gates. Preserve MEASUREMENT-ONLY and do not turn this GO into dispatch authorization.
+```
+
+### Historical review: astra_attention_mask_review.md — superseded source snapshot
+
+Evidence: `/private/tmp/c10y_build/astra_attention_mask_review.md`; SHA-256 `f11ea225693cc1017f5c88df274f12178f3777bccd23fec90f73ec5fed52d46f`.
+
+```text
+FIX-FIRST
+
+The 14 owned forward-call edits have a bounded CPU-plumbing GO. The current executable build does not yet have a safe live admission boundary: T8 can label a masked-versus-masked comparison INERT while real telemetry-off scoring still uses the unmasked frozen harness. Do not authorize model-bearing dispatch or admit a new INERT record on this snapshot.
+
+Single next action: add a fail-closed live attention-mask admission guard covering both driver/calibration and T8 entry points before any worker/model import/forward, pending Program's explicit resolution of the frozen control and dependency paths. Do not repair this by executing a forbidden unmasked comparison or silently changing the frozen harness.
+
+Reviewed snapshot
+
+- arms.py: 5b196a742a15462c4d02e7378db332aca767893fe24b8a4b8d3ffe52acf5df5e
+- read.py: f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78
+- selftest.py: ff19048271f15e6244f9c8c76768448913f02801fc789eba0dbcc9f462b22f0b
+- telemetry_check.py: e79f0532ac674a0cb8a3d21c838c15710ee0ed3e94f7fa88e65d722105c1c03f
+- docs/C10Y_DIRECTDW_PREREG.md: e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331
+
+Source paths abbreviated above are under experiments/track_c/c10y_directdw_*.py. Hashes were independently read. This review ran no Python, tests, worker, model, GPU or MPS operation and edited only this scratch report. The independent advisor/objective-review contract remains applicable; this is weaker same-family review, not scientific evidence.
+
+1. Required code correction: prevent invalid T8 admission and unsafe default-off dispatch.
+
+Evidence: arms.py:1024–1037 ignores its reference argument. T8 pass_ (:1135) calls the same newly masked make_scorer for P1, T and P2; the comparison at :1147 onward therefore holds masks fixed across all three. However, scored_recipe (:2120–2122) preserves the original H.full_seq_match when telemetry is off and substitutes the masked copy only when on. Frozen c10e_bandknob.py:114 calls model(cur) without attention_mask. Thus the actual off/on interventions differ beyond the sink, while T8 never observes that difference. A positive T8 result on this route would not establish equality to the frozen telemetry-off scorer.
+
+scorer_ast_check (:1040–1055) now inserts the mask into a copied reference AST before comparison. It proves “frozen source plus the explicitly prescribed mask and sink,” not T4's currently frozen statement-identical-plus-one-sink rule (prereg:481–500) or T8's original capture-only reference rule (:579–594). The new mask instruction authorizes the owned operational correction; it does not, by itself, demonstrate a faithful off/on scientific control.
+
+Minimum safe restriction:
+- Use one shared, explicit pending-admission guard for real model-bearing entry points. Place it before preflight fingerprint/model/worker activity in arms.main (currently :1545, :1566, :1575) and telemetry_check.main (currently preflight via _prepare and H import :501).
+- Also guard direct T8 and injected real-device run/calibrate routes before any forward, so calling the internal routine cannot produce an admissible INERT record.
+- Refuse clearly with a pending attention-mask/control-admission reason. If a T8 record is emitted, it must be INVALID/nonadmissible, never INERT. No ordinary GO record, telemetry-off setting, or new environment switch should bypass this unresolved condition.
+- Preserve the existing isolated CPU-fixture boundary for plumbing tests. Add a failing-first test proving real-mode driver/calibration/T8 entry points refuse before import/Popen/forward and that no INERT artifact can be published.
+
+A future faithful solution requires Program-authorized control/dependency semantics and their pinned identity. It may not be inferred by executing the currently disallowed unmasked path. Merely disabling telemetry leaves the default-off dependency problem below.
+
+2. Frozen indirect calls remain outside the owned-call fix.
+
+Definitively unmasked calls in c10e_bandknob.py are full_seq_match:114, string_match:127, teacher_forced_pertok:141 and sentence_nll:306. These are reachable: eval_arm calls string_match/teacher_forced_pertok (:364–365); axes_pre/axes_post call sentence_nll (:315/:337), and run_recipe calls the axes and eval_arm (:470 onward). The locality/perplexity path is therefore also affected, not only the three greedy scorer functions.
+
+Do not claim every live C10Y call is covered. attention_mask_changes.json labels predict:103 among “frozen_harness_unmasked_calls,” but that call is model(**ids), where ids is the tokenizer result. Absence of an explicit keyword alone does not prove absence of a supplied mask. Report it as an implicit-mask call requiring verification, not a confirmed omission. The same distinction matters for the 11 owned sites below.
+
+3. Owned edits and targeted tests are correctly bounded.
+
+I compared the actual driver against /private/tmp/c10y_build/arms_before_attention_mask.py. The direct-call edits match all 14 sites in attention_mask_changes.json:
+- Existing tokenizer/packed masks made explicit at arms.py:322, :489, :491, :535, :992, :1126, :1743, :1745, :1781, :2237 and :2248.
+- New all-ones masks at the unpadded observed scorer :1032 and plain/hooked private decode :1801/:1803.
+
+The 11 existing **tokens/**ids calls already forwarded their mapping; their edit is explicit argument selection, not evidence of 11 previously missing masks. The three unpadded calls add a mask with the growing token tensor's shape, dtype and device.
+
+selftest.py AttentionMaskTests checks the AST inventory count 14, explicit non-null keywords, hooked/plain/observed growing all-ones masks, preservation of actual zero-containing padding masks in edit_components, 24 lens forwards, and refusal of missing/wrong scorer mask ASTs. I read registration, source and logs:
+- /private/tmp/c10y_build/attention_mask_registration.md records the four tests before the fix.
+- attention_mask_red.log: 4 tests, 18 assertion failures, no reported errors, owned/other drift [] and forbidden imports [].
+- attention_mask_green.log: those four plus existing scorer AST test, 5 tests OK in 0.433 s; the same isolation counters are [].
+
+These show owned CPU call plumbing and the revised structural AST rule. They do not show masked/unmasked behavioral equivalence, actual frozen off/on inertness, MPS-fp16 behavior, model resource limits, scientific LAW#3/LAW#5, calibration timing, or T8 admission. The current whole light/mutation reruns were pending when this snapshot was supplied; previous build PASS evidence does not certify changed source bytes.
+
+Criterion and F1 boundary
+
+The real criterion is a safe, source-faithful instrument for the registered falsifier, not “all owned AST calls contain a keyword.” The cheapest immediate control is the proposed model-free real-mode admission regression: it can falsify a claim that the new restriction blocks all live paths, and must demonstrate refusal before any forbidden path can run or admissible T8 record can appear. Passing it does not justify removing the restriction. Program resolution and subsequent authorized scientific validation remain separate. Keep MEASUREMENT-ONLY and dispatch GATED.
+```
+
+### Historical review: astra_conversion_audit.md — superseded source snapshot
+
+Evidence: `/private/tmp/c10y_build/astra_conversion_audit.md`; SHA-256 `2447d07ad7dd0e0186656b0bbd643036f49e9b55668be6eb1864470f9f100e85`.
+
+```text
+FIX-FIRST for the current stored-control device flow and T8 reference semantics. No instance of Program's specific simultaneous MPS-view-to-CPU-and-dtype conversion was found in the inspected C10Y project path.
+
+The mask-cause hypothesis and my proposed generic mask-hazard gate are WITHDRAWN under Program's correction. Keep the authorized mask edits/tests. The conversion audit does not justify a new generic gate, and it does not establish live MPS correctness.
+
+Immediate required owned fix: align the stored update to W0.device with a device-only transfer before scale/cast/add in stored_weight; the current later .to(weight) occurs after a mixed-device addition. Separately, restore a faithful frozen-source capture reference for T8, as described below.
+
+Scope, evidence boundary and source identity
+
+This was a read-only source/dataflow audit: no Python, imports, tests, model/GPU/MPS work or workspace edits. Program's torch 2.8 bug diagnosis is supplied evidence, not independently reproduced here. Local METADATA identifies torch 2.8.0 and transformers 4.51.0. Reviewed owned runtime snapshot:
+- c10y_directdw_arms.py: 5b196a742a15462c4d02e7378db332aca767893fe24b8a4b8d3ffe52acf5df5e
+- c10y_directdw_read.py: f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78
+- c10y_directdw_telemetry_check.py: e79f0532ac674a0cb8a3d21c838c15710ee0ed3e94f7fa88e65d722105c1c03f
+- prereg: e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331
+
+I searched all conversion forms across the three owned runtime files, c10e_bandknob.py, and the complete vendored memit/, rome/, util/ Python directories, then traced the relevant call operands. This included positional and keyword .to, .to(other), .cpu, .float/.double/.half, .type/.type_as, tensor construction and helper imports. I additionally inspected the installed Qwen2 forward, attention/mask, BatchEncoding, model loading/cache and Accelerate transfer helpers named in the hash manifest. This is a bounded source audit, not an assertion that every native PyTorch backend, optional third-party architecture or dynamically replaceable callable has been verified.
+
+Reachability:
+- arms → c10e → memit_main/compute_z/compute_ks → repr_tools/nethook.
+- get_cov → layer_stats → tok_dataset/runningstats, including the cache-miss source path.
+- util.device controls devices; hparams/globals configure data; package imports also expose ROME code and LogitLens. Imported ROME write entry points are not called by C10Y.
+- c10z_astra_benchmark.py is AST-parsed for TEMPLATES, not imported/executed by this route; its unrelated benchmark model calls are not C10Y forwards.
+- The reader has no tensor conversions. The telemetry-check module delegates tensor work to arms; it does not perform device/dtype transfers itself.
+
+1. Exhaustive suspect-form classification in the owned runtime path
+
+No owned call combines a CPU destination with a changed dtype in one transfer. The source-view-bearing CPU conversions use safe ordering for Program's stated failure mode:
+- arms:157 cpu64 is tensor.detach().cpu().double(); this is the shared telemetry/scientific reduction route.
+- :201 factor_solve uses .float().cpu().
+- :208 tensor_sha uses .detach().cpu().contiguous(), preserving dtype during the transfer.
+- :236–237/:244 capture solve moves float operands to CPU separately.
+- :1128 gathered T8 logits use .detach().cpu().float().
+- :1682 actual effective updates subtract float values first and then .detach().cpu().
+- :1731 report-only norms and :1922 scale-1 expected weights use .cpu().float().
+- :1785 indexed head logits pass through cpu64; target IDs use dtype-preserving .cpu().
+- :1804 private decode transfers logits[0,-1], a potentially nonzero-offset view, with .detach().cpu() only.
+- :1885 pristine anchor slices and :1891 targets use dtype-preserving .cpu(); subsequent reductions use cpu64.
+Other .cpu() observations/trajectory/gradient/target captures do not specify a changed dtype in the same transfer.
+
+All six implicit tensor-target .to(other) sites were traced, rather than treating their missing literal “cpu” as proof:
+| Site in arms | Dataflow | Classification |
+|---|---|---|
+| :242 upd.to(model_weight) | solve result is CPU; model weight is MPS | CPU→MPS plus dtype, outside the reported bug |
+| :423 stored_weight(...).to(model_weight) | destination MPS; addition happens first | Transfer is not the reported bug, but preceding arithmetic has the blocker in §2 |
+| :594 (A@B).to(model_weight) | factors and target weight are on model device | MPS→MPS dtype conversion |
+| :1851 effective_weight(...).to(model_weight) | deploy-parity factors/weights on model device | MPS→MPS; no CPU destination |
+| :2038 stored_weight(...).to(W0) | W0 is live MPS snapshot | Same preceding arithmetic blocker as :423 |
+| :2243 intervention.to(changed) | changed is a cloned model activation | Target is MPS activation, not CPU |
+
+Dtype-only calls :258/:260/:262 retain the input/weight device. :1922 .to(W0.dtype) receives an already-CPU computed expected tensor and does not move it to MPS. Device-only calls :227/:285/:289/:521/:522/:538/:991/:1028/:1771/:1799/:2228/:2282/:2283 move CPU targets/factors/tokens toward the model/reference device without a simultaneous dtype change; any subsequent .float() is a distinct operation. The mask's :261 .to(x.device) is also device-only.
+
+Required correction for Program's specific combined-copy bug: NONE identified in these owned paths. Do not replace the existing two-step transfers with a combined “optimization,” including after .contiguous(): Program explicitly reports that contiguity alone is not sufficient.
+
+2. Separate concrete owned defect discovered by tracing conversion operands
+
+c10e_bandknob.py:151–153 snapshots preserve the live model's MPS device. arms._actual_updates (:1680–1682) explicitly returns CPU tensors; scientific_readouts (:1966–1975) stores those CPU tensors in runtime.actual_B. run (:1424–1429) assigns that candidate mapping directly to writer.stored.
+
+apply_stored (:423) evaluates stored_weight before its final .to(model_weight). stored_weight (:248) currently evaluates W0.detach().half() + (update.float()*scale).half(): on the live stored-control route these are an MPS matrix and a CPU matrix. The later .to(...) cannot repair an addition that already failed. scientific_readouts' stored arithmetic check (:2038) repeats that helper, and _stored_reference_checks reaches apply_stored for its scale-1 check.
+
+Required minimal correction: in the shared stored_weight helper, first move update to W0.device with a DEVICE-ONLY .to(device=W0.device), then perform the existing float32 scale, fp16 cast and fp16 addition. Preserve the frozen arithmetic round16(W0 + round16(sD)), CPU serialized updates and scale derivation. This is CPU→MPS in the live route and does not introduce Program's MPS→CPU combined-dtype defect. Add the proposed failing-first symbolic mixed-device CPU test; live MPS confirmation remains UNVERIFIED. This is a static dataflow finding, not a runtime reproduction.
+
+3. Frozen engine/harness/helper conversion inventory
+
+No affected combined MPS-view→CPU dtype-transfer site was found; no frozen source change is required by this specific audit.
+
+- c10e:84–85 uses .cpu().double(); :172 covariance uses .cpu().float(); :205–210 casts K/residual on their current device, then separately calls .cpu(); :219 is .T.float().cpu().
+- c10e:217 is the sole explicit positional device+dtype pair in the frozen active harness: upd.to(weight.device, weight.dtype). upd comes from the CPU solve at :209–212; destination is the model weight. It may be a transposed CPU view, but the direction is CPU→MPS, not the reported failing direction.
+- memit_main:192–193 transfers potentially transposed/view keys and targets to CPU BEFORE .double(); :200 does the same for covariance. :203 is a CPU solve result to layer_ks.device, which has already become CPU at :192. :56/:217 cast updates before transferring toward model weights. :219–226 CPU offloads preserve dtype.
+- memit_main:280 uses moment().float().to("cpu"): dtype conversion happens first, then device-only transfer. :283 transfers cached CPU covariance toward device_of(model). :122 cached NumPy targets likewise start on CPU.
+- compute_z:41/:57 and repr_tools:136–138 use BatchEncoding.to(device); compute_ks has no tensor transfer. BatchEncoding.to at installed tokenization_utils_base.py:801–824 only passes device/non_blocking, preserving dtype.
+- layer_stats:164 uses feats.to(dtype=dtype) without a device change. It can receive model activation features on MPS on cache miss, but is not a combined MPS→CPU conversion. Precision support/cache-miss policy is a separate issue, not evidence of Program's copy bug.
+- tok_dataset:46 uses a device argument obtained from model.parameters().device; CPU batch→MPS, same dtype.
+- runningstats' .to_(device) methods (including Mean :274, NormMean inherited state and SecondMoment :497) call .to(device) only. Its cache/save route calls stat.to_(device="cpu") at :117 and .cpu().numpy() at :506. No simultaneous dtype argument is present. Other statistics classes and their .to(device) implementations were searched as well.
+- nethook performs clone/detach retention, not a combined CPU/dtype conversion. util.device performs device selection/cache release only. generate_fast's token movement preserves dtype; pinned C10Y templates prevent its sampling path. LogitLens does not introduce CPU/dtype transfers.
+- Imported ROME compute_u/compute_v/rome_main paths contain CUDA-directed/device-only transfers and are not invoked by C10Y's MEMIT edits. They supply no hidden MPS→CPU changed-dtype path.
+
+4. Installed-library cross-check, not a whole-library guarantee
+
+- Qwen2's active causal-LM forward has dtype-only conversions in softmax/RMSNorm/rotary outputs (:127/:222/:225/:319) and device-only rotary/mask conversions (:309/:722–724). The positional .to(logits.device, torch.int32) at :930 belongs to sequence classification, not Qwen2ForCausalLM; its target follows logits, not a forced CPU destination.
+- Accelerate send_to_device (:160–174) is device-only. set_module_tensor_to_device (:314/:316 then :345/:353) separates dtype and device operations. hooks' CPU offloads (:312/:745) preserve dtype; storage/compute dtype hooks (:799–809) are dtype-only.
+- transformers cache_utils' CPU offloads (:649–650) preserve dtype. Its combined conversion at :2092 is in MambaCache, not the Qwen2 path, and that method first aligns destination cache device to new_conv_state.device (:2084–2085); it is not evidence of this failure on C10Y.
+- SDPA/flash/flex integration sources were searched; flex's conversion at :234 is dtype-only. Modeling-utils parameter loading casts and moves separately in the inspected path.
+Native torch internals and arbitrary alternate dispatch hooks remain outside this read-only audit. The installed-file hashes below bind precisely which Python sources were inspected.
+
+5. T4/T8 after Program's correction
+
+The mask-hazard gate is withdrawn. The operational instruction to retain owned masks makes T4's sink-plus-mask difference a documented Program-authorized departure from the still-frozen sink-only text; do not revert masks or invent an amendment.
+
+A distinct source/control issue remains on this snapshot: make_scorer(reference=True) ignores reference, and T8 pass_ uses it for P1, T and P2 (arms:1024–1037/:1135). Actual telemetry-off scoring still uses frozen H.full_seq_match (:2121), while T uses the masked copy. Refuting masks as the cause of the observed impossible logits does not itself provide the required 96-prompt exact-ID off/on comparison.
+
+The parent's proposed minimum faithful repair is appropriate: text-read the pinned frozen full_seq_match FunctionDef, compile only that function with exactly one capture/sink expression before its unchanged return, preserve decorator/body, bind torch/tok/model/DEV/sink, and never execute/import the source module. Use it for P1/P2 via reference=(telemetry is None); use the retained masked observed scorer for T. A wrapper around the original's two returned booleans cannot recover exact generated IDs without another decode or intrusive tracing, so it is not a simpler equivalent.
+
+Validate the compiled reference AST by stripping only that capture and comparing to the exact frozen function; record source identity and verify model-call kwargs in the CPU test (P1/P2 original unmasked, T prescribed mask). Program's corrected hypothesis makes this original control permissible in principle; final execution still requires the ordinary model/telemetry admission. Until repaired or explicitly accepted as a changed baseline by Program, an INERT from three masked copies is only masked-copy internal inertness, not qualification of unchanged frozen telemetry-off behavior.
+
+Hash manifest for inspected frozen/local sources
+
+All paths below are relative to the worktree; L = .venv/lib/python3.11/site-packages/.
+
+```text
+experiments/track_c/c10e_bandknob.py 1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695
+memit_dry_run/memit/memit/memit_main.py d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65
+memit_dry_run/memit/memit/compute_z.py d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea
+memit_dry_run/memit/memit/compute_ks.py 0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7
+memit_dry_run/memit/memit/memit_hparams.py 1b229b882b031ddbb59f06ad6ba58d5c33b17826bbfddf80f767e96931b595b2
+memit_dry_run/memit/rome/repr_tools.py d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336
+memit_dry_run/memit/rome/layer_stats.py 43693c64b061f3cdaa087447e47ddc10fb26fd597dd405eb0644d71ede2fe2d5
+memit_dry_run/memit/rome/tok_dataset.py 37f775943d5040702ae21252db579f6aa116dacc4dd93c227c44cf9b3481a1a0
+memit_dry_run/memit/util/device.py 868627783827f03763ba9c210de2ddbd607e050330eccf7757fccfd9e985cf2b
+memit_dry_run/memit/util/nethook.py 20e84c9413518af3aee76762071f823cbe5d75c4658e4ffa7bdab045df735f7c
+memit_dry_run/memit/util/runningstats.py 7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97
+memit_dry_run/memit/util/generate.py 3764cb8a0a1b3f28c17d8aab3028b33d2127ba4e02e8dbc253025791a9ab2514
+memit_dry_run/memit/util/logit_lens.py 0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4
+memit_dry_run/memit/util/hparams.py 09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0
+memit_dry_run/memit/util/globals.py ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2
+tools/engine_fingerprint.py 450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162
+L/transformers/models/qwen2/modeling_qwen2.py 1760c628019995d3564c8572be6c5149f488b6c3aa95ceda16099c2516e146ff
+L/transformers/modeling_attn_mask_utils.py 75189bb86ad79bb0337b008eb564ea43e29682a886e3730b9605bfe1ae0d61c2
+L/transformers/tokenization_utils_base.py 32acd70cda55191fc1e1e659af62b9afce2411ddf21c5b8e2ffaa8ac0463da66
+L/accelerate/hooks.py 867789a714376ce1d1c8f3a9f88bbee7cf9c4414c9acabbb443baf2d88919282
+L/accelerate/utils/operations.py 6a37a8a3c62fc4b591083ec28e5ccddac1a1fd2998514c8a4bd008ac40bb4661
+L/accelerate/utils/modeling.py e341cb326d09833424816b484031c71113afdac6d95418531ae30256066a8478
+L/transformers/cache_utils.py f6056daad176c4ffd1c7a1967742cbc8f6ec86cc4f1422263463fd76a0f5ff7d
+L/transformers/modeling_utils.py d4dc7e2291c0d5f783ef98fb98fde0cc9ec476aa237ce8ceca9b3f686cdaf3ad
+L/transformers/integrations/sdpa_attention.py 5a2d607459531430503dd3cb1adc8778885037c1d0be7e6ca0e82a1a852f4d8b
+L/transformers/integrations/flash_attention.py e68dca31905749794ef572efe012bf08b801229d20b723d042be70b0eee2013f
+L/transformers/integrations/flex_attention.py 27b03d6234ac6ce8959f1c323a80c73ea5a07915f757fa43215899f80ac08746
+```
+```
+
+### Historical review: astra_conversion_final_review.md — superseded source snapshot
+
+Evidence: `/private/tmp/c10y_build/astra_conversion_final_review.md`; SHA-256 `0b0d647a7b9557394c902809f248a148c6430ce977768b0f3e0ac12c6c21f0f2`.
+
+```text
+# C10Y final conversion delta review — 2026-10-08
+
+**GO for the bounded static/CPU source delta. Advisor verdict: PROCEED. This is not scientific dispatch authorization.**
+
+Single next action: close the implementation report against the exact hashes and evidence below, retaining the original scientific admission and spend gates. No additional material source defect was established in this delta review.
+
+## Scope and independence
+
+Independent GPT-6-Astra review required by Amendment C8; same-family fallback, weaker than the unavailable out-of-family Claude review. Claude authentication unavailability is the implementer's reported constraint, not a new authentication probe by this reviewer. I followed `tools/advisor_review_prompt.md`: adversarial criterion matching, confound/overclaim search, artifact grounding, cheapest overturning control, and F1 drift assessment. I read source and existing artifacts only, ran no Python, tests, imports, workers, model, GPU or MPS work, and changed no workspace source. This report is the only output of this final review step.
+
+The real criterion here is source/CPU readiness after Program's corrected MPS conversion finding, not proof of safe live MPS behavior or successful in-weight writing. This work supports the C10Y measurement route toward F1 but does not close F1.
+
+## Reviewed source identity
+
+Paths below are relative to the C10K worktree root. SHA-256 values were independently read after mutation restoration.
+
+| File | SHA-256 |
+| --- | --- |
+| experiments/track_c/c10y_directdw_arms.py | e1db6f6c575b85c5bffe58d4742d7a7fac624c7ff08a965373ab29fd24ec51f7 |
+| experiments/track_c/c10y_directdw_read.py | f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78 |
+| experiments/track_c/c10y_directdw_selftest.py | fbe83e3e78210a0c2782566646ca4318128cf8da9cb32aa1a978bc89ac595646 |
+| experiments/track_c/c10y_directdw_telemetry_check.py | e79f0532ac674a0cb8a3d21c838c15710ee0ed3e94f7fa88e65d722105c1c03f |
+| docs/C10Y_DIRECTDW_PREREG.md | e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331 |
+| results/mps_offset_conversion_audit.md | d0fc6624972f56cb2b5201f56f510260e2545e40883ce65675ab49cf00c5d25d |
+
+The Program conversion audit was read in full. Its corrected rule includes changed-dtype CPU-destination copy/setitem, constructors, tensor-target overloads and type conversions. Clone-first and contiguous-first are not accepted remedies. My review accepts that report as Program evidence; I did not independently reproduce its MPS findings.
+
+## Source findings
+
+1. **Two-stage transfer is correctly implemented.** `arms.py:160` moves to the reference device while preserving dtype, then casts on that destination. All six prior implicit tensor-target sites now use this helper: lines 247, 430, 601, 1867, 2054 and 2259. The copy_ sites pass the identical destination tensor to the helper, so the final copy performs no cross-device dtype change. The existing CPU64 path at lines 155–157 remains detach → CPU → double. No affected combined MPS-to-CPU dtype transfer was found in the current owned runtime sources. The broader reachable-source audit is recorded in `/private/tmp/c10y_build/astra_conversion_audit.md`; frozen inputs were not repaired or rewritten here.
+
+2. **The actual stored-control mixed-device defect is fixed.** `arms.py:253` moves the stored update to W0.device before fp32 scaling, fp16 cast and addition. This addresses CPU serialized updates with MPS snapshots while preserving the intended arithmetic. The symbolic device-routing controls exercise the routing contract on CPU; they are not an MPS numerical reproduction.
+
+3. **T8 now uses the real frozen off-control body.** `arms.py:1031` reads the frozen full_seq_match FunctionDef as text/AST and inserts only the sink before its final return. It does not execute the harness module. `arms.py:1151` selects this reference when telemetry is absent, restoring P1/P2 frozen control versus T observed copy. The source identity and call-recording tests at `selftest.py:4433` and `:4460` verify the exact control AST after sink removal, unmasked reference calls, masked observed calls, and pass routing. This repairs the previous same-masked-copy comparison.
+
+4. **The seven concrete AST-guard misses found in review are covered and fixed.** `selftest.py:4219` now handles explicit CPU torch.device buffers, annotated assignment, tensor-target calls with additional positional/keyword flags, opaque kwargs, both branches of a conditional, and a source moved back from CPU to MPS. CPU-first recognition no longer accepts an arbitrary descendant CPU call as proof of the final source device. CPU-buffer names are scoped by function; copy_ is accepted only with to_like(source, identical destination).
+
+   This remains a syntactic guard, not complete Python type/dataflow inference. Arbitrary aliases, computed targets and untested constructor keyword-data spellings are outside exhaustive coverage. Passing it does not prove all future Python expressions safe. Direct review of current reachable conversion sites, the tested guard surface, and subsequent live gates remain distinct evidence. No current production unsafe expression was established by those limitations.
+
+## Evidence inspected
+
+All paths in this section are under `/private/tmp/c10y_build/`.
+
+| Artifact | Observed evidence and limit |
+| --- | --- |
+| conversion_reference_red.log | 8 tests, 16 assertion failures, no errors; registered production/helper/reference defects exposed. |
+| conversion_reference_green.log | 13 tests, 0.911 s, OK; owned/other/forbidden lists empty. |
+| conversion_guard_delta_red.log | Seven named guard fixtures failed their own rejection assertions. |
+| conversion_guard_delta_green.log | 13 tests, 0.905 s, OK; isolation lists empty. |
+| conversion_fault_controls.py; conversion_fault_controls.log; conversion_faults/results.json | 16 source-copy guard faults killed by the designated assertion, source untouched, no forbidden imports or listing drift. These are separate from the M-numbered mutations. |
+| light_suite_conversion_guard_final.log | 239 tests in 13.978 s, OK; inventory 242, exactly three explicit exclusions; owned/other/forbidden lists empty. |
+| full_size_reductions_conversion_final.log | Separately authorized full-size 2048×11008 CPU reduction control: 1 test, 0.505 s, OK. |
+| full_size_gram_conversion_final.log | Separately authorized dense-reference 2048×11008 CPU Gram control: 1 test, 0.026 s, OK. |
+| native_timeout_conversion_final.log | Separately authorized native blocked-child supervisor control: 1 test, 3.633 s, OK; both before/after merge-marker branches. This validates owned-child timeout plumbing, not live model termination. |
+| mutations_conversion_final.log; mutations_20261008T141520347142Z_22937/results.json and manifest.json | All 22 mutants KILLED_ASSERTION in this invocation, with nonempty own failures, zero errors, and no source/restored-hash mismatch. Original identities match the four current source hashes above. |
+| conversion_baseline_delta.json; conversion_guard_baseline_delta.json | Only the authorized owned arms/selftest baseline updates; frozen_input_drift empty; 193 protected scoped paths. This is scoped attribution, not a global-tree cleanliness claim. |
+
+Thus the current CPU evidence is **239 light tests plus three separately run controls**, not one 242-test whole-suite invocation. Current mutation evidence is **22/22 in the final invocation**, with the 16 guard source-copy controls separately stated. I read these artifacts; I did not execute their tests myself.
+
+The cheapest source/CPU overturning controls for this delta were the mixed-device symbolic routing, exact frozen-control AST/call recording, and deliberately unsafe transfer spellings. Their RED/GREEN and fault evidence is present above. The remaining materially different falsifier is the authorized live MPS/scientific admission sequence; these CPU results cannot substitute for it.
+
+## Caveats kept explicit
+
+- Program refuted the attention-mask hypothesis. The retained explicit masks are Program-authorized; there is no new generic mask-hazard gate.
+- The observed scorer still departs from literal prereg T4 sink-only text by adding the exact attention-mask keyword. This is an explicit Program-authorized sink-plus-mask exception, not a claim that frozen prereg text was amended. Frozen files remain untouched. The restored T8 off-control uses the actual original body, so the live comparison can detect any behavioral difference.
+- Exact source/call structure and CPU fixture INERT results do not establish live T8 inertness. LAW#3, LAW#5, MPS numerical correctness, scientific outcomes, resource peaks, timing forecasts, T8 admission and dispatch remain **UNVERIFIED/GATED** under the original prerequisites. The model-bearing route remains **MEASUREMENT-ONLY**.
+- Earlier output identities and historical reports are not silently upgraded by these new hashes. A future admitted run must bind current source and fresh required artifacts.
+- Program-authorized external C10Z/dashboard scope exclusions do not make external working bytes identical to their committed baselines. This review makes no such attribution claim.
+
+No additional required implementation change follows from this bounded review. Evidence remains binding over the reviewer verdict.
+```
+
+### Final review — exact current source and current CPU evidence
+
+Evidence: `/private/tmp/c10y_build/astra_final_after_program_mask_revert.md`; SHA-256 `6b417fda07cb06e62621fab27273ee26daf4ce35af9f2509853eacfc2a0224e4`.
+
+```text
+# C10Y final review after Program mask reversal — 2026-10-08
+
+**GO for the bounded static/CPU implementation. Advisor verdict: PROCEED. Scientific dispatch remains GATED.**
+
+The single next action is to close the build report against these exact source identities and CPU artifacts while retaining the original scientific admission and spend gates. No additional material source defect was established in this final delta review.
+
+## Scope, criterion and independence
+
+This is the Amendment C8 GPT-6-Astra independent review, operating under `tools/advisor_review_prompt.md` (read verbatim): real criterion, confounds/overclaims, artifact grounding, cheapest overturning test, and F1 drift. It is weaker same-family review; the implementer reported Claude authentication unavailable. I did not re-probe authentication or run any Python, imports, tests, workers, models, GPU/MPS, or source/git mutations. I read source and existing evidence, then wrote this one scratch artifact.
+
+The actual criterion is readiness of the bounded source/CPU implementation after Program's conversion correction and mask reversal. This supports the C10Y measurement route toward F1; it does not demonstrate live in-weight memory behavior or close F1.
+
+This review supersedes the current-byte applicability of `astra_conversion_final_review.md`. That historical report's sink-plus-mask exception and constructor keyword-data limitation no longer describe the current source. No generic attention-mask hazard gate is introduced.
+
+## Exact reviewed identity
+
+All source paths are relative to the C10K worktree. Independently rehashed after mutation restoration and again after the final CPU evidence:
+
+| File | SHA-256 |
+| --- | --- |
+| experiments/track_c/c10y_directdw_arms.py | cf08c4cc7f6c34695738222f0b3186f15c0c675ed638403ad356633068dccba0 |
+| experiments/track_c/c10y_directdw_read.py | f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78 |
+| experiments/track_c/c10y_directdw_selftest.py | 1419a485a8b74ef9a337860d16c8acfbacd9546d2595a573dd42e70c4d221ccf |
+| experiments/track_c/c10y_directdw_telemetry_check.py | e79f0532ac674a0cb8a3d21c838c15710ee0ed3e94f7fa88e65d722105c1c03f |
+| docs/C10Y_DIRECTDW_PREREG.md | e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331 |
+
+The complete Program conversion audit previously read in this review sequence is `results/mps_offset_conversion_audit.md`, SHA-256 `d0fc6624972f56cb2b5201f56f510260e2545e40883ce65675ab49cf00c5d25d`. Its corrected rule rejects clone-first/contiguous-first as remedies and covers changed-dtype CPU-destination transfers, copy/setitem, constructors and tensor-target/type overloads. I rely on that artifact as Program evidence; I did not reproduce the MPS bug.
+
+## Source assessment
+
+1. **Original mask contracts restored.** The observed scorer at `arms.py:1048` again calls `model(cur)`. Both private decode branches at `:1808` and `:1810` remove the newly injected masks while preserving their preexisting `use_cache=False`. The 11 tokenizer-mask call sites retain their actual token masks: lines 329, 496, 498, 542, 999, 1133, 1750, 1752, 1788, 2244 and 2255. The 14-call inventory and positive padded-mask control are checked in `selftest.py:4118` onward. This is preservation of preexisting forwarding behavior, not a claim that all reachable frozen calls have masks.
+
+2. **T4 is strict sink-only again.** `arms.py:1056` compares the observed scorer AST against the frozen original after removing the sink; the former mask normalization is gone. The regression rejects added all-ones mask, all-zeros mask, and use_cache keywords (`selftest.py:4187`). There is no remaining T4 mask exception to justify.
+
+3. **Exact T8 off-control retained.** `arms.py:1031` still compiles the text-read frozen full_seq_match FunctionDef with the sole capture sink before return, without executing the harness module. `:1142` selects that exact reference for telemetry-off passes. The reference AST/capture and P1/T/P2 selection tests remain. The new `TelemetryReferenceTests.test_frozen_harness_scorers_receive_no_injected_kwargs` at `selftest.py:4436` compiles four actual frozen bodies—full_seq_match, string_match, teacher_forced_pertok and sentence_nll—and exercises them through scored_recipe with telemetry off and on. It asserts eight model calls with empty kwargs in each branch, scorer identity restoration and hook-registry restoration. This checks the affected production wrapper boundary on a tiny CPU model; it does not establish live T8 inertness.
+
+4. **Conversion and device-routing fixes preserved.** `arms.py:160` separates device-only transfer from dtype-only conversion. The six prior tensor-target sites still use to_like; copy_ receives data already aligned to the identical destination. `arms.py:253` aligns the stored update to W0.device before fp32 scaling and fp16 addition. CPU64 remains detach → CPU → double at `:155`. No newly affected unsafe transfer was found in this delta. The previous broader reachable-source audit remains in `/private/tmp/c10y_build/astra_conversion_audit.md`; the frozen dependencies were not edited.
+
+5. **Explicit constructor guard gap closed.** `selftest.py:4284` obtains constructor data from the positional source or keyword data and rejects opaque constructor kwargs. Its rejection fixtures include both keyword-data constructors and **options, alongside combined keyword/positional transfer, clone/contiguous, tensor-target overloads, type/type_as, unaligned copy_, CPU setitem, annotated/torch.device CPU buffers, conditional branches and moved-back sources. Safe sequential forms and literal constructors remain accepted. This closes the concrete finite gap identified in the prior review.
+
+The AST guard remains a bounded syntactic check rather than complete alias, interprocedural or runtime type inference. Its PASS does not prove arbitrary future Python transfer expressions safe. No current production defect was established by that general limitation.
+
+## Evidence read directly
+
+The following artifact paths are under `/private/tmp/c10y_build/`.
+
+| Artifact | Evidence |
+| --- | --- |
+| mask_revert_red.log | 5 tests, 8 own assertion failures, no errors; the injected greedy masks, permissive AST normalization and telemetry-on frozen-scorer path were exposed. |
+| mask_revert_conversion_green.log | 14 tests, 1.030 s, OK; owned/other/forbidden lists empty. |
+| conversion_constructor_red.log | 1 test with 3 failing rejection assertions for keyword-data and opaque constructor forms; no errors. |
+| conversion_constructor_green.log | 13 tests, 0.907 s, OK on the intermediate constructor-fix snapshot; superseded mask behavior is historical. |
+| light_suite_final_post_mask_revert.log | **240 tests, 14.381 s, OK**, inventory 243, exactly three explicit exclusions; owned/other/forbidden lists empty. |
+| full_size_reductions_post_mask_revert.log | Current-snapshot 2048×11008 CPU reduction control: 1 test, 0.486 s, OK; isolation lists empty. |
+| full_size_gram_post_mask_revert.log | Current-snapshot dense-reference 2048×11008 CPU Gram control: 1 test, 0.023 s, OK; isolation lists empty. |
+| native_timeout_post_mask_revert.log | Current-snapshot real owned blocked-child supervisor control: 1 test, 3.637 s, OK, covering before/after merge-marker branches; isolation lists empty. |
+| mutations_final_post_mask_revert.log; mutations_20261008T143330630520Z_21434/results.json and manifest.json | **22/22 KILLED_ASSERTION**; each has nonempty assertion failures, no errors, no source/restored-hash mismatch; manifest originals match all four source hashes above. |
+| conversion_fault_controls_post_mask_revert.log; conversion_faults_post_mask_revert/results.json | **19/19 source-copy controls KILLED_ASSERTION**, source untouched, current driver hash recorded, 193 protected files unchanged, forbidden imports and owned-listing drift empty. These are separate from the 22 M-numbered mutations. |
+| constructor_guard_baseline_delta.json; mask_revert_baseline_delta.json | Authorized owned-source baseline updates, frozen_input_drift empty, 193 scoped protected paths. The final mask-revert delta binds current arms/selftest hashes. |
+
+The correct current claim is **240 light tests plus three separately executed controls**, not one 243-test whole-suite invocation. The native test validates supervisor plumbing with genuine blocked scratch children, not live model termination. Large CPU arithmetic controls do not reproduce MPS numerics. Source-copy fault kills and M-numbered mutation kills are separate evidence sets.
+
+## Remaining limits and action
+
+The cheapest source/CPU falsifiers for this correction have been exercised: restore the disallowed mask/keyword behavior, compare the exact scorer AST, pass through the real scored_recipe wrapper, and insert the unsafe conversion spellings. The RED/GREEN and fault artifacts above support the bounded GO. No further implementation change is required by this review.
+
+Live **LAW#3, LAW#5, MPS numerical correctness, scientific results, resource limits, timing forecasts, T8 admission and dispatch remain UNVERIFIED/GATED** under the original prereg and Program prerequisites. Synthetic CPU transport or INERT records cannot establish those claims. The model-bearing route remains **MEASUREMENT-ONLY**. Any eventual authorized live run must bind current source identities and fresh required artifacts; historical records are not silently upgraded.
+
+The 193-path baseline and Program-authorized external C10Z/dashboard exclusions are scoped attribution, not a global clean-tree assertion or proof that external working files equal their committed baselines. Same-family review remains a weaker independence mechanism. Evidence, not the reviewer verdict, is binding.
+```
+
+Session handoff is confined to this report and /private/tmp/c10y_build: all 243 test methods have PASS coverage (240 final light plus three exact-snapshot controls), 22/22 defined mutants have own-assertion kills and restoration, 19 forbidden-conversion fixtures have source-audit kills, R5 is 193/193 unchanged, Program outside-file attribution is recorded, and independent bounded static/CPU review is GO. All three new greedy masks were reverted; eleven original tokenizer masks remain explicit. The conversion/CPU-first fence, stored-control alignment and actual frozen T8 off reference remain. No scientific/model-bearing dispatch result exists; MEASUREMENT-ONLY and live admission gates remain in force. No extra workspace memory/ledger/context artifact was written.
 

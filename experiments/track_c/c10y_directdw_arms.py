@@ -157,6 +157,11 @@ def cpu64(tensor):
     return tensor.detach().cpu().double()
 
 
+def to_like(tensor,reference):
+    # MPS-to-CPU copies must preserve dtype; cast only after the device move.
+    return tensor.to(device=reference.device).to(dtype=reference.dtype)
+
+
 def norm(tensor): return float(cpu64(tensor).norm())
 
 
@@ -239,13 +244,15 @@ def capture_solve(H,hp,requests,P,cache):
         upd=H.upd_matrix_match_shape(upd.float(),npd[H.weight_name(hp,layer)].shape)
         captured=factor_solve(K,rf,Pi,ca,getattr(H,'L2',1.))
         captured['reference_update']=upd;out[layer]=captured
-        with torch.no_grad(): npd[H.weight_name(hp,layer)][...] += upd.to(npd[H.weight_name(hp,layer)])
+        with torch.no_grad(): npd[H.weight_name(hp,layer)][...] += to_like(upd,npd[H.weight_name(hp,layer)])
     for i,layer in enumerate(layers):
         K=H.compute_ks(H.model,H.tok,requests,hp,layer,ctx).T.float().cpu();cache[i]=cache[i]+K@K.T
     return out
 
 
-def stored_weight(W0,update,scale): return (W0.detach().half()+(update.float()*scale).half()).half()
+def stored_weight(W0,update,scale):
+    update=update.to(W0.device)
+    return (W0.detach().half()+(update.float()*scale).half()).half()
 
 
 def effective_weight(W0,a,b): return (W0.detach().half()+(a.float()@b.float()).half()).half()
@@ -319,7 +326,7 @@ def edit_components(H,batches,pristine,operators=None):
     import torch
     tokens,targets,kl,mask=packed_batches(H,batches)
     # Backbone returns the final normalised hidden state, so the head is applied once.
-    def hidden(): return H.model.model(**tokens,use_cache=False).last_hidden_state
+    def hidden(): return H.model.model(input_ids=tokens['input_ids'],attention_mask=tokens['attention_mask'],use_cache=False).last_hidden_state
     if operators is None: state=hidden()
     else:
         As,Bs,W0=operators
@@ -420,7 +427,7 @@ def apply_stored(H,hp,snap,updates,scale):
     if not 0<=scale<=1: raise Halt('SIZE-SCALE')
     restore(H,hp,snap);weights=dict(H.model.named_parameters())
     with torch.no_grad():
-        for l in hp.layers: weights[H.weight_name(hp,l)].copy_(stored_weight(snap[l],updates[l],scale).to(weights[H.weight_name(hp,l)]))
+        for l in hp.layers: weights[H.weight_name(hp,l)].copy_(to_like(stored_weight(snap[l],updates[l],scale),weights[H.weight_name(hp,l)]))
     return {l:H.snap_layers(hp)[l].float()-snap[l].float() for l in hp.layers}
 
 
@@ -486,9 +493,9 @@ class Writer:
         module=dict(self.H.model.named_modules())[self.hp.layer_module_tmp.format(self.hp.layers[-1])]
         handle=module.register_forward_hook(lambda m,args,out:box.update(value=out[0] if isinstance(out,tuple) else out))
         try:
-            if operators is None: self.H.model.model(**tokens,use_cache=False)
+            if operators is None: self.H.model.model(input_ids=tokens['input_ids'],attention_mask=tokens['attention_mask'],use_cache=False)
             else:
-                with weight_hooks(self.H,self.hp,*operators,mask): self.H.model.model(**tokens,use_cache=False)
+                with weight_hooks(self.H,self.hp,*operators,mask): self.H.model.model(input_ids=tokens['input_ids'],attention_mask=tokens['attention_mask'],use_cache=False)
             rows=[];offset=0
             for batch in batches:
                 J=len(batch['rewriting_prompts'])
@@ -532,7 +539,7 @@ class Writer:
                         tokens,_,_,_=packed_batches(H,[b]);box={}
                         module=dict(H.model.named_modules())[hp.layer_module_tmp.format(hp.layers[-1])]
                         handle=module.register_forward_hook(lambda m,args,out:box.update(value=(out[0] if isinstance(out,tuple) else out).detach()))
-                        try: H.model.model(**tokens,use_cache=False)
+                        try: H.model.model(input_ids=tokens['input_ids'],attention_mask=tokens['attention_mask'],use_cache=False)
                         finally: handle.remove()
                         h0=torch.stack([box['value'][j,b['lookup_idxs'][j]] for j in range(len(b['rewriting_prompts']))])
                         anchor0.append(h0);deltas.append(H.Z_OVERRIDE[(r['subject'],r['target_new']['str'])].to(H.DEV)-h0[0])
@@ -591,7 +598,7 @@ class Writer:
             if self.telemetry: self.telemetry.phase('merge_start',mode=mode,arm=self.arm(requests))
             with torch.no_grad():
                 weights=dict(H.model.named_parameters())
-                for l in hp.layers: weights[H.weight_name(hp,l)][...] += (As[l]@Bs[l]).to(weights[H.weight_name(hp,l)])
+                for l in hp.layers: weights[H.weight_name(hp,l)][...] += to_like(As[l]@Bs[l],weights[H.weight_name(hp,l)])
             sync(H);self.mark_merge()
             if self.telemetry: self.telemetry.phase('merge_end',mode=mode,arm=self.arm(requests))
             self.phase_timings.append({'name':'merge','seconds':STAGE_CLOCK()-phase_start,'workload':{'layers':len(hp.layers)},'repetition':1})
@@ -989,7 +996,7 @@ class Telemetry:
             with torch.no_grad():
                 for s in H.FICTION:
                     prompt=H.CANON.format(s);ids=H.tok(prompt,return_tensors='pt').to(H.DEV)
-                    out=H.model(**ids,output_hidden_states=True,use_cache=False);top={}
+                    out=H.model(input_ids=ids['input_ids'],attention_mask=ids['attention_mask'],output_hidden_states=True,use_cache=False);top={}
                     for l in hp.layers:
                         logits=head(norm_layer(out.hidden_states[l+1][0,-1]))
                         probs=cpu64(logits).softmax(-1);values,index=probs.topk(5)
@@ -1023,6 +1030,15 @@ def telemetry_factory(out,process,run_id,enabled):
 
 def make_scorer(H,sink,reference=False):
     torch,tok,model,DEV=__import__('torch'),H.tok,H.model,H.DEV
+    if reference:
+        path=Path(ROOT)/SOURCE_PATHS['harness']
+        function=next(n for n in ast.parse(path.read_text()).body if isinstance(n,ast.FunctionDef) and n.name=='full_seq_match')
+        if not isinstance(function.body[-1],ast.Return): raise Halt('SCORER-SOURCE')
+        function.body.insert(-1,ast.parse('sink(prompt,target_ids,gen)').body[0])
+        module=ast.fix_missing_locations(ast.Module(body=[function],type_ignores=[]))
+        space={'torch':torch,'tok':tok,'model':model,'DEV':DEV,'sink':sink}
+        exec(compile(module,str(path),'exec'),space)
+        return space['full_seq_match']
     @torch.no_grad()
     def full_seq_match(prompt,target_ids):
         ids = tok(prompt, return_tensors="pt").to(DEV)["input_ids"]
@@ -1114,7 +1130,7 @@ def telemetry_mps_inertness_check(out,H):
     lens_seconds=[];answer_seconds=[]
     def gathered():
         tokens,targets,kl,_=packed_batches(H,batches)
-        with torch.no_grad(): logits=H.model(**tokens,use_cache=False).logits
+        with torch.no_grad(): logits=H.model(input_ids=tokens['input_ids'],attention_mask=tokens['attention_mask'],use_cache=False).logits
         # Gather before CPU transfer; compare the science batch's target and KL logits bitwise.
         return torch.cat([logits[row,pos].reshape(-1,logits.shape[-1]) for row,pos,_,_,_ in targets]).detach().cpu().float()
     def pass_(telemetry=None):
@@ -1123,7 +1139,7 @@ def telemetry_mps_inertness_check(out,H):
             captured.append((list(gen),gen==list(ids),gen[0]==ids[0]))
             if telemetry:
                 begin=TELEMETRY_CLOCK();telemetry.sink(H,'pristine','readout',prompt,ids,gen);answer_seconds.append(TELEMETRY_CLOCK()-begin)
-        scorer=make_scorer(H,sink,reference=True)
+        scorer=make_scorer(H,sink,reference=telemetry is None)
         for s in H.FICTION:
             for p in [H.CANON]+H.PTEST: scorer(p.format(s),H.tgt_ids(H.ARMS[A7][s]))
         if telemetry:
@@ -1731,9 +1747,9 @@ def _anchor_rows(H,hp,batches,operators=None):
     module=dict(H.model.named_modules())[hp.layer_module_tmp.format(hp.layers[-1])]
     handle=module.register_forward_hook(lambda m,args,out:box.update(value=out[0] if isinstance(out,tuple) else out))
     try:
-        if operators is None: H.model.model(**tokens,use_cache=False)
+        if operators is None: H.model.model(input_ids=tokens['input_ids'],attention_mask=tokens['attention_mask'],use_cache=False)
         else:
-            with weight_hooks(H,hp,*operators,mask): H.model.model(**tokens,use_cache=False)
+            with weight_hooks(H,hp,*operators,mask): H.model.model(input_ids=tokens['input_ids'],attention_mask=tokens['attention_mask'],use_cache=False)
         rows=[];offset=0
         for b in batches:
             J=len(b['rewriting_prompts'])
@@ -1769,7 +1785,7 @@ def merged_fit(H,hp,requests,contexts,reference=None,delta=None):
     with torch.no_grad():
         for indices in microbatch_indices(len(requests),6):
             selected=[batches[i] for i in indices];tokens,targets,_,_=packed_batches(H,selected)
-            state=H.model.model(**tokens,use_cache=False).last_hidden_state
+            state=H.model.model(input_ids=tokens['input_ids'],attention_mask=tokens['attention_mask'],use_cache=False).last_hidden_state
             rows=[[] for _ in selected]
             for row,pos,ids,i,j in targets:
                 lp=cpu64(H.model.lm_head(state[row,pos])).log_softmax(-1)
@@ -1839,7 +1855,7 @@ def train_deploy_parity(H,hp,requests,As,Bs,W0,mode,batches=None,pristine=None,a
         restore(H,hp,W0);hooked_loss=losses(operators);hooked=sequences(operators)
         weights=dict(H.model.named_parameters())
         with torch.no_grad():
-            for l in hp.layers: weights[H.weight_name(hp,l)].copy_(effective_weight(W0[l],As[l],Bs[l]).to(weights[H.weight_name(hp,l)]))
+            for l in hp.layers: weights[H.weight_name(hp,l)].copy_(to_like(effective_weight(W0[l],As[l],Bs[l]),weights[H.weight_name(hp,l)]))
         merged_loss=losses(None);merged=sequences(None)
         ids_equal=all(a['generated_ids']==b['generated_ids'] for a,b in zip(hooked,merged))
         hits_equal=all(a['full']==b['full'] for a,b in zip(hooked,merged))
@@ -2026,7 +2042,7 @@ def scientific_readouts(H,hp,arm,Vmap,runtime,writer=None,recipe='A'):
             source=runtime['actual_B']['B-e2e'][arm];scale=writer.scale[arm]
             for row in geometry:
                 l=row['layer'];row['cosine_to_candidate']=None if row['actual_norm']==0 or norm(source[l])==0 else cosine(actual[l],source[l])
-            arithmetic=all(torch.equal(H.snap_layers(hp)[l],stored_weight(W0[l],writer.stored[arm][l],scale).to(W0[l])) for l in hp.layers)
+            arithmetic=all(torch.equal(H.snap_layers(hp)[l],to_like(stored_weight(W0[l],writer.stored[arm][l],scale),W0[l])) for l in hp.layers)
             shares=projector_gate(planned,actual,P)
             directions=all(r['actual_norm']==0 or norm(source[r['layer']])==0 or r['cosine_to_candidate']>=.999 for r in geometry)
             total=math.fsum(r['actual_norm'] for r in geometry);reference_total=math.fsum(norm(v) for v in runtime['actual_A'][arm].values())
@@ -2225,18 +2241,18 @@ def _objective_audit(H,hp,requests,contexts,targets,target_audit):
                 selected=[batches[i] for i in indices];tokens,_,kl,_=packed_batches(H,selected)
                 pristine=edit_components(H,selected,None)['kl_log_probs'].detach()
                 # Independent engine-style KL distribution from the causal-LM forward.
-                base_logits=H.model(**tokens,use_cache=False).logits
+                base_logits=H.model(input_ids=tokens['input_ids'],attention_mask=tokens['attention_mask'],use_cache=False).logits
                 base=torch.log_softmax(torch.stack([base_logits[row,idx,:] for row,idx in kl]),dim=1).detach()
                 handle=None
                 if intervention is not None:
                     def add_delta(m,args,out):
                         value=out[0] if isinstance(out,tuple) else out;changed=value.clone()
-                        for row,idx in kl: changed[row,idx,:]+=intervention.to(changed)
+                        for row,idx in kl: changed[row,idx,:]+=to_like(intervention,changed)
                         return (changed,)+out[1:] if isinstance(out,tuple) else changed
                     handle=module.register_forward_hook(add_delta)
                 try:
                     v=edit_components(H,selected,pristine)
-                    logits=H.model(**tokens,use_cache=False).logits
+                    logits=H.model(input_ids=tokens['input_ids'],attention_mask=tokens['attention_mask'],use_cache=False).logits
                     current=torch.log_softmax(torch.stack([logits[row,idx,:] for row,idx in kl]),dim=1)
                     # compute_z:151-153, coefficient applied once; diagnostic reduction on CPU64.
                     r=torch.nn.functional.kl_div(cpu64(base),cpu64(current),log_target=True,reduction='batchmean')

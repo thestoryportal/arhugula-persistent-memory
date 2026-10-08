@@ -74,6 +74,12 @@ from unittest import mock
 import torch
 torch.set_num_threads(1)
 
+# Standard manual_seed dispatches accelerator APIs even for CPU fixtures.
+def _cpu_manual_seed(seed):
+    return torch.random.default_generator.manual_seed(int(seed))
+
+torch.manual_seed = torch.random.manual_seed = _cpu_manual_seed
+
 # Missing production imports are deliberately the first recorded RED.
 import c10y_directdw_arms as A
 import c10y_directdw_read as R
@@ -311,6 +317,19 @@ def make_h(lens_sensitive=False, drifting=False):
 
 
 class IsolationTests(IsolatedCase):
+    def test_seed_uses_only_cpu_generator(self):
+        with contextlib.ExitStack() as stack:
+            spies = []
+            for accelerator, name in ((torch.cuda, 'manual_seed_all'),
+                                      (torch.mps, 'manual_seed'),
+                                      (torch.xpu, 'manual_seed_all')):
+                stack.enter_context(mock.patch.object(accelerator, '_is_in_bad_fork', return_value=False))
+                spies.append(stack.enter_context(mock.patch.object(accelerator, name)))
+            for seed in (torch.manual_seed, torch.random.manual_seed):
+                generator = seed(19)
+                self.assertIs(generator, torch.random.default_generator)
+            for spy in spies:
+                spy.assert_not_called()
     def test_live_write_positive_control(self):
         self.assertTrue(callable(AUDIT_GUARD),'audit hook must be installed before imports')
         path=W/'results/__c10y_isolation_probe__'
@@ -4095,6 +4114,402 @@ class LaunchDeltaTests(IsolatedCase):
         checked=A._calibration_timings(record,A.calibration_identity())
         rows,lower=A._calibration_phase(checked,calibration_bounds_fixture(record)[A.FORECAST_PHASES.index('optimisation')])
         self.assertEqual(sum(row.get('accepted',False) for row in rows),6);self.assertGreaterEqual(lower,105*max(row['seconds'] for row in rows))
+
+class AttentionMaskTests(IsolatedCase):
+    def test_owned_forwards_preserve_original_mask_contract(self):
+        count = 0
+        for module in (A, R, C):
+            tree = ast.parse(Path(module.__file__).read_text())
+            for node in ast.walk(tree):
+                if not isinstance(node, ast.Call):
+                    continue
+                name = ast.unparse(node.func)
+                if name != 'model' and not name.endswith(('.model', '.forward')):
+                    continue
+                count += 1
+                masks = [keyword.value for keyword in node.keywords if keyword.arg == 'attention_mask']
+                with self.subTest(file=Path(module.__file__).name, line=node.lineno, call=name):
+                    if node.args and isinstance(node.args[0], ast.Name) and node.args[0].id == 'cur':
+                        self.assertEqual(masks, [], 'frozen greedy-call kwargs must stay unchanged')
+                    else:
+                        self.assertEqual(len(masks), 1, 'preserve the already forwarded tokenizer attention_mask')
+                        self.assertFalse(isinstance(masks[0], ast.Constant) and masks[0].value is None)
+        self.assertEqual(count, 14, 'review any new or removed model call site')
+
+    def test_single_sequence_decode_and_observed_scorer_do_not_inject_mask(self):
+        H = make_h()
+        prompt = H.CANON.format(H.FICTION[0])
+        original = H.model.forward
+        masks = []
+        def checked(input_ids, *args, **kwargs):
+            self.assertNotIn('attention_mask', kwargs, 'the original greedy reference must not inject kwargs')
+            masks.append(input_ids.shape)
+            return original(input_ids, *args, **kwargs)
+        W0 = H.snap_layers(H.hp)
+        operators = ({layer: torch.zeros(4, 1) for layer in H.hp.layers},
+                     {layer: torch.zeros(1, 4) for layer in H.hp.layers}, W0)
+        for mode in ('plain', 'hooked', 'observed'):
+            with self.subTest(mode=mode), mock.patch.object(H.model, 'forward', side_effect=checked):
+                masks.clear()
+                if mode == 'observed':
+                    A.make_scorer(H, lambda *args: None)(prompt, H.tgt_ids('Echo Echo'))
+                else:
+                    A._decode_ids(H, prompt, 2, H.hp, operators if mode == 'hooked' else None)
+                self.assertEqual(len(masks), 2)
+                self.assertEqual(masks[1][1], masks[0][1] + 1)
+
+    def test_padded_objective_and_lens_preserve_tokenizer_attention_mask(self):
+        H = make_h()
+        requests = [H.req(H.CANON, H.FICTION[i], target)
+                    for i, target in enumerate(('Echo', 'Echo Echo'))]
+        batches = [A.request_batch(H, request, A.pinned_templates()) for request in requests]
+        tokens, _, _, _ = A.packed_batches(H, batches)
+        self.assertTrue(bool((tokens['attention_mask'] == 0).any()), 'positive padding control')
+        original = H.model.model.forward
+        def checked(input_ids, *args, **kwargs):
+            self.assertTrue(torch.equal(kwargs['attention_mask'], tokens['attention_mask']))
+            return original(input_ids, *args, **kwargs)
+        with mock.patch.object(H.model.model, 'forward', side_effect=checked):
+            A.edit_components(H, batches, None)
+        forward = H.model.forward
+        seen = []
+        def lens_checked(input_ids, *args, **kwargs):
+            self.assertTrue(torch.equal(kwargs['attention_mask'], torch.ones_like(input_ids)))
+            seen.append(input_ids.shape)
+            return forward(input_ids, *args, **kwargs)
+        telem = A.Telemetry(self.out, 'mask', 'fixed')
+        with mock.patch.object(H.model, 'forward', side_effect=lens_checked):
+            telem.logit_lens(H, H.hp, 'mask-test')
+        self.assertTrue(telem.enabled)
+        self.assertEqual(len(seen), 24)
+        telem.close()
+
+    def test_observed_scorer_rejects_any_added_forward_keyword(self):
+        for keyword, wrong in (('attention_mask', 'torch.ones_like(cur)'),
+                               ('attention_mask', 'torch.zeros_like(cur)'), ('use_cache', 'False')):
+            tree = ast.parse(Path(A.__file__).read_text())
+            scorer = next(node for node in ast.walk(tree)
+                          if isinstance(node, ast.FunctionDef) and node.name == 'full_seq_match')
+            call = next(node for node in ast.walk(scorer)
+                        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                        and node.func.id == 'model')
+            call.keywords = [ast.keyword(arg=keyword, value=ast.parse(wrong, mode='eval').body)]
+            path = self.root / (keyword + '_' + str(len(wrong)) + '.py')
+            path.write_text(ast.unparse(ast.fix_missing_locations(tree)))
+            with self.subTest(wrong=wrong), mock.patch.object(A, '__file__', str(path)):
+                self.assertFalse(A.scorer_ast_check(W / 'experiments/track_c/c10e_bandknob.py'))
+
+def _combined_to_calls(source):
+    result = []
+    for node in ast.walk(ast.parse(source)):
+        if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute) or node.func.attr != 'to':
+            continue
+        keys = {keyword.arg for keyword in node.keywords}
+        second_is_flag = (len(node.args) >= 2 and isinstance(node.args[1], ast.Constant)
+                          and isinstance(node.args[1].value, bool))
+        if ({'device', 'dtype'} <= keys or bool(node.args) and ('device' in keys or 'dtype' in keys)
+                or len(node.args) >= 2 and not second_is_flag):
+            result.append((node.lineno, ast.unparse(node)))
+    return result
+
+
+def _unsafe_cpu_transfers(source):
+    tree = ast.parse(source)
+    result = list(_combined_to_calls(source))
+    cpu_buffers = {}
+    parents = {child: node for node in ast.walk(tree) for child in ast.iter_child_nodes(node)}
+    def owner(node):
+        while node in parents and not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            node = parents[node]
+        return node
+    def cpu_device(node):
+        if isinstance(node, ast.Call) and ast.unparse(node.func) == 'torch.device' and node.args:
+            node = node.args[0]
+        return isinstance(node, ast.Constant) and isinstance(node.value, str) and node.value.split(':', 1)[0] == 'cpu'
+    def cpu_first(node):
+        if isinstance(node, ast.IfExp): return cpu_first(node.body) and cpu_first(node.orelse)
+        if isinstance(node, ast.Subscript): return cpu_first(node.value)
+        if not isinstance(node, ast.Call): return False
+        if isinstance(node.func, ast.Name): return node.func.id == 'cpu64'
+        if not isinstance(node.func, ast.Attribute): return False
+        name = node.func.attr
+        if name == 'cpu': return True
+        if name == 'to':
+            device = next((keyword.value for keyword in node.keywords if keyword.arg == 'device'), None)
+            if device is not None: return cpu_device(device)
+            if node.args:
+                target = node.args[0]
+                if isinstance(target, ast.Constant) and isinstance(target.value, str): return cpu_device(target)
+                if isinstance(target, ast.Call) and ast.unparse(target.func) == 'torch.device': return cpu_device(target)
+                if not (isinstance(target, ast.Attribute) and (target.attr == 'dtype'
+                        or isinstance(target.value, ast.Name) and target.value.id == 'torch')): return False
+            return cpu_first(node.func.value)
+        if name in {'detach', 'clone', 'contiguous', 'float', 'half', 'double', 'reshape', 'view'}:
+            return cpu_first(node.func.value)
+        if ast.unparse(node.func) in {'torch.tensor', 'torch.as_tensor', 'torch.empty', 'torch.zeros', 'torch.ones', 'torch.full'}:
+            device = next((keyword.value for keyword in node.keywords if keyword.arg == 'device'), None)
+            return cpu_device(device)
+        return False
+    def literal_data(node):
+        try:
+            ast.literal_eval(node); return True
+        except (ValueError, TypeError):
+            return False
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Assign, ast.AnnAssign)) and cpu_first(node.value):
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            cpu_buffers.setdefault(owner(node), set()).update(target.id for target in targets if isinstance(target, ast.Name))
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute):
+            call = ast.unparse(node)
+            if node.func.attr == 'to':
+                if any(keyword.arg is None or keyword.arg == 'other' for keyword in node.keywords):
+                    result.append((node.lineno, call))
+            if node.func.attr == 'to' and node.args:
+                target = node.args[0]
+                safe = (isinstance(target, ast.Constant) and isinstance(target.value, str)
+                        or isinstance(target, ast.Name) and target.id in {'dev', 'DEV', 'device', 'dtype'}
+                        or isinstance(target, ast.Attribute) and target.attr in {'device', 'dtype', 'DEV'}
+                        or isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name) and target.value.id == 'torch'
+                        or isinstance(target, ast.Call) and ast.unparse(target.func) == 'torch.device')
+                if not safe: result.append((node.lineno, call))
+            if node.func.attr in {'type', 'type_as'} and not cpu_first(node.func.value):
+                result.append((node.lineno, call))
+            if node.func.attr == 'copy_':
+                value = node.args[0] if node.args else None
+                aligned = (isinstance(value, ast.Call) and isinstance(value.func, ast.Name)
+                           and value.func.id == 'to_like' and len(value.args) == 2
+                           and ast.dump(value.args[1]) == ast.dump(node.func.value))
+                if not aligned: result.append((node.lineno, call))
+            if ast.unparse(node.func) in {'torch.tensor', 'torch.as_tensor'}:
+                keys = {keyword.arg for keyword in node.keywords}
+                data = node.args[0] if node.args else next((keyword.value for keyword in node.keywords if keyword.arg == 'data'), None)
+                if None in keys or ({'device', 'dtype'} <= keys and data is not None
+                                    and not literal_data(data) and not cpu_first(data)):
+                    result.append((node.lineno, call))
+        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            for target in targets:
+                root = target
+                while isinstance(root, ast.Subscript): root = root.value
+                if (isinstance(target, ast.Subscript) and isinstance(root, ast.Name)
+                        and (root.id in cpu_buffers.get(owner(node), set()) or root.id.startswith(('cpu_', 'host_')))
+                        and not literal_data(node.value) and not cpu_first(node.value)):
+                    result.append((node.lineno, ast.unparse(node)))
+    return sorted(set(result))
+
+
+class DeviceConversionTests(IsolatedCase):
+    def test_no_combined_device_dtype_transfer_in_owned_runtime(self):
+        self.maxDiff = None
+        for module in (A, R, C):
+            with self.subTest(file=Path(module.__file__).name):
+                self.assertEqual(_unsafe_cpu_transfers(Path(module.__file__).read_text()), [],
+                                 'copy device first, then change dtype; MPS views can corrupt combined transfers')
+
+    def test_ast_rejects_keyword_positional_and_mixed_combined_transfers(self):
+        bad = ("t.to(device='cpu', dtype=torch.float32)",
+               "t.to(dtype=torch.float64, device=torch.device('cpu'))",
+               "t.to('cpu', torch.float32)", "t.to(torch.device('cpu'), t.dtype)",
+               "t.to('cpu', dtype=torch.float32)", "t.to(dest.device, dest.dtype)",
+               "t.clone().to('cpu', torch.float16)", "t.contiguous().to('cpu', torch.float32)",
+               "v.to(cpu_tensor)", "v.type(torch.FloatTensor)", "v.type_as(cpu_tensor)",
+               "cpu_buf.copy_(v)", "cpu_buf[0] = v",
+               "buf = torch.empty(4, device='cpu', dtype=torch.float32)\nbuf[0] = v",
+               "torch.as_tensor(v, device='cpu', dtype=torch.float32)",
+               "torch.tensor(v.clone(), device='cpu', dtype=torch.float16)",
+               "buf = torch.empty(4, device=torch.device('cpu'), dtype=torch.float32)\nbuf[0] = v",
+               "buf: object = torch.empty(4, device='cpu', dtype=torch.float32)\nbuf[0] = v",
+               "v.to(cpu_tensor, non_blocking=True)", "v.to(cpu_tensor, True)", "v.to(**options)",
+               "cpu_buf[0] = v if flag else other.cpu()",
+               "torch.as_tensor(v.cpu().to('mps'), device='cpu', dtype=torch.float16)",
+               "torch.as_tensor(data=v, device='cpu', dtype=torch.float32)",
+               "torch.tensor(data=v, device='cpu', dtype=torch.float16)", "torch.as_tensor(**options)")
+        for expression in bad:
+            with self.subTest(expression=expression):
+                self.assertGreaterEqual(len(_unsafe_cpu_transfers(expression)), 1)
+        good = ("t.cpu().to(dtype=torch.float32)", "t.to('cpu').to(torch.float64)",
+                "t.float().cpu()", "t.to(device='cpu')", "t.to(dtype=torch.float32)",
+                "t.to(torch.float32, True)", "torch.as_tensor(v.cpu(), device='cpu', dtype=torch.float32)",
+                "torch.tensor([1., 2.], device='cpu', dtype=torch.float32)",
+                "buf.copy_(to_like(v, buf))", "cpu_buf[0] = v.cpu().to(torch.float32)",
+                "torch.as_tensor(data=v.cpu(), device='cpu', dtype=torch.float32)",
+                "torch.tensor(data=[1., 2.], device='cpu', dtype=torch.float32)")
+        for expression in good:
+            with self.subTest(expression=expression):
+                self.assertEqual(_unsafe_cpu_transfers(expression), [])
+
+    def test_reachable_helpers_only_combine_recorded_cpu_solve_transfer(self):
+        paths = sorted((W / 'memit_dry_run/memit').glob('memit/**/*.py'))
+        paths += sorted((W / 'memit_dry_run/memit').glob('rome/**/*.py'))
+        paths += sorted((W / 'memit_dry_run/memit').glob('util/**/*.py'))
+        self.assertGreater(len(paths), 20, 'positive source inventory control')
+        for path in paths:
+            with self.subTest(file=str(path.relative_to(W))):
+                self.assertEqual(_combined_to_calls(path.read_text()), [])
+        path = W / 'experiments/track_c/c10e_bandknob.py'
+        calls = _combined_to_calls(path.read_text())
+        self.assertEqual([call for _, call in calls],
+                         ['upd.to(npd[weight_name(hp, layer)].device, npd[weight_name(hp, layer)].dtype)'])
+        function = next(node for node in ast.parse(path.read_text()).body
+                        if isinstance(node, ast.FunctionDef) and node.name == 'my_edit')
+        source = ast.unparse(function)
+        self.assertIn('A = Pi @ (Kf.cpu() @ Kf.cpu().T + ca) + L2 * torch.eye(Kf.shape[0])', source)
+        self.assertIn('B = Pi @ Kf.cpu() @ rf.cpu().T', source)
+        self.assertIn('upd = torch.linalg.solve(A, B).T', source)
+        self.assertLess(source.index('upd = torch.linalg.solve(A, B).T'), source.index(calls[0][1]))
+
+    def test_cpu64_copies_offset_view_before_dtype_cast(self):
+        data = torch.arange(30, dtype=torch.float16).reshape(5, 6)[1:4, 1:5]
+        self.assertGreater(data.storage_offset(), 0)
+        self.assertFalse(data.is_contiguous())
+        calls = []
+        class View:
+            device = types.SimpleNamespace(type='mps')
+            dtype = torch.float16
+            def detach(self):
+                calls.append('detach'); return self
+            def cpu(self):
+                calls.append('cpu'); return data.clone()
+            def to(self, *args, **kwargs):
+                raise AssertionError('combined device/dtype transfer entered the fake MPS view')
+            def double(self):
+                raise AssertionError('dtype changed before copying fake MPS view to CPU')
+        result = A.cpu64(View())
+        self.assertEqual(calls, ['detach', 'cpu'])
+        self.assertEqual(result.device.type, 'cpu')
+        self.assertEqual(result.dtype, torch.float64)
+        self.assertTrue(torch.equal(result, data.double()))
+
+    def test_stored_weight_aligns_device_before_scale_and_fp16_add(self):
+        moves = []
+        class Labeled:
+            def __init__(self, value, device):
+                self.value = value
+                self.device = types.SimpleNamespace(type=device)
+                self.dtype = value.dtype
+            def detach(self): return self
+            def half(self): return Labeled(self.value.half(), self.device.type)
+            def float(self): return Labeled(self.value.float(), self.device.type)
+            def to(self, destination, **kwargs):
+                selftest.assertEqual(kwargs, {}, 'device alignment must not combine a dtype cast')
+                moves.append((self.device.type, destination.type))
+                return Labeled(self.value.clone(), destination.type)
+            def __mul__(self, scale): return Labeled(self.value * scale, self.device.type)
+            def __add__(self, other):
+                selftest.assertEqual(self.device.type, other.device.type, 'stored update must align before matrix addition')
+                return Labeled(self.value + other.value, self.device.type)
+        selftest = self
+        base = torch.tensor([[1.0004, -.231], [.4998, 3.1]], dtype=torch.float32)
+        update = torch.tensor([[.0007, .49], [-.231, .0017]], dtype=torch.float32)
+        for destination, origin in (('mps', 'cpu'), ('cpu', 'mps'), ('mps', 'mps'), ('cpu', 'cpu')):
+            for scale in (0., .4, 1.):
+                with self.subTest(destination=destination, origin=origin, scale=scale):
+                    moves.clear()
+                    result = A.stored_weight(Labeled(base, destination), Labeled(update, origin), scale)
+                    self.assertEqual(moves, [(origin, destination)])
+                    self.assertEqual(result.device.type, destination)
+                    self.assertEqual(result.dtype, torch.float16)
+                    self.assertTrue(torch.equal(result.value, (base.half() + (update.float() * scale).half()).half()))
+                    self.assertEqual(result.value.device.type, 'cpu', 'all fixture arithmetic must stay on CPU')
+
+    def test_to_like_transfers_before_casting_offset_view(self):
+        self.assertTrue(hasattr(A, 'to_like'), 'a tensor-target conversion must separate its operations')
+        data = torch.arange(12, dtype=torch.float16)[3:9]
+        calls = []
+        class View:
+            def to(self, *, device=None, dtype=None):
+                selftest.assertFalse(device is not None and dtype is not None)
+                calls.append(('device', device.type) if device is not None else ('dtype', dtype))
+                return Converted() if device is not None else None
+        class Converted:
+            def to(self, *, dtype):
+                calls.append(('dtype', dtype)); return data.to(dtype)
+        selftest = self
+        reference = types.SimpleNamespace(device=torch.device('cpu'), dtype=torch.float32)
+        result = A.to_like(View(), reference)
+        self.assertEqual(calls, [('device', 'cpu'), ('dtype', torch.float32)])
+        self.assertTrue(torch.equal(result, data.float()))
+
+
+class TelemetryReferenceTests(IsolatedCase):
+    def test_frozen_harness_scorers_receive_no_injected_kwargs(self):
+        H = make_h()
+        names = ('full_seq_match', 'string_match', 'teacher_forced_pertok', 'sentence_nll')
+        source = ast.parse((W / 'experiments/track_c/c10e_bandknob.py').read_text())
+        functions = [copy.deepcopy(node) for node in source.body
+                     if isinstance(node, ast.FunctionDef) and node.name in names]
+        self.assertEqual(len(functions), 4)
+        scope = {'torch': torch, 'tok': H.tok, 'model': H.model, 'DEV': H.DEV}
+        exec(compile(ast.Module(body=functions, type_ignores=[]), '<frozen CPU scorer fixtures>', 'exec'), scope)
+        for name in names: setattr(H, name, scope[name])
+        originals = {name: getattr(H, name) for name in names}
+        hooks = A.hook_snapshot(H.model); forward = H.model.forward; calls = []
+        def checked(input_ids, *args, **kwargs):
+            self.assertEqual(kwargs, {}, 'frozen scorers must receive no injected model kwargs')
+            calls.append(input_ids.shape)
+            return forward(input_ids, *args, **kwargs)
+        def recipe(*args):
+            subject = H.FICTION[0]; value = H.ARMS[A.A7][subject]
+            H._ARM_STATE = {'requests': [H.req(H.CANON, subject, value)]}
+            prompt = H.CANON.format(subject); ids = H.tgt_ids(value)
+            H.full_seq_match(prompt, ids)
+            H.string_match(prompt, value, len(ids))
+            H.teacher_forced_pertok(prompt, ids)
+            H.sentence_nll(prompt)
+            return {'arms': {A.A7: {}}}
+        H.run_recipe = recipe
+        for enabled in (False, True):
+            telemetry = A.Telemetry(self.out, 'on', 'fixed') if enabled else None
+            with self.subTest(telemetry=enabled), mock.patch.object(H.model, 'forward', side_effect=checked), \
+                 mock.patch.object(A, 'normalize_recipe', side_effect=lambda raw, *args: raw):
+                calls.clear()
+                A.scored_recipe(H, 'B-e2e', H.HP_BASE, 1, telemetry)
+                self.assertEqual(len(calls), 8)
+                self.assertTrue(telemetry is None or telemetry.enabled)
+            if telemetry is not None: telemetry.close()
+            for name, original in originals.items(): self.assertIs(getattr(H, name), original)
+            self.assertEqual(A.hook_snapshot(H.model), hooks)
+
+    def test_reference_scorer_is_exact_frozen_capture_copy(self):
+        import builtins
+        H = make_h(); trees = []; captured = []; masks = []
+        def compile_reference(tree, filename, mode):
+            trees.append(copy.deepcopy(tree))
+            return builtins.compile(tree, filename, mode)
+        original = H.model.forward
+        def forward(input_ids, *args, **kwargs):
+            masks.append(kwargs.get('attention_mask'))
+            return original(input_ids, *args, **kwargs)
+        with mock.patch.object(A, 'compile', side_effect=compile_reference, create=True):
+            scorer = A.make_scorer(H, lambda prompt, ids, gen: captured.append((list(ids), list(gen))), reference=True)
+        self.assertEqual(len(trees), 1, 'reference must compile the exact frozen function, not the observed copy')
+        expected = next(node for node in ast.parse((W / 'experiments/track_c/c10e_bandknob.py').read_text()).body
+                        if isinstance(node, ast.FunctionDef) and node.name == 'full_seq_match')
+        actual = trees[0].body[0]
+        self.assertEqual(ast.dump(actual.body[-2]), ast.dump(ast.parse('sink(prompt,target_ids,gen)').body[0]))
+        actual.body.pop(-2)
+        self.assertEqual(ast.dump(actual), ast.dump(expected))
+        ids = H.tgt_ids('Echo Echo')
+        with mock.patch.object(H.model, 'forward', side_effect=forward):
+            flags = scorer(H.CANON.format(H.FICTION[0]), ids)
+        self.assertEqual(len(masks), len(ids)); self.assertTrue(all(mask is None for mask in masks))
+        self.assertEqual(len(captured), 1)
+        self.assertEqual(flags, (captured[0][1] == ids, captured[0][1][0] == ids[0]))
+        self.assertTrue(all(parameter.device.type == 'cpu' for parameter in H.model.parameters()))
+
+    def test_t8_uses_frozen_off_reference_and_observed_on_scorer(self):
+        H = make_h(); modes = []; make = A.make_scorer
+        def tracked(*args, **kwargs):
+            modes.append(kwargs.get('reference', False))
+            return make(*args, **kwargs)
+        with mock.patch.object(A, 'make_scorer', side_effect=tracked):
+            record = A.telemetry_mps_inertness_check(self.out, H)
+        self.assertEqual(modes, [False, True, False, True], 'warmup, P1, T, P2 must select their actual scorer semantics')
+        self.assertEqual(record['verdict'], 'INERT', 'controlled CPU fixture only')
+        self.assertTrue(record['serialized_answers_equal'])
+        self.assertEqual(record['answer_calls'], 96)
+
 
 if __name__=="__main__":
     raise SystemExit(main())
