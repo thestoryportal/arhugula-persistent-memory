@@ -92,6 +92,60 @@ def tensor_sha(value):
     h.update(t.view(torch.uint8).numpy().tobytes())
     return h.hexdigest()
 
+def x2_weight_measurements(H, hp, pristine):
+    """Native-dtype CPU comparisons; every returned diagnostic is report-only."""
+    import torch
+    npd = dict(H.model.named_parameters())
+    pairs, reports = {}, {}
+    for layer in hp.layers:
+        live = npd[H.weight_name(hp, layer)].detach().cpu()
+        snap = pristine._snapshot[layer]
+        pairs[layer] = live, snap
+        live_bytes = live.contiguous().view(torch.uint8).flatten()
+        snap_bytes = snap.contiguous().view(torch.uint8).flatten()
+        comparable = live.shape == snap.shape and live.dtype == snap.dtype == torch.float16
+        report = {'report_only': True, 'pristine_sha256': tensor_sha(snap), 'after_sha256': tensor_sha(live),
+                  'raw_bytes_identical': torch.equal(live_bytes, snap_bytes),
+                  'changed_bytes': int(torch.count_nonzero(live_bytes != snap_bytes)) if live_bytes.shape == snap_bytes.shape else None,
+                  'changed_elements': None, 'signed_zero_changes': None,
+                  'live_shape': list(live.shape), 'pristine_shape': list(snap.shape),
+                  'live_dtype': str(live.dtype), 'pristine_dtype': str(snap.dtype),
+                  'max_abs_value_difference': None}
+        if comparable:
+            report.update(changed_elements=int(torch.count_nonzero(live.contiguous().view(torch.int16) != snap.contiguous().view(torch.int16))),
+                          signed_zero_changes=int(torch.count_nonzero((live == 0) & (snap == 0) & (torch.signbit(live) != torch.signbit(snap)))),
+                          max_abs_value_difference=fp32_report(float((live.double()-snap.double()).abs().max())))
+        else:
+            report['unavailable_reason'] = 'shape or binary16 dtype mismatch'
+        reports[str(layer)] = report
+    return pairs, reports
+
+def x2_weight_identity(pairs):
+    """Amendment Z: shape, binary16 dtype, then exact CPU value equality."""
+    import torch
+    for layer, (live, snap) in pairs.items():
+        code = 'X2-vii WEIGHT_VALUE '+str(layer)
+        try:
+            require(live.shape == snap.shape, code)
+            require(live.dtype == snap.dtype == torch.float16, code)
+            require(live.device.type == snap.device.type == 'cpu' and torch.equal(live, snap), code)
+        except Halt as exc:
+            exc.offending_layer = layer
+            raise
+
+def x2_primary_halt(exc):
+    """Retain measured X2-vii failures if a strict restoration also fails."""
+    current, seen, cleanup = exc, set(), []
+    while current is not None and id(current) not in seen:
+        seen.add(id(current))
+        if hasattr(current, 'x2_vii_diagnostic'):
+            if cleanup:
+                current.x2_vii_diagnostic.setdefault('cleanup_failures_report_only', []).extend(cleanup)
+            return current
+        cleanup.append(str(current))
+        current = current.__cause__ or current.__context__
+    return exc
+
 def hook_identity(model):
     return [(name, tuple(module._forward_hooks), tuple(module._forward_pre_hooks), tuple(module._backward_hooks))
             for name, module in model.named_modules()]
@@ -182,13 +236,17 @@ def observe_null_solve(writer,observed,expected_order):
         def solve(self,*args,**kwargs):
             frame=sys._getframe(1);require(frame.f_code is writer.__code__,'NULL_SOLVE_WRITER')
             values=frame.f_locals;layer=values['layer']
+            rf=values['rf'].detach().cpu()
+            records.append({'layer':layer,'residual_sha256':tensor_sha(rf),'exact_zero':bool(torch.count_nonzero(rf)==0),
+                            'max_abs_residual_report_only':fp32_report(float(values['resid'].detach().cpu().abs().max())),
+                            'max_abs_solve_residual_report_only':fp32_report(float(rf.abs().max())),
+                            'nonzero_elements_report_only':int(torch.count_nonzero(rf))})
             require(values['keys']==expected_order and layer in observed,'NULL_SOLVE_IDENTITIES')
             cur=cpu_copy(values['cur'].T);target=cpu_copy(values['zs'].T)
             active_null_structure({layer:cur},{layer:target},{layer:observed[layer]},expected_order,expected_order)
             expected=(values['zs']-values['cur']).repeat_interleave(values['K'].size(1)//values['cur'].size(1),dim=1)
             require(torch.equal(values['tgt'],expected) and torch.equal(values['resid'],expected),'NULL_ACTUAL_RESIDUAL')
             require(torch.count_nonzero(values['rf'])==0,'NULL_ACTUAL_SOLVE_RESIDUAL')
-            records.append({'layer':layer,'residual_sha256':tensor_sha(values['rf']),'exact_zero':True})
             return original.linalg.solve(*args,**kwargs)
     class TorchProxy:
         linalg=LinalgProxy()
@@ -406,37 +464,65 @@ def run_checks(H,hp,ctx,targets,pristine,out):
                         'applied_weight_exact':True,'greedy_flags_exact':True,'flags_reference':singleton['flags'],'flags_candidate':active['flags']}
         del singleton,active
         begin('X2-vii')
-        with pristine.cell('X2-vii null'):
-            plain,meta=A.batch_replay(H,hp,requests);null,meta2=A.batch_replay(H,hp,requests,plain[hp.layers[0]])
-            require(meta==meta2,'NULL_INPUT_IDENTITY')
-            table={(r['subject'],r['target_new']['str']):{l:null[l][i].clone() for l in hp.layers} for i,r in enumerate(requests)}
-            # Observe whole vectors independently outside fe_edit; the engine's
-            # result is compared with the same-batch block-hook observer.
-            observed={};namespace=A.fe_edit.__globals__;original=namespace['get_module_input_output_at_words']
-            expected_order=[(r['subject'],r['target_new']['str']) for r in requests]
-            def checked_read(model,tok,layer,context_templates,words,module_template,fact_token_strategy):
-                require(context_templates==[r['prompt'] for r in requests] and words==[r['subject'] for r in requests],'NULL_REQUEST_ORDER')
-                block_outputs,meta3=A.batch_replay(H,hp,requests)
-                result=original(model,tok,layer,context_templates=context_templates,words=words,module_template=module_template,fact_token_strategy=fact_token_strategy)
-                expected_layer=hp.layers[len(observed)]
-                observed[expected_layer]=cpu_copy(result[1])
-                stacked={l:torch.stack([table[k][l] for k in expected_order]) for l in hp.layers}
-                active_null_structure({expected_layer:observed[expected_layer]},
-                    {expected_layer:stacked[expected_layer]},{expected_layer:block_outputs[expected_layer]},expected_order,expected_order)
-                return result
-            old=A.FE_STATE,A.FE_TARGETS
-            try:
-                A.FE_STATE={'targets':table};A.FE_TARGETS=table;A._refresh_globals()
-                namespace['get_module_input_output_at_words']=checked_read
-                with observe_null_solve(A.fe_edit,observed,expected_order) as residuals:
-                    with capture_updates(A.fe_edit,hp.layers,{'writer':'fe_edit','check':'X2-vii','recipe':'standalone','arm':'A7'}) as captures:
-                        A.fe_edit(hp,requests,P,[torch.zeros_like(p) for p in P])
-                require(all(torch.count_nonzero(c['tensor'])==0 for c in captures),'NULL_NONZERO_UPDATE')
-                pristine.verify('X2-vii exact zero')
-            finally:
-                namespace['get_module_input_output_at_words']=original
-                A.FE_STATE,A.FE_TARGETS=old
-            checks['X2-vii']={'ok':True,'layers':clean_capture(captures),'requests':meta['requests'],'weight_identity':True,'residuals':residuals}
+        residuals=[];captures=[];observer_measurements=[];weight_reports={}
+        try:
+            with pristine.cell('X2-vii null'):
+                try:
+                    plain,meta=A.batch_replay(H,hp,requests);null,meta2=A.batch_replay(H,hp,requests,plain[hp.layers[0]])
+                    require(meta==meta2,'NULL_INPUT_IDENTITY')
+                    table={(r['subject'],r['target_new']['str']):{l:null[l][i].clone() for l in hp.layers} for i,r in enumerate(requests)}
+                    # Observe whole vectors independently outside fe_edit; the engine's
+                    # result is compared with the same-batch block-hook observer.
+                    observed={};namespace=A.fe_edit.__globals__;original=namespace['get_module_input_output_at_words']
+                    expected_order=[(r['subject'],r['target_new']['str']) for r in requests]
+                    def checked_read(model,tok,layer,context_templates,words,module_template,fact_token_strategy):
+                        require(context_templates==[r['prompt'] for r in requests] and words==[r['subject'] for r in requests],'NULL_REQUEST_ORDER')
+                        block_outputs,meta3=A.batch_replay(H,hp,requests)
+                        result=original(model,tok,layer,context_templates=context_templates,words=words,module_template=module_template,fact_token_strategy=fact_token_strategy)
+                        expected_layer=hp.layers[len(observed)]
+                        observed[expected_layer]=cpu_copy(result[1])
+                        stacked={l:torch.stack([table[k][l] for k in expected_order]) for l in hp.layers}
+                        observer_measurements.append({'layer':expected_layer,
+                            'max_abs_target_minus_writer_report_only':fp32_report(float((cpu_copy(stacked[expected_layer])-observed[expected_layer]).abs().max())),
+                            'max_abs_observer_minus_writer_report_only':fp32_report(float((cpu_copy(block_outputs[expected_layer])-observed[expected_layer]).abs().max()))})
+                        active_null_structure({expected_layer:observed[expected_layer]},
+                            {expected_layer:stacked[expected_layer]},{expected_layer:block_outputs[expected_layer]},expected_order,expected_order)
+                        return result
+                    old=A.FE_STATE,A.FE_TARGETS
+                    try:
+                        A.FE_STATE={'targets':table};A.FE_TARGETS=table;A._refresh_globals()
+                        namespace['get_module_input_output_at_words']=checked_read
+                        with observe_null_solve(A.fe_edit,observed,expected_order) as residuals:
+                            with capture_updates(A.fe_edit,hp.layers,{'writer':'fe_edit','check':'X2-vii','recipe':'standalone','arm':'A7'}) as captures:
+                                A.fe_edit(hp,requests,P,[torch.zeros_like(p) for p in P])
+                        require(all(torch.count_nonzero(c['tensor'])==0 for c in captures),'NULL_NONZERO_UPDATE')
+                        weight_pairs,weight_reports=x2_weight_measurements(H,hp,pristine)
+                        x2_weight_identity(weight_pairs)
+                    finally:
+                        namespace['get_module_input_output_at_words']=original
+                        A.FE_STATE,A.FE_TARGETS=old
+                    checks['X2-vii']={'ok':True,'layers':clean_capture(captures),'requests':meta['requests'],'weight_identity':True,'residuals':residuals,
+                                      'weight_diagnostics_report_only':weight_reports}
+                except Exception as exc:
+                    if not weight_reports:
+                        _,weight_reports=x2_weight_measurements(H,hp,pristine)
+                    exc.x2_vii_diagnostic={'check':'X2-vii','weight_diagnostics_report_only':weight_reports,
+                        'residuals':residuals,'observer_measurements_report_only':observer_measurements,
+                        'updates':[{'layer':c['layer'],'max_abs_update_report_only':fp32_report(float(c['tensor'].abs().max())),
+                                    'nonzero_elements_report_only':int(torch.count_nonzero(c['tensor']))} for c in captures]}
+                    if hasattr(exc,'offending_layer'):exc.x2_vii_diagnostic['offending_layer']=exc.offending_layer
+                    raise
+        except Exception as exc:
+            primary=x2_primary_halt(exc)
+            if not hasattr(primary,'x2_vii_diagnostic'):
+                if not weight_reports:
+                    _,weight_reports=x2_weight_measurements(H,hp,pristine)
+                primary.x2_vii_diagnostic={'check':'X2-vii','weight_diagnostics_report_only':weight_reports,
+                    'residuals':residuals,'observer_measurements_report_only':observer_measurements,
+                    'updates':[{'layer':c['layer'],'max_abs_update_report_only':fp32_report(float(c['tensor'].abs().max())),
+                                'nonzero_elements_report_only':int(torch.count_nonzero(c['tensor']))} for c in captures]}
+            if primary is exc:raise
+            raise primary from exc
         begin('G8');started=A.work_unit(kind='G8');checks['G8']=direct_g8(H,hp,P,ctx,pristine);A.end_unit(started)
         if A.TELEMETRY:A.TELEMETRY.phase('check_end',check='G8')
     finally:

@@ -26,7 +26,7 @@ import time
 ROOT = Path(__file__).resolve().parents[2]
 # Lazy science modules must share this instance when the supervisor uses a script.
 if __name__=='__main__':sys.modules['c10x_enginepath_arms']=sys.modules[__name__]
-PIN = '43a81103d68b953c2007e978b3ebecf11aadf66a7f121346047279845e8fc883'
+PIN = 'd3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899'
 CONTEXT_SOURCE = 'experiments/track_c/c10z_astra_benchmark.py'
 C10Q_CONTEXT_SHA = 'c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da'
 C10Q_TEMPLATES_SHA = 'd6c7c70026dced37bddc6adf316a3487d70227dae80a6e0ed5cdabe50caedfa0'
@@ -1111,7 +1111,7 @@ def source_commit():
 
 def run(out,harness,go=None,process=1,process1=None,preflight=True,receipt=None):
     global H,PRISTINE,BUDGET,TELEMETRY
-    from c10x_enginepath_inertness import Pristine,require
+    from c10x_enginepath_inertness import Pristine,require,x2_primary_halt
     from c10x_enginepath_read import law3
     out=Path(out).resolve();selftest_root(ROOT)
     admitted=receipt if receipt is not None else launch_preflight(out,go,process,process1) if preflight else None
@@ -1194,6 +1194,8 @@ def run(out,harness,go=None,process=1,process1=None,preflight=True,receipt=None)
         require(source_hashes()==end_sources,'SOURCE_DRIFT after serialization')
         return state
     except Exception as exc:
+        exc=x2_primary_halt(exc)
+        if hasattr(exc,'x2_vii_diagnostic'):state['x2_vii_diagnostic']=exc.x2_vii_diagnostic
         state.update(status='HALTED',completion='incomplete',finished_at=utc(),code=str(exc))
         if writer:writer.phase('halt',code=str(exc))
         state['diagnostic']=halt_diagnostic(state,exc)

@@ -138,7 +138,7 @@ def fixture():
     return {'schema': 'c10x_enginepath/v1', 'status': 'COMPLETE', 'process': 1,
             'run_id': 'p1', 'pid': 101, 'started_at': '2026-10-08T10:00:00+00:00',
             'finished_at': '2026-10-08T10:01:00+00:00', 'source_commit': 'test-commit',
-            'prereg_sha256': '43a81103d68b953c2007e978b3ebecf11aadf66a7f121346047279845e8fc883',
+            'prereg_sha256': 'd3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899',
             'sources_start': {'source': sha}, 'sources_end': {'source': sha},
             'fingerprint': {'ok': True, 'sha256': 'd941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65', '_cov_cpu': 3},
             'identity': {'model': 'stub', 'model_rev': 'rev', 'tokenizer': {'artifact': sha},
@@ -209,6 +209,7 @@ class Tiny(torch.nn.Module):
         self.lens_count += bool(output_hidden_states)
         self.science_count += not output_hidden_states
         h = torch.stack([input_ids.float()/10., torch.ones_like(input_ids).float()/10.], -1)
+        h = h.to(dtype=next(self.parameters()).dtype)
         if self.change_on_lens and 0<self.lens_count<48:
             h = -h-1.
         if self.drift:
@@ -738,8 +739,8 @@ class TelemetryTests(IsolatedCase):
 
     def test_frozen_bytes_and_imports(self):
         expected=json.loads((SCRATCH/'before/r5_sha256.json').read_text())
-        # Program-authored Amendment P replaces this one pin; other before bytes stay locked.
-        expected['docs/C10X_ENGINEPATH_PREREG.md']='43a81103d68b953c2007e978b3ebecf11aadf66a7f121346047279845e8fc883'
+        # Program-authored Amendment Z replaces this one pin; other before bytes stay locked.
+        expected['docs/C10X_ENGINEPATH_PREREG.md']='d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899'
         for rel,sha in expected.items():
             self.assertEqual(hashlib.sha256((REAL/rel).read_bytes()).hexdigest(),sha,rel)
         for name in FORBIDDEN:self.assertNotIn(name,sys.modules)
@@ -915,8 +916,34 @@ class IntegrationTests(IsolatedCase):
 
 
 class FileAdmissionTests(IsolatedCase):
+    def test_signed_zero_reader_keeps_reports_out_of_admission(self):
+        f=self.make_files();f['prereg_sha256']=f['sources_start']['docs/C10X_ENGINEPATH_PREREG.md']
+        f['w0']['checkpoints']=[c for c in f['w0']['checkpoints'] if c['checkpoint']!='X2-vii exact zero']
+        baseline=R.read_record(f)
+        reports={str(l):{'report_only':True,'pristine_sha256':'a'*64,'after_sha256':'b'*64,
+                         'raw_bytes_identical':False,'changed_bytes':1,'changed_elements':1,
+                         'signed_zero_changes':1} for l in range(4,9)}
+        f['inertness']['X2-vii']['weight_diagnostics_report_only']=reports
+        R._file_evidence(f,{'elapsed_seconds':8.})
+        self.assertEqual(R.read_record(f),baseline)
+        reports['4'].update(changed_bytes=999,changed_elements=-1,signed_zero_changes=1000,
+                            raw_bytes_identical=True,after_sha256='c'*64)
+        R._file_evidence(f,{'elapsed_seconds':8.})
+        self.assertEqual(R.read_record(f),baseline)
+        reports['4'].update(changed_bytes=None,changed_elements=None,signed_zero_changes=None,
+                            max_abs_value_difference={'nonfinite':'nan'},unavailable_reason='diagnostic only')
+        R._file_evidence(f,{'elapsed_seconds':8.})
+        self.assertEqual(R.read_record(f),baseline)
+        bad=copy.deepcopy(f);bad['inertness']['X2-vii']['weight_identity']=False
+        with self.assertRaises(ValueError):R._file_evidence(bad,{'elapsed_seconds':8.})
+        for label in ('before X2-vii null','after X2-vii null'):
+            bad=copy.deepcopy(f)
+            next(c for c in bad['w0']['checkpoints'] if c['checkpoint']==label)['hashes']={str(l):'c'*64 for l in range(4,9)}
+            with self.subTest(checkpoint=label):
+                with self.assertRaises(ValueError):R._file_evidence(bad,{'elapsed_seconds':8.})
+
     def test_amendment_p_prereg_pin(self):
-        pin='43a81103d68b953c2007e978b3ebecf11aadf66a7f121346047279845e8fc883'
+        pin='d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899'
         self.assertEqual(A.PIN,pin);self.assertEqual(R.PREREG_SHA256,pin)
 
     def test_amendment_p_digest_refusals(self):
@@ -1144,7 +1171,6 @@ class FileAdmissionTests(IsolatedCase):
         def cell(name):
             labels.append('before '+name)
             if name.startswith('recipe '):labels.extend(['harness restore']*6)
-            if name=='X2-vii null':labels.append('X2-vii exact zero')
             labels.append('after '+name)
         cell('recipe A');cell('target construction');cell('X1-i')
         labels+=['X1-ii '+arm+' '+s for arm in ARM_NAMES for s in subjects]+['before projector']
@@ -1702,6 +1728,141 @@ class FileAdmissionTests(IsolatedCase):
             self.assertIsInstance(caught.exception,I.Halt)
             self.assertEqual(str(caught.exception),'PRISTINE_SNAPSHOT_NOT_CPU')
         finally:pristine._snapshot[layer]=saved
+
+
+class SignedZeroTests(IsolatedCase):
+    def setUp(self):
+        super().setUp()
+        self.H.model.half()
+        self.hp=self.H.hp
+        with torch.no_grad():
+            for l in self.hp.layers:self.weight(l)[0,0]=-0.
+        self.pristine=I.Pristine(self.H,self.hp)
+        self.saved={l:self.weight(l).detach().clone() for l in self.hp.layers}
+        self.requests=[self.H.req(CANON,s,self.H.ARMS[ARM_NAMES[2]][s]) for s in self.H.FICTION]
+        tree=ast.parse(inspect.getsource(I.run_checks))
+        body=next(n.body for n in ast.walk(tree) if isinstance(n,ast.Try) and
+                  any(isinstance(x,ast.Expr) and ast.unparse(x)=="begin('X2-vii')" for x in n.body))
+        start=next(i for i,n in enumerate(body) if isinstance(n,ast.Expr) and ast.unparse(n)=="begin('X2-vii')")+1
+        end=next(i for i,n in enumerate(body) if isinstance(n,ast.Expr) and ast.unparse(n)=="begin('G8')")
+        fn=ast.parse('def gate(H,hp,requests,P,pristine):\n checks={}\n return checks["X2-vii"]\n').body[0]
+        fn.body[1:1]=copy.deepcopy(body[start:end])
+        namespace=dict(vars(I),A=A,torch=torch)
+        exec(compile(ast.fix_missing_locations(ast.Module(body=[fn],type_ignores=[])),
+                     '<production X2-vii AST>', 'exec'),namespace)
+        self.gate=namespace['gate']
+    def tearDown(self):
+        with torch.no_grad():
+            for l in self.hp.layers:self.weight(l).data=self.saved[l].clone()
+        super().tearDown()
+    def weight(self,layer):
+        return dict(self.H.model.named_parameters())[self.H.weight_name(self.hp,layer)]
+    def run_gate(self,change=None):
+        original=I.capture_updates
+        @contextlib.contextmanager
+        def captured(*args,**kwargs):
+            with original(*args,**kwargs) as records:yield records
+            if change is not None:
+                with torch.no_grad():change(records)
+        with patch.dict(self.gate.__globals__,capture_updates=captured):
+            return self.gate(self.H,self.hp,self.requests,[torch.eye(2) for _ in self.hp.layers],self.pristine)
+    def failed_gate(self,change,code):
+        with self.assertRaises(I.Halt) as caught:self.run_gate(change)
+        self.assertEqual(str(caught.exception),code)
+        measured=caught.exception.x2_vii_diagnostic
+        self.assertEqual(set(measured['weight_diagnostics_report_only']),set(map(str,self.hp.layers)))
+        self.assertEqual(len(measured['residuals']),5);self.assertEqual(len(measured['updates']),5)
+        self.assertTrue(all(r['max_abs_residual_report_only']==0. and r['nonzero_elements_report_only']==0 for r in measured['residuals']))
+        return measured
+    def test_signed_zero_write_passes_and_counts_binary16_bits(self):
+        record=self.run_gate()
+        self.assertTrue(record['ok']);self.assertTrue(record['weight_identity'])
+        self.assertEqual(set(record['weight_diagnostics_report_only']),set(map(str,self.hp.layers)))
+        for l in self.hp.layers:
+            report=record['weight_diagnostics_report_only'][str(l)]
+            self.assertTrue(report['report_only']);self.assertFalse(report['raw_bytes_identical'])
+            self.assertEqual(report['changed_bytes'],1);self.assertEqual(report['changed_elements'],1)
+            self.assertEqual(report['signed_zero_changes'],1)
+            after=self.saved[l].clone();after[0,0]=0.
+            self.assertEqual(report['pristine_sha256'],I.tensor_sha(self.saved[l]))
+            self.assertEqual(report['after_sha256'],I.tensor_sha(after))
+            self.assertEqual(int(torch.count_nonzero(after!=self.saved[l])),0)
+        self.assertTrue(all(r['exact_zero'] for r in record['residuals']))
+        self.assertTrue(all(c['norm_float64']==0. for c in record['layers']))
+        self.pristine.verify('signed zero restored')
+    def test_one_ulp_value_change_halts_with_all_layer_measurements(self):
+        def change(records):self.weight(6)[0,1]=torch.nextafter(torch.tensor(0.,dtype=torch.float16),torch.tensor(1.,dtype=torch.float16))
+        measured=self.failed_gate(change,'X2-vii WEIGHT_VALUE 6')
+        self.assertEqual(measured['offending_layer'],6)
+        self.assertEqual(measured['weight_diagnostics_report_only']['6']['changed_elements'],2)
+        self.assertEqual(measured['weight_diagnostics_report_only']['6']['signed_zero_changes'],1)
+        self.assertGreater(measured['weight_diagnostics_report_only']['6']['max_abs_value_difference'],0.)
+        self.pristine.verify('value failure restored')
+    def test_nan_value_halts(self):
+        measured=self.failed_gate(lambda records:self.weight(5).__setitem__((0,1),float('nan')),'X2-vii WEIGHT_VALUE 5')
+        self.assertEqual(measured['offending_layer'],5)
+        self.assertEqual(measured['weight_diagnostics_report_only']['5']['max_abs_value_difference'],{'nonfinite':'nan'})
+    def test_equal_values_wrong_dtype_halt(self):
+        def change(records):
+            self.weight(4).data=self.weight(4).detach().float()
+            self.assertTrue(torch.equal(self.weight(4),self.pristine._snapshot[4]))
+        measured=self.failed_gate(change,'X2-vii WEIGHT_VALUE 4')
+        self.assertEqual(measured['weight_diagnostics_report_only']['4']['live_dtype'],'torch.float32')
+    def test_wrong_shape_halts(self):
+        measured=self.failed_gate(lambda records:setattr(self.weight(8),'data',self.weight(8).detach().reshape(1,4)),
+                                  'X2-vii WEIGHT_VALUE 8')
+        self.assertEqual(measured['offending_layer'],8)
+        self.assertEqual(measured['weight_diagnostics_report_only']['8']['live_shape'],[1,4])
+    def test_nonzero_update_halts_before_weight_comparison(self):
+        def change(records):records[1]['tensor'][0,0]=torch.finfo(torch.float32).tiny
+        with patch.dict(self.gate.__globals__,x2_weight_identity=lambda *args:(_ for _ in ()).throw(AssertionError('weight gate reached'))):
+            measured=self.failed_gate(change,'NULL_NONZERO_UPDATE')
+        self.assertGreater(measured['updates'][1]['max_abs_update_report_only'],0.)
+        self.assertEqual(measured['updates'][1]['nonzero_elements_report_only'],1)
+    def test_w0_byte_identity_stays_strict_before_and_after_null_cell(self):
+        for label in ('before X2-vii null','after X2-vii null','closeout restore'):
+            self.pristine.restore()
+            with torch.no_grad():self.weight(4)[0,0]=0.
+            self.assertTrue(torch.equal(self.weight(4),self.pristine._snapshot[4]))
+            with self.subTest(checkpoint=label):
+                with self.assertRaisesRegex(I.Halt,'W0 '+label):self.pristine.verify(label)
+        self.pristine.restore()
+    def test_after_cell_halt_keeps_pre_restoration_measurements(self):
+        original=self.pristine.verify
+        def verify(label):
+            answer=original(label)
+            if label=='after X2-vii null':raise I.Halt('LEFTOVER_HOOK '+label)
+            return answer
+        with patch.object(self.pristine,'verify',side_effect=verify):
+            measured=self.failed_gate(None,'LEFTOVER_HOOK after X2-vii null')
+        self.assertEqual(len(measured['observer_measurements_report_only']),5)
+        for l in self.hp.layers:
+            report=measured['weight_diagnostics_report_only'][str(l)]
+            self.assertEqual(report['changed_bytes'],1);self.assertEqual(report['changed_elements'],1)
+            self.assertEqual(report['signed_zero_changes'],1)
+            self.assertNotEqual(report['after_sha256'],report['pristine_sha256'])
+        self.pristine.verify('after-cell failure restored')
+    def test_driver_halt_serializes_measured_x2_values(self):
+        def change(records):self.weight(7)[0,1]=1.
+        with self.assertRaises(I.Halt) as caught:self.run_gate(change)
+        self.pristine.restore()
+        baseline=fixture_recipe();baseline['counters']=[0,0]
+        with patch.object(A,'recipe',return_value=baseline),patch.object(A,'construct_targets',return_value={}),\
+             patch.object(I,'run_checks',side_effect=caught.exception),patch.object(A,'injection_screen') as injection:
+            result=A.run(self.out,self.H,preflight=False)
+        self.assertEqual(result['status'],'HALTED');self.assertEqual(result['code'],'X2-vii WEIGHT_VALUE 7')
+        injection.assert_not_called()
+        saved=R.strict_json((self.out/'run.json').read_bytes())
+        diagnostic=R.strict_json(Path(saved['diagnostic']).read_bytes())
+        self.assertEqual(saved['x2_vii_diagnostic'],caught.exception.x2_vii_diagnostic)
+        self.assertEqual(diagnostic['state']['x2_vii_diagnostic'],saved['x2_vii_diagnostic'])
+        self.assertEqual(saved['x2_vii_diagnostic']['offending_layer'],7)
+        self.assertEqual(saved['x2_vii_diagnostic']['weight_diagnostics_report_only']['7']['max_abs_value_difference'],1.)
+    def test_amendment_z_prereg_pin(self):
+        pin='d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899'
+        self.assertEqual(A.PIN,pin);self.assertEqual(R.PREREG_SHA256,pin)
+        self.assertEqual(fixture()['prereg_sha256'],pin)
+        self.assertEqual(A.sha_file(REAL/'docs/C10X_ENGINEPATH_PREREG.md'),pin)
 
 
 def main():

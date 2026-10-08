@@ -13,7 +13,7 @@ import math
 import pickle
 from pathlib import Path
 
-PREREG_SHA256 = '43a81103d68b953c2007e978b3ebecf11aadf66a7f121346047279845e8fc883'
+PREREG_SHA256 = 'd3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899'
 CANON = 'The capital of {} is the city of'
 ENGINE_SHA256 = 'd941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65'
 ARMS = ('A1_single', 'A2_coherent2', 'A7_coined_coined')
@@ -109,8 +109,10 @@ def strict_json(data):
 
 
 def _nulls(value, path=()):
+    location = path[1:] if path and path[0] == 'manifest' else path
+    if location[:3] == ('inertness', 'X2-vii', 'weight_diagnostics_report_only'):
+        return
     if value is None:
-        location = path[1:] if path and path[0] == 'manifest' else path
         diagnostic = (len(location) == 5 and location[0] == 'recipes' and
                       location[1] in RECIPES and location[2] == 'arms' and
                       location[3] in ARMS and location[4] in {'tf_pertok_cont',
@@ -1008,7 +1010,7 @@ def _file_evidence(record, supervisor):
         _hashes(checkpoint['hashes'], 'W0 checkpoint hashes', LAYERS)
         _need(checkpoint['ok'] is True and checkpoint['hashes'] == record['w0']['hashes'], 'W0 checkpoint mismatch')
     required = {'before target construction', 'after target construction', 'before injection',
-                'after injection', 'before projector', 'X2-vii exact zero', 'after inertness',
+                'after injection', 'before projector', 'after inertness',
                 'after final recipe', 'closeout restore'}
     for recipe in RECIPES:
         required.update(('before recipe ' + recipe, 'after recipe ' + recipe))

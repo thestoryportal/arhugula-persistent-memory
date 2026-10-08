@@ -2348,3 +2348,428 @@ The program may use the same launch command in its separately scheduled measurem
 ```
 
 Final append/source/protected-file receipt: `/private/tmp/c10x_build/x2_probe_policy_fix/final_receipt.json`.
+
+
+## Amendment Z — D-C10x-signedzero implementation (2026-10-08T19:16:51.477897+00:00)
+
+**Build status: PASS, CPU code validation only.** Implemented the program-authorized §13 exactly after reading :637–802 in full and both `results/c10x_signedzero_amend_astra{,_delta}.md` reviews. The authoritative delta review is GO. Model and effort for this Codex execution: **UNVERIFIABLE**. Current frozen prereg SHA-256: `d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899`. Its historical pre-§13 identity at prereg :642 remains historical data. No prereg text was edited.
+
+### Predicate and diagnostic changes
+
+Only the in-cell X2-(vii) weight predicate changes. `x2_weight_measurements` (`c10x_enginepath_inertness.py:95`) first collects all five live rewrite tensors with native-dtype `.detach().cpu()` and their pristine CPU snapshots, before restoration or the first weight-predicate failure. `x2_weight_identity` (`c10x_enginepath_inertness.py:123`) checks shape and `live.dtype == snap.dtype == torch.float16` as separate predicates, then CPU `torch.equal`. It has no tolerance. A failure is `X2-vii WEIGHT_VALUE <layer>` and names the offending layer (prereg :705–712).
+
+Each layer's `weight_diagnostics_report_only` object is labelled `report_only: true` and carries `pristine_sha256`, `after_sha256`, `raw_bytes_identical`, `changed_bytes`, `changed_elements`, and `signed_zero_changes` (prereg :714–721). Hashes use the unchanged `tensor_sha`. `changed_elements` compares **contiguous CPU int16 views** of the binary16 bits, so a signed-zero flip counts even though float `!=` finds no change. `signed_zero_changes` uses both values zero and differing `signbit`, without direction splitting. Shape/dtype and maximum absolute value-difference measurements are included in that same report-only object. Incompatible shape/dtype has explicitly unavailable counts (`null` plus a reason); nonfinite diagnostic magnitudes use tagged JSON such as `{"nonfinite":"nan"}`.
+
+No diagnostic field supplies a gate or a consistency veto. The reader retains the mandatory `weight_identity: true`, update-zero, residual-zero and all genuine W0 checks; it removes only the obsolete `X2-vii exact zero` checkpoint requirement (`c10x_enginepath_read.py:983`). Its narrow null exception covers only `inertness.X2-vii.weight_diagnostics_report_only`, including the manifest prefix (`c10x_enginepath_read.py:111`). Tests perturb hashes and counts, make them inconsistent or unavailable, and add a tagged nonfinite magnitude without changing acceptance, labels, qualifiers, eligibility or interpretation. False weight identity and altered before/after W0 hashes still fail.
+
+The existing `NULL_NONZERO_UPDATE` predicate remains before the weight comparison. The real writer, observer's full-vector/request/column checks, actual residual predicates, negative controls, X2-(iv) distance/floor rules, all tolerances, and G8 remain unchanged (prereg :723–734). All `Pristine` methods, including native byte hashing/restoration and the before/after X2-vii cell checks, are AST-identical. T8's before/after byte identity and the T4 statement-identical scorer remain unchanged. Amendment M report-only diagnostics, T11 cutoff, Amendment P template pinning, mask revert and MPS copy corrections remain in place; their tests still pass. There is no new MPS dtype-changing copy: native CPU copies precede any CPU diagnostic cast.
+
+For X2-vii halts, residual/update maxima and nonzero-element counts are captured alongside all five weight reports and observer differences. `x2_primary_halt` (`c10x_enginepath_inertness.py:136`) preserves the primary measured halt when strict restoration also raises, while recording secondary cleanup failures. The driver's existing HALT path copies those measurements into both `run.json` and the fresh diagnostic (`c10x_enginepath_arms.py:1112`). A HALT from the cell's exit verification retains the already measured pre-restoration hashes/counts and all captured updates. It does not replace them with restored weights.
+
+**Bounded cleanup behavior:** injected incompatible dtype/shape may still make the final strict restoration raise after the primary HALT has been persisted. The process remains fail-closed. This build does not claim graceful cleanup/return for that corruption case, and does not weaken W0 to obtain it.
+
+### Numbered regression mapping
+
+Tests were added before changing production modules. Their gate fixture compiles the existing production X2-vii AST block from `run_checks`; it does not copy or reimplement the predicates. The unchanged real `A.fe_edit` performs the identity write on a CPU fp16 tiny model, with 24 canonical requests. The tiny fixture's input cast permits fp16 execution; it changes no production forward/scorer.
+
+| # | Binding rule | Test and source | Implementation seam |
+| --- | --- | --- | --- |
+| 1 | §13 Z2–Z3, Z6(a); prereg :705–721, :786 | `test_signed_zero_write_passes_and_counts_binary16_bits` (`c10x_enginepath_selftest.py:1777`) | `c10x_enginepath_inertness.py:95, c10x_enginepath_inertness.py:123` |
+| 2 | §13 Z2(3), Z6(b); :708–712, :787 | `test_one_ulp_value_change_halts_with_all_layer_measurements` (`c10x_enginepath_selftest.py:1793`) | `c10x_enginepath_inertness.py:123` |
+| 3 | §13 Z2(3), Z6(c); :708–712, :788 | `test_nan_value_halts` (`c10x_enginepath_selftest.py:1801`) | `c10x_enginepath_inertness.py:123` |
+| 4 | §13 Z2(1), Z6(d); :706–707, :789 | `test_equal_values_wrong_dtype_halt` (`c10x_enginepath_selftest.py:1805`) | `c10x_enginepath_inertness.py:123` |
+| 5 | §13 Z2(1), Z6(e); :706–707, :790 | `test_wrong_shape_halts` (`c10x_enginepath_selftest.py:1811`) | `c10x_enginepath_inertness.py:123, c10x_enginepath_inertness.py:136` |
+| 6 | §13 Z4, Z6(f); :723–732, :791 | `test_nonzero_update_halts_before_weight_comparison` (`c10x_enginepath_selftest.py:1816`) | `c10x_enginepath_inertness.py:382` |
+| 7 | §13 Z1, Z4, Z6(g); :691–703, :731, :792 | `test_w0_byte_identity_stays_strict_before_and_after_null_cell` (`c10x_enginepath_selftest.py:1822`) | `c10x_enginepath_inertness.py:169` |
+| 8 | §13 Z2(4), Z3; :712–721; measured values in HALT | `test_driver_halt_serializes_measured_x2_values` (`c10x_enginepath_selftest.py:1845`) | `c10x_enginepath_arms.py:1112` |
+| 9 | §13 Z3; :714–721; pre-restoration evidence survives exit HALT | `test_after_cell_halt_keeps_pre_restoration_measurements` (`c10x_enginepath_selftest.py:1830`) | `c10x_enginepath_inertness.py:382` |
+| 10 | §13 Z3 report-only; :714–721; acceptance/eligibility/verdict unchanged | `test_signed_zero_reader_keeps_reports_out_of_admission` (`c10x_enginepath_selftest.py:919`) | `c10x_enginepath_read.py:111, c10x_enginepath_read.py:983` |
+| 11 | Program-supplied replacement SHA; §13 Z6 :784–797 | `test_amendment_z_prereg_pin` (`c10x_enginepath_selftest.py:1861`) | `c10x_enginepath_arms.py:29, c10x_enginepath_read.py:16; synthetic fixture and R5 expected pin` |
+
+The signed-zero positive control measures one -0 → +0 bit-pattern/byte change per layer, five layers total; each layer reports `changed_bytes=1`, `changed_elements=1`, `signed_zero_changes=1`, unequal raw hashes, and exact value identity. Float `!=` counts zero changes. Residuals and updates remain exactly zero. A one-ULP change at layer 6, a NaN at layer 5, equal-valued fp32 at layer 4, and a shape mismatch at layer 8 all HALT. A nonzero update HALTs at `NULL_NONZERO_UPDATE` before the weight comparison. This synthetic regression instantiates the measured mechanism; it does not claim to reproduce the historical layer-4 count of 21.
+
+### RED before implementation
+
+Evidence directory: `/private/tmp/c10x_build/signedzero_amendment/`. Initial production sources are copied there by basename and hashed in `before.json`. Only tests/the tiny fixture were changed before this first run. From `/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c`:
+
+```sh
+/usr/bin/env TMPDIR=/private/tmp/c10x_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python' -B -m unittest -v \
+  c10x_enginepath_selftest.SignedZeroTests \
+  c10x_enginepath_selftest.FileAdmissionTests.test_signed_zero_reader_keeps_reports_out_of_admission
+```
+
+Exit **1**, 10 tests, 5 failures and 4 errors. The scientific positive-control RED is the old `W0 X2-vii exact zero` halt after the actual zero write; reader RED is its old checkpoint requirement. Wrong dtype/shape also expose secondary cleanup failures masking the expected primary code. Nonzero-update already halted at its correct old code; its RED reflects absent measured diagnostics, not a weakened exact-zero predicate. Full original output:
+
+```text
+test_amendment_z_prereg_pin (c10x_enginepath_selftest.SignedZeroTests.test_amendment_z_prereg_pin) ... FAIL
+test_driver_halt_serializes_measured_x2_values (c10x_enginepath_selftest.SignedZeroTests.test_driver_halt_serializes_measured_x2_values) ... FAIL
+test_equal_values_wrong_dtype_halt (c10x_enginepath_selftest.SignedZeroTests.test_equal_values_wrong_dtype_halt) ... FAIL
+test_nan_value_halts (c10x_enginepath_selftest.SignedZeroTests.test_nan_value_halts) ... FAIL
+test_nonzero_update_halts_before_weight_comparison (c10x_enginepath_selftest.SignedZeroTests.test_nonzero_update_halts_before_weight_comparison) ... ERROR
+test_one_ulp_value_change_halts_with_all_layer_measurements (c10x_enginepath_selftest.SignedZeroTests.test_one_ulp_value_change_halts_with_all_layer_measurements) ... FAIL
+test_signed_zero_write_passes_and_counts_binary16_bits (c10x_enginepath_selftest.SignedZeroTests.test_signed_zero_write_passes_and_counts_binary16_bits) ... ERROR
+test_w0_byte_identity_stays_strict_before_and_after_null_cell (c10x_enginepath_selftest.SignedZeroTests.test_w0_byte_identity_stays_strict_before_and_after_null_cell) ... ok
+test_wrong_shape_halts (c10x_enginepath_selftest.SignedZeroTests.test_wrong_shape_halts) ... ERROR
+test_signed_zero_reader_keeps_reports_out_of_admission (c10x_enginepath_selftest.FileAdmissionTests.test_signed_zero_reader_keeps_reports_out_of_admission) ... ERROR
+
+======================================================================
+ERROR: test_nonzero_update_halts_before_weight_comparison (c10x_enginepath_selftest.SignedZeroTests.test_nonzero_update_halts_before_weight_comparison)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1816, in test_nonzero_update_halts_before_weight_comparison
+    measured=self.failed_gate(change,'NULL_NONZERO_UPDATE')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1769, in failed_gate
+    measured=caught.exception.x2_vii_diagnostic
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Halt' object has no attribute 'x2_vii_diagnostic'
+
+======================================================================
+ERROR: test_signed_zero_write_passes_and_counts_binary16_bits (c10x_enginepath_selftest.SignedZeroTests.test_signed_zero_write_passes_and_counts_binary16_bits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1775, in test_signed_zero_write_passes_and_counts_binary16_bits
+    record=self.run_gate()
+           ^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1765, in run_gate
+    return self.gate(self.H,self.hp,self.requests,[torch.eye(2) for _ in self.hp.layers],self.pristine)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<production X2-vii AST>", line 112, in gate
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_inertness.py", line 118, in verify
+    require(actual == self.hashes, 'W0 '+label)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_inertness.py", line 12, in require
+    raise Halt(code)
+c10x_enginepath_inertness.Halt: W0 X2-vii exact zero
+
+======================================================================
+ERROR: test_wrong_shape_halts (c10x_enginepath_selftest.SignedZeroTests.test_wrong_shape_halts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_inertness.py", line 127, in cell
+    yield
+  File "<production X2-vii AST>", line 112, in gate
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_inertness.py", line 118, in verify
+    require(actual == self.hashes, 'W0 '+label)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_inertness.py", line 12, in require
+    raise Halt(code)
+c10x_enginepath_inertness.Halt: W0 X2-vii exact zero
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1809, in test_wrong_shape_halts
+    measured=self.failed_gate(lambda records:setattr(self.weight(8),'data',self.weight(8).detach().reshape(1,4)),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1767, in failed_gate
+    with self.assertRaises(I.Halt) as caught:self.run_gate(change)
+                                             ^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1765, in run_gate
+    return self.gate(self.H,self.hp,self.requests,[torch.eye(2) for _ in self.hp.layers],self.pristine)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<production X2-vii AST>", line 86, in gate
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/contextlib.py", line 158, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_inertness.py", line 129, in cell
+    self.restore()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_inertness.py", line 114, in restore
+    npd[self.H.weight_name(self.hp, l)].copy_(value)
+RuntimeError: The size of tensor a (4) must match the size of tensor b (2) at non-singleton dimension 1
+
+======================================================================
+ERROR: test_signed_zero_reader_keeps_reports_out_of_admission (c10x_enginepath_selftest.FileAdmissionTests.test_signed_zero_reader_keeps_reports_out_of_admission)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 927, in test_signed_zero_reader_keeps_reports_out_of_admission
+    R._file_evidence(f,{'elapsed_seconds':8.})
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 1021, in _file_evidence
+    _need(required <= set(names) and names.count('before recipe A') >= 2 and
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_read.py", line 38, in _need
+    raise ValueError(message)
+ValueError: W0 checkpoint coverage is incomplete
+
+======================================================================
+FAIL: test_amendment_z_prereg_pin (c10x_enginepath_selftest.SignedZeroTests.test_amendment_z_prereg_pin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1845, in test_amendment_z_prereg_pin
+    self.assertEqual(A.PIN,pin);self.assertEqual(R.PREREG_SHA256,pin)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '43a81103d68b953c2007e978b3ebecf11aadf66a7f121346047279845e8fc883' != 'd3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899'
+- 43a81103d68b953c2007e978b3ebecf11aadf66a7f121346047279845e8fc883
++ d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899
+
+
+======================================================================
+FAIL: test_driver_halt_serializes_measured_x2_values (c10x_enginepath_selftest.SignedZeroTests.test_driver_halt_serializes_measured_x2_values)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1835, in test_driver_halt_serializes_measured_x2_values
+    self.assertEqual(result['status'],'HALTED');self.assertEqual(result['code'],'X2-vii WEIGHT_VALUE 7')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'W0 X2-vii exact zero' != 'X2-vii WEIGHT_VALUE 7'
+- W0 X2-vii exact zero
++ X2-vii WEIGHT_VALUE 7
+
+
+======================================================================
+FAIL: test_equal_values_wrong_dtype_halt (c10x_enginepath_selftest.SignedZeroTests.test_equal_values_wrong_dtype_halt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1806, in test_equal_values_wrong_dtype_halt
+    measured=self.failed_gate(change,'X2-vii WEIGHT_VALUE 4')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1768, in failed_gate
+    self.assertEqual(str(caught.exception),code)
+AssertionError: 'W0 after X2-vii null' != 'X2-vii WEIGHT_VALUE 4'
+- W0 after X2-vii null
++ X2-vii WEIGHT_VALUE 4
+
+
+======================================================================
+FAIL: test_nan_value_halts (c10x_enginepath_selftest.SignedZeroTests.test_nan_value_halts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1799, in test_nan_value_halts
+    measured=self.failed_gate(lambda records:self.weight(5).__setitem__((0,1),float('nan')),'X2-vii WEIGHT_VALUE 5')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1768, in failed_gate
+    self.assertEqual(str(caught.exception),code)
+AssertionError: 'W0 X2-vii exact zero' != 'X2-vii WEIGHT_VALUE 5'
+- W0 X2-vii exact zero
++ X2-vii WEIGHT_VALUE 5
+
+
+======================================================================
+FAIL: test_one_ulp_value_change_halts_with_all_layer_measurements (c10x_enginepath_selftest.SignedZeroTests.test_one_ulp_value_change_halts_with_all_layer_measurements)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1792, in test_one_ulp_value_change_halts_with_all_layer_measurements
+    measured=self.failed_gate(change,'X2-vii WEIGHT_VALUE 6')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py", line 1768, in failed_gate
+    self.assertEqual(str(caught.exception),code)
+AssertionError: 'W0 X2-vii exact zero' != 'X2-vii WEIGHT_VALUE 6'
+- W0 X2-vii exact zero
++ X2-vii WEIGHT_VALUE 6
+
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.530s
+
+FAILED (failures=5, errors=4)
+```
+
+Two additional diagnostic defects were reproduced before their fixes:
+
+- `red_report_unavailable.log`: exit 1; replacing report-only counts with explicit unavailable values made `read_record` INVALID instead of the unchanged VALID result. Fixed by the narrow report-only null exception. Scientific fields retain their null/type/finiteness checks.
+- `red_after_cell.log`: exit 1; after a successful signed-zero write, an injected strict after-cell verification halt lost all five updates (`0 != 5`) and re-measured restored weights. Fixed by retaining the pre-restoration evidence.
+
+### GREEN, serial CPU verification
+
+All Python ran serially, with bytecode disabled and CPU thread limits. Outputs and test roots are under `/private/tmp/c10x_build/`. No real model/tokenizer, transformer/dataset import, MPS tensor, GPU run, stage launch or real-tree driver run was used.
+
+- `green_targeted_final.log`: exit **0**, all **11** Amendment Z focused tests PASS (1.289 s).
+- `green_full_selftest.log`: exit **0**, all **83** C10X selftests PASS (19.568 s).
+- `green_probe_compatibility.log`: exit **0**, existing **17** model-free probe groups PASS (0.991 s), confirming the unchanged probe remains compatible with the enriched observer records. Its separate real-cache test was not invoked in this amendment build.
+- `engine_fingerprint_worktree.log`: exit **0**, explicit `LLMDB_ROOT=W`, expected engine hash and `_cov_cpu=3`.
+- Frozen-tree `git diff --quiet -- memit_dry_run docs/C10X_ENGINEPATH_PREREG.md experiments/track_c/c10e_bandknob.py`: exit **0**. Scoped `git diff --check`: exit **0**.
+
+Exact full-suite command:
+
+```sh
+/usr/bin/env TMPDIR=/private/tmp/c10x_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python' -B '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py'
+```
+
+Full PASS output, including both listing backstops and import assertions:
+
+```text
+test_admitted_process_pair_and_p2_gate (__main__.FileAdmissionTests.test_admitted_process_pair_and_p2_gate) ... ok
+test_amendment_p_digest_refusals (__main__.FileAdmissionTests.test_amendment_p_digest_refusals) ... ok
+test_amendment_p_prereg_pin (__main__.FileAdmissionTests.test_amendment_p_prereg_pin) ... ok
+test_answer_audit_uses_runtime_recipe_order (__main__.FileAdmissionTests.test_answer_audit_uses_runtime_recipe_order) ... ok
+test_complete_stub_run_persists_every_record (__main__.FileAdmissionTests.test_complete_stub_run_persists_every_record) ... ok
+test_context_binding_enter_failure_restores (__main__.FileAdmissionTests.test_context_binding_enter_failure_restores) ... ok
+test_deadline_completion_and_previous_overhead (__main__.FileAdmissionTests.test_deadline_completion_and_previous_overhead) ... ok
+test_detailed_admission_negative_controls (__main__.FileAdmissionTests.test_detailed_admission_negative_controls) ... ok
+test_direct_shell_launchers_are_executable_in_git (__main__.FileAdmissionTests.test_direct_shell_launchers_are_executable_in_git) ... DIRECT SHELL ENTRY POINTS: none; all three supervised commands use sys.executable
+ok
+test_disable_cutoff_never_excuses_earlier_omissions (__main__.FileAdmissionTests.test_disable_cutoff_never_excuses_earlier_omissions) ... ok
+test_disable_marker_records_failed_answer_cutoff (__main__.FileAdmissionTests.test_disable_marker_records_failed_answer_cutoff) ... ok
+test_every_science_record_roundtrip_and_reader_audit (__main__.FileAdmissionTests.test_every_science_record_roundtrip_and_reader_audit) ... ok
+test_fp32_overflow_capture_and_parity_remain_report_only (__main__.FileAdmissionTests.test_fp32_overflow_capture_and_parity_remain_report_only) ... ok
+test_frozen_scorer_forwards_have_no_injected_kwargs (__main__.FileAdmissionTests.test_frozen_scorer_forwards_have_no_injected_kwargs) ... ok
+test_late_supervisor_persistence_is_unreadable (__main__.FileAdmissionTests.test_late_supervisor_persistence_is_unreadable) ... ok
+test_missing_inertness_evidence_is_refused (__main__.FileAdmissionTests.test_missing_inertness_evidence_is_refused) ... ok
+test_no_combined_device_dtype_conversions (__main__.FileAdmissionTests.test_no_combined_device_dtype_conversions) ... ok
+test_pinned_contexts_never_sample (__main__.FileAdmissionTests.test_pinned_contexts_never_sample) ... ok
+test_pinned_processes_and_halted_context_identity (__main__.FileAdmissionTests.test_pinned_processes_and_halted_context_identity) ... ok
+test_post_audit_blocks_are_killed_by_final_deadline (__main__.FileAdmissionTests.test_post_audit_blocks_are_killed_by_final_deadline) ... ok
+test_post_audit_budget_and_disabled_disposition (__main__.FileAdmissionTests.test_post_audit_budget_and_disabled_disposition) ... ok
+test_post_audit_rejects_contradictory_receipts (__main__.FileAdmissionTests.test_post_audit_rejects_contradictory_receipts) ... ok
+test_post_audit_startup_consumes_remaining_budget (__main__.FileAdmissionTests.test_post_audit_startup_consumes_remaining_budget) ... ok
+test_reader_publishes_invalid_with_exit_zero (__main__.FileAdmissionTests.test_reader_publishes_invalid_with_exit_zero) ... ok
+test_recipe_fp32_overflow_does_not_halt_or_change_labels (__main__.FileAdmissionTests.test_recipe_fp32_overflow_does_not_halt_or_change_labels) ... ok
+test_script_alias_and_preflight_refusal_in_isolated_child (__main__.FileAdmissionTests.test_script_alias_and_preflight_refusal_in_isolated_child) ... ok
+test_signed_zero_reader_keeps_reports_out_of_admission (__main__.FileAdmissionTests.test_signed_zero_reader_keeps_reports_out_of_admission) ... ok
+test_supervisor_fail_closed_and_combining_output_path (__main__.FileAdmissionTests.test_supervisor_fail_closed_and_combining_output_path) ... ok
+test_tagged_fp32_diagnostics_preserve_file_admission (__main__.FileAdmissionTests.test_tagged_fp32_diagnostics_preserve_file_admission) ... ok
+test_tokenizer_forwards_preserve_attention_mask (__main__.FileAdmissionTests.test_tokenizer_forwards_preserve_attention_mask) ... ok
+test_actual_fe_writes_and_null_solve_observer (__main__.IntegrationTests.test_actual_fe_writes_and_null_solve_observer) ... ok
+test_actual_singleton_reduction_and_resolved_capture (__main__.IntegrationTests.test_actual_singleton_reduction_and_resolved_capture) ... ok
+test_projection_uses_remaining_units_and_setup_clock (__main__.IntegrationTests.test_projection_uses_remaining_units_and_setup_clock) ... ok
+test_solver_masked_gradient_clip_filter_and_tie (__main__.IntegrationTests.test_solver_masked_gradient_clip_filter_and_tie) ... ok
+test_telemetry_recipe_records_and_counts_equal (__main__.IntegrationTests.test_telemetry_recipe_records_and_counts_equal) ... ok
+test_telemetry_valid_admission_and_runner_no_writes (__main__.IntegrationTests.test_telemetry_valid_admission_and_runner_no_writes) ... ok
+test_three_recipe_telemetry_probe_and_file_equality (__main__.IntegrationTests.test_three_recipe_telemetry_probe_and_file_equality) ... ok
+test_reader_control_boundaries (__main__.ReaderTests.test_reader_control_boundaries) ... ok
+test_reader_count_classes (__main__.ReaderTests.test_reader_count_classes) ... ok
+test_reader_flags_denominators_nulls (__main__.ReaderTests.test_reader_flags_denominators_nulls) ... ok
+test_reader_interpretation_and_null_table (__main__.ReaderTests.test_reader_interpretation_and_null_table) ... ok
+test_reader_law3_boundaries (__main__.ReaderTests.test_reader_law3_boundaries) ... ok
+test_reader_locality_boundaries (__main__.ReaderTests.test_reader_locality_boundaries) ... ok
+test_reader_process_combination (__main__.ReaderTests.test_reader_process_combination) ... ok
+test_reader_qualifier_boundaries (__main__.ReaderTests.test_reader_qualifier_boundaries) ... ok
+test_reader_replication (__main__.ReaderTests.test_reader_replication) ... ok
+test_reader_validity (__main__.ReaderTests.test_reader_validity) ... ok
+test_active_null_negative_controls (__main__.SeamTests.test_active_null_negative_controls) ... ok
+test_baseline_miss_stops_candidates (__main__.SeamTests.test_baseline_miss_stops_candidates) ... ok
+test_capture_bindings_identity_attribution (__main__.SeamTests.test_capture_bindings_identity_attribution) ... ok
+test_dispatch_call_time_flag (__main__.SeamTests.test_dispatch_call_time_flag) ... ok
+test_fe_ast_three_changes (__main__.SeamTests.test_fe_ast_three_changes) ... ok
+test_fe_modes_and_keys (__main__.SeamTests.test_fe_modes_and_keys) ... ok
+test_float64_dense_reference (__main__.SeamTests.test_float64_dense_reference) ... ok
+test_independent_full_vocabulary_audit (__main__.SeamTests.test_independent_full_vocabulary_audit) ... ok
+test_knobs_and_frame_subjects (__main__.SeamTests.test_knobs_and_frame_subjects) ... ok
+test_launch_refusals (__main__.SeamTests.test_launch_refusals) ... ok
+test_pristine_hash_restore_hooks (__main__.SeamTests.test_pristine_hash_restore_hooks) ... ok
+test_process2_requires_eligibility (__main__.SeamTests.test_process2_requires_eligibility) ... ok
+test_recipe_states_counters (__main__.SeamTests.test_recipe_states_counters) ... ok
+test_solver_ast_and_gradients (__main__.SeamTests.test_solver_ast_and_gradients) ... ok
+test_tolerance_and_finiteness (__main__.SeamTests.test_tolerance_and_finiteness) ... ok
+test_watchdog_and_projection (__main__.SeamTests.test_watchdog_and_projection) ... ok
+test_after_cell_halt_keeps_pre_restoration_measurements (__main__.SignedZeroTests.test_after_cell_halt_keeps_pre_restoration_measurements) ... ok
+test_amendment_z_prereg_pin (__main__.SignedZeroTests.test_amendment_z_prereg_pin) ... ok
+test_driver_halt_serializes_measured_x2_values (__main__.SignedZeroTests.test_driver_halt_serializes_measured_x2_values) ... ok
+test_equal_values_wrong_dtype_halt (__main__.SignedZeroTests.test_equal_values_wrong_dtype_halt) ... ok
+test_nan_value_halts (__main__.SignedZeroTests.test_nan_value_halts) ... ok
+test_nonzero_update_halts_before_weight_comparison (__main__.SignedZeroTests.test_nonzero_update_halts_before_weight_comparison) ... ok
+test_one_ulp_value_change_halts_with_all_layer_measurements (__main__.SignedZeroTests.test_one_ulp_value_change_halts_with_all_layer_measurements) ... ok
+test_signed_zero_write_passes_and_counts_binary16_bits (__main__.SignedZeroTests.test_signed_zero_write_passes_and_counts_binary16_bits) ... ok
+test_w0_byte_identity_stays_strict_before_and_after_null_cell (__main__.SignedZeroTests.test_w0_byte_identity_stays_strict_before_and_after_null_cell) ... ok
+test_wrong_shape_halts (__main__.SignedZeroTests.test_wrong_shape_halts) ... ok
+test_frozen_bytes_and_imports (__main__.TelemetryTests.test_frozen_bytes_and_imports) ... IMPORT GUARD PASS: c10e_bandknob, transformers, datasets absent
+ok
+test_isolation_positive_control_children_meta (__main__.TelemetryTests.test_isolation_positive_control_children_meta) ... ok
+test_post_run_answer_audit (__main__.TelemetryTests.test_post_run_answer_audit) ... ok
+test_strict_json_roundtrips (__main__.TelemetryTests.test_strict_json_roundtrips) ... ok
+test_telemetry_code_path_equality (__main__.TelemetryTests.test_telemetry_code_path_equality) ... ok
+test_telemetry_failure_boundaries (__main__.TelemetryTests.test_telemetry_failure_boundaries) ... ok
+test_telemetry_inertness_schedule (__main__.TelemetryTests.test_telemetry_inertness_schedule) ... ok
+test_telemetry_line_volume (__main__.TelemetryTests.test_telemetry_line_volume) ... ok
+test_telemetry_state_unchanged (__main__.TelemetryTests.test_telemetry_state_unchanged) ... ok
+test_telemetry_switch_admission (__main__.TelemetryTests.test_telemetry_switch_admission) ... ok
+
+----------------------------------------------------------------------
+Ran 83 tests in 19.568s
+
+OK
+LISTING: attributed-protected changes = {}
+LISTING: observed/unattributed other changes = {}
+SYS.MODULES PASS: c10e_bandknob/transformers/datasets absent
+```
+
+Probe compatibility output:
+
+```text
+test_cli_wrong_template_refuses_before_loader (__main__.selftest.<locals>.ProbeTests.test_cli_wrong_template_refuses_before_loader) ... ok
+test_copy_guard_refuses_before_operator (__main__.selftest.<locals>.ProbeTests.test_copy_guard_refuses_before_operator) ... ok
+test_descriptor_relative_writes_and_fd_mutations (__main__.selftest.<locals>.ProbeTests.test_descriptor_relative_writes_and_fd_mutations) ... ok
+test_descriptor_runtime_open_from_protected_cwd (__main__.selftest.<locals>.ProbeTests.test_descriptor_runtime_open_from_protected_cwd) ... ok
+test_existing_output_refused (__main__.selftest.<locals>.ProbeTests.test_existing_output_refused) ... ok
+test_file_write_policy (__main__.selftest.<locals>.ProbeTests.test_file_write_policy) ... ok
+test_guard_blocks_alias_and_out_writes_before_execution (__main__.selftest.<locals>.ProbeTests.test_guard_blocks_alias_and_out_writes_before_execution) ... ok
+test_no_live_weight_writes (__main__.selftest.<locals>.ProbeTests.test_no_live_weight_writes) ... ok
+test_nonzero_residual_matches_rejecting_gate (__main__.selftest.<locals>.ProbeTests.test_nonzero_residual_matches_rejecting_gate) ... ok
+test_probe_bans_unsafe_copy_forms (__main__.selftest.<locals>.ProbeTests.test_probe_bans_unsafe_copy_forms) ... ok
+test_protected_aliases_and_directory_moves (__main__.selftest.<locals>.ProbeTests.test_protected_aliases_and_directory_moves) ... ok
+test_residual_matches_actual_gate_fixed_input (__main__.selftest.<locals>.ProbeTests.test_residual_matches_actual_gate_fixed_input) ... ok
+test_runtime_files_are_writable_under_installed_policy (__main__.selftest.<locals>.ProbeTests.test_runtime_files_are_writable_under_installed_policy) ... ok
+test_signed_zero_only_changes_shadow_bytes (__main__.selftest.<locals>.ProbeTests.test_signed_zero_only_changes_shadow_bytes) ... ok
+test_unsafe_copy_predicate_without_mps (__main__.selftest.<locals>.ProbeTests.test_unsafe_copy_predicate_without_mps) ... ok
+test_wrong_template_hash_refuses_before_forward (__main__.selftest.<locals>.ProbeTests.test_wrong_template_hash_refuses_before_forward) ... ok
+test_x2_iv_floor_threshold_matches_gate (__main__.selftest.<locals>.ProbeTests.test_x2_iv_floor_threshold_matches_gate) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.991s
+
+OK
+CPU ONLY; no frozen harness/transformers/datasets imported
+```
+
+Worktree fingerprint output:
+
+```text
+engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py
+  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a…)
+  _cov_cpu 3  (expected 3)
+```
+
+No prior mutation campaign was rerun: this narrow amendment's tests cover the new signed-zero/value/dtype/shape/report-only boundaries. The earlier mutation evidence remains historical evidence, not new execution.
+
+### Preservation, review and final SHAs
+
+Only four C10X source files changed in this amendment build, plus this append to the named report. All **188 R5 file hashes** equal this task's before snapshot, including the program-authored §13 prereg; the other **187** continue matching the earlier frozen baseline. The full before/after tables are `before.json/protected_R5` and `sealed_evidence.json/protected_R5`, not a truncated scan. All **five held artifact hashes** match, including the original HALTED run, its pinned template JSON, the failed 17:10 probe JSON/log and the measured 18:05 probe JSON. The prior **255,636 report bytes** are preserved exactly (prefix SHA `e2a931c2d3595dd48af16e830dc233ced2814d69b828b8eae16213eaff538b28`). No old run, probe, diagnostic or historical report section was repaired or rewritten.
+
+The preservation audit compares saved source ASTs: all four `Pristine` methods; `tensor_sha`, `active_null_structure`, parity/floor helpers and `write_cell`; every original `require` in `run_checks` and `observe_null_solve`; the observer call; all checks before X2-vii and G8 after it; and the final inertness cleanup remain unchanged. The only removed `pristine.verify` call is the superseded in-cell weight criterion. In the driver, the only changed function is `run`; all writer/scorer/lens/T8 ASTs are unchanged. In the reader, only `_nulls` and `_file_evidence` change besides the SHA constant.
+
+Current git porcelain (the pre-existing `.gitignore` modification is unowned by this task):
+
+```text
+ M .gitignore
+ M experiments/track_c/c10x_enginepath_arms.py
+ M experiments/track_c/c10x_enginepath_inertness.py
+ M experiments/track_c/c10x_enginepath_read.py
+ M experiments/track_c/c10x_enginepath_selftest.py
+```
+
+Scoped diff summary:
+
+```text
+ experiments/track_c/c10x_enginepath_arms.py      |   6 +-
+ experiments/track_c/c10x_enginepath_inertness.py | 150 +++++++++++++++-----
+ experiments/track_c/c10x_enginepath_read.py      |   8 +-
+ experiments/track_c/c10x_enginepath_selftest.py  | 171 ++++++++++++++++++++++-
+ 4 files changed, 293 insertions(+), 42 deletions(-)
+```
+
+| Source artifact | Final SHA-256 | Amendment delta |
+| --- | --- | --- |
+| `experiments/track_c/c10x_enginepath_arms.py` | `ffcf5200c81c2c860f8b7741d19545b88f66b68f546ce4e11c52adff6ea609fc` | changed |
+| `experiments/track_c/c10x_enginepath_inertness.py` | `c1c964da94513b29138677f637bf70f55cdb35f3f07d39d7b0d1a05d26b4c7e4` | changed |
+| `experiments/track_c/c10x_enginepath_read.py` | `b17e588a8c8f6ff3d8ee5f3dc118fd8837bd9e26b7bdf33e343599ce671c2057` | changed |
+| `experiments/track_c/c10x_enginepath_selftest.py` | `5d172baf3694619f04bd33e226dab641cdf1b985f86d8e59022c9f6e2a2252f0` | changed |
+| `experiments/track_c/c10x_enginepath_telemetry_check.py` | `e95beb2cef310fa1050ccb4a2b60ac8224f493ea4d513d97868f3b9a9c99fe80` | unchanged |
+| `experiments/track_c/c10x_overtone_z.py` | `8b32ca840c1451624ba5f46143a6e65a03ae69e968dd0e6180d04fa5683dac42` | unchanged |
+| `experiments/track_c/c10x_x2_probe.py` | `23bdf070c66f8af02bb4d38d22eaecdfffa04782339f500ce1572080d6a2b614` | unchanged |
+| `docs/C10X_ENGINEPATH_PREREG.md` | `d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899` | program-authored §13, unchanged by build |
+
+Active pins in the driver, reader, synthetic fixture, prereg-pin tests and frozen-byte test now use `d3dfdc8bd8a9c04894b63da9b51ead164e7667e40d8f08b29b11606078f92899`. Exhaustive search of `experiments/`, `tools/` and `configs/` finds no old `43a81103…` pin. The full old SHA remains only as the deliberately historical prereg :642 identity in that search scope. Original historical records and report hashes are preserved.
+
+The [advisor-review](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.codex/skills/advisor-review/SKILL.md) design and implementation checks used a fresh read-only `/root/signedzero_refute` fallback after Claude subscription auth returned exit 1, `loggedIn=false`, `authMethod=none`. The implementation review first returned FIX-FIRST for the after-cell evidence loss, reproduced above, then **PROCEED with no remaining static blocker** after the fix. This fallback has weaker independence. Reviewer runtime results are UNVERIFIED because it ran no Python/tests; the author’s CPU PASS evidence is given above. The supplied Astra amendment delta remains GO. This is implementation verification, not the program's later live-build admission/dispatch decision.
+
+| Private evidence artifact (under `/private/tmp/c10x_build/signedzero_amendment/`) | SHA-256 |
+| --- | --- |
+| `engine_fingerprint_worktree.log` | `15aef4acf47eb374ea93cf4f949a0022a287f56b646ac2b139f599af98b355e3` |
+| `green_full_selftest.log` | `546bb57f51afe21546ed1f9d50e776ca8e4a7ce357966164afac5aded8f60fdd` |
+| `green_probe_compatibility.log` | `6c5108b59b17619acb530c44bf81bf68aebbcfaecbcd58cf51c99a4e4b4d0ae6` |
+| `green_targeted_final.log` | `2a028c6737637ec35284a2be3f451ff06cd8954321058574db60a36b2aec729a` |
+| `red.log` | `808e139c885838bddc9ce3704b757e9110c897b0a47b1210b068104a16aa162a` |
+| `red_after_cell.log` | `19362dd33602a7d0f97418aa3ba024f0d3cac36cd479f3006ace6b215c28c2e8` |
+| `red_report_unavailable.log` | `31e8e816a9d6fa3a007022042f07ca067a49f11973ffe5448b27327314023beb` |
+| `final_review.md` | `b596d5d8ca43a1c6089ac6e166234882fb3a3b426fef8833ca0c81b86b1096e1` |
+| `sealed_evidence.json` | `0fe94858c7e3d73cbc14a512423151555e8320d04f1c39fa04fd57451399bc25` |
+| `final_patch.diff` | `77f23f088fad2a4a5c3c280b3f87d8fe25ad2f3e186f2d73edce55889878004d` |
+
+**Live evidence remains UNVERIFIED.** No scientific result, injection/candidate success or universal MPS equivalence follows from these CPU tests. Process 1 in `results/c10x_enginepath/` remains HALTED/incomplete and INVALID, with no scientific classification. The authorized §13 rerun requires the full sequence, fresh `results/c10x_enginepath_rerun1/` and matching logs, current source/prereg pins, program build review and operator GO (prereg :776–797). No dispatch was performed. No new PROVISIONAL decision was made.
+
+Final append/source/held-artifact receipt: `/private/tmp/c10x_build/signedzero_amendment/final_receipt.json`. Final handoff in the context-save format is under the same authorized scratch directory; home/global context or publication state is outside this brief's write scope.
