@@ -1,0 +1,19 @@
+{
+  "decision_id": "D-C10w-oracle",
+  "stage": "p2-eval",
+  "halted_at": "2026-10-08T00:06:01-0600",
+  "coordinator_exit": "COORDINATOR_EXIT=6 p2-eval stopped: wrapper rc=2, outer log last line 'STAGE_EXIT=2'",
+  "p2_directory": "results/c10w_oracle/p2_20261008T034226_086980Z",
+  "halt_records": ["HALT.json", "eval_halt.json (all recipes scored, full record)"],
+  "failing_check": "experiments/track_c/c10w_oracle_read.py:355 require(-1.000001<=cosine<=1.000001, 'invalid same-seed cosine')",
+  "offending_output": {"per_layer_cosine": {"4": 1.0084311108614854, "5": 1.0090500236015632, "6": 1.0089088481343025, "7": 1.0081433615389068, "8": 1.0072518561709738}, "prompt_agreement_n": 72, "count_difference": 0},
+  "root_cause": "experiments/track_c/c10w_oracle_eval.py:434-440 computes torch.dot over the flattened 2048x11008 merged delta (22.5M fp32 elements) with fp32 accumulation; the dot loses ~0.8% while a.norm() does not, so cos>1.",
+  "positive_control": "CPU-only recomputation from the saved adapters (P1 A7_coined_coined_s0_r16 vs P2 retrain), 2026-10-08 ~00:15: fp32 reproduces 1.008431/1.00905/1.008909/1.008143/1.007252; float64 gives 0.99999999999934-0.99999999999949 at every layer; A matrices torch.equal (retrain bit-identical).",
+  "science_state": "Every P2 recipe was scored before the halt (eval_halt.json). The reading (c10w_oracle_read.py) never ran, so there is no P2 label, no replicated label, and no routing.",
+  "fix_candidate_not_applied": "compute the cosine in float64 (a.double(), b.double()) at c10w_oracle_eval.py:434-440; not applied (halt discipline: reviewed fix only).",
+  "budget": "P2 authorized projection 178.04 min (authorization_P2.json sha 1a35ace1...); eval wall 6209 s (~103 min) + six training stages (~40 min). Re-running the eval (~103 min GPU) exceeds the P2 authorization; a raise is operator-only.",
+  "options_for_ruling": [
+    "A: fix the cosine to float64 (reviewed), re-run the P2 eval only, under a new operator budget authorization (~105 GPU-min).",
+    "B: no GPU: a reviewed prereg deviation note lets the reader run on eval_halt.json with the same-seed cosine recomputed in float64 from the hash-bound saved adapters (a reported diagnostic, not a gate); needs advisor + Astra and an operator ruling, because it reads a halted record."
+  ]
+}
