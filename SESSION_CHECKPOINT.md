@@ -25,6 +25,9 @@ Resume as lead experimentalist, AUTONOMOUS under D-C10r-rulings-9/10/11/12 (push
 
 7. FULL BATON (D-C10r-rulings-13, ~23:30): operator: "You take the full baton. I want you to run the show with no HIL from here unless I explicitly stop you." Make every call yourself; do not ask the operator anything tonight; still never self-write a budget raise (stay inside approved bounds); ASTRA telemetry stays off. PushNotification only for real milestones (P2 verdict, a HALT).
 
+
+8. LAB VIEW ALL-ERAS (D-C10r-labviz-4, ~23:34): operator wants all historical science (e.g. old Mistral runs) shown in its own era's terms across every tab, not C10 framing, plus a "how it all connects" map with a focus mode. The spec subagent was told mid-run; verify docs/LABVIZ_V2_SPEC.md covers it (C10-framing audit with file:line + connection map); if not, add it before review.
+
 OPERATOR STANDING REQUESTS unchanged: scoreboard (docs/c10_scoreboard.json + board_fmt.py) and evaluations (docs/c10_evaluations.json) at every close-out/state change, plain words; PushNotification when something they'd act on lands. Leave .gitignore and untracked labviz/infranodus/autoresearch files alone. Context: Monitor context_watch.py on the newest transcript, 250000 60.
 
 ## FRESH SESSION HANDOFF - 2026-10-07 ~22:00 MDT by date (C10V pass1 done, verdict packet + Astra review in flight; C10W P2 RUNNING under D-C10w-p2go, first pair passed with no redo; ASTRA §9.1 fold drafted)
