@@ -675,3 +675,208 @@ Final source SHA-256s:
 The actual go-selected benchmark is `results/c10z_astra_benchmark/20261008T104535Z/benchmark.json`, SHA `a33075393066e6332fbe64b9641caa57e7005fb89c6f8849fb212f5940ccff4a`. Its template source is `results/c10q_stacked/logs_run.log:9`; its `inputs.templates_sha256` **`d6c7c70026dced37bddc6adf316a3487d70227dae80a6e0ed5cdabe50caedfa0`** was directly checked against the imported constant. Its recorded driver identity predates this patch. A read-only call to the real admission helper now correctly refuses that historical selection: **`HALTED-V12: benchmark source identity changed: experiments/track_c/c10z_astra_arms.py`** (`historical-benchmark-refusal-amended.json`). Per §10(d1), final driver review precedes the program's single drift-forced benchmark rerun in a fresh directory, a new go-record file and the attempt-2 launch. The old go record, benchmark and halted results remain data and are never overwritten or promoted. We did not run the benchmark or any GPU job.
 
 The amended prereg, reader, driver and selftest pins all agree on SHA **`7c6e52e274e3dbc30cd5123d6b56ae8c9b1dca8c5e7507ff7be15d57e845059d`**. This is a post-V4, pre-candidate input amendment: it changes both comparator and candidate inputs. Results will be conditional on this fixed set; the original unrecorded seed-0 context attribution remains inferred, and no freedom from selection bias is claimed. A future pinned-set V4 miss remains a final HALT under §10(d4), with no further template change or gate relaxation. No GPU attempt, new live LAW#3 count, scientific ASTRA outcome or live launch admission was claimed.
+
+## 13. Z0 halt probe
+
+**PASS — test-first diagnostic implementation; full CPU suites GREEN (198 / 47). The MPS probe has NOT RUN.** Added `experiments/track_c/c10z_astra_z0_probe.py` and nine tiny CPU tests in the existing selftest. The separately authorized driver change is exactly two lines in `Session.z0`: on the existing `sigma > .125` failure path, save `checks.Z0 = {ok: false, sigma_shape: sigma, original_full_sequence_sigma: full_sigma}` before the unchanged V5 `require`. The threshold, calculations, passing return, reader and science path are unchanged. This driver metadata change is ready for the program's Astra review; no new Astra approval is claimed.
+
+Read-only inspection of the actual attempt-2 records confirmed the template file SHA equals `run.json.context_templates.sha256`: **`9472b663a34cfd9c0bb5448087ae0c2c333b1988b70f211fb2d90baaf8b560b7`**. Its pristine parameter hash is **`87cb5c38789af8ba230c28b88bef28436bd9706fb0fe076a0500101eeb938acd`**. Its V5 halt has no `checks.Z0`; the original measured spread therefore remains **UNVERIFIABLE** from that halt. The operator reports LAW#3 A7 12/52/8 and A1/A2 70/71. These are prior-run observations, not measurements from this build or its CPU tests.
+
+The probe checks the input file SHA before any model import, flattens the saved grouped templates through the driver's own `Session.flatten_templates`, and loads the same harness/model lazily, with seed 0, Qwen2.5-3B revision `3aab1f1954e9cc14eb9509a215f9e5ca08227a9b`, **MPS fp16**, the frozen architecture and tied embedding. Its parameter hash must equal attempt 2's pristine hash before forwards. It bypasses `Session.__init__` because that constructor publishes records and installs edit wrappers. It calls no edit, recipe, write-column, restore, generation or template sampler. Telemetry is off. CPU tests never import the actual harness, transformers or datasets, and a separate fresh import guard also verified that importing the probe loads neither torch nor the scientific runtime.
+
+For A7, the probe calls the actual `Session.make_batch` and `Session._observe(..., carriers=None, full=True, trace_layers=None)` used by the driver's Z0 observation: all six views, 144 rows with the real 24-fact population. It retains only view-0 diagnostic rows. Every `(fact i, target position q)` records four leads, all using the driver's `margin_leads`:
+
+- **Native**: single unpadded prefix `prompt + target[:q]`, final logits, exactly as `z0()`.
+- **Batch**: the original observation's gathered lead.
+- **Full**: single unpadded full teacher-forced sequence `prompt + target[:-1]` at `len(prompt) + q - 1`, exactly as the driver's full-sequence reference.
+- **Batch1**: the same observation method on the single identity row, with its **original global padded width, token IDs, mask and requirement indices preserved**, and only the row index changed to zero. This holds width/mask constant while changing the batch dimension.
+
+The record includes signed and absolute per-position differences; max, median and p95 of **|native-batch|, |native-batch1| and |native-full|**, calculated by subtracting CPU float64 values and using linear quantile interpolation; the worst ten positions ranked by |native-batch|, with decoded token windows and IDs; actual batch shape; timings for loading, hashing, batch, batch1, prefix and full forwards; and before/after parameter and buffer hashes. The built batch is right padded independently of `tok.padding_side`, so both are reported. A temporary rotary pre-hook captures the **actual position_ids passed to the model**, including their broadcast shape, for batch, batch1, native and full forwards. Each row includes those IDs, the exact batch mask, its sum and the scored position's ID. Native/full calls pass no attention-mask argument, matching Z0; their implicit all-token mask sums are recorded. Hooks are removed and the original hook registry checked after every capture.
+
+**Metric distinction:** the driver's `full_sigma` is **max |full-batch|**, not max |native-full|. The JSON separately records `z0_sigma_shape`, `z0_full_sigma` and the full-batch summary, in addition to the three requested native-reference summaries. A shape-sensitive CPU positive control proves that these distinct quantities and all four leads are labelled correctly. The probe refuses any detected parameter/buffer change without restoring or repairing it.
+
+The output argument must be absolute, have exactly the parent `results/c10z_astra_z0_probe/`, and use a valid UTC name `YYYYMMDDTHHMMSS[.ffffff]Z`. Relative, escaped, symlinked or existing paths refuse before model loading. The timestamp directory is claimed exclusively; `probe.json` uses the driver's create-only JSON writer. No prior attempt, diagnostic or result is replaced. An interrupted/refused run's claimed directory remains a record; a later launch needs a fresh UTC path.
+
+**Operator launch command — provided, not executed.** This uses the actual worktree venv and probe CLI. The program chooses when to launch it. It creates only the fresh diagnostic namespace; no stage/recipe driver is launched.
+
+```bash
+C10Z_PROBE_ROOT='/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a'
+C10Z_PROBE_OUT="$C10Z_PROBE_ROOT/results/c10z_astra_z0_probe/$(/bin/date -u +%Y%m%dT%H%M%SZ)"
+/usr/bin/env -u C10_PROJECTOR -u N_EDIT -u C10_SUBJECT_OFFSET \
+  -u C10_CTX_TEMPLATES -u C10_ARMS -u C10_KEY_LOCUS -u C10_RECIPES \
+  LLMDB_ROOT="$C10Z_PROBE_ROOT" LLMDB_DEVICE=mps C10Z_TELEMETRY=0 \
+  MODEL_ID=Qwen/Qwen2.5-3B MODEL_REV=3aab1f1954e9cc14eb9509a215f9e5ca08227a9b \
+  PYTHONPYCACHEPREFIX="/private/tmp/c10z_build/z0-probe-bytecode/${C10Z_PROBE_OUT##*/}" \
+  OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+  VECLIB_MAXIMUM_THREADS=1 NUMEXPR_NUM_THREADS=1 \
+  "$C10Z_PROBE_ROOT/.venv/bin/python" -B \
+  "$C10Z_PROBE_ROOT/experiments/track_c/c10z_astra_z0_probe.py" "$C10Z_PROBE_OUT"
+```
+
+Output: **`$C10Z_PROBE_OUT/probe.json`**. No output under the real probe namespace was created by this build. `--help` ran successfully without model loading. The recorded source identities distinguish the new metadata-only driver from the driver used in attempt 2; no future scientific launch admission or benchmark rerun is claimed.
+
+All build evidence is under **`/private/tmp/c10z_build/z0-halt-probe/`**. Tests were written before the new probe and before the driver edit. Initial **RED** ran eight tests against the original driver SHA `ab6f5c809d8187f4e5eb39e9cc6fbf40b6e357b2ecf5b18ecc887e05de7adebc`: exit 1, **8 expected assertion failures, 0 errors**, 1.311 s (`red.txt`). The driver test failed at `self.assertIn("Z0", s.checks, ...)` with **`'Z0' not found in {} : V5 raises before saving its measured Z0 sigmas`**. The seven initial probe tests failed with **`diagnostic probe is not implemented`**. Initial GREEN was 9/9, including the existing frozen-boundary test (`green.txt`). Two additional positive controls exercised nonzero shape differences and the complete CPU JSON pipeline; final targeted **GREEN 11/11**, zero failures/errors, exit 0, 1.195 s (`green-final.txt`). No intermediate implementation failure occurred.
+
+| Test | Final GREEN evidence |
+|---|---|
+| `Fix2Tests.test_z0_v5_halt_persists_native_and_full_sigma` | V5 detail unchanged; synthetic native sigma .25 and full sigma 1.25 saved before raising, then serialized by the actual diagnostic to both scratch halt records |
+| `Fix2Tests.test_fix2_z0_sigma_halts_in_driver_at_frozen_boundary` | .125 still passes; larger sigma still HALTED-V5 |
+| `Z0ProbeTests.test_probe_never_writes_weights_or_calls_edit_recipe_sampling` | All parameter/buffer bytes equal; forbidden edit/recipe/sampling spies untouched; hook registry restored |
+| `Z0ProbeTests.test_probe_native_prefix_leads_equal_real_z0` | Every native lead and both maximum spreads exactly equal the actual driver Z0 result on fixed tiny CPU inputs |
+| `Z0ProbeTests.test_probe_batch1_keeps_padding_and_captures_actual_position_ids` | Original padded width/mask retained; explicit right padding despite left tokenizer setting; captured rotary IDs deliberately start at 11, proving they were observed rather than inferred |
+| `Z0ProbeTests.test_probe_diff_statistics_subtract_in_cpu_float64` | Difference of 16777216 and 16777217 retained; quantile inputs CPU float64; exact max/median/p95 oracle |
+| `Z0ProbeTests.test_probe_wrong_template_sha_refuses_before_model_load` | Wrong input SHA refused; model loader never called; no output directory created |
+| `Z0ProbeTests.test_probe_refuses_existing_or_escaped_output_before_model_load` | Existing, relative, wrong-namespace and non-UTC paths refused; sentinel record preserved; loader untouched |
+| `Z0ProbeTests.test_probe_mutation_is_detected_without_restoring_weights` | Deliberately mutating CPU forward is detected and refuses; hooks removed; no repair/restore |
+| `Z0ProbeTests.test_probe_distinct_shape_controls_and_full_sigma_match_z0` | Nonzero differences in all requested summaries; four leads and signed diffs agree; driver full-batch sigma distinguished from native-full |
+| `Z0ProbeTests.test_probe_cpu_json_pipeline_roundtrip_and_exclusive_output` | Actual run/JSON publication with injected tiny CPU loader; strict round trip, correct input hash/provenance, telemetry off; second invocation refuses and prior bytes remain intact |
+
+Both full suites ran **serially**, with worktree Python `-B`, `TMPDIR=/private/tmp/c10z_build`, separate fresh scratch bytecode prefixes and CPU thread limits of one. Exact final output:
+
+```text
+# astra-full.txt — exit 0
+----------------------------------------------------------------------
+Ran 198 tests in 118.007s
+
+OK
+C10Z_ASTRA_SELFTEST_PASS tests=198
+
+# benchmark-full.txt — exit 0
+----------------------------------------------------------------------
+Ran 47 tests in 2.798s
+
+OK
+C10Z_BENCH_SELFTEST_PASS tests=47
+```
+
+`WrapperTests.test_direct_scripts_executable_on_disk_and_git_index` remains GREEN within the full suite. Both wrappers are also directly confirmed `os.access(X_OK)` and git index mode 100755. Syntax parsing, model-free import guard and `git diff --check` passed. CPU tests prove the plumbing on synthetic models only. **Actual MPS spreads, worst positions, causal explanation and any scientific remedy remain UNMEASURED / UNVERIFIED.** No scientific model or tokenizer, real harness, engine runtime, GPU/MPS job, benchmark or recipe was loaded/run by this build.
+
+Diagnostic hypotheses remain open: fp16 batch-dimension arithmetic; padded-width/attention-mask/position handling; prefix-versus-full causal/index/margin effects. The batch1 and full controls make those comparisons observable without relaxing V5 or choosing an explanation. The work advances the Track C validity question before a science-path fix. Out-of-family advisor review was attempted per `.codex/skills/advisor-review/SKILL.md`, but the Claude auth probe returned `loggedIn: false, authMethod: none` (exit 1), and the wrapper refused **exit 3**, `FATAL: Claude CLI is not logged in` (`claude-design.txt`). The documented Codex fallback was also attempted and failed **exit 1**, `failed to initialize in-process app-server client: Operation not permitted (os error 1)` (`fallback-design.log`). There is **no independent-review signoff** from those failed invocations; program Astra review remains the intended review for the driver metadata change. The design packet is `design.md`.
+
+Final source SHA-256s:
+
+| File | SHA-256 |
+|---|---|
+| `experiments/track_c/c10z_astra_z0_probe.py` | **`9502c681a55095217496d8f5e2c6950fdc2f1fe3aebe34e1f015e87d18010799`** |
+| `experiments/track_c/c10z_astra_arms.py` | **`bc8ad6aef5778edd9bca49afb71a82e5e076cd937aa00bcb43fc8758b8ddcd16`** |
+| `experiments/track_c/c10z_astra_selftest.py` | `41ce04709f92c567da550269cb7efb7bd656c7270c90b8fb5458c405ee38fb20` |
+
+Our repository writes are limited to the new probe, its existing selftest, the two-line driver metadata change and this appended report section. The **16 protected files** in `before.json` remain byte-identical, including reader, benchmark/selftest, harness, engine source, prereg, wrappers, all snapshotted attempt-2 files and existing architecture diagnostics. No real architecture diagnostic or runtime result was written. Sections 1–12 remain byte-identical to `report.before.md`; `scope-before-report.json` contains the comparison and `after.json` records the report's external final SHA. No git mutation or commit was performed. The AGENTS context-save handoff is saved under scratch `context-save/projects/thestoryportal-arhugula-persistent-memory/checkpoints/`; `context-path.txt` names the exact file. Canonical ledgers and memory files are unchanged.
+
+**2026-10-08 program addendum — restored driver, bundled sigma test, native-mask control.** The program reverted the two-line sigma-recording change under **D-C10z-driftcap**. The current benchmark-bound driver remains the Astra-reviewed **`ab6f5c809d8187f4e5eb39e9cc6fbf40b6e357b2ecf5b18ecc887e05de7adebc`**, byte-identical to the pre-probe driver; this follow-up did not edit it. The initial section-13 driver SHA and 198-test evidence above describe the earlier build, before the program's revert.
+
+Moved **`Fix2Tests.test_z0_v5_halt_persists_native_and_full_sigma`** out of the default selftest and into **`results/c10z_z0_sigma_record.patch`** as an added selftest hunk. The test body is preserved verbatim and is automatically collected with Fix2Tests when the patch is applied. The originally saved driver patch remains an exact byte prefix; no live patch application, source-identity change or benchmark rerun occurred. The existing `.125` boundary test and all probe tests remain in the current suite. The bundled test was first confirmed RED against the reverted driver (`red.txt`: 1 expected failure, 0 errors, exit 1, 1.288 s, `'Z0' not found in {}`). `git apply --check` succeeds against the current files. Applying the combined patch **only in a scratch copy**, then running the moved test and boundary test, passed **2/2**, exit 0, 1.067 s (`bundled-green.txt`). No real driver was patched by that check.
+
+The program launched the original diagnostic externally. Read-only inspection of **`results/c10z_astra_z0_probe/20261008T132220Z/probe.json`**, SHA **`7a9abdc0abed2c2fdd1d97fc0e75cda6baecd465933dec0c74f1ef7f2365b65a`**, confirms 132 positions, native/full leads exactly equal everywhere, max |native-full| 0 and max |native-batch| **113108310.0078125**. All recorded native/full mask arguments are null. Native leads span [-113108312, 0]; batch leads span [-15.84765625, 4.046875], and batch1 [-15.85546875, 4.0390625]. This confirms the recorded disparity, **not its cause**. The program's mask-less MPS fp16 SDPA/causal-path hypothesis remains untested by this CPU build.
+
+Added **`--native-mask {none,ones}`** to the existing probe, default **`none`**. `none` retains the current driver's mask-less native and full forwards. `ones` adds exactly **`attention_mask=torch.ones_like(input_ids)`** to those two forward types; batch and batch1 still use their existing observation code and masks. No driver, reader, engine, harness or benchmark change was made. Each output now records top-level **`native_mask`** and the actual **`model.config._attn_implementation`** as **`attn_implementation`**. Every position records **`native_max_abs_logit`**, the maximum absolute logit over that position's entire native-prefix forward, reduced after CPU float32 conversion, and **`native_logits_dtype`**, the raw forward dtype. `native_full_mask_argument` is null for `none` and `"ones"` for `ones`. This control and added observations do not change leads, difference statistics, thresholds or telemetry settings.
+
+Three new CPU tests were written before the probe change:
+
+| Test | RED → final GREEN |
+|---|---|
+| `Z0ProbeTests.test_probe_native_mask_option_changes_only_forward_kwargs` | Missing `native_mask` parameter → identical paired input IDs, dtype/device and other kwargs; exactly seven native/full calls gain an all-ones mask, while batch calls stay identical; hashes/spies unchanged |
+| `Z0ProbeTests.test_probe_records_attention_backend_and_native_logit_bound` | Missing backend metadata → actual tiny-model backend and raw dtype recorded; every bound equals an independently calculated native-forward maximum |
+| `Z0ProbeTests.test_probe_native_mask_cli_default_and_ones` | Default dispatch lacks mode and CLI rejects option → default dispatches `none`, explicit option dispatches `ones` |
+
+`mask-red.txt`: **3 tests**, 3 expected assertion failures plus one expected CLI `SystemExit: 2` subtest error, exit 1, 1.082 s. `green.txt`: all twelve probe tests plus the current driver's boundary test **13/13**, zero failures/errors, exit 0, 1.166 s. `--help` confirms the new choices without model loading. Existing native/Z0 parity tests remain GREEN against the unmodified driver.
+
+Both full suites then ran **serially**, with worktree Python `-B`, `TMPDIR=/private/tmp/c10z_build`, separate fresh scratch bytecode prefixes and CPU thread limits of one. Exact output:
+
+```text
+# astra-full.txt — exit 0
+----------------------------------------------------------------------
+Ran 200 tests in 113.290s
+
+OK
+C10Z_ASTRA_SELFTEST_PASS tests=200
+
+# benchmark-full.txt — exit 0
+----------------------------------------------------------------------
+Ran 47 tests in 2.751s
+
+OK
+C10Z_BENCH_SELFTEST_PASS tests=47
+```
+
+The exec-bit test remains GREEN. Current counts reflect **198 minus one patch-dependent test plus three mask-control tests = 200**. Evidence is under **`/private/tmp/c10z_build/z0-sigma-test-bundle/`**. Syntax parsing and `git diff --check` passed. No pretrained model/tokenizer, real harness or GPU/MPS workload was loaded or launched by this follow-up. **The `ones` probe has not been run by the builder; its scientific result remains UNVERIFIED.**
+
+**Operator launch for `--native-mask ones` — provided, not executed:**
+
+```bash
+C10Z_PROBE_ROOT='/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a'
+C10Z_PROBE_OUT="$C10Z_PROBE_ROOT/results/c10z_astra_z0_probe/$(/bin/date -u +%Y%m%dT%H%M%SZ)"
+/usr/bin/env -u C10_PROJECTOR -u N_EDIT -u C10_SUBJECT_OFFSET \
+  -u C10_CTX_TEMPLATES -u C10_ARMS -u C10_KEY_LOCUS -u C10_RECIPES \
+  LLMDB_ROOT="$C10Z_PROBE_ROOT" LLMDB_DEVICE=mps C10Z_TELEMETRY=0 \
+  MODEL_ID=Qwen/Qwen2.5-3B MODEL_REV=3aab1f1954e9cc14eb9509a215f9e5ca08227a9b \
+  PYTHONPYCACHEPREFIX="/private/tmp/c10z_build/z0-probe-bytecode/${C10Z_PROBE_OUT##*/}" \
+  OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+  VECLIB_MAXIMUM_THREADS=1 NUMEXPR_NUM_THREADS=1 \
+  "$C10Z_PROBE_ROOT/.venv/bin/python" -B \
+  "$C10Z_PROBE_ROOT/experiments/track_c/c10z_astra_z0_probe.py" \
+  "$C10Z_PROBE_OUT" --native-mask ones
+```
+
+Output remains **`$C10Z_PROBE_OUT/probe.json`**, in a fresh exclusively created UTC directory. The prior GPU diagnostic is unchanged. No future application of the saved driver patch or scientific remedy is authorized or implied by this build.
+
+| Current file | SHA-256 |
+|---|---|
+| `experiments/track_c/c10z_astra_arms.py` — unchanged | `ab6f5c809d8187f4e5eb39e9cc6fbf40b6e357b2ecf5b18ecc887e05de7adebc` |
+| `experiments/track_c/c10z_astra_z0_probe.py` | `e6ddd7a64bd2003475e39ac3587260a33ea239f36a374b2bb7df2a83cfc3cadf` |
+| `experiments/track_c/c10z_astra_selftest.py` | `305cc3b03b7828bfb5689bcd324e7f97d023b65ca08af556bc4c277b15a0c99b` |
+| `results/c10z_z0_sigma_record.patch` — driver plus matching test | `b81aeb74511118b2ab14bc2b1592ea0a2ee826d9b10eca60cc8ba606c82b1d77` |
+
+Only the probe, selftest, appended patch hunk and this report addendum changed. The ten protected static files in the new snapshot retain their hashes, including driver, reader, benchmark/selftest, harness, engine source, prereg, hparams and both wrappers. The saved driver-patch prefix and complete earlier report remain byte-identical. No git mutation/commit, live result write or new architecture diagnostic occurred. `scope-before-report.json` and `after.json` hold the comparison and final report hash; the scratch context-save path is in `context-path.txt`. CPU evidence establishes kwargs/plumbing only and does not establish the proposed MPS causal explanation.
+
+## 14. V5 copy fix — PATCH ONLY (2026-10-08)
+
+**Delivered:** `results/c10z_v5fix.patch`, SHA-256 **`fc0b7d553bac78ba18862d1d8540c5b19cefe6c2e4f8318a0a7bd91f4f22d3f6`**. It bundles driver/probe fixes, the exact earlier sigma-recording change and matching test, plus eight new selftests. **The live driver remains `ab6f5c809d8187f4e5eb39e9cc6fbf40b6e357b2ecf5b18ecc887e05de7adebc`; no live source/test file was edited.**
+
+Read `results/mps_offset_conversion_audit.md` in full. The operator's torch 2.8 MPS measurements identify corruption when a CPU copy also changes dtype, and a loud TypeError for float64 targets. Clone-first is unreliable. Every proposed fix transfers to CPU **before** casting; no clone-first workaround is used.
+
+| Audited original site | Proposed change |
+|---|---|
+| `arms.py:224`, `margin_leads` | `logits.detach().cpu().to(torch.float32)` |
+| `arms.py:177`, `torch_cpu64` | `value.detach().cpu().to(torch.float64)`; covers covectors/compute_G/z4 (:684–686, :1159–1162, :1213–1215) |
+| `arms.py:253`, `semcon` | Separate CPU move and float32 cast |
+| `arms.py:343`, `:347`, `target_probabilities` | Separate target/chunk moves and casts; preserve `copy=True` before in-place centering |
+| `probe.py:170`, `:171`, `:181` | Explicit CPU/float32 native/full offset rows passed to `D.margin_leads`; split native max-logit conversion |
+
+These remove **all six combined Tensor.to transfers** across the seven `c10z_astra_*.py` files. Audited constructors remain safe: probe :117–118 accepts Python float lists/CPU float64 tensors, :173 consumes `float(lead)`, and arms :1229 consumes a Python list. Allocations/metadata are not tensor transfers. No other ASTRA MPS→CPU cast through `copy_`, setitem, tensor overload or `.type()` was found. The new AST guard covers those explicit forms, positional/keyword/device-object `.to` and clone-first, with **ten unsafe and four safe controls**; it is not a whole-program tensor type proof.
+
+The archived Z0 change saves `sigma_shape` and `original_full_sequence_sigma` before HALTED-V5. Its exact test body is bundled; the `.125` threshold, reader, engine, harness, benchmark and prereg are unchanged. The earlier `results/c10z_z0_sigma_record.patch` remains byte-identical.
+
+**RED → GREEN, scratch only:** `/private/tmp/c10z_build/v5fix-patch/`. Tests preceded implementation. `red-expanded.log`: **9 tests, 5 expected assertion failures, 2 MPS skips, exit 1**. After the delivered patch was applied to a second pristine copy with `patch --batch --fuzz=0 -p1`, `green-patch.log`: **9 tests, 7 passed, 2 skipped, exit 0**.
+
+| Test (new tests in `V5CopyTests`) | RED → GREEN |
+|---|---|
+| `test_margin_leads_no_combined_device_dtype_transfer_ast` | FAIL → PASS |
+| `test_torch_cpu64_moves_to_cpu_before_float64_ast` | FAIL → PASS |
+| `test_probe_native_and_full_rows_transfer_before_cast_ast` | FAIL → PASS |
+| `test_astra_sources_no_combined_device_dtype_transfer_ast` | Six unsafe sites → none |
+| `Fix2Tests.test_z0_v5_halt_persists_native_and_full_sigma` | Missing checks.Z0 → both sigmas persisted |
+| `test_ast_guard_covers_all_unsafe_copy_api_forms` | PASS → PASS |
+| `test_target_probabilities_preserves_offset_float32_inputs` | PASS → PASS; protects `copy=True` |
+| `test_mps_offset_view_corruption_and_exact_split_copy` | SKIP → SKIP |
+| `test_mps_torch_cpu64_transfers_before_float64` | SKIP → SKIP |
+
+The MPS tests use tiny offset views and independently authored CPU expectations; they require exact repaired values and characterize the legacy corruption/TypeError. `green-ast-only.log` additionally proves **5/5 AST checks without importing Torch**, `CPU_AST_TORCH_NOT_IMPORTED=True`.
+
+Both full suites ran serially in the fresh patched copy, with worktree Python `-B`, scratch TMPDIR, bytecode writes disabled and CPU thread limits of one:
+
+```text
+# astra-full-patch.log — exit 0
+Ran 209 tests in 111.648s
+OK (skipped=2)
+C10Z_ASTRA_SELFTEST_PASS tests=209
+
+# benchmark-full-patch.log — exit 0
+Ran 47 tests in 2.736s
+OK
+C10Z_BENCH_SELFTEST_PASS tests=47
+```
+
+`git apply --check` passed against the live baseline. The scratch application had no fuzz/rejects; its three file hashes match the authored candidate. Proposed patched arms SHA-256: **`e3829f4103ead2927b01c01b93e9148a5056d2f03e962a804a62b72d5d73f5d0`**. The execute-bit test remains GREEN. All fourteen protected source/config/doc/wrapper/old-patch hashes are unchanged; the entire earlier report remains an exact byte prefix. Repository writes are limited to the requested patch and this appended section.
+
+**Limits:** torch `2.8.0`; MPS built but unavailable to this session. Both MPS regressions are **UNVERIFIED here**, not hardware GREEN. No pretrained model, real harness/engine runtime, scientific GPU/probe run or benchmark rerun occurred. Live application remains under **D-C10z-driftcap**. Independent review attempts produced no signoff: Claude wrapper exit 3 (not logged in), Codex fallback exit 1 (app-server initialization `Operation not permitted`). Scratch holds full logs, packet, scope hashes and the AGENTS context-save handoff.

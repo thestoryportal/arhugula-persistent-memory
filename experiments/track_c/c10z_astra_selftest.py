@@ -1742,6 +1742,7 @@ class Fix2Tests(unittest.TestCase):
         D, R = self.D, self.R; s = D.Session.__new__(D.Session)
         s.H = _types.SimpleNamespace(DEV="cpu", model=lambda *a, **k: _types.SimpleNamespace(
             logits=torch.tensor([[[1., 0.]]], dtype=torch.float64)))
+        s.checks = {}
         s.budget = D.Budget(0., C01_FIX, None, None, clock=lambda: 0.)
         s.lead_rows = lambda batch, obs: ([obs["leads"].tolist()], None)
         batch = {"target_ids": [[0]], "prompt_ids": [[1]], "requirements": [{"fact": 0, "view": 0, "q": 0}]}
@@ -3302,9 +3303,269 @@ def _telemetry_suite():
         for cls in (TelemetryUnitTests, TelemetryInertnessTests, TelemetryRunnerTests)])
 
 
+def _z0_probe_fixture():
+    """Tiny CPU causal model; nonstandard rotary IDs expose inferred-ID mistakes."""
+    import torch
+    D = importlib.import_module("c10z_astra_arms")
+    class Rotary(torch.nn.Module):
+        def forward(self, hidden, position_ids): return hidden
+    class Tiny(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.config = _types.SimpleNamespace(_attn_implementation="tiny-cpu")
+            self.model = torch.nn.Module()
+            self.model.embed_tokens = torch.nn.Embedding(32, 2)
+            self.model.norm = torch.nn.Identity(); self.model.rotary_emb = Rotary()
+            self.model.layers = torch.nn.ModuleList()
+            for _ in range(36):
+                layer = torch.nn.Module(); layer.mlp = torch.nn.Module()
+                layer.mlp.down_proj = torch.nn.Linear(2, 2, bias=False)
+                with torch.no_grad(): layer.mlp.down_proj.weight.copy_(torch.eye(2))
+                self.model.layers.append(layer)
+            self.lm_head = torch.nn.Linear(2, 32, bias=False)
+            self.register_buffer("sentinel", torch.tensor([19]))
+            with torch.no_grad():
+                self.model.embed_tokens.weight.copy_(torch.arange(64).reshape(32, 2).float() / 64)
+                self.lm_head.weight.copy_(torch.arange(64).reshape(32, 2).float() / 128)
+        def forward(self, input_ids, attention_mask=None, **kwargs):
+            x = self.model.embed_tokens(input_ids)
+            ids = torch.arange(input_ids.shape[1], device=input_ids.device)[None, :] + 11
+            x = self.model.rotary_emb(x, ids)
+            for layer in self.model.layers: x = layer.mlp.down_proj(x)
+            return _types.SimpleNamespace(logits=self.lm_head(self.model.norm(x)))
+    class Tokenizer:
+        pad_token_id = 0; padding_side = "left"
+        def __call__(self, text): return {"input_ids": [2 + ord(c) % 17 for c in text]}
+        def decode(self, ids): return " ".join(map(str, ids))
+    spies = {key: mock.Mock(side_effect=AssertionError("forbidden science call: " + key))
+             for key in ("my_edit", "run_recipe", "generate_fast", "get_context_templates")}
+    model = Tiny().eval()
+    H = _types.SimpleNamespace(model=model, DEV="cpu", tok=Tokenizer(), FICTION=["X", "YY"], CANON="capital {}",
+                              ARMS={A7: {"X": "x", "YY": "y"}}, tgt_ids=lambda v: [3, 4] if v == "x" else [5, 6, 7], **spies)
+    return D, H, spies
+
+
+class Z0ProbeTests(unittest.TestCase):
+    def setUp(self):
+        self.assertTrue((HERE / "c10z_astra_z0_probe.py").is_file(), "diagnostic probe is not implemented")
+        self.P = importlib.import_module("c10z_astra_z0_probe")
+        self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup); self.root = Path(self.tmp.name)
+
+    def measure(self):
+        import torch
+        D, H, spies = _z0_probe_fixture()
+        s = self.P.make_session(H, ["{}", "a {}", "bb {}", "ccc {}", "dddd {}", "eeeee {}"])
+        s.sync = lambda: None; s.check_memory = lambda: None
+        before = {k: v.detach().clone() for k, v in H.model.state_dict().items()}
+        with mock.patch.object(torch.mps, "synchronize", return_value=None): record = self.P.measure(s)
+        return s, record, before, spies
+
+    def test_probe_never_writes_weights_or_calls_edit_recipe_sampling(self):
+        import torch
+        s, record, before, spies = self.measure()
+        self.assertTrue(record["weights_unchanged"])
+        self.assertEqual(record["weights_before_sha256"], record["weights_after_sha256"])
+        for k, value in s.H.model.state_dict().items(): self.assertTrue(torch.equal(value, before[k]), k)
+        for spy in spies.values(): spy.assert_not_called()
+        s.hooks_check()
+        self.assertFalse(any(m._forward_hooks or m._forward_pre_hooks for m in s.H.model.modules()))
+
+    def test_probe_native_prefix_leads_equal_real_z0(self):
+        import torch
+        s, record, *_ = self.measure(); batch = s.make_batch(A7, [t.format(s.H.CANON) for t in s.templates])
+        with mock.patch.object(torch.mps, "synchronize", return_value=None): obs = s._observe(batch, None, True, None)
+        z0 = s.z0(batch, obs)
+        expected = [v for row in z0["prefix_shape_leads"] for v in row]
+        self.assertEqual([r["native_lead"] for r in record["positions"]], expected)
+        self.assertEqual(record["z0_sigma_shape"], z0["sigma_shape"])
+        self.assertEqual(record["z0_full_sigma"], z0["original_full_sequence_sigma"])
+
+    def test_probe_batch1_keeps_padding_and_captures_actual_position_ids(self):
+        s, record, *_ = self.measure()
+        batch = s.make_batch(A7, [t.format(s.H.CANON) for t in s.templates])
+        self.assertEqual(record["batch_shape"], [12, batch["T_pad"]])
+        self.assertEqual(record["padding_side"], "right")
+        self.assertEqual(record["tokenizer_padding_side"], "left")
+        for row in record["positions"]:
+            i = row["fact"]; identity = i * 6; position = row["index"]
+            self.assertEqual(row["batch_attention_mask_sum"], sum(batch["attention_mask"][identity]))
+            self.assertEqual(row["batch1_attention_mask_sum"], row["batch_attention_mask_sum"])
+            self.assertEqual(row["batch_position_ids"], list(range(11, 11 + batch["T_pad"])))
+            self.assertEqual(row["batch1_position_ids"], row["batch_position_ids"])
+            self.assertEqual(row["position_id"], 11 + position)
+            self.assertEqual(row["batch1_shape"], [1, batch["T_pad"]])
+            self.assertEqual(row["batch_lead"], row["batch1_lead"])
+        self.assertEqual(len(record["positions"]), 5)
+        self.assertEqual(len(record["worst_10"]), 5)
+        self.assertTrue(all(r["token_context"]["text"] for r in record["worst_10"]))
+
+    def test_probe_diff_statistics_subtract_in_cpu_float64(self):
+        import torch
+        native = torch.tensor([16777216., 2., 3.], dtype=torch.float64)
+        other = torch.tensor([16777217., 2.5, 1.], dtype=torch.float64)
+        with mock.patch.object(torch, "quantile", wraps=torch.quantile) as quantile:
+            stats = self.P.diff_statistics(native, other)
+        self.assertEqual(stats, {"max": 2., "median": 1., "p95": 1.9})
+        for call in quantile.call_args_list:
+            self.assertEqual(call.args[0].dtype, torch.float64)
+            self.assertEqual(call.args[0].device.type, "cpu")
+
+    def test_probe_native_mask_option_changes_only_forward_kwargs(self):
+        import inspect, torch
+        self.assertIn("native_mask", inspect.signature(self.P.measure).parameters)
+        _, H, spies = _z0_probe_fixture(); original = H.model.forward; calls = []
+        def record_call(input_ids, **kwargs):
+            calls.append((input_ids.detach().clone(), {k: v.detach().clone() if isinstance(v, torch.Tensor) else v
+                                                      for k, v in kwargs.items()}))
+            return original(input_ids, **kwargs)
+        H.model.forward = record_call
+        s = self.P.make_session(H, ["{}", "a {}", "b {}", "c {}", "d {}", "e {}"])
+        s.sync = lambda: None; s.check_memory = lambda: None
+        records = []; call_sets = []
+        for mode in ("none", "ones"):
+            calls.clear()
+            with mock.patch.object(torch.mps, "synchronize", return_value=None): records.append(self.P.measure(s, native_mask=mode))
+            call_sets.append(list(calls))
+        self.assertEqual(len(call_sets[0]), len(call_sets[1])); native_count = 0
+        for (ids0, kw0), (ids1, kw1) in zip(*call_sets):
+            self.assertTrue(torch.equal(ids0, ids1))
+            if "attention_mask" not in kw0:
+                native_count += 1
+                mask = kw1.pop("attention_mask")
+                self.assertTrue(torch.equal(mask, torch.ones_like(ids0)))
+                self.assertEqual(mask.dtype, ids0.dtype); self.assertEqual(mask.device, ids0.device)
+            self.assertEqual(set(kw0), set(kw1))
+            for key in kw0:
+                if isinstance(kw0[key], torch.Tensor): self.assertTrue(torch.equal(kw0[key], kw1[key]))
+                else: self.assertEqual(kw0[key], kw1[key])
+        self.assertEqual(native_count, 7)  # Two full sequences plus five target-prefix forwards.
+        for mode, record in zip(("none", "ones"), records):
+            self.assertEqual(record["native_mask"], mode)
+            self.assertTrue(record["weights_unchanged"])
+            self.assertTrue(all(row["native_full_mask_argument"] == (None if mode == "none" else "ones")
+                                for row in record["positions"]))
+        self.assertEqual(records[0]["summary"], records[1]["summary"])
+        self.assertEqual(records[0]["weights_after_sha256"], records[1]["weights_after_sha256"])
+        for spy in spies.values(): spy.assert_not_called()
+
+    def test_probe_records_attention_backend_and_native_logit_bound(self):
+        import torch
+        s, record, *_ = self.measure()
+        self.assertIn("attn_implementation", record)
+        self.assertEqual(record["attn_implementation"], "tiny-cpu")
+        self.assertEqual(record["native_mask"], "none")
+        batch = s.make_batch(A7, [t.format(s.H.CANON) for t in s.templates])
+        for row in record["positions"]:
+            prompt = batch["prompt_ids"][row["fact"] * 6]
+            prefix = prompt + batch["target_ids"][row["fact"]][:row["q"]]
+            with torch.no_grad(): logits = s.H.model(torch.tensor([prefix]), use_cache=False, logits_to_keep=0).logits
+            self.assertEqual(row["native_max_abs_logit"], float(logits.detach().float().cpu().abs().max()))
+            self.assertEqual(row["native_logits_dtype"], str(logits.dtype))
+            self.assertGreater(row["native_max_abs_logit"], 0)
+
+    def test_probe_native_mask_cli_default_and_ones(self):
+        out = self.root / "results/c10z_astra_z0_probe/20261008T220004Z"
+        for mode, options in (("none", []), ("ones", ["--native-mask", "ones"])):
+            with self.subTest(mode=mode), mock.patch.object(sys, "argv", ["probe", str(out), *options]), \
+                 mock.patch.object(self.P, "run", return_value=0) as run:
+                self.assertEqual(self.P.main(), 0)
+                run.assert_called_once_with(out, native_mask=mode)
+
+    def inputs(self, wrong_sha=False):
+        p = self.root / "results/c10z_astra_attempt2"; p.mkdir(parents=True)
+        template = p / "context_templates.json"
+        template.write_text(json.dumps([["{}"], ["a {}", "b {}", "c {}", "d {}", "e {}"]]))
+        sha = hashlib.sha256(template.read_bytes()).hexdigest()
+        (p / "run.json").write_text(json.dumps({"context_templates": {"sha256": "0"*64 if wrong_sha else sha}}))
+        (p / "pristine_hash.json").write_text(json.dumps({"H_pristine": "1"*64}))
+        return p
+
+    def test_probe_wrong_template_sha_refuses_before_model_load(self):
+        self.inputs(wrong_sha=True); out = self.root / "results/c10z_astra_z0_probe/20261008T220000Z"
+        with mock.patch.object(self.P, "ROOT", self.root), mock.patch.object(self.P, "load_session") as load:
+            with self.assertRaisesRegex(ValueError, "template.*sha256"): self.P.run(out)
+        load.assert_not_called(); self.assertFalse(out.exists())
+
+    def test_probe_refuses_existing_or_escaped_output_before_model_load(self):
+        existing = self.root / "results/c10z_astra_z0_probe/20261008T220000Z"; existing.mkdir(parents=True)
+        sentinel = existing / "probe.json"; sentinel.write_text("locked")
+        paths = (existing, self.root / "elsewhere/20261008T220000Z", Path("results/c10z_astra_z0_probe/20261008T220000Z"),
+                 self.root / "results/c10z_astra_z0_probe/not-utc")
+        with mock.patch.object(self.P, "ROOT", self.root), mock.patch.object(self.P, "load_session") as load:
+            for p in paths:
+                with self.subTest(path=str(p)), self.assertRaises((ValueError, FileExistsError)): self.P.run(p)
+        load.assert_not_called(); self.assertEqual(sentinel.read_text(), "locked")
+
+    def test_probe_mutation_is_detected_without_restoring_weights(self):
+        import torch
+        D, H, _ = _z0_probe_fixture(); s = self.P.make_session(H, ["{}", "a {}", "b {}", "c {}", "d {}", "e {}"])
+        s.sync = lambda: None; s.check_memory = lambda: None
+        original = s._observe
+        def mutating(*args):
+            value = original(*args)
+            with torch.no_grad(): H.model.lm_head.weight[0, 0] += 1
+            return value
+        s._observe = mutating
+        with mock.patch.object(torch.mps, "synchronize", return_value=None), self.assertRaisesRegex(ValueError, "weights changed"):
+            self.P.measure(s)
+        s.hooks_check()
+
+    def test_probe_distinct_shape_controls_and_full_sigma_match_z0(self):
+        import torch
+        D, H, _ = _z0_probe_fixture(); original = H.model.forward
+        def shape_sensitive(input_ids, **kwargs):
+            out = original(input_ids, **kwargs)
+            out.logits[:, :, 31] += .001 * input_ids.shape[1] + .001 * input_ids.shape[0]
+            return out
+        H.model.forward = shape_sensitive
+        s = self.P.make_session(H, ["{}", "a {}", "b {}", "c {}", "d {}", "e {}"])
+        s.sync = lambda: None; s.check_memory = lambda: None
+        batch = s.make_batch(A7, [t.format(H.CANON) for t in s.templates])
+        with mock.patch.object(torch.mps, "synchronize", return_value=None):
+            record = self.P.measure(s); obs = s._observe(batch, None, True, None)
+        z0 = s.z0(batch, obs)
+        self.assertEqual([r["native_lead"] for r in record["positions"]],
+                         [v for row in z0["prefix_shape_leads"] for v in row])
+        self.assertEqual(record["z0_sigma_shape"], z0["sigma_shape"])
+        self.assertEqual(record["z0_full_sigma"], z0["original_full_sequence_sigma"])
+        self.assertTrue(all(record["summary"][key]["max"] > 0 for key in ("native-batch", "native-batch1", "native-full")))
+        self.assertNotEqual(record["z0_full_sigma"], record["summary"]["native-full"]["max"])
+        for row in record["positions"]:
+            for name, key in (("batch", "batch_lead"), ("batch1", "batch1_lead"), ("full", "full_lead")):
+                self.assertEqual(row["diffs"]["native_minus_" + name], row["native_lead"] - row[key])
+        self.assertEqual([r["abs_diffs"]["native_minus_batch"] for r in record["worst_10"]],
+                         sorted([r["abs_diffs"]["native_minus_batch"] for r in record["positions"]], reverse=True))
+
+    def test_probe_cpu_json_pipeline_roundtrip_and_exclusive_output(self):
+        import torch
+        source = self.inputs(); _, H, _ = _z0_probe_fixture(); H.ID = "synthetic"; H.REV = "synthetic"
+        pristine = self.P.model_hashes(H.model)[0]
+        (source / "pristine_hash.json").write_text(json.dumps({"H_pristine": pristine}))
+        s = self.P.make_session(H, ["{}", "a {}", "b {}", "c {}", "d {}", "e {}"])
+        s.sync = lambda: None; s.check_memory = lambda: None
+        for relative in ("experiments/track_c/c10z_astra_z0_probe.py", "experiments/track_c/c10z_astra_arms.py",
+                         "experiments/track_c/c10z_astra_read.py", "experiments/track_c/c10e_bandknob.py", "docs/C10Z_ASTRA_PREREG.md"):
+            path = self.root / relative; path.parent.mkdir(parents=True, exist_ok=True); path.write_text("synthetic source")
+        out = self.root / "results/c10z_astra_z0_probe/20261008T220001Z"
+        with mock.patch.object(self.P, "ROOT", self.root), mock.patch.object(self.P, "load_session", return_value=s) as load, \
+             mock.patch.object(torch.mps, "synchronize", return_value=None):
+            self.assertEqual(self.P.run(out), 0)
+            raw = (out / "probe.json").read_bytes()
+            with self.assertRaises(FileExistsError): self.P.run(out)
+        load.assert_called_once()
+        self.assertEqual((out / "probe.json").read_bytes(), raw)
+        record = json.loads(raw)
+        self.assertEqual(record["inputs"]["H_pristine"], pristine)
+        self.assertEqual(record["inputs"]["context_templates_sha256"], hashlib.sha256((source / "context_templates.json").read_bytes()).hexdigest())
+        self.assertFalse(record["telemetry"]); self.assertFalse(record["scientific_verdict"])
+        self.assertEqual(record["device"], "cpu"); self.assertEqual(record["dtype"], "torch.float32")
+        self.assertEqual(record["templates"], ["{}", "a {}", "b {}", "c {}", "d {}", "e {}"])
+        self.assertEqual(record, json.loads(json.dumps(record, allow_nan=False)))
+
+
 def _build_suite():
     suite=_fix2_suite()
-    for cls in (IdleGapTests,BudgetBoundTests,LaunchBindingTests,ReaderBindingTests,WrapperTests,TemplatePinTests,PinTests,TelemetryIntegrationTests):
+    for cls in (IdleGapTests,BudgetBoundTests,LaunchBindingTests,ReaderBindingTests,WrapperTests,TemplatePinTests,PinTests,TelemetryIntegrationTests,Z0ProbeTests):
         suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(cls))
     suite.addTests(_telemetry_suite())
     return suite
