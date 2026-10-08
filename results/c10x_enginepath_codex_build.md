@@ -2010,3 +2010,341 @@ Scope before production and after GREEN was checked in `after_review_mask_before
 After publication, `/private/tmp/c10x_build/after_review_mask_report/` repeats the protected-byte/listing check. `/private/tmp/c10x_build/mask_revert_receipt.json` binds the final report SHA-256, unchanged entire prior-report prefix, final six-source hashes, RED/GREEN logs and post-publication scope. Previous receipts and logs are retained.
 
 Verification used tiny CPU stubs and AST-copied frozen functions under `/private/tmp`; no frozen harness module, transformers or datasets was imported. Live LAW#3/LAW#5/G8, model/MPS behavior, timing/resource feasibility and write-arm scientific results remain **UNVERIFIED**. No T8 live launch was run; the prior instruction to skip it remains binding. The first launch remains telemetry off and supervisor mediated. No experiment/GO output, prereg, engine/harness/config, ledger or git state was written by this revert.
+
+
+## X2-vii halt probe
+
+**DONE — diagnostic build only.** Added `experiments/track_c/c10x_x2_probe.py`; all **13 tiny CPU tests PASS in 0.866s**, exit 0. The existing **72-test model-free selftest PASS in 17.633s**, exit 0, with empty protected/other result-listing deltas. **No real model/tokenizer, MPS/GPU probe, covariance SVD or science run was executed. The historical halt's cause and magnitudes remain UNVERIFIED.** This is the requested measure-before-fix handoff: the driver, reader, harness, engine and prereg were not edited. The Amendment M/T11 fixes, safe device/dtype rewrites and completed mask revert remain in force.
+
+The entire preceding report is retained byte for byte: **213,486 bytes**, SHA-256 `6dc3e916465db889848d6e41cf2be73d06010d4ece39117bb0d3d795ee2bcf71`. This section is an append; it does not replace any historical build or review evidence.
+
+### Halt evidence and scope
+
+`results/c10x_enginepath/run.json:1` records process 1, `status=HALTED`, `code="W0 X2-vii exact zero"`, the pinned context identity and the completed recipe-A records. `architecture_profile/c10x_halt_diagnostic_20261008T160002_759184Z.json:1` contains that W0 halt; `architecture_profile/c10x_halt_diagnostic_20261008T160004_981087Z.json:1` records the supervisor's subsequent `worker exit 1`. None includes the X2-vii residual/update magnitudes, the offending layer, a W0 snapshot or an inertness record. Their complete JSON was parsed for the input audit at `/private/tmp/c10x_build/x2_probe/halt_inputs.json`.
+
+| Historical input | SHA-256, unchanged |
+| --- | --- |
+| `architecture_profile/c10x_halt_diagnostic_20261008T160002_759184Z.json` | `e01cdf8336656e11eed50b6a6bc2cc36e728f9209157da934ab6f9f5c35f464a` |
+| `architecture_profile/c10x_halt_diagnostic_20261008T160004_981087Z.json` | `05740cfbe35af746023ce9072347e7a265804dcb0161d7d5666a3a6d58f56387` |
+| `results/c10x_enginepath/run.json` | `a26d39cd9a32ec05174741d6d3ebfbf5a940565f81d3a76e1500e3b991d5b348` |
+
+Prereg `docs/C10X_ENGINEPATH_PREREG.md:78` fixes the matching 24-row padded shape for X2-(iv)(a); `:81` requires exact-zero residuals/updates and pristine hashes and states that any non-zero (iv)(a) distance makes that exact-zero requirement unmeetable. The original gate checks actual residuals and captured updates before `pristine.verify("X2-vii exact zero")` (`c10x_enginepath_inertness.py:408–439`). This code order is evidence about the path to the W0 assertion; it is not a recovered measurement of the missing magnitudes.
+
+One hypothesis justified for measurement is a signed-zero byte change: adding numeric zero can change `-0` to `+0`, while `count_nonzero` still reports zero and `I.tensor_sha` distinguishes raw bytes. The CPU signed-zero positive control demonstrates that possibility on the tiny fixture. **It does not establish the real halt's cause.** Reader/replay mismatch, wrong layer/column and conversion/observation effects also remain measurable alternatives; no tolerance or science path has been changed.
+
+### Exact gate machinery and read-only boundary
+
+The probe imports and calls **the existing** `A.recorded_contexts`, `A.pinned_contexts`, `A.canonical_read`, `A.batch_replay`, `A.fe_edit`, `I.relative_fixed`, `I.parity`, `I.active_null_structure`, `I.capture_updates`, `I.Pristine` and `I.tensor_sha`. It contains no copied solve equation and calls the original `fe_edit(..., mode="fe")` with the gate's real projectors and fresh zero caches (`c10x_x2_probe.py:142`, `:247`). `sys.settrace` is limited to the actual writer code object and its actual `torch.linalg.solve` source line (`:126`); it observes the writer's native `zs`, `cur`, `tgt`, `resid` and `rf` immediately before that solve. The strict gate helpers are used for diagnostic checks; a recorded mismatch does not update any acceptance, eligibility or scientific verdict.
+
+Before any forward, raw template SHA, schema, canonical context SHA and the complete recorded-source identity are checked against `A.recorded_contexts` (`c10x_x2_probe.py:20`). The source is exactly the requested C10Q set: no alternate source, template sampling or seed-based regeneration. The artifact is `results/c10x_enginepath/context_templates.json`, raw SHA `0c6d90ee5e90e19c0174c6d2e085f3cf4454dfcd85c0f935fb1cc107afac2bfe`; canonical engine context SHA `eff10db6a89aabf7d67fa0c66e4cc1ac727b795c0bf756d3f8b53d0f6cd05aeb`; C10Q historical SHA `c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da`; flat-template SHA `d6c7c70026dced37bddc6adf316a3487d70227dae80a6e0ed5cdabe50caedfa0`. The amended prereg pin remains `43a81103d68b953c2007e978b3ebecf11aadf66a7f121346047279845e8fc883`.
+
+X2-(iv)(a) repeats the original gate's two canonical reader calls on each of all three ordered 24-row arms and records per-layer reader/replay and reader-repeat distances in frozen CPU fp32 arithmetic, including the unchanged `REPLAY_FLOOR <= 1e-5` predicate. X2-vii then rebuilds A7's plain and block-4 identity replay exactly through `A.batch_replay`; input IDs, attention masks, padding side, subject indices and exact request identities are retained. Its checked-reader callback performs the independent same-batch replay before calling the writer's actual resolved engine reader, in the original order (`c10x_x2_probe.py:197–227`). Tokenizer mappings and historical scorer behavior are untouched.
+
+To execute the writer while making **zero live-weight writes**, `ShadowModel.named_parameters` substitutes independent, detached, same-device/same-dtype clones of the five rewrite tensors; every forward and module lookup delegates to the pristine model (`c10x_x2_probe.py:97`). The unchanged writer's `+=` executes only on those copies. The copies are restored and hash-verified through the original `I.Pristine.cell`. The live five-weight hashes, all live parameter version counters and hook identities are checked before/after measurement and again after binding restoration (`:285–301`). An emergency live restore exists only for an unexpected integrity failure and refuses a successful measurement; ordinary execution makes no live restoration writes.
+
+The first **shadow applied-weight byte change**, including a signed-zero change, is recorded as `gate_equivalence_cutoff_layer`; later layers have `gate_equivalent_before_write=false`. After that point their forwards remain pristine diagnostics, so the probe does not claim to reproduce the gate's altered subsequent state. Structural or residual violations are retained as diagnostic failures; they never relax exact-zero acceptance.
+
+### JSON measurements and safe-copy audit
+
+For each layer 4–8, the JSON contains 24 `request_rows`, each with actual gate-residual `max_abs_M_minus_cur` and `nonzero_elements`, plus `max_abs_update`. The latter explicitly refers to the **joint layer weight matrix** (`update_scope="joint_layer_weight_matrix"`), not an invented per-fact contribution. Actual update-matrix row maxima are separately recorded in `weight_matrix_row_max_abs_update`.
+
+Each layer also records native solve-operand SHA-256s, complete pre-cast update SHA, native/CPU tensor dtype, device, shape, strides and storage offset; live versus shadow weight metadata; shadow before/after hashes, changed-byte count and signed-zero changes. The first row retains its exact request identity and the first eight values of independent observer, writer capture and identity target (all available values in the two-dimensional tiny fixture). The original full-vector `active_null_structure` comparison remains visible separately; a wrong-layer or wrong-column discrepancy is not hidden behind a norm.
+
+`read_only_guard` uses `TorchDispatchMode` over all live parameter storages (`c10x_x2_probe.py:61`). It refuses mutable aliases and `out=` writes **before** dispatch. It also records actual MPS-to-CPU `_to_copy`/`copy_` transfers and refuses every dtype-changing one before executing it, including a nominally non-mutating transfer whose source aliases a live weight. This covers lowered combined `.to`, destination-tensor `.to`, `.type`, constructors and cross-dtype `copy_` forms. All reporting transfers use same-dtype `.cpu()` before CPU casts; no clone-first CPU-cast workaround is used. `mps_to_cpu_copies` records stage/source/device/dtype/offset and whether the transfer executed; `unsafe_mps_to_cpu_copies` explicitly isolates refused attempts. The program audit `results/mps_offset_conversion_audit.md` is hashed into runtime provenance. **Actual MPS copy observations are UNVERIFIED because only CPU tests ran.**
+
+At runtime the probe writes only a fresh absolute `ROOT/results/c10x_x2_probe/<UTC>/`, rejects any existing path, and publishes `probe.json` exclusively; `probe.log` is in that same directory (`c10x_x2_probe.py:34`, `:587`). A filesystem audit hook refuses writes elsewhere and subprocess/network launch paths (`:304`, `:617`). Bytecode suppression precedes local imports; launch uses `-B`. The model loader is cache-only with offline library constants captured before the unchanged harness resets its environment flag. A missing cached model/covariance fails the diagnostic; cache population is not permitted. Telemetry must be unset and remains off. No real `results/c10x_x2_probe/` output was created during the build; tiny JSON round-trip publication occurred only in disposable `/private/tmp` fixtures.
+
+The output records current source/model/environment/projector provenance. Historical `run.json` lacks W0 and model-identity records, so **historical W0/model equality cannot be independently established from that artifact**. Current pristine hash checks are not retroactive historical identity evidence.
+
+### Test-first RED/GREEN and review
+
+All Python used the existing venv, `-B`, one thread and serial CPU execution, with fixtures and logs below `/private/tmp/c10x_build`. No real science module, transformers or datasets was imported by either selftest. The original mandatory tests existed and failed against placeholders before the writer/guard implementation.
+
+| Evidence file under `/private/tmp/c10x_build/x2_probe/` | Result |
+| --- | --- |
+| `red.log` | Seven initial groups, eight assertion failures, exit 1; no errors. Covers no live writes, wrong SHA before forwards, original-gate residual identity, signed-zero copy behavior, alias/out write refusal, unsafe-copy predicate and existing-output refusal. |
+| `red_validated.log` | Eight groups, six assertion failures, exit 1, no errors; includes the perturbed native-operand control before writer implementation. |
+| `red_boundaries_validated.log` | Eleven groups, six assertion failures, exit 1, no errors; adds dispatch-before-copy refusal, file-write policy and CLI template refusal before loading. |
+| `red_floor_review.log` | Twelve groups, one assertion failure, exit 1; reviewer-proposed large-floor negative control fails before the threshold-label fix. |
+| `red_json_roundtrip.log` | Thirteen groups, one assertion failure, exit 1; publishing exposed tuple/list normalization. The result is now converted to JSON-native values after final verification. |
+| `green_final_after_cleanup.log` | Thirteen groups, PASS in 0.867s, exit 0, zero failures/errors; before final AST controls. |
+| `red_ast_device_forms.log` | Thirteen groups, two assertion subcase failures, exit 1; positional CPU-device-plus-dtype and attribute CPU-tensor destination controls fail before AST tightening. |
+| `green_sealed.log` | Thirteen groups, PASS in 0.866s, exit 0, zero failures/errors; sealed probe SHA below. |
+| `regression72.log` | Existing seventy-two groups, PASS in 17.633s, exit 0, empty protected/other listing deltas, forbidden science imports absent. |
+
+Two intermediate test drafts had construction errors (missing result-presence assertion and missing CLI flag declarations); `red_extended.log` and `red_boundaries.log` retain them. They were corrected and rerun as assertion-only RED before the respective implementation. Those drafts are not counted as valid RED evidence. Earlier GREEN logs are retained as intermediate source identities.
+
+The exact and perturbed controls compare **all five actual writer operand SHA-256s** (`zs`, `cur`, `tgt`, `resid`, `rf`) with the original `I.observe_null_solve` gate, not an independent reimplementation of its subtraction. The exact case accepts zero residuals; the perturbed case changes layer-8 identity targets by 0.25, reproduces the same actual residual/solve operands, and the strict gate rejects it (`c10x_x2_probe.py:417`, `:442`). The no-write control checks byte hashes and `_version` for **every** live tiny-model parameter, hook and resolved reader identity, then verifies strict JSON round-trip equality (`:399`). The signed-zero control changes only shadow bytes and checks the equivalence cutoff (`:460`). Positive controls reject detached-alias and `out=` writes (`:474`), and a CPU-only dispatch control proves unsafe-copy classification raises before the actual conversion (`:495`). No MPS tensor is created. The probe's AST test rejects all combined/device-target/type/constructor/copy forms, including clone-first forms (`:538`), complementing unchanged test 72 on the established code paths.
+
+Final probe GREEN output:
+
+```text
+test_cli_wrong_template_refuses_before_loader (__main__.selftest.<locals>.ProbeTests.test_cli_wrong_template_refuses_before_loader) ... ok
+test_copy_guard_refuses_before_operator (__main__.selftest.<locals>.ProbeTests.test_copy_guard_refuses_before_operator) ... ok
+test_existing_output_refused (__main__.selftest.<locals>.ProbeTests.test_existing_output_refused) ... ok
+test_file_write_policy (__main__.selftest.<locals>.ProbeTests.test_file_write_policy) ... ok
+test_guard_blocks_alias_and_out_writes_before_execution (__main__.selftest.<locals>.ProbeTests.test_guard_blocks_alias_and_out_writes_before_execution) ... ok
+test_no_live_weight_writes (__main__.selftest.<locals>.ProbeTests.test_no_live_weight_writes) ... ok
+test_nonzero_residual_matches_rejecting_gate (__main__.selftest.<locals>.ProbeTests.test_nonzero_residual_matches_rejecting_gate) ... ok
+test_probe_bans_unsafe_copy_forms (__main__.selftest.<locals>.ProbeTests.test_probe_bans_unsafe_copy_forms) ... ok
+test_residual_matches_actual_gate_fixed_input (__main__.selftest.<locals>.ProbeTests.test_residual_matches_actual_gate_fixed_input) ... ok
+test_signed_zero_only_changes_shadow_bytes (__main__.selftest.<locals>.ProbeTests.test_signed_zero_only_changes_shadow_bytes) ... ok
+test_unsafe_copy_predicate_without_mps (__main__.selftest.<locals>.ProbeTests.test_unsafe_copy_predicate_without_mps) ... ok
+test_wrong_template_hash_refuses_before_forward (__main__.selftest.<locals>.ProbeTests.test_wrong_template_hash_refuses_before_forward) ... ok
+test_x2_iv_floor_threshold_matches_gate (__main__.selftest.<locals>.ProbeTests.test_x2_iv_floor_threshold_matches_gate) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.866s
+
+OK
+CPU ONLY; no frozen harness/transformers/datasets imported
+```
+
+Existing full selftest GREEN output:
+
+```text
+test_admitted_process_pair_and_p2_gate (__main__.FileAdmissionTests.test_admitted_process_pair_and_p2_gate) ... ok
+test_amendment_p_digest_refusals (__main__.FileAdmissionTests.test_amendment_p_digest_refusals) ... ok
+test_amendment_p_prereg_pin (__main__.FileAdmissionTests.test_amendment_p_prereg_pin) ... ok
+test_answer_audit_uses_runtime_recipe_order (__main__.FileAdmissionTests.test_answer_audit_uses_runtime_recipe_order) ... ok
+test_complete_stub_run_persists_every_record (__main__.FileAdmissionTests.test_complete_stub_run_persists_every_record) ... ok
+test_context_binding_enter_failure_restores (__main__.FileAdmissionTests.test_context_binding_enter_failure_restores) ... ok
+test_deadline_completion_and_previous_overhead (__main__.FileAdmissionTests.test_deadline_completion_and_previous_overhead) ... ok
+test_detailed_admission_negative_controls (__main__.FileAdmissionTests.test_detailed_admission_negative_controls) ... ok
+test_direct_shell_launchers_are_executable_in_git (__main__.FileAdmissionTests.test_direct_shell_launchers_are_executable_in_git) ... DIRECT SHELL ENTRY POINTS: none; all three supervised commands use sys.executable
+ok
+test_disable_cutoff_never_excuses_earlier_omissions (__main__.FileAdmissionTests.test_disable_cutoff_never_excuses_earlier_omissions) ... ok
+test_disable_marker_records_failed_answer_cutoff (__main__.FileAdmissionTests.test_disable_marker_records_failed_answer_cutoff) ... ok
+test_every_science_record_roundtrip_and_reader_audit (__main__.FileAdmissionTests.test_every_science_record_roundtrip_and_reader_audit) ... ok
+test_fp32_overflow_capture_and_parity_remain_report_only (__main__.FileAdmissionTests.test_fp32_overflow_capture_and_parity_remain_report_only) ... ok
+test_frozen_scorer_forwards_have_no_injected_kwargs (__main__.FileAdmissionTests.test_frozen_scorer_forwards_have_no_injected_kwargs) ... ok
+test_late_supervisor_persistence_is_unreadable (__main__.FileAdmissionTests.test_late_supervisor_persistence_is_unreadable) ... ok
+test_missing_inertness_evidence_is_refused (__main__.FileAdmissionTests.test_missing_inertness_evidence_is_refused) ... ok
+test_no_combined_device_dtype_conversions (__main__.FileAdmissionTests.test_no_combined_device_dtype_conversions) ... ok
+test_pinned_contexts_never_sample (__main__.FileAdmissionTests.test_pinned_contexts_never_sample) ... ok
+test_pinned_processes_and_halted_context_identity (__main__.FileAdmissionTests.test_pinned_processes_and_halted_context_identity) ... ok
+test_post_audit_blocks_are_killed_by_final_deadline (__main__.FileAdmissionTests.test_post_audit_blocks_are_killed_by_final_deadline) ... ok
+test_post_audit_budget_and_disabled_disposition (__main__.FileAdmissionTests.test_post_audit_budget_and_disabled_disposition) ... ok
+test_post_audit_rejects_contradictory_receipts (__main__.FileAdmissionTests.test_post_audit_rejects_contradictory_receipts) ... ok
+test_post_audit_startup_consumes_remaining_budget (__main__.FileAdmissionTests.test_post_audit_startup_consumes_remaining_budget) ... ok
+test_reader_publishes_invalid_with_exit_zero (__main__.FileAdmissionTests.test_reader_publishes_invalid_with_exit_zero) ... ok
+test_recipe_fp32_overflow_does_not_halt_or_change_labels (__main__.FileAdmissionTests.test_recipe_fp32_overflow_does_not_halt_or_change_labels) ... ok
+test_script_alias_and_preflight_refusal_in_isolated_child (__main__.FileAdmissionTests.test_script_alias_and_preflight_refusal_in_isolated_child) ... ok
+test_supervisor_fail_closed_and_combining_output_path (__main__.FileAdmissionTests.test_supervisor_fail_closed_and_combining_output_path) ... ok
+test_tagged_fp32_diagnostics_preserve_file_admission (__main__.FileAdmissionTests.test_tagged_fp32_diagnostics_preserve_file_admission) ... ok
+test_tokenizer_forwards_preserve_attention_mask (__main__.FileAdmissionTests.test_tokenizer_forwards_preserve_attention_mask) ... ok
+test_actual_fe_writes_and_null_solve_observer (__main__.IntegrationTests.test_actual_fe_writes_and_null_solve_observer) ... ok
+test_actual_singleton_reduction_and_resolved_capture (__main__.IntegrationTests.test_actual_singleton_reduction_and_resolved_capture) ... ok
+test_projection_uses_remaining_units_and_setup_clock (__main__.IntegrationTests.test_projection_uses_remaining_units_and_setup_clock) ... ok
+test_solver_masked_gradient_clip_filter_and_tie (__main__.IntegrationTests.test_solver_masked_gradient_clip_filter_and_tie) ... ok
+test_telemetry_recipe_records_and_counts_equal (__main__.IntegrationTests.test_telemetry_recipe_records_and_counts_equal) ... ok
+test_telemetry_valid_admission_and_runner_no_writes (__main__.IntegrationTests.test_telemetry_valid_admission_and_runner_no_writes) ... ok
+test_three_recipe_telemetry_probe_and_file_equality (__main__.IntegrationTests.test_three_recipe_telemetry_probe_and_file_equality) ... ok
+test_reader_control_boundaries (__main__.ReaderTests.test_reader_control_boundaries) ... ok
+test_reader_count_classes (__main__.ReaderTests.test_reader_count_classes) ... ok
+test_reader_flags_denominators_nulls (__main__.ReaderTests.test_reader_flags_denominators_nulls) ... ok
+test_reader_interpretation_and_null_table (__main__.ReaderTests.test_reader_interpretation_and_null_table) ... ok
+test_reader_law3_boundaries (__main__.ReaderTests.test_reader_law3_boundaries) ... ok
+test_reader_locality_boundaries (__main__.ReaderTests.test_reader_locality_boundaries) ... ok
+test_reader_process_combination (__main__.ReaderTests.test_reader_process_combination) ... ok
+test_reader_qualifier_boundaries (__main__.ReaderTests.test_reader_qualifier_boundaries) ... ok
+test_reader_replication (__main__.ReaderTests.test_reader_replication) ... ok
+test_reader_validity (__main__.ReaderTests.test_reader_validity) ... ok
+test_active_null_negative_controls (__main__.SeamTests.test_active_null_negative_controls) ... ok
+test_baseline_miss_stops_candidates (__main__.SeamTests.test_baseline_miss_stops_candidates) ... ok
+test_capture_bindings_identity_attribution (__main__.SeamTests.test_capture_bindings_identity_attribution) ... ok
+test_dispatch_call_time_flag (__main__.SeamTests.test_dispatch_call_time_flag) ... ok
+test_fe_ast_three_changes (__main__.SeamTests.test_fe_ast_three_changes) ... ok
+test_fe_modes_and_keys (__main__.SeamTests.test_fe_modes_and_keys) ... ok
+test_float64_dense_reference (__main__.SeamTests.test_float64_dense_reference) ... ok
+test_independent_full_vocabulary_audit (__main__.SeamTests.test_independent_full_vocabulary_audit) ... ok
+test_knobs_and_frame_subjects (__main__.SeamTests.test_knobs_and_frame_subjects) ... ok
+test_launch_refusals (__main__.SeamTests.test_launch_refusals) ... ok
+test_pristine_hash_restore_hooks (__main__.SeamTests.test_pristine_hash_restore_hooks) ... ok
+test_process2_requires_eligibility (__main__.SeamTests.test_process2_requires_eligibility) ... ok
+test_recipe_states_counters (__main__.SeamTests.test_recipe_states_counters) ... ok
+test_solver_ast_and_gradients (__main__.SeamTests.test_solver_ast_and_gradients) ... ok
+test_tolerance_and_finiteness (__main__.SeamTests.test_tolerance_and_finiteness) ... ok
+test_watchdog_and_projection (__main__.SeamTests.test_watchdog_and_projection) ... ok
+test_frozen_bytes_and_imports (__main__.TelemetryTests.test_frozen_bytes_and_imports) ... IMPORT GUARD PASS: c10e_bandknob, transformers, datasets absent
+ok
+test_isolation_positive_control_children_meta (__main__.TelemetryTests.test_isolation_positive_control_children_meta) ... ok
+test_post_run_answer_audit (__main__.TelemetryTests.test_post_run_answer_audit) ... ok
+test_strict_json_roundtrips (__main__.TelemetryTests.test_strict_json_roundtrips) ... ok
+test_telemetry_code_path_equality (__main__.TelemetryTests.test_telemetry_code_path_equality) ... ok
+test_telemetry_failure_boundaries (__main__.TelemetryTests.test_telemetry_failure_boundaries) ... ok
+test_telemetry_inertness_schedule (__main__.TelemetryTests.test_telemetry_inertness_schedule) ... ok
+test_telemetry_line_volume (__main__.TelemetryTests.test_telemetry_line_volume) ... ok
+test_telemetry_state_unchanged (__main__.TelemetryTests.test_telemetry_state_unchanged) ... ok
+test_telemetry_switch_admission (__main__.TelemetryTests.test_telemetry_switch_admission) ... ok
+
+----------------------------------------------------------------------
+Ran 72 tests in 17.633s
+
+OK
+LISTING: attributed-protected changes = {}
+LISTING: observed/unattributed other changes = {}
+SYS.MODULES PASS: c10e_bandknob/transformers/datasets absent
+```
+
+The advisor-review skill was applied before the initial tests. `tools/claude_advisor.sh` refused the call (exit 3): `FATAL: Claude CLI is not logged in.` A cheap direct auth probe also returned `loggedIn=false`; no successful out-of-family review is claimed. Its log is retained at `/private/tmp/c10x_build/x2_probe/advisor_design.log`. The authorized fresh read-only GPT-family fallback is **weaker independence**. Its initial FIX-FIRST recommendations were accepted: byte-based equivalence cutoff, explicit request/update row domains and unsafe-copy refusal before dispatch. Its implementation review also caught the floor-label and early-bytecode gaps; both were fixed. Its production-review confirmation, before final test-only AST strengthening, is preserved at `/private/tmp/c10x_build/x2_probe/final_fallback_review.txt`:
+
+```text
+PROCEED. Verified final SHA-256:
+
+b78c2f2892408b6fd9619066ca98418fb81e33256b07fd70f7d5cbf35a2e5223
+
+Live/shadow metadata is recorded at experiments/track_c/c10x_x2_probe.py:262–263; JSON conversion now follows final verification at :285–301.
+
+The cleanup log records 13 CPU tests PASS in 0.867s (/private/tmp/c10x_build/x2_probe/green_final_after_cleanup.log:16–19).
+
+Real-model/MPS behavior remains UNVERIFIED. Same-family fallback; weaker independence. No tests, Python or edits performed by this reviewer.
+```
+
+The final test-only AST refinement also rejects positional `torch.device("cpu")` plus dtype and attribute CPU-tensor destinations. Safe CPU-then-dtype, dtype-then-CPU and same-dtype CPU copies remain admitted. The sealed source was read-only re-reviewed with **PROCEED**, weaker same-family independence; exact confirmation is `/private/tmp/c10x_build/x2_probe/final_ast_review.md`:
+
+```text
+**PROCEED.** Sealed source SHA verified:
+
+`fd20ac97cf24ff57624b712a060cc3ad9422d24db3b2a29e63f7bf7e89149010`
+
+The expanded AST controls match the stated unsafe and safe forms (`experiments/track_c/c10x_x2_probe.py:538–573`). The latest log records **13 CPU groups PASS in 0.866s** (`/private/tmp/c10x_build/x2_probe/green_sealed.log:16–19`).
+
+Real-model/MPS behavior remains **UNVERIFIED**. Read-only confirmation; no tests, Python or edits performed.
+```
+
+### Final identities and protected-scope verification
+
+| File | SHA-256 |
+| --- | --- |
+| `experiments/track_c/c10x_x2_probe.py` — new | `fd20ac97cf24ff57624b712a060cc3ad9422d24db3b2a29e63f7bf7e89149010` |
+| `docs/C10X_ENGINEPATH_PREREG.md` — unchanged | `43a81103d68b953c2007e978b3ebecf11aadf66a7f121346047279845e8fc883` |
+| `experiments/track_c/c10x_enginepath_arms.py` — unchanged | `eea47ea72d071c6e9dfd5b301dfa8073c50aa0e3d02149de9660aae837f182db` |
+| `experiments/track_c/c10x_enginepath_inertness.py` — unchanged | `c0c19b97cfeac03a5c12176e33b63a10d06489ca56f7b365a6e03ef1e4ba56e9` |
+| `experiments/track_c/c10x_enginepath_read.py` — unchanged | `0c22b6b222e37b2d1a81ed649836f8fb6297a8440d0b2f833389cba1a25ff21a` |
+| `experiments/track_c/c10x_enginepath_selftest.py` — unchanged | `ba2133b18c84d8f092efe67f39cf8512b8e4ae6871a26684e7af7fb93f5eedcc` |
+| `experiments/track_c/c10x_enginepath_telemetry_check.py` — unchanged | `e95beb2cef310fa1050ccb4a2b60ac8224f493ea4d513d97868f3b9a9c99fe80` |
+| `experiments/track_c/c10x_overtone_z.py` — unchanged | `8b32ca840c1451624ba5f46143a6e65a03ae69e968dd0e6180d04fa5683dac42` |
+
+All **188 protected R5 files** match the current Amendment P baseline, and all nine current-task held files match their before hashes. Read-only protected `git diff --exit-code` exits 0. No git mutation or commit occurred. The results/architecture listing had 7,891 entries before and before report append; no C10X protected listing changed. One observed/unattributed other directory-metadata change (`results/labviz/site/runs`) is retained in `listing_delta_before_report.json`; no global shared-tree stability claim is made. The final check permits only the authorized append to this report. No historical result, diagnostic, source file, engine file or prereg bytes were repaired or rewritten.
+
+This launch executes Python directly and adds no shell wrapper; unchanged executable-entrypoint and git-mode regression checks pass in the seventy-two-test suite. The real-model path, model/covariance cache availability, MPS guard routing and actual timing remain UNVERIFIED. CPU plumbing PASS does not lift the HALT, qualify a write arm, relax LAW#5 or establish a null/mechanism result.
+
+### Exact launch command — NOT RUN
+
+Run from the program's separately scheduled measurement window. This loads the same frozen harness/model/device as the gate. It has **not** been executed under this build's no-GPU instruction. The default output is an absolute, microsecond-UTC directory under `results/c10x_x2_probe/`; reuse is refused. An optional `--out` may only name a fresh absolute directory of that same form.
+
+```sh
+/usr/bin/env -u C10X_TELEMETRY \
+  LLMDB_ROOT='/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a' \
+  PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+  '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python' -B \
+  '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_x2_probe.py' \
+  --source-run '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10x_enginepath/run.json' \
+  --templates '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10x_enginepath/context_templates.json' \
+  --templates-sha256 0c6d90ee5e90e19c0174c6d2e085f3cf4454dfcd85c0f935fb1cc107afac2bfe
+```
+
+The resulting paths are `results/c10x_x2_probe/<UTC>/probe.json` and `probe.log`. Runtime status is `MEASURED` for a completed diagnostic or `INCOMPLETE` with an explicit error; neither changes science acceptance. An unsafe copy aborts before execution and records the attempted transfer. No GPU launch, rerun authorization or scientific fix is implied by this command listing.
+
+Evidence manifest: `/private/tmp/c10x_build/x2_probe/evidence_manifest.json`, SHA-256 `7e3ed73c81f824aa7e49da93f6d22ab844946df7e36f4f6ab526bd5ab8b0a910`. Final report/probe/protected-file receipt: `/private/tmp/c10x_build/x2_probe/final_receipt.json`.
+
+
+## X2 probe file-policy correction
+
+**DONE — test-first CPU policy repair.** Final probe SHA-256 `23bdf070c66f8af02bb4d38d22eaecdfffa04782339f500ce1572080d6a2b614`. The sealed probe selftest passes **17 groups in 1.078s**; the new real cached tokenizer/config CPU test passes **1 test in 2.134s**; the existing C10X model-free suite passes **72 tests in 20.544s**, all exit 0. The failed `results/c10x_x2_probe/20261008T171001_323402Z/` is preserved. **No model weights were loaded, no MPS/GPU measurement was run, and the missing historical X2 magnitudes/cause remain UNVERIFIED.**
+
+This append replaces the earlier probe section's description of an all-output-only filesystem policy. The preceding **243,428 bytes** remain byte for byte, SHA-256 `f7411306e41a207128bbd7cdc59326c04224e15876e7dddfa48f9ed025fee6a9`. Earlier tests and policy descriptions remain historical evidence for their recorded source hashes.
+
+### Failure and corrected scope
+
+The program's failed `probe.json` has `status=INCOMPLETE` and `PermissionError: PROBE_READ_ONLY open ['/dev/null']`. Its SHA-256 remains `45b1fa22f234a7169664d562aab703cae82c2d9ddbc4c71113dd34c829443064`; the empty `probe.log` remains `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`. The prior probe source was `fd20ac97cf24ff57624b712a060cc3ad9422d24db3b2a29e63f7bf7e89149010`. This startup refusal supplied no X2 measurement.
+
+`c10x_x2_probe.py:306` now records protected lexical and resolved project trees: `ROOT/results` with the current output-directory exception, `ROOT/architecture_profile`, `ROOT/experiments`, `ROOT/tools`, `ROOT/docs`, `ROOT/CORPUS`, `ROOT/memit_dry_run/memit`, and `ROOT/covariance_caches`. It also protects every cached HF repository's snapshot tree under `ROOT/hf_cache/hub/*/snapshots` and the exact resolved files those snapshots reference. Cache metadata is collected through directory/stat/readlink operations; weight contents are not read for policy construction. The actual `hf_cache` and covariance symlink targets receive the same protection.
+
+The policy (`:330`) refuses protected writes, creation, rename/link destinations, removal, chmod/chown, truncate and utime. Rename checks both endpoints and rejects moving directories containing protected trees or snapshot targets. Snapshot symlink entries and their referenced blob files are protected; an unrelated blob or `.incomplete` file remains writable. An external runtime symlink may point to protected data and may be removed, while opening that protected target for mutation is refused. A symlink inside the allowed output directory does not grant permission to mutate another protected path. Physical resolution precedes lexical `..` normalization, preserving the actual target of a directory-symlink traversal.
+
+Unlisted paths are allowed, including `os.devnull`, ordinary home-cache and temporary directories, HF locks/refs outside snapshots, unreferenced blobs and incomplete downloads. JSON/log publication still uses the same exclusive fresh absolute `results/c10x_x2_probe/<UTC>/` output directory; existing output directories are refused.
+
+Descriptor mutations are resolved with macOS `F_GETPATH` (`:320`). The observed CPython `open` audit event omits `dir_fd`; `install_file_policy` (`:370`) therefore supplies the actual absolute descriptor-relative target to `os.open`, so the audit hook checks the same target the operation uses. Tests cover both a refused protected target and allowed external runtime targets from the protected engine cwd, using string, bytes and Path arguments.
+
+The real cache test exposed three policy refusals that dependencies caught internally: `urllib3/util/connection.py`'s IPv6 availability bind check, and `platform.py`'s processor/architecture subprocess probes. `socket.bind` and `subprocess.Popen` are now allowed as the program's conditional instruction requires. Unused `socket.connect` and `os.system` refusals remain. The test records policy exceptions before re-raising them and requires an empty record, preventing a swallowed startup refusal from passing unnoticed. Traces are in `/private/tmp/c10x_build/x2_probe_policy_fix/red_startup_traced.log`.
+
+### Test-first evidence
+
+Tests and evidence are in `/private/tmp/c10x_build/x2_probe_policy_fix/`; all Python runs were serial, with CPU thread limits and bytecode disabled. Test-first source snapshot SHA-256 was `97e1f250f6bcada8de7cf9882a1179fd5e53b8f12dab1c45a1d3ba2225d7ceec`. Extracting the unchanged audit installation into `install_file_policy` preceded RED; the original policy was still in force.
+
+| Evidence | Observed result |
+| --- | --- |
+| `red_core.log` | Exit 1: integer descriptor write-open not refused; allowed `/dev/null` write refused. All protected-path negative controls passed. |
+| `red_cache.log` | Exit 1: explicit `CACHE_LOAD_FALSE_REFUSAL PROBE_READ_ONLY open ['/dev/null']`. |
+| `event_shapes.json`, `red_dirfd.log` | `open` lacks `dir_fd`; after narrowing the policy, a protected descriptor-relative open bypassed it. Exit 1. |
+| `red_subprocess.log`, `red_startup_traced.log` | Exit 1: cache/metadata startup had three swallowed policy refusals, recorded before any restriction was removed. |
+| `red_runtime_dirfd.log` | Exit 1: external runtime descriptor open falsely refused from protected engine cwd; reviewer finding reproduced before the wrapper correction. |
+| `red_alias_traversal.log` | Exit 1: symlink-directory plus `..` path reached protected data without refusal; physical-resolution order corrected after RED. |
+| `green_sealed_core.log` | Exit 0: 17 groups PASS, including all existing scientific/weight negative controls and new filesystem controls. |
+| `green_sealed_cache.log` | Exit 0: real cached config/tokenizer CPU test PASS with no caught policy refusals. |
+| `green_sealed_full_selftest.log` | Exit 0: 72 existing C10X tests PASS; both listing deltas empty; frozen harness/transformers/datasets absent in this separate model-free process. |
+
+One intermediate cache-test observation (`red_startup_subprocess.log`) incorrectly expected Python's audit hook to observe the Rust tokenizer's native `tokenizer.json` read. It is retained as a test-observation correction and is **not** counted as policy RED evidence. The corrected positive controls observe the Python `config.json` and `tokenizer_config.json` reads and assert tokenizer output is nonempty CPU tensors within the configured vocabulary. The tokenizer/config API calls use `local_files_only=True`, the actual `ROOT/hf_cache/hub` cache, and revision `3aab1f1954e9cc14eb9509a215f9e5ca08227a9b`. Small snapshot JSON hashes match before/after. No model loader is invoked. Audited weight-shard reads are refused; Python audit observations alone do not establish absence of native I/O.
+
+The real-cache test is a separate `--cache-selftest` mode (`c10x_x2_probe.py:760`). The original model-free suite's import boundary remains unchanged. Exact CPU verification commands:
+
+```sh
+/usr/bin/env TMPDIR=/private/tmp/c10x_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+  '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python' -B '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_x2_probe.py' --selftest
+/usr/bin/env TMPDIR=/private/tmp/c10x_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+  '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python' -B '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_x2_probe.py' --cache-selftest
+/usr/bin/env TMPDIR=/private/tmp/c10x_build PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+  '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python' -B '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_enginepath_selftest.py'
+```
+
+Sealed output excerpts:
+
+```text
+Ran 17 tests in 1.078s
+OK
+CPU ONLY; no frozen harness/transformers/datasets imported
+
+Ran 1 test in 2.134s
+OK
+REAL CACHED TOKENIZER/CONFIG CPU ONLY; no model loader invoked; no audited weight-shard reads
+
+Ran 72 tests in 20.544s
+OK
+LISTING: attributed-protected changes = {}
+LISTING: observed/unattributed other changes = {}
+SYS.MODULES PASS: c10e_bandknob/transformers/datasets absent
+```
+
+### Scope, review and sealed hashes
+
+Only the probe and this report were edited in the real tree. All **188 R5 frozen-file hashes** match the pre-fix baseline. The six C10X driver/reader/inertness/selftest/telemetry/overtone modules, prereg, original HALTED run, pinned template artifact and failed probe JSON/log hashes match. The **11 pre-existing scientific/helper AST hashes** match, including `probe`, `read_only_guard`, `ShadowModel`, `trace_solve`, `gate_call`, `load_templates`, `fresh_output`, `distance`, `tensor_meta`, `storage_key` and `unsafe_copy`. The parameter-storage `TorchDispatchMode` guard, template/weight checks, gate machinery and safe MPS-copy policy were not changed. Amendment M/T11, Amendment P and the mask revert remain intact. The prereg SHA remains `43a81103d68b953c2007e978b3ebecf11aadf66a7f121346047279845e8fc883`; the template file SHA remains `0c6d90ee5e90e19c0174c6d2e085f3cf4454dfcd85c0f935fb1cc107afac2bfe`.
+
+[advisor-review](/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.codex/skills/advisor-review/SKILL.md) used a fresh read-only `/root/x2_policy_refute` fallback after the local Claude auth probe returned exit 1, `loggedIn=false`, `authMethod=none`. The reviewer found the allowed-direction descriptor false refusal, which was fixed after RED, and then returned **PROCEED for the sealed source, no blocking findings**. This same-family fallback has weaker independence. The review covers CPU policy repair; full-weight loading, MPS behavior and native/child-process I/O protection remain UNVERIFIED. No GPU measurement or scientific verdict is inferred.
+
+| Sealed artifact | SHA-256 |
+| --- | --- |
+| `experiments/track_c/c10x_x2_probe.py` | `23bdf070c66f8af02bb4d38d22eaecdfffa04782339f500ce1572080d6a2b614` |
+| `green_sealed_core.log` | `abe9600faa39f0531d81dce628c98cdd37a6896c7123c76d3ff6327b134d7f40` |
+| `green_sealed_cache.log` | `1e5f87776a2b5a086771ce1a492cf1236bd3852b8d666dd3f04e8421e082f64b` |
+| `green_sealed_full_selftest.log` | `4cb43139dd9fb8e1639c9eba9182b65b07101a3ef43aff20992b66ff581994d1` |
+| `final_review.md` | `b91194ad50863c0e2b15aa566662ac93baf1f96a05746b3033c3948d6d467869` |
+| `sealed_evidence.json` | `7eb5b6c35fcb121e6fea572fa83bca751448d364f0d41daf2d43640d0c4d0ecd` |
+
+### Fresh probe launch command — NOT RUN
+
+The program may use the same launch command in its separately scheduled measurement window. Omitting `--out` selects a new absolute microsecond-UTC directory, preserving the failed `20261008T171001_323402Z` output. This command was **not run** during the repair:
+
+```sh
+/usr/bin/env -u C10X_TELEMETRY \
+  LLMDB_ROOT='/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a' \
+  PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
+  '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python' -B \
+  '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10x_x2_probe.py' \
+  --source-run '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10x_enginepath/run.json' \
+  --templates '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10x_enginepath/context_templates.json' \
+  --templates-sha256 0c6d90ee5e90e19c0174c6d2e085f3cf4454dfcd85c0f935fb1cc107afac2bfe
+```
+
+Final append/source/protected-file receipt: `/private/tmp/c10x_build/x2_probe_policy_fix/final_receipt.json`.
