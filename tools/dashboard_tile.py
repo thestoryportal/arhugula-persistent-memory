@@ -19,6 +19,12 @@ KINDS = [  # (pattern on the step text, icon, colour)
 ]
 
 
+def running_helpers():
+    from dashboard_subagents import recent_agents, info as agent_info, elapsed
+    agents = (agent_info(p) for p in recent_agents())
+    return [f"{a['desc']} ({a['parent']})  ·  {elapsed(a['start'])}" for a in agents if a["status"] == "RUNNING"]
+
+
 def sh(*args):
     r = subprocess.run(args, capture_output=True, text=True)
     return r.stdout if r.returncode == 0 else None
@@ -92,7 +98,9 @@ def render(session, label, color, cols, rows, state):
     bits = [b for b in (info["model"], info["context"], f"working {info['timer']}" if info["timer"] else None) if b]
     out.append(f"{FG(color)}{BOLD}{fit(' ' + '  ·  '.join(bits), cols)}{RESET}")
     out.append(f"{BOLD}{fit(' ↳ ' + task, cols)}{RESET}")
-    for h in info["helpers"][:3]:
+    # Claude Code keeps finished helpers on screen with a frozen timer, so the screen only says whether to look;
+    # whether a helper is still running comes from its transcript (dashboard_subagents.info).
+    for h in (running_helpers() if info["helpers"] else [])[:3]:
         out.append(f"{FG(141)}{fit('   ◯ helper: ' + h, cols)}{RESET}")
     out.append(f"{FG(color)}{'─' * cols}{RESET}")
     feed = []

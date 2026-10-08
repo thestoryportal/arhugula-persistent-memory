@@ -19,7 +19,11 @@ KIND = {"mint1": "one new word per name", "mint2": "two new words per name", "mu
 BLOCK = {"F": "original names", "V2": "new name set"}
 STAGE_WORDS = {"step0": "setup check", "p1-preflight": "pre-flight check (usual-method baseline)", "p1-a1": "train: single-word control",
                "p1-a2": "train: real two-word control", "p1-a7": "train: made-up names", "p1-canon": "train: trained-phrasing check",
-               "p1-shuf": "train: shuffled-values control", "p1-eval": "score everything"}
+               "p1-shuf": "train: shuffled-values control", "p1-eval": "score everything",
+               "p2-coordinator": "repeat-run coordinator", "p2-a7-s1": "repeat: made-up names, seed 1",
+               "p2-shuf-s1": "repeat: shuffled-values control, seed 1", "p2-canon-s1": "repeat: trained-phrasing check, seed 1",
+               "p2-a1-s1": "repeat: single-word control, seed 1", "p2-a7-rt": "repeat: made-up names, same seed retrained",
+               "p2-shuf-rt": "repeat: shuffled control, same seed retrained", "p2-eval": "repeat: score everything"}
 ARM_WORDS = {"A1_single": "single-word control", "A2_coherent2": "real two-word control", "A7_coined_coined": "made-up names",
              "A7_shuf": "made-up names, shuffled (control)", "A7_canon": "made-up names, trained phrasing"}
 PHASES = [("load", r"loaded Qwen|Loading checkpoint"), ("statistics", r"Retrieving covariance|Loading cached"),
@@ -130,7 +134,7 @@ def parse_log(path):
     text_tail = open(path, errors="replace").read()[-400:]
     exit_m = re.search(r"STAGE_EXIT=(\d+)", text_tail)
     return {"arms": arms, "losses": losses, "inert": inert, "behavior": behavior, "lines": lines,
-            "exit": int(exit_m.group(1)) if exit_m else None, "halt": "HALT" in text_tail}
+            "exit": int(exit_m.group(1)) if exit_m else None, "halt": bool(re.search(r"(?m)^HALT\b", text_tail))}
 
 
 def run_rows(paths, cols):
@@ -172,10 +176,16 @@ def run_rows(paths, cols):
     return rows, wide, name_w
 
 
+def is_experiment_log(path):
+    # Relative to ROOT: the worktree itself is named c10k-route-a, and Lab View mirrors logs under results/labviz/.
+    parts = os.path.relpath(path, ROOT).split(os.sep)
+    return parts[1:2] != ["labviz"] and any(x.startswith("c10") for x in parts[1:])
+
+
 def render(cols, rows):
     top, pids, job = running()
     logs = sorted((p for p in glob.glob(os.path.join(ROOT, "results", "**", "*.log"), recursive=True)
-                   if "/c10" in p), key=os.path.getmtime)
+                   if is_experiment_log(p)), key=os.path.getmtime)
     if not logs:
         return [f"{FG(245)}No experiment logs found under results/.{RESET}"]
     cur = logs[-1]
@@ -195,7 +205,8 @@ def render(cols, rows):
     times = [os.path.getmtime(p) - os.stat(p).st_birthtime for p in behav_done if os.path.basename(p).startswith(("behavior_", "p1-"))]
     avg = sum(times) / len(times) if times else None
 
-    key = top[0] if top else re.search(r"/(c10[a-z])", cur).group(1) if re.search(r"/(c10[a-z])", cur) else "?"
+    m = re.search(r"(?:^|/)(c10[a-z])", os.path.relpath(cur, ROOT))
+    key = top[0] if top else m.group(1) if m else "?"
     if top:
         eta = ""
         if total and avg:
