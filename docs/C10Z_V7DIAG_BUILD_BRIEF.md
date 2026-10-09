@@ -32,3 +32,7 @@ Every numbered item above maps to a test and an implementation line; both new te
 
 ## Report
 `results/c10z_v7diag_codex_build.md`: requirement → test → implementation table (amendment line / brief item), full test output, the exact launch command for the lead, the expected runtime against the 3,060 s cap, and every deviation or open question.
+
+## Addendum 2026-10-09 — persistence-only extension (team ruling, D-C10z-v7diag)
+
+GPT-6-Astra implementation review (`/Users/robertrhu/.claude/jobs/8ac4cacf/tmp/astra_v7diag_impl_out.md`, FIX-FIRST) found that this brief left `G`'s save after the V8 gate (`c10z_astra_arms.py:1100`), conflicting with the persist-before-gate rule. Team ruling (MAESTRO, on Astra's recommendation, operator delegation): **approved** — move `G`'s exclusive save/byte-copy before V8 and update retention tests. Scope is record-only: no change to any computed value, gate predicate, routing table, budget, or science path. The other three blocking fixes (save `m` + provenance before validation; a supervisor that writes a fresh UTC-suffixed halt diagnostic on forced termination; the 3,060 s deadline covers cleanup and worker exit) are in-scope corrections of the existing brief.
