@@ -1149,3 +1149,127 @@ All **36** protected snapshots from this resume are unchanged: bar/live-test ada
 **Next / risks:** no detector code step remains. Native dashboard acceptance is unverified; current Astra approvals are A1 FREEZE+GO and admission ADMIT+GO. Preserve sources/evidence; do not duplicate the queue, infer GPU clearance, or start process2 before a clean completed K2 survivor requests3 and process1 actually exits. No commits.
 
 **BINDING CONTEXT RULE:** watch Context N% left. Before approximately20%, stop starting new work, record done / in flight / exact paths / next step / risks in the report and tell MAESTRO so a fresh successor can start. Every handoff restates this rule. Codex Z2 stops after writing and verifying the named handoff.
+
+## Codex Z3 successor verification — 2026-10-09T22:32:34.880140+00:00
+
+**DETECTOR DONE.** Z2's final implementation was already complete: all five dashboard source/test hashes match the predecessor handoff. Z3 read that handoff in full, the detector report's current completion and historical stopping states, and current frozen §12. Fresh test-first verification passed **114 tests (34 detector/experiment/bar + 27 live + 53 MathLab), zero failures/errors/skips**, in 2.966 s. No new failing control or production edit was needed; the retained RED→GREEN evidence above remains historical evidence, not a fresh RED claim.
+
+The one shared detector remains tools/dashboard_live.py; tools/dashboard_bar.sh uses its --gpu-summary, and tools/dashboard_experiment.py uses gpu_state(). Controls cover Math-lab harvest and CPU launcher/runner/uv notebooks, C10Z V7, benchmark, attempt/stage/resident, and C10Y pre-cast; name, elapsed/cap and exact known namespace; ancestry deduplication, conflicting jobs, PID-age budget binding, env clearing, prompt/selftest/help exclusion, and CPU/GPU separation. Unknown artifact output remains explicitly unavailable, with run/events provenance separate.
+
+**Fresh headless evidence:** ten captures passed at **110×40**, plus the real status-bar CLI. Live experiment observation showed a fresh Math-lab step-2 event (sample 2026-10-09T22:29:50.190884Z), elapsed 1:14:18/cap 6540s, exact events directory results/mathlab_staging/runs/m2_20261009T211535Z_57196, process unverified. /bin/ps was denied; GPU is UNAVAILABLE, never inferred idle. The independently timed live bar capture likewise reports GPU unavailable. Native process inventory and interactive teamdash/tmux acceptance remain **UNVERIFIED**. Fixtures establish active-job display, not live GPU liveness or science admission.
+
+| Capture in /private/tmp/dashboard_gpu_detector_z3.Y8CQmC | Lines | Maximum width | Result |
+|---|---|---|---|
+| experiment_live_final_110x40 | 8 | 110 | PASS |
+| mathlab_live_final_110x40 | 39 | 110 | PASS |
+| fixture_harvest_final_110x40 | 6 | 110 | PASS |
+| fixture_v7_final_110x40 | 4 | 110 | PASS |
+| fixture_precast_final_110x40 | 4 | 110 | PASS |
+| fixture_benchmark_final_110x40 | 4 | 110 | PASS |
+| fixture_cpu_uv_final_110x40 | 6 | 110 | PASS |
+| fixture_attempt4_final_110x40 | 6 | 110 | PASS |
+| fixture_cpu_denied_final_110x40 | 8 | 110 | PASS |
+| fixture_combined_final_110x40 | 15 | 110 | PASS |
+
+Exact commands (fresh private temporary root; bytecode disabled):
+
+    /opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/dashboard_gpu_detector_z3.Y8CQmC PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B /private/tmp/dashboard_gpu_detector_z3.Y8CQmC/verify_dashboard.py
+    /opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/dashboard_gpu_detector_z3.Y8CQmC PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B /private/tmp/dashboard_gpu_detector_z3.Y8CQmC/render_z3.py
+    /opt/homebrew/bin/rtk proxy git diff --check -- tools/dashboard_live.py tools/dashboard_experiment.py tools/dashboard_bar.sh tools/test_dashboard_live.py tools/test_dashboard_gpu_detector.py
+
+The test runner and render driver reject science imports (torch, transformers, datasets, huggingface_hub, numpy, scipy). Tests and actual render CLI/bar calls exit0 and yield nonempty output. Complete verbose test output and all captures are retained in the named evidence directory. These are single-use evidence writers; reproduce in a fresh directory rather than overwriting them.
+
+**Scope:** all **49** captured protected files remain byte-identical, including dashboard sources/tests, excluded tools/dashboard_mathlab.py, tools/mathlab_events.py, all captured tools/labviz/**, science sources/launchers, frozen prereg and published go. Scoped git diff --check passed. Z3’s only intentional repository edit is this report; helpers/evidence/checkpoint are under /private/tmp. This 49-file comparison is scoped source evidence, not a global clean-tree or cache-immutability claim. Graft’s ignored graft/.cache/ask-index.json was not included in the snapshot; no pre-call hash or mutation attribution is claimed. Existing dirty/untracked work was preserved. No GPU/MPS/model load, job launch, dashboard restart, commits or mutating git operations.
+
+| Current source | SHA-256 |
+|---|---|
+| tools/dashboard_live.py | 75ca7100c0f64bc3debd14e05c6e65a2109238057dfa98620f96f5082c35b572 |
+| tools/dashboard_experiment.py | 933c2336c5813e3a9f444b88ee58ba0ab8a255917db051d5331dcdfbe2d7b640 |
+| tools/dashboard_bar.sh | 535e04d3ea0357183e9448e95e88a673294d83aba4772208be545c2f8e3a4b0e |
+| tools/test_dashboard_live.py | b9fec5d1c0eceea40e5caad6222d56447352cf79cdbeb0ac8f984ec25e9ed81d |
+| tools/test_dashboard_gpu_detector.py | e2b86fad7dd00bab2c4b8a349d33c0abb91a2a4cc43cf70c6603a33128153173 |
+
+| Evidence file in /private/tmp/dashboard_gpu_detector_z3.Y8CQmC | SHA-256 |
+|---|---|
+| verify_dashboard.py | 3403bd794f7f2b55adf8477148f9e9631914cdc7ff2f76b7d310dc58bb6fff21 |
+| dashboard_tests.txt | d09f4460f8a8aea68e3c6d94dbf1c11837340bb29cad36975b8a5dba155834f6 |
+| test_summary.json | 5b6967e74186e84cffaeb28aea01a769143f6a7ae9dece399c9b1bfc68c3b4f9 |
+| render_z3.py | 970f862c263644bd4eff41cc2a9c4e5f21821acf858515592e8131cd197ebfd6 |
+| render_final_checks.json | cdb5ae144b5c277a805864e80fd5ca5b0ac3eb41e0b8ae8a8c2d6672caba8b7e |
+| scope_check.json | 2355f632e3b0238221d4eebb8da491227621cef0db18da03af8ca5602b7771b4 |
+| bar_live_final.txt | 744619d213230ff2ae50a1a0919e6fe64c3851e9ee1b57b654438e8df1e4cde5 |
+
+**Context saved:** /private/tmp/dashboard_gpu_detector_z3.Y8CQmC/gstack/projects/c10k-route-a/checkpoints/20261009-223049-codex-z3-detector-complete-attempt4-standby.md, using the context-save format with temporary GSTACK_HOME; no home-memory writes or external synchronization.
+
+**Done / in flight / next / risks:** detector verification complete; no implementation remains. Task2 is STANDBY until MAESTRO asks for attempt-4 process1 outcome reading. Authority: results/c10z_astra_attempt4_prep/handoff_codexz2_20261009.md, “Reading attempt-4 outcomes and the process-2 gate,” and frozen docs/C10Z_ASTRA_PREREG.md §12. Use the actual directory reader at that time; process2 needs validated scientific_verdict=true/next_stage=3, clean closed completed=2/no halt, actual resident AND coordinator exit evidence from the operator, current bound ceilings/source/environment/go/benchmark and clear queue, and a nonexistent fresh process2/ namespace. No process2 permission is asserted now. Main risks: treating recorded events as process liveness, missing/denied observation as GPU clearance, stale source identity, or premature/duplicate dispatch.
+
+**BINDING CONTEXT RULE:** watch Context N% left; before approximately20%, stop starting new work, write done / in flight / exact paths / next step / risks into this report, and tell MAESTRO so a fresh successor can start. Every handoff restates this rule.
+
+## Codex Z3 detector fix round 1 — 2026-10-09T22:44:33.145939+00:00
+
+**DETECTOR FIX DONE.** Read results/dashboard_gpu_detector_astra_r1.md in full; reproduced both BLOCKING findings before production edits and fixed them in one round. The previous114 controls missed these cases. Final evidence: **120 dashboard tests PASS (40 detector/experiment/bar +27 live +53 MathLab), zero failures/errors/skips, 4.242s; sixteen110×40 headless captures PASS; real live status bar and real worker-only fixture bar PASS.** No science/GPU permission or process2 eligibility is implied.
+
+| Astra blocker / boundary | RED before edits | Fix / GREEN |
+|---|---|---|
+| Lone legacy _job falsely free | blockers_red.txt: shared running=None; experiment GPU IDLE; unchanged MathLab GPU free. Real bar already busy. Three failing subtests; worker-only test tools/test_dashboard_gpu_detector.py:551. | dashboard_live.py:502 still prefers a coordinator and falls back to an observed GPU worker. worker_green.txt: worker-only across all three consumers plus existing coordinator-priority control PASS. |
+| CPU activity removes legacy details | blockers_red.txt: all three live-CPU, fresh-recorded-CPU and malformed-CPU-record cases lose stage p2-eval. Legacy-only positive control already PASS, proving the fixtures/observation sink. Tests tools/test_dashboard_gpu_detector.py:588/597/605. | dashboard_experiment.py:256 selects legacy detail when legacy GPU jobs exist; cpu_lines at:238 composes CPU/event-error metadata alongside it. Final render retains stage, progress1 of3, finished27/72, NOW/training step7 and exact live-log marker at110×40. |
+| Legacy worker starts before a log exists | no_logs_red.txt: one assertion failure, zero errors; stage _job absent. Test tools/test_dashboard_gpu_detector.py:579. | Explicit active-GPU/no-log display plus CPU summaries; metadata and unavailable sink remain visible. |
+
+Initial blocker run:5 tests,6 assertion failures,0 errors; no-log boundary:1 test,1 assertion failure,0 errors. After the respective edits: worker2 PASS; all6 new controls PASS. Full dashboard discovery then passed120. The original alias, namespace/cap, PID-age, env-clear, unavailable-inventory and CPU-event controls remain GREEN.
+
+The CPU rendering block is shared between generic and legacy panels; it preserves process-verified versus recorded/unverified status, elapsed/cap, exact known output/events directories and error text. Legacy rows remain width-clipped. No changes to detector aliases, science paths, admission/go records, frozen prereg or excluded MathLab/Lab View files.
+
+Exact commands; all temporary state/fixtures under /private/tmp/dashboard_gpu_detector_z3_fix1.DsEZau, bytecode disabled:
+
+    /opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/dashboard_gpu_detector_z3_fix1.DsEZau PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B /private/tmp/dashboard_gpu_detector_z3_fix1.DsEZau/run_checks.py blockers_red test_dashboard_gpu_detector.SharedGPUDetector.test_worker_only_inventory_is_busy_in_all_three_consumers test_dashboard_gpu_detector.SharedGPUDetector.test_legacy_experiment_fixture_contains_progress_results_and_logs test_dashboard_gpu_detector.SharedGPUDetector.test_legacy_experiment_details_survive_concurrent_CPU_process test_dashboard_gpu_detector.SharedGPUDetector.test_legacy_experiment_details_survive_recorded_CPU_activity test_dashboard_gpu_detector.SharedGPUDetector.test_legacy_experiment_details_survive_CPU_record_error
+    /opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/dashboard_gpu_detector_z3_fix1.DsEZau PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B /private/tmp/dashboard_gpu_detector_z3_fix1.DsEZau/run_checks.py no_logs_red test_dashboard_gpu_detector.SharedGPUDetector.test_legacy_worker_without_logs_keeps_GPU_and_CPU_activity_visible
+    /opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/dashboard_gpu_detector_z3_fix1.DsEZau PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B /private/tmp/dashboard_gpu_detector_z3_fix1.DsEZau/run_checks.py all_dashboard_green
+    /opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp/dashboard_gpu_detector_z3_fix1.DsEZau PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B /private/tmp/dashboard_gpu_detector_z3_fix1.DsEZau/render_fix1_corrected.py
+    /opt/homebrew/bin/rtk proxy git diff --check -- tools/dashboard_live.py tools/dashboard_experiment.py tools/test_dashboard_gpu_detector.py
+
+Evidence writers are exclusive/single-use: use a fresh namespace when reproducing. The first temporary expanded-render helper used literal backslash-n joins in its new fixture section and failed its width assertion. Failure retained in render_helper_initial_failure.txt and partial captures retained at the evidence root. Only that temporary helper was corrected; all16 successful final captures are in renders_corrected/. No dashboard-source change was made to accommodate the helper failure. Both runners reject torch/transformers/datasets/huggingface_hub/numpy/scipy imports.
+
+| Final capture under /private/tmp/dashboard_gpu_detector_z3_fix1.DsEZau/renders_corrected | Lines | Maximum width | Result |
+|---|---|---|---|
+| experiment_live_final_110x40 | 8 | 110 | PASS |
+| mathlab_live_final_110x40 | 24 | 110 | PASS |
+| fixture_harvest_final_110x40 | 6 | 110 | PASS |
+| fixture_v7_final_110x40 | 4 | 110 | PASS |
+| fixture_precast_final_110x40 | 4 | 110 | PASS |
+| fixture_benchmark_final_110x40 | 4 | 110 | PASS |
+| fixture_cpu_uv_final_110x40 | 6 | 110 | PASS |
+| fixture_attempt4_final_110x40 | 6 | 110 | PASS |
+| fixture_cpu_denied_final_110x40 | 8 | 110 | PASS |
+| fixture_combined_final_110x40 | 15 | 110 | PASS |
+| fixture_worker_only_110x40 | 13 | 110 | PASS |
+| fixture_mathlab_worker_only_110x40 | 38 | 110 | PASS |
+| fixture_legacy_CPU_running_110x40 | 18 | 110 | PASS |
+| fixture_legacy_CPU_recorded_110x40 | 19 | 110 | PASS |
+| fixture_legacy_CPU_error_110x40 | 16 | 110 | PASS |
+| fixture_legacy_worker_no_logs_110x40 | 8 | 110 | PASS |
+
+**Scope:**49 captured source/protected hashes; exactly the3 permitted dashboard/test sources changed, all46 others unchanged, including tools/dashboard_mathlab.py, tools/mathlab_events.py, tools/labviz/**, bar/live/MathLab tests, launchers/science sources, frozen prereg and published go. Own deltas retained in *.delta.patch. Scoped git diff --check PASS; workspace/branch reconfirmed worktree-c10k-route-a. This is scoped evidence, not a global clean-tree/cache claim. Repository edits in this round: tools/dashboard_live.py, tools/dashboard_experiment.py, tools/test_dashboard_gpu_detector.py and this append-only report. No GPU/MPS/model load, science/job launch, commits or dashboard restart; concurrent work preserved.
+
+| Final changed source | SHA-256 |
+|---|---|
+| tools/dashboard_live.py | adab10516a889bee1227706597869693a113b7e56af5b2b6757771fd44ecb96b |
+| tools/dashboard_experiment.py | 40e6dd310446935e660ec81aea2aa8d0655b4218de320abff2737e224cb0d772 |
+| tools/test_dashboard_gpu_detector.py | 7122338f12c0bc8461847301ba90bcdd0c1b3a9c4220433ef0033d83a98005ab |
+
+| Evidence in /private/tmp/dashboard_gpu_detector_z3_fix1.DsEZau | SHA-256 |
+|---|---|
+| blockers_red.txt | 5e5d6706cf6305a20fc86655517cd05a0e758e693476b9c159595a38cf62f9b7 |
+| no_logs_red.txt | 4c5be5688a6047111718d0efca3802a812de6ea5cf7ddf987a2ec7dabd58cd33 |
+| worker_green.txt | e858a9acb1e5025ebf481fc50ab663ad31265fc5d5933acab2d31252b70858f4 |
+| blockers_green.txt | b014cb6fb8d6d835fdf69370e9995631c04f6d2717488bee5a87b277533f00a5 |
+| all_dashboard_green.txt | 0558df8cb951f9e2b66b717e1199d70be1a8f6a61182934f0ef25d554bfea99d |
+| scope_check.json | 720259c97762efd3db3b617df0114c59c93381cc64d0c5ee406f20d341afef6c |
+| render_helper_initial_failure.txt | c2dc313ecf70ebd372c8070b34fc978c404780610137297e877be0cba19dcc96 |
+| render_fix1_corrected.py | ce4982cbc510d1b0b3d431dc4bcae3b00a0226a4321bd21cf607726a9f815b76 |
+| renders_corrected/render_final_checks.json | 417265be25bec18b4ea4f0c4e9d0cca4bbbc970e4171fe8de82160ec795fbee8 |
+
+**Evidence limits:** native successful process inventory and interactive tmux acceptance remain UNVERIFIED: actual CLI rendering reports GPU unavailable on denied /bin/ps. Fixtures verify rendering and shared state, not native liveness or science results. Astra's non-blocking refresh-scan/ps-timeout suggestion was not part of these two BLOCKING fixes; existing read behavior remains unchanged. No new independent Astra re-review is claimed.
+
+**Context-save / standby handoff:** /private/tmp/dashboard_gpu_detector_z3_fix1.DsEZau/gstack/projects/c10k-route-a/checkpoints/20261009-224305-codex-z3-detector-fix1-complete-attempt4-standby.md. Done: both BLOCKING fixes, RED/GREEN,120-test suite,16 renders and scoped preservation. In flight: none. Next: MAESTRO's review and attempt4 process1 outcome request; attempt4 standby still takes priority on interrupt. Source-faithful gate remains the Z2 handoff plus frozen §12: actual reader scientific_verdict=true/next_stage3, clean closed completed2/no halt, operator-native resident AND coordinator exit, current bound source/environment/go/benchmark/ceilings and clear queue, fresh nonexistent process2 namespace. Do not launch, retry, or infer clearance; no process2 permission asserted now. Main risks: misreading recorded CPU activity as liveness, denied ps as idle, stale hashes, or premature/duplicate dispatch.
+
+**BINDING CONTEXT RULE:** watch Context N% left; before approximately20%, stop starting new work, write done/in-flight/exact paths/next step/risks into the task report and tell MAESTRO to start a fresh successor. Every handoff restates this rule.

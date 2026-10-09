@@ -123,6 +123,7 @@ class Clip(unittest.TestCase):
 
 class GPUInventory(unittest.TestCase):
     def probe_response(self, code, output):
+        output = ''.join(f"{100 + i} 1 {line}\n" for i, line in enumerate(output.splitlines()) if line.strip())
         response = subprocess.run([sys.executable, "-B", "-c",
                                    "import sys; sys.stdout.write(sys.argv[1]); sys.stderr.write('probe fixture'); sys.exit(int(sys.argv[2]))",
                                    output, str(code)], capture_output=True, text=True, timeout=10)
@@ -130,7 +131,7 @@ class GPUInventory(unittest.TestCase):
         with tempfile.TemporaryDirectory() as root, patch.object(L, "ROOT", root), \
              patch.object(L.subprocess, "run", return_value=response) as run:
             result = L.gpu_state()
-            run.assert_called_once_with(("/bin/ps", "-axo", "etime=,command="), capture_output=True, text=True)
+            run.assert_called_once_with(("/bin/ps", "-axo", "pid=,ppid=,etime=,command="), capture_output=True, text=True)
             return result
 
     def test_real_subprocess_nonzero_and_empty_responses_are_unavailable(self):

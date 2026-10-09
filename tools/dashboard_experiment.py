@@ -98,20 +98,10 @@ def machine(pids, cols=200):
             f"  {DIM}·{RESET} free RAM {BOLD}{free:.0f} GB{RESET}")
 
 
-def running():
-    top, pids, job = None, [], None
-    for line in sh("/bin/ps", "-axo", "pid=,etime=,command=").splitlines():
-        pid, etime, command = (line.split(None, 2) + ["", ""])[:3]
-        m = dashboard_live.GPU_JOB_RE.search(dashboard_live.script_call(command) or "")
-        if not m:
-            continue
-        pids.append(pid)
-        if m.group(2) == "_job":
-            a = dict(re.findall(r"--(\w+) (\S+)", line))
-            job = f"{a.get('job', '?')}_{a.get('block', '?')}_r{a.get('replicate', 0)}_{a.get('kind', '?')}_s{a.get('seed', 'none')}"
-        elif top is None:
-            top = (m.group(1), m.group(2), etime)
-    return top, pids, job
+def running(state=None):
+    state = dashboard_live.gpu_state() if state is None else state
+    jobs = state['jobs']
+    return state['running'], [pid for job in jobs for pid in job['pids']], next((j['job_label'] for j in jobs if j['job_label']), None)
 
 
 def parse_log(path):
@@ -245,12 +235,57 @@ def latest_answers(data_dir):
     return None
 
 
+def cpu_lines(state, cols):
+    out = []
+    for job in state.get('cpu_jobs', []):
+        out += [section('CPU RUNNING' if job['process_verified'] else 'CPU RECORDED', 24, cols),
+                f" {BOLD}{job['name']}{RESET} · {job['etime']} elapsed / cap {job['cap_s']:g}s" if job['cap_s'] is not None else
+                f" {BOLD}{job['name']}{RESET} · {job['etime']} elapsed / cap unavailable"]
+        fields = ['Output: ' + dashboard_live.job_path(job, 'output_dir'),
+                  'Run/events dir: ' + dashboard_live.job_path(job, 'run_dir')]
+        if not job['process_verified']:
+            fields += ['Fresh recorded activity; process unverified. Latest sample: ' + job['sample_ts']]
+        for field in fields:
+            out += [' ' + line for line in textwrap.wrap(field, max(cols - 2, 1))]
+        out.append('')
+    for error in state.get('cpu_record_errors', []):
+        out += [' ' + line for line in textwrap.wrap('CPU records unavailable: ' + error, max(cols - 2, 1))]
+    return out
+
+
 def render(cols, rows):
-    top, pids, job = running()
+    state = dashboard_live.gpu_state()
+    cpu = state.get('cpu_jobs', [])
+    if state.get('unavailable') or any(job['named'] for job in state['jobs']) or (not state['jobs'] and (cpu or state.get('cpu_record_errors'))):
+        title = 'GPU UNAVAILABLE' if state.get('unavailable') else 'GPU RUNNING' if state['jobs'] else 'GPU IDLE'
+        out = [section(title, 124 if state.get('unavailable') else 28, cols)]
+        if state.get('unavailable'):
+            out += [' ' + line for line in textwrap.wrap(state['unavailable'], max(cols - 2, 1))]
+        for job in state['jobs']:
+            cap = f"{job['cap_s']:g}s" if job['cap_s'] is not None else 'unavailable'
+            out += [f" {BOLD}{job['name']}{RESET} · {job['etime']} elapsed / cap {cap}"]
+            fields = ['Output: ' + dashboard_live.job_path(job, 'output_dir')]
+            if job.get('family') == 'astra':
+                fields += [job['budget_note']]
+                if job.get('selected_caps'):
+                    fields += ['Selected launch caps: ' + ', '.join(f'{k} {v:g}s' for k, v in job['selected_caps'].items())]
+            elif job['key'] == 'mathlab':
+                fields += ['Run/events dir: ' + dashboard_live.job_path(job, 'run_dir'),
+                           'Harvest artifact output is not linked in the run record.']
+            for field in fields:
+                out += [' ' + line for line in textwrap.wrap(field, max(cols - 2, 1))]
+            out.append('')
+        out += cpu_lines(state, cols)
+        return [dashboard_live.clip(line, cols) for line in out[:rows]]
+    top, pids, job = running(state)
     logs = sorted((p for p in glob.glob(os.path.join(ROOT, "results", "**", "*.log"), recursive=True)
                    if is_experiment_log(p)), key=os.path.getmtime)
     if not logs:
-        return [f"{FG(245)}No experiment logs found under results/.{RESET}"]
+        out = [f"{FG(245)}No experiment logs found under results/.{RESET}"]
+        if top:
+            out = [section('GPU RUNNING', 28, cols),
+                   f" {STEP.get(top[0], top[0])} · stage {top[1]} · {top[2]} elapsed"] + out
+        return [dashboard_live.clip(line, cols) for line in (out + cpu_lines(state, cols))[:rows]]
     cur = logs[-1]
     run_dir = os.path.dirname(cur)
     runs = sorted(glob.glob(os.path.join(run_dir, "*.log")), key=lambda p: os.stat(p).st_birthtime)
@@ -279,6 +314,7 @@ def render(cols, rows):
     else:
         head, hbg = f" ○ GPU IDLE · last: {STEP.get(key, key)} · {os.path.relpath(run_dir, ROOT)}", 240
     out = [f"{BOLD}{FG(231)}{BG(hbg)}{fit(head, cols).ljust(cols)}{RESET}", machine(pids, cols)]
+    out += cpu_lines(state, cols)
 
     out.append(section("PROGRESS", 24, cols))
     if total:
@@ -325,7 +361,7 @@ def render(cols, rows):
         title = "WORDS & MODEL ANSWERS (newest recorded scoring" + ("; the running stage records its own only when it finishes)" if top else ")")
         out.append(section(title, 30, cols))
         out += words[: rows - len(out)]
-    return out[:rows]
+    return [dashboard_live.clip(line, cols) for line in out[:rows]]
 
 
 def main():
