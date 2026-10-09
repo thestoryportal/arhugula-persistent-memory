@@ -92,17 +92,21 @@ def receipt(run_dir, label, data):
 
 
 @contextlib.contextmanager
-def hard_deadline(seconds, heartbeat=None):
+def hard_deadline(seconds, heartbeat=None, budget=None):
     """Periodic enforcement interrupts blocked IO; nested probes retain the deadline."""
     previous = signal.getsignal(signal.SIGALRM)
     if signal.getitimer(signal.ITIMER_REAL)[0]:
         raise Stop('INVALID-ENFORCEMENT', 'a pre-existing alarm cannot be replaced')
     deadline=time.monotonic()+seconds
     busy=False
+    def remaining_time():
+        remaining=deadline-time.monotonic()
+        if remaining<=0: raise Stop('STOPPED-DEADLINE','whole-run wall-clock cap reached')
+        return min(remaining,budget()) if budget is not None else remaining
     def expired(signum, frame):
         nonlocal busy
-        remaining=deadline-time.monotonic()
-        if remaining<=0 or heartbeat is None:
+        remaining=remaining_time()
+        if heartbeat is None:
             raise Stop('STOPPED-DEADLINE', 'whole-run wall-clock cap reached')
         if busy: raise Stop('INVALID-MONITORING','recursive resource watchdog')
         busy=True
@@ -110,12 +114,13 @@ def hard_deadline(seconds, heartbeat=None):
         signal.setitimer(signal.ITIMER_REAL,remaining)
         try: heartbeat()
         finally: busy=False
-        remaining=deadline-time.monotonic()
-        if remaining<=0: raise Stop('STOPPED-DEADLINE','whole-run wall-clock cap reached')
+        remaining=remaining_time()
         signal.setitimer(signal.ITIMER_REAL,min(SAMPLE_S,remaining))
     signal.signal(signal.SIGALRM, expired)
-    signal.setitimer(signal.ITIMER_REAL,min(SAMPLE_S,seconds) if heartbeat else seconds)
-    try: yield
+    try:
+        remaining=remaining_time()
+        signal.setitimer(signal.ITIMER_REAL,min(SAMPLE_S,remaining) if heartbeat else remaining)
+        yield
     finally:
         signal.setitimer(signal.ITIMER_REAL, 0)
         signal.signal(signal.SIGALRM, previous)
@@ -167,10 +172,15 @@ class Controller:
     def __init__(self, run_dir, *, clock=time.monotonic, sleep=time.sleep, monitor=sample_resources):
         self.run_dir, self.clock, self.sleep, self.monitor = Path(run_dir), clock, sleep, monitor
         self.start = clock()
+        self.cell_deadline = None
 
     def remaining(self):
         value = DEADLINE_S - (self.clock() - self.start)
         if value <= 0: raise Stop('STOPPED-DEADLINE', 'unchanged whole-run deadline reached')
+        if self.cell_deadline is not None:
+            cell_remaining=self.cell_deadline-self.clock()
+            if cell_remaining<=0: raise Stop('STOPPED-RESOURCE','cell reserve not admitted within 300 s')
+            value=min(value,cell_remaining)
         return value
 
     def observe(self, pid=None):
@@ -183,6 +193,7 @@ class Controller:
         except Stop: raise
         except (OSError, ValueError, TypeError) as error:
             raise Stop('INVALID-MONITORING', str(error)) from error
+        self.remaining()
         # Stop computation before potentially blocking durability work on a breach.
         if sample.rss_gib > RSS_CAP_GIB or sample.avail_gib < FLOOR_GIB:
             error=Stop('STOPPED-RESOURCE', 'observed RSS >6 GiB or available memory <6 GiB')
@@ -201,21 +212,23 @@ class Controller:
         if phase not in RESERVES or not isinstance(cell_id,str) or not cell_id:
             raise Stop('INVALID-PROTOCOL', 'unknown or missing heavy cell')
         required = 8 + RESERVES[phase]
-        started = self.clock()
-        while True:
-            sample = self.check(pid)
-            if sample.avail_gib >= required:
-                proof = receipt(self.run_dir, 'cell', {'phase':phase, 'cell':cell_id,
-                    'reserve_gib':RESERVES[phase], 'required_gib':required, 'available_gib':sample.avail_gib})
-                self.remaining()
-                emit(self.run_dir, 'gate_result', gate_id='memory-new1-' + phase + '-' + cell_id,
-                     plain_words='Available memory covers eight GiB plus the declared cell reserve',
-                     observed={'available_gib':sample.avail_gib, 'receipt':proof}, bar=required,
-                     comparison='>=', passed=True)
-                return sample
-            waited = self.clock() - started
-            if waited >= WAIT_S: raise Stop('STOPPED-RESOURCE', 'cell reserve not available within 300 s')
-            self.sleep(min(SAMPLE_S, WAIT_S-waited, self.remaining()))
+        self.cell_deadline = self.clock()+WAIT_S
+        try:
+            while True:
+                sample = self.check(pid)
+                if sample.avail_gib >= required:
+                    proof = receipt(self.run_dir, 'cell', {'phase':phase, 'cell':cell_id,
+                        'reserve_gib':RESERVES[phase], 'required_gib':required, 'available_gib':sample.avail_gib})
+                    self.remaining()
+                    emit(self.run_dir, 'gate_result', gate_id='memory-new1-' + phase + '-' + cell_id,
+                         plain_words='Available memory covers eight GiB plus the declared cell reserve',
+                         observed={'available_gib':sample.avail_gib, 'receipt':proof}, bar=required,
+                         comparison='>=', passed=True)
+                    self.remaining()
+                    return sample
+                self.sleep(min(SAMPLE_S,self.remaining()))
+        finally:
+            self.cell_deadline = None
 
     def handle_cell(self, message, pid):
         if set(message) != {'phase','cell'}:
@@ -240,13 +253,13 @@ def publish_predictions(run_dir, path):
         raise Stop('INVALID-WORKER', 'missing primary outcomes')
     proof = receipt(run_dir, 'predictions', {'source':str(path), 'sha256':sha_file(path), 'predictions':predictions})
     for name, outcome in predictions.items():
-        emit(run_dir, 'stage_started', stage=name, plain_words='Math estimate, not evidence: '+name, cap_s=DEADLINE_S)
+        emit(run_dir, 'stage_started', stage=name, plain_words='Provisional math estimate, not evidence: '+name, cap_s=DEADLINE_S)
         if outcome != 'INVALID':
             emit(run_dir, 'gate_result', gate_id=name, plain_words='Individual frozen geometry prediction',
-                 observed={'outcome':outcome, 'receipt':proof}, bar='registered same-layer 3/5 rule',
+                 observed={'outcome':outcome, 'receipt':proof, 'provisional':True}, bar='registered same-layer 3/5 rule',
                  comparison='meets', passed=outcome=='PASS')
         emit(run_dir, 'stage_finished', stage=name, outcome=outcome,
-             summary=BOUNDARY + '; individual prediction ' + outcome)
+             summary=BOUNDARY + '; provisional individual prediction ' + outcome)
     return predictions
 
 
@@ -269,7 +282,7 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
                 except ProcessLookupError: pass
             raise
     try:
-        with hard_deadline(controller.remaining(),heartbeat=heartbeat):
+        with hard_deadline(controller.remaining(),heartbeat=heartbeat,budget=controller.remaining):
             emit(run_dir, 'run_started', step=4, title='NEW1 adapter geometry — math estimate, not evidence',
                  deadline_ts=(datetime.now(timezone.utc)+timedelta(seconds=controller.remaining())).isoformat(),
                  pid=os.getpid(), purpose='experiment')

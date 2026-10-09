@@ -108,7 +108,6 @@ def leading(spec):
 
 def energy(Z,Q,indices):
     torch=torch_module(); finite(Q)
-    Q=Q.double()
     if isinstance(Z,Spectrum):
         finite(Z.s); require(Z.right.shape[0]==Q.shape[0],'transposed input axis')
         denominator=float(Z.s.square().sum())
@@ -118,7 +117,7 @@ def energy(Z,Q,indices):
     require(denominator>0,'zero update energy')
     result=0.
     for start in range(0,len(indices),256):
-        basis=Q[:,indices[start:start+256]]
+        basis=Q[:,indices[start:start+256]].double()
         values=(Z.s[:,None]*(Z.right.T@basis)) if isinstance(Z,Spectrum) else Z.double()@basis
         result+=float(values.square().sum())
     return result/denominator
@@ -369,7 +368,9 @@ def analyse_layer_with_basis(basis,adapters,M,layer,cell,control_dir):
         validate_fractions(fractions)
         record={'energy':fractions,'r_eff':effective_rank(spec.s),'r95':rank95(spec.s),
             'norm':float(spec.s.norm()),'numerical_rank':int((spec.s>spec.s[0]*1e-6).sum()),
-            'overlap_valid':valid and mvalid}
+            'overlap_valid':valid and mvalid,
+            'energy_minus_M':{key:{'difference':fractions[key]-menergy[key],
+                                  'valid':basis['valid'][key]} for key in ('top','bottom')}}
         if record['overlap_valid']:
             record['input_overlap']=overlap(lead.right,mlead.right)['O16']
             record['input_subspace']=overlap(lead.right,mlead.right)

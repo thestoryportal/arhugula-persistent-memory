@@ -26,7 +26,7 @@ class SupervisorTests(unittest.TestCase):
     def setUp(self):
         self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
         self.S = importlib.import_module('tools.new1_supervisor')
-        self.tmp = tempfile.TemporaryDirectory()
+        self.tmp = tempfile.TemporaryDirectory(dir='/private/tmp')
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
         self.run = self.root / 'new1_fixture'
@@ -66,6 +66,67 @@ class SupervisorTests(unittest.TestCase):
         with self.assertRaisesRegex(self.S.Stop, 'STOPPED-DEADLINE'):
             c.wait_cell('covariance-svd', 'l4', 123)
         self.assertEqual(self.clock.now, 1800)
+
+    def test_cell_cannot_admit_a_memory_probe_that_finishes_at_301_seconds(self):
+        def monitor(pid):
+            self.clock.now=301
+            return self.S.Sample(13,1,0)
+        c=self.S.Controller(self.run,clock=self.clock,sleep=self.clock.sleep,monitor=monitor)
+        with self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
+            c.wait_cell('covariance-svd','late-probe',123)
+        events,_=self.state() if (self.run/'events.jsonl').exists() else ([],None)
+        self.assertFalse(any(e['type']=='gate_result' for e in events))
+
+    def test_cell_deadline_covers_resource_and_admission_persistence(self):
+        original=self.S.receipt
+        for label in ('resource','cell'):
+            with self.subTest(label=label):
+                self.run=self.root/label; self.run.mkdir(); self.clock.now=0
+                def persist(directory,kind,data):
+                    proof=original(directory,kind,data)
+                    if kind==label: self.clock.now=301
+                    return proof
+                c=self.controller([self.S.Sample(13,1,0)])
+                with mock.patch.object(self.S,'receipt',side_effect=persist),self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
+                    c.wait_cell('covariance-svd','late-write',123)
+                events,_=self.state() if (self.run/'events.jsonl').exists() else ([],None)
+                self.assertFalse(any(e['type']=='gate_result' for e in events))
+
+    def test_cell_alarm_interrupts_blocked_persistence_inside_total_cap(self):
+        original=self.S.receipt; started=time.monotonic()
+        def persist(directory,label,data):
+            if label=='cell': time.sleep(1)
+            return original(directory,label,data)
+        c=self.S.Controller(self.run,monitor=lambda pid:self.S.Sample(13,1,0))
+        with mock.patch.object(self.S,'WAIT_S',.04),mock.patch.object(self.S,'SAMPLE_S',.01),\
+             mock.patch.object(self.S,'receipt',side_effect=persist):
+            with self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
+                with self.S.hard_deadline(.4,heartbeat=lambda:c.observe(123)):
+                    c.wait_cell('covariance-svd','blocked-cell-write',123)
+        self.assertLess(time.monotonic()-started,.2)
+
+    def test_supervisor_cell_deadline_interrupts_a_blocked_resource_probe(self):
+        active=False; S=self.S
+        class CellController(S.Controller):
+            def wait_cell(controller,*args):
+                nonlocal active
+                active=True
+                return super().wait_cell(*args)
+        source='''import json,os,socket
+s=socket.socket(fileno=int(os.environ['NEW1_CONTROL_FD']))
+f=s.makefile('rwb',buffering=0)
+f.write((json.dumps({'type':'hello','pid':os.getpid()})+'\\n').encode()); f.readline()
+f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'})+'\\n').encode()); f.readline()
+'''
+        def monitor(pid):
+            if active: time.sleep(.25)
+            return S.Sample(13,0,0)
+        started=time.monotonic()
+        with mock.patch.object(S,'Controller',CellController),mock.patch.object(S,'WAIT_S',.04),\
+             mock.patch.object(S,'SAMPLE_S',.01),mock.patch.object(S,'DEADLINE_S',.4):
+            outcome=S.supervise(self.worker(source),self.run,admission=lambda:{'allowed':True,'reasons':[]},monitor=monitor)
+        self.assertEqual(outcome,'STOPPED-RESOURCE')
+        self.assertLess(time.monotonic()-started,.2)
 
     def test_rss_ceiling_is_strict_and_family_memory_is_used(self):
         c = self.controller([self.S.Sample(13, 6, 0), self.S.Sample(13, 6.0001, 0)])
@@ -244,7 +305,7 @@ class SupervisorTests(unittest.TestCase):
         self.S.publish_predictions(self.run,path)
         events,state=self.state()
         self.assertNotIn('H-COV',state['gate_outcomes'])
-        self.assertEqual(state['gate_outcomes']['H-TOP'],'FAIL')
+        self.assertNotIn('H-TOP',state['gate_outcomes'],'prediction outcomes remain provisional before completion')
         self.assertEqual(next(e['outcome'] for e in events if e['type']=='stage_finished' and e['stage']=='H-COV'),'INVALID')
         self.assertIsNone(state['calibration_outcome'])
 
@@ -376,6 +437,93 @@ send({'type':'complete','path':'geometry.json'})
         self.assertIn('closeout incomplete',stderr.getvalue())
         events,_=self.state()
         self.assertFalse(any(e['type'] in ('halted','run_finished','finding_staged') for e in events))
+
+    def complete_fixture(self):
+        (self.run/'geometry.json').write_text(json.dumps({'tier':'MATH-PROXY','boundary':'math estimate, not evidence',
+            'predictions':{'H-COV':'FAIL','H-TOP':'FAIL','H-RANK':'PASS','H-OVERLAP':'PASS'}}))
+        parent=mock.Mock(); child=mock.Mock(); child.fileno.return_value=99
+        parent.recv.side_effect=[b'{"type":"hello","pid":123}\n{"type":"complete","path":"geometry.json"}\n',b'']
+        process=mock.Mock(pid=123,returncode=0); process.poll.side_effect=[None,None,None,0]
+        selector=mock.MagicMock(); selector.__enter__.return_value.select.return_value=[(None,None)]
+        with mock.patch.object(self.S.socket,'socketpair',return_value=(parent,child)),\
+             mock.patch.object(self.S.subprocess,'Popen',return_value=process),\
+             mock.patch.object(self.S.selectors,'DefaultSelector',return_value=selector),\
+             mock.patch.object(self.S.os,'killpg'):
+            return self.S.supervise(['fixture-only'],self.run,admission=lambda:{'allowed':True,'reasons':[]},
+                monitor=lambda pid:self.S.Sample(13,0,0))
+
+    def assert_no_prediction_verdict(self,state):
+        labels={'H-COV','H-TOP','H-RANK','H-OVERLAP'}
+        self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
+        self.assertFalse(any(g['gate_id'] in labels for g in state['gates']))
+        self.assertFalse(any(s.get('outcome') in ('PASS','FAIL') for s in state['stages'] if s['stage'] in labels))
+        self.assertFalse(any(f['finding_id']=='NEW1' for f in state['findings']))
+
+    def test_prediction_visibility_requires_successful_terminal_and_no_halt(self):
+        self.assertEqual(self.complete_fixture(),'PASS')
+        events,state=self.state()
+        self.assertEqual(state['gate_outcomes']['H-COV'],'FAIL')
+        for end in range(1,len(events)):
+            self.assert_no_prediction_verdict(fold(events[:end]))
+        self.S.emit(self.run,'halted',reason='fixture post-terminal I/O failure',diagnostic_path=str(self.run/'diagnostic.json'))
+        _,state=self.state()
+        self.assertEqual(state['status'],'halted')
+        self.assert_no_prediction_verdict(state)
+
+    def test_publication_io_failure_hides_all_prediction_verdicts(self):
+        original_write=self.S.durable_json; original_emit=self.S.emit
+        for point in ('finding.json','stage_started','gate_result','stage_finished','finding_staged','run_finished'):
+            with self.subTest(point=point):
+                self.run=self.root/('io_'+point); self.run.mkdir()
+                fired=False
+                def write(path,data):
+                    if point=='finding.json' and Path(path).name==point: raise OSError('fixture finding persistence refused')
+                    return original_write(path,data)
+                def emit(directory,kind,**fields):
+                    nonlocal fired
+                    result=original_emit(directory,kind,**fields)
+                    primary=fields.get('stage')=='H-RANK' or fields.get('gate_id')=='H-RANK'
+                    if not fired and kind==point and (primary or kind in ('finding_staged','run_finished')):
+                        fired=True; raise OSError('fixture publication I/O refused')
+                    return result
+                with mock.patch.object(self.S,'durable_json',side_effect=write),mock.patch.object(self.S,'emit',side_effect=emit):
+                    self.assertEqual(self.complete_fixture(),'INVALID-WORKER')
+                _,state=self.state()
+                self.assertEqual(state['status'],'halted')
+                self.assert_no_prediction_verdict(state)
+
+    def test_publication_deadline_expiry_hides_provisional_verdicts(self):
+        original_write=self.S.durable_json; original_emit=self.S.emit; original_receipt=self.S.receipt
+        for point in ('predictions','stage_started','gate_result','stage_finished','finding.json','finding_staged','run_finished'):
+            with self.subTest(point=point):
+                self.run=self.root/('deadline_'+point); self.run.mkdir()
+                def receipt(directory,label,data):
+                    result=original_receipt(directory,label,data)
+                    if point=='predictions' and label==point: time.sleep(1)
+                    return result
+                def write(path,data):
+                    result=original_write(path,data)
+                    if point=='finding.json' and Path(path).name==point: time.sleep(1)
+                    return result
+                def emit(directory,kind,**fields):
+                    primary=fields.get('stage')=='H-RANK' or fields.get('gate_id')=='H-RANK'
+                    if kind==point and kind=='run_finished': time.sleep(1)
+                    result=original_emit(directory,kind,**fields)
+                    if kind==point and (primary or kind=='finding_staged'): time.sleep(1)
+                    return result
+                with mock.patch.object(self.S,'DEADLINE_S',.06),mock.patch.object(self.S,'receipt',side_effect=receipt),\
+                     mock.patch.object(self.S,'durable_json',side_effect=write),mock.patch.object(self.S,'emit',side_effect=emit),\
+                     contextlib.redirect_stderr(io.StringIO()):
+                    self.assertEqual(self.complete_fixture(),'STOPPED-DEADLINE')
+                _,state=self.state()
+                self.assert_no_prediction_verdict(state)
+
+    def test_non_prediction_calibration_gate_stays_visible_after_halt(self):
+        self.S.emit(self.run,'gate_result',gate_id='calibration',plain_words='existing aggregate',
+            observed='FAIL',bar='registered',comparison='meets',passed=False)
+        self.S.emit(self.run,'halted',reason='fixture refusal',diagnostic_path=str(self.run/'halt.json'))
+        _,state=self.state()
+        self.assertEqual(state['calibration_outcome'],'FAIL')
 
     def test_successful_exit_at_loop_bottom_still_terminates_group(self):
         (self.run/'geometry.json').write_text(json.dumps({'tier':'MATH-PROXY','boundary':'math estimate, not evidence',

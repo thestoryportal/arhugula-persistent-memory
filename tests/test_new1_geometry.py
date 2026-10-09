@@ -41,6 +41,17 @@ class GeometryTests(unittest.TestCase):
         self.assertAlmostEqual(self.G.energy(-2*Z,Q,[0]),9/25)
         with self.assertRaises(self.G.Invalid): self.G.energy(Z.T,Q,[0])
 
+    def test_energy_promotes_only_selected_covariance_column_blocks(self):
+        t=self.torch; Q=t.eye(513,dtype=t.float32); Z=t.ones((2,513),dtype=t.float64)
+        promoted=[]; original=t.Tensor.double
+        def promote(value,*args,**kwargs):
+            if value.dtype!=t.float64: promoted.append(tuple(value.shape))
+            return original(value,*args,**kwargs)
+        with mock.patch.object(t.Tensor,'double',new=promote):
+            fraction=self.G.energy(Z,Q,[0,512])
+        self.assertAlmostEqual(fraction,2/513)
+        self.assertEqual(promoted,[(513,2)],'full covariance basis must never be promoted')
+
     def test_subspace_rotation_and_rank_deficient_fixed_denominator(self):
         Q=self.torch.eye(5,dtype=self.torch.float64)[:,:2]
         rotated=Q@self.torch.tensor([[0.,1.],[-1.,0.]],dtype=self.torch.float64)
@@ -186,10 +197,35 @@ class GeometryTests(unittest.TestCase):
             self.assertEqual(len(list((Path(tmp)/'controls').glob('*.npz'))),20)
         self.assertAlmostEqual(row['D']['energy']['excluded'],1.)
         self.assertAlmostEqual(row['M']['energy']['excluded'],0.)
+        contrast=row['D']['energy_minus_M']
+        self.assertAlmostEqual(contrast['top']['difference'],1.)
+        self.assertAlmostEqual(contrast['bottom']['difference'],-204/4900)
+        self.assertTrue(contrast['top']['valid'])
+        self.assertTrue(contrast['bottom']['valid'])
+        for arm in row['arms'].values():
+            self.assertEqual(arm['energy_minus_M'],contrast)
         self.assertEqual(row['M16']['role'],'secondary')
         self.assertEqual(row['secondary_random']['role'],'secondary')
         self.assertEqual(len(row['random']['draws']),20)
         self.assertNotIn('covariance-svd',phases)
+
+    def test_layer_energy_contrasts_keep_each_bin_validity_flag(self):
+        t=self.torch
+        C=t.diag(t.cat((t.linspace(.02,.01,32),t.linspace(.004,.0001,32))))
+        basis=self.G.covariance_basis(C,k=16)
+        basis['valid']['top']=False; basis['valid']['bottom']=True
+        A=t.zeros((16,64),dtype=t.float64); A[:,:16]=t.eye(16,dtype=t.float64)
+        B=t.zeros((24,16),dtype=t.float64); B[:16,:]=t.diag(t.arange(16.,0.,-1,dtype=t.float64))
+        M=t.zeros((24,64),dtype=t.float64); M[:,32:56]=t.diag(t.arange(24.,0.,-1,dtype=t.float64))
+        adapters={arm:(A,B,1.) for arm in self.G.ARMS}
+        with tempfile.TemporaryDirectory(dir='/private/tmp') as tmp:
+            row=self.G.analyse_layer_with_basis(basis,adapters,M,4,lambda phase:None,Path(tmp)/'controls')
+            path=Path(tmp)/'layer.json'; self.G.durable_json(path,{'tier':'MATH-PROXY',**row})
+            contrast=self.G.strict_json(path.read_text())['D']['energy_minus_M']
+        self.assertFalse(contrast['top']['valid'])
+        self.assertTrue(contrast['bottom']['valid'])
+        self.assertAlmostEqual(contrast['top']['difference'],1.)
+        self.assertAlmostEqual(contrast['bottom']['difference'],-204/4900)
 
     def test_actual_producer_gate_dictionary_is_admitted_and_failed_gate_refuses(self):
         subjects=[f's{i}' for i in range(24)]

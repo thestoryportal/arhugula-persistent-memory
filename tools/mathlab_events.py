@@ -223,6 +223,22 @@ def fold(events):
             state.update(outcome=event["outcome"], summary=event["summary"], finished_ts=event["ts"])
             if state["step"] and state["purpose"] == "experiment":
                 state["steps"][state["step"]] = event["outcome"]
+    # NEW1 predictions are provisional until successful durable closeout; a
+    # later halt also revokes their visibility without changing the event log.
+    prediction_ids = {"H-COV", "H-TOP", "H-RANK", "H-OVERLAP"}
+    new1_run = state["step"] == 4 and state["title"].startswith("NEW1 ")
+    provisional = {key for key, gate in gates.items() if key in prediction_ids and
+                   (new1_run or isinstance(gate["observed"], dict) and gate["observed"].get("provisional") is True)}
+    committed = state["outcome"] == "PASS" and state["finished_ts"] is not None and state["halt"] is None
+    if (new1_run or provisional) and not committed:
+        gates = {key: gate for key, gate in gates.items() if key not in provisional}
+        state["findings"] = [finding for finding in state["findings"] if finding["finding_id"] != "NEW1"]
+        for stage in state["stages"]:
+            if stage["stage"] in prediction_ids:
+                stage.pop("outcome", None); stage.pop("finished_ts", None)
+                stage["summary"] = "Provisional math estimate; no prediction verdict"
+        if state["halt"]: state["outcome"] = None
+        state["summary"] = "No prediction verdict; NEW1 publication incomplete or halted"
     state["gates"] = list(gates.values())
     state["gate_outcomes"] = {key: gate_outcome(gate) for key, gate in gates.items()}
     state["calibration_outcome"] = state["gate_outcomes"].get("calibration")
