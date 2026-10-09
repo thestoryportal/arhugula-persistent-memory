@@ -580,6 +580,8 @@ def main():
     parser.add_argument("--out"); parser.add_argument("--worker", action="store_true")
     parser.add_argument("--t0", type=float); parser.add_argument("--svd-child")
     args = parser.parse_args()
+    import c10z_astra_read as R
+    R.require_a1_freeze(ROOT)
     if args.svd_child is not None: return svd_child(args.svd_child)
     if args.out is None: parser.error("--out is required")
     if args.worker:

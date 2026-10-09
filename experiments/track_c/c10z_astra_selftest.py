@@ -16,7 +16,7 @@ import zlib
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-PREREG = "7aedd4ace95d2611bf398768df63cb60df6fce5afc23cf23209497bcd1d17a29"
+PREREG = "5ad59d2c960b44d18b5d1c5410028b969aab93298eed5d42c527bd81a4d18eac"
 C01_FIX = 7800.
 ARMS = ("A1_single", "A2_coherent2", "A7_coined_coined")
 A1, A2, A7 = ARMS
@@ -151,6 +151,10 @@ def arm(n=26, canon=24, first=60, margin=None, positive=24, ratio=0.4, seconds=6
 
 def fixture(n=26, a=12, stage=1, **kwargs):
     lengths=kwargs.get("lengths")
+    R=importlib.import_module("c10z_astra_read")
+    reference=R.load_reference_population()
+    dataset={k:v for k,v in reference["population"].items() if k!="texts"}
+    dataset.update(dataset_identity=reference["dataset"],reference_population_sha256=R.REFERENCE_POPULATION_SHA)
     base = arm(a, canon=8, first=50,lengths=lengths)
     candidate = arm(n, **kwargs)
     baseline_a1 = arm(68)
@@ -172,19 +176,19 @@ def fixture(n=26, a=12, stage=1, **kwargs):
     parts = {k: "a"*64 for k in ("context_templates_sha256", "dstats_sha256", "G_sha256",
              "driver_sha256", "reader_sha256", "H_pristine")}
     parts.update(prereg_sha256=PREREG, model_revision="3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
-                 safetensors={"model-00001-of-00002.safetensors":"a"*64},
+                 safetensors=copy.deepcopy(reference["model_files"]),
+                 reference_population_sha256=R.REFERENCE_POPULATION_SHA,
                  requests={k:[{"prompt":"{}","subject":str(i),"target_new":{"str":str(i)}} for i in range(24)] for k in ARMS},
                  settings=copy.deepcopy(importlib.import_module("c10z_astra_arms").SETTINGS), seed=0,
                  engine_sources={"memit_dry_run/memit/memit/memit_main.py":"d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
                     "experiments/track_c/c10e_bandknob.py":"a"*64}, hparams={"x": "a"*64},
-                 screens={"x": "a"*64}, covariances={str(i):{"path":"/synthetic/cov"+str(i),"sha256":"a"*64} for i in range(4,13)},
-                 tokenizer={"tokenizer.json":"a"*64,"tokenizer_config.json":"a"*64},
+                 screens={"x": "a"*64}, covariances=copy.deepcopy(reference["cache_files"]),
+                 tokenizer=copy.deepcopy(reference["tokenizer_files"]),
                  batches={k:test_batch(recipes["A"]["arms"][k]["target_lengths"]) for k in ARMS},
                  forward_settings={"use_cache": False, "logits_to_keep": 0, "padding_side": "right"},
                  environment={"device": "mps", "dtype": "float16", "torch": "test", "transformers": "4.51.0"},
                  solver_backend={"dtype": "float64", "device": "cpu"},
-                 dataset={"revision":"a"*40,"row_ids":[str(i) for i in range(1000)],
-                    "text_sha256":["a"*64]*1000,"ordered_token_ids":[[1]]*1000,"nonpadding_tokens":1000})
+                 dataset=dataset)
     hashes = {k: "a"*64 for k in ("context_templates.json", "dstats.pt", "G.pt",
               "pristine_hash.json", "manifest.json", "overlap_audit.json")}
     checks = {"Z"+str(i): {"ok": True} for i in range(8)}
@@ -1188,6 +1192,8 @@ def _launch(**over):
     value = {"attempt_id":"fixture-attempt","stage01":C01_FIX,"stage2":12000.,"stage3":24000.,
              "telemetry":False,"telemetry_inertness":None,"go":go,"go_sha256":"a"*64,
              "benchmark":{"path":"/x/results/c10z_astra_benchmark/T/benchmark.json",
+                          "reference_population_sha256":importlib.import_module("c10z_astra_read").REFERENCE_POPULATION_SHA,
+                          "prereg_sha256":PREREG,
                           "sha256":go["benchmark_sha256"],"script_sha256":go["benchmark_script_sha256"],
                           "sources":{},"env":{},"ceilings":dict(go["ceilings"]),
                           "templates":list(importlib.import_module("c10z_astra_benchmark").TEMPLATES),
@@ -1200,7 +1206,9 @@ def _go_record(binding=None):
     return {"decisions": {"0": "D-C10z-go-0", "1": "D-C10z-go-1", "2": "D-C10z-go-2"},
             "operator_yes": True, "recorded_by": "operator", "recorded_at": "2026-10-07T12:00:00Z",
             "one_gpu_job": True, "benchmark_sha256":"a"*64, "benchmark_script_sha256":"b"*64,
-            "ceilings":{"stage01":C01_FIX,"stage2":12000.,"stage3":24000.}, **(binding or {})}
+            "ceilings":{"stage01":C01_FIX,"stage2":12000.,"stage3":24000.},
+            "reference_population_sha256":importlib.import_module("c10z_astra_read").REFERENCE_POPULATION_SHA,
+            "prereg_sha256":PREREG,"amendment_decision_id":"D-C10z-a1pop", **(binding or {})}
 
 
 _proposed_stage_calls = SpecTests.test_review_stage_call_refusals
@@ -1339,7 +1347,10 @@ def _mock_resident(D, R, out, record, launch, deadline=False, metrics=None):
         def restore(self): events.append("restored")
         def verify_restore(self, where): events.append(("verified", where))
 
-    with mock.patch.object(D, "Session", SessionStub), mock.patch.object(
+    # These synthetic timing/science fixtures supply admission; A1 controls exercise real binding validation.
+    with mock.patch.object(D, "verify_launch_binding"), mock.patch.object(
+            D, "go_record", return_value=(launch["go"], launch["go_sha256"])), mock.patch.object(
+            D, "Session", SessionStub), mock.patch.object(
             D, "Budget", make_budget), mock.patch.object(
             D, "time", _types.SimpleNamespace(monotonic=monotonic, sleep=submit)), mock.patch.object(
             D, "threading", _types.SimpleNamespace(Event=Event, Thread=Thread, RLock=__import__("threading").RLock)), mock.patch.object(
@@ -1426,11 +1437,15 @@ class Fix1Tests(BlockingDemos):
             s.H_pristine = "a"*64; s.safetensors = {"m": "a"*64}; s.fingerprint = {"start": {}}
             s.dstats = {"dataset": {}}; s.covariance_paths = lambda: {}
             s.loaded_manifest = None
+            dest=root/R.REFERENCE_POPULATION_FILE;dest.parent.mkdir(parents=True,exist_ok=True)
+            dest.write_bytes((ROOT/R.REFERENCE_POPULATION_FILE).read_bytes())
             with mock.patch.object(D, "ROOT", root), mock.patch.object(D, "sha256_file", return_value="a"*64), mock.patch.dict(
                     sys.modules, {"transformers": _types.SimpleNamespace(__version__="4.51.0")}):
                 parts = s.input_parts()
                 self.assertEqual(parts["go_sha256"], expected)
-                s.make_manifest()
+                # This test's tokenizer/model are synthetic; the A1 suite exercises full population validation.
+                valid_parts=copy.deepcopy(r["manifest"]["parts"]);valid_parts["go_sha256"]=expected
+                with mock.patch.object(s,"input_parts",return_value=valid_parts):s.make_manifest()
             self.assertEqual(s.manifest["H_in"], R.json_digest(s.manifest["parts"]))
             changed = copy.deepcopy(parts); changed["go_sha256"] = "b"*64
             self.assertNotEqual(R.json_digest(changed), s.manifest["H_in"])
@@ -1668,7 +1683,10 @@ class Fix2Tests(unittest.TestCase):
             run = D.load_json(out / "run.json"); run["requested"] = 1
             D.write_json(out / "run.json", run, replace=True)
         launch = _launch(attempt_id=record["attempt_id"],stage2=60.,stage3=None)
-        with mock.patch.object(D, "Session", SessionStub), mock.patch.object(
+        # Synthetic admission for this parent-halt control; real admission is covered by A1 tests.
+        with mock.patch.object(D, "verify_launch_binding"), mock.patch.object(
+                D, "go_record", return_value=(launch["go"], launch["go_sha256"])), mock.patch.object(
+                D, "Session", SessionStub), mock.patch.object(
                 D, "Budget", lambda start, stage01, stage2, stage3, process: real_budget(start, stage01, stage2, stage3, process=process, clock=lambda: 100.)), mock.patch.object(
                 D, "time", _types.SimpleNamespace(monotonic=lambda: 100., sleep=submit)), mock.patch.object(
                 D, "threading", _types.SimpleNamespace(Event=Event, Thread=Thread, RLock=__import__("threading").RLock)):
@@ -1957,6 +1975,9 @@ def _bench_tree(root):
     for rel in paths:
         dest = root / rel; dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT / rel, dest)
+    R=importlib.import_module("c10z_astra_read")
+    dest=root/R.REFERENCE_POPULATION_FILE;dest.parent.mkdir(parents=True,exist_ok=True)
+    shutil.copyfile(ROOT/R.REFERENCE_POPULATION_FILE,dest)
     record = BT.fixture_record(root=root)
     B.validate_record(record)
     path = root / "results/c10z_astra_benchmark/20261007T000000Z/benchmark.json"
@@ -1974,6 +1995,8 @@ def _selected_launch(path, binding):
                    stage3=binding["ceilings"]["stage3"], go=_go_record(binding), benchmark={
                        "path": str(path), "sha256": binding["benchmark_sha256"],
                        "script_sha256": binding["benchmark_script_sha256"],
+                       "reference_population_sha256":importlib.import_module("c10z_astra_read").REFERENCE_POPULATION_SHA,
+                       "prereg_sha256":PREREG,
                        "sources": record["env"]["sources"],
                        "templates": record["inputs"]["templates"],
                        "templates_sha256": record["inputs"]["templates_sha256"],
@@ -2524,7 +2547,10 @@ class TemplatePinTests(unittest.TestCase):
         launch["benchmark"]["templates_sha256"] = digest(self.templates)
         launch["benchmark"]["templates"] = self.templates[:]
         def construct(out, process, budget, input_dir): s.budget = budget; return s
-        with mock.patch.object(D, "Session", side_effect=construct), mock.patch.object(D, "ROOT", self.root), mock.patch.object(D.threading, "Thread"):
+        # Synthetic admission for this LAW/template-retention control; real admission is covered by A1 tests.
+        with mock.patch.object(D, "verify_launch_binding"), mock.patch.object(
+                D, "go_record", return_value=(launch["go"], launch["go_sha256"])), mock.patch.object(
+                D, "Session", side_effect=construct), mock.patch.object(D, "ROOT", self.root), mock.patch.object(D.threading, "Thread"):
             self.assertEqual(_resident_runtime(self.out, 1, launch), 2)
         path = self.out / "context_templates.json"; self.assertTrue(path.exists(), "resident V4 halt omitted templates")
         run = D.load_json(self.out / "run.json"); self.assert_template_record(run)
@@ -2618,7 +2644,7 @@ class PinTests(unittest.TestCase):
     def test_amended_prereg_pin_shared_by_driver_reader_and_tests(self):
         D = importlib.import_module("c10z_astra_arms"); R = importlib.import_module("c10z_astra_read")
         actual = hashlib.sha256((ROOT / D.PREREG).read_bytes()).hexdigest()
-        self.assertEqual(actual, "7aedd4ace95d2611bf398768df63cb60df6fce5afc23cf23209497bcd1d17a29")
+        self.assertEqual(actual, PREREG)
         self.assertEqual(R.PREREG_SHA, actual); self.assertEqual(D.R.PREREG_SHA, actual)
         self.assertEqual(PREREG, actual)
         sources = D.source_hashes(); self.assertEqual(sources[D.PREREG], actual)
@@ -3769,7 +3795,10 @@ def _build_suite():
 
 
 if __name__=="__main__":
-    result=unittest.TextTestRunner(verbosity=2).run(_build_suite())
+    # These existing timing/launch fixtures assume admission; the A1 suite tests the real DRAFT/FROZEN guard.
+    print("CPU_FIXTURE: synthetic Astra freeze admission for legacy timing/launch controls; no dispatch approval")
+    with mock.patch.object(importlib.import_module("c10z_astra_read"),"require_a1_freeze"):
+        result=unittest.TextTestRunner(verbosity=2).run(_build_suite())
     assert "c10e_bandknob" not in sys.modules
     print("C10Z_ASTRA_SELFTEST_"+("PASS" if result.wasSuccessful() else "FAIL")+" tests="+str(result.testsRun))
     sys.exit(0 if result.wasSuccessful() else 1)

@@ -814,3 +814,59 @@ A new V7 failure remains HALTED-V7; this amendment grants no further search.
   | **cap** | **3,060** | sum × 1.15 = 3,036, rounded up to the next minute |
 
   Measured cross-check (report-only, approximate): attempt 3 entered reference-D work at stage elapsed 3,148.7 s (`logs/resident_p1.log:38`) and halted at 20:28:38 MDT; with the stage origin mapped through the heartbeat (`at` 1,322,862.33 read at ≈ 02:14:15Z), D + G + V8 + V7 took ≈ 163 s, under the 300 s + 120 s allowances. The R5000 branch therefore fits the cap with margin.
+
+
+---
+
+## §12 Amendment A1-POPULATION
+
+**Date:** 2026-10-09 (UTC)
+
+**Decision ID:** D-C10z-a1pop
+
+**Status:** FROZEN
+
+(a) **Authority and scope.** The completed V7-DIAG routed to A1: F1000 failed V7 and this exact R1000 passed all cached layers 4–12. Astra confirmed artifact integrity, population identity and routing. Attempt 3 remains HALTED-V7; its original population is UNVERIFIABLE and late-layer fidelity remains UNVERIFIED. This draft changes only the reference-D population for a prospective fresh attempt 4. It does not approve a benchmark, go record or launch. Sources: `results/c10z_v7_diagnostic/20261009T182427Z/verdict.json:1`; `results/c10z_v7_diagnostic/reading_astra.md:5–18`; §11 routing and continuation, `docs/C10Z_ASTRA_PREREG.md:750–782`.
+
+(b) **Exact immutable population.** Reference-D is the recorded R1000 in `results/c10z_astra_attempt4_prep/reference_R1000.json`, raw-byte SHA-256 **`a477f1c4917de988682da097d460c3d70b4c3bd33856d83c1d0c7714f78aab68`**. The entire artifact, including its raw texts, is normative. It is derived exclusively from `results/c10z_v7_diagnostic/20261009T182427Z/pins.json` (raw SHA-256 `4b9dfca558a988fce932cbb4f227d92cd431e8638300a5829ee53de809478821`), not from a new draw or the current hub revision. The artifact's `population` equals the complete recorded `populations.R1000` object. Sources: `results/c10z_v7_diagnostic/20261009T182427Z/pins.json:58`, `:106838`; `results/c10z_astra_attempt4_prep/reference_R1000.json:99`; `results/c10z_astra_attempt4_prep/reference_R1000.json:102726`.
+
+- Dataset: `wikimedia/wikipedia`, config `20231101.en`, split `train`, revision `b04c8d1ceb2f5cd4588862100d08de323dccfbaa`, non-streaming source split length **6,407,814**. Split order is exactly the 41 Arrow files listed in `dataset.arrow_files_in_order`, in their recorded order. The dataset-info SHA-256 and HF cache root are exactly `dataset.dataset_info_sha256` and `dataset.hf_home` in the artifact. Source: `results/c10z_astra_attempt4_prep/reference_R1000.json:40`.
+- Selection: `random.Random(1).shuffle(list(range(6407814)))[:1000]`, preserving that order, with **1,000 rows** and **95,610 nonpadding tokens**. The complete ordered `indices`, `row_ids`, `text_sha256`, `texts`, `ordered_token_ids`, `nonpadding_tokens_per_row`, total count and tokenizer truncation string are fixed by the artifact bytes. Another valid 1,000-row set, a reordering, different text/token IDs/counts, or a replacement artifact is inadmissible. Sources: `results/c10z_astra_attempt4_prep/reference_R1000.json:102750`; `results/c10z_astra_attempt4_prep/reference_R1000.json:99`; `results/c10z_v7_diagnostic/reading_astra.md:15–16`.
+- The implementation consumes the immutable recorded texts and re-tokenizes with the pinned tokenizer. It must reproduce the complete recorded row metadata, token IDs and counts. It must not resolve a new dataset revision or reopen the dataset to select replacement rows. The recorded source dataset identity/order remains part of every manifest. CPU fixture agreement proves plumbing and arithmetic equivalence on those fixtures; it does not establish MPS equivalence.
+
+(c) **Model, tokenizer and cache identity.** Model `Qwen/Qwen2.5-3B`, revision `3aab1f1954e9cc14eb9509a215f9e5ca08227a9b`. Exact file identities follow; cache paths and filenames, including the float32 `mom2_t100_100000` convention, are also fixed by the artifact. Sources: `results/c10z_v7_diagnostic/20261009T182427Z/pins.json:20`, `:205`, `:209`, `:717374`; `results/c10z_astra_attempt4_prep/reference_R1000.json:94`; `results/c10z_astra_attempt4_prep/reference_R1000.json:102756`; `results/c10z_astra_attempt4_prep/reference_R1000.json:2`.
+
+| Model file | SHA-256 |
+|---|---|
+| `model-00001-of-00002.safetensors` | `f9558df91d3b89b4826e4db37439edb52f1d62a4fd602685013e7ca6b9f60f8f` |
+| `model-00002-of-00002.safetensors` | `51410930d5cf19a998fdb17ef0c46e4d9ace72c97a975a3331395a8a500f5edb` |
+
+| Tokenizer/config file | SHA-256 |
+|---|---|
+| `config.json` | `27467e2fc311a7656c09a43ae9c3d408211e1f212bbddbc93c8596a06423826f` |
+| `merges.txt` | `599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3` |
+| `tokenizer.json` | `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539` |
+| `tokenizer_config.json` | `c91efca15ceff6e9ee9424db58a6f59cd41294e550a86cbd07e3c1fb500b34f9` |
+| `vocab.json` | `ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910` |
+
+| Cached layer | SHA-256 |
+|---|---|
+| 10 | `433401f72a22647fcf583fe343325a42a09db6392a67d1f2395debb130ee195d` |
+| 11 | `73e887500a060f56719e061338ab3931ac7d84ca8287ba9cd5f8b0f7426b33c2` |
+| 12 | `8e1c34fcb60c9dcc25a57d5e71d2632bc1bd9785333cbb9e2022728797a05eb5` |
+| 4 | `f6ae787454e5bae9eff52155ac699386351246b03e60ab68d728335b0c9a5b58` |
+| 5 | `26773779c5f95647c844fb42c553221aa81e48206cb3e61602237b3da4e53b3d` |
+| 6 | `72a4a42bf7586f1b7de5bfce365263d2a84b66f6ffc4ce20f9fa113d115887fd` |
+| 7 | `ed2f4c64356fc6388ae4623ccc2bfc9101660fe92a787c193d593a24992aaba5` |
+| 8 | `430c1aa56a7cde6626ff02e241b45fd706d02d81d97931536fbed38d8974dd2a` |
+| 9 | `fbb2050338b09a1f34dd827d16a00e565ef139af8f3f4479581f17947444101b` |
+
+(d) **Unchanged calculation and budget.** Keep the original reference-D arithmetic and precision: model fp16; masked `args[0][mask.bool()]`; `detach().float().cpu().double()`; CPU fp64 sum of squared activations in source/batch order; divide by the total nonpadding token count, then cast the returned means to fp32. Keep `tok(text)["input_ids"][:100]`, right padding, **16-row batches** (62 full batches and a final eight-row batch), `use_cache=False`, `logits_to_keep=0`, all 36 layers, D floor/normalization, V7 Spearman threshold .80 and all baseline/LAW/V8/other gates. A1 keeps D_rows=1,000, D_tokens=100 and the 300-second per-1,000-row reference-D scheduling allowance. A2's 5,000-row population and budget changes do not apply. Sources: `docs/C10Z_ASTRA_PREREG.md:737–743` (unchanged frozen computation); `experiments/track_c/c10z_astra_read.py:28–33`; `results/c10z_astra_attempt4_prep/reference_R1000.json:102737`; `results/c10z_v7_diagnostic/reading_astra.md:15–16`.
+
+(e) **Freeze, validation and retained evidence.** Before any benchmark or attempt, Astra must review and confirm this amendment, the implementation and tests. Change this section's status to exactly `FROZEN`, record the review reference, and synchronize the whole-file prereg SHA-256 and final source identities before benchmark rerun #3. While DRAFT, model-free entry guards must refuse benchmark and attempt admission before model import, worker dispatch or output creation. Driver, reader, complete manifests/H_in and fresh go/launch bindings must pin the exact raw population-artifact hash and full population/model/tokenizer/cache identities. Reject every different population, even a structurally valid alternative 1,000-row set with a newly computed H_in. Retain exclusive/fsynced writes and pre-validation persistence of returned m and provenance, process-2 raw-byte identity, G persistence before V8 and forced-failure artifacts. Diagnostic tensors do not satisfy a new attempt's gate. Sources: `results/c10z_v7_diagnostic/reading_astra.md:16`; `docs/C10Z_V7DIAG_BUILD_BRIEF.md:36–38` (persistence addendum).
+
+(f) **Conditional continuation only after freeze.** Only after (e), perform **benchmark drift rerun #3**, once, in a fresh directory under `results/c10z_astra_benchmark/`. Preserve all prior outcomes and cumulative refusal counts. The existing §9(c)/§9.1 STOP, refusal, ceiling and provenance rules remain binding; there is no fallback admission and no automatic fourth rerun. If admitted, append benchmark record/script/source hashes and recomputed C01/C2/C3 to the external D-C10z-budget row/admission receipt, then create a new exclusive/fsynced go record binding the final sources, environment, frozen amendment SHA, D-C10z-a1pop and the exact population hash. That receipt supplements admission evidence without changing this already hashed prereg or reader/driver after the benchmark; changing them invalidates the benchmark. No admissible benchmark/go is created by this draft. Sources: `results/c10z_v7_diagnostic/reading_astra.md:17`; §9(c), `docs/C10Z_ASTRA_PREREG.md:457–459`; §9.1, `:489–520`; existing external append rule, `:668`.
+
+(g) **Fresh attempt and terminal failure rule.** After an admitted rerun #3 and a fresh bound go, use **`results/c10z_astra_attempt4/`** and fresh attempt-4 logs, leaving attempts 1–3 and all diagnostics unchanged. Rerun the complete baseline, LAW gates and V7 in the new process; apply the existing K1/K2 and process-2 reproduction gates. The diagnostic m values cannot substitute for those gates. Another V7 failure stays **HALTED-V7**; no further population search, redraw, automatic retry or amendment branch is authorized. Sources: `results/c10z_v7_diagnostic/reading_astra.md:18`; §11 continuation, `docs/C10Z_ASTRA_PREREG.md:777–782`.
+
+**§12 freeze record (2026-10-09).** GPT-6-Astra (high) r1 FIX-FIRST (`results/c10z_astra_attempt4_prep/a1_astra_r1.md`: 2 implementation BLOCKING, §12 text already satisfied items 1–4) → fix round 1 → r2 **FREEZE+GO** (`results/c10z_astra_attempt4_prep/a1_astra_r2.md`). §12 text unchanged since r1 except this status line and this record; §§1–11 bytes unchanged (156,213 bytes, `7aedd4ac…`). Next, exactly per §12: benchmark drift rerun #3, then a fresh go record, then attempt 4.

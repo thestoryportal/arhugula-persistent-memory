@@ -11,14 +11,17 @@ import statistics
 import zlib
 
 SCHEMA = "c10z_astra-v2.2"
-PREREG_SHA = "7aedd4ace95d2611bf398768df63cb60df6fce5afc23cf23209497bcd1d17a29"
+PREREG_SHA = "5ad59d2c960b44d18b5d1c5410028b969aab93298eed5d42c527bd81a4d18eac"
+REFERENCE_POPULATION_FILE = "results/c10z_astra_attempt4_prep/reference_R1000.json"
+REFERENCE_POPULATION_SHA = "a477f1c4917de988682da097d460c3d70b4c3bd33856d83c1d0c7714f78aab68"
 ENGINE_SHA = "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65"
 A1, A2, A7 = "A1_single", "A2_coherent2", "A7_coined_coined"
 ARMS = (A1,A2,A7)
 INPUT_KEYS = ("requests", "model_revision", "H_pristine", "context_templates_sha256",
     "dstats_sha256", "G_sha256", "settings", "driver_sha256", "reader_sha256", "seed",
     "prereg_sha256", "engine_sources", "hparams", "screens", "covariances", "tokenizer",
-    "batches", "forward_settings", "environment", "solver_backend", "dataset", "safetensors", "go_sha256")
+    "batches", "forward_settings", "environment", "solver_backend", "dataset", "safetensors", "go_sha256",
+    "reference_population_sha256")
 QUAL_ORDER = ("UNDERFIT", "LARGE-WRITE", "SUBJECT-FREE", "EXCEEDS-TTL", "STAGE1",
               "SINGLE-PROCESS", "REPRO-INCOMPLETE", "NOT-REPLICATED", "NOT-REPRODUCIBLE")
 INFINITY = "POSITIVE-INFINITY"
@@ -57,6 +60,41 @@ def json_digest(value):
 
 def sha(value):
     return isinstance(value,str) and len(value)==64 and all(c in "0123456789abcdef" for c in value)
+
+
+def load_reference_population(root=None):
+    root=Path(root) if root is not None else Path(__file__).resolve().parents[2]
+    try:raw=(root/REFERENCE_POPULATION_FILE).read_bytes()
+    except OSError as exc:raise Halt("HALTED-V12","reference population artifact unreadable: "+str(exc)) from exc
+    require(hashlib.sha256(raw).hexdigest()==REFERENCE_POPULATION_SHA,
+            "HALTED-V12","reference population artifact SHA differs")
+    return json.loads(raw)
+
+
+def validate_reference_dataset(data,root=None,texts=False):
+    artifact=load_reference_population(root)
+    expected={**artifact["population"],"dataset_identity":artifact["dataset"],
+              "reference_population_sha256":REFERENCE_POPULATION_SHA}
+    if not texts:expected.pop("texts")
+    require(isinstance(data,dict),"HALTED-V12","reference population metadata missing")
+    if json_digest(data)!=json_digest(expected):
+        changed=next((key for key in sorted(set(expected)|set(data))
+                      if key not in data or key not in expected or json_digest(data[key])!=json_digest(expected[key])),"metadata")
+        raise Halt("HALTED-V12","reference population mismatch: "+changed+
+                   "; observed="+json_digest(data)+"; pinned="+json_digest(expected))
+    return artifact
+
+
+def require_a1_freeze(root=None):
+    root=Path(root) if root is not None else Path(__file__).resolve().parents[2]
+    try:raw=(root/"docs/C10Z_ASTRA_PREREG.md").read_bytes()
+    except OSError as exc:raise Halt("HALTED-V12","A1 prereg unreadable") from exc
+    require(hashlib.sha256(raw).hexdigest()==PREREG_SHA,"HALTED-V12","A1 prereg SHA differs")
+    sections=raw.decode().split("## §12 Amendment A1-POPULATION\n")
+    status=[line for line in sections[-1].split("\n## ",1)[0].splitlines() if line.startswith("**Status:**")]
+    require(len(sections)==2 and status==["**Status:** FROZEN"],
+            "HALTED-V12","A1 amendment is DRAFT or lacks explicit Astra freeze")
+    load_reference_population(root)
 
 
 def count(value, maximum, field):
@@ -368,7 +406,9 @@ def validate_counts(arm):
             "HALTED-V12","binding diagnostic aggregates")
 
 
-def validate_manifest(parts):
+def validate_manifest(parts,root=None):
+    require(parts.get("reference_population_sha256")==REFERENCE_POPULATION_SHA,
+            "HALTED-V12","reference population artifact SHA missing or differs")
     require(all(k in parts and parts[k] is not None for k in INPUT_KEYS),"HALTED-V12","manifest inputs missing")
     require(sha(parts["go_sha256"]),"HALTED-V12","go record SHA missing or malformed")
     require(parts["settings"]==SETTINGS and parts["seed"]==0 and
@@ -417,6 +457,10 @@ def validate_manifest(parts):
             len(set(data["row_ids"]))==1000 and all(sha(v) for v in data["text_sha256"]) and
             all(1<=len(row)<=100 and all(type(y) is int and y>=0 for y in row) for row in ids) and
             data["nonpadding_tokens"]==sum(map(len,ids)),"HALTED-V12","reference dataset population/counts")
+    artifact=validate_reference_dataset(data,root)
+    require(parts["model_revision"]==artifact["model_revision"] and
+            parts["safetensors"]==artifact["model_files"] and parts["tokenizer"]==artifact["tokenizer_files"] and
+            parts["covariances"]==artifact["cache_files"],"HALTED-V12","reference population model/tokenizer/cache pins differ")
 
 
 def validate_raw_probes(arm,batch):
@@ -682,6 +726,13 @@ def read_directory(out):
                     "observations":records+([record] if record is not None else [])}
             require(run["closed"] is True,"HALTED-V12","attempt still running; no final verdict")
             launch=run["launch"]
+            require(launch["go"]["reference_population_sha256"]==REFERENCE_POPULATION_SHA and
+                    launch["go"]["prereg_sha256"]==PREREG_SHA and
+                    launch["go"]["amendment_decision_id"]=="D-C10z-a1pop", "HALTED-V12","launch A1 go pins differ")
+            require(launch["benchmark"]["reference_population_sha256"]==REFERENCE_POPULATION_SHA and
+                    launch["benchmark"]["prereg_sha256"]==PREREG_SHA,"HALTED-V12","launch A1 benchmark pins differ")
+            require(record["manifest"]["parts"]["go_sha256"]==launch["go_sha256"],
+                    "HALTED-V12","manifest go SHA differs from launch")
             require(all(record["budget"]["ceilings"][k]==launch[k] for k in ("stage01","stage2","stage3")),
                     "HALTED-V12","pass ceilings differ from launch")
             require(launch["stage01"]==launch["go"]["ceilings"]["stage01"] and

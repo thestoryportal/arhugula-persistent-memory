@@ -306,7 +306,7 @@ def tensor_hash(tensor):return hashlib.sha256(tensor_bytes(tensor)).hexdigest()
 
 
 def source_hashes():
-    paths=[ROOT/PREREG,ROOT/HARNESS,ROOT/HP,Path(__file__),Path(R.__file__)]
+    paths=[ROOT/PREREG,ROOT/HARNESS,ROOT/HP,Path(__file__),Path(R.__file__),ROOT/R.REFERENCE_POPULATION_FILE]
     paths+=sorted(p for p in (ROOT/ENGINE).rglob("*") if p.is_file())
     paths+=sorted((ROOT/"memit_dry_run/memit/util").rglob("*.py"))
     paths+=sorted((ROOT/"memit_dry_run/memit/rome").rglob("*.py"))
@@ -494,6 +494,7 @@ class Session:
         self.mode=None;self.current={};self.population={};self.pristine_probes={};self.stage=0
         self.unknown_allowances=dict(ALLOWANCES);self.initial_sources=source_hashes()
         R.require(self.initial_sources[PREREG]==R.PREREG_SHA,"HALTED-V12","frozen v2.2 source changed")
+        R.require_a1_freeze(ROOT)
         spec=importlib.util.spec_from_file_location("c10z_fingerprint",ROOT/"tools/engine_fingerprint.py")
         fp=importlib.util.module_from_spec(spec);spec.loader.exec_module(fp)
         R.require(fp.main()==0,"HALTED-V1","engine fingerprint")
@@ -1086,15 +1087,14 @@ class Session:
         R.require(self.gates.law3,"HALTED-V4","instrument preparation before LAW#3")
         import torch
         if self.loaded_manifest is not None:
-            self.dstats=torch.load(self.input_dir/"dstats.pt",map_location="cpu",weights_only=True)
-            with (self.out/"dstats.pt").open("xb") as f:
-                f.write((self.input_dir/"dstats.pt").read_bytes());f.flush();os.fsync(f.fileno())
-            self.G=torch.load(self.input_dir/"G.pt",map_location="cpu",weights_only=True)
-            with (self.out/"G.pt").open("xb") as f:
-                f.write((self.input_dir/"G.pt").read_bytes());f.flush();os.fsync(f.fileno())
+            if not getattr(self,"inputs_retained",False):self.retain_instrument_inputs(self.input_dir)
+            self.dstats=torch.load(self.out/"dstats.pt",map_location="cpu",weights_only=True)
+            self.G=torch.load(self.out/"G.pt",map_location="cpu",weights_only=True)
+            R.validate_reference_dataset(self.dstats["dataset"],ROOT,texts=True)
         else:
             self.dstats=self.compute_dstats()
             self.save_tensor_file("dstats.pt",self.dstats)
+            R.validate_reference_dataset(self.dstats["dataset"],ROOT,texts=True)
             self.G=self.compute_G()
             self.save_tensor_file("G.pt",self.G)
         self.D={};self.D_floored=0
@@ -1122,19 +1122,17 @@ class Session:
 
     def compute_dstats(self):
         import torch
-        from datasets import load_dataset
-        from huggingface_hub import HfApi
         self.budget.check();start=time.monotonic()
-        revision=HfApi().dataset_info("wikimedia/wikipedia").sha
-        R.require(isinstance(revision,str) and len(revision)==40,"HALTED-V12","unresolved Wikipedia revision")
-        dataset=load_dataset("wikimedia/wikipedia","20231101.en",split="train",streaming=True,revision=revision)
-        rows=list(dataset.take(1000))
+        artifact=R.load_reference_population(ROOT);population=artifact["population"]
+        rows=[{"id":row_id,"text":text} for row_id,text in zip(population["row_ids"],population["texts"])]
         R.require(len(rows)==1000,"HALTED-V7","reference row population !=1000")
         ids=[self.H.tok(row["text"])["input_ids"][:100] for row in rows]
-        metadata={"revision":revision,"row_ids":[str(row["id"]) for row in rows],
+        metadata={"revision":population["revision"],"indices":population["indices"],
+            "dataset_identity":artifact["dataset"],"reference_population_sha256":R.REFERENCE_POPULATION_SHA,
+            "row_ids":[str(row["id"]) for row in rows],
             "text_sha256":[hashlib.sha256(row["text"].encode()).hexdigest() for row in rows],
             "texts":[row["text"] for row in rows],"tokenizer_truncation":"tok(text)[input_ids][:100]",
-            "nonpadding_tokens":sum(map(len,ids)),"ordered_token_ids":ids}
+            "nonpadding_tokens":sum(map(len,ids)),"nonpadding_tokens_per_row":list(map(len,ids)),"ordered_token_ids":ids}
         sums={str(l):torch.zeros(11008,dtype=torch.float64,device="cpu") for l in range(36)}
         for start_row in range(0,1000,16):
             self.budget.check();part=ids[start_row:start_row+16];length=max(map(len,part))
@@ -1335,6 +1333,7 @@ class Session:
 
     def make_manifest(self):
         parts=self.input_parts()
+        R.validate_manifest(parts,ROOT)
         if self.loaded_manifest is not None:
             R.require(parts==self.loaded_manifest["parts"],"HALTED-V12","complete process2 manifest differs")
         self.manifest={"parts":parts,"H_in":R.json_digest(parts)}
@@ -1353,6 +1352,7 @@ class Session:
             "dstats_sha256":sha256_file(self.out/"dstats.pt"),"G_sha256":sha256_file(self.out/"G.pt"),
             "settings":SETTINGS,"driver_sha256":sha256_file(Path(__file__)),"reader_sha256":sha256_file(Path(R.__file__)),
             "prereg_sha256":sha256_file(ROOT/PREREG),"seed":0,"go_sha256":self.budget.go_sha256,
+            "reference_population_sha256":R.REFERENCE_POPULATION_SHA,
             "engine_sources":self.fingerprint["start"],
             "hparams":{HP:sha256_file(ROOT/HP)},
             "screens":{str(p.relative_to(ROOT)):sha256_file(p) for p in (ROOT/"configs/screens/g6_screen_qwen3b.json",ROOT/"configs/screens/g6_screen_qwen3b_v2.json")},
@@ -1367,19 +1367,29 @@ class Session:
             "dataset":{k:v for k,v in self.dstats["dataset"].items() if k!="texts"}}
 
     def validate_inputs(self,input_dir):
+        self.retain_instrument_inputs(input_dir)
         self.input_dir=input_dir;self.loaded_manifest=load_json(input_dir/"manifest.json")
         parts=self.loaded_manifest["parts"]
-        R.validate_manifest(parts)
+        R.validate_manifest(parts,ROOT)
         R.require(R.json_digest(parts)==self.loaded_manifest["H_in"],
             "HALTED-V12","incomplete frozen process1 manifest")
         for key,file in (("context_templates_sha256","context_templates.json"),("dstats_sha256","dstats.pt"),("G_sha256","G.pt")):
             R.require(sha256_file(input_dir/file)==parts[key],"HALTED-V12","input file SHA "+file)
+            if file in ("dstats.pt","G.pt"):
+                R.require(sha256_file(self.out/file)==parts[key],"HALTED-V12","retained input file SHA "+file)
         for group in ("engine_sources","hparams","screens"):
             for path,sha in parts[group].items():R.require(sha256_file(ROOT/path)==sha,"HALTED-V12","input source drift "+path)
         for value in parts["covariances"].values():R.require(sha256_file(value["path"])==value["sha256"],"HALTED-V12","covariance changed")
         for path,key in ((Path(__file__),"driver_sha256"),(Path(R.__file__),"reader_sha256"),(ROOT/PREREG,"prereg_sha256")):
             R.require(sha256_file(path)==parts[key],"HALTED-V12","frozen build source changed")
         R.require(parts["settings"]==SETTINGS and parts["seed"]==0,"HALTED-V12","frozen settings")
+
+    def retain_instrument_inputs(self,input_dir):
+        for name in ("dstats.pt","G.pt"):
+            raw=(input_dir/name).read_bytes()
+            with (self.out/name).open("xb") as f:
+                f.write(raw);f.flush();os.fsync(f.fileno())
+        self.inputs_retained=True
 
     def check_manifest_before_baseline(self,snapshot):
         parts=self.loaded_manifest["parts"]
@@ -1554,6 +1564,9 @@ def go_record(env):
         all(type(v) in (int,float) and v>0 and (type(v) is int or math.isfinite(v)) for v in ceilings.values()),
         "HALTED-V12","go record requires benchmark_sha256, benchmark_script_sha256 and ceilings")
     R.finite_json(value)
+    R.require(value.get("reference_population_sha256")==R.REFERENCE_POPULATION_SHA and
+              value.get("prereg_sha256")==R.PREREG_SHA and value.get("amendment_decision_id")=="D-C10z-a1pop",
+              "HALTED-V12","A1 go requires exact population, prereg SHA and amendment Decision-ID")
     return value,hashlib.sha256(raw).hexdigest()
 
 
@@ -1579,6 +1592,10 @@ def strict_record(raw,detail):
 
 
 def benchmark_binding(env,go):
+    R.require_a1_freeze(ROOT)
+    R.require(go.get("reference_population_sha256")==R.REFERENCE_POPULATION_SHA and
+              go.get("prereg_sha256")==R.PREREG_SHA and go.get("amendment_decision_id")=="D-C10z-a1pop",
+              "HALTED-V12","A1 go population/amendment binding differs")
     path=env.get("C10Z_BENCHMARK_RECORD")
     R.require(isinstance(path,str) and bool(path),"HALTED-V12","C10Z_BENCHMARK_RECORD is required")
     R.require(Path(path).is_absolute(),"HALTED-V12","C10Z_BENCHMARK_RECORD must be absolute")
@@ -1625,6 +1642,7 @@ def benchmark_binding(env,go):
     selected={"stage01":c["C01"],"stage2":c["C2"],"stage3":c["C3"]}
     R.require(go["ceilings"]==selected,"HALTED-V12","go ceilings differ from ceilings()")
     return {"path":str(path),"sha256":record_sha,"script_sha256":script_sha,"sources":sources,
+            "reference_population_sha256":R.REFERENCE_POPULATION_SHA,"prereg_sha256":R.PREREG_SHA,
             "env":current_env,"ceilings":selected,"templates":record["inputs"]["templates"],
             "templates_sha256":templates_sha256},record,B
 
@@ -1715,6 +1733,11 @@ def diagnostic(out,code,detail,session=None):
 
 def resident(out,process,launch,input_dir=None,start=None):
     """Model lifetime is one process; deadline watchdog cannot mint a scientific pass."""
+    R.require_a1_freeze(ROOT)
+    verify_launch_binding(launch,os.environ)
+    go,go_sha256=go_record(os.environ)
+    R.require(R.json_digest(go)==R.json_digest(launch["go"]) and go_sha256==launch["go_sha256"],
+              "HALTED-V12","resident go contents/SHA differ from launch")
     start=time.monotonic() if start is None else start
     budget=Budget(start,launch["stage01"],launch["stage2"],launch["stage3"],process=process)
     budget.go_sha256=launch["go_sha256"]
@@ -1805,6 +1828,7 @@ def resident(out,process,launch,input_dir=None,start=None):
 
 def stage_call(stage,out):
     """Exactly one external stage call; stage3's internal repetition is its prereg definition."""
+    R.require_a1_freeze(ROOT)
     start=time.monotonic();entry_preflight(os.environ);out=Path(out).resolve()
     if stage==0:
         R.require(not any((out/name).exists() for name in ("manifest.json","pass_p1.json","run.json")),
@@ -1874,6 +1898,7 @@ def wait_stage(out,stage,child=None,clock=time.monotonic,pause=time.sleep):
 
 def main():
     R.require(len(sys.argv)==2 and sys.argv[1] in ("0","1","2","3"),"HALTED-V12","usage: run_c10z_stage.sh <0|1|2|3>")
+    R.require_a1_freeze(ROOT)
     stage=int(sys.argv[1]);out=Path(os.environ.get("C10Z_OUT_DIR",str(ROOT/"results/c10z_astra"))).resolve()
     if os.environ.get("C10Z_RESIDENT")=="1":
         return resident(out,1,json.loads(os.environ["C10Z_LAUNCH"]))

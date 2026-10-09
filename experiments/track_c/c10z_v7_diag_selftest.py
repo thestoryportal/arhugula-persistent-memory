@@ -29,6 +29,13 @@ sys.path.insert(0, str(ROOT / "tools"))
 import c10z_astra_arms as D
 
 
+def frozen_probe_prereg():
+    # The completed V7-DIAG retains its pre-A1 contract; these fixtures do not dispatch that probe.
+    raw=(ROOT/D.PREREG).read_bytes().split(b"\n\n---\n\n## \xc2\xa712 Amendment A1-POPULATION",1)[0]
+    assert hashlib.sha256(raw).hexdigest()=="7aedd4ace95d2611bf398768df63cb60df6fce5afc23cf23209497bcd1d17a29"
+    return raw
+
+
 def probe(test):
     path = ROOT / "experiments/track_c/c10z_v7_diag.py"
     test.assertTrue(path.is_file(), "missing forward-only V7-DIAG implementation")
@@ -111,22 +118,18 @@ class StatisticTests(unittest.TestCase):
 
     def test_actual_driver_bit_identity_and_independent_tokens_counts_normalization(self):
         P = probe(self); rows = fixture_rows(); old = stub_session(); new = stub_session()
-        datasets = types.ModuleType("datasets")
-        def load_dataset(name, config, **kw):
-            self.assertEqual((name, config, kw), ("wikimedia/wikipedia", "20231101.en",
-                {"split": "train", "streaming": True, "revision": P.DATASET_REV}))
-            return types.SimpleNamespace(take=lambda n: rows[:n])
-        datasets.load_dataset = load_dataset
-        hub = types.ModuleType("huggingface_hub")
-        hub.HfApi = lambda: types.SimpleNamespace(dataset_info=lambda name: types.SimpleNamespace(sha=P.DATASET_REV))
-        with patch.dict(sys.modules, datasets=datasets, huggingface_hub=hub), \
+        artifact={"dataset":{"fixture":True},"population":{"revision":P.DATASET_REV,
+                  "row_ids":[r["id"] for r in rows],"texts":[r["text"] for r in rows],"indices":list(range(1000))}}
+        with patch.object(D.R,"load_reference_population",return_value=artifact) as population, \
              patch.object(torch, "zeros", side_effect=tiny_zeros(torch.zeros)):
             reference = old.compute_dstats()
             actual = P.Statistic.compute_dstats(new, rows)
         expected_ids = [[int(v) for v in r["text"].split()][:100] for r in rows]
-        self.assertEqual(actual["dataset"], reference["dataset"])
+        population.assert_called_once_with(D.ROOT)
+        self.assertEqual(actual["dataset"], {k:reference["dataset"][k] for k in actual["dataset"]})
         self.assertEqual(actual["dataset"]["ordered_token_ids"], expected_ids)
         self.assertEqual(actual["dataset"]["nonpadding_tokens"], 55000)
+        self.assertEqual(reference["dataset"]["nonpadding_tokens_per_row"], list(map(len,expected_ids)))
         self.assertEqual(actual["dataset"]["text_sha256"],
                          [hashlib.sha256(r["text"].encode()).hexdigest() for r in rows])
         self.assertEqual(actual["dataset"]["row_ids"], [str(i) for i in range(1000)])
@@ -449,7 +452,7 @@ class DeadlineTests(unittest.TestCase):
 class EntryAndGuardTests(unittest.TestCase):
     def prepare_entry(self, P, root):
         prereg = root / D.PREREG; prereg.parent.mkdir(parents=True)
-        prereg.write_bytes((ROOT / D.PREREG).read_bytes())
+        prereg.write_bytes(frozen_probe_prereg())
         rows = fixture_rows(5017)
         pins = {"populations": {name: {"indices": indices,
                    **P.row_metadata([rows[i] for i in indices], Tokenizer())}
@@ -572,8 +575,10 @@ class PersistenceCorrectionTests(unittest.TestCase):
         s.loaded_manifest = {} if input_dir is not None else None
         s.gates = types.SimpleNamespace(law3=True); s.checks = {}
         stats = {"m": {str(l): torch.tensor([3., 2., 1.] if fail else [1., 2., 3.]) for l in range(36)},
-                 "dataset": {"texts": ["some encyclopedia text"], "revision": "a" * 40,
-                             "row_ids": ["fixture"], "ordered_token_ids": [[1, 2]], "nonpadding_tokens": 2}}
+                 "dataset": {}}
+        artifact=D.R.load_reference_population()
+        stats["dataset"]={**artifact["population"],"dataset_identity":artifact["dataset"],
+                          "reference_population_sha256":D.R.REFERENCE_POPULATION_SHA}
         s.compute_dstats = lambda: stats; s.compute_G = lambda: torch.eye(3, dtype=torch.float64)
         s.H = types.SimpleNamespace(CANON="The capital of {} is", PTEST=["Capital of {}"])
         s.templates = ["{}"]
@@ -648,6 +653,7 @@ class PersistenceCorrectionTests(unittest.TestCase):
             with self.assertRaises(FileNotFoundError): s.prepare_instruments()
             self.assertTrue((out / "dstats.pt").is_file(), "process2 must copy dstats before loading G")
             self.assertEqual((out / "dstats.pt").read_bytes(), (source / "dstats.pt").read_bytes())
+            self.assertFalse((out / "G.pt").exists(), "missing source G must not create a fabricated empty artifact")
 
 
 class FixRoundOneTests(unittest.TestCase):
@@ -750,7 +756,7 @@ class FixRoundOneTests(unittest.TestCase):
             sys.path.insert(0,str(Path(SOURCE).parents[1]/'tools'))
             import c10z_v7_diag as P
             root=Path(TEMP); prereg=root/P.D.PREREG; prereg.parent.mkdir(parents=True)
-            prereg.write_bytes((Path(SOURCE).parents[1]/P.D.PREREG).read_bytes())
+            prereg.write_bytes(bytes.fromhex(FROZEN_PREREG))
             P.ROOT=root; P.LLMDB_ROOT=str(root); P.CAP_SECONDS=.15; P.ENTRY_STARTED=time.monotonic()
             P.PREARMED=PREARMED_FLAG
             class H:
@@ -777,6 +783,7 @@ class FixRoundOneTests(unittest.TestCase):
             raise SystemExit(rc)
         ''').replace("SOURCE", repr(str(ROOT / "experiments/track_c")))
         code = code.replace("CLEANUP_DELAY", str(delay)).replace("AFTER_RUN", after_run).replace("PREARMED_FLAG", repr(prearmed))
+        code = code.replace("FROZEN_PREREG", repr(frozen_probe_prereg().hex()))
         return subprocess.run([sys.executable, "-B", "-c", code.replace("TEMP", repr(tmp))],
                               capture_output=True, text=True, timeout=5)
 
