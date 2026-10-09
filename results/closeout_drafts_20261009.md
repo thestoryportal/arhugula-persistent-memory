@@ -370,3 +370,27 @@ Prospective verbatim-span stamps: D-C10z-v7diag@d8c55e7b; D-C10z-a1pop@0bdc2636;
 Done: staged two detailed note bodies, exact state-field/array delta recipes, one-line tracker entries, companion registry rows, anchored fingerprint registration and the locked-record currency edge. File: results/closeout_drafts_20261009.md. Pending: MAESTRO assigns note numbers, folds the sources/trackers, resolves live-go publication metadata through the frozen binding procedure, and runs final currency/generated checks. Open science: ASTRA attempt4, harvest-2 reproduction/calibration, prospective utility and behavioral/F1 questions. No canonical file is edited by this draft.
 
 **BINDING CONTEXT RULE (operator, 2026-10-09): watch Context N% left; before approximately 20%, stop starting new work, write done/in-flight/exact paths/next step/open risks into the task report and say so, so the orchestrator can start a fresh successor. Every handoff note must restate this rule.**
+
+## Fold-in — results/closeout_fold_20261009T223920Z
+
+Recorded UTC: 2026-10-09T22:52:59.433Z. **FOLD DONE**, under MAESTRO’s explicit application authority and Astra FOLD-OK (results/closeout_drafts_20261009_astra.md). Created CORPUS/59_C10Z_V7DIAG_A1.md and CORPUS/60_MATHLAB_HARVEST_REPLAY.md; applied the scoped state recipes and rendered all generated blocks through tools/render_state.py. Canonical ledgers/indices/registry/overlay/reproducibility rows and the existing five decision rows now point to those sources. Existing §5 choices were updated in place, never duplicated. The two draft-specified durable traps were added only to memory_mirror/. No commits or science dispatch.
+
+Astra’s timing advisory is folded: harvest-2 step 2 had already started; completion/verdict remain UNVERIFIED at the reviewed snapshot. **Attempt 4 and MathLab step 3 remain PENDING.** The approved live-path go bytes retain their draft/publication-pending recorder caveat; no go bytes or source/prereg pins were edited. These are milestone currency checks, not pending-science completion or a behavioral/F1 promotion.
+
+| Decision-ID | closeout_check result | Exit | Current fingerprint | Exact output |
+|---|---|---:|---|---|
+| D-C10z-v7diag | ALL GREEN | 0 | D-C10z-v7diag@d8c55e7b | results/closeout_fold_20261009T223920Z/final_D-C10z-v7diag.txt |
+| D-C10z-a1pop | ALL GREEN | 0 | D-C10z-a1pop@1ef441d3 | results/closeout_fold_20261009T223920Z/final_D-C10z-a1pop.txt |
+| D-ML-1 | ALL GREEN | 0 | D-ML-1@12c5548b | results/closeout_fold_20261009T223920Z/final_D-ML-1.txt |
+| D-ML-2 | ALL GREEN | 0 | D-ML-2@99a9fb4c | results/closeout_fold_20261009T223920Z/final_D-ML-2.txt |
+| D-ML-3 | ALL GREEN | 0 | D-ML-3@84e9d0e1 | results/closeout_fold_20261009T223920Z/final_D-ML-3.txt |
+
+Each final command used LLMDB_ROOT=$PWD and python3 -B tools/closeout_check.py, with CURRENCY layer ON and 14 GREEN entries. The baseline was RED for all five; final checks passed after publication. Generated rendering and diff whitespace checks also pass; C10X currency remains a8c22280 after the stamp-only historical reference update. Existing fingerprint registry bytes/values were retained; only five new registrations were appended.
+
+Verification: results/closeout_fold_20261009T223920Z/verification.json. All 15 protected source/prereg/provenance hashes are unchanged; only updated/current_latest and next_actions[0]/[2] changed in structured state, preserving other fields, F1/scorecard, other next actions and previous history. Prior CORPUS ledger bytes, changelog history and pre-existing memory index entries are preserved. Memory index is 9,217 bytes (below 24,400). Reviewable canonical scope is the 24 paths recorded in verification.json; scratch scripts and before snapshots are /private/tmp/closeout_fold_20261009T223920Z/.
+
+### Fold handoff — Codex Y3 → MAESTRO
+
+Done: canonical milestone fold and all five requested presence/currency checks, with logs above. In flight: no fold work. Next: MAESTRO reviews the diff and commits; pending attempt-4 and MathLab step-3 execution/reading remain separate authorized work. Open risks: go publication metadata caveat; harvest-2 step-2 completion and calibration/prospective utility are outside this reviewed record; no behavioral/F1 closure. Report: results/closeout_drafts_20261009.md. Detailed sources: CORPUS/59_C10Z_V7DIAG_A1.md and CORPUS/60_MATHLAB_HARVEST_REPLAY.md.
+
+**BINDING CONTEXT RULE (operator, 2026-10-09): watch Context N% left; before approximately 20%, stop starting new work, write done/in-flight/exact paths/next step/open risks into the task report and say so, so the orchestrator can start a fresh successor. Every handoff note must restate this rule.**

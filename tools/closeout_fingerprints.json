@@ -134,5 +134,35 @@
  "D-C10x-enginepath": {
   "source": "CORPUS/58_C10X_ENGINEPATH.md",
   "what": "engine-path target construction on the C10 harness, step 6 of the research-pass sequence (H-11; FE-inspired I-2 and OverTone-inspired I-1; prereg v2.2 + Amendments T/M/P/Z/B): process-1 reading of re-run 3, CLOSED: reader VALID; I-1 NULL 17/72 vs recipe A 12/72 (d = -4, non-interpreted); I-2 INVALID-CONTROLS-UNDERFIT per the appended erratum (A1 64, A2 65 < 68; fit 3/24; reader printed INVALID-CONTROLS, known reader defect read.py:445-451); replication_eligible empty, process 2 not run; LAW#3 12/52/8 + A1 70 A2 71; LAW#5 INERT; re-run lineage original (X2-vii signed zero) -> re-run 1 (non-JSON flags) -> re-run 2 (STAGE_PROJECTION_REFUSED) -> re-run 3 under D-C10w-p2rerun; Astra CONFIRM; engine unmodified"
+ },
+ "D-C10z-v7diag": {
+  "source": "CORPUS/59_C10Z_V7DIAG_A1.md",
+  "anchor_start": "<!-- BEGIN D-C10z-v7diag -->",
+  "anchor_end": "<!-- END D-C10z-v7diag -->",
+  "what": "Completed V7 diagnostic A1; Astra CONFIRM; attempt 3 remains HALTED-V7"
+ },
+ "D-C10z-a1pop": {
+  "source": "CORPUS/59_C10Z_V7DIAG_A1.md",
+  "anchor_start": "<!-- BEGIN D-C10z-a1pop -->",
+  "anchor_end": "<!-- END D-C10z-a1pop -->",
+  "what": "Frozen exact R1000 continuation; benchmark #3 ADMITTED; go bytes present; attempt 4 pending"
+ },
+ "D-ML-1": {
+  "source": "CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
+  "anchor_start": "<!-- BEGIN D-ML-1 -->",
+  "anchor_end": "<!-- END D-ML-1 -->",
+  "what": "Distinct completed harvests; first INVALID-REPLAY, second admitted; interim MATH-PROXY"
+ },
+ "D-ML-2": {
+  "source": "CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
+  "anchor_start": "<!-- BEGIN D-ML-2 -->",
+  "anchor_end": "<!-- END D-ML-2 -->",
+  "what": "Bounded M2-BUDGET resource milestone and harvest-1 replay PASS/OPERANDS-ONLY"
+ },
+ "D-ML-3": {
+  "source": "CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
+  "anchor_start": "<!-- BEGIN D-ML-3 -->",
+  "anchor_end": "<!-- END D-ML-3 -->",
+  "what": "Native returned norm comparison; reviewed persistence fix; fresh corrected admission"
  }
 }

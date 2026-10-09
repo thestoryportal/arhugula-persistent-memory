@@ -270,3 +270,9 @@ _§8.7 structural amendment WRITTEN as operator proposal (`docs/SPEC_8_7_AMENDME
 
 ## 2026-10-08 - Engine-path target construction, step 6 (D-C10x-enginepath)
 **D-C10x-enginepath ⟨D-C10x-enginepath@a8c22280⟩** (engine-path target construction on the C10 harness: an FE-inspired forward-replay target at layer 4 (I-2) and an OverTone-inspired target objective (I-1), each written by the unchanged projected-ridge solve; step 6 of the research-pass sequence, H-11; process-1 reading of re-run 3, `CORPUS/58`, 2026-10-08; re-run under D-C10w-p2rerun): **CLOSED — I-1 NULL, I-2 INVALID-CONTROLS-UNDERFIT (erratum: CORPUS/58); neither advances** — reader VALID; I-1 17/72 against the same-process baseline's 12/72 (below the margin; injection d = −4, non-interpreted); this FE package failed the A1/A2 controls in this run (70→64, 71→65; floor 68); process 2 not run. No mechanism or method-family conclusion. Detail and caveats: CORPUS/58. C10 OPEN/BLOCKING; F1 unchanged.
+
+## 2026-10-09 — V7 diagnostic and MathLab milestones
+
+D-C10z-v7diag ⟨D-C10z-v7diag@d8c55e7b⟩ A1 CONFIRM; D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩ preparation ADMITTED, attempt 4 PENDING → CORPUS/59_C10Z_V7DIAG_A1.md.
+
+D-ML-1 ⟨D-ML-1@12c5548b⟩ interim MATH-PROXY; D-ML-2 ⟨D-ML-2@99a9fb4c⟩ replay PASS; D-ML-3 ⟨D-ML-3@84e9d0e1⟩ native contract/fresh admission; no behavioral claim → CORPUS/60_MATHLAB_HARVEST_REPLAY.md.

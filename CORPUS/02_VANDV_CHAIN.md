@@ -249,3 +249,9 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Method:** one process: recipe A (LAW#3 gate in the driver), targets, inertness (G8, X1, X2), injection screen, I-2, I-1, each with A1, A2, A7; process 2 only for an unqualified LEAD or PARTIAL.
 - **Criterion (prereg §3):** validity first; controls A1, A2 ≥ 68 per recipe else INVALID-CONTROLS; LEAD ≥ 30/72; PARTIAL > 18 and ≥ +10 over A; a count ≤ 18 is NULL; locality gates vs A; qualifiers -LARGE-WRITE (> 1.5) and -UNDERFIT (I-2); the NULL table reads the injection deficit d.
 - **Verdict:** I-1 NULL (17 vs 12/72; d = −4, non-interpreted); I-2 INVALID-CONTROLS-UNDERFIT (erratum: CORPUS/58; this FE package failed A1/A2 in this run: 64, 65; fit 3/24 ≥ 0.98 against 22/24); no arm eligible, process 2 not run; reader VALID, Astra CONFIRM. Detail: CORPUS/58 (re-run 3 under D-C10w-p2rerun). H-11 not advanced on this harness; no mechanism or method-family conclusion.
+
+## 2026-10-09 — V7 diagnostic and MathLab milestones
+
+D-C10z-v7diag ⟨D-C10z-v7diag@d8c55e7b⟩ frozen routing selects A1; D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩ continuation prepared, candidate/deployment UNVERIFIED → CORPUS/59_C10Z_V7DIAG_A1.md.
+
+D-ML-1 ⟨D-ML-1@12c5548b⟩ harvest/admission milestones; D-ML-2 ⟨D-ML-2@99a9fb4c⟩ gate 2a PASS/2b OPERANDS-ONLY; D-ML-3 ⟨D-ML-3@84e9d0e1⟩ contract corrected; MATH-PROXY only → CORPUS/60_MATHLAB_HARVEST_REPLAY.md.

@@ -55,7 +55,7 @@ Not a mechanism reading and not a method-family conclusion: NULL does not close 
 
 ## Decision-ID and next
 
-D-C10x-enginepath: **CLOSED** — process 1 VALID; I-1 NULL (17 vs 12/72, d = −4 non-interpreted); I-2 INVALID-CONTROLS (A1 64, A2 65); neither advances; process 2 not run. Next under the research-pass sequence: step 7 (C10Y, measurement-only; calibration memory-gated, D-C10y-memfloor); ASTRA attempt 3 (D-C10z-v5fix, operator-approved); the offline math lab D-ML-1 (prereg v2 in review).
+D-C10x-enginepath: **CLOSED** — process 1 VALID; I-1 NULL (17 vs 12/72, d = −4 non-interpreted); I-2 INVALID-CONTROLS (A1 64, A2 65); neither advances; process 2 not run. Next under the research-pass sequence: step 7 (C10Y, measurement-only; calibration memory-gated, D-C10y-memfloor); ASTRA attempt 3 (D-C10z-v5fix, operator-approved); the offline math lab D-ML-1 ⟨D-ML-1@12c5548b⟩ (prereg v2 in review).
 
 _Verdict sentence: on the C10 harness, neither engine-path target construction advanced the coined-value write — the OverTone-inspired objective scored 17/72 against the same-process baseline's 12/72 (NULL, below the margin), and the FE-inspired layer-4 package failed the single-token and two-token controls in this run (64 and 65/72 against 68), so step 6 closes with no candidate taken forward, no process 2, and no mechanism or method-family conclusion; C10 remains OPEN/BLOCKING and F1 is unchanged._
 

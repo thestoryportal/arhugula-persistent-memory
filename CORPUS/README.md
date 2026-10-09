@@ -56,3 +56,9 @@ In-weight, MEMIT-class knowledge editing was validated as a write engine for the
 - **56 - Per-fact layer pick, step 4 pass1 (D-C10v-layerpick ⟨D-C10v-layerpick@3bcae852⟩, 2026-10-07)** = NULL, not advanced under the preregistered rules (B 12 vs band 11/72; fixed layer 8 12, shuffled map 10; selector not credited; B missed described_as). Next = step 5 P2 (running).
 - **57 - Ceiling oracle, step 5 — final replicated reading (D-C10w-oracle ⟨D-C10w-oracle@6a735469⟩, 2026-10-08)** = oracle measurement, not a route; CLOSED: PARTIAL-CEILING-LOCALITY-COST(G4,G6), BIGRAM — replicated 70/72 (closed form 9–16/72), G4 missed at both seeds, G6 at seed 1; P3 not required; canonical split NOT-READ; NO-GATE-CLEAN-REFERENCE; steps 6–7 on their own rationale. P2 eval re-run under D-C10w-p2rerun.
 - **58 - Engine-path target construction, step 6 (D-C10x-enginepath ⟨D-C10x-enginepath@a8c22280⟩, 2026-10-08)** = process-1 reading of re-run 3, CLOSED: I-1 (OverTone-inspired objective) NULL, 17 vs 12/72; I-2 (FE-inspired layer-4 package) INVALID-CONTROLS-UNDERFIT (erratum: CORPUS/58), A1 64, A2 65 < 68 in this run; neither advances, process 2 not run; no mechanism or method-family conclusion.
+
+## 2026-10-09 — New milestone notes
+
+D-C10z-v7diag ⟨D-C10z-v7diag@d8c55e7b⟩ A1 CONFIRM; D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩ preparation ADMITTED, attempt 4 PENDING → 59_C10Z_V7DIAG_A1.md.
+
+D-ML-1 ⟨D-ML-1@12c5548b⟩ interim; D-ML-2 ⟨D-ML-2@99a9fb4c⟩ replay PASS; D-ML-3 ⟨D-ML-3@84e9d0e1⟩ corrected fresh admission; MATH-PROXY → 60_MATHLAB_HARVEST_REPLAY.md.

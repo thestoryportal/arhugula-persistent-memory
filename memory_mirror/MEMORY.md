@@ -43,3 +43,6 @@
 - [Graft disabled + audit](graft-disabled-audit-2026-10-08.md) — no corruption found; codex exec needs -c mcp_servers.graft.enabled=false
 - [Never idle: arm completion watch](never-idle-arm-completion-watch.md) — 13 h idle 2026-10-09; every in-flight build/review needs a Monitor wake signal, route next step on each event
 - [GPU gate refuses any .venv python](gpu-gate-refuses-any-venv-python.md) — Codex unittests block check_gpu; poll until clear ×2 then launch
+- [tmux kill-session exact name](tmux-kill-session-exact-name.md) — prefix match killed live codexy2; use -t =name, check tmux ls first
+- [A1 population byte identity](c10z-a1-population-byte-identity.md) — D-C10z-v7diag ⟨D-C10z-v7diag@d8c55e7b⟩ A1; D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩ only the exact recorded population is authorized → CORPUS/59_C10Z_V7DIAG_A1.md.
+- [MathLab native norm contract](mathlab-native-norm-contract.md) — D-ML-1 ⟨D-ML-1@12c5548b⟩ keep harvest identities separate; D-ML-2 ⟨D-ML-2@99a9fb4c⟩ replay is scoped; D-ML-3 ⟨D-ML-3@84e9d0e1⟩ compare the historical producer's native scalar → CORPUS/60_MATHLAB_HARVEST_REPLAY.md.
