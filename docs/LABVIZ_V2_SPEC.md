@@ -1165,3 +1165,14 @@ The C10 score is measured on three held-out rewordings (`c10e_bandknob.py:52–5
 - typed-in facts that are not in the signed-off sandbox fact set (needs its own question-set and locality design);
 - training-based edits (LoRA): the sandbox does MEMIT edits only;
 - chaining several tries onto one model state: every try starts from the pristine weights.
+
+## Forward requirement — math lab (D-ML-1)
+
+LabViz will ingest `results/mathlab_staging/runs/*/events.jsonl` through
+`tools/mathlab_events.read_events` and `tools/mathlab_events.fold`, plus staged
+findings referenced by the events. The append-only events are the sole authority
+for run state; LabViz uses the same schema and fold as the teamdash `mathlab` tab,
+with no second schema or status file. Parse errors remain visible. Findings retain
+their `MATH-PROXY` tier and the label "math estimate, not evidence"; candidate
+questions remain ideas to test. This is a forward requirement only; LabViz code
+is unchanged by the observability build.

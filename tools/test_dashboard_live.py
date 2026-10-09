@@ -1,7 +1,8 @@
 """Tests for the live dashboard state (tools/dashboard_live.py). Stdlib only; run with the dashboard's interpreter:
 /usr/bin/python3 -B -m unittest tools.test_dashboard_live
 """
-import os, sys, tempfile, time, unittest
+import os, subprocess, sys, tempfile, time, unittest
+from unittest.mock import patch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import dashboard_live as L  # noqa: E402
@@ -82,6 +83,13 @@ class TeamTiles(unittest.TestCase):
 
 
 class NowLines(unittest.TestCase):
+    def test_unavailable_inventory_never_reports_idle(self):
+        state = {"rulings": [], "builds": [], "helpers": [],
+                 "gpu": {"running": None, "last_exit": None, "last_name": None, "unavailable": "ps exit 1"}}
+        text = "\n".join(L.now_lines(state, 0))
+        self.assertIn("GPU unavailable", text)
+        self.assertNotIn("GPU idle", text)
+
     def test_order_and_wording(self):
         state = {"rulings": ["P2 eval HALT (D-C10w-p2halt)"],
                  "gpu": {"running": None, "last_exit": {"code": 6, "reason": "p2-eval stopped", "at": 0.0},
@@ -111,6 +119,38 @@ class Clip(unittest.TestCase):
         line = "\033[1mabc\033[0mdef"
         self.assertEqual(L.clip(line, 4), "\033[1mabc\033[0md")
         self.assertEqual(L.clip("ab", 5), "ab")
+
+
+class GPUInventory(unittest.TestCase):
+    def probe_response(self, code, output):
+        response = subprocess.run([sys.executable, "-B", "-c",
+                                   "import sys; sys.stdout.write(sys.argv[1]); sys.stderr.write('probe fixture'); sys.exit(int(sys.argv[2]))",
+                                   output, str(code)], capture_output=True, text=True, timeout=10)
+        self.assertEqual(response.returncode, code)
+        with tempfile.TemporaryDirectory() as root, patch.object(L, "ROOT", root), \
+             patch.object(L.subprocess, "run", return_value=response) as run:
+            result = L.gpu_state()
+            run.assert_called_once_with(("/bin/ps", "-axo", "etime=,command="), capture_output=True, text=True)
+            return result
+
+    def test_real_subprocess_nonzero_and_empty_responses_are_unavailable(self):
+        for code, output in ((1, ""), (1, "00:01 python tools/mathlab_harvest.py\n"), (0, ""), (0, " \n\t")):
+            with self.subTest(code=code, output=output):
+                result = self.probe_response(code, output)
+                self.assertTrue(result["unavailable"])
+                self.assertIsNone(result["running"])
+
+    def test_successful_nonempty_inventory_can_report_no_gpu_job(self):
+        result = self.probe_response(0, "00:01 /sbin/launchd\n")
+        self.assertIsNone(result["running"])
+        self.assertNotIn("unavailable", result)
+
+    def test_shared_detector_recognizes_harvest_but_not_a_prompt_or_temp_copy(self):
+        for output, expected in (("00:12 /usr/bin/python3 tools/mathlab_harvest.py --run-dir x\n", ("mathlab", "harvest", "00:12")),
+                                 ("00:12 codex --prompt tools/mathlab_harvest.py\n", None),
+                                 ("00:12 python /private/tmp/tools/mathlab_harvest.py\n", None)):
+            with self.subTest(output=output):
+                self.assertEqual(self.probe_response(0, output)["running"], expected)
 
 
 class WordsAndAnswers(unittest.TestCase):

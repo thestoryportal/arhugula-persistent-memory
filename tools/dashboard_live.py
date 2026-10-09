@@ -31,7 +31,7 @@ def script_call(command):
 
 
 ROOT = os.path.dirname(TOOLS)
-SHORT = {"c10u": "Step 3", "c10v": "Step 4", "c10w": "Step 5", "c10x": "Step 6", "c10y": "Step 7", "c10z": "ASTRA"}
+SHORT = {"c10u": "Step 3", "c10v": "Step 4", "c10w": "Step 5", "c10x": "Step 6", "c10y": "Step 7", "c10z": "ASTRA", "mathlab": "Math lab"}
 NOT_TEAM = {"dashboard", "dashboard_new", "helpers"}
 ROW = re.compile(r"^\|\s*\*\*(.+?)\*\*\s*\|\s*([^|]*)\|")
 
@@ -146,7 +146,9 @@ def now_lines(state, now):
     lines = [f"! NEEDS YOUR RULING: {r}" for r in state["rulings"]]
     lines += [f"▲ STALLED/BLOCKED: {a} (the program is on it)" for a in state.get("alerts", [])]
     gpu = state["gpu"]
-    if gpu["running"]:
+    if gpu.get("unavailable"):
+        lines.append(f"! GPU unavailable: {gpu['unavailable']}")
+    elif gpu["running"]:
         key, stage, etime = gpu["running"]
         lines.append(f"▸ GPU running: {SHORT.get(key, key)} · stage {stage} · {etime}")
     else:
@@ -168,11 +170,18 @@ def sh(*args):
 
 
 def gpu_state():
-    ps = sh("/bin/ps", "-axo", "etime=,command=")
+    result = subprocess.run(("/bin/ps", "-axo", "etime=,command="), capture_output=True, text=True)
+    if result.returncode != 0 or not result.stdout.strip():
+        reason = f"ps exit {result.returncode}: {result.stderr.strip()}" if result.returncode else "empty ps inventory"
+        return {"running": None, "last_exit": None, "last_name": None, "unavailable": reason}
+    ps = result.stdout
     running = None
     for line in ps.splitlines():
         etime, _, command = line.strip().partition(" ")
         call = script_call(command) or ""
+        if re.search(r"(?:^|/)mathlab_harvest\.py(?:\s|$)", call):
+            running = ("mathlab", "harvest", etime)
+            break
         m = (GPU_JOB_RE.search(call)
              or re.search(r"tools/run_(c10[a-z])\w*\.sh", call))
         if m and (m.lastindex < 2 or m.group(2) != "_job"):

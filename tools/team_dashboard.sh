@@ -4,9 +4,9 @@
 # other team session in rows of up to five below, each with a coloured header and live status
 # (tools/dashboard_tile.py), and a status bar with the GPU job and status counts (tools/dashboard_bar.sh).
 # Nothing attaches to the agents' sessions. Re-running rebuilds it in place for anyone watching.
-# Tabs: 1 team · 2 active (busy agents) · 3 experiment (GPU run, live) · 4 helpers (+ one ⚙ tab per running helper agent).
-# Switch: Ctrl-b then 1-4, or Ctrl-b n / p for next / previous.
-# Usage: bash tools/team_dashboard.sh  (or ~/.local/bin/teamdash [team|active|exp])   Leave: Ctrl-b d   Close: tmux kill-session -t dashboard
+# Tabs: 1 team · 2 active (busy agents) · 3 experiment (GPU run, live) · 4 mathlab · 5 helpers (+ one ⚙ tab per running helper agent).
+# Switch: Ctrl-b then 1-5, or Ctrl-b n / p for next / previous.
+# Usage: bash tools/team_dashboard.sh  (or ~/.local/bin/teamdash [team|active|exp|mathlab])   Leave: Ctrl-b d   Close: tmux kill-session -t dashboard
 T=$(cd "$(dirname "$0")" && pwd)
 D=dashboard NEW=dashboard_new LEAD=program PER_ROW=5
 COLORS=(30 64 130 96 24 166 61 100 131 67 136 72)
@@ -25,6 +25,9 @@ label() {
     codexw2) echo "Codex W2 · P2 rerun fix" ;;
     codexx)  echo "Codex X · step-6 build" ;;
     codexy)  echo "Codex Y · step-7 build" ;;
+    codexml) echo "Codex ML · math-lab dashboard" ;;
+    codexmb) echo "Codex MB · math-lab build" ;;
+    codexz2) echo "Codex Z2 · ASTRA V7 probe" ;;
     codex?)  echo "Codex $(printf '%s' "${1:5:1}" | tr a-z A-Z)" ;;
     *)       echo "$1" ;;
   esac
@@ -75,6 +78,7 @@ tmux set-option -t "$NEW" status-interval 3 >/dev/null
 tmux rename-window -t "$NEW" team
 tmux new-window -d -t "$NEW" -n active "/usr/bin/python3 '$T/dashboard_active.py'"
 tmux new-window -d -t "$NEW" -n experiment "/usr/bin/python3 '$T/dashboard_experiment.py'"
+tmux new-window -d -t "$NEW" -n mathlab "/usr/bin/python3 '$T/dashboard_mathlab.py'"
 tmux new-window -d -t "$NEW" -n helpers "/usr/bin/python3 '$T/dashboard_subagents.py' manager"   # opens/closes a tab per running helper agent
 tmux set-option -t "$NEW" window-status-format "#[fg=colour250] #I #W " >/dev/null
 tmux set-option -t "$NEW" window-status-current-format "#[bg=colour214,fg=colour16,bold] #I #W " >/dev/null
