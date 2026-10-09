@@ -21,7 +21,7 @@ SOURCE_PINS = {
     'docs/C10Y_DIRECTDW_PREREG.md': '005391a39e31d8174419de3e39078a42209ded1b7ab8caaf098d5d8a4f755004',
     'experiments/track_c/c10y_directdw_arms.py': 'ead3cef2266a7c81035e5acb6c3a97b42f83da556ba093a9fd28ec403f7e158c',
     'experiments/track_c/c10e_bandknob.py': '1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695',
-    'experiments/track_c/c10z_astra_benchmark.py': '9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a',
+    'experiments/track_c/c10z_astra_benchmark.py': '3703d8b9c363bb06eab0ca66f38f4b01114363ae75a9d0397701e75aa2520041',
     'configs/hparams/qwen25_3b_memit_hparams.json': '4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4',
     'configs/screens/g6_screen_qwen3b_v2.json': '482c05f8f33c59d3e469566fe6f3c48eb183d3cb2fbb791f31dcad7102517c5c',
     'memit_dry_run/memit/memit/compute_z.py': 'd94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea',

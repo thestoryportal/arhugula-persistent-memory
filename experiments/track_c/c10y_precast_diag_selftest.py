@@ -258,6 +258,31 @@ class Contracts(unittest.TestCase):
         (self.root/'docs').mkdir();(self.root/'docs/C10Y_PRECAST_DIAG_SCOPE.md').write_text('drift')
         with self.assertRaisesRegex(A.Halt,'SCOPE'): D.verify_scope(self.root)
 
+    def test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift(self):
+        rel='experiments/track_c/c10z_astra_benchmark.py'
+        committed=(W/rel).read_bytes()
+        self.assertEqual(hashlib.sha256(committed).hexdigest(),'3703d8b9c363bb06eab0ca66f38f4b01114363ae75a9d0397701e75aa2520041')
+        old=committed.replace(b'    import c10z_astra_read as R\n    R.require_a1_freeze(ROOT)\n',b'',1)
+        self.assertEqual(hashlib.sha256(old).hexdigest(),'9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a')
+        sources=D.source_identity(W)
+        cases=(('committed',committed,True),('previous',old,False),
+               ('newline',committed+b'\n',False),('changed_byte',b'!'+committed[1:],False),('empty',b'',False))
+        for name,payload,accepted in cases:
+            with self.subTest(benchmark=name):
+                root=self.root/name;out=root/'out';out.mkdir(parents=True)
+                for source in sources:
+                    dest=root/source;dest.parent.mkdir(parents=True,exist_ok=True)
+                    dest.write_bytes((W/source).read_bytes())
+                (root/rel).write_bytes(payload)
+                with mock.patch.object(D,'ROOT',root), mock.patch.dict(os.environ,{},clear=True), \
+                     mock.patch.object(D,'input_manifest',side_effect=A.Halt('PIN-TEST-BOUNDARY','CPU stop before model inputs')):
+                    self.assertEqual(D.worker(out),2)
+                halt=A.strict_load(out/'worker_halt.json')
+                self.assertEqual(halt['code'],'PIN-TEST-BOUNDARY' if accepted else 'SOURCE-IDENTITY')
+                self.assertIs(A.strict_load(out/'source_identity_outcome.json')['passed'],accepted)
+                self.assertEqual(A.strict_load(out/'source_identity.json')['observed'][rel],hashlib.sha256(payload).hexdigest())
+                self.assertFalse((out/'phase_model_load_started.json').exists())
+
     def test_fresh_namespace_existing_directory_and_symlink_refused(self):
         (self.root/'results').mkdir()
         out=D.claim_namespace(self.root,'20261009T000000Z',123)

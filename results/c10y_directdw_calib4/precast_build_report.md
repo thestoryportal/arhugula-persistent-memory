@@ -3507,3 +3507,575 @@ ISOLATION OTHER OBSERVED UNATTRIBUTED: ["results/mathlab_staging/runs/m2_2026100
 SYS_MODULES_FORBIDDEN: []
 C10Y_DIRECTDW_SELFTEST PASS — CPU ONLY; LIVE LAW#3/LAW#5 UNVERIFIED
 ```
+
+
+## Repin — 2026-10-09
+
+Recorded 2026-10-09T20:42:47.988845+00:00 by Codex Y3 for **D-C10y-precast**. **PRECAST REPIN DONE — CPU verification only; production diagnostic NOT-RUN.** This fulfills Astra r2's ADVISORY single-entry repin conditions and the pending repin condition in Astra r3. It supersedes the historical “repin pending” statements above without changing their bytes. No GPU/MPS, model load, production launch, or commit was performed by this builder. This is instrument identity maintenance for the C10 write-engine diagnostic; F1 and calibration-4 dispositions are unchanged.
+
+### Committed benchmark identity
+
+The ASTRA A1 review is `results/c10z_astra_attempt4_prep/a1_astra_r2.md` (**FREEZE+GO**). Its reviewed A1 implementation was committed as **`0ef326e5229ac449664da89ff4984603e1b2378d`** (`D-C10z-a1pop: §12 Amendment A1-POPULATION FROZEN`). The acceptance reviews read in full were `precast_impl_astra_r2.md` and `precast_impl_astra_r3.md`; the Fix round 1/2 narratives and preservation audits above were read before changing the pin.
+
+| Benchmark source | SHA-256 | Byte check |
+|---|---|---|
+| `git show 93080f5:experiments/track_c/c10z_astra_benchmark.py` | `9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a` | Historical bytes matching the prior pin |
+| `git show 0ef326e:experiments/track_c/c10z_astra_benchmark.py` | `3703d8b9c363bb06eab0ca66f38f4b01114363ae75a9d0397701e75aa2520041` | Committed A1 bytes |
+| Working `experiments/track_c/c10z_astra_benchmark.py` | `3703d8b9c363bb06eab0ca66f38f4b01114363ae75a9d0397701e75aa2520041` | **Entire byte sequence equals the 0ef326e file** |
+
+The old commit is `93080f50ff36e4b73a8d01cb96d5e1558dc3a754`. The old-to-new whole-file change is the two A1 freeze-check lines in benchmark `main()`; its `TEMPLATES` assignment remains at lines 34–40. No benchmark bytes were edited in this task. The committed snapshots are retained as `old_benchmark.py` and `committed_benchmark.py` in the scratch evidence directory below.
+
+### TEMPLATES and calibration proofs
+
+The audit compares the exact UTF-8 source slice from each `TEMPLATES` assignment's AST start/end byte offsets, the complete assignment AST with source attributes excluded, and `ast.literal_eval(assign.value)`. All comparisons are between the two committed files, with the working file independently proven byte-identical to the new one.
+
+| Required proof | Old | New | Result |
+|---|---|---|---|
+| Definition bytes | 315 bytes, SHA `8c0c374cd28314c8cb0e3e71279886d6dc821111bcfa5dafdcc913ef438346c9` | Same 315 bytes and SHA | **Byte equality TRUE** |
+| Definition AST | `ast.dump(assign, include_attributes=False)` | Same dump | **AST equality TRUE** |
+| Literal value | Six-string tuple | Same tuple | **Literal-value equality TRUE** |
+| Flat context digest | `d6c7c70026dced37bddc6adf316a3487d70227dae80a6e0ed5cdabe50caedfa0` | Same digest | **PRESERVED** |
+| Engine context digest | `c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da` | Same digest | **PRESERVED** |
+| Calibration context value | `context_templates_calib.json` | `[[flat[0]], list(flat[1:])]` and actual `A.pinned_templates()` | **Equality TRUE** |
+| Calibration context file SHA / diagnostic `CONTEXT_SHA` | `9472b663a34cfd9c0bb5448087ae0c2c333b1988b70f211fb2d90baaf8b560b7` | Same file and constant | **PRESERVED** |
+
+Flat digest encoding is `json.dumps(list(flat), allow_nan=False, sort_keys=True, separators=(',', ':')).encode()`; engine context encoding is `json.dumps([[flat[0]], list(flat[1:])]).encode()`. The actual C10Y template consumer passes its unchanged digest checks on the committed new benchmark. Calibration file: `results/c10y_directdw_calib4/context_templates_calib.json`.
+
+### Single-entry and protected-source preservation
+
+The audit compares the full current diagnostic bytes against the `93080f5` bytes with exactly one replacement of the benchmark SOURCE_PINS line. **They are identical after that single replacement.** Thus all other diagnostic bytes—including `source_identity`, setup `SOURCE-IDENTITY`, end-of-worker `SOURCE-DRIFT`, input-manifest checks, scope/context constants, and the 2,820-second cap—remain untouched. The SOURCE_PINS key set is unchanged; **exactly one of 13 entries changed; all 13 now match working files.**
+
+| Other SOURCE_PINS entry | Unchanged SHA-256 |
+|---|---|
+| `configs/hparams/qwen25_3b_memit_hparams.json` | `4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4` |
+| `configs/screens/g6_screen_qwen3b_v2.json` | `482c05f8f33c59d3e469566fe6f3c48eb183d3cb2fbb791f31dcad7102517c5c` |
+| `docs/C10Y_DIRECTDW_PREREG.md` | `005391a39e31d8174419de3e39078a42209ded1b7ab8caaf098d5d8a4f755004` |
+| `docs/C10Y_PRECAST_DIAG_SCOPE.md` | `097c662803a94a897dd588c9e1f09c6af7b17a25019c1439ea39844c65f0a9a8` |
+| `experiments/track_c/c10e_bandknob.py` | `1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695` |
+| `experiments/track_c/c10y_directdw_arms.py` | `ead3cef2266a7c81035e5acb6c3a97b42f83da556ba093a9fd28ec403f7e158c` |
+| `memit_dry_run/memit/memit/compute_ks.py` | `0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7` |
+| `memit_dry_run/memit/memit/compute_z.py` | `d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea` |
+| `memit_dry_run/memit/memit/memit_main.py` | `d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65` |
+| `memit_dry_run/memit/rome/repr_tools.py` | `d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336` |
+| `tools/c10w_p2_gate.py` | `fb6568a6e159e84b22971aa893c3a83bcaaa16085f4abd9c76ca50b4a3362a26` |
+| `tools/engine_fingerprint.py` | `450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162` |
+
+The **187-file protected snapshot matches in full, zero drift**. It includes all source-identity files except the edited diagnostic, engine `.py`/`.yml`/`.json` sources, existing `CORPUS/*.md`, existing calibration-4 files except this report, the existing C10Y selftest, and the A1 acceptance review. Full inventories are in `before.json`; checks are in `after.json`. The launcher, existing C10Y driver/selftest, frozen scope/prereg, calibration contexts/targets, reviews, and engine are unchanged.
+
+| Owned or adjacent file | Before SHA-256 | After SHA-256 |
+|---|---|---|
+| `experiments/track_c/c10y_precast_diag.py` | `520939b5c49376d5ebfa7c219d905e617881851d6c569071eee3523d0fa91ee9` | `b593a04008d2e461485fe0af67b3694406ff9129472d5ab7cb416f9fe60c83ec` |
+| `experiments/track_c/c10y_precast_diag_selftest.py` | `2f66f89e250013ee4d0cffb0627f93652a8dee2ab56c6d0385f999a4a1ad99a7` | `4f077d4168df6ed34bd4f62717f95df8008d1df7b305d9b9fa0f7fbf85eeff0b` |
+| `tools/run_c10y_precast_diag.sh` | `2f34a35aab954ae442d4e812208a1d0b5a79e072f590df119dc0ac7e44c34c37` | `2f34a35aab954ae442d4e812208a1d0b5a79e072f590df119dc0ac7e44c34c37` |
+
+Only `c10y_precast_diag.py`, `c10y_precast_diag_selftest.py`, and this append-only report are task edits. The report's prior **431,029-byte prefix** remains byte-identical, SHA-256 **`514276b58f006af0030210562cede96835609710a591d57888df91e2e3611d26`**. The checkout contains concurrent team work: initial HEAD sample was `000cf02697f82136d29fbaff8b7d5f559e655457`, the before snapshot sampled `c9cb1080aefa8362698e780d98762f7d7621c709`, and the post-test audit sampled `2483d11fb9d3a7a5d8f40cf69cc4cfcd85666432`; branch and worktree remained correct. No mutating Git operation was issued. No global clean-tree claim is made.
+
+### Test-first evidence and fresh CPU suites
+
+`Contracts.test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift` (`experiments/track_c/c10y_precast_diag_selftest.py:261`) was added **before** the pin edit. It clones real source-identity files into isolated CPU roots and runs the **actual diagnostic worker setup gate**, without changing its predicate. A model-input boundary stub stops after the source/environment gates, before model inputs or loading; live-tree writes, model imports, and accelerator operations remain refused by the existing suite guards.
+
+Five byte cases are covered: committed A1 bytes; exact prior 93080f5 bytes (reconstructed by removing the two A1 lines and independently verified against the old SHA); appended newline; changed first byte; and an empty benchmark. **RED:** one test method, five subcases, two expected failures—committed bytes were refused, while old bytes passed the source gate. The other three altered-byte cases refused. **GREEN:** the same unchanged test accepts only the committed bytes; all four other cases halt `SOURCE-IDENTITY` before model loading. Durable gate outcomes and observed hashes are checked. General whole-file hash refusal is retained; these controls exercise representative changed bytes rather than enumerating every possible file.
+
+| Run | Exit | Result | unittest runtime |
+|---|---:|---|---:|
+| Focused RED before repin | 1 | 2 expected subcase failures; 0 errors | 0.050 s |
+| Same focused GREEN after repin | 0 | 1/1 method, all 5 subcases PASS | 0.050 s |
+| Full diagnostic GREEN | 0 | **69/69 PASS**, 0 failures/errors/skips | **40.722 s** |
+| Existing C10Y GREEN | 0 | **285/285 PASS**, 0 failures/errors/skips | **31.246 s** |
+| Unchanged launcher `bash -n` | 0 | PASS | — |
+| Scoped `git diff --check` | 0 | PASS | — |
+
+Total distinct full-suite tests: **354/354**. Suites ran serially with `C10Y_ALLOWED_CHILD_TESTS=1`; **TMPDIR was explicitly `/private/tmp/c10y_build/precast_repin_20261009T203316Z/tmp`**, a real directory below `/private/tmp`, and not mktemp's symlinked `/var` default. `PYTHONPYCACHEPREFIX` points at fresh scratch space and `-B`/`PYTHONDONTWRITEBYTECODE=1` prevent stale workspace bytecode from supplying the observation. The diagnostic's inherited-SIG_IGN controls still refuse with rc=3 and zero namespace/timer/preparation activity.
+
+The existing C10Y suite reports `ISOLATION OWNED LISTING DRIFT: []` and `SYS_MODULES_FORBIDDEN: []`. Its UNVERIFIED JSON is a deliberate refusal fixture. Its unchanged CPU fixture at `c10y_directdw_selftest.py:3354` emitted the existing PyTorch warning about converting a tensor requiring gradients to a scalar; that test passed. It also observed concurrent, unattributed MathLab drift in these paths, which were neither edited nor reverted here:
+
+```text
+results/mathlab/harvest2_launch_20261009T203407Z.log
+results/mathlab/harvest_20261009T203705.724371Z/clean.pt
+results/mathlab/harvest_20261009T203705.724371Z
+results/mathlab_staging/runs/harvest_20261009T203702Z_6589/events.jsonl
+```
+
+Exact executed test commands, from the verified worktree:
+
+```sh
+/opt/homebrew/bin/rtk proxy env LLMDB_ROOT='/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a' C10Y_ALLOWED_CHILD_TESTS=1 TMPDIR=/private/tmp/c10y_build/precast_repin_20261009T203316Z/tmp PYTHONPYCACHEPREFIX=/private/tmp/c10y_build/precast_repin_20261009T203316Z/pycache PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 .venv/bin/python -B experiments/track_c/c10y_precast_diag_selftest.py Contracts.test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift > /private/tmp/c10y_build/precast_repin_20261009T203316Z/pin_RED.log 2>&1
+/opt/homebrew/bin/rtk proxy env LLMDB_ROOT='/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a' C10Y_ALLOWED_CHILD_TESTS=1 TMPDIR=/private/tmp/c10y_build/precast_repin_20261009T203316Z/tmp PYTHONPYCACHEPREFIX=/private/tmp/c10y_build/precast_repin_20261009T203316Z/pycache PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 .venv/bin/python -B experiments/track_c/c10y_precast_diag_selftest.py Contracts.test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift > /private/tmp/c10y_build/precast_repin_20261009T203316Z/pin_GREEN.log 2>&1
+/opt/homebrew/bin/rtk proxy env LLMDB_ROOT='/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a' C10Y_ALLOWED_CHILD_TESTS=1 TMPDIR=/private/tmp/c10y_build/precast_repin_20261009T203316Z/tmp PYTHONPYCACHEPREFIX=/private/tmp/c10y_build/precast_repin_20261009T203316Z/pycache PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 .venv/bin/python -B experiments/track_c/c10y_precast_diag_selftest.py > /private/tmp/c10y_build/precast_repin_20261009T203316Z/precast_full_GREEN.log 2>&1
+/opt/homebrew/bin/rtk proxy env LLMDB_ROOT='/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a' C10Y_ALLOWED_CHILD_TESTS=1 TMPDIR=/private/tmp/c10y_build/precast_repin_20261009T203316Z/tmp PYTHONPYCACHEPREFIX=/private/tmp/c10y_build/precast_repin_20261009T203316Z/pycache PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 .venv/bin/python -B experiments/track_c/c10y_directdw_selftest.py > /private/tmp/c10y_build/precast_repin_20261009T203316Z/c10y_full_GREEN.log 2>&1
+/opt/homebrew/bin/rtk proxy bash -n tools/run_c10y_precast_diag.sh
+/opt/homebrew/bin/rtk proxy git diff --check -- experiments/track_c/c10y_precast_diag.py experiments/track_c/c10y_precast_diag_selftest.py results/c10y_directdw_calib4/precast_build_report.md
+```
+
+Model-free audit command (run once with `before`, then with `after`; after is rerun after report publication):
+
+```sh
+/opt/homebrew/bin/rtk proxy env LLMDB_ROOT='/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a' TMPDIR=/private/tmp/c10y_build/precast_repin_20261009T203316Z/tmp PYTHONPYCACHEPREFIX=/private/tmp/c10y_build/precast_repin_20261009T203316Z/pycache PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B /private/tmp/c10y_build/precast_repin_20261009T203316Z/audit_repin.py after
+```
+
+The audit asserts commit-byte equality, all template/context proofs, exact one-line replacement, all other pins, protected hashes, and report-prefix preservation; its fresh import confirms no `torch`, `transformers`, `datasets`, or `c10e_bandknob` loaded. **No live diagnostic namespace exists.** Production GPU/source/fingerprint checks were not run or bypassed. Runtime observer inertness, MPS arithmetic equivalence, and real 2,820-second feasibility remain **UNVERIFIED**. No new calibration, science result, or launch authorization is claimed.
+
+### Scoped session handoff
+
+**Done:** the single committed benchmark repin, non-vacuous RED/GREEN worker-gate controls, both requested CPU suites, immutable-prefix and 187-file preservation audit, and this dated report. **In flight:** none. **Owned paths:** `experiments/track_c/c10y_precast_diag.py`, `experiments/track_c/c10y_precast_diag_selftest.py`, `results/c10y_directdw_calib4/precast_build_report.md`. **Next:** MAESTRO can review this completed repin; no further builder work or launch was performed. **Open risks:** only the pre-existing live qualification/feasibility boundary above. Scratch evidence and the local context-save handoff are below `/private/tmp/c10y_build/precast_repin_20261009T203316Z`. No shared checkpoint, ledger, or memory file was authored.
+
+**BINDING context directive (operator, 2026-10-09): watch “Context N% left” for your session and every team session you orchestrate. Before it drops to approximately 20%, stop starting new work, write a handoff note into the task report (done, in flight, exact paths, next step, open risks), and notify the orchestrator so a fresh successor can start. Never approach full-window compaction. Every handoff note must restate this rule so it survives all handoffs.**
+
+### Raw CPU evidence archive
+
+The single trailing ASCII space in the embedded RED header is displayed as `\x20`; raw log bytes and the SHA-256 inventory below remain unchanged.
+
+Raw files are retained below `/private/tmp/c10y_build/precast_repin_20261009T203316Z` and embedded below; temporary retention is not required to review them. `execution_records.json` records exact commands/exit codes; `audit_repin.py`, `before.json`, and `after.json` contain reproducible static proofs. `final_verification.json` records the report's final SHA separately to avoid a self-referential file hash.
+
+| Raw log | Bytes | SHA-256 |
+|---|---:|---|
+| `pin_RED.log` | 2224 | `5e7337a16fa45db0044cf6905bae6bfbfefe8de42e2b3701d0ee82b8ab047171` |
+| `pin_GREEN.log` | 259 | `71c3cf2fef8b2ad6c77a40e9f4a4dfa3796570737be3d499b74a2318fe87003f` |
+| `precast_full_GREEN.log` | 11123 | `a906f8e6d398106ec03add7910ca0933cbc0515c8860f1ddcc0679607d9ecf90` |
+| `c10y_full_GREEN.log` | 41428 | `c11459c628936bf4190bc844790b296ba1778f0b33348d5108dc7499ff2f8c0a` |
+
+<details>
+<summary>pin_RED.log</summary>
+
+```text
+test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift (__main__.Contracts.test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift) ...\x20
+  test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift (__main__.Contracts.test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift) (benchmark='committed') ... FAIL
+  test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift (__main__.Contracts.test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift) (benchmark='previous') ... FAIL
+
+======================================================================
+FAIL: test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift (__main__.Contracts.test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift) (benchmark='committed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_precast_diag_selftest.py", line 281, in test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift
+    self.assertEqual(halt['code'],'PIN-TEST-BOUNDARY' if accepted else 'SOURCE-IDENTITY')
+AssertionError: 'SOURCE-IDENTITY' != 'PIN-TEST-BOUNDARY'
+- SOURCE-IDENTITY
++ PIN-TEST-BOUNDARY
+
+
+======================================================================
+FAIL: test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift (__main__.Contracts.test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift) (benchmark='previous')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_precast_diag_selftest.py", line 281, in test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift
+    self.assertEqual(halt['code'],'PIN-TEST-BOUNDARY' if accepted else 'SOURCE-IDENTITY')
+AssertionError: 'PIN-TEST-BOUNDARY' != 'SOURCE-IDENTITY'
+- PIN-TEST-BOUNDARY
++ SOURCE-IDENTITY
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.050s
+
+FAILED (failures=2)
+```
+
+</details>
+
+<details>
+<summary>pin_GREEN.log</summary>
+
+```text
+test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift (__main__.Contracts.test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.050s
+
+OK
+```
+
+</details>
+
+<details>
+<summary>precast_full_GREEN.log</summary>
+
+```text
+test_48_targets_computed_once_saved_reloaded_and_shared_by_original_paths (__main__.Contracts.test_48_targets_computed_once_saved_reloaded_and_shared_by_original_paths) ... ok
+test_INCONCLUSIVE_precedes_every_other_reading (__main__.Contracts.test_INCONCLUSIVE_precedes_every_other_reading) ... ok
+test_R_requires_every_cell_and_A7_device_difference (__main__.Contracts.test_R_requires_every_cell_and_A7_device_difference) ... ok
+test_S_needs_direct_trace_evidence_and_K_never_emitted (__main__.Contracts.test_S_needs_direct_trace_evidence_and_K_never_emitted) ... ok
+test_actual_native_solve_inputs_are_fsynced_before_execution (__main__.Contracts.test_actual_native_solve_inputs_are_fsynced_before_execution) ... ok
+test_actual_representation_batch_padding_and_indices_captured_without_id_assumption (__main__.Contracts.test_actual_representation_batch_padding_and_indices_captured_without_id_assumption) ... ok
+test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift (__main__.Contracts.test_committed_benchmark_pin_accepts_exact_bytes_and_refuses_drift) ... ok
+test_completed_float64_direct_solution_survives_next_solve_failure (__main__.Contracts.test_completed_float64_direct_solution_survives_next_solve_failure) ... ok
+test_completed_native_CPU_product_survives_later_control_halt (__main__.Contracts.test_completed_native_CPU_product_survives_later_control_halt) ... ok
+test_device_product_observed_from_original_effective_weight (__main__.Contracts.test_device_product_observed_from_original_effective_weight) ... ok
+test_difference_metrics_and_weight_coordinate_columns (__main__.Contracts.test_difference_metrics_and_weight_coordinate_columns) ... ok
+test_exclusive_JSON_and_tensor_collision_have_no_sibling (__main__.Contracts.test_exclusive_JSON_and_tensor_collision_have_no_sibling) ... ok
+test_fail_closed_gpu_and_fingerprint_records_precede_loader (__main__.Contracts.test_fail_closed_gpu_and_fingerprint_records_precede_loader) ... ok
+test_finalizer_incomplete_worker_cannot_publish_R (__main__.Contracts.test_finalizer_incomplete_worker_cannot_publish_R) ... ok
+test_finalizer_malformed_worker_preserves_exception_and_inconclusive (__main__.Contracts.test_finalizer_malformed_worker_preserves_exception_and_inconclusive) ... ok
+test_finalizer_overwrite_refusal_keeps_terminal_bytes (__main__.Contracts.test_finalizer_overwrite_refusal_keeps_terminal_bytes) ... ok
+test_finalizer_rejects_completed_claim_with_incomplete_phases (__main__.Contracts.test_finalizer_rejects_completed_claim_with_incomplete_phases) ... ok
+test_float64_realization_cannot_demote_to_float32 (__main__.Contracts.test_float64_realization_cannot_demote_to_float32) ... ok
+test_float64_realization_casts_on_CPU_before_device_transfer (__main__.Contracts.test_float64_realization_casts_on_CPU_before_device_transfer) ... ok
+test_float64_solve_and_promoted_product_are_distinct (__main__.Contracts.test_float64_solve_and_promoted_product_are_distinct) ... ok
+test_forced_native_halt_preserves_capture_and_cleans_weights_globals (__main__.Contracts.test_forced_native_halt_preserves_capture_and_cleans_weights_globals) ... ok
+test_fresh_import_is_model_and_torch_free (__main__.Contracts.test_fresh_import_is_model_and_torch_free) ... ok
+test_fresh_namespace_existing_directory_and_symlink_refused (__main__.Contracts.test_fresh_namespace_existing_directory_and_symlink_refused) ... ok
+test_full_weight_coordinate_quantiles_exceed_torch_limit (__main__.Contracts.test_full_weight_coordinate_quantiles_exceed_torch_limit) ... ok
+test_gate_inputs_fsynced_and_reloaded_before_predicate (__main__.Contracts.test_gate_inputs_fsynced_and_reloaded_before_predicate) ... ok
+test_genuine_native_operand_discrepancy_remains_valid_S_evidence (__main__.Contracts.test_genuine_native_operand_discrepancy_remains_valid_S_evidence) ... ok
+test_inherited_ignored_HUP_refused_before_owned_children (__main__.Contracts.test_inherited_ignored_HUP_refused_before_owned_children) ... ok
+test_inherited_ignored_INT_refused_before_owned_children (__main__.Contracts.test_inherited_ignored_INT_refused_before_owned_children) ... ok
+test_inherited_ignored_TERM_refused_before_owned_children (__main__.Contracts.test_inherited_ignored_TERM_refused_before_owned_children) ... ok
+test_interrupted_publication_preserves_prior_bytes_and_is_fresh_INCONCLUSIVE (__main__.Contracts.test_interrupted_publication_preserves_prior_bytes_and_is_fresh_INCONCLUSIVE) ... ok
+test_interrupted_serialization_is_incomplete_and_retains_previous_values (__main__.Contracts.test_interrupted_serialization_is_incomplete_and_retains_previous_values) ... ok
+test_malformed_classification_capture_is_INCONCLUSIVE (__main__.Contracts.test_malformed_classification_capture_is_INCONCLUSIVE) ... ok
+test_missing_capture_refuses_instead_of_reimplementing (__main__.Contracts.test_missing_capture_refuses_instead_of_reimplementing) ... ok
+test_missing_reference_Q_retains_available_operands_before_coverage_halt (__main__.Contracts.test_missing_reference_Q_retains_available_operands_before_coverage_halt) ... ok
+test_native_direct_solve_failure_retains_inputs_and_original_exception (__main__.Contracts.test_native_direct_solve_failure_retains_inputs_and_original_exception) ... ok
+test_native_direct_update_included_in_all_pair_measurements (__main__.Contracts.test_native_direct_update_included_in_all_pair_measurements) ... ok
+test_native_factor_actual_matrix_and_Q_are_compared (__main__.Contracts.test_native_factor_actual_matrix_and_Q_are_compared) ... ok
+test_native_factor_solve_failure_retains_inputs_and_original_exception (__main__.Contracts.test_native_factor_solve_failure_retains_inputs_and_original_exception) ... ok
+test_native_missing_factor_Q_is_inconclusive_capture_failure (__main__.Contracts.test_native_missing_factor_Q_is_inconclusive_capture_failure) ... ok
+test_nonfinite_operand_persisted_before_halt (__main__.Contracts.test_nonfinite_operand_persisted_before_halt) ... ok
+test_observer_direct_M_mutation_at_return_invalidates_evidence (__main__.Contracts.test_observer_direct_M_mutation_at_return_invalidates_evidence) ... ok
+test_observer_factor_Q_copy_mutation_invalidates_evidence (__main__.Contracts.test_observer_factor_Q_copy_mutation_invalidates_evidence) ... ok
+test_observer_off_failure_retains_prior_native_input_capture (__main__.Contracts.test_observer_off_failure_retains_prior_native_input_capture) ... ok
+test_observer_original_code_coverage_off_on_and_native_operands (__main__.Contracts.test_observer_original_code_coverage_off_on_and_native_operands) ... ok
+test_observer_tensor_inertness_catches_discarded_cur_mutation (__main__.Contracts.test_observer_tensor_inertness_catches_discarded_cur_mutation) ... ok
+test_packet_tamper_refused_before_downstream_consumption (__main__.Contracts.test_packet_tamper_refused_before_downstream_consumption) ... ok
+test_phase_failure_publication_preserves_original_exception (__main__.Contracts.test_phase_failure_publication_preserves_original_exception) ... ok
+test_real_shell_existing_namespace_refused_without_finalizer (__main__.Contracts.test_real_shell_existing_namespace_refused_without_finalizer) ... ok
+test_real_shell_finalizer_abnormal_exit_has_fresh_INCONCLUSIVE_diagnostic (__main__.Contracts.test_real_shell_finalizer_abnormal_exit_has_fresh_INCONCLUSIVE_diagnostic) ... ok
+test_real_shell_finalizer_timeout_has_fresh_supervisor_diagnostic (__main__.Contracts.test_real_shell_finalizer_timeout_has_fresh_supervisor_diagnostic) ... ok
+test_real_shell_interrupted_publisher_timeout_remains_armed_and_is_diagnosed (__main__.Contracts.test_real_shell_interrupted_publisher_timeout_remains_armed_and_is_diagnosed) ... ok
+test_real_shell_owned_process_group_is_stopped_after_leader_exit (__main__.Contracts.test_real_shell_owned_process_group_is_stopped_after_leader_exit) ... ok
+test_real_shell_supervisor_HUP_cleans_owned_worker_and_publishes_INCONCLUSIVE (__main__.Contracts.test_real_shell_supervisor_HUP_cleans_owned_worker_and_publishes_INCONCLUSIVE) ... ok
+test_real_shell_supervisor_INT_cleans_owned_worker_and_publishes_INCONCLUSIVE (__main__.Contracts.test_real_shell_supervisor_INT_cleans_owned_worker_and_publishes_INCONCLUSIVE) ... ok
+test_real_shell_supervisor_TERM_cleans_owned_worker_and_publishes_INCONCLUSIVE (__main__.Contracts.test_real_shell_supervisor_TERM_cleans_owned_worker_and_publishes_INCONCLUSIVE) ... ok
+test_real_shell_supervisor_abnormal_exit_cleans_owned_worker_and_publishes_INCONCLUSIVE (__main__.Contracts.test_real_shell_supervisor_abnormal_exit_cleans_owned_worker_and_publishes_INCONCLUSIVE) ... ok
+test_real_shell_supervisor_hanging_stub_preserves_timeout_and_kills_worker (__main__.Contracts.test_real_shell_supervisor_hanging_stub_preserves_timeout_and_kills_worker) ... ok
+test_real_shell_supervisor_setup_timeout_retains_owned_namespace_diagnostic (__main__.Contracts.test_real_shell_supervisor_setup_timeout_retains_owned_namespace_diagnostic) ... ok
+test_real_shell_supervisor_worker_exit_before_start_is_diagnosed (__main__.Contracts.test_real_shell_supervisor_worker_exit_before_start_is_diagnosed) ... ok
+test_real_shell_worker_log_collision_refused_without_overwrite (__main__.Contracts.test_real_shell_worker_log_collision_refused_without_overwrite) ... ok
+test_realized_native_saved_factors_drive_R_predicate (__main__.Contracts.test_realized_native_saved_factors_drive_R_predicate) ... ok
+test_repeat_factor_compared_to_original_native_solution (__main__.Contracts.test_repeat_factor_compared_to_original_native_solution) ... ok
+test_restores_optional_recorder_and_preexisting_hook_on_halt (__main__.Contracts.test_restores_optional_recorder_and_preexisting_hook_on_halt) ... ok
+test_scope_SHA_drift_refused (__main__.Contracts.test_scope_SHA_drift_refused) ... ok
+test_supervisor_timeout_overrides_worker_success_and_preserves_commits (__main__.Contracts.test_supervisor_timeout_overrides_worker_success_and_preserves_commits) ... ok
+test_target_failure_retains_completed_prefix_and_NOT_RUN_arm (__main__.Contracts.test_target_failure_retains_completed_prefix_and_NOT_RUN_arm) ... ok
+test_target_mutation_halt_retains_offending_value_and_restores_weights (__main__.Contracts.test_target_mutation_halt_retains_offending_value_and_restores_weights) ... ok
+test_timeout_publication_preserves_previous_bytes_and_has_terminal_INCONCLUSIVE (__main__.Contracts.test_timeout_publication_preserves_previous_bytes_and_has_terminal_INCONCLUSIVE) ... ok
+test_valid_complete_phases_publish_threshold_free_R (__main__.Contracts.test_valid_complete_phases_publish_threshold_free_R) ... ok
+
+----------------------------------------------------------------------
+Ran 69 tests in 40.722s
+
+OK
+INHERITED_SIG_IGN HUP rc=3 namespace=False timer=False prepare=False
+INCONCLUSIVE: SIGNAL-TRAP-UNAVAILABLE HUP; phases NOT-RUN; no owned child launched.
+INHERITED_SIG_IGN INT rc=3 namespace=False timer=False prepare=False
+INCONCLUSIVE: SIGNAL-TRAP-UNAVAILABLE INT; phases NOT-RUN; no owned child launched.
+INHERITED_SIG_IGN TERM rc=3 namespace=False timer=False prepare=False
+INCONCLUSIVE: SIGNAL-TRAP-UNAVAILABLE TERM; phases NOT-RUN; no owned child launched.
+```
+
+</details>
+
+<details>
+<summary>c10y_full_GREEN.log</summary>
+
+```text
+test_observed_scorer_rejects_any_added_forward_keyword (__main__.AttentionMaskTests.test_observed_scorer_rejects_any_added_forward_keyword) ... ok
+test_owned_forwards_preserve_original_mask_contract (__main__.AttentionMaskTests.test_owned_forwards_preserve_original_mask_contract) ... ok
+test_padded_objective_and_lens_preserve_tokenizer_attention_mask (__main__.AttentionMaskTests.test_padded_objective_and_lens_preserve_tokenizer_attention_mask) ... ok
+test_single_sequence_decode_and_observed_scorer_do_not_inject_mask (__main__.AttentionMaskTests.test_single_sequence_decode_and_observed_scorer_do_not_inject_mask) ... ok
+test_admitted_main_calibration_handoff_failure_has_no_success_run (__main__.CalibrationErrorTests.test_admitted_main_calibration_handoff_failure_has_no_success_run) ... ok
+test_calibration_context_failure_is_not_prefix_phase (__main__.CalibrationErrorTests.test_calibration_context_failure_is_not_prefix_phase) ... ok
+test_calibration_publication_error_surfaces_phase (__main__.CalibrationErrorTests.test_calibration_publication_error_surfaces_phase) ... ok
+test_calibration_valueerror_and_halt_trace_phase_persist (__main__.CalibrationErrorTests.test_calibration_valueerror_and_halt_trace_phase_persist) ... ok
+test_main_unadmitted_preflight_error_has_trace_and_phase_without_writes (__main__.CalibrationErrorTests.test_main_unadmitted_preflight_error_has_trace_and_phase_without_writes) ... ok
+test_nested_phase_retains_failure_and_restores_success_parent (__main__.CalibrationErrorTests.test_nested_phase_retains_failure_and_restores_success_parent) ... ok
+test_nonzero_child_exit_overrides_prepublished_success_authority (__main__.CalibrationErrorTests.test_nonzero_child_exit_overrides_prepublished_success_authority) ... ok
+test_nonzero_child_retains_budget_halt_precedence (__main__.CalibrationErrorTests.test_nonzero_child_retains_budget_halt_precedence) ... ok
+test_primary_error_phase_survives_cleanup_failure (__main__.CalibrationErrorTests.test_primary_error_phase_survives_cleanup_failure) ... ok
+test_primary_law3_halt_survives_cleanup_and_latches_schedule (__main__.CalibrationErrorTests.test_primary_law3_halt_survives_cleanup_and_latches_schedule) ... ok
+test_pristine_probe_canonical_and_three_heldout_real_representation_pair (__main__.CalibrationErrorTests.test_pristine_probe_canonical_and_three_heldout_real_representation_pair) ... ok
+test_remaining_readout_canonical_and_three_heldout_real_pair (__main__.CalibrationErrorTests.test_remaining_readout_canonical_and_three_heldout_real_pair) ... ok
+test_stage_valueerror_and_halt_trace_phase_persist (__main__.CalibrationErrorTests.test_stage_valueerror_and_halt_trace_phase_persist) ... ok
+test_supervisor_preserves_worker_original_trace_and_outcome (__main__.CalibrationErrorTests.test_supervisor_preserves_worker_original_trace_and_outcome) ... ok
+test_supervisor_worker_exit_before_handoff_is_diagnosed (__main__.CalibrationErrorTests.test_supervisor_worker_exit_before_handoff_is_diagnosed) ... ok
+test_t8_admitted_validation_failures_emit_trace_and_invalid (__main__.CalibrationErrorTests.test_t8_admitted_validation_failures_emit_trace_and_invalid) ... ok
+test_telemetry_halt_and_instrument_error_trace_phase (__main__.CalibrationErrorTests.test_telemetry_halt_and_instrument_error_trace_phase) ... ok
+test_all_three_targets_and_baseline_arm_timings_required (__main__.CalibrationForecastContractTests.test_all_three_targets_and_baseline_arm_timings_required) ... ok
+test_bad_bound_records_return_unverified (__main__.CalibrationForecastContractTests.test_bad_bound_records_return_unverified) ... ok
+test_calibration_schema_and_c5_completeness (__main__.CalibrationForecastContractTests.test_calibration_schema_and_c5_completeness) ... ok
+test_cap_types_stage1_limit_and_later_stage_spend (__main__.CalibrationForecastContractTests.test_cap_types_stage1_limit_and_later_stage_spend) ... ok
+test_each_phase_rejects_wrong_measured_mapping (__main__.CalibrationForecastContractTests.test_each_phase_rejects_wrong_measured_mapping) ... ok
+test_full_c3_measured_map_and_every_repetition (__main__.CalibrationForecastContractTests.test_full_c3_measured_map_and_every_repetition) ... ok
+test_independent_bound_requires_explicit_justification (__main__.CalibrationForecastContractTests.test_independent_bound_requires_explicit_justification) ... ok
+test_input_identity_drift_and_padded_max_are_invalid (__main__.CalibrationForecastContractTests.test_input_identity_drift_and_padded_max_are_invalid) ... ok
+test_merge_uses_larger_of_two_timed_merges (__main__.CalibrationForecastContractTests.test_merge_uses_larger_of_two_timed_merges) ... ok
+test_missing_c3_unit_is_not_complete_support (__main__.CalibrationForecastContractTests.test_missing_c3_unit_is_not_complete_support) ... ok
+test_noncalibration_measured_flag_cannot_replace_supported_bound (__main__.CalibrationForecastContractTests.test_noncalibration_measured_flag_cannot_replace_supported_bound) ... ok
+test_optimisation_comparable_shape_and_iteration_flags (__main__.CalibrationForecastContractTests.test_optimisation_comparable_shape_and_iteration_flags) ... ok
+test_optimisation_full_105_attempt_stage_workload (__main__.CalibrationForecastContractTests.test_optimisation_full_105_attempt_stage_workload) ... ok
+test_optimisation_requires_three_accepted_rows_in_each_check (__main__.CalibrationForecastContractTests.test_optimisation_requires_three_accepted_rows_in_each_check) ... ok
+test_optimisation_uses_slowest_iteration_not_mean (__main__.CalibrationForecastContractTests.test_optimisation_uses_slowest_iteration_not_mean) ... ok
+test_original_my_edit_requires_two_distinct_repetitions (__main__.CalibrationForecastContractTests.test_original_my_edit_requires_two_distinct_repetitions) ... ok
+test_overflow_attempt_is_cited_in_addition_to_six_accepted_rows (__main__.CalibrationForecastContractTests.test_overflow_attempt_is_cited_in_addition_to_six_accepted_rows) ... ok
+test_prestart_gate_rechecks_schema_and_staleness (__main__.CalibrationForecastContractTests.test_prestart_gate_rechecks_schema_and_staleness) ... ok
+test_prestart_gate_rejects_forged_or_omitted_measurement (__main__.CalibrationForecastContractTests.test_prestart_gate_rejects_forged_or_omitted_measurement) ... ok
+test_raw_seconds_sync_status_and_workload_are_typed (__main__.CalibrationForecastContractTests.test_raw_seconds_sync_status_and_workload_are_typed) ... ok
+test_readout_1380_reserve_and_larger_measured_bound (__main__.CalibrationForecastContractTests.test_readout_1380_reserve_and_larger_measured_bound) ... ok
+test_calibration_forecast_rejects_partial_and_stale (__main__.CalibrationTests.test_calibration_forecast_rejects_partial_and_stale) ... ok
+test_calibration_forecast_uses_all_repetitions_no_memory_or_inputs (__main__.CalibrationTests.test_calibration_forecast_uses_all_repetitions_no_memory_or_inputs) ... ok
+test_calibration_go_spend_caps (__main__.CalibrationTests.test_calibration_go_spend_caps) ... ok
+test_calibration_prefix_only_and_required_records (__main__.CalibrationTests.test_calibration_prefix_only_and_required_records) ... ok
+test_calibration_reader_and_context_source_refused (__main__.CalibrationTests.test_calibration_reader_and_context_source_refused) ... ok
+test_calibration_telemetry_variables_and_existing_directory_refused (__main__.CalibrationTests.test_calibration_telemetry_variables_and_existing_directory_refused) ... ok
+test_calibration_v4_halt_persists_schedule (__main__.CalibrationTests.test_calibration_v4_halt_persists_schedule) ... ok
+test_calibration_wrong_namespace_refused (__main__.CalibrationTests.test_calibration_wrong_namespace_refused) ... ok
+test_frozen_bytes_suite_end (__main__.CalibrationTests.test_frozen_bytes_suite_end) ... ok
+test_ast_rejects_keyword_positional_and_mixed_combined_transfers (__main__.DeviceConversionTests.test_ast_rejects_keyword_positional_and_mixed_combined_transfers) ... ok
+test_cpu64_copies_offset_view_before_dtype_cast (__main__.DeviceConversionTests.test_cpu64_copies_offset_view_before_dtype_cast) ... ok
+test_no_combined_device_dtype_transfer_in_owned_runtime (__main__.DeviceConversionTests.test_no_combined_device_dtype_transfer_in_owned_runtime) ... ok
+test_reachable_helpers_only_combine_recorded_cpu_solve_transfer (__main__.DeviceConversionTests.test_reachable_helpers_only_combine_recorded_cpu_solve_transfer) ... ok
+test_stored_weight_aligns_device_before_scale_and_fp16_add (__main__.DeviceConversionTests.test_stored_weight_aligns_device_before_scale_and_fp16_add) ... ok
+test_to_like_transfers_before_casting_offset_view (__main__.DeviceConversionTests.test_to_like_transfers_before_casting_offset_view) ... ok
+test_calibration_callsite_persists_complete_timing_tags (__main__.FinalReviewRegressionTests.test_calibration_callsite_persists_complete_timing_tags) ... ok
+test_complete_compile_accounting_drives_ttl_equality (__main__.FinalReviewRegressionTests.test_complete_compile_accounting_drives_ttl_equality) ... ok
+test_complete_compile_at_actual_scientific_hook_boundary (__main__.FinalReviewRegressionTests.test_complete_compile_at_actual_scientific_hook_boundary) ... ok
+test_each_telemetry_method_preserves_every_state_and_A_grad (__main__.FinalReviewRegressionTests.test_each_telemetry_method_preserves_every_state_and_A_grad) ... ok
+test_forecast_aware_first_expensive_action_is_not_entered (__main__.FinalReviewRegressionTests.test_forecast_aware_first_expensive_action_is_not_entered) ... ok
+test_live_objective_graph_guard_precedes_backward_and_adam (__main__.FinalReviewRegressionTests.test_live_objective_graph_guard_precedes_backward_and_adam) ... /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_selftest.py:3354: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  self.assertEqual(opt.state,{});self.assertIsNone(p.grad);self.assertEqual(float(p[0]),1.)
+ok
+test_merged_fit_reduces_vocabulary_on_cpu_float64 (__main__.FinalReviewRegressionTests.test_merged_fit_reduces_vocabulary_on_cpu_float64) ... ok
+test_off_scorer_is_original_during_actual_recipe_call (__main__.FinalReviewRegressionTests.test_off_scorer_is_original_during_actual_recipe_call) ... ok
+test_phase_markers_cover_units_without_changing_operational_calls (__main__.FinalReviewRegressionTests.test_phase_markers_cover_units_without_changing_operational_calls) ... ok
+test_premerge_parity_cannot_spend_postmerge_reserve (__main__.FinalReviewRegressionTests.test_premerge_parity_cannot_spend_postmerge_reserve) ... ok
+test_real_writer_durable_merge_precedes_postmerge_readout (__main__.FinalReviewRegressionTests.test_real_writer_durable_merge_precedes_postmerge_readout) ... ok
+test_real_writer_per_write_line_formula (__main__.FinalReviewRegressionTests.test_real_writer_per_write_line_formula) ... ok
+test_recorded_contexts_never_sample_even_after_seeding (__main__.FinalReviewRegressionTests.test_recorded_contexts_never_sample_even_after_seeding) ... ok
+test_actual_launcher_refuses_missing_calibration_before_import (__main__.IntegrationTests.test_actual_launcher_refuses_missing_calibration_before_import) ... ok
+test_candidate_operations_require_baseline (__main__.IntegrationTests.test_candidate_operations_require_baseline) ... ok
+test_native_hanging_worker_deadline_before_and_after_write (__main__.IntegrationTests.test_native_hanging_worker_deadline_before_and_after_write) ... ok
+test_sequential_capture_matches_original (__main__.IntegrationTests.test_sequential_capture_matches_original) ... ok
+test_stage_runner_artifacts_feed_real_reader_and_halt_before_candidates (__main__.IntegrationTests.test_stage_runner_artifacts_feed_real_reader_and_halt_before_candidates) ... ok
+test_stored_control_scale1_identity (__main__.IntegrationTests.test_stored_control_scale1_identity) ... ok
+test_strict_json_and_immutable_records (__main__.IntegrationTests.test_strict_json_and_immutable_records) ... ok
+test_three_forced_zero_lr_iterations_and_telemetry_trajectory (__main__.IntegrationTests.test_three_forced_zero_lr_iterations_and_telemetry_trajectory) ... ok
+test_all_cases_use_base (__main__.IsolationTests.test_all_cases_use_base) ... ok
+test_live_write_positive_control (__main__.IsolationTests.test_live_write_positive_control) ... ok
+test_real_dispatch_denied_with_temp_environment (__main__.IsolationTests.test_real_dispatch_denied_with_temp_environment) ... ok
+test_relative_and_symlink_guard (__main__.IsolationTests.test_relative_and_symlink_guard) ... ok
+test_seed_uses_only_cpu_generator (__main__.IsolationTests.test_seed_uses_only_cpu_generator) ... ok
+test_selftest_root_refusal (__main__.IsolationTests.test_selftest_root_refusal) ... ok
+test_later_stage_cannot_consume_stage1_calibration_measurements (__main__.LaunchDeltaTests.test_later_stage_cannot_consume_stage1_calibration_measurements) ... ok
+test_nm_decimal_boundary_through_real_reader (__main__.LaunchDeltaTests.test_nm_decimal_boundary_through_real_reader) ... ok
+test_nm_decimal_boundary_through_scientific_hook (__main__.LaunchDeltaTests.test_nm_decimal_boundary_through_scientific_hook) ... ok
+test_norm_readouts_are_inside_writer_wall_clock (__main__.LaunchDeltaTests.test_norm_readouts_are_inside_writer_wall_clock) ... ok
+test_real_iteration_producer_passes_c2_timing_validator (__main__.LaunchDeltaTests.test_real_iteration_producer_passes_c2_timing_validator) ... ok
+test_stored_scale_sum_matches_reader_float64_sum (__main__.LaunchDeltaTests.test_stored_scale_sum_matches_reader_float64_sum) ... ok
+test_supervisor_timeout_records_observed_template_hash_without_child (__main__.LaunchDeltaTests.test_supervisor_timeout_records_observed_template_hash_without_child) ... ok
+test_t8_overlap_audit_precedes_first_forward_and_never_redraws (__main__.LaunchDeltaTests.test_t8_overlap_audit_precedes_first_forward_and_never_redraws) ... ok
+test_context_freeze_and_leakage (__main__.LaunchTests.test_context_freeze_and_leakage) ... ok
+test_direct_launch_shell_dependencies_are_executable_and_git_100755 (__main__.LaunchTests.test_direct_launch_shell_dependencies_are_executable_and_git_100755) ... ok
+test_every_inherited_preflight_knob_refused (__main__.LaunchTests.test_every_inherited_preflight_knob_refused) ... ok
+test_forecast_unverified_and_cap (__main__.LaunchTests.test_forecast_unverified_and_cap) ... ok
+test_go_spend_and_stage_eligibility (__main__.LaunchTests.test_go_spend_and_stage_eligibility) ... ok
+test_memory_boundaries (__main__.LaunchTests.test_memory_boundaries) ... ok
+test_schedule_halt_survives_new_directory (__main__.LaunchTests.test_schedule_halt_survives_new_directory) ... ok
+test_step_projection_reserves_readout (__main__.LaunchTests.test_step_projection_reserves_readout) ... ok
+test_wrapper_delegate_dynamic_and_arm_restore (__main__.LaunchTests.test_wrapper_delegate_dynamic_and_arm_restore) ... ok
+test_anchor_zero_denominator (__main__.NumericTests.test_anchor_zero_denominator) ... ok
+test_capture_factorization (__main__.NumericTests.test_capture_factorization) ... ok
+test_control_boundaries (__main__.NumericTests.test_control_boundaries) ... ok
+test_full_size_float64_reductions (__main__.NumericTests.test_full_size_float64_reductions) ... ok
+test_gram_norm_dense_reference (__main__.NumericTests.test_gram_norm_dense_reference) ... ok
+test_mps_double_refused (__main__.NumericTests.test_mps_double_refused) ... ok
+test_null_share_boundaries (__main__.NumericTests.test_null_share_boundaries) ... ok
+test_size_scales_and_stored_arithmetic (__main__.NumericTests.test_size_scales_and_stored_arithmetic) ... ok
+test_effective_weight_and_routing_gradient (__main__.OptimizerTests.test_effective_weight_and_routing_gradient) ... ok
+test_kl_coefficient_once (__main__.OptimizerTests.test_kl_coefficient_once) ... ok
+test_loss_scale_transaction (__main__.OptimizerTests.test_loss_scale_transaction) ... ok
+test_microbatch_request_weighting (__main__.OptimizerTests.test_microbatch_request_weighting) ... ok
+test_request_batch_and_target_only_objective (__main__.OptimizerTests.test_request_batch_and_target_only_objective) ... ok
+test_sixth_overflow_halts_without_mutation (__main__.OptimizerTests.test_sixth_overflow_halts_without_mutation) ... ok
+test_stopping_boundaries (__main__.OptimizerTests.test_stopping_boundaries) ... ok
+test_unknown_hooks_preserved (__main__.OptimizerTests.test_unknown_hooks_preserved) ... ok
+test_changed_template_source_or_stage1_content_halts (__main__.PinnedTemplateTests.test_changed_template_source_or_stage1_content_halts) ... ok
+test_stage1_and_calibration_pin_before_first_engine_call (__main__.PinnedTemplateTests.test_stage1_and_calibration_pin_before_first_engine_call) ... ok
+test_stages2_3_install_stage1_bytes_before_first_engine_use (__main__.PinnedTemplateTests.test_stages2_3_install_stage1_bytes_before_first_engine_use) ... ok
+test_t8_digest_failure_has_halt_diagnostic_before_scoring (__main__.PinnedTemplateTests.test_t8_digest_failure_has_halt_diagnostic_before_scoring) ... ok
+test_t8_installs_pin_and_writes_context_before_any_pass (__main__.PinnedTemplateTests.test_t8_installs_pin_and_writes_context_before_any_pass) ... ok
+test_actual_phase_collision_and_owned_context_tampering (__main__.PrefixPersistenceTests.test_actual_phase_collision_and_owned_context_tampering) ... ok
+test_additional_original_gate_families_retain_inputs (__main__.PrefixPersistenceTests.test_additional_original_gate_families_retain_inputs) ... ok
+test_baseline_helper_return_retained_before_later_arm_failure (__main__.PrefixPersistenceTests.test_baseline_helper_return_retained_before_later_arm_failure) ... ok
+test_baseline_projector_and_planned_update_gates_keep_readouts (__main__.PrefixPersistenceTests.test_baseline_projector_and_planned_update_gates_keep_readouts) ... ok
+test_calibration_forced_gates_retain_records_and_cleanup (__main__.PrefixPersistenceTests.test_calibration_forced_gates_retain_records_and_cleanup) ... ok
+test_cleanup_only_and_primary_plus_cleanup_keep_partial_evidence (__main__.PrefixPersistenceTests.test_cleanup_only_and_primary_plus_cleanup_keep_partial_evidence) ... ok
+test_executed_count_snapshot_retains_each_actual_count_operand (__main__.PrefixPersistenceTests.test_executed_count_snapshot_retains_each_actual_count_operand) ... ok
+test_failed_exact_phase_checks_mark_incomplete (__main__.PrefixPersistenceTests.test_failed_exact_phase_checks_mark_incomplete) ... ok
+test_helper_local_gradient_accumulation_and_ledger_gates (__main__.PrefixPersistenceTests.test_helper_local_gradient_accumulation_and_ledger_gates) ... ok
+test_helper_local_parity_and_objective_offending_inputs (__main__.PrefixPersistenceTests.test_helper_local_parity_and_objective_offending_inputs) ... ok
+test_inputs_durable_before_gate_and_phase_bytes_immutable (__main__.PrefixPersistenceTests.test_inputs_durable_before_gate_and_phase_bytes_immutable) ... ok
+test_later_mode_halt_does_not_mark_unreached_arms_started (__main__.PrefixPersistenceTests.test_later_mode_halt_does_not_mark_unreached_arms_started) ... ok
+test_malformed_baseline_preserves_law3_and_partial_records (__main__.PrefixPersistenceTests.test_malformed_baseline_preserves_law3_and_partial_records) ... ok
+test_memory_floor_schema_and_budget_inputs_precede_original_gates (__main__.PrefixPersistenceTests.test_memory_floor_schema_and_budget_inputs_precede_original_gates) ... ok
+test_nonfinite_gate_inputs_do_not_replace_original_halt (__main__.PrefixPersistenceTests.test_nonfinite_gate_inputs_do_not_replace_original_halt) ... ok
+test_phase_collision_and_io_failure_restore_state (__main__.PrefixPersistenceTests.test_phase_collision_and_io_failure_restore_state) ... ok
+test_prefix_final_collision_refuses_each_name_without_overwrite (__main__.PrefixPersistenceTests.test_prefix_final_collision_refuses_each_name_without_overwrite) ... ok
+test_proof_early_exception_not_replaced_by_recording (__main__.PrefixPersistenceTests.test_proof_early_exception_not_replaced_by_recording) ... ok
+test_recorder_restores_existing_none_attributes (__main__.PrefixPersistenceTests.test_recorder_restores_existing_none_attributes) ... ok
+test_stage_halt_uses_same_partial_record_retention (__main__.PrefixPersistenceTests.test_stage_halt_uses_same_partial_record_retention) ... ok
+test_success_final_serialization_matches_existing_schema (__main__.PrefixPersistenceTests.test_success_final_serialization_matches_existing_schema) ... ok
+test_success_serializer_preserves_computed_values_and_exact_names (__main__.PrefixPersistenceTests.test_success_serializer_preserves_computed_values_and_exact_names) ... ok
+test_target_partial_and_leakage_inputs_are_preserved (__main__.PrefixPersistenceTests.test_target_partial_and_leakage_inputs_are_preserved) ... ok
+test_tensor_phase_records_use_binary_sidecars_without_list_expansion (__main__.PrefixPersistenceTests.test_tensor_phase_records_use_binary_sidecars_without_list_expansion) ... ok
+test_unit_result_survives_post_action_memory_halt (__main__.PrefixPersistenceTests.test_unit_result_survives_post_action_memory_halt) ... ok
+test_anchor_comparison_does_not_require_bz_sized_gain (__main__.ReaderAttributionTests.test_anchor_comparison_does_not_require_bz_sized_gain) ... ok
+test_anchor_missing_invalid_and_unfit_untested (__main__.ReaderAttributionTests.test_anchor_missing_invalid_and_unfit_untested) ... ok
+test_anchor_sham_descriptor_windows_not_fit_or_validity (__main__.ReaderAttributionTests.test_anchor_sham_descriptor_windows_not_fit_or_validity) ... ok
+test_control_positive_requires_envelope_gain_fit_locality_and_validity (__main__.ReaderAttributionTests.test_control_positive_requires_envelope_gain_fit_locality_and_validity) ... ok
+test_hy1_credit_requires_both_processes_attributed (__main__.ReaderAttributionTests.test_hy1_credit_requires_both_processes_attributed) ... ok
+test_neff_minimum_and_anchor_gap_nine_ten (__main__.ReaderAttributionTests.test_neff_minimum_and_anchor_gap_nine_ten) ... ok
+test_no_downscale_controls_required_at_actual_ratio_one (__main__.ReaderAttributionTests.test_no_downscale_controls_required_at_actual_ratio_one) ... ok
+test_size_control_matching_and_direction_boundaries (__main__.ReaderAttributionTests.test_size_control_matching_and_direction_boundaries) ... ok
+test_total_and_per_layer_growth_trigger_independent_controls (__main__.ReaderAttributionTests.test_total_and_per_layer_growth_trigger_independent_controls) ... ok
+test_zero_reference_size_normalisation_conservative_provisional (__main__.ReaderAttributionTests.test_zero_reference_size_normalisation_conservative_provisional) ... ok
+test_cross_shared_hin_and_telemetry_pair_identity (__main__.ReaderCrossProcessTests.test_cross_shared_hin_and_telemetry_pair_identity) ... ok
+test_r1_cosine_and_distance_every_layer_boundaries (__main__.ReaderCrossProcessTests.test_r1_cosine_and_distance_every_layer_boundaries) ... ok
+test_r1_required_controls_and_all_arms_independent (__main__.ReaderCrossProcessTests.test_r1_required_controls_and_all_arms_independent) ... ok
+test_r1_zero_norm_rules_and_baseline_instrument (__main__.ReaderCrossProcessTests.test_r1_zero_norm_rules_and_baseline_instrument) ... ok
+test_r2_count_spread_five_six (__main__.ReaderCrossProcessTests.test_r2_count_spread_five_six) ... ok
+test_r3_incorrect_strings_do_not_count_as_disagreement (__main__.ReaderCrossProcessTests.test_r3_incorrect_strings_do_not_count_as_disagreement) ... ok
+test_r3_keyed_boolean_disagreement_da_plus_three_four (__main__.ReaderCrossProcessTests.test_r3_keyed_boolean_disagreement_da_plus_three_four) ... ok
+test_regenerated_target_hashes_need_not_match_shared_hin (__main__.ReaderCrossProcessTests.test_regenerated_target_hashes_need_not_match_shared_hin) ... ok
+test_x1_not_run_halted_and_incomplete_never_fabricated_null (__main__.ReaderCrossProcessTests.test_x1_not_run_halted_and_incomplete_never_fabricated_null) ... ok
+test_x2_identical_labels_and_union_qualifiers (__main__.ReaderCrossProcessTests.test_x2_identical_labels_and_union_qualifiers) ... ok
+test_x3_mixed_labels_store_actual_counts (__main__.ReaderCrossProcessTests.test_x3_mixed_labels_store_actual_counts) ... ok
+test_fit_e2e_minimum_canonical_and_every_stop (__main__.ReaderFitAndScreenTests.test_fit_e2e_minimum_canonical_and_every_stop) ... ok
+test_fit_per_required_arm_and_apply_stored (__main__.ReaderFitAndScreenTests.test_fit_per_required_arm_and_apply_stored) ... ok
+test_fit_requires_full_merged_matrix (__main__.ReaderFitAndScreenTests.test_fit_requires_full_merged_matrix) ... ok
+test_fit_z_mean_and_maximum_boundaries (__main__.ReaderFitAndScreenTests.test_fit_z_mean_and_maximum_boundaries) ... ok
+test_fit_z_zero_denominator_named_rule (__main__.ReaderFitAndScreenTests.test_fit_z_zero_denominator_named_rule) ... ok
+test_s1_named_halts_without_screen_label (__main__.ReaderFitAndScreenTests.test_s1_named_halts_without_screen_label) ... ok
+test_s2_s3_budget_write_boundary (__main__.ReaderFitAndScreenTests.test_s2_s3_budget_write_boundary) ... ok
+test_s4_fit_precedes_high_count_locality_and_size (__main__.ReaderFitAndScreenTests.test_s4_fit_precedes_high_count_locality_and_size) ... ok
+test_s5_s7_envelope_and_gain_boundaries (__main__.ReaderFitAndScreenTests.test_s5_s7_envelope_and_gain_boundaries) ... ok
+test_s6_size_boundary_and_null_first_match (__main__.ReaderFitAndScreenTests.test_s6_size_boundary_and_null_first_match) ... ok
+test_stage1_recorded_projection_exactly_120_minutes_fits (__main__.ReaderFitAndScreenTests.test_stage1_recorded_projection_exactly_120_minutes_fits) ... ok
+test_load_calibration_directory_refused_before_read (__main__.ReaderLoadTests.test_load_calibration_directory_refused_before_read) ... ok
+test_load_does_not_read_telemetry (__main__.ReaderLoadTests.test_load_does_not_read_telemetry) ... ok
+test_load_later_self_contained_record_uses_own_outcome (__main__.ReaderLoadTests.test_load_later_self_contained_record_uses_own_outcome) ... ok
+test_load_saved_halt_first_with_missing_science_artifacts (__main__.ReaderLoadTests.test_load_saved_halt_first_with_missing_science_artifacts) ... ok
+test_load_strict_json_nonfinite_refused (__main__.ReaderLoadTests.test_load_strict_json_nonfinite_refused) ... ok
+test_existing_arm_missing_metric_is_v13_invalid (__main__.ReaderOrderTests.test_existing_arm_missing_metric_is_v13_invalid) ... ok
+test_missing_comparators_qualify_without_incomplete (__main__.ReaderOrderTests.test_missing_comparators_qualify_without_incomplete) ... ok
+test_own_record_and_v5_missing_precede_validity_and_fit (__main__.ReaderOrderTests.test_own_record_and_v5_missing_precede_validity_and_fit) ... ok
+test_recorded_halt_invalid_and_budget_first (__main__.ReaderOrderTests.test_recorded_halt_invalid_and_budget_first) ... ok
+test_source_and_prereg_identity_refused (__main__.ReaderOrderTests.test_source_and_prereg_identity_refused) ... ok
+test_stage1_not_run_controls_and_later_records_not_required (__main__.ReaderOrderTests.test_stage1_not_run_controls_and_later_records_not_required) ... ok
+test_validity_precedes_fit_and_fit_precedes_counts (__main__.ReaderOrderTests.test_validity_precedes_fit_and_fit_precedes_counts) ... ok
+test_g1_g2_each_frame_both_sides (__main__.ReaderProcessLocalityTests.test_g1_g2_each_frame_both_sides) ... ok
+test_g3_g4_g5_unrounded_boundaries (__main__.ReaderProcessLocalityTests.test_g3_g4_g5_unrounded_boundaries) ... ok
+test_g3_g5_display_rounding_cannot_substitute (__main__.ReaderProcessLocalityTests.test_g3_g5_display_rounding_cannot_substitute) ... ok
+test_g6_relation_flips_report_only (__main__.ReaderProcessLocalityTests.test_g6_relation_flips_report_only) ... ok
+test_p1_p2_p3 (__main__.ReaderProcessLocalityTests.test_p1_p2_p3) ... ok
+test_p4_p5_p7_count_and_gain_boundaries (__main__.ReaderProcessLocalityTests.test_p4_p5_p7_count_and_gain_boundaries) ... ok
+test_p6_tradeoff_and_p7_null_first_match (__main__.ReaderProcessLocalityTests.test_p6_tradeoff_and_p7_null_first_match) ... ok
+test_w1_actual_size_boundary_qualifier_preserves_base (__main__.ReaderProcessLocalityTests.test_w1_actual_size_boundary_qualifier_preserves_base) ... ok
+test_w2_ttl_warning_equality_nonblocking (__main__.ReaderProcessLocalityTests.test_w2_ttl_warning_equality_nonblocking) ... ok
+test_authored_full_truth_rows_277_289 (__main__.ReaderTruthTableTests.test_authored_full_truth_rows_277_289) ... ok
+test_authored_stage1_truth_rows_265_276 (__main__.ReaderTruthTableTests.test_authored_stage1_truth_rows_265_276) ... ok
+test_v10_overflow_retries_five_six (__main__.ReaderValidityTests.test_v10_overflow_retries_five_six) ... ok
+test_v11_hin_hashes_and_write_trace_required (__main__.ReaderValidityTests.test_v11_hin_hashes_and_write_trace_required) ... ok
+test_v12_leakage_named_halt (__main__.ReaderValidityTests.test_v12_leakage_named_halt) ... ok
+test_v13_every_applicable_numeric_family_nonfinite (__main__.ReaderValidityTests.test_v13_every_applicable_numeric_family_nonfinite) ... ok
+test_v13_nonfinite_unjustified_null_and_typed_integer (__main__.ReaderValidityTests.test_v13_nonfinite_unjustified_null_and_typed_integer) ... ok
+test_v13_typed_nulls_and_reasons (__main__.ReaderValidityTests.test_v13_typed_nulls_and_reasons) ... ok
+test_v1_fingerprint_sha_sites_and_full_output (__main__.ReaderValidityTests.test_v1_fingerprint_sha_sites_and_full_output) ... ok
+test_v2_each_recipe_standing_law5 (__main__.ReaderValidityTests.test_v2_each_recipe_standing_law5) ... ok
+test_v3_accumulation_raw_cosine_distance_finiteness_and_scope (__main__.ReaderValidityTests.test_v3_accumulation_raw_cosine_distance_finiteness_and_scope) ... ok
+test_v3_apply_stored_substitutions_not_optimiser_checks (__main__.ReaderValidityTests.test_v3_apply_stored_substitutions_not_optimiser_checks) ... ok
+test_v3_capture_zero_step_and_executed_loop_raw_values (__main__.ReaderValidityTests.test_v3_capture_zero_step_and_executed_loop_raw_values) ... ok
+test_v3_check_failure_order_and_scope (__main__.ReaderValidityTests.test_v3_check_failure_order_and_scope) ... ok
+test_v3_gradient_halvings_hooks_and_smoke_raw_values (__main__.ReaderValidityTests.test_v3_gradient_halvings_hooks_and_smoke_raw_values) ... ok
+test_v3_missing_required_check_invalid (__main__.ReaderValidityTests.test_v3_missing_required_check_invalid) ... ok
+test_v3_objective_nll_and_nonzero_kl_raw_boundaries (__main__.ReaderValidityTests.test_v3_objective_nll_and_nonzero_kl_raw_boundaries) ... ok
+test_v4_a1_a2_and_exact_denominators (__main__.ReaderValidityTests.test_v4_a1_a2_and_exact_denominators) ... ok
+test_v4_all_inclusive_baseline_endpoints (__main__.ReaderValidityTests.test_v4_all_inclusive_baseline_endpoints) ... ok
+test_v4_before_candidates_required (__main__.ReaderValidityTests.test_v4_before_candidates_required) ... ok
+test_v5_candidate_controls_67_68_each_arm (__main__.ReaderValidityTests.test_v5_candidate_controls_67_68_each_arm) ... ok
+test_v6_overrides_are_exact_sets_not_counts (__main__.ReaderValidityTests.test_v6_overrides_are_exact_sets_not_counts) ... ok
+test_v7_initial_projector_raw_share_cannot_hide_behind_passed (__main__.ReaderValidityTests.test_v7_initial_projector_raw_share_cannot_hide_behind_passed) ... ok
+test_v7_planned_actual_each_layer_boundary_and_zero (__main__.ReaderValidityTests.test_v7_planned_actual_each_layer_boundary_and_zero) ... ok
+test_v7_untouched_reference_miss_halts_precision_diagnosis (__main__.ReaderValidityTests.test_v7_untouched_reference_miss_halts_precision_diagnosis) ... ok
+test_v8_string_full_equality_and_one_below_every_arm (__main__.ReaderValidityTests.test_v8_string_full_equality_and_one_below_every_arm) ... ok
+test_v9_init_final_tokens_and_each_loss_component (__main__.ReaderValidityTests.test_v9_init_final_tokens_and_each_loss_component) ... ok
+test_T11_audit_accepts_every_kind_with_only_kind_specific_fields (__main__.TelemetryCheckContract.test_T11_audit_accepts_every_kind_with_only_kind_specific_fields) ... ok
+test_T11_audit_checks_payload_types_for_every_non_answer_kind (__main__.TelemetryCheckContract.test_T11_audit_checks_payload_types_for_every_non_answer_kind) ... ok
+test_T11_audit_complete_answer_keys_pass_and_roundtrip (__main__.TelemetryCheckContract.test_T11_audit_complete_answer_keys_pass_and_roundtrip) ... ok
+test_T11_audit_declared_disabled_missing_output_keeps_science_record (__main__.TelemetryCheckContract.test_T11_audit_declared_disabled_missing_output_keeps_science_record) ... ok
+test_T11_audit_disabled_marker_does_not_excuse_a_gap_before_later_answers (__main__.TelemetryCheckContract.test_T11_audit_disabled_marker_does_not_excuse_a_gap_before_later_answers) ... ok
+test_T11_audit_disabled_marker_does_not_excuse_mismatching_existing_line (__main__.TelemetryCheckContract.test_T11_audit_disabled_marker_does_not_excuse_mismatching_existing_line) ... ok
+test_T11_audit_duplicate_answer_key_compromises_stage (__main__.TelemetryCheckContract.test_T11_audit_duplicate_answer_key_compromises_stage) ... ok
+test_T11_audit_header_must_be_present_initial_and_unique (__main__.TelemetryCheckContract.test_T11_audit_header_must_be_present_initial_and_unique) ... ok
+test_T11_audit_mismatch_compromises_stage_and_requires_telemetry_off_rerun (__main__.TelemetryCheckContract.test_T11_audit_mismatch_compromises_stage_and_requires_telemetry_off_rerun) ... ok
+test_T11_audit_missing_answer_field_is_malformed (__main__.TelemetryCheckContract.test_T11_audit_missing_answer_field_is_malformed) ... ok
+test_T11_audit_missing_expected_key_compromises_stage (__main__.TelemetryCheckContract.test_T11_audit_missing_expected_key_compromises_stage) ... ok
+test_T11_audit_missing_file_is_missing_output (__main__.TelemetryCheckContract.test_T11_audit_missing_file_is_missing_output) ... ok
+test_T11_audit_model_free_entrypoint_never_loads_driver_or_harness (__main__.TelemetryCheckContract.test_T11_audit_model_free_entrypoint_never_loads_driver_or_harness) ... ok
+test_T11_audit_never_mutates_science_records_or_reader_output (__main__.TelemetryCheckContract.test_T11_audit_never_mutates_science_records_or_reader_output) ... ok
+test_T11_audit_refuses_existing_audit_without_rewriting_evidence (__main__.TelemetryCheckContract.test_T11_audit_refuses_existing_audit_without_rewriting_evidence) ... ok
+test_T11_audit_rejects_unknown_field_on_every_known_kind (__main__.TelemetryCheckContract.test_T11_audit_rejects_unknown_field_on_every_known_kind) ... ok
+test_T11_audit_strict_json_rejects_nonfinite_and_duplicate_json_fields (__main__.TelemetryCheckContract.test_T11_audit_strict_json_rejects_nonfinite_and_duplicate_json_fields) ... ok
+test_T11_audit_unknown_key_or_kind_or_field_is_unexpected (__main__.TelemetryCheckContract.test_T11_audit_unknown_key_or_kind_or_field_is_unexpected) ... ok
+test_T11_audit_uses_stage_two_and_three_tags_and_record_paths (__main__.TelemetryCheckContract.test_T11_audit_uses_stage_two_and_three_tags_and_record_paths) ... ok
+test_T11_audit_wrong_types_and_nulls_are_malformed (__main__.TelemetryCheckContract.test_T11_audit_wrong_types_and_nulls_are_malformed) ... ok
+test_T11_reader_does_not_open_telemetry_or_use_audit_as_gate (__main__.TelemetryCheckContract.test_T11_reader_does_not_open_telemetry_or_use_audit_as_gate) ... ok
+test_T8_runner_inert_pristine_stub_never_calls_writer_or_recipe (__main__.TelemetryCheckContract.test_T8_runner_inert_pristine_stub_never_calls_writer_or_recipe) ... ok
+test_T8_runner_other_verdicts_exit_zero_and_preserve_verdict (__main__.TelemetryCheckContract.test_T8_runner_other_verdicts_exit_zero_and_preserve_verdict) ... ok
+test_T8_runner_preflight_refuses_knob_before_output_creation (__main__.TelemetryCheckContract.test_T8_runner_preflight_refuses_knob_before_output_creation) ... ok
+test_T8_runner_preserves_existing_record (__main__.TelemetryCheckContract.test_T8_runner_preserves_existing_record) ... ok
+test_T8_runner_records_complete_current_identity_and_strict_roundtrip (__main__.TelemetryCheckContract.test_T8_runner_records_complete_current_identity_and_strict_roundtrip) ... ok
+test_T8_runner_rejects_namespace_itself_and_nested_subdirectories (__main__.TelemetryCheckContract.test_T8_runner_rejects_namespace_itself_and_nested_subdirectories) ... ok
+test_T8_runner_rejects_output_outside_namespace (__main__.TelemetryCheckContract.test_T8_runner_rejects_output_outside_namespace) ... ok
+test_T8_runner_rejects_relative_output_before_writes (__main__.TelemetryCheckContract.test_T8_runner_rejects_relative_output_before_writes) ... ok
+test_T8_runner_rejects_symlink_escape (__main__.TelemetryCheckContract.test_T8_runner_rejects_symlink_escape) ... ok
+test_T8_runner_weight_change_is_invalid_exit_two (__main__.TelemetryCheckContract.test_T8_runner_weight_change_is_invalid_exit_two) ... ok
+test_full_stage_counts_and_payload_not_smaller (__main__.TelemetryForecastTests.test_full_stage_counts_and_payload_not_smaller) ... ok
+test_inertness_bytes_once_and_duplicate_nonfinite_refused (__main__.TelemetryForecastTests.test_inertness_bytes_once_and_duplicate_nonfinite_refused) ... ok
+test_on_requires_separate_phase_before_dispatch (__main__.TelemetryForecastTests.test_on_requires_separate_phase_before_dispatch) ... ok
+test_per_kind_measurements_workload_and_sum_enforced (__main__.TelemetryForecastTests.test_per_kind_measurements_workload_and_sum_enforced) ... ok
+test_frozen_harness_scorers_receive_no_injected_kwargs (__main__.TelemetryReferenceTests.test_frozen_harness_scorers_receive_no_injected_kwargs) ... ok
+test_reference_scorer_is_exact_frozen_capture_copy (__main__.TelemetryReferenceTests.test_reference_scorer_is_exact_frozen_capture_copy) ... ok
+test_t8_uses_frozen_off_reference_and_observed_on_scorer (__main__.TelemetryReferenceTests.test_t8_uses_frozen_off_reference_and_observed_on_scorer) ... ok
+test_every_kind_state_preservation_and_volume (__main__.TelemetryTests.test_every_kind_state_preservation_and_volume) ... ok
+test_frozen_hparams_lens_uses_actual_linear_head (__main__.TelemetryTests.test_frozen_hparams_lens_uses_actual_linear_head) ... ok
+test_inertness_and_drifting_baseline (__main__.TelemetryTests.test_inertness_and_drifting_baseline) ... ok
+test_invalid_switches_refused_before_write (__main__.TelemetryTests.test_invalid_switches_refused_before_write) ... ok
+test_io_failures_disable_once_and_baseexception_propagates (__main__.TelemetryTests.test_io_failures_disable_once_and_baseexception_propagates) ... ok
+test_off_has_no_object_or_directory (__main__.TelemetryTests.test_off_has_no_object_or_directory) ... ok
+test_scorer_ast_and_exact_inputs (__main__.TelemetryTests.test_scorer_ast_and_exact_inputs) ... ok
+test_t8_serialized_wrong_answer_is_not_inert (__main__.TelemetryTests.test_t8_serialized_wrong_answer_is_not_inert) ... ok
+test_telemetry_never_calls_operational_clock_or_writes_input_record (__main__.TelemetryTests.test_telemetry_never_calls_operational_clock_or_writes_input_record) ... ok
+test_actual_cpu_update_direction_changes_fail_real_reader_repro_gate (__main__.TransportTests.test_actual_cpu_update_direction_changes_fail_real_reader_repro_gate) ... ok
+test_completed_stage1_runner_to_reader_and_cpu_pt_transport (__main__.TransportTests.test_completed_stage1_runner_to_reader_and_cpu_pt_transport) ... ok
+test_completed_three_stages_preserve_common_files_and_compute_real_repro (__main__.TransportTests.test_completed_three_stages_preserve_common_files_and_compute_real_repro) ... ok
+test_real_scored_recipe_accounts_for_scientific_hook_readout_time (__main__.TransportTests.test_real_scored_recipe_accounts_for_scientific_hook_readout_time) ... ok
+test_requested_stage_forecast_is_checked_before_dispatch_and_worker (__main__.TransportTests.test_requested_stage_forecast_is_checked_before_dispatch_and_worker) ... ok
+test_saved_overlay_hash_is_the_immutable_serialized_bundle (__main__.TransportTests.test_saved_overlay_hash_is_the_immutable_serialized_bundle) ... ok
+test_stage3_pair_mismatch_is_refused_in_parent_before_any_launch_write (__main__.TransportTests.test_stage3_pair_mismatch_is_refused_in_parent_before_any_launch_write) ... ok
+test_stage3_telemetry_setting_cannot_change_after_stage2 (__main__.TransportTests.test_stage3_telemetry_setting_cannot_change_after_stage2) ... ok
+test_tampered_stage2_pt_refuses_stage3_before_scientific_callbacks (__main__.TransportTests.test_tampered_stage2_pt_refuses_stage3_before_scientific_callbacks) ... ok
+test_telemetry_off_on_transport_changes_only_T1_fields_at_every_stage (__main__.TransportTests.test_telemetry_off_on_transport_changes_only_T1_fields_at_every_stage) ... ok
+test_wrong_stage3_predecessor_refuses_in_main_before_harness_or_supervisor (__main__.TransportTests.test_wrong_stage3_predecessor_refuses_in_main_before_harness_or_supervisor) ... ok
+
+----------------------------------------------------------------------
+Ran 285 tests in 31.246s
+
+OK
+{"launched": false, "reasons": ["missing/unknown/duplicate phases"], "status": "UNVERIFIED"}
+ISOLATION OWNED LISTING DRIFT: []
+ISOLATION OTHER OBSERVED UNATTRIBUTED: ["results/mathlab/harvest2_launch_20261009T203407Z.log", "results/mathlab/harvest_20261009T203705.724371Z/clean.pt", "results/mathlab/harvest_20261009T203705.724371Z", "results/mathlab_staging/runs/harvest_20261009T203702Z_6589/events.jsonl"]
+SYS_MODULES_FORBIDDEN: []
+C10Y_DIRECTDW_SELFTEST PASS — CPU ONLY; LIVE LAW#3/LAW#5 UNVERIFIED
+```
+
+</details>

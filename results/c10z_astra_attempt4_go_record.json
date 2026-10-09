@@ -1,0 +1,28 @@
+{
+  "amendment_decision_id": "D-C10z-a1pop",
+  "benchmark_script_sha256": "3703d8b9c363bb06eab0ca66f38f4b01114363ae75a9d0397701e75aa2520041",
+  "benchmark_sha256": "facebb52c2300c5af785e63f4f85af09f222a15e4673ba53b93da11314e8d669",
+  "ceilings": {
+    "stage01": 9900,
+    "stage2": 14100,
+    "stage3": 24060
+  },
+  "decision_notes": {
+    "0": "Prospective fresh attempt 4 after diagnostic A1, frozen \u00a712 D-C10z-a1pop and Astra r2 FREEZE+GO; draft only, not a live go or dispatch.",
+    "1": "Write qualification: operator 'Yes on all 5' (D-C10z-budget, question 3).",
+    "2": "D-C10z-budget; one named D-C10z-drift3 exception; admitted rerun #3 recorded in results/c10z_astra_attempt4_prep/admission_receipt_drift3.md, ceilings 9900/14100/24060 s and nominal supremum 48000 s; no fourth rerun."
+  },
+  "decisions": {
+    "0": "D-C10z-go",
+    "1": "D-C10z-budget",
+    "2": "D-C10z-budget"
+  },
+  "one_gpu_job": true,
+  "operator_yes": true,
+  "prereg_sha256": "5ad59d2c960b44d18b5d1c5410028b969aab93298eed5d42c527bd81a4d18eac",
+  "recorded_at": "2026-10-09T20:41:07.564405+00:00",
+  "recorded_by": "Codex Z2, draft prepared for MAESTRO; pending Astra check and operator live publication",
+  "reference_population_sha256": "a477f1c4917de988682da097d460c3d70b4c3bd33856d83c1d0c7714f78aab68",
+  "supersedes_for_attempt4": "results/c10z_astra_go_record_attempt3.json (kept unchanged as attempt 3 evidence)",
+  "telemetry_first_attempt": "off (prereg \u00a79.1 (j'))"
+}
