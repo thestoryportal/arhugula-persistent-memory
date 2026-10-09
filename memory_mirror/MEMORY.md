@@ -1,3 +1,4 @@
+- [⭐ Context management, every session (BINDING)](context-management-every-session.md) — Memento for MAESTRO, handoff+fresh successor for Codex; restate in every handoff
 - [LLM-as-Database program overview](llm-as-database-program-overview.md) — what the repo is, reading order, F1 status, C10 blocker
 - [Operator profile and standing directive](operator-profile-and-standing-directive.md) — architect with no ML background; make the call and proceed, surface irreversible decisions, don't block on ratification
 - [Local only, no rented compute](local-only-no-rented-compute.md) — all science on the M3 Pro; never propose rentals; design local-faithful ports instead
@@ -41,3 +42,4 @@
 - [InfraNodus standing approval](infranodus-standing-approval.md) — operator approved forever; allow rule added 2026-10-08, calls pass
 - [Graft disabled + audit](graft-disabled-audit-2026-10-08.md) — no corruption found; codex exec needs -c mcp_servers.graft.enabled=false
 - [Never idle: arm completion watch](never-idle-arm-completion-watch.md) — 13 h idle 2026-10-09; every in-flight build/review needs a Monitor wake signal, route next step on each event
+- [GPU gate refuses any .venv python](gpu-gate-refuses-any-venv-python.md) — Codex unittests block check_gpu; poll until clear ×2 then launch

@@ -2,6 +2,12 @@
 
 > This file is for **Codex**. It is additive: the repo's canonical framework was built under Claude and is unchanged — `CLAUDE.md`, `EXPERIMENT_RUNBOOK.md`, and `CORPUS/` remain authoritative. This file points you at that system, surfaces the load-bearing rules (which live in `CLAUDE.md`/the runbook and would otherwise not load for you), and maps Claude-specific tooling to Codex equivalents. **Do not restructure the canonical docs or the directory tree** — extend them in place.
 
+## ⭐ Context management — BINDING for every session (operator directive, 2026-10-09)
+Operator: "Do not forget to manage context usage for yours and every team session you are orchestrating." / "This context directive must be made durable through any and all handoffs."
+- Watch your own `Context N% left`. Before it drops to ~20%, **stop starting new work**: write a handoff note (what is done, what is in flight, exact file paths, next step, open risks) into your task report, then say so in your reply so the orchestrator can start a fresh successor session.
+- Never let a session approach full-window compaction; a fresh successor with a precise handoff beats a compacted, drifting one.
+- Every handoff note you write restates this section, so the directive survives every handoff.
+
 ## ⭐ North Star & Discipline — load `DISCIPLINE.md` FIRST
 **The goal:** prove/falsify the LLM-as-Database spec is implementable *before* it's built → the **F1 readiness determination**. Everything serves F1; falsification-first (truth, not green checkmarks). **Before any non-trivial action run the drift check:** *does this advance F1 or a live §0.3 falsifier?* `DISCIPLINE.md` holds the north star, **context read-triggers**, the **deep-thinking-on-failure** protocol (mandatory when an experiment fails/stalls/surprises), and **tool & loop thresholds** (advisor / council / autoresearch / Perplexity / NotebookLM — when to invoke + min/max bounds). Honor it.
 

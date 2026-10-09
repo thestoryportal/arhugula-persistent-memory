@@ -1,5 +1,8 @@
 # SESSION CHECKPOINT — Write-Engine Viability Determination
 
+## ⭐ BINDING — context management for MAESTRO and every orchestrated session (operator, 2026-10-09; must survive every handoff)
+"Do not forget to manage context usage for yours and every team session you are orchestrating. Memento provides some tools to assist with this." — "This context directive must be made durable through any and all handoffs." MAESTRO: Memento `ceiling show` (250k ceiling, Stop-hook enforced) + `finalize-session` handoff at every finished unit, `--reset` only when the hook fires. Codex: watch `Context N% left`; ≤~20% (or ≤~30% before a big task) → handoff note + fresh successor; close idle finished sessions. Every handoff (checkpoint, successor prompt, finalize-session message) restates this block. Full rule: memory `context-management-every-session.md`; Codex rule: AGENTS.md top section.
+
 ## 🔄 LIVE HANDOFF — 2026-10-09 ~12:45 MDT (MAESTRO orchestrating; operator awake)
 
 **Commits today:** 27c6adb C10Y record fix · 36ad0d7 memory · 3ce2965 V7 brief addendum · de56195 D-ML-2 · e23c05e ASTRA terminal record · 8daf9ba math-lab dashboard (teamdash tab live) · e1127d9 V7 build · 36b275a V7 result · reading CONFIRM.
