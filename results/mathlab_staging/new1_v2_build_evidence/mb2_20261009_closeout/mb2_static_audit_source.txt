@@ -1,0 +1,33 @@
+import ast, hashlib, json, sys
+from pathlib import Path
+from tools import new1_supervisor as S, new1_geometry as G
+base=Path('/private/tmp/new1-closeout-0XbOyb')
+old=ast.parse((base/'new1_geometry.py').read_text())
+new=ast.parse(Path('tools/new1_geometry.py').read_text())
+functions=lambda tree:{node.name:node for node in tree.body if isinstance(node,(ast.FunctionDef,ast.AsyncFunctionDef))}
+old_f,new_f=functions(old),functions(new)
+unchanged=[]
+for name,node in old_f.items():
+    if name=='run': continue
+    assert ast.dump(node)==ast.dump(new_f[name]),name+' arithmetic changed'
+    unchanged.append(name)
+assert [ast.dump(n) for n in old_f['run'].body[2:]]==[ast.dump(n) for n in new_f['run'].body[1:]],'run changed beyond the freeze guard'
+pins=lambda tree:ast.literal_eval(next(n.value for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='PINNED' for t in n.targets)))
+assert pins(old)==pins(new) and len(pins(new))==20
+for module in ('torch','numpy','safetensors','transformers','tokenizers','peft','memit','easyedit'):
+    assert module not in sys.modules,'numerical/model import before admission: '+module
+prereg=Path('docs/NEW1_ADAPTER_GEOMETRY_PREREG.md')
+digest='eaf7bc21e1ac2cabc5f16703ce5b712debfdad80163f170fe20c99969c024741'
+S.verify_prereg(prereg,digest)
+assert S.DEADLINE_S==1800 and S.WAIT_S==300 and S.RSS_CAP_GIB==6 and S.FLOOR_GIB==6
+assert 8+S.RESERVES['covariance-svd']==13
+d=Path('results/mathlab_staging/new1_v2_build_evidence/mb2_20261009_closeout')
+before=json.loads((d/'before_sha256.json').read_text())
+after={p:hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in before['hashes']}
+assert all(before['hashes'][p]==after[p] for p in before['protected'])
+assert before['hashes']['tests/test_new1_geometry.py']==after['tests/test_new1_geometry.py']
+result={'protected_count':len(before['protected']),'protected_unchanged':True,'hashes':after,'pins_unchanged':20,
+'unchanged_geometry_functions':unchanged,'run_rest_unchanged':True,'preimport_boundary_verified':True,
+'actual_frozen_status_and_sha_verified':digest,'real_geometry_run':False,'full_workload_feasibility':'UNVERIFIED'}
+(d/'mb2_final_static_audit.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps(result,indent=2))

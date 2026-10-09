@@ -1,9 +1,12 @@
 """NEW1 enforcement fixtures; no real inputs or geometry execution."""
 import importlib
+import contextlib
+import io
 import json
 import os
 from pathlib import Path
 import subprocess
+import signal
 import sys
 import tempfile
 import time
@@ -96,7 +99,7 @@ class SupervisorTests(unittest.TestCase):
 
     def test_rss_probe_sums_descendants_and_refuses_missing_worker(self):
         vm = subprocess.CompletedProcess([], 0, 'Pages free: 1048576.\nPages inactive: 0.\nPages speculative: 0.\n', '')
-        ps = subprocess.CompletedProcess([], 0, '123 1 1048576 1.0\n124 123 524288 2.0\n125 124 262144 3.0\n99 1 9999999 0.0\n', '')
+        ps = subprocess.CompletedProcess([], 0, '123 1 123 1048576 1.0\n124 123 123 524288 2.0\n125 124 123 262144 3.0\n99 1 99 9999999 0.0\n', '')
         with mock.patch.object(self.S.subprocess, 'run', side_effect=[vm,ps]):
             value=self.S.sample_resources(123)
         self.assertEqual(value.rss_gib, 1.75)
@@ -104,6 +107,65 @@ class SupervisorTests(unittest.TestCase):
         with mock.patch.object(self.S.subprocess, 'run', side_effect=[vm,ps]):
             with self.assertRaisesRegex(self.S.Stop, 'MONITORING'):
                 self.S.sample_resources(100)
+
+    def test_reparented_group_member_still_counts_toward_rss_cap(self):
+        vm=subprocess.CompletedProcess([],0,'Pages free: 1048576.\nPages inactive: 0.\nPages speculative: 0.\n','')
+        ps=subprocess.CompletedProcess([],0,'123 1 123 1048576 1.0\n124 1 123 6291456 2.0\n99 1 99 9999999 0.0\n','')
+        with mock.patch.object(self.S.subprocess,'run',side_effect=[vm,ps]):
+            sample=self.S.sample_resources(123)
+        self.assertEqual(sample.rss_gib,7)
+        self.assertEqual(sample.cpu_pct,3)
+        with self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
+            self.controller([sample]).check(123)
+
+    def prereg_fixture(self,status):
+        path=self.root/'docs/NEW1_ADAPTER_GEOMETRY_PREREG.md'
+        path.parent.mkdir(exist_ok=True)
+        path.write_text('# NEW-1 — fixture\n\n'+status+'\n\nHistorical: DRAFT v2 remains NOT FROZEN.\n')
+        return path,self.S.sha_file(path)
+
+    def supervisor_main(self,digest):
+        def dispatch(command,directory,*,admission):
+            self.assertTrue(admission()['allowed'])
+            return 'PASS'
+        with mock.patch.object(self.S,'ROOT',self.root),mock.patch.object(sys,'argv',['new1','--prereg-sha',digest]),\
+             mock.patch.object(self.S,'supervise',side_effect=dispatch),\
+             mock.patch.object(self.S,'cpu_admission',return_value={'allowed':True,'reasons':[]}) as admit,\
+             contextlib.redirect_stdout(io.StringIO()):
+            result=self.S.main()
+        return result,admit.call_count
+
+    def test_supervisor_accepts_authoritative_freeze_with_historical_draft_footer(self):
+        _,digest=self.prereg_fixture('**FROZEN v2 · 2026-10-09 (D-NEW1-1; reviewed).**')
+        self.assertEqual(self.supervisor_main(digest),(0,1))
+
+    def test_supervisor_refuses_draft_header_even_with_quoted_frozen_text(self):
+        path,digest=self.prereg_fixture('**DRAFT v2**')
+        path.write_text(path.read_text().replace('Historical: DRAFT v2 remains NOT FROZEN.','Quoted: **FROZEN v2**'))
+        with self.assertRaisesRegex(self.S.Stop,'INVALID-PREREG'):
+            self.supervisor_main(self.S.sha_file(path))
+
+    def test_supervisor_refuses_exact_prereg_hash_mismatch(self):
+        self.prereg_fixture('**FROZEN v2 · 2026-10-09 (D-NEW1-1; reviewed).**')
+        with self.assertRaisesRegex(self.S.Stop,'INVALID-PREREG'):
+            self.supervisor_main('0'*64)
+
+    def test_worker_accepts_same_freeze_before_imports_without_geometry(self):
+        G=importlib.import_module('tools.new1_geometry')
+        _,digest=self.prereg_fixture('**FROZEN v2 · 2026-10-09 (D-NEW1-1; reviewed).**')
+        client=mock.Mock(); client.cell.side_effect=RuntimeError('fixture reached import admission')
+        with mock.patch.object(G,'ROOT',self.root),self.assertRaisesRegex(RuntimeError,'fixture reached import admission'):
+            G.run(client,self.run,digest)
+        client.cell.assert_called_once_with('imports','numerical-dependencies')
+
+    def test_worker_refuses_draft_header_before_imports(self):
+        G=importlib.import_module('tools.new1_geometry')
+        path,_=self.prereg_fixture('**DRAFT v2**')
+        path.write_text(path.read_text().replace('Historical: DRAFT v2 remains NOT FROZEN.','Quoted: **FROZEN v2**'))
+        client=mock.Mock(); client.cell.side_effect=RuntimeError('fixture reached imports')
+        with mock.patch.object(G,'ROOT',self.root),self.assertRaises(G.Invalid):
+            G.run(client,self.run,self.S.sha_file(path))
+        client.cell.assert_not_called()
 
     def test_resource_receipt_is_durable_before_event(self):
         original = self.S.emit
@@ -246,6 +308,8 @@ send({'type':'complete','path':'geometry.json'})
             outcome=self.S.supervise(command,self.run,admission=lambda:{'allowed':True,'reasons':[]},monitor=sample)
         self.assertEqual(outcome,'STOPPED-RESOURCE')
         self.assertLess(time.monotonic()-started,.5)
+        events,_=self.state()
+        self.assertTrue(any(e['type']=='halted' for e in events),'watchdog kill must still reap and persist its halt')
 
     def test_watchdog_refuses_memory_drop_during_blocking_admission(self):
         started=time.monotonic()
@@ -255,6 +319,82 @@ send({'type':'complete','path':'geometry.json'})
                 admission=lambda:subprocess.run([sys.executable,'-c','import time; time.sleep(2)']),monitor=sample)
         self.assertEqual(outcome,'STOPPED-RESOURCE')
         self.assertLess(time.monotonic()-started,.5)
+
+    def grandchild_worker(self,leader_exits):
+        leader=self.root/'leader_pid'; child=self.root/'grandchild_pid'; ticks=self.root/'ticks'
+        child_source=f'import os,time\nfrom pathlib import Path\nPath({str(child)!r}).write_text(str(os.getpid()))\nwhile True:\n Path({str(ticks)!r}).write_text(str(time.monotonic_ns()))\n time.sleep(.01)\n'
+        source=f'import os,subprocess,sys,time\nfrom pathlib import Path\nPath({str(leader)!r}).write_text(str(os.getpid()))\nsubprocess.Popen([sys.executable,"-B","-c",{child_source!r}],pass_fds=(int(os.environ["NEW1_CONTROL_FD"]),))\nwhile not Path({str(ticks)!r}).exists(): time.sleep(.005)\n'
+        if not leader_exits: source+='while True: time.sleep(.01)\n'
+        def cleanup():
+            if leader.exists():
+                if ticks.exists():
+                    before=ticks.read_text(); time.sleep(.03)
+                    if ticks.read_text()==before: return
+                try: os.killpg(int(leader.read_text()),signal.SIGKILL)
+                except ProcessLookupError: pass
+        self.addCleanup(cleanup)
+        return self.worker(source),child,ticks
+
+    def assert_grandchild_stopped(self,child,ticks):
+        self.assertTrue(child.exists(),'grandchild reached the live positive control')
+        before=ticks.read_text()
+        time.sleep(.04)
+        self.assertEqual(ticks.read_text(),before,'grandchild kept running after supervisor closeout')
+
+    def test_real_grandchild_is_killed_on_observed_rss_breach(self):
+        command,child,ticks=self.grandchild_worker(False)
+        with mock.patch.object(self.S,'SAMPLE_S',.01),mock.patch.object(self.S,'DEADLINE_S',.8):
+            outcome=self.S.supervise(command,self.run,admission=lambda:{'allowed':True,'reasons':[]},
+                monitor=lambda pid:self.S.Sample(13,6.1 if pid and ticks.exists() else 0,0))
+        self.assertEqual(outcome,'STOPPED-RESOURCE')
+        self.assert_grandchild_stopped(child,ticks)
+
+    def test_leader_exit_kills_ipc_holding_grandchild_without_waiting_for_deadline(self):
+        command,child,ticks=self.grandchild_worker(True)
+        started=time.monotonic()
+        with mock.patch.object(self.S,'SAMPLE_S',.01),mock.patch.object(self.S,'DEADLINE_S',.8):
+            outcome=self.S.supervise(command,self.run,admission=lambda:{'allowed':True,'reasons':[]},
+                monitor=lambda pid:self.S.Sample(13,0,0))
+        elapsed=time.monotonic()-started
+        self.assertEqual(outcome,'INVALID-WORKER')
+        self.assertLess(elapsed,.6)
+        self.assert_grandchild_stopped(child,ticks)
+
+    def test_blocked_halt_persistence_cannot_extend_total_deadline(self):
+        original=self.S.receipt; stderr=io.StringIO()
+        def blocked(directory,label,data):
+            if label=='halt': time.sleep(2)
+            return original(directory,label,data)
+        started=time.monotonic()
+        with mock.patch.object(self.S,'DEADLINE_S',.08),mock.patch.object(self.S,'receipt',side_effect=blocked),\
+             contextlib.redirect_stderr(stderr):
+            outcome=self.S.supervise(self.worker('pass'),self.run,
+                admission=lambda:{'allowed':False,'reasons':['fixture refusal']},monitor=lambda pid:self.S.Sample(13,0,0))
+        elapsed=time.monotonic()-started
+        self.assertEqual(outcome,'INVALID-ADMISSION','original refusal must survive cleanup timeout')
+        self.assertLess(elapsed,.3)
+        self.assertIn('closeout incomplete',stderr.getvalue())
+        events,_=self.state()
+        self.assertFalse(any(e['type'] in ('halted','run_finished','finding_staged') for e in events))
+
+    def test_successful_exit_at_loop_bottom_still_terminates_group(self):
+        (self.run/'geometry.json').write_text(json.dumps({'tier':'MATH-PROXY','boundary':'math estimate, not evidence',
+            'predictions':{'H-COV':'FAIL','H-TOP':'FAIL','H-RANK':'PASS','H-OVERLAP':'PASS'}}))
+        parent=mock.Mock(); child=mock.Mock(); child.fileno.return_value=99
+        parent.recv.side_effect=[b'{"type":"hello","pid":123}\n{"type":"complete","path":"geometry.json"}\n',b'']
+        process=mock.Mock(pid=123,returncode=0)
+        # Alive at the second loop's top; exited by the EOF check at its bottom.
+        process.poll.side_effect=[None,None,None,0]
+        selector=mock.MagicMock(); selector.__enter__.return_value.select.return_value=[(None,None)]
+        with mock.patch.object(self.S.socket,'socketpair',return_value=(parent,child)),\
+             mock.patch.object(self.S.subprocess,'Popen',return_value=process),\
+             mock.patch.object(self.S.selectors,'DefaultSelector',return_value=selector),\
+             mock.patch.object(self.S.os,'killpg') as kill:
+            outcome=self.S.supervise(['fixture-only'],self.run,admission=lambda:{'allowed':True,'reasons':[]},
+                monitor=lambda pid:self.S.Sample(13,0,0))
+        self.assertEqual(outcome,'PASS')
+        kill.assert_called_once_with(123,signal.SIGKILL)
+        process.wait.assert_called_once()
 
 
 if __name__=='__main__': unittest.main()

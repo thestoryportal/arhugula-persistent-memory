@@ -63,6 +63,16 @@ def sha_file(path):
     return digest.hexdigest()
 
 
+def verify_prereg(path, expected_sha):
+    """The hash binds all bytes; only the first status paragraph declares freeze."""
+    data=Path(path).read_bytes()
+    lines=[line.strip() for line in data.decode('utf-8').splitlines() if line.strip()]
+    if (hashlib.sha256(data).hexdigest()!=expected_sha or len(lines)<2 or
+            not lines[0].startswith('# NEW-1 — ') or
+            not lines[1].startswith('**FROZEN v2 · ') or '(D-NEW1-1;' not in lines[1]):
+        raise Stop('INVALID-PREREG','NEW1 requires its hash-pinned authoritative FROZEN v2 status')
+
+
 def durable_json(path, value):
     """Fresh artifact, fsynced file and containing directory before any event."""
     path = Path(path)
@@ -118,27 +128,29 @@ def sample_resources(pid=None):
         vm = subprocess.run(['/usr/bin/vm_stat'], capture_output=True, text=True, timeout=1)
         if vm.returncode or not vm.stdout.strip(): raise ValueError(vm.stderr or 'empty vm_stat')
         available = vm_available_gib(vm.stdout)
-        inventory = subprocess.run(['/bin/ps', '-axo', 'pid=,ppid=,rss=,%cpu='],
+        inventory = subprocess.run(['/bin/ps', '-axo', 'pid=,ppid=,pgid=,rss=,%cpu='],
                                    capture_output=True, text=True, timeout=1)
         if inventory.returncode or not inventory.stdout.strip():
             raise ValueError(inventory.stderr or 'empty process inventory')
         rows = {}
         for line in inventory.stdout.splitlines():
             fields = line.split()
-            if len(fields) != 4: raise ValueError('malformed process inventory')
-            process, parent, rss, cpu = int(fields[0]), int(fields[1]), int(fields[2]), float(fields[3])
-            if process <= 0 or parent < 0 or rss < 0 or not math.isfinite(cpu) or cpu < 0 or process in rows:
+            if len(fields) != 5: raise ValueError('malformed process inventory')
+            process, parent, group, rss, cpu = int(fields[0]), int(fields[1]), int(fields[2]), int(fields[3]), float(fields[4])
+            if process <= 0 or parent < 0 or group < 0 or rss < 0 or not math.isfinite(cpu) or cpu < 0 or process in rows:
                 raise ValueError('invalid or duplicate process row')
-            rows[process] = (parent, rss, cpu)
+            rows[process] = (parent, group, rss, cpu)
         target = pid if pid is not None else os.getpid()
         if target not in rows: raise ValueError('worker/supervisor absent from inventory')
-        family = {target}
+        if pid is not None and rows[target][1]!=target:
+            raise ValueError('worker is not its isolated process-group leader')
+        family = {target} | ({p for p,(_,group,_,_) in rows.items() if group==target} if pid is not None else set())
         while True:
-            larger = family | {p for p, (parent, _, _) in rows.items() if parent in family}
+            larger = family | {p for p, (parent, _, _, _) in rows.items() if parent in family}
             if larger == family: break
             family = larger
-        rss = sum(rows[p][1] for p in family) / (1 << 20)
-        cpu = sum(rows[p][2] for p in family)
+        rss = sum(rows[p][2] for p in family) / (1 << 20)
+        cpu = sum(rows[p][3] for p in family)
         return Sample(available, rss if pid is not None else 0., cpu)
     except (OSError, ValueError, subprocess.SubprocessError) as error:
         raise Stop('INVALID-MONITORING', str(error)) from error
@@ -250,7 +262,7 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
         nonlocal kill_sent
         try: controller.observe(process.pid if process is not None and process.poll() is None else None)
         except BaseException:
-            if process is not None:
+            if process is not None and not kill_sent:
                 try:
                     os.killpg(process.pid,signal.SIGKILL)
                     kill_sent=True
@@ -281,9 +293,13 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
                 with selectors.DefaultSelector() as selector:
                     selector.register(parent,selectors.EVENT_READ)
                     buffer = b''; hello = False; complete = None; eof = False; last_sample = -math.inf
+                    worker_exited = False
                     while True:
                         remaining = controller.remaining()
-                        if time.monotonic()-last_sample >= SAMPLE_S and process.poll() is None:
+                        if process.poll() is not None and not worker_exited:
+                            # Reparented group members may retain IPC after their leader exits.
+                            terminate(process); worker_exited=True; kill_sent=True
+                        if time.monotonic()-last_sample >= SAMPLE_S and not worker_exited:
                             controller.check(process.pid); last_sample=time.monotonic()
                         ready=selector.select(min(.1,remaining)) if not eof else []
                         if ready:
@@ -320,9 +336,10 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
                         if process.poll() is not None and eof:
                             if buffer or process.returncode or complete is None:
                                 raise Stop('INVALID-WORKER','partial IPC, unsuccessful exit or missing final artifact')
+                            if not kill_sent:
+                                terminate(process); worker_exited=True; kill_sent=True
                             break
                         if eof: time.sleep(min(.05,controller.remaining()))
-                terminate(process)
             predictions=publish_predictions(run_dir,complete)
             controller.remaining()
             emit(run_dir,'stage_finished',stage='geometry',outcome='PASS',summary='Arithmetic worker exited successfully; '+BOUNDARY)
@@ -334,13 +351,20 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
                  summary='Execution completed; individual predictions are separate; '+BOUNDARY)
             return outcome
     except BaseException as error:
-        if process is not None:
-            if kill_sent: process.wait(timeout=5)
-            else: terminate(process)
         code=getattr(error,'code','INVALID-WORKER')
-        diagnostic=receipt(run_dir,'halt',{'code':code,'message':str(error),
-            'observed':getattr(error,'observed',None),'prediction_verdict':'NOT COMPUTED'})
-        emit(run_dir,'halted',reason=code+': '+str(error),diagnostic_path=diagnostic['path'])
+        try:
+            if process is not None and not kill_sent:
+                try: os.killpg(process.pid,signal.SIGKILL)
+                except ProcessLookupError: pass
+            # Cleanup and halt durability consume only the original remaining budget.
+            with hard_deadline(controller.remaining()):
+                if process is not None: process.wait(timeout=controller.remaining())
+                diagnostic=receipt(run_dir,'halt',{'code':code,'message':str(error),
+                    'observed':getattr(error,'observed',None),'prediction_verdict':'NOT COMPUTED'})
+                controller.remaining()
+                emit(run_dir,'halted',reason=code+': '+str(error),diagnostic_path=diagnostic['path'])
+        except BaseException as closeout_error:
+            print(f'{code}: {error}; closeout incomplete: {closeout_error}; no prediction verdict',file=sys.stderr)
         if isinstance(error,(KeyboardInterrupt,SystemExit)): raise
         return code
     finally:
@@ -358,9 +382,7 @@ def main():
     command=['nice','-n','10',sys.executable,'-B',str(ROOT/'tools/new1_geometry.py'),
              '--run-dir',str(directory),'--prereg-sha',args.prereg_sha]
     def admission():
-        text=prereg.read_text()
-        if sha_file(prereg)!=args.prereg_sha or 'NOT FROZEN' in text or '**FROZEN' not in text:
-            raise Stop('INVALID-PREREG','NEW1 remains gated until reviewed/frozen; no geometry started')
+        verify_prereg(prereg,args.prereg_sha)
         receipt(directory,'criteria',{'path':str(prereg),'sha256':args.prereg_sha})
         return cpu_admission(directory,args.admission)
     outcome=supervise(command,directory,admission=admission)

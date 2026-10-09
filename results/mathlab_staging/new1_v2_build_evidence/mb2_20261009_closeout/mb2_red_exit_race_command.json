@@ -1,0 +1,13 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "test_new1_supervisor.SupervisorTests.test_successful_exit_at_loop_bottom_still_terminates_group",
+    "-v"
+  ],
+  "PYTHONPATH": "tests",
+  "status": 1,
+  "signal": null
+}

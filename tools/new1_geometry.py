@@ -13,7 +13,7 @@ import sys
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from tools.new1_supervisor import BOUNDARY, TIER, durable_json, sha_file, strict_json
+from tools.new1_supervisor import BOUNDARY, TIER, Stop, durable_json, sha_file, strict_json, verify_prereg
 
 BAND=[4,5,6,7,8]
 ARMS=['A7_coined_coined','A1_single','A2_coherent2','A7_canon','A7_shuf']
@@ -412,8 +412,8 @@ def analyse_layer_with_basis(basis,adapters,M,layer,cell,control_dir):
 
 
 def run(client,run_dir,prereg_sha):
-    require(sha_file(ROOT/'docs/NEW1_ADAPTER_GEOMETRY_PREREG.md')==prereg_sha,'NEW1 criteria SHA changed')
-    require('NOT FROZEN' not in (ROOT/'docs/NEW1_ADAPTER_GEOMETRY_PREREG.md').read_text(),'NEW1 is not frozen')
+    try: verify_prereg(ROOT/'docs/NEW1_ADAPTER_GEOMETRY_PREREG.md',prereg_sha)
+    except Stop as error: raise Invalid(str(error)) from error
     client.cell('imports','numerical-dependencies')
     require(sys.version.split()[0]=='3.11.16','Python version mismatch')
     for package,version in {'torch':'2.8.0','numpy':'2.4.6','safetensors':'0.8.0'}.items():
