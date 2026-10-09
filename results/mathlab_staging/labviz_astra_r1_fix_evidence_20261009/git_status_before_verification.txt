@@ -1,0 +1,131 @@
+ M docs/C10Z_ASTRA_PREREG.md
+ M docs/LABVIZ_V2_SPEC.md
+ M docs/MATHLAB_PREREG.md
+ M experiments/track_c/c10z_astra_arms.py
+ M experiments/track_c/c10z_astra_benchmark.py
+ M experiments/track_c/c10z_astra_read.py
+ M experiments/track_c/c10z_astra_selftest.py
+ M experiments/track_c/c10z_v7_diag_selftest.py
+ M memory_mirror/MEMORY.md
+ M tools/dashboard_bar.sh
+ M tools/dashboard_experiment.py
+ M tools/dashboard_live.py
+ M tools/labviz/README.md
+ M tools/labviz/app.js
+ M tools/labviz/build.py
+ M tools/labviz/cards.py
+ M tools/labviz/contexts.json
+ M tools/labviz/labels.json
+ M tools/labviz/test_labviz.py
+ M tools/test_dashboard_live.py
+?? .ignore
+?? experiments/track_c/c10y_precast_diag.py
+?? experiments/track_c/c10y_precast_diag_selftest.py
+?? experiments/track_c/c10z_a1pop_selftest.py
+?? external_prior_art
+?? memory_mirror/gpu-gate-refuses-any-venv-python.md
+?? results/autoresearch_c10_equivalence_2026-10-06T0815.json
+?? results/autoresearch_reaim/
+?? results/c10w_oracle/p2_20261008T034226_086980Z/attempt1_halted/HALT.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/attempt1_halted/eval.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/attempt1_halted/eval_halt.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/eval.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/preflight.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/reattempt2_dispatch.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/reattempt2_dispatch_entered.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/reattempt2_eval_started.json
+?? results/c10w_oracle/p2_20261008T034226_086980Z/train/
+?? results/c10w_oracle_logs/attempt1_halted/
+?? results/c10w_oracle_logs/p2-a1-s1.gate.20261007T220211.50811.json
+?? results/c10w_oracle_logs/p2-a7-rt.gate.20261007T220753.90179.json
+?? results/c10w_oracle_logs/p2-a7-s1.gate.20261007T214226.17018.json
+?? results/c10w_oracle_logs/p2-canon-s1.gate.20261007T215636.11061.json
+?? results/c10w_oracle_logs/p2-eval.gate.20261008T030455.59962.json
+?? results/c10w_oracle_logs/p2-read-attempt2.json
+?? results/c10w_oracle_logs/p2-shuf-rt.gate.20261007T221517.41222.json
+?? results/c10w_oracle_logs/p2-shuf-s1.gate.20261007T214924.63725.json
+?? results/c10w_oracle_logs/p2_launch_fingerprint.txt
+?? results/c10x_enginepath/
+?? results/c10x_enginepath_logs/
+?? results/c10x_enginepath_rerun1/
+?? results/c10x_enginepath_rerun1_logs/
+?? results/c10x_enginepath_rerun2/
+?? results/c10x_enginepath_rerun2_logs/
+?? results/c10x_enginepath_rerun3/audit_A1_single.pt
+?? results/c10x_enginepath_rerun3/audit_A7_coined_coined.pt
+?? results/c10y_directdw_calib1/
+?? results/c10y_directdw_calib2/
+?? results/c10y_directdw_calib3/
+?? results/c10y_directdw_calib4/precast_build_report.md
+?? results/c10y_directdw_calib4/precast_impl_astra_r1.md
+?? results/c10y_directdw_calib4/precast_impl_astra_r2.md
+?? results/c10z_astra/
+?? results/c10z_astra_attempt2/
+?? results/c10z_astra_attempt3/halt_p1.json
+?? results/c10z_astra_attempt4_prep/
+?? results/c10z_astra_benchmark/20261008T104535Z/heartbeat.json
+?? results/c10z_astra_benchmark/20261008T104535Z/run.json
+?? results/c10z_astra_benchmark/20261008T104535Z/svd_child.json
+?? results/c10z_astra_benchmark/20261008T121345Z/heartbeat.json
+?? results/c10z_astra_benchmark/20261008T121345Z/run.json
+?? results/c10z_astra_benchmark/20261008T121345Z/svd_child.json
+?? results/dashboard_gpu_detector_report.md
+?? results/infranodus_research_arc_2026-10-05/fulltext/
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus-transcend-corpus-topics-C10.txt.rtf
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus-transcend-corpus-topics-C10_2.txt.rtf
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1207.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1215.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1217.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1219.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1220.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1222.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1223.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1228.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1230.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1233.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1235.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1238.json
+?? results/infranodus_research_arc_2026-10-05/operator_chat_inbox/round3_20261005/infranodus_blanthycolino_science_261005T1240.json
+?? results/infranodus_research_arc_2026-10-05/part2/q10_layer_selection_residual.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q11_nullspace_generalization_tradeoff.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q12_oov_entity_editing.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q14_rephrase_robustness_weight_editing.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q15_fictional_entity_weight_update.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q1_subject_embedding_editing.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q4_key_collinearity_interference.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q5_novel_entity_continued_pretraining.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q7_frame_vs_subject_recall.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q8_editing_overfit_paraphrase.txt
+?? results/infranodus_research_arc_2026-10-05/part2/q9_covariance_regularization_editing.txt
+?? results/infranodus_research_arc_2026-10-05/segments/
+?? results/labviz/
+?? results/labviz_codex_brief.md
+?? results/labviz_codex_impl.md
+?? results/labviz_v2_codex_impl.md
+?? results/mathlab/harvest_20261009T184950.056951Z/clean.pt
+?? results/mathlab/harvest_20261009T184950.056951Z/inloop_A1_single.pt
+?? results/mathlab/harvest_20261009T184950.056951Z/inloop_A2_coherent2.pt
+?? results/mathlab/harvest_20261009T184950.056951Z/inloop_A7_coined_coined.pt
+?? results/mathlab/harvest_20261009T184950.056951Z/inloop_mint1_s0.pt
+?? results/mathlab/harvest_20261009T184950.056951Z/inloop_mint1_s1.pt
+?? results/mathlab/harvest_20261009T184950.056951Z/inloop_mint1_s2.pt
+?? results/mathlab/harvest_20261009T184950.056951Z/postedit_A1_single.pt
+?? results/mathlab/harvest_20261009T184950.056951Z/postedit_A2_coherent2.pt
+?? results/mathlab/harvest_20261009T184950.056951Z/postedit_A7_coined_coined.pt
+?? results/mathlab/harvest_20261009T184950.056951Z/postedit_mint1_s0.pt
+?? results/mathlab/harvest_20261009T184950.056951Z/postedit_mint1_s1.pt
+?? results/mathlab/harvest_20261009T184950.056951Z/postedit_mint1_s2.pt
+?? results/mathlab/harvest_20261009T184950.056951Z/weights_A7.pt
+?? results/mathlab/m2_20261009T192823.926873Z/
+?? results/mathlab_staging/labviz_astra_r1.md
+?? results/mathlab_staging/labviz_integration_evidence_20261009/
+?? results/mathlab_staging/labviz_integration_report.md
+?? results/mathlab_staging/labviz_stale_fix_evidence_20261009/
+?? results/mathlab_staging/mint_norm_diagnosis.md
+?? results/mathlab_staging/mint_norm_diagnosis_20261009T193234.646267Z/
+?? results/mathlab_staging/runs/m2_20261009T192821Z_82233/
+?? tools/labviz/test_mathlab.cjs
+?? tools/labviz/test_mathlab.py
+?? tools/labviz_serve.sh
+?? tools/run_c10y_precast_diag.sh
+?? tools/test_dashboard_gpu_detector.py

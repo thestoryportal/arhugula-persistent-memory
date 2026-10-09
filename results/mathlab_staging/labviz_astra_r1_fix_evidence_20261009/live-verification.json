@@ -1,0 +1,163 @@
+{
+  "total_cards": 2350,
+  "mathlab_cards": 7,
+  "runs": [
+    {
+      "run_id": "m2_20261009T192821Z_82233",
+      "card_id": "run-c4e08b61f2cb7ab4",
+      "status": "running",
+      "outcome": null,
+      "purpose": "experiment",
+      "steps": {
+        "1": "not started",
+        "2": "running",
+        "3": "not started",
+        "4": "not started"
+      },
+      "source": "results/mathlab_staging/runs/m2_20261009T192821Z_82233/events.jsonl",
+      "snapshot_sha256": "030f5a7fc013dff0ee5e1e09c06b8532d0cdfcb63d87f7b8a3dfc0dd5165158d",
+      "events": 1361,
+      "parse_errors": [],
+      "current_live_status": "running",
+      "current_live_events": 1373,
+      "current_live_sha256": "58fab3f17322b04f003b6052ca571f6d1290520b21043ecdd7c5a09681ab861a"
+    },
+    {
+      "run_id": "harvest_20261009T184932Z_95961",
+      "card_id": "run-33210915fe8228a8",
+      "status": "finished",
+      "outcome": "PASS",
+      "purpose": "experiment",
+      "steps": {
+        "1": "PASS",
+        "2": "not started",
+        "3": "not started",
+        "4": "not started"
+      },
+      "source": "results/mathlab_staging/runs/harvest_20261009T184932Z_95961/events.jsonl",
+      "snapshot_sha256": "18c415e06af4a14afe30000ffea65fc6fcf41168d2127512723ce038c283a3b7",
+      "events": 842,
+      "parse_errors": [],
+      "current_live_status": "finished",
+      "current_live_events": 842,
+      "current_live_sha256": "18c415e06af4a14afe30000ffea65fc6fcf41168d2127512723ce038c283a3b7",
+      "norm_outcomes": {
+        "mint-norm-mint1_s0": "FAIL",
+        "mint-norm-mint1_s1": "FAIL",
+        "mint-norm-mint1_s2": "FAIL"
+      },
+      "derived_eligible_mint_arms": 0,
+      "norm_threshold": "relative norm difference <= 1e-3; not tensor identity",
+      "finding": "logs/pending_findings/10_mathlab_harvest_20261009T192601.184026Z.md",
+      "finding_sha256": "27da06eeb6b4db681f72fa2ef9db49d7955f98456224e0f51ae34e6a1a6479b3"
+    },
+    {
+      "run_id": "dml2_build_acceptance_20261009T175517.460160Z",
+      "card_id": "run-d1e7bbf27d2b10d1",
+      "status": "finished",
+      "outcome": "PASS",
+      "purpose": "experiment",
+      "steps": {
+        "1": "not started",
+        "2": "PASS",
+        "3": "not started",
+        "4": "not started"
+      },
+      "source": "results/mathlab_staging/runs/dml2_build_acceptance_20261009T175517.460160Z/events.jsonl",
+      "snapshot_sha256": "9d423b33fe3475383b0c7760a4dc943475dcfb33d9496dd2a79bc0ea08b8678e",
+      "events": 11,
+      "parse_errors": [],
+      "current_live_status": "finished",
+      "current_live_events": 11,
+      "current_live_sha256": "9d423b33fe3475383b0c7760a4dc943475dcfb33d9496dd2a79bc0ea08b8678e"
+    },
+    {
+      "run_id": "admission_20261009T173935.992389Z",
+      "card_id": "run-eb94f2713f85063f",
+      "status": "finished",
+      "outcome": "INVALID",
+      "purpose": "admission",
+      "steps": {
+        "1": "not started",
+        "2": "not started",
+        "3": "not started",
+        "4": "not started"
+      },
+      "source": "results/mathlab_staging/runs/admission_20261009T173935.992389Z/events.jsonl",
+      "snapshot_sha256": "41e39fa47a29e679b0cbd50c8db127988f622f11cccc71d0638653ec982c4365",
+      "events": 5,
+      "parse_errors": [],
+      "current_live_status": "finished",
+      "current_live_events": 5,
+      "current_live_sha256": "41e39fa47a29e679b0cbd50c8db127988f622f11cccc71d0638653ec982c4365"
+    },
+    {
+      "run_id": "acceptance_20261009T172912.342899Z",
+      "card_id": "run-067562219b5a12a5",
+      "status": "halted",
+      "outcome": "INVALID",
+      "purpose": "experiment",
+      "steps": {
+        "1": "not started",
+        "2": "INVALID",
+        "3": "not started",
+        "4": "not started"
+      },
+      "source": "results/mathlab_staging/runs/acceptance_20261009T172912.342899Z/events.jsonl",
+      "snapshot_sha256": "921d85decec6c5ad2fe22df62ad9760569340f07cca988aa441558a6268ef0c6",
+      "events": 13,
+      "parse_errors": [],
+      "current_live_status": "halted",
+      "current_live_events": 13,
+      "current_live_sha256": "921d85decec6c5ad2fe22df62ad9760569340f07cca988aa441558a6268ef0c6"
+    },
+    {
+      "run_id": "admission_20261009T040704.898376Z",
+      "card_id": "run-81ab3843c08539da",
+      "status": "finished",
+      "outcome": "INVALID",
+      "purpose": "admission",
+      "steps": {
+        "1": "not started",
+        "2": "not started",
+        "3": "not started",
+        "4": "not started"
+      },
+      "source": "results/mathlab_staging/runs/admission_20261009T040704.898376Z/events.jsonl",
+      "snapshot_sha256": "dce80afe411b3faa4cf7473c5072d4216362709772bd8279fd86d30fcd86030f",
+      "events": 5,
+      "parse_errors": [],
+      "current_live_status": "finished",
+      "current_live_events": 5,
+      "current_live_sha256": "dce80afe411b3faa4cf7473c5072d4216362709772bd8279fd86d30fcd86030f"
+    },
+    {
+      "run_id": "admission_20261009T035911.672726Z",
+      "card_id": "run-edc858286d3bcfa2",
+      "status": "finished",
+      "outcome": "INVALID",
+      "purpose": "admission",
+      "steps": {
+        "1": "not started",
+        "2": "not started",
+        "3": "not started",
+        "4": "not started"
+      },
+      "source": "results/mathlab_staging/runs/admission_20261009T035911.672726Z/events.jsonl",
+      "snapshot_sha256": "ab047e848e9102653cc8a168e9933951db7bb25fb5df7e70449a1257a2249f77",
+      "events": 4,
+      "parse_errors": [],
+      "current_live_status": "finished",
+      "current_live_events": 4,
+      "current_live_sha256": "ab047e848e9102653cc8a168e9933951db7bb25fb5df7e70449a1257a2249f77"
+    }
+  ],
+  "checks": [
+    "all MathLab index rows are canonical MATH-PROXY streams",
+    "card/index/chunk/mirrored-reader-fold agree for every MathLab run",
+    "harvest terminal PASS and all three norm failures retain exact thresholds",
+    "zero replay-eligible mint arms derived from required failed checks",
+    "staged finding and shared reader/fold module snapshots hash correctly",
+    "no RECONSTRUCTED verdict label or generic MathLab publication remains"
+  ]
+}

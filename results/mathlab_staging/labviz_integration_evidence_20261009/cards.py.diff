@@ -1,0 +1,178 @@
+--- before/tools/labviz/cards.py
++++ tools/labviz/cards.py
+@@ -70,7 +70,24 @@
+ 
+ 
+ def leaf(value, file, path):
+-    return dict(value=value, src=dict(file=file, path=path))
++    src=dict(file=file, path=path)
++    if mathlab_source(file): src['reader']='mathlab_events.read_events'
++    return dict(value=value, src=src)
++
++
++def mathlab_source(file):
++    parts=Path(file).parts
++    return (len(parts)==5 and parts[:3]==('results','mathlab_staging','runs') and
++            parts[3] not in ('.','..') and parts[4]=='events.jsonl' and str(Path(file))==file)
++
++
++def source_data(root, file):
++    if mathlab_source(file):
++        from tools import mathlab_events
++        path=Path(root)/file
++        events,errors=mathlab_events.read_events(path)
++        return {'events':events,'errors':[e.replace(str(path)+':',file+':',1) for e in errors]}
++    return json.loads((Path(root)/file).read_text())
+ 
+ 
+ def doc(value, file, line, quote):
+@@ -86,7 +103,8 @@
+ def recompute(rule, values):
+     arities={'add':2,'in-band':2,'written':1,'teacher-hits':1,'rounded-rise':3,
+              'paired-loss':2,'frame-values':2,'map-add':2,'all-le':2,'minted-value':2,
+-             'replica-note':3,'context-section':3,'context-condition':5,'context-layer':5}
++             'replica-note':3,'context-section':3,'context-condition':5,'context-layer':5,
++             'mathlab-fold':1}
+     if rule in arities and len(values) != arities[rule]:
+         raise ValueError('missing operand: '+rule)
+     if rule == 'add': return values[0]+values[1]
+@@ -99,6 +117,9 @@
+     if rule == 'map-add': return [v+values[1] for v in values[0]]
+     if rule == 'all-le': return all(x<=y for x,y in zip(values[0],values[1])) and len(values[0])==len(values[1])
+     if rule == 'minted-value': return [values[0],values[1]]
++    if rule == 'mathlab-fold':
++        from tools import mathlab_events
++        return json.loads(encoded(mathlab_events.fold(values[0])))
+     if rule == 'replica-note': return f'replica of {values[0]}_s{values[1] if values[1] is not None else "none"}; the configuration\'s label is on the replicate-0 card'
+     if rule == 'context-candidates':
+         if not values: raise ValueError('empty derived candidates')
+@@ -112,7 +133,7 @@
+ 
+ def recorded(source, data=None):
+     parts=Path(source).parts
+-    return not (set(parts)&{'replays','sandbox','telemetry','labviz'} or
++    return not (set(parts)&{'replays','sandbox','telemetry','labviz','mathlab_staging'} or
+                 isinstance(data,dict) and str(data.get('evidence_status','')).startswith(('NOT EVIDENCE','EXPLORATORY')))
+ 
+ 
+@@ -265,7 +286,7 @@
+ 
+ def json_leaves(value):
+     if isinstance(value,dict):
+-        if 'value' in value and 'path' in value.get('src',{}): yield value
++        if 'value' in value and 'path' in value.get('src',{}) and not value['src'].get('reader'): yield value
+         for key,item in value.items():
+             if key not in ('value','src','built','sources'): yield from json_leaves(item)
+     elif isinstance(value,list):
+@@ -286,7 +307,7 @@
+ def validate_card(card, root, scales=None):
+     root=Path(root); cache={}; hashes={s['file']:s['sha256'] for s in card['sources']}
+     def source(file):
+-        if file not in cache: cache[file]=json.loads((root/file).read_text())
++        if file not in cache: cache[file]=source_data(root,file)
+         return cache[file]
+     def check(value,key=None):
+         if isinstance(value,dict):
+@@ -294,6 +315,10 @@
+                 if 'src' in value:
+                     src=value['src']
+                     if src['file'] not in hashes: raise ValueError('unhashed source '+src['file'])
++                    if 'reader' in src:
++                        if src['reader']!='mathlab_events.read_events' or not mathlab_source(src['file']):
++                            raise ValueError('invalid source reader '+str(src))
++                    elif mathlab_source(src['file']): raise ValueError('event source requires its shared reader')
+                     if 'path' in src:
+                         actual=resolve(source(src['file']),src['path'])
+                         if actual!=value['value'] or type(actual)!=type(value['value']): raise ValueError('leaf differs from source '+str(src))
+@@ -310,6 +335,13 @@
+                     else:
+                         inputs=value.get('inputs',[])
+                         if not inputs: raise ValueError('derived leaf has no operands')
++                        if value['derived']=='mathlab-fold':
++                            file=card['identity']['name']
++                            expected={'file':file,'path':'.events','reader':'mathlab_events.read_events'}
++                            if (not mathlab_source(file) or len(inputs)!=1 or inputs[0].get('src')!=expected or
++                                value.get('rule_src',{}).get('file')!='tools/mathlab_events.py' or
++                                'tools/mathlab_events.py' not in hashes):
++                                raise ValueError('unbound mathlab fold source')
+                         for x in inputs: check(x)
+                         if recompute(value['derived'],[x['value'] for x in inputs])!=value['value']: raise ValueError('wrong derived value')
+                         rule=value['derived']
+@@ -391,7 +423,7 @@
+         self.scales={}; self.runs=[]; self.survey={}
+ 
+     def read(self,source):
+-        if source not in self.files: self.files[source]=json.loads((self.root/source).read_text())
++        if source not in self.files: self.files[source]=source_data(self.root,source)
+         return self.files[source]
+ 
+     def jl(self,source,path,reason='not recorded for this run'):
+@@ -422,6 +454,7 @@
+         for run in self.runs: self.cards.append(self.make(run))
+         self.cards.extend(self.documentaries())
+         self.cards.extend(self.log_cards())
++        self.cards.extend(self.mathlab_cards())
+         # Ensure every applied write appears on a card even for a schema without an arm.
+         exposed={(w['src']['file'],w['src']['path']) for c in self.cards for x in c.get('per_layer',[]) for w in [x['write_size']] if 'src' in w}
+         for source in sorted({x['src']['file'] for x in operands if (x['src']['file'],x['src']['path']) not in exposed}):
+@@ -779,8 +812,60 @@
+                               'events':{'timestamped':[],'untimed':[{'name':'log observation','field':source,'index':line,'at':missing('time not recorded'),'detail':doc(lines[line-1],source,line,lines[line-1])}]}})
+         return cards
+ 
++    def mathlab_cards(self):
++        from tools.labviz.build import digest
++        paths=sorted((self.root/'results/mathlab_staging/runs').glob('*/events.jsonl'))
++        if not paths: return []
++        spec='docs/LABVIZ_V2_SPEC.md'; lines=(self.root/spec).read_text().splitlines()
++        heading=next((i+1,line) for i,line in enumerate(lines) if line.startswith('## Forward requirement — math lab'))
++        policy=next((i+1,line) for i,line in enumerate(lines) if i+1>heading[0] and 'math estimate, not evidence' in line)
++        result=[]
++        for path in paths:
++            if path.is_symlink() or path.parent.is_symlink(): continue
++            source=str(path.relative_to(self.root)); events=self.read(source)['events']
++            state=derived('mathlab-fold',[self.jl(source,'.events')])
++            state['rule_src']={'file':'tools/mathlab_events.py','spec':'D-ML-1 shared fold'}
++            start=next((i for i,e in enumerate(events) if e['type']=='run_started'),None)
++            title=self.jl(source,f'.events[{start}].title') if start is not None else missing('run title not recorded')
++            date=self.jl(source,f'.events[{start}].ts') if start is not None else missing('run start not recorded')
++            findings=[]
++            for i,e in enumerate(events):
++                if e['type']!='finding_staged': continue
++                reference=Path(e['path'])
++                reference=reference if reference.is_absolute() else self.root/reference
++                name=None
++                try:
++                    reference=reference.resolve()
++                    relative=reference.relative_to(self.root.resolve()).as_posix()
++                    if reference.suffix!='.md': raise ValueError('referenced finding is not Markdown')
++                    text=reference.read_text().splitlines()
++                    document=[doc(line,relative,n,line) for n,line in enumerate(text,1)]
++                    name=relative
++                except ValueError as error:
++                    reason='outside workspace' if 'is not in the subpath' in str(error) else str(error)
++                    document=missing('finding '+e['path']+': '+reason)
++                except (OSError,UnicodeError) as error:
++                    document=missing('finding '+e['path']+': read error: '+str(error))
++                findings.append({'event':self.jl(source,f'.events[{i}]'),'document':document,'name':name})
++            result.append({'schema':'labviz.run_card/v1','card_id':'run-'+digest([source,'events'])[:16],
++                           'evidence_status':'MATH-PROXY','built':{'builder_sha256':sha(PACKAGE/'build.py')},
++                           'identity':{'name':source,'family':'mathlab_staging','field':path.parent.name,
++                                       'recipe':'','arm':'','model':missing('model identity not in the event contract'),
++                                       'role':missing('math estimate, not evidence'),'date':date,'display_title':title},
++                           'context':{'experiment':{**doc('D-ML-1',spec,*heading),'node_id':'mathlab:D-ML-1'},
++                                      'question':title,'era':missing('era not recorded')},
++                           'label':doc('math estimate, not evidence',spec,*policy),
++                           'headline':{},'per_fact':[],'per_layer':[],'gates':[],
++                           'mathlab':{'state':state,'errors':self.jl(source,'.errors'),'findings':findings},
++                           'events':{'timestamped':[{'name':e['type'],'index':i,'field':source,
++                                                    'at':self.jl(source,f'.events[{i}].ts'),
++                                                    'detail':self.jl(source,f'.events[{i}]')} for i,e in enumerate(events)],
++                                     'untimed':[]}})
++        return result
++
+     def finish(self,c):
+         files=set(citations(c))|{'tools/labviz/labels.json','tools/labviz/gates.json','tools/labviz/links.json','tools/labviz/stimulus.json','tools/labviz/contexts.json'}
++        files.update(f['name'] for f in c.get('mathlab',{}).get('findings',[]) if f['name'])
+         if (self.root/'docs/LABVIZ_V2_SPEC.md').is_file(): files.add('docs/LABVIZ_V2_SPEC.md')
+         if POPULATION in files:
+             files.update(x['file'] for x in self.scales['sources'])

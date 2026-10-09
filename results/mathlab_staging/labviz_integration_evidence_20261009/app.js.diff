@@ -1,0 +1,146 @@
+--- before/tools/labviz/app.js
++++ tools/labviz/app.js
+@@ -30,7 +30,7 @@
+   const sourceURL = file => 'evidence/' + String(file || '').replace(/:[0-9]+$/, '');
+   function source(leaf) {
+     if (!leaf?.src) return leaf?.derived ? '<span class="source">derived from recorded inputs</span>' : '';
+-    const s = leaf.src;
++    const s = {...leaf.src, path:leaf.src.reader ? leaf.src.reader + ' ' + leaf.src.path : leaf.src.path};
+     return `<a class="source" href="${esc(sourceURL(s.file))}${s.line ? '#L' + s.line : ''}" title="${esc(s.quote || s.path || '')}">${esc(s.file)}${s.path ? ' : ' + esc(s.path) : s.line ? ':' + s.line : ''}</a>`;
+   }
+   function missing(leaf, fallback = 'not recorded for this run') {
+@@ -161,8 +161,10 @@
+     }
+     document.getElementById('breadcrumb').innerHTML = crumbs;
+     document.getElementById('context-chip').textContent = context;
+-    document.getElementById('evidence-badge').textContent = 'RECORDED';
+-    document.getElementById('evidence-badge').title = card?.evidence_status || 'From the named program records and documents; Lab View makes no verdict.';
++    const proxy=card?.mathlab || state.view === 'compare' && state.compare.some(id => cards.get(id)?.mathlab);
++    const mixed=state.view === 'runs' && index.some(row => row.mathlab);
++    document.getElementById('evidence-badge').textContent = proxy ? 'MATH-PROXY · math estimate, not evidence' : mixed ? 'RECORDED + MATH-PROXY' : 'RECORDED';
++    document.getElementById('evidence-badge').title = proxy || mixed ? 'math estimate, not evidence' : card?.evidence_status || 'From the named program records and documents; Lab View makes no verdict.';
+     document.getElementById('frame-data').href = card ? 'cards/' + card.card_id + '.json' : 'context.json';
+     document.getElementById('frame-data').dataset.card = card?.card_id || '';
+   }
+@@ -289,6 +291,9 @@
+     return title.length > 100 ? title.slice(0,96).replace(/\s+\S*$/,'') + '…' : title;
+   }
+   function runDescription(entry) {
++    if (entry.mathlab) return ['MATH-PROXY','math estimate, not evidence',entry.mathlab.run_id || entry.field,
++                              entry.mathlab.purpose || 'scope not recorded',entry.mathlab.status,
++                              entry.mathlab.parse_errors ? entry.mathlab.parse_errors + ' parse errors' : ''].filter(Boolean).join(' · ');
+     const field=String(entry.field || ''), recipeValue=value(entry.recipe), armValue=value(entry.arm);
+     const recipe=recipeValue != null && recipeValue !== '' ? String(recipeValue) : field.match(/^\.?recipes\.([^.]+)/)?.[1];
+     const arm=armValue != null && armValue !== '' ? String(armValue) : field.match(/(?:^|\.)(A\d+_[^.]+)/)?.[1];
+@@ -347,6 +352,7 @@
+   }
+   function options(items, selected, title) { return `<option value="">${esc(title)}</option>${[...new Set(items.filter(Boolean))].sort().map(x => `<option value="${esc(x)}"${x === selected ? ' selected' : ''}>${esc(x)}</option>`).join('')}`; }
+   function renderRuns() {
++    frame();
+     content.innerHTML = header('Recorded runs','Search the experiment first, then open one of its recorded observations. Multiple observations of one source are nested together.') + `<div class="controls"><div class="control"><label for="run-search">Find a recorded experiment</label><input id="run-search" type="search" placeholder="Registry ID or source path" value="${esc(filters.query || '')}"></div><div class="control"><label for="era-filter">Era</label><select id="era-filter">${options(index.map(r => shortEra(r.era)),filters.era,'All eras')}</select></div><div class="control"><label for="model-filter">Model</label><select id="model-filter">${options(index.map(r => r.model),filters.model,'All models')}</select></div><div class="control"><label for="line-filter">Science line</label><select id="line-filter">${options(index.map(r => 'exp:' + r.experiment).filter(x => x !== 'exp:undefined'),filters.line,'All lines')}</select></div><div class="control"><label for="label-filter">Recorded label</label><select id="label-filter">${options(index.map(r => r.label),filters.label,'All labels')}</select></div><div class="control"><label for="date-filter">Recorded date</label><input id="date-filter" type="date" value="${esc(filters.date || '')}"></div></div><div class="run-actions"><button data-view="compare">Compare two runs</button>${state.run ? `<button data-run="${esc(state.run)}">Open the selected run</button>` : ''}</div><p id="run-count" class="source" aria-live="polite"></p><div id="run-results"></div>`;
+     renderRunList();
+   }
+@@ -359,6 +365,7 @@
+     return `<span class="label-chip ${esc(cls)}">${esc(value(leaf))}</span>${cls === 'unknown' ? "<p class=\"source\">label not in Lab View's table</p>" : ''}${cls === 'lead' ? '<p class="caption">promising under this test; see replication</p>' : ''}`;
+   }
+   function badge(card) {
++    if (card.mathlab) return mathlabSummary(card);
+     const h=card.headline || {}, role=value(card.identity?.role), c10=isC10(card);
+     let body='';
+     if (number(value(h.heldout_top1))) body += `<p class="score">${fmt(value(h.heldout_top1))}% <span class="role">${esc(h.heldout_top1.plain || 'held-out top-1 correctness')}${number(value(h.rung_n)) ? ' at N=' + fmt(value(h.rung_n)) : ''}${number(value(h.heldout_baseline_top1)) ? '; recorded baseline ' + fmt(value(h.heldout_baseline_top1)) + '%' : ''}</span></p>`;
+@@ -549,12 +556,74 @@
+     }
+     drawTrajectories(card);
+   }
++  function mathlabSummary(card) {
++    const s=value(card.mathlab.state);
++    const scope=s.purpose === 'admission' ? 'Admission only; this receipt does not complete an experiment step.' :
++                s.purpose === 'experiment' ? 'Experiment step ' + s.step : 'Run scope not recorded.';
++    return section(card,'MATH-PROXY','<p><strong>math estimate, not evidence</strong></p><p>' +
++      esc(s.run_id || card.identity.field) + ' · ' + esc(s.status) + '</p><p>' + esc(scope) + '</p>' +
++      '<p>Outcome: ' + esc(s.outcome || 'not recorded') + '</p>' +
++      (s.summary ? '<p>' + esc(s.summary) + '</p>' : '') + source(card.label),'Saved event snapshot; no liveness inferred.','');
++  }
++  function mathlabView(card) {
++    const m=card.mathlab, s=value(m.state), errors=array(m.errors);
++    const cell=x => x == null ? 'not recorded' : typeof x === 'object' ?
++      '<pre class="raw-measures">' + esc(JSON.stringify(x,null,2)) + '</pre>' : esc(String(x));
++    const table=(rows,columns) => rows.length ? '<div class="table-wrap"><table><thead><tr>' +
++      columns.map(([,label]) => '<th>' + esc(label) + '</th>').join('') + '</tr></thead><tbody>' +
++      rows.map(row => '<tr>' + columns.map(([key]) => '<td>' + cell(row[key]) + '</td>').join('') + '</tr>').join('') +
++      '</tbody></table></div>' : '<p class="missing">not recorded for this run</p>';
++    let body=mathlabSummary(card);
++    if (errors.length) body+=section(card,'Parse errors','<div role="alert"><ul>' +
++      errors.map(error => '<li>' + esc(error) + '</li>').join('') + '</ul></div>' + source(m.errors),
++      'Invalid records are excluded by the shared event reader.','');
++    if (s.halt) body+=section(card,'Halt','<p>' + esc(s.halt.reason) + '</p><p>Diagnostic: ' +
++      esc(s.halt.diagnostic_path) + '</p>','math estimate, not evidence','');
++    if (s.calibration_outcome === 'FAIL' && s.steps['3'] === 'FAIL' && s.status === 'stopped: check failed')
++      body+='<p>Stop the lab cheaply: aggregate calibration failed.</p>';
++    body+=section(card,'Experiment steps',table(Object.entries(s.steps).map(([step,outcome]) =>
++      ({step:'Step ' + step,outcome})),[['step','Step'],['outcome','Recorded state']]),'math estimate, not evidence','');
++    if (s.admission) body+=section(card,'Admission',table([s.admission],[['allowed','Allowed'],['reasons','Reasons']]),'','');
++    body+=section(card,'Stages',table(s.stages,[['stage','Stage'],['plain_words','What it does'],['cap_s','Cap seconds'],
++      ['ts','Started UTC'],['finished_ts','Finished UTC'],['outcome','Outcome'],['summary','Summary']]),'math estimate, not evidence','');
++    body+=section(card,'Progress',table(s.progress ? [s.progress] : [],[['stage','Stage'],['done','Done'],
++      ['total','Total'],['unit','Unit'],['ts','Recorded UTC']]),'','');
++    const groups=Object.entries(s.gate_groups).map(([name,g]) => ({name,...g,completion:g.complete ? 'complete' : 'incomplete'}));
++    const gates=s.gates.map(g => ({...g,outcome:s.gate_outcomes[g.gate_id]}));
++    body+=section(card,'Gates',table(groups,[['name','Planned group'],['outcome','Outcome'],['completion','Group coverage']]) +
++      table(gates,[['gate_id','Check'],['plain_words','What it checks'],['observed','Observed'],['comparison','Comparison'],
++                   ['bar','Threshold'],['outcome','Outcome']]),'Outcomes and group coverage come from the shared fold. math estimate, not evidence','');
++    body+=section(card,'Resource samples',table(s.resource_samples,[['ts','Recorded UTC'],['avail_gib','Available GiB'],
++      ['floor_gib','Floor GiB'],['rss_gib','RSS GiB'],['cpu_pct','CPU %']]),'Recorded samples; no live resource probe.','');
++    body+=section(card,'Findings',m.findings.map(f => {
++      const e=value(f.event), document=Array.isArray(f.document) ?
++        (f.document.length ? '<pre class="raw-measures">' + esc(f.document.map(line => value(line)).join('\n')) + '</pre>' :
++         '<p>Referenced finding is empty.</p>') + (f.name ? '<a class="source" href="' + esc(sourceURL(f.name)) + '">' +
++         esc(f.name) + '</a>' : source(f.document[0])) : missing(f.document);
++      return '<article><h4>' + esc(e.finding_id) + ' · MATH-PROXY</h4><p>math estimate, not evidence</p><p>' +
++        esc(e.summary) + '</p>' + document + source(f.event) + '</article>';
++    }).join('') || '<p class="missing">not recorded for this run</p>','Only findings referenced by the events are included.','');
++    body+=section(card,'Candidate questions — ideas to test',s.candidates.map(c => '<article><p>' + esc(c.question) +
++      '</p><p>Source: ' + esc(c.source) + ' · ' + (c.offline ? 'offline idea' : 'idea') + '</p></article>').join('') ||
++      '<p class="missing">not recorded for this run</p>','Ideas to test; no finding or scientific evidence is claimed.','');
++    return body;
++  }
+   function renderRun(card) {
++    if (card.mathlab) {
++      content.innerHTML=header('Math lab','math estimate, not evidence','MATH-PROXY') + cardIdentity(card) +
++        '<div class="run-actions"><button data-view="runs">Browse runs</button></div>' + mathlabView(card) + events(card) +
++        section(card,'Source events',dataLink(card) + '<a href="' + esc(sourceURL(recordName(card))) +
++          '">Original events.jsonl</a><p>' + (card.sources || []).length + ' source files are hashed in the card.</p>' +
++          source(card.mathlab.state.inputs[0]),'read_events and the shared fold supply this snapshot.','');
++      eventReadout(card);
++      return;
++    }
+     const downloads=recordName(card).startsWith('results/') && recordName(card).endsWith('.json') ? `<a href="runs/${esc(card.card_id)}.svg" download>Save SVG</a><a href="runs/${esc(card.card_id)}.png" download>Save PNG</a>` : '';
+     content.innerHTML=header('The recorded run','Read this result in its own test’s terms.')+cardIdentity(card)+runActions(card)+plainWords(card)+badge(card)+factStrip(card)+gauges(card)+writes(card)+layerMap(card)+recordsView(card)+training(card)+events(card)+section(card,'Source record and saved downloads',`${dataLink(card)}<a href="${esc(sourceURL(recordName(card)))}">Original source</a>${downloads}<p class="source">${(card.sources || []).length} source files are hashed in the card.</p>`,'The JSON card holds full precision and source paths.','this display certifies the validity or comparability of a scientific record.');
+     attachCharts(card);
+   }
+   function renderModel(card) {
++    if (card.mathlab) { renderRun(card); return; }
+     const count=value(card.parts?.structure?.layers), written=(card.per_layer || []).filter(r => value(r.written) === true), chosen=written[0]?.layer ?? 0;
+     content.innerHTML=header('Inside the model','A layer is one processing stage. A write size measures how much its stored numbers changed.') + picker() + `<div class="selection-title">${cardIdentity(card)}</div>`+runActions(card)+`<div class="controls"><button id="show-2d" aria-pressed="true">2D recorded layers</button><button id="show-3d" aria-pressed="false">3D structure</button><div class="control"><label for="layer-pick">Open a layer</label><select id="layer-pick">${Number.isInteger(count) ? Array.from({length:count},(_,i) => `<option value="${i}"${chosen === i ? ' selected' : ''}>Layer ${i}${written.some(r => r.layer === i) ? ' · written' : ''}</option>`).join('') : '<option>Layer count not recorded</option>'}</select></div></div><div id="tower" hidden></div><p id="model-status" class="caption">The recorded 2D view is available. The optional 3D view needs WebGL and the pinned CDN.</p><div id="tower-fallback">${writes(card,true)}</div>${section(card,'Parts of a layer',`<div id="parts-diagram">${parts(card,chosen)}</div>`,'Attention reads earlier pieces; the MLP transforms the running summary. Colour marks changed stored numbers.','unchanged stored numbers produce unchanged activity after a write.',true)}${section(card,'Static wiring',wiring(card),'Each branch reads the running main line and adds its result back to it.','the animated pulse is activity recorded during this run.',true)}${section(card,'Answer signal and internal flow',missing(null,'needs TELEMETRY for a future run, or an observation REPLAY (NOT EVIDENCE)'), 'Phase 1 contains recorded results and static structure.','internal activity was measured for this historical run.')}${training(card)}${events(card)}`;
+     attachCharts(card);
+@@ -580,6 +649,20 @@
+     return {eligible:true,counts,joined};
+   }
+   function renderCompare(left,right) {
++    if (left?.mathlab || right?.mathlab) {
++      content.innerHTML=header('Compare run records','Math estimates retain their MATH-PROXY tier.') +
++        '<div class="controls"><button id="compare-left" data-compare-slot="left">Choose left run</button>' +
++        '<button id="compare-right" data-compare-slot="right">Choose right run</button></div>' + picker() +
++        '<p class="missing">not comparable: math estimate, not evidence; no matched answer-evidence comparison.</p>' +
++        '<div class="compare-grid">' + [left,right].map((c,i) => c ? '<article><h3>' + (i ? 'Right' : 'Left') +
++          '</h3>' + cardIdentity(c) + (c.mathlab ? mathlabSummary(c) : badge(c)) +
++          '<button data-run="' + esc(c.card_id) + '">Open run</button></article>' : '<article>Choose a run.</article>').join('') + '</div>';
++      for (const [side,c] of [['left',left],['right',right]]) {
++        const button=document.getElementById('compare-' + side);
++        button.value=c?.card_id || ''; button.dataset.card=c?.card_id || '';
++      }
++      return;
++    }
+     const chosen=side => side ? [side.identity?.recipe,side.identity?.arm,recordName(side)].filter(Boolean).join(' · ') : 'Choose a recorded run';
+     const result=left && right ? comparison(left,right) : null;
+     content.innerHTML=header('Compare recorded runs','Two tests next to each other, using the same unit-specific rulers.')+`<div class="controls"><button id="compare-left" data-compare-slot="left">Left: ${esc(chosen(left))}</button><button id="compare-right" data-compare-slot="right">Right: ${esc(chosen(right))}</button></div>${picker()}<p class="caveat">Does not mean: differences of a few questions between two single runs are a reliable effect.</p>${result ? `<section class="evidence-section" data-chart><h3>Matched fact and question outcomes · derived</h3>${result.eligible ? `<div class="stats">${[['both','Both right'],['left','Only left'],['right','Only right'],['neither','Neither']].map(([key,title]) => `<div class="stat"><strong>${result.counts[key]}</strong>${title}</div>`).join('')}</div><p class="source">Derived from recorded booleans joined by subject, answer, question template and scoring kind; never by row index.</p>` : `<p class="missing">not comparable: ${esc(result.reason)}</p>`}<p class="caption">The joined questions show where these recorded outcomes agree and differ.</p><p class="caveat">Does not mean: a difference between two single runs is a reliable effect.</p><div class="run-actions">${left.card_id === right.card_id ? dataLink(left,'Data for both runs') : dataLink(left,'Left run data') + dataLink(right,'Right run data')}</div></section>` : ''}<div class="compare-grid">${[left,right].map((card,i) => card ? `<article><div class="compare-heading"><h3>${i ? 'Right' : 'Left'} · ${esc(docText(card.context?.experiment) || card.identity?.recipe || 'Recorded run')}</h3><button data-run="${esc(card.card_id)}">Open run</button></div>${cardIdentity(card)}${badge(card)}${factStrip(card,true)}${gauges(card)}${writes(card)}</article>` : '<article><p>Choose a recorded run for this side.</p></article>').join('')}</div>`;

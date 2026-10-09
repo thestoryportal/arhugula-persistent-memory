@@ -14,7 +14,7 @@ import time
 import uuid
 
 ROOT = Path(__file__).resolve().parents[1]
-PREREG_SHA = "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507"
+PREREG_SHA = "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8"
 TIER = "MATH-PROXY"
 
 

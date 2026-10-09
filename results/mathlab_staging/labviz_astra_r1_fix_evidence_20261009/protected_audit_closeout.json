@@ -1,0 +1,46 @@
+{
+  "utc": "2026-10-09T20:24:51+00:00",
+  "protected_count": 16,
+  "unchanged_count": 13,
+  "observed_external_changes_not_edited_by_this_task": {
+    "tools/mathlab_harvest.py": {
+      "before": "9dbc58afef1aa290d5e01622d3324b052e3f19169bfeb8d38ad19148cfe869bb",
+      "after": "f866420f56833ee3e3c4506529904e7f2bc7948ef6b0f11ce988aab22c50ec40"
+    },
+    "docs/MATHLAB_PREREG.md": {
+      "before": "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507",
+      "after": "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8"
+    },
+    "mathlab/test_mathlab.py": {
+      "before": "ef8e69d64206e785097a76a8f55d52ffbab8da68fb3b776dcc8b37b7fa7d2c97",
+      "after": "5db82f3a210611cf6c2f72832ad845ad5a5c3e77711dba430abef3f317971a3f"
+    }
+  },
+  "protected_final": {
+    "tools/dashboard_mathlab.py": "ba5235dd5ffd13af7f7c04e58dc0fd8b8f76302fc40a89c0247fb52114297fc7",
+    "tools/mathlab_events.py": "1c0780d42e3cfd794b68ba742fedb0307c2992bd737507cda65bdd8a864d27a5",
+    "tools/mathlab_admit.py": "bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc",
+    "tools/mathlab_harvest.py": "f866420f56833ee3e3c4506529904e7f2bc7948ef6b0f11ce988aab22c50ec40",
+    "tools/run_mathlab_harvest.sh": "14b38b9085599f67f72b049e4e255b202b44af43924ac81a9bb0278d121c5936",
+    "docs/MATHLAB_PREREG.md": "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8",
+    "tools/labviz/labels.json": "b8d531ed188f4693da6b2fdba790c21ecf7961854e92b95f6099ac3b69ffc44e",
+    "tools/labviz/contexts.json": "d54158a53938b97a3b77f0dd04a7351d909f6ed84c416f11cf0f427554e06156",
+    "docs/LABVIZ_V2_SPEC.md": "c2b70b4af9364bf94dbfcdbd0223b74e5e2dc8c78173084f2f1280fc4a73cabf",
+    "mathlab/core.py": "127bae6d3899db1faae88de56afe31487305355e8dc7b64d80e7b74d9034eb80",
+    "mathlab/fixtures.py": "3b5a35d2869ffbc5dee0aa6b82390247defaf8a001ed44d1254b9c8563d409c8",
+    "mathlab/index.py": "3f8ccd82e1c669632e9940f35bedac72da3de4c48a85e3c4aeeb876f0d472c20",
+    "mathlab/m2_solve_repro.py": "eb928e44c99e253840b491008df9a8fdec5b87b161526afd5a616299ad85410f",
+    "mathlab/m3_calibration.py": "5a0f29e4a29096e2c8e5e6540f8be5b248aa59ebb03b17cd1e12b8767bea858c",
+    "mathlab/test_index.py": "162fbbbe7efaa4867283f55bcde39ec5aaa8c790440407de63560ce61e756fdf",
+    "mathlab/test_mathlab.py": "5db82f3a210611cf6c2f72832ad845ad5a5c3e77711dba430abef3f317971a3f"
+  },
+  "owned_final": {
+    "tools/labviz/cards.py": "4eb680cead0b2eedfd452f223accf2b7365d8885ea9a651d7e542a4455089133",
+    "tools/labviz/build.py": "b6ad3c4f9dcfee1d328ada41b2402335eb71c50f6116535814fa84b39db0c68d",
+    "tools/labviz/app.js": "d4a3c3704c10f92d4c9ba40347018e883ca7cc845142f1b67c9d0df59db9a15b",
+    "tools/labviz/test_mathlab.py": "4398d409c5d5a4a9d1a976c3f421913be8619c2f5dad7539864efb9812d7ffd5",
+    "tools/labviz/test_mathlab.cjs": "f7e8303178496595b7533529d3be4825ec88aafece47bda792c117c7fd4a9957",
+    "tools/labviz/test_labviz.py": "5b0ddeeddd64dd75962bdfb0346d52935d3970e8e9a84158f1ad037a9d195f08",
+    "tools/labviz/README.md": "3ac435ce097f85b4787b534edd03d35d0e00ab2ca443b0acbd4feb4d847211cf"
+  }
+}

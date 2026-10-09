@@ -1,0 +1,2 @@
+Astra plan review — GO (read-only, before tests)
+Plan matches frozen §15; verified supplied SHA. Float64 persistence preserves native fp32 scalar, Python binary64 comparison matches CPU fp64 arithmetic. Existing fp64 reference unchanged. Missing/nonfinite n_native must fail a per-arm comparison rather than fall back or cause a global extraction exception. Preserve operands and JSON-safe invalid fields. Planned discrepancy, two-write provenance, recomputation guard, gate2a and exact-pin tests cover contract. No implementation or re-harvest verdict yet.

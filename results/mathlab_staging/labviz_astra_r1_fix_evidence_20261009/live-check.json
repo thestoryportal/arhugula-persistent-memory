@@ -1,0 +1,9 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "/private/tmp/labviz-astra-r1-cgrxk4st/live_check.py"
+  ],
+  "exit_code": 1,
+  "elapsed_s": 1.3259526251349598
+}

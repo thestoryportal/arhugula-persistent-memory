@@ -1,0 +1,17 @@
+{
+  "kind": "Read-only original cards.py before integration, same current tables and source data",
+  "baseline_source": "/private/tmp/labviz-mathlab-d0x3x1mv/before/tools/labviz/cards.py",
+  "unknown_labels": [
+    "INVALID-CONTROLS"
+  ],
+  "registry_rows": 55,
+  "old_test_expected_registry_rows": 54,
+  "invalid_controls_sources": [
+    {
+      "file": "results/c10x_enginepath_rerun3/reader.json",
+      "path": ".arms[\"I-2\"].label",
+      "value": "INVALID-CONTROLS",
+      "sha256": "b3debe4a85371902e155394e3bd054a3d214cf585a05f614e105296be022bdd9"
+    }
+  ]
+}

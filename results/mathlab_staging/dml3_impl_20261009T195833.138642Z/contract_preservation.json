@@ -1,0 +1,18 @@
+{
+  "unchanged_function_ASTs": {
+    "capture_operands": true,
+    "coverage_passes": true,
+    "validate_coverage": true,
+    "profile": true,
+    "preserve_failed": true,
+    "persist_failed_write": true,
+    "replay_admission": true,
+    "parity_trial": true
+  },
+  "verify_prereg_AST_unchanged": true,
+  "native_norm_source": "original my_edit returned delta_norm; no added reduction",
+  "gate2a_reference": "core.py unchanged, still upd_norm",
+  "precast_capture_norm": "capture_operands unchanged, still CPU fp64 vector_norm",
+  "prereg_sha256": "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8",
+  "forbidden_imports": []
+}

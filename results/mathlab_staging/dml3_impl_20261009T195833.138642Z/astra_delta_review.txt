@@ -1,0 +1,6 @@
+GO — no blocking implementation findings.
+Reviewer: mathlab_build_review, GPT-6-Astra high; read-only delta review.
+
+n_native comes directly from the same observed my_edit return without recomputation; the original return is unchanged (harvest:162–171). CPU float64 scalars and per-write torch/thread metadata are persisted (:160–165,519–521). Missing/nonfinite values fail the affected arm with JSON-safe output; binary64 arithmetic keeps <=1e-3 (:351–364). Existing fp64 upd_norm and core gate2a remain unchanged, with a regression exercising deliberately incorrect native companions. Exact frozen SHA matches and verification was not weakened.
+Evidence reviewed: 7 targeted PASS after RED; 75 MathLab, 53 dashboard, 1 DuckDB PASS; strict marimo exit0 without diagnostics.
+Implementation delta approval only; first-harvest outcomes are unchanged and corrected live replay acceptance is not established.

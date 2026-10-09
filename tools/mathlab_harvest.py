@@ -7,6 +7,7 @@ import hashlib
 import importlib
 import importlib.metadata
 import json
+import math
 import os
 from pathlib import Path
 import sys
@@ -107,7 +108,7 @@ class EditObserver:
                 raise error from persistence_error
 
     def failure_details(self):
-        return [{k: v for k, v in write.items() if k != "capture_tensors"} for write in self.failed_writes]
+        return [{k: v for k, v in write.items() if k not in ("capture_tensors", "returned_native_tensors")} for write in self.failed_writes]
 
     def profile(self, frame, event, arg):
         matching = (event == "call" and frame.f_code is self.shape_code and frame.f_back is not None
@@ -151,12 +152,28 @@ class EditObserver:
                 raise
             finally:
                 sys.setprofile(previous)
+            if not law5:
+                import torch
+                write["native_norm_producer"] = dict(torch_version=str(torch.__version__), cpu_threads=torch.get_num_threads())
+                write["returned_native_norms"] = {}; write["returned_native_tensors"] = {}
+                for layer, values in (result.items() if isinstance(result, dict) else []):
+                    native = values.get("delta_norm") if isinstance(values, dict) else None
+                    if native is not None:
+                        native = float(native)
+                        write["returned_native_norms"][str(layer)] = native if math.isfinite(native) else None
+                        write["returned_native_tensors"][f"returned.l{layer}.n_native"] = torch.tensor(native, dtype=torch.float64, device="cpu")
+                for row, tensors in zip(write["captures"], write.get("capture_tensors", [])):
+                    # A layer-keyed return cannot identify any occurrence of a duplicate layer.
+                    if sum(r["layer"] == row["layer"] for r in write["captures"]) == 1:
+                        native = write["returned_native_tensors"].get(f"returned.l{row['layer']}.n_native")
+                        if native is not None: tensors["n_native"] = native
             if not self.coverage_passes(write["captures"], write["return_count"]):
                 self.preserve_failed(write, R.Halt("CAPTURE", "write must have exactly five ordered captures and one return"))
             self.validate_coverage(write["captures"], write["return_count"])
             if "capture_tensors" in write:
                 write["tensors"] = {f"l{row['layer']}." + k: v
                     for row, tensors in zip(write["captures"], write.pop("capture_tensors")) for k, v in tensors.items()}
+            write.pop("returned_native_tensors", None)
             self.last_capture_count = len(write["captures"])
             self.writes.append(write)
             if self.completed is not None: self.completed(write)
@@ -178,14 +195,17 @@ def persist_failed_write(run_dir, write):
     path = Path(run_dir) / "diagnostic_captures" / ("partial_write_" + R.utc_tag() + ".pt")
     path.parent.mkdir(parents=True, exist_ok=True)
     ref = dict(path=str(path), diagnostic_only=True, analysis_eligible=False, status="writing")
+    if "native_norm_producer" in write: ref["native_norm_producer"] = write["native_norm_producer"]
     write["artifacts"].append(ref)
     tensors = {f"c{i}.l{row['layer']}." + k: v
         for i, (row, values) in enumerate(zip(write["captures"], write.get("capture_tensors", []))) for k, v in values.items()}
+    tensors.update(write.get("returned_native_tensors", {}))
     ref.update(R.save_tensors(path, tensors))
     with path.open("rb") as source:
         os.fsync(source.fileno())
     ref["status"] = "saved"
     write.pop("capture_tensors", None)
+    write.pop("returned_native_tensors", None)
 
 
 def stage_harvest_halt(run, error, observer=None):
@@ -343,8 +363,13 @@ def source_snapshot(root=W):
 def norm_agreement(tensors, norms):
     rows = {}
     for layer in BAND:
-        expected = norms[str(layer)]["delta_norm"]; actual = float(tensors[f"l{layer}.upd_norm"])
-        error = abs(actual - expected) / expected if expected != 0 else None
+        expected = norms.get(str(layer), {}).get("delta_norm"); actual = tensors.get(f"l{layer}.n_native")
+        expected = float(expected) if expected is not None else None
+        actual = float(actual) if actual is not None else None
+        expected = expected if expected is not None and math.isfinite(expected) else None
+        actual = actual if actual is not None and math.isfinite(actual) else None
+        error = abs(actual - expected) / expected if actual is not None and expected is not None and expected > 0 else None
+        error = error if error is not None and math.isfinite(error) else None
         rows[str(layer)] = dict(actual=actual, expected=expected, relative_error=error,
                                passed=error is not None and error <= 1e-3)
     return dict(passed=all(r["passed"] for r in rows.values()), layers=rows,
@@ -505,6 +530,7 @@ def harvest(run_dir, admission_path):
             R.require(arm in [A1, A2, A7, *MINT], "ARM", "unknown science arm")
             tensors = write.pop("tensors"); saved[arm] = tensors
             files[f"inloop_{arm}.pt"] = R.save_tensors(output / f"inloop_{arm}.pt", tensors)
+            files[f"inloop_{arm}.pt"]["native_norm_producer"] = write["native_norm_producer"]
         observer = EditObserver(H, completed, lambda write: persist_failed_write(run.directory, write))
         old_hooks = list(H.ARM_HOOKS)
         def post_hook(arm, values):

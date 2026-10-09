@@ -1,0 +1,163 @@
+test_native_return_norms_persist_for_same_write_with_producer (mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer) ... FAIL
+test_invalid_native_return_fails_arm_without_losing_operands (mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands) ... 
+  test_invalid_native_return_fails_arm_without_losing_operands (mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands) (adjustment='delta_norms["4"].pop("delta_norm")') ... FAIL
+  test_invalid_native_return_fails_arm_without_losing_operands (mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands) (adjustment='delta_norms["4"]["delta_norm"] = float("nan")') ... FAIL
+  test_invalid_native_return_fails_arm_without_losing_operands (mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands) (adjustment='delta_norms["4"]["delta_norm"] = float("inf")') ... FAIL
+test_gate2a_keeps_fp64_reference_for_non_A7_arms (mathlab.test_mathlab.NativeNormContractTests.test_gate2a_keeps_fp64_reference_for_non_A7_arms) ... ok
+test_historical_arithmetic_preserves_binary64_scalars (mathlab.test_mathlab.NativeNormContractTests.test_historical_arithmetic_preserves_binary64_scalars) ... FAIL
+test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) ... 
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=None) ... FAIL
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=nan) ... FAIL
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=inf) ... FAIL
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=-inf) ... FAIL
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=None) ... ERROR
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=nan) ... FAIL
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=inf) ... FAIL
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=-inf) ... FAIL
+test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) ... ERROR
+test_native_agreement_ignores_large_fp64_reduction_discrepancy (mathlab.test_mathlab.NativeNormContractTests.test_native_agreement_ignores_large_fp64_reduction_discrepancy) ... FAIL
+test_prereg_amendment_pin_accepts_only_exact_frozen_bytes (mathlab.test_mathlab.ResourceArtifactTests.test_prereg_amendment_pin_accepts_only_exact_frozen_bytes) ... FAIL
+
+======================================================================
+ERROR: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 670, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    result = H.norm_agreement(tensors, historical)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_harvest.py", line 346, in norm_agreement
+    expected = norms[str(layer)]["delta_norm"]; actual = float(tensors[f"l{layer}.upd_norm"])
+               ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+KeyError: 'delta_norm'
+
+======================================================================
+ERROR: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 677, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertFalse(H.norm_agreement({}, historical)["passed"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_harvest.py", line 346, in norm_agreement
+    expected = norms[str(layer)]["delta_norm"]; actual = float(tensors[f"l{layer}.upd_norm"])
+               ~~~~~^^^^^^^^^^^^
+KeyError: '4'
+
+======================================================================
+FAIL: test_native_return_norms_persist_for_same_write_with_producer (mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 289, in test_native_return_norms_persist_for_same_write_with_producer
+    self.assertIn(f"l{l}.n_native", loaded.keys(), "returned native scalar was not persisted")
+AssertionError: 'l4.n_native' not found in dict_keys(['l4.zs', 'l4.K', 'l4.Kf', 'l4.rf', 'l4.resid', 'l4.cur', 'l4.ca_norm', 'l4.ca_sha256', 'l4.ca_zero', 'l4.Pi_null_n', 'l4.Pi_sha256', 'l4.Pi_probe0', 'l4.Pi_probe1', 'l4.Pi_probe2', 'l4.Pi_probe3', 'l4.upd_norm', 'l4.upd_sha256', 'l5.zs', 'l5.K', 'l5.Kf', 'l5.rf', 'l5.resid', 'l5.cur', 'l5.ca_norm', 'l5.ca_sha256', 'l5.ca_zero', 'l5.Pi_null_n', 'l5.Pi_sha256', 'l5.Pi_probe0', 'l5.Pi_probe1', 'l5.Pi_probe2', 'l5.Pi_probe3', 'l5.upd_norm', 'l5.upd_sha256', 'l6.zs', 'l6.K', 'l6.Kf', 'l6.rf', 'l6.resid', 'l6.cur', 'l6.ca_norm', 'l6.ca_sha256', 'l6.ca_zero', 'l6.Pi_null_n', 'l6.Pi_sha256', 'l6.Pi_probe0', 'l6.Pi_probe1', 'l6.Pi_probe2', 'l6.Pi_probe3', 'l6.upd_norm', 'l6.upd_sha256', 'l7.zs', 'l7.K', 'l7.Kf', 'l7.rf', 'l7.resid', 'l7.cur', 'l7.ca_norm', 'l7.ca_sha256', 'l7.ca_zero', 'l7.Pi_null_n', 'l7.Pi_sha256', 'l7.Pi_probe0', 'l7.Pi_probe1', 'l7.Pi_probe2', 'l7.Pi_probe3', 'l7.upd_norm', 'l7.upd_sha256', 'l8.zs', 'l8.K', 'l8.Kf', 'l8.rf', 'l8.resid', 'l8.cur', 'l8.ca_norm', 'l8.ca_sha256', 'l8.ca_zero', 'l8.Pi_null_n', 'l8.Pi_sha256', 'l8.Pi_probe0', 'l8.Pi_probe1', 'l8.Pi_probe2', 'l8.Pi_probe3', 'l8.upd_norm', 'l8.upd_sha256']) : returned native scalar was not persisted
+
+======================================================================
+FAIL: test_invalid_native_return_fails_arm_without_losing_operands (mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands) (adjustment='delta_norms["4"].pop("delta_norm")')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 323, in test_invalid_native_return_fails_arm_without_losing_operands
+    self.assertFalse(agreement["passed"], "invalid producer norm must not admit this arm")
+AssertionError: True is not false : invalid producer norm must not admit this arm
+
+======================================================================
+FAIL: test_invalid_native_return_fails_arm_without_losing_operands (mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands) (adjustment='delta_norms["4"]["delta_norm"] = float("nan")')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 323, in test_invalid_native_return_fails_arm_without_losing_operands
+    self.assertFalse(agreement["passed"], "invalid producer norm must not admit this arm")
+AssertionError: True is not false : invalid producer norm must not admit this arm
+
+======================================================================
+FAIL: test_invalid_native_return_fails_arm_without_losing_operands (mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands) (adjustment='delta_norms["4"]["delta_norm"] = float("inf")')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 323, in test_invalid_native_return_fails_arm_without_losing_operands
+    self.assertFalse(agreement["passed"], "invalid producer norm must not admit this arm")
+AssertionError: True is not false : invalid producer norm must not admit this arm
+
+======================================================================
+FAIL: test_historical_arithmetic_preserves_binary64_scalars (mathlab.test_mathlab.NativeNormContractTests.test_historical_arithmetic_preserves_binary64_scalars)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 687, in test_historical_arithmetic_preserves_binary64_scalars
+    self.assertEqual(result["layers"]["4"]["relative_error"], 2. ** -40)
+AssertionError: 0.0 != 9.094947017729282e-13
+
+======================================================================
+FAIL: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 671, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertFalse(result["passed"])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=nan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 671, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertFalse(result["passed"])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=inf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 671, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertFalse(result["passed"])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=-inf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 671, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertFalse(result["passed"])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=nan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 673, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertIsNone(result["layers"]["4"]["relative_error"])
+AssertionError: nan is not None
+
+======================================================================
+FAIL: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=inf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 673, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertIsNone(result["layers"]["4"]["relative_error"])
+AssertionError: nan is not None
+
+======================================================================
+FAIL: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=-inf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 673, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertIsNone(result["layers"]["4"]["relative_error"])
+AssertionError: nan is not None
+
+======================================================================
+FAIL: test_native_agreement_ignores_large_fp64_reduction_discrepancy (mathlab.test_mathlab.NativeNormContractTests.test_native_agreement_ignores_large_fp64_reduction_discrepancy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 649, in test_native_agreement_ignores_large_fp64_reduction_discrepancy
+    self.assertTrue(agreement["passed"], "historical agreement must use the native returned metric")
+AssertionError: False is not true : historical agreement must use the native returned metric
+
+======================================================================
+FAIL: test_prereg_amendment_pin_accepts_only_exact_frozen_bytes (mathlab.test_mathlab.ResourceArtifactTests.test_prereg_amendment_pin_accepts_only_exact_frozen_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 994, in test_prereg_amendment_pin_accepts_only_exact_frozen_bytes
+    self.assertEqual(R.PREREG_SHA, "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8")
+AssertionError: '4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507' != '85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8'
+- 4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507
++ 85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.341s
+
+FAILED (failures=14, errors=2)

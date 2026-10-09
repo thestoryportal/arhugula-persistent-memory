@@ -1,0 +1,39 @@
+{
+  "protected_count": 16,
+  "protected_changes": {
+    "tools/mathlab_harvest.py": {
+      "before": "9dbc58afef1aa290d5e01622d3324b052e3f19169bfeb8d38ad19148cfe869bb",
+      "after": "f866420f56833ee3e3c4506529904e7f2bc7948ef6b0f11ce988aab22c50ec40"
+    },
+    "docs/MATHLAB_PREREG.md": {
+      "before": "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507",
+      "after": "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8"
+    },
+    "mathlab/test_mathlab.py": {
+      "before": "ef8e69d64206e785097a76a8f55d52ffbab8da68fb3b776dcc8b37b7fa7d2c97",
+      "after": "ee6e0b10710f12006164c6a550fcdc7aa7753ea4d90c5eef3c5840dee886dc56"
+    }
+  },
+  "protected_final": {
+    "tools/dashboard_mathlab.py": "ba5235dd5ffd13af7f7c04e58dc0fd8b8f76302fc40a89c0247fb52114297fc7",
+    "tools/mathlab_events.py": "1c0780d42e3cfd794b68ba742fedb0307c2992bd737507cda65bdd8a864d27a5",
+    "tools/mathlab_admit.py": "bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc",
+    "tools/mathlab_harvest.py": "f866420f56833ee3e3c4506529904e7f2bc7948ef6b0f11ce988aab22c50ec40",
+    "tools/run_mathlab_harvest.sh": "14b38b9085599f67f72b049e4e255b202b44af43924ac81a9bb0278d121c5936",
+    "docs/MATHLAB_PREREG.md": "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8",
+    "tools/labviz/labels.json": "b8d531ed188f4693da6b2fdba790c21ecf7961854e92b95f6099ac3b69ffc44e",
+    "tools/labviz/contexts.json": "d54158a53938b97a3b77f0dd04a7351d909f6ed84c416f11cf0f427554e06156",
+    "docs/LABVIZ_V2_SPEC.md": "c2b70b4af9364bf94dbfcdbd0223b74e5e2dc8c78173084f2f1280fc4a73cabf",
+    "mathlab/core.py": "127bae6d3899db1faae88de56afe31487305355e8dc7b64d80e7b74d9034eb80",
+    "mathlab/fixtures.py": "3b5a35d2869ffbc5dee0aa6b82390247defaf8a001ed44d1254b9c8563d409c8",
+    "mathlab/index.py": "3f8ccd82e1c669632e9940f35bedac72da3de4c48a85e3c4aeeb876f0d472c20",
+    "mathlab/m2_solve_repro.py": "eb928e44c99e253840b491008df9a8fdec5b87b161526afd5a616299ad85410f",
+    "mathlab/m3_calibration.py": "5a0f29e4a29096e2c8e5e6540f8be5b248aa59ebb03b17cd1e12b8767bea858c",
+    "mathlab/test_index.py": "162fbbbe7efaa4867283f55bcde39ec5aaa8c790440407de63560ce61e756fdf",
+    "mathlab/test_mathlab.py": "ee6e0b10710f12006164c6a550fcdc7aa7753ea4d90c5eef3c5840dee886dc56"
+  },
+  "owned_source_changes": [
+    "tools/labviz/build.py",
+    "tools/labviz/app.js"
+  ]
+}

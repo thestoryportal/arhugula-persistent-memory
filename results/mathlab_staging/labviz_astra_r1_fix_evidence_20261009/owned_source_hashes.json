@@ -1,0 +1,30 @@
+{
+  "tools/labviz/cards.py": {
+    "before": "77c9f86fe0bd70871c3127f7c202a4f333791b612e89b847f73b26e2303b7c44",
+    "after": "4eb680cead0b2eedfd452f223accf2b7365d8885ea9a651d7e542a4455089133"
+  },
+  "tools/labviz/build.py": {
+    "before": "68b740e1591735d29ac5ddfbf127bb4b077c972e858bce1bbcbb1f06b1cab725",
+    "after": "b6ad3c4f9dcfee1d328ada41b2402335eb71c50f6116535814fa84b39db0c68d"
+  },
+  "tools/labviz/app.js": {
+    "before": "f6272c36a484394c3b0a436c22c07ab46dff98fd5ae29244238dc96c83efa421",
+    "after": "d4a3c3704c10f92d4c9ba40347018e883ca7cc845142f1b67c9d0df59db9a15b"
+  },
+  "tools/labviz/test_mathlab.py": {
+    "before": "81989a529c5e3d440e4503f3b3c774c06c3a4f5b7e0a69c29c068c5e4a924482",
+    "after": "4398d409c5d5a4a9d1a976c3f421913be8619c2f5dad7539864efb9812d7ffd5"
+  },
+  "tools/labviz/test_mathlab.cjs": {
+    "before": "9953b6851461c0c3f62459bf18c5c3c4f906cd1f7ce80a7d654dbd8ce4161366",
+    "after": "f7e8303178496595b7533529d3be4825ec88aafece47bda792c117c7fd4a9957"
+  },
+  "tools/labviz/test_labviz.py": {
+    "before": "a0f9e029875f6bd1304fd50125385c46262e5fd054c472680d96777a34493358",
+    "after": "5b0ddeeddd64dd75962bdfb0346d52935d3970e8e9a84158f1ad037a9d195f08"
+  },
+  "tools/labviz/README.md": {
+    "before": "48c4fff7b58490d8bd867b0127cb709f952d3be55862925f7ae3b45c84214f0e",
+    "after": "3ac435ce097f85b4787b534edd03d35d0e00ab2ca443b0acbd4feb4d847211cf"
+  }
+}

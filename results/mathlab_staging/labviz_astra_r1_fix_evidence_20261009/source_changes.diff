@@ -1,0 +1,307 @@
+--- tools/labviz/cards.py (before this round)
++++ tools/labviz/cards.py (after)
+@@ -133,7 +133,7 @@
+ 
+ def recorded(source, data=None):
+     parts=Path(source).parts
+-    return not (set(parts)&{'replays','sandbox','telemetry','labviz','mathlab_staging'} or
++    return not (set(parts)&{'replays','sandbox','telemetry','labviz','mathlab_staging','mathlab'} or
+                 isinstance(data,dict) and str(data.get('evidence_status','')).startswith(('NOT EVIDENCE','EXPLORATORY')))
+ 
+ 
+--- tools/labviz/build.py (before this round)
++++ tools/labviz/build.py (after)
+@@ -482,6 +482,8 @@
+     root = Path(root); reader = Reader(root); cards = reader.collect()
+     base = root / 'results/labviz'; site = base / 'site'; images = base / 'runs'
+     site.mkdir(parents=True, exist_ok=True); images.mkdir(parents=True, exist_ok=True)
++    old_index_path = site/'cards/index.json'
++    old_index = json.loads(old_index_path.read_text()) if old_index_path.is_file() else []
+     ep = root / 'docs/c10_evaluations.json'
+     evaluations = json.loads(ep.read_text()) if ep.is_file() else {'entries':[]}
+     cache_path = base / 'images_manifest.json'
+@@ -587,6 +589,20 @@
+         if source.startswith('hf_cache/') and source != 'hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/config.json': continue
+         if p.is_file() and (p.suffix in ('.json','.jsonl','.md','.log') or source=='tools/mathlab_events.py'):
+             write_if_changed(site / 'evidence' / source, p.read_bytes())
++    # Retire generic MathLab publications without changing their source artifacts.
++    active = {row['card_id'] for row in index}
++    retired = [row for row in old_index if row['source'].startswith(('results/mathlab/','results/mathlab_staging/'))
++               and row['card_id'] not in active]
++    for row in retired:
++        (site/'cards'/f"{row['card_id']}.json").unlink(missing_ok=True)
++        for suffix in ('.svg','.png'):
++            (images/row['card_id']).with_suffix(suffix).unlink(missing_ok=True)
++    for chunk in {row['chunk'] for row in retired} - chunks.keys():
++        (site/'cards'/f'{chunk}.js').unlink(missing_ok=True)
++    for family in ('mathlab','mathlab_staging'):
++        for path in (site/'evidence/results'/family).rglob('*'):
++            if path.is_file() and path.relative_to(site/'evidence').as_posix() not in paths:
++                path.unlink()
+     print(f'Lab View picture renderer calls: {picture_calls}',flush=True)
+     return inventory
+ 
+--- tools/labviz/app.js (before this round)
++++ tools/labviz/app.js (after)
+@@ -593,6 +593,10 @@
+     body+=section(card,'Gates',table(groups,[['name','Planned group'],['outcome','Outcome'],['completion','Group coverage']]) +
+       table(gates,[['gate_id','Check'],['plain_words','What it checks'],['observed','Observed'],['comparison','Comparison'],
+                    ['bar','Threshold'],['outcome','Outcome']]),'Outcomes and group coverage come from the shared fold. math estimate, not evidence','');
++    const mintNorms=[0,1,2].map(seed => s.gates.find(g => g.gate_id === 'mint-norm-mint1_s' + seed));
++    if (mintNorms.every(g => g && g.passed === false))
++      body+=section(card,'Mint replay eligibility','<p>0 of 3 recorded mint arms eligible for replay admission (derived): all three required norm checks failed.</p>' +
++        source(m.state.inputs[0]),'Derived eligibility, not a recorded admission receipt. math estimate, not evidence','');
+     body+=section(card,'Resource samples',table(s.resource_samples,[['ts','Recorded UTC'],['avail_gib','Available GiB'],
+       ['floor_gib','Floor GiB'],['rss_gib','RSS GiB'],['cpu_pct','CPU %']]),'Recorded samples; no live resource probe.','');
+     body+=section(card,'Findings',m.findings.map(f => {
+--- tools/labviz/test_mathlab.py (before this round)
++++ tools/labviz/test_mathlab.py (after)
+@@ -29,6 +29,36 @@
+     path.parent.mkdir(parents=True, exist_ok=True)
+     path.write_text(''.join(json.dumps(e)+'\n' for e in events)+tail)
+     return path
++
++
++def output_fixtures(root):
++    """Actual output layout, with recorded-looking data to catch generic ingestion."""
++    payloads = {
++        'harvest_20261009T184950.056951Z/manifest.json': {
++            'tier':'MATH-PROXY', 'decision_id':'D-ML-1',
++            'tokenisation':{'parts':{'d-substrings-mint1_s0':{
++                'observed':{'rows':[{'label':'RECONSTRUCTED'}]}}}},
++            'replay_admission':{'shared_passed':True, 'admitted':[]},
++            'delta_norms':{'4':{'delta_norm':12345}},
++        },
++        'admission_20261009T184919Z.json': {
++            'terminal_sources':[{'coordinator':'astra-attempt3',
++                                 'path':'results/mathlab/astra_attempt3_terminal.json'}],
++            'no_other_coordinator_live_or_pending':True, 'lead':'fixture',
++        },
++        'harvest_launch_20261009T184919Z.log':'step 1 loss 0.25\nRUN_DONE\n',
++        'astra_attempt3_terminal.json':{
++            'status':'HALTED-V7', 'coordinator':'astra-attempt3', 'source_outcome':'HALTED',
++        },
++    }
++    files = []
++    for family in ('mathlab', 'mathlab_staging'):
++        for name, data in payloads.items():
++            path = root/'results'/family/name
++            path.parent.mkdir(parents=True, exist_ok=True)
++            path.write_text(data if isinstance(data,str) else json.dumps(data))
++            files.append(path)
++    return files
+ 
+ 
+ def prepare(root):
+@@ -83,6 +113,7 @@
+     write_stream(root, 'empty_fixture', [])
+     sidecar = root/'results/mathlab_staging/runs'/run/'admission.json'
+     sidecar.write_text(json.dumps({'model':'fake model', 'label':'PASS', 'arm':{'para_full_n':72, 'para_n':72}}))
++    output_fixtures(root)
+     return stream
+ 
+ 
+@@ -124,6 +155,44 @@
+         self.assertFalse(expected['gate_groups']['2a']['complete'])
+         self.assertFalse(any('admission.json' in name for name in reader.files))
+         self.assertEqual(reader.scales['absolute_write_size']['operands'], [])
++
++    def test_both_mathlab_output_families_are_excluded_from_generic_ingestion(self):
++        files = output_fixtures(self.root)
++        for path in files:
++            source = path.relative_to(self.root).as_posix()
++            with self.subTest(source=source):
++                self.assertFalse(cards.recorded(source))
++                if path.suffix == '.json':
++                    self.assertEqual(cards.applied_writes(source,json.loads(path.read_text())), [])
++        self.assertEqual(cards.recorded_labels(self.root), set())
++        self.assertNotIn('RECONSTRUCTED', cards.label_table())
++        # Identical payloads outside MathLab must still reach the generic readers.
++        control = self.root/'results/ordinary_fixture'
++        control.mkdir()
++        for path in files[:4]:
++            shutil.copyfile(path,control/path.name)
++        manifest = control/'manifest.json'
++        source = manifest.relative_to(self.root).as_posix()
++        self.assertTrue(cards.recorded(source))
++        writes = cards.applied_writes(source,json.loads(manifest.read_text()))
++        self.assertEqual([item['value'] for item in writes], [12345])
++        self.assertEqual(cards.recorded_labels(self.root), {'RECONSTRUCTED'})
++        log = control/'harvest_launch_20261009T184919Z.log'
++        self.assertEqual(build.parse_log(log.read_text(),log.relative_to(self.root).as_posix())['losses'], [[1,.25]])
++
++    def test_sidecars_never_become_generic_cards_logs_or_scale_operands(self):
++        reader = self.reader()
++        self.assertEqual(len(reader.cards), 7)
++        self.assertTrue(all(cards.mathlab_source(c['identity']['name']) for c in reader.cards))
++        self.assertEqual(reader.runs, [])
++        self.assertEqual(reader.scales['absolute_write_size']['operands'], [])
++        excluded = {p.relative_to(self.root).as_posix() for p in output_fixtures(self.root)}
++        self.assertFalse(excluded.intersection(reader.files))
++        (self.root/'docs/c10_scoreboard.json').write_text('{"results":[]}')
++        legacy = build.collect(self.root)
++        self.assertEqual(legacy['runs'], [])
++        self.assertEqual(legacy['logs'], [])
++        self.assertIsNone(legacy['newest_log'])
+ 
+     def test_torn_tail_and_invalid_middle_lines_remain_visible(self):
+         path = self.root/'results/mathlab_staging/runs/torn_fixture/events.jsonl'
+@@ -309,7 +378,8 @@
+     def test_build_mirrors_only_cited_events_and_findings_and_skips_pictures(self):
+         unreferenced = self.root/'logs/pending_findings/unreferenced.md'
+         unreferenced.write_text('Unreferenced text')
+-        inputs = {p:p.read_bytes() for p in (self.root/'results/mathlab_staging').rglob('*') if p.is_file()}
++        inputs = {p:p.read_bytes() for family in ('mathlab', 'mathlab_staging')
++                  for p in (self.root/'results'/family).rglob('*') if p.is_file()}
+         with patch('tools.labviz.render.card_picture', side_effect=AssertionError('no evidence artwork for math estimates')):
+             inventory = build.build(self.root)
+         site = self.root/'results/labviz/site'
+@@ -332,6 +402,9 @@
+         note = 'logs/pending_findings/mathlab_fixture.md'
+         self.assertEqual((evidence/note).read_bytes(), (self.root/note).read_bytes())
+         self.assertFalse((evidence/'logs/pending_findings/unreferenced.md').exists())
++        data = (site/'data.js').read_text()
++        payload = json.loads(data.removeprefix('window.LAB=').removesuffix(';\n'))
++        self.assertEqual(payload['latest_log'], {})
+         self.assertEqual(inventory['picture_calls'], 0)
+         outputs = lambda: {p.relative_to(site).as_posix():(hashlib.sha256(p.read_bytes()).hexdigest(),p.stat().st_mtime_ns)
+                            for p in site.rglob('*') if p.is_file()}
+@@ -339,6 +412,78 @@
+         build.build(self.root)
+         self.assertEqual(outputs(), before)
+ 
++    def test_warm_site_replaces_running_harvest_and_retires_generic_mathlab_outputs(self):
++        run = 'harvest_fixture'
++        initial = [started(run,step=1)]
++        path = write_stream(self.root,run,initial)
++        build.build(self.root)
++        site = self.root/'results/labviz/site'
++        index_file = site/'cards/index.json'
++        index = json.loads(index_file.read_text())
++        row = next(r for r in index if r['source']==path.relative_to(self.root).as_posix())
++        self.assertEqual(row['mathlab']['status'], 'running')
++        # Seed published artifacts from the old generic reader for both families.
++        retired = []
++        for i,family in enumerate(('mathlab','mathlab_staging')):
++            item = {'card_id':f'run-retired-mathlab-{i}', 'source':f'results/{family}/harvest_launch_20261009T184919Z.log',
++                    'chunk':'line-retired-mathlab'}
++            retired.append({'card_id':item['card_id'], 'identity':{'name':item['source']}})
++            (site/'cards'/f"{item['card_id']}.json").write_text(json.dumps(retired[-1]))
++            for suffix in ('.svg','.png'):
++                (self.root/'results/labviz/runs'/item['card_id']).with_suffix(suffix).write_bytes(b'obsolete proxy picture')
++            index.append(item)
++        index_file.write_text(json.dumps(index))
++        retired_chunk = site/'cards/line-retired-mathlab.js'
++        retired_chunk.write_text('window.LAB_CHUNKS=window.LAB_CHUNKS||{};window.LAB_CHUNKS["line-retired-mathlab"]='+json.dumps(retired)+';\n')
++        sidecars = {p:p.read_bytes() for p in output_fixtures(self.root)}
++        for source,content in sidecars.items():
++            mirror = site/'evidence'/source.relative_to(self.root)
++            mirror.parent.mkdir(parents=True,exist_ok=True)
++            mirror.write_bytes(content)
++        unrelated = site/'cards/run-unrelated.json'
++        unrelated.write_text('{"identity":{"name":"results/ordinary/old.json"}}')
++        unrelated_mirror = site/'evidence/results/ordinary/old.json'
++        unrelated_mirror.parent.mkdir(parents=True)
++        unrelated_mirror.write_text('{"preserve":true}')
++        completed = initial + [event(run,'gate_result',gate_id='mint-norm-mint1_s'+str(seed),
++                                    plain_words='Recorded mint norm comparison',observed={'passed':False},
++                                    bar='relative norm difference <= 1e-3; not tensor identity',comparison='meets',passed=False)
++                               for seed in range(3)]
++        completed += [event(run,'finding_staged',finding_id='harvest-estimate',tier='MATH-PROXY',
++                            summary='Operand harvest complete; math analysis pending',path='logs/pending_findings/mathlab_fixture.md'),
++                      event(run,'run_finished',outcome='PASS',summary='Operand harvest completed; no behavioural promotion')]
++        write_stream(self.root,run,completed)
++        with patch('tools.labviz.render.card_picture',side_effect=AssertionError('no proxy artwork')):
++            build.build(self.root)
++        index = json.loads(index_file.read_text())
++        self.assertEqual(len(index), 8)
++        self.assertTrue(all(r['source'].endswith('/events.jsonl') for r in index))
++        row = next(r for r in index if r['source']==path.relative_to(self.root).as_posix())
++        self.assertEqual(row['mathlab']['status'], 'finished')
++        card = json.loads((site/'cards'/f"{row['card_id']}.json").read_text())
++        state = card['mathlab']['state']['value']
++        self.assertEqual(state, json.loads(cards.encoded(mathlab_events.fold(completed))))
++        self.assertEqual(state['outcome'], 'PASS')
++        self.assertEqual([g['passed'] for g in state['gates']], [False]*3)
++        self.assertEqual(card['evidence_status'], 'MATH-PROXY')
++        self.assertEqual(card['label']['value'], 'math estimate, not evidence')
++        chunk = (site/'cards'/f"{row['chunk']}.js").read_text()
++        chunk_cards = json.loads(chunk.split(']=',1)[1].removesuffix(';\n'))
++        self.assertEqual(next(c for c in chunk_cards if c['card_id']==card['card_id']), card)
++        self.assertTrue(cards.validate_card(card,site/'evidence'))
++        self.assertEqual((site/'evidence'/path.relative_to(self.root)).read_bytes(), path.read_bytes())
++        self.assertTrue(card['mathlab']['findings'][0]['document'])
++        for item in retired:
++            self.assertFalse((site/'cards'/f"{item['card_id']}.json").exists())
++            for suffix in ('.svg','.png'):
++                self.assertFalse((self.root/'results/labviz/runs'/item['card_id']).with_suffix(suffix).exists())
++        self.assertFalse(retired_chunk.exists())
++        for source,content in sidecars.items():
++            self.assertFalse((site/'evidence'/source.relative_to(self.root)).exists())
++            self.assertEqual(source.read_bytes(),content)
++        self.assertEqual(unrelated.read_text(), '{"identity":{"name":"results/ordinary/old.json"}}')
++        self.assertEqual(unrelated_mirror.read_text(), '{"preserve":true}')
++
+ 
+ if __name__ == '__main__':
+     unittest.main()
+--- tools/labviz/test_mathlab.cjs (before this round)
++++ tools/labviz/test_mathlab.cjs (after)
+@@ -24,6 +24,21 @@
+   "        write_stream(root,run,[started(run,step=step,purpose=purpose),",
+   "            event(run,'gate_result',gate_id='calibration',plain_words='Calibration',",
+   "                observed='FAIL',bar='PASS',comparison='meets',passed=False)])",
++  "    for run,outcomes in [('mint_all_fail',[False,False,False]),('mint_missing',[False,False]),",
++  "                         ('mint_empty',[]),('mint_one_pass',[False,False,True]),",
++  "                         ('mint_override',[False,False,False]),('mint_other_ids',[False,False,False])]:",
++  "        stream=[started(run,step=1)]",
++  "        for seed,passed in enumerate(outcomes):",
++  "            gate='mint-norm-'+('other' if run=='mint_other_ids' else 'mint1_s')+str(seed)",
++  "            stream.append(event(run,'gate_result',gate_id=gate,plain_words='Recorded mint norm check',",
++  "                observed={'passed':passed},bar='relative norm difference <= 1e-3; not tensor identity',comparison='meets',passed=passed))",
++  "        if run=='mint_override':",
++  "            stream.append(event(run,'gate_result',gate_id='mint-norm-mint1_s2',plain_words='Later check',",
++  "                observed={'passed':True},bar='relative norm difference <= 1e-3; not tensor identity',comparison='meets',passed=True))",
++  "        stream += [event(run,'finding_staged',finding_id='harvest',tier='MATH-PROXY',",
++  "                         summary='Operand harvest complete; analysis pending',path='logs/pending_findings/mathlab_fixture.md'),",
++  "                   event(run,'run_finished',outcome='PASS',summary='Operand harvest completed; no behavioural promotion')]",
++  "        write_stream(root,run,stream)",
+   '    print(json.dumps(Reader(root).collect()))',
+ ].join('\n');
+ const generated = spawnSync(path.join(root, '.venv/bin/python'), ['-B', '-c', fixture], { cwd:root, encoding:'utf8' });
+@@ -95,6 +110,24 @@
+   assert.doesNotMatch(plain(r.html()), /Step [1-4].*completed/i);
+ });
+ 
++test('completed harvest keeps PASS and derives zero eligible mint arms only from three latest failed checks', () => {
++  for (const name of ['mint_all_fail','mint_missing','mint_empty','mint_one_pass','mint_override','mint_other_ids']) {
++    const c = card(name), r = app();
++    r.api.renderRun(c);
++    const text = plain(r.html());
++    assert.equal(c.mathlab.state.value.outcome, 'PASS');
++    assert.match(text, /Outcome: PASS/);
++    assert.match(text, /MATH-PROXY/);
++    assert.match(text, /math estimate, not evidence/);
++    assert.match(text, /Operand harvest complete; analysis pending/);
++    assert.equal(/0 of 3 recorded mint arms eligible for replay admission \(derived\)/.test(text), name==='mint_all_fail', name);
++    if (name==='mint_all_fail') {
++      assert.match(text, /all three required norm checks failed/);
++      for (let seed=0;seed<3;seed++) assert.match(text,new RegExp('mint-norm-mint1_s'+seed));
++    }
++  }
++});
++
+ test('calibration PASS, FAIL, INVALID render as folded and only FAIL gets cheap-stop text', () => {
+   for (const outcome of ['PASS','FAIL','INVALID']) {
+     const r = app(); r.api.renderRun(card('calibration_'+outcome));
+--- tools/labviz/README.md (before this round)
++++ tools/labviz/README.md (after)
+@@ -15,7 +15,7 @@
+ 
+ Every run-card measurement is sourced, derived with its operands, or explicitly missing. The card lists source hashes; cards/scales.json names the complete eligible applied-write population. Configured bands are outlines, separate from actual writes. Reader badges and gate booleans attach to their recorded configuration. C10 counts, teacher-forced scores, oracle measurements and other eras' measures retain distinct meanings. No percentage becomes an invented count.
+ 
+-Math lab (D-ML-1) appears in Runs: search `D-ML-1` or `mathlab_staging`. Only `results/mathlab_staging/runs/*/events.jsonl` supplies its state, through `tools.mathlab_events.read_events` and the shared `fold`. Sidecar JSON and logs supply no run state or applied-write scale. Cards show admission scope, experiment steps, stages, gate outcomes and thresholds, halts, resource samples, referenced staged Markdown findings, and candidate questions as ideas to test. Every MathLab card retains `MATH-PROXY` and "math estimate, not evidence", including picker, model, and compare routes. These cards have no score pictures.
++Math lab (D-ML-1) appears in Runs: search `D-ML-1` or `mathlab_staging`. Only `results/mathlab_staging/runs/*/events.jsonl` supplies its state, through `tools.mathlab_events.read_events` and the shared `fold`. Both `results/mathlab/**` and `results/mathlab_staging/**` are excluded from generic JSON, log, verdict-label and applied-write-scale ingestion. Regeneration retires their former generic cards, pictures, unused chunks and uncited evidence mirrors. Cards show admission scope, experiment steps, stages, gate outcomes and thresholds, halts, resource samples, referenced staged Markdown findings, and candidate questions as ideas to test. Zero eligible mint arms is shown as a derivation only when all three recorded mint norm checks fail; terminal PASS remains harvest completion. Every MathLab card retains `MATH-PROXY` and "math estimate, not evidence", including picker, model, and compare routes. These cards have no score pictures.
+ 
+ MathLab citations name `src.reader=mathlab_events.read_events`: `.events` and `.errors` address that reader's result, with errors using the workspace-relative stream path. They are not raw JSONL paths or physical line numbers. Validation reruns the shared reader and fold, verifies their source hashes, and rejects a changed reader or fold rule source. Original JSONL and explicitly referenced findings are mirrored as evidence snapshots; parse errors and missing or rejected finding references remain visible.
+ 

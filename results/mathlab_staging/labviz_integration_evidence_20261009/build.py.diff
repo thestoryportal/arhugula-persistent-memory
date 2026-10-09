@@ -1,0 +1,26 @@
+--- before/tools/labviz/build.py
++++ tools/labviz/build.py
+@@ -502,9 +502,13 @@
+              'era':era,'line':line,'model':identity['model']['value'],'role':identity.get('role',{}).get('value'),
+              'label':card['label']['value'],'date':identity['date']['value'],'has_writes':any(x['written']['value'] for x in card.get('per_layer',[])),
+              'title':identity.get('display_title',{}).get('value') or question,'recipe':str(recipe) if recipe is not None else None,'arm':str(arm) if arm is not None else None,'chunk':chunk}
++        if 'mathlab' in card:
++            state=card['mathlab']['state']['value']
++            row['mathlab']={'tier':card['evidence_status'],'run_id':state['run_id'],'status':state['status'],
++                           'purpose':state['purpose'],'parse_errors':len(card['mathlab']['errors']['value'])}
+         index.append(row)
+         write_if_changed(site/'cards'/f'{identifier}.json',encoded(card))
+-        if identity['name'].startswith('results/'):
++        if identity['name'].startswith('results/') and 'mathlab' not in card:
+             visual={k:card[k] for k in ('identity','context','headline','label','per_fact','per_layer','scale','oracle_class') if k in card}
+             key=digest([visual,renderer_hash]); output=images/identifier
+             previous=cache.get(identifier,{})
+@@ -581,7 +585,7 @@
+         p = root / source
+         if source.startswith('results/labviz/'): continue
+         if source.startswith('hf_cache/') and source != 'hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/config.json': continue
+-        if p.is_file() and p.suffix in ('.json','.md','.log'):
++        if p.is_file() and (p.suffix in ('.json','.jsonl','.md','.log') or source=='tools/mathlab_events.py'):
+             write_if_changed(site / 'evidence' / source, p.read_bytes())
+     print(f'Lab View picture renderer calls: {picture_calls}',flush=True)
+     return inventory

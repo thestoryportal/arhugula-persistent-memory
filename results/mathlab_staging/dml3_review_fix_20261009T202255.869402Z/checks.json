@@ -1,0 +1,44 @@
+[
+  {
+    "name": "red",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures mathlab.test_mathlab.ObserverTests.test_zero_capture_return_persists_native_map_and_producer mathlab.test_mathlab.ObserverTests.test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details mathlab.test_mathlab.ObserverTests.test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported mathlab.test_mathlab.ObserverTests.test_mid_edit_exception_persists_captures_and_original_error mathlab.test_mathlab.ObserverTests.test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer -v",
+    "log": "red.txt",
+    "exit_code": 1
+  },
+  {
+    "name": "red_behavior",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures mathlab.test_mathlab.ObserverTests.test_zero_capture_return_persists_native_map_and_producer mathlab.test_mathlab.ObserverTests.test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details mathlab.test_mathlab.ObserverTests.test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported mathlab.test_mathlab.ObserverTests.test_mid_edit_exception_persists_captures_and_original_error mathlab.test_mathlab.ObserverTests.test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer -v",
+    "log": "red_behavior.txt",
+    "exit_code": 1
+  },
+  {
+    "name": "green_targeted",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures mathlab.test_mathlab.ObserverTests.test_zero_capture_return_persists_native_map_and_producer mathlab.test_mathlab.ObserverTests.test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details mathlab.test_mathlab.ObserverTests.test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported mathlab.test_mathlab.ObserverTests.test_mid_edit_exception_persists_captures_and_original_error mathlab.test_mathlab.ObserverTests.test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer -v",
+    "log": "green_targeted.txt",
+    "exit_code": 0
+  },
+  {
+    "name": "mathlab",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab -v",
+    "log": "mathlab_suite.txt",
+    "exit_code": 0
+  },
+  {
+    "name": "dashboard",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_dashboard_mathlab -v",
+    "log": "dashboard_suite.txt",
+    "exit_code": 0
+  },
+  {
+    "name": "duckdb",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 /private/tmp/mathlab_uv_cache/environments-v2/m2-solve-repro-da15e0fd897e5e61/bin/python -B -m unittest mathlab.test_index -v",
+    "log": "duckdb.txt",
+    "exit_code": 0
+  },
+  {
+    "name": "marimo",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 /private/tmp/mathlab_uv_cache/environments-v2/m2-solve-repro-da15e0fd897e5e61/bin/python -B -m marimo check --strict mathlab/m2_solve_repro.py mathlab/m3_calibration.py",
+    "log": "marimo_check.txt",
+    "exit_code": 0
+  }
+]

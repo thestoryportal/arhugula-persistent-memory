@@ -1,0 +1,8 @@
+{
+  "command": [
+    "node",
+    "/private/tmp/labviz-astra-r1-cgrxk4st/live_render.cjs"
+  ],
+  "exit_code": 0,
+  "elapsed_s": 0.0924125830642879
+}

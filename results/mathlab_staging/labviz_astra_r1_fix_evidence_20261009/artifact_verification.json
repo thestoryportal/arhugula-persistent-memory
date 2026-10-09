@@ -1,0 +1,14 @@
+{
+  "utc": "2026-10-09T20:28:58+00:00",
+  "report_sha256": "a1f6bd4b6f1e9d9535fa103ce794d60fa338a9e06487ba9cf9fe2d867d402655",
+  "report_section_line": 202,
+  "original_report_prefix_preserved": true,
+  "owned_source_files_unchanged_since_tests": 7,
+  "publication_files_hash_verified": 36,
+  "publication_matches_verified_site": true,
+  "checkpoint": "checkpoints/20261009T202812Z-labviz-astra-r1-closeout.md",
+  "python_tests": 79,
+  "node_tests": 111,
+  "full_suites_exit_zero": true,
+  "live_build_and_checks_exit_zero": true
+}

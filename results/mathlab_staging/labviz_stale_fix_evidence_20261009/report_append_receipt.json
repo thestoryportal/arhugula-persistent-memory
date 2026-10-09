@@ -1,0 +1,10 @@
+{
+  "utc": "2026-10-09T19:25:49.838710+00:00",
+  "path": "results/mathlab_staging/labviz_integration_report.md",
+  "prefix_bytes": 13625,
+  "prefix_sha256": "9464508ddde1bf8932333bfd2f6ba9725db4b8f859bdd3de2721f9185f9a6791",
+  "prefix_preserved": true,
+  "appended_bytes": 7431,
+  "final_bytes": 21056,
+  "final_sha256": "06cb71561902577fe4fdd1fe4fdc5fbf87622bf9db6858ba4a6ed5a4a1a20152"
+}

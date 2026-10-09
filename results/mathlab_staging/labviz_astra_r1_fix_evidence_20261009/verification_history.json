@@ -1,0 +1,134 @@
+{
+  "python-red": {
+    "command": [
+      ".venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "tools.labviz.test_mathlab.MathLabTests.test_both_mathlab_output_families_are_excluded_from_generic_ingestion",
+      "tools.labviz.test_mathlab.MathLabTests.test_sidecars_never_become_generic_cards_logs_or_scale_operands",
+      "tools.labviz.test_mathlab.MathLabTests.test_build_mirrors_only_cited_events_and_findings_and_skips_pictures",
+      "tools.labviz.test_mathlab.MathLabTests.test_warm_site_replaces_running_harvest_and_retires_generic_mathlab_outputs"
+    ],
+    "exit_code": 1,
+    "elapsed_s": 12.904343999922276
+  },
+  "python-green": {
+    "command": [
+      ".venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "tools.labviz.test_mathlab.MathLabTests.test_both_mathlab_output_families_are_excluded_from_generic_ingestion",
+      "tools.labviz.test_mathlab.MathLabTests.test_sidecars_never_become_generic_cards_logs_or_scale_operands",
+      "tools.labviz.test_mathlab.MathLabTests.test_build_mirrors_only_cited_events_and_findings_and_skips_pictures",
+      "tools.labviz.test_mathlab.MathLabTests.test_warm_site_replaces_running_harvest_and_retires_generic_mathlab_outputs"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 1.151771916076541
+  },
+  "node-red": {
+    "command": [
+      "node",
+      "--test",
+      "tools/labviz/test_mathlab.cjs"
+    ],
+    "exit_code": 1,
+    "elapsed_s": 0.4260977499652654
+  },
+  "node-green": {
+    "command": [
+      "node",
+      "--test",
+      "tools/labviz/test_mathlab.cjs"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 0.42383829201571643
+  },
+  "snapshot-red": {
+    "command": [
+      ".venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "tools.labviz.test_mathlab.MathLabTests.test_concurrent_appends_keep_card_index_chunk_hash_and_evidence_in_one_snapshot",
+      "tools.labviz.test_mathlab.MathLabTests.test_unstable_capture_fails_after_three_attempts_without_publishing_or_caching"
+    ],
+    "exit_code": 1,
+    "elapsed_s": 1.2303979170974344
+  },
+  "snapshot-green-final": {
+    "command": [
+      ".venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "tools.labviz.test_mathlab"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 1.6014779170509428
+  },
+  "python-full": {
+    "command": [
+      ".venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "tools.labviz.test_labviz",
+      "tools.labviz.test_mathlab"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 311.91661204211414
+  },
+  "node-full": {
+    "command": [
+      "node",
+      "--test",
+      "tools/labviz/test_fix_context.cjs",
+      "tools/labviz/test_fix_frontend.cjs",
+      "tools/labviz/test_fix_harness.cjs",
+      "tools/labviz/test_fix_payload.cjs",
+      "tools/labviz/test_mathlab.cjs"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 0.4279449579771608
+  },
+  "python-full-final": {
+    "command": [
+      ".venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "tools.labviz.test_labviz",
+      "tools.labviz.test_mathlab"
+    ],
+    "exit_code": 1,
+    "elapsed_s": 46.31686899997294
+  },
+  "live-build": {
+    "command": [
+      ".venv/bin/python",
+      "-B",
+      "tools/labviz/build.py"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 21.720740291988477
+  },
+  "live-check": {
+    "command": [
+      ".venv/bin/python",
+      "-B",
+      "/private/tmp/labviz-astra-r1-cgrxk4st/live_check.py"
+    ],
+    "exit_code": 1,
+    "elapsed_s": 1.3259526251349598
+  },
+  "live-render": {
+    "command": [
+      "node",
+      "/private/tmp/labviz-astra-r1-cgrxk4st/live_render.cjs"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 0.0924125830642879
+  }
+}

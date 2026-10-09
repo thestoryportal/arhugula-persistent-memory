@@ -1,0 +1,96 @@
+{
+  "verified_utc": "2026-10-09T20:12:24.335113+00:00",
+  "passed": true,
+  "initial_scope": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/dml3_impl_20261009T195833.138642Z/initial_scope.json",
+  "source_count": 87,
+  "changed_files": {
+    "mathlab/test_mathlab.py": {
+      "before": "ef8e69d64206e785097a76a8f55d52ffbab8da68fb3b776dcc8b37b7fa7d2c97",
+      "after": "ee6e0b10710f12006164c6a550fcdc7aa7753ea4d90c5eef3c5840dee886dc56"
+    },
+    "results/mathlab_staging/build_report.md": {
+      "before": "36187385c602dcc3441d58d890b703ab42468bf9f58006c04469fa2809001186",
+      "after": "ef8833cef28dfe9c9854d97c5013f4cad1739bfd972f223e91c9868ce9318f9a"
+    },
+    "tools/mathlab_harvest.py": {
+      "before": "9dbc58afef1aa290d5e01622d3324b052e3f19169bfeb8d38ad19148cfe869bb",
+      "after": "f866420f56833ee3e3c4506529904e7f2bc7948ef6b0f11ce988aab22c50ec40"
+    },
+    "tools/mathlab_runtime.py": {
+      "before": "936b328db5db296de270bb255f4afda0c885c514862fcc62ad5b613ab67ac3e0",
+      "after": "416b597c1309f7dcabb065749e05da9ce28743b1d16c9791ae1eed527a4a72c5"
+    }
+  },
+  "unchanged_protected_files": 83,
+  "immutable_files_checked": 147,
+  "immutable_changes": {},
+  "immutable_verification": "size/mtime for all; SHA-256 for files <=1 MiB",
+  "report_prefix_unchanged": true,
+  "status_line_unchanged": true,
+  "report_sha256": "ef8833cef28dfe9c9854d97c5013f4cad1739bfd972f223e91c9868ce9318f9a",
+  "report_section_line": 1960,
+  "report_links_checked": 17,
+  "core_unchanged": true,
+  "shared_events_unchanged": true,
+  "prereg_sha256": "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8",
+  "branch": "worktree-c10k-route-a",
+  "initial_head": "ed6cdf4fdfb0e357f9961b215c6abd94b88ba6b6",
+  "observed_head": "93080f50ff36e4b73a8d01cb96d5e1558dc3a754",
+  "git_diff_check": true,
+  "own_git_mutations": 0,
+  "commits": 0,
+  "implementation_rounds": 1,
+  "production_edits_before_RED": 0,
+  "gpu_mps_calls": 0,
+  "model_loads": 0,
+  "harvest_dispatches": 0,
+  "active_run_task_writes": 0,
+  "first_harvest_task_writes": 0,
+  "first_harvest_relabelled": false,
+  "active_run_note": "Independent in-flight run was neither controlled nor modified; its own process may append progress.",
+  "checks": [
+    {
+      "name": "red_initial",
+      "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands mathlab.test_mathlab.NativeNormContractTests mathlab.test_mathlab.ResourceArtifactTests.test_prereg_amendment_pin_accepts_only_exact_frozen_bytes -v > '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/dml3_impl_20261009T195833.138642Z/red.txt' 2>&1",
+      "exit_code": 1,
+      "log": "red.txt"
+    },
+    {
+      "name": "red_behavior",
+      "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands mathlab.test_mathlab.NativeNormContractTests mathlab.test_mathlab.ResourceArtifactTests.test_prereg_amendment_pin_accepts_only_exact_frozen_bytes -v > '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/dml3_impl_20261009T195833.138642Z/red_behavior.txt' 2>&1",
+      "exit_code": 1,
+      "log": "red_behavior.txt"
+    },
+    {
+      "name": "green_targeted",
+      "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands mathlab.test_mathlab.NativeNormContractTests mathlab.test_mathlab.ResourceArtifactTests.test_prereg_amendment_pin_accepts_only_exact_frozen_bytes -v > '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/dml3_impl_20261009T195833.138642Z/green_targeted.txt' 2>&1",
+      "exit_code": 0,
+      "log": "green_targeted.txt"
+    },
+    {
+      "name": "mathlab",
+      "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab -v",
+      "log": "mathlab_suite.txt",
+      "exit_code": 0
+    },
+    {
+      "name": "dashboard",
+      "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_dashboard_mathlab -v",
+      "log": "dashboard_suite.txt",
+      "exit_code": 0
+    },
+    {
+      "name": "duckdb",
+      "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 /private/tmp/mathlab_uv_cache/environments-v2/m2-solve-repro-da15e0fd897e5e61/bin/python -B -m unittest mathlab.test_index -v",
+      "log": "duckdb.txt",
+      "exit_code": 0
+    },
+    {
+      "name": "marimo",
+      "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 /private/tmp/mathlab_uv_cache/environments-v2/m2-solve-repro-da15e0fd897e5e61/bin/python -B -m marimo check --strict mathlab/m2_solve_repro.py mathlab/m3_calibration.py",
+      "log": "marimo_check.txt",
+      "exit_code": 0
+    }
+  ],
+  "astra_delta_verdict": "GO, implementation scope only"
+}

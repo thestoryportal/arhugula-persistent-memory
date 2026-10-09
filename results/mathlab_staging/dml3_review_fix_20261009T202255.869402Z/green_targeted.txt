@@ -1,0 +1,12 @@
+test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) ... ok
+test_zero_capture_return_persists_native_map_and_producer (mathlab.test_mathlab.ObserverTests.test_zero_capture_return_persists_native_map_and_producer) ... ok
+test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details (mathlab.test_mathlab.ObserverTests.test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details) ... ok
+test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported (mathlab.test_mathlab.ObserverTests.test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported) ... ok
+test_mid_edit_exception_persists_captures_and_original_error (mathlab.test_mathlab.ObserverTests.test_mid_edit_exception_persists_captures_and_original_error) ... ok
+test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink (mathlab.test_mathlab.ObserverTests.test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink) ... ok
+test_native_return_norms_persist_for_same_write_with_producer (mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.226s
+
+OK

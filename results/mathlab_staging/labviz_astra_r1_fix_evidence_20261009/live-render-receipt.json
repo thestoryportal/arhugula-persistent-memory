@@ -1,0 +1,11 @@
+{
+  "card_id": "run-33210915fe8228a8",
+  "source": "results/mathlab_staging/runs/harvest_20261009T184932Z_95961/events.jsonl",
+  "status": "finished",
+  "outcome": "PASS",
+  "proxy_badge": "MATH-PROXY · math estimate, not evidence",
+  "zero_eligibility": "0 of 3 recorded mint arms eligible for replay admission (derived)",
+  "renderer": "production generated site/app.js IIFE",
+  "browser_geometry": "UNVERIFIED",
+  "assertions": "PASS"
+}

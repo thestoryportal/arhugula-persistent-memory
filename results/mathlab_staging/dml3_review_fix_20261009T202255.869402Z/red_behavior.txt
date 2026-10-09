@@ -1,0 +1,85 @@
+test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) ... 
+  test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) (layers=[4, 5, 6, 7]) ... FAIL
+  test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) (layers=[5, 4, 6, 7, 8]) ... FAIL
+  test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) (layers=[4, 4, 6, 7, 8]) ... FAIL
+test_zero_capture_return_persists_native_map_and_producer (mathlab.test_mathlab.ObserverTests.test_zero_capture_return_persists_native_map_and_producer) ... FAIL
+test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details (mathlab.test_mathlab.ObserverTests.test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details) ... 
+  test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details (mathlab.test_mathlab.ObserverTests.test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details) (value='nan') ... FAIL
+  test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details (mathlab.test_mathlab.ObserverTests.test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details) (value='inf') ... FAIL
+test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported (mathlab.test_mathlab.ObserverTests.test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported) ... FAIL
+test_mid_edit_exception_persists_captures_and_original_error (mathlab.test_mathlab.ObserverTests.test_mid_edit_exception_persists_captures_and_original_error) ... ok
+test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink (mathlab.test_mathlab.ObserverTests.test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink) ... ok
+test_native_return_norms_persist_for_same_write_with_producer (mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer) ... ok
+
+======================================================================
+FAIL: test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) (layers=[4, 5, 6, 7])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 477, in test_coverage_failure_persists_count_order_and_repeated_layer_captures
+    self.assert_failed_capture_persists(layers, 5, ValueError)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 448, in assert_failed_capture_persists
+    self.assertEqual(observed["native_norms"], native_norms, "returned native scalars missing before coverage validation")
+AssertionError: None != {'4': 0.20132791996002197, '5': 0.2683717[57 chars]0879} : returned native scalars missing before coverage validation
+
+======================================================================
+FAIL: test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) (layers=[5, 4, 6, 7, 8])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 477, in test_coverage_failure_persists_count_order_and_repeated_layer_captures
+    self.assert_failed_capture_persists(layers, 5, ValueError)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 448, in assert_failed_capture_persists
+    self.assertEqual(observed["native_norms"], native_norms, "returned native scalars missing before coverage validation")
+AssertionError: None != {'5': 0.16102302074432373, '4': 0.2013279[83 chars]0879} : returned native scalars missing before coverage validation
+
+======================================================================
+FAIL: test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) (layers=[4, 4, 6, 7, 8])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 477, in test_coverage_failure_persists_count_order_and_repeated_layer_captures
+    self.assert_failed_capture_persists(layers, 5, ValueError)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 448, in assert_failed_capture_persists
+    self.assertEqual(observed["native_norms"], native_norms, "returned native scalars missing before coverage validation")
+AssertionError: None != {'4': 0.20132791996002197, '6': 0.2683717[57 chars]0879} : returned native scalars missing before coverage validation
+
+======================================================================
+FAIL: test_zero_capture_return_persists_native_map_and_producer (mathlab.test_mathlab.ObserverTests.test_zero_capture_return_persists_native_map_and_producer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 483, in test_zero_capture_return_persists_native_map_and_producer
+    self.assert_failed_capture_persists(BAND, 5, ValueError, zero_capture=True)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 448, in assert_failed_capture_persists
+    self.assertEqual(observed["native_norms"], native_norms, "returned native scalars missing before coverage validation")
+AssertionError: None != {'4': 0.16102302074432373, '5': 0.2013279[83 chars]0879} : returned native scalars missing before coverage validation
+
+======================================================================
+FAIL: test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details (mathlab.test_mathlab.ObserverTests.test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details) (value='nan')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 494, in test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details
+    self.assert_failed_capture_persists(BAND[:4], 5, ValueError)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 448, in assert_failed_capture_persists
+    self.assertEqual(observed["native_norms"], native_norms, "returned native scalars missing before coverage validation")
+AssertionError: None != {'4': None, '5': 0.26837170124053955, '6'[42 chars]0879} : returned native scalars missing before coverage validation
+
+======================================================================
+FAIL: test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details (mathlab.test_mathlab.ObserverTests.test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details) (value='inf')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 494, in test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details
+    self.assert_failed_capture_persists(BAND[:4], 5, ValueError)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 448, in assert_failed_capture_persists
+    self.assertEqual(observed["native_norms"], native_norms, "returned native scalars missing before coverage validation")
+AssertionError: None != {'4': None, '5': 0.26837170124053955, '6'[42 chars]0879} : returned native scalars missing before coverage validation
+
+======================================================================
+FAIL: test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported (mathlab.test_mathlab.ObserverTests.test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 516, in test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported
+    self.assertIn("returned.l4.n_native", loaded, "returned native scalar missing from failed-write sidecar")
+AssertionError: 'returned.l4.n_native' not found in {'c0.l4.zs': tensor([1., 1.], dtype=torch.float16)} : returned native scalar missing from failed-write sidecar
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.189s
+
+FAILED (failures=7)

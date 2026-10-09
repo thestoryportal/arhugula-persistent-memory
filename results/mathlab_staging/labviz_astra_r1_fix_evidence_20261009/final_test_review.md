@@ -1,0 +1,11 @@
+# Final test-boundary review — 2026-10-09
+
+**PROCEED.** No blocking issue found. Next: finish the full suites and live build checks; this review does not establish their outcomes.
+
+The added MathLab branch tests the actual published-snapshot contract rather than requiring an earlier cached card to equal a subsequently appended live stream. It requires the canonical stream in both `reader.snapshots` and the card source list, verifies SHA equality, writes those exact captured bytes, and invokes the same strict `validate_card` against them (`tools/labviz/test_labviz.py:347–360`). Other cited sources remain linked to the live originals and therefore remain subject to the existing source/hash checks. The branch has no exception whitelist or alternate parser/fold.
+
+The strict validator still checks source-leaf equality, canonical shared-reader identity, fold input/module binding, recomputed state, and source hashes (`tools/labviz/cards.py:307–374`). The controlled publishing-append regression explicitly requires validation against the advanced root to reject the canonical event operand while the captured evidence validates (`tools/labviz/test_mathlab.py:529–534`). This is the cheap overturning control: the test does not merely hide a live-root mismatch.
+
+Direct comparison with `/private/tmp/labviz-astra-r1-cgrxk4st/before/tools/labviz/test_labviz.py` shows only the added MathLab branch; the non-MathLab exception handling and following jq checks are unchanged. Independent stdlib AST inspection confirms all 278 preexisting `self.assert*` calls remain structurally identical, with 282 total now and zero removed/changed calls. Assertion-count preservation alone is not proof of equivalent test strength; the source-binding and negative validation checks above supply the relevant behavioral criterion.
+
+No assertion weakening or second schema/status authority was found. This supports faithful observation of the program, not a scientific/F1 result. Reviewed source and baseline text only; no tests, builds, producers, models, or GPU execution. The only review mutation is this report. Full-suite/live/browser outcomes are UNVERIFIED by this reviewer. Same-family fallback provides weaker independence than a cross-family review.

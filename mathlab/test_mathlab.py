@@ -4,6 +4,7 @@ import copy
 import hashlib
 import importlib
 import json
+import math
 import os
 from pathlib import Path
 import sys
@@ -259,6 +260,75 @@ class ObserverTests(unittest.TestCase):
     def observer(self):
         return module(self, "tools.mathlab_harvest").EditObserver(self.H)
 
+    def test_native_return_norms_persist_for_same_write_with_producer(self):
+        H = module(self, "tools.mathlab_harvest"); R = module(self, "tools.mathlab_runtime")
+        source = ast.parse((ROOT / "tools/mathlab_harvest.py").read_text())
+        harvest = next(n for n in source.body if isinstance(n, ast.FunctionDef) and n.name == "harvest")
+        callback = next(n for n in ast.walk(harvest) if isinstance(n, ast.FunctionDef) and n.name == "completed")
+        with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+            root = Path(td); run = R.Run(root / "run", 1, "CPU native-norm fixture", 3600, sample=lambda: 24.)
+            scope = dict(run=run, R=R, A1=A1, A2=A2, A7=A7, MINT=MINT,
+                         law5_writes=[], saved={}, files={}, output=root)
+            exec(compile(ast.Module(body=[callback], type_ignores=[]), "<harvest persistence callback>", "exec"), scope)
+            O = H.EditObserver(self.H, scope["completed"])
+            norm = torch.Tensor.norm
+            def producer_only(tensor, *args, **kwargs):
+                self.assertIs(sys._getframe(1).f_code, O.edit_code,
+                              "native norm must come from my_edit, never an observer recomputation")
+                return norm(tensor, *args, **kwargs)
+            returned = []
+            for arm, target in ((A1, 1.), (MINT[0], 2.)):
+                O.arm_override = arm
+                self.scope["Z_OVERRIDE"] = {(r["subject"], r["target_new"]["str"]): torch.full((2,), target) for r in self.requests}
+                with O.bound(), patch.object(torch.Tensor, "norm", producer_only), \
+                     patch.dict(self.H.get_context_templates.__globals__, CONTEXT_TEMPLATES_CACHE=[["{}"]]):
+                    result = self.H.my_edit(self.hp, self.requests, self.P, [torch.zeros(3, 3) for _ in BAND])
+                returned.append(result)
+                ref = scope["files"][f"inloop_{arm}.pt"]
+                loaded = torch.load(ref["path"], map_location="cpu", weights_only=True)
+                for l in BAND:
+                    self.assertIn(f"l{l}.n_native", loaded.keys(), "returned native scalar was not persisted")
+                    self.assertEqual(float(loaded[f"l{l}.n_native"]), result[str(l)]["delta_norm"])
+                    self.assertEqual(loaded[f"l{l}.n_native"].dtype, torch.float64)
+                    self.assertEqual(loaded[f"l{l}.n_native"].device.type, "cpu")
+                    self.assertEqual(float(loaded[f"l{l}.upd_norm"]), float(scope["saved"][arm][f"l{l}.upd_norm"]))
+                self.assertEqual(ref["native_norm_producer"], {"torch_version": str(torch.__version__), "cpu_threads": 8})
+                self.assertEqual(ref["sha256"], R.sha_file(ref["path"]))
+            self.assertNotEqual(returned[0]["4"]["delta_norm"], returned[1]["4"]["delta_norm"])
+            R.write_new(root / "manifest.json", {"files": scope["files"]})
+            persisted = R.read_json(root / "manifest.json")
+            self.assertEqual(persisted["files"][f"inloop_{MINT[0]}.pt"]["native_norm_producer"]["cpu_threads"], 8)
+
+    def test_invalid_native_return_fails_arm_without_losing_operands(self):
+        H = module(self, "tools.mathlab_harvest"); R = module(self, "tools.mathlab_runtime")
+        for adjustment in ('delta_norms["4"].pop("delta_norm")',
+                           'delta_norms["4"]["delta_norm"] = float("nan")',
+                           'delta_norms["4"]["delta_norm"] = float("inf")'):
+            with self.subTest(adjustment=adjustment):
+                self.setUp()
+                tree = ast.parse((ROOT / "experiments/track_c/c10e_bandknob.py").read_text())
+                definition = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "my_edit")
+                definition.body[-1:-1] = ast.parse('global VALID_RETURN\nVALID_RETURN = {k: dict(v) for k, v in delta_norms.items()}\n' + adjustment).body
+                exec(compile(ast.Module(body=[definition], type_ignores=[]), "<CPU malformed-return fixture>", "exec"), self.scope)
+                self.H.my_edit = self.scope["my_edit"]
+                O = H.EditObserver(self.H)
+                with O.bound(), patch.dict(self.H.get_context_templates.__globals__, CONTEXT_TEMPLATES_CACHE=[["{}"]]):
+                    result = self.H.my_edit(self.hp, self.requests, self.P, [torch.zeros(3, 3) for _ in BAND])
+                self.assertEqual(len(O.writes), 1); self.assertEqual(O.failed_writes, [])
+                tensors = O.writes[0]["tensors"]
+                expected = self.scope["VALID_RETURN"]
+                with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+                    ref = R.save_tensors(Path(td) / "inloop.pt", tensors)
+                    loaded = torch.load(ref["path"], map_location="cpu", weights_only=True)
+                    agreement = H.norm_agreement(loaded, expected)
+                    self.assertFalse(agreement["passed"], "invalid producer norm must not admit this arm")
+                    self.assertFalse(agreement["layers"]["4"]["passed"])
+                    self.assertIn("l4.rf", loaded); self.assertIn("l4.upd_norm", loaded)
+                    json.dumps(agreement, allow_nan=False)
+                admission = H.replay_admission(True, {MINT[0]: agreement["passed"], MINT[1]: True, MINT[2]: True})
+                self.assertEqual(admission["admitted"], MINT[1:])
+                self.assertIsNone(O.current); self.assertIsNone(sys.getprofile())
+
     def test_original_code_matches_after_rebinding_and_return_is_unique(self):
         O = self.observer(); original = self.H.my_edit
         with O.bound():
@@ -305,11 +375,11 @@ class ObserverTests(unittest.TestCase):
             self.H.my_edit(self.hp, self.requests, self.P, [])
         self.assertIsNone(sys.getprofile())
 
-    def assert_failed_capture_persists(self, layers, cache_count, error_type):
+    def assert_failed_capture_persists(self, layers, cache_count, error_type, zero_capture=False):
         H = module(self, "tools.mathlab_harvest"); R = module(self, "tools.mathlab_runtime")
         from tools.mathlab_events import read_events
         self.hp.layers = layers
-        expected = {}; completed = []
+        expected = {}; completed = []; returned = {}; observed = {}
         original = self.H.my_edit
         with tempfile.TemporaryDirectory() as td, \
              patch.dict(self.H.get_context_templates.__globals__, CONTEXT_TEMPLATES_CACHE=[["{}"]]):
@@ -318,13 +388,28 @@ class ObserverTests(unittest.TestCase):
                 self.assertIs(O.current, write)
                 self.assertIsNone(sys.getprofile())
                 validate.assert_not_called()
-                for i, (row, tensors) in enumerate(zip(write["captures"], write["capture_tensors"])):
-                    expected.update({f"c{i}.l{row['layer']}.{k}": v.clone() for k, v in tensors.items()})
+                observed.update(native_norms=write.get("returned_native_norms"), producer=write.get("native_norm_producer"))
+                for i, (row, tensors) in enumerate(zip(write["captures"], write.get("capture_tensors", []))):
+                    prefix = f"c{i}.l{row['layer']}."
+                    expected.update({prefix + k: v.clone() for k, v in tensors.items() if k != "n_native"})
+                    if sum(r["layer"] == row["layer"] for r in write["captures"]) == 1 and str(row["layer"]) in returned:
+                        expected[prefix + "n_native"] = torch.tensor(returned[str(row["layer"])], dtype=torch.float64)
+                    elif str(row["layer"]) in returned:
+                        observed.setdefault("duplicate_native_keys", []).extend(prefix + k for k in tensors if k == "n_native")
+                expected.update({f"returned.l{l}.n_native": torch.tensor(n, dtype=torch.float64) for l, n in returned.items()})
                 before = synced.call_count
                 H.persist_failed_write(run.directory, write)
                 self.assertEqual(synced.call_count, before + 1)
                 self.assertNotIn("capture_tensors", write)
+                self.assertNotIn("returned_native_tensors", write)
             O = H.EditObserver(self.H, completed.append); O.failed = failed
+            profile = O.profile
+            def observe_return(frame, event, arg):
+                if event == "return" and frame.f_code is O.edit_code and isinstance(arg, dict):
+                    returned.update({str(l): row["delta_norm"] for l, row in arg.items() if "delta_norm" in row})
+                profile(frame, event, arg)
+            O.profile = observe_return
+            if zero_capture: O.shape_code = (lambda: None).__code__
             with patch.object(O, "validate_coverage", wraps=O.validate_coverage) as validate, \
                  patch.object(H.os, "fsync", wraps=os.fsync) as synced, patch.object(H, "W", root):
                 with self.assertRaises(error_type) as caught:
@@ -337,11 +422,13 @@ class ObserverTests(unittest.TestCase):
             self.assertIsNone(O.current); self.assertEqual(O.writes, [])
             self.assertEqual(completed, []); self.assertEqual(O.last_capture_count, 0)
             diagnostic = R.read_json(result["diagnostic_path"])
+            json.dumps(diagnostic, allow_nan=False)
             self.assertEqual(len(diagnostic["details"]["failed_writes"]), 1)
             write = diagnostic["details"]["failed_writes"][0]
             self.assertTrue(write["diagnostic_only"]); self.assertFalse(write["analysis_eligible"])
             self.assertEqual(write["arm"], A7)
-            self.assertEqual(write["coverage"]["captures"], [dict(i=i, layer=l) for i, l in enumerate(layers[:cache_count])])
+            seen_layers = [] if zero_capture else layers[:cache_count]
+            self.assertEqual(write["coverage"]["captures"], [dict(i=i, layer=l) for i, l in enumerate(seen_layers)])
             self.assertEqual(write["coverage"]["expected_captures"], [dict(i=i, layer=l) for i, l in enumerate(BAND)])
             self.assertEqual(write["coverage"]["return_count"], 1)
             self.assertEqual(write["coverage"]["expected_return_count"], 1)
@@ -355,14 +442,25 @@ class ObserverTests(unittest.TestCase):
             self.assertTrue(ref["diagnostic_only"]); self.assertFalse(ref["analysis_eligible"])
             self.assertEqual(ref["status"], "saved")
             self.assertEqual(ref["sha256"], R.sha_file(path))
+            if returned:
+                native_norms = {l: n if math.isfinite(n) else None for l, n in returned.items()}
+                producer = dict(torch_version=str(torch.__version__), cpu_threads=8)
+                self.assertEqual(observed["native_norms"], native_norms, "returned native scalars missing before coverage validation")
+                self.assertEqual(observed["producer"], producer, "producer metadata missing before coverage validation")
+                self.assertEqual(write["returned_native_norms"], native_norms)
+                self.assertEqual(write["native_norm_producer"], producer)
+                self.assertEqual(ref["native_norm_producer"], producer)
+                self.assertEqual(observed.get("duplicate_native_keys", []), [], "overwritten return scalar was attributed to a duplicate capture")
             loaded = torch.load(path, map_location="cpu", weights_only=True)
             self.assertEqual(set(loaded), set(expected))
             for k, v in expected.items():
-                self.assertTrue(torch.equal(loaded[k], v), k)
+                torch.testing.assert_close(loaded[k], v, rtol=0, atol=0, equal_nan=True, msg=k)
                 self.assertEqual(loaded[k].dtype, v.dtype)
                 self.assertEqual(ref["tensors"][k], dict(shape=list(v.shape), dtype=str(v.dtype)))
             if layers[:2] == [4, 4]:
                 self.assertFalse(torch.equal(loaded["c0.l4.rf"], loaded["c1.l4.rf"]))
+                self.assertNotIn("c0.l4.n_native", loaded); self.assertNotIn("c1.l4.n_native", loaded)
+                self.assertEqual(float(loaded["returned.l4.n_native"]), returned["4"])
             self.assertFalse(list(root.rglob("inloop_*.pt")))
             self.assertFalse(list(root.rglob("manifest.json")))
             rows, errors = read_events(run.directory / "events.jsonl")
@@ -381,6 +479,20 @@ class ObserverTests(unittest.TestCase):
     def test_mid_edit_exception_persists_captures_and_original_error(self):
         self.assert_failed_capture_persists(BAND, 2, IndexError)
 
+    def test_zero_capture_return_persists_native_map_and_producer(self):
+        self.assert_failed_capture_persists(BAND, 5, ValueError, zero_capture=True)
+
+    def test_coverage_failure_keeps_nonfinite_native_scalar_and_json_safe_details(self):
+        for value in ("nan", "inf"):
+            with self.subTest(value=value):
+                self.setUp()
+                tree = ast.parse((ROOT / "experiments/track_c/c10e_bandknob.py").read_text())
+                definition = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "my_edit")
+                definition.body[-1:-1] = ast.parse(f'delta_norms["4"]["delta_norm"] = float("{value}")').body
+                exec(compile(ast.Module(body=[definition], type_ignores=[]), "<CPU nonfinite failure fixture>", "exec"), self.scope)
+                self.H.my_edit = self.scope["my_edit"]
+                self.assert_failed_capture_persists(BAND[:4], 5, ValueError)
+
     def test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink(self):
         H = module(self, "tools.mathlab_harvest"); completed = []; failed = []
         O = H.EditObserver(self.H, completed.append, failed.append)
@@ -395,16 +507,29 @@ class ObserverTests(unittest.TestCase):
         H = module(self, "tools.mathlab_harvest"); R = module(self, "tools.mathlab_runtime")
         with tempfile.TemporaryDirectory() as td, patch.object(R, "utc_tag", return_value="collision"):
             def write():
-                return dict(captures=[dict(i=0, layer=4)], capture_tensors=[{"zs": torch.ones(2, dtype=torch.float16)}], artifacts=[])
+                return dict(captures=[dict(i=0, layer=4)], capture_tensors=[{"zs": torch.ones(2, dtype=torch.float16)}],
+                            returned_native_norms={"4": 3.}, returned_native_tensors={"returned.l4.n_native": torch.tensor(3., dtype=torch.float64)},
+                            native_norm_producer=dict(torch_version=str(torch.__version__), cpu_threads=8), artifacts=[])
             first = write(); H.persist_failed_write(td, first)
             path = Path(first["artifacts"][0]["path"]); before = path.read_bytes()
+            loaded = torch.load(path, map_location="cpu", weights_only=True)
+            self.assertIn("returned.l4.n_native", loaded, "returned native scalar missing from failed-write sidecar")
+            self.assertEqual(float(loaded["returned.l4.n_native"]), 3.)
             second = write()
             with self.assertRaises(FileExistsError): H.persist_failed_write(td, second)
             self.assertEqual(path.read_bytes(), before)
             with patch.object(R, "utc_tag", return_value="fsync_failure"), \
                  patch.object(H.os, "fsync", side_effect=OSError("fsync failed")):
+                unsynced = write()
                 with self.assertRaisesRegex(OSError, "fsync failed"):
-                    H.persist_failed_write(td, write())
+                    H.persist_failed_write(td, unsynced)
+                self.assertIn("capture_tensors", unsynced); self.assertIn("returned_native_tensors", unsynced)
+                self.assertEqual(unsynced["artifacts"][0]["status"], "writing")
+                O = self.observer(); O.failed_writes.append(unsynced)
+                details = O.failure_details()
+                self.assertNotIn("capture_tensors", details[0]); self.assertNotIn("returned_native_tensors", details[0])
+                self.assertEqual(details[0]["returned_native_norms"], {"4": 3.})
+                json.dumps(details, allow_nan=False)
 
     def test_science_subject_mismatch_and_nonzero_cache_halt(self):
         O = self.observer()
@@ -564,6 +689,78 @@ class ReplayTests(unittest.TestCase):
         self.assertEqual(provenance["ctx_sha256"], "8638d12c6d5844168e1577a459103fa309bcf995fc1225df7e716de11a87cdc9")
         self.assertEqual([records[a]["arm"]["para_full_binding_n"] for a in MINT], [46, 37, 40])
         self.assertTrue(all(provenance["seed_sources"][a]["passed"] for a in MINT))
+
+
+class NativeNormContractTests(unittest.TestCase):
+    def test_native_agreement_ignores_large_fp64_reduction_discrepancy(self):
+        H = module(self, "tools.mathlab_harvest")
+        tensor = torch.ones(1 << 18, dtype=torch.float32, device="cpu"); tensor[:4] = 4096
+        native = float(tensor.norm()); diagnostic = torch.linalg.vector_norm(tensor.double())
+        self.assertGreater(abs(float(diagnostic) - native) / native, 1e-3,
+                           "fixture must distinguish producer fp32 from observer fp64 norms")
+        captured = {f"l{l}.{key}": value for l in BAND
+                    for key, value in (("n_native", torch.tensor(native, dtype=torch.float64)), ("upd_norm", diagnostic))}
+        historical = {str(l): {"delta_norm": native} for l in BAND}
+        agreement = H.norm_agreement(captured, historical)
+        self.assertTrue(agreement["passed"], "historical agreement must use the native returned metric")
+        self.assertTrue(all(r["relative_error"] == 0. for r in agreement["layers"].values()))
+        historical["6"]["delta_norm"] = native / 1.002
+        agreement = H.norm_agreement(captured, historical)
+        self.assertFalse(agreement["passed"])
+        self.assertGreater(agreement["layers"]["6"]["relative_error"], 1e-3)
+        self.assertTrue(agreement["layers"]["4"]["passed"])
+
+    def test_missing_nonfinite_native_or_historical_scalars_fail_closed(self):
+        H = module(self, "tools.mathlab_harvest")
+        for side in ("native", "historical"):
+            for bad in (None, float("nan"), float("inf"), float("-inf")):
+                with self.subTest(side=side, bad=bad):
+                    tensors = {f"l{l}.{key}": torch.tensor(1., dtype=torch.float64)
+                               for l in BAND for key in ("n_native", "upd_norm")}
+                    historical = {str(l): {"delta_norm": 1.} for l in BAND}
+                    if side == "native":
+                        if bad is None: tensors.pop("l4.n_native")
+                        else: tensors["l4.n_native"] = torch.tensor(bad, dtype=torch.float64)
+                    elif bad is None: historical["4"].pop("delta_norm")
+                    else: historical["4"]["delta_norm"] = bad
+                    result = H.norm_agreement(tensors, historical)
+                    self.assertFalse(result["passed"])
+                    self.assertFalse(result["layers"]["4"]["passed"])
+                    self.assertIsNone(result["layers"]["4"]["relative_error"])
+                    self.assertTrue(result["layers"]["5"]["passed"])
+                    json.dumps(result, allow_nan=False)
+        for historical in ({}, {"4": {"delta_norm": 0.}}):
+            self.assertFalse(H.norm_agreement({}, historical)["passed"])
+
+    def test_historical_arithmetic_preserves_binary64_scalars(self):
+        H = module(self, "tools.mathlab_harvest")
+        native = 1. + 2. ** -40
+        tensors = {f"l{l}.{key}": torch.tensor(value, dtype=torch.float64) for l in BAND
+                   for key, value in (("n_native", native), ("upd_norm", 1.))}
+        historical = {str(l): {"delta_norm": 1.} for l in BAND}
+        result = H.norm_agreement(tensors, historical)
+        self.assertTrue(result["passed"])
+        self.assertEqual(result["layers"]["4"]["relative_error"], 2. ** -40)
+
+    def test_gate2a_keeps_fp64_reference_for_non_A7_arms(self):
+        C = module(self, "mathlab.core"); R = module(self, "tools.mathlab_runtime")
+        from mathlab.fixtures import make_harvest
+        with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+            root = Path(td); harvest = make_harvest(root)
+            manifest = R.read_json(harvest / "manifest.json")
+            for arm in [A1, A2, *MINT]:
+                ref = manifest["files"][f"inloop_{arm}.pt"]
+                tensors = torch.load(ref["path"], map_location="cpu", weights_only=True)
+                for l in BAND: tensors[f"l{l}.n_native"] = torch.tensor(12345., dtype=torch.float64)
+                path = root / f"native_companion_{arm}.pt"
+                manifest["files"][f"inloop_{arm}.pt"] = R.save_tensors(path, tensors)
+            separate = root / "fixture_with_native"; separate.mkdir()
+            R.write_new(separate / "manifest.json", manifest)
+            run = R.Run(root / "run", 2, "CPU unchanged-reference fixture", 6540, sample=lambda: 24.)
+            result = C.reproduce(separate, R.new_directory(root, "m2"), run)
+            self.assertTrue(result["gate2a"]["passed"], "native historical metric cannot become gate2a reference")
+            for arm in [A1, A2, *MINT]:
+                for l in BAND: self.assertTrue(result["gate2a"]["records"][f"{arm}:{l}"]["update_passed"])
 
 
 class MathTests(unittest.TestCase):
@@ -850,8 +1047,11 @@ class ResourceArtifactTests(unittest.TestCase):
 
     def test_prereg_amendment_pin_accepts_only_exact_frozen_bytes(self):
         R = module(self, "tools.mathlab_runtime")
-        self.assertEqual(R.PREREG_SHA, "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507")
+        self.assertEqual(R.PREREG_SHA, "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8")
         R.verify_prereg(ROOT)
+        with patch.object(R, "PREREG_SHA", "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507"):
+            with self.assertRaisesRegex(ValueError, "PREREG"):
+                R.verify_prereg(ROOT)
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
             root = Path(td); (root / "docs").mkdir()
             prereg = root / "docs/MATHLAB_PREREG.md"
@@ -997,7 +1197,7 @@ class NotebookContractTests(unittest.TestCase):
         from tools.mathlab_events import read_events
         # Isolate the deadline contract from the separately tested prereg repin.
         with tempfile.TemporaryDirectory(dir="/private/tmp") as td, \
-             patch.object(R,"PREREG_SHA","4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507"):
+             patch.object(R,"PREREG_SHA","85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8"):
             root=Path(td); harvest=make_harvest(root); run_dir=root/"run"
             R.Run(run_dir,2,"Fixture notebook",6540,sample=lambda:24.)
             R.write_new(run_dir/"admission.json",dict(allowed=True,kind="cpu",fixture=True))

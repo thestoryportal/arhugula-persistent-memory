@@ -1,0 +1,12 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "tools.labviz.test_mathlab.MathLabTests.test_concurrent_appends_keep_card_index_chunk_hash_and_evidence_in_one_snapshot",
+    "tools.labviz.test_mathlab.MathLabTests.test_unstable_capture_fails_after_three_attempts_without_publishing_or_caching"
+  ],
+  "exit_code": 1,
+  "elapsed_s": 1.2303979170974344
+}

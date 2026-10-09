@@ -1,0 +1,347 @@
+--- before/tools/labviz/test_mathlab.py
++++ tools/labviz/test_mathlab.py
+@@ -0,0 +1,344 @@
++"""D-ML-1 fixtures exercise the shared event contract, not a science producer."""
++import copy
++import hashlib
++import json
++from pathlib import Path
++import shutil
++import tempfile
++import unittest
++from unittest.mock import patch
++
++from tools import mathlab_events
++from tools.labviz import build, cards
++
++ROOT = Path(__file__).resolve().parents[2]
++
++
++def event(run_id, kind, **fields):
++    return dict(schema=1, run_id=run_id, ts='2026-10-09T18:00:00Z', type=kind, **fields)
++
++
++def started(run_id, step=2, purpose='experiment'):
++    return event(run_id, 'run_started', step=step, purpose=purpose,
++                 title='Reproduce the saved write on CPU', pid=4321,
++                 deadline_ts='2026-10-09T18:45:00Z')
++
++
++def write_stream(root, run_id, events, tail=''):
++    path = root/'results/mathlab_staging/runs'/run_id/'events.jsonl'
++    path.parent.mkdir(parents=True, exist_ok=True)
++    path.write_text(''.join(json.dumps(e)+'\n' for e in events)+tail)
++    return path
++
++
++def prepare(root):
++    """A real Reader/build fixture, also used by the production-IIFE Node tests."""
++    for path in (ROOT/'tools/labviz').glob('*.json'):
++        target = root/'tools/labviz'/path.name
++        target.parent.mkdir(parents=True, exist_ok=True)
++        shutil.copyfile(path, target)
++    target = root/'tools/mathlab_events.py'
++    shutil.copyfile(ROOT/'tools/mathlab_events.py', target)
++    spec = (ROOT/'docs/LABVIZ_V2_SPEC.md').read_text()
++    (root/'docs').mkdir()
++    (root/'docs/LABVIZ_V2_SPEC.md').write_text(spec[spec.index('## Forward requirement — math lab'):])
++    finding = root/'logs/pending_findings/mathlab_fixture.md'
++    finding.parent.mkdir(parents=True)
++    finding.write_text('# Fixture estimate\nMATH-PROXY — math estimate, not evidence\n<script>not executable</script>\n')
++    run = 'halted_fixture'
++    stream = [started(run), event(run, 'admission', allowed=True, reasons=[]),
++              event(run, 'stage_started', stage='reproduction', plain_words='Repeat the saved calculation', cap_s=2700),
++              event(run, 'progress', stage='reproduction', done=3, total=6, unit='arms')]
++    for name in ('context', 'law3', 'law5', 'observer-parity', 'budget-reproduction', 'stage-memory-reproduction'):
++        stream.append(event(run, 'gate_result', gate_id=name, plain_words='Producer-shaped check '+name,
++                            observed=8, bar=8, comparison='>=', passed=True))
++    for layer in range(30):
++        stream.append(event(run, 'gate_result', gate_id=f'2a-projector-arm-{layer}',
++                            plain_words='Projection reproduces the write', observed=1e-7,
++                            bar=1e-6, comparison='<=', passed=True))
++        stream.append(event(run, 'gate_result', gate_id=f'2a-update-arm-{layer}',
++                            plain_words='Write size reproduces the write', observed=1e-7,
++                            bar=1e-5, comparison='<=', passed=True))
++    stream += [event(run, 'resource_sample', avail_gib=12, floor_gib=8, rss_gib=1.2, cpu_pct=64),
++               event(run, 'stage_finished', stage='reproduction', outcome='INVALID', summary='Stopped at the memory floor'),
++               event(run, 'resource_sample', avail_gib=7, floor_gib=8, rss_gib=1.5, cpu_pct=0),
++               event(run, 'finding_staged', finding_id='estimate-1', tier='MATH-PROXY',
++                     summary='The saved math estimate', path=str(finding)),
++               event(run, 'candidate_added', candidate_id='idea-1', source='fixture', offline=True,
++                     question='Would <img src=x onerror=alert(1)> change the result?'),
++               event(run, 'halted', reason='STOPPED-RESOURCE: below the memory floor', diagnostic_path='diagnostic.json')]
++    write_stream(root, run, stream)
++    run = 'admission_fixture'
++    write_stream(root, run, [started(run, step=1, purpose='admission'),
++                            event(run, 'admission', allowed=True, reasons=[]),
++                            event(run, 'run_finished', outcome='PASS', summary='Admission only; no experiment ran')])
++    run = 'torn_fixture'
++    write_stream(root, run, [started(run)], '{"type":"run_finished"')
++    for outcome in ('PASS', 'FAIL', 'INVALID'):
++        run = 'calibration_'+outcome
++        write_stream(root, run, [started(run, step=3),
++                                event(run, 'gate_result', gate_id='calibration',
++                                      plain_words='Aggregate calibration outcome', observed=outcome,
++                                      bar='PASS', comparison='meets', passed=outcome=='PASS')])
++    write_stream(root, 'empty_fixture', [])
++    sidecar = root/'results/mathlab_staging/runs'/run/'admission.json'
++    sidecar.write_text(json.dumps({'model':'fake model', 'label':'PASS', 'arm':{'para_full_n':72, 'para_n':72}}))
++    return stream
++
++
++class MathLabTests(unittest.TestCase):
++    def setUp(self):
++        self.tmp = tempfile.TemporaryDirectory(prefix='labviz-mathlab-test-')
++        self.addCleanup(self.tmp.cleanup)
++        self.root = Path(self.tmp.name)
++        self.stream = prepare(self.root)
++
++    def reader(self):
++        reader = cards.Reader(self.root)
++        reader.collect()
++        return reader
++
++    def card(self, run_id, reader=None):
++        reader = reader or self.reader()
++        matches = [c for c in reader.cards if c['identity']['name'] ==
++                   f'results/mathlab_staging/runs/{run_id}/events.jsonl']
++        self.assertEqual(len(matches), 1, 'one MathLab card per canonical event stream')
++        return matches[0]
++
++    def test_shared_reader_and_fold_are_the_only_run_state_authority(self):
++        with patch.object(mathlab_events, 'read_events', wraps=mathlab_events.read_events) as read, \
++             patch.object(mathlab_events, 'fold', wraps=mathlab_events.fold) as fold:
++            reader = self.reader()
++        self.assertEqual(read.call_count, 7)
++        self.assertGreaterEqual(fold.call_count, 7)
++        self.assertEqual(len(reader.cards), 7)
++        card = self.card('halted_fixture', reader)
++        expected = json.loads(cards.encoded(mathlab_events.fold(self.stream)))
++        self.assertEqual(card['mathlab']['state']['value'], expected)
++        self.assertEqual(card['evidence_status'], 'MATH-PROXY')
++        self.assertEqual(card['label']['value'], 'math estimate, not evidence')
++        self.assertEqual(len(expected['gates']), 66)
++        self.assertEqual(len(expected['resource_samples']), 2)
++        self.assertEqual(expected['stages'][0]['outcome'], 'INVALID')
++        self.assertTrue(expected['gate_groups']['inertness']['complete'])
++        self.assertFalse(expected['gate_groups']['2a']['complete'])
++        self.assertFalse(any('admission.json' in name for name in reader.files))
++        self.assertEqual(reader.scales['absolute_write_size']['operands'], [])
++
++    def test_torn_tail_and_invalid_middle_lines_remain_visible(self):
++        path = self.root/'results/mathlab_staging/runs/torn_fixture/events.jsonl'
++        start = started('torn_fixture')
++        path.write_text(json.dumps(start)+'\n{"schema":99}\n'+
++                        json.dumps(event('torn_fixture', 'resource_sample', avail_gib=10, floor_gib=8, rss_gib=1, cpu_pct=2))+
++                        '\n{"type":"run_finished"')
++        card = self.card('torn_fixture')
++        errors = card['mathlab']['errors']['value']
++        self.assertEqual(len(errors), 2)
++        self.assertIn('line 2:', errors[0])
++        self.assertIn('line 4: incomplete line', errors[1])
++        self.assertEqual(card['mathlab']['state']['value']['status'], 'running')
++        self.assertEqual(len(card['events']['timestamped']), 2)
++        self.assertTrue(cards.validate_card(json.loads(cards.encoded(card)), self.root))
++
++    def test_admission_receipt_never_completes_an_experiment_step(self):
++        state = self.card('admission_fixture')['mathlab']['state']['value']
++        self.assertEqual(state['purpose'], 'admission')
++        self.assertEqual(state['outcome'], 'PASS')
++        self.assertEqual(set(state['steps'].values()), {'not started'})
++
++    def test_aggregate_calibration_retains_all_three_outcomes(self):
++        reader = self.reader()
++        for outcome, status in [('PASS','running'), ('FAIL','stopped: check failed'), ('INVALID','invalid: no verdict')]:
++            state = self.card('calibration_'+outcome, reader)['mathlab']['state']['value']
++            self.assertEqual(state['calibration_outcome'], outcome)
++            self.assertEqual(state['gate_outcomes']['calibration'], outcome)
++            self.assertEqual(state['status'], status)
++
++    def test_legacy_admission_partial_gates_and_substages_keep_fold_scope(self):
++        cases = [
++            ('legacy_admission', [dict((k,v) for k,v in started('legacy_admission').items() if k!='purpose'),
++                                 event('legacy_admission','admission',allowed=True,reasons=[]),
++                                 event('legacy_admission','run_finished',outcome='PASS',summary='Receipt')],
++             'admission', 'not started'),
++            ('substage', [started('substage'),
++                          event('substage','stage_started',stage='solve',plain_words='Solve',cap_s=900),
++                          event('substage','stage_finished',stage='solve',outcome='PASS',summary='One stage'),
++                          event('substage','gate_result',gate_id='law5',plain_words='Identity edit',
++                                observed=True,bar=True,comparison='meets',passed=True),
++                          event('substage','gate_result',gate_id='2b',plain_words='Proxy scope only',
++                                observed=.3,bar=.25,comparison='<=',passed=False)],
++             'experiment', 'running'),
++            ('step_finished', [started('step_finished'),
++                               event('step_finished','run_finished',outcome='PASS',summary='Experiment step complete')],
++             'experiment', 'PASS'),
++        ]
++        for run, stream, purpose, step in cases:
++            write_stream(self.root, run, stream)
++            state = self.card(run)['mathlab']['state']['value']
++            self.assertEqual(state, json.loads(cards.encoded(mathlab_events.fold(stream))))
++            self.assertEqual(state['purpose'], purpose)
++            self.assertEqual(state['steps']['2'], step)
++            if run == 'substage':
++                self.assertFalse(state['gate_groups']['inertness']['complete'])
++                self.assertEqual(state['status'], 'running')
++
++    def test_empty_directory_has_no_runs_and_empty_stream_has_no_invented_facts(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            (root/'results/mathlab_staging/runs').mkdir(parents=True)
++            self.assertEqual(cards.Reader(root).collect(), [])
++        card = self.card('empty_fixture')
++        self.assertEqual(card['mathlab']['state']['value']['status'], 'not started')
++        self.assertIsNone(card['mathlab']['state']['value']['run_id'])
++        self.assertEqual(card['mathlab']['errors']['value'], [])
++        self.assertIsNone(card['identity']['date']['value'])
++
++    def test_reader_resolved_leaves_and_fold_roundtrip_are_validated(self):
++        card = self.card('halted_fixture')
++        self.assertTrue(cards.validate_card(card, self.root))
++        self.assertTrue(cards.validate_card(json.loads(cards.encoded(card)), self.root))
++        reader_leaves = []
++        def visit(value):
++            if isinstance(value, dict):
++                if 'value' in value and value.get('src',{}).get('reader'):
++                    reader_leaves.append(value)
++                for key, item in value.items():
++                    if key not in ('value','src','sources','built'):
++                        visit(item)
++            elif isinstance(value, list):
++                for item in value:
++                    visit(item)
++        visit(card)
++        self.assertGreater(len(reader_leaves), 70)
++        events, errors = mathlab_events.read_events(self.root/card['identity']['name'])
++        normalized = {'events':events, 'errors':errors}
++        for leaf in reader_leaves:
++            self.assertEqual(leaf['src']['reader'], 'mathlab_events.read_events')
++            self.assertEqual(cards.resolve(normalized, leaf['src']['path']), leaf['value'])
++        self.assertFalse(any(x['src']['file'].endswith('.jsonl') for x in cards.json_leaves(card)))
++        for mutation in ('value', 'reader', 'reader-omitted', 'reader-on-json', 'rule', 'stream-path'):
++            bad = copy.deepcopy(card)
++            operand = bad['mathlab']['state']['inputs'][0]
++            if mutation == 'value':
++                bad['mathlab']['state']['value']['status'] = 'finished'
++            elif mutation == 'reader':
++                operand['src']['reader'] = 'unrecognized'
++            elif mutation == 'reader-omitted':
++                operand['src'].pop('reader')
++            elif mutation == 'reader-on-json':
++                operand['src'].update(file='tools/labviz/labels.json', path='.', reader='mathlab_events.read_events')
++            elif mutation == 'stream-path':
++                operand['src']['file'] = 'results/mathlab_staging/runs/halted_fixture/admission.json'
++            else:
++                bad['mathlab']['state']['rule_src']['file'] = 'tools/labviz/labels.json'
++            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
++                cards.validate_card(bad, self.root)
++        path = self.root/card['identity']['name']
++        path.write_text(path.read_text().replace('"schema": 1', '"schema":  1', 1))
++        with self.assertRaisesRegex(ValueError, 'source hash changed'):
++            cards.validate_card(card, self.root)
++
++    def test_fold_requires_its_hashed_module_and_this_runs_canonical_events(self):
++        card = self.card('halted_fixture')
++        sidecar = self.root/'results/mathlab_staging/runs/halted_fixture/forged.json'
++        changed = copy.deepcopy(self.stream)
++        changed[-1]['reason'] = 'Forged halt'
++        sidecar.write_text(json.dumps(changed))
++        other = 'results/mathlab_staging/runs/admission_fixture/events.jsonl'
++        for mutation in ('unhashed-module', 'sidecar', 'other-run'):
++            bad = copy.deepcopy(card)
++            if mutation == 'unhashed-module':
++                bad['sources'] = [s for s in bad['sources'] if s['file']!='tools/mathlab_events.py']
++            else:
++                file = str(sidecar.relative_to(self.root)) if mutation=='sidecar' else other
++                events = changed if mutation=='sidecar' else mathlab_events.read_events(self.root/other)[0]
++                operand = {'value':events,'src':{'file':file,'path':'.' if mutation=='sidecar' else '.events'}}
++                if mutation=='other-run':
++                    operand['src']['reader'] = 'mathlab_events.read_events'
++                bad['mathlab']['state']['inputs'] = [operand]
++                bad['mathlab']['state']['value'] = json.loads(cards.encoded(mathlab_events.fold(events)))
++                bad['sources'].append({'file':file,'sha256':cards.sha(self.root/file)})
++            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
++                cards.validate_card(bad, self.root)
++
++    def test_findings_are_referenced_text_with_source_hashes(self):
++        card = self.card('halted_fixture')
++        finding = card['mathlab']['findings'][0]
++        self.assertEqual(finding['event']['value']['tier'], 'MATH-PROXY')
++        lines = finding['document']
++        self.assertEqual([x['value'] for x in lines],
++                         (self.root/'logs/pending_findings/mathlab_fixture.md').read_text().splitlines())
++        self.assertEqual(lines[0]['src']['file'], 'logs/pending_findings/mathlab_fixture.md')
++        self.assertIn(lines[0]['src']['file'], {x['file'] for x in card['sources']})
++
++    def test_missing_and_outside_workspace_findings_are_explicit(self):
++        run = 'finding_errors'
++        stream = [started(run)]
++        for i, path in enumerate(('logs/pending_findings/missing.md', '/private/tmp/not-a-labviz-finding.md')):
++            stream.append(event(run, 'finding_staged', finding_id='f'+str(i), tier='MATH-PROXY', summary='Estimate', path=path))
++        write_stream(self.root, run, stream)
++        findings = self.card(run)['mathlab']['findings']
++        self.assertIn('missing.md', findings[0]['document']['missing'])
++        self.assertIn('outside workspace', findings[1]['document']['missing'])
++
++    def test_findings_resolve_workspace_boundaries_and_empty_text_snapshots(self):
++        with tempfile.TemporaryDirectory(prefix=self.root.name+'-sibling-',dir=self.root.parent) as tmp:
++            outside = Path(tmp)/'outside.md'
++            outside.write_text('Outside')
++            linked = self.root/'logs/pending_findings/linked.md'
++            linked.symlink_to(outside)
++            empty = self.root/'logs/pending_findings/empty.md'
++            empty.write_text('')
++            run = 'reference_boundaries'
++            stream = [started(run)]
++            refs = [str(outside), str(linked), '../'+Path(tmp).name+'/outside.md', str(empty)]
++            for i, ref in enumerate(refs):
++                stream.append(event(run,'finding_staged',finding_id='f'+str(i),tier='MATH-PROXY',summary='Estimate',path=ref))
++            write_stream(self.root, run, stream)
++            reader = self.reader()
++            finding = self.card(run, reader)['mathlab']['findings']
++            for item in finding[:3]:
++                self.assertIn('outside workspace', item['document']['missing'])
++            self.assertEqual(finding[3]['document'], [])
++            self.assertIn('logs/pending_findings/empty.md',
++                          {s['file'] for s in self.card(run, reader)['sources']})
++            build.build(self.root)
++            self.assertEqual((self.root/'results/labviz/site/evidence/logs/pending_findings/empty.md').read_bytes(), b'')
++            self.assertFalse((self.root/'results/labviz/site/evidence/logs/pending_findings/linked.md').exists())
++
++    def test_build_mirrors_only_cited_events_and_findings_and_skips_pictures(self):
++        unreferenced = self.root/'logs/pending_findings/unreferenced.md'
++        unreferenced.write_text('Unreferenced text')
++        inputs = {p:p.read_bytes() for p in (self.root/'results/mathlab_staging').rglob('*') if p.is_file()}
++        with patch('tools.labviz.render.card_picture', side_effect=AssertionError('no evidence artwork for math estimates')):
++            inventory = build.build(self.root)
++        site = self.root/'results/labviz/site'
++        index = json.loads((site/'cards/index.json').read_text())
++        self.assertEqual(len(index), 7)
++        for row in index:
++            self.assertEqual(row['mathlab']['tier'], 'MATH-PROXY')
++            self.assertEqual(row['label'], 'math estimate, not evidence')
++            card = json.loads((site/'cards'/f"{row['card_id']}.json").read_text())
++            self.assertTrue(cards.validate_card(card, self.root))
++            self.assertTrue(cards.validate_card(card, site/'evidence'))
++        evidence = site/'evidence'
++        for path, content in inputs.items():
++            relative = path.relative_to(self.root)
++            if path.name == 'events.jsonl':
++                self.assertEqual((evidence/relative).read_bytes(), content)
++            else:
++                self.assertFalse((evidence/relative).exists())
++            self.assertEqual(path.read_bytes(), content)
++        note = 'logs/pending_findings/mathlab_fixture.md'
++        self.assertEqual((evidence/note).read_bytes(), (self.root/note).read_bytes())
++        self.assertFalse((evidence/'logs/pending_findings/unreferenced.md').exists())
++        self.assertEqual(inventory['picture_calls'], 0)
++        outputs = lambda: {p.relative_to(site).as_posix():(hashlib.sha256(p.read_bytes()).hexdigest(),p.stat().st_mtime_ns)
++                           for p in site.rglob('*') if p.is_file()}
++        before = outputs()
++        build.build(self.root)
++        self.assertEqual(outputs(), before)
++
++
++if __name__ == '__main__':
++    unittest.main()
