@@ -1,0 +1,16 @@
+{
+  "R5000_scope": "conditional on both earlier P failures",
+  "active_phase": "complete",
+  "completed_phases": [
+    "setup",
+    "F1000",
+    "R1000",
+    "integrity",
+    "cleanup",
+    "worker_exit"
+  ],
+  "incomplete_phases": [],
+  "skipped_phases": [
+    "R5000"
+  ]
+}
