@@ -97,6 +97,16 @@ SOURCES = (
 )
 
 
+def fixture_source(path):
+    payload=(W/path).read_bytes()
+    if path=='docs/C10Y_DIRECTDW_PREREG.md' and hashlib.sha256(payload).hexdigest()!=A.PREREG_SHA:
+        # Exact legacy-contract bytes in scratch only; no production repinning.
+        payload=payload.partition(b'\n\n## 12. Amendment ZERO-STEP-DISPOSITION')[0]
+        if hashlib.sha256(payload).hexdigest()!=A.PREREG_SHA or A.PREREG_SHA!=R.PREREG_SHA:
+            raise AssertionError('Legacy fixture prereg identity mismatch')
+    return payload
+
+
 class IsolatedCase(unittest.TestCase):
     def setUp(self):
         (SCRATCH / 'roots').mkdir(parents=True, exist_ok=True)
@@ -112,7 +122,7 @@ class IsolatedCase(unittest.TestCase):
         for f in SOURCES:
             p = self.root / f
             p.parent.mkdir(parents=True, exist_ok=True)
-            p.write_bytes((W / f).read_bytes())
+            p.write_bytes(fixture_source(f))
         for f in ('c10y_directdw_arms.py', 'c10y_directdw_read.py',
                   'c10y_directdw_telemetry_check.py'):
             (self.root / 'experiments/track_c' / f).write_bytes((W / 'experiments/track_c' / f).read_bytes())
@@ -3444,7 +3454,7 @@ class TransportTests(IsolatedCase):
         for relative in A.SOURCE_PATHS.values():
             target = self.root / relative
             target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes((W / relative).read_bytes())
+            target.write_bytes(fixture_source(relative))
         self.transport_calls = []
         self.transport_tensors = []
         self.transport_roots = {}
@@ -4835,6 +4845,521 @@ class CalibrationErrorTests(IsolatedCase):
                     A.supervise([sys.executable,'-B',str(self.root/'stub.py')],out,diagnostic,7200.,1)
                 self.assertEqual(R.classify(R.load(out))['label'],code)
                 self.assertEqual(A.strict_load(out/'supervisor_s1.json')['traceback'],trace)
+
+
+class PrefixPersistenceTests(IsolatedCase):
+    """Real prefix control flow, CPU producers; no model-bearing imports."""
+    def fixture(self,case):
+        root=self.root/case;root.mkdir()
+        for path in SOURCES+tuple('experiments/track_c/c10y_directdw_'+n+'.py' for n in ('arms','read','telemetry_check')):
+            target=root/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(fixture_source(path))
+        (root/'results').mkdir();(root/'architecture_profile').mkdir()
+        for module in (A,R,C): module.ROOT=root
+        os.environ['LLMDB_ROOT']=str(root)
+        H=make_h();raw=copy.deepcopy(valid_record(2)['recipes']['A']);base=H.snap_layers(H.hp)
+        unknown=H.model.model.layers[4].register_forward_hook(lambda m,args,out:out)
+        self.addCleanup(unknown.remove)
+        registry=A._all_registries(H.model);globals_before={k:getattr(H,k) for k in ('my_edit','ARMS','ARM_HOOKS','full_seq_match','Z_OVERRIDE','Z_OVERRIDE_HITS','_LAW5_DEFAULT_CTX','_ARM_STATE')}
+        H.compute_z=lambda *args:torch.full((4,),.05)
+        if case=='target_partial':
+            draws=[]
+            def target(*args):
+                draws.append(1);return torch.full((4,),.05) if len(draws)<3 else None
+            H.compute_z=target
+        if case=='leakage': H.PTEST[0]=A.pinned_templates()[1][0]
+        def edit(hp,requests,P,cache):
+            for request in requests: H.Z_OVERRIDE[(request['subject'],request['target_new']['str'])]
+            H.Z_OVERRIDE_HITS+=1
+            with torch.no_grad():
+                for l in hp.layers:
+                    weight=dict(H.model.named_parameters())[H.weight_name(hp,l)]
+                    update=H.upd_matrix_match_shape(torch.full_like(weight,.01),weight.shape)
+                    weight.add_(update)
+            return {'record_only_fixture':True}
+        H.my_edit=edit;globals_before['my_edit']=edit
+        H.run_law5=lambda *args:{'verdict':'INERT','sentinel':'standing'}
+        H._evaluation_kind='baseline'
+        def evaluate(V):
+            arm=next(a for a,v in H.ARMS.items() if v is V)
+            if case=='baseline_partial' and arm==ARMS[1]: raise ValueError('later baseline arm')
+            result=copy.deepcopy(raw['arms'][arm]['metrics'])
+            if case in ('zero_step','executed_loop') and H._evaluation_kind==case: result['para_full_n']+=1
+            return result
+        H.eval_arm=evaluate
+        def recipe(name,path):
+            P=H.compute_P(H.hp);H.run_law5()
+            for arm,V in H.ARMS.items():
+                H.restore_layers(H.hp,base)
+                requests=[H.req(H.CANON,s,V[s]) for s in H.FICTION]
+                H.my_edit(H.hp,requests,P,[torch.zeros_like(p) for p in P]);H.eval_arm(V)
+            result=copy.deepcopy(raw)
+            if case=='law3': result['arms'][A.A7]['metrics']['para_full_n']=19
+            if case=='malformed_baseline': result.pop('law5')
+            return result
+        H.run_recipe=recipe
+        factors={l:{'R':torch.full((4,4),.01),'B':torch.eye(4),'A0':torch.full((4,4),.01)} for l in H.hp.layers}
+        def capture(h,hp,requests,P,cache):
+            h.my_edit(hp,requests,P,cache)
+            if case in ('capture','nonfinite'):
+                with torch.no_grad():
+                    for l in hp.layers: dict(h.model.named_parameters())[h.weight_name(hp,l)].add_(float('nan') if case=='nonfinite' else .01)
+            return copy.deepcopy(factors)
+        def proof(writer,mode,requests,P,cache,iterations,lr=None):
+            for request in requests: H.Z_OVERRIDE[(request['subject'],request['target_new']['str'])]
+            H.Z_OVERRIDE_HITS+=1
+            H._evaluation_kind='zero_step' if iterations==0 else 'executed_loop' if lr==0 else 'smoke'
+            writer.factors=copy.deepcopy(factors);writer.As={l:f['R'].clone()+(0.001 if iterations and lr is None else 0) for l,f in factors.items()};writer.Bs={l:f['B'].clone() for l,f in factors.items()}
+            writer.parity={'init':{'ids_equal':True,'full_hits_equal':True,'sentinel':'init-parity'},'final':{'ids_equal':True,'full_hits_equal':True,'losses':{'total':[.5,.5]},'sentinel':'final-parity'}}
+            writer.last_trace={'accepted_steps':iterations};writer.trajectory=[{} for _ in range(iterations)]
+            if case=='smoke' and H._evaluation_kind=='smoke': writer.last_trace['accepted_steps']=2
+            if case=='executed_accepted' and iterations==3 and lr==0: writer.last_trace['accepted_steps']=2
+            if case=='executed_trajectory' and iterations==3 and lr==0: writer.trajectory.pop()
+            writer.phase_timings=[{'name':'init_parity','seconds':0.,'workload':{'padded_lengths':[12]},'repetition':1}]
+            writer.iteration_timings=[{'gradient_norms':[1.]*len(H.hp.layers),'seconds':0.} for _ in range(iterations)]
+            with torch.no_grad():
+                for l in H.hp.layers: dict(H.model.named_parameters())[H.weight_name(H.hp,l)].add_(.01)
+            return {'adam_steps':2 if case=='executed_count' and iterations==3 and lr==0 else iterations,'routing_masks':1,'scaled_calls':[{'scale':1024.,'loss_scale':1024.,'groups':[6,6,6,6],'gradient_norms':[1.]*len(H.hp.layers)} for _ in range(iterations)],'base_hashes':[True]}
+        self.fixture_proof=proof
+        original_memory=A.memory_gate
+        def memory(sample):
+            if case=='memory': raise A.Halt('HALTED-RESOURCE',copy.deepcopy(sample))
+            return original_memory(sample)
+        stack=contextlib.ExitStack()
+        def objective(*args):
+            if case=='objective': raise A.Halt('OBJECTIVE-CONSTRUCTION',{'sentinel':'failed-objective'})
+            return {'sentinel':'objective'}
+        def gradient(h,hp,requests,contexts,factors,W0,mode,*args):
+            if case=='late_arm' and mode=='anchor' and requests[0]['target_new']['str'].lstrip()==H.ARMS[ARMS[0]][H.FICTION[0]]:
+                raise A.Halt('GRADIENT-FINITENESS',{'sentinel':'late-arm'})
+            return {'sentinel':'gradient'}
+        for name,value in {'STAGE_CLOCK':lambda:0.,'utc':lambda:'FIXED-UTC','_probe_pristine':lambda *args:{'sentinel':'pristine'},
+            '_covariances':lambda h,hp:[torch.eye(4) for _ in hp.layers],'capture_solve':capture,'_write_proof':proof,
+            'write_geometry':lambda h,hp,*args:[{'layer':l,'planned_null_share':1.,'actual_null_share':1.} for l in hp.layers],
+            '_gradient_check':gradient,'_objective_audit':objective,'_pristine_anchor':lambda *args:(torch.zeros(24,4),torch.ones(24,4)),
+            '_accumulation_check':lambda *args:{'sentinel':'accumulation'},'_gradient_evaluations':lambda *args,**kw:{'loss':1.},
+            'edit_components':lambda *args,**kw:{},'memory_gate':memory}.items():
+            stack.enter_context(mock.patch.object(A,name,value))
+        if case=='precision': stack.enter_context(mock.patch.object(A,'null_share',return_value=0.))
+        if case=='source_drift':
+            hashes=A.source_hashes;reads=[]
+            def sources():
+                result=hashes();reads.append(1)
+                if len(reads)>1: result['fixture_drift']=str(len(reads))
+                return result
+            stack.enter_context(mock.patch.object(A,'source_hashes',side_effect=sources))
+        if case=='restoration':
+            hashes=A.band_hashes
+            def band(*args):
+                return {'fixture':'changed'} if H.Z_OVERRIDE is None and H._evaluation_kind=='executed_loop' else hashes(*args)
+            stack.enter_context(mock.patch.object(A,'band_hashes',side_effect=band))
+        return H,root,base,registry,globals_before,stack
+
+    def execute(self,case,stage=False):
+        H,root,base,registry,originals,stack=self.fixture(case)
+        out=root/'results'/('c10y_directdw' if stage else 'c10y_directdw_calib1');diagnostic=root/'architecture_profile/halt.json'
+        with stack:
+            if stage:
+                go={'decision_id':'D-go','experiment':'C10Y','stage':1,'recorded_in':'fixture','at':'UTC'}
+                result=A.run(out,H,go=go,forecast=independent_forecast_fixture(root/'bound.json'),diagnostic=diagnostic)
+            else:
+                go,spend=CalibrationTests.records(self)
+                result=A.calibrate(out,H,go=go,spend=spend,diagnostic=diagnostic)
+        self.assertEqual(A._all_registries(H.model),registry)
+        self.assertTrue(all(torch.equal(base[l],H.snap_layers(H.hp)[l]) for l in base))
+        for name,value in originals.items(): self.assertEqual(getattr(H,name),value)
+        self.assertFalse(hasattr(H,'_C10Y_READOUT_STATE'))
+        self.assertFalse(hasattr(H,'_C10Y_PREFIX_SAVE'))
+        self.assertFalse(hasattr(H,'_C10Y_PREFIX_PROGRESS'))
+        return out,diagnostic,result
+
+    def phases(self,out):
+        files=sorted(out.glob('prefix_phases_*/*.json'))
+        self.assertTrue(files,'no immutable pre-gate phase records retained')
+        return [(p,A.strict_load(p)) for p in files]
+
+    def test_calibration_forced_gates_retain_records_and_cleanup(self):
+        for case,code in (('capture','CAPTURE-SOLVE-IDENTITY'),('zero_step','ZERO_STEP-IDENTITY'),('executed_loop','EXECUTED_LOOP-IDENTITY'),('memory','HALTED-RESOURCE'),('law3','LAW#3')):
+            with self.subTest(case=case):
+                out,diagnostic,result=self.execute(case)
+                self.assertEqual(result['outcome'],code)
+                failure=A.strict_load(diagnostic);self.assertEqual(failure['code'],code)
+                records={name:A.strict_load(out/(name+'_calib.json')) for name in ('law5','ledger','step0','overlap_audit')}
+                self.assertTrue(all(v.get('status') in ('NOT-RUN','INCOMPLETE') for v in records.values()),records)
+                self.assertTrue(all(v.get('halted_phase')==failure['phase'] for v in records.values()))
+                phases=self.phases(out)
+                self.assertTrue(any(row.get('outcome',{}).get('code')==code for _,row in phases))
+                if case!='memory':
+                    self.assertEqual(records['overlap_audit']['data']['clean'],True)
+                    self.assertTrue(records['ledger']['data'])
+                    self.assertEqual(records['law5']['data']['standing']['verdict'],'INERT')
+                if case in ('capture','zero_step','executed_loop'):
+                    caps=[r['inputs'] for _,r in phases if r['phase'].startswith('capture_identity')]
+                    self.assertTrue(caps);self.assertEqual(caps[-1]['original_calls'],2)
+                if case in ('zero_step','executed_loop'):
+                    inputs=[r['inputs'] for _,r in phases if r['phase'].startswith(case+'_identity')]
+                    self.assertTrue(inputs);self.assertEqual(inputs[-1]['gate'],failure['detail'])
+                    self.assertEqual(inputs[-1]['parity']['init']['sentinel'],'init-parity')
+                    checks=records['step0']['data']['checks']['e2e'][A.A7]
+                    self.assertEqual(checks['smoke']['status'],'NOT-RUN')
+                    self.assertNotIn('passed',checks['smoke'])
+
+    def test_stage_halt_uses_same_partial_record_retention(self):
+        out,diagnostic,result=self.execute('zero_step',True)
+        self.assertEqual(result['run']['code'],'ZERO_STEP-IDENTITY')
+        self.assertEqual(A.strict_load(out/'step0_s1.json').get('status'),'INCOMPLETE')
+        self.assertTrue(self.phases(out))
+        self.assertEqual(result['recipes']['A']['law5']['verdict'],'INERT')
+
+    def test_malformed_baseline_preserves_law3_and_partial_records(self):
+        out,diagnostic,result=self.execute('malformed_baseline')
+        self.assertEqual(result['outcome'],'LAW#3')
+        failure=A.strict_load(diagnostic)
+        self.assertEqual(failure['detail']['missing'],"'law5'")
+        self.assertTrue(A.strict_load(out/'ledger_calib.json')['data'])
+        self.assertTrue(any(r['phase']=='law3' for _,r in self.phases(out)))
+        self.assertEqual(A.strict_load(out.parent/'c10y_directdw_schedule_halt.json')['code'],'LAW#3')
+
+    def test_baseline_helper_return_retained_before_later_arm_failure(self):
+        out,diagnostic,result=self.execute('baseline_partial')
+        self.assertEqual(result['outcome'],'INSTRUMENT-ERROR')
+        failure=A.strict_load(diagnostic)
+        self.assertEqual(failure['exception'],'ValueError')
+        phases=self.phases(out)
+        evaluations=[r['inputs'] for _,r in phases if r['phase']=='baseline_evaluation_'+ARMS[0]]
+        self.assertEqual(evaluations,[valid_record(2)['recipes']['A']['arms'][ARMS[0]]['metrics']])
+        self.assertEqual(A.strict_load(out/'law5_calib.json')['data']['standing']['sentinel'],'standing')
+        partial=A.strict_load(out/'step0_calib.json')['data']['checks']
+        self.assertEqual(partial['e2e'][A7]['zero_step']['status'],'NOT-RUN')
+
+    def test_failed_exact_phase_checks_mark_incomplete(self):
+        for case in ('objective','smoke'):
+            with self.subTest(case=case):
+                out,diagnostic,result=self.execute(case)
+                checks=A.strict_load(out/'step0_calib.json')['data']['checks']['e2e'][A7]
+                self.assertEqual(checks[case]['status'],'INCOMPLETE')
+                self.assertNotIn('passed',checks[case])
+
+    def test_additional_original_gate_families_retain_inputs(self):
+        for case,code,phase in (('executed_count','EXECUTED-LOOP-COUNT','executed_loop_count_'),('precision','PRECISION-DIAGNOSIS','baseline_readouts'),('restoration','RESTORATION','restoration'),('source_drift','SOURCE-DRIFT','source_identity'),('smoke','CANDIDATE-SMOKE','smoke')):
+            with self.subTest(case=case):
+                out,diagnostic,result=self.execute(case)
+                self.assertEqual(result['outcome'],code)
+                failure=A.strict_load(diagnostic)
+                rows=[r for _,r in self.phases(out) if r['phase'].startswith(phase)]
+                self.assertTrue(rows)
+                if case=='executed_count': self.assertEqual(rows[-1]['inputs']['gate'],failure['detail'])
+                elif case in ('restoration','smoke'): self.assertEqual(rows[-1]['inputs'],failure['detail'])
+                elif case=='source_drift': self.assertNotEqual(rows[-1]['inputs']['start'],rows[-1]['inputs']['end'])
+                else: self.assertTrue(rows[-1]['inputs']['projector_present'])
+                self.assertTrue(A.strict_load(out/'ledger_calib.json')['data'])
+
+    def test_executed_count_snapshot_retains_each_actual_count_operand(self):
+        for case,accepted,trajectory in (('executed_accepted',2,3),('executed_trajectory',3,2)):
+            with self.subTest(case=case):
+                out,diagnostic,result=self.execute(case)
+                self.assertEqual(result['outcome'],'EXECUTED-LOOP-COUNT')
+                rows=[r['inputs'] for _,r in self.phases(out) if r['phase'].startswith('executed_loop_count_')]
+                self.assertEqual(rows[-1].get('accepted_steps'),accepted)
+                self.assertEqual(rows[-1].get('trajectory_length'),trajectory)
+                self.assertEqual(rows[-1]['gate'],A.strict_load(diagnostic)['detail'])
+
+    def test_baseline_projector_and_planned_update_gates_keep_readouts(self):
+        for case,code in (('projector_missing','BASELINE-MERGED-READOUTS-MISSING'),('planned_missing','BASELINE-PLANNED-UPDATES-MISSING')):
+            H,root,base,registry,originals,stack=self.fixture(case)
+            # A real missing-merged-readout condition in the first disjunctive gate.
+            if case=='projector_missing':
+                original_recipe=H.run_recipe
+                H.compute_P=lambda hp:[]
+                def recipe(*args):
+                    result=original_recipe(*args);H._C10Y_READOUT_STATE['actual_A'].clear();return result
+                H.run_recipe=recipe
+            else:
+                # A genuine harness return without the captured per-layer match calls.
+                def edit(hp,requests,P,cache):
+                    for request in requests: H.Z_OVERRIDE[(request['subject'],request['target_new']['str'])]
+                    H.Z_OVERRIDE_HITS+=1
+                    with torch.no_grad():
+                        for l in hp.layers: dict(H.model.named_parameters())[H.weight_name(hp,l)].add_(.01)
+                    return {'record_only_fixture':True}
+                H.my_edit=edit
+            out=root/'results/c10y_directdw_calib1';out.mkdir()
+            with stack:
+                with self.assertRaises(A.Halt) as caught: A.instrument_prefix(H,out,A.Budget(0,7200,'calibration'),calibration=True)
+            self.assertEqual(caught.exception.code,code)
+            self.assertTrue(any(r['phase']=='baseline_readouts' for _,r in self.phases(out)))
+            self.assertTrue(A._exception_prefix(caught.exception)['ledger'])
+            self.assertEqual(A._all_registries(H.model),registry)
+            self.assertTrue(all(torch.equal(base[l],H.snap_layers(H.hp)[l]) for l in base))
+
+    def test_later_mode_halt_does_not_mark_unreached_arms_started(self):
+        H,root,base,registry,originals,stack=self.fixture('late_arm')
+        out=root/'results/c10y_directdw';out.mkdir()
+        with stack:
+            with self.assertRaises(A.Halt) as caught: A.instrument_prefix(H,out,A.Budget(0,7200,2))
+        self.assertEqual(caught.exception.code,'GRADIENT-FINITENESS')
+        checks=A._exception_prefix(caught.exception)['step0']['checks']
+        self.assertEqual(checks['e2e'][ARMS[0]]['zero_step']['passed'],True)
+        self.assertEqual(checks['anchor'][ARMS[0]]['gradient']['status'],'INCOMPLETE')
+        for mode in ('e2e','anchor'):
+            for arm in ARMS[1:]:
+                self.assertTrue(all(v['status']=='NOT-RUN' for v in checks[mode][arm].values()))
+        self.assertEqual(A._all_registries(H.model),registry)
+        self.assertTrue(all(torch.equal(base[l],H.snap_layers(H.hp)[l]) for l in base))
+
+    def test_nonfinite_gate_inputs_do_not_replace_original_halt(self):
+        try: out,diagnostic,result=self.execute('nonfinite')
+        except ValueError as error: self.fail('record serialization replaced capture HALT: '+str(error))
+        self.assertEqual(result['outcome'],'CAPTURE-SOLVE-IDENTITY')
+        phases=self.phases(out)
+        caps=[r['inputs'] for _,r in phases if r['phase'].startswith('capture_identity')]
+        self.assertTrue(caps)
+        self.assertTrue(all(value=={'nonfinite_float':'nan'} for value in caps[-1]['distance_by_layer'].values()))
+
+    def test_prefix_final_collision_refuses_each_name_without_overwrite(self):
+        for name in ('context_templates_calib.json','overlap_audit_calib.json','ledger_calib.json','law5_calib.json','step0_calib.json','targets_calib.pt'):
+            with self.subTest(name=name):
+                out=self.root/name.replace('.','_');out.mkdir();path=out/name;path.write_bytes(b'UNTOUCHED')
+                with self.assertRaises(A.Halt) as caught: A.persist_prefix(out,CalibrationTests.fixture(self),'calib')
+                self.assertEqual(caught.exception.code,'EXISTING-ARTIFACT')
+                self.assertEqual(path.read_bytes(),b'UNTOUCHED')
+                self.assertEqual({p.name for p in out.iterdir()},{name})
+
+    def test_phase_collision_and_io_failure_restore_state(self):
+        H,root,base,registry,originals,stack=self.fixture('phase_io')
+        out=root/'results/c10y_directdw_calib1';out.mkdir()
+        original=A.write_json;seen=[]
+        def fail(path,value):
+            if 'prefix_phases_' in str(path):
+                seen.append(Path(path))
+                if len(seen)==2: raise OSError('phase fsync failure')
+            return original(path,value)
+        with stack,mock.patch.object(A,'write_json',side_effect=fail):
+            with self.assertRaises(OSError): A.instrument_prefix(H,out,A.Budget(0,7200,'calibration'),calibration=True)
+        self.assertTrue(seen,'phase recorder was never called')
+        self.assertEqual(A._all_registries(H.model),registry)
+        self.assertTrue(all(torch.equal(base[l],H.snap_layers(H.hp)[l]) for l in base))
+        self.assertTrue(A.strict_load(seen[0]))
+
+    def test_actual_phase_collision_and_owned_context_tampering(self):
+        for suffix in ('.json','.pt'):
+            with self.subTest(suffix=suffix):
+                H,root,base,registry,originals,stack=self.fixture('phase_collision_'+suffix[1:])
+                out=root/'results/c10y_directdw_calib1';path=out/('prefix_phases_calib/0001_unit_contexts_overlap'+suffix)
+                path.parent.mkdir(parents=True);path.write_bytes(b'UNTOUCHED')
+                with stack:
+                    with self.assertRaises(A.Halt) as caught: A.instrument_prefix(H,out,A.Budget(0,7200,'calibration'),calibration=True)
+                self.assertEqual(caught.exception.code,'EXISTING-ARTIFACT')
+                self.assertEqual(path.read_bytes(),b'UNTOUCHED')
+                self.assertEqual(list(path.parent.iterdir()),[path])
+                self.assertEqual(A._all_registries(H.model),registry)
+                self.assertTrue(all(torch.equal(base[l],H.snap_layers(H.hp)[l]) for l in base))
+        owned=out/'context_templates_calib.json';owned.write_bytes(b'original')
+        hashes={owned.name:A.sha(owned)};owned.write_bytes(b'tampered')
+        with self.assertRaises(A.Halt) as caught: A.persist_prefix(out,CalibrationTests.fixture(self),'calib',hashes)
+        self.assertEqual(caught.exception.code,'EXISTING-ARTIFACT');self.assertEqual(owned.read_bytes(),b'tampered')
+
+    def test_cleanup_only_and_primary_plus_cleanup_keep_partial_evidence(self):
+        for case in ('success','zero_step'):
+            H,root,base,registry,originals,stack=self.fixture('cleanup_'+case)
+            if case=='zero_step':
+                # The case controls the evaluator; inject its actual returned counts.
+                evaluate=H.eval_arm
+                def fail_counts(V):
+                    result=evaluate(V)
+                    if H._evaluation_kind=='zero_step': result['para_full_n']+=1
+                    return result
+                H.eval_arm=fail_counts
+            out=root/'results/c10y_directdw_calib1';out.mkdir();budget=A.Budget(0,7200,'calibration');original=A.restore
+            def cleanup(h,hp,snapshot):
+                original(h,hp,snapshot)
+                if budget.phase=='prefix_cleanup': raise OSError('cleanup evidence fixture')
+            with stack,mock.patch.object(A,'restore',side_effect=cleanup):
+                try: A.instrument_prefix(H,out,budget,calibration=True)
+                except OSError as error:
+                    fields=A.exception_fields(error,budget.phase);prefix=A._exception_prefix(error)
+                else: self.fail('cleanup failure not observed')
+            self.assertEqual(fields['code'],'INSTRUMENT-ERROR' if case=='success' else 'ZERO_STEP-IDENTITY')
+            self.assertIn('cleanup evidence fixture',fields['traceback'])
+            if case=='zero_step': self.assertEqual(fields['cleanup']['exception'],'OSError')
+            self.assertTrue(prefix['ledger']);self.assertEqual(prefix['_partial']['code'],fields['code'])
+            self.assertEqual(A._all_registries(H.model),registry)
+            self.assertTrue(all(torch.equal(base[l],H.snap_layers(H.hp)[l]) for l in base))
+
+    def test_unit_result_survives_post_action_memory_halt(self):
+        H=make_h();records=[];H._C10Y_PREFIX_SAVE=lambda phase,inputs:records.append((phase,copy.deepcopy(inputs)))
+        original=A.sample_memory;calls=[];value={'computed':'before-cleanup'}
+        def memory(h,phase):
+            calls.append(phase)
+            if len(calls)==2: raise A.Halt('HALTED-RESOURCE',{'sentinel':'post-action'})
+            return original(h,phase)
+        with mock.patch.object(A,'sample_memory',side_effect=memory):
+            with self.assertRaises(A.Halt): A._unit(H,[],'fixture',A._workload(),lambda:value)
+        self.assertIn(('unit_return_fixture',value),records)
+
+    def test_proof_early_exception_not_replaced_by_recording(self):
+        H=make_h();records=[];H._C10Y_PREFIX_SAVE=lambda phase,inputs:records.append((phase,inputs))
+        def fail(*args,**kwargs): raise ValueError('original writer failure')
+        writer=types.SimpleNamespace(H=H,hp=H.hp,budget=A.Budget(0,7200,1),write=fail)
+        originals=(A.deployed_hook,A.accepted_step,torch.optim.Adam.step)
+        with self.assertRaisesRegex(ValueError,'original writer failure'): A._write_proof(writer,'e2e',[],[],[],0)
+        self.assertEqual((A.deployed_hook,A.accepted_step,torch.optim.Adam.step),originals)
+        self.assertEqual(records[-1][0],'write_proof_e2e')
+        self.assertEqual(records[-1][1]['parity'],{'status':'NOT-RUN'})
+
+    def test_tensor_phase_records_use_binary_sidecars_without_list_expansion(self):
+        H,root,base,registry,originals,stack=self.fixture('binary_tensors')
+        out=root/'results/c10y_directdw_calib1';out.mkdir()
+        with stack,mock.patch.object(torch.Tensor,'tolist',side_effect=AssertionError('tensor expanded to JSON')):
+            A.instrument_prefix(H,out,A.Budget(0,7200,'calibration'),calibration=True)
+        rows=self.phases(out)
+        target=next((p,r) for p,r in rows if r['phase'].startswith('target_') and not r['phase'].startswith('target_nll_'))
+        reference=target[1]['inputs']['value'];path=target[0].parent/reference['tensor_artifact']
+        self.assertEqual(A.sha(path),target[1]['artifacts'][path.name])
+        tensor=torch.load(path,map_location='cpu',weights_only=True)[reference['key']]
+        self.assertTrue(torch.equal(tensor,torch.full((4,),.05)))
+        projectors=[r for _,r in rows if r['phase'] in ('baseline_projector','unit_return_baseline_projector')]
+        self.assertTrue(projectors)
+        self.assertTrue(all('artifacts' not in r for r in projectors))
+
+    def test_recorder_restores_existing_none_attributes(self):
+        H,root,base,registry,originals,stack=self.fixture('saved_attributes')
+        H._C10Y_PREFIX_SAVE=None;H._C10Y_PREFIX_PROGRESS=None
+        budget=A.Budget(0,7200,'calibration');budget._C10Y_PREFIX_SAVE=None
+        out=root/'results/c10y_directdw_calib1';out.mkdir()
+        with stack: A.instrument_prefix(H,out,budget,calibration=True)
+        self.assertIsNone(H._C10Y_PREFIX_SAVE);self.assertIsNone(H._C10Y_PREFIX_PROGRESS)
+        self.assertTrue(hasattr(budget,'_C10Y_PREFIX_SAVE'));self.assertIsNone(budget._C10Y_PREFIX_SAVE)
+
+    def test_memory_floor_schema_and_budget_inputs_precede_original_gates(self):
+        # Fault injection at the sampling boundary, with the original memory gate.
+        for name,value,code in (('floor',0,'HALTED-RESOURCE'),('schema','invalid','MISSING-MEMORY-TELEMETRY')):
+            with self.subTest(name=name):
+                H=make_h();path=self.root/(name+'.json');observed=[]
+                def save(phase,sample):
+                    sample['available_bytes']=value;observed.append(copy.deepcopy(sample));A.write_json(path,sample)
+                H._C10Y_PREFIX_SAVE=save
+                with self.assertRaises(A.Halt) as caught: A.sample_memory(H,'fault_fixture')
+                self.assertEqual(caught.exception.code,code)
+                self.assertEqual(A.strict_load(path),observed[0]);self.assertFalse(hasattr(H,'_C10Y_MEMORY'))
+        for complete,code in ((False,'HALTED-BUDGET'),(True,'INCOMPLETE-BUDGET')):
+            budget=A.Budget(0,1,'calibration',clock=lambda:2.);budget.write_complete=complete
+            path=self.root/(code+'.json');budget._C10Y_PREFIX_SAVE=lambda phase,value:A.write_json(path,value)
+            with self.assertRaises(A.Halt) as caught: budget.project(0.)
+            self.assertEqual(caught.exception.code,code);self.assertEqual(A.strict_load(path),caught.exception.detail)
+
+    def test_target_partial_and_leakage_inputs_are_preserved(self):
+        for case,code in (('target_partial','TARGET-SOLVE'),('leakage','INVALID-LEAKAGE')):
+            with self.subTest(case=case):
+                out,diagnostic,result=self.execute(case)
+                self.assertEqual(result['outcome'],code)
+                phases=self.phases(out)
+                self.assertTrue(any(r.get('outcome',{}).get('code')==code for _,r in phases))
+                payload=torch.load(out/'targets_calib.pt',map_location='cpu',weights_only=True)
+                self.assertEqual(payload.get('status'),'INCOMPLETE' if case=='target_partial' else 'NOT-RUN')
+                if case=='target_partial':
+                    self.assertEqual(len(payload['targets']),2)
+                    self.assertTrue(all(torch.equal(v,torch.full((4,),.05)) for v in payload['targets'].values()))
+                else:
+                    audit=A.strict_load(out/'overlap_audit_calib.json')
+                    self.assertFalse(audit['data']['clean']);self.assertEqual(audit['data'],A.strict_load(diagnostic)['detail'])
+
+    def test_inputs_durable_before_gate_and_phase_bytes_immutable(self):
+        H,root,base,registry,originals,stack=self.fixture('capture')
+        out=root/'results/c10y_directdw_calib1';out.mkdir();seen=[];old=A.Halt
+        test=self
+        class ObservedHalt(old):
+            def __init__(self,code,detail=None):
+                if code=='CAPTURE-SOLVE-IDENTITY':
+                    rows=test.phases(out);matches=[(p,r) for p,r in rows if r['phase'].startswith('capture_identity')]
+                    test.assertTrue(matches);path,value=matches[-1]
+                    test.assertEqual(value['inputs'],detail)
+                    seen.append((path,path.read_bytes()))
+                super().__init__(code,detail)
+        with stack,mock.patch.object(A,'Halt',ObservedHalt):
+            with self.assertRaises(ObservedHalt): A.instrument_prefix(H,out,A.Budget(0,7200,'calibration'),calibration=True)
+        self.assertTrue(seen)
+        self.assertEqual(seen[0][0].read_bytes(),seen[0][1])
+
+    def test_helper_local_gradient_accumulation_and_ledger_gates(self):
+        H=make_h();hp=H.hp;contexts=H.get_context_templates(H.model,H.tok)
+        requests=[H.req(H.CANON,s,H.ARMS[A7][s]) for s in H.FICTION];W0=H.snap_layers(hp)
+        factors={l:{'R':torch.ones(4,4),'B':torch.eye(4)} for l in hp.layers}
+        records=[]
+        H._C10Y_PREFIX_SAVE=lambda phase,inputs:records.append((phase,copy.deepcopy(A._record_value(inputs))))
+        for case,code in (('gradient_zero','GRADIENT-FINITENESS'),('gradient_hygiene','GRADIENT-HYGIENE'),('padding','ACCUMULATION-PADDING'),('accumulation','ACCUMULATION-PARITY')):
+            records.clear();calls=[]
+            def values(*args,**kwargs):
+                calls.append(1)
+                return {'gradients':{l:torch.zeros(4,4) if case=='gradient_zero' else torch.ones(4,4)*(-1 if case=='accumulation' and len(calls)>1 else 1) for l in hp.layers},
+                    'padded_lengths':[13 if case=='padding' and len(calls)>1 else 12],
+                    'base_gradients_absent':case!='gradient_hygiene','only_A_optimised':True,'eval_mode':True,'use_cache':False,'loss':1.}
+            with self.subTest(case=case),mock.patch.object(A,'_gradient_evaluations',side_effect=values):
+                function=A._gradient_check if case.startswith('gradient') else A._accumulation_check
+                with self.assertRaises(A.Halt) as caught: function(H,hp,requests,contexts,factors,W0,'e2e',{},[],A.Budget(time.monotonic(),7200,1))
+                self.assertEqual(caught.exception.code,code)
+                if case!='padding': self.assertEqual(records[-1][1],A._record_value(caught.exception.detail))
+                else: self.assertEqual(records[-1],('accumulation_padding_e2e_6+6',{'reference_lengths':[12],'padded_lengths':[13]}))
+                self.assertTrue(all(torch.equal(W0[l],H.snap_layers(hp)[l]) for l in W0))
+        records.clear();ledger=[];original=(H.Z_OVERRIDE,H.Z_OVERRIDE_HITS,H._LAW5_DEFAULT_CTX)
+        with self.assertRaises(A.Halt) as caught: A._ledger_call(H,ledger,1,'fixture',A7,'missing_reads',{('s','v'):torch.ones(4)},[('s','v')],lambda:None,1)
+        self.assertEqual(caught.exception.code,'OVERRIDE-LEDGER')
+        self.assertEqual(records[-1][1]['consumed_overrides'],[])
+        self.assertEqual(ledger[-1]['status'],'HALTED')
+        self.assertEqual((H.Z_OVERRIDE,H.Z_OVERRIDE_HITS,H._LAW5_DEFAULT_CTX),original)
+
+    def test_helper_local_parity_and_objective_offending_inputs(self):
+        H=make_h();hp=H.hp;contexts=A.pinned_templates();W0=H.snap_layers(hp)
+        requests=[H.req(H.CANON,s,H.ARMS[A7][s]) for s in H.FICTION]
+        H.get_context_templates=lambda *args:contexts
+        records=[];H._C10Y_PREFIX_SAVE=lambda phase,inputs:records.append((phase,copy.deepcopy(A._record_value(inputs))))
+        As={l:torch.zeros(4,4) for l in hp.layers};Bs={l:torch.eye(4) for l in hp.layers}
+        def components(h,batches,pristine,*args):
+            return {k:torch.tensor(1.) for k in ('L','L_edit','KL_raw','KL_weighted')}|{'kl_log_probs':torch.zeros(len(batches),2048)}
+        def decode(h,prompt,length,hp,operators=None): return ([0] if operators is not None else [1],torch.zeros(2))
+        with mock.patch.object(A,'edit_components',side_effect=components),mock.patch.object(A,'_decode_ids',side_effect=decode):
+            with self.assertRaises(A.Halt) as caught: A.train_deploy_parity(H,hp,requests,As,Bs,W0,'e2e')
+        self.assertEqual(caught.exception.code,'INVALID-TRAIN-DEPLOY-GAP')
+        self.assertEqual(records[-1][1],A._record_value(caught.exception.detail));self.assertFalse(records[-1][1]['ids_equal'])
+        self.assertTrue(all(torch.equal(W0[l],H.snap_layers(hp)[l]) for l in W0))
+        # Real objective construction and its gate, with only engine batch/NLL leaves controlled.
+        records.clear();audits=[{'iteration0_nll':100.} for _ in requests]
+        def reference(h,request,ctx):
+            batch=A.request_batch(h,request,ctx)
+            return {k:batch[k] for k in ('input_tok','target_ids','rewriting_targets','lookup_idxs')}
+        with mock.patch.object(A,'_engine_batch_reference',side_effect=reference),mock.patch.object(A,'edit_components',side_effect=components):
+            with self.assertRaises(A.Halt) as caught: A._objective_audit(H,hp,requests,contexts,{A._request_keys(requests)[0]:torch.ones(4)},audits)
+        self.assertEqual(caught.exception.code,'OBJECTIVE-CONSTRUCTION')
+        self.assertEqual(records[-1][1],A._record_value(caught.exception.detail))
+        self.assertEqual(records[-1][1]['nll_errors'],[99.]*24)
+        self.assertTrue(all(torch.equal(W0[l],H.snap_layers(hp)[l]) for l in W0))
+
+    def test_success_serializer_preserves_computed_values_and_exact_names(self):
+        out=self.root/'serialization';out.mkdir()
+        prefix={'contexts':[['{}'],['Frame. {}']],'overlap_audit':{'clean':True},
+            'ledger':[{'status':'COMPLETED','consumed_override_hits':1}],
+            'law5':{'standing':{'verdict':'INERT'}},'step0':{'smoke':{'steps':3}},
+            'targets':{('subject',' target'):torch.tensor([.05])}}
+        artifacts=A.persist_prefix(out,prefix,'calib')
+        self.assertEqual(set(artifacts),{'context_templates_calib.json','overlap_audit_calib.json','ledger_calib.json','law5_calib.json','step0_calib.json','targets_calib.pt'})
+        for key,name in (('contexts','context_templates'),('overlap_audit','overlap_audit'),('ledger','ledger'),('law5','law5'),('step0','step0')):
+            self.assertEqual(A.strict_load(out/(name+'_calib.json')),prefix[key])
+        payload=torch.load(out/'targets_calib.pt',map_location='cpu',weights_only=True)
+        self.assertEqual(set(payload),{'targets'})
+        self.assertTrue(torch.equal(payload['targets'][('subject',' target')],prefix['targets'][('subject',' target')]))
+
+    def test_success_final_serialization_matches_existing_schema(self):
+        out,diagnostic,result=self.execute('success')
+        self.assertEqual(result['outcome'],'COMPLETE')
+        self.assertFalse(diagnostic.exists())
+        self.assertTrue(self.phases(out))
+        for name in ('law5','ledger','step0','overlap_audit'):
+            value=A.strict_load(out/(name+'_calib.json'))
+            self.assertNotIn('halted_phase',value)
+        self.assertEqual(A.strict_load(out/'law5_calib.json')['standing']['verdict'],'INERT')
+        self.assertEqual(A.strict_load(out/'step0_calib.json')['smoke']['steps'],3)
+        payload=torch.load(out/'targets_calib.pt',map_location='cpu',weights_only=True)
+        self.assertEqual(set(payload),{'targets'})
+        self.assertTrue(all(torch.equal(t,torch.full((4,),.05)) for t in payload['targets'].values()))
 
 
 if __name__=="__main__":

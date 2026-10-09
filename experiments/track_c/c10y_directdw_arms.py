@@ -9,6 +9,7 @@ import ast
 import contextlib
 import copy
 import datetime
+import functools
 import hashlib
 import importlib
 import importlib.metadata
@@ -81,7 +82,7 @@ def exception_fields(error,phase):
         primary=cause
     fields={'code':primary.code if isinstance(primary,Halt) else 'INSTRUMENT-ERROR',
             'phase':getattr(primary,'_c10y_phase',phase),'exception':type(primary).__name__,
-            'detail':primary.detail if isinstance(primary,Halt) else str(primary),'traceback':traceback.format_exc()}
+            'detail':_record_value(primary.detail) if isinstance(primary,Halt) else str(primary),'traceback':traceback.format_exc()}
     if primary is not error:
         fields['cleanup']={'phase':getattr(error,'_c10y_phase',phase),
                            'exception':type(error).__name__,'detail':str(error)}
@@ -675,6 +676,7 @@ def sample_memory(H,phase='backward'):
         torch.mps.synchronize()
         sample={'current_bytes':int(torch.mps.current_allocated_memory()),'driver_bytes':int(torch.mps.driver_allocated_memory()),
                 'rss_bytes':int(psutil.Process().memory_info().rss),'available_bytes':int(psutil.virtual_memory().available)}
+    _prefix_snapshot(H,'memory_'+phase,sample)
     memory_gate(sample)
     sample=sample|{'host_available_bytes':sample['available_bytes'],'synchronised':True,'at':utc()}
     if not hasattr(H,'_C10Y_MEMORY'): H._C10Y_MEMORY={}
@@ -706,6 +708,8 @@ class Budget:
             remaining=max(remaining,self.remaining.get('optimisation',0.))+math.fsum(v for k,v in self.remaining.items() if k not in ('optimisation','readout'))
             reserve=max(reserve,self.remaining['readout'])
         projected=self.clock()-self.start+remaining+reserve
+        save=getattr(self,'_C10Y_PREFIX_SAVE',None)
+        if save is not None: save('budget',{'projected_s':projected,'cap_s':self.cap})
         if projected>self.cap: raise Halt('INCOMPLETE-BUDGET' if write_complete or self.write_complete else 'HALTED-BUDGET',{'projected_s':projected,'cap_s':self.cap})
         return projected
 
@@ -1300,17 +1304,112 @@ def save_tensors(path,tensors):
     return sha(path)
 
 
-def persist_prefix(out,prefix,tag):
+def _record_value(value,tensors=None,artifact=None):
+    # Record-only encoding: finite values and scientific inputs are unchanged.
+    if isinstance(value,float) and (math.isnan(value) or math.isinf(value)):
+        return {'nonfinite_float':'nan' if math.isnan(value) else '+inf' if value>0 else '-inf'}
+    if isinstance(value,dict): return {k:_record_value(v,tensors,artifact) for k,v in value.items()}
+    if isinstance(value,(list,tuple)): return [_record_value(v,tensors,artifact) for v in value]
+    if hasattr(value,'detach'):
+        if tensors is not None:
+            key='tensor_%d'%len(tensors);tensors[key]=value.detach().cpu()
+            return {'tensor_artifact':artifact,'key':key,'dtype':str(value.dtype),'shape':list(value.shape)}
+        return {'tensor':_record_value(value.detach().cpu().tolist()),'dtype':str(value.dtype),'shape':list(value.shape)}
+    return value
+
+
+def _prefix_snapshot(H,phase,inputs):
+    save=getattr(H,'_C10Y_PREFIX_SAVE',None)
+    if save is not None: save(phase,inputs)
+
+
+def _prefix_start(H,mode,arm,check):
+    progress=getattr(H,'_C10Y_PREFIX_PROGRESS',None)
+    if progress is not None:
+        progress.setdefault('_started',set()).add((mode,arm,check))
+        _prefix_snapshot(H,'check_start_'+mode+'_'+arm+'_'+check,{'mode':mode,'arm':arm,'check':check})
+
+
+def _exception_prefix(error):
+    while error is not None:
+        if hasattr(error,'_c10y_prefix'): return error._c10y_prefix
+        error=error.__context__
+    return {}
+
+
+def _retain_prefix(function):
+    @functools.wraps(function)
+    def retained(H,out,budget,calibration=False,telemetry=None):
+        tag='calib' if calibration else 's1' if budget.stage==1 else 'p%d'%(budget.stage-1)
+        directory=Path(out)/('prefix_phases_'+tag);state={};phases=[]
+        names=('_C10Y_PREFIX_SAVE','_C10Y_PREFIX_PROGRESS')
+        previous={name:getattr(H,name) for name in names if hasattr(H,name)}
+        had_budget=hasattr(budget,'_C10Y_PREFIX_SAVE');old_budget=getattr(budget,'_C10Y_PREFIX_SAVE',None)
+        def save(phase,inputs,status='INCOMPLETE',outcome=None):
+            path=directory/('%04d_%s.json'%(len(phases)+1,re.sub(r'[^A-Za-z0-9_-]','_',phase)))
+            payload={'schema':'c10y_directdw_prefix_phase/v1','phase':phase,'status':status,
+                     'inputs':inputs}
+            if phase in ('prefix_complete','prefix_halt'):
+                payload['records']={k:v for k,v in state.items() if k not in ('targets','mode_checks') and not k.startswith('_')}
+            if outcome is not None: payload['outcome']=outcome
+            tensors={};sidecar=path.with_suffix('.pt');payload=_record_value(payload,tensors,sidecar.name)
+            for candidate in (path,sidecar):
+                if candidate.exists(): raise Halt('EXISTING-ARTIFACT',str(candidate))
+            if tensors: payload['artifacts']={sidecar.name:save_tensors(sidecar,tensors)}
+            write_json(path,payload);phases.append({'phase':phase,'path':str(path)})
+        H._C10Y_PREFIX_SAVE=save;H._C10Y_PREFIX_PROGRESS=state;budget._C10Y_PREFIX_SAVE=save
+        try:
+            result=function(H,out,budget,calibration=calibration,telemetry=telemetry)
+            save('prefix_complete',{},'COMPLETED')
+            return result
+        except BaseException as error:
+            failure=exception_fields(error,budget.phase)
+            partial={k:v for k,v in state.items() if not k.startswith('_')};partial['_partial']={'halted_phase':failure['phase'],'code':failure['code']}
+            if 'law5' in state.get('baseline',{}):
+                partial['law5']={**state.get('law5',{}),'standing':state['baseline']['law5']}
+            modes=('e2e',) if calibration or budget.stage==1 else ('e2e','anchor')
+            arms=(A7,) if calibration or budget.stage==1 else ARMS
+            checks={mode:{arm:{name:state.get('mode_checks',{}).get(mode,{}).get(arm,{}).get(name,
+                {'status':'INCOMPLETE' if (mode,arm,name) in state.get('_started',set()) else 'NOT-RUN',
+                 'halted_phase':failure['phase']}) for name in ('capture','zero_step','executed_loop','train_deploy','projector','gradient','objective','accumulation','hooks','smoke')} for arm in arms} for mode in modes}
+            partial['step0']={**state.get('step0',{}),'checks':checks}
+            partial['checks']={'status':'INCOMPLETE','halted_phase':failure['phase'],'by_mode_arm':checks}
+            error._c10y_prefix=partial
+            # A recorder IO error is already visible; never retry its failed sink.
+            if not isinstance(error,OSError) and failure['code']!='EXISTING-ARTIFACT':
+                save('prefix_halt',{},'INCOMPLETE',failure)
+            raise
+        finally:
+            for name in names:
+                if name in previous: setattr(H,name,previous[name])
+                else: delattr(H,name)
+            if not had_budget: delattr(budget,'_C10Y_PREFIX_SAVE')
+            else: budget._C10Y_PREFIX_SAVE=old_budget
+    return retained
+
+
+def persist_prefix(out,prefix,tag,owned=None):
     paths={'contexts':'context_templates_'+tag+'.json' if tag=='calib' else 'context_templates.json',
            'overlap':'overlap_audit_'+tag+'.json' if tag=='calib' else 'overlap_audit.json',
            'targets':'targets_'+tag+'.pt','ledger':'ledger_'+tag+'.json' if tag=='calib' else 'ledger.json',
            'law5':'law5_'+tag+'.json','step0':'step0_'+tag+'.json'}
+    owned=owned or {}
+    for name in paths.values():
+        path=out/name
+        if path.exists() and owned.get(name)!=sha(path): raise Halt('EXISTING-ARTIFACT',str(path))
+    partial=prefix.get('_partial',{'halted_phase':'instrument_prefix'})
     for key in ('contexts','overlap','ledger','law5','step0'):
-        value=prefix.get({'overlap':'overlap_audit'}.get(key,key),{})
+        source={'overlap':'overlap_audit'}.get(key,key)
+        value=prefix.get(source)
+        if source not in prefix or '_partial' in prefix:
+            value={'status':'INCOMPLETE' if value else 'NOT-RUN','halted_phase':partial['halted_phase'],
+                   **({'data':_record_value(value)} if value else {})}
         p=out/paths[key]
         if not p.exists(): write_json(p,value)
     target=out/paths['targets']
     payload={'targets':prefix.get('targets',{})}
+    if '_partial' in prefix or 'targets' not in prefix:
+        payload.update(status='INCOMPLETE' if payload['targets'] else 'NOT-RUN',halted_phase=partial['halted_phase'])
     if 'deployed_updates' in prefix: payload['actual_updates']=prefix['deployed_updates']
     if not target.exists(): save_tensors(target,payload)
     return {name:sha(out/name) for name in paths.values()}
@@ -1356,23 +1455,25 @@ def calibrate(out,H,go=None,spend=None,diagnostic=None):
     if any(k in os.environ for k in ('C10Y_TELEMETRY','C10Y_TELEMETRY_INERTNESS')): raise Halt('CALIBRATION-TELEMETRY')
     cap=launch_documents('calibration',go,spend,None);out=output_path(out,'calibration');diagnostic=diagnostic_path(diagnostic)
     identity=calibration_identity();inputs=input_identity(H,H.hp);started=utc();out.mkdir(parents=True,exist_ok=owned_launch(out,'calibration'));(out/'logs').mkdir(exist_ok=True)
-    budget=Budget(float(os.environ.get('C10Y_STAGE_START',STAGE_CLOCK())),cap,'calibration');prefix={};outcome='COMPLETE';failure={};torch.manual_seed(0);context_record=context_evidence(out/'context_templates_calib.json')
+    budget=Budget(float(os.environ.get('C10Y_STAGE_START',STAGE_CLOCK())),cap,'calibration');prefix={};owned={};outcome='COMPLETE';failure={};torch.manual_seed(0);context_record=context_evidence(out/'context_templates_calib.json')
     try:
         with phase_context(budget,'contexts_install'):
             context_started=STAGE_CLOCK()
             context_record=freeze_contexts(H,out/'context_templates_calib.json')
+            owned['context_templates_calib.json']=context_record['sha256']
             H._C10Y_CONTEXT_INSTALL_SECONDS=STAGE_CLOCK()-context_started
         with phase_context(budget,'instrument_prefix'):
             prefix=instrument_prefix(H,out,budget,calibration=True,telemetry=None)
         with phase_context(budget,'source_input_identity'):
             if calibration_identity()!=identity or input_identity(H,H.hp)!=inputs: raise Halt('SOURCE-OR-INPUT-DRIFT')
     except Exception as e:
+        prefix=_exception_prefix(e) or prefix
         failure=exception_fields(e,budget.phase);outcome=failure['code']
         context_record=context_evidence(out/'context_templates_calib.json')
         if outcome in ('LAW#3','LAW3'): schedule_halt(ROOT,outcome,failure['detail'],context_record)
         write_json(diagnostic,{'process':'calibration','out':str(out),'code':outcome,'at':utc(),'context_templates':context_record,'pinned_engine_sha256':PINNED_ENGINE_SHA,**failure})
     with phase_context(budget,'calibration_publication'):
-        artifacts=persist_prefix(out,prefix,'calib')
+        artifacts=persist_prefix(out,prefix,'calib',owned)
         record={**identity,'schema':'c10y_directdw_calibration/v1','outcome':outcome,'device':str(H.DEV),
                 'timings':calibration_timing_tags(prefix.get('timings',[])),'checks':prefix.get('checks',{}),'memory':getattr(H,'_C10Y_MEMORY',{}),
                 'T_cal':prefix.get('T_cal'),'template_token_lengths':prefix.get('template_token_lengths',[]),'context_templates':context_record,
@@ -1435,7 +1536,9 @@ def run(out,H,stage=1,go=None,forecast=None,spend=None,contexts=None,context_sha
     inputs=input_identity(H,hp);torch.manual_seed(0);out.mkdir(parents=True,exist_ok=True)
     budget=Budget(float(os.environ.get('C10Y_STAGE_START',STAGE_CLOCK())),cap,stage);tag='s1' if stage==1 else 'p%d'%(stage-1)
     budget.configure(forecast,getattr(H,'_C10Y_STARTUP_TIMINGS',()))
-    telemetry=telemetry_factory(out,tag,utc(),admission['telemetry']);prefix={};context_record=context_evidence(contexts or out/'context_templates.json')
+    telemetry=telemetry_factory(out,tag,utc(),admission['telemetry']);prefix={};owned={};context_record=context_evidence(contexts or out/'context_templates.json')
+    if stage>1 and out.resolve()==(Path(ROOT)/'results/c10y_directdw').resolve() and prior is not None:
+        owned={name:prior['manifest']['artifacts'][name] for name in ('context_templates.json','overlap_audit.json','ledger.json')}
     had_telemetry=hasattr(H,'_C10Y_TELEMETRY');old_telemetry=getattr(H,'_C10Y_TELEMETRY',None);H._C10Y_TELEMETRY=telemetry
     record={'schema':'c10y_directdw/v1','stage':stage,'run':{'stage':stage,'status':'COMPLETED','code':None,'launched':True,
             'write_complete':False,'readout_complete':False,**admission,'cap_s':cap,'projected_s':gate['projected_s']},'recipes':{}}
@@ -1443,6 +1546,7 @@ def run(out,H,stage=1,go=None,forecast=None,spend=None,contexts=None,context_sha
         with phase_context(budget,'contexts_install'):
             context_started=STAGE_CLOCK()
             if stage==1: context_record=freeze_contexts(H,out/'context_templates.json')
+            if stage==1: owned['context_templates.json']=context_record['sha256']
             if stage>1:
                 if contexts is None or context_sha is None: raise Halt('CONTEXT-SOURCE-REQUIRED')
                 source=stage_context_source(contexts,context_sha)
@@ -1485,6 +1589,8 @@ def run(out,H,stage=1,go=None,forecast=None,spend=None,contexts=None,context_sha
         if input_identity(H,hp)!=inputs or preflight()!=info: raise Halt('SOURCE-OR-INPUT-DRIFT')
         prefix['deployed_updates']={'A':prefix['actual_A'],**prefix['actual_B']}
     except Exception as e:
+        prefix=_exception_prefix(e) or prefix
+        if 'baseline' in prefix: record['recipes']['A']=prefix['baseline']
         failure=exception_fields(e,budget.phase)
         code=failure['code']
         context_record=context_evidence(contexts or out/'context_templates.json');record['run']['context_templates']=context_record
@@ -1499,7 +1605,7 @@ def run(out,H,stage=1,go=None,forecast=None,spend=None,contexts=None,context_sha
     with phase_context(budget,'stage_publication'):
         # PROVISIONAL §2.12/T12 ownership: stage1 common artifacts immutable;
         # later pass records contain their own manifest/run/ledger/overlap identity.
-        artifacts=persist_prefix(out,prefix,tag)
+        artifacts=persist_prefix(out,prefix,tag,owned)
         overlay='targets_'+tag+'.pt'
         for name,recipe in record['recipes'].items():
             for arm,data in recipe['arms'].items():
@@ -1688,11 +1794,16 @@ def frame_subjects_ast_check():
 
 def _unit(H,timings,name,workload,action,repetition=1,budget=None):
     with phase_context(budget,name):
+        _prefix_snapshot(H,'unit_'+name,{'workload':workload,'repetition':repetition})
         if budget is not None: budget.project(0.,False)
         sample_memory(H,name);sync(H);started=STAGE_CLOCK();status='COMPLETED'
         telemetry=getattr(H,'_C10Y_TELEMETRY',None)
         if telemetry is not None: telemetry.phase(name+'_start')
-        try: return action()
+        try:
+            value=action()
+            # Dense projectors are internal operators; the reported gate input is presence.
+            _prefix_snapshot(H,'unit_return_'+name,{'projector_present':value is not None} if name=='baseline_projector' else value)
+            return value
         except BaseException as error:
             mark_exception(error,name);status='FAILED';raise
         finally:
@@ -1750,6 +1861,7 @@ def _ledger_call(H,ledger,stage,recipe,arm,check,targets,declared,action,expecte
         value=action();seen=list(dict.fromkeys(overrides.reads))
         row.update(consumed_overrides=_key_records(seen),consumed_override_hits=H.Z_OVERRIDE_HITS,
                    access_count=len(overrides.reads))
+        _prefix_snapshot(H,'ledger_'+str(arm)+'_'+check,row)
         if set(seen)!=set(declared) or len(seen)!=len(declared) or H.Z_OVERRIDE_HITS!=expected_hits:
             raise Halt('OVERRIDE-LEDGER',row)
         row['status']='COMPLETED';return value
@@ -1951,6 +2063,7 @@ def train_deploy_parity(H,hp,requests,As,Bs,W0,mode,batches=None,pristine=None,a
         record={'ids_equal':ids_equal,'full_hits_equal':hits_equal,'losses':pairs,'loss_errors':errors,
                 'loss_tolerances':tolerances,'max_logit_difference':logit_diff,'prompts':rows,
                 'prompt_count':len(rows),'heldout_for_selection':False,'reduction_dtype':'float64','reduction_device':'cpu'}
+        _prefix_snapshot(H,'train_deploy_'+mode,record)
         if len(rows)!=96 or not ids_equal or not hits_equal or not finite or any(errors[k]>tolerances[k] for k in errors):
             raise Halt('INVALID-TRAIN-DEPLOY-GAP',record)
         return record
@@ -2351,6 +2464,7 @@ def _objective_audit(H,hp,requests,contexts,targets,target_audit):
             'construction_records':constructions,'nonzero_intervention_delta_sha256':tensor_sha(delta),
             'nonzero_intervention_delta_norm':norm(delta),'request_count':len(requests),
             'reduction_dtype':'float64','reduction_device':'cpu'}
+    _prefix_snapshot(H,'objective',record)
     if band_hashes(H,hp)!={str(l):tensor_sha(t) for l,t in snapshot.items()} or hook_snapshot(H.model)!=registry: raise Halt('OBJECTIVE-RESTORATION')
     if len(errors)!=24 or not record['constructed_like_compute_z'] or any(not math.isfinite(e) or e>2e-3 for e in errors+list(kl_errors.values())) or norm(delta)==0:
         raise Halt('OBJECTIVE-CONSTRUCTION',record)
@@ -2415,6 +2529,7 @@ def _accumulation_check(H,hp,requests,contexts,factors,W0,mode,targets,timings,b
     for split,groups in (('6+6',[list(range(6)),list(range(6,12))]),('5+7',[list(range(5)),list(range(5,12))])):
         part=_unit(H,timings,'accumulation_'+mode+'_'+split,_workload(A7,12,0,2),
             lambda:_gradient_evaluations(H,hp,subset,contexts,factors,W0,mode,targets,groups,fixed=True),budget=budget)
+        _prefix_snapshot(H,'accumulation_padding_'+mode+'_'+split,{'reference_lengths':reference_lengths,'padded_lengths':part['padded_lengths']})
         if any(t!=reference_lengths[0] for t in part['padded_lengths']): raise Halt('ACCUMULATION-PADDING')
         for l in hp.layers:
             a,b=reference['gradients'][l],part['gradients'][l]
@@ -2428,6 +2543,7 @@ def _accumulation_check(H,hp,requests,contexts,factors,W0,mode,targets,timings,b
         'padded_lengths':reference_lengths,'padding_identical':True,'scope_full24':'weighting/index logic only; no full24 reference graph',
         'full24_groups':microbatch_indices(24,6),'full24_weights':request_weights([6,6,6,6]),
         'reduction_dtype':'float64','reduction_device':'cpu'}
+    _prefix_snapshot(H,'accumulation_'+mode,record)
     if any(not r['finite'] or r['norm']<=0 or r['reference_norm']<=0 or r['cosine']<.999 or r['relative_l2']>.01 for r in comparisons):
         raise Halt('ACCUMULATION-PARITY',record)
     return record
@@ -2442,9 +2558,11 @@ def _gradient_check(H,hp,requests,contexts,factors,W0,mode,targets,timings,budge
             lambda:_gradient_evaluations(H,hp,requests,contexts,factors,W0,mode,targets,microbatch_indices(len(requests),6),scale),repetition=halvings+1,budget=budget)
         layers=[{'layer':l,'finite':g is not None and bool(torch.isfinite(g).all()),'norm':None if g is None else norm(g)} for l,g in values['gradients'].items()]
         records.append({'loss_scale':scale,'layers':layers})
+        _prefix_snapshot(H,'gradient_attempt_'+mode,records)
         if all(r['finite'] and r['norm']>0 for r in layers):
             result={'init_loss_scale':1024,'halvings':halvings,'layers':layers,'attempts':records,
                     **{k:values[k] for k in ('base_gradients_absent','only_A_optimised','eval_mode','use_cache')}}
+            _prefix_snapshot(H,'gradient_'+mode,result)
             if not result['base_gradients_absent'] or not result['only_A_optimised'] or not result['eval_mode']: raise Halt('GRADIENT-HYGIENE',result)
             return result
     raise Halt('GRADIENT-FINITENESS',records)
@@ -2482,6 +2600,10 @@ def _write_proof(writer,mode,requests,P,cache,iterations,lr=None):
         return facts
     finally:
         namespace['deployed_hook']=old_hook;namespace['accepted_step']=old_accepted;torch.optim.Adam.step=old_adam
+        with phase_context(writer.budget,'proof_record_cleanup'):
+            _prefix_snapshot(writer.H,'write_proof_'+mode,{'observations':facts,'parity':getattr(writer,'parity',None) or {'status':'NOT-RUN'},
+                'iteration_records':getattr(writer,'iteration_timings',{'status':'NOT-RUN'}),
+                'phase_timings':getattr(writer,'phase_timings',{'status':'NOT-RUN'})})
 
 
 def _counts(H,Vmap):
@@ -2489,6 +2611,7 @@ def _counts(H,Vmap):
     return {k:result[k] for k in ('canon_full_n','para_full_n','para_first_n')},result
 
 
+@_retain_prefix
 def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
     import torch
     hp=H.hp;out=Path(out);stage='calibration' if calibration else budget.stage
@@ -2499,6 +2622,9 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
     runtime={'pristine':W0,'targets':targets,'pre_probes':{},'baseline_planned':{},'baseline_harness_norms':{},'actual_A':{},'actual_B':{},
              'checks_by_mode_arm':{},'anchor_reference':{},'stored_checks':{},'timings':timings,'ledger':ledger,
              'stage':stage,'budget':budget,'target_audits':target_audits,'recipes':{}}
+    progress=H._C10Y_PREFIX_PROGRESS
+    progress.update(ledger=ledger,targets=targets,law5=law5,step0=step0,checks=checks,timings=timings,target_audits=target_audits,
+                    mode_checks=runtime['checks_by_mode_arm'])
     had_telemetry=hasattr(H,'_C10Y_TELEMETRY');old_telemetry=getattr(H,'_C10Y_TELEMETRY',None);H._C10Y_TELEMETRY=telemetry
     context_globals=H.get_context_templates.__globals__;had_cache='CONTEXT_TEMPLATES_CACHE' in context_globals;old_cache=context_globals.get('CONTEXT_TEMPLATES_CACHE')
     def pristine_restore(): restore(H,hp,W0)
@@ -2524,6 +2650,7 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
             runtime['baseline_planned'][arm]=planned if len(planned)==len(hp.layers) else None
             runtime['baseline_harness_norms'][arm]=copy.deepcopy(result)
             runtime['actual_A'][arm]=_actual_updates(H,hp,W0)
+            _prefix_snapshot(H,'baseline_write_'+arm,{'planned':planned,'harness':result,'actual':runtime['actual_A'][arm]})
             budget.project(0.);sync(H);runtime['_baseline_production_started']=STAGE_CLOCK()
             return result
         finally: H.upd_matrix_match_shape=previous_match
@@ -2536,6 +2663,8 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
             values=copy.deepcopy(H._C10Y_CONTEXTS)
             context_globals['CONTEXT_TEMPLATES_CACHE']=values
             audit=overlap_audit(values,H)
+            progress.update(contexts=values,overlap_audit=audit)
+            _prefix_snapshot(H,'overlap',audit)
             if not audit['clean']: raise Halt('INVALID-LEAKAGE',audit)
             return values,audit
         contexts,audit=_unit(H,timings,'contexts_overlap',_workload(requests=72),contexts_and_audit,budget=budget)
@@ -2544,6 +2673,7 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
         budget.consume('contexts_targets',installation)
         runtime['contexts']=contexts;runtime['overlap_audit']=audit
         template_lengths=[len(H.tok(c)['input_ids']) for group in contexts for c in group]
+        progress['template_token_lengths']=template_lengths
         for arm,V in original['ARMS'].items():
             requests=[H.req(H.CANON,s,V[s]) for s in H.FICTION];target_audits[arm]=[]
             solve_entry={'stage':stage,'recipe':'targets','arm':arm,'check':'solve','status':'RUNNING',
@@ -2554,9 +2684,11 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
                     if band_hashes(H,hp)!=base_hashes: raise Halt('PRISTINE-TARGET-BAND')
                     text=io.StringIO()
                     with contextlib.redirect_stdout(text): z=H.compute_z(H.model,H.tok,request,hp,hp.layers[-1],contexts)
+                    _prefix_snapshot(H,'target_'+arm,{'request':request,'value':z,'stdout':text.getvalue()})
                     if z is None or not bool(torch.isfinite(z).all()): raise Halt('TARGET-SOLVE',request['subject'])
                     output=text.getvalue();match=re.search(r'^loss\s+\S+\s*=\s*([-+0-9.eE]+)\s*\+',output,re.MULTILINE)
                     nll=None if match is None else float(match.group(1))
+                    _prefix_snapshot(H,'target_nll_'+arm,{'iteration0_nll':nll,'stdout':output})
                     if nll is not None and not math.isfinite(nll): raise Halt('ENGINE-ITERATION0-NLL')
                     targets[(request['subject'],request['target_new']['str'])]=z.detach().cpu().clone()
                     solve_entry['solved_keys'].append({'subject':request['subject'],'target':request['target_new']['str']})
@@ -2581,11 +2713,16 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
                     lambda:timed_originals[_attr](*args,**kwargs),budget=budget)
                 if _attr=='compute_P': P_box['P']=value
                 if _attr=='eval_arm': runtime['_baseline_eval_started']=(unit_started,timings[-1])
+                partial_baseline=progress.setdefault('baseline',{'status':'INCOMPLETE','arms':{}})
+                if _attr=='run_law5': partial_baseline['law5']=value
+                if _attr=='eval_arm': partial_baseline['arms'][arm]={'status':'INCOMPLETE','metrics':value}
+                _prefix_snapshot(H,_name+('_'+arm if arm is not None else ''),{'projector_present':value is not None} if _attr=='compute_P' else value)
                 return value
             setattr(H,attr,timed)
         baseline_start=len(timings);sync(H);started=STAGE_CLOCK()
         with phase_context(budget,'baseline_recipe'):
             baseline=scored_recipe(H,'A',H.HP_BASE,1 if calibration else stage,telemetry)
+        progress['baseline']=baseline
         sync(H);baseline_elapsed=STAGE_CLOCK()-started
         baseline_units=sum(t['seconds'] for t in timings[baseline_start:] if t['name'] in ('baseline_projector','baseline_law5','baseline_write','baseline_evaluation'))
         timings.append({'name':'baseline_recipe_overhead','seconds':max(0.,baseline_elapsed-baseline_units),
@@ -2594,6 +2731,7 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
         for attr,value in timed_originals.items(): setattr(H,attr,value)
         timed_originals.clear();H.my_edit=original['my_edit'];pristine_restore()
         def law3_gate():
+            _prefix_snapshot(H,'law3',baseline)
             try:
                 a=baseline['arms'][A7]['metrics'];controls=[baseline['arms'][arm]['metrics']['para_full_n'] for arm in ARMS[:2]]
                 valid=(baseline['law5']['verdict']=='INERT' and all(type(a[k]) is int for k in ('canon_full_n','para_full_n','para_first_n')) and
@@ -2606,6 +2744,8 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
         law5.update(standing=copy.deepcopy(baseline['law5']),V4=v4)
         if telemetry is not None: telemetry.logit_lens(H,hp,'pristine')
         P=P_box.get('P')
+        _prefix_snapshot(H,'baseline_readouts',{'projector_present':P is not None,'actual_arms':list(runtime['actual_A']),
+            'planned_present':{arm:runtime['baseline_planned'].get(arm) is not None for arm in ARMS},'baseline':baseline})
         if P is None or set(runtime['actual_A'])!=set(ARMS): raise Halt('BASELINE-MERGED-READOUTS-MISSING')
         runtime['P']=P
         covariances=_covariances(H,hp)
@@ -2617,8 +2757,10 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
         modes=('e2e',) if calibration or stage==1 else ('e2e','anchor')
         scoped_arms=(A7,) if calibration or stage==1 else ARMS
         runtime['checks_by_mode_arm']={mode:{} for mode in modes}
+        progress['mode_checks']=runtime['checks_by_mode_arm']
         captures={};references={}
         for arm in scoped_arms:
+            for mode in modes: _prefix_start(H,mode,arm,'capture')
             requests=[H.req(H.CANON,s,original['ARMS'][arm][s]) for s in H.FICTION];keys=_request_keys(requests);writes=[];write_hashes=[]
             for repetition in (1,2):
                 pristine_restore()
@@ -2635,6 +2777,7 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
             cap={'floor':floor,'tolerance':tolerance,'distance_by_layer':distances,
                  'reference_weight_hashes':write_hashes[0],'floor_weight_hashes':write_hashes[1],
                  'capture_weight_hashes':band_hashes(H,hp),'original_calls':2}
+            _prefix_snapshot(H,'capture_identity_'+arm,cap)
             if any(v>tolerance or not math.isfinite(v) for v in distances.values()): raise Halt('CAPTURE-SOLVE-IDENTITY',cap)
             captures[arm]=factors;pristine_restore()
             if 'anchor' in modes:
@@ -2645,6 +2788,8 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
                 mode_checks={'capture':_check_record(mode,arm,copy.deepcopy(cap))};runtime['checks_by_mode_arm'][mode][arm]=mode_checks
                 writer=Writer(H,hp,None,budget);writer.baseline_passed=True
                 for check_name,iterations,lr in (('zero_step',0,None),('executed_loop',3,0.)):
+                    _prefix_start(H,mode,arm,check_name)
+                    if check_name=='zero_step': _prefix_start(H,mode,arm,'train_deploy')
                     pristine_restore()
                     proof=_ledger_call(H,ledger,stage,'B-e2e' if mode=='e2e' else 'B-z',arm,check_name,targets,keys,
                         lambda:_write_proof(writer,mode,requests,P,cache(P),iterations,lr),expected_hits=1)
@@ -2662,26 +2807,33 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
                             loss_scaling_executed=len(proof['scaled_calls'])==3 and all(r['scale']>0 and r['loss_scale']>0 for r in proof['scaled_calls']),
                             proof_observations=proof,
                             iteration_records=copy.deepcopy(writer.iteration_timings))
+                        _prefix_snapshot(H,'executed_loop_count_'+mode+'_'+arm,{'gate':values,'parity':writer.parity,'proof':proof,
+                            'accepted_steps':writer.last_trace['accepted_steps'],'trajectory_length':len(writer.trajectory)})
                         if writer.last_trace['accepted_steps']!=3 or len(writer.trajectory)!=3 or proof['adam_steps']!=3 or not values['routing_executed'] or not values['loss_scaling_executed']:
                             raise Halt('EXECUTED-LOOP-COUNT',values)
+                    _prefix_snapshot(H,check_name+'_identity_'+mode+'_'+arm,{'gate':values,'parity':writer.parity,'proof':proof,'tolerance':tolerance})
                     if not values['counts_equal'] or any(v>tolerance or not math.isfinite(v) for v in distance.values()): raise Halt(check_name.upper()+'-IDENTITY',values)
                     mode_checks[check_name]=_check_record(mode,arm,values)
                     if check_name=='zero_step':
                         parity=writer.parity['init'];step0.setdefault('init_parity',{}).setdefault(mode,{})[arm]=parity
                         mode_checks['train_deploy']=_check_record(mode,arm,{'init':parity})
                         planned={l:writer.As[l].detach()@writer.Bs[l] for l in hp.layers}
+                        _prefix_start(H,mode,arm,'projector')
                         geometry=_unit(H,timings,'projector_property',_workload(arm,24),lambda:write_geometry(H,hp,P,planned,actual,references[arm],covariances),budget=budget)
                         mode_checks['projector']=_check_record(mode,arm,{
                             'init_planned_share_by_layer':{str(r['layer']):r['planned_null_share'] for r in geometry},
                             'init_actual_share_by_layer':{str(r['layer']):r['actual_null_share'] for r in geometry},'geometry':geometry})
                     pristine_restore()
+                _prefix_start(H,mode,arm,'gradient')
                 mode_checks['gradient']=_check_record(mode,arm,_gradient_check(H,hp,requests,contexts,factors,W0,mode,targets,timings,budget))
                 pristine_restore()
             if arm==A7:
+                _prefix_start(H,'e2e',arm,'objective')
                 objective=_unit(H,timings,'objective_construction',_workload(arm,24),
                     lambda:_objective_audit(H,hp,requests,contexts,targets,target_audits[arm]),budget=budget)
                 runtime['checks_by_mode_arm']['e2e'][arm]['objective']=_check_record('e2e',arm,objective)
                 for mode in modes:
+                    _prefix_start(H,mode,arm,'accumulation')
                     runtime['checks_by_mode_arm'][mode][arm]['accumulation']=_check_record(mode,arm,
                         _accumulation_check(H,hp,requests,contexts,factors,W0,mode,targets,timings,budget))
             pristine_restore()
@@ -2692,13 +2844,17 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
             values={'registries_equal':_all_registries(H.model)==registry,'writer_handles_removed':_all_registries(H.model)==registry,
                 'unknown_hooks_preserved':_all_registries(H.model)==registry,'pristine_restored':band_hashes(H,hp)==base_hashes,
                 'wrapper_restored':H.my_edit is original['my_edit'],'overrides_restored':H.Z_OVERRIDE is original['Z_OVERRIDE'] and H.Z_OVERRIDE_HITS==original['Z_OVERRIDE_HITS']}
+            _prefix_snapshot(H,'restoration',values)
             if not all(values.values()): raise Halt('RESTORATION',values)
             return values
+        for mode in modes:
+            for arm in scoped_arms: _prefix_start(H,mode,arm,'hooks')
         restoration=_unit(H,timings,'restoration_hooks',_workload(),restoration_gate,budget=budget)
         for mode,arms in runtime['checks_by_mode_arm'].items():
             for arm,values in arms.items(): values['hooks']=_check_record(mode,arm,restoration.copy())
         requests=[H.req(H.CANON,s,original['ARMS'][A7][s]) for s in H.FICTION]
         smoke=Writer(H,hp,None,budget);smoke.baseline_passed=True
+        _prefix_start(H,'e2e',A7,'smoke')
         smoke_loss_before=_unit(H,timings,'smoke_loss_before',_workload(A7,24,0,4),
             lambda:_gradient_evaluations(H,hp,requests,contexts,captures[A7],W0,'e2e',targets,microbatch_indices(24,6))['loss'],budget=budget)
         smoke_proof=_ledger_call(H,ledger,stage,'instrument',A7,'smoke',targets,_request_keys(requests),
@@ -2720,14 +2876,18 @@ def instrument_prefix(H,out,budget,calibration=False,telemetry=None):
             'A_changed_layers':changed,'gradient_finite_layers':finite,'loss_before':smoke_loss_before,'loss_after':smoke_after,
             'base_hash_unchanged':unchanged,'restored':restored,'synchronised':True,
             'iteration_records':copy.deepcopy(smoke.iteration_timings),'proof_observations':smoke_proof}
+        _prefix_snapshot(H,'smoke',smoke_record)
         if smoke_record['steps']!=3 or not smoke_record['nonzero_lr'] or not all(changed) or not all(finite) or not unchanged or not restored:
             raise Halt('CANDIDATE-SMOKE',smoke_record)
         runtime['checks_by_mode_arm']['e2e'][A7]['smoke']=_check_record('e2e',A7,smoke_record)
         step0.update(smoke=smoke_record,checks=runtime['checks_by_mode_arm'],memory=copy.deepcopy(getattr(H,'_C10Y_MEMORY',{})))
         law5['checks']={mode:{arm:{k:v for k,v in values.items() if k in ('capture','zero_step','executed_loop')} for arm,values in arms.items()} for mode,arms in runtime['checks_by_mode_arm'].items()}
         lengths=[n for t in timings for n in t.get('workload',{}).get('padded_lengths',[])]
+        _prefix_snapshot(H,'padded_lengths',lengths)
         if not lengths: raise Halt('PADDED-LENGTH-TIMINGS-MISSING')
-        if source_hashes()!=source_start: raise Halt('SOURCE-DRIFT')
+        source_end=source_hashes()
+        _prefix_snapshot(H,'source_identity',{'start':source_start,'end':source_end})
+        if source_end!=source_start: raise Halt('SOURCE-DRIFT')
         candidate_writer=Writer(H,hp,telemetry,budget);candidate_writer.baseline_passed=True
         candidate_writer.runtime=runtime;candidate_writer.targets=targets;candidate_writer.ledger=ledger;candidate_writer.stage=stage
         result={'baseline':baseline,'contexts':contexts,'targets':targets,'ledger':ledger,'law5':law5,'step0':step0,'checks':checks,
