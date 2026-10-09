@@ -1,0 +1,18 @@
+{
+  "terminal_sources": [
+    {
+      "coordinator": "c10x-rerun3",
+      "path": "results/c10x_enginepath_rerun3_logs/supervisor.json",
+      "sha256": "25dff03f0503340f831e0fd95e3a2c9d12405472d1b11260c4fe52b24b9470af"
+    },
+    {
+      "coordinator": "astra-attempt3",
+      "path": "results/mathlab/astra_attempt3_terminal.json",
+      "sha256": "78bd1d81e8598ae472485985fbae0f126544a88496d3f19e7e54e2ba884b1789"
+    }
+  ],
+  "no_other_coordinator_live_or_pending": true,
+  "lead": "MAESTRO",
+  "written_utc": "20261009T184919Z",
+  "queue_note": "V7 diagnostic (D-C10z-v7diag) finished 18:30Z (A1, exit 0); C10Y pre-cast diagnostic in fix round (not dispatchable); ASTRA attempt 4 not built. Harvest is head of the GPU queue."
+}
