@@ -1,6 +1,6 @@
 # NEW-1 — Adapter versus closed-form update geometry
 
-**DRAFT v2 · 2026-10-09 · NOT FROZEN · computation NOT RUN.** Tier: **MATH-PROXY — math estimate, not evidence**. This pre-registration may only reorder or prune the GPU queue; it never promotes a scientific claim, a write route, a C10 label, or F1 readiness. This revision authorizes the CPU build and small synthetic fixture arithmetic, never pinned-input geometry, model/tokenizer import, GPU execution or commits.
+**FROZEN v2 · 2026-10-09 (D-NEW1-1; GPT-6-Astra r1 FIX-FIRST → r2 FREEZE, `results/mathlab_staging/new1_prereg_astra_r2.md`) · computation NOT RUN — execution gated on a reviewed build with verified supervisor enforcement.** Tier: **MATH-PROXY — math estimate, not evidence**. This pre-registration may only reorder or prune the GPU queue; it never promotes a scientific claim, a write route, a C10 label, or F1 readiness. This revision authorizes the CPU build and small synthetic fixture arithmetic, never pinned-input geometry, model/tokenizer import, GPU execution or commits.
 
 ## 1. Question and map cell
 
