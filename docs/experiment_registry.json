@@ -266,12 +266,12 @@
   {
     "id": "ML-1",
     "track": "mathlab",
-    "hypothesis": "Frozen operand harvest/reproduction/calibration; interim instrumentation record",
-    "script": "tools/mathlab_harvest.py",
-    "result": "results/mathlab/harvest_20261009T203705.724371Z/manifest.json",
+    "hypothesis": "Frozen operand harvest/reproduction/calibration; final harvest-2 calibration reading",
+    "script": "mathlab/m3_calibration.py",
+    "result": "results/mathlab/m3_20261009T225557.353172Z/calibration.json",
     "corpus": "CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
-    "status": "MATH-PROXY interim — harvests preserved; harvest-2 step 2 started/completion UNVERIFIED; step 3 PENDING",
-    "decision_id": "D-ML-1 ⟨D-ML-1@12c5548b⟩",
+    "status": "STOPPED — harvest-2 calibration FAIL; replay PASS 61/61; MATH-PROXY only; D-ML-4 shelves step 4",
+    "decision_id": "D-ML-1 ⟨D-ML-1@46230e48⟩",
     "script_exists": true,
     "result_exists": true
   },
@@ -296,6 +296,18 @@
     "corpus": "CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
     "status": "DONE amendment milestone — reviewed GO/corrected fresh admission; MATH-PROXY",
     "decision_id": "D-ML-3 ⟨D-ML-3@84e9d0e1⟩",
+    "script_exists": true,
+    "result_exists": true
+  },
+  {
+    "id": "ML-4",
+    "track": "mathlab",
+    "hypothesis": "Frozen calibration stop disposition; step-4 shelving",
+    "script": "mathlab/m3_calibration.py",
+    "result": "results/mathlab/m3_20261009T225557.353172Z/calibration.json",
+    "corpus": "CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
+    "status": "STOPPED — calibration FAIL; step 4 SHELVED/NOT FROZEN/NOT RUN; NEW-1 separate",
+    "decision_id": "D-ML-4 ⟨D-ML-4@46230e48⟩",
     "script_exists": true,
     "result_exists": true
   }

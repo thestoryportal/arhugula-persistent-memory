@@ -384,3 +384,7 @@ Register: H-11 (OverTone-style token reweighting I-1; FE-style forward replay I-
 D-C10z-v7diag ⟨D-C10z-v7diag@d8c55e7b⟩ supports population dependence; D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩ prepares the exact continuation; candidate rescue remains untested → CORPUS/59_C10Z_V7DIAG_A1.md.
 
 D-ML-1 ⟨D-ML-1@12c5548b⟩ interim MATH-PROXY; D-ML-2 ⟨D-ML-2@99a9fb4c⟩ replay fidelity scoped; D-ML-3 ⟨D-ML-3@84e9d0e1⟩ measurement contract corrected; proxy utility remains untested → CORPUS/60_MATHLAB_HARVEST_REPLAY.md.
+
+## 2026-10-09 — MathLab calibration stop (supersedes the interim milestone status)
+
+D-ML-1 ⟨D-ML-1@46230e48⟩ **STOPPED — calibration FAIL**; D-ML-4 ⟨D-ML-4@46230e48⟩ step 4 **SHELVED**; NEW-1 adapter geometry continues separately under its own gates. MATH-PROXY only; F1 unchanged → CORPUS/60_MATHLAB_HARVEST_REPLAY.md#2026-10-09-addendum--harvest-2-calibration-fail-lab-stopped-d-ml-1--d-ml-4.

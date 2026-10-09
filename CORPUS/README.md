@@ -62,3 +62,7 @@ In-weight, MEMIT-class knowledge editing was validated as a write engine for the
 D-C10z-v7diag ⟨D-C10z-v7diag@d8c55e7b⟩ A1 CONFIRM; D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩ preparation ADMITTED, attempt 4 PENDING → 59_C10Z_V7DIAG_A1.md.
 
 D-ML-1 ⟨D-ML-1@12c5548b⟩ interim; D-ML-2 ⟨D-ML-2@99a9fb4c⟩ replay PASS; D-ML-3 ⟨D-ML-3@84e9d0e1⟩ corrected fresh admission; MATH-PROXY → 60_MATHLAB_HARVEST_REPLAY.md.
+
+## 2026-10-09 — MathLab calibration stop (supersedes the interim milestone status)
+
+D-ML-1 ⟨D-ML-1@46230e48⟩ **STOPPED — calibration FAIL**; D-ML-4 ⟨D-ML-4@46230e48⟩ step 4 **SHELVED**; NEW-1 adapter geometry continues separately under its own gates. MATH-PROXY only; F1 unchanged → CORPUS/60_MATHLAB_HARVEST_REPLAY.md#2026-10-09-addendum--harvest-2-calibration-fail-lab-stopped-d-ml-1--d-ml-4.

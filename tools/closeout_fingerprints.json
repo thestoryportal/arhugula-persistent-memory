@@ -149,9 +149,9 @@
  },
  "D-ML-1": {
   "source": "CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
-  "anchor_start": "<!-- BEGIN D-ML-1 -->",
-  "anchor_end": "<!-- END D-ML-1 -->",
-  "what": "Distinct completed harvests; first INVALID-REPLAY, second admitted; interim MATH-PROXY"
+  "anchor_start": "<!-- BEGIN MATHLAB CALIBRATION STOP 2026-10-09 -->",
+  "anchor_end": "<!-- END MATHLAB CALIBRATION STOP 2026-10-09 -->",
+  "what": "Harvest-2 step-2 PASS 61/61; valid step-3 calibration FAIL; lab STOPPED and step 4 SHELVED; NEW-1 separate"
  },
  "D-ML-2": {
   "source": "CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
@@ -164,5 +164,11 @@
   "anchor_start": "<!-- BEGIN D-ML-3 -->",
   "anchor_end": "<!-- END D-ML-3 -->",
   "what": "Native returned norm comparison; reviewed persistence fix; fresh corrected admission"
+ },
+ "D-ML-4": {
+  "source": "CORPUS/60_MATHLAB_HARVEST_REPLAY.md",
+  "anchor_start": "<!-- BEGIN MATHLAB CALIBRATION STOP 2026-10-09 -->",
+  "anchor_end": "<!-- END MATHLAB CALIBRATION STOP 2026-10-09 -->",
+  "what": "Harvest-2 step-2 PASS 61/61; valid step-3 calibration FAIL; lab STOPPED and step 4 SHELVED; NEW-1 separate"
  }
 }
