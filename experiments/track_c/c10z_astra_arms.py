@@ -1087,9 +1087,16 @@ class Session:
         import torch
         if self.loaded_manifest is not None:
             self.dstats=torch.load(self.input_dir/"dstats.pt",map_location="cpu",weights_only=True)
+            with (self.out/"dstats.pt").open("xb") as f:
+                f.write((self.input_dir/"dstats.pt").read_bytes());f.flush();os.fsync(f.fileno())
             self.G=torch.load(self.input_dir/"G.pt",map_location="cpu",weights_only=True)
+            with (self.out/"G.pt").open("xb") as f:
+                f.write((self.input_dir/"G.pt").read_bytes());f.flush();os.fsync(f.fileno())
         else:
-            self.dstats=self.compute_dstats();self.G=self.compute_G()
+            self.dstats=self.compute_dstats()
+            self.save_tensor_file("dstats.pt",self.dstats)
+            self.G=self.compute_G()
+            self.save_tensor_file("G.pt",self.G)
         self.D={};self.D_floored=0
         for l,m in self.dstats["m"].items():
             self.D[int(l)],n=null_weights(m);self.D_floored+=n
@@ -1105,12 +1112,6 @@ class Session:
             correlations[str(l)]=spearman(self.dstats["m"][str(l)].tolist(),diagonal.tolist())
         self.checks["V7"]={"spearman":correlations,"late_layers_fidelity":"UNVERIFIED: no cached late-layer reference"}
         R.require(all(v>=.8 for v in correlations.values()),"HALTED-V7","D/cache Spearman <.80")
-        if self.loaded_manifest is not None:
-            for name in ("dstats.pt","G.pt"):
-                with (self.out/name).open("xb") as f:
-                    f.write((self.input_dir/name).read_bytes());f.flush();os.fsync(f.fileno())
-        else:
-            self.save_tensor_file("dstats.pt",self.dstats);self.save_tensor_file("G.pt",self.G)
         audit=overlap_audit([t.format(self.H.CANON) for t in self.templates],
                             self.dstats["dataset"]["texts"],self.H.PTEST)
         write_json(self.out/"overlap_audit.json",audit)

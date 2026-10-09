@@ -16,7 +16,7 @@ import zlib
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-PREREG = "7c6e52e274e3dbc30cd5123d6b56ae8c9b1dca8c5e7507ff7be15d57e845059d"
+PREREG = "7aedd4ace95d2611bf398768df63cb60df6fce5afc23cf23209497bcd1d17a29"
 C01_FIX = 7800.
 ARMS = ("A1_single", "A2_coherent2", "A7_coined_coined")
 A1, A2, A7 = ARMS
@@ -2618,7 +2618,7 @@ class PinTests(unittest.TestCase):
     def test_amended_prereg_pin_shared_by_driver_reader_and_tests(self):
         D = importlib.import_module("c10z_astra_arms"); R = importlib.import_module("c10z_astra_read")
         actual = hashlib.sha256((ROOT / D.PREREG).read_bytes()).hexdigest()
-        self.assertEqual(actual, "7c6e52e274e3dbc30cd5123d6b56ae8c9b1dca8c5e7507ff7be15d57e845059d")
+        self.assertEqual(actual, "7aedd4ace95d2611bf398768df63cb60df6fce5afc23cf23209497bcd1d17a29")
         self.assertEqual(R.PREREG_SHA, actual); self.assertEqual(D.R.PREREG_SHA, actual)
         self.assertEqual(PREREG, actual)
         sources = D.source_hashes(); self.assertEqual(sources[D.PREREG], actual)

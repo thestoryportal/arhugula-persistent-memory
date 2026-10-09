@@ -11,7 +11,7 @@ import statistics
 import zlib
 
 SCHEMA = "c10z_astra-v2.2"
-PREREG_SHA = "7c6e52e274e3dbc30cd5123d6b56ae8c9b1dca8c5e7507ff7be15d57e845059d"
+PREREG_SHA = "7aedd4ace95d2611bf398768df63cb60df6fce5afc23cf23209497bcd1d17a29"
 ENGINE_SHA = "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65"
 A1, A2, A7 = "A1_single", "A2_coherent2", "A7_coined_coined"
 ARMS = (A1,A2,A7)
