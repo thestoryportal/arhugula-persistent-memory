@@ -1,0 +1,817 @@
+{
+  "T_cal": null,
+  "artifacts": {
+    "context_templates_calib.json": "9472b663a34cfd9c0bb5448087ae0c2c333b1988b70f211fb2d90baaf8b560b7",
+    "law5_calib.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "ledger_calib.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "overlap_audit_calib.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "step0_calib.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "targets_calib.pt": "1d95c75a2aa0abb80d2ab5324b54cf58fcb1bbc3249e8f1f19a3b84ada838078"
+  },
+  "checks": {},
+  "code": "ZERO_STEP-IDENTITY",
+  "context_templates": {
+    "hash_basis": "file_bytes",
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10y_directdw_calib4/context_templates_calib.json",
+    "sha256": "9472b663a34cfd9c0bb5448087ae0c2c333b1988b70f211fb2d90baaf8b560b7"
+  },
+  "detail": {
+    "counts": {
+      "canon_full_n": 8,
+      "para_first_n": 53,
+      "para_full_n": 13
+    },
+    "counts_equal": false,
+    "distance_by_layer": {
+      "4": 0.0002826876398706182,
+      "5": 0.0002299154533067298,
+      "6": 0.0002934049074638318,
+      "7": 0.00022375886343792143,
+      "8": 0.00015952163388222132
+    },
+    "merged_evaluation": {
+      "canon_first": 100.0,
+      "canon_full": 33.3,
+      "canon_full_n": 8,
+      "canon_n": 24,
+      "cond_full_given_first": 0.245,
+      "mean_ntok": 5.5,
+      "para_any_full": 33.3,
+      "para_first": 73.6,
+      "para_first_n": 53,
+      "para_full": 18.1,
+      "para_full_n": 13,
+      "para_n": 72,
+      "para_string_n": 13,
+      "rows": [
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 4,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "subj": "Zorbland",
+          "tf_correct": 9,
+          "tf_total": 9,
+          "val": "Vindex Vask"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Quaxil",
+          "tf_correct": 6,
+          "tf_total": 12,
+          "val": "Drennik Brakk"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            false,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Plurnak",
+          "tf_correct": 6,
+          "tf_total": 15,
+          "val": "Vythorn Stavik"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Vythorn",
+          "tf_correct": 6,
+          "tf_total": 12,
+          "val": "Vorlex Yornel"
+        },
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 6,
+          "para_first_hits": [
+            true,
+            true,
+            false
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Glimsto",
+          "tf_correct": 10,
+          "tf_total": 15,
+          "val": "Lurmax Spraxil"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            false,
+            true,
+            false
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Drennik",
+          "tf_correct": 7,
+          "tf_total": 15,
+          "val": "Kessivar Ulvenn"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Yastovel",
+          "tf_correct": 3,
+          "tf_total": 12,
+          "val": "Halquin Cindel"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Crulpane",
+          "tf_correct": 7,
+          "tf_total": 15,
+          "val": "Marsduq Drelth"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Mophgar",
+          "tf_correct": 6,
+          "tf_total": 12,
+          "val": "Glimsto Vask"
+        },
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            true
+          ],
+          "subj": "Brinduun",
+          "tf_correct": 9,
+          "tf_total": 12,
+          "val": "Brindu Brakk"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Trannak",
+          "tf_correct": 6,
+          "tf_total": 15,
+          "val": "Fluvane Stavik"
+        },
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 6,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            true,
+            true
+          ],
+          "subj": "Skornwell",
+          "tf_correct": 12,
+          "tf_total": 15,
+          "val": "Yastov Yornel"
+        },
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            false,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            true
+          ],
+          "subj": "Fluvane",
+          "tf_correct": 10,
+          "tf_total": 12,
+          "val": "Vindex Spraxil"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            true,
+            false,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Oxbarrow",
+          "tf_correct": 11,
+          "tf_total": 15,
+          "val": "Drennik Ulvenn"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Zephquin",
+          "tf_correct": 6,
+          "tf_total": 15,
+          "val": "Vythorn Cindel"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            false,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Lurmaxen",
+          "tf_correct": 3,
+          "tf_total": 12,
+          "val": "Vorlex Drelth"
+        },
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            true,
+            true
+          ],
+          "subj": "Pradnoll",
+          "tf_correct": 11,
+          "tf_total": 12,
+          "val": "Lurmax Vask"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            true,
+            true
+          ],
+          "subj": "Kessivar",
+          "tf_correct": 11,
+          "tf_total": 12,
+          "val": "Kessivar Brakk"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 5,
+          "para_first_hits": [
+            false,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Wombryne",
+          "tf_correct": 2,
+          "tf_total": 12,
+          "val": "Halquin Stavik"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Halquin",
+          "tf_correct": 6,
+          "tf_total": 15,
+          "val": "Marsduq Yornel"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Vorlex",
+          "tf_correct": 10,
+          "tf_total": 15,
+          "val": "Glimsto Spraxil"
+        },
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 6,
+          "para_first_hits": [
+            false,
+            false,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            true
+          ],
+          "subj": "Quenby",
+          "tf_correct": 10,
+          "tf_total": 15,
+          "val": "Brindu Ulvenn"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Marsduq",
+          "tf_correct": 5,
+          "tf_total": 15,
+          "val": "Fluvane Cindel"
+        },
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 6,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            true,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            true,
+            false
+          ],
+          "subj": "Thelby",
+          "tf_correct": 12,
+          "tf_total": 15,
+          "val": "Yastov Drelth"
+        }
+      ],
+      "tf_pertok_cont": 56.8
+    },
+    "merged_weight_hashes": {
+      "4": "1dfd24aa80c8d70f095eed30e79760cf6b3f7d4bb65f05b257cfbc3266ced760",
+      "5": "cddd0469abb48f1e2e51c4b6a862be2bb7ec1d92dea227e39086701a653967d2",
+      "6": "cd36b2b3fc4b1090bcac560732512828b7e27991d4be3914f3f6f1a98f0b372b",
+      "7": "b506f4e2f58b208631d47cd7482365a56de570032182eceba417772c1d81adb0",
+      "8": "e3c08b458aaa3636bb8bc35f4a97f73ece2a5df5a7d77adce0bae36f6dc799ed"
+    },
+    "reference_counts": {
+      "canon_full_n": 8,
+      "para_first_n": 52,
+      "para_full_n": 12
+    }
+  },
+  "device": "mps",
+  "env": {
+    "machine": "arm64",
+    "model_rev": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.11.16",
+    "torch": "2.8.0",
+    "transformers": "4.51.0"
+  },
+  "exception": "Halt",
+  "fingerprint": {
+    "cov_cpu_sites": 3,
+    "output": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a\u2026)\n  _cov_cpu 3  (expected 3)\n",
+    "sha256": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65"
+  },
+  "finished_at": "2026-10-09T03:00:57.368264+00:00",
+  "input_hashes_end": {
+    "covariance": "2d7364d5ef2544ccdb1829e0f547a29f008b526e29d384fdb9e9ca6515c27a0a",
+    "hparams": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+    "model": "22c531a2ceb6d4c6a246a354af28b63f1a0e02a95a5d58080fb2d5214f52febf",
+    "tokenizer": "af42dbc2749aa324a8344f1f983a83d08ad2765fecc2b0f376640150b227d852"
+  },
+  "input_hashes_start": {
+    "covariance": "2d7364d5ef2544ccdb1829e0f547a29f008b526e29d384fdb9e9ca6515c27a0a",
+    "hparams": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+    "model": "22c531a2ceb6d4c6a246a354af28b63f1a0e02a95a5d58080fb2d5214f52febf",
+    "tokenizer": "af42dbc2749aa324a8344f1f983a83d08ad2765fecc2b0f376640150b227d852"
+  },
+  "last_record_clock": 1325665.293189375,
+  "memory": {
+    "baseline_evaluation": {
+      "at": "2026-10-09T02:53:45.544148+00:00",
+      "available_bytes": 19163676672,
+      "current_bytes": 6626180352,
+      "driver_bytes": 10049896448,
+      "host_available_bytes": 17754161152,
+      "rss_bytes": 18805243904,
+      "synchronised": true
+    },
+    "baseline_law5": {
+      "at": "2026-10-09T02:48:41.989888+00:00",
+      "available_bytes": 18137776128,
+      "current_bytes": 6626180352,
+      "driver_bytes": 9175056384,
+      "host_available_bytes": 18137776128,
+      "rss_bytes": 16784195584,
+      "synchronised": true
+    },
+    "baseline_projector": {
+      "at": "2026-10-09T02:48:15.274660+00:00",
+      "available_bytes": 23019929600,
+      "current_bytes": 6626180352,
+      "driver_bytes": 10812850176,
+      "host_available_bytes": 23019929600,
+      "rss_bytes": 10612506624,
+      "synchronised": true
+    },
+    "baseline_write": {
+      "at": "2026-10-09T02:52:00.199153+00:00",
+      "available_bytes": 20316176384,
+      "current_bytes": 6626180352,
+      "driver_bytes": 10049863680,
+      "host_available_bytes": 17935892480,
+      "rss_bytes": 18803933184,
+      "synchronised": true
+    },
+    "capture": {
+      "at": "2026-10-09T02:56:10.584056+00:00",
+      "available_bytes": 18796199936,
+      "current_bytes": 6622765312,
+      "driver_bytes": 10014244864,
+      "host_available_bytes": 18796199936,
+      "rss_bytes": 16188653568,
+      "synchronised": true
+    },
+    "capture_solve": {
+      "at": "2026-10-09T02:56:09.882328+00:00",
+      "available_bytes": 19155320832,
+      "current_bytes": 6397321472,
+      "driver_bytes": 10014244864,
+      "host_available_bytes": 19155320832,
+      "rss_bytes": 15827877888,
+      "synchronised": true
+    },
+    "contexts_overlap": {
+      "at": "2026-10-09T02:32:58.768931+00:00",
+      "available_bytes": 30489149440,
+      "current_bytes": 6397321472,
+      "driver_bytes": 6879133696,
+      "host_available_bytes": 30489149440,
+      "rss_bytes": 1386397696,
+      "synchronised": true
+    },
+    "geometry": {
+      "at": "2026-10-09T02:53:39.740468+00:00",
+      "available_bytes": 23315513344,
+      "current_bytes": 6626180352,
+      "driver_bytes": 10049896448,
+      "host_available_bytes": 17797775360,
+      "rss_bytes": 18408685568,
+      "synchronised": true
+    },
+    "law3": {
+      "at": "2026-10-09T02:53:45.728670+00:00",
+      "available_bytes": 19160121344,
+      "current_bytes": 6397321472,
+      "driver_bytes": 10049896448,
+      "host_available_bytes": 19160121344,
+      "rss_bytes": 16682319872,
+      "synchronised": true
+    },
+    "merge": {
+      "at": "2026-10-09T02:59:35.230731+00:00",
+      "available_bytes": 17855823872,
+      "current_bytes": 6673148928,
+      "driver_bytes": 10047979520,
+      "host_available_bytes": 17855823872,
+      "rss_bytes": 16949198848,
+      "synchronised": true
+    },
+    "original_my_edit": {
+      "at": "2026-10-09T02:55:20.302366+00:00",
+      "available_bytes": 19809779712,
+      "current_bytes": 6397321472,
+      "driver_bytes": 10014244864,
+      "host_available_bytes": 19057278976,
+      "rss_bytes": 16934912000,
+      "synchronised": true
+    },
+    "parity": {
+      "at": "2026-10-09T02:58:19.866769+00:00",
+      "available_bytes": 17754865664,
+      "current_bytes": 6673148928,
+      "driver_bytes": 10047979520,
+      "host_available_bytes": 17754865664,
+      "rss_bytes": 16894722048,
+      "synchronised": true
+    },
+    "target_solve": {
+      "at": "2026-10-09T02:41:42.175728+00:00",
+      "available_bytes": 25452281856,
+      "current_bytes": 6397321472,
+      "driver_bytes": 10812850176,
+      "host_available_bytes": 25452281856,
+      "rss_bytes": 1950089216,
+      "synchronised": true
+    },
+    "zero_step_evaluation": {
+      "at": "2026-10-09T03:00:56.885041+00:00",
+      "available_bytes": 20101857280,
+      "current_bytes": 7205915904,
+      "driver_bytes": 10047979520,
+      "host_available_bytes": 17480630272,
+      "rss_bytes": 17918672896,
+      "synchronised": true
+    }
+  },
+  "outcome": "ZERO_STEP-IDENTITY",
+  "phase": "instrument_prefix",
+  "prereg_sha256": "e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331",
+  "schema": "c10y_directdw_calibration/v1",
+  "sources": {
+    "check": "843429cd8e9125fed44de85aabcb059542278cb955a1eff827d0343644236ffb",
+    "compute_ks": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+    "compute_z": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+    "driver": "4b99827ea532e5d16168e1bb0aeca0569772132f413c08da359aa521fe452d3d",
+    "harness": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+    "hparams": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+    "memit_main": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+    "prereg": "e069b358c362b2a05e3b668e8a29f33061e15a24306e321452e6fa46a4e83331",
+    "reader": "f8d2598b01956be3ad390c76b2336ae1398e77d05045fb8870a3ae6e42cb2e78",
+    "repr_tools": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+    "templates": "9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a"
+  },
+  "started_at": "2026-10-09T02:32:58.577864+00:00",
+  "template_token_lengths": [],
+  "timings": [],
+  "traceback": "Traceback (most recent call last):\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 1366, in calibrate\n    prefix=instrument_prefix(H,out,budget,calibration=True,telemetry=None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 2667, in instrument_prefix\n    if not values['counts_equal'] or any(v>tolerance or not math.isfinite(v) for v in distance.values()): raise Halt(check_name.upper()+'-IDENTITY',values)\n                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nHalt: ZERO_STEP-IDENTITY: {'distance_by_layer': {'4': 0.0002826876398706182, '5': 0.0002299154533067298, '6': 0.0002934049074638318, '7': 0.00022375886343792143, '8': 0.00015952163388222132}, 'counts_equal': False, 'counts': {'canon_full_n': 8, 'para_full_n': 13, 'para_first_n': 53}, 'reference_counts': {'canon_full_n': 8, 'para_full_n': 12, 'para_first_n': 52}, 'merged_weight_hashes': {'4': '1dfd24aa80c8d70f095eed30e79760cf6b3f7d4bb65f05b257cfbc3266ced760', '5': 'cddd0469abb48f1e2e51c4b6a862be2bb7ec1d92dea227e39086701a653967d2', '6': 'cd36b2b3fc4b1090bcac560732512828b7e27991d4be3914f3f6f1a98f0b372b', '7': 'b506f4e2f58b208631d47cd7482365a56de570032182eceba417772c1d81adb0', '8': 'e3c08b458aaa3636bb8bc35f4a97f73ece2a5df5a7d77adce0bae36f6dc799ed'}, 'merged_evaluation': {'rows': [{'subj': 'Zorbland', 'val': 'Vindex Vask', 'ntok': 4, 'canon_full': True, 'canon_first': True, 'para_full_hits': [True, True, True], 'para_first_hits': [True, True, True], 'para_string_hits': [True, True, True], 'tf_correct': 9, 'tf_total': 9}, {'subj': 'Quaxil', 'val': 'Drennik Brakk', 'ntok': 5, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 6, 'tf_total': 12}, {'subj': 'Plurnak', 'val': 'Vythorn Stavik', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [False, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 6, 'tf_total': 15}, {'subj': 'Vythorn', 'val': 'Vorlex Yornel', 'ntok': 5, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 6, 'tf_total': 12}, {'subj': 'Glimsto', 'val': 'Lurmax Spraxil', 'ntok': 6, 'canon_full': True, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, False], 'para_string_hits': [False, False, False], 'tf_correct': 10, 'tf_total': 15}, {'subj': 'Drennik', 'val': 'Kessivar Ulvenn', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [False, True, False], 'para_string_hits': [False, False, False], 'tf_correct': 7, 'tf_total': 15}, {'subj': 'Yastovel', 'val': 'Halquin Cindel', 'ntok': 5, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 3, 'tf_total': 12}, {'subj': 'Crulpane', 'val': 'Marsduq Drelth', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 7, 'tf_total': 15}, {'subj': 'Mophgar', 'val': 'Glimsto Vask', 'ntok': 5, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 6, 'tf_total': 12}, {'subj': 'Brinduun', 'val': 'Brindu Brakk', 'ntok': 5, 'canon_full': True, 'canon_first': True, 'para_full_hits': [False, False, True], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, True], 'tf_correct': 9, 'tf_total': 12}, {'subj': 'Trannak', 'val': 'Fluvane Stavik', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 6, 'tf_total': 15}, {'subj': 'Skornwell', 'val': 'Yastov Yornel', 'ntok': 6, 'canon_full': True, 'canon_first': True, 'para_full_hits': [False, True, True], 'para_first_hits': [True, True, True], 'para_string_hits': [False, True, True], 'tf_correct': 12, 'tf_total': 15}, {'subj': 'Fluvane', 'val': 'Vindex Spraxil', 'ntok': 5, 'canon_full': True, 'canon_first': True, 'para_full_hits': [False, False, True], 'para_first_hits': [True, False, True], 'para_string_hits': [False, False, True], 'tf_correct': 10, 'tf_total': 12}, {'subj': 'Oxbarrow', 'val': 'Drennik Ulvenn', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, False, True], 'para_string_hits': [False, False, False], 'tf_correct': 11, 'tf_total': 15}, {'subj': 'Zephquin', 'val': 'Vythorn Cindel', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 6, 'tf_total': 15}, {'subj': 'Lurmaxen', 'val': 'Vorlex Drelth', 'ntok': 5, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, False, True], 'para_string_hits': [False, False, False], 'tf_correct': 3, 'tf_total': 12}, {'subj': 'Pradnoll', 'val': 'Lurmax Vask', 'ntok': 5, 'canon_full': True, 'canon_first': True, 'para_full_hits': [False, True, True], 'para_first_hits': [True, True, True], 'para_string_hits': [False, True, True], 'tf_correct': 11, 'tf_total': 12}, {'subj': 'Kessivar', 'val': 'Kessivar Brakk', 'ntok': 5, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, True, True], 'para_first_hits': [True, True, True], 'para_string_hits': [False, True, True], 'tf_correct': 11, 'tf_total': 12}, {'subj': 'Wombryne', 'val': 'Halquin Stavik', 'ntok': 5, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [False, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 2, 'tf_total': 12}, {'subj': 'Halquin', 'val': 'Marsduq Yornel', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [False, False, False], 'para_string_hits': [False, False, False], 'tf_correct': 6, 'tf_total': 15}, {'subj': 'Vorlex', 'val': 'Glimsto Spraxil', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [False, False, False], 'para_string_hits': [False, False, False], 'tf_correct': 10, 'tf_total': 15}, {'subj': 'Quenby', 'val': 'Brindu Ulvenn', 'ntok': 6, 'canon_full': True, 'canon_first': True, 'para_full_hits': [False, False, True], 'para_first_hits': [False, False, True], 'para_string_hits': [False, False, True], 'tf_correct': 10, 'tf_total': 15}, {'subj': 'Marsduq', 'val': 'Fluvane Cindel', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [False, False, False], 'para_string_hits': [False, False, False], 'tf_correct': 5, 'tf_total': 15}, {'subj': 'Thelby', 'val': 'Yastov Drelth', 'ntok': 6, 'canon_full': True, 'canon_first': True, 'para_full_hits': [False, True, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, True, False], 'tf_correct': 12, 'tf_total': 15}], 'canon_full': 33.3, 'canon_first': 100.0, 'para_full': 18.1, 'para_first': 73.6, 'para_any_full': 33.3, 'cond_full_given_first': 0.245, 'tf_pertok_cont': 56.8, 'mean_ntok': 5.5, 'canon_full_n': 8, 'canon_n': 24, 'para_full_n': 13, 'para_first_n': 53, 'para_string_n': 13, 'para_n': 72}}\n"
+}

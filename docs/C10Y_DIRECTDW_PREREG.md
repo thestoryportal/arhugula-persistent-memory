@@ -970,3 +970,47 @@ Nothing else changes. These all stand as frozen and amended:
 (P6) **A V4 miss under the pinned set** is a real HALT and halts the schedule as V4 states (`:189`), with no re-draw and no template change.
 
 Nothing else changes.
+
+
+## 12. Amendment ZERO-STEP-DISPOSITION — 2026-10-09 (post-calibration-4; D-C10y-zerostep)
+
+Source: GPT-6-Astra (high) team ruling `results/c10y_directdw_calib4/zero_step_ruling_astra.md` (FIX-FIRST; option 3 selected; options 1 and 2 refused as post-failure relaxations). Halt diagnostic `architecture_profile/c10y_halt_diagnostic_20261009T023240Z_CALIB4.json`; diagnosis `results/c10y_directdw_calib4/zero_step_diagnosis.md` (with appended reviewer qualification). The skeleton below is Astra's, verbatim, with only the date and Decision ID filled.
+
+```text
+Amendment ZERO-STEP-DISPOSITION — 2026-10-09
+Decision ID: D-C10y-zerostep
+Status: post-calibration-4 observation; no new admission criteria.
+
+Authority
+Operator delegation: session transcript, 2026-10-08 19:43:41 MDT:
+“All questions are to be decided with the team. I am going to bed
+so won't be available for HIL.”
+D-C10r-rulings-14 supplies measurement-driven budget authority.
+
+Historical disposition
+Calibration 4 remains terminal HALTED / ZERO_STEP-IDENTITY.
+Preserve all historical artifacts and diagnostics unchanged.
+The gate failure is established; its numerical cause is not isolated.
+No candidate verdict, capacity conclusion, or F1 closure follows.
+
+Criteria
+Retain §2.8(ii), (iii), (iii-b), and (iv) unchanged.
+No precision-floor replacement, condition-scaled admission bound,
+margin epsilon, or ±1 allowance is adopted.
+Train–deploy parity does not substitute for recipe-A reduction.
+
+Persistence correction
+Retain actual completed and partial records before validating gates.
+Use exclusive durable writes and explicit NOT-RUN/incomplete status.
+Preserve offending inputs, gate outcomes and cleanup behavior.
+Require forced-halt retention and overwrite-refusal regression tests.
+Do not backfill historical runs or fabricate missing measurements.
+
+Continuation
+This amendment authorizes no calibration 5 or stage-1 dispatch.
+Any new diagnostic or redesign requires a separately frozen,
+reviewed scope and bounded spend record under team delegation.
+Any subsequently admitted calibration uses a fresh namespace,
+fresh diagnostic, pinned identities and all required baseline gates.
+No diagnostic result retroactively changes calibration 4.
+```

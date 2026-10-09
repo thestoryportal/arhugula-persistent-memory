@@ -1,0 +1,632 @@
+{
+  "code": "ZERO_STEP-IDENTITY",
+  "detail": {
+    "counts": {
+      "canon_full_n": 8,
+      "para_first_n": 53,
+      "para_full_n": 13
+    },
+    "counts_equal": false,
+    "distance_by_layer": {
+      "4": 0.0002826876398706182,
+      "5": 0.0002299154533067298,
+      "6": 0.0002934049074638318,
+      "7": 0.00022375886343792143,
+      "8": 0.00015952163388222132
+    },
+    "merged_evaluation": {
+      "canon_first": 100.0,
+      "canon_full": 33.3,
+      "canon_full_n": 8,
+      "canon_n": 24,
+      "cond_full_given_first": 0.245,
+      "mean_ntok": 5.5,
+      "para_any_full": 33.3,
+      "para_first": 73.6,
+      "para_first_n": 53,
+      "para_full": 18.1,
+      "para_full_n": 13,
+      "para_n": 72,
+      "para_string_n": 13,
+      "rows": [
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 4,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            true,
+            true,
+            true
+          ],
+          "subj": "Zorbland",
+          "tf_correct": 9,
+          "tf_total": 9,
+          "val": "Vindex Vask"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Quaxil",
+          "tf_correct": 6,
+          "tf_total": 12,
+          "val": "Drennik Brakk"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            false,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Plurnak",
+          "tf_correct": 6,
+          "tf_total": 15,
+          "val": "Vythorn Stavik"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Vythorn",
+          "tf_correct": 6,
+          "tf_total": 12,
+          "val": "Vorlex Yornel"
+        },
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 6,
+          "para_first_hits": [
+            true,
+            true,
+            false
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Glimsto",
+          "tf_correct": 10,
+          "tf_total": 15,
+          "val": "Lurmax Spraxil"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            false,
+            true,
+            false
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Drennik",
+          "tf_correct": 7,
+          "tf_total": 15,
+          "val": "Kessivar Ulvenn"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Yastovel",
+          "tf_correct": 3,
+          "tf_total": 12,
+          "val": "Halquin Cindel"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Crulpane",
+          "tf_correct": 7,
+          "tf_total": 15,
+          "val": "Marsduq Drelth"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Mophgar",
+          "tf_correct": 6,
+          "tf_total": 12,
+          "val": "Glimsto Vask"
+        },
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            true
+          ],
+          "subj": "Brinduun",
+          "tf_correct": 9,
+          "tf_total": 12,
+          "val": "Brindu Brakk"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Trannak",
+          "tf_correct": 6,
+          "tf_total": 15,
+          "val": "Fluvane Stavik"
+        },
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 6,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            true,
+            true
+          ],
+          "subj": "Skornwell",
+          "tf_correct": 12,
+          "tf_total": 15,
+          "val": "Yastov Yornel"
+        },
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            false,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            true
+          ],
+          "subj": "Fluvane",
+          "tf_correct": 10,
+          "tf_total": 12,
+          "val": "Vindex Spraxil"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            true,
+            false,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Oxbarrow",
+          "tf_correct": 11,
+          "tf_total": 15,
+          "val": "Drennik Ulvenn"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Zephquin",
+          "tf_correct": 6,
+          "tf_total": 15,
+          "val": "Vythorn Cindel"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            false,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Lurmaxen",
+          "tf_correct": 3,
+          "tf_total": 12,
+          "val": "Vorlex Drelth"
+        },
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            true,
+            true
+          ],
+          "subj": "Pradnoll",
+          "tf_correct": 11,
+          "tf_total": 12,
+          "val": "Lurmax Vask"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 5,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            true,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            true,
+            true
+          ],
+          "subj": "Kessivar",
+          "tf_correct": 11,
+          "tf_total": 12,
+          "val": "Kessivar Brakk"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 5,
+          "para_first_hits": [
+            false,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Wombryne",
+          "tf_correct": 2,
+          "tf_total": 12,
+          "val": "Halquin Stavik"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Halquin",
+          "tf_correct": 6,
+          "tf_total": 15,
+          "val": "Marsduq Yornel"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Vorlex",
+          "tf_correct": 10,
+          "tf_total": 15,
+          "val": "Glimsto Spraxil"
+        },
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 6,
+          "para_first_hits": [
+            false,
+            false,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            true
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            true
+          ],
+          "subj": "Quenby",
+          "tf_correct": 10,
+          "tf_total": 15,
+          "val": "Brindu Ulvenn"
+        },
+        {
+          "canon_first": true,
+          "canon_full": false,
+          "ntok": 6,
+          "para_first_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_full_hits": [
+            false,
+            false,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            false,
+            false
+          ],
+          "subj": "Marsduq",
+          "tf_correct": 5,
+          "tf_total": 15,
+          "val": "Fluvane Cindel"
+        },
+        {
+          "canon_first": true,
+          "canon_full": true,
+          "ntok": 6,
+          "para_first_hits": [
+            true,
+            true,
+            true
+          ],
+          "para_full_hits": [
+            false,
+            true,
+            false
+          ],
+          "para_string_hits": [
+            false,
+            true,
+            false
+          ],
+          "subj": "Thelby",
+          "tf_correct": 12,
+          "tf_total": 15,
+          "val": "Yastov Drelth"
+        }
+      ],
+      "tf_pertok_cont": 56.8
+    },
+    "merged_weight_hashes": {
+      "4": "1dfd24aa80c8d70f095eed30e79760cf6b3f7d4bb65f05b257cfbc3266ced760",
+      "5": "cddd0469abb48f1e2e51c4b6a862be2bb7ec1d92dea227e39086701a653967d2",
+      "6": "cd36b2b3fc4b1090bcac560732512828b7e27991d4be3914f3f6f1a98f0b372b",
+      "7": "b506f4e2f58b208631d47cd7482365a56de570032182eceba417772c1d81adb0",
+      "8": "e3c08b458aaa3636bb8bc35f4a97f73ece2a5df5a7d77adce0bae36f6dc799ed"
+    },
+    "reference_counts": {
+      "canon_full_n": 8,
+      "para_first_n": 52,
+      "para_full_n": 12
+    }
+  },
+  "exception": "Halt",
+  "launched": true,
+  "phase": "instrument_prefix",
+  "readout_complete": false,
+  "stage": "calibration",
+  "status": "HALTED",
+  "traceback": "Traceback (most recent call last):\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 1366, in calibrate\n    prefix=instrument_prefix(H,out,budget,calibration=True,telemetry=None)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10y_directdw_arms.py\", line 2667, in instrument_prefix\n    if not values['counts_equal'] or any(v>tolerance or not math.isfinite(v) for v in distance.values()): raise Halt(check_name.upper()+'-IDENTITY',values)\n                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nHalt: ZERO_STEP-IDENTITY: {'distance_by_layer': {'4': 0.0002826876398706182, '5': 0.0002299154533067298, '6': 0.0002934049074638318, '7': 0.00022375886343792143, '8': 0.00015952163388222132}, 'counts_equal': False, 'counts': {'canon_full_n': 8, 'para_full_n': 13, 'para_first_n': 53}, 'reference_counts': {'canon_full_n': 8, 'para_full_n': 12, 'para_first_n': 52}, 'merged_weight_hashes': {'4': '1dfd24aa80c8d70f095eed30e79760cf6b3f7d4bb65f05b257cfbc3266ced760', '5': 'cddd0469abb48f1e2e51c4b6a862be2bb7ec1d92dea227e39086701a653967d2', '6': 'cd36b2b3fc4b1090bcac560732512828b7e27991d4be3914f3f6f1a98f0b372b', '7': 'b506f4e2f58b208631d47cd7482365a56de570032182eceba417772c1d81adb0', '8': 'e3c08b458aaa3636bb8bc35f4a97f73ece2a5df5a7d77adce0bae36f6dc799ed'}, 'merged_evaluation': {'rows': [{'subj': 'Zorbland', 'val': 'Vindex Vask', 'ntok': 4, 'canon_full': True, 'canon_first': True, 'para_full_hits': [True, True, True], 'para_first_hits': [True, True, True], 'para_string_hits': [True, True, True], 'tf_correct': 9, 'tf_total': 9}, {'subj': 'Quaxil', 'val': 'Drennik Brakk', 'ntok': 5, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 6, 'tf_total': 12}, {'subj': 'Plurnak', 'val': 'Vythorn Stavik', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [False, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 6, 'tf_total': 15}, {'subj': 'Vythorn', 'val': 'Vorlex Yornel', 'ntok': 5, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 6, 'tf_total': 12}, {'subj': 'Glimsto', 'val': 'Lurmax Spraxil', 'ntok': 6, 'canon_full': True, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, False], 'para_string_hits': [False, False, False], 'tf_correct': 10, 'tf_total': 15}, {'subj': 'Drennik', 'val': 'Kessivar Ulvenn', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [False, True, False], 'para_string_hits': [False, False, False], 'tf_correct': 7, 'tf_total': 15}, {'subj': 'Yastovel', 'val': 'Halquin Cindel', 'ntok': 5, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 3, 'tf_total': 12}, {'subj': 'Crulpane', 'val': 'Marsduq Drelth', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 7, 'tf_total': 15}, {'subj': 'Mophgar', 'val': 'Glimsto Vask', 'ntok': 5, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 6, 'tf_total': 12}, {'subj': 'Brinduun', 'val': 'Brindu Brakk', 'ntok': 5, 'canon_full': True, 'canon_first': True, 'para_full_hits': [False, False, True], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, True], 'tf_correct': 9, 'tf_total': 12}, {'subj': 'Trannak', 'val': 'Fluvane Stavik', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 6, 'tf_total': 15}, {'subj': 'Skornwell', 'val': 'Yastov Yornel', 'ntok': 6, 'canon_full': True, 'canon_first': True, 'para_full_hits': [False, True, True], 'para_first_hits': [True, True, True], 'para_string_hits': [False, True, True], 'tf_correct': 12, 'tf_total': 15}, {'subj': 'Fluvane', 'val': 'Vindex Spraxil', 'ntok': 5, 'canon_full': True, 'canon_first': True, 'para_full_hits': [False, False, True], 'para_first_hits': [True, False, True], 'para_string_hits': [False, False, True], 'tf_correct': 10, 'tf_total': 12}, {'subj': 'Oxbarrow', 'val': 'Drennik Ulvenn', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, False, True], 'para_string_hits': [False, False, False], 'tf_correct': 11, 'tf_total': 15}, {'subj': 'Zephquin', 'val': 'Vythorn Cindel', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 6, 'tf_total': 15}, {'subj': 'Lurmaxen', 'val': 'Vorlex Drelth', 'ntok': 5, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [True, False, True], 'para_string_hits': [False, False, False], 'tf_correct': 3, 'tf_total': 12}, {'subj': 'Pradnoll', 'val': 'Lurmax Vask', 'ntok': 5, 'canon_full': True, 'canon_first': True, 'para_full_hits': [False, True, True], 'para_first_hits': [True, True, True], 'para_string_hits': [False, True, True], 'tf_correct': 11, 'tf_total': 12}, {'subj': 'Kessivar', 'val': 'Kessivar Brakk', 'ntok': 5, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, True, True], 'para_first_hits': [True, True, True], 'para_string_hits': [False, True, True], 'tf_correct': 11, 'tf_total': 12}, {'subj': 'Wombryne', 'val': 'Halquin Stavik', 'ntok': 5, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [False, True, True], 'para_string_hits': [False, False, False], 'tf_correct': 2, 'tf_total': 12}, {'subj': 'Halquin', 'val': 'Marsduq Yornel', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [False, False, False], 'para_string_hits': [False, False, False], 'tf_correct': 6, 'tf_total': 15}, {'subj': 'Vorlex', 'val': 'Glimsto Spraxil', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [False, False, False], 'para_string_hits': [False, False, False], 'tf_correct': 10, 'tf_total': 15}, {'subj': 'Quenby', 'val': 'Brindu Ulvenn', 'ntok': 6, 'canon_full': True, 'canon_first': True, 'para_full_hits': [False, False, True], 'para_first_hits': [False, False, True], 'para_string_hits': [False, False, True], 'tf_correct': 10, 'tf_total': 15}, {'subj': 'Marsduq', 'val': 'Fluvane Cindel', 'ntok': 6, 'canon_full': False, 'canon_first': True, 'para_full_hits': [False, False, False], 'para_first_hits': [False, False, False], 'para_string_hits': [False, False, False], 'tf_correct': 5, 'tf_total': 15}, {'subj': 'Thelby', 'val': 'Yastov Drelth', 'ntok': 6, 'canon_full': True, 'canon_first': True, 'para_full_hits': [False, True, False], 'para_first_hits': [True, True, True], 'para_string_hits': [False, True, False], 'tf_correct': 12, 'tf_total': 15}], 'canon_full': 33.3, 'canon_first': 100.0, 'para_full': 18.1, 'para_first': 73.6, 'para_any_full': 33.3, 'cond_full_given_first': 0.245, 'tf_pertok_cont': 56.8, 'mean_ntok': 5.5, 'canon_full_n': 8, 'canon_n': 24, 'para_full_n': 13, 'para_first_n': 53, 'para_string_n': 13, 'para_n': 72}}\n",
+  "write_complete": false
+}
