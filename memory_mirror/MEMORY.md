@@ -34,5 +34,6 @@
 - [tmux server hang](tmux-server-hang-dashboard.md) — one tmux hosts all sessions; dashboard tmux load + resize thrash froze everything 2026-10-08
 - [Push on milestones](push-on-milestones.md) — phone push, top priority notable research results vs F1 goal; also GPU launch/verdict, HALT, needs-ruling, build admitted
 - [C10W ceiling oracle result](c10w-ceiling-oracle-result.md) — step 5 FINAL: 70/72 with locality/forgetting cost; no clean reference; not a route (CORPUS/57)
+- [C10X engine-path result](c10x-enginepath-result.md) — step 6 CLOSED: OverTone NULL 17 vs 12/72; FE package failed controls; neither advances (CORPUS/58)
 - [Seed freezes context templates](seed-freezes-context-templates.md) — seed 0 → template set e8605172 → A7 40/7/7 below LAW#3; pin templates to a recorded file
 - [MPS offset-view conversion bug](mps-offset-view-conversion-bug.md) — t.to(device=cpu,dtype=X) on an MPS offset view returns garbage; use .cpu().to(X)

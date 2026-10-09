@@ -288,6 +288,24 @@
       "leaves_open": "Whether any method can reach the goal on this part of the model without side effects: no run here was clean on every check, so there is no clean reference number to compare other methods against. A bigger training setting was not run, because the rules set in advance skip it after this kind of result.",
       "next_step": "Steps 6 and 7 go ahead on their own plans, without a reference number from this test.",
       "ref": "CORPUS/57"
+    },
+    {
+      "id": "evaluation-16",
+      "source_result": {
+        "date": "2026-10-08",
+        "name": "Step 6: two ways to prepare the answer before writing it",
+        "score": "17 of 72 (vs 12)",
+        "best": 17,
+        "kind": "write",
+        "verdict": "No: re-weighting the answer's words gave 17 of 72 against 12, too small to count; the other idea made the ordinary control facts worse (64 and 65 of 72, below 68), so its score is not read; neither is taken forward",
+        "ref": "CORPUS/58"
+      },
+      "question": "Before the usual write puts a fact into the model, it first works out the answer the model should give. Can two published ways of working out that answer better make the write recall made-up two-word names when the question is reworded?",
+      "result": "No. Re-weighting the words of the answer (an idea from a paper called OverTone) answered 17 of 72 reworded questions right, against 12 for the usual method in the same run; the rules set in advance needed far more. The second idea (from a paper on 'forward replay') made the ordinary control facts worse, 64 and 65 of 72 against the 68 they must keep, so its own score (9 of 72) is not read.",
+      "rules_out": "These two specific packages, as set up here, as a way forward on this test. It does not rule out preparing the answer differently, other settings of either idea, or the ideas themselves elsewhere.",
+      "leaves_open": "Why the second idea hurt the control facts: the run records that it put almost all of its change into the first of the five layers, but that does not show the cause.",
+      "next_step": "Step 7 (measuring the best single weight change directly) when the machine has enough free memory; ASTRA attempt 3 is running now.",
+      "ref": "CORPUS/58"
     }
   ]
 }

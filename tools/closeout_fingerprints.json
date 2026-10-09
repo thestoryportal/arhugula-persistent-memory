@@ -130,5 +130,9 @@
  "D-C10v-layerpick": {
   "source": "CORPUS/56_C10V_LAYERPICK.md",
   "what": "per-fact layer pick on the C10 harness, step 4 of the research-pass sequence (H-8; prereg v2 FROZEN; delegated go D-C10v-go): pass1 NULL, not advanced under the preregistered rules; B (argmax-G map, raw argmax since measured delta 0.0) 12/72 vs band 4-8 A 11/72 (+1, inside [5, 18], below the +10 margin), fixed layer 8 B0 12/72, shuffled map Bshuf 10/72 (NULL, shuffled-map control); B beat neither control, selector not credited; B missed described_as (86.17 < 87.0); B's A1 68/72 at the floor; all recipes valid, LAW#5 (i)-(v) inert; replication not triggered; map stability under context resampling unmeasured; proxy readouts descriptive only; artifacts committed d8af793; next = step 5 P2 running; engine unmodified"
+ },
+ "D-C10x-enginepath": {
+  "source": "CORPUS/58_C10X_ENGINEPATH.md",
+  "what": "engine-path target construction on the C10 harness, step 6 of the research-pass sequence (H-11; FE-inspired I-2 and OverTone-inspired I-1; prereg v2.2 + Amendments T/M/P/Z/B): process-1 reading of re-run 3, CLOSED: reader VALID; I-1 NULL 17/72 vs recipe A 12/72 (d = -4, non-interpreted); I-2 INVALID-CONTROLS (A1 64, A2 65 < 68); replication_eligible empty, process 2 not run; LAW#3 12/52/8 + A1 70 A2 71; LAW#5 INERT; re-run lineage original (X2-vii signed zero) -> re-run 1 (non-JSON flags) -> re-run 2 (STAGE_PROJECTION_REFUSED) -> re-run 3 under D-C10w-p2rerun; Astra CONFIRM; engine unmodified"
  }
 }
