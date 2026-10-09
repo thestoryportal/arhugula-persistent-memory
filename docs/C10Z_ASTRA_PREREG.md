@@ -697,3 +697,120 @@ No prereg may rely on a seed for template identity. Open cases to check before t
 - a V4 baseline-only record carries the template SHA-256.
 
 Nothing else changes: no gate, label, K1/K2 rule, projection, probe, round cap (V13), ceiling rule or never-zero rule.
+
+
+## 11. Amendment V7-DIAG — 2026-10-09 (post-attempt-3, pre-diagnostic-observation; D-C10z-v7diag / D-C10z-drift3)
+
+Source: GPT-6-Astra (high) ruling `results/c10z_astra_attempt3/v7_ruling_astra.md` (FIX-FIRST) on the attempt-3 HALTED-V7 (`architecture_profile/c10z_astra_halt_diagnostic_20261009T022838.229295Z.json`), diagnosis `results/c10z_astra_attempt3/v7_diagnosis.md` (with its appended reviewer qualification). The text below is Astra's skeleton verbatim with the bracketed fields filled; the fills are listed after it.
+
+```text
+Amendment V7-DIAG — 2026-10-09
+Decision IDs: D-C10z-v7diag, D-C10z-drift3
+Status: post-attempt-3, pre-diagnostic-observation.
+
+Authority
+The operator delegated: “All questions are to be decided with the team.”
+Record the delegation's source and timestamp.
+D-C10r-rulings-14 supplies measurement-driven budget authority.
+This amendment grants only the bounded actions stated below.
+
+Historical disposition
+Attempt 3 remains closed HALTED-V7.
+Its artifacts and diagnostic remain unchanged.
+No candidate verdict, NULL, method-family conclusion, or F1 closure follows.
+The faithful gate failure is established; its physical cause is unresolved.
+
+Diagnostic boundary
+Use fresh namespace results/c10z_v7_diagnostic/<UTC>/.
+Pristine-model, forward-only reference-statistic measurement.
+No ASTRA solve/write, candidate evaluation, reader promotion, or attempt resume.
+The diagnostic does not count as an ASTRA attempt.
+Never backfill diagnostic outputs into attempt 3.
+
+Pre-forward pins
+Record hashes of the probe, original driver, engine, model, tokenizer,
+cache files, environment, and this amendment.
+Pin dataset revision, length/order, selected row IDs, text hashes and token IDs.
+Record whether attempt-3 dataset identity was recovered.
+Unrecovered historical identity must remain explicitly UNVERIFIABLE.
+
+Populations and execution
+F1000 = first 1,000 rows of the pinned dataset.
+R1000 = first 1,000 indices of the full permutation produced by
+          random.Random(1).shuffle(list(range(dataset_length))).
+R5000 = first 5,000 indices of that identical permutation.
+Use the original ASTRA statistic computation, precision, masking,
+100-token truncation and 16-row batching for every population.
+Measure F1000, then R1000.
+Measure R5000 only if F1000 and R1000 fail V7.
+Compute each population independently at its prescribed batch shapes.
+Save m for all 36 layers, token counts and provenance before scoring.
+No seed, population, sample-size or batching search is authorized.
+
+Statistics
+c_l = diag(cache["mom2.mom2"]) / cache["mom2.count"].
+rho_l(S) = average-tie-rank Spearman(m_l(S), c_l).
+P(S) = every rho_l(S), l=4,...,12, is finite and >= 0.80.
+Use unrounded values; equality passes.
+Report E_l(S) = median_j(abs(ln(m_lj(S)/c_lj))).
+Zero ratios have explicitly represented infinite log error.
+E is report-only and never changes routing.
+Late-layer fidelity remains UNVERIFIED.
+
+Ordered routing
+1. Integrity/provenance failure, incomplete measurement, or P(F1000):
+   diagnostic INCONCLUSIVE; STOP; no amendment selection or attempt-4 admission.
+2. Otherwise, P(R1000): select A1, exactly pinned R1000.
+3. Otherwise, P(R5000): select A2, exactly pinned R5000.
+4. Otherwise: select D; retain terminal HALTED-V7 for this configuration.
+C is prohibited under this amendment.
+No 10,000-row extension, alternate seed, layer exclusion or threshold change.
+
+Budget
+Before diagnostic dispatch, record cap 3,060 s, per-phase arithmetic and sources (below).
+The conditional R5000 branch must already fit that authorization.
+Timeout/incompletion follows routing rule 1; no within-run cap increase.
+For A2, amend reference-D projections and affected ceiling calculations
+and validators consistently before attempt 4. Record measured timing inputs.
+Do not merely increase a go-record ceiling.
+
+Persistence correction
+Save the existing dstats before validating it; retain exclusive writes,
+flush/fsync, process-2 input-byte preservation, and unchanged arithmetic.
+Remove the later duplicate save.
+Test forced-V7-failure retention and unchanged scientific values/outcomes.
+Saved diagnostic artifacts never imply successful admission.
+
+Conditional benchmark and attempt 4
+Only A1/A2 permits this continuation.
+Freeze and review the amendment, implementation and tests first.
+Authorize exactly benchmark drift rerun #3 under the recorded delegation.
+Preserve previous benchmark outcomes and cumulative refusal counts.
+No automatic fourth rerun; existing STOP/refusal rules remain effective.
+On an admissible benchmark, append its hashes/ceilings and create a fresh
+go record bound to the final sources, environment and amendment.
+Use fresh results/c10z_astra_attempt4/ and fresh logs.
+Run the complete required baseline, LAW gates and V7 again.
+Do not reuse the diagnostic as attempt-4 gate completion.
+A new V7 failure remains HALTED-V7; this amendment grants no further search.
+```
+
+### 11.1 Filled fields and recorded facts
+
+- **Delegation source and timestamp.** The operator, in the program session (Claude Code session `b756c87a-ea8d-4e4a-b2af-c10e1bff4a7d`, transcript under `~/.claude/projects/…c10k-route-a/`), 2026-10-08 ~20:00 MDT, verbatim: "All questions are to be decided with the team. I am going to bed so won't be available for HIL." Also recorded in memory `operator-overnight-autonomy-2026-10-06.md` (2026-10-08 re-affirmation). D-C10r-rulings-14 (operator, 2026-10-08: "Raise the budget for the experiment if necessary" → "Any experiment, as needed") supplies the budget authority. D-C10z-driftcap is not repealed; D-C10z-drift3 is the one named, conditional exception of the routing above.
+- **Attempt-3 dataset identity: UNVERIFIABLE.** The driver resolves the revision at runtime (`HfApi().dataset_info("wikimedia/wikipedia").sha`, `experiments/track_c/c10z_astra_arms.py:1127`) and records it only inside `dstats` (`:1133–1136`, `:1156`), which was never saved (V7 raises at `:1107`, before the save at `:1113`). Searched: `results/c10z_astra_attempt3/run.json`, `halt_p1.json`, the halt diagnostic and `logs/resident_p1.log` carry no revision, row IDs or text hashes. F1000 is therefore a **new measurement of the frozen recipe**, not recovery of attempt 3's statistic. The local copy the probe pins is `wikimedia/wikipedia` 20231101.en at revision `b04c8d1ceb2f5cd4588862100d08de323dccfbaa` (`hf_cache/hub/datasets--wikimedia--wikipedia/refs/main`; Arrow build `hf_cache/datasets/wikimedia___wikipedia/20231101.en/0.0.0/b04c8d1c…`). If network access is available at dispatch, the probe also records the hub's current sha; a mismatch is recorded, not resolved by switching sources.
+- **Budget (cap 3,060 s; no in-run increase; timeout → routing rule 1).** Sources: attempt-3 component allowances in the halt diagnostic `budget_history` (`import_and_pin` 120 s, `reference_D` 300 s per 1,000 rows, `serialization_and_restore` 180 s).
+
+  | Phase | Seconds | Source |
+  |---|---:|---|
+  | import, model load and pins | 120 | `import_and_pin` allowance |
+  | local dataset open, length, permutation, row pins | 120 | new allowance (Arrow memory-map + `random.Random(1).shuffle` over the split length) |
+  | F1000 forwards | 300 | `reference_D` allowance per 1,000 rows |
+  | R1000 forwards | 300 | same |
+  | R5000 forwards (conditional, must fit) | 1,500 | 5 × the per-1,000-row allowance |
+  | cache diagonals for layers 4–12 (loaded once) + Spearman/E scoring | 120 | new allowance |
+  | serialization | 180 | `serialization_and_restore` allowance |
+  | **sum** | **2,640** | |
+  | **cap** | **3,060** | sum × 1.15 = 3,036, rounded up to the next minute |
+
+  Measured cross-check (report-only, approximate): attempt 3 entered reference-D work at stage elapsed 3,148.7 s (`logs/resident_p1.log:38`) and halted at 20:28:38 MDT; with the stage origin mapped through the heartbeat (`at` 1,322,862.33 read at ≈ 02:14:15Z), D + G + V8 + V7 took ≈ 163 s, under the 300 s + 120 s allowances. The R5000 branch therefore fits the cap with margin.
