@@ -482,6 +482,8 @@ def build(root=ROOT):
     root = Path(root); reader = Reader(root); cards = reader.collect()
     base = root / 'results/labviz'; site = base / 'site'; images = base / 'runs'
     site.mkdir(parents=True, exist_ok=True); images.mkdir(parents=True, exist_ok=True)
+    old_index_path = site/'cards/index.json'
+    old_index = json.loads(old_index_path.read_text()) if old_index_path.is_file() else []
     ep = root / 'docs/c10_evaluations.json'
     evaluations = json.loads(ep.read_text()) if ep.is_file() else {'entries':[]}
     cache_path = base / 'images_manifest.json'
@@ -502,9 +504,13 @@ def build(root=ROOT):
              'era':era,'line':line,'model':identity['model']['value'],'role':identity.get('role',{}).get('value'),
              'label':card['label']['value'],'date':identity['date']['value'],'has_writes':any(x['written']['value'] for x in card.get('per_layer',[])),
              'title':identity.get('display_title',{}).get('value') or question,'recipe':str(recipe) if recipe is not None else None,'arm':str(arm) if arm is not None else None,'chunk':chunk}
+        if 'mathlab' in card:
+            state=card['mathlab']['state']['value']
+            row['mathlab']={'tier':card['evidence_status'],'run_id':state['run_id'],'status':state['status'],
+                           'purpose':state['purpose'],'parse_errors':len(card['mathlab']['errors']['value'])}
         index.append(row)
         write_if_changed(site/'cards'/f'{identifier}.json',encoded(card))
-        if identity['name'].startswith('results/'):
+        if identity['name'].startswith('results/') and 'mathlab' not in card:
             visual={k:card[k] for k in ('identity','context','headline','label','per_fact','per_layer','scale','oracle_class') if k in card}
             key=digest([visual,renderer_hash]); output=images/identifier
             previous=cache.get(identifier,{})
@@ -581,8 +587,23 @@ def build(root=ROOT):
         p = root / source
         if source.startswith('results/labviz/'): continue
         if source.startswith('hf_cache/') and source != 'hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/config.json': continue
-        if p.is_file() and p.suffix in ('.json','.md','.log'):
-            write_if_changed(site / 'evidence' / source, p.read_bytes())
+        if p.is_file() and (p.suffix in ('.json','.jsonl','.md','.log') or source=='tools/mathlab_events.py'):
+            content = reader.snapshots[source] if source in reader.snapshots else p.read_bytes()
+            write_if_changed(site / 'evidence' / source, content)
+    # Retire generic MathLab publications without changing their source artifacts.
+    active = {row['card_id'] for row in index}
+    retired = [row for row in old_index if row['source'].startswith(('results/mathlab/','results/mathlab_staging/'))
+               and row['card_id'] not in active]
+    for row in retired:
+        (site/'cards'/f"{row['card_id']}.json").unlink(missing_ok=True)
+        for suffix in ('.svg','.png'):
+            (images/row['card_id']).with_suffix(suffix).unlink(missing_ok=True)
+    for chunk in {row['chunk'] for row in retired} - chunks.keys():
+        (site/'cards'/f'{chunk}.js').unlink(missing_ok=True)
+    for family in ('mathlab','mathlab_staging'):
+        for path in (site/'evidence/results'/family).rglob('*'):
+            if path.is_file() and path.relative_to(site/'evidence').as_posix() not in paths:
+                path.unlink()
     print(f'Lab View picture renderer calls: {picture_calls}',flush=True)
     return inventory
 

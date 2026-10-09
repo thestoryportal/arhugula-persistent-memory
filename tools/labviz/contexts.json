@@ -2021,6 +2021,70 @@
           "value": 12
         }
       }
+    },
+    "C10X-enginepath": {
+      "status": "DRAFT",
+      "era": "c10",
+      "question": "does an FE-inspired layer-4 target (I-2) or an OverTone-inspired target objective (I-1), each written by the unchanged solve, raise held-out recall over the band with controls and locality held? (step 6, H-11)",
+      "measure": "The control answers fell below the required score, and the target also failed the fit screen. The reader recorded INVALID-CONTROLS; the erratum reports INVALID-CONTROLS-UNDERFIT. Neither arm advances.",
+      "bar": "Control answers must reach 68 of 72; at least 22 of 24 target facts must reach fit probability 0.98.",
+      "headline": "no single headline number recorded; see the CORPUS entry",
+      "citations": {
+        "era": {
+          "file": "docs/EXPERIMENT_REGISTRY.md",
+          "line": 61,
+          "quote": " **C10X-enginepath** | track_c | does an FE-inspired layer-4 target (I-2) or an OverTone-inspired target objective (I-1), each written by the unchanged solve, raise held-out recall over the band with controls and locality held? (step 6, H-11) "
+        },
+        "question": {
+          "file": "docs/EXPERIMENT_REGISTRY.md",
+          "line": 61,
+          "quote": "does an FE-inspired layer-4 target (I-2) or an OverTone-inspired target objective (I-1), each written by the unchanged solve, raise held-out recall over the band with controls and locality held? (step 6, H-11)"
+        },
+        "measure": [
+          {
+            "file": "results/c10x_enginepath_rerun3/reader.json",
+            "path": ".arms[\"I-2\"].label",
+            "value": "INVALID-CONTROLS"
+          },
+          {
+            "file": "CORPUS/58_C10X_ENGINEPATH.md",
+            "line": 66,
+            "quote": "A1 64/72 and A2 65/72 fail the 68/72 control floor"
+          },
+          {
+            "file": "CORPUS/58_C10X_ENGINEPATH.md",
+            "line": 66,
+            "quote": "only 3/24 A7 z₄ targets meet fit ≥0.98 against the required 22/24"
+          },
+          {
+            "file": "CORPUS/58_C10X_ENGINEPATH.md",
+            "line": 66,
+            "quote": "The prereg-compliant reported label is **INVALID-CONTROLS-UNDERFIT**."
+          },
+          {
+            "file": "CORPUS/58_C10X_ENGINEPATH.md",
+            "line": 70,
+            "quote": "neither advances, process 2 is not run"
+          }
+        ],
+        "bar": [
+          {
+            "file": "CORPUS/58_C10X_ENGINEPATH.md",
+            "line": 66,
+            "quote": "68/72 control floor"
+          },
+          {
+            "file": "CORPUS/58_C10X_ENGINEPATH.md",
+            "line": 66,
+            "quote": "fit ≥0.98 against the required 22/24"
+          }
+        ],
+        "headline": {
+          "file": "docs/LABVIZ_V2_SPEC.md",
+          "line": 1049,
+          "quote": "no single headline number recorded; see the CORPUS entry"
+        }
+      }
     }
   },
   "corpus_eras": {

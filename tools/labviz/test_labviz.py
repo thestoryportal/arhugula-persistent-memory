@@ -344,6 +344,21 @@ class LabViewV2Tests(unittest.TestCase):
         a=self.api(); r=self.reader()
         snapshots=[]
         for card in r.cards:
+            if 'mathlab' in card:
+                stream=card['identity']['name']
+                self.assertIn(stream,r.snapshots)
+                self.assertIn(stream,{item['file'] for item in card['sources']})
+                with tempfile.TemporaryDirectory() as tmp:
+                    snapshot=Path(tmp)
+                    for item in card['sources']:
+                        destination=snapshot/item['file']; destination.parent.mkdir(parents=True,exist_ok=True)
+                        if item['file']==stream:
+                            content=r.snapshots[stream]
+                            self.assertEqual(hashlib.sha256(content).hexdigest(),item['sha256'])
+                            destination.write_bytes(content)
+                        else: destination.symlink_to(ROOT/item['file'])
+                    self.assertTrue(a.validate_card(card,snapshot,r.scales))
+                continue
             try:
                 a.validate_card(card, ROOT, r.scales)
             except ValueError as error:
@@ -427,6 +442,16 @@ class LabViewV2Tests(unittest.TestCase):
         for label in a.recorded_labels(ROOT):
             self.assertIn(label,a.label_table())
         self.assertTrue(all(k.startswith('PASS') for k,v in a.label_table().items() if v=='pass'))
+        source=ROOT/'results/c10x_enginepath_rerun3/reader.json'
+        self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(),'b3debe4a85371902e155394e3bd054a3d214cf585a05f614e105296be022bdd9')
+        arm=json.loads(source.read_text())['arms']['I-2']
+        self.assertEqual(arm['label'],'INVALID-CONTROLS'); self.assertEqual(arm['qualifiers'],[])
+        self.assertEqual(a.label_class(arm['label']),'halted-invalid')
+        self.assertEqual(a.label_class('INVALID-CONTROLS-UNDERFIT'),'halted-invalid')
+        row=next(line for line in (ROOT/'docs/LABVIZ_V2_SPEC.md').read_text().splitlines() if line.startswith('  | ') and '`INVALID-CONTROLS`' in line)
+        self.assertIn('control checks failed and the target failed the fit screen',row)
+        self.assertIn('not a process halt',row)
+        self.assertIn('CORPUS/58_C10X_ENGINEPATH.md:66–68',row)
 
     def test_v2_05_every_recorded_gate_and_boundaries(self):
         a=self.api(); counts={'c10v_layerpick':0,'c10u_mint2':0,'c10w_oracle':0}
@@ -498,7 +523,24 @@ class LabViewV2Tests(unittest.TestCase):
 
     def test_v2_11_context_registry_rules_and_namespaces(self):
         self.api(); p=self.reader().program
-        self.assertEqual(len(p.registry),54)
+        self.assertEqual(len(p.registry),55)
+        self.assertEqual(len({row['id'] for row in p.registry}),55)
+        self.assertEqual(set(p.tables['experiments']),{row['id'] for row in p.registry})
+        row=next(x for x in p.registry if x['id']=='C10X-enginepath')
+        self.assertEqual(row['line'],61); self.assertEqual(row['corpus'],['58'])
+        self.assertEqual(row['decision'],'D-C10x-enginepath'); self.assertEqual(row['hypothesis'],['H-11'])
+        self.assertIn('results/c10x_enginepath_rerun3/',row['results'])
+        entry=p.tables['experiments'][row['id']]
+        self.assertEqual(entry['era'],'c10'); self.assertEqual(entry['status'],'DRAFT')
+        self.assertEqual(entry['question'],row['question'])
+        self.assertIn('The reader recorded INVALID-CONTROLS; the erratum reports INVALID-CONTROLS-UNDERFIT.',entry['measure'])
+        self.assertIn({'file':'results/c10x_enginepath_rerun3/reader.json','path':'.arms["I-2"].label','value':'INVALID-CONTROLS'},entry['citations']['measure'])
+        self.assertTrue(any(c['file']=='CORPUS/58_C10X_ENGINEPATH.md' and c['line']==66 and 'INVALID-CONTROLS-UNDERFIT' in c['quote'] for c in entry['citations']['measure']))
+        context=p.context('results/c10x_enginepath_rerun3/reader.json',{})
+        self.assertEqual(context['matched_by'],'registry_path')
+        self.assertEqual(context['experiment']['node_id'],'exp:C10X-enginepath')
+        self.assertEqual(context['era']['node_id'],'era:c10')
+        self.assertEqual(context['status_now']['value'],row['status'])
         self.assertEqual(next(x for x in p.registry if x['id']=='C10U-mint2')['decision'],'D-C10u-mint2')
         self.assertTrue({'exp:A7','hyp:A:A7','arm:A7_coined_coined','track:track_e','runbook-track:E'} <= {n['node_id'] for n in p.graph['nodes']})
         p.validate()
