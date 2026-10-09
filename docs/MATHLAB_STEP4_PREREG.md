@@ -1,5 +1,7 @@
 # MathLab step 4 — Candidate questions, offline diagnostics and experiment proposals
 
+**SHELVED 2026-10-09 (D-ML-1 step 3 on harvest 2 = calibration FAIL, GPT-6-Astra CONFIRM `results/mathlab_staging/m3_reading_astra.md`; lab stop under MATHLAB_PREREG §8). This draft is retained for the record and is not to be frozen or run. Any restart needs a written amendment with new proxies calibrated on unused arms.**
+
 **Status: DRAFT v2 · 2026-10-09 · NOT FROZEN · NOT RUN · GATED on calibration PASS in step 3 on harvest 2. If that step 3 FAILs or is INVALID, this draft is SHELVED; no step-4 launch or queue action follows.** Pending, interrupted or resource/deadline-stopped step 3 supplies no PASS. Draft delivery is not execution approval. Astra r1 FIX-FIRST is folded in §11; concrete numeric predicates, the source/rule library and independent reviewer receipt remain PENDING before freeze.
 
 **Proposed Decision-ID:** `D-ML-4`, subject to review/ratification. **Tier:** `MATH-PROXY — math estimate, not evidence`. This file is the task report. Its drafting authorizes reading documents/source text and checking file hashes only: no tensor decoding, numerical computation, model/tokenizer import, GPU/MPS execution, harvest, queue mutation or commits.
