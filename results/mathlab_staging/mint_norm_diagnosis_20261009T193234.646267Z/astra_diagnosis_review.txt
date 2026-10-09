@@ -1,0 +1,7 @@
+Astra diagnosis review — GO for diagnosis scope (recorded summary)
+Reviewer: existing mathlab_build_review agent, GPT-6-Astra, high reasoning.
+Read-only review of sources, diagnostic plan, scripts and measured results; no model, GPU, code edits, or rerun.
+
+The same saved A7 tensors yield historical scalars exactly under the writer's native fp32 norm. Changing only the reduction to fp64 reproduces every A7 discrepancy. This supports a norm measurement mismatch rather than an A7 physical-update mismatch.
+Keep mint attribution an inference: mint precast updates/native norms were not retained. No seed may be retrospectively declared passing. torch.equal checks establish elementwise equality; matching current projector hashes do not establish historical projector tensor identity. Small cast/realized norm differences explain neither A7's discrepancy nor all possible mint sequential differences; fp16 casting still has about 2.07e-4 relative tensor error. One/eight-thread equality is only that specific control.
+A separate native-return norm companion is a sound proposed later correction, retaining fp64 analysis. It requires an approved frozen clarification/amendment before implementation. The harvest is complete; all three mint arms remain INVALID-REPLAY and none are admitted. No gate weakening, relabelling, or tensor identity claim is justified.

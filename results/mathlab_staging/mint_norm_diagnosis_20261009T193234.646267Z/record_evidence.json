@@ -1,0 +1,513 @@
+{
+  "run_dir": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/runs/harvest_20261009T184932Z_95961",
+  "events_sha256": "18c415e06af4a14afe30000ffea65fc6fcf41168d2127512723ce038c283a3b7",
+  "last_event": {
+    "ts": "2026-10-09T19:26:01.185631Z",
+    "schema": 1,
+    "run_id": "harvest_20261009T184932Z_95961",
+    "type": "run_finished",
+    "outcome": "PASS",
+    "summary": "Operand harvest completed; no behavioural promotion"
+  },
+  "manifest_path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/manifest.json",
+  "manifest_sha256": "bb9a6f9ad76678ae2289151c9fa64fb0033a6b8b2d7aff0b9a03150180f1ba7e",
+  "mint_norms": {
+    "mint1_s0": {
+      "passed": false,
+      "layers": {
+        "4": {
+          "actual": 15.940661499984929,
+          "expected": 15.9104585647583,
+          "relative_error": 0.0018983070226226743,
+          "passed": false
+        },
+        "5": {
+          "actual": 12.040733904809118,
+          "expected": 11.993574142456055,
+          "relative_error": 0.003932085781345381,
+          "passed": false
+        },
+        "6": {
+          "actual": 11.750404391825205,
+          "expected": 11.702507019042969,
+          "relative_error": 0.004092915535474133,
+          "passed": false
+        },
+        "7": {
+          "actual": 19.479620317636737,
+          "expected": 19.391633987426758,
+          "relative_error": 0.004537334515855047,
+          "passed": false
+        },
+        "8": {
+          "actual": 26.892949405101323,
+          "expected": 26.730363845825195,
+          "relative_error": 0.006082429712288431,
+          "passed": false
+        }
+      },
+      "interpretation": "Norm consistency, not tensor identity"
+    },
+    "mint1_s1": {
+      "passed": false,
+      "layers": {
+        "4": {
+          "actual": 15.945839244497579,
+          "expected": 15.915576934814453,
+          "relative_error": 0.0019014271243242634,
+          "passed": false
+        },
+        "5": {
+          "actual": 11.850179984705493,
+          "expected": 11.804495811462402,
+          "relative_error": 0.0038700656065912063,
+          "passed": false
+        },
+        "6": {
+          "actual": 11.394666401320514,
+          "expected": 11.350091934204102,
+          "relative_error": 0.003927234014914417,
+          "passed": false
+        },
+        "7": {
+          "actual": 19.05092248746205,
+          "expected": 18.96409797668457,
+          "relative_error": 0.004578362276140182,
+          "passed": false
+        },
+        "8": {
+          "actual": 26.579159068798205,
+          "expected": 26.418119430541992,
+          "relative_error": 0.006095802491907693,
+          "passed": false
+        }
+      },
+      "interpretation": "Norm consistency, not tensor identity"
+    },
+    "mint1_s2": {
+      "passed": false,
+      "layers": {
+        "4": {
+          "actual": 15.92943856953226,
+          "expected": 15.898993492126465,
+          "relative_error": 0.0019149059606114632,
+          "passed": false
+        },
+        "5": {
+          "actual": 11.934919595743926,
+          "expected": 11.887944221496582,
+          "relative_error": 0.003951513682441406,
+          "passed": false
+        },
+        "6": {
+          "actual": 11.058881034836743,
+          "expected": 11.014876365661621,
+          "relative_error": 0.003995021615703673,
+          "passed": false
+        },
+        "7": {
+          "actual": 18.94634195543928,
+          "expected": 18.85965347290039,
+          "relative_error": 0.004596504525571102,
+          "passed": false
+        },
+        "8": {
+          "actual": 26.952285039968306,
+          "expected": 26.789461135864258,
+          "relative_error": 0.006077908894034017,
+          "passed": false
+        }
+      },
+      "interpretation": "Norm consistency, not tensor identity"
+    }
+  },
+  "harness_norms": {
+    "A1_single": {
+      "passed": false,
+      "layers": {
+        "4": {
+          "actual": 15.891621255631442,
+          "expected": 15.861884117126465,
+          "relative_error": 0.0018747544923032977,
+          "passed": false
+        },
+        "5": {
+          "actual": 12.190756126818751,
+          "expected": 12.14204216003418,
+          "relative_error": 0.00401200771192468,
+          "passed": false
+        },
+        "6": {
+          "actual": 11.36228714027191,
+          "expected": 11.324605941772461,
+          "relative_error": 0.003327373923048073,
+          "passed": false
+        },
+        "7": {
+          "actual": 19.346711940261073,
+          "expected": 19.270116806030273,
+          "relative_error": 0.003974814216322279,
+          "passed": false
+        },
+        "8": {
+          "actual": 26.889031918787573,
+          "expected": 26.73000717163086,
+          "relative_error": 0.0059492968384045304,
+          "passed": false
+        }
+      },
+      "interpretation": "Norm consistency, not tensor identity"
+    },
+    "A7_coined_coined": {
+      "passed": false,
+      "layers": {
+        "4": {
+          "actual": 15.83515459885827,
+          "expected": 15.804805755615234,
+          "relative_error": 0.0019202288033343144,
+          "passed": false
+        },
+        "5": {
+          "actual": 12.063987313158341,
+          "expected": 12.016457557678223,
+          "relative_error": 0.003955388287436512,
+          "passed": false
+        },
+        "6": {
+          "actual": 11.989913555981737,
+          "expected": 11.939905166625977,
+          "relative_error": 0.004188340582096239,
+          "passed": false
+        },
+        "7": {
+          "actual": 19.983065585923462,
+          "expected": 19.893465042114258,
+          "relative_error": 0.00450401896399251,
+          "passed": false
+        },
+        "8": {
+          "actual": 27.94148530296295,
+          "expected": 27.774242401123047,
+          "relative_error": 0.006021510845355759,
+          "passed": false
+        }
+      },
+      "interpretation": "Norm consistency, not tensor identity"
+    }
+  },
+  "replay_admission": {
+    "shared_passed": true,
+    "arms": {
+      "mint1_s0": "INVALID-REPLAY",
+      "mint1_s1": "INVALID-REPLAY",
+      "mint1_s2": "INVALID-REPLAY"
+    },
+    "admitted": []
+  },
+  "identity_gates": {
+    "law5": true,
+    "law3-A1_single": true,
+    "law3-A2_coherent2": true,
+    "law3-A7_coined_coined": true,
+    "law3": true,
+    "observer-parity": true,
+    "tokenisation-audit-source-identity": true,
+    "tokenisation-a-pinned-tokenizer": true,
+    "tokenisation-b-registration-mint1_s0": true,
+    "tokenisation-c-audit-mint1_s0": true,
+    "tokenisation-d-substrings-mint1_s0": true,
+    "tokenisation-b-registration-mint1_s1": true,
+    "tokenisation-c-audit-mint1_s1": true,
+    "tokenisation-d-substrings-mint1_s1": true,
+    "tokenisation-b-registration-mint1_s2": true,
+    "tokenisation-c-audit-mint1_s2": true,
+    "tokenisation-d-substrings-mint1_s2": true,
+    "mint-shared-context": true,
+    "mint-source-mint1_s0": true,
+    "mint-source-mint1_s1": true,
+    "mint-source-mint1_s2": true,
+    "source-unchanged": true
+  },
+  "covariances_equal": {
+    "s0": true,
+    "s1": true,
+    "s2": true,
+    "multi": true
+  },
+  "historical_norms": {
+    "s0": {
+      "A1_single": {
+        "4": {
+          "delta_norm": 15.861884117126465,
+          "weight_norm_before": 83.84791564941406,
+          "relative_delta_norm": 0.1891744594278094
+        },
+        "5": {
+          "delta_norm": 12.14204216003418,
+          "weight_norm_before": 109.1786880493164,
+          "relative_delta_norm": 0.11121256700345744
+        },
+        "6": {
+          "delta_norm": 11.324605941772461,
+          "weight_norm_before": 119.89836120605469,
+          "relative_delta_norm": 0.09445171583546702
+        },
+        "7": {
+          "delta_norm": 19.270116806030273,
+          "weight_norm_before": 115.3160629272461,
+          "relative_delta_norm": 0.16710696078991144
+        },
+        "8": {
+          "delta_norm": 26.73000717163086,
+          "weight_norm_before": 119.48171997070312,
+          "relative_delta_norm": 0.22371629047677793
+        }
+      },
+      "candidate": {
+        "4": {
+          "delta_norm": 15.9104585647583,
+          "weight_norm_before": 83.84791564941406,
+          "relative_delta_norm": 0.18975377552953498
+        },
+        "5": {
+          "delta_norm": 11.993574142456055,
+          "weight_norm_before": 109.1786880493164,
+          "relative_delta_norm": 0.10985270437613716
+        },
+        "6": {
+          "delta_norm": 11.702507019042969,
+          "weight_norm_before": 119.89836120605469,
+          "relative_delta_norm": 0.09760356106061614
+        },
+        "7": {
+          "delta_norm": 19.391633987426758,
+          "weight_norm_before": 115.3160629272461,
+          "relative_delta_norm": 0.16816073576550308
+        },
+        "8": {
+          "delta_norm": 26.730363845825195,
+          "weight_norm_before": 119.48171997070312,
+          "relative_delta_norm": 0.22371927565471497
+        }
+      }
+    },
+    "s1": {
+      "A1_single": {
+        "4": {
+          "delta_norm": 15.860539436340332,
+          "weight_norm_before": 83.84791564941406,
+          "relative_delta_norm": 0.1891584222875213
+        },
+        "5": {
+          "delta_norm": 12.144831657409668,
+          "weight_norm_before": 109.1786880493164,
+          "relative_delta_norm": 0.11123811683763597
+        },
+        "6": {
+          "delta_norm": 11.326711654663086,
+          "weight_norm_before": 119.89836120605469,
+          "relative_delta_norm": 0.09446927831813522
+        },
+        "7": {
+          "delta_norm": 19.27113151550293,
+          "weight_norm_before": 115.3160629272461,
+          "relative_delta_norm": 0.16711576016657154
+        },
+        "8": {
+          "delta_norm": 26.740520477294922,
+          "weight_norm_before": 119.48171997070312,
+          "relative_delta_norm": 0.22380428139008784
+        }
+      },
+      "candidate": {
+        "4": {
+          "delta_norm": 15.915576934814453,
+          "weight_norm_before": 83.84791564941406,
+          "relative_delta_norm": 0.18981481902735495
+        },
+        "5": {
+          "delta_norm": 11.804495811462402,
+          "weight_norm_before": 109.1786880493164,
+          "relative_delta_norm": 0.10812087983810786
+        },
+        "6": {
+          "delta_norm": 11.350091934204102,
+          "weight_norm_before": 119.89836120605469,
+          "relative_delta_norm": 0.09466427914471727
+        },
+        "7": {
+          "delta_norm": 18.96409797668457,
+          "weight_norm_before": 115.3160629272461,
+          "relative_delta_norm": 0.16445322095889783
+        },
+        "8": {
+          "delta_norm": 26.418119430541992,
+          "weight_norm_before": 119.48171997070312,
+          "relative_delta_norm": 0.22110595191481763
+        }
+      }
+    },
+    "s2": {
+      "A1_single": {
+        "4": {
+          "delta_norm": 15.861491203308105,
+          "weight_norm_before": 83.84791564941406,
+          "relative_delta_norm": 0.18916977339816493
+        },
+        "5": {
+          "delta_norm": 12.138372421264648,
+          "weight_norm_before": 109.1786880493164,
+          "relative_delta_norm": 0.11117895477716037
+        },
+        "6": {
+          "delta_norm": 11.315278053283691,
+          "weight_norm_before": 119.89836120605469,
+          "relative_delta_norm": 0.09437391753701707
+        },
+        "7": {
+          "delta_norm": 19.25005340576172,
+          "weight_norm_before": 115.3160629272461,
+          "relative_delta_norm": 0.16693297461869422
+        },
+        "8": {
+          "delta_norm": 26.737977981567383,
+          "weight_norm_before": 119.48171997070312,
+          "relative_delta_norm": 0.22378300202008747
+        }
+      },
+      "candidate": {
+        "4": {
+          "delta_norm": 15.898993492126465,
+          "weight_norm_before": 83.84791564941406,
+          "relative_delta_norm": 0.18961703900432697
+        },
+        "5": {
+          "delta_norm": 11.887944221496582,
+          "weight_norm_before": 109.1786880493164,
+          "relative_delta_norm": 0.10888520858692453
+        },
+        "6": {
+          "delta_norm": 11.014876365661621,
+          "weight_norm_before": 119.89836120605469,
+          "relative_delta_norm": 0.09186844803267742
+        },
+        "7": {
+          "delta_norm": 18.85965347290039,
+          "weight_norm_before": 115.3160629272461,
+          "relative_delta_norm": 0.1635474971496305
+        },
+        "8": {
+          "delta_norm": 26.789461135864258,
+          "weight_norm_before": 119.48171997070312,
+          "relative_delta_norm": 0.2242138893081973
+        }
+      }
+    },
+    "multi": {
+      "A1_single": {
+        "4": {
+          "delta_norm": 15.861393928527832,
+          "weight_norm_before": 83.84791564941406,
+          "relative_delta_norm": 0.18916861326461218
+        },
+        "5": {
+          "delta_norm": 12.142044067382812,
+          "weight_norm_before": 109.1786880493164,
+          "relative_delta_norm": 0.11121258447342953
+        },
+        "6": {
+          "delta_norm": 11.317301750183105,
+          "weight_norm_before": 119.89836120605469,
+          "relative_delta_norm": 0.09439079597371176
+        },
+        "7": {
+          "delta_norm": 19.258211135864258,
+          "weight_norm_before": 115.3160629272461,
+          "relative_delta_norm": 0.16700371697579053
+        },
+        "8": {
+          "delta_norm": 26.726364135742188,
+          "weight_norm_before": 119.48171997070312,
+          "relative_delta_norm": 0.22368580015667236
+        }
+      },
+      "candidate": {
+        "4": {
+          "delta_norm": 15.804805755615234,
+          "weight_norm_before": 83.84791564941406,
+          "relative_delta_norm": 0.18849372263108463
+        },
+        "5": {
+          "delta_norm": 12.016457557678223,
+          "weight_norm_before": 109.1786880493164,
+          "relative_delta_norm": 0.11006230036626145
+        },
+        "6": {
+          "delta_norm": 11.939905166625977,
+          "weight_norm_before": 119.89836120605469,
+          "relative_delta_norm": 0.09958355599294905
+        },
+        "7": {
+          "delta_norm": 19.893465042114258,
+          "weight_norm_before": 115.3160629272461,
+          "relative_delta_norm": 0.17251252372937168
+        },
+        "8": {
+          "delta_norm": 27.774242401123047,
+          "weight_norm_before": 119.48171997070312,
+          "relative_delta_norm": 0.23245599751939694
+        }
+      }
+    }
+  },
+  "source_records": {
+    "s0": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/F_r0_mint1_s0.json",
+      "ctx_sha": "8638d12c6d5844168e1577a459103fa309bcf995fc1225df7e716de11a87cdc9",
+      "projector": "nullspace",
+      "band": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    "s1": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/F_r0_mint1_s1.json",
+      "ctx_sha": "8638d12c6d5844168e1577a459103fa309bcf995fc1225df7e716de11a87cdc9",
+      "projector": "nullspace",
+      "band": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    "s2": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/F_r0_mint1_s2.json",
+      "ctx_sha": "8638d12c6d5844168e1577a459103fa309bcf995fc1225df7e716de11a87cdc9",
+      "projector": "nullspace",
+      "band": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    "multi": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/F_r0_multi_snone.json",
+      "ctx_sha": "8638d12c6d5844168e1577a459103fa309bcf995fc1225df7e716de11a87cdc9",
+      "projector": "nullspace",
+      "band": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    }
+  }
+}

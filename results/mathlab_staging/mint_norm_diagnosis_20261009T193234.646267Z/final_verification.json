@@ -1,0 +1,333 @@
+{
+  "verified_utc": "2026-10-09T19:49:32.962708+00:00",
+  "all_checks_passed": true,
+  "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "branch": "worktree-c10k-route-a",
+  "head": "a226f3e5b845480e18fd7dbcab24978d65f2f571",
+  "head_unchanged": true,
+  "scope_checks": {
+    "science_sources": {
+      "configs/hparams/qwen25_3b_memit_hparams.json": {
+        "expected": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+        "actual": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+        "unchanged": true
+      },
+      "docs/MATHLAB_BUILD_BRIEF.md": {
+        "expected": "bfd0b7094e0ef312310437986ba8486813c4cd6cef5621320b022e2ce9f6fd42",
+        "actual": "bfd0b7094e0ef312310437986ba8486813c4cd6cef5621320b022e2ce9f6fd42",
+        "unchanged": true
+      },
+      "docs/MATHLAB_OBSERVABILITY_BRIEF.md": {
+        "expected": "14151c7d757ac350a838676937f1d407235e9e422a19b6cf6bcdf41827e3fc09",
+        "actual": "14151c7d757ac350a838676937f1d407235e9e422a19b6cf6bcdf41827e3fc09",
+        "unchanged": true
+      },
+      "docs/MATHLAB_PREREG.md": {
+        "expected": "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507",
+        "actual": "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507",
+        "unchanged": true
+      },
+      "experiments/track_c/c10e_bandknob.py": {
+        "expected": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+        "actual": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+        "unchanged": true
+      },
+      "experiments/track_c/c10l_mint_lib.py": {
+        "expected": "5277e65dc405db7b02e75c0a1b639ca3143c067b544c64f044644659872bdaec",
+        "actual": "5277e65dc405db7b02e75c0a1b639ca3143c067b544c64f044644659872bdaec",
+        "unchanged": true
+      },
+      "experiments/track_c/c10u_mint2_arms.py": {
+        "expected": "a038013354eb3b483adaf1506769610fe2942ac3aedc0beb57ce88f702c4f16d",
+        "actual": "a038013354eb3b483adaf1506769610fe2942ac3aedc0beb57ce88f702c4f16d",
+        "unchanged": true
+      },
+      "experiments/track_c/c10u_mint2_p4_probe.py": {
+        "expected": "3565f3759d978f9fe44d8d166a10004a3ce330b39360c83d5246348cbbf6d450",
+        "actual": "3565f3759d978f9fe44d8d166a10004a3ce330b39360c83d5246348cbbf6d450",
+        "unchanged": true
+      },
+      "experiments/track_c/c10u_mint2_read.py": {
+        "expected": "1223789a0941e46c75d7917b21c26eeef12f873e8195fef98cc0d997b55fcc51",
+        "actual": "1223789a0941e46c75d7917b21c26eeef12f873e8195fef98cc0d997b55fcc51",
+        "unchanged": true
+      },
+      "experiments/track_c/c10u_mint2_selftest.py": {
+        "expected": "03f87298289af4cf3f744c784688b87212ca9d823ed3263de3830bcc6a12dc0c",
+        "actual": "03f87298289af4cf3f744c784688b87212ca9d823ed3263de3830bcc6a12dc0c",
+        "unchanged": true
+      },
+      "experiments/track_c/c10u_mint2_step0.py": {
+        "expected": "972f97fc41af809ef24257a74a30715325739852a90bafe4d460bb6ce68883d1",
+        "actual": "972f97fc41af809ef24257a74a30715325739852a90bafe4d460bb6ce68883d1",
+        "unchanged": true
+      },
+      "experiments/track_c/c10u_mint2_wordlist.py": {
+        "expected": "720a304df7d7c96d627a1778bb79e9c1e322631db33729dadf101963781ab301",
+        "actual": "720a304df7d7c96d627a1778bb79e9c1e322631db33729dadf101963781ab301",
+        "unchanged": true
+      },
+      "mathlab/core.py": {
+        "expected": "127bae6d3899db1faae88de56afe31487305355e8dc7b64d80e7b74d9034eb80",
+        "actual": "127bae6d3899db1faae88de56afe31487305355e8dc7b64d80e7b74d9034eb80",
+        "unchanged": true
+      },
+      "mathlab/fixtures.py": {
+        "expected": "3b5a35d2869ffbc5dee0aa6b82390247defaf8a001ed44d1254b9c8563d409c8",
+        "actual": "3b5a35d2869ffbc5dee0aa6b82390247defaf8a001ed44d1254b9c8563d409c8",
+        "unchanged": true
+      },
+      "mathlab/index.py": {
+        "expected": "3f8ccd82e1c669632e9940f35bedac72da3de4c48a85e3c4aeeb876f0d472c20",
+        "actual": "3f8ccd82e1c669632e9940f35bedac72da3de4c48a85e3c4aeeb876f0d472c20",
+        "unchanged": true
+      },
+      "mathlab/m2_solve_repro.py": {
+        "expected": "eb928e44c99e253840b491008df9a8fdec5b87b161526afd5a616299ad85410f",
+        "actual": "eb928e44c99e253840b491008df9a8fdec5b87b161526afd5a616299ad85410f",
+        "unchanged": true
+      },
+      "mathlab/m3_calibration.py": {
+        "expected": "5a0f29e4a29096e2c8e5e6540f8be5b248aa59ebb03b17cd1e12b8767bea858c",
+        "actual": "5a0f29e4a29096e2c8e5e6540f8be5b248aa59ebb03b17cd1e12b8767bea858c",
+        "unchanged": true
+      },
+      "mathlab/test_index.py": {
+        "expected": "162fbbbe7efaa4867283f55bcde39ec5aaa8c790440407de63560ce61e756fdf",
+        "actual": "162fbbbe7efaa4867283f55bcde39ec5aaa8c790440407de63560ce61e756fdf",
+        "unchanged": true
+      },
+      "mathlab/test_mathlab.py": {
+        "expected": "ef8e69d64206e785097a76a8f55d52ffbab8da68fb3b776dcc8b37b7fa7d2c97",
+        "actual": "ef8e69d64206e785097a76a8f55d52ffbab8da68fb3b776dcc8b37b7fa7d2c97",
+        "unchanged": true
+      },
+      "memit_dry_run/memit/memit/__init__.py": {
+        "expected": "911cc037562a368ca7017ea66f4821c5a848f286a55b7d624c242209afcd01df",
+        "actual": "911cc037562a368ca7017ea66f4821c5a848f286a55b7d624c242209afcd01df",
+        "unchanged": true
+      },
+      "memit_dry_run/memit/memit/compute_ks.py": {
+        "expected": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+        "actual": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+        "unchanged": true
+      },
+      "memit_dry_run/memit/memit/compute_z.py": {
+        "expected": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+        "actual": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+        "unchanged": true
+      },
+      "memit_dry_run/memit/memit/memit_hparams.py": {
+        "expected": "1b229b882b031ddbb59f06ad6ba58d5c33b17826bbfddf80f767e96931b595b2",
+        "actual": "1b229b882b031ddbb59f06ad6ba58d5c33b17826bbfddf80f767e96931b595b2",
+        "unchanged": true
+      },
+      "memit_dry_run/memit/memit/memit_main.py": {
+        "expected": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+        "actual": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+        "unchanged": true
+      },
+      "memit_dry_run/memit/rome/__init__.py": {
+        "expected": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a",
+        "actual": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a",
+        "unchanged": true
+      },
+      "memit_dry_run/memit/rome/compute_u.py": {
+        "expected": "06a73593171eecdd03ab90d45daa2c6096b4335847f0c73bda9d834cdfb1d72d",
+        "actual": "06a73593171eecdd03ab90d45daa2c6096b4335847f0c73bda9d834cdfb1d72d",
+        "unchanged": true
+      },
+      "memit_dry_run/memit/rome/compute_v.py": {
+        "expected": "07f35ecec4b2a20a33318d75b040ae6c1fc5fd2122a90c92e32e361ef730d9eb",
+        "actual": "07f35ecec4b2a20a33318d75b040ae6c1fc5fd2122a90c92e32e361ef730d9eb",
+        "unchanged": true
+      },
+      "memit_dry_run/memit/rome/layer_stats.py": {
+        "expected": "43693c64b061f3cdaa087447e47ddc10fb26fd597dd405eb0644d71ede2fe2d5",
+        "actual": "43693c64b061f3cdaa087447e47ddc10fb26fd597dd405eb0644d71ede2fe2d5",
+        "unchanged": true
+      },
+      "memit_dry_run/memit/rome/repr_tools.py": {
+        "expected": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+        "actual": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+        "unchanged": true
+      },
+      "memit_dry_run/memit/rome/rome_hparams.py": {
+        "expected": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5",
+        "actual": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5",
+        "unchanged": true
+      },
+      "memit_dry_run/memit/rome/rome_main.py": {
+        "expected": "44ff978bd0d68839ff2f94f475a71fdac19a53a4ef263c1d74693ebfd5b40ba5",
+        "actual": "44ff978bd0d68839ff2f94f475a71fdac19a53a4ef263c1d74693ebfd5b40ba5",
+        "unchanged": true
+      },
+      "memit_dry_run/memit/rome/tok_dataset.py": {
+        "expected": "37f775943d5040702ae21252db579f6aa116dacc4dd93c227c44cf9b3481a1a0",
+        "actual": "37f775943d5040702ae21252db579f6aa116dacc4dd93c227c44cf9b3481a1a0",
+        "unchanged": true
+      },
+      "tools/mathlab_admit.py": {
+        "expected": "bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc",
+        "actual": "bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc",
+        "unchanged": true
+      },
+      "tools/mathlab_cpu_runner.py": {
+        "expected": "77ee421368f917283d2aeeea43239c38c482c05924e47942b1de32a155577d31",
+        "actual": "77ee421368f917283d2aeeea43239c38c482c05924e47942b1de32a155577d31",
+        "unchanged": true
+      },
+      "tools/mathlab_events.py": {
+        "expected": "1c0780d42e3cfd794b68ba742fedb0307c2992bd737507cda65bdd8a864d27a5",
+        "actual": "1c0780d42e3cfd794b68ba742fedb0307c2992bd737507cda65bdd8a864d27a5",
+        "unchanged": true
+      },
+      "tools/mathlab_harvest.py": {
+        "expected": "9dbc58afef1aa290d5e01622d3324b052e3f19169bfeb8d38ad19148cfe869bb",
+        "actual": "9dbc58afef1aa290d5e01622d3324b052e3f19169bfeb8d38ad19148cfe869bb",
+        "unchanged": true
+      },
+      "tools/mathlab_runtime.py": {
+        "expected": "936b328db5db296de270bb255f4afda0c885c514862fcc62ad5b613ab67ac3e0",
+        "actual": "936b328db5db296de270bb255f4afda0c885c514862fcc62ad5b613ab67ac3e0",
+        "unchanged": true
+      },
+      "tools/run_mathlab_cpu.sh": {
+        "expected": "a79e0dedd366c7721f8a9e84214f63f52d293ae8f38740068874f4e0256b8007",
+        "actual": "a79e0dedd366c7721f8a9e84214f63f52d293ae8f38740068874f4e0256b8007",
+        "unchanged": true
+      },
+      "tools/run_mathlab_harvest.sh": {
+        "expected": "14b38b9085599f67f72b049e4e255b202b44af43924ac81a9bb0278d121c5936",
+        "actual": "14b38b9085599f67f72b049e4e255b202b44af43924ac81a9bb0278d121c5936",
+        "unchanged": true
+      }
+    },
+    "read_only_live_files": {
+      "results/mathlab_staging/runs/harvest_20261009T184932Z_95961/events.jsonl": {
+        "expected": "18c415e06af4a14afe30000ffea65fc6fcf41168d2127512723ce038c283a3b7",
+        "actual": "18c415e06af4a14afe30000ffea65fc6fcf41168d2127512723ce038c283a3b7",
+        "unchanged": true
+      },
+      "results/mathlab_staging/runs/harvest_20261009T184932Z_95961/admission.json": {
+        "expected": "fa39865f146dabdf9c59e3039bb603046a418bd9d01087463772f5ef03d6ca67",
+        "actual": "fa39865f146dabdf9c59e3039bb603046a418bd9d01087463772f5ef03d6ca67",
+        "unchanged": true
+      }
+    },
+    "inputs": {
+      "inloop_A7_coined_coined.pt": {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/inloop_A7_coined_coined.pt",
+        "sha256": "abb882982f406ddd5d6536529ce49dee8f31ad3b3243495e93687266e7c6582f",
+        "bytes": 463160213,
+        "actual": "abb882982f406ddd5d6536529ce49dee8f31ad3b3243495e93687266e7c6582f",
+        "unchanged": true
+      },
+      "weights_A7.pt": {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/weights_A7.pt",
+        "sha256": "5b63bab42911738204319d3b15e98814a6c41a025b32b717fd4e35e2a1415fe5",
+        "bytes": 450891077,
+        "actual": "5b63bab42911738204319d3b15e98814a6c41a025b32b717fd4e35e2a1415fe5",
+        "unchanged": true
+      },
+      "inloop_A1_single.pt": {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/inloop_A1_single.pt",
+        "sha256": "21beed0af38dc294925e5441a4d1a4612510c9d924c2a50c534328df8709a500",
+        "bytes": 12271076,
+        "actual": "21beed0af38dc294925e5441a4d1a4612510c9d924c2a50c534328df8709a500",
+        "unchanged": true
+      },
+      "inloop_A2_coherent2.pt": {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/inloop_A2_coherent2.pt",
+        "sha256": "5246d732956f9d9bf6a311c951c50a4dcb2880b961fabf04758ceb60175f3c2b",
+        "bytes": 12271076,
+        "actual": "5246d732956f9d9bf6a311c951c50a4dcb2880b961fabf04758ceb60175f3c2b",
+        "unchanged": true
+      },
+      "inloop_mint1_s0.pt": {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/inloop_mint1_s0.pt",
+        "sha256": "d22637a88bdb3451d0b004550976f89d06d039444cedf314e35c5053d4e96695",
+        "bytes": 12271076,
+        "actual": "d22637a88bdb3451d0b004550976f89d06d039444cedf314e35c5053d4e96695",
+        "unchanged": true
+      },
+      "inloop_mint1_s1.pt": {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/inloop_mint1_s1.pt",
+        "sha256": "e43135fe87ad16389c19f5a235baefa0a1fa608f6765800dafd287a7c3240979",
+        "bytes": 12271076,
+        "actual": "e43135fe87ad16389c19f5a235baefa0a1fa608f6765800dafd287a7c3240979",
+        "unchanged": true
+      },
+      "inloop_mint1_s2.pt": {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/inloop_mint1_s2.pt",
+        "sha256": "e335968070d8c576bac0b9c62459c9c6351b4d59546726a83606ffe42126d628",
+        "bytes": 12271076,
+        "actual": "e335968070d8c576bac0b9c62459c9c6351b4d59546726a83606ffe42126d628",
+        "unchanged": true
+      }
+    },
+    "frozen_records_step0_targets": {
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/F_r0_multi_snone.json": {
+        "expected": "0ec55d879fc592512ed437099c522cf94d652ab54b7d85f1ccc2781b34a637ab",
+        "actual": "0ec55d879fc592512ed437099c522cf94d652ab54b7d85f1ccc2781b34a637ab",
+        "unchanged": true
+      },
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/F_r0_mint1_s0.json": {
+        "expected": "ade8ba1678dc45850168ff8303afd28359b33c1c7a9f0731feee1143eca2c8f9",
+        "actual": "ade8ba1678dc45850168ff8303afd28359b33c1c7a9f0731feee1143eca2c8f9",
+        "unchanged": true
+      },
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/step0/F_r0_mint1_s0.json": {
+        "expected": "2afbfcc45b72ef9384dcd3ec627ac82a0d811a9c133ed26f41c046e96724192b",
+        "actual": "2afbfcc45b72ef9384dcd3ec627ac82a0d811a9c133ed26f41c046e96724192b",
+        "unchanged": true
+      },
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/zs/F_r0_mint1_s0.pt": {
+        "expected": "2b1ba55514cb7abd4b23e48424e4556a029c6f1ad70a7102f49e79e1173e8938",
+        "actual": "2b1ba55514cb7abd4b23e48424e4556a029c6f1ad70a7102f49e79e1173e8938",
+        "unchanged": true
+      },
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/F_r0_mint1_s1.json": {
+        "expected": "ab4cc4ec22fd1f595d489f889d1d7ea15c12b5ebf6664b9d7a8fa80819b8ad6f",
+        "actual": "ab4cc4ec22fd1f595d489f889d1d7ea15c12b5ebf6664b9d7a8fa80819b8ad6f",
+        "unchanged": true
+      },
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/step0/F_r0_mint1_s1.json": {
+        "expected": "9636dde8c29ed3f14c1cfee7d2ac2af0f8a5549c530a219a7f36725ccacc38c6",
+        "actual": "9636dde8c29ed3f14c1cfee7d2ac2af0f8a5549c530a219a7f36725ccacc38c6",
+        "unchanged": true
+      },
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/zs/F_r0_mint1_s1.pt": {
+        "expected": "a931e80572e8f62983cc6e45d7c47a0d5e2a59d0b7513cef2059900cb3b16003",
+        "actual": "a931e80572e8f62983cc6e45d7c47a0d5e2a59d0b7513cef2059900cb3b16003",
+        "unchanged": true
+      },
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/F_r0_mint1_s2.json": {
+        "expected": "626750bc4d23f3a90e2246e442ba38b587fcab9909da57e9f50999ff3c54bb62",
+        "actual": "626750bc4d23f3a90e2246e442ba38b587fcab9909da57e9f50999ff3c54bb62",
+        "unchanged": true
+      },
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/step0/F_r0_mint1_s2.json": {
+        "expected": "0eb81cf9824a65cfe37bd5f5618f6ea19552f761c77cbe9dfd3553b3da026dab",
+        "actual": "0eb81cf9824a65cfe37bd5f5618f6ea19552f761c77cbe9dfd3553b3da026dab",
+        "unchanged": true
+      },
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/zs/F_r0_mint1_s2.pt": {
+        "expected": "88c8e6a5928a4140988b27f8d33abae860cac1cdc5a7949b67f8566758f28e35",
+        "actual": "88c8e6a5928a4140988b27f8d33abae860cac1cdc5a7949b67f8566758f28e35",
+        "unchanged": true
+      }
+    }
+  },
+  "manifest_sha256": "bb9a6f9ad76678ae2289151c9fa64fb0033a6b8b2d7aff0b9a03150180f1ba7e",
+  "report_sha256": "e9ec9d9a412348f0c8cedbcef7d1a2e33aa06bd52d41ac9ccfdf0aaec4346f24",
+  "links_checked": 62,
+  "report_re_read": true,
+  "gpu_mps_calls": 0,
+  "model_harness_imports": 0,
+  "science_sources_edited": 0,
+  "live_run_files_written": 0,
+  "harvest_dispatches": 0,
+  "commits": 0,
+  "scope_note": "SHA audit is scoped to enumerated files, not a claim that no other operator changed the workspace."
+}

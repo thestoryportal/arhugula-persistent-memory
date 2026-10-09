@@ -1,0 +1,7 @@
+CPU diagnostic plan frozen before tensor reductions; no model/harness imports, GPU/MPS, SVD, solve or forwards. Read-only mmap of already persisted tensors; at most eight threads; retain exact shape/stride.
+1. Paired A7 native fp32 upd.float().norm() versus recorded fp64 norm and historical multi delta_norm. The metric-only explanation is contradicted if the native fp32 norm still fails the frozen 1e-3 bar after matching reduction shape/stride.
+2. Separately measure casting to fp16 and realized before/after fp16 deltas to distinguish pre-cast norm measurement from update/state rounding. Neither recorded historical norm is a realized delta by source.
+3. Verify all captured mint zs equal the frozen target-file rows transposed, every layer, and inspect initial K/cur equivalence across arms. Do not reconstruct discarded mint updates or claim exact seed-specific native norms without saved tensors.
+4. Check frozen record/target/context/tokenisation and covariance identity, observer parity and baseline gates from preserved manifest/events. Matching covariance inputs does not prove historical projector bit identity.
+5. Compare fresh A1/A7 reported-only drift pattern with all three mint seeds. This separates a mint-specific effect from a general measurement/replay effect.
+The bar remains 1e-3. These checks diagnose existing INVALID-REPLAY records; they do not relabel, admit, edit, resume or rerun anything.
