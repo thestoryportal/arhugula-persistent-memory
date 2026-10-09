@@ -1,0 +1,330 @@
+COMMAND: .venv/bin/python -B -m unittest discover -s tests -p test_new1*.py -v
+test_adapter_qr_matches_direct_product_and_saved_scale (test_new1_geometry.GeometryTests.test_adapter_qr_matches_direct_product_and_saved_scale) ... FAIL
+test_covariance_energy_uses_input_axis_and_is_scale_sign_invariant (test_new1_geometry.GeometryTests.test_covariance_energy_uses_input_axis_and_is_scale_sign_invariant) ... FAIL
+test_covariance_load_normalizes_in_native_dtype_and_count_must_be_positive (test_new1_geometry.GeometryTests.test_covariance_load_normalizes_in_native_dtype_and_count_must_be_positive) ... FAIL
+test_covariance_top_bottom_ties_are_statistic_specific (test_new1_geometry.GeometryTests.test_covariance_top_bottom_ties_are_statistic_specific) ... FAIL
+test_m16_retained_energy_is_secondary_and_uses_existing_svd (test_new1_geometry.GeometryTests.test_m16_retained_energy_is_secondary_and_uses_existing_svd) ... FAIL
+test_native_covariance_svd_once_and_indefinite_psd_rejection (test_new1_geometry.GeometryTests.test_native_covariance_svd_once_and_indefinite_psd_rejection) ... FAIL
+test_no_favorable_layer_drop_and_tie_invalidates_only_related_endpoint (test_new1_geometry.GeometryTests.test_no_favorable_layer_drop_and_tie_invalidates_only_related_endpoint) ... FAIL
+test_participation_ratio_and_rank95_use_squared_singular_energy (test_new1_geometry.GeometryTests.test_participation_ratio_and_rank95_use_squared_singular_energy) ... FAIL
+test_predictions_require_same_three_layers_and_random_guard (test_new1_geometry.GeometryTests.test_predictions_require_same_three_layers_and_random_guard) ... FAIL
+test_projector_matches_all_four_frozen_probes_and_update_parity (test_new1_geometry.GeometryTests.test_projector_matches_all_four_frozen_probes_and_update_parity) ... FAIL
+test_q95_is_nineteenth_of_twenty_not_interpolation (test_new1_geometry.GeometryTests.test_q95_is_nineteenth_of_twenty_not_interpolation) ... FAIL
+test_secondary_controls_cannot_replace_primary_q95 (test_new1_geometry.GeometryTests.test_secondary_controls_cannot_replace_primary_q95) ... FAIL
+test_source_hash_and_harvest_identity_mismatch_are_invalid (test_new1_geometry.GeometryTests.test_source_hash_and_harvest_identity_mismatch_are_invalid) ... FAIL
+test_spectrum_matched_random_preserves_spectrum_and_norm (test_new1_geometry.GeometryTests.test_spectrum_matched_random_preserves_spectrum_and_norm) ... FAIL
+test_subspace_rotation_and_rank_deficient_fixed_denominator (test_new1_geometry.GeometryTests.test_subspace_rotation_and_rank_deficient_fixed_denominator) ... FAIL
+test_update_cutoff_tie_invalidates_m16_but_not_full_effective_rank (test_new1_geometry.GeometryTests.test_update_cutoff_tie_invalidates_m16_but_not_full_effective_rank) ... FAIL
+test_zero_and_nonfinite_updates_are_invalid (test_new1_geometry.GeometryTests.test_zero_and_nonfinite_updates_are_invalid) ... FAIL
+test_bare_supervisor_environment_is_not_execution_authority (test_new1_supervisor.SupervisorTests.test_bare_supervisor_environment_is_not_execution_authority) ... FAIL
+test_blocking_admission_is_interrupted_by_whole_run_deadline (test_new1_supervisor.SupervisorTests.test_blocking_admission_is_interrupted_by_whole_run_deadline) ... FAIL
+test_cell_timeout_stops_without_lowering_reserve (test_new1_supervisor.SupervisorTests.test_cell_timeout_stops_without_lowering_reserve) ... FAIL
+test_default_admission_obeys_parent_lab_stop_policy (test_new1_supervisor.SupervisorTests.test_default_admission_obeys_parent_lab_stop_policy) ... FAIL
+test_direct_worker_cli_refuses_before_numerical_imports (test_new1_supervisor.SupervisorTests.test_direct_worker_cli_refuses_before_numerical_imports) ... FAIL
+test_emergency_available_floor_is_strict (test_new1_supervisor.SupervisorTests.test_emergency_available_floor_is_strict) ... FAIL
+test_failed_and_nonfinite_monitoring_refuse (test_new1_supervisor.SupervisorTests.test_failed_and_nonfinite_monitoring_refuse) ... FAIL
+test_invalid_prediction_is_not_boolean_fail_or_calibration (test_new1_supervisor.SupervisorTests.test_invalid_prediction_is_not_boolean_fail_or_calibration) ... FAIL
+test_persistence_failure_never_emits_success_gate (test_new1_supervisor.SupervisorTests.test_persistence_failure_never_emits_success_gate) ... FAIL
+test_real_subprocess_failures_and_empty_inventory_are_refusals (test_new1_supervisor.SupervisorTests.test_real_subprocess_failures_and_empty_inventory_are_refusals) ... FAIL
+test_real_worker_group_is_terminated_on_rss_breach (test_new1_supervisor.SupervisorTests.test_real_worker_group_is_terminated_on_rss_breach) ... FAIL
+test_refused_cpu_admission_never_dispatches_worker (test_new1_supervisor.SupervisorTests.test_refused_cpu_admission_never_dispatches_worker) ... FAIL
+test_resource_receipt_is_durable_before_event (test_new1_supervisor.SupervisorTests.test_resource_receipt_is_durable_before_event) ... FAIL
+test_rss_ceiling_is_strict_and_family_memory_is_used (test_new1_supervisor.SupervisorTests.test_rss_ceiling_is_strict_and_family_memory_is_used) ... FAIL
+test_rss_probe_sums_descendants_and_refuses_missing_worker (test_new1_supervisor.SupervisorTests.test_rss_probe_sums_descendants_and_refuses_missing_worker) ... FAIL
+test_svd_requires_thirteen_gib_not_eight (test_new1_supervisor.SupervisorTests.test_svd_requires_thirteen_gib_not_eight) ... FAIL
+test_torn_ipc_and_worker_exit_without_result_are_invalid (test_new1_supervisor.SupervisorTests.test_torn_ipc_and_worker_exit_without_result_are_invalid) ... FAIL
+test_unknown_phase_and_spoofed_reserve_refuse (test_new1_supervisor.SupervisorTests.test_unknown_phase_and_spoofed_reserve_refuse) ... FAIL
+test_wait_is_inside_unchanged_1800_second_deadline (test_new1_supervisor.SupervisorTests.test_wait_is_inside_unchanged_1800_second_deadline) ... FAIL
+
+======================================================================
+FAIL: test_adapter_qr_matches_direct_product_and_saved_scale (test_new1_geometry.GeometryTests.test_adapter_qr_matches_direct_product_and_saved_scale)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_covariance_energy_uses_input_axis_and_is_scale_sign_invariant (test_new1_geometry.GeometryTests.test_covariance_energy_uses_input_axis_and_is_scale_sign_invariant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_covariance_load_normalizes_in_native_dtype_and_count_must_be_positive (test_new1_geometry.GeometryTests.test_covariance_load_normalizes_in_native_dtype_and_count_must_be_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_covariance_top_bottom_ties_are_statistic_specific (test_new1_geometry.GeometryTests.test_covariance_top_bottom_ties_are_statistic_specific)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_m16_retained_energy_is_secondary_and_uses_existing_svd (test_new1_geometry.GeometryTests.test_m16_retained_energy_is_secondary_and_uses_existing_svd)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_native_covariance_svd_once_and_indefinite_psd_rejection (test_new1_geometry.GeometryTests.test_native_covariance_svd_once_and_indefinite_psd_rejection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_no_favorable_layer_drop_and_tie_invalidates_only_related_endpoint (test_new1_geometry.GeometryTests.test_no_favorable_layer_drop_and_tie_invalidates_only_related_endpoint)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_participation_ratio_and_rank95_use_squared_singular_energy (test_new1_geometry.GeometryTests.test_participation_ratio_and_rank95_use_squared_singular_energy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_predictions_require_same_three_layers_and_random_guard (test_new1_geometry.GeometryTests.test_predictions_require_same_three_layers_and_random_guard)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_projector_matches_all_four_frozen_probes_and_update_parity (test_new1_geometry.GeometryTests.test_projector_matches_all_four_frozen_probes_and_update_parity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_q95_is_nineteenth_of_twenty_not_interpolation (test_new1_geometry.GeometryTests.test_q95_is_nineteenth_of_twenty_not_interpolation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_secondary_controls_cannot_replace_primary_q95 (test_new1_geometry.GeometryTests.test_secondary_controls_cannot_replace_primary_q95)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_source_hash_and_harvest_identity_mismatch_are_invalid (test_new1_geometry.GeometryTests.test_source_hash_and_harvest_identity_mismatch_are_invalid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_spectrum_matched_random_preserves_spectrum_and_norm (test_new1_geometry.GeometryTests.test_spectrum_matched_random_preserves_spectrum_and_norm)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_subspace_rotation_and_rank_deficient_fixed_denominator (test_new1_geometry.GeometryTests.test_subspace_rotation_and_rank_deficient_fixed_denominator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_update_cutoff_tie_invalidates_m16_but_not_full_effective_rank (test_new1_geometry.GeometryTests.test_update_cutoff_tie_invalidates_m16_but_not_full_effective_rank)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_zero_and_nonfinite_updates_are_invalid (test_new1_geometry.GeometryTests.test_zero_and_nonfinite_updates_are_invalid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 11, in setUp
+    self.assertTrue(Path('tools/new1_geometry.py').is_file(), 'NEW1 computation worker is not built')
+AssertionError: False is not true : NEW1 computation worker is not built
+
+======================================================================
+FAIL: test_bare_supervisor_environment_is_not_execution_authority (test_new1_supervisor.SupervisorTests.test_bare_supervisor_environment_is_not_execution_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_blocking_admission_is_interrupted_by_whole_run_deadline (test_new1_supervisor.SupervisorTests.test_blocking_admission_is_interrupted_by_whole_run_deadline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_cell_timeout_stops_without_lowering_reserve (test_new1_supervisor.SupervisorTests.test_cell_timeout_stops_without_lowering_reserve)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_default_admission_obeys_parent_lab_stop_policy (test_new1_supervisor.SupervisorTests.test_default_admission_obeys_parent_lab_stop_policy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_direct_worker_cli_refuses_before_numerical_imports (test_new1_supervisor.SupervisorTests.test_direct_worker_cli_refuses_before_numerical_imports)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_emergency_available_floor_is_strict (test_new1_supervisor.SupervisorTests.test_emergency_available_floor_is_strict)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_failed_and_nonfinite_monitoring_refuse (test_new1_supervisor.SupervisorTests.test_failed_and_nonfinite_monitoring_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_invalid_prediction_is_not_boolean_fail_or_calibration (test_new1_supervisor.SupervisorTests.test_invalid_prediction_is_not_boolean_fail_or_calibration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_persistence_failure_never_emits_success_gate (test_new1_supervisor.SupervisorTests.test_persistence_failure_never_emits_success_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_real_subprocess_failures_and_empty_inventory_are_refusals (test_new1_supervisor.SupervisorTests.test_real_subprocess_failures_and_empty_inventory_are_refusals)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_real_worker_group_is_terminated_on_rss_breach (test_new1_supervisor.SupervisorTests.test_real_worker_group_is_terminated_on_rss_breach)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_refused_cpu_admission_never_dispatches_worker (test_new1_supervisor.SupervisorTests.test_refused_cpu_admission_never_dispatches_worker)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_resource_receipt_is_durable_before_event (test_new1_supervisor.SupervisorTests.test_resource_receipt_is_durable_before_event)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_rss_ceiling_is_strict_and_family_memory_is_used (test_new1_supervisor.SupervisorTests.test_rss_ceiling_is_strict_and_family_memory_is_used)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_rss_probe_sums_descendants_and_refuses_missing_worker (test_new1_supervisor.SupervisorTests.test_rss_probe_sums_descendants_and_refuses_missing_worker)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_svd_requires_thirteen_gib_not_eight (test_new1_supervisor.SupervisorTests.test_svd_requires_thirteen_gib_not_eight)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_torn_ipc_and_worker_exit_without_result_are_invalid (test_new1_supervisor.SupervisorTests.test_torn_ipc_and_worker_exit_without_result_are_invalid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_unknown_phase_and_spoofed_reserve_refuse (test_new1_supervisor.SupervisorTests.test_unknown_phase_and_spoofed_reserve_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+======================================================================
+FAIL: test_wait_is_inside_unchanged_1800_second_deadline (test_new1_supervisor.SupervisorTests.test_wait_is_inside_unchanged_1800_second_deadline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 24, in setUp
+    self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+AssertionError: False is not true : NEW1 supervisor is not built
+
+----------------------------------------------------------------------
+Ran 36 tests in 0.003s
+
+FAILED (failures=36)

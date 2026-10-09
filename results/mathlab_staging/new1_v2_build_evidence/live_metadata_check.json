@@ -1,0 +1,8 @@
+{
+  "harvest_1_metadata_contract": "PASS",
+  "manifest_sha256": "bb9a6f9ad76678ae2289151c9fa64fb0033a6b8b2d7aff0b9a03150180f1ba7e",
+  "selected_a7_sha256": "abb882982f406ddd5d6536529ce49dee8f31ad3b3243495e93687266e7c6582f",
+  "numeric_imports": false,
+  "tensor_payloads_decoded": false,
+  "geometry_run": false
+}
