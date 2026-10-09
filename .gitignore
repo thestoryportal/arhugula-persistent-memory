@@ -131,3 +131,8 @@ kvs/
 visualization/*.onnx
 # raw OpenResearch transcripts (local only; may hold secrets); rebuild with tools/openresearch_archive.py
 results/openresearch_archive/
+
+# Lab View: regenerate the site; preserve the per-run SVG and PNG evidence pictures.
+/results/labviz/site/
+/results/labviz/.matplotlib/
+!results/labviz/runs/*.png

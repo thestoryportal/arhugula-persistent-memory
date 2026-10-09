@@ -37,3 +37,7 @@
 - [C10X engine-path result](c10x-enginepath-result.md) — step 6 CLOSED: OverTone NULL 17 vs 12/72; FE package INVALID-CONTROLS-UNDERFIT (erratum); neither advances (CORPUS/58)
 - [Seed freezes context templates](seed-freezes-context-templates.md) — seed 0 → template set e8605172 → A7 40/7/7 below LAW#3; pin templates to a recorded file
 - [MPS offset-view conversion bug](mps-offset-view-conversion-bug.md) — t.to(device=cpu,dtype=X) on an MPS offset view returns garbage; use .cpu().to(X)
+- [Backup via MemitBackup.app](backup-via-memitbackup-app.md) — launchd backup runs a single-purpose app with Removable Volumes grant; never FDA for bash
+- [InfraNodus standing approval](infranodus-standing-approval.md) — operator approved forever; allow rule added 2026-10-08, calls pass
+- [Graft disabled + audit](graft-disabled-audit-2026-10-08.md) — no corruption found; codex exec needs -c mcp_servers.graft.enabled=false
+- [Never idle: arm completion watch](never-idle-arm-completion-watch.md) — 13 h idle 2026-10-09; every in-flight build/review needs a Monitor wake signal, route next step on each event
