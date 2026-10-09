@@ -361,3 +361,33 @@ No item was rejected.
 | **ADV** (no action) B1 stdlib probe passed; B2's remaining design is defensible; six orderings are a meaningful screen; earlier folds survive | NOTED | No text change. Empirical tensor and behavioural inertness remains UNVERIFIED until the harvest runs (§2.3 gate). |
 
 No item was rejected.
+
+## 14. Amendment M2-BUDGET — 2026-10-09 (D-ML-2; FROZEN after GPT-6-Astra r1 FIX-FIRST, both BLOCKING folded verbatim)
+
+**Status.** Pre-harvest budget amendment. No harvest, step-2 or step-3 run has started. No science, gate, threshold, predicate, arithmetic or diagnostic changes. Authority: operator delegation (2026-10-08, "All questions are to be decided with the team"); D-C10r-rulings-14 (measurement-driven budget authority with recorded arithmetic and review when caps change); §6 "the deadlines are estimates".
+
+**Measurement (MATH-PROXY tooling, synthetic tensors, full production shapes).** Run by MAESTRO on 2026-10-09 with the build's own probe (`results/mathlab_staging/verification_scripts/mathlab_peak_probe.py`, unchanged) outside the Codex sandbox, which had denied `/bin/ps` and network. Cap 2,700 s; 6 GiB available-memory watchdog never approached (minimum available 21.4 GiB). Records: `results/mathlab_staging/peak_svd_full.{json,txt}`, `peak_solve_full.{json,txt}`.
+
+| Cell | Complete? | Wall time | Peak RSS | Frozen reserve |
+|---|---|---|---|---|
+| `projector` (fp32 11008² SVD) | PASS, exit 0 | 78.95 s | 4.61 GiB | 4 GiB, **exceeded** |
+| `solve` (fp32 solve + fp64 solve + fp64 `cond(A)`) | PASS, exit 0 | 146.13 s | 8.08 GiB | 9 GiB (build raise), within |
+
+Each is one sample on a shared machine (Codex sessions active; two short fixture runs overlapped the first ~20 s of the solve probe). Timing is therefore an estimate, not a bound. The projector time (78.95 s) is supervisor-elapsed and the solve time (146.13 s) is worker-elapsed; worker projector time is 77.71 s and supervisor solve time 146.84 s. Either consistent basis also rounds to 6,540 s.
+
+The probe uses the notebook’s actual projector and solve functions, torch 2.8.0, eight CPU threads, native fp32 operands and production dimensions; solve includes its fp64 diagnostics. Operand spectra, conditioning and cache/I/O state are not production-representative. The probe also does not reproduce the runner’s nice-10 scheduling. Shared-machine contention can change either way. The ×1.15 factor follows the C10Y pre-cast budgeting convention, not an empirically validated uncertainty margin. Neither ×1.15 nor a larger factor is established as sufficient by these records; production completion feasibility remains UNVERIFIED.
+
+**Reserve (§6 raise rule, no amendment needed, recorded here for one source).** The SVD pre-cell reserve rises from 4 GiB to **5 GiB** (measured peak 4.61 GiB, rounded up to a whole GiB). The solve reserve stays 9 GiB (measured 8.08 GiB). Load 2 GiB and bootstrap 1 GiB are unchanged (load measured 1.02 GiB).
+
+**Step-2 deadline arithmetic (`core.reproduce`, worst case of three admitted mint arms, so six arms).**
+
+- SVD: 5 layers × 78.95 s = 394.8 s
+- Solves: 5 layers × 6 arms + 5 A7 clean-key alternatives = 35 × 146.13 s = 5,114.6 s
+- Harvest loads: 36 files × 2 s = 72 s; covariance loads: 5 × 5 s = 25 s; `uv` start-up: 30 s
+Using the displayed timings without intermediate rounding: 394.75 + 5,114.55 + 72 + 25 + 30 = 5,636.30 s; ×1.15 = 6,481.745 s; ceiling to a whole minute = 6,540 s. This is a partial workload estimate. Additional untimed work includes file/tensor hashing, covariance decoding, 30 projector comparisons (up to 120 fallback matvecs), update norms/relative errors, five rounding comparisons, five approximation comparisons, and 30 update saves with hashes (2.52 GiB of update payload), plus event output and memory waits. These costs compete for the remaining allowance; their coverage is UNVERIFIED. The 6,540-s deadline is a provisional spending cap, not demonstrated completion feasibility. No reliable completed-solve percentage is established for the old deadline.
+
+**Change:** the step-2 hard deadline becomes **6,540 s** wherever §6 and the runner name it. Step 3 (no SVD or solve; 1,800 s) and the index build (300 s) are unchanged. Everything else in §6 is unchanged, including the watchdog, the pre-cell 8 GiB floor and 300 s wait, the abort limits, and `nice -n 10 /opt/homebrew/bin/timeout -k 30`.
+
+**Boundaries.** A STOPPED-DEADLINE under 6,540 s remains a staged abort, not a lab stop, and counts toward the third-abort operator rule. This amendment cannot be used to re-run or reinterpret any step-2 output. Implementation (runner case table, tests, `core.py` SVD reserve) follows only after review, test-first.
+
+**Fold log (Astra r1, `results/mathlab_staging/m2budget_astra_r1.md`).** B1 (partial-workload accounting replaces the total line and the 48 % forecast) and B2 (probe-representativeness caveat) folded verbatim. ADVISORY folded: timing-basis label; D-ML-2 recorded in runbook §5 before spending. Implementation scope per ADVISORY: shell case table, `tools/mathlab_cpu_runner.py:17`, `mathlab/core.py:384`, SVD pre-cell reserve, tests, and the pinned prereg SHA (repinned without weakening verification).
