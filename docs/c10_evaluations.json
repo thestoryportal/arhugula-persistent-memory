@@ -297,7 +297,7 @@
         "score": "17 of 72 (vs 12)",
         "best": 17,
         "kind": "write",
-        "verdict": "No: re-weighting the answer's words gave 17 of 72 against 12, too small to count; the other idea made the ordinary control facts worse (64 and 65 of 72, below 68), so its score is not read; neither is taken forward",
+        "verdict": "No: re-weighting the answer's words gave 17 of 72 against 12, too small to count; the other idea made the ordinary control facts worse (64 and 65 of 72, below 68), so its score is not read, and its own answer-preparation step also missed its fit check (3 of 24 against 22); neither is taken forward",
         "ref": "CORPUS/58"
       },
       "question": "Before the usual write puts a fact into the model, it first works out the answer the model should give. Can two published ways of working out that answer better make the write recall made-up two-word names when the question is reworded?",

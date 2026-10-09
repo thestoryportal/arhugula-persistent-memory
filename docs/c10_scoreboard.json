@@ -1,6 +1,6 @@
 {
   "_doc": "Plain-language scoreboard for the C10 problem (made-up multi-word names), shown by tools/dashboard_report.py. The program session updates it at every result and close-out: add a results row, refresh current/queue, rewrite the brief in plain words. Scores are held-out reworded questions answered exactly right, out of 72. Full detail lives in CORPUS; this file only points there.",
-  "updated": "2026-10-08 19:45 MDT",
+  "updated": "2026-10-08 20:05 MDT",
   "goal": 61,
   "out_of": 72,
   "brief": "We are trying to teach the model made-up names (like a project codename) so it can recall them when a question is worded differently. Ordinary facts already work (about 69 of 72); made-up two-word names do not: the usual method gets about 9 to 14 of 72, our best write method about 40, and the goal is 61. Step 5 showed that training the same small part of the model can reach 70 to 71 of 72, but only with side effects, so that part is big enough but no clean ceiling is shown. Step 6 tried two published ways to prepare the answer before writing it: one gave 17 of 72 against 12 (too small to count), the other made the ordinary control facts worse, so neither is taken forward. Step 7 and ASTRA are next.",
@@ -174,7 +174,7 @@
       "score": "17 of 72 (vs 12)",
       "best": 17,
       "kind": "write",
-      "verdict": "No: re-weighting the answer's words gave 17 of 72 against 12, too small to count; the other idea made the ordinary control facts worse (64 and 65 of 72, below 68), so its score is not read; neither is taken forward",
+      "verdict": "No: re-weighting the answer's words gave 17 of 72 against 12, too small to count; the other idea made the ordinary control facts worse (64 and 65 of 72, below 68), so its score is not read, and its own answer-preparation step also missed its fit check (3 of 24 against 22); neither is taken forward",
       "ref": "CORPUS/58"
     }
   ],

@@ -133,6 +133,6 @@
  },
  "D-C10x-enginepath": {
   "source": "CORPUS/58_C10X_ENGINEPATH.md",
-  "what": "engine-path target construction on the C10 harness, step 6 of the research-pass sequence (H-11; FE-inspired I-2 and OverTone-inspired I-1; prereg v2.2 + Amendments T/M/P/Z/B): process-1 reading of re-run 3, CLOSED: reader VALID; I-1 NULL 17/72 vs recipe A 12/72 (d = -4, non-interpreted); I-2 INVALID-CONTROLS (A1 64, A2 65 < 68); replication_eligible empty, process 2 not run; LAW#3 12/52/8 + A1 70 A2 71; LAW#5 INERT; re-run lineage original (X2-vii signed zero) -> re-run 1 (non-JSON flags) -> re-run 2 (STAGE_PROJECTION_REFUSED) -> re-run 3 under D-C10w-p2rerun; Astra CONFIRM; engine unmodified"
+  "what": "engine-path target construction on the C10 harness, step 6 of the research-pass sequence (H-11; FE-inspired I-2 and OverTone-inspired I-1; prereg v2.2 + Amendments T/M/P/Z/B): process-1 reading of re-run 3, CLOSED: reader VALID; I-1 NULL 17/72 vs recipe A 12/72 (d = -4, non-interpreted); I-2 INVALID-CONTROLS-UNDERFIT per the appended erratum (A1 64, A2 65 < 68; fit 3/24; reader printed INVALID-CONTROLS, known reader defect read.py:445-451); replication_eligible empty, process 2 not run; LAW#3 12/52/8 + A1 70 A2 71; LAW#5 INERT; re-run lineage original (X2-vii signed zero) -> re-run 1 (non-JSON flags) -> re-run 2 (STAGE_PROJECTION_REFUSED) -> re-run 3 under D-C10w-p2rerun; Astra CONFIRM; engine unmodified"
  }
 }
