@@ -1,0 +1,14 @@
+test_admission_probe_error_emits_failed_gate_and_staged_closeout (mathlab.test_mathlab.ResourceArtifactTests.test_admission_probe_error_emits_failed_gate_and_staged_closeout) ... FAIL
+
+======================================================================
+FAIL: test_admission_probe_error_emits_failed_gate_and_staged_closeout (mathlab.test_mathlab.ResourceArtifactTests.test_admission_probe_error_emits_failed_gate_and_staged_closeout)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 508, in test_admission_probe_error_emits_failed_gate_and_staged_closeout
+    self.assertEqual(len(gates), 1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (failures=1)

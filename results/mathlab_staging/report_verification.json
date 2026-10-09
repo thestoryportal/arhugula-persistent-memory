@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "report_path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/build_report.md",
+  "report_sha256": "bc584f7901901bc7081f42680b18aefb45e47b8cf845674b454ccda4c5933253",
+  "requirements": 37,
+  "unique_final_tests": 61,
+  "full_red_green_output_embedded": true,
+  "prereg_sha256": "33e5aa4e0fc01e07e5b1b7e6fe234e07be41e9c9b2c8edf9496af5572d9b398a",
+  "shared_events_unchanged": true,
+  "forbidden_modules_loaded": [],
+  "branch": "worktree-c10k-route-a",
+  "scope": "Report persistence, source hashes, unit evidence, model-free imports; build acceptance remains blocked"
+}

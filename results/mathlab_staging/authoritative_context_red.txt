@@ -1,0 +1,14 @@
+test_missing_authoritative_s0_context_refuses_shared_input (mathlab.test_mathlab.ReplayTests.test_missing_authoritative_s0_context_refuses_shared_input) ... FAIL
+
+======================================================================
+FAIL: test_missing_authoritative_s0_context_refuses_shared_input (mathlab.test_mathlab.ReplayTests.test_missing_authoritative_s0_context_refuses_shared_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 342, in test_missing_authoritative_s0_context_refuses_shared_input
+    with self.assertRaisesRegex(ValueError, "CONTEXT"):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (failures=1)

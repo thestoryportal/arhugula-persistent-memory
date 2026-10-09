@@ -1,0 +1,174 @@
+{
+  "tier": "MATH-PROXY",
+  "fixture": true,
+  "kind": "solve",
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "/private/tmp/mathlab_peak_probe.py",
+    "solve"
+  ],
+  "exit_code": -15,
+  "status": "UNVERIFIED-TIME-LIMIT",
+  "elapsed_s": 30.40058374986984,
+  "sampled_peak_rss_gib": 8.083297729492188,
+  "reserve_gib": 4,
+  "samples": [
+    {
+      "elapsed_s": 0.0029620418790727854,
+      "available_gib": 33.720672607421875,
+      "rss_gib": 0.0001983642578125
+    },
+    {
+      "elapsed_s": 1.00739008304663,
+      "available_gib": 31.961441040039062,
+      "rss_gib": 2.3483428955078125
+    },
+    {
+      "elapsed_s": 2.021813499974087,
+      "available_gib": 31.734207153320312,
+      "rss_gib": 2.8086090087890625
+    },
+    {
+      "elapsed_s": 3.034586832858622,
+      "available_gib": 29.13568115234375,
+      "rss_gib": 6.4994964599609375
+    },
+    {
+      "elapsed_s": 4.0396198749076575,
+      "available_gib": 29.481689453125,
+      "rss_gib": 6.4994964599609375
+    },
+    {
+      "elapsed_s": 5.052478707861155,
+      "available_gib": 29.572189331054688,
+      "rss_gib": 6.4994964599609375
+    },
+    {
+      "elapsed_s": 6.065398332895711,
+      "available_gib": 29.815017700195312,
+      "rss_gib": 6.4994964599609375
+    },
+    {
+      "elapsed_s": 7.078435458010063,
+      "available_gib": 29.311416625976562,
+      "rss_gib": 7.5788726806640625
+    },
+    {
+      "elapsed_s": 8.091557082952932,
+      "available_gib": 29.22406005859375,
+      "rss_gib": 7.7469635009765625
+    },
+    {
+      "elapsed_s": 9.103750874986872,
+      "available_gib": 29.059097290039062,
+      "rss_gib": 8.083236694335938
+    },
+    {
+      "elapsed_s": 10.117922167060897,
+      "available_gib": 29.107208251953125,
+      "rss_gib": 8.083297729492188
+    },
+    {
+      "elapsed_s": 11.122584374854341,
+      "available_gib": 29.083572387695312,
+      "rss_gib": 8.083297729492188
+    },
+    {
+      "elapsed_s": 12.136256041936576,
+      "available_gib": 29.09967041015625,
+      "rss_gib": 8.083099365234375
+    },
+    {
+      "elapsed_s": 13.142697541974485,
+      "available_gib": 29.0908203125,
+      "rss_gib": 8.082916259765625
+    },
+    {
+      "elapsed_s": 14.156841582851484,
+      "available_gib": 29.099517822265625,
+      "rss_gib": 8.082916259765625
+    },
+    {
+      "elapsed_s": 15.170645291917026,
+      "available_gib": 29.101776123046875,
+      "rss_gib": 8.082916259765625
+    },
+    {
+      "elapsed_s": 16.184317957842723,
+      "available_gib": 29.087020874023438,
+      "rss_gib": 8.082916259765625
+    },
+    {
+      "elapsed_s": 17.197289832867682,
+      "available_gib": 29.090377807617188,
+      "rss_gib": 8.082916259765625
+    },
+    {
+      "elapsed_s": 18.2038459579926,
+      "available_gib": 28.821075439453125,
+      "rss_gib": 8.082916259765625
+    },
+    {
+      "elapsed_s": 19.218398791970685,
+      "available_gib": 28.735687255859375,
+      "rss_gib": 8.082916259765625
+    },
+    {
+      "elapsed_s": 20.22664808295667,
+      "available_gib": 30.101226806640625,
+      "rss_gib": 5.759918212890625
+    },
+    {
+      "elapsed_s": 21.233409625012428,
+      "available_gib": 30.071701049804688,
+      "rss_gib": 5.759918212890625
+    },
+    {
+      "elapsed_s": 22.247540291864425,
+      "available_gib": 30.012603759765625,
+      "rss_gib": 5.759918212890625
+    },
+    {
+      "elapsed_s": 23.2617854999844,
+      "available_gib": 29.965728759765625,
+      "rss_gib": 5.759918212890625
+    },
+    {
+      "elapsed_s": 24.275342082837597,
+      "available_gib": 29.917037963867188,
+      "rss_gib": 5.759918212890625
+    },
+    {
+      "elapsed_s": 25.289665000047535,
+      "available_gib": 29.862472534179688,
+      "rss_gib": 5.759918212890625
+    },
+    {
+      "elapsed_s": 26.30362108303234,
+      "available_gib": 30.342819213867188,
+      "rss_gib": 5.759918212890625
+    },
+    {
+      "elapsed_s": 27.311672374838963,
+      "available_gib": 30.231201171875,
+      "rss_gib": 5.759918212890625
+    },
+    {
+      "elapsed_s": 28.32570704189129,
+      "available_gib": 30.251556396484375,
+      "rss_gib": 5.759918212890625
+    },
+    {
+      "elapsed_s": 29.339663374936208,
+      "available_gib": 30.263290405273438,
+      "rss_gib": 5.759918212890625
+    },
+    {
+      "elapsed_s": 30.353924457915127,
+      "available_gib": 31.230316162109375,
+      "rss_gib": 3.594696044921875
+    }
+  ],
+  "scope": "Full production matrix shapes; 30 second build-test limit. An interrupted workload is a lower bound, not a measured complete peak."
+}

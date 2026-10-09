@@ -1,0 +1,2 @@
+{"ts":"2026-10-09T02:59:21.231179Z","schema":1,"run_id":"run3","type":"run_started","step":3,"title":"CPU fixture dry run, no scientific claim","deadline_ts":"2026-10-09T03:29:21.231164+00:00","pid":37429}
+{"ts":"2026-10-09T02:59:21.231443Z","schema":1,"run_id":"run3","type":"admission","allowed":true,"reasons":[]}

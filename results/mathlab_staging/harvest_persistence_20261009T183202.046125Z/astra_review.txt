@@ -1,0 +1,9 @@
+GO — no material blocking issues in the reviewed patch.
+Reviewer: GPT-6-Astra (high), /root/mathlab_build_review; read-only final delta review.
+
+- Partial captures persist before coverage enforcement and before clearing self.current (tools/mathlab_harvest.py:148–165).
+- Capture occurrences remain distinct; diagnostic keys preserve repeated layers without changing successful analysis keys (:130,157–159,182–183).
+- Sidecars use exclusive saves, fsync before marking them saved, and retain raw tensors if persistence fails (:177–188). Original errors remain primary, with persistence failures recorded and chained (:95–107).
+- Failed writes stay outside completed analysis writes; halt diagnostics include their coverage, errors, paths and hashes (:191–195,608).
+
+Recorded RED demonstrates the missing persistence behavior; GREEN passes all four targeted tests, including duplicate-layer values and real halt artifacts/events. Frozen coverage criteria remain unchanged. Broader checks and live behavior are outside this verdict.

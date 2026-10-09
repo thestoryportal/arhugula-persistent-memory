@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_admit.py",
+    "--kind",
+    "cpu",
+    "--run-dir",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/runs/acceptance_20261009T172912.342899Z",
+    "--step",
+    "2",
+    "--deadline-s",
+    "2700"
+  ],
+  "exit_code": 3,
+  "stdout": "{\n  \"tier\": \"MATH-PROXY\",\n  \"kind\": \"cpu\",\n  \"allowed\": false,\n  \"reasons\": [\n    \"[Errno 1] Operation not permitted: '/bin/ps'\"\n  ],\n  \"checks\": {},\n  \"launcher_pid\": 12307,\n  \"lead_source\": null\n}\n",
+  "stderr": ""
+}

@@ -1,0 +1,29 @@
+{
+  "tier": "MATH-PROXY",
+  "fixture": true,
+  "kind": "load",
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "/private/tmp/mathlab_peak_probe.py",
+    "load"
+  ],
+  "exit_code": 0,
+  "status": "PASS",
+  "elapsed_s": 2.025473834015429,
+  "sampled_peak_rss_gib": 0.832672119140625,
+  "reserve_gib": 2,
+  "samples": [
+    {
+      "elapsed_s": 0.00324766687117517,
+      "available_gib": 33.13740539550781,
+      "rss_gib": 0.0009613037109375
+    },
+    {
+      "elapsed_s": 1.0152184590697289,
+      "available_gib": 32.39906311035156,
+      "rss_gib": 0.832672119140625
+    }
+  ],
+  "scope": "Full production matrix shapes; 30 second build-test limit. An interrupted workload is a lower bound, not a measured complete peak."
+}

@@ -1,0 +1,9 @@
+test_standalone_admission_receipts_leave_all_experiment_steps_unstarted (mathlab.test_mathlab.AdmissionTests.test_standalone_admission_receipts_leave_all_experiment_steps_unstarted) ... ok
+test_launcher_owned_admission_attaches_and_requires_experiment_closeout (mathlab.test_mathlab.AdmissionTests.test_launcher_owned_admission_attaches_and_requires_experiment_closeout) ... ok
+test_attachment_rejects_explicit_admission_and_accepts_experiment_or_legacy (mathlab.test_mathlab.AdmissionTests.test_attachment_rejects_explicit_admission_and_accepts_experiment_or_legacy) ... ok
+test_admission_probe_error_emits_failed_gate_and_staged_closeout (mathlab.test_mathlab.ResourceArtifactTests.test_admission_probe_error_emits_failed_gate_and_staged_closeout) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.018s
+
+OK

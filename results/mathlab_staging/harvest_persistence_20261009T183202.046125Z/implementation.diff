@@ -1,0 +1,257 @@
+--- tools/mathlab_harvest.py (before)
++++ tools/mathlab_harvest.py (after)
+@@ -74,18 +74,40 @@
+ 
+ 
+ class EditObserver:
+-    def __init__(self, H, completed=None):
++    def __init__(self, H, completed=None, failed=None):
+         self.H = H
+         self.original = H.my_edit
+         self.edit_code = self.original.__code__
+         self.shape_code = H.upd_matrix_match_shape.__code__
+         self.writes = []; self.current = None; self.arm_override = None
+         self.completed = completed; self.last_capture_count = 0
++        self.failed = failed; self.failed_writes = []
+ 
+     @staticmethod
+-    def validate_coverage(captures, return_count):
+-        R.require([(r["i"], r["layer"]) for r in captures] == list(enumerate(BAND)) and return_count == 1,
++    def coverage_passes(captures, return_count):
++        return [(r["i"], r["layer"]) for r in captures] == list(enumerate(BAND)) and return_count == 1
++
++    @classmethod
++    def validate_coverage(cls, captures, return_count):
++        R.require(cls.coverage_passes(captures, return_count),
+                   "CAPTURE", "write must have exactly five ordered captures and one return")
++
++    def preserve_failed(self, write, error):
++        write.update(diagnostic_only=True, analysis_eligible=False, artifacts=[],
++            coverage=dict(captures=write["captures"], return_count=write["return_count"],
++                          expected_captures=[dict(i=i, layer=l) for i, l in enumerate(BAND)],
++                          expected_return_count=1, passed=self.coverage_passes(write["captures"], write["return_count"])),
++            error=dict(type=type(error).__name__, code=getattr(error, "code", None), message=str(error)))
++        self.failed_writes.append(write)
++        if self.failed is not None:
++            try:
++                self.failed(write)
++            except Exception as persistence_error:
++                write["persistence_error"] = dict(type=type(persistence_error).__name__, message=str(persistence_error))
++                raise error from persistence_error
++
++    def failure_details(self):
++        return [{k: v for k, v in write.items() if k != "capture_tensors"} for write in self.failed_writes]
+ 
+     def profile(self, frame, event, arg):
+         matching = (event == "call" and frame.f_code is self.shape_code and frame.f_back is not None
+@@ -105,7 +127,7 @@
+                       "SUBJECT", "science request order must be the frozen 24 subjects")
+             tensors = capture_operands(local)
+             if self.current["arm"] != A7: tensors.pop("upd_precast")
+-            self.current.setdefault("tensors", {}).update({f"l{row['layer']}." + k: v for k, v in tensors.items()})
++            self.current.setdefault("capture_tensors", []).append(tensors)
+         self.current["captures"].append(row)
+ 
+     def call(self, *args, **kwargs):
+@@ -120,16 +142,27 @@
+         write = dict(arm=arm, tag="law5" if law5 else "science", captures=[], return_count=0)
+         self.current = write
+         try:
+-            sys.setprofile(self.profile)
+-            result = self.original(*args, **kwargs)
++            try:
++                sys.setprofile(self.profile)
++                result = self.original(*args, **kwargs)
++            except Exception as error:
++                sys.setprofile(previous)
++                self.preserve_failed(write, error)
++                raise
++            finally:
++                sys.setprofile(previous)
++            if not self.coverage_passes(write["captures"], write["return_count"]):
++                self.preserve_failed(write, R.Halt("CAPTURE", "write must have exactly five ordered captures and one return"))
++            self.validate_coverage(write["captures"], write["return_count"])
++            if "capture_tensors" in write:
++                write["tensors"] = {f"l{row['layer']}." + k: v
++                    for row, tensors in zip(write["captures"], write.pop("capture_tensors")) for k, v in tensors.items()}
++            self.last_capture_count = len(write["captures"])
++            self.writes.append(write)
++            if self.completed is not None: self.completed(write)
++            return result
+         finally:
+-            sys.setprofile(previous)
+             self.current = None
+-        self.validate_coverage(write["captures"], write["return_count"])
+-        self.last_capture_count = len(write["captures"])
+-        self.writes.append(write)
+-        if self.completed is not None: self.completed(write)
+-        return result
+ 
+     @contextlib.contextmanager
+     def bound(self):
+@@ -139,6 +172,27 @@
+             yield self
+         finally:
+             self.H.my_edit = self.original
++
++
++def persist_failed_write(run_dir, write):
++    path = Path(run_dir) / "diagnostic_captures" / ("partial_write_" + R.utc_tag() + ".pt")
++    path.parent.mkdir(parents=True, exist_ok=True)
++    ref = dict(path=str(path), diagnostic_only=True, analysis_eligible=False, status="writing")
++    write["artifacts"].append(ref)
++    tensors = {f"c{i}.l{row['layer']}." + k: v
++        for i, (row, values) in enumerate(zip(write["captures"], write.get("capture_tensors", []))) for k, v in values.items()}
++    ref.update(R.save_tensors(path, tensors))
++    with path.open("rb") as source:
++        os.fsync(source.fileno())
++    ref["status"] = "saved"
++    write.pop("capture_tensors", None)
++
++
++def stage_harvest_halt(run, error, observer=None):
++    code = error.code if isinstance(error, R.Halt) else "HARVEST-ERROR"
++    return R.stage_halt(W, run.directory, code, str(error), step=1,
++        details={"projection": run.budget.last_projection, "gates": run.gates,
++                 "failed_writes": observer.failure_details() if observer is not None else []})
+ 
+ 
+ @contextlib.contextmanager
+@@ -412,7 +466,7 @@
+ def harvest(run_dir, admission_path):
+     run = R.Run(run_dir, 1, "Record inputs to the model's write calculation", 3600, attach=True)
+     files = {}; manifest = dict(tier=R.TIER, decision_id="D-ML-1", prereg_sha256=R.PREREG_SHA)
+-    H = None; hp = None; pristine = None
++    H = None; hp = None; pristine = None; observer = None
+     try:
+         R.verify_prereg(W)
+         from tools.mathlab_admit import dispatch_check
+@@ -451,7 +505,7 @@
+             R.require(arm in [A1, A2, A7, *MINT], "ARM", "unknown science arm")
+             tensors = write.pop("tensors"); saved[arm] = tensors
+             files[f"inloop_{arm}.pt"] = R.save_tensors(output / f"inloop_{arm}.pt", tensors)
+-        observer = EditObserver(H, completed)
++        observer = EditObserver(H, completed, lambda write: persist_failed_write(run.directory, write))
+         old_hooks = list(H.ARM_HOOKS)
+         def post_hook(arm, values):
+             with run.stage("postedit", "Record the edited model before restoring its weights", 300, alarm=True):
+@@ -551,8 +605,7 @@
+         run.event("run_finished", outcome="PASS", summary="Operand harvest completed; no behavioural promotion")
+         return manifest
+     except Exception as error:
+-        code = error.code if isinstance(error, R.Halt) else "HARVEST-ERROR"
+-        R.stage_halt(W, run_dir, code, str(error), step=1, details={"projection": run.budget.last_projection, "gates": run.gates})
++        stage_harvest_halt(run, error, observer)
+         raise
+     finally:
+         if H is not None and pristine is not None: H.restore_layers(hp, pristine)
+--- mathlab/test_mathlab.py (before)
++++ mathlab/test_mathlab.py (after)
+@@ -304,6 +304,107 @@
+         with O.bound(), self.assertRaises(IndexError):
+             self.H.my_edit(self.hp, self.requests, self.P, [])
+         self.assertIsNone(sys.getprofile())
++
++    def assert_failed_capture_persists(self, layers, cache_count, error_type):
++        H = module(self, "tools.mathlab_harvest"); R = module(self, "tools.mathlab_runtime")
++        from tools.mathlab_events import read_events
++        self.hp.layers = layers
++        expected = {}; completed = []
++        original = self.H.my_edit
++        with tempfile.TemporaryDirectory() as td, \
++             patch.dict(self.H.get_context_templates.__globals__, CONTEXT_TEMPLATES_CACHE=[["{}"]]):
++            root = Path(td); run = R.Run(root / "run", 1, "CPU failure fixture", 3600)
++            def failed(write):
++                self.assertIs(O.current, write)
++                self.assertIsNone(sys.getprofile())
++                validate.assert_not_called()
++                for i, (row, tensors) in enumerate(zip(write["captures"], write["capture_tensors"])):
++                    expected.update({f"c{i}.l{row['layer']}.{k}": v.clone() for k, v in tensors.items()})
++                before = synced.call_count
++                H.persist_failed_write(run.directory, write)
++                self.assertEqual(synced.call_count, before + 1)
++                self.assertNotIn("capture_tensors", write)
++            O = H.EditObserver(self.H, completed.append); O.failed = failed
++            with patch.object(O, "validate_coverage", wraps=O.validate_coverage) as validate, \
++                 patch.object(H.os, "fsync", wraps=os.fsync) as synced, patch.object(H, "W", root):
++                with self.assertRaises(error_type) as caught:
++                    with O.bound():
++                        self.H.my_edit(self.hp, self.requests, self.P,
++                                       [torch.zeros(3, 3) for _ in range(cache_count)])
++                self.assertTrue(expected, "failed write captures were not persisted")
++                result = H.stage_harvest_halt(run, caught.exception, O)
++            self.assertIs(self.H.my_edit, original); self.assertIsNone(sys.getprofile())
++            self.assertIsNone(O.current); self.assertEqual(O.writes, [])
++            self.assertEqual(completed, []); self.assertEqual(O.last_capture_count, 0)
++            diagnostic = R.read_json(result["diagnostic_path"])
++            self.assertEqual(len(diagnostic["details"]["failed_writes"]), 1)
++            write = diagnostic["details"]["failed_writes"][0]
++            self.assertTrue(write["diagnostic_only"]); self.assertFalse(write["analysis_eligible"])
++            self.assertEqual(write["arm"], A7)
++            self.assertEqual(write["coverage"]["captures"], [dict(i=i, layer=l) for i, l in enumerate(layers[:cache_count])])
++            self.assertEqual(write["coverage"]["expected_captures"], [dict(i=i, layer=l) for i, l in enumerate(BAND)])
++            self.assertEqual(write["coverage"]["return_count"], 1)
++            self.assertEqual(write["coverage"]["expected_return_count"], 1)
++            self.assertFalse(write["coverage"]["passed"])
++            self.assertEqual(write["error"]["type"], type(caught.exception).__name__)
++            self.assertEqual(write["error"]["message"], str(caught.exception))
++            self.assertEqual(write["error"]["code"], getattr(caught.exception, "code", None))
++            self.assertEqual(len(write["artifacts"]), 1)
++            ref = write["artifacts"][0]; path = Path(ref["path"])
++            self.assertEqual(path.parent, run.directory / "diagnostic_captures")
++            self.assertTrue(ref["diagnostic_only"]); self.assertFalse(ref["analysis_eligible"])
++            self.assertEqual(ref["status"], "saved")
++            self.assertEqual(ref["sha256"], R.sha_file(path))
++            loaded = torch.load(path, map_location="cpu", weights_only=True)
++            self.assertEqual(set(loaded), set(expected))
++            for k, v in expected.items():
++                self.assertTrue(torch.equal(loaded[k], v), k)
++                self.assertEqual(loaded[k].dtype, v.dtype)
++                self.assertEqual(ref["tensors"][k], dict(shape=list(v.shape), dtype=str(v.dtype)))
++            if layers[:2] == [4, 4]:
++                self.assertFalse(torch.equal(loaded["c0.l4.rf"], loaded["c1.l4.rf"]))
++            self.assertFalse(list(root.rglob("inloop_*.pt")))
++            self.assertFalse(list(root.rglob("manifest.json")))
++            rows, errors = read_events(run.directory / "events.jsonl")
++            self.assertEqual(errors, [])
++            halted = next(row for row in rows if row["type"] == "halted")
++            self.assertEqual(halted["diagnostic_path"], result["diagnostic_path"])
++            self.assertEqual(rows[-1]["type"], "run_finished")
++            self.assertEqual(rows[-1]["outcome"], "INVALID")
++
++    def test_coverage_failure_persists_count_order_and_repeated_layer_captures(self):
++        for layers in (BAND[:4], [5, 4, 6, 7, 8], [4, 4, 6, 7, 8]):
++            with self.subTest(layers=layers):
++                self.setUp()
++                self.assert_failed_capture_persists(layers, 5, ValueError)
++
++    def test_mid_edit_exception_persists_captures_and_original_error(self):
++        self.assert_failed_capture_persists(BAND, 2, IndexError)
++
++    def test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink(self):
++        H = module(self, "tools.mathlab_harvest"); completed = []; failed = []
++        O = H.EditObserver(self.H, completed.append, failed.append)
++        with O.bound(), patch.dict(self.H.get_context_templates.__globals__, CONTEXT_TEMPLATES_CACHE=[["{}"]]):
++            self.H.my_edit(self.hp, self.requests, self.P, [torch.zeros(3, 3) for _ in BAND])
++        self.assertEqual(failed, []); self.assertEqual(O.failed_writes, [])
++        self.assertEqual(completed, O.writes); self.assertEqual(len(completed), 1)
++        self.assertNotIn("capture_tensors", completed[0])
++        self.assertEqual({k.split(".")[0] for k in completed[0]["tensors"]}, {f"l{l}" for l in BAND})
++
++    def test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported(self):
++        H = module(self, "tools.mathlab_harvest"); R = module(self, "tools.mathlab_runtime")
++        with tempfile.TemporaryDirectory() as td, patch.object(R, "utc_tag", return_value="collision"):
++            def write():
++                return dict(captures=[dict(i=0, layer=4)], capture_tensors=[{"zs": torch.ones(2, dtype=torch.float16)}], artifacts=[])
++            first = write(); H.persist_failed_write(td, first)
++            path = Path(first["artifacts"][0]["path"]); before = path.read_bytes()
++            second = write()
++            with self.assertRaises(FileExistsError): H.persist_failed_write(td, second)
++            self.assertEqual(path.read_bytes(), before)
++            with patch.object(R, "utc_tag", return_value="fsync_failure"), \
++                 patch.object(H.os, "fsync", side_effect=OSError("fsync failed")):
++                with self.assertRaisesRegex(OSError, "fsync failed"):
++                    H.persist_failed_write(td, write())
+ 
+     def test_science_subject_mismatch_and_nonzero_cache_halt(self):
+         O = self.observer()

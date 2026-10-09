@@ -1,0 +1,1892 @@
+{
+  "tier": "MATH-PROXY",
+  "decision_id": "D-ML-1",
+  "prereg_sha256": "33e5aa4e0fc01e07e5b1b7e6fe234e07be41e9c9b2c8edf9496af5572d9b398a",
+  "harvest": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z/manifest.json",
+    "sha256": "47c1c9f9e6f17763aa9265cf8c1744fafd2cf3311920ff794f4a7c26b02b3558"
+  },
+  "gate2a": {
+    "passed": true,
+    "records": {
+      "A1_single:4": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.38052594703859377,
+        "fp32_fp64_difference_norm": 5.964337989232573e-08
+      },
+      "A2_coherent2:4": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3843331966648466,
+        "fp32_fp64_difference_norm": 6.422558738664307e-08
+      },
+      "A7_coined_coined:4": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3298484474028071,
+        "fp32_fp64_difference_norm": 3.544561243512584e-08
+      },
+      "mint1_s0:4": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3046309299177801,
+        "fp32_fp64_difference_norm": 3.6720056933662393e-08
+      },
+      "mint1_s1:4": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.28284271506827124,
+        "fp32_fp64_difference_norm": 2.269445687236495e-08
+      },
+      "mint1_s2:4": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.2884440940003378,
+        "fp32_fp64_difference_norm": 1.7534148854450945e-08
+      },
+      "A1_single:5": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.38052594703859377,
+        "fp32_fp64_difference_norm": 5.964337989232573e-08
+      },
+      "A2_coherent2:5": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3843331966648466,
+        "fp32_fp64_difference_norm": 6.422558738664307e-08
+      },
+      "A7_coined_coined:5": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3298484474028071,
+        "fp32_fp64_difference_norm": 3.544561243512584e-08
+      },
+      "mint1_s0:5": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3046309299177801,
+        "fp32_fp64_difference_norm": 3.6720056933662393e-08
+      },
+      "mint1_s1:5": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.28284271506827124,
+        "fp32_fp64_difference_norm": 2.269445687236495e-08
+      },
+      "mint1_s2:5": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.2884440940003378,
+        "fp32_fp64_difference_norm": 1.7534148854450945e-08
+      },
+      "A1_single:6": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.38052594703859377,
+        "fp32_fp64_difference_norm": 5.964337989232573e-08
+      },
+      "A2_coherent2:6": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3843331966648466,
+        "fp32_fp64_difference_norm": 6.422558738664307e-08
+      },
+      "A7_coined_coined:6": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3298484474028071,
+        "fp32_fp64_difference_norm": 3.544561243512584e-08
+      },
+      "mint1_s0:6": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3046309299177801,
+        "fp32_fp64_difference_norm": 3.6720056933662393e-08
+      },
+      "mint1_s1:6": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.28284271506827124,
+        "fp32_fp64_difference_norm": 2.269445687236495e-08
+      },
+      "mint1_s2:6": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.2884440940003378,
+        "fp32_fp64_difference_norm": 1.7534148854450945e-08
+      },
+      "A1_single:7": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.38052594703859377,
+        "fp32_fp64_difference_norm": 5.964337989232573e-08
+      },
+      "A2_coherent2:7": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3843331966648466,
+        "fp32_fp64_difference_norm": 6.422558738664307e-08
+      },
+      "A7_coined_coined:7": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3298484474028071,
+        "fp32_fp64_difference_norm": 3.544561243512584e-08
+      },
+      "mint1_s0:7": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3046309299177801,
+        "fp32_fp64_difference_norm": 3.6720056933662393e-08
+      },
+      "mint1_s1:7": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.28284271506827124,
+        "fp32_fp64_difference_norm": 2.269445687236495e-08
+      },
+      "mint1_s2:7": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.2884440940003378,
+        "fp32_fp64_difference_norm": 1.7534148854450945e-08
+      },
+      "A1_single:8": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.38052594703859377,
+        "fp32_fp64_difference_norm": 5.964337989232573e-08
+      },
+      "A2_coherent2:8": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3843331966648466,
+        "fp32_fp64_difference_norm": 6.422558738664307e-08
+      },
+      "A7_coined_coined:8": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3298484474028071,
+        "fp32_fp64_difference_norm": 3.544561243512584e-08
+      },
+      "mint1_s0:8": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.3046309299177801,
+        "fp32_fp64_difference_norm": 3.6720056933662393e-08
+      },
+      "mint1_s1:8": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.28284271506827124,
+        "fp32_fp64_difference_norm": 2.269445687236495e-08
+      },
+      "mint1_s2:8": {
+        "projector_passed": true,
+        "update_passed": true,
+        "relative_error": 0.0,
+        "cond_A": 13.0,
+        "fp64_update_norm": 0.2884440940003378,
+        "fp32_fp64_difference_norm": 1.7534148854450945e-08
+      }
+    }
+  },
+  "gate2b": "OPERANDS-ONLY",
+  "fp16_rounding": {
+    "4": 0.0002137385555576355,
+    "5": 0.0002137385555576355,
+    "6": 0.0002137385555576355,
+    "7": 0.0002137385555576355,
+    "8": 0.0002137385555576355
+  },
+  "files": {
+    "replayed_A1_single_l4.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A1_single_l4.pt",
+      "sha256": "60696b00a622ddf7d472ddd7453c37697b1a191dada1ddbb3106487a0eb70993",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A2_coherent2_l4.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A2_coherent2_l4.pt",
+      "sha256": "23973705d85e7c513653afc7cabb1f12582487c25c4b7d096cd4fb3f53720b6b",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A7_coined_coined_l4.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A7_coined_coined_l4.pt",
+      "sha256": "5f662c585ed050ceece489dadf8273f69439207e682ad4e2b505a63e1612db19",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s0_l4.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s0_l4.pt",
+      "sha256": "4467df48c187298270f09240d8a10c6cef7c5d8ec55c8d776f8f052f558c3d29",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s1_l4.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s1_l4.pt",
+      "sha256": "05a14336570f776b7d9122a7a5ad005ea11aea5d11bfd448459c6edf723c0d3b",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s2_l4.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s2_l4.pt",
+      "sha256": "909032a520fdd00b008f197f4dd36a83eadab5b79f0a8e13719bfa5e13fa7abb",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A1_single_l5.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A1_single_l5.pt",
+      "sha256": "60696b00a622ddf7d472ddd7453c37697b1a191dada1ddbb3106487a0eb70993",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A2_coherent2_l5.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A2_coherent2_l5.pt",
+      "sha256": "23973705d85e7c513653afc7cabb1f12582487c25c4b7d096cd4fb3f53720b6b",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A7_coined_coined_l5.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A7_coined_coined_l5.pt",
+      "sha256": "5f662c585ed050ceece489dadf8273f69439207e682ad4e2b505a63e1612db19",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s0_l5.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s0_l5.pt",
+      "sha256": "4467df48c187298270f09240d8a10c6cef7c5d8ec55c8d776f8f052f558c3d29",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s1_l5.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s1_l5.pt",
+      "sha256": "05a14336570f776b7d9122a7a5ad005ea11aea5d11bfd448459c6edf723c0d3b",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s2_l5.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s2_l5.pt",
+      "sha256": "909032a520fdd00b008f197f4dd36a83eadab5b79f0a8e13719bfa5e13fa7abb",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A1_single_l6.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A1_single_l6.pt",
+      "sha256": "60696b00a622ddf7d472ddd7453c37697b1a191dada1ddbb3106487a0eb70993",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A2_coherent2_l6.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A2_coherent2_l6.pt",
+      "sha256": "23973705d85e7c513653afc7cabb1f12582487c25c4b7d096cd4fb3f53720b6b",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A7_coined_coined_l6.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A7_coined_coined_l6.pt",
+      "sha256": "5f662c585ed050ceece489dadf8273f69439207e682ad4e2b505a63e1612db19",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s0_l6.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s0_l6.pt",
+      "sha256": "4467df48c187298270f09240d8a10c6cef7c5d8ec55c8d776f8f052f558c3d29",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s1_l6.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s1_l6.pt",
+      "sha256": "05a14336570f776b7d9122a7a5ad005ea11aea5d11bfd448459c6edf723c0d3b",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s2_l6.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s2_l6.pt",
+      "sha256": "909032a520fdd00b008f197f4dd36a83eadab5b79f0a8e13719bfa5e13fa7abb",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A1_single_l7.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A1_single_l7.pt",
+      "sha256": "60696b00a622ddf7d472ddd7453c37697b1a191dada1ddbb3106487a0eb70993",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A2_coherent2_l7.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A2_coherent2_l7.pt",
+      "sha256": "23973705d85e7c513653afc7cabb1f12582487c25c4b7d096cd4fb3f53720b6b",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A7_coined_coined_l7.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A7_coined_coined_l7.pt",
+      "sha256": "5f662c585ed050ceece489dadf8273f69439207e682ad4e2b505a63e1612db19",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s0_l7.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s0_l7.pt",
+      "sha256": "4467df48c187298270f09240d8a10c6cef7c5d8ec55c8d776f8f052f558c3d29",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s1_l7.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s1_l7.pt",
+      "sha256": "05a14336570f776b7d9122a7a5ad005ea11aea5d11bfd448459c6edf723c0d3b",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s2_l7.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s2_l7.pt",
+      "sha256": "909032a520fdd00b008f197f4dd36a83eadab5b79f0a8e13719bfa5e13fa7abb",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A1_single_l8.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A1_single_l8.pt",
+      "sha256": "60696b00a622ddf7d472ddd7453c37697b1a191dada1ddbb3106487a0eb70993",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A2_coherent2_l8.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A2_coherent2_l8.pt",
+      "sha256": "23973705d85e7c513653afc7cabb1f12582487c25c4b7d096cd4fb3f53720b6b",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_A7_coined_coined_l8.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_A7_coined_coined_l8.pt",
+      "sha256": "5f662c585ed050ceece489dadf8273f69439207e682ad4e2b505a63e1612db19",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s0_l8.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s0_l8.pt",
+      "sha256": "4467df48c187298270f09240d8a10c6cef7c5d8ec55c8d776f8f052f558c3d29",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s1_l8.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s1_l8.pt",
+      "sha256": "05a14336570f776b7d9122a7a5ad005ea11aea5d11bfd448459c6edf723c0d3b",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    },
+    "replayed_mint1_s2_l8.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/replayed_mint1_s2_l8.pt",
+      "sha256": "909032a520fdd00b008f197f4dd36a83eadab5b79f0a8e13719bfa5e13fa7abb",
+      "bytes": 2021,
+      "tier": "MATH-PROXY",
+      "tensors": {
+        "update": {
+          "shape": [
+            2,
+            3
+          ],
+          "dtype": "torch.float32"
+        },
+        "zs": {
+          "shape": [
+            2,
+            24
+          ],
+          "dtype": "torch.float32"
+        }
+      }
+    }
+  },
+  "gates": {
+    "stage-memory-reproduction": {
+      "gate_id": "stage-memory-reproduction",
+      "plain_words": "At least eight GiB of memory before this stage",
+      "observed": 22.3125,
+      "bar": 8,
+      "comparison": ">=",
+      "passed": true
+    },
+    "budget-reproduction": {
+      "gate_id": "budget-reproduction",
+      "plain_words": "This stage fits the remaining deadline",
+      "observed": {
+        "stage": "reproduction",
+        "elapsed_s": 8.065865750191733,
+        "remaining_stage_s": 2691.9341342498083,
+        "projected_end_s": 2700.0,
+        "process_cap_s": 2700
+      },
+      "bar": 2700,
+      "comparison": "meets",
+      "passed": true
+    },
+    "memory-reserve-2": {
+      "gate_id": "memory-reserve-2",
+      "plain_words": "Enough free memory for this calculation",
+      "observed": 22.310134887695312,
+      "bar": 10,
+      "comparison": ">=",
+      "passed": true
+    },
+    "memory-reserve-4": {
+      "gate_id": "memory-reserve-4",
+      "plain_words": "Enough free memory for this calculation",
+      "observed": 22.311279296875,
+      "bar": 12,
+      "comparison": ">=",
+      "passed": true
+    },
+    "2a-projector-A1_single-4": {
+      "gate_id": "2a-projector-A1_single-4",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "memory-reserve-9": {
+      "gate_id": "memory-reserve-9",
+      "plain_words": "Enough free memory for this calculation",
+      "observed": 22.311691284179688,
+      "bar": 17,
+      "comparison": ">=",
+      "passed": true
+    },
+    "2a-update-A1_single-4": {
+      "gate_id": "2a-update-A1_single-4",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A2_coherent2-4": {
+      "gate_id": "2a-projector-A2_coherent2-4",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A2_coherent2-4": {
+      "gate_id": "2a-update-A2_coherent2-4",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A7_coined_coined-4": {
+      "gate_id": "2a-projector-A7_coined_coined-4",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A7_coined_coined-4": {
+      "gate_id": "2a-update-A7_coined_coined-4",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s0-4": {
+      "gate_id": "2a-projector-mint1_s0-4",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s0-4": {
+      "gate_id": "2a-update-mint1_s0-4",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s1-4": {
+      "gate_id": "2a-projector-mint1_s1-4",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s1-4": {
+      "gate_id": "2a-update-mint1_s1-4",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s2-4": {
+      "gate_id": "2a-projector-mint1_s2-4",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s2-4": {
+      "gate_id": "2a-update-mint1_s2-4",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A1_single-5": {
+      "gate_id": "2a-projector-A1_single-5",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A1_single-5": {
+      "gate_id": "2a-update-A1_single-5",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A2_coherent2-5": {
+      "gate_id": "2a-projector-A2_coherent2-5",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A2_coherent2-5": {
+      "gate_id": "2a-update-A2_coherent2-5",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A7_coined_coined-5": {
+      "gate_id": "2a-projector-A7_coined_coined-5",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A7_coined_coined-5": {
+      "gate_id": "2a-update-A7_coined_coined-5",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s0-5": {
+      "gate_id": "2a-projector-mint1_s0-5",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s0-5": {
+      "gate_id": "2a-update-mint1_s0-5",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s1-5": {
+      "gate_id": "2a-projector-mint1_s1-5",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s1-5": {
+      "gate_id": "2a-update-mint1_s1-5",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s2-5": {
+      "gate_id": "2a-projector-mint1_s2-5",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s2-5": {
+      "gate_id": "2a-update-mint1_s2-5",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A1_single-6": {
+      "gate_id": "2a-projector-A1_single-6",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A1_single-6": {
+      "gate_id": "2a-update-A1_single-6",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A2_coherent2-6": {
+      "gate_id": "2a-projector-A2_coherent2-6",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A2_coherent2-6": {
+      "gate_id": "2a-update-A2_coherent2-6",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A7_coined_coined-6": {
+      "gate_id": "2a-projector-A7_coined_coined-6",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A7_coined_coined-6": {
+      "gate_id": "2a-update-A7_coined_coined-6",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s0-6": {
+      "gate_id": "2a-projector-mint1_s0-6",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s0-6": {
+      "gate_id": "2a-update-mint1_s0-6",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s1-6": {
+      "gate_id": "2a-projector-mint1_s1-6",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s1-6": {
+      "gate_id": "2a-update-mint1_s1-6",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s2-6": {
+      "gate_id": "2a-projector-mint1_s2-6",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s2-6": {
+      "gate_id": "2a-update-mint1_s2-6",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A1_single-7": {
+      "gate_id": "2a-projector-A1_single-7",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A1_single-7": {
+      "gate_id": "2a-update-A1_single-7",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A2_coherent2-7": {
+      "gate_id": "2a-projector-A2_coherent2-7",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A2_coherent2-7": {
+      "gate_id": "2a-update-A2_coherent2-7",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A7_coined_coined-7": {
+      "gate_id": "2a-projector-A7_coined_coined-7",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A7_coined_coined-7": {
+      "gate_id": "2a-update-A7_coined_coined-7",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s0-7": {
+      "gate_id": "2a-projector-mint1_s0-7",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s0-7": {
+      "gate_id": "2a-update-mint1_s0-7",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s1-7": {
+      "gate_id": "2a-projector-mint1_s1-7",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s1-7": {
+      "gate_id": "2a-update-mint1_s1-7",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s2-7": {
+      "gate_id": "2a-projector-mint1_s2-7",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s2-7": {
+      "gate_id": "2a-update-mint1_s2-7",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A1_single-8": {
+      "gate_id": "2a-projector-A1_single-8",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A1_single-8": {
+      "gate_id": "2a-update-A1_single-8",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A2_coherent2-8": {
+      "gate_id": "2a-projector-A2_coherent2-8",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A2_coherent2-8": {
+      "gate_id": "2a-update-A2_coherent2-8",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-A7_coined_coined-8": {
+      "gate_id": "2a-projector-A7_coined_coined-8",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-A7_coined_coined-8": {
+      "gate_id": "2a-update-A7_coined_coined-8",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s0-8": {
+      "gate_id": "2a-projector-mint1_s0-8",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s0-8": {
+      "gate_id": "2a-update-mint1_s0-8",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s1-8": {
+      "gate_id": "2a-projector-mint1_s1-8",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s1-8": {
+      "gate_id": "2a-update-mint1_s1-8",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a-projector-mint1_s2-8": {
+      "gate_id": "2a-projector-mint1_s2-8",
+      "plain_words": "Offline projection matches the recorded write",
+      "observed": {
+        "null_n": 3,
+        "sha256": "64eec129c8d3f58ee6b7ca145b25e312fa82d3d276db5adaedb59aaebb824885"
+      },
+      "bar": {
+        "null_n": 3,
+        "probe_relative_max": 1e-06
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "2a-update-mint1_s2-8": {
+      "gate_id": "2a-update-mint1_s2-8",
+      "plain_words": "Offline write reproduces the saved calculation",
+      "observed": 0.0,
+      "bar": 1e-05,
+      "comparison": "<=",
+      "passed": true
+    },
+    "2a": {
+      "gate_id": "2a",
+      "plain_words": "Exact offline reproduction of the recorded write",
+      "observed": {
+        "A1_single:4": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.38052594703859377,
+          "fp32_fp64_difference_norm": 5.964337989232573e-08
+        },
+        "A2_coherent2:4": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3843331966648466,
+          "fp32_fp64_difference_norm": 6.422558738664307e-08
+        },
+        "A7_coined_coined:4": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3298484474028071,
+          "fp32_fp64_difference_norm": 3.544561243512584e-08
+        },
+        "mint1_s0:4": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3046309299177801,
+          "fp32_fp64_difference_norm": 3.6720056933662393e-08
+        },
+        "mint1_s1:4": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.28284271506827124,
+          "fp32_fp64_difference_norm": 2.269445687236495e-08
+        },
+        "mint1_s2:4": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.2884440940003378,
+          "fp32_fp64_difference_norm": 1.7534148854450945e-08
+        },
+        "A1_single:5": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.38052594703859377,
+          "fp32_fp64_difference_norm": 5.964337989232573e-08
+        },
+        "A2_coherent2:5": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3843331966648466,
+          "fp32_fp64_difference_norm": 6.422558738664307e-08
+        },
+        "A7_coined_coined:5": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3298484474028071,
+          "fp32_fp64_difference_norm": 3.544561243512584e-08
+        },
+        "mint1_s0:5": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3046309299177801,
+          "fp32_fp64_difference_norm": 3.6720056933662393e-08
+        },
+        "mint1_s1:5": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.28284271506827124,
+          "fp32_fp64_difference_norm": 2.269445687236495e-08
+        },
+        "mint1_s2:5": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.2884440940003378,
+          "fp32_fp64_difference_norm": 1.7534148854450945e-08
+        },
+        "A1_single:6": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.38052594703859377,
+          "fp32_fp64_difference_norm": 5.964337989232573e-08
+        },
+        "A2_coherent2:6": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3843331966648466,
+          "fp32_fp64_difference_norm": 6.422558738664307e-08
+        },
+        "A7_coined_coined:6": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3298484474028071,
+          "fp32_fp64_difference_norm": 3.544561243512584e-08
+        },
+        "mint1_s0:6": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3046309299177801,
+          "fp32_fp64_difference_norm": 3.6720056933662393e-08
+        },
+        "mint1_s1:6": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.28284271506827124,
+          "fp32_fp64_difference_norm": 2.269445687236495e-08
+        },
+        "mint1_s2:6": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.2884440940003378,
+          "fp32_fp64_difference_norm": 1.7534148854450945e-08
+        },
+        "A1_single:7": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.38052594703859377,
+          "fp32_fp64_difference_norm": 5.964337989232573e-08
+        },
+        "A2_coherent2:7": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3843331966648466,
+          "fp32_fp64_difference_norm": 6.422558738664307e-08
+        },
+        "A7_coined_coined:7": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3298484474028071,
+          "fp32_fp64_difference_norm": 3.544561243512584e-08
+        },
+        "mint1_s0:7": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3046309299177801,
+          "fp32_fp64_difference_norm": 3.6720056933662393e-08
+        },
+        "mint1_s1:7": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.28284271506827124,
+          "fp32_fp64_difference_norm": 2.269445687236495e-08
+        },
+        "mint1_s2:7": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.2884440940003378,
+          "fp32_fp64_difference_norm": 1.7534148854450945e-08
+        },
+        "A1_single:8": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.38052594703859377,
+          "fp32_fp64_difference_norm": 5.964337989232573e-08
+        },
+        "A2_coherent2:8": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3843331966648466,
+          "fp32_fp64_difference_norm": 6.422558738664307e-08
+        },
+        "A7_coined_coined:8": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3298484474028071,
+          "fp32_fp64_difference_norm": 3.544561243512584e-08
+        },
+        "mint1_s0:8": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.3046309299177801,
+          "fp32_fp64_difference_norm": 3.6720056933662393e-08
+        },
+        "mint1_s1:8": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.28284271506827124,
+          "fp32_fp64_difference_norm": 2.269445687236495e-08
+        },
+        "mint1_s2:8": {
+          "projector_passed": true,
+          "update_passed": true,
+          "relative_error": 0.0,
+          "cond_A": 13.0,
+          "fp64_update_norm": 0.2884440940003378,
+          "fp32_fp64_difference_norm": 1.7534148854450945e-08
+        }
+      },
+      "bar": "all matches within frozen tolerances",
+      "comparison": "meets",
+      "passed": true
+    },
+    "2b": {
+      "gate_id": "2b",
+      "plain_words": "Whether clean inputs support first-order alternative solves",
+      "observed": "OPERANDS-ONLY",
+      "bar": {
+        "relative_error_max": 0.25,
+        "cosine_min": 0.95
+      },
+      "comparison": "meets",
+      "passed": false
+    }
+  }
+}

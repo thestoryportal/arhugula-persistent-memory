@@ -1,0 +1,101 @@
+{
+  "utc": "2026-10-09T04:12:38.498249+00:00",
+  "worktree": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "branch": "worktree-c10k-route-a",
+  "head": "4f7b22cebb0ba07bb35156baf6f4aa849bed27a3",
+  "protected_baseline_files": 380,
+  "protected_changes": [
+    {
+      "path": "EXPERIMENT_RUNBOOK.md",
+      "before": "f5d89169a4cccb41bf9af17e0def17afe2627aa675124b24fef3cc7e93bffb40",
+      "after": "85b8f0383638b8da1dd948eaa63a5bd94f5f4b48efadd447f5495ee894a39425"
+    },
+    {
+      "path": "SESSION_CHECKPOINT.md",
+      "before": "08a3d546f5eb6248fe0b26ad21c23cd1481453131facb288433736f01b693f9f",
+      "after": "d738d75b36dca0c1c26f422c187472c35773af7c95384fb3deb66a17509c6a19"
+    },
+    {
+      "path": "experiments/track_c/c10y_directdw_selftest.py",
+      "before": "87874697c329a6caff41272268a488856619502b8c55929abcd9ce8940084364",
+      "after": "81f3c07ec36fe1aa10bf31526f712cb3b015b0a86f714ba7aa3123a81875dd25"
+    },
+    {
+      "path": "experiments/track_c/c10z_astra_read.py",
+      "before": "5549eb23e8ecfe8dc7b1eb7aaa60a361180762d2118a151d2006d5d85ccc86d5",
+      "after": "e9d479fd592b072b25cdaba69d21eba017bc1be0ad361a9c878865b27baa5850"
+    },
+    {
+      "path": "experiments/track_c/c10y_directdw_arms.py",
+      "before": "4b99827ea532e5d16168e1bb0aeca0569772132f413c08da359aa521fe452d3d",
+      "after": "ead3cef2266a7c81035e5acb6c3a97b42f83da556ba093a9fd28ec403f7e158c"
+    },
+    {
+      "path": "experiments/track_c/c10z_astra_arms.py",
+      "before": "e3829f4103ead2927b01c01b93e9148a5056d2f03e962a804a62b72d5d73f5d0",
+      "after": "5d824cf5322a3d1061258ad5775538f08b6981e8623b1d0e5e7c573c2f73ddba"
+    },
+    {
+      "path": "experiments/track_c/c10z_astra_selftest.py",
+      "before": "232a84b3f368dff8ef0a09cd3ead1a1214c132d1a9e33a9a5d533cbca49cb14b",
+      "after": "b2f3eb6f4764c23fbcf5f5e953fc00460449fde7ad497732a7a2f41108464ada"
+    }
+  ],
+  "events_integration_sha256": "c295f131b7d1cbd1f5b0df28770588c728debcc17ae9f51364ce5dec2bc96b82",
+  "events_integration_matches_initial_shared_hash": true,
+  "owned_files": {
+    "mathlab/core.py": {
+      "sha256": "8eb766cea2b472260eba4d20a3fa3c553f1119e6960e11f448724176e7521e22",
+      "lines": 437
+    },
+    "mathlab/fixtures.py": {
+      "sha256": "3b5a35d2869ffbc5dee0aa6b82390247defaf8a001ed44d1254b9c8563d409c8",
+      "lines": 68
+    },
+    "mathlab/index.py": {
+      "sha256": "3f8ccd82e1c669632e9940f35bedac72da3de4c48a85e3c4aeeb876f0d472c20",
+      "lines": 31
+    },
+    "mathlab/m2_solve_repro.py": {
+      "sha256": "eb928e44c99e253840b491008df9a8fdec5b87b161526afd5a616299ad85410f",
+      "lines": 57
+    },
+    "mathlab/m3_calibration.py": {
+      "sha256": "5a0f29e4a29096e2c8e5e6540f8be5b248aa59ebb03b17cd1e12b8767bea858c",
+      "lines": 61
+    },
+    "mathlab/test_mathlab.py": {
+      "sha256": "36427d10de3f01d999e9cbe05ced29de864e0e0b192fe4c5002dce8b715af07a",
+      "lines": 854
+    },
+    "mathlab/test_index.py": {
+      "sha256": "162fbbbe7efaa4867283f55bcde39ec5aaa8c790440407de63560ce61e756fdf",
+      "lines": 27
+    },
+    "tools/mathlab_admit.py": {
+      "sha256": "c14f2056efe082d5fc8685f3a0cd8f691d2b3905b681f5e8bbe9c3ed1e20e6cd",
+      "lines": 139
+    },
+    "tools/mathlab_runtime.py": {
+      "sha256": "9d67f8147eb1781e25d22300d685ce7e30834c144ff803c3dae3eed6adba0476",
+      "lines": 295
+    },
+    "tools/mathlab_harvest.py": {
+      "sha256": "e247498992376b43c629434ecc4a201cec79b35e2e3cb1734bfa5cc867df67dd",
+      "lines": 573
+    },
+    "tools/mathlab_cpu_runner.py": {
+      "sha256": "a860fb532a9412d836288305b31dd79d09adffebbd8bc61cf6c627a21bca0e3a",
+      "lines": 100
+    },
+    "tools/run_mathlab_cpu.sh": {
+      "sha256": "eff7355385495d9eb832b5e94c27249a99c2367bb369950d3e3cec68075a7088",
+      "lines": 28
+    },
+    "tools/run_mathlab_harvest.sh": {
+      "sha256": "14b38b9085599f67f72b049e4e255b202b44af43924ac81a9bb0278d121c5936",
+      "lines": 19
+    }
+  },
+  "prereg_sha256": "33e5aa4e0fc01e07e5b1b7e6fe234e07be41e9c9b2c8edf9496af5572d9b398a"
+}

@@ -1,0 +1,10 @@
+test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor) ... ok
+test_cpu_launcher_accepts_only_amended_frozen_deadlines (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_launcher_accepts_only_amended_frozen_deadlines) ... ok
+test_prereg_amendment_pin_accepts_only_exact_frozen_bytes (mathlab.test_mathlab.ResourceArtifactTests.test_prereg_amendment_pin_accepts_only_exact_frozen_bytes) ... ok
+test_full_shape_measurements_set_svd_and_solve_cell_reserves (mathlab.test_mathlab.NotebookContractTests.test_full_shape_measurements_set_svd_and_solve_cell_reserves) ... ok
+test_notebook_boundary_uses_real_budget_events_and_non_stopping_2b (mathlab.test_mathlab.NotebookContractTests.test_notebook_boundary_uses_real_budget_events_and_non_stopping_2b) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.867s
+
+OK

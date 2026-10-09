@@ -1,0 +1,14 @@
+test_watchdog_reuses_cpu_samplers_and_handles_already_exited_parent (mathlab.test_mathlab.ResourceArtifactTests.test_watchdog_reuses_cpu_samplers_and_handles_already_exited_parent) ... FAIL
+
+======================================================================
+FAIL: test_watchdog_reuses_cpu_samplers_and_handles_already_exited_parent (mathlab.test_mathlab.ResourceArtifactTests.test_watchdog_reuses_cpu_samplers_and_handles_already_exited_parent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 604, in test_watchdog_reuses_cpu_samplers_and_handles_already_exited_parent
+    self.assertGreater(max(r["cpu_pct"] for r in sink.rows if r["type"] == "resource_sample"), 0)
+AssertionError: 0.0 not greater than 0
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+FAILED (failures=1)

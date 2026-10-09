@@ -1,0 +1,62 @@
+{
+  "recorded_utc": "2026-10-09T17:55:17.464690+00:00",
+  "status": "accepted",
+  "scope": "D-ML-2 CPU fixture/tooling build acceptance only",
+  "prereg_sha256": "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507",
+  "peaks": {
+    "svd": {
+      "supervisor_elapsed_s": 78.95210170885548,
+      "worker_elapsed_s": 77.7115909580607,
+      "sampled_peak_rss_gib": 4.6087646484375,
+      "native_peak_rss_gib": 4.6087799072265625,
+      "status": "PASS",
+      "exit_code": 0,
+      "reserve_gib": 5,
+      "source": "results/mathlab_staging/peak_svd_full.json",
+      "worker_source": "results/mathlab_staging/peak_svd_full.txt"
+    },
+    "solve": {
+      "supervisor_elapsed_s": 146.83846704219468,
+      "worker_elapsed_s": 146.13124504080042,
+      "sampled_peak_rss_gib": 8.084304809570312,
+      "native_peak_rss_gib": 8.084335327148438,
+      "status": "PASS",
+      "exit_code": 0,
+      "reserve_gib": 9,
+      "source": "results/mathlab_staging/peak_solve_full.json",
+      "worker_source": "results/mathlab_staging/peak_solve_full.txt"
+    }
+  },
+  "notebooks": {
+    "2": {
+      "attempt_source": "results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_m2_20261009T173552.166039Z/fixture_attempt.json",
+      "events_source": "results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_m2_20261009T173552.166039Z/events.jsonl",
+      "manifest_source": "results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m2_20261009T173600.219909Z/manifest.json",
+      "runner_exit_code": 0,
+      "outcome": "PASS",
+      "historical_prereg_sha256": "33e5aa4e0fc01e07e5b1b7e6fe234e07be41e9c9b2c8edf9496af5572d9b398a",
+      "stubs": [
+        "dispatch_check",
+        "watch process sampling",
+        "diagnostic root"
+      ]
+    },
+    "3": {
+      "attempt_source": "results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_m3_20261009T173601.489001Z/fixture_attempt.json",
+      "events_source": "results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_m3_20261009T173601.489001Z/events.jsonl",
+      "manifest_source": "results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m3_20261009T173609.612844Z/manifest.json",
+      "runner_exit_code": 0,
+      "outcome": "PASS",
+      "historical_prereg_sha256": "33e5aa4e0fc01e07e5b1b7e6fe234e07be41e9c9b2c8edf9496af5572d9b398a",
+      "stubs": [
+        "dispatch_check",
+        "watch process sampling",
+        "diagnostic root"
+      ]
+    }
+  },
+  "protected_unchanged": 171,
+  "events_path": "results/mathlab_staging/runs/dml2_build_acceptance_20261009T175517.460160Z/events.jsonl",
+  "production_feasibility": "UNVERIFIED",
+  "no_science_rerun": true
+}

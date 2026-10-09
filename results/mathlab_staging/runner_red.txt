@@ -1,0 +1,17 @@
+test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor) ... FAIL
+
+======================================================================
+FAIL: test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 421, in test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor
+    C = module(self, "tools.mathlab_cpu_runner")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_cpu_runner
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (failures=1)

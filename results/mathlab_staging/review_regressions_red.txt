@@ -1,0 +1,51 @@
+test_dispatch_rechecks_lead_identity_and_current_inventory_before_import (mathlab.test_mathlab.AdmissionTests.test_dispatch_rechecks_lead_identity_and_current_inventory_before_import) ... ERROR
+test_saved_admission_cannot_be_replayed_by_another_process_or_after_finish (mathlab.test_mathlab.AdmissionTests.test_saved_admission_cannot_be_replayed_by_another_process_or_after_finish) ... ERROR
+test_exception_discards_failed_stage_and_restores_only_enclosing_alarm (mathlab.test_mathlab.ResourceArtifactTests.test_exception_discards_failed_stage_and_restores_only_enclosing_alarm) ... FAIL
+test_stop_policy_blocks_third_same_gate_harvest_repeated_2a_and_calibration_fail (mathlab.test_mathlab.ResourceArtifactTests.test_stop_policy_blocks_third_same_gate_harvest_repeated_2a_and_calibration_fail) ... ERROR
+
+======================================================================
+ERROR: test_dispatch_rechecks_lead_identity_and_current_inventory_before_import (mathlab.test_mathlab.AdmissionTests.test_dispatch_rechecks_lead_identity_and_current_inventory_before_import)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 109, in test_dispatch_rechecks_lead_identity_and_current_inventory_before_import
+    self.assertTrue(A.dispatch_check(run_dir, "harvest", lead)["allowed"])
+                    ^^^^^^^^^^^^^^^^
+AttributeError: module 'tools.mathlab_admit' has no attribute 'dispatch_check'
+
+======================================================================
+ERROR: test_saved_admission_cannot_be_replayed_by_another_process_or_after_finish (mathlab.test_mathlab.AdmissionTests.test_saved_admission_cannot_be_replayed_by_another_process_or_after_finish)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 129, in test_saved_admission_cannot_be_replayed_by_another_process_or_after_finish
+    A.dispatch_check(run_dir, "cpu")
+    ^^^^^^^^^^^^^^^^
+AttributeError: module 'tools.mathlab_admit' has no attribute 'dispatch_check'
+
+======================================================================
+ERROR: test_stop_policy_blocks_third_same_gate_harvest_repeated_2a_and_calibration_fail (mathlab.test_mathlab.ResourceArtifactTests.test_stop_policy_blocks_third_same_gate_harvest_repeated_2a_and_calibration_fail)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 457, in test_stop_policy_blocks_third_same_gate_harvest_repeated_2a_and_calibration_fail
+    R.enforce_stop_policy(root, 1)
+    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'tools.mathlab_runtime' has no attribute 'enforce_stop_policy'
+
+======================================================================
+FAIL: test_exception_discards_failed_stage_and_restores_only_enclosing_alarm (mathlab.test_mathlab.ResourceArtifactTests.test_exception_discards_failed_stage_and_restores_only_enclosing_alarm)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 437, in test_exception_discards_failed_stage_and_restores_only_enclosing_alarm
+    self.assertEqual(run.budget.active, [])
+AssertionError: Lists differ: [('outer', 1324813.907726958, 5)] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+('outer', 1324813.907726958, 5)
+
+- [('outer', 1324813.907726958, 5)]
++ []
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.010s
+
+FAILED (failures=1, errors=3)

@@ -1,0 +1,6 @@
+{
+  "tier": "MATH-PROXY",
+  "allowed": true,
+  "kind": "cpu",
+  "fixture": true
+}

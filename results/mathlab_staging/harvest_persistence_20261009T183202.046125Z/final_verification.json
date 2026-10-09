@@ -1,0 +1,53 @@
+{
+  "timestamp": "2026-10-09T18:45:11.196155+00:00",
+  "protected_files": 96,
+  "protected_unchanged": 95,
+  "concurrent_external_drift": {
+    "SESSION_CHECKPOINT.md": {
+      "before": "d738d75b36dca0c1c26f422c187472c35773af7c95384fb3deb66a17509c6a19",
+      "after": "f08800b10e06cc4f8dc1f720e3de192874ce616a3eb3b98076228094d9447140"
+    }
+  },
+  "allowed_sources": {
+    "tools/mathlab_harvest.py": "9dbc58afef1aa290d5e01622d3324b052e3f19169bfeb8d38ad19148cfe869bb",
+    "mathlab/test_mathlab.py": "ef8e69d64206e785097a76a8f55d52ffbab8da68fb3b776dcc8b37b7fa7d2c97"
+  },
+  "exact_coverage_predicate_unchanged": true,
+  "operand_arithmetic_and_baseline_parity_asts_unchanged": true,
+  "prereg_sha": "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507",
+  "events_sha": "1c0780d42e3cfd794b68ba742fedb0307c2992bd737507cda65bdd8a864d27a5",
+  "report_sha": "36187385c602dcc3441d58d890b703ab42468bf9f58006c04469fa2809001186",
+  "report_bytes": 185876,
+  "old_prefix_preserved_except_authorized_example": true,
+  "status_line_unchanged": true,
+  "report_section_line": 1925,
+  "head_before": "36b275a8ba5b5706951db37fd3e9fa642c6c8473",
+  "head_after": "eecaa2fb8f146aafc38eec70e295b51cfb9ac1e0",
+  "branch": "worktree-c10k-route-a",
+  "checks": [
+    {
+      "name": "mathlab",
+      "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab -v",
+      "exit_code": 0,
+      "log": "mathlab_suite.txt"
+    },
+    {
+      "name": "dashboard",
+      "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_dashboard_mathlab -v",
+      "exit_code": 0,
+      "log": "dashboard_suite.txt"
+    },
+    {
+      "name": "duckdb",
+      "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 /private/tmp/mathlab_uv_cache/environments-v2/m2-solve-repro-da15e0fd897e5e61/bin/python -B -m unittest mathlab.test_index -v",
+      "exit_code": 0,
+      "log": "duckdb.txt"
+    },
+    {
+      "name": "marimo",
+      "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 /private/tmp/mathlab_uv_cache/environments-v2/m2-solve-repro-da15e0fd897e5e61/bin/python -B -m marimo check --strict mathlab/m2_solve_repro.py mathlab/m3_calibration.py",
+      "exit_code": 0,
+      "log": "marimo_check.txt"
+    }
+  ]
+}

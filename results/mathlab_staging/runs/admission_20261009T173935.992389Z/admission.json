@@ -1,0 +1,11 @@
+{
+  "tier": "MATH-PROXY",
+  "kind": "cpu",
+  "allowed": false,
+  "reasons": [
+    "PREREG: frozen preregistration changed"
+  ],
+  "checks": {},
+  "launcher_pid": 35136,
+  "lead_source": null
+}

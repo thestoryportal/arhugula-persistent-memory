@@ -1,0 +1,5 @@
+{
+  "status": "PASS",
+  "scope": "fresh-process driver imports",
+  "forbidden_modules_loaded": []
+}

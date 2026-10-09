@@ -1,0 +1,8 @@
+{
+  "tier": "MATH-PROXY",
+  "decision_id": "D-ML-1",
+  "code": "CPU-EXECUTION",
+  "message": "notebook exited 2 without a successful event closeout",
+  "details": {},
+  "run_dir": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_m3_20261009T040227.701099Z"
+}

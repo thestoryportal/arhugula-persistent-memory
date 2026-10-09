@@ -1,0 +1,28 @@
+test_missing_seed_target_or_step0_is_seed_specific_source_failure (mathlab.test_mathlab.ReplayTests.test_missing_seed_target_or_step0_is_seed_specific_source_failure) ... 
+  test_missing_seed_target_or_step0_is_seed_specific_source_failure (mathlab.test_mathlab.ReplayTests.test_missing_seed_target_or_step0_is_seed_specific_source_failure) (missing='F_r0_mint1_s1.json') ... ERROR
+
+======================================================================
+ERROR: test_missing_seed_target_or_step0_is_seed_specific_source_failure (mathlab.test_mathlab.ReplayTests.test_missing_seed_target_or_step0_is_seed_specific_source_failure) (missing='F_r0_mint1_s1.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 308, in test_missing_seed_target_or_step0_is_seed_specific_source_failure
+    records, identity = H.frozen_records(root)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_harvest.py", line 164, in frozen_records
+    record = R.read_json(record_path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_runtime.py", line 55, in read_json
+    return json.loads(Path(path).read_text(), parse_constant=bad)
+                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/tmpogqkan2m/results/c10u_mint2/r3/F_r0_mint1_s1.json'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.033s
+
+FAILED (errors=1)

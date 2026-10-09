@@ -1,0 +1,577 @@
+test_clean_cpu_admission (mathlab.test_mathlab.AdmissionTests.test_clean_cpu_admission) ... FAIL
+test_exact_tail_cpu_only (mathlab.test_mathlab.AdmissionTests.test_exact_tail_cpu_only) ... FAIL
+test_fingerprint_and_memory_refusals (mathlab.test_mathlab.AdmissionTests.test_fingerprint_and_memory_refusals) ... FAIL
+test_harvest_requires_both_terminal_status_hashes_and_queue_statement (mathlab.test_mathlab.AdmissionTests.test_harvest_requires_both_terminal_status_hashes_and_queue_statement) ... FAIL
+test_missing_inventory_is_not_clear (mathlab.test_mathlab.AdmissionTests.test_missing_inventory_is_not_clear) ... FAIL
+test_probe_error_cannot_use_tail_exception (mathlab.test_mathlab.AdmissionTests.test_probe_error_cannot_use_tail_exception) ... FAIL
+test_tail_pid_command_hash_stage_and_duplicates_refuse (mathlab.test_mathlab.AdmissionTests.test_tail_pid_command_hash_stage_and_duplicates_refuse) ... 
+  test_tail_pid_command_hash_stage_and_duplicates_refuse (mathlab.test_mathlab.AdmissionTests.test_tail_pid_command_hash_stage_and_duplicates_refuse) (field='pid') ... FAIL
+  test_tail_pid_command_hash_stage_and_duplicates_refuse (mathlab.test_mathlab.AdmissionTests.test_tail_pid_command_hash_stage_and_duplicates_refuse) (field='command') ... FAIL
+  test_tail_pid_command_hash_stage_and_duplicates_refuse (mathlab.test_mathlab.AdmissionTests.test_tail_pid_command_hash_stage_and_duplicates_refuse) (field='sha256') ... FAIL
+test_tail_pid_command_hash_stage_and_duplicates_refuse (mathlab.test_mathlab.AdmissionTests.test_tail_pid_command_hash_stage_and_duplicates_refuse) ... FAIL
+test_tmux_session_cannot_use_tail_exception (mathlab.test_mathlab.AdmissionTests.test_tmux_session_cannot_use_tail_exception) ... FAIL
+test_unaccounted_process_refuses (mathlab.test_mathlab.AdmissionTests.test_unaccounted_process_refuses) ... FAIL
+test_fp32_projector_and_solve_are_exact_and_fp64_diagnostic_only (mathlab.test_mathlab.MathTests.test_fp32_projector_and_solve_are_exact_and_fp64_diagnostic_only) ... FAIL
+test_frozen_mean_clip_and_even_median (mathlab.test_mathlab.MathTests.test_frozen_mean_clip_and_even_median) ... FAIL
+test_gate2b_failed_approximation_is_scope_only (mathlab.test_mathlab.MathTests.test_gate2b_failed_approximation_is_scope_only) ... FAIL
+test_invalid_tiers_shared_failure_fewer_mints_and_arithmetic_routing (mathlab.test_mathlab.MathTests.test_invalid_tiers_shared_failure_fewer_mints_and_arithmetic_routing) ... FAIL
+test_nan_is_not_excluded_or_epsilon_adjusted (mathlab.test_mathlab.MathTests.test_nan_is_not_excluded_or_epsilon_adjusted) ... FAIL
+test_nine_and_six_orderings_strictly_with_1900_bar (mathlab.test_mathlab.MathTests.test_nine_and_six_orderings_strictly_with_1900_bar) ... FAIL
+test_paired_bootstrap_is_pcg64_zero_multiplicities_and_deterministic (mathlab.test_mathlab.MathTests.test_paired_bootstrap_is_pcg64_zero_multiplicities_and_deterministic) ... FAIL
+test_proxy_position_sum_and_keyed_transfer (mathlab.test_mathlab.MathTests.test_proxy_position_sum_and_keyed_transfer) ... FAIL
+test_relative_zero_denominator_is_invalid_and_projector_zero_probes_need_sha (mathlab.test_mathlab.MathTests.test_relative_zero_denominator_is_invalid_and_projector_zero_probes_need_sha) ... FAIL
+test_notebooks_have_frozen_pep723_dependencies_and_no_science_imports (mathlab.test_mathlab.NotebookContractTests.test_notebooks_have_frozen_pep723_dependencies_and_no_science_imports) ... FAIL
+test_capture_counts_0_4_6_wrong_order_and_missing_return_halt (mathlab.test_mathlab.ObserverTests.test_capture_counts_0_4_6_wrong_order_and_missing_return_halt) ... FAIL
+test_context_pin_restores_after_body_error_and_detects_drift (mathlab.test_mathlab.ObserverTests.test_context_pin_restores_after_body_error_and_detects_drift) ... FAIL
+test_law5_tag_precedes_24_subject_assertion_and_discards_tensors (mathlab.test_mathlab.ObserverTests.test_law5_tag_precedes_24_subject_assertion_and_discards_tensors) ... FAIL
+test_original_code_matches_after_rebinding_and_return_is_unique (mathlab.test_mathlab.ObserverTests.test_original_code_matches_after_rebinding_and_return_is_unique) ... FAIL
+test_parity_trials_restore_and_start_with_distinct_zero_caches (mathlab.test_mathlab.ObserverTests.test_parity_trials_restore_and_start_with_distinct_zero_caches) ... FAIL
+test_preexisting_profile_refusal_and_exception_cleanup (mathlab.test_mathlab.ObserverTests.test_preexisting_profile_refusal_and_exception_cleanup) ... FAIL
+test_same_dtype_cpu_copy_offset_noncontiguous_and_source_unchanged (mathlab.test_mathlab.ObserverTests.test_same_dtype_cpu_copy_offset_noncontiguous_and_source_unchanged) ... FAIL
+test_science_subject_mismatch_and_nonzero_cache_halt (mathlab.test_mathlab.ObserverTests.test_science_subject_mismatch_and_nonzero_cache_halt) ... FAIL
+test_shape_call_from_unrelated_code_is_ignored (mathlab.test_mathlab.ObserverTests.test_shape_call_from_unrelated_code_is_ignored) ... FAIL
+test_frozen_record_and_target_hashes_are_bound (mathlab.test_mathlab.ReplayTests.test_frozen_record_and_target_hashes_are_bound) ... FAIL
+test_law3_counts_and_stage_order (mathlab.test_mathlab.ReplayTests.test_law3_counts_and_stage_order) ... FAIL
+test_p2_enumerated_fields_accept_wordlist_metadata_but_not_count_or_rows (mathlab.test_mathlab.ReplayTests.test_p2_enumerated_fields_accept_wordlist_metadata_but_not_count_or_rows) ... FAIL
+test_shared_failure_invalidates_all_and_per_arm_failure_only_one (mathlab.test_mathlab.ReplayTests.test_shared_failure_invalidates_all_and_per_arm_failure_only_one) ... FAIL
+test_budget_projection_and_stage_cap (mathlab.test_mathlab.ResourceArtifactTests.test_budget_projection_and_stage_cap) ... FAIL
+test_halt_stages_immediately_preserves_harvest_and_emits_diagnostic (mathlab.test_mathlab.ResourceArtifactTests.test_halt_stages_immediately_preserves_harvest_and_emits_diagnostic) ... FAIL
+test_index_rebuild_rows_retain_source_pointer_and_sha (mathlab.test_mathlab.ResourceArtifactTests.test_index_rebuild_rows_retain_source_pointer_and_sha) ... FAIL
+test_new_outputs_flat_cpu_and_sha_shape_dtype_manifest (mathlab.test_mathlab.ResourceArtifactTests.test_new_outputs_flat_cpu_and_sha_shape_dtype_manifest) ... FAIL
+test_pre_cell_reserve_wait_is_bounded_and_abort_is_staged (mathlab.test_mathlab.ResourceArtifactTests.test_pre_cell_reserve_wait_is_bounded_and_abort_is_staged) ... FAIL
+test_vm_stat_uses_free_inactive_speculative_16384_pages (mathlab.test_mathlab.ResourceArtifactTests.test_vm_stat_uses_free_inactive_speculative_16384_pages) ... FAIL
+
+======================================================================
+FAIL: test_clean_cpu_admission (mathlab.test_mathlab.AdmissionTests.test_clean_cpu_admission)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 97, in test_clean_cpu_admission
+    self.assertTrue(self.decide()["allowed"])
+                    ^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 91, in decide
+    A = module(self, "tools.mathlab_admit")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_admit
+
+======================================================================
+FAIL: test_exact_tail_cpu_only (mathlab.test_mathlab.AdmissionTests.test_exact_tail_cpu_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 119, in test_exact_tail_cpu_only
+    self.assertTrue(self.decide(gpu=gpu)["allowed"])
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 91, in decide
+    A = module(self, "tools.mathlab_admit")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_admit
+
+======================================================================
+FAIL: test_fingerprint_and_memory_refusals (mathlab.test_mathlab.AdmissionTests.test_fingerprint_and_memory_refusals)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 146, in test_fingerprint_and_memory_refusals
+    self.assertFalse(self.decide()["allowed"])
+                     ^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 91, in decide
+    A = module(self, "tools.mathlab_admit")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_admit
+
+======================================================================
+FAIL: test_harvest_requires_both_terminal_status_hashes_and_queue_statement (mathlab.test_mathlab.AdmissionTests.test_harvest_requires_both_terminal_status_hashes_and_queue_statement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 136, in test_harvest_requires_both_terminal_status_hashes_and_queue_statement
+    self.assertTrue(self.decide(kind="harvest")["allowed"])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 91, in decide
+    A = module(self, "tools.mathlab_admit")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_admit
+
+======================================================================
+FAIL: test_missing_inventory_is_not_clear (mathlab.test_mathlab.AdmissionTests.test_missing_inventory_is_not_clear)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 106, in test_missing_inventory_is_not_clear
+    self.assertFalse(self.decide(gpu={"ok": True})["allowed"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 91, in decide
+    A = module(self, "tools.mathlab_admit")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_admit
+
+======================================================================
+FAIL: test_probe_error_cannot_use_tail_exception (mathlab.test_mathlab.AdmissionTests.test_probe_error_cannot_use_tail_exception)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 100, in test_probe_error_cannot_use_tail_exception
+    self.assertFalse(self.decide(gpu={"ok": False, "reason": "ps error", "blocking_processes": []})["allowed"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 91, in decide
+    A = module(self, "tools.mathlab_admit")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_admit
+
+======================================================================
+FAIL: test_tail_pid_command_hash_stage_and_duplicates_refuse (mathlab.test_mathlab.AdmissionTests.test_tail_pid_command_hash_stage_and_duplicates_refuse) (field='pid')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 127, in test_tail_pid_command_hash_stage_and_duplicates_refuse
+    self.assertFalse(self.decide(gpu=gpu, admission=bad)["allowed"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 91, in decide
+    A = module(self, "tools.mathlab_admit")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_admit
+
+======================================================================
+FAIL: test_tail_pid_command_hash_stage_and_duplicates_refuse (mathlab.test_mathlab.AdmissionTests.test_tail_pid_command_hash_stage_and_duplicates_refuse) (field='command')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 127, in test_tail_pid_command_hash_stage_and_duplicates_refuse
+    self.assertFalse(self.decide(gpu=gpu, admission=bad)["allowed"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 91, in decide
+    A = module(self, "tools.mathlab_admit")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_admit
+
+======================================================================
+FAIL: test_tail_pid_command_hash_stage_and_duplicates_refuse (mathlab.test_mathlab.AdmissionTests.test_tail_pid_command_hash_stage_and_duplicates_refuse) (field='sha256')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 127, in test_tail_pid_command_hash_stage_and_duplicates_refuse
+    self.assertFalse(self.decide(gpu=gpu, admission=bad)["allowed"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 91, in decide
+    A = module(self, "tools.mathlab_admit")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_admit
+
+======================================================================
+FAIL: test_tail_pid_command_hash_stage_and_duplicates_refuse (mathlab.test_mathlab.AdmissionTests.test_tail_pid_command_hash_stage_and_duplicates_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 129, in test_tail_pid_command_hash_stage_and_duplicates_refuse
+    self.assertFalse(self.decide(gpu=gpu, admission=bad)["allowed"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 91, in decide
+    A = module(self, "tools.mathlab_admit")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_admit
+
+======================================================================
+FAIL: test_tmux_session_cannot_use_tail_exception (mathlab.test_mathlab.AdmissionTests.test_tmux_session_cannot_use_tail_exception)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 103, in test_tmux_session_cannot_use_tail_exception
+    self.assertFalse(self.decide(gpu={"ok": False, "blocking_processes": [], "blocking_tmux": ["autoresearch"]})["allowed"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 91, in decide
+    A = module(self, "tools.mathlab_admit")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_admit
+
+======================================================================
+FAIL: test_unaccounted_process_refuses (mathlab.test_mathlab.AdmissionTests.test_unaccounted_process_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 109, in test_unaccounted_process_refuses
+    self.assertFalse(self.decide(gpu={"ok": False, "blocking_processes": ["9 python job.py"], "blocking_tmux": []})["allowed"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 91, in decide
+    A = module(self, "tools.mathlab_admit")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_admit
+
+======================================================================
+FAIL: test_fp32_projector_and_solve_are_exact_and_fp64_diagnostic_only (mathlab.test_mathlab.MathTests.test_fp32_projector_and_solve_are_exact_and_fp64_diagnostic_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 304, in test_fp32_projector_and_solve_are_exact_and_fp64_diagnostic_only
+    C = self.core(); cov = torch.diag(torch.tensor([0., .001, 1.]))
+        ^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 301, in core
+    return module(self, "mathlab.core")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: mathlab.core
+
+======================================================================
+FAIL: test_frozen_mean_clip_and_even_median (mathlab.test_mathlab.MathTests.test_frozen_mean_clip_and_even_median)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 321, in test_frozen_mean_clip_and_even_median
+    C = self.core()
+        ^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 301, in core
+    return module(self, "mathlab.core")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: mathlab.core
+
+======================================================================
+FAIL: test_gate2b_failed_approximation_is_scope_only (mathlab.test_mathlab.MathTests.test_gate2b_failed_approximation_is_scope_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 349, in test_gate2b_failed_approximation_is_scope_only
+    C = self.core(); ref = torch.eye(2)
+        ^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 301, in core
+    return module(self, "mathlab.core")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: mathlab.core
+
+======================================================================
+FAIL: test_invalid_tiers_shared_failure_fewer_mints_and_arithmetic_routing (mathlab.test_mathlab.MathTests.test_invalid_tiers_shared_failure_fewer_mints_and_arithmetic_routing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 379, in test_invalid_tiers_shared_failure_fewer_mints_and_arithmetic_routing
+    C = self.core(); data, counts = self.data()
+        ^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 301, in core
+    return module(self, "mathlab.core")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: mathlab.core
+
+======================================================================
+FAIL: test_nan_is_not_excluded_or_epsilon_adjusted (mathlab.test_mathlab.MathTests.test_nan_is_not_excluded_or_epsilon_adjusted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 342, in test_nan_is_not_excluded_or_epsilon_adjusted
+    C = self.core()
+        ^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 301, in core
+    return module(self, "mathlab.core")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: mathlab.core
+
+======================================================================
+FAIL: test_nine_and_six_orderings_strictly_with_1900_bar (mathlab.test_mathlab.MathTests.test_nine_and_six_orderings_strictly_with_1900_bar)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 368, in test_nine_and_six_orderings_strictly_with_1900_bar
+    C = self.core(); data, counts = self.data()
+        ^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 301, in core
+    return module(self, "mathlab.core")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: mathlab.core
+
+======================================================================
+FAIL: test_paired_bootstrap_is_pcg64_zero_multiplicities_and_deterministic (mathlab.test_mathlab.MathTests.test_paired_bootstrap_is_pcg64_zero_multiplicities_and_deterministic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 360, in test_paired_bootstrap_is_pcg64_zero_multiplicities_and_deterministic
+    C = self.core(); draws = C.bootstrap_draws()
+        ^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 301, in core
+    return module(self, "mathlab.core")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: mathlab.core
+
+======================================================================
+FAIL: test_proxy_position_sum_and_keyed_transfer (mathlab.test_mathlab.MathTests.test_proxy_position_sum_and_keyed_transfer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 326, in test_proxy_position_sum_and_keyed_transfer
+    C = self.core(); d = {l: torch.zeros(1, 1) for l in BAND}; d[4][0, 0] = 1.
+        ^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 301, in core
+    return module(self, "mathlab.core")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: mathlab.core
+
+======================================================================
+FAIL: test_relative_zero_denominator_is_invalid_and_projector_zero_probes_need_sha (mathlab.test_mathlab.MathTests.test_relative_zero_denominator_is_invalid_and_projector_zero_probes_need_sha)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 312, in test_relative_zero_denominator_is_invalid_and_projector_zero_probes_need_sha
+    C = self.core()
+        ^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 301, in core
+    return module(self, "mathlab.core")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: mathlab.core
+
+======================================================================
+FAIL: test_notebooks_have_frozen_pep723_dependencies_and_no_science_imports (mathlab.test_mathlab.NotebookContractTests.test_notebooks_have_frozen_pep723_dependencies_and_no_science_imports)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 453, in test_notebooks_have_frozen_pep723_dependencies_and_no_science_imports
+    path = ROOT / "mathlab" / name; self.assertTrue(path.is_file(), "missing notebook: " + name)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : missing notebook: m2_solve_repro.py
+
+======================================================================
+FAIL: test_capture_counts_0_4_6_wrong_order_and_missing_return_halt (mathlab.test_mathlab.ObserverTests.test_capture_counts_0_4_6_wrong_order_and_missing_return_halt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 186, in test_capture_counts_0_4_6_wrong_order_and_missing_return_halt
+    O = self.observer()
+        ^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 157, in observer
+    return module(self, "tools.mathlab_harvest").EditObserver(self.H)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_harvest
+
+======================================================================
+FAIL: test_context_pin_restores_after_body_error_and_detects_drift (mathlab.test_mathlab.ObserverTests.test_context_pin_restores_after_body_error_and_detects_drift)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 224, in test_context_pin_restores_after_body_error_and_detects_drift
+    H = module(self, "tools.mathlab_harvest"); ctx = [["{}"], ["prefix. {}"]]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_harvest
+
+======================================================================
+FAIL: test_law5_tag_precedes_24_subject_assertion_and_discards_tensors (mathlab.test_mathlab.ObserverTests.test_law5_tag_precedes_24_subject_assertion_and_discards_tensors)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 178, in test_law5_tag_precedes_24_subject_assertion_and_discards_tensors
+    O = self.observer(); self.H._LAW5_DEFAULT_CTX = self.scope["_LAW5_DEFAULT_CTX"] = True
+        ^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 157, in observer
+    return module(self, "tools.mathlab_harvest").EditObserver(self.H)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_harvest
+
+======================================================================
+FAIL: test_original_code_matches_after_rebinding_and_return_is_unique (mathlab.test_mathlab.ObserverTests.test_original_code_matches_after_rebinding_and_return_is_unique)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 160, in test_original_code_matches_after_rebinding_and_return_is_unique
+    O = self.observer(); original = self.H.my_edit
+        ^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 157, in observer
+    return module(self, "tools.mathlab_harvest").EditObserver(self.H)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_harvest
+
+======================================================================
+FAIL: test_parity_trials_restore_and_start_with_distinct_zero_caches (mathlab.test_mathlab.ObserverTests.test_parity_trials_restore_and_start_with_distinct_zero_caches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 237, in test_parity_trials_restore_and_start_with_distinct_zero_caches
+    H = module(self, "tools.mathlab_harvest"); starts = []; caches = []
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_harvest
+
+======================================================================
+FAIL: test_preexisting_profile_refusal_and_exception_cleanup (mathlab.test_mathlab.ObserverTests.test_preexisting_profile_refusal_and_exception_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 192, in test_preexisting_profile_refusal_and_exception_cleanup
+    O = self.observer()
+        ^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 157, in observer
+    return module(self, "tools.mathlab_harvest").EditObserver(self.H)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_harvest
+
+======================================================================
+FAIL: test_same_dtype_cpu_copy_offset_noncontiguous_and_source_unchanged (mathlab.test_mathlab.ObserverTests.test_same_dtype_cpu_copy_offset_noncontiguous_and_source_unchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 214, in test_same_dtype_cpu_copy_offset_noncontiguous_and_source_unchanged
+    H = module(self, "tools.mathlab_harvest")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_harvest
+
+======================================================================
+FAIL: test_science_subject_mismatch_and_nonzero_cache_halt (mathlab.test_mathlab.ObserverTests.test_science_subject_mismatch_and_nonzero_cache_halt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 206, in test_science_subject_mismatch_and_nonzero_cache_halt
+    O = self.observer()
+        ^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 157, in observer
+    return module(self, "tools.mathlab_harvest").EditObserver(self.H)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_harvest
+
+======================================================================
+FAIL: test_shape_call_from_unrelated_code_is_ignored (mathlab.test_mathlab.ObserverTests.test_shape_call_from_unrelated_code_is_ignored)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 171, in test_shape_call_from_unrelated_code_is_ignored
+    O = self.observer()
+        ^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 157, in observer
+    return module(self, "tools.mathlab_harvest").EditObserver(self.H)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_harvest
+
+======================================================================
+FAIL: test_frozen_record_and_target_hashes_are_bound (mathlab.test_mathlab.ReplayTests.test_frozen_record_and_target_hashes_are_bound)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 292, in test_frozen_record_and_target_hashes_are_bound
+    H = module(self, "tools.mathlab_harvest")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_harvest
+
+======================================================================
+FAIL: test_law3_counts_and_stage_order (mathlab.test_mathlab.ReplayTests.test_law3_counts_and_stage_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 277, in test_law3_counts_and_stage_order
+    H = module(self, "tools.mathlab_harvest")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_harvest
+
+======================================================================
+FAIL: test_p2_enumerated_fields_accept_wordlist_metadata_but_not_count_or_rows (mathlab.test_mathlab.ReplayTests.test_p2_enumerated_fields_accept_wordlist_metadata_but_not_count_or_rows)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 264, in test_p2_enumerated_fields_accept_wordlist_metadata_but_not_count_or_rows
+    H = module(self, "tools.mathlab_harvest")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_harvest
+
+======================================================================
+FAIL: test_shared_failure_invalidates_all_and_per_arm_failure_only_one (mathlab.test_mathlab.ReplayTests.test_shared_failure_invalidates_all_and_per_arm_failure_only_one)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 257, in test_shared_failure_invalidates_all_and_per_arm_failure_only_one
+    H = module(self, "tools.mathlab_harvest")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_harvest
+
+======================================================================
+FAIL: test_budget_projection_and_stage_cap (mathlab.test_mathlab.ResourceArtifactTests.test_budget_projection_and_stage_cap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 405, in test_budget_projection_and_stage_cap
+    R = module(self, "tools.mathlab_runtime"); now = [0.]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_runtime
+
+======================================================================
+FAIL: test_halt_stages_immediately_preserves_harvest_and_emits_diagnostic (mathlab.test_mathlab.ResourceArtifactTests.test_halt_stages_immediately_preserves_harvest_and_emits_diagnostic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 424, in test_halt_stages_immediately_preserves_harvest_and_emits_diagnostic
+    R = module(self, "tools.mathlab_runtime"); sink = Sink()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_runtime
+
+======================================================================
+FAIL: test_index_rebuild_rows_retain_source_pointer_and_sha (mathlab.test_mathlab.ResourceArtifactTests.test_index_rebuild_rows_retain_source_pointer_and_sha)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 434, in test_index_rebuild_rows_retain_source_pointer_and_sha
+    C = module(self, "mathlab.core")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: mathlab.core
+
+======================================================================
+FAIL: test_new_outputs_flat_cpu_and_sha_shape_dtype_manifest (mathlab.test_mathlab.ResourceArtifactTests.test_new_outputs_flat_cpu_and_sha_shape_dtype_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 412, in test_new_outputs_flat_cpu_and_sha_shape_dtype_manifest
+    R = module(self, "tools.mathlab_runtime")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_runtime
+
+======================================================================
+FAIL: test_pre_cell_reserve_wait_is_bounded_and_abort_is_staged (mathlab.test_mathlab.ResourceArtifactTests.test_pre_cell_reserve_wait_is_bounded_and_abort_is_staged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 399, in test_pre_cell_reserve_wait_is_bounded_and_abort_is_staged
+    R = module(self, "tools.mathlab_runtime"); times = iter([0, 10, 300])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_runtime
+
+======================================================================
+FAIL: test_vm_stat_uses_free_inactive_speculative_16384_pages (mathlab.test_mathlab.ResourceArtifactTests.test_vm_stat_uses_free_inactive_speculative_16384_pages)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 393, in test_vm_stat_uses_free_inactive_speculative_16384_pages
+    R = module(self, "tools.mathlab_runtime")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 27, in module
+    case.assertTrue((ROOT / (name.replace(".", "/") + ".py")).is_file(),
+AssertionError: False is not true : missing implementation: tools.mathlab_runtime
+
+----------------------------------------------------------------------
+Ran 38 tests in 0.082s
+
+FAILED (failures=41)

@@ -1,0 +1,11 @@
+{
+  "tier": "MATH-PROXY",
+  "kind": "cpu",
+  "allowed": false,
+  "reasons": [
+    "[Errno 1] Operation not permitted: '/bin/ps'"
+  ],
+  "checks": {},
+  "launcher_pid": 70768,
+  "lead_source": null
+}

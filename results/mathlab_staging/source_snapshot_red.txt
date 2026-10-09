@@ -1,0 +1,15 @@
+test_source_snapshot_covers_engine_primitives_and_detects_changes (mathlab.test_mathlab.ReplayTests.test_source_snapshot_covers_engine_primitives_and_detects_changes) ... ERROR
+
+======================================================================
+ERROR: test_source_snapshot_covers_engine_primitives_and_detects_changes (mathlab.test_mathlab.ReplayTests.test_source_snapshot_covers_engine_primitives_and_detects_changes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 303, in test_source_snapshot_covers_engine_primitives_and_detects_changes
+    before = H.source_snapshot(root)
+             ^^^^^^^^^^^^^^^^^
+AttributeError: module 'tools.mathlab_harvest' has no attribute 'source_snapshot'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.008s
+
+FAILED (errors=1)

@@ -1,0 +1,55 @@
+test_missing_seed_target_or_step0_is_seed_specific_source_failure (mathlab.test_mathlab.ReplayTests.test_missing_seed_target_or_step0_is_seed_specific_source_failure) ... 
+  test_missing_seed_target_or_step0_is_seed_specific_source_failure (mathlab.test_mathlab.ReplayTests.test_missing_seed_target_or_step0_is_seed_specific_source_failure) (missing='zs/F_r0_mint1_s1.pt') ... ERROR
+  test_missing_seed_target_or_step0_is_seed_specific_source_failure (mathlab.test_mathlab.ReplayTests.test_missing_seed_target_or_step0_is_seed_specific_source_failure) (missing='step0/F_r0_mint1_s1.json') ... ERROR
+  test_missing_seed_target_or_step0_is_seed_specific_source_failure (mathlab.test_mathlab.ReplayTests.test_missing_seed_target_or_step0_is_seed_specific_source_failure) (missing='F_r0_mint1_s1.json') ... ERROR
+  test_missing_seed_target_or_step0_is_seed_specific_source_failure (mathlab.test_mathlab.ReplayTests.test_missing_seed_target_or_step0_is_seed_specific_source_failure) (missing='F_r0_mint1_s0.json') ... ERROR
+test_cpu_runner_stages_prereg_refusal_before_dispatch (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_runner_stages_prereg_refusal_before_dispatch) ... FAIL
+
+======================================================================
+ERROR: test_missing_seed_target_or_step0_is_seed_specific_source_failure (mathlab.test_mathlab.ReplayTests.test_missing_seed_target_or_step0_is_seed_specific_source_failure) (missing='zs/F_r0_mint1_s1.pt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 331, in test_missing_seed_target_or_step0_is_seed_specific_source_failure
+    self.assertEqual(identity["context_source_arm"], expected_source)
+                     ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'context_source_arm'
+
+======================================================================
+ERROR: test_missing_seed_target_or_step0_is_seed_specific_source_failure (mathlab.test_mathlab.ReplayTests.test_missing_seed_target_or_step0_is_seed_specific_source_failure) (missing='step0/F_r0_mint1_s1.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 331, in test_missing_seed_target_or_step0_is_seed_specific_source_failure
+    self.assertEqual(identity["context_source_arm"], expected_source)
+                     ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'context_source_arm'
+
+======================================================================
+ERROR: test_missing_seed_target_or_step0_is_seed_specific_source_failure (mathlab.test_mathlab.ReplayTests.test_missing_seed_target_or_step0_is_seed_specific_source_failure) (missing='F_r0_mint1_s1.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 331, in test_missing_seed_target_or_step0_is_seed_specific_source_failure
+    self.assertEqual(identity["context_source_arm"], expected_source)
+                     ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'context_source_arm'
+
+======================================================================
+ERROR: test_missing_seed_target_or_step0_is_seed_specific_source_failure (mathlab.test_mathlab.ReplayTests.test_missing_seed_target_or_step0_is_seed_specific_source_failure) (missing='F_r0_mint1_s0.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 331, in test_missing_seed_target_or_step0_is_seed_specific_source_failure
+    self.assertEqual(identity["context_source_arm"], expected_source)
+                     ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'context_source_arm'
+
+======================================================================
+FAIL: test_cpu_runner_stages_prereg_refusal_before_dispatch (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_runner_stages_prereg_refusal_before_dispatch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 543, in test_cpu_runner_stages_prereg_refusal_before_dispatch
+    self.assertTrue({"gate_result", "halted", "finding_staged", "run_finished"} <= {r["type"] for r in rows})
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.063s
+
+FAILED (failures=1, errors=4)

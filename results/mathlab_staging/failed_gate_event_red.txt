@@ -1,0 +1,27 @@
+test_halt_stages_immediately_preserves_harvest_and_emits_diagnostic (mathlab.test_mathlab.ResourceArtifactTests.test_halt_stages_immediately_preserves_harvest_and_emits_diagnostic) ... FAIL
+
+======================================================================
+FAIL: test_halt_stages_immediately_preserves_harvest_and_emits_diagnostic (mathlab.test_mathlab.ResourceArtifactTests.test_halt_stages_immediately_preserves_harvest_and_emits_diagnostic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 666, in test_halt_stages_immediately_preserves_harvest_and_emits_diagnostic
+    self.assertEqual([x["type"] for x in sink.rows], ["gate_result", "halted", "finding_staged", "run_finished"])
+AssertionError: Lists differ: ['halted', 'finding_staged', 'run_finished'] != ['gate_result', 'halted', 'finding_staged', 'run_finished']
+
+First differing element 0:
+'halted'
+'gate_result'
+
+Second list contains 1 additional elements.
+First extra element 3:
+'run_finished'
+
+- ['halted', 'finding_staged', 'run_finished']
++ ['gate_result', 'halted', 'finding_staged', 'run_finished']
+?  +++++++++++++++
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.004s
+
+FAILED (failures=1)

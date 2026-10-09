@@ -1,0 +1,1 @@
+{"cpu_fixture_cases": 4, "actual_harness_imported": false, "evidence": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/harvest_persistence_20261009T183202.046125Z/fixture_evidence.json"}

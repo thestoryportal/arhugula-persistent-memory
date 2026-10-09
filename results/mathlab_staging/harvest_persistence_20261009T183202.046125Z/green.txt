@@ -1,0 +1,9 @@
+test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) ... ok
+test_mid_edit_exception_persists_captures_and_original_error (mathlab.test_mathlab.ObserverTests.test_mid_edit_exception_persists_captures_and_original_error) ... ok
+test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink (mathlab.test_mathlab.ObserverTests.test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink) ... ok
+test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported (mathlab.test_mathlab.ObserverTests.test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.080s
+
+OK

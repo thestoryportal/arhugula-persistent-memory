@@ -1,0 +1,288 @@
+--- before/mathlab/core.py
++++ after/mathlab/core.py
+@@ -12,7 +12,8 @@
+ BAND = [4, 5, 6, 7, 8]
+ A1, A2, A7 = "A1_single", "A2_coherent2", "A7_coined_coined"
+ MINT = ["mint1_s0", "mint1_s1", "mint1_s2"]
+-# The full-shape short probe reached 8.0833 GiB before finishing; its complete peak remains unverified.
++# D-ML-2 rounds the measured full-shape 4.61/8.08 GiB peaks up to whole GiB reserves.
++SVD_RESERVE_GIB = 5
+ SOLVE_RESERVE_GIB = 9
+ 
+ 
+@@ -236,7 +237,7 @@
+     arms = [A1, A2, A7, *manifest["replay_admission"]["admitted"]]
+     records = {}; replay_files = {}; approximations = {}; approximate_change = None; rounding = {}
+     for i, layer in enumerate(BAND):
+-        run.pre_cell(4)
++        run.pre_cell(SVD_RESERVE_GIB)
+         P, null_n = projector(covariance(manifest["covariances"][str(layer)]))
+         for arm in arms:
+             run.pre_cell(2)
+@@ -381,7 +382,7 @@
+     import os
+     assert_environment()
+     R.verify_prereg()
+-    cap = 2700 if step == 2 else 1800
++    cap = 6540 if step == 2 else 1800
+     given_run = os.environ.get("MATHLAB_RUN_DIR")
+     if given_run:
+         run_dir = Path(given_run)
+--- before/mathlab/test_mathlab.py
++++ after/mathlab/test_mathlab.py
+@@ -122,7 +122,7 @@
+         A = module(self, "tools.mathlab_admit")
+         from tools import mathlab_runtime as R
+         run_dir = self.root / "run"
+-        run = R.Run(run_dir, 2, "Fixture", 2700, sample=lambda: 20.)
++        run = R.Run(run_dir, 2, "Fixture", 6540, sample=lambda: 20.)
+         proof = dict(self.decide(), launcher_pid=os.getpid() + 1, lead_source=None)
+         R.write_new(run_dir / "admission.json", proof)
+         with self.assertRaisesRegex(ValueError, "ADMISSION"):
+@@ -515,7 +515,7 @@
+         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+             root = Path(td)
+             for i in range(3):
+-                run = R.Run(root / "results/mathlab_staging/runs" / f"m2_{i}", 2, "Fixture", 2700, sample=lambda: 20.)
++                run = R.Run(root / "results/mathlab_staging/runs" / f"m2_{i}", 2, "Fixture", 6540, sample=lambda: 20.)
+                 R.stage_halt(root, run.directory, "HALT-BUDGET", "internal CPU timeout", step=2)
+                 rows, errors = read_events(run.directory / "events.jsonl")
+                 self.assertEqual(errors, [])
+@@ -540,11 +540,11 @@
+         from tools.mathlab_events import read_events
+         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+             root = Path(td); run_dir = root / "run"
+-            R.Run(run_dir, 2, "Fixture", 2700, sample=lambda: 20.)
++            R.Run(run_dir, 2, "Fixture", 6540, sample=lambda: 20.)
+             with patch.object(C, "W", root), patch.object(C, "validate_notebook", return_value=2), \
+                  patch.object(R, "verify_prereg"), patch.object(A, "dispatch_check", side_effect=R.Halt("ADMISSION", "fixture refusal")), \
+                  patch.object(C.subprocess, "Popen") as spawned, \
+-                 patch.object(sys, "argv", ["runner", "fixture.py", "2700", "--run-dir", str(run_dir)]):
++                 patch.object(sys, "argv", ["runner", "fixture.py", "6540", "--run-dir", str(run_dir)]):
+                 with self.assertRaisesRegex(ValueError, "ADMISSION"): C.main()
+                 spawned.assert_not_called()
+             rows, errors = read_events(run_dir / "events.jsonl")
+@@ -558,11 +558,11 @@
+         from tools.mathlab_events import read_events
+         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+             root = Path(td); run_dir = root / "run"
+-            R.Run(run_dir, 2, "Fixture", 2700, sample=lambda: 20.)
++            R.Run(run_dir, 2, "Fixture", 6540, sample=lambda: 20.)
+             with patch.object(C, "W", root), patch.object(C, "validate_notebook", return_value=2), \
+                  patch.object(R, "verify_prereg", side_effect=R.Halt("PREREG", "fixture hash mismatch")), \
+                  patch.object(A, "dispatch_check") as dispatch, patch.object(C.subprocess, "Popen") as spawned, \
+-                 patch.object(sys, "argv", ["runner", "fixture.py", "2700", "--run-dir", str(run_dir)]):
++                 patch.object(sys, "argv", ["runner", "fixture.py", "6540", "--run-dir", str(run_dir)]):
+                 with self.assertRaisesRegex(ValueError, "PREREG"): C.main()
+                 dispatch.assert_not_called(); spawned.assert_not_called()
+             rows, errors = read_events(run_dir / "events.jsonl")
+@@ -577,13 +577,13 @@
+         for completion, expected in ((None,3),("INVALID",3),("FAIL",3),("PASS",0)):
+             with self.subTest(completion=completion), tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+                 root=Path(td); run_dir=root/"run"
+-                run=R.Run(run_dir,2,"Fixture",2700,sample=lambda:24.)
++                run=R.Run(run_dir,2,"Fixture",6540,sample=lambda:24.)
+                 if completion: run.event("run_finished",outcome=completion,summary="Fixture")
+                 process=types.SimpleNamespace(returncode=0,poll=lambda:0,pid=999)
+                 with patch.object(C,"W",root), patch.object(C,"validate_notebook",return_value=2), \
+                      patch.object(R,"verify_prereg"), patch.object(A,"dispatch_check",return_value={"allowed":True}), \
+                      patch.object(C.subprocess,"Popen",return_value=process), patch.object(C,"watch",return_value="PASS"), \
+-                     patch.object(sys,"argv",["runner","fixture.py","2700","--run-dir",str(run_dir)]):
++                     patch.object(sys,"argv",["runner","fixture.py","6540","--run-dir",str(run_dir)]):
+                     self.assertEqual(C.main(),expected)
+                 rows,errors=read_events(run_dir/"events.jsonl")
+                 self.assertEqual(errors,[])
+@@ -649,9 +649,9 @@
+         R = module(self, "tools.mathlab_runtime")
+         from tools.mathlab_events import read_events, fold
+         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+-            run = R.Run(Path(td) / "events", 2, "Fixture self-test", 2700, sample=lambda: 20.)
++            run = R.Run(Path(td) / "events", 2, "Fixture self-test", 6540, sample=lambda: 20.)
+             run.event("admission", allowed=True, reasons=[])
+-            with run.stage("reproduction", "Reproduce saved operands", 2700):
++            with run.stage("reproduction", "Reproduce saved operands", 6540):
+                 run.event("progress", stage="reproduction", done=1, total=2, unit="writes")
+                 run.gate("2a", "Exact replay", 0., 1e-5, True)
+                 run.gate("2b", "First-order scope", "OPERANDS-ONLY", "ALT-SOLVES-ADMITTED", False)
+@@ -663,15 +663,34 @@
+ 
+     def test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor(self):
+         C = module(self, "tools.mathlab_cpu_runner")
+-        self.assertEqual(C.validate_notebook(ROOT / "mathlab/m2_solve_repro.py", 2700), 2)
++        try:
++            step = C.validate_notebook(ROOT / "mathlab/m2_solve_repro.py", 6540)
++        except ValueError as error:
++            self.fail("D-ML-2 step-2 deadline must be accepted: " + str(error))
++        self.assertEqual(step, 2)
+         self.assertEqual(C.validate_notebook(ROOT / "mathlab/m3_calibration.py", 1800), 3)
+-        with self.assertRaisesRegex(ValueError, "DEADLINE"):
+-            C.validate_notebook(ROOT / "mathlab/m2_solve_repro.py", 3000)
++        for notebook, cap in (("m2_solve_repro.py", 2700), ("m2_solve_repro.py", 6539),
++                              ("m2_solve_repro.py", 6541), ("m3_calibration.py", 1801)):
++            with self.subTest(notebook=notebook, cap=cap), self.assertRaisesRegex(ValueError, "DEADLINE"):
++                C.validate_notebook(ROOT / "mathlab" / notebook, cap)
+         process = types.SimpleNamespace(poll=lambda: None, pid=999, returncode=None)
+         sink = Sink()
+         with tempfile.TemporaryDirectory(dir="/private/tmp") as td, patch.object(C, "terminate") as killed:
+             result = C.watch(process, Path(td), sample=lambda: 5.999, sleep=lambda s: None, sink=sink)
+         self.assertEqual(result, "STOPPED-RESOURCE"); self.assertTrue(killed.called)
++
++    def test_prereg_amendment_pin_accepts_only_exact_frozen_bytes(self):
++        R = module(self, "tools.mathlab_runtime")
++        self.assertEqual(R.PREREG_SHA, "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507")
++        R.verify_prereg(ROOT)
++        with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
++            root = Path(td); (root / "docs").mkdir()
++            prereg = root / "docs/MATHLAB_PREREG.md"
++            prereg.write_bytes((ROOT / "docs/MATHLAB_PREREG.md").read_bytes())
++            R.verify_prereg(root)
++            prereg.write_bytes(prereg.read_bytes() + b"\nchanged\n")
++            with self.assertRaisesRegex(ValueError, "PREREG"):
++                R.verify_prereg(root)
+ 
+     def test_watchdog_reuses_cpu_samplers_and_handles_already_exited_parent(self):
+         import psutil
+@@ -709,6 +728,31 @@
+                                     env=dict(os.environ, PATH=str(root / "bin") + ":/usr/bin:/bin", MATHLAB_TEST_ROOT=str(root)))
+             self.assertEqual(result.returncode, 3); self.assertFalse((root / "dispatched").exists())
+ 
++    def test_cpu_launcher_accepts_only_amended_frozen_deadlines(self):
++        import subprocess
++        with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
++            root = Path(td); (root / ".venv/bin").mkdir(parents=True); (root / "bin").mkdir()
++            (root / "tools").mkdir()
++            script = root / "tools/run_mathlab_cpu.sh"
++            script.write_bytes((ROOT / "tools/run_mathlab_cpu.sh").read_bytes())
++            git = root / "bin/git"; git.write_text('#!/bin/sh\nprintenv MATHLAB_TEST_ROOT\n'); git.chmod(0o755)
++            python = root / ".venv/bin/python"
++            python.write_text('#!/bin/sh\ntouch "$MATHLAB_TEST_ROOT/admitted"\nexit 29\n'); python.chmod(0o755)
++            cases = [("mathlab/m2_solve_repro.py", 6540, True),
++                     (str(root / "mathlab/m2_solve_repro.py"), 6540, True),
++                     ("mathlab/m3_calibration.py", 1800, True),
++                     (str(root / "mathlab/m3_calibration.py"), 1800, True),
++                     ("mathlab/m2_solve_repro.py", 2700, False),
++                     ("mathlab/m2_solve_repro.py", 6541, False),
++                     ("mathlab/m3_calibration.py", 1801, False)]
++            for notebook, cap, allowed in cases:
++                with self.subTest(notebook=notebook, cap=cap):
++                    (root / "admitted").unlink(missing_ok=True)
++                    result = subprocess.run(["/bin/bash", str(script), notebook, str(cap)], capture_output=True, text=True,
++                                            env=dict(os.environ, PATH=str(root / "bin") + ":/usr/bin:/bin", MATHLAB_TEST_ROOT=str(root)))
++                    self.assertEqual(result.returncode, 29 if allowed else 3, result.stderr)
++                    self.assertEqual((root / "admitted").exists(), allowed)
++
+     def test_budget_projection_and_stage_cap(self):
+         R = module(self, "tools.mathlab_runtime"); now = [0.]
+         B = R.Budget(3600, clock=lambda: now[0]); now[0] = 3500.
+@@ -755,31 +799,38 @@
+             self.assertEqual(sink.rows[0]["bar"], dict(ordered_pairs=list(map(list,enumerate(BAND))), returns=1))
+ 
+ class NotebookContractTests(unittest.TestCase):
+-    def test_full_shape_measurement_raises_the_solve_cell_reserve(self):
++    def test_full_shape_measurements_set_svd_and_solve_cell_reserves(self):
+         C = module(self, "mathlab.core")
+         from mathlab.fixtures import make_harvest
+         from tools import mathlab_runtime as R
+         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+             root = Path(td); harvest = make_harvest(root); last = [None]
+-            run = R.Run(root / "run", 2, "Fixture", 2700, sample=lambda: 24.)
+-            original_admit=run.pre_cell; original_solve=C.solve
++            run = R.Run(root / "run", 2, "Fixture", 6540, sample=lambda: 24.)
++            original_admit=run.pre_cell; original_projector=C.projector; original_solve=C.solve
+             def admit(reserve):
+                 last[0]=reserve; original_admit(reserve)
++            def measured_projector(*args):
++                self.assertEqual(last[0], 5, "full-shape SVD measured 4.6088 GiB; D-ML-2 rounds up to 5")
++                return original_projector(*args)
+             def measured_solve(*args):
+-                self.assertGreaterEqual(last[0], 9, "full-shape solve already measured 8.0833 GiB")
++                self.assertEqual(last[0], 9, "full-shape solve measured 8.0843 GiB; reserve stays 9")
+                 return original_solve(*args)
+             run.pre_cell=admit
+-            with patch.object(C, "solve", side_effect=measured_solve):
++            with patch.object(C, "projector", side_effect=measured_projector), patch.object(C, "solve", side_effect=measured_solve):
+                 C.reproduce(harvest, R.new_directory(root,"m2"), run)
++            self.assertEqual(C.SVD_RESERVE_GIB, 5)
++            self.assertEqual(C.SOLVE_RESERVE_GIB, 9)
+ 
+     def test_notebook_boundary_uses_real_budget_events_and_non_stopping_2b(self):
+         C = module(self, "mathlab.core")
+         from mathlab.fixtures import make_harvest
+         from tools import mathlab_runtime as R
+         from tools.mathlab_events import read_events
+-        with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
++        # Isolate the deadline contract from the separately tested prereg repin.
++        with tempfile.TemporaryDirectory(dir="/private/tmp") as td, \
++             patch.object(R,"PREREG_SHA","4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507"):
+             root=Path(td); harvest=make_harvest(root); run_dir=root/"run"
+-            R.Run(run_dir,2,"Fixture notebook",2700,sample=lambda:24.)
++            R.Run(run_dir,2,"Fixture notebook",6540,sample=lambda:24.)
+             R.write_new(run_dir/"admission.json",dict(allowed=True,kind="cpu",fixture=True))
+             params=types.SimpleNamespace(harvest_dir=harvest,output_root=root/"outputs")
+             real_run=R.Run
+@@ -797,6 +848,8 @@
+             self.assertEqual(sum(r["type"]=="run_started" for r in rows),1)
+             self.assertEqual(rows[-1]["type"],"run_finished")
+             self.assertEqual(rows[-1]["outcome"],"PASS")
++            stages=[r for r in rows if r["type"]=="stage_started"]
++            self.assertEqual([(r["stage"],r["cap_s"]) for r in stages],[("reproduction",6540)])
+     def test_fixture_reproduction_then_calibration_uses_fresh_column_and_real_events(self):
+         C = module(self, "mathlab.core")
+         from mathlab.fixtures import make_harvest
+@@ -804,7 +857,7 @@
+         from tools.mathlab_events import read_events
+         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+             parent = Path(td); harvest = make_harvest(parent)
+-            out2 = R.new_directory(parent, "m2"); run2 = R.Run(parent / "run2", 2, "Fixture", 2700, sample=lambda: 20.)
++            out2 = R.new_directory(parent, "m2"); run2 = R.Run(parent / "run2", 2, "Fixture", 6540, sample=lambda: 20.)
+             result2 = C.reproduce(harvest, out2, run2)
+             self.assertTrue(result2["gate2a"]["passed"]); self.assertEqual(result2["gate2b"], "OPERANDS-ONLY")
+             out3 = R.new_directory(parent, "m3"); run3 = R.Run(parent / "run3", 3, "Fixture", 1800, sample=lambda: 20.)
+@@ -826,7 +879,7 @@
+         from tools import mathlab_runtime as R
+         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+             parent = Path(td); harvest = make_harvest(parent)
+-            out2 = R.new_directory(parent, "m2"); run2 = R.Run(parent / "run2", 2, "Fixture", 2700, sample=lambda: 20.)
++            out2 = R.new_directory(parent, "m2"); run2 = R.Run(parent / "run2", 2, "Fixture", 6540, sample=lambda: 20.)
+             C.reproduce(harvest, out2, run2)
+             changed = R.read_json(harvest / "manifest.json"); changed["outcomes"][A1]["used_for_calibration"] = 55
+             (harvest / "manifest.json").write_text(json.dumps(changed))
+--- before/tools/mathlab_runtime.py
++++ after/tools/mathlab_runtime.py
+@@ -14,7 +14,7 @@
+ import uuid
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+-PREREG_SHA = "33e5aa4e0fc01e07e5b1b7e6fe234e07be41e9c9b2c8edf9496af5572d9b398a"
++PREREG_SHA = "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507"
+ TIER = "MATH-PROXY"
+ 
+ 
+--- before/tools/mathlab_cpu_runner.py
++++ after/tools/mathlab_cpu_runner.py
+@@ -14,7 +14,7 @@
+ 
+ 
+ def validate_notebook(notebook, deadline_s):
+-    expected = {W / "mathlab/m2_solve_repro.py": (2, 2700), W / "mathlab/m3_calibration.py": (3, 1800)}
++    expected = {W / "mathlab/m2_solve_repro.py": (2, 6540), W / "mathlab/m3_calibration.py": (3, 1800)}
+     notebook = Path(notebook).resolve()
+     R.require(notebook in expected, "DEADLINE", "only the two frozen CPU notebooks may run")
+     step, cap = expected[notebook]
+--- before/tools/run_mathlab_cpu.sh
++++ after/tools/run_mathlab_cpu.sh
+@@ -5,12 +5,12 @@
+ export LLMDB_ROOT="$W"
+ if [ "$#" -lt 2 ]; then
+   echo "Usage: tools/run_mathlab_cpu.sh <notebook> <deadline_s> [notebook arguments]" >&2
+-  echo "Deadlines: m2 2700; m3 1800. Optional lead tail record: MATHLAB_ADMISSION." >&2
++  echo "Deadlines: m2 6540; m3 1800. Optional lead tail record: MATHLAB_ADMISSION." >&2
+   exit 2
+ fi
+ NOTEBOOK="$1"; DEADLINE="$2"; shift 2
+ case "$NOTEBOOK:$DEADLINE" in
+-  mathlab/m2_solve_repro.py:2700|"$W/mathlab/m2_solve_repro.py:2700") STEP=2;;
++  mathlab/m2_solve_repro.py:6540|"$W/mathlab/m2_solve_repro.py:6540") STEP=2;;
+   mathlab/m3_calibration.py:1800|"$W/mathlab/m3_calibration.py:1800") STEP=3;;
+   *) echo "Refused: notebook or hard deadline differs from the preregistration" >&2; exit 3;;
+ esac

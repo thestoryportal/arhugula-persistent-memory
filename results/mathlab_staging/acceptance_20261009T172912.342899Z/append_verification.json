@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "report_prefix_preserved": true,
+  "status_line_unchanged": true,
+  "prefix_bytes": 156905,
+  "prefix_sha256": "bc584f7901901bc7081f42680b18aefb45e47b8cf845674b454ccda4c5933253",
+  "report_after_sha256": "64e8edf3e9052f6dd9399dc1439e95ec91ba0620467425997234e65d9d223df4",
+  "prereg_sha256": "33e5aa4e0fc01e07e5b1b7e6fe234e07be41e9c9b2c8edf9496af5572d9b398a",
+  "snapshotted_source_hashes_unchanged": true,
+  "events_parse_errors": [],
+  "reserve_gib": 9,
+  "acceptance_outcome": "BLOCKED",
+  "final_event_outcome": "INVALID"
+}

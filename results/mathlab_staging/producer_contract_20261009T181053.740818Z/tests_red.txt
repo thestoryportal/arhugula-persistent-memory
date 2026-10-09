@@ -1,0 +1,62 @@
+test_standalone_admission_receipts_leave_all_experiment_steps_unstarted (mathlab.test_mathlab.AdmissionTests.test_standalone_admission_receipts_leave_all_experiment_steps_unstarted) ... 
+  test_standalone_admission_receipts_leave_all_experiment_steps_unstarted (mathlab.test_mathlab.AdmissionTests.test_standalone_admission_receipts_leave_all_experiment_steps_unstarted) (kind='cpu') ... FAIL
+  test_standalone_admission_receipts_leave_all_experiment_steps_unstarted (mathlab.test_mathlab.AdmissionTests.test_standalone_admission_receipts_leave_all_experiment_steps_unstarted) (kind='harvest') ... FAIL
+test_launcher_owned_admission_attaches_and_requires_experiment_closeout (mathlab.test_mathlab.AdmissionTests.test_launcher_owned_admission_attaches_and_requires_experiment_closeout) ... 
+  test_launcher_owned_admission_attaches_and_requires_experiment_closeout (mathlab.test_mathlab.AdmissionTests.test_launcher_owned_admission_attaches_and_requires_experiment_closeout) (kind='harvest') ... FAIL
+  test_launcher_owned_admission_attaches_and_requires_experiment_closeout (mathlab.test_mathlab.AdmissionTests.test_launcher_owned_admission_attaches_and_requires_experiment_closeout) (kind='cpu') ... FAIL
+test_attachment_rejects_explicit_admission_and_accepts_experiment_or_legacy (mathlab.test_mathlab.AdmissionTests.test_attachment_rejects_explicit_admission_and_accepts_experiment_or_legacy) ... 
+  test_attachment_rejects_explicit_admission_and_accepts_experiment_or_legacy (mathlab.test_mathlab.AdmissionTests.test_attachment_rejects_explicit_admission_and_accepts_experiment_or_legacy) (purpose='admission') ... FAIL
+test_admission_probe_error_emits_failed_gate_and_staged_closeout (mathlab.test_mathlab.ResourceArtifactTests.test_admission_probe_error_emits_failed_gate_and_staged_closeout) ... FAIL
+
+======================================================================
+FAIL: test_standalone_admission_receipts_leave_all_experiment_steps_unstarted (mathlab.test_mathlab.AdmissionTests.test_standalone_admission_receipts_leave_all_experiment_steps_unstarted) (kind='cpu')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 112, in test_standalone_admission_receipts_leave_all_experiment_steps_unstarted
+    self.assertEqual(rows[0].get("purpose"), "admission")
+AssertionError: None != 'admission'
+
+======================================================================
+FAIL: test_standalone_admission_receipts_leave_all_experiment_steps_unstarted (mathlab.test_mathlab.AdmissionTests.test_standalone_admission_receipts_leave_all_experiment_steps_unstarted) (kind='harvest')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 112, in test_standalone_admission_receipts_leave_all_experiment_steps_unstarted
+    self.assertEqual(rows[0].get("purpose"), "admission")
+AssertionError: None != 'admission'
+
+======================================================================
+FAIL: test_launcher_owned_admission_attaches_and_requires_experiment_closeout (mathlab.test_mathlab.AdmissionTests.test_launcher_owned_admission_attaches_and_requires_experiment_closeout) (kind='harvest')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 132, in test_launcher_owned_admission_attaches_and_requires_experiment_closeout
+    self.assertEqual(rows[0].get("purpose"), "experiment")
+AssertionError: None != 'experiment'
+
+======================================================================
+FAIL: test_launcher_owned_admission_attaches_and_requires_experiment_closeout (mathlab.test_mathlab.AdmissionTests.test_launcher_owned_admission_attaches_and_requires_experiment_closeout) (kind='cpu')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 132, in test_launcher_owned_admission_attaches_and_requires_experiment_closeout
+    self.assertEqual(rows[0].get("purpose"), "experiment")
+AssertionError: None != 'experiment'
+
+======================================================================
+FAIL: test_attachment_rejects_explicit_admission_and_accepts_experiment_or_legacy (mathlab.test_mathlab.AdmissionTests.test_attachment_rejects_explicit_admission_and_accepts_experiment_or_legacy) (purpose='admission')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 159, in test_attachment_rejects_explicit_admission_and_accepts_experiment_or_legacy
+    with self.assertRaisesRegex(ValueError, "EVENTS.*matching experiment"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_admission_probe_error_emits_failed_gate_and_staged_closeout (mathlab.test_mathlab.ResourceArtifactTests.test_admission_probe_error_emits_failed_gate_and_staged_closeout)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 573, in test_admission_probe_error_emits_failed_gate_and_staged_closeout
+    self.assertEqual(rows[0].get("purpose"), "admission")
+AssertionError: None != 'admission'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.016s
+
+FAILED (failures=6)

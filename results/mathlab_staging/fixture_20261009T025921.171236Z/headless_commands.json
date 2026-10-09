@@ -1,0 +1,50 @@
+[
+  {
+    "step": 2,
+    "command": [
+      "nice",
+      "-n",
+      "10",
+      "/opt/homebrew/bin/timeout",
+      "-k",
+      "30",
+      "2700",
+      "uv",
+      "run",
+      "--script",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/m2_solve_repro.py",
+      "--harvest-dir",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z",
+      "--output-root",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/uv_outputs"
+    ],
+    "exit_code": 2,
+    "fixture": true
+  },
+  {
+    "step": 3,
+    "command": [
+      "nice",
+      "-n",
+      "10",
+      "/opt/homebrew/bin/timeout",
+      "-k",
+      "30",
+      "1800",
+      "uv",
+      "run",
+      "--script",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/m3_calibration.py",
+      "--harvest-dir",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z",
+      "--output-root",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/uv_outputs",
+      "--reproduction-dir",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/prepared_m2_20261009T030111.849859Z",
+      "--index-path",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/fixture.duckdb"
+    ],
+    "exit_code": 2,
+    "fixture": true
+  }
+]
