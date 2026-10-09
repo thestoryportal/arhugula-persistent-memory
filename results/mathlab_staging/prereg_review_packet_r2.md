@@ -1,0 +1,8 @@
+You are the cross-family reviewer, round 2. Verdict: FREEZE or FIX-FIRST, then BLOCKING (file:line evidence) and ADVISORY. Read-only.
+
+docs/MATHLAB_PREREG.md v2 (SHA-256 b7cd0b1369000291f80cc23042db587c5f12ee2e504828ccb004fa42cae18b72, Decision-ID D-ML-1) folds your round-1 review results/mathlab_staging/prereg_astra_r1.md (FIX-FIRST, 5 BLOCKING + 6 ADVISORY); the fold log is §11.
+1. For each of your round-1 BLOCKING items B1–B5, state RESOLVED or NOT RESOLVED with evidence from v2 and the cited source lines. In particular: B1's read-only sys.setprofile observer installed via a lab-side rebinding of H.my_edit (precedent c10x_enginepath_arms.py:467-473) — does it capture zs/K/Kf/rf/resid/cur/upd_precast exactly at c10e_bandknob.py:212 without altering the solve, exclude the post-write cache pass (:218-220) and the LAW#5 capture, and is the wrapped-vs-unwrapped parity gate (restored weights + fresh zero cache) adequate as the LAW#5 inertness proof? B5: does mathlab_admit.py reuse only check_fingerprint/check_gpu from tools/c10w_p2_gate.py correctly?
+2. New design change: all six arms now use block F's context set (hash 8638d12c…, method c10u_mint2_read.py:29-30) rather than C10Q c7dabbe7; fresh A1/A7 updates are checked against block F recorded per-layer norms (1e-3) before historical counts attach. Is this sound, and does it break the known-baseline (LAW#3) logic for the fresh A1/A2/A7 arms?
+3. Verify any new citations you have not already checked (sample ≥ 8).
+4. Confirm the evidence tier, staging-only output and DuckDB derived-index rules survived the edit.
+Freeze only if nothing BLOCKING remains. Be concrete.
