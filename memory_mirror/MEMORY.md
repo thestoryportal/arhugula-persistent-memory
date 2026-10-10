@@ -1,4 +1,4 @@
-- [⭐ Context management (BINDING)](context-management-every-session.md) — Memento finalize-session for MAESTRO; new task only at ≥60% left, hand off at ≤40%, compaction → successor; MAESTRO measures own usage from transcript
+- [⭐ Context management (BINDING)](context-management-every-session.md) — Memento finalize-session for MAESTRO; new task only at ≥60% left, hand off at ≤40%, compaction → successor; MAESTRO measures own usage from transcript and resets by ~300k (ceiling 300k, operator 2026-10-10)
 
 ## Operating rules
 - [Answer the gate's real criterion](resolve-the-gates-real-criterion.md) — State the gate's literal criterion first; a passing necessary proxy isn't it
