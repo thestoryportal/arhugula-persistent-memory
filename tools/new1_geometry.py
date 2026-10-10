@@ -153,14 +153,21 @@ def covariance_basis(C,k=1024,cell=None):
     U,s,Vh=torch.linalg.svd(C,full_matrices=False)
     if cell: cell('covariance-checks')
     errors={'symmetry':0.,'svd':0.,'psd':0.,'orthogonality':0.}
-    scaled=U*s
     for start in range(0,d,256):
         end=min(d,start+256)
         reference=C[:,start:end].double()
         errors['symmetry']+=float((reference-C[start:end,:].T.double()).square().sum())
-        errors['svd']+=float((reference-(scaled@Vh[:,start:end]).double()).square().sum())
-        errors['psd']+=float((reference-(scaled@U[start:end,:].T).double()).square().sum())
-        orth=(U.T@U[:,start:end]).double()
+        svd=torch.zeros_like(reference); psd=torch.zeros_like(reference)
+        orth=torch.empty_like(reference); target=U[:,start:end].double()
+        for column in range(0,d,256):
+            stop=min(d,column+256)
+            basis=U[:,column:stop].double()
+            scaled=basis*s[column:stop].double()
+            svd+=scaled@Vh[column:stop,start:end].double()
+            psd+=scaled@U[start:end,column:stop].T.double()
+            orth[column:stop]=basis.T@target
+        errors['svd']+=float((reference-svd).square().sum())
+        errors['psd']+=float((reference-psd).square().sum())
         orth[torch.arange(start,end),torch.arange(end-start)]-=1
         errors['orthogonality']+=float(orth.square().sum())
     for name in ('symmetry','svd','psd'): errors[name]=math.sqrt(errors[name]/denom)

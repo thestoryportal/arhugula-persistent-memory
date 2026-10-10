@@ -60,6 +60,80 @@ class GeometryTests(unittest.TestCase):
         self.assertEqual(len(overlap['angles_deg']),2)
         self.assertTrue(all(x<1e-5 for x in overlap['angles_deg']))
 
+    def test_covariance_checks_promote_before_fp32_scaling_underflows(self):
+        t=self.torch
+        # A valid rotated decomposition of a degenerate, subnormal fp32 PSD C.
+        U=t.tensor([[1.,1.,1.,1.],[1.,-1.,1.,-1.],
+                    [1.,1.,-1.,-1.],[1.,-1.,-1.,1.]],dtype=t.float32)/2
+        s=t.full((4,),2.**-149,dtype=t.float32)
+        Vh=U.T; C=t.diag(s)
+        before=[value.numpy().tobytes() for value in (C,U,s,Vh)]
+        native_P=U@U.T
+        reference=C.double()
+        legacy=(U*s)@Vh
+        promoted=(U.double()*s.double())@Vh.double()
+        legacy_error=float(t.linalg.vector_norm(reference-legacy.double())/t.linalg.vector_norm(reference))
+        promoted_error=float(t.linalg.vector_norm(reference-promoted)/t.linalg.vector_norm(reference))
+        self.assertGreater(legacy_error,1e-5)
+        self.assertEqual(promoted_error,0.)
+        with mock.patch.object(t.linalg,'svd',return_value=(U,s,Vh)) as svd:
+            basis=self.G.covariance_basis(C,k=1)
+        svd.assert_called_once_with(C,full_matrices=False)
+        self.assertIs(basis['Q'],U)
+        self.assertIs(basis['s'],s)
+        self.assertEqual(basis['Q'].dtype,t.float32)
+        self.assertEqual(basis['s'].dtype,t.float32)
+        self.assertEqual(basis['subsets'],{'top':[0],'bottom':[3],'excluded':[],'allowed':[0,1,2,3]})
+        self.assertEqual([value.numpy().tobytes() for value in (C,U,s,Vh)],before)
+        Q=basis['Q'][:,basis['subsets']['allowed']]
+        self.assertEqual((Q@Q.T).numpy().tobytes(),native_P.numpy().tobytes())
+        self.assertTrue(all(error==0. for error in basis['checks'].values()))
+
+    def test_covariance_check_products_use_float64_blocks_preserving_native_objects(self):
+        t=self.torch
+        C=t.diag(t.cat((t.linspace(.02,.005,200),t.linspace(.004,.001,57))))
+        before_C=C.numpy().tobytes()
+        real_svd=t.linalg.svd; real_double=t.Tensor.double
+        real_mul=t.Tensor.__mul__; real_matmul=t.Tensor.__matmul__
+        native={}; promoted=[]; products=[]; scales=[]
+        def decompose(value,*args,**kwargs):
+            U,s,Vh=real_svd(value,*args,**kwargs)
+            native.update(U=U,s=s,Vh=Vh,bytes=[v.numpy().tobytes() for v in (U,s,Vh)])
+            idx=(s<.005).nonzero(as_tuple=True)[0]
+            native['P']=real_matmul(U[:,idx],U[:,idx].T)
+            return U,s,Vh
+        def promote(value,*args,**kwargs):
+            if value.dtype==t.float32 and value.ndim==2: promoted.append(tuple(value.shape))
+            return real_double(value,*args,**kwargs)
+        def scale(left,right):
+            if isinstance(right,t.Tensor): scales.append((left.dtype,right.dtype))
+            return real_mul(left,right)
+        def product(left,right):
+            products.append((left.dtype,right.dtype))
+            return real_matmul(left,right)
+        with mock.patch.object(t.linalg,'svd',side_effect=decompose) as svd, \
+             mock.patch.object(t.Tensor,'double',new=promote), \
+             mock.patch.object(t.Tensor,'__mul__',new=scale), \
+             mock.patch.object(t.Tensor,'__matmul__',new=product):
+            basis=self.G.covariance_basis(C,k=1)
+        svd.assert_called_once_with(C,full_matrices=False)
+        self.assertTrue(scales and all(pair==(t.float64,t.float64) for pair in scales))
+        self.assertTrue(products and all(pair==(t.float64,t.float64) for pair in products))
+        self.assertTrue(promoted and all(min(shape)<=256 for shape in promoted),
+            'validity checks must promote blocks, never a full covariance/basis matrix')
+        self.assertIs(basis['Q'],native['U'])
+        self.assertIs(basis['s'],native['s'])
+        self.assertEqual([v.numpy().tobytes() for v in (native['U'],native['s'],native['Vh'])],native['bytes'])
+        self.assertEqual(C.numpy().tobytes(),before_C)
+        expected={'top':[0],'bottom':[256],
+            'excluded':(native['s']>=.005).nonzero(as_tuple=True)[0].tolist(),
+            'allowed':(native['s']<.005).nonzero(as_tuple=True)[0].tolist()}
+        self.assertEqual(basis['subsets'],expected)
+        Q=basis['Q'][:,basis['subsets']['allowed']]
+        P=Q@Q.T
+        self.assertEqual(P.dtype,t.float32)
+        self.assertEqual(P.numpy().tobytes(),native['P'].numpy().tobytes())
+
     def test_native_covariance_svd_once_and_indefinite_psd_rejection(self):
         C=self.torch.diag(self.torch.tensor([4.,2.,.004,.001]))
         real=self.torch.linalg.svd

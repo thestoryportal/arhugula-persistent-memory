@@ -453,3 +453,92 @@ The additional post-implementation review returned **GO, no blocking defects**. 
 Done: the scoped LAB-STOP repair, all required RED controls, identical-test GREEN, the 234-test CPU suites, protected-file/AST audits, hashes and read-only second review. In flight: none. Exact handoff paths: `tools/new1_supervisor.py`, `tests/test_new1_supervisor.py`, this report, and `results/mathlab_staging/new1_v2_build_evidence/mb3_20261010T021418Z_labstop` → `/private/tmp/new1_mb3_20261010T021418Z_labstop_evidence`; local context checkpoint is `checkpoints/new1_labstop_fix.md` in that evidence directory. Next step: MAESTRO2 reviews the narrow patch and controls relaunch; MB3 has not launched or committed. Open limits: live CPU admission and workload feasibility remain untested; shared step-4 representation and B2 pathname/power-loss limits remain deferred; temporary evidence target must be retained.
 
 **Binding context rule restated:** Watch `Context N% left` for this session and every team session. Before approximately **20%** remains, stop starting new work, write a precise handoff in the task report with done/in-flight work, exact paths, next steps and open risks, and notify the orchestrator so a fresh successor can take over. Never approach full-window compaction. Every future handoff must restate this rule.
+
+## 2026-10-10 UTC — Amendment A1 implementation (D-NEW1-a1; Codex MB3)
+
+**NEW1 A1 DONE — append-only clarification, test-first implementation, synthetic CPU verification.** New complete prereg SHA-256: **`216e8cfab513f0b555d8ae7908bd629e99e3b848cd2b43c054690962572cf771`**. MAESTRO2's team-delegated decision adopts only Astra's first choice; the operator may veto. The halted L4 run remains INVALID. No real NEW1 run, pinned-input geometry, live admission probe, model/GPU execution or commit was performed by MB3.
+
+### Ruling and fixed scope
+
+Read the full `results/mathlab_staging/new1_svd_ruling_astra.md`: **FAITHFUL-GATE-FAILURE**. The original gate implements the frozen formulas faithfully; fp32 scaling/products followed by float64 residual reductions matched v2's literal text. A1 clarifies evaluation precision and does not retrospectively declare a formula bug. The recorded L4 errors were SVD **0.00013040006457880495**, PSD **0.00015125184589782594**, orthogonality **1.9356690175696768e-05**; `worker_failure.json:4–6` records Invalid and predictions NOT COMPUTED.
+
+The failure distinctions remain explicit: (1) a formula/normalization error is refuted by Astra's source review; (2) fp32 scaling/product rounding can affect a check, as the synthetic underflow control demonstrates, but its contribution to this L4 observation is unmeasured; (3) native factorization error may itself exceed the unchanged tolerances. The third possibility is not cured by promoting check arithmetic, and a future attempt must still halt if those gates fail. This implements only the reviewed diagnostic clarification, not a tolerance change or scientific finding. The map cell remains Write Engine / §8.9 C10; this MATH-PROXY can supply no behavioral or F1 closure.
+
+Appended **`Amendment A1 (D-NEW1-a1)`** at `docs/NEW1_ADAPTER_GEOMETRY_PREREG.md:178`. The first **31,931 bytes** are byte-identical to the original frozen v2, SHA `eaf7bc21e1ac2cabc5f16703ce5b712debfdad80163f170fe20c99969c024741`. No frozen text above A1 was edited. The amendment requires promotion of temporary U/s/Vh/C blocks **before scaling and every blocked product**; casting a completed fp32 product is insufficient. It preserves one native-fp32 covariance SVD per layer, Q = native U, native singular values/subset masks/P, all cutoffs, formulas, **1e-6 / 1e-5** tolerances, and existing resource/deadline gates. No tolerance relaxation, refinement, full float64 covariance SVD, second decomposition, symmetrization or clipping is authorized. The update's existing float64 economy SVD is unaffected.
+
+Production changes are confined to the **validity-check arithmetic within `tools/new1_geometry.py:156–170`**. For each output column block J, the inner column blocks K compute, in float64:
+
+- SVD reconstruction: sum over K of U[:,K] diag(s[K]) Vh[K,J].
+- PSD reconstruction: sum over K of U[:,K] diag(s[K]) U[J,K].T.
+- Orthogonality: rows K of U.T U[:,J], then the original identity-column subtraction.
+
+Every temporary covariance/basis operand has a dimension bounded by **256**; the checks do not materialize a full float64 C or full production-sized float64 basis. The original Frobenius denominators, square roots, d normalization and thresholds remain unchanged. The function returns the original native U and s objects; subsets are still derived from the native-fp32 singular values with the original 0.005 comparisons. The downstream native P construction and identity validation are unchanged. No other production function, supervisor, shared module, source pin, prediction or gate was changed.
+
+### RED before production, identical-test GREEN
+
+Evidence: `results/mathlab_staging/new1_v2_build_evidence/mb3_20261010T024034Z_a1` → `/private/tmp/new1_mb3_20261010T024034Z_a1_5234dpl8`. This is a workspace symlink; retain its physical temporary target before reclamation. Baseline source copies/hashes are in `before/` and `baseline.json`.
+
+Wrote two tests first in `tests/test_new1_geometry.py:63,92`:
+
+1. **4×4 fp32 PSD underflow control.** A mocked valid rotated decomposition of degenerate C uses singular values 2^-149 and exactly representable Hadamard U/2. Native fp32 scaling underflows: the old reconstruction relative error is **1.0 >1e-5**; promotion before scaling gives **0.0**. The amended function must pass with all check errors zero, exactly one native-input SVD call, returned Q/U and s object identity, unchanged bytes of C/U/s/Vh, exact subset indices and unchanged native-fp32 projector bytes. This is a controlled decomposition fixture, not a measurement of the production SVD/backend.
+2. **257-dimensional block/dtype/native identity control.** Uses an actual small diagonal native-fp32 SVD across the 256-column boundary. Spies require float64 operands at scaling and every check product, bounded block promotions, exactly one SVD of the original fp32 input, original returned U/s object identity, unchanged native factor/C bytes, exact original 0.005 masks/subsets and native projector dtype/bytes. The PSD rejection and other existing frozen-gate tests are retained.
+
+At **2026-10-10T02:42:56Z**, these tests were **RED** on unchanged geometry SHA `ca51ab89d3b2003107fc04da8c8297bb360c58b6751c514a93a5761a7d2e6523`: **2 tests, 1 failure + 1 error, exit 1**, in **0.485 s**. The underflow control hit the old validity gate with SVD/PSD error 1.0; the dtype control detected fp32 scaling. `red_covariance_checks.json/.log` preserve the exact command and failure trace.
+
+After the check-only production change, the **identical test SHA** `4b07bd40d3865d794abd44ed282725565019f06dafc152235c2aef2f6a185e8a` was **GREEN: 2/2, exit 0, 0.475 s** (`green_covariance_checks.json/.log`). No test assertions were relaxed after RED.
+
+Required NEW1 suites ran in separate fresh CPU processes with small synthetic inputs only. Common command prefix:
+
+```sh
+/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest -v
+```
+
+| Module appended | Count | Result / time | Evidence |
+|---|---:|---|---|
+| `tests.test_new1_supervisor` | 57 | PASS, exit 0, 3.121 s | `green_new1_supervisor.json/.log` |
+| `tests.test_new1_geometry` | 27 | PASS, exit 0, 0.497 s | `green_new1_geometry.json/.log` |
+
+**84 unique NEW1 tests PASS**; the two targeted controls are included in those 27 geometry tests. `green_new1_suites.json` contains both complete command receipts. These small fixtures do not establish real-spectrum validity or production time/RSS feasibility.
+
+### Complete prereg hash and every launch binding
+
+The new complete prereg SHA is **`216e8cfab513f0b555d8ae7908bd629e99e3b848cd2b43c054690962572cf771`**. There is no hardcoded NEW1 prereg hash in the supervisor to edit: the required CLI value flows through all pins. Any separately authorized future launcher must supply:
+
+```text
+--prereg-sha 216e8cfab513f0b555d8ae7908bd629e99e3b848cd2b43c054690962572cf771
+```
+
+| Binding | Current source / recorded field |
+|---|---|
+| Supervisor CLI requires the complete-document hash | `tools/new1_supervisor.py:432`, `--prereg-sha` → args.prereg_sha |
+| Supervisor resolves the authoritative prereg path | `tools/new1_supervisor.py:435`, `docs/NEW1_ADAPTER_GEOMETRY_PREREG.md` |
+| Parent admission verifies complete bytes and authoritative FROZEN v2 status | `tools/new1_supervisor.py:441`, verify_prereg(prereg, args.prereg_sha); verifier at `:66–73` hashes all bytes, including A1 |
+| Criteria receipt binds that same CLI hash | `tools/new1_supervisor.py:442`, receipt(directory, 'criteria', {'path': str(prereg), 'sha256': args.prereg_sha}); helper `:89` writes `receipts/criteria_<uuid>.json`, with prereg hash in its top-level sha256 field |
+| Supervisor forwards the same pin to the private worker | `tools/new1_supervisor.py:439`, worker argv `--prereg-sha`, args.prereg_sha |
+| Worker requires and consumes the forwarded CLI pin | `tools/new1_geometry.py:491,493` |
+| Worker verifies it before numerical/input work | `tools/new1_geometry.py:423`, verify_prereg(ROOT/prereg, prereg_sha) |
+| Future complete geometry artifact records it | `tools/new1_geometry.py:476`, `prereg_sha256` |
+
+`prereg_pin_check.json` inventories every relevant current source line. A stdlib-only check against the actual amended document proved **new-hash verification PASS** and **old v2-only hash refusal INVALID-PREREG**, without invoking admission or dispatch. This check imported no numerical dependency. The unchanged historical harvest prereg hash is a distinct input-identity pin, not the NEW1 launch hash. Historical criteria receipts retain their original hash and are never rewritten under A1.
+
+### Preservation, hashes and secondary review
+
+`scope_audit_before_report.json` verifies that only geometry, its tests and the append-only prereg changed among the baseline paths before this report append. All **55** other top-level geometry AST nodes are unchanged; covariance_basis arguments, native SVD and all statements outside the check-product block are unchanged. This directly preserves return values/masks, thresholds and projector code. `git diff --check` passed. Baseline-relative patches are `new1_geometry.diff`, `test_new1_geometry.diff` and `NEW1_ADAPTER_GEOMETRY_PREREG.diff`.
+
+All **102 files** in `results/mathlab_staging/runs/new1_20261010T022922.650234Z` match their baseline byte hashes and sizes, with the same file set. Its authoritative fold still reports **halted, step 4 INVALID, outcome null, no prediction verdicts or findings**. The diagnostic and all original receipts/events are preserved.
+
+| File | Final SHA-256 |
+|---|---|
+| `docs/NEW1_ADAPTER_GEOMETRY_PREREG.md` | `216e8cfab513f0b555d8ae7908bd629e99e3b848cd2b43c054690962572cf771` |
+| `tools/new1_geometry.py` | `3234b7f16b25d151d86ec508577abd42c1163a5b2b5318761b11b28675c2df67` |
+| `tests/test_new1_geometry.py` | `4b07bd40d3865d794abd44ed282725565019f06dafc152235c2aef2f6a185e8a` |
+| Frozen v2 prefix, preserved verbatim | `eaf7bc21e1ac2cabc5f16703ce5b712debfdad80163f170fe20c99969c024741` |
+| `tools/new1_supervisor.py`, unchanged | `1d24e827523f934a893e922554036c6ea9c3e1ec2cfe161d53ddaadd90068357` |
+
+The read-only secondary reviewer returned **GO, no blocking defect** after reading the actual diff, full external ruling and completed RED/GREEN receipts (`a1_post_implementation_review.md`). Its identity is GPT-6/Codex family, **not Astra**; it ran no tests or real computation and supplied no relaunch authorization. The external Astra ruling remains the authoritative first-choice design input. Real-input gate PASS, full-workload resource feasibility, scientific predictions, calibration and prospective queue utility remain **UNVERIFIED**. MathLab remains stopped; no queue or canonical finding was promoted.
+
+### Closeout handoff
+
+Done: appended A1 without changing frozen v2; RED controls before production; minimal float64 blocked-check change; native identity/bytes/subset/projector checks; 84-test CPU suites; hash/launch-pin inventory; halted-run and source/AST preservation audits; secondary review. In flight: none. Exact paths: `docs/NEW1_ADAPTER_GEOMETRY_PREREG.md`, `tools/new1_geometry.py`, `tests/test_new1_geometry.py`, this report, and `results/mathlab_staging/new1_v2_build_evidence/mb3_20261010T024034Z_a1` → `/private/tmp/new1_mb3_20261010T024034Z_a1_5234dpl8`; local context checkpoint is `checkpoints/new1_a1.md` there. Next step belongs to MAESTRO2: review D-NEW1-a1/new hash and control any separately authorized fresh attempt; the operator may veto. Open risks: unchanged numerical gates can still fail on native factors, and live RSS/time feasibility is untested. The original halted run remains INVALID. Preserve the temporary evidence target. No real run or commits were performed by MB3.
+
+**Binding context rule restated:** Watch `Context N% left` for this session and every team session. Before approximately **20%** remains, stop starting new work, save a handoff in the task report with done/in-flight work, exact paths, next steps and open risks, and notify the orchestrator for a fresh successor. Never approach full-window compaction. Every future handoff must restate this rule.
