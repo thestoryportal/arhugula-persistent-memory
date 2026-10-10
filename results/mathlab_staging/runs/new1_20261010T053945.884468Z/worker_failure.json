@@ -1,0 +1,7 @@
+{
+  "tier": "MATH-PROXY",
+  "boundary": "math estimate, not evidence",
+  "error_type": "Invalid",
+  "message": "projector identity/probes mismatch",
+  "prediction_verdict": "NOT COMPUTED"
+}

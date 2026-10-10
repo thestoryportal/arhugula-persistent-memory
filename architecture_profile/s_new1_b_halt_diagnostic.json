@@ -1,0 +1,37 @@
+{
+ "id": "s_new1_b_halt",
+ "decision": "D-NEW1-b",
+ "utc": "2026-10-10T05:44:00Z",
+ "status": "HALT \u2014 INVALID-WORKER, prediction NOT COMPUTED",
+ "authorization": "results/mathlab_staging/new1_b_run_authorization.md (C1 one attempt, no retry)",
+ "prereg_sha256": "1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f",
+ "head_at_launch": "b980144 (+authorization commit)",
+ "run_dir": "results/mathlab_staging/runs/new1_20261010T053945.884468Z",
+ "log": "results/mathlab_staging/new1_run_20261010T053944Z.log",
+ "failure": {
+  "where": "tools/new1_geometry.py:258 validate_capture -> projector_matches (:230-240)",
+  "error": "Invalid: projector identity/probes mismatch",
+  "layer": 4,
+  "elapsed_s_approx": 255,
+  "peak_rss_gib_observed": 8.54,
+  "resource_caps_breached": false
+ },
+ "observed": {
+  "captured_l4_Pi_null_n": 8645,
+  "native_cpu_excluded_count_from_B_measure": 2363,
+  "d": 11008,
+  "inference": "8645 == 11008-2363, so the count check very likely passed; failure is SHA mismatch AND >1e-6 relative error on one or more of the four seeded probes",
+  "captured_null_n_l5_l8": {
+   "5": 7119,
+   "6": 5738,
+   "7": 4165,
+   "8": 1583
+  }
+ },
+ "not_established": [
+  "which probe(s) failed and by how much (not logged)",
+  "device/thread provenance of the in-loop capture projector (harvest_20261009T184950.056951Z)"
+ ],
+ "hypothesis": "native fp32 SVD projector is not bit/1e-6 reproducible across processes/devices (in-loop capture vs fresh CPU 8-thread recompute); consistent with REPRODUCIBILITY.md (cross-process bit-exact not held) and D-NEW1-fid",
+ "next": "no retry under C1; Astra options packet -> operator (any tolerance change or capture-reuse path is a prereg amendment)"
+}
