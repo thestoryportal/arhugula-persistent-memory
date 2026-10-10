@@ -1,0 +1,12 @@
+memit_dry_run/memit/notebooks/baselines -> ../baselines/
+memit_dry_run/memit/notebooks/data -> ../data
+memit_dry_run/memit/notebooks/dsets -> ../dsets/
+memit_dry_run/memit/notebooks/experiments -> ../experiments/
+memit_dry_run/memit/notebooks/globals.yml -> ../globals.yml
+memit_dry_run/memit/notebooks/hparams -> ../hparams/
+memit_dry_run/memit/notebooks/memit -> ../memit
+memit_dry_run/memit/notebooks/rome -> ../rome/
+memit_dry_run/memit/notebooks/util -> ../util
+memit_dry_run/memit/notebooks/vis/experiments -> ../experiments
+memit_dry_run/memit/notebooks/vis/globals.yml -> ../globals.yml
+memit_dry_run/memit/notebooks/vis/util -> ../util

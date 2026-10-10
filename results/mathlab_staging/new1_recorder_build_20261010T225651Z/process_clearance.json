@@ -1,0 +1,31 @@
+{
+  "task": "MB33 / MAESTRO27 / NEW1 launch recorder",
+  "status": "UNAVAILABLE",
+  "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "observed_head": "9f971796eb12e98ccdcd0703eaa69cb0a9d75f0c",
+  "observation_context": "Managed workspace-write sandbox; approval policy never",
+  "probes": [
+    {
+      "command": "/opt/homebrew/bin/rtk proxy /bin/ps -o pid=,ppid=,pgid=,nice=,command= -p $$",
+      "stdout": "",
+      "stderr": "rtk: Failed to execute command: /bin/ps: Operation not permitted (os error 1)\n",
+      "exit": 1,
+      "exit_scope": "The combined shell cell exited 1; the denied executable did not start"
+    },
+    {
+      "command": "/opt/homebrew/bin/rtk proxy /bin/ps -axo pid=,ppid=,pgid=,nice=,command=",
+      "stdout": "",
+      "stderr": "rtk: Failed to execute command: /bin/ps: Operation not permitted (os error 1)\n",
+      "exit": 1,
+      "exit_scope": "The combined shell cell exited 1; the denied executable did not start"
+    }
+  ],
+  "combined_cell_command": "/opt/homebrew/bin/rtk proxy /bin/ps -o pid=,ppid=,pgid=,nice=,command= -p $$\n/opt/homebrew/bin/rtk proxy /bin/ps -axo pid=,ppid=,pgid=,nice=,command=",
+  "combined_cell_exit": 1,
+  "fixture_tests_started": false,
+  "real_supervisor_started": false,
+  "real_geometry_started": false,
+  "invocation_written": false,
+  "authorization_consumed_by_this_task": false,
+  "process_clearance": "UNAVAILABLE; no claim of host idleness or successful reap"
+}

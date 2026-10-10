@@ -1,0 +1,195 @@
+test_T10_unreaped_group_blocks_compute (__main__.DispatchTests) ... FAIL
+test_T11_endorsed_argv_cwd_env (__main__.DispatchTests) ... FAIL
+test_T1_observed_recorder_line_not_blocker (__main__.DispatchTests) ... FAIL
+test_T2_happy_path (__main__.DispatchTests) ... FAIL
+test_T3_b_reused_authorization (__main__.DispatchTests) ... ok
+test_T3_c_dirty_pinned_source (__main__.DispatchTests) ... ok
+test_T3_c_wrong_head (__main__.DispatchTests) ... ok
+test_T3_d_bad_manifest_hash (__main__.DispatchTests) ... ok
+test_T3_f_stricter_disk_floor (__main__.DispatchTests) ... ERROR
+test_T3_g_fingerprint_failure (__main__.DispatchTests) ... ERROR
+test_T3_h_dry_probe_refusal (__main__.DispatchTests) ... ERROR
+test_T3_i_hash_changed_after_first_check (__main__.DispatchTests) ... ERROR
+test_T4_nonzero_recorder_niceness (__main__.DispatchTests) ... ok
+test_T5_worker_nice_three_requests_supervisor_sigint (__main__.DispatchTests) ... FAIL
+test_T6_deadline_no_halted_event (__main__.DispatchTests) ... FAIL
+test_T7_resource_halted_event (__main__.DispatchTests) ... FAIL
+test_T8_internal_admission_refused (__main__.DispatchTests) ... FAIL
+test_T9_third_abort_reached (__main__.DispatchTests) ... FAIL
+test_disk_floor_cannot_be_lowered (__main__.DispatchTests) ... ERROR
+test_T1_shell_argv_is_not_a_compute_executable (__main__.PureTests) ... ok
+test_T6_deadline_stderr_without_halt_counts_abort (__main__.PureTests) ... ok
+test_T7_resource_halt_counts_abort (__main__.PureTests) ... ok
+test_T8_admission_refusal_not_abort (__main__.PureTests) ... ok
+test_artifacts_without_terminal_never_complete (__main__.PureTests) ... ok
+test_invalid_event_stream_never_complete (__main__.PureTests) ... ok
+test_namespace_anomaly_prevents_complete (__main__.PureTests) ... ok
+test_no_exit_status_never_complete (__main__.PureTests) ... ok
+test_pass_without_worker_observation_is_incomplete_and_blocks (__main__.PureTests) ... ok
+test_prior_receipt_and_halted_namespace_count_once (__main__.PureTests) ... ok
+test_prior_receipt_covers_deadline_without_halted (__main__.PureTests) ... ok
+test_stdout_abort_evidence_survives_missing_terminal (__main__.PureTests) ... ok
+test_terminal_exit_mismatch_incomplete (__main__.PureTests) ... ok
+test_terminal_stdout_exit_agree (__main__.PureTests) ... ok
+test_unmatched_finishing_after_terminal_incomplete (__main__.PureTests) ... ok
+
+======================================================================
+ERROR: test_T3_f_stricter_disk_floor (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 406, in test_T3_f_stricter_disk_floor
+    self.refused("2f", env={"NEW1_DISPATCH_MIN_FREE_KIB": str(1 << 50)})
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 356, in refused
+    refusal = json.loads((self.directory/"refused_before_invocation.json").read_text())
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/new1-fixture-m5iqznnp/results/mathlab_staging/new1_dispatch_.0696210861Z/refused_before_invocation.json'
+
+======================================================================
+ERROR: test_T3_g_fingerprint_failure (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 410, in test_T3_g_fingerprint_failure
+    self.refused("2g")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 356, in refused
+    refusal = json.loads((self.directory/"refused_before_invocation.json").read_text())
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/new1-fixture-pkcw_n8r/results/mathlab_staging/new1_dispatch_.5009829998Z/refused_before_invocation.json'
+
+======================================================================
+ERROR: test_T3_h_dry_probe_refusal (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 414, in test_T3_h_dry_probe_refusal
+    self.refused("2h")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 356, in refused
+    refusal = json.loads((self.directory/"refused_before_invocation.json").read_text())
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/new1-fixture-jlzywpb6/results/mathlab_staging/new1_dispatch_.8322010040Z/refused_before_invocation.json'
+
+======================================================================
+ERROR: test_T3_i_hash_changed_after_first_check (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 418, in test_T3_i_hash_changed_after_first_check
+    self.refused("2i")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 356, in refused
+    refusal = json.loads((self.directory/"refused_before_invocation.json").read_text())
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/new1-fixture-2yk2r_72/results/mathlab_staging/new1_dispatch_.2172489166Z/refused_before_invocation.json'
+
+======================================================================
+ERROR: test_disk_floor_cannot_be_lowered (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 425, in test_disk_floor_cannot_be_lowered
+    self.refused("2f", env={"NEW1_DISPATCH_MIN_FREE_KIB": "1"})
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 356, in refused
+    refusal = json.loads((self.directory/"refused_before_invocation.json").read_text())
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/new1-fixture-ebe8ov6z/results/mathlab_staging/new1_dispatch_.4623470306Z/refused_before_invocation.json'
+
+======================================================================
+FAIL: test_T10_unreaped_group_blocks_compute (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 477, in test_T10_unreaped_group_blocks_compute
+    receipt = self.receipt()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 323, in receipt
+    self.assertTrue(path.is_file(), self.output)
+AssertionError: False is not true : ('', 'utc:2: no such file or directory: /usr/bin/date\n/private/tmp/new1-fixture-eeouyphy/tools/new1_dispatch.sh:172: df_rows[-1]: parameter not set\n')
+
+======================================================================
+FAIL: test_T11_endorsed_argv_cwd_env (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 484, in test_T11_endorsed_argv_cwd_env
+    self.assertEqual(self.dispatch(), 0, self.output)
+AssertionError: 1 != 0 : ('', 'utc:2: no such file or directory: /usr/bin/date\n/private/tmp/new1-fixture-3ueravbx/tools/new1_dispatch.sh:172: df_rows[-1]: parameter not set\n')
+
+======================================================================
+FAIL: test_T1_observed_recorder_line_not_blocker (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 363, in test_T1_observed_recorder_line_not_blocker
+    self.assertEqual(self.dispatch(), 0, self.output)
+AssertionError: 1 != 0 : ('', 'utc:2: no such file or directory: /usr/bin/date\n/private/tmp/new1-fixture-zxker8mf/tools/new1_dispatch.sh:172: df_rows[-1]: parameter not set\n')
+
+======================================================================
+FAIL: test_T2_happy_path (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 370, in test_T2_happy_path
+    self.assertEqual(self.dispatch(), 0, self.output)
+AssertionError: 1 != 0 : ('', 'utc:2: no such file or directory: /usr/bin/date\n/private/tmp/new1-fixture-skw7y6e6/tools/new1_dispatch.sh:172: df_rows[-1]: parameter not set\n')
+
+======================================================================
+FAIL: test_T5_worker_nice_three_requests_supervisor_sigint (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 430, in test_T5_worker_nice_three_requests_supervisor_sigint
+    receipt = self.receipt()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 323, in receipt
+    self.assertTrue(path.is_file(), self.output)
+AssertionError: False is not true : ('', 'utc:2: no such file or directory: /usr/bin/date\n/private/tmp/new1-fixture-afzd42wk/tools/new1_dispatch.sh:172: df_rows[-1]: parameter not set\n')
+
+======================================================================
+FAIL: test_T6_deadline_no_halted_event (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 439, in test_T6_deadline_no_halted_event
+    self.assertEqual(self.dispatch(), 3)
+AssertionError: 1 != 3
+
+======================================================================
+FAIL: test_T7_resource_halted_event (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 448, in test_T7_resource_halted_event
+    self.assertEqual(self.dispatch(), 3)
+AssertionError: 1 != 3
+
+======================================================================
+FAIL: test_T8_internal_admission_refused (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 455, in test_T8_internal_admission_refused
+    self.assertEqual(self.dispatch(), 3)
+AssertionError: 1 != 3
+
+======================================================================
+FAIL: test_T9_third_abort_reached (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_dispatch.py", line 468, in test_T9_third_abort_reached
+    self.assertEqual(self.dispatch(), 3)
+AssertionError: 1 != 3
+
+----------------------------------------------------------------------
+Ran 34 tests in 23.986s
+
+FAILED (failures=9, errors=5)

@@ -1,0 +1,9 @@
+test_T3_b_reused_authorization (__main__.DispatchTests) ... ok
+test_T3_c_wrong_head (__main__.DispatchTests) ... ok
+test_T3_c_dirty_pinned_source (__main__.DispatchTests) ... ok
+test_T3_d_bad_manifest_hash (__main__.DispatchTests) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 3.693s
+
+OK
