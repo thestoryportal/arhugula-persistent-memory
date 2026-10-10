@@ -1,0 +1,125 @@
+test_absent_ci_refuses_with_bounded_backoff (test_git_automation.AutomationTests) ... ok
+test_apply_deletes_only_merged_local_and_remote (test_git_automation.AutomationTests) ... ok
+test_base_moves_after_ci_refuse (test_git_automation.AutomationTests) ... ok
+test_base_moves_during_last_inventory_refuse_before_merge (test_git_automation.AutomationTests) ... ok
+test_branch_advanced_before_advertisement_survives_delete (test_git_automation.AutomationTests) ... ok
+test_branch_advanced_during_receive_survives_delete (test_git_automation.AutomationTests) ... ok
+test_candidate_ci_drains_before_lock_is_acquired (test_git_automation.AutomationTests) ... ok
+test_changed_head_conclusion_after_merge_is_named (test_git_automation.AutomationTests) ... ok
+test_changed_head_updated_at_after_merge_is_named (test_git_automation.AutomationTests) ... ok
+test_ci_disappears_during_final_hygiene_refuses_merge (test_git_automation.AutomationTests) ... ok
+test_ci_flips_to_fail_during_final_hygiene_refuses_merge (test_git_automation.AutomationTests) ... ok
+test_ci_flips_to_pending_during_final_hygiene_refuses_merge (test_git_automation.AutomationTests) ... ok
+test_ci_flips_to_pending_during_ready_refuses_merge (test_git_automation.AutomationTests) ... ok
+test_ci_other_head_after_final_hygiene_refuses_merge (test_git_automation.AutomationTests) ... ok
+test_clean_idle_worktree_is_manual_candidate_then_second_apply_noop (test_git_automation.AutomationTests) ... ok
+test_cli_flushes_report_before_success_message (test_git_automation.AutomationTests) ... ok
+test_cli_post_merge_failure_keeps_merged_status_and_sha (test_git_automation.AutomationTests) ... ok
+test_closed_pr_refuses (test_git_automation.AutomationTests) ... ok
+test_conflicts_refuse (test_git_automation.AutomationTests) ... ok
+test_current_worktree_never_removed (test_git_automation.AutomationTests) ... ok
+test_detached_commit_after_last_inspection_stays_reachable (test_git_automation.AutomationTests) ... ok
+test_dirty_worktree_kept (test_git_automation.AutomationTests) ... ok
+test_dry_gate_has_all_checks_and_no_actions (test_git_automation.AutomationTests) ... ok
+test_dry_run_does_not_change_refs_config_or_worktrees (test_git_automation.AutomationTests) ... ok
+test_engine_candidate_mismatch_refuses_when_local_engine_passes (test_git_automation.AutomationTests) ... ok
+test_existing_pre_push_hook_veto_is_preserved (test_git_automation.AutomationTests) ... ok
+test_existing_reference_transaction_hook_veto_is_preserved (test_git_automation.AutomationTests) ... ok
+test_extra_unmerged_branches_refuse (test_git_automation.AutomationTests) ... ok
+test_failed_ci_refuses (test_git_automation.AutomationTests) ... ok
+test_final_hygiene_verification_failure_retains_completed_actions (test_git_automation.AutomationTests) ... ok
+test_final_read_refuses_older_in_progress_run_on_same_head (test_git_automation.AutomationTests) ... ok
+test_first_post_merge_pr_failure_keeps_response_sha (test_git_automation.AutomationTests) ... ok
+test_head_moves_after_ci_refuse (test_git_automation.AutomationTests) ... ok
+test_higher_run_attempt_after_initial_ci_refuses_before_merge (test_git_automation.AutomationTests) ... ok
+test_ignored_artifact_written_after_last_inspection_survives_apply (test_git_automation.AutomationTests) ... ok
+test_ignored_worktree_files_kept (test_git_automation.AutomationTests) ... ok
+test_local_branch_advanced_after_review_survives_delete (test_git_automation.AutomationTests) ... ok
+test_lock_exit_keyboardinterrupt_preserves_receipt (test_git_automation.AutomationTests) ... ok
+test_lock_exit_oserror_cannot_finalize_success (test_git_automation.AutomationTests) ... ok
+test_lock_exit_systemexit_zero_preserves_receipt (test_git_automation.AutomationTests) ... ok
+test_lock_exit_valueerror_preserves_merged_report_in_main (test_git_automation.AutomationTests) ... ok
+test_locked_worktree_kept (test_git_automation.AutomationTests) ... ok
+test_main_post_gate_systemexit_zero_preserves_receipt (test_git_automation.AutomationTests) ... ok
+test_many_branch_deletions_do_not_rescan_worktree_disk_sizes (test_git_automation.AutomationTests) ... ok
+test_master_advances_after_final_stable_reports_merged_onto_moved_base (test_git_automation.AutomationTests) ... ok
+test_master_moves_during_post_merge_ci_reports_merged_with_failure (test_git_automation.AutomationTests) ... ok
+test_master_red_refuses_after_merge_and_does_not_retry (test_git_automation.AutomationTests) ... ok
+test_merge_is_server_side_sha_guarded_and_post_ci_separate (test_git_automation.AutomationTests) ... ok
+test_merged_extra_requires_hygiene_first (test_git_automation.AutomationTests) ... ok
+test_merged_unmerged_and_protected_branches (test_git_automation.AutomationTests) ... ok
+test_network_failure_still_reports_every_dry_check (test_git_automation.AutomationTests) ... ok
+test_new_head_check_after_merge_is_named (test_git_automation.AutomationTests) ... ok
+test_new_head_status_after_merge_is_named (test_git_automation.AutomationTests) ... ok
+test_older_check_writer_drains_before_lock_is_acquired (test_git_automation.AutomationTests) ... ok
+test_older_in_progress_run_in_final_read_only_refuses_merge (test_git_automation.AutomationTests) ... ok
+test_open_pr_worktree_kept (test_git_automation.AutomationTests) ... ok
+test_parent_read_failure_reports_merged_with_failure (test_git_automation.AutomationTests) ... ok
+test_pending_ci_refuses (test_git_automation.AutomationTests) ... ok
+test_post_merge_failed_ci_reports_merged_with_failure (test_git_automation.AutomationTests) ... ok
+test_post_merge_hygiene_failure_reports_merged_with_failure (test_git_automation.AutomationTests) ... ok
+test_post_merge_pr_keyboardinterrupt_preserves_receipt (test_git_automation.AutomationTests) ... ok
+test_post_merge_pr_systemexit_zero_preserves_receipt (test_git_automation.AutomationTests) ... ok
+test_post_merge_timeout_reports_merged_with_failure (test_git_automation.AutomationTests) ... ok
+test_pr_behind_current_master_refuses (test_git_automation.AutomationTests) ... ok
+test_process_cwd_inside_worktree_kept (test_git_automation.AutomationTests) ... ok
+test_report_both_streams_broken_uses_receipt_file (test_git_automation.AutomationTests) ... ok
+test_report_serialization_typeerror_uses_failure_receipt (test_git_automation.AutomationTests) ... ok
+test_report_stderr_flush_failure_uses_receipt_file (test_git_automation.AutomationTests) ... ok
+test_report_stderr_write_failure_uses_receipt_file (test_git_automation.AutomationTests) ... ok
+test_report_stdout_brokenpipe_uses_failure_receipt (test_git_automation.AutomationTests) ... ok
+test_report_stdout_flush_failure_uses_failure_receipt (test_git_automation.AutomationTests) ... ok
+test_rest_adapter_higher_attempt_in_final_read_refuses_through_gate (test_git_automation.AutomationTests) ... ok
+test_rest_adapters_through_gate_keep_merge_receipt_and_head_guard (test_git_automation.AutomationTests) ... ok
+test_same_sha_rerun_between_final_read_and_merge_is_named (test_git_automation.AutomationTests) ... ok
+test_submodule_work_keeps_worktree (test_git_automation.AutomationTests) ... ok
+test_unknown_process_inventory_keeps_worktrees_and_refuses_apply (test_git_automation.AutomationTests) ... ok
+test_unknown_remote_keeps_cached_candidates_unadmitted (test_git_automation.AutomationTests) ... ok
+test_worktree_branch_is_protected_from_direct_branch_deletion (test_git_automation.AutomationTests) ... ok
+test_wrong_post_merge_master_sha_refuses (test_git_automation.AutomationTests) ... ok
+test_wrong_pr_target_refuses (test_git_automation.AutomationTests) ... ok
+test_actual_subprocess_deadline_is_enforced (test_git_automation.Contracts) ... ok
+test_ci_requires_exact_sha_workflow_success_and_terminal_state (test_git_automation.Contracts) ... ok
+test_commit_parent_adapter_reads_exact_commit (test_git_automation.Contracts) ... ok
+test_commit_parent_adapter_refuses_wrong_or_missing_evidence (test_git_automation.Contracts) ... ok
+test_deadline_exhaustion_refuses_subprocess (test_git_automation.Contracts) ... ok
+test_evidence_adapter_preserves_attempt_dates_and_complete_inventories (test_git_automation.Contracts) ... ok
+test_gh_adapter_accepts_pending_exit8_but_not_network_error (test_git_automation.Contracts) ... ok
+test_gh_no_checks_exit1_is_not_started_instead_of_network_failure (test_git_automation.Contracts) ... ok
+test_gh_no_checks_handling_does_not_swallow_network_errors (test_git_automation.Contracts) ... ok
+test_invalid_cli_deadlines_and_ci_wait_refuse_as_json_without_dispatch (test_git_automation.Contracts) ... ok
+test_legacy_status_url_for_other_sha_refuses (test_git_automation.Contracts) ... ok
+test_native_cpu_from_other_workflow_run_refuses_pr_and_master_ci (test_git_automation.Contracts) ... ok
+test_no_forbidden_mutation_command_in_production (test_git_automation.Contracts) ... ok
+test_normal_legacy_status_response_without_sha_is_accepted (test_git_automation.Contracts) ... ok
+test_open_pr_pagination_is_complete_or_refuses (test_git_automation.Contracts) ... ok
+test_partial_lsof_inventory_refuses (test_git_automation.Contracts) ... ok
+test_read_only_command_disables_optional_index_locks (test_git_automation.Contracts) ... ok
+test_real_lsof_sees_fixture_child_cwd (test_git_automation.Contracts) ... ok
+test_rest_merge_adapter_refuses_bad_response_shape (test_git_automation.Contracts) ... ok
+test_rest_merge_adapter_returns_validated_response_sha (test_git_automation.Contracts) ... ok
+test_unreadable_or_deleted_lsof_cwd_entries_refuse (test_git_automation.Contracts) ... ok
+test_workflow_is_pinned_bounded_cpu_push_and_pr_only (test_git_automation.Contracts) ... ok
+test_render_sorts_and_times_completed_logs_without_birthtime (test_git_automation.DashboardTimestampPortability) ... /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:304: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/git-dashboard-timestamps-v898jemx/results/c10w_oracle_logs/fixture_started.json' mode='r' encoding='UTF-8'>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:109: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/git-dashboard-timestamps-v898jemx/results/c10w_oracle_logs/behavior_F_r0_mint1_s1.log' mode='r' encoding='UTF-8'>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:125: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/git-dashboard-timestamps-v898jemx/results/c10w_oracle_logs/behavior_F_r0_mint1_s1.log' mode='r' encoding='UTF-8'>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:234: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/git-dashboard-timestamps-v898jemx/results/c10w_oracle_logs/fixture_started.json' mode='r' encoding='UTF-8'>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:109: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/git-dashboard-timestamps-v898jemx/results/c10w_oracle_logs/p2-eval.log' mode='r' encoding='UTF-8'>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:125: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/git-dashboard-timestamps-v898jemx/results/c10w_oracle_logs/p2-eval.log' mode='r' encoding='UTF-8'>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_run_rows_uses_birthtime_or_mtime_without_birthtime (test_git_automation.DashboardTimestampPortability) ... /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:109: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/git-dashboard-timestamps-b0wgyppy/results/c10w_oracle_logs/behavior_F_r0_mint1_s1.log' mode='r' encoding='UTF-8'>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:125: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/git-dashboard-timestamps-b0wgyppy/results/c10w_oracle_logs/behavior_F_r0_mint1_s1.log' mode='r' encoding='UTF-8'>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+
+----------------------------------------------------------------------
+Ran 104 tests in 78.900s
+
+OK

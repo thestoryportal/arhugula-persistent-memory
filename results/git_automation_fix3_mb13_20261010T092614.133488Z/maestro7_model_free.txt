@@ -1,0 +1,178 @@
+test_benign_inventory_admits (tools.test_c10w_p2_gate.BlockingProcesses) ... ok
+test_framework_python_case_insensitive_blocks (tools.test_c10w_p2_gate.BlockingProcesses) ... ok
+test_gpu_job_blocks (tools.test_c10w_p2_gate.BlockingProcesses) ... ok
+test_local_model_runtimes_block (tools.test_c10w_p2_gate.BlockingProcesses) ... ok
+test_own_pid_skipped (tools.test_c10w_p2_gate.BlockingProcesses) ... ok
+test_reader_exemption_is_exact (tools.test_c10w_p2_gate.BlockingProcesses) ... ok
+test_tmux_exact_name (tools.test_c10w_p2_gate.BlockingProcesses) ... ok
+test_unknown_python_blocks (tools.test_c10w_p2_gate.BlockingProcesses) ... ok
+test_empty_inventory_refuses (tools.test_c10w_p2_gate.FailClosed) ... ok
+test_no_tmux_server_admits (tools.test_c10w_p2_gate.FailClosed) ... ok
+test_ps_failure_refuses (tools.test_c10w_p2_gate.FailClosed) ... ok
+test_tmux_connection_errors_refuse (tools.test_c10w_p2_gate.FailClosed) ... ok
+test_tmux_failure_refuses (tools.test_c10w_p2_gate.FailClosed) ... ok
+test_clean_finish_is_not_an_alert (tools.test_dashboard_live.Alerts) ... ok
+test_new_step_resets_the_clock (tools.test_dashboard_live.Alerts) ... ok
+test_no_progress_while_working (tools.test_dashboard_live.Alerts) ... ok
+test_stopped_on_an_error (tools.test_dashboard_live.Alerts) ... ok
+test_waiting_for_an_answer (tools.test_dashboard_live.Alerts) ... ok
+test_visible_width_only (tools.test_dashboard_live.Clip) ... ok
+test_last_exit_line (tools.test_dashboard_live.Coordinator) ... ok
+test_no_exit_yet (tools.test_dashboard_live.Coordinator) ... ok
+test_real_subprocess_nonzero_and_empty_responses_are_unavailable (tools.test_dashboard_live.GPUInventory) ... ok
+test_shared_detector_recognizes_harvest_but_not_a_prompt_or_temp_copy (tools.test_dashboard_live.GPUInventory) ... ok
+test_successful_nonempty_inventory_can_report_no_gpu_job (tools.test_dashboard_live.GPUInventory) ... ok
+test_clean_exit_reads_finished (tools.test_dashboard_live.NowLines) ... ok
+test_order_and_wording (tools.test_dashboard_live.NowLines) ... ok
+test_running_gpu_job (tools.test_dashboard_live.NowLines) ... ok
+test_unavailable_inventory_never_reports_idle (tools.test_dashboard_live.NowLines) ... ok
+test_changed_source_triggers_reload (tools.test_dashboard_live.Reload) ... /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_dashboard_live.py:57: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpamm_xyuv/dashboard_x.py' mode='w' encoding='UTF-8'>
+  open(p, "w").write("x")
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_decided_rows_and_prose_are_ignored (tools.test_dashboard_live.Rulings) ... ok
+test_rows_whose_status_awaits_the_operator (tools.test_dashboard_live.Rulings) ... ok
+test_events_newer_than_the_report_text (tools.test_dashboard_live.Staleness) ... ok
+test_unparseable_updated_counts_everything_as_newer (tools.test_dashboard_live.Staleness) ... ok
+test_rebuild_only_after_the_set_is_stable (tools.test_dashboard_live.TeamTiles) ... ok
+test_sessions_from_tile_start_commands (tools.test_dashboard_live.TeamTiles) ... ok
+test_team_sessions_skip_dashboard_and_viewers (tools.test_dashboard_live.TeamTiles) ... ok
+test_archived_logs_are_not_the_live_run (tools.test_dashboard_live.WordsAndAnswers) ... ok
+test_facts_from_the_last_recipe_with_answers (tools.test_dashboard_live.WordsAndAnswers) ... ok
+test_lines_mark_right_and_wrong_and_show_the_words (tools.test_dashboard_live.WordsAndAnswers) ... ok
+test_no_answers_recorded (tools.test_dashboard_live.WordsAndAnswers) ... ok
+test_CPU_launchers_runners_uv_and_notebook_workers_are_separate_from_GPU_jobs (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_CPU_parent_timeout_and_uv_worker_are_one_verified_process_family (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_GPU_and_CPU_jobs_are_both_visible_without_CPU_changing_GPU_occupancy (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_attempt_launcher_stage_and_resident_use_explicit_output_and_bound_budget (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_bash_long_option_does_not_turn_script_into_inline_code (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_benchmark_and_CPU_caps_read_sources_without_importing_native_jobs (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_caps_are_read_from_current_launcher_source_without_importing_jobs (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_conflicting_observer_env_closed_and_ambiguous_records_never_invent_output (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_denied_empty_and_malformed_inventory_are_unavailable_never_idle (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_denied_inventory_keeps_recorded_CPU_visible_in_real_bar_and_110_by_40_experiment (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_experiment_110_by_40_shows_each_new_job_without_unrelated_c10_logs (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_experiment_denied_inventory_is_visible_at_110_by_40 (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_harvest_events_directory_never_becomes_an_inferred_artifact_directory (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_independent_attempt_families_keep_conflicting_explicit_dirs_and_go_caps (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_legacy_driver_and_job_worker_keep_stage_pid_and_run_label (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_legacy_experiment_details_survive_CPU_record_error (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:304: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmp5wau_7we/results/c10w_oracle_logs/fixture_started.json' mode='r' encoding='UTF-8'>
+  total = len(json.load(open(plans[-1])).get("plan") or []) or None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:109: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmp5wau_7we/results/c10w_oracle_logs/behavior_F_r0_mint1_s1.log' mode='r' encoding='UTF-8'>
+  for raw in open(path, errors="replace"):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:125: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmp5wau_7we/results/c10w_oracle_logs/behavior_F_r0_mint1_s1.log' mode='r' encoding='UTF-8'>
+  text_tail = open(path, errors="replace").read()[-400:]
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:234: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmp5wau_7we/results/c10w_oracle_logs/fixture_started.json' mode='r' encoding='UTF-8'>
+  found = answers_from_record(json.load(open(p)))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:109: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmp5wau_7we/results/c10w_oracle_logs/p2-eval.log' mode='r' encoding='UTF-8'>
+  for raw in open(path, errors="replace"):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:125: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmp5wau_7we/results/c10w_oracle_logs/p2-eval.log' mode='r' encoding='UTF-8'>
+  text_tail = open(path, errors="replace").read()[-400:]
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_legacy_experiment_details_survive_concurrent_CPU_process (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:304: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpyr8eklix/results/c10w_oracle_logs/fixture_started.json' mode='r' encoding='UTF-8'>
+  total = len(json.load(open(plans[-1])).get("plan") or []) or None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:109: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpyr8eklix/results/c10w_oracle_logs/behavior_F_r0_mint1_s1.log' mode='r' encoding='UTF-8'>
+  for raw in open(path, errors="replace"):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:125: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpyr8eklix/results/c10w_oracle_logs/behavior_F_r0_mint1_s1.log' mode='r' encoding='UTF-8'>
+  text_tail = open(path, errors="replace").read()[-400:]
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:234: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpyr8eklix/results/c10w_oracle_logs/fixture_started.json' mode='r' encoding='UTF-8'>
+  found = answers_from_record(json.load(open(p)))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:109: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpyr8eklix/results/c10w_oracle_logs/p2-eval.log' mode='r' encoding='UTF-8'>
+  for raw in open(path, errors="replace"):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:125: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpyr8eklix/results/c10w_oracle_logs/p2-eval.log' mode='r' encoding='UTF-8'>
+  text_tail = open(path, errors="replace").read()[-400:]
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_legacy_experiment_details_survive_recorded_CPU_activity (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:304: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpyvs4b645/results/c10w_oracle_logs/fixture_started.json' mode='r' encoding='UTF-8'>
+  total = len(json.load(open(plans[-1])).get("plan") or []) or None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:109: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpyvs4b645/results/c10w_oracle_logs/behavior_F_r0_mint1_s1.log' mode='r' encoding='UTF-8'>
+  for raw in open(path, errors="replace"):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:125: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpyvs4b645/results/c10w_oracle_logs/behavior_F_r0_mint1_s1.log' mode='r' encoding='UTF-8'>
+  text_tail = open(path, errors="replace").read()[-400:]
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:234: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpyvs4b645/results/c10w_oracle_logs/fixture_started.json' mode='r' encoding='UTF-8'>
+  found = answers_from_record(json.load(open(p)))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:109: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpyvs4b645/results/c10w_oracle_logs/p2-eval.log' mode='r' encoding='UTF-8'>
+  for raw in open(path, errors="replace"):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:125: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpyvs4b645/results/c10w_oracle_logs/p2-eval.log' mode='r' encoding='UTF-8'>
+  text_tail = open(path, errors="replace").read()[-400:]
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_legacy_experiment_fixture_contains_progress_results_and_logs (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:304: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpwxk7l9tj/results/c10w_oracle_logs/fixture_started.json' mode='r' encoding='UTF-8'>
+  total = len(json.load(open(plans[-1])).get("plan") or []) or None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:109: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpwxk7l9tj/results/c10w_oracle_logs/behavior_F_r0_mint1_s1.log' mode='r' encoding='UTF-8'>
+  for raw in open(path, errors="replace"):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:125: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpwxk7l9tj/results/c10w_oracle_logs/behavior_F_r0_mint1_s1.log' mode='r' encoding='UTF-8'>
+  text_tail = open(path, errors="replace").read()[-400:]
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:234: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpwxk7l9tj/results/c10w_oracle_logs/fixture_started.json' mode='r' encoding='UTF-8'>
+  found = answers_from_record(json.load(open(p)))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:109: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpwxk7l9tj/results/c10w_oracle_logs/p2-eval.log' mode='r' encoding='UTF-8'>
+  for raw in open(path, errors="replace"):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:125: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpwxk7l9tj/results/c10w_oracle_logs/p2-eval.log' mode='r' encoding='UTF-8'>
+  text_tail = open(path, errors="replace").read()[-400:]
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_legacy_worker_without_logs_keeps_GPU_and_CPU_activity_visible (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_malformed_CPU_stream_is_refused_and_explained (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_malformed_attempt_snapshots_show_unavailable_without_crashing_or_guessing (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_native_selftests_and_help_do_not_claim_GPU_jobs (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_nested_env_ignore_environment_clears_outer_output_and_go_bindings (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_new_wrappers_prompts_inline_modules_and_temp_copies_are_not_jobs (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_older_launcher_cannot_rescue_a_reused_resident_PID_record (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_parent_worker_and_admission_share_one_job_with_original_elapsed (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_process2_record_is_bound_from_its_actual_nested_output (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_process2_recorded_earlier_stage01_deadline_beats_stage3 (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_prompts_inline_code_modules_and_temporary_copies_do_not_claim_gpu (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_quoted_run_directory_is_preserved_as_exact_token (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_real_status_bar_keeps_job_metadata_within_existing_150_cell_budget (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_recorded_CPU_accepts_actual_publisher_microsecond_timestamps (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_reused_PID_with_older_open_record_cannot_supply_output (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_six_launcher_and_worker_aliases_show_named_job_elapsed_cap_and_exact_namespace (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_stage2_requested_without_published_origin_has_no_invented_active_cap (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_stale_future_expired_halted_finished_admission_and_wrong_kind_do_not_claim_CPU_activity (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_transparent_wrappers_keep_GPU_jobs_and_exact_benchmark_output (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_unrelated_same_namespace_process_families_are_two_competing_jobs (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... ok
+test_worker_only_inventory_is_busy_in_all_three_consumers (tools.test_dashboard_gpu_detector.SharedGPUDetector) ... /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:304: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpj94aw8e6/results/c10w_oracle_logs/fixture_started.json' mode='r' encoding='UTF-8'>
+  total = len(json.load(open(plans[-1])).get("plan") or []) or None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:109: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpj94aw8e6/results/c10w_oracle_logs/behavior_F_r0_mint1_s1.log' mode='r' encoding='UTF-8'>
+  for raw in open(path, errors="replace"):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:125: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpj94aw8e6/results/c10w_oracle_logs/behavior_F_r0_mint1_s1.log' mode='r' encoding='UTF-8'>
+  text_tail = open(path, errors="replace").read()[-400:]
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:234: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpj94aw8e6/results/c10w_oracle_logs/fixture_started.json' mode='r' encoding='UTF-8'>
+  found = answers_from_record(json.load(open(p)))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:109: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpj94aw8e6/results/c10w_oracle_logs/p2-eval.log' mode='r' encoding='UTF-8'>
+  for raw in open(path, errors="replace"):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_experiment.py:125: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/p7/s31_tv0s2wd81chns8v7gsyw0000gn/T/tmpj94aw8e6/results/c10w_oracle_logs/p2-eval.log' mode='r' encoding='UTF-8'>
+  text_tail = open(path, errors="replace").read()[-400:]
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+
+----------------------------------------------------------------------
+Ran 80 tests in 2.301s
+
+OK

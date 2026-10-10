@@ -1,0 +1,11 @@
+{
+  "unclosed_file_warnings": {
+    "git_automation": 8,
+    "model_free": 31
+  },
+  "model_free_breakdown": {
+    "tools.test_c10w_p2_gate": 13,
+    "tools.test_dashboard_live": 27,
+    "tools.test_dashboard_gpu_detector": 40
+  }
+}

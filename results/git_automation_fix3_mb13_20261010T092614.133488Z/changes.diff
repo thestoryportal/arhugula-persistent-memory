@@ -1,0 +1,497 @@
+--- a/tools/git_merge_gate.py
++++ b/tools/git_merge_gate.py
+@@ -11,6 +11,7 @@
+ from pathlib import Path
+ import re
+ import sys
++import tempfile
+ 
+ if __package__:
+     from . import git_hygiene as H, engine_fingerprint as F
+@@ -25,6 +26,11 @@
+     checks, native, statuses, runs = (evidence[k] for k in ('pr_checks', 'check_runs', 'statuses', 'runs'))
+     if not runs or not native or (not post and not checks):
+         return 'WAIT', 'CI not started: no checks or exact-commit workflow run'
++    for check in evidence.get('all_check_runs', native):
++        if check['head_sha'] != sha:
++            return 'FAIL', 'check-run head SHA differs'
++        if check['status'] != 'completed':
++            return 'WAIT', f"check run {check.get('id')} pending"
+     for check in native:
+         if check['head_sha'] != sha:
+             return 'FAIL', 'check-run head SHA differs'
+@@ -153,7 +159,7 @@
+             value = action()
+             report['checks'][name] = {'status': 'PASS', 'evidence': value}
+             return value
+-        except Exception as error:
++        except BaseException as error:
+             reason = record_failure(report, error, name)
+             report['checks'][name] = {'status': 'FAIL', 'reason': reason}
+             return None
+@@ -197,15 +203,15 @@
+             raise H.Refusal('PR conflicts or mergeability is unknown; operator must resolve')
+         return value
+     try:
++        pr = check('pr', read_pr)
++        check('fingerprint', fingerprint)
++        check('branches', branch_check)
++        if pr:
++            check('ci', lambda: poll_ci(repo, gh, number, report['head_sha'], report['base_sha'], wait_s))
++            check('stable_head_base', stable)
++        if report['errors']:
++            return report
+         with repo.lock() if not dry_run else nullcontext():
+-            pr = check('pr', read_pr)
+-            check('fingerprint', fingerprint)
+-            check('branches', branch_check)
+-            if pr:
+-                check('ci', lambda: poll_ci(repo, gh, number, report['head_sha'], report['base_sha'], wait_s))
+-                check('stable_head_base', stable)
+-            if report['errors']:
+-                return report
+             if dry_run:
+                 for name in ('ready', 'merge', 'master_ci', 'post_hygiene'):
+                     report['checks'][name] = {'status': 'WOULD-RUN', 'reason': 'dry-run; no action',
+@@ -279,9 +285,37 @@
+                     return report
+         report['ok'] = True
+         report['status'] = 'DRY_RUN_PASS' if dry_run else 'MERGED'
+-    except Exception as error:
++    except BaseException as error:
+         record_failure(report, error)
+     return report
++
++
++def failure_receipt(report, repo):
++    """Use a separate sink and plain text when report delivery itself fails."""
++    def text():
++        return (report['status'] + ' ok=false merged=' + str(report['merged']).lower() +
++                ' merge_sha=' + str(report['merge_sha']) + ' ' + '; '.join(report['errors']) + '\n')
++    try:
++        sys.stderr.write(text())
++        sys.stderr.flush()
++        return
++    except BaseException as error:
++        record_failure(report, error, 'fallback stderr')
++    try:
++        directory = (repo.root if repo else Path.cwd()) / 'results/git_merge_gate_receipts'
++        directory.mkdir(parents=True, exist_ok=True)
++        with tempfile.NamedTemporaryFile(mode='w', prefix=str(report['merge_sha']) + '-',
++                                         suffix='.txt', dir=directory, delete=False) as handle:
++            handle.write(text())
++            handle.flush()
++            os.fsync(handle.fileno())
++            report['failure_receipt_path'] = handle.name
++    except BaseException as error:
++        record_failure(report, error, 'fallback receipt file')
++        try:
++            os.write(2, text().encode())
++        except BaseException as error:
++            record_failure(report, error, 'fallback stderr descriptor')
+ 
+ 
+ def main():
+@@ -301,16 +335,26 @@
+             raise H.Refusal('CI wait must be finite and between 0 and 1200 seconds')
+         repo = H.Repo(Path(os.environ.get('LLMDB_ROOT') or Path.cwd()), deadline)
+         gate(repo, H.Gh(repo, H.repository_name(repo)), args.pr, dry_run=not args.apply, wait_s=args.ci_wait, report=report)
+-    except Exception as error:
++    except BaseException as error:
+         record_failure(report, error)
+-    report['command_evidence'] = repo.commands if repo else []
+-    print(json.dumps(report, indent=2, sort_keys=True))
+-    for name, value in report['checks'].items():
+-        print(f"{name}: {value['status']} {value.get('reason', '')}", file=sys.stderr)
+-    outcome = 'PASS: bounded merge gate complete' if report['ok'] else (
+-        report['status'] + ': merge_sha=' + str(report['merge_sha']) + ' ' if report['merged'] else 'REFUSE: '
+-    ) + ' '.join(report['errors'][0].split())
+-    print(outcome, file=sys.stderr)
++    try:
++        report['command_evidence'] = repo.commands if repo else []
++        print(json.dumps(report, indent=2, sort_keys=True))
++        sys.stdout.flush()
++        for name, value in report['checks'].items():
++            print(f"{name}: {value['status']} {value.get('reason', '')}", file=sys.stderr)
++        sys.stderr.flush()
++        outcome = 'PASS: bounded merge gate complete' if report['ok'] else (
++            report['status'] + ': merge_sha=' + str(report['merge_sha']) + ' ' if report['merged'] else 'REFUSE: '
++        ) + ' '.join(report['errors'][0].split())
++        print(outcome, file=sys.stderr)
++        sys.stderr.flush()
++    except BaseException as error:
++        record_failure(report, error, 'report delivery')
++        if report['merged']:
++            report['status'] = 'MERGED_WITH_FAILURE'
++        failure_receipt(report, repo)
++        return 1
+     return 0 if report['ok'] else 1
+ 
+ 
+--- a/tests/test_git_automation.py
++++ b/tests/test_git_automation.py
+@@ -1,6 +1,6 @@
+ """CPU/stdlib tests; every git mutation is confined to disposable fixtures."""
+ import ast
+-from contextlib import contextmanager, redirect_stderr, redirect_stdout
++from contextlib import contextmanager, nullcontext, redirect_stderr, redirect_stdout
+ import importlib
+ import importlib.util
+ import io
+@@ -21,6 +21,46 @@
+     for name in ('tools.git_hygiene', 'tools.git_merge_gate'):
+         test.assertIsNotNone(importlib.util.find_spec(name), 'missing implementation: ' + name)
+     return importlib.import_module('tools.git_hygiene'), importlib.import_module('tools.git_merge_gate')
++
++
++def evidence_command(command, evidence):
++    """Serve the requested command, including the older CLI inventory sequence."""
++    if command[1:3] == ['pr', 'checks']:
++        return evidence['pr_checks']
++    if command[1:3] == ['run', 'list']:
++        fields = command[command.index('--json') + 1].split(',')
++        return [{field: row[field] for field in fields} for row in evidence['runs']]
++    endpoint = command[2]
++    if '/actions/runs?' in endpoint:
++        fields = {'id': 'databaseId', 'head_sha': 'headSha', 'head_branch': 'headBranch',
++                  'event': 'event', 'name': 'workflowName', 'status': 'status',
++                  'conclusion': 'conclusion', 'html_url': 'url',
++                  'run_attempt': 'run_attempt', 'updated_at': 'updated_at'}
++        return {'workflow_runs': [{key: row[field] for key, field in fields.items()}
++                                  for row in evidence['runs']]}
++    if '/check-runs?filter=latest' in endpoint:
++        return {'check_runs': evidence['check_runs']}
++    if '/check-runs?filter=all' in endpoint:
++        return {'check_runs': evidence['all_check_runs']}
++    if '/statuses?' in endpoint:
++        return evidence['all_statuses']
++    raise AssertionError('unexpected GitHub evidence command: ' + repr(command))
++
++
++class FailedOutput(io.StringIO):
++    def __init__(self, operation):
++        super().__init__()
++        self.operation = operation
++
++    def write(self, value):
++        if self.operation == 'write':
++            raise BrokenPipeError('report write failed')
++        return super().write(value)
++
++    def flush(self):
++        if self.operation == 'flush':
++            raise BrokenPipeError('report flush failed')
++        return super().flush()
+ 
+ 
+ class Clock:
+@@ -690,6 +730,273 @@
+         self.assert_merged_failure(report)
+         self.assertIn('post-merge PR unavailable', ' '.join(report['errors']))
+ 
++    def interrupted_post_merge_pr(self, error):
++        original = self.gh.pr
++        def pr(number):
++            if self.gh.merge_sha:
++                raise error
++            return original(number)
++        self.gh.pr = pr
++        try:
++            code, report, stderr = self.run_cli()
++        except BaseException as escaped:
++            self.fail('merged receipt escaped main: ' + type(escaped).__name__)
++        self.assertEqual(code, 1)
++        self.assert_merged_failure(report)
++        self.assertIn(self.gh.merge_sha, stderr)
++        self.assertNotIn('PASS: bounded merge gate complete', stderr)
++
++    def test_post_merge_pr_keyboardinterrupt_preserves_receipt(self):
++        self.interrupted_post_merge_pr(KeyboardInterrupt())
++
++    def test_post_merge_pr_systemexit_zero_preserves_receipt(self):
++        self.interrupted_post_merge_pr(SystemExit(0))
++
++    def interrupted_lock_exit(self, error):
++        try:
++            self.lock_exit_failure(error)
++        except (KeyboardInterrupt, SystemExit) as escaped:
++            self.fail('merged receipt escaped lock exit: ' + type(escaped).__name__)
++
++    def test_lock_exit_systemexit_zero_preserves_receipt(self):
++        self.interrupted_lock_exit(SystemExit(0))
++
++    def test_lock_exit_keyboardinterrupt_preserves_receipt(self):
++        self.interrupted_lock_exit(KeyboardInterrupt('lock interrupted'))
++
++    def test_main_post_gate_systemexit_zero_preserves_receipt(self):
++        original = self.M.gate
++        def gate(*args, **kwargs):
++            original(*args, **kwargs)
++            raise SystemExit(0)
++        with mock.patch.object(self.M, 'gate', side_effect=gate):
++            try:
++                code, report, stderr = self.run_cli()
++            except SystemExit as escaped:
++                self.fail('merged receipt escaped main boundary: ' + str(escaped))
++        self.assertEqual(code, 1)
++        self.assert_merged_failure(report)
++        self.assertIn(self.gh.merge_sha, stderr)
++
++    def failed_report_output(self, out=None, err=None, serialization=False):
++        out = io.StringIO() if out is None else out
++        err = io.StringIO() if err is None else err
++        report = self.M.new_report(21, False)
++        dumps = mock.patch.object(self.M.json, 'dumps', side_effect=TypeError('report serialization failed'))
++        with mock.patch.object(sys, 'argv', ['git_merge_gate.py', '21', '--apply']), \
++             mock.patch.object(self.H, 'Repo', return_value=self.repo), \
++             mock.patch.object(self.H, 'Gh', return_value=self.gh), \
++             mock.patch.object(self.H, 'repository_name', return_value='o/r'), \
++             mock.patch.object(self.H, 'cwd_inventory', return_value={}), \
++             mock.patch.object(self.M, 'new_report', return_value=report), \
++             dumps if serialization else nullcontext(), \
++             redirect_stdout(out), redirect_stderr(err):
++            try:
++                code = self.M.main()
++            except BaseException as escaped:
++                self.fail('report delivery escaped main: ' + type(escaped).__name__ +
++                          '; merged=' + str(report['merged']) + '; ok=' + str(report['ok']))
++        self.assertEqual(code, 1)
++        self.assert_merged_failure(report)
++        self.assertNotIn('PASS: bounded merge gate complete', err.getvalue())
++        return report, err.getvalue()
++
++    def test_report_serialization_typeerror_uses_failure_receipt(self):
++        _, stderr = self.failed_report_output(serialization=True)
++        self.assertIn('MERGED_WITH_FAILURE', stderr)
++        self.assertIn(self.gh.merge_sha, stderr)
++        self.assertIn('ok=false', stderr)
++
++    def test_report_stdout_brokenpipe_uses_failure_receipt(self):
++        _, stderr = self.failed_report_output(out=FailedOutput('write'))
++        self.assertIn('MERGED_WITH_FAILURE', stderr)
++        self.assertIn(self.gh.merge_sha, stderr)
++        self.assertIn('ok=false', stderr)
++
++    def test_report_stdout_flush_failure_uses_failure_receipt(self):
++        _, stderr = self.failed_report_output(out=FailedOutput('flush'))
++        self.assertIn('MERGED_WITH_FAILURE', stderr)
++        self.assertIn(self.gh.merge_sha, stderr)
++
++    def test_report_stderr_write_failure_uses_receipt_file(self):
++        self.failed_report_output(err=FailedOutput('write'))
++        receipts = list((self.fixture.root / 'results/git_merge_gate_receipts').glob('*.txt'))
++        self.assertEqual(len(receipts), 1)
++        text = receipts[0].read_text()
++        self.assertIn('MERGED_WITH_FAILURE', text)
++        self.assertIn(self.gh.merge_sha, text)
++        self.assertIn('ok=false', text)
++
++    def test_report_stderr_flush_failure_uses_receipt_file(self):
++        self.failed_report_output(err=FailedOutput('flush'))
++        receipts = list((self.fixture.root / 'results/git_merge_gate_receipts').glob('*.txt'))
++        self.assertEqual(len(receipts), 1)
++        self.assertIn(self.gh.merge_sha, receipts[0].read_text())
++
++    def test_report_both_streams_broken_uses_receipt_file(self):
++        self.failed_report_output(out=FailedOutput('write'), err=FailedOutput('write'))
++        receipts = list((self.fixture.root / 'results/git_merge_gate_receipts').glob('*.txt'))
++        self.assertEqual(len(receipts), 1)
++        self.assertIn('MERGED_WITH_FAILURE', receipts[0].read_text())
++        self.assertIn(self.gh.merge_sha, receipts[0].read_text())
++
++    def test_cli_flushes_report_before_success_message(self):
++        events = []
++        class Output(io.StringIO):
++            def __init__(self, name):
++                super().__init__()
++                self.name = name
++            def write(self, value):
++                if 'PASS: bounded merge gate complete' in value:
++                    events.append('success')
++                return super().write(value)
++            def flush(self):
++                events.append(self.name + ' flush')
++                return super().flush()
++        out, err = Output('stdout'), Output('stderr')
++        with mock.patch.object(sys, 'argv', ['git_merge_gate.py', '21', '--apply']), \
++             mock.patch.object(self.H, 'Repo', return_value=self.repo), \
++             mock.patch.object(self.H, 'Gh', return_value=self.gh), \
++             mock.patch.object(self.H, 'repository_name', return_value='o/r'), \
++             mock.patch.object(self.H, 'cwd_inventory', return_value={}), \
++             redirect_stdout(out), redirect_stderr(err):
++            code = self.M.main()
++        self.assertEqual(code, 0)
++        self.assertTrue(json.loads(out.getvalue())['ok'])
++        self.assertIn('stdout flush', events, 'report was not fully delivered')
++        self.assertIn('stderr flush', events, 'check summary was not fully delivered')
++        self.assertLess(events.index('stdout flush'), events.index('success'))
++        self.assertLess(events.index('stderr flush'), events.index('success'))
++
++    def test_candidate_ci_drains_before_lock_is_acquired(self):
++        self.gh.check_state = 'PENDING'
++        original_lock, original_sleep = self.repo.lock, self.clock.sleep
++        states_at_lock = []
++        @contextmanager
++        def lock():
++            states_at_lock.append(self.gh.check_state)
++            with original_lock():
++                yield
++        def sleep(seconds):
++            original_sleep(seconds)
++            self.gh.check_state = 'PASS'
++        self.clock.sleep = sleep
++        self.repo.deadline.sleep = sleep
++        with mock.patch.object(self.repo, 'lock', side_effect=lock):
++            report = self.gate(dry_run=False, wait_s=2)
++        self.assertTrue(report['ok'], report)
++        self.assertEqual(states_at_lock, ['PASS'], 'candidate CI must drain before the freeze')
++        self.assertEqual(len(report['checks']['ci']['evidence']['samples']), 2)
++
++    def test_older_check_writer_drains_before_lock_is_acquired(self):
++        original_lock, original_evidence, original_sleep = self.repo.lock, self.gh.evidence, self.clock.sleep
++        drained, states_at_lock = [], []
++        def evidence(*args, **kwargs):
++            value = original_evidence(*args, **kwargs)
++            if not kwargs.get('post'):
++                old = dict(value['check_runs'][0], id=99,
++                           status='completed' if drained else 'in_progress',
++                           conclusion='success' if drained else None)
++                value['all_check_runs'] = value['check_runs'] + [old]
++            return value
++        @contextmanager
++        def lock():
++            states_at_lock.append(bool(drained))
++            with original_lock():
++                yield
++        def sleep(seconds):
++            original_sleep(seconds)
++            drained.append(True)
++        self.gh.evidence = evidence
++        self.repo.deadline.sleep = sleep
++        with mock.patch.object(self.repo, 'lock', side_effect=lock):
++            report = self.gate(dry_run=False, wait_s=2)
++        self.assertTrue(report['ok'], report)
++        self.assertEqual(states_at_lock, [True], 'older check writer must drain before the freeze')
++        self.assertEqual(len(report['checks']['ci']['evidence']['samples']), 2)
++
++    def test_older_in_progress_run_in_final_read_only_refuses_merge(self):
++        original, reads = self.gh.evidence, []
++        def evidence(*args, **kwargs):
++            value = original(*args, **kwargs)
++            if not kwargs.get('post'):
++                reads.append(value)
++                if len(reads) == 2:
++                    value['runs'].append(dict(value['runs'][0], databaseId=100,
++                                             status='in_progress', conclusion=None))
++            return value
++        self.gh.evidence = evidence
++        report = self.gate(dry_run=False, wait_s=2)
++        self.assertEqual(report['checks']['ci']['status'], 'PASS')
++        self.assertEqual(len(reads), 2)
++        self.assertEqual(len(reads[0]['runs']), 1)
++        self.assert_pre_merge_refusal(report)
++        self.assertIn('workflow run 100 pending', ' '.join(report['errors']))
++
++    def gate_with_rest_adapters(self):
++        original_run, snapshot = self.repo.run, {}
++        commands = []
++        def run(command, **kwargs):
++            if command[0] != 'gh':
++                return original_run(command, **kwargs)
++            commands.append(command)
++            if command[1:3] == ['pr', 'view']:
++                payload = self.gh.pr(int(command[3]))
++            elif command[1:3] == ['pr', 'ready']:
++                self.gh.ready(int(command[3]))
++                payload = None
++            elif command[1:3] == ['pr', 'merge']:
++                self.assertIn('--merge', command)
++                self.assertEqual(command[command.index('--match-head-commit') + 1], self.gh.head)
++                payload = self.gh.merge(21, self.gh.head)
++            elif command[1:4] == ['api', '-X', 'PUT']:
++                self.assertIn('sha=' + self.gh.head, command)
++                payload = self.gh.merge(21, self.gh.head)
++            elif command[1] == 'api' and '/pulls?state=open' in command[2]:
++                payload = [{'head': {'ref': name}} for name in self.gh.open_heads()]
++            elif command[1] == 'api' and '/git/ref/heads/master' in command[2]:
++                payload = {'object': {'sha': self.gh.master()}}
++            elif command[1] == 'api' and '/git/commits/' in command[2]:
++                sha = command[2].rsplit('/', 1)[1]
++                payload = {'sha': sha, 'parents': [{'sha': self.gh.first_parent(sha)}]}
++            else:
++                if command[1:3] == ['pr', 'checks']:
++                    snapshot['value'] = self.gh.evidence(21, self.gh.head)
++                elif (command[1:3] == ['run', 'list'] and '--branch' in command) or (
++                        '/actions/runs?' in command[2] and '&branch=master' in command[2]):
++                    snapshot['value'] = self.gh.evidence(21, self.gh.merge_sha, post=True)
++                value = snapshot['value']
++                value['all_check_runs'] = value['check_runs']
++                value['all_statuses'] = value['statuses']
++                payload = evidence_command(command, value)
++            return subprocess.CompletedProcess(command, 0, json.dumps(payload), '')
++        with mock.patch.object(self.repo, 'run', side_effect=run), \
++             mock.patch.object(self.H, 'cwd_inventory', return_value={}):
++            report = self.M.gate(self.repo, self.H.Gh(self.repo, 'o/r'), 21, dry_run=False)
++        return report, commands
++
++    def test_rest_adapters_through_gate_keep_merge_receipt_and_head_guard(self):
++        report, commands = self.gate_with_rest_adapters()
++        self.assertTrue(report['ok'], report)
++        self.assertEqual(report['merge_sha'], self.gh.merge_sha)
++        self.assertEqual(sum(c[1:4] == ['api', '-X', 'PUT'] for c in commands), 1)
++        self.assertTrue(any('/check-runs?filter=all' in c[2] for c in commands if c[1] == 'api'))
++        self.assertIn(('evidence', self.gh.merge_sha, True), self.gh.calls)
++
++    def test_rest_adapter_higher_attempt_in_final_read_refuses_through_gate(self):
++        original, calls = self.H.hygiene, []
++        def hygiene(*args, **kwargs):
++            value = original(*args, **kwargs)
++            calls.append(kwargs.get('apply', False))
++            if calls == [False, False]:
++                self.gh.run_attempt = 2
++            return value
++        with mock.patch.object(self.H, 'hygiene', side_effect=hygiene):
++            report, _ = self.gate_with_rest_adapters()
++        self.assertEqual(report['checks']['ci']['status'], 'PASS')
++        self.assert_pre_merge_refusal(report)
++        self.assertIn('run_attempt', ' '.join(report['errors']))
++
+     def test_final_read_refuses_older_in_progress_run_on_same_head(self):
+         original = self.gh.evidence
+         def evidence(*args, **kwargs):
+@@ -874,14 +1181,28 @@
+                'status': 'completed', 'conclusion': 'success', 'html_url': 'https://github.com/o/r/actions/runs/101',
+                'run_attempt': 2, 'updated_at': '2026-10-10T08:01:00Z'}
+         runner = mock.Mock()
+-        runner.run.side_effect = [subprocess.CompletedProcess([], 0, json.dumps(data), '') for data in (
+-            [], {'workflow_runs': [run]}, {'check_runs': [{'id': 102}]},
+-            {'check_runs': [{'id': 102}, {'id': 103}]}, [{'id': 201, 'context': 'ci'}, {'id': 200, 'context': 'ci'}])]
++        fields = {'databaseId': 'id', 'headSha': 'head_sha', 'headBranch': 'head_branch',
++                  'event': 'event', 'workflowName': 'name', 'status': 'status',
++                  'conclusion': 'conclusion', 'url': 'html_url',
++                  'run_attempt': 'run_attempt', 'updated_at': 'updated_at'}
++        supplied = {'pr_checks': [], 'runs': [{key: run[field] for key, field in fields.items()}],
++                    'check_runs': [{'id': 102}], 'all_check_runs': [{'id': 102}, {'id': 103}],
++                    'all_statuses': [{'id': 201, 'context': 'ci'}, {'id': 200, 'context': 'ci'}]}
++        runner.run.side_effect = lambda command, **kwargs: subprocess.CompletedProcess(
++            command, 0, json.dumps(evidence_command(command, supplied)), '')
+         evidence = self.H.Gh(runner, 'o/r').evidence(21, sha)
+-        self.assertEqual(evidence['runs'][0]['run_attempt'], 2)
+-        self.assertEqual(evidence['runs'][0]['updated_at'], run['updated_at'])
+-        self.assertEqual([r['id'] for r in evidence['all_check_runs']], [102, 103])
+-        self.assertEqual([r['id'] for r in evidence['all_statuses']], [201, 200])
++        with self.subTest(assertion='run attempt'):
++            self.assertIn('run_attempt', evidence['runs'][0], 'workflow attempt missing')
++            self.assertEqual(evidence['runs'][0]['run_attempt'], 2)
++        with self.subTest(assertion='run update date'):
++            self.assertIn('updated_at', evidence['runs'][0], 'workflow update date missing')
++            self.assertEqual(evidence['runs'][0]['updated_at'], run['updated_at'])
++        with self.subTest(assertion='complete check inventory'):
++            self.assertIn('all_check_runs', evidence, 'complete check inventory missing')
++            self.assertEqual([r['id'] for r in evidence['all_check_runs']], [102, 103])
++        with self.subTest(assertion='complete status inventory'):
++            self.assertIn('all_statuses', evidence, 'complete status inventory missing')
++            self.assertEqual([r['id'] for r in evidence['all_statuses']], [201, 200])
+ 
+     def test_commit_parent_adapter_refuses_wrong_or_missing_evidence(self):
+         sha = 'a' * 40

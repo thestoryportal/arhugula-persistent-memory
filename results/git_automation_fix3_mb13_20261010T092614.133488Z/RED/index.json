@@ -1,0 +1,326 @@
+[
+  {
+    "test": "AutomationTests.test_candidate_ci_drains_before_lock_is_acquired",
+    "source": "current",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "current",
+      "AutomationTests.test_candidate_ci_drains_before_lock_is_acquired"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_candidate_ci_drains_before_lock_is_acquired.log",
+    "sha256": "34f70c2ccc2bbb003764f5d94cdfb49f69713bc51835f392875d92d178cf56ff",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_cli_flushes_report_before_success_message",
+    "source": "current",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "current",
+      "AutomationTests.test_cli_flushes_report_before_success_message"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_cli_flushes_report_before_success_message.log",
+    "sha256": "bf7443f4f4ab68e4b6e5681e2b15187e58311fdfe39ba719efaf1d495c6650d0",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_lock_exit_keyboardinterrupt_preserves_receipt",
+    "source": "current",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "current",
+      "AutomationTests.test_lock_exit_keyboardinterrupt_preserves_receipt"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_lock_exit_keyboardinterrupt_preserves_receipt.log",
+    "sha256": "9526d681002c2c41400f94770a1d9f14eb40b1b5300922ed40725d134cc07a6b",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_lock_exit_systemexit_zero_preserves_receipt",
+    "source": "current",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "current",
+      "AutomationTests.test_lock_exit_systemexit_zero_preserves_receipt"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_lock_exit_systemexit_zero_preserves_receipt.log",
+    "sha256": "7cc29397b07c4add4c172bbc9f355308ccc510ab2d023a481bf8dc5eb3560df5",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_main_post_gate_systemexit_zero_preserves_receipt",
+    "source": "current",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "current",
+      "AutomationTests.test_main_post_gate_systemexit_zero_preserves_receipt"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_main_post_gate_systemexit_zero_preserves_receipt.log",
+    "sha256": "7a7d60d6a0fbea14471c0c12d69d16333e4009d101769292a2c8680c886067f6",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_older_check_writer_drains_before_lock_is_acquired",
+    "source": "current",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "current",
+      "AutomationTests.test_older_check_writer_drains_before_lock_is_acquired"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_older_check_writer_drains_before_lock_is_acquired.log",
+    "sha256": "f446fa90053162ca62b7f97b621312ce25b053dc330748aaf7a6d91386be912d",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_older_in_progress_run_in_final_read_only_refuses_merge",
+    "source": "r2_snapshot",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/git_automation_fix3_mb13_20261010T092614.133488Z/r2_snapshot",
+      "AutomationTests.test_older_in_progress_run_in_final_read_only_refuses_merge"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_older_in_progress_run_in_final_read_only_refuses_merge.log",
+    "sha256": "107d8093d83db6ca4e4b2c14e4bf8b012fe6439bc0c723fa94dfb03f2c7b53d7",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_post_merge_pr_keyboardinterrupt_preserves_receipt",
+    "source": "current",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "current",
+      "AutomationTests.test_post_merge_pr_keyboardinterrupt_preserves_receipt"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_post_merge_pr_keyboardinterrupt_preserves_receipt.log",
+    "sha256": "ceb6e753216bcae085a44a4aa83deba1d3f11eadf18b40f0365ac9d4e37dd7f0",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_post_merge_pr_systemexit_zero_preserves_receipt",
+    "source": "current",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "current",
+      "AutomationTests.test_post_merge_pr_systemexit_zero_preserves_receipt"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_post_merge_pr_systemexit_zero_preserves_receipt.log",
+    "sha256": "d44ab15db4d3008419e29edea6abb5527707a105e59b6792a0b2b59e494e3ada",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_report_both_streams_broken_uses_receipt_file",
+    "source": "current",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "current",
+      "AutomationTests.test_report_both_streams_broken_uses_receipt_file"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_report_both_streams_broken_uses_receipt_file.log",
+    "sha256": "dd7f1de36acc903599e3dbfccc1e589dc0a3888c67c95a1e4efbf2098701fa86",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_report_serialization_typeerror_uses_failure_receipt",
+    "source": "current",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "current",
+      "AutomationTests.test_report_serialization_typeerror_uses_failure_receipt"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_report_serialization_typeerror_uses_failure_receipt.log",
+    "sha256": "b0fae72979614dae890ac0fcac7a0d7959341cead21831e0447c0ce6e21f7cfa",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_report_stderr_flush_failure_uses_receipt_file",
+    "source": "current",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "current",
+      "AutomationTests.test_report_stderr_flush_failure_uses_receipt_file"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_report_stderr_flush_failure_uses_receipt_file.log",
+    "sha256": "f29328d2c27d7fa3a77e9d966a3a5fb309c678f8851d3e233f6479bee395cd5f",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_report_stderr_write_failure_uses_receipt_file",
+    "source": "current",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "current",
+      "AutomationTests.test_report_stderr_write_failure_uses_receipt_file"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_report_stderr_write_failure_uses_receipt_file.log",
+    "sha256": "70646283a9a91435ec108156545ee6d8be8124744874a84058e3a2c8bcd0be48",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_report_stdout_brokenpipe_uses_failure_receipt",
+    "source": "current",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "current",
+      "AutomationTests.test_report_stdout_brokenpipe_uses_failure_receipt"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_report_stdout_brokenpipe_uses_failure_receipt.log",
+    "sha256": "57b73b34266246d2f957a34faf001c6e74fa5fcc8174f94914c90bc88ab6970a",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_report_stdout_flush_failure_uses_failure_receipt",
+    "source": "current",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "current",
+      "AutomationTests.test_report_stdout_flush_failure_uses_failure_receipt"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_report_stdout_flush_failure_uses_failure_receipt.log",
+    "sha256": "3cdc7895e391d5bd92e62ddbac501e119a9ea8cd39b35c07d4c2468015b2f997",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_rest_adapter_higher_attempt_in_final_read_refuses_through_gate",
+    "source": "r2_snapshot",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/git_automation_fix3_mb13_20261010T092614.133488Z/r2_snapshot",
+      "AutomationTests.test_rest_adapter_higher_attempt_in_final_read_refuses_through_gate"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_rest_adapter_higher_attempt_in_final_read_refuses_through_gate.log",
+    "sha256": "b3eb650e0af4bcba3105225a0bdd67d8bc28cb41e0e208e36ff482426ef32a0c",
+    "validated": true
+  },
+  {
+    "test": "AutomationTests.test_rest_adapters_through_gate_keep_merge_receipt_and_head_guard",
+    "source": "r2_snapshot",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/git_automation_fix3_mb13_20261010T092614.133488Z/r2_snapshot",
+      "AutomationTests.test_rest_adapters_through_gate_keep_merge_receipt_and_head_guard"
+    ],
+    "exit": 1,
+    "log": "RED/AutomationTests.test_rest_adapters_through_gate_keep_merge_receipt_and_head_guard.log",
+    "sha256": "1c9d69128bb5f8cdfaf951de82e4b40685e7b22fb191cc66ea141922b3579dee",
+    "validated": true
+  },
+  {
+    "test": "Contracts.test_evidence_adapter_preserves_attempt_dates_and_complete_inventories",
+    "source": "r2_snapshot",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-c",
+      "\nimport importlib.util, pathlib, sys, unittest\nroot, snapshot, name = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]\nsys.path.insert(0, str(root / 'tests'))\nsys.path.insert(0, str(root))\nif snapshot != 'current':\n    import tools\n    for leaf in ('git_hygiene', 'git_merge_gate'):\n        full = 'tools.' + leaf\n        spec = importlib.util.spec_from_file_location(full, pathlib.Path(snapshot) / 'tools' / (leaf + '.py'))\n        module = importlib.util.module_from_spec(spec)\n        sys.modules[full] = module\n        setattr(tools, leaf, module)\n        spec.loader.exec_module(module)\nsuite = unittest.defaultTestLoader.loadTestsFromName('test_git_automation.' + name)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsys.exit(0 if result.wasSuccessful() else 1)\n",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/git_automation_fix3_mb13_20261010T092614.133488Z/r2_snapshot",
+      "Contracts.test_evidence_adapter_preserves_attempt_dates_and_complete_inventories"
+    ],
+    "exit": 1,
+    "log": "RED/Contracts.test_evidence_adapter_preserves_attempt_dates_and_complete_inventories.log",
+    "sha256": "6999a81dc169ba4047bec1278a0eb1589fd7d35104c42be048cdcdc5523ebc83",
+    "validated": true
+  }
+]

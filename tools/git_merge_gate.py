@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import re
 import sys
+import tempfile
 
 if __package__:
     from . import git_hygiene as H, engine_fingerprint as F
@@ -25,6 +26,11 @@ def ci_state(evidence, sha, post=False):
     checks, native, statuses, runs = (evidence[k] for k in ('pr_checks', 'check_runs', 'statuses', 'runs'))
     if not runs or not native or (not post and not checks):
         return 'WAIT', 'CI not started: no checks or exact-commit workflow run'
+    for check in evidence.get('all_check_runs', native):
+        if check['head_sha'] != sha:
+            return 'FAIL', 'check-run head SHA differs'
+        if check['status'] != 'completed':
+            return 'WAIT', f"check run {check.get('id')} pending"
     for check in native:
         if check['head_sha'] != sha:
             return 'FAIL', 'check-run head SHA differs'
@@ -153,7 +159,7 @@ def gate(repo, gh, number, dry_run=True, wait_s=480, report=None):
             value = action()
             report['checks'][name] = {'status': 'PASS', 'evidence': value}
             return value
-        except Exception as error:
+        except BaseException as error:
             reason = record_failure(report, error, name)
             report['checks'][name] = {'status': 'FAIL', 'reason': reason}
             return None
@@ -197,15 +203,15 @@ def gate(repo, gh, number, dry_run=True, wait_s=480, report=None):
             raise H.Refusal('PR conflicts or mergeability is unknown; operator must resolve')
         return value
     try:
+        pr = check('pr', read_pr)
+        check('fingerprint', fingerprint)
+        check('branches', branch_check)
+        if pr:
+            check('ci', lambda: poll_ci(repo, gh, number, report['head_sha'], report['base_sha'], wait_s))
+            check('stable_head_base', stable)
+        if report['errors']:
+            return report
         with repo.lock() if not dry_run else nullcontext():
-            pr = check('pr', read_pr)
-            check('fingerprint', fingerprint)
-            check('branches', branch_check)
-            if pr:
-                check('ci', lambda: poll_ci(repo, gh, number, report['head_sha'], report['base_sha'], wait_s))
-                check('stable_head_base', stable)
-            if report['errors']:
-                return report
             if dry_run:
                 for name in ('ready', 'merge', 'master_ci', 'post_hygiene'):
                     report['checks'][name] = {'status': 'WOULD-RUN', 'reason': 'dry-run; no action',
@@ -279,9 +285,37 @@ def gate(repo, gh, number, dry_run=True, wait_s=480, report=None):
                     return report
         report['ok'] = True
         report['status'] = 'DRY_RUN_PASS' if dry_run else 'MERGED'
-    except Exception as error:
+    except BaseException as error:
         record_failure(report, error)
     return report
+
+
+def failure_receipt(report, repo):
+    """Use a separate sink and plain text when report delivery itself fails."""
+    def text():
+        return (report['status'] + ' ok=false merged=' + str(report['merged']).lower() +
+                ' merge_sha=' + str(report['merge_sha']) + ' ' + '; '.join(report['errors']) + '\n')
+    try:
+        sys.stderr.write(text())
+        sys.stderr.flush()
+        return
+    except BaseException as error:
+        record_failure(report, error, 'fallback stderr')
+    try:
+        directory = (repo.root if repo else Path.cwd()) / 'results/git_merge_gate_receipts'
+        directory.mkdir(parents=True, exist_ok=True)
+        with tempfile.NamedTemporaryFile(mode='w', prefix=str(report['merge_sha']) + '-',
+                                         suffix='.txt', dir=directory, delete=False) as handle:
+            handle.write(text())
+            handle.flush()
+            os.fsync(handle.fileno())
+            report['failure_receipt_path'] = handle.name
+    except BaseException as error:
+        record_failure(report, error, 'fallback receipt file')
+        try:
+            os.write(2, text().encode())
+        except BaseException as error:
+            record_failure(report, error, 'fallback stderr descriptor')
 
 
 def main():
@@ -301,16 +335,26 @@ def main():
             raise H.Refusal('CI wait must be finite and between 0 and 1200 seconds')
         repo = H.Repo(Path(os.environ.get('LLMDB_ROOT') or Path.cwd()), deadline)
         gate(repo, H.Gh(repo, H.repository_name(repo)), args.pr, dry_run=not args.apply, wait_s=args.ci_wait, report=report)
-    except Exception as error:
+    except BaseException as error:
         record_failure(report, error)
-    report['command_evidence'] = repo.commands if repo else []
-    print(json.dumps(report, indent=2, sort_keys=True))
-    for name, value in report['checks'].items():
-        print(f"{name}: {value['status']} {value.get('reason', '')}", file=sys.stderr)
-    outcome = 'PASS: bounded merge gate complete' if report['ok'] else (
-        report['status'] + ': merge_sha=' + str(report['merge_sha']) + ' ' if report['merged'] else 'REFUSE: '
-    ) + ' '.join(report['errors'][0].split())
-    print(outcome, file=sys.stderr)
+    try:
+        report['command_evidence'] = repo.commands if repo else []
+        print(json.dumps(report, indent=2, sort_keys=True))
+        sys.stdout.flush()
+        for name, value in report['checks'].items():
+            print(f"{name}: {value['status']} {value.get('reason', '')}", file=sys.stderr)
+        sys.stderr.flush()
+        outcome = 'PASS: bounded merge gate complete' if report['ok'] else (
+            report['status'] + ': merge_sha=' + str(report['merge_sha']) + ' ' if report['merged'] else 'REFUSE: '
+        ) + ' '.join(report['errors'][0].split())
+        print(outcome, file=sys.stderr)
+        sys.stderr.flush()
+    except BaseException as error:
+        record_failure(report, error, 'report delivery')
+        if report['merged']:
+            report['status'] = 'MERGED_WITH_FAILURE'
+        failure_receipt(report, repo)
+        return 1
     return 0 if report['ok'] else 1
 
 

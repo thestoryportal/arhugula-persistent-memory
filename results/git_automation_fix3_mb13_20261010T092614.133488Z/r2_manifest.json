@@ -1,0 +1,7 @@
+{
+  "commit": "25af64754d6378de83992b58cd2a26763342ef9b",
+  "files": {
+    "tools/git_merge_gate.py": "8e1ea0caae4e5bbb3b17a4927b7ce9c463f1e380508f154ad1874474994199c7",
+    "tools/git_hygiene.py": "1980929aadb716d85a9766dec18d57c96891c12854e24864941691a3f2c5d544"
+  }
+}
