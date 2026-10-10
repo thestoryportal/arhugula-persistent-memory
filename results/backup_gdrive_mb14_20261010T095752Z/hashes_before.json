@@ -1,0 +1,6 @@
+{
+  "tools/launchd/MemitGdriveBackup.applescript": "446d35a6fc83c0fc84018d2fec9d2edf285588ec2fccd4fbc6d19a33f28534d1",
+  "tools/backup_gdrive_status.py": "614a5edb074c8427e98f4a5374ab60dac52ca68c3e9a336b3cf91c4240f03ef3",
+  "tools/test_backup_gdrive_addendum.py": "f19e0db1461bbfbe4e5f34300b473edd88aeb4a10d4b7e4af05f67c09a67be80",
+  "results/backup_gdrive_build_report.md": "d79e09782fa2fa36cc67d34c88a9d6b3627cb3e7cc996dacbc076c1acbcda8e3"
+}

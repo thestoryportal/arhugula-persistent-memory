@@ -1,0 +1,18 @@
+COMMAND: ['/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python', '-B', '-m', 'unittest', 'tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_3_refusal_discharges_only_itself_and_completed_generations_resolve_set', '-v']
+EXIT: 1
+test_3_refusal_discharges_only_itself_and_completed_generations_resolve_set (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_3_refusal_discharges_only_itself_and_completed_generations_resolve_set) ... FAIL
+
+======================================================================
+FAIL: test_3_refusal_discharges_only_itself_and_completed_generations_resolve_set (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_3_refusal_discharges_only_itself_and_completed_generations_resolve_set)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1261, in test_3_refusal_discharges_only_itself_and_completed_generations_resolve_set
+    self.assert_bad("generation 11")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 65, in assert_bad
+    self.assertIn(word, (result.stdout+result.stderr).lower())
+AssertionError: 'generation 11' not found in 'backup_gdrive_status: unacknowledged launch generation 13: no completed heartbeat\n'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.153s
+
+FAILED (failures=1)

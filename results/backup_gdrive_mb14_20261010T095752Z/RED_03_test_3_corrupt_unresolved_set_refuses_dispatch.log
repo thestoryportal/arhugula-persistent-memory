@@ -1,0 +1,16 @@
+COMMAND: ['/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python', '-B', '-m', 'unittest', 'tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_3_corrupt_unresolved_set_refuses_dispatch', '-v']
+EXIT: 1
+test_3_corrupt_unresolved_set_refuses_dispatch (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_3_corrupt_unresolved_set_refuses_dispatch) ... FAIL
+
+======================================================================
+FAIL: test_3_corrupt_unresolved_set_refuses_dispatch (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_3_corrupt_unresolved_set_refuses_dispatch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1283, in test_3_corrupt_unresolved_set_refuses_dispatch
+    self.assertFalse(marker.exists(), "corrupt unresolved generations must refuse dispatch")
+AssertionError: True is not false : corrupt unresolved generations must refuse dispatch
+
+----------------------------------------------------------------------
+Ran 1 test in 0.101s
+
+FAILED (failures=1)

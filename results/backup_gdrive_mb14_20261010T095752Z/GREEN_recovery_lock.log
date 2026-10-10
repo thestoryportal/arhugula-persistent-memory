@@ -1,0 +1,6 @@
+test_4_null_evidence_publication_waits_for_recovery_counter_lock (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_4_null_evidence_publication_waits_for_recovery_counter_lock) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.200s
+
+OK

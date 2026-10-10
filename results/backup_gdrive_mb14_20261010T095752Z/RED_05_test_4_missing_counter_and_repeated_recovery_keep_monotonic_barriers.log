@@ -1,0 +1,18 @@
+COMMAND: ['/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python', '-B', '-m', 'unittest', 'tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_4_missing_counter_and_repeated_recovery_keep_monotonic_barriers', '-v']
+EXIT: 1
+test_4_missing_counter_and_repeated_recovery_keep_monotonic_barriers (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_4_missing_counter_and_repeated_recovery_keep_monotonic_barriers) ... FAIL
+
+======================================================================
+FAIL: test_4_missing_counter_and_repeated_recovery_keep_monotonic_barriers (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_4_missing_counter_and_repeated_recovery_keep_monotonic_barriers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1325, in test_4_missing_counter_and_repeated_recovery_keep_monotonic_barriers
+    self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 2 != 0 : usage: backup_gdrive_status.py [-h] [--heartbeat HEARTBEAT]
+backup_gdrive_status.py: error: unrecognized arguments: recover --generation-floor 20
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.104s
+
+FAILED (failures=1)

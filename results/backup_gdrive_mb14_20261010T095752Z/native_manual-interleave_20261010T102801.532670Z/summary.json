@@ -1,0 +1,13 @@
+{
+  "case": "manual-interleave",
+  "status": "FAIL",
+  "fixture": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb14_20261010T095752Z/native_manual-interleave_20261010T102801.532670Z/fixture",
+  "evidence_kind": "native applet / stub child",
+  "error": "Command '['/usr/bin/open', '-W', '-g', '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_mb14_20261010T095752Z/native_manual-interleave_20261010T102801.532670Z/fixture/Native_1.app']' timed out after 20 seconds",
+  "source_sha256": {
+    "tools/backup_gdrive.sh": "36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8",
+    "tools/backup_gdrive_status.py": "64d59eabbf4176c67451309a261cdd87e3c0b137094cde217e064a47a9793c9b",
+    "tools/launchd/MemitGdriveBackup.applescript": "683cb5a354b0b58fc8ff012317560d595f908000bc510d4ebfdf18741d1244da",
+    "tools/test_backup_gdrive_addendum.py": "74cbd8afb20f2be676e61e9e1329c3356c52031ece1e7e5aef536709b2e891f3"
+  }
+}

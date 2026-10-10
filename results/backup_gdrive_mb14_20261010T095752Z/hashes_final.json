@@ -1,0 +1,41 @@
+{
+  "changed_files": {
+    "tools/launchd/MemitGdriveBackup.applescript": "683cb5a354b0b58fc8ff012317560d595f908000bc510d4ebfdf18741d1244da",
+    "tools/backup_gdrive_status.py": "64d59eabbf4176c67451309a261cdd87e3c0b137094cde217e064a47a9793c9b",
+    "tools/test_backup_gdrive_addendum.py": "74cbd8afb20f2be676e61e9e1329c3356c52031ece1e7e5aef536709b2e891f3",
+    "results/backup_gdrive_build_report.md": "dfe3e3df2f15b4ed24767cb91bcd13db179446b4e4f70a1fdec03ce68a726976"
+  },
+  "receipt_files": {
+    "results/backup_gdrive_mb14_20261010T095752Z/GREEN_classifier_fixture.log": "cb6fa61cacf8fd7cba60f3e3ed78372f11e13870cf204f90fcc1fdea677b77ef",
+    "results/backup_gdrive_mb14_20261010T095752Z/GREEN_generation_checks.log": "1a91e784091b57ff7242250cd9be303c581ee74514e0898678df54e667c374f9",
+    "results/backup_gdrive_mb14_20261010T095752Z/GREEN_recovery_lock.log": "fb3e8052fa28fe297b9035d02677e9d3e6bac653155729c6914a0ed204b1cf1d",
+    "results/backup_gdrive_mb14_20261010T095752Z/RED_01_behavioral_manual_interleave.log": "0d36aa89c0424f3bff702628937e04f3adbe7a4a0ef90a5d27f6c7ae8c3fdebc",
+    "results/backup_gdrive_mb14_20261010T095752Z/RED_01_test_1_manual_interleave_preserves_counter_only_generation_11.log": "faa78ee2561c08c60a9ba2614a5afffb7e2941862bedc01196b0894cf033c075",
+    "results/backup_gdrive_mb14_20261010T095752Z/RED_02_test_2_crash_after_allocation_then_refusal_preserves_generation_11.log": "43c26ac574f80e1e23293217d5bca7b9ed2efe5fcbdeae6e12ee9e7726a7baa7",
+    "results/backup_gdrive_mb14_20261010T095752Z/RED_03_test_3_corrupt_unresolved_set_refuses_dispatch.log": "d4eca80288babca1bf0085c12122d950d7778f41b4f79eddd6cf37230c368d5d",
+    "results/backup_gdrive_mb14_20261010T095752Z/RED_04_test_3_refusal_discharges_only_itself_and_completed_generations_resolve_set.log": "d85df151c49cf812c5fae88a5406d6557cb09ade3d81a2421f82a379c3df8289",
+    "results/backup_gdrive_mb14_20261010T095752Z/RED_05_test_4_missing_counter_and_repeated_recovery_keep_monotonic_barriers.log": "01c12a30adc39f7dbb5e05b8054e2332cc033747f308f9b28abfd3ba8fe722a9",
+    "results/backup_gdrive_mb14_20261010T095752Z/RED_06_test_4_recovery_preserves_null_evidence_and_requires_sequenced_completion.log": "807c9c94c827834d924916cf49661d8bbda95102b53b768aa889f63af8006fb0",
+    "results/backup_gdrive_mb14_20261010T095752Z/RED_07_recovery_publication_lock.log": "e107cbffaed6833848f69c1fa340efa077183f148206a8da589431426d91cf50",
+    "results/backup_gdrive_mb14_20261010T095752Z/RED_index.json": "c5ef77fb6a428e0acd31c43564746b836886db77e599e035b24c08e43fdadc76",
+    "results/backup_gdrive_mb14_20261010T095752Z/acceptance.log": "982353c276f87cd804497231fc2d1c3a670363bf2effa561d272c057045e70e0",
+    "results/backup_gdrive_mb14_20261010T095752Z/acceptance_summary.json": "84a79f9c47008465633200671ea2f8afe9dc5ac1f2258f629d2fe8d7a07b647c",
+    "results/backup_gdrive_mb14_20261010T095752Z/attempt1_acceptance.log": "06f0d30e5cfcb5e97fdc5ac27e047c97c3c2c9766b3a1fd90cc5db04a67b912b",
+    "results/backup_gdrive_mb14_20261010T095752Z/attempt1_real_paths_after.json": "58aaad2ea8981a2cfe43ac0afa6035d78c2ff97c39af6b994f58accc1fe17fe6",
+    "results/backup_gdrive_mb14_20261010T095752Z/attempt1_real_paths_before.json": "58aaad2ea8981a2cfe43ac0afa6035d78c2ff97c39af6b994f58accc1fe17fe6",
+    "results/backup_gdrive_mb14_20261010T095752Z/build_section.md": "1197a5d017af22e591b58605e8f842f2ee8bb0d9895521ea5fe368798d58d014",
+    "results/backup_gdrive_mb14_20261010T095752Z/edit_applet.py": "b168c825594f55f392af39b1c496bcfa24f1da279c7d8f0a25df3d3e68d663f7",
+    "results/backup_gdrive_mb14_20261010T095752Z/generationShell.sh": "db21bc2dc7e3dc6ae5e9a4a44c706c80cfe77935bd6d201865fe7175b27f48cc",
+    "results/backup_gdrive_mb14_20261010T095752Z/hashes_before.json": "1d9ec8b3c7d1e2edb1b2e4714a00218d8db3a8178c2b4a7b3cce9421510116b7",
+    "results/backup_gdrive_mb14_20261010T095752Z/host_launcher_checks_mb14.py": "cd20f0651750ca2dfebef6da443efcb1b3bbb71e2d1f454e4f2ca8f5f53ca628",
+    "results/backup_gdrive_mb14_20261010T095752Z/originals/MemitGdriveBackup.applescript": "446d35a6fc83c0fc84018d2fec9d2edf285588ec2fccd4fbc6d19a33f28534d1",
+    "results/backup_gdrive_mb14_20261010T095752Z/originals/backup_gdrive_build_report.md": "d79e09782fa2fa36cc67d34c88a9d6b3627cb3e7cc996dacbc076c1acbcda8e3",
+    "results/backup_gdrive_mb14_20261010T095752Z/originals/backup_gdrive_status.py": "614a5edb074c8427e98f4a5374ab60dac52ca68c3e9a336b3cf91c4240f03ef3",
+    "results/backup_gdrive_mb14_20261010T095752Z/originals/test_backup_gdrive_addendum.py": "f19e0db1461bbfbe4e5f34300b473edd88aeb4a10d4b7e4af05f67c09a67be80",
+    "results/backup_gdrive_mb14_20261010T095752Z/real_path_listing.py": "b040c2d595e4f1cdc49daee030987cbaff1e7fcdb5a36d710a7cdbf801bffca1",
+    "results/backup_gdrive_mb14_20261010T095752Z/real_paths_after.json": "58aaad2ea8981a2cfe43ac0afa6035d78c2ff97c39af6b994f58accc1fe17fe6",
+    "results/backup_gdrive_mb14_20261010T095752Z/real_paths_before.json": "58aaad2ea8981a2cfe43ac0afa6035d78c2ff97c39af6b994f58accc1fe17fe6",
+    "results/backup_gdrive_mb14_20261010T095752Z/receiptShell.sh": "727190e2bc2d695ce1a50171c3a5c7c1c5f8058251796a228d0b19129c8c885a",
+    "results/backup_gdrive_mb14_20261010T095752Z/verification.json": "be5dd0d21866090f1d9af221b85f5ca13fcde78193259f2b4bb479a84a00cbd9"
+  }
+}
