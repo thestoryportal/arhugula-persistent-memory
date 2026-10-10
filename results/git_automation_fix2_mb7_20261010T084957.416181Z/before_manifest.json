@@ -1,0 +1,42 @@
+{
+  "tools/git_hygiene.py": {
+    "sha256": "1980929aadb716d85a9766dec18d57c96891c12854e24864941691a3f2c5d544",
+    "bytes": 21568,
+    "allowed_edit": true
+  },
+  "tools/git_merge_gate.py": {
+    "sha256": "8e1ea0caae4e5bbb3b17a4927b7ce9c463f1e380508f154ad1874474994199c7",
+    "bytes": 14138,
+    "allowed_edit": true
+  },
+  "tests/test_git_automation.py": {
+    "sha256": "5187fc993491be5c9504d8a21b88afbfa4cc3655919746aacb9bbb983027b35c",
+    "bytes": 50281,
+    "allowed_edit": true
+  },
+  "tools/dashboard_experiment.py": {
+    "sha256": "96d0e142f90020f63d1381c39dedcf5cd0cea14620ffce5f6d93b0aac5b62052",
+    "bytes": 22748,
+    "allowed_edit": false
+  },
+  ".github/workflows/ci.yml": {
+    "sha256": "d5998af13b0cd9e0617455b12fdaf681c05429e0969f6593d9e829f5dabff33f",
+    "bytes": 1218,
+    "allowed_edit": false
+  },
+  "AGENTS.md": {
+    "sha256": "12279b3ccff7fbacb1b9dd6a824c433c2df4c520985bb196773311ff931f58d0",
+    "bytes": 22985,
+    "allowed_edit": false
+  },
+  "CLAUDE.md": {
+    "sha256": "e72e6940ee7a1748dc024c1828d4baeabc7820670a8fc0cf749cc25511a6bafb",
+    "bytes": 15477,
+    "allowed_edit": false
+  },
+  "tools/test_dashboard_mathlab.py": {
+    "sha256": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e",
+    "bytes": 44754,
+    "allowed_edit": false
+  }
+}

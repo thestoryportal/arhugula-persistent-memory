@@ -1,0 +1,12 @@
+{
+  "model_free_by_module": {
+    "tools.test_c10w_p2_gate": 13,
+    "tools.test_dashboard_live": 27,
+    "tools.test_dashboard_gpu_detector": 40
+  },
+  "resourcewarning_counts": {
+    "mb10_git_automation.log": 8,
+    "mb10_model_free.log": 31
+  },
+  "summary_parser_note": "One prior read-only summary command failed on an escaped regex; literal parsing succeeded. Raw acceptance logs were unchanged."
+}

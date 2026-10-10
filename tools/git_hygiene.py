@@ -136,28 +136,40 @@ class Gh:
     def evidence(self, number, sha, post=False):
         checks = [] if post else self.json(['pr', 'checks', str(number), '--json',
                                           'name,state,bucket,workflow,link'], allowed=(0, 1, 8))
-        runs_args = ['run', 'list', '--commit', sha, '--limit', '100', '--json',
-                     'databaseId,headSha,headBranch,event,workflowName,status,conclusion,url']
+        endpoint = f'repos/{self.repository}/actions/runs?head_sha={sha}&per_page=100'
         if post:
-            runs_args += ['--branch', 'master', '--event', 'push']
-        runs = self.json(runs_args)
-        if len(runs) >= 100:
+            endpoint += '&branch=master&event=push'
+        data = self.json(['api', endpoint])
+        if not isinstance(data, dict) or not isinstance(data.get('workflow_runs'), list):
+            raise Refusal('workflow run inventory malformed')
+        if len(data['workflow_runs']) >= 100:
             raise Refusal('workflow run list is capped; incomplete evidence')
+        fields = {'databaseId': 'id', 'headSha': 'head_sha', 'headBranch': 'head_branch',
+                  'event': 'event', 'workflowName': 'name', 'status': 'status',
+                  'conclusion': 'conclusion', 'url': 'html_url',
+                  'run_attempt': 'run_attempt', 'updated_at': 'updated_at'}
+        runs = [{key: row[field] for key, field in fields.items()} for row in data['workflow_runs']]
         base = f'repos/{self.repository}/commits/{sha}'
         native = self.pages(base + '/check-runs?filter=latest', 'check_runs')
+        all_native = self.pages(base + '/check-runs?filter=all', 'check_runs')
         statuses = self.pages(base + '/statuses')
         latest = {}
         for row in statuses:
             latest.setdefault(row['context'], row)
         return {'sha': sha, 'pr_checks': checks, 'check_runs': native,
-                'statuses': list(latest.values()), 'runs': runs}
+                'statuses': list(latest.values()), 'runs': runs,
+                'all_check_runs': all_native, 'all_statuses': statuses}
 
     def ready(self, number):
         self.runner.run(['gh', 'pr', 'ready', str(number), '--repo', self.repository])
 
     def merge(self, number, sha):
-        self.runner.run(['gh', 'pr', 'merge', str(number), '--repo', self.repository,
-                         '--merge', '--match-head-commit', sha])
+        result = self.json(['api', '-X', 'PUT', f'repos/{self.repository}/pulls/{number}/merge',
+                            '-f', 'merge_method=merge', '-f', 'sha=' + sha])
+        if (not isinstance(result, dict) or result.get('merged') is not True or
+                not isinstance(result.get('sha'), str) or not re.fullmatch('[0-9a-f]{40}', result['sha'])):
+            raise Refusal('merge API returned no validated merged commit SHA')
+        return result
 
     def master(self):
         return self.json(['api', f'repos/{self.repository}/git/ref/heads/master'])['object']['sha']

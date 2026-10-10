@@ -1,0 +1,527 @@
+--- a/tools/git_hygiene.py
++++ b/tools/git_hygiene.py
+@@ -136,28 +136,40 @@
+     def evidence(self, number, sha, post=False):
+         checks = [] if post else self.json(['pr', 'checks', str(number), '--json',
+                                           'name,state,bucket,workflow,link'], allowed=(0, 1, 8))
+-        runs_args = ['run', 'list', '--commit', sha, '--limit', '100', '--json',
+-                     'databaseId,headSha,headBranch,event,workflowName,status,conclusion,url']
++        endpoint = f'repos/{self.repository}/actions/runs?head_sha={sha}&per_page=100'
+         if post:
+-            runs_args += ['--branch', 'master', '--event', 'push']
+-        runs = self.json(runs_args)
+-        if len(runs) >= 100:
++            endpoint += '&branch=master&event=push'
++        data = self.json(['api', endpoint])
++        if not isinstance(data, dict) or not isinstance(data.get('workflow_runs'), list):
++            raise Refusal('workflow run inventory malformed')
++        if len(data['workflow_runs']) >= 100:
+             raise Refusal('workflow run list is capped; incomplete evidence')
++        fields = {'databaseId': 'id', 'headSha': 'head_sha', 'headBranch': 'head_branch',
++                  'event': 'event', 'workflowName': 'name', 'status': 'status',
++                  'conclusion': 'conclusion', 'url': 'html_url',
++                  'run_attempt': 'run_attempt', 'updated_at': 'updated_at'}
++        runs = [{key: row[field] for key, field in fields.items()} for row in data['workflow_runs']]
+         base = f'repos/{self.repository}/commits/{sha}'
+         native = self.pages(base + '/check-runs?filter=latest', 'check_runs')
++        all_native = self.pages(base + '/check-runs?filter=all', 'check_runs')
+         statuses = self.pages(base + '/statuses')
+         latest = {}
+         for row in statuses:
+             latest.setdefault(row['context'], row)
+         return {'sha': sha, 'pr_checks': checks, 'check_runs': native,
+-                'statuses': list(latest.values()), 'runs': runs}
++                'statuses': list(latest.values()), 'runs': runs,
++                'all_check_runs': all_native, 'all_statuses': statuses}
+ 
+     def ready(self, number):
+         self.runner.run(['gh', 'pr', 'ready', str(number), '--repo', self.repository])
+ 
+     def merge(self, number, sha):
+-        self.runner.run(['gh', 'pr', 'merge', str(number), '--repo', self.repository,
+-                         '--merge', '--match-head-commit', sha])
++        result = self.json(['api', '-X', 'PUT', f'repos/{self.repository}/pulls/{number}/merge',
++                            '-f', 'merge_method=merge', '-f', 'sha=' + sha])
++        if (not isinstance(result, dict) or result.get('merged') is not True or
++                not isinstance(result.get('sha'), str) or not re.fullmatch('[0-9a-f]{40}', result['sha'])):
++            raise Refusal('merge API returned no validated merged commit SHA')
++        return result
+ 
+     def master(self):
+         return self.json(['api', f'repos/{self.repository}/git/ref/heads/master'])['object']['sha']
+--- a/tools/git_merge_gate.py
++++ b/tools/git_merge_gate.py
+@@ -43,14 +43,13 @@
+     for run in runs:
+         if run['headSha'] != sha:
+             return 'FAIL', 'workflow run SHA differs'
++        if run['status'] != 'completed':
++            return 'WAIT', f"workflow run {run['databaseId']} pending ({run['status']})"
++        if run['conclusion'] != 'success':
++            return 'FAIL', f"workflow run {run['databaseId']} terminal conclusion is not success"
+         key = (run['workflowName'], run['event'], run['headBranch'])
+         if key not in latest or run['databaseId'] > latest[key]['databaseId']:
+             latest[key] = run
+-    for run in latest.values():
+-        if run['status'] != 'completed':
+-            return 'WAIT', 'workflow run pending'
+-        if run['conclusion'] != 'success':
+-            return 'FAIL', 'workflow run terminal conclusion is not success'
+     ci_runs = [r for r in latest.values() if r['workflowName'] == 'CI' and
+                (not post or (r['headBranch'] == 'master' and r['event'] == 'push'))]
+     if not ci_runs:
+@@ -73,7 +72,37 @@
+         mandatory = [c for c in checks if c['name'] == 'cpu' and c['workflow'] == 'CI']
+         if not mandatory or any(not re.search(run_link, c['link']) for c in mandatory):
+             return 'FAIL', 'PR cpu check not linked to an exact-head CI workflow run'
+-    return 'PASS', 'all exact-SHA checks and latest workflow runs completed successfully'
++    return 'PASS', 'all exact-SHA checks and workflow runs completed successfully'
++
++
++def ci_snapshot(evidence):
++    snapshot = {}
++    inventories = (('workflow run', 'runs', 'runs', 'databaseId', 'workflowName'),
++                   ('check run', 'all_check_runs', 'check_runs', 'id', 'name'),
++                   ('commit status', 'all_statuses', 'statuses', 'id', 'context'))
++    for kind, inventory, fallback, identity, name in inventories:
++        for row in evidence.get(inventory, evidence[fallback]):
++            snapshot[kind, row[identity]] = dict(
++                name=row[name], **{field: row.get(field) for field in
++                                  ('run_attempt', 'status', 'state', 'conclusion', 'updated_at')})
++    return snapshot
++
++
++def ci_differences(before, after):
++    before, after = ci_snapshot(before), ci_snapshot(after)
++    differences = []
++    for key in sorted(before.keys() | after.keys()):
++        old, new = before.get(key), after.get(key)
++        label = f"{key[0]} {key[1]} ({(new or old)['name']})"
++        if old is None:
++            differences.append(label + ' added')
++        elif new is None:
++            differences.append(label + ' removed')
++        else:
++            for field in old:
++                if old[field] != new[field]:
++                    differences.append(f'{label} {field} changed from {old[field]!r} to {new[field]!r}')
++    return differences
+ 
+ 
+ def poll_ci(repo, gh, number, sha, base, wait_s, post=False):
+@@ -99,21 +128,34 @@
+         backoff = min(10, backoff * 2)
+ 
+ 
+-def gate(repo, gh, number, dry_run=True, wait_s=480):
++def new_report(number, dry_run):
+     names = ('pr', 'fingerprint', 'branches', 'ci', 'stable_head_base', 'ready', 'merge', 'master_ci', 'post_hygiene')
+-    report = {'ok': False, 'mode': 'dry-run' if dry_run else 'apply', 'pr_number': number,
++    return {'ok': False, 'mode': 'dry-run' if dry_run else 'apply', 'pr_number': number,
+               'status': 'REFUSED', 'merged': False, 'head_sha': None, 'base_sha': None,
+-              'merge_sha': None, 'merge_first_parent': None, 'final_ci': None, 'errors': [],
++              'merge_sha': None, 'merge_first_parent': None, 'final_ci': None, 'head_ci_audit': None, 'errors': [],
+               'checks': {name: {'status': 'NOT-RUN', 'reason': 'prerequisite unavailable'} for name in names}}
++
++
++def record_failure(report, error, name=None):
++    reason = ' '.join(str(error).split()) or type(error).__name__
++    report['ok'] = False
++    if report['merged'] and report['status'] != 'MERGED_ON_MOVED_BASE':
++        report['status'] = 'MERGED_WITH_FAILURE'
++    report['errors'].append((name + ': ' if name else '') + reason)
++    return reason
++
++
++def gate(repo, gh, number, dry_run=True, wait_s=480, report=None):
++    if report is None:
++        report = new_report(number, dry_run)
+     def check(name, action):
+         try:
+             value = action()
+             report['checks'][name] = {'status': 'PASS', 'evidence': value}
+             return value
+-        except (H.Refusal, KeyError, ValueError, TypeError, OSError) as error:
+-            reason = ' '.join(str(error).split())
++        except Exception as error:
++            reason = record_failure(report, error, name)
+             report['checks'][name] = {'status': 'FAIL', 'reason': reason}
+-            report['errors'].append(name + ': ' + reason)
+             return None
+     def read_pr():
+         value = gh.pr(number)
+@@ -168,66 +210,77 @@
+                 for name in ('ready', 'merge', 'master_ci', 'post_hygiene'):
+                     report['checks'][name] = {'status': 'WOULD-RUN', 'reason': 'dry-run; no action',
+                         'head_sha': report['head_sha'], 'post_merge_sha': 'returned merge commit, verified separately'}
+-                report['ok'] = True
+-                report['status'] = 'DRY_RUN_PASS'
+-                return report
+-            def ready():
+-                stable()
+-                if pr['isDraft']:
+-                    gh.ready(number)
+-                return 'ready; draft state changed only after all preconditions passed'
+-            if check('ready', ready) is None:
+-                return report
+-            def merge():
+-                stable()
+-                fresh = H.hygiene(repo, gh, apply=False)
+-                if not fresh['ok']:
+-                    raise H.Refusal('hygiene protection evidence changed before merge')
+-                allowed = {'master', pr['headRefName']} | {w['branch'] for w in fresh['worktrees'] if w['branch'] and Path(w['path']).is_dir()}
+-                if any(b['name'] not in allowed for b in fresh['branches']):
+-                    raise H.Refusal('extra branches appeared before merge')
+-                stable()
+-                evidence = gh.evidence(number, report['head_sha'])
+-                state, reason = ci_state(evidence, report['head_sha'])
+-                report['final_ci'] = {'status': state, 'reason': reason, 'evidence': evidence}
+-                if state != 'PASS':
+-                    raise H.Refusal('final exact-head CI refused: ' + reason)
+-                gh.merge(number, report['head_sha'])
+-                report['merged'] = True
+-                report['status'] = 'MERGED_WITH_FAILURE'
+-                merged = gh.pr(number)
+-                sha = merged['mergeCommit']['oid']
+-                report['merge_sha'] = sha
+-                if merged['state'] != 'MERGED' or merged['headRefOid'] != report['head_sha'] or not re.fullmatch('[0-9a-f]{40}', sha):
+-                    raise H.Refusal('merge returned no valid exact-head merge commit')
+-                parent = gh.first_parent(sha)
+-                report['merge_first_parent'] = parent
+-                if parent != report['base_sha']:
+-                    report['status'] = 'MERGED_ON_MOVED_BASE'
+-                    raise H.Refusal('merged onto a moved base: first parent ' + parent + ' differs from recorded base ' + report['base_sha'])
+-                if gh.master() != sha:
+-                    raise H.Refusal('master tip differs from returned merge commit; post-merge CI not verified')
+-                return {'head_sha': report['head_sha'], 'merge_sha': sha, 'first_parent': parent, 'strategy': 'merge commit'}
+-            if check('merge', merge) is None:
+-                return report
+-            def master_ci():
+-                result = poll_ci(repo, gh, number, report['merge_sha'], report['base_sha'], wait_s, post=True)
+-                if gh.master() != report['merge_sha']:
+-                    raise H.Refusal('master moved during post-merge verification')
+-                return result
+-            if check('master_ci', master_ci) is None:
+-                return report
+-            def cleanup():
+-                value = H.hygiene(repo, gh, apply=True, lock=False)
+-                if not value['ok']:
+-                    raise H.Refusal('post-merge hygiene refused: ' + '; '.join(value['errors']))
+-                return value
+-            if check('post_hygiene', cleanup) is None:
+-                return report
+-            report['ok'] = True
+-            report['status'] = 'MERGED'
+-    except (H.Refusal, OSError) as error:
+-        report['errors'].append(str(error))
++            else:
++                def ready():
++                    stable()
++                    if pr['isDraft']:
++                        gh.ready(number)
++                    return 'ready; draft state changed only after all preconditions passed'
++                if check('ready', ready) is None:
++                    return report
++                def merge():
++                    stable()
++                    fresh = H.hygiene(repo, gh, apply=False)
++                    if not fresh['ok']:
++                        raise H.Refusal('hygiene protection evidence changed before merge')
++                    allowed = {'master', pr['headRefName']} | {w['branch'] for w in fresh['worktrees'] if w['branch'] and Path(w['path']).is_dir()}
++                    if any(b['name'] not in allowed for b in fresh['branches']):
++                        raise H.Refusal('extra branches appeared before merge')
++                    stable()
++                    evidence = gh.evidence(number, report['head_sha'])
++                    state, reason = ci_state(evidence, report['head_sha'])
++                    report['final_ci'] = {'status': state, 'reason': reason, 'evidence': evidence}
++                    if state != 'PASS':
++                        raise H.Refusal('final exact-head CI refused: ' + reason)
++                    differences = ci_differences(report['checks']['ci']['evidence']['samples'][-1], evidence)
++                    report['final_ci']['differences'] = differences
++                    if differences:
++                        raise H.Refusal('CI evidence changed before merge: ' + '; '.join(differences))
++                    response = gh.merge(number, report['head_sha'])
++                    report['merged'] = True
++                    report['merge_sha'] = response['sha']
++                    report['status'] = 'MERGED_WITH_FAILURE'
++                    merged = gh.pr(number)
++                    sha = report['merge_sha']
++                    if merged['state'] != 'MERGED' or merged['headRefOid'] != report['head_sha'] or merged['mergeCommit']['oid'] != sha:
++                        raise H.Refusal('merge returned no valid exact-head merge commit')
++                    parent = gh.first_parent(sha)
++                    report['merge_first_parent'] = parent
++                    if parent != report['base_sha']:
++                        report['status'] = 'MERGED_ON_MOVED_BASE'
++                        raise H.Refusal('merged onto a moved base: first parent ' + parent + ' differs from recorded base ' + report['base_sha'])
++                    if gh.master() != sha:
++                        raise H.Refusal('master tip differs from returned merge commit; post-merge CI not verified')
++                    audit = gh.evidence(number, report['head_sha'])
++                    differences = ci_differences(evidence, audit)
++                    state, reason = ('FAIL', 'CI evidence changed') if differences else ci_state(audit, report['head_sha'])
++                    report['head_ci_audit'] = {'status': state, 'reason': reason, 'evidence': audit,
++                                               'differences': differences}
++                    if differences or state != 'PASS':
++                        raise H.Refusal('post-merge head CI audit failed: ' +
++                                        ('; '.join(differences) if differences else reason) +
++                                        '; detection does not undo the merge')
++                    return {'head_sha': report['head_sha'], 'merge_sha': sha, 'first_parent': parent, 'strategy': 'merge commit'}
++                if check('merge', merge) is None:
++                    return report
++                def master_ci():
++                    result = poll_ci(repo, gh, number, report['merge_sha'], report['base_sha'], wait_s, post=True)
++                    if gh.master() != report['merge_sha']:
++                        raise H.Refusal('master moved during post-merge verification')
++                    return result
++                if check('master_ci', master_ci) is None:
++                    return report
++                def cleanup():
++                    value = H.hygiene(repo, gh, apply=True, lock=False)
++                    if not value['ok']:
++                        raise H.Refusal('post-merge hygiene refused: ' + '; '.join(value['errors']))
++                    return value
++                if check('post_hygiene', cleanup) is None:
++                    return report
++        report['ok'] = True
++        report['status'] = 'DRY_RUN_PASS' if dry_run else 'MERGED'
++    except Exception as error:
++        record_failure(report, error)
+     return report
+ 
+ 
+@@ -241,14 +294,15 @@
+     parser.add_argument('--ci-wait', type=float, default=480)
+     args = parser.parse_args()
+     repo = None
++    report = new_report(args.pr, not args.apply)
+     try:
+         deadline = H.Deadline(args.timeout)
+         if not math.isfinite(args.ci_wait) or not 0 < args.ci_wait <= 1200:
+             raise H.Refusal('CI wait must be finite and between 0 and 1200 seconds')
+         repo = H.Repo(Path(os.environ.get('LLMDB_ROOT') or Path.cwd()), deadline)
+-        report = gate(repo, H.Gh(repo, H.repository_name(repo)), args.pr, dry_run=not args.apply, wait_s=args.ci_wait)
+-    except (H.Refusal, ValueError, OSError) as error:
+-        report = {'ok': False, 'status': 'REFUSED', 'merged': False, 'merge_sha': None, 'errors': [str(error)], 'checks': {}}
++        gate(repo, H.Gh(repo, H.repository_name(repo)), args.pr, dry_run=not args.apply, wait_s=args.ci_wait, report=report)
++    except Exception as error:
++        record_failure(report, error)
+     report['command_evidence'] = repo.commands if repo else []
+     print(json.dumps(report, indent=2, sort_keys=True))
+     for name, value in report['checks'].items():
+--- a/tests/test_git_automation.py
++++ b/tests/test_git_automation.py
+@@ -1,6 +1,6 @@
+ """CPU/stdlib tests; every git mutation is confined to disposable fixtures."""
+ import ast
+-from contextlib import redirect_stderr, redirect_stdout
++from contextlib import contextmanager, redirect_stderr, redirect_stdout
+ import importlib
+ import importlib.util
+ import io
+@@ -103,6 +103,7 @@
+         self.draft = True
+         self.conflict = False
+         self.merge_sha = None
++        self.run_attempt = 1
+ 
+     def pr(self, number):
+         self.calls.append(('pr', number))
+@@ -128,10 +129,10 @@
+                 'pr_checks': [] if post else [{'name': 'cpu', 'state': 'SUCCESS' if state == 'PASS' else 'PENDING',
+                                                'bucket': 'pass' if state == 'PASS' else 'pending',
+                                                'workflow': 'CI', 'link': link}],
+-                'check_runs': [{'name': 'cpu', 'head_sha': sha, 'status': status,
++                'check_runs': [{'id': 102, 'updated_at': '2026-10-10T08:00:00Z', 'name': 'cpu', 'head_sha': sha, 'status': status,
+                                 'conclusion': conclusion, 'html_url': link}],
+                 'statuses': [],
+-                'runs': [{'databaseId': 101, 'headSha': sha, 'headBranch': 'master' if post else 'feature',
++                'runs': [{'databaseId': 101, 'run_attempt': self.run_attempt, 'updated_at': '2026-10-10T08:00:00Z', 'headSha': sha, 'headBranch': 'master' if post else 'feature',
+                           'event': 'push' if post else 'pull_request', 'workflowName': 'CI',
+                           'status': status, 'conclusion': conclusion, 'url': link}]}
+ 
+@@ -144,6 +145,7 @@
+         self.fixture.git('merge', '--no-ff', 'feature', '-m', 'fixture merge')
+         self.fixture.git('push', 'origin', 'master')
+         self.merge_sha = self.fixture.git('rev-parse', 'HEAD').strip()
++        return {'merged': True, 'sha': self.merge_sha}
+ 
+     def master(self):
+         return self.merge_sha or self.base
+@@ -561,7 +563,7 @@
+             self.fixture.git('push', 'origin', 'master')
+             advanced.append(self.fixture.git('rev-parse', 'HEAD').strip())
+             self.gh.base = advanced[0]
+-            original(number, sha)
++            return original(number, sha)
+         self.gh.merge = merge
+         report = self.gate(dry_run=False)
+         self.assertNotEqual(advanced[0], self.fixture.base)
+@@ -643,6 +645,120 @@
+         self.assertEqual(engine.read_bytes(), original)
+         self.assertFalse(self.gate()['ok'])
+ 
++    def run_cli(self):
++        out, err = io.StringIO(), io.StringIO()
++        with mock.patch.object(sys, 'argv', ['git_merge_gate.py', '21', '--apply']), \
++             mock.patch.object(self.H, 'Repo', return_value=self.repo), \
++             mock.patch.object(self.H, 'Gh', return_value=self.gh), \
++             mock.patch.object(self.H, 'repository_name', return_value='o/r'), \
++             mock.patch.object(self.H, 'cwd_inventory', return_value={}), \
++             redirect_stdout(out), redirect_stderr(err):
++            result = self.M.main()
++        return result, json.loads(out.getvalue()), err.getvalue()
++
++    def lock_exit_failure(self, error):
++        original = self.repo.lock
++        @contextmanager
++        def lock():
++            with original():
++                yield
++            raise error
++        with mock.patch.object(self.repo, 'lock', side_effect=lock):
++            code, report, stderr = self.run_cli()
++        self.assertEqual(code, 1, report)
++        self.assert_merged_failure(report)
++        self.assertEqual(report['checks']['post_hygiene']['status'], 'PASS')
++        self.assertIn(str(error), ' '.join(report['errors']))
++        self.assertNotIn('PASS: bounded merge gate complete', stderr)
++        self.assertIn(self.gh.merge_sha, stderr)
++
++    def test_lock_exit_oserror_cannot_finalize_success(self):
++        self.lock_exit_failure(OSError('lock close failed'))
++
++    def test_lock_exit_valueerror_preserves_merged_report_in_main(self):
++        self.lock_exit_failure(ValueError('lock exit invalid'))
++
++    def test_first_post_merge_pr_failure_keeps_response_sha(self):
++        original = self.gh.pr
++        def pr(number):
++            if self.gh.merge_sha:
++                raise self.H.Refusal('post-merge PR unavailable')
++            return original(number)
++        self.gh.pr = pr
++        code, report, _ = self.run_cli()
++        self.assertEqual(code, 1)
++        self.assert_merged_failure(report)
++        self.assertIn('post-merge PR unavailable', ' '.join(report['errors']))
++
++    def test_final_read_refuses_older_in_progress_run_on_same_head(self):
++        original = self.gh.evidence
++        def evidence(*args, **kwargs):
++            result = original(*args, **kwargs)
++            if not kwargs.get('post'):
++                old = dict(result['runs'][0], databaseId=100, status='in_progress', conclusion=None)
++                result['runs'].append(old)
++            return result
++        self.gh.evidence = evidence
++        report = self.gate(dry_run=False, wait_s=2)
++        self.assert_pre_merge_refusal(report)
++        self.assertIn('100', ' '.join(report['errors']))
++
++    def test_higher_run_attempt_after_initial_ci_refuses_before_merge(self):
++        original = self.H.hygiene
++        calls = []
++        def hygiene(*args, **kwargs):
++            result = original(*args, **kwargs)
++            calls.append(kwargs.get('apply', False))
++            if calls == [False, False]:
++                self.gh.run_attempt = 2
++            return result
++        with mock.patch.object(self.H, 'hygiene', side_effect=hygiene):
++            report = self.gate(dry_run=False)
++        self.assert_pre_merge_refusal(report)
++        self.assertIn('run_attempt', ' '.join(report['errors']))
++
++    def test_same_sha_rerun_between_final_read_and_merge_is_named(self):
++        original = self.gh.merge
++        def merge(number, sha):
++            self.gh.run_attempt = 2
++            self.gh.check_state = 'PENDING'
++            return original(number, sha)
++        self.gh.merge = merge
++        report = self.gate(dry_run=False)
++        self.assert_merged_failure(report)
++        self.assertIn('workflow run 101', ' '.join(report['errors']))
++        self.assertIn('run_attempt', ' '.join(report['errors']))
++        self.assertIn('does not undo', ' '.join(report['errors']))
++
++    def head_evidence_change_after_merge(self, change, expected):
++        original = self.gh.evidence
++        def evidence(*args, **kwargs):
++            result = original(*args, **kwargs)
++            if self.gh.merge_sha and not kwargs.get('post', False):
++                change(result)
++            return result
++        self.gh.evidence = evidence
++        report = self.gate(dry_run=False)
++        self.assert_merged_failure(report)
++        self.assertIn(expected, ' '.join(report['errors']))
++
++    def test_new_head_check_after_merge_is_named(self):
++        def change(e):
++            e['check_runs'].append(dict(e['check_runs'][0], id=303, name='external-check'))
++        self.head_evidence_change_after_merge(change, 'external-check')
++
++    def test_new_head_status_after_merge_is_named(self):
++        def change(e):
++            e['statuses'].append({'id': 201, 'context': 'legacy-ci', 'state': 'success',
++                'updated_at': '2026-10-10T08:01:00Z', 'url': 'https://api.github.com/repos/o/r/statuses/' + e['sha']})
++        self.head_evidence_change_after_merge(change, 'legacy-ci')
++
++    def test_changed_head_updated_at_after_merge_is_named(self):
++        self.head_evidence_change_after_merge(lambda e: e['runs'][0].update(updated_at='2026-10-10T08:01:00Z'), 'updated_at')
++
++    def test_changed_head_conclusion_after_merge_is_named(self):
++        self.head_evidence_change_after_merge(lambda e: e['check_runs'][0].update(conclusion='failure'), 'conclusion')
++
+     def test_merge_is_server_side_sha_guarded_and_post_ci_separate(self):
+         (self.fixture.root / 'unrelated-wip.txt').write_text('WIP')
+         report = self.gate(dry_run=False)
+@@ -734,6 +850,38 @@
+         self.assertTrue(callable(getattr(gh, 'first_parent', None)), 'missing exact-commit parent reader')
+         self.assertEqual(gh.first_parent(sha), base)
+         self.assertEqual(runner.run.call_args.args[0], ['gh', 'api', 'repos/o/r/git/commits/' + sha])
++
++    def test_rest_merge_adapter_returns_validated_response_sha(self):
++        runner = mock.Mock()
++        runner.run.return_value = subprocess.CompletedProcess([], 0, json.dumps({'merged': True, 'sha': 'b' * 40}), '')
++        result = self.H.Gh(runner, 'o/r').merge(21, 'a' * 40)
++        self.assertEqual(result, {'merged': True, 'sha': 'b' * 40})
++        self.assertEqual(runner.run.call_args.args[0], ['gh', 'api', '-X', 'PUT', 'repos/o/r/pulls/21/merge',
++            '-f', 'merge_method=merge', '-f', 'sha=' + 'a' * 40])
++
++    def test_rest_merge_adapter_refuses_bad_response_shape(self):
++        runner = mock.Mock()
++        for payload in ({'merged': False, 'sha': 'b' * 40}, {'merged': 'true', 'sha': 'b' * 40},
++                        {'merged': True, 'sha': 'bad'}, {'merged': True}, [], None):
++            with self.subTest(payload=payload):
++                runner.run.return_value = subprocess.CompletedProcess([], 0, json.dumps(payload), '')
++                with self.assertRaises(self.H.Refusal):
++                    self.H.Gh(runner, 'o/r').merge(21, 'a' * 40)
++
++    def test_evidence_adapter_preserves_attempt_dates_and_complete_inventories(self):
++        sha = 'a' * 40
++        run = {'id': 101, 'head_sha': sha, 'head_branch': 'feature', 'event': 'pull_request', 'name': 'CI',
++               'status': 'completed', 'conclusion': 'success', 'html_url': 'https://github.com/o/r/actions/runs/101',
++               'run_attempt': 2, 'updated_at': '2026-10-10T08:01:00Z'}
++        runner = mock.Mock()
++        runner.run.side_effect = [subprocess.CompletedProcess([], 0, json.dumps(data), '') for data in (
++            [], {'workflow_runs': [run]}, {'check_runs': [{'id': 102}]},
++            {'check_runs': [{'id': 102}, {'id': 103}]}, [{'id': 201, 'context': 'ci'}, {'id': 200, 'context': 'ci'}])]
++        evidence = self.H.Gh(runner, 'o/r').evidence(21, sha)
++        self.assertEqual(evidence['runs'][0]['run_attempt'], 2)
++        self.assertEqual(evidence['runs'][0]['updated_at'], run['updated_at'])
++        self.assertEqual([r['id'] for r in evidence['all_check_runs']], [102, 103])
++        self.assertEqual([r['id'] for r in evidence['all_statuses']], [201, 200])
+ 
+     def test_commit_parent_adapter_refuses_wrong_or_missing_evidence(self):
+         sha = 'a' * 40
+@@ -850,7 +998,8 @@
+     def test_gh_no_checks_exit1_is_not_started_instead_of_network_failure(self):
+         runner = mock.Mock()
+         runner.run.side_effect = [subprocess.CompletedProcess([], 1, '', 'no checks reported on branch feature\n'),
+-            subprocess.CompletedProcess([], 0, '[]', ''),
++            subprocess.CompletedProcess([], 0, '{"workflow_runs": []}', ''),
++            subprocess.CompletedProcess([], 0, '{"check_runs": []}', ''),
+             subprocess.CompletedProcess([], 0, '{"check_runs": []}', ''),
+             subprocess.CompletedProcess([], 0, '[]', '')]
+         gh = self.H.Gh(runner, 'o/r')

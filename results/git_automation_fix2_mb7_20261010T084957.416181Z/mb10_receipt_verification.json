@@ -1,0 +1,12 @@
+{
+  "verified": true,
+  "checks": [
+    "source hashes match accepted suites and saved snapshot",
+    "report and both diffs persist with recorded hashes",
+    "cooperative paragraph retained verbatim",
+    "all required exit receipts equal zero",
+    "context save exists",
+    "branch unchanged",
+    "sampled protected hashes unchanged"
+  ]
+}
