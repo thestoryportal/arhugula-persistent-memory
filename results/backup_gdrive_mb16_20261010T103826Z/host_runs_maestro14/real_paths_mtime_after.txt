@@ -1,0 +1,18 @@
+stat: /Users/robertrhu/Applications/MemitGdriveBackup.app: stat: No such file or directory
+Sep 14 20:27:27 2026 /Users/robertrhu/Library/LaunchAgents/ai.openclaw.export-processor.plist
+Sep 25 11:37:13 2026 /Users/robertrhu/Library/LaunchAgents/com.citrix.CitrixEpaAgent.plist
+Sep 10 23:48:15 2026 /Users/robertrhu/Library/LaunchAgents/com.google.GoogleUpdater.wake.plist
+Sep 10 23:48:16 2026 /Users/robertrhu/Library/LaunchAgents/com.google.keystone.agent.plist
+Sep 10 23:48:16 2026 /Users/robertrhu/Library/LaunchAgents/com.google.keystone.xpcservice.plist
+Sep 14 20:27:27 2026 /Users/robertrhu/Library/LaunchAgents/com.rhu.extract.plist
+Sep 14 20:27:27 2026 /Users/robertrhu/Library/LaunchAgents/com.rhu.graphify.refresh.plist
+Oct  8 17:56:04 2026 /Users/robertrhu/Library/LaunchAgents/com.rhu.memit-backup.plist
+Sep 14 20:27:27 2026 /Users/robertrhu/Library/LaunchAgents/com.rhu.pipeline.plist
+Sep 14 20:27:27 2026 /Users/robertrhu/Library/LaunchAgents/com.rhu.pixeltable.derived.plist
+Sep 14 20:27:27 2026 /Users/robertrhu/Library/LaunchAgents/com.rhu.pixeltable.intake.plist
+Sep 14 20:27:27 2026 /Users/robertrhu/Library/LaunchAgents/com.rhu.pixeltable.overnight.plist
+Sep 14 20:27:27 2026 /Users/robertrhu/Library/LaunchAgents/com.rhu.pixeltable.refresh.plist
+Oct  7 16:44:39 2026 /Users/robertrhu/Library/LaunchAgents/com.rhu.tailscaled-user.plist
+Sep 14 20:27:27 2026 /Users/robertrhu/Library/LaunchAgents/org.thestoryportal.harness-dashboard-sync.plist
+Sep 14 20:27:27 2026 /Users/robertrhu/Library/LaunchAgents/org.thestoryportal.harness-dashboard.plist
+Sep 14 20:27:27 2026 /Users/robertrhu/Library/LaunchAgents/org.thestoryportal.powerline-config.plist

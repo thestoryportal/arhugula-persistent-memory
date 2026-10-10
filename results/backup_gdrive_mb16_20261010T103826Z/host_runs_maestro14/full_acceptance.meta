@@ -1,0 +1,4 @@
+start 2026-10-10T17:50:04Z
+cmd: env -u BACKUP_TEST_NO_RCLONE -u BACKUP_TEST_RECEIPTS LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum tools.test_backup_gdrive -v
+exit=0
+end 2026-10-10T17:51:50Z
