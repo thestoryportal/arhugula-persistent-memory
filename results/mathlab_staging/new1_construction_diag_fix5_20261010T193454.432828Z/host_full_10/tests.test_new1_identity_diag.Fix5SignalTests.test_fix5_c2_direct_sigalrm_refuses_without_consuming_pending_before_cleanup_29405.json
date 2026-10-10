@@ -1,0 +1,42 @@
+{
+  "before": {
+    "mask": [
+      14
+    ],
+    "pending": [
+      14
+    ],
+    "handlers": {
+      "2": "<built-in function default_int_handler>",
+      "14": "<Handlers.SIG_DFL: 0>"
+    },
+    "timer": [
+      0.0,
+      0.0
+    ]
+  },
+  "after": {
+    "mask": [
+      14
+    ],
+    "pending": [
+      14
+    ],
+    "handlers": {
+      "2": "<built-in function default_int_handler>",
+      "14": "<Handlers.SIG_DFL: 0>"
+    },
+    "timer": [
+      0.0,
+      0.0
+    ]
+  },
+  "calls": [],
+  "python_return": null,
+  "exception": "INVALID-ENFORCEMENT: caller blocks SIGALRM or SIGINT",
+  "elapsed_s": 0.00020683277398347855,
+  "directory_exists": false,
+  "output": [],
+  "stdout": "",
+  "stderr": ""
+}

@@ -17,3 +17,7 @@ Step 3 is complete: 20/20 solo, 3/3 full. Step 4 (`fix5_inherited_mask_launch_01
 
 One run, 20:09:30Z, rc 0, quiet host (after the Drive suite finished). Receipts are in `../fix5_inherited_mask_launch_01/`.
 Before exec: mask `[2,14]`, pending `[2,14]`. The fresh interpreter entered with the same mask and pending set and never reset the mask. Construction main refused at preflight with `INVALID-ENFORCEMENT: caller blocks SIGALRM or SIGINT`, Python return 2 and native exit 2. It made no calls, took no ownership and produced no output files. Mask, pending set, handlers and timer were identical before and after. Parent time was 0.000228 s (bar < 0.3 s). The loaded source hashes `744f0633…` / `919b3a11…` match the candidate. PASS.
+
+## Step 5 — host bar (`build_report.md:122–123`), 20:09:40–20:13:45Z
+
+`shasum -c` 14/14 OK before and after. `run_checks.py solo --count 100 --label host_solo_100`: 100/100 ok, no FAILED, `Warning:` or `Exception ignored` in any log. `run_checks.py full --count 10 --label host_full_10`: 10/10 × 205 OK, 0 warnings, 0 ignored exceptions. Host bar MET. Real-diagnostic approval is a separate operator decision and is not granted by this run.
