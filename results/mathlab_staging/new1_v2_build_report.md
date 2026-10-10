@@ -221,3 +221,151 @@ The independent GPT-6-Astra fallback review is preserved in `G/final_advisor_rev
 **Handoff:** B2 implementation and all requested verification are complete; no test, implementation or reviewer is in flight. Exact sources, evidence location, commands, current hashes and limits are above. Workspace-local `/context-save` snapshot: `results/mathlab_staging/new1_v2_build_evidence/mb3_20261009T233356Z_b2/checkpoints/20261009-235859-new1-b2-complete.md`. MAESTRO owns any formal follow-up review and separately authorized real execution with fresh admission. Preserve all historical RED/failure receipts and the physical `/private/tmp` evidence directory. Do not resume MathLab/step 4 from an older snapshot or infer permission to execute NEW1 from build completion.
 
 **Context rule, binding through every handoff:** watch **Context N% left**; before approximately **20%**, stop starting new work, write done / in-flight / exact paths / next step / open risks into the task report, and say so for a fresh successor session. Never approach full-window compaction. Every handoff restates this rule.
+
+## 2026-10-10 UTC — MB3: NEW1 LAB-STOP launch diagnosis (read-only)
+
+**Status: NEW1 LABSTOP DIAG DONE · launch-policy scope defect confirmed · code repair NOT APPLIED · proposed RED tests NOT RUN · no geometry, launches, tests or commits by this diagnosis.** This section is a diagnosis of MAESTRO2's recorded refused launch, not a geometry result or execution approval. The map cell remains Write Engine §8 / §8.9 L2 post-write firing; geometry is only a mechanism proxy, never behavioral/F1 closure (`docs/NEW1_ADAPTER_GEOMETRY_PREREG.md:7–9,83`). MathLab remains STOPPED and its true step 4 remains SHELVED.
+
+### 1. Frozen intent: independent NEW1 study, shared CPU admission
+
+**Answer: NEW1 must obey the incorporated fail-closed CPU admission and its own frozen execution gates; it must not inherit MathLab's calibration-FAIL scientific stop.** The primary sources distinguish these obligations:
+
+| Authority | Exact rule and implication |
+|---|---|
+| `docs/NEW1_ADAPTER_GEOMETRY_PREREG.md:3` | FROZEN v2 / D-NEW1-1; real execution requires a reviewed, verified supervisor build and separate authorization. |
+| `docs/NEW1_ADAPTER_GEOMETRY_PREREG.md:29,43` | NEW1 pins harvest 1's A7 updates, never harvest 2 or combined identities; its own source/projector/arithmetic validity must pass. Harvest-1 mint ineligibility is not a veto on the separately pinned A7 geometry. |
+| `docs/NEW1_ADAPTER_GEOMETRY_PREREG.md:113` | “Before numerical imports, require the fail-closed CPU admission contract of MATHLAB_PREREG §6.” The same paragraph requires a NEW1-specific supervisor, 13-GiB covariance-SVD admission, 300-s waits within 1,800 s, observed RSS/floor stops, and monitoring refusal. It does not say to import MathLab §8's calibration stop. |
+| `docs/MATHLAB_PREREG.md:274–279` | The incorporated CPU-admission contract refuses probe/inventory errors and autoresearch; the coordinator-tail exception needs complete inventories and exact lead-written PID/command/status-file/hash evidence. |
+| `docs/MATHLAB_PREREG.md:296–303` | MathLab's separate §8 stops its lab on gate-2a failure, calibration FAIL, or repeated harvest HALTs. |
+| `CORPUS/60_MATHLAB_HARVEST_REPLAY.md:128,132–134` | D-ML-4 shelves true MathLab step 4, while **“NEW-1 continues separately and is not falsified or automatically shelved.”** It retains independent build/execution gates and its own calibration/prospective-utility requirement for queue use. |
+| `EXPERIMENT_RUNBOOK.md:107,431,433` | D-NEW1-1 continues separately; harvest-2 calibration FAIL does not automatically shelve it. These rows distinguish the frozen NEW1 study from D-ML-4's shelved lab continuation. |
+
+NEW1's §7 still prevents proxy-driven queue action without its own calibration and demonstrated prospective utility (`docs/NEW1_ADAPTER_GEOMETRY_PREREG.md:135`). Separating descriptive execution from the failed lab calibration grants no queue utility, route closure, or F1 verdict.
+
+### 2. Recorded refusal and causal path
+
+**EVIDENCE-SHOWS:** `results/mathlab_staging/new1_run_20261010T014247Z.log:1` is `LAB-STOP`. The three-line authoritative stream `results/mathlab_staging/runs/new1_20261010T014248.014387Z/events.jsonl` records:
+- **:1:** NEW1 `run_started`, numeric step **4**, purpose experiment, at **01:42:48.014707Z**.
+- **:2:** a resource sample, available **35.14857482910156 GiB**, before CPU admission.
+- **:3:** `halted` at **01:42:48.103767Z**, reason **“LAB-STOP: LAB-STOP: frozen calibration failed; an amendment and new calibration arms are required”**.
+
+Its `receipts/halt_9d02244cc5144e728c4e5ee5d95efbcc.json:4–7` records code LAB-STOP and prediction verdict NOT COMPUTED. The criteria receipt `receipts/criteria_886691752d0e4323be96edbae8a16c1d.json:5` pins the unchanged NEW1 SHA `eaf7bc21e1ac2cabc5f16703ce5b712debfdad80163f170fe20c99969c024741`.
+
+The current call order explains that exact refusal:
+1. NEW1 starts and samples resources; its default admission path is invoked before geometry staging or worker dispatch (`tools/new1_supervisor.py:290–309,414–418`).
+2. `cpu_admission()` calls **`R.enforce_stop_policy(ROOT, 4, exclude=run_dir)`** before `A.probe('cpu', lead)` (`:164–168`).
+3. The shared policy scans **all** `results/mathlab_staging/runs/*/events.jsonl`; its historical step-3 FAIL/calibration-FAIL test is unconditional with respect to the requested step (`tools/mathlab_runtime.py:257–266`).
+4. The registered harvest-2 m3 stream has terminal FAIL (`CORPUS/60_MATHLAB_HARVEST_REPLAY.md:124`), so that policy raises LAB-STOP before the CPU probe. NEW1 records the refusal and returns its code through its existing halt handler (`tools/new1_supervisor.py:386–399`).
+
+No geometry stage, worker logs, prediction events, finding or terminal outcome exists in this refused namespace. The recorded refusal is an admission-policy scope defect, not a failed geometric prediction. Its 35-GiB sample does **not** establish successful CPU admission, GPU coexistence, or workload feasibility: `A.probe()` was not reached.
+
+Alternative explanations checked: (a) intended inheritance of lab calibration is contradicted by the explicit CORPUS/runbook disposition; (b) a real inventory/memory admission failure remains UNVERIFIED because that probe was never reached; (c) the numeric step collision is real, but cannot alone explain or cure the unconditional historical calibration check. This diagnosis preserves the refused run and all its receipts.
+
+### 3. Minimal future repair and rules that remain
+
+**Recommendation: replace NEW1's lab-wide historical stop check with a NEW1-scoped retry check; keep `A.probe('cpu', lead)` and the existing NEW1 supervisor/worker controls.** Confine the launcher repair to `tools/new1_supervisor.py` and its regression tests. Leave MathLab's `enforce_stop_policy()` unchanged for its actual lab callers. Do not catch-and-ignore LAB-STOP: its early raise would skip the rest of the historical checks, including retry protection.
+
+The retry distinction matters. MathLab §6's **Limits on aborts** is a separate memory paragraph (`docs/MATHLAB_PREREG.md:284`), rather than the CPU-admission subsection. NEW1's narrow reference to the admission contract does not unambiguously incorporate every §6 provision. **EVIDENCE-SHOWS:** the current code nevertheless imposes an existing operator guard once **three prior resource/deadline-aborted runs** share the numeric step (`tools/mathlab_runtime.py:272–279`). **I-INFER / conservative repair recommendation:** preserve that implemented protection for NEW1, scoped to NEW1 history; do not silently delete it or manufacture a scientific calibration prerequisite.
+
+Use the producer's declared `new1_*` run namespace (`tools/new1_supervisor.py:410`) and validated NEW1 `run_started` identity/title/purpose to select its history. Exclude the current run; reject missing/malformed/contradictory relevant history; count each prior NEW1 run with STOPPED-RESOURCE or STOPPED-DEADLINE once; after three, refuse another launch with **OPERATOR**. Unrelated m3 calibration failures, lab gate-2a failures, harvest HALTs and true lab-step-4 resource aborts must not be counted as NEW1 scientific/retry history. No second status file or automatic retry is needed. Explicit study identity in the shared contract is the longer-term fix for ambiguous legacy step numbering.
+
+The following gates remain binding:
+
+| Keep | Frozen source / current enforcement |
+|---|---|
+| FROZEN v2 hash, reviewed enforcement, separate execution instruction, fresh namespace | NEW1 `:3,109`; supervisor `:65–72,266–269,405–418` |
+| Fail-closed CPU admission, engine/prereg fingerprint and valid lead exception evidence | NEW1 `:113`; MathLab `:274–279`; `tools/mathlab_admit.py:29–71` |
+| **1,800 s total** from before admission/hashing/imports; **300 s maximum cell wait** within that same budget | NEW1 `:113,115`; supervisor `:177–184,210–236,290` |
+| Every fixed heavy-cell reserve; **8 GiB + reserve**, including **13 GiB before covariance SVD** | NEW1 `:113,117–126`; supervisor `:28–29,210–236` |
+| Stop on **observed worker-family RSS >6 GiB**, **available memory <6 GiB**, or invalid/failed monitoring; terminate isolated worker group | NEW1 `:113–115`; supervisor `:124–161,186–203,279–287,387–395` |
+| No numerical import before admission/acknowledgement; CPU only, eight threads, niceness; no direct-worker or reserve bypass | NEW1 `:109,115`; supervisor `:306–312,411–412` |
+| All pinned sources, five layers, parity/numerical controls and statistical-validity rules | NEW1 `:29,43,51,79`; geometry implementation stays untouched |
+| Durable terminal commitment, partial diagnostics, and no prediction verdict on STOPPED/refusal/I/O failure | NEW1 `:128,131`; the preceding MB3 B2 repair remains intact |
+| Existing repeated resource/deadline-abort operator guard, scoped to NEW1 | Current runtime `:274–279`; recommendation above, without asserting an explicit NEW1-specific freeze of that threshold |
+| No geometry-driven queue action without its own calibration and prospective utility | NEW1 `:135`; CORPUS/60 `:132` |
+
+### 4. Test-first reproduction proposal — NOT RUN
+
+The approved next implementation round should put the following regression in the existing `SupervisorTests` class **before production edits**. It exercises the real `cpu_admission()` and real historical stop reader; only the external CPU probe is controlled. Its positive control proves that the seeded m3 FAIL remains a genuine MathLab stop. It uses only temporary synthetic event records, no real operands or worker.
+
+```python
+def test_new1_cpu_admission_is_separate_from_lab_calibration_stop(self):
+    from tools import mathlab_admit as A, mathlab_events as E
+    from tools import mathlab_runtime as R
+
+    lab = self.root / 'results/mathlab_staging/runs/m3_failed_fixture'
+    E.emit(lab, 'run_started', step=3, title='MathLab calibration fixture',
+           deadline_ts='2026-10-10T02:12:48Z', pid=1, purpose='experiment')
+    E.emit(lab, 'gate_result', gate_id='calibration',
+           plain_words='Frozen calibration fixture', observed='FAIL',
+           bar='PASS', comparison='meets', passed=False)
+    E.emit(lab, 'run_finished', outcome='FAIL',
+           summary='Fixture calibration failed')
+    decision = {'allowed': True, 'reasons': []}
+
+    with mock.patch.object(self.S, 'ROOT', self.root), \
+         mock.patch.object(A, 'probe', return_value=decision) as probe:
+        with self.assertRaises(R.Halt) as stopped:
+            R.enforce_stop_policy(self.root, 4, exclude=self.run)
+        self.assertEqual(stopped.exception.code, 'LAB-STOP')
+        self.assertIn('frozen calibration failed', str(stopped.exception))
+        actual = self.S.cpu_admission(self.run)
+
+    self.assertEqual(actual, decision)
+    probe.assert_called_once_with('cpu', None)
+```
+
+**Expected RED on current code:** the final actual `cpu_admission()` call raises `R.Halt('LAB-STOP', ...)` before the mocked probe is called. **Expected GREEN after the scoped repair:** NEW1 reaches the allowed probe while the direct MathLab positive control still raises. This is a proposed test and predicted behavior, **not an executed RED/GREEN receipt**; the existing real refusal is the observed reproduction.
+
+Before declaring a future repair done, also cover:
+- Three prior NEW1 STOPPED-RESOURCE/STOPPED-DEADLINE runs yield OPERATOR; fewer than three do not trigger that guard.
+- Three unrelated true MathLab step-4 aborts do not consume NEW1's retry budget; malformed relevant NEW1 history refuses.
+- An actual CPU-probe refusal still produces INVALID-ADMISSION and no worker dispatch; probe/inventory errors and bad lead evidence remain unconditional refusals.
+- The unchanged NEW1 deadline, cell-wait, reserve/RSS/floor/monitoring, source/numerical and B2 publication regressions still pass; no cap or verdict rule changes.
+
+The current `test_default_admission_obeys_parent_lab_stop_policy` (`tests/test_new1_supervisor.py:274–279`) mocks the policy itself and asserts the miscoupling. Replace it with the explicit separation and NEW1 retry/refusal cases, preserving resource guards. Its mocked “third abort” LAB-STOP code differs from the actual repeated-abort code **OPERATOR**. Most successful fixtures inject `admission=lambda` or mock `cpu_admission` (`:128,195,453`), which explains why earlier fixture GREEN could coexist with this real launch refusal.
+
+### 5. Numeric step 4 collision
+
+**Yes: there is both a semantic/display collision and a numeric retry-bucket collision.** NEW1 emits `step=4` (`tools/new1_supervisor.py:291`), while the shelved MathLab step 4 means candidate questions/autonomous offline diagnostics (`docs/MATHLAB_STEP4_PREREG.md:1–7`). The current event schema allows only **1–4** (`tools/mathlab_events.py:44`) and has no study identifier. Its pure fold assigns run state/outcome to that numeric plan slot (`:232,244–254,283–286,320–322`); the team dashboard names slot 4 **“Candidate questions”** (`tools/dashboard_mathlab.py:12–17,215–219`). LabViz scans the same run directory and hardcodes these cards' experiment context to D-ML-1 (`tools/labviz/cards.py:828–839,868`). This is static source evidence; neither dashboard was built or rendered here.
+
+The physical run directories and events remain distinct; no evidence has been merged or overwritten. The current refusal is a NEW1 halt, not proof that true MathLab step 4 ran. Nonetheless, a future completed NEW1 run would populate the lab-labelled step-4 slot, and numeric-only abort counting cannot distinguish the two studies.
+
+**Do not “fix” this by renumbering to 5:** schema 1 rejects it, and the calibration veto is unconditional anyway. Keep historical events unchanged. A reviewed future representation should distinguish study identity (legacy MathLab versus NEW1) in event validation/folding and its consumers, or use a separate NEW1 run/view namespace. That observability work is larger than the admission scope repair and is not implemented or silently bundled here. The shelved MathLab study must remain visibly shelved regardless of NEW1 status.
+
+### Audit and saved handoff
+
+GPT-6-Astra independently reviewed this diagnosis read-only and returned **FIX-FIRST**: the calibration coupling is wrong; preserve and scope the existing retry guard. Its review ran no tests and changed no files. Primary document/source/record evidence binds the recommendation.
+
+Only this report is authored in this diagnosis. The original **39485-byte** report prefix is preserved, SHA-256 **`6b0468295c998db3b731d942d113894affc1d6b9a35e00541709b92d2890920a`**. The following before/after hash inventory was checked unchanged during the append; it includes code/tests, both frozen preregs, the shelved draft, canonical source records, and all three refusal receipts. No experiment/test, model/numerical import, GPU/MPS action, launch, code edit, dependency install, queue action or mutating git operation was performed.
+
+```json
+{
+  "tools/new1_supervisor.py": "9f316f5613c0ed32c8f53ad8a4a209b0f1097bc45007d49b46cd2c5854cf2505",
+  "tools/mathlab_runtime.py": "416b597c1309f7dcabb065749e05da9ce28743b1d16c9791ae1eed527a4a72c5",
+  "tools/mathlab_admit.py": "bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc",
+  "tools/mathlab_events.py": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+  "tools/new1_geometry.py": "ca51ab89d3b2003107fc04da8c8297bb360c58b6751c514a93a5761a7d2e6523",
+  "tests/test_new1_supervisor.py": "b024ed17015fca7b193840d01bd5c3db8ed4a4a2d17b487f698b3b8805b97317",
+  "tests/test_new1_geometry.py": "ad79af6e3db8aa6d2aad9b58b3306fa555876353c57fc20b567d5d8447db21eb",
+  "tools/test_dashboard_mathlab.py": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e",
+  "tools/labviz/test_mathlab.py": "4398d409c5d5a4a9d1a976c3f421913be8619c2f5dad7539864efb9812d7ffd5",
+  "mathlab/test_mathlab.py": "2b111cd5751f1d1115d2186d8c7d5ac59be329e9700dcefc3c60029ee5a1da76",
+  "tools/labviz/cards.py": "4eb680cead0b2eedfd452f223accf2b7365d8885ea9a651d7e542a4455089133",
+  "tools/dashboard_mathlab.py": "ba5235dd5ffd13af7f7c04e58dc0fd8b8f76302fc40a89c0247fb52114297fc7",
+  "docs/NEW1_ADAPTER_GEOMETRY_PREREG.md": "eaf7bc21e1ac2cabc5f16703ce5b712debfdad80163f170fe20c99969c024741",
+  "docs/MATHLAB_PREREG.md": "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8",
+  "docs/MATHLAB_STEP4_PREREG.md": "ae855d7a69ccb07db477bfac1720cc127881bc2331e37f3ec57aef6d28e1c510",
+  "CORPUS/60_MATHLAB_HARVEST_REPLAY.md": "3d14dd35bb12c463b3f89f975b17f983101e9b7314b9872ad79c924db381c0b4",
+  "EXPERIMENT_RUNBOOK.md": "8e578c34132d1c2730bb9323de3b8cdd785b8131e233186a58417d419e19c1bd",
+  "results/mathlab_staging/new1_run_20261010T014247Z.log": "534fea4d97b5bff2cbd13f2804e3406ebcdab0974bb3c0f82ba3484ae206948b",
+  "results/mathlab_staging/runs/new1_20261010T014248.014387Z/events.jsonl": "6b3579d07fe5398284b5d0fc467955d6def1a78619333f3c026184253982d6c3",
+  "results/mathlab_staging/runs/new1_20261010T014248.014387Z/receipts/criteria_886691752d0e4323be96edbae8a16c1d.json": "fb1e50382df2fa0230f7524a8e841b62745b9dc963cabb4dc97f35229059f44d",
+  "results/mathlab_staging/runs/new1_20261010T014248.014387Z/receipts/halt_9d02244cc5144e728c4e5ee5d95efbcc.json": "5c6d61d5d25921e8b2e82eb159cda41772f93c2ff7793262b42ee3eaab00a594",
+  "results/mathlab_staging/runs/new1_20261010T014248.014387Z/receipts/resource_175a4c8bf55a4c31b022a9137846c2f7.json": "a4eb768e59a1daddb64fc94042faca12df1d3d7bba3b1a94aee6427a75e05857"
+}
+```
+
+**Saved context / handoff:** diagnosis complete; no implementation, test or review is in flight. Root: `/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a`; branch: `worktree-c10k-route-a`; inspected HEAD: `65e466aab117658f2eed00dc2a2806e70e80bf10`; snapshot: `2026-10-10T01:50:45.870923+00:00`. This appended section is the in-scope context-save record for the diagnosis. Exact refusal artifacts, repair surface and proposed RED sequence are above. Next belongs to MAESTRO2: decide the scoped implementation instruction; if authorized, reproduce RED before editing, retain independent resource/retry safeguards, then request review before any separately authorized fresh launch. Preserve the refused namespace; never append a retry into it. CPU admission, full-workload feasibility and real geometry remain **NOT RUN / UNVERIFIED** in this diagnosis. The prior B2 evidence symlink still resolves into `/private/tmp/new1_mb3_20261009T233356Z_b2_evidence`; retain/archive that physical directory before cleanup.
+
+**Context rule, binding through every handoff:** watch **Context N% left**; before approximately **20%**, stop starting new work, write done / in-flight / exact paths / next step / open risks into the task report, and say so for a fresh successor session. Never approach full-window compaction. Every handoff and every team session restates and carries this rule.
