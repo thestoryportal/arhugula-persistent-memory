@@ -30,3 +30,6 @@ Locality gates for pass 3: A1, A2, L1, L3, perplexity (+0.04 ≤ 0.5) and the sa
 - The harness gains a reusable, audited seam for aiming edits at supplied targets (F-T3), scoped to this path.
 - Not written here, by the advisor's instruction: "the direction reading was wrong"; "any supplied target"; "unchanged" for axes that moved within gates; any CORPUS/44–48 label change; contract evidence; F1 change. C10 OPEN/BLOCKING.
 - Limitations: one process; N = 24; one model (D-C10k-rulings-2); fp16 MPS; the described_as miss is 0.08 on a 3.0 gate and the gain 8 on a 10 margin — both inside the per-process spread, so neither is a strong signal either way.
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

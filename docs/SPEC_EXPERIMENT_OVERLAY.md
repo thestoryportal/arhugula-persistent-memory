@@ -63,3 +63,13 @@
 _This overlay is a living tracker. Keep it current as part of the experiment close-out set (DISCIPLINE §1.1). Pointers, not copies — full detail in the cited `CORPUS/NN` / decision docs._
 
 | **§E / §G — context management and consolidation (lead, not evidence)** | A model that manages its own context as an editable file (Context Language Models, arXiv 2609.37725) is a candidate design for the read side and the overlay → anchor lifecycle | lead only (S-CLM-context in the register, 2026-10-06); no experiment; no bearing on C10 |
+
+
+## 2026-10-10 — Projector-fidelity warning pointer (D-NEW1-fid)
+
+| Decision | Scope | Detailed source |
+|---|---|---|
+| D-NEW1-fid ⟨D-NEW1-fid@341707a8⟩ | Write Engine / C10 §8.9 mechanism qualifier; F1 unchanged; actual projector/leakage/locality UNMEASURED | [B measurement report — D-NEW1-fid warning](../results/mathlab_staging/new1_v2_build_report.md#d-new1-fid) |
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

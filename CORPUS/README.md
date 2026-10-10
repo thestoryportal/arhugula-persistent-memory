@@ -72,3 +72,13 @@ D-ML-1 ⟨D-ML-1@46230e48⟩ **STOPPED — calibration FAIL**; D-ML-4 ⟨D-ML-4@
 D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ **DONE — UNDERFIT-LARGE-WRITE-SUBJECT-FREE-STAGE1** (inconclusive under this solve budget; terminal under current authorization), Astra CONFIRM → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.
 
 D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩: preparation/admission preserved; current continuation CLOSED by D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.
+
+
+## 2026-10-10 — Projector-fidelity warning pointer (D-NEW1-fid)
+
+| Decision | Scope | Detailed source |
+|---|---|---|
+| D-NEW1-fid ⟨D-NEW1-fid@341707a8⟩ | CORPUS/44 addendum; original behavioral verdicts unchanged; actual projector/leakage/locality UNMEASURED | [B measurement report — D-NEW1-fid warning](../results/mathlab_staging/new1_v2_build_report.md#d-new1-fid) |
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

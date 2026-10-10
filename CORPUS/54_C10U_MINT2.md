@@ -87,3 +87,6 @@ Do not re-run step 3 under the same design. If arm B is to be read, the fit scre
 Cheapest overturning control (Astra), candidate only: before claiming robustness, preregister one fixed mint-1 seed plus its multi reference on a newly sampled context set with regenerated targets and unchanged science code, and test the same LEAD and locality gates. It bears on the write-path diagnostic and closes neither H-19 nor F1. No run or adoption is implied (results/c10u_mint2_r3_verdict_astra.md:39).
 
 _Verdict sentence merged from the GPT-6-Astra and advisor verdict reviews (results/c10u_mint2_r3_verdict_astra.md:41–43; results/c10u_mint2_r3_verdict_advisor.md:119–121) and adopted by the program session under D-C10r-rulings-9._
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

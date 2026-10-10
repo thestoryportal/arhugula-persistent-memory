@@ -1,0 +1,18 @@
+--- before/docs/HYPOTHESIS_REGISTER_2026-06-18.md
++++ after/docs/HYPOTHESIS_REGISTER_2026-06-18.md
+@@ -398,3 +398,15 @@
+ | H-Z1 | TESTED, advancement failed for the frozen configuration; builds-on the C10 recipe-A reference; would-advance C10 §8.9 L2; no further experiment authorized | D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md |
+ | H-Z2 | OPEN / NOT ESTABLISHED because FIT failed; builds-on the canonical-fit/held-out-miss hypothesis; would-advance mechanism discrimination, not F1 closure by itself | D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md |
+ | H-Z3 | PARTIAL, scoped locality/subject-free violations observed; causal attribution unrun; builds-on the preregistered spillover risk; would-advance clean behavioral writes | D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md |
++
++
++## 2026-10-10 — Native-fp32 projector fidelity (D-NEW1-fid)
++
++**H-PROJECTOR-FID — OPEN; warning RECORDED under D-NEW1-fid ⟨D-NEW1-fid@341707a8⟩.** Does the native below-cutoff recipe (`mathlab/core.py:44–48`) protect the relevant update directions faithfully relative to a higher-accuracy decomposition of the stored fp32-normalized covariance? The L4 measurement admits **one more allowed / one fewer excluded dimension** natively: **2,363 vs 2,364 excluded** (8,645 vs 8,644 allowed); sorted one-based rank 2,364 has sigma **0.0049956 fp32 vs 0.0050072 float64**. This is **not proof of a misclassified tracked direction**. Unequal-rank **ideal orthogonal** projectors have operator distance **1**; the actual rounded native projector's distance, update-weighted leakage and locality effects are **UNMEASURED**. Historical “null-space share” is qualified append-only; behavioral verdicts and F1 status do not change.
++
++| Hypothesis | Builds-on / would-advance | Detailed source and disposition |
++|---|---|---|
++| H-PROJECTOR-FID | CORPUS/44 native-projector instrument and the L4 B receipt; would advance Write Engine / C10 §8.9 mechanism validation, without behavioral or F1 closure | [B measurement report — D-NEW1-fid warning](../results/mathlab_staging/new1_v2_build_report.md#d-new1-fid); OPEN for actual-projector/update-weighted/locality measurement; any such run requires separate authorization |
++
++
++⟨D-C10l-covgeom@0caeca4f⟩

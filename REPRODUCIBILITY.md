@@ -90,3 +90,13 @@ Pre-reorganization snapshot (2026-06-18) at `/root/migration_backup/`: `manifest
 | **C10P two-pass solve (M3 Pro)** | `LAW3_REF=<covgeom run JSON> python experiments/track_c/c10p_twopass_arms.py` (three passes; outputs under results/c10p_twopass/) ; read with `c10p_twopass_read.py results/c10p_twopass` | yes (MPS) | `results/c10p_twopass/` (CORPUS/49; D-C10p-twopass ⟨D-C10p-twopass@12f87dc3⟩) |
 | **C10Q stacked two-pass solve (M3 Pro)** | `LAW3_REF=<covgeom run JSON> python experiments/track_c/c10q_stacked_arms.py` (three passes S / S-sham / S-perm; outputs under results/c10q_stacked/) ; read with `c10q_stacked_read.py results/c10q_stacked` | yes (MPS) | `results/c10q_stacked/` (CORPUS/50; D-C10q-stacked ⟨D-C10q-stacked@8e5c7f12⟩) |
 | **C10X engine-path target construction (M3 Pro)** | `python -B experiments/track_c/c10x_enginepath_arms.py --out <abs OUT_DIR> --go <abs go record> --process 1` (absolute paths required; a re-run adds `--predecessor <abs dir> --cause <CAUSE>`); read with `python -B experiments/track_c/c10x_enginepath_read.py --out <abs OUT_DIR>` (exit 0 does not by itself mean VALID — read `status`) | yes (MPS) | `results/c10x_enginepath_rerun3/` (CORPUS/58; D-C10x-enginepath ⟨D-C10x-enginepath@a8c22280⟩) |
+
+
+## 2026-10-10 — Projector-fidelity warning pointer (D-NEW1-fid)
+
+| Decision | Scope | Detailed source |
+|---|---|---|
+| D-NEW1-fid ⟨D-NEW1-fid@341707a8⟩ | Documentation-only closeout of existing B receipt; no numerical rerun or new reproduction command; actual projector/leakage/locality UNMEASURED | [B measurement report — D-NEW1-fid warning](results/mathlab_staging/new1_v2_build_report.md#d-new1-fid) |
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

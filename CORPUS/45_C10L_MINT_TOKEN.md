@@ -86,3 +86,6 @@ The 29 Q4 paraphrase id changes fall 12 / 8 / 9 across the three held-out templa
 - The deployment question of ruling 3 is answered for the compiled artefact: a minted token is a Git/.vindex-ownable row that survives the compile; the operator's size-vs-recall choice (B2) is fp16 GGUF (faithful) or Q4_K_M (0.738 paraphrase retention here).
 - Queue unchanged: lead 1 of the INBOX review (gold-first-token read) with the covgeom F-A5 edit + inject diagnostic; then the mint z-layer arm, the (i) predictors, lifecycle (C5/C9) and capacity beyond 271 rows. A third N seed is logged as the cheapest overturning test for F-M7.
 - Not written here, by the advisor's instruction: "deployment-viable" without the compiled-artefact scope; "N is better than G"; "the minted token beats the rare rung by ≥ 10"; "Q4_K_M is unsafe for minted edits"; "Q4 degrades minted edits more than native knowledge" (no native control); "deployment loop closed"; any change to the F1 C10 status.
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

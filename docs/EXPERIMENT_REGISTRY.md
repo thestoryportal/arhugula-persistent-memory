@@ -73,3 +73,13 @@ The navigability spine: every experiment → hypothesis, code, result, evidence 
 ### D-D1-2 ⟨D-D1-2@e023d8d2⟩ — §8.7 numeric-threshold instrument (2026-06-21)
 **D-D1-2** (2026-06-21): §8.7 numeric-threshold instrument → **operational guardrail `k≤1`** (max unanchored per-relation concentration; anchor by k=2; WARNING k=2-3, HARD k=8-10 — REVISED down from k≤2 after the seed-2 across-held-out check). Dual-reviewed (Opus advisor + gpt-5.5 cross-family). k=3-4/k=10-12 = scoped order-dominated observations, NOT portable thresholds; per-relation count = fail-closed SENTINEL not the causal var (edit-set/key-collinearity geometry is). 3B-only (size transfer OPEN), pure-capital anti-conservative, incremental-path-only (deploy=batch/Genesis A1-clean). Instrument: 3B within-process SD=0; ~50pp noise is 7B/across-process; binding 3B uncertainty = edit-ORDER. Artifacts: results/d1_threshold_lowk_3b_s3{,_lowextra}.json, results/d1_instrument_variance_diagnostic_3b_*.json; reviews logs/codex_review_threshold_*OUT.log. **MIXED-LOAD:** pure-capital fails under +12 other-relation load (mixed clean ceiling k=0; driver=other-relation volume) → vindicates the worse-of(global,per-relation) amendment design; pair k≤1 with a global-volume bound + compaction. **SEED-2 (more-toxic held-out):** corrupts at k=1-2 where seed-3 was clean → ceiling k≤2→k≤1; no per-relation count is universally clean (held-out-dependent SENTINEL, not the causal var). +results/d1_mixedload_smoke_3b_s3.json, results/d1_threshold_lowk_3b_s2.json.
 | **ML-4** | mathlab | Frozen calibration stop disposition; step-4 shelving | mathlab/m3_calibration.py | results/mathlab/m3_20261009T225557.353172Z/calibration.json | CORPUS/60_MATHLAB_HARVEST_REPLAY.md | STOPPED — calibration FAIL; step 4 SHELVED/NOT FROZEN/NOT RUN; NEW-1 separate | D-ML-4 ⟨D-ML-4@46230e48⟩ |
+
+
+## 2026-10-10 — Projector-fidelity qualification (D-NEW1-fid)
+
+| Decision | Recorded qualification | Detailed source |
+|---|---|---|
+| D-NEW1-fid ⟨D-NEW1-fid@341707a8⟩ | Native-projector fidelity warning RECORDED; CORPUS/44 “null-space share” qualified append-only; actual rounded-P distance, update-weighted leakage and locality UNMEASURED; behavioral verdicts and F1 unchanged | [B measurement report — D-NEW1-fid warning](../results/mathlab_staging/new1_v2_build_report.md#d-new1-fid) |
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

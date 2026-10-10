@@ -1,0 +1,3 @@
+CURRENCY CHECK D-NEW1-fid@341707a8  (source: results/mathlab_staging/new1_v2_build_report.md)
+--------------------------------------------------------
+✅ all references to D-NEW1-fid are CURRENT (D-NEW1-fid@341707a8).

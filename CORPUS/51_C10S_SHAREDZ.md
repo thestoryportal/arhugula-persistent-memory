@@ -24,3 +24,6 @@ The shared target is underfit. The injection measurements are on the unedited mo
 
 ## What it buys, and next
 Per the prereg §3, UNDERFIT routes the sequence to **step 2** (the value-internal second key, `docs/C10T_SECONDKEY_PREREG.md`), carrying the canonical target. The underfit shared target has not earned the replicated write-arm LEAD required to become the default. **Candidate (not designed, not authorized):** a newly pre-registered fixed-frame solve-feasibility follow-up. Its first candidate change is a larger iteration budget at the current radius; a radius change would be a separately declared hypothesis. It must change a solve constraint, not lower the 0.98 criterion or retune the screen after seeing these outcomes. It would not relabel this run. Whether it runs before step 2 is an operator scope decision.
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

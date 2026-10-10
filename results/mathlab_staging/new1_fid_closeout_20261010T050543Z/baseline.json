@@ -1,0 +1,368 @@
+{
+  "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "paths": {
+    "CORPUS/00_MASTER_EVIDENCE.md": {
+      "sha256": "43458da31f8cbc33cbb389dca6e214be734660e0b6765253edc5502481801d05",
+      "bytes": 74978
+    },
+    "CORPUS/01_PROVENANCE_MANIFEST.md": {
+      "sha256": "9d6a6a8872a9edbc2171f17650d188e38fdce1e2ea7b48dc8445db8ff28d9cf0",
+      "bytes": 31008
+    },
+    "CORPUS/02_VANDV_CHAIN.md": {
+      "sha256": "81b765bd2de3b6399fcb90da4b47ee4c8038070702346f61d321431e58466666",
+      "bytes": 46072
+    },
+    "CORPUS/03_STATUS_LEDGER.md": {
+      "sha256": "34e6f748167da9dad2eb97b67387f4b13538caa924786b19010bb33bf6023faa",
+      "bytes": 64500
+    },
+    "CORPUS/04_ENV_AND_DEPS.md": {
+      "sha256": "f4bfc979c416c8999ad0d1af48584ad040471bba1e127efd2245a5b1f7ce5d02",
+      "bytes": 3057
+    },
+    "CORPUS/05_SPEC_CONTRACTS_BY_DOMAIN.md": {
+      "sha256": "d9bfafb9f01f6aee9cf542af51ff4103f47f6c38a52c45eb260dcc010f32cc7c",
+      "bytes": 4026
+    },
+    "CORPUS/06_SPEC_WRITE_PATH_AND_BRIDGE_FRAMING.md": {
+      "sha256": "bf6a0885df93f00bb4d84a70589e452d93bce9764b70689d2faf14af702570ac",
+      "bytes": 7493
+    },
+    "CORPUS/07_CP1_GOVERNED_INPIPELINE_WRITE.md": {
+      "sha256": "884a009649aa233906ec59e6fc34a3c6d2435ea064ef6c340854eebe710f3bec",
+      "bytes": 6112
+    },
+    "CORPUS/08_CP2_QUERY_SCHEMA_CAPABILITY.md": {
+      "sha256": "18e8aa1542ff174df4a46c1e7cc15c750a6151c01451561d4edb2cf14acfc9f4",
+      "bytes": 5914
+    },
+    "CORPUS/09_CP3_MEMIT_COMPLIANCE.md": {
+      "sha256": "c00080f87b755fb5c74d607ed6345e94860b508ccdeb875a708ee768df84c6f9",
+      "bytes": 6248
+    },
+    "CORPUS/10_G1_TWO_PHASE_COMMIT.md": {
+      "sha256": "e04f50795788ac27616aa1f5f26f518915bf89f5737129b1b65d66eb4d58550e",
+      "bytes": 6544
+    },
+    "CORPUS/11_G2_SECURITY_LAYER.md": {
+      "sha256": "68e0075b6fef713fe5932ec2ce24e6ba6ce96d3034c6b7092e0b09bea087d353",
+      "bytes": 5902
+    },
+    "CORPUS/12_G3_VALIDATION_PIPELINE.md": {
+      "sha256": "02a1ff0413dca4bb4d4ebed22db848ff72e2c29f3642edef9587c0b9a9b1e338",
+      "bytes": 6139
+    },
+    "CORPUS/13_G6_1_SCALE_OF_N.md": {
+      "sha256": "1ece656bf831c21fa4fbd27bdb9e400865928a559f8d424f1c5a975099329b72",
+      "bytes": 7764
+    },
+    "CORPUS/14_A1_BATCH_VS_SEQUENTIAL.md": {
+      "sha256": "9060f931ade7f407c800d81b855dd137077e0aae7943543901446a7b020ab9a9",
+      "bytes": 7293
+    },
+    "CORPUS/15_A2_RELATION_BALANCED_SENTINELS.md": {
+      "sha256": "fd2271980cbf3cd5261dd6614292ebe62037fcf87dc689025a05b4f925791c86",
+      "bytes": 6938
+    },
+    "CORPUS/16_A2b_REFRESH_KS.md": {
+      "sha256": "bba16d6abda95ac01e63129ec188c5919db8683ea3c6b4ccf70e0e552029ca13",
+      "bytes": 7079
+    },
+    "CORPUS/17_B3_QUANTIZATION_SURVIVAL.md": {
+      "sha256": "90071b9e047bb087e44e75a9a56a56e7a0bbeee9778c64af3127c51f3dd72efc",
+      "bytes": 6167
+    },
+    "CORPUS/18_E1_DEPLOYMENT_SERVING.md": {
+      "sha256": "e628ac288d8fec4fa967588d1676105f65e4c10bb16c13d09e500a749d61ab2d",
+      "bytes": 7818
+    },
+    "CORPUS/19_B1_SIZE_DENSITY.md": {
+      "sha256": "e220d4f97127872be907105820d29dcf5d0bdd1161e4bf411ef698654c85536c",
+      "bytes": 4676
+    },
+    "CORPUS/20_C2_KEYING_DEPTH_MAP.md": {
+      "sha256": "322f99e0528e2e96630857ac806b8548e74b1a059ee7336a6bb36c521f323fc9",
+      "bytes": 4405
+    },
+    "CORPUS/21_C2BAND_FALSIFIER.md": {
+      "sha256": "a22183e3f5831ecc5ea63a706447a123efe21be1ee636033603812030286b301",
+      "bytes": 13396
+    },
+    "CORPUS/22_D1_CAPACITY_LAW.md": {
+      "sha256": "813886f5932083a28cf59dd8a654f46ca57556357ec16054af8f4ac7ec738b44",
+      "bytes": 18375
+    },
+    "CORPUS/23_D20_COMPACTION_SUBBATCH.md": {
+      "sha256": "e6216db7c427c6035e72986b432c0494f316481b69fd93d11e9014c990d68a98",
+      "bytes": 8053
+    },
+    "CORPUS/24_R15_CONSTRAINT_PROBE.md": {
+      "sha256": "f9a1c02baa1130eef3b0d736467c9a659356fdf15b459d7a9af336a253e4c46e",
+      "bytes": 7776
+    },
+    "CORPUS/25_R9_DELETION_RESIDUE.md": {
+      "sha256": "3a8141c8afdab0c6ffad4eb566d38169db26aab44103e8d5bb99fabe2ab63856",
+      "bytes": 7222
+    },
+    "CORPUS/26_C1_KVC_INTERACTION.md": {
+      "sha256": "baff442cce6323591d1a2c2dd21b3dcfc97bb2ae5cc8f235d97049fd770beeda",
+      "bytes": 8069
+    },
+    "CORPUS/27_R2_REVERSE_LOOKUP.md": {
+      "sha256": "eb9bd764a78a3c243e3aad939013ac3c9b3db708b978cd0e97a7c8f213678e22",
+      "bytes": 5395
+    },
+    "CORPUS/28_R13_PARAPHRASE_GENERALIZATION.md": {
+      "sha256": "6b71d78577936feb100334b13f6d4af28e0c1bf3dae7b5fa052af85e2075249b",
+      "bytes": 7126
+    },
+    "CORPUS/29_R5_PARAPHRASE_ROBUSTNESS.md": {
+      "sha256": "d2962f293c3f6908ea5a554aaaa41fac57800f8f037441e8eb02586a5f333c8d",
+      "bytes": 7890
+    },
+    "CORPUS/30_R5B_OVERWRITE_PRIOR_EDIT.md": {
+      "sha256": "7bf6e092b03c1227d5c6dbddd8fdb6ee2d903749c8cd83bf133d518dbf6ba1af",
+      "bytes": 5555
+    },
+    "CORPUS/31_R1_SELECT_READBACK.md": {
+      "sha256": "5e0cdd6b757482472e4bb36dd24c45cb1187f96fd3acecd7ad1608d041905512",
+      "bytes": 7725
+    },
+    "CORPUS/32_R1_COMMIT_BIT_SELECT.md": {
+      "sha256": "b2daa7609f9dc5b5fb966ff583a44810c4593ac3d85fb2dcf3989a4e8e5504cc",
+      "bytes": 5461
+    },
+    "CORPUS/33_R11_MEDIUM_ON_READ.md": {
+      "sha256": "c3d83f16c70b39c63a93edcc55b7b25c68a126c323efbac1c3c82bcb86901424",
+      "bytes": 7305
+    },
+    "CORPUS/34_C6_LEDGER_IMMUTABILITY_REDTEAM.md": {
+      "sha256": "0fae5b4ca024104e9632a1fffbcda2fa0bd3468b1f6f42ae8a740e41a30797f6",
+      "bytes": 7529
+    },
+    "CORPUS/35_C10_MULTI_TOKEN_VALUE.md": {
+      "sha256": "6fe7c2e73f9ce90bc698a88fbfbca76e28bca5e020b93a7cfd7148360b02b5c5",
+      "bytes": 10257
+    },
+    "CORPUS/36_C10_RESIDUAL_COINED_VALUES.md": {
+      "sha256": "c3c800ea985844d3957d882037e124b2387dacee78ed9668daa6bedfb923564d",
+      "bytes": 9318
+    },
+    "CORPUS/37_C10_BANDKNOB.md": {
+      "sha256": "f013c2f2c39b9f0d402eb3d92b4abda7f40a1edf53c142d4f18effcd187b3027",
+      "bytes": 5701
+    },
+    "CORPUS/38_C10_BAND412.md": {
+      "sha256": "be904248a0da0ee3917002e43eb433131a1e4ee84b2614c8078831bfc1f9bb5e",
+      "bytes": 6206
+    },
+    "CORPUS/39_C10_STRENGTH_LAYER_SWEEP.md": {
+      "sha256": "b9e5376f031ff4a0b53887f37b12f271e8a4664807bbbfccac2eddc5d18a21e7",
+      "bytes": 7422
+    },
+    "CORPUS/40_C10_ANYEDIT_PILOT.md": {
+      "sha256": "041a9539c668434404a3f00f270e6c3e4ac8af4e0d0a70b05612f22eb3afbecb",
+      "bytes": 6709
+    },
+    "CORPUS/41_C10K_STAGE0_HARDWARE_ENVELOPE.md": {
+      "sha256": "9b488797aab0ba2cf2c0e662e64a7a5878111d466d61be019e7e73ff6ed8aee6",
+      "bytes": 3345
+    },
+    "CORPUS/42_C10K_ROUTEA_CONTROLS_NOT_RECOVERED.md": {
+      "sha256": "e6acf74ba7ba9702f5657b543e930804cd939b725a3d92de8183a0083d91a831",
+      "bytes": 6038
+    },
+    "CORPUS/43_C10K_KEYING_ABLATION.md": {
+      "sha256": "1f1b403196914b33d8ceb85b7a650ef12f07096fa7ddd2b0f83062b340746901",
+      "bytes": 8519
+    },
+    "CORPUS/44_C10L_COVGEOM_SPARSEBAND.md": {
+      "sha256": "b2f3b6c5e306e4b5cb872e6187d85c5d07263a7b23c9b1c25b396167ce32bec7",
+      "bytes": 9309
+    },
+    "CORPUS/45_C10L_MINT_TOKEN.md": {
+      "sha256": "8001ee19e36181accb87139bea73e779ce4699080904db48a3858730648bf665",
+      "bytes": 14236
+    },
+    "CORPUS/46_C10M_DIAG_READPARTITION_EDITINJECT.md": {
+      "sha256": "b839498f1be3fd512cec77a626abfea5efc2c98120f8c58834b41889d81d7be4",
+      "bytes": 7156
+    },
+    "CORPUS/47_C10N_ZTRANSPORT.md": {
+      "sha256": "32025e824b09a8b9a3ce0d9b893a6316130e751db2c3374e0ec5790af523dc29",
+      "bytes": 6395
+    },
+    "CORPUS/48_C10O_MAGNITUDE_DIRECTION.md": {
+      "sha256": "13ffd9f263061eeea72e6712104533e789ed28ab095974fc1d0903d2f858f982",
+      "bytes": 5773
+    },
+    "CORPUS/49_C10P_TWOPASS_SOLVE.md": {
+      "sha256": "d0d7858a49970e5df5cc4d5bece7710bce4a9262bbac4e25b45d1460005e503e",
+      "bytes": 6116
+    },
+    "CORPUS/50_C10Q_STACKED_SOLVE.md": {
+      "sha256": "ecfa945672c0b4a4a29462002fa1869802d47f0dea8ee4bd264ad3bd36987e62",
+      "bytes": 9855
+    },
+    "CORPUS/51_C10S_SHAREDZ.md": {
+      "sha256": "04de164ecca9c8383e2aea793f9bcc809cf50965474af6a3361b26c32e8fe17f",
+      "bytes": 7540
+    },
+    "CORPUS/52_C10S_SOLVEFEAS.md": {
+      "sha256": "b3a51dbd28f5397d04f8b544a6ead47b704ba90b68baf4b8a9b4c6828912411f",
+      "bytes": 8541
+    },
+    "CORPUS/53_C10T_SECONDKEY.md": {
+      "sha256": "17422bc5d1851b04a6b90381c6666ae6dd35d7d798dd101691bf842076d4529c",
+      "bytes": 13383
+    },
+    "CORPUS/54_C10U_MINT2.md": {
+      "sha256": "0a3e2a9886c9713f00a3ca83717b9173351ba326490be4436b41afd054a4b933",
+      "bytes": 17288
+    },
+    "CORPUS/55_C10W_ORACLE_P1_INTERIM.md": {
+      "sha256": "68c1591af904255ba78dc02ec25c72e1afee880ef5fdc4972c39be95f76bb0ac",
+      "bytes": 15985
+    },
+    "CORPUS/56_C10V_LAYERPICK.md": {
+      "sha256": "70ffc8ed23ad0270d8509f914aaf90e0fb71507d1fcad358c4a777bc14433384",
+      "bytes": 18779
+    },
+    "CORPUS/57_C10W_ORACLE_FINAL.md": {
+      "sha256": "6e058a7a13613d5644da4ba0994ea3f85c68a357d80da6cbad55460bed229ccb",
+      "bytes": 9042
+    },
+    "CORPUS/58_C10X_ENGINEPATH.md": {
+      "sha256": "cae9ee527e2b93676d8d545082193421bffff096db3bc52a2930857b2756c977",
+      "bytes": 12725
+    },
+    "CORPUS/59_C10Z_V7DIAG_A1.md": {
+      "sha256": "fd5ee13377e81d8d4da8beebfc9ab384e15c912a44d8e3cbd9deb6f7da4e9532",
+      "bytes": 9171
+    },
+    "CORPUS/60_MATHLAB_HARVEST_REPLAY.md": {
+      "sha256": "3d14dd35bb12c463b3f89f975b17f983101e9b7314b9872ad79c924db381c0b4",
+      "bytes": 18191
+    },
+    "CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md": {
+      "sha256": "8391b0ee4d3e973d817be8e448f85fcb297f2e7e1a7adf47a0989a4ecc96e788",
+      "bytes": 17604
+    },
+    "CORPUS/AGENTS.md": {
+      "sha256": "312877b0f8c17a38cb13c75098d1733346525a37e8544b5f0ee278bb3d6c2c42",
+      "bytes": 2699
+    },
+    "CORPUS/COUNCIL_PROTOCOL.md": {
+      "sha256": "40959f6d279333228d350bb2240914f7ec0bda26f756da13e5c6478f45b9dcc2",
+      "bytes": 3501
+    },
+    "CORPUS/README.md": {
+      "sha256": "57b373c5568a5602bee9c84dafbc9314a835270a35d684aa76cc56ed74fd3fdc",
+      "bytes": 13720
+    },
+    "CORPUS/additional_research.md": {
+      "sha256": "b1a1cf04b09bf4ee8adb62a421dde16aa57ee7674b472bae166d5de02c5be92a",
+      "bytes": 2097
+    },
+    "EVIDENCE_INDEX.md": {
+      "sha256": "c8d7a447f940d90767f44529f9c55d5c2024733c4a74095cd7be3c9289519b44",
+      "bytes": 57331
+    },
+    "EXPERIMENT_RUNBOOK.md": {
+      "sha256": "414f35504553568bd7b9e38a3a9a75b82b915b9a129a234a644be9545a6bcfe2",
+      "bytes": 445964
+    },
+    "PROGRESS.md": {
+      "sha256": "55e82570bbd8a034deb85067a53a577adca1a07f43104967dc18ec4b2e75f03d",
+      "bytes": 50612
+    },
+    "README.md": {
+      "sha256": "949802bf509219a754f180440cef60a6e8fe3a869b0f4158f7e64417f47af924",
+      "bytes": 76198
+    },
+    "REPRODUCIBILITY.md": {
+      "sha256": "3dca9528c6d93fd53a057a442a49bcdf23e3a2109ae459dd670564f5fc8fd905",
+      "bytes": 16001
+    },
+    "SESSION_BOOTSTRAP.md": {
+      "sha256": "cbb7c09b380938a512b763edd999d46d475ddc63e8bdb95d0afd1e1f8f5e524e",
+      "bytes": 75628
+    },
+    "SESSION_CHECKPOINT.md": {
+      "sha256": "c2510dee4c35c7ca697812e16fe19a96631eb4208a1811a579f1a6551699f88b",
+      "bytes": 524794
+    },
+    "docs/EXPERIMENT_REGISTRY.md": {
+      "sha256": "b5e7c0438fc49a2a75ea6bf125677477e55abf82e02f7b8f6afbca3e9ff04230",
+      "bytes": 27491
+    },
+    "docs/HYPOTHESIS_REGISTER_2026-06-18.md": {
+      "sha256": "3eedc814b8ea47dab3366b27a6103f29e055321d79ff4add76b0b1a2c2343aad",
+      "bytes": 128954
+    },
+    "docs/NEW1_ADAPTER_GEOMETRY_PREREG.md": {
+      "sha256": "1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f",
+      "bytes": 44742
+    },
+    "docs/SPEC_EXPERIMENT_OVERLAY.md": {
+      "sha256": "4fd58b07eca8fbc2257d32f0e836a41f9d1f702a858fb89156c5e8155240b9a6",
+      "bytes": 16357
+    },
+    "docs/experiment_registry.json": {
+      "sha256": "e95236aef74d5315d336c4315c96cf4eb69baf669070acbc357a29add00edd39",
+      "bytes": 11475
+    },
+    "docs/program_state.json": {
+      "sha256": "a8ce34831194e6a3780f100892003e6d15c4535347733f2b6b06dc01c1cc5878",
+      "bytes": 61535
+    },
+    "mathlab/core.py": {
+      "sha256": "127bae6d3899db1faae88de56afe31487305355e8dc7b64d80e7b74d9034eb80",
+      "bytes": 25937
+    },
+    "results/mathlab_staging/new1_v2_build_report.md": {
+      "sha256": "eef2d29a70da1e62492cee43b787eae0305b1b95d5973929ad942686bd7ca2e0",
+      "bytes": 103357
+    },
+    "tests/test_new1_geometry.py": {
+      "sha256": "b87528df0eb5a31c418fe07234f3669c2263dda47e578ad526b79a4d87ede635",
+      "bytes": 25790
+    },
+    "tests/test_new1_supervisor.py": {
+      "sha256": "c1649ad53ddaaf480fc5b614156b35a4c80ed4a8c83085aa5181f541f6df846b",
+      "bytes": 50989
+    },
+    "tools/closeout_fingerprints.json": {
+      "sha256": "4c2dc4ea20c37fb2d3eed1da13a2eb2e1f7d9ef53cb257dc3d8d3f8b2d15994c",
+      "bytes": 16000
+    },
+    "tools/mathlab_events.py": {
+      "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "bytes": 17200
+    },
+    "tools/mathlab_runtime.py": {
+      "sha256": "416b597c1309f7dcabb065749e05da9ce28743b1d16c9791ae1eed527a4a72c5",
+      "bytes": 14263
+    },
+    "tools/new1_geometry.py": {
+      "sha256": "3234b7f16b25d151d86ec508577abd42c1163a5b2b5318761b11b28675c2df67",
+      "bytes": 27815
+    },
+    "tools/new1_supervisor.py": {
+      "sha256": "1d24e827523f934a893e922554036c6ea9c3e1ec2cfe161d53ddaadd90068357",
+      "bytes": 23611
+    }
+  },
+  "protected": [
+    "docs/NEW1_ADAPTER_GEOMETRY_PREREG.md",
+    "mathlab/core.py",
+    "tools/new1_geometry.py",
+    "tools/new1_supervisor.py",
+    "tests/test_new1_geometry.py",
+    "tests/test_new1_supervisor.py",
+    "tools/mathlab_runtime.py",
+    "tools/mathlab_events.py"
+  ],
+  "utc": "2026-10-10T05:06:08.542022+00:00"
+}

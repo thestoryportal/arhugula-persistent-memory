@@ -35,3 +35,6 @@ Validity all GREEN: fingerprint; LAW#5 ×3; per-arm controls A1 70/72, A2 71/72 
 - The re-aim family's standing on this harness: fresh two-pass NULL (CORPUS/49), stacked TRADEOFF (this entry). The direction found by injection (CORPUS/48) does transfer to a weight edit when applied sequentially, at a locality and write cost; it does not reach the held-out bar. C10 OPEN/BLOCKING; F1 unchanged.
 - Not written here, by the advisor's instruction: "target-specific"; LEAD or PARTIAL; any CORPUS/44–49 label change; contract evidence (§8.9); any F1 change; a mechanism about positions or components; that the `described_as` miss is a process artifact; that spread 0 eliminates the cross-process envelope.
 - Limitations: one binding process; N = 24; one model (D-C10k-rulings-2); fp16 MPS; the permuted control is informative but formally unmatched; the AlphaEdit projector is the base model's (the "edited-model keys under a base-covariance projector" confound named in the prereg) — the fully re-estimated edited-model solve was not run.
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

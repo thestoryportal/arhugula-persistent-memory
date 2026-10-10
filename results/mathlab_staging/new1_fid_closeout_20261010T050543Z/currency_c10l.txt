@@ -1,0 +1,4 @@
+CURRENCY CHECK D-C10l-covgeom@0caeca4f  (source: CORPUS/44_C10L_COVGEOM_SPARSEBAND.md)
+--------------------------------------------------------
+✅ all references to D-C10l-covgeom are CURRENT (D-C10l-covgeom@0caeca4f).
+

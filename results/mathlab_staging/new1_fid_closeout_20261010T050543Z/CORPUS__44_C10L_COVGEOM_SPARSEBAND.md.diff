@@ -1,0 +1,14 @@
+--- before/CORPUS/44_C10L_COVGEOM_SPARSEBAND.md
++++ after/CORPUS/44_C10L_COVGEOM_SPARSEBAND.md
+@@ -41,3 +41,11 @@
+ - C10 unchanged: OPEN/BLOCKING. Limitations: one seed, N = 24, one model (D-C10k-rulings-2), fp16 MPS; per-process spread ±3–5/72 on the binding count.
+ 
+ **Correction (2026-10-06, append-only; raised by the cross-family reviewer during the step-4 pre-registration, verified against `experiments/track_c/c10l_covgeom_step0.py:74–75, 134`; advisor pass `results/c10l_covgeom_rho_correction_advisor_v1.md`).** ρ_c and ρ_p are *remaining-residual* ratios, `‖z − cur_after‖ / ‖z − cur_before‖`, in step 0's float64 offline reconstruction. F-A3's clause "the weight edit that realises the same z to 3 % at that position" is reversed: ≈ 2.8 % of the canonical residual norm *remains* after the band write (the installed share lies in [0.972, 1.028] by the triangle inequality; R1 leaves 0.8 % and does not behave better, canon 7 → 4), and ≈ 23 % remains on the paraphrase prompts under the mixed-prefix proxy (which this entry already marks uninformative behaviourally: per-subject Spearman −0.12). No label of this entry changes; F-A3's behavioural clause (24/24 and 49/72 under injection vs 7/24 and 13/72 under the edit) stands; the mechanistic clause is withdrawn. **I-INFER:** step 0 weakens a large canonical-position residual-shortfall account *in that reconstruction*; whether this holds in the behavioural run remains unmeasured (F-A4: cross-process ΔW variation up to 4.35 %). CORPUS/46 F-D1 independently supports the H1 routing label (collateral change; H2 routed into it there), without isolating the responsible component. The next run that solves z records the in-harness ratio for A1, A2 and A7 (D-C10s-sharedz ⟨D-C10s-sharedz@bee04393⟩ amendment A1).
++
++
++## 2026-10-10 — Append-only projector-fidelity qualification (D-NEW1-fid)
++
++D-NEW1-fid ⟨D-NEW1-fid@341707a8⟩ (operator-approved): the historical “null-space share” **1.000** at the original paragraph (line 25 before this addendum) remains the recorded native below-cutoff projector instrument result. It does not certify an exact covariance kernel or a float64-reference subspace. The new L4 rank disagreement is not proof of a misclassified tracked direction; actual rounded-projector distance, historical update-weighted leakage and locality effects remain **UNMEASURED**. The original text, counts, behavioral verdicts and routing are preserved without change. Full numerical finding, ideal-orthogonal-projector qualification and instrument provenance: [B measurement report — D-NEW1-fid warning](../results/mathlab_staging/new1_v2_build_report.md#d-new1-fid).
++
++
++⟨D-C10l-covgeom@0caeca4f⟩

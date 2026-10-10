@@ -1,0 +1,114 @@
+[
+  {
+    "path": "CORPUS/44_C10L_COVGEOM_SPARSEBAND.md",
+    "kind": "append-only qualification/pointer",
+    "sha256_before": "b2f3b6c5e306e4b5cb872e6187d85c5d07263a7b23c9b1c25b396167ce32bec7",
+    "sha256_after": "c59a77c2078b07add0a719ab2be8d7c7d1629fb0faf726cb9d3f8aff4f73f282",
+    "before_bytes": 9309,
+    "after_bytes": 10186
+  },
+  {
+    "path": "docs/HYPOTHESIS_REGISTER_2026-06-18.md",
+    "kind": "append-only qualification/pointer",
+    "sha256_before": "3eedc814b8ea47dab3366b27a6103f29e055321d79ff4add76b0b1a2c2343aad",
+    "sha256_after": "0b57180ded26ae9584f5ac0e81557166891966a8f13acca258e7c9225852d26b",
+    "before_bytes": 128954,
+    "after_bytes": 130377
+  },
+  {
+    "path": "CORPUS/00_MASTER_EVIDENCE.md",
+    "kind": "append-only qualification/pointer",
+    "sha256_before": "43458da31f8cbc33cbb389dca6e214be734660e0b6765253edc5502481801d05",
+    "sha256_after": "85c0c551270f12bd031380876c58544654a437fcf6f5fd65952f2e9f440de481",
+    "before_bytes": 74978,
+    "after_bytes": 75482
+  },
+  {
+    "path": "CORPUS/01_PROVENANCE_MANIFEST.md",
+    "kind": "append-only qualification/pointer",
+    "sha256_before": "9d6a6a8872a9edbc2171f17650d188e38fdce1e2ea7b48dc8445db8ff28d9cf0",
+    "sha256_after": "92c87b987eaea9be15ba4b30751095a3db53bed5c4b1e72d7f1b05cb2f069ab4",
+    "before_bytes": 31008,
+    "after_bytes": 31512
+  },
+  {
+    "path": "CORPUS/02_VANDV_CHAIN.md",
+    "kind": "append-only qualification/pointer",
+    "sha256_before": "81b765bd2de3b6399fcb90da4b47ee4c8038070702346f61d321431e58466666",
+    "sha256_after": "ca73fb08a74127a99de4d2a51da32191203e378977bc2ece554469768f9860c4",
+    "before_bytes": 46072,
+    "after_bytes": 46576
+  },
+  {
+    "path": "CORPUS/03_STATUS_LEDGER.md",
+    "kind": "append-only qualification/pointer",
+    "sha256_before": "34e6f748167da9dad2eb97b67387f4b13538caa924786b19010bb33bf6023faa",
+    "sha256_after": "e06d0b88311bb07551f9991c6dd85cc0aa1f888526ee298cfd7e11f7082c535b",
+    "before_bytes": 64500,
+    "after_bytes": 65004
+  },
+  {
+    "path": "EVIDENCE_INDEX.md",
+    "kind": "append-only qualification/pointer",
+    "sha256_before": "c8d7a447f940d90767f44529f9c55d5c2024733c4a74095cd7be3c9289519b44",
+    "sha256_after": "13b297a48a63defc5c51b29e31552d838520cab577b94cda16518f9a47472edf",
+    "before_bytes": 57331,
+    "after_bytes": 57832
+  },
+  {
+    "path": "docs/EXPERIMENT_REGISTRY.md",
+    "kind": "append-only qualification/pointer",
+    "sha256_before": "b5e7c0438fc49a2a75ea6bf125677477e55abf82e02f7b8f6afbca3e9ff04230",
+    "sha256_after": "770d527c1429bf10ecff6e49b9b3e253a7741feb8fb74c6ee92135fd773863a2",
+    "before_bytes": 27491,
+    "after_bytes": 27995
+  },
+  {
+    "path": "docs/SPEC_EXPERIMENT_OVERLAY.md",
+    "kind": "append-only qualification/pointer",
+    "sha256_before": "4fd58b07eca8fbc2257d32f0e836a41f9d1f702a858fb89156c5e8155240b9a6",
+    "sha256_after": "1267153fe5d3003023edf87d448a20db6be0180a383fce1b797c82e88d26faff",
+    "before_bytes": 16357,
+    "after_bytes": 16738
+  },
+  {
+    "path": "CORPUS/README.md",
+    "kind": "append-only qualification/pointer",
+    "sha256_before": "57b373c5568a5602bee9c84dafbc9314a835270a35d684aa76cc56ed74fd3fdc",
+    "sha256_after": "dc169b18c9d65485dfd5e766827b017c49b45993ac810491219724c614b4e019",
+    "before_bytes": 13720,
+    "after_bytes": 14101
+  },
+  {
+    "path": "REPRODUCIBILITY.md",
+    "kind": "append-only qualification/pointer",
+    "sha256_before": "3dca9528c6d93fd53a057a442a49bcdf23e3a2109ae459dd670564f5fc8fd905",
+    "sha256_after": "c9727a22fdf48644bafd5d6139ba4d3fa8fbe9b56bfd0a2bd15bf1127d601e3f",
+    "before_bytes": 16001,
+    "after_bytes": 16418
+  },
+  {
+    "path": "EXPERIMENT_RUNBOOK.md",
+    "kind": "insert thin \u00a75/\u00a712 rows and append \u00a713 entry",
+    "sha256_before": "414f35504553568bd7b9e38a3a9a75b82b915b9a129a234a644be9545a6bcfe2",
+    "sha256_after": "cbad9b3753d7f1d54b606821cb99e14f1eb529b10763d6ba31b23ae0d6204969",
+    "before_bytes": 445964,
+    "after_bytes": 447300
+  },
+  {
+    "path": "docs/program_state.json",
+    "kind": "qualification metadata only; F1/scorecard/next actions preserved",
+    "sha256_before": "a8ce34831194e6a3780f100892003e6d15c4535347733f2b6b06dc01c1cc5878",
+    "sha256_after": "8edb42b4e2066ca23719f5a7600508e66d40196d33fac8ac52193914d181b9d9",
+    "before_bytes": 61535,
+    "after_bytes": 62002
+  },
+  {
+    "path": "docs/experiment_registry.json",
+    "kind": "append warning metadata record; no new experiment",
+    "sha256_before": "e95236aef74d5315d336c4315c96cf4eb69baf669070acbc357a29add00edd39",
+    "sha256_after": "d6b9e2de32b36e07f28c5d67d7302bfa57c90bebce23b107422ff20ec6074010",
+    "before_bytes": 11475,
+    "after_bytes": 12217
+  }
+]

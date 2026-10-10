@@ -1,0 +1,165 @@
+[
+  {
+    "path": "docs/program_state.json",
+    "kind": "refresh existing C10L currency markers only",
+    "replacements": 3,
+    "sha256_before": "8edb42b4e2066ca23719f5a7600508e66d40196d33fac8ac52193914d181b9d9",
+    "sha256_after": "c1eee40fe5d60f45205af8e8180ef2c13c63f4836ad9d32397c0c6fb16de3037"
+  },
+  {
+    "path": "SESSION_CHECKPOINT.md",
+    "kind": "supported program-state renderer",
+    "sha256_before": "c2510dee4c35c7ca697812e16fe19a96631eb4208a1811a579f1a6551699f88b",
+    "sha256_after": "e288afcd21cc08119477e38618955c09a4f8fc642d5f25ea74a63093b9123d22"
+  },
+  {
+    "path": "EXPERIMENT_RUNBOOK.md",
+    "kind": "supported program-state renderer",
+    "sha256_before": "cbad9b3753d7f1d54b606821cb99e14f1eb529b10763d6ba31b23ae0d6204969",
+    "sha256_after": "f4968af39a890f2cba02bcf01e1cc2600e0b70cf16be6058551a099193c24188"
+  },
+  {
+    "path": "README.md",
+    "kind": "supported program-state renderer",
+    "sha256_before": "949802bf509219a754f180440cef60a6e8fe3a869b0f4158f7e64417f47af924",
+    "sha256_after": "0f6e0f37d16e7d3771aa68e1e485f8e8b86574d3979c18e8b51a0edacc449e55"
+  },
+  {
+    "path": "SESSION_BOOTSTRAP.md",
+    "kind": "supported program-state renderer",
+    "sha256_before": "cbb7c09b380938a512b763edd999d46d475ddc63e8bdb95d0afd1e1f8f5e524e",
+    "sha256_after": "c8c652469e012c1b4f88e81566f82f200b026f228a909f55fe13a05163631fed"
+  },
+  {
+    "path": "PROGRESS.md",
+    "kind": "supported program-state renderer",
+    "sha256_before": "55e82570bbd8a034deb85067a53a577adca1a07f43104967dc18ec4b2e75f03d",
+    "sha256_after": "99487b859c21f5cfea0740fe96d4599fd73ed4dd704bfa6342098008f241898f"
+  },
+  {
+    "path": "CORPUS/00_MASTER_EVIDENCE.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "85c0c551270f12bd031380876c58544654a437fcf6f5fd65952f2e9f440de481",
+    "sha256_after": "2c461ae7c8c6e6b5feed6e966307bdccfcc7d02a3fe241e6e7295357c289cfef"
+  },
+  {
+    "path": "CORPUS/01_PROVENANCE_MANIFEST.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "92c87b987eaea9be15ba4b30751095a3db53bed5c4b1e72d7f1b05cb2f069ab4",
+    "sha256_after": "1cfcb3d732315532ab7240e3455042dd522ab0dab43c9223741845d55c4cfa70"
+  },
+  {
+    "path": "CORPUS/02_VANDV_CHAIN.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "ca73fb08a74127a99de4d2a51da32191203e378977bc2ece554469768f9860c4",
+    "sha256_after": "a65d5171b1f32bdd0a894f2305da75360cfb8b0fa659c661d5582ec7bca14d26"
+  },
+  {
+    "path": "CORPUS/03_STATUS_LEDGER.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "e06d0b88311bb07551f9991c6dd85cc0aa1f888526ee298cfd7e11f7082c535b",
+    "sha256_after": "b1706d9f2fc45ed04a42d52fd9380efc0e82752f5597e677e029b8065b680c18"
+  },
+  {
+    "path": "CORPUS/44_C10L_COVGEOM_SPARSEBAND.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "c59a77c2078b07add0a719ab2be8d7c7d1629fb0faf726cb9d3f8aff4f73f282",
+    "sha256_after": "627d077a8d04615b798083212442dbc7f63431866f7567067faedee023f73346"
+  },
+  {
+    "path": "CORPUS/45_C10L_MINT_TOKEN.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "8001ee19e36181accb87139bea73e779ce4699080904db48a3858730648bf665",
+    "sha256_after": "b16dc8eb990debef54d78e100a19201df2a026de50186d765dfa0ef755bbc9bf"
+  },
+  {
+    "path": "CORPUS/46_C10M_DIAG_READPARTITION_EDITINJECT.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "b839498f1be3fd512cec77a626abfea5efc2c98120f8c58834b41889d81d7be4",
+    "sha256_after": "9a931b50c710e38c87f479688cac4bb576419793d06a38ebf380fc8747a2c773"
+  },
+  {
+    "path": "CORPUS/47_C10N_ZTRANSPORT.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "32025e824b09a8b9a3ce0d9b893a6316130e751db2c3374e0ec5790af523dc29",
+    "sha256_after": "2e18785cd71aa2e51f97d67f0624db4edbc570ef91ee2a4b0b2f7216651c2197"
+  },
+  {
+    "path": "CORPUS/48_C10O_MAGNITUDE_DIRECTION.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "13ffd9f263061eeea72e6712104533e789ed28ab095974fc1d0903d2f858f982",
+    "sha256_after": "2919852dd55d4c6fe49522d0e8e49a8b6b5b8eb1001fc33bb768ea40d67aae55"
+  },
+  {
+    "path": "CORPUS/49_C10P_TWOPASS_SOLVE.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "d0d7858a49970e5df5cc4d5bece7710bce4a9262bbac4e25b45d1460005e503e",
+    "sha256_after": "9fc477d7f26d0c0d812fa5f2507a791e51c7791841eb92ee63cc819c7f713f30"
+  },
+  {
+    "path": "CORPUS/50_C10Q_STACKED_SOLVE.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "ecfa945672c0b4a4a29462002fa1869802d47f0dea8ee4bd264ad3bd36987e62",
+    "sha256_after": "356b46640db0b24ae2f7f85fa5a878cd73fbff2fb3dcbb4943fb227fd85c3c55"
+  },
+  {
+    "path": "CORPUS/51_C10S_SHAREDZ.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "04de164ecca9c8383e2aea793f9bcc809cf50965474af6a3361b26c32e8fe17f",
+    "sha256_after": "bfb5dc1e925b3a70dd0dd8c9a44895dc9c9b6df5f07e8b18f89abde33a590f65"
+  },
+  {
+    "path": "CORPUS/54_C10U_MINT2.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "0a3e2a9886c9713f00a3ca83717b9173351ba326490be4436b41afd054a4b933",
+    "sha256_after": "9800875b948ad6838a4f507db7221e3b421489a6c80e3867eab9c74f86f104e4"
+  },
+  {
+    "path": "CORPUS/55_C10W_ORACLE_P1_INTERIM.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "68c1591af904255ba78dc02ec25c72e1afee880ef5fdc4972c39be95f76bb0ac",
+    "sha256_after": "81b9ec95d08fbcb3b106480633e0a1184708aa90fcfcaf4f2e915e4ea8f8c3eb"
+  },
+  {
+    "path": "CORPUS/56_C10V_LAYERPICK.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "70ffc8ed23ad0270d8509f914aaf90e0fb71507d1fcad358c4a777bc14433384",
+    "sha256_after": "1596204a9eb54051adb5ce1efe25e967b59156dec754a95555f80ce37b695c50"
+  },
+  {
+    "path": "CORPUS/README.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "dc169b18c9d65485dfd5e766827b017c49b45993ac810491219724c614b4e019",
+    "sha256_after": "8ee9c866415708dcb74edbede67f25cc1e7557e4f09b42ed7c082d76c2b96833"
+  },
+  {
+    "path": "EVIDENCE_INDEX.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "13b297a48a63defc5c51b29e31552d838520cab577b94cda16518f9a47472edf",
+    "sha256_after": "293e1e3d5c3d477704c24f4133ff7b40eef4525578526bf39940c44fad685003"
+  },
+  {
+    "path": "REPRODUCIBILITY.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "c9727a22fdf48644bafd5d6139ba4d3fa8fbe9b56bfd0a2bd15bf1127d601e3f",
+    "sha256_after": "a16a8cc90d440ee7b7e95db123d48d22be307ebc0eac3d006d12988f8f1f24a9"
+  },
+  {
+    "path": "docs/EXPERIMENT_REGISTRY.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "770d527c1429bf10ecff6e49b9b3e253a7741feb8fb74c6ee92135fd773863a2",
+    "sha256_after": "3594403e5b78f0d955b4a4cf0a2f391792bbc9321091eb1f0a19b3ae6892ecbc"
+  },
+  {
+    "path": "docs/HYPOTHESIS_REGISTER_2026-06-18.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "0b57180ded26ae9584f5ac0e81557166891966a8f13acca258e7c9225852d26b",
+    "sha256_after": "79adef142f41fa49ecaf78662f7bd059932b3ef3ce2697f3ecbf164ca61f0389"
+  },
+  {
+    "path": "docs/SPEC_EXPERIMENT_OVERLAY.md",
+    "kind": "append current C10L stamp only; historical bytes preserved",
+    "sha256_before": "1267153fe5d3003023edf87d448a20db6be0180a383fce1b797c82e88d26faff",
+    "sha256_after": "ed371fb2f09075b980518b575a75ec4afc21e08a6c8897ad21441b7060a15234"
+  }
+]

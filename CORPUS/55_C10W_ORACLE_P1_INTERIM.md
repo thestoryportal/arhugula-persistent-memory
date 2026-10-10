@@ -81,3 +81,6 @@ _Verdict sentence merged from the GPT-6-Astra and advisor P1 reviews (p1_verdict
 ## Closing pointer (appended 2026-10-08; the interim text above is unchanged)
 
 P2 replicated and the post-P2 verdict review confirmed the reading: the final entry is **CORPUS/57** ⟨D-C10w-oracle@6a735469⟩ — PARTIAL-CEILING-LOCALITY-COST(G4,G6), BIGRAM; replicated 70/72; P3 not required; canonical split NOT-READ; NO-GATE-CLEAN-REFERENCE; routing INDEPENDENT-PREREG-ONLY. D-C10w-oracle is CLOSED there; this interim record is history, not the cited source.
+
+
+⟨D-C10l-covgeom@0caeca4f⟩
