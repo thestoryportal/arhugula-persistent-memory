@@ -1,6 +1,6 @@
 ---
 name: background-shell-niceness-10
-description: Claude's background Bash shell already runs at niceness 10 — a script that requires nice exactly 10 needs increment 10 minus current
+description: The main tmux server (and so every pane, Claude and Codex) runs at niceness 10; a pinned `nice -n 10` launch needs the operator-started `tmux -L new1` server at 0
 metadata:
   type: feedback
 ---
@@ -9,3 +9,5 @@ metadata:
 **Why:** the harness's background shell inherits niceness 10, and `nice -n` is an increment, not an absolute value.
 
 **How to apply:** compute the increment from the current value: `CUR=$(python3 -c 'import os;print(os.getpriority(os.PRIO_PROCESS,0))'); nice -n $((10-CUR)) …`. Related: [[gpu-gate-refuses-any-venv-python]] (another precondition non-run class).
+
+**Update 2026-10-10 (MAESTRO27, NEW-1 launch C1):** the source is the main tmux server (pid 21268, niceness 10), so every pane on it, MAESTRO's and every Codex builder's, starts at 10. The increment trick does not apply to `tools/new1_supervisor.py`: it hard-codes `nice -n 10` (:640, pinned bytes), so the supervisor itself must start at 0. A one-shot launchd job does run at 0, but macOS denies it file access on /Volumes/memit ("Operation not permitted", probe 2026-10-10), so it is not a route. What works: the operator starts a separate tmux server from a plain Terminal window (`tmux -L new1 new-session -d -s new1 -c <worktree>`). It runs at 0 with Terminal's file access, and MAESTRO drives it with `tmux -L new1 new-window/send-keys`. Codex's sandbox also denies the setuid `/bin/ps`, so process-observing tests run there too, not inside a builder.

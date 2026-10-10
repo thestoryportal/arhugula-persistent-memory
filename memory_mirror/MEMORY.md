@@ -122,7 +122,7 @@
 - [C10 mint2 r3 (CORPUS/54)](c10-mint2-r3-provisional-no-direction.md) — Cite the reference's 17/24 beside any r3 label; V2 diagnosis still owed
 - [Mint replication spread + GGUF](mint-replication-spread-and-gguf-survival.md) — Need ≥3 seeds for mint init orderings; hash saved inits (pca_lowrank unseeded)
 - [No model clears full bars](no-model-cleared-full-bars-c10-included.md) — Don't claim any model/method passes deployment bars while C10 is open
-- [Background shell is nice 10](background-shell-niceness-10.md) — nice -n is an increment; use $((10-current)) when a script needs exactly 10
+- [Background shell is nice 10](background-shell-niceness-10.md) — the main tmux server runs at 10; nice -n is an increment; a pinned `nice -n 10` launch needs the operator-started `tmux -L new1` server (launchd is denied the volume)
 - [Codex sandbox has no network](codex-sandbox-no-network.md) — Builders can't reach Drive/gh; MAESTRO runs live network checks itself
 - [Rerun builder tests on host TMPDIR + CI](rerun-builder-tests-host-tmpdir.md) — builder green ≠ host/CI green; /var symlink + macOS-only stat fields
 - [Merge gate first-use learnings](merge-gate-first-use-learnings.md) — ask operator in chat before --apply; hygiene --dry-run early; detached integration worktree
