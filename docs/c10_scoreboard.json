@@ -1,17 +1,17 @@
 {
   "_doc": "Plain-language scoreboard for the C10 problem (made-up multi-word names), shown by tools/dashboard_report.py. The program session updates it at every result and close-out: add a results row, refresh current/queue, rewrite the brief in plain words. Scores are held-out reworded questions answered exactly right, out of 72. Full detail lives in CORPUS; this file only points there.",
-  "updated": "2026-10-08 20:05 MDT",
+  "updated": "2026-10-10 01:15 MDT",
   "goal": 61,
   "out_of": 72,
-  "brief": "We are trying to teach the model made-up names (like a project codename) so it can recall them when a question is worded differently. Ordinary facts already work (about 69 of 72); made-up two-word names do not: the usual method gets about 9 to 14 of 72, our best write method about 40, and the goal is 61. Step 5 showed that training the same small part of the model can reach 70 to 71 of 72, but only with side effects, so that part is big enough but no clean ceiling is shown. Step 6 tried two published ways to prepare the answer before writing it: one gave 17 of 72 against 12 (too small to count), the other made the ordinary control facts worse, so neither is taken forward. Step 7 and ASTRA are next.",
+  "brief": "We are trying to teach the model made-up names (like a project codename) so it can recall them when a question is worded differently. Ordinary facts already work (about 69 of 72); made-up two-word names do not: the usual method gets about 12 of 72, our best write method about 40, and the goal is 61. Training the same small part of the model reaches 70 of 72, so that part is big enough, but only with side effects. ASTRA, which writes every word of the answer at once, got 14 of 72 against 12 and did not fit its targets, so it is closed. The offline math lab could not predict real results well enough and was stopped. Now: a check of the math behind earlier writes (NEW-1) and the step-7 setup.",
   "current": [
     {
-      "what": "ASTRA attempt 3 is running on the GPU (restart approved by you; new speed test done first).",
-      "status": "running"
+      "what": "NEW-1 (math check of earlier writes): its first run stopped on a setup check; the saved data reproduces exactly, and a second short check you approved is being built (CPU only).",
+      "status": "being built"
     },
     {
-      "what": "Offline math lab: the test plan is being revised after the reviewer's first pass (no GPU).",
-      "status": "being revised"
+      "what": "Step 7 (solve the weight change directly): stopped at calibration; its next check waits on a storage decision now that Google Drive is ready.",
+      "status": "waiting on you"
     }
   ],
   "results": [
@@ -176,22 +176,40 @@
       "kind": "write",
       "verdict": "No: re-weighting the answer's words gave 17 of 72 against 12, too small to count; the other idea made the ordinary control facts worse (64 and 65 of 72, below 68), so its score is not read, and its own answer-preparation step also missed its fit check (3 of 24 against 22); neither is taken forward",
       "ref": "CORPUS/58"
+    },
+    {
+      "date": "2026-10-09",
+      "name": "Math lab: predict a write's result offline",
+      "score": "calibration failed",
+      "best": null,
+      "kind": "stopped",
+      "verdict": "Stopped: its offline predictions did not match the real runs closely enough to trust, so it is not used to rank ideas",
+      "ref": "CORPUS/60"
+    },
+    {
+      "date": "2026-10-10",
+      "name": "ASTRA: write every word of the answer at once",
+      "score": "14 of 72 (vs 12)",
+      "best": 14,
+      "kind": "write",
+      "verdict": "No: two more right answers than the usual method, but it did not fit its targets, changed too much of the model and disturbed unrelated facts; closed under the current approval",
+      "ref": "CORPUS/61"
     }
   ],
   "queue": [
     {
-      "name": "ASTRA: write every word of the answer at once",
-      "status": "restart approved; attempt 3 running now",
-      "time": "10-min speed test, then 2-3 h"
+      "name": "NEW-1: math check of earlier writes",
+      "status": "second check approved; being built",
+      "time": "minutes, CPU"
     },
     {
       "name": "Step 7: solve the weight change directly (measurement)",
-      "status": "timing calibration needs more free memory: please close big apps (dashboard item)",
-      "time": "about 5-11 h"
+      "status": "stopped at calibration; waits on a storage decision",
+      "time": "hours"
     },
     {
       "name": "Lab View v2 (the visual lab view)",
-      "status": "phase 1 passed its design review (16 of 16); phase 2 next",
+      "status": "phase 1 done; phase 2 not started",
       "time": "no GPU"
     },
     {
@@ -201,7 +219,7 @@
     },
     {
       "name": "New-word variant with no training loop",
-      "status": "decide after step 3 review",
+      "status": "parked",
       "time": "one run"
     },
     {
@@ -211,7 +229,7 @@
     },
     {
       "name": "Bigger model (7B)",
-      "status": "only if the ceiling test says so",
+      "status": "not indicated: the ceiling test found the current part big enough",
       "time": "a day of setup"
     }
   ]
