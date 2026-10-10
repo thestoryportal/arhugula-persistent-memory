@@ -1,0 +1,15 @@
+{
+  "tools/new1_identity_diag.py": {
+    "changed_functions": [
+      "supervise",
+      "main"
+    ],
+    "native_exit_calls_preserved": 8
+  },
+  "tools/new1_construction_diag.py": {
+    "changed_functions": [
+      "main"
+    ],
+    "native_exit_calls_preserved": 0
+  }
+}

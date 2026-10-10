@@ -1,0 +1,21 @@
+test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup) ... FIX5 {"command": ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "-W", "error::ResourceWarning", "-m", "unittest", "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup", "-v"], "kind": "interpreter_exit", "native_exit": 2, "python_return_marker": false, "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup"}
+test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup) ... FAIL
+
+======================================================================
+FAIL: test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 512, in test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup
+    def test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup(self): self.boundary('__exit__', owned=True)
+                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 439, in boundary
+    if _fix5_isolated(self): return
+       ^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 356, in _fix5_isolated
+    test.assertEqual(child.returncode, 0, child.stdout+child.stderr)
+AssertionError: 2 != 0 : test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup) ... 
+
+----------------------------------------------------------------------
+Ran 1 test in 0.066s
+
+FAILED (failures=1)

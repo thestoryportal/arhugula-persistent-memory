@@ -1,0 +1,8 @@
+FIX5 {"after": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [30], "pending": [], "timer": [0.0, 0.0]}, "before": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [30], "pending": [], "timer": [0.0, 0.0]}, "elapsed_s": 7.100007496774197e-05, "exception": "INVALID-FIX5-BOUNDARY: interrupt after real handler installation", "injections": [{"after_real_mutation": [2, 14, 30], "function": "handler-install", "signal": 2}], "kind": "before_cleanup", "ownership": [], "python_return": null, "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler"}
+FIX5 {"command": ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "-W", "error::ResourceWarning", "-m", "unittest", "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler", "-v"], "kind": "interpreter_exit", "native_exit": 0, "python_return_marker": true, "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler"}
+test_fix5_c1_handler_install_restores_substituted_handler (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.071s
+
+OK

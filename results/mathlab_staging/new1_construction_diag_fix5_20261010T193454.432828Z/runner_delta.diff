@@ -1,0 +1,60 @@
+--- results/mathlab_staging/new1_construction_diag_fix4_20261010T104024.648040Z/run_checks.py
++++ results/mathlab_staging/new1_construction_diag_fix5_20261010T193454.432828Z/run_checks.py
+@@ -1,6 +1,5 @@
+ """Save every fresh-process test result, its command, counts and source hashes."""
+ import argparse
+-import ast
+ import hashlib
+ import json
+ import os
+@@ -17,7 +16,12 @@
+           'tests.test_new1_geometry','tests.test_new1_supervisor']
+ SOLO = 'tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_stalled_launch_returns_within_bound_and_late_handle_cleans_once'
+ SOURCES = ['tools/new1_identity_diag.py','tools/new1_construction_diag.py','tests/test_new1_construction_diag.py',
+-           'results/mathlab_staging/new1_construction_diag_scope.md']
++           'tests/test_new1_identity_diag.py','tools/new1_supervisor.py','tests/test_new1_supervisor.py',
++           'tools/new1_geometry.py','tests/test_new1_geometry.py',
++           'results/mathlab_staging/new1_construction_diag_scope.md',
++           *[str((RECEIPT/name).relative_to(ROOT)) for name in
++             ('fix5_inventory.json','run_checks.py','parent_control.py','run_parent_controls.py',
++              'fix5_inherited_mask_launch_01.py')]]
+ 
+ 
+ def main():
+@@ -27,16 +31,14 @@
+     parser.add_argument('--label', required=True)
+     args = parser.parse_args()
+     if args.mode in ('red','green'):
+-        tree = ast.parse((ROOT/'tests/test_new1_construction_diag.py').read_text())
+-        targets = [[SUITES[0]+'.'+c.name+'.'+f.name] for c in tree.body if isinstance(c,ast.ClassDef)
+-                   for f in c.body if isinstance(f,ast.FunctionDef) and f.name.startswith('test_fix4_')]
++        targets = [[name] for name in json.loads((RECEIPT/'fix5_inventory.json').read_text())['new_methods']]
+     else: targets = [[SOLO] if args.mode=='solo' else SUITES]*args.count
+     target_dir = RECEIPT/args.label
+     target_dir.mkdir()
+     records = []
+     for index, names in enumerate(targets, 1):
+         command = [sys.executable,'-B','-W','error::ResourceWarning','-m','unittest',*names,'-v']
+-        env = dict(os.environ, LLMDB_ROOT=str(ROOT), PYTHONDONTWRITEBYTECODE='1', NEW1_FIX4_RECEIPTS=str(target_dir))
++        env = dict(os.environ, LLMDB_ROOT=str(ROOT), PYTHONDONTWRITEBYTECODE='1', NEW1_FIX4_RECEIPTS=str(target_dir), NEW1_FIX5_RECEIPTS=str(target_dir))
+         start=time.monotonic()
+         timed_out = False
+         try:
+@@ -48,7 +50,7 @@
+         log=target_dir/f'{index:03d}.log'; log.write_bytes(output)
+         match=re.search(rb'Ran (\d+) tests? in ([\d.]+)s', output)
+         record = dict(index=index, targets=names, command=shlex.join(command),
+-                      environment={k:env[k] for k in ('LLMDB_ROOT','PYTHONDONTWRITEBYTECODE','NEW1_FIX4_RECEIPTS')},
++                      environment={k:env[k] for k in ('LLMDB_ROOT','PYTHONDONTWRITEBYTECODE','NEW1_FIX4_RECEIPTS','NEW1_FIX5_RECEIPTS')},
+                       exit=code, timeout=timed_out, wall_s=time.monotonic()-start,
+                       tests=int(match[1]) if match else None, warnings=b'ResourceWarning:' in output,
+                       ignored_exception=b'Exception ignored in' in output,
+@@ -60,7 +62,7 @@
+         print(json.dumps({k:record[k] for k in ('index','targets','exit','tests','completed','ok','warnings','wall_s')}),flush=True)
+         if args.mode=='red':
+             if code==0: raise SystemExit('new test unexpectedly GREEN before production edits')
+-        elif code!=0 or not record['ok'] or not record['completed'] or record['warnings'] or record['ignored_exception'] or timed_out or record['tests']!=(188 if args.mode=='full' else 1):
++        elif code!=0 or not record['ok'] or not record['completed'] or record['warnings'] or record['ignored_exception'] or timed_out or record['tests']!=(205 if args.mode=='full' else 1):
+             raise SystemExit('saved failure; repetition stopped without selective restart')
+     return 0
+ 

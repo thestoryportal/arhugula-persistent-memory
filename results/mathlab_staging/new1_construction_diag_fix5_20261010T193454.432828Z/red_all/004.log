@@ -1,0 +1,73 @@
+FIX5 {"after": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [2, 14, 30], "pending": [], "timer": [0.0, 0.0]}, "before": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [30], "pending": [], "timer": [0.0, 0.0]}, "elapsed_s": 8.966703899204731e-05, "exception": null, "injections": [{"after_real_mutation": [2, 14, 30], "function": "__enter__", "line": 495, "prior": [30]}], "kind": "before_cleanup", "ownership": [], "python_return": 2, "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block"}
+test_fix5_c1_deadline_entry_restores_unrelated_block (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block) ... FAIL
+
+======================================================================
+FAIL: test_fix5_c1_deadline_entry_restores_unrelated_block (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 510, in test_fix5_c1_deadline_entry_restores_unrelated_block
+    def test_fix5_c1_deadline_entry_restores_unrelated_block(self): self.boundary('__enter__')
+                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 498, in boundary
+    self.assertEqual(after, before, 'production stranded signal state before fixture cleanup')
+AssertionError: {'mask': [2, 14, 30], 'pending': [], 'handlers': {'[94 chars]0.0]} != {'mask': [30], 'pending': [], 'handlers': {'2': '<b[87 chars]0.0]}
+  {'handlers': {'14': '<Handlers.SIG_DFL: 0>',
+                '2': '<built-in function default_int_handler>'},
+-  'mask': [2, 14, 30],
+?           -------
+
++  'mask': [30],
+   'pending': [],
+   'timer': [0.0, 0.0]} : production stranded signal state before fixture cleanup
+
+----------------------------------------------------------------------
+Ran 1 test in 0.020s
+
+FAILED (failures=1)
+FIX5 {"command": ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "-W", "error::ResourceWarning", "-m", "unittest", "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block", "-v"], "kind": "interpreter_exit", "native_exit": 1, "python_return_marker": true, "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block"}
+test_fix5_c1_deadline_entry_restores_unrelated_block (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block) ... FAIL
+
+======================================================================
+FAIL: test_fix5_c1_deadline_entry_restores_unrelated_block (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 510, in test_fix5_c1_deadline_entry_restores_unrelated_block
+    def test_fix5_c1_deadline_entry_restores_unrelated_block(self): self.boundary('__enter__')
+                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 439, in boundary
+    if _fix5_isolated(self): return
+       ^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 356, in _fix5_isolated
+    test.assertEqual(child.returncode, 0, child.stdout+child.stderr)
+AssertionError: 1 != 0 : FIX5 {"after": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [2, 14, 30], "pending": [], "timer": [0.0, 0.0]}, "before": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [30], "pending": [], "timer": [0.0, 0.0]}, "elapsed_s": 8.966703899204731e-05, "exception": null, "injections": [{"after_real_mutation": [2, 14, 30], "function": "__enter__", "line": 495, "prior": [30]}], "kind": "before_cleanup", "ownership": [], "python_return": 2, "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block"}
+test_fix5_c1_deadline_entry_restores_unrelated_block (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block) ... FAIL
+
+======================================================================
+FAIL: test_fix5_c1_deadline_entry_restores_unrelated_block (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 510, in test_fix5_c1_deadline_entry_restores_unrelated_block
+    def test_fix5_c1_deadline_entry_restores_unrelated_block(self): self.boundary('__enter__')
+                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 498, in boundary
+    self.assertEqual(after, before, 'production stranded signal state before fixture cleanup')
+AssertionError: {'mask': [2, 14, 30], 'pending': [], 'handlers': {'[94 chars]0.0]} != {'mask': [30], 'pending': [], 'handlers': {'2': '<b[87 chars]0.0]}
+  {'handlers': {'14': '<Handlers.SIG_DFL: 0>',
+                '2': '<built-in function default_int_handler>'},
+-  'mask': [2, 14, 30],
+?           -------
+
++  'mask': [30],
+   'pending': [],
+   'timer': [0.0, 0.0]} : production stranded signal state before fixture cleanup
+
+----------------------------------------------------------------------
+Ran 1 test in 0.020s
+
+FAILED (failures=1)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.071s
+
+FAILED (failures=1)

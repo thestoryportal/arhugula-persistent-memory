@@ -1,0 +1,45 @@
+{
+  "before": {
+    "mask": [
+      30
+    ],
+    "pending": [],
+    "handlers": {
+      "2": "<built-in function default_int_handler>",
+      "14": "<Handlers.SIG_DFL: 0>"
+    },
+    "timer": [
+      0.0,
+      0.0
+    ]
+  },
+  "after": {
+    "mask": [
+      30
+    ],
+    "pending": [],
+    "handlers": {
+      "2": "<built-in function default_int_handler>",
+      "14": "<Handlers.SIG_DFL: 0>"
+    },
+    "timer": [
+      0.0,
+      0.0
+    ]
+  },
+  "injections": [
+    {
+      "function": "handler-install",
+      "signal": 2,
+      "after_real_mutation": [
+        2,
+        14,
+        30
+      ]
+    }
+  ],
+  "python_return": null,
+  "exception": "INVALID-FIX5-BOUNDARY: interrupt after real handler installation",
+  "elapsed_s": 7.100007496774197e-05,
+  "ownership": []
+}

@@ -1,0 +1,30 @@
+{
+  "new_methods": [
+    "tests.test_new1_construction_diag.Fix5ParentEntryTests.test_fix5_c2_construction_main_sigalrm_refuses_before_file_work",
+    "tests.test_new1_construction_diag.Fix5ParentEntryTests.test_fix5_c2_construction_main_sigint_refuses_before_file_work",
+    "tests.test_new1_construction_diag.Fix5ParentEntryTests.test_fix5_c2_construction_main_both_refuses_before_file_work",
+    "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_entry_restores_unrelated_block",
+    "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_restores_unrelated_block",
+    "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_deadline_exit_with_owned_child_reaps_before_cleanup",
+    "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_install_restores_substituted_handler",
+    "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_handler_restore_restores_caller_mask",
+    "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_owned_start_restores_mask_after_mutation",
+    "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_owned_step_restores_mask_after_mutation",
+    "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c1_owned_close_fd_restores_mask_after_mutation",
+    "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending",
+    "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigint_refuses_without_consuming_pending",
+    "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_both_refuses_without_consuming_pending",
+    "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_identity_main_sigalrm_refuses_before_file_work",
+    "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_identity_main_sigint_refuses_before_file_work",
+    "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_identity_main_both_refuses_before_file_work"
+  ],
+  "expected_full_total": 205,
+  "per_module": {
+    "construction_diag": 69,
+    "identity_diag": 41,
+    "geometry": 34,
+    "supervisor": 61
+  },
+  "existing_methods_retained": 188,
+  "requirement": "Astra r5 section 2 criteria 1 and 2"
+}

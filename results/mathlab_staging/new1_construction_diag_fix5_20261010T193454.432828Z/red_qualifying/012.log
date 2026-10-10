@@ -1,0 +1,61 @@
+FIX5 {"after": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [14], "pending": [14], "timer": [0.0, 0.0]}, "before": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [14], "pending": [14], "timer": [0.0, 0.0]}, "calls": ["protected-work"], "directory_exists": false, "elapsed_s": 0.00033587520010769367, "exception": null, "kind": "before_cleanup", "output": [], "python_return": 2, "stderr": "INVALID-FIX5-WORK: protected work reached before refusal\n", "stdout": "", "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending"}
+test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending) ... FAIL
+
+======================================================================
+FAIL: test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 537, in test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending
+    def test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending(self): self.refusal('direct', [signal.SIGALRM])
+                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 535, in refusal
+    _fix5_refusal(self, I, blocked, direct=entry == 'direct')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 428, in _fix5_refusal
+    test.assertIsNotNone(error, 'direct supervision must raise INVALID-ENFORCEMENT')
+AssertionError: unexpectedly None : direct supervision must raise INVALID-ENFORCEMENT
+
+----------------------------------------------------------------------
+Ran 1 test in 0.020s
+
+FAILED (failures=1)
+FIX5 {"command": ["/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python", "-B", "-W", "error::ResourceWarning", "-m", "unittest", "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending", "-v"], "kind": "interpreter_exit", "native_exit": 1, "python_return_marker": true, "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending"}
+test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending) ... FAIL
+
+======================================================================
+FAIL: test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 537, in test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending
+    def test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending(self): self.refusal('direct', [signal.SIGALRM])
+                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 533, in refusal
+    if _fix5_isolated(self): return
+       ^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 356, in _fix5_isolated
+    test.assertEqual(child.returncode, 0, child.stdout+child.stderr)
+AssertionError: 1 != 0 : FIX5 {"after": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [14], "pending": [14], "timer": [0.0, 0.0]}, "before": {"handlers": {"14": "<Handlers.SIG_DFL: 0>", "2": "<built-in function default_int_handler>"}, "mask": [14], "pending": [14], "timer": [0.0, 0.0]}, "calls": ["protected-work"], "directory_exists": false, "elapsed_s": 0.00033587520010769367, "exception": null, "kind": "before_cleanup", "output": [], "python_return": 2, "stderr": "INVALID-FIX5-WORK: protected work reached before refusal\n", "stdout": "", "test": "tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending"}
+test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending) ... FAIL
+
+======================================================================
+FAIL: test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending (tests.test_new1_identity_diag.Fix5SignalTests.test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 537, in test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending
+    def test_fix5_c2_direct_sigalrm_refuses_without_consuming_pending(self): self.refusal('direct', [signal.SIGALRM])
+                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 535, in refusal
+    _fix5_refusal(self, I, blocked, direct=entry == 'direct')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_identity_diag.py", line 428, in _fix5_refusal
+    test.assertIsNotNone(error, 'direct supervision must raise INVALID-ENFORCEMENT')
+AssertionError: unexpectedly None : direct supervision must raise INVALID-ENFORCEMENT
+
+----------------------------------------------------------------------
+Ran 1 test in 0.020s
+
+FAILED (failures=1)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.070s
+
+FAILED (failures=1)

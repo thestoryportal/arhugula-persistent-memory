@@ -1,0 +1,48 @@
+{
+  "before": {
+    "mask": [
+      2,
+      14
+    ],
+    "pending": [
+      2,
+      14
+    ],
+    "handlers": {
+      "2": "<built-in function default_int_handler>",
+      "14": "<Handlers.SIG_DFL: 0>"
+    },
+    "timer": [
+      0.0,
+      0.0
+    ]
+  },
+  "after": {
+    "mask": [
+      2,
+      14
+    ],
+    "pending": [
+      2,
+      14
+    ],
+    "handlers": {
+      "2": "<built-in function default_int_handler>",
+      "14": "<Handlers.SIG_DFL: 0>"
+    },
+    "timer": [
+      0.0,
+      0.0
+    ]
+  },
+  "calls": [
+    "protected-work"
+  ],
+  "python_return": 2,
+  "exception": null,
+  "elapsed_s": 0.0006993748247623444,
+  "directory_exists": false,
+  "output": [],
+  "stdout": "",
+  "stderr": "INVALID-FIX5-WORK: protected work reached before refusal\n"
+}
