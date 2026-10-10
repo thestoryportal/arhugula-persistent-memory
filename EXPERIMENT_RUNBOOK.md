@@ -255,6 +255,15 @@ Volume ~86% full. **~62 GB reclaimable** without touching the active Qwen line:
 | `stage_1_sect/overlays` | 33 GB | ⚠️ confirm not referenced before delete |
 Reclaim the first four (~31 GB) freely; verify `stage_1_sect/overlays` provenance before removing. Always keep: Qwen2.5-3B/7B, Qwen3-0.6B, their cov caches, the engine, LARQL, CORPUS, memory_mirror.
 
+### §3.3a — Storage & archival policy (operator, 2026-10-09; BINDING after the 110 GB disk-full incident)
+Incident: the C10Y pre-cast diagnostic wrote 105 GB of float64 operand packets, filled `/Volumes/memit`, and killed ASTRA attempt 4's first start (infra; relaunched under Astra RELAUNCH-OK). Operator: offloading 105 GB onto the internal SSD "isn't acceptable"; "we need much better solutions for managing disc space and file archival".
+- **Classify every artifact at write time.** *Science records* (JSON, manifests, hashes, summaries, CORPUS, ledgers, code) → git (durable tier). *Regenerable bulk* (operand/tensor packets, harvest tensors, caches reproducible from pinned code + inputs) → hot tier (memit) only while an analysis needs it.
+- **Retention:** once a run's reading is confirmed (Astra CONFIRM / close-out), or it is INCONCLUSIVE with no claim drawn, record per-file SHA-256 + sizes in git, keep at most a minimal sample a named follow-up needs, delete the rest. Deleting regenerable bulk under this rule removes no science: claims rest on records, hashes and frozen code/inputs.
+- **Irreplaceable bulk** (non-regenerable, too big for git) → remote archive **Google Drive via rclone** (operator choice 2026-10-09; rclone v1.75.2 installed; one-time OAuth `rclone config` remote `gdrive` pending at the Mac). Never the internal SSD.
+- **Every scope/prereg states a disk budget** (bytes per packet × count) beside time and memory; every queue/launcher waits for free disk ≥ projected writes + 20 GiB before dispatch.
+- **Approved:** replace the 6-hourly internal-SSD mirror of memit (`tools/backup_mirror.sh`, ~266 GB at `~/Backups/memit`) with a Drive backup once `gdrive` is authorized.
+- First application: pre-cast operands hashed (`results/c10y_precast_diag/20261009T225619Z/OPERANDS_SHA256SUMS.txt`, 131 files), A7-L4 set kept on memit for the controls-timing measurement, the other 96 (86 GB) approved for deletion from `~/Backups/memit_offload/`.
+
 ### §3.4 — Cov-cache & /dev/shm discipline
 - Covariance is the expensive precompute (~1–2 h per 5-layer band on a 3B). It **caches to `covariance_caches/<model>/wikipedia_stats/`** — reuse aggressively; never recompute a cached band.
 - `/dev/shm` (29 GB RAM tmpfs) holds vindex/overlays for speed; it is **ephemeral** — rebuild from scripts after a pod restart. Cap BLAS threads (`OPENBLAS_NUM_THREADS=8`) so cov inversion doesn't thrash.
