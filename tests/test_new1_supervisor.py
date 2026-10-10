@@ -271,12 +271,214 @@ f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'}
         self.assertLess(time.monotonic()-started,1)
         self.assertFalse(marker.exists())
 
-    def test_default_admission_obeys_parent_lab_stop_policy(self):
-        from tools import mathlab_runtime as R, mathlab_admit as A
-        with mock.patch.object(A,'probe',return_value={'allowed':True,'reasons':[]}), \
-             mock.patch.object(R,'enforce_stop_policy',side_effect=R.Halt('LAB-STOP','third abort')):
-            with self.assertRaisesRegex(ValueError,'LAB-STOP'):
-                self.S.cpu_admission(self.run)
+    def history_fixture(self, label='history'):
+        root=self.root/label
+        current=root/'results/mathlab_staging/runs/new1_current'
+        current.mkdir(parents=True)
+        return root,current
+
+    def history_run(self, root, name, *, step=4, title='NEW1 history fixture',
+                    purpose='experiment', reasons=()):
+        directory=root/'results/mathlab_staging/runs'/name
+        directory.mkdir()
+        self.S.emit(directory,'run_started',step=step,title=title,purpose=purpose,
+            deadline_ts='2026-10-10T03:00:00Z',pid=1)
+        for reason in reasons:
+            self.S.emit(directory,'halted',reason=reason+': fixture abort',diagnostic_path='fixture')
+        return directory
+
+    def failed_mathlab_history(self, root):
+        directory=self.history_run(root,'m3_failed_fixture',step=3,title='MathLab calibration fixture')
+        self.S.emit(directory,'gate_result',gate_id='calibration',plain_words='Frozen calibration',
+            observed='FAIL',bar='PASS',comparison='meets',passed=False)
+        self.S.emit(directory,'run_finished',outcome='FAIL',summary='Synthetic failed MathLab calibration')
+
+    def test_new1_history_ignores_failed_mathlab_calibration(self):
+        from tools import mathlab_admit as A
+        root,current=self.history_fixture()
+        self.failed_mathlab_history(root)
+        decision={'allowed':True,'reasons':[]}
+        with mock.patch.object(self.S,'ROOT',root), mock.patch.object(A,'probe',return_value=decision) as probe:
+            self.assertIs(self.S.cpu_admission(current),decision)
+        probe.assert_called_once_with('cpu',None)
+
+    def test_mathlab_stop_policy_still_rejects_failed_calibration(self):
+        from tools import mathlab_runtime as R
+        root,current=self.history_fixture()
+        self.failed_mathlab_history(root)
+        with self.assertRaises(R.Halt) as raised:
+            R.enforce_stop_policy(root,4,exclude=current)
+        self.assertEqual(raised.exception.code,'LAB-STOP')
+
+    def test_new1_history_fewer_than_three_aborted_runs_allows_cpu_probe(self):
+        from tools import mathlab_admit as A
+        for count in (0,1,2):
+            with self.subTest(prior_runs=count):
+                root,current=self.history_fixture(str(count))
+                self.failed_mathlab_history(root)
+                for number in range(count):
+                    reason=('STOPPED-RESOURCE','STOPPED-DEADLINE')[number%2]
+                    self.history_run(root,f'new1_previous_{number}',reasons=(reason,))
+                decision={'allowed':True,'reasons':[]}
+                with mock.patch.object(self.S,'ROOT',root), mock.patch.object(A,'probe',return_value=decision) as probe:
+                    self.assertIs(self.S.cpu_admission(current),decision)
+                probe.assert_called_once_with('cpu',None)
+
+    def test_new1_history_three_aborted_runs_requires_operator(self):
+        from tools import mathlab_admit as A
+        for reasons in (('STOPPED-RESOURCE',)*3,('STOPPED-DEADLINE',)*3,
+                        ('STOPPED-RESOURCE','STOPPED-DEADLINE','STOPPED-RESOURCE')):
+            with self.subTest(reasons=reasons):
+                root,current=self.history_fixture('_'.join(reasons))
+                self.failed_mathlab_history(root)
+                for number,reason in enumerate(reasons):
+                    self.history_run(root,f'new1_previous_{number}',reasons=(reason,))
+                with mock.patch.object(self.S,'ROOT',root), mock.patch.object(A,'probe') as probe:
+                    with self.assertRaises(self.S.Stop) as raised:
+                        self.S.cpu_admission(current)
+                self.assertEqual(raised.exception.code,'OPERATOR')
+                probe.assert_not_called()
+
+    def test_new1_history_ignores_true_mathlab_step_four_aborts(self):
+        from tools import mathlab_admit as A
+        root,current=self.history_fixture()
+        for number in range(3):
+            self.history_run(root,f'm4_previous_{number}',title='MathLab candidate questions',
+                reasons=(('STOPPED-RESOURCE','STOPPED-DEADLINE')[number%2],))
+        decision={'allowed':True,'reasons':[]}
+        with mock.patch.object(self.S,'ROOT',root), mock.patch.object(A,'probe',return_value=decision) as probe:
+            self.assertIs(self.S.cpu_admission(current),decision)
+        probe.assert_called_once_with('cpu',None)
+
+    def test_new1_history_ignores_other_mathlab_stops_and_unrelated_bad_streams(self):
+        from tools import mathlab_admit as A
+        root,current=self.history_fixture()
+        self.history_run(root,'m2_failed_fixture',step=2,title='MathLab reproduction',reasons=('LAB-STOP-2a',))
+        self.history_run(root,'m1_halted_fixture',step=1,title='MathLab harvest',reasons=('STOPPED-RESOURCE',))
+        malformed=root/'results/mathlab_staging/runs/m3_torn_fixture'
+        malformed.mkdir(); (malformed/'events.jsonl').write_text('{')
+        decision={'allowed':True,'reasons':[]}
+        with mock.patch.object(self.S,'ROOT',root), mock.patch.object(A,'probe',return_value=decision) as probe:
+            self.assertIs(self.S.cpu_admission(current),decision)
+        probe.assert_called_once_with('cpu',None)
+
+    def test_new1_history_excludes_current_missing_torn_or_aborted_run(self):
+        from tools import mathlab_admit as A
+        for current_state in ('missing','torn','aborted'):
+            with self.subTest(current_state=current_state):
+                root,current=self.history_fixture(current_state)
+                for number in range(2):
+                    self.history_run(root,f'new1_previous_{number}',reasons=('STOPPED-RESOURCE',))
+                if current_state=='torn': (current/'events.jsonl').write_text('{')
+                if current_state=='aborted':
+                    self.S.emit(current,'run_started',step=4,title='NEW1 current fixture',purpose='experiment',
+                        deadline_ts='2026-10-10T03:00:00Z',pid=1)
+                    self.S.emit(current,'halted',reason='STOPPED-DEADLINE: current fixture',diagnostic_path='fixture')
+                decision={'allowed':True,'reasons':[]}
+                with mock.patch.object(self.S,'ROOT',root), mock.patch.object(A,'probe',return_value=decision) as probe:
+                    self.assertIs(self.S.cpu_admission(current),decision)
+                probe.assert_called_once_with('cpu',None)
+
+    def test_new1_history_counts_each_prior_run_once(self):
+        from tools import mathlab_admit as A
+        root,current=self.history_fixture()
+        self.failed_mathlab_history(root)
+        self.history_run(root,'new1_repeated_abort',reasons=('STOPPED-RESOURCE','STOPPED-DEADLINE','STOPPED-RESOURCE'))
+        self.history_run(root,'new1_second_abort',reasons=('STOPPED-DEADLINE',))
+        self.history_run(root,'new1_other_halt',reasons=('INVALID-ADMISSION',))
+        decision={'allowed':True,'reasons':[]}
+        with mock.patch.object(self.S,'ROOT',root), mock.patch.object(A,'probe',return_value=decision) as probe:
+            self.assertIs(self.S.cpu_admission(current),decision)
+            probe.assert_called_once_with('cpu',None)
+            probe.reset_mock()
+            self.history_run(root,'new1_third_abort',reasons=('STOPPED-RESOURCE',))
+            with self.assertRaises(self.S.Stop) as raised:
+                self.S.cpu_admission(current)
+            self.assertEqual(raised.exception.code,'OPERATOR')
+            probe.assert_not_called()
+
+    def test_new1_history_missing_or_malformed_refuses_before_cpu_probe(self):
+        from tools import mathlab_admit as A
+        for defect in ('missing','empty','malformed','torn','not-directory'):
+            with self.subTest(defect=defect):
+                root,current=self.history_fixture(defect)
+                directory=root/'results/mathlab_staging/runs/new1_bad'
+                if defect=='not-directory': directory.write_text('not a run directory')
+                elif defect=='missing': directory.mkdir()
+                else:
+                    directory=self.history_run(root,'new1_bad')
+                    path=directory/'events.jsonl'
+                    if defect=='empty': path.write_text('')
+                    elif defect=='malformed': path.write_text('{\n')
+                    else: path.write_bytes(path.read_bytes()+b'{')
+                with mock.patch.object(self.S,'ROOT',root), mock.patch.object(A,'probe') as probe:
+                    with self.assertRaises(self.S.Stop) as raised:
+                        self.S.cpu_admission(current)
+                self.assertEqual(raised.exception.code,'INVALID-HISTORY')
+                probe.assert_not_called()
+
+    def test_new1_history_contradictory_identity_refuses_before_cpu_probe(self):
+        from tools import mathlab_admit as A
+        for defect in ('step','title','purpose','missing-purpose','no-start','duplicate-start','run-id','mixed-run-ids'):
+            with self.subTest(defect=defect):
+                root,current=self.history_fixture(defect)
+                directory=self.history_run(root,'new1_bad')
+                path=directory/'events.jsonl'
+                rows=[json.loads(line) for line in path.read_text().splitlines()]
+                if defect=='step': rows[0]['step']=3
+                elif defect=='title': rows[0]['title']='MathLab candidate questions'
+                elif defect=='purpose': rows[0]['purpose']='admission'
+                elif defect=='missing-purpose': rows[0].pop('purpose')
+                elif defect=='duplicate-start': rows.append(dict(rows[0]))
+                elif defect=='run-id': rows[0]['run_id']='new1_other'
+                else:
+                    self.S.emit(directory,'resource_sample',avail_gib=13,floor_gib=6,rss_gib=0,cpu_pct=0)
+                    rows=[json.loads(line) for line in path.read_text().splitlines()]
+                    if defect=='no-start': rows=rows[1:]
+                    else: rows[-1]['run_id']='new1_other'
+                path.write_text(''.join(json.dumps(row)+'\n' for row in rows))
+                with mock.patch.object(self.S,'ROOT',root), mock.patch.object(A,'probe') as probe:
+                    with self.assertRaises(self.S.Stop) as raised:
+                        self.S.cpu_admission(current)
+                self.assertEqual(raised.exception.code,'INVALID-HISTORY')
+                probe.assert_not_called()
+
+    def test_new1_history_symlink_alias_refuses_before_cpu_probe(self):
+        from tools import mathlab_admit as A
+        root,current=self.history_fixture()
+        previous=self.history_run(root,'new1_previous',reasons=('STOPPED-RESOURCE',))
+        (previous.parent/'new1_alias').symlink_to(previous.name,target_is_directory=True)
+        with mock.patch.object(self.S,'ROOT',root), mock.patch.object(A,'probe') as probe:
+            with self.assertRaises(self.S.Stop) as raised:
+                self.S.cpu_admission(current)
+        self.assertEqual(raised.exception.code,'INVALID-HISTORY')
+        probe.assert_not_called()
+
+    def test_default_admission_preserves_cpu_lead_probe(self):
+        from tools import mathlab_admit as A
+        root,current=self.history_fixture()
+        lead={'fixture':'verified coordinator lead'}
+        path=root/'lead.json'; path.write_text(json.dumps(lead))
+        decision={'allowed':True,'reasons':[]}
+        with mock.patch.object(self.S,'ROOT',root), mock.patch.object(A,'probe',return_value=decision) as probe:
+            self.assertIs(self.S.cpu_admission(current,path),decision)
+        probe.assert_called_once_with('cpu',lead)
+
+    def test_default_admission_refusal_reaches_cpu_probe_without_dispatch(self):
+        from tools import mathlab_admit as A
+        root,self.run=self.history_fixture()
+        self.failed_mathlab_history(root)
+        with mock.patch.object(self.S,'ROOT',root), \
+             mock.patch.object(A,'probe',return_value={'allowed':False,'reasons':['inventory failed']}) as probe, \
+             mock.patch.object(self.S.subprocess,'Popen',side_effect=AssertionError('dispatch forbidden')) as dispatch:
+            outcome=self.S.supervise(['fixture-worker'],self.run,monitor=lambda pid:self.S.Sample(13,0,0))
+        self.assertEqual(outcome,'INVALID-ADMISSION')
+        probe.assert_called_once_with('cpu',None)
+        dispatch.assert_not_called()
+        events,state=self.state()
+        self.assertEqual(state['status'],'halted')
+        self.assertEqual(state['gate_outcomes']['admission'],'FAIL')
+        self.assertFalse(any(e['type'] in ('stage_started','finding_staged','run_finished') for e in events))
 
     def test_real_worker_group_is_terminated_on_rss_breach(self):
         pidfile=self.root/'pid'

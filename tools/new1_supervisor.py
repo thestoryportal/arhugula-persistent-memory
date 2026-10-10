@@ -161,9 +161,34 @@ def sample_resources(pid=None):
         raise Stop('INVALID-MONITORING', str(error)) from error
 
 
+def enforce_new1_retry_policy(run_dir):
+    from tools.mathlab_events import read_events
+    resource_aborts = 0
+    try:
+        current = Path(run_dir).resolve()
+        for directory in (ROOT/'results/mathlab_staging/runs').iterdir():
+            if not directory.name.startswith('new1_'): continue
+            if directory.is_symlink():
+                raise Stop('INVALID-HISTORY', str(directory)+': NEW1 run namespace is a symlink')
+            if directory.resolve() == current: continue
+            rows, errors = read_events(directory/'events.jsonl')
+            starts = [row for row in rows if row['type']=='run_started']
+            if errors or len(starts) != 1:
+                raise Stop('INVALID-HISTORY', str(directory)+': one valid NEW1 run_started required; '+'; '.join(errors))
+            start = starts[0]
+            if start['step'] != 4 or not start['title'].startswith('NEW1 ') or start.get('purpose') != 'experiment':
+                raise Stop('INVALID-HISTORY', str(directory)+': NEW1 run identity contradicts its namespace')
+            resource_aborts += any(row['type']=='halted' and
+                row['reason'].split(':',1)[0] in ('STOPPED-RESOURCE','STOPPED-DEADLINE') for row in rows)
+    except OSError as error:
+        raise Stop('INVALID-HISTORY', 'cannot check NEW1 retry history: '+str(error)) from error
+    if resource_aborts >= 3:
+        raise Stop('OPERATOR', 'three prior NEW1 resource/deadline-aborted runs; operator required')
+
+
 def cpu_admission(run_dir, lead_path=None):
-    from tools import mathlab_admit as A, mathlab_runtime as R
-    R.enforce_stop_policy(ROOT, 4, exclude=run_dir)
+    from tools import mathlab_admit as A
+    enforce_new1_retry_policy(run_dir)
     lead = strict_json(Path(lead_path).read_text()) if lead_path else None
     return A.probe('cpu', lead)
 

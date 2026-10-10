@@ -369,3 +369,87 @@ Only this report is authored in this diagnosis. The original **39485-byte** repo
 **Saved context / handoff:** diagnosis complete; no implementation, test or review is in flight. Root: `/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a`; branch: `worktree-c10k-route-a`; inspected HEAD: `65e466aab117658f2eed00dc2a2806e70e80bf10`; snapshot: `2026-10-10T01:50:45.870923+00:00`. This appended section is the in-scope context-save record for the diagnosis. Exact refusal artifacts, repair surface and proposed RED sequence are above. Next belongs to MAESTRO2: decide the scoped implementation instruction; if authorized, reproduce RED before editing, retain independent resource/retry safeguards, then request review before any separately authorized fresh launch. Preserve the refused namespace; never append a retry into it. CPU admission, full-workload feasibility and real geometry remain **NOT RUN / UNVERIFIED** in this diagnosis. The prior B2 evidence symlink still resolves into `/private/tmp/new1_mb3_20261009T233356Z_b2_evidence`; retain/archive that physical directory before cleanup.
 
 **Context rule, binding through every handoff:** watch **Context N% left**; before approximately **20%**, stop starting new work, write done / in-flight / exact paths / next step / open risks into the task report, and say so for a fresh successor session. Never approach full-window compaction. Every handoff and every team session restates and carries this rule.
+
+## 2026-10-10 UTC — NEW1 LABSTOP FIX (Codex MB3; MAESTRO2 GO with Astra changes)
+
+**NEW1 LABSTOP FIX DONE — test-first, CPU fixtures only.** The NEW1 launcher now validates its own run history and preserves its three-prior-resource/deadline-abort operator guard without inheriting MathLab's failed-calibration scientific stop. MathLab remains STOPPED under D-ML-1/D-ML-4; NEW1 remains the separate FROZEN D-NEW1-1 study. No real NEW1 run, live admission probe, geometry observation, GPU/model execution or commit was performed. MAESTRO2 retains relaunch control after review.
+
+### Authority and implementation scope
+
+Read the full Astra **GO-WITH-CHANGES** review at `/Users/robertrhu/.claude/jobs/8ac4cacf/tmp/astra_new1labstop_out.md`; the exact copy is `astra_go_with_changes.md` in the evidence directory below, SHA256 `05f1098232326194e1a92ede260ba8eacb6ea54f197e3104233b26e10c0e6897`. This implements the authorized followup to the preceding read-only diagnosis. Frozen NEW1 §6 incorporates fail-closed CPU admission (`docs/NEW1_ADAPTER_GEOMETRY_PREREG.md:113`), and queue action retains separate calibration/utility requirements (`:135`). The MathLab stop is independently specified in `docs/MATHLAB_PREREG.md:296`; independent continuation remains recorded at `CORPUS/60_MATHLAB_HARVEST_REPLAY.md:132` and `EXPERIMENT_RUNBOOK.md:107`.
+
+Code changes are confined to **`tools/new1_supervisor.py` and `tests/test_new1_supervisor.py`**. The only existing production function changed is `cpu_admission()`; its former lab-wide policy call is replaced by the new local `enforce_new1_retry_policy()` (`tools/new1_supervisor.py:164,189`). The obsolete test demanding inherited LAB-STOP was replaced by the scoped history controls. `tools/mathlab_runtime.py` was left byte-identical, and no stop code is caught and ignored.
+
+The local policy enumerates the producer's `new1_*` entries in `results/mathlab_staging/runs`; unrelated entries are ignored before decoding. A selected prior entry must have a readable, schema-valid stream with directory/run-ID consistency, exactly one start, step **4**, a title beginning **NEW1 ** and explicit purpose **experiment**. Missing/empty/malformed/torn streams, inconsistent identity and namespace symlinks refuse with **INVALID-HISTORY** before the CPU probe. The current directory is excluded. Every prior run with any STOPPED-RESOURCE or STOPPED-DEADLINE halt counts **once**; 0/1/2 such prior runs permit the probe, while three or more require **OPERATOR**. Other NEW1 halt codes are not resource/deadline aborts. The original LAB-STOP refusal is preserved and does not increment that counter.
+
+`A.probe('cpu', lead)` remains the actual CPU admission path, including shared prereg verification, engine fingerprint, inventory failures, autoresearch exclusion and verified coordinator-tail checks. The frozen NEW1 hash check, 1800-second whole-run deadline, 300-second wait, resource limits/reserves, isolation, IPC and B2 durable terminal protections are unchanged. Numeric **step=4** is unchanged. Retry attribution is repaired through validated namespace/identity selection; a shared study-identity/schema redesign and the broader step-4 display collision remain deferred as Astra directed.
+
+### RED first, then production, then GREEN
+
+Evidence namespace: `results/mathlab_staging/new1_v2_build_evidence/mb3_20261010T021418Z_labstop` is a workspace symlink to `/private/tmp/new1_mb3_20261010T021418Z_labstop_evidence`. Receipts and log files remain under `/private/tmp`; preserve/copy that target before temporary storage is reclaimed. `baseline.json`, `before/` and `git_before.txt` preserve the pre-edit source and hashes.
+
+1. Wrote all **13** required control methods, replacing the obsolete inherited-stop assertion, before touching production. `red_required_controls.json` records the exact test IDs, command, timestamps and hashes; `red_required_controls.log` records execution on the unchanged supervisor SHA `9f316f5613c0ed32c8f53ad8a4a209b0f1097bc45007d49b46cd2c5854cf2505`.
+2. At **2026-10-10T02:18:32Z**, the targeted suite was **RED**: 13 methods, exit **1**, **7 failures and 18 errors including subtests**. Ten methods failed somewhere. The positive MathLab LAB-STOP, current-run exclusion and CPU lead forwarding controls correctly passed before and after the change. The paired NEW1 m3 control hit the exact historical calibration branch at `tools/mathlab_runtime.py:266`; true MathLab step-4 aborts incorrectly tripped its numeric retry bucket. Missing relevant history disappeared from its glob scan. Actual default supervisor admission returned **LAB-STOP**, rather than reaching the controlled refusing `A.probe` and returning INVALID-ADMISSION.
+3. Added the local production guard. The **identical test file SHA** `c1649ad53ddaaf480fc5b614156b35a4c80ed4a8c83085aa5181f541f6df846b` was then **GREEN: 13/13**, exit **0**, in **0.050 s** (`green_required_controls.json/.log`). No assertions were relaxed after RED.
+
+Mandatory controls, all GREEN:
+
+| Contract | Test in `tests/test_new1_supervisor.py` | Result |
+|---|---|---|
+| Unrelated failed m3 calibration ignored by NEW1 | `:296` | CPU probe reached |
+| Unchanged shared MathLab positive control | `:305` | R.enforce_stop_policy still raises LAB-STOP |
+| Fewer than three prior NEW1 aborts | `:313` | 0, 1 and 2 allow the probe |
+| Three prior NEW1 aborts | `:327` | all RESOURCE, all DEADLINE and mixed codes require OPERATOR |
+| True MathLab step-4 aborts ignored | `:342` | three lab aborts do not count toward NEW1 |
+| Other lab stop codes and malformed unrelated streams ignored | `:353` | lab gate-2a, harvest and torn m3 history cannot stop NEW1 |
+| Current run excluded | `:365` | missing, torn and aborted current streams excluded with two valid prior aborts |
+| Count prior runs once | `:382` | repeated mixed halt events in one run still count once; third distinct run requires OPERATOR |
+| Missing/malformed relevant history refuses | `:400` | missing file, empty, malformed, torn and non-directory entry refuse before probe |
+| Contradictory NEW1 identity refuses | `:420` | wrong step/title/purpose, absent purpose/start, duplicate start and mismatched/mixed IDs refuse |
+| Namespace alias refuses | `:446` | symlink alias refuses before probe |
+| CPU lead forwarding preserved | `:457` | exact parsed lead forwarded to A.probe('cpu', lead) |
+| Real default admission refuses without dispatch | `:467` | default cpu_admission reaches controlled A.probe refusal; INVALID-ADMISSION, failed admission gate, no Popen, geometry stage, finding or terminal |
+
+The CPU probe's results and resource monitor are controlled fixtures; the refusal test exercises the actual default admission function, without injecting an admission callback or mocking the retry guard. It does not claim live machine admission is currently allowed.
+
+### Required full suites
+
+Commands run in fresh processes, with temporary fixtures under `/private/tmp` and bytecode disabled. Common prefix:
+
+```sh
+/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest -v
+```
+
+The targeted RED/GREEN commands append all 13 fully qualified test IDs listed verbatim in `red_required_controls.json` / `green_required_controls.json`. Full suite commands append:
+
+| Modules appended to the prefix | Count | Result / elapsed | Receipt and log |
+|---|---:|---|---|
+| `tools.test_dashboard_mathlab tools.labviz.test_mathlab tests.test_new1_supervisor` | 132 = 58 + 17 + 57 | PASS, exit 0, 15.944 s | `green_dashboard_supervisor.json/.log` |
+| `mathlab.test_mathlab tests.test_new1_geometry` | 102 = 77 + 25 | PASS, exit 0, 2.590 s | `green_cpu_math_geometry.json/.log` |
+
+**234 unique full-suite tests PASS.** The 13 targeted controls are included in the supervisor's 57 and are not added again to this unique count. Synthetic numerical tests validate CPU plumbing only. The compatibility suites also retain coverage of the earlier shared B2 event-durability repair. `green_suites.json` contains both exact command receipts; `coverage_summary.json` records method locations and the positive pre-fix controls.
+
+### Scope verification, hashes and review
+
+`scope_audit_before_report.json` confirms that, among 15 baselined paths, only the two authorized source/test files changed before this append; the other **13** were byte-identical. The audit compares the supervisor AST after removing the new helper: all **43** other top-level nodes are unchanged except `cpu_admission`. This includes `Controller`, `supervise`, `main`, frozen checks, resource/deadline constants and durable publication. `git diff --check` for the two code files passed. Baseline-relative patches are `new1_supervisor.diff` and `test_new1_supervisor.diff`. Shared event/admission/runtime code, geometry code/tests, dashboard consumers/tests, both frozen preregs and the original refused stream were preserved.
+
+Final SHA256:
+
+| File | SHA256 |
+|---|---|
+| `tools/new1_supervisor.py` (changed) | `1d24e827523f934a893e922554036c6ea9c3e1ec2cfe161d53ddaadd90068357` |
+| `tests/test_new1_supervisor.py` (changed) | `c1649ad53ddaaf480fc5b614156b35a4c80ed4a8c83085aa5181f541f6df846b` |
+| `tools/mathlab_runtime.py` (unchanged) | `416b597c1309f7dcabb065749e05da9ce28743b1d16c9791ae1eed527a4a72c5` |
+| `tools/mathlab_admit.py` (unchanged) | `bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc` |
+| `tools/mathlab_events.py` (unchanged) | `53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f` |
+| `docs/NEW1_ADAPTER_GEOMETRY_PREREG.md` (unchanged) | `eaf7bc21e1ac2cabc5f16703ce5b712debfdad80163f170fe20c99969c024741` |
+| `docs/MATHLAB_PREREG.md` (unchanged) | `85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8` |
+| Original refused NEW1 `events.jsonl` (unchanged) | `6b3579d07fe5398284b5d0fc467955d6def1a78619333f3c026184253982d6c3` |
+
+The additional post-implementation review returned **GO, no blocking defects**. Its actual identity is a **GPT-family independent fallback, not Astra**: `gpt_fallback_labstop_fix_review.md` (an exact copy of the agent's originally named `astra_labstop_fix_review.md`). It read the actual source/diff and completed RED/GREEN receipts; it did not rerun tests or authorize relaunch. Astra's external GO-WITH-CHANGES remains the authoritative pre-implementation review. Live admission, real geometry feasibility/RSS, scientific predictions and prospective queue utility remain **UNVERIFIED**. Existing B2 publication limits remain unchanged. Fixture PASS is build evidence, not a scientific conclusion or launch authorization.
+
+### Closeout handoff
+
+Done: the scoped LAB-STOP repair, all required RED controls, identical-test GREEN, the 234-test CPU suites, protected-file/AST audits, hashes and read-only second review. In flight: none. Exact handoff paths: `tools/new1_supervisor.py`, `tests/test_new1_supervisor.py`, this report, and `results/mathlab_staging/new1_v2_build_evidence/mb3_20261010T021418Z_labstop` → `/private/tmp/new1_mb3_20261010T021418Z_labstop_evidence`; local context checkpoint is `checkpoints/new1_labstop_fix.md` in that evidence directory. Next step: MAESTRO2 reviews the narrow patch and controls relaunch; MB3 has not launched or committed. Open limits: live CPU admission and workload feasibility remain untested; shared step-4 representation and B2 pathname/power-loss limits remain deferred; temporary evidence target must be retained.
+
+**Binding context rule restated:** Watch `Context N% left` for this session and every team session. Before approximately **20%** remains, stop starting new work, write a precise handoff in the task report with done/in-flight work, exact paths, next steps and open risks, and notify the orchestrator so a fresh successor can take over. Never approach full-window compaction. Every future handoff must restate this rule.
