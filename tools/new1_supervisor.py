@@ -38,6 +38,10 @@ class Stop(RuntimeError):
         super().__init__(code + ': ' + message)
 
 
+# SIGKILL exits promptly; reaping gets at most five seconds even after run expiry.
+REAP_TIMEOUT_S = 5
+
+
 @dataclass(frozen=True)
 class Sample:
     avail_gib: float
@@ -261,11 +265,18 @@ class Controller:
         return self.wait_cell(message['phase'], message['cell'], pid)
 
 
+def kill_worker(pid):
+    try: os.killpg(pid, signal.SIGKILL)
+    except (ProcessLookupError, PermissionError):
+        # A group signal can be refused while the owned PID remains signalable.
+        try: os.kill(pid, signal.SIGKILL)
+        except ProcessLookupError: pass
+
+
 def terminate(process):
     """Stop the whole isolated group immediately, then reap the direct worker."""
-    try: os.killpg(process.pid, signal.SIGKILL)
-    except ProcessLookupError: pass
-    process.wait(timeout=5)
+    try: kill_worker(process.pid)
+    finally: process.wait(timeout=REAP_TIMEOUT_S)
 
 
 def publish_predictions(run_dir, path):
@@ -296,8 +307,36 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
     controller = Controller(run_dir, monitor=monitor)
     process = None
     kill_sent = False
+    worker_reaped = False
+    reap_error = None
     terminal = None
     parent, child = socket.socketpair()
+    @contextlib.contextmanager
+    def worker_lifetime():
+        nonlocal kill_sent, worker_reaped, reap_error
+        try: yield
+        finally:
+            if process is not None and not worker_reaped:
+                original_error = sys.exc_info()[1]
+                signal_error = None
+                wait_error = None
+                try:
+                    if not kill_sent:
+                        kill_worker(process.pid); kill_sent=True
+                except BaseException as error:
+                    signal_error = error
+                try:
+                    process.wait(timeout=REAP_TIMEOUT_S)
+                    worker_reaped=True
+                except BaseException as error:
+                    wait_error = error
+                    reap_error = f'unreaped worker PID {process.pid}: {error}'
+                if signal_error is not None:
+                    print(f'Worker PID {process.pid} signal failed: {signal_error}',file=sys.stderr)
+                if wait_error is not None:
+                    print(reap_error,file=sys.stderr)
+                    if original_error is None: raise wait_error
+                if signal_error is not None and original_error is None: raise signal_error
     def terminal_ready(publication):
         nonlocal terminal
         controller.remaining()
@@ -307,13 +346,11 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
         try: controller.observe(process.pid if process is not None and process.poll() is None else None)
         except BaseException:
             if process is not None and not kill_sent:
-                try:
-                    os.killpg(process.pid,signal.SIGKILL)
-                    kill_sent=True
-                except ProcessLookupError: pass
+                kill_worker(process.pid); kill_sent=True
             raise
     try:
-        with hard_deadline(controller.remaining(),heartbeat=heartbeat,budget=controller.remaining):
+        # Exit the run alarm before the lifetime's separately bounded reap.
+        with worker_lifetime(), hard_deadline(controller.remaining(),heartbeat=heartbeat,budget=controller.remaining):
             emit(run_dir, 'run_started', step=4, title='NEW1 adapter geometry — math estimate, not evidence',
                  deadline_ts=(datetime.now(timezone.utc)+timedelta(seconds=controller.remaining())).isoformat(),
                  pid=os.getpid(), purpose='experiment')
@@ -342,7 +379,7 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
                         remaining = controller.remaining()
                         if process.poll() is not None and not worker_exited:
                             # Reparented group members may retain IPC after their leader exits.
-                            terminate(process); worker_exited=True; kill_sent=True
+                            terminate(process); worker_exited=True; kill_sent=True; worker_reaped=True
                         if time.monotonic()-last_sample >= SAMPLE_S and not worker_exited:
                             controller.check(process.pid); last_sample=time.monotonic()
                         ready=selector.select(min(.1,remaining)) if not eof else []
@@ -381,7 +418,7 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
                             if buffer or process.returncode or complete is None:
                                 raise Stop('INVALID-WORKER','partial IPC, unsuccessful exit or missing final artifact')
                             if not kill_sent:
-                                terminate(process); worker_exited=True; kill_sent=True
+                                terminate(process); worker_exited=True; kill_sent=True; worker_reaped=True
                             break
                         if eof: time.sleep(min(.05,controller.remaining()))
             predictions=publish_predictions(run_dir,complete)
@@ -409,19 +446,16 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
                     if isinstance(error,(KeyboardInterrupt,SystemExit)): raise
                     return recorded
         code=getattr(error,'code','INVALID-WORKER')
+        message=str(error) + ('; '+reap_error if reap_error is not None else '')
         try:
-            if process is not None and not kill_sent:
-                try: os.killpg(process.pid,signal.SIGKILL)
-                except ProcessLookupError: pass
-            # Cleanup and halt durability consume only the original remaining budget.
+            # Halt durability consumes only the original remaining budget.
             with hard_deadline(controller.remaining()):
-                if process is not None: process.wait(timeout=controller.remaining())
-                diagnostic=receipt(run_dir,'halt',{'code':code,'message':str(error),
+                diagnostic=receipt(run_dir,'halt',{'code':code,'message':message,
                     'observed':getattr(error,'observed',None),'prediction_verdict':'NOT COMPUTED'})
                 controller.remaining()
-                emit(run_dir,'halted',reason=code+': '+str(error),diagnostic_path=diagnostic['path'])
+                emit(run_dir,'halted',reason=code+': '+message,diagnostic_path=diagnostic['path'])
         except BaseException as closeout_error:
-            print(f'{code}: {error}; closeout incomplete: {closeout_error}; no prediction verdict',file=sys.stderr)
+            print(f'{code}: {message}; closeout incomplete: {closeout_error}; no prediction verdict',file=sys.stderr)
         if isinstance(error,(KeyboardInterrupt,SystemExit)): raise
         return code
     finally:

@@ -1,0 +1,247 @@
+test_bare_supervisor_environment_is_not_execution_authority (tests.test_new1_supervisor.SupervisorTests.test_bare_supervisor_environment_is_not_execution_authority) ... ok
+test_blocked_halt_persistence_cannot_extend_total_deadline (tests.test_new1_supervisor.SupervisorTests.test_blocked_halt_persistence_cannot_extend_total_deadline) ... ok
+test_blocking_admission_is_interrupted_by_whole_run_deadline (tests.test_new1_supervisor.SupervisorTests.test_blocking_admission_is_interrupted_by_whole_run_deadline) ... STOPPED-DEADLINE: STOPPED-DEADLINE: whole-run wall-clock cap reached; closeout incomplete: STOPPED-DEADLINE: whole-run deadline reached; no prediction verdict
+ok
+test_boundary_sensitive_completed_worker_cannot_publish_robust_pass (tests.test_new1_supervisor.SupervisorTests.test_boundary_sensitive_completed_worker_cannot_publish_robust_pass) ... ok
+test_boundary_sensitive_prediction_is_preserved_without_boolean_fail_gate (tests.test_new1_supervisor.SupervisorTests.test_boundary_sensitive_prediction_is_preserved_without_boolean_fail_gate) ... ok
+test_cell_alarm_interrupts_blocked_persistence_inside_total_cap (tests.test_new1_supervisor.SupervisorTests.test_cell_alarm_interrupts_blocked_persistence_inside_total_cap) ... ok
+test_cell_cannot_admit_a_memory_probe_that_finishes_at_301_seconds (tests.test_new1_supervisor.SupervisorTests.test_cell_cannot_admit_a_memory_probe_that_finishes_at_301_seconds) ... ok
+test_cell_deadline_covers_resource_and_admission_persistence (tests.test_new1_supervisor.SupervisorTests.test_cell_deadline_covers_resource_and_admission_persistence) ... ok
+test_cell_timeout_stops_without_lowering_reserve (tests.test_new1_supervisor.SupervisorTests.test_cell_timeout_stops_without_lowering_reserve) ... ok
+test_default_admission_preserves_cpu_lead_probe (tests.test_new1_supervisor.SupervisorTests.test_default_admission_preserves_cpu_lead_probe) ... ok
+test_default_admission_refusal_reaches_cpu_probe_without_dispatch (tests.test_new1_supervisor.SupervisorTests.test_default_admission_refusal_reaches_cpu_probe_without_dispatch) ... ok
+test_direct_worker_cli_refuses_before_numerical_imports (tests.test_new1_supervisor.SupervisorTests.test_direct_worker_cli_refuses_before_numerical_imports) ... ok
+test_emergency_available_floor_is_strict (tests.test_new1_supervisor.SupervisorTests.test_emergency_available_floor_is_strict) ... ok
+test_failed_and_nonfinite_monitoring_refuse (tests.test_new1_supervisor.SupervisorTests.test_failed_and_nonfinite_monitoring_refuse) ... ok
+test_float64_cell_keeps_three_hundred_second_wait_and_fail_closed_monitor (tests.test_new1_supervisor.SupervisorTests.test_float64_cell_keeps_three_hundred_second_wait_and_fail_closed_monitor) ... ok
+test_float64_svd_and_checks_require_nineteen_gib_with_fixed_reserves (tests.test_new1_supervisor.SupervisorTests.test_float64_svd_and_checks_require_nineteen_gib_with_fixed_reserves) ... ok
+test_invalid_prediction_is_not_boolean_fail_or_calibration (tests.test_new1_supervisor.SupervisorTests.test_invalid_prediction_is_not_boolean_fail_or_calibration) ... ok
+test_late_exception_after_terminal_commit_returns_recorded_outcome (tests.test_new1_supervisor.SupervisorTests.test_late_exception_after_terminal_commit_returns_recorded_outcome) ... ok
+test_leader_exit_kills_ipc_holding_grandchild_without_waiting_for_deadline (tests.test_new1_supervisor.SupervisorTests.test_leader_exit_kills_ipc_holding_grandchild_without_waiting_for_deadline) ... ok
+test_mathlab_stop_policy_still_rejects_failed_calibration (tests.test_new1_supervisor.SupervisorTests.test_mathlab_stop_policy_still_rejects_failed_calibration) ... ok
+test_new1_history_contradictory_identity_refuses_before_cpu_probe (tests.test_new1_supervisor.SupervisorTests.test_new1_history_contradictory_identity_refuses_before_cpu_probe) ... ok
+test_new1_history_counts_each_prior_run_once (tests.test_new1_supervisor.SupervisorTests.test_new1_history_counts_each_prior_run_once) ... ok
+test_new1_history_excludes_current_missing_torn_or_aborted_run (tests.test_new1_supervisor.SupervisorTests.test_new1_history_excludes_current_missing_torn_or_aborted_run) ... ok
+test_new1_history_fewer_than_three_aborted_runs_allows_cpu_probe (tests.test_new1_supervisor.SupervisorTests.test_new1_history_fewer_than_three_aborted_runs_allows_cpu_probe) ... ok
+test_new1_history_ignores_failed_mathlab_calibration (tests.test_new1_supervisor.SupervisorTests.test_new1_history_ignores_failed_mathlab_calibration) ... ok
+test_new1_history_ignores_other_mathlab_stops_and_unrelated_bad_streams (tests.test_new1_supervisor.SupervisorTests.test_new1_history_ignores_other_mathlab_stops_and_unrelated_bad_streams) ... ok
+test_new1_history_ignores_true_mathlab_step_four_aborts (tests.test_new1_supervisor.SupervisorTests.test_new1_history_ignores_true_mathlab_step_four_aborts) ... ok
+test_new1_history_missing_or_malformed_refuses_before_cpu_probe (tests.test_new1_supervisor.SupervisorTests.test_new1_history_missing_or_malformed_refuses_before_cpu_probe) ... ok
+test_new1_history_symlink_alias_refuses_before_cpu_probe (tests.test_new1_supervisor.SupervisorTests.test_new1_history_symlink_alias_refuses_before_cpu_probe) ... ok
+test_new1_history_three_aborted_runs_requires_operator (tests.test_new1_supervisor.SupervisorTests.test_new1_history_three_aborted_runs_requires_operator) ... ok
+test_non_prediction_calibration_gate_stays_visible_after_halt (tests.test_new1_supervisor.SupervisorTests.test_non_prediction_calibration_gate_stays_visible_after_halt) ... ok
+test_observed_breach_stops_before_any_potentially_blocking_persistence (tests.test_new1_supervisor.SupervisorTests.test_observed_breach_stops_before_any_potentially_blocking_persistence) ... ok
+test_persistence_failure_never_emits_success_gate (tests.test_new1_supervisor.SupervisorTests.test_persistence_failure_never_emits_success_gate) ... ok
+test_persistent_terminal_fsync_failure_with_failed_halt_has_no_verdict (tests.test_new1_supervisor.SupervisorTests.test_persistent_terminal_fsync_failure_with_failed_halt_has_no_verdict) ... ok
+test_prediction_visibility_requires_successful_terminal_and_no_halt (tests.test_new1_supervisor.SupervisorTests.test_prediction_visibility_requires_successful_terminal_and_no_halt) ... ok
+test_private_handshake_and_complete_stub_result_fold_to_completion (tests.test_new1_supervisor.SupervisorTests.test_private_handshake_and_complete_stub_result_fold_to_completion) ... ok
+test_publication_deadline_expiry_hides_provisional_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_deadline_expiry_hides_provisional_verdicts) ... ok
+test_publication_io_failure_distinguishes_before_and_after_terminal_commit (tests.test_new1_supervisor.SupervisorTests.test_publication_io_failure_distinguishes_before_and_after_terminal_commit) ... ok
+test_real_grandchild_is_killed_on_observed_rss_breach (tests.test_new1_supervisor.SupervisorTests.test_real_grandchild_is_killed_on_observed_rss_breach) ... ok
+test_real_subprocess_failures_and_empty_inventory_are_refusals (tests.test_new1_supervisor.SupervisorTests.test_real_subprocess_failures_and_empty_inventory_are_refusals) ... ok
+test_real_worker_group_is_terminated_on_rss_breach (tests.test_new1_supervisor.SupervisorTests.test_real_worker_group_is_terminated_on_rss_breach) ... ok
+test_reap_after_cell_deadline_exhaustion (tests.test_new1_supervisor.SupervisorTests.test_reap_after_cell_deadline_exhaustion) ... STOPPED-RESOURCE: STOPPED-RESOURCE: fixture cell wait exhausted; closeout incomplete: STOPPED-RESOURCE: cell reserve not admitted within 300 s; no prediction verdict
+FAIL
+test_reap_after_deadline_exhaustion (tests.test_new1_supervisor.SupervisorTests.test_reap_after_deadline_exhaustion) ... FAIL
+test_reap_after_heartbeat_kill_at_exhausted_deadline (tests.test_new1_supervisor.SupervisorTests.test_reap_after_heartbeat_kill_at_exhausted_deadline) ... STOPPED-DEADLINE: STOPPED-DEADLINE: whole-run deadline reached; closeout incomplete: STOPPED-DEADLINE: whole-run deadline reached; no prediction verdict
+FAIL
+test_reap_before_keyboard_interrupt_is_reraised (tests.test_new1_supervisor.SupervisorTests.test_reap_before_keyboard_interrupt_is_reraised) ... INVALID-WORKER: ; closeout incomplete: STOPPED-DEADLINE: whole-run deadline reached; no prediction verdict
+FAIL
+test_reap_before_system_exit_is_reraised (tests.test_new1_supervisor.SupervisorTests.test_reap_before_system_exit_is_reraised) ... 17: 17; closeout incomplete: STOPPED-DEADLINE: whole-run deadline reached; no prediction verdict
+FAIL
+test_reap_timeout_after_exhaustion_names_pid_without_extra_halt_budget (tests.test_new1_supervisor.SupervisorTests.test_reap_timeout_after_exhaustion_names_pid_without_extra_halt_budget) ... FAIL
+test_reap_timeout_reports_unreaped_pid_in_halt_and_stderr (tests.test_new1_supervisor.SupervisorTests.test_reap_timeout_reports_unreaped_pid_in_halt_and_stderr) ... FAIL
+test_reap_when_closeout_deadline_setup_raises (tests.test_new1_supervisor.SupervisorTests.test_reap_when_closeout_deadline_setup_raises) ... STOPPED-RESOURCE: STOPPED-RESOURCE: fixture stop; closeout incomplete: INVALID-ENFORCEMENT: fixture closeout alarm refused; no prediction verdict
+FAIL
+test_reap_when_exception_group_signal_is_denied (tests.test_new1_supervisor.SupervisorTests.test_reap_when_exception_group_signal_is_denied) ... STOPPED-RESOURCE: STOPPED-RESOURCE: fixture stop; closeout incomplete: fixture group signal denied; no prediction verdict
+FAIL
+test_reap_when_halt_emit_raises (tests.test_new1_supervisor.SupervisorTests.test_reap_when_halt_emit_raises) ... STOPPED-RESOURCE: STOPPED-RESOURCE: fixture stop; closeout incomplete: expected call not found.
+Expected: wait(timeout=5)
+  Actual: wait(timeout=2700.0); no prediction verdict
+FAIL
+test_reap_when_halt_receipt_raises (tests.test_new1_supervisor.SupervisorTests.test_reap_when_halt_receipt_raises) ... STOPPED-RESOURCE: STOPPED-RESOURCE: fixture stop; closeout incomplete: expected call not found.
+Expected: wait(timeout=5)
+  Actual: wait(timeout=2700.0); no prediction verdict
+FAIL
+test_reap_when_heartbeat_group_signal_is_denied (tests.test_new1_supervisor.SupervisorTests.test_reap_when_heartbeat_group_signal_is_denied) ... INVALID-WORKER: fixture group signal denied; closeout incomplete: fixture group signal denied; no prediction verdict
+FAIL
+test_reap_when_loop_termination_group_signal_is_denied (tests.test_new1_supervisor.SupervisorTests.test_reap_when_loop_termination_group_signal_is_denied) ... INVALID-WORKER: fixture group signal denied; closeout incomplete: fixture group signal denied; no prediction verdict
+FAIL
+test_reap_when_termination_wait_timeout_exhausts_budget (tests.test_new1_supervisor.SupervisorTests.test_reap_when_termination_wait_timeout_exhausts_budget) ... INVALID-WORKER: Command 'fixture-only' timed out after 5 seconds; closeout incomplete: STOPPED-DEADLINE: whole-run deadline reached; no prediction verdict
+FAIL
+test_refused_cpu_admission_never_dispatches_worker (tests.test_new1_supervisor.SupervisorTests.test_refused_cpu_admission_never_dispatches_worker) ... ok
+test_reparented_group_member_still_counts_toward_rss_cap (tests.test_new1_supervisor.SupervisorTests.test_reparented_group_member_still_counts_toward_rss_cap) ... ok
+test_resource_receipt_is_durable_before_event (tests.test_new1_supervisor.SupervisorTests.test_resource_receipt_is_durable_before_event) ... ok
+test_rss_ceiling_is_strict_and_family_memory_is_used (tests.test_new1_supervisor.SupervisorTests.test_rss_ceiling_is_strict_and_family_memory_is_used) ... ok
+test_rss_probe_sums_descendants_and_refuses_missing_worker (tests.test_new1_supervisor.SupervisorTests.test_rss_probe_sums_descendants_and_refuses_missing_worker) ... ok
+test_successful_exit_at_loop_bottom_still_terminates_group (tests.test_new1_supervisor.SupervisorTests.test_successful_exit_at_loop_bottom_still_terminates_group) ... ok
+test_supervisor_accepts_authoritative_freeze_with_historical_draft_footer (tests.test_new1_supervisor.SupervisorTests.test_supervisor_accepts_authoritative_freeze_with_historical_draft_footer) ... ok
+test_supervisor_cell_deadline_interrupts_a_blocked_resource_probe (tests.test_new1_supervisor.SupervisorTests.test_supervisor_cell_deadline_interrupts_a_blocked_resource_probe) ... ok
+test_supervisor_refuses_draft_header_even_with_quoted_frozen_text (tests.test_new1_supervisor.SupervisorTests.test_supervisor_refuses_draft_header_even_with_quoted_frozen_text) ... ok
+test_supervisor_refuses_exact_prereg_hash_mismatch (tests.test_new1_supervisor.SupervisorTests.test_supervisor_refuses_exact_prereg_hash_mismatch) ... ok
+test_svd_requires_thirteen_gib_not_eight (tests.test_new1_supervisor.SupervisorTests.test_svd_requires_thirteen_gib_not_eight) ... ok
+test_terminal_directory_sync_or_replace_failure_with_failed_halt_has_no_verdict (tests.test_new1_supervisor.SupervisorTests.test_terminal_directory_sync_or_replace_failure_with_failed_halt_has_no_verdict) ... ok
+test_terminal_fsync_timeout_has_no_committed_outcome_or_predictions (tests.test_new1_supervisor.SupervisorTests.test_terminal_fsync_timeout_has_no_committed_outcome_or_predictions) ... ok
+test_torn_ipc_and_worker_exit_without_result_are_invalid (tests.test_new1_supervisor.SupervisorTests.test_torn_ipc_and_worker_exit_without_result_are_invalid) ... ok
+test_unknown_phase_and_spoofed_reserve_refuse (tests.test_new1_supervisor.SupervisorTests.test_unknown_phase_and_spoofed_reserve_refuse) ... ok
+test_wait_is_inside_amended_2700_second_deadline (tests.test_new1_supervisor.SupervisorTests.test_wait_is_inside_amended_2700_second_deadline) ... ok
+test_watchdog_enforces_during_blocked_persistence (tests.test_new1_supervisor.SupervisorTests.test_watchdog_enforces_during_blocked_persistence) ... ok
+test_watchdog_refuses_memory_drop_during_blocking_admission (tests.test_new1_supervisor.SupervisorTests.test_watchdog_refuses_memory_drop_during_blocking_admission) ... ok
+test_worker_accepts_same_freeze_before_imports_without_geometry (tests.test_new1_supervisor.SupervisorTests.test_worker_accepts_same_freeze_before_imports_without_geometry) ... ok
+test_worker_refuses_draft_header_before_imports (tests.test_new1_supervisor.SupervisorTests.test_worker_refuses_draft_header_before_imports) ... ok
+
+======================================================================
+FAIL: test_reap_after_cell_deadline_exhaustion (tests.test_new1_supervisor.SupervisorTests.test_reap_after_cell_deadline_exhaustion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 966, in test_reap_after_cell_deadline_exhaustion
+    f.process.wait.assert_called_once_with(timeout=5)
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 950, in assert_called_once_with
+    raise AssertionError(msg)
+AssertionError: Expected 'wait' to be called once. Called 0 times.
+
+======================================================================
+FAIL: test_reap_after_deadline_exhaustion (tests.test_new1_supervisor.SupervisorTests.test_reap_after_deadline_exhaustion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 952, in test_reap_after_deadline_exhaustion
+    f.process.wait.assert_called_once_with(timeout=5)
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 950, in assert_called_once_with
+    raise AssertionError(msg)
+AssertionError: Expected 'wait' to be called once. Called 0 times.
+
+======================================================================
+FAIL: test_reap_after_heartbeat_kill_at_exhausted_deadline (tests.test_new1_supervisor.SupervisorTests.test_reap_after_heartbeat_kill_at_exhausted_deadline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 976, in test_reap_after_heartbeat_kill_at_exhausted_deadline
+    f.process.wait.assert_called_once_with(timeout=5)
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 950, in assert_called_once_with
+    raise AssertionError(msg)
+AssertionError: Expected 'wait' to be called once. Called 0 times.
+
+======================================================================
+FAIL: test_reap_before_keyboard_interrupt_is_reraised (tests.test_new1_supervisor.SupervisorTests.test_reap_before_keyboard_interrupt_is_reraised)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 1099, in test_reap_before_keyboard_interrupt_is_reraised
+    f.process.wait.assert_called_once_with(timeout=5)
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 950, in assert_called_once_with
+    raise AssertionError(msg)
+AssertionError: Expected 'wait' to be called once. Called 0 times.
+
+======================================================================
+FAIL: test_reap_before_system_exit_is_reraised (tests.test_new1_supervisor.SupervisorTests.test_reap_before_system_exit_is_reraised)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 1105, in test_reap_before_system_exit_is_reraised
+    f.process.wait.assert_called_once_with(timeout=5)
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 950, in assert_called_once_with
+    raise AssertionError(msg)
+AssertionError: Expected 'wait' to be called once. Called 0 times.
+
+======================================================================
+FAIL: test_reap_timeout_after_exhaustion_names_pid_without_extra_halt_budget (tests.test_new1_supervisor.SupervisorTests.test_reap_timeout_after_exhaustion_names_pid_without_extra_halt_budget)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 1089, in test_reap_timeout_after_exhaustion_names_pid_without_extra_halt_budget
+    self.assertIn('unreaped worker PID 123',stderr.getvalue())
+AssertionError: 'unreaped worker PID 123' not found in 'STOPPED-DEADLINE: STOPPED-DEADLINE: fixture run budget exhausted; closeout incomplete: STOPPED-DEADLINE: whole-run deadline reached; no prediction verdict\n'
+
+======================================================================
+FAIL: test_reap_timeout_reports_unreaped_pid_in_halt_and_stderr (tests.test_new1_supervisor.SupervisorTests.test_reap_timeout_reports_unreaped_pid_in_halt_and_stderr)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 1074, in test_reap_timeout_reports_unreaped_pid_in_halt_and_stderr
+    self.assertIn('unreaped worker PID 123',stderr.getvalue())
+AssertionError: 'unreaped worker PID 123' not found in "STOPPED-RESOURCE: STOPPED-RESOURCE: fixture stop; closeout incomplete: Command 'fixture-only' timed out after 5 seconds; no prediction verdict\n"
+
+======================================================================
+FAIL: test_reap_when_closeout_deadline_setup_raises (tests.test_new1_supervisor.SupervisorTests.test_reap_when_closeout_deadline_setup_raises)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 1037, in test_reap_when_closeout_deadline_setup_raises
+    f.process.wait.assert_called_once_with(timeout=5)
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 950, in assert_called_once_with
+    raise AssertionError(msg)
+AssertionError: Expected 'wait' to be called once. Called 0 times.
+
+======================================================================
+FAIL: test_reap_when_exception_group_signal_is_denied (tests.test_new1_supervisor.SupervisorTests.test_reap_when_exception_group_signal_is_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 997, in test_reap_when_exception_group_signal_is_denied
+    f.process.wait.assert_called_once_with(timeout=5)
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 950, in assert_called_once_with
+    raise AssertionError(msg)
+AssertionError: Expected 'wait' to be called once. Called 0 times.
+
+======================================================================
+FAIL: test_reap_when_halt_emit_raises (tests.test_new1_supervisor.SupervisorTests.test_reap_when_halt_emit_raises)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 1065, in test_reap_when_halt_emit_raises
+    f.process.wait.assert_called_once_with(timeout=5)
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 951, in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 939, in assert_called_with
+    raise AssertionError(_error_message()) from cause
+AssertionError: expected call not found.
+Expected: wait(timeout=5)
+  Actual: wait(timeout=2700.0)
+
+======================================================================
+FAIL: test_reap_when_halt_receipt_raises (tests.test_new1_supervisor.SupervisorTests.test_reap_when_halt_receipt_raises)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 1051, in test_reap_when_halt_receipt_raises
+    f.process.wait.assert_called_once_with(timeout=5)
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 951, in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 939, in assert_called_with
+    raise AssertionError(_error_message()) from cause
+AssertionError: expected call not found.
+Expected: wait(timeout=5)
+  Actual: wait(timeout=2700.0)
+
+======================================================================
+FAIL: test_reap_when_heartbeat_group_signal_is_denied (tests.test_new1_supervisor.SupervisorTests.test_reap_when_heartbeat_group_signal_is_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 989, in test_reap_when_heartbeat_group_signal_is_denied
+    f.process.wait.assert_called_once_with(timeout=5)
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 950, in assert_called_once_with
+    raise AssertionError(msg)
+AssertionError: Expected 'wait' to be called once. Called 0 times.
+
+======================================================================
+FAIL: test_reap_when_loop_termination_group_signal_is_denied (tests.test_new1_supervisor.SupervisorTests.test_reap_when_loop_termination_group_signal_is_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 1007, in test_reap_when_loop_termination_group_signal_is_denied
+    f.process.wait.assert_called_once_with(timeout=5)
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 950, in assert_called_once_with
+    raise AssertionError(msg)
+AssertionError: Expected 'wait' to be called once. Called 0 times.
+
+======================================================================
+FAIL: test_reap_when_termination_wait_timeout_exhausts_budget (tests.test_new1_supervisor.SupervisorTests.test_reap_when_termination_wait_timeout_exhausts_budget)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 1022, in test_reap_when_termination_wait_timeout_exhausts_budget
+    self.assertEqual(attempts,[5,5])
+AssertionError: Lists differ: [5] != [5, 5]
+
+Second list contains 1 additional elements.
+First extra element 1:
+5
+
+- [5]
++ [5, 5]
+
+----------------------------------------------------------------------
+Ran 75 tests in 3.121s
+
+FAILED (failures=14)
