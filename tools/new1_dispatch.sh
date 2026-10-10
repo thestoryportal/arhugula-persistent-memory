@@ -14,7 +14,7 @@ CHECK_COMMAND=''
 
 utc() {
     local now=$EPOCHREALTIME
-    /usr/bin/date -u -r "${now%.*}" '+%Y-%m-%dT%H:%M:%S' | /usr/bin/tr -d '\n'
+    /bin/date -u -r "${now%.*}" '+%Y-%m-%dT%H:%M:%S' | /usr/bin/tr -d '\n'
     print -rn -- ".${now#*.}Z"
 }
 json_string() {
@@ -169,7 +169,9 @@ print -r -- "{\"pid\":$$,\"nice\":0}" > "$DISPATCH/recorder.json"
 save_check 2f /bin/df -k "$ROOT"
 require_success 2f
 file_text "$DISPATCH/2f.stdout"
-typeset -a df_rows=("${(@f)REPLY}") df_fields=( ${=df_rows[-1]} )
+typeset -a df_rows=("${(@f)${REPLY%$'\n'}}")
+(( ${#df_rows} >= 2 )) || refuse 2f 'invalid df observation'
+typeset -a df_fields=( ${=df_rows[-1]} )
 available_kib=${df_fields[4]:-invalid}
 floor_kib=${NEW1_DISPATCH_MIN_FREE_KIB:-22020096}
 [[ $floor_kib =~ '^[0-9]{1,18}$' && $available_kib =~ '^[0-9]+$' ]] || refuse 2f 'invalid free-space floor or df observation'

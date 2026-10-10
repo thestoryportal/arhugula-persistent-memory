@@ -1,0 +1,27 @@
+{
+  "command": [
+    "/bin/ls",
+    "-l",
+    "/bin/cat",
+    "/bin/cp",
+    "/bin/date",
+    "/bin/df",
+    "/bin/mkdir",
+    "/bin/mv",
+    "/bin/ps",
+    "/bin/rmdir",
+    "/bin/sleep",
+    "/bin/zsh",
+    "/usr/bin/awk",
+    "/usr/bin/env",
+    "/usr/bin/plutil",
+    "/usr/bin/python3",
+    "/usr/bin/shasum",
+    "/usr/bin/tr",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "/usr/bin/git"
+  ],
+  "cwd": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "interpreter": "/bin/ls",
+  "exit_code": 0
+}

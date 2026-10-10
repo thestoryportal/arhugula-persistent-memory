@@ -1,0 +1,18 @@
+-rwxr-xr-x   1 root       wheel   118800 Aug 12 20:51 /bin/cat
+-rwxr-xr-x   1 root       wheel   152976 Aug 12 20:51 /bin/cp
+-rwxr-xr-x   1 root       wheel   135104 Aug 12 20:51 /bin/date
+-rwxr-xr-x   1 root       wheel   118960 Aug 12 20:51 /bin/df
+-rwxr-xr-x   1 root       wheel   101280 Aug 12 20:51 /bin/mkdir
+-rwxr-xr-x   1 root       wheel   119248 Aug 12 20:51 /bin/mv
+-rwsr-xr-x   1 root       wheel   170432 Aug 12 20:51 /bin/ps
+-rwxr-xr-x   1 root       wheel   100928 Aug 12 20:51 /bin/rmdir
+-rwxr-xr-x   1 root       wheel   100976 Aug 12 20:51 /bin/sleep
+-rwxr-xr-x   1 root       wheel  1357312 Aug 12 20:51 /bin/zsh
+-rwxr-xr-x   1 root       wheel   301568 Aug 12 20:51 /usr/bin/awk
+-rwxr-xr-x   1 root       wheel   102176 Aug 12 20:51 /usr/bin/env
+-rwxr-xr-x  78 root       wheel   118640 Aug 12 20:51 /usr/bin/git
+-rwxr-xr-x   1 root       wheel   661952 Aug 12 20:51 /usr/bin/plutil
+-rwxr-xr-x  78 root       wheel   118640 Aug 12 20:51 /usr/bin/python3
+-rwxr-xr-x   2 root       wheel     9979 Aug 12 20:51 /usr/bin/shasum
+-rwxr-xr-x   1 root       wheel   135056 Aug 12 20:51 /usr/bin/tr
+lrwxr-xr-x   1 robertrhu  staff       86 Oct  3 19:11 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -> /Users/robertrhu/.local/share/uv/python/cpython-3.11-macos-aarch64-none/bin/python3.11

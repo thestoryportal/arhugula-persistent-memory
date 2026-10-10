@@ -1,0 +1,37 @@
+[
+  {
+    "path": "/private/tmp/new1-fixture-8djwyds3/tools/engine_fingerprint.py",
+    "sha256": "f05bb5ae6d1fdcd40b4b206f03e0db9f093a152413ff5bf3c38eee470fbb2818",
+    "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_disk_floor_cannot_be_lowered/engine_fingerprint.py"
+  },
+  {
+    "path": "/private/tmp/new1-fixture-8djwyds3/tools/mathlab_admit.py",
+    "sha256": "6538f8fd754f720538640141a1d4c8dcb106b96cbe970ab6b2ae3236a580f388",
+    "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_disk_floor_cannot_be_lowered/mathlab_admit.py"
+  },
+  {
+    "path": "/private/tmp/new1-fixture-8djwyds3/tools/mathlab_events.py",
+    "sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+    "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_disk_floor_cannot_be_lowered/mathlab_events.py"
+  },
+  {
+    "path": "/private/tmp/new1-fixture-8djwyds3/tools/new1_dispatch_report.py",
+    "sha256": "955079238e533b6609d5c98454155b83adeac1ce0b9e3070e0da91f4f0c005fe",
+    "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_disk_floor_cannot_be_lowered/new1_dispatch_report.py"
+  },
+  {
+    "path": "/private/tmp/new1-fixture-8djwyds3/tools/new1_geometry.py",
+    "sha256": "8ab090b79e4612202a32cbf3bd62cf34be0ba0931cd5d49cd3309124aa4a3565",
+    "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_disk_floor_cannot_be_lowered/new1_geometry.py"
+  },
+  {
+    "path": "/private/tmp/new1-fixture-8djwyds3/tools/new1_supervisor.py",
+    "sha256": "aa77715be46562d6f74309c4281fc21246429879e305fe7121e370abf7b11850",
+    "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_disk_floor_cannot_be_lowered/new1_supervisor.py"
+  },
+  {
+    "path": "/private/tmp/new1-fixture-8djwyds3/tools/new1_dispatch.sh",
+    "sha256": "287aa59fe283168eeaee961e64db951070e35850a8f38e29bf24dbf2f862cd9a",
+    "preserved_as": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_recorder_build_20261010T225651Z/maestro_green_02/fixtures/test_disk_floor_cannot_be_lowered/new1_dispatch.sh"
+  }
+]

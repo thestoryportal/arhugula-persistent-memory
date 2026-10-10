@@ -1,0 +1,574 @@
+[
+  {
+    "path": "memit_dry_run/memit/.gitattributes",
+    "sha256": "0d8fc1b86a58cb959c95bc6d62652b6a06ec8a1161d0fab6af1bcabbde43b630"
+  },
+  {
+    "path": "memit_dry_run/memit/.gitignore",
+    "sha256": "8d0aba79068af0ed4093807588d236cfe576a1e7c08993549f65ec2e1cbc931b"
+  },
+  {
+    "path": "memit_dry_run/memit/CITATION.cff",
+    "sha256": "974adb58a9fd1e6a2375244d22c8601a3a614257b006c534863ade12056a9514"
+  },
+  {
+    "path": "memit_dry_run/memit/LICENSE",
+    "sha256": "46c273d5a0a7f8bc3889863398e1bb20493e256f38033dfd637ec46bf654c531"
+  },
+  {
+    "path": "memit_dry_run/memit/README.md",
+    "sha256": "e14b1c0aff11f1ebb5b427115cdd660892e0305bb868102c1330299017b69b13"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/README.md",
+    "sha256": "e44248aeb435f44301544b39c92195baa1367552978f9f20060a186c1c223e95"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/ft/__init__.py",
+    "sha256": "19646aa4d3c5b6fd8dc0032aab1cee6afc7ab24e7404c5c657cadbdd077ea0fd"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/ft/ft_hparams.py",
+    "sha256": "fdd83bbc0cb87ebc1b6aae238a38798aab6e2b8b1723e666e797c1c5df851ab1"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/ft/ft_main.py",
+    "sha256": "ce8bffb4716a6ec97c5690a10b7be585da6d009028f6d77c9ac7907caaea378a"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/README.md",
+    "sha256": "43f8919beb3498934f0282763523db4f1b0825d98c103bbd4230fce52e756076"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/__init__.py",
+    "sha256": "ce6f24b656aa412ba07c893dd6fa37001d0a148312c9fd5b823ac27c83e145b0"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/algs/enn.py",
+    "sha256": "fcde13387249220bf8ccde0c8bf174f6444a956806f86aee0c4c1a0c062e3a90"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/algs/ft.py",
+    "sha256": "c60355576cac69dbca0816a4747cbb7bbba7a2352d0e7edb2191d870450eeff7"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/algs/mend.py",
+    "sha256": "3d94e338ff9efe07815d9d4d339485e9abaa17af555f88d0adacb0a3ad19eca5"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/alg/efk.yaml",
+    "sha256": "6d8a009b23a6d15971f0fd3f41f446e55f9f439ddd4f37f37e003a9ba39c3d4b"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/alg/enn.yaml",
+    "sha256": "5d57b48f592317500c828b93650db753917781cacae4b72afbaf6af7bcdfff96"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/alg/ft.yaml",
+    "sha256": "f2ed848825e236de2073930e6bea4faf2ca1f6c828a7f84d79fad54a0b7e607d"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/alg/mend.yaml",
+    "sha256": "bce5e203d627552b2caf8d1a3b185ccaf28773b285a17a9f27538a86fe9eea87"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/config.yaml",
+    "sha256": "d46810afd50bf9dc19b443df22f7c77ee88ae03f7540bb7939b6eeaba4079d96"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/experiment/fc.yaml",
+    "sha256": "678a899a35e0840de77f5fea74236c9f0d8b9ea4f0b8e1a05b981cfac131a043"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/experiment/gen.yaml",
+    "sha256": "c208288115ae91d8cd47dfcc6c157e94d41657eebef327700363ed288f9dbee3"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/experiment/qa.yaml",
+    "sha256": "038666cff47e927cc70891afcc2efd0f62898274d0287f1ab0719c3771394027"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/model/bart-base.yaml",
+    "sha256": "25eac9c87259e197ecf587413f4660098b779c6b21fa1cc6584e7d64b1479475"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/model/bert-base.yaml",
+    "sha256": "49ff1dc40a3306dd7649f697c134e6ed0f83e5382038f18962793f3eca410e01"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/model/distilgpt2.yaml",
+    "sha256": "ba77ac0a70e92efac417a8f9b2aa25872f4c0152ae7e6bcb7a1a1c394e88a0d7"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/model/gpt2.yaml",
+    "sha256": "6c9ac030faea26cfa57a21d10713298b5b05e2acfcda057db9ef8b7797e0182d"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/model/gpt2large.yaml",
+    "sha256": "feeab1704c76f5917876da5c631940dfde806dfdf0bf37f704ae29e8081c016c"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/model/gpt2medium.yaml",
+    "sha256": "a943050f9ad67b30e16e312d0a63b8dff6518a582e5c49d4f36475931dee5dc6"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/model/gpt2xl.yaml",
+    "sha256": "5eb704b1c06b3636eb62db43614f87650412d08c2c6f374555187c194f031429"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/model/gptj.yaml",
+    "sha256": "0f3fe0caa24560fc62ffe7c2752cc23b5216bf99291d0fe969a55026982e4868"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/model/gptneo27.yaml",
+    "sha256": "809ce5da7d801f0b9c7ffc1b4b53632b23c7c8544f5dd1a401b8be4d3f17a46a"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/model/t5large.yaml",
+    "sha256": "109cf49c1cb32333e492e79d9974fa3e75f8c9a0459d40c872571e4eb13c85d5"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/model/t5small.yaml",
+    "sha256": "cee5cfbb9295137f1ecf154949c55f0f76254941d9cb48ecdd66bc6decd1a929"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/model/t5xl.yaml",
+    "sha256": "e9611b81bd40bb80c21f462b195095deabab3d3d6ac344165ba16a3ec45bc5a6"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/config/model/t5xxl.yaml",
+    "sha256": "690ee1486411befec7312a0e37ed4ef615a57e1c74e4f7bea39ed6f87530d427"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/data_classes/fever.py",
+    "sha256": "098397ce1214eb8cce6b90c8ba6ebd67024afcbc2f58ccaf887b5a365732308a"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/data_classes/nq.py",
+    "sha256": "f8d8dfaadf866e82c50e4c5bfef14a9b54aa5799aca3cea8f403f0461ba61f69"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/data_classes/wiki.py",
+    "sha256": "60ea3f99dcb4386f38454fdda9b7a65963df76240ce516d093e396a969576627"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/data_classes/zsre.py",
+    "sha256": "2acb707212802d65a55f46ada4381af330ff1cc9842ed9c56326de14b0711581"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/editable_model.py",
+    "sha256": "34330a12b9864001ea46ecae794df1ea85cedb38082df783b31d67cc8939e245"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/hooks.py",
+    "sha256": "b6037d8f9778f2d74952dafe3acc76f761df6884d85e9b5b57559cd08f7d2d6f"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/losses.py",
+    "sha256": "271a10d9e995ffd92c2de239f652928d651013f8a0889bd4205ffca1469127e8"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/mend_hparams.py",
+    "sha256": "071bc2c833cd1362906eee12b081c272650f909e9c93389bb05be86ae8626eb3"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/mend_main.py",
+    "sha256": "7e72af6f626798696f50c81ad72276f4807422bd365d5d6f130ca7e2852f53b5"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/models.py",
+    "sha256": "2e94d797f3813d57a532c676ba6609a91e89eb36bdfb8479bc092dccc5ce4420"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/nn.py",
+    "sha256": "ffca4fb48675c4c6cf56bb9cbbff8ce50f2c46eb8fdbfc6a7e1b6308acddab92"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/oracle.py",
+    "sha256": "d3657df3b292a4c78564c59b9a07ccdb8e6ff74b111cd489e38c5e5112ad4b1b"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/requirements.txt",
+    "sha256": "17082daf26c99220b8bfff81f282ca445e19b6ee69835f31009a4ce0d0ed20cd"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/run.py",
+    "sha256": "2e57976fb507bc5bc27f88ea8a7bacd7b2a75d6b45170ed4870643ae5ce74765"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/trainer.py",
+    "sha256": "91c9d6378c0cbe6340cf4591618a68aa70f805059a01881f43c71859e001dcb1"
+  },
+  {
+    "path": "memit_dry_run/memit/baselines/mend/utils.py",
+    "sha256": "bb981c845c07709efa4e81610ec575be7e3f3b909a42b79610a47044c04c0554"
+  },
+  {
+    "path": "memit_dry_run/memit/dsets/__init__.py",
+    "sha256": "a2e1c9d7a56af0b091a48cb313a356cdb1a923e1bb046d73bd0d1e10c7b0d907"
+  },
+  {
+    "path": "memit_dry_run/memit/dsets/attr_snippets.py",
+    "sha256": "bf78972d9914919e0a0b7d7d93623b3f51b8684f691e909793b5cd5471d6f01a"
+  },
+  {
+    "path": "memit_dry_run/memit/dsets/counterfact.py",
+    "sha256": "7848e935a578c40e187167a2894601b0dbf42d2334b5289a012276ea1eb672b5"
+  },
+  {
+    "path": "memit_dry_run/memit/dsets/knowns.py",
+    "sha256": "e2428c36d17b0dec1f390888a98334bd0fd1f64168bffae7566ef8a8606f361e"
+  },
+  {
+    "path": "memit_dry_run/memit/dsets/tfidf_stats.py",
+    "sha256": "34f03d97b0b1aaad33e75a211a3d6b502cfb9eace1c172320df6ceb713d600c9"
+  },
+  {
+    "path": "memit_dry_run/memit/dsets/zsre.py",
+    "sha256": "a6281375afd9983337c154095fe9aba59c74c36fa34ecfb12838c7b5c341670e"
+  },
+  {
+    "path": "memit_dry_run/memit/experiments/__init__.py",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "memit_dry_run/memit/experiments/causal_trace.py",
+    "sha256": "9436fd596a39e240a01121da601359bea5d0b3a350c0faa34aa8b0ccac05560b"
+  },
+  {
+    "path": "memit_dry_run/memit/experiments/evaluate.py",
+    "sha256": "4ef8e138bb8003c8486935ad0eae86d9ccd84bb61cfa1f88b63f0ed06c2d1760"
+  },
+  {
+    "path": "memit_dry_run/memit/experiments/py/demo.py",
+    "sha256": "268c16a1c2c4e8642b7641739c2cd0808c08be80f36f280d1e5bef4944733772"
+  },
+  {
+    "path": "memit_dry_run/memit/experiments/py/eval_utils_counterfact.py",
+    "sha256": "b00d9810305580dddfeb5e65129db4d56bcbfee1edf020605e21bf4f5033aeb7"
+  },
+  {
+    "path": "memit_dry_run/memit/experiments/py/eval_utils_zsre.py",
+    "sha256": "e4f18c84a813d0a2fb9a5c9426726844117fe365cae72107d51f304a264d77a8"
+  },
+  {
+    "path": "memit_dry_run/memit/experiments/summarize.py",
+    "sha256": "7de8f5eec86243807825cf9f62923535f853cce07d2d3248534f86320f229372"
+  },
+  {
+    "path": "memit_dry_run/memit/experiments/sweep.py",
+    "sha256": "bfc7a91e9abb526814f7d975a81ff0333e930b452e2da58b31dc2ae8a10cce74"
+  },
+  {
+    "path": "memit_dry_run/memit/globals.yml",
+    "sha256": "86ab5194b3cddc19c14173a3b8f13563c554d252666eb563a4ac2f919e087459"
+  },
+  {
+    "path": "memit_dry_run/memit/globals.yml.upstream_default.20260430T035736Z",
+    "sha256": "f05226b5d0b64a25106fbfa2da3b4de3b69d8e6797c7757f8a6679756820845c"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/FT/EleutherAI_gpt-j-6B_constr.json",
+    "sha256": "018e27089431ed3632aa0b8f2f1b4aa51daa81ba39f24952a400a92df84fa28b"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/FT/EleutherAI_gpt-j-6B_unconstr.json",
+    "sha256": "1d605b748ed9709efb19d3f04c82de2d1ff12c81144c1d6621e72408f838d098"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/FT/EleutherAI_gpt-j-6B_wd.json",
+    "sha256": "5161e47c66580d13524abc1bbbb42b146163ff2f51121a4c74f23679bbad8254"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/FT/gpt2-large_constr.json",
+    "sha256": "48298eec3688c393dcf610e114b30a521fa3d8b5fc7fb5d5e938f61996f93d19"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/FT/gpt2-medium_constr.json",
+    "sha256": "fd1b7a80dff0e6d1c8e32c38b0ab620505ed1668d366d292a5776a49d2d7e23d"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/FT/gpt2-xl_attn.json",
+    "sha256": "28348947fe372113c6fc9d0a1b851121dbf8e198311ae7d573b4b6f8173a477b"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/FT/gpt2-xl_constr.json",
+    "sha256": "6f1a26e915b2fc5a203443322aa224f4dd47150117f1cc5d1ee7f8026108047f"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/FT/gpt2-xl_unconstr.json",
+    "sha256": "484393773f7a18844dd7c7f212673e4a8113515f0dfcc29c9d02c494f13bb137"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/MEMIT/EleutherAI_gpt-j-6B.json",
+    "sha256": "ac1c641470c003032f15cf3f3db088e215f289535b7ea8c171ccb1235cd7bf43"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/MEMIT/Llama-3.1-8B.json",
+    "sha256": "bea608d313845440ebe5a3887034b271bca431dff10a6d09a8237c3256f894f2"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/MEMIT/gpt2-xl.json",
+    "sha256": "2c2ff7e8f3ff8b33cca2966a628f92f8b56bba72af51ca9af57d6c30a1c342d4"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/MEMIT/meta-llama_Llama-3.1-8B.json",
+    "sha256": "61007b61dd2119cbd281ba10d89fb3d34bdcfe03cfce4da542a0729e261caf12"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/MEND/EleutherAI_gpt-j-6B.json",
+    "sha256": "d1e7bbd8a8486cda08af026c7cfdcc12b3a4fac3fab738a528e11adb8e52d97b"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/MEND/EleutherAI_gpt-j-6B_CF.json",
+    "sha256": "b30a5f403fa4972201d1ca994c70b3c6dbd396d7163bd502bc1cbe571e87d44c"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/MEND/gpt2-xl.json",
+    "sha256": "fe1a786ca540a3dee435621a56659d070b52b0354f85d08f9c0874f2e3d8fb79"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/MEND/gpt2-xl_CF.json",
+    "sha256": "5691b370fc2b8540d2c28d608d53e2328005ce5b933ab9e04726bde7cf93f44e"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/MEND/gpt2-xl_zsRE.json",
+    "sha256": "f6b0cc610281f474f702075064fe5eef83e0e7925d7f7d51036ee1fbc03a999a"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/ROME/EleutherAI_gpt-j-6B.json",
+    "sha256": "85e44438c5a6bcd7769d73efadd10507f2b7ec7eeaa0330a310e351d2676fdff"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/ROME/EleutherAI_gpt-neox-20b.json",
+    "sha256": "fadf233859d46cf02ef219f74bced47652d277cd392de51c7c1ce6585d1d60b9"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/ROME/gpt2-large.json",
+    "sha256": "2c5cb903948c6e261d2bb9aa2e9dfbd20ac30d38a2669054a25defcaed4a13ed"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/ROME/gpt2-medium.json",
+    "sha256": "3a6b72ddf9e0b859e6909a1e144c5bb6958852a0e4fef36db0e4424c424c1913"
+  },
+  {
+    "path": "memit_dry_run/memit/hparams/ROME/gpt2-xl.json",
+    "sha256": "81a98b788b8fbb89718288a8831441200e7d824fd057f62cb7d913ae4da5cf42"
+  },
+  {
+    "path": "memit_dry_run/memit/memit/__init__.py",
+    "sha256": "911cc037562a368ca7017ea66f4821c5a848f286a55b7d624c242209afcd01df"
+  },
+  {
+    "path": "memit_dry_run/memit/memit/compute_ks.py",
+    "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7"
+  },
+  {
+    "path": "memit_dry_run/memit/memit/compute_z.py",
+    "sha256": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea"
+  },
+  {
+    "path": "memit_dry_run/memit/memit/memit_hparams.py",
+    "sha256": "1b229b882b031ddbb59f06ad6ba58d5c33b17826bbfddf80f767e96931b595b2"
+  },
+  {
+    "path": "memit_dry_run/memit/memit/memit_main.py",
+    "sha256": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65"
+  },
+  {
+    "path": "memit_dry_run/memit/memit/memit_main.py.pre_p7_backup",
+    "sha256": "4b5c6478da463bb174036a3a0495d7786f8e4d207ee7021a7e9afb6aef977168"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/average_causal_effects.ipynb",
+    "sha256": "35598748d8ce10af976c8f2be331fdf5eb6081dcd1d564f4ec753258c0c2cafb"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/baselines",
+    "symlink": "../baselines/"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/causal_trace.ipynb",
+    "sha256": "755a31d3d4a34b56e253e21b4171f944e31a4e57fa8a9c38440f6e6731ab2711"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/causal_trace_frozen_mlp_attn.ipynb",
+    "sha256": "0b3837b24d70939e44b2fbba5757f4f19e888bf858445714c0bcb574170d4fe0"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/data",
+    "symlink": "../data"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/dsets",
+    "symlink": "../dsets/"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/experiments",
+    "symlink": "../experiments/"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/globals.yml",
+    "symlink": "../globals.yml"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/hparams",
+    "symlink": "../hparams/"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/memit",
+    "symlink": "../memit"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/memit.ipynb",
+    "sha256": "dc79c89862a9ef57dd6cdf46715c716ef60103f97314b1f9fb5fff3be88f7235"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/rome",
+    "symlink": "../rome/"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/util",
+    "symlink": "../util"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/vis/experiments",
+    "symlink": "../experiments"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/vis/globals.yml",
+    "symlink": "../globals.yml"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/vis/table_population.ipynb",
+    "sha256": "a5b6eb40955acbf7b37068ea782b04cfcb56794c6738b4eefbc3f38daff03ced"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/vis/table_population_zsre.ipynb",
+    "sha256": "c34799ceafdcad5220b5d871989cda93de581419741c861c38bd62f63d0cac85"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/vis/util",
+    "symlink": "../util"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/vis/visualize_multi_results.ipynb",
+    "sha256": "05d42e5d00021f4a435c23ffc88dcc919597c744136be2607f86e1a94d71304e"
+  },
+  {
+    "path": "memit_dry_run/memit/notebooks/vis/visualize_sweep_results.ipynb",
+    "sha256": "58ae1129dd40e1f6620e77ae24f1f74417ed3e1c2487ebcec552025c6313f008"
+  },
+  {
+    "path": "memit_dry_run/memit/rome/README.md",
+    "sha256": "4711e2605517fe1308cccd59748761e19342b4c0b0b26d2a9a32bbf3a93f94a6"
+  },
+  {
+    "path": "memit_dry_run/memit/rome/__init__.py",
+    "sha256": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a"
+  },
+  {
+    "path": "memit_dry_run/memit/rome/compute_u.py",
+    "sha256": "06a73593171eecdd03ab90d45daa2c6096b4335847f0c73bda9d834cdfb1d72d"
+  },
+  {
+    "path": "memit_dry_run/memit/rome/compute_v.py",
+    "sha256": "07f35ecec4b2a20a33318d75b040ae6c1fc5fd2122a90c92e32e361ef730d9eb"
+  },
+  {
+    "path": "memit_dry_run/memit/rome/layer_stats.py",
+    "sha256": "43693c64b061f3cdaa087447e47ddc10fb26fd597dd405eb0644d71ede2fe2d5"
+  },
+  {
+    "path": "memit_dry_run/memit/rome/repr_tools.py",
+    "sha256": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336"
+  },
+  {
+    "path": "memit_dry_run/memit/rome/rome_hparams.py",
+    "sha256": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5"
+  },
+  {
+    "path": "memit_dry_run/memit/rome/rome_main.py",
+    "sha256": "44ff978bd0d68839ff2f94f475a71fdac19a53a4ef263c1d74693ebfd5b40ba5"
+  },
+  {
+    "path": "memit_dry_run/memit/rome/tok_dataset.py",
+    "sha256": "37f775943d5040702ae21252db579f6aa116dacc4dd93c227c44cf9b3481a1a0"
+  },
+  {
+    "path": "memit_dry_run/memit/scaling_curves.sh",
+    "sha256": "4c89f3d257f67b3e9a1ae40fe81192bfc48c0a2f40b7f2dba9adc4f2bd97efa4"
+  },
+  {
+    "path": "memit_dry_run/memit/scripts/causal_trace.sh",
+    "sha256": "87bdd627bb58c82bf0f67841705bb95317d49f59eb1beab9d405126fd4d54600"
+  },
+  {
+    "path": "memit_dry_run/memit/scripts/colab_reqs/additional.txt",
+    "sha256": "3d49f4e0bb2b079bb2fec81b178bb0a27ebc4f8085c496727e299f16aa852fb2"
+  },
+  {
+    "path": "memit_dry_run/memit/scripts/colab_reqs/rome.txt",
+    "sha256": "de3f292db754a685905c34d079d097b95e3e7de102af06aedbfba42940d29564"
+  },
+  {
+    "path": "memit_dry_run/memit/scripts/collect_layer_stats.sh",
+    "sha256": "ca9be52a8845851b9b17d8b92b0ac3d7333b3ea7bac339db4c1daa0deda7c60a"
+  },
+  {
+    "path": "memit_dry_run/memit/scripts/ipynb_drop_output.py",
+    "sha256": "62a17e64c2de0448962fda6e0914a80e354361fea73b4363fc5287b92e4ca635"
+  },
+  {
+    "path": "memit_dry_run/memit/scripts/memit.yml",
+    "sha256": "28d8b635eed02cdb8d1fb36d8990a5347c1b88dfffcea71105febc8a91d98f83"
+  },
+  {
+    "path": "memit_dry_run/memit/scripts/setup_clean_ipynb.sh",
+    "sha256": "55533d28e032731eb1f0c91154ecf14092c23cf4d1f11be90a8304aa58e3338d"
+  },
+  {
+    "path": "memit_dry_run/memit/scripts/setup_conda.sh",
+    "sha256": "3d78078734cb1a45b0b448dafd5cc09b92496b89bcc8aabae057ee1fdb17e2f3"
+  },
+  {
+    "path": "memit_dry_run/memit/util/__init__.py",
+    "sha256": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d"
+  },
+  {
+    "path": "memit_dry_run/memit/util/device.py",
+    "sha256": "868627783827f03763ba9c210de2ddbd607e050330eccf7757fccfd9e985cf2b"
+  },
+  {
+    "path": "memit_dry_run/memit/util/generate.py",
+    "sha256": "3764cb8a0a1b3f28c17d8aab3028b33d2127ba4e02e8dbc253025791a9ab2514"
+  },
+  {
+    "path": "memit_dry_run/memit/util/globals.py",
+    "sha256": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2"
+  },
+  {
+    "path": "memit_dry_run/memit/util/hparams.py",
+    "sha256": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0"
+  },
+  {
+    "path": "memit_dry_run/memit/util/logit_lens.py",
+    "sha256": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4"
+  },
+  {
+    "path": "memit_dry_run/memit/util/nethook.py",
+    "sha256": "20e84c9413518af3aee76762071f823cbe5d75c4658e4ffa7bdab045df735f7c"
+  },
+  {
+    "path": "memit_dry_run/memit/util/perplexity.py",
+    "sha256": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e"
+  },
+  {
+    "path": "memit_dry_run/memit/util/runningstats.py",
+    "sha256": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97"
+  },
+  {
+    "path": "memit_dry_run/memit/zsre_evals.sh",
+    "sha256": "a5f8ca93642cab1e18bdfc917255ea64323b2c3261d0cb4634e235bbbbf00d2f"
+  }
+]

@@ -1,0 +1,383 @@
+test_T10_unreaped_group_blocks_compute (__main__.DispatchTests) ... FAIL
+test_T11_endorsed_argv_cwd_env (__main__.DispatchTests) ... FAIL
+test_T1_observed_recorder_line_not_blocker (__main__.DispatchTests) ... FAIL
+test_T2_happy_path (__main__.DispatchTests) ... FAIL
+test_T3_b_reused_authorization (__main__.DispatchTests) ... FAIL
+test_T3_c_dirty_pinned_source (__main__.DispatchTests) ... FAIL
+test_T3_c_wrong_head (__main__.DispatchTests) ... FAIL
+test_T3_d_bad_manifest_hash (__main__.DispatchTests) ... FAIL
+test_T3_f_stricter_disk_floor (__main__.DispatchTests) ... FAIL
+test_T3_g_fingerprint_failure (__main__.DispatchTests) ... FAIL
+test_T3_h_dry_probe_refusal (__main__.DispatchTests) ... FAIL
+test_T3_i_hash_changed_after_first_check (__main__.DispatchTests) ... FAIL
+test_T4_nonzero_recorder_niceness (__main__.DispatchTests) ... FAIL
+test_T5_worker_nice_three_requests_supervisor_sigint (__main__.DispatchTests) ... FAIL
+test_T6_deadline_no_halted_event (__main__.DispatchTests) ... FAIL
+test_T7_resource_halted_event (__main__.DispatchTests) ... FAIL
+test_T8_internal_admission_refused (__main__.DispatchTests) ... FAIL
+test_T9_third_abort_reached (__main__.DispatchTests) ... FAIL
+test_disk_floor_cannot_be_lowered (__main__.DispatchTests) ... FAIL
+test_T1_shell_argv_is_not_a_compute_executable (__main__.PureTests) ... FAIL
+test_T6_deadline_stderr_without_halt_counts_abort (__main__.PureTests) ... FAIL
+test_T7_resource_halt_counts_abort (__main__.PureTests) ... FAIL
+test_T8_admission_refusal_not_abort (__main__.PureTests) ... FAIL
+test_artifacts_without_terminal_never_complete (__main__.PureTests) ... FAIL
+test_invalid_event_stream_never_complete (__main__.PureTests) ... FAIL
+test_namespace_anomaly_prevents_complete (__main__.PureTests) ... FAIL
+test_no_exit_status_never_complete (__main__.PureTests) ... FAIL
+test_pass_without_worker_observation_is_incomplete_and_blocks (__main__.PureTests) ... FAIL
+test_prior_receipt_and_halted_namespace_count_once (__main__.PureTests) ... FAIL
+test_prior_receipt_covers_deadline_without_halted (__main__.PureTests) ... FAIL
+test_recorder_absolute_executables_exist (__main__.PureTests) ... FAIL
+test_recorder_disk_exact_floor_with_trailing_newline (__main__.PureTests) ... FAIL
+test_recorder_disk_invalid_observation_refuses (__main__.PureTests) ... FAIL
+test_recorder_disk_invalid_or_lowered_floor_refuses (__main__.PureTests) ... FAIL
+test_recorder_disk_raised_floor_refuses (__main__.PureTests) ... FAIL
+test_recorder_disk_reads_real_df_stdout (__main__.PureTests) ... FAIL
+test_recorder_disk_shortage_refuses (__main__.PureTests) ... FAIL
+test_recorder_utc_has_complete_timestamp (__main__.PureTests) ... FAIL
+test_stdout_abort_evidence_survives_missing_terminal (__main__.PureTests) ... FAIL
+test_terminal_exit_mismatch_incomplete (__main__.PureTests) ... FAIL
+test_terminal_stdout_exit_agree (__main__.PureTests) ... FAIL
+test_unmatched_finishing_after_terminal_incomplete (__main__.PureTests) ... FAIL
+
+======================================================================
+FAIL: test_T10_unreaped_group_blocks_compute (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T11_endorsed_argv_cwd_env (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T1_observed_recorder_line_not_blocker (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T2_happy_path (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T3_b_reused_authorization (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T3_c_dirty_pinned_source (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T3_c_wrong_head (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T3_d_bad_manifest_hash (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T3_f_stricter_disk_floor (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T3_g_fingerprint_failure (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T3_h_dry_probe_refusal (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T3_i_hash_changed_after_first_check (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T4_nonzero_recorder_niceness (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T5_worker_nice_three_requests_supervisor_sigint (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T6_deadline_no_halted_event (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T7_resource_halted_event (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T8_internal_admission_refused (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T9_third_abort_reached (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_disk_floor_cannot_be_lowered (__main__.DispatchTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 367, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T1_shell_argv_is_not_a_compute_executable (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T6_deadline_stderr_without_halt_counts_abort (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T7_resource_halt_counts_abort (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_T8_admission_refusal_not_abort (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_artifacts_without_terminal_never_complete (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_invalid_event_stream_never_complete (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_namespace_anomaly_prevents_complete (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_no_exit_status_never_complete (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_pass_without_worker_observation_is_incomplete_and_blocks (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_prior_receipt_and_halted_namespace_count_once (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_prior_receipt_covers_deadline_without_halted (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_recorder_absolute_executables_exist (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_recorder_disk_exact_floor_with_trailing_newline (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_recorder_disk_invalid_observation_refuses (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_recorder_disk_invalid_or_lowered_floor_refuses (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_recorder_disk_raised_floor_refuses (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_recorder_disk_reads_real_df_stdout (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_recorder_disk_shortage_refuses (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_recorder_utc_has_complete_timestamp (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_stdout_abort_evidence_survives_missing_terminal (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_terminal_exit_mismatch_incomplete (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_terminal_stdout_exit_agree (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+======================================================================
+FAIL: test_unmatched_finishing_after_terminal_incomplete (__main__.PureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/new1-dispatch-red.KObICO/tests/test_new1_dispatch.py", line 160, in setUp
+    self.assertTrue((SOURCE/"tools/new1_dispatch.sh").is_file(), "recorder missing (expected RED)")
+AssertionError: False is not true : recorder missing (expected RED)
+
+----------------------------------------------------------------------
+Ran 42 tests in 0.002s
+
+FAILED (failures=42)

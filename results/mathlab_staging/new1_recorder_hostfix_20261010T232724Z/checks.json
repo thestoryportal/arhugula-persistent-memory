@@ -1,0 +1,45 @@
+{
+  "original_tests_unchanged": 34,
+  "executable_paths": [
+    "/bin/cat",
+    "/bin/cp",
+    "/bin/date",
+    "/bin/df",
+    "/bin/mkdir",
+    "/bin/mv",
+    "/bin/ps",
+    "/bin/rmdir",
+    "/bin/sleep",
+    "/bin/zsh",
+    "/usr/bin/awk",
+    "/usr/bin/env",
+    "/usr/bin/plutil",
+    "/usr/bin/python3",
+    "/usr/bin/shasum",
+    "/usr/bin/tr"
+  ],
+  "resolved_executables": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "/usr/bin/git"
+  ],
+  "protected_paths": [
+    "tools/new1_supervisor.py",
+    "tools/new1_geometry.py",
+    "docs/NEW1_ADAPTER_GEOMETRY_PREREG.md",
+    "tools/mathlab_admit.py",
+    "tools/mathlab_cpu_runner.py",
+    "tools/mathlab_events.py",
+    "tools/mathlab_harvest.py",
+    "tools/mathlab_runtime.py",
+    "tools/c10w_p2_gate.py",
+    "tools/test_dashboard_mathlab.py"
+  ],
+  "engine_entries_unchanged": 143,
+  "endorsed_exec_unchanged": true,
+  "reporter_unchanged": true,
+  "byte_changes_limited_to_two_fixes": true,
+  "provenance_hashes_verified": true,
+  "head_before": "02b44af91330c78f91f48b6c8e4071244411e90d",
+  "head_after": "8e44cafc0439b1cad150f8666532200e489e1667",
+  "branch": "worktree-c10k-route-a"
+}
