@@ -1,0 +1,309 @@
+test_bare_supervisor_environment_is_not_execution_authority (tests.test_new1_supervisor.SupervisorTests.test_bare_supervisor_environment_is_not_execution_authority) ... ok
+test_blocked_halt_persistence_cannot_extend_total_deadline (tests.test_new1_supervisor.SupervisorTests.test_blocked_halt_persistence_cannot_extend_total_deadline) ... ok
+test_blocking_admission_is_interrupted_by_whole_run_deadline (tests.test_new1_supervisor.SupervisorTests.test_blocking_admission_is_interrupted_by_whole_run_deadline) ... STOPPED-DEADLINE: STOPPED-DEADLINE: whole-run wall-clock cap reached; closeout incomplete: STOPPED-DEADLINE: unchanged whole-run deadline reached; no prediction verdict
+ok
+test_cell_alarm_interrupts_blocked_persistence_inside_total_cap (tests.test_new1_supervisor.SupervisorTests.test_cell_alarm_interrupts_blocked_persistence_inside_total_cap) ... FAIL
+test_cell_cannot_admit_a_memory_probe_that_finishes_at_301_seconds (tests.test_new1_supervisor.SupervisorTests.test_cell_cannot_admit_a_memory_probe_that_finishes_at_301_seconds) ... FAIL
+test_cell_deadline_covers_resource_and_admission_persistence (tests.test_new1_supervisor.SupervisorTests.test_cell_deadline_covers_resource_and_admission_persistence) ... 
+  test_cell_deadline_covers_resource_and_admission_persistence (tests.test_new1_supervisor.SupervisorTests.test_cell_deadline_covers_resource_and_admission_persistence) (label='resource') ... FAIL
+  test_cell_deadline_covers_resource_and_admission_persistence (tests.test_new1_supervisor.SupervisorTests.test_cell_deadline_covers_resource_and_admission_persistence) (label='cell') ... FAIL
+test_cell_timeout_stops_without_lowering_reserve (tests.test_new1_supervisor.SupervisorTests.test_cell_timeout_stops_without_lowering_reserve) ... ok
+test_default_admission_obeys_parent_lab_stop_policy (tests.test_new1_supervisor.SupervisorTests.test_default_admission_obeys_parent_lab_stop_policy) ... ok
+test_direct_worker_cli_refuses_before_numerical_imports (tests.test_new1_supervisor.SupervisorTests.test_direct_worker_cli_refuses_before_numerical_imports) ... ok
+test_emergency_available_floor_is_strict (tests.test_new1_supervisor.SupervisorTests.test_emergency_available_floor_is_strict) ... ok
+test_failed_and_nonfinite_monitoring_refuse (tests.test_new1_supervisor.SupervisorTests.test_failed_and_nonfinite_monitoring_refuse) ... ok
+test_invalid_prediction_is_not_boolean_fail_or_calibration (tests.test_new1_supervisor.SupervisorTests.test_invalid_prediction_is_not_boolean_fail_or_calibration) ... FAIL
+test_leader_exit_kills_ipc_holding_grandchild_without_waiting_for_deadline (tests.test_new1_supervisor.SupervisorTests.test_leader_exit_kills_ipc_holding_grandchild_without_waiting_for_deadline) ... ok
+test_non_prediction_calibration_gate_stays_visible_after_halt (tests.test_new1_supervisor.SupervisorTests.test_non_prediction_calibration_gate_stays_visible_after_halt) ... ok
+test_observed_breach_stops_before_any_potentially_blocking_persistence (tests.test_new1_supervisor.SupervisorTests.test_observed_breach_stops_before_any_potentially_blocking_persistence) ... ok
+test_persistence_failure_never_emits_success_gate (tests.test_new1_supervisor.SupervisorTests.test_persistence_failure_never_emits_success_gate) ... ok
+test_prediction_visibility_requires_successful_terminal_and_no_halt (tests.test_new1_supervisor.SupervisorTests.test_prediction_visibility_requires_successful_terminal_and_no_halt) ... FAIL
+test_private_handshake_and_complete_stub_result_fold_to_completion (tests.test_new1_supervisor.SupervisorTests.test_private_handshake_and_complete_stub_result_fold_to_completion) ... ok
+test_publication_deadline_expiry_hides_provisional_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_deadline_expiry_hides_provisional_verdicts) ... 
+  test_publication_deadline_expiry_hides_provisional_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_deadline_expiry_hides_provisional_verdicts) (point='stage_started') ... FAIL
+  test_publication_deadline_expiry_hides_provisional_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_deadline_expiry_hides_provisional_verdicts) (point='gate_result') ... FAIL
+  test_publication_deadline_expiry_hides_provisional_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_deadline_expiry_hides_provisional_verdicts) (point='stage_finished') ... FAIL
+  test_publication_deadline_expiry_hides_provisional_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_deadline_expiry_hides_provisional_verdicts) (point='finding.json') ... FAIL
+  test_publication_deadline_expiry_hides_provisional_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_deadline_expiry_hides_provisional_verdicts) (point='finding_staged') ... FAIL
+  test_publication_deadline_expiry_hides_provisional_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_deadline_expiry_hides_provisional_verdicts) (point='run_finished') ... FAIL
+test_publication_io_failure_hides_all_prediction_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_io_failure_hides_all_prediction_verdicts) ... 
+  test_publication_io_failure_hides_all_prediction_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_io_failure_hides_all_prediction_verdicts) (point='finding.json') ... FAIL
+  test_publication_io_failure_hides_all_prediction_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_io_failure_hides_all_prediction_verdicts) (point='stage_started') ... FAIL
+  test_publication_io_failure_hides_all_prediction_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_io_failure_hides_all_prediction_verdicts) (point='gate_result') ... FAIL
+  test_publication_io_failure_hides_all_prediction_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_io_failure_hides_all_prediction_verdicts) (point='stage_finished') ... FAIL
+  test_publication_io_failure_hides_all_prediction_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_io_failure_hides_all_prediction_verdicts) (point='finding_staged') ... FAIL
+  test_publication_io_failure_hides_all_prediction_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_io_failure_hides_all_prediction_verdicts) (point='run_finished') ... FAIL
+test_real_grandchild_is_killed_on_observed_rss_breach (tests.test_new1_supervisor.SupervisorTests.test_real_grandchild_is_killed_on_observed_rss_breach) ... ok
+test_real_subprocess_failures_and_empty_inventory_are_refusals (tests.test_new1_supervisor.SupervisorTests.test_real_subprocess_failures_and_empty_inventory_are_refusals) ... ok
+test_real_worker_group_is_terminated_on_rss_breach (tests.test_new1_supervisor.SupervisorTests.test_real_worker_group_is_terminated_on_rss_breach) ... ok
+test_refused_cpu_admission_never_dispatches_worker (tests.test_new1_supervisor.SupervisorTests.test_refused_cpu_admission_never_dispatches_worker) ... ok
+test_reparented_group_member_still_counts_toward_rss_cap (tests.test_new1_supervisor.SupervisorTests.test_reparented_group_member_still_counts_toward_rss_cap) ... ok
+test_resource_receipt_is_durable_before_event (tests.test_new1_supervisor.SupervisorTests.test_resource_receipt_is_durable_before_event) ... ok
+test_rss_ceiling_is_strict_and_family_memory_is_used (tests.test_new1_supervisor.SupervisorTests.test_rss_ceiling_is_strict_and_family_memory_is_used) ... ok
+test_rss_probe_sums_descendants_and_refuses_missing_worker (tests.test_new1_supervisor.SupervisorTests.test_rss_probe_sums_descendants_and_refuses_missing_worker) ... ok
+test_successful_exit_at_loop_bottom_still_terminates_group (tests.test_new1_supervisor.SupervisorTests.test_successful_exit_at_loop_bottom_still_terminates_group) ... ok
+test_supervisor_accepts_authoritative_freeze_with_historical_draft_footer (tests.test_new1_supervisor.SupervisorTests.test_supervisor_accepts_authoritative_freeze_with_historical_draft_footer) ... ok
+test_supervisor_cell_deadline_interrupts_a_blocked_resource_probe (tests.test_new1_supervisor.SupervisorTests.test_supervisor_cell_deadline_interrupts_a_blocked_resource_probe) ... STOPPED-DEADLINE: STOPPED-DEADLINE: whole-run wall-clock cap reached; closeout incomplete: STOPPED-DEADLINE: unchanged whole-run deadline reached; no prediction verdict
+FAIL
+test_supervisor_refuses_draft_header_even_with_quoted_frozen_text (tests.test_new1_supervisor.SupervisorTests.test_supervisor_refuses_draft_header_even_with_quoted_frozen_text) ... ok
+test_supervisor_refuses_exact_prereg_hash_mismatch (tests.test_new1_supervisor.SupervisorTests.test_supervisor_refuses_exact_prereg_hash_mismatch) ... ok
+test_svd_requires_thirteen_gib_not_eight (tests.test_new1_supervisor.SupervisorTests.test_svd_requires_thirteen_gib_not_eight) ... ok
+test_torn_ipc_and_worker_exit_without_result_are_invalid (tests.test_new1_supervisor.SupervisorTests.test_torn_ipc_and_worker_exit_without_result_are_invalid) ... ok
+test_unknown_phase_and_spoofed_reserve_refuse (tests.test_new1_supervisor.SupervisorTests.test_unknown_phase_and_spoofed_reserve_refuse) ... ok
+test_wait_is_inside_unchanged_1800_second_deadline (tests.test_new1_supervisor.SupervisorTests.test_wait_is_inside_unchanged_1800_second_deadline) ... ok
+test_watchdog_enforces_during_blocked_persistence (tests.test_new1_supervisor.SupervisorTests.test_watchdog_enforces_during_blocked_persistence) ... ok
+test_watchdog_refuses_memory_drop_during_blocking_admission (tests.test_new1_supervisor.SupervisorTests.test_watchdog_refuses_memory_drop_during_blocking_admission) ... ok
+test_worker_accepts_same_freeze_before_imports_without_geometry (tests.test_new1_supervisor.SupervisorTests.test_worker_accepts_same_freeze_before_imports_without_geometry) ... ok
+test_worker_refuses_draft_header_before_imports (tests.test_new1_supervisor.SupervisorTests.test_worker_refuses_draft_header_before_imports) ... ok
+test_actual_producer_gate_dictionary_is_admitted_and_failed_gate_refuses (tests.test_new1_geometry.GeometryTests.test_actual_producer_gate_dictionary_is_admitted_and_failed_gate_refuses) ... ok
+test_adapter_qr_matches_direct_product_and_saved_scale (tests.test_new1_geometry.GeometryTests.test_adapter_qr_matches_direct_product_and_saved_scale) ... ok
+test_all_conditions_must_hold_in_same_layers (tests.test_new1_geometry.GeometryTests.test_all_conditions_must_hold_in_same_layers) ... ok
+test_all_update_families_enforce_complement_and_random_descriptive_norms (tests.test_new1_geometry.GeometryTests.test_all_update_families_enforce_complement_and_random_descriptive_norms) ... ok
+test_complete_small_layer_reuses_basis_and_persists_all_secondary_controls (tests.test_new1_geometry.GeometryTests.test_complete_small_layer_reuses_basis_and_persists_all_secondary_controls) ... ERROR
+test_covariance_energy_uses_input_axis_and_is_scale_sign_invariant (tests.test_new1_geometry.GeometryTests.test_covariance_energy_uses_input_axis_and_is_scale_sign_invariant) ... ok
+test_covariance_load_normalizes_in_native_dtype_and_count_must_be_positive (tests.test_new1_geometry.GeometryTests.test_covariance_load_normalizes_in_native_dtype_and_count_must_be_positive) ... ok
+test_covariance_top_bottom_ties_are_statistic_specific (tests.test_new1_geometry.GeometryTests.test_covariance_top_bottom_ties_are_statistic_specific) ... ok
+test_energy_promotes_only_selected_covariance_column_blocks (tests.test_new1_geometry.GeometryTests.test_energy_promotes_only_selected_covariance_column_blocks) ... FAIL
+test_layer_energy_contrasts_keep_each_bin_validity_flag (tests.test_new1_geometry.GeometryTests.test_layer_energy_contrasts_keep_each_bin_validity_flag) ... ERROR
+test_m16_retained_energy_is_secondary_and_uses_existing_svd (tests.test_new1_geometry.GeometryTests.test_m16_retained_energy_is_secondary_and_uses_existing_svd) ... ok
+test_native_covariance_svd_once_and_indefinite_psd_rejection (tests.test_new1_geometry.GeometryTests.test_native_covariance_svd_once_and_indefinite_psd_rejection) ... ok
+test_no_favorable_layer_drop_and_tie_invalidates_only_related_endpoint (tests.test_new1_geometry.GeometryTests.test_no_favorable_layer_drop_and_tie_invalidates_only_related_endpoint) ... ok
+test_participation_ratio_and_rank95_use_squared_singular_energy (tests.test_new1_geometry.GeometryTests.test_participation_ratio_and_rank95_use_squared_singular_energy) ... ok
+test_predictions_require_same_three_layers_and_random_guard (tests.test_new1_geometry.GeometryTests.test_predictions_require_same_three_layers_and_random_guard) ... ok
+test_projector_and_cache_tensor_metadata_cannot_be_missing (tests.test_new1_geometry.GeometryTests.test_projector_and_cache_tensor_metadata_cannot_be_missing) ... ok
+test_projector_matches_all_four_frozen_probes_and_update_parity (tests.test_new1_geometry.GeometryTests.test_projector_matches_all_four_frozen_probes_and_update_parity) ... ok
+test_q95_is_nineteenth_of_twenty_not_interpolation (tests.test_new1_geometry.GeometryTests.test_q95_is_nineteenth_of_twenty_not_interpolation) ... ok
+test_secondary_controls_cannot_replace_primary_q95 (tests.test_new1_geometry.GeometryTests.test_secondary_controls_cannot_replace_primary_q95) ... ok
+test_source_hash_and_harvest_identity_mismatch_are_invalid (tests.test_new1_geometry.GeometryTests.test_source_hash_and_harvest_identity_mismatch_are_invalid) ... ok
+test_source_mutation_during_consumption_is_invalid (tests.test_new1_geometry.GeometryTests.test_source_mutation_during_consumption_is_invalid) ... ok
+test_spectrum_matched_random_preserves_spectrum_and_norm (tests.test_new1_geometry.GeometryTests.test_spectrum_matched_random_preserves_spectrum_and_norm) ... ok
+test_subspace_rotation_and_rank_deficient_fixed_denominator (tests.test_new1_geometry.GeometryTests.test_subspace_rotation_and_rank_deficient_fixed_denominator) ... ok
+test_update_cutoff_tie_invalidates_m16_but_not_full_effective_rank (tests.test_new1_geometry.GeometryTests.test_update_cutoff_tie_invalidates_m16_but_not_full_effective_rank) ... ok
+test_zero_and_nonfinite_updates_are_invalid (tests.test_new1_geometry.GeometryTests.test_zero_and_nonfinite_updates_are_invalid) ... ok
+
+======================================================================
+ERROR: test_complete_small_layer_reuses_basis_and_persists_all_secondary_controls (tests.test_new1_geometry.GeometryTests.test_complete_small_layer_reuses_basis_and_persists_all_secondary_controls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 200, in test_complete_small_layer_reuses_basis_and_persists_all_secondary_controls
+    contrast=row['D']['energy_minus_M']
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'energy_minus_M'
+
+======================================================================
+ERROR: test_layer_energy_contrasts_keep_each_bin_validity_flag (tests.test_new1_geometry.GeometryTests.test_layer_energy_contrasts_keep_each_bin_validity_flag)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 224, in test_layer_energy_contrasts_keep_each_bin_validity_flag
+    contrast=self.G.strict_json(path.read_text())['D']['energy_minus_M']
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'energy_minus_M'
+
+======================================================================
+FAIL: test_cell_alarm_interrupts_blocked_persistence_inside_total_cap (tests.test_new1_supervisor.SupervisorTests.test_cell_alarm_interrupts_blocked_persistence_inside_total_cap)
+----------------------------------------------------------------------
+tools.new1_supervisor.Stop: STOPPED-DEADLINE: whole-run wall-clock cap reached
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 103, in test_cell_alarm_interrupts_blocked_persistence_inside_total_cap
+    with self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
+AssertionError: "STOPPED-RESOURCE" does not match "STOPPED-DEADLINE: whole-run wall-clock cap reached"
+
+======================================================================
+FAIL: test_cell_cannot_admit_a_memory_probe_that_finishes_at_301_seconds (tests.test_new1_supervisor.SupervisorTests.test_cell_cannot_admit_a_memory_probe_that_finishes_at_301_seconds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 75, in test_cell_cannot_admit_a_memory_probe_that_finishes_at_301_seconds
+    with self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
+AssertionError: Stop not raised
+
+======================================================================
+FAIL: test_cell_deadline_covers_resource_and_admission_persistence (tests.test_new1_supervisor.SupervisorTests.test_cell_deadline_covers_resource_and_admission_persistence) (label='resource')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 90, in test_cell_deadline_covers_resource_and_admission_persistence
+    with mock.patch.object(self.S,'receipt',side_effect=persist),self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
+AssertionError: Stop not raised
+
+======================================================================
+FAIL: test_cell_deadline_covers_resource_and_admission_persistence (tests.test_new1_supervisor.SupervisorTests.test_cell_deadline_covers_resource_and_admission_persistence) (label='cell')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 90, in test_cell_deadline_covers_resource_and_admission_persistence
+    with mock.patch.object(self.S,'receipt',side_effect=persist),self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
+AssertionError: Stop not raised
+
+======================================================================
+FAIL: test_invalid_prediction_is_not_boolean_fail_or_calibration (tests.test_new1_supervisor.SupervisorTests.test_invalid_prediction_is_not_boolean_fail_or_calibration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 308, in test_invalid_prediction_is_not_boolean_fail_or_calibration
+    self.assertNotIn('H-TOP',state['gate_outcomes'],'prediction outcomes remain provisional before completion')
+AssertionError: 'H-TOP' unexpectedly found in {'H-TOP': 'FAIL', 'H-RANK': 'PASS', 'H-OVERLAP': 'PASS'} : prediction outcomes remain provisional before completion
+
+======================================================================
+FAIL: test_prediction_visibility_requires_successful_terminal_and_no_halt (tests.test_new1_supervisor.SupervisorTests.test_prediction_visibility_requires_successful_terminal_and_no_halt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 467, in test_prediction_visibility_requires_successful_terminal_and_no_halt
+    self.assert_no_prediction_verdict(fold(events[:end]))
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 457, in assert_no_prediction_verdict
+    self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
+AssertionError: False is not true : {'admission': 'PASS', 'H-COV': 'FAIL'}
+
+======================================================================
+FAIL: test_publication_deadline_expiry_hides_provisional_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_deadline_expiry_hides_provisional_verdicts) (point='stage_started')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 519, in test_publication_deadline_expiry_hides_provisional_verdicts
+    self.assert_no_prediction_verdict(state)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 457, in assert_no_prediction_verdict
+    self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
+AssertionError: False is not true : {'admission': 'PASS', 'H-COV': 'FAIL', 'H-TOP': 'FAIL'}
+
+======================================================================
+FAIL: test_publication_deadline_expiry_hides_provisional_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_deadline_expiry_hides_provisional_verdicts) (point='gate_result')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 519, in test_publication_deadline_expiry_hides_provisional_verdicts
+    self.assert_no_prediction_verdict(state)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 457, in assert_no_prediction_verdict
+    self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
+AssertionError: False is not true : {'admission': 'PASS', 'H-COV': 'FAIL', 'H-TOP': 'FAIL', 'H-RANK': 'PASS'}
+
+======================================================================
+FAIL: test_publication_deadline_expiry_hides_provisional_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_deadline_expiry_hides_provisional_verdicts) (point='stage_finished')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 519, in test_publication_deadline_expiry_hides_provisional_verdicts
+    self.assert_no_prediction_verdict(state)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 457, in assert_no_prediction_verdict
+    self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
+AssertionError: False is not true : {'admission': 'PASS', 'H-COV': 'FAIL', 'H-TOP': 'FAIL', 'H-RANK': 'PASS'}
+
+======================================================================
+FAIL: test_publication_deadline_expiry_hides_provisional_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_deadline_expiry_hides_provisional_verdicts) (point='finding.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 519, in test_publication_deadline_expiry_hides_provisional_verdicts
+    self.assert_no_prediction_verdict(state)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 457, in assert_no_prediction_verdict
+    self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
+AssertionError: False is not true : {'admission': 'PASS', 'H-COV': 'FAIL', 'H-TOP': 'FAIL', 'H-RANK': 'PASS', 'H-OVERLAP': 'PASS'}
+
+======================================================================
+FAIL: test_publication_deadline_expiry_hides_provisional_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_deadline_expiry_hides_provisional_verdicts) (point='finding_staged')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 519, in test_publication_deadline_expiry_hides_provisional_verdicts
+    self.assert_no_prediction_verdict(state)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 457, in assert_no_prediction_verdict
+    self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
+AssertionError: False is not true : {'admission': 'PASS', 'H-COV': 'FAIL', 'H-TOP': 'FAIL', 'H-RANK': 'PASS', 'H-OVERLAP': 'PASS'}
+
+======================================================================
+FAIL: test_publication_deadline_expiry_hides_provisional_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_deadline_expiry_hides_provisional_verdicts) (point='run_finished')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 519, in test_publication_deadline_expiry_hides_provisional_verdicts
+    self.assert_no_prediction_verdict(state)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 457, in assert_no_prediction_verdict
+    self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
+AssertionError: False is not true : {'admission': 'PASS', 'H-COV': 'FAIL', 'H-TOP': 'FAIL', 'H-RANK': 'PASS', 'H-OVERLAP': 'PASS'}
+
+======================================================================
+FAIL: test_publication_io_failure_hides_all_prediction_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_io_failure_hides_all_prediction_verdicts) (point='finding.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 493, in test_publication_io_failure_hides_all_prediction_verdicts
+    self.assert_no_prediction_verdict(state)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 457, in assert_no_prediction_verdict
+    self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
+AssertionError: False is not true : {'admission': 'PASS', 'H-COV': 'FAIL', 'H-TOP': 'FAIL', 'H-RANK': 'PASS', 'H-OVERLAP': 'PASS'}
+
+======================================================================
+FAIL: test_publication_io_failure_hides_all_prediction_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_io_failure_hides_all_prediction_verdicts) (point='stage_started')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 493, in test_publication_io_failure_hides_all_prediction_verdicts
+    self.assert_no_prediction_verdict(state)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 457, in assert_no_prediction_verdict
+    self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
+AssertionError: False is not true : {'admission': 'PASS', 'H-COV': 'FAIL', 'H-TOP': 'FAIL'}
+
+======================================================================
+FAIL: test_publication_io_failure_hides_all_prediction_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_io_failure_hides_all_prediction_verdicts) (point='gate_result')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 493, in test_publication_io_failure_hides_all_prediction_verdicts
+    self.assert_no_prediction_verdict(state)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 457, in assert_no_prediction_verdict
+    self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
+AssertionError: False is not true : {'admission': 'PASS', 'H-COV': 'FAIL', 'H-TOP': 'FAIL', 'H-RANK': 'PASS'}
+
+======================================================================
+FAIL: test_publication_io_failure_hides_all_prediction_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_io_failure_hides_all_prediction_verdicts) (point='stage_finished')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 493, in test_publication_io_failure_hides_all_prediction_verdicts
+    self.assert_no_prediction_verdict(state)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 457, in assert_no_prediction_verdict
+    self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
+AssertionError: False is not true : {'admission': 'PASS', 'H-COV': 'FAIL', 'H-TOP': 'FAIL', 'H-RANK': 'PASS'}
+
+======================================================================
+FAIL: test_publication_io_failure_hides_all_prediction_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_io_failure_hides_all_prediction_verdicts) (point='finding_staged')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 493, in test_publication_io_failure_hides_all_prediction_verdicts
+    self.assert_no_prediction_verdict(state)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 457, in assert_no_prediction_verdict
+    self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
+AssertionError: False is not true : {'admission': 'PASS', 'H-COV': 'FAIL', 'H-TOP': 'FAIL', 'H-RANK': 'PASS', 'H-OVERLAP': 'PASS'}
+
+======================================================================
+FAIL: test_publication_io_failure_hides_all_prediction_verdicts (tests.test_new1_supervisor.SupervisorTests.test_publication_io_failure_hides_all_prediction_verdicts) (point='run_finished')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 493, in test_publication_io_failure_hides_all_prediction_verdicts
+    self.assert_no_prediction_verdict(state)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 457, in assert_no_prediction_verdict
+    self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
+AssertionError: False is not true : {'admission': 'PASS', 'H-COV': 'FAIL', 'H-TOP': 'FAIL', 'H-RANK': 'PASS', 'H-OVERLAP': 'PASS'}
+
+======================================================================
+FAIL: test_supervisor_cell_deadline_interrupts_a_blocked_resource_probe (tests.test_new1_supervisor.SupervisorTests.test_supervisor_cell_deadline_interrupts_a_blocked_resource_probe)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 128, in test_supervisor_cell_deadline_interrupts_a_blocked_resource_probe
+    self.assertEqual(outcome,'STOPPED-RESOURCE')
+AssertionError: 'STOPPED-DEADLINE' != 'STOPPED-RESOURCE'
+- STOPPED-DEADLINE
++ STOPPED-RESOURCE
+
+
+======================================================================
+FAIL: test_energy_promotes_only_selected_covariance_column_blocks (tests.test_new1_geometry.GeometryTests.test_energy_promotes_only_selected_covariance_column_blocks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_geometry.py", line 53, in test_energy_promotes_only_selected_covariance_column_blocks
+    self.assertEqual(promoted,[(513,2)],'full covariance basis must never be promoted')
+AssertionError: Lists differ: [(513, 513)] != [(513, 2)]
+
+First differing element 0:
+(513, 513)
+(513, 2)
+
+- [(513, 513)]
+?        ^^^
+
++ [(513, 2)]
+?        ^
+ : full covariance basis must never be promoted
+
+----------------------------------------------------------------------
+Ran 66 tests in 5.965s
+
+FAILED (failures=20, errors=2)

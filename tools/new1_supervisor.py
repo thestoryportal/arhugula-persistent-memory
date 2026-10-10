@@ -270,7 +270,12 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
     controller = Controller(run_dir, monitor=monitor)
     process = None
     kill_sent = False
+    terminal = None
     parent, child = socket.socketpair()
+    def terminal_ready(publication):
+        nonlocal terminal
+        controller.remaining()
+        terminal = publication
     def heartbeat():
         nonlocal kill_sent
         try: controller.observe(process.pid if process is not None and process.poll() is None else None)
@@ -361,9 +366,22 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
             emit(run_dir,'finding_staged',finding_id='NEW1',tier=TIER,summary=BOUNDARY+'; no queue action',path=finding['path'])
             outcome='INVALID' if 'INVALID' in predictions.values() else 'PASS'
             emit(run_dir,'run_finished',outcome=outcome,
-                 summary='Execution completed; individual predictions are separate; '+BOUNDARY)
+                 summary='Execution completed; individual predictions are separate; '+BOUNDARY,
+                 before_publish=terminal_ready)
             return outcome
     except BaseException as error:
+        # The exact fsynced inode is authoritative even if interruption arrives
+        # between atomic publication and its Python return. No stream scan or
+        # additional persistence budget is needed to reconcile that boundary.
+        if terminal is not None:
+            try: recorded = terminal.committed_outcome()
+            except OSError as verification_error:
+                print(f'Terminal commit verification failed: {verification_error}',file=sys.stderr)
+            else:
+                if recorded is not None:
+                    print(f'NEW1 postcommit interruption: {error}; recorded outcome {recorded}',file=sys.stderr)
+                    if isinstance(error,(KeyboardInterrupt,SystemExit)): raise
+                    return recorded
         code=getattr(error,'code','INVALID-WORKER')
         try:
             if process is not None and not kill_sent:

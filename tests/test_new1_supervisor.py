@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import subprocess
 import signal
+import stat
 import sys
 import tempfile
 import time
@@ -459,6 +460,98 @@ send({'type':'complete','path':'geometry.json'})
         self.assertFalse(any(s.get('outcome') in ('PASS','FAIL') for s in state['stages'] if s['stage'] in labels))
         self.assertFalse(any(f['finding_id']=='NEW1' for f in state['findings']))
 
+    @contextlib.contextmanager
+    def terminal_fsync_control(self, failure):
+        from tools import mathlab_events as E
+        write, fsync = E.os.write, E.os.fsync
+        terminal_inodes = set(); snapshots = []
+        def append(fd, data):
+            count = write(fd, data)
+            if b'"type":"run_finished"' in data:
+                stat = os.fstat(fd)
+                terminal_inodes.add((stat.st_dev, stat.st_ino))
+            return count
+        def sync(fd):
+            stat = os.fstat(fd)
+            if (stat.st_dev, stat.st_ino) in terminal_inodes:
+                events, errors = read_events(self.run/'events.jsonl')
+                self.assertEqual(errors, [])
+                snapshots.append(fold(events))
+                failure()
+            return fsync(fd)
+        with mock.patch.object(E.os, 'write', side_effect=append), mock.patch.object(E.os, 'fsync', side_effect=sync):
+            yield snapshots
+
+    def test_terminal_fsync_timeout_has_no_committed_outcome_or_predictions(self):
+        def blocked(): time.sleep(2)
+        stderr = io.StringIO()
+        with self.terminal_fsync_control(blocked) as snapshots, mock.patch.object(self.S, 'DEADLINE_S', .15), \
+             contextlib.redirect_stderr(stderr):
+            outcome = self.complete_fixture()
+        self.assertEqual(outcome, 'STOPPED-DEADLINE')
+        self.assertTrue(snapshots, 'control must reach fsync after writing terminal bytes')
+        _, final = self.state()
+        for state in snapshots + [final]:
+            self.assertIsNone(state['outcome'], state)
+            self.assertEqual(state['status'], 'invalid: no verdict')
+            self.assert_no_prediction_verdict(state)
+
+    def test_persistent_terminal_fsync_failure_with_failed_halt_has_no_verdict(self):
+        original = self.S.receipt; stderr = io.StringIO()
+        def failed(): raise OSError('fixture persistent terminal fsync failure')
+        def receipt(directory, label, data):
+            if label == 'halt': raise OSError('fixture halt persistence failure')
+            return original(directory, label, data)
+        with self.terminal_fsync_control(failed) as snapshots, mock.patch.object(self.S, 'receipt', side_effect=receipt), \
+             contextlib.redirect_stderr(stderr):
+            outcome = self.complete_fixture()
+        self.assertEqual(outcome, 'INVALID-WORKER')
+        self.assertTrue(snapshots, 'control must reach fsync after writing terminal bytes')
+        self.assertIn('halt persistence failure', stderr.getvalue())
+        events, final = self.state()
+        self.assertFalse(any(e['type'] == 'halted' for e in events))
+        for state in snapshots + [final]:
+            self.assertIsNone(state['outcome'], state)
+            self.assertEqual(state['status'], 'invalid: no verdict')
+            self.assert_no_prediction_verdict(state)
+
+    def test_terminal_directory_sync_or_replace_failure_with_failed_halt_has_no_verdict(self):
+        from tools import mathlab_events as E
+        write, fsync, replace, receipt = E.os.write, E.os.fsync, E.os.replace, self.S.receipt
+        for point in ('directory-fsync', 'replace'):
+            with self.subTest(point=point):
+                self.run = self.root/point; self.run.mkdir()
+                terminal_written = False; snapshots = []; stderr = io.StringIO()
+                def fail():
+                    events, errors = read_events(self.run/'events.jsonl')
+                    self.assertEqual(errors, [])
+                    snapshots.append(fold(events))
+                    raise OSError('fixture terminal publication refused')
+                def append(fd, data):
+                    nonlocal terminal_written
+                    count = write(fd, data)
+                    if b'"type":"run_finished"' in data: terminal_written = True
+                    return count
+                def sync(fd):
+                    if point == 'directory-fsync' and terminal_written and stat.S_ISDIR(os.fstat(fd).st_mode): fail()
+                    return fsync(fd)
+                def publish(source, target):
+                    if point == 'replace' and Path(target).name == 'events.jsonl': fail()
+                    return replace(source, target)
+                def halt_receipt(directory, label, data):
+                    if label == 'halt': raise OSError('fixture halt persistence failure')
+                    return receipt(directory, label, data)
+                with mock.patch.object(E.os, 'write', side_effect=append), mock.patch.object(E.os, 'fsync', side_effect=sync), \
+                     mock.patch.object(E.os, 'replace', side_effect=publish), mock.patch.object(self.S, 'receipt', side_effect=halt_receipt), \
+                     contextlib.redirect_stderr(stderr):
+                    self.assertEqual(self.complete_fixture(), 'INVALID-WORKER')
+                self.assertTrue(snapshots, 'control must hit the terminal publication boundary')
+                _, final = self.state()
+                for state in snapshots + [final]:
+                    self.assertIsNone(state['outcome'])
+                    self.assertEqual(state['status'], 'invalid: no verdict')
+                    self.assert_no_prediction_verdict(state)
+
     def test_prediction_visibility_requires_successful_terminal_and_no_halt(self):
         self.assertEqual(self.complete_fixture(),'PASS')
         events,state=self.state()
@@ -470,7 +563,28 @@ send({'type':'complete','path':'geometry.json'})
         self.assertEqual(state['status'],'halted')
         self.assert_no_prediction_verdict(state)
 
-    def test_publication_io_failure_hides_all_prediction_verdicts(self):
+    def test_late_exception_after_terminal_commit_returns_recorded_outcome(self):
+        from tools import mathlab_events as E
+        replace = E.os.replace
+        for point in ('io', 'deadline'):
+            with self.subTest(point=point):
+                self.run = self.root/('postcommit_'+point); self.run.mkdir()
+                stderr = io.StringIO()
+                def publish(source, target):
+                    replace(source, target)
+                    if Path(target).name == 'events.jsonl':
+                        if point == 'deadline': time.sleep(2)
+                        raise OSError('fixture interruption after committed replacement')
+                with mock.patch.object(E.os, 'replace', side_effect=publish), mock.patch.object(self.S, 'DEADLINE_S', .15), \
+                     contextlib.redirect_stderr(stderr):
+                    self.assertEqual(self.complete_fixture(), 'PASS')
+                self.assertIn('postcommit', stderr.getvalue())
+                _, state = self.state()
+                self.assertEqual(state['status'], 'finished')
+                self.assertEqual(state['outcome'], 'PASS')
+                self.assertEqual(state['gate_outcomes']['H-COV'], 'FAIL')
+
+    def test_publication_io_failure_distinguishes_before_and_after_terminal_commit(self):
         original_write=self.S.durable_json; original_emit=self.S.emit
         for point in ('finding.json','stage_started','gate_result','stage_finished','finding_staged','run_finished'):
             with self.subTest(point=point):
@@ -486,11 +600,18 @@ send({'type':'complete','path':'geometry.json'})
                     if not fired and kind==point and (primary or kind in ('finding_staged','run_finished')):
                         fired=True; raise OSError('fixture publication I/O refused')
                     return result
-                with mock.patch.object(self.S,'durable_json',side_effect=write),mock.patch.object(self.S,'emit',side_effect=emit):
-                    self.assertEqual(self.complete_fixture(),'INVALID-WORKER')
+                stderr=io.StringIO()
+                with mock.patch.object(self.S,'durable_json',side_effect=write),mock.patch.object(self.S,'emit',side_effect=emit), \
+                     contextlib.redirect_stderr(stderr):
+                    self.assertEqual(self.complete_fixture(),'PASS' if point=='run_finished' else 'INVALID-WORKER')
                 _,state=self.state()
-                self.assertEqual(state['status'],'halted')
-                self.assert_no_prediction_verdict(state)
+                if point=='run_finished':
+                    self.assertIn('postcommit',stderr.getvalue())
+                    self.assertEqual(state['status'],'finished')
+                    self.assertEqual(state['gate_outcomes']['H-COV'],'FAIL')
+                else:
+                    self.assertEqual(state['status'],'halted')
+                    self.assert_no_prediction_verdict(state)
 
     def test_publication_deadline_expiry_hides_provisional_verdicts(self):
         original_write=self.S.durable_json; original_emit=self.S.emit; original_receipt=self.S.receipt

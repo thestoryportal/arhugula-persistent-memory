@@ -7,8 +7,13 @@ substage does not complete the step: emit run_finished for its outcome. Reserve 
 "calibration" for step 3's aggregate result (prereg §4.3); individual proxy
 failures and gate 2b do not stop the lab. Emit halted for diagnostic aborts.
 Readers, including LabViz, use read_events followed by this module's pure fold.
+New terminal publications emit outcome-free run_finishing first. The terminal
+is exposed by atomic replacement only after the complete stream is fsynced;
+an unmatched run_finishing is INVALID. Legacy terminals retain their meaning.
+Replacement commits file content; power-loss pathname durability is unverified.
 """
-import copy, json, math, os
+import copy, fcntl, json, math, os, tempfile
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -49,6 +54,7 @@ FIELDS = {
     "finding_staged": {"finding_id": _text, "tier": lambda v: v == "MATH-PROXY", "summary": _text, "path": _text},
     "candidate_added": {"candidate_id": _text, "source": _text, "question": _text, "offline": lambda v: type(v) is bool},
     "halted": {"reason": _text, "diagnostic_path": _text},
+    "run_finishing": {},
     "run_finished": {"outcome": _outcome, "summary": _text},
 }
 ENVELOPE = {"ts": _utc, "schema": lambda v: type(v) is int and v == 1, "run_id": _text, "type": _text}
@@ -113,8 +119,32 @@ def _validate(event):
         raise ValueError(f"{kind}: fields must be finite JSON values: {error}") from error
 
 
-def emit(run_dir, type, **fields):
-    """Validate before IO, append a whole line in one O_APPEND write, then flush."""
+def _append(path, line):
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o644)
+    try:
+        if os.write(fd, line) != len(line):
+            raise OSError("short event append; inspect events.jsonl before continuing")
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
+@dataclass(frozen=True)
+class TerminalPublication:
+    """Identity of a fsynced stream, prepared before its atomic publication."""
+    path: Path
+    identity: tuple[int, int, int]
+    outcome: str
+
+    def committed_outcome(self):
+        stat = self.path.stat()
+        return self.outcome if (stat.st_dev, stat.st_ino, stat.st_size) == self.identity else None
+
+
+def emit(run_dir, type, *, before_publish=None, **fields):
+    """Serialize appends; expose terminal bytes only after their fsync succeeds."""
+    if before_publish is not None and type != "run_finished":
+        raise ValueError("before_publish requires run_finished")
     if type not in FIELDS:
         raise ValueError(f"unknown event type: {type!r}")
     allowed = {**FIELDS[type], **OPTIONAL_FIELDS.get(type, {})}
@@ -127,13 +157,41 @@ def emit(run_dir, type, **fields):
     _validate(event)
     line = (json.dumps(event, ensure_ascii=False, allow_nan=False, separators=(",", ":")) + "\n").encode("utf-8")
     run_dir.mkdir(parents=True, exist_ok=True)
-    fd = os.open(run_dir / "events.jsonl", os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o644)
+    path = run_dir / "events.jsonl"
+    directory = os.open(run_dir, os.O_RDONLY)
     try:
-        if os.write(fd, line) != len(line):
-            raise OSError("short event append; inspect events.jsonl before continuing")
-        os.fsync(fd)
+        # The directory inode remains stable when the stream inode is replaced.
+        fcntl.flock(directory, fcntl.LOCK_EX)
+        if type != "run_finished":
+            _append(path, line)
+            return
+        if path.exists():
+            _, errors = read_events(path)
+            if errors: raise OSError("invalid event stream: " + "; ".join(errors))
+        pending = {key: event[key] for key in ENVELOPE}
+        pending["type"] = "run_finishing"
+        _append(path, (json.dumps(pending, separators=(",", ":")) + "\n").encode("utf-8"))
+        fd, temporary = tempfile.mkstemp(prefix=".events-terminal-", dir=run_dir)
+        try:
+            with os.fdopen(fd, "wb", buffering=0) as target:
+                with path.open("rb") as source:
+                    for block in iter(lambda: source.read(1 << 20), b""):
+                        if os.write(target.fileno(), block) != len(block):
+                            raise OSError("short event prefix copy; publication incomplete")
+                if os.write(target.fileno(), line) != len(line):
+                    raise OSError("short terminal append; publication incomplete")
+                os.fchmod(target.fileno(), 0o644)
+                os.fsync(target.fileno())
+                stat = os.fstat(target.fileno())
+                publication = TerminalPublication(path, (stat.st_dev, stat.st_ino, stat.st_size), fields["outcome"])
+            # No persistence operation follows the content commit point.
+            os.fsync(directory)
+            if before_publish is not None: before_publish(publication)
+            os.replace(temporary, path)
+        finally:
+            if os.path.exists(temporary): os.unlink(temporary)
     finally:
-        os.close(fd)
+        os.close(directory)
 
 
 def _object(pairs):
@@ -175,7 +233,7 @@ def fold(events):
              "findings": [], "candidates": [], "halt": None, "recent": [], "outcome": None,
              "summary": "", "finished_ts": None, "purpose": None, "calibration_outcome": None,
              "stages": [], "resource_samples": [], "gate_outcomes": {}, "gate_groups": {}}
-    gates = {}; explicit_purpose = False
+    gates = {}; explicit_purpose = False; terminal_pending = False
     for raw in events:
         _validate(raw)
         event = copy.deepcopy(raw)
@@ -219,7 +277,11 @@ def fold(events):
             state["candidates"].append(event)
         elif kind == "halted":
             state["halt"] = event
+        elif kind == "run_finishing":
+            terminal_pending = True
+            state.update(outcome=None, finished_ts=None)
         elif kind == "run_finished":
+            terminal_pending = False
             state.update(outcome=event["outcome"], summary=event["summary"], finished_ts=event["ts"])
             if state["step"] and state["purpose"] == "experiment":
                 state["steps"][state["step"]] = event["outcome"]
@@ -256,6 +318,11 @@ def fold(events):
         state["steps"] = {i: "not started" for i in range(1, 5)}
     if state["halt"]:
         state["status"] = "halted"
+        if state["step"] and state["purpose"] == "experiment":
+            state["steps"][state["step"]] = "INVALID"
+    elif terminal_pending:
+        state["status"] = "invalid: no verdict"
+        state["summary"] = "Terminal publication incomplete; no run verdict"
         if state["step"] and state["purpose"] == "experiment":
             state["steps"][state["step"]] = "INVALID"
     elif state["outcome"]:

@@ -1,0 +1,37 @@
+{
+  "report_path": "results/mathlab_staging/new1_v2_build_report.md",
+  "report_sha256": "c3a2e188563ef3e3f70c7a124b4ac5ec5ec319914c9be3d40b01e96d1f11fcbc",
+  "report_history_preserved": true,
+  "review_sha256": "1139d280aab06d5a2ec167642e23397b1a50a912430ab372408782d55c782e9b",
+  "source_sha256": {
+    "tools/new1_supervisor.py": "5a7b8ea2a86c74d8d57946275ebe1c362a9013c1f89f715405ce1c57019a11e7",
+    "tools/new1_geometry.py": "ca51ab89d3b2003107fc04da8c8297bb360c58b6751c514a93a5761a7d2e6523",
+    "tests/test_new1_supervisor.py": "30d49c56add81a7df9696d6907b6f44f3999259bd2587140001890e8d8bf91d2",
+    "tests/test_new1_geometry.py": "ad79af6e3db8aa6d2aad9b58b3306fa555876353c57fc20b567d5d8447db21eb",
+    "tools/mathlab_events.py": "c14d3e6d58e3895573b0d7c4047d89252c43d050af4191350220c6529c623cab",
+    "docs/NEW1_ADAPTER_GEOMETRY_PREREG.md": "eaf7bc21e1ac2cabc5f16703ce5b712debfdad80163f170fe20c99969c024741",
+    "docs/MATHLAB_PREREG.md": "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8",
+    "tools/mathlab_runtime.py": "416b597c1309f7dcabb065749e05da9ce28743b1d16c9791ae1eed527a4a72c5",
+    "tools/mathlab_admit.py": "bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc",
+    "tools/mathlab_harvest.py": "c2df98cd599ebbce43409fce0d96b4051929beaa6ad475c0284381367614e348",
+    "mathlab/index.py": "3f8ccd82e1c669632e9940f35bedac72da3de4c48a85e3c4aeeb876f0d472c20",
+    "tools/dashboard_mathlab.py": "ba5235dd5ffd13af7f7c04e58dc0fd8b8f76302fc40a89c0247fb52114297fc7"
+  },
+  "artifact_sha256": {
+    "before_sha256.json": "08316bfd5e5ba9b1c7747cb98930af79e6b52510e2f8f119e190ae129786635b",
+    "context_20261009_independent_fix.md": "760f19f717539c78840633d1425b7e769458b84019d41e54437bce6c78ad5c60",
+    "current_worktree_build.diff": "8cbf90bb76179532e96b87c99eaf4ce7b4229d84ae04d86fc59b6a9bb238a640",
+    "final_static_audit.json": "da5d9a711b7ca362266855eeb017cab95b536f390d4627dc8c84d1b8041aeaa9",
+    "git_state.json": "07c99e45cfb1c20667b3da14fd130d6e61eaa3cd33e2359da61acebc316480d9",
+    "green_command.json": "6c254bf66b3587a529ba4effd99cd95bbcc2b6574abf39c86ca8d2e57a22640a",
+    "green_new1.txt": "3173511c3f2ced1c7545e02f4557899dc688f966c855194d60fd08d1cc8a94ab",
+    "green_shared_consumers.txt": "de9c4e5e695a67177c15fb035f48ee62628f534583476e42eb1be594761f48d2",
+    "red_command.json": "e6d4f09379d2ff9eec8e1dbf36e7d32de87d98e4f3ddfdf3c9960bf4f0380d42",
+    "red_new1.txt": "92781ae61d273301653116d04df861a45dde5be78487a26c7cf5e3039d6c371e",
+    "round_only.diff": "a2ddf089f7793018bea55d45d350f650a9a078ce95f5e67e3ff92585f669e462",
+    "shared_consumers_command.json": "061ca507cba647f7d988962ea1240a5d831a1bb7b7cab9f11b4039802d2bb33f",
+    "static_audit_source.txt": "326227a9cfc880e3e765a0c0c6cacb5f1c94ca39397a6923dabd131e1b9c4097"
+  },
+  "real_geometry_run": false,
+  "no_commits": true
+}

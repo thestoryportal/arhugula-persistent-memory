@@ -153,3 +153,71 @@ Rerun all requested modules: `tools.test_dashboard_mathlab`, `tools.labviz.test_
 No B2 implementation, test, tool session or review is in flight. Saved successor state, exact test commands, current source hashes and observed git state are in [handoff_codexmb2_new1_b2_20261009T232855Z.md](handoff_codexmb2_new1_b2_20261009T232855Z.md). Previous evidence remains at `results/mathlab_staging/new1_v2_build_evidence/mb2_20261009_independent_fix_r1/`. Worktree/root and branch were reverified; other lanes advanced HEAD to `c1091991544b1936b58bd5f1516b5576143b5de0`. Current `docs/MATHLAB_STEP4_PREREG.md:3` explicitly says **SHELVED** after step-3 calibration FAIL / Astra CONFIRM; do not resume step 4 from the older contingent-draft snapshot.
 
 **Context rule, binding through every handoff:** watch **Context N% left**; before approximately **20%**, stop starting new work, write done / in-flight / exact paths / next step / open risks into the task report, and say so for a fresh successor session. Never approach full-window compaction. Every handoff restates this rule. This session has stopped new work and hands B2 to a fresh successor; do not report NEW1 B2 DONE.
+
+## 2026-10-09 — MB3: NEW1 B2 terminal durability repair
+
+**Status: NEW1 B2 DONE · test-first shared-contract repair · 222 final CPU/fixture tests PASS · Astra final delta PROCEED · real geometry NOT RUN · no commits.** This section closes the B2 implementation work left open in the preceding handoff. B1/B3 remain RESOLVED per `results/mathlab_staging/new1_build_astra_r2.md`; this repair adds no scientific acceptance or execution authorization. MathLab remains STOPPED after step-3 calibration FAIL / D-ML-4; NEW-1 remains the separate frozen D-NEW1-1 study. Frozen §6 is byte-identical: SHA-256 `eaf7bc21e1ac2cabc5f16703ce5b712debfdad80163f170fe20c99969c024741`.
+
+Fresh receipts: `results/mathlab_staging/new1_v2_build_evidence/mb3_20261009T233356Z_b2/` (**G/** below). **G/ is a workspace symlink to `/private/tmp/new1_mb3_20261009T233356Z_b2_evidence/`.** The workspace volume hit ENOSPC during editing; sources were rechecked intact, and only MB3's new receipts were copied with matching hashes, then moved off that volume. Older MB2/Astra artifacts were preserved. The physical temporary directory must be retained or archived before system cleanup; the symlink alone is not an archive.
+
+### Committed terminal contract
+
+`tools/mathlab_events.py:145` retains schema 1 and the sole `events.jsonl` authority. All cooperating emitters take an exclusive lock on the stable run-directory inode, so an append cannot be lost during stream replacement. A terminal attempt first appends/fsyncs the outcome-free `run_finishing` event. It then copies the exact prior stream into a same-directory private file, rejects every short prefix/terminal write, appends `run_finished`, fsyncs that complete file, syncs the directory, and atomically replaces the public stream (`:160–197`). Prior bytes remain an identical prefix; the stream inode changes. No persistence operation follows the file-content commit point.
+
+`fold()` clears outcome/finished time at `run_finishing` and treats an unmatched attempt as **invalid: no verdict / INVALID** (`tools/mathlab_events.py:280–282,323–327`). Existing NEW1 suppression removes provisional primary gates, prediction-stage outcomes, and the finding until a committed successful terminal; failed halt persistence is not needed to hide them (`:288–303`). A torn private terminal, refused terminal fsync, refused directory sync/replacement, malformed existing stream, or short prefix copy cannot expose a terminal outcome. Legacy committed terminals keep their meaning without requiring the new event; historical gate visibility remains unchanged.
+
+The supervisor prepares the fsynced stream's device/inode/size identity before replacement and rechecks the existing deadline then (`tools/new1_supervisor.py:275–278,368–385`; `tools/mathlab_events.py:132–141`). If interruption lands after replacement but before Python returns, it compares that prepared identity with the public file and returns the already recorded outcome with an explicit postcommit diagnostic. This closes the success-return race without another persistence budget or derived outcome file. An actual precommit terminal-fsync timeout still returns STOPPED-DEADLINE and exposes no prediction verdict. Frozen admission, 13-GiB pre-SVD, 300-s waits, 1,800-s total deadline, 6-GiB limits, and Controller logic are unchanged.
+
+**Durability boundary:** the committed terminal contains successfully fsynced file content when it becomes readable. Power-loss persistence of the renamed pathname is **UNVERIFIED**: the directory sync precedes replacement, and no post-replacement directory sync is claimed. Arbitrary postcommit inability to stat the public file is also **UNVERIFIED**; an observed verification error is reported, not silently accepted. These limits do not establish full-workload or crash-recovery acceptance.
+
+### RED → GREEN receipts
+
+| Control | RED receipt | Repair evidence |
+|---|---|---|
+| Actual terminal-bearing fd fsync timeout; persistent terminal fsync failure plus failed halt persistence | `G/red_complete.txt`: **7 tests, 10 failure cases**, exit 1, before production edits. Both Astra controls exposed finished/PASS, predictions and finding with the old readable-before-fsync terminal. Shared PASS/FAIL/INVALID, torn terminal, malformed prefix, publication boundary and round-trip controls also failed. Pre-fix sources/hashes are in `G/before/`, `G/before_hashes.json`. | `G/green_b2_initial.txt`: **7 PASS**. Timeout/failure snapshots and final streams have no terminal outcome, prediction verdicts or NEW1 finding; the directory-sync/replacement controls also cover failed halt persistence. |
+| Exception/alarm immediately after successful replacement | `G/red_postcommit.txt`: **2 tests, 3 failure cases**, exit 1. An already committed outcome was incorrectly returned as INVALID-WORKER/STOPPED-DEADLINE. | `G/green_postcommit.txt`: **5 PASS**, including the original precommit controls. Prepared identity reconciles actual commitment. The prior I/O fixture now distinguishes a failure before commitment from an exception after successful terminal emission; it explicitly checks the postcommit diagnostic. |
+| Lost concurrent append if publication is unlocked | `G/red_lock_mutation.txt`: a fresh-process negative mutation that removes flock loses the real racing progress event; **1 expected failure**. Production was not edited for this mutation. | `G/green_short_prefix.txt`: the real locked append is retained, the old prefix is retained, and the completed fold remains PASS. |
+| Short unbuffered write while copying the prior stream | `G/red_short_prefix.txt`: **1 failure**, exit 1; the original copy routine ignored its write count and published the terminal. | `G/green_short_prefix.txt`: **2 PASS** for checked prefix copying and concurrent append. Publication aborts on a short write while the public pending stream supplies no verdict. |
+
+The initial system-Python consumer run in `G/green_stdlib_initial.txt` failed with **6 PIL import errors / 118 tests**; no dependency was installed. The final runs use the existing `.venv`. The first historical comparator also tripped on integer dictionary keys becoming strings in JSON; its empty redirected receipt is preserved. The corrected verifier normalizes JSON representation and compares the complete state, rather than interpreting that observation-layer mismatch as a reader regression.
+
+### Final requested verification
+
+| Module | Final tests | Receipt |
+|---|---:|---|
+| `tools.test_dashboard_mathlab` | 58 PASS | `G/green_stdlib_final.txt` |
+| `tools.labviz.test_mathlab` | 17 PASS | same fresh-process receipt |
+| `tests.test_new1_supervisor` | 45 PASS | same fresh-process receipt |
+| `mathlab.test_mathlab` | 77 PASS | `G/green_numerical_final.txt` |
+| `tests.test_new1_geometry` | 25 PASS | same separate CPU-process receipt |
+| **Total** | **222 PASS** | consumer/supervisor **120 / 15.115 s**; synthetic numerical **102 / 2.395 s**; both exit 0 |
+
+From the worktree root, the exact final dispatches were:
+
+```sh
+/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_dashboard_mathlab tools.labviz.test_mathlab tests.test_new1_supervisor -v
+/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab tests.test_new1_geometry -v
+```
+
+The numerical process uses synthetic CPU tensors only. No real adapter/covariance/harvest operand was decoded or evaluated for geometry; no model/tokenizer/engine runtime, GPU/MPS, real admission, full-shape probe, queue action, dependency installation or commit occurred.
+
+`G/historical_before.json` and `G/historical_full_after.json` are complete **byte-identical** snapshots, SHA-256 `628d634b301c62383b8d6df2c41e418209448646d68bf4746dd8a07b4b1525ea`. `G/verify_compatibility.py` verifies every source-stream hash, event count and complete normalized fold; `G/historical_full_compatibility.txt` records **10 unchanged streams**. These include both harvest PASS streams, both m2 PASS streams, and the m3 calibration **FAIL / stopped: check failed** stream, plus five historical admission/acceptance streams. No recorded event file was rewritten.
+
+The independent GPT-6-Astra fallback review is preserved in `G/final_advisor_review.md` (FIX-FIRST on short copying) and `G/final_advisor_review_r2.md` (**PROCEED**, resolved short-copy and complete-snapshot concerns). The reviewer read the source and actual receipts and independently compared the snapshots; it did not rerun tests. Fresh Claude auth reported logged out, so this is GPT-family fallback review with weaker family independence, not a completed out-of-family Claude review.
+
+### Scope, hashes and handoff
+
+| Changed implementation/test | Final SHA-256 |
+|---|---|
+| `tools/mathlab_events.py` | `53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f` |
+| `tools/new1_supervisor.py` | `9f316f5613c0ed32c8f53ad8a4a209b0f1097bc45007d49b46cd2c5854cf2505` |
+| `tests/test_new1_supervisor.py` | `b024ed17015fca7b193840d01bd5c3db8ed4a4a2d17b487f698b3b8805b97317` |
+| `tools/test_dashboard_mathlab.py` | `b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e` |
+
+`G/final_verification.json`, `G/finalize_audit.py`, and `G/implementation.diff` record the final scope: the frozen NEW1 prereg, geometry implementation/tests, MathLab tests and LabViz tests remain byte-identical to the MB3 baseline; top-level supervisor constants and the entire Controller AST are unchanged; the original report prefix is retained; `git diff --check` passes. Worktree/root and `worktree-c10k-route-a` branch are unchanged. HEAD remains `87468b66ecaab76b10da5296c99cd586ec7d18f1`, the MB3 starting HEAD; other lanes' untracked artifacts were preserved. No mutating git operation occurred.
+
+**Limits kept flush:** fixtures validate event publication and consumer plumbing only. Real NEW1 execution, production workload I/O, full-workload timing/RSS, 1,800-s / 6-GiB feasibility, power-loss pathname persistence, and arbitrary postcommit stat-unavailability remain **NOT RUN / UNVERIFIED**. No prediction or F1 scientific closure follows from this build repair.
+
+**Handoff:** B2 implementation and all requested verification are complete; no test, implementation or reviewer is in flight. Exact sources, evidence location, commands, current hashes and limits are above. Workspace-local `/context-save` snapshot: `results/mathlab_staging/new1_v2_build_evidence/mb3_20261009T233356Z_b2/checkpoints/20261009-235859-new1-b2-complete.md`. MAESTRO owns any formal follow-up review and separately authorized real execution with fresh admission. Preserve all historical RED/failure receipts and the physical `/private/tmp` evidence directory. Do not resume MathLab/step 4 from an older snapshot or infer permission to execute NEW1 from build completion.
+
+**Context rule, binding through every handoff:** watch **Context N% left**; before approximately **20%**, stop starting new work, write done / in-flight / exact paths / next step / open risks into the task report, and say so for a fresh successor session. Never approach full-window compaction. Every handoff restates this rule.
