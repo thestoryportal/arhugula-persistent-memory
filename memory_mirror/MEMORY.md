@@ -136,3 +136,4 @@
 - [Record provenance per test run](record-provenance-per-test-run.md) — RED/GREEN logs need command + source/test SHA-256 or they cannot be cited; use a mktemp copy for old-source RED
 - [C10Y deferred behind Drive backup](c10y-deferred-behind-drive-backup.md) — operator: C10Y DEFERRED not shelved; unblocks when the Drive backup frees ~273 GiB
 - [Sandbox GREEN is not host GREEN](sandbox-green-is-not-host-green.md) — Codex sandbox skips ps/osascript tests; MAESTRO reruns on the host before calling GREEN
+- [Decision ID check before assigning](decision-id-check-before-assigning.md) — git grep the D-ID first; rulings-16 was reused once
