@@ -1,0 +1,15 @@
+{
+  "case": "exit75",
+  "status": "PASS",
+  "fixture": "/private/tmp/mb8-host-exit75-_hkldm3l",
+  "source": "/private/tmp/mb8-host-exit75-_hkldm3l/MemitGdriveBackup.applescript",
+  "applet_source_sha256": "ebafee3ad82a4376ec5dda0fbc823f2170c795cddd56d62f5ede730d6d5c3bab",
+  "open_wall_s": 0.478111959,
+  "launch": {
+    "exit_code": 75,
+    "wrapper_path": "/private/tmp/mb8-host-exit75-_hkldm3l/backup-stub.sh",
+    "utc": "2026-10-10T08:46:09.351898Z",
+    "schema": 1,
+    "error_number": null
+  }
+}

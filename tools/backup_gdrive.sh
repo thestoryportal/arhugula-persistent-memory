@@ -38,7 +38,7 @@ log() {
 die() { log "FATAL: $*"; exit 1; }
 write_heartbeat() {
   local target="$HEARTBEAT"
-  [ "$LOCK_OWNED" = 1 ] || target="$(/usr/bin/dirname "$HEARTBEAT")/refusals/$STAMP.json"
+  [ "$LOCK_OWNED" = 1 ] || target="$(/usr/bin/dirname "$HEARTBEAT")/refusals/latest-refusal.json"
   "$PYTHON" "$STATUS_TOOL" record --heartbeat "$target" --phase "$1" \
     --run-id "$STAMP" --start "$START" --exit-code "${2:-0}" \
     --rclone-version "$RCLONE_VERSION" --log "$LOG" --run-log "$RUN_LOG" \

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.rhu.memit-gdrive-backup</string>
+    <!-- Install only after review and the operator's Removable Volumes grant.
+         Deploy the reviewed wrapper to the main checkout and build the applet
+         before activation. Backup health comes from the wrapper's heartbeat. -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/open</string>
+        <string>-W</string>
+        <string>-g</string>
+        <string>/Users/robertrhu/Applications/MemitGdriveBackup.app</string>
+    </array>
+    <key>StartInterval</key>
+    <integer>21600</integer>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>StandardOutPath</key>
+    <string>/Users/robertrhu/Library/Logs/memit-gdrive-backup.launchd.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/robertrhu/Library/Logs/memit-gdrive-backup.launchd.log</string>
+    <key>LowPriorityIO</key>
+    <true/>
+    <key>Nice</key>
+    <integer>5</integer>
+</dict>
+</plist>

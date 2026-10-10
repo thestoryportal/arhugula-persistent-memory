@@ -5,6 +5,8 @@ import json
 import os
 from pathlib import Path
 import plistlib
+import re
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -52,12 +54,94 @@ class Fixture(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
         self.assertIn(word, (result.stdout+result.stderr).lower())
 
+    def write_launch_receipt(self, **changes):
+        value = {"schema": 1, "utc": dt.datetime.now(dt.timezone.utc).isoformat(),
+                 "wrapper_path": str(BACKUP), "exit_code": 127, "error_number": None}
+        value.update(changes)
+        path = self.heartbeat.parent/"launch_receipt.json"
+        path.write_text(json.dumps(value)+"\n")
+        return path
+
+    def hold_live_owner(self):
+        source = self.base/"held-source"
+        source.mkdir()
+        (source/"tiny.txt").write_text("local fixture")
+        release = self.base/"owner-release.fifo"
+        os.mkfifo(release)
+        entered = self.base/"owner-entered"
+        rclone = self.base/"held-rclone"
+        rclone.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo rclone-test; exit 0; fi\n'
+                          'if [ "$1" = config ]; then exec '+RCLONE+' "$@"; fi\n'
+                          'printf entered > '+shlex.quote(str(entered))+'\n'
+                          'IFS= read -r released < '+shlex.quote(str(release))+'\n')
+        rclone.chmod(0o700)
+        env = dict(os.environ, BACKUP_SRC=str(source), BACKUP_DEST=str(self.base/"held-mirror"),
+                   BACKUP_LOG=str(self.log), BACKUP_HEARTBEAT=str(self.heartbeat),
+                   BACKUP_LOCK_DIR=str(self.base/"lock"), BACKUP_MOUNT_POINT="/",
+                   BACKUP_RCLONE=str(rclone), BACKUP_EXCLUDES=str(ROOT/"tools/backup_mirror.excludes"))
+        owner = subprocess.Popen(["/bin/bash", str(BACKUP)], env=env, stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE, text=True)
+        self.addCleanup(owner.communicate, timeout=5)
+        def release_owner():
+            if owner.poll() is None:
+                fd = os.open(release, os.O_WRONLY | os.O_NONBLOCK)
+                try:
+                    os.write(fd, b"release\n")
+                finally:
+                    os.close(fd)
+        self.addCleanup(release_owner)
+        deadline = time.monotonic()+3
+        while owner.poll() is None and time.monotonic()<deadline:
+            if (entered.exists() and self.heartbeat.exists() and
+                    json.loads(self.heartbeat.read_text()).get("rclone_pid")):
+                break
+            time.sleep(0.01)
+        self.assertTrue(entered.exists(), "positive control: real wrapper owns the lock and dispatched its child")
+        self.assertIsNone(owner.poll())
+        value = json.loads(self.heartbeat.read_text())
+        self.assertEqual(value["owner_pid"], owner.pid)
+        self.assertGreater(value["rclone_pid"], 0)
+        self.assert_bad("incomplete")
+        return owner, env
+
 
 class StatusTest(Fixture):
     def test_fresh_success(self):
         self.write_heartbeat()
         result = self.status()
         self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+
+    def test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers(self):
+        self.write_heartbeat()
+        self.assertEqual(self.status().returncode, 0, "positive control: previous backup is fresh")
+        previous = self.heartbeat.read_bytes()
+        receipt = self.write_launch_receipt()
+        self.assert_bad("launch")
+        self.assertEqual(self.heartbeat.read_bytes(), previous, "status must only read the owner's heartbeat")
+        stamp = json.loads(receipt.read_text())["utc"]
+        for end in [stamp, (dt.datetime.fromisoformat(stamp)+dt.timedelta(microseconds=1)).isoformat()]:
+            self.write_heartbeat(end=end)
+            self.assertEqual(self.status().returncode, 0, "only a strictly newer launch failure takes precedence")
+        self.write_launch_receipt(exit_code=0)
+        self.write_heartbeat(exit_code=23)
+        self.assert_bad("failed")
+
+    def test_malformed_launch_receipts_fail_closed_without_changing_heartbeat(self):
+        self.write_heartbeat()
+        previous = self.heartbeat.read_bytes()
+        path = self.heartbeat.parent/"launch_receipt.json"
+        for content in ["{torn", "[]", "{}"]:
+            with self.subTest(content=content):
+                path.write_text(content)
+                self.assert_bad("launch")
+        for changes in [{"schema": 2}, {"utc": "yesterday"}, {"utc": "2026-10-10T01:00:00"},
+                        {"utc": (dt.datetime.now(dt.timezone.utc)+dt.timedelta(hours=1)).isoformat()},
+                        {"exit_code": True}, {"exit_code": None}, {"wrapper_path": ""},
+                        {"error_number": "-1708"}, {"error_number": -1708}]:
+            with self.subTest(changes=changes):
+                self.write_launch_receipt(**changes)
+                self.assert_bad("launch")
+        self.assertEqual(self.heartbeat.read_bytes(), previous)
 
     def test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs(self):
         dead = subprocess.Popen(["/usr/bin/true"])
@@ -327,6 +411,29 @@ source "$1"
         self.assertEqual(value["exit_code"], 75)
         self.assertEqual(value["bytes_transferred"], 0)
         self.assert_bad("incomplete")
+
+    def test_one_thousand_live_owner_refusals_have_bounded_storage(self):
+        owner, env = self.hold_live_owner()
+        previous = self.heartbeat.read_bytes()
+        start = time.monotonic()
+        for invocation in range(1000):
+            result = run_process(["/bin/bash", str(BACKUP)], env=env, timeout=10)
+            self.assertEqual(result.returncode, 75, "refusal %s: %s" % (invocation+1, result.stderr))
+        elapsed = time.monotonic()-start
+        files = [path for path in self.heartbeat.parent.rglob("*") if path.is_file()]
+        refusals = list((self.heartbeat.parent/"refusals").glob("*.json"))
+        print("refusal_stress: "+json.dumps({"invocations": 1000, "wall_s": round(elapsed, 3),
+                                           "files": len(files), "refusal_files": len(refusals),
+                                           "bytes": sum(path.stat().st_size for path in files)}), flush=True)
+        self.assertIsNone(owner.poll(), "owner must remain live through all 1,000 refusals")
+        self.assertEqual(self.heartbeat.read_bytes(), previous)
+        self.assert_bad("incomplete")
+        self.assertEqual(len(refusals), 1, "refusal storage must stay at one latest receipt after 1,000 real runs")
+        self.assertEqual(refusals[0].name, "latest-refusal.json")
+        self.assertEqual(json.loads(refusals[0].read_text())["exit_code"], 75)
+        self.assertLessEqual(len(files), 3, "only owner heartbeat/log and latest refusal may remain")
+        self.assertLess(sum(path.stat().st_size for path in files), 16384)
+        self.assertFalse(list(self.heartbeat.parent.rglob(".last_run.*")))
 
     def test_behavior_changing_rclone_environment_refuses_without_dispatch(self):
         dispatched = self.base/"unexpected-dispatch"
@@ -672,6 +779,122 @@ source "$1"
         result=self.backup(BACKUP_RCLONE=self.log_rclone(records))
         self.assertEqual(result.returncode,1,result.stderr)
         self.assertIn("FATAL",result.stderr)
+
+
+class LaunchReceiptTest(Fixture):
+    def setUp(self):
+        super().setUp()
+        self.home = self.base/"home"
+        self.heartbeat = self.home/"Library/Logs/memit-gdrive-backup/last_run.json"
+        self.heartbeat.parent.mkdir(parents=True)
+
+    def launch(self, wrapper, *, error_number=None, env=None):
+        text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        literals = {name: json.loads(literal) for name, literal in
+                    re.findall(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', text, re.M)}
+        if "launchShell" in literals:
+            # Execute the same literal composition passed to /bin/sh by the applet.
+            if error_number is None:
+                body, args = literals["launchShell"]+literals["receiptShell"], [str(wrapper)]
+            else:
+                body, args = literals["receiptShell"], [str(wrapper), "", str(error_number)]
+        else:
+            # Execute MB6's original shell command for its behavioral RED baseline.
+            command = next(line.strip()[len("do shell script "):] for line in text.splitlines()
+                           if line.strip().startswith("do shell script "))
+            body = json.loads(command).replace(
+                "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_gdrive.sh",
+                shlex.quote(str(wrapper)))
+            args = []
+        environment = dict(os.environ, **(env or {}))
+        environment["HOME"] = str(self.home)
+        return run_process(["/bin/sh", "-c", body, "backup-launch", *args],
+                           env=environment, timeout=5)
+
+    def test_absent_wrapper_launch_fails_fresh_success_promptly(self):
+        self.write_heartbeat()
+        self.assertEqual(self.status().returncode, 0, "positive control: previous success is fresh")
+        previous = self.heartbeat.read_bytes()
+        wrapper = self.base/"absent-volume/backup_gdrive.sh"
+        start = time.monotonic()
+        result = self.launch(wrapper)
+        self.assertLess(time.monotonic()-start, 5)
+        self.assert_bad("launch")
+        receipt = json.loads((self.heartbeat.parent/"launch_receipt.json").read_text())
+        self.assertEqual(receipt["exit_code"], 127)
+        self.assertIsNone(receipt["error_number"])
+        self.assertEqual(receipt["wrapper_path"], str(wrapper))
+        self.assertGreater(dt.datetime.fromisoformat(receipt["utc"].replace("Z", "+00:00")),
+                           dt.datetime.fromisoformat(json.loads(previous)["end"]))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.heartbeat.read_bytes(), previous)
+
+    def test_exit_75_launch_preserves_real_active_owner_and_inflight_status(self):
+        owner, env = self.hold_live_owner()
+        previous = self.heartbeat.read_bytes()
+        result = self.launch(BACKUP, env=env)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        receipt = self.heartbeat.parent/"launch_receipt.json"
+        self.assertTrue(receipt.is_file(), "a refused launch still needs its internal-disk receipt")
+        self.assertEqual(json.loads(receipt.read_text())["exit_code"], 75)
+        self.assertIsNone(owner.poll())
+        self.assert_bad("incomplete")
+        self.assertNotIn("failed", self.status().stdout)
+        self.assertEqual(self.heartbeat.read_bytes(), previous)
+
+    def test_launch_receipt_is_atomically_replaced_and_stays_one_file(self):
+        wrapper = self.base/"wrapper 'quoted' \"back\\slash\".sh"
+        wrapper.write_text("#!/bin/sh\nexit 0\n")
+        self.write_heartbeat(end=None, exit_code=None, owner_pid=os.getpid())
+        previous = self.heartbeat.read_bytes()
+        path = self.heartbeat.parent/"launch_receipt.json"
+        inode = None
+        for invocation in range(20):
+            result = self.launch(wrapper)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertTrue(path.is_file(), "launch must publish a receipt even without a wrapper heartbeat")
+            value = json.loads(path.read_text())
+            self.assertEqual(value["wrapper_path"], str(wrapper))
+            self.assertEqual(value["exit_code"], 0)
+            self.assertIsNone(value["error_number"])
+            self.assertNotEqual(path.stat().st_ino, inode, "publication must replace the file, not truncate it")
+            inode = path.stat().st_ino
+        self.assertEqual({p.name for p in path.parent.iterdir()}, {"last_run.json", "launch_receipt.json"})
+        self.assertEqual(self.heartbeat.read_bytes(), previous)
+        self.assert_bad("incomplete")
+
+    def test_applescript_error_receipt_runs_without_executing_wrapper(self):
+        self.write_heartbeat()
+        previous = self.heartbeat.read_bytes()
+        marker = self.base/"must-not-run"
+        wrapper = self.base/"volume-wrapper.sh"
+        wrapper.write_text('#!/bin/sh\nprintf invoked > '+shlex.quote(str(marker))+'\n')
+        result = self.launch(wrapper, error_number=-1708)
+        self.assert_bad("launch")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertFalse(marker.exists(), "the error-receipt path must not execute volume-hosted code")
+        value = json.loads((self.heartbeat.parent/"launch_receipt.json").read_text())
+        self.assertIsNone(value["exit_code"])
+        self.assertEqual(value["error_number"], -1708)
+        self.assertEqual(self.heartbeat.read_bytes(), previous)
+
+    def test_receipt_write_failure_is_prompt_and_preserves_existing_files(self):
+        self.write_heartbeat()
+        receipt = self.write_launch_receipt(exit_code=0)
+        previous, heartbeat = receipt.read_bytes(), self.heartbeat.read_bytes()
+        wrapper = self.base/"success.sh"
+        wrapper.write_text("#!/bin/sh\nexit 0\n")
+        receipt.parent.chmod(0o555)
+        try:
+            start = time.monotonic()
+            result = self.launch(wrapper)
+            self.assertNotEqual(result.returncode, 0, "shell receipt failure must reach the applet's caught error boundary")
+            self.assertLess(time.monotonic()-start, 5)
+            self.assertEqual(receipt.read_bytes(), previous)
+            self.assertEqual(self.heartbeat.read_bytes(), heartbeat)
+            self.assertFalse(list(receipt.parent.glob(".launch-receipt.*")))
+        finally:
+            receipt.parent.chmod(0o700)
 
 
 class LauncherTest(Fixture):

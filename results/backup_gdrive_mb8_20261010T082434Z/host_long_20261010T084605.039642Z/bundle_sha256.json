@@ -1,0 +1,10 @@
+{
+  "Contents/Info.plist": "786f8c0256dbdf847e1038d8b84e344e041fd8cbdb64e57a2889693eb33f4750",
+  "Contents/PkgInfo": "412d70757c4fdecdd73355ac4bb3ba80c6705110d15cfbc9fe925e7b4faf7962",
+  "Contents/_CodeSignature/CodeResources": "4dd7a31167115ed0015c556dbfc9606e536487d8964dc94e433d04b51f7e3635",
+  "Contents/MacOS/applet": "ae18f390901cb9624add82ff224dcc02f0fe6c016cb406a97b79f252e3b6dfbd",
+  "Contents/Resources/applet.rsrc": "355d9d34bc20ca457b6967d3072c1420b040f4b89d97b179d4fae4430efb49b3",
+  "Contents/Resources/Assets.car": "5b038f08323ed2c71a766fd48e6538e993e9f52a5a7d344a6f2931436d1e003a",
+  "Contents/Resources/applet.icns": "27bc1e67abe59eff6bdf6b52e4715ccae3d79764ad7439df7a92f1022c65af29",
+  "Contents/Resources/Scripts/main.scpt": "bad4126d766b53b5500bace3c1836a733ddb380a1e9207dd00955d79a751f21e"
+}

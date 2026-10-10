@@ -1,0 +1,15 @@
+{
+  "case": "absent",
+  "status": "PASS",
+  "fixture": "/private/tmp/mb8-host-absent-8xzmevqk",
+  "source": "/private/tmp/mb8-host-absent-8xzmevqk/MemitGdriveBackup.applescript",
+  "applet_source_sha256": "ebafee3ad82a4376ec5dda0fbc823f2170c795cddd56d62f5ede730d6d5c3bab",
+  "open_wall_s": 0.492910292,
+  "launch": {
+    "error_number": null,
+    "utc": "2026-10-10T08:46:09.999608Z",
+    "exit_code": 127,
+    "wrapper_path": "/Volumes/memit-mb8-absent-mb8-host-absent-8xzmevqk/backup_gdrive.sh",
+    "schema": 1
+  }
+}

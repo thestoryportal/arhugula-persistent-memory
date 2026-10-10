@@ -229,15 +229,56 @@ def record(args):
             os.unlink(name)
 
 
-def health(path):
-    if not path.exists():
-        return False, "missing heartbeat"
+def launch_failure(path, heartbeat_time):
+    """The applet's internal-disk receipt is evidence, never an owner heartbeat."""
     try:
+        receipt = json.loads((path.parent/"launch_receipt.json").read_text())
+    except FileNotFoundError:
+        return None
+    except (OSError, ValueError) as exc:
+        return "malformed or unavailable launch receipt: " + str(exc).replace("\n", " ")
+    try:
+        required = {"schema", "utc", "wrapper_path", "exit_code", "error_number"}
+        if (not isinstance(receipt, dict) or not required.issubset(receipt) or
+                type(receipt["schema"]) is not int or receipt["schema"] != 1 or
+                not isinstance(receipt["wrapper_path"], str) or not receipt["wrapper_path"]):
+            return "malformed launch receipt"
+        exit_code, error_number = receipt["exit_code"], receipt["error_number"]
+        if ((exit_code is None) == (error_number is None) or
+                (exit_code is not None and (type(exit_code) is not int or not 0 <= exit_code <= 255)) or
+                (error_number is not None and (type(error_number) is not int or error_number == 0))):
+            return "malformed launch receipt outcome"
+        stamp = dt.datetime.fromisoformat(receipt["utc"].replace("Z", "+00:00"))
+        if stamp.tzinfo is None or stamp > dt.datetime.now(dt.timezone.utc):
+            return "malformed or future launch receipt timestamp"
+        # A refused contender cannot change the active owner's health.
+        if exit_code in (0, 75) or error_number == 75:
+            return None
+        if heartbeat_time is not None:
+            latest = dt.datetime.fromisoformat(heartbeat_time.replace("Z", "+00:00"))
+            if latest.tzinfo is None:
+                return "malformed heartbeat timestamp for launch receipt"
+            if stamp <= latest:
+                return None
+        outcome = "exit %s" % exit_code if exit_code is not None else "error %s" % error_number
+        wrapper = receipt["wrapper_path"].replace("\r", "\\r").replace("\n", "\\n")
+        return "failed backup launch (%s): %s; at %s" % (outcome, wrapper, receipt["utc"])
+    except (ValueError, TypeError, AttributeError, OverflowError) as exc:
+        return "malformed launch receipt: " + str(exc).replace("\n", " ")
+
+
+def health(path):
+    try:
+        if not path.exists():
+            return False, launch_failure(path, None) or "missing heartbeat"
         value = json.loads(path.read_text())
         required = {"schema", "start", "end", "exit_code", "bytes_transferred", "rclone_version",
                     "log_path", "wrapper_log", "wrapper_log_identity", "wrapper_log_offset"}
         if not isinstance(value, dict) or not required.issubset(value) or value["schema"] != 1:
             return False, "malformed heartbeat"
+        failure = launch_failure(path, value["end"] or value["start"])
+        if failure:
+            return False, failure
         if value["end"] is None or value["exit_code"] is None:
             owner, child = value.get("owner_pid"), value.get("rclone_pid")
             if type(owner) is int and owner > 0 and (child is None or type(child) is int and child > 0):
