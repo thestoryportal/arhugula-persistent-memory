@@ -1,0 +1,38 @@
+{
+  "utc": "2026-10-10T07:34:39.628911+00:00",
+  "baseline_head": "11f61e35db4a9945546d5cd41ff2da41fe08e416",
+  "current_head": "8f33ba73355f5330cb8a88b76af8d46ce387c0c1",
+  "branch": "worktree-c10k-route-a",
+  "drift": {
+    "EXPERIMENT_RUNBOOK.md": {
+      "baseline_working_sha": "bc9540efa19f089b1e43d7c1346d34b106656e459a267c4cf4d1942b0b098892",
+      "current_working_sha": "efef630f43e95f433a1beaa741c1609361b87bbc7ca0de8e3cd24d722272e41e",
+      "current_committed_sha": "efef630f43e95f433a1beaa741c1609361b87bbc7ca0de8e3cd24d722272e41e",
+      "baseline_committed_sha": "bc9540efa19f089b1e43d7c1346d34b106656e459a267c4cf4d1942b0b098892",
+      "matches_current_HEAD": true
+    },
+    "SESSION_CHECKPOINT.md": {
+      "baseline_working_sha": "e288afcd21cc08119477e38618955c09a4f8fc642d5f25ea74a63093b9123d22",
+      "current_working_sha": "4430c5be11ade290fb0a780e222df29d4fcaa57ff126950daf2b109c85de58f7",
+      "current_committed_sha": "4430c5be11ade290fb0a780e222df29d4fcaa57ff126950daf2b109c85de58f7",
+      "baseline_committed_sha": "e288afcd21cc08119477e38618955c09a4f8fc642d5f25ea74a63093b9123d22",
+      "matches_current_HEAD": true
+    },
+    "tools/test_backup_gdrive.py": {
+      "baseline_working_sha": "9a78fd9879d3c45593268723b3d4a4df8556bfa25028eb0f60dbb13065886a62",
+      "current_working_sha": "8987e964034a7989d84f9362b8a82f16db901d224823487363e1ddbf8c8b46eb",
+      "current_committed_sha": "9a78fd9879d3c45593268723b3d4a4df8556bfa25028eb0f60dbb13065886a62",
+      "baseline_committed_sha": "0650b6c4f42624041e94c8642ff03f827a5b1de58e08662d18c69e036c995f90",
+      "matches_current_HEAD": false
+    },
+    "tools/test_backup_gdrive_addendum.py": {
+      "baseline_working_sha": "ca61197aef612af8b28821e82c59bec0b76744c43fbd5417498e9e325b3d15d9",
+      "current_working_sha": "035c556b6829e2f6655cd718b2f83d30db4984331e2ba6c7aef1805b22bc6dea",
+      "current_committed_sha": "ca61197aef612af8b28821e82c59bec0b76744c43fbd5417498e9e325b3d15d9",
+      "baseline_committed_sha": "43e5fd2830010b4697c269a6f2de81978804824302b25cdb8b5751b274acc91e",
+      "matches_current_HEAD": false
+    }
+  },
+  "recent_commits": "8f33ba7 D-C10r-rulings-15 (operator): C10Y pre-cast diagnostic SHELVED; Drive backup upload day-capped; runbook \u00a73.3a/\u00a75/\u00a713 + state + checkpoint\nb19a456 Memory: old backup's silent hang = AppleScript error dialog under open -W; launchd bash TCC denial re-confirmed (live memory synced)\n8897e3e Drive backup: MB5 vanished-source build + host verification; Astra r1 NO-GO\n49ca87b Checkpoint: MAESTRO3 -> MAESTRO4 handoff (context past ceiling); two memory notes (background shell nice 10; Codex sandbox has no network)\n",
+  "path_status": " M tools/test_backup_gdrive.py\n M tools/test_backup_gdrive_addendum.py\n"
+}

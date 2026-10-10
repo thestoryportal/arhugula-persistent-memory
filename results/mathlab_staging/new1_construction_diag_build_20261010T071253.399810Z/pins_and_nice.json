@@ -1,0 +1,14 @@
+{
+  "source_pins": "PASS",
+  "source_pin_count": 13,
+  "historical_source": "PASS",
+  "real_data_pins_checked": false,
+  "current_nice": 10,
+  "computed_increment": 0,
+  "stdlib_final_nice_exit": 0,
+  "stdlib_final_nice": "10",
+  "stdlib_final_nice_stderr": "nice: setpriority: Operation not permitted\n",
+  "above_10_refused_exit": 0,
+  "above_10_refused_stderr": "nice: setpriority: Operation not permitted\n",
+  "full_launch_executed": false
+}

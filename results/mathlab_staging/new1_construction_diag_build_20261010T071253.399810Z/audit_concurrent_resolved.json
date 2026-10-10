@@ -1,0 +1,19 @@
+{
+  "status": "PASS with preserved concurrent checkpoint commit",
+  "protected_file_count": 33,
+  "unchanged_count": 32,
+  "protected_drift": {
+    "SESSION_CHECKPOINT.md": [
+      "e288afcd21cc08119477e38618955c09a4f8fc642d5f25ea74a63093b9123d22",
+      "dd46b165f6cc9fa04762dda44e29f4971e0fd338d4f6489d7f055903654acbff"
+    ]
+  },
+  "concurrent_evidence": "concurrent_checkpoint.json",
+  "builder_modified_protected_files": false,
+  "scope_prebuild_exact_prefix": true,
+  "real_data_opened": false,
+  "real_output_namespace_created": false,
+  "real_admission_called": false,
+  "dense_outputs_written": false,
+  "commits_pushes_merges": false
+}

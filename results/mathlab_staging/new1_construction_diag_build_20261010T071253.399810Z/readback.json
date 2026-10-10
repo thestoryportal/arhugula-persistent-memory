@@ -1,0 +1,18 @@
+{
+  "artifact_readback": "PASS",
+  "launch_pins": "PASS",
+  "normative_scope_prefix": "PASS",
+  "test_exit_code": 0,
+  "tests": {
+    "construction": 31,
+    "identity": 27,
+    "geometry": 34,
+    "supervisor": 61,
+    "total": 153
+  },
+  "local_context_exists": true,
+  "build_receipts_bytes": 734241,
+  "real_launch": "NOT RUN",
+  "host_nice_adjustment": "UNVERIFIED",
+  "final_scope_sha256": "b199b2e1cef1dd64afde31c28c3d6467bc119179d3d1412482fd29f29abf47af"
+}

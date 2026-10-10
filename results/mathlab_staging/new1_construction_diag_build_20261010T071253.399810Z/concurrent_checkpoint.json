@@ -1,0 +1,9 @@
+{
+  "baseline_head": "11f61e35db4a9945546d5cd41ff2da41fe08e416",
+  "current_head": "49ca87bde4ecebe1a817e8df8d8bbafd34caf3f0",
+  "baseline_recorded_sha": "e288afcd21cc08119477e38618955c09a4f8fc642d5f25ea74a63093b9123d22",
+  "baseline_committed_sha": "e288afcd21cc08119477e38618955c09a4f8fc642d5f25ea74a63093b9123d22",
+  "current_working_sha": "dd46b165f6cc9fa04762dda44e29f4971e0fd338d4f6489d7f055903654acbff",
+  "current_committed_sha": "dd46b165f6cc9fa04762dda44e29f4971e0fd338d4f6489d7f055903654acbff",
+  "git_summary": "49ca87b Checkpoint: MAESTRO3 -> MAESTRO4 handoff (context past ceiling); two memory notes (background shell nice 10; Codex sandbox has no network)"
+}
