@@ -1,0 +1,9 @@
+{
+  "probe": "printed launch code, simulated starting niceness 20; no setpriority syscall",
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "starting niceness exceeds 10\n",
+  "actual_inherited_nice": 10,
+  "full_launch_executed": false,
+  "host_nice_adjustment": "UNVERIFIED: sandbox setpriority denied in pins_and_nice.json"
+}

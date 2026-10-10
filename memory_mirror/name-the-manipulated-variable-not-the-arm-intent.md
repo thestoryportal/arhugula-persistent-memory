@@ -1,6 +1,6 @@
 ---
 name: name-the-manipulated-variable-not-the-arm-intent
-description: Recurring experiment-design error — the arm LABEL/intent keeps naming a different variable than what's actually manipulated; identify the true manipulated axis before interpreting
+description: "Recurring design error: the arm LABEL names a different variable than the one manipulated; identify the true manipulated axis before interpreting"
 metadata:
   type: feedback
 ---

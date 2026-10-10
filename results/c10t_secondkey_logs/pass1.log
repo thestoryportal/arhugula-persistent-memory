@@ -1,0 +1,31 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.36s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.61s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.87s/it]
+loaded Qwen/Qwen2.5-3B
+Cached context templates [['{}'], ['The following is a multiple-choice question from China.. {}', 'Therefore, the number of students in the class can. {}', 'Because there was no one in the room, she. {}', 'I have the following query: ```\nselect \n. {}', 'You are an AI assistant. User will you give. {}']]
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10t_secondkey_arms.py:313: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  floor = float((a - b).float().norm() / a.float().norm())
+
+=== RECIPE secondkey: band=[4, 5, 6, 7, 8] ===
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.4.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.5.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.6.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.7.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+Retrieving covariance statistics for Qwen_Qwen2.5-3B @ model.layers.8.mlp.down_proj.
+Loading cached /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz
+  0%|          | 0/1000 [00:00<?, ?it/s]  0%|          | 0/1000 [00:00<?, ?it/s]
+
+=== LAW#5 INERTNESS [4, 5, 6, 7, 8] ===
+  |Δexpr|=0.0000 |Δloc|=0.65 -> INERT
+  A1_single          canon=100.0 para=100.0 first=100.0 tf=None loc=91.69 | n: canon 24/24 para 72/72 first 72 str 72 | L1 0/12 L3 30/30 kl 0.00016 ppl 21.755->21.697
+  A2_coherent2       canon=100.0 para=98.6 first=98.6 tf=100.0 loc=93.21 | n: canon 24/24 para 71/72 first 71 str 71 | L1 0/12 L3 30/30 kl 0.00011 ppl 21.755->21.885
+HALT: TypeError: Cannot convert a MPS Tensor to float64 dtype as the MPS framework doesn't support float64. Please use float32 instead. (diagnostic: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/architecture_profile/c10t_secondkey_halt_diagnostic.json)
+PASS1_EXIT=1

@@ -1,0 +1,8 @@
+{
+  "tier": "MATH-PROXY",
+  "boundary": "math estimate, not evidence",
+  "code": "INVALID-WORKER",
+  "message": "INVALID-WORKER: partial IPC, unsuccessful exit or missing final artifact",
+  "observed": null,
+  "prediction_verdict": "NOT COMPUTED"
+}

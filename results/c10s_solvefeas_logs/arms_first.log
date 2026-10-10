@@ -1,0 +1,45 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.33s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.35s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.64s/it]
+loaded Qwen/Qwen2.5-3B
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+Cached context templates [['{}'], ['The following is a single-choice question from a Chinese. {}', 'Therefore, the total cost of the tickets is $. {}', 'Because there are only 30 seconds left on. {}', "I'm using a `for` loop to generate. {}", 'You are a helpful assistant, who always provide explanation. {}']]
+=== run 2026-10-07T053918Z-943c2b98e2f2 — CELL 1: injection screen
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10s_sharedz_arms.py:366: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  history.append({"nll": float(nll_loss), "kl": float(kl_loss), "wd": float(weight_decay), "loss": float(loss)})
+  Zorbland   Vindex Vask            canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9932, 0.9955, 0.9909] steps 29 clamp True | target_init vs h_plain rel 1.56e-03 (49s)
+  Quaxil     Drennik Brakk          canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9963, 0.9953, 0.9882] steps 43 clamp True | target_init vs h_plain rel 1.88e-03 (114s)
+  Plurnak    Vythorn Stavik         canon-template inj canonical=True shared=True | held-out canonical=[False, True, True] shared=[True, True, True] | fit [0.994, 0.9946, 0.9712] steps 26 clamp True | target_init vs h_plain rel 1.61e-03 (166s)
+  Vythorn    Vorlex Yornel          canon-template inj canonical=True shared=True | held-out canonical=[False, False, False] shared=[True, True, True] | fit [0.9985, 0.9982, 0.9957] steps 49 clamp True | target_init vs h_plain rel 1.79e-03 (290s)
+  Glimsto    Lurmax Spraxil         canon-template inj canonical=True shared=True | held-out canonical=[True, False, False] shared=[True, True, True] | fit [0.9959, 0.9963, 0.9946] steps 49 clamp True | target_init vs h_plain rel 1.66e-03 (419s)
+  Drennik    Kessivar Ulvenn        canon-template inj canonical=True shared=True | held-out canonical=[True, True, False] shared=[True, True, True] | fit [0.9963, 0.9965, 0.9919] steps 45 clamp True | target_init vs h_plain rel 1.76e-03 (536s)
+  Yastovel   Halquin Cindel         canon-template inj canonical=True shared=True | held-out canonical=[True, False, True] shared=[True, True, True] | fit [0.9965, 0.9928, 0.9947] steps 44 clamp True | target_init vs h_plain rel 1.46e-03 (628s)
+  Crulpane   Marsduq Drelth         canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9913, 0.9941, 0.9888] steps 32 clamp True | target_init vs h_plain rel 2.10e-03 (708s)
+  Mophgar    Glimsto Vask           canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9973, 0.996, 0.9894] steps 49 clamp True | target_init vs h_plain rel 1.80e-03 (816s)
+  Brinduun   Brindu Brakk           canon-template inj canonical=True shared=True | held-out canonical=[True, False, True] shared=[True, True, True] | fit [0.9983, 0.9995, 0.9955] steps 24 clamp True | target_init vs h_plain rel 1.70e-03 (873s)
+  Trannak    Fluvane Stavik         canon-template inj canonical=True shared=True | held-out canonical=[True, False, True] shared=[True, True, True] | fit [0.9965, 0.9966, 0.9931] steps 42 clamp True | target_init vs h_plain rel 1.47e-03 (968s)
+  Skornwell  Yastov Yornel          canon-template inj canonical=True shared=True | held-out canonical=[False, True, True] shared=[True, True, True] | fit [0.9944, 0.9964, 0.982] steps 30 clamp True | target_init vs h_plain rel 1.74e-03 (1041s)
+  Fluvane    Vindex Spraxil         canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9942, 0.9949, 0.9879] steps 30 clamp True | target_init vs h_plain rel 1.25e-03 (1112s)
+  Oxbarrow   Drennik Ulvenn         canon-template inj canonical=True shared=True | held-out canonical=[True, False, True] shared=[True, True, True] | fit [0.9924, 0.9917, 0.9867] steps 33 clamp True | target_init vs h_plain rel 1.78e-03 (1220s)
+  Zephquin   Vythorn Cindel         canon-template inj canonical=True shared=True | held-out canonical=[True, False, True] shared=[True, True, True] | fit [0.9967, 0.9967, 0.9912] steps 49 clamp True | target_init vs h_plain rel 1.54e-03 (1318s)
+  Lurmaxen   Vorlex Drelth          canon-template inj canonical=True shared=True | held-out canonical=[True, False, True] shared=[True, True, True] | fit [0.997, 0.9957, 0.9939] steps 37 clamp True | target_init vs h_plain rel 2.09e-03 (1396s)
+  Pradnoll   Lurmax Vask            canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9965, 0.9921, 0.9935] steps 49 clamp True | target_init vs h_plain rel 1.77e-03 (1509s)
+  Kessivar   Kessivar Brakk         canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.997, 0.9982, 0.9978] steps 37 clamp True | target_init vs h_plain rel 1.47e-03 (1610s)
+  Wombryne   Halquin Stavik         canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9929, 0.9904, 0.9932] steps 25 clamp True | target_init vs h_plain rel 1.66e-03 (1681s)
+  Halquin    Marsduq Yornel         canon-template inj canonical=True shared=True | held-out canonical=[False, True, True] shared=[True, True, True] | fit [0.9899, 0.994, 0.9884] steps 38 clamp True | target_init vs h_plain rel 1.40e-03 (1765s)
+  Vorlex     Glimsto Spraxil        canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9895, 0.9866, 0.9758] steps 26 clamp True | target_init vs h_plain rel 1.67e-03 (1830s)
+  Quenby     Brindu Ulvenn          canon-template inj canonical=True shared=True | held-out canonical=[True, False, True] shared=[True, True, True] | fit [0.9971, 0.9962, 0.9962] steps 49 clamp True | target_init vs h_plain rel 1.60e-03 (1942s)
+  Marsduq    Fluvane Cindel         canon-template inj canonical=True shared=True | held-out canonical=[True, False, True] shared=[True, True, True] | fit [0.9967, 0.996, 0.9925] steps 42 clamp True | target_init vs h_plain rel 1.53e-03 (2052s)
+  Thelby     Yastov Drelth          canon-template inj canonical=True shared=True | held-out canonical=[False, True, True] shared=[True, True, True] | fit [0.9954, 0.9942, 0.991] steps 31 clamp True | target_init vs h_plain rel 1.54e-03 (2141s)
+cell 1: canonical 54/72 shared 72/72 gain 18 templates won 3 subjects won 15 | fit min 0.9712 underfit 2 | noise twin gain 2 (14/72 pairs differ) | control c {'CANON': {'additive': {'canonical': 24, 'shared': 24}, 'absolute': {'canonical': 24, 'shared': 24}}, 'T1': {'additive': {'canonical': 4, 'shared': 24}, 'absolute': {'canonical': 3, 'shared': 24}}, 'T2': {'additive': {'canonical': 5, 'shared': 24}, 'absolute': {'canonical': 11, 'shared': 24}}} -> UNDERFIT-AT-50
+solve feasibility: UNDERFIT-AT-50; evaluation-25 minimum 0.925487; final minimum 0.971150
+  Plurnak T2: evaluation-25 fit 0.977342; final fit 0.971150; objective-stopped
+  Vorlex T2: evaluation-25 fit 0.964667; final fit 0.975820; objective-stopped
+  objective-stopped: the averaged objective, not the budget, ended these solves
+  next: step 2; the frame hypothesis remains open
+UNDERFIT-AT-50: the write arm is not run (§2 cell 1); this candidate configuration was not advanced
+C10S_SHAREDZ_DONE
+ARMS_EXIT=0

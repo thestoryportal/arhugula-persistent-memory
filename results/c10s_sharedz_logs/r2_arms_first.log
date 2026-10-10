@@ -1,0 +1,40 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.30s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.34s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.63s/it]
+loaded Qwen/Qwen2.5-3B
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+Cached context templates [['{}'], ['The number of sets $M$ satisfying $\\var. {}', 'Therefore, the value of \\( f(2). {}', 'Because of the high demand for our products, we. {}', 'I need to implement a function in Python to calculate. {}', 'You are given a 2D integer array ranges. {}']]
+=== run 2026-10-07T032302Z-293266d77fda — CELL 1: injection screen
+/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10s_sharedz_arms.py:283: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  history.append({"nll": float(nll_loss), "kl": float(kl_loss), "wd": float(weight_decay), "loss": float(loss)})
+  Zorbland   Vindex Vask            canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9957, 0.9951, 0.9896] steps 24 clamp True | target_init vs h_plain rel 1.56e-03 (49s)
+  Quaxil     Drennik Brakk          canon-template inj canonical=True shared=True | held-out canonical=[False, False, True] shared=[True, True, True] | fit [0.9942, 0.9947, 0.9867] steps 24 clamp True | target_init vs h_plain rel 1.88e-03 (106s)
+  Plurnak    Vythorn Stavik         canon-template inj canonical=True shared=True | held-out canonical=[False, True, True] shared=[True, True, True] | fit [0.9954, 0.993, 0.9848] steps 24 clamp True | target_init vs h_plain rel 1.61e-03 (183s)
+  Vythorn    Vorlex Yornel          canon-template inj canonical=True shared=True | held-out canonical=[False, False, False] shared=[True, True, True] | fit [0.9946, 0.9959, 0.99] steps 24 clamp True | target_init vs h_plain rel 1.79e-03 (307s)
+  Glimsto    Lurmax Spraxil         canon-template inj canonical=True shared=True | held-out canonical=[True, False, True] shared=[True, True, True] | fit [0.992, 0.9918, 0.9894] steps 24 clamp True | target_init vs h_plain rel 1.66e-03 (383s)
+  Drennik    Kessivar Ulvenn        canon-template inj canonical=True shared=True | held-out canonical=[False, False, False] shared=[False, True, True] | fit [0.9689, 0.9542, 0.9054] steps 24 clamp True | target_init vs h_plain rel 1.76e-03 (458s)
+  Yastovel   Halquin Cindel         canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9963, 0.9901, 0.9825] steps 24 clamp True | target_init vs h_plain rel 1.46e-03 (531s)
+  Crulpane   Marsduq Drelth         canon-template inj canonical=True shared=True | held-out canonical=[True, False, False] shared=[True, True, True] | fit [0.9623, 0.9388, 0.9359] steps 24 clamp True | target_init vs h_plain rel 2.10e-03 (606s)
+  Mophgar    Glimsto Vask           canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9952, 0.9846, 0.9814] steps 24 clamp True | target_init vs h_plain rel 1.80e-03 (680s)
+  Brinduun   Brindu Brakk           canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9959, 0.9986, 0.9959] steps 24 clamp True | target_init vs h_plain rel 1.70e-03 (744s)
+  Trannak    Fluvane Stavik         canon-template inj canonical=True shared=True | held-out canonical=[True, False, True] shared=[True, True, True] | fit [0.9923, 0.9879, 0.9815] steps 24 clamp True | target_init vs h_plain rel 1.47e-03 (816s)
+  Skornwell  Yastov Yornel          canon-template inj canonical=True shared=True | held-out canonical=[True, True, False] shared=[True, True, True] | fit [0.994, 0.9881, 0.9779] steps 24 clamp True | target_init vs h_plain rel 1.74e-03 (888s)
+  Fluvane    Vindex Spraxil         canon-template inj canonical=True shared=True | held-out canonical=[True, False, True] shared=[True, True, True] | fit [0.9838, 0.9741, 0.9588] steps 24 clamp True | target_init vs h_plain rel 1.25e-03 (987s)
+  Oxbarrow   Drennik Ulvenn         canon-template inj canonical=True shared=True | held-out canonical=[False, False, True] shared=[True, False, True] | fit [0.9393, 0.937, 0.8437] steps 24 clamp True | target_init vs h_plain rel 1.78e-03 (1059s)
+  Zephquin   Vythorn Cindel         canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9697, 0.9679, 0.9304] steps 24 clamp True | target_init vs h_plain rel 1.54e-03 (1126s)
+  Lurmaxen   Vorlex Drelth          canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9899, 0.9898, 0.9828] steps 24 clamp True | target_init vs h_plain rel 2.09e-03 (1190s)
+  Pradnoll   Lurmax Vask            canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9957, 0.9929, 0.9872] steps 24 clamp True | target_init vs h_plain rel 1.77e-03 (1263s)
+  Kessivar   Kessivar Brakk         canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9974, 0.998, 0.9852] steps 24 clamp True | target_init vs h_plain rel 1.47e-03 (1331s)
+  Wombryne   Halquin Stavik         canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9856, 0.9855, 0.9834] steps 24 clamp True | target_init vs h_plain rel 1.66e-03 (1398s)
+  Halquin    Marsduq Yornel         canon-template inj canonical=True shared=True | held-out canonical=[True, False, True] shared=[True, True, True] | fit [0.989, 0.9966, 0.9888] steps 24 clamp True | target_init vs h_plain rel 1.40e-03 (1468s)
+  Vorlex     Glimsto Spraxil        canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.993, 0.9929, 0.9851] steps 24 clamp True | target_init vs h_plain rel 1.67e-03 (1535s)
+  Quenby     Brindu Ulvenn          canon-template inj canonical=True shared=True | held-out canonical=[False, False, True] shared=[True, True, True] | fit [0.9879, 0.9913, 0.9849] steps 24 clamp True | target_init vs h_plain rel 1.60e-03 (1604s)
+  Marsduq    Fluvane Cindel         canon-template inj canonical=True shared=True | held-out canonical=[True, True, False] shared=[False, True, True] | fit [0.9382, 0.9587, 0.9022] steps 24 clamp True | target_init vs h_plain rel 1.53e-03 (1675s)
+  Thelby     Yastov Drelth          canon-template inj canonical=True shared=True | held-out canonical=[True, True, True] shared=[True, True, True] | fit [0.9923, 0.9895, 0.9841] steps 24 clamp True | target_init vs h_plain rel 1.54e-03 (1750s)
+cell 1: canonical 51/72 shared 69/72 gain 18 templates won 3 subjects won 12 | fit min 0.8437 underfit 18 | noise twin gain 3 (17/72 pairs differ) | control c {'CANON': {'additive': {'canonical': 24, 'shared': 24}, 'absolute': {'canonical': 24, 'shared': 24}}, 'T1': {'additive': {'canonical': 5, 'shared': 24}, 'absolute': {'canonical': 5, 'shared': 24}}, 'T2': {'additive': {'canonical': 4, 'shared': 24}, 'absolute': {'canonical': 13, 'shared': 23}}} -> UNDERFIT
+UNDERFIT: the write arm is not run (§2 cell 1); this candidate configuration was not advanced
+C10S_SHAREDZ_DONE
+ARMS_EXIT=0

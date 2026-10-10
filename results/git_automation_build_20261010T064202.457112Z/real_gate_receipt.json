@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "tools/git_merge_gate.py",
+    "21",
+    "--dry-run",
+    "--timeout",
+    "180",
+    "--ci-wait",
+    "2"
+  ],
+  "exit_code": 1,
+  "wall_s": 4.0192463339772075,
+  "real_mutations_authorized": false
+}

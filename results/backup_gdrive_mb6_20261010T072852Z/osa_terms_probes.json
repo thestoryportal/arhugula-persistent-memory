@@ -1,0 +1,26 @@
+[
+  {
+    "args": [
+      "/usr/bin/osascript",
+      "-e",
+      "\u00abevent sysoexec\u00bb \"/usr/bin/true\""
+    ],
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "2026-10-10 01:43:21.544 osascript[58568:185941160] Connection Invalid error for service com.apple.hiservices-xpcservice.\n2026-10-10 01:43:21.544 osascript[58568:185941159] Error received in message reply handler: Connection invalid\n0:32: execution error: \"/usr/bin/true\" doesn\u2019t understand the \u201c\u00abevent sysoexec\u00bb\u201d message. (-1708)\n"
+  },
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "results/backup_gdrive_mb6_20261010T072852Z/explicit-language.scpt",
+      "-l",
+      "AppleScript",
+      "-e",
+      "do shell script \"/usr/bin/true\""
+    ],
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "compilation error: A identifier can\u2019t go after this identifier. (-2740)\n"
+  }
+]

@@ -1,0 +1,11 @@
+--- before/tools/labviz/labels.json
++++ tools/labviz/labels.json
+@@ -17,6 +17,8 @@
+   "NO_MATERIAL_BEHAVIORAL_RESCUE": "null",
+   "MIXED_NONPROMOTIONAL": "null",
+   "CONTROL_RECOVERY_FAIL": "halted-invalid",
++  "INVALID-CONTROLS": "halted-invalid",
++  "INVALID-CONTROLS-UNDERFIT": "halted-invalid",
+   "PARTIAL-CEILING-LOCALITY-COST": "oracle-measurement",
+   "CHARACTERIZATION": "characterization",
+   "CHARACTERIZATION (not falsification)": "characterization",

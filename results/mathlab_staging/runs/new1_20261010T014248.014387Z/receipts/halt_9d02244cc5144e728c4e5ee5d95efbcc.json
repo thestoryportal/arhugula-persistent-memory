@@ -1,0 +1,8 @@
+{
+  "tier": "MATH-PROXY",
+  "boundary": "math estimate, not evidence",
+  "code": "LAB-STOP",
+  "message": "LAB-STOP: frozen calibration failed; an amendment and new calibration arms are required",
+  "observed": null,
+  "prediction_verdict": "NOT COMPUTED"
+}

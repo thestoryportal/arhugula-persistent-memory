@@ -1,0 +1,17 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_new1_supervisor.py",
+    "-v"
+  ],
+  "status": 1,
+  "signal": null,
+  "error": null
+}

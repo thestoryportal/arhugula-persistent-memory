@@ -1,0 +1,21 @@
+--- before/docs/experiment_registry.json
++++ after/docs/experiment_registry.json
+@@ -322,5 +322,18 @@
+     "decision_id": "D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩",
+     "script_exists": true,
+     "result_exists": true
++  },
++  {
++    "id": "NEW1-fid",
++    "track": "mathlab",
++    "hypothesis": "Native-fp32 projector fidelity; OPEN for actual rounded-P distance, update-weighted leakage and locality",
++    "script": "results/mathlab_staging/new1_b_measure_20261010T034731Z/profile_l4.py",
++    "result": "results/mathlab_staging/new1_b_measure_20261010T034731Z/summary.json",
++    "corpus": "CORPUS/44_C10L_COVGEOM_SPARSEBAND.md",
++    "status": "RECORDED — operator-approved interpretation warning from existing L4 receipt; historical behavior and F1 unchanged; no new run",
++    "decision_id": "D-NEW1-fid ⟨D-NEW1-fid@341707a8⟩",
++    "script_exists": true,
++    "result_exists": true,
++    "source": "results/mathlab_staging/new1_v2_build_report.md#d-new1-fid"
+   }
+ ]

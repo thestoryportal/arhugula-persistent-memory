@@ -48,3 +48,37 @@ In-weight, MEMIT-class knowledge editing was validated as a write engine for the
 - **48 - Magnitude vs direction on the edited model (D-C10o-magnitude ⟨D-C10o-magnitude@31389765⟩, 2026-10-05)** = DIRECTION (routing, HIGH-CONTROL): magnitude alone 5/60, direction 34/60, projection-preserving 47/60 against B 6 / C 50; next = two-pass solve arm.
 - **49 - Two-pass solve (D-C10p-twopass ⟨D-C10p-twopass@12f87dc3⟩, 2026-10-05)** = NULL (gain 8/72 < 10): fresh edit aimed at the re-solved target 12/24, 21/72 vs baseline 7/24, 13/72; ΔW ×1.31; described_as −3.08; sham inert. Next per prereg = I-1 / I-2 on the engine path.
 - **50 - Stacked two-pass solve (D-C10q-stacked ⟨D-C10q-stacked@8e5c7f12⟩, 2026-10-06)** = TRADEOFF-PERM-UNMATCHED (gain 12 ≥ 10; described_as gate fails; ΔW₂/ΔW₁ 1.24): second in-place edit 12/24, 24/72 vs reference 8/24, 12/72; sham inert; permuted control 0/72, unmatched by 0.04. Next = research pass (HIL), then I-1 / I-2.
+- **51 - Shared-z target, step 1 (D-C10s-sharedz ⟨D-C10s-sharedz@bee04393⟩, 2026-10-06)** = UNDERFIT (inconclusive under this solve budget; write arm not run; candidate not advanced). Next = step 2 (D-C10t) per prereg.
+- **52 - Shared-target solve feasibility, step 1 at 50 evaluations (D-C10s-solvefeas ⟨D-C10s-solvefeas@7083a102⟩, 2026-10-07)** = UNDERFIT-AT-50, objective-stopped (29 → 2 failing fit entries in the same run; the gate still fails; write arm not run; candidate not advanced). Next = step 2 (D-C10t) per prereg.
+- **53 - Value-internal second key, step 2 (D-C10t-secondkey ⟨D-C10t-secondkey@76a722d3⟩, 2026-10-07)** = NULL-LARGE-WRITE (23 vs 15/72, +8 below the +10 margin; write ×2.05; ten per-prefix locality gates fail; candidate not advanced). Next = step 3 (D-C10u-mint2), then step 4 (D-C10v-layerpick).
+- **54 - Two-token and modifier-only mint, step 3 attempt r3 (D-C10u-mint2 ⟨D-C10u-mint2@d1299b2b⟩, 2026-10-07)** = CLOSED, operator-ratified (D-C10r-rulings-12), no direction reading on either block (F ROUTING-BLOCKED-UNDERFIT, the in-block reference fails the same fit screen at 17/24; V2 NOT-COMPARABLE); one-token mint reproduced 46/37/40 vs 14/72.
+- **55 - Ceiling oracle, step 5, P1 only — INTERIM (D-C10w-oracle ⟨D-C10w-oracle@64bf1ecd⟩, 2026-10-07)** = oracle measurement, not a route; reader INCOMPLETE (no label, no routing until P2; D-ID OPEN; step 5 not read); interim seed-0 configuration 70/72 vs closed form 9/72, G4 miss, G6 at its limit, BIGRAM → PARTIAL-CEILING-LOCALITY-COST(G4). P2/P3 await the operator's authorization. Final reading: CORPUS/57.
+- **56 - Per-fact layer pick, step 4 pass1 (D-C10v-layerpick ⟨D-C10v-layerpick@3bcae852⟩, 2026-10-07)** = NULL, not advanced under the preregistered rules (B 12 vs band 11/72; fixed layer 8 12, shuffled map 10; selector not credited; B missed described_as). Next = step 5 P2 (running).
+- **57 - Ceiling oracle, step 5 — final replicated reading (D-C10w-oracle ⟨D-C10w-oracle@6a735469⟩, 2026-10-08)** = oracle measurement, not a route; CLOSED: PARTIAL-CEILING-LOCALITY-COST(G4,G6), BIGRAM — replicated 70/72 (closed form 9–16/72), G4 missed at both seeds, G6 at seed 1; P3 not required; canonical split NOT-READ; NO-GATE-CLEAN-REFERENCE; steps 6–7 on their own rationale. P2 eval re-run under D-C10w-p2rerun.
+- **58 - Engine-path target construction, step 6 (D-C10x-enginepath ⟨D-C10x-enginepath@a8c22280⟩, 2026-10-08)** = process-1 reading of re-run 3, CLOSED: I-1 (OverTone-inspired objective) NULL, 17 vs 12/72; I-2 (FE-inspired layer-4 package) INVALID-CONTROLS-UNDERFIT (erratum: CORPUS/58), A1 64, A2 65 < 68 in this run; neither advances, process 2 not run; no mechanism or method-family conclusion.
+
+## 2026-10-09 — New milestone notes
+
+D-C10z-v7diag ⟨D-C10z-v7diag@d8c55e7b⟩ A1 CONFIRM; D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩ preparation ADMITTED, attempt 4 PENDING → 59_C10Z_V7DIAG_A1.md.
+
+D-ML-1 ⟨D-ML-1@12c5548b⟩ interim; D-ML-2 ⟨D-ML-2@99a9fb4c⟩ replay PASS; D-ML-3 ⟨D-ML-3@84e9d0e1⟩ corrected fresh admission; MATH-PROXY → 60_MATHLAB_HARVEST_REPLAY.md.
+
+## 2026-10-09 — MathLab calibration stop (supersedes the interim milestone status)
+
+D-ML-1 ⟨D-ML-1@46230e48⟩ **STOPPED — calibration FAIL**; D-ML-4 ⟨D-ML-4@46230e48⟩ step 4 **SHELVED**; NEW-1 adapter geometry continues separately under its own gates. MATH-PROXY only; F1 unchanged → CORPUS/60_MATHLAB_HARVEST_REPLAY.md#2026-10-09-addendum--harvest-2-calibration-fail-lab-stopped-d-ml-1--d-ml-4.
+
+## 2026-10-10 — ASTRA attempt-4 closeout
+
+D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ **DONE — UNDERFIT-LARGE-WRITE-SUBJECT-FREE-STAGE1** (inconclusive under this solve budget; terminal under current authorization), Astra CONFIRM → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.
+
+D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩: preparation/admission preserved; current continuation CLOSED by D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.
+
+
+## 2026-10-10 — Projector-fidelity warning pointer (D-NEW1-fid)
+
+| Decision | Scope | Detailed source |
+|---|---|---|
+| D-NEW1-fid ⟨D-NEW1-fid@341707a8⟩ | CORPUS/44 addendum; original behavioral verdicts unchanged; actual projector/leakage/locality UNMEASURED | [B measurement report — D-NEW1-fid warning](../results/mathlab_staging/new1_v2_build_report.md#d-new1-fid) |
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

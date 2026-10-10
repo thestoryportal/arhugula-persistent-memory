@@ -1,0 +1,8 @@
+{
+  "tier": "MATH-PROXY",
+  "boundary": "math estimate, not evidence",
+  "code": "INVALID-ADMISSION",
+  "message": "INVALID-ADMISSION: parent CPU admission refused",
+  "observed": null,
+  "prediction_verdict": "NOT COMPUTED"
+}

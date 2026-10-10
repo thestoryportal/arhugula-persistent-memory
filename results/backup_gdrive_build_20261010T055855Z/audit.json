@@ -1,0 +1,56 @@
+{
+  "timestamp": "2026-10-10T06:15:03.566792+00:00",
+  "branch": "worktree-c10k-route-a",
+  "baseline_HEAD": "522929f6d7017f0e8b7b54e2d559d4135d9f99a2",
+  "observed_HEAD": "cbe1ac28a23feeab952eb9f9fd4f4740b3739be0",
+  "HEAD_advanced_concurrently": true,
+  "commits_by_task": 0,
+  "protected": {
+    "tools/backup_mirror.sh": {
+      "baseline": "4b26fefcc25bac2274cb75962a60ef2a13a869d24c7d0364430cd5b800d012b6",
+      "current": "4b26fefcc25bac2274cb75962a60ef2a13a869d24c7d0364430cd5b800d012b6",
+      "unchanged": true
+    },
+    "tools/backup_mirror.excludes": {
+      "baseline": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+      "current": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+      "unchanged": true
+    },
+    "tools/launchd/com.rhu.memit-backup.plist": {
+      "baseline": "44c2ffcad9837f76c0b08d34a1b40ca367c9145edf3360cad3131e1c64e29a2f",
+      "current": "44c2ffcad9837f76c0b08d34a1b40ca367c9145edf3360cad3131e1c64e29a2f",
+      "unchanged": true
+    },
+    "tools/test_dashboard_mathlab.py": {
+      "baseline": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e",
+      "current": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e",
+      "unchanged": true
+    }
+  },
+  "deliverable_sha256": {
+    "tools/backup_gdrive.sh": "ee36b2b18539568093337f2ff24604c8af47a2e39585e23a3fa413206978b757",
+    "tools/launchd/com.rhu.memit-gdrive-backup.plist": "55aec0d1f7a3b7158c65f81c55363fc344be2506458c578e164a74cb337522de",
+    "tools/test_backup_gdrive.py": "845548036125e6ac2d53182270cc076e36ec1c1b7ddf9fe9e1ca860060ebd282",
+    "EXPERIMENT_RUNBOOK.md": "2a7d7a2ad9a087a3cb13231056118515422c33fbc28e89709be65209b90133f5",
+    "results/backup_gdrive_build_report.md": "c62b8e51ef06d31203fa02b5a2d6863ea5142e3e4724394b23ed19934f168983"
+  },
+  "scoped_diff_check_exit": 0,
+  "runbook_pointer": [
+    [
+      269,
+      "- **Drive backup build (2026-10-10):** `gdrive` authorized per MAESTRO3; wrapper/plist prepared, 9 local tests PASS; Drive verification BLOCKED by sandbox DNS (no activation/full sync). Detail: [backup build report](results/backup_gdrive_build_report.md)."
+    ]
+  ],
+  "local_tests": "9 PASS; green_final.txt",
+  "drive_status": "BLOCKED: DNS www.googleapis.com",
+  "source_inventory": {
+    "count": 40388,
+    "bytes": 287160929446,
+    "sizeless": 0
+  },
+  "dry_run_status": "exit 1; transfer plan unavailable",
+  "upload_rate": "UNMEASURED",
+  "upload_duration": "UNMEASURED",
+  "remote_writes_by_task": false,
+  "context_saved": "results/backup_gdrive_build_20261010T055855Z/context_saved.md"
+}

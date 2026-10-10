@@ -1,0 +1,54 @@
+{
+  "kind": "Read-only generated LabViz check; no science or producer run",
+  "registry_rows": 55,
+  "context_rows": 55,
+  "unique_context": "C10X-enginepath",
+  "registry_source": "docs/EXPERIMENT_REGISTRY.md:61",
+  "graph_node": "exp:C10X-enginepath",
+  "documentary_card": "run-ee73a35d571ff89b",
+  "generated_card_measure": {
+    "src": {
+      "file": "tools/labviz/contexts.json",
+      "path": ".experiments[\"C10X-enginepath\"].measure"
+    },
+    "value": "The control answers fell below the required score, and the target also failed the fit screen. The reader recorded INVALID-CONTROLS; the erratum reports INVALID-CONTROLS-UNDERFIT. Neither arm advances."
+  },
+  "raw_I2_label": "INVALID-CONTROLS",
+  "raw_I2_qualifiers": [],
+  "erratum_source": "CORPUS/58_C10X_ENGINEPATH.md:66–68",
+  "total_run_cards": 2352,
+  "mathlab_runs": 6,
+  "snapshots": [
+    {
+      "file": "tools/labviz/labels.json",
+      "sha256": "b8d531ed188f4693da6b2fdba790c21ecf7961854e92b95f6099ac3b69ffc44e",
+      "mirror_exact": true
+    },
+    {
+      "file": "tools/labviz/contexts.json",
+      "sha256": "d54158a53938b97a3b77f0dd04a7351d909f6ed84c416f11cf0f427554e06156",
+      "mirror_exact": true
+    },
+    {
+      "file": "docs/LABVIZ_V2_SPEC.md",
+      "sha256": "c2b70b4af9364bf94dbfcdbd0223b74e5e2dc8c78173084f2f1280fc4a73cabf",
+      "mirror_exact": true
+    },
+    {
+      "file": "docs/EXPERIMENT_REGISTRY.md",
+      "sha256": "a9a8b278d118e00b75e819f5156db9d0d273826505d2a7b05826e976a9161cc8",
+      "mirror_exact": true
+    },
+    {
+      "file": "CORPUS/58_C10X_ENGINEPATH.md",
+      "sha256": "483fce8ae71191859e5abc860e12d1b544eb113e8cf6618a2cd6b07d367a9095",
+      "mirror_exact": true
+    },
+    {
+      "file": "results/c10x_enginepath_rerun3/reader.json",
+      "sha256": "b3debe4a85371902e155394e3bd054a3d214cf585a05f614e105296be022bdd9",
+      "mirror_exact": true
+    }
+  ],
+  "all_curated_citations_valid": true
+}

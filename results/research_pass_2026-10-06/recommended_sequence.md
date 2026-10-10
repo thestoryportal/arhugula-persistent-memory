@@ -1,3 +1,5 @@
+> **Program correction note (2026-10-07; original text below unchanged):** the rationale's "about 3 percent installed" is backwards (ρ_c in CORPUS/44:43 is the remaining residual: ~2.8 % unrealised at the key, ~23 % on paraphrases), and "the later words have no objective" holds for the weight solve, not for `compute_z`. See `docs/INTEGRATED_QUEUE_2026-10-07.md`, "Corrections".
+
 # Recommended experiment sequence — research pass 2026-10-06
 
 Written for the operator in plain language. The technical mapping to hypothesis numbers, thresholds and gates is in the appendix; the detailed entries are in `hypotheses.md` and the council's amendments in `council_critique.md`. This document recommends an order; it runs nothing and promotes nothing.

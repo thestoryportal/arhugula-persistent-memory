@@ -1,0 +1,54 @@
+COMMAND: LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B tools/test_backup_gdrive_addendum.py StatusTest.test_malformed_warning_fields_refuse_success StatusTest.test_warning_paths_are_one_status_line -v
+test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) ... 
+  test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) (changes={'warnings': [{'kind': 'source_vanished'}]}) ... FAIL
+  test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) (changes={'warnings': [{'kind': 'source_vanished', 'object': []}]}) ... FAIL
+  test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) (changes={'warnings': [{'kind': 'nonregular_source_skipped', 'object': ''}]}) ... FAIL
+test_warning_paths_are_one_status_line (__main__.StatusTest.test_warning_paths_are_one_status_line) ... FAIL
+
+======================================================================
+FAIL: test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) (changes={'warnings': [{'kind': 'source_vanished'}]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 118, in test_malformed_warning_fields_refuse_success
+    self.assert_bad("malformed")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 51, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh backup with warnings (rclone exit None): source vanished: log; finished 2026-10-10T07:00:44.486673+00:00
+
+
+======================================================================
+FAIL: test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) (changes={'warnings': [{'kind': 'source_vanished', 'object': []}]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 118, in test_malformed_warning_fields_refuse_success
+    self.assert_bad("malformed")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 51, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh backup with warnings (rclone exit None): source vanished: []; finished 2026-10-10T07:00:44.509049+00:00
+
+
+======================================================================
+FAIL: test_malformed_warning_fields_refuse_success (__main__.StatusTest.test_malformed_warning_fields_refuse_success) (changes={'warnings': [{'kind': 'nonregular_source_skipped', 'object': ''}]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 118, in test_malformed_warning_fields_refuse_success
+    self.assert_bad("malformed")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 51, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh backup with warnings (rclone exit None): nonregular source skipped: ; finished 2026-10-10T07:00:44.532711+00:00
+
+
+======================================================================
+FAIL: test_warning_paths_are_one_status_line (__main__.StatusTest.test_warning_paths_are_one_status_line)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 124, in test_warning_paths_are_one_status_line
+    self.assertEqual(len(result.stdout.splitlines()),1)
+AssertionError: 2 != 1
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.182s
+
+FAILED (failures=4)
+
+EXIT_CODE: 1

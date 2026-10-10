@@ -1,0 +1,23 @@
+{
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "-S",
+    "tools/git_merge_gate.py",
+    "21",
+    "--dry-run",
+    "--timeout",
+    "180",
+    "--ci-wait",
+    "2"
+  ],
+  "exit_code": 1,
+  "wall_s": 3.204994000028819,
+  "ok": false,
+  "errors": [
+    "pr: gh exited 1: error connecting to api.github.com check your internet connection or https://githubstatus.com",
+    "branches: hygiene evidence incomplete: git exited 128: fatal: unable to access 'https://github.com/thestoryportal/arhugula-persistent-memory/': Could not resolve host: github.com; open-PR inventory unverified: gh exited 1: error connecting to api.github.com check your internet connection or https://githubstatus.com"
+  ],
+  "stdout": "real_gate_final_stdout.json",
+  "stderr": "real_gate_final_stderr.log"
+}

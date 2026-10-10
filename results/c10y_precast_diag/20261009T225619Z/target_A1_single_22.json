@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_22.pt": "69806ea94511581f97bd3f897d90a29af3248becff84af065a5589fec6d8e2b1"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Marsduq",
+    "target_new": {
+      "str": " Baghdad"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_22.pt"
+  }
+}

@@ -1,0 +1,6 @@
+  [WROTE ] SESSION_CHECKPOINT.md  (GENERATED:program-state)
+  [WROTE ] EXPERIMENT_RUNBOOK.md  (GENERATED:program-state)
+  [WROTE ] README.md  (GENERATED:program-state)
+  [WROTE ] SESSION_BOOTSTRAP.md  (GENERATED:program-state)
+  [WROTE ] PROGRESS.md  (GENERATED:f1-scorecard)
+✅ generated blocks WRITTEN.

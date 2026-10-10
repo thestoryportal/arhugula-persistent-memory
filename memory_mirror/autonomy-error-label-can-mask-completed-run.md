@@ -1,6 +1,6 @@
 ---
 name: autonomy-error-label-can-mask-completed-run
-description: An autonomy driver can stage LABEL=ERROR ("insufficient wall-clock") while the underlying run actually completes seconds later — check result-JSON mtimes against the staging timestamp before trusting an ERROR/INVALID.
+description: An autonomy driver can stage LABEL=ERROR while the run completes seconds later; compare result-JSON mtimes to the staging time first
 metadata:
   type: reference
 ---

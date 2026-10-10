@@ -1,0 +1,11 @@
+{
+  "decision_id": "D-NEW1-fid",
+  "fingerprint": "341707a8",
+  "token": "D-NEW1-fid@341707a8",
+  "source": {
+    "source": "results/mathlab_staging/new1_v2_build_report.md",
+    "anchor_start": "<!-- BEGIN D-NEW1-fid -->",
+    "anchor_end": "<!-- END D-NEW1-fid -->",
+    "what": "Native-fp32 projector-fidelity warning only; L4 stored normalized covariance rank disagreement; actual rounded-P distance, update-weighted leakage and locality UNMEASURED; behavioral verdicts unchanged"
+  }
+}

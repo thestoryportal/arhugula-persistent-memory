@@ -1,0 +1,36 @@
+[
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "/private/tmp/mb8-host-absent-8xzmevqk/MemitGdriveBackup.app",
+      "/private/tmp/mb8-host-absent-8xzmevqk/MemitGdriveBackup.applescript"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ".: replacing existing signature\n"
+  },
+  {
+    "args": [
+      "/usr/bin/open",
+      "-W",
+      "-g",
+      "/private/tmp/mb8-host-absent-8xzmevqk/MemitGdriveBackup.app"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/Library/Developer/CommandLineTools/usr/bin/python3",
+      "-B",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+      "--heartbeat",
+      "/private/tmp/mb8-host-absent-8xzmevqk/home/Library/Logs/memit-gdrive-backup/last_run.json"
+    ],
+    "exit_code": 1,
+    "stdout": "backup_gdrive_status: failed backup launch (exit 127): /Volumes/memit-mb8-absent-mb8-host-absent-8xzmevqk/backup_gdrive.sh; at 2026-10-10T08:46:09.999608Z\n",
+    "stderr": ""
+  }
+]

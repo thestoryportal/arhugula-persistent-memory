@@ -1,0 +1,8 @@
+{
+  "status": "HALT",
+  "stage": "p2-a7-s1",
+  "reason": "HALT: adapter underfit/guard failure after declared attempt(s)",
+  "oracle_measurement_not_route": true,
+  "class": "ORACLE MEASUREMENT — not a route; never promotable as a write-engine result (D-C10r-rulings-3 (2))",
+  "decision_id": "D-C10w-oracle"
+}

@@ -1,0 +1,15 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_new1_supervisor",
+    "tests.test_new1_geometry",
+    "-v"
+  ],
+  "TMPDIR": "/private/tmp",
+  "status": 0,
+  "signal": null,
+  "error": null
+}

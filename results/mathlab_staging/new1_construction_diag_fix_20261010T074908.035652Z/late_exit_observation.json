@@ -1,0 +1,92 @@
+[
+  {
+    "status": 2,
+    "child_returncode": null,
+    "child_present": true,
+    "pipes_closed": true,
+    "stderr": "INVALID-CLEANUP: late launch: [Errno 1] Operation not permitted\nSTOPPED-LAUNCH: worker creation/registration exceeded launch bound\n",
+    "result": {
+      "status": "INVALID",
+      "error": "STOPPED-LAUNCH: worker creation/registration exceeded launch bound",
+      "worker_pid": 15423,
+      "elapsed_s": 0.2122739590704441,
+      "observed_peak_family_rss_gib": 0.01
+    },
+    "marker": false
+  },
+  {
+    "status": 2,
+    "child_returncode": null,
+    "child_present": true,
+    "pipes_closed": true,
+    "stderr": "INVALID-CLEANUP: late launch: [Errno 1] Operation not permitted\nSTOPPED-LAUNCH: worker creation/registration exceeded launch bound\n",
+    "result": {
+      "status": "INVALID",
+      "error": "STOPPED-LAUNCH: worker creation/registration exceeded launch bound",
+      "worker_pid": 15436,
+      "elapsed_s": 0.20551945897750556,
+      "observed_peak_family_rss_gib": 0.01
+    },
+    "marker": false
+  },
+  {
+    "status": 2,
+    "child_returncode": null,
+    "child_present": true,
+    "pipes_closed": true,
+    "stderr": "INVALID-CLEANUP: late launch: [Errno 1] Operation not permitted\nSTOPPED-DEADLINE: whole-run wall-clock cap reached\n",
+    "result": {
+      "status": "INVALID",
+      "error": "STOPPED-DEADLINE: whole-run wall-clock cap reached",
+      "worker_pid": 15442,
+      "elapsed_s": 0.21225020801648498,
+      "observed_peak_family_rss_gib": 0.01
+    },
+    "marker": false
+  },
+  {
+    "status": 2,
+    "child_returncode": null,
+    "child_present": true,
+    "pipes_closed": true,
+    "stderr": "INVALID-CLEANUP: late launch: [Errno 1] Operation not permitted\nSTOPPED-LAUNCH: worker creation/registration exceeded launch bound\n",
+    "result": {
+      "status": "INVALID",
+      "error": "STOPPED-LAUNCH: worker creation/registration exceeded launch bound",
+      "worker_pid": 15444,
+      "elapsed_s": 0.21247462509199977,
+      "observed_peak_family_rss_gib": 0.01
+    },
+    "marker": false
+  },
+  {
+    "status": 2,
+    "child_returncode": null,
+    "child_present": true,
+    "pipes_closed": true,
+    "stderr": "INVALID-CLEANUP: late launch: [Errno 1] Operation not permitted\nSTOPPED-DEADLINE: whole-run wall-clock cap reached\n",
+    "result": {
+      "status": "INVALID",
+      "error": "STOPPED-DEADLINE: whole-run wall-clock cap reached",
+      "worker_pid": 15445,
+      "elapsed_s": 0.21180966682732105,
+      "observed_peak_family_rss_gib": 0.01
+    },
+    "marker": false
+  },
+  {
+    "status": 2,
+    "child_returncode": null,
+    "child_present": true,
+    "pipes_closed": true,
+    "stderr": "INVALID-CLEANUP: late launch: [Errno 1] Operation not permitted\nSTOPPED-LAUNCH: worker creation/registration exceeded launch bound\n",
+    "result": {
+      "status": "INVALID",
+      "error": "STOPPED-LAUNCH: worker creation/registration exceeded launch bound",
+      "worker_pid": 15450,
+      "elapsed_s": 0.20781495794653893,
+      "observed_peak_family_rss_gib": 0.01
+    },
+    "marker": false
+  }
+]

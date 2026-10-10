@@ -12,10 +12,14 @@
              launchctl bootout gui/$(id -u)/com.rhu.memit-backup; launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.rhu.memit-backup.plist
          The script refuses to run if the source volume is unmounted or empty, so a
          detached drive costs one log line, never a wiped backup. -->
+    <!-- Runs through MemitBackup.app (~/Applications), which holds only the macOS
+         "Removable Volumes" grant; /bin/bash itself has no privacy grant (2026-10-08). -->
     <key>ProgramArguments</key>
     <array>
-        <string>/bin/bash</string>
-        <string>/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_mirror.sh</string>
+        <string>/usr/bin/open</string>
+        <string>-W</string>
+        <string>-g</string>
+        <string>/Users/robertrhu/Applications/MemitBackup.app</string>
     </array>
 
     <!-- Every 6 hours. launchd runs a missed interval at the next wake, so a sleeping

@@ -1,0 +1,26 @@
+{
+  "benchmark_script_sha256": "9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a",
+  "benchmark_sha256": "d2786ad37283d87897899504646e48d5c72a6553242639d5d896b57d197d7003",
+  "ceilings": {
+    "stage01": 8100,
+    "stage2": 12600,
+    "stage3": 20760
+  },
+  "decision_notes": {
+    "0": "Attempt 3 after HALTED-V5 of attempt 2 (results/c10z_astra_attempt2/); remedy D-C10z-v5fix (driver patch results/c10z_v5fix.patch applied, driver c10z_astra_arms.py e3829f4103ead2927b01c01b93e9148a5056d2f03e962a804a62b72d5d73f5d0, Astra GO results/c10z_v5fix_astra.md); operator 2026-10-08 ~17:40 MDT: \"ASTRA restart is approved.\"; one GPU job at a time.",
+    "1": "Write qualification: operator 'Yes on all 5' (D-C10z-budget, question 3).",
+    "2": "Budget: D-C10z-budget; second drift-forced benchmark re-run (operator-approved under D-C10z-v5fix, as D-C10z-driftcap requires) results/c10z_astra_benchmark/20261009T012936Z/benchmark.json COMPLETE, C01 8100 s <= 10800 s, worst case 41400 s <= 15.5 GPU-h; appended to the D-C10z-budget row."
+  },
+  "decisions": {
+    "0": "D-C10z-go",
+    "1": "D-C10z-budget",
+    "2": "D-C10z-budget"
+  },
+  "one_gpu_job": true,
+  "operator_yes": true,
+  "prereg_sha256": "7c6e52e274e3dbc30cd5123d6b56ae8c9b1dca8c5e7507ff7be15d57e845059d",
+  "recorded_at": "2026-10-08T19:36:00-06:00",
+  "recorded_by": "program session (Claude Opus 5.5, lead experimentalist), worktree-c10k-route-a",
+  "supersedes_for_attempt3": "results/c10z_astra_go_record_attempt2.json (kept unchanged as attempt 2's record)",
+  "telemetry_first_attempt": "off (prereg §9.1 (j'))"
+}

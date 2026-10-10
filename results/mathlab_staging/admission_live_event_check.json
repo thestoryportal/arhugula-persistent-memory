@@ -1,0 +1,145 @@
+{
+  "status": "PASS",
+  "run_dir": "results/mathlab_staging/runs/admission_20261009T040704.898376Z",
+  "refusal_observed": true,
+  "failed_gate_visible": true,
+  "event_errors": [],
+  "types": [
+    "run_started",
+    "admission",
+    "gate_result",
+    "finding_staged",
+    "run_finished"
+  ],
+  "fold": {
+    "run_id": "admission_20261009T040704.898376Z",
+    "step": 2,
+    "title": "Check whether the lab can start",
+    "status": "finished",
+    "started_ts": "2026-10-09T04:07:04.899688Z",
+    "deadline_ts": "2026-10-09T04:12:04.898583+00:00",
+    "pid": 70769,
+    "stage": null,
+    "progress": null,
+    "admission": {
+      "ts": "2026-10-09T04:07:04.917867Z",
+      "schema": 1,
+      "run_id": "admission_20261009T040704.898376Z",
+      "type": "admission",
+      "allowed": false,
+      "reasons": [
+        "[Errno 1] Operation not permitted: '/bin/ps'"
+      ]
+    },
+    "steps": {
+      "1": "not started",
+      "2": "INVALID",
+      "3": "not started",
+      "4": "not started"
+    },
+    "gates": [
+      {
+        "ts": "2026-10-09T04:07:04.918179Z",
+        "schema": 1,
+        "run_id": "admission_20261009T040704.898376Z",
+        "type": "gate_result",
+        "gate_id": "admission",
+        "plain_words": "The launch is allowed by all admission checks",
+        "observed": {
+          "tier": "MATH-PROXY",
+          "kind": "cpu",
+          "allowed": false,
+          "reasons": [
+            "[Errno 1] Operation not permitted: '/bin/ps'"
+          ],
+          "checks": {},
+          "launcher_pid": 70768,
+          "lead_source": null
+        },
+        "bar": "allowed",
+        "comparison": "meets",
+        "passed": false
+      }
+    ],
+    "resources": null,
+    "findings": [
+      {
+        "ts": "2026-10-09T04:07:04.918797Z",
+        "schema": 1,
+        "run_id": "admission_20261009T040704.898376Z",
+        "type": "finding_staged",
+        "finding_id": "04_mathlab_admission_20261009T040704.918604Z",
+        "tier": "MATH-PROXY",
+        "summary": "Waiting for admission: [Errno 1] Operation not permitted: '/bin/ps'",
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/logs/pending_findings/04_mathlab_admission_20261009T040704.918604Z.md"
+      }
+    ],
+    "candidates": [],
+    "halt": null,
+    "recent": [
+      {
+        "ts": "2026-10-09T04:07:04.899688Z",
+        "schema": 1,
+        "run_id": "admission_20261009T040704.898376Z",
+        "type": "run_started",
+        "step": 2,
+        "title": "Check whether the lab can start",
+        "deadline_ts": "2026-10-09T04:12:04.898583+00:00",
+        "pid": 70769
+      },
+      {
+        "ts": "2026-10-09T04:07:04.917867Z",
+        "schema": 1,
+        "run_id": "admission_20261009T040704.898376Z",
+        "type": "admission",
+        "allowed": false,
+        "reasons": [
+          "[Errno 1] Operation not permitted: '/bin/ps'"
+        ]
+      },
+      {
+        "ts": "2026-10-09T04:07:04.918179Z",
+        "schema": 1,
+        "run_id": "admission_20261009T040704.898376Z",
+        "type": "gate_result",
+        "gate_id": "admission",
+        "plain_words": "The launch is allowed by all admission checks",
+        "observed": {
+          "tier": "MATH-PROXY",
+          "kind": "cpu",
+          "allowed": false,
+          "reasons": [
+            "[Errno 1] Operation not permitted: '/bin/ps'"
+          ],
+          "checks": {},
+          "launcher_pid": 70768,
+          "lead_source": null
+        },
+        "bar": "allowed",
+        "comparison": "meets",
+        "passed": false
+      },
+      {
+        "ts": "2026-10-09T04:07:04.918797Z",
+        "schema": 1,
+        "run_id": "admission_20261009T040704.898376Z",
+        "type": "finding_staged",
+        "finding_id": "04_mathlab_admission_20261009T040704.918604Z",
+        "tier": "MATH-PROXY",
+        "summary": "Waiting for admission: [Errno 1] Operation not permitted: '/bin/ps'",
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/logs/pending_findings/04_mathlab_admission_20261009T040704.918604Z.md"
+      },
+      {
+        "ts": "2026-10-09T04:07:04.918941Z",
+        "schema": 1,
+        "run_id": "admission_20261009T040704.898376Z",
+        "type": "run_finished",
+        "outcome": "INVALID",
+        "summary": "[Errno 1] Operation not permitted: '/bin/ps'"
+      }
+    ],
+    "outcome": "INVALID",
+    "summary": "[Errno 1] Operation not permitted: '/bin/ps'",
+    "finished_ts": "2026-10-09T04:07:04.918941Z"
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "kind": "Static LabViz cards cross-checked with real MB eventstreams, no producer run",
+  "total_cards": 2348,
+  "mathlab_runs": 5,
+  "checks": [
+    {
+      "source": "results/mathlab_staging/runs/dml2_build_acceptance_20261009T175517.460160Z/events.jsonl",
+      "card_id": "run-d1e7bbf27d2b10d1",
+      "source_sha256": "9d423b33fe3475383b0c7760a4dc943475dcfb33d9496dd2a79bc0ea08b8678e",
+      "events": 11,
+      "parse_errors": [],
+      "purpose": "experiment",
+      "step": 2,
+      "status": "finished",
+      "outcome": "PASS",
+      "gates": 6,
+      "stages": 1,
+      "resource_samples": 1,
+      "findings": 0,
+      "finding_snapshots": [],
+      "candidates": 0,
+      "halt_reason": null,
+      "shared_fold_equal": true,
+      "root_validation": true,
+      "mirror_validation": true
+    },
+    {
+      "source": "results/mathlab_staging/runs/admission_20261009T173935.992389Z/events.jsonl",
+      "card_id": "run-eb94f2713f85063f",
+      "source_sha256": "41e39fa47a29e679b0cbd50c8db127988f622f11cccc71d0638653ec982c4365",
+      "events": 5,
+      "parse_errors": [],
+      "purpose": "admission",
+      "step": 2,
+      "status": "finished",
+      "outcome": "INVALID",
+      "gates": 1,
+      "stages": 0,
+      "resource_samples": 0,
+      "findings": 1,
+      "finding_snapshots": [
+        "logs/pending_findings/09_mathlab_admission_20261009T173935.995130Z.md"
+      ],
+      "candidates": 0,
+      "halt_reason": null,
+      "shared_fold_equal": true,
+      "root_validation": true,
+      "mirror_validation": true
+    },
+    {
+      "source": "results/mathlab_staging/runs/acceptance_20261009T172912.342899Z/events.jsonl",
+      "card_id": "run-067562219b5a12a5",
+      "source_sha256": "921d85decec6c5ad2fe22df62ad9760569340f07cca988aa441558a6268ef0c6",
+      "events": 13,
+      "parse_errors": [],
+      "purpose": "experiment",
+      "step": 2,
+      "status": "halted",
+      "outcome": "INVALID",
+      "gates": 4,
+      "stages": 1,
+      "resource_samples": 0,
+      "findings": 2,
+      "finding_snapshots": [
+        "logs/pending_findings/05_mathlab_admission_20261009T172912.459973Z.md",
+        "logs/pending_findings/06_mathlab_admission_20261009T173234.955879Z.md"
+      ],
+      "candidates": 0,
+      "halt_reason": "ADMISSION: Build acceptance blocked: /bin/ps permission denied; frozen section 6 forbids dispatch after inventory errors",
+      "shared_fold_equal": true,
+      "root_validation": true,
+      "mirror_validation": true
+    },
+    {
+      "source": "results/mathlab_staging/runs/admission_20261009T040704.898376Z/events.jsonl",
+      "card_id": "run-81ab3843c08539da",
+      "source_sha256": "dce80afe411b3faa4cf7473c5072d4216362709772bd8279fd86d30fcd86030f",
+      "events": 5,
+      "parse_errors": [],
+      "purpose": "admission",
+      "step": 2,
+      "status": "finished",
+      "outcome": "INVALID",
+      "gates": 1,
+      "stages": 0,
+      "resource_samples": 0,
+      "findings": 1,
+      "finding_snapshots": [
+        "logs/pending_findings/04_mathlab_admission_20261009T040704.918604Z.md"
+      ],
+      "candidates": 0,
+      "halt_reason": null,
+      "shared_fold_equal": true,
+      "root_validation": true,
+      "mirror_validation": true
+    },
+    {
+      "source": "results/mathlab_staging/runs/admission_20261009T035911.672726Z/events.jsonl",
+      "card_id": "run-edc858286d3bcfa2",
+      "source_sha256": "ab047e848e9102653cc8a168e9933951db7bb25fb5df7e70449a1257a2249f77",
+      "events": 4,
+      "parse_errors": [],
+      "purpose": "admission",
+      "step": 2,
+      "status": "finished",
+      "outcome": "INVALID",
+      "gates": 0,
+      "stages": 0,
+      "resource_samples": 0,
+      "findings": 1,
+      "finding_snapshots": [
+        "logs/pending_findings/03_mathlab_admission_20261009T035911.693183Z.md"
+      ],
+      "candidates": 0,
+      "halt_reason": null,
+      "shared_fold_equal": true,
+      "root_validation": true,
+      "mirror_validation": true
+    }
+  ]
+}

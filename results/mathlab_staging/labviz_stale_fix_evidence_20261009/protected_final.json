@@ -1,0 +1,99 @@
+{
+  "utc": "2026-10-09T19:23:47.387535+00:00",
+  "protected": {
+    "CORPUS/58_C10X_ENGINEPATH.md": {
+      "before": "483fce8ae71191859e5abc860e12d1b544eb113e8cf6618a2cd6b07d367a9095",
+      "after": "483fce8ae71191859e5abc860e12d1b544eb113e8cf6618a2cd6b07d367a9095"
+    },
+    "docs/EXPERIMENT_REGISTRY.md": {
+      "before": "a9a8b278d118e00b75e819f5156db9d0d273826505d2a7b05826e976a9161cc8",
+      "after": "a9a8b278d118e00b75e819f5156db9d0d273826505d2a7b05826e976a9161cc8"
+    },
+    "docs/MATHLAB_PREREG.md": {
+      "before": "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507",
+      "after": "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507"
+    },
+    "mathlab/core.py": {
+      "before": "127bae6d3899db1faae88de56afe31487305355e8dc7b64d80e7b74d9034eb80",
+      "after": "127bae6d3899db1faae88de56afe31487305355e8dc7b64d80e7b74d9034eb80"
+    },
+    "mathlab/fixtures.py": {
+      "before": "3b5a35d2869ffbc5dee0aa6b82390247defaf8a001ed44d1254b9c8563d409c8",
+      "after": "3b5a35d2869ffbc5dee0aa6b82390247defaf8a001ed44d1254b9c8563d409c8"
+    },
+    "mathlab/index.py": {
+      "before": "3f8ccd82e1c669632e9940f35bedac72da3de4c48a85e3c4aeeb876f0d472c20",
+      "after": "3f8ccd82e1c669632e9940f35bedac72da3de4c48a85e3c4aeeb876f0d472c20"
+    },
+    "mathlab/m2_solve_repro.py": {
+      "before": "eb928e44c99e253840b491008df9a8fdec5b87b161526afd5a616299ad85410f",
+      "after": "eb928e44c99e253840b491008df9a8fdec5b87b161526afd5a616299ad85410f"
+    },
+    "mathlab/m3_calibration.py": {
+      "before": "5a0f29e4a29096e2c8e5e6540f8be5b248aa59ebb03b17cd1e12b8767bea858c",
+      "after": "5a0f29e4a29096e2c8e5e6540f8be5b248aa59ebb03b17cd1e12b8767bea858c"
+    },
+    "mathlab/test_index.py": {
+      "before": "162fbbbe7efaa4867283f55bcde39ec5aaa8c790440407de63560ce61e756fdf",
+      "after": "162fbbbe7efaa4867283f55bcde39ec5aaa8c790440407de63560ce61e756fdf"
+    },
+    "mathlab/test_mathlab.py": {
+      "before": "ef8e69d64206e785097a76a8f55d52ffbab8da68fb3b776dcc8b37b7fa7d2c97",
+      "after": "ef8e69d64206e785097a76a8f55d52ffbab8da68fb3b776dcc8b37b7fa7d2c97"
+    },
+    "results/c10x_enginepath_rerun3/reader.json": {
+      "before": "b3debe4a85371902e155394e3bd054a3d214cf585a05f614e105296be022bdd9",
+      "after": "b3debe4a85371902e155394e3bd054a3d214cf585a05f614e105296be022bdd9"
+    },
+    "tools/dashboard_live.py": {
+      "before": "5d7d9dd84eb4bb4dc9c37334ec2b6321300c82f5e15d152f1e791c091deade4c",
+      "after": "5d7d9dd84eb4bb4dc9c37334ec2b6321300c82f5e15d152f1e791c091deade4c"
+    },
+    "tools/dashboard_mathlab.py": {
+      "before": "ba5235dd5ffd13af7f7c04e58dc0fd8b8f76302fc40a89c0247fb52114297fc7",
+      "after": "ba5235dd5ffd13af7f7c04e58dc0fd8b8f76302fc40a89c0247fb52114297fc7"
+    },
+    "tools/labviz/app.js": {
+      "before": "f6272c36a484394c3b0a436c22c07ab46dff98fd5ae29244238dc96c83efa421",
+      "after": "f6272c36a484394c3b0a436c22c07ab46dff98fd5ae29244238dc96c83efa421"
+    },
+    "tools/labviz/build.py": {
+      "before": "68b740e1591735d29ac5ddfbf127bb4b077c972e858bce1bbcbb1f06b1cab725",
+      "after": "68b740e1591735d29ac5ddfbf127bb4b077c972e858bce1bbcbb1f06b1cab725"
+    },
+    "tools/labviz/cards.py": {
+      "before": "77c9f86fe0bd70871c3127f7c202a4f333791b612e89b847f73b26e2303b7c44",
+      "after": "77c9f86fe0bd70871c3127f7c202a4f333791b612e89b847f73b26e2303b7c44"
+    },
+    "tools/mathlab_admit.py": {
+      "before": "bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc",
+      "after": "bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc"
+    },
+    "tools/mathlab_cpu_runner.py": {
+      "before": "77ee421368f917283d2aeeea43239c38c482c05924e47942b1de32a155577d31",
+      "after": "77ee421368f917283d2aeeea43239c38c482c05924e47942b1de32a155577d31"
+    },
+    "tools/mathlab_events.py": {
+      "before": "1c0780d42e3cfd794b68ba742fedb0307c2992bd737507cda65bdd8a864d27a5",
+      "after": "1c0780d42e3cfd794b68ba742fedb0307c2992bd737507cda65bdd8a864d27a5"
+    },
+    "tools/mathlab_harvest.py": {
+      "before": "9dbc58afef1aa290d5e01622d3324b052e3f19169bfeb8d38ad19148cfe869bb",
+      "after": "9dbc58afef1aa290d5e01622d3324b052e3f19169bfeb8d38ad19148cfe869bb"
+    },
+    "tools/mathlab_runtime.py": {
+      "before": "936b328db5db296de270bb255f4afda0c885c514862fcc62ad5b613ab67ac3e0",
+      "after": "936b328db5db296de270bb255f4afda0c885c514862fcc62ad5b613ab67ac3e0"
+    },
+    "tools/run_mathlab_cpu.sh": {
+      "before": "a79e0dedd366c7721f8a9e84214f63f52d293ae8f38740068874f4e0256b8007",
+      "after": "a79e0dedd366c7721f8a9e84214f63f52d293ae8f38740068874f4e0256b8007"
+    },
+    "tools/run_mathlab_harvest.sh": {
+      "before": "14b38b9085599f67f72b049e4e255b202b44af43924ac81a9bb0278d121c5936",
+      "after": "14b38b9085599f67f72b049e4e255b202b44af43924ac81a9bb0278d121c5936"
+    }
+  },
+  "observed_protected_drift": [],
+  "scope": "23 captured protected files; no global-tree cleanliness claim"
+}

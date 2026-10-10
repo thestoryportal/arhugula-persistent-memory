@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_git_automation.py",
+    "-v"
+  ],
+  "exit_code": 1,
+  "wall_s": 0.04482945892959833,
+  "implementations_absent_before_and_after": true,
+  "tests_sha256": "7fa3aea6e0c2a563d9c20b954fe127d61a8dc6c5db1922dbf6b37176e53c027a"
+}

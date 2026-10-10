@@ -1,6 +1,7 @@
 ---
-title: AnyEdit default window collapses C10 A7
-date: 2026-06-26
-decision: D-C10h-anyedit-viability
+name: anyedit-default-window-collapses-c10-a7
+description: "RETIRED 2026-10-10 — both windows ran (CORPUS/40, window-50 diagnostic), superseded by CORPUS/42; do not act on this note"
+metadata:
+  type: project
 ---
-Upstream AnyEdit uses `window_size=50`, but the C10 A7 coined-coined values tokenize to only 4-6 Qwen2.5 tokens (mean 5.5). With the upstream default, every C10 A7 value is one window, so it does not test the per-token/window rescue hypothesis. A C10 AnyEdit pilot must preregister a small-window primary condition, likely `window_size=1`, plus any default-window run only as a diagnostic.
+RETIRED 2026-10-10 by the memory audit (results/memory_audit_20261010/). Both window conditions ran in June (window_size=1 in CORPUS/40, the window-50 controls diagnostic recorded in [[anyedit-port-keys-at-last-prompt-token-no-paraphrase-transfer]]) and the route was superseded by the Route A port (CORPUS/42). Full prior text: `git show fd77f7e:memory_mirror/anyedit-default-window-collapses-c10-a7.md`.

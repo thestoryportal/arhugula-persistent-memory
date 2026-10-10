@@ -1,0 +1,42 @@
+{
+  "B": {
+    "dtype": "torch.float64",
+    "key": "tensor_2",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L6_system64.pt"
+  },
+  "M": {
+    "dtype": "torch.float64",
+    "key": "tensor_0",
+    "shape": [
+      11008,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L6_system64.pt"
+  },
+  "Q": {
+    "dtype": "torch.float64",
+    "key": "tensor_1",
+    "shape": [
+      11008,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L6_system64.pt"
+  },
+  "R": {
+    "dtype": "torch.float64",
+    "key": "tensor_3",
+    "shape": [
+      2048,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L6_system64.pt"
+  },
+  "artifacts": {
+    "controls_A7_coined_coined_L6_system64.pt": "8a4cee464f64010e1237c373a29b9f6e83d1bbfbbdcee7c53f97578ec215641a"
+  },
+  "assembly": "operands promoted BEFORE assembly"
+}

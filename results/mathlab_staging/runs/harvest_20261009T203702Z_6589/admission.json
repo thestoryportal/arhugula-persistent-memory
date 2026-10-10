@@ -1,0 +1,55 @@
+{
+  "tier": "MATH-PROXY",
+  "kind": "harvest",
+  "allowed": true,
+  "reasons": [],
+  "checks": {
+    "fingerprint": {
+      "ok": true,
+      "rc": 0,
+      "output": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a\u2026)\n  _cov_cpu 3  (expected 3)"
+    },
+    "gpu": {
+      "ok": true,
+      "blocking_processes": [],
+      "blocking_tmux": []
+    },
+    "memory_gib": 32.73918151855469,
+    "queue": [
+      {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10x_enginepath_rerun3_logs/supervisor.json",
+        "sha256": "25dff03f0503340f831e0fd95e3a2c9d12405472d1b11260c4fe52b24b9470af",
+        "status": {
+          "completion": "complete",
+          "elapsed_seconds": 6903.383406582987,
+          "exit_code": 0,
+          "out": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10x_enginepath_rerun3",
+          "process": 1,
+          "reason": "complete",
+          "run_id": "c10x_enginepath_rerun3_86153",
+          "status": "COMPLETE"
+        }
+      },
+      {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/astra_attempt3_terminal.json",
+        "sha256": "78bd1d81e8598ae472485985fbae0f126544a88496d3f19e7e54e2ba884b1789",
+        "status": {
+          "status": "HALTED-V7",
+          "coordinator": "astra-attempt3",
+          "attempt_id": "7603175f85bb411b874ab3f8f2806a08",
+          "source": "architecture_profile/c10z_astra_halt_diagnostic_20261009T022838.229295Z.json",
+          "source_sha256": "5255eff966f5a46b9245a7dc8fec648ab0f318ed74c82bea3d0e6998f2835319",
+          "source_outcome": "HALTED",
+          "source_halt_code": "HALTED-V7",
+          "closed_by": "D-C10z-v7diag (commit 38c262f): attempt 3 closed HALTED-V7; no process live",
+          "written_by": "MAESTRO lead record 2026-10-09 for math-lab harvest admission (build report: lead-named terminal JSON)"
+        }
+      }
+    ]
+  },
+  "launcher_pid": 6589,
+  "lead_source": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/admission_20261009T203407Z.json",
+    "sha256": "e664cbeb0316e7173d88f6e5187af37bc8086223dd9372525025928d1ce6d34f"
+  }
+}

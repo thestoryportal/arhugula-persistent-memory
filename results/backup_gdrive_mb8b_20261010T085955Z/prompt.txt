@@ -1,0 +1,27 @@
+MAESTRO5 → codexmb8: Task 2 — close Astra r3 findings 1 and 2 on the Drive backup.
+
+Read in full: results/backup_gdrive_host_20261010/astra_r3_verdict.md. Your Task 1 build is committed at 0ab0c42. On the host it passed 72 tests with 0 skipped, and all four real `open -W -g` checks passed (results/backup_gdrive_mb8_20261010T082434Z/host_maestro5_verification.md). Findings 3–5 are closed; leave those paths alone.
+
+Fix, test-first (RED saved, then GREEN). Same scope and Do-NOT list as Task 1.
+
+1. Finding 2 (wall-clock ordering) — fix this first; finding 1 builds on it. Order launches and heartbeats by a launch generation, not by timestamps.
+   - The applet atomically increments an integer counter on the internal disk before it runs the wrapper. It passes that generation to the wrapper, for example as BACKUP_LAUNCH_GENERATION, and writes it into the launch receipt.
+   - The wrapper records the generation in its start and end heartbeats.
+   - Status: a failed launch receipt whose generation is greater than the last completed heartbeat's generation is unhealthy. Only a completed heartbeat with an equal or greater generation clears it. Missing, malformed, non-increasing or otherwise ambiguous generations count as unhealthy.
+   - Timestamps stay for display and staleness only, never for ordering.
+   - Regressions: Astra's clock-rollback schedule (success at 10:00:00, then a failure stamped 09:59:59); equal timestamps; the counter file missing or corrupt.
+   - Change the existing equal-timestamp-success assertion (tools/test_backup_gdrive_addendum.py:120–122) only as far as the new ordering requires. Say exactly what changed and why.
+   - Manual runs that do not go through the applet (no generation) must still work, and status must report them unambiguously. State the rule you chose.
+
+2. Finding 1 (receipt-write failure plus absent wrapper).
+   - When the launch receipt cannot be published, the applet appends a failure marker to an independent journal on the internal disk, in a different directory from the receipt (for example $HOME/Library/Logs/memit-gdrive-backup-launch-journal/). The journal is bounded and uses only /bin and /usr/bin tools.
+   - Status treats any journal marker newer than the last completed heartbeat's generation as unhealthy.
+   - Keep the nested catch: no dialog under any outcome.
+   - Regression (Astra's): a fresh success heartbeat and receipt, then the receipt directory made 0555, then a launch against an absent wrapper path. Status must report failure.
+   - If both the journal and the receipt are unwritable, write down what status then shows, and why that remaining case is acceptable or not.
+
+3. Update host_launcher_checks.py, or add a new host helper, so MAESTRO5 can rerun these on the host through real `open -W -g`: the combined absent-wrapper plus 0555 case, and a clock-independent ordering case. The existing writefail case's "healthy status" expectation must also be revisited under the new rules.
+
+Acceptance: `LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum tools.test_backup_gdrive -v` passes. Every new test has a saved RED. Receipts go in a fresh results/backup_gdrive_mb8b_<UTC>/. Append a report section with the final SHA-256 of each changed file and the host-check list.
+
+Reply exactly "GDRIVE R3 FIX BUILD DONE" with test counts. Context directive (binding): you are at ~37% Context left. At ~20%, stop starting work, write a handoff into the build report, and say so.

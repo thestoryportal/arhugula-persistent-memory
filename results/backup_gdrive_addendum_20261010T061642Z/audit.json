@@ -1,0 +1,58 @@
+{
+  "timestamp": "2026-10-10T06:34:21.772052+00:00",
+  "HEAD_before": "cbe1ac28a23feeab952eb9f9fd4f4740b3739be0",
+  "HEAD_observed": "6cbb10cf32b755f9886ffed99c0b41cc890a628f",
+  "branch": "worktree-c10k-route-a",
+  "commits_by_task": 0,
+  "protected": {
+    "tools/backup_mirror.sh": {
+      "baseline": "4b26fefcc25bac2274cb75962a60ef2a13a869d24c7d0364430cd5b800d012b6",
+      "current": "4b26fefcc25bac2274cb75962a60ef2a13a869d24c7d0364430cd5b800d012b6",
+      "unchanged": true
+    },
+    "tools/backup_mirror.excludes": {
+      "baseline": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+      "current": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+      "unchanged": true
+    },
+    "tools/launchd/com.rhu.memit-backup.plist": {
+      "baseline": "44c2ffcad9837f76c0b08d34a1b40ca367c9145edf3360cad3131e1c64e29a2f",
+      "current": "44c2ffcad9837f76c0b08d34a1b40ca367c9145edf3360cad3131e1c64e29a2f",
+      "unchanged": true
+    },
+    "tools/test_dashboard_mathlab.py": {
+      "baseline": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e",
+      "current": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e",
+      "unchanged": true
+    },
+    "tools/launchd/com.rhu.memit-gdrive-backup.plist": {
+      "baseline": "55aec0d1f7a3b7158c65f81c55363fc344be2506458c578e164a74cb337522de",
+      "current": "55aec0d1f7a3b7158c65f81c55363fc344be2506458c578e164a74cb337522de",
+      "unchanged": true
+    }
+  },
+  "sha256": {
+    "tools/backup_gdrive.sh": "1c787df5cbacc4e10939d94b3194f52ba52bb0bfd83e61779affd92745209cc8",
+    "tools/backup_gdrive_status.py": "4e7f695cc529c101417db1f78b0050a93a0881e7129f7ce8c02446cc99581cf4",
+    "tools/archive_to_gdrive.sh": "efcade80c90afec3b71224130b3e1b38a104164a3b7c90f5670f410e6f92475d",
+    "tools/test_backup_gdrive.py": "0650b6c4f42624041e94c8642ff03f827a5b1de58e08662d18c69e036c995f90",
+    "tools/test_backup_gdrive_addendum.py": "5ae76e866fa94df72f6d3b72db961875ae48e655e8854183f1f6d14e21d6caa3",
+    "docs/ARCHIVE_MANIFEST.tsv": "c4e7c4e611c0e15f0dfbaa473bcb934ef737fbf49330c00afd9dd1ed8828cee3",
+    "EXPERIMENT_RUNBOOK.md": "7369b2482c95f734d277da1cf50a17364c5dfb0b01b847162bfb973e513764ca",
+    "results/backup_gdrive_build_report.md": "a0af749c0b2ad54bf6cfa5f65c0f82a87e350cb455e33952c58c5ff7501ef2fb"
+  },
+  "scoped_diff_check_exit": 0,
+  "local_checks": 29,
+  "addendum_checks": "20 PASS: green_final_v2.txt",
+  "original_checks": "9 PASS: original_regression_final.txt",
+  "drive_status": "BLOCKED: DNS www.googleapis.com",
+  "remote_writes": false,
+  "dry_run_count_bytes": "UNMEASURED",
+  "upload_rate_time": "UNMEASURED",
+  "status_wiring": "report proposal only",
+  "manifest": "header only; pending MAESTRO3 reviewed Git commit",
+  "context_saved": "results/backup_gdrive_addendum_20261010T061642Z/context_saved.md",
+  "graft_successful_calls": 2,
+  "graft_saved_tokens_reported": 128795,
+  "graft_reported_cost": "$0.07 + <$0.01"
+}

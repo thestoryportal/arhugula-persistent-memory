@@ -1,0 +1,82 @@
+{
+  "baseline_head": "5620b948ea6f88d6efcb352ebce32d8cadfef816",
+  "observed_head": "19fac9cee39599dc25eb53783c2b3d2efd91abaf",
+  "branch": "worktree-c10k-route-a",
+  "protected_drift": {
+    "results/mathlab_staging/new1_construction_diag_scope.md": {
+      "before": {
+        "sha256": "9b3f7ddd5c9147758d8e8277a30a50ea21f3c3c5e08e70333938cb5e9eb25f1c",
+        "bytes": 31123,
+        "mode": "0o644"
+      },
+      "after": {
+        "sha256": "cb764f54438143d73975d6d2e6b20ba72d998ff22c5f49c96c363e79c45c056a",
+        "bytes": 35839,
+        "mode": "0o644"
+      }
+    },
+    "tests/test_git_automation.py": {
+      "before": {
+        "sha256": "a15b02c79d2c7b26e011a0dc0f28c4a07fef7d623161d5836ecde0867938f9da",
+        "bytes": 34513,
+        "mode": "0o644"
+      },
+      "after": {
+        "sha256": "5187fc993491be5c9504d8a21b88afbfa4cc3655919746aacb9bbb983027b35c",
+        "bytes": 50281,
+        "mode": "0o644"
+      }
+    },
+    "tests/test_new1_construction_diag.py": {
+      "before": {
+        "sha256": "40e2cd2905053955c7dac510860609e0a47a8e3ef661442ea1a9c90e0c660810",
+        "bytes": 38834,
+        "mode": "0o644"
+      },
+      "after": {
+        "sha256": "d4fea32aba6b0a4fa695cccbd8a5734ce7f2d053bff1e39d2634fd0aa5f90fdd",
+        "bytes": 46422,
+        "mode": "0o644"
+      }
+    },
+    "tools/dashboard_experiment.py": {
+      "before": {
+        "sha256": "40e6dd310446935e660ec81aea2aa8d0655b4218de320abff2737e224cb0d772",
+        "bytes": 22660,
+        "mode": "0o644"
+      },
+      "after": {
+        "sha256": "96d0e142f90020f63d1381c39dedcf5cd0cea14620ffce5f6d93b0aac5b62052",
+        "bytes": 22748,
+        "mode": "0o644"
+      }
+    },
+    "tools/git_hygiene.py": {
+      "before": {
+        "sha256": "2f54d6e062ce077897bb231526b635df5645acda7e34714e3470c4263d70821c",
+        "bytes": 21866,
+        "mode": "0o644"
+      },
+      "after": {
+        "sha256": "1980929aadb716d85a9766dec18d57c96891c12854e24864941691a3f2c5d544",
+        "bytes": 21568,
+        "mode": "0o644"
+      }
+    },
+    "tools/git_merge_gate.py": {
+      "before": {
+        "sha256": "c0abaa33a17d7db6c01f5723a6669a60e9bd57bd57b00a673cd09f62161f2984",
+        "bytes": 12942,
+        "mode": "0o644"
+      },
+      "after": {
+        "sha256": "8e1ea0caae4e5bbb3b17a4927b7ce9c463f1e380508f154ad1874474994199c7",
+        "bytes": 14138,
+        "mode": "0o644"
+      }
+    }
+  },
+  "protected_checked": 1611,
+  "all_backup_files_unchanged_since_acceptance": true,
+  "report_prefix_preserved": true
+}

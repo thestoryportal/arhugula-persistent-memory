@@ -1,0 +1,7 @@
+{
+  "command": "CLI with intentionally invalid source/scope hashes; no real data lookup",
+  "exit_code": 2,
+  "stdout": "",
+  "stderr": "INVALID-SOURCE: file SHA mismatch: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_construction_diag.py\n",
+  "real_namespace_exists": false
+}

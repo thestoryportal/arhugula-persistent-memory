@@ -1,0 +1,26 @@
+[
+  {
+    "name": "mathlab",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab -v",
+    "exit_code": 0,
+    "log": "mathlab_suite.txt"
+  },
+  {
+    "name": "dashboard",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_dashboard_mathlab -v",
+    "exit_code": 0,
+    "log": "dashboard_suite.txt"
+  },
+  {
+    "name": "duckdb",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 /private/tmp/mathlab_uv_cache/environments-v2/m2-solve-repro-da15e0fd897e5e61/bin/python -B -m unittest mathlab.test_index -v",
+    "exit_code": 0,
+    "log": "duckdb.txt"
+  },
+  {
+    "name": "marimo",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 /private/tmp/mathlab_uv_cache/environments-v2/m2-solve-repro-da15e0fd897e5e61/bin/python -B -m marimo check --strict mathlab/m2_solve_repro.py mathlab/m3_calibration.py",
+    "exit_code": 0,
+    "log": "marimo_check.txt"
+  }
+]

@@ -1,0 +1,644 @@
+{
+  "tier": "MATH-PROXY",
+  "decision_id": "D-ML-1",
+  "code": "CAPTURE",
+  "message": "CAPTURE: write must have exactly five ordered captures and one return",
+  "details": {
+    "projection": null,
+    "gates": {},
+    "failed_writes": [
+      {
+        "arm": "A7_coined_coined",
+        "tag": "science",
+        "captures": [
+          {
+            "i": 0,
+            "layer": 4
+          },
+          {
+            "i": 1,
+            "layer": 4
+          },
+          {
+            "i": 2,
+            "layer": 6
+          },
+          {
+            "i": 3,
+            "layer": 7
+          },
+          {
+            "i": 4,
+            "layer": 8
+          }
+        ],
+        "return_count": 1,
+        "diagnostic_only": true,
+        "analysis_eligible": false,
+        "artifacts": [
+          {
+            "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/harvest_persistence_20261009T183202.046125Z/fixture_evidence/coverage_duplicate/run/diagnostic_captures/partial_write_20261009T184217.299937Z.pt",
+            "diagnostic_only": true,
+            "analysis_eligible": false,
+            "status": "saved",
+            "sha256": "8d39cb8c037f2fe37594e1131108103c6054cd1e87579aa7695f3279d7227297",
+            "bytes": 29781,
+            "tier": "MATH-PROXY",
+            "tensors": {
+              "c0.l4.zs": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c0.l4.K": {
+                "shape": [
+                  3,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c0.l4.Kf": {
+                "shape": [
+                  3,
+                  24
+                ],
+                "dtype": "torch.float32"
+              },
+              "c0.l4.rf": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float32"
+              },
+              "c0.l4.resid": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c0.l4.cur": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c0.l4.ca_norm": {
+                "shape": [],
+                "dtype": "torch.float64"
+              },
+              "c0.l4.ca_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              },
+              "c0.l4.ca_zero": {
+                "shape": [],
+                "dtype": "torch.bool"
+              },
+              "c0.l4.Pi_null_n": {
+                "shape": [],
+                "dtype": "torch.int64"
+              },
+              "c0.l4.Pi_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              },
+              "c0.l4.Pi_probe0": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c0.l4.Pi_probe1": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c0.l4.Pi_probe2": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c0.l4.Pi_probe3": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c0.l4.upd_precast": {
+                "shape": [
+                  2,
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c0.l4.upd_norm": {
+                "shape": [],
+                "dtype": "torch.float64"
+              },
+              "c0.l4.upd_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              },
+              "c1.l4.zs": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c1.l4.K": {
+                "shape": [
+                  3,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c1.l4.Kf": {
+                "shape": [
+                  3,
+                  24
+                ],
+                "dtype": "torch.float32"
+              },
+              "c1.l4.rf": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float32"
+              },
+              "c1.l4.resid": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c1.l4.cur": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c1.l4.ca_norm": {
+                "shape": [],
+                "dtype": "torch.float64"
+              },
+              "c1.l4.ca_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              },
+              "c1.l4.ca_zero": {
+                "shape": [],
+                "dtype": "torch.bool"
+              },
+              "c1.l4.Pi_null_n": {
+                "shape": [],
+                "dtype": "torch.int64"
+              },
+              "c1.l4.Pi_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              },
+              "c1.l4.Pi_probe0": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c1.l4.Pi_probe1": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c1.l4.Pi_probe2": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c1.l4.Pi_probe3": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c1.l4.upd_precast": {
+                "shape": [
+                  2,
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c1.l4.upd_norm": {
+                "shape": [],
+                "dtype": "torch.float64"
+              },
+              "c1.l4.upd_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              },
+              "c2.l6.zs": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c2.l6.K": {
+                "shape": [
+                  3,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c2.l6.Kf": {
+                "shape": [
+                  3,
+                  24
+                ],
+                "dtype": "torch.float32"
+              },
+              "c2.l6.rf": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float32"
+              },
+              "c2.l6.resid": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c2.l6.cur": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c2.l6.ca_norm": {
+                "shape": [],
+                "dtype": "torch.float64"
+              },
+              "c2.l6.ca_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              },
+              "c2.l6.ca_zero": {
+                "shape": [],
+                "dtype": "torch.bool"
+              },
+              "c2.l6.Pi_null_n": {
+                "shape": [],
+                "dtype": "torch.int64"
+              },
+              "c2.l6.Pi_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              },
+              "c2.l6.Pi_probe0": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c2.l6.Pi_probe1": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c2.l6.Pi_probe2": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c2.l6.Pi_probe3": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c2.l6.upd_precast": {
+                "shape": [
+                  2,
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c2.l6.upd_norm": {
+                "shape": [],
+                "dtype": "torch.float64"
+              },
+              "c2.l6.upd_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              },
+              "c3.l7.zs": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c3.l7.K": {
+                "shape": [
+                  3,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c3.l7.Kf": {
+                "shape": [
+                  3,
+                  24
+                ],
+                "dtype": "torch.float32"
+              },
+              "c3.l7.rf": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float32"
+              },
+              "c3.l7.resid": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c3.l7.cur": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c3.l7.ca_norm": {
+                "shape": [],
+                "dtype": "torch.float64"
+              },
+              "c3.l7.ca_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              },
+              "c3.l7.ca_zero": {
+                "shape": [],
+                "dtype": "torch.bool"
+              },
+              "c3.l7.Pi_null_n": {
+                "shape": [],
+                "dtype": "torch.int64"
+              },
+              "c3.l7.Pi_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              },
+              "c3.l7.Pi_probe0": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c3.l7.Pi_probe1": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c3.l7.Pi_probe2": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c3.l7.Pi_probe3": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c3.l7.upd_precast": {
+                "shape": [
+                  2,
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c3.l7.upd_norm": {
+                "shape": [],
+                "dtype": "torch.float64"
+              },
+              "c3.l7.upd_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              },
+              "c4.l8.zs": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c4.l8.K": {
+                "shape": [
+                  3,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c4.l8.Kf": {
+                "shape": [
+                  3,
+                  24
+                ],
+                "dtype": "torch.float32"
+              },
+              "c4.l8.rf": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float32"
+              },
+              "c4.l8.resid": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c4.l8.cur": {
+                "shape": [
+                  2,
+                  24
+                ],
+                "dtype": "torch.float16"
+              },
+              "c4.l8.ca_norm": {
+                "shape": [],
+                "dtype": "torch.float64"
+              },
+              "c4.l8.ca_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              },
+              "c4.l8.ca_zero": {
+                "shape": [],
+                "dtype": "torch.bool"
+              },
+              "c4.l8.Pi_null_n": {
+                "shape": [],
+                "dtype": "torch.int64"
+              },
+              "c4.l8.Pi_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              },
+              "c4.l8.Pi_probe0": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c4.l8.Pi_probe1": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c4.l8.Pi_probe2": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c4.l8.Pi_probe3": {
+                "shape": [
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c4.l8.upd_precast": {
+                "shape": [
+                  2,
+                  3
+                ],
+                "dtype": "torch.float32"
+              },
+              "c4.l8.upd_norm": {
+                "shape": [],
+                "dtype": "torch.float64"
+              },
+              "c4.l8.upd_sha256": {
+                "shape": [
+                  32
+                ],
+                "dtype": "torch.uint8"
+              }
+            }
+          }
+        ],
+        "coverage": {
+          "captures": [
+            {
+              "i": 0,
+              "layer": 4
+            },
+            {
+              "i": 1,
+              "layer": 4
+            },
+            {
+              "i": 2,
+              "layer": 6
+            },
+            {
+              "i": 3,
+              "layer": 7
+            },
+            {
+              "i": 4,
+              "layer": 8
+            }
+          ],
+          "return_count": 1,
+          "expected_captures": [
+            {
+              "i": 0,
+              "layer": 4
+            },
+            {
+              "i": 1,
+              "layer": 5
+            },
+            {
+              "i": 2,
+              "layer": 6
+            },
+            {
+              "i": 3,
+              "layer": 7
+            },
+            {
+              "i": 4,
+              "layer": 8
+            }
+          ],
+          "expected_return_count": 1,
+          "passed": false
+        },
+        "error": {
+          "type": "Halt",
+          "code": "CAPTURE",
+          "message": "CAPTURE: write must have exactly five ordered captures and one return"
+        }
+      }
+    ]
+  },
+  "run_dir": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/harvest_persistence_20261009T183202.046125Z/fixture_evidence/coverage_duplicate/run"
+}

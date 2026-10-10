@@ -1,0 +1,9 @@
+tools/backup_gdrive.sh: OK
+tools/backup_gdrive_status.py: OK
+tools/launchd/MemitGdriveBackup.applescript: OK
+tools/launchd/build_gdrive_applet.sh: OK
+tools/launchd/com.rhu.memit-gdrive-backup.plist: OK
+tools/test_backup_gdrive.py: OK
+tools/test_backup_gdrive_addendum.py: OK
+results/backup_gdrive_build_report.md: OK
+results/backup_gdrive_mb8_20261010T082434Z/host_launcher_checks.py: OK

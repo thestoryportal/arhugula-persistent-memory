@@ -1,0 +1,12 @@
+test_native_return_norms_persist_for_same_write_with_producer (mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer) ... ok
+test_invalid_native_return_fails_arm_without_losing_operands (mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands) ... ok
+test_gate2a_keeps_fp64_reference_for_non_A7_arms (mathlab.test_mathlab.NativeNormContractTests.test_gate2a_keeps_fp64_reference_for_non_A7_arms) ... ok
+test_historical_arithmetic_preserves_binary64_scalars (mathlab.test_mathlab.NativeNormContractTests.test_historical_arithmetic_preserves_binary64_scalars) ... ok
+test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) ... ok
+test_native_agreement_ignores_large_fp64_reduction_discrepancy (mathlab.test_mathlab.NativeNormContractTests.test_native_agreement_ignores_large_fp64_reduction_discrepancy) ... ok
+test_prereg_amendment_pin_accepts_only_exact_frozen_bytes (mathlab.test_mathlab.ResourceArtifactTests.test_prereg_amendment_pin_accepts_only_exact_frozen_bytes) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.375s
+
+OK

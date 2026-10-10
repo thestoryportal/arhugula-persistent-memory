@@ -1,0 +1,44 @@
+{
+  "decision_id": "D-C10w-p2rerun",
+  "stage": "p2-eval",
+  "attempt": 2,
+  "p2_directory": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/p2_20261008T034226_086980Z",
+  "gate": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle_logs/p2-eval.gate.20261008T030455.59962.json",
+    "sha256": "2d347caee41b4aa37d09bf85ffa1ed7cf7f7a87132adaea9499512f644ed680a"
+  },
+  "archive_manifest": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/p2_20261008T034226_086980Z/attempt1_halted/manifest.json",
+    "sha256": "3b2fd266deaf97c6a5fc2554c8839cbd66f2bd22095004ad6237b1887c5a547e"
+  },
+  "evaluator_amendment": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/step0_20261007T223638_531381Z/amendment_A1_evaluator.json",
+    "sha256": "4791183ab5ddc68cbecff1653a1f80508fb4806d5e957fde63a25a498037d17f"
+  },
+  "training_logs": [
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle_logs/p2-a7-s1.log",
+      "sha256": "9ac17a6708b8531d83ce0b201e03cac2a395337fe5232bdacd17b4ac47fda432"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle_logs/p2-shuf-s1.log",
+      "sha256": "15c15d0e0843199b4460328fe17181292914149d780750f745ec74252b03bba6"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle_logs/p2-canon-s1.log",
+      "sha256": "bf985335959aeaf620bb01fe17e8a1438b81b3f9ca7bd6b0c0f30f4029091d31"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle_logs/p2-a1-s1.log",
+      "sha256": "d464600fcdf9ffd0ae3b38dba203c7d3976b94917afb677c7dc06b46a68bec2c"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle_logs/p2-a7-rt.log",
+      "sha256": "dc3b19d9e6617d98ad83477283fbb70aaa4b23ea7376b250691d75a51d8f9e6a"
+    },
+    {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle_logs/p2-shuf-rt.log",
+      "sha256": "508aadc3706c1dddfefe3430745aa30bda9826becfda3cee0c945313e7aaff35"
+    }
+  ]
+}

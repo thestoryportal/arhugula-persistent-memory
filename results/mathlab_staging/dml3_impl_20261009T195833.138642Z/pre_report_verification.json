@@ -1,0 +1,54 @@
+{
+  "verified_utc": "2026-10-09T20:07:59.066512+00:00",
+  "source_count": 87,
+  "source_changes": {
+    "mathlab/test_mathlab.py": {
+      "before": "ef8e69d64206e785097a76a8f55d52ffbab8da68fb3b776dcc8b37b7fa7d2c97",
+      "after": "ee6e0b10710f12006164c6a550fcdc7aa7753ea4d90c5eef3c5840dee886dc56"
+    },
+    "tools/mathlab_harvest.py": {
+      "before": "9dbc58afef1aa290d5e01622d3324b052e3f19169bfeb8d38ad19148cfe869bb",
+      "after": "f866420f56833ee3e3c4506529904e7f2bc7948ef6b0f11ce988aab22c50ec40"
+    },
+    "tools/mathlab_runtime.py": {
+      "before": "936b328db5db296de270bb255f4afda0c885c514862fcc62ad5b613ab67ac3e0",
+      "after": "416b597c1309f7dcabb065749e05da9ce28743b1d16c9791ae1eed527a4a72c5"
+    }
+  },
+  "immutable_files": 147,
+  "immutable_changes": {},
+  "prereg_sha256": "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8",
+  "core_sha256": "127bae6d3899db1faae88de56afe31487305355e8dc7b64d80e7b74d9034eb80",
+  "core_unchanged": true,
+  "active_run_initial_files": {
+    "results/mathlab_staging/runs/m2_20261009T192821Z_82233/events.jsonl": {
+      "size": 193606,
+      "mtime_ns": 1791575908990975913
+    },
+    "results/mathlab_staging/runs/m2_20261009T192821Z_82233/admission.json": {
+      "size": 726,
+      "mtime_ns": 1791574101719252156
+    }
+  },
+  "active_run_current_files": {
+    "results/mathlab_staging/runs/m2_20261009T192821Z_82233/events.jsonl": {
+      "size": 253974,
+      "mtime_ns": 1791576476146858514
+    },
+    "results/mathlab_staging/runs/m2_20261009T192821Z_82233/admission.json": {
+      "size": 726,
+      "mtime_ns": 1791574101719252156
+    }
+  },
+  "branch": "worktree-c10k-route-a",
+  "initial_head": "ed6cdf4fdfb0e357f9961b215c6abd94b88ba6b6",
+  "observed_head": "93080f50ff36e4b73a8d01cb96d5e1558dc3a754",
+  "report_prefix_unchanged": true,
+  "implementation_rounds": 1,
+  "production_edits_before_RED": 0,
+  "gpu_mps_calls": 0,
+  "model_loads": 0,
+  "harvest_dispatches": 0,
+  "commits": 0,
+  "scope_note": "Active event-stream changes may be written by its already-running process; this task only reads its files. Immutable-file verification uses size/mtime plus SHA for files <=1 MiB, without hashing large model operand files."
+}

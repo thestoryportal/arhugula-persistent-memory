@@ -1,0 +1,1512 @@
+{
+  "identity": {
+    "run_id": "c10u-d12d79257d0d457a8cdd6b1d44ddeed9",
+    "created_utc": "2026-10-07T16:01:40.326302+00:00",
+    "source_sha256": {
+      "experiments/track_c/c10u_mint2_arms.py": "a038013354eb3b483adaf1506769610fe2942ac3aedc0beb57ce88f702c4f16d",
+      "experiments/track_c/c10u_mint2_step0.py": "972f97fc41af809ef24257a74a30715325739852a90bafe4d460bb6ce68883d1",
+      "experiments/track_c/c10u_mint2_read.py": "1223789a0941e46c75d7917b21c26eeef12f873e8195fef98cc0d997b55fcc51",
+      "experiments/track_c/c10u_mint2_selftest.py": "03f87298289af4cf3f744c784688b87212ca9d823ed3263de3830bcc6a12dc0c",
+      "experiments/track_c/c10u_mint2_p4_probe.py": "3565f3759d978f9fe44d8d166a10004a3ce330b39360c83d5246348cbbf6d450",
+      "tools/c10u_mint2_p4.sh": "4271f5ce8152f9ab11b6065650394b6eaee62d8b7d741f015c4f8066f632af7f",
+      "experiments/track_c/c10u_mint2_wordlist.py": "720a304df7d7c96d627a1778bb79e9c1e322631db33729dadf101963781ab301",
+      "experiments/track_c/c10l_mint_lib.py": "5277e65dc405db7b02e75c0a1b639ca3143c067b544c64f044644659872bdaec",
+      "experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+      "docs/C10U_MINT2_PREREG.md": "c54f443c70fecd12dce5440cbe7d606587ed1c8384542345f0411cfd0ba15a76",
+      "results/c10u_mint2/v2_wordlist.json": "aa1fb7a77074d5340a8f9aef780475eee4b64d473d7ad70323c5aa5e2eb3f545",
+      "configs/hparams/qwen25_3b_memit_hparams.json": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+      "tools/engine_fingerprint.py": "450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162",
+      "configs/screens/g6_screen_qwen3b.json": "a51813340571f6c68908ac4310cca197ebac9884939f58e5c33fb75833a3ca05",
+      "configs/screens/g6_screen_qwen3b_v2.json": "482c05f8f33c59d3e469566fe6f3c48eb183d3cb2fbb791f31dcad7102517c5c",
+      "memit_dry_run/memit/baselines/ft/__init__.py": "19646aa4d3c5b6fd8dc0032aab1cee6afc7ab24e7404c5c657cadbdd077ea0fd",
+      "memit_dry_run/memit/baselines/ft/ft_hparams.py": "fdd83bbc0cb87ebc1b6aae238a38798aab6e2b8b1723e666e797c1c5df851ab1",
+      "memit_dry_run/memit/baselines/ft/ft_main.py": "ce8bffb4716a6ec97c5690a10b7be585da6d009028f6d77c9ac7907caaea378a",
+      "memit_dry_run/memit/baselines/mend/__init__.py": "ce6f24b656aa412ba07c893dd6fa37001d0a148312c9fd5b823ac27c83e145b0",
+      "memit_dry_run/memit/baselines/mend/algs/enn.py": "fcde13387249220bf8ccde0c8bf174f6444a956806f86aee0c4c1a0c062e3a90",
+      "memit_dry_run/memit/baselines/mend/algs/ft.py": "c60355576cac69dbca0816a4747cbb7bbba7a2352d0e7edb2191d870450eeff7",
+      "memit_dry_run/memit/baselines/mend/algs/mend.py": "3d94e338ff9efe07815d9d4d339485e9abaa17af555f88d0adacb0a3ad19eca5",
+      "memit_dry_run/memit/baselines/mend/data_classes/fever.py": "098397ce1214eb8cce6b90c8ba6ebd67024afcbc2f58ccaf887b5a365732308a",
+      "memit_dry_run/memit/baselines/mend/data_classes/nq.py": "f8d8dfaadf866e82c50e4c5bfef14a9b54aa5799aca3cea8f403f0461ba61f69",
+      "memit_dry_run/memit/baselines/mend/data_classes/wiki.py": "60ea3f99dcb4386f38454fdda9b7a65963df76240ce516d093e396a969576627",
+      "memit_dry_run/memit/baselines/mend/data_classes/zsre.py": "2acb707212802d65a55f46ada4381af330ff1cc9842ed9c56326de14b0711581",
+      "memit_dry_run/memit/baselines/mend/editable_model.py": "34330a12b9864001ea46ecae794df1ea85cedb38082df783b31d67cc8939e245",
+      "memit_dry_run/memit/baselines/mend/hooks.py": "b6037d8f9778f2d74952dafe3acc76f761df6884d85e9b5b57559cd08f7d2d6f",
+      "memit_dry_run/memit/baselines/mend/losses.py": "271a10d9e995ffd92c2de239f652928d651013f8a0889bd4205ffca1469127e8",
+      "memit_dry_run/memit/baselines/mend/mend_hparams.py": "071bc2c833cd1362906eee12b081c272650f909e9c93389bb05be86ae8626eb3",
+      "memit_dry_run/memit/baselines/mend/mend_main.py": "7e72af6f626798696f50c81ad72276f4807422bd365d5d6f130ca7e2852f53b5",
+      "memit_dry_run/memit/baselines/mend/models.py": "2e94d797f3813d57a532c676ba6609a91e89eb36bdfb8479bc092dccc5ce4420",
+      "memit_dry_run/memit/baselines/mend/nn.py": "ffca4fb48675c4c6cf56bb9cbbff8ce50f2c46eb8fdbfc6a7e1b6308acddab92",
+      "memit_dry_run/memit/baselines/mend/oracle.py": "d3657df3b292a4c78564c59b9a07ccdb8e6ff74b111cd489e38c5e5112ad4b1b",
+      "memit_dry_run/memit/baselines/mend/run.py": "2e57976fb507bc5bc27f88ea8a7bacd7b2a75d6b45170ed4870643ae5ce74765",
+      "memit_dry_run/memit/baselines/mend/trainer.py": "91c9d6378c0cbe6340cf4591618a68aa70f805059a01881f43c71859e001dcb1",
+      "memit_dry_run/memit/baselines/mend/utils.py": "bb981c845c07709efa4e81610ec575be7e3f3b909a42b79610a47044c04c0554",
+      "memit_dry_run/memit/dsets/__init__.py": "a2e1c9d7a56af0b091a48cb313a356cdb1a923e1bb046d73bd0d1e10c7b0d907",
+      "memit_dry_run/memit/dsets/attr_snippets.py": "bf78972d9914919e0a0b7d7d93623b3f51b8684f691e909793b5cd5471d6f01a",
+      "memit_dry_run/memit/dsets/counterfact.py": "7848e935a578c40e187167a2894601b0dbf42d2334b5289a012276ea1eb672b5",
+      "memit_dry_run/memit/dsets/knowns.py": "e2428c36d17b0dec1f390888a98334bd0fd1f64168bffae7566ef8a8606f361e",
+      "memit_dry_run/memit/dsets/tfidf_stats.py": "34f03d97b0b1aaad33e75a211a3d6b502cfb9eace1c172320df6ceb713d600c9",
+      "memit_dry_run/memit/dsets/zsre.py": "a6281375afd9983337c154095fe9aba59c74c36fa34ecfb12838c7b5c341670e",
+      "memit_dry_run/memit/experiments/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "memit_dry_run/memit/experiments/causal_trace.py": "9436fd596a39e240a01121da601359bea5d0b3a350c0faa34aa8b0ccac05560b",
+      "memit_dry_run/memit/experiments/evaluate.py": "4ef8e138bb8003c8486935ad0eae86d9ccd84bb61cfa1f88b63f0ed06c2d1760",
+      "memit_dry_run/memit/experiments/py/demo.py": "268c16a1c2c4e8642b7641739c2cd0808c08be80f36f280d1e5bef4944733772",
+      "memit_dry_run/memit/experiments/py/eval_utils_counterfact.py": "b00d9810305580dddfeb5e65129db4d56bcbfee1edf020605e21bf4f5033aeb7",
+      "memit_dry_run/memit/experiments/py/eval_utils_zsre.py": "e4f18c84a813d0a2fb9a5c9426726844117fe365cae72107d51f304a264d77a8",
+      "memit_dry_run/memit/experiments/summarize.py": "7de8f5eec86243807825cf9f62923535f853cce07d2d3248534f86320f229372",
+      "memit_dry_run/memit/experiments/sweep.py": "bfc7a91e9abb526814f7d975a81ff0333e930b452e2da58b31dc2ae8a10cce74",
+      "memit_dry_run/memit/memit/__init__.py": "911cc037562a368ca7017ea66f4821c5a848f286a55b7d624c242209afcd01df",
+      "memit_dry_run/memit/memit/compute_ks.py": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+      "memit_dry_run/memit/memit/compute_z.py": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+      "memit_dry_run/memit/memit/memit_hparams.py": "1b229b882b031ddbb59f06ad6ba58d5c33b17826bbfddf80f767e96931b595b2",
+      "memit_dry_run/memit/memit/memit_main.py": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+      "memit_dry_run/memit/rome/__init__.py": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a",
+      "memit_dry_run/memit/rome/compute_u.py": "06a73593171eecdd03ab90d45daa2c6096b4335847f0c73bda9d834cdfb1d72d",
+      "memit_dry_run/memit/rome/compute_v.py": "07f35ecec4b2a20a33318d75b040ae6c1fc5fd2122a90c92e32e361ef730d9eb",
+      "memit_dry_run/memit/rome/layer_stats.py": "43693c64b061f3cdaa087447e47ddc10fb26fd597dd405eb0644d71ede2fe2d5",
+      "memit_dry_run/memit/rome/repr_tools.py": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+      "memit_dry_run/memit/rome/rome_hparams.py": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5",
+      "memit_dry_run/memit/rome/rome_main.py": "44ff978bd0d68839ff2f94f475a71fdac19a53a4ef263c1d74693ebfd5b40ba5",
+      "memit_dry_run/memit/rome/tok_dataset.py": "37f775943d5040702ae21252db579f6aa116dacc4dd93c227c44cf9b3481a1a0",
+      "memit_dry_run/memit/scripts/ipynb_drop_output.py": "62a17e64c2de0448962fda6e0914a80e354361fea73b4363fc5287b92e4ca635",
+      "memit_dry_run/memit/util/__init__.py": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d",
+      "memit_dry_run/memit/util/device.py": "868627783827f03763ba9c210de2ddbd607e050330eccf7757fccfd9e985cf2b",
+      "memit_dry_run/memit/util/generate.py": "3764cb8a0a1b3f28c17d8aab3028b33d2127ba4e02e8dbc253025791a9ab2514",
+      "memit_dry_run/memit/util/globals.py": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2",
+      "memit_dry_run/memit/util/hparams.py": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0",
+      "memit_dry_run/memit/util/logit_lens.py": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4",
+      "memit_dry_run/memit/util/nethook.py": "20e84c9413518af3aee76762071f823cbe5d75c4658e4ffa7bdab045df735f7c",
+      "memit_dry_run/memit/util/perplexity.py": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e",
+      "memit_dry_run/memit/util/runningstats.py": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97"
+    },
+    "source_digest": "67c73b97079941ba4bc6dcc101d4999a2a24a3a141203ff2ded1e66286fd34ed",
+    "law3_reference": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10l_covgeom/run1_armB_identity.json",
+      "sha256": "2c3a9f6fa359ecc4cf3c67b3a84c4da34ef1544438de31e301f5e19fb9297470",
+      "scores": {
+        "A1_single": 71,
+        "A2_coherent2": 70
+      },
+      "ok": true
+    }
+  },
+  "stage": "frozen",
+  "readings": {
+    "F": {
+      "direction": "ROUTING-BLOCKED-UNDERFIT",
+      "arms": {
+        "mint1_s0": {
+          "label": "LEAD-NOT-REPLICATED",
+          "reasons": [],
+          "gates": {
+            "L1": true,
+            "same_frame": true,
+            "described_as": true,
+            "L3": true,
+            "generic_ppl": true,
+            "cannibal": true,
+            "sibling": true
+          },
+          "binding": 46,
+          "raw": 46,
+          "pre_recall": 0,
+          "reference": 14,
+          "gain": 32,
+          "string_contains": 51,
+          "string_startswith": 46,
+          "alt_tok_n": 5,
+          "masked_binding": 46,
+          "masked_n": 72,
+          "masked_value_n": 24,
+          "per_position_curve": [
+            {
+              "subj": "Zorbland",
+              "target_ids": [
+                151665
+              ],
+              "probs": [
+                0.9986177682876587
+              ],
+              "loss_layer_probs": [
+                0.9986177682876587
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Quaxil",
+              "target_ids": [
+                151666
+              ],
+              "probs": [
+                0.9996572732925415
+              ],
+              "loss_layer_probs": [
+                0.9996572732925415
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Plurnak",
+              "target_ids": [
+                151667
+              ],
+              "probs": [
+                0.9997538924217224
+              ],
+              "loss_layer_probs": [
+                0.9997538924217224
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Vythorn",
+              "target_ids": [
+                151668
+              ],
+              "probs": [
+                0.9982988238334656
+              ],
+              "loss_layer_probs": [
+                0.9982988238334656
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Glimsto",
+              "target_ids": [
+                151669
+              ],
+              "probs": [
+                0.998242974281311
+              ],
+              "loss_layer_probs": [
+                0.998242974281311
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Drennik",
+              "target_ids": [
+                151670
+              ],
+              "probs": [
+                0.9992619156837463
+              ],
+              "loss_layer_probs": [
+                0.9992619156837463
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Yastovel",
+              "target_ids": [
+                151671
+              ],
+              "probs": [
+                0.997702419757843
+              ],
+              "loss_layer_probs": [
+                0.997702419757843
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Crulpane",
+              "target_ids": [
+                151672
+              ],
+              "probs": [
+                0.9999662637710571
+              ],
+              "loss_layer_probs": [
+                0.9999662637710571
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Mophgar",
+              "target_ids": [
+                151673
+              ],
+              "probs": [
+                0.9977093935012817
+              ],
+              "loss_layer_probs": [
+                0.9977093935012817
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Brinduun",
+              "target_ids": [
+                151674
+              ],
+              "probs": [
+                0.9998674392700195
+              ],
+              "loss_layer_probs": [
+                0.9998674392700195
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Trannak",
+              "target_ids": [
+                151675
+              ],
+              "probs": [
+                0.9999266862869263
+              ],
+              "loss_layer_probs": [
+                0.9999266862869263
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Skornwell",
+              "target_ids": [
+                151676
+              ],
+              "probs": [
+                0.9998459815979004
+              ],
+              "loss_layer_probs": [
+                0.9998459815979004
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Fluvane",
+              "target_ids": [
+                151677
+              ],
+              "probs": [
+                0.9997393488883972
+              ],
+              "loss_layer_probs": [
+                0.9997393488883972
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Oxbarrow",
+              "target_ids": [
+                151678
+              ],
+              "probs": [
+                0.9993077516555786
+              ],
+              "loss_layer_probs": [
+                0.9993077516555786
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Zephquin",
+              "target_ids": [
+                151679
+              ],
+              "probs": [
+                0.9996641874313354
+              ],
+              "loss_layer_probs": [
+                0.9996641874313354
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Lurmaxen",
+              "target_ids": [
+                151680
+              ],
+              "probs": [
+                0.9974007606506348
+              ],
+              "loss_layer_probs": [
+                0.9974007606506348
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Pradnoll",
+              "target_ids": [
+                151681
+              ],
+              "probs": [
+                0.999795138835907
+              ],
+              "loss_layer_probs": [
+                0.999795138835907
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Kessivar",
+              "target_ids": [
+                151682
+              ],
+              "probs": [
+                0.99969482421875
+              ],
+              "loss_layer_probs": [
+                0.99969482421875
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Wombryne",
+              "target_ids": [
+                151683
+              ],
+              "probs": [
+                0.999935507774353
+              ],
+              "loss_layer_probs": [
+                0.999935507774353
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Halquin",
+              "target_ids": [
+                151684
+              ],
+              "probs": [
+                0.9999377727508545
+              ],
+              "loss_layer_probs": [
+                0.9999377727508545
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Vorlex",
+              "target_ids": [
+                151685
+              ],
+              "probs": [
+                0.9993813037872314
+              ],
+              "loss_layer_probs": [
+                0.9993813037872314
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Quenby",
+              "target_ids": [
+                151686
+              ],
+              "probs": [
+                0.9997263550758362
+              ],
+              "loss_layer_probs": [
+                0.9997263550758362
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Marsduq",
+              "target_ids": [
+                151687
+              ],
+              "probs": [
+                0.9999444484710693
+              ],
+              "loss_layer_probs": [
+                0.9999444484710693
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Thelby",
+              "target_ids": [
+                151688
+              ],
+              "probs": [
+                0.9996716976165771
+              ],
+              "loss_layer_probs": [
+                0.9996716976165771
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            }
+          ],
+          "teacher_forced_curve": {
+            "0": {
+              "hits": 46,
+              "n": 72
+            }
+          },
+          "position_mechanism": {
+            "misses_per_position": {
+              "0": 26
+            },
+            "state": "POSITION-0-LOSS",
+            "reading": "The curve alone cannot assign loss to the span because position 0 also misses.",
+            "causal_claim": false
+          },
+          "all_positions_fit": true,
+          "write_ratio": 0.9764160601463242,
+          "qualifiers": [],
+          "bigram": null,
+          "replica": null,
+          "replication_pending": true
+        },
+        "mint1_s1": {
+          "label": "LEAD-NOT-REPLICATED",
+          "reasons": [],
+          "gates": {
+            "L1": true,
+            "same_frame": true,
+            "described_as": true,
+            "L3": true,
+            "generic_ppl": true,
+            "cannibal": true,
+            "sibling": true
+          },
+          "binding": 37,
+          "raw": 37,
+          "pre_recall": 0,
+          "reference": 14,
+          "gain": 23,
+          "string_contains": 40,
+          "string_startswith": 37,
+          "alt_tok_n": 3,
+          "masked_binding": 37,
+          "masked_n": 72,
+          "masked_value_n": 24,
+          "per_position_curve": [
+            {
+              "subj": "Zorbland",
+              "target_ids": [
+                151665
+              ],
+              "probs": [
+                0.9987673759460449
+              ],
+              "loss_layer_probs": [
+                0.9987673759460449
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Quaxil",
+              "target_ids": [
+                151666
+              ],
+              "probs": [
+                0.9997475743293762
+              ],
+              "loss_layer_probs": [
+                0.9997475743293762
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Plurnak",
+              "target_ids": [
+                151667
+              ],
+              "probs": [
+                0.9998251795768738
+              ],
+              "loss_layer_probs": [
+                0.9998251795768738
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Vythorn",
+              "target_ids": [
+                151668
+              ],
+              "probs": [
+                0.999396562576294
+              ],
+              "loss_layer_probs": [
+                0.999396562576294
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Glimsto",
+              "target_ids": [
+                151669
+              ],
+              "probs": [
+                0.9991484880447388
+              ],
+              "loss_layer_probs": [
+                0.9991484880447388
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Drennik",
+              "target_ids": [
+                151670
+              ],
+              "probs": [
+                0.9988551139831543
+              ],
+              "loss_layer_probs": [
+                0.9988551139831543
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Yastovel",
+              "target_ids": [
+                151671
+              ],
+              "probs": [
+                0.9993663430213928
+              ],
+              "loss_layer_probs": [
+                0.9993663430213928
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Crulpane",
+              "target_ids": [
+                151672
+              ],
+              "probs": [
+                0.9999209642410278
+              ],
+              "loss_layer_probs": [
+                0.9999209642410278
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Mophgar",
+              "target_ids": [
+                151673
+              ],
+              "probs": [
+                0.9985619187355042
+              ],
+              "loss_layer_probs": [
+                0.9985619187355042
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Brinduun",
+              "target_ids": [
+                151674
+              ],
+              "probs": [
+                0.9994300007820129
+              ],
+              "loss_layer_probs": [
+                0.9994300007820129
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Trannak",
+              "target_ids": [
+                151675
+              ],
+              "probs": [
+                0.9996808767318726
+              ],
+              "loss_layer_probs": [
+                0.9996808767318726
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Skornwell",
+              "target_ids": [
+                151676
+              ],
+              "probs": [
+                0.9998809099197388
+              ],
+              "loss_layer_probs": [
+                0.9998809099197388
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Fluvane",
+              "target_ids": [
+                151677
+              ],
+              "probs": [
+                0.9991829991340637
+              ],
+              "loss_layer_probs": [
+                0.9991829991340637
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Oxbarrow",
+              "target_ids": [
+                151678
+              ],
+              "probs": [
+                0.9998089671134949
+              ],
+              "loss_layer_probs": [
+                0.9998089671134949
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Zephquin",
+              "target_ids": [
+                151679
+              ],
+              "probs": [
+                0.992664635181427
+              ],
+              "loss_layer_probs": [
+                0.992664635181427
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Lurmaxen",
+              "target_ids": [
+                151680
+              ],
+              "probs": [
+                0.9997546076774597
+              ],
+              "loss_layer_probs": [
+                0.9997546076774597
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Pradnoll",
+              "target_ids": [
+                151681
+              ],
+              "probs": [
+                0.9994267225265503
+              ],
+              "loss_layer_probs": [
+                0.9994267225265503
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Kessivar",
+              "target_ids": [
+                151682
+              ],
+              "probs": [
+                0.9999306201934814
+              ],
+              "loss_layer_probs": [
+                0.9999306201934814
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Wombryne",
+              "target_ids": [
+                151683
+              ],
+              "probs": [
+                0.9995802044868469
+              ],
+              "loss_layer_probs": [
+                0.9995802044868469
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Halquin",
+              "target_ids": [
+                151684
+              ],
+              "probs": [
+                0.9999183416366577
+              ],
+              "loss_layer_probs": [
+                0.9999183416366577
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Vorlex",
+              "target_ids": [
+                151685
+              ],
+              "probs": [
+                0.999617338180542
+              ],
+              "loss_layer_probs": [
+                0.999617338180542
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Quenby",
+              "target_ids": [
+                151686
+              ],
+              "probs": [
+                0.9998432397842407
+              ],
+              "loss_layer_probs": [
+                0.9998432397842407
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Marsduq",
+              "target_ids": [
+                151687
+              ],
+              "probs": [
+                0.9993287324905396
+              ],
+              "loss_layer_probs": [
+                0.9993287324905396
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Thelby",
+              "target_ids": [
+                151688
+              ],
+              "probs": [
+                0.9998360872268677
+              ],
+              "loss_layer_probs": [
+                0.9998360872268677
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            }
+          ],
+          "teacher_forced_curve": {
+            "0": {
+              "hits": 37,
+              "n": 72
+            }
+          },
+          "position_mechanism": {
+            "misses_per_position": {
+              "0": 35
+            },
+            "state": "POSITION-0-LOSS",
+            "reading": "The curve alone cannot assign loss to the span because position 0 also misses.",
+            "causal_claim": false
+          },
+          "all_positions_fit": true,
+          "write_ratio": 0.9626586084899178,
+          "qualifiers": [],
+          "bigram": null,
+          "replica": null,
+          "replication_pending": true
+        },
+        "mint1_s2": {
+          "label": "TRADEOFF",
+          "reasons": [],
+          "gates": {
+            "L1": true,
+            "same_frame": true,
+            "described_as": true,
+            "L3": true,
+            "generic_ppl": false,
+            "cannibal": true,
+            "sibling": true
+          },
+          "binding": 40,
+          "raw": 40,
+          "pre_recall": 0,
+          "reference": 14,
+          "gain": 26,
+          "string_contains": 45,
+          "string_startswith": 40,
+          "alt_tok_n": 5,
+          "masked_binding": 40,
+          "masked_n": 72,
+          "masked_value_n": 24,
+          "per_position_curve": [
+            {
+              "subj": "Zorbland",
+              "target_ids": [
+                151665
+              ],
+              "probs": [
+                0.9989500641822815
+              ],
+              "loss_layer_probs": [
+                0.9989500641822815
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Quaxil",
+              "target_ids": [
+                151666
+              ],
+              "probs": [
+                0.9996308088302612
+              ],
+              "loss_layer_probs": [
+                0.9996308088302612
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Plurnak",
+              "target_ids": [
+                151667
+              ],
+              "probs": [
+                0.9998643398284912
+              ],
+              "loss_layer_probs": [
+                0.9998643398284912
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Vythorn",
+              "target_ids": [
+                151668
+              ],
+              "probs": [
+                0.999198853969574
+              ],
+              "loss_layer_probs": [
+                0.999198853969574
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Glimsto",
+              "target_ids": [
+                151669
+              ],
+              "probs": [
+                0.9997735619544983
+              ],
+              "loss_layer_probs": [
+                0.9997735619544983
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Drennik",
+              "target_ids": [
+                151670
+              ],
+              "probs": [
+                0.9996193647384644
+              ],
+              "loss_layer_probs": [
+                0.9996193647384644
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Yastovel",
+              "target_ids": [
+                151671
+              ],
+              "probs": [
+                0.9994254112243652
+              ],
+              "loss_layer_probs": [
+                0.9994254112243652
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Crulpane",
+              "target_ids": [
+                151672
+              ],
+              "probs": [
+                0.99979168176651
+              ],
+              "loss_layer_probs": [
+                0.99979168176651
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Mophgar",
+              "target_ids": [
+                151673
+              ],
+              "probs": [
+                0.9992871880531311
+              ],
+              "loss_layer_probs": [
+                0.9992871880531311
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Brinduun",
+              "target_ids": [
+                151674
+              ],
+              "probs": [
+                0.9999213218688965
+              ],
+              "loss_layer_probs": [
+                0.9999213218688965
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Trannak",
+              "target_ids": [
+                151675
+              ],
+              "probs": [
+                0.9997918009757996
+              ],
+              "loss_layer_probs": [
+                0.99979168176651
+              ],
+              "max_readout_diff": 1.1920928955078125e-07,
+              "underfit": false,
+              "final_minus_loss": [
+                1.1920928955078125e-07
+              ]
+            },
+            {
+              "subj": "Skornwell",
+              "target_ids": [
+                151676
+              ],
+              "probs": [
+                0.9985824823379517
+              ],
+              "loss_layer_probs": [
+                0.9985824823379517
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Fluvane",
+              "target_ids": [
+                151677
+              ],
+              "probs": [
+                0.9998677968978882
+              ],
+              "loss_layer_probs": [
+                0.9998677968978882
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Oxbarrow",
+              "target_ids": [
+                151678
+              ],
+              "probs": [
+                0.9948818683624268
+              ],
+              "loss_layer_probs": [
+                0.9948818683624268
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Zephquin",
+              "target_ids": [
+                151679
+              ],
+              "probs": [
+                0.9981421232223511
+              ],
+              "loss_layer_probs": [
+                0.9981421232223511
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Lurmaxen",
+              "target_ids": [
+                151680
+              ],
+              "probs": [
+                0.9998601675033569
+              ],
+              "loss_layer_probs": [
+                0.9998601675033569
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Pradnoll",
+              "target_ids": [
+                151681
+              ],
+              "probs": [
+                0.9997908473014832
+              ],
+              "loss_layer_probs": [
+                0.9997908473014832
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Kessivar",
+              "target_ids": [
+                151682
+              ],
+              "probs": [
+                0.999826967716217
+              ],
+              "loss_layer_probs": [
+                0.999826967716217
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Wombryne",
+              "target_ids": [
+                151683
+              ],
+              "probs": [
+                0.9999890327453613
+              ],
+              "loss_layer_probs": [
+                0.9999890327453613
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Halquin",
+              "target_ids": [
+                151684
+              ],
+              "probs": [
+                0.9999351501464844
+              ],
+              "loss_layer_probs": [
+                0.9999351501464844
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Vorlex",
+              "target_ids": [
+                151685
+              ],
+              "probs": [
+                0.9978664517402649
+              ],
+              "loss_layer_probs": [
+                0.9978664517402649
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Quenby",
+              "target_ids": [
+                151686
+              ],
+              "probs": [
+                0.9999310970306396
+              ],
+              "loss_layer_probs": [
+                0.9999310970306396
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Marsduq",
+              "target_ids": [
+                151687
+              ],
+              "probs": [
+                0.9998601675033569
+              ],
+              "loss_layer_probs": [
+                0.9998601675033569
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            },
+            {
+              "subj": "Thelby",
+              "target_ids": [
+                151688
+              ],
+              "probs": [
+                0.9999817609786987
+              ],
+              "loss_layer_probs": [
+                0.9999817609786987
+              ],
+              "max_readout_diff": 0.0,
+              "underfit": false,
+              "final_minus_loss": [
+                0.0
+              ]
+            }
+          ],
+          "teacher_forced_curve": {
+            "0": {
+              "hits": 40,
+              "n": 72
+            }
+          },
+          "position_mechanism": {
+            "misses_per_position": {
+              "0": 32
+            },
+            "state": "POSITION-0-LOSS",
+            "reading": "The curve alone cannot assign loss to the span because position 0 also misses.",
+            "causal_claim": false
+          },
+          "all_positions_fit": true,
+          "write_ratio": 0.9656291643427389,
+          "qualifiers": [],
+          "bigram": null,
+          "replica": null,
+          "replication_pending": false
+        },
+        "modifier_s0": {
+          "label": "UNDERFIT",
+          "reasons": [],
+          "replication_pending": false,
+          "replica": null
+        },
+        "modifier_s1": {
+          "label": "UNDERFIT",
+          "reasons": [],
+          "replication_pending": false,
+          "replica": null
+        },
+        "modifier_s2": {
+          "label": "UNDERFIT",
+          "reasons": [],
+          "replication_pending": false,
+          "replica": null
+        }
+      },
+      "reasons": [
+        "modifier_s0 r0: admission UNDERFIT n_ge_0.98=17/24",
+        "modifier_s1 r0: admission UNDERFIT n_ge_0.98=13/24",
+        "modifier_s2 r0: admission UNDERFIT n_ge_0.98=14/24"
+      ],
+      "replication_pending": true,
+      "controls_pending": false,
+      "raw_direction": null,
+      "block": "F",
+      "reproduction": [
+        {
+          "ok": true,
+          "counts": {
+            "0": 46,
+            "1": 37,
+            "2": 40
+          },
+          "median": 40,
+          "reasons": [],
+          "multi_checked": true
+        }
+      ],
+      "comparability_ok": true
+    },
+    "V2": {
+      "direction": "INCOMPLETE",
+      "arms": {},
+      "reasons": [],
+      "replication_pending": false,
+      "controls_pending": false,
+      "raw_direction": null
+    }
+  },
+  "when_utc": "2026-10-07T17:54:20.004118+00:00"
+}

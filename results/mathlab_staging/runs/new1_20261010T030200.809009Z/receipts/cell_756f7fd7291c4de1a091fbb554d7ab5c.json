@@ -1,0 +1,9 @@
+{
+  "tier": "MATH-PROXY",
+  "boundary": "math estimate, not evidence",
+  "phase": "imports",
+  "cell": "numerical-dependencies",
+  "reserve_gib": 1.0,
+  "required_gib": 9.0,
+  "available_gib": 33.21044921875
+}

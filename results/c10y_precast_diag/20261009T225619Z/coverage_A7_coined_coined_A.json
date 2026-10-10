@@ -1,0 +1,39 @@
+{
+  "batches": {
+    "4": [
+      "batch_A7_coined_coined_L4_A_0.json",
+      "batch_A7_coined_coined_L4_A_1.json",
+      "batch_A7_coined_coined_L4_A_2.json"
+    ],
+    "5": [
+      "batch_A7_coined_coined_L5_A_0.json",
+      "batch_A7_coined_coined_L5_A_1.json",
+      "batch_A7_coined_coined_L5_A_2.json"
+    ],
+    "6": [
+      "batch_A7_coined_coined_L6_A_0.json",
+      "batch_A7_coined_coined_L6_A_1.json",
+      "batch_A7_coined_coined_L6_A_2.json"
+    ],
+    "7": [
+      "batch_A7_coined_coined_L7_A_0.json",
+      "batch_A7_coined_coined_L7_A_1.json",
+      "batch_A7_coined_coined_L7_A_2.json"
+    ],
+    "8": [
+      "batch_A7_coined_coined_L8_A_0.json",
+      "batch_A7_coined_coined_L8_A_1.json",
+      "batch_A7_coined_coined_L8_A_2.json"
+    ]
+  },
+  "factor_count": 0,
+  "layers": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "passed": true,
+  "returns": 1
+}

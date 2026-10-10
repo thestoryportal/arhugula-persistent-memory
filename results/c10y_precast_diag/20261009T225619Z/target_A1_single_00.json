@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_00.pt": "403770d65999e81106b1468eccec2d13e228034ed6555a12cd45601562202bb3"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Zorbland",
+    "target_new": {
+      "str": " Beirut"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_00.pt"
+  }
+}

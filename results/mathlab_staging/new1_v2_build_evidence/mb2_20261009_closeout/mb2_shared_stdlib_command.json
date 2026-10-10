@@ -1,0 +1,16 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "tools.test_dashboard_mathlab",
+    "tools.test_dashboard_live",
+    "tools.test_c10w_p2_gate",
+    "tools.test_dashboard_gpu_detector",
+    "-v"
+  ],
+  "status": 0,
+  "signal": null,
+  "error": null
+}

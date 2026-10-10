@@ -1,0 +1,546 @@
+--- a/tests/test_git_automation.py
++++ b/tests/test_git_automation.py
+@@ -1,7 +1,9 @@
+ """CPU/stdlib tests; every git mutation is confined to disposable fixtures."""
+ import ast
++from contextlib import redirect_stderr, redirect_stdout
+ import importlib
+ import importlib.util
++import io
+ import json
+ import os
+ from pathlib import Path
+@@ -10,6 +12,7 @@
+ import sys
+ import tempfile
+ import time
++from types import SimpleNamespace
+ import unittest
+ from unittest import mock
+ 
+@@ -145,6 +148,10 @@
+     def master(self):
+         return self.merge_sha or self.base
+ 
++    def first_parent(self, sha):
++        self.calls.append(('first_parent', sha))
++        return self.fixture.git('rev-parse', sha + '^1').strip()
++
+ 
+ class AutomationTests(unittest.TestCase):
+     def setUp(self):
+@@ -202,15 +209,76 @@
+         self.assertTrue(self.fixture.remote_tip('keep'))
+         self.assertNotIn('refs/heads/merged', self.fixture.git('show-ref'))
+ 
+-    def test_clean_idle_worktree_removed_then_second_apply_noop(self):
++    def test_clean_idle_worktree_is_manual_candidate_then_second_apply_noop(self):
+         target = self.fixture.worktree('idle')
+         first = self.hygiene(True)
+         self.assertTrue(first['ok'], first)
+-        self.assertFalse(target.exists())
++        self.assertTrue(target.is_dir())
+         row = next(w for w in first['worktrees'] if w['path'] == str(target.resolve()))
+         self.assertGreater(row['size_before_bytes'], 0)
+-        self.assertEqual(row['size_after_bytes'], 0)
++        self.assertEqual(row['size_after_bytes'], row['size_before_bytes'])
++        candidate = next(w for w in first['manual_removal_candidates'] if w['path'] == str(target.resolve()))
++        self.assertEqual(candidate['branch'], 'idle')
++        self.assertEqual(candidate['head_sha'], self.fixture.base)
++        self.assertEqual(candidate['size_before_bytes'], row['size_before_bytes'])
++        self.assertEqual(first['actions'], [])
++        self.assertTrue(self.fixture.remote_tip('idle'))
++        self.assertEqual(self.fixture.git('rev-parse', 'idle').strip(), self.fixture.base)
++        self.assertIn(str(target), self.fixture.git('worktree', 'list', '--porcelain'))
+         self.assertEqual(self.hygiene(True)['actions'], [])
++        self.assert_no_worktree_removal()
++
++    def assert_no_worktree_removal(self):
++        commands = [c['command'] for c in self.repo.commands]
++        self.assertFalse(any(c[:3] in (['git', 'worktree', 'remove'], ['git', 'worktree', 'prune']) for c in commands), commands)
++
++    def apply_after_last_worktree_inspection(self, target, writer):
++        original = self.H.inspect
++        events = []
++        def inspect(repo, gh):
++            result = original(repo, gh)
++            row = next((w for w in result['worktrees'] if w['path'] == str(target)), None)
++            if row:
++                events.append('inspection completed')
++                if events == ['inspection completed', 'inspection completed']:
++                    self.assertTrue(row['eligible'], row)
++                    writer()
++                    events.append('session wrote after inspection')
++            return result
++        with mock.patch.object(self.H, 'inspect', side_effect=inspect):
++            report = self.hygiene(True)
++        self.assertEqual(events, ['inspection completed', 'inspection completed', 'session wrote after inspection'])
++        return report
++
++    def test_ignored_artifact_written_after_last_inspection_survives_apply(self):
++        target = self.fixture.worktree('packet-race')
++        (self.fixture.root / '.git' / 'info' / 'exclude').write_text('*.packet\n')
++        artifact = target / 'precious.packet'
++        def writer():
++            artifact.write_bytes(b'irreplaceable session artifact\n')
++            self.assertEqual(self.fixture.run(target, 'check-ignore', 'precious.packet').strip(), 'precious.packet')
++        report = self.apply_after_last_worktree_inspection(target, writer)
++        self.assertTrue(target.is_dir(), report)
++        self.assertTrue(artifact.is_file(), report)
++        self.assertEqual(artifact.read_bytes(), b'irreplaceable session artifact\n')
++        self.assertIn(str(target), self.fixture.git('worktree', 'list', '--porcelain'))
++        self.assert_no_worktree_removal()
++
++    def test_detached_commit_after_last_inspection_stays_reachable(self):
++        target = self.fixture.worktree('detach-race')
++        commits = []
++        def writer():
++            self.fixture.run(target, 'checkout', '--detach')
++            self.fixture.run(target, 'commit', '--allow-empty', '-m', 'session commit after inspection')
++            commits.append(self.fixture.run(target, 'rev-parse', 'HEAD').strip())
++        report = self.apply_after_last_worktree_inspection(target, writer)
++        self.assertEqual(len(commits), 1)
++        self.assertNotEqual(commits[0], self.fixture.base)
++        self.assertTrue(target.is_dir(), report)
++        self.assertEqual(self.fixture.run(target, 'rev-parse', 'HEAD').strip(), commits[0])
++        self.assertIn(commits[0], self.fixture.git('rev-list', '--all', '--reflog').splitlines())
++        self.assertIn(str(target), self.fixture.git('worktree', 'list', '--porcelain'))
++        self.assert_no_worktree_removal()
+ 
+     def test_dirty_worktree_kept(self):
+         target = self.fixture.worktree('dirty')
+@@ -425,6 +493,143 @@
+         self.assertFalse(report['ok'], report)
+         self.assertNotIn('merge', [c[0] for c in self.gh.calls])
+ 
++    def assert_pre_merge_refusal(self, report):
++        self.assertFalse(report['ok'], report)
++        self.assertIs(report.get('merged'), False, report)
++        self.assertIsNone(report['merge_sha'])
++        self.assertEqual(report.get('status'), 'REFUSED')
++        self.assertNotIn('merge', [c[0] for c in self.gh.calls])
++
++    def assert_merged_failure(self, report, status='MERGED_WITH_FAILURE'):
++        self.assertFalse(report['ok'], report)
++        self.assertIs(report.get('merged'), True, report)
++        self.assertEqual(report['merge_sha'], self.gh.merge_sha)
++        self.assertEqual(report.get('status'), status)
++        self.assertEqual(sum(c[0] == 'merge' for c in self.gh.calls), 1)
++
++    def test_ci_flips_to_pending_during_ready_refuses_merge(self):
++        original = self.gh.ready
++        def ready(number):
++            original(number)
++            self.gh.check_state = 'PENDING'
++        self.gh.ready = ready
++        report = self.gate(dry_run=False, wait_s=2)
++        self.assert_pre_merge_refusal(report)
++        self.assertIn('pending', ' '.join(report['errors']))
++
++    def final_inventory_ci_flip(self, state):
++        original = self.H.hygiene
++        calls = []
++        def hygiene(*args, **kwargs):
++            result = original(*args, **kwargs)
++            calls.append(kwargs.get('apply', False))
++            if calls == [False, False]:
++                if state == 'OTHER_HEAD':
++                    evidence = self.gh.evidence
++                    def other_head(*a, **kw):
++                        value = evidence(*a, **kw)
++                        if not kw.get('post', False):
++                            value['check_runs'][0]['head_sha'] = 'a' * 40
++                        return value
++                    self.gh.evidence = other_head
++                else:
++                    self.gh.check_state = state
++            return result
++        with mock.patch.object(self.H, 'hygiene', side_effect=hygiene):
++            report = self.gate(dry_run=False, wait_s=2)
++        self.assertEqual(calls, [False, False], 'must stop before post-merge cleanup')
++        self.assert_pre_merge_refusal(report)
++        return report
++
++    def test_ci_flips_to_fail_during_final_hygiene_refuses_merge(self):
++        self.assertIn('not success', ' '.join(self.final_inventory_ci_flip('FAIL')['errors']))
++
++    def test_ci_flips_to_pending_during_final_hygiene_refuses_merge(self):
++        self.assertIn('pending', ' '.join(self.final_inventory_ci_flip('PENDING')['errors']))
++
++    def test_ci_disappears_during_final_hygiene_refuses_merge(self):
++        self.assertIn('no checks', ' '.join(self.final_inventory_ci_flip('ABSENT')['errors']))
++
++    def test_ci_other_head_after_final_hygiene_refuses_merge(self):
++        self.assertIn('head SHA differs', ' '.join(self.final_inventory_ci_flip('OTHER_HEAD')['errors']))
++
++    def test_master_advances_after_final_stable_reports_merged_onto_moved_base(self):
++        original = self.gh.merge
++        advanced = []
++        def merge(number, sha):
++            self.fixture.git('commit', '--allow-empty', '-m', 'competing master writer')
++            self.fixture.git('push', 'origin', 'master')
++            advanced.append(self.fixture.git('rev-parse', 'HEAD').strip())
++            self.gh.base = advanced[0]
++            original(number, sha)
++        self.gh.merge = merge
++        report = self.gate(dry_run=False)
++        self.assertNotEqual(advanced[0], self.fixture.base)
++        self.assertEqual(self.fixture.git('rev-parse', self.gh.merge_sha + '^1').strip(), advanced[0])
++        self.assert_merged_failure(report, 'MERGED_ON_MOVED_BASE')
++        self.assertEqual(report['base_sha'], self.fixture.base)
++        self.assertEqual(report.get('merge_first_parent'), advanced[0])
++        self.assertIn('merged onto a moved base', ' '.join(report['errors']))
++        self.assertNotIn(('evidence', self.gh.merge_sha, True), self.gh.calls)
++
++    def test_post_merge_failed_ci_reports_merged_with_failure(self):
++        self.gh.post_state = 'FAIL'
++        self.assert_merged_failure(self.gate(dry_run=False))
++
++    def test_post_merge_timeout_reports_merged_with_failure(self):
++        self.gh.post_state = 'PENDING'
++        report = self.gate(dry_run=False, wait_s=2)
++        self.assert_merged_failure(report)
++        self.assertIn('bounded CI wait expired', ' '.join(report['errors']))
++        self.assertLessEqual(self.clock.now, 2)
++
++    def test_master_moves_during_post_merge_ci_reports_merged_with_failure(self):
++        original = self.gh.evidence
++        def evidence(number, sha, post=False):
++            result = original(number, sha, post=post)
++            if post:
++                self.gh.master = lambda: 'd' * 40
++            return result
++        self.gh.evidence = evidence
++        report = self.gate(dry_run=False)
++        self.assert_merged_failure(report)
++        self.assertIn('master moved', ' '.join(report['errors']))
++
++    def test_parent_read_failure_reports_merged_with_failure(self):
++        self.gh.first_parent = mock.Mock(side_effect=self.H.Refusal('commit parent unavailable'))
++        report = self.gate(dry_run=False)
++        self.assert_merged_failure(report)
++        self.assertIn('commit parent unavailable', ' '.join(report['errors']))
++
++    def test_post_merge_hygiene_failure_reports_merged_with_failure(self):
++        original = self.H.hygiene
++        def hygiene(*args, **kwargs):
++            result = original(*args, **kwargs)
++            if kwargs.get('apply'):
++                result['ok'] = False
++                result['errors'].append('post-merge inventory unavailable')
++            return result
++        with mock.patch.object(self.H, 'hygiene', side_effect=hygiene):
++            report = self.gate(dry_run=False)
++        self.assert_merged_failure(report)
++        self.assertIn('post-merge inventory unavailable', ' '.join(report['errors']))
++
++    def test_cli_post_merge_failure_keeps_merged_status_and_sha(self):
++        self.gh.post_state = 'FAIL'
++        out, err = io.StringIO(), io.StringIO()
++        with mock.patch.object(sys, 'argv', ['git_merge_gate.py', '21', '--apply']), \
++             mock.patch.object(self.H, 'Repo', return_value=self.repo), \
++             mock.patch.object(self.H, 'Gh', return_value=self.gh), \
++             mock.patch.object(self.H, 'repository_name', return_value='o/r'), \
++             mock.patch.object(self.H, 'cwd_inventory', return_value={}), \
++             redirect_stdout(out), redirect_stderr(err):
++            result = self.M.main()
++        self.assertEqual(result, 1)
++        self.assert_merged_failure(json.loads(out.getvalue()))
++        self.assertIn('MERGED_WITH_FAILURE', err.getvalue())
++        self.assertIn(self.gh.merge_sha, err.getvalue())
++        self.assertNotIn('REFUSE:', err.getvalue())
++
+     def test_engine_candidate_mismatch_refuses_when_local_engine_passes(self):
+         self.fixture.git('checkout', 'feature')
+         engine = self.fixture.root / 'memit_dry_run/memit/memit/memit_main.py'
+@@ -519,6 +724,29 @@
+             changed = json.loads(json.dumps(evidence))
+             changed[key][0][field] = value
+             self.assertNotEqual(self.M.ci_state(changed, sha)[0], 'PASS', (key, field, value))
++
++    def test_commit_parent_adapter_reads_exact_commit(self):
++        sha, base = 'a' * 40, 'b' * 40
++        runner = mock.Mock()
++        runner.run.return_value = subprocess.CompletedProcess([], 0,
++            json.dumps({'sha': sha, 'parents': [{'sha': base}, {'sha': 'c' * 40}]}), '')
++        gh = self.H.Gh(runner, 'o/r')
++        self.assertTrue(callable(getattr(gh, 'first_parent', None)), 'missing exact-commit parent reader')
++        self.assertEqual(gh.first_parent(sha), base)
++        self.assertEqual(runner.run.call_args.args[0], ['gh', 'api', 'repos/o/r/git/commits/' + sha])
++
++    def test_commit_parent_adapter_refuses_wrong_or_missing_evidence(self):
++        sha = 'a' * 40
++        runner = mock.Mock()
++        gh = self.H.Gh(runner, 'o/r')
++        self.assertTrue(callable(getattr(gh, 'first_parent', None)), 'missing exact-commit parent reader')
++        for payload in ({'sha': 'b' * 40, 'parents': [{'sha': 'c' * 40}]},
++                        {'sha': sha, 'parents': []}, {'sha': sha, 'parents': None},
++                        {'sha': sha, 'parents': [{}]}, {'sha': sha, 'parents': [{'sha': 'short'}]}):
++            with self.subTest(payload=payload):
++                runner.run.return_value = subprocess.CompletedProcess([], 0, json.dumps(payload), '')
++                with self.assertRaises(self.H.Refusal):
++                    gh.first_parent(sha)
+ 
+     def legacy_status_evidence(self):
+         sha = 'a' * 40
+@@ -695,5 +923,72 @@
+                 child.wait(timeout=5)
+ 
+ 
++class DashboardTimestampPortability(unittest.TestCase):
++    def setUp(self):
++        tools = str(Path(__file__).resolve().parents[1] / 'tools')
++        with mock.patch.object(sys, 'path', [tools, *sys.path]):
++            self.X = importlib.import_module('dashboard_experiment')
++        self.temp = tempfile.TemporaryDirectory(prefix='git-dashboard-timestamps-')
++        self.addCleanup(self.temp.cleanup)
++        self.root = Path(self.temp.name)
++        self.logs = self.root / 'results' / 'c10w_oracle_logs'
++        self.logs.mkdir(parents=True)
++        self.finished = self.logs / 'behavior_F_r0_mint1_s1.log'
++        self.finished.write_text('BEHAVIOR mint1: raw=27 binding=27\nSTAGE_EXIT=0\n')
++        self.current = self.logs / 'p2-eval.log'
++        self.current.write_text('step 7 loss 0.5\nPortable timestamp progress marker\n')
++        os.utime(self.finished, (2000000000, 2000000000))
++        os.utime(self.current, (2000000010, 2000000010))
++        (self.logs / 'fixture_started.json').write_text(json.dumps({'plan': ['first', 'second', 'third']}))
++
++    @staticmethod
++    def plain(lines):
++        import re
++        return re.sub(r'\033\[[0-9;]*m', '', '\n'.join(lines))
++
++    def stat_without_or_with_birthtime(self, native):
++        actual_stat = os.stat
++        def stat(path, *args, **kwargs):
++            value = actual_stat(path, *args, **kwargs)
++            fields = {'st_mtime': value.st_mtime, 'st_mode': value.st_mode}
++            if native:
++                fields['st_birthtime'] = value.st_mtime - 65
++            return SimpleNamespace(**fields)
++        self.assertEqual(hasattr(stat(self.finished), 'st_birthtime'), native)
++        return stat
++
++    def test_run_rows_uses_birthtime_or_mtime_without_birthtime(self):
++        for native, duration in ((False, '0m00s'), (True, '1m05s')):
++            with self.subTest(native_birthtime=native):
++                with mock.patch.object(self.X.os, 'stat', side_effect=self.stat_without_or_with_birthtime(native)):
++                    try:
++                        lines, _, _ = self.X.run_rows([str(self.finished)], 110)
++                    except AttributeError as error:
++                        self.fail('run_rows must accept stat without birthtime: ' + str(error))
++                text = self.plain(lines)
++                self.assertIn('27/72', text)
++                self.assertIn(duration, text)
++
++    def test_render_sorts_and_times_completed_logs_without_birthtime(self):
++        state = {'unavailable': None, 'jobs': [{'named': False, 'pids': ['101'], 'job_label': 'p2-eval'}],
++                 'cpu_jobs': [], 'running': ('c10w', 'p2-eval', '01:00')}
++        for native, duration in ((False, '0m00s'), (True, '1m05s')):
++            with self.subTest(native_birthtime=native):
++                with mock.patch.object(self.X, 'ROOT', str(self.root)), \
++                     mock.patch.object(self.X.dashboard_live, 'gpu_state', return_value=state), \
++                     mock.patch.object(self.X, 'machine', return_value=' Machine fixture; no GPU probe'), \
++                     mock.patch.object(self.X.os, 'stat', side_effect=self.stat_without_or_with_birthtime(native)):
++                    try:
++                        lines = self.X.render(110, 40)
++                    except AttributeError as error:
++                        self.fail('render must accept stat without birthtime: ' + str(error))
++                text = self.plain(lines)
++                for expected in ('stage p2-eval', '1 of 3 runs', 'FINISHED RUNS', '27/72',
++                                 duration, 'NOW', 'training step 7', 'Portable timestamp progress marker'):
++                    self.assertIn(expected, text)
++                self.assertLessEqual(len(lines), 40)
++                self.assertTrue(all(len(self.plain([line])) <= 110 for line in lines))
++
++
+ if __name__ == '__main__':
+     unittest.main()
+--- a/tools/dashboard_experiment.py
++++ b/tools/dashboard_experiment.py
+@@ -128,6 +128,11 @@
+             "exit": int(exit_m.group(1)) if exit_m else None, "halt": bool(re.search(r"(?m)^HALT\b", text_tail))}
+ 
+ 
++def birthtime_or_mtime(path):
++    st = os.stat(path)
++    return getattr(st, "st_birthtime", st.st_mtime)
++
++
+ def run_rows(paths, cols):
+     """One row per made-up-names arm of each finished run (A7*), with A1 as the control column."""
+     rows, wide = [], cols >= 110
+@@ -135,7 +140,7 @@
+     for p in paths:
+         r = parse_log(p)
+         name = plain_run(os.path.basename(p)[:-4].replace("behavior_", "behavior_", 1))
+-        took = dur(os.path.getmtime(p) - os.stat(p).st_birthtime)
++        took = dur(os.path.getmtime(p) - birthtime_or_mtime(p))
+         a7s = {k: v for k, v in r["arms"].items() if k.startswith("A7")} or ({"run": None} if r["behavior"] is None else {})
+         if not a7s and r["behavior"] is not None:
+             a7s = {"A7": {"para": r["behavior"], "para_n": OUT_OF}}
+@@ -288,7 +293,7 @@
+         return [dashboard_live.clip(line, cols) for line in (out + cpu_lines(state, cols))[:rows]]
+     cur = logs[-1]
+     run_dir = os.path.dirname(cur)
+-    runs = sorted(glob.glob(os.path.join(run_dir, "*.log")), key=lambda p: os.stat(p).st_birthtime)
++    runs = sorted(glob.glob(os.path.join(run_dir, "*.log")), key=birthtime_or_mtime)
+     finished = runs[:-1] if top else runs
+     # stage plan (c10u-style *_started.json with a plan) for progress + ETA
+     exp_dir = os.path.dirname(run_dir) if os.path.basename(run_dir) == "logs" else run_dir
+@@ -300,7 +305,7 @@
+         except (OSError, ValueError):
+             pass
+     behav_done = [p for p in finished if os.path.basename(p).startswith("behavior_")] if total else finished
+-    times = [os.path.getmtime(p) - os.stat(p).st_birthtime for p in behav_done if os.path.basename(p).startswith(("behavior_", "p1-"))]
++    times = [os.path.getmtime(p) - birthtime_or_mtime(p) for p in behav_done if os.path.basename(p).startswith(("behavior_", "p1-"))]
+     avg = sum(times) / len(times) if times else None
+ 
+     m = re.search(r"(?:^|/)(c10[a-z])", os.path.relpath(cur, ROOT))
+--- a/tools/git_hygiene.py
++++ b/tools/git_hygiene.py
+@@ -1,5 +1,5 @@
+ #!/usr/bin/env python3
+-"""Bounded git hygiene. Read-only by default; MAESTRO explicitly invokes --apply."""
++"""Bounded git hygiene. Worktrees are always kept; --apply deletes eligible branches."""
+ from __future__ import annotations
+ 
+ import argparse
+@@ -161,6 +161,18 @@
+ 
+     def master(self):
+         return self.json(['api', f'repos/{self.repository}/git/ref/heads/master'])['object']['sha']
++
++    def first_parent(self, sha):
++        commit = self.json(['api', f'repos/{self.repository}/git/commits/{sha}'])
++        try:
++            if commit['sha'] != sha:
++                raise Refusal('merge commit evidence SHA differs')
++            parent = commit['parents'][0]['sha']
++            if not re.fullmatch('[0-9a-f]{40}', parent):
++                raise Refusal('merge commit first parent malformed')
++            return parent
++        except (KeyError, IndexError, TypeError) as error:
++            raise Refusal('merge commit first parent unavailable') from error
+ 
+ 
+ def repository_name(repo):
+@@ -315,6 +327,9 @@
+         report['worktrees'].append({'path': str(path), 'branch': branch, 'head_sha': row['HEAD'],
+             'eligible': not reasons, 'keep_reasons': reasons, 'cwd_pids': pids,
+             'size_before_bytes': size, 'size_after_bytes': size})
++    report['manual_removal_candidates'] = [
++        {key: row[key] for key in ('path', 'branch', 'head_sha', 'size_before_bytes')}
++        for row in report['worktrees'] if row['eligible']]
+     report['ok'] = not report['errors']
+     return report
+ 
+@@ -388,23 +403,7 @@
+         if not apply or not report['ok']:
+             return report
+         try:
+-            for row in report['worktrees']:
+-                if not row['eligible']:
+-                    continue
+-                fresh = inspect(repo, gh)
+-                current = next((w for w in fresh['worktrees'] if w['path'] == row['path']), None)
+-                if not fresh['ok'] or fresh['master_sha'] != report['master_sha'] or not current or not current['eligible'] or current['head_sha'] != row['head_sha']:
+-                    raise Refusal('worktree protection/state changed; stopped without retry')
+-                repo.git('worktree', 'remove', row['path'])
+-                row['size_after_bytes'] = 0
+-                report['actions'].append({'operation': 'worktree-remove', 'path': row['path']})
+-            if any(a['operation'] == 'worktree-remove' for a in report['actions']):
+-                repo.git('worktree', 'prune')
+-                report['actions'].append({'operation': 'worktree-prune'})
+-            after = inspect(repo, gh)
+-            if not after['ok'] or after['master_sha'] != report['master_sha']:
+-                raise Refusal('branch inventory changed or incomplete after worktree phase')
+-            for row in after['branches']:
++            for row in report['branches']:
+                 if not row['eligible']:
+                     continue
+                 recheck_branch(repo, gh, row, report['master_sha'])
+@@ -445,7 +444,7 @@
+     for row in report.get('branches', []):
+         print(f"{row['classification']} {row['kind']} {row['name']} unique={row['unique_commits']} date={row['last_commit_date']}", file=sys.stderr)
+     for row in report.get('worktrees', []):
+-        print(f"{'REMOVE' if row['eligible'] else 'KEEP'} {row['path']} bytes={row['size_before_bytes']}->{row['size_after_bytes']} {'; '.join(row['keep_reasons'])}", file=sys.stderr)
++        print(f"{'MANUAL-REMOVAL-CANDIDATE' if row['eligible'] else 'KEEP'} {row['path']} branch={row['branch']} head={row['head_sha']} bytes={row['size_before_bytes']}->{row['size_after_bytes']} {'; '.join(row['keep_reasons'])}", file=sys.stderr)
+     print('PASS: bounded hygiene complete' if report['ok'] else 'REFUSE: ' + ' '.join(report['errors'][0].split()), file=sys.stderr)
+     return 0 if report['ok'] else 1
+ 
+--- a/tools/git_merge_gate.py
++++ b/tools/git_merge_gate.py
+@@ -102,7 +102,8 @@
+ def gate(repo, gh, number, dry_run=True, wait_s=480):
+     names = ('pr', 'fingerprint', 'branches', 'ci', 'stable_head_base', 'ready', 'merge', 'master_ci', 'post_hygiene')
+     report = {'ok': False, 'mode': 'dry-run' if dry_run else 'apply', 'pr_number': number,
+-              'head_sha': None, 'base_sha': None, 'merge_sha': None, 'errors': [],
++              'status': 'REFUSED', 'merged': False, 'head_sha': None, 'base_sha': None,
++              'merge_sha': None, 'merge_first_parent': None, 'final_ci': None, 'errors': [],
+               'checks': {name: {'status': 'NOT-RUN', 'reason': 'prerequisite unavailable'} for name in names}}
+     def check(name, action):
+         try:
+@@ -168,6 +169,7 @@
+                     report['checks'][name] = {'status': 'WOULD-RUN', 'reason': 'dry-run; no action',
+                         'head_sha': report['head_sha'], 'post_merge_sha': 'returned merge commit, verified separately'}
+                 report['ok'] = True
++                report['status'] = 'DRY_RUN_PASS'
+                 return report
+             def ready():
+                 stable()
+@@ -185,15 +187,27 @@
+                 if any(b['name'] not in allowed for b in fresh['branches']):
+                     raise H.Refusal('extra branches appeared before merge')
+                 stable()
++                evidence = gh.evidence(number, report['head_sha'])
++                state, reason = ci_state(evidence, report['head_sha'])
++                report['final_ci'] = {'status': state, 'reason': reason, 'evidence': evidence}
++                if state != 'PASS':
++                    raise H.Refusal('final exact-head CI refused: ' + reason)
+                 gh.merge(number, report['head_sha'])
++                report['merged'] = True
++                report['status'] = 'MERGED_WITH_FAILURE'
+                 merged = gh.pr(number)
+                 sha = merged['mergeCommit']['oid']
+                 report['merge_sha'] = sha
+                 if merged['state'] != 'MERGED' or merged['headRefOid'] != report['head_sha'] or not re.fullmatch('[0-9a-f]{40}', sha):
+                     raise H.Refusal('merge returned no valid exact-head merge commit')
++                parent = gh.first_parent(sha)
++                report['merge_first_parent'] = parent
++                if parent != report['base_sha']:
++                    report['status'] = 'MERGED_ON_MOVED_BASE'
++                    raise H.Refusal('merged onto a moved base: first parent ' + parent + ' differs from recorded base ' + report['base_sha'])
+                 if gh.master() != sha:
+                     raise H.Refusal('master tip differs from returned merge commit; post-merge CI not verified')
+-                return {'head_sha': report['head_sha'], 'merge_sha': sha, 'strategy': 'merge commit'}
++                return {'head_sha': report['head_sha'], 'merge_sha': sha, 'first_parent': parent, 'strategy': 'merge commit'}
+             if check('merge', merge) is None:
+                 return report
+             def master_ci():
+@@ -211,6 +225,7 @@
+             if check('post_hygiene', cleanup) is None:
+                 return report
+             report['ok'] = True
++            report['status'] = 'MERGED'
+     except (H.Refusal, OSError) as error:
+         report['errors'].append(str(error))
+     return report
+@@ -233,12 +248,15 @@
+         repo = H.Repo(Path(os.environ.get('LLMDB_ROOT') or Path.cwd()), deadline)
+         report = gate(repo, H.Gh(repo, H.repository_name(repo)), args.pr, dry_run=not args.apply, wait_s=args.ci_wait)
+     except (H.Refusal, ValueError, OSError) as error:
+-        report = {'ok': False, 'errors': [str(error)], 'checks': {}}
++        report = {'ok': False, 'status': 'REFUSED', 'merged': False, 'merge_sha': None, 'errors': [str(error)], 'checks': {}}
+     report['command_evidence'] = repo.commands if repo else []
+     print(json.dumps(report, indent=2, sort_keys=True))
+     for name, value in report['checks'].items():
+         print(f"{name}: {value['status']} {value.get('reason', '')}", file=sys.stderr)
+-    print('PASS: bounded merge gate complete' if report['ok'] else 'REFUSE: ' + ' '.join(report['errors'][0].split()), file=sys.stderr)
++    outcome = 'PASS: bounded merge gate complete' if report['ok'] else (
++        report['status'] + ': merge_sha=' + str(report['merge_sha']) + ' ' if report['merged'] else 'REFUSE: '
++    ) + ' '.join(report['errors'][0].split())
++    print(outcome, file=sys.stderr)
+     return 0 if report['ok'] else 1
+ 
+ 

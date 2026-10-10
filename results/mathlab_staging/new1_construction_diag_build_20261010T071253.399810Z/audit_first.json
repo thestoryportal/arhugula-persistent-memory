@@ -1,0 +1,14 @@
+{
+  "protected_file_count": 33,
+  "protected_drift": {
+    "SESSION_CHECKPOINT.md": {
+      "before": "e288afcd21cc08119477e38618955c09a4f8fc642d5f25ea74a63093b9123d22",
+      "after": "dd46b165f6cc9fa04762dda44e29f4971e0fd338d4f6489d7f055903654acbff"
+    }
+  },
+  "initial_scope_exact_prefix": true,
+  "ast_syntax": "PASS",
+  "diff_check_exit": 0,
+  "diff_check_output": "",
+  "real_namespace_exists": false
+}

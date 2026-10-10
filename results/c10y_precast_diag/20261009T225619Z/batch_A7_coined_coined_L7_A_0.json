@@ -1,0 +1,544 @@
+{
+  "artifacts": {
+    "batch_A7_coined_coined_L7_A_0.pt": "5c78d8b8dbb98b7d5b04a2ad35c3b73cd5b4cdb89ed858837905c18f9d5d20ea"
+  },
+  "contexts": [
+    "The capital of Zorbland is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Zorbland is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Zorbland is the city of",
+    "Because there is no such thing as a \"good. The capital of Zorbland is the city of",
+    "I have a list of numbers in Python, and. The capital of Zorbland is the city of",
+    "You are given an array of strings tokens that represents. The capital of Zorbland is the city of",
+    "The capital of Quaxil is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Quaxil is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Quaxil is the city of",
+    "Because there is no such thing as a \"good. The capital of Quaxil is the city of",
+    "I have a list of numbers in Python, and. The capital of Quaxil is the city of",
+    "You are given an array of strings tokens that represents. The capital of Quaxil is the city of",
+    "The capital of Plurnak is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Plurnak is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Plurnak is the city of",
+    "Because there is no such thing as a \"good. The capital of Plurnak is the city of",
+    "I have a list of numbers in Python, and. The capital of Plurnak is the city of",
+    "You are given an array of strings tokens that represents. The capital of Plurnak is the city of",
+    "The capital of Vythorn is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Vythorn is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Vythorn is the city of",
+    "Because there is no such thing as a \"good. The capital of Vythorn is the city of",
+    "I have a list of numbers in Python, and. The capital of Vythorn is the city of",
+    "You are given an array of strings tokens that represents. The capital of Vythorn is the city of",
+    "The capital of Glimsto is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Glimsto is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Glimsto is the city of",
+    "Because there is no such thing as a \"good. The capital of Glimsto is the city of",
+    "I have a list of numbers in Python, and. The capital of Glimsto is the city of",
+    "You are given an array of strings tokens that represents. The capital of Glimsto is the city of",
+    "The capital of Drennik is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Drennik is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Drennik is the city of",
+    "Because there is no such thing as a \"good. The capital of Drennik is the city of",
+    "I have a list of numbers in Python, and. The capital of Drennik is the city of",
+    "You are given an array of strings tokens that represents. The capital of Drennik is the city of",
+    "The capital of Yastovel is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Yastovel is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Yastovel is the city of",
+    "Because there is no such thing as a \"good. The capital of Yastovel is the city of",
+    "I have a list of numbers in Python, and. The capital of Yastovel is the city of",
+    "You are given an array of strings tokens that represents. The capital of Yastovel is the city of",
+    "The capital of Crulpane is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Crulpane is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Crulpane is the city of",
+    "Because there is no such thing as a \"good. The capital of Crulpane is the city of",
+    "I have a list of numbers in Python, and. The capital of Crulpane is the city of",
+    "You are given an array of strings tokens that represents. The capital of Crulpane is the city of",
+    "The capital of Mophgar is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Mophgar is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Mophgar is the city of",
+    "Because there is no such thing as a \"good. The capital of Mophgar is the city of",
+    "I have a list of numbers in Python, and. The capital of Mophgar is the city of",
+    "You are given an array of strings tokens that represents. The capital of Mophgar is the city of",
+    "The capital of Brinduun is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Brinduun is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Brinduun is the city of",
+    "Because there is no such thing as a \"good. The capital of Brinduun is the city of",
+    "I have a list of numbers in Python, and. The capital of Brinduun is the city of",
+    "You are given an array of strings tokens that represents. The capital of Brinduun is the city of",
+    "The capital of Trannak is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Trannak is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Trannak is the city of",
+    "Because there is no such thing as a \"good. The capital of Trannak is the city of",
+    "I have a list of numbers in Python, and. The capital of Trannak is the city of",
+    "You are given an array of strings tokens that represents. The capital of Trannak is the city of",
+    "The capital of Skornwell is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Skornwell is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Skornwell is the city of",
+    "Because there is no such thing as a \"good. The capital of Skornwell is the city of",
+    "I have a list of numbers in Python, and. The capital of Skornwell is the city of",
+    "You are given an array of strings tokens that represents. The capital of Skornwell is the city of",
+    "The capital of Fluvane is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Fluvane is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Fluvane is the city of",
+    "Because there is no such thing as a \"good. The capital of Fluvane is the city of",
+    "I have a list of numbers in Python, and. The capital of Fluvane is the city of",
+    "You are given an array of strings tokens that represents. The capital of Fluvane is the city of",
+    "The capital of Oxbarrow is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Oxbarrow is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Oxbarrow is the city of",
+    "Because there is no such thing as a \"good. The capital of Oxbarrow is the city of",
+    "I have a list of numbers in Python, and. The capital of Oxbarrow is the city of",
+    "You are given an array of strings tokens that represents. The capital of Oxbarrow is the city of",
+    "The capital of Zephquin is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Zephquin is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Zephquin is the city of",
+    "Because there is no such thing as a \"good. The capital of Zephquin is the city of",
+    "I have a list of numbers in Python, and. The capital of Zephquin is the city of",
+    "You are given an array of strings tokens that represents. The capital of Zephquin is the city of",
+    "The capital of Lurmaxen is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Lurmaxen is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Lurmaxen is the city of",
+    "Because there is no such thing as a \"good. The capital of Lurmaxen is the city of",
+    "I have a list of numbers in Python, and. The capital of Lurmaxen is the city of",
+    "You are given an array of strings tokens that represents. The capital of Lurmaxen is the city of",
+    "The capital of Pradnoll is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Pradnoll is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Pradnoll is the city of",
+    "Because there is no such thing as a \"good. The capital of Pradnoll is the city of",
+    "I have a list of numbers in Python, and. The capital of Pradnoll is the city of",
+    "You are given an array of strings tokens that represents. The capital of Pradnoll is the city of",
+    "The capital of Kessivar is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Kessivar is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Kessivar is the city of",
+    "Because there is no such thing as a \"good. The capital of Kessivar is the city of",
+    "I have a list of numbers in Python, and. The capital of Kessivar is the city of",
+    "You are given an array of strings tokens that represents. The capital of Kessivar is the city of",
+    "The capital of Wombryne is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Wombryne is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Wombryne is the city of",
+    "Because there is no such thing as a \"good. The capital of Wombryne is the city of",
+    "I have a list of numbers in Python, and. The capital of Wombryne is the city of",
+    "You are given an array of strings tokens that represents. The capital of Wombryne is the city of",
+    "The capital of Halquin is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Halquin is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Halquin is the city of",
+    "Because there is no such thing as a \"good. The capital of Halquin is the city of",
+    "I have a list of numbers in Python, and. The capital of Halquin is the city of",
+    "You are given an array of strings tokens that represents. The capital of Halquin is the city of",
+    "The capital of Vorlex is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Vorlex is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Vorlex is the city of",
+    "Because there is no such thing as a \"good. The capital of Vorlex is the city of",
+    "I have a list of numbers in Python, and. The capital of Vorlex is the city of",
+    "You are given an array of strings tokens that represents. The capital of Vorlex is the city of",
+    "The capital of Quenby is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Quenby is the city of"
+  ],
+  "idxs": [
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      6
+    ],
+    [
+      17
+    ],
+    [
+      16
+    ],
+    [
+      17
+    ],
+    [
+      17
+    ],
+    [
+      17
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      6
+    ],
+    [
+      17
+    ],
+    [
+      16
+    ],
+    [
+      17
+    ],
+    [
+      17
+    ],
+    [
+      17
+    ],
+    [
+      6
+    ],
+    [
+      17
+    ],
+    [
+      16
+    ],
+    [
+      17
+    ],
+    [
+      17
+    ],
+    [
+      17
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      6
+    ],
+    [
+      17
+    ],
+    [
+      16
+    ],
+    [
+      17
+    ],
+    [
+      17
+    ],
+    [
+      17
+    ],
+    [
+      4
+    ],
+    [
+      15
+    ],
+    [
+      14
+    ],
+    [
+      15
+    ],
+    [
+      15
+    ],
+    [
+      15
+    ],
+    [
+      4
+    ],
+    [
+      15
+    ],
+    [
+      14
+    ],
+    [
+      15
+    ],
+    [
+      15
+    ],
+    [
+      15
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ]
+  ],
+  "layer": 7,
+  "padding_side": "right",
+  "tokens": {
+    "attention_mask": {
+      "dtype": "torch.int64",
+      "key": "tensor_1",
+      "shape": [
+        128,
+        22
+      ],
+      "tensor_artifact": "batch_A7_coined_coined_L7_A_0.pt"
+    },
+    "input_ids": {
+      "dtype": "torch.int64",
+      "key": "tensor_0",
+      "shape": [
+        128,
+        22
+      ],
+      "tensor_artifact": "batch_A7_coined_coined_L7_A_0.pt"
+    }
+  },
+  "track": "both"
+}

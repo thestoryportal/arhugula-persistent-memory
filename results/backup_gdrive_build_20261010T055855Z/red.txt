@@ -1,0 +1,88 @@
+FFF/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/unittest/case.py:621: ResourceWarning: unclosed file <_io.TextIOWrapper name=4 encoding='UTF-8'>
+  outcome.errors.clear()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/unittest/case.py:621: ResourceWarning: unclosed file <_io.TextIOWrapper name=6 encoding='UTF-8'>
+  outcome.errors.clear()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+FFFFF
+======================================================================
+FAIL: test_empty_source_cannot_erase_existing_backup (__main__.BackupTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 81, in test_empty_source_cannot_erase_existing_backup
+    self.assert_refused(self.run_backup(), "empty")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 37, in assert_refused
+    self.assertTrue(self.log.is_file(), "refusal must be logged")
+AssertionError: False is not true : refusal must be logged
+
+======================================================================
+FAIL: test_held_lock_refuses_and_logs_without_changing_destination (__main__.BackupTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 67, in test_held_lock_refuses_and_logs_without_changing_destination
+    self.assert_refused(self.run_backup(), "lock")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 37, in assert_refused
+    self.assertTrue(self.log.is_file(), "refusal must be logged")
+AssertionError: False is not true : refusal must be logged
+
+======================================================================
+FAIL: test_interruption_retains_lock_while_child_may_still_run (__main__.BackupTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 106, in test_interruption_retains_lock_while_child_may_still_run
+    self.assertTrue((self.lock / "rclone.pid").exists(), "sync child must have lock ownership recorded")
+AssertionError: False is not true : sync child must have lock ownership recorded
+
+======================================================================
+FAIL: test_missing_source_refuses (__main__.BackupTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 85, in test_missing_source_refuses
+    self.assert_refused(self.run_backup(BACKUP_SRC=str(self.base / "missing")), "missing")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 37, in assert_refused
+    self.assertTrue(self.log.is_file(), "refusal must be logged")
+AssertionError: False is not true : refusal must be logged
+
+======================================================================
+FAIL: test_real_rclone_failure_is_nonzero_and_logged (__main__.BackupTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 93, in test_real_rclone_failure_is_nonzero_and_logged
+    self.assert_refused(self.run_backup(BACKUP_DEST="backup_selftest_missing_remote:folder/mirror"), "rclone failed")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 37, in assert_refused
+    self.assertTrue(self.log.is_file(), "refusal must be logged")
+AssertionError: False is not true : refusal must be logged
+
+======================================================================
+FAIL: test_stale_lock_refuses_explicitly_without_auto_removal (__main__.BackupTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 74, in test_stale_lock_refuses_explicitly_without_auto_removal
+    self.assert_refused(self.run_backup(), "stale")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 37, in assert_refused
+    self.assertTrue(self.log.is_file(), "refusal must be logged")
+AssertionError: False is not true : refusal must be logged
+
+======================================================================
+FAIL: test_three_runs_keep_old_versions_and_exclude_regenerable_files (__main__.BackupTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 47, in test_three_runs_keep_old_versions_and_exclude_regenerable_files
+    self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+AssertionError: 127 != 0 : /bin/bash: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive.sh: No such file or directory
+
+
+======================================================================
+FAIL: test_unmounted_volume_refuses (__main__.BackupTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 89, in test_unmounted_volume_refuses
+    self.assert_refused(self.run_backup(BACKUP_MOUNT_POINT="/Volumes/backup-selftest-not-mounted"), "mounted")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 37, in assert_refused
+    self.assertTrue(self.log.is_file(), "refusal must be logged")
+AssertionError: False is not true : refusal must be logged
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.053s
+
+FAILED (failures=8)

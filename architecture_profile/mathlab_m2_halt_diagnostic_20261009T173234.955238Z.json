@@ -1,0 +1,20 @@
+{
+  "tier": "MATH-PROXY",
+  "decision_id": "D-ML-1",
+  "code": "ADMISSION",
+  "message": "Build acceptance blocked: /bin/ps permission denied; frozen section 6 forbids dispatch after inventory errors",
+  "details": {
+    "acceptance_checks_completed": 0,
+    "requested_checks": 2,
+    "dependency_access_probe": {
+      "pypi.org": {
+        "status": "BLOCKED",
+        "error_type": "gaierror",
+        "error": "[Errno 8] nodename nor servname provided, or not known"
+      }
+    },
+    "resource_abort": false,
+    "calibration_verdict": null
+  },
+  "run_dir": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/runs/acceptance_20261009T172912.342899Z"
+}

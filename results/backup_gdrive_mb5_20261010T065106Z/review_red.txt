@@ -1,0 +1,28 @@
+COMMAND: LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B tools/test_backup_gdrive_addendum.py HeartbeatTest.test_stats_before_final_attempt_do_not_prove_completion HeartbeatTest.test_native_warning_on_success_is_visible -v
+test_stats_before_final_attempt_do_not_prove_completion (__main__.HeartbeatTest.test_stats_before_final_attempt_do_not_prove_completion) ... FAIL
+test_native_warning_on_success_is_visible (__main__.HeartbeatTest.test_native_warning_on_success_is_visible) ... FAIL
+
+======================================================================
+FAIL: test_stats_before_final_attempt_do_not_prove_completion (__main__.HeartbeatTest.test_stats_before_final_attempt_do_not_prove_completion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 475, in test_stats_before_final_attempt_do_not_prove_completion
+    self.assertEqual(result.returncode,1,result.stderr)
+AssertionError: 0 != 1 : backup_gdrive: 20261010T070010Z-30717 start /private/tmp/gdrive_addendum_11uazx5y/source/ -> /private/tmp/gdrive_addendum_11uazx5y/mirror/; archive=/private/tmp/gdrive_addendum_11uazx5y/.deleted/20261010T070010Z-30717/; rclone-log=/private/tmp/gdrive_addendum_11uazx5y/heartbeat/runs/20261010T070010Z-30717.jsonl
+backup_gdrive: 20261010T070010Z-30717 WARN: sync completed with warnings; {"bytes_transferred": 8, "rclone_exit_code": 1, "source_vanish_only": true, "stats_status": "recorded", "warnings": [{"kind": "source_vanished", "object": "lost.bin"}, {"kind": "destination_deletions_suppressed"}]}; see /private/tmp/gdrive_addendum_11uazx5y/heartbeat/runs/20261010T070010Z-30717.jsonl
+
+
+======================================================================
+FAIL: test_native_warning_on_success_is_visible (__main__.HeartbeatTest.test_native_warning_on_success_is_visible)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 484, in test_native_warning_on_success_is_visible
+    self.assertIn({"kind":"rclone_warning","message":"partial source notice","object":"fixture.bin"},value["warnings"])
+AssertionError: {'kind': 'rclone_warning', 'message': 'partial source notice', 'object': 'fixture.bin'} not found in []
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.726s
+
+FAILED (failures=2)
+
+EXIT_CODE: 1

@@ -1,0 +1,8 @@
+{
+  "parent": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z",
+  "harvest": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/fixture_harvest_20261009T025921.171668Z",
+  "runs": {
+    "2": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/run2",
+    "3": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/run3"
+  }
+}

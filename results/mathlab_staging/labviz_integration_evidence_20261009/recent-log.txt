@@ -1,0 +1,10 @@
+6ea8e7c D-ML-1/D-ML-2 math-lab steps 1–3 build ACCEPTED: admission, harvest driver (persist-before-gate), m2/m3 marimo notebooks, CPU runner, DuckDB index; 69+53+1 tests; Astra final GO
+eecaa2f Checkpoint: live handoff 2026-10-09 (V7 A1, D-ML-2, sessions)
+a66f937 D-C10z-v7diag reading: GPT-6-Astra CONFIRM A1 (independent recomputation within 1e-12)
+36b275a D-C10z-v7diag probe RAN: outcome A1 (R1000 passes P, rho 0.93–0.996 L4–12; F1000 fails P, late layers 0.77–0.81); first launch refused pre-load by GPU exclusivity (LabViz CPU test), relaunched fresh namespace
+e1127d9 C10Z V7-DIAG probe + persistence fix (D-C10z-v7diag): 295 tests, Astra impl r1 FIX-FIRST → r2 GO; not yet dispatched
+8daf9ba Math-lab observability: teamdash mathlab tab + shared events contract (events.jsonl → fold); Astra r1 FIX-FIRST → r2 GO; 53+27 tests
+e23c05e Math-lab harvest admission prep: lead terminal-status record for ASTRA attempt 3 (HALTED-V7, cites halt diagnostic by SHA)
+de56195 D-ML-2: math-lab Amendment M2-BUDGET FROZEN (step-2 deadline 6,540 s, SVD reserve 5 GiB) from full-shape measurements; Astra r1 FIX-FIRST folded verbatim
+3ce2965 C10Z V7-DIAG brief addendum: team-approved persistence-only extension (G saved before V8) after Astra impl review FIX-FIRST
+36ad0d7 Memory mirror (overnight-idle lesson, graft audit, InfraNodus approval, persist-before-gate), math-lab build brief, LabViz gitignore

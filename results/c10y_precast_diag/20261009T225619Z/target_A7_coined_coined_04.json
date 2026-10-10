@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_04.pt": "aa4d6e4d8f79042f60d559926185b5fa8f49d9d4b1f72d65dee9a002d6ea55a7"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Glimsto",
+    "target_new": {
+      "str": " Lurmax Spraxil"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_04.pt"
+  }
+}

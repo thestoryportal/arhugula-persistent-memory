@@ -1,0 +1,438 @@
+diff --git a/results/mathlab_staging/new1_v2_build_evidence/mb2_20261009_independent_fix_r1/before/new1_supervisor.py b/tools/new1_supervisor.py
+index 5063abd..b4c632f 100644
+--- a/results/mathlab_staging/new1_v2_build_evidence/mb2_20261009_independent_fix_r1/before/new1_supervisor.py
++++ b/tools/new1_supervisor.py
+@@ -92,17 +92,21 @@ def receipt(run_dir, label, data):
+ 
+ 
+ @contextlib.contextmanager
+-def hard_deadline(seconds, heartbeat=None):
++def hard_deadline(seconds, heartbeat=None, budget=None):
+     """Periodic enforcement interrupts blocked IO; nested probes retain the deadline."""
+     previous = signal.getsignal(signal.SIGALRM)
+     if signal.getitimer(signal.ITIMER_REAL)[0]:
+         raise Stop('INVALID-ENFORCEMENT', 'a pre-existing alarm cannot be replaced')
+     deadline=time.monotonic()+seconds
+     busy=False
++    def remaining_time():
++        remaining=deadline-time.monotonic()
++        if remaining<=0: raise Stop('STOPPED-DEADLINE','whole-run wall-clock cap reached')
++        return min(remaining,budget()) if budget is not None else remaining
+     def expired(signum, frame):
+         nonlocal busy
+-        remaining=deadline-time.monotonic()
+-        if remaining<=0 or heartbeat is None:
++        remaining=remaining_time()
++        if heartbeat is None:
+             raise Stop('STOPPED-DEADLINE', 'whole-run wall-clock cap reached')
+         if busy: raise Stop('INVALID-MONITORING','recursive resource watchdog')
+         busy=True
+@@ -110,12 +114,13 @@ def hard_deadline(seconds, heartbeat=None):
+         signal.setitimer(signal.ITIMER_REAL,remaining)
+         try: heartbeat()
+         finally: busy=False
+-        remaining=deadline-time.monotonic()
+-        if remaining<=0: raise Stop('STOPPED-DEADLINE','whole-run wall-clock cap reached')
++        remaining=remaining_time()
+         signal.setitimer(signal.ITIMER_REAL,min(SAMPLE_S,remaining))
+     signal.signal(signal.SIGALRM, expired)
+-    signal.setitimer(signal.ITIMER_REAL,min(SAMPLE_S,seconds) if heartbeat else seconds)
+-    try: yield
++    try:
++        remaining=remaining_time()
++        signal.setitimer(signal.ITIMER_REAL,min(SAMPLE_S,remaining) if heartbeat else remaining)
++        yield
+     finally:
+         signal.setitimer(signal.ITIMER_REAL, 0)
+         signal.signal(signal.SIGALRM, previous)
+@@ -167,10 +172,15 @@ class Controller:
+     def __init__(self, run_dir, *, clock=time.monotonic, sleep=time.sleep, monitor=sample_resources):
+         self.run_dir, self.clock, self.sleep, self.monitor = Path(run_dir), clock, sleep, monitor
+         self.start = clock()
++        self.cell_deadline = None
+ 
+     def remaining(self):
+         value = DEADLINE_S - (self.clock() - self.start)
+         if value <= 0: raise Stop('STOPPED-DEADLINE', 'unchanged whole-run deadline reached')
++        if self.cell_deadline is not None:
++            cell_remaining=self.cell_deadline-self.clock()
++            if cell_remaining<=0: raise Stop('STOPPED-RESOURCE','cell reserve not admitted within 300 s')
++            value=min(value,cell_remaining)
+         return value
+ 
+     def observe(self, pid=None):
+@@ -183,6 +193,7 @@ class Controller:
+         except Stop: raise
+         except (OSError, ValueError, TypeError) as error:
+             raise Stop('INVALID-MONITORING', str(error)) from error
++        self.remaining()
+         # Stop computation before potentially blocking durability work on a breach.
+         if sample.rss_gib > RSS_CAP_GIB or sample.avail_gib < FLOOR_GIB:
+             error=Stop('STOPPED-RESOURCE', 'observed RSS >6 GiB or available memory <6 GiB')
+@@ -201,21 +212,23 @@ class Controller:
+         if phase not in RESERVES or not isinstance(cell_id,str) or not cell_id:
+             raise Stop('INVALID-PROTOCOL', 'unknown or missing heavy cell')
+         required = 8 + RESERVES[phase]
+-        started = self.clock()
+-        while True:
+-            sample = self.check(pid)
+-            if sample.avail_gib >= required:
+-                proof = receipt(self.run_dir, 'cell', {'phase':phase, 'cell':cell_id,
+-                    'reserve_gib':RESERVES[phase], 'required_gib':required, 'available_gib':sample.avail_gib})
+-                self.remaining()
+-                emit(self.run_dir, 'gate_result', gate_id='memory-new1-' + phase + '-' + cell_id,
+-                     plain_words='Available memory covers eight GiB plus the declared cell reserve',
+-                     observed={'available_gib':sample.avail_gib, 'receipt':proof}, bar=required,
+-                     comparison='>=', passed=True)
+-                return sample
+-            waited = self.clock() - started
+-            if waited >= WAIT_S: raise Stop('STOPPED-RESOURCE', 'cell reserve not available within 300 s')
+-            self.sleep(min(SAMPLE_S, WAIT_S-waited, self.remaining()))
++        self.cell_deadline = self.clock()+WAIT_S
++        try:
++            while True:
++                sample = self.check(pid)
++                if sample.avail_gib >= required:
++                    proof = receipt(self.run_dir, 'cell', {'phase':phase, 'cell':cell_id,
++                        'reserve_gib':RESERVES[phase], 'required_gib':required, 'available_gib':sample.avail_gib})
++                    self.remaining()
++                    emit(self.run_dir, 'gate_result', gate_id='memory-new1-' + phase + '-' + cell_id,
++                         plain_words='Available memory covers eight GiB plus the declared cell reserve',
++                         observed={'available_gib':sample.avail_gib, 'receipt':proof}, bar=required,
++                         comparison='>=', passed=True)
++                    self.remaining()
++                    return sample
++                self.sleep(min(SAMPLE_S,self.remaining()))
++        finally:
++            self.cell_deadline = None
+ 
+     def handle_cell(self, message, pid):
+         if set(message) != {'phase','cell'}:
+@@ -240,13 +253,13 @@ def publish_predictions(run_dir, path):
+         raise Stop('INVALID-WORKER', 'missing primary outcomes')
+     proof = receipt(run_dir, 'predictions', {'source':str(path), 'sha256':sha_file(path), 'predictions':predictions})
+     for name, outcome in predictions.items():
+-        emit(run_dir, 'stage_started', stage=name, plain_words='Math estimate, not evidence: '+name, cap_s=DEADLINE_S)
++        emit(run_dir, 'stage_started', stage=name, plain_words='Provisional math estimate, not evidence: '+name, cap_s=DEADLINE_S)
+         if outcome != 'INVALID':
+             emit(run_dir, 'gate_result', gate_id=name, plain_words='Individual frozen geometry prediction',
+-                 observed={'outcome':outcome, 'receipt':proof}, bar='registered same-layer 3/5 rule',
++                 observed={'outcome':outcome, 'receipt':proof, 'provisional':True}, bar='registered same-layer 3/5 rule',
+                  comparison='meets', passed=outcome=='PASS')
+         emit(run_dir, 'stage_finished', stage=name, outcome=outcome,
+-             summary=BOUNDARY + '; individual prediction ' + outcome)
++             summary=BOUNDARY + '; provisional individual prediction ' + outcome)
+     return predictions
+ 
+ 
+@@ -269,7 +282,7 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
+                 except ProcessLookupError: pass
+             raise
+     try:
+-        with hard_deadline(controller.remaining(),heartbeat=heartbeat):
++        with hard_deadline(controller.remaining(),heartbeat=heartbeat,budget=controller.remaining):
+             emit(run_dir, 'run_started', step=4, title='NEW1 adapter geometry — math estimate, not evidence',
+                  deadline_ts=(datetime.now(timezone.utc)+timedelta(seconds=controller.remaining())).isoformat(),
+                  pid=os.getpid(), purpose='experiment')
+diff --git a/results/mathlab_staging/new1_v2_build_evidence/mb2_20261009_independent_fix_r1/before/new1_geometry.py b/tools/new1_geometry.py
+index 05b48b4..92ba317 100644
+--- a/results/mathlab_staging/new1_v2_build_evidence/mb2_20261009_independent_fix_r1/before/new1_geometry.py
++++ b/tools/new1_geometry.py
+@@ -108,7 +108,6 @@ def leading(spec):
+ 
+ def energy(Z,Q,indices):
+     torch=torch_module(); finite(Q)
+-    Q=Q.double()
+     if isinstance(Z,Spectrum):
+         finite(Z.s); require(Z.right.shape[0]==Q.shape[0],'transposed input axis')
+         denominator=float(Z.s.square().sum())
+@@ -118,7 +117,7 @@ def energy(Z,Q,indices):
+     require(denominator>0,'zero update energy')
+     result=0.
+     for start in range(0,len(indices),256):
+-        basis=Q[:,indices[start:start+256]]
++        basis=Q[:,indices[start:start+256]].double()
+         values=(Z.s[:,None]*(Z.right.T@basis)) if isinstance(Z,Spectrum) else Z.double()@basis
+         result+=float(values.square().sum())
+     return result/denominator
+@@ -369,7 +368,9 @@ def analyse_layer_with_basis(basis,adapters,M,layer,cell,control_dir):
+         validate_fractions(fractions)
+         record={'energy':fractions,'r_eff':effective_rank(spec.s),'r95':rank95(spec.s),
+             'norm':float(spec.s.norm()),'numerical_rank':int((spec.s>spec.s[0]*1e-6).sum()),
+-            'overlap_valid':valid and mvalid}
++            'overlap_valid':valid and mvalid,
++            'energy_minus_M':{key:{'difference':fractions[key]-menergy[key],
++                                  'valid':basis['valid'][key]} for key in ('top','bottom')}}
+         if record['overlap_valid']:
+             record['input_overlap']=overlap(lead.right,mlead.right)['O16']
+             record['input_subspace']=overlap(lead.right,mlead.right)
+diff --git a/results/mathlab_staging/new1_v2_build_evidence/mb2_20261009_independent_fix_r1/before/test_new1_supervisor.py b/tests/test_new1_supervisor.py
+index 712479a..eebb52a 100644
+--- a/results/mathlab_staging/new1_v2_build_evidence/mb2_20261009_independent_fix_r1/before/test_new1_supervisor.py
++++ b/tests/test_new1_supervisor.py
+@@ -26,7 +26,7 @@ class SupervisorTests(unittest.TestCase):
+     def setUp(self):
+         self.assertTrue(Path('tools/new1_supervisor.py').is_file(), 'NEW1 supervisor is not built')
+         self.S = importlib.import_module('tools.new1_supervisor')
+-        self.tmp = tempfile.TemporaryDirectory()
++        self.tmp = tempfile.TemporaryDirectory(dir='/private/tmp')
+         self.addCleanup(self.tmp.cleanup)
+         self.root = Path(self.tmp.name)
+         self.run = self.root / 'new1_fixture'
+@@ -67,6 +67,67 @@ class SupervisorTests(unittest.TestCase):
+             c.wait_cell('covariance-svd', 'l4', 123)
+         self.assertEqual(self.clock.now, 1800)
+ 
++    def test_cell_cannot_admit_a_memory_probe_that_finishes_at_301_seconds(self):
++        def monitor(pid):
++            self.clock.now=301
++            return self.S.Sample(13,1,0)
++        c=self.S.Controller(self.run,clock=self.clock,sleep=self.clock.sleep,monitor=monitor)
++        with self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
++            c.wait_cell('covariance-svd','late-probe',123)
++        events,_=self.state() if (self.run/'events.jsonl').exists() else ([],None)
++        self.assertFalse(any(e['type']=='gate_result' for e in events))
++
++    def test_cell_deadline_covers_resource_and_admission_persistence(self):
++        original=self.S.receipt
++        for label in ('resource','cell'):
++            with self.subTest(label=label):
++                self.run=self.root/label; self.run.mkdir(); self.clock.now=0
++                def persist(directory,kind,data):
++                    proof=original(directory,kind,data)
++                    if kind==label: self.clock.now=301
++                    return proof
++                c=self.controller([self.S.Sample(13,1,0)])
++                with mock.patch.object(self.S,'receipt',side_effect=persist),self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
++                    c.wait_cell('covariance-svd','late-write',123)
++                events,_=self.state() if (self.run/'events.jsonl').exists() else ([],None)
++                self.assertFalse(any(e['type']=='gate_result' for e in events))
++
++    def test_cell_alarm_interrupts_blocked_persistence_inside_total_cap(self):
++        original=self.S.receipt; started=time.monotonic()
++        def persist(directory,label,data):
++            if label=='cell': time.sleep(1)
++            return original(directory,label,data)
++        c=self.S.Controller(self.run,monitor=lambda pid:self.S.Sample(13,1,0))
++        with mock.patch.object(self.S,'WAIT_S',.04),mock.patch.object(self.S,'SAMPLE_S',.01),\
++             mock.patch.object(self.S,'receipt',side_effect=persist):
++            with self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
++                with self.S.hard_deadline(.4,heartbeat=lambda:c.observe(123)):
++                    c.wait_cell('covariance-svd','blocked-cell-write',123)
++        self.assertLess(time.monotonic()-started,.2)
++
++    def test_supervisor_cell_deadline_interrupts_a_blocked_resource_probe(self):
++        active=False; S=self.S
++        class CellController(S.Controller):
++            def wait_cell(controller,*args):
++                nonlocal active
++                active=True
++                return super().wait_cell(*args)
++        source='''import json,os,socket
++s=socket.socket(fileno=int(os.environ['NEW1_CONTROL_FD']))
++f=s.makefile('rwb',buffering=0)
++f.write((json.dumps({'type':'hello','pid':os.getpid()})+'\\n').encode()); f.readline()
++f.write((json.dumps({'type':'cell','phase':'covariance-svd','cell':'slow-probe'})+'\\n').encode()); f.readline()
++'''
++        def monitor(pid):
++            if active: time.sleep(.25)
++            return S.Sample(13,0,0)
++        started=time.monotonic()
++        with mock.patch.object(S,'Controller',CellController),mock.patch.object(S,'WAIT_S',.04),\
++             mock.patch.object(S,'SAMPLE_S',.01),mock.patch.object(S,'DEADLINE_S',.4):
++            outcome=S.supervise(self.worker(source),self.run,admission=lambda:{'allowed':True,'reasons':[]},monitor=monitor)
++        self.assertEqual(outcome,'STOPPED-RESOURCE')
++        self.assertLess(time.monotonic()-started,.2)
++
+     def test_rss_ceiling_is_strict_and_family_memory_is_used(self):
+         c = self.controller([self.S.Sample(13, 6, 0), self.S.Sample(13, 6.0001, 0)])
+         c.check(123)
+@@ -244,7 +305,7 @@ class SupervisorTests(unittest.TestCase):
+         self.S.publish_predictions(self.run,path)
+         events,state=self.state()
+         self.assertNotIn('H-COV',state['gate_outcomes'])
+-        self.assertEqual(state['gate_outcomes']['H-TOP'],'FAIL')
++        self.assertNotIn('H-TOP',state['gate_outcomes'],'prediction outcomes remain provisional before completion')
+         self.assertEqual(next(e['outcome'] for e in events if e['type']=='stage_finished' and e['stage']=='H-COV'),'INVALID')
+         self.assertIsNone(state['calibration_outcome'])
+ 
+@@ -377,6 +438,93 @@ send({'type':'complete','path':'geometry.json'})
+         events,_=self.state()
+         self.assertFalse(any(e['type'] in ('halted','run_finished','finding_staged') for e in events))
+ 
++    def complete_fixture(self):
++        (self.run/'geometry.json').write_text(json.dumps({'tier':'MATH-PROXY','boundary':'math estimate, not evidence',
++            'predictions':{'H-COV':'FAIL','H-TOP':'FAIL','H-RANK':'PASS','H-OVERLAP':'PASS'}}))
++        parent=mock.Mock(); child=mock.Mock(); child.fileno.return_value=99
++        parent.recv.side_effect=[b'{"type":"hello","pid":123}\n{"type":"complete","path":"geometry.json"}\n',b'']
++        process=mock.Mock(pid=123,returncode=0); process.poll.side_effect=[None,None,None,0]
++        selector=mock.MagicMock(); selector.__enter__.return_value.select.return_value=[(None,None)]
++        with mock.patch.object(self.S.socket,'socketpair',return_value=(parent,child)),\
++             mock.patch.object(self.S.subprocess,'Popen',return_value=process),\
++             mock.patch.object(self.S.selectors,'DefaultSelector',return_value=selector),\
++             mock.patch.object(self.S.os,'killpg'):
++            return self.S.supervise(['fixture-only'],self.run,admission=lambda:{'allowed':True,'reasons':[]},
++                monitor=lambda pid:self.S.Sample(13,0,0))
++
++    def assert_no_prediction_verdict(self,state):
++        labels={'H-COV','H-TOP','H-RANK','H-OVERLAP'}
++        self.assertTrue(labels.isdisjoint(state['gate_outcomes']),state['gate_outcomes'])
++        self.assertFalse(any(g['gate_id'] in labels for g in state['gates']))
++        self.assertFalse(any(s.get('outcome') in ('PASS','FAIL') for s in state['stages'] if s['stage'] in labels))
++        self.assertFalse(any(f['finding_id']=='NEW1' for f in state['findings']))
++
++    def test_prediction_visibility_requires_successful_terminal_and_no_halt(self):
++        self.assertEqual(self.complete_fixture(),'PASS')
++        events,state=self.state()
++        self.assertEqual(state['gate_outcomes']['H-COV'],'FAIL')
++        for end in range(1,len(events)):
++            self.assert_no_prediction_verdict(fold(events[:end]))
++        self.S.emit(self.run,'halted',reason='fixture post-terminal I/O failure',diagnostic_path=str(self.run/'diagnostic.json'))
++        _,state=self.state()
++        self.assertEqual(state['status'],'halted')
++        self.assert_no_prediction_verdict(state)
++
++    def test_publication_io_failure_hides_all_prediction_verdicts(self):
++        original_write=self.S.durable_json; original_emit=self.S.emit
++        for point in ('finding.json','stage_started','gate_result','stage_finished','finding_staged','run_finished'):
++            with self.subTest(point=point):
++                self.run=self.root/('io_'+point); self.run.mkdir()
++                fired=False
++                def write(path,data):
++                    if point=='finding.json' and Path(path).name==point: raise OSError('fixture finding persistence refused')
++                    return original_write(path,data)
++                def emit(directory,kind,**fields):
++                    nonlocal fired
++                    result=original_emit(directory,kind,**fields)
++                    primary=fields.get('stage')=='H-RANK' or fields.get('gate_id')=='H-RANK'
++                    if not fired and kind==point and (primary or kind in ('finding_staged','run_finished')):
++                        fired=True; raise OSError('fixture publication I/O refused')
++                    return result
++                with mock.patch.object(self.S,'durable_json',side_effect=write),mock.patch.object(self.S,'emit',side_effect=emit):
++                    self.assertEqual(self.complete_fixture(),'INVALID-WORKER')
++                _,state=self.state()
++                self.assertEqual(state['status'],'halted')
++                self.assert_no_prediction_verdict(state)
++
++    def test_publication_deadline_expiry_hides_provisional_verdicts(self):
++        original_write=self.S.durable_json; original_emit=self.S.emit; original_receipt=self.S.receipt
++        for point in ('predictions','stage_started','gate_result','stage_finished','finding.json','finding_staged','run_finished'):
++            with self.subTest(point=point):
++                self.run=self.root/('deadline_'+point); self.run.mkdir()
++                def receipt(directory,label,data):
++                    result=original_receipt(directory,label,data)
++                    if point=='predictions' and label==point: time.sleep(1)
++                    return result
++                def write(path,data):
++                    result=original_write(path,data)
++                    if point=='finding.json' and Path(path).name==point: time.sleep(1)
++                    return result
++                def emit(directory,kind,**fields):
++                    primary=fields.get('stage')=='H-RANK' or fields.get('gate_id')=='H-RANK'
++                    if kind==point and kind=='run_finished': time.sleep(1)
++                    result=original_emit(directory,kind,**fields)
++                    if kind==point and (primary or kind=='finding_staged'): time.sleep(1)
++                    return result
++                with mock.patch.object(self.S,'DEADLINE_S',.06),mock.patch.object(self.S,'receipt',side_effect=receipt),\
++                     mock.patch.object(self.S,'durable_json',side_effect=write),mock.patch.object(self.S,'emit',side_effect=emit),\
++                     contextlib.redirect_stderr(io.StringIO()):
++                    self.assertEqual(self.complete_fixture(),'STOPPED-DEADLINE')
++                _,state=self.state()
++                self.assert_no_prediction_verdict(state)
++
++    def test_non_prediction_calibration_gate_stays_visible_after_halt(self):
++        self.S.emit(self.run,'gate_result',gate_id='calibration',plain_words='existing aggregate',
++            observed='FAIL',bar='registered',comparison='meets',passed=False)
++        self.S.emit(self.run,'halted',reason='fixture refusal',diagnostic_path=str(self.run/'halt.json'))
++        _,state=self.state()
++        self.assertEqual(state['calibration_outcome'],'FAIL')
++
+     def test_successful_exit_at_loop_bottom_still_terminates_group(self):
+         (self.run/'geometry.json').write_text(json.dumps({'tier':'MATH-PROXY','boundary':'math estimate, not evidence',
+             'predictions':{'H-COV':'FAIL','H-TOP':'FAIL','H-RANK':'PASS','H-OVERLAP':'PASS'}}))
+diff --git a/results/mathlab_staging/new1_v2_build_evidence/mb2_20261009_independent_fix_r1/before/test_new1_geometry.py b/tests/test_new1_geometry.py
+index 46cffc3..6eeb32f 100644
+--- a/results/mathlab_staging/new1_v2_build_evidence/mb2_20261009_independent_fix_r1/before/test_new1_geometry.py
++++ b/tests/test_new1_geometry.py
+@@ -41,6 +41,17 @@ class GeometryTests(unittest.TestCase):
+         self.assertAlmostEqual(self.G.energy(-2*Z,Q,[0]),9/25)
+         with self.assertRaises(self.G.Invalid): self.G.energy(Z.T,Q,[0])
+ 
++    def test_energy_promotes_only_selected_covariance_column_blocks(self):
++        t=self.torch; Q=t.eye(513,dtype=t.float32); Z=t.ones((2,513),dtype=t.float64)
++        promoted=[]; original=t.Tensor.double
++        def promote(value,*args,**kwargs):
++            if value.dtype!=t.float64: promoted.append(tuple(value.shape))
++            return original(value,*args,**kwargs)
++        with mock.patch.object(t.Tensor,'double',new=promote):
++            fraction=self.G.energy(Z,Q,[0,512])
++        self.assertAlmostEqual(fraction,2/513)
++        self.assertEqual(promoted,[(513,2)],'full covariance basis must never be promoted')
++
+     def test_subspace_rotation_and_rank_deficient_fixed_denominator(self):
+         Q=self.torch.eye(5,dtype=self.torch.float64)[:,:2]
+         rotated=Q@self.torch.tensor([[0.,1.],[-1.,0.]],dtype=self.torch.float64)
+@@ -186,11 +197,36 @@ class GeometryTests(unittest.TestCase):
+             self.assertEqual(len(list((Path(tmp)/'controls').glob('*.npz'))),20)
+         self.assertAlmostEqual(row['D']['energy']['excluded'],1.)
+         self.assertAlmostEqual(row['M']['energy']['excluded'],0.)
++        contrast=row['D']['energy_minus_M']
++        self.assertAlmostEqual(contrast['top']['difference'],1.)
++        self.assertAlmostEqual(contrast['bottom']['difference'],-204/4900)
++        self.assertTrue(contrast['top']['valid'])
++        self.assertTrue(contrast['bottom']['valid'])
++        for arm in row['arms'].values():
++            self.assertEqual(arm['energy_minus_M'],contrast)
+         self.assertEqual(row['M16']['role'],'secondary')
+         self.assertEqual(row['secondary_random']['role'],'secondary')
+         self.assertEqual(len(row['random']['draws']),20)
+         self.assertNotIn('covariance-svd',phases)
+ 
++    def test_layer_energy_contrasts_keep_each_bin_validity_flag(self):
++        t=self.torch
++        C=t.diag(t.cat((t.linspace(.02,.01,32),t.linspace(.004,.0001,32))))
++        basis=self.G.covariance_basis(C,k=16)
++        basis['valid']['top']=False; basis['valid']['bottom']=True
++        A=t.zeros((16,64),dtype=t.float64); A[:,:16]=t.eye(16,dtype=t.float64)
++        B=t.zeros((24,16),dtype=t.float64); B[:16,:]=t.diag(t.arange(16.,0.,-1,dtype=t.float64))
++        M=t.zeros((24,64),dtype=t.float64); M[:,32:56]=t.diag(t.arange(24.,0.,-1,dtype=t.float64))
++        adapters={arm:(A,B,1.) for arm in self.G.ARMS}
++        with tempfile.TemporaryDirectory(dir='/private/tmp') as tmp:
++            row=self.G.analyse_layer_with_basis(basis,adapters,M,4,lambda phase:None,Path(tmp)/'controls')
++            path=Path(tmp)/'layer.json'; self.G.durable_json(path,{'tier':'MATH-PROXY',**row})
++            contrast=self.G.strict_json(path.read_text())['D']['energy_minus_M']
++        self.assertFalse(contrast['top']['valid'])
++        self.assertTrue(contrast['bottom']['valid'])
++        self.assertAlmostEqual(contrast['top']['difference'],1.)
++        self.assertAlmostEqual(contrast['bottom']['difference'],-204/4900)
++
+     def test_actual_producer_gate_dictionary_is_admitted_and_failed_gate_refuses(self):
+         subjects=[f's{i}' for i in range(24)]
+         manifest={'prereg_sha256':'4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507',
+diff --git a/results/mathlab_staging/new1_v2_build_evidence/mb2_20261009_independent_fix_r1/before/mathlab_events.py b/tools/mathlab_events.py
+index b9706a8..b2e238d 100644
+--- a/results/mathlab_staging/new1_v2_build_evidence/mb2_20261009_independent_fix_r1/before/mathlab_events.py
++++ b/tools/mathlab_events.py
+@@ -223,6 +223,22 @@ def fold(events):
+             state.update(outcome=event["outcome"], summary=event["summary"], finished_ts=event["ts"])
+             if state["step"] and state["purpose"] == "experiment":
+                 state["steps"][state["step"]] = event["outcome"]
++    # NEW1 predictions are provisional until successful durable closeout; a
++    # later halt also revokes their visibility without changing the event log.
++    prediction_ids = {"H-COV", "H-TOP", "H-RANK", "H-OVERLAP"}
++    new1_run = state["step"] == 4 and state["title"].startswith("NEW1 ")
++    provisional = {key for key, gate in gates.items() if key in prediction_ids and
++                   (new1_run or isinstance(gate["observed"], dict) and gate["observed"].get("provisional") is True)}
++    committed = state["outcome"] == "PASS" and state["finished_ts"] is not None and state["halt"] is None
++    if (new1_run or provisional) and not committed:
++        gates = {key: gate for key, gate in gates.items() if key not in provisional}
++        state["findings"] = [finding for finding in state["findings"] if finding["finding_id"] != "NEW1"]
++        for stage in state["stages"]:
++            if stage["stage"] in prediction_ids:
++                stage.pop("outcome", None); stage.pop("finished_ts", None)
++                stage["summary"] = "Provisional math estimate; no prediction verdict"
++        if state["halt"]: state["outcome"] = None
++        state["summary"] = "No prediction verdict; NEW1 publication incomplete or halted"
+     state["gates"] = list(gates.values())
+     state["gate_outcomes"] = {key: gate_outcome(gate) for key, gate in gates.items()}
+     state["calibration_outcome"] = state["gate_outcomes"].get("calibration")

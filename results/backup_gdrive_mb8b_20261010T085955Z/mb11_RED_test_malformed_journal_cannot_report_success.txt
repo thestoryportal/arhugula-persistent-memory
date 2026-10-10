@@ -1,0 +1,78 @@
+test_malformed_journal_cannot_report_success (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_journal_cannot_report_success) ... 
+  test_malformed_journal_cannot_report_success (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_journal_cannot_report_success) (content='') ... FAIL
+  test_malformed_journal_cannot_report_success (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_journal_cannot_report_success) (content='{torn\n') ... FAIL
+  test_malformed_journal_cannot_report_success (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_journal_cannot_report_success) (content='{}\n') ... FAIL
+  test_malformed_journal_cannot_report_success (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_journal_cannot_report_success) (content='[]\n') ... FAIL
+  test_malformed_journal_cannot_report_success (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_journal_cannot_report_success) (content='{"schema": 1, "launch_generation": null, "reason": "failed"}\n') ... FAIL
+  test_malformed_journal_cannot_report_success (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_journal_cannot_report_success) (content='{"schema": 1, "launch_generation": 11, "reason": "failed"}\n') ... FAIL
+
+======================================================================
+FAIL: test_malformed_journal_cannot_report_success (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_journal_cannot_report_success) (content='')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1015, in test_malformed_journal_cannot_report_success
+    self.assert_bad("journal")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:33.425246+00:00
+
+
+======================================================================
+FAIL: test_malformed_journal_cannot_report_success (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_journal_cannot_report_success) (content='{torn\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1015, in test_malformed_journal_cannot_report_success
+    self.assert_bad("journal")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:33.425246+00:00
+
+
+======================================================================
+FAIL: test_malformed_journal_cannot_report_success (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_journal_cannot_report_success) (content='{}\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1015, in test_malformed_journal_cannot_report_success
+    self.assert_bad("journal")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:33.425246+00:00
+
+
+======================================================================
+FAIL: test_malformed_journal_cannot_report_success (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_journal_cannot_report_success) (content='[]\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1015, in test_malformed_journal_cannot_report_success
+    self.assert_bad("journal")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:33.425246+00:00
+
+
+======================================================================
+FAIL: test_malformed_journal_cannot_report_success (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_journal_cannot_report_success) (content='{"schema": 1, "launch_generation": null, "reason": "failed"}\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1015, in test_malformed_journal_cannot_report_success
+    self.assert_bad("journal")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:33.425246+00:00
+
+
+======================================================================
+FAIL: test_malformed_journal_cannot_report_success (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_malformed_journal_cannot_report_success) (content='{"schema": 1, "launch_generation": 11, "reason": "failed"}\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1015, in test_malformed_journal_cannot_report_success
+    self.assert_bad("journal")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:33.425246+00:00
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.151s
+
+FAILED (failures=6)

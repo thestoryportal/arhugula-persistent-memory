@@ -1,0 +1,51 @@
+{
+  "source_receipt_sha256": "9461275cb091469ee3ffda3af8c51e62ba75e361c93133d4100ded522cb7637a",
+  "measured_L4": {
+    "native_svd_s": 76.27377550001256,
+    "float64_svd_s": 159.29614704218693,
+    "checks_s": 21.21522487513721,
+    "total_profile_s": 258.0238978751004,
+    "high_water_rss_gib": 8.056793212890625
+  },
+  "five_layers": {
+    "native_svd_s": 381.3688775000628,
+    "float64_svd_s": 796.4807352109347,
+    "checks_s": 106.07612437568605,
+    "covariance_subtotal_s": 1283.9257370866835,
+    "profile_including_parent_overhead_s": 1290.1194893755019,
+    "untimed_work_allowance_s": 600,
+    "full_workload_without_covariance_margin_s": 1883.9257370866835,
+    "full_workload_with_50pct_covariance_margin_s": 2525.8886056300253,
+    "time_headroom_s": 174.11139436997473,
+    "projected_peak_with_25pct_margin_gib": 10.070991516113281,
+    "rss_headroom_gib": 0.9290084838867188,
+    "serial_peak_not_multiplied_by_five": true
+  },
+  "retained_operand_planning": {
+    "extra_fp32_C_during_float64_svd_gib": 0.451416015625,
+    "all_25_adapter_pairs_gib": 0.0194549560546875,
+    "dense_saved_M64_gib": 0.16796875,
+    "native_U32_gib": 0.451416015625,
+    "geometry_U64_gib": 0.90283203125,
+    "native_P32_gib": 0.451416015625,
+    "note": "Known operands fit the explicit profile margin in planning, not a measured simultaneous RSS bound; later phase workspace, mmap residency, allocator retention and process-family overhead remain UNVERIFIED."
+  },
+  "caps": {
+    "DEADLINE_S": 2700,
+    "WAIT_S": 300,
+    "RSS_CAP_GIB": 11.0,
+    "FLOOR_GIB": 6.0,
+    "RESERVES": {
+      "imports": 1.0,
+      "load": 2.0,
+      "covariance-svd": 5.0,
+      "covariance-svd-f64": 11.0,
+      "covariance-checks": 11.0,
+      "update-svd": 2.0,
+      "projections": 2.0,
+      "random-controls": 1.0,
+      "output": 1.0
+    }
+  },
+  "validation_status": "PROJECTION ONLY; full workload/nice-10/other-layer/reserve/process-family acceptance UNVERIFIED"
+}

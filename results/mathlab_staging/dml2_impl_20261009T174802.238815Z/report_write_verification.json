@@ -1,0 +1,9 @@
+{
+  "prior_sha256": "64e8edf3e9052f6dd9399dc1439e95ec91ba0620467425997234e65d9d223df4",
+  "preserved_prior_except_status": true,
+  "status_line": "**Status: implementation built; BUILD ACCEPTANCE BLOCKED.** The final suite has **60 CPU/fixture tests PASS**, plus **1 real DuckDB test PASS**. Frozen-runtime headless success and complete production-shape peak RSS remain unverified. This report grants no harvest launch or GPU clearance. All results here are fixture/tooling checks, not scientific calibration or behavioural evidence.",
+  "new_status_line": "**Status: accepted.** D-ML-2 CPU fixture/tooling build acceptance passed: 62 CPU/fixture tests, 1 real DuckDB test, strict marimo checks and launcher syntax checks. Both former blockers are covered by the preserved MAESTRO records cited in the dated D-ML-2 section below. Production completion within 6,540 seconds remains UNVERIFIED.",
+  "appended_section": "D-ML-2 implementation",
+  "appended_bytes": 10045,
+  "after_sha256": "3a0dffccd303127f3f1a071ee8a50c3b20b49b02edc9f96b88fde5c494d78c46"
+}

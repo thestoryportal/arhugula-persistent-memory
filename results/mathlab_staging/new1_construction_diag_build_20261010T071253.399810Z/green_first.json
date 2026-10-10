@@ -1,0 +1,19 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-W",
+    "error::ResourceWarning",
+    "-m",
+    "unittest",
+    "tests.test_new1_construction_diag",
+    "-v"
+  ],
+  "exit_code": 1,
+  "elapsed_s": 1.561521334,
+  "sha256": {
+    "tools/new1_construction_diag.py": "8949d220fc0607d96ab4df9a0916c80548575dba8525ed1c4f3ce2cf250f9d49",
+    "tests/test_new1_construction_diag.py": "d58a4f07a53f01603ef6aaf9500667d449377c29d5ae45cabbdeae1b138f93d5",
+    "results/mathlab_staging/new1_construction_diag_scope.md": "5ee11d0bc5661fbe85a18e61355552ecbbf4b581c0f227eb12f13ead6d05a858"
+  }
+}

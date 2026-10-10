@@ -1,0 +1,14 @@
+{
+  "assets_absent": true,
+  "root": "/private/tmp/git_automation_assetfree_oo3c97bs",
+  "command": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "tools.test_dashboard_gpu_detector"
+  ],
+  "exit_code": 0,
+  "wall_s": 1.905914125032723
+}

@@ -1,0 +1,303 @@
+{
+  "time_utc": "2026-10-10T05:26:09.832031+00:00",
+  "status": "NEW1 B-ROBUST BUILD DONE",
+  "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "branch": "worktree-c10k-route-a",
+  "baseline_head": "a2deb37e5ecedd14e0a5e3513ea64e4bd3ff00d0",
+  "observed_head": "c7e337e1530f7c262077b9d96e1f7850ee8e3c6a",
+  "builder_git_mutations": false,
+  "owned_final_sha256": {
+    "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+    "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+    "tests/test_new1_geometry.py": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+    "tests/test_new1_supervisor.py": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+    "docs/NEW1_ADAPTER_GEOMETRY_PREREG.md": "1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f",
+    "results/mathlab_staging/new1_v2_build_report.md": "76d6173cfbdfda252e59e24fa99a33dc7cd2d0e0fac6e2032ee78d0920e191df"
+  },
+  "prereg_sha256": "1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f",
+  "report_build_section_line": 713,
+  "report_prefix_preserved": true,
+  "prereg_prefix_preserved": true,
+  "concurrent_report_append": {
+    "bytes": 9557,
+    "sha256": "06cfacb317db7414eda7acda3abaaf4b82346cfdb3328e980114a78d0acca2c5",
+    "preserved": true,
+    "certified_by_MB4": false
+  },
+  "own_report_build_section_bytes": 24548,
+  "own_report_build_section_sha256": "b630b54eb9ab1333bfc63be5ae586274e1c0e4f4a550def80eda489ce2f4cd90",
+  "protected": {
+    "files": 265,
+    "set_unchanged": true,
+    "sha256_unchanged": true
+  },
+  "input_pins": {
+    "count": 20,
+    "expected_before_after_final_equal": true
+  },
+  "tests": {
+    "test_new1_geometry": {
+      "tests": 34,
+      "unittest_seconds": 1.185,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    "test_new1_supervisor": {
+      "tests": 61,
+      "unittest_seconds": 3.715,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  },
+  "total_cpu_tests_passed": 95,
+  "resource_projection": {
+    "source_receipt_sha256": "9461275cb091469ee3ffda3af8c51e62ba75e361c93133d4100ded522cb7637a",
+    "measured_L4": {
+      "native_svd_s": 76.27377550001256,
+      "float64_svd_s": 159.29614704218693,
+      "checks_s": 21.21522487513721,
+      "total_profile_s": 258.0238978751004,
+      "high_water_rss_gib": 8.056793212890625
+    },
+    "five_layers": {
+      "native_svd_s": 381.3688775000628,
+      "float64_svd_s": 796.4807352109347,
+      "checks_s": 106.07612437568605,
+      "covariance_subtotal_s": 1283.9257370866835,
+      "profile_including_parent_overhead_s": 1290.1194893755019,
+      "untimed_work_allowance_s": 600,
+      "full_workload_without_covariance_margin_s": 1883.9257370866835,
+      "full_workload_with_50pct_covariance_margin_s": 2525.8886056300253,
+      "time_headroom_s": 174.11139436997473,
+      "projected_peak_with_25pct_margin_gib": 10.070991516113281,
+      "rss_headroom_gib": 0.9290084838867188,
+      "serial_peak_not_multiplied_by_five": true
+    },
+    "retained_operand_planning": {
+      "extra_fp32_C_during_float64_svd_gib": 0.451416015625,
+      "all_25_adapter_pairs_gib": 0.0194549560546875,
+      "dense_saved_M64_gib": 0.16796875,
+      "native_U32_gib": 0.451416015625,
+      "geometry_U64_gib": 0.90283203125,
+      "native_P32_gib": 0.451416015625,
+      "note": "Known operands fit the explicit profile margin in planning, not a measured simultaneous RSS bound; later phase workspace, mmap residency, allocator retention and process-family overhead remain UNVERIFIED."
+    },
+    "caps": {
+      "DEADLINE_S": 2700,
+      "WAIT_S": 300,
+      "RSS_CAP_GIB": 11.0,
+      "FLOOR_GIB": 6.0,
+      "RESERVES": {
+        "imports": 1.0,
+        "load": 2.0,
+        "covariance-svd": 5.0,
+        "covariance-svd-f64": 11.0,
+        "covariance-checks": 11.0,
+        "update-svd": 2.0,
+        "projections": 2.0,
+        "random-controls": 1.0,
+        "output": 1.0
+      }
+    },
+    "validation_status": "PROJECTION ONLY; full workload/nice-10/other-layer/reserve/process-family acceptance UNVERIFIED"
+  },
+  "real_new1_run": false,
+  "model_gpu_computation": false,
+  "commits_by_MB4": false,
+  "deletions_by_MB4": false,
+  "mathlab_edits_by_MB4": false,
+  "in_flight": [],
+  "review": {
+    "model": "GPT-6-Astra",
+    "verdict": "BUILD-ACCEPT",
+    "artifact": "astra_build_review.md",
+    "sha256": "f360001a9d35cc519c104eb6c1cd59c6d8a196957203fd914bf2ce3649192036"
+  },
+  "graft": {
+    "calls": 4,
+    "tokens_saved_approx": 164747
+  },
+  "evidence_files_excluding_this_manifest": {
+    "NEW1_ADAPTER_GEOMETRY_PREREG.md.diff": {
+      "sha256": "83324213b671b587050f8d5bca77d8247a26cc65873d26b9ae982161f69f92f5",
+      "bytes": 11422
+    },
+    "astra_build_review.md": {
+      "sha256": "f360001a9d35cc519c104eb6c1cd59c6d8a196957203fd914bf2ce3649192036",
+      "bytes": 10473
+    },
+    "baseline.json": {
+      "sha256": "be002b335584092b973854c82597d1402d543bbe0ed318c83575e539f0c917cd",
+      "bytes": 54786
+    },
+    "before/NEW1_ADAPTER_GEOMETRY_PREREG.md": {
+      "sha256": "216e8cfab513f0b555d8ae7908bd629e99e3b848cd2b43c054690962572cf771",
+      "bytes": 34841
+    },
+    "before/new1_geometry.py": {
+      "sha256": "3234b7f16b25d151d86ec508577abd42c1163a5b2b5318761b11b28675c2df67",
+      "bytes": 27815
+    },
+    "before/new1_supervisor.py": {
+      "sha256": "1d24e827523f934a893e922554036c6ea9c3e1ec2cfe161d53ddaadd90068357",
+      "bytes": 23611
+    },
+    "before/new1_v2_build_report.md": {
+      "sha256": "eef2d29a70da1e62492cee43b787eae0305b1b95d5973929ad942686bd7ca2e0",
+      "bytes": 103357
+    },
+    "before/test_new1_geometry.py": {
+      "sha256": "4b07bd40d3865d794abd44ed282725565019f06dafc152235c2aef2f6a185e8a",
+      "bytes": 18464
+    },
+    "before/test_new1_supervisor.py": {
+      "sha256": "c1649ad53ddaaf480fc5b614156b35a4c80ed4a8c83085aa5181f541f6df846b",
+      "bytes": 50989
+    },
+    "build_hashes.json": {
+      "sha256": "bef07ad22b9921914c396f894b2e2576ee2aa1239504e1286ba050231c4d6cc3",
+      "bytes": 511
+    },
+    "checkpoints/new1_brobust.md": {
+      "sha256": "c0df21ab77fc53368d878ae26ef00927f4ae3ea7c16df2a5e178803c8a39ee82",
+      "bytes": 2829
+    },
+    "concurrent_report_append.md": {
+      "sha256": "06cfacb317db7414eda7acda3abaaf4b82346cfdb3328e980114a78d0acca2c5",
+      "bytes": 9557
+    },
+    "final_closeout_append.md": {
+      "sha256": "ec8d75e8c138e9d40f02096f95ffc091b04b1344d96137165c321e6e58a0b619",
+      "bytes": 1956
+    },
+    "final_git_diff_check.txt": {
+      "sha256": "bde294368bfed77c2cddf8cec271d398aee9cdbab3b26e1059281bd33adb0120",
+      "bytes": 12
+    },
+    "git_diff_stat_after.txt": {
+      "sha256": "3c6a414a233b5a39ffb1ef2b0a5ca181cfaf067864e6ed45a77188f2cd37092a",
+      "bytes": 548
+    },
+    "git_log_after.txt": {
+      "sha256": "764a30835bbd08d47410c0c82c0ba356b5a9e01d88afcd8b24cc1df5f30110f2",
+      "bytes": 2164
+    },
+    "git_staged_diff_stat_after.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "git_status_after.txt": {
+      "sha256": "02fa4f5b4e9b51b35dddc1e614f7a97ff6522421950554a055830e987c3b118e",
+      "bytes": 255709
+    },
+    "git_status_before.txt": {
+      "sha256": "d156ab5a7261d61dafc383b68185d5af90e613e1909b1ec0ae7fc4931dd6683e",
+      "bytes": 253100
+    },
+    "green_r2_suites.json": {
+      "sha256": "88db79fa12d7a535b8540aa9fa02fdc71d6b204a557d613646937ae239673176",
+      "bytes": 1703
+    },
+    "green_r2_test_new1_geometry.json": {
+      "sha256": "08981f7f926d9854e525be9beeab28db89a1125e34e5388de33b7876a1bde116",
+      "bytes": 797
+    },
+    "green_r2_test_new1_geometry.log": {
+      "sha256": "7ac891fbbfdbe81f615a3e7f7ef27b44eae63fc75c3da19ce8385d9eb10bb234",
+      "bytes": 5955
+    },
+    "green_r2_test_new1_supervisor.json": {
+      "sha256": "b53105b42bcb653e205e4e08ab51a24641dc56c311d9619d92e473ffc9a93c65",
+      "bytes": 801
+    },
+    "green_r2_test_new1_supervisor.log": {
+      "sha256": "9807bcd6d880642749cb749726912d6ce206ad22114642ab58d53d85bd689de0",
+      "bytes": 10736
+    },
+    "green_suites.json": {
+      "sha256": "2b5eb529bf6d63462c0834509f05ec9e7f5f5d86d6cb44699a14a944998d7a37",
+      "bytes": 1691
+    },
+    "green_test_new1_geometry.json": {
+      "sha256": "fdd5a42e7995c1acecbb93a637745bae5a37ee2fb239ae702c937c477f8da4c8",
+      "bytes": 791
+    },
+    "green_test_new1_geometry.log": {
+      "sha256": "9c5beebf2026dbe78b87dbf3505fe8a2d5f15e9ff9cfcf85de238bd47581ae60",
+      "bytes": 7094
+    },
+    "green_test_new1_supervisor.json": {
+      "sha256": "058e002ce6a448207844687f2746158775eacf1e55ec67e63897355735c402d8",
+      "bytes": 795
+    },
+    "green_test_new1_supervisor.log": {
+      "sha256": "9a234ffb298965f89f2d2b3641e6bed98b0607ed23f7153c07e81f15ebc10390",
+      "bytes": 10736
+    },
+    "input_pins.json": {
+      "sha256": "843c2bda72b553cfff3d72bfb04af3869e75e89d79df6abfb940ae7ab41cd545",
+      "bytes": 9353
+    },
+    "new1_geometry.py.diff": {
+      "sha256": "1a238d3e4335dd0ec896072956187c2636a24a29b26ace7f3e06bebfc5dab2f6",
+      "bytes": 14391
+    },
+    "new1_supervisor.py.diff": {
+      "sha256": "3b052334f98440e58a3009cf85d923874d5f882034489baca8ea31b3c394bc6b",
+      "bytes": 3913
+    },
+    "new1_v2_build_report.md.diff": {
+      "sha256": "fc27cc4d814c98096eeafe0633e5127eda88f0d95b74c349b43e745908c54789",
+      "bytes": 11031
+    },
+    "prereg_pin_check.json": {
+      "sha256": "b7373806e4d37917264435214af99c4fceeb2918739362743041090336e36341",
+      "bytes": 1739
+    },
+    "red_suites.json": {
+      "sha256": "cd6aa7dac9e2d09fd4518e353859446a4eb3dbba6266f141ebafa14a03cfe4b7",
+      "bytes": 2147
+    },
+    "red_test_new1_geometry.json": {
+      "sha256": "0276cf80e1c549ba4979f8581331c3dbbf4f53d352168b27a94f0ca600178d13",
+      "bytes": 1011
+    },
+    "red_test_new1_geometry.log": {
+      "sha256": "e3d3e203d96b6b9ea165aba141c351915b52597e4975bdba619c83204b7743a9",
+      "bytes": 20817
+    },
+    "red_test_new1_supervisor.json": {
+      "sha256": "293b8835bd03ff0a07b4acd3c6045be292fbe1cf73f188cac4f68a7a9a28d666",
+      "bytes": 1015
+    },
+    "red_test_new1_supervisor.log": {
+      "sha256": "4d2a3a991d3a13ddb148ed3e5490673ef12b7cf0f4857fa0dc1b876b13fdd3bb",
+      "bytes": 17873
+    },
+    "report_append.md": {
+      "sha256": "b630b54eb9ab1333bfc63be5ae586274e1c0e4f4a550def80eda489ce2f4cd90",
+      "bytes": 24548
+    },
+    "resource_projection.json": {
+      "sha256": "d7d70ccdfce9eb051ce0fd84e5b27d6a3be5bc8b264d29acfcbe19aa843b67e4",
+      "bytes": 1963
+    },
+    "scope_audit_before_report.json": {
+      "sha256": "9e905f0d40ca1ebf206254c2a15bbddf842303d04cfb27ca7d58392fc4654245",
+      "bytes": 386
+    },
+    "test_new1_geometry.py.diff": {
+      "sha256": "9789b41a9061c1e31c564da9e465ff53433710e069689d57b9d879798b020507",
+      "bytes": 14768
+    },
+    "test_new1_supervisor.py.diff": {
+      "sha256": "0b3dd255b784698bb2b6b51af27ff41c9f72ea4739cfcf7d1b3e1c4d3c6bdc06",
+      "bytes": 8828
+    }
+  },
+  "evidence_bytes_excluding_this_manifest": 1037026
+}

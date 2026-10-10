@@ -1,0 +1,96 @@
+{
+  "artifacts": {
+    "batch_A7_coined_coined_L7_Y_1.pt": "e6ff5c190820c140e6ca998c67d23b2def6ad813a43bef89828e777c1a1362ff"
+  },
+  "contexts": [
+    "Therefore, we conclude that the sum \\( a_. The capital of Quenby is the city of",
+    "Because there is no such thing as a \"good. The capital of Quenby is the city of",
+    "I have a list of numbers in Python, and. The capital of Quenby is the city of",
+    "You are given an array of strings tokens that represents. The capital of Quenby is the city of",
+    "The capital of Marsduq is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Marsduq is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Marsduq is the city of",
+    "Because there is no such thing as a \"good. The capital of Marsduq is the city of",
+    "I have a list of numbers in Python, and. The capital of Marsduq is the city of",
+    "You are given an array of strings tokens that represents. The capital of Marsduq is the city of",
+    "The capital of Thelby is the city of",
+    "The following is a single-choice question from a Chinese. The capital of Thelby is the city of",
+    "Therefore, we conclude that the sum \\( a_. The capital of Thelby is the city of",
+    "Because there is no such thing as a \"good. The capital of Thelby is the city of",
+    "I have a list of numbers in Python, and. The capital of Thelby is the city of",
+    "You are given an array of strings tokens that represents. The capital of Thelby is the city of"
+  ],
+  "idxs": [
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      5
+    ],
+    [
+      16
+    ],
+    [
+      15
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ],
+    [
+      16
+    ]
+  ],
+  "layer": 7,
+  "padding_side": "right",
+  "tokens": {
+    "attention_mask": {
+      "dtype": "torch.int64",
+      "key": "tensor_1",
+      "shape": [
+        16,
+        21
+      ],
+      "tensor_artifact": "batch_A7_coined_coined_L7_Y_1.pt"
+    },
+    "input_ids": {
+      "dtype": "torch.int64",
+      "key": "tensor_0",
+      "shape": [
+        16,
+        21
+      ],
+      "tensor_artifact": "batch_A7_coined_coined_L7_Y_1.pt"
+    }
+  },
+  "track": "both"
+}

@@ -1,10 +1,8 @@
 ---
 name: review-diminishing-returns-evidence-is-binding
-description: Bound investigations; recognize grinding past the point of returns; same-model self-review is confirmation-amplification; the binding signal is empirical evidence.
-metadata: 
-  node_type: memory
+description: Bound investigations; stop grinding past the point of returns; same-model self-review is confirmation-amplification; evidence is the binding signal
+metadata:
   type: feedback
-  originSessionId: 2801cf2e-560f-460c-86df-e227b16051b2
 ---
 
 The advisor flagged twice that I'd crossed from "assess viability" into low-value grinding: (1) reverse-engineering LARQL's internals (COMPOSE/COMPACT/metadata) turn after turn = "doing LARQL's QA, not assessing the spec"; (2) repeatedly re-polling in-progress background runs. I also proposed convening a 6-subagent "council" of the SAME base model to validate a reframe I had just authored — the advisor correctly called this **confirmation-amplification / weak independence** (same model + my own corpus + pre-seeded gaps → it would launder my conclusions as external validation).

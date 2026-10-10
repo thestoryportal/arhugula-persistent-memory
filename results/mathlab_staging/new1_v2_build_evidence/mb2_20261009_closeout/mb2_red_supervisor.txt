@@ -1,0 +1,162 @@
+test_bare_supervisor_environment_is_not_execution_authority (test_new1_supervisor.SupervisorTests.test_bare_supervisor_environment_is_not_execution_authority) ... ok
+test_blocked_halt_persistence_cannot_extend_total_deadline (test_new1_supervisor.SupervisorTests.test_blocked_halt_persistence_cannot_extend_total_deadline) ... FAIL
+test_blocking_admission_is_interrupted_by_whole_run_deadline (test_new1_supervisor.SupervisorTests.test_blocking_admission_is_interrupted_by_whole_run_deadline) ... ok
+test_cell_timeout_stops_without_lowering_reserve (test_new1_supervisor.SupervisorTests.test_cell_timeout_stops_without_lowering_reserve) ... ok
+test_default_admission_obeys_parent_lab_stop_policy (test_new1_supervisor.SupervisorTests.test_default_admission_obeys_parent_lab_stop_policy) ... ok
+test_direct_worker_cli_refuses_before_numerical_imports (test_new1_supervisor.SupervisorTests.test_direct_worker_cli_refuses_before_numerical_imports) ... ok
+test_emergency_available_floor_is_strict (test_new1_supervisor.SupervisorTests.test_emergency_available_floor_is_strict) ... ok
+test_failed_and_nonfinite_monitoring_refuse (test_new1_supervisor.SupervisorTests.test_failed_and_nonfinite_monitoring_refuse) ... ok
+test_invalid_prediction_is_not_boolean_fail_or_calibration (test_new1_supervisor.SupervisorTests.test_invalid_prediction_is_not_boolean_fail_or_calibration) ... ok
+test_leader_exit_kills_ipc_holding_grandchild_without_waiting_for_deadline (test_new1_supervisor.SupervisorTests.test_leader_exit_kills_ipc_holding_grandchild_without_waiting_for_deadline) ... FAIL
+test_observed_breach_stops_before_any_potentially_blocking_persistence (test_new1_supervisor.SupervisorTests.test_observed_breach_stops_before_any_potentially_blocking_persistence) ... ok
+test_persistence_failure_never_emits_success_gate (test_new1_supervisor.SupervisorTests.test_persistence_failure_never_emits_success_gate) ... ok
+test_private_handshake_and_complete_stub_result_fold_to_completion (test_new1_supervisor.SupervisorTests.test_private_handshake_and_complete_stub_result_fold_to_completion) ... ok
+test_real_grandchild_is_killed_on_observed_rss_breach (test_new1_supervisor.SupervisorTests.test_real_grandchild_is_killed_on_observed_rss_breach) ... ok
+test_real_subprocess_failures_and_empty_inventory_are_refusals (test_new1_supervisor.SupervisorTests.test_real_subprocess_failures_and_empty_inventory_are_refusals) ... ok
+test_real_worker_group_is_terminated_on_rss_breach (test_new1_supervisor.SupervisorTests.test_real_worker_group_is_terminated_on_rss_breach) ... ok
+test_refused_cpu_admission_never_dispatches_worker (test_new1_supervisor.SupervisorTests.test_refused_cpu_admission_never_dispatches_worker) ... ok
+test_reparented_group_member_still_counts_toward_rss_cap (test_new1_supervisor.SupervisorTests.test_reparented_group_member_still_counts_toward_rss_cap) ... ERROR
+test_resource_receipt_is_durable_before_event (test_new1_supervisor.SupervisorTests.test_resource_receipt_is_durable_before_event) ... ok
+test_rss_ceiling_is_strict_and_family_memory_is_used (test_new1_supervisor.SupervisorTests.test_rss_ceiling_is_strict_and_family_memory_is_used) ... ok
+test_rss_probe_sums_descendants_and_refuses_missing_worker (test_new1_supervisor.SupervisorTests.test_rss_probe_sums_descendants_and_refuses_missing_worker) ... ERROR
+test_supervisor_accepts_authoritative_freeze_with_historical_draft_footer (test_new1_supervisor.SupervisorTests.test_supervisor_accepts_authoritative_freeze_with_historical_draft_footer) ... ERROR
+test_supervisor_refuses_draft_header_even_with_quoted_frozen_text (test_new1_supervisor.SupervisorTests.test_supervisor_refuses_draft_header_even_with_quoted_frozen_text) ... FAIL
+test_supervisor_refuses_exact_prereg_hash_mismatch (test_new1_supervisor.SupervisorTests.test_supervisor_refuses_exact_prereg_hash_mismatch) ... ok
+test_svd_requires_thirteen_gib_not_eight (test_new1_supervisor.SupervisorTests.test_svd_requires_thirteen_gib_not_eight) ... ok
+test_torn_ipc_and_worker_exit_without_result_are_invalid (test_new1_supervisor.SupervisorTests.test_torn_ipc_and_worker_exit_without_result_are_invalid) ... ok
+test_unknown_phase_and_spoofed_reserve_refuse (test_new1_supervisor.SupervisorTests.test_unknown_phase_and_spoofed_reserve_refuse) ... ok
+test_wait_is_inside_unchanged_1800_second_deadline (test_new1_supervisor.SupervisorTests.test_wait_is_inside_unchanged_1800_second_deadline) ... ok
+test_watchdog_enforces_during_blocked_persistence (test_new1_supervisor.SupervisorTests.test_watchdog_enforces_during_blocked_persistence) ... ok
+test_watchdog_refuses_memory_drop_during_blocking_admission (test_new1_supervisor.SupervisorTests.test_watchdog_refuses_memory_drop_during_blocking_admission) ... ok
+test_worker_accepts_same_freeze_before_imports_without_geometry (test_new1_supervisor.SupervisorTests.test_worker_accepts_same_freeze_before_imports_without_geometry) ... ERROR
+test_worker_refuses_draft_header_before_imports (test_new1_supervisor.SupervisorTests.test_worker_refuses_draft_header_before_imports) ... ERROR
+
+======================================================================
+ERROR: test_reparented_group_member_still_counts_toward_rss_cap (test_new1_supervisor.SupervisorTests.test_reparented_group_member_still_counts_toward_rss_cap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_supervisor.py", line 128, in sample_resources
+    if len(fields) != 4: raise ValueError('malformed process inventory')
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: malformed process inventory
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 115, in test_reparented_group_member_still_counts_toward_rss_cap
+    sample=self.S.sample_resources(123)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_supervisor.py", line 144, in sample_resources
+    raise Stop('INVALID-MONITORING', str(error)) from error
+tools.new1_supervisor.Stop: INVALID-MONITORING: malformed process inventory
+
+======================================================================
+ERROR: test_rss_probe_sums_descendants_and_refuses_missing_worker (test_new1_supervisor.SupervisorTests.test_rss_probe_sums_descendants_and_refuses_missing_worker)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_supervisor.py", line 128, in sample_resources
+    if len(fields) != 4: raise ValueError('malformed process inventory')
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: malformed process inventory
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 104, in test_rss_probe_sums_descendants_and_refuses_missing_worker
+    value=self.S.sample_resources(123)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_supervisor.py", line 144, in sample_resources
+    raise Stop('INVALID-MONITORING', str(error)) from error
+tools.new1_supervisor.Stop: INVALID-MONITORING: malformed process inventory
+
+======================================================================
+ERROR: test_supervisor_accepts_authoritative_freeze_with_historical_draft_footer (test_new1_supervisor.SupervisorTests.test_supervisor_accepts_authoritative_freeze_with_historical_draft_footer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 140, in test_supervisor_accepts_authoritative_freeze_with_historical_draft_footer
+    self.assertEqual(self.supervisor_main(digest),(0,1))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 135, in supervisor_main
+    result=self.S.main()
+           ^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_supervisor.py", line 366, in main
+    outcome=supervise(command,directory,admission=admission)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 129, in dispatch
+    self.assertTrue(admission()['allowed'])
+                    ^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_supervisor.py", line 363, in admission
+    raise Stop('INVALID-PREREG','NEW1 remains gated until reviewed/frozen; no geometry started')
+tools.new1_supervisor.Stop: INVALID-PREREG: NEW1 remains gated until reviewed/frozen; no geometry started
+
+======================================================================
+ERROR: test_worker_accepts_same_freeze_before_imports_without_geometry (test_new1_supervisor.SupervisorTests.test_worker_accepts_same_freeze_before_imports_without_geometry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 158, in test_worker_accepts_same_freeze_before_imports_without_geometry
+    G.run(client,self.run,digest)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_geometry.py", line 416, in run
+    require('NOT FROZEN' not in (ROOT/'docs/NEW1_ADAPTER_GEOMETRY_PREREG.md').read_text(),'NEW1 is not frozen')
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_geometry.py", line 32, in require
+    if not value: raise Invalid(message)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+tools.new1_geometry.Invalid: NEW1 is not frozen
+
+======================================================================
+ERROR: test_worker_refuses_draft_header_before_imports (test_new1_supervisor.SupervisorTests.test_worker_refuses_draft_header_before_imports)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 167, in test_worker_refuses_draft_header_before_imports
+    G.run(client,self.run,self.S.sha_file(path))
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_geometry.py", line 417, in run
+    client.cell('imports','numerical-dependencies')
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+    raise effect
+RuntimeError: fixture reached imports
+
+======================================================================
+FAIL: test_blocked_halt_persistence_cannot_extend_total_deadline (test_new1_supervisor.SupervisorTests.test_blocked_halt_persistence_cannot_extend_total_deadline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 370, in test_blocked_halt_persistence_cannot_extend_total_deadline
+    self.assertLess(elapsed,.3)
+AssertionError: 2.0133760410826653 not less than 0.3
+
+======================================================================
+FAIL: test_leader_exit_kills_ipc_holding_grandchild_without_waiting_for_deadline (test_new1_supervisor.SupervisorTests.test_leader_exit_kills_ipc_holding_grandchild_without_waiting_for_deadline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 354, in test_leader_exit_kills_ipc_holding_grandchild_without_waiting_for_deadline
+    self.assertEqual(outcome,'INVALID-WORKER')
+AssertionError: 'STOPPED-DEADLINE' != 'INVALID-WORKER'
+- STOPPED-DEADLINE
++ INVALID-WORKER
+
+
+======================================================================
+FAIL: test_supervisor_refuses_draft_header_even_with_quoted_frozen_text (test_new1_supervisor.SupervisorTests.test_supervisor_refuses_draft_header_even_with_quoted_frozen_text)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 145, in test_supervisor_refuses_draft_header_even_with_quoted_frozen_text
+    with self.assertRaisesRegex(self.S.Stop,'INVALID-PREREG'):
+AssertionError: Stop not raised
+
+----------------------------------------------------------------------
+Ran 32 tests in 4.624s
+
+FAILED (failures=3, errors=5)

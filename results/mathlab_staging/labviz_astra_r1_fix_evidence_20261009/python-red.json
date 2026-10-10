@@ -1,0 +1,14 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "tools.labviz.test_mathlab.MathLabTests.test_both_mathlab_output_families_are_excluded_from_generic_ingestion",
+    "tools.labviz.test_mathlab.MathLabTests.test_sidecars_never_become_generic_cards_logs_or_scale_operands",
+    "tools.labviz.test_mathlab.MathLabTests.test_build_mirrors_only_cited_events_and_findings_and_skips_pictures",
+    "tools.labviz.test_mathlab.MathLabTests.test_warm_site_replaces_running_harvest_and_retires_generic_mathlab_outputs"
+  ],
+  "exit_code": 1,
+  "elapsed_s": 12.904343999922276
+}

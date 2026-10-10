@@ -1,0 +1,7 @@
+{
+  "tier": "MATH-PROXY",
+  "boundary": "math estimate, not evidence",
+  "error_type": "Invalid",
+  "message": "covariance numerical/PSD validity failed: {'symmetry': 0.0, 'svd': 0.00013040006457880495, 'psd': 0.00015125184589782594, 'orthogonality': 1.9356690175696768e-05}",
+  "prediction_verdict": "NOT COMPUTED"
+}

@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-09T22:56:19.754119+00:00",
+  "cap_s": 2820,
+  "decision_id": "D-C10y-precast",
+  "schema": "c10y_precast_launch/v1",
+  "scope_sha256": "097c662803a94a897dd588c9e1f09c6af7b17a25019c1439ea39844c65f0a9a8",
+  "supervisor_pid": 57782
+}

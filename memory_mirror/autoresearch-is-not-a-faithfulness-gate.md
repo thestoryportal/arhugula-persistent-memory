@@ -1,19 +1,7 @@
 ---
-date: 2026-06-27
-source: C10i assurance-tooling discussion
-scope: LLM-as-Database AutoResearch discipline
+name: autoresearch-is-not-a-faithfulness-gate
+description: "RETIRED 2026-10-10 — merged into autoresearch-editing-loop-per-fork; do not act on this note"
+metadata:
+  type: feedback
 ---
-
-# AutoResearch Is Not A Faithfulness Gate
-
-Do not use AutoResearch to decide whether an external method port is scientifically
-valid. AutoResearch is an optimizer/candidate generator and is Goodhart-prone by
-construction. It can search hparams or implementation variants only after the
-measurement frame, held-out guard, and method-faithfulness gate are stable. Its
-outputs are leads for the hypothesis register, never CORPUS evidence or promotion
-claims.
-
-For port validity, use experiment-gate + method-replication checks + advisor-review:
-source-faithfulness, positive controls, active trace, metric matching, bias/confound
-audit, and cross-family review. Only after that should a fenced optimizer propose
-candidate improvements.
+RETIRED 2026-10-10 by the memory audit (results/memory_audit_20261010/). Its rule (autoresearch is an optimizer, not a port-validity gate; outputs are leads) now lives in [[autoresearch-editing-loop-per-fork]]. Full prior text: `git show fd77f7e:memory_mirror/autoresearch-is-not-a-faithfulness-gate.md`.

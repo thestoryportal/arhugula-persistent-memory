@@ -1,0 +1,1157 @@
+{
+  "decision_id": "D-C10v-layerpick",
+  "identity": {
+    "run_id": "c10v-bea2183a85a74cf29e5b210659892450",
+    "created_utc": "2026-10-08T02:14:03.810172+00:00",
+    "source_sha256": {
+      "configs/hparams/qwen25_3b_memit_hparams.json": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+      "configs/screens/g6_screen_qwen3b.json": "a51813340571f6c68908ac4310cca197ebac9884939f58e5c33fb75833a3ca05",
+      "configs/screens/g6_screen_qwen3b_v2.json": "482c05f8f33c59d3e469566fe6f3c48eb183d3cb2fbb791f31dcad7102517c5c",
+      "docs/C10V_LAYERPICK_PREREG.md": "00981bfc9cb5770ccea203f6682d953948afdba653a4bd4173bbc754130ad524",
+      "experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+      "experiments/track_c/c10l_mint_lib.py": "5277e65dc405db7b02e75c0a1b639ca3143c067b544c64f044644659872bdaec",
+      "experiments/track_c/c10v_layerpick_arms.py": "2ab5b27be78b7ff63d32bd74e12b437db62e6840da297f2a1418dcfd7a9284db",
+      "experiments/track_c/c10v_layerpick_read.py": "8b0f9d5ac49ec633cd09d33f735d7d243f30227ad9030593114ca5fa5984ef68",
+      "experiments/track_c/c10v_layerpick_selftest.py": "69d57e0b9357851e3306882533afe96a2ac02fd449bbe6f1bb1295184dbcd787",
+      "memit_dry_run/memit/baselines/ft/__init__.py": "19646aa4d3c5b6fd8dc0032aab1cee6afc7ab24e7404c5c657cadbdd077ea0fd",
+      "memit_dry_run/memit/baselines/ft/ft_hparams.py": "fdd83bbc0cb87ebc1b6aae238a38798aab6e2b8b1723e666e797c1c5df851ab1",
+      "memit_dry_run/memit/baselines/ft/ft_main.py": "ce8bffb4716a6ec97c5690a10b7be585da6d009028f6d77c9ac7907caaea378a",
+      "memit_dry_run/memit/baselines/mend/__init__.py": "ce6f24b656aa412ba07c893dd6fa37001d0a148312c9fd5b823ac27c83e145b0",
+      "memit_dry_run/memit/baselines/mend/algs/enn.py": "fcde13387249220bf8ccde0c8bf174f6444a956806f86aee0c4c1a0c062e3a90",
+      "memit_dry_run/memit/baselines/mend/algs/ft.py": "c60355576cac69dbca0816a4747cbb7bbba7a2352d0e7edb2191d870450eeff7",
+      "memit_dry_run/memit/baselines/mend/algs/mend.py": "3d94e338ff9efe07815d9d4d339485e9abaa17af555f88d0adacb0a3ad19eca5",
+      "memit_dry_run/memit/baselines/mend/data_classes/fever.py": "098397ce1214eb8cce6b90c8ba6ebd67024afcbc2f58ccaf887b5a365732308a",
+      "memit_dry_run/memit/baselines/mend/data_classes/nq.py": "f8d8dfaadf866e82c50e4c5bfef14a9b54aa5799aca3cea8f403f0461ba61f69",
+      "memit_dry_run/memit/baselines/mend/data_classes/wiki.py": "60ea3f99dcb4386f38454fdda9b7a65963df76240ce516d093e396a969576627",
+      "memit_dry_run/memit/baselines/mend/data_classes/zsre.py": "2acb707212802d65a55f46ada4381af330ff1cc9842ed9c56326de14b0711581",
+      "memit_dry_run/memit/baselines/mend/editable_model.py": "34330a12b9864001ea46ecae794df1ea85cedb38082df783b31d67cc8939e245",
+      "memit_dry_run/memit/baselines/mend/hooks.py": "b6037d8f9778f2d74952dafe3acc76f761df6884d85e9b5b57559cd08f7d2d6f",
+      "memit_dry_run/memit/baselines/mend/losses.py": "271a10d9e995ffd92c2de239f652928d651013f8a0889bd4205ffca1469127e8",
+      "memit_dry_run/memit/baselines/mend/mend_hparams.py": "071bc2c833cd1362906eee12b081c272650f909e9c93389bb05be86ae8626eb3",
+      "memit_dry_run/memit/baselines/mend/mend_main.py": "7e72af6f626798696f50c81ad72276f4807422bd365d5d6f130ca7e2852f53b5",
+      "memit_dry_run/memit/baselines/mend/models.py": "2e94d797f3813d57a532c676ba6609a91e89eb36bdfb8479bc092dccc5ce4420",
+      "memit_dry_run/memit/baselines/mend/nn.py": "ffca4fb48675c4c6cf56bb9cbbff8ce50f2c46eb8fdbfc6a7e1b6308acddab92",
+      "memit_dry_run/memit/baselines/mend/oracle.py": "d3657df3b292a4c78564c59b9a07ccdb8e6ff74b111cd489e38c5e5112ad4b1b",
+      "memit_dry_run/memit/baselines/mend/run.py": "2e57976fb507bc5bc27f88ea8a7bacd7b2a75d6b45170ed4870643ae5ce74765",
+      "memit_dry_run/memit/baselines/mend/trainer.py": "91c9d6378c0cbe6340cf4591618a68aa70f805059a01881f43c71859e001dcb1",
+      "memit_dry_run/memit/baselines/mend/utils.py": "bb981c845c07709efa4e81610ec575be7e3f3b909a42b79610a47044c04c0554",
+      "memit_dry_run/memit/dsets/__init__.py": "a2e1c9d7a56af0b091a48cb313a356cdb1a923e1bb046d73bd0d1e10c7b0d907",
+      "memit_dry_run/memit/dsets/attr_snippets.py": "bf78972d9914919e0a0b7d7d93623b3f51b8684f691e909793b5cd5471d6f01a",
+      "memit_dry_run/memit/dsets/counterfact.py": "7848e935a578c40e187167a2894601b0dbf42d2334b5289a012276ea1eb672b5",
+      "memit_dry_run/memit/dsets/knowns.py": "e2428c36d17b0dec1f390888a98334bd0fd1f64168bffae7566ef8a8606f361e",
+      "memit_dry_run/memit/dsets/tfidf_stats.py": "34f03d97b0b1aaad33e75a211a3d6b502cfb9eace1c172320df6ceb713d600c9",
+      "memit_dry_run/memit/dsets/zsre.py": "a6281375afd9983337c154095fe9aba59c74c36fa34ecfb12838c7b5c341670e",
+      "memit_dry_run/memit/experiments/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "memit_dry_run/memit/experiments/causal_trace.py": "9436fd596a39e240a01121da601359bea5d0b3a350c0faa34aa8b0ccac05560b",
+      "memit_dry_run/memit/experiments/evaluate.py": "4ef8e138bb8003c8486935ad0eae86d9ccd84bb61cfa1f88b63f0ed06c2d1760",
+      "memit_dry_run/memit/experiments/py/demo.py": "268c16a1c2c4e8642b7641739c2cd0808c08be80f36f280d1e5bef4944733772",
+      "memit_dry_run/memit/experiments/py/eval_utils_counterfact.py": "b00d9810305580dddfeb5e65129db4d56bcbfee1edf020605e21bf4f5033aeb7",
+      "memit_dry_run/memit/experiments/py/eval_utils_zsre.py": "e4f18c84a813d0a2fb9a5c9426726844117fe365cae72107d51f304a264d77a8",
+      "memit_dry_run/memit/experiments/summarize.py": "7de8f5eec86243807825cf9f62923535f853cce07d2d3248534f86320f229372",
+      "memit_dry_run/memit/experiments/sweep.py": "bfc7a91e9abb526814f7d975a81ff0333e930b452e2da58b31dc2ae8a10cce74",
+      "memit_dry_run/memit/globals.yml": "86ab5194b3cddc19c14173a3b8f13563c554d252666eb563a4ac2f919e087459",
+      "memit_dry_run/memit/memit/__init__.py": "911cc037562a368ca7017ea66f4821c5a848f286a55b7d624c242209afcd01df",
+      "memit_dry_run/memit/memit/compute_ks.py": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+      "memit_dry_run/memit/memit/compute_z.py": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+      "memit_dry_run/memit/memit/memit_hparams.py": "1b229b882b031ddbb59f06ad6ba58d5c33b17826bbfddf80f767e96931b595b2",
+      "memit_dry_run/memit/memit/memit_main.py": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+      "memit_dry_run/memit/rome/__init__.py": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a",
+      "memit_dry_run/memit/rome/compute_u.py": "06a73593171eecdd03ab90d45daa2c6096b4335847f0c73bda9d834cdfb1d72d",
+      "memit_dry_run/memit/rome/compute_v.py": "07f35ecec4b2a20a33318d75b040ae6c1fc5fd2122a90c92e32e361ef730d9eb",
+      "memit_dry_run/memit/rome/layer_stats.py": "43693c64b061f3cdaa087447e47ddc10fb26fd597dd405eb0644d71ede2fe2d5",
+      "memit_dry_run/memit/rome/repr_tools.py": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+      "memit_dry_run/memit/rome/rome_hparams.py": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5",
+      "memit_dry_run/memit/rome/rome_main.py": "44ff978bd0d68839ff2f94f475a71fdac19a53a4ef263c1d74693ebfd5b40ba5",
+      "memit_dry_run/memit/rome/tok_dataset.py": "37f775943d5040702ae21252db579f6aa116dacc4dd93c227c44cf9b3481a1a0",
+      "memit_dry_run/memit/scripts/ipynb_drop_output.py": "62a17e64c2de0448962fda6e0914a80e354361fea73b4363fc5287b92e4ca635",
+      "memit_dry_run/memit/util/__init__.py": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d",
+      "memit_dry_run/memit/util/device.py": "868627783827f03763ba9c210de2ddbd607e050330eccf7757fccfd9e985cf2b",
+      "memit_dry_run/memit/util/generate.py": "3764cb8a0a1b3f28c17d8aab3028b33d2127ba4e02e8dbc253025791a9ab2514",
+      "memit_dry_run/memit/util/globals.py": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2",
+      "memit_dry_run/memit/util/hparams.py": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0",
+      "memit_dry_run/memit/util/logit_lens.py": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4",
+      "memit_dry_run/memit/util/nethook.py": "20e84c9413518af3aee76762071f823cbe5d75c4658e4ffa7bdab045df735f7c",
+      "memit_dry_run/memit/util/perplexity.py": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e",
+      "memit_dry_run/memit/util/runningstats.py": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97",
+      "results/c10l_covgeom/step0_offline.json": "46f87044e8b8a0b7fbf27f38c2226599fb3ba9c0c7da532a14ffdbf67523bf80",
+      "tools/engine_fingerprint.py": "450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162"
+    },
+    "source_digest": "97470c0ee031add727b8d34168e017152336cbbde357425b2e66d96d21ca7146",
+    "preflight_controls_reference": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10q_stacked/passS.json",
+      "sha256": "102163c6dab328007e2bb879e433c0df6045bf73f718548abac569995002ffd6",
+      "recipe": "A7_stacked",
+      "scores": {
+        "A1_single": 70,
+        "A2_coherent2": 71
+      },
+      "ok": true
+    }
+  },
+  "fingerprint": {
+    "ok": true,
+    "sha256": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+    "_cov_cpu": 3,
+    "stdout": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a…)\n  _cov_cpu 3  (expected 3)\n"
+  },
+  "pid": 19153,
+  "when_utc": "2026-10-08T02:22:26.952423+00:00",
+  "map": {
+    "Zorbland": 6,
+    "Quaxil": 6,
+    "Plurnak": 8,
+    "Vythorn": 6,
+    "Glimsto": 5,
+    "Drennik": 6,
+    "Yastovel": 5,
+    "Crulpane": 6,
+    "Mophgar": 6,
+    "Brinduun": 5,
+    "Trannak": 6,
+    "Skornwell": 4,
+    "Fluvane": 6,
+    "Oxbarrow": 6,
+    "Zephquin": 6,
+    "Lurmaxen": 5,
+    "Pradnoll": 6,
+    "Kessivar": 6,
+    "Wombryne": 8,
+    "Halquin": 6,
+    "Vorlex": 5,
+    "Quenby": 6,
+    "Marsduq": 6,
+    "Thelby": 7
+  },
+  "repeat_map": {
+    "Zorbland": 6,
+    "Quaxil": 6,
+    "Plurnak": 8,
+    "Vythorn": 6,
+    "Glimsto": 5,
+    "Drennik": 6,
+    "Yastovel": 5,
+    "Crulpane": 6,
+    "Mophgar": 6,
+    "Brinduun": 5,
+    "Trannak": 6,
+    "Skornwell": 4,
+    "Fluvane": 6,
+    "Oxbarrow": 6,
+    "Zephquin": 6,
+    "Lurmaxen": 5,
+    "Pradnoll": 6,
+    "Kessivar": 6,
+    "Wombryne": 8,
+    "Halquin": 6,
+    "Vorlex": 5,
+    "Quenby": 6,
+    "Marsduq": 6,
+    "Thelby": 7
+  },
+  "map_sha256": "f2bdd9df78af1e08ad5434e7145cf4b35ebd01e89ce70346f94cda8802d06183",
+  "G_table": [
+    [
+      0.8315801442894901,
+      0.9324460232937092,
+      0.9480482840980082,
+      0.9215719322924908,
+      0.9242701844139328
+    ],
+    [
+      0.8387570031867773,
+      0.9633130504700159,
+      0.9854510053642807,
+      0.941904842052782,
+      0.952868177744055
+    ],
+    [
+      0.8758649226067872,
+      0.9055794521139418,
+      0.945594328320411,
+      0.927384845344928,
+      0.9468994128686664
+    ],
+    [
+      0.888142650044395,
+      0.9549973656904153,
+      0.9688784284385592,
+      0.9296573815026387,
+      0.9314183035676905
+    ],
+    [
+      0.9012671913470542,
+      0.9515733446800202,
+      0.9365938068287736,
+      0.9492595927566344,
+      0.9371516375051064
+    ],
+    [
+      0.9198321892830333,
+      0.941913780480057,
+      0.9954375248659167,
+      0.9671534535824963,
+      0.9614163125630929
+    ],
+    [
+      0.8805186482834731,
+      0.9666575274693788,
+      0.9655001123088346,
+      0.922703662835094,
+      0.9258851512831984
+    ],
+    [
+      0.8363615079154868,
+      0.9505234574473705,
+      0.9557683092607392,
+      0.9050442429577832,
+      0.9497182847279024
+    ],
+    [
+      0.8495975926734455,
+      0.9224586503904858,
+      0.9709986709865401,
+      0.9535667195670565,
+      0.9505485501376131
+    ],
+    [
+      0.8842439739700073,
+      0.970819927960347,
+      0.9652840069055203,
+      0.9239084046171931,
+      0.9216451664569495
+    ],
+    [
+      0.8715651594756659,
+      0.9229192884643194,
+      0.9699366542583088,
+      0.9541693495705543,
+      0.9540193900946793
+    ],
+    [
+      0.9756598471215882,
+      0.9601695882576681,
+      0.9258713951877278,
+      0.8989842856338609,
+      0.9576129959781418
+    ],
+    [
+      0.8165777747443554,
+      0.94614183684489,
+      0.9759988938964493,
+      0.9158201417019276,
+      0.9361534258129977
+    ],
+    [
+      0.8744342496142639,
+      0.9474346856816908,
+      0.956070224196237,
+      0.8731574784714649,
+      0.9367619666701058
+    ],
+    [
+      0.8155403550820264,
+      0.9482293445534236,
+      0.9780787380222276,
+      0.8904912423163168,
+      0.9429315094751977
+    ],
+    [
+      0.8560812666264035,
+      0.9624048193062195,
+      0.9563622707249126,
+      0.9235418205378217,
+      0.9448648904749524
+    ],
+    [
+      0.8602082190214084,
+      0.9705920323417898,
+      0.9745431029803185,
+      0.9272532509903576,
+      0.9492881550603217
+    ],
+    [
+      0.8553385237923831,
+      0.9608224381417426,
+      0.9763944293492617,
+      0.9370798988587796,
+      0.937910049634759
+    ],
+    [
+      0.8790825099230651,
+      0.9280763706563979,
+      0.9419958091744136,
+      0.9396314902003319,
+      0.9504416394080465
+    ],
+    [
+      0.8283321668893966,
+      0.9247001339366324,
+      0.9632826922014393,
+      0.9147033202670573,
+      0.9336606632829809
+    ],
+    [
+      0.8655356776044101,
+      0.9490635282523442,
+      0.948172103714245,
+      0.9429284173166896,
+      0.9430633806965277
+    ],
+    [
+      0.8510063817970313,
+      0.9585395601714416,
+      0.9837016610959315,
+      0.8887170487172712,
+      0.9284523196342706
+    ],
+    [
+      0.8948510282091041,
+      0.9514723878625281,
+      0.9718964056510528,
+      0.9419617741636852,
+      0.9533041660238101
+    ],
+    [
+      0.9544141649149981,
+      0.9136528219845008,
+      0.9439951975423091,
+      0.9585440685730994,
+      0.9492113396144958
+    ]
+  ],
+  "G_table_repeat": [
+    [
+      0.8315801442894901,
+      0.9324460232937092,
+      0.9480482840980082,
+      0.9215719322924908,
+      0.9242701844139328
+    ],
+    [
+      0.8387570031867773,
+      0.9633130504700159,
+      0.9854510053642807,
+      0.941904842052782,
+      0.952868177744055
+    ],
+    [
+      0.8758649226067872,
+      0.9055794521139418,
+      0.945594328320411,
+      0.927384845344928,
+      0.9468994128686664
+    ],
+    [
+      0.888142650044395,
+      0.9549973656904153,
+      0.9688784284385592,
+      0.9296573815026387,
+      0.9314183035676905
+    ],
+    [
+      0.9012671913470542,
+      0.9515733446800202,
+      0.9365938068287736,
+      0.9492595927566344,
+      0.9371516375051064
+    ],
+    [
+      0.9198321892830333,
+      0.941913780480057,
+      0.9954375248659167,
+      0.9671534535824963,
+      0.9614163125630929
+    ],
+    [
+      0.8805186482834731,
+      0.9666575274693788,
+      0.9655001123088346,
+      0.922703662835094,
+      0.9258851512831984
+    ],
+    [
+      0.8363615079154868,
+      0.9505234574473705,
+      0.9557683092607392,
+      0.9050442429577832,
+      0.9497182847279024
+    ],
+    [
+      0.8495975926734455,
+      0.9224586503904858,
+      0.9709986709865401,
+      0.9535667195670565,
+      0.9505485501376131
+    ],
+    [
+      0.8842439739700073,
+      0.970819927960347,
+      0.9652840069055203,
+      0.9239084046171931,
+      0.9216451664569495
+    ],
+    [
+      0.8715651594756659,
+      0.9229192884643194,
+      0.9699366542583088,
+      0.9541693495705543,
+      0.9540193900946793
+    ],
+    [
+      0.9756598471215882,
+      0.9601695882576681,
+      0.9258713951877278,
+      0.8989842856338609,
+      0.9576129959781418
+    ],
+    [
+      0.8165777747443554,
+      0.94614183684489,
+      0.9759988938964493,
+      0.9158201417019276,
+      0.9361534258129977
+    ],
+    [
+      0.8744342496142639,
+      0.9474346856816908,
+      0.956070224196237,
+      0.8731574784714649,
+      0.9367619666701058
+    ],
+    [
+      0.8155403550820264,
+      0.9482293445534236,
+      0.9780787380222276,
+      0.8904912423163168,
+      0.9429315094751977
+    ],
+    [
+      0.8560812666264035,
+      0.9624048193062195,
+      0.9563622707249126,
+      0.9235418205378217,
+      0.9448648904749524
+    ],
+    [
+      0.8602082190214084,
+      0.9705920323417898,
+      0.9745431029803185,
+      0.9272532509903576,
+      0.9492881550603217
+    ],
+    [
+      0.8553385237923831,
+      0.9608224381417426,
+      0.9763944293492617,
+      0.9370798988587796,
+      0.937910049634759
+    ],
+    [
+      0.8790825099230651,
+      0.9280763706563979,
+      0.9419958091744136,
+      0.9396314902003319,
+      0.9504416394080465
+    ],
+    [
+      0.8283321668893966,
+      0.9247001339366324,
+      0.9632826922014393,
+      0.9147033202670573,
+      0.9336606632829809
+    ],
+    [
+      0.8655356776044101,
+      0.9490635282523442,
+      0.948172103714245,
+      0.9429284173166896,
+      0.9430633806965277
+    ],
+    [
+      0.8510063817970313,
+      0.9585395601714416,
+      0.9837016610959315,
+      0.8887170487172712,
+      0.9284523196342706
+    ],
+    [
+      0.8948510282091041,
+      0.9514723878625281,
+      0.9718964056510528,
+      0.9419617741636852,
+      0.9533041660238101
+    ],
+    [
+      0.9544141649149981,
+      0.9136528219845008,
+      0.9439951975423091,
+      0.9585440685730994,
+      0.9492113396144958
+    ]
+  ],
+  "delta": 0.0,
+  "winning_margins": [
+    [
+      0.01560226080429905,
+      0.022137954894264733,
+      0.0013050845482553974,
+      0.013881062748143935,
+      0.0023137519233857873,
+      0.028284071283420475,
+      0.0011574151605442395,
+      0.005244851813368645,
+      0.017431951419483616,
+      0.005535921054826698,
+      0.015767304687754446,
+      0.015490258863920081,
+      0.029857057051559388,
+      0.008635538514546237,
+      0.029849393468803997,
+      0.006042548581306817,
+      0.003951070638528731,
+      0.015571991207519065,
+      0.008445830233632878,
+      0.029622028918458332,
+      0.0008914245380992059,
+      0.025162100924489894,
+      0.018592239627242768,
+      0.004129903658101286
+    ],
+    [
+      0.01560226080429905,
+      0.022137954894264733,
+      0.0013050845482553974,
+      0.013881062748143935,
+      0.0023137519233857873,
+      0.028284071283420475,
+      0.0011574151605442395,
+      0.005244851813368645,
+      0.017431951419483616,
+      0.005535921054826698,
+      0.015767304687754446,
+      0.015490258863920081,
+      0.029857057051559388,
+      0.008635538514546237,
+      0.029849393468803997,
+      0.006042548581306817,
+      0.003951070638528731,
+      0.015571991207519065,
+      0.008445830233632878,
+      0.029622028918458332,
+      0.0008914245380992059,
+      0.025162100924489894,
+      0.018592239627242768,
+      0.004129903658101286
+    ]
+  ],
+  "runner_up": [
+    [
+      5,
+      5,
+      6,
+      5,
+      7,
+      7,
+      6,
+      5,
+      7,
+      6,
+      7,
+      5,
+      5,
+      5,
+      5,
+      6,
+      5,
+      5,
+      6,
+      8,
+      6,
+      5,
+      8,
+      4
+    ],
+    [
+      5,
+      5,
+      6,
+      5,
+      7,
+      7,
+      6,
+      5,
+      7,
+      6,
+      7,
+      5,
+      5,
+      5,
+      5,
+      6,
+      5,
+      5,
+      6,
+      8,
+      6,
+      5,
+      8,
+      4
+    ]
+  ],
+  "map_reproduced": true,
+  "concentration": 15,
+  "status": "READY",
+  "subjects": [
+    "Zorbland",
+    "Quaxil",
+    "Plurnak",
+    "Vythorn",
+    "Glimsto",
+    "Drennik",
+    "Yastovel",
+    "Crulpane",
+    "Mophgar",
+    "Brinduun",
+    "Trannak",
+    "Skornwell",
+    "Fluvane",
+    "Oxbarrow",
+    "Zephquin",
+    "Lurmaxen",
+    "Pradnoll",
+    "Kessivar",
+    "Wombryne",
+    "Halquin",
+    "Vorlex",
+    "Quenby",
+    "Marsduq",
+    "Thelby"
+  ],
+  "ctx": [
+    [
+      "{}"
+    ],
+    [
+      "The following is a single-choice question from a Chinese. {}",
+      "Therefore, the number of possible distinct sequences of . {}",
+      "Because of the COVID-19 pandemic, the. {}",
+      "I am working on a program and I need to. {}",
+      "You are tasked with creating a program that can parse. {}"
+    ]
+  ],
+  "ctx_sha256": "91c1a4e79ea79aea838b03b926904c937355718747707c1f53b2d9ea4b7eb4e9",
+  "projected_key_norms": [
+    [
+      2.2567386613811298,
+      3.759499063384501,
+      4.302131428198988,
+      3.4687314451030486,
+      3.5546318373812453
+    ],
+    [
+      2.32462374401718,
+      5.187826512768681,
+      8.269772537685931,
+      4.052143879074438,
+      4.548913210153186
+    ],
+    [
+      2.901763074244297,
+      3.2714977327078025,
+      4.243028255303191,
+      3.6334399864878697,
+      4.314810977996061
+    ],
+    [
+      2.8550475190770572,
+      4.636337391943232,
+      5.614622974549029,
+      3.647788805248364,
+      3.732689629758195
+    ],
+    [
+      3.065493072374426,
+      4.472615500653568,
+      3.852379698868107,
+      4.435530633333032,
+      3.907850829350931
+    ],
+    [
+      3.4529712604393286,
+      4.078914301008827,
+      14.826518792612378,
+      5.463840225682202,
+      5.032729404780843
+    ],
+    [
+      2.7551382815919214,
+      5.446122502732002,
+      5.310085923490898,
+      3.49613667090398,
+      3.583957213788945
+    ],
+    [
+      2.3411028163682617,
+      4.568407708521252,
+      4.695152197618811,
+      3.1396566026996853,
+      4.410694721034664
+    ],
+    [
+      2.4499697014790915,
+      3.477644100685534,
+      5.809027774178131,
+      4.569851555859293,
+      4.477559008089521
+    ],
+    [
+      2.852590050992874,
+      5.82506950996818,
+      5.293972503182469,
+      3.5043649436280364,
+      3.473084029580516
+    ],
+    [
+      2.8121734763314303,
+      3.664079963519784,
+      5.749876989294373,
+      4.637403718851012,
+      4.588628543048137
+    ],
+    [
+      6.391770910791464,
+      4.984866441963464,
+      3.572926584033346,
+      3.003251908755435,
+      4.819400334544908
+    ],
+    [
+      2.1614361368622887,
+      4.352395625836647,
+      6.409320903766837,
+      3.3678741941050947,
+      3.87953312437724
+    ],
+    [
+      2.693818102970762,
+      4.2793122228145934,
+      4.683222889694399,
+      2.652544753375516,
+      3.8980861686718518
+    ],
+    [
+      2.2808716711046926,
+      4.451208052715801,
+      6.815761744238385,
+      2.9076493057027855,
+      4.177122457730369
+    ],
+    [
+      2.480660213302889,
+      5.117311777730742,
+      4.732510245537889,
+      3.501137921049655,
+      4.23324315370937
+    ],
+    [
+      2.5053432678682843,
+      5.809957607098121,
+      6.231659132170982,
+      3.611202567501891,
+      4.3698871857224075
+    ],
+    [
+      2.476684173862112,
+      4.993775126509237,
+      6.457980625512438,
+      3.8911194985784587,
+      3.9226938485685126
+    ],
+    [
+      2.7305264263902815,
+      3.617046633950946,
+      4.050519032103195,
+      3.980688569079334,
+      4.4443268816725725
+    ],
+    [
+      2.3644835187538122,
+      3.634137580113858,
+      5.224178831879412,
+      3.3522302616295474,
+      3.80576010921323
+    ],
+    [
+      2.575784697410646,
+      4.352718063767094,
+      4.313241624598387,
+      4.107516117309431,
+      4.119771537242982
+    ],
+    [
+      2.4660308179488455,
+      4.8771036730579524,
+      7.803840512947332,
+      2.8379496456343647,
+      3.643011755408979
+    ],
+    [
+      2.9864518648096947,
+      4.453347933798893,
+      5.917718706995072,
+      4.128954001567693,
+      4.564676991935035
+    ],
+    [
+      4.642873303018931,
+      3.298291322492798,
+      4.13010101465642,
+      4.850587113582331,
+      4.3868312289438975
+    ]
+  ],
+  "projected_key_norms_repeat": [
+    [
+      2.2567386613811298,
+      3.759499063384501,
+      4.302131428198988,
+      3.4687314451030486,
+      3.5546318373812453
+    ],
+    [
+      2.32462374401718,
+      5.187826512768681,
+      8.269772537685931,
+      4.052143879074438,
+      4.548913210153186
+    ],
+    [
+      2.901763074244297,
+      3.2714977327078025,
+      4.243028255303191,
+      3.6334399864878697,
+      4.314810977996061
+    ],
+    [
+      2.8550475190770572,
+      4.636337391943232,
+      5.614622974549029,
+      3.647788805248364,
+      3.732689629758195
+    ],
+    [
+      3.065493072374426,
+      4.472615500653568,
+      3.852379698868107,
+      4.435530633333032,
+      3.907850829350931
+    ],
+    [
+      3.4529712604393286,
+      4.078914301008827,
+      14.826518792612378,
+      5.463840225682202,
+      5.032729404780843
+    ],
+    [
+      2.7551382815919214,
+      5.446122502732002,
+      5.310085923490898,
+      3.49613667090398,
+      3.583957213788945
+    ],
+    [
+      2.3411028163682617,
+      4.568407708521252,
+      4.695152197618811,
+      3.1396566026996853,
+      4.410694721034664
+    ],
+    [
+      2.4499697014790915,
+      3.477644100685534,
+      5.809027774178131,
+      4.569851555859293,
+      4.477559008089521
+    ],
+    [
+      2.852590050992874,
+      5.82506950996818,
+      5.293972503182469,
+      3.5043649436280364,
+      3.473084029580516
+    ],
+    [
+      2.8121734763314303,
+      3.664079963519784,
+      5.749876989294373,
+      4.637403718851012,
+      4.588628543048137
+    ],
+    [
+      6.391770910791464,
+      4.984866441963464,
+      3.572926584033346,
+      3.003251908755435,
+      4.819400334544908
+    ],
+    [
+      2.1614361368622887,
+      4.352395625836647,
+      6.409320903766837,
+      3.3678741941050947,
+      3.87953312437724
+    ],
+    [
+      2.693818102970762,
+      4.2793122228145934,
+      4.683222889694399,
+      2.652544753375516,
+      3.8980861686718518
+    ],
+    [
+      2.2808716711046926,
+      4.451208052715801,
+      6.815761744238385,
+      2.9076493057027855,
+      4.177122457730369
+    ],
+    [
+      2.480660213302889,
+      5.117311777730742,
+      4.732510245537889,
+      3.501137921049655,
+      4.23324315370937
+    ],
+    [
+      2.5053432678682843,
+      5.809957607098121,
+      6.231659132170982,
+      3.611202567501891,
+      4.3698871857224075
+    ],
+    [
+      2.476684173862112,
+      4.993775126509237,
+      6.457980625512438,
+      3.8911194985784587,
+      3.9226938485685126
+    ],
+    [
+      2.7305264263902815,
+      3.617046633950946,
+      4.050519032103195,
+      3.980688569079334,
+      4.4443268816725725
+    ],
+    [
+      2.3644835187538122,
+      3.634137580113858,
+      5.224178831879412,
+      3.3522302616295474,
+      3.80576010921323
+    ],
+    [
+      2.575784697410646,
+      4.352718063767094,
+      4.313241624598387,
+      4.107516117309431,
+      4.119771537242982
+    ],
+    [
+      2.4660308179488455,
+      4.8771036730579524,
+      7.803840512947332,
+      2.8379496456343647,
+      3.643011755408979
+    ],
+    [
+      2.9864518648096947,
+      4.453347933798893,
+      5.917718706995072,
+      4.128954001567693,
+      4.564676991935035
+    ],
+    [
+      4.642873303018931,
+      3.298291322492798,
+      4.13010101465642,
+      4.850587113582331,
+      4.3868312289438975
+    ]
+  ],
+  "installed_share_comparison": [
+    {
+      "subj": "Zorbland",
+      "max_G": 0.9480482840980082,
+      "installed_share": 0.9795446321403448,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Quaxil",
+      "max_G": 0.9854510053642807,
+      "installed_share": 0.9773599249360901,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Plurnak",
+      "max_G": 0.9468994128686664,
+      "installed_share": 0.9664103803315697,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Vythorn",
+      "max_G": 0.9688784284385592,
+      "installed_share": 0.978770572078638,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Glimsto",
+      "max_G": 0.9515733446800202,
+      "installed_share": 0.9662860934524323,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Drennik",
+      "max_G": 0.9954375248659167,
+      "installed_share": 0.9700102542887165,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Yastovel",
+      "max_G": 0.9666575274693788,
+      "installed_share": 0.9719852457912515,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Crulpane",
+      "max_G": 0.9557683092607392,
+      "installed_share": 0.9795782669487797,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Mophgar",
+      "max_G": 0.9709986709865401,
+      "installed_share": 0.9814246415493987,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Brinduun",
+      "max_G": 0.970819927960347,
+      "installed_share": 0.9670657260148612,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Trannak",
+      "max_G": 0.9699366542583088,
+      "installed_share": 0.9683438966156243,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Skornwell",
+      "max_G": 0.9756598471215882,
+      "installed_share": 0.9558715604900807,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Fluvane",
+      "max_G": 0.9759988938964493,
+      "installed_share": 0.9559635486459759,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Oxbarrow",
+      "max_G": 0.956070224196237,
+      "installed_share": 0.9577081049942143,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Zephquin",
+      "max_G": 0.9780787380222276,
+      "installed_share": 0.9698340219016093,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Lurmaxen",
+      "max_G": 0.9624048193062195,
+      "installed_share": 0.9688555662771583,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Pradnoll",
+      "max_G": 0.9745431029803185,
+      "installed_share": 0.9816787780921058,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Kessivar",
+      "max_G": 0.9763944293492617,
+      "installed_share": 0.9790155336194737,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Wombryne",
+      "max_G": 0.9504416394080465,
+      "installed_share": 0.9817639956913136,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Halquin",
+      "max_G": 0.9632826922014393,
+      "installed_share": 0.9789355788617612,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Vorlex",
+      "max_G": 0.9490635282523442,
+      "installed_share": 0.971667642284392,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Quenby",
+      "max_G": 0.9837016610959315,
+      "installed_share": 0.9752797417348736,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Marsduq",
+      "max_G": 0.9718964056510528,
+      "installed_share": 0.9834441747571868,
+      "band_installed_share": 0.972
+    },
+    {
+      "subj": "Thelby",
+      "max_G": 0.9585440685730994,
+      "installed_share": 0.9742960468748919,
+      "band_installed_share": 0.972
+    }
+  ],
+  "historical_rho_source": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10l_covgeom/step0_offline.json",
+    "sha256": "46f87044e8b8a0b7fbf27f38c2226599fb3ba9c0c7da532a14ffdbf67523bf80"
+  },
+  "expectation": "concentrated map or hair-width variation absorbed by measured delta",
+  "selector_scope": "pristine, target-blind, 24-key lone-write coefficient; selection proxy",
+  "cov_cache_sha256": {
+    "4": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "f6ae787454e5bae9eff52155ac699386351246b03e60ab68d728335b0c9a5b58"
+    },
+    "5": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "26773779c5f95647c844fb42c553221aa81e48206cb3e61602237b3da4e53b3d"
+    },
+    "6": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "72a4a42bf7586f1b7de5bfce365263d2a84b66f6ffc4ce20f9fa113d115887fd"
+    },
+    "7": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "ed2f4c64356fc6388ae4623ccc2bfc9101660fe92a787c193d593a24992aaba5"
+    },
+    "8": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "430c1aa56a7cde6626ff02e241b45fd706d02d81d97931536fbed38d8974dd2a"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.32s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.34s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.64s/it]
+A7_shuf_s0_r16 step 10 loss 7.436750888824463
+A7_shuf_s0_r16 step 20 loss 7.099429607391357
+A7_shuf_s0_r16 step 30 loss 6.692063331604004
+A7_shuf_s0_r16 step 40 loss 5.5039753913879395
+A7_shuf_s0_r16 step 50 loss 4.941180229187012
+A7_shuf_s0_r16 step 60 loss 4.288223743438721
+A7_shuf_s0_r16 step 70 loss 3.945619583129883
+A7_shuf_s0_r16 step 80 loss 2.691227436065674
+A7_shuf_s0_r16 step 90 loss 2.196619987487793
+A7_shuf_s0_r16 step 100 loss 1.9182707071304321
+A7_shuf_s0_r16 step 110 loss 1.656819462776184
+A7_shuf_s0_r16 step 120 loss 1.0201081037521362
+A7_shuf_s0_r16 step 130 loss 0.5058597326278687
+A7_shuf_s0_r16 step 140 loss 0.28327125310897827
+A7_shuf_s0_r16 step 150 loss 0.12181564420461655
+A7_shuf_s0_r16 step 160 loss 0.1750236302614212
+A7_shuf_s0_r16 step 170 loss 0.024610860273241997
+A7_shuf_s0_r16 step 180 loss 0.010342088527977467
+A7_shuf_s0_r16 step 190 loss 0.010072981007397175
+A7_shuf_s0_r16 step 200 loss 0.01157828327268362
+A7_shuf_s0_r16 step 210 loss 0.005121424328535795
+A7_shuf_s0_r16 step 220 loss 0.002562356647104025
+A7_shuf_s0_r16 step 230 loss 0.001876192749477923
+A7_shuf_s0_r16 step 240 loss 0.0014059123350307345
+A7_shuf_s0_r16 step 250 loss 0.0011084357975050807
+A7_shuf_s0_r16 step 260 loss 0.0012185215018689632
+A7_shuf_s0_r16 step 270 loss 0.0008614940452389419
+A7_shuf_s0_r16 step 280 loss 0.0009831022471189499
+A7_shuf_s0_r16 step 290 loss 0.0008665227214805782
+A7_shuf_s0_r16 step 300 loss 0.0007097647758200765
+A7_shuf_s0_r16 step 310 loss 0.0009187786490656435
+A7_shuf_s0_r16 step 320 loss 0.0007710783393122256
+A7_shuf_s0_r16 step 330 loss 0.000669929722789675
+A7_shuf_s0_r16 step 340 loss 0.000719559146091342
+A7_shuf_s0_r16 step 350 loss 0.000645542808342725
+A7_shuf_s0_r16 step 360 loss 0.000536822946742177
+A7_shuf_s0_r16 step 370 loss 0.000591919815633446
+A7_shuf_s0_r16 step 380 loss 0.000646935252007097
+A7_shuf_s0_r16 step 390 loss 0.00047877634642645717
+A7_shuf_s0_r16 step 400 loss 0.000454618624644354
+
+STAGE_EXIT=0

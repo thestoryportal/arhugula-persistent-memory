@@ -1,0 +1,48 @@
+[
+  {
+    "args": [
+      "/opt/homebrew/bin/rclone",
+      "lsd",
+      "gdrive:",
+      "--contimeout",
+      "10s",
+      "--timeout",
+      "30s",
+      "--retries",
+      "1",
+      "--low-level-retries",
+      "1"
+    ],
+    "exit_code": 0,
+    "stdout": "           0 2026-10-09 23:50:30        -1 memit-backup\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/bin/bash",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/archive_to_gdrive.sh",
+      "/private/tmp/archive_drive_paou0l3j/tiny.bin"
+    ],
+    "exit_code": 0,
+    "stdout": "archive_to_gdrive: VERIFIED gdrive:memit-archive/_selftest/tiny.bin sha256=fd5cb409f61f187536552920906aa1774c3d82150c6bcd89a307af58a4937f3a bytes=37; local copy retained\n",
+    "stderr": "2026/10/10 01:20:57 NOTICE: Google drive root 'memit-archive/_selftest': 0 differences found\n2026/10/10 01:20:57 NOTICE: Google drive root 'memit-archive/_selftest': 1 matching files\n"
+  },
+  {
+    "args": [
+      "/opt/homebrew/bin/rclone",
+      "purge",
+      "gdrive:memit-archive/_selftest/",
+      "--contimeout",
+      "10s",
+      "--timeout",
+      "30s",
+      "--retries",
+      "1",
+      "--low-level-retries",
+      "1"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

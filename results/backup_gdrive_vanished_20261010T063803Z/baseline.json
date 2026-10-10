@@ -1,0 +1,15 @@
+{
+  "HEAD": "a0047f4cbef8154e3931df061482db187150b069",
+  "sha256": {
+    "tools/backup_gdrive.sh": "1c787df5cbacc4e10939d94b3194f52ba52bb0bfd83e61779affd92745209cc8",
+    "tools/backup_gdrive_status.py": "4e7f695cc529c101417db1f78b0050a93a0881e7129f7ce8c02446cc99581cf4",
+    "tools/backup_mirror.sh": "4b26fefcc25bac2274cb75962a60ef2a13a869d24c7d0364430cd5b800d012b6",
+    "tools/backup_mirror.excludes": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+    "tools/launchd/com.rhu.memit-backup.plist": "44c2ffcad9837f76c0b08d34a1b40ca367c9145edf3360cad3131e1c64e29a2f",
+    "tools/test_dashboard_mathlab.py": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e",
+    "tools/test_backup_gdrive.py": "0650b6c4f42624041e94c8642ff03f827a5b1de58e08662d18c69e036c995f90",
+    "tools/test_backup_gdrive_addendum.py": "5ae76e866fa94df72f6d3b72db961875ae48e655e8854183f1f6d14e21d6caa3",
+    "EXPERIMENT_RUNBOOK.md": "7369b2482c95f734d277da1cf50a17364c5dfb0b01b847162bfb973e513764ca",
+    "results/backup_gdrive_build_report.md": "a0af749c0b2ad54bf6cfa5f65c0f82a87e350cb455e33952c58c5ff7501ef2fb"
+  }
+}

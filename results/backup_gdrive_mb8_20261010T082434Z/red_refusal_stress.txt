@@ -1,0 +1,18 @@
+test_one_thousand_live_owner_refusals_have_bounded_storage (tools.test_backup_gdrive_addendum.HeartbeatTest.test_one_thousand_live_owner_refusals_have_bounded_storage) ... refusal_stress: {"invocations": 1000, "wall_s": 58.003, "files": 1002, "refusal_files": 1000, "bytes": 512414}
+FAIL
+
+======================================================================
+FAIL: test_one_thousand_live_owner_refusals_have_bounded_storage (tools.test_backup_gdrive_addendum.HeartbeatTest.test_one_thousand_live_owner_refusals_have_bounded_storage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 431, in test_one_thousand_live_owner_refusals_have_bounded_storage
+    self.assertEqual(len(refusals), 1, "refusal storage must stay at one latest receipt after 1,000 real runs")
+AssertionError: 1000 != 1 : refusal storage must stay at one latest receipt after 1,000 real runs
+
+----------------------------------------------------------------------
+Ran 1 test in 58.550s
+
+FAILED (failures=1)
+real 58.58
+user 34.26
+sys 18.90

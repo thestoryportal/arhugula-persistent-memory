@@ -1,0 +1,17 @@
+test_later_wall_time_cannot_clear_failure (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_later_wall_time_cannot_clear_failure) ... FAIL
+
+======================================================================
+FAIL: test_later_wall_time_cannot_clear_failure (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_later_wall_time_cannot_clear_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 950, in test_later_wall_time_cannot_clear_failure
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:33.269677+00:00
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.027s
+
+FAILED (failures=1)

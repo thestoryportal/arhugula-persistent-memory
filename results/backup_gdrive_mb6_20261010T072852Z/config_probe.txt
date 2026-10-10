@@ -1,0 +1,7 @@
+exit=0
+{
+    "fixture": {
+        "global.dry_run": "true",
+        "type": "local"
+    }
+}

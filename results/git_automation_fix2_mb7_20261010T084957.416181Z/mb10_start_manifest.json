@@ -1,0 +1,11 @@
+{
+  "head": "5200f6301a5bab2c265d5477c53f93703613a615",
+  "branch": "worktree-c10k-route-a",
+  "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "sha256": {
+    "tests/test_git_automation.py": "d08234668b1642028845eb71c053dcacd6fed5cfef1874f5b4988c5718359128",
+    "tools/git_hygiene.py": "1980929aadb716d85a9766dec18d57c96891c12854e24864941691a3f2c5d544",
+    "tools/git_merge_gate.py": "8e1ea0caae4e5bbb3b17a4927b7ce9c463f1e380508f154ad1874474994199c7"
+  },
+  "saved_red_count": 13
+}

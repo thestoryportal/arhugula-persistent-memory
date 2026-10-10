@@ -1,0 +1,23 @@
+test_real_shared_events_integrate_and_non_gating_scope_does_not_stop (mathlab.test_mathlab.ResourceArtifactTests.test_real_shared_events_integrate_and_non_gating_scope_does_not_stop) ... ERROR
+
+======================================================================
+ERROR: test_real_shared_events_integrate_and_non_gating_scope_does_not_stop (mathlab.test_mathlab.ResourceArtifactTests.test_real_shared_events_integrate_and_non_gating_scope_does_not_stop)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 410, in test_real_shared_events_integrate_and_non_gating_scope_does_not_stop
+    with run.stage("reproduction", "Reproduce saved operands", 2700):
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_runtime.py", line 183, in stage
+    self.budget.begin(stage, cap_s)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_runtime.py", line 123, in begin
+    require(remaining > 0 and elapsed + remaining <= self.cap_s, "HALT-BUDGET", json.dumps(self.last_projection))
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_runtime.py", line 29, in require
+    raise Halt(code, message)
+tools.mathlab_runtime.Halt: HALT-BUDGET: {"stage": "reproduction", "elapsed_s": 0.0008612081874161959, "remaining_stage_s": 2700, "projected_end_s": 2700.0008612081874, "process_cap_s": 2700}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+FAILED (errors=1)

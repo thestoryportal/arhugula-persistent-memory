@@ -1,0 +1,66 @@
+[
+  {
+    "suite": "git_automation",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v"
+    ],
+    "started_utc": "2026-10-10T09:06:17.365129+00:00",
+    "exit_code": 0,
+    "tests_run": 87,
+    "passed": true,
+    "head_before": "72c52fb74d79b68886e8ded65dee9ff968ad0929",
+    "head_after": "72c52fb74d79b68886e8ded65dee9ff968ad0929",
+    "source_sha256": {
+      "tools/git_hygiene.py": "f290b46fc837d0f3307995234d004d207f1930cc7b12e0cfb3a1713863254a2c",
+      "tools/git_merge_gate.py": "3bc7d2d84bd9362a9d727eedffe8292983986884069ad00150536d54e559decf",
+      "tests/test_git_automation.py": "d23186aaee4271cbbf5a6dc6dbbb62b16b99cd2c0a284c8e0ecb73c0046eb275"
+    },
+    "log": "mb10_git_automation.log",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "TMPDIR": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/git_automation_fix2_mb7_20261010T084957.416181Z/fixtures",
+      "PATH": "/opt/homebrew/bin:/opt/homebrew/Caskroom/codex/0.160.1/codex-path:/Users/robertrhu/Library/Application Support/rtk/codex-shims:/Users/robertrhu/Library/Application Support/rtk/codex-shims:/Users/robertrhu/.bun/bin:/usr/local/opt/libpq/bin:/opt/homebrew/opt/libpq/bin:/opt/homebrew/opt/libpq/bin:/Users/robertrhu/.cargo/bin:/usr/local/opt/openjdk/bin:/Users/robertrhu/bin:/Users/robertrhu/bin:/Users/robertrhu/.asdf/shims:/usr/local/opt/asdf/libexec/bin:/Users/robertrhu/.local/bin:/Users/robertrhu/.volta/bin:/Users/robertrhu/.local/bin:/Users/robertrhu/.volta/bin:/usr/local/Cellar/kleopatra/22.07.80/bin:/Users/robertrhu/.zgen/brandon-fryslie/rad-plugins-master/bin:/usr/local/sbin:/usr/local/bin:/usr/local/sbin:/Users/robertrhu/.volta/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/usr/local/MacGPG2/bin:/Users/robertrhu/.zgen/brandon-fryslie/rad-shell-master/bin"
+    }
+  },
+  {
+    "suite": "model_free",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "-v",
+      "tools.test_c10w_p2_gate",
+      "tools.test_dashboard_live",
+      "tools.test_dashboard_gpu_detector"
+    ],
+    "started_utc": "2026-10-10T09:07:13.794790+00:00",
+    "exit_code": 0,
+    "tests_run": 80,
+    "passed": true,
+    "head_before": "72c52fb74d79b68886e8ded65dee9ff968ad0929",
+    "head_after": "72c52fb74d79b68886e8ded65dee9ff968ad0929",
+    "source_sha256": {
+      "tools/git_hygiene.py": "f290b46fc837d0f3307995234d004d207f1930cc7b12e0cfb3a1713863254a2c",
+      "tools/git_merge_gate.py": "3bc7d2d84bd9362a9d727eedffe8292983986884069ad00150536d54e559decf",
+      "tests/test_git_automation.py": "d23186aaee4271cbbf5a6dc6dbbb62b16b99cd2c0a284c8e0ecb73c0046eb275"
+    },
+    "log": "mb10_model_free.log",
+    "environment": {
+      "LLMDB_ROOT": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+      "TMPDIR": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/git_automation_fix2_mb7_20261010T084957.416181Z/fixtures",
+      "PATH": "/opt/homebrew/bin:/opt/homebrew/Caskroom/codex/0.160.1/codex-path:/Users/robertrhu/Library/Application Support/rtk/codex-shims:/Users/robertrhu/Library/Application Support/rtk/codex-shims:/Users/robertrhu/.bun/bin:/usr/local/opt/libpq/bin:/opt/homebrew/opt/libpq/bin:/opt/homebrew/opt/libpq/bin:/Users/robertrhu/.cargo/bin:/usr/local/opt/openjdk/bin:/Users/robertrhu/bin:/Users/robertrhu/bin:/Users/robertrhu/.asdf/shims:/usr/local/opt/asdf/libexec/bin:/Users/robertrhu/.local/bin:/Users/robertrhu/.volta/bin:/Users/robertrhu/.local/bin:/Users/robertrhu/.volta/bin:/usr/local/Cellar/kleopatra/22.07.80/bin:/Users/robertrhu/.zgen/brandon-fryslie/rad-plugins-master/bin:/usr/local/sbin:/usr/local/bin:/usr/local/sbin:/Users/robertrhu/.volta/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/usr/local/MacGPG2/bin:/Users/robertrhu/.zgen/brandon-fryslie/rad-shell-master/bin"
+    }
+  }
+]

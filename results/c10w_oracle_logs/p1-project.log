@@ -1,0 +1,194 @@
+{
+  "class": "ORACLE MEASUREMENT — not a route; never promotable as a write-engine result (D-C10r-rulings-3 (2))",
+  "decision_id": "D-C10w-oracle",
+  "status": "INCOMPLETE",
+  "final_label": null,
+  "routing": null,
+  "ranks": {},
+  "p3_required": false,
+  "canon_split": null,
+  "reference_count": null,
+  "reference_status": "NOT-ISSUED",
+  "c10_status": "OPEN/BLOCKING",
+  "f1_changed": false,
+  "g6_sensitivity": {
+    "P1": {
+      "U": {
+        "A1_single": {
+          "full_n": 200,
+          "full_net_paired_loss": 0,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 0,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A2_coherent2": {
+          "full_n": 200,
+          "full_net_paired_loss": 0,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 0,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_coined_coined": {
+          "full_n": 200,
+          "full_net_paired_loss": 0,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 0,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_shuf": {
+          "full_n": 200,
+          "full_net_paired_loss": 0,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 0,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        }
+      },
+      "closedform": {
+        "A1_single": {
+          "full_n": 200,
+          "full_net_paired_loss": 2,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 2,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A2_coherent2": {
+          "full_n": 200,
+          "full_net_paired_loss": -2,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": -2,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_coined_coined": {
+          "full_n": 200,
+          "full_net_paired_loss": -1,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": -1,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        }
+      },
+      "oracle_p1": {
+        "A1_single": {
+          "full_n": 200,
+          "full_net_paired_loss": 2,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 2,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A2_coherent2": {
+          "full_n": 200,
+          "full_net_paired_loss": 5,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 5,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_coined_coined": {
+          "full_n": 200,
+          "full_net_paired_loss": 4,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 4,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        },
+        "A7_shuf": {
+          "full_n": 200,
+          "full_net_paired_loss": 9,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 9,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        }
+      },
+      "oracle_canon_s0": {
+        "A7_canon": {
+          "full_n": 200,
+          "full_net_paired_loss": 0,
+          "excluding_affected_n": 198,
+          "excluding_affected_net_paired_loss": 0,
+          "affected_source_indices": [
+            1427,
+            1453
+          ],
+          "affected_signed_contribution": 0,
+          "report_only": true
+        }
+      }
+    }
+  },
+  "projection": {
+    "P2_minutes": 178.04420331675016,
+    "P3_minutes": 138.25022323547165,
+    "limits_minutes": {
+      "P1": 465,
+      "P2": 448,
+      "P3": 327
+    },
+    "basis": {
+      "recipe_setup_seconds": 449.9993192087859,
+      "closedform_arm_seconds": 585.2990594999865,
+      "oracle_arm_seconds": 445.46791329211555,
+      "u_seconds": 1006.8712465830613,
+      "null_seconds": 306.96804008306935,
+      "training400_seconds": 523.3518295418471
+    },
+    "rank64_training_timing": "rank16 projection; remeasure each rank64 attempt",
+    "authorization_required": [
+      "P2",
+      "P3"
+    ]
+  },
+  "stop": "P1 complete; P2/P3 require separately recorded authorization"
+}
+STAGE_EXIT=0

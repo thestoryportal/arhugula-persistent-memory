@@ -210,3 +210,68 @@ _For each load-bearing claim: the falsifiable hypothesis, the method, the measur
 - **Method:** one process, three full harness passes (S aimed at z_post / S-sham aimed at z_pre / S-perm aimed at the next subject's z_post), arms A1 + A2 + A7, S-3 axes + same-frame probe, per-pass ΔW₁/ΔW₂, seam consumption audit; run 1 crashed after pass S (bookkeeping) and is an echo only.
 - **Criterion (prereg §3 v2 + Q1):** validity incl. per-arm controls ≥ 68, reference envelope, hits 0 → 1 → 1, reference spread ≤ 5, rotated ≥ 12, same-frame n = 6; sham scope ± 5 and ΔW₂ ≤ 0.25 ΔW₁; locality gates L1 ≤ +1, frame ≤ +1, described_as ≥ −3, L3 ≥ 29, ppl ≤ +0.5; LEAD ≥ 30/72 with gates; PARTIAL gain ≥ 10 with gates; TRADEOFF gain ≥ 10 without; NULL; -LARGE-WRITE at ΔW₂/ΔW₁ > 0.75 (prose; reader on LEAD/PARTIAL only — Q2); -SHAM-ACTIVE; -NOT-TARGET-SPECIFIC only if S-perm matched (×1.5) and gain_perm ≥ 0.5 × gain; -PERM-UNMATCHED.
 - **Verdict:** TRADEOFF-PERM-UNMATCHED (24 vs 12, gain 12; described_as −4.22; ratio 1.24; sham inert 0.020; S-perm 0/72 at 1.91, ratio-of-ratios 1.54). H-Q2's cost on one axis; no target-specificity claim.
+### C-C10s-sz - Shared-z target, step 1 (D-C10s-sharedz ⟨D-C10s-sharedz@bee04393⟩)
+- **Hypotheses (prereg §1):** H-S1 frame (a z fit to three phrasings transfers to the held-out phrasings better than the canonical z, same write size and locality); H-S0 null (the prior, CORPUS/46 F-D1); H-S2 trade-off.
+- **Method:** one process; LAW#5 inertness (i)–(v) as amended by §7 A2 v2 (same-batch engine parity for (iii)/(iv)); cell 1 = injection screen in the unedited model (canonical, shared and noise-twin targets; 24 A7 facts × 3 held-out templates) with the per-frame fit diagnostic and control c; cell 2 (harness pass) only if cell 1 advances.
+- **Criterion (prereg §2 cell 1, §3, §7 A2):** precedence UNDERFIT (any training-frame fit < 0.98 at stop) > NOISE-NON-DISCRIMINATING (|twin gain| ≥ 6) > screen (shared − canonical ≥ 6/72, on ≥ 2 templates and ≥ 4 subjects); write-arm labels LEAD / PARTIAL / TRADEOFF / NULL with replication.
+- **Verdict:** UNDERFIT (18 entries < 0.98, min 0.8437) → inconclusive under this solve budget; write arm not run; H-1 unresolved. The first inertness run (HALT on (iii)/(iv)) is a non-binding echo.
+### C-C10s-sf - Shared-target solve feasibility (D-C10s-solvefeas ⟨D-C10s-solvefeas@7083a102⟩)
+- **Hypothesis (prereg v2 §0–1):** H-C10s-solvefeas — step 1's underfit is a solve-budget limit: with the cap 25 → 50 evaluations (radius, frames, held-out set, KL/weight-decay and the engine's stopping rule fixed) every subject/frame fit reaches 0.98.
+- **Method:** one process; step 1's inertness (§7 A2 v2) plus a larger-budget positive control; cell 1 = the step-1 injection screen with a same-run evaluation-25 snapshot (prereg §2); cell 2 only if the fit gate passes.
+- **Criterion (prereg §3):** every subject/frame context-averaged teacher-forced fit ≥ 0.98 at the stop, else UNDERFIT-AT-50 qualified by the stopping class of the residual entries.
+- **Verdict:** UNDERFIT-AT-50, qualified objective-stopped (2 entries < 0.98 at the stop, min 0.971150, both stopped on the averaged loss rule at evaluation 27; 29 → 2 in the same run); write arm not run; H-1 unresolved.
+### C-C10t-sk - Value-internal second key, step 2 (D-C10t-secondkey ⟨D-C10t-secondkey@76a722d3⟩)
+- **Hypotheses (prereg v2 §1):** H-T1 direct address (a second key at a value-internal position with its own remainder target raises held-out recall over the same-run single key and the duplicated-canonical control, locality held); H-T0 null (the prior); H-T2 bleed / subject-free; H-T3 request count; H-T4 key side.
+- **Method:** step 0 selects one admitted position per fact (surprisal B10 / leverage B5, spending screen; p5 from the raw five-layer mean per D-C10t-p5rule); one process, arms A1, A2, A7-single, A7-dup (canonical requests twice) and A7-second-B10 (48 requests), held-out full sequence plus per-prefix F1 locality on six never-edited subjects; the first pass-1 attempt HALTED (float64 on MPS) and is a non-binding echo.
+- **Criterion (prereg §3):** validity (A1/A2 ≥ 68, reference inside [5,18]/72 and [5,10]/24, LAW#5, observer, admission); LEAD ≥ 30/72 with locality; PARTIAL 18 < count < 30 and gain ≥ 10 over the same-run reference with locality; TRADEOFF that size without locality; else NULL; -LARGE-WRITE at summed write-norm ratio > 1.5.
+- **Verdict:** NULL-LARGE-WRITE (23 vs 15/72, +8 < 10; ratio 2.05; ten of 24 per-prefix gates fail; duplicate control null); candidate not advanced; no replication pending; H-10/H-5 not closed.
+
+### C-C10u-m2 - Two-token and modifier-only mint, step 3 attempt r3 (D-C10u-mint2 ⟨D-C10u-mint2@d1299b2b⟩)
+- **Hypotheses (prereg v3 §1, §3):** H-19 two minted ids per value (block V2: SPAN-DIRECTION vs PAIR-DIRECTION); block F: minting the modifier alone reaches the one-token mint's transfer (MODIFIER-RECOVERY) or does not (NO-MODIFIER-GAIN).
+- **Method:** two never-pooled blocks, each an A7-multi reference + mint-1 + the candidate at seeds 0/1/2 on a frozen context set; step-0 fit screen (≥ 22/24 aggregates ≥ 0.98) for mint arms; block F's mint-1(frozen) = CORPUS/45's recipe as the LAW#3 reproduction gate; amendment A-env baseline window [5, 18] / [5, 10] / [42, 59]; a replication block for any LEAD or direction label (V2's waived post-observation, D-C10u-r3skipV2).
+- **Criterion (prereg §3, §8):** per arm LEAD ≥ 30/72 / PARTIAL gain ≥ 10 / NULL band [11, 18] / TRADEOFF; direction labels only for a valid, fully fit, locality-clean, replicated block; a failed fit screen → UNDERFIT and the block ROUTING-BLOCKED-UNDERFIT; a failed V2 screen → NOT-COMPARABLE.
+- **Verdict:** CLOSED, operator-ratified (r3 ratified 2026-10-07 ~21:08 MDT, D-C10r-rulings-12; prereg :172) — no direction reading on either block: F ROUTING-BLOCKED-UNDERFIT (modifier-only 17/13/14 of 24 on the screen; the in-block multi reference 17/24 on the same screen; not run), V2 NOT-COMPARABLE (31/72, canon 24/24); LAW#3 reproduction passed (mint-1(frozen) 46/37/40 vs 14/72); P4 not triggered; H-19 not closed.
+
+### C-C10w-or - Ceiling oracle, step 5 — final replicated reading (D-C10w-oracle ⟨D-C10w-oracle@6a735469⟩)
+- **Hypotheses (prereg v2.2 §1):** H-W1 a merged rank-16 band-LoRA reaches ≥ 61/72 with every locality and forgetting gate holding; H-W0 recipe-level negative; H-W2 the bar only at a locality or forgetting cost; H-W3 continuation leakage (BIGRAM diagnostic). Oracle measurement, not a route.
+- **Method:** LoRA on `down_proj` L4–8, every value token in the loss, 20 sealed training phrasings; P1 = seed 0: O-A1, O-A2, O-A7, matched O-A7-shuf, single-frame O-A7-canon, scored in one process against the same-process closed form and arm U; P2 = seed 1 + same-seed retrain; P3 (rank 64) conditional.
+- **Criterion (prereg §3):** validity first; per configuration PASS-CEILING ≥ 61 with G1–G7, PARTIAL-CEILING-LOCALITY-COST ≥ 61 with a gate miss, PARTIAL-CEILING 30–60, FAIL-CEILING < 30; replication over two seeds (min count, union of gate misses) before any label routes.
+- **Verdict:** PARTIAL-CEILING-LOCALITY-COST(G4,G6), BIGRAM — replicated min(70, 71) = 70/72 ≥ 61 with G4 missed at both seeds and G6 at seed 1; stable (seed gap 1; retrain 70 → 70); P3 excluded after LOCALITY-COST; split NOT-READ (c); NO-GATE-CLEAN-REFERENCE; routing INDEPENDENT-PREREG-ONLY. Consistent with H-W2 (the bar only at a locality or forgetting cost); H-W1 not shown. Detail: CORPUS/57 (P1 interim CORPUS/55; P2 eval re-run under D-C10w-p2rerun). H-13 measured; not a route.
+
+### C-C10v-lp - Per-fact layer pick, step 4 pass1 (D-C10v-layerpick ⟨D-C10v-layerpick@3bcae852⟩)
+- **Hypotheses (prereg v2 §1):** H-V1 placing each fact at the band layer with the largest lone-write coefficient G raises A7 held-out recall over the band (A), a fixed layer 8 (B0) and a shuffled map (Bshuf); H-V0 null (prior); H-V2 trade-off.
+- **Method:** step 0 computes G per fact and layer twice (δ = largest change) and fixes the argmax map; one process runs A, B0, B, Bshuf with A1, A2, A7; LAW#5 (i)–(v); pass2 only for PARTIAL or LEAD on B or B0.
+- **Criterion (prereg §3):** validity first; LEAD ≥ 30/72; PARTIAL > 18 and ≥ +10 over A; a count in [5, 18] is NULL; the selector is credited only if B beats B0 and Bshuf by ≥ 10.
+- **Verdict:** NULL — not advanced under the preregistered rules (B 12, A 11, B0 12, Bshuf 10 of 72; B missed described_as; replication not triggered). Detail: CORPUS/56. H-8 not closed.
+
+### C-C10x-ep - Engine-path target construction, step 6 (D-C10x-enginepath ⟨D-C10x-enginepath@a8c22280⟩)
+- **Hypotheses (prereg v2.2 §1):** an FE-inspired target (z at layer 4, replayed targets, layer-local residuals, undivided updates; I-2) or an OverTone-inspired target objective (I-1), each written by the unchanged projected-ridge solve, raises A7 held-out recall over the same-process band 4–8 (A) with controls and locality held; H-X-tradeoff (a gain at a locality, control or write-size cost); null.
+- **Method:** one process: recipe A (LAW#3 gate in the driver), targets, inertness (G8, X1, X2), injection screen, I-2, I-1, each with A1, A2, A7; process 2 only for an unqualified LEAD or PARTIAL.
+- **Criterion (prereg §3):** validity first; controls A1, A2 ≥ 68 per recipe else INVALID-CONTROLS; LEAD ≥ 30/72; PARTIAL > 18 and ≥ +10 over A; a count ≤ 18 is NULL; locality gates vs A; qualifiers -LARGE-WRITE (> 1.5) and -UNDERFIT (I-2); the NULL table reads the injection deficit d.
+- **Verdict:** I-1 NULL (17 vs 12/72; d = −4, non-interpreted); I-2 INVALID-CONTROLS-UNDERFIT (erratum: CORPUS/58; this FE package failed A1/A2 in this run: 64, 65; fit 3/24 ≥ 0.98 against 22/24); no arm eligible, process 2 not run; reader VALID, Astra CONFIRM. Detail: CORPUS/58 (re-run 3 under D-C10w-p2rerun). H-11 not advanced on this harness; no mechanism or method-family conclusion.
+
+## 2026-10-09 — V7 diagnostic and MathLab milestones
+
+D-C10z-v7diag ⟨D-C10z-v7diag@d8c55e7b⟩ frozen routing selects A1; D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩ continuation prepared, candidate/deployment UNVERIFIED → CORPUS/59_C10Z_V7DIAG_A1.md.
+
+D-ML-1 ⟨D-ML-1@12c5548b⟩ harvest/admission milestones; D-ML-2 ⟨D-ML-2@99a9fb4c⟩ gate 2a PASS/2b OPERANDS-ONLY; D-ML-3 ⟨D-ML-3@84e9d0e1⟩ contract corrected; MATH-PROXY only → CORPUS/60_MATHLAB_HARVEST_REPLAY.md.
+
+## 2026-10-09 — MathLab calibration stop (supersedes the interim milestone status)
+
+D-ML-1 ⟨D-ML-1@46230e48⟩ **STOPPED — calibration FAIL**; D-ML-4 ⟨D-ML-4@46230e48⟩ step 4 **SHELVED**; NEW-1 adapter geometry continues separately under its own gates. MATH-PROXY only; F1 unchanged → CORPUS/60_MATHLAB_HARVEST_REPLAY.md#2026-10-09-addendum--harvest-2-calibration-fail-lab-stopped-d-ml-1--d-ml-4.
+
+## 2026-10-10 — ASTRA attempt-4 final disposition
+
+D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ **DONE — UNDERFIT-LARGE-WRITE-SUBJECT-FREE-STAGE1** (inconclusive under this solve budget; terminal under current authorization), Astra CONFIRM → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.
+
+D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩: preparation/admission preserved; current continuation CLOSED by D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.
+
+
+## 2026-10-10 — Projector-fidelity qualification (D-NEW1-fid)
+
+| Decision | Recorded qualification | Detailed source |
+|---|---|---|
+| D-NEW1-fid ⟨D-NEW1-fid@341707a8⟩ | Native-projector fidelity warning RECORDED; CORPUS/44 “null-space share” qualified append-only; actual rounded-P distance, update-weighted leakage and locality UNMEASURED; behavioral verdicts and F1 unchanged | [B measurement report — D-NEW1-fid warning](../results/mathlab_staging/new1_v2_build_report.md#d-new1-fid) |
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

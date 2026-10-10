@@ -1,0 +1,2 @@
+{"tier": "MATH-PROXY", "fixture": true, "stage": "begin-solve", "elapsed_s": 1.00000761449337e-06, "peak_rss_gib": 0.1800537109375}
+{"tier": "MATH-PROXY", "fixture": true, "stage": "operands-allocated", "elapsed_s": 0.020742832915857434, "peak_rss_gib": 1.085479736328125}

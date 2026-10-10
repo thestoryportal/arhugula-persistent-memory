@@ -1,0 +1,38 @@
+PROCEED-WITH-CHANGES
+
+**BLOCKING**
+
+1. **Replace the headline’s “does not move held-out recall.”** The observed change is +1/72; NULL is an expenditure decision, not evidence of zero effect. `results/c10v_layerpick/pass1.json → recipes.{A,B0,B,Bshuf}.arms.A7_coined_coined.para_full_n` gives **11, 12, 12, 10**. `docs/C10V_LAYERPICK_PREREG.md:70–78` defines non-advancement, and `:11` limits the conclusion to this configuration.
+
+   Exact replacement: **“The frozen argmax-G placement candidate did not meet the preregistered advancement threshold in pass1: B 12/72, fixed-layer-8 B0 12/72, shuffled-map Bshuf 10/72, versus band 4–8 A 11/72.”**
+
+**Non-blocking notes**
+
+1. **Q1 — NULL is correct; no additional locality suffix is required.** All three candidate counts fall inside [5,18]. B’s `described_as` **86.17 < 87.0** must remain visible, but TRADEOFF requires a qualifying gain first. Write ratios **0.643538 / 0.867380 / 1.087396** do not trigger LARGE-WRITE. Attribution is untriggered, and pass2 is not required. Evidence: prereg `:64–76`; `results/c10v_layerpick/run.json → readings, replication_needed`.
+
+2. **Q2 — Print “NULL (control)” for Bshuf.** Preserve `NULL-CONTROL-ONLY` when quoting the machine output, explaining that the suffix denotes its role. Its scientific `base_label` is NULL; the suffix is appended separately at `experiments/track_c/c10v_layerpick_read.py:386–388`. No label-changing discrepancy exists here.
+
+3. **Q3 — Describe conditional repeatability, not general stability or demonstrated fragility.** Add: **“The map reproduced exactly under frozen contexts; robustness to context resampling was not measured.”** Step0 records δ **0**, concentration **15**, minimum margin **0.000891425**, and **11/24** margins below 0.01; pass1 records agreement **24/24**. These narrow margins alone do not establish instability. Evidence: `results/c10v_layerpick/step0.json → delta, concentration, winning_margins`; `pass1.json → selection_agreement_n`; `experiments/track_c/c10v_layerpick_arms.py:169–176,493`. This bounds the NULL’s scope; it does not invalidate it.
+
+4. **Q4 — Report B’s control boundary without inventing a failure.** B A1 **68/72** passes the inclusive floor and is two below the other recipes’ **70/72**. Include it in the control table; do not call the controls unchanged. Evidence: prereg `:66`; `pass1.json → recipes.*.arms.A1_single.para_full_n`.
+
+5. **Q5 — The linked run record satisfies the requirement.** `run.json → pass_sha256.pass1` and `pass1_complete.json → record_sha256` both match the current pass1 SHA-256, **`bf8f162a422cd01bf9763673cd24abbb99a532da889f08c3311174d7942a119f`**. Cite `pass1.json → fingerprint, published_map_sha256, step0.G_table, step0.delta, ctx_sha256` directly; there is no need to duplicate all four fingerprint blocks. Do not say `_cov_cpu` is inside `run.json`. I reran the reader: **rc 0**, byte-identical to the supplied reader output, with all **71** pinned source hashes matching the current tree (`identity.json → source_sha256`; reader `:410–450`).
+
+6. **Q6 — The comparisons exercise separate executions and active wrapper code.** The identity map enters the non-None grouping branch, constructs copied hparams, selects projectors, allocates fresh caches, and calls the original primitive (`arms.py:284–298`); it does not take the bypass at `:268–269`. Snapshots are cloned, and `capture_write` copies deltas before restoration (`c10e_bandknob.py:150–159`; `arms.py:311–330`). Singleton and multigroup compare separately restored executions and check unassigned-layer writes (`arms.py:360–388`). Thus these are meaningful wrapper parity checks, although both sides intentionally share `my_edit`. Say **“recorded update-distance zero under the tested conditions”**, not universal determinism. Raw audit tensors and their absolute norms were not retained in `law5.json`, so independently establishing nonzero magnitude for every individual audit comparison is **UNVERIFIABLE from that JSON alone**. Also, the four per-recipe standing-gate blocks are cached copies of one check, not four independent checks (`arms.py:445–447`).
+
+7. **Q7 — Retain the recorded statistic with its exact outcome definition.** Report Spearman against **binary 3/3 success**, with **2/24, 1/24, 2/24** positives for B0/B/Bshuf. Do not silently replace it or infer general predictive failure from it. Evidence: reader `:367–375`; `run.json → readings.*.spearman_G_edge, per_edge_3of3`. An explicitly supplementary correlation against 0–3 hit counts gives **−0.3874, −0.0564, +0.1421**, independently recomputed from `pass1.json → recipes.*.{detail.A7_coined_coined,arms.A7_coined_coined.extra.proxy.rows}`. B’s change from −0.3163 to −0.0564 shows why outcome coding matters.
+
+8. **Q8 — Keep the proxy numbers descriptive and out of the headline.** The quoted held-out medians **0.195333 → 0.181147** are pooled over **72 prompt ratios**, not a median of 24 per-fact averages. More fundamentally, A measures against layer-8 targets while B measures against separately solved targets at assigned layers; these are not a common-coordinate improvement measure. Evidence: prereg `:54`; `arms.py:238–257,413–430`; `pass1.json → recipes.{A,B}.arms.A7_coined_coined.extra.proxy.rows[*].rho_per_prompt`. Suggested wording: **“The pooled residual-ratio diagnostic differed across recipe-specific target layers; it did not establish a behavioural placement lead.”**
+
+9. **Q9 — Update the sequencing language.** Use **“Next in the authorized sequence: step 5 P2; steps 6–7 await its replicated reading.”** P1 is already recorded as interim, without routing, in `CORPUS/55_C10W_ORACLE_P1_INTERIM.md:9`; P2 authorization and launch disposition are at `EXPERIMENT_RUNBOOK.md:364,366`. C10 OPEN/BLOCKING and F1 unchanged are supported program-state statements (`EXPERIMENT_RUNBOOK.md:45`), not measurements from C10V.
+
+10. **Q10 — Disclose delegated authorization in the CORPUS provenance paragraph and close-out.** Exact text: **“Execution proceeded under the delegated go recorded in D-C10v-go, rather than a separate C10V-specific operator instruction.”** The disclosure obligation is explicit at `EXPERIMENT_RUNBOOK.md:363`. The packet’s untracked-artifact statement is now stale: all seven run JSONs are tracked in **`d8af793`**, and I verified their working-tree bytes against that commit. Record that provenance instead. Also correct the log citation: `C10V_PASS1_COMPLETE` and `STAGE_EXIT=0` currently occupy `results/c10v_layerpick_logs/pass1.log:376–377`.
+
+11. **Q11 — No additional label-invalidating failure found.** The cheapest current audit challenge—rederive counts from detail rows, verify hashes, and rerun the reader—preserved NULL. If selector robustness is later claimed, the cheapest additional control is a fresh-context step0 recomputation without writes; that control was **not run in this review** and could overturn a robustness claim, not this recorded fixed-map decision. The remaining explanations—an ineffective selection proxy, context-sensitive placement, or layer-dependent target/composition limitations—remain unresolved by this single configuration (prereg `:11,32,49–50`). Declining this candidate advances the scoped §C write-path investigation without closing depth or F1 (`prereg:7,78,82`).
+
+**Proposed one-sentence CORPUS verdict**
+
+**D-C10v-layerpick pass1 = NULL: the valid frozen-map candidate scored 12/72 held-out full-answer hits versus A’s 11/72, B0’s 12/72 and Bshuf’s 10/72, missed `described_as` locality (86.17 < 87.0), and is not advanced under the preregistered rules; replication was not triggered, and depth and F1 remain open.**
+
+🌱 graft reported ~97,627 tokens saved this turn, 1 successful call.
+

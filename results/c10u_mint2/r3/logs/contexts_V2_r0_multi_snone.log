@@ -1,0 +1,4 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:03<00:03,  3.74s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.26s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.33s/it]
+loaded Qwen/Qwen2.5-3B
+Cached context templates [['{}'], ['The following is a multiple-choice question from the engineering. {}', 'Therefore, the final answer is:\n\\[\n\\. {}', 'Because of its unique position at the crossroads of. {}', 'I have a list of items that need to be. {}', 'You are given an m x n integer grid accounts. {}']]

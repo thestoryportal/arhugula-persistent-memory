@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_11.pt": "1acc6a9669ca46c2c93ce93c617075f84e512a1874f5fc0e96a44a7a4c5afa31"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Skornwell",
+    "target_new": {
+      "str": " Yastov Yornel"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_11.pt"
+  }
+}

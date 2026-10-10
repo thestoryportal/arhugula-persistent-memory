@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "decision_id": "D-C10w-p2rerun",
+  "step0": {
+    "path": "results/c10w_oracle/step0_20261007T223638_531381Z/step0.json",
+    "sha256": "82ef86437b5ba00fa78a1b55cfe64e4d85baaceb37aa0726f3015c2b2f7d673e"
+  },
+  "p2_directory": "results/c10w_oracle/p2_20261008T034226_086980Z",
+  "evaluator": {
+    "path": "experiments/track_c/c10w_oracle_eval.py",
+    "old_sha256": "21f39d81695a3dc9fc144af631b48c7377c5efe08a9bf93db011dcaa8b602027",
+    "new_sha256": "45f2839d0fd576bd131072c0ae8b009a0cb371ddca49b1edadb062944a775f1e"
+  },
+  "unified_diff": {
+    "path": "tools/c10w_p2_evaluator_A1.diff",
+    "sha256": "ca0e00df578f535bff2b5c8a878dfc9138b88e4c7c357e156a65b177a2fe06ff"
+  },
+  "diagnostic_path": "architecture_profile/s29_c10w_p2_cosine_halt_diagnostic.json",
+  "reason": "One permitted driver fix: accumulate same-seed cosine dot and norms in CPU float64 after the unchanged fp32 merged delta; rerun the compromised P2 eval under D-C10w-p2rerun. No scientific thresholds, training, or other frozen sources change."
+}

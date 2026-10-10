@@ -1,0 +1,13 @@
+{
+  "protected_files": 545,
+  "protected_drift": [],
+  "original_scope_prefix_preserved": true,
+  "scope_prebuild_sha256": "547f577041e72baba462c0392befff7a29a4cdc7e40def905eb1664a4223d5a1",
+  "real_diag_namespace_exists": false,
+  "builder_real_covariance_opened": false,
+  "real_admission_called_by_builder": false,
+  "owned_source_sha256": "93a7b317f8078c63c3c0d40d35fb419dfd24132a10577387af93c3790d461cb1",
+  "owned_tests_sha256": "22bfcca9f90054b6ad9cd71d7ca4bf5f67738f8d6ee284d91b106bc946e5c699",
+  "prereg_sha256": "1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f",
+  "observed_head": "145bd3fff271b4a23b8210359552032f1e04b753"
+}

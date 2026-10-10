@@ -33,3 +33,6 @@ Identical-target subjects (4): 10–11/12 in every cell. All-subject totals /72:
 - CORPUS/46's H1 bucket and CORPUS/47's TARGET-PORTABLE reading stand; this entry adds the component the re-solved target carries.
 - Not written here, by the advisor's instruction: "each model wants its own direction" as a mechanism; which positions or components rotate the direction; "the solve under-shot"; contract evidence; any CORPUS/44–47 label change; that the two-pass edit will work or remain local; any F1 change.
 - Limitations: one process (HIGH-CONTROL); N = 24; one model (D-C10k-rulings-2); fp16 MPS; the rotated population is 20 subjects, so each fraction moves by 0.023 per hit.
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

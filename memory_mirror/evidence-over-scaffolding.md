@@ -1,10 +1,8 @@
 ---
 name: evidence-over-scaffolding
-description: "When the next experiment is runnable, RUN it — don't let planning/research/runbook authoring accrete while empirical evidence stalls; meta-work feels like progress but isn't"
-metadata: 
-  node_type: memory
+description: When the next experiment is runnable, RUN it; don't let planning/research/runbook authoring accrete while empirical evidence stalls
+metadata:
   type: feedback
-  originSessionId: e1b2ae2b-4a31-42c8-a24d-462bcf751e0d
 ---
 
 **Trap (observed 2026-06-18):** after the G6.1 falsification, ~10 turns produced a synthesis doc, a Perplexity prompt, NotebookLM prompts, and a 481-line runbook — all good, all **meta**, and **zero new empirical evidence** the whole time, even though the next experiment (A1/A2) was cheap (~20–50 min), pre-coded, and on a cached model. The advisor named it: *mistaking the map for the territory.*

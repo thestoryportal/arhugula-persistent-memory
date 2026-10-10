@@ -1,0 +1,390 @@
+test_corrupt_remote_download_check_does_not_create_receipt (tools.test_backup_gdrive_addendum.ArchiveTest.test_corrupt_remote_download_check_does_not_create_receipt) ... ok
+test_differing_remote_is_immutable_and_preserves_prior_manifest (tools.test_backup_gdrive_addendum.ArchiveTest.test_differing_remote_is_immutable_and_preserves_prior_manifest) ... ok
+test_invalid_paths_refuse_before_any_copy (tools.test_backup_gdrive_addendum.ArchiveTest.test_invalid_paths_refuse_before_any_copy) ... ok
+test_manifest_write_failure_is_loud (tools.test_backup_gdrive_addendum.ArchiveTest.test_manifest_write_failure_is_loud) ... ok
+test_real_copy_download_check_and_sha_receipt_never_delete_source (tools.test_backup_gdrive_addendum.ArchiveTest.test_real_copy_download_check_and_sha_receipt_never_delete_source) ... ok
+test_source_drift_after_check_does_not_create_receipt (tools.test_backup_gdrive_addendum.ArchiveTest.test_source_drift_after_check_does_not_create_receipt) ... ok
+test_ambiguous_or_unverified_missing_source_remains_fatal (tools.test_backup_gdrive_addendum.HeartbeatTest.test_ambiguous_or_unverified_missing_source_remains_fatal) ... ok
+test_behavior_changing_rclone_environment_refuses_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_behavior_changing_rclone_environment_refuses_without_dispatch) ... 
+  test_behavior_changing_rclone_environment_refuses_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_behavior_changing_rclone_environment_refuses_without_dispatch) (name='RCLONE_DRY_RUN') ... FAIL
+  test_behavior_changing_rclone_environment_refuses_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_behavior_changing_rclone_environment_refuses_without_dispatch) (name='RCLONE_IGNORE_ERRORS') ... FAIL
+  test_behavior_changing_rclone_environment_refuses_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_behavior_changing_rclone_environment_refuses_without_dispatch) (name='RCLONE_DELETE_EXCLUDED') ... FAIL
+  test_behavior_changing_rclone_environment_refuses_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_behavior_changing_rclone_environment_refuses_without_dispatch) (name='RCLONE_IGNORE_EXISTING') ... FAIL
+  test_behavior_changing_rclone_environment_refuses_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_behavior_changing_rclone_environment_refuses_without_dispatch) (name='RCLONE_FILTER') ... FAIL
+  test_behavior_changing_rclone_environment_refuses_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_behavior_changing_rclone_environment_refuses_without_dispatch) (name='RCLONE_CONFIG_FIXTURE_GLOBAL_DRY_RUN') ... FAIL
+test_classifier_failure_keeps_successful_raw_rclone_exit (tools.test_backup_gdrive_addendum.HeartbeatTest.test_classifier_failure_keeps_successful_raw_rclone_exit) ... ok
+test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries (tools.test_backup_gdrive_addendum.HeartbeatTest.test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries) ... FAIL
+test_duplicate_fields_and_non_json_constants_cannot_hide_errors (tools.test_backup_gdrive_addendum.HeartbeatTest.test_duplicate_fields_and_non_json_constants_cannot_hide_errors) ... ok
+test_each_retry_has_its_own_error_count_and_suppression_proof (tools.test_backup_gdrive_addendum.HeartbeatTest.test_each_retry_has_its_own_error_count_and_suppression_proof) ... 
+  test_each_retry_has_its_own_error_count_and_suppression_proof (tools.test_backup_gdrive_addendum.HeartbeatTest.test_each_retry_has_its_own_error_count_and_suppression_proof) (removed=(1, 2)) ... FAIL
+  test_each_retry_has_its_own_error_count_and_suppression_proof (tools.test_backup_gdrive_addendum.HeartbeatTest.test_each_retry_has_its_own_error_count_and_suppression_proof) (removed=(1,)) ... FAIL
+  test_each_retry_has_its_own_error_count_and_suppression_proof (tools.test_backup_gdrive_addendum.HeartbeatTest.test_each_retry_has_its_own_error_count_and_suppression_proof) (removed=(2,)) ... FAIL
+test_exit_publication_failure_is_loud_and_preserves_original_failure (tools.test_backup_gdrive_addendum.HeartbeatTest.test_exit_publication_failure_is_loud_and_preserves_original_failure) ... ok
+test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept (tools.test_backup_gdrive_addendum.HeartbeatTest.test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept) ... ok
+test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest.test_held_lock_refusal_cannot_overwrite_owner_heartbeat) ... FAIL
+test_inconsistent_vanish_evidence_remains_fatal (tools.test_backup_gdrive_addendum.HeartbeatTest.test_inconsistent_vanish_evidence_remains_fatal) ... ok
+test_inflight_is_visible_and_missing_stats_are_unknown (tools.test_backup_gdrive_addendum.HeartbeatTest.test_inflight_is_visible_and_missing_stats_are_unknown) ... FAIL
+test_lock_cleanup_failure_records_failed_outcome (tools.test_backup_gdrive_addendum.HeartbeatTest.test_lock_cleanup_failure_records_failed_outcome) ... ok
+test_malformed_stats_do_not_reuse_earlier_bytes (tools.test_backup_gdrive_addendum.HeartbeatTest.test_malformed_stats_do_not_reuse_earlier_bytes) ... ok
+test_mixed_auth_permission_and_destination_enoent_remain_fatal (tools.test_backup_gdrive_addendum.HeartbeatTest.test_mixed_auth_permission_and_destination_enoent_remain_fatal) ... ok
+test_native_nonregular_skip_is_recorded_as_warning (tools.test_backup_gdrive_addendum.HeartbeatTest.test_native_nonregular_skip_is_recorded_as_warning) ... ok
+test_native_warning_on_success_is_visible (tools.test_backup_gdrive_addendum.HeartbeatTest.test_native_warning_on_success_is_visible) ... ok
+test_non_one_exit_keeps_raw_failure_even_with_vanished_messages (tools.test_backup_gdrive_addendum.HeartbeatTest.test_non_one_exit_keeps_raw_failure_even_with_vanished_messages) ... ok
+test_real_queued_source_vanish_is_warning_and_keeps_raw_exit (tools.test_backup_gdrive_addendum.HeartbeatTest.test_real_queued_source_vanish_is_warning_and_keeps_raw_exit) ... ok
+test_real_sync_publishes_actual_bytes_and_completed_success (tools.test_backup_gdrive_addendum.HeartbeatTest.test_real_sync_publishes_actual_bytes_and_completed_success) ... ok
+test_recovered_source_vanish_is_visible_without_final_deletion_suppression (tools.test_backup_gdrive_addendum.HeartbeatTest.test_recovered_source_vanish_is_visible_without_final_deletion_suppression) ... ok
+test_refusal_still_records_failed_run_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_refusal_still_records_failed_run_without_dispatch) ... ok
+test_remote_connection_overrides_refuse_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_connection_overrides_refuse_without_dispatch) ... FAIL
+test_remote_global_overrides_refuse_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_global_overrides_refuse_without_dispatch) ... 
+  test_remote_global_overrides_refuse_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_global_overrides_refuse_without_dispatch) (setting='global.dry_run') ... FAIL
+  test_remote_global_overrides_refuse_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_global_overrides_refuse_without_dispatch) (setting='global.ignore_errors') ... FAIL
+  test_remote_global_overrides_refuse_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_global_overrides_refuse_without_dispatch) (setting='global.delete_excluded') ... FAIL
+  test_remote_global_overrides_refuse_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_global_overrides_refuse_without_dispatch) (setting='override.low_level_retries') ... FAIL
+test_source_symlink_escape_and_inaccessible_source_remain_fatal (tools.test_backup_gdrive_addendum.HeartbeatTest.test_source_symlink_escape_and_inaccessible_source_remain_fatal) ... ok
+test_start_publication_failure_invalidates_previous_success (tools.test_backup_gdrive_addendum.HeartbeatTest.test_start_publication_failure_invalidates_previous_success) ... ok
+test_stats_before_final_attempt_do_not_prove_completion (tools.test_backup_gdrive_addendum.HeartbeatTest.test_stats_before_final_attempt_do_not_prove_completion) ... ok
+test_terminal_publication_cannot_mask_a_newer_active_run (tools.test_backup_gdrive_addendum.HeartbeatTest.test_terminal_publication_cannot_mask_a_newer_active_run) ... FAIL
+test_valid_json_without_final_newline_cannot_normalize_failure (tools.test_backup_gdrive_addendum.HeartbeatTest.test_valid_json_without_final_newline_cannot_normalize_failure) ... ok
+test_vanished_parent_is_warning_but_dangling_symlink_escape_is_fatal (tools.test_backup_gdrive_addendum.HeartbeatTest.test_vanished_parent_is_warning_but_dangling_symlink_escape_is_fatal) ... ok
+test_verified_vanish_accepts_native_and_counted_terminal_messages (tools.test_backup_gdrive_addendum.HeartbeatTest.test_verified_vanish_accepts_native_and_counted_terminal_messages) ... ok
+test_zero_exit_dry_run_or_skipped_operations_cannot_be_success (tools.test_backup_gdrive_addendum.HeartbeatTest.test_zero_exit_dry_run_or_skipped_operations_cannot_be_success) ... 
+  test_zero_exit_dry_run_or_skipped_operations_cannot_be_success (tools.test_backup_gdrive_addendum.HeartbeatTest.test_zero_exit_dry_run_or_skipped_operations_cannot_be_success) (message='Skipped copy as --dry-run is set') ... FAIL
+  test_zero_exit_dry_run_or_skipped_operations_cannot_be_success (tools.test_backup_gdrive_addendum.HeartbeatTest.test_zero_exit_dry_run_or_skipped_operations_cannot_be_success) (message='Skipped delete') ... FAIL
+  test_zero_exit_dry_run_or_skipped_operations_cannot_be_success (tools.test_backup_gdrive_addendum.HeartbeatTest.test_zero_exit_dry_run_or_skipped_operations_cannot_be_success) (message='Skipping move') ... FAIL
+test_builder_compiles_applet_and_prints_complete_sha256_manifest (tools.test_backup_gdrive_addendum.LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest) ... FAIL
+test_launchd_waits_for_background_applet (tools.test_backup_gdrive_addendum.LauncherTest.test_launchd_waits_for_background_applet) ... FAIL
+test_nonzero_shell_script_is_caught_promptly_without_dialog (tools.test_backup_gdrive_addendum.LauncherTest.test_nonzero_shell_script_is_caught_promptly_without_dialog) ... FAIL
+test_current_auth_error_and_old_auth_error_recovery (tools.test_backup_gdrive_addendum.StatusTest.test_current_auth_error_and_old_auth_error_recovery) ... ok
+test_failed (tools.test_backup_gdrive_addendum.StatusTest.test_failed) ... ok
+test_fresh_success (tools.test_backup_gdrive_addendum.StatusTest.test_fresh_success) ... ok
+test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs (tools.test_backup_gdrive_addendum.StatusTest.test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs) ... FAIL
+test_malformed_future_and_inflight_fail_closed (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_future_and_inflight_fail_closed) ... ok
+test_malformed_warning_fields_refuse_success (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_warning_fields_refuse_success) ... ok
+test_missing (tools.test_backup_gdrive_addendum.StatusTest.test_missing) ... ok
+test_new_publication_failure_and_log_rotation_are_not_silent (tools.test_backup_gdrive_addendum.StatusTest.test_new_publication_failure_and_log_rotation_are_not_silent) ... ok
+test_nonfatal_source_churn_is_visible_in_status (tools.test_backup_gdrive_addendum.StatusTest.test_nonfatal_source_churn_is_visible_in_status) ... ok
+test_stale_and_exact_thirteen_hour_boundary (tools.test_backup_gdrive_addendum.StatusTest.test_stale_and_exact_thirteen_hour_boundary) ... ok
+test_warning_paths_are_one_status_line (tools.test_backup_gdrive_addendum.StatusTest.test_warning_paths_are_one_status_line) ... ok
+test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success (tools.test_backup_gdrive_addendum.StatusTest.test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success) ... 
+  test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success (tools.test_backup_gdrive_addendum.StatusTest.test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success) (message='Skipped copy as --dry-run is set') ... FAIL
+  test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success (tools.test_backup_gdrive_addendum.StatusTest.test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success) (message='Skipped delete') ... FAIL
+  test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success (tools.test_backup_gdrive_addendum.StatusTest.test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success) (message='Skipping move') ... FAIL
+test_changing_source_between_sync_attempts_cannot_overwrite_archived_history (tools.test_backup_gdrive.BackupTest.test_changing_source_between_sync_attempts_cannot_overwrite_archived_history) ... ERROR
+test_empty_source_cannot_erase_existing_backup (tools.test_backup_gdrive.BackupTest.test_empty_source_cannot_erase_existing_backup) ... ok
+test_held_lock_refuses_and_logs_without_changing_destination (tools.test_backup_gdrive.BackupTest.test_held_lock_refuses_and_logs_without_changing_destination) ... ok
+test_interruption_retains_lock_while_child_may_still_run (tools.test_backup_gdrive.BackupTest.test_interruption_retains_lock_while_child_may_still_run) ... ok
+test_missing_source_refuses (tools.test_backup_gdrive.BackupTest.test_missing_source_refuses) ... ok
+test_real_rclone_failure_is_nonzero_and_logged (tools.test_backup_gdrive.BackupTest.test_real_rclone_failure_is_nonzero_and_logged) ... ok
+test_stale_lock_refuses_explicitly_without_auto_removal (tools.test_backup_gdrive.BackupTest.test_stale_lock_refuses_explicitly_without_auto_removal) ... ok
+test_three_runs_keep_old_versions_and_exclude_regenerable_files (tools.test_backup_gdrive.BackupTest.test_three_runs_keep_old_versions_and_exclude_regenerable_files) ... ok
+test_timeout_stops_entire_sync_group_before_cleanup (tools.test_backup_gdrive.BackupTest.test_timeout_stops_entire_sync_group_before_cleanup) ... ok
+test_unmounted_volume_refuses (tools.test_backup_gdrive.BackupTest.test_unmounted_volume_refuses) ... ok
+
+======================================================================
+ERROR: test_changing_source_between_sync_attempts_cannot_overwrite_archived_history (tools.test_backup_gdrive.BackupTest.test_changing_source_between_sync_attempts_cannot_overwrite_archived_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 106, in test_changing_source_between_sync_attempts_cannot_overwrite_archived_history
+    if (self.dest / "a.bin").read_bytes() != v0:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/pathlib.py", line 1050, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/backup_gdrive_udbvbwej/mirror/a.bin'
+
+======================================================================
+FAIL: test_behavior_changing_rclone_environment_refuses_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_behavior_changing_rclone_environment_refuses_without_dispatch) (name='RCLONE_DRY_RUN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 325, in test_behavior_changing_rclone_environment_refuses_without_dispatch
+    self.assertNotEqual(result.returncode, 0, result.stderr)
+AssertionError: 0 == 0 : backup_gdrive: 20261010T073525Z-37363 start /private/tmp/gdrive_addendum_07zadjrd/source/ -> /private/tmp/gdrive_addendum_07zadjrd/mirror/; archive=/private/tmp/gdrive_addendum_07zadjrd/.deleted/20261010T073525Z-37363/; rclone-log=/private/tmp/gdrive_addendum_07zadjrd/heartbeat/runs/20261010T073525Z-37363.jsonl
+backup_gdrive: 20261010T073525Z-37363 WARN: sync completed with warnings; {"bytes_transferred": null, "rclone_exit_code": 0, "source_vanish_only": false, "stats_status": "missing", "warnings": [{"kind": "rclone_log_unverified"}]}; see /private/tmp/gdrive_addendum_07zadjrd/heartbeat/runs/20261010T073525Z-37363.jsonl
+backup_gdrive_status: no rclone stats; transferred bytes unknown
+
+
+======================================================================
+FAIL: test_behavior_changing_rclone_environment_refuses_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_behavior_changing_rclone_environment_refuses_without_dispatch) (name='RCLONE_IGNORE_ERRORS')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 325, in test_behavior_changing_rclone_environment_refuses_without_dispatch
+    self.assertNotEqual(result.returncode, 0, result.stderr)
+AssertionError: 0 == 0 : backup_gdrive: 20261010T073525Z-37403 start /private/tmp/gdrive_addendum_07zadjrd/source/ -> /private/tmp/gdrive_addendum_07zadjrd/mirror/; archive=/private/tmp/gdrive_addendum_07zadjrd/.deleted/20261010T073525Z-37403/; rclone-log=/private/tmp/gdrive_addendum_07zadjrd/heartbeat/runs/20261010T073525Z-37403.jsonl
+backup_gdrive: 20261010T073525Z-37403 WARN: sync completed with warnings; {"bytes_transferred": null, "rclone_exit_code": 0, "source_vanish_only": false, "stats_status": "missing", "warnings": [{"kind": "rclone_log_unverified"}]}; see /private/tmp/gdrive_addendum_07zadjrd/heartbeat/runs/20261010T073525Z-37403.jsonl
+backup_gdrive_status: no rclone stats; transferred bytes unknown
+
+
+======================================================================
+FAIL: test_behavior_changing_rclone_environment_refuses_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_behavior_changing_rclone_environment_refuses_without_dispatch) (name='RCLONE_DELETE_EXCLUDED')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 325, in test_behavior_changing_rclone_environment_refuses_without_dispatch
+    self.assertNotEqual(result.returncode, 0, result.stderr)
+AssertionError: 0 == 0 : backup_gdrive: 20261010T073525Z-37425 start /private/tmp/gdrive_addendum_07zadjrd/source/ -> /private/tmp/gdrive_addendum_07zadjrd/mirror/; archive=/private/tmp/gdrive_addendum_07zadjrd/.deleted/20261010T073525Z-37425/; rclone-log=/private/tmp/gdrive_addendum_07zadjrd/heartbeat/runs/20261010T073525Z-37425.jsonl
+backup_gdrive: 20261010T073525Z-37425 WARN: sync completed with warnings; {"bytes_transferred": null, "rclone_exit_code": 0, "source_vanish_only": false, "stats_status": "missing", "warnings": [{"kind": "rclone_log_unverified"}]}; see /private/tmp/gdrive_addendum_07zadjrd/heartbeat/runs/20261010T073525Z-37425.jsonl
+backup_gdrive_status: no rclone stats; transferred bytes unknown
+
+
+======================================================================
+FAIL: test_behavior_changing_rclone_environment_refuses_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_behavior_changing_rclone_environment_refuses_without_dispatch) (name='RCLONE_IGNORE_EXISTING')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 325, in test_behavior_changing_rclone_environment_refuses_without_dispatch
+    self.assertNotEqual(result.returncode, 0, result.stderr)
+AssertionError: 0 == 0 : backup_gdrive: 20261010T073525Z-37462 start /private/tmp/gdrive_addendum_07zadjrd/source/ -> /private/tmp/gdrive_addendum_07zadjrd/mirror/; archive=/private/tmp/gdrive_addendum_07zadjrd/.deleted/20261010T073525Z-37462/; rclone-log=/private/tmp/gdrive_addendum_07zadjrd/heartbeat/runs/20261010T073525Z-37462.jsonl
+backup_gdrive: 20261010T073525Z-37462 WARN: sync completed with warnings; {"bytes_transferred": null, "rclone_exit_code": 0, "source_vanish_only": false, "stats_status": "missing", "warnings": [{"kind": "rclone_log_unverified"}]}; see /private/tmp/gdrive_addendum_07zadjrd/heartbeat/runs/20261010T073525Z-37462.jsonl
+backup_gdrive_status: no rclone stats; transferred bytes unknown
+
+
+======================================================================
+FAIL: test_behavior_changing_rclone_environment_refuses_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_behavior_changing_rclone_environment_refuses_without_dispatch) (name='RCLONE_FILTER')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 325, in test_behavior_changing_rclone_environment_refuses_without_dispatch
+    self.assertNotEqual(result.returncode, 0, result.stderr)
+AssertionError: 0 == 0 : backup_gdrive: 20261010T073526Z-37484 start /private/tmp/gdrive_addendum_07zadjrd/source/ -> /private/tmp/gdrive_addendum_07zadjrd/mirror/; archive=/private/tmp/gdrive_addendum_07zadjrd/.deleted/20261010T073526Z-37484/; rclone-log=/private/tmp/gdrive_addendum_07zadjrd/heartbeat/runs/20261010T073526Z-37484.jsonl
+backup_gdrive: 20261010T073526Z-37484 WARN: sync completed with warnings; {"bytes_transferred": null, "rclone_exit_code": 0, "source_vanish_only": false, "stats_status": "missing", "warnings": [{"kind": "rclone_log_unverified"}]}; see /private/tmp/gdrive_addendum_07zadjrd/heartbeat/runs/20261010T073526Z-37484.jsonl
+backup_gdrive_status: no rclone stats; transferred bytes unknown
+
+
+======================================================================
+FAIL: test_behavior_changing_rclone_environment_refuses_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_behavior_changing_rclone_environment_refuses_without_dispatch) (name='RCLONE_CONFIG_FIXTURE_GLOBAL_DRY_RUN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 325, in test_behavior_changing_rclone_environment_refuses_without_dispatch
+    self.assertNotEqual(result.returncode, 0, result.stderr)
+AssertionError: 0 == 0 : backup_gdrive: 20261010T073526Z-37507 start /private/tmp/gdrive_addendum_07zadjrd/source/ -> /private/tmp/gdrive_addendum_07zadjrd/mirror/; archive=/private/tmp/gdrive_addendum_07zadjrd/.deleted/20261010T073526Z-37507/; rclone-log=/private/tmp/gdrive_addendum_07zadjrd/heartbeat/runs/20261010T073526Z-37507.jsonl
+backup_gdrive: 20261010T073526Z-37507 WARN: sync completed with warnings; {"bytes_transferred": null, "rclone_exit_code": 0, "source_vanish_only": false, "stats_status": "missing", "warnings": [{"kind": "rclone_log_unverified"}]}; see /private/tmp/gdrive_addendum_07zadjrd/heartbeat/runs/20261010T073526Z-37507.jsonl
+backup_gdrive_status: no rclone stats; transferred bytes unknown
+
+
+======================================================================
+FAIL: test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries (tools.test_backup_gdrive_addendum.HeartbeatTest.test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 358, in test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries
+    self.assertIn(flag, actual)
+AssertionError: '--dry-run=false' not found in ['sync', '/private/tmp/gdrive_addendum_qpgaicgp/source/', '/private/tmp/gdrive_addendum_qpgaicgp/mirror/', '--backup-dir', '/private/tmp/gdrive_addendum_qpgaicgp/.deleted/20261010T073526Z-37552/', '--exclude-from', '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_mirror.excludes', '--links', '--log-file', '/private/tmp/gdrive_addendum_qpgaicgp/heartbeat/runs/20261010T073526Z-37552.jsonl', '--log-level', 'INFO', '--use-json-log', '--exclude', '**/.git/objects/**/tmp_obj_*', '--exclude', '**/.git/objects/tmp_obj_*', '--exclude', '/.git/objects/**/tmp_obj_*', '--exclude', '/.git/objects/tmp_obj_*', '--stats', '1m', '--stats-log-level', 'NOTICE']
+
+======================================================================
+FAIL: test_each_retry_has_its_own_error_count_and_suppression_proof (tools.test_backup_gdrive_addendum.HeartbeatTest.test_each_retry_has_its_own_error_count_and_suppression_proof) (removed=(1, 2))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 612, in test_each_retry_has_its_own_error_count_and_suppression_proof
+    self.assertEqual(result.returncode, 1, "each attempt boundary needs both suppression records: "+result.stderr)
+AssertionError: 0 != 1 : each attempt boundary needs both suppression records: backup_gdrive: 20261010T073528Z-37685 start /private/tmp/gdrive_addendum_tuazxswy/source/ -> /private/tmp/gdrive_addendum_tuazxswy/mirror/; archive=/private/tmp/gdrive_addendum_tuazxswy/.deleted/20261010T073528Z-37685/; rclone-log=/private/tmp/gdrive_addendum_tuazxswy/heartbeat/runs/20261010T073528Z-37685.jsonl
+backup_gdrive: 20261010T073528Z-37685 WARN: source vanished; destination deletions suppressed; raw rclone exit 1; {"bytes_transferred": 8, "rclone_exit_code": 1, "source_vanish_only": true, "stats_status": "recorded", "warnings": [{"kind": "source_vanished", "object": "lost.bin"}, {"kind": "destination_deletions_suppressed"}]}; see /private/tmp/gdrive_addendum_tuazxswy/heartbeat/runs/20261010T073528Z-37685.jsonl
+
+
+======================================================================
+FAIL: test_each_retry_has_its_own_error_count_and_suppression_proof (tools.test_backup_gdrive_addendum.HeartbeatTest.test_each_retry_has_its_own_error_count_and_suppression_proof) (removed=(1,))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 612, in test_each_retry_has_its_own_error_count_and_suppression_proof
+    self.assertEqual(result.returncode, 1, "each attempt boundary needs both suppression records: "+result.stderr)
+AssertionError: 0 != 1 : each attempt boundary needs both suppression records: backup_gdrive: 20261010T073528Z-37717 start /private/tmp/gdrive_addendum_tuazxswy/source/ -> /private/tmp/gdrive_addendum_tuazxswy/mirror/; archive=/private/tmp/gdrive_addendum_tuazxswy/.deleted/20261010T073528Z-37717/; rclone-log=/private/tmp/gdrive_addendum_tuazxswy/heartbeat/runs/20261010T073528Z-37717.jsonl
+backup_gdrive: 20261010T073528Z-37717 WARN: source vanished; destination deletions suppressed; raw rclone exit 1; {"bytes_transferred": 8, "rclone_exit_code": 1, "source_vanish_only": true, "stats_status": "recorded", "warnings": [{"kind": "source_vanished", "object": "lost.bin"}, {"kind": "destination_deletions_suppressed"}]}; see /private/tmp/gdrive_addendum_tuazxswy/heartbeat/runs/20261010T073528Z-37717.jsonl
+
+
+======================================================================
+FAIL: test_each_retry_has_its_own_error_count_and_suppression_proof (tools.test_backup_gdrive_addendum.HeartbeatTest.test_each_retry_has_its_own_error_count_and_suppression_proof) (removed=(2,))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 612, in test_each_retry_has_its_own_error_count_and_suppression_proof
+    self.assertEqual(result.returncode, 1, "each attempt boundary needs both suppression records: "+result.stderr)
+AssertionError: 0 != 1 : each attempt boundary needs both suppression records: backup_gdrive: 20261010T073528Z-37741 start /private/tmp/gdrive_addendum_tuazxswy/source/ -> /private/tmp/gdrive_addendum_tuazxswy/mirror/; archive=/private/tmp/gdrive_addendum_tuazxswy/.deleted/20261010T073528Z-37741/; rclone-log=/private/tmp/gdrive_addendum_tuazxswy/heartbeat/runs/20261010T073528Z-37741.jsonl
+backup_gdrive: 20261010T073528Z-37741 WARN: source vanished; destination deletions suppressed; raw rclone exit 1; {"bytes_transferred": 8, "rclone_exit_code": 1, "source_vanish_only": true, "stats_status": "recorded", "warnings": [{"kind": "source_vanished", "object": "lost.bin"}, {"kind": "destination_deletions_suppressed"}]}; see /private/tmp/gdrive_addendum_tuazxswy/heartbeat/runs/20261010T073528Z-37741.jsonl
+
+
+======================================================================
+FAIL: test_held_lock_refusal_cannot_overwrite_owner_heartbeat (tools.test_backup_gdrive_addendum.HeartbeatTest.test_held_lock_refusal_cannot_overwrite_owner_heartbeat)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 310, in test_held_lock_refusal_cannot_overwrite_owner_heartbeat
+    self.assertEqual(self.heartbeat.read_bytes(), previous, "a non-owner cannot publish over the active owner")
+AssertionError: b'{"b[24 chars]nd": "2026-10-10T07:35:31.111962+00:00", "exit[407 chars]9}\n' != b'{"b[24 chars]nd": null, "exit_code": null, "log_path": "/pr[374 chars]0}\n' : a non-owner cannot publish over the active owner
+
+======================================================================
+FAIL: test_inflight_is_visible_and_missing_stats_are_unknown (tools.test_backup_gdrive_addendum.HeartbeatTest.test_inflight_is_visible_and_missing_stats_are_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 202, in test_inflight_is_visible_and_missing_stats_are_unknown
+    self.assertEqual(value.get("owner_pid"), proc.pid)
+AssertionError: None != 38491
+
+======================================================================
+FAIL: test_remote_connection_overrides_refuse_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_connection_overrides_refuse_without_dispatch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 348, in test_remote_connection_overrides_refuse_without_dispatch
+    self.assertNotEqual(result.returncode, 0, result.stderr)
+AssertionError: 0 == 0 : backup_gdrive: 20261010T073543Z-39130 start /private/tmp/gdrive_addendum_1l8gyw5w/source/ -> :local,global.dry_run=true:/private/tmp/gdrive_addendum_1l8gyw5w/mirror/; archive=:local,global.dry_run=true:/private/tmp/gdrive_addendum_1l8gyw5w/.deleted/20261010T073543Z-39130/; rclone-log=/private/tmp/gdrive_addendum_1l8gyw5w/heartbeat/runs/20261010T073543Z-39130.jsonl
+backup_gdrive: 20261010T073543Z-39130 WARN: sync completed with warnings; {"bytes_transferred": null, "rclone_exit_code": 0, "source_vanish_only": false, "stats_status": "missing", "warnings": [{"kind": "rclone_log_unverified"}]}; see /private/tmp/gdrive_addendum_1l8gyw5w/heartbeat/runs/20261010T073543Z-39130.jsonl
+backup_gdrive_status: no rclone stats; transferred bytes unknown
+
+
+======================================================================
+FAIL: test_remote_global_overrides_refuse_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_global_overrides_refuse_without_dispatch) (setting='global.dry_run')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 339, in test_remote_global_overrides_refuse_without_dispatch
+    self.assertNotEqual(result.returncode, 0, result.stderr)
+AssertionError: 0 == 0 : backup_gdrive: 20261010T073544Z-39171 start /private/tmp/gdrive_addendum_517ez_gr/source/ -> fixture:/private/tmp/gdrive_addendum_517ez_gr/mirror/; archive=fixture:/private/tmp/gdrive_addendum_517ez_gr/.deleted/20261010T073544Z-39171/; rclone-log=/private/tmp/gdrive_addendum_517ez_gr/heartbeat/runs/20261010T073544Z-39171.jsonl
+backup_gdrive: 20261010T073544Z-39171 OK
+
+
+======================================================================
+FAIL: test_remote_global_overrides_refuse_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_global_overrides_refuse_without_dispatch) (setting='global.ignore_errors')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 339, in test_remote_global_overrides_refuse_without_dispatch
+    self.assertNotEqual(result.returncode, 0, result.stderr)
+AssertionError: 0 == 0 : backup_gdrive: 20261010T073544Z-39204 start /private/tmp/gdrive_addendum_517ez_gr/source/ -> fixture:/private/tmp/gdrive_addendum_517ez_gr/mirror/; archive=fixture:/private/tmp/gdrive_addendum_517ez_gr/.deleted/20261010T073544Z-39204/; rclone-log=/private/tmp/gdrive_addendum_517ez_gr/heartbeat/runs/20261010T073544Z-39204.jsonl
+backup_gdrive: 20261010T073544Z-39204 OK
+
+
+======================================================================
+FAIL: test_remote_global_overrides_refuse_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_global_overrides_refuse_without_dispatch) (setting='global.delete_excluded')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 339, in test_remote_global_overrides_refuse_without_dispatch
+    self.assertNotEqual(result.returncode, 0, result.stderr)
+AssertionError: 0 == 0 : backup_gdrive: 20261010T073544Z-39226 start /private/tmp/gdrive_addendum_517ez_gr/source/ -> fixture:/private/tmp/gdrive_addendum_517ez_gr/mirror/; archive=fixture:/private/tmp/gdrive_addendum_517ez_gr/.deleted/20261010T073544Z-39226/; rclone-log=/private/tmp/gdrive_addendum_517ez_gr/heartbeat/runs/20261010T073544Z-39226.jsonl
+backup_gdrive: 20261010T073544Z-39226 OK
+
+
+======================================================================
+FAIL: test_remote_global_overrides_refuse_without_dispatch (tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_global_overrides_refuse_without_dispatch) (setting='override.low_level_retries')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 340, in test_remote_global_overrides_refuse_without_dispatch
+    self.assertFalse(dispatched.exists(), "config overrides must refuse before sync")
+AssertionError: True is not false : config overrides must refuse before sync
+
+======================================================================
+FAIL: test_terminal_publication_cannot_mask_a_newer_active_run (tools.test_backup_gdrive_addendum.HeartbeatTest.test_terminal_publication_cannot_mask_a_newer_active_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 278, in test_terminal_publication_cannot_mask_a_newer_active_run
+    self.assertTrue(paused.exists(), "positive control: B paused before lock acquisition")
+AssertionError: False is not true : positive control: B paused before lock acquisition
+
+======================================================================
+FAIL: test_zero_exit_dry_run_or_skipped_operations_cannot_be_success (tools.test_backup_gdrive_addendum.HeartbeatTest.test_zero_exit_dry_run_or_skipped_operations_cannot_be_success) (message='Skipped copy as --dry-run is set')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 622, in test_zero_exit_dry_run_or_skipped_operations_cannot_be_success
+    self.assertEqual(result.returncode, 1, result.stderr)
+AssertionError: 0 != 1 : backup_gdrive: 20261010T073549Z-39690 start /private/tmp/gdrive_addendum__h_eetc0/source/ -> /private/tmp/gdrive_addendum__h_eetc0/mirror/; archive=/private/tmp/gdrive_addendum__h_eetc0/.deleted/20261010T073549Z-39690/; rclone-log=/private/tmp/gdrive_addendum__h_eetc0/heartbeat/runs/20261010T073549Z-39690.jsonl
+backup_gdrive: 20261010T073549Z-39690 OK
+
+
+======================================================================
+FAIL: test_zero_exit_dry_run_or_skipped_operations_cannot_be_success (tools.test_backup_gdrive_addendum.HeartbeatTest.test_zero_exit_dry_run_or_skipped_operations_cannot_be_success) (message='Skipped delete')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 622, in test_zero_exit_dry_run_or_skipped_operations_cannot_be_success
+    self.assertEqual(result.returncode, 1, result.stderr)
+AssertionError: 0 != 1 : backup_gdrive: 20261010T073549Z-39726 start /private/tmp/gdrive_addendum__h_eetc0/source/ -> /private/tmp/gdrive_addendum__h_eetc0/mirror/; archive=/private/tmp/gdrive_addendum__h_eetc0/.deleted/20261010T073549Z-39726/; rclone-log=/private/tmp/gdrive_addendum__h_eetc0/heartbeat/runs/20261010T073549Z-39726.jsonl
+backup_gdrive: 20261010T073549Z-39726 OK
+
+
+======================================================================
+FAIL: test_zero_exit_dry_run_or_skipped_operations_cannot_be_success (tools.test_backup_gdrive_addendum.HeartbeatTest.test_zero_exit_dry_run_or_skipped_operations_cannot_be_success) (message='Skipping move')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 622, in test_zero_exit_dry_run_or_skipped_operations_cannot_be_success
+    self.assertEqual(result.returncode, 1, result.stderr)
+AssertionError: 0 != 1 : backup_gdrive: 20261010T073549Z-39756 start /private/tmp/gdrive_addendum__h_eetc0/source/ -> /private/tmp/gdrive_addendum__h_eetc0/mirror/; archive=/private/tmp/gdrive_addendum__h_eetc0/.deleted/20261010T073549Z-39756/; rclone-log=/private/tmp/gdrive_addendum__h_eetc0/heartbeat/runs/20261010T073549Z-39756.jsonl
+backup_gdrive: 20261010T073549Z-39756 OK
+
+
+======================================================================
+FAIL: test_builder_compiles_applet_and_prints_complete_sha256_manifest (tools.test_backup_gdrive_addendum.LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 693, in test_builder_compiles_applet_and_prints_complete_sha256_manifest
+    self.assertTrue(script.is_file(), "applet builder must exist")
+AssertionError: False is not true : applet builder must exist
+
+======================================================================
+FAIL: test_launchd_waits_for_background_applet (tools.test_backup_gdrive_addendum.LauncherTest.test_launchd_waits_for_background_applet)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 665, in test_launchd_waits_for_background_applet
+    self.assertEqual(value["ProgramArguments"],
+AssertionError: Lists differ: ['/bin/bash', '/Volumes/memit/llm-database-p[56 chars].sh'] != ['/usr/bin/open', '-W', '-g', '/Users/robert[35 chars]app']
+
+First differing element 0:
+'/bin/bash'
+'/usr/bin/open'
+
+Second list contains 2 additional elements.
+First extra element 2:
+'-g'
+
+- ['/bin/bash',
+-  '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_gdrive.sh']
++ ['/usr/bin/open',
++  '-W',
++  '-g',
++  '/Users/robertrhu/Applications/MemitGdriveBackup.app']
+
+======================================================================
+FAIL: test_nonzero_shell_script_is_caught_promptly_without_dialog (tools.test_backup_gdrive_addendum.LauncherTest.test_nonzero_shell_script_is_caught_promptly_without_dialog)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 672, in test_nonzero_shell_script_is_caught_promptly_without_dialog
+    self.assertTrue(source.is_file(), "no-dialog applet source must exist")
+AssertionError: False is not true : no-dialog applet source must exist
+
+======================================================================
+FAIL: test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs (tools.test_backup_gdrive_addendum.StatusTest.test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 66, in test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs
+    self.assert_bad("stale")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 53, in assert_bad
+    self.assertIn(word, (result.stdout+result.stderr).lower())
+AssertionError: 'stale' not found in 'backup_gdrive_status: incomplete backup run\n'
+
+======================================================================
+FAIL: test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success (tools.test_backup_gdrive_addendum.StatusTest.test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success) (message='Skipped copy as --dry-run is set')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 80, in test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success
+    self.assert_bad("skipped")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 52, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T07:35:50.523205+00:00
+
+
+======================================================================
+FAIL: test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success (tools.test_backup_gdrive_addendum.StatusTest.test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success) (message='Skipped delete')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 80, in test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success
+    self.assert_bad("skipped")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 52, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T07:35:50.546107+00:00
+
+
+======================================================================
+FAIL: test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success (tools.test_backup_gdrive_addendum.StatusTest.test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success) (message='Skipping move')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 80, in test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success
+    self.assert_bad("skipped")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 52, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T07:35:50.568638+00:00
+
+
+----------------------------------------------------------------------
+Ran 62 tests in 36.365s
+
+FAILED (failures=28, errors=1)

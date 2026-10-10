@@ -48,6 +48,13 @@ sys.path.insert(0, ENGINE_ROOT); os.chdir(ENGINE_ROOT)
 | **D1-2** §8.7 threshold instrument | `python experiments/track_d/d1_threshold_instrument.py` (MODE lowk / mixedload; determinism env) | yes | `results/d1_threshold_lowk_3b_s2.json`, `results/d1_mixedload_smoke_3b_s3.json` (CORPUS/22) |
 | **CP1–G3** governance | `python experiments/governance/{cp1_governed_write,g1_two_phase_commit,g2_security_layer,g3_validation_pipeline}.py` | CP1 yes; G1–G3 no | `results/*_result.json`, `results/*_state_ledger.jsonl` |
 | **B3N** in-weight-necessity | *analysis decision — no runner* | no | `docs/B3_IN_WEIGHT_NECESSITY_DECISION.md` (reasoned position, not an empirical PASS) |
+| D-C10z-v7diag ⟨D-C10z-v7diag@d8c55e7b⟩ — DONE/A1 | Recorded tools/run_c10z_v7_diag.py (one-shot; no repeat authority) | recorded GPU | results/c10z_v7_diagnostic/20261009T182427Z/verdict.json → CORPUS/59_C10Z_V7DIAG_A1.md |
+| D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩ — ADMITTED preparation; continuation CLOSED under D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ | Recorded experiments/track_c/c10z_astra_benchmark.py; historical admission; new experimental work requires prospective authorization | recorded benchmark GPU | results/c10z_astra_benchmark/20261009T202713Z_drift3_a1/benchmark.json → CORPUS/59_C10Z_V7DIAG_A1.md |
+| D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ — terminal stage-1 UNDERFIT | Model-free reader only: LLMDB_ROOT=<worktree> .venv/bin/python -B experiments/track_c/c10z_astra_read.py results/c10z_astra_attempt4; no experiment retry authorized | CPU metadata reader | results/c10z_astra_attempt4/pass_p1.json → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md |
+| D-ML-1 ⟨D-ML-1@46230e48⟩ — STOPPED; calibration FAIL | Recorded tools/run_mathlab_cpu.sh with mathlab/m3_calibration.py; harvest-2 bindings preserved; no rerun authorized | recorded CPU calibration | results/mathlab/m3_20261009T225557.353172Z/calibration.json → CORPUS/60_MATHLAB_HARVEST_REPLAY.md#2026-10-09-addendum--harvest-2-calibration-fail-lab-stopped-d-ml-1--d-ml-4 |
+| D-ML-4 ⟨D-ML-4@46230e48⟩ — lab stop; step 4 SHELVED | Stop disposition only; step-4 draft NOT FROZEN/NOT RUN; future proxies need written amendment/unused-arm calibration | no new run | results/mathlab_staging/m3_reading_astra.md → CORPUS/60_MATHLAB_HARVEST_REPLAY.md#2026-10-09-addendum--harvest-2-calibration-fail-lab-stopped-d-ml-1--d-ml-4 |
+| D-ML-2 ⟨D-ML-2@99a9fb4c⟩ — Bounded harvest-1 replay PASS/OPERANDS-ONLY | Recorded tools/run_mathlab_cpu.sh with mathlab/m2_solve_repro.py; frozen historical pins | CPU | results/mathlab/m2_20261009T192823.926873Z/manifest.json → CORPUS/60_MATHLAB_HARVEST_REPLAY.md |
+| D-ML-3 ⟨D-ML-3@84e9d0e1⟩ — NORM-CONTRACT implemented; fresh admission recorded | Recorded tools/run_mathlab_harvest.sh under the frozen native norm contract | recorded GPU harvest | results/mathlab/harvest_20261009T203705.724371Z/manifest.json → CORPUS/60_MATHLAB_HARVEST_REPLAY.md |
 
 > **Keep-current note (2026-06-21):** this re-run table is now part of the experiment close-out set (`DISCIPLINE.md` §1.1) — add a row when a new experiment lands, so it stops silently falling behind (it had drifted to ~C2 before this). The durable env / path / determinism sections above are stable; only this table + the seeds note need per-experiment upkeep. **Determinism path for the lower-variance instrument:** `torch.use_deterministic_algorithms(True)` + `CUBLAS_WORKSPACE_CONFIG=:4096:8` + `ATTN=eager` (byte-reproducible across processes on 3B; binding 3B uncertainty is edit-ORDER — `[[sequential-edit-run-nondeterminism]]`).
 
@@ -82,3 +89,14 @@ Pre-reorganization snapshot (2026-06-18) at `/root/migration_backup/`: `manifest
 | **C10O magnitude/direction (M3 Pro)** | `LAW3_REF=<covgeom run JSON> python experiments/track_c/c10o_magnitude_arms.py` (OUT defaults to results/c10o_magnitude/run.json) ; read with `c10o_magnitude_read.py results/c10o_magnitude/run.json` | yes (MPS) | `results/c10o_magnitude/` (CORPUS/48; D-C10o-magnitude ⟨D-C10o-magnitude@31389765⟩) |
 | **C10P two-pass solve (M3 Pro)** | `LAW3_REF=<covgeom run JSON> python experiments/track_c/c10p_twopass_arms.py` (three passes; outputs under results/c10p_twopass/) ; read with `c10p_twopass_read.py results/c10p_twopass` | yes (MPS) | `results/c10p_twopass/` (CORPUS/49; D-C10p-twopass ⟨D-C10p-twopass@12f87dc3⟩) |
 | **C10Q stacked two-pass solve (M3 Pro)** | `LAW3_REF=<covgeom run JSON> python experiments/track_c/c10q_stacked_arms.py` (three passes S / S-sham / S-perm; outputs under results/c10q_stacked/) ; read with `c10q_stacked_read.py results/c10q_stacked` | yes (MPS) | `results/c10q_stacked/` (CORPUS/50; D-C10q-stacked ⟨D-C10q-stacked@8e5c7f12⟩) |
+| **C10X engine-path target construction (M3 Pro)** | `python -B experiments/track_c/c10x_enginepath_arms.py --out <abs OUT_DIR> --go <abs go record> --process 1` (absolute paths required; a re-run adds `--predecessor <abs dir> --cause <CAUSE>`); read with `python -B experiments/track_c/c10x_enginepath_read.py --out <abs OUT_DIR>` (exit 0 does not by itself mean VALID — read `status`) | yes (MPS) | `results/c10x_enginepath_rerun3/` (CORPUS/58; D-C10x-enginepath ⟨D-C10x-enginepath@a8c22280⟩) |
+
+
+## 2026-10-10 — Projector-fidelity warning pointer (D-NEW1-fid)
+
+| Decision | Scope | Detailed source |
+|---|---|---|
+| D-NEW1-fid ⟨D-NEW1-fid@341707a8⟩ | Documentation-only closeout of existing B receipt; no numerical rerun or new reproduction command; actual projector/leakage/locality UNMEASURED | [B measurement report — D-NEW1-fid warning](results/mathlab_staging/new1_v2_build_report.md#d-new1-fid) |
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

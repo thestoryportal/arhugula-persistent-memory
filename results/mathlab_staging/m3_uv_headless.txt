@@ -1,0 +1,7 @@
+nice: setpriority: Operation not permitted
+error: Request failed after 3 retries in 5.1s
+  Caused by: Failed to fetch: `https://pypi.org/simple/psutil/`
+  Caused by: error sending request for url (https://pypi.org/simple/psutil/)
+  Caused by: client error (Connect)
+  Caused by: dns error
+  Caused by: failed to lookup address information: nodename nor servname provided, or not known

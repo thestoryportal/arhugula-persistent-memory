@@ -1,0 +1,14 @@
+test_manual_heartbeat_is_explicit_and_cannot_clear_applet_failure (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_manual_heartbeat_is_explicit_and_cannot_clear_applet_failure) ... FAIL
+
+======================================================================
+FAIL: test_manual_heartbeat_is_explicit_and_cannot_clear_applet_failure (tools.test_backup_gdrive_addendum.GenerationStatusTest.test_manual_heartbeat_is_explicit_and_cannot_clear_applet_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 993, in test_manual_heartbeat_is_explicit_and_cannot_clear_applet_failure
+    self.assertIn("manual/unsequenced", result.stdout)
+AssertionError: 'manual/unsequenced' not found in 'backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:33.576969+00:00\n'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.026s
+
+FAILED (failures=1)

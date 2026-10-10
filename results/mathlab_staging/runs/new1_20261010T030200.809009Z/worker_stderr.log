@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_geometry.py", line 501, in <module>
+    if __name__=='__main__': sys.exit(main())
+                                      ^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_geometry.py", line 493, in main
+    try: run(client,args.run_dir,args.prereg_sha)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_geometry.py", line 459, in run
+    basis=covariance_basis(C,cell=cell)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_geometry.py", line 175, in covariance_basis
+    require(errors['symmetry']<=1e-6 and all(errors[n]<=1e-5 for n in ('svd','psd','orthogonality')),
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/new1_geometry.py", line 32, in require
+    if not value: raise Invalid(message)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Invalid: covariance numerical/PSD validity failed: {'symmetry': 0.0, 'svd': 0.00013039369558719857, 'psd': 0.00015124534128092926, 'orthogonality': 1.613587520408149e-05}

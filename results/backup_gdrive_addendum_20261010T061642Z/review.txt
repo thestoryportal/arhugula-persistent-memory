@@ -1,0 +1,4 @@
+Read-only GPT-6/Codex-family review, 2026-10-10:
+Pre-test FIX-FIRST: prevent an older fresh-success heartbeat masking publication failure; immutable archive collision policy required. These were incorporated before production.
+Final implementation FIX-FIRST: terminal heartbeat was published after lock release, permitting an older success to overwrite a newer active run. Reproduced in terminal_race_red_v2.txt and fixed test-first.
+Delta final PROCEED — code-only approval. The reported overlap blocker is resolved. backup_gdrive.sh:44–58 publishes terminal heartbeat while holding the lock and republishes failure if cleanup fails. The supplied green_final_v2.txt records 20 PASS. No activation or full-sync approval. Real Drive validation remains DNS-blocked and UNVERIFIED. Reviewer performed no execution, edits or network calls.

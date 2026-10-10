@@ -41,9 +41,12 @@ trusted_hash = "sha256:57e56096b5506f52125a4fbe9f0fe01dabbd3dcbd5ee2f5f9c837021a
 [hooks.state."/workspace/.codex/hooks.json:stop:0:0"]
 trusted_hash = "sha256:0c66f8f092428c87d34ba2b7b112bfc907a6d32dcc073cf1dd4164fe460533ce"
 
-[mcp_servers.perplexity]
-command = "python3"
-args = ["/workspace/tools/perplexity_mcp_from_restore.py"]
+# Disabled 2026-10-10 (memory audit): this pod-era entry launched tools/perplexity_mcp_from_restore.py, which reads its key
+# from /workspace/.pod_restore/ — gone since the RunPod volume was lost (D-HW-1). To give Codex Perplexity again, the operator
+# runs: codex mcp add perplexity --env PERPLEXITY_API_KEY=KEY -- npx -y @perplexity-ai/mcp-server   (key stays out of git)
+# [mcp_servers.perplexity]
+# command = "python3"
+# args = ["/workspace/tools/perplexity_mcp_from_restore.py"]
 
 
 # Research-tool MCP servers — add keys via `codex mcp add` (do NOT commit secrets):

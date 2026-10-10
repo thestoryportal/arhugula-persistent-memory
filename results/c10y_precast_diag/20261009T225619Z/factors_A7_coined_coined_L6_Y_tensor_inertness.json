@@ -1,0 +1,170 @@
+{
+  "after": {
+    "A0": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "d7b8d0bfbfd5708256467efba76d05ac524f3220d299f0039d08234185c2f265",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "B": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "4f71091c124d6e0ec236a0726f9b1cdcb2b767f7ad50577bd83afd8f3f94c95d",
+      "shape": [
+        24,
+        11008
+      ]
+    },
+    "M": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "186d3e7542a885b394a19a483606e0e728c773ea17c0a462d009a13f324176b0",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "Q": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "90c8c5b8314d39af22a74da4c84424594a80dd8ac096d47b509bcd2df1cd1be2",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "R": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "d7b8d0bfbfd5708256467efba76d05ac524f3220d299f0039d08234185c2f265",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "X": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "50566ee7be37f8aca0283a95e4cf309ab6a99c74967f7a6f60fe0b6b5317084b",
+      "shape": [
+        11008,
+        24
+      ]
+    }
+  },
+  "before": {
+    "A0": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "d7b8d0bfbfd5708256467efba76d05ac524f3220d299f0039d08234185c2f265",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "B": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "4f71091c124d6e0ec236a0726f9b1cdcb2b767f7ad50577bd83afd8f3f94c95d",
+      "shape": [
+        24,
+        11008
+      ]
+    },
+    "M": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "186d3e7542a885b394a19a483606e0e728c773ea17c0a462d009a13f324176b0",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "Q": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "90c8c5b8314d39af22a74da4c84424594a80dd8ac096d47b509bcd2df1cd1be2",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "R": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "d7b8d0bfbfd5708256467efba76d05ac524f3220d299f0039d08234185c2f265",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "X": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "50566ee7be37f8aca0283a95e4cf309ab6a99c74967f7a6f60fe0b6b5317084b",
+      "shape": [
+        11008,
+        24
+      ]
+    }
+  },
+  "retained": {
+    "A0": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "d7b8d0bfbfd5708256467efba76d05ac524f3220d299f0039d08234185c2f265",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "B": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "4f71091c124d6e0ec236a0726f9b1cdcb2b767f7ad50577bd83afd8f3f94c95d",
+      "shape": [
+        24,
+        11008
+      ]
+    },
+    "M": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "186d3e7542a885b394a19a483606e0e728c773ea17c0a462d009a13f324176b0",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "Q": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "90c8c5b8314d39af22a74da4c84424594a80dd8ac096d47b509bcd2df1cd1be2",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "R": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "d7b8d0bfbfd5708256467efba76d05ac524f3220d299f0039d08234185c2f265",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "X": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "50566ee7be37f8aca0283a95e4cf309ab6a99c74967f7a6f60fe0b6b5317084b",
+      "shape": [
+        11008,
+        24
+      ]
+    }
+  }
+}

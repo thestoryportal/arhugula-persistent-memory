@@ -1,0 +1,28 @@
+test_full_shape_measurement_raises_the_solve_cell_reserve (mathlab.test_mathlab.NotebookContractTests.test_full_shape_measurement_raises_the_solve_cell_reserve) ... FAIL
+
+======================================================================
+FAIL: test_full_shape_measurement_raises_the_solve_cell_reserve (mathlab.test_mathlab.NotebookContractTests.test_full_shape_measurement_raises_the_solve_cell_reserve)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 684, in test_full_shape_measurement_raises_the_solve_cell_reserve
+    C.reproduce(harvest, R.new_directory(root,"m2"), run)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/core.py", line 250, in reproduce
+    update, diagnostics = solve(P, tensors[p + "Kf"], tensors[p + "rf"], ca)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 680, in measured_solve
+    self.assertGreaterEqual(last[0], 9, "full-shape solve already measured 8.0833 GiB")
+AssertionError: 4 not greater than or equal to 9 : full-shape solve already measured 8.0833 GiB
+
+----------------------------------------------------------------------
+Ran 1 test in 0.076s
+
+FAILED (failures=1)

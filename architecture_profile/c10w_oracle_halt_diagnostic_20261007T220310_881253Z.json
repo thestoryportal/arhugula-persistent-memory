@@ -1,0 +1,8 @@
+{
+  "status": "HALT",
+  "stage": "step0",
+  "reason": "HALT: step0 freeze process failed",
+  "oracle_measurement_not_route": true,
+  "class": "ORACLE MEASUREMENT — not a route; never promotable as a write-engine result (D-C10r-rulings-3 (2))",
+  "decision_id": "D-C10w-oracle"
+}

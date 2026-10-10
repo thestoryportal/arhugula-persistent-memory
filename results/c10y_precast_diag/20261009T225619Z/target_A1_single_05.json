@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_05.pt": "d3eb448ab704cad7e9bc8b0f218d41bfcc4bc7626a3873c86f2773dfaf8c777f"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Drennik",
+    "target_new": {
+      "str": " Moscow"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_05.pt"
+  }
+}

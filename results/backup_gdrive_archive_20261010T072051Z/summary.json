@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "manifest": "selftest_manifest.tsv",
+  "source_preserved": true,
+  "cleanup": "PASS"
+}

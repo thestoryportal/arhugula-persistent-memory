@@ -1,0 +1,15 @@
+test_absent_wrapper_launch_fails_fresh_success_promptly (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_absent_wrapper_launch_fails_fresh_success_promptly) ... ok
+test_applescript_error_receipt_runs_without_executing_wrapper (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_applescript_error_receipt_runs_without_executing_wrapper) ... ok
+test_exit_75_launch_preserves_real_active_owner_and_inflight_status (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_exit_75_launch_preserves_real_active_owner_and_inflight_status) ... ok
+test_launch_receipt_is_atomically_replaced_and_stays_one_file (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_launch_receipt_is_atomically_replaced_and_stays_one_file) ... ok
+test_receipt_write_failure_is_prompt_and_preserves_existing_files (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_receipt_write_failure_is_prompt_and_preserves_existing_files) ... ok
+test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers (tools.test_backup_gdrive_addendum.StatusTest.test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers) ... ok
+test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.069s
+
+OK
+real 2.11
+user 1.18
+sys 0.52

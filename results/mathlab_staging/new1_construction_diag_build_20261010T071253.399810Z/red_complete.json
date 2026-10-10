@@ -1,0 +1,14 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_new1_construction_diag",
+    "-v"
+  ],
+  "exit_code": 1,
+  "elapsed_s": 0.04732858399999999,
+  "source_exists": false,
+  "test_sha256": "d58a4f07a53f01603ef6aaf9500667d449377c29d5ae45cabbdeae1b138f93d5"
+}

@@ -1,0 +1,5 @@
+{"stage0": "READY"}
+STAGE_0_EXIT=0
+{"FIT": false, "a": 12, "artifact_identity": "NOT-EVALUATED", "attribution": "NOT-RUN", "base_label": "UNDERFIT", "gain": 2, "gates": {"G1": false, "G2": false, "G3": true, "G4": false, "G5": false, "G7": false}, "label": "UNDERFIT-LARGE-WRITE-SUBJECT-FREE-STAGE1", "lead_replicated": false, "n": 14, "next_stage": null, "numeric_behavioral_reproduction": "NOT-EVALUATED", "qualifiers": ["LARGE-WRITE", "SUBJECT-FREE", "STAGE1"], "replicated": false, "scientific_verdict": true}
+STAGE_1_EXIT=0
+STAGE1_NEXT=null

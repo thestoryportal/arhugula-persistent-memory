@@ -1,0 +1,33 @@
+{
+  "active_phase": "preflight_or_import",
+  "cap_seconds": 3060,
+  "completed_phases": [],
+  "completion": "incomplete",
+  "deadline_origin": 1380861.031073625,
+  "decision_id": "D-C10z-v7diag",
+  "incomplete_phases": [
+    "setup",
+    "F1000",
+    "R1000",
+    "R5000",
+    "integrity",
+    "cleanup",
+    "worker_exit"
+  ],
+  "outcome": "INCONCLUSIVE",
+  "reason": "abnormal worker exit: 3",
+  "record_read_errors": {},
+  "records": {},
+  "retained_artifacts": {
+    "supervisor.json": {
+      "bytes": 700
+    },
+    "worker.log": {
+      "bytes": 531
+    }
+  },
+  "retention_scope": "file presence and size; partial files are not admitted",
+  "supervisor_observed_exit": true,
+  "timed_out": false,
+  "worker_returncode": 3
+}

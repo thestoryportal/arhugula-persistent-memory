@@ -1,0 +1,246 @@
+--- before/tests/test_new1_geometry.py
++++ tests/test_new1_geometry.py
+@@ -76,17 +76,16 @@
+         promoted_error=float(t.linalg.vector_norm(reference-promoted)/t.linalg.vector_norm(reference))
+         self.assertGreater(legacy_error,1e-5)
+         self.assertEqual(promoted_error,0.)
+-        with mock.patch.object(t.linalg,'svd',return_value=(U,s,Vh)) as svd:
++        with mock.patch.object(t.linalg,'svd',side_effect=[(U,s,Vh),(U.double(),s.double(),Vh.double())]) as svd:
+             basis=self.G.covariance_basis(C,k=1)
+-        svd.assert_called_once_with(C,full_matrices=False)
+-        self.assertIs(basis['Q'],U)
+-        self.assertIs(basis['s'],s)
+-        self.assertEqual(basis['Q'].dtype,t.float32)
+-        self.assertEqual(basis['s'].dtype,t.float32)
++        self.assertEqual(svd.call_count,2)
++        self.assertIs(basis['native']['Q'],U)
++        self.assertIs(basis['native']['s'],s)
++        self.assertEqual(basis['Q'].dtype,t.float64)
++        self.assertEqual(basis['s'].dtype,t.float64)
+         self.assertEqual(basis['subsets'],{'top':[0],'bottom':[3],'excluded':[],'allowed':[0,1,2,3]})
+         self.assertEqual([value.numpy().tobytes() for value in (C,U,s,Vh)],before)
+-        Q=basis['Q'][:,basis['subsets']['allowed']]
+-        self.assertEqual((Q@Q.T).numpy().tobytes(),native_P.numpy().tobytes())
++        self.assertEqual(self.G.native_projector(basis).numpy().tobytes(),native_P.numpy().tobytes())
+         self.assertTrue(all(error==0. for error in basis['checks'].values()))
+ 
+     def test_covariance_check_products_use_float64_blocks_preserving_native_objects(self):
+@@ -95,12 +94,14 @@
+         before_C=C.numpy().tobytes()
+         real_svd=t.linalg.svd; real_double=t.Tensor.double
+         real_mul=t.Tensor.__mul__; real_matmul=t.Tensor.__matmul__
+-        native={}; promoted=[]; products=[]; scales=[]
++        native={}; geometry={}; promoted=[]; products=[]; scales=[]
+         def decompose(value,*args,**kwargs):
+             U,s,Vh=real_svd(value,*args,**kwargs)
+-            native.update(U=U,s=s,Vh=Vh,bytes=[v.numpy().tobytes() for v in (U,s,Vh)])
+-            idx=(s<.005).nonzero(as_tuple=True)[0]
+-            native['P']=real_matmul(U[:,idx],U[:,idx].T)
++            target=native if value.dtype==t.float32 else geometry
++            target.update(U=U,s=s,Vh=Vh,bytes=[v.numpy().tobytes() for v in (U,s,Vh)])
++            if value.dtype==t.float32:
++                idx=(s<.005).nonzero(as_tuple=True)[0]
++                native['P']=real_matmul(U[:,idx],U[:,idx].T)
+             return U,s,Vh
+         def promote(value,*args,**kwargs):
+             if value.dtype==t.float32 and value.ndim==2: promoted.append(tuple(value.shape))
+@@ -116,21 +117,24 @@
+              mock.patch.object(t.Tensor,'__mul__',new=scale), \
+              mock.patch.object(t.Tensor,'__matmul__',new=product):
+             basis=self.G.covariance_basis(C,k=1)
+-        svd.assert_called_once_with(C,full_matrices=False)
++        self.assertEqual(svd.call_count,2)
++        self.assertIs(svd.call_args_list[0].args[0],C)
++        self.assertTrue(t.equal(svd.call_args_list[1].args[0],C.double()))
+         self.assertTrue(scales and all(pair==(t.float64,t.float64) for pair in scales))
+         self.assertTrue(products and all(pair==(t.float64,t.float64) for pair in products))
+-        self.assertTrue(promoted and all(min(shape)<=256 for shape in promoted),
+-            'validity checks must promote blocks, never a full covariance/basis matrix')
+-        self.assertIs(basis['Q'],native['U'])
+-        self.assertIs(basis['s'],native['s'])
++        self.assertEqual(promoted.count((257,257)),1,'only normalized C is promoted whole for its SVD')
++        self.assertTrue(all(shape==(257,257) or min(shape)<=256 for shape in promoted))
++        self.assertIs(basis['Q'],geometry['U'])
++        self.assertIs(basis['s'],geometry['s'])
++        self.assertIs(basis['native']['Q'],native['U'])
++        self.assertIs(basis['native']['s'],native['s'])
+         self.assertEqual([v.numpy().tobytes() for v in (native['U'],native['s'],native['Vh'])],native['bytes'])
+         self.assertEqual(C.numpy().tobytes(),before_C)
+         expected={'top':[0],'bottom':[256],
+-            'excluded':(native['s']>=.005).nonzero(as_tuple=True)[0].tolist(),
+-            'allowed':(native['s']<.005).nonzero(as_tuple=True)[0].tolist()}
++            'excluded':(geometry['s']>=.005).nonzero(as_tuple=True)[0].tolist(),
++            'allowed':(geometry['s']<.005).nonzero(as_tuple=True)[0].tolist()}
+         self.assertEqual(basis['subsets'],expected)
+-        Q=basis['Q'][:,basis['subsets']['allowed']]
+-        P=Q@Q.T
++        P=self.G.native_projector(basis)
+         self.assertEqual(P.dtype,t.float32)
+         self.assertEqual(P.numpy().tobytes(),native['P'].numpy().tobytes())
+ 
+@@ -139,8 +143,8 @@
+         real=self.torch.linalg.svd
+         with mock.patch.object(self.torch.linalg,'svd',wraps=real) as spy:
+             basis=self.G.covariance_basis(C,k=1)
+-        self.assertEqual(spy.call_count,1)
+-        self.assertEqual(basis['Q'].dtype,self.torch.float32)
++        self.assertEqual([c.args[0].dtype for c in spy.call_args_list],[self.torch.float32,self.torch.float64])
++        self.assertEqual(basis['Q'].dtype,self.torch.float64)
+         self.assertEqual(basis['dimensions']['excluded'],2)
+         self.assertEqual(basis['dimensions']['allowed'],2)
+         with self.assertRaises(self.G.Invalid):
+@@ -197,17 +201,21 @@
+             with self.assertRaises(self.G.Invalid): self.G.load_covariance(p)
+ 
+     def rows(self):
+-        return [{'layer':l,'valid':True,'top_valid':True,'overlap_valid':True,
++        rows=[{'layer':l,'valid':True,'top_valid':True,'overlap_valid':True,
+                  'D':{'energy':{'excluded':.6,'top':.3},'r_eff':12,'input_overlap':.15},
+                  'M':{'energy':{'excluded':0.,'top':0.},'r_eff':8},
+                  'random':{'excluded_q95':.2,'top_q95':.1,'input_overlap_q95':.01},
+                  'shuf_excluded':.1} for l in [4,5,6,7,8]]
++        for row in rows:
++            row['basis']={'native_excluded_count':2,'float64_excluded_count':2,'cutoffs':[2]}
++            row['cutoffs']={'2':{'D':row['D']['energy'],'M':row['M']['energy'],'random':row['random']}}
++        return rows
+ 
+     def test_predictions_require_same_three_layers_and_random_guard(self):
+         rows=self.rows()
+         self.assertEqual(self.G.predictions(rows),{'H-COV':'PASS','H-TOP':'PASS','H-RANK':'PASS','H-OVERLAP':'PASS'})
+         for row in rows[:3]: row['random']['excluded_q95']=.55
+-        self.assertEqual(self.G.predictions(rows)['H-COV'],'FAIL')
++        self.assertEqual(self.G.predictions(rows)['H-COV'],'BOUNDARY-SENSITIVE')
+ 
+     def test_no_favorable_layer_drop_and_tie_invalidates_only_related_endpoint(self):
+         rows=self.rows(); rows[0]['top_valid']=False
+@@ -224,7 +232,7 @@
+             row['random']['excluded_q95']=.2
+             row['secondary_random']={'excluded_q95':0.}
+             row['M16']={'energy':{'excluded':0.}}
+-        self.assertEqual(self.G.predictions(rows)['H-COV'],'FAIL')
++        self.assertEqual(self.G.predictions(rows)['H-COV'],'BOUNDARY-SENSITIVE')
+ 
+     def test_q95_is_nineteenth_of_twenty_not_interpolation(self):
+         self.assertEqual(self.G.q95(list(range(20))),18)
+@@ -251,7 +259,7 @@
+         for i,row in enumerate(rows):
+             row['D']['energy']['excluded']=.6 if i<3 else .24
+             row['random']['excluded_q95']=.55 if i==0 else .1
+-        self.assertEqual(self.G.predictions(rows)['H-COV'],'FAIL')
++        self.assertEqual(self.G.predictions(rows)['H-COV'],'BOUNDARY-SENSITIVE')
+ 
+     def test_projector_and_cache_tensor_metadata_cannot_be_missing(self):
+         with self.assertRaises(self.G.Invalid):
+@@ -320,5 +328,112 @@
+         self.assertAlmostEqual(record['q95_energy']['bottom'],.2)
+         self.assertAlmostEqual(record['mean_norm'],1496**.5)
+ 
++    def test_every_integer_cutoff_uses_float64_ordering_and_reports_band_energy(self):
++        t=self.torch; real=t.linalg.svd
++        C=t.diag(t.tensor([.02,.009,.006,.004],dtype=t.float32))
++        before=C.numpy().tobytes(); phases=[]
++        def svd(value,**kwargs):
++            U,s,Vh=real(value,**kwargs)
++            if value.dtype==t.float32: s[1:3]=t.tensor([.0049,.0048])
++            return U,s,Vh
++        with mock.patch.object(t.linalg,'svd',side_effect=svd):
++            basis=self.G.covariance_basis(C,k=1,cell=phases.append)
++        self.assertIn('cutoffs',basis,'inclusive covariance cutoff band is missing')
++        self.assertEqual(basis['cutoffs'],[1,2,3])
++        self.assertEqual((basis['native_excluded_count'],basis['float64_excluded_count']),(1,3))
++        self.assertEqual(basis['band_indices'],[1,2])
++        self.assertEqual(phases,['covariance-svd','covariance-svd-f64','covariance-checks'])
++        self.assertEqual(C.numpy().tobytes(),before)
++        result=self.G.geometry_energies(t.tensor([[1.,2.,3.,4.]],dtype=t.float64),basis)
++        self.assertAlmostEqual(result['band_energy'],13/30)
++        for cutoff,want in ((1,1/30),(2,5/30),(3,14/30)):
++            with self.subTest(cutoff=cutoff):
++                self.assertAlmostEqual(result['energy_by_cutoff'][str(cutoff)]['excluded'],want)
++                self.assertAlmostEqual(result['energy_by_cutoff'][str(cutoff)]['allowed'],1-want)
++
++    def test_reverse_equal_and_endpoint_count_bands_are_not_special_cased(self):
++        t=self.torch; real=t.linalg.svd
++        for native_count in (0,2,4):
++            with self.subTest(native_count=native_count):
++                C=t.diag(t.tensor([.02,.009,.004,.001],dtype=t.float32))
++                def svd(value,**kwargs):
++                    U,s,Vh=real(value,**kwargs)
++                    if value.dtype==t.float32:
++                        s[:native_count]=.01; s[native_count:]=.001
++                    return U,s,Vh
++                with mock.patch.object(t.linalg,'svd',side_effect=svd): basis=self.G.covariance_basis(C,k=1)
++                self.assertIn('cutoffs',basis)
++                self.assertEqual(basis['cutoffs'],list(range(min(native_count,2),max(native_count,2)+1)))
++                result=self.G.geometry_energies(t.ones((1,4),dtype=t.float64),basis)
++                self.assertAlmostEqual(result['band_energy'],abs(native_count-2)/4)
++                for cutoff in basis['cutoffs']:
++                    self.assertAlmostEqual(result['energy_by_cutoff'][str(cutoff)]['excluded'],cutoff/4)
++
++    def boundary_rows(self, first, second):
++        rows=self.rows()
++        for row in rows:
++            row['basis']={'native_excluded_count':2,'float64_excluded_count':3,'cutoffs':[2,3]}
++            row['cutoffs']={str(c):{'D':{'excluded':.6 if row['layer'] in passing else .24},
++                'M':{'excluded':0.},'random':{'excluded_q95':.2}} for c,passing in ((2,first),(3,second))}
++        return rows
++
++    def test_cutoff_passes_cannot_union_different_three_layer_sets(self):
++        rows=self.boundary_rows({4,5,6},{5,6,7})
++        self.assertEqual(self.G.predictions(rows)['H-COV'],'BOUNDARY-SENSITIVE')
++        self.assertEqual(self.G.predictions(rows)['H-TOP'],'PASS')
++
++    def test_robust_pass_keeps_the_same_three_layers_at_every_cutoff(self):
++        rows=self.boundary_rows({4,5,6,7},{4,5,6,8})
++        self.assertEqual(self.G.predictions(rows)['H-COV'],'PASS')
++        rows[0]['cutoffs']['3']['random']['excluded_q95']=.55
++        self.assertEqual(self.G.predictions(rows)['H-COV'],'BOUNDARY-SENSITIVE')
++
++    def test_nonrobust_aggregate_is_boundary_sensitive_with_nominal_failures(self):
++        self.assertEqual(self.G.predictions(self.boundary_rows(set(),set()))['H-COV'],'BOUNDARY-SENSITIVE')
++
++    def test_missing_intermediate_cutoff_is_invalid_not_favorable_subset(self):
++        rows=self.boundary_rows({4,5,6,7,8},{4,5,6,7,8})
++        rows[0]['basis'].update(float64_excluded_count=4,cutoffs=[2,3,4])
++        rows[0]['cutoffs']['4']=rows[0]['cutoffs'].pop('3')
++        self.assertEqual(self.G.predictions(rows)['H-COV'],'INVALID')
++
++    def test_native_parity_is_retained_when_float64_excluded_energy_is_large(self):
++        t=self.torch; real=t.linalg.svd
++        C=t.diag(t.cat((t.linspace(.02,.01,32),t.tensor([.0051]),t.linspace(.004,.0001,31))))
++        def svd(value,**kwargs):
++            U,s,Vh=real(value,**kwargs)
++            if value.dtype==t.float32: s[32]=.0049
++            return U,s,Vh
++        with mock.patch.object(t.linalg,'svd',side_effect=svd): basis=self.G.covariance_basis(C,k=16)
++        self.assertIn('native',basis,'native projector basis must be retained separately')
++        P=self.G.native_projector(basis)
++        self.assertEqual(P.dtype,t.float32)
++        self.assertTrue(t.equal(P,t.diag(t.cat((t.zeros(32),t.ones(32))))))
++        self.assertTrue(self.G.projector_matches(P,32,32,self.G.tensor_sha(P),[]))
++        self.assertFalse(self.G.projector_matches(P,32,31,self.G.tensor_sha(P),[]))
++        A=t.zeros((16,64),dtype=t.float64); A[:,:16]=t.eye(16,dtype=t.float64)
++        B=t.zeros((24,16),dtype=t.float64); B[:16,:]=t.diag(t.arange(16.,0.,-1,dtype=t.float64))
++        M=t.zeros((24,64),dtype=t.float64); M[:,32:56]=t.diag(t.arange(24.,0.,-1,dtype=t.float64))
++        adapters={arm:(A,B,1.) for arm in self.G.ARMS}
++        with tempfile.TemporaryDirectory(dir='/private/tmp') as tmp:
++            row=self.G.analyse_layer_with_basis(basis,adapters,M,4,lambda phase:None,Path(tmp)/'controls')
++            persisted=Path(tmp)/'layer.json'; self.G.durable_json(persisted,row)
++            row=self.G.strict_json(persisted.read_text())
++        self.assertEqual(row['native_parity']['excluded_energy'],0.)
++        self.assertAlmostEqual(row['M']['energy']['excluded'],576/4900)
++        self.assertAlmostEqual(row['M']['band_energy'],576/4900)
++        self.assertEqual(row['basis']['cutoffs'],[32,33])
++        self.assertEqual(set(row['cutoffs']),{'32','33'})
++        records=[row['M'],row['M16'],*row['arms'].values(),*row['random']['draws'],*row['secondary_random']['draws']]
++        self.assertEqual(len(records),47)
++        for record in records:
++            self.assertIn('band_energy',record)
++            self.assertEqual(set(record['energy_by_cutoff']),{'32','33'})
++            for fractions in record['energy_by_cutoff'].values():
++                self.assertAlmostEqual(fractions['excluded']+fractions['allowed'],1.,places=10)
++        bad=M.clone(); bad[:,0]=1
++        with tempfile.TemporaryDirectory(dir='/private/tmp') as tmp, self.assertRaisesRegex(self.G.Invalid,'native.*parity'):
++            self.G.analyse_layer_with_basis(basis,adapters,bad,4,lambda phase:None,Path(tmp)/'controls')
++
+ 
+ if __name__=='__main__': unittest.main()

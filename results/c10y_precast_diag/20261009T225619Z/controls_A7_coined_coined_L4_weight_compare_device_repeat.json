@@ -1,0 +1,65 @@
+{
+  "artifacts": {
+    "controls_A7_coined_coined_L4_weight_compare_device_repeat.pt": "585d3fbac30791f6428504c622bba70d22eb57476275f6bf97d395c06277bd6b"
+  },
+  "byte_identical": false,
+  "column_axis": "weight coordinates",
+  "columns": {
+    "absolute_quantiles": {
+      "dtype": "torch.float64",
+      "key": "tensor_3",
+      "shape": [
+        7,
+        11008
+      ],
+      "tensor_artifact": "controls_A7_coined_coined_L4_weight_compare_device_repeat.pt"
+    },
+    "different_fraction": {
+      "dtype": "torch.float64",
+      "key": "tensor_2",
+      "shape": [
+        11008
+      ],
+      "tensor_artifact": "controls_A7_coined_coined_L4_weight_compare_device_repeat.pt"
+    },
+    "l2": {
+      "dtype": "torch.float64",
+      "key": "tensor_0",
+      "shape": [
+        11008
+      ],
+      "tensor_artifact": "controls_A7_coined_coined_L4_weight_compare_device_repeat.pt"
+    },
+    "max_abs": {
+      "dtype": "torch.float64",
+      "key": "tensor_1",
+      "shape": [
+        11008
+      ],
+      "tensor_artifact": "controls_A7_coined_coined_L4_weight_compare_device_repeat.pt"
+    },
+    "quantile_levels": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      0.9,
+      0.99,
+      1.0
+    ]
+  },
+  "different_fp16_elements": 226688,
+  "different_fraction": 0.010055187136627907,
+  "max_abs": 0.0001220703125,
+  "quantiles": {
+    "0.0": 0.0,
+    "0.25": 0.0,
+    "0.5": 0.0,
+    "0.75": 0.0,
+    "0.9": 0.0,
+    "0.99": 5.960464477539063e-08,
+    "1.0": 0.0001220703125
+  },
+  "relative_frobenius": 5.249090220330965e-05,
+  "relative_undefined": null
+}

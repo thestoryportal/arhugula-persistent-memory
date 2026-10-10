@@ -1,0 +1,26 @@
+{
+  "tools/labviz/labels.json": {
+    "sha256": "b8d531ed188f4693da6b2fdba790c21ecf7961854e92b95f6099ac3b69ffc44e",
+    "added_lines": 2,
+    "removed_lines": 0,
+    "diff": "/private/tmp/labviz-stale-0wb6b0eh/labels.json.diff"
+  },
+  "tools/labviz/contexts.json": {
+    "sha256": "d54158a53938b97a3b77f0dd04a7351d909f6ed84c416f11cf0f427554e06156",
+    "added_lines": 64,
+    "removed_lines": 0,
+    "diff": "/private/tmp/labviz-stale-0wb6b0eh/contexts.json.diff"
+  },
+  "tools/labviz/test_labviz.py": {
+    "sha256": "a0f9e029875f6bd1304fd50125385c46262e5fd054c472680d96777a34493358",
+    "added_lines": 28,
+    "removed_lines": 1,
+    "diff": "/private/tmp/labviz-stale-0wb6b0eh/test_labviz.py.diff"
+  },
+  "docs/LABVIZ_V2_SPEC.md": {
+    "sha256": "c2b70b4af9364bf94dbfcdbd0223b74e5e2dc8c78173084f2f1280fc4a73cabf",
+    "added_lines": 8,
+    "removed_lines": 8,
+    "diff": "/private/tmp/labviz-stale-0wb6b0eh/LABVIZ_V2_SPEC.md.diff"
+  }
+}

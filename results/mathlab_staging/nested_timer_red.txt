@@ -1,0 +1,15 @@
+test_nested_stage_restores_outer_deadline_and_run_attach_keeps_one_start (mathlab.test_mathlab.ResourceArtifactTests.test_nested_stage_restores_outer_deadline_and_run_attach_keeps_one_start) ... ERROR
+
+======================================================================
+ERROR: test_nested_stage_restores_outer_deadline_and_run_attach_keeps_one_start (mathlab.test_mathlab.ResourceArtifactTests.test_nested_stage_restores_outer_deadline_and_run_attach_keeps_one_start)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 460, in test_nested_stage_restores_outer_deadline_and_run_attach_keeps_one_start
+    attached = R.Run(run.directory, 1, "Fixture", 10, sample=lambda: 20., attach=True)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Run.__init__() got an unexpected keyword argument 'attach'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (errors=1)

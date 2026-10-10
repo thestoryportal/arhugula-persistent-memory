@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/private/tmp/mathlab_uv_cache/environments-v2/m2-solve-repro-da15e0fd897e5e61/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "mathlab.test_mathlab",
+    "mathlab.test_index",
+    "-v"
+  ],
+  "duckdb_probe_status": 0,
+  "status": 1,
+  "signal": null,
+  "error": null
+}

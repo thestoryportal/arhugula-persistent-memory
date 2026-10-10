@@ -1,0 +1,28 @@
+test_fixture_reproduction_then_calibration_uses_fresh_column_and_real_events (mathlab.test_mathlab.NotebookContractTests.test_fixture_reproduction_then_calibration_uses_fresh_column_and_real_events) ... ok
+test_invalid_tiers_are_checked_before_any_proxy_is_scored (mathlab.test_mathlab.NotebookContractTests.test_invalid_tiers_are_checked_before_any_proxy_is_scored) ... FAIL
+test_notebooks_have_frozen_pep723_dependencies_and_no_science_imports (mathlab.test_mathlab.NotebookContractTests.test_notebooks_have_frozen_pep723_dependencies_and_no_science_imports) ... ok
+
+======================================================================
+FAIL: test_invalid_tiers_are_checked_before_any_proxy_is_scored (mathlab.test_mathlab.NotebookContractTests.test_invalid_tiers_are_checked_before_any_proxy_is_scored)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 539, in test_invalid_tiers_are_checked_before_any_proxy_is_scored
+    self.assertEqual(C.calibration(harvest, out2, out3, run3)["reason"], "INVALID-TIERS")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/core.py", line 300, in calibration
+    proxies = proxy_values(deltas, clean, zs, harvest["prompts"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1183, in _execute_mock_call
+    raise effect
+AssertionError: scored before tier validation
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.863s
+
+FAILED (failures=1)

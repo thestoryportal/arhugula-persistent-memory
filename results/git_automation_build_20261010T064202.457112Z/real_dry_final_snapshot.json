@@ -1,0 +1,74 @@
+{
+  "before": {
+    "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+    "branch": "worktree-c10k-route-a",
+    "head": "b19a45664f0cc26548a6c93a8f85251833c46789",
+    "refs": "refs/heads/master 557a58bc5384829b3506374d0495b2816c658fac\nrefs/heads/orx/h-1-shared-value-objective-across-prompt-formats 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-10-surprisal-boundary-second-key-anyedit-under 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-11-token-level-target-reweighting-and-forward 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-12-hypernetwork-that-emits-a-fixed-lora-delta 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-13-merged-band-lora-write-trained-on-paraphras 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-14-sparse-lora-restricted-to-the-rows-the-edit 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-15-full-parameter-fine-tuning-of-the-band-on-a 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-16-preference-objective-injection-rl-or-dpo-ov 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-17-sparse-memory-layer-slots-as-the-write-site 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-18-minted-token-written-by-embedding-only-tuni 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-19-two-minted-tokens-per-value-one-per-coined 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-2-robust-key-adapter-rep 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-20-constructed-embedding-for-the-minted-row-to 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-21-qwen2-5-7b-untied-as-the-model-line-for-the 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-22-qwen3-8b-base-olmo-2-7b-pythia-6-9b-llama-3 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-23-mimo-7b-base-a-pretraining-objective-that-a 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-24-post-training-mtp-heads-on-qwen2-5-3b-itsel 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-25-llada-8b-base-or-dream-7b-as-the-diagnostic 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-26-olmo-2-7b-with-a-covariance-drawn-from-its 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-27-olmoe-1b-7b-with-the-moe-aware-closed-form 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-28-mamba-2-8b-or-falcon3-mamba-7b-with-rome-st 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-29-entity-lens-readout-at-the-keyed-position-s 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-3-direct-end-to-end-w-optimisation-over-the-ba 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-30-weight-grafting-to-localise-where-a-fine-tu 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-4-covariance-from-model-generated-text-moir 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-5-leverage-score-pivot-key-inside-the-value-ma 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-6-per-position-per-layer-value-write-with-gate 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-7-betaedit-as-the-engine-for-the-incremental-w 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-8-dynamic-per-edit-layer-selection-loki-on-the 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-9-subject-anchored-per-sentence-residual-with 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/research-pass-2026-10-06-hypothesis-ledger-no-ru 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/research-pass/2026-10-06 900aa8edeb9c1f56f7334170f9bf5597238b6595\nrefs/heads/worktree-c10k-route-a b19a45664f0cc26548a6c93a8f85251833c46789\nrefs/remotes/origin/HEAD f6c1f421af6f183f8545739280852b245f05964a\nrefs/remotes/origin/master f6c1f421af6f183f8545739280852b245f05964a\nrefs/remotes/origin/worktree-b3-local-serving e7c60264c3910f2ad4b746fd1aeb2f070f12a315\nrefs/remotes/origin/worktree-backup-tier 7b15a29607c393137380d008b9088ac17da10963\nrefs/remotes/origin/worktree-c10k-m3pro-stage0 a686ec8ef3735b20f9faad5296cfd9f86c941f66\nrefs/remotes/origin/worktree-c10k-reduction-note 47f443a1092c6803f80a3a5f382ef259cd0c2ee2\nrefs/remotes/origin/worktree-c10k-route-a b19a45664f0cc26548a6c93a8f85251833c46789\nrefs/remotes/origin/worktree-fix-graft-leak e9f624515e4f8f5b8ce955983170b8027a10f734\nrefs/remotes/origin/worktree-ignore-symlinks 243582428571e59b8aec2b21fc1d7eed014037f5\nrefs/remotes/origin/worktree-phase2-local-machine 1fb61637b4de2740fd1e5d6db4ed3c30cb384be4\nrefs/remotes/origin/worktree-phase3-mps-port 19b9c7abe6b397bc8510058499f16c206e495e71\nrefs/remotes/origin/worktree-plist-install-note 1eb81314058ab8553d2e7af4e91c8d89200135c1\nrefs/remotes/origin/worktree-reconcile-claude-ai-artifacts cef63f2d6750aa2c38a96ee0a6c0cc5798e19643\nrefs/remotes/origin/worktree-vendor-engine 88a8ece3748d9f6873fa754b46f1bb7da50fa602",
+    "worktrees": "worktree /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory\nHEAD 557a58bc5384829b3506374d0495b2816c658fac\nbranch refs/heads/master\n\nworktree /Users/robertrhu/.local/share/openresearch/worktrees/0a1375d4-8f79-44be-bea6-2a27f6658761/chat_3cd2ad17-33c5-4752-b9e0-9259bc163220\nHEAD c50a546ad1348ba8781c262b6e300c1ee1a69065\ndetached\n\nworktree /Users/robertrhu/.local/share/openresearch/worktrees/0a1375d4-8f79-44be-bea6-2a27f6658761/chat_73a1fdb0-4a98-49ce-9f9d-c16222391e61\nHEAD ea36597d0e8b9c26621d83664c8bd6137179e9a8\ndetached\n\nworktree /Users/robertrhu/.local/share/openresearch/worktrees/0a1375d4-8f79-44be-bea6-2a27f6658761/chat_8376051e-0cc1-4c9c-94f6-eb257a489254\nHEAD 900aa8edeb9c1f56f7334170f9bf5597238b6595\nbranch refs/heads/research-pass/2026-10-06\n\nworktree /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a\nHEAD b19a45664f0cc26548a6c93a8f85251833c46789\nbranch refs/heads/worktree-c10k-route-a",
+    "index_sha256": "b63e0d19db69fb1b90afb07f7aeb2789a4fa25d0576c93a530f97b316fc0a999",
+    "index_mtime_ns": 1791617273779496846
+  },
+  "after": {
+    "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+    "branch": "worktree-c10k-route-a",
+    "head": "b19a45664f0cc26548a6c93a8f85251833c46789",
+    "refs": "refs/heads/master 557a58bc5384829b3506374d0495b2816c658fac\nrefs/heads/orx/h-1-shared-value-objective-across-prompt-formats 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-10-surprisal-boundary-second-key-anyedit-under 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-11-token-level-target-reweighting-and-forward 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-12-hypernetwork-that-emits-a-fixed-lora-delta 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-13-merged-band-lora-write-trained-on-paraphras 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-14-sparse-lora-restricted-to-the-rows-the-edit 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-15-full-parameter-fine-tuning-of-the-band-on-a 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-16-preference-objective-injection-rl-or-dpo-ov 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-17-sparse-memory-layer-slots-as-the-write-site 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-18-minted-token-written-by-embedding-only-tuni 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-19-two-minted-tokens-per-value-one-per-coined 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-2-robust-key-adapter-rep 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-20-constructed-embedding-for-the-minted-row-to 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-21-qwen2-5-7b-untied-as-the-model-line-for-the 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-22-qwen3-8b-base-olmo-2-7b-pythia-6-9b-llama-3 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-23-mimo-7b-base-a-pretraining-objective-that-a 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-24-post-training-mtp-heads-on-qwen2-5-3b-itsel 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-25-llada-8b-base-or-dream-7b-as-the-diagnostic 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-26-olmo-2-7b-with-a-covariance-drawn-from-its 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-27-olmoe-1b-7b-with-the-moe-aware-closed-form 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-28-mamba-2-8b-or-falcon3-mamba-7b-with-rome-st 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-29-entity-lens-readout-at-the-keyed-position-s 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-3-direct-end-to-end-w-optimisation-over-the-ba 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-30-weight-grafting-to-localise-where-a-fine-tu 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-4-covariance-from-model-generated-text-moir 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-5-leverage-score-pivot-key-inside-the-value-ma 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-6-per-position-per-layer-value-write-with-gate 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-7-betaedit-as-the-engine-for-the-incremental-w 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-8-dynamic-per-edit-layer-selection-loki-on-the 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/h-9-subject-anchored-per-sentence-residual-with 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/orx/research-pass-2026-10-06-hypothesis-ledger-no-ru 95503ff4587a3fe531de30fde0f2f7188499bdda\nrefs/heads/research-pass/2026-10-06 900aa8edeb9c1f56f7334170f9bf5597238b6595\nrefs/heads/worktree-c10k-route-a b19a45664f0cc26548a6c93a8f85251833c46789\nrefs/remotes/origin/HEAD f6c1f421af6f183f8545739280852b245f05964a\nrefs/remotes/origin/master f6c1f421af6f183f8545739280852b245f05964a\nrefs/remotes/origin/worktree-b3-local-serving e7c60264c3910f2ad4b746fd1aeb2f070f12a315\nrefs/remotes/origin/worktree-backup-tier 7b15a29607c393137380d008b9088ac17da10963\nrefs/remotes/origin/worktree-c10k-m3pro-stage0 a686ec8ef3735b20f9faad5296cfd9f86c941f66\nrefs/remotes/origin/worktree-c10k-reduction-note 47f443a1092c6803f80a3a5f382ef259cd0c2ee2\nrefs/remotes/origin/worktree-c10k-route-a b19a45664f0cc26548a6c93a8f85251833c46789\nrefs/remotes/origin/worktree-fix-graft-leak e9f624515e4f8f5b8ce955983170b8027a10f734\nrefs/remotes/origin/worktree-ignore-symlinks 243582428571e59b8aec2b21fc1d7eed014037f5\nrefs/remotes/origin/worktree-phase2-local-machine 1fb61637b4de2740fd1e5d6db4ed3c30cb384be4\nrefs/remotes/origin/worktree-phase3-mps-port 19b9c7abe6b397bc8510058499f16c206e495e71\nrefs/remotes/origin/worktree-plist-install-note 1eb81314058ab8553d2e7af4e91c8d89200135c1\nrefs/remotes/origin/worktree-reconcile-claude-ai-artifacts cef63f2d6750aa2c38a96ee0a6c0cc5798e19643\nrefs/remotes/origin/worktree-vendor-engine 88a8ece3748d9f6873fa754b46f1bb7da50fa602",
+    "worktrees": "worktree /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory\nHEAD 557a58bc5384829b3506374d0495b2816c658fac\nbranch refs/heads/master\n\nworktree /Users/robertrhu/.local/share/openresearch/worktrees/0a1375d4-8f79-44be-bea6-2a27f6658761/chat_3cd2ad17-33c5-4752-b9e0-9259bc163220\nHEAD c50a546ad1348ba8781c262b6e300c1ee1a69065\ndetached\n\nworktree /Users/robertrhu/.local/share/openresearch/worktrees/0a1375d4-8f79-44be-bea6-2a27f6658761/chat_73a1fdb0-4a98-49ce-9f9d-c16222391e61\nHEAD ea36597d0e8b9c26621d83664c8bd6137179e9a8\ndetached\n\nworktree /Users/robertrhu/.local/share/openresearch/worktrees/0a1375d4-8f79-44be-bea6-2a27f6658761/chat_8376051e-0cc1-4c9c-94f6-eb257a489254\nHEAD 900aa8edeb9c1f56f7334170f9bf5597238b6595\nbranch refs/heads/research-pass/2026-10-06\n\nworktree /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a\nHEAD b19a45664f0cc26548a6c93a8f85251833c46789\nbranch refs/heads/worktree-c10k-route-a",
+    "index_sha256": "b63e0d19db69fb1b90afb07f7aeb2789a4fa25d0576c93a530f97b316fc0a999",
+    "index_mtime_ns": 1791617273779496846
+  },
+  "unchanged": {
+    "root": true,
+    "branch": true,
+    "head": true,
+    "refs": true,
+    "worktrees": true,
+    "index_sha256": true,
+    "index_mtime_ns": true
+  },
+  "receipts": [
+    {
+      "command": [
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+        "-B",
+        "-S",
+        "tools/git_hygiene.py",
+        "--dry-run",
+        "--timeout",
+        "180"
+      ],
+      "exit_code": 1,
+      "wall_s": 3.3576597499195486,
+      "ok": false,
+      "errors": [
+        "git exited 128: fatal: unable to access 'https://github.com/thestoryportal/arhugula-persistent-memory/': Could not resolve host: github.com",
+        "open-PR inventory unverified: gh exited 1: error connecting to api.github.com check your internet connection or https://githubstatus.com"
+      ],
+      "stdout": "real_hygiene_final_stdout.json",
+      "stderr": "real_hygiene_final_stderr.log"
+    },
+    {
+      "command": [
+        "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+        "-B",
+        "-S",
+        "tools/git_merge_gate.py",
+        "21",
+        "--dry-run",
+        "--timeout",
+        "180",
+        "--ci-wait",
+        "2"
+      ],
+      "exit_code": 1,
+      "wall_s": 3.204994000028819,
+      "ok": false,
+      "errors": [
+        "pr: gh exited 1: error connecting to api.github.com check your internet connection or https://githubstatus.com",
+        "branches: hygiene evidence incomplete: git exited 128: fatal: unable to access 'https://github.com/thestoryportal/arhugula-persistent-memory/': Could not resolve host: github.com; open-PR inventory unverified: gh exited 1: error connecting to api.github.com check your internet connection or https://githubstatus.com"
+      ],
+      "stdout": "real_gate_final_stdout.json",
+      "stderr": "real_gate_final_stderr.log"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_14.pt": "27333951398606e65f4dd519c008b29ac343f32904193ad5d4a8b5c1dce6526e"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Zephquin",
+    "target_new": {
+      "str": " Vythorn Cindel"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_14.pt"
+  }
+}

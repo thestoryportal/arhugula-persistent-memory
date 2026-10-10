@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/opt/homebrew/bin/rclone",
+    "check",
+    "/private/tmp/gdrive_addendum_probe_w4_khyjg/source/tiny.txt",
+    "/private/tmp/gdrive_addendum_probe_w4_khyjg/mirror",
+    "--download",
+    "--one-way"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "2026/10/10 00:19:32 NOTICE: Local file system at /private/tmp/gdrive_addendum_probe_w4_khyjg/mirror: 0 differences found\n2026/10/10 00:19:32 NOTICE: Local file system at /private/tmp/gdrive_addendum_probe_w4_khyjg/mirror: 1 matching files\n"
+}

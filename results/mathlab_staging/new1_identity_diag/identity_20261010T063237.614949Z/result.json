@@ -1,0 +1,151 @@
+{
+  "status": "MEASURED",
+  "purpose": "identity diagnostic only; no prediction verdict",
+  "layer": 4,
+  "normalized_C_sha256": {
+    "A": "ec2d803b8ad97f914227d6f130e268287bf628dcd45dfabcf0d81a8b4c41a50d",
+    "B": "ec2d803b8ad97f914227d6f130e268287bf628dcd45dfabcf0d81a8b4c41a50d"
+  },
+  "max_absolute_normalized_C_difference": 0.0,
+  "paths": {
+    "A": {
+      "excluded_count": 2363,
+      "allowed_count": 8645,
+      "projector_sha256": "0281d02c338b40491cc0e2deddbef40c74e71791deea520373aa92f450dc1070",
+      "captured_allowed_count": 8645,
+      "count_matches": true,
+      "captured_projector_sha256": "0281d02c338b40491cc0e2deddbef40c74e71791deea520373aa92f450dc1070",
+      "projector_sha_matches": true,
+      "probes": [
+        {
+          "seed": 0,
+          "relative_error": 0.0,
+          "absolute_l2_residual": 0.0,
+          "max_absolute_residual": 0.0,
+          "actual_l2_norm": 92.82326348443807,
+          "captured_l2_norm": 92.82326348443807,
+          "match": "MATCH"
+        },
+        {
+          "seed": 1,
+          "relative_error": 0.0,
+          "absolute_l2_residual": 0.0,
+          "max_absolute_residual": 0.0,
+          "actual_l2_norm": 93.30288403085964,
+          "captured_l2_norm": 93.30288403085964,
+          "match": "MATCH"
+        },
+        {
+          "seed": 2,
+          "relative_error": 0.0,
+          "absolute_l2_residual": 0.0,
+          "max_absolute_residual": 0.0,
+          "actual_l2_norm": 92.14859107518882,
+          "captured_l2_norm": 92.14859107518882,
+          "match": "MATCH"
+        },
+        {
+          "seed": 3,
+          "relative_error": 0.0,
+          "absolute_l2_residual": 0.0,
+          "max_absolute_residual": 0.0,
+          "actual_l2_norm": 92.92245236557596,
+          "captured_l2_norm": 92.92245236557596,
+          "match": "MATCH"
+        }
+      ],
+      "max_probe_relative_error": 0.0,
+      "all_probes_match_1e6": true,
+      "matches_capture_gate": true
+    },
+    "B": {
+      "excluded_count": 2363,
+      "allowed_count": 8645,
+      "projector_sha256": "0281d02c338b40491cc0e2deddbef40c74e71791deea520373aa92f450dc1070",
+      "captured_allowed_count": 8645,
+      "count_matches": true,
+      "captured_projector_sha256": "0281d02c338b40491cc0e2deddbef40c74e71791deea520373aa92f450dc1070",
+      "projector_sha_matches": true,
+      "probes": [
+        {
+          "seed": 0,
+          "relative_error": 0.0,
+          "absolute_l2_residual": 0.0,
+          "max_absolute_residual": 0.0,
+          "actual_l2_norm": 92.82326348443807,
+          "captured_l2_norm": 92.82326348443807,
+          "match": "MATCH"
+        },
+        {
+          "seed": 1,
+          "relative_error": 0.0,
+          "absolute_l2_residual": 0.0,
+          "max_absolute_residual": 0.0,
+          "actual_l2_norm": 93.30288403085964,
+          "captured_l2_norm": 93.30288403085964,
+          "match": "MATCH"
+        },
+        {
+          "seed": 2,
+          "relative_error": 0.0,
+          "absolute_l2_residual": 0.0,
+          "max_absolute_residual": 0.0,
+          "actual_l2_norm": 92.14859107518882,
+          "captured_l2_norm": 92.14859107518882,
+          "match": "MATCH"
+        },
+        {
+          "seed": 3,
+          "relative_error": 0.0,
+          "absolute_l2_residual": 0.0,
+          "max_absolute_residual": 0.0,
+          "actual_l2_norm": 92.92245236557596,
+          "captured_l2_norm": 92.92245236557596,
+          "match": "MATCH"
+        }
+      ],
+      "max_probe_relative_error": 0.0,
+      "all_probes_match_1e6": true,
+      "matches_capture_gate": true
+    }
+  },
+  "input_pins": {
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz": "f6ae787454e5bae9eff52155ac699386351246b03e60ab68d728335b0c9a5b58",
+    "results/mathlab/harvest_20261009T184950.056951Z/inloop_A7_coined_coined.pt": "abb882982f406ddd5d6536529ce49dee8f31ad3b3243495e93687266e7c6582f",
+    "results/mathlab/harvest_20261009T184950.056951Z/manifest.json": "bb9a6f9ad76678ae2289151c9fa64fb0033a6b8b2d7aff0b9a03150180f1ba7e"
+  },
+  "source_pins": {
+    "tools/new1_geometry.py": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+    "tools/new1_supervisor.py": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+    "memit_dry_run/memit/util/runningstats.py": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97",
+    "experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+    "results/mathlab_staging/new1_b_identity_diag_authorization.md": "daa41ea90df6a1ed1a73c4f03289f6f384dc97756f6b4ba93d4766535aad05c1",
+    "results/mathlab_staging/new1_b_halt_astra.md": "9b4c5e90079bb52f7aef6824d2ace3fae292e6a0cf91d5ba62000589c5f2b5be"
+  },
+  "provenance": {
+    "torch_version": "2.8.0",
+    "numpy_version": "2.4.6",
+    "get_num_threads": 8,
+    "backend": "PyTorch built with:\n  - GCC 4.2\n  - C++ Version: 201703\n  - clang 15.0.0\n  - OpenMP 201811\n  - LAPACK is enabled (usually provided by MKL)\n  - NNPACK is enabled\n  - CPU capability usage: NO AVX\n  - Build settings: BLAS_INFO=accelerate, BUILD_TYPE=Release, COMMIT_SHA=a1cb3cc05d46d198467bebbb6e8fba50a325d4e7, CXX_COMPILER=/usr/bin/c++, CXX_FLAGS= -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_PYTORCH_QNNPACK -DAT_BUILD_ARM_VEC256_WITH_SLEEF -DUSE_XNNPACK -DUSE_PYTORCH_METAL_EXPORT -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DUSE_COREML_DELEGATE -O2 -fPIC -DC10_NODEPRECATED -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=braced-scalar-init -Werror=range-loop-construct -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wvla-extension -Wsuggest-override -Wnewline-eof -Winconsistent-missing-override -Winconsistent-missing-destructor-override -Wno-pass-failed -Wno-error=old-style-cast -Wconstant-conversion -Qunused-arguments -faligned-new -fno-math-errno -fno-trapping-math -Werror=format -DUSE_MPS -Wno-missing-braces, LAPACK_INFO=accelerate, TORCH_VERSION=2.8.0, USE_CUDA=OFF, USE_CUDNN=OFF, USE_CUSPARSELT=OFF, USE_EIGEN_FOR_BLAS=ON, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=OFF, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, USE_XCCL=OFF, USE_XPU=OFF, \n",
+    "device": "cpu",
+    "dtype": "float32",
+    "svd_driver": "CPU default, full_matrices=False",
+    "nice": 10,
+    "captured_torch_version": "2.8.0",
+    "captured_threads": "UNKNOWN",
+    "historical_harvest_commit": "6ea8e7c07156133667a8d6d28364f759ba1d7a31",
+    "historical_harvest_sha256": "9dbc58afef1aa290d5e01622d3324b052e3f19169bfeb8d38ad19148cfe869bb"
+  },
+  "limitations": "Four probes are sampled discrepancies, not full subspace distance or behavioral evidence.",
+  "scope_sha256": "a4f5dcdcc47bb6b11de9236ec24287e5b32d893a479193d453dfda5cc1bf5057",
+  "diagnostic_source_sha256": "93a7b317f8078c63c3c0d40d35fb419dfd24132a10577387af93c3790d461cb1",
+  "elapsed_s": 158.6824933749158,
+  "observed_peak_family_rss_gib": 5.0984649658203125,
+  "worker_pid": 62979,
+  "caps": {
+    "deadline_s": 600,
+    "rss_gib": 11.0,
+    "output_bytes_below": 1000000,
+    "threads": 8
+  }
+}

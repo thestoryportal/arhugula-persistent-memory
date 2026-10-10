@@ -1,0 +1,150 @@
+{
+  "Qwen2.5-3B": {
+    "size": "3 billion parameters",
+    "layers": 36,
+    "layer_source": "results/superweight_qwen3b.json",
+    "status": "tested",
+    "sources": [
+      "CORPUS/13_G6_1_SCALE_OF_N.md",
+      "CORPUS/45_C10L_MINT_TOKEN.md"
+    ],
+    "note": "Used across multiple research eras; each result retains its own question, measure and verdict.",
+    "note_source": "CORPUS/45_C10L_MINT_TOKEN.md",
+    "hparams": [
+      "qwen25_3b",
+      "qwen3b"
+    ]
+  },
+  "Qwen2.5-7B": {
+    "size": "7 billion parameters",
+    "layers": 28,
+    "layer_source": "CORPUS/19_B1_SIZE_DENSITY.md:11",
+    "status": "tested",
+    "sources": [
+      "CORPUS/19_B1_SIZE_DENSITY.md"
+    ],
+    "note": "A larger model did not automatically make batch writes cleaner. The size comparison has other differences too.",
+    "note_source": "CORPUS/19_B1_SIZE_DENSITY.md",
+    "hparams": [
+      "qwen25_7b"
+    ]
+  },
+  "Qwen3-0.6B": {
+    "size": "0.6 billion parameters",
+    "layers": 28,
+    "layer_source": "CORPUS/04_ENV_AND_DEPS.md:27",
+    "status": "tested",
+    "sources": [
+      "CORPUS/07_CP1_GOVERNED_INPIPELINE_WRITE.md",
+      "CORPUS/18_E1_DEPLOYMENT_SERVING.md"
+    ],
+    "note": "The database serving tool worked with this family. The validated editing and serving families still differed.",
+    "note_source": "CORPUS/18_E1_DEPLOYMENT_SERVING.md",
+    "hparams": [
+      "qwen3_06b"
+    ]
+  },
+  "Qwen2.5-0.5B": {
+    "size": "0.5 billion parameters",
+    "layers": null,
+    "layer_source": null,
+    "status": "artifact inspected",
+    "sources": [
+      "CORPUS/18_E1_DEPLOYMENT_SERVING.md:39"
+    ],
+    "note": "An existing unquantized artifact helped check the serving tool's missing-bias defect. No transition decision is recorded.",
+    "note_source": "CORPUS/18_E1_DEPLOYMENT_SERVING.md",
+    "hparams": []
+  },
+  "Qwen2.5-0.5B-Instruct": {
+    "size": "0.5 billion parameters",
+    "layers": 24,
+    "layer_source": "hf_cache/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots/7ae557604adf67be50417f59c2c2f167def9a775/config.json",
+    "status": "configured for seal checks",
+    "sources": [
+      "docs/C10W_ORACLE_PREREG.md"
+    ],
+    "note": "Present for a small-model seal check; the ceiling experiment uses the 3B anchor. No completed scientific result is claimed here.",
+    "note_source": "docs/C10W_ORACLE_PREREG.md",
+    "hparams": []
+  },
+  "GPT-J-6B": {
+    "size": "6 billion parameters",
+    "layers": null,
+    "layer_source": null,
+    "status": "tested baseline",
+    "sources": [
+      "CORPUS/04_ENV_AND_DEPS.md:26",
+      "memory_mirror/memit-cov-inversion-not-a-hang.md"
+    ],
+    "note": "Listed as an earlier baseline. A reason for moving on is not recorded in the numbered evidence ledger.",
+    "note_source": "CORPUS/04_ENV_AND_DEPS.md",
+    "hparams": []
+  },
+  "Llama-3.2-3B": {
+    "size": "3 billion parameters",
+    "layers": null,
+    "layer_source": null,
+    "status": "tested earlier",
+    "sources": [
+      "docs/t_branch_decision_document_v1_2.md:59",
+      "configs/hparams/llama32_3b_memit_hparams.json"
+    ],
+    "note": "The earlier small-model test stayed at 0 of 5. The later Qwen test reopened the route. No matching CORPUS verdict survives for this earlier branch; the decision document is cited.",
+    "note_source": "docs/t_branch_decision_document_v1_4.md",
+    "hparams": [
+      "llama32_3b"
+    ]
+  },
+  "Llama-3.1-8B": {
+    "size": "8 billion parameters",
+    "layers": null,
+    "layer_source": null,
+    "status": "tested earlier",
+    "sources": [
+      "docs/t_branch_decision_document_v1_2.md",
+      "memory_mirror/runpod-dashboard-vs-pod-metrics.md"
+    ],
+    "note": "The earlier Llama branch reached an editing ceiling; the Qwen result later cleared the five canonical tests. The surviving source is a decision document, not a numbered CORPUS verdict.",
+    "note_source": "docs/t_branch_decision_document_v1_4.md",
+    "hparams": []
+  },
+  "Mistral-7B": {
+    "size": "7 billion parameters",
+    "layers": null,
+    "layer_source": null,
+    "status": "tested earlier",
+    "sources": [
+      "docs/t_branch_decision_document_v1_4.md",
+      "memory_mirror/runpod-dashboard-vs-pod-metrics.md"
+    ],
+    "note": "The decision document groups the Mistral and Llama ceilings; Qwen cleared the canonical tests. The document leaves robustness open.",
+    "note_source": "docs/t_branch_decision_document_v1_4.md",
+    "hparams": []
+  },
+  "Qwen3-4B": {
+    "size": "4 billion parameters",
+    "layers": null,
+    "layer_source": null,
+    "status": "planned, no result found",
+    "sources": [
+      "CORPUS/22_D1_CAPACITY_LAW.md:63"
+    ],
+    "note": "A size-extension proposal, not a completed model test.",
+    "note_source": "CORPUS/22_D1_CAPACITY_LAW.md",
+    "hparams": []
+  },
+  "Gemma-3-4B": {
+    "size": "4 billion parameters",
+    "layers": null,
+    "layer_source": null,
+    "status": "external artifact inspected",
+    "sources": [
+      "memory_mirror/runpod-dashboard-vs-pod-metrics.md:14",
+      "CORPUS/04_ENV_AND_DEPS.md:28"
+    ],
+    "note": "Cached prior-art artifacts are documented; the environment ledger says gated Gemma models were not used for the program's experiments.",
+    "note_source": "CORPUS/04_ENV_AND_DEPS.md",
+    "hparams": []
+  }
+}

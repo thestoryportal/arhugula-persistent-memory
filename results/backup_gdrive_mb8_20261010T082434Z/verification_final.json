@@ -1,0 +1,32 @@
+{
+  "utc": "2026-10-10T08:37:34.939497+00:00",
+  "command": "LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum tools.test_backup_gdrive -v",
+  "exit_code": 0,
+  "total": 72,
+  "passed": 70,
+  "skipped_unverified": 2,
+  "duration_s": 108.95,
+  "failures": 0,
+  "errors": 0,
+  "red_stress": {
+    "invocations": 1000,
+    "wall_s": 58.003,
+    "files": 1002,
+    "refusal_files": 1000,
+    "bytes": 512414
+  },
+  "green_stress": {
+    "invocations": 1000,
+    "wall_s": 60.141,
+    "files": 3,
+    "refusal_files": 1,
+    "bytes": 1010
+  },
+  "red_new_tests": 8,
+  "existing_test_methods_unchanged": 54,
+  "unverified": [
+    "LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest",
+    "LauncherTest.test_nonzero_shell_script_is_caught_promptly_without_dialog",
+    "host open -W -g app-bundle chain (long stub, exit-75 stub, absent-volume path)"
+  ]
+}

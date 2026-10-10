@@ -1,0 +1,218 @@
+test_absent_wrapper_launch_fails_fresh_success_promptly (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_absent_wrapper_launch_fails_fresh_success_promptly) ... FAIL
+test_applescript_error_receipt_runs_without_executing_wrapper (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_applescript_error_receipt_runs_without_executing_wrapper) ... FAIL
+test_exit_75_launch_preserves_real_active_owner_and_inflight_status (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_exit_75_launch_preserves_real_active_owner_and_inflight_status) ... FAIL
+test_launch_receipt_is_atomically_replaced_and_stays_one_file (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_launch_receipt_is_atomically_replaced_and_stays_one_file) ... FAIL
+test_receipt_write_failure_is_prompt_and_preserves_existing_files (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_receipt_write_failure_is_prompt_and_preserves_existing_files) ... FAIL
+test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers (tools.test_backup_gdrive_addendum.StatusTest.test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers) ... FAIL
+test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) ... 
+  test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (content='{torn') ... FAIL
+  test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (content='[]') ... FAIL
+  test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (content='{}') ... FAIL
+  test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'schema': 2}) ... FAIL
+  test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'utc': 'yesterday'}) ... FAIL
+  test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'utc': '2026-10-10T01:00:00'}) ... FAIL
+  test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'utc': '2026-10-10T09:27:51.153983+00:00'}) ... FAIL
+  test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'exit_code': True}) ... FAIL
+  test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'exit_code': None}) ... FAIL
+  test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'wrapper_path': ''}) ... FAIL
+  test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'error_number': '-1708'}) ... FAIL
+  test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'error_number': -1708}) ... FAIL
+
+======================================================================
+FAIL: test_absent_wrapper_launch_fails_fresh_success_promptly (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_absent_wrapper_launch_fails_fresh_success_promptly)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 822, in test_absent_wrapper_launch_fails_fresh_success_promptly
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:50.294785+00:00
+
+
+======================================================================
+FAIL: test_applescript_error_receipt_runs_without_executing_wrapper (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_applescript_error_receipt_runs_without_executing_wrapper)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 873, in test_applescript_error_receipt_runs_without_executing_wrapper
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:50.350335+00:00
+
+
+======================================================================
+FAIL: test_exit_75_launch_preserves_real_active_owner_and_inflight_status (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_exit_75_launch_preserves_real_active_owner_and_inflight_status)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 836, in test_exit_75_launch_preserves_real_active_owner_and_inflight_status
+    self.assertEqual(result.returncode, 0, result.stderr)
+AssertionError: 75 != 0 : mkdir: /private/tmp/gdrive_addendum_rtxuovcp/lock: File exists
+backup_gdrive: 20261010T082750Z-1778 REFUSED: lock held or stale at /private/tmp/gdrive_addendum_rtxuovcp/lock; no sync started. Verify owner/rclone.pid are no longer running before manually removing this lock. Never expire it by age.
+
+
+======================================================================
+FAIL: test_launch_receipt_is_atomically_replaced_and_stays_one_file (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_launch_receipt_is_atomically_replaced_and_stays_one_file)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 855, in test_launch_receipt_is_atomically_replaced_and_stays_one_file
+    self.assertTrue(path.is_file(), "launch must publish a receipt even without a wrapper heartbeat")
+AssertionError: False is not true : launch must publish a receipt even without a wrapper heartbeat
+
+======================================================================
+FAIL: test_receipt_write_failure_is_prompt_and_preserves_existing_files (tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_receipt_write_failure_is_prompt_and_preserves_existing_files)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 891, in test_receipt_write_failure_is_prompt_and_preserves_existing_files
+    self.assertNotEqual(result.returncode, 0, "shell receipt failure must reach the applet's caught error boundary")
+AssertionError: 0 == 0 : shell receipt failure must reach the applet's caught error boundary
+
+======================================================================
+FAIL: test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers (tools.test_backup_gdrive_addendum.StatusTest.test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 119, in test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:51.027387+00:00
+
+
+======================================================================
+FAIL: test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (content='{torn')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 136, in test_malformed_launch_receipts_fail_closed_without_changing_heartbeat
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:51.078673+00:00
+
+
+======================================================================
+FAIL: test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (content='[]')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 136, in test_malformed_launch_receipts_fail_closed_without_changing_heartbeat
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:51.078673+00:00
+
+
+======================================================================
+FAIL: test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (content='{}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 136, in test_malformed_launch_receipts_fail_closed_without_changing_heartbeat
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:51.078673+00:00
+
+
+======================================================================
+FAIL: test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'schema': 2})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 143, in test_malformed_launch_receipts_fail_closed_without_changing_heartbeat
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:51.078673+00:00
+
+
+======================================================================
+FAIL: test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'utc': 'yesterday'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 143, in test_malformed_launch_receipts_fail_closed_without_changing_heartbeat
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:51.078673+00:00
+
+
+======================================================================
+FAIL: test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'utc': '2026-10-10T01:00:00'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 143, in test_malformed_launch_receipts_fail_closed_without_changing_heartbeat
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:51.078673+00:00
+
+
+======================================================================
+FAIL: test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'utc': '2026-10-10T09:27:51.153983+00:00'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 143, in test_malformed_launch_receipts_fail_closed_without_changing_heartbeat
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:51.078673+00:00
+
+
+======================================================================
+FAIL: test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'exit_code': True})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 143, in test_malformed_launch_receipts_fail_closed_without_changing_heartbeat
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:51.078673+00:00
+
+
+======================================================================
+FAIL: test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'exit_code': None})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 143, in test_malformed_launch_receipts_fail_closed_without_changing_heartbeat
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:51.078673+00:00
+
+
+======================================================================
+FAIL: test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'wrapper_path': ''})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 143, in test_malformed_launch_receipts_fail_closed_without_changing_heartbeat
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:51.078673+00:00
+
+
+======================================================================
+FAIL: test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'error_number': '-1708'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 143, in test_malformed_launch_receipts_fail_closed_without_changing_heartbeat
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:51.078673+00:00
+
+
+======================================================================
+FAIL: test_malformed_launch_receipts_fail_closed_without_changing_heartbeat (tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat) (changes={'error_number': -1708})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 143, in test_malformed_launch_receipts_fail_closed_without_changing_heartbeat
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T08:27:51.078673+00:00
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 1.080s
+
+FAILED (failures=18)
+real 1.11
+user 0.66
+sys 0.22

@@ -1,0 +1,30 @@
+{
+  "utc": "2026-10-10T08:14:40.859144+00:00",
+  "status": "PASS",
+  "final_manifest_sha256": "8915e74659d6c793e5df8d473c52b34dd1b7f02397b01a772bbfd3f700345c01",
+  "scope_sha256": "9b3f7ddd5c9147758d8e8277a30a50ea21f3c3c5e08e70333938cb5e9eb25f1c",
+  "code_test_sha256": {
+    "tools/new1_identity_diag.py": "c4601c6df61cf7c36c6223d5955236c0c8f901ded216889755bcd397ae25c1d3",
+    "tools/new1_construction_diag.py": "87a4f5425f5df5bd85b3d47455053a60965e7510297f1b8e3472c73c931411e7",
+    "tests/test_new1_construction_diag.py": "40e2cd2905053955c7dac510860609e0a47a8e3ef661442ea1a9c90e0c660810"
+  },
+  "receipt_hashes_verified": 29,
+  "protected_hashes_verified": 16,
+  "prior_evidence_hashes_verified": 26,
+  "all_owned_hashes_verified": true,
+  "scope_exact_previous_prefix_preserved": true,
+  "launch_shell_syntax_exit": 0,
+  "launch_executed": false,
+  "real_inputs_opened": false,
+  "real_admission_run": false,
+  "test_counts": {
+    "construction_diag": 43,
+    "identity_diag": 27,
+    "geometry": 34,
+    "supervisor": 61
+  },
+  "test_total": 165,
+  "actual_build_receipt_bytes_before_readback": 528398,
+  "in_flight": "none",
+  "next": "MAESTRO4 binding Astra re-review and single approved real launch"
+}

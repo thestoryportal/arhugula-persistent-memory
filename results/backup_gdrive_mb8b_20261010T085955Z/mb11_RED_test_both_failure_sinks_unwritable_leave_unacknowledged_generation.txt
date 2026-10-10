@@ -1,0 +1,17 @@
+test_both_failure_sinks_unwritable_leave_unacknowledged_generation (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_both_failure_sinks_unwritable_leave_unacknowledged_generation) ... FAIL
+
+======================================================================
+FAIL: test_both_failure_sinks_unwritable_leave_unacknowledged_generation (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_both_failure_sinks_unwritable_leave_unacknowledged_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1109, in test_both_failure_sinks_unwritable_leave_unacknowledged_generation
+    self.assert_bad("generation")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:15:33.929857+00:00
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.064s
+
+FAILED (failures=1)

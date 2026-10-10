@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_15.pt": "1b9756f70fa6b4ce212e5a79ba12f70f286b5713cd19514c84fca8826335b2e8"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Lurmaxen",
+    "target_new": {
+      "str": " Vorlex Drelth"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_15.pt"
+  }
+}

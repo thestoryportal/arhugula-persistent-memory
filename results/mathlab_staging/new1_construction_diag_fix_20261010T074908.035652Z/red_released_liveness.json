@@ -1,0 +1,13 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_released_worker_exits_on_parent_death_while_main_is_blocked",
+    "tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_released_worker_has_independent_whole_deadline_while_main_is_blocked",
+    "-v"
+  ],
+  "exit_code": 1,
+  "identity_sha256": "539ae6db876fbca78a14dfcb45eb6898b31b3945aaea3185106c25f992e8b939"
+}

@@ -1,0 +1,1 @@
+Initial baseline-only attempt failed on the fingerprint registry _doc metadata string; retried by filtering entries with source. No canonical documents were changed by that attempt.

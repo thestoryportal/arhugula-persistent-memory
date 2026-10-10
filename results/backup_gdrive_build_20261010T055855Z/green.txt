@@ -1,0 +1,19 @@
+......E.
+======================================================================
+ERROR: test_three_runs_keep_old_versions_and_exclude_regenerable_files (__main__.BackupTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive.py", line 50, in test_three_runs_keep_old_versions_and_exclude_regenerable_files
+    self.assertEqual((self.dest / "keep.link.rclonelink").read_text(), "keep.txt")
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/backup_gdrive_uh9cjxiq/mirror/keep.link.rclonelink'
+
+----------------------------------------------------------------------
+Ran 8 tests in 4.604s
+
+FAILED (errors=1)

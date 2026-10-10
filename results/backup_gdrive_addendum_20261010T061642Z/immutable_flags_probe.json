@@ -1,0 +1,16 @@
+[
+  {
+    "label": "ignore-existing",
+    "exit": 0,
+    "stdout": "",
+    "stderr": "",
+    "destination": "original"
+  },
+  {
+    "label": "directory-immutable",
+    "exit": 6,
+    "stdout": "",
+    "stderr": "2026/10/10 00:26:13 ERROR : tiny.bin: Source and destination exist but do not match: immutable file modified\n2026/10/10 00:26:13 ERROR : Can't retry any of the errors - not attempting retries\n2026/10/10 00:26:13 NOTICE: Failed to copy: immutable file modified\n",
+    "destination": "original"
+  }
+]

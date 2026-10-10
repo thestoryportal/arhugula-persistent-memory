@@ -1,0 +1,19 @@
+{
+  "fixture": true,
+  "step": 3,
+  "runner_exit_code": 3,
+  "run_dir": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_m3_20261009T040227.701099Z",
+  "final_event": {
+    "ts": "2026-10-09T04:02:32.023276Z",
+    "schema": 1,
+    "run_id": "runner_uv_m3_20261009T040227.701099Z",
+    "type": "run_finished",
+    "outcome": "INVALID",
+    "summary": "CPU-EXECUTION: notebook exited 2 without a successful event closeout"
+  },
+  "stubs": [
+    "dispatch_check",
+    "watch process sampling",
+    "diagnostic root"
+  ]
+}

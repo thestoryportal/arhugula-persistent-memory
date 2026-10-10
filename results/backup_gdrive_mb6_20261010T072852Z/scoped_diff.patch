@@ -1,0 +1,762 @@
+diff --git a/tools/backup_gdrive.sh b/tools/backup_gdrive.sh
+index a0cb37b..6fe90d3 100755
+--- a/tools/backup_gdrive.sh
++++ b/tools/backup_gdrive.sh
+@@ -19,11 +19,13 @@ HEARTBEAT="${BACKUP_HEARTBEAT:-$HOME/Library/Logs/memit-gdrive-backup/last_run.j
+ START="$(/bin/date -u +%Y-%m-%dT%H:%M:%SZ)"
+ RUN_LOG="$(/usr/bin/dirname "$HEARTBEAT")/runs/$STAMP.jsonl"
+ RCLONE_VERSION=""
++RCLONE_PID=0
+ LOCK_OWNED=0
+ SYNC_ACTIVE=0
+ SYNC_STARTED=0
+ RCLONE_EXIT_CODE=0
+ SYNC_OUTCOME=""
++CHILD_PUBLICATION_FAILED=0
+ 
+ log() {
+   local message="backup_gdrive: $STAMP $*"
+@@ -35,21 +37,23 @@ log() {
+ }
+ die() { log "FATAL: $*"; exit 1; }
+ write_heartbeat() {
+-  "$PYTHON" "$STATUS_TOOL" record --heartbeat "$HEARTBEAT" --phase "$1" \
++  local target="$HEARTBEAT"
++  [ "$LOCK_OWNED" = 1 ] || target="$(/usr/bin/dirname "$HEARTBEAT")/refusals/$STAMP.json"
++  "$PYTHON" "$STATUS_TOOL" record --heartbeat "$target" --phase "$1" \
+     --run-id "$STAMP" --start "$START" --exit-code "${2:-0}" \
+     --rclone-version "$RCLONE_VERSION" --log "$LOG" --run-log "$RUN_LOG" \
+     --sync-started "$SYNC_STARTED" --rclone-exit-code "$RCLONE_EXIT_CODE" \
+-    --outcome-json "$SYNC_OUTCOME"
++    --outcome-json "$SYNC_OUTCOME" --owner-pid "$$" --rclone-pid "$RCLONE_PID"
+ }
+ finish() {
+   local status=$?
+   trap - EXIT
+   # Publish while still holding ownership: an older success must not mask a new run.
+-  if ! write_heartbeat end "$status"; then
+-    log "HEARTBEAT-FAILED: terminal publication failed; last-run health must refuse"
+-    [ "$status" != 0 ] || status=1
+-  fi
+   if [ "$LOCK_OWNED" = 1 ]; then
++    if ! write_heartbeat end "$status"; then
++      log "HEARTBEAT-FAILED: terminal publication failed; last-run health must refuse"
++      [ "$status" != 0 ] || status=1
++    fi
+     if [ "$SYNC_ACTIVE" = 1 ]; then
+       log "Lock retained after interruption: a sync child may still be running; inspect $LOCK/rclone.pid before stale-lock recovery."
+     elif ! /bin/rm -f "$LOCK/owner" "$LOCK/rclone.pid" || ! /bin/rmdir "$LOCK"; then
+@@ -59,6 +63,9 @@ finish() {
+         log "HEARTBEAT-FAILED: lock-cleanup failure could not be published"
+       fi
+     fi
++  elif ! write_heartbeat end "$status"; then
++    log "REFUSAL-RECORD-FAILED: cannot record non-owner refusal"
++    [ "$status" != 0 ] || status=1
+   fi
+   exit "$status"
+ }
+@@ -66,19 +73,27 @@ trap finish EXIT
+ trap 'log "Interrupted (INT); refusing to unlock an active sync"; exit 130' INT
+ trap 'log "Interrupted (TERM/HUP); refusing to unlock an active sync"; exit 143' TERM HUP
+ /bin/mkdir -p "$(/usr/bin/dirname "$LOG")" || die "cannot create log directory"
+-if [ -x "$RCLONE" ]; then
+-  if VERSION_OUTPUT=$("$RCLONE" version); then
+-    RCLONE_VERSION="${VERSION_OUTPUT%%$'\n'*}"
+-  else
+-    die "rclone version probe failed"
+-  fi
++/bin/mkdir -p "$(/usr/bin/dirname "$LOCK")" || die "cannot create lock parent"
++if ! /bin/mkdir "$LOCK"; then
++  log "REFUSED: lock held or stale at $LOCK; no sync started. Verify owner/rclone.pid are no longer running before manually removing this lock. Never expire it by age."
++  exit 75
+ fi
++LOCK_OWNED=1
++printf '%s\n' "$$ $STAMP" > "$LOCK/owner"
+ if ! write_heartbeat start; then
+   log "HEARTBEAT-FAILED: start publication failed; no sync dispatched"
+   exit 1
+ fi
+-
+ [ -x "$RCLONE" ] || die "rclone missing: $RCLONE"
++if ! "$PYTHON" "$STATUS_TOOL" preflight --rclone "$RCLONE" --source "$SRC" --destination "$DEST"; then
++  die "unsafe or unverified rclone configuration; no sync dispatched"
++fi
++if VERSION_OUTPUT=$("$RCLONE" version); then
++  RCLONE_VERSION="${VERSION_OUTPUT%%$'\n'*}"
++else
++  die "rclone version probe failed"
++fi
++
+ [ -f "$EXCLUDES" ] || die "exclude list missing: $EXCLUDES"
+ MOUNTS=$(/sbin/mount) || die "cannot inspect mounted volumes"
+ case "$MOUNTS" in
+@@ -96,35 +111,39 @@ case "$DEST" in
+   */?*) ;;
+   *) die "DEST must name a directory below its backup parent: $DEST" ;;
+ esac
+-/bin/mkdir -p "$(/usr/bin/dirname "$LOCK")" || die "cannot create lock parent"
+-if ! /bin/mkdir "$LOCK"; then
+-  log "REFUSED: lock held or stale at $LOCK; no sync started. Verify owner/rclone.pid are no longer running before manually removing this lock. Never expire it by age."
+-  exit 75
+-fi
+-
+-LOCK_OWNED=1
+-printf '%s\n' "$$ $STAMP" > "$LOCK/owner"
+ log "start $SRC/ -> $DEST/; archive=$DELETED_DIR/; rclone-log=$RUN_LOG"
+ /bin/mkdir -p "$(/usr/bin/dirname "$RUN_LOG")" || die "cannot create per-run log directory"
+ : > "$RUN_LOG"
+ 
+ # --links preserves rsync -a's symlink intent without traversing symlink targets.
+-# No --delete-excluded or --ignore-errors: excluded/history paths stay protected.
++# Explicit false flags preserve exclusions and the IO-error deletion barrier.
+ SYNC_ACTIVE=1
+ SYNC_STARTED=1
+ "$RCLONE" sync "$SRC/" "$DEST/" --backup-dir "$DELETED_DIR/" \
+   --exclude-from "$EXCLUDES" --links --log-file "$RUN_LOG" --log-level INFO --use-json-log \
+   --exclude '**/.git/objects/**/tmp_obj_*' --exclude '**/.git/objects/tmp_obj_*' \
+   --exclude '/.git/objects/**/tmp_obj_*' --exclude '/.git/objects/tmp_obj_*' \
++  --retries 1 --low-level-retries 10 --dry-run=false --interactive=false \
++  --ignore-errors=false --delete-excluded=false --delete-after \
++  --bwlimit '08:00,512k 23:00,off' \
+   --stats 1m --stats-log-level NOTICE &
+ RCLONE_PID=$!
+ printf '%s\n' "$RCLONE_PID" > "$LOCK/rclone.pid"
++if ! write_heartbeat start; then
++  log "HEARTBEAT-FAILED: child PID publication failed; sync child may still be running"
++  CHILD_PUBLICATION_FAILED=1
++fi
+ if wait "$RCLONE_PID"; then
+   SYNC_ACTIVE=0
+ else
+   RCLONE_EXIT_CODE=$?
+   SYNC_ACTIVE=0
+ fi
++if [ "$CHILD_PUBLICATION_FAILED" = 1 ]; then
++  STATUS="$RCLONE_EXIT_CODE"
++  [ "$STATUS" != 0 ] || STATUS=1
++  exit "$STATUS"
++fi
+ if SYNC_OUTCOME=$("$PYTHON" "$STATUS_TOOL" classify --source "$SRC" --run-log "$RUN_LOG" --rclone-exit-code "$RCLONE_EXIT_CODE"); then
+   [ -n "$SYNC_OUTCOME" ] || die "classification produced no outcome; raw rclone exit $RCLONE_EXIT_CODE; see $RUN_LOG"
+   case "$SYNC_OUTCOME" in
+diff --git a/tools/backup_gdrive_status.py b/tools/backup_gdrive_status.py
+index 12e63dc..e6ec417 100755
+--- a/tools/backup_gdrive_status.py
++++ b/tools/backup_gdrive_status.py
+@@ -6,6 +6,7 @@ import json
+ import os
+ from pathlib import Path, PurePosixPath
+ import re
++import subprocess
+ import sys
+ import tempfile
+ 
+@@ -13,12 +14,50 @@ DEFAULT = Path.home()/"Library/Logs/memit-gdrive-backup/last_run.json"
+ AUTH_ERROR = re.compile(r"invalid_grant|invalid_client|unauthori[sz]ed|authentication failed|"
+                         r"cannot fetch token|token.*(?:expired|invalid|revoked)|"
+                         r"insufficient authentication scopes|invalid authentication credentials", re.I)
++SKIPPED_OPERATION = re.compile(r"--dry-run\b|\bdry run\b|^\s*skipp(?:ed|ing)\b", re.I)
++
++
++def skipped_operations(text):
++    for line in text.splitlines():
++        try:
++            message = json.loads(line).get("msg", "")
++        except (ValueError, AttributeError):
++            message = line
++        if isinstance(message, str) and SKIPPED_OPERATION.search(message):
++            return True
++    return False
++
++
++def preflight(rclone, source, destination):
++    # RCLONE_CONFIG selects credentials; all other RCLONE_* settings need review.
++    settings = sorted(name for name in os.environ if name.startswith("RCLONE_") and name != "RCLONE_CONFIG")
++    if settings:
++        raise ValueError("unapproved environment settings: " + ", ".join(settings))
++    for path in (source, destination):
++        if not os.path.isabs(path) and (path.startswith(":") or "," in path.split(":", 1)[0]):
++            raise ValueError("remote connection-string overrides are not admitted")
++    result = subprocess.run([rclone, "config", "dump"], capture_output=True, text=True, timeout=30)
++    if result.returncode or not result.stdout.strip():
++        raise ValueError("rclone config probe failed (exit %s); no sync dispatched" % result.returncode)
++    try:
++        config = json.loads(result.stdout)
++    except ValueError as exc:
++        raise ValueError("rclone config probe returned malformed JSON") from exc
++    if (not isinstance(config, dict) or any(not isinstance(section, dict) or
++            any(not isinstance(key, str) or not isinstance(value, str) for key, value in section.items())
++            for section in config.values())):
++        raise ValueError("rclone config probe returned an invalid configuration")
++    overrides = sorted(section + "." + key for section, fields in config.items() for key in fields
++                       if key.lower().startswith(("global.", "override.")))
++    if overrides:
++        # Never print configuration values: the same dump contains OAuth secrets.
++        raise ValueError("unapproved remote global overrides: " + ", ".join(overrides))
+ 
+ 
+ def classify(source, run_log, raw_exit):
+     """Normalize only a complete, independently checked local-source ENOENT run."""
+     value = {"rclone_exit_code": raw_exit, "warnings": [], "source_vanish_only": False,
+-             "bytes_transferred": None, "stats_status": "missing"}
++             "bytes_transferred": None, "stats_status": "missing", "operations_skipped": False}
+ 
+     def unique_fields(pairs):
+         result = {}
+@@ -33,6 +72,7 @@ def classify(source, run_log, raw_exit):
+ 
+     try:
+         text = Path(run_log).read_text()
++        value["operations_skipped"] = skipped_operations(text)
+         items = [json.loads(line, object_pairs_hook=unique_fields, parse_constant=invalid_constant) for line in text.splitlines()]
+         if any(not isinstance(item, dict) or not isinstance(item.get("level"), str) or
+                ("msg" in item and not isinstance(item["msg"], str)) for item in items):
+@@ -75,7 +115,7 @@ def classify(source, run_log, raw_exit):
+             return None
+         return None
+ 
+-    valid = bool(items) and text.endswith("\n") and not AUTH_ERROR.search(text)
++    valid = bool(items) and text.endswith("\n") and not AUTH_ERROR.search(text) and not value["operations_skipped"]
+     pending = []
+     suppressed = set()
+     last_attempt = None
+@@ -117,7 +157,7 @@ def classify(source, run_log, raw_exit):
+                 number, total, errors = map(int, attempt.groups()[:3])
+                 if (number != attempt_number+1 or number > total or
+                         (attempts_total is not None and total != attempts_total) or
+-                        errors != len(pending) or not pending or attempt[4] not in pending):
++                        errors != len(pending) or not pending or attempt[4] not in pending or len(suppressed) != 2):
+                     valid = False
+                 last_attempt = (errors, set(pending), set(suppressed))
+                 attempt_number, attempts_total = number, total
+@@ -164,6 +204,7 @@ def record(args):
+              "wrapper_log": str(log), "wrapper_log_offset": stat.st_size if stat else 0,
+              "wrapper_log_identity": [stat.st_dev, stat.st_ino] if stat else None,
+              "rclone_exit_code": args.rclone_exit_code if args.phase == "end" and args.sync_started else None,
++             "owner_pid": args.owner_pid, "rclone_pid": args.rclone_pid or None,
+              "warnings": []}
+     if args.phase == "end" and args.sync_started:
+         outcome = json.loads(args.outcome_json) if args.outcome_json else {}
+@@ -198,12 +239,30 @@ def health(path):
+         if not isinstance(value, dict) or not required.issubset(value) or value["schema"] != 1:
+             return False, "malformed heartbeat"
+         if value["end"] is None or value["exit_code"] is None:
++            owner, child = value.get("owner_pid"), value.get("rclone_pid")
++            if type(owner) is int and owner > 0 and (child is None or type(child) is int and child > 0):
++                def alive(pid):
++                    if pid is None:
++                        return False
++                    try:
++                        os.kill(pid, 0)
++                        return True
++                    except ProcessLookupError:
++                        return False
++                    except PermissionError:
++                        return True
++                if not alive(owner) and not alive(child):
++                    return False, "stale incomplete backup: owner and rclone PIDs are dead"
+             return False, "incomplete backup run"
+         if type(value["exit_code"]) is not int:
+             return False, "malformed exit code"
+         run_log = Path(value["log_path"])
+-        if run_log.exists() and AUTH_ERROR.search(run_log.read_text()):
+-            return False, "token/auth error detected in last run log"
++        if run_log.exists():
++            text = run_log.read_text()
++            if AUTH_ERROR.search(text):
++                return False, "token/auth error detected in last run log"
++            if skipped_operations(text):
++                return False, "failed/unverified backup: dry-run or skipped operations in last run log"
+         if value["exit_code"] != 0:
+             return False, "failed backup (exit %s)" % value["exit_code"]
+         start, end = (dt.datetime.fromisoformat(value[key].replace("Z", "+00:00")) for key in ("start", "end"))
+@@ -258,6 +317,17 @@ def health(path):
+ def main():
+     parser = argparse.ArgumentParser(description=__doc__)
+     parser.add_argument("--heartbeat", default=str(DEFAULT))
++    if sys.argv[1:2] == ["preflight"]:
++        parser.add_argument("--rclone", required=True)
++        parser.add_argument("--source", required=True)
++        parser.add_argument("--destination", required=True)
++        args = parser.parse_args(sys.argv[2:])
++        try:
++            preflight(args.rclone, args.source, args.destination)
++            return 0
++        except (OSError, ValueError, subprocess.TimeoutExpired) as exc:
++            print("backup_gdrive_status: preflight refused: " + str(exc), file=sys.stderr)
++            return 1
+     if sys.argv[1:2] == ["classify"]:
+         parser.add_argument("--source", required=True)
+         parser.add_argument("--run-log", required=True)
+@@ -265,6 +335,8 @@ def main():
+         args = parser.parse_args(sys.argv[2:])
+         outcome = classify(args.source, args.run_log, args.rclone_exit_code)
+         print(json.dumps(outcome, sort_keys=True))
++        if outcome["operations_skipped"]:
++            return args.rclone_exit_code or 1
+         return 0 if args.rclone_exit_code == 0 or outcome["source_vanish_only"] else args.rclone_exit_code
+     if sys.argv[1:2] == ["record"]:
+         parser.add_argument("--phase", choices=("start", "end"), required=True)
+@@ -277,6 +349,8 @@ def main():
+         parser.add_argument("--sync-started", type=int, choices=(0, 1), default=0)
+         parser.add_argument("--rclone-exit-code", type=int)
+         parser.add_argument("--outcome-json", default="")
++        parser.add_argument("--owner-pid", type=int)
++        parser.add_argument("--rclone-pid", type=int, default=0)
+         args = parser.parse_args(sys.argv[2:])
+         try:
+             record(args)
+diff --git a/tools/launchd/com.rhu.memit-gdrive-backup.plist b/tools/launchd/com.rhu.memit-gdrive-backup.plist
+index 5226fc2..7532a3a 100644
+--- a/tools/launchd/com.rhu.memit-gdrive-backup.plist
++++ b/tools/launchd/com.rhu.memit-gdrive-backup.plist
+@@ -4,13 +4,15 @@
+ <dict>
+     <key>Label</key>
+     <string>com.rhu.memit-gdrive-backup</string>
+-    <!-- Install only after review. This direct bash launcher needs macOS access
+-         to Removable Volumes; the old MemitBackup.app's grant does not transfer.
+-         Deploy the reviewed script to this main-checkout path before activation. -->
++    <!-- Install only after review and the operator's Removable Volumes grant.
++         Deploy the reviewed wrapper to the main checkout and build the applet
++         before activation. Backup health comes from the wrapper's heartbeat. -->
+     <key>ProgramArguments</key>
+     <array>
+-        <string>/bin/bash</string>
+-        <string>/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_gdrive.sh</string>
++        <string>/usr/bin/open</string>
++        <string>-W</string>
++        <string>-g</string>
++        <string>/Users/robertrhu/Applications/MemitGdriveBackup.app</string>
+     </array>
+     <key>StartInterval</key>
+     <integer>21600</integer>
+diff --git a/tools/test_backup_gdrive.py b/tools/test_backup_gdrive.py
+index 50f19f2..6c22115 100644
+--- a/tools/test_backup_gdrive.py
++++ b/tools/test_backup_gdrive.py
+@@ -82,6 +82,51 @@ class BackupTest(unittest.TestCase):
+         self.assertEqual([p.read_text() for p in archived.glob("*/gone.txt")], ["deleted version"])
+         self.assertFalse(self.lock.exists())
+ 
++    def test_changing_source_between_sync_attempts_cannot_overwrite_archived_history(self):
++        # Native whole-sync retries reuse --backup-dir and would replace v0 with v1.
++        (self.src / "keep.txt").unlink()
++        current = self.src / "a.bin"
++        v0, v1, v2 = b"old version", b"1" * (128 << 10), b"2" * (144 << 10)
++        current.write_bytes(v1)
++        lost = self.src / "z_lost.bin"
++        lost.write_bytes(b"queued then vanished")
++        self.dest.mkdir()
++        (self.dest / "a.bin").write_bytes(v0)
++        controlled = self.base / "controlled-rclone"
++        controlled.write_text('#!/bin/bash\nif [ "$1" != sync ]; then exec /opt/homebrew/bin/rclone "$@"; fi\n'
++                              'exec /opt/homebrew/bin/rclone "$@" --disable Copy --bwlimit 128k '
++                              '--transfers 1 --check-first --order-by name --retries-sleep 600ms\n')
++        controlled.chmod(0o700)
++        proc = subprocess.Popen(["/bin/bash", str(SCRIPT)], env=dict(self.env, BACKUP_RCLONE=str(controlled)),
++                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
++        self.addCleanup(proc.communicate, timeout=10)
++        deadline = time.monotonic() + 4
++        while not list((self.base / ".deleted").glob("*/a.bin")) and time.monotonic() < deadline and proc.poll() is None:
++            time.sleep(0.005)
++        self.assertTrue(list((self.base / ".deleted").glob("*/a.bin")),
++                        "positive control: first replacement transfer started")
++        lost.unlink()
++        changed = False
++        deadline = time.monotonic() + 5
++        while time.monotonic() < deadline:
++            logs = list((self.base / "runs").glob("*.jsonl"))
++            if logs and "Attempt 1/" in logs[0].read_text():
++                self.assertEqual((self.dest / "a.bin").read_bytes(), v1,
++                                 "first attempt must upload v1 before source changes to v2")
++                current.write_bytes(v2)
++                changed = True
++                break
++            if proc.poll() is not None:
++                break
++            time.sleep(0.005)
++        self.assertTrue(changed, "positive control: source changed at the native retry boundary")
++        output = proc.communicate(timeout=10)
++        self.assertEqual(proc.returncode, 0, output)
++        archived = list((self.base / ".deleted").glob("*/a.bin"))
++        self.assertEqual(len(archived), 1)
++        self.assertTrue(archived[0].read_bytes() == v0, "a retry must never replace the oldest archived version")
++        self.assertEqual((self.dest / "a.bin").read_bytes(), v1, "a second whole-sync attempt must not run")
++
+     def test_held_lock_refuses_and_logs_without_changing_destination(self):
+         self.lock.mkdir()
+         (self.lock / "owner").write_text(str(os.getpid()))
+@@ -117,7 +162,8 @@ class BackupTest(unittest.TestCase):
+     def test_interruption_retains_lock_while_child_may_still_run(self):
+         # A controlled slow external process makes the shell's signal window reproducible.
+         slow = self.base / "slow-rclone"
+-        slow.write_text("#!/bin/bash\nif [ \"$1\" = version ]; then echo rclone-test; exit 0; fi\nexec /bin/sleep 2\n")
++        slow.write_text("#!/bin/bash\nif [ \"$1\" = version ]; then echo rclone-test; exit 0; fi\n"
++                        "if [ \"$1\" = config ]; then exec /opt/homebrew/bin/rclone \"$@\"; fi\nexec /bin/sleep 2\n")
+         slow.chmod(0o700)
+         proc = subprocess.Popen(["/bin/bash", str(SCRIPT)], env=dict(self.env, BACKUP_RCLONE=str(slow)),
+                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+@@ -138,7 +184,9 @@ class BackupTest(unittest.TestCase):
+         # Killing only Bash leaves its child writing and its capture pipes open.
+         slow = self.base / "slow-rclone"
+         heartbeat = self.base / "heartbeat"
+-        slow.write_text("#!/bin/bash\nif [ \"$1\" = version ]; then echo rclone-test; exit 0; fi\nfor i in {1..150}; do printf x >> '" + str(heartbeat) + "'; /bin/sleep 0.02; done\n")
++        slow.write_text("#!/bin/bash\nif [ \"$1\" = version ]; then echo rclone-test; exit 0; fi\n"
++                        "if [ \"$1\" = config ]; then exec /opt/homebrew/bin/rclone \"$@\"; fi\n"
++                        "for i in {1..150}; do printf x >> '" + str(heartbeat) + "'; /bin/sleep 0.02; done\n")
+         slow.chmod(0o700)
+         start = time.monotonic()
+         with self.assertRaises(subprocess.TimeoutExpired):
+diff --git a/tools/test_backup_gdrive_addendum.py b/tools/test_backup_gdrive_addendum.py
+index fc88c05..8e75aef 100644
+--- a/tools/test_backup_gdrive_addendum.py
++++ b/tools/test_backup_gdrive_addendum.py
+@@ -4,6 +4,7 @@ import hashlib
+ import json
+ import os
+ from pathlib import Path
++import plistlib
+ import subprocess
+ import sys
+ import tempfile
+@@ -58,6 +59,26 @@ class StatusTest(Fixture):
+         result = self.status()
+         self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+ 
++    def test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs(self):
++        dead = subprocess.Popen(["/usr/bin/true"])
++        dead.wait(timeout=2)
++        self.write_heartbeat(end=None, exit_code=None, owner_pid=dead.pid, rclone_pid=dead.pid)
++        self.assert_bad("stale")
++        for owner, child in [(os.getpid(), dead.pid), (dead.pid, os.getpid()), (os.getpid(), None)]:
++            with self.subTest(owner=owner, child=child):
++                self.write_heartbeat(end=None, exit_code=None, owner_pid=owner, rclone_pid=child)
++                result = self.status()
++                self.assertNotEqual(result.returncode, 0)
++                self.assertIn("incomplete", result.stdout)
++                self.assertNotIn("stale", result.stdout)
++
++    def test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success(self):
++        for message in ["Skipped copy as --dry-run is set", "Skipped delete", "Skipping move"]:
++            with self.subTest(message=message):
++                self.write_heartbeat(rclone_exit_code=0)
++                self.run_log.write_text(json.dumps({"level":"notice", "msg":message, "object":"tiny.txt"})+"\n")
++                self.assert_bad("skipped")
++
+     def test_stale_and_exact_thirteen_hour_boundary(self):
+         for age in [13, 14]:
+             with self.subTest(age=age):
+@@ -141,7 +162,8 @@ class HeartbeatTest(Fixture):
+ 
+     def fake_rclone(self, body):
+         path = self.base / "fake-rclone"
+-        path.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo "rclone-test"; exit 0; fi\n'+body)
++        path.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo "rclone-test"; exit 0; fi\n'
++                        'if [ "$1" = config ]; then exec '+RCLONE+' "$@"; fi\n'+body)
+         path.chmod(0o700)
+         return str(path)
+ 
+@@ -173,9 +195,15 @@ class HeartbeatTest(Fixture):
+                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+         self.addCleanup(proc.communicate, timeout=4)
+         deadline = time.monotonic()+2
+-        while not (self.base/"lock/rclone.pid").exists() and proc.poll() is None and time.monotonic()<deadline:
++        while proc.poll() is None and time.monotonic()<deadline:
++            if ((self.base/"lock/rclone.pid").exists() and self.heartbeat.exists() and
++                    json.loads(self.heartbeat.read_text()).get("rclone_pid")):
++                break
+             time.sleep(0.01)
+         self.assertTrue(self.heartbeat.exists(), "start heartbeat must precede dispatch")
++        value = json.loads(self.heartbeat.read_text())
++        self.assertEqual(value.get("owner_pid"), proc.pid)
++        self.assertEqual(value.get("rclone_pid"), int((self.base/"lock/rclone.pid").read_text()))
+         self.assert_bad("incomplete")
+         output = proc.communicate(timeout=4)
+         self.assertEqual(proc.returncode, 0, output)
+@@ -207,39 +235,152 @@ class HeartbeatTest(Fixture):
+                 finally:
+                     self.heartbeat.parent.chmod(0o700)
+ 
++    def test_child_pid_publication_failure_reaps_child_and_preserves_raw_failure(self):
++        fake = self.fake_rclone('/bin/chmod 555 "'+str(self.heartbeat.parent)+'"\n/bin/sleep 0.2\nexit 23\n')
++        try:
++            result = self.backup(BACKUP_RCLONE=fake)
++            self.assertEqual(result.returncode, 23, result.stderr)
++            self.assertFalse((self.base/"lock").exists(), "a reaped child permits owned-lock cleanup")
++            self.assertIn("HEARTBEAT-FAILED", result.stderr)
++        finally:
++            self.heartbeat.parent.chmod(0o700)
++
+     def test_terminal_publication_cannot_mask_a_newer_active_run(self):
+-        entered, release = self.base/"terminal-entered", self.base/"terminal-release"
+-        writer = self.base/"paused-python"
+-        writer.write_text('#!/bin/bash\ncase "$*" in *" --phase end "*)\n'
+-                          'touch "'+str(entered)+'"\n'
+-                          'for i in {1..300}; do [ -f "'+str(release)+'" ] && break; /bin/sleep 0.01; done\n'
+-                          ';; esac\nexec /usr/bin/python3 "$@"\n')
+-        writer.chmod(0o700)
+-        first = subprocess.Popen(["/bin/bash", str(BACKUP)], env=dict(self.env, BACKUP_PYTHON=str(writer)),
++        first_entered, first_release = self.base/"first-dispatched", self.base/"first-release"
++        fake = self.fake_rclone('touch "'+str(first_entered)+'"\n'
++                               'for i in {1..500}; do [ -f "'+str(first_release)+'" ] && break; /bin/sleep 0.01; done\n')
++        first = subprocess.Popen(["/bin/bash", str(BACKUP)], env=dict(self.env, BACKUP_RCLONE=fake),
+                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+-        self.addCleanup(first.communicate, timeout=5)
++        self.addCleanup(first.communicate, timeout=8)
++        self.addCleanup(first_release.touch)
+         deadline = time.monotonic()+3
+-        while not entered.exists() and first.poll() is None and time.monotonic()<deadline:
++        while not first_entered.exists() and first.poll() is None and time.monotonic()<deadline:
+             time.sleep(0.01)
+-        self.assertTrue(entered.exists(), "positive control: first terminal publication is paused")
++        self.assertTrue(first_entered.exists(), "positive control: A owns the lock and is syncing")
++        paused, resume = self.base/"second-before-lock", self.base/"second-resume"
+         dispatched = self.base/"second-dispatched"
+-        fake = self.fake_rclone('touch "'+str(dispatched)+'"\n/bin/sleep 1.5\n')
+-        second = subprocess.Popen(["/bin/bash", str(BACKUP)], env=dict(self.env, BACKUP_RCLONE=fake),
++        second_release = self.base/"second-release"
++        second_fake = self.base/"second-rclone"
++        second_fake.write_text(Path(fake).read_text().replace(str(first_entered), str(dispatched))
++                               .replace(str(first_release), str(second_release)))
++        second_fake.chmod(0o700)
++        # Pause the actual shell before mkdir, after the old pre-lock publication.
++        # The corrected wrapper reaches this same boundary before publishing start.
++        command = r'''
++pause_lock() {
++  case "$1" in '/bin/mkdir "$LOCK"')
++    trap - DEBUG
++    touch "$PAUSED"
++    for i in {1..500}; do [ -f "$RESUME" ] && break; /bin/sleep 0.01; done
++    ;;
++  esac
++}
++set -T
++trap 'pause_lock "$BASH_COMMAND"' DEBUG
++source "$1"
++'''
++        second = subprocess.Popen(["/bin/bash", "-c", command, str(BACKUP), str(BACKUP)],
++                                  env=dict(self.env, BACKUP_RCLONE=str(second_fake), PAUSED=str(paused), RESUME=str(resume)),
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+-        self.addCleanup(second.communicate, timeout=5)
+-        deadline = time.monotonic()+2
+-        while second.poll() is None and not dispatched.exists() and time.monotonic()<deadline:
++        self.addCleanup(second.communicate, timeout=8)
++        self.addCleanup(second_release.touch)
++        self.addCleanup(resume.touch)
++        deadline = time.monotonic()+3
++        while second.poll() is None and not paused.exists() and time.monotonic()<deadline:
+             time.sleep(0.01)
+-        release.touch()
++        self.assertTrue(paused.exists(), "positive control: B paused before lock acquisition")
++        self.assertFalse(dispatched.exists())
++        first_release.touch()
+         output = first.communicate(timeout=5)
+         self.assertEqual(first.returncode, 0, output)
+-        if second.poll() is None:
+-            result = self.status()
+-            self.assertNotEqual(result.returncode, 0, "older terminal success must not mask a newer active sync: "+result.stdout)
+-        else:
+-            output = second.communicate(timeout=5)
+-            self.assertNotEqual(second.returncode, 0, "newer sync must be held until terminal publication finishes")
+-            self.assertIn("lock", output[1].lower())
++        self.assertFalse((self.base/"lock").exists(), "A must finish and release ownership before resuming B")
++        resume.touch()
++        deadline = time.monotonic()+3
++        while second.poll() is None and not dispatched.exists() and time.monotonic()<deadline:
++            time.sleep(0.01)
++        self.assertTrue(dispatched.exists(), "B must be admitted and dispatch; a refused contender is not this schedule")
++        self.assertIsNone(second.poll(), "B must still be syncing while status is inspected")
++        result = self.status()
++        self.assertNotEqual(result.returncode, 0, "older terminal success must not mask an admitted newer sync: "+result.stdout)
++        self.assertIn("incomplete", result.stdout)
++
++    def test_held_lock_refusal_cannot_overwrite_owner_heartbeat(self):
++        entered, release = self.base/"owner-dispatched", self.base/"owner-release"
++        fake = self.fake_rclone('touch "'+str(entered)+'"\n'
++                               'for i in {1..500}; do [ -f "'+str(release)+'" ] && break; /bin/sleep 0.01; done\n')
++        owner = subprocess.Popen(["/bin/bash", str(BACKUP)], env=dict(self.env, BACKUP_RCLONE=fake),
++                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
++        self.addCleanup(owner.communicate, timeout=8)
++        self.addCleanup(release.touch)
++        deadline = time.monotonic()+3
++        while not entered.exists() and owner.poll() is None and time.monotonic()<deadline:
++            time.sleep(0.01)
++        self.assertTrue(entered.exists())
++        time.sleep(0.1)  # Wait for the child PID publication as well as dispatch.
++        previous = self.heartbeat.read_bytes()
++        result = self.backup()
++        self.assertEqual(result.returncode, 75, result.stderr)
++        self.assertEqual(self.heartbeat.read_bytes(), previous, "a non-owner cannot publish over the active owner")
++        refusals = list((self.heartbeat.parent/"refusals").glob("*.json"))
++        self.assertEqual(len(refusals), 1, "a refused schedule needs its own receipt")
++        value = json.loads(refusals[0].read_text())
++        self.assertEqual(value["exit_code"], 75)
++        self.assertEqual(value["bytes_transferred"], 0)
++        self.assert_bad("incomplete")
++
++    def test_behavior_changing_rclone_environment_refuses_without_dispatch(self):
++        dispatched = self.base/"unexpected-dispatch"
++        fake = self.fake_rclone('touch "'+str(dispatched)+'"\n')
++        for name in ["RCLONE_DRY_RUN", "RCLONE_IGNORE_ERRORS", "RCLONE_DELETE_EXCLUDED",
++                     "RCLONE_IGNORE_EXISTING", "RCLONE_FILTER", "RCLONE_CONFIG_FIXTURE_GLOBAL_DRY_RUN"]:
++            with self.subTest(name=name):
++                result = self.backup(BACKUP_RCLONE=fake, **{name:"true"})
++                self.assertNotEqual(result.returncode, 0, result.stderr)
++                self.assertFalse(dispatched.exists(), "unsafe inherited settings must refuse before sync")
++                self.assertIn(name, result.stderr)
++                self.assert_bad("failed")
++
++    def test_remote_global_overrides_refuse_without_dispatch(self):
++        config = self.base/"rclone.conf"
++        dispatched = self.base/"unexpected-dispatch"
++        fake = self.fake_rclone('touch "'+str(dispatched)+'"\nexec '+RCLONE+' "$@"\n')
++        for setting in ["global.dry_run", "global.ignore_errors", "global.delete_excluded", "override.low_level_retries"]:
++            with self.subTest(setting=setting):
++                config.write_text('[fixture]\ntype = local\n'+setting+' = true\n')
++                result = self.backup(BACKUP_RCLONE=fake, RCLONE_CONFIG=str(config),
++                                     BACKUP_DEST="fixture:"+str(self.base/"mirror"))
++                self.assertNotEqual(result.returncode, 0, result.stderr)
++                self.assertFalse(dispatched.exists(), "config overrides must refuse before sync")
++                self.assertIn(setting, result.stderr)
++                self.assert_bad("failed")
++
++    def test_remote_connection_overrides_refuse_without_dispatch(self):
++        dispatched = self.base/"unexpected-dispatch"
++        fake = self.fake_rclone('touch "'+str(dispatched)+'"\n')
++        result = self.backup(BACKUP_RCLONE=fake, BACKUP_DEST=":local,global.dry_run=true:"+str(self.base/"mirror"))
++        self.assertNotEqual(result.returncode, 0, result.stderr)
++        self.assertFalse(dispatched.exists())
++
++    def test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries(self):
++        args = self.base/"sync-args"
++        fake = self.fake_rclone('printf "%s\\n" "$@" > "'+str(args)+'"\nexec '+RCLONE+' "$@"\n')
++        result = self.backup(BACKUP_RCLONE=fake)
++        self.assertEqual(result.returncode, 0, result.stderr)
++        actual = args.read_text().splitlines()
++        for flag in ["--dry-run=false", "--ignore-errors=false", "--delete-excluded=false", "--interactive=false"]:
++            self.assertIn(flag, actual)
++        self.assertEqual(actual[actual.index("--retries")+1], "1")
++        self.assertGreater(int(actual[actual.index("--low-level-retries")+1]), 1)
++
++    def test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night(self):
++        args = self.base/"timetable-args"
++        fake = self.fake_rclone('printf "%s\\n" "$@" > "'+str(args)+'"\nexec '+RCLONE+' "$@"\n')
++        result = self.backup(BACKUP_RCLONE=fake)
++        self.assertEqual(result.returncode, 0, result.stderr)
++        actual = args.read_text().splitlines()
++        self.assertIn("--bwlimit", actual, "D-C10r-rulings-15 requires the operator's upload timetable")
++        self.assertEqual(actual[actual.index("--bwlimit")+1], "08:00,512k 23:00,off")
++        self.assertEqual((self.base/"mirror/tiny.txt").read_bytes(), b"eight!!!")
+ 
+     def test_lock_cleanup_failure_records_failed_outcome(self):
+         fake = self.fake_rclone('touch "$BACKUP_LOCK_DIR/unexpected"\n')
+@@ -250,8 +391,9 @@ class HeartbeatTest(Fixture):
+ 
+     def log_rclone(self, records, exit_code=1):
+         script = self.base/"logged-rclone"
+-        script.write_text('#!/usr/bin/python3\nimport json,sys\nfrom pathlib import Path\n'
++        script.write_text('#!/usr/bin/python3\nimport json,sys,subprocess\nfrom pathlib import Path\n'
+                           'if sys.argv[1] == "version":\n print("rclone fixture");sys.exit(0)\n'
++                          'if sys.argv[1] == "config":\n sys.exit(subprocess.call(['+repr(RCLONE)+',*sys.argv[1:]]))\n'
+                           'path=Path(sys.argv[sys.argv.index("--log-file")+1])\n'
+                           'records='+repr(records)+'\n'
+                           'path.write_text("".join(json.dumps(record)+"\\n" if not isinstance(record,str) else record+"\\n" for record in records))\n'
+@@ -485,6 +627,24 @@ class HeartbeatTest(Fixture):
+         value=json.loads(self.heartbeat.read_text())
+         self.assertEqual(value["rclone_exit_code"],1)
+         self.assertEqual(value["warnings"].count({"kind":"source_vanished","object":"lost.bin"}),1)
++        # Exact Astra negative input: remove both first-attempt suppression records.
++        for removed in [(1, 2), (1,), (2,), (5, 6), (5,), (6,)]:
++            with self.subTest(removed=removed):
++                negative = [item for index, item in enumerate(records) if index not in removed]
++                result = self.backup(BACKUP_RCLONE=self.log_rclone(negative))
++                self.assertEqual(result.returncode, 1, "each attempt boundary needs both suppression records: "+result.stderr)
++                self.assertIn("FATAL", result.stderr)
++                self.assert_bad("failed")
++
++    def test_zero_exit_dry_run_or_skipped_operations_cannot_be_success(self):
++        for message in ["Skipped copy as --dry-run is set", "Skipped delete", "Skipping move"]:
++            with self.subTest(message=message):
++                records = [{"level":"notice", "msg":message, "object":"tiny.txt", "size":8},
++                           {"level":"notice", "stats":{"bytes":8,"errors":0,"fatalError":False}}]
++                result = self.backup(BACKUP_RCLONE=self.log_rclone(records, 0))
++                self.assertEqual(result.returncode, 1, result.stderr)
++                self.assertIn("FATAL", result.stderr)
++                self.assert_bad("failed")
+ 
+     def test_stats_before_final_attempt_do_not_prove_completion(self):
+         records=self.vanished_records()
+@@ -514,6 +674,71 @@ class HeartbeatTest(Fixture):
+         self.assertIn("FATAL",result.stderr)
+ 
+ 
++class LauncherTest(Fixture):
++    def osa_result(self, result, command):
++        output = result.stdout+result.stderr
++        if result.returncode and any(reason in output.lower() for reason in
++                                      ["operation not permitted", "not authorized", "permission denied", "sandbox"]):
++            self.skipTest("UNVERIFIED: "+command+" exit "+str(result.returncode)+": "+output.strip())
++        if result.returncode and any(code in output for code in ["(-2740)", "(-2741)"]):
++            # Check the missing Standard Additions service independently of our source.
++            control = run_process(["/usr/bin/osascript", "-e", '«event sysoexec» "/usr/bin/true"'], timeout=5)
++            if (control.returncode and "com.apple.hiservices-xpcservice" in control.stderr and
++                    "Connection invalid" in control.stderr):
++                self.skipTest("UNVERIFIED: "+command+" exit "+str(result.returncode)+": "+output.strip()+
++                              "; Standard Additions control exit "+str(control.returncode)+": "+control.stderr.strip())
++        self.assertEqual(result.returncode, 0, command+": "+output)
++
++    def test_launchd_waits_for_background_applet(self):
++        with (ROOT/"tools/launchd/com.rhu.memit-gdrive-backup.plist").open("rb") as stream:
++            value = plistlib.load(stream)
++        self.assertEqual(value["ProgramArguments"],
++                         ["/usr/bin/open", "-W", "-g", "/Users/robertrhu/Applications/MemitGdriveBackup.app"])
++        self.assertEqual(value["StartInterval"], 21600)
++        self.assertIs(value["RunAtLoad"], False)
++
++    def test_nonzero_shell_script_is_caught_promptly_without_dialog(self):
++        source = ROOT/"tools/launchd/MemitGdriveBackup.applescript"
++        self.assertTrue(source.is_file(), "no-dialog applet source must exist")
++        marker = self.base/"failing-script-invoked"
++        stub = self.base/"failing-backup.sh"
++        stub.write_text('#!/bin/bash\nprintf invoked > "'+str(marker)+'"\nexit 1\n')
++        variant = self.base/"failure.applescript"
++        text = source.read_text()
++        variant_text = text.replace("/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_gdrive.sh", str(stub))
++        self.assertNotEqual(variant_text, text, "variant must actually invoke the exit-1 stub")
++        variant.write_text(variant_text)
++        compiled = self.base/"failure.scpt"
++        result = run_process(["/usr/bin/osacompile", "-o", str(compiled), str(variant)], timeout=10)
++        self.osa_result(result, "osacompile failure variant")
++        self.assertTrue(compiled.is_file())
++        start = time.monotonic()
++        result = run_process(["/usr/bin/osascript", str(compiled)], timeout=5)
++        self.osa_result(result, "osascript exit-1 variant")
++        self.assertLess(time.monotonic()-start, 5)
++        self.assertTrue(marker.is_file(), "positive control: the failing shell script was run")
++
++    def test_builder_compiles_applet_and_prints_complete_sha256_manifest(self):
++        script = ROOT/"tools/launchd/build_gdrive_applet.sh"
++        self.assertTrue(script.is_file(), "applet builder must exist")
++        app = self.base/"test backup.app"
++        result = run_process(["/bin/bash", str(script), str(app)], timeout=15)
++        self.osa_result(result, "build_gdrive_applet.sh")
++        self.assertTrue((app/"Contents/MacOS/applet").is_file())
++        files = {str(path):hashlib.sha256(path.read_bytes()).hexdigest() for path in app.rglob("*") if path.is_file()}
++        manifest = {}
++        for line in result.stdout.splitlines():
++            digest, path = line.split("  ", 1)
++            self.assertEqual(len(digest), 64)
++            self.assertNotIn(path, manifest)
++            manifest[path] = digest
++        self.assertEqual(manifest, files)
++        previous = manifest.copy()
++        refused = run_process(["/bin/bash", str(script), str(app)], timeout=10)
++        self.assertNotEqual(refused.returncode, 0, "builder must not overwrite an existing app bundle")
++        self.assertEqual({str(path):hashlib.sha256(path.read_bytes()).hexdigest() for path in app.rglob("*") if path.is_file()}, previous)
++
++
+ class ArchiveTest(Fixture):
+     def setUp(self):
+         super().setUp()

@@ -1,0 +1,15 @@
+{
+  "args": [
+    "/usr/bin/log",
+    "show",
+    "--last",
+    "5m",
+    "--style",
+    "compact",
+    "--predicate",
+    "process == \"osacompile\" OR (process == \"sandboxd\" AND eventMessage CONTAINS \"osa\")"
+  ],
+  "exit_code": 64,
+  "stdout": "",
+  "stderr": "log: Cannot run while sandboxed\n"
+}

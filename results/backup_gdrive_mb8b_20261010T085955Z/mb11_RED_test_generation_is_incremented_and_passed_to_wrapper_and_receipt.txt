@@ -1,0 +1,17 @@
+test_generation_is_incremented_and_passed_to_wrapper_and_receipt (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_generation_is_incremented_and_passed_to_wrapper_and_receipt) ... FAIL
+
+======================================================================
+FAIL: test_generation_is_incremented_and_passed_to_wrapper_and_receipt (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_generation_is_incremented_and_passed_to_wrapper_and_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1049, in test_generation_is_incremented_and_passed_to_wrapper_and_receipt
+    self.assertEqual(marker.read_text().splitlines()[-1], str(generation))
+AssertionError: 'missing' != '1'
+- missing
++ 1
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.028s
+
+FAILED (failures=1)

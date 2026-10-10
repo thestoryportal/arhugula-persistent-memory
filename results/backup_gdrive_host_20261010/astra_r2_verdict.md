@@ -1,0 +1,23 @@
+VERDICT: NO-GO
+
+1. **R1 finding 1 closed.** `tools/backup_gdrive.sh:126` sets `--retries 1`, retaining low-level retries. `tools/test_backup_gdrive.py:86` exercises archive v0 → upload v1 → another source disappears → source changes to v2. It requires archived v0 and destination v1. `red_retry_overlap.txt` records the pre-fix archive assertion failing.
+
+2. **R1 finding 2 closed.** `tools/backup_gdrive_status.py:31` rejects inherited settings and remote overrides; `:338` rejects skipped operations despite exit 0. Explicit safety flags are at `tools/backup_gdrive.sh:126`. Regressions at `tools/test_backup_gdrive_addendum.py:330`, `:343`, and `:640` cover `RCLONE_DRY_RUN=true`, `global.ignore_errors`, and “Skipped copy” with exit 0; `red_behavior.txt` records their pre-fix failures.
+
+3. **R1 finding 3 closed.** `tools/backup_gdrive.sh:77–83` acquires ownership before publishing start; `:52–59` publishes terminal state before unlocking. `tools/test_backup_gdrive_addendum.py:249` pauses B before acquisition, completes A, then requires B’s actual dispatch and incomplete status. Its pre-fix failure appears in `red_retry_overlap.txt`.
+
+4. **R1 finding 6 closed.** The admitted-B test above fixes the inadequate overlap test. `tools/backup_gdrive_status.py:160` now requires both suppression records at every attempt boundary. `tools/test_backup_gdrive_addendum.py:630` removes both first-attempt records and individual records; `red_behavior.txt` records the relevant failures.
+
+5. **P1 — pre-wrapper failures disappear.** `tools/launchd/MemitGdriveBackup.applescript:2–4` silently catches everything. Concrete schedule: successful backup, unmount `/Volumes/memit`, next launch. Bash cannot load the wrapper, so neither its log nor heartbeat changes; the applet exits normally. A previous success remains eligible as fresh until `tools/backup_gdrive_status.py:274` expires it. **Fix:** add a launcher failure receipt stored on the internal disk, written without loading volume-hosted code; have status reject a newer launch failure without overwriting an active owner’s heartbeat. Regression: seed fresh success, invoke an absent wrapper path, require prompt exit and failed status.
+
+6. **P2 — refusal receipts grow indefinitely.** `tools/backup_gdrive.sh:41,66–79` creates a unique file for every refusal, with no retention bound. A stale lock produces four daily files indefinitely; repeated manual invocations increase that rate. **Fix:** atomically maintain one separate latest-refusal receipt, or a fixed-size ring. Exercise 1,000 held-lock invocations and require bounded storage plus unchanged owner heartbeat.
+
+7. **none found — silent configuration refusal or credential disclosure in the new preflight.** Inspected `tools/backup_gdrive_status.py:31–54,328` and heartbeat ordering at `tools/backup_gdrive.sh:83–89`. Legitimate `RCLONE_CONFIG_PASS` and unrelated remote overrides can repeatedly refuse, but produce failed heartbeat status. In-memory probes confirmed these refusals and ordinary-token admission without exposing sentinel credential values.
+
+8. **none found — age-based misclassification of a live long run.** `tools/backup_gdrive_status.py:241–256` uses PID existence, not elapsed time. Sleeping processes remain incomplete; PID reuse can conceal deadness but cannot produce success or unlock. Mocked 69-hour, dead-PID and permission-denied cases matched this behavior.
+
+9. **Launcher lifecycle and activation conditions.** `tools/launchd/com.rhu.memit-gdrive-backup.plist:12–15` correctly waits for app termination; synchronous execution should hold the job and caught exit 75 should finish promptly. However, `tools/test_backup_gdrive_addendum.py:701` exercises `osascript`, not an app bundle through `open -W -g`. Verify that exact chain with a controlled long-running stub and exit-75 stub. First-access TCC can still prompt despite `try`; grant access interactively before unattended activation. [Apple documentation](https://developer.apple.com/documentation/bundleresources/information-property-list/nsremovablevolumesusagedescription). Ensure the grant invocation has finished before demanding a fresh kickstart heartbeat. Your remaining order is sound; retire the old job only after verified full-copy completion.
+
+No files changed. Host 64/64 is operator-reported; independently inspected code, hashes, RED receipts and in-memory probes.
+
+Graft: lookup failed before execution; no savings reported.

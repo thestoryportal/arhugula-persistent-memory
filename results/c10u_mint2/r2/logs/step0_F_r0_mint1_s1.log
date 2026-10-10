@@ -1,0 +1,28 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.36s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.39s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.68s/it]
+loaded Qwen/Qwen2.5-3B
+  capture Zorbland: avgprob=0.990222
+  capture Quaxil: avgprob=0.998867
+  capture Plurnak: avgprob=0.999430
+  capture Vythorn: avgprob=0.999376
+  capture Glimsto: avgprob=0.998893
+  capture Drennik: avgprob=0.992434
+  capture Yastovel: avgprob=0.998992
+  capture Crulpane: avgprob=0.997666
+  capture Mophgar: avgprob=0.999349
+  capture Brinduun: avgprob=0.996004
+  capture Trannak: avgprob=0.996705
+  capture Skornwell: avgprob=0.998577
+  capture Fluvane: avgprob=0.998236
+  capture Oxbarrow: avgprob=0.998106
+  capture Zephquin: avgprob=0.999299
+  capture Lurmaxen: avgprob=0.997386
+  capture Pradnoll: avgprob=0.983316
+  capture Kessivar: avgprob=0.997572
+  capture Wombryne: avgprob=0.999547
+  capture Halquin: avgprob=0.999444
+  capture Vorlex: avgprob=0.999843
+  capture Quenby: avgprob=0.997035
+  capture Marsduq: avgprob=0.996035
+  capture Thelby: avgprob=0.996990
+STEP0 F mint1 seed=1: ADMITTED

@@ -1,0 +1,170 @@
+{
+  "after": {
+    "C": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ccbb1f097d2eb39276db056128be98c9abac03884bc266220e67d592989145e9",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "K": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "dde2f9ffc6d40efe925848bc080184a7610df48d2ecb5149b85e93b8217db9d1",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "M": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "e39332e25cb89d3a22f776b9131597de9b442c0fbd57742bed0b495318008d83",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "P": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "71b3241cc5d281e0160a57233306f619c9507ee833c18936fadbd8ff43744612",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "R": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "cfe220f706b0ec107ab23e58b7e71f191edf3fc024ac0e9e696c63eecf883332",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "RHS": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "21e07aa0b886be150addb87be9fd75fbc1e86917c1fd93d4fac88763472314ee",
+      "shape": [
+        11008,
+        24
+      ]
+    }
+  },
+  "before": {
+    "C": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ccbb1f097d2eb39276db056128be98c9abac03884bc266220e67d592989145e9",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "K": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "dde2f9ffc6d40efe925848bc080184a7610df48d2ecb5149b85e93b8217db9d1",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "M": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "e39332e25cb89d3a22f776b9131597de9b442c0fbd57742bed0b495318008d83",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "P": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "71b3241cc5d281e0160a57233306f619c9507ee833c18936fadbd8ff43744612",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "R": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "cfe220f706b0ec107ab23e58b7e71f191edf3fc024ac0e9e696c63eecf883332",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "RHS": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "21e07aa0b886be150addb87be9fd75fbc1e86917c1fd93d4fac88763472314ee",
+      "shape": [
+        11008,
+        24
+      ]
+    }
+  },
+  "retained": {
+    "C": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ccbb1f097d2eb39276db056128be98c9abac03884bc266220e67d592989145e9",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "K": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "dde2f9ffc6d40efe925848bc080184a7610df48d2ecb5149b85e93b8217db9d1",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "M": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "e39332e25cb89d3a22f776b9131597de9b442c0fbd57742bed0b495318008d83",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "P": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "71b3241cc5d281e0160a57233306f619c9507ee833c18936fadbd8ff43744612",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "R": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "cfe220f706b0ec107ab23e58b7e71f191edf3fc024ac0e9e696c63eecf883332",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "RHS": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "21e07aa0b886be150addb87be9fd75fbc1e86917c1fd93d4fac88763472314ee",
+      "shape": [
+        11008,
+        24
+      ]
+    }
+  }
+}

@@ -5,9 +5,12 @@ and exits non-zero on ANY failure (HALT, with the diagnostic JSON the driver's h
   (i)   floor: the engine's compute_z three times on one request and ctx; floor = largest pairwise relative L2 distance;
         tolerance = 10 x floor, never below 1e-4 relative
   (ii)  compute_z_shared(prompts=[CANON]) within tolerance of engine run 0
-  (iii) compute_z_shared(prompts=[CANON, CANON, CANON]) within tolerance of engine run 0 (mean objective preserved; the
-        finite-precision effect of the batch-size change is what the measured tolerance absorbs)
-  (iv)  heterogeneous prompts [CANON, T1, T2] at step 0 (delta = 0): the function's per-prompt NLLs vs a reference from
+  (iii) §7 A2: compute_z_shared([CANON]*3) within tolerance of the UNMODIFIED engine run on the same 19-row batch
+        (R.ctx_triplicate); the 7-row vs 19-row engine distance is recorded (the v3 cross-shape rule HALTED on fp16
+        batch-shape rounding: results/c10s_sharedz_halt_analysis_2026-10-06.md)
+  (iv)  §7 A2: compute_z_shared([CANON, T1, T2]) within tolerance of the unmodified engine on a '{}' request with
+        R.ctx_heterogeneous (the same batch), the ordered plan equal to the engine's (R.plan_matches), lookup indices,
+        row count and KL row exact; RECORDED ONLY (not gated since A2): at step 0, the per-prompt NLLs vs a reference from
         plain single-sentence forward passes through the engine's loss path — the engine's reduction verbatim
         (R.engine_nll_each = compute_z.py:141-149: gather, float32 mask, sum, / len(target)); the design's "three forward
         passes" are the three phrasings — here one plain forward per rewriting prompt, i.e. the three phrasings under
@@ -34,8 +37,7 @@ H, hp, Z_LAYER = A.H, A.hp, A.Z_LAYER
 FLOOR_MULT = 10            # §2 (i): tolerance = 10 x floor
 TOL_MIN = 1e-4             # §2 (i): never below 1e-4 relative
 N_FLOOR_RUNS = 3           # §2 (i): three engine runs
-HET_NLL_TOL = 1e-4         # §2 (iv): per-prompt NLL at step 0 equals the plain-forward reference to 1e-4 (absolute)
-OUT = f"{A.OUT_DIR}/inertness.json"
+OUT = f"{A.OUT_DIR}/inertness.json"   # (iii) and (iv) gate on same-batch engine parity at the (i) tolerance (§7 A2)
 
 
 def quiet():
@@ -50,7 +52,7 @@ def dist(a, b):
 
 def engine_solve(rq, ctx):
     with quiet():
-        return A._engine_compute_z(H.model, H.tok, rq, hp, Z_LAYER, ctx).detach()
+        return A.engine_solve(H.model, H.tok, rq, hp, Z_LAYER, ctx, role="inertness").detach()
 
 
 def shared_solve(rq, ctx, prompts):
@@ -89,8 +91,8 @@ def reference_nll(sentence, target_ids, loss_layer, lm_w, ln_f, lm_b):
 def reference_nll_padded_batch(all_prompts, n_rewriting, subj, target_ids, loss_layer, lm_w, ln_f, lm_b):
     """v3 (review 2 item c): a SECOND reference on the SAME padded batch the shared solve uses, delta = 0, through the
     engine's own loss path (compute_z.py:53-65 batch + targets, :112-122 trace without an edit hook, :137-149 loss) —
-    shape-identical to the solve's batch. Recorded beside the frozen unpadded reference so a 1e-4 miss can be attributed
-    (forward-shape vs reduction) from the record; the HALT decision stays on the frozen reference."""
+    shape-identical to the solve's batch. Recorded beside the unpadded reference; since §7 A2 neither reference gates
+    (the gate is same-batch parity with the engine), they stay as the record of the step-0 rounding between shapes."""
     input_tok = H.tok([p.format(subj) for p in all_prompts], return_tensors="pt", padding=True).to(H.DEV)
     rewriting_targets = torch.tensor(-100, device=H.DEV).repeat(n_rewriting, *input_tok["input_ids"].shape[1:])
     for i in range(n_rewriting):
@@ -109,8 +111,16 @@ def reference_kl_logprobs(sentence, idx):
     return torch.log_softmax(H.model(**ids).logits[0, idx], dim=-1).float()   # log-softmax in the model dtype, as compute_z.py:132 does; fp32 only for the comparison
 
 
-def check_iv(rq, ctx):
+def check_iv(rq, ctx, eng0, tol):
+    """§7 A2 (iv): heterogeneous parity — compute_z_shared([CANON,T1,T2]) vs the unmodified engine on a '{}' request
+    with ctx_heterogeneous (the same batch), at the (i) tolerance; exact structure; step-0 references recorded only."""
     z, dg = shared_solve(rq, ctx, R.FRAMES)
+    ctx_het = R.ctx_heterogeneous(ctx, R.FRAMES)
+    rq_het = {**rq, "prompt": "{}"}
+    z_eng = engine_solve(rq_het, ctx_het)
+    parity = dist(z_eng, z)
+    target_prefix = H.tok.decode(H.tok(rq["target_new"]["str"], return_tensors="pt")["input_ids"][0][:-1])
+    plan_ok = R.plan_matches(dg["all_prompts"], ctx_het, "{}", target_prefix)
     loss_layer = max(hp.v_loss_layer, Z_LAYER)
     lm_w, ln_f, lm_b = lm_head()
     target_ids = H.tok(rq["target_new"]["str"], return_tensors="pt").to(H.DEV)["input_ids"][0]
@@ -139,8 +149,10 @@ def check_iv(rq, ctx):
     idx_all_ok = all(r["idx_ok"] for r in rows)
     n_expected = len(R.FRAMES) * sum(len(ct) for ct in ctx)
     kl_row_is_last = dg["n_rewriting"] == len(dg["all_prompts"]) - 1
-    ok = max_nll_diff <= HET_NLL_TOL and idx_all_ok and dg["n_rewriting"] == n_expected and kl_row_is_last   # the frozen reference decides
-    return {"ok": ok, "max_nll_abs_diff": max_nll_diff, "nll_tol": HET_NLL_TOL, "lookup_idx_all_ok": idx_all_ok, "kl_row_is_last": kl_row_is_last,
+    parts = {"engine_parity": parity["rel_l2"] <= tol, "plan_matches_engine": plan_ok, "lookup_idx_all_ok": idx_all_ok,
+             "n_rewriting_ok": dg["n_rewriting"] == n_expected, "kl_row_is_last": kl_row_is_last}
+    return {"ok": all(parts.values()), "parts": parts, "parity_vs_engine": parity, "tolerance": tol,
+            "vs_canonical_engine_recorded": dist(eng0, z), "max_nll_abs_diff_recorded": max_nll_diff, "lookup_idx_all_ok": idx_all_ok, "kl_row_is_last": kl_row_is_last,
             "max_nll_abs_diff_padded_batch_recorded": max(r["abs_diff_padded_batch"] for r in rows if "abs_diff_padded_batch" in r),
             "max_abs_diff_unpadded_vs_padded_refs_recorded": max(r["abs_diff_unpadded_vs_padded_refs"] for r in rows if "abs_diff_unpadded_vs_padded_refs" in r),
             "n_rewriting": dg["n_rewriting"], "n_expected": n_expected, "kl_ref_vs_init_recorded": kl_val, "kl_argmax_agree_recorded": int(ref_kl.argmax()) == int(init.argmax()),
@@ -156,8 +168,10 @@ def main():
     fp = A.fingerprint()
     ctx = get_context_templates(H.model, H.tok)
     c = H.FICTION[0]; rq = H.req(R.CANON, c, A.V[c])
-    rec = {"decision_id": A.DECISION_ID, "prereg": os.environ["PREREG"], "identity": identity, "fingerprint": fp, "z_layer": Z_LAYER, "hparams": H.HP_BASE,
+    rec = {**A.RECORD_SETTINGS, "decision_id": A.DECISION_ID, "prereg": os.environ["PREREG"], "identity": identity, "fingerprint": fp, "z_layer": Z_LAYER, "hparams": A.HP_PATH,
            "request": rq, "ctx": ctx, "checks": {}, "ok": False, "complete": False}
+    if A.ARM.name == "solvefeas":
+        rec["engine_solves"] = A.ENGINE_SOLVES
     A.dump(OUT, rec)
     try:
         # (i) floor
@@ -173,20 +187,26 @@ def main():
         A.dump(OUT, rec)
         print(f"(ii)  shared[CANON] vs engine run 0: rel {d1['rel_l2']:.3e} max-abs {d1['max_abs']:.3e} -> {'INERT' if d1['rel_l2'] <= tol else 'NOT INERT'}", flush=True)
         # (iii) triplicated prompt
-        z3, dg3 = shared_solve(rq, ctx, [R.CANON] * 3); d3 = dist(eng[0], z3)
-        rec["checks"]["iii_triplicate"] = {"ok": d3["rel_l2"] <= tol, **d3, "vs_all_engine_runs": [dist(e, z3)["rel_l2"] for e in eng], "solve": A.diag_record(dg3)}
+        # (iii) triplicated prompt — §7 A2: parity with the unmodified engine on the same 19-row batch (ctx_triplicate)
+        z3, dg3 = shared_solve(rq, ctx, [R.CANON] * 3)
+        eng_trip = engine_solve(rq, R.ctx_triplicate(ctx)); d3 = dist(eng_trip, z3)
+        shape_effect = dist(eng[0], eng_trip)                                          # 7-row vs 19-row engine: the halt diagnosis, recorded
+        rec["checks"]["iii_triplicate"] = {"ok": d3["rel_l2"] <= tol, **d3, "tolerance": tol, "engine_7row_vs_19row_recorded": shape_effect,
+                                           "vs_7row_engine_recorded": dist(eng[0], z3), "solve": A.diag_record(dg3)}
         A.dump(OUT, rec)
-        print(f"(iii) shared[CANON x3] vs engine run 0: rel {d3['rel_l2']:.3e} max-abs {d3['max_abs']:.3e} -> {'INERT' if d3['rel_l2'] <= tol else 'NOT INERT'}", flush=True)
-        # (iv) heterogeneous prompts at step 0
-        iv = check_iv(rq, ctx); rec["checks"]["iv_heterogeneous"] = iv
+        print(f"(iii) shared[CANON x3] vs engine on ctx_triplicate: rel {d3['rel_l2']:.3e} max-abs {d3['max_abs']:.3e} (tol {tol:.1e}); "
+              f"engine 7-row vs 19-row rel {shape_effect['rel_l2']:.3e} (recorded) -> {'INERT' if d3['rel_l2'] <= tol else 'NOT INERT'}", flush=True)
+        # (iv) heterogeneous prompts — §7 A2: parity with the unmodified engine on ctx_heterogeneous + exact structure
+        iv = check_iv(rq, ctx, eng[0], tol); rec["checks"]["iv_heterogeneous"] = iv
         A.dump(OUT, rec)
-        print(f"(iv)  [CANON,T1,T2] step 0: max |NLL - ref| {iv['max_nll_abs_diff']:.3e} (tol {HET_NLL_TOL}; same-padded-batch ref {iv['max_nll_abs_diff_padded_batch_recorded']:.3e} recorded); "
-              f"lookup idx ok {iv['lookup_idx_all_ok']}; KL row last {iv['kl_row_is_last']}; "
+        print(f"(iv)  [CANON,T1,T2] vs engine on ctx_heterogeneous: rel {iv['parity_vs_engine']['rel_l2']:.3e} max-abs {iv['parity_vs_engine']['max_abs']:.3e} (tol {tol:.1e}); "
+              f"{iv['parts']}; step-0 |NLL - ref| {iv['max_nll_abs_diff_recorded']:.3e} recorded; "
               f"n_rewriting {iv['n_rewriting']}/{iv['n_expected']}; recorded KL(ref||init) {iv['kl_ref_vs_init_recorded']:.3e} argmax agree {iv['kl_argmax_agree_recorded']} "
               f"-> {'INERT' if iv['ok'] else 'NOT INERT'} ({time.time()-t0:.0f}s)", flush=True)
         # (v) the harness's standing gate
         base_snap = H.snap_layers(hp); P = H.compute_P(hp)
-        gate = H.run_law5(hp, P, base_snap)
+        with A.count_nested_engine_solves():
+            gate = H.run_law5(hp, P, base_snap)
         rec["checks"]["v_harness_law5"] = {"ok": bool(gate["ok"]), **gate, "z_override_was_unset": H.Z_OVERRIDE is None}
         rec["complete"] = True
     except BaseException as e:   # the partial record (which checks passed, which failed, the numbers) persists before the failure propagates
@@ -198,7 +218,7 @@ def main():
     status = {k: rec["checks"].get(k, {}).get("ok") for k in R.INERTNESS_CHECKS}
     print(f"inertness {status} -> {'ALL INERT' if rec['ok'] else 'HALT'}; wrote {OUT}", flush=True)
     if not rec["ok"]:
-        A.halt("LAW#5 inertness failed", status=status, record=OUT, numbers={k: {kk: vv for kk, vv in rec["checks"].get(k, {}).items() if kk in ("rel_l2", "max_abs", "tolerance", "floor_rel_l2", "max_nll_abs_diff", "lookup_idx_all_ok", "expr_delta", "loc_delta")} for k in R.INERTNESS_CHECKS})   # [LAW:no-silent-failure]
+        A.halt("LAW#5 inertness failed", status=status, record=OUT, numbers={k: {kk: vv for kk, vv in rec["checks"].get(k, {}).items() if kk in ("rel_l2", "max_abs", "tolerance", "floor_rel_l2", "parts", "parity_vs_engine", "lookup_idx_all_ok", "expr_delta", "loc_delta")} for k in R.INERTNESS_CHECKS})   # [LAW:no-silent-failure]
     print("C10S_INERTNESS_DONE", flush=True)
     return 0
 

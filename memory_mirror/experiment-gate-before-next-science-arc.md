@@ -1,20 +1,7 @@
 ---
-date: 2026-06-27
-source: C10i session closeout / operator direction
-scope: LLM-as-Database workflow
+name: experiment-gate-before-next-science-arc
+description: "RETIRED 2026-10-10 — done; tools/experiment_gate.py landed 2026-06-27 (0c20f38); do not act on this note"
+metadata:
+  type: project
 ---
-
-# Experiment Gate Before Next Science Arc
-
-Before continuing the C10 AnyEdit science path, implement the repo-local experiment
-gate workflow from `docs/EXPERIMENT_GATE_SKILL_SPEC.md` and related assurance skills.
-The next fresh context should build durable gates into the workflow first, then
-resume experiments. The gate should not replace CORPUS or `closeout_check.py`; it
-should orchestrate pre-registration, LAW/inertness checks, saved-result validation,
-stats/bias audit, advisor-review, and handoff.
-
-High-leverage additions for this program: a method-replication/port-faithfulness gate
-for external method ports; systematic-debugging/root-cause-first discipline; verification-before-completion; scientific-critical-thinking/bias-audit; and explicit
-Framework Council/advisor-review trigger points. Framework Council is for spec
-contract framing and tension maps, not evidence confirmation. Advisor-review remains
-cross-family review before harnesses, approach changes, and verdicts.
+RETIRED 2026-10-10 by the memory audit (results/memory_audit_20261010/). The instruction was executed: tools/experiment_gate.py was added in commit 0c20f38 (2026-06-27); see [[method-ports-need-replication-faithfulness-gate]] for the port gate. Full prior text: `git show fd77f7e:memory_mirror/experiment-gate-before-next-science-arc.md`.

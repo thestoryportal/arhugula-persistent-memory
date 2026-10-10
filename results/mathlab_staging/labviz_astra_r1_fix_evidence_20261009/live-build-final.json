@@ -1,0 +1,9 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "tools/labviz/build.py"
+  ],
+  "exit_code": 0,
+  "elapsed_s": 28.399043290875852
+}

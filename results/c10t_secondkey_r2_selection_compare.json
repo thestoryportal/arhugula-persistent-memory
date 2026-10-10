@@ -1,0 +1,61 @@
+{
+  "published": "results/c10t_secondkey/step0.json",
+  "rerun": "results/c10t_secondkey_r2/step0.json",
+  "compared_keys": [
+    "facts",
+    "selection",
+    "requests",
+    "request_sha256",
+    "overlap",
+    "cov_cache_sha256"
+  ],
+  "differs": {
+    "facts": true,
+    "selection": false,
+    "requests": false,
+    "request_sha256": false,
+    "overlap": false,
+    "cov_cache_sha256": false
+  },
+  "identical": false,
+  "allowed_to_differ": [
+    "identity",
+    "ctx",
+    "seconds",
+    "fingerprint.stdout"
+  ],
+  "request_sha256": {
+    "published": {
+      "A7-second-B10": "fbea3436ea41ad3f47a3f399a5b25ebdd035b3292242018c17ed3b70fff3d05d"
+    },
+    "rerun": {
+      "A7-second-B10": "fbea3436ea41ad3f47a3f399a5b25ebdd035b3292242018c17ed3b70fff3d05d"
+    }
+  },
+  "facts_second_level": {
+    "n_facts": [
+      24,
+      24
+    ],
+    "non_ctx_fields_equal_all": true,
+    "admission_verdicts_and_requests_equal_all": true,
+    "non_ctx_fields": [
+      "admissible",
+      "admissible_n",
+      "cut_stability",
+      "leverage",
+      "leverage_layers",
+      "positions",
+      "sentence",
+      "subj",
+      "surprisal",
+      "value",
+      "value_ids"
+    ],
+    "ctx_equal": false,
+    "selection_equal": true,
+    "requests_equal": true,
+    "request_sha256_equal": true,
+    "scientific_content_identical": true
+  }
+}

@@ -1,10 +1,8 @@
 ---
 name: encode-recurring-discipline-as-a-gate
-description: "When a multi-item discipline keeps lapsing (or you're improving a process), the durable fix is a runnable exit-code GATE (a script the agent must pass), NOT more prose or a resolution to \"do better\" — prose norms that require checklist recall under load reliably fail"
-metadata: 
-  node_type: memory
+description: When a multi-item discipline keeps lapsing, build a runnable exit-code gate the agent must pass; prose norms needing checklist recall fail under load
+metadata:
   type: feedback
-  originSessionId: f4d82a89-8dda-448d-8fc0-cf79fc2d6af9
 ---
 
 The close-out drift this program hit (canonical trackers silently un-updated, operator had to catch it) was not a one-off lapse — it was the predictable failure of a **prose-only multi-item norm**. A checklist that lives in a doc and depends on the agent remembering all N items at the end of a long/fatigued session **will** get partially applied. Re-resolving to "be more thorough" does not fix it; the next long session lapses the same way.

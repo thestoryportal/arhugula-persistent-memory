@@ -1,0 +1,3 @@
+{"tier": "MATH-PROXY", "fixture": true, "stage": "begin-svd", "elapsed_s": 1.0831281542778015e-06, "peak_rss_gib": 0.1810455322265625}
+{"tier": "MATH-PROXY", "fixture": true, "stage": "input-allocated", "elapsed_s": 0.013544750167056918, "peak_rss_gib": 0.63323974609375}
+{"tier": "MATH-PROXY", "fixture": true, "stage": "full-projector-finished", "elapsed_s": 77.7115909580607, "peak_rss_gib": 4.6087799072265625}

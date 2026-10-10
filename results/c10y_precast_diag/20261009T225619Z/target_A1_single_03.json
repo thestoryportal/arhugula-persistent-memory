@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_03.pt": "e6635129844d25a0d380435f241189eaabe0aad1aebc8df72bdfd95ca6eae7c7"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Vythorn",
+    "target_new": {
+      "str": " Jerusalem"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_03.pt"
+  }
+}

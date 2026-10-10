@@ -1,0 +1,3 @@
+# Correction to s_new1_b_halt_diagnostic.json (2026-10-10, MAESTRO3; Astra ruling new1_identity_diag_astra.md)
+
+The diagnostic's `observed.inference` ("count check very likely passed; failure is SHA mismatch AND >1e-6 probe error") is NOT established. It used the B-measurement's native count, not the halted worker's; the worker logged neither its count nor which check failed (`tools/new1_geometry.py:230–240` returns on count mismatch before SHA/probes). Status after the identity diagnostic (`results/mathlab_staging/new1_identity_diag/identity_20261010T063237.614949Z/`): capture reproducible in that configuration; original run = INVALID-WORKER, cause unresolved, worker-path discrepancy suspected. The original JSON is left unchanged.

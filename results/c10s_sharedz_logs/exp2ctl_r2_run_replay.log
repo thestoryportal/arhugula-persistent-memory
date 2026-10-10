@@ -1,0 +1,235 @@
+Cloning into '/Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r2'...
+HEAD is now at 92acd03 edit: preserve keys at the value-token positions (coined value words double as subjects) + overlap/leak diagnostics
+READY: /Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r2
+base_commit: 92acd0378d23f4935df9a8bccc0137b36695a40f
+runtime_link: /Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r2/.venv -> /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.venv
+edit_py_sha256: 60556b67bf70062703309fb3ee7232da3f51c4fdf3615a170f0643f9f62baa82
+diff_sha256: 2eb6b215b1d659451e82d24ba972768770cebd5b0f5fd14395892ca1d6497fcf
+permitted_diff: PASS (weight 1; A1 nonzero common-position gather and inert audit additions only)
+before the GPU window: close the autoresearch loop and model servers (Ollama/llama.cpp/LM Studio)
+in the break, run: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/autoresearch_c10/replay_exp2/tokenizer_precheck.py /Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r2
+tokenizer equality must pass within 3600s of dispatch; this setup does not run it
+diff --git a/edit.py b/edit.py
+index 60f49ff..5723eec 100644
+--- a/edit.py
++++ b/edit.py
+@@ -12,6 +12,16 @@ Methods the baseline implements:
+   AlphaEdit Fang et al. AlphaEdit: Null-Space Constrained Knowledge Editing for Language Models. arXiv:2410.02355
+ """
+ 
++import hashlib
++import json
++import os
++import re
++import sys
++
++_REPLAY_EDIT_PATH = os.path.realpath(__file__)
++with open(_REPLAY_EDIT_PATH, "rb") as _replay_file:
++    _REPLAY_EDIT_SHA256 = hashlib.sha256(_replay_file.read()).hexdigest()
++
+ import torch
+ 
+ from prepare import (model, tok, DEV, COV_LAYERS, request, load_hparams, evaluate,
+@@ -30,7 +40,7 @@ KL_FACTOR = 0.0625          # weight of the KL term that keeps "<subject> is a"
+ V_WEIGHT_DECAY = 0.5        # L2 on delta z during the solve
+ RIDGE = 1.0                 # L2 added to the per-layer least-squares solve
+ NULL_THRESH = 0.005         # eigenvalues of the key covariance below this span the projector's null space
+-PRESERVE_WEIGHT = 1.0       # weight of the keys at the value-token positions in the solve (the write must not fire there)
++PRESERVE_WEIGHT = 1.0       # coefficient of count-matched common-canonical-prefix keys
+ 
+ # ---------------------------------------------------------------------------
+ # Setup: hyperparameters, projectors
+@@ -57,29 +67,104 @@ WEIGHTS = {l: dict(model.named_parameters())[f"{HP.rewrite_module_tmp.format(l)}
+ # ---------------------------------------------------------------------------
+ 
+ 
++def select_common_positions(tokenizer, rq, template, fact_i, template_i, ids, tgt):
++    """Amendment A1: exclude absolute position zero before the cyclic selection."""
++    if rq["prompt"] != "The capital of {} is the city of" or template.count("{}") != 1:
++        raise ValueError("unexpected canonical prompt or context wrapper")
++    prefix = template.format(rq["prompt"].format(rq["subject"]))
++    encoded = tokenizer(prefix, return_offsets_mapping=True)
++    if encoded["input_ids"] != ids:
++        raise ValueError("offset mapping changed original prefix IDs")
++    before, after = rq["prompt"].split("{}")
++    lead = len(template.split("{}")[0])
++    subject_span = [lead + len(before), lead + len(before) + len(rq["subject"])]
++    spans = [[m.group(), lead + m.start(), lead + m.end()] for m in re.finditer(r"\S+", before)]
++    spans += [[m.group(), subject_span[1] + m.start(), subject_span[1] + m.end()] for m in re.finditer(r"\S+", after)]
++    candidates = []
++    for word, word_a, word_b in spans:
++        matches = []
++        for idx, (a, b) in enumerate(encoded["offset_mapping"]):
++            if a == b:
++                continue
++            piece = prefix[a:b]
++            aa = a + len(piece) - len(piece.lstrip())
++            bb = b - len(piece) + len(piece.rstrip())
++            if (aa, bb) == (word_a, word_b) and piece.strip() == word:
++                matches.append(idx)
++        if len(matches) != 1:
++            raise ValueError(f"common word must occupy one unambiguous token: {word!r} {matches}")
++        candidates.append(matches[0])
++    if [s[0] for s in spans] != ["The", "capital", "of", "is", "the", "city", "of"] or len(set(candidates)) != 7:
++        raise ValueError("seven distinct canonical word positions required")
++    candidates = [idx for idx in candidates if idx != 0]
++    K = len(candidates)
++    m = len(tgt)
++    if not 1 <= m <= K:
++        raise ValueError(f"target length {m} exceeds available A1 candidates {K}")
++    start = (fact_i + template_i) % K
++    indices = [candidates[(start + j) % K] for j in range(m)]
++    if len(set(indices)) != m or any(not 0 < k < len(ids) for k in indices):
++        raise ValueError("control indices must be distinct prefix positions")
++    for idx in indices:
++        a, b = encoded["offset_mapping"][idx]
++        if max(a, subject_span[0]) < min(b, subject_span[1]):
++            raise ValueError("control index overlaps subject")
++    return {"fact_i": fact_i, "template_i": template_i, "subject": rq["subject"],
++            "target": rq["target_new"]["str"], "prefix": prefix, "prefix_ids": ids,
++            "target_ids": tgt, "input_ids": ids + tgt, "offsets": [list(x) for x in encoded["offset_mapping"]],
++            "subject_span": subject_span, "word_spans": spans, "candidates": candidates,
++            "indices": indices, "value_indices": list(range(len(ids), len(ids) + m))}
++
++
+ @torch.no_grad()
+ def value_keys(layer, requests, ctx):
+-    """MLP keys (down_proj inputs) at every token of each fact's value, in context: positions the write must leave alone.
+-    Returns [key_dim, n_positions]."""
+-    grabbed, cols = [], []
++    """Count-matched common-prefix keys and audit-only original value keys, from the same captured forwards."""
++    grabbed, cols, real_cols, manifest = [], [], [], []
+     hook = model.get_submodule(HP.rewrite_module_tmp.format(layer)).register_forward_hook(lambda m, inp, out: grabbed.append(inp[0][0]))
+     try:
+-        for rq in requests:
++        for fact_i, rq in enumerate(requests):
+             tgt = tok(rq["target_new"]["str"], add_special_tokens=False)["input_ids"]
+-            for t in [t for group in ctx for t in group]:
++            for template_i, t in enumerate([t for group in ctx for t in group]):
+                 ids = tok(t.format(rq["prompt"].format(rq["subject"])))["input_ids"]
++                positions = select_common_positions(tok, rq, t, fact_i, template_i, ids, tgt)
+                 grabbed.clear()
+                 model(torch.tensor([ids + tgt], device=DEV))
+-                cols.append(grabbed[0][len(ids):].float().cpu())
++                if len(grabbed) != 1 or grabbed[0].shape[0] != len(ids) + len(tgt):
++                    raise ValueError("unexpected captured forward shape")
++                original = grabbed[0][len(ids):].float().cpu()
++                identity = grabbed[0][positions["value_indices"]].float().cpu()
++                if not torch.equal(original, identity):
++                    raise ValueError("suffix/explicit-gather primitive identity failed")
++                control = grabbed[0][positions["indices"]].float().cpu()
++                if control.shape != original.shape or not bool(torch.isfinite(control).all()) or not bool(torch.isfinite(original).all()):
++                    raise ValueError("nonfinite or count-mismatched gathered keys")
++                cols.append(control)
++                real_cols.append(original)
++                manifest.append(positions)
+     finally:
+         hook.remove()
+-    return torch.cat(cols).T
++    return torch.cat(cols).T, torch.cat(real_cols).T, manifest
+ 
+ 
+ def apply_edit(facts):
+     """Write facts = [(subject, value)] into the model in place."""
+     requests = [request(s, v) for s, v in facts]
+     ctx = get_context_templates(model, tok)
++    _replay_context_sha = hashlib.sha256(json.dumps(ctx).encode()).hexdigest()
++    print(f"executed_edit_py_sha256: {_REPLAY_EDIT_SHA256}", flush=True)
++    print(f"edit_context_templates_sha256: {_replay_context_sha}", flush=True)
++    if _replay_context_sha != "e8605172dce01aaafbf3f23a4d68d05dde756a9b65ec9060962fedc1369fb330" or sum(map(len, ctx)) != 6:
++        raise ValueError("edit-time contexts differ from the realized-list anchor")
++    _replay_caller = sys._getframe(1).f_locals
++    _replay_arm = _replay_caller["arm"]
++    _replay_run_dir = os.path.realpath(_replay_caller["run_dir"])
++    _replay_launch_path = os.environ["REPLAY_LAUNCH_PATH"]
++    with open(_replay_launch_path, "rb") as _replay_file:
++        _replay_launch_bytes = _replay_file.read()
++    _replay_launch = json.loads(_replay_launch_bytes)
++    if _replay_launch["invocation_id"] != os.environ["REPLAY_INVOCATION_ID"] or _replay_launch["edit_py_sha256"] != _REPLAY_EDIT_SHA256:
++        raise ValueError("invocation or executed source disagrees with runner launch")
++    _replay_manifest, _replay_layers = None, []
+     z_layer = LAYERS[-1]
+     zs = torch.stack([compute_z(model, tok, rq, HP, z_layer, ctx) for rq in requests], dim=1)   # target hidden state per fact
+ 
+@@ -91,19 +176,39 @@ def apply_edit(facts):
+     gap0 = (zs - current()).norm(dim=0)
+     for i, layer in enumerate(LAYERS):
+         K = compute_ks(model, tok, requests, HP, layer, ctx).T          # keys at this layer, one column per (fact, template)
+-        Kp = value_keys(layer, requests, ctx)                            # keys at the value tokens, one column per (fact, template, token)
++        Kp, _replay_real, _replay_positions = value_keys(layer, requests, ctx)
+         resid = (zs - current()).repeat_interleave(K.size(1) // zs.size(1), dim=1) / (len(LAYERS) - i)   # spread the remaining gap over the remaining layers
+         Kf, rf = K.float().cpu(), resid.float().cpu()
+         A = P[i] @ (Kf @ Kf.T + PRESERVE_WEIGHT * Kp @ Kp.T) + RIDGE * torch.eye(Kf.shape[0])
+         B = P[i] @ Kf @ rf.T
+         upd = upd_matrix_match_shape(torch.linalg.solve(A, B).T.float(), WEIGHTS[layer].shape)
++        if _replay_manifest is None:
++            _replay_manifest = _replay_positions
++        elif _replay_manifest != _replay_positions:
++            raise ValueError("position manifest changed across layers")
++        _replay_columns = {"A1_single": 144, "A2_coherent2": 288, "A7_coined_coined": 792}[_replay_arm]
++        if list(Kp.shape) != [11008, _replay_columns] or Kp.shape != _replay_real.shape or not bool(torch.isfinite(upd).all()):
++            raise ValueError("invalid preserve-matrix shape or nonfinite update")
++        _replay_layers.append({"layer": layer, "control_columns": Kp.shape[1], "value_columns": _replay_real.shape[1],
++            "key_dim": Kp.shape[0], "update_shape": list(upd.shape), "finite": True, "identity_equal": True,
++            "position_sha256": hashlib.sha256(json.dumps(_replay_positions).encode()).hexdigest(),
++            "control_sumsq": float(Kp.square().sum()), "value_sumsq": float(_replay_real.square().sum()),
++            "control_PKp_fro": float((P[i] @ Kp).norm()), "value_PKp_fro": float((P[i] @ _replay_real).norm()),
++            "update_fro_precast": float(upd.norm())})
+         cos = (Kf / Kf.norm(dim=0)).T @ (Kp / Kp.norm(dim=0))
+-        print(f"layer {layer}: subject/value key overlap max {cos.max():.2f} mean-of-max {cos.max(1).values.mean():.2f} | "
++        print(f"layer {layer}: Kp_source=common_canonical_prefix subject/preserve key overlap max {cos.max():.2f} mean-of-max {cos.max(1).values.mean():.2f} | "
+               f"leak ||dW Kp||/||dW K|| {float((upd @ Kp).norm() / (upd @ Kf).norm()):.3f}", flush=True)
+         with torch.no_grad():
+             WEIGHTS[layer][...] += upd.to(WEIGHTS[layer].device, WEIGHTS[layer].dtype)
+     left = (zs - current()).norm(dim=0) / gap0
+     print(f"unrealized residual fraction mean {left.mean():.3f} max {left.max():.3f}", flush=True)
++    _replay_record = {"arm": _replay_arm, "invocation_id": _replay_launch["invocation_id"], "run_dir": _replay_run_dir,
++        "executed_edit_py_sha256": _REPLAY_EDIT_SHA256, "launch_sha256": hashlib.sha256(_replay_launch_bytes).hexdigest(),
++        "edit_context_templates_sha256": _replay_context_sha, "edit_context_templates": ctx,
++        "Kp_source": "common_canonical_prefix", "preserve_weight": PRESERVE_WEIGHT,
++        "positions": _replay_manifest, "layers": _replay_layers}
++    with open(os.path.join(_replay_run_dir, "replay_provenance.jsonl"), "a") as _replay_file:
++        _replay_file.write(json.dumps(_replay_record, allow_nan=False) + "\n")
+ 
+ 
+ # ---------------------------------------------------------------------------
+-r--r--r--  1 robertrhu  staff  310 Oct  6 22:25 /Volumes/memit/llm-database-poc-mirror/autoresearch_replay_c10_exp2loc_r2/.gitignore
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+REFUSED: tokenizer precheck: unpermitted tracked-file change: graft/.cache/ask-index.json
+PRECHECK_FAILED
+REPLAY_EXIT=precheck

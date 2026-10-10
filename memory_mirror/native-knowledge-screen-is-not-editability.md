@@ -1,10 +1,8 @@
 ---
 name: native-knowledge-screen-is-not-editability
-description: "A native-knowledge screen (model knows the fact) is necessary-not-sufficient for an edit-corruption substrate; editability (clean subject + expressible counterfactual) is the real gate, and weight-destruction ≠ corruption."
-metadata: 
-  node_type: memory
+description: A native-knowledge screen is necessary-not-sufficient for an edit substrate; editability is the gate; '!' garbage = weight destruction, not corruption
+metadata:
   type: project
-  originSessionId: ab1e2081-77d6-4198-ab85-1ae87b06cbe3
 ---
 
 C1 true-scale (D-C1TS-1, `docs/C1_TRUESCALE_SUBSTRATE_DIAGNOSTIC.md`, 2026-06-25). The long-gated C1 falsifier (B3N cond-3: does compaction stay clean at the spec's ≥2,000-edit regime?) needs a high-cardinality real-knowledge substrate. `city→country` screened 2,631 facts the model natively knows (single-token country) — looked like the gate was finally cleared. It was not.

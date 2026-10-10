@@ -1,0 +1,10 @@
+c7e337e D-NEW1-fid: record native-fp32 projector-fidelity warning (L4: 2363 vs 2364 excluded dims fp32 vs float64)
+a2deb37 Checkpoint: MAESTRO2 -> MAESTRO3 handoff (NEW-1 B-robust + fidelity note in flight; rclone in progress)
+00f4726 Astra: NEW-1 B-variant ruling (boundary-robust covariance geometry); operator approved it + projector-fidelity note (D-NEW1-b build -> MB4; D-NEW1-fid -> MB3)
+075771d NEW-1 option B measurement (L4, CPU): float64 SVD 159 s, profile 258 s, peak RSS 8.06 GiB; all float64 gates pass (svd 1.4e-13, psd 2.7e-10, orth 1.2e-14) but required equal-cutoff-count check FAILS (fp32 2363 vs f64 2364 excluded; rank-2364 sigma 0.0049956 fp32 vs 0.0050072 f64). B blocked; draft only.
+88a2af3 Checkpoint: D-C10z-a4 closed; NEW-1 halted after A1, operator chose option B (measure first); Astra options packet; rclone status; traps
+77835e8 NEW-1 HALT: D-NEW1-a1 (float64 check products) did not clear the frozen covariance gate (svd 1.3039e-4, psd 1.5125e-4, orth 1.61e-5 > 1e-5; essentially unchanged) -> residual is in the native-fp32 SVD itself. Halt diagnostic + run records (incl. teamdash admission-race non-run). Remaining options are substantive prereg amendments -> operator.
+15ff37a Astra GO on D-NEW1-a1 (scope faithful, blocked float64 checks correct, pins current); float64 block GEMM probe 712 GFLOP/s -> checks ~56 s total
+37bdd09 WIP D-NEW1-a1: prereg Amendment A1 (float64 promotion before scaling/blocked products in covariance validity checks; SVD/Q/P/tolerances unchanged; new prereg SHA 216e8cfa) + test-first check change (84 CPU tests pass); Astra review pending
+626d039 Astra: NEW-1 L4 covariance gate halt = FAITHFUL-GATE-FAILURE; first-choice amendment (float64 promotion before scaling/blocked products in validity checks only) adopted as D-NEW1-a1 under team delegation, routed to MB3 test-first
+1f281cf NEW-1 relaunch (Astra GO on scoped LAB-STOP fix) HALTED INVALID-WORKER at L4: frozen covariance validity gate failed (svd 1.30e-4, psd 1.51e-4, orth 1.94e-5 > 1e-5) on the prereg-mandated native-fp32 SVD; prediction NOT COMPUTED. Records + Astra fix GO. No fix attempted (halt discipline); Astra ruling pending.

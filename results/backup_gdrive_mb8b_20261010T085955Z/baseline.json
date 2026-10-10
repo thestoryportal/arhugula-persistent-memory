@@ -1,0 +1,67 @@
+{
+  "utc": "2026-10-10T08:59:55.107749+00:00",
+  "receipt": "results/backup_gdrive_mb8b_20261010T085955Z",
+  "branch": "worktree-c10k-route-a",
+  "head": "5200f6301a5bab2c265d5477c53f93703613a615",
+  "allowed": {
+    "tools/backup_gdrive.sh": {
+      "sha256": "506ce31845bcbe812261ce128f2119f247cfe270e69b8af08e9a612207aed9ce",
+      "bytes": 6786
+    },
+    "tools/backup_gdrive_status.py": {
+      "sha256": "f5c98ad6adb3530ac215befbfcedc94a63368a9d153186864f67823db7c40b25",
+      "bytes": 21547
+    },
+    "tools/launchd/MemitGdriveBackup.applescript": {
+      "sha256": "ebafee3ad82a4376ec5dda0fbc823f2170c795cddd56d62f5ede730d6d5c3bab",
+      "bytes": 1660
+    },
+    "tools/launchd/build_gdrive_applet.sh": {
+      "sha256": "f7ca5a5b7928faa1bc24d12ac38cdd8c6ee21ad1684e9bc7579ac8cd1260189b",
+      "bytes": 507
+    },
+    "tools/launchd/com.rhu.memit-gdrive-backup.plist": {
+      "sha256": "702868b81899f9f5624e9931af4586321dfccce3a46dda895d4ce6f9659cedce",
+      "bytes": 1139
+    },
+    "tools/test_backup_gdrive.py": {
+      "sha256": "3e8535a8a9440a41634af8034350f6fd446440e9adecaa5be1c2c47ce651bff5",
+      "bytes": 17545
+    },
+    "tools/test_backup_gdrive_addendum.py": {
+      "sha256": "efa0c4e8047279bafe4dd04cfabb2b7839ff68ea012618f93b53cfd44785d985",
+      "bytes": 61234
+    },
+    "results/backup_gdrive_build_report.md": {
+      "sha256": "97f8218ba173ece5e7923fc92a854da5400ca246ef6bd646114b63476c137c62",
+      "bytes": 56406
+    }
+  },
+  "protected": {
+    "CLAUDE.md": {
+      "sha256": "e72e6940ee7a1748dc024c1828d4baeabc7820670a8fc0cf749cc25511a6bafb",
+      "bytes": 15477
+    },
+    "AGENTS.md": {
+      "sha256": "12279b3ccff7fbacb1b9dd6a824c433c2df4c520985bb196773311ff931f58d0",
+      "bytes": 22985
+    },
+    "EXPERIMENT_RUNBOOK.md": {
+      "sha256": "efef630f43e95f433a1beaa741c1609361b87bbc7ca0de8e3cd24d722272e41e",
+      "bytes": 451505
+    },
+    "tools/backup_mirror.excludes": {
+      "sha256": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+      "bytes": 521
+    },
+    "tools/test_dashboard_mathlab.py": {
+      "sha256": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e",
+      "bytes": 44754
+    }
+  },
+  "budget_bytes": 20971520,
+  "free_bytes": {
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a": 91801546752,
+    "/private/tmp": 212195536896
+  }
+}

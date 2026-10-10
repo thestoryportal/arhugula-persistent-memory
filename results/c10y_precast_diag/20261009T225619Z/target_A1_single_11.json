@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_11.pt": "f3f011a3784b8984189e3a6b2119b2916021c0ec85b87b7cb55569b425faec94"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Skornwell",
+    "target_new": {
+      "str": " Bangkok"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_11.pt"
+  }
+}

@@ -1,10 +1,21 @@
 ---
-date: 2026-06-27
-source: operator workflow critique after methodology skill deployment
-scope: Codex/Claude science workflow
+name: skills-are-contracts-not-agents
+description: "Skills are contracts, not agents: a SKILL.md adds no reasoning or tools; agentize or tool high-value reasoning (scripts, reviewers, subagents)"
+metadata:
+  type: feedback
 ---
 
 # Skills Are Contracts, Not Agents
+
+Source: operator workflow critique after the methodology-skill deployment (2026-06-27); scope: Codex/Claude science workflow.
+
+Source: operator workflow critique after the methodology-skill deployment (2026-06-27); scope: Codex/Claude science workflow.
+
+Source: operator workflow critique after the methodology-skill deployment (2026-06-27); scope: Codex/Claude science workflow.
+
+Source: operator workflow critique after the methodology-skill deployment (2026-06-27); scope: Codex/Claude science workflow.
+
+Source: operator workflow critique after the methodology-skill deployment (2026-06-27); scope: Codex/Claude science workflow.
 
 Codex/Claude skills are semantic operating instructions plus optional referenced
 assets/scripts. A `SKILL.md` does not create independent reasoning, autonomy, or

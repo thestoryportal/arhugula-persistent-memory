@@ -1,0 +1,243 @@
+{
+  "cpu_only": true,
+  "torch_version": "2.8.0",
+  "threads": 8,
+  "priority": "unchanged; nice(10) refused by sandbox",
+  "elapsed_s": 1.0560532079543918,
+  "forbidden_imports": [],
+  "manifest_path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/manifest.json",
+  "manifest_sha256": "bb9a6f9ad76678ae2289151c9fa64fb0033a6b8b2d7aff0b9a03150180f1ba7e",
+  "input_artifacts": {
+    "inloop_A7_coined_coined.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/inloop_A7_coined_coined.pt",
+      "sha256": "abb882982f406ddd5d6536529ce49dee8f31ad3b3243495e93687266e7c6582f",
+      "bytes": 463160213
+    },
+    "weights_A7.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/weights_A7.pt",
+      "sha256": "5b63bab42911738204319d3b15e98814a6c41a025b32b717fd4e35e2a1415fe5",
+      "bytes": 450891077
+    },
+    "inloop_A1_single.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/inloop_A1_single.pt",
+      "sha256": "21beed0af38dc294925e5441a4d1a4612510c9d924c2a50c534328df8709a500",
+      "bytes": 12271076
+    },
+    "inloop_A2_coherent2.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/inloop_A2_coherent2.pt",
+      "sha256": "5246d732956f9d9bf6a311c951c50a4dcb2880b961fabf04758ceb60175f3c2b",
+      "bytes": 12271076
+    },
+    "inloop_mint1_s0.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/inloop_mint1_s0.pt",
+      "sha256": "d22637a88bdb3451d0b004550976f89d06d039444cedf314e35c5053d4e96695",
+      "bytes": 12271076
+    },
+    "inloop_mint1_s1.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/inloop_mint1_s1.pt",
+      "sha256": "e43135fe87ad16389c19f5a235baefa0a1fa608f6765800dafd287a7c3240979",
+      "bytes": 12271076
+    },
+    "inloop_mint1_s2.pt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab/harvest_20261009T184950.056951Z/inloop_mint1_s2.pt",
+      "sha256": "e335968070d8c576bac0b9c62459c9c6351b4d59546726a83606ffe42126d628",
+      "bytes": 12271076
+    }
+  },
+  "paired_A7": [
+    {
+      "layer": 4,
+      "shape": [
+        2048,
+        11008
+      ],
+      "stride": [
+        11008,
+        1
+      ],
+      "dtype": "torch.float32",
+      "fp32_norm": 15.804805755615234,
+      "fp32_norm_one_thread": 15.804805755615234,
+      "fp64_norm": 15.83515459885827,
+      "historical_norm": 15.804805755615234,
+      "fp64_vs_fp32": 0.0019202288033343144,
+      "fp32_vs_history": 0.0,
+      "fp64_vs_history": 0.0019202288033343144,
+      "fp16_cast_norm64": 15.835156119501335,
+      "cast_norm_change": 9.602956854126135e-08,
+      "cast_tensor_relative_error": 0.0002072489383676643,
+      "realized_delta_norm64": 15.835168415930239,
+      "realized_norm_change": 8.725568090976184e-07
+    },
+    {
+      "layer": 5,
+      "shape": [
+        2048,
+        11008
+      ],
+      "stride": [
+        11008,
+        1
+      ],
+      "dtype": "torch.float32",
+      "fp32_norm": 12.016457557678223,
+      "fp32_norm_one_thread": 12.016457557678223,
+      "fp64_norm": 12.063987313158341,
+      "historical_norm": 12.016457557678223,
+      "fp64_vs_fp32": 0.003955388287436512,
+      "fp32_vs_history": 0.0,
+      "fp64_vs_history": 0.003955388287436512,
+      "fp16_cast_norm64": 12.06398751851772,
+      "cast_norm_change": 1.7022512868151745e-08,
+      "cast_tensor_relative_error": 0.000207451919440621,
+      "realized_delta_norm64": 12.064003373710351,
+      "realized_norm_change": 1.331280578567193e-06
+    },
+    {
+      "layer": 6,
+      "shape": [
+        2048,
+        11008
+      ],
+      "stride": [
+        11008,
+        1
+      ],
+      "dtype": "torch.float32",
+      "fp32_norm": 11.939905166625977,
+      "fp32_norm_one_thread": 11.939905166625977,
+      "fp64_norm": 11.989913555981737,
+      "historical_norm": 11.939905166625977,
+      "fp64_vs_fp32": 0.004188340582096239,
+      "fp32_vs_history": 0.0,
+      "fp64_vs_history": 0.004188340582096239,
+      "fp16_cast_norm64": 11.989917384732657,
+      "cast_norm_change": 3.193309861650494e-07,
+      "cast_tensor_relative_error": 0.0002073295937671563,
+      "realized_delta_norm64": 11.989928380064494,
+      "realized_norm_change": 1.2363794524918637e-06
+    },
+    {
+      "layer": 7,
+      "shape": [
+        2048,
+        11008
+      ],
+      "stride": [
+        11008,
+        1
+      ],
+      "dtype": "torch.float32",
+      "fp32_norm": 19.893465042114258,
+      "fp32_norm_one_thread": 19.893465042114258,
+      "fp64_norm": 19.983065585923462,
+      "historical_norm": 19.893465042114258,
+      "fp64_vs_fp32": 0.00450401896399251,
+      "fp32_vs_history": 0.0,
+      "fp64_vs_history": 0.00450401896399251,
+      "fp16_cast_norm64": 19.98306934205782,
+      "cast_norm_change": 1.8796587250649655e-07,
+      "cast_tensor_relative_error": 0.00020737490761552811,
+      "realized_delta_norm64": 19.983079658083057,
+      "realized_norm_change": 7.042042440149448e-07
+    },
+    {
+      "layer": 8,
+      "shape": [
+        2048,
+        11008
+      ],
+      "stride": [
+        11008,
+        1
+      ],
+      "dtype": "torch.float32",
+      "fp32_norm": 27.774242401123047,
+      "fp32_norm_one_thread": 27.774242401123047,
+      "fp64_norm": 27.94148530296295,
+      "historical_norm": 27.774242401123047,
+      "fp64_vs_fp32": 0.006021510845355759,
+      "fp32_vs_history": 0.0,
+      "fp64_vs_history": 0.006021510845355759,
+      "fp16_cast_norm64": 27.94148401264226,
+      "cast_norm_change": -4.617938793932947e-08,
+      "cast_tensor_relative_error": 0.00020752475252519228,
+      "realized_delta_norm64": 27.941501440417525,
+      "realized_norm_change": 5.775446223136326e-07
+    }
+  ],
+  "target_checks": {
+    "mint1_s0": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/zs/F_r0_mint1_s0.pt",
+      "sha256": "2b1ba55514cb7abd4b23e48424e4556a029c6f1ad70a7102f49e79e1173e8938",
+      "source_shape": [
+        24,
+        2048
+      ],
+      "source_dtype": "torch.float32",
+      "same_target_every_layer": true,
+      "layer4_K_equals_A7": true,
+      "layer4_cur_equals_A7": true,
+      "same_projectors_as_A7": true,
+      "zero_cache_every_layer": true,
+      "precast_updates_retained": false
+    },
+    "mint1_s1": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/zs/F_r0_mint1_s1.pt",
+      "sha256": "a931e80572e8f62983cc6e45d7c47a0d5e2a59d0b7513cef2059900cb3b16003",
+      "source_shape": [
+        24,
+        2048
+      ],
+      "source_dtype": "torch.float32",
+      "same_target_every_layer": true,
+      "layer4_K_equals_A7": true,
+      "layer4_cur_equals_A7": true,
+      "same_projectors_as_A7": true,
+      "zero_cache_every_layer": true,
+      "precast_updates_retained": false
+    },
+    "mint1_s2": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10u_mint2/r3/zs/F_r0_mint1_s2.pt",
+      "sha256": "88c8e6a5928a4140988b27f8d33abae860cac1cdc5a7949b67f8566758f28e35",
+      "source_shape": [
+        24,
+        2048
+      ],
+      "source_dtype": "torch.float32",
+      "same_target_every_layer": true,
+      "layer4_K_equals_A7": true,
+      "layer4_cur_equals_A7": true,
+      "same_projectors_as_A7": true,
+      "zero_cache_every_layer": true,
+      "precast_updates_retained": false
+    }
+  },
+  "arm_inputs": {
+    "A1_single": {
+      "layer4_K_equals_A7": true,
+      "layer4_cur_equals_A7": true,
+      "same_projectors_as_A7": true
+    },
+    "A2_coherent2": {
+      "layer4_K_equals_A7": true,
+      "layer4_cur_equals_A7": true,
+      "same_projectors_as_A7": true
+    },
+    "mint1_s0": {
+      "layer4_K_equals_A7": true,
+      "layer4_cur_equals_A7": true,
+      "same_projectors_as_A7": true
+    },
+    "mint1_s1": {
+      "layer4_K_equals_A7": true,
+      "layer4_cur_equals_A7": true,
+      "same_projectors_as_A7": true
+    },
+    "mint1_s2": {
+      "layer4_K_equals_A7": true,
+      "layer4_cur_equals_A7": true,
+      "same_projectors_as_A7": true
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "artifacts": {
+    "controls_A7_coined_coined_L4_repeat_product.pt": "1b62159bdd2c7fb9936f983e31a9dd98f6375a3493c39a72bdcc051f16c33916"
+  },
+  "left": {
+    "dtype": "torch.float32",
+    "key": "tensor_1",
+    "shape": [
+      2048,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_repeat_product.pt"
+  },
+  "right": {
+    "dtype": "torch.float32",
+    "key": "tensor_2",
+    "shape": [
+      24,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_repeat_product.pt"
+  },
+  "update": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_repeat_product.pt"
+  }
+}

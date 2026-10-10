@@ -1,0 +1,872 @@
+# Pre-registration — D-C10z-astra: a forward-only joint output-margin solve (ASTRA) written into selected `W_down` columns, against the closed-form band write, on the C10 harness (queue row 5b) (v2.2, 2026-10-07)
+
+**Status: FROZEN v2.2 (2026-10-07) — GPT-6-Astra high freeze confirmation FREEZE (`results/c10z_astra_astra_freeze_v22.md`). Frozen for building only: running it waits on its place in the queue and the go decisions in §6.** Nothing has run; no code written. Decision-ID `D-C10z-astra`. Queue row 5b of `docs/INTEGRATED_QUEUE_2026-10-07.md:23` ("candidate … Prereg after step 7's review; it may replace step 7 if the reviews judge DOW-KE's per-patch optimisation outside the write-only ruling"). Step 7's advisor review did so judge (`results/c10y_directdw_advisor_v1.md`, Scope A; recorded at `EXPERIMENT_RUNBOOK.md:343` item (2)). Building is model-free and may start after the freeze (§6); running needs the operator's go (§6, decisions 0–2), one GPU job at a time (D-C10r-rulings-4 (1), `EXPERIMENT_RUNBOOK.md:331`).
+
+Source lead: scout note `results/scout_2026-10-07_realisation_wall.md:11–19`. Paper: ASTRA, Gu, Zhang, Chen, Aleti, "Mind the Gaps: From Failure Attribution to Closed-Form Repair of Code Language Models", arXiv 2610.05277 v1, read 2026-10-07 through the arXiv MCP (LaTeX source and HTML text): §3.1 Preliminaries, §3.2 Locating Failing Tokens, §3.3 Targeting Carrier Neurons, §3.4 Tailoring Joint Patches (Algorithm 1), §3.5 Re-linearizing the Repaired Model, §4 "Configuration" paragraph, §4.2 (layer placement), §4.3 (ablation table, timing), §4.4 (side effects, unseen phrasing), §5 Discussion. **Section numbers are the paper's own** (its HTML prints "3.5. Re-linearizing the Repaired Model"). The queue row and the scout cite the ablation as "§5.3"; that is the arXiv MCP outline's numbering, which counts the abstract as section 1. The same paragraph is the paper's §4.3. No public code was found (scout `:16`); the writer is built from Algorithm 1 as a harness-side driver. Lineage: CORPUS/44 ⟨D-C10l-covgeom@af2e38f7⟩ (envelope `:39`, ρ correction `:43`), CORPUS/36 (C10 signature, `:28`), CORPUS/53 ⟨D-C10t-secondkey@76a722d3⟩ (in-harness residual `:62`; prefix-spillover gates), `docs/C10T_SECONDKEY_PREREG.md:48–49, :69, :71` (the F1 per-prefix and subject-free probes reused here). Rulings in force: D-C10k-rulings-1 (strict held-out bar), D-C10k-rulings-2 (Qwen anchor), D-C10r-rulings-3 (2) (write-only, quoted in §0), D-C10r-rulings-4 (1) and (3) (one GPU run at a time; steps 6–7 demoted, `EXPERIMENT_RUNBOOK.md:331`), D-C10r-rulings-9 (`:342`). Conventions follow `docs/C10Y_DIRECTDW_PREREG.md` (v1) with the step-6 and step-7 advisor findings applied (`results/c10x_enginepath_advisor_v1.md`, `results/c10y_directdw_advisor_v1.md`). v2 folds this draft's two design reviews: the advisor pass (`results/c10z_astra_advisor_v1.md`, FIX-FIRST, 4 BLOCKING) and the Codex cross-family design pass (`results/c10z_astra_codex_design_v1.md`, FIX-FIRST, 10 BLOCKING), which was run by **gpt-6.1-sol at max effort, not GPT-6-Astra** (its header, `:3`); fold log §8. v2.1 folds the GPT-6-Astra (high) freeze check (`results/c10z_astra_astra_freeze_v2.md`, FIX-FIRST, 5 BLOCKING + 5 ADVISORY); fold log §8.2. Every repo statement cites a line read on 2026-10-07 (LAW#4) or is marked UNVERIFIED.
+
+**Binding rules, quoted (CLAUDE.md).** LAW#3: "When re-running a previously-characterized arm, the reproduction MUST land near the known values BEFORE any new data is trusted or any new arm is run." LAW#4: "Before writing any cell that depends on engine internals, `cat -n` the relevant engine source and author from what it actually does." LAW#5: "Any source change to the science-bearing edit path … must be isolated against a known-ceiling reference result and proven inert (LAW#5) before any verdict produced under it is promoted. Demonstrate inertness; do not assume it. The MEMIT engine, LARQL, and git stay **UNMODIFIED**." The writer below is a new harness-side solve in a new driver file. It calls no engine edit function, reads the model's own weights, and changes nothing under `memit_dry_run/memit` or in `experiments/track_c/c10e_bandknob.py`.
+
+### Requirement map (the nine hard requirements of the brief → where each is met)
+
+| # | requirement | where |
+|---|---|---|
+| 1 | LAW#3 baseline reproduction runs and is read before any candidate arm; a miss halts | §2.6 stage 0 steps 2–3; §3 V4; §5 |
+| 2 | LAW#5 reduction that exercises the new code path, with an fp16/MPS-calibrated tolerance | §2.8 checks Z0–Z7 (Z3 = identity plumbing: two zero-deficit rounds through the full solve-and-write path to the unedited model, Z and Z-band modes; Z4 = assembly identity; Z7 = independent key locus + nonzero known-answer control on layer 35; Z0 calibrates τ_shape, Z7 calibrates τ_head) |
+| 3 | pristine model pinned by a weight-snapshot hash | §2.6 stage 0 step 1; §2.8 Z6; §3 V3 |
+| 4 | complete, non-overlapping truth table with boundary values | §3.3 table T and §3.6 worked rows |
+| 5 | underfit gate: solve objective not met → UNDERFIT, never NULL | §3.2 fit rule; §3.3 rule U |
+| 6 | cheap early-kill stage (≈ 1–2 h) with a stated threshold | §2.6 stage 1; kill rule K1 in §3.4; 5,400-second stage 0–1 hard elapsed-time ceiling, §2.11 |
+| 7 | engine and `c10e_bandknob.py` unmodified; solver in a new driver | §2.1 last bullet; §2.6; §3 V1 |
+| 8 | M3 Pro 48 GB, MPS, fp16, no float64 on MPS, no CUDA; 34 min / 23 min measured costs | §2.4 precision row; §2.10; §2.11 |
+| 9 | ρ_c stated as the remaining residual; `compute_z` scores every target token, the weight solve lacks value-position keys | §0 "Two facts stated correctly" |
+
+## 0. Where this sits, and what it is
+
+**The e2e map (`docs/SPEC_E2E_GROUND_TRUTH.md` §C, `:22–30`).** Write layer, steps 5–6 of the §C flow: the Commit Executor's compile of the `.larql` patch into an overlay, ending in the `COMMITTED` ledger entry "with overlay hash" (`:30`; spec `:671`). The arm replaces the whole compile step for one batch: a different solver, a different write site (selected columns of `W_down` in the layers the solver picks, not layers 4–8), and a different objective (output-logit margins at every value position, not a hidden-state target at the subject's last token). Read against the **§8.9 L2 behavioural bar** (e2e §F, `:64–65`). Shape: **Genesis-shaped**, one batch of 24 facts (e2e §D, `:32–34`); the Incremental shape is not tested. Lifecycle cells touched by implication and not tested: compaction re-runs the writer over all active patches (e2e §E, `:54`), so regeneration from the patch and the solve's growth with the fact count are spec-fit readouts (§2.7); the Write Lock's 60-minute TTL (spec `:783`) and the 2 h incremental PREPARED default (spec `:678`) bound the write's wall-clock. Read, governance and deployment layers are not touched. **§0.3 / queue:** row 5b, candidate replacement for step 7.
+
+**Two facts stated correctly (earlier drafts had both backwards).**
+- *ρ_c is a remaining residual.* `rho_c_band = ‖z − cur_after‖ / ‖z − cur_before‖` (`experiments/track_c/c10l_covgeom_step0.py:134`, as cited at `CORPUS/44_C10L_COVGEOM_SPARSEBAND.md:43`). Step 0's 0.028 means about 2.8 % of the canonical residual norm *remains unrealised* at the keyed position after the band write. About 23 % remains on the paraphrase prompts (ρ_p 0.232, `CORPUS/44:25`, correction `:43`). The in-harness values are 0.0327 canonical and 0.234 held-out (`CORPUS/53_C10T_SECONDKEY.md:62`). It is not "3 % lands". The scout note still carries the reversed phrase ("a single-key shortfall (3 % realised)", `results/scout_2026-10-07_realisation_wall.md:33`); that wording is withdrawn here, as at `docs/INTEGRATED_QUEUE_2026-10-07.md:38`.
+- *`compute_z` scores every target token.* It places every target id at the end of each rewriting prompt (`memit_dry_run/memit/memit/compute_z.py:60–65`) and averages the NLL over all of them (`:141–150`); z reaches 0.99 (CORPUS/36:28, as cited at `INTEGRATED_QUEUE:39`). What has no objective at the value positions is the **weight solve**: its keys are read at the subject's last token only (`memit_dry_run/memit/memit/compute_ks.py:19–37`, `fact_token = subject_last`, hparams `configs/hparams/qwen25_3b_memit_hparams.json:5`; harness `experiments/track_c/c10e_bandknob.py:196`).
+
+**Why ASTRA is aimed at the wall.** The wall, stated on that corrected reading: the band write realises the target at the keyed position on the canonical prompt (≈ 3 % remaining) but the value does not come out on held-out phrasings or at later value positions (A7 `para_full` 13/72 against 49/72 under injection, `CORPUS/44:23`). ASTRA's write *is* the missing per-position solve. It puts one linear requirement on the weights at every value-predicting position of every view (each failing token adds a patch requirement, §3.3). The key of each requirement is the carrier's activation at that position, not at the subject. All requirements are solved together, because "the failing tokens of a sample share their carriers, so the correction of one token moves the leads of the others" (§4.3). Its ablations are the two numbers that motivate the arm (§4.3, Table "Ablation"): replacing the joint solve by a token-by-token solve costs 34.2 Pass@1 points pooled; a margin of 1 logit instead of 5 costs 31.4, because "a lead of one logit does not survive" the change from teacher-forced views to free generation from another prompt.
+
+**Is ASTRA a write under the operator's ruling? Argued here; the operator rules (§6 decision 1).**
+
+The ruling, quoted (`EXPERIMENT_RUNBOOK.md:330`, D-C10r-rulings-3 (2)): "Write-only ruling, the operator's words: training per commit defeats the spec's objective; likelihood of deploying it is essentially zero; run it only as a measurement — H-13/H-15 are an oracle measurement, not a route; H-18 demoted." The criterion it rests on (`results/research_pass_2026-10-06/recommended_sequence.md:13`): "The write must stay a per-commit solve that can be regenerated from the committed patch. Anything that needs a training set or a training loop per commit is out as a route (it breaks real-time use, the audit trail and compaction)."
+
+1. *No training set.* The writer's inputs are the patch (24 subject/value requests in the CANON frame) and fixed artefacts: the model revision, the frozen context-template file, the null-space-weight statistics file and the output-metric file (§2.2, §2.12). Its six views per fact are exactly the strings `compute_z` already builds from the request: the identity template plus five engine-sampled prefixes (`compute_z.py:46–50`; `memit_dry_run/memit/memit/memit_main.py:304–323`). No paraphrase, no held-out template, no generated answer and no dataset row enters the solve. The reference text used for the null-space weights is a fixed statistic of the same kind as the engine's covariance cache (§2.2 item 5).
+2. *No training loop.* Nothing is optimised by gradient. ASTRA "needs no optimizer, no step size and no backward pass" (§3.4); "each round needs one forward pass per view and one small linear solve, and no step needs a gradient" (§4.3). The up-to-ten rounds are re-linearisations: observe the deficits, solve one linear system exactly, write the solution, observe again (§3.5; Algorithm 1). That is an iterated closed-form solve, the shape of a Newton iteration, not descent on a loss. This is the line step 7's review drew. Step 7 "updates model weights … by gradient descent on an LM loss through layers 4–35", which is training (`results/c10y_directdw_advisor_v1.md`, Scope A). ASTRA is on the solve side of that line. For comparison only, not as the qualifying argument: the accepted engine itself runs up to 25 Adam steps per fact inside `compute_z` (`compute_z.py:104–172`; hparams `:6`). ASTRA has no gradient anywhere.
+3. *Specified to be regenerable from the patch; regeneration is not yet shown.* Every step is a forward pass at a fixed batch shape plus a float64 CPU solve. Same-shape fp16 forwards have a measured *same-process* floor of 0.0 (`results/c10s_sharedz_halt_analysis_2026-10-06.md`, check (i)); that is same-process, same-shape evidence only. Cross-process reproduction is not bit-exact on GPU (`REPRODUCIBILITY.md:26`), and cross-process MPS regeneration is UNVERIFIABLE until process 2, so regeneration is measured (§2.7, R1–R3), not assumed. Behavioural reproduction does not establish artifact identity (§2.7).
+4. *Real time and compaction are open, not passed.* The reported 2.7-second average excludes answer generation and came from shared-GPU measurements; it is not a Mac or 24-fact-batch estimate (§4.3). Here, wall-clock per write is a readout against the 60-minute Write Lock TTL (W2, §3.5): W2 > 60 minutes is a disqualifier, and W2 ≤ 60 does not prove the declaration-to-completion Write Lock TTL or compaction fit (§2.11). Compaction would re-run the solve over all active patches. The linear system has one row per failing token, so it grows with the fact base: dense A storage scales as F² (float64: 0.8 GB at F = 10,000 and 10.4 GB at F = 36,000) and dense solve work as F³, so matrix bytes alone do not establish compaction throughput. That growth is reported, not tested (§4).
+
+**Write-only recommendation: WRITE-QUALIFIES for this fixed-input, bounded analytic solve. This does not establish real-time use, artifact-identical regeneration, compaction fitness or designated-engine compliance; those remain OPEN and can prevent route adoption.** This is a recommendation about the method class, not an operator ruling, a route verdict or deployment approval. Both design reviews make it (advisor Q1; Codex, write-only adjudication), and the GPT-6-Astra freeze check concurs (`results/c10z_astra_astra_freeze_v2.md`, ADVISORY); review results are advisory, not empirical evidence. On the ruling's own words it is a per-commit solve with no training set and no training loop. The round cap and the stop rule are part of the compile specification; an "iterate until fit" variant with no cap would drift toward a training loop (advisor Q1 condition (a)). The advisor's further statement that ASTRA already passes the three harms (real time, audit, compaction) is not adopted: those are empirical gates (Codex). Two further qualifications remain open and can each block route adoption. (a) It is **not the spec's designated engine**: §8.2 designates MEMIT and excludes "full fine-tuning" (spec `:311–313`). ASTRA replaces the D20 "orthogonal projection" (spec `:316`) with a diagonal null-space weight (§3.4) and has no "covariance balancer" (spec `:317`). Route adoption would need a §8.2 amendment regardless of WRITE-QUALIFIES. (b) Its write site is chosen per batch in the late layers (§4.2: never in the first 58 % of the depth; the last three layers in ≥ 97.0 % of repairs). Spec §8.2 places MEMIT in "middle-to-late FFN layers (L15–L25 for a 32-layer model)" (`:313`), about L17–L28 when scaled to 36 layers. Carriers outside that range are reported (§2.9); the harness band 4–8 is itself outside it. If the operator reads "a training loop per commit" to cover any iterated per-commit procedure, the arm runs as a measurement under the same design, and the labels in §3 are unchanged.
+
+**Demotion status (§6 decision 0).** D-C10r-rulings-4 (3) demotes "Steps 6–7 (… H-3 direct ΔW)" behind steps 1–4 and the step-5 oracle, "their '3 % installed' motivation having been reversed by the CORPUS/44 correction" (`EXPERIMENT_RUNBOOK.md:331`). Row 5b is not named in it. Its motivation does not rest on the reversed premise: it rests on the missing value-position keys of the weight solve (above). Whether it inherits step 7's slot, after the step-5 oracle and step 4 (§6 decision 0), is the operator's call.
+
+**What this experiment can and cannot conclude.** A pass advances one configuration: one view set, one margin, one carrier budget, one batch of N = 24, one model. A miss means *this configuration was not advanced*. It does not show that margin-constrained solves, late-layer writes or the model cannot hold the value.
+
+## 1. Question and hypotheses
+
+- **H-Z1 (the claim under test).** A joint output-margin solve, with one requirement per value position per view (μ = 5 logits) on the patch's own six views, written into SemCon-selected `W_down` columns and re-linearised for up to 10 rounds, raises A7 held-out full-sequence recall (`para_full_n` /72) to ≥ 19 and ≥ recipe A + 10 in the same process, at the locality of recipe A.
+- **H-Z0 (null).** The count stays ≤ 18 or within 9 of recipe A.
+- **H-Z2 (canonical fit, held-out miss: the C10 signature).** The solve meets its own objective on the six views (fit gate met; canon near 24/24), but held-out recall stays in the envelope. This is "fit the trained prompt … then fail paraphrase" (`CORPUS/36_C10_RESIDUAL_COINED_VALUES.md:28`). Its mechanism here would be that all six views share the CANON frame and differ only in a prefix (§2.2 item 1). The paper associates unseen-phrasing robustness with both its differently worded views and its margin (§4.4); their effects on this fact-writing adaptation are untested (one view instead of four cost 6.5 points, §4.3).
+- **H-Z3 (spillover).** The count rises through frame- or prefix-conditioned completions that fire for subjects never edited. Read from the same-frame probe F0, the 24 per-prefix gates F1 and the subject-free probe (§2.9). This is the queue's named first risk: "carriers fire on the value's own context, so step-2-style prefix spillover is the first thing to gate" (`INTEGRATED_QUEUE:23`); step 2's write failed 10 of 24 such gates (`CORPUS/53:33`).
+- **Expectation, stated now.** H-Z2 is the likeliest outcome, H-Z3 (TRADEOFF or -SUBJECT-FREE) the next. LEAD (≥ 30/72) is not expected. The paper's evidence is code repair on 1B–9B models, with no fact-editing result; its side effects were "larger on the small one" (abstract; §4.4: BLEU-RPD −4.11 % on the 1B model against −0.14 % and −2.03 % on the 8B/9B models), and Qwen2.5-3B is nearer the small one.
+
+## 2. Design (engine and harness unmodified; one new writer in a new driver; recipe A and the LAW#5 gate run the untouched path)
+
+### 2.1 Engine and harness seams, read 2026-10-07 (LAW#4)
+
+- **Model** `Qwen/Qwen2.5-3B` @ `3aab1f19…` (`c10e_bandknob.py:25–26`), loaded fp16 on MPS (`:48`). Config (`hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/config.json`): hidden 2048 (`:9`), intermediate 11008 (`:11`), 36 layers (`:16`), `rms_norm_eps` 1e-06 (`:18`), tied embeddings (`:21`), vocab 151936 (`:27`). Hparams: final norm `model.norm` (`qwen25_3b_memit_hparams.json:17`), output embedding `model.embed_tokens` (`:18`), rewrite module `model.layers.{}.mlp.down_proj` (`:13`), band [4–8] (`:2`), covariance source `wikipedia` with 100,000 samples (`:19–20`).
+- **Stimuli and evaluator.** `CANON` = "The capital of {} is the city of" (`c10e:51`), three sealed held-out templates `PTEST` (`:52–56`), 24 `FICTION` subjects (`:57–61`). Values: `tgt_ids(s) = tok(" " + s, add_special_tokens=False)` (`:67–68`); arms A1 single-token capitals, A2 two-token capitals, A7 coined two-word values (`:224–250`, A7 `:246–249`). `full_seq_match` = greedy decode from the prompt's ids, appending generated ids (`:108–117`); `string_match` (`:120–130`); `teacher_forced_pertok` (`:133–143`); `eval_arm` with exact counts `canon_full_n`, `para_full_n`, `para_first_n`, `para_string_n` (`:358–400`).
+- **Locality.** L1 12 real countries and L3 30 unedited capitals (`:259–278`); 20 `GENERIC` sentences and perplexity (`:279–308`); `axes_pre`/`axes_post` (`:311–339`); `described_as` on the 24 edited subjects (`:475–476`, `:490–492`). Same-frame probe: `FRAME_SUBJECTS` (`experiments/track_c/c10p_twopass_arms.py:30`) and `frame_probe` (`:36–42`). Per-prefix bleed gates F1 and the subject-free prefix probe as defined for step 2 (`docs/C10T_SECONDKEY_PREREG.md:48–49`, gate `:69`, qualifier `:71`).
+- **Recipe runner** `run_recipe(name, hparam_path)` (`c10e:458–509`): band snapshot `base_snap = snap_layers(hp)` (`:461`), projector (`:462`), standing LAW#5 gate `run_law5` (`:463`; rule `|Δexpr| < 0.05 and |Δloc| < 3`, `:444`; it calls `my_edit` under `_LAW5_DEFAULT_CTX = True`, `:429–435`), `pre_axes` once per recipe (`:471`), per arm: band restore (`:473`), `described_as` baseline (`:475–476`), `my_edit(...)` called by module-global name (`:489`), evaluation (`:490–493`), `ARM_HOOKS` (`:494–495`), `delta_norms` (`:498`); final band restore (`:506`). Seams: `ARM_HOOKS` (`:404`), `Z_OVERRIDE`/`Z_OVERRIDE_HITS` (`:407–408`), `_LAW5_DEFAULT_CTX` (`:403`). `main()` runs only under `__main__` (`:598–599`), so importing the module loads the model (`:48`) and builds the stimuli (`:253`, `:276`) without a forward pass.
+- **The restore trap (found by this read).** `snap_layers` and `restore_layers` cover `hp.layers` only, layers 4–8 (`:150–152`, `:155–159`). An ASTRA write in layers outside the band is **not** undone by `run_recipe`'s per-arm restore (`:473`) or its final restore (`:506`). The next arm's `described_as` baseline (`:476`) would then be measured on an edited model. The driver therefore owns a full snapshot and restore of all 36 `down_proj` weights (§2.6 stage 1 and its restore and hook discipline; §2.8 Z6).
+- **Closed form (recipe A).** `my_edit` (`:181–221`): `compute_z` per request at `z_layer = 8` (`:184`, `:191`); per band layer keys `compute_ks` (`:196`), `cur` at the subject-last token (`:197–201`), residual divided over the remaining layers (`:204`), float32 CPU solve with projector and `L2 = 1.0` (`:205–211`, `:28–29`), added to the fp16 weight (`:216–217`).
+- **Engine facts used.** Context templates sampled once per process into `CONTEXT_TEMPLATES_CACHE` (`memit_main.py:21`, `:304–323`: the identity `"{}"` plus 5 sampled prefixes, so 6 views). `execute_memit` calls `get_context_templates` at `:100`, before any weight change. float64 is used only on CPU ("MPS has no float64", `:191–194`). Covariance via `get_cov` → `layer_stats` (`:240–280`), dataset `wikimedia/wikipedia` 20231101.en (`memit_dry_run/memit/rome/layer_stats.py:97–99`), cached as uncentred second moments for Qwen2.5-3B **layers 4–12 only** (`covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/`, listed 2026-10-07). There is no cache for the late layers ASTRA selects.
+- **Fingerprint** `tools/engine_fingerprint.py`: expected SHA-256 `d941a9fb…` (`:34`), `_cov_cpu` sites 3 (`:36`).
+- **Unmodified files.** `git status` on 2026-10-07 shows `experiments/track_c/c10e_bandknob.py` and `memit_dry_run/memit/` clean (last harness commit `b3c21ae`). The driver hashes both at start and end (V1). The ASTRA writer lives only in `experiments/track_c/c10z_astra_arms.py` (new).
+
+### 2.2 The method — ASTRA §3.1–3.5 on this harness
+
+Notation follows the paper. For layer l and neuron j, `k^l_{j,t}` is the key activation, i.e. the input of `down_proj` at the position that predicts answer token t ("the product of the activated gate projection and the up projection", §3.1). `w^l_j` is column j of `W^l_down` (2048 × 11008). For the final hidden state x_t entering the final norm: scale `s_t = sqrt(mean(x_t²) + 1e-6)` (eps from config `:18`), gain g = `model.norm.weight`, output embedding W = `model.embed_tokens.weight` (tied, config `:21`; hparams `:18`). Logits = W (g ⊙ x_t / s_t) (§3.1).
+
+1. **Views (§3.1, adapted; departure D-2).** For each fact i and each of the J = 6 frozen context templates c_j: prompt string `c_j.format(CANON).format(subject_i)`, the construction `compute_z` uses (`compute_z.py:47`, `:54`). Prompt ids = `tok(prompt)["input_ids"]`, the call `full_seq_match` uses (`c10e:110`). The input is prompt ids followed by `tgt_ids(value_i)[:-1]` (`c10e:67–68`), as id sequences, not decoded and re-tokenised (D-8). The requirement positions are the T_i positions that predict the T_i value tokens. All 144 sequences (24 × 6) go into **one right-padded forward of fixed shape**, in every round and every check (the C10S lesson: fp16 results depend on batch shape, `results/c10s_sharedz_halt_analysis_2026-10-06.md`).
+2. **Observation (§3.2).** Teacher-forced forward; at every requirement position t: target y_t, competitor `p_t` = the highest-logit token other than y_t; lead_t = logit(y_t) − logit(p_t). **Failing** iff lead_t < μ, μ = 5.0 logits; deficit γ_t = μ − lead_t. Captured at failing positions: x_t through a forward pre-hook on `model.norm` (not from `output_hidden_states`, whose pre/post-norm convention is not read here: UNVERIFIED), s_t, and `k^l_{j,t}` through forward pre-hooks on `down_proj` (all 36 layers in round 1; carriers only afterwards). The observation uses the native `model(...)` head with no labels, `logits_to_keep=0`, and a frozen recorded `use_cache` setting; no vocabulary-chunked head is introduced. Gather only valid requirement positions for target/competitor analysis, then release full logits. Budget B×T_pad×V×2 bytes for the fp16 logits, plus any actual conversion copies; record T_pad, peak and head time. At the illustrative T_pad=28 this tensor alone is 1.225 GB. A later compact-head variant needs its own numeric parity check. No float64 operation occurs until its operands have moved to CPU.
+3. **Covector and preferred direction (§3.2).** `c_t = (W_{y_t} − W_{p_t}) ⊙ g`. Output metric `G = W_gᵀ W_g`, `W_g = W diag(g)`, 2048 × 2048, accumulated over vocabulary chunks in **float64 on CPU**, factored once per process by Cholesky (G does not change: the patch touches only `down_proj`). `d_t = G⁻¹ c_t / (c_tᵀ G⁻¹ c_t)`, so `c_t · d_t = 1`.
+4. **Carrier selection, round 1 only (§3.3).** SemCon `CS^l_j = Σ_{t∈F} |k^l_{j,t} (c_t · w^l_j) / s_t|` over all 36 layers. Keep the quarter of the layers with the highest summed scores (36 / 4 = **9 layers**), and in each kept layer the `n_L = clamp(⌈R·T / L_S⌉, 16, ⌊0.04 · 11008⌋ = 440)` highest-scoring neurons, R = 16 neurons per answer token, L_S = 9. For the joint batch, T = Σ_i T_i, the answer tokens of the 24 facts counted once, not per view (D-3). For A7 with T_i ∈ [3, 6] (UNVERIFIED; recorded by `pre_base_report`, `c10e:449–455`): T ∈ [72, 144], n_L ∈ [128, 256], |S| ∈ [1,152, 2,304] carriers, 0.29–0.58 % of the model's 396,288 FFN neurons (the reported neuron shares are 0.76–0.95 % for 1B and 0.22–0.52 % for 8B/9B, §4 Configuration). A1: T = 24, n_L = 43; A2: T = 48, n_L = 86. The set is fixed after round 1 (§3.3: "a fixed set keeps the patch within its budget and lets later rounds refine the same columns"). Layer and neuron ranking uses a fixed tie order: descending score, then ascending layer index, then ascending neuron index (Codex #7; D-17), so S is a deterministic function of the scores.
+5. **Null-space weights (§3.4, adapted; D-5).** `D^l_j = 1 / max(m^l_j, 10⁻³ · median_j m^l_j)` (even-population median convention: §3), with `m^l_j` the mean squared key activation of neuron (l, j) over a fixed reference set. Reference set: the first 1,000 rows of `wikimedia/wikipedia` 20231101.en (the engine's covariance source, `layer_stats.py:97–99`), each truncated to its first 100 tokens (the cache's `t100`): at most 100,000 tokens, not necessarily exactly that number; padding and short rows are masked, and the actual non-padding token count is recorded. The dataset revision, row IDs and per-row text hashes, and the tokenizer/truncation policy are pinned in `H_in` (§2.7). The rows are taken without using `PTEST` to select or rewrite them; their overlap with `PTEST` is audited (§2.6 stage 0 step 4). Computed once for all 36 layers by forward passes only, stored with its SHA-256. The floor stops near-silent neurons from taking unbounded weight. The count of floored neurons is recorded.
+6. **Joint solve (§3.4; Algorithm 1 line 6).** `A_tu = (c_t · d_u) (1/s_t) Σ_l Σ_{j∈S_l} D^l_j k^l_{j,t} k^l_{j,u}`, one row and column per failing token across all facts and views. Solve `(A + ρ · mean(diag A) · I) λ = γ` with **ρ = 10⁻³** (the paper says only "a fraction of the mean diagonal entry"; D-6), in **float64 on CPU** (`torch.linalg.solve`). F ≤ 6 × 144 = 864 rows for A7.
+7. **Write (§3.4; Algorithm 1 line 7).** `δw^l_j = D^l_j Σ_{u∈F} λ_u k^l_{j,u} d_u` for every carrier. The new column is `fp16(fp32(w^l_j) + fp32(δw^l_j))`, written in place: one rounding per column per round (D-7). Only the selected columns of the kept layers change.
+8. **Re-linearisation (§3.5).** Repeat items 2, 3, 6 and 7 over the same carriers until no requirement fails in any view, or 10 rounds. The authoritative patch is final fp16 weights minus PRISTINE; summed intended updates are diagnostic. The model observed in each round is the deployed fp16 model, so there is no train/deploy gap (unlike step 7's hooked optimisation). Fit and stop diagnostics come from one additional observation after the last weight update, at the same recorded 144-row shape, with no solve/write. `rounds_used` counts writes, not observations. `stop_reason` distinguishes objective met, round cap, and instrument/budget halt.
+
+### 2.3 Objective, and what ASTRA does not have
+
+ASTRA's only objective is the margin system of §2.2 items 2 and 6. It has no KL or essence term (compute_z has one, `compute_z.py:151–153`), no hidden-state target and no projector. Protection of unrelated behaviour comes only from the diagonal weight D and the sparsity of the carrier set (§3.3–3.4). Locality is therefore measured, not assumed (§2.9), and spillover is gated (G2, G7, -SUBJECT-FREE in §3).
+
+### 2.4 Settings — fixed now, with reasons
+
+| knob | value | reason |
+|---|---|---|
+| margin μ | 5.0 logits | paper §4 Configuration; ablation μ = 1 costs 31.4 points (§4.3) |
+| views J | 6: identity + 5 engine-sampled prefixes, frozen to a file | the strings `compute_z` builds (`compute_z.py:46–50`); write inputs identical to recipe A's; no new phrasing near the sealed `PTEST` (D-2) |
+| rounds | ≤ 10; stop when no requirement fails | §3.5, Algorithm 1 |
+| layers kept L_S | 9 of 36 (a quarter) | §3.3, §4 Configuration ("the quarter of the layers") |
+| neurons per kept layer | clamp(⌈16·T/9⌉, 16, 440) | §3.3 budget R = 16, bounds 16 and 4 % of the width |
+| selection | SemCon, once, in round 1; fixed tie order (descending score, ascending layer, ascending neuron) | §3.3; tie order Codex #7 (D-17) |
+| null-space weight | 1 / max(m, 10⁻³ · layer median), 1,000 Wikipedia rows × 100 tokens | §3.4 (inverse mean squared key activation on reference prompts); D-5 |
+| ridge | 10⁻³ × mean diagonal of A | §3.4 ("a fraction"); D-6 |
+| solve and G | float64 on CPU | no float64 on MPS (`memit_main.py:191–194`) |
+| model precision | fp16 on MPS throughout; captures cast to float32 at the hook | the deployed precision (`c10e:48`); the paper ran bfloat16 (§4 Models) |
+| write | per column `fp16(fp32(w) + δw)` per round | D-7 |
+| batch shape | one right-padded batch of 144 rows, every round and every check | C10S lesson |
+| seed | `torch.manual_seed(0)` at process start | nothing stochastic is expected; recorded |
+| head | native `model(...)` head, no labels, `logits_to_keep=0`, frozen recorded `use_cache` | Codex #11 (D-18); §2.2 item 2 |
+
+These margin, fit and norm cutoffs are operational candidate criteria, not validated field-wide constants (Codex #20).
+
+### 2.5 Recipes and arms (exact counts; same harness, arms and counts as C10Y)
+
+- **A — closed-form baseline**: the harness as it stands (`my_edit` untouched, `Z_OVERRIDE = None`), arms A1, A2, A7. Its A7 count is the comparator and its envelope is the LAW#3 gate.
+- **Z — ASTRA (the candidate)**: §2.2 on the same 24 requests per arm. Stage 1: A7 only. Stage 2: A1 and A2.
+- **Z-band — attribution (stage 2, A7 only)**: identical to Z except that carrier selection is restricted to layers 4–8 (all five kept, L_S = 5). Z-band keeps the five band layers and matches Z's total carrier count B_Z exactly, distributing `floor(B_Z/5)` per layer plus one to the first `B_Z mod 5` layers in ascending layer order. If B_Z > 5 × 440, run the capped band control only as a diagnostic and report ATTRIBUTION-UNMATCHED-CAPACITY; it cannot decide the site question. Publish counts, parameter counts and final patch norms for both arms. It asks whether this matched solver package retains a qualified gain at the harness's own band; the answer does not identify objective causality or prove that late layers are necessary (§3.5).
+
+The binding count is A7 `para_full_n` /72 of the fp16 model as merged, read by the unmodified `eval_arm` (`c10e:358–400`).
+
+### 2.6 Execution: stages (one process per pass; mechanism follows C10Y §2.6 with the step-6/7 review fixes)
+
+The driver imports the harness as module `H` and refuses the inherited knobs (`C10_PROJECTOR` `:40`, `N_EDIT`/`C10_SUBJECT_OFFSET` `:62–63`, `C10_CTX_TEMPLATES` `:182`, `C10_ARMS` `:254`, `C10_KEY_LOCUS` `:477`, `C10_RECIPES` `:582`). Arms are restricted per call by assigning `H.ARMS` (read at `:472`): a driver assignment, not a harness edit.
+
+**Stage 0 — instruments and the LAW#3 gate. No new-writer observation, instrument preparation or candidate runs before the LAW#3 gate in step 3.**
+1. **Fingerprint and pristine pin.** `tools/engine_fingerprint.py` → `d941a9fb` and `_cov_cpu == 3`; SHA-256 of `c10e_bandknob.py` and of the driver. Immediately after import: **`H_pristine`** = SHA-256 over the bytes of every tensor in `model.named_parameters()` order, plus per-layer SHA-256 of the 36 `down_proj` weights. `PRISTINE` = a CPU copy of the 36 `down_proj` weights (1.62 GB). Also recorded: the SHA-256 of each `model*.safetensors` file in the snapshot directory. In process 2, `H_pristine` must equal process 1's.
+2. **Recipe A.** Run untouched recipe A on A1/A2/A7; freeze its context templates and their hash in process 1, or load that same file before recipe A in process 2. Restore PRISTINE. Concretely: `H.run_recipe("A", HP_BASE)` with the original `my_edit` and the arm hook below in `ARM_HOOKS` (restore and hook discipline under stage 1). Before LAW#3 passes, run only recipe A's existing evaluations. The arm hook saves each baseline arm's edited band weights without additional forwards, then restores PRISTINE. In process 1 the engine samples the context templates here (`memit_main.py:100`); the driver then writes `CONTEXT_TEMPLATES_CACHE` to `results/c10z_astra/context_templates.json` with its SHA-256. Process 2 validates the complete manifest (§2.7) and sets the module global from that file before recipe A (the C10U/C10Y precedent, `docs/C10Y_DIRECTDW_PREREG.md:85`).
+3. **LAW#3 gate, in the driver, before anything else runs.** Check LAW#3: A7 `para_full_n` in [5,18] (of 72), `canon_full_n` in [5,10] (of 24), `para_first_n` in [42,59] (of 72), all inclusive (`CORPUS/44:39`); A1/A2 integer `para_full_n` ≥68 (of 72). A miss writes the baseline-only record (`pass_p{n}.json` with recipe A only) and HALTED-V4 diagnostic (`architecture_profile/c10z_astra_halt_diagnostic.json`) and exits non-zero. No candidate or new-writer observation/check runs: no D statistic, no G, no Z check and no Z recipe. The reader re-checks the same numbers.
+4. **Pristine check, pristine probes, deferred baseline evaluations, Z0 and the overlap audit.** Check all 36 pristine hashes, then obtain pristine probe hits, the pristine lead distribution and Z0 using the frozen templates. After the complete LAW#3 gate passes, temporarily reinstall each saved baseline snapshot to collect the additional §2.9 probes and identity-view leads, then restore and verify PRISTINE. No baseline solve is repeated. Include these snapshots and deferred evaluations in memory and runtime accounting. The reader derives newly induced baseline hits from these deferred baseline hits and the pristine hits. **Overlap audit (advisor #9, Codex #9).** Freeze context/reference inputs without using PTEST to select or rewrite them. Then record normalized-overlap audits against PTEST (`c10e:52–56`) for both the frozen view strings and the D reference texts, with the normalization/score definition fixed in the prereg: case folding, punctuation removal and whitespace collapse, preserving a subject placeholder; exact and held-out-frame containment matches reported (the C10Y rule, `docs/C10Y_DIRECTDW_PREREG.md:86`). Audits are reported diagnostics, not a reason to select a more favorable input after inspection. Hash the input population and audit implementation.
+5. **Instruments for the new path.** Prepare D (§2.2 item 5) and G (item 3), each stored with its SHA-256; check V7/V8; then execute Z1–Z7 (§2.8; Z0 ran in step 4) before any candidate output is trusted. Any failure → HALT. Then publish elapsed time plus projected remaining work against the 5,400-second stage 0–1 ceiling (§2.11) before the candidate starts.
+
+**Stage 1 — early kill (stages 0–1 under the 5,400-second hard elapsed-time ceiling, §2.11).** `H.my_edit` is rebound to a wrapper. With mode `None`, or whenever `H._LAW5_DEFAULT_CTX` is True (`:403`, `:429–435`), it delegates unchanged to the original. With mode `astra`, it restores all 36 `down_proj` from `PRISTINE`, verifies their hashes, runs §2.2 on the arm's requests and returns a `delta_norms` dict per touched layer in the harness's format (`:213–215`). Then `H.ARMS = {A7}` and `H.run_recipe("Z", HP_BASE)`. `restore_hook`, the last entry of `ARM_HOOKS`, copies `PRISTINE` back into all 36 layers and checks the hashes after each arm's readouts, so the next arm's `described_as` baseline (`:476`) is pristine (the restore trap, §2.1). **Kill rule K1 (§3.4)** is read here.
+
+**Restore and hook discipline (advisor Q4 (a)–(b); Codex restore close-out).** Wrap each recipe/check in a driver `try/finally` restoring all 36 down projections and checking Z6. Remove this driver's capture hooks before evaluator calls, on normal return and exceptions; assert return to the recorded initial hook registry. A hook/restore failure is a halt and no later arm runs. Concretely: on an exception inside `H.run_recipe` (from `my_edit`, `eval_arm` or a hook), the `finally` copies `PRISTINE` into all 36 `down_proj`, checks Z6, writes the halt diagnostic and exits non-zero; no later recipe runs in that process. The `_forward_hooks` and `_forward_pre_hooks` registries of all 36 `down_proj` modules and of `model.norm` are recorded at import; equality with them is asserted and recorded after every observation and at the entry of every `eval_arm` call (through `probe_hook` or the wrapper's return).
+
+**Stage 2 — automatic only for a clean K1 survivor (same process; §3.4: count survival, A7 FIT, all measured side gates passing, no -LARGE-WRITE, -SUBJECT-FREE or -EXCEEDS-TTL).** Its ceiling is the stage-2 launch-budget input, fixed and recorded before process 1 starts; only cost projections are recomputed (§2.11). `H.ARMS = {A1, A2}` under Z (side gate G0); `H.ARMS = {A7}` under Z-band (attribution, capacity-matched, §2.5). The label is recomputed with G0 (§3.3).
+
+**Stage 3 — process 2, only if stage 2 ends in an unqualified PARTIAL or LEAD** (§3.4 rule K2). A fresh process repeats stages 0–2 from the same input manifest, loading the frozen templates, the D file and the G file by SHA-256. Recipe A and its LAW#3 gate run first again. This is the reproducibility run and gate A ("Replicate any arm ≥ 30/72 in a second process", `INTEGRATED_QUEUE:26`). Process 2 loads and validates the complete same manifest (§2.7) before baseline or candidate work, uses a fresh OUT_DIR and refuses existing manifest/pass files. Its ceiling is the stage-3 launch-budget input, fixed and recorded before process 1 starts; process 2 also retains the 5,400-second stage-0–1 ceiling (§2.11).
+
+### 2.7 Reproducibility rule (the overlay-hash question)
+
+Record: an **input manifest hash** `H_in` = SHA-256 over (the 24 request JSONs per arm, model revision, `H_pristine`, context-template file SHA-256, D-statistics SHA-256, G SHA-256, the §2.4 table as JSON, driver and reader source SHA-256s, seed). H_in additionally binds prereg SHA-256; complete engine source identity; hparams and stimulus/locality screen hashes; every band covariance hash used by recipe A/V7; tokenizer JSON/config/special-token hashes; the ordered per-arm prompt/target IDs, attention masks, padding side and padded lengths; model-forward/cache/attention settings; actual device/dtype; installed torch/transformers versions and CPU solver/backend metadata. Pin the D dataset revision, row IDs/text hashes, tokenizer/truncation policy and actual nonpadding token count. Process 2 loads and validates the complete same manifest before baseline or candidate work. Requests and input artifacts are immutable; an attempt uses a fresh OUT_DIR and refuses existing manifest/pass files. An **output hash** `H_out` = SHA-256 of the final fp16 bytes of every touched `down_proj` column, with the (layer, column) list.
+
+**Regeneration certificate.** The measured zero floor is same-process, same-shape evidence only; cross-process MPS regeneration is UNVERIFIABLE until process 2. Distinguish `artifact_identity` from `numeric_behavioral_reproduction`. Artifact identity is EXACT only when canonical output bytes and their H_out match; different hashes remain different artifacts even when behavior agrees. R1–R3 test numerical/behavioral reproduction and cannot replace the ledger's stored overlay hash. Retain the preregistered R1 thresholds: identical carriers, identical write-round count and relative per-layer error≤1e-3. If both layer deltas are zero, error=0; if only one is zero, reproduction fails. Rank carriers with a fixed score/layer/neuron tie order. Failure reports the failed field; no after-the-fact tolerance relaxation. The certificate records both hashes and both statuses. Route replay semantics stay OPEN if artifact identity fails. The certificate is a measurement recorded beside the ledger's concrete overlay hash (spec `:671`); it is not a spec change and not a proposal that behavioural agreement can stand in for that hash.
+
+### 2.8 Inertness (LAW#5) and step-0 checks — numeric, same process; any failure → HALT
+
+**Why the reduction is to the unedited model, not to the engine's write.** ASTRA and the closed form solve different problems: logit margins at value positions against a hidden-state target at the subject-last token; different keys; different site. No configuration of ASTRA reproduces `my_edit`'s ΔW, so a reduction to it cannot be built honestly. The checks below instead reduce the new path to the unedited model through its full code path (Z3, the identity plumbing check), test its assembly identity on its real inputs (Z4), tie its observation to the binding evaluator (Z1, Z2), bound what it writes (Z5, Z6), and verify the captured keys independently and drive the nonzero path against an independent reference (Z7). V5 requires Z3, Z4 and Z7: Z3 alone cannot establish the active algebra, because a zero right-hand side gives λ = 0 for any A, and Z4's two assemblies share the same captured keys. The known-ceiling reference is recipe A in the same process, gated by LAW#3 (stage 0 step 4).
+
+**Tolerance calibration (the C10S lesson).** In C10S a 1e-4 bar broke because two fp16 forwards of the same text at different batch shapes differ by a few fp16 units (step-0 NLL Δ 0.0117, two references 0.0166 apart; `results/c10s_sharedz_halt_analysis_2026-10-06.md`). Comparisons here are therefore of two kinds. **Same-shape** comparisons of the same weights are bitwise: the measured floor is 0.0 (ibid., check (i)), so their tolerance is exactly 0. **Cross-shape** comparisons (the 144-row observation batch against the single-sequence forwards the evaluator uses, `c10e:110`) use τ_shape, measured in Z0. Head reconstruction (Z1, Z7) uses τ_head, calibrated in Z7; the two are kept separate.
+
+- **Z0 (shape spread → τ_shape).** Pristine model, A7: σ = max over the 24 facts and all T_i value positions q of the identity view of |lead in the 144-row batch − lead in a single unpadded forward|. At each identity-view value position q, Z0's single-sequence reference uses exactly `prompt_ids + target_ids[:q]`, the prefix shape used by the binding evaluator if earlier targets matched (`c10e:109–117`). Record the original full-sequence comparison separately. **τ_shape = max(2σ, 0.02) logits.** If σ > 0.125 logits (τ_shape would exceed 0.25, 5 % of μ), HALT: the spread itself is the anomaly to diagnose (the C10X advisor's ceiling rule, `results/c10x_enginepath_advisor_v1.md` issue 9).
+- **Z1 (lead reconstruction; bound τ_head from Z7).** Reconstruct final norm/head output using the installed modules' native cast order and the same full tensor shapes, comparing captured positions against native output. Independently record the float32 analytic lead used by the solver. Record its reconstruction error on the pristine batch. σ_head and τ_head are defined once, in Z7; apply that fixed τ_head after writes (at the post-loop observation of every Z write). Keep τ_shape from Z0 separate; a cross-shape floor is not a head-reconstruction calibration. This catches a post-norm capture, a wrong position offset or a wrong competitor.
+- **Z2 (agreement with the binding evaluator).** On the pristine model, and again after every Z write: E_drv = facts whose identity-view leads are all > 0, excluding facts with any |lead| ≤ τ_shape (counted as ambiguous). E_eval = facts with `canon_full` True in `eval_arm` (the identity view is `CANON.format(subject)`). Pass iff E_drv = E_eval on the non-ambiguous facts. Teacher-forced top-1 at every position is the same event as a greedy full match. Z2 reports checked and ambiguous fact counts explicitly; zero checked facts is not evidence of observation/evaluator agreement, so a Z2 with zero checked facts is not a pass. The fit rule does not rely on Z2: it reads the evaluator's actual `canon_full_n` (§3.2).
+- **Z3 (identity plumbing check: reduction to the unedited model through the full path).** Two rounds on the A7 batch, in both Z and Z-band modes, with the real failing set F (μ = 5) and every deficit γ_t replaced by 0.0: observation, covectors, G⁻¹, SemCon selection (round 1) and carrier reuse (round 2), assembly of A with ridge, float64 solve, the per-column write-back and the post-loop observation all execute. Pass iff (a) λ is exactly 0 in float64 in both rounds; (b) the write-back executed for exactly |S| columns in each round (counter); (c) all 36 `down_proj` weights are value-equal to `PRISTINE` (`torch.equal`; the fp16→fp32→fp16 round trip is exact, though −0 may become +0, so bytes are not compared here); (d) on the 96 A7 evaluation prompts (24 CANON + 72 PTEST), greedy generations equal the pristine ones and max |Δ logit| at the last prompt position is 0.0 (same weights, same shape: tolerance 0). The driver then restores `PRISTINE` by copy and checks the byte hashes (Z6). Z3 is the identity plumbing check (the write executes, the footprint and counters are right); it cannot establish the active algebra. The assembly identity is Z4; the independent key locus and the nonzero path are Z7.
+- **Z4 (first-order identity of the active path, float64 CPU, no model forward).** On the real round-1 quantities of the A7 batch (real γ, patch computed and not written): v_t = Σ_l Σ_{j∈S_l} k^l_{j,t} δw^l_j; predicted Δlead_t = (W_{y_t} − W_{p_t}) · (g ⊙ v_t) / s_t, computed from the embedding rows directly, not from d or A. Pass iff |Δlead_t − (A λ)_t| ≤ 1e-8 · max(1, |γ_t|) for every t ∈ F. Plus an independent loop implementation of A over (t, u, l, j) for 32 randomly chosen rows (seed 0): relative difference ≤ 1e-10. This exercises the d_t, D, k, index and assembly code with the deficits the solve really sees. Recorded, not gated: the ridge residual ‖A λ − γ‖_∞ / ‖γ‖_∞ and cond(A + ρ·mean diag·I).
+- **Z5 (write footprint), after every Z write.** The set of (layer, column) pairs differing from `PRISTINE` is a subset of S. Every parameter other than the 36 `down_proj` weights still matches its `H_pristine` component (per-tensor SHA-256). No float64 tensor exists on MPS (asserted at the solve boundary).
+- **Z6 (pristine identity).** Per-layer SHA-256 of all 36 `down_proj` equals `PRISTINE`'s: before each `run_recipe` call, after every `restore_hook`, after every check that writes, and after each recipe.
+- **Z7 — independent key locus and active known-answer control.** On the identical 144-row batch, independently retain each selected layer's full `down_proj` input with the unmodified `util.nethook.TraceDict` API (`memit_dry_run/memit/util/nethook.py:117–145`). Recompute row identities and zero-based requirement indices as `len(prompt_ids)+q−1`, q=0..T_i−1, directly from the recorded ID sequences, without the production gather table. Assert that every index is unpadded and that layer/module identities are exact. For the identity views of facts 1–4, compare every selected layer/position against the production keys; same-forward copies must be equal. Cross-shape comparisons are diagnostics, not tolerances calibrated on layer 35 and applied to other layers.
+  Separately select up to eight actually failing identity-view requirements in deterministic (fact, position) order and run the production single-requirement solve/write on layer 35, restoring PRISTINE between controls. For each control t: F = {t}; S = the 16 highest-SemCon neurons of layer 35 for that t; γ_t = 1.0 logit; the production code builds A (1 × 1), solves, writes and re-observes the full 144-row batch (advisor #1). Independently calculate the scalar A and its ridge solution, and compare the production coefficients/columns with that answer using Z4's CPU tolerances. Independently retain the full layer-35 down-projection input K and its pre-MLP residual R. Construct W_ref from PRISTINE using the independently calculated scalar solution and the specified fp32-add/fp16-store rule. Recompute the full native-shape fp16 projection `linear(K,W_ref)`, native residual addition to R, final norm and full head, using the recorded device and cast order. Compare reference and production leads separately before and after the write at every valid requirement position, holding each original competitor fixed. Define σ_head explicitly as the maximum native-reference versus native-output lead error on the pristine batch; freeze τ_head=max(2σ_head,0.02), halting above 0.25. The `x+ΔWk` formula is diagnostic only. Require at least one control with a nonzero realised weight change. Audit the production requirement map before filtering to failing positions. Record frozen-scale linearization error separately. Do not require the finite lead increase to equal γ: ridge, changed normalization and deployed rounding are included in the independent reference. A reference mismatch halts; a correct reference with poor objective improvement is not relabeled a code defect. Predicted halt and its one fix (advisor #1): a mismatch → `cat -n` the capture hook and the position table, diff them against `full_seq_match`'s id construction (`c10e_bandknob.py:110–116`), and fix once. Cost unmeasured (§2.11).
+  Z3 is the identity plumbing check; Z4 is the assembly identity; Z7 verifies independent keys and the nonzero path. V5 requires all three.
+- **Standing gate.** `run_law5` inside every recipe (`c10e:463`, rule `:444`) must read INERT. For the ASTRA modes it is inert *by construction* (the wrapper delegates under `_LAW5_DEFAULT_CTX`); it is reported as harness/engine parity only. V5 requires Z0–Z5 and Z7; Z6 governs restoration.
+- **Instrument sanity.** **V7:** for each cached layer 4–12 (all available caches; advisor Q5 (c), Codex #20), the Spearman correlation between `m^l_j` (§2.2 item 5) and the diagonal of the cached second moment (`covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/…_mom2_t100_100000.npz`) is ≥ 0.80; a lower value means the 1,000-row statistic does not track the engine's 100,000-sample one → HALT. V7 explicitly leaves late-layer statistical fidelity unverified: no cache exists for the layers ASTRA selects (§2.1). **V8:** the float64 Cholesky of G succeeds; cond(G) is recorded.
+
+### 2.9 Readouts (every recipe, every arm unless noted)
+
+- **Binding and decomposition** (`eval_arm`): `para_full_n` /72, per held-out template (3 × 24), per-fact 24-vector, `canon_full_n` /24, `para_first_n` /72, `para_string_n`, `tf_pertok_cont`, `cond_full_given_first`. Per-edge behaviour-pass vector: true iff all three held-out templates succeed for that fact (`prereg_stubs.md:7`), reported beside the aggregate /72.
+- **Locality** (vs recipe A, same process): L1 flips /12, L3 top-1 agreement /30 and mean KL, generic perplexity pre/post (`c10e:319–339`); `described_as` (`:492`); **relation-label probes** `"{s} is a"` and `"{s} is associated with"` on all 24 edited subjects: pre/post top-1 changes and flips to edited values, recorded alongside `described_as` and G1–G5, not gated (`prereg_stubs.md:10`). **F0 in every fitted view**: for each of the six frozen context templates, form that template's CANON view for every unedited `FRAME_SUBJECT` (`c10p:30`; `frame_probe` `:36–42`, with the current arm's first tokens); F0 flips /6 are recorded separately for each view (gate G2). **F1 per-prefix bleed probes, every fitted view and every depth**: for every fact i and prefix depth j=1..T_i−1, record next-token and full-remainder booleans on each of the six unedited subjects, under every fitted frame (each of the six frozen views' CANON rendering). Build probe inputs from prompt IDs concatenated with `V_ids[:j]`; decoded strings are display fields. A newly induced hit is `post_hit AND NOT pristine_hit` on that exact prompt (the prompt-level definition of `docs/C10T_SECONDKEY_PREREG.md:48`). This replaces v1's depth-1 exception rather than adding a second gate. **Subject-free probe**: prompts use the neutral frame "The name is" and all depths; a fact counts once if any depth has a newly induced full-remainder hit. Preserve raw hits and matched prompt IDs. A1 is not applicable; A2 has one depth. Apply the identical probe population (identical IDs) to pristine, recipe A and each candidate; count and publish the full probe population before launch (F1 on A7: 6 views × Σ_i (T_i − 1) depths × 6 subjects). The enlarged population enters the runtime projection (§2.11); until measured, its cost receives a recorded conservative allowance, never zero.
+- **ASTRA diagnostics per write**: |F| and Σγ per round; stop reason (objective met / round cap / instrument or budget halt); `rounds_used` (writes, not observations); layers kept and carriers per layer; neuron share of the 396,288 FFN neurons; carriers outside L17–L28 (the spec range scaled, §0); cond(A); λ range; floored D count; **relative patch norm** ‖δw_j‖/‖w_j‖ per carrier (median, IQR; the paper's diagnostic, §4.2, §5); **parallelism** |cos(δw_j, w_j)| (§4.2); fp16 cast retention (‖realised column change‖ / ‖intended‖, median); **linearisation fidelity** (round-1 predicted vs realised Δlead: Pearson r and slope); wall-clock per write, with solve-only time reported separately from validation/serialization/end-to-end compile time; T_pad, head time and peak memory; W1 statistics (median, IQR, p95, maximum, carrier count; §3.5); **per-fact share** of Σ|δw| carried by carriers whose largest key falls on that fact's positions (advisor Q5 (b)), so a fact-dominated carrier set is visible.
+- **Fit (§3.2)**: m, M, φ_μ, φ_0^id, the evaluator's `canon_full_n` and the per-fact minimum lead on each view, in the additional post-loop observation (§2.2 item 8).
+- **Premise readouts (not gated)**: per-position teacher-forced lead on the 72 held-out A7 prompts, pre and post, positions 1 and ≥ 2 separately (where the wall sits after a margin write); **predicted transfer**: the first-order Δlead the round-1 patch predicts at the 72 held-out prompts' value positions (Z4's formula, applied to held-out keys), against the realised change. Held-out quantities are read only after the write and never enter the solve. **Lead distributions (non-gating):** the pristine identity-view lead distribution and recipe A's post-write identity-view leads per position (advisor Q5 (d)); μ is not tuned to them. The held-out first-order transfer diagnostic is reported after the final write and cannot stop, select rounds or tune a later update. Near-zero predicted transfer does not falsify a nonlinear multi-round writer before it finishes (Codex #20).
+- **Write geometry**: ‖ΔW‖_F per touched layer; Σ‖ΔW‖_F of Z over recipe A's (reported only; the sites differ).
+
+### 2.10 Memory arithmetic (48 GB unified memory; CPU tensors share the pool)
+
+| item | arithmetic | size |
+|---|---|---|
+| model weights fp16 | 3,085,938,688 params × 2 B (C10Y §2.10 breakdown) | 6.17 GB (5.75 GiB) |
+| band covariances, CPU float32, loaded by `compute_P` in every `run_recipe` (`c10e:169–172`; `memit_main.py:280`) | 5 × 11008² × 4 B | 2.42 GB |
+| band projectors P (`c10e:175`) | 5 × 11008² × 4 B | 2.42 GB |
+| band snapshot (`c10e:152`) | 5 × 2048 × 11008 × 2 B | 0.23 GB |
+| `PRISTINE`, all 36 `down_proj` (CPU) | 36 × 2048 × 11008 × 2 B | 1.62 GB |
+| saved baseline band snapshots, 3 recipe-A arms (CPU; §2.6 stage 0 steps 2 and 4) | 3 × 5 × 2048 × 11008 × 2 B | 0.68 GB |
+| G and its Cholesky factor, float64 CPU | 2 × 2048² × 8 B; vocabulary chunks of 8,192 rows × 2048 × 8 B while accumulating | 0.07 GB + 0.13 GB transient |
+| D statistics | 36 × 11008 × 4 B | < 0.01 GB |
+| observation forward, no grad (144 rows, padded length T_pad ≈ 28, UNVERIFIED until step 0) | 4,032 tokens; per-layer transients ≈ 4,032 × (6 × 2048 + 4 × 11008) × 2 B, freed layer by layer | ≈ 0.46 GB transient |
+| round-1 key captures, all layers, float32 | ≤ 864 positions × 36 × 11008 × 4 B | ≤ 1.37 GB |
+| later-round captures (carriers only) | ≤ 864 × 3,960 × 4 B | < 0.02 GB |
+| logits, native full head (no labels, `logits_to_keep=0`), gathered at requirement positions, then released | B × T_pad × V × 2 B = 144 × 28 × 151,936 × 2 B at the illustrative T_pad = 28, plus any actual conversion copies (T_pad, peak and head time recorded) | ≈ 1.225 GB transient |
+| SemCon per layer | `W_down` fp32 copy 90 MB + `W_downᵀ C` 11008 × 864 × 4 B | ≈ 0.13 GB transient |
+| A and its solve (F ≤ 864) | 864² × 8 B × 3 | < 0.02 GB |
+| D-statistics pass, batch 16 × 100 tokens | transient activations | ≈ 0.2 GB |
+| **peak** (arithmetic, not measured) | 5.75 + 2.26 + 2.26 + 0.21 + 1.51 + 0.63 + 1.28 + ≈ 1.9 transient (GiB; the native full-head logits add ≈ 0.9 GiB over v1's chunked-head figure; the saved baseline snapshots are counted as concurrent) | **≈ 15.8 GiB** |
+
+**Ceiling:** at step 0 and at every write, `torch.mps.driver_allocated_memory()` + process RSS (`psutil`) > 40 GiB, or MPS driver memory alone > 32 GiB → HALT (the step-7 advisor's fix, issue 9). Both recorded. Memory is far from the 48 GB limit; the chip is the limit (D-C10r-rulings-4 (1)).
+
+### 2.11 Compute budget (measured anchors only; every new cost is UNMEASURED)
+
+- **Measured anchors.** Measured anchors are approximately 34 minutes for the cited three-arm harness pass and 23 minutes for the cited behavior run (`INTEGRATED_QUEUE:18`: "measured ≈ 23 min per run"). Their evaluation-only components are UNVERIFIABLE; they are not divided into per-arm evaluation estimates (v1's "34 min = 23 min of evaluation + 11 min of solves" split and its 7.7 min per arm are withdrawn). One `compute_z` ≈ 7 s (`results/c10x_enginepath_advisor_v1.md` issue 13).
+- **Unmeasured.** The ASTRA, D, G, new-control, deferred-baseline-evaluation, all-frame/all-depth-probe and hashing costs on this Mac are UNMEASURED. Arithmetic only, not a time bound: one round = one forward of ≈ 4,032 tokens ≈ 24 TFLOP, plus the native full head ≈ 2.5 TFLOP (§2.2 item 2); round-1 SemCon over 36 layers ≈ 1.4 TFLOP; D statistics over ≤ 100,000 tokens ≈ 0.6 PFLOP; G ≈ 1.3 TFLOP in float64 on CPU. Dense A storage scales as F² and dense solve work as F³.
+- **Ceilings and deadline enforcement.** Stage 0–1 has a 5,400-second hard elapsed-time ceiling, starting before model import. Stage-2 and stage-3 ceilings are positive durations in seconds, fixed and recorded before process 1 starts; an absent ceiling refuses that expansion. The stage-2 clock starts on entry to stage 2, separately in each process, using the same fixed duration. The stage-3 clock starts before process 2’s model import and covers all of process 2. Process 2 additionally enforces its stage-0–1 and stage-2 deadlines. Each elapsed-time/projection comparison uses the corresponding clock origin and remaining work within that scope; the earliest applicable deadline governs. Ceilings never increase during an attempt. Only cost projections are recomputed. Before each stage and candidate write, publish elapsed time plus projected remaining work, including all checks, probes, serialization and restoration; refuse to start when this exceeds the applicable ceiling. Unknown required costs must receive a recorded conservative allowance, never zero. Independently enforce elapsed-time deadlines: expiration yields HALTED-BUDGET even when the earlier projection passed. Process 2 also retains the 5,400-second stage-0–1 ceiling. No gate may be dropped to meet a deadline. The 5,400-second ceiling is not a demonstrated 62-minute cost or guaranteed completion window; it is a proposed resource bound, not approval to run.
+- **Component timing.** After LAW#3, separately time D, G, verification, the deferred baseline evaluations (§2.6 stage 0 step 4), candidate rounds, binding evaluation, all locality probes and restoration/hashing with synchronization at MPS timing boundaries; these measured components feed the cost projections.
+- **Round-time halt (V13).** A synchronized stage-1 round wall-clock > 120 seconds yields HALTED-BUDGET, never NULL or UNDERFIT. Equality at 120 seconds passes. Record time already spent and the incomplete observation fields; do not lower the round cap inside the run.
+- **Stages 2–3.** Their ceilings are the launch-budget inputs above; the v1 4.1-hour maximum remains withdrawn as UNVERIFIABLE.
+- **Write wall-clock.** Report per-write solve-only time separately from validation/serialization/end-to-end compile time. W2>60 minutes is a disqualifier; W2≤60 does not prove the declaration-to-completion Write Lock TTL or compaction fit. The Write Lock starts at task declaration and has a 60-minute TTL; the separate incremental PREPARED default is two hours (spec `:678`, `:781–785`).
+
+### 2.12 Records
+
+`results/c10z_astra/`: `context_templates.json` (+ SHA-256), `dstats.pt` and `G.pt` (+ SHA-256s), `pristine_hash.json` (`H_pristine`, per-layer hashes, safetensors file hashes), `manifest.json` (`H_in` and its parts, §2.7), `overlap_audit.json` (§2.6 stage 0 step 4), `checks_p{1,2}.json` (Z0–Z7, V7, V8, hook registries, memory, component timing), `pass_p{1,2}.json` (every recipe and arm: readouts of §2.9, per-write ASTRA traces, `H_out`), `repro.json` (R1–R3, `artifact_identity`, `numeric_behavioral_reproduction`), `run.json`; logs under `results/c10z_astra/logs/`. Driver `experiments/track_c/c10z_astra_arms.py`; reader `experiments/track_c/c10z_astra_read.py`, which encodes every gate, label, attribution status and qualifier of §3 (the reader, not prose, issues labels; the CORPUS/50 prose/code divergence is the reason). The reader's boundary tests cover a=5/18; n=18/19/29/30; g=9/10; exact fit equality; exact side-gate equality; W1 and W2 equality; an all-ambiguous Z2 population; Z-band UNDERFIT/cap mismatch; and the LEAD/PARTIAL process pair (Codex label analysis). Each attempt writes to a fresh OUT_DIR and refuses existing manifest/pass files (§2.7). HALT diagnostic `architecture_profile/c10z_astra_halt_diagnostic.json`.
+
+## 3. Pre-registered readings (exact counts; decision order fixed)
+
+**Decision order:** HALT checks → fit (U) → binding count → side gates → base label → qualifiers → attribution → replication.
+
+**Numeric conventions.** Count fields are integers; denominators describe populations and are never included in count comparisons. Every median, including D and W1, uses the arithmetic mean of the two central sorted values for an even population.
+
+### 3.1 Validity — any failure → HALT with label HALTED-V*k* (no candidate label is issued)
+
+- **V1** Fingerprint `d941a9fb` and `_cov_cpu == 3`; SHA-256 of `c10e_bandknob.py` and of everything under `memit_dry_run/memit/memit/` equal at start and end of the process.
+- **V2** `run_law5` INERT in every recipe (`c10e:444`).
+- **V3** `H_pristine` recorded at import; Z6 holds at every named point; in process 2, `H_pristine` equals process 1's. The driver's hook registries equal the recorded initial registry at every named point, and every `try/finally` restore succeeded (§2.6); a hook or restore failure is a HALT.
+- **V4 (LAW#3)** Recipe A: A7 `para_full_n` ∈ [5, 18] (of 72), `canon_full_n` ∈ [5, 10] (of 24), `para_first_n` ∈ [42, 59] (of 72), inclusive; A1 and A2 integer `para_full_n` ≥ 68 (of 72). Checked in the driver before any new code touches the model.
+- **V5** Z0–Z5 and Z7 pass (§2.8); Z3, Z4 and Z7 are each required.
+- **V6** No non-finite value in any A, λ, δw or captured tensor.
+- **V7, V8** Instrument sanity (§2.8).
+- **V9** Audit counters: within each Z or Z-band recipe, wrapper ASTRA calls = number of arms run, original-path calls = 0 outside `run_law5`, `Z_OVERRIDE_HITS` = 0 (`c10e:408`).
+- **V10** `para_string_n ≥ para_full_n` for every arm.
+- **V11** Memory ceiling (§2.10) and no float64 on MPS.
+- **V12** `H_in`, `H_out`, every SHA-256 of §2.12, stop reason and rounds used per write are in the record. `H_in` binds every input listed in §2.7, and process 2 validated the complete same manifest before baseline or candidate work; the certificate records `artifact_identity` and `numeric_behavioral_reproduction` (§2.7). A malformed or missing mandatory record halts rather than entering the label partition; required records depend on completed stages, and explicit NOT-RUN or NOT-EVALUATED records are not malformed (§3.4).
+- **V13 (HALTED-BUDGET)** A synchronized stage-1 round wall-clock > 120 s; a refusal to start because published elapsed time plus projected remaining work exceeds the applicable ceiling; or expiration of an elapsed-time deadline, even when the earlier projection passed (§2.11), yields HALTED-BUDGET, never NULL or UNDERFIT. Equality at 120 s passes.
+
+### 3.2 Fit rule (the underfit gate)
+
+In one additional observation after the last weight update (same recorded 144-row shape; no solve/write; §2.2 item 8), with the unmodified evaluator's counts for the same arm:
+- M = the integer number of requirement triples (fact, view, value position); m = the integer number with lead ≥ 5.0 logits; φ_μ = m / M;
+- `positive_identity_fact_n` (φ_0^id) = the integer number of facts (of 24) whose identity-view leads are > 0 at every value position;
+- `canon_full_n` = the unmodified evaluator's actual integer canonical count (of 24) for this arm.
+
+**FIT requires `20*m >= 19*M`, `positive_identity_fact_n >=23`, and `canon_full_n >=23`. Otherwise U (UNDERFIT) holds.** Boundaries: equality at 95 % (20m = 19M), 23 canonical facts and 23 positive-lead identity facts passes; lead = 0 does not count positive, lead = 5 does count margin-met; φ_μ = 0.9499 is U; φ_0^id = 22 is U; `canon_full_n` = 22 is U. φ_0^id remains a diagnostic of the observation batch, not a substitute for deployed canonical success. A write that stops because no requirement fails has φ_μ = 1.0 by construction. The 0.95 allows for the cross-shape spread and the fp16 write rounding (both ≪ μ). These comparisons are frozen before launch. The same rule is applied to Z-band (§3.5, attribution).
+
+### 3.3 Labels (per process; A7 is the binding arm)
+
+Let n = Z's A7 `para_full_n` /72, a = recipe A's A7 `para_full_n` /72 in the same process (a ∈ [5, 18] by V4), g = n − a. Side gates, each against recipe A of the same process (`results/research_pass_2026-10-06/prereg_stubs.md:10` form, as C10Y §3):
+- **G1** L1 flips ≤ A + 1 (of 12);
+- **G2** F0 same-frame flips ≤ A + 1 (of 6) in every one of the six fitted views, each view counted separately; no pooling of flips across views and no mean substituted for an individual gate;
+- **G3** `described_as` ≥ A − 3.0;
+- **G4** requires integer `L3_top1_agree >=29` (L3 top-1 agreement, of 30);
+- **G5** generic perplexity ≤ A + 0.5;
+- **G7** separately for each (frame, i, j) — every fitted view, every fact i, every depth j = 1..T_i − 1 (one G7 cell each); the hit types are next-token and full-remainder. For each G7 cell and each hit type, let h_Z and h_A be newly induced integer counts in [0,6]; pass iff `h_Z <= h_A+1`. Equality passes. No pooling across views and no mean substituted for an individual gate;
+- **G0** (stage 2 only) Z's A1 integer `para_full_n` ≥ 68 (of 72) and Z's A2 integer `para_full_n` ≥ 68 (of 72).
+
+S = all side gates measured so far hold (stage 1: G1–G5, G7; stage 2 onward: plus G0).
+
+**Table T — base label B (rows are disjoint and cover every (n, g, S)):**
+
+| row | n | g = n − a | S | B |
+|---|---|---|---|---|
+| T1 | 0–18 | any | any | NULL |
+| T2 | 19–72 | ≤ 9 | any | NULL |
+| T3 | 19–29 | ≥ 10 | true | PARTIAL |
+| T4 | 30–72 | ≥ 10 | true | LEAD |
+| T5 | 19–72 | ≥ 10 | false | TRADEOFF |
+
+Since a ≤ 18, n ≥ 30 implies g ≥ 12, so T4 never needs the g condition. It is kept for symmetry.
+
+**Rule U:** if U holds and B = NULL, the label is **UNDERFIT** ("inconclusive under this solve budget"), never NULL. If U holds and B ∈ {TRADEOFF, PARTIAL, LEAD}, the label is B with **-UNDERFIT**.
+
+### 3.4 Stage rules
+
+- **K1 (stage-1 kill, read on A7 after stage 1).** Count survival is exactly `n ≥ 19 AND n − a ≥ 10` (rows T3–T5). Automatic stage 2 additionally requires A7 FIT, all measured side gates passing and no -LARGE-WRITE, -SUBJECT-FREE or -EXCEEDS-TTL. Otherwise close stage 1 with the correct base label/qualifiers and -STAGE1, recording G0 and attribution as not run. A count kill gives T1/T2 under rule U (NULL or UNDERFIT) with **-STAGE1** (G0, Z-band and process 2 not run; none of them could raise a NULL); a disqualified survivor (T5 TRADEOFF, or T3/T4 carrying -UNDERFIT, -LARGE-WRITE, -SUBJECT-FREE or -EXCEEDS-TTL) keeps its base label and qualifiers with -STAGE1. A diagnostic expansion of a disqualified survivor is separate named work with a separate budget, not an automatic continuation. Kill threshold in plain numbers: Z's A7 held-out count ≤ 18 (of 72), or less than recipe A's + 10; the first surviving counts are n = 19 for a = 5–9, n = 20 for a = 10 and n = 28 for a = 18 (deductions from the predicates, not alternative thresholds).
+- **K2 (process 2):** runs iff the stage-2 label is PARTIAL or LEAD carrying none of -UNDERFIT, -LARGE-WRITE, -SUBJECT-FREE, -EXCEEDS-TTL. Otherwise the stage-2 label is final, with **-SINGLE-PROCESS** (non-binding, as `results/research_pass_2026-10-06/prereg_stubs.md:11` states for one-process results). The scheduling marker -SINGLE-PROCESS is removed only after a valid required second process completes; -STAGE1 never means G0 passed.
+- **Records under early stopping.** Required records depend on completed stages. K1/K2 omissions are explicit NOT-RUN records with reasons, not malformed records. Before process 2, certificate fields are NOT-EVALUATED and do not invalidate process 1. If process 2 validly stops at K1, retain its measured A7 label and apply the lower-label aggregation; R1 for omitted arms is NOT-EVALUATED and the aggregate receives -REPRO-INCOMPLETE, which blocks adoption and gate A. Do not infer numerical reproduction failure from an unrun arm. An actual validity halt in either process prevents an aggregate scientific verdict; retain completed observations as non-binding.
+
+### 3.5 Qualifiers (attach to any base label; never change it; any qualifier blocks adoption and gate A)
+
+- **-UNDERFIT**: rule U.
+- **-LARGE-WRITE (W1)**: W1 is a prospective conservative guard: add -LARGE-WRITE when the median realised final carrier-column relative change ‖δw_j‖/‖w_j‖ (final fp16 weights minus `PRISTINE`; median convention, §3) exceeds 0.55; equality passes. This is anchored to a reported source range (§4.2: SemCon medians 0.07–0.24; the alternative attributions 0.09–0.55), not a proven safe/unsafe boundary for Qwen fact editing. Report median, IQR, p95, maximum and carrier count; note values above 0.24 separately. A zero original column has ratio 0 if unchanged and +∞ if changed; do not silently divide by an arbitrary denominator. No norm threshold substitutes for locality gates. C10Y's Σ‖ΔW‖ ratio does not transfer across write sites.
+- **-SUBJECT-FREE**: subject-free prompts use the neutral frame "The name is" and all depths. Count a fact once if any depth has a newly induced full-remainder hit. Add -SUBJECT-FREE iff that /24 count exceeds recipe A's +1 (the step-2 rule, `docs/C10T_SECONDKEY_PREREG.md:71`, extended to every depth).
+- **-EXCEEDS-TTL (W2)**: any Z write wall-clock > 60 min (spec `:783`). W2 ≤ 60 min does not prove the declaration-to-completion Write Lock TTL or compaction fit (§2.11).
+- **-STAGE1**, **-SINGLE-PROCESS**: §3.4.
+- **-REPRO-INCOMPLETE**: §3.4 (process 2 validly stopped at K1; R1 for the omitted arms is NOT-EVALUATED).
+- **Across processes (stage 3 only).** Rank NULL = UNDERFIT = 0 < TRADEOFF = 1 < PARTIAL = 2 < LEAD = 3. Compute the lower base label and union of substantive qualifiers. At rank 0 it is UNDERFIT if either process is U, else NULL. When both processes have clean PARTIAL-or-LEAD evidence and R1–R3 pass, the common lower label is replicated, including LEAD/PARTIAL→PARTIAL. Record `lead_replicated=false` for that boundary case. Otherwise preserve -NOT-REPLICATED for incompatible positive claims (the two base labels differ, other than a LEAD/PARTIAL pair that is clean in both processes with R1–R3 passing) and -NOT-REPRODUCIBLE for any R1–R3 failure. The scheduling marker -SINGLE-PROCESS is removed only after a valid required second process completes; -STAGE1 never means G0 passed. **-NOT-REPRODUCIBLE** if any of R1–R3 fails:
+  - **R1** identical carrier set S (ranked with the fixed score/layer/neuron tie order, §2.2 item 4) and identical write-round count, and per touched layer ‖ΔW_p1 − ΔW_p2‖_F / ‖ΔW_p1‖_F ≤ 1e-3, for every Z arm run in both processes (an arm omitted under K1 is NOT-EVALUATED, §3.4); if both layer deltas are zero, the error is 0; if only one is zero, R1 fails;
+  - **R2** |n(p1) − n(p2)| ≤ 2;
+  - **R3** ≤ 3 of the 72 held-out A7 prompts disagree between processes.
+
+  The frozen templates, D and G are loaded by hash. The R1 thresholds are retained as preregistered; failure reports the failed field, with no after-the-fact tolerance relaxation. A process-2 result outside them is a finding about regeneration. R1–R3 test numeric/behavioural reproduction only; artifact identity is the separate `H_out` comparison (§2.7), and behavioural agreement does not establish it.
+
+**Attribution (stage 2; recorded beside the label, does not change it).** Apply the final-observation fit rule (§3.2) to both Z and Z-band. If either is UNDERFIT, report **ATTRIBUTION-UNINFORMATIVE** with the arm and failing fit fields. If Z-band's capacity could not be matched (B_Z > 5 × 440, §2.5), report **ATTRIBUTION-UNMATCHED-CAPACITY**; the capped band run is a diagnostic only. If Z-band fails its A7 locality/subject-free/size gates (G1–G5, G7, -SUBJECT-FREE, W1, each against recipe A), report **ATTRIBUTION-TRADEOFF**; do not call the gain retained cleanly. Only otherwise apply the capacity-matched descriptive comparisons, with n_b = Z-band's A7 count: **BAND-RETAINS-QUALIFIED-GAIN** iff `n_b≥19 AND n_b−a≥10 AND n_b≥n−5`; **BAND-NO-QUALIFIED-GAIN** iff `n_b≤18 OR n_b−a≤9`; otherwise **BAND-PARTIAL-RETENTION**. Tests are ordered and exhaustive, implemented as ordered first-match rules. These describe this matched solver package and do not identify objective causality or prove that late layers are necessary. These are attribution statuses and do not alter Z's primary label. (v1's OBJECTIVE-CARRIES / SITE-DEPENDENT / MIXED are withdrawn.)
+
+### 3.6 Worked rows, recorded before any run (a = 12 unless stated; "gates" = every side gate holds)
+
+| case | inputs | label |
+|---|---|---|
+| 1 | n = 18, FIT | NULL-STAGE1 (T1; K1 stops) |
+| 2 | n = 18, U (φ_μ = 0.80) | UNDERFIT-STAGE1 |
+| 3 | n = 21, g = 9 (a = 12) | NULL-STAGE1 (T2) |
+| 4 | n = 25, a = 16, g = 9 | NULL-STAGE1 (T2) |
+| 5 | n = 22, g = 10, gates, FIT; stage 2 G0 holds, W1 0.4 (above the paper's SemCon range; reported, not a qualifier) | PARTIAL → process 2; p2 n = 23, both clean → PARTIAL (replicated if R1–R3 pass) |
+| 6 | n = 22, g = 10, G7 fails 3 (view, fact, depth) gates | TRADEOFF-STAGE1 (K1: a gate fails, no automatic stage 2) |
+| 7 | n = 29, gates, FIT; stage 2 Z-A1 = 67/72 | TRADEOFF-SINGLE-PROCESS (G0 fails; K2 not met) |
+| 8 | n = 30, gates, FIT, W1 0.3; p2 n = 29, both processes clean | p1 LEAD, p2 PARTIAL → PARTIAL replicated if all R1–R3 and both processes' gates pass, `lead_replicated = false`; LEAD not replicated |
+| 9 | n = 31, gates, U (φ_0^id = 22) | LEAD-UNDERFIT-STAGE1 (K1: not FIT, no automatic stage 2) |
+| 10 | n = 24, g = 6, U | UNDERFIT-STAGE1 |
+| 11 | n = 33, gates, FIT, W1 1.4 | LEAD-LARGE-WRITE-STAGE1 |
+| 12 | n = 26, gates, subject-free hits A + 4 | PARTIAL-SUBJECT-FREE-STAGE1 |
+| 13 | recipe A A7 = 19/72 | HALTED-V4 (no new-writer observation, instrument preparation or candidate runs) |
+| 14 | Z3 (d): one greedy generation differs | HALTED-V5 |
+| 15 | stage 2: n = 26, Z-band FIT, gates clean, capacity matched, n_b = 23 | PARTIAL …, attribution BAND-RETAINS-QUALIFIED-GAIN (23 ≥ 19, 23 − 12 = 11 ≥ 10, 23 ≥ 21) |
+| 16 | stage 2: n = 26, Z-band clean, n_b = 20 | attribution BAND-NO-QUALIFIED-GAIN (20 − 12 = 8 ≤ 9) |
+| 17 | stage 2: n = 40, Z-band clean, n_b = 28 | attribution BAND-PARTIAL-RETENTION (28 ≥ 19, 28 − 12 = 16 ≥ 10, 28 < 35) |
+| 18 | stage 2: n = 26, Z-band U (φ_μ = 0.61), n_b = 14 | attribution ATTRIBUTION-UNINFORMATIVE |
+| 19 | stage 2: n = 26, Z-band FIT, Z-band G7 fails, n_b = 24 | attribution ATTRIBUTION-TRADEOFF |
+| 20 | stage 2: n = 22, Z-band clean, n_b = 17 | attribution BAND-NO-QUALIFIED-GAIN (17 ≤ 18; v1 would have read OBJECTIVE-CARRIES) |
+| 21 | stage 2: Z-band FIT, T = 144, B_Z = 2,304 > 2,200 | attribution ATTRIBUTION-UNMATCHED-CAPACITY (capped band run diagnostic only) |
+| 22 | n = 22, g = 10, gates, φ_μ = 0.958, φ_0^id = 24, actual `canon_full_n` = 0 | PARTIAL-UNDERFIT-STAGE1 (FIT needs `canon_full_n` ≥ 23) |
+| 23 | n = 26, gates, FIT, W1 = 0.55 exactly | PARTIAL → stage 2 (W1 equality passes) |
+| 24 | stage 1: a synchronized round takes 121 s | HALTED-BUDGET (V13; never NULL or UNDERFIT) |
+
+**What each buys.** LEAD, unqualified, replicated and reproducible → a write-path candidate, with real-time use, artifact-identical regeneration, compaction fitness and designated-engine compliance still OPEN (§0): the operator's route ruling (§6 decision 1), then the Incremental shape, Q4_K_M survival (`INTEGRATED_QUEUE:32`) and the §8.2 amendment question. PARTIAL → the next configuration as its own pre-registration (differently worded deterministic views; Z on top of recipe A's write; per-fact sequential shape). TRADEOFF or -SUBJECT-FREE → report: margin writes at value positions buy recall with spillover, the CORPUS/53 family. NULL with FIT → H-Z2 or H-Z0 for this configuration; the premise readouts say which position fails. UNDERFIT → inconclusive; any budget change is a new pre-registration.
+
+## 4. Not claimed, whatever the outcome
+
+No label in CORPUS/44–53 changes. LEAD is a write-path candidate. It is not §8.9 contract closure, not route closure, not an F1 change and not a replication of ASTRA (different domain, model, precision, view set, batch shape, reference set; §7). NULL does not close margin solves, joint solves or late-layer writes. Nothing is claimed about which components carry the value: the attribution statuses describe the matched solver package only and do not identify objective causality or prove that late layers are necessary (§3.5). **Spec-amendment flags if ever adopted:** §8.2's designated engine and D20 safeguards (spec `:311–317`, §0); the `COMMITTED` overlay hash (spec `:671`), which stays a concrete artifact hash: R1–R3 cannot replace it, and route replay semantics stay OPEN if artifact identity fails (§2.7); the write site moving outside L17–L28-scaled when carriers sit there (§2.9). **Compaction at scale is not tested:** F grows with facts × views × value tokens; a 10,000-row system needs 0.8 GB in float64 and a 36,000-row one 10.4 GB. Dense A storage scales as F² and dense solve work as F³, so matrix bytes alone do not establish compaction throughput. **WRITE-QUALIFIES is a recommendation about the method class (§0); real-time use, artifact-identical regeneration, compaction fitness and designated-engine compliance are not established by this design and remain OPEN.**
+
+## 5. Halt discipline and close-out
+
+One speculative fix after a `cat -n` read, then HALT with a diagnostic JSON (`architecture_profile/c10z_astra_halt_diagnostic.json`) and a `SESSION_CHECKPOINT.md` entry. Pre-named halts: V1 fingerprint or file hashes; V3 pristine hash mismatch; **V4 recipe A outside the envelope (LAW#3; the process exits before any new-writer observation, instrument preparation or candidate runs; the runs made are kept as data, not promoted)**; any of Z0–Z7 (V5; a Z2 with zero checked facts is not a pass); V6 non-finite values; V7 D-statistic sanity; V8 Cholesky failure; V11 memory ceiling or float64 on MPS; V3 hook-registry or restore failure; V12 malformed or missing mandatory record; V13 HALTED-BUDGET (a stage-1 round over 120 s, a refused start because elapsed plus projected remaining work exceeds the applicable ceiling, or an expired elapsed-time deadline). Close-out through `tools/closeout_check.py D-C10z-astra` once the CORPUS entry exists. Advisor pass before any code. The design pass was run by Codex with gpt-6.1-sol at max effort, not GPT-6-Astra (§8); a GPT-6-Astra (high) freeze check precedes the freeze, and GPT-6-Astra (high) reviews the implementation, the verdict, and the promote gate if LEAD.
+
+## 6. Reviews and open points
+
+v1 draft → advisor pass (FIX-FIRST, `results/c10z_astra_advisor_v1.md`) → cross-family design pass (gpt-6.1-sol, effort max, not GPT-6-Astra; FIX-FIRST, `results/c10z_astra_codex_design_v1.md`) → v2 (fold log §8) → GPT-6-Astra (high) freeze check (FIX-FIRST, `results/c10z_astra_astra_freeze_v2.md`) → v2.1 (this file; fold log §8.2) → freeze-check confirmation → lead read-through → freeze → implementation (driver: wrapper modes, full 36-layer snapshot/restore with `try/finally` and `restore_hook`, hook-registry checks, observation batch, native head, captures, G, D statistics, SemCon selection with fixed tie order, joint solve, write, rounds, post-loop observation, capacity-matched Z-band, F0/F1/subject-free/relation probes in every fitted view and depth, overlap audit, Z0–Z7, component timing, manifest; reader with the §2.12 boundary tests) → implementation review → stage 0–1 → K1 → stage 2 (clean survivor only) → K2 → process 2 → verdict → CORPUS/NN.
+
+**Review questions (a)–(h), answered for v2 as determinate v1 choices (advisor Q5; Codex #20).**
+- (a) *Views.* Keep the six engine-derived views fixed for v1 (both reviews). The overlap audit of the frozen views and the D reference texts is added (§2.6 stage 0 step 4). Deterministic renderings belong to a follow-up pre-registration.
+- (b) *Joint batch, T = Σ T_i.* Kept fixed for v1. A per-fact share-of-Σ|δw| readout is added (§2.9).
+- (c) *Null-space weights.* 1,000 Wikipedia rows and the 10⁻³-median floor accepted; the floored count is recorded. V7 uses all available cached layers 4–12 with the preregistered ≥ 0.80 sanity bound, while explicitly leaving late-layer statistical fidelity unverified by that comparison.
+- (d) *Margin scale.* μ = 5 kept fixed; the pristine and recipe-A lead distributions are recorded, non-gating, without tuning μ to the observed result (§2.9).
+- (e) *LAW#5 sufficiency.* Not sufficient as drafted: Z3 is identity plumbing only (now two rounds, both modes); Z7 is added (independent key locus, nonzero known-answer control); V5 requires Z3, Z4 and Z7 (§2.8).
+- (f) *Fit thresholds.* φ_μ ≥ 0.95 (as `20*m >= 19*M`) and `positive_identity_fact_n >=23` (φ_0^id) kept, with the evaluator's actual `canon_full_n >=23` added (§3.2).
+- (g) *W1.* The question is withdrawn: W1 = 0.55 is a prospective guard anchored to the paper's reported range (§3.5), not a validated boundary.
+- (h) *Stacked variant.* Kept out of v1; it mixes two writers and two sites and needs its own pre-registration.
+
+Margin, fit and norm cutoffs are operational candidate criteria, not validated field-wide constants. Review results are advisory, not empirical evidence. Any follow-up configuration receives a new pre-registration; no design review or proxy closes C10.
+
+**Decisions for the operator at the go (recommendation first; one yes/no each).**
+0. *Scheduling under D-C10r-rulings-4 (3):* Recommend considering 5b as step 7's replacement in the existing integrated-queue slot, after the prior queued steps, including the step-5 oracle and step 4. Reviews do not themselves move it to the next GPU job. Any changed ordering is recorded explicitly under the standing program/operator authority. Report the oracle as context, not an upper bound or an automatic ASTRA kill. Run one GPU job at a time; this design review authorizes no model run. The demotion's stated reason (the reversed "3 % installed" premise) does not apply to this arm (§0), and the queue already names it as step 7's possible replacement (`INTEGRATED_QUEUE:23`).
+1. *Write qualification:* recommend WRITE-QUALIFIES for this fixed-input, bounded analytic solve (a recommendation about the method class, made by both design reviews; not a route verdict), with the round cap and stop rule part of the compile specification. This does not establish real-time use, artifact-identical regeneration, compaction fitness or designated-engine compliance; those remain OPEN, with the spec flags of §4. A "measurement" ruling changes no gate or label.
+2. *Budget:* stage 0–1 under a 5,400-second hard elapsed-time ceiling (a proposed resource bound, not approval to run; §2.11); stage-2 and stage-3 ceilings are positive durations in seconds, fixed and recorded before process 1 starts, with clock origins as §2.11 defines, and an absent ceiling refuses that expansion; recommend yes to stage 0–1.
+
+## 7. Departures and decisions where the source is silent (each open to the reviews)
+
+- **D-1 Domain.** Fact writes of coined values into a 3B base model, not API-repair of code models (§4 Benchmarks). The paper has no fact-editing result (scout `:18`).
+- **D-2 Views.** Six engine context-template views (identity + five sampled prefixes, frozen), not four hand-written renderings (§3.1). Reason: write inputs identical to recipe A's and no new wording near the sealed held-out set.
+- **D-3 Batch.** One joint system over the failing tokens of all 24 facts, one carrier set, budget T = Σ T_i. The paper repairs "one failing sample at a time" from the original weights (§3; §4 Protocol). Reason: the Genesis shape of recipe A.
+- **D-4 Layer count.** A quarter of 36 = 9 layers (the paper's quarter kept 6, 8 and 8 layers on its models, §4 Configuration).
+- **D-5 Reference set for D.** 1,000 Wikipedia rows × 100 tokens (the engine's covariance source) instead of "32 test prompts of the other benchmark" (§4 Configuration). Plus a floor at 10⁻³ of the layer median, which the paper does not mention.
+- **D-6 Ridge.** ρ = 10⁻³ of the mean diagonal; the paper gives no value (§3.4).
+- **D-7 Precision.** fp16 model on MPS with float32 captures, float64 G and solve on CPU, one fp16 rounding per column per round. The paper used bfloat16 on one GPU (§4 Models). No float64 on MPS.
+- **D-8 Token construction.** Prompt ids concatenated with value ids, matching `full_seq_match` (`c10e:110–116`), not `compute_z`'s decode-and-re-tokenise (`compute_z.py:47`).
+- **D-9 Scale.** s_t from the final norm's input with eps 1e-6 (config `:18`); the paper defines it as the RMS (§3.1) without an epsilon.
+- **D-10 Fit criterion.** The paper stops when no token fails (§3.5) and has no fit gate. Here the underfit gate reads `20*m >= 19*M` (φ_μ ≥ 0.95), `positive_identity_fact_n >=23` and the evaluator's actual `canon_full_n >=23` in one additional observation after the loop (§3.2).
+- **D-11 No KL or essence term.** Faithful to the paper. Recorded because every earlier C10 writer had one (`compute_z.py:151–153`).
+- **D-12 Selection pool.** All 36 layers, the band included. The paper does not exclude early layers by rule; its selections never fell in the first 58 % of the depth (§4.2).
+- **D-13 Z-band** attribution recipe (not in the paper), capacity-matched to Z's carrier count (§2.5).
+- **D-14 Process 2** is conditional (K2) and doubles as gate A.
+- **D-15 Competitor.** p_t is the highest-logit token other than y_t over all 151,936 logits, the same space as the evaluator's argmax (`c10e:114`).
+- **D-16 Citation numbering.** The paper's own section numbers are used throughout; the queue's "§5.3" is the paper's §4.3.
+- **D-17 Carrier tie order.** Descending score, then ascending layer index, then ascending neuron index (Codex #7); the paper is silent.
+- **D-18 Head path.** Native full head (`logits_to_keep=0`), gathered at requirement positions (Codex #11); the paper does not describe its implementation.
+
+## 8. Review fold log (v1 → v2; one line per review item)
+
+Reviewers. Advisor: Claude Opus 5.5 (`claude-opus-5-5`), `results/c10z_astra_advisor_v1.md`, FIX-FIRST, 4 BLOCKING (#1–#4) + 10 ADVISORY (#5–#14). Codex design pass: **gpt-6.1-sol at effort max** (the review's own header, `results/c10z_astra_codex_design_v1.md:3`, citing its session log), **not GPT-6-Astra**; it is not entered as the GPT-6-Astra/high review this program calls for, which is still owed as the freeze check. FIX-FIRST, 10 BLOCKING (#1, #2, #3, #4, #7, #15, #16, #17, #18, #19) + 10 ADVISORY (#5, #6, #8, #9, #10, #11, #12, #13, #14, #20). Codex adjudicated each advisor item; where it said AGREE-WITH-CHANGE, its change governs.
+
+- Advisor #1 (BLOCKING) — applied-with-change: Z7 added (§2.8), Z3 purpose line, V5 (§3.1), requirement-map row 2 and §5 halt list updated; Z7's body is Codex #1's text: exact same-batch key equality replaces the advisor's cross-shape τ_k, and the finite normalised-lead reference replaces the frozen-scale prediction and the "realised Δlead ≈ 1.0" pass rule. Kept from the advisor: S = 16 highest-SemCon layer-35 neurons, γ_t = 1.0, the predicted halt and its one fix.
+- Advisor #2 (BLOCKING) — applied-with-change: stage 0 reordered (recipe A → LAW#3 → pristine probes/Z0 → instruments; §2.6); Codex #2's heading and step text used (it also bars instrument preparation before LAW#3); the advisor's probe_hook/raw-hit detail kept.
+- Advisor #3 (BLOCKING) — applied-with-change: every-depth F1 and subject-free probes (§2.9), G7 and -SUBJECT-FREE (§3.3, §3.5) in Codex #3's text, which also gates newly induced full-remainder hits at every depth (advisor: j = 1 only) and defines induction per prompt.
+- Advisor #4 (BLOCKING) — applied-with-change: rule U on Z-band and ATTRIBUTION-UNINFORMATIVE (§3.5), worked row 18; Codex #4/#15 govern the rest (fit on both arms, ATTRIBUTION-TRADEOFF, matched capacity, BAND-* statuses replacing OBJECTIVE-CARRIES/SITE-DEPENDENT/MIXED).
+- Advisor #5 (ADVISORY) — applied-with-change: Z1 rewritten in Codex #5's text (native cast order; τ_head = max(2σ_head, 0.02), HALT if > 0.25); the advisor's unmeasured 0.05 floor is not adopted.
+- Advisor #6 (ADVISORY) — applied-with-change: W1 = 0.55 (§3.5) in Codex #6's wording (prospective guard, not a validated boundary; p95/max; zero-column rule); §6 (g) withdrawn.
+- Advisor #7 (ADVISORY) — applied-with-change: §0 item 3 regeneration claim corrected and "tighter than C10Y's … nothing is stochastic" dropped (§3.5); the R1 loosening (Jaccard ≥ 0.98, rounds ±1, 1e-2) declined per Codex #7: strict R1 retained, artifact identity separated (§2.7).
+- Advisor #8 (ADVISORY) — applied-with-change: LEAD/PARTIAL → PARTIAL replicated, per Codex #8 only when both processes are clean and R1–R3 pass, `lead_replicated = false` (§3.5); worked row 8 rewritten.
+- Advisor #9 (ADVISORY) — applied-with-change: overlap audit extended to the D reference texts per Codex #9, normalisation taken from C10Y (§2.6 stage 0 step 4); relation-label probes added (§2.9).
+- Advisor #10 (ADVISORY) — applied-with-change: all four citation fixes (§0 `:31` and item 4, §1 H-Z2, §2.2 item 4) made with Codex #10's paraphrases instead of new quotations.
+- Advisor #11 (ADVISORY) — applied-with-change: the head path is stated (§2.2 item 2) and the logits memory row corrected (§2.10); Codex #11 governs: native full head, no vocabulary-chunked head.
+- Advisor #12 (ADVISORY) — applied: additional post-loop observation (§2.2 item 8, §3.2); HALTED-BUDGET named and added as V13 (§2.11, §3.1, §5), in Codex #12's wording.
+- Advisor #13 (ADVISORY) — applied-with-change: K1 per Codex #13 (§3.4): automatic stage 2 needs a clean survivor (FIT, all gates, no disqualifying qualifier); the advisor's "unless the operator asks" option dropped; worked rows 6, 9, 11, 12 now end -STAGE1.
+- Advisor #14 (ADVISORY) — declined in favour of Codex #14: "next GPU job after step 3 r2 and the oracle" would skip step 4; §6 decision 0 keeps step 7's existing slot after steps 5 and 4.
+- Advisor Q1 (ADVISORY) — applied-with-change: WRITE-QUALIFIES recorded as a recommendation about the method class and condition (a) (round cap and stop rule are part of the compile specification) adopted (§0, §6 decision 1); its statement that the three harms are passed declined per Codex (they are open empirical gates; §0, §4).
+- Advisor Q2 flags (ADVISORY) — applied: identical to advisor #10 and #6 above.
+- Advisor Q3 (ADVISORY) — applied-with-change: logits memory correction = #11; the "FEASIBLE" timing conclusion not adopted (Codex #19: runtime UNVERIFIABLE; §2.11).
+- Advisor Q4 (a)–(b) (ADVISORY) — applied-with-change: `try/finally` full restore and hook checks (§2.6 stage 1, V3), using Codex's equality-with-recorded-initial-registry form instead of "registries empty".
+- Advisor Q5 (b), (c), (d) (ADVISORY) — applied: per-fact Σ|δw| share (§2.9); V7 on cached layers 4–12 (§2.8); pristine and recipe-A lead distributions, non-gating (§2.9). Q5 (a), (e)–(h) are answered in §6.
+- Advisor drift check (ADVISORY) — declined in favour of Codex #20: the held-out transfer proxy is reported after the final write and cannot stop the run (§2.9).
+- Codex #1 (BLOCKING) — applied: Z7 text verbatim (§2.8), Z3 extended to two zero-deficit rounds in Z and Z-band modes, V5 (§3.1), requirement map, §5. Change: Z7's "calibrate its rounding error at the same shape" is pinned to τ_head (Z1's same-shape calibration on the same batch), ceiling 0.25.
+- Codex #2 (BLOCKING) — applied: stage 0 heading and steps 2–5 (§2.6). Change: Z0 runs in step 4, so step 5 executes Z1–Z7.
+- Codex #3 (BLOCKING) — applied verbatim: §2.9 F1 and subject-free probes, G7 (§3.3), -SUBJECT-FREE (§3.5).
+- Codex #4 (BLOCKING) — applied: attribution fit and locality guards (§3.5), worked rows 18–19.
+- Codex #5 (ADVISORY) — applied: Z1 (§2.8); τ renamed τ_shape in Z0/Z2.
+- Codex #6 (ADVISORY) — applied: W1 (§3.5); §6 (g) replaced by its rationale.
+- Codex #7 (BLOCKING) — applied: §0 item 3, §2.7 certificate (artifact identity vs numeric/behavioural reproduction), R1 retained with zero-delta rule (§3.5), fixed tie order (§2.2 item 4, §2.4, D-17).
+- Codex #8 (ADVISORY) — applied: cross-process label clause (§3.5), K2 marker sentence (§3.4), worked rows 5 and 8.
+- Codex #9 (ADVISORY) — applied: overlap audit for view strings and D reference texts (§2.6 stage 0 step 4, §2.2 item 5); relation-label probes and per-edge behaviour-pass vector (§2.9).
+- Codex #10 (ADVISORY) — applied: the four paraphrases (§0, §1, §2.2 item 4).
+- Codex #11 (ADVISORY) — applied-with-change: text appended to §2.2 item 2 and §2.10/§2.4/D-18, with its opening "V1 uses" written as "The observation uses" so it does not collide with validity check V1.
+- Codex #12 (ADVISORY) — applied: §2.2 item 8, §2.11, V13, §3.2.
+- Codex #13 (ADVISORY) — applied: K1 (§3.4), stage 2 heading (§2.6), worked rows.
+- Codex #14 (ADVISORY) — applied: §6 decision 0; §0 demotion sentence.
+- Codex #15 (BLOCKING) — applied: capacity-matched Z-band (§2.5), BAND-* statuses (§3.5), worked rows 15–17, 20–21, D-13. Change: the attribution tests are ordered fit → capacity → locality/size → descriptive, so ATTRIBUTION-UNMATCHED-CAPACITY is disjoint from the rest.
+- Codex #16 (BLOCKING) — applied: Z0 prefix-shape reference, Z2 checked/ambiguous counts (§2.8), FIT = `20m ≥ 19M` ∧ φ_0^id ≥ 23 ∧ `canon_full_n` ≥ 23 (§3.2, D-10), worked row 22. Change: "zero checked facts is not evidence" is read conservatively as Z2 not passing (HALT under V5).
+- Codex #17 (BLOCKING) — applied: F0 and F1 in every fitted view (§2.9), G2 and G7 per view with no pooling (§3.3), probe population published and budgeted.
+- Codex #18 (BLOCKING) — applied: `H_in` additions (§2.7), D-reference pinning (§2.2 item 5), fresh OUT_DIR (§2.6 stage 3, §2.12), V12 (§3.1).
+- Codex #19 (BLOCKING) — applied: §2.11 replaced (anchors not decomposed; new costs UNMEASURED; 90-minute provisional hard budget; component timing; projected-total HALTED-BUDGET; 4.1 h withdrawn; W2 scope), §0 item 4, stage headings (§2.6), §6 decision 2, §2.10 peak re-added (≈ 15.2 GiB, arithmetic).
+- Codex #20 (ADVISORY) — applied: §0 write-only recommendation text, §2.4 cutoff note, §2.9 transfer-diagnostic rule, §4, §6 answers (a)–(h) and decision 1, §5/§6 reviewer identity.
+- Codex restore close-out (ADVISORY) — applied: §2.6 stage 1 restore and hook discipline, V3.
+- Codex label analysis (ADVISORY) — applied: malformed or missing mandatory records halt (V12); the listed reader boundary tests (§2.12).
+
+### 8.1 Reviewer conflicts and how they were resolved (rule: the more conservative option; Codex's change governs on AGREE-WITH-CHANGE)
+
+1. Z7 key check (advisor #1 vs Codex #1): advisor compares against a single unpadded forward under a τ_k calibrated on layer 35; Codex requires exact same-forward equality and treats cross-shape comparisons as diagnostics. Codex taken (stricter).
+2. Z7 forward check (advisor #1 vs Codex #1): advisor's frozen-scale prediction and "Δlead ≈ γ = 1.0" would reject correct code (Codex's RMSNorm counterexample). Codex's finite-normalisation reference taken.
+3. Full-remainder spillover depth (advisor #3 vs Codex #3): j = 1 only vs every depth. Codex taken (gates more).
+4. Z1 tolerance (advisor #5 vs Codex #5): unmeasured 0.05 floor vs calibrated τ_head = max(2σ_head, 0.02). Codex taken (tighter, measured).
+5. R1 (advisor #7 vs Codex #7): loosen to Jaccard ≥ 0.98 / ±1 round / 1e-2 vs keep identical carriers, identical rounds, 1e-3. Codex taken (stricter; claims less about regeneration).
+6. Replication (advisor #8 vs Codex #8): advisor's LEAD/PARTIAL exception on counts alone vs only with both processes clean and R1–R3 passing. Codex taken.
+7. Head path (advisor #11 vs Codex #11): chunked requirement-only head vs native full head. Codex taken (no new rounding seam).
+8. K1 expansion (advisor #13 vs Codex #13): advisor stops only T5 and offers an operator option; Codex stops every disqualified survivor and offers none. Codex taken (halts sooner).
+9. Scheduling (advisor #14 vs Codex #14): next GPU job after the oracle (skipping step 4) vs step 7's existing slot after steps 5 and 4. Codex taken (gates more).
+10. Write qualification (advisor Q1 vs Codex): advisor says the three harms pass; Codex says they are open gates. Codex taken (claims less).
+11. Transfer proxy (advisor drift check vs Codex #20): report beside K1 as an overturning test vs report after the final write, never a stop. Codex taken (claims less).
+12. Attribution (advisor #4 vs Codex #4/#15): advisor's OBJECTIVE-CARRIES/SITE-DEPENDENT/MIXED vs capacity-matched BAND-* statuses with fit and locality guards. Codex taken (claims less).
+13. Hook check (advisor Q4 (b) vs Codex close-out): registries empty vs equal to the recorded initial registry. Codex taken; the initial registry is recorded, so a non-empty start is visible.
+14. Stage 0 heading (advisor #2 vs Codex #2): advisor bars ASTRA observation before LAW#3; Codex also bars instrument preparation. Codex taken (gates more).
+
+No BLOCKING item of either review was left unapplied.
+
+### 8.2 Freeze-check fold log (v2 → v2.1; one line per review item)
+
+Reviewer: GPT-6-Astra at high effort, `results/c10z_astra_astra_freeze_v2.md`, FIX-FIRST, 5 BLOCKING (#1–#5) + 5 ADVISORY (numbered #6–#10 here in the review's order).
+
+- Astra-freeze #1 (BLOCKING) — applied: Z7's forward-reference clause replaced verbatim (§2.8; the `c·(x+v)` reference, "calibrate its rounding error … (τ_head, Z1)" and "Require at least one active control" removed); "The new writer's inertness is Z1–Z6" replaced verbatim (standing gate). σ_head/τ_head now defined once, in Z7; propagated to the Z1 heading and calibration sentence, the §2.8 tolerance paragraph ("calibrated in Z7") and requirement-map row 2.
+- Astra-freeze #2 (BLOCKING) — applied: verbatim text split at the barrier: sentences 1–2 replace step 2's probe clause (`probe_hook` and "retaining raw post-write probe hits" removed from step 2), sentences 3–5 added to step 4 (heading and derivation sentence updated). Accounting propagated: §2.10 snapshot row (3 × 5 × 2048 × 11008 × 2 B = 0.68 GB) and peak ≈ 15.8 GiB (arithmetic, counted as concurrent); §2.11 component timing and unmeasured list. Inclusive A7 windows and A1/A2 ≥68 unchanged in value.
+- Astra-freeze #3 (BLOCKING) — applied: §2.11 "Stage 0–1 budget" bullet replaced verbatim (its component-timing sentence kept as its own bullet; the 120-s round halt and W2 bullets unchanged) and "Stages 2–3" bullet reduced to a pointer. Propagated to requirement-map row 6, §2.6 stage 0 step 5 and the stage 1/2/3 headings, the §2.9 probe-cost sentence, V13 (now also actual deadline expiration), the §5 halt list and §6 decision 2. No stage-2/3 ceiling values were set; they remain operator launch inputs.
+- Astra-freeze #4 (BLOCKING) — applied: count and median conventions as a §3 preamble; FIT (§3.2, with `positive_identity_fact_n` named as φ_0^id), G4 and G7 (§3.3) verbatim. Propagated to D-10 and §6 (f) (executable FIT form), the count comparisons with attached denominators in §2.6 stage 0 step 3, V4, G0 and K1 (now "(of N)"), and median-convention pointers at D (§2.2 item 5) and W1 (§3.5).
+- Astra-freeze #5 (BLOCKING) — applied: text added verbatim as §3.4 "Records under early stopping"; propagated to V12 (NOT-RUN/NOT-EVALUATED records are not malformed), R1 (arms omitted under K1 are NOT-EVALUATED) and a -REPRO-INCOMPLETE entry in §3.5.
+- Astra-freeze #6 (ADVISORY) — applied: the reviewer's WRITE-QUALIFIES concurrence recorded in §0's write-only recommendation.
+- Astra-freeze #7 (ADVISORY) — applied: attribution tests stated as ordered first-match rules (§3.5); table T unchanged (reviewer verified it exhaustive and disjoint).
+- Astra-freeze #8 (ADVISORY) — applied: §2.2 item 8 sentence replaced verbatim; W1's "final summed patch against PRISTINE" changed to "final fp16 weights minus PRISTINE" (§3.5).
+- Astra-freeze #9 (ADVISORY) — declined: confirmation of no F1 drift; no text change needed.
+- Astra-freeze #10 (ADVISORY) — declined: confirmation from the ASTRA source read; no text change needed.
+- Astra-freeze-confirm v2.1 #1 (BLOCKING) — applied verbatim (`results/c10z_astra_astra_freeze_v21.md`): stage-2/3 clock origins at §2.11; the §6 decision-2 restatement points to §2.11. Advisory (memory arithmetic) — confirmed, no change.
+
+## 9. Amendment A-budget+telemetry (2026-10-07, pre-observation, D-C10z-budget / D-C10r-rulings-11/12)
+
+Written before any ASTRA process or benchmark has started; `results/c10z_astra/` and `results/c10z_astra_benchmark/` are absent. The text above is unchanged; where it conflicts with this section, this section governs. Sources: `results/c10z_astra_budget_proposal_v3.md` §C (formula), §D (deadline transition and its tests), §E (amendment text, adapted here to the benchmark path) and §F (operator questions); benchmark build spec `results/c10z_astra_benchmark_spec_v2.md`. Operator answer to v3 §F: "Yes on all 5." (runbook §5 D-C10r-rulings-12 and D-C10z-budget; chosen path: benchmark). Telemetry: runbook §5 D-C10r-rulings-11.
+
+(a) **Ceiling.** Every statement of the 5,400-second stage 0–1 ceiling (`:18`, `:125`, `:127`, `:133`, `:196` three times, `:344`) reads C01 seconds. C01 is a prospective resource cap, not a measured completion estimate. C01, C2 and C3 are nominal deadlines: the driver stops itself, and stopping overruns by an unmeasured amount, so none is a hard maximum. HALTED-BUDGET remains possible and is a clean halt, never a wrong label.
+
+(b) **Basis (benchmark path, the only path).** C01 = max(7,200, 300·⌈(I_pin + 2,040 + 26,680·t* + O + 1,800 + max(1,380, 15,798·t*) + Q)/300⌉), with t*, I_pin, O and Q exactly as v3 §C defines them (t* = 1.25 × max(p95, mean, eval_A7 s / 1,392) per probe-shaped forward, a prospective sizing heuristic that proves no coverage). The formula exists only in `ceilings()` of `experiments/track_c/c10z_astra_benchmark.py`. Its inputs come from one benchmark record whose top-level status is COMPLETE or CAPPED. At stage-0 launch the driver recomputes `ceilings()` on that record, requires `source` BENCHMARK and agreement with the record's own `derived`, and writes the record path, the record SHA-256 and the benchmark script SHA-256 into the launch record. The same values, with C01/C2/C3 and any `minima_used`, are appended to the D-C10z-budget row before the go record is written. This prereg is not edited again for them.
+
+(c) **Approved bounds (operator, D-C10z-budget).** 7,200 ≤ C01 ≤ 10,800 s (first phase at least 2 h, at most 3 h). Nominal GPU-resident total 2·(C01 + C2) ≤ 55,800 s (15.5 GPU-h). C01 > 10,800 or a total above 55,800 s → STOP: not launched; return to the operator. A REFUSED or INTERRUPTED benchmark is unusable; it may be rerun once in a new directory, and a second refusal returns to the operator. There is no fallback ceiling on this path; v3 §E's 9,600 / 14,400 / 24,060 applied only to a no-benchmark choice the operator did not make.
+
+(d) **Launch inputs** (not prereg values; recorded for audit). C2 = max(12,600, 300·⌈(3,780 + 3·max(1,380, 27,960·t*) + 600)/300⌉) and C3 = C01 + C2 + 60, both taken from the same `ceilings()` call. A supplied stage-2 or stage-3 ceiling that differs from it is refused (HALTED-BUDGET). An absent one still refuses that expansion (§2.11).
+
+(e) **Deadline scope (idle-time fix).** The stage 0–1 deadline remains in force until stage 2 is entered, so idle time between stage 1's return and the stage-2 request counts against C01. Stage-2 entry happens under one lock, which `deadline()` also takes. It captures one timestamp and refuses (HALTED-BUDGET) unless that timestamp is strictly before the stage 0–1 deadline. It installs the stage-2 deadline and only then removes the stage 0–1 deadline; nothing else removes it. A K1 survivor whose hand-off reaches C01 ends HALTED-BUDGET. §2.11's "the stage-2 clock starts on entry to stage 2" is unchanged. Build requirement: v3 §D tests (i)–(ix) are written first and recorded failing on the pre-fix code, except invariant (vii), which already passes. They include the structural test that `complete01` is referenced only in `Budget.enter`.
+
+(f) **Row 6.** If C01 > 7,200, this ceiling does not meet row 6's "≈ 1–2 h"; under D-C10z-budget the operator accepted up to 3 h.
+
+(g) **Write qualification (§6 decision 1).** The operator ruled that ASTRA's fixed, bounded calculation counts as a way of writing facts (D-C10z-budget, question 3). The ruling governs only how a positive result is described. It changes no gate, label, qualifier or reading. Real-time use, artifact-identical regeneration, compaction fitness and designated-engine compliance stay OPEN (§0, §4).
+
+(h) **Telemetry (D-C10r-rulings-11).** An opt-in writer appends small JSONL snapshots during a run so that the read-only Lab View can show the run live without loading a model.
+- **Switch.** Telemetry is on only when `C10Z_TELEMETRY=1` at launch. When the variable is absent, telemetry is off, and off is the default. Any other value is refused before any attempt write (HALTED-V12).
+- **Path.** `<OUT_DIR>/telemetry/telemetry_p<process>.jsonl` (`results/c10z_astra/telemetry/`, and `process2/telemetry/` for process 2). The file is append-only, holds one strict-JSON object per line and is flushed per line.
+- **Fields.** Four kinds of snapshot:
+  - (1) phase markers: stage, recipe, arm and round start/end, and the halt code on a halt;
+  - (2) per-layer write norms: for each carrier layer, the Frobenius norm of that round's patch and of the cumulative patch, from tensors the solve already holds;
+  - (3) per-position target probabilities: for each requirement (row, fact, view, target position), the softmax probability of the target token, from the logits the observation already gathered, computed in chunks;
+  - (4) logit-lens top-5 (token id, token text, probability) at each band layer (`hp.layers`, 4–8) for the written arm's F0 probe prompts (§2.9), at the pristine baseline and after each candidate write. Each comes from one extra no-grad forward per prompt with `output_hidden_states=True`, `use_cache=False` and no hook.
+- **Inertness (LAW#5).** Telemetry only reads. It writes no model parameter, registers no hook, never calls the budget clock and writes nothing into run.json or any §2.12 record. A telemetry I/O failure disables telemetry with a logged marker; it never halts or alters the run. Its own elapsed time counts against the nominal deadlines and is not projected. Timing fields may therefore differ by that time, which the telemetry file records. No count, lead, hit, label, hash or reading may differ.
+- **Proof (test-first).** With a stub model and an injected clock, every record and reading is identical (JSON-normalised) with telemetry on and off, and the on-run file contains all four snapshot kinds.
+
+Nothing else changes: no gate, label, K1/K2 rule, projection, probe, round cap (V13) or never-zero rule. Ceilings never increase during an attempt.
+
+## 9.1 Revision of Amendment A (2026-10-07, pre-observation, D-C10z-budget / D-C10r-rulings-11 / D-C10z-c01input)
+
+Written before any ASTRA process, benchmark run or build against §9 has started; `results/c10z_astra/` and `results/c10z_astra_benchmark/` are absent. §9 and all text above it are unchanged. Where §9.1 conflicts with §9, §9.1 governs; where a §9 sentence is replaced, it is quoted exactly below. Sources: GPT-6-Astra review `results/c10z_amend_review_astra.md` (FIX-FIRST, blocking 1–5) and Opus advisor review `results/c10z_amend_review_advisor.md` (PROCEED-WITH-CHANGES, B1–B4, A1–A7). Line references to §9 are to this file as it stood with §9 as its last section (`:449`–`:478`).
+
+(a′) **C01 is a launch input (D-C10z-c01input).** Production driver and reader code must obtain the selected C01 from validated launch provenance; they must not hard-code the benchmark-selected value. Literal contractual bounds and numeric synthetic test fixtures, including C01_FIX and boundary cases, are permitted. Tests must not treat a fixture value as the selected live ceiling. The driver's `Budget` takes C01 as an argument and refuses (HALTED-BUDGET) any value that is not a finite real number with 7,200 ≤ C01 ≤ 10,800. At stage 0, C01 is read from the benchmark record selected under (b′) and checked there against 7,200 ≤ C01 ≤ 10,800 and 2·(C01 + C2) ≤ 55,800 s. v3 §E's "`arms:88` `5400.` → C01" and "`read:500` `==5400.` → `==C01`" are implemented by (a′), (b′) and (e′), not by editing in a number after the benchmark.
+
+(b′) **Benchmark identity and the go binding.** §9(b) sentence "At stage-0 launch the driver recomputes `ceilings()` on that record, requires `source` BENCHMARK and agreement with the record's own `derived`, and writes the record path, the record SHA-256 and the benchmark script SHA-256 into the launch record." is superseded by (b′1)–(b′4).
+
+- (b′1) **The record carries its identity.** Besides the spec v2 fields, the benchmark record's `env` holds:
+  - `sources`: the SHA-256 of exactly these files, by path relative to the worktree: `experiments/track_c/c10z_astra_benchmark.py`, `experiments/track_c/c10z_astra_arms.py`, `experiments/track_c/c10z_astra_read.py`, `experiments/track_c/c10e_bandknob.py`, `configs/hparams/qwen25_3b_memit_hparams.json`, `tools/engine_fingerprint.py`, `memit_dry_run/memit/memit/memit_main.py`;
+  - `python` (`platform.python_version()`), `machine` (`platform.machine()`), `platform` (`platform.platform()`), and `torch` and `transformers` taken from `importlib.metadata.version(...)`.
+
+  `ceilings()` computes t* from the raw `seconds` arrays, not from the recorded summary statistics. The benchmark module's `validate_record()` recomputes every recorded summary statistic from those arrays and checks the spec v2 schema and status bands, so a record whose summaries disagree with its raw data is invalid.
+- (b′2) **The go record names the selected benchmark.** The go record (v3 §F, `arms:1342–1361`) gains three required keys, validated in format before anything else is read (HALTED-V12):
+  - `"benchmark_sha256"`: the SHA-256 of the selected record file's bytes;
+  - `"benchmark_script_sha256"`: that record's `env.script_sha256`;
+  - `"ceilings": {"stage01": C01, "stage2": C2, "stage3": C3}`: the values `ceilings()` computed for it.
+
+  The program writes these only after appending the same SHA-256s and numbers to the D-C10z-budget row (§9(b)'s last two sentences are unchanged). Before writing the go record, the program greps that row for both SHA-256 strings and the three numbers; the driver checks the go record, not the runbook.
+- (b′3) **Stage-0 admission**, in this order, all before any attempt write (before `out.mkdir` and `run.json`). The first failing step halts with the code shown, and nothing is written:
+  1. The existing fresh-OUT_DIR check and go-record check (`arms:1465–1467`), now including (b′2)'s fields. → HALTED-V12.
+  2. The telemetry switch under (h′1). → HALTED-V12.
+  3. `C10Z_BENCHMARK_RECORD` is present, absolute, and resolves to `<ROOT>/results/c10z_astra_benchmark/<one directory>/benchmark.json`, an existing file. → HALTED-V12.
+  4. Its bytes are read once. The SHA-256 of those bytes must equal the go record's `benchmark_sha256`. The same bytes are parsed as strict JSON with no non-finite number. → HALTED-V12.
+  5. The current SHA-256 of the benchmark script equals the record's `env.script_sha256` and the go record's `benchmark_script_sha256`. Every file in (b′1) `sources` has its recorded SHA-256 now. The current `python`, `machine`, `platform`, `torch` and `transformers` values equal the record's. → HALTED-V12.
+  6. `validate_record(record)` passes. → HALTED-V12.
+  7. `ceilings(record)` recomputed: `source` is BENCHMARK, or HALTED-BUDGET. The result equals the record's `derived` exactly, or HALTED-V12.
+  8. `stop` is false; 7,200 ≤ C01 ≤ 10,800; 2·(C01 + C2) ≤ 55,800. Each is a separate check. → HALTED-BUDGET.
+  9. The go record's `ceilings` equal the recomputed C01/C2/C3. → HALTED-V12.
+  10. `C10Z_STAGE2_CEILING_S` and `C10Z_STAGE3_CEILING_S`, when present, equal C2 and C3 (§9(d), unchanged). → HALTED-BUDGET.
+  11. If telemetry is on, the inertness record under (h′3). → HALTED-V12.
+
+  The launch record then gains:
+  - `"stage01": C01`;
+  - `"benchmark": {"path", "sha256", "script_sha256", "sources", "env", "ceilings"}`;
+  - `"telemetry": true|false`;
+  - `"telemetry_inertness": {"path", "sha256"}` or `null`.
+- (b′4) **Staleness** is defined by identity, not by age. A record is usable while (b′3) steps 3–9 pass. If a file in (b′1) `sources`, or the environment, changes after the benchmark ran, the record becomes unusable. A fresh benchmark is then run in a new directory, followed by a new D-C10z-budget append and a new go record. Such a re-run replaces a record made stale by drift. Identity drift itself is not a §9(c) refusal and does not consume §9(c)'s one-rerun allowance. At most one such drift-forced re-run is made on the program's own call; a second drift-forced re-run returns to the operator, as a refusal would (D-C10z-driftcap). Only a record that was usable before the change (it passed (b′3) steps 3–9 against the go record that names it) can be replaced this way. A record that drifts before any go record names it is simply not selected; a fresh run in its place is a drift-forced re-run under the same cap. A prior REFUSED or INTERRUPTED record remains subject to §9(c)'s one-rerun allowance and cumulative refusal count; identity changes neither reset that count nor grant a drift replacement. A prior STOP returns to the operator regardless of later changes. The replacement benchmark's outcome remains subject to §9(c): REFUSED or INTERRUPTED increments the cumulative refusal count, a second refusal returns to the operator, and STOP returns to the operator. §9(c)'s bounds and STOP rule apply to every record.
+
+(d′) **Carrying the binding through the attempt.**
+- The process-1 resident builds `Budget(start, launch["stage01"], launch["stage2"], launch["stage3"], process=1)` and takes the telemetry switch from `launch["telemetry"]`. It does not re-read the benchmark record, because its launch comes from the stage-0 call that verified it, through the child's environment.
+- Process-2 admission (stage 3) re-verifies the binding from `run.json`'s launch, after the existing stage-3 checks (`arms:1480–1486`) and before `process2/` is created or the model is imported. The record bytes at `launch["benchmark"]["path"]` must hash to `launch["benchmark"]["sha256"]`, which equals `launch["go"]["benchmark_sha256"]`. The script, `sources` and `env` identities must still match. `ceilings()` recomputed on those bytes must equal `launch["benchmark"]["ceilings"]` and the go record's `ceilings`, and `launch["stage01"]` must equal C01. If telemetry is on, the inertness record must still hash to `launch["telemetry_inertness"]["sha256"]` and its sources must still match. Any failure → HALTED-V12. Process 2 builds its `Budget` from `launch["stage01"]`.
+
+(e′) **Reader: range check plus exact provenance.** v3 §E's "`read:500` `==5400.` → `==C01`" is superseded by the following, which keeps the exact-equality invariant that the 5,400 constant used to give.
+- `read_process` (validation):
+  - `ceilings["stage01"]` is a finite number, not a boolean, with 7,200 ≤ stage01 ≤ 10,800 (HALTED-V12, "phase01 clock provenance").
+  - Every projection in `budget.history` has `ceilings` equal to the record's `budget.ceilings`, and each scope's `ceiling_s` equals the matching ceiling (HALTED-V12).
+- `read_directory`, for each closed, non-halted process directory:
+  - The pass record's `budget.ceilings[k]` equals `run.json`'s `launch[k]` for k = stage01, stage2, stage3.
+  - `launch["stage01"]` equals `launch["go"]["ceilings"]["stage01"]`.
+  - `launch["stage2"]` and `launch["stage3"]` are each either null, meaning the expansion was not launched, or equal to the go record's value.
+  - `launch["benchmark"]["sha256"]` equals `launch["go"]["benchmark_sha256"]`.
+  - Each failure → HALTED-V12.
+- `read_run`: process 1's and process 2's `budget.ceilings` are equal (HALTED-V12).
+- Reader tests include in-range mismatches (for example, launch 7,200 against pass 10,800), not only out-of-range values.
+
+(f′) **Idle-time fix: test definitions.** §9(e) sentence "Build requirement: v3 §D tests (i)–(ix) are written first and recorded failing on the pre-fix code, except invariant (vii), which already passes." is superseded by the following. The rest of §9(e) is unchanged. In particular, `enter` follows v3 `:113–124` exactly, including `if key not in self.origins`.
+- **Harness and adapter.**
+  - Every idle-fix test builds its `Budget` through one test helper, `_budget(start, c01, c2, c3, process, clock)`. When `Budget` has a `stage01` parameter (checked by signature inspection, not by catching `TypeError`), the helper uses the new signature. Otherwise it uses the old one and sets `durations["stage01"] = c01`.
+  - Tests that drive stage 1 run the real `Session.stage1` unbound on a stub, as v3 §D describes. The stub's `run_recipe` advances the fake clock from stage-1 start, where `project()` fits, to the test's stage-1 return time, so no test fails early in `project()`.
+  - On the pre-fix code, each of (i)–(vi), (viii) and (ix) must fail at its named behavioural assertion. A `TypeError`, `KeyError`, `AttributeError` or failure in `project()` does not count as the red step.
+- (i)–(v) and (vii): as in v3 §D.
+- (vi), restated:
+  - The test installs a recording `set` subclass as `budget.active` before it drives `Session.stage1`. After every `add` and `discard`, it records `deadline()`.
+  - It covers stage 1's return, the idle interval and `enter(2)`. No recorded value may be None (process 1).
+  - Today, the failure comes from the discard in `Session.stage1` (`arms:1259`), not from `enter` (`arms:106–110`).
+- (viii), restated: the clock stub returns origin + C01 on its first call and origin + C01 − 0.5 on every later call. `enter(2)` must refuse with "stage 0-1 deadline expired before stage-2 entry". Today it does not refuse, because its decision uses a second clock read. A second case, with every call at origin + C01 − 0.001, is accepted, and `origins["stage2"]` equals that value exactly.
+- (ix), restated as a barrier test:
+  - Thread E runs `enter(2)`, and its first clock call blocks on an event.
+  - While E is blocked, thread T calls `deadline()`.
+  - T must still be running after 0.2 s, with the assertion message "deadline() returned while enter(2) held the transition lock". After release, T returns entry + C2.
+  - Today, and with `deadline()`'s lock removed, T returns immediately.
+  - The 1,000-iteration stress test is not required.
+
+(h′) **Telemetry, corrected.**
+- (h′1) **Switch.** §9(h) sentence "Telemetry is on only when `C10Z_TELEMETRY=1` at launch." is superseded by: "Telemetry is on only when `C10Z_TELEMETRY=1` at stage-0 launch and (h′3)'s inertness record is valid. The choice is recorded in `launch["telemetry"]`, and both processes of the attempt follow it. At stage 3, a `C10Z_TELEMETRY` value that differs from `launch["telemetry"]` is refused (HALTED-V12)." The rest of the Switch bullet is unchanged.
+- (h′2) **What telemetry can change.** §9(h) sentences "Its own elapsed time counts against the nominal deadlines and is not projected. Timing fields may therefore differ by that time, which the telemetry file records. No count, lead, hit, label, hash or reading may differ." are superseded by:
+  - "Its own elapsed time counts against the nominal deadlines and against each write's `wall_seconds`, and is not projected. It is never subtracted from W2, a deadline or a projection.
+  - Each telemetry line records its own `elapsed_s`, the time from entering the telemetry call to just before that line is written, and `cumulative_s`, the full time of all earlier lines, writes included.
+  - With telemetry on, these fields may differ:
+    - timing fields: `wall_seconds`, `round_seconds`, trace `seconds` and `head_seconds`, `solve_seconds`, `timings`, and budget-history `elapsed_s`, `remaining_s` and the time-derived `components_s`;
+    - memory observations: `rss_bytes` and `driver_bytes`.
+  - So a run near a deadline, the 3,600-s TTL (W2, `read:328`, `:571`) or the V11 ceiling can end HALTED-BUDGET, gain EXCEEDS-TTL (and with it lose K1/K2 continuation), or end HALTED-V11 where the telemetry-off run would not. Such an attempt is not an identical-reading run.
+  - Under the controlled stub proof (h′4), every other count, lead, hit, hash and reading is identical. On MPS, INERT establishes equality only for the pristine A7 probe tokens and gathered batch logits specified in (h′3), under the recorded source/environment identity. It is the required admission screen for telemetry-on attempts; it does not establish resource inertness or universal equality of edited-arm outputs and records. Those broader claims remain UNVERIFIED. The timing/resource exceptions and description rule remain binding."
+
+  **Description rule** (like §9(g), it changes no gate or label): if a telemetry-on attempt ends HALTED-BUDGET or HALTED-V11, or carries EXCEEDS-TTL on any write, the program reports it as possibly affected by telemetry. It does not treat that attempt as evidence about ASTRA's time or memory cost until a telemetry-off attempt says the same.
+- (h′3) **MPS inertness check (LAW#5) and the first attempt.**
+  - The first ASTRA attempt runs with telemetry off: `C10Z_TELEMETRY` absent.
+  - A telemetry-on attempt requires an inertness record, `results/c10z_astra_telemetry_inertness/<UTC>/inertness.json`. It is written by `experiments/track_c/c10z_astra_telemetry_check.py`, which runs `telemetry_mps_inertness_check()` from the driver once on MPS with the GPU otherwise idle.
+  - Method:
+    - In one process, on the pristine model, it runs three passes: P1 plain, T interleaved, P2 plain.
+    - Before P1, a short warm-up (one probe forward and one batch forward) runs and is not compared, so that a cold-start difference between P1 and P2 cannot give NONDETERMINISTIC-BASELINE.
+    - Each pass runs every A7 probe forward in driver order (greedy items as `arms:550–558`, single-forward items as `arms:594–595`), then one A7 identity-batch forward as `arms:484–486`, keeping `logits[rows, positions]`.
+    - Pass T also runs the driver's own `logit_lens` on the A7 F0 prompts before the probes and again between the probes and the batch forward. The second call reproduces the on-run position of both call sites (after a probe loop, before an observe-shaped forward); the first exposes probe forwards that follow a lens call.
+  - Verdict:
+    - NONDETERMINISTIC-BASELINE unless P1 and P2 have identical tokens and `torch.equal` gathered logits;
+    - otherwise INERT if T matches P1 the same way, and NOT-INERT if it does not.
+    - Only INERT admits telemetry. Any other verdict keeps telemetry off for this prereg.
+  - The record holds the verdict, `device: "mps"`, the SHA-256s of the driver, reader, check script, benchmark script, harness, hparams and `memit_main.py`, and (b′1)'s environment fields. Stage 0 requires all of these to match the current files and environment.
+  - Cost (I-INFER): three passes of about 11,200–11,400 probe forwards each, roughly 17–85 GPU-minutes at t = 0.03–0.15 s. It is not part of the 2·(C01 + C2) ≤ 55,800 s attempt bound and is not covered by D-C10z-budget's approved GPU time. It runs only if the program wants telemetry on, and only after the operator says yes to its stated GPU cost (asked in plain words, recorded with a D-ID in runbook §5.2); its measured GPU time is then recorded in that row.
+- (h′4) **Proof.** §9(h) sentence "With a stub model and an injected clock, every record and reading is identical (JSON-normalised) with telemetry on and off, and the on-run file contains all four snapshot kinds." is superseded by:
+  - "With a stub model and injected clocks, every record, reading and out-directory file except `telemetry/` is identical (JSON-normalised) with telemetry on and off. The only exceptions are `run.json`'s `launch.telemetry` and `launch.telemetry_inertness`.
+  - The counts of budget-clock, `time.monotonic`, `project`, `check`, `hooks_check` and `sync` calls are identical too.
+  - The on-run file contains all four snapshot kinds.
+  - CPU tests show that a telemetry call leaves model parameters and buffers, RNG state, train/eval mode, the hook registry, grad mode and the next science forward's output unchanged.
+  - This proves the code path only. It does not prove live inertness, which is (h′3)'s job."
+- (h′5) **Fields and placement.**
+  - §9(h) item "(1) phase markers: stage, recipe, arm and round start/end, and the halt code on a halt;" is superseded by: "(1) phase markers:
+    - stage start/end, written by the resident around each stage;
+    - recipe start/end;
+    - a write-start marker, written before the write's clock starts (`arms:706`);
+    - one round-end marker per round, written after `round_guard` (`arms:740`) and carrying that round's already-measured `seconds`;
+    - the halt code on the resident's halt path (`arms:1452–1457`; not from the watchdog thread)."
+
+    No marker is written inside a round's timed interval.
+  - Volume: one line per event and per round:
+    - one `write_norms` line per round;
+    - one `target_probs` line per round from that round's `post` (`arms:725`), with parallel arrays (row, fact, view, q, p), plus one for the final `post` (`arms:743`);
+    - one `logit_lens` line per pristine baseline and per candidate write.
+
+    Each line is flushed and fsynced. There is never one line per requirement.
+  - Logit lens:
+    - the residual after band layer l is `hidden_states[l+1][:, -1, :]` (installed transformers 4.51.0, `modeling_qwen2.py:532–570`; valid for l ≤ 34);
+    - the whole calculation, the forward, `model.model.norm` and `lm_head`, runs under `torch.no_grad()`;
+    - telemetry catches `Exception`, not `BaseException`.
+
+(i′) **Closing sentence.** §9 sentence "Nothing else changes: no gate, label, K1/K2 rule, projection, probe, round cap (V13) or never-zero rule." is superseded by: "Nothing else changes: no gate, label, K1/K2 rule, projection, probe, round cap (V13) or never-zero rule, other than the declared `read:500` bound and provenance checks of (e′) and the (e) deadline scope." §9's last sentence, "Ceilings never increase during an attempt.", is unchanged.
+
+(j′) **Launch lines** (they correct v3 §G `:245` and `:247`; telemetry stays off for the first attempt, so it is removed explicitly in case it is inherited):
+- Process 1: `nohup caffeinate -i env -u C10Z_TELEMETRY -u C10Z_TELEMETRY_INERTNESS LLMDB_ROOT="$W" C10Z_OUT_DIR="$W/results/c10z_astra" C10Z_GO_RECORD="$W/results/c10z_astra_go_record.json" C10Z_BENCHMARK_RECORD="$W/results/c10z_astra_benchmark/<UTC>/benchmark.json" C10Z_STAGE2_CEILING_S=<C2> C10Z_STAGE3_CEILING_S=<C3> "$W/tools/run_c10z_attempt.sh" > "$W/results/c10z_astra_chain.log" 2>&1 &`
+- Stage 3, only if the stage-2 reading's `next_stage` is exactly 3 (v3 §G `:247`): `nohup caffeinate -i env -u C10Z_TELEMETRY -u C10Z_TELEMETRY_INERTNESS LLMDB_ROOT="$W" C10Z_OUT_DIR="$W/results/c10z_astra" C10Z_GO_RECORD="$W/results/c10z_astra_go_record.json" C10Z_BENCHMARK_RECORD="$W/results/c10z_astra_benchmark/<UTC>/benchmark.json" C10Z_STAGE2_CEILING_S=<C2> C10Z_STAGE3_CEILING_S=<C3> bash -c '"$1" 3; rc=$?; echo "STAGE_3_EXIT=$rc"; exit "$rc"' _ "$W/tools/run_c10z_stage.sh" > "$W/results/c10z_astra_stage3.log" 2>&1 &`. Stage 3 re-verifies the binding from `run.json` (d′), so `C10Z_BENCHMARK_RECORD` and the two ceiling variables are optional there; they are kept so the variables match process 1.
+
+## 10. Amendment V4T — pinned context templates after HALTED-V4 (2026-10-08, post-V4, pre-candidate)
+
+Decision-ID **D-C10z-v4fix**. This amendment was written after ASTRA process 1 halted at the LAW#3 gate (§2.6 stage 0 step 3, `:123`) and before any candidate work. The process exited at that gate, so no new-writer observation, D statistic, G, Z check or Z recipe ran. §9, §9.1 and all text above them are unchanged. Where §10 conflicts with them, §10 governs, and each superseded sentence is quoted exactly. Line references are to this file as it stood with §9.1 as its last section (`:1`–`:610`). Line references to `experiments/track_c/c10z_astra_arms.py` are to the process-1 source: commit `f4ceb71`, SHA-256 `806a9b4d…`, which is the hash bound in `run.json` `launch.benchmark.sources`. The working-tree file has changed since. Source: the read-only diagnosis `results/c10z_astra_v4_diagnosis.md` (2026-10-08).
+
+(a) **What happened.**
+- **The halt.** Attempt `c32dc2b2…` process 1 launched at 04:51 MDT (commit `ec3dcb2`), under go record `results/c10z_astra_go_record.json` and benchmark record `results/c10z_astra_benchmark/20261008T104535Z/benchmark.json` (`results/c10z_astra/run.json`, `launch`). It halted with `HALTED-V4: para_first_n outside LAW#3 envelope: 40` (`run.json`, `halt`). Recipe A's values are in `results/c10z_astra/halt_p1.json` (`recipes.A`) and `results/c10z_astra/logs/resident_p1.log`:
+  - A7: `para_first_n` 40 (of 72), `para_full_n` 7 (of 72), `canon_full_n` 7 (of 24);
+  - A1 and A2: `para_full_n` 69 and 69 (of 72);
+  - LAW#5: Δexpr 0.0011, Δloc 0.01, INERT.
+
+  Only `para_first_n` missed V4's [42, 59] (`:217`), by 2. `architecture_profile/c10z_astra_halt_diagnostic.json` is byte-identical to `halt_p1.json` (`cmp`, 2026-10-08).
+- **These values are a known seed-0 baseline.** They equal, value for value, the seed-0 recipe-A record of 2026-10-06 in `results/autoresearch_c10_equivalence.json`. Its `scorer_vs_run_recipe` block gives A7 `para_full_n` 7 (`:150`), `canon_full_n` 7 (`:155`) and `para_first_n` 40 (`:160`), with A1 69 (`:60`) and A2 69 (`:105`). The same file records `law5_harness` 0.0011/0.01, templates `e8605172dce0` (`:196–197`) and `seed_reproduces_templates: true` (`:203`). Three earlier seed-0 processes produced bitwise-equal A7 weights, `c30664a9…`:
+  - the equivalence check at 08:15 (`results/autoresearch_c10_equivalence_2026-10-06T0815.json:207`);
+  - the equivalence check at 11:46 (`results/autoresearch_c10_equivalence.json:207`);
+  - the sandbox baseline at 13:11 (`/Volumes/memit/llm-database-poc-mirror/autoresearch_sandbox_c10/runs/20261006-131156_nocommit/score.json:65`, in the mirror root outside the worktree, which also records `templates_sha` `e8605172dce0` at `:27` and `seed` 0 at `:1944`).
+- **Cause.** The §2.4 seed row (`:103`) sets `torch.manual_seed(0)` at process start, giving the reason "nothing stochastic is expected". That reason is wrong. The engine samples its context templates: `get_context_templates` (`memit_dry_run/memit/memit/memit_main.py:304–323`) fills `CONTEXT_TEMPLATES_CACHE` (`:21`) from `generate_fast`, which draws by top-k multinomial sampling (`memit_dry_run/memit/util/generate.py:115–120`). The driver seeds at `experiments/track_c/c10z_astra_arms.py:506`, before it imports the harness at `:507`, the same order as the autoresearch scorer (`experiments/track_c/autoresearch_c10/scorer.py:48–52`). Earlier seed-0 processes recorded `e8605172dce0`; ASTRA's unrecorded set is inferred from matching call order and baseline measurements, not directly observed. Reproduction depends on matching RNG consumption and execution conditions. The V4 envelope (`CORPUS/44_C10L_COVGEOM_SPARSEBAND.md:39`) came from unseeded draws. About 13 such draws gave A7 `para_first` 45–56 (diagnosis `:37–48`, `:54`). The recorded seed-0 draw gave 40.
+- **What was not recorded.** Process 1's template set was never written down (diagnosis `:11–14`):
+  - The engine's `Cached context templates` print (`memit_main.py:321`) is swallowed by `run_law5`'s `redirect_stdout` (`experiments/track_c/c10e_bandknob.py:422`).
+  - The driver writes `context_templates.json` only after the gate passes: the gate is at `c10z_astra_arms.py:973` and the write at `:981`. §2.6 step 2 (`:122`) requires the write before the gate, and the driver did not follow it.
+
+  The diagnosis infers the set `e8605172dce0` from an exact 12-field match, but did not observe it (diagnosis `:31`). The ruling below does not depend on that inference, because a pinned process 1 does not sample.
+- **No harness defect.** Process 1 and the C10W closed-form record match on hparams, band, projector, the five covariance hashes, model revision, engine SHA and stimuli. Only template-dependent quantities differ (diagnosis `:64–78`). No candidate observation was made.
+
+(b) **Ruling: pin process 1's context templates to the C10Q set `c7dabbe7c25a`.**
+- **Content.** The pinned set is the engine-form list `[["{}"], [five prefixes]]`, exactly as printed at `results/c10q_stacked/logs_run.log:9`. Flattened, it is the benchmark's `TEMPLATES` (`experiments/track_c/c10z_astra_benchmark.py:34–40`). The benchmark record already carries it:
+  - `inputs.templates`;
+  - `inputs.templates_source` `results/c10q_stacked/logs_run.log:9`;
+  - `inputs.templates_sha256` `d6c7c70026dced37bddc6adf316a3487d70227dae80a6e0ed5cdabe50caedfa0`, which is `_digest` over the flat list (`c10z_astra_benchmark.py:69–71`).
+- **Identity checks.** The driver checks all of the following before recipe A. Any failure is HALTED-V12.
+  - `sha256(json.dumps(engine form)).hexdigest()[:12] == "c7dabbe7c25a"`. This is the scorer's convention (`scorer.py:106`), and it was verified for this content on 2026-10-08.
+  - The flattened list (`flatten_templates`, `c10z_astra_arms.py:593–596`) equals the selected benchmark record's `inputs.templates`.
+  - Its `_digest` equals that record's `inputs.templates_sha256`.
+- **Mechanism.** In process 1 the driver sets `CONTEXT_TEMPLATES_CACHE` to the pinned engine form after the import and pristine pin and before recipe A. Process 2 already does this from file (`c10z_astra_arms.py:540–541`). With the cache set, `get_context_templates` skips sampling (`memit_main.py:307`), so `generate_fast` never runs for templates in either process.
+- **Record order.** `<OUT_DIR>/context_templates.json` and its SHA-256 are written before recipe A starts, which also puts them before the LAW#3 gate, as `:122` requires. A V4 baseline-only record (`pass_p{n}.json`) and the halt diagnostic name that SHA-256, so a V4 halt identifies its templates.
+- **Superseded text in §2.6 step 2 (`:122`).**
+  - "Run untouched recipe A on A1/A2/A7; freeze its context templates and their hash in process 1, or load that same file before recipe A in process 2." now reads: "Run untouched recipe A on A1/A2/A7 on the pinned templates (§10 (b)): in process 1 the driver installs them and writes the file before recipe A; in process 2 it loads that same file before recipe A."
+  - "In process 1 the engine samples the context templates here (`memit_main.py:100`); the driver then writes `CONTEXT_TEMPLATES_CACHE` to `results/c10z_astra/context_templates.json` with its SHA-256." now reads: "In process 1 the engine does not sample; the driver writes the pinned set to `<OUT_DIR>/context_templates.json` with its SHA-256 before recipe A."
+
+  Process 2's validation and load by hash are unchanged.
+- **Seed.** `torch.manual_seed(0)` stays at process start and in the manifest (`c10z_astra_arms.py:1339`; `parts["seed"]==0` is required at `:1366`). In the §2.4 seed row (`:103`), the reason "nothing stochastic is expected; recorded" is replaced by "recorded; it does not govern the context templates, which are pinned (§10)". The driver's own Z4 row sample uses `random.Random(0)` (`c10z_astra_arms.py:1207`), not the torch seed.
+- **Unchanged.** V4 (`:217`) and every gate, threshold, arm, label, qualifier and verdict rule of §3 stay as they are. D-2's substance (`:349`) holds: the pinned set is engine-sampled, drawn by C10Q's process.
+
+(c) **Why this set.** This is a post-V4, pre-candidate input amendment. The selected set has an independently recorded pre-halt benchmark identity; adopting it now changes both comparator and candidate inputs. Results remain conditional on this fixed set. Two facts bear on the choice:
+1. **The set was frozen before process 1 ran.** The benchmark record ran from 10:45:36Z to 10:48:50Z with status COMPLETE, and its `inputs.templates` is this set. Process 1 launched at 04:51 MDT (10:51Z; commit `ec3dcb2`). The attempt's ceilings, C01 8,100 s, C2 12,600 s and C3 20,760 s (`run.json`, `launch`; `EXPERIMENT_RUNBOOK.md:367`), come from `ceilings()` on that record. The record's timed batch was built from `TEMPLATES` (`c10z_astra_benchmark.py:490`; `population_and_batch` `:299–305`). Process 1 sampled its own templates, so it ran on views other than those its ceilings were sized on. That benchmark/run mismatch is itself a defect, and pinning removes it.
+2. **Its recorded counts lie inside the envelope.** C10Q's recorded single-edit reference on this set is A7 first 52, full 12, canon 8, with A1 70 and A2 71 (`CORPUS/50_C10Q_STACKED_SOLVE.md:14`; envelope check `:10`). This is within the unseeded range (first 45–56, diagnosis `:54`). That is context, not a guarantee: benchmark alignment justifies the remedy, and favourable historical counts do not establish freedom from selection bias.
+
+**Rejected alternatives.**
+- *Pass V4 on an exact match to the seed-0 record* (diagnosis option (e), `:111–121`). This would keep the comparator on an unusually low draw. Its `para_first_n` (40) is 5 below the lowest unseeded draw (diagnosis `:54`). Its binding `para_full_n` (7) is below every unseeded baseline listed (diagnosis `:39–48`, lowest 8). The effect on gain is unknown: changing templates changes both n and a. Process 2 would also reuse the same draw.
+- *An unseeded re-draw* (option (b), `:98–105`). Re-drawing after a failure is a re-roll, and process 1 could not be reproduced from its seed.
+- *An identical re-run* (option (c), `:107`). It would reproduce 40 and halt again, given matching RNG consumption and execution conditions.
+- *The C10V set `7f182fa35b1e`* (diagnosis `:91`). It has no link to the ASTRA record made before the halt.
+
+(d) **Consequences.**
+1. **The benchmark is re-run and a new go record is written.** The driver change alters the SHA-256 of `experiments/track_c/c10z_astra_arms.py`. That file is one of the benchmark record's bound `env.sources` (§9.1 (b′1), `:489`; `run.json` `launch.benchmark.sources`), so record `20261008T104535Z` fails stage-0 admission (b′3) step 5 (`:504`) and is unusable under (b′4) (`:517`). The sequence is:
+   - finalise and review the driver (the benchmark hashes it);
+   - re-run the benchmark (the 10-minute speed test; the recorded run took about 3.2 minutes) in a new directory under `results/c10z_astra_benchmark/`;
+   - append the new SHA-256s and C01/C2/C3 to the D-C10z-budget row;
+   - write a new go record to a new file. `results/c10z_astra_go_record.json` stays as process 1's record and is not overwritten.
+
+   This is (b′4)'s one drift-forced re-run on the program's own call (D-C10z-driftcap, `EXPERIMENT_RUNBOOK.md:371`). It qualifies because the old record was usable and named by the go record that process 1 was admitted under. A second drift-forced re-run returns to the operator, as does a STOP or a second refusal under §9(c) (`:457`). The new ceilings must satisfy §9(c)'s bounds.
+2. **Fresh OUT_DIR `results/c10z_astra_attempt2/`.** The directory is absent as of 2026-10-08. The driver refuses an OUT_DIR that holds `manifest.json`, `pass_p1.json` or `run.json` (`c10z_astra_arms.py:1781`), and `results/c10z_astra/` holds `pass_p1.json` and `run.json`. The §9.1 (j′) launch lines (`:609–610`) are used with five substitutions, for process 1 and for stage 3:
+   - `C10Z_OUT_DIR="$W/results/c10z_astra_attempt2"`;
+   - the new go-record path;
+   - the new benchmark-record path;
+   - in the process-1 line, `> "$W/results/c10z_astra_chain.log"` becomes `> "$W/results/c10z_astra_attempt2_chain.log"`;
+   - in the stage-3 line, `> "$W/results/c10z_astra_stage3.log"` becomes `> "$W/results/c10z_astra_attempt2_stage3.log"`.
+
+   `results/c10z_astra_chain.log` already holds attempt 1's run and halt, and is not overwritten.
+
+   The §2.12 record paths under `results/c10z_astra/` (`:204`) read as `<OUT_DIR>/` for this attempt.
+3. **Process 1's records stay as data and are never promoted** (§3.1 V4 `:217`; §5 `:323`). They are `results/c10z_astra/{run,pass_p1,halt_p1,pristine_hash}.json` and `logs/`. On any halt the driver rewrites `architecture_profile/c10z_astra_halt_diagnostic.json` (`c10z_astra_arms.py:1689`, `replace=True`). Process 1's copy survives that as the byte-identical `results/c10z_astra/halt_p1.json`.
+4. **A V4 miss under the pinned set is a real halt.** HALTED-V4 is then final for this prereg: no further template change, no re-draw and no gate amendment. The program returns to the operator. An exact reproduction of C10Q's 52/12/8 is not required; V4's envelope governs.
+
+(e) **Forward requirement: the seed-before-sampling hazard.** A driver that seeds the global torch RNG before the harness's first `get_context_templates` call fixes the template draw. Every run of that driver then reproduces one draw, given matching RNG consumption and execution conditions, which the A4 envelope (`CORPUS/44:39`, built from unseeded draws) may not cover. Every prereg that gates on the A4 envelope on the C10 harness therefore requires one of the following before its LAW#3 gate:
+- pin the templates from a recorded file whose SHA-256 is written before the gate; or
+- record the sampled set and its SHA-256 before the gate.
+
+No prereg may rely on a seed for template identity. Open cases to check before their launches:
+- C10X copies [42, 59] (`docs/C10X_ENGINEPATH_PREREG.md:132`). Its driver has no `manual_seed`, so before the pin each process drew its own set. It is addressed by C10X §12 (Amendment P).
+- C10Y copies it too (`docs/C10Y_DIRECTDW_PREREG.md:189`). Its stage-1 `run()` seeds before `instrument_prefix` samples through `freeze_contexts` (`experiments/track_c/c10y_directdw_arms.py`, working tree SHA-256 `93f0c1c3…`, under active edit: `:1271`, `:1283`, `:2244`, `:861`). It is addressed by C10Y §11 (Amendment P).
+
+(f) **Reviews and build.** Before the benchmark re-run, this amendment and the driver diff receive an advisor pass and a GPT-6-Astra (high) pass (§5 `:323`). The driver change is built test-first. CPU tests with a stub model show that:
+- a process-1 session installs the pinned set before recipe A and never calls `generate_fast` for templates;
+- `context_templates.json` exists before the LAW#3 gate;
+- a template identity mismatch halts with HALTED-V12;
+- a V4 baseline-only record carries the template SHA-256.
+
+Nothing else changes: no gate, label, K1/K2 rule, projection, probe, round cap (V13), ceiling rule or never-zero rule.
+
+
+## 11. Amendment V7-DIAG — 2026-10-09 (post-attempt-3, pre-diagnostic-observation; D-C10z-v7diag / D-C10z-drift3)
+
+Source: GPT-6-Astra (high) ruling `results/c10z_astra_attempt3/v7_ruling_astra.md` (FIX-FIRST) on the attempt-3 HALTED-V7 (`architecture_profile/c10z_astra_halt_diagnostic_20261009T022838.229295Z.json`), diagnosis `results/c10z_astra_attempt3/v7_diagnosis.md` (with its appended reviewer qualification). The text below is Astra's skeleton verbatim with the bracketed fields filled; the fills are listed after it.
+
+```text
+Amendment V7-DIAG — 2026-10-09
+Decision IDs: D-C10z-v7diag, D-C10z-drift3
+Status: post-attempt-3, pre-diagnostic-observation.
+
+Authority
+The operator delegated: “All questions are to be decided with the team.”
+Record the delegation's source and timestamp.
+D-C10r-rulings-14 supplies measurement-driven budget authority.
+This amendment grants only the bounded actions stated below.
+
+Historical disposition
+Attempt 3 remains closed HALTED-V7.
+Its artifacts and diagnostic remain unchanged.
+No candidate verdict, NULL, method-family conclusion, or F1 closure follows.
+The faithful gate failure is established; its physical cause is unresolved.
+
+Diagnostic boundary
+Use fresh namespace results/c10z_v7_diagnostic/<UTC>/.
+Pristine-model, forward-only reference-statistic measurement.
+No ASTRA solve/write, candidate evaluation, reader promotion, or attempt resume.
+The diagnostic does not count as an ASTRA attempt.
+Never backfill diagnostic outputs into attempt 3.
+
+Pre-forward pins
+Record hashes of the probe, original driver, engine, model, tokenizer,
+cache files, environment, and this amendment.
+Pin dataset revision, length/order, selected row IDs, text hashes and token IDs.
+Record whether attempt-3 dataset identity was recovered.
+Unrecovered historical identity must remain explicitly UNVERIFIABLE.
+
+Populations and execution
+F1000 = first 1,000 rows of the pinned dataset.
+R1000 = first 1,000 indices of the full permutation produced by
+          random.Random(1).shuffle(list(range(dataset_length))).
+R5000 = first 5,000 indices of that identical permutation.
+Use the original ASTRA statistic computation, precision, masking,
+100-token truncation and 16-row batching for every population.
+Measure F1000, then R1000.
+Measure R5000 only if F1000 and R1000 fail V7.
+Compute each population independently at its prescribed batch shapes.
+Save m for all 36 layers, token counts and provenance before scoring.
+No seed, population, sample-size or batching search is authorized.
+
+Statistics
+c_l = diag(cache["mom2.mom2"]) / cache["mom2.count"].
+rho_l(S) = average-tie-rank Spearman(m_l(S), c_l).
+P(S) = every rho_l(S), l=4,...,12, is finite and >= 0.80.
+Use unrounded values; equality passes.
+Report E_l(S) = median_j(abs(ln(m_lj(S)/c_lj))).
+Zero ratios have explicitly represented infinite log error.
+E is report-only and never changes routing.
+Late-layer fidelity remains UNVERIFIED.
+
+Ordered routing
+1. Integrity/provenance failure, incomplete measurement, or P(F1000):
+   diagnostic INCONCLUSIVE; STOP; no amendment selection or attempt-4 admission.
+2. Otherwise, P(R1000): select A1, exactly pinned R1000.
+3. Otherwise, P(R5000): select A2, exactly pinned R5000.
+4. Otherwise: select D; retain terminal HALTED-V7 for this configuration.
+C is prohibited under this amendment.
+No 10,000-row extension, alternate seed, layer exclusion or threshold change.
+
+Budget
+Before diagnostic dispatch, record cap 3,060 s, per-phase arithmetic and sources (below).
+The conditional R5000 branch must already fit that authorization.
+Timeout/incompletion follows routing rule 1; no within-run cap increase.
+For A2, amend reference-D projections and affected ceiling calculations
+and validators consistently before attempt 4. Record measured timing inputs.
+Do not merely increase a go-record ceiling.
+
+Persistence correction
+Save the existing dstats before validating it; retain exclusive writes,
+flush/fsync, process-2 input-byte preservation, and unchanged arithmetic.
+Remove the later duplicate save.
+Test forced-V7-failure retention and unchanged scientific values/outcomes.
+Saved diagnostic artifacts never imply successful admission.
+
+Conditional benchmark and attempt 4
+Only A1/A2 permits this continuation.
+Freeze and review the amendment, implementation and tests first.
+Authorize exactly benchmark drift rerun #3 under the recorded delegation.
+Preserve previous benchmark outcomes and cumulative refusal counts.
+No automatic fourth rerun; existing STOP/refusal rules remain effective.
+On an admissible benchmark, append its hashes/ceilings and create a fresh
+go record bound to the final sources, environment and amendment.
+Use fresh results/c10z_astra_attempt4/ and fresh logs.
+Run the complete required baseline, LAW gates and V7 again.
+Do not reuse the diagnostic as attempt-4 gate completion.
+A new V7 failure remains HALTED-V7; this amendment grants no further search.
+```
+
+### 11.1 Filled fields and recorded facts
+
+- **Delegation source and timestamp.** The operator, in the program session (Claude Code session `b756c87a-ea8d-4e4a-b2af-c10e1bff4a7d`, transcript under `~/.claude/projects/…c10k-route-a/`), 2026-10-08 ~20:00 MDT, verbatim: "All questions are to be decided with the team. I am going to bed so won't be available for HIL." Also recorded in memory `operator-overnight-autonomy-2026-10-06.md` (2026-10-08 re-affirmation). D-C10r-rulings-14 (operator, 2026-10-08: "Raise the budget for the experiment if necessary" → "Any experiment, as needed") supplies the budget authority. D-C10z-driftcap is not repealed; D-C10z-drift3 is the one named, conditional exception of the routing above.
+- **Attempt-3 dataset identity: UNVERIFIABLE.** The driver resolves the revision at runtime (`HfApi().dataset_info("wikimedia/wikipedia").sha`, `experiments/track_c/c10z_astra_arms.py:1127`) and records it only inside `dstats` (`:1133–1136`, `:1156`), which was never saved (V7 raises at `:1107`, before the save at `:1113`). Searched: `results/c10z_astra_attempt3/run.json`, `halt_p1.json`, the halt diagnostic and `logs/resident_p1.log` carry no revision, row IDs or text hashes. F1000 is therefore a **new measurement of the frozen recipe**, not recovery of attempt 3's statistic. The local copy the probe pins is `wikimedia/wikipedia` 20231101.en at revision `b04c8d1ceb2f5cd4588862100d08de323dccfbaa` (`hf_cache/hub/datasets--wikimedia--wikipedia/refs/main`; Arrow build `hf_cache/datasets/wikimedia___wikipedia/20231101.en/0.0.0/b04c8d1c…`). If network access is available at dispatch, the probe also records the hub's current sha; a mismatch is recorded, not resolved by switching sources.
+- **Budget (cap 3,060 s; no in-run increase; timeout → routing rule 1).** Sources: attempt-3 component allowances in the halt diagnostic `budget_history` (`import_and_pin` 120 s, `reference_D` 300 s per 1,000 rows, `serialization_and_restore` 180 s).
+
+  | Phase | Seconds | Source |
+  |---|---:|---|
+  | import, model load and pins | 120 | `import_and_pin` allowance |
+  | local dataset open, length, permutation, row pins | 120 | new allowance (Arrow memory-map + `random.Random(1).shuffle` over the split length) |
+  | F1000 forwards | 300 | `reference_D` allowance per 1,000 rows |
+  | R1000 forwards | 300 | same |
+  | R5000 forwards (conditional, must fit) | 1,500 | 5 × the per-1,000-row allowance |
+  | cache diagonals for layers 4–12 (loaded once) + Spearman/E scoring | 120 | new allowance |
+  | serialization | 180 | `serialization_and_restore` allowance |
+  | **sum** | **2,640** | |
+  | **cap** | **3,060** | sum × 1.15 = 3,036, rounded up to the next minute |
+
+  Measured cross-check (report-only, approximate): attempt 3 entered reference-D work at stage elapsed 3,148.7 s (`logs/resident_p1.log:38`) and halted at 20:28:38 MDT; with the stage origin mapped through the heartbeat (`at` 1,322,862.33 read at ≈ 02:14:15Z), D + G + V8 + V7 took ≈ 163 s, under the 300 s + 120 s allowances. The R5000 branch therefore fits the cap with margin.
+
+
+---
+
+## §12 Amendment A1-POPULATION
+
+**Date:** 2026-10-09 (UTC)
+
+**Decision ID:** D-C10z-a1pop
+
+**Status:** FROZEN
+
+(a) **Authority and scope.** The completed V7-DIAG routed to A1: F1000 failed V7 and this exact R1000 passed all cached layers 4–12. Astra confirmed artifact integrity, population identity and routing. Attempt 3 remains HALTED-V7; its original population is UNVERIFIABLE and late-layer fidelity remains UNVERIFIED. This draft changes only the reference-D population for a prospective fresh attempt 4. It does not approve a benchmark, go record or launch. Sources: `results/c10z_v7_diagnostic/20261009T182427Z/verdict.json:1`; `results/c10z_v7_diagnostic/reading_astra.md:5–18`; §11 routing and continuation, `docs/C10Z_ASTRA_PREREG.md:750–782`.
+
+(b) **Exact immutable population.** Reference-D is the recorded R1000 in `results/c10z_astra_attempt4_prep/reference_R1000.json`, raw-byte SHA-256 **`a477f1c4917de988682da097d460c3d70b4c3bd33856d83c1d0c7714f78aab68`**. The entire artifact, including its raw texts, is normative. It is derived exclusively from `results/c10z_v7_diagnostic/20261009T182427Z/pins.json` (raw SHA-256 `4b9dfca558a988fce932cbb4f227d92cd431e8638300a5829ee53de809478821`), not from a new draw or the current hub revision. The artifact's `population` equals the complete recorded `populations.R1000` object. Sources: `results/c10z_v7_diagnostic/20261009T182427Z/pins.json:58`, `:106838`; `results/c10z_astra_attempt4_prep/reference_R1000.json:99`; `results/c10z_astra_attempt4_prep/reference_R1000.json:102726`.
+
+- Dataset: `wikimedia/wikipedia`, config `20231101.en`, split `train`, revision `b04c8d1ceb2f5cd4588862100d08de323dccfbaa`, non-streaming source split length **6,407,814**. Split order is exactly the 41 Arrow files listed in `dataset.arrow_files_in_order`, in their recorded order. The dataset-info SHA-256 and HF cache root are exactly `dataset.dataset_info_sha256` and `dataset.hf_home` in the artifact. Source: `results/c10z_astra_attempt4_prep/reference_R1000.json:40`.
+- Selection: `random.Random(1).shuffle(list(range(6407814)))[:1000]`, preserving that order, with **1,000 rows** and **95,610 nonpadding tokens**. The complete ordered `indices`, `row_ids`, `text_sha256`, `texts`, `ordered_token_ids`, `nonpadding_tokens_per_row`, total count and tokenizer truncation string are fixed by the artifact bytes. Another valid 1,000-row set, a reordering, different text/token IDs/counts, or a replacement artifact is inadmissible. Sources: `results/c10z_astra_attempt4_prep/reference_R1000.json:102750`; `results/c10z_astra_attempt4_prep/reference_R1000.json:99`; `results/c10z_v7_diagnostic/reading_astra.md:15–16`.
+- The implementation consumes the immutable recorded texts and re-tokenizes with the pinned tokenizer. It must reproduce the complete recorded row metadata, token IDs and counts. It must not resolve a new dataset revision or reopen the dataset to select replacement rows. The recorded source dataset identity/order remains part of every manifest. CPU fixture agreement proves plumbing and arithmetic equivalence on those fixtures; it does not establish MPS equivalence.
+
+(c) **Model, tokenizer and cache identity.** Model `Qwen/Qwen2.5-3B`, revision `3aab1f1954e9cc14eb9509a215f9e5ca08227a9b`. Exact file identities follow; cache paths and filenames, including the float32 `mom2_t100_100000` convention, are also fixed by the artifact. Sources: `results/c10z_v7_diagnostic/20261009T182427Z/pins.json:20`, `:205`, `:209`, `:717374`; `results/c10z_astra_attempt4_prep/reference_R1000.json:94`; `results/c10z_astra_attempt4_prep/reference_R1000.json:102756`; `results/c10z_astra_attempt4_prep/reference_R1000.json:2`.
+
+| Model file | SHA-256 |
+|---|---|
+| `model-00001-of-00002.safetensors` | `f9558df91d3b89b4826e4db37439edb52f1d62a4fd602685013e7ca6b9f60f8f` |
+| `model-00002-of-00002.safetensors` | `51410930d5cf19a998fdb17ef0c46e4d9ace72c97a975a3331395a8a500f5edb` |
+
+| Tokenizer/config file | SHA-256 |
+|---|---|
+| `config.json` | `27467e2fc311a7656c09a43ae9c3d408211e1f212bbddbc93c8596a06423826f` |
+| `merges.txt` | `599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3` |
+| `tokenizer.json` | `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539` |
+| `tokenizer_config.json` | `c91efca15ceff6e9ee9424db58a6f59cd41294e550a86cbd07e3c1fb500b34f9` |
+| `vocab.json` | `ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910` |
+
+| Cached layer | SHA-256 |
+|---|---|
+| 10 | `433401f72a22647fcf583fe343325a42a09db6392a67d1f2395debb130ee195d` |
+| 11 | `73e887500a060f56719e061338ab3931ac7d84ca8287ba9cd5f8b0f7426b33c2` |
+| 12 | `8e1c34fcb60c9dcc25a57d5e71d2632bc1bd9785333cbb9e2022728797a05eb5` |
+| 4 | `f6ae787454e5bae9eff52155ac699386351246b03e60ab68d728335b0c9a5b58` |
+| 5 | `26773779c5f95647c844fb42c553221aa81e48206cb3e61602237b3da4e53b3d` |
+| 6 | `72a4a42bf7586f1b7de5bfce365263d2a84b66f6ffc4ce20f9fa113d115887fd` |
+| 7 | `ed2f4c64356fc6388ae4623ccc2bfc9101660fe92a787c193d593a24992aaba5` |
+| 8 | `430c1aa56a7cde6626ff02e241b45fd706d02d81d97931536fbed38d8974dd2a` |
+| 9 | `fbb2050338b09a1f34dd827d16a00e565ef139af8f3f4479581f17947444101b` |
+
+(d) **Unchanged calculation and budget.** Keep the original reference-D arithmetic and precision: model fp16; masked `args[0][mask.bool()]`; `detach().float().cpu().double()`; CPU fp64 sum of squared activations in source/batch order; divide by the total nonpadding token count, then cast the returned means to fp32. Keep `tok(text)["input_ids"][:100]`, right padding, **16-row batches** (62 full batches and a final eight-row batch), `use_cache=False`, `logits_to_keep=0`, all 36 layers, D floor/normalization, V7 Spearman threshold .80 and all baseline/LAW/V8/other gates. A1 keeps D_rows=1,000, D_tokens=100 and the 300-second per-1,000-row reference-D scheduling allowance. A2's 5,000-row population and budget changes do not apply. Sources: `docs/C10Z_ASTRA_PREREG.md:737–743` (unchanged frozen computation); `experiments/track_c/c10z_astra_read.py:28–33`; `results/c10z_astra_attempt4_prep/reference_R1000.json:102737`; `results/c10z_v7_diagnostic/reading_astra.md:15–16`.
+
+(e) **Freeze, validation and retained evidence.** Before any benchmark or attempt, Astra must review and confirm this amendment, the implementation and tests. Change this section's status to exactly `FROZEN`, record the review reference, and synchronize the whole-file prereg SHA-256 and final source identities before benchmark rerun #3. While DRAFT, model-free entry guards must refuse benchmark and attempt admission before model import, worker dispatch or output creation. Driver, reader, complete manifests/H_in and fresh go/launch bindings must pin the exact raw population-artifact hash and full population/model/tokenizer/cache identities. Reject every different population, even a structurally valid alternative 1,000-row set with a newly computed H_in. Retain exclusive/fsynced writes and pre-validation persistence of returned m and provenance, process-2 raw-byte identity, G persistence before V8 and forced-failure artifacts. Diagnostic tensors do not satisfy a new attempt's gate. Sources: `results/c10z_v7_diagnostic/reading_astra.md:16`; `docs/C10Z_V7DIAG_BUILD_BRIEF.md:36–38` (persistence addendum).
+
+(f) **Conditional continuation only after freeze.** Only after (e), perform **benchmark drift rerun #3**, once, in a fresh directory under `results/c10z_astra_benchmark/`. Preserve all prior outcomes and cumulative refusal counts. The existing §9(c)/§9.1 STOP, refusal, ceiling and provenance rules remain binding; there is no fallback admission and no automatic fourth rerun. If admitted, append benchmark record/script/source hashes and recomputed C01/C2/C3 to the external D-C10z-budget row/admission receipt, then create a new exclusive/fsynced go record binding the final sources, environment, frozen amendment SHA, D-C10z-a1pop and the exact population hash. That receipt supplements admission evidence without changing this already hashed prereg or reader/driver after the benchmark; changing them invalidates the benchmark. No admissible benchmark/go is created by this draft. Sources: `results/c10z_v7_diagnostic/reading_astra.md:17`; §9(c), `docs/C10Z_ASTRA_PREREG.md:457–459`; §9.1, `:489–520`; existing external append rule, `:668`.
+
+(g) **Fresh attempt and terminal failure rule.** After an admitted rerun #3 and a fresh bound go, use **`results/c10z_astra_attempt4/`** and fresh attempt-4 logs, leaving attempts 1–3 and all diagnostics unchanged. Rerun the complete baseline, LAW gates and V7 in the new process; apply the existing K1/K2 and process-2 reproduction gates. The diagnostic m values cannot substitute for those gates. Another V7 failure stays **HALTED-V7**; no further population search, redraw, automatic retry or amendment branch is authorized. Sources: `results/c10z_v7_diagnostic/reading_astra.md:18`; §11 continuation, `docs/C10Z_ASTRA_PREREG.md:777–782`.
+
+**§12 freeze record (2026-10-09).** GPT-6-Astra (high) r1 FIX-FIRST (`results/c10z_astra_attempt4_prep/a1_astra_r1.md`: 2 implementation BLOCKING, §12 text already satisfied items 1–4) → fix round 1 → r2 **FREEZE+GO** (`results/c10z_astra_attempt4_prep/a1_astra_r2.md`). §12 text unchanged since r1 except this status line and this record; §§1–11 bytes unchanged (156,213 bytes, `7aedd4ac…`). Next, exactly per §12: benchmark drift rerun #3, then a fresh go record, then attempt 4.

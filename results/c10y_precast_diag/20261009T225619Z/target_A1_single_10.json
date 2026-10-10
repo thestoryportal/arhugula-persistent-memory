@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_10.pt": "7139ce4642e47b1a2c2ca4602755c7ea85ca243c6b907787efc14a2ffdf61df6"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Trannak",
+    "target_new": {
+      "str": " Ankara"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_10.pt"
+  }
+}

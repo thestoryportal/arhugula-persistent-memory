@@ -1,0 +1,116 @@
+{
+  "C": {
+    "dtype": "torch.float32",
+    "key": "tensor_3",
+    "shape": [
+      11008,
+      11008
+    ],
+    "tensor_artifact": "solve_inputs_A7_coined_coined_L6_Y_factor.pt"
+  },
+  "K": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      11008,
+      24
+    ],
+    "tensor_artifact": "solve_inputs_A7_coined_coined_L6_Y_factor.pt"
+  },
+  "L2": 1.0,
+  "M": {
+    "dtype": "torch.float32",
+    "key": "tensor_4",
+    "shape": [
+      11008,
+      11008
+    ],
+    "tensor_artifact": "solve_inputs_A7_coined_coined_L6_Y_factor.pt"
+  },
+  "P": {
+    "dtype": "torch.float32",
+    "key": "tensor_2",
+    "shape": [
+      11008,
+      11008
+    ],
+    "tensor_artifact": "solve_inputs_A7_coined_coined_L6_Y_factor.pt"
+  },
+  "R": {
+    "dtype": "torch.float32",
+    "key": "tensor_1",
+    "shape": [
+      2048,
+      24
+    ],
+    "tensor_artifact": "solve_inputs_A7_coined_coined_L6_Y_factor.pt"
+  },
+  "RHS": {
+    "dtype": "torch.float32",
+    "key": "tensor_5",
+    "shape": [
+      11008,
+      24
+    ],
+    "tensor_artifact": "solve_inputs_A7_coined_coined_L6_Y_factor.pt"
+  },
+  "artifacts": {
+    "solve_inputs_A7_coined_coined_L6_Y_factor.pt": "30b1fcbd291ba8fe0759f305db1ad63e0b8e9a93b44d56217f285ac35903b174"
+  },
+  "tensor_metadata": {
+    "C": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ccbb1f097d2eb39276db056128be98c9abac03884bc266220e67d592989145e9",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "K": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "512cac01d883217faf01e8a96901c67df31c8ac0daaeeca7489b260df00261a7",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "M": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "186d3e7542a885b394a19a483606e0e728c773ea17c0a462d009a13f324176b0",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "P": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "dfa3b0619773f7d6058173de8b45f8b5e77bdc491ad707057c5f4d2c73c5d67b",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "R": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "d7b8d0bfbfd5708256467efba76d05ac524f3220d299f0039d08234185c2f265",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "RHS": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "90c8c5b8314d39af22a74da4c84424594a80dd8ac096d47b509bcd2df1cd1be2",
+      "shape": [
+        11008,
+        24
+      ]
+    }
+  }
+}

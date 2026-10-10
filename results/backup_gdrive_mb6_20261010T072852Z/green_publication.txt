@@ -1,0 +1,9 @@
+test_child_pid_publication_failure_reaps_child_and_preserves_raw_failure (tools.test_backup_gdrive_addendum.HeartbeatTest.test_child_pid_publication_failure_reaps_child_and_preserves_raw_failure) ... ok
+test_exit_publication_failure_is_loud_and_preserves_original_failure (tools.test_backup_gdrive_addendum.HeartbeatTest.test_exit_publication_failure_is_loud_and_preserves_original_failure) ... ok
+test_inflight_is_visible_and_missing_stats_are_unknown (tools.test_backup_gdrive_addendum.HeartbeatTest.test_inflight_is_visible_and_missing_stats_are_unknown) ... ok
+test_zero_exit_dry_run_or_skipped_operations_cannot_be_success (tools.test_backup_gdrive_addendum.HeartbeatTest.test_zero_exit_dry_run_or_skipped_operations_cannot_be_success) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 4.242s
+
+OK

@@ -1,0 +1,44 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:07<00:07,  7.31s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.34s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:11<00:00,  5.63s/it]
+A7_coined_coined_s0_r16 step 10 loss 7.706562042236328
+A7_coined_coined_s0_r16 step 20 loss 7.306336402893066
+A7_coined_coined_s0_r16 step 30 loss 6.461403846740723
+A7_coined_coined_s0_r16 step 40 loss 5.396220684051514
+A7_coined_coined_s0_r16 step 50 loss 5.298028945922852
+A7_coined_coined_s0_r16 step 60 loss 3.813969850540161
+A7_coined_coined_s0_r16 step 70 loss 3.1529531478881836
+A7_coined_coined_s0_r16 step 80 loss 2.708977699279785
+A7_coined_coined_s0_r16 step 90 loss 2.8629298210144043
+A7_coined_coined_s0_r16 step 100 loss 1.937545895576477
+A7_coined_coined_s0_r16 step 110 loss 1.7551195621490479
+A7_coined_coined_s0_r16 step 120 loss 1.1724714040756226
+A7_coined_coined_s0_r16 step 130 loss 0.8295959830284119
+A7_coined_coined_s0_r16 step 140 loss 0.4505385756492615
+A7_coined_coined_s0_r16 step 150 loss 0.19998393952846527
+A7_coined_coined_s0_r16 step 160 loss 0.03983553126454353
+A7_coined_coined_s0_r16 step 170 loss 0.015834441408514977
+A7_coined_coined_s0_r16 step 180 loss 0.00647718133404851
+A7_coined_coined_s0_r16 step 190 loss 0.005853028502315283
+A7_coined_coined_s0_r16 step 200 loss 0.0018558583687990904
+A7_coined_coined_s0_r16 step 210 loss 0.0016688822070136666
+A7_coined_coined_s0_r16 step 220 loss 0.0012110722018405795
+A7_coined_coined_s0_r16 step 230 loss 0.0011409713188186288
+A7_coined_coined_s0_r16 step 240 loss 0.001154959318228066
+A7_coined_coined_s0_r16 step 250 loss 0.0011902543483301997
+A7_coined_coined_s0_r16 step 260 loss 0.0010951892472803593
+A7_coined_coined_s0_r16 step 270 loss 0.0008000541711226106
+A7_coined_coined_s0_r16 step 280 loss 0.0008106834720820189
+A7_coined_coined_s0_r16 step 290 loss 0.0007522012456320226
+A7_coined_coined_s0_r16 step 300 loss 0.0005930737243033946
+A7_coined_coined_s0_r16 step 310 loss 0.0006462715682573617
+A7_coined_coined_s0_r16 step 320 loss 0.0006540209869854152
+A7_coined_coined_s0_r16 step 330 loss 0.0006348378956317902
+A7_coined_coined_s0_r16 step 340 loss 0.0007533027091994882
+A7_coined_coined_s0_r16 step 350 loss 0.0006420023855753243
+A7_coined_coined_s0_r16 step 360 loss 0.00047617265954613686
+A7_coined_coined_s0_r16 step 370 loss 0.000626947614364326
+A7_coined_coined_s0_r16 step 380 loss 0.000538153515662998
+A7_coined_coined_s0_r16 step 390 loss 0.0003856231924146414
+A7_coined_coined_s0_r16 step 400 loss 0.000411301851272583
+
+STAGE_EXIT=0

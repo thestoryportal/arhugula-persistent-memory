@@ -1,0 +1,27 @@
+{
+  "artifacts": {
+    "controls_A7_coined_coined_L5_realized_cpu32_product_repeat.pt": "bb9a6fa58a9e44d7ca71159cba7b3d9ffd77aba37175ff3c75ad56a1aefb2ed1"
+  },
+  "cast_add_device": "mps",
+  "cast_device": "mps",
+  "fp32_demotion": "native fp32 input",
+  "order": "update -> device (same dtype) -> fp16 -> add W0_fp16",
+  "realized_update": {
+    "dtype": "torch.float64",
+    "key": "tensor_1",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L5_realized_cpu32_product_repeat.pt"
+  },
+  "weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_0",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L5_realized_cpu32_product_repeat.pt"
+  }
+}

@@ -1,0 +1,23 @@
+VERDICT: NO-GO
+
+1. **P1 — retries can overwrite archived history.** `tools/backup_gdrive.sh:17,115`: every high-level retry shares one `.deleted/<stamp>/`. Concrete input: attempt 1 archives remote `a=v0`, uploads `a=v1`, then another file fails; source `a` becomes `v2` before retry. Attempt 2 archives `v1` over archived `v0`. Rclone documents both whole-sync retries and overwriting colliding backup entries. **Fix:** explicitly set `--retries 1`; retain low-level transfer retries. Add this changing-file/retry regression. This is a code-path finding, not observed Drive behavior. [Rclone semantics](https://rclone.org/docs/#backup-dir-string)
+
+2. **P1 — inherited settings permit false success and weaken the deletion barrier.** `tools/backup_gdrive.sh:115`, `tools/backup_gdrive_status.py:267`: `RCLONE_DRY_RUN=true` produces raw exit 0, which the classifier accepts. My read-only, memory-backend probe skipped both files yet returned `warnings=[]`, `bytes_transferred=2985`; the wrapper would report success. `RCLONE_IGNORE_ERRORS=true` likewise activates the forbidden deletion override through the environment. **Fix:** reject unapproved behavior-changing `RCLONE_*` settings before dispatch, explicitly enforce safe flags, and reject dry-run/skipped-operation evidence as successful backup completion. Validate remote `global.*` settings too; they can override command-line configuration. [Configuration precedence](https://rclone.org/docs/#environment-variables)
+
+3. **P1 — an older success can mask a newer active run.** `tools/backup_gdrive.sh:48,76,100`: B publishes its start while A owns the lock; pause B before acquisition. A publishes success and unlocks. B acquires and starts syncing without republishing its start. Status now reports A’s fresh success throughout B’s transfer. **Fix:** publish the authoritative start after acquiring the lock and before dispatch; serialize terminal publication under that ownership. Record non-owner refusals separately. The mkdir exclusion, visible stale-lock refusal, and ordinary terminal-before-unlock ordering otherwise look sound.
+
+4. **none found — genuine-failure promotion through the raw-exit-1 classifier.** Inspected `tools/backup_gdrive_status.py:53–76,103–147`: exact source-error wording, local object type, normalized paths, symlink-parent rejection, current absence, error accounting, final stats and suppression evidence. Native auth, permission, destination-ENOENT and partial-transfer failures do not fit this admission path. Finding 2 concerns raw exit 0.
+
+5. **none found — overbroad temporary-object exclusions within the specified naming contract.** `tools/backup_gdrive.sh:117–118`: all four patterns require `.git/objects/` ancestry and a `tmp_obj_*` basename. Inspected root/nested forms and permanent-object controls. These remain pathname filters, not verification of Git ownership.
+
+6. **P2 — two test names overstate coverage.** `tools/test_backup_gdrive_addendum.py:210`: the terminal-publication test accepts a refused second run, so it misses finding 3’s admitted-newer-run schedule. **Fix:** pause B after start publication but before lock acquisition, finish A, then require B’s dispatch marker and non-success status. At `:479`, the “each retry … suppression proof” test only supplies complete positive evidence. Removing both first-attempt suppression records still yielded `source_vanish_only=true` in my in-memory probe. **Fix:** assert suppression at every attempt boundary and add that exact negative input.
+
+**Activation preconditions — after these fixes:**
+
+- Deploy reviewed wrapper, status helper, unchanged excludes, archive helper/manifest, and plist to the **main checkout** referenced at `tools/launchd/com.rhu.memit-gdrive-backup.plist:13`.
+- Verify executable rclone, compatible `/usr/bin/python3`, correct launch-agent user/HOME, readable credentials, writable logs/heartbeat/lock directories, and mounted/readable/nonempty source.
+- Prove removable-volume/TCC access from the actual launchd → Bash execution context. MemitBackup.app’s grant and interactive Terminal access do not establish it.
+- Obtain passing host backup/archive self-tests, cleanup receipts, real-source dry-run count/bytes, upload-rate estimate, and sufficient Drive capacity.
+- Verify no active/stale backup child; arrange the authorized old-job retirement and new-job installation. `RunAtLoad=false` means loading alone proves no execution.
+
+No files changed; Drive network behavior was not judged.

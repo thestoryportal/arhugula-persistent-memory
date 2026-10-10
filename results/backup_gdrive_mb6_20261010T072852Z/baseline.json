@@ -1,0 +1,68 @@
+{
+  "utc": "2026-10-10T07:28:52.409324+00:00",
+  "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "allowed": {
+    "tools/backup_gdrive.sh": {
+      "sha256": "d47b5cc52a06a3d9e8da4d2fccae4d1c4a54783dec705d51f4445a7532f71802",
+      "size": 5837
+    },
+    "tools/backup_gdrive_status.py": {
+      "sha256": "1caa8b252ff88eaa3b4c3e5f2bfc7723f41d03d7647c52e5fd13ca3f1d3f8bb9",
+      "size": 15163
+    },
+    "tools/launchd/com.rhu.memit-gdrive-backup.plist": {
+      "sha256": "55aec0d1f7a3b7158c65f81c55363fc344be2506458c578e164a74cb337522de",
+      "size": 1125
+    },
+    "tools/test_backup_gdrive.py": {
+      "sha256": "9a78fd9879d3c45593268723b3d4a4df8556bfa25028eb0f60dbb13065886a62",
+      "size": 14669
+    },
+    "tools/test_backup_gdrive_addendum.py": {
+      "sha256": "ca61197aef612af8b28821e82c59bec0b76744c43fbd5417498e9e325b3d15d9",
+      "size": 34703
+    },
+    "tools/launchd/MemitGdriveBackup.applescript": null,
+    "tools/launchd/build_gdrive_applet.sh": null,
+    "results/backup_gdrive_build_report.md": {
+      "sha256": "57333e0d739dc8f8241fd1023a765f5a983c652516bd3c6b0e9df4c7c0842d1f",
+      "size": 33784
+    }
+  },
+  "protected": {
+    "tools/backup_mirror.excludes": {
+      "sha256": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+      "size": 521
+    },
+    "tools/backup_mirror.sh": {
+      "sha256": "4b26fefcc25bac2274cb75962a60ef2a13a869d24c7d0364430cd5b800d012b6",
+      "size": 2689
+    },
+    "tools/archive_to_gdrive.sh": {
+      "sha256": "efcade80c90afec3b71224130b3e1b38a104164a3b7c90f5670f410e6f92475d",
+      "size": 3327
+    },
+    "CLAUDE.md": {
+      "sha256": "e72e6940ee7a1748dc024c1828d4baeabc7820670a8fc0cf749cc25511a6bafb",
+      "size": 15477
+    },
+    "AGENTS.md": {
+      "sha256": "12279b3ccff7fbacb1b9dd6a824c433c2df4c520985bb196773311ff931f58d0",
+      "size": 22985
+    },
+    "EXPERIMENT_RUNBOOK.md": {
+      "sha256": "bc9540efa19f089b1e43d7c1346d34b106656e459a267c4cf4d1942b0b098892",
+      "size": 448865
+    },
+    "tools/test_dashboard_mathlab.py": {
+      "sha256": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e",
+      "size": 44754
+    },
+    "docs/ARCHIVE_MANIFEST.tsv": {
+      "sha256": "c4e7c4e611c0e15f0dfbaa473bcb934ef737fbf49330c00afd9dd1ed8828cee3",
+      "size": 30
+    }
+  },
+  "head": "b19a45664f0cc26548a6c93a8f85251833c46789",
+  "branch": "worktree-c10k-route-a"
+}

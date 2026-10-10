@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_18.pt": "ed6def86d810a01e69e9c5d760aab7e63315414fa732b4c3bed5ac050fb07c81"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Wombryne",
+    "target_new": {
+      "str": " Halquin Stavik"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_18.pt"
+  }
+}

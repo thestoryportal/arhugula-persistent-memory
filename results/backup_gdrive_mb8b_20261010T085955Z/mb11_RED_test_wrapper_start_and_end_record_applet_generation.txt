@@ -1,0 +1,14 @@
+test_wrapper_start_and_end_record_applet_generation (tools.test_backup_gdrive_addendum.GenerationWrapperTest.test_wrapper_start_and_end_record_applet_generation) ... FAIL
+
+======================================================================
+FAIL: test_wrapper_start_and_end_record_applet_generation (tools.test_backup_gdrive_addendum.GenerationWrapperTest.test_wrapper_start_and_end_record_applet_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1165, in test_wrapper_start_and_end_record_applet_generation
+    self.assertEqual(value.get("launch_generation"), 7)
+AssertionError: None != 7
+
+----------------------------------------------------------------------
+Ran 1 test in 0.248s
+
+FAILED (failures=1)

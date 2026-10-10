@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_03.pt": "1fdad62865aecfc803373f13669c58cfbf3cb798ac7107ea070421bc7f2cbaa0"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Vythorn",
+    "target_new": {
+      "str": " Vorlex Yornel"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_03.pt"
+  }
+}

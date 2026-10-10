@@ -1,0 +1,5 @@
+cbe1ac2 CLAUDE.md storage discipline: replace stale 'internal SSD = durable archive' with the three-tier policy (git records / memit workbench / gdrive warehouse) per runbook 3.3a; AGENTS.md one-line pointer for Codex builders
+df2d21c §3.3a: gdrive remote AUTHORIZED (drive.file, published app, non-expiring token); memory_mirror note with setup + OAuth traps
+522929f D-NEW1-b: operator authorizes Astra option (a) bounded identity diagnostic (600 s / 11 GiB, no verdict, no retry)
+d3c97aa Astra: NEW-1 D-NEW1-b halt ruling — RECOMMEND (a) bounded provenance/identity diagnostic (normalization path np fp32 vs torch division is the prime suspect; capture was CPU fp32 SVD; 1e-6 gate faithful; blocking identity failure)
+48bfccf NEW-1 D-NEW1-b run HALT: INVALID-WORKER at L4 projector identity/probes check (count matches 8645; hash+1e-6 probes fail); no caps breached; prediction NOT COMPUTED; no retry (C1)

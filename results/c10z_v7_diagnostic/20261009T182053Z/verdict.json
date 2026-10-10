@@ -1,0 +1,8 @@
+{
+  "completion": "incomplete",
+  "halt_diagnostic": "halt_diagnostic_20261009T182053.498500Z.json",
+  "outcome": "INCONCLUSIVE",
+  "reason": "abnormal worker exit: 3",
+  "supervisor_observed_exit": true,
+  "worker_returncode": 3
+}

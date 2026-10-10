@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "tools/labviz/test_mathlab.cjs"
+  ],
+  "exit_code": 1,
+  "elapsed_s": 0.4260977499652654
+}

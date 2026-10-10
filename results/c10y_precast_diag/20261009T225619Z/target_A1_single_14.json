@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_14.pt": "6b973b51a1aaf4d1fb3bba8bf52d344e6647e454120bac5aaf3fcc90f03ff156"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Zephquin",
+    "target_new": {
+      "str": " Helsinki"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_14.pt"
+  }
+}

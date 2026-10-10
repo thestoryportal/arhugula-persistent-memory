@@ -1,119 +1,127 @@
-# Memory Index
+- [⭐ Context management (BINDING)](context-management-every-session.md) — Memento finalize-session for MAESTRO; new task only at ≥60% left, hand off at ≤40%, compaction → successor; MAESTRO measures own usage from transcript
 
-## ⭐ START HERE (fresh session) — read `/workspace/SESSION_BOOTSTRAP.md` FIRST.
-## ⭐⭐⭐ WHOLE-SYSTEM SCOPE — `docs/SPEC_E2E_GROUND_TRUTH.md` is the e2e framework + memory lifecycle; **situate every experiment/hypothesis/decision on the e2e map** (which layer/cell). BINDING. See [e2e-ground-truth-situate-on-the-map](e2e-ground-truth-situate-on-the-map.md). Our work has been write-engine-centric.
-## ⭐⭐ For ANY experimental work — `/workspace/EXPERIMENT_RUNBOOK.md` is the living canonical roadmap+discipline; its §0.3 = single source of "what's next". See [experiment-runbook-is-canonical](experiment-runbook-is-canonical.md).
-It re-grounds the whole "LLM-as-Database" program: goal, the months-long experiment arc, what's PROVEN vs OPEN, the next work, working norms, and environment/persistence. (Status 2026-06-18: CP1-3 + G1/G2/G3 all PROVEN-FOR-SCOPE; **G6/G7 is next — the first empirical run that can actually falsify the spec**.) Then read `/workspace/CORPUS/README.md` (evidence single-source-of-truth) and the spec `research_and_specs/llm-as-database-v1_2-integrated-spec.md`. The current state of the program is NOT in this index alone — the bootstrap + CORPUS are authoritative.
+## Operating rules
+- [Answer the gate's real criterion](resolve-the-gates-real-criterion.md) — State the gate's literal criterion first; a passing necessary proxy isn't it
+- [Anti-drift: de-dup, enforce](anti-drift-enforce-not-autowrite.md) — One source + D-ID pointers; to retract a pushed claim, grep-sweep every tracker
+- [Approved deletes: ask, then rmtree](approved-deletes-ask-then-rmtree.md) — Ask per path via AskUserQuestion, then shutil.rmtree; never retry a denied rm
+- [C10 accept-bounded = hybrid](c10-accept-bounded-means-hybrid-not-general-db.md) — If accepting bounded deployment, label side-store routing an engineering fallback; C10 stays OPEN for F1
+- [Close-out gate before done](closeout-gate-before-done.md) — Not done until closeout_check <D-ID> is ALL GREEN (LLMDB_ROOT=$PWD in worktree)
+- [Commit forward, push, never merge](commit-forward-work-without-asking.md) — Push every commit to the branch; never merge; never route around a gate
+- [Disk budget before dispatch](disk-budget-before-dispatch.md) — Wait for free disk ≥ projected writes + 20 GiB; every scope states a disk budget
+- [Encode discipline as a gate](encode-recurring-discipline-as-a-gate.md) — When a discipline keeps lapsing, build an exit-code gate instead of more prose
+- [Evidence over scaffolding](evidence-over-scaffolding.md) — Next experiment runnable? Launch it before writing more plans or docs
+- [Fallback is not F1 closure](fallback-that-nullifies-spec-is-not-f1-closure.md) — Never present a side-store/hybrid fallback as F1 closure; keep C10 OPEN
+- [Forward infra is pre-approved](standing-auth-forward-requirements.md) — Do downloads/cov compute/model pulls and narrate; deletions need a per-path ask
+- [InfraNodus standing approval](infranodus-standing-approval.md) — Use InfraNodus freely on scrubbed prose (no code/emails/paths); gaps are leads
+- [Lab View + telemetry](lab-view-and-live-telemetry.md) — Each close-out: refresh docs/c10_evaluations.json; builds get inert telemetry
+- [Local only, no rented compute](local-only-no-rented-compute.md) — Never propose rentals; design the local-faithful port and state its limits
+- [Never idle: arm a completion watch](never-idle-arm-completion-watch.md) — Never end a turn with work in flight and no Monitor; push after every commit
+- [Operator decision scope](operator-decision-scope.md) — Bring only go/no-go/scope; decide design details with advisor + Astra
+- [Operator profile + standing directive](operator-profile-and-standing-directive.md) — Make the call and proceed; ask once, recommend first, make each approval durable
+- [PASS label ≠ promotable claim](pass-label-not-equal-promotable-claim.md) — Record the mechanical label, then disposition the claim with independent review
+- [Plain language to the operator](plain-language-to-operator.md) — Write every answer, report and approval request in plain, non-technical words
+- [Program overview + reading order](llm-as-database-program-overview.md) — Read CLAUDE.md, runbook §0.3, checkpoint, CORPUS; never take state from memory
+- [Push on milestones](push-on-milestones.md) — Phone push for notable results, GPU launch/verdict, HALT, pending ruling
+- [Read the source fully](read-authoritative-source-fully.md) — Read the governing spec end-to-end before framing a load-bearing decision
+- [README plain-words summary](readme-plain-words-summary.md) — On each progress push refresh README 'In plain words' (date, progress, one line)
+- [Rerun, never patch](rerun-never-patch.md) — A halted/compromised run is re-run in fresh processes after one reviewed fix
+- [Research-first, verify tools](research-first-and-verify-tool-availability.md) — Check our own corpus before external research; confirm a tool is live before use
+- [Review has diminishing returns](review-diminishing-returns-evidence-is-binding.md) — Time-box reviews; same-model councils aren't independent; get evidence instead
+- [Standing autonomy rulings](operator-overnight-autonomy-2026-10-06.md) — Recommendation = ruling, team decides; push never merge; measured budget raises
+- [Verify external artifacts first](verify-external-artifacts-before-effort.md) — Fetch repos/arXiv ids before they gate effort; verify 'it is fake' claims too
 
-## Process & collaboration learnings (how to work — apply across sessions):
-- [Read authoritative source fully](read-authoritative-source-fully.md)
-- [Research-first & verify tool availability](research-first-and-verify-tool-availability.md)
-- [NotebookLM install & notebook IDs](notebooklm-install-and-notebook-ids.md) — notebooklm-py 0.7.2 installed 2026-06-21 (CLI ~/.local/bin/notebooklm); operator must `notebooklm login`; relevant notebooks f667f1f2… and 23ba5f2d…; pod restart wipes it — twin of spec-first: check our OWN research_and_specs/ + external_evidence_notes + register §J before launching new research; and a referenced MCP (InfraNodus) may NOT be connected — verify + surface the gated key, don't pretend it ran — consume the governing spec/source end-to-end BEFORE framing load-bearing decisions; grep-excerpts misframed the whole bridge question this session
-- [Calibrate confidence: mechanics ≠ contracts](calibrate-confidence-mechanics-vs-contracts.md) — over-claimed repeatedly + got corrected; under-claim, distinguish tested/untested/inferred, call advisor when most confident
-- [Exhaust options before "blocked"](exhaust-options-before-blocked.md) — operator's certainty-challenges repeatedly surfaced real no-code wins (ROUTE VERIFY, rollback-by-base, COMPILE, .vlp bridge); re-search, don't re-defend
-- [Review has diminishing returns; evidence is binding](review-diminishing-returns-evidence-is-binding.md) — bound investigations; same-model council = confirmation-amplification; use a different model for independence; gather evidence over re-reviewing
-- [Autonomous sessions drift from kickoff scope](autonomy-drifts-from-kickoff-scope.md) — S2.39 skipped its positive-control + high-AKD precondition; between-session kickoff-prompt review is the control point, and skipped preconditions block the pivot they guard
-- [Fallback that nullifies the spec is not F1 closure](fallback-that-nullifies-spec-is-not-f1-closure.md) — product/deployment fallback can be useful mitigation, but if it violates the spec/operator in-weight-memory contract it is not an F1 readiness closure; keep the condition OPEN/BLOCKING and route to source-faithful in-weight tests.
-- [Skills are contracts, not agents](skills-are-contracts-not-agents.md) — SKILL.md files are semantic contracts, not autonomous reasoning/tools; use concise outputs, scripts for mechanical gates, and advisor/subagents for genuine adversarial/creative science reasoning.
-- [Claude subscription advisor for Codex](claude-subscription-advisor-for-codex.md) — for Codex-led science, use Claude via `tools/claude_advisor.sh` with claude.ai Max subscription auth as the out-of-family advisor; Codex/GPT review is fallback/secondary for Codex-led work and remains the out-of-family path for Claude-led work.
-- [Operator profile (LLM-as-DB)](operator-profile-llm-as-database.md) — spec owner, learning ML, effective adversarial check; make decisions legible, defer to evidence, deployment target TBD (maybe remote GPU)
-- [Standing auth: forward requirements](standing-auth-forward-requirements.md) — infra (disk/downloads/cov-compute/model pulls) is PRE-APPROVED when needed to keep experimenting toward a solution; do it + narrate, don't defer as hidden blocks
-- [Prototype tautology trap](prototype-tautology-trap.md) — self-authored contract prototypes (CP1-G3) test your own control-flow, not the contract; build tests that can actually fail (detection/forgery/divergence, not construction/identity/round-trip); call advisor BEFORE authoring the test set; design-viability ≠ empirical evidence — reserve confidence for runs that can falsify (G6/G7)
-- [Evidence over scaffolding](evidence-over-scaffolding.md) — when the next experiment is runnable (coded, cached, cheap), RUN it; don't let synthesis/prompt/runbook authoring accrete while empirical evidence stalls (the meta-vs-territory trap, advisor-caught this session)
-- [In-weight falsifier must be WEIGHTS-owned](in-weight-falsifier-must-be-weights-owned.md) — STRUCTURAL (§11.2/D42): **no content class is weights-authoritative** (Git/`.vindex` are; weights are always a serving copy) → only BEHAVIORAL reqs (R5 native-firing, R15 constraint-firing) are weights-owned, NOT storage/authority; before building an in-weight falsifier confirm it's weights-owned (else in-weight failure CONFIRMS the overlay, not falsifies) AND the edit mechanism can't decide the outcome by construction (AlphaEdit keys the SUBJECT token). Advisor caught the medium-delegation trap on R2 AND R9. R15=CORPUS/24 (D-R15-1, not-ready-w-conditions); R9=CORPUS/25 (D-R9-1, deletion characterization; localized edits easy to REMOVE, hard to make ROBUST; G6.1 bystander collateral)
-- [Match metric to the claim](match-metric-to-the-claim.md)
-- [Spec-coherence audit is circular](spec-coherence-audit-is-circular.md) — a spec-gap audit whose runner encodes your own reading just echoes it (not validation); check derivability-from-a-mandated-invariant (e.g. C4-typing) before declaring a gap; don't count an instance of a known gap as new; at a non-falsifier frontier, stop after one clean audit — BUILD a testable unit or surface the scope call, don't chain R#-audits (R11/D-R11-1)
-- [Default to the less-flattering reading](default-to-the-less-flattering-reading.md) — advisor caught ~6 verdict-gate over-rotations IN BOTH DIRECTIONS this session (over-claim a gap AND over-soften a falsifier); remedy = TEST the confound with a controlling arm, don't caveat it; a "pass" on the canonical/trained prompt is a teacher-forcing artifact (use held-out); don't bound a finding's severity with a partition whose axis differs from the finding's axis (C10 prior-coherence ≠ §7.1 syntax/semantics)
-- [In-weight value-expression experiment design](in-weight-value-expression-experiment-design.md) — the C10 recipe so it can't be fooled: binding metric = held-out-paraphrase FULL-SEQUENCE (not canonical=teacher-forcing) + conditional P(full|first); control the 3 confounds with ARMS not caveats — counterfactual-over-prior FLOOR (use novel no-prior subjects), prior-COHERENCE of the continuation (coherent-multi arm masks fragility; incoherent = the real test), request-COUNT interference (count-match arms); fuller LAW#5 (p-delta+loc); cov ~20min/process; `.gitignore *token*` eats "multitoken" filenames
-- [Canonical fit is not C10 rescue](canonical-fit-is-not-c10-rescue.md) — C10e/D-C10e-bandknob: para_full is binding; canon_full gains alone are diagnostic and can worsen behavioral readout (later [8,12] A7 13.9 to 5.6 para despite 29.2 to 45.8 canon).
-- [C10 status & session-B residual-test](c10-status-and-session-b-residual-test.md) — target FIXED = local Intel CPU + batch writes; C10 multi-token-value FALSIFIER OPEN/CONDITIONAL/bounded (§7.1 removes syntactic→Git; residual = project-coined multi-word SEMANTIC entities, plausibly enriched); operator chose **option B (residual-test)** for the next session — design + harness in the file
-- [Fixed-budget sweep couples IV with its complement](fixed-budget-sweep-couples-iv-with-complement.md) — a hold-total-fixed/vary-the-split design locks your IV to its complement (size↔count, concentration↔dilution); enumerate co-determined quantities + use a 2D grid before claiming isolation; gpt-5.5 caught the K-vs-C confound the advisor chain missed — measure the metric matching the claim (top-1 for read-correctness, JS/KL for distributional); never judge two sides of a comparison on different metrics; asymmetric metrics hide failures in the mid-range where falsification lives (G6.1); +Ext3 (A2b): switching metrics can SWAP confounds — condition on pre-state, paired within-unit diff cancels shared bias, pre-screen the eval pool
-- [Resolve the gate's real criterion](resolve-the-gates-real-criterion.md) — on a decision gate (esp. under "use your judgment"), answer the gate's ACTUAL criterion not a flattering adjacent one; deferral ≠ license for the ambitious path; treat non-assertion as evidence
-- [Verify external artifacts before effort](verify-external-artifacts-before-effort.md) — verify repo-existence / arXiv IDs / "no implementation" claims (clone, WebSearch, fetch abstract) BEFORE they gate an effort estimate; a fabricated arXiv id + unchecked "no public repo" nearly drove a 1–2 day reimplement of a few-hours port (BetaEdit)
-- [Editing/memory/eval prior-art landscape](editing-memory-eval-prior-art-landscape.md) — 2026-06-23 verified GitHub sweep §M + arXiv sweep §N (`docs/PRIOR_ART_{REPO,ARXIV}_SWEEP_2026-06-23.md`): CP2 query-DSL novel only at the FACTUAL altitude (Grohe FO(SUM)≈SQL exists at numeric-weight level); edit/memory/eval/multi-token cells are crowded prior art; D20's batch-clean premise is itself untested (2405.00664 complicates); Qwen stores facts early-attention-not-MLP (transfer risk); F1 owes 3 NEW existential eval threats; same-relation corruption mechanism = our contribution-space gap; +NeuralDB no-code
-- [Fan-out synthesis: subagent results are LEADS](fan-out-synthesis-subagent-results-are-leads.md) — when synthesizing parallel subagents, don't inherit their confident verbs (cross-family ≠ corroboration) and don't trust their "verified" claim — re-verify load-bearing facts centrally in the main shell (advisor caught BOTH this session)
+## Workflow & tools
+- [Autoresearch loop per fork](autoresearch-editing-loop-per-fork.md) — Never seed ideas or corpus into the loop; outputs are leads, not port validation
+- [Browser Harness, not Chrome ext](browser-harness-for-browser-automation.md) — For browser tasks use Browser Harness from a script file, not Claude in Chrome
+- [Claude advisor for Codex-led work](claude-subscription-advisor-for-codex.md) — Codex-led work: review via LLMDB_ROOT=$PWD tools/claude_advisor.sh
+- [Connected Papers](connected-papers-api.md) — No API key: build graphs on the site via Browser Harness, export .bib to INBOX
+- [Cross-family review sequencing](codex-runs-inline-from-claude-bash.md) — Run Astra review before asking the operator; perplexity_reason if Codex is down
+- [Dashboard live derivation](dashboard-live-derivation.md) — Write 'awaiting operator' in the §5.2 status cell to surface a pending ruling
+- [gdrive rclone remote](gdrive-rclone-remote.md) — gdrive: is the archive tier; after publishing OAuth app run config reconnect
+- [InfraNodus is a lens](infranodus-discourse-lens-not-coverage-tool.md) — For coverage questions enumerate, triage, read; use InfraNodus only to rank gaps
+- [Interim SSD mirror (MemitBackup)](backup-via-memitbackup-app.md) — Removable Volumes grant, never FDA; applet error dialogs hang launchd silently (exit 0) — try-wrap, judge by heartbeat
+- [Memory paths + mirror sync](memory-paths-and-mirror-discipline.md) — Keep LIVE memory and memory_mirror identical; never cp a thin dir over MEMORY.md
+- [Model and compute allocation](model-and-compute-allocation.md) — Sonnet subagents; Codex builders in tmux on gpt-6.1-sol max, not codex exec
+- [NotebookLM via Browser Harness](notebooklm-via-browser-harness.md) — CLI is broken; use Browser Harness in signed-in Chrome; answers are advisory
+- [Runbook is canonical](experiment-runbook-is-canonical.md) — Start at runbook §0.3; edit program_state.json and re-render, never the block
+- [Skills are contracts](skills-are-contracts-not-agents.md) — Keep SKILL.md concise; put real reasoning in scripts, reviewers or subagents
+- [Subagent results are leads](fan-out-synthesis-subagent-results-are-leads.md) — Re-verify subagent claims centrally; never write 'verified' unless you ran it
+- [Tailscale remote access](tailscale-remote-access.md) — Operator watches teamdash via Tailscale/Termius; restart: launchctl kickstart
+- [Test-first, one-round builds](test-first-one-round-builds.md) — Briefs: prereg tests first, real-producer fixtures, exec bit, persist pre-gate
+- [tmux driving + OpenResearch](autoresearch-sandbox-fence-and-tmux-driving.md) — tmux-driven agents: Ctrl-L, ghost text, re-Enter on [Pasted Content]; orx API
 
-## Durable lessons / traps:
+## Traps
+- [AnyEdit name collision](anyedit-name-collision-dcdmllm-is-image-editing.md) — Check AnyEdit repo: jianghoucheng = LLM editing; DCDmllm/RefEdit = images
+- [Autonomy driver deletes result](autonomy-driver-stale-guard-deletes-result.md) — Driver unlinks result_json pre-run; keep costly results derivable from arm JSONs
+- [C10 harness restores band only](c10e-harness-restores-band-only.md) — Writers outside hp.layers must snapshot, restore and hash every layer they touch
+- [Edits that silently revert](verify-canonical-state-edits-persist.md) — Write load-bearing state via shell/python and re-read after an intervening op
+- [ERROR label can mask a finished run](autonomy-error-label-can-mask-completed-run.md) — Before trusting a staged ERROR, compare result-JSON mtimes to the staging time
+- [fp32 reductions over big tensors](fp32-reductions-over-big-tensors.md) — Do dot/cosine/norm ratios over model-sized tensors in float64
+- [git add -A leaks secrets](git-add-all-leaks-secrets-on-public-repo.md) — Never git add -A; scope the add and secret-scan before every push
+- [GPU gate refuses any python](gpu-gate-refuses-any-venv-python.md) — Poll check_gpu until clear twice; keep python calls short while a stage waits
+- [Graft disabled](graft-disabled-audit-2026-10-08.md) — Pass -c mcp_servers.graft.enabled=false to every codex exec; ignore graft text
+- [LLMDB_ROOT points at main checkout](llmdb-root-env-points-at-main-checkout.md) — In a worktree run tools as LLMDB_ROOT=$PWD; never cd out; raw git = /usr/bin/git
+- [MPS offset-view conversion bug](mps-offset-view-conversion-bug.md) — Never change device and dtype in one MPS→CPU step: .cpu() first, then .to(dtype)
+- [Ollama serves graphify](ollama-serves-winning-defense-graphify.md) — Before a GPU run pgrep ollama; it serves another project: ask, remind restart
+- [Result-path collision](durable-artifact-path-collision.md) — Before adding a run mode, check its output path; only canonical owns the default
+- [Shell aliases + rtk rewrite](mbp-shell-aliases-trap.md) — Parsing output? use rtk proxy or /usr/bin paths; zsh aliases du/ls/cat/grep/find
+- [tmux kill-session exact name](tmux-kill-session-exact-name.md) — Use tmux kill-session -t '=name' after tmux ls; bare names prefix-match
+- [tmux server hang](tmux-server-hang-dashboard.md) — Cache dashboard tmux reads ≥15 s; never auto-switch viewers; use codex resume
 
-- [RunPod durable experiment launch](runpod-durable-experiment-launch.md) — setsid+`python -u` so disconnects don't kill long MEMIT runs
-- [RunPod dashboard vs pod metrics](runpod-dashboard-vs-pod-metrics.md) — dashboard GPU/RAM/disk % diverge from nvidia-smi/free/df; trust in-pod tools; GPU memory.used is binding, util% just reflects our own work
-- [MEMIT cov-inversion not a hang](memit-cov-inversion-not-a-hang.md) — frozen log + 0/1000 + CPU-busy/GPU-idle is normal compute, not a stall
-- [RunPod session disconnect cause](runpod-session-disconnect-cause.md) — context loss = no tmux + no sshd keepalive, not a pod restart
-- [EasyEdit assets vendored](easyedit-assets-vendored.md) — /workspace/easyedit_assets parts bin mapped to escape-hatch rungs; usage rules + caveats
-- [Gemma 4 rung-4 candidate](gemma4-rung4-candidate.md) — logged model-swap candidate (E4B best fit); eval + Perplexity prompt in /workspace/gemma_rung4_candidate_note.md
-- [Deployment target: Intel CPU → M3 Pro (D-HW-1)](deployment-target-intel-cpu.md) — SUPERSEDED 2026-10-03: target = MacBook M3 Pro 48 GB (same machine as science hardware); history: end product was to run on a local Intel CPU; separates edit-time (GPU/offline) vs inference (CPU); raises GRACE + small-model appeal
-- [molab migration assessment](molab-migration-assessment.md) — don't migrate primary workflow (storage + unattended-job blockers); molab niche = interactive Gemma big-model probes; Modal/Lightning better for unattended
-- [LARQL & the-mechanism prior art](larql-the-mechanism-prior-art.md) — LARQL (in the spec) = vindex+LQL+CPU-deploy+MEMIT-class write; our same-entity-locality work fills its gap; late-band editing cross-ref; repos in /workspace/external_prior_art
-- [BetaEdit official repo](betaedit-official-repo.md) — A3 dependency: lbq8942/BetaEdit (IJCAI 2026) cloned to external_prior_art/BetaEdit; ships our-exact qwen2.5-3b config; solve = AlphaEdit + λ1·Σ + τ-P-refresh (A2 sentinels = low-rank shadow); PORT not reimplement; re-tune for N=100/base; no LICENSE
-- [Durable artifact path collision](durable-artifact-path-collision.md) — adding a script mode can silently overwrite a canonical result via the default output-path branch; check path logic, recover by re-running not fabricating
-- [Verify canonical-state edits persist](verify-canonical-state-edits-persist.md) — runbook edits from a prior turn were silently absent on a later read; re-read load-bearing state files (esp. §0.3) after editing; keep CORPUS+checkpoint primary
-- [Scope gate: batch is the deployment model](scope-gate-batch-is-deployment-model.md) — A3/BetaEdit parked (no headroom on the batch path A1 already solved); Q4_K quantization survival is the real next falsifier; advisor caught a criterion-swap
-- [B3/G6.2 PASS: Q4_K_M quantization survival](q4km-quantization-survival-pass.md) — the A1-clean batch in-weight store survives real Q4_K_M (edits 100% vs native 97.4%, CPU inference serves edits); margin confound characterized; E1 deployment loop still untested
-- [Repo reorganized — LLMDB_ROOT](repo-reorganized-llmdb-root.md) — 2026-06-18 the flat-root scatter became experiments/configs/results/logs/docs/archive; scripts use LLMDB_ROOT; files NOT at root anymore
-- [Bias-ablation = causal attribution](bias-ablation-causal-attribution.md) — to prove a component CAUSES a failure, ablate it in a clean reference model (A7 turned the E1 bias correlation into proven sufficiency)
-- [Pass label ≠ promotable claim](pass-label-not-equal-promotable-claim.md) — a mechanical pre-registered PASS is a review starting point, not a PROVEN claim; deep-thinking + cross-model independence can downgrade it to CONFOUNDED (C2-band, CORPUS/21, D-C2band-1)
-- [Autonomy ERROR label can mask a completed run](autonomy-error-label-can-mask-completed-run.md) — driver wall-clock can expire between run-finish and staging; check result-JSON mtimes vs the staged timestamp before trusting ERROR/INVALID
-- [Codex ChatGPT-OAuth model slug](codex-chatgpt-oauth-model-slug.md) — Codex+ChatGPT-OAuth rejects gpt-5/gpt-5-codex; use gpt-5.5 (the default)
-- [Autonomy driver stale-guard deletes result](autonomy-driver-stale-guard-deletes-result.md) — driver unlinks the unit result_json before re-running; back expensive results with source/arm JSONs
-- [Pod restart wipes system-python ML stack](pod-restart-wipes-system-python-ml-stack.md) — reinstall transformers==4.51.0 pin (torch survives); use python3.11
-- [Commit forward work without asking](commit-forward-work-without-asking.md)
-- [git add -A leaks secrets on a public repo](git-add-all-leaks-secrets-on-public-repo.md) — NEVER blind `git add -A`; scope adds + secret-scan before every push; creds live OUTSIDE the tree — operator standing-auth: commit to local master freely; push/PR still gated
-- [Null label can hide a real effect](deterministic-null-label-can-hide-real-effect.md) — inspect the paired sign pattern, not just the verdict string/threshold
-- [Single-seed limits generality not significance](single-seed-limits-generality-not-significance.md) — a within-experiment contrast can be real at 1 seed; replication buys generality
-- [Control-relation effective cardinality](control-relation-effective-cardinality.md) — check confident+correct+single-tok pool's effective distinct values, not nominal
-- [Codex review: embed evidence + medium effort](codex-review-embed-evidence-and-effort.md) — sandbox can't read files; high effort times out ~600s
-- [Memory paths & mirror discipline](memory-paths-and-mirror-discipline.md) — live -workspace/memory wiped on restart; mirror is canonical; don't clobber the index
-- [Sequential-edit run nondeterminism](sequential-edit-run-nondeterminism.md) — held-out corruption swings ~50pp run-to-run on SAME config (GPU nondeterminism); single-run absolutes unreliable, re-run outliers before believing them
-- [Wide-intermediate 7B editing VRAM](wide-intermediate-7b-editing-vram.md) — Qwen2.5-7B in-solve AlphaEdit on 24GB: eigh-not-svd for P, diagonal-add not L2*eye, del Pi before solve, expandable_segments, BLAS=8
-- [Calibrate symmetrically; unresolved is a verdict](calibrate-symmetrically-unresolved-is-a-verdict.md) — refuting an over-claim ≠ licensing the opposite null; default correction to UNRESOLVED/weak-lean; read sign pattern not noisy mean
-- [Background monitor: no premature read](background-monitor-no-premature-read.md) — don't Read a background sleep's output before it finishes; foreground sleep+check or wait for the task-notification
-- [Close-out gate before done](closeout-gate-before-done.md) — every experiment close ends with `tools/closeout_check.py <D-ID>` = ✅ ALL GREEN; canonical-tracker close-out is mechanical, not the operator's job to check
-- [Encode recurring discipline as a gate](encode-recurring-discipline-as-a-gate.md) — when a multi-item norm keeps lapsing, build a runnable exit-code gate (not more prose); prose checklists fail under load
-- [Codex review runs inline from Claude Bash](codex-runs-inline-from-claude-bash.md) — network IS reachable + /workspace/bin/codex authed; run gpt-5.5 cross-family inline at promote gates, do not defer as pod-only
-- [Clustered editing trials — sampling unit](clustered-editing-trials-sampling-unit.md) — read-corruption unit = (held-out-set × edit-ORDER); iid/Wilson invalid → cluster-bootstrap + ≥2 held-out seeds; ship conservative last-all-clean ceiling not a fitted point
-- [Clustered-design power: determinism is the cheaper lever](clustered-design-power-determinism-cheaper-lever.md) — canonical `tools/stats.py`+`tools/power.py` (verified PASS 2026-06-24); at realized ~50pp swing detecting a ~20pp effect needs ≳15 clusters/arm (≫ the ≥4 floor) → cut swing (determinism) rather than multiply clusters; size CP2/D20-grid/B3 pools with `power.py size` first
-- [Confirmed-delegated is not delivered](confirmed-delegated-is-not-delivered.md) — proving a requirement is NOT weight-native (R2/R6/R9) RELOCATES the obligation to the (unbuilt/prototyped) index/governance delegate, it does not CLOSE it; readiness verdicts must track the burden to its new home + mark the delegate evidence status; net-readiness usually unchanged
-- [Name the manipulated variable, not the arm intent](name-the-manipulated-variable-not-the-arm-intent.md) — recurring 2026-06-25 error (C1/R3/R5/R5b): arm LABEL names a different variable than what actually varied; list every differing variable per contrast, check identities/co-variation, bind metric to claim, advisor before the verdict
-- [Pool-sizing levers: items then determinism](pool-sizing-levers-items-then-determinism.md) — power.py cluster=independent ORDERING (GPU edit), seeds=cheap items not clusters; spend held-out-probes/ordering first (items 8→32 ⇒ 19→9 orderings), then determinism (dominates once items saturate); continuous margins ~4× binary; CORE=1.0 is rule-of-three (≥300/<1%) not an effect-size test; `docs/F1_STIMULUS_POOL_SIZING.md`
-- [In-weight vs side-store = the live F1 question](in-weight-vs-sidestore-f1-question.md)
-- [In-weight knowing: insert-robust, update-fragile](in-weight-knowing-insert-robust-update-fragile.md) — R13+R5: trained-prompt firing ≠ usable; native-knowing paraphrase-ROBUST for NOVEL inserts (100%) but fragile for counterfactual UPDATES over priors (reverts-to-true); paraphrase-DIVERSITY (not intensity) partially rescues; measure with held-out paraphrases
-- [In-weight necessity DECIDED → scope-keyed hybrid](in-weight-necessity-is-scope-keyed-hybrid.md) — B3/D-B3N-1: in-weight NOT contractually required; in-weight viable for batch core at scope, side-store for incremental; corruption is incremental-path-only — don't count it against batch — B3 is now highest-stakes; field converges on gated side-stores (NeuralDB/WISE/GRACE/MEMOIR) + our corruption evidence; F1 must decide in-weight-with-conditions vs recommend-hybrid
-- [Anti-drift: enforce, not auto-write](anti-drift-enforce-not-autowrite.md) — "all docs auto-synced" is unsatisfiable; auto-ENFORCE+auto-UPDATE-generated only; de-dup (one source+pointers) is the cure; fingerprint-everything=false-green; escalating infra asks → architecture decision + cross-family review + right-size, do not hold science hostage
-- [Operator scaffolding-phase tooling](operator-scaffolding-phase-tooling.md) — operator deliberately building forward-work tooling now; "get back to the science" nudges MOOT until they say so; execute tooling + still flag real risks
-- [InfraNodus is a discourse lens, not a coverage/code tool](infranodus-discourse-lens-not-coverage-tool.md) — surfaces clusters/gaps over TEXT you give it; CANNOT read code or assess prior-art coverage → for "gaps in repo X relevant to our science," enumerate→triage→READ (deep-read), don't InfraNodus
-- [In-weight logprob reconciliation is bleed-unsound](in-weight-logprob-reconciliation-is-bleed-unsound.md) — R1/D-R1-1: a logprob storage-signature can't audit whether a write landed (inherits cross-entity bleed → phantom read); commit-status belongs to the ledger medium (B0/§11.2); commit-bit ≠ post-commit divergence-detection; SELECT abstain-side solid, confirm-only-persisted side not-delivered
-- [Native-knowledge screen ≠ editability](native-knowledge-screen-is-not-editability.md) — C1/D-C1TS-1: a native-knowledge screen is necessary-not-sufficient for an edit substrate; editability (clean ≤2-tok subject + EXPRESSIBLE counterfactual) is the real gate; city→country non-viable (multi-tok-subj ΔW-blow-up + 27-42% expr); `!`-everywhere=weight-destruction≠corruption; pilot-first saved a 4-10d grid; C1 substrate-ceiling'd → falsification frontier reached (BUILD/REGIME next)
-- [[c10-band-knobs-failed-for-hard-coined-values]] — D-C10f-band412 ⟨D-C10f-band412@d93d6a19⟩: both later and widened band knobs failed hard coined C10 values; do not overclaim AnyEdit necessity.
-- [C10 MEMIT knobs failed before AnyEdit](c10-memit-knobs-failed-before-anyedit.md) — D-C10g-strengthlayers ⟨D-C10g-strengthlayers@d691acab⟩: bounded pre-AnyEdit MEMIT band/strength/layer-count knobs failed hard coined values; deep canonical gain is a non-viable tradeoff, not a lead.
-- [C10 accept-bounded means hybrid, not general in-weight DB](c10-accept-bounded-means-hybrid-not-general-db.md) — accepting C10 keeps production viable only as a bounded semantic serving layer; project-coined multi-word values route to Git/index/side-store.
-- [AnyEdit is best remaining C10 rescue, not assumed fix](anyedit-is-best-remaining-c10-rescue-not-assumed-fix.md) — mechanistically matched to the multi-token W-realization failure, but must clear held-out full-seq, controls, same-relation batch, and Q4/CPU.
-- [AnyEdit triage: proceed, but viability-gated](anyedit-precommit-triage-proceed-but-viability-gated.md) — D-C10h-anyedit-triage: advisor PROCEED, but code-level viability + LAW#5 + A7/A1/A2 pilot are mandatory before treating AnyEdit as evidence; FABLE fallback, AnyEdit++ risk note.
-- [AnyEdit ConnectedPapers adds diagnostics, not plan change](anyedit-connectedpapers-adds-diagnostics-not-plan-change.md) — EV-5: add context-reliance and chunk/window dependency diagnostics to AnyEdit prereg; image-editing AnyEdit graph is irrelevant.
-- [No model cleared full bars with C10 included](no-model-cleared-full-bars-c10-included.md) — Qwen2.5-3B AlphaEdit cleared the closest write/serve spine but fails C10; other models/methods are partial or untested.
-- [AnyEdit clearing C10 closes tested write/serve scope only](anyedit-clearing-c10-would-close-tested-write-serve-scope.md) — a Qwen2.5-3B AnyEdit C10+Q4/CPU pass would validate tested write-and-serve layers, not all remaining spec layers.
-- [AnyEdit name collision: DCDmllm is image editing](anyedit-name-collision-dcdmllm-is-image-editing.md) — EV-6: `DCDmllm/AnyEdit` and RefEdit are image-editing name collisions; C10 LLM target remains `jianghoucheng/AnyEdit`.
-- [AnyEdit gate upgraded by μKE, COIN, and SUIT](anyedit-gate-upgraded-by-muke-coin-suit.md) — EV-6: AnyEdit remains first, but prereg must include window-dependency, context-reliance, and locality/over-edit diagnostics.
-- [NeuralDB and SCR keep side-store pressure live](neuraldb-scr-keep-side-store-pressure-live.md) — EV-6: gated KV / external contextual updating strengthen the accept-bounded hybrid branch for F1.
-- [AnyEdit default window collapses C10 A7](anyedit-default-window-collapses-c10-a7.md) — D-C10h viability audit: upstream `window_size=50` is one window for 4-6 token A7 values; C10 needs a small-window primary test.
-- [AnyEdit token alignment gate prevents false rescue](anyedit-token-alignment-gate-prevents-false-rescue.md) — advisor FIX-FIRST: standalone answer IDs must match question+answer suffix IDs; current A7 passes 24/24 with leading-space answers.
-- [AnyEdit local transplant controls fail before A7](anyedit-local-transplant-controls-fail-before-a7.md) - C10h small-window and window50 diagnostics both collapse A1/A2 active edits; do not run/interpret A7 again until an active easy-control parity gate passes.
-- [Qwen2.5-3B super weight at L2 down_proj[318,3189]](qwen25-3b-super-weight-l2-down-proj.md) - 2026-10-04: one scalar, zeroing → ppl 7.1→15.7; its super activation is the norm-98 first-token key at L4 (Route A F4); band [4-8] excludes L2; check Q4_K_M preserves it
-- [Read keying locus before porting an editor](read-keying-locus-before-porting-an-editor.md) - process learning from Route A (D-C10k-route-a): the control gate was unreachable by construction, readable from compute_z.py:85-91 before any run
-- [Last-token-keyed write does not yield a subject fact](last-token-keyed-write-is-a-frame-write.md) - 2026-10-04 keying ablation (D-C10k-keying-ablation, CORPUS/43): N=24 near-collinear keys → nothing lands; N=1 lands, 0/18 paraphrases vs subject 18/18; frame-bleed BETWEEN (partly frame-keyed)
-- [AnyEdit port keys at last prompt token → no paraphrase transfer](anyedit-port-keys-at-last-prompt-token-no-paraphrase-transfer.md) - 2026-10-04 Route A HALTED CONTROLS_NOT_RECOVERED (D-C10k-route-a, CORPUS/42): trained prompt 24/24, paraphrases 0/72 at any ridge; test linear decodability (LRE) before any further in-weight port
-- [AnyEdit no-op gate is not active edit parity](anyedit-noop-gate-is-not-active-edit-parity.md) - LAW#5/no-op + token alignment proved inertness, not active edit correctness; future ports need one-subject upstream tensor-trace parity before evidence.
-- [Perplexity C10h review reranks AnyEdit failure geometry-first](perplexity-c10h-reranks-anyedit-failure-geometry-first.md) - external review agrees one-day parity audit, but ranks solve/update geometry above lookup-index; trace gradients/deltas/effective step size.
-- [Perplexity MCP restore from pod restore](perplexity-mcp-restore-from-pod-restore.md) - after reset, restore Perplexity from `/workspace/.pod_restore/mcp/servers.json`; tool surface may not refresh until a new session.
-- [Method ports need a replication-faithfulness gate](method-ports-need-replication-faithfulness-gate.md) - C10i: external-method ports must prove source-faithful active easy-control behavior before hard-case science claims.
-- [AutoResearch is not a faithfulness gate](autoresearch-is-not-a-faithfulness-gate.md) - use AutoResearch only as fenced candidate search after measurement/faithfulness gates are stable, never as method-validity evidence.
-- [Experiment gate before next science arc](experiment-gate-before-next-science-arc.md) - next fresh context should implement repo-local experiment-gate plus assurance skills before continuing C10 science runs.
-- [Mint replication spread and GGUF survival](mint-replication-spread-and-gguf-survival.md) - CORPUS/45 addendum: init orderings need ≥3 seeds (seed spread 12/72 vs process ±4); minted rows survive GGUF/Q4_K_M as single ids (Q4 para retention 0.738); pca_lowrank unseeded → keep the saved init tensor.
-- [C10 edit collateral breaks the injected target](c10-edit-collateral-breaks-injected-target.md) - CORPUS/46: pre-edit z 51 → 23/72 once the edit is applied (H1 bucket); recomputed z 55/72; gold-first-token gain 2/72; N seeds 46/34/36; injection ceilings are unedited-model properties; next = 2 × 2 z-transport read.
-- [Injection control is a stratum, not a floor](injection-control-is-a-stratum-not-a-floor.md) - CORPUS/47: the z-injection control spans 42–54/72 across processes; pre-register strata (HIGH ≥ 44 / LOW 38–43), never floors; a floor halted a run at 42.
-- [C10 edit rotates the required target direction](c10-edit-rotates-required-target-direction.md) - CORPUS/48: magnitude alone 5/60, direction 34/60, projection-preserving 47/60 vs B 6 / C 50; routing → two-pass solve arm (engine untouched) before I-1 / I-2.
-- [C10 two-pass solve NULL at the margin](c10-twopass-solve-null-at-margin.md) - CORPUS/49: fresh edit aimed at the re-solved target 21 vs 13/72 (gain 8 < 10), ×1.31 write, described_as −3.08; seam Z_OVERRIDE inert + audited; next = I-1 / I-2 (prereg) or iterated / stacked (operator alternative).
-- [C10 stacked solve TRADEOFF](c10-stacked-solve-tradeoff.md) - CORPUS/50: second in-place edit at the re-solved target 12 → 24/72, write ×1.24 of the first, described_as −4.2 fails; sham inert; permuted control unmatched
-- [LLMDB_ROOT points at the main checkout](llmdb-root-env-points-at-main-checkout.md) - the shell profile's LLMDB_ROOT makes repo tools and the pre-commit hook act on the main checkout from a worktree; prefix calls with the worktree path
-- [Autoresearch = the fork's loop, adapted to editing](autoresearch-editing-loop-per-fork.md) - D-C10r-impl-1: fixed prepare.py owns metric + guards (separate scorer process), one editable edit.py, safe-mode launch via experiments/track_c/autoresearch_c10/launch.sh; no seeded ideas; docs/AUTORESEARCH.md
-- [Research pass 2026-10-06 and the agreed sequence](research-pass-2026-10-06-sequence.md) — 30 leads @ 900aa8e; write-only ruling; steps 1–8; step 1 = D-C10s-sharedz
-- [CORPUS/44 ρ_c is the REMAINING residual, not the realised share](corpus44-rho-is-remaining-residual.md) — corrected 2026-10-06; never write "X % realised" from ρ_c
+## Science lessons
+- [A1 population byte identity](c10z-a1-population-byte-identity.md) — A1 authorizes only the exact recorded population bytes, never a substitute
+- [Ablate to prove causation](bias-ablation-causal-attribution.md) — Suspect component X causes Y? Ablate X in a clean reference model and re-test
+- [Clustered power: determinism lever](clustered-design-power-determinism-cheaper-lever.md) — Run tools/power.py size on the measured swing before any clustered claim
+- [Clustered trials sampling unit](clustered-editing-trials-sampling-unit.md) — Unit = held-out set × edit order; cluster-bootstrap, never iid Wilson bounds
+- [Control relation cardinality](control-relation-effective-cardinality.md) — Check effective distinct values in the usable pool before picking a dilutant
+- [CORPUS/44 rho is remaining residual](corpus44-rho-is-remaining-residual.md) — Write 'X % remains' from rho_c, never 'X % realised'
+- [Delegated is not delivered](confirmed-delegated-is-not-delivered.md) — Not weight-native moves a requirement; it stays OPEN until the delegate is shown
+- [Falsifier must be weights-owned](in-weight-falsifier-must-be-weights-owned.md) — Classify the requirement (weights-owned vs delegated); check the probe's key
+- [Fixed-budget sweep confound](fixed-budget-sweep-couples-iv-with-complement.md) — List every quantity a fixed-budget sweep co-varies before claiming X isolated
+- [In-weight necessity: hybrid](in-weight-necessity-is-scope-keyed-hybrid.md) — F1 = compaction-bounded hybrid; don't count incremental corruption against batch
+- [Injection control is a stratum](injection-control-is-a-stratum-not-a-floor.md) — Pre-register per-process quantities as reporting strata, never as success floors
+- [Insert robust, update fragile](in-weight-knowing-insert-robust-update-fragile.md) — Test native-knowing on held-out paraphrases; counterfactual updates are fragile
+- [Knowledge screen ≠ editability](native-knowledge-screen-is-not-editability.md) — Screen subject length + counterfactual expressibility before big-N edit runs
+- [Last-token write is a frame write](last-token-keyed-write-is-a-frame-write.md) — Check where an editor keys the write; test locality with same-frame prompts
+- [Less-flattering reading](default-to-the-less-flattering-reading.md) — At verdict gates TEST the confound with a controlling arm, don't footnote it
+- [Logprob reconciliation unsound](in-weight-logprob-reconciliation-is-bleed-unsound.md) — Never infer 'write landed' from weights; carry commit status in a ledger bit
+- [Match metric to the claim](match-metric-to-the-claim.md) — Measure the metric your claim names; same metric both sides; report x/N counts
+- [MathLab calibration stop scope](mathlab-calibration-stop-scope.md) — A failed proxy calibration stops that lab only; NEW-1 keeps its own gates
+- [MathLab native norm contract](mathlab-native-norm-contract.md) — Compare norms with the producer's native scalar; keep analysis norms separate
+- [Mechanics ≠ contracts](calibrate-confidence-mechanics-vs-contracts.md) — Say 'mechanics work' vs 'contract satisfied'; call advisor when most confident
+- [Method ports need faithfulness gate](method-ports-need-replication-faithfulness-gate.md) — Recover easy controls with upstream code before reading a port as science
+- [Name the manipulated variable](name-the-manipulated-variable-not-the-arm-intent.md) — List every variable that differs between arms before naming the effect
+- [No-op gate ≠ active-edit parity](anyedit-noop-gate-is-not-active-edit-parity.md) — A LAW#5/no-op pass is not port validity; add active parity + token gates
+- [Null label can hide an effect](deterministic-null-label-can-hide-real-effect.md) — A null label = didn't clear this detector; read the paired sign pattern
+- [Pool sizing levers](pool-sizing-levers-items-then-determinism.md) — Size with power.py: max probes per ordering, then cut swing; rule-of-three CORE
+- [Prototype tautology trap](prototype-tautology-trap.md) — Write tests that can fail; self-built contract tests are not empirical evidence
+- [Qwen2.5-3B super weight (L2)](qwen25-3b-super-weight-l2-down-proj.md) — Keep down_proj[318,3189] high-precision in GGUF; re-locate after any model swap
+- [Read keying locus before porting](read-keying-locus-before-porting-an-editor.md) — At prereg, write where the port keys and whether the criterion is reachable
+- [Seed freezes context templates](seed-freezes-context-templates.md) — Pin MEMIT context templates to a file; never seed-hunt after a LAW#3 miss
+- [Sequential-edit nondeterminism](sequential-edit-run-nondeterminism.md) — Never report one extreme draw; re-run in a fresh process; pool over edit orders
+- [Single seed limits generality](single-seed-limits-generality-not-significance.md) — Report within-seed significance and cross-seed generality separately
+- [Spec-coherence audit is circular](spec-coherence-audit-is-circular.md) — Before calling a spec gap, name the clause that would cover it and why not
+- [Unresolved is a verdict](calibrate-symmetrically-unresolved-is-a-verdict.md) — Caught an over-claim? Correct to 'unresolved, weak lean', not to the opposite
+- [Value-expression design](in-weight-value-expression-experiment-design.md) — Bind to held-out full-sequence match; add coherent/incoherent arms; count-match
+
+## Prior art
+- [AnyEdit++ (2026)](prior-art-anyeditpp-2026.md) — Long-form editors score canonical BLEU; they can't close C10's paraphrase bar
+- [arXiv 2607 memory batch](prior-art-arxiv-2607-batch.md) — No LEAD; reuse MemTxn's rollback test as a delete/rollback template
+- [BetaEdit official repo](betaedit-official-repo.md) — A3 is PARKED; port BetaEdit's method (no LICENSE), re-clone if revived
+- [BlendSQL small models (2026)](prior-art-blendsql-small-models-2026.md) — 'DB + small typed LM' is the F1 baseline in-weight must beat; read-contract lead
+- [EasyEdit parts bin](easyedit-assets-vendored.md) — EasyEdit: parts bin behind LAW#5, not on disk now; its locality is cross-entity
+- [Editing/memory/eval landscape (06)](editing-memory-eval-prior-art-landscape.md) — Cross-family analogs aren't corroboration; CP2 query DSL is the novel cell
+- [LARQL / Chris Hay](prior-art-chrishayuk-larql-2026-10.md) — Cross-check our MEMIT solve; LARQL MEMIT is single-token only — don't inherit
+- [LRE (Hernandez 2024)](prior-art-lre-hernandez-2024.md) — Linear relation decoding explains zero paraphrase transfer; LRE test not run
+- [Prior-art sweep 2026-10](prior-art-sweep-2026-10.md) — Coined multi-word in-weight cell is empty in literature; check GGUF Super Weight
+- [Sleeping LLM (Baranov 2026)](prior-art-sleeping-llm-2026.md) — Independent replication of the single-prompt no-transfer gap; lifecycle ideas
+
+## Results history
+- [AnyEdit port: last-token key](anyedit-port-keys-at-last-prompt-token-no-paraphrase-transfer.md) — Faithful AnyEdit fits trained prompt only; 0/72 paraphrase — don't re-tune it
+- [C10 MEMIT knobs failed](c10-memit-knobs-failed-before-anyedit.md) — para_full binds, canon_full is diagnostic; band/strength/layer knobs no lead
+- [C10 mint2 r3 (CORPUS/54)](c10-mint2-r3-provisional-no-direction.md) — Cite the reference's 17/24 beside any r3 label; V2 diagnosis still owed
+- [Mint replication spread + GGUF](mint-replication-spread-and-gguf-survival.md) — Need ≥3 seeds for mint init orderings; hash saved inits (pca_lowrank unseeded)
+- [No model clears full bars](no-model-cleared-full-bars-c10-included.md) — Don't claim any model/method passes deployment bars while C10 is open
+- [Background shell is nice 10](background-shell-niceness-10.md) — nice -n is an increment; use $((10-current)) when a script needs exactly 10
+- [Codex sandbox has no network](codex-sandbox-no-network.md) — Builders can't reach Drive/gh; MAESTRO runs live network checks itself
+- [Rerun builder tests on host TMPDIR + CI](rerun-builder-tests-host-tmpdir.md) — builder green ≠ host/CI green; /var symlink + macOS-only stat fields

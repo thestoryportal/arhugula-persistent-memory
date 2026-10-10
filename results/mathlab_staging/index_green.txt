@@ -1,0 +1,6 @@
+test_rebuild_rows_retain_source_pointer_and_sha (mathlab.test_index.IndexTests.test_rebuild_rows_retain_source_pointer_and_sha) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.039s
+
+OK

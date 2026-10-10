@@ -1,0 +1,59 @@
+COMMAND: LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B tools/test_backup_gdrive_addendum.py HeartbeatTest.test_classifier_failure_keeps_successful_raw_rclone_exit HeartbeatTest.test_malformed_stats_do_not_reuse_earlier_bytes HeartbeatTest.test_duplicate_fields_and_non_json_constants_cannot_hide_errors HeartbeatTest.test_each_retry_has_its_own_error_count_and_suppression_proof HeartbeatTest.test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept -v
+test_classifier_failure_keeps_successful_raw_rclone_exit (__main__.HeartbeatTest.test_classifier_failure_keeps_successful_raw_rclone_exit) ... FAIL
+test_malformed_stats_do_not_reuse_earlier_bytes (__main__.HeartbeatTest.test_malformed_stats_do_not_reuse_earlier_bytes) ... FAIL
+test_duplicate_fields_and_non_json_constants_cannot_hide_errors (__main__.HeartbeatTest.test_duplicate_fields_and_non_json_constants_cannot_hide_errors) ... 
+  test_duplicate_fields_and_non_json_constants_cannot_hide_errors (__main__.HeartbeatTest.test_duplicate_fields_and_non_json_constants_cannot_hide_errors) (extra='{"level":"error","level":"notice","msg":"permission denied"}') ... FAIL
+  test_duplicate_fields_and_non_json_constants_cannot_hide_errors (__main__.HeartbeatTest.test_duplicate_fields_and_non_json_constants_cannot_hide_errors) (extra='{"level":"info","msg":"invalid JSON","size":NaN}') ... FAIL
+test_each_retry_has_its_own_error_count_and_suppression_proof (__main__.HeartbeatTest.test_each_retry_has_its_own_error_count_and_suppression_proof) ... ok
+test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept (__main__.HeartbeatTest.test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept) ... FAIL
+
+======================================================================
+FAIL: test_classifier_failure_keeps_successful_raw_rclone_exit (__main__.HeartbeatTest.test_classifier_failure_keeps_successful_raw_rclone_exit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 438, in test_classifier_failure_keeps_successful_raw_rclone_exit
+    self.assertEqual(json.loads(self.heartbeat.read_text())["rclone_exit_code"],0)
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_malformed_stats_do_not_reuse_earlier_bytes (__main__.HeartbeatTest.test_malformed_stats_do_not_reuse_earlier_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 447, in test_malformed_stats_do_not_reuse_earlier_bytes
+    self.assertIsNone(value["bytes_transferred"])
+AssertionError: 8 is not None
+
+======================================================================
+FAIL: test_duplicate_fields_and_non_json_constants_cannot_hide_errors (__main__.HeartbeatTest.test_duplicate_fields_and_non_json_constants_cannot_hide_errors) (extra='{"level":"error","level":"notice","msg":"permission denied"}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 458, in test_duplicate_fields_and_non_json_constants_cannot_hide_errors
+    self.assertEqual(result.returncode,1,result.stderr)
+AssertionError: 0 != 1 : backup_gdrive: 20261010T065911Z-25766 start /private/tmp/gdrive_addendum_k1i_uqv2/source/ -> /private/tmp/gdrive_addendum_k1i_uqv2/mirror/; archive=/private/tmp/gdrive_addendum_k1i_uqv2/.deleted/20261010T065911Z-25766/; rclone-log=/private/tmp/gdrive_addendum_k1i_uqv2/heartbeat/runs/20261010T065911Z-25766.jsonl
+backup_gdrive: 20261010T065911Z-25766 WARN: sync completed with warnings; {"bytes_transferred": 8, "rclone_exit_code": 1, "source_vanish_only": true, "stats_status": "recorded", "warnings": [{"kind": "source_vanished", "object": "lost.bin"}, {"kind": "destination_deletions_suppressed"}]}; see /private/tmp/gdrive_addendum_k1i_uqv2/heartbeat/runs/20261010T065911Z-25766.jsonl
+
+
+======================================================================
+FAIL: test_duplicate_fields_and_non_json_constants_cannot_hide_errors (__main__.HeartbeatTest.test_duplicate_fields_and_non_json_constants_cannot_hide_errors) (extra='{"level":"info","msg":"invalid JSON","size":NaN}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 458, in test_duplicate_fields_and_non_json_constants_cannot_hide_errors
+    self.assertEqual(result.returncode,1,result.stderr)
+AssertionError: 0 != 1 : backup_gdrive: 20261010T065912Z-25798 start /private/tmp/gdrive_addendum_k1i_uqv2/source/ -> /private/tmp/gdrive_addendum_k1i_uqv2/mirror/; archive=/private/tmp/gdrive_addendum_k1i_uqv2/.deleted/20261010T065912Z-25798/; rclone-log=/private/tmp/gdrive_addendum_k1i_uqv2/heartbeat/runs/20261010T065912Z-25798.jsonl
+backup_gdrive: 20261010T065912Z-25798 WARN: sync completed with warnings; {"bytes_transferred": 8, "rclone_exit_code": 1, "source_vanish_only": true, "stats_status": "recorded", "warnings": [{"kind": "source_vanished", "object": "lost.bin"}, {"kind": "destination_deletions_suppressed"}]}; see /private/tmp/gdrive_addendum_k1i_uqv2/heartbeat/runs/20261010T065912Z-25798.jsonl
+
+
+======================================================================
+FAIL: test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept (__main__.HeartbeatTest.test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 312, in test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept
+    self.assertFalse((mirror/"repo/.git/objects/tmp_obj_live").exists())
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.915s
+
+FAILED (failures=5)
+
+EXIT_CODE: 1

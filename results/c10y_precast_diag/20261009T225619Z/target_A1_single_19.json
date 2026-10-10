@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_19.pt": "41b8ec40f3b4402d5c67023438360fcaddb40d0f26ddb1581bd019cd504a70c4"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Halquin",
+    "target_new": {
+      "str": " Sofia"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_19.pt"
+  }
+}

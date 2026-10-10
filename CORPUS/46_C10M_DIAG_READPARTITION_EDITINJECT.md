@@ -40,3 +40,6 @@ Per subject (run 2): constrained minus free gain is 2/72; subjects with teacher-
 - CORPUS/45 F-M7 is answered: seed-sensitive; H-C10l-N-seed3 closes; any future init ordering needs ≥ 3 seeds.
 - Not written here, by the advisor's instruction: "collateral change is sufficient/causal"; "the write is there" from the teacher-forced curve; "nothing of the value is present" beyond the constrained greedy readout; injection counts as contract evidence; "the edit destroys the target" (F-D3); any §5/§6 label change; any F1 change.
 - Limitations: one binding run (run 1 agrees on every count within 2–6/72 but carries no label); N = 24; one model (D-C10k-rulings-2); fp16 MPS.
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

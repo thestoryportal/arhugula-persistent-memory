@@ -1,10 +1,8 @@
 ---
 name: single-seed-limits-generality-not-significance
-description: "A within-experiment contrast can be statistically significant at ONE seed (held-out items are independent obs); single-seed limits GENERALITY (sample/ordering), not whether the effect is real — don't undersell"
-metadata: 
-  node_type: memory
+description: One seed can show a significant within-experiment contrast; single-seed limits GENERALITY, not whether the effect is real; report both separately
+metadata:
   type: feedback
-  originSessionId: 7e49dca7-c684-465a-936b-1c2ce4852502
 ---
 
 Distinguish two different things a single seed does and doesn't establish:

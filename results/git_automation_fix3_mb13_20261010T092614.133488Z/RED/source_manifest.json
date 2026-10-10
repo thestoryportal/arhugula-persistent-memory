@@ -1,0 +1,11 @@
+{
+  "current_production": {
+    "tools/git_merge_gate.py": "3bc7d2d84bd9362a9d727eedffe8292983986884069ad00150536d54e559decf",
+    "tools/git_hygiene.py": "f290b46fc837d0f3307995234d004d207f1930cc7b12e0cfb3a1713863254a2c"
+  },
+  "r2_production": {
+    "tools/git_merge_gate.py": "8e1ea0caae4e5bbb3b17a4927b7ce9c463f1e380508f154ad1874474994199c7",
+    "tools/git_hygiene.py": "1980929aadb716d85a9766dec18d57c96891c12854e24864941691a3f2c5d544"
+  },
+  "regression_test_sha256": "248b3c40c8cf32e8b042de7ac28f66dfa48d957eb8bfd107b2cc13dcaa717a81"
+}

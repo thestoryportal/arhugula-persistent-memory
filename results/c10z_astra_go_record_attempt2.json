@@ -1,0 +1,25 @@
+{
+ "benchmark_script_sha256": "9b25a207f630fbfa0d60c80a74f22289ad3bb2cc160d0fc72d7e0367f9a47a1a",
+ "benchmark_sha256": "7022bc9176eae8484528588930bbaf3828420e91b1922b169a6556f145432e65",
+ "ceilings": {
+  "stage01": 8100,
+  "stage2": 12600,
+  "stage3": 20760
+ },
+ "decision_notes": {
+  "0": "Attempt 2 after HALTED-V4 of attempt c32dc2b2 process 1; remedy D-C10z-v4fix (prereg \u00a710 Amendment V4T, Astra GO); scheduling under D-C10r-rulings-13; one GPU job at a time.",
+  "1": "Write qualification: operator 'Yes on all 5' (D-C10z-budget, question 3).",
+  "2": "Budget: D-C10z-budget; re-run benchmark C01 8100 s <= 10800 s, worst case 41400 s <= 15.5 GPU-h; the attempt-1 process-1 spend (stage 0 to V4) is recorded in results/c10z_astra/run.json."
+ },
+ "decisions": {
+  "0": "D-C10z-go",
+  "1": "D-C10z-budget",
+  "2": "D-C10z-budget"
+ },
+ "one_gpu_job": true,
+ "operator_yes": true,
+ "recorded_at": "2026-10-08T06:26:00-06:00",
+ "recorded_by": "program session (Claude Opus 5.5, lead experimentalist), worktree-c10k-route-a",
+ "supersedes_for_attempt2": "results/c10z_astra_go_record.json (kept unchanged as process 1's record)",
+ "telemetry_first_attempt": "off (prereg \u00a79.1 (j'))"
+}

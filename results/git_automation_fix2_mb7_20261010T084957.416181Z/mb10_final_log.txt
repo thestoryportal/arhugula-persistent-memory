@@ -1,0 +1,10 @@
+72c52fb Context management: operator correction; thresholds revised (new task >=60% left, handoff <=40%, compaction -> successor; MAESTRO measures own usage); MAESTRO5 -> MAESTRO6 handoff
+5200f63 Checkpoint: MAESTRO5 update (CI green on 19fac9c; three Astra NO-GOs filed; successors codexmb9/codexmb10; codexmb8 Drive r3 fixes)
+25af647 Drive backup: Astra r3 NO-GO (r2 P1/P2 normal cases closed; new P1s: receipt-write failure + absent wrapper stays green; wall-clock rollback/equality suppresses newer failure)
+0ab0c42 Drive backup: MB8 fixes for Astra r2 P1 (internal-disk launch receipt; status flags launch failures) + P2 (one latest-refusal receipt)
+af8b5da Git automation: Astra binding r2 NO-GO (r1 findings 1+2 closed; new: post-merge report loses merged/SHA on late exceptions; same-SHA CI rerun window needs cooperative critical section, no Pro required)
+0024214 Git automation: live Linux CI green on exact head 19fac9c (run 38038772117); st_birthtime fix confirmed on Ubuntu
+19fac9c Git automation: MB7 fixes for Astra binding NO-GO findings 1+2 and Linux st_birthtime CI failure
+5620b94 NEW-1 construction diag: Astra r2 NO-GO (4 blocking: unreaped worker on interrupted cleanup, duplicate/unauthenticated release, GIL-bound daemon guard, 600 s not end-to-end); science unchanged
+1ba14c7 Checkpoint: MAESTRO5 takeover; NEW-1 Astra r2 in flight; codexmb7 (gitauto+CI) and codexmb8 (Drive r2) building
+c914309 NEW-1 construction diag: Astra r1 finding-3 fix (cancellation-safe launch/registration, explicit release gate)

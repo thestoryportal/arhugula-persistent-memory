@@ -1,0 +1,652 @@
+{
+  "status": "PASS",
+  "environment": {
+    "model_id": "Qwen/Qwen2.5-3B",
+    "model_revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "dtype": "float16",
+    "device": "mps"
+  },
+  "prereg_sha256": "d2aa240eede4556395373678e4fab757e0e55d5491a7d4105ef765c1eb35d2f0",
+  "template_hashes": [
+    "3916e099eda08121cca32f0993a6bfd9e2582faf2d66d0b4d89aba617f68378f",
+    "eed51f3e5867257cdfb9aa1c0351670e2c7a441ce3530b5ad70fb14d1d0bf10a",
+    "e6c2f6a56ae51dbf2f823fa459f7d512f8b0e6059970c0cd331345a90ba610f9",
+    "748be8554331636a65d36b5bbee374f1df8f6fea0f2d2b9fa7958c2290060ac7",
+    "ebba8c70d28307286c3f98553f2ffba6f8e6830c10931ab050a80c5b89053ef1",
+    "8b46f63509a172db6fc185f1b9aa22cce9605e758b816add75fe796410eba0c0",
+    "bf3fbfacaf7ff51d63be89b27da28f6331d66e8c1cdba83d8377373a450e4ea6",
+    "53088e9272e686fb39a2bc0a115c69938e9d45f940f5b619d04de2b7619e0a2a",
+    "e3136c2e67c339737c53bf3c54c327209377bbdef783a59f4ad48d6ed06e5c54",
+    "46d53a91eaf762851db11e6fc8c45d6cf3ec6fc874c99b5e4dc21c5110653152",
+    "2134719c965f8fb7dd54306f764adc32d41e66dd62aa64bedd07c033abbca903",
+    "52d2d231b0f63c9fc7178094515e3bd1cbb804df09da53e985449c68f6b83936",
+    "8c3237af97a9d360f6f2411e332805c854eb183ff8eaddc5b2530c0171fb39f1",
+    "9f2d2aa0d64933e258aa35705458e3578f16ec7cdba26982d03f213a085939d8",
+    "357416f465e01d7ff1636af8a818076267f09142a777fa7808a035caf31dbbd7",
+    "419937146f2c660c1f7523b16cf3cdd9add226ae319cf2a2ec7d02537e1291cb",
+    "8dc8c4f40b12811379e901d102aa1da964d5f0058d138ff2f8772ed1b18a6047",
+    "a0039ff83aa9e08dbf69d3b53a74bdd7707afd59d4b925de68ac9fa52ee27162",
+    "f8cf95d262703618bde9f58401acd75e377ea7889f3bc7afa0005efa691e21d4",
+    "c41d04e959051aef546c4f8e3e7d70b1549cbcd41d9ed9f4c5c4ca0b2e4ee221"
+  ],
+  "heldout_template_hashes": [
+    "942c53301be5ef021f1198e9b06cdebd2e14b9d67a193f46df97922eadea75a6",
+    "65abaa847f87caad59e17f6ded6454ddd2c89aac05458d326cf32074d2d53e54",
+    "d83b0ea38996ff3149e08a64a54634f1900a3d1599a92cd561942f8851659ce1"
+  ],
+  "fingerprint": {
+    "ok": true,
+    "output": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a…)\n  _cov_cpu 3  (expected 3)\n",
+    "engine": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py",
+      "sha256": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65"
+    }
+  },
+  "seam": {
+    "ok": true,
+    "ranks": [
+      {
+        "rank": 16,
+        "input_shape": [
+          2,
+          11008
+        ],
+        "weight_shape": [
+          2048,
+          11008
+        ],
+        "A_shape": [
+          16,
+          11008
+        ],
+        "B_shape": [
+          2048,
+          16
+        ],
+        "scale": 1.0,
+        "layers": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "adapter_sha256": "af4c042a49434d5baf2f79d7ed31c0dd2b5066b2483ed06560756c8e2672d932",
+        "tensor_hashes": {
+          "layers": "0007b9a38b6844a90bcc73a9fa179d15b1b519191f86e9774f6dba0a47ec4779",
+          "A_4": "b9c7cfe76f2840de212c623a9a52c41c4975d42fcf792506a4dd2e8654f7ade7",
+          "A_5": "c313b6723c03fdb8d0a1114f79a643cfc8f5f72f1e5fa8f148bce5edfe972813",
+          "A_6": "bf0ae49f0775660a39f6e7e6146c7d9f025205b775c24370941e3b3fddaf1e7d",
+          "A_7": "9f1c2fbc5f168c1767db72468afb2b20d45720dbae5933d0b38db9d4218c5660",
+          "A_8": "ed4327eeb49b77d2e155ad0d6c5aa4b7761d1d940ab830908b1e3cf3fb8d2bec",
+          "B_4": "ce63779fa758367a50791ecfd3bdb9ae1a1488384a5d9be02eabe3e5f1013b4a",
+          "B_5": "1363c16e0534dd3a7710100bb315b3b998ff39fd89d7e12e0db34fb95a38e7b0",
+          "B_6": "436bfe1d8f0ae30b55d9f8c71f0ee657bab5dea77fc6580bdc7bad2cfe67774a",
+          "B_7": "624e2148d93de0645dda182ad75ca933321e977550df26ce53bf354d221a4b32",
+          "B_8": "cf17658cfdde09a9984fcc5b83fd5f8e4ece8749c55617b77c4308b88ca3653f",
+          "scale": "e00e5eb9444182f352323374ef4e08ebcb784725fdd4fd612d7730540b3e0c8c"
+        },
+        "per_layer": {
+          "4": {
+            "max_abs_error": 9.685754776000977e-08,
+            "limit": 1e-05,
+            "ok": true
+          },
+          "5": {
+            "max_abs_error": 1.2945383787155151e-07,
+            "limit": 1e-05,
+            "ok": true
+          },
+          "6": {
+            "max_abs_error": 1.993030309677124e-07,
+            "limit": 1e-05,
+            "ok": true
+          },
+          "7": {
+            "max_abs_error": 1.0617077350616455e-07,
+            "limit": 1e-05,
+            "ok": true
+          },
+          "8": {
+            "max_abs_error": 1.0523945093154907e-07,
+            "limit": 1e-05,
+            "ok": true
+          }
+        },
+        "max_abs_error": 1.993030309677124e-07,
+        "ok": true
+      },
+      {
+        "rank": 64,
+        "input_shape": [
+          2,
+          11008
+        ],
+        "weight_shape": [
+          2048,
+          11008
+        ],
+        "A_shape": [
+          64,
+          11008
+        ],
+        "B_shape": [
+          2048,
+          64
+        ],
+        "scale": 1.0,
+        "layers": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "adapter_sha256": "8af6543b08cc91e30c9fad8535bda2151805cb2f2f9f246df6535933f1aa77eb",
+        "tensor_hashes": {
+          "layers": "0007b9a38b6844a90bcc73a9fa179d15b1b519191f86e9774f6dba0a47ec4779",
+          "A_4": "cfe48ccdbd8d4e70f3828442879399ab3f1f54f599b0343b87af211f8f99d819",
+          "A_5": "877a0111ee17244d08ac3a87763ce8097814fe66c7534eabe4535531794d0259",
+          "A_6": "75ec118548fae7647fe7bc1803da53d9e500718a81726a611d87e5e4ecfe2187",
+          "A_7": "d1afcdf4593f0a7d5fd41041c391dcd247ee7a18e08bd7d68fc7f98844a44b04",
+          "A_8": "965cb5e9b1582dfe8bd1300b6117484a303660c1a3ec231502ffe21365360e1c",
+          "B_4": "1cdcace61271f112d6b0bec7313515fcfebccaac2ae3bc5b256381fa5ed90220",
+          "B_5": "86ca371be6cf703ae9c0f433f44dc9c4e0c34f77f8d1a100b95a012dafff664f",
+          "B_6": "1c6677840deae2e0210d41f521b97a5a5fac2ae0428b6afcb9e82dd8443ee6be",
+          "B_7": "c6ef9379026ef059c160c78b4afbbd7f523e16a6964082f1950d1162580da105",
+          "B_8": "37b16944beebba6b4c33fca3874480bd1e51948f62f46480a74b5af68de6fe91",
+          "scale": "e00e5eb9444182f352323374ef4e08ebcb784725fdd4fd612d7730540b3e0c8c"
+        },
+        "per_layer": {
+          "4": {
+            "max_abs_error": 9.685754776000977e-08,
+            "limit": 1e-05,
+            "ok": true
+          },
+          "5": {
+            "max_abs_error": 8.102506399154663e-08,
+            "limit": 1e-05,
+            "ok": true
+          },
+          "6": {
+            "max_abs_error": 1.210719347000122e-07,
+            "limit": 1e-05,
+            "ok": true
+          },
+          "7": {
+            "max_abs_error": 9.872019290924072e-08,
+            "limit": 1e-05,
+            "ok": true
+          },
+          "8": {
+            "max_abs_error": 1.1641532182693481e-07,
+            "limit": 1e-05,
+            "ok": true
+          }
+        },
+        "max_abs_error": 1.210719347000122e-07,
+        "ok": true
+      }
+    ],
+    "device": "cpu",
+    "dtype": "float32"
+  },
+  "instrument_ok": true,
+  "seal": {
+    "S1": true,
+    "S2": true,
+    "S2c": true,
+    "S2d": true,
+    "S3": true,
+    "S4": true,
+    "S5": true,
+    "S6": true,
+    "S7": true
+  },
+  "head_modifier_splits": {
+    "Zorbland": {
+      "head": "Vindex",
+      "modifier": "Vask",
+      "head_ids": [
+        647,
+        1252
+      ],
+      "modifier_ids": [
+        647,
+        1073
+      ],
+      "eligible": true
+    },
+    "Quaxil": {
+      "head": "Drennik",
+      "modifier": "Brakk",
+      "head_ids": [
+        422,
+        1440,
+        21490
+      ],
+      "modifier_ids": [
+        3240,
+        30041
+      ],
+      "eligible": true
+    },
+    "Plurnak": {
+      "head": "Vythorn",
+      "modifier": "Stavik",
+      "head_ids": [
+        647,
+        76896,
+        1512
+      ],
+      "modifier_ids": [
+        794,
+        402,
+        1579
+      ],
+      "eligible": true
+    },
+    "Vythorn": {
+      "head": "Vorlex",
+      "modifier": "Yornel",
+      "head_ids": [
+        33328,
+        2571
+      ],
+      "modifier_ids": [
+        809,
+        1512,
+        301
+      ],
+      "eligible": true
+    },
+    "Glimsto": {
+      "head": "Lurmax",
+      "modifier": "Spraxil",
+      "head_ids": [
+        444,
+        324,
+        2810
+      ],
+      "modifier_ids": [
+        15515,
+        706,
+        321
+      ],
+      "eligible": true
+    },
+    "Drennik": {
+      "head": "Kessivar",
+      "modifier": "Ulvenn",
+      "head_ids": [
+        730,
+        433,
+        56398
+      ],
+      "modifier_ids": [
+        16582,
+        1037,
+        77
+      ],
+      "eligible": true
+    },
+    "Yastovel": {
+      "head": "Halquin",
+      "modifier": "Cindel",
+      "head_ids": [
+        19851,
+        35344
+      ],
+      "modifier_ids": [
+        356,
+        484,
+        301
+      ],
+      "eligible": true
+    },
+    "Crulpane": {
+      "head": "Marsduq",
+      "modifier": "Drelth",
+      "head_ids": [
+        21048,
+        1054,
+        80
+      ],
+      "modifier_ids": [
+        422,
+        3748,
+        339
+      ],
+      "eligible": true
+    },
+    "Mophgar": {
+      "head": "Glimsto",
+      "modifier": "Vask",
+      "head_ids": [
+        479,
+        4659,
+        33052
+      ],
+      "modifier_ids": [
+        647,
+        1073
+      ],
+      "eligible": true
+    },
+    "Brinduun": {
+      "head": "Brindu",
+      "modifier": "Brakk",
+      "head_ids": [
+        3240,
+        484,
+        84
+      ],
+      "modifier_ids": [
+        3240,
+        30041
+      ],
+      "eligible": true
+    },
+    "Trannak": {
+      "head": "Fluvane",
+      "modifier": "Stavik",
+      "head_ids": [
+        2988,
+        12058,
+        2145
+      ],
+      "modifier_ids": [
+        794,
+        402,
+        1579
+      ],
+      "eligible": true
+    },
+    "Skornwell": {
+      "head": "Yastov",
+      "modifier": "Yornel",
+      "head_ids": [
+        809,
+        559,
+        859
+      ],
+      "modifier_ids": [
+        809,
+        1512,
+        301
+      ],
+      "eligible": true
+    },
+    "Fluvane": {
+      "head": "Vindex",
+      "modifier": "Spraxil",
+      "head_ids": [
+        647,
+        1252
+      ],
+      "modifier_ids": [
+        15515,
+        706,
+        321
+      ],
+      "eligible": true
+    },
+    "Oxbarrow": {
+      "head": "Drennik",
+      "modifier": "Ulvenn",
+      "head_ids": [
+        422,
+        1440,
+        21490
+      ],
+      "modifier_ids": [
+        16582,
+        1037,
+        77
+      ],
+      "eligible": true
+    },
+    "Zephquin": {
+      "head": "Vythorn",
+      "modifier": "Cindel",
+      "head_ids": [
+        647,
+        76896,
+        1512
+      ],
+      "modifier_ids": [
+        356,
+        484,
+        301
+      ],
+      "eligible": true
+    },
+    "Lurmaxen": {
+      "head": "Vorlex",
+      "modifier": "Drelth",
+      "head_ids": [
+        33328,
+        2571
+      ],
+      "modifier_ids": [
+        422,
+        3748,
+        339
+      ],
+      "eligible": true
+    },
+    "Pradnoll": {
+      "head": "Lurmax",
+      "modifier": "Vask",
+      "head_ids": [
+        444,
+        324,
+        2810
+      ],
+      "modifier_ids": [
+        647,
+        1073
+      ],
+      "eligible": true
+    },
+    "Kessivar": {
+      "head": "Kessivar",
+      "modifier": "Brakk",
+      "head_ids": [
+        730,
+        433,
+        56398
+      ],
+      "modifier_ids": [
+        3240,
+        30041
+      ],
+      "eligible": true
+    },
+    "Wombryne": {
+      "head": "Halquin",
+      "modifier": "Stavik",
+      "head_ids": [
+        19851,
+        35344
+      ],
+      "modifier_ids": [
+        794,
+        402,
+        1579
+      ],
+      "eligible": true
+    },
+    "Halquin": {
+      "head": "Marsduq",
+      "modifier": "Yornel",
+      "head_ids": [
+        21048,
+        1054,
+        80
+      ],
+      "modifier_ids": [
+        809,
+        1512,
+        301
+      ],
+      "eligible": true
+    },
+    "Vorlex": {
+      "head": "Glimsto",
+      "modifier": "Spraxil",
+      "head_ids": [
+        479,
+        4659,
+        33052
+      ],
+      "modifier_ids": [
+        15515,
+        706,
+        321
+      ],
+      "eligible": true
+    },
+    "Quenby": {
+      "head": "Brindu",
+      "modifier": "Ulvenn",
+      "head_ids": [
+        3240,
+        484,
+        84
+      ],
+      "modifier_ids": [
+        16582,
+        1037,
+        77
+      ],
+      "eligible": true
+    },
+    "Marsduq": {
+      "head": "Fluvane",
+      "modifier": "Cindel",
+      "head_ids": [
+        2988,
+        12058,
+        2145
+      ],
+      "modifier_ids": [
+        356,
+        484,
+        301
+      ],
+      "eligible": true
+    },
+    "Thelby": {
+      "head": "Yastov",
+      "modifier": "Drelth",
+      "head_ids": [
+        809,
+        559,
+        859
+      ],
+      "modifier_ids": [
+        422,
+        3748,
+        339
+      ],
+      "eligible": true
+    }
+  },
+  "bigram_eligible_n": 24,
+  "bigram_excluded_n": 0,
+  "files": {
+    "train_inputs": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/step0_20261007T223638_531381Z/train_inputs.json",
+      "sha256": "d0fa96af0de8d98c5b0fbd90609cd2f2fa1d27a03013c1db9c530e3ec804c050"
+    },
+    "seal_audit": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/step0_20261007T223638_531381Z/seal_audit.json",
+      "sha256": "85132c266bcde9ff05224aabc08653aa2609eff7bb90f092e67e2a8cb43111f0"
+    },
+    "mmlu200": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10w_oracle/step0_20261007T223638_531381Z/mmlu200.json",
+      "sha256": "5d9b2e4b1a05aa753479311713fdc524234f0824047045d6d731c80c44b7427b"
+    }
+  },
+  "sources": {
+    "trainer": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10w_oracle_train.py",
+      "sha256": "64a01fbcbbd8e836f67e623bc50f66ecff8dd59a29d7c82db3bba287d76ea463"
+    },
+    "evaluator": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10w_oracle_eval.py",
+      "sha256": "21f39d81695a3dc9fc144af631b48c7377c5efe08a9bf93db011dcaa8b602027"
+    },
+    "reader": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10w_oracle_read.py",
+      "sha256": "162966119cf49967f39c402c73e63ebc9c673401c74f335154696eb5ab859b0b"
+    },
+    "step0_source": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10w_oracle_step0.py",
+      "sha256": "c0ec236cad0d2f824616f8d5e9e29244f9604168dd5555540f2867ba1f333834"
+    },
+    "harness": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py",
+      "sha256": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695"
+    },
+    "hparams": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/configs/hparams/qwen25_3b_memit_hparams.json",
+      "sha256": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4"
+    },
+    "frame_source": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10p_twopass_arms.py",
+      "sha256": "c34ecbe17c86d8f2803efc5520f4cf090dcb23bcc21ef0c3c28a12bfdaeb820f"
+    },
+    "g6_screen": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/configs/screens/g6_screen_qwen3b.json",
+      "sha256": "a51813340571f6c68908ac4310cca197ebac9884939f58e5c33fb75833a3ca05"
+    },
+    "g6_screen_v2": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/configs/screens/g6_screen_qwen3b_v2.json",
+      "sha256": "482c05f8f33c59d3e469566fe6f3c48eb183d3cb2fbb791f31dcad7102517c5c"
+    },
+    "fingerprint_source": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/engine_fingerprint.py",
+      "sha256": "450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162"
+    },
+    "prereg": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/docs/C10W_ORACLE_PREREG.md",
+      "sha256": "d2aa240eede4556395373678e4fab757e0e55d5491a7d4105ef765c1eb35d2f0"
+    },
+    "config.json": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/hf_cache/hub/models--Qwen--Qwen2.5-3B/blobs/acd0065677f7999d568f327c94188adbbcb6e158",
+      "sha256": "27467e2fc311a7656c09a43ae9c3d408211e1f212bbddbc93c8596a06423826f"
+    },
+    "tokenizer.json": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/hf_cache/hub/models--Qwen--Qwen2.5-3B/blobs/443909a61d429dff23010e5bddd28ff530edda00",
+      "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+    },
+    "tokenizer_config.json": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/hf_cache/hub/models--Qwen--Qwen2.5-3B/blobs/ba7e4c5637b9732dadcd66286ce48334e8b31e9e",
+      "sha256": "c91efca15ceff6e9ee9424db58a6f59cd41294e550a86cbd07e3c1fb500b34f9"
+    },
+    "vocab.json": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/hf_cache/hub/models--Qwen--Qwen2.5-3B/blobs/4783fe10ac3adce15ac8f358ef5462739852c569",
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+    },
+    "merges.txt": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/hf_cache/hub/models--Qwen--Qwen2.5-3B/blobs/20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0",
+      "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+    },
+    "model.safetensors.index.json": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/hf_cache/hub/models--Qwen--Qwen2.5-3B/blobs/38047c6284a25427043f0ab040f623a2a20dd093",
+      "sha256": "bc8aaa0c87d4335177e01c765f1de0db81661c67c1a72fbfb0d521b09f5ddc56"
+    }
+  },
+  "wall_seconds": 13.416847791988403,
+  "class": "ORACLE MEASUREMENT — not a route; never promotable as a write-engine result (D-C10r-rulings-3 (2))",
+  "decision_id": "D-C10w-oracle"
+}

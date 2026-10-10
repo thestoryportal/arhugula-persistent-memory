@@ -1,0 +1,184 @@
+{
+  "utc": "2026-10-10T05:14:35.988358+00:00",
+  "all_14_checks_green": true,
+  "new_fingerprint": "D-NEW1-fid@341707a8",
+  "c10l_current": "D-C10l-covgeom@0caeca4f",
+  "bounded_source_sha256": "0d1f69888cee4e0f4621264515a2fc2ba4acd413d126147e102bf5f103c6e6be",
+  "bounded_source_unchanged_after_handoff": true,
+  "original_report_prefix_preserved": true,
+  "all_16_original_corpus_prefixes_preserved": true,
+  "HEAD_unchanged": true,
+  "no_own_NEW1_code_test_or_prereg_write": true,
+  "own_file_hashes_at_final": {
+    "CORPUS/00_MASTER_EVIDENCE.md": {
+      "sha256": "2c461ae7c8c6e6b5feed6e966307bdccfcc7d02a3fe241e6e7295357c289cfef",
+      "bytes": 75514
+    },
+    "CORPUS/01_PROVENANCE_MANIFEST.md": {
+      "sha256": "1cfcb3d732315532ab7240e3455042dd522ab0dab43c9223741845d55c4cfa70",
+      "bytes": 31544
+    },
+    "CORPUS/02_VANDV_CHAIN.md": {
+      "sha256": "a65d5171b1f32bdd0a894f2305da75360cfb8b0fa659c661d5582ec7bca14d26",
+      "bytes": 46608
+    },
+    "CORPUS/03_STATUS_LEDGER.md": {
+      "sha256": "b1706d9f2fc45ed04a42d52fd9380efc0e82752f5597e677e029b8065b680c18",
+      "bytes": 65036
+    },
+    "CORPUS/44_C10L_COVGEOM_SPARSEBAND.md": {
+      "sha256": "627d077a8d04615b798083212442dbc7f63431866f7567067faedee023f73346",
+      "bytes": 10218
+    },
+    "CORPUS/45_C10L_MINT_TOKEN.md": {
+      "sha256": "b16dc8eb990debef54d78e100a19201df2a026de50186d765dfa0ef755bbc9bf",
+      "bytes": 14268
+    },
+    "CORPUS/46_C10M_DIAG_READPARTITION_EDITINJECT.md": {
+      "sha256": "9a931b50c710e38c87f479688cac4bb576419793d06a38ebf380fc8747a2c773",
+      "bytes": 7188
+    },
+    "CORPUS/47_C10N_ZTRANSPORT.md": {
+      "sha256": "2e18785cd71aa2e51f97d67f0624db4edbc570ef91ee2a4b0b2f7216651c2197",
+      "bytes": 6427
+    },
+    "CORPUS/48_C10O_MAGNITUDE_DIRECTION.md": {
+      "sha256": "2919852dd55d4c6fe49522d0e8e49a8b6b5b8eb1001fc33bb768ea40d67aae55",
+      "bytes": 5805
+    },
+    "CORPUS/49_C10P_TWOPASS_SOLVE.md": {
+      "sha256": "9fc477d7f26d0c0d812fa5f2507a791e51c7791841eb92ee63cc819c7f713f30",
+      "bytes": 6148
+    },
+    "CORPUS/50_C10Q_STACKED_SOLVE.md": {
+      "sha256": "356b46640db0b24ae2f7f85fa5a878cd73fbff2fb3dcbb4943fb227fd85c3c55",
+      "bytes": 9887
+    },
+    "CORPUS/51_C10S_SHAREDZ.md": {
+      "sha256": "bfb5dc1e925b3a70dd0dd8c9a44895dc9c9b6df5f07e8b18f89abde33a590f65",
+      "bytes": 7572
+    },
+    "CORPUS/54_C10U_MINT2.md": {
+      "sha256": "9800875b948ad6838a4f507db7221e3b421489a6c80e3867eab9c74f86f104e4",
+      "bytes": 17320
+    },
+    "CORPUS/55_C10W_ORACLE_P1_INTERIM.md": {
+      "sha256": "81b9ec95d08fbcb3b106480633e0a1184708aa90fcfcaf4f2e915e4ea8f8c3eb",
+      "bytes": 16017
+    },
+    "CORPUS/56_C10V_LAYERPICK.md": {
+      "sha256": "1596204a9eb54051adb5ce1efe25e967b59156dec754a95555f80ce37b695c50",
+      "bytes": 18811
+    },
+    "CORPUS/README.md": {
+      "sha256": "8ee9c866415708dcb74edbede67f25cc1e7557e4f09b42ed7c082d76c2b96833",
+      "bytes": 14133
+    },
+    "EVIDENCE_INDEX.md": {
+      "sha256": "293e1e3d5c3d477704c24f4133ff7b40eef4525578526bf39940c44fad685003",
+      "bytes": 57864
+    },
+    "EXPERIMENT_RUNBOOK.md": {
+      "sha256": "f4968af39a890f2cba02bcf01e1cc2600e0b70cf16be6058551a099193c24188",
+      "bytes": 447765
+    },
+    "PROGRESS.md": {
+      "sha256": "99487b859c21f5cfea0740fe96d4599fd73ed4dd704bfa6342098008f241898f",
+      "bytes": 50737
+    },
+    "README.md": {
+      "sha256": "0f6e0f37d16e7d3771aa68e1e485f8e8b86574d3979c18e8b51a0edacc449e55",
+      "bytes": 76663
+    },
+    "REPRODUCIBILITY.md": {
+      "sha256": "a16a8cc90d440ee7b7e95db123d48d22be307ebc0eac3d006d12988f8f1f24a9",
+      "bytes": 16450
+    },
+    "SESSION_BOOTSTRAP.md": {
+      "sha256": "c8c652469e012c1b4f88e81566f82f200b026f228a909f55fe13a05163631fed",
+      "bytes": 76093
+    },
+    "SESSION_CHECKPOINT.md": {
+      "sha256": "e288afcd21cc08119477e38618955c09a4f8fc642d5f25ea74a63093b9123d22",
+      "bytes": 525259
+    },
+    "docs/EXPERIMENT_REGISTRY.md": {
+      "sha256": "3594403e5b78f0d955b4a4cf0a2f391792bbc9321091eb1f0a19b3ae6892ecbc",
+      "bytes": 28027
+    },
+    "docs/HYPOTHESIS_REGISTER_2026-06-18.md": {
+      "sha256": "79adef142f41fa49ecaf78662f7bd059932b3ef3ce2697f3ecbf164ca61f0389",
+      "bytes": 130409
+    },
+    "docs/SPEC_EXPERIMENT_OVERLAY.md": {
+      "sha256": "ed371fb2f09075b980518b575a75ec4afc21e08a6c8897ad21441b7060a15234",
+      "bytes": 16770
+    },
+    "docs/experiment_registry.json": {
+      "sha256": "d6b9e2de32b36e07f28c5d67d7302bfa57c90bebce23b107422ff20ec6074010",
+      "bytes": 12217
+    },
+    "docs/program_state.json": {
+      "sha256": "c1eee40fe5d60f45205af8e8180ef2c13c63f4836ad9d32397c0c6fb16de3037",
+      "bytes": 62002
+    },
+    "results/mathlab_staging/new1_v2_build_report.md": {
+      "sha256": "4f299ab3dddc9fe1bfc1089637b42eb5e3705a0f1daca212dcbde856674f4669",
+      "bytes": 112914
+    },
+    "tools/closeout_fingerprints.json": {
+      "sha256": "32a17d8e3a3596b7ea01347a99ef3e49c30205cebc3e670508f7f3cdea8f4d6b",
+      "bytes": 16398
+    }
+  },
+  "protected_paths_current_observation": {
+    "docs/NEW1_ADAPTER_GEOMETRY_PREREG.md": {
+      "before_sha256": "1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f",
+      "current_sha256": "1616c860c38b65acbabb7ec472a1233b30291337e86a7739271df0c4bd1c9d0f",
+      "observed_same": true,
+      "written_by_this_task": false
+    },
+    "mathlab/core.py": {
+      "before_sha256": "127bae6d3899db1faae88de56afe31487305355e8dc7b64d80e7b74d9034eb80",
+      "current_sha256": "127bae6d3899db1faae88de56afe31487305355e8dc7b64d80e7b74d9034eb80",
+      "observed_same": true,
+      "written_by_this_task": false
+    },
+    "tools/new1_geometry.py": {
+      "before_sha256": "3234b7f16b25d151d86ec508577abd42c1163a5b2b5318761b11b28675c2df67",
+      "current_sha256": "018ce4d97f817ecd816a4fd3fb47316e78fda7007984449e93f423d0eb1f4a5e",
+      "observed_same": false,
+      "written_by_this_task": false
+    },
+    "tools/new1_supervisor.py": {
+      "before_sha256": "1d24e827523f934a893e922554036c6ea9c3e1ec2cfe161d53ddaadd90068357",
+      "current_sha256": "a69d410724b65a5dbacaf8e34fc45b73c9f545daf54eda9b6cfeb150e344557b",
+      "observed_same": false,
+      "written_by_this_task": false
+    },
+    "tests/test_new1_geometry.py": {
+      "before_sha256": "b87528df0eb5a31c418fe07234f3669c2263dda47e578ad526b79a4d87ede635",
+      "current_sha256": "57afd2504c9ce065e85be5e5d4237122bea3e329324ff557775cea9e9faa260f",
+      "observed_same": false,
+      "written_by_this_task": false
+    },
+    "tests/test_new1_supervisor.py": {
+      "before_sha256": "c1649ad53ddaaf480fc5b614156b35a4c80ed4a8c83085aa5181f541f6df846b",
+      "current_sha256": "33c61282862cea1d0297396cb860963bfc48adf33d054db3f933fed11d6d23ec",
+      "observed_same": false,
+      "written_by_this_task": false
+    },
+    "tools/mathlab_runtime.py": {
+      "before_sha256": "416b597c1309f7dcabb065749e05da9ce28743b1d16c9791ae1eed527a4a72c5",
+      "current_sha256": "416b597c1309f7dcabb065749e05da9ce28743b1d16c9791ae1eed527a4a72c5",
+      "observed_same": true,
+      "written_by_this_task": false
+    },
+    "tools/mathlab_events.py": {
+      "before_sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "current_sha256": "53b2ea18ea8a363136e967c25bb0e8a94f88a63070f3921a3b996e2287459f5f",
+      "observed_same": true,
+      "written_by_this_task": false
+    }
+  }
+}

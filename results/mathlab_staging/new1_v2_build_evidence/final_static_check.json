@@ -1,0 +1,8 @@
+{
+  "prereg_sha256": "ec6e2e65720fe39ae18a40cbfbd5188df99ea76187557181422c227e1d801236",
+  "b1_verbatim": true,
+  "input_pins": 20,
+  "protected_files_unchanged": 10,
+  "real_geometry_run": false,
+  "no_commits": true
+}

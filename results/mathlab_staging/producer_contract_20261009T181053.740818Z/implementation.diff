@@ -1,0 +1,135 @@
+--- before/tools/mathlab_runtime.py
++++ after/tools/mathlab_runtime.py
+@@ -138,7 +138,7 @@
+ 
+ 
+ class Run:
+-    def __init__(self, run_dir, step, title, deadline_s, sink=emit, sample=available_gib, attach=False):
++    def __init__(self, run_dir, step, title, deadline_s, sink=emit, sample=available_gib, attach=False, purpose="experiment"):
+         self.directory = Path(run_dir); self.step = step; self.sink = sink; self.sample = sample
+         self.budget = Budget(deadline_s); self.gates = {}
+         if attach:
+@@ -146,14 +146,16 @@
+             events, errors = read_events(self.directory / "events.jsonl")
+             require(not errors, "EVENTS", "; ".join(errors))
+             starts = [e for e in events if e["type"] == "run_started"]
+-            require(len(starts) == 1 and starts[0]["step"] == step, "EVENTS", "one matching run_started required")
++            require(len(starts) == 1 and starts[0]["step"] == step
++                    and starts[0].get("purpose", "experiment") == "experiment",
++                    "EVENTS", "one matching experiment run_started required")
+             require(not any(e["type"] in ("stage_started", "run_finished") for e in events),
+                     "EVENTS", "run has already dispatched; fresh run identity required")
+             elapsed = (datetime.now(timezone.utc) - datetime.fromisoformat(starts[0]["ts"].replace("Z", "+00:00"))).total_seconds()
+             self.budget.started -= elapsed
+         else:
+             deadline = datetime.now(timezone.utc) + timedelta(seconds=deadline_s)
+-            self.event("run_started", step=step, title=title, deadline_ts=deadline.isoformat(), pid=os.getpid())
++            self.event("run_started", step=step, title=title, deadline_ts=deadline.isoformat(), pid=os.getpid(), purpose=purpose)
+ 
+     def event(self, event_type, **fields):
+         self.sink(self.directory, event_type, **fields)
+--- before/tools/mathlab_admit.py
++++ after/tools/mathlab_admit.py
+@@ -109,7 +109,8 @@
+     args = parser.parse_args()
+     run_dir = args.run_dir or R.new_directory(W / "results/mathlab_staging/runs", "admission")
+     own_run = args.run_dir is None
+-    run = R.Run(run_dir, args.step or (1 if args.kind == "harvest" else 2), "Check whether the lab can start", args.deadline_s)
++    run = R.Run(run_dir, args.step or (1 if args.kind == "harvest" else 2), "Check whether the lab can start", args.deadline_s,
++                purpose="admission" if own_run else "experiment")
+     try:
+         result = probe(args.kind, R.read_json(args.admission) if args.admission else None)
+         R.enforce_stop_policy(W, args.step or (1 if args.kind == "harvest" else 2), exclude=run_dir)
+--- before/mathlab/test_mathlab.py
++++ after/mathlab/test_mathlab.py
+@@ -95,6 +95,72 @@
+ 
+     def test_clean_cpu_admission(self):
+         self.assertTrue(self.decide()["allowed"])
++
++    def test_standalone_admission_receipts_leave_all_experiment_steps_unstarted(self):
++        A = module(self, "tools.mathlab_admit")
++        from tools.mathlab_events import read_events, fold
++        for kind in ("cpu", "harvest"):
++            with self.subTest(kind=kind):
++                root = self.root / ("standalone_" + kind)
++                with patch.object(A, "W", root), patch.object(A, "probe", return_value=self.decide(kind)), \
++                     patch.object(sys, "argv", ["admit", "--kind", kind]), patch("builtins.print"):
++                    self.assertEqual(A.main(), 0)
++                runs = list((root / "results/mathlab_staging/runs").iterdir())
++                self.assertEqual(len(runs), 1)
++                rows, errors = read_events(runs[0] / "events.jsonl")
++                self.assertEqual(errors, [])
++                self.assertEqual(rows[0].get("purpose"), "admission")
++                self.assertEqual(rows[-1]["type"], "run_finished")
++                self.assertEqual(rows[-1]["outcome"], "PASS")
++                state = fold(rows)
++                self.assertEqual(state["purpose"], "admission")
++                self.assertEqual(state["steps"], {step: "not started" for step in range(1, 5)})
++
++    def test_launcher_owned_admission_attaches_and_requires_experiment_closeout(self):
++        A = module(self, "tools.mathlab_admit")
++        from tools import mathlab_runtime as R
++        from tools.mathlab_events import read_events, fold
++        for kind, step, cap in (("harvest", 1, 3600), ("cpu", 2, 6540)):
++            with self.subTest(kind=kind):
++                run_dir = self.root / ("launcher_" + kind)
++                with patch.object(A, "W", self.root), patch.object(A, "probe", return_value=self.decide(kind)), \
++                     patch.object(sys, "argv", ["admit", "--kind", kind, "--run-dir", str(run_dir),
++                                              "--step", str(step), "--deadline-s", str(cap)]), patch("builtins.print"):
++                    self.assertEqual(A.main(), 0)
++                rows, errors = read_events(run_dir / "events.jsonl")
++                self.assertEqual(errors, [])
++                self.assertEqual(rows[0].get("purpose"), "experiment")
++                self.assertFalse(any(row["type"] == "run_finished" for row in rows))
++                self.assertEqual(fold(rows)["steps"][step], "running")
++                attached = R.Run(run_dir, step, "Fixture attachment; no dispatch", cap, sample=lambda: 20., attach=True)
++                with attached.stage("fixture", "Exercise attachment without dispatch", 10):
++                    pass
++                rows, errors = read_events(run_dir / "events.jsonl")
++                self.assertEqual(errors, [])
++                self.assertEqual(fold(rows)["steps"][step], "running")
++                attached.event("run_finished", outcome="PASS", summary="Fixture-only attachment check")
++                rows, errors = read_events(run_dir / "events.jsonl")
++                self.assertEqual(errors, [])
++                self.assertEqual(sum(row["type"] == "run_started" for row in rows), 1)
++                self.assertEqual(fold(rows)["steps"], {i: "PASS" if i == step else "not started" for i in range(1, 5)})
++
++    def test_attachment_rejects_explicit_admission_and_accepts_experiment_or_legacy(self):
++        R = module(self, "tools.mathlab_runtime")
++        from tools.mathlab_events import emit
++        for purpose in ("admission", "experiment", None):
++            with self.subTest(purpose=purpose):
++                run_dir = self.root / (purpose or "legacy")
++                fields = {"purpose": purpose} if purpose else {}
++                emit(run_dir, "run_started", step=2, title="Fixture receipt", deadline_ts="2099-01-01T00:00:00Z",
++                     pid=os.getpid(), **fields)
++                emit(run_dir, "admission", allowed=True, reasons=[])
++                before = (run_dir / "events.jsonl").read_bytes()
++                if purpose == "admission":
++                    with self.assertRaisesRegex(ValueError, "EVENTS.*matching experiment"):
++                        R.Run(run_dir, 2, "Fixture attachment", 6540, attach=True)
++                else:
++                    R.Run(run_dir, 2, "Fixture attachment", 6540, attach=True)
++                self.assertEqual((run_dir / "events.jsonl").read_bytes(), before)
+ 
+     def test_dispatch_rechecks_lead_identity_and_current_inventory_before_import(self):
+         A = module(self, "tools.mathlab_admit")
+@@ -494,7 +560,7 @@
+ class ResourceArtifactTests(unittest.TestCase):
+     def test_admission_probe_error_emits_failed_gate_and_staged_closeout(self):
+         A = module(self, "tools.mathlab_admit")
+-        from tools.mathlab_events import read_events
++        from tools.mathlab_events import read_events, fold
+         with tempfile.TemporaryDirectory(dir="/private/tmp") as td:
+             root = Path(td)
+             with patch.object(A, "W", root), patch.object(A, "probe", side_effect=PermissionError("fixture ps refusal")), \
+@@ -504,6 +570,8 @@
+             self.assertEqual(len(runs), 1)
+             rows, errors = read_events(runs[0] / "events.jsonl")
+             self.assertEqual(errors, [])
++            self.assertEqual(rows[0].get("purpose"), "admission")
++            self.assertEqual(fold(rows)["steps"], {step: "not started" for step in range(1, 5)})
+             gates = [r for r in rows if r["type"] == "gate_result" and r["gate_id"] == "admission"]
+             self.assertEqual(len(gates), 1)
+             self.assertFalse(gates[0]["passed"])

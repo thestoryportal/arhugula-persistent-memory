@@ -1,0 +1,13 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "tools/labviz/test_fix_context.cjs",
+    "tools/labviz/test_fix_frontend.cjs",
+    "tools/labviz/test_fix_harness.cjs",
+    "tools/labviz/test_fix_payload.cjs",
+    "tools/labviz/test_mathlab.cjs"
+  ],
+  "exit_code": 0,
+  "elapsed_s": 0.6336531671695411
+}

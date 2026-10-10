@@ -1,0 +1,16 @@
+test_successful_exit_at_loop_bottom_still_terminates_group (test_new1_supervisor.SupervisorTests.test_successful_exit_at_loop_bottom_still_terminates_group) ... FAIL
+
+======================================================================
+FAIL: test_successful_exit_at_loop_bottom_still_terminates_group (test_new1_supervisor.SupervisorTests.test_successful_exit_at_loop_bottom_still_terminates_group)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_supervisor.py", line 396, in test_successful_exit_at_loop_bottom_still_terminates_group
+    kill.assert_called_once_with(123,signal.SIGKILL)
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 950, in assert_called_once_with
+    raise AssertionError(msg)
+AssertionError: Expected 'killpg' to be called once. Called 0 times.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.014s
+
+FAILED (failures=1)

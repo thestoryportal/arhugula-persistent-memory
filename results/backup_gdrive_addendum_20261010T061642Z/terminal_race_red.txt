@@ -1,0 +1,17 @@
+test_terminal_publication_cannot_mask_a_newer_active_run (__main__.HeartbeatTest) ... FAIL
+
+======================================================================
+FAIL: test_terminal_publication_cannot_mask_a_newer_active_run (__main__.HeartbeatTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 212, in test_terminal_publication_cannot_mask_a_newer_active_run
+    self.assertNotEqual(result.returncode, 0, "older terminal success must not mask a newer active sync: "+result.stdout)
+AssertionError: 0 == 0 : older terminal success must not mask a newer active sync: backup_gdrive_status: fresh successful backup; finished 2026-10-10T06:29:12.022183+00:00
+
+
+----------------------------------------------------------------------
+Ran 1 test in 2.256s
+
+FAILED (failures=1)
+
+exit_code=1

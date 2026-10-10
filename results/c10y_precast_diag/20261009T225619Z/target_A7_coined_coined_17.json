@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_17.pt": "95e85490ee89107fdefbfba53c6935d214d7a6cd90b5f4108888da083e94aa52"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Kessivar",
+    "target_new": {
+      "str": " Kessivar Brakk"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_17.pt"
+  }
+}

@@ -1,10 +1,8 @@
 ---
 name: calibrate-symmetrically-unresolved-is-a-verdict
-description: "Refuting your own over-claim does NOT license the opposite null; in a noisy instrument the honest verdict is often \"unresolved, weak lean in direction X\" — apply pass-label≠claim symmetrically, and read the sign pattern not the noisy mean"
-metadata: 
-  node_type: memory
+description: Refuting your own over-claim does not license the opposite null; the honest correction is often 'unresolved, weak lean'; read the sign pattern
+metadata:
   type: feedback
-  originSessionId: f4d82a89-8dda-448d-8fc0-cf79fc2d6af9
 ---
 
 In B1 (size term) I over-claimed in BOTH directions on the same data, ~30 min apart:

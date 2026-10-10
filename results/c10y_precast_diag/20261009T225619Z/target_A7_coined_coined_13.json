@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_13.pt": "2622f9b451576c381fcdfe1a005f31fd0320c3252a2e0b89213da2907d6fbea4"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Oxbarrow",
+    "target_new": {
+      "str": " Drennik Ulvenn"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_13.pt"
+  }
+}

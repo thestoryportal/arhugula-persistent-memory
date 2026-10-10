@@ -1,0 +1,3 @@
+C10Y calibration RE-RUN authorization (D-C10y-go; D-C10w-p2rerun standing rule: a compromised run is re-run, never read around), 2026-10-08 ~11:35 MDT.
+Cause: calibration attempt 1 (results/c10y_directdw_calib1/, kept unchanged as data) ended INSTRUMENT-ERROR after 16 min on a driver code defect (dict-union/.items() operator precedence at c10y_directdw_arms.py _probe_pristine/_remaining_readout), fixed and Astra-reviewed GO (results/c10y_calibfix_astra.md).
+Authority and evidence as in calibration_authorization.txt (D-C10r-rulings-14; no measured stage-1 timing exists). Cost ~61-64 GPU-min inferred; cap_s 7200; telemetry off; fresh output results/c10y_directdw_calib2/.

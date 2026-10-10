@@ -1,0 +1,40 @@
+{
+  "recorded_utc": "2026-10-09T18:02:26.726658+00:00",
+  "status": "PASS",
+  "acceptance": "accepted",
+  "prereg_sha256": "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507",
+  "verify_prereg": "PASS",
+  "amendment_commit": "de561958769cb27514c319f5a77d61ea482b71b6",
+  "observed_HEAD": "8daf9bac2f1e6de893b213a2ba5417115f7fde93",
+  "branch": "worktree-c10k-route-a",
+  "HEAD_note": "Concurrent observability-owner commit 8daf9ba advanced HEAD; root and branch unchanged; no mutating git operations by MB",
+  "protected_files_checked": 171,
+  "protected_differences": [],
+  "active_sha256": {
+    "mathlab/core.py": "127bae6d3899db1faae88de56afe31487305355e8dc7b64d80e7b74d9034eb80",
+    "mathlab/test_mathlab.py": "1e7255a47201d7654daf41d1bede93434e77d9ece199fc084a1a4fd07ddc809d",
+    "tools/mathlab_runtime.py": "258c528555e0e625d4493d16b9f7559ee9037e7412094bd46cfdf80c3d89ef3c",
+    "tools/mathlab_cpu_runner.py": "77ee421368f917283d2aeeea43239c38c482c05924e47942b1de32a155577d31",
+    "tools/run_mathlab_cpu.sh": "a79e0dedd366c7721f8a9e84214f63f52d293ae8f38740068874f4e0256b8007"
+  },
+  "source_changes": [
+    "mathlab/core.py",
+    "mathlab/test_mathlab.py",
+    "tools/mathlab_runtime.py",
+    "tools/mathlab_cpu_runner.py",
+    "tools/run_mathlab_cpu.sh"
+  ],
+  "step2_cap_s": 6540,
+  "step3_cap_s": 1800,
+  "index_cap_s": 300,
+  "report_sha256": "0f77bfb33593ba110f23b68a5bb014d19ed42758c4adb641a85ecd5d0f3e7a7a",
+  "earlier_report_preserved_except_status": true,
+  "report_section_matches_mirror": true,
+  "dashboard_selected_events": "results/mathlab_staging/runs/dml2_build_acceptance_20261009T175517.460160Z/events.jsonl",
+  "dashboard_outcome": "PASS",
+  "dashboard_status": "finished",
+  "other_active_dashboard_runs": 0,
+  "torch_imported": false,
+  "production_feasibility": "UNVERIFIED",
+  "astra_report_citation_correction_resolved": true
+}

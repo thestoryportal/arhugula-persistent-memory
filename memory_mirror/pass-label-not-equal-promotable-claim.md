@@ -1,6 +1,6 @@
 ---
 name: pass-label-not-equal-promotable-claim
-description: A pre-registered mechanical PASS label is a starting point for supervised review, not a promotable PROVEN claim — deep-thinking + cross-model independence can downgrade it.
+description: A pre-registered mechanical PASS label starts supervised review; it is not a promotable PROVEN claim, and independent review can downgrade it
 metadata:
   type: feedback
 ---

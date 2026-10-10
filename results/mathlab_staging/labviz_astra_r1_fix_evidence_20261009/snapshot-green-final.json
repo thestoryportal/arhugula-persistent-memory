@@ -1,0 +1,11 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "tools.labviz.test_mathlab"
+  ],
+  "exit_code": 0,
+  "elapsed_s": 1.6014779170509428
+}

@@ -1,0 +1,12 @@
+{
+  "case": "equal-time",
+  "status": "PASS",
+  "fixture": "/private/tmp/mb11-host-equal-time-dyi2c0xb",
+  "source": "/private/tmp/mb11-host-equal-time-dyi2c0xb/MemitGdriveBackup.applescript",
+  "applet_source_sha256": "446d35a6fc83c0fc84018d2fec9d2edf285588ec2fccd4fbc6d19a33f28534d1",
+  "failure_time": "2026-10-10T09:39:03.000000Z",
+  "preceding_success_time": "2026-10-10T09:39:03+00:00",
+  "open_wall_s": 0.4993965830653906,
+  "unhealthy_observation": "backup_gdrive_status: failed backup launch: unacknowledged failure journal generation",
+  "recovered_generation": 11
+}

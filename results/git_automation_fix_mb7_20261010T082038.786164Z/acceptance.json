@@ -1,0 +1,35 @@
+{
+  "checks": [
+    {
+      "command": "LLMDB_ROOT=$PWD /usr/bin/python3 -B -S -m unittest discover -s tests -p test_git_automation.py -v",
+      "log": "green_git_automation.log",
+      "exit_code": 0,
+      "tests": 74,
+      "elapsed_s": 46.555,
+      "module_counts": {
+        "test_git_automation": 74
+      },
+      "resource_warnings": 8
+    },
+    {
+      "command": "LLMDB_ROOT=$PWD /usr/bin/python3 -B -S -m unittest -v tools.test_c10w_p2_gate tools.test_dashboard_live tools.test_dashboard_gpu_detector",
+      "log": "green_model_free.log",
+      "exit_code": 0,
+      "tests": 80,
+      "elapsed_s": 2.461,
+      "module_counts": {
+        "tools.test_c10w_p2_gate": 13,
+        "tools.test_dashboard_live": 27,
+        "tools.test_dashboard_gpu_detector": 40
+      },
+      "resource_warnings": 31
+    }
+  ],
+  "regressions": 19,
+  "protected_drift": [
+    "tests/test_new1_construction_diag.py",
+    "tools/backup_gdrive.sh",
+    "tools/backup_gdrive_status.py",
+    "tools/launchd/MemitGdriveBackup.applescript"
+  ]
+}

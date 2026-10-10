@@ -1,0 +1,7 @@
+You are the cross-family reviewer, round 3. Verdict: FREEZE or FIX-FIRST, then BLOCKING (file:line evidence) and ADVISORY. Read-only.
+
+docs/MATHLAB_PREREG.md v3 (SHA-256 b0a415841b65b86d392e687bec90770604c13bcbaea45806ae2550bb66b90ef1, Decision-ID D-ML-1) folds your round-2 review results/mathlab_staging/prereg_astra_r2.md (FIX-FIRST: B1, B2, B5 NOT RESOLVED; B3, B4 RESOLVED); fold log §12 (round 1 in §11).
+1. For B1, B2, B5 state RESOLVED or NOT RESOLVED with evidence from v3 and the cited source lines. B1: code-object matching (SHAPE_CODE caller with f_back EDIT_CODE saved before rebinding), exactly-five ordered captures per science write, LAW#5 tag read before the 24-subject assertion — re-run your stdlib probe logic if useful. B2: the four-part tokenisation equivalence contract (pinned tokenizer + file hashes; rebuilt minted ids = /minted_ids 151665–151688; re-run p2_audit equals saved /admission/P2 field by field; lookup sub-tokenisation comparison), RECONSTRUCTED labels, and the failure scoping (shared failure → all mint arms INVALID-REPLAY → calibration INVALID; per-arm failure → that arm only; ≥2 mint arms → six orderings, chance 1/30). Is that scoping defensible and is the reduced six-ordering criterion still a meaningful screen? B5: fail-closed admission order.
+2. Confirm round-2 ADVISORY folds and that B3/B4 resolutions and the evidence-tier/staging/DuckDB rules survived.
+3. Spot-check ≥ 6 new citations.
+Freeze only if nothing BLOCKING remains.

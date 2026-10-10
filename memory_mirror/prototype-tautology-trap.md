@@ -1,10 +1,8 @@
 ---
 name: prototype-tautology-trap
-description: "Self-authored contract prototypes tend to test control-flow not the contract; build tests that can actually fail, and don't mistake them for empirical evidence."
+description: Self-authored contract prototypes test control flow, not the contract; build tests that can actually fail and don't mistake them for evidence
 metadata:
-  node_type: memory
   type: feedback
-  originSessionId: 2801cf2e-560f-460c-86df-e227b16051b2
 ---
 
 Across CP1/G1/G2/G3 (the 2026-06-18 viability prototypes), the advisor caught the SAME failure in every one: a test that confirms my own control flow, not the spec contract. Examples: D46 "inject fault → observe Git-ahead" (just restates line order); C-TPC4 "every COMMITTED has PREPARED" (true by construction — the executor always writes PREPARED first); G2 "wrong-key token rejected" (HMAC had that too — not the asymmetric upgrade); `code_pass_patch_fail` firing on a `_patch_forced_fail` flag the test itself sets; the storage-index SELECT that just reads back what was put in. Also a REAL bug hidden under a passing test: G2's Gate retained the whole Orchestrator object, so `gate.orch.key.sign()` was callable — "verify-cannot-forge" was contradicted by its own code while the tests stayed green.

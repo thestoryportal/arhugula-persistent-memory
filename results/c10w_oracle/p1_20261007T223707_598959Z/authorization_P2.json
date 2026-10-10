@@ -1,0 +1,12 @@
+{
+  "P2": {
+    "authorized": true,
+    "recorded_by": "program session (Claude Opus 5.5) on operator authority D-C10r-rulings-12 (2026-10-07 ~21:08 MDT, operator verbatim: 'Yes on all 5.' — Q1: P2 up to 448 min; conditional P3 up to 327 min; EXPERIMENT_RUNBOOK.md §5.2)",
+    "recorded_at": "2026-10-07T21:13:33-06:00",
+    "budget_minutes": 448,
+    "p1_eval_sha256": "f8886427076b3ff5f2c5172dbbfbbc21ba7263bb03cd562307a4bd7c725bd60f",
+    "p1_verdict_sha256": "1a77abb329a370786bd644df84fa1e48d03d6cd8c42140f92b0b5180668ec8a2"
+  },
+  "class": "ORACLE MEASUREMENT — not a route; never promotable as a write-engine result (D-C10r-rulings-3 (2))",
+  "decision_id": "D-C10w-oracle"
+}

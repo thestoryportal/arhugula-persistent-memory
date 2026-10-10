@@ -1,0 +1,291 @@
+test_native_return_norms_persist_for_same_write_with_producer (mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer) ... FAIL
+test_invalid_native_return_fails_arm_without_losing_operands (mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands) ... ok
+test_gate2a_keeps_fp64_reference_for_non_A7_arms (mathlab.test_mathlab.NativeNormContractTests.test_gate2a_keeps_fp64_reference_for_non_A7_arms) ... ok
+test_historical_arithmetic_preserves_binary64_scalars (mathlab.test_mathlab.NativeNormContractTests.test_historical_arithmetic_preserves_binary64_scalars) ... ERROR
+test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) ... 
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=None) ... FAIL
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=nan) ... FAIL
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=inf) ... FAIL
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=-inf) ... FAIL
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=None) ... ERROR
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=nan) ... FAIL
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=inf) ... FAIL
+  test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=-inf) ... FAIL
+test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) ... ERROR
+test_native_agreement_ignores_large_fp64_reduction_discrepancy (mathlab.test_mathlab.NativeNormContractTests.test_native_agreement_ignores_large_fp64_reduction_discrepancy) ... FAIL
+test_prereg_amendment_pin_accepts_only_exact_frozen_bytes (mathlab.test_mathlab.ResourceArtifactTests.test_prereg_amendment_pin_accepts_only_exact_frozen_bytes) ... FAIL
+
+======================================================================
+ERROR: test_historical_arithmetic_preserves_binary64_scalars (mathlab.test_mathlab.NativeNormContractTests.test_historical_arithmetic_preserves_binary64_scalars)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 685, in test_historical_arithmetic_preserves_binary64_scalars
+    result = H.norm_agreement(tensors, historical)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_harvest.py", line 346, in norm_agreement
+    expected = norms[str(layer)]["delta_norm"]; actual = float(tensors[f"l{layer}.upd_norm"])
+                                                               ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'l4.upd_norm'
+
+======================================================================
+ERROR: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 671, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    result = H.norm_agreement(tensors, historical)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_harvest.py", line 346, in norm_agreement
+    expected = norms[str(layer)]["delta_norm"]; actual = float(tensors[f"l{layer}.upd_norm"])
+               ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+KeyError: 'delta_norm'
+
+======================================================================
+ERROR: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 678, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertFalse(H.norm_agreement({}, historical)["passed"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_harvest.py", line 346, in norm_agreement
+    expected = norms[str(layer)]["delta_norm"]; actual = float(tensors[f"l{layer}.upd_norm"])
+               ~~~~~^^^^^^^^^^^^
+KeyError: '4'
+
+======================================================================
+FAIL: test_native_return_norms_persist_for_same_write_with_producer (mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 289, in test_native_return_norms_persist_for_same_write_with_producer
+    self.assertIn(f"l{l}.n_native", loaded, "returned native scalar was not persisted")
+AssertionError: 'l4.n_native' not found in {'l4.zs': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]]), 'l4.K': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]], dtype=torch.float16), 'l4.Kf': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]]), 'l4.rf': tensor([[0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000,
+         0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000,
+         0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000],
+        [0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000,
+         0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000,
+         0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000]]), 'l4.resid': tensor([[0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000,
+         0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000,
+         0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000],
+        [0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000,
+         0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000,
+         0.2000, 0.2000, 0.2000, 0.2000, 0.2000, 0.2000]]), 'l4.cur': tensor([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]],
+       dtype=torch.float16), 'l4.ca_norm': tensor(0., dtype=torch.float64), 'l4.ca_sha256': tensor([109, 182,  95, 213, 159, 211,  86, 246, 114, 145,  64,  87,  27,  91,
+        205, 107, 179, 184,  52, 146, 161, 110,  27, 240, 163, 136,  68,  66,
+        252,  60, 138,  14], dtype=torch.uint8), 'l4.ca_zero': tensor(True), 'l4.Pi_null_n': tensor(3), 'l4.Pi_sha256': tensor([100, 238, 193,  41, 200, 211, 245, 142, 230, 183, 202,  20,  91,  37,
+        227,  18, 250, 130, 211, 210, 118, 219,  90, 218, 237, 181, 154, 174,
+        187, 130,  72, 133], dtype=torch.uint8), 'l4.Pi_probe0': tensor([ 1.5410, -0.2934, -2.1788]), 'l4.Pi_probe1': tensor([0.6614, 0.2669, 0.0617]), 'l4.Pi_probe2': tensor([ 0.3923, -0.2236, -0.3195]), 'l4.Pi_probe3': tensor([0.8033, 0.1748, 0.0890]), 'l4.upd_norm': tensor(0.1611, dtype=torch.float64), 'l4.upd_sha256': tensor([ 54, 179, 174,  59, 156,   2, 172, 143, 231, 252, 111,  17, 246, 239,
+        167, 107,  19, 255,  57,  66, 245, 169,  77, 193, 194,  41,  28, 119,
+        211,  12,  42, 250], dtype=torch.uint8), 'l5.zs': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]]), 'l5.K': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]], dtype=torch.float16), 'l5.Kf': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]]), 'l5.rf': tensor([[0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500,
+         0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500,
+         0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500],
+        [0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500,
+         0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500,
+         0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500]]), 'l5.resid': tensor([[0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500,
+         0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500,
+         0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500],
+        [0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500,
+         0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500,
+         0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500]]), 'l5.cur': tensor([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]],
+       dtype=torch.float16), 'l5.ca_norm': tensor(0., dtype=torch.float64), 'l5.ca_sha256': tensor([109, 182,  95, 213, 159, 211,  86, 246, 114, 145,  64,  87,  27,  91,
+        205, 107, 179, 184,  52, 146, 161, 110,  27, 240, 163, 136,  68,  66,
+        252,  60, 138,  14], dtype=torch.uint8), 'l5.ca_zero': tensor(True), 'l5.Pi_null_n': tensor(3), 'l5.Pi_sha256': tensor([100, 238, 193,  41, 200, 211, 245, 142, 230, 183, 202,  20,  91,  37,
+        227,  18, 250, 130, 211, 210, 118, 219,  90, 218, 237, 181, 154, 174,
+        187, 130,  72, 133], dtype=torch.uint8), 'l5.Pi_probe0': tensor([ 1.5410, -0.2934, -2.1788]), 'l5.Pi_probe1': tensor([0.6614, 0.2669, 0.0617]), 'l5.Pi_probe2': tensor([ 0.3923, -0.2236, -0.3195]), 'l5.Pi_probe3': tensor([0.8033, 0.1748, 0.0890]), 'l5.upd_norm': tensor(0.2013, dtype=torch.float64), 'l5.upd_sha256': tensor([224, 215, 102,  65,  88, 232,  78,  53,  91,  71,  99, 133, 203,   4,
+         66,  69,  16, 105,  16,  84, 211, 174, 122, 181, 157, 228, 215, 209,
+        161,  79, 211, 165], dtype=torch.uint8), 'l6.zs': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]]), 'l6.K': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]], dtype=torch.float16), 'l6.Kf': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]]), 'l6.rf': tensor([[0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333,
+         0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333,
+         0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333],
+        [0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333,
+         0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333,
+         0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333]]), 'l6.resid': tensor([[0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333,
+         0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333,
+         0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333],
+        [0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333,
+         0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333,
+         0.3333, 0.3333, 0.3333, 0.3333, 0.3333, 0.3333]]), 'l6.cur': tensor([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]],
+       dtype=torch.float16), 'l6.ca_norm': tensor(0., dtype=torch.float64), 'l6.ca_sha256': tensor([109, 182,  95, 213, 159, 211,  86, 246, 114, 145,  64,  87,  27,  91,
+        205, 107, 179, 184,  52, 146, 161, 110,  27, 240, 163, 136,  68,  66,
+        252,  60, 138,  14], dtype=torch.uint8), 'l6.ca_zero': tensor(True), 'l6.Pi_null_n': tensor(3), 'l6.Pi_sha256': tensor([100, 238, 193,  41, 200, 211, 245, 142, 230, 183, 202,  20,  91,  37,
+        227,  18, 250, 130, 211, 210, 118, 219,  90, 218, 237, 181, 154, 174,
+        187, 130,  72, 133], dtype=torch.uint8), 'l6.Pi_probe0': tensor([ 1.5410, -0.2934, -2.1788]), 'l6.Pi_probe1': tensor([0.6614, 0.2669, 0.0617]), 'l6.Pi_probe2': tensor([ 0.3923, -0.2236, -0.3195]), 'l6.Pi_probe3': tensor([0.8033, 0.1748, 0.0890]), 'l6.upd_norm': tensor(0.2684, dtype=torch.float64), 'l6.upd_sha256': tensor([185,  49, 225, 118,   2,  61,  20, 197, 150, 123, 245,  24,  74, 201,
+        250, 203, 228, 144, 129, 131,  65,  74, 245, 196,  68,  39, 209, 197,
+         66, 165, 228, 240], dtype=torch.uint8), 'l7.zs': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]]), 'l7.K': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]], dtype=torch.float16), 'l7.Kf': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]]), 'l7.rf': tensor([[0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000,
+         0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000,
+         0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000],
+        [0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000,
+         0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000,
+         0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000]]), 'l7.resid': tensor([[0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000,
+         0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000,
+         0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000],
+        [0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000,
+         0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000,
+         0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000]]), 'l7.cur': tensor([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]],
+       dtype=torch.float16), 'l7.ca_norm': tensor(0., dtype=torch.float64), 'l7.ca_sha256': tensor([109, 182,  95, 213, 159, 211,  86, 246, 114, 145,  64,  87,  27,  91,
+        205, 107, 179, 184,  52, 146, 161, 110,  27, 240, 163, 136,  68,  66,
+        252,  60, 138,  14], dtype=torch.uint8), 'l7.ca_zero': tensor(True), 'l7.Pi_null_n': tensor(3), 'l7.Pi_sha256': tensor([100, 238, 193,  41, 200, 211, 245, 142, 230, 183, 202,  20,  91,  37,
+        227,  18, 250, 130, 211, 210, 118, 219,  90, 218, 237, 181, 154, 174,
+        187, 130,  72, 133], dtype=torch.uint8), 'l7.Pi_probe0': tensor([ 1.5410, -0.2934, -2.1788]), 'l7.Pi_probe1': tensor([0.6614, 0.2669, 0.0617]), 'l7.Pi_probe2': tensor([ 0.3923, -0.2236, -0.3195]), 'l7.Pi_probe3': tensor([0.8033, 0.1748, 0.0890]), 'l7.upd_norm': tensor(0.4027, dtype=torch.float64), 'l7.upd_sha256': tensor([196, 118,  28, 139, 238,  47, 182, 173, 110, 164,  88, 151,  87,  98,
+        194, 108, 245, 230,  16, 250,  63,  53, 136,  81,   9,  25, 160,  44,
+        109,  90,  45, 191], dtype=torch.uint8), 'l8.zs': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]]), 'l8.K': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]], dtype=torch.float16), 'l8.Kf': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]]), 'l8.rf': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]]), 'l8.resid': tensor([[1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.],
+        [1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.,
+         1., 1., 1., 1., 1., 1.]]), 'l8.cur': tensor([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+        [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]],
+       dtype=torch.float16), 'l8.ca_norm': tensor(0., dtype=torch.float64), 'l8.ca_sha256': tensor([109, 182,  95, 213, 159, 211,  86, 246, 114, 145,  64,  87,  27,  91,
+        205, 107, 179, 184,  52, 146, 161, 110,  27, 240, 163, 136,  68,  66,
+        252,  60, 138,  14], dtype=torch.uint8), 'l8.ca_zero': tensor(True), 'l8.Pi_null_n': tensor(3), 'l8.Pi_sha256': tensor([100, 238, 193,  41, 200, 211, 245, 142, 230, 183, 202,  20,  91,  37,
+        227,  18, 250, 130, 211, 210, 118, 219,  90, 218, 237, 181, 154, 174,
+        187, 130,  72, 133], dtype=torch.uint8), 'l8.Pi_probe0': tensor([ 1.5410, -0.2934, -2.1788]), 'l8.Pi_probe1': tensor([0.6614, 0.2669, 0.0617]), 'l8.Pi_probe2': tensor([ 0.3923, -0.2236, -0.3195]), 'l8.Pi_probe3': tensor([0.8033, 0.1748, 0.0890]), 'l8.upd_norm': tensor(0.8053, dtype=torch.float64), 'l8.upd_sha256': tensor([ 83, 177, 132, 212,  85,   1, 228, 149,  84, 205, 171, 250,  37,  96,
+        111,  79, 184, 132,  67,  97,  24, 147, 174,  14, 110, 115, 203,  22,
+         61,   8, 108,  62], dtype=torch.uint8)} : returned native scalar was not persisted
+
+======================================================================
+FAIL: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 672, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertFalse(result["passed"])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=nan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 672, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertFalse(result["passed"])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=inf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 672, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertFalse(result["passed"])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='native', bad=-inf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 672, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertFalse(result["passed"])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=nan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 674, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertIsNone(result["layers"]["4"]["relative_error"])
+AssertionError: nan is not None
+
+======================================================================
+FAIL: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=inf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 674, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertIsNone(result["layers"]["4"]["relative_error"])
+AssertionError: nan is not None
+
+======================================================================
+FAIL: test_missing_nonfinite_native_or_historical_scalars_fail_closed (mathlab.test_mathlab.NativeNormContractTests.test_missing_nonfinite_native_or_historical_scalars_fail_closed) (side='historical', bad=-inf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 674, in test_missing_nonfinite_native_or_historical_scalars_fail_closed
+    self.assertIsNone(result["layers"]["4"]["relative_error"])
+AssertionError: nan is not None
+
+======================================================================
+FAIL: test_native_agreement_ignores_large_fp64_reduction_discrepancy (mathlab.test_mathlab.NativeNormContractTests.test_native_agreement_ignores_large_fp64_reduction_discrepancy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 650, in test_native_agreement_ignores_large_fp64_reduction_discrepancy
+    self.assertTrue(agreement["passed"], "historical agreement must use the native returned metric")
+AssertionError: False is not true : historical agreement must use the native returned metric
+
+======================================================================
+FAIL: test_prereg_amendment_pin_accepts_only_exact_frozen_bytes (mathlab.test_mathlab.ResourceArtifactTests.test_prereg_amendment_pin_accepts_only_exact_frozen_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 994, in test_prereg_amendment_pin_accepts_only_exact_frozen_bytes
+    self.assertEqual(R.PREREG_SHA, "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8")
+AssertionError: '4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507' != '85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8'
+- 4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507
++ 85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.361s
+
+FAILED (failures=10, errors=3)

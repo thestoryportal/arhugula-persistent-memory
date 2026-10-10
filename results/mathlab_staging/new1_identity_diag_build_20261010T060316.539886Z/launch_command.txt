@@ -1,0 +1,7 @@
+/opt/homebrew/bin/rtk proxy env LLMDB_ROOT="$PWD" \
+  LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 \
+  PYTHONDONTWRITEBYTECODE=1 \
+  PYTHONPYCACHEPREFIX=/private/tmp/new1_identity_diag_launch_mb4_20261010T060316 \
+  nice -n 10 .venv/bin/python -B tools/new1_identity_diag.py \
+  --scope-sha a4f5dcdcc47bb6b11de9236ec24287e5b32d893a479193d453dfda5cc1bf5057 \
+  --source-sha 93a7b317f8078c63c3c0d40d35fb419dfd24132a10577387af93c3790d461cb1

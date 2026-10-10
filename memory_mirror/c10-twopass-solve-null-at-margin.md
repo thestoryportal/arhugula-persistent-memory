@@ -1,10 +1,8 @@
 ---
 name: c10-twopass-solve-null-at-margin
-description: "CORPUS/49 (D-C10p-twopass, 2026-10-05): a fresh band-4–8 edit aimed at the target re-solved on the once-edited model reaches 21/72 held-out (canon 12/24) vs 13/72 (7/24) — gain 8 under the pre-registered 10 → NULL, with a ×1.31 write and a 3.08 described_as drop; the injection-found direction does not survive as a fresh weight edit at the margin. Harness seam Z_OVERRIDE (aim the solve at supplied targets) is inert and audited."
+description: "HISTORICAL: CORPUS/49 re-solved-target fresh edit 21/72 vs 13/72, gain 8 < 10 → NULL; harness seam Z_OVERRIDE is inert and audited."
 metadata:
-  node_type: memory
   type: project
-  originSessionId: 4d71207f-24bf-4199-894f-d2f977d9f609
 ---
 
 The two-pass solve was the mechanism arm routed by CORPUS/48. Three harness passes in one process: baseline, a sham fresh edit aimed at the pre-edit targets (identical to baseline on every readout and every per-layer ΔW — the seam is inert), and the fresh edit aimed at the re-solved targets. The last moved held-out recall 13 → 21/72 and canon 7 → 12/24 with a 31 % larger write and a described_as drop that missed its 3.0 gate by 0.08; controls and the other S-3 axes (incl. a same-frame fictional probe) held.

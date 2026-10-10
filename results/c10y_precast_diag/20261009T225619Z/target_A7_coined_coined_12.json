@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_12.pt": "9f725b236a902eec8f0b45b44d1000c543f376da7ccd3499d0faefa00ffb6693"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Fluvane",
+    "target_new": {
+      "str": " Vindex Spraxil"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_12.pt"
+  }
+}

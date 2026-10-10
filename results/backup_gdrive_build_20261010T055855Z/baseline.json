@@ -1,0 +1,10 @@
+{
+  "sha256": {
+    "tools/backup_mirror.sh": "4b26fefcc25bac2274cb75962a60ef2a13a869d24c7d0364430cd5b800d012b6",
+    "tools/backup_mirror.excludes": "45bb4e2a2e4629d494b6e5ccf41dd6885133b27e329a197fc6a85bcc55e48f3f",
+    "tools/launchd/com.rhu.memit-backup.plist": "44c2ffcad9837f76c0b08d34a1b40ca367c9145edf3360cad3131e1c64e29a2f",
+    "tools/test_dashboard_mathlab.py": "b46d9c852706e20e8dca40cca8f56793559f3441cf30f5b9e8257a0ea0dab02e",
+    "EXPERIMENT_RUNBOOK.md": "f4968af39a890f2cba02bcf01e1cc2600e0b70cf16be6058551a099193c24188"
+  },
+  "HEAD": "522929f6d7017f0e8b7b54e2d559d4135d9f99a2"
+}

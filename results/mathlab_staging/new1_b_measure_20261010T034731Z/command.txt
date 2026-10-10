@@ -1,0 +1,1 @@
+/opt/homebrew/bin/rtk proxy env LLMDB_ROOT="$PWD" LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 VECLIB_MAXIMUM_THREADS=8 BLIS_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B results/mathlab_staging/new1_b_measure_20261010T034731Z/profile_l4.py > results/mathlab_staging/new1_b_measure_20261010T034731Z/profile.log 2>&1

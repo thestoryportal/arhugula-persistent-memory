@@ -1,0 +1,3 @@
+{"tier": "MATH-PROXY", "fixture": true, "stage": "begin-load", "elapsed_s": 8.749775588512421e-07, "peak_rss_gib": 0.180572509765625}
+{"tier": "MATH-PROXY", "fixture": true, "stage": "saved-real-shape-A7-updates", "elapsed_s": 0.49293633294291794, "peak_rss_gib": 0.6014404296875}
+{"tier": "MATH-PROXY", "fixture": true, "stage": "full-A7-update-load-finished", "elapsed_s": 0.5339252909179777, "peak_rss_gib": 1.0216827392578125}

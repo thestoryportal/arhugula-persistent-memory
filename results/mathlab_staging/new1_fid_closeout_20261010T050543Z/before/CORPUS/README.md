@@ -1,0 +1,74 @@
+# CORPUS — LLM-as-Database Viability Evidence (single source of truth)
+_Built 2026-06-18. Purpose: a deduplicated, provenance-anchored evidence corpus for (a) the Framework Council adversarial review, (b) self-review, (c) human-in-the-loop review. Every claim resolves to a raw artifact in `/workspace/`._
+
+## Read order
+1. **`00_MASTER_EVIDENCE.md`** — canonical experiment ledger (one row per experiment, exact numbers, status). THE source of truth.
+2. **`01_PROVENANCE_MANIFEST.md`** — claim → {script, result file, exact numbers}. Anti-hallucination backbone.
+3. **`02_VANDV_CHAIN.md`** — hypothesis → method → measurement → criterion → verdict, per claim.
+4. **`03_STATUS_LEDGER.md`** — proven / partial / untested / **corrected-from** (every reversal, with why).
+5. **`04_ENV_AND_DEPS.md`** — environment, toolchain, version traps, reproducibility.
+6. **`05_SPEC_CONTRACTS_BY_DOMAIN.md`** — the spec's own contracts per council domain = the audit baseline.
+7. **`07_CP1_GOVERNED_INPIPELINE_WRITE.md`** — CP1 result (2026-06-18): governed in-pipeline parametric MEMIT write PROVEN-FOR-SCOPE.
+8. **`08_CP2_QUERY_SCHEMA_CAPABILITY.md`** — CP2 result (2026-06-18): LARQL LQL verbs execute (DELETE works) but L1 triple-readback / 5 families / violates-rejection are our schema-layer build items.
+9. **`09_CP3_MEMIT_COMPLIANCE.md`** — CP3 result (2026-06-18): D12 method-class CONFIRMED (null-space = D20-mandated); C15 layer-band an open divergence.
+10. **`10_G1_TWO_PHASE_COMMIT.md`** — G1 result (2026-06-18): dual-medium 2PC + State Ledger + Transaction Controller + circuit breaker PROVEN-FOR-SCOPE (10/10).
+11. **`11_G2_SECURITY_LAYER.md`** — G2 result (2026-06-18): REAL Ed25519 — verify-cannot-forge (structural), content-level overlay integrity, CAK CeremonyToken verifier PROVEN-FOR-SCOPE (9/9).
+12. **`12_G3_VALIDATION_PIPELINE.md`** — G3 result (2026-06-18): deterministic schema validator delivers the CP2-surfaced contracts (violates/undeclared rejection + storage-probe split) + §9 invariants PROVEN-FOR-SCOPE (8/8).
+13. **`13_G6_1_SCALE_OF_N.md`** — G6.1 result (2026-06-18): **first empirical falsifier, SPLIT.** Write-side PASS at N=100 (98% retention, apply-expression 100%); **cross-entity consistency FAIL — held-out reads at the edited relation corrupted, scale-amplifying (100→42%).** Falsifies "cross-entity-clean at scale"; scopes the prior same-entity "VALIDATED."
+14. **`14_A1_BATCH_VS_SEQUENTIAL.md`** — A1 (2026-06-18): batch/Genesis ELIMINATES the G6.1 cross-entity corruption (flat 100→100→100% @N≤100); corruption was incremental-schedule `cache_c` leakage, not in-weight storage.
+15. **`15_A2_RELATION_BALANCED_SENTINELS.md`** — A2 (2026-06-18): in-solve same-relation sentinels HALVE the runtime-incremental corruption (8→16–17/20 @N=100, λ_s≈1–2) but don't arrest the N50→100 decline → PARTIAL.
+16. **`16_A2b_REFRESH_KS.md`** — A2b (2026-06-18): refreshing the sentinel keys K_S against drifted W does NOT help (3-seed paired + clean seed-0) → **K_S staleness RULED OUT**; large drift + zero benefit = entity-specific residual → A3 (BetaEdit). Official BetaEdit repo found (port, not reimplement).
+- **17 — B3 / G6.2 Q4_K_M QUANTIZATION SURVIVAL** = PASS: A1-clean batch store survives real Q4_K_M (edits 100% vs native 97.4%); margin confound characterized; E1 untested.
+- **24 — R15 L2 CONSTRAINT-PROBE firing (D-R15-1, 2026-06-24)** = not-ready-with-conditions: the sharpest WEIGHTS-owned read-contract falsifier (§21.2, no delegation route). v1 subject-property hazard edits express perfectly + fire under cooperative paraphrase (24/24) but adversarial firing collapses to ~½ (hand-adj ~11–14/24, ~7/24 silent compliance-leaks; 2/24 explicit refusals). Controls clean. Bounded: easiest single-entity case (relational archetype expected worse). Spec-gap flag (Finding 2): §21.2 disjunctive pass admits warn-and-comply (suggestive).
+17. **`additional_research.md`** — prior art + research pointers.
+8. **`COUNCIL_PROTOCOL.md`** — rules every council subagent runs under (cite-or-flag; evidence vs inference; verdict schema).
+9. **`domains/*_PACKAGE.md`** — focused per-specialist package (contract + relevant evidence + open questions + audit charge).
+
+## Scope of what was tested (one paragraph)
+In-weight, MEMIT-class knowledge editing was validated as a write engine for the "LLM-as-Database" spec, then composed with **LARQL** (the spec's read/query/deploy layer) on CPU. Editing science validated on **Qwen2.5** (3B/7B) + GPT-J baseline; re-validated on the LARQL-servable **Qwen3-0.6B**. A **decoupled bridge** (our clean edit → `.vlp` overlay → `APPLY` on frozen base → `COMPILE`) achieves clean+in-weight+governed serving with no LARQL code. **What is proven = write/read/overlay MECHANICS. What is NOT yet tested = full spec CONTRACTS** (2PC/State-Ledger consistency, write authorization/audit, deterministic validation pipeline, full query schema SELECT/DELETE, operator Intel-CPU). The council's job is to audit evidence against contracts per domain.
+
+## Headline status (see 03 for the full ledger)
+- ✅ In-weight multi-field editing viable; model/size-dependent (GPT-J fails, Qwen-7B clean, Qwen-3B/Qwen3-0.6B work with recipe).
+- ✅ Recipe = in-solve AlphaEdit (null-space P, `nullspace_threshold=0.005`) + preserve-sampling + batched-per-record compile.
+- ✅ Decoupled bridge: clean + in-weight + governed-overlay, on CPU, **no LARQL code**.
+- ⚠️ Governance proven = file-level frozen-base + overlay + rollback. NOT the spec's 2PC/State-Ledger. (Gap.)
+- ⚠️ Security (write authz/audit/signing), validation pipeline, full query schema, operator-CPU: **UNTESTED**. (Gaps.)
+
+- **37 — C10 W-realization band-knob (D-C10e-bandknob ⟨D-C10e-bandknob@82b491dc⟩, 2026-06-26)** = NO MATERIAL KNOB RESCUE: later `[8,12]` worsens A7 para_full 13.9 to 5.6 while canon_full only 29.2 to 45.8; A1/A2 controls high; pure later-band W-realization eliminated, broader knobs and AnyEdit remain open.
+
+- **38 — C10 widened-band [4,12] (D-C10f-band412 ⟨D-C10f-band412@d93d6a19⟩, 2026-06-26)** = NO MATERIAL KNOB RESCUE: wide `[4,12]` worsens A7 para_full 11.1 to 6.9 while canon only 29.2 to 41.7; A1/A2 controls remain viable at 90.3; C10 remains open.
+
+- **39 — C10 edit-strength/layer-count sweep (D-C10g-strengthlayers ⟨D-C10g-strengthlayers@d691acab⟩, 2026-06-26)** = NO BEHAVIORAL RESCUE WITH ONE NON-VIABLE TRADEOFF: strength150 and lowcov2500 worsen A7 held-out `para_full` with controls clean; deep improves canonical fit but collapses behavior and controls. C10 remains open; bounded pre-AnyEdit MEMIT knob pass closed.
+
+- **40 - C10 AnyEdit small-window pilot (D-C10h-anyedit-pilot ⟨D-C10h-anyedit-pilot@6413cc67⟩, 2026-06-27)** = TRADEOFF_NOT_CLEAN_RESCUE: local AnyEdit-style `window_size=1` transplant passes alignment/no-op gates but collapses A1/A2 controls to 0.0/0.0 and worsens A7 held-out `para_full` 12.5 to 1.4. Scoped to this transplant; upstream AnyEdit family remains open.
+- **44 - Solve geometry / sparse layer sets on the C10 harness (D-C10l-covgeom ⟨D-C10l-covgeom@af2e38f7⟩, 2026-10-05)** = NULL ×3: NULL ×3 — P := I and the sparse layer sets {4, 8} / {7, 8} are not sufficient single-factor fixes on the C10 harness; the target carries the value under injection (49/72) while the weight edit does not (13/72).
+- **45 - Minted token per coined value (D-C10l-mint ⟨D-C10l-mint@a4a6f4c7⟩, 2026-10-05)** = PARTIAL ×2: PARTIAL ×2 — a minted vocabulary token per coined value lands 24/24 canonical and transfers 39–46/72 held-out with locality clean (ladder A1 68–72 / A1-rare 25 / mint 39–46 / multi-token 11), far below A1; G did not beat N (row-content benefit not shown); option (iv) is a live partial lead with a residual wall, not a route closure. Addendum B2/B3: replication UNSUPPORTED on both directional reads (PARTIAL reproduced ×5); P4 compiled GGUF artefact PASS (Q4_K_M paraphrase retention 0.738).
+- **46 - Diagnostics: gold-first-token read / edit + inject / third N seed (D-C10m-diag ⟨D-C10m-diag@9a9b5343⟩, 2026-10-05)** = ABSENT-DOMINANT · H1 collateral · SEED-SENSITIVE: forcing the first token gains 2/72; the pre-edit target injected into the edited model falls from 51/72 to 23/72 (canon 7/24) while a recomputed target still injects at 55/72; minted N seeds 46/34/36. Next = 2 × 2 z-transport read, then I-1 / I-2.
+- **47 - Target transport under the edit (D-C10n-ztransport ⟨D-C10n-ztransport@982edcbd⟩, 2026-10-05)** = TARGET-PORTABLE (LOW-CONTROL, reported not promoted): A 42 / B 13 / C 61 / D 37 of 72; four subjects' targets unchanged by the edit, twenty need a 30 % longer rotated target that also decodes on the unedited model; control is a stratum (N1). Next = magnitude/direction read.
+- **48 - Magnitude vs direction on the edited model (D-C10o-magnitude ⟨D-C10o-magnitude@31389765⟩, 2026-10-05)** = DIRECTION (routing, HIGH-CONTROL): magnitude alone 5/60, direction 34/60, projection-preserving 47/60 against B 6 / C 50; next = two-pass solve arm.
+- **49 - Two-pass solve (D-C10p-twopass ⟨D-C10p-twopass@12f87dc3⟩, 2026-10-05)** = NULL (gain 8/72 < 10): fresh edit aimed at the re-solved target 12/24, 21/72 vs baseline 7/24, 13/72; ΔW ×1.31; described_as −3.08; sham inert. Next per prereg = I-1 / I-2 on the engine path.
+- **50 - Stacked two-pass solve (D-C10q-stacked ⟨D-C10q-stacked@8e5c7f12⟩, 2026-10-06)** = TRADEOFF-PERM-UNMATCHED (gain 12 ≥ 10; described_as gate fails; ΔW₂/ΔW₁ 1.24): second in-place edit 12/24, 24/72 vs reference 8/24, 12/72; sham inert; permuted control 0/72, unmatched by 0.04. Next = research pass (HIL), then I-1 / I-2.
+- **51 - Shared-z target, step 1 (D-C10s-sharedz ⟨D-C10s-sharedz@bee04393⟩, 2026-10-06)** = UNDERFIT (inconclusive under this solve budget; write arm not run; candidate not advanced). Next = step 2 (D-C10t) per prereg.
+- **52 - Shared-target solve feasibility, step 1 at 50 evaluations (D-C10s-solvefeas ⟨D-C10s-solvefeas@7083a102⟩, 2026-10-07)** = UNDERFIT-AT-50, objective-stopped (29 → 2 failing fit entries in the same run; the gate still fails; write arm not run; candidate not advanced). Next = step 2 (D-C10t) per prereg.
+- **53 - Value-internal second key, step 2 (D-C10t-secondkey ⟨D-C10t-secondkey@76a722d3⟩, 2026-10-07)** = NULL-LARGE-WRITE (23 vs 15/72, +8 below the +10 margin; write ×2.05; ten per-prefix locality gates fail; candidate not advanced). Next = step 3 (D-C10u-mint2), then step 4 (D-C10v-layerpick).
+- **54 - Two-token and modifier-only mint, step 3 attempt r3 (D-C10u-mint2 ⟨D-C10u-mint2@d1299b2b⟩, 2026-10-07)** = CLOSED, operator-ratified (D-C10r-rulings-12), no direction reading on either block (F ROUTING-BLOCKED-UNDERFIT, the in-block reference fails the same fit screen at 17/24; V2 NOT-COMPARABLE); one-token mint reproduced 46/37/40 vs 14/72.
+- **55 - Ceiling oracle, step 5, P1 only — INTERIM (D-C10w-oracle ⟨D-C10w-oracle@64bf1ecd⟩, 2026-10-07)** = oracle measurement, not a route; reader INCOMPLETE (no label, no routing until P2; D-ID OPEN; step 5 not read); interim seed-0 configuration 70/72 vs closed form 9/72, G4 miss, G6 at its limit, BIGRAM → PARTIAL-CEILING-LOCALITY-COST(G4). P2/P3 await the operator's authorization. Final reading: CORPUS/57.
+- **56 - Per-fact layer pick, step 4 pass1 (D-C10v-layerpick ⟨D-C10v-layerpick@3bcae852⟩, 2026-10-07)** = NULL, not advanced under the preregistered rules (B 12 vs band 11/72; fixed layer 8 12, shuffled map 10; selector not credited; B missed described_as). Next = step 5 P2 (running).
+- **57 - Ceiling oracle, step 5 — final replicated reading (D-C10w-oracle ⟨D-C10w-oracle@6a735469⟩, 2026-10-08)** = oracle measurement, not a route; CLOSED: PARTIAL-CEILING-LOCALITY-COST(G4,G6), BIGRAM — replicated 70/72 (closed form 9–16/72), G4 missed at both seeds, G6 at seed 1; P3 not required; canonical split NOT-READ; NO-GATE-CLEAN-REFERENCE; steps 6–7 on their own rationale. P2 eval re-run under D-C10w-p2rerun.
+- **58 - Engine-path target construction, step 6 (D-C10x-enginepath ⟨D-C10x-enginepath@a8c22280⟩, 2026-10-08)** = process-1 reading of re-run 3, CLOSED: I-1 (OverTone-inspired objective) NULL, 17 vs 12/72; I-2 (FE-inspired layer-4 package) INVALID-CONTROLS-UNDERFIT (erratum: CORPUS/58), A1 64, A2 65 < 68 in this run; neither advances, process 2 not run; no mechanism or method-family conclusion.
+
+## 2026-10-09 — New milestone notes
+
+D-C10z-v7diag ⟨D-C10z-v7diag@d8c55e7b⟩ A1 CONFIRM; D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩ preparation ADMITTED, attempt 4 PENDING → 59_C10Z_V7DIAG_A1.md.
+
+D-ML-1 ⟨D-ML-1@12c5548b⟩ interim; D-ML-2 ⟨D-ML-2@99a9fb4c⟩ replay PASS; D-ML-3 ⟨D-ML-3@84e9d0e1⟩ corrected fresh admission; MATH-PROXY → 60_MATHLAB_HARVEST_REPLAY.md.
+
+## 2026-10-09 — MathLab calibration stop (supersedes the interim milestone status)
+
+D-ML-1 ⟨D-ML-1@46230e48⟩ **STOPPED — calibration FAIL**; D-ML-4 ⟨D-ML-4@46230e48⟩ step 4 **SHELVED**; NEW-1 adapter geometry continues separately under its own gates. MATH-PROXY only; F1 unchanged → CORPUS/60_MATHLAB_HARVEST_REPLAY.md#2026-10-09-addendum--harvest-2-calibration-fail-lab-stopped-d-ml-1--d-ml-4.
+
+## 2026-10-10 — ASTRA attempt-4 closeout
+
+D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ **DONE — UNDERFIT-LARGE-WRITE-SUBJECT-FREE-STAGE1** (inconclusive under this solve budget; terminal under current authorization), Astra CONFIRM → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.
+
+D-C10z-a1pop ⟨D-C10z-a1pop@1ef441d3⟩: preparation/admission preserved; current continuation CLOSED by D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.

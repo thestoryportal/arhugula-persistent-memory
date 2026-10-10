@@ -1,0 +1,4 @@
+Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:08<00:08,  8.96s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:15<00:00,  7.25s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:15<00:00,  7.51s/it]
+loaded Qwen/Qwen2.5-3B
+Cached context templates [['{}'], ['The following is a single-choice question from a Chinese. {}', "Therefore, the value of \\( f'(1). {}", "Because of a recent drought, Jerry's lawn began. {}", "I'm new to programming so I'm still trying. {}", 'You are an AI assistant that follows instruction extremely well. {}']]

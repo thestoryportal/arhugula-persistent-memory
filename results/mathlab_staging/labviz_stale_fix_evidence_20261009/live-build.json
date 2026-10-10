@@ -1,0 +1,14 @@
+{
+  "command": [
+    "rtk",
+    "proxy",
+    ".venv/bin/python",
+    "-B",
+    "tools/labviz/build.py"
+  ],
+  "exit_code": 0,
+  "duration_seconds": 30.287137708161026,
+  "peak_child_rss": 954204160,
+  "rss_unit": "bytes",
+  "platform": "darwin"
+}

@@ -1,0 +1,16 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-B",
+    "-m",
+    "unittest",
+    "mathlab.test_mathlab",
+    "mathlab.test_index",
+    "-v"
+  ],
+  "PYTHONPATH": "/private/tmp/mathlab_uv_cache/environments-v2/m2-solve-repro-da15e0fd897e5e61/lib/python3.11/site-packages",
+  "duckdb_probe_status": 0,
+  "status": 0,
+  "signal": null,
+  "error": null
+}

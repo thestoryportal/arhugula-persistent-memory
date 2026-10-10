@@ -1,0 +1,341 @@
+diff --git a/tests/test_new1_supervisor.py b/tests/test_new1_supervisor.py
+index 06cb729..712479a 100644
+--- a/tests/test_new1_supervisor.py
++++ b/tests/test_new1_supervisor.py
+@@ -1,9 +1,12 @@
+ """NEW1 enforcement fixtures; no real inputs or geometry execution."""
+ import importlib
++import contextlib
++import io
+ import json
+ import os
+ from pathlib import Path
+ import subprocess
++import signal
+ import sys
+ import tempfile
+ import time
+@@ -96,7 +99,7 @@ class SupervisorTests(unittest.TestCase):
+ 
+     def test_rss_probe_sums_descendants_and_refuses_missing_worker(self):
+         vm = subprocess.CompletedProcess([], 0, 'Pages free: 1048576.\nPages inactive: 0.\nPages speculative: 0.\n', '')
+-        ps = subprocess.CompletedProcess([], 0, '123 1 1048576 1.0\n124 123 524288 2.0\n125 124 262144 3.0\n99 1 9999999 0.0\n', '')
++        ps = subprocess.CompletedProcess([], 0, '123 1 123 1048576 1.0\n124 123 123 524288 2.0\n125 124 123 262144 3.0\n99 1 99 9999999 0.0\n', '')
+         with mock.patch.object(self.S.subprocess, 'run', side_effect=[vm,ps]):
+             value=self.S.sample_resources(123)
+         self.assertEqual(value.rss_gib, 1.75)
+@@ -105,6 +108,65 @@ class SupervisorTests(unittest.TestCase):
+             with self.assertRaisesRegex(self.S.Stop, 'MONITORING'):
+                 self.S.sample_resources(100)
+ 
++    def test_reparented_group_member_still_counts_toward_rss_cap(self):
++        vm=subprocess.CompletedProcess([],0,'Pages free: 1048576.\nPages inactive: 0.\nPages speculative: 0.\n','')
++        ps=subprocess.CompletedProcess([],0,'123 1 123 1048576 1.0\n124 1 123 6291456 2.0\n99 1 99 9999999 0.0\n','')
++        with mock.patch.object(self.S.subprocess,'run',side_effect=[vm,ps]):
++            sample=self.S.sample_resources(123)
++        self.assertEqual(sample.rss_gib,7)
++        self.assertEqual(sample.cpu_pct,3)
++        with self.assertRaisesRegex(self.S.Stop,'STOPPED-RESOURCE'):
++            self.controller([sample]).check(123)
++
++    def prereg_fixture(self,status):
++        path=self.root/'docs/NEW1_ADAPTER_GEOMETRY_PREREG.md'
++        path.parent.mkdir(exist_ok=True)
++        path.write_text('# NEW-1 — fixture\n\n'+status+'\n\nHistorical: DRAFT v2 remains NOT FROZEN.\n')
++        return path,self.S.sha_file(path)
++
++    def supervisor_main(self,digest):
++        def dispatch(command,directory,*,admission):
++            self.assertTrue(admission()['allowed'])
++            return 'PASS'
++        with mock.patch.object(self.S,'ROOT',self.root),mock.patch.object(sys,'argv',['new1','--prereg-sha',digest]),\
++             mock.patch.object(self.S,'supervise',side_effect=dispatch),\
++             mock.patch.object(self.S,'cpu_admission',return_value={'allowed':True,'reasons':[]}) as admit,\
++             contextlib.redirect_stdout(io.StringIO()):
++            result=self.S.main()
++        return result,admit.call_count
++
++    def test_supervisor_accepts_authoritative_freeze_with_historical_draft_footer(self):
++        _,digest=self.prereg_fixture('**FROZEN v2 · 2026-10-09 (D-NEW1-1; reviewed).**')
++        self.assertEqual(self.supervisor_main(digest),(0,1))
++
++    def test_supervisor_refuses_draft_header_even_with_quoted_frozen_text(self):
++        path,digest=self.prereg_fixture('**DRAFT v2**')
++        path.write_text(path.read_text().replace('Historical: DRAFT v2 remains NOT FROZEN.','Quoted: **FROZEN v2**'))
++        with self.assertRaisesRegex(self.S.Stop,'INVALID-PREREG'):
++            self.supervisor_main(self.S.sha_file(path))
++
++    def test_supervisor_refuses_exact_prereg_hash_mismatch(self):
++        self.prereg_fixture('**FROZEN v2 · 2026-10-09 (D-NEW1-1; reviewed).**')
++        with self.assertRaisesRegex(self.S.Stop,'INVALID-PREREG'):
++            self.supervisor_main('0'*64)
++
++    def test_worker_accepts_same_freeze_before_imports_without_geometry(self):
++        G=importlib.import_module('tools.new1_geometry')
++        _,digest=self.prereg_fixture('**FROZEN v2 · 2026-10-09 (D-NEW1-1; reviewed).**')
++        client=mock.Mock(); client.cell.side_effect=RuntimeError('fixture reached import admission')
++        with mock.patch.object(G,'ROOT',self.root),self.assertRaisesRegex(RuntimeError,'fixture reached import admission'):
++            G.run(client,self.run,digest)
++        client.cell.assert_called_once_with('imports','numerical-dependencies')
++
++    def test_worker_refuses_draft_header_before_imports(self):
++        G=importlib.import_module('tools.new1_geometry')
++        path,_=self.prereg_fixture('**DRAFT v2**')
++        path.write_text(path.read_text().replace('Historical: DRAFT v2 remains NOT FROZEN.','Quoted: **FROZEN v2**'))
++        client=mock.Mock(); client.cell.side_effect=RuntimeError('fixture reached imports')
++        with mock.patch.object(G,'ROOT',self.root),self.assertRaises(G.Invalid):
++            G.run(client,self.run,self.S.sha_file(path))
++        client.cell.assert_not_called()
++
+     def test_resource_receipt_is_durable_before_event(self):
+         original = self.S.emit
+         def inspect(directory, kind, **fields):
+@@ -246,6 +308,8 @@ send({'type':'complete','path':'geometry.json'})
+             outcome=self.S.supervise(command,self.run,admission=lambda:{'allowed':True,'reasons':[]},monitor=sample)
+         self.assertEqual(outcome,'STOPPED-RESOURCE')
+         self.assertLess(time.monotonic()-started,.5)
++        events,_=self.state()
++        self.assertTrue(any(e['type']=='halted' for e in events),'watchdog kill must still reap and persist its halt')
+ 
+     def test_watchdog_refuses_memory_drop_during_blocking_admission(self):
+         started=time.monotonic()
+@@ -256,5 +320,81 @@ send({'type':'complete','path':'geometry.json'})
+         self.assertEqual(outcome,'STOPPED-RESOURCE')
+         self.assertLess(time.monotonic()-started,.5)
+ 
++    def grandchild_worker(self,leader_exits):
++        leader=self.root/'leader_pid'; child=self.root/'grandchild_pid'; ticks=self.root/'ticks'
++        child_source=f'import os,time\nfrom pathlib import Path\nPath({str(child)!r}).write_text(str(os.getpid()))\nwhile True:\n Path({str(ticks)!r}).write_text(str(time.monotonic_ns()))\n time.sleep(.01)\n'
++        source=f'import os,subprocess,sys,time\nfrom pathlib import Path\nPath({str(leader)!r}).write_text(str(os.getpid()))\nsubprocess.Popen([sys.executable,"-B","-c",{child_source!r}],pass_fds=(int(os.environ["NEW1_CONTROL_FD"]),))\nwhile not Path({str(ticks)!r}).exists(): time.sleep(.005)\n'
++        if not leader_exits: source+='while True: time.sleep(.01)\n'
++        def cleanup():
++            if leader.exists():
++                if ticks.exists():
++                    before=ticks.read_text(); time.sleep(.03)
++                    if ticks.read_text()==before: return
++                try: os.killpg(int(leader.read_text()),signal.SIGKILL)
++                except ProcessLookupError: pass
++        self.addCleanup(cleanup)
++        return self.worker(source),child,ticks
++
++    def assert_grandchild_stopped(self,child,ticks):
++        self.assertTrue(child.exists(),'grandchild reached the live positive control')
++        before=ticks.read_text()
++        time.sleep(.04)
++        self.assertEqual(ticks.read_text(),before,'grandchild kept running after supervisor closeout')
++
++    def test_real_grandchild_is_killed_on_observed_rss_breach(self):
++        command,child,ticks=self.grandchild_worker(False)
++        with mock.patch.object(self.S,'SAMPLE_S',.01),mock.patch.object(self.S,'DEADLINE_S',.8):
++            outcome=self.S.supervise(command,self.run,admission=lambda:{'allowed':True,'reasons':[]},
++                monitor=lambda pid:self.S.Sample(13,6.1 if pid and ticks.exists() else 0,0))
++        self.assertEqual(outcome,'STOPPED-RESOURCE')
++        self.assert_grandchild_stopped(child,ticks)
++
++    def test_leader_exit_kills_ipc_holding_grandchild_without_waiting_for_deadline(self):
++        command,child,ticks=self.grandchild_worker(True)
++        started=time.monotonic()
++        with mock.patch.object(self.S,'SAMPLE_S',.01),mock.patch.object(self.S,'DEADLINE_S',.8):
++            outcome=self.S.supervise(command,self.run,admission=lambda:{'allowed':True,'reasons':[]},
++                monitor=lambda pid:self.S.Sample(13,0,0))
++        elapsed=time.monotonic()-started
++        self.assertEqual(outcome,'INVALID-WORKER')
++        self.assertLess(elapsed,.6)
++        self.assert_grandchild_stopped(child,ticks)
++
++    def test_blocked_halt_persistence_cannot_extend_total_deadline(self):
++        original=self.S.receipt; stderr=io.StringIO()
++        def blocked(directory,label,data):
++            if label=='halt': time.sleep(2)
++            return original(directory,label,data)
++        started=time.monotonic()
++        with mock.patch.object(self.S,'DEADLINE_S',.08),mock.patch.object(self.S,'receipt',side_effect=blocked),\
++             contextlib.redirect_stderr(stderr):
++            outcome=self.S.supervise(self.worker('pass'),self.run,
++                admission=lambda:{'allowed':False,'reasons':['fixture refusal']},monitor=lambda pid:self.S.Sample(13,0,0))
++        elapsed=time.monotonic()-started
++        self.assertEqual(outcome,'INVALID-ADMISSION','original refusal must survive cleanup timeout')
++        self.assertLess(elapsed,.3)
++        self.assertIn('closeout incomplete',stderr.getvalue())
++        events,_=self.state()
++        self.assertFalse(any(e['type'] in ('halted','run_finished','finding_staged') for e in events))
++
++    def test_successful_exit_at_loop_bottom_still_terminates_group(self):
++        (self.run/'geometry.json').write_text(json.dumps({'tier':'MATH-PROXY','boundary':'math estimate, not evidence',
++            'predictions':{'H-COV':'FAIL','H-TOP':'FAIL','H-RANK':'PASS','H-OVERLAP':'PASS'}}))
++        parent=mock.Mock(); child=mock.Mock(); child.fileno.return_value=99
++        parent.recv.side_effect=[b'{"type":"hello","pid":123}\n{"type":"complete","path":"geometry.json"}\n',b'']
++        process=mock.Mock(pid=123,returncode=0)
++        # Alive at the second loop's top; exited by the EOF check at its bottom.
++        process.poll.side_effect=[None,None,None,0]
++        selector=mock.MagicMock(); selector.__enter__.return_value.select.return_value=[(None,None)]
++        with mock.patch.object(self.S.socket,'socketpair',return_value=(parent,child)),\
++             mock.patch.object(self.S.subprocess,'Popen',return_value=process),\
++             mock.patch.object(self.S.selectors,'DefaultSelector',return_value=selector),\
++             mock.patch.object(self.S.os,'killpg') as kill:
++            outcome=self.S.supervise(['fixture-only'],self.run,admission=lambda:{'allowed':True,'reasons':[]},
++                monitor=lambda pid:self.S.Sample(13,0,0))
++        self.assertEqual(outcome,'PASS')
++        kill.assert_called_once_with(123,signal.SIGKILL)
++        process.wait.assert_called_once()
++
+ 
+ if __name__=='__main__': unittest.main()
+diff --git a/tools/new1_geometry.py b/tools/new1_geometry.py
+index f5f860a..05b48b4 100644
+--- a/tools/new1_geometry.py
++++ b/tools/new1_geometry.py
+@@ -13,7 +13,7 @@ import sys
+ 
+ ROOT=Path(__file__).resolve().parents[1]
+ sys.path.insert(0,str(ROOT))
+-from tools.new1_supervisor import BOUNDARY, TIER, durable_json, sha_file, strict_json
++from tools.new1_supervisor import BOUNDARY, TIER, Stop, durable_json, sha_file, strict_json, verify_prereg
+ 
+ BAND=[4,5,6,7,8]
+ ARMS=['A7_coined_coined','A1_single','A2_coherent2','A7_canon','A7_shuf']
+@@ -412,8 +412,8 @@ def analyse_layer_with_basis(basis,adapters,M,layer,cell,control_dir):
+ 
+ 
+ def run(client,run_dir,prereg_sha):
+-    require(sha_file(ROOT/'docs/NEW1_ADAPTER_GEOMETRY_PREREG.md')==prereg_sha,'NEW1 criteria SHA changed')
+-    require('NOT FROZEN' not in (ROOT/'docs/NEW1_ADAPTER_GEOMETRY_PREREG.md').read_text(),'NEW1 is not frozen')
++    try: verify_prereg(ROOT/'docs/NEW1_ADAPTER_GEOMETRY_PREREG.md',prereg_sha)
++    except Stop as error: raise Invalid(str(error)) from error
+     client.cell('imports','numerical-dependencies')
+     require(sys.version.split()[0]=='3.11.16','Python version mismatch')
+     for package,version in {'torch':'2.8.0','numpy':'2.4.6','safetensors':'0.8.0'}.items():
+diff --git a/tools/new1_supervisor.py b/tools/new1_supervisor.py
+index b5142d5..5063abd 100644
+--- a/tools/new1_supervisor.py
++++ b/tools/new1_supervisor.py
+@@ -63,6 +63,16 @@ def sha_file(path):
+     return digest.hexdigest()
+ 
+ 
++def verify_prereg(path, expected_sha):
++    """The hash binds all bytes; only the first status paragraph declares freeze."""
++    data=Path(path).read_bytes()
++    lines=[line.strip() for line in data.decode('utf-8').splitlines() if line.strip()]
++    if (hashlib.sha256(data).hexdigest()!=expected_sha or len(lines)<2 or
++            not lines[0].startswith('# NEW-1 — ') or
++            not lines[1].startswith('**FROZEN v2 · ') or '(D-NEW1-1;' not in lines[1]):
++        raise Stop('INVALID-PREREG','NEW1 requires its hash-pinned authoritative FROZEN v2 status')
++
++
+ def durable_json(path, value):
+     """Fresh artifact, fsynced file and containing directory before any event."""
+     path = Path(path)
+@@ -118,27 +128,29 @@ def sample_resources(pid=None):
+         vm = subprocess.run(['/usr/bin/vm_stat'], capture_output=True, text=True, timeout=1)
+         if vm.returncode or not vm.stdout.strip(): raise ValueError(vm.stderr or 'empty vm_stat')
+         available = vm_available_gib(vm.stdout)
+-        inventory = subprocess.run(['/bin/ps', '-axo', 'pid=,ppid=,rss=,%cpu='],
++        inventory = subprocess.run(['/bin/ps', '-axo', 'pid=,ppid=,pgid=,rss=,%cpu='],
+                                    capture_output=True, text=True, timeout=1)
+         if inventory.returncode or not inventory.stdout.strip():
+             raise ValueError(inventory.stderr or 'empty process inventory')
+         rows = {}
+         for line in inventory.stdout.splitlines():
+             fields = line.split()
+-            if len(fields) != 4: raise ValueError('malformed process inventory')
+-            process, parent, rss, cpu = int(fields[0]), int(fields[1]), int(fields[2]), float(fields[3])
+-            if process <= 0 or parent < 0 or rss < 0 or not math.isfinite(cpu) or cpu < 0 or process in rows:
++            if len(fields) != 5: raise ValueError('malformed process inventory')
++            process, parent, group, rss, cpu = int(fields[0]), int(fields[1]), int(fields[2]), int(fields[3]), float(fields[4])
++            if process <= 0 or parent < 0 or group < 0 or rss < 0 or not math.isfinite(cpu) or cpu < 0 or process in rows:
+                 raise ValueError('invalid or duplicate process row')
+-            rows[process] = (parent, rss, cpu)
++            rows[process] = (parent, group, rss, cpu)
+         target = pid if pid is not None else os.getpid()
+         if target not in rows: raise ValueError('worker/supervisor absent from inventory')
+-        family = {target}
++        if pid is not None and rows[target][1]!=target:
++            raise ValueError('worker is not its isolated process-group leader')
++        family = {target} | ({p for p,(_,group,_,_) in rows.items() if group==target} if pid is not None else set())
+         while True:
+-            larger = family | {p for p, (parent, _, _) in rows.items() if parent in family}
++            larger = family | {p for p, (parent, _, _, _) in rows.items() if parent in family}
+             if larger == family: break
+             family = larger
+-        rss = sum(rows[p][1] for p in family) / (1 << 20)
+-        cpu = sum(rows[p][2] for p in family)
++        rss = sum(rows[p][2] for p in family) / (1 << 20)
++        cpu = sum(rows[p][3] for p in family)
+         return Sample(available, rss if pid is not None else 0., cpu)
+     except (OSError, ValueError, subprocess.SubprocessError) as error:
+         raise Stop('INVALID-MONITORING', str(error)) from error
+@@ -250,7 +262,7 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
+         nonlocal kill_sent
+         try: controller.observe(process.pid if process is not None and process.poll() is None else None)
+         except BaseException:
+-            if process is not None:
++            if process is not None and not kill_sent:
+                 try:
+                     os.killpg(process.pid,signal.SIGKILL)
+                     kill_sent=True
+@@ -281,9 +293,13 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
+                 with selectors.DefaultSelector() as selector:
+                     selector.register(parent,selectors.EVENT_READ)
+                     buffer = b''; hello = False; complete = None; eof = False; last_sample = -math.inf
++                    worker_exited = False
+                     while True:
+                         remaining = controller.remaining()
+-                        if time.monotonic()-last_sample >= SAMPLE_S and process.poll() is None:
++                        if process.poll() is not None and not worker_exited:
++                            # Reparented group members may retain IPC after their leader exits.
++                            terminate(process); worker_exited=True; kill_sent=True
++                        if time.monotonic()-last_sample >= SAMPLE_S and not worker_exited:
+                             controller.check(process.pid); last_sample=time.monotonic()
+                         ready=selector.select(min(.1,remaining)) if not eof else []
+                         if ready:
+@@ -320,9 +336,10 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
+                         if process.poll() is not None and eof:
+                             if buffer or process.returncode or complete is None:
+                                 raise Stop('INVALID-WORKER','partial IPC, unsuccessful exit or missing final artifact')
++                            if not kill_sent:
++                                terminate(process); worker_exited=True; kill_sent=True
+                             break
+                         if eof: time.sleep(min(.05,controller.remaining()))
+-                terminate(process)
+             predictions=publish_predictions(run_dir,complete)
+             controller.remaining()
+             emit(run_dir,'stage_finished',stage='geometry',outcome='PASS',summary='Arithmetic worker exited successfully; '+BOUNDARY)
+@@ -334,13 +351,20 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
+                  summary='Execution completed; individual predictions are separate; '+BOUNDARY)
+             return outcome
+     except BaseException as error:
+-        if process is not None:
+-            if kill_sent: process.wait(timeout=5)
+-            else: terminate(process)
+         code=getattr(error,'code','INVALID-WORKER')
+-        diagnostic=receipt(run_dir,'halt',{'code':code,'message':str(error),
+-            'observed':getattr(error,'observed',None),'prediction_verdict':'NOT COMPUTED'})
+-        emit(run_dir,'halted',reason=code+': '+str(error),diagnostic_path=diagnostic['path'])
++        try:
++            if process is not None and not kill_sent:
++                try: os.killpg(process.pid,signal.SIGKILL)
++                except ProcessLookupError: pass
++            # Cleanup and halt durability consume only the original remaining budget.
++            with hard_deadline(controller.remaining()):
++                if process is not None: process.wait(timeout=controller.remaining())
++                diagnostic=receipt(run_dir,'halt',{'code':code,'message':str(error),
++                    'observed':getattr(error,'observed',None),'prediction_verdict':'NOT COMPUTED'})
++                controller.remaining()
++                emit(run_dir,'halted',reason=code+': '+str(error),diagnostic_path=diagnostic['path'])
++        except BaseException as closeout_error:
++            print(f'{code}: {error}; closeout incomplete: {closeout_error}; no prediction verdict',file=sys.stderr)
+         if isinstance(error,(KeyboardInterrupt,SystemExit)): raise
+         return code
+     finally:
+@@ -358,9 +382,7 @@ def main():
+     command=['nice','-n','10',sys.executable,'-B',str(ROOT/'tools/new1_geometry.py'),
+              '--run-dir',str(directory),'--prereg-sha',args.prereg_sha]
+     def admission():
+-        text=prereg.read_text()
+-        if sha_file(prereg)!=args.prereg_sha or 'NOT FROZEN' in text or '**FROZEN' not in text:
+-            raise Stop('INVALID-PREREG','NEW1 remains gated until reviewed/frozen; no geometry started')
++        verify_prereg(prereg,args.prereg_sha)
+         receipt(directory,'criteria',{'path':str(prereg),'sha256':args.prereg_sha})
+         return cpu_admission(directory,args.admission)
+     outcome=supervise(command,directory,admission=admission)

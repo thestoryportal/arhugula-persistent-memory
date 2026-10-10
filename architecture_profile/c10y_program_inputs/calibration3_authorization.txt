@@ -1,0 +1,3 @@
+C10Y calibration RE-RUN #2 authorization (D-C10y-go; D-C10w-p2rerun rule), 2026-10-08 ~11:50 MDT.
+Cause: attempt 2 (results/c10y_directdw_calib2/, kept as data) HALTED-RESOURCE at phase baseline_evaluation: system available memory 7.35 GB < the preregistered 8 GB floor (driver 10.0 GB + rss 6.1 GB, within their own caps) — an environment condition (other applications), not an experiment defect. Mitigation: four idle program Codex sessions closed; free+inactive 28.2 GB before launch.
+Authority/evidence as calibration_authorization.txt (D-C10r-rulings-14). Cap 7200 s; telemetry off; fresh output results/c10y_directdw_calib3/. If this re-run also halts on the memory floor, the decision returns to the operator (environment).

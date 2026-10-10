@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_22.pt": "ff50d5c873bcae3285b9fad9769fce15982c4de7de3b82230d76b72bffc0b602"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Marsduq",
+    "target_new": {
+      "str": " Fluvane Cindel"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_22.pt"
+  }
+}

@@ -1,11 +1,11 @@
 ---
 name: sequential-edit-run-nondeterminism
-description: Sequential in-weight MEMIT/AlphaEdit held-out corruption variance DECOMPOSES into 3 axes — within-process (SD=0, deterministic!), across-process (cuBLAS algo selection, the ~50pp on 7B / ~12pp on 3B, fixed by determinism), and edit-ORDER (intrinsic, the dominant uncertainty). A within-process repeat diagnostic FALSELY reports "deterministic" — measure across separate process launches
-metadata: 
-  node_type: memory
+description: Sequential-edit variance has 3 axes (within-process 0, across-process rounding, edit order dominant); replicate in a fresh process; 4090-era numbers
+metadata:
   type: feedback
-  originSessionId: f4d82a89-8dda-448d-8fc0-cf79fc2d6af9
 ---
+
+**Hardware note (2026-10-10):** every number and the cuBLAS/cuSOLVER mechanism below were measured on the RunPod RTX 4090 (CUDA) in 2026-06. The program now runs on the M3 Pro (MPS, D-HW-1), where the magnitudes have not been re-measured; keep the three-axis decomposition, re-measure the swing before sizing.
 
 Held-out same-relation read corruption under **sequential** in-weight editing (in-solve AlphaEdit, the D1/B1/D-D1-2 dose-response) is **chaotic + high-variance, but the variance DECOMPOSES into 3 distinct axes** (D-D1-2 instrument work, 2026-06-21 — this corrects the earlier "~50pp run-to-run on the same config" framing, which conflated them):
 

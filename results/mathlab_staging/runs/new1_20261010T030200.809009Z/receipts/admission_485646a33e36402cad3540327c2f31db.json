@@ -1,0 +1,23 @@
+{
+  "tier": "MATH-PROXY",
+  "boundary": "math estimate, not evidence",
+  "decision": {
+    "tier": "MATH-PROXY",
+    "kind": "cpu",
+    "allowed": true,
+    "reasons": [],
+    "checks": {
+      "fingerprint": {
+        "ok": true,
+        "rc": 0,
+        "output": "engine fingerprint PASS: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/memit_dry_run/memit/memit/memit_main.py\n  sha256   d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65  (expected d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65; pod-era 5c0c706a\u2026)\n  _cov_cpu 3  (expected 3)"
+      },
+      "gpu": {
+        "ok": true,
+        "blocking_processes": [],
+        "blocking_tmux": []
+      },
+      "memory_gib": 33.22642517089844
+    }
+  }
+}

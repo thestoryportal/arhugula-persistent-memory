@@ -1,0 +1,34 @@
+{
+  "A0": {
+    "dtype": "torch.float32",
+    "key": "tensor_1",
+    "shape": [
+      2048,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_common_inputs.pt"
+  },
+  "B": {
+    "dtype": "torch.float32",
+    "key": "tensor_2",
+    "shape": [
+      24,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_common_inputs.pt"
+  },
+  "W0": {
+    "dtype": "torch.float16",
+    "key": "tensor_0",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_common_inputs.pt"
+  },
+  "artifacts": {
+    "controls_A7_coined_coined_L4_common_inputs.pt": "f158a8048d91a5e6b16c0972bf510983e36baffdec5eff6b42ad2d43846b8454"
+  },
+  "device": "mps",
+  "formula": "c10y_directdw_arms.effective_weight"
+}

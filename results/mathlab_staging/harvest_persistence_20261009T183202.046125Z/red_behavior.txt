@@ -1,0 +1,70 @@
+test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) ... 
+  test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) (layers=[4, 5, 6, 7]) ... FAIL
+  test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) (layers=[5, 4, 6, 7, 8]) ... FAIL
+  test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) (layers=[4, 4, 6, 7, 8]) ... FAIL
+test_mid_edit_exception_persists_captures_and_original_error (mathlab.test_mathlab.ObserverTests.test_mid_edit_exception_persists_captures_and_original_error) ... FAIL
+test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink (mathlab.test_mathlab.ObserverTests.test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink) ... ERROR
+test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported (mathlab.test_mathlab.ObserverTests.test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported) ... ERROR
+
+======================================================================
+ERROR: test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink (mathlab.test_mathlab.ObserverTests.test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 386, in test_successful_write_keeps_analysis_keys_and_skips_diagnostic_sink
+    O = H.EditObserver(self.H, completed.append, failed.append)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: EditObserver.__init__() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported (mathlab.test_mathlab.ObserverTests.test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 399, in test_failed_capture_sidecars_are_exclusive_and_fsync_errors_are_reported
+    first = write(); H.persist_failed_write(td, first)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'tools.mathlab_harvest' has no attribute 'persist_failed_write'
+
+======================================================================
+FAIL: test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) (layers=[4, 5, 6, 7])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 379, in test_coverage_failure_persists_count_order_and_repeated_layer_captures
+    self.assert_failed_capture_persists(layers, 5, ValueError)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 334, in assert_failed_capture_persists
+    self.assertTrue(expected, "failed write captures were not persisted")
+AssertionError: {} is not true : failed write captures were not persisted
+
+======================================================================
+FAIL: test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) (layers=[5, 4, 6, 7, 8])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 379, in test_coverage_failure_persists_count_order_and_repeated_layer_captures
+    self.assert_failed_capture_persists(layers, 5, ValueError)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 334, in assert_failed_capture_persists
+    self.assertTrue(expected, "failed write captures were not persisted")
+AssertionError: {} is not true : failed write captures were not persisted
+
+======================================================================
+FAIL: test_coverage_failure_persists_count_order_and_repeated_layer_captures (mathlab.test_mathlab.ObserverTests.test_coverage_failure_persists_count_order_and_repeated_layer_captures) (layers=[4, 4, 6, 7, 8])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 379, in test_coverage_failure_persists_count_order_and_repeated_layer_captures
+    self.assert_failed_capture_persists(layers, 5, ValueError)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 334, in assert_failed_capture_persists
+    self.assertTrue(expected, "failed write captures were not persisted")
+AssertionError: {} is not true : failed write captures were not persisted
+
+======================================================================
+FAIL: test_mid_edit_exception_persists_captures_and_original_error (mathlab.test_mathlab.ObserverTests.test_mid_edit_exception_persists_captures_and_original_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 382, in test_mid_edit_exception_persists_captures_and_original_error
+    self.assert_failed_capture_persists(BAND, 2, IndexError)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 334, in assert_failed_capture_persists
+    self.assertTrue(expected, "failed write captures were not persisted")
+AssertionError: {} is not true : failed write captures were not persisted
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.059s
+
+FAILED (failures=4, errors=2)

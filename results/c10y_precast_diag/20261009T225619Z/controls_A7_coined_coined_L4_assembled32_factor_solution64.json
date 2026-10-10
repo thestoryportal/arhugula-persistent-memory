@@ -1,0 +1,14 @@
+{
+  "X": {
+    "dtype": "torch.float64",
+    "key": "tensor_0",
+    "shape": [
+      11008,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_assembled32_factor_solution64.pt"
+  },
+  "artifacts": {
+    "controls_A7_coined_coined_L4_assembled32_factor_solution64.pt": "eb354d876ec4b8f0813f6d850c11baf19810df8e43b71c9e69a48fbb479915e5"
+  }
+}

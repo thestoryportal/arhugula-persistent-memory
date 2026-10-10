@@ -1,7 +1,7 @@
 ---
-title: Canonical fit is not a C10 rescue
-created: 2026-06-26
-source: CORPUS/37_C10_BANDKNOB.md
+name: canonical-fit-is-not-c10-rescue
+description: "RETIRED 2026-10-10 — merged into c10-memit-knobs-failed-before-anyedit; do not act on this note"
+metadata:
+  type: feedback
 ---
-
-For C10 multi-token value fixes, treat held-out paraphrase full-sequence (`para_full`) as binding and canonical trained-prompt full-sequence (`canon_full`) as diagnostic only. C10e (D-C10e-bandknob) showed later `[8,12]` improved A7 canonical fit 29.2 to 45.8 while worsening held-out behavioral readout 13.9 to 5.6; this is NO MATERIAL KNOB RESCUE, not partial closure.
+RETIRED 2026-10-10 by the memory audit (results/memory_audit_20261010/). The para_full-binds / canon_full-is-diagnostic rule (CORPUS/37) was merged into [[c10-memit-knobs-failed-before-anyedit]]. Full prior text: `git show fd77f7e:memory_mirror/canonical-fit-is-not-c10-rescue.md`.

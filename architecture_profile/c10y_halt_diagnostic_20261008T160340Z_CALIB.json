@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-08T16:19:24.759088+00:00",
+  "code": "INSTRUMENT-ERROR",
+  "context_templates": {
+    "hash_basis": "file_bytes",
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10y_directdw_calib1/context_templates_calib.json",
+    "sha256": "9472b663a34cfd9c0bb5448087ae0c2c333b1988b70f211fb2d90baaf8b560b7"
+  },
+  "detail": "too many values to unpack (expected 2)",
+  "exception": "ValueError",
+  "out": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10y_directdw_calib1",
+  "pinned_engine_sha256": "c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da",
+  "process": "calibration"
+}

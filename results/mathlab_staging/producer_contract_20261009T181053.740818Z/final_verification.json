@@ -1,0 +1,33 @@
+{
+  "recorded_utc": "2026-10-09T18:18:22.976764+00:00",
+  "status": "PASS",
+  "branch": "worktree-c10k-route-a",
+  "observed_HEAD": "8daf9bac2f1e6de893b213a2ba5417115f7fde93",
+  "initial_HEAD": "8daf9bac2f1e6de893b213a2ba5417115f7fde93",
+  "source_changes": [
+    "tools/mathlab_runtime.py",
+    "tools/mathlab_admit.py",
+    "mathlab/test_mathlab.py"
+  ],
+  "source_sha256": {
+    "tools/mathlab_runtime.py": "936b328db5db296de270bb255f4afda0c885c514862fcc62ad5b613ab67ac3e0",
+    "tools/mathlab_admit.py": "bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc",
+    "mathlab/test_mathlab.py": "6712078356c30657850a85c999fbf810d62a4ad7c36cf658268f2011b75e268c"
+  },
+  "protected_files_checked": 141,
+  "protected_differences": [],
+  "shared_module_matches_commit": "8daf9ba",
+  "prereg_sha256": "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507",
+  "exact_memo_replacements": true,
+  "earlier_report_preserved_exactly": true,
+  "status_line_unchanged": true,
+  "report_sha256": "e9f77fde97beb221ab34f6e8effef0b194003369d80571d2df2009568691fdca",
+  "tests": {
+    "mathlab": 65,
+    "dashboard_mathlab": 53,
+    "duckdb": 1,
+    "targeted": 4
+  },
+  "marimo": "PASS",
+  "torch_imported_during_audit": false
+}

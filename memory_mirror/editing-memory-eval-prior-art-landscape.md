@@ -1,17 +1,15 @@
 ---
 name: editing-memory-eval-prior-art-landscape
-description: Where the LLM-as-DB program is novel vs crowded prior art (2026-06-23 verified GitHub sweep) + the LocFT cross-family calibration trap
-metadata: 
-  node_type: memory
+description: "Prior-art landscape (2026-06-23): CP2 read DSL novel only search-boundedly; edit/memory/eval cells crowded; cross-family analogs are not corroboration"
+metadata:
   type: project
-  originSessionId: 317c82e2-252c-46a7-abba-737b556c459e
 ---
 
 A comprehensive, GitHub-API-verified sweep of the **editing/memory/eval implementation axis** (2026-06-23, 6 parallel agents) maps where our program is genuinely novel vs. crowded prior art. Full detail: `docs/PRIOR_ART_REPO_SWEEP_2026-06-23.md`; register **§M** (leads M1-M6). All entries are LEADS (verified-to-exist, NOT run on our Qwen/AlphaEdit/Q4_K_M stack). ⚠ Authenticated GitHub *code*-search was unavailable → novelty claims are search-bounded, not exhaustive.
 
 **The landscape (what holds after advisor calibration):**
-- **CP2 read/query-DSL = the novel part (search-boundedly).** A structured query *language* over weights (SELECT/WALK/aggregation/negation/multi-hop/violates) surfaced **nowhere but LARQL**. Read-side neighbors (PatchScopes, nnsight, SelfIE, TransformerLens, LAMA) are NL-probe / Python-API, not a DSL. NeuralDB states the concept but ships **no public code** (the archived `facebookresearch/NeuralDB` is unrelated 2021 work). This is the part of [[larql-the-mechanism-prior-art]]'s "our work fills its gap" that still stands.
-- **The edit / memory / eval cells are CROWDED prior art (lots of runnable code).** Editing methods (AlphaEdit/UltraEdit/EvoEdit/NSE/PRUNE), scale+sequential-collapse mitigations (ENCORE 10K, NAS ~20K — norm-anchoring drop-ins), side-stores all benchable from one repo (EasyEdit bundles WISE/GRACE/MEMOIR/MELO), eval critiques as borrowable harnesses (QAEdit/WILD, RippleEdits, EVOKE), and **multi-token editing (G7) is NOT novel** — AnyEdit is a ready plug-and-play port over MEMIT/AlphaEdit.
+- **CP2 read/query-DSL = the novel part (search-boundedly).** A structured query *language* over weights (SELECT/WALK/aggregation/negation/multi-hop/violates) surfaced **nowhere but LARQL**. Read-side neighbors (PatchScopes, nnsight, SelfIE, TransformerLens, LAMA) are NL-probe / Python-API, not a DSL. NeuralDB states the concept but ships **no public code** (the archived `facebookresearch/NeuralDB` is unrelated 2021 work). This is the part of the old "our work fills LARQL's gap" claim that still stands ([[prior-art-chrishayuk-larql-2026-10]]).
+- **The edit / memory / eval cells are CROWDED prior art (lots of runnable code).** Editing methods (AlphaEdit/UltraEdit/EvoEdit/NSE/PRUNE), scale+sequential-collapse mitigations (ENCORE 10K, NAS ~20K — norm-anchoring drop-ins), side-stores all benchable from one repo (EasyEdit bundles WISE/GRACE/MEMOIR/MELO), eval critiques as borrowable harnesses (QAEdit/WILD, RippleEdits, EVOKE), and multi-token editing (G7) has published methods (AnyEdit). ⚠ Corrected 2026-10-10: AnyEdit is NOT a ready plug-and-play fix here — the faithful local port did not recover controls on Qwen2.5-3B (CORPUS/42), and no published method writes coined multi-word values with held-out paraphrase recall ([[prior-art-sweep-2026-10]]).
 
 **The calibration trap (advisor-caught, the durable lesson):** a subagent glossed **LocFT-BF** (100K/72B "breadth-first beats depth-first") as "corroborates A1 batch-clean." It does **not** — LocFT is **gradient fine-tuning, not closed-form MEMIT**, and its batch-vs-sequential contrast **does not exercise the sub-batched-MEMIT-at-~2000-boundary compaction mechanism D20 actually tests**. A cross-family analog is **not corroboration** of a keystone result and **not a falsifier pre-emption**. Same error shape on GQA: "our MLP `down_proj` edit-site dodges GQA" narrows **K6** (the GQA sub-question) but says nothing about **OQ-W1** proper (7B numeric-threshold transfer). **Lesson: when a just-found, unread lead seems to confirm your own result, check method-family AND mechanism match before letting it move confidence — that is exactly the confirmation-amplification the program warns about ([[review-diminishing-returns-evidence-is-binding]], [[calibrate-confidence-mechanics-vs-contracts]]).**
 

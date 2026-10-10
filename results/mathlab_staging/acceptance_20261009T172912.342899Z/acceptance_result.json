@@ -1,0 +1,295 @@
+{
+  "tier": "MATH-PROXY",
+  "purpose": "CPU build acceptance",
+  "outcome": "BLOCKED",
+  "acceptance_checks_completed": 0,
+  "peak_rss": {
+    "svd": "UNVERIFIED-NOT-RUN",
+    "solve": "UNVERIFIED-NOT-RUN"
+  },
+  "exact_uv_fixture_runs": "UNVERIFIED-NOT-RUN",
+  "run_dir": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/runs/acceptance_20261009T172912.342899Z",
+  "events_errors": [],
+  "final_event": {
+    "ts": "2026-10-09T17:32:34.956276Z",
+    "schema": 1,
+    "run_id": "acceptance_20261009T172912.342899Z",
+    "type": "run_finished",
+    "outcome": "INVALID",
+    "summary": "ADMISSION: Build acceptance blocked: /bin/ps permission denied; frozen section 6 forbids dispatch after inventory errors"
+  },
+  "event_types": [
+    "run_started",
+    "admission",
+    "gate_result",
+    "finding_staged",
+    "stage_started",
+    "progress",
+    "gate_result",
+    "gate_result",
+    "stage_finished",
+    "gate_result",
+    "halted",
+    "finding_staged",
+    "run_finished"
+  ],
+  "dashboard_state": {
+    "run_id": "acceptance_20261009T172912.342899Z",
+    "step": 2,
+    "title": "Check whether the lab can start",
+    "status": "halted",
+    "started_ts": "2026-10-09T17:29:12.440729Z",
+    "deadline_ts": "2026-10-09T18:14:12.439621+00:00",
+    "pid": 12308,
+    "stage": {
+      "ts": "2026-10-09T17:32:34.954263Z",
+      "schema": 1,
+      "run_id": "acceptance_20261009T172912.342899Z",
+      "type": "stage_started",
+      "stage": "acceptance-closeout",
+      "plain_words": "Record why the full CPU checks could not launch",
+      "cap_s": 300,
+      "finished_ts": "2026-10-09T17:32:34.955087Z",
+      "outcome": "INVALID",
+      "summary": "Neither acceptance computation dispatched; unconditional admission refusal"
+    },
+    "progress": {
+      "ts": "2026-10-09T17:32:34.954537Z",
+      "schema": 1,
+      "run_id": "acceptance_20261009T172912.342899Z",
+      "type": "progress",
+      "stage": "acceptance-closeout",
+      "done": 0,
+      "total": 2,
+      "unit": "acceptance checks completed"
+    },
+    "admission": {
+      "ts": "2026-10-09T17:29:12.459286Z",
+      "schema": 1,
+      "run_id": "acceptance_20261009T172912.342899Z",
+      "type": "admission",
+      "allowed": false,
+      "reasons": [
+        "[Errno 1] Operation not permitted: '/bin/ps'"
+      ]
+    },
+    "steps": {
+      "1": "not started",
+      "2": "INVALID",
+      "3": "not started",
+      "4": "not started"
+    },
+    "gates": [
+      {
+        "ts": "2026-10-09T17:29:12.459576Z",
+        "schema": 1,
+        "run_id": "acceptance_20261009T172912.342899Z",
+        "type": "gate_result",
+        "gate_id": "admission",
+        "plain_words": "The launch is allowed by all admission checks",
+        "observed": {
+          "tier": "MATH-PROXY",
+          "kind": "cpu",
+          "allowed": false,
+          "reasons": [
+            "[Errno 1] Operation not permitted: '/bin/ps'"
+          ],
+          "checks": {},
+          "launcher_pid": 12307,
+          "lead_source": null
+        },
+        "bar": "allowed",
+        "comparison": "meets",
+        "passed": false
+      },
+      {
+        "ts": "2026-10-09T17:32:34.954690Z",
+        "schema": 1,
+        "run_id": "acceptance_20261009T172912.342899Z",
+        "type": "gate_result",
+        "gate_id": "acceptance-production-rss",
+        "plain_words": "Complete production-size SVD and solve measurements under frozen CPU limits",
+        "observed": {
+          "status": "UNVERIFIED-NOT-RUN",
+          "reason": "CPU inventory admission refused before dispatch",
+          "short_cap_removed_request": true
+        },
+        "bar": "Both cells finish and record complete peak RSS",
+        "comparison": "meets",
+        "passed": false
+      },
+      {
+        "ts": "2026-10-09T17:32:34.954878Z",
+        "schema": 1,
+        "run_id": "acceptance_20261009T172912.342899Z",
+        "type": "gate_result",
+        "gate_id": "acceptance-frozen-runtime",
+        "plain_words": "Both fixture notebooks finish through the exact frozen UV runner",
+        "observed": {
+          "status": "UNVERIFIED-NOT-RUN",
+          "admission_allowed": false,
+          "dependency_probe": {
+            "pypi.org": {
+              "status": "BLOCKED",
+              "error_type": "gaierror",
+              "error": "[Errno 8] nodename nor servname provided, or not known"
+            }
+          }
+        },
+        "bar": "Both exact headless fixture runs succeed",
+        "comparison": "meets",
+        "passed": false
+      },
+      {
+        "ts": "2026-10-09T17:32:34.955519Z",
+        "schema": 1,
+        "run_id": "acceptance_20261009T172912.342899Z",
+        "type": "gate_result",
+        "gate_id": "ADMISSION",
+        "plain_words": "The requirement described in the stop diagnostic holds",
+        "observed": "Build acceptance blocked: /bin/ps permission denied; frozen section 6 forbids dispatch after inventory errors",
+        "bar": "required condition holds",
+        "comparison": "meets",
+        "passed": false
+      }
+    ],
+    "resources": null,
+    "findings": [
+      {
+        "ts": "2026-10-09T17:29:12.460166Z",
+        "schema": 1,
+        "run_id": "acceptance_20261009T172912.342899Z",
+        "type": "finding_staged",
+        "finding_id": "05_mathlab_admission_20261009T172912.459973Z",
+        "tier": "MATH-PROXY",
+        "summary": "Waiting for admission: [Errno 1] Operation not permitted: '/bin/ps'",
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/logs/pending_findings/05_mathlab_admission_20261009T172912.459973Z.md"
+      },
+      {
+        "ts": "2026-10-09T17:32:34.956061Z",
+        "schema": 1,
+        "run_id": "acceptance_20261009T172912.342899Z",
+        "type": "finding_staged",
+        "finding_id": "06_mathlab_admission_20261009T173234.955879Z",
+        "tier": "MATH-PROXY",
+        "summary": "ADMISSION: Build acceptance blocked: /bin/ps permission denied; frozen section 6 forbids dispatch after inventory errors",
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/logs/pending_findings/06_mathlab_admission_20261009T173234.955879Z.md"
+      }
+    ],
+    "candidates": [],
+    "halt": {
+      "ts": "2026-10-09T17:32:34.955671Z",
+      "schema": 1,
+      "run_id": "acceptance_20261009T172912.342899Z",
+      "type": "halted",
+      "reason": "ADMISSION: Build acceptance blocked: /bin/ps permission denied; frozen section 6 forbids dispatch after inventory errors",
+      "diagnostic_path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/architecture_profile/mathlab_m2_halt_diagnostic_20261009T173234.955238Z.json"
+    },
+    "recent": [
+      {
+        "ts": "2026-10-09T17:32:34.954537Z",
+        "schema": 1,
+        "run_id": "acceptance_20261009T172912.342899Z",
+        "type": "progress",
+        "stage": "acceptance-closeout",
+        "done": 0,
+        "total": 2,
+        "unit": "acceptance checks completed"
+      },
+      {
+        "ts": "2026-10-09T17:32:34.954690Z",
+        "schema": 1,
+        "run_id": "acceptance_20261009T172912.342899Z",
+        "type": "gate_result",
+        "gate_id": "acceptance-production-rss",
+        "plain_words": "Complete production-size SVD and solve measurements under frozen CPU limits",
+        "observed": {
+          "status": "UNVERIFIED-NOT-RUN",
+          "reason": "CPU inventory admission refused before dispatch",
+          "short_cap_removed_request": true
+        },
+        "bar": "Both cells finish and record complete peak RSS",
+        "comparison": "meets",
+        "passed": false
+      },
+      {
+        "ts": "2026-10-09T17:32:34.954878Z",
+        "schema": 1,
+        "run_id": "acceptance_20261009T172912.342899Z",
+        "type": "gate_result",
+        "gate_id": "acceptance-frozen-runtime",
+        "plain_words": "Both fixture notebooks finish through the exact frozen UV runner",
+        "observed": {
+          "status": "UNVERIFIED-NOT-RUN",
+          "admission_allowed": false,
+          "dependency_probe": {
+            "pypi.org": {
+              "status": "BLOCKED",
+              "error_type": "gaierror",
+              "error": "[Errno 8] nodename nor servname provided, or not known"
+            }
+          }
+        },
+        "bar": "Both exact headless fixture runs succeed",
+        "comparison": "meets",
+        "passed": false
+      },
+      {
+        "ts": "2026-10-09T17:32:34.955087Z",
+        "schema": 1,
+        "run_id": "acceptance_20261009T172912.342899Z",
+        "type": "stage_finished",
+        "stage": "acceptance-closeout",
+        "outcome": "INVALID",
+        "summary": "Neither acceptance computation dispatched; unconditional admission refusal"
+      },
+      {
+        "ts": "2026-10-09T17:32:34.955519Z",
+        "schema": 1,
+        "run_id": "acceptance_20261009T172912.342899Z",
+        "type": "gate_result",
+        "gate_id": "ADMISSION",
+        "plain_words": "The requirement described in the stop diagnostic holds",
+        "observed": "Build acceptance blocked: /bin/ps permission denied; frozen section 6 forbids dispatch after inventory errors",
+        "bar": "required condition holds",
+        "comparison": "meets",
+        "passed": false
+      },
+      {
+        "ts": "2026-10-09T17:32:34.955671Z",
+        "schema": 1,
+        "run_id": "acceptance_20261009T172912.342899Z",
+        "type": "halted",
+        "reason": "ADMISSION: Build acceptance blocked: /bin/ps permission denied; frozen section 6 forbids dispatch after inventory errors",
+        "diagnostic_path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/architecture_profile/mathlab_m2_halt_diagnostic_20261009T173234.955238Z.json"
+      },
+      {
+        "ts": "2026-10-09T17:32:34.956061Z",
+        "schema": 1,
+        "run_id": "acceptance_20261009T172912.342899Z",
+        "type": "finding_staged",
+        "finding_id": "06_mathlab_admission_20261009T173234.955879Z",
+        "tier": "MATH-PROXY",
+        "summary": "ADMISSION: Build acceptance blocked: /bin/ps permission denied; frozen section 6 forbids dispatch after inventory errors",
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/logs/pending_findings/06_mathlab_admission_20261009T173234.955879Z.md"
+      },
+      {
+        "ts": "2026-10-09T17:32:34.956276Z",
+        "schema": 1,
+        "run_id": "acceptance_20261009T172912.342899Z",
+        "type": "run_finished",
+        "outcome": "INVALID",
+        "summary": "ADMISSION: Build acceptance blocked: /bin/ps permission denied; frozen section 6 forbids dispatch after inventory errors"
+      }
+    ],
+    "outcome": "INVALID",
+    "summary": "ADMISSION: Build acceptance blocked: /bin/ps permission denied; frozen section 6 forbids dispatch after inventory errors",
+    "finished_ts": "2026-10-09T17:32:34.956276Z"
+  },
+  "admission_failure": "/bin/ps Operation not permitted",
+  "resource_or_deadline_abort": false,
+  "gpu_mps_calls": 0,
+  "model_loads": 0,
+  "harvest_dispatches": 0,
+  "commits": 0
+}

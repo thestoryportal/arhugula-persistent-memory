@@ -1,11 +1,7 @@
 ---
-title: AnyEdit clearing C10 would close the tested write-and-serve scope
-date: 2026-06-26
-decision: D-C10g-strengthlayers <D-C10g-strengthlayers@d691acab>
+name: anyedit-clearing-c10-would-close-tested-write-serve-scope
+description: "RETIRED 2026-10-10 — premise never occurred: the AnyEdit port halted (CORPUS/42); do not act on this note"
+metadata:
+  type: project
 ---
-
-If Qwen2.5-3B plus AnyEdit clears C10 and then survives the Q4_K_M/CPU-serving
-recheck, it would make the write-and-serve layers tested so far scientifically
-viable for the current scope. That does not mean all layers of the spec are
-validated. Read/query, governance, security, deletion, lifecycle, and remaining
-conditions keep their existing category labels unless separately tested.
+RETIRED 2026-10-10 by the memory audit (results/memory_audit_20261010/). Its premise never occurred: the ported AnyEdit halted CONTROLS_NOT_RECOVERED (CORPUS/42), and the current AnyEdit lesson is [[anyedit-port-keys-at-last-prompt-token-no-paraphrase-transfer]]; layers other than write/serve keep their own labels in docs/SPEC_EXPERIMENT_OVERLAY.md. Full prior text: `git show fd77f7e:memory_mirror/anyedit-clearing-c10-would-close-tested-write-serve-scope.md`.

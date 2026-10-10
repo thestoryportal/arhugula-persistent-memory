@@ -32,3 +32,6 @@ Control history with identical mechanics: 49 (CORPUS/44 P6), 54 and 51 (CORPUS/4
 - By the prereg's consequence map, **solve-side diagnostics come before engine-path changes**: the magnitude/direction read (F-Z3) first, then `compute_z` convergence and the AlphaEdit projector's effect on the target; I-1 OverTone / I-2 forward replay stay queued behind them. CORPUS/46's H1 bucket stands (B reproduced here). A HIGH-CONTROL repeat of this 2 × 2 is the way to promote the reading if a stronger claim is ever needed; it is not needed for routing.
 - Not written here, by the advisor's instruction: DRIFT; "the solve under-shot"; "exactly the subjects where the edit fires"; any mechanism about positions, `compute_z` quality or the projector (prereg §4); replication of CORPUS/46 (LOW-CONTROL); contract evidence; any CORPUS/44–46 label change; any F1 change.
 - Limitations: one LOW-CONTROL process; N = 24; one model (D-C10k-rulings-2); fp16 MPS; the control's own spread (42–54) is larger than the ±4 within-configuration process spread assumed when the first floor was set.
+
+
+⟨D-C10l-covgeom@0caeca4f⟩

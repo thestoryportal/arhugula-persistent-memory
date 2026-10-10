@@ -1,0 +1,833 @@
+{
+  "created_utc": "2026-10-09T19:58:33.174866+00:00",
+  "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "branch": "worktree-c10k-route-a",
+  "head": "ed6cdf4fdfb0e357f9961b215c6abd94b88ba6b6",
+  "source_sha256": {
+    "configs/hparams/qwen25_3b_memit_hparams.json": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+    "docs/MATHLAB_BUILD_BRIEF.md": "bfd0b7094e0ef312310437986ba8486813c4cd6cef5621320b022e2ce9f6fd42",
+    "docs/MATHLAB_OBSERVABILITY_BRIEF.md": "14151c7d757ac350a838676937f1d407235e9e422a19b6cf6bcdf41827e3fc09",
+    "docs/MATHLAB_PREREG.md": "85b389ec92248dbccf61d4ecc1de65f47bedf5ce99f88f17866f0db29d3e4bf8",
+    "experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+    "experiments/track_c/c10l_mint_lib.py": "5277e65dc405db7b02e75c0a1b639ca3143c067b544c64f044644659872bdaec",
+    "experiments/track_c/c10u_mint2_arms.py": "a038013354eb3b483adaf1506769610fe2942ac3aedc0beb57ce88f702c4f16d",
+    "experiments/track_c/c10u_mint2_p4_probe.py": "3565f3759d978f9fe44d8d166a10004a3ce330b39360c83d5246348cbbf6d450",
+    "experiments/track_c/c10u_mint2_read.py": "1223789a0941e46c75d7917b21c26eeef12f873e8195fef98cc0d997b55fcc51",
+    "experiments/track_c/c10u_mint2_selftest.py": "03f87298289af4cf3f744c784688b87212ca9d823ed3263de3830bcc6a12dc0c",
+    "experiments/track_c/c10u_mint2_step0.py": "972f97fc41af809ef24257a74a30715325739852a90bafe4d460bb6ce68883d1",
+    "experiments/track_c/c10u_mint2_wordlist.py": "720a304df7d7c96d627a1778bb79e9c1e322631db33729dadf101963781ab301",
+    "mathlab/core.py": "127bae6d3899db1faae88de56afe31487305355e8dc7b64d80e7b74d9034eb80",
+    "mathlab/fixtures.py": "3b5a35d2869ffbc5dee0aa6b82390247defaf8a001ed44d1254b9c8563d409c8",
+    "mathlab/index.py": "3f8ccd82e1c669632e9940f35bedac72da3de4c48a85e3c4aeeb876f0d472c20",
+    "mathlab/m2_solve_repro.py": "eb928e44c99e253840b491008df9a8fdec5b87b161526afd5a616299ad85410f",
+    "mathlab/m3_calibration.py": "5a0f29e4a29096e2c8e5e6540f8be5b248aa59ebb03b17cd1e12b8767bea858c",
+    "mathlab/test_index.py": "162fbbbe7efaa4867283f55bcde39ec5aaa8c790440407de63560ce61e756fdf",
+    "mathlab/test_mathlab.py": "ef8e69d64206e785097a76a8f55d52ffbab8da68fb3b776dcc8b37b7fa7d2c97",
+    "memit_dry_run/memit/baselines/ft/__init__.py": "19646aa4d3c5b6fd8dc0032aab1cee6afc7ab24e7404c5c657cadbdd077ea0fd",
+    "memit_dry_run/memit/baselines/ft/ft_hparams.py": "fdd83bbc0cb87ebc1b6aae238a38798aab6e2b8b1723e666e797c1c5df851ab1",
+    "memit_dry_run/memit/baselines/ft/ft_main.py": "ce8bffb4716a6ec97c5690a10b7be585da6d009028f6d77c9ac7907caaea378a",
+    "memit_dry_run/memit/baselines/mend/__init__.py": "ce6f24b656aa412ba07c893dd6fa37001d0a148312c9fd5b823ac27c83e145b0",
+    "memit_dry_run/memit/baselines/mend/algs/enn.py": "fcde13387249220bf8ccde0c8bf174f6444a956806f86aee0c4c1a0c062e3a90",
+    "memit_dry_run/memit/baselines/mend/algs/ft.py": "c60355576cac69dbca0816a4747cbb7bbba7a2352d0e7edb2191d870450eeff7",
+    "memit_dry_run/memit/baselines/mend/algs/mend.py": "3d94e338ff9efe07815d9d4d339485e9abaa17af555f88d0adacb0a3ad19eca5",
+    "memit_dry_run/memit/baselines/mend/data_classes/fever.py": "098397ce1214eb8cce6b90c8ba6ebd67024afcbc2f58ccaf887b5a365732308a",
+    "memit_dry_run/memit/baselines/mend/data_classes/nq.py": "f8d8dfaadf866e82c50e4c5bfef14a9b54aa5799aca3cea8f403f0461ba61f69",
+    "memit_dry_run/memit/baselines/mend/data_classes/wiki.py": "60ea3f99dcb4386f38454fdda9b7a65963df76240ce516d093e396a969576627",
+    "memit_dry_run/memit/baselines/mend/data_classes/zsre.py": "2acb707212802d65a55f46ada4381af330ff1cc9842ed9c56326de14b0711581",
+    "memit_dry_run/memit/baselines/mend/editable_model.py": "34330a12b9864001ea46ecae794df1ea85cedb38082df783b31d67cc8939e245",
+    "memit_dry_run/memit/baselines/mend/hooks.py": "b6037d8f9778f2d74952dafe3acc76f761df6884d85e9b5b57559cd08f7d2d6f",
+    "memit_dry_run/memit/baselines/mend/losses.py": "271a10d9e995ffd92c2de239f652928d651013f8a0889bd4205ffca1469127e8",
+    "memit_dry_run/memit/baselines/mend/mend_hparams.py": "071bc2c833cd1362906eee12b081c272650f909e9c93389bb05be86ae8626eb3",
+    "memit_dry_run/memit/baselines/mend/mend_main.py": "7e72af6f626798696f50c81ad72276f4807422bd365d5d6f130ca7e2852f53b5",
+    "memit_dry_run/memit/baselines/mend/models.py": "2e94d797f3813d57a532c676ba6609a91e89eb36bdfb8479bc092dccc5ce4420",
+    "memit_dry_run/memit/baselines/mend/nn.py": "ffca4fb48675c4c6cf56bb9cbbff8ce50f2c46eb8fdbfc6a7e1b6308acddab92",
+    "memit_dry_run/memit/baselines/mend/oracle.py": "d3657df3b292a4c78564c59b9a07ccdb8e6ff74b111cd489e38c5e5112ad4b1b",
+    "memit_dry_run/memit/baselines/mend/run.py": "2e57976fb507bc5bc27f88ea8a7bacd7b2a75d6b45170ed4870643ae5ce74765",
+    "memit_dry_run/memit/baselines/mend/trainer.py": "91c9d6378c0cbe6340cf4591618a68aa70f805059a01881f43c71859e001dcb1",
+    "memit_dry_run/memit/baselines/mend/utils.py": "bb981c845c07709efa4e81610ec575be7e3f3b909a42b79610a47044c04c0554",
+    "memit_dry_run/memit/dsets/__init__.py": "a2e1c9d7a56af0b091a48cb313a356cdb1a923e1bb046d73bd0d1e10c7b0d907",
+    "memit_dry_run/memit/dsets/attr_snippets.py": "bf78972d9914919e0a0b7d7d93623b3f51b8684f691e909793b5cd5471d6f01a",
+    "memit_dry_run/memit/dsets/counterfact.py": "7848e935a578c40e187167a2894601b0dbf42d2334b5289a012276ea1eb672b5",
+    "memit_dry_run/memit/dsets/knowns.py": "e2428c36d17b0dec1f390888a98334bd0fd1f64168bffae7566ef8a8606f361e",
+    "memit_dry_run/memit/dsets/tfidf_stats.py": "34f03d97b0b1aaad33e75a211a3d6b502cfb9eace1c172320df6ceb713d600c9",
+    "memit_dry_run/memit/dsets/zsre.py": "a6281375afd9983337c154095fe9aba59c74c36fa34ecfb12838c7b5c341670e",
+    "memit_dry_run/memit/experiments/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "memit_dry_run/memit/experiments/causal_trace.py": "9436fd596a39e240a01121da601359bea5d0b3a350c0faa34aa8b0ccac05560b",
+    "memit_dry_run/memit/experiments/evaluate.py": "4ef8e138bb8003c8486935ad0eae86d9ccd84bb61cfa1f88b63f0ed06c2d1760",
+    "memit_dry_run/memit/experiments/py/demo.py": "268c16a1c2c4e8642b7641739c2cd0808c08be80f36f280d1e5bef4944733772",
+    "memit_dry_run/memit/experiments/py/eval_utils_counterfact.py": "b00d9810305580dddfeb5e65129db4d56bcbfee1edf020605e21bf4f5033aeb7",
+    "memit_dry_run/memit/experiments/py/eval_utils_zsre.py": "e4f18c84a813d0a2fb9a5c9426726844117fe365cae72107d51f304a264d77a8",
+    "memit_dry_run/memit/experiments/summarize.py": "7de8f5eec86243807825cf9f62923535f853cce07d2d3248534f86320f229372",
+    "memit_dry_run/memit/experiments/sweep.py": "bfc7a91e9abb526814f7d975a81ff0333e930b452e2da58b31dc2ae8a10cce74",
+    "memit_dry_run/memit/memit/__init__.py": "911cc037562a368ca7017ea66f4821c5a848f286a55b7d624c242209afcd01df",
+    "memit_dry_run/memit/memit/compute_ks.py": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+    "memit_dry_run/memit/memit/compute_z.py": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+    "memit_dry_run/memit/memit/memit_hparams.py": "1b229b882b031ddbb59f06ad6ba58d5c33b17826bbfddf80f767e96931b595b2",
+    "memit_dry_run/memit/memit/memit_main.py": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+    "memit_dry_run/memit/rome/__init__.py": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a",
+    "memit_dry_run/memit/rome/compute_u.py": "06a73593171eecdd03ab90d45daa2c6096b4335847f0c73bda9d834cdfb1d72d",
+    "memit_dry_run/memit/rome/compute_v.py": "07f35ecec4b2a20a33318d75b040ae6c1fc5fd2122a90c92e32e361ef730d9eb",
+    "memit_dry_run/memit/rome/layer_stats.py": "43693c64b061f3cdaa087447e47ddc10fb26fd597dd405eb0644d71ede2fe2d5",
+    "memit_dry_run/memit/rome/repr_tools.py": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+    "memit_dry_run/memit/rome/rome_hparams.py": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5",
+    "memit_dry_run/memit/rome/rome_main.py": "44ff978bd0d68839ff2f94f475a71fdac19a53a4ef263c1d74693ebfd5b40ba5",
+    "memit_dry_run/memit/rome/tok_dataset.py": "37f775943d5040702ae21252db579f6aa116dacc4dd93c227c44cf9b3481a1a0",
+    "memit_dry_run/memit/scripts/ipynb_drop_output.py": "62a17e64c2de0448962fda6e0914a80e354361fea73b4363fc5287b92e4ca635",
+    "memit_dry_run/memit/util/__init__.py": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d",
+    "memit_dry_run/memit/util/device.py": "868627783827f03763ba9c210de2ddbd607e050330eccf7757fccfd9e985cf2b",
+    "memit_dry_run/memit/util/generate.py": "3764cb8a0a1b3f28c17d8aab3028b33d2127ba4e02e8dbc253025791a9ab2514",
+    "memit_dry_run/memit/util/globals.py": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2",
+    "memit_dry_run/memit/util/hparams.py": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0",
+    "memit_dry_run/memit/util/logit_lens.py": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4",
+    "memit_dry_run/memit/util/nethook.py": "20e84c9413518af3aee76762071f823cbe5d75c4658e4ffa7bdab045df735f7c",
+    "memit_dry_run/memit/util/perplexity.py": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e",
+    "memit_dry_run/memit/util/runningstats.py": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97",
+    "results/mathlab_staging/build_report.md": "36187385c602dcc3441d58d890b703ab42468bf9f58006c04469fa2809001186",
+    "tools/mathlab_admit.py": "bd3b6312ce3edcb599591c3559e85adfb13bb45c13e26942ee2eec9aacfe2abc",
+    "tools/mathlab_cpu_runner.py": "77ee421368f917283d2aeeea43239c38c482c05924e47942b1de32a155577d31",
+    "tools/mathlab_events.py": "1c0780d42e3cfd794b68ba742fedb0307c2992bd737507cda65bdd8a864d27a5",
+    "tools/mathlab_harvest.py": "9dbc58afef1aa290d5e01622d3324b052e3f19169bfeb8d38ad19148cfe869bb",
+    "tools/mathlab_runtime.py": "936b328db5db296de270bb255f4afda0c885c514862fcc62ad5b613ab67ac3e0",
+    "tools/run_mathlab_cpu.sh": "a79e0dedd366c7721f8a9e84214f63f52d293ae8f38740068874f4e0256b8007",
+    "tools/run_mathlab_harvest.sh": "14b38b9085599f67f72b049e4e255b202b44af43924ac81a9bb0278d121c5936",
+    "tools/test_dashboard_mathlab.py": "e45cc86e973fda251f43384f1483ba367c8113582464fdd2af560d1305bfafea"
+  },
+  "immutable_files": {
+    "results/mathlab/harvest_20261009T184950.056951Z/postedit_mint1_s2.pt": {
+      "size": 44592811,
+      "mtime_ns": 1791573960966812608
+    },
+    "results/mathlab/harvest_20261009T184950.056951Z/inloop_mint1_s2.pt": {
+      "size": 12271076,
+      "mtime_ns": 1791573934695754660
+    },
+    "results/mathlab/harvest_20261009T184950.056951Z/postedit_A1_single.pt": {
+      "size": 44592811,
+      "mtime_ns": 1791572577743179819
+    },
+    "results/mathlab/harvest_20261009T184950.056951Z/postedit_A7_coined_coined.pt": {
+      "size": 44592811,
+      "mtime_ns": 1791573291841497010
+    },
+    "results/mathlab/harvest_20261009T184950.056951Z/inloop_A2_coherent2.pt": {
+      "size": 12271076,
+      "mtime_ns": 1791572806474448508
+    },
+    "results/mathlab/harvest_20261009T184950.056951Z/clean.pt": {
+      "size": 212685621,
+      "mtime_ns": 1791571806048173592
+    },
+    "results/mathlab/harvest_20261009T184950.056951Z/manifest.json": {
+      "size": 1722167,
+      "mtime_ns": 1791573961183558898
+    },
+    "results/mathlab/harvest_20261009T184950.056951Z/postedit_mint1_s0.pt": {
+      "size": 44592811,
+      "mtime_ns": 1791573824133170800
+    },
+    "results/mathlab/harvest_20261009T184950.056951Z/weights_A7.pt": {
+      "size": 450891077,
+      "mtime_ns": 1791573292443984325
+    },
+    "results/mathlab/harvest_20261009T184950.056951Z/inloop_A1_single.pt": {
+      "size": 12271076,
+      "mtime_ns": 1791572532745407952
+    },
+    "results/mathlab/harvest_20261009T184950.056951Z/inloop_mint1_s1.pt": {
+      "size": 12271076,
+      "mtime_ns": 1791573864814309471
+    },
+    "results/mathlab/harvest_20261009T184950.056951Z/postedit_A2_coherent2.pt": {
+      "size": 44592811,
+      "mtime_ns": 1791572861630562252
+    },
+    "results/mathlab/harvest_20261009T184950.056951Z/inloop_A7_coined_coined.pt": {
+      "size": 463160213,
+      "mtime_ns": 1791573167224188958
+    },
+    "results/mathlab/harvest_20261009T184950.056951Z/inloop_mint1_s0.pt": {
+      "size": 12271076,
+      "mtime_ns": 1791573808167947456
+    },
+    "results/mathlab/harvest_20261009T184950.056951Z/postedit_mint1_s1.pt": {
+      "size": 44592811,
+      "mtime_ns": 1791573885291701565
+    },
+    "results/mathlab_staging/runs/harvest_20261009T184932Z_95961/events.jsonl": {
+      "size": 370073,
+      "mtime_ns": 1791573961185782629,
+      "sha256": "18c415e06af4a14afe30000ffea65fc6fcf41168d2127512723ce038c283a3b7"
+    },
+    "results/mathlab_staging/runs/harvest_20261009T184932Z_95961/admission.json": {
+      "size": 2629,
+      "mtime_ns": 1791571772879833291,
+      "sha256": "fa39865f146dabdf9c59e3039bb603046a418bd9d01087463772f5ef03d6ca67"
+    },
+    "results/c10u_mint2/r3/V2_r0_mint2_s0.json": {
+      "size": 408402,
+      "mtime_ns": 1791403796239625660,
+      "sha256": "97b7bde587c2082f4ae0fdfd6231ad143f1f6fbaaf05a97de15bbc9f8546f174"
+    },
+    "results/c10u_mint2/r3/F_r1_modifier_s1.json": {
+      "size": 159242,
+      "mtime_ns": 1791410459612261534,
+      "sha256": "e3b937d12284bff95e4ffa2e78f359479a3806224f5aa98b240d2f27588766dc"
+    },
+    "results/c10u_mint2/r3/F_r1_mint1_s1.json": {
+      "size": 273388,
+      "mtime_ns": 1791407428445701024,
+      "sha256": "72d014a17b83f2c703c4c9f782c5b41ac97571b6541c5dfc46ba46b007e283af"
+    },
+    "results/c10u_mint2/r3/F_r0_mint1_s2.json": {
+      "size": 273343,
+      "mtime_ns": 1791393312858200003,
+      "sha256": "626750bc4d23f3a90e2246e442ba38b587fcab9909da57e9f50999ff3c54bb62"
+    },
+    "results/c10u_mint2/r3/contexts_F.json": {
+      "size": 29783,
+      "mtime_ns": 1791388909873838847,
+      "sha256": "768bb0df268453e88e36368de3e83629c5e13369f454d4bc6d695a46e80576a4"
+    },
+    "results/c10u_mint2/r3/F_r0_multi_snone_started.json": {
+      "size": 9522,
+      "mtime_ns": 1791393365413936611,
+      "sha256": "f8fd7331fecd2c4a3c51f0bc5bbebf72d24c05d148c577e580ea5a26d94e8b07"
+    },
+    "results/c10u_mint2/r3/v2_started.json": {
+      "size": 10712,
+      "mtime_ns": 1791395695311420472,
+      "sha256": "6e8c5a9df5011b218bf3f87f1530ecc195ee2419949d0436ba953df98ea388bf"
+    },
+    "results/c10u_mint2/r3/replicate-F_complete.json": {
+      "size": 137190,
+      "mtime_ns": 1791410459768916844,
+      "sha256": "fe1892afed109e7b2418973f45f9ae5de5bb1bbed49edd94f32c9f5a5a6d8b93"
+    },
+    "results/c10u_mint2/r3/F_r1_mint1_s0.json": {
+      "size": 273383,
+      "mtime_ns": 1791405902245358158,
+      "sha256": "f999adadf0519a525a8dd1212205193a2680794472f0b79ca26b1b5d3fb3aeb1"
+    },
+    "results/c10u_mint2/r3/F_r1_modifier_s0.json": {
+      "size": 159218,
+      "mtime_ns": 1791410459526067250,
+      "sha256": "c741f2bdd09cc42b635ab84dc34b7596b2780be4fe642b56c1aed954d485d4d3"
+    },
+    "results/c10u_mint2/r3/V2_r0_mint2_s1.json": {
+      "size": 284027,
+      "mtime_ns": 1791404086673762043,
+      "sha256": "34eb222574aed65c8b47e0296e618c632397cafd62ed5c27f760d73be531c15c"
+    },
+    "results/c10u_mint2/r3/F_r0_mint1_s2_started.json": {
+      "size": 9519,
+      "mtime_ns": 1791392043251603560,
+      "sha256": "86441e6e7caca4ff985052d6c5b3aceb1af6e82e2a09c1f1b7e9b61b10f00366"
+    },
+    "results/c10u_mint2/r3/F_r0_modifier_s1.json": {
+      "size": 159242,
+      "mtime_ns": 1791395384813011293,
+      "sha256": "5b14b567bfc755d5b245b20707908045e35f72945adebbd878a1fd089c27daac"
+    },
+    "results/c10u_mint2/r3/F_r1_mint1_s0_started.json": {
+      "size": 9518,
+      "mtime_ns": 1791404476514647436,
+      "sha256": "6504185c64e1e5f3a54d7c52b156bdf16b2276133eb209277eb583bf6c0ae167"
+    },
+    "results/c10u_mint2/r3/F_r1_multi_snone_started.json": {
+      "size": 9522,
+      "mtime_ns": 1791408872604431424,
+      "sha256": "c65ff9fc1de28dc5ff31d841b3056c4b188eaf0bbc59c7ca78863f560f778e4a"
+    },
+    "results/c10u_mint2/r3/V2_r0_mint1_s0.json": {
+      "size": 273703,
+      "mtime_ns": 1791398950571388527,
+      "sha256": "67e197dfb27b968d8bb23434705b74487ca833c1b7f3becb79f2cc9a0fbcf722"
+    },
+    "results/c10u_mint2/r3/frozen_complete.json": {
+      "size": 46636,
+      "mtime_ns": 1791395660005226373,
+      "sha256": "707c56b5e1606a29d9465c513935cd1973b4f9947a93b2d71e5f5413b69c3c79"
+    },
+    "results/c10u_mint2/r3/V2_r0_mint1_s1_started.json": {
+      "size": 9519,
+      "mtime_ns": 1791399190604562286,
+      "sha256": "b0864866ab9bee480a151954795886d77e6f0208d90bf54c25f8a1dcf2f01b0c"
+    },
+    "results/c10u_mint2/r3/F_r1_mint1_s1_started.json": {
+      "size": 9519,
+      "mtime_ns": 1791405903457404290,
+      "sha256": "c370d743895ba6c40febba5c939881b1e969fa5ee4a1868b7848f73d22619ec6"
+    },
+    "results/c10u_mint2/r3/V2_r0_mint1_s1.json": {
+      "size": 273685,
+      "mtime_ns": 1791400470067466860,
+      "sha256": "d61f647154111bca9c5debaa0694a3101f67d705b9d359f1ff5faabfce124cb5"
+    },
+    "results/c10u_mint2/r3/V2_r0_mint1_s0_started.json": {
+      "size": 9520,
+      "mtime_ns": 1791397518023694844,
+      "sha256": "1a4372da220adc2fc9be0010ccd378eedaf252d1ccb5a233e38920d8c54ce5cf"
+    },
+    "results/c10u_mint2/r3/F_r0_modifier_s0.json": {
+      "size": 159218,
+      "mtime_ns": 1791395101895995065,
+      "sha256": "fba431722ec905005e8a60806bd7ab36cabf20921e10ffecbac850d2f3231a0c"
+    },
+    "results/c10u_mint2/r3/F_r0_multi_snone.json": {
+      "size": 135132,
+      "mtime_ns": 1791394834677439604,
+      "sha256": "0ec55d879fc592512ed437099c522cf94d652ab54b7d85f1ccc2781b34a637ab"
+    },
+    "results/c10u_mint2/r3/V2_r0_multi_snone.json": {
+      "size": 134793,
+      "mtime_ns": 1791397266799754807,
+      "sha256": "52f2ff5c8d4fe49e92b3f122cb90494b87d2d39af495ddb0442a74ce9824656e"
+    },
+    "results/c10u_mint2/r3/identity.json": {
+      "size": 9241,
+      "mtime_ns": 1791388900326704305,
+      "sha256": "d1f382b67becd0853238f85cd20a93c95ad7febdc0a6cae959828bc1e217899e"
+    },
+    "results/c10u_mint2/r3/V2_r0_mint1_s2_started.json": {
+      "size": 9520,
+      "mtime_ns": 1791400672510319157,
+      "sha256": "d60442c30693c1fada359495246e56f38da9626620a905dc4dc1ba789a42d183"
+    },
+    "results/c10u_mint2/r3/V2_r0_mint1_s2.json": {
+      "size": 273597,
+      "mtime_ns": 1791402006739773872,
+      "sha256": "a61702468cea05eff3ec70065532da9b882c6390afa3d832d3cf0bf2319c64e2"
+    },
+    "results/c10u_mint2/r3/F_r1_mint1_s2_started.json": {
+      "size": 9519,
+      "mtime_ns": 1791407429599152803,
+      "sha256": "758298b66a14e07d43fbfba520e0152215de6339937fa8e9ff0364d3a2359381"
+    },
+    "results/c10u_mint2/r3/V2_r0_multi_snone_started.json": {
+      "size": 9523,
+      "mtime_ns": 1791395708240756990,
+      "sha256": "983a6cb0bb97f5755dbde5fcc671c48dc0b4eaaf7cbb736d58f1260527dabeb9"
+    },
+    "results/c10u_mint2/r3/F_r0_modifier_s2.json": {
+      "size": 159195,
+      "mtime_ns": 1791395659976443217,
+      "sha256": "26879e6f38473d99f2190f07dfeb684ddbc35596d25daa670369e74b67fec8cd"
+    },
+    "results/c10u_mint2/r3/reproduce_started.json": {
+      "size": 10333,
+      "mtime_ns": 1791388900327741721,
+      "sha256": "d80d8777613c0c3c024446954929841fa2670e1253738c150c26866f9fc5af4d"
+    },
+    "results/c10u_mint2/r3/reproduce_complete.json": {
+      "size": 10194,
+      "mtime_ns": 1791393313681628695,
+      "sha256": "d57cb4ea191816627b92707061b5677cfc591fb4ab2c8f96d3dce795e3607038"
+    },
+    "results/c10u_mint2/r3/V2_r0_mint2_s2.json": {
+      "size": 283946,
+      "mtime_ns": 1791404383107472919,
+      "sha256": "6ffecd55442b129a9b09e24c04673cfc6f0eef20364d896181f2ac1bba505e63"
+    },
+    "results/c10u_mint2/r3/v2_complete.json": {
+      "size": 98001,
+      "mtime_ns": 1791404383170088922,
+      "sha256": "8dba24af4317dbc2fde77694526043f64eb706fb1683a89821b7c9ebc8e125f7"
+    },
+    "results/c10u_mint2/r3/contexts_V2_started.json": {
+      "size": 9520,
+      "mtime_ns": 1791395695374361853,
+      "sha256": "f53d7035db0a4ca6ff5c50739002a14874f8c23dc08cc7f7f6a46b1d3080f628"
+    },
+    "results/c10u_mint2/r3/F_r1_multi_snone.json": {
+      "size": 135132,
+      "mtime_ns": 1791410458533198471,
+      "sha256": "3f01c99095f181adf9006fe1ffdfb28ce19ec832d9d1fcfba11b136f05d7fc20"
+    },
+    "results/c10u_mint2/r3/frozen_started.json": {
+      "size": 10436,
+      "mtime_ns": 1791393365354164139,
+      "sha256": "370a2b84828036fd1c436dca546a09fdbc94372bd9cd845c84949c1247e4f054"
+    },
+    "results/c10u_mint2/r3/V2_r0_mint2_s0_started.json": {
+      "size": 9520,
+      "mtime_ns": 1791402291034602535,
+      "sha256": "04a56e7cd7c36bc91c06a049ec9ab3b9dd2c11b4474afd3ffba6b79024a2ff64"
+    },
+    "results/c10u_mint2/r3/F_r0_mint1_s0_started.json": {
+      "size": 9519,
+      "mtime_ns": 1791389099808696719,
+      "sha256": "5208e989aaaeb4a7b1ca262ecb450f90fa196a3be441a8ffbf01e1907b0b3a05"
+    },
+    "results/c10u_mint2/r3/F_r0_mint1_s0.json": {
+      "size": 273384,
+      "mtime_ns": 1791390382532979174,
+      "sha256": "ade8ba1678dc45850168ff8303afd28359b33c1c7a9f0731feee1143eca2c8f9"
+    },
+    "results/c10u_mint2/r3/replicate-F_started.json": {
+      "size": 10723,
+      "mtime_ns": 1791404476429406255,
+      "sha256": "c4c3a87826a203e8a084ec2f5d20d31d88ad06f5ce6c2c80ccbb6db3b9e16eca"
+    },
+    "results/c10u_mint2/r3/F_r0_mint1_s1.json": {
+      "size": 273388,
+      "mtime_ns": 1791391842055057343,
+      "sha256": "ab4cc4ec22fd1f595d489f889d1d7ea15c12b5ebf6664b9d7a8fa80819b8ad6f"
+    },
+    "results/c10u_mint2/r3/contexts_V2.json": {
+      "size": 29806,
+      "mtime_ns": 1791395707611050205,
+      "sha256": "e8a5ab767312d0f53929459179d855f8dcae448e963f57c478e48350a932ab90"
+    },
+    "results/c10u_mint2/r3/contexts_F_started.json": {
+      "size": 9519,
+      "mtime_ns": 1791388900383835433,
+      "sha256": "8c4395eee8f6d4034839869ea3ef17111af65781b7fd74701960fa1b4749d86c"
+    },
+    "results/c10u_mint2/r3/F_r0_mint1_s1_started.json": {
+      "size": 9519,
+      "mtime_ns": 1791390589349007834,
+      "sha256": "c54c1ceebdd643f0969e1dced2516d91379077fd23bff4ff27d4613054137dd5"
+    },
+    "results/c10u_mint2/r3/F_r1_modifier_s2.json": {
+      "size": 159195,
+      "mtime_ns": 1791410459698936489,
+      "sha256": "10da587d7f9e267d47f4dd74a4aded21261239542dd54ec82b0e2b11cd8699dd"
+    },
+    "results/c10u_mint2/r3/F_r1_mint1_s2.json": {
+      "size": 273343,
+      "mtime_ns": 1791408871053504131,
+      "sha256": "4fcaaae123660b03a159c61317607b5540e8a2200c330d103bfa9a41603ec20d"
+    },
+    "results/c10u_mint2/r3/inits/V2_r0_mint1_s2.pt": {
+      "size": 198185,
+      "mtime_ns": 1791400486722175653,
+      "sha256": "e62f5b55daf13d0dde63cd5e0f9afd9443618dd231dc4a97ca15ff5e73f2c0be"
+    },
+    "results/c10u_mint2/r3/inits/F_r0_mint1_s2.pt": {
+      "size": 198185,
+      "mtime_ns": 1791391858799624391,
+      "sha256": "e62f5b55daf13d0dde63cd5e0f9afd9443618dd231dc4a97ca15ff5e73f2c0be"
+    },
+    "results/c10u_mint2/r3/inits/V2_r0_mint2_s2.pt": {
+      "size": 394793,
+      "mtime_ns": 1791404093364630663,
+      "sha256": "dfe90c34c468e1a286337cb1fd9d1d43a56f4dd8e5f839dd2ff8ff51f9a69636"
+    },
+    "results/c10u_mint2/r3/inits/F_r0_modifier_s0.pt": {
+      "size": 67113,
+      "mtime_ns": 1791394851945207352,
+      "sha256": "7f231a5764a78c6fb728d88df285ac28fd4f2043ea702fc61f1b30ac7b2ca476"
+    },
+    "results/c10u_mint2/r3/inits/F_r0_modifier_s1.pt": {
+      "size": 67113,
+      "mtime_ns": 1791395110306199347,
+      "sha256": "04ff47fc9473e23cea60799a798c2c4252f8245fa8244577529b80da2ceb3388"
+    },
+    "results/c10u_mint2/r3/inits/V2_r0_mint2_s0.pt": {
+      "size": 394793,
+      "mtime_ns": 1791402023753759821,
+      "sha256": "39d1f6d223a8549ade7f16bf914a175f543e21e0534f8371d279546a44a32720"
+    },
+    "results/c10u_mint2/r3/inits/F_r0_modifier_s2.pt": {
+      "size": 67113,
+      "mtime_ns": 1791395393546534514,
+      "sha256": "e539f8b9b15a34fdf88497a1c41e5acabb52678534099b58f5afe2858f58bbbd"
+    },
+    "results/c10u_mint2/r3/inits/V2_r0_mint2_s1.pt": {
+      "size": 394793,
+      "mtime_ns": 1791403813620135209,
+      "sha256": "0123ee17612831ac48abd62c5d810050cbc763837dd2f763f66677ea40f9e042"
+    },
+    "results/c10u_mint2/r3/inits/F_r0_mint1_s1.pt": {
+      "size": 198185,
+      "mtime_ns": 1791390399046634991,
+      "sha256": "86e91a0589a378d147044846ce7f5b4f8dd1e217406bbfdb77464a6d003bafef"
+    },
+    "results/c10u_mint2/r3/inits/V2_r0_mint1_s0.pt": {
+      "size": 198185,
+      "mtime_ns": 1791397283907662824,
+      "sha256": "04a42e0b71204f779a406ace7550de75079be025a0032cda0e7fe397cf8686c0"
+    },
+    "results/c10u_mint2/r3/inits/F_r0_mint1_s0.pt": {
+      "size": 198185,
+      "mtime_ns": 1791388927858849234,
+      "sha256": "04a42e0b71204f779a406ace7550de75079be025a0032cda0e7fe397cf8686c0"
+    },
+    "results/c10u_mint2/r3/inits/V2_r0_mint1_s1.pt": {
+      "size": 198185,
+      "mtime_ns": 1791398967892561343,
+      "sha256": "86e91a0589a378d147044846ce7f5b4f8dd1e217406bbfdb77464a6d003bafef"
+    },
+    "results/c10u_mint2/r3/step0/V2_r0_mint2_s0.json": {
+      "size": 352710,
+      "mtime_ns": 1791402290375500109,
+      "sha256": "663788ca1f3b3e5ba15efa73dcfb8a19e4a702dd453e15dfae191a96543c4102"
+    },
+    "results/c10u_mint2/r3/step0/F_r0_mint1_s2.json": {
+      "size": 244906,
+      "mtime_ns": 1791392042730036761,
+      "sha256": "0eb81cf9824a65cfe37bd5f5618f6ea19552f761c77cbe9dfd3553b3da026dab"
+    },
+    "results/c10u_mint2/r3/step0/V2_r0_mint2_s1.json": {
+      "size": 354551,
+      "mtime_ns": 1791404086048976970,
+      "sha256": "1acc1b14b3c0141ebcc9a1ad2fd6accabe270e86374990ebb6f99f679357d9f9"
+    },
+    "results/c10u_mint2/r3/step0/F_r0_mint1_s2_started.json": {
+      "size": 9501,
+      "mtime_ns": 1791391842994594607,
+      "sha256": "9b22613a8ba1b7412c934435012d8ac8a6a2042c9bc4bb31018aed5fddafce89"
+    },
+    "results/c10u_mint2/r3/step0/V2_r0_mint2_s2_started.json": {
+      "size": 9502,
+      "mtime_ns": 1791404086757602265,
+      "sha256": "80da44c517d71ca07a620e53414ce0460011c3ed2492466ec4095e9b862830da"
+    },
+    "results/c10u_mint2/r3/step0/F_r0_modifier_s1.json": {
+      "size": 242455,
+      "mtime_ns": 1791395384179263133,
+      "sha256": "c282c8293d9e6dd5785caa22420e42c9c37583703fa86ff88d873e6e6ffd4926"
+    },
+    "results/c10u_mint2/r3/step0/F_r0_modifier_s2_started.json": {
+      "size": 9504,
+      "mtime_ns": 1791395384895145604,
+      "sha256": "78819d4c2b6d1c7d9a075a2db885c0edd790c4ec8c6d34040cac6d4238c4f654"
+    },
+    "results/c10u_mint2/r3/step0/V2_r0_mint1_s0.json": {
+      "size": 247088,
+      "mtime_ns": 1791397517398420214,
+      "sha256": "4b1d51cbeea9e5d7f0d06c61632fbe05afbeea75546ed748520fad32c96ce597"
+    },
+    "results/c10u_mint2/r3/step0/V2_r0_mint1_s1_started.json": {
+      "size": 9502,
+      "mtime_ns": 1791398951859602900,
+      "sha256": "5e8f19b3a2571ba79ef30fd40c1f6280bbef08cb08f3f4f11cc741fe65a57e18"
+    },
+    "results/c10u_mint2/r3/step0/V2_r0_mint1_s1.json": {
+      "size": 246717,
+      "mtime_ns": 1791399189978627781,
+      "sha256": "ad3d28dcb31b06b33c8889d4ebad706b8d3d7d787029782d610edcebdfabd894"
+    },
+    "results/c10u_mint2/r3/step0/V2_r0_mint1_s0_started.json": {
+      "size": 9502,
+      "mtime_ns": 1791397268060170327,
+      "sha256": "3dc48a8818c4bebb1cc610e3b42ddefbecfb27ff45ba90f61f903fe7c1049108"
+    },
+    "results/c10u_mint2/r3/step0/F_r0_modifier_s0.json": {
+      "size": 241807,
+      "mtime_ns": 1791395101230136238,
+      "sha256": "874c44341b5739757c1758d7016d86ca0c9ce478f02410fb4f00200aed424894"
+    },
+    "results/c10u_mint2/r3/step0/F_r0_modifier_s1_started.json": {
+      "size": 9504,
+      "mtime_ns": 1791395101974804508,
+      "sha256": "effa48d8e837fff658dbedaae7953fc9c1184f84975dc194ec0f7bb23aaa6951"
+    },
+    "results/c10u_mint2/r3/step0/V2_r0_mint1_s2_started.json": {
+      "size": 9501,
+      "mtime_ns": 1791400470959990771,
+      "sha256": "50002ed9e732daedf3239da0db6e487cc668bcdf73fcb3b64545f71987b5369b"
+    },
+    "results/c10u_mint2/r3/step0/V2_r0_mint1_s2.json": {
+      "size": 245078,
+      "mtime_ns": 1791400672017077723,
+      "sha256": "2862d91c52febdcec98152525b268cbeac316b9969dd3abf754e89d0cb7987a5"
+    },
+    "results/c10u_mint2/r3/step0/F_r0_modifier_s0_started.json": {
+      "size": 9504,
+      "mtime_ns": 1791394835856077502,
+      "sha256": "8a87ed80b488cc02906e8db70405d813181e4d137fc26e1a38dc18c54b26ce9a"
+    },
+    "results/c10u_mint2/r3/step0/F_r0_modifier_s2.json": {
+      "size": 242525,
+      "mtime_ns": 1791395659318967141,
+      "sha256": "090b07153b980414e426e5f6cce096f95e0a4cd550a066d5476d2bb7562d6f6e"
+    },
+    "results/c10u_mint2/r3/step0/V2_r0_mint2_s2.json": {
+      "size": 353792,
+      "mtime_ns": 1791404382456978749,
+      "sha256": "883f7fb3ba22da789b7d99fcedc30b2673e5829aeef7bb23fb177d4a1ac97fb1"
+    },
+    "results/c10u_mint2/r3/step0/V2_r0_mint2_s0_started.json": {
+      "size": 9502,
+      "mtime_ns": 1791402007884256049,
+      "sha256": "bd0a656b50be13464d4eb15f604d92dfed5e8e73e0a679f0bc3d141f91280ad5"
+    },
+    "results/c10u_mint2/r3/step0/F_r0_mint1_s0_started.json": {
+      "size": 9501,
+      "mtime_ns": 1791388910372025549,
+      "sha256": "dcf5c8efcfaada8a8fe57d28e24af430db1321e1e2f580fedaaaee1e2913e74c"
+    },
+    "results/c10u_mint2/r3/step0/F_r0_mint1_s0.json": {
+      "size": 245561,
+      "mtime_ns": 1791389099257576639,
+      "sha256": "2afbfcc45b72ef9384dcd3ec627ac82a0d811a9c133ed26f41c046e96724192b"
+    },
+    "results/c10u_mint2/r3/step0/F_r0_mint1_s1.json": {
+      "size": 247817,
+      "mtime_ns": 1791390588798100704,
+      "sha256": "9636dde8c29ed3f14c1cfee7d2ac2af0f8a5549c530a219a7f36725ccacc38c6"
+    },
+    "results/c10u_mint2/r3/step0/F_r0_mint1_s1_started.json": {
+      "size": 9501,
+      "mtime_ns": 1791390383496929679,
+      "sha256": "9be8d7604aab6f80d55abfed9eb2ba0cdbbb2df131b08cba910567f301fecad4"
+    },
+    "results/c10u_mint2/r3/step0/V2_r0_mint2_s1_started.json": {
+      "size": 9502,
+      "mtime_ns": 1791403797473874195,
+      "sha256": "e589f04fc191dfd56b551be6f6948f626f258fe11caed277a638ce097787c6f7"
+    },
+    "results/c10u_mint2/r3/logs/behavior_V2_r0_mint1_s2.log": {
+      "size": 3632,
+      "mtime_ns": 1791402006742948624,
+      "sha256": "714f6373edd55019e14f0d96cba1ceeadbd947510fdb50e0f4e67223c119c6d9"
+    },
+    "results/c10u_mint2/r3/logs/behavior_V2_r0_mint1_s1.log": {
+      "size": 3630,
+      "mtime_ns": 1791400470069684608,
+      "sha256": "1077120c51f2f43d734066e2ce3e0e6dd0eb3f04c8262cc56e23fac64c1d596f"
+    },
+    "results/c10u_mint2/r3/logs/behavior_V2_r0_mint1_s0.log": {
+      "size": 3630,
+      "mtime_ns": 1791398950574765946,
+      "sha256": "952c52f59b1e24716d3832c26fa2faef5591598a4c25f1e23bf7163447460b85"
+    },
+    "results/c10u_mint2/r3/logs/behavior_F_r1_multi_snone.log": {
+      "size": 4504,
+      "mtime_ns": 1791410458534648612,
+      "sha256": "72ed68a421da5ebc0a4b4587224fcda85943cd2280e094097fdca7e6ba97de6e"
+    },
+    "results/c10u_mint2/r3/logs/step0_V2_r0_mint1_s0.log": {
+      "size": 1369,
+      "mtime_ns": 1791397517400927873,
+      "sha256": "2f7e629a9a163f65f263b1def0c142a047fdfd03cf867576037b756b9738bbf5"
+    },
+    "results/c10u_mint2/r3/logs/step0_V2_r0_mint1_s1.log": {
+      "size": 1369,
+      "mtime_ns": 1791399189980623116,
+      "sha256": "7adc964146189293dc89f627cc04376a2b6ae7e41ecc6bb5e34f2b3d7dd01813"
+    },
+    "results/c10u_mint2/r3/logs/step0_V2_r0_mint1_s2.log": {
+      "size": 1369,
+      "mtime_ns": 1791400672018888721,
+      "sha256": "d5af7871ebcbe3cce1a21d72e9466ee6b334eeea2cf596aa502a0da321f9faac"
+    },
+    "results/c10u_mint2/r3/logs/behavior_F_r0_mint1_s2.log": {
+      "size": 3632,
+      "mtime_ns": 1791393312860437663,
+      "sha256": "2959d24b70dfe0eb6ad1a3ea1adc8ef005608c91eeabc07190d37870c5915f3a"
+    },
+    "results/c10u_mint2/r3/logs/behavior_F_r0_mint1_s1.log": {
+      "size": 3631,
+      "mtime_ns": 1791391842057290453,
+      "sha256": "8311717d26eef763a6fd67b1109e66f984d7fd7e27716f3853481103cf1c2b13"
+    },
+    "results/c10u_mint2/r3/logs/behavior_F_r0_mint1_s0.log": {
+      "size": 3630,
+      "mtime_ns": 1791390382535425747,
+      "sha256": "58ff7974bdb0da5bf20be0bacace133d7a33f43358bc4084d207e8ee27556979"
+    },
+    "results/c10u_mint2/r3/logs/behavior_F_r1_mint1_s2.log": {
+      "size": 3632,
+      "mtime_ns": 1791408871059546620,
+      "sha256": "e2473f484f64d48e3b6550d4350f5edd3285c2573f958419617fbb64d586c31c"
+    },
+    "results/c10u_mint2/r3/logs/contexts_V2_r0_multi_snone.log": {
+      "size": 778,
+      "mtime_ns": 1791395707274439353,
+      "sha256": "0c9f3b1bed6e3bd66d6a7220a07854b5a1be7a432e8fac17540aaa82a592d35f"
+    },
+    "results/c10u_mint2/r3/logs/behavior_F_r1_mint1_s0.log": {
+      "size": 3630,
+      "mtime_ns": 1791405902248838255,
+      "sha256": "605d757b4789f9dcbae026712c388cc7d334815100d6da0732661bdf45405ae2"
+    },
+    "results/c10u_mint2/r3/logs/behavior_F_r0_multi_snone.log": {
+      "size": 4504,
+      "mtime_ns": 1791394834679543501,
+      "sha256": "c8862f5581d07c33a1d9945bd21ebb7a141f4edc739475010d10f42945a6e3c9"
+    },
+    "results/c10u_mint2/r3/logs/behavior_F_r1_mint1_s1.log": {
+      "size": 3631,
+      "mtime_ns": 1791407428449100439,
+      "sha256": "f0524784eb01449a9390cc8d97905e3c82949d6df3ed181cd444e847fd086b72"
+    },
+    "results/c10u_mint2/r3/logs/step0_F_r0_modifier_s2.log": {
+      "size": 1371,
+      "mtime_ns": 1791395659321401870,
+      "sha256": "5a722ae74430a557bd1ad6214f3f137a679ceda02e231e11939f09002568a909"
+    },
+    "results/c10u_mint2/r3/logs/step0_V2_r0_mint2_s1.log": {
+      "size": 1369,
+      "mtime_ns": 1791404086053099333,
+      "sha256": "8dde39716b3cd0e99cdfca395db19e83bffedc2c90a5155177356894e745ed75"
+    },
+    "results/c10u_mint2/r3/logs/step0_V2_r0_mint2_s0.log": {
+      "size": 1369,
+      "mtime_ns": 1791402290378667112,
+      "sha256": "d51048e3e54e3aa8e75930df78bcac64ad79c646c2d6ec3ee2fa5fb68decdfe7"
+    },
+    "results/c10u_mint2/r3/logs/step0_F_r0_modifier_s1.log": {
+      "size": 1371,
+      "mtime_ns": 1791395384182241789,
+      "sha256": "eab142847fbdf2fd51de6fdcc65ed680635376b4b63bf2e63b438c0fdfa1d527"
+    },
+    "results/c10u_mint2/r3/logs/step0_V2_r0_mint2_s2.log": {
+      "size": 1369,
+      "mtime_ns": 1791404382460718896,
+      "sha256": "e4046b7fff60c7a14a9b74c78a04e69d3434e10ed671f89eb3b8aff839d49e56"
+    },
+    "results/c10u_mint2/r3/logs/step0_F_r0_modifier_s0.log": {
+      "size": 1371,
+      "mtime_ns": 1791395101232350303,
+      "sha256": "d8cdd8a0a233b97b71b65c0b71aa08f36330d8b9952e27049cd27b3d6df48e06"
+    },
+    "results/c10u_mint2/r3/logs/behavior_F_r0_modifier_s2.log": {
+      "size": 69,
+      "mtime_ns": 1791395659977939688,
+      "sha256": "6984c2e03c460b5a2f3b7b56a4beb2cb0e975ade02532f16c247edcf3a671032"
+    },
+    "results/c10u_mint2/r3/logs/behavior_V2_r0_mint2_s2.log": {
+      "size": 67,
+      "mtime_ns": 1791404383109824642,
+      "sha256": "1e66bc16d5afe98a08e07e6a30a7c51820f26ba7cb337a8ff883ec1af359fdff"
+    },
+    "results/c10u_mint2/r3/logs/contexts_F_r0_multi_snone.log": {
+      "size": 773,
+      "mtime_ns": 1791388909669744459,
+      "sha256": "1a5206594fcc352f2067d82cda5a0c311814bfe2106cb03f8c2bd94588984b99"
+    },
+    "results/c10u_mint2/r3/logs/behavior_F_r0_modifier_s1.log": {
+      "size": 69,
+      "mtime_ns": 1791395384814185597,
+      "sha256": "5a7a1ec5a71f94cff937f86d61fd9652e2ef7ed0f8cc7a7376ab7021a050f183"
+    },
+    "results/c10u_mint2/r3/logs/behavior_V2_r0_mint2_s0.log": {
+      "size": 3629,
+      "mtime_ns": 1791403796244348025,
+      "sha256": "c63a9ca36dc03de314132db1aaec8f869065f26f2d1cb86f580058923b87e9e8"
+    },
+    "results/c10u_mint2/r3/logs/behavior_V2_r0_mint2_s1.log": {
+      "size": 67,
+      "mtime_ns": 1791404086676149351,
+      "sha256": "b370472944881a657248a39e3b8c2e5b71dd88f08cc1d9aa94b2e4a16cde2ab4"
+    },
+    "results/c10u_mint2/r3/logs/behavior_F_r0_modifier_s0.log": {
+      "size": 69,
+      "mtime_ns": 1791395101897108827,
+      "sha256": "9651b65105e1f0964f76cd9383b005b499cd84fec55c9f7d786bc2cca41a8e30"
+    },
+    "results/c10u_mint2/r3/logs/behavior_F_r1_modifier_s2.log": {
+      "size": 69,
+      "mtime_ns": 1791410459700025543,
+      "sha256": "7c133cde5ba76dd4ee830126bd5a963f00e22127b75dc57690b7ff412b9b755f"
+    },
+    "results/c10u_mint2/r3/logs/behavior_F_r1_modifier_s1.log": {
+      "size": 69,
+      "mtime_ns": 1791410459613267670,
+      "sha256": "3c30319cb0caaa582a6686dad56cc0fbc90c50d3f8d6656111a40acf311df9fc"
+    },
+    "results/c10u_mint2/r3/logs/behavior_F_r1_modifier_s0.log": {
+      "size": 69,
+      "mtime_ns": 1791410459527071678,
+      "sha256": "345b8670385806e10131f00ffa80e8d446ccb9aba3e5c2950ab0c69fc51a0aed"
+    },
+    "results/c10u_mint2/r3/logs/behavior_V2_r0_multi_snone.log": {
+      "size": 4508,
+      "mtime_ns": 1791397266801683917,
+      "sha256": "61b62ece43e814f6ef0cf85287ef36bf1f15f6b9446778f8e94b4cd48164f53a"
+    },
+    "results/c10u_mint2/r3/logs/step0_F_r0_mint1_s2.log": {
+      "size": 1368,
+      "mtime_ns": 1791392042731483819,
+      "sha256": "8c48bebcffc487808e99347d9b26536afe9cee2ad30fb670f3bda8041c99d37d"
+    },
+    "results/c10u_mint2/r3/logs/step0_F_r0_mint1_s0.log": {
+      "size": 1368,
+      "mtime_ns": 1791389099259241556,
+      "sha256": "23c205cdcdd405c27cea9ab7988ba7b92aa4856f71b1648f60ae555c0f73e86a"
+    },
+    "results/c10u_mint2/r3/logs/step0_F_r0_mint1_s1.log": {
+      "size": 1368,
+      "mtime_ns": 1791390588800133147,
+      "sha256": "d70c0d299d2bd6fc13f185e30168c441abd12a8f8350e27bc28e2fef90a8075e"
+    },
+    "results/c10u_mint2/r3/zs/V2_r0_mint1_s2.pt": {
+      "size": 198185,
+      "mtime_ns": 1791400672004962483,
+      "sha256": "c36cdebe5f0df04ff0ba2c700a9e363a10b113aafc51d318242329f10e4d92ed"
+    },
+    "results/c10u_mint2/r3/zs/F_r0_mint1_s2.pt": {
+      "size": 198185,
+      "mtime_ns": 1791392042718564377,
+      "sha256": "88c8e6a5928a4140988b27f8d33abae860cac1cdc5a7949b67f8566758f28e35"
+    },
+    "results/c10u_mint2/r3/zs/V2_r0_mint2_s2.pt": {
+      "size": 198185,
+      "mtime_ns": 1791404382402968132,
+      "sha256": "4e9c5344c964f5d8cbf7c6c6560bd4fa7d65560941979a65134349b6e4b1d119"
+    },
+    "results/c10u_mint2/r3/zs/F_r0_modifier_s0.pt": {
+      "size": 198185,
+      "mtime_ns": 1791395101211390627,
+      "sha256": "b65f5b083e6f53d1b73dedf6427c6d0c4f0f62f5fdc44a77b21232bdfaa71bf0"
+    },
+    "results/c10u_mint2/r3/zs/F_r0_modifier_s1.pt": {
+      "size": 198185,
+      "mtime_ns": 1791395384142789796,
+      "sha256": "8b60bcb7aa3f4061fa051b2729b8a7d31c5a10db61a5f79d2f0f7f8f5e4f61ab"
+    },
+    "results/c10u_mint2/r3/zs/V2_r0_mint2_s0.pt": {
+      "size": 198185,
+      "mtime_ns": 1791402290330504072,
+      "sha256": "2d1dcc0988b361d6f15946991730a22ffef3eecca6d76a361bef2074795e6e45"
+    },
+    "results/c10u_mint2/r3/zs/F_r0_modifier_s2.pt": {
+      "size": 198185,
+      "mtime_ns": 1791395659286850459,
+      "sha256": "dc2488fee85869eb1693b7e8e36b072cdacadee29e2c7c02adbcfd45f85fee2a"
+    },
+    "results/c10u_mint2/r3/zs/V2_r0_mint2_s1.pt": {
+      "size": 198185,
+      "mtime_ns": 1791404086008326261,
+      "sha256": "228dbdea9697a0503b25a5ad4127f00958b66701bf2197e78351eb4bfcd41f5d"
+    },
+    "results/c10u_mint2/r3/zs/F_r0_mint1_s1.pt": {
+      "size": 198185,
+      "mtime_ns": 1791390588754862142,
+      "sha256": "a931e80572e8f62983cc6e45d7c47a0d5e2a59d0b7513cef2059900cb3b16003"
+    },
+    "results/c10u_mint2/r3/zs/V2_r0_mint1_s0.pt": {
+      "size": 198185,
+      "mtime_ns": 1791397517349882089,
+      "sha256": "612d954c2dd4cc1c7db76755a02e2c06fe5a59d4d9a78ef74b94bd4c387cf6c1"
+    },
+    "results/c10u_mint2/r3/zs/F_r0_mint1_s0.pt": {
+      "size": 198185,
+      "mtime_ns": 1791389099240520221,
+      "sha256": "2b1ba55514cb7abd4b23e48424e4556a029c6f1ad70a7102f49e79e1173e8938"
+    },
+    "results/c10u_mint2/r3/zs/V2_r0_mint1_s1.pt": {
+      "size": 198185,
+      "mtime_ns": 1791399189944981795,
+      "sha256": "0d340cb6da9aeb607a5c5482e7481ac138f2bcdf03579a29bfdb86650b8a4a2f"
+    }
+  },
+  "active_run_files": {
+    "results/mathlab_staging/runs/m2_20261009T192821Z_82233/events.jsonl": {
+      "size": 193606,
+      "mtime_ns": 1791575908990975913
+    },
+    "results/mathlab_staging/runs/m2_20261009T192821Z_82233/admission.json": {
+      "size": 726,
+      "mtime_ns": 1791574101719252156
+    }
+  },
+  "intended_changes": [
+    "tools/mathlab_harvest.py",
+    "tools/mathlab_runtime.py",
+    "mathlab/test_mathlab.py"
+  ],
+  "report_original_sha256": "36187385c602dcc3441d58d890b703ab42468bf9f58006c04469fa2809001186"
+}

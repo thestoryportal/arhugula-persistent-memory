@@ -1,0 +1,17 @@
+{
+  "completed_utc": "2026-10-10T09:13:05.042856+00:00",
+  "head": "72c52fb74d79b68886e8ded65dee9ff968ad0929",
+  "branch": "worktree-c10k-route-a",
+  "source_sha256": {
+    "tools/git_hygiene.py": "f290b46fc837d0f3307995234d004d207f1930cc7b12e0cfb3a1713863254a2c",
+    "tools/git_merge_gate.py": "3bc7d2d84bd9362a9d727eedffe8292983986884069ad00150536d54e559decf",
+    "tests/test_git_automation.py": "d23186aaee4271cbbf5a6dc6dbbb62b16b99cd2c0a284c8e0ecb73c0046eb275"
+  },
+  "regressions_green": 13,
+  "git_automation_tests": 87,
+  "model_free_tests": 80,
+  "context_save": "context_save_mb10_20261010T091305.042856Z.md",
+  "build_report_sha256": "dce4c9937d598383f49518604e8dd5a60f9c39532e2fe57ffa4bac0a2e7457b9",
+  "changes_diff_sha256": "8b12bee90aeaab3bc44bb742ce34766c454fbafe7118819adde8f0351576693d",
+  "mb10_changes_diff_sha256": "53d22ae9b7551ecc606d336b50b9b15474a980bb72c622789114d48b5a9b1174"
+}

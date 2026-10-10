@@ -1,0 +1,14 @@
+test_notebook_boundary_uses_real_budget_events_and_non_stopping_2b (mathlab.test_mathlab.NotebookContractTests.test_notebook_boundary_uses_real_budget_events_and_non_stopping_2b) ... FAIL
+
+======================================================================
+FAIL: test_notebook_boundary_uses_real_budget_events_and_non_stopping_2b (mathlab.test_mathlab.NotebookContractTests.test_notebook_boundary_uses_real_budget_events_and_non_stopping_2b)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 702, in test_notebook_boundary_uses_real_budget_events_and_non_stopping_2b
+    with self.assertRaisesRegex(ValueError,"EVENTS"):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.346s
+
+FAILED (failures=1)

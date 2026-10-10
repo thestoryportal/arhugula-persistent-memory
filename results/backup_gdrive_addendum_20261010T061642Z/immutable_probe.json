@@ -1,0 +1,18 @@
+[
+  {
+    "exit": 0,
+    "stdout": "archive_to_gdrive: VERIFIED /private/tmp/immutable_probe_355ibl1e/remote/tiny.bin sha256=dbdf307947e277493f59ffcf8aa55356be2f06a8c0e4d826be9f73836994d383 bytes=18; local copy retained\n",
+    "stderr": "2026/10/10 00:25:36 NOTICE: Local file system at /private/tmp/immutable_probe_355ibl1e/remote: 0 differences found\n2026/10/10 00:25:36 NOTICE: Local file system at /private/tmp/immutable_probe_355ibl1e/remote: 1 matching files\n",
+    "source": "irreplaceable test",
+    "destination": "irreplaceable test",
+    "manifest": "sha256\tsize_bytes\tremote_path\ndbdf307947e277493f59ffcf8aa55356be2f06a8c0e4d826be9f73836994d383\t18\t/private/tmp/immutable_probe_355ibl1e/remote/tiny.bin\n"
+  },
+  {
+    "exit": 0,
+    "stdout": "archive_to_gdrive: VERIFIED /private/tmp/immutable_probe_355ibl1e/remote/tiny.bin sha256=9d9d56051b7344b869e54a8ecebf1b39f21fe2449222bbdd135e9a608b216738 bytes=17; local copy retained\n",
+    "stderr": "2026/10/10 00:25:36 NOTICE: Local file system at /private/tmp/immutable_probe_355ibl1e/remote: 0 differences found\n2026/10/10 00:25:36 NOTICE: Local file system at /private/tmp/immutable_probe_355ibl1e/remote: 1 matching files\n",
+    "source": "different content",
+    "destination": "different content",
+    "manifest": "sha256\tsize_bytes\tremote_path\ndbdf307947e277493f59ffcf8aa55356be2f06a8c0e4d826be9f73836994d383\t18\t/private/tmp/immutable_probe_355ibl1e/remote/tiny.bin\n9d9d56051b7344b869e54a8ecebf1b39f21fe2449222bbdd135e9a608b216738\t17\t/private/tmp/immutable_probe_355ibl1e/remote/tiny.bin\n"
+  }
+]

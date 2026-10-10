@@ -1,0 +1,46 @@
+{
+  "new_count": 8,
+  "new_tests": [
+    {
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_one_thousand_live_owner_refusals_have_bounded_storage",
+      "red_receipt": "red_refusal_stress.txt",
+      "green_receipt": "green_final.txt"
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_absent_wrapper_launch_fails_fresh_success_promptly",
+      "red_receipt": "red_launch_status.txt",
+      "green_receipt": "green_final.txt"
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_applescript_error_receipt_runs_without_executing_wrapper",
+      "red_receipt": "red_launch_status.txt",
+      "green_receipt": "green_final.txt"
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_exit_75_launch_preserves_real_active_owner_and_inflight_status",
+      "red_receipt": "red_launch_status.txt",
+      "green_receipt": "green_final.txt"
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_launch_receipt_is_atomically_replaced_and_stays_one_file",
+      "red_receipt": "red_launch_status.txt",
+      "green_receipt": "green_final.txt"
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.LaunchReceiptTest.test_receipt_write_failure_is_prompt_and_preserves_existing_files",
+      "red_receipt": "red_launch_status.txt",
+      "green_receipt": "green_final.txt"
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.StatusTest.test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers",
+      "red_receipt": "red_launch_status.txt",
+      "green_receipt": "green_final.txt"
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.StatusTest.test_malformed_launch_receipts_fail_closed_without_changing_heartbeat",
+      "red_receipt": "red_launch_status.txt",
+      "green_receipt": "green_final.txt"
+    }
+  ],
+  "existing_test_methods_unchanged": 54
+}

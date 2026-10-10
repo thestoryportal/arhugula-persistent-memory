@@ -1,0 +1,15 @@
+test_fixture_reproduction_then_calibration_uses_fresh_column_and_real_events (mathlab.test_mathlab.NotebookContractTests.test_fixture_reproduction_then_calibration_uses_fresh_column_and_real_events) ... ERROR
+
+======================================================================
+ERROR: test_fixture_reproduction_then_calibration_uses_fresh_column_and_real_events (mathlab.test_mathlab.NotebookContractTests.test_fixture_reproduction_then_calibration_uses_fresh_column_and_real_events)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 815, in test_fixture_reproduction_then_calibration_uses_fresh_column_and_real_events
+    consistency = result3["consistency_checks"]
+                  ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'consistency_checks'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.260s
+
+FAILED (errors=1)

@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_06.pt": "3df5f7e3c0fe0f4d4cce379c259eb978cffa375c456ad7897f6160e22c4e99db"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Yastovel",
+    "target_new": {
+      "str": " Prague"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_06.pt"
+  }
+}

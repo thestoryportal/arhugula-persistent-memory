@@ -1,0 +1,14 @@
+test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night (tools.test_backup_gdrive_addendum.HeartbeatTest.test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night) ... FAIL
+
+======================================================================
+FAIL: test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night (tools.test_backup_gdrive_addendum.HeartbeatTest.test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 381, in test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night
+    self.assertIn("--bwlimit", actual, "D-C10r-rulings-15 requires the operator's upload timetable")
+AssertionError: '--bwlimit' not found in ['sync', '/private/tmp/gdrive_addendum_kjnfxi5z/source/', '/private/tmp/gdrive_addendum_kjnfxi5z/mirror/', '--backup-dir', '/private/tmp/gdrive_addendum_kjnfxi5z/.deleted/20261010T075453Z-98851/', '--exclude-from', '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_mirror.excludes', '--links', '--log-file', '/private/tmp/gdrive_addendum_kjnfxi5z/heartbeat/runs/20261010T075453Z-98851.jsonl', '--log-level', 'INFO', '--use-json-log', '--exclude', '**/.git/objects/**/tmp_obj_*', '--exclude', '**/.git/objects/tmp_obj_*', '--exclude', '/.git/objects/**/tmp_obj_*', '--exclude', '/.git/objects/tmp_obj_*', '--retries', '1', '--low-level-retries', '10', '--dry-run=false', '--interactive=false', '--ignore-errors=false', '--delete-excluded=false', '--delete-after', '--stats', '1m', '--stats-log-level', 'NOTICE'] : D-C10r-rulings-15 requires the operator's upload timetable
+
+----------------------------------------------------------------------
+Ran 1 test in 0.459s
+
+FAILED (failures=1)

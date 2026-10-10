@@ -1,0 +1,14 @@
+{
+  "artifacts": {
+    "controls_A7_coined_coined_L6_assembled32_factored64.pt": "9a8f66f0cebf3e6653fdc549e5e09265c1f919d75fb7ed0cda1d0d39a6082683"
+  },
+  "update": {
+    "dtype": "torch.float64",
+    "key": "tensor_0",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L6_assembled32_factored64.pt"
+  }
+}

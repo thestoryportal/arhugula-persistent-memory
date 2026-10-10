@@ -1,0 +1,42 @@
+test_missing_corrupt_or_rolled_back_counter_refuses_wrapper (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_missing_corrupt_or_rolled_back_counter_refuses_wrapper) ... 
+  test_missing_corrupt_or_rolled_back_counter_refuses_wrapper (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_missing_corrupt_or_rolled_back_counter_refuses_wrapper) (content=None) ... FAIL
+  test_missing_corrupt_or_rolled_back_counter_refuses_wrapper (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_missing_corrupt_or_rolled_back_counter_refuses_wrapper) (content='broken\n') ... FAIL
+  test_missing_corrupt_or_rolled_back_counter_refuses_wrapper (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_missing_corrupt_or_rolled_back_counter_refuses_wrapper) (content='9\n') ... FAIL
+  test_missing_corrupt_or_rolled_back_counter_refuses_wrapper (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_missing_corrupt_or_rolled_back_counter_refuses_wrapper) (content='2147483647\n') ... FAIL
+
+======================================================================
+FAIL: test_missing_corrupt_or_rolled_back_counter_refuses_wrapper (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_missing_corrupt_or_rolled_back_counter_refuses_wrapper) (content=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1065, in test_missing_corrupt_or_rolled_back_counter_refuses_wrapper
+    self.assertFalse(marker.exists(), "ambiguous allocation must refuse dispatch")
+AssertionError: True is not false : ambiguous allocation must refuse dispatch
+
+======================================================================
+FAIL: test_missing_corrupt_or_rolled_back_counter_refuses_wrapper (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_missing_corrupt_or_rolled_back_counter_refuses_wrapper) (content='broken\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1065, in test_missing_corrupt_or_rolled_back_counter_refuses_wrapper
+    self.assertFalse(marker.exists(), "ambiguous allocation must refuse dispatch")
+AssertionError: True is not false : ambiguous allocation must refuse dispatch
+
+======================================================================
+FAIL: test_missing_corrupt_or_rolled_back_counter_refuses_wrapper (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_missing_corrupt_or_rolled_back_counter_refuses_wrapper) (content='9\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1065, in test_missing_corrupt_or_rolled_back_counter_refuses_wrapper
+    self.assertFalse(marker.exists(), "ambiguous allocation must refuse dispatch")
+AssertionError: True is not false : ambiguous allocation must refuse dispatch
+
+======================================================================
+FAIL: test_missing_corrupt_or_rolled_back_counter_refuses_wrapper (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_missing_corrupt_or_rolled_back_counter_refuses_wrapper) (content='2147483647\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1065, in test_missing_corrupt_or_rolled_back_counter_refuses_wrapper
+    self.assertFalse(marker.exists(), "ambiguous allocation must refuse dispatch")
+AssertionError: True is not false : ambiguous allocation must refuse dispatch
+
+----------------------------------------------------------------------
+Ran 1 test in 0.138s
+
+FAILED (failures=4)

@@ -1,0 +1,112 @@
+test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor) ... FAIL
+test_cpu_launcher_accepts_only_amended_frozen_deadlines (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_launcher_accepts_only_amended_frozen_deadlines) ... 
+  test_cpu_launcher_accepts_only_amended_frozen_deadlines (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_launcher_accepts_only_amended_frozen_deadlines) (notebook='mathlab/m2_solve_repro.py', cap=6540) ... FAIL
+  test_cpu_launcher_accepts_only_amended_frozen_deadlines (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_launcher_accepts_only_amended_frozen_deadlines) (notebook='/private/tmp/tmppg9jsn7v/mathlab/m2_solve_repro.py', cap=6540) ... FAIL
+  test_cpu_launcher_accepts_only_amended_frozen_deadlines (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_launcher_accepts_only_amended_frozen_deadlines) (notebook='mathlab/m2_solve_repro.py', cap=2700) ... FAIL
+test_prereg_amendment_pin_accepts_only_exact_frozen_bytes (mathlab.test_mathlab.ResourceArtifactTests.test_prereg_amendment_pin_accepts_only_exact_frozen_bytes) ... FAIL
+test_full_shape_measurements_set_svd_and_solve_cell_reserves (mathlab.test_mathlab.NotebookContractTests.test_full_shape_measurements_set_svd_and_solve_cell_reserves) ... FAIL
+test_notebook_boundary_uses_real_budget_events_and_non_stopping_2b (mathlab.test_mathlab.NotebookContractTests.test_notebook_boundary_uses_real_budget_events_and_non_stopping_2b) ... FAIL
+
+======================================================================
+FAIL: test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 667, in test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor
+    step = C.validate_notebook(ROOT / "mathlab/m2_solve_repro.py", 6540)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_cpu_runner.py", line 21, in validate_notebook
+    R.require(deadline_s == cap, "DEADLINE", f"step {step} hard deadline is {cap} s")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/mathlab_runtime.py", line 29, in require
+    raise Halt(code, message)
+tools.mathlab_runtime.Halt: DEADLINE: step 2 hard deadline is 2700 s
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 669, in test_cpu_runner_enforces_frozen_deadlines_and_watchdog_floor
+    self.fail("D-ML-2 step-2 deadline must be accepted: " + str(error))
+AssertionError: D-ML-2 step-2 deadline must be accepted: DEADLINE: step 2 hard deadline is 2700 s
+
+======================================================================
+FAIL: test_cpu_launcher_accepts_only_amended_frozen_deadlines (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_launcher_accepts_only_amended_frozen_deadlines) (notebook='mathlab/m2_solve_repro.py', cap=6540)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 753, in test_cpu_launcher_accepts_only_amended_frozen_deadlines
+    self.assertEqual(result.returncode, 29 if allowed else 3, result.stderr)
+AssertionError: 3 != 29 : Refused: notebook or hard deadline differs from the preregistration
+
+
+======================================================================
+FAIL: test_cpu_launcher_accepts_only_amended_frozen_deadlines (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_launcher_accepts_only_amended_frozen_deadlines) (notebook='/private/tmp/tmppg9jsn7v/mathlab/m2_solve_repro.py', cap=6540)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 753, in test_cpu_launcher_accepts_only_amended_frozen_deadlines
+    self.assertEqual(result.returncode, 29 if allowed else 3, result.stderr)
+AssertionError: 3 != 29 : Refused: notebook or hard deadline differs from the preregistration
+
+
+======================================================================
+FAIL: test_cpu_launcher_accepts_only_amended_frozen_deadlines (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_launcher_accepts_only_amended_frozen_deadlines) (notebook='mathlab/m2_solve_repro.py', cap=2700)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 753, in test_cpu_launcher_accepts_only_amended_frozen_deadlines
+    self.assertEqual(result.returncode, 29 if allowed else 3, result.stderr)
+AssertionError: 29 != 3 : CPU notebook refused; admission staged at /private/tmp/tmppg9jsn7v/results/mathlab_staging/runs/m2_20261009T174928Z_56495/admission.json
+
+
+======================================================================
+FAIL: test_prereg_amendment_pin_accepts_only_exact_frozen_bytes (mathlab.test_mathlab.ResourceArtifactTests.test_prereg_amendment_pin_accepts_only_exact_frozen_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 684, in test_prereg_amendment_pin_accepts_only_exact_frozen_bytes
+    self.assertEqual(R.PREREG_SHA, "4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507")
+AssertionError: '33e5aa4e0fc01e07e5b1b7e6fe234e07be41e9c9b2c8edf9496af5572d9b398a' != '4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507'
+- 33e5aa4e0fc01e07e5b1b7e6fe234e07be41e9c9b2c8edf9496af5572d9b398a
++ 4852d1a229e186c1d054c6f1849f3c130f333738aa9dfc297bedac8cd44ad507
+
+
+======================================================================
+FAIL: test_full_shape_measurements_set_svd_and_solve_cell_reserves (mathlab.test_mathlab.NotebookContractTests.test_full_shape_measurements_set_svd_and_solve_cell_reserves)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 820, in test_full_shape_measurements_set_svd_and_solve_cell_reserves
+    C.reproduce(harvest, R.new_directory(root,"m2"), run)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/core.py", line 240, in reproduce
+    P, null_n = projector(covariance(manifest["covariances"][str(layer)]))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/robertrhu/.local/share/uv/python/cpython-3.11.16-macos-aarch64-none/lib/python3.11/unittest/mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 813, in measured_projector
+    self.assertEqual(last[0], 5, "full-shape SVD measured 4.6088 GiB; D-ML-2 rounds up to 5")
+AssertionError: 4 != 5 : full-shape SVD measured 4.6088 GiB; D-ML-2 rounds up to 5
+
+======================================================================
+FAIL: test_notebook_boundary_uses_real_budget_events_and_non_stopping_2b (mathlab.test_mathlab.NotebookContractTests.test_notebook_boundary_uses_real_budget_events_and_non_stopping_2b)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 852, in test_notebook_boundary_uses_real_budget_events_and_non_stopping_2b
+    self.assertEqual([(r["stage"],r["cap_s"]) for r in stages],[("reproduction",6540)])
+AssertionError: Lists differ: [('reproduction', 2700)] != [('reproduction', 6540)]
+
+First differing element 0:
+('reproduction', 2700)
+('reproduction', 6540)
+
+- [('reproduction', 2700)]
+?                   ^^^
+
++ [('reproduction', 6540)]
+?                   ^^^
+
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.768s
+
+FAILED (failures=7)

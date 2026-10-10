@@ -1,0 +1,60 @@
+[
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "results/backup_gdrive_mb6_20261010T072852Z/basic.scpt",
+      "-e",
+      "return \"control\""
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "results/backup_gdrive_mb6_20261010T072852Z/shell.scpt",
+      "-e",
+      "do shell script \"/usr/bin/true\""
+    ],
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "compilation error: A identifier can\u2019t go after this identifier. (-2740)\n"
+  },
+  {
+    "args": [
+      "/usr/bin/osacompile",
+      "-o",
+      "results/backup_gdrive_mb6_20261010T072852Z/additions.scpt",
+      "-e",
+      "use scripting additions",
+      "-e",
+      "do shell script \"/usr/bin/true\""
+    ],
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "compilation error: Expected end of line, etc. but found identifier. (-2741)\n"
+  },
+  {
+    "args": [
+      "/usr/bin/osascript",
+      "-e",
+      "return \"control\""
+    ],
+    "exit_code": 0,
+    "stdout": "control\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "/usr/bin/osascript",
+      "-e",
+      "do shell script \"/usr/bin/true\""
+    ],
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "0:8: syntax error: A identifier can\u2019t go after this identifier. (-2740)\n"
+  }
+]

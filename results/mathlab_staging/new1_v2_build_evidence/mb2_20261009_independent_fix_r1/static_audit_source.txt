@@ -1,0 +1,37 @@
+import ast, hashlib, json, sys
+from pathlib import Path
+from tools import new1_supervisor as S, new1_geometry as G
+d=Path('results/mathlab_staging/new1_v2_build_evidence/mb2_20261009_independent_fix_r1')
+before=json.loads((d/'before_sha256.json').read_text())
+after={p:hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in before['hashes']}
+assert all(after[p]==before['hashes'][p] for p in before['protected'])
+assert after['results/mathlab_staging/new1_build_astra_r1.md']==before['hashes']['results/mathlab_staging/new1_build_astra_r1.md']
+trees=lambda name:(ast.parse((d/'before'/name).read_text()),ast.parse((Path('tools')/name).read_text()))
+old_events,new_events=trees('mathlab_events.py')
+rest=lambda tree:[ast.dump(n) for n in tree.body if not isinstance(n,ast.FunctionDef) or n.name!='fold']
+assert rest(old_events)==rest(new_events),'event schema/emitter/reader contract changed outside fold'
+old_geometry,new_geometry=trees('new1_geometry.py')
+functions=lambda tree:{n.name:n for n in tree.body if isinstance(n,ast.FunctionDef)}
+old_f,new_f=functions(old_geometry),functions(new_geometry)
+unchanged=[]
+for name,node in old_f.items():
+    if name in ('energy','analyse_layer_with_basis'): continue
+    assert ast.dump(node)==ast.dump(new_f[name]),name+' changed outside review scope'
+    unchanged.append(name)
+pins=lambda tree:ast.literal_eval(next(n.value for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='PINNED' for t in n.targets)))
+assert pins(old_geometry)==pins(new_geometry) and len(pins(new_geometry))==20
+assert (S.DEADLINE_S,S.WAIT_S,S.RSS_CAP_GIB,S.FLOOR_GIB)==(1800,300,6,6)
+assert S.RESERVES=={'imports':1,'load':2,'covariance-svd':5,'covariance-checks':2,'update-svd':2,'projections':2,'random-controls':1,'output':1}
+S.verify_prereg(Path('docs/NEW1_ADAPTER_GEOMETRY_PREREG.md'),'eaf7bc21e1ac2cabc5f16703ce5b712debfdad80163f170fe20c99969c024741')
+assert all(name not in sys.modules for name in ('torch','numpy','safetensors','transformers','tokenizers','peft','memit','easyedit'))
+for receipt,code in [('red_command.json',1),('green_command.json',0),('shared_consumers_command.json',0)]:
+    result=json.loads((d/receipt).read_text())
+    assert result['status']==code and result['signal'] is None and result['error'] is None
+result={'protected_count':len(before['protected']),'protected_unchanged':True,'independent_review_unchanged':True,
+'after_sha256':after,'event_schema_emitter_reader_unchanged':True,'only_shared_change':'NEW1 provisional visibility in fold',
+'operand_pins_unchanged':20,'unchanged_geometry_functions':unchanged,'frozen_caps_reserves_unchanged':True,
+'numerical_model_imports_before_admission':False,'real_geometry_run':False,'commits_by_mb2':False}
+(d/'final_static_audit.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps({'protected_unchanged':len(before['protected']),'pins_unchanged':20,'event_module_sha256':after['tools/mathlab_events.py'],
+'supervisor_sha256':after['tools/new1_supervisor.py'],'geometry_sha256':after['tools/new1_geometry.py'],
+'supervisor_tests_sha256':after['tests/test_new1_supervisor.py'],'geometry_tests_sha256':after['tests/test_new1_geometry.py']}))

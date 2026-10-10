@@ -1,0 +1,14 @@
+test_failure_journal_is_bounded_and_keeps_newest_generation (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_failure_journal_is_bounded_and_keeps_newest_generation) ... FAIL
+
+======================================================================
+FAIL: test_failure_journal_is_bounded_and_keeps_newest_generation (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_failure_journal_is_bounded_and_keeps_newest_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1122, in test_failure_journal_is_bounded_and_keeps_newest_generation
+    self.assertTrue(self.journal.is_file(), "failure journal must exist independently")
+AssertionError: False is not true : failure journal must exist independently
+
+----------------------------------------------------------------------
+Ran 1 test in 0.826s
+
+FAILED (failures=1)

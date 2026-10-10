@@ -1,0 +1,33 @@
+test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero) ... 
+  test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero) (completion=None) ... FAIL
+  test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero) (completion='INVALID') ... FAIL
+  test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero) (completion='FAIL') ... FAIL
+
+======================================================================
+FAIL: test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero) (completion=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 536, in test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero
+    self.assertEqual(C.main(),expected)
+AssertionError: 0 != 3
+
+======================================================================
+FAIL: test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero) (completion='INVALID')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 536, in test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero
+    self.assertEqual(C.main(),expected)
+AssertionError: 0 != 3
+
+======================================================================
+FAIL: test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero (mathlab.test_mathlab.ResourceArtifactTests.test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero) (completion='FAIL')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/mathlab/test_mathlab.py", line 536, in test_cpu_runner_requires_a_passing_event_closeout_even_with_exit_zero
+    self.assertEqual(C.main(),expected)
+AssertionError: 0 != 3
+
+----------------------------------------------------------------------
+Ran 1 test in 0.010s
+
+FAILED (failures=3)

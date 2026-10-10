@@ -1,0 +1,6 @@
+{
+  "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "branch": "worktree-c10k-route-a",
+  "HEAD": "8daf9bac2f1e6de893b213a2ba5417115f7fde93",
+  "tracked_status": "M experiments/track_c/c10z_astra_arms.py\n M experiments/track_c/c10z_astra_read.py\n M experiments/track_c/c10z_astra_selftest.py"
+}

@@ -1,0 +1,3730 @@
+{
+  "artifacts": {
+    "pristine_weights.pt": "a16143c862a584be4b1d5e78ece81992830120c1d66c3335dd064574d6aaa3cb"
+  },
+  "model.embed_tokens.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_0",
+    "shape": [
+      151936,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.0.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_11",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.0.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_10",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.0.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_8",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.0.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_9",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.0.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_12",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.0.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_4",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.0.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_3",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.0.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_7",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.0.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_2",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.0.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_1",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.0.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_6",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.0.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_5",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.1.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_23",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.1.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_22",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.1.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_20",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.1.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_21",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.1.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_24",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.1.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_16",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.1.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_15",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.1.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_19",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.1.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_14",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.1.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_13",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.1.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_18",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.1.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_17",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.10.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_131",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.10.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_130",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.10.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_128",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.10.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_129",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.10.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_132",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.10.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_124",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.10.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_123",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.10.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_127",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.10.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_122",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.10.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_121",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.10.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_126",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.10.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_125",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.11.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_143",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.11.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_142",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.11.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_140",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.11.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_141",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.11.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_144",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.11.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_136",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.11.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_135",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.11.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_139",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.11.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_134",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.11.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_133",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.11.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_138",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.11.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_137",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.12.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_155",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.12.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_154",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.12.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_152",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.12.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_153",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.12.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_156",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.12.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_148",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.12.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_147",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.12.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_151",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.12.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_146",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.12.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_145",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.12.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_150",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.12.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_149",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.13.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_167",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.13.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_166",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.13.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_164",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.13.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_165",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.13.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_168",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.13.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_160",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.13.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_159",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.13.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_163",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.13.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_158",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.13.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_157",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.13.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_162",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.13.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_161",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.14.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_179",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.14.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_178",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.14.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_176",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.14.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_177",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.14.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_180",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.14.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_172",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.14.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_171",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.14.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_175",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.14.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_170",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.14.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_169",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.14.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_174",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.14.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_173",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.15.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_191",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.15.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_190",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.15.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_188",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.15.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_189",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.15.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_192",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.15.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_184",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.15.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_183",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.15.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_187",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.15.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_182",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.15.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_181",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.15.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_186",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.15.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_185",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.16.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_203",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.16.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_202",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.16.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_200",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.16.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_201",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.16.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_204",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.16.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_196",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.16.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_195",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.16.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_199",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.16.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_194",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.16.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_193",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.16.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_198",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.16.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_197",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.17.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_215",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.17.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_214",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.17.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_212",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.17.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_213",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.17.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_216",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.17.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_208",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.17.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_207",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.17.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_211",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.17.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_206",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.17.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_205",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.17.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_210",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.17.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_209",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.18.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_227",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.18.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_226",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.18.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_224",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.18.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_225",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.18.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_228",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.18.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_220",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.18.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_219",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.18.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_223",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.18.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_218",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.18.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_217",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.18.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_222",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.18.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_221",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.19.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_239",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.19.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_238",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.19.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_236",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.19.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_237",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.19.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_240",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.19.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_232",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.19.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_231",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.19.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_235",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.19.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_230",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.19.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_229",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.19.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_234",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.19.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_233",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.2.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_35",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.2.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_34",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.2.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_32",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.2.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_33",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.2.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_36",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.2.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_28",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.2.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_27",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.2.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_31",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.2.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_26",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.2.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_25",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.2.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_30",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.2.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_29",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.20.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_251",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.20.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_250",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.20.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_248",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.20.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_249",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.20.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_252",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.20.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_244",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.20.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_243",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.20.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_247",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.20.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_242",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.20.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_241",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.20.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_246",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.20.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_245",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.21.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_263",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.21.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_262",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.21.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_260",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.21.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_261",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.21.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_264",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.21.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_256",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.21.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_255",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.21.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_259",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.21.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_254",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.21.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_253",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.21.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_258",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.21.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_257",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.22.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_275",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.22.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_274",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.22.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_272",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.22.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_273",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.22.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_276",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.22.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_268",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.22.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_267",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.22.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_271",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.22.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_266",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.22.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_265",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.22.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_270",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.22.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_269",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.23.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_287",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.23.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_286",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.23.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_284",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.23.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_285",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.23.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_288",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.23.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_280",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.23.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_279",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.23.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_283",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.23.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_278",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.23.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_277",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.23.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_282",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.23.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_281",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.24.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_299",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.24.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_298",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.24.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_296",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.24.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_297",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.24.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_300",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.24.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_292",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.24.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_291",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.24.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_295",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.24.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_290",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.24.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_289",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.24.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_294",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.24.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_293",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.25.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_311",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.25.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_310",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.25.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_308",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.25.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_309",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.25.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_312",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.25.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_304",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.25.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_303",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.25.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_307",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.25.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_302",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.25.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_301",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.25.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_306",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.25.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_305",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.26.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_323",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.26.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_322",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.26.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_320",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.26.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_321",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.26.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_324",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.26.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_316",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.26.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_315",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.26.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_319",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.26.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_314",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.26.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_313",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.26.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_318",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.26.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_317",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.27.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_335",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.27.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_334",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.27.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_332",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.27.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_333",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.27.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_336",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.27.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_328",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.27.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_327",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.27.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_331",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.27.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_326",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.27.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_325",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.27.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_330",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.27.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_329",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.28.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_347",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.28.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_346",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.28.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_344",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.28.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_345",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.28.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_348",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.28.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_340",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.28.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_339",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.28.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_343",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.28.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_338",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.28.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_337",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.28.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_342",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.28.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_341",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.29.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_359",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.29.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_358",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.29.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_356",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.29.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_357",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.29.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_360",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.29.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_352",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.29.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_351",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.29.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_355",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.29.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_350",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.29.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_349",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.29.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_354",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.29.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_353",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.3.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_47",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.3.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_46",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.3.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_44",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.3.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_45",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.3.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_48",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.3.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_40",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.3.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_39",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.3.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_43",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.3.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_38",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.3.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_37",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.3.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_42",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.3.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_41",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.30.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_371",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.30.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_370",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.30.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_368",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.30.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_369",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.30.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_372",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.30.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_364",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.30.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_363",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.30.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_367",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.30.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_362",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.30.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_361",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.30.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_366",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.30.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_365",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.31.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_383",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.31.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_382",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.31.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_380",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.31.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_381",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.31.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_384",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.31.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_376",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.31.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_375",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.31.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_379",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.31.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_374",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.31.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_373",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.31.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_378",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.31.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_377",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.32.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_395",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.32.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_394",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.32.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_392",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.32.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_393",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.32.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_396",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.32.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_388",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.32.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_387",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.32.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_391",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.32.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_386",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.32.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_385",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.32.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_390",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.32.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_389",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.33.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_407",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.33.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_406",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.33.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_404",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.33.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_405",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.33.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_408",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.33.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_400",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.33.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_399",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.33.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_403",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.33.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_398",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.33.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_397",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.33.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_402",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.33.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_401",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.34.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_419",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.34.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_418",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.34.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_416",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.34.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_417",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.34.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_420",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.34.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_412",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.34.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_411",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.34.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_415",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.34.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_410",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.34.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_409",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.34.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_414",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.34.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_413",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.35.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_431",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.35.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_430",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.35.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_428",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.35.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_429",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.35.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_432",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.35.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_424",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.35.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_423",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.35.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_427",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.35.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_422",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.35.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_421",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.35.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_426",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.35.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_425",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.4.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_59",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.4.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_58",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.4.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_56",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.4.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_57",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.4.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_60",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.4.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_52",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.4.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_51",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.4.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_55",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.4.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_50",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.4.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_49",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.4.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_54",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.4.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_53",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.5.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_71",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.5.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_70",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.5.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_68",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.5.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_69",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.5.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_72",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.5.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_64",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.5.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_63",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.5.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_67",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.5.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_62",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.5.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_61",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.5.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_66",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.5.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_65",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.6.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_83",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.6.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_82",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.6.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_80",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.6.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_81",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.6.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_84",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.6.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_76",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.6.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_75",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.6.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_79",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.6.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_74",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.6.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_73",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.6.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_78",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.6.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_77",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.7.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_95",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.7.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_94",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.7.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_92",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.7.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_93",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.7.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_96",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.7.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_88",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.7.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_87",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.7.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_91",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.7.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_86",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.7.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_85",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.7.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_90",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.7.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_89",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.8.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_107",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.8.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_106",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.8.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_104",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.8.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_105",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.8.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_108",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.8.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_100",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.8.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_99",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.8.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_103",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.8.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_98",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.8.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_97",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.8.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_102",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.8.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_101",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.9.input_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_119",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.9.mlp.down_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_118",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.9.mlp.gate_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_116",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.9.mlp.up_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_117",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.9.post_attention_layernorm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_120",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.9.self_attn.k_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_112",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.9.self_attn.k_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_111",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.9.self_attn.o_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_115",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.9.self_attn.q_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_110",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.9.self_attn.q_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_109",
+    "shape": [
+      2048,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.9.self_attn.v_proj.bias": {
+    "dtype": "torch.float16",
+    "key": "tensor_114",
+    "shape": [
+      256
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.layers.9.self_attn.v_proj.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_113",
+    "shape": [
+      256,
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  },
+  "model.norm.weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_433",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "pristine_weights.pt"
+  }
+}

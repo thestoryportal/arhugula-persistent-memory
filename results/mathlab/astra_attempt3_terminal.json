@@ -1,0 +1,11 @@
+{
+  "status": "HALTED-V7",
+  "coordinator": "astra-attempt3",
+  "attempt_id": "7603175f85bb411b874ab3f8f2806a08",
+  "source": "architecture_profile/c10z_astra_halt_diagnostic_20261009T022838.229295Z.json",
+  "source_sha256": "5255eff966f5a46b9245a7dc8fec648ab0f318ed74c82bea3d0e6998f2835319",
+  "source_outcome": "HALTED",
+  "source_halt_code": "HALTED-V7",
+  "closed_by": "D-C10z-v7diag (commit 38c262f): attempt 3 closed HALTED-V7; no process live",
+  "written_by": "MAESTRO lead record 2026-10-09 for math-lab harvest admission (build report: lead-named terminal JSON)"
+}

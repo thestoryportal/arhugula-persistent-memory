@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_15.pt": "4f241bb65d130dfaeada3b21408b0c50d8f25fb4acf789b54a470ea7614755eb"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Lurmaxen",
+    "target_new": {
+      "str": " Lima"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_15.pt"
+  }
+}

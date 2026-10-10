@@ -1,0 +1,98 @@
+{
+  "new_count": 14,
+  "new_tests": [
+    {
+      "test": "tools.test_backup_gdrive.BackupTest.test_changing_source_between_sync_attempts_cannot_overwrite_archived_history",
+      "red_receipts": [
+        "red_retry_overlap.txt"
+      ]
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_behavior_changing_rclone_environment_refuses_without_dispatch",
+      "red_receipts": [
+        "red_behavior.txt"
+      ]
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_child_pid_publication_failure_reaps_child_and_preserves_raw_failure",
+      "red_receipts": [
+        "red_child_publication.txt"
+      ]
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries",
+      "red_receipts": [
+        "red_behavior.txt"
+      ]
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_held_lock_refusal_cannot_overwrite_owner_heartbeat",
+      "red_receipts": [
+        "red_behavior.txt"
+      ]
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night",
+      "red_receipts": [
+        "red_upload_timetable.txt"
+      ]
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_connection_overrides_refuse_without_dispatch",
+      "red_receipts": [
+        "red_behavior.txt"
+      ]
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_remote_global_overrides_refuse_without_dispatch",
+      "red_receipts": [
+        "red_behavior.txt"
+      ]
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.HeartbeatTest.test_zero_exit_dry_run_or_skipped_operations_cannot_be_success",
+      "red_receipts": [
+        "red_behavior.txt"
+      ]
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_builder_compiles_applet_and_prints_complete_sha256_manifest",
+      "red_receipts": [
+        "red_behavior.txt"
+      ]
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_launchd_waits_for_background_applet",
+      "red_receipts": [
+        "red_behavior.txt"
+      ]
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.LauncherTest.test_nonzero_shell_script_is_caught_promptly_without_dialog",
+      "red_receipts": [
+        "red_behavior.txt"
+      ]
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.StatusTest.test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs",
+      "red_receipts": [
+        "red_behavior.txt"
+      ]
+    },
+    {
+      "test": "tools.test_backup_gdrive_addendum.StatusTest.test_zero_exit_heartbeat_with_dry_run_or_skipped_log_is_not_success",
+      "red_receipts": [
+        "red_behavior.txt"
+      ]
+    }
+  ],
+  "tightened_count": 3,
+  "tightened_tests": {
+    "tools.test_backup_gdrive_addendum.HeartbeatTest.test_terminal_publication_cannot_mask_a_newer_active_run": "red_retry_overlap.txt",
+    "tools.test_backup_gdrive_addendum.HeartbeatTest.test_each_retry_has_its_own_error_count_and_suppression_proof": "red_behavior.txt",
+    "tools.test_backup_gdrive_addendum.HeartbeatTest.test_inflight_is_visible_and_missing_stats_are_unknown": "red_behavior.txt"
+  },
+  "excluded_invalid_red": "red.txt (test quoting SyntaxError)",
+  "fixture_correction_evidence": "red_retry_overlap.txt supplies corrected assertion-based REDs for native retry and admitted overlap",
+  "late_operator_ruling": "D-C10r-rulings-15: exact 08:00,512k 23:00,off timetable; red_upload_timetable.txt"
+}

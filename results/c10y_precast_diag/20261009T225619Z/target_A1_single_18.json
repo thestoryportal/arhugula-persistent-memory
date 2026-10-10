@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_18.pt": "e0b516bcddade5069a94cf96a234bf9245422dce551d41c41a2e8937a56ed06b"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Wombryne",
+    "target_new": {
+      "str": " Rome"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_18.pt"
+  }
+}

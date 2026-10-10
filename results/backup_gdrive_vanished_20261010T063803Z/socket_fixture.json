@@ -1,0 +1,7 @@
+{
+  "status": "BLOCKED",
+  "operation": "AF_UNIX socket bind in private temporary fixture",
+  "errno": 1,
+  "error": "Operation not permitted",
+  "real_socket_fixture_tested": false
+}

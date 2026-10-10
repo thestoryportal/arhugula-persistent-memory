@@ -1,0 +1,236 @@
+{
+  "_doc": "Plain-language scoreboard for the C10 problem (made-up multi-word names), shown by tools/dashboard_report.py. The program session updates it at every result and close-out: add a results row, refresh current/queue, rewrite the brief in plain words. Scores are held-out reworded questions answered exactly right, out of 72. Full detail lives in CORPUS; this file only points there.",
+  "updated": "2026-10-10 01:15 MDT",
+  "goal": 61,
+  "out_of": 72,
+  "brief": "We are trying to teach the model made-up names (like a project codename) so it can recall them when a question is worded differently. Ordinary facts already work (about 69 of 72); made-up two-word names do not: the usual method gets about 12 of 72, our best write method about 40, and the goal is 61. Training the same small part of the model reaches 70 of 72, so that part is big enough, but only with side effects. ASTRA, which writes every word of the answer at once, got 14 of 72 against 12 and did not fit its targets, so it is closed. The offline math lab could not predict real results well enough and was stopped. Now: a check of the math behind earlier writes (NEW-1) and the step-7 setup.",
+  "current": [
+    {
+      "what": "NEW-1 (math check of earlier writes): its first run stopped on a setup check; the saved data reproduces exactly, and a second short check you approved is being built (CPU only).",
+      "status": "being built"
+    },
+    {
+      "what": "Step 7 (solve the weight change directly): stopped at calibration; its next check waits on a storage decision now that Google Drive is ready.",
+      "status": "waiting on you"
+    }
+  ],
+  "results": [
+    {
+      "date": "2026-06-25",
+      "name": "First test: two-word names, usual method",
+      "score": "26 of 72 (real-word pairs 70)",
+      "best": 26,
+      "kind": "write",
+      "verdict": "Problem found: made-up pairs do not stick",
+      "ref": "CORPUS/35"
+    },
+    {
+      "date": "2026-06-26",
+      "name": "Realistic made-up project names",
+      "score": "14 to 22 of 72",
+      "best": 22,
+      "kind": "write",
+      "verdict": "Worse than expected: this is the core problem",
+      "ref": "CORPUS/36"
+    },
+    {
+      "date": "2026-06-26",
+      "name": "Tuning knobs (depth, strength, statistics)",
+      "score": "at best 15 of 72",
+      "best": 15,
+      "kind": "write",
+      "verdict": "No knob fixes it",
+      "ref": "CORPUS/37-39"
+    },
+    {
+      "date": "2026-10-04",
+      "name": "Published method (AnyEdit) ported to the Mac",
+      "score": "0 of 72 reworded",
+      "best": 0,
+      "kind": "stopped",
+      "verdict": "Stopped: did not work here",
+      "ref": "CORPUS/42"
+    },
+    {
+      "date": "2026-10-05",
+      "name": "Change the solver's maths",
+      "score": "8 to 13 of 72",
+      "best": 13,
+      "kind": "write",
+      "verdict": "No help; but injecting the target directly gives 49",
+      "ref": "CORPUS/44"
+    },
+    {
+      "date": "2026-10-05",
+      "name": "One new vocabulary word per name",
+      "score": "39 to 46 of 72",
+      "best": 46,
+      "kind": "write",
+      "verdict": "Best route found; partial",
+      "ref": "CORPUS/45"
+    },
+    {
+      "date": "2026-10-05",
+      "name": "Recomputed target, injected directly (not a write)",
+      "score": "61 of 72",
+      "best": 61,
+      "kind": "injection",
+      "verdict": "Proves a good-enough target exists for this model",
+      "ref": "CORPUS/47"
+    },
+    {
+      "date": "2026-10-05",
+      "name": "A second write on top of the first",
+      "score": "21 of 72 (vs 13)",
+      "best": 21,
+      "kind": "write",
+      "verdict": "Not enough gain",
+      "ref": "CORPUS/49"
+    },
+    {
+      "date": "2026-10-06",
+      "name": "Stacked second write",
+      "score": "24 of 72 (vs 12)",
+      "best": 24,
+      "kind": "write",
+      "verdict": "Doubles recall but disturbs other facts",
+      "ref": "CORPUS/50"
+    },
+    {
+      "date": "2026-10-06",
+      "name": "Self-improving loop (experimental)",
+      "score": "34 of 72",
+      "best": 34,
+      "kind": "candidate",
+      "verdict": "Promising, but may have seen test wordings; parked",
+      "ref": "loop ledger"
+    },
+    {
+      "date": "2026-10-06",
+      "name": "Step 1: fit three wordings at once",
+      "score": "not scored",
+      "best": null,
+      "kind": "inconclusive",
+      "verdict": "Solver could not fit it twice; inconclusive",
+      "ref": "CORPUS/51-52"
+    },
+    {
+      "date": "2026-10-07",
+      "name": "Step 2: second address inside the name",
+      "score": "23 of 72 (vs 15)",
+      "best": 23,
+      "kind": "write",
+      "verdict": "Small gain with side effects; no",
+      "ref": "CORPUS/53"
+    },
+    {
+      "date": "2026-10-07",
+      "name": "Step 3: new vocabulary word per name (repeat)",
+      "score": "46, 37, 40 of 72 (vs 14)",
+      "best": 46,
+      "kind": "inconclusive",
+      "verdict": "No clear answer: the two-word version could not be tested; the earlier one-word method repeated its result (provisional until you confirm)",
+      "ref": "CORPUS/54"
+    },
+    {
+      "date": "2026-10-07",
+      "name": "Step 5: ceiling test, first round (training, not a write)",
+      "score": "70 of 72 (interim, one seed)",
+      "best": 70,
+      "kind": "inconclusive",
+      "verdict": "Interim: training reaches 70 of 72 but disturbs nearby facts asked the same way; needs a repeat run before it counts",
+      "ref": "CORPUS/55"
+    },
+    {
+      "date": "2026-10-07",
+      "name": "Step 4: let each fact pick its own depth",
+      "score": "12 of 72 (vs 11)",
+      "best": 12,
+      "kind": "write",
+      "verdict": "No: one more right answer than the usual method, and putting every fact at one fixed depth did just as well; not taken forward",
+      "ref": "CORPUS/56"
+    },
+    {
+      "date": "2026-10-08",
+      "name": "Step 5: ceiling test, repeat run (training, not a write)",
+      "score": "71 and 70 of 72 (no official reading)",
+      "best": 71,
+      "kind": "inconclusive",
+      "verdict": "Stopped before the official reading: the new seed scored 71 of 72 and the same-seed retrain 70 of 72 (identical to the first round), but a rounding bug in the final self-check blocked the reading; no conclusion yet, needs your ruling",
+      "ref": "D-C10w-p2halt (runbook §5.2)"
+    },
+    {
+      "date": "2026-10-08",
+      "name": "Step 5: ceiling test, official reading (training, not a write)",
+      "score": "70 of 72 (two runs: 70 and 71)",
+      "best": 70,
+      "kind": "inconclusive",
+      "verdict": "Training this small part of the model can recall made-up two-word names at 70 to 71 of 72, so its size is not the wall; but it got there with side effects (other facts disturbed, general-knowledge loss on one run), so a clean ceiling is not shown",
+      "ref": "CORPUS/57"
+    },
+    {
+      "date": "2026-10-08",
+      "name": "Step 6: two ways to prepare the answer before writing it",
+      "score": "17 of 72 (vs 12)",
+      "best": 17,
+      "kind": "write",
+      "verdict": "No: re-weighting the answer's words gave 17 of 72 against 12, too small to count; the other idea made the ordinary control facts worse (64 and 65 of 72, below 68), so its score is not read, and its own answer-preparation step also missed its fit check (3 of 24 against 22); neither is taken forward",
+      "ref": "CORPUS/58"
+    },
+    {
+      "date": "2026-10-09",
+      "name": "Math lab: predict a write's result offline",
+      "score": "calibration failed",
+      "best": null,
+      "kind": "stopped",
+      "verdict": "Stopped: its offline predictions did not match the real runs closely enough to trust, so it is not used to rank ideas",
+      "ref": "CORPUS/60"
+    },
+    {
+      "date": "2026-10-10",
+      "name": "ASTRA: write every word of the answer at once",
+      "score": "14 of 72 (vs 12)",
+      "best": 14,
+      "kind": "write",
+      "verdict": "No: two more right answers than the usual method, but it did not fit its targets, changed too much of the model and disturbed unrelated facts; closed under the current approval",
+      "ref": "CORPUS/61"
+    }
+  ],
+  "queue": [
+    {
+      "name": "NEW-1: math check of earlier writes",
+      "status": "second check approved; being built",
+      "time": "minutes, CPU"
+    },
+    {
+      "name": "Step 7: solve the weight change directly (measurement)",
+      "status": "stopped at calibration; waits on a storage decision",
+      "time": "hours"
+    },
+    {
+      "name": "Lab View v2 (the visual lab view)",
+      "status": "phase 1 done; phase 2 not started",
+      "time": "no GPU"
+    },
+    {
+      "name": "Step 8: protect-statistics from the model's own text",
+      "status": "queued",
+      "time": "hours, unattended"
+    },
+    {
+      "name": "New-word variant with no training loop",
+      "status": "parked",
+      "time": "one run"
+    },
+    {
+      "name": "Multiple-choice confidence check (read side)",
+      "status": "not started",
+      "time": "short"
+    },
+    {
+      "name": "Bigger model (7B)",
+      "status": "not indicated: the ceiling test found the current part big enough",
+      "time": "a day of setup"
+    }
+  ]
+}

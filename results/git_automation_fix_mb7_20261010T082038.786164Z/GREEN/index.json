@@ -1,0 +1,401 @@
+[
+  {
+    "test": "test_ci_disappears_during_final_hygiene_refuses_merge",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_ci_disappears_during_final_hygiene_refuses_merge"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_ci_disappears_during_final_hygiene_refuses_merge.log"
+  },
+  {
+    "test": "test_ci_flips_to_fail_during_final_hygiene_refuses_merge",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_ci_flips_to_fail_during_final_hygiene_refuses_merge"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_ci_flips_to_fail_during_final_hygiene_refuses_merge.log"
+  },
+  {
+    "test": "test_ci_flips_to_pending_during_final_hygiene_refuses_merge",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_ci_flips_to_pending_during_final_hygiene_refuses_merge"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_ci_flips_to_pending_during_final_hygiene_refuses_merge.log"
+  },
+  {
+    "test": "test_ci_flips_to_pending_during_ready_refuses_merge",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_ci_flips_to_pending_during_ready_refuses_merge"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_ci_flips_to_pending_during_ready_refuses_merge.log"
+  },
+  {
+    "test": "test_ci_other_head_after_final_hygiene_refuses_merge",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_ci_other_head_after_final_hygiene_refuses_merge"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_ci_other_head_after_final_hygiene_refuses_merge.log"
+  },
+  {
+    "test": "test_clean_idle_worktree_is_manual_candidate_then_second_apply_noop",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_clean_idle_worktree_is_manual_candidate_then_second_apply_noop"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_clean_idle_worktree_is_manual_candidate_then_second_apply_noop.log"
+  },
+  {
+    "test": "test_cli_post_merge_failure_keeps_merged_status_and_sha",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_cli_post_merge_failure_keeps_merged_status_and_sha"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_cli_post_merge_failure_keeps_merged_status_and_sha.log"
+  },
+  {
+    "test": "test_commit_parent_adapter_reads_exact_commit",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_commit_parent_adapter_reads_exact_commit"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_commit_parent_adapter_reads_exact_commit.log"
+  },
+  {
+    "test": "test_commit_parent_adapter_refuses_wrong_or_missing_evidence",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_commit_parent_adapter_refuses_wrong_or_missing_evidence"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_commit_parent_adapter_refuses_wrong_or_missing_evidence.log"
+  },
+  {
+    "test": "test_detached_commit_after_last_inspection_stays_reachable",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_detached_commit_after_last_inspection_stays_reachable"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_detached_commit_after_last_inspection_stays_reachable.log"
+  },
+  {
+    "test": "test_ignored_artifact_written_after_last_inspection_survives_apply",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_ignored_artifact_written_after_last_inspection_survives_apply"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_ignored_artifact_written_after_last_inspection_survives_apply.log"
+  },
+  {
+    "test": "test_master_advances_after_final_stable_reports_merged_onto_moved_base",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_master_advances_after_final_stable_reports_merged_onto_moved_base"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_master_advances_after_final_stable_reports_merged_onto_moved_base.log"
+  },
+  {
+    "test": "test_master_moves_during_post_merge_ci_reports_merged_with_failure",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_master_moves_during_post_merge_ci_reports_merged_with_failure"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_master_moves_during_post_merge_ci_reports_merged_with_failure.log"
+  },
+  {
+    "test": "test_parent_read_failure_reports_merged_with_failure",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_parent_read_failure_reports_merged_with_failure"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_parent_read_failure_reports_merged_with_failure.log"
+  },
+  {
+    "test": "test_post_merge_failed_ci_reports_merged_with_failure",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_post_merge_failed_ci_reports_merged_with_failure"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_post_merge_failed_ci_reports_merged_with_failure.log"
+  },
+  {
+    "test": "test_post_merge_hygiene_failure_reports_merged_with_failure",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_post_merge_hygiene_failure_reports_merged_with_failure"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_post_merge_hygiene_failure_reports_merged_with_failure.log"
+  },
+  {
+    "test": "test_post_merge_timeout_reports_merged_with_failure",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_post_merge_timeout_reports_merged_with_failure"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_post_merge_timeout_reports_merged_with_failure.log"
+  },
+  {
+    "test": "test_render_sorts_and_times_completed_logs_without_birthtime",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_render_sorts_and_times_completed_logs_without_birthtime"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_render_sorts_and_times_completed_logs_without_birthtime.log"
+  },
+  {
+    "test": "test_run_rows_uses_birthtime_or_mtime_without_birthtime",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_run_rows_uses_birthtime_or_mtime_without_birthtime"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_run_rows_uses_birthtime_or_mtime_without_birthtime.log"
+  }
+]

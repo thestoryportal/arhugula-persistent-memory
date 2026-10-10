@@ -1,6 +1,7 @@
 ---
-id: c10-band-knobs-failed-for-hard-coined-values
-date: 2026-06-26
+name: c10-band-knobs-failed-for-hard-coined-values
+description: "RETIRED 2026-10-10 — merged into c10-memit-knobs-failed-before-anyedit; do not act on this note"
+metadata:
+  type: project
 ---
-
-C10 hard project-coined multi-word values survived neither cheap band knob: later `[8,12]` (D-C10e-bandknob) nor widened `[4,12]` (D-C10f-band412 ⟨D-C10f-band412@d93d6a19⟩) rescued A7 held-out `para_full`; the latter worsened 11.1→6.9 while canon only 29.2→41.7 and controls stayed 90.3. Treat this as failure of tested band recipes only, not proof AnyEdit is necessary.
+RETIRED 2026-10-10 by the memory audit (results/memory_audit_20261010/). Its band-knob numbers (CORPUS/37–38) were merged into [[c10-memit-knobs-failed-before-anyedit]]. Full prior text: `git show fd77f7e:memory_mirror/c10-band-knobs-failed-for-hard-coined-values.md`.

@@ -1,0 +1,440 @@
+diff --git a/results/backup_gdrive_build_report.md b/results/backup_gdrive_build_report.md
+index 6194e21..50c4b3b 100644
+--- a/results/backup_gdrive_build_report.md
++++ b/results/backup_gdrive_build_report.md
+@@ -251,3 +251,77 @@ Final code/test SHA-256:
+ Done: scoped local corrections, all available checks, RED/GREEN/hash/scope/context receipts. In flight: none. Next: MAESTRO4 obtains binding Astra r2, builds the host applet and verifies its manifest and exit-1/no-dialog behavior, deploys reviewed main-checkout files and performs authorized Removable Volumes/launchd checks. No binding GO, Drive correctness guarantee or activation acceptance is claimed.
+ 
+ **BINDING context directive:** Watch this session and every orchestrated team's Context N% left. At approximately 20% remaining, stop starting work; write done/in-flight work, exact paths, next steps and risks into the task report; notify MAESTRO4 to use a fresh successor. Restate this directive in every handoff; never approach full-window compaction.
++
++
++## MB8 Astra r2 findings 5 and 6 — 2026-10-10
++
++**Local R2 fix build DONE: 72 tests run, 70 PASS, 2 UNVERIFIED/skipped, exit 0, 108.950 s.** All eight new tests have saved, assertion-based REDs. Binding Astra r3 and host launcher/activation checks remain with MAESTRO5. This infrastructure preserves the F1 evidence/storage boundary; no science run or new scientific claim.
++
++Receipts: `results/backup_gdrive_mb8_20261010T082434Z/`. `verification_final.json` records acceptance and both 1,000-invocation timings; `tdd_index_final.json` maps each new test to RED/GREEN. Exact acceptance:
++
++```sh
++LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum tools.test_backup_gdrive -v
++```
++
++### Finding 5: internal-disk launch receipt and read-only status
++
++The applet embeds two shell literals. `launchShell` synchronously runs Bash against the wrapper and captures its actual exit. `receiptShell` is independently executable with `/bin/sh`: it writes `$HOME/Library/Logs/memit-gdrive-backup/launch_receipt.json`, containing schema, microsecond UTC, wrapper path, exit code or AppleScript error number. The receipt writer uses only internal `/bin` and `/usr/bin` tools: mkdir, mktemp, Perl with bundled JSON::PP/Time::HiRes/POSIX, mv and trap cleanup. It never sources, reads or executes the wrapper or any volume-hosted helper. The receipt is encoded as JSON and replaced with same-directory temp + mv, preserving quoted/backslash paths and one bounded final file. Microseconds avoid a later failure comparing older than a heartbeat written within the same second.
++
++Wrapper nonzero exits, including 127 for an absent path and 75 for a held lock, are recorded without raising an applet shell error. AppleScript errors use the independent receipt-only path. Both that path and receipt-write errors are caught, with no dialog-producing handler. **AppleScript/app-bundle execution is UNVERIFIED** here; the shell execution evidence does not prove native applet behavior. `launch_shell.sh` and `receipt_shell.sh` are inspection copies extracted from the applet literals, not runtime dependencies.
++
++Status reads the sibling launch receipt and never writes `last_run.json`. A strictly newer failed launch takes precedence over the last heartbeat's end (or start while incomplete); a completed newer/equal heartbeat recovers from older launcher evidence. Exit 75 remains a refusal and leaves a real active owner in flight. A success launch receipt alone cannot make an incomplete/failed backup healthy. Malformed/future receipts fail closed. Tests preserve heartbeat bytes across launch errors, receipt writes, status reads and active-owner exit-75 refusal.
++
++`red_launch_status.txt`: seven tests fail against the original launcher/status, including fresh success + actual absent-wrapper invocation still reporting success, and no receipt for successful launches. `green_launch_status.txt`: all seven PASS after the fix. The receipt-only AppleScript-error regression executes the embedded writer with error -1708 and proves the supplied wrapper was never executed. The unwritable-directory regression executes real shell receipt logic, requires prompt nonzero, preserves the old receipt/heartbeat and leaves no temporary file. Neither regression greps AppleScript for try/on-error/mv as behavior proof.
++
++### Finding 6: one latest refusal receipt
++
++Non-owners atomically replace `<heartbeat-parent>/refusals/latest-refusal.json` using the existing fsync/rename recorder. One latest receipt preserves the current refusal/run identity with constant storage and needs no ring index or retention loop. Ownership, lock recovery rules, owner heartbeat, retry flags, excludes and upload timetable are unchanged. Historical files are preserved; this build performs no historical receipt deletion.
++
++| Evidence | Actual Bash refusals | Wall seconds | Refusal files | Total heartbeat-directory files | Total bytes |
++|---|---:|---:|---:|---:|---:|
++| `red_refusal_stress.txt` | 1,000 | 58.003 | 1,000 | 1,002 | 512,414 |
++| `green_final.txt` | 1,000 | 60.141 | 1 | 3 | 1,010 |
++
++Both runs held the lock in a **real live wrapper**, with its dispatched child blocked on a local FIFO. The test checks the owner remains alive, its heartbeat is byte-for-byte unchanged, and status stays incomplete/in flight. RED fails at 1,000 refusal files versus the required bound of one; GREEN passes every assertion. The count was never reduced; both 1,000-run timings are below two minutes. Runs were foreground and used only local stubs/storage. All 54 existing addendum test methods are AST-identical; the original ten-test module is unchanged. No test was removed or weakened.
++
++### MAESTRO5 host checks — UNVERIFIED, one copy-paste list
++
++The acceptance suite again observes osacompile exit 1 at the Standard Additions command (`(-2741)`), plus an independent osascript raw-event control failing with `com.apple.hiservices-xpcservice` / `Connection invalid` / error -1708. Exact observations are in the two skipped lines of `green_final.txt`. Compilation, bundle manifest and native no-dialog completion are not claimed PASS. The plist remains `/usr/bin/open -W -g /Users/robertrhu/Applications/MemitGdriveBackup.app`, StartInterval=21600, RunAtLoad=false.
++
++`host_launcher_checks.py` is a **prepared host-only helper, AST-checked but not executed here**. It compiles actual app bundles on the internal disk and invokes exactly `/usr/bin/open -W -g <bundle>` with no osascript substitute. Only the wrapper-path and isolated internal HOME literals vary; the applet executable body is the reviewed source. It preserves its fixtures/bundles, hashes the bundle, logs the full command and writes `host_<case>_<UTC>/commands.json` and `summary.json` alongside these receipts. It never installs into Applications or changes launchd. The absent case uses a nonexistent `/Volumes/memit-mb8-absent-.../backup_gdrive.sh` namespace, without unmounting the working volume. A timeout or failed assertion is FAILED, never a skip/PASS; a timed-out app may need host inspection.
++
++Run outside the Codex sandbox from this worktree, before activation:
++
++```sh
++# Finding 9: open -W must stay live while the 3-second stub runs, then await its completion.
++LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -B results/backup_gdrive_mb8_20261010T082434Z/host_launcher_checks.py long
++# Finding 9: exit-75 stub must exit promptly and keep the live owner's status/heartbeat intact.
++LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -B results/backup_gdrive_mb8_20261010T082434Z/host_launcher_checks.py exit75
++# Absent volume path: open -W -g must exit promptly, write exit 127, and override seeded fresh success.
++LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -B results/backup_gdrive_mb8_20261010T082434Z/host_launcher_checks.py absent
++# Receipt-write refusal: the native applet must still exit promptly without an error dialog.
++LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -B results/backup_gdrive_mb8_20261010T082434Z/host_launcher_checks.py writefail
++# Existing native compiler/manifest and caught exit-1 checks: all three must actually PASS on the host.
++LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.LauncherTest -v
++```
++
++Astra finding 9's TCC/activation conditions remain: the operator's initial Removable Volumes grant must complete before unattended activation and before demanding a fresh kickstart heartbeat. Host helper receipts do not grant production TCC or prove actual launchd activation. MAESTRO5 owns binding Astra r3, reviewed merge/deployment, production applet grant, authorized job checks and eventual full-copy verification; retire the old job only after verified full-copy completion. No activation GO is inferred from this build.
++
++### Final scope and hashes
++
++Bash/sh syntax, Python AST, parsed plist and scoped diff checks PASS (`syntax_final.json`). Disk budget was under 20 MiB; baseline free space was 91,809,222,656 B on memit and 212,276,322,304 B internally, exceeding budget + 20 GiB. No Drive/network/model/GPU call, dependency installation, commit/push/merge, Applications installation, launchd mutation or repo deletion was performed. The mirror excludes, old mirror, archive helper, CLAUDE.md, AGENTS.md, runbook, memory_mirror and dashboard test remain at baseline hashes. Other builders changed `results/mathlab_staging/new1_construction_diag_scope.md`, `tests/test_git_automation.py`, `tests/test_new1_construction_diag.py`, `tools/dashboard_experiment.py`, `tools/git_hygiene.py` and `tools/git_merge_gate.py` concurrently; their before/after hashes are recorded in `scope_drift.json` and no change was reverted. Branch and HEAD remained `worktree-c10k-route-a` / `5620b948ea6f88d6efcb352ebce32d8cadfef816` at this audit. One environment-required graft lookup failed before execution (Node absent); no graph output was used.
++
++Final changed code/test SHA-256:
++
++| File | SHA-256 |
++|---|---|
++| `tools/backup_gdrive.sh` | `506ce31845bcbe812261ce128f2119f247cfe270e69b8af08e9a612207aed9ce` |
++| `tools/backup_gdrive_status.py` | `f5c98ad6adb3530ac215befbfcedc94a63368a9d153186864f67823db7c40b25` |
++| `tools/launchd/MemitGdriveBackup.applescript` | `ebafee3ad82a4376ec5dda0fbc823f2170c795cddd56d62f5ede730d6d5c3bab` |
++| `tools/test_backup_gdrive_addendum.py` | `efa0c4e8047279bafe4dd04cfabb2b7839ff68ea012618f93b53cfd44785d985` |
++
++The report's final SHA-256 is recorded externally in `SHA256SUMS.txt` and `audit.json` to avoid self-reference. Those receipts include hashes for all seven reviewed code/test/launcher inputs, the appended report and prepared host helper. The preexisting report bytes are preserved exactly; this section is appended.
++
++Done: local P1/P2 corrections, exact acceptance, eight REDs, bounded-storage evidence, syntax/scope/hash audit and prepared host commands. In flight: none. Next: MAESTRO5 runs the host list and submits these exact hashes/evidence to Astra r3; activation remains host-owned. `context_saved.md` preserves decisions and this handoff within the authorized receipt namespace. Learning for the successor: pre-wrapper failure evidence must live off the source volume, and refusal history must not become an unbounded per-launch sink.
++
++**BINDING context directive:** Watch this session and every orchestrated team's Context N% left. At approximately 20% remaining, stop starting work; write done/in-flight work, exact paths, next steps and risks into the task report; notify MAESTRO5 to use a fresh successor. Restate this directive in every handoff; never approach full-window compaction.
+diff --git a/tools/backup_gdrive.sh b/tools/backup_gdrive.sh
+index 6fe90d3..67f5f21 100755
+--- a/tools/backup_gdrive.sh
++++ b/tools/backup_gdrive.sh
+@@ -38,7 +38,7 @@ log() {
+ die() { log "FATAL: $*"; exit 1; }
+ write_heartbeat() {
+   local target="$HEARTBEAT"
+-  [ "$LOCK_OWNED" = 1 ] || target="$(/usr/bin/dirname "$HEARTBEAT")/refusals/$STAMP.json"
++  [ "$LOCK_OWNED" = 1 ] || target="$(/usr/bin/dirname "$HEARTBEAT")/refusals/latest-refusal.json"
+   "$PYTHON" "$STATUS_TOOL" record --heartbeat "$target" --phase "$1" \
+     --run-id "$STAMP" --start "$START" --exit-code "${2:-0}" \
+     --rclone-version "$RCLONE_VERSION" --log "$LOG" --run-log "$RUN_LOG" \
+diff --git a/tools/backup_gdrive_status.py b/tools/backup_gdrive_status.py
+index e6ec417..0f38a1b 100755
+--- a/tools/backup_gdrive_status.py
++++ b/tools/backup_gdrive_status.py
+@@ -229,15 +229,56 @@ def record(args):
+             os.unlink(name)
+ 
+ 
++def launch_failure(path, heartbeat_time):
++    """The applet's internal-disk receipt is evidence, never an owner heartbeat."""
++    try:
++        receipt = json.loads((path.parent/"launch_receipt.json").read_text())
++    except FileNotFoundError:
++        return None
++    except (OSError, ValueError) as exc:
++        return "malformed or unavailable launch receipt: " + str(exc).replace("\n", " ")
++    try:
++        required = {"schema", "utc", "wrapper_path", "exit_code", "error_number"}
++        if (not isinstance(receipt, dict) or not required.issubset(receipt) or
++                type(receipt["schema"]) is not int or receipt["schema"] != 1 or
++                not isinstance(receipt["wrapper_path"], str) or not receipt["wrapper_path"]):
++            return "malformed launch receipt"
++        exit_code, error_number = receipt["exit_code"], receipt["error_number"]
++        if ((exit_code is None) == (error_number is None) or
++                (exit_code is not None and (type(exit_code) is not int or not 0 <= exit_code <= 255)) or
++                (error_number is not None and (type(error_number) is not int or error_number == 0))):
++            return "malformed launch receipt outcome"
++        stamp = dt.datetime.fromisoformat(receipt["utc"].replace("Z", "+00:00"))
++        if stamp.tzinfo is None or stamp > dt.datetime.now(dt.timezone.utc):
++            return "malformed or future launch receipt timestamp"
++        # A refused contender cannot change the active owner's health.
++        if exit_code in (0, 75) or error_number == 75:
++            return None
++        if heartbeat_time is not None:
++            latest = dt.datetime.fromisoformat(heartbeat_time.replace("Z", "+00:00"))
++            if latest.tzinfo is None:
++                return "malformed heartbeat timestamp for launch receipt"
++            if stamp <= latest:
++                return None
++        outcome = "exit %s" % exit_code if exit_code is not None else "error %s" % error_number
++        wrapper = receipt["wrapper_path"].replace("\r", "\\r").replace("\n", "\\n")
++        return "failed backup launch (%s): %s; at %s" % (outcome, wrapper, receipt["utc"])
++    except (ValueError, TypeError, AttributeError, OverflowError) as exc:
++        return "malformed launch receipt: " + str(exc).replace("\n", " ")
++
++
+ def health(path):
+-    if not path.exists():
+-        return False, "missing heartbeat"
+     try:
++        if not path.exists():
++            return False, launch_failure(path, None) or "missing heartbeat"
+         value = json.loads(path.read_text())
+         required = {"schema", "start", "end", "exit_code", "bytes_transferred", "rclone_version",
+                     "log_path", "wrapper_log", "wrapper_log_identity", "wrapper_log_offset"}
+         if not isinstance(value, dict) or not required.issubset(value) or value["schema"] != 1:
+             return False, "malformed heartbeat"
++        failure = launch_failure(path, value["end"] or value["start"])
++        if failure:
++            return False, failure
+         if value["end"] is None or value["exit_code"] is None:
+             owner, child = value.get("owner_pid"), value.get("rclone_pid")
+             if type(owner) is int and owner > 0 and (child is None or type(child) is int and child > 0):
+diff --git a/tools/launchd/MemitGdriveBackup.applescript b/tools/launchd/MemitGdriveBackup.applescript
+index 5e07c69..d6a244c 100644
+--- a/tools/launchd/MemitGdriveBackup.applescript
++++ b/tools/launchd/MemitGdriveBackup.applescript
+@@ -1,4 +1,13 @@
+--- Shell failures are recorded by the wrapper; applet errors must never wait on a dialog.
++-- Embed failure recording: it must remain available when the volume is absent.
++property wrapperPath : "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_gdrive.sh"
++property launchShell : "wrapper=$1\nif /bin/bash \"$wrapper\"; then\n    exit_code=0\nelse\n    exit_code=$?\nfi\nset -- \"$wrapper\" \"$exit_code\" \"\"\n"
++-- This separate literal can run without loading or executing the wrapper.
++property receiptShell : "set -eu\nwrapper=$1\nexit_code=${2:-}\nerror_number=${3:-}\nreceipt_dir=\"$HOME/Library/Logs/memit-gdrive-backup\"\n/bin/mkdir -p \"$receipt_dir\"\ntemporary=$(/usr/bin/mktemp \"$receipt_dir/.launch-receipt.XXXXXX\")\ntrap '/bin/rm -f \"$temporary\"' EXIT\ntrap 'exit 1' HUP INT TERM\n/usr/bin/perl -MJSON::PP -MTime::HiRes=gettimeofday -MPOSIX=strftime -e '\n    my ($sec, $micro) = gettimeofday();\n    print encode_json({schema => 1,\n        utc => strftime(\"%Y-%m-%dT%H:%M:%S\", gmtime($sec)) . sprintf(\".%06dZ\", $micro),\n        wrapper_path => $ARGV[0],\n        exit_code => length($ARGV[1]) ? int($ARGV[1]) : undef,\n        error_number => length($ARGV[2]) ? int($ARGV[2]) : undef}), \"\\n\";\n' \"$wrapper\" \"$exit_code\" \"$error_number\" > \"$temporary\"\n/bin/mv -f \"$temporary\" \"$receipt_dir/launch_receipt.json\"\n"
++
+ try
+-    do shell script "/bin/bash /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_gdrive.sh"
++    do shell script "/bin/sh -c " & quoted form of (launchShell & receiptShell) & " backup-launch " & quoted form of wrapperPath
++on error errorMessage number errorNumber
++    try
++        do shell script "/bin/sh -c " & quoted form of receiptShell & " backup-receipt " & quoted form of wrapperPath & " '' " & quoted form of (errorNumber as text)
++    end try
+ end try
+diff --git a/tools/test_backup_gdrive_addendum.py b/tools/test_backup_gdrive_addendum.py
+index 8e75aef..4728b0b 100644
+--- a/tools/test_backup_gdrive_addendum.py
++++ b/tools/test_backup_gdrive_addendum.py
+@@ -5,6 +5,8 @@ import json
+ import os
+ from pathlib import Path
+ import plistlib
++import re
++import shlex
+ import subprocess
+ import sys
+ import tempfile
+@@ -52,6 +54,56 @@ class Fixture(unittest.TestCase):
+         self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+         self.assertIn(word, (result.stdout+result.stderr).lower())
+ 
++    def write_launch_receipt(self, **changes):
++        value = {"schema": 1, "utc": dt.datetime.now(dt.timezone.utc).isoformat(),
++                 "wrapper_path": str(BACKUP), "exit_code": 127, "error_number": None}
++        value.update(changes)
++        path = self.heartbeat.parent/"launch_receipt.json"
++        path.write_text(json.dumps(value)+"\n")
++        return path
++
++    def hold_live_owner(self):
++        source = self.base/"held-source"
++        source.mkdir()
++        (source/"tiny.txt").write_text("local fixture")
++        release = self.base/"owner-release.fifo"
++        os.mkfifo(release)
++        entered = self.base/"owner-entered"
++        rclone = self.base/"held-rclone"
++        rclone.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo rclone-test; exit 0; fi\n'
++                          'if [ "$1" = config ]; then exec '+RCLONE+' "$@"; fi\n'
++                          'printf entered > '+shlex.quote(str(entered))+'\n'
++                          'IFS= read -r released < '+shlex.quote(str(release))+'\n')
++        rclone.chmod(0o700)
++        env = dict(os.environ, BACKUP_SRC=str(source), BACKUP_DEST=str(self.base/"held-mirror"),
++                   BACKUP_LOG=str(self.log), BACKUP_HEARTBEAT=str(self.heartbeat),
++                   BACKUP_LOCK_DIR=str(self.base/"lock"), BACKUP_MOUNT_POINT="/",
++                   BACKUP_RCLONE=str(rclone), BACKUP_EXCLUDES=str(ROOT/"tools/backup_mirror.excludes"))
++        owner = subprocess.Popen(["/bin/bash", str(BACKUP)], env=env, stdout=subprocess.PIPE,
++                                 stderr=subprocess.PIPE, text=True)
++        self.addCleanup(owner.communicate, timeout=5)
++        def release_owner():
++            if owner.poll() is None:
++                fd = os.open(release, os.O_WRONLY | os.O_NONBLOCK)
++                try:
++                    os.write(fd, b"release\n")
++                finally:
++                    os.close(fd)
++        self.addCleanup(release_owner)
++        deadline = time.monotonic()+3
++        while owner.poll() is None and time.monotonic()<deadline:
++            if (entered.exists() and self.heartbeat.exists() and
++                    json.loads(self.heartbeat.read_text()).get("rclone_pid")):
++                break
++            time.sleep(0.01)
++        self.assertTrue(entered.exists(), "positive control: real wrapper owns the lock and dispatched its child")
++        self.assertIsNone(owner.poll())
++        value = json.loads(self.heartbeat.read_text())
++        self.assertEqual(value["owner_pid"], owner.pid)
++        self.assertGreater(value["rclone_pid"], 0)
++        self.assert_bad("incomplete")
++        return owner, env
++
+ 
+ class StatusTest(Fixture):
+     def test_fresh_success(self):
+@@ -59,6 +111,38 @@ class StatusTest(Fixture):
+         result = self.status()
+         self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+ 
++    def test_launch_failure_precedes_fresh_success_and_newer_heartbeat_recovers(self):
++        self.write_heartbeat()
++        self.assertEqual(self.status().returncode, 0, "positive control: previous backup is fresh")
++        previous = self.heartbeat.read_bytes()
++        receipt = self.write_launch_receipt()
++        self.assert_bad("launch")
++        self.assertEqual(self.heartbeat.read_bytes(), previous, "status must only read the owner's heartbeat")
++        stamp = json.loads(receipt.read_text())["utc"]
++        for end in [stamp, (dt.datetime.fromisoformat(stamp)+dt.timedelta(microseconds=1)).isoformat()]:
++            self.write_heartbeat(end=end)
++            self.assertEqual(self.status().returncode, 0, "only a strictly newer launch failure takes precedence")
++        self.write_launch_receipt(exit_code=0)
++        self.write_heartbeat(exit_code=23)
++        self.assert_bad("failed")
++
++    def test_malformed_launch_receipts_fail_closed_without_changing_heartbeat(self):
++        self.write_heartbeat()
++        previous = self.heartbeat.read_bytes()
++        path = self.heartbeat.parent/"launch_receipt.json"
++        for content in ["{torn", "[]", "{}"]:
++            with self.subTest(content=content):
++                path.write_text(content)
++                self.assert_bad("launch")
++        for changes in [{"schema": 2}, {"utc": "yesterday"}, {"utc": "2026-10-10T01:00:00"},
++                        {"utc": (dt.datetime.now(dt.timezone.utc)+dt.timedelta(hours=1)).isoformat()},
++                        {"exit_code": True}, {"exit_code": None}, {"wrapper_path": ""},
++                        {"error_number": "-1708"}, {"error_number": -1708}]:
++            with self.subTest(changes=changes):
++                self.write_launch_receipt(**changes)
++                self.assert_bad("launch")
++        self.assertEqual(self.heartbeat.read_bytes(), previous)
++
+     def test_incomplete_dead_owner_and_rclone_are_stale_without_expiring_live_runs(self):
+         dead = subprocess.Popen(["/usr/bin/true"])
+         dead.wait(timeout=2)
+@@ -328,6 +412,29 @@ source "$1"
+         self.assertEqual(value["bytes_transferred"], 0)
+         self.assert_bad("incomplete")
+ 
++    def test_one_thousand_live_owner_refusals_have_bounded_storage(self):
++        owner, env = self.hold_live_owner()
++        previous = self.heartbeat.read_bytes()
++        start = time.monotonic()
++        for invocation in range(1000):
++            result = run_process(["/bin/bash", str(BACKUP)], env=env, timeout=10)
++            self.assertEqual(result.returncode, 75, "refusal %s: %s" % (invocation+1, result.stderr))
++        elapsed = time.monotonic()-start
++        files = [path for path in self.heartbeat.parent.rglob("*") if path.is_file()]
++        refusals = list((self.heartbeat.parent/"refusals").glob("*.json"))
++        print("refusal_stress: "+json.dumps({"invocations": 1000, "wall_s": round(elapsed, 3),
++                                           "files": len(files), "refusal_files": len(refusals),
++                                           "bytes": sum(path.stat().st_size for path in files)}), flush=True)
++        self.assertIsNone(owner.poll(), "owner must remain live through all 1,000 refusals")
++        self.assertEqual(self.heartbeat.read_bytes(), previous)
++        self.assert_bad("incomplete")
++        self.assertEqual(len(refusals), 1, "refusal storage must stay at one latest receipt after 1,000 real runs")
++        self.assertEqual(refusals[0].name, "latest-refusal.json")
++        self.assertEqual(json.loads(refusals[0].read_text())["exit_code"], 75)
++        self.assertLessEqual(len(files), 3, "only owner heartbeat/log and latest refusal may remain")
++        self.assertLess(sum(path.stat().st_size for path in files), 16384)
++        self.assertFalse(list(self.heartbeat.parent.rglob(".last_run.*")))
++
+     def test_behavior_changing_rclone_environment_refuses_without_dispatch(self):
+         dispatched = self.base/"unexpected-dispatch"
+         fake = self.fake_rclone('touch "'+str(dispatched)+'"\n')
+@@ -674,6 +781,122 @@ source "$1"
+         self.assertIn("FATAL",result.stderr)
+ 
+ 
++class LaunchReceiptTest(Fixture):
++    def setUp(self):
++        super().setUp()
++        self.home = self.base/"home"
++        self.heartbeat = self.home/"Library/Logs/memit-gdrive-backup/last_run.json"
++        self.heartbeat.parent.mkdir(parents=True)
++
++    def launch(self, wrapper, *, error_number=None, env=None):
++        text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
++        literals = {name: json.loads(literal) for name, literal in
++                    re.findall(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', text, re.M)}
++        if "launchShell" in literals:
++            # Execute the same literal composition passed to /bin/sh by the applet.
++            if error_number is None:
++                body, args = literals["launchShell"]+literals["receiptShell"], [str(wrapper)]
++            else:
++                body, args = literals["receiptShell"], [str(wrapper), "", str(error_number)]
++        else:
++            # Execute MB6's original shell command for its behavioral RED baseline.
++            command = next(line.strip()[len("do shell script "):] for line in text.splitlines()
++                           if line.strip().startswith("do shell script "))
++            body = json.loads(command).replace(
++                "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/tools/backup_gdrive.sh",
++                shlex.quote(str(wrapper)))
++            args = []
++        environment = dict(os.environ, **(env or {}))
++        environment["HOME"] = str(self.home)
++        return run_process(["/bin/sh", "-c", body, "backup-launch", *args],
++                           env=environment, timeout=5)
++
++    def test_absent_wrapper_launch_fails_fresh_success_promptly(self):
++        self.write_heartbeat()
++        self.assertEqual(self.status().returncode, 0, "positive control: previous success is fresh")
++        previous = self.heartbeat.read_bytes()
++        wrapper = self.base/"absent-volume/backup_gdrive.sh"
++        start = time.monotonic()
++        result = self.launch(wrapper)
++        self.assertLess(time.monotonic()-start, 5)
++        self.assert_bad("launch")
++        receipt = json.loads((self.heartbeat.parent/"launch_receipt.json").read_text())
++        self.assertEqual(receipt["exit_code"], 127)
++        self.assertIsNone(receipt["error_number"])
++        self.assertEqual(receipt["wrapper_path"], str(wrapper))
++        self.assertGreater(dt.datetime.fromisoformat(receipt["utc"].replace("Z", "+00:00")),
++                           dt.datetime.fromisoformat(json.loads(previous)["end"]))
++        self.assertEqual(result.returncode, 0, result.stderr)
++        self.assertEqual(self.heartbeat.read_bytes(), previous)
++
++    def test_exit_75_launch_preserves_real_active_owner_and_inflight_status(self):
++        owner, env = self.hold_live_owner()
++        previous = self.heartbeat.read_bytes()
++        result = self.launch(BACKUP, env=env)
++        self.assertEqual(result.returncode, 0, result.stderr)
++        receipt = self.heartbeat.parent/"launch_receipt.json"
++        self.assertTrue(receipt.is_file(), "a refused launch still needs its internal-disk receipt")
++        self.assertEqual(json.loads(receipt.read_text())["exit_code"], 75)
++        self.assertIsNone(owner.poll())
++        self.assert_bad("incomplete")
++        self.assertNotIn("failed", self.status().stdout)
++        self.assertEqual(self.heartbeat.read_bytes(), previous)
++
++    def test_launch_receipt_is_atomically_replaced_and_stays_one_file(self):
++        wrapper = self.base/"wrapper 'quoted' \"back\\slash\".sh"
++        wrapper.write_text("#!/bin/sh\nexit 0\n")
++        self.write_heartbeat(end=None, exit_code=None, owner_pid=os.getpid())
++        previous = self.heartbeat.read_bytes()
++        path = self.heartbeat.parent/"launch_receipt.json"
++        inode = None
++        for invocation in range(20):
++            result = self.launch(wrapper)
++            self.assertEqual(result.returncode, 0, result.stderr)
++            self.assertTrue(path.is_file(), "launch must publish a receipt even without a wrapper heartbeat")
++            value = json.loads(path.read_text())
++            self.assertEqual(value["wrapper_path"], str(wrapper))
++            self.assertEqual(value["exit_code"], 0)
++            self.assertIsNone(value["error_number"])
++            self.assertNotEqual(path.stat().st_ino, inode, "publication must replace the file, not truncate it")
++            inode = path.stat().st_ino
++        self.assertEqual({p.name for p in path.parent.iterdir()}, {"last_run.json", "launch_receipt.json"})
++        self.assertEqual(self.heartbeat.read_bytes(), previous)
++        self.assert_bad("incomplete")
++
++    def test_applescript_error_receipt_runs_without_executing_wrapper(self):
++        self.write_heartbeat()
++        previous = self.heartbeat.read_bytes()
++        marker = self.base/"must-not-run"
++        wrapper = self.base/"volume-wrapper.sh"
++        wrapper.write_text('#!/bin/sh\nprintf invoked > '+shlex.quote(str(marker))+'\n')
++        result = self.launch(wrapper, error_number=-1708)
++        self.assert_bad("launch")
++        self.assertEqual(result.returncode, 0, result.stderr)
++        self.assertFalse(marker.exists(), "the error-receipt path must not execute volume-hosted code")
++        value = json.loads((self.heartbeat.parent/"launch_receipt.json").read_text())
++        self.assertIsNone(value["exit_code"])
++        self.assertEqual(value["error_number"], -1708)
++        self.assertEqual(self.heartbeat.read_bytes(), previous)
++
++    def test_receipt_write_failure_is_prompt_and_preserves_existing_files(self):
++        self.write_heartbeat()
++        receipt = self.write_launch_receipt(exit_code=0)
++        previous, heartbeat = receipt.read_bytes(), self.heartbeat.read_bytes()
++        wrapper = self.base/"success.sh"
++        wrapper.write_text("#!/bin/sh\nexit 0\n")
++        receipt.parent.chmod(0o555)
++        try:
++            start = time.monotonic()
++            result = self.launch(wrapper)
++            self.assertNotEqual(result.returncode, 0, "shell receipt failure must reach the applet's caught error boundary")
++            self.assertLess(time.monotonic()-start, 5)
++            self.assertEqual(receipt.read_bytes(), previous)
++            self.assertEqual(self.heartbeat.read_bytes(), heartbeat)
++            self.assertFalse(list(receipt.parent.glob(".launch-receipt.*")))
++        finally:
++            receipt.parent.chmod(0o700)
++
++
+ class LauncherTest(Fixture):
+     def osa_result(self, result, command):
+         output = result.stdout+result.stderr

@@ -1,0 +1,25 @@
+test_corrupt_remote_download_check_does_not_create_receipt (__main__.ArchiveTest) ... ok
+test_differing_remote_is_immutable_and_preserves_prior_manifest (__main__.ArchiveTest) ... ok
+test_invalid_paths_refuse_before_any_copy (__main__.ArchiveTest) ... ok
+test_manifest_write_failure_is_loud (__main__.ArchiveTest) ... ok
+test_real_copy_download_check_and_sha_receipt_never_delete_source (__main__.ArchiveTest) ... ok
+test_source_drift_after_check_does_not_create_receipt (__main__.ArchiveTest) ... ok
+test_exit_publication_failure_is_loud_and_preserves_original_failure (__main__.HeartbeatTest) ... ok
+test_inflight_is_visible_and_missing_stats_are_unknown (__main__.HeartbeatTest) ... ok
+test_real_sync_publishes_actual_bytes_and_completed_success (__main__.HeartbeatTest) ... ok
+test_refusal_still_records_failed_run_without_dispatch (__main__.HeartbeatTest) ... ok
+test_start_publication_failure_invalidates_previous_success (__main__.HeartbeatTest) ... ok
+test_current_auth_error_and_old_auth_error_recovery (__main__.StatusTest) ... ok
+test_failed (__main__.StatusTest) ... ok
+test_fresh_success (__main__.StatusTest) ... ok
+test_malformed_future_and_inflight_fail_closed (__main__.StatusTest) ... ok
+test_missing (__main__.StatusTest) ... ok
+test_new_publication_failure_and_log_rotation_are_not_silent (__main__.StatusTest) ... ok
+test_stale_and_exact_thirteen_hour_boundary (__main__.StatusTest) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 3.831s
+
+OK
+
+exit_code=0

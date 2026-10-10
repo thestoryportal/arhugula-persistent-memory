@@ -1,10 +1,8 @@
 ---
 name: c10-edit-rotates-required-target-direction
-description: "CORPUS/48 (D-C10o-magnitude, 2026-10-05, HIGH-CONTROL): on the C10 harness, scaling the solve's target to the re-solved norm does nothing on the edited model (5/60 vs 6/60), while the re-solved direction restores decoding (34/60 at the original norm, 47/60 with the original projection kept; re-solved target 50/60); the rotated direction is worse on the unedited model (17–23 vs 42). Routing: two-pass solve arm next."
+description: "HISTORICAL (2026-10-05): CORPUS/48 — the re-solved target direction (not magnitude) restores decoding on the edited model; injection ≠ locality."
 metadata:
-  node_type: memory
   type: project
-  originSessionId: 4d71207f-24bf-4199-894f-d2f977d9f609
 ---
 
 The injection assay separated magnitude from direction in the target the edited model wants (CORPUS/47 found it 30 % longer and rotated). Magnitude alone recovers none of the gap; the direction carries it, and holding the original projection while adding the rotation recovers 0.93. Which four subjects keep an identical target varies per process with where the edit lands; the 0.30 displacement split separates the groups cleanly.

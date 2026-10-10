@@ -1,0 +1,5 @@
+{
+  "device": "mps",
+  "model_id": "Qwen/Qwen2.5-3B",
+  "revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b"
+}

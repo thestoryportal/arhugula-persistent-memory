@@ -1,10 +1,8 @@
 ---
 name: c10-edit-collateral-breaks-injected-target
-description: "CORPUS/46 (D-C10m-diag, 2026-10-05): on the C10 harness the pre-edit target that injects at 51–54/72 on the unedited model injects at only 17–23/72 once the band 4–8 edit is applied (H1 collateral bucket), while a target recomputed on the edited model injects at 55–60/72; forcing the gold first token gains 2/72 (ABSENT-dominant); injection ceilings are properties of the unedited model"
+description: "HISTORICAL (2026-10-05): CORPUS/46 — pre-edit target injects 51-54/72 unedited, 17-23/72 after the band edit; injection ceilings are unedited-model."
 metadata:
-  node_type: memory
   type: project
-  originSessionId: 4d71207f-24bf-4199-894f-d2f977d9f609
 ---
 
 The pre-registered diagnostic pair that decides the C10 mechanism fork: Q1 gold-first-token-constrained read moved held-out recall 15 → 17/72 with only 3 chain-failure subjects (ABSENT-DOMINANT); Q2 edit + inject with the pre-edit z landed in the H1 (collateral) bucket (23/72, canon 7/24, against a 51/72 in-process control and 15/72 edit-only); the secondary recomputed-z injection reached 55/72, so the edited model keeps a reachable target that differs from the one the solve aimed at (hypothesis, not inference). Third minted-token N seed: 46/34/36 → SEED-SENSITIVE.

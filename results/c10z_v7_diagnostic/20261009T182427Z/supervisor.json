@@ -1,0 +1,15 @@
+{
+  "cap_seconds": 3060,
+  "deadline_origin": 1381075.072324708,
+  "namespace": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10z_v7_diagnostic/20261009T182427Z",
+  "pid": 36206,
+  "source_sha256": "85d41cce96699576a521340beff978e69e3c563aa51b2fb450f9e299af86ee93",
+  "supervisor_argv": [
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "-B",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/run_c10z_v7_diag.py",
+    "--utc",
+    "20261009T182427Z"
+  ],
+  "token": "28792a0f9c464dcd8e7ebcda9eb02c7f"
+}

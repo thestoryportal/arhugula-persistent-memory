@@ -1,0 +1,8 @@
+{
+  "P1": {
+    "authorized": true,
+    "recorded_by": "program session (Claude Opus 5.5) on operator authority D-C10r-rulings-10 (2026-10-07 ~15:55 MDT, operator verbatim: 'and yes to all your questions' \u2014 answer (1): P1 time limit up to 660 min, N = ceil(preflight + 5x38 + 190 + 152), cap 660; EXPERIMENT_RUNBOOK.md \u00a75.2); budget rule D-C10w-p1budget",
+    "recorded_at": "2026-10-07T17:37:12-06:00",
+    "budget_minutes": 592
+  }
+}

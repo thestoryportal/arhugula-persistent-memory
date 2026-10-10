@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_20.pt": "4f4530c8a5be99373e04bf0f45e90124730d066b9c3204e5f9678f7668c429d7"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Vorlex",
+    "target_new": {
+      "str": " Tunis"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_20.pt"
+  }
+}

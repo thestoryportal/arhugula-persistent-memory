@@ -1,10 +1,8 @@
 ---
 name: injection-control-is-a-stratum-not-a-floor
-description: "C10 harness (CORPUS/47, D-C10n-ztransport, 2026-10-05): the pre-edit z-injection control spans 42–54/72 over five processes with identical mechanics because compute_z samples context templates per process; pre-register it as a stratum (HIGH ≥ 44 / LOW 38–43, LOW reported not promoted), never as an absolute floor — a floor halted run 1 at 42 < 44"
+description: Per-process harness quantities (e.g. z-injection control 42-54/72) are pre-registered as reporting strata, never as absolute success floors.
 metadata:
-  node_type: memory
   type: feedback
-  originSessionId: 4d71207f-24bf-4199-894f-d2f977d9f609
 ---
 
 The D-C10n-ztransport prereg set an absolute floor on the injection control (≥ 44/72, "P6 reference minus 3–5") from three observations (49, 54, 51); the next two processes came in at 42 and 42 and the first halted the run before the edit. The advisor's fix (amendment N1): keep the true instrumentation gates (fingerprint, LAW#5, A1, edit-only envelope, canon ≥ 22/24, post-restore identity, L3), treat the control level as a measured stratum, always run the cells, and promote only HIGH-CONTROL readings.

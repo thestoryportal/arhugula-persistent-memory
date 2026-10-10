@@ -1,0 +1,606 @@
+{
+  "tier": "MATH-PROXY",
+  "decision_id": "D-ML-1",
+  "prereg_sha256": "33e5aa4e0fc01e07e5b1b7e6fe234e07be41e9c9b2c8edf9496af5572d9b398a",
+  "files": {
+    "calibration.json": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_uv_outputs/m3_20261009T173609.612844Z/calibration.json",
+      "sha256": "4919ed10155287c310a4bc6fdca176a1ce948a6b30188384f3855016b92297b5"
+    }
+  },
+  "index": {
+    "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_fixture.duckdb",
+    "sha256": "c024f9bde2e7e7f77930c33599a9fd55bc7260b2269e620ffe8a15366f04008e",
+    "tier": "MATH-PROXY",
+    "derived": true,
+    "rows": 6
+  },
+  "gates": {
+    "stage-memory-calibration": {
+      "gate_id": "stage-memory-calibration",
+      "plain_words": "At least eight GiB of memory before this stage",
+      "observed": 23.41943359375,
+      "bar": 8,
+      "comparison": ">=",
+      "passed": true
+    },
+    "budget-calibration": {
+      "gate_id": "budget-calibration",
+      "plain_words": "This stage fits the remaining deadline",
+      "observed": {
+        "stage": "calibration",
+        "elapsed_s": 8.135050667217001,
+        "remaining_stage_s": 1791.864949332783,
+        "projected_end_s": 1800.0,
+        "process_cap_s": 1800
+      },
+      "bar": 1800,
+      "comparison": "meets",
+      "passed": true
+    },
+    "replay-admission": {
+      "gate_id": "replay-admission",
+      "plain_words": "Historical replay identity admits at least two middle arms before scoring",
+      "observed": {
+        "shared_passed": true,
+        "admitted": [
+          "mint1_s0",
+          "mint1_s1",
+          "mint1_s2"
+        ],
+        "arms": {
+          "mint1_s0": "ADMITTED",
+          "mint1_s1": "ADMITTED",
+          "mint1_s2": "ADMITTED"
+        }
+      },
+      "bar": "shared checks pass and at least two arms admitted",
+      "comparison": "meets",
+      "passed": true
+    },
+    "tier-validity": {
+      "gate_id": "tier-validity",
+      "plain_words": "Measured result tiers are separated by at least ten bindings before scoring",
+      "observed": {
+        "outcome": "VALID",
+        "reason": "VALID-TIERS",
+        "margins": {
+          "top_middle": 22,
+          "middle_bottom": 23
+        }
+      },
+      "bar": {
+        "top_middle_min": 10,
+        "middle_bottom_min": 10
+      },
+      "comparison": "meets",
+      "passed": true
+    },
+    "memory-reserve-2": {
+      "gate_id": "memory-reserve-2",
+      "plain_words": "Enough free memory for this calculation",
+      "observed": 23.420806884765625,
+      "bar": 10,
+      "comparison": ">=",
+      "passed": true
+    },
+    "arithmetic-rho-A1_single": {
+      "gate_id": "arithmetic-rho-A1_single",
+      "plain_words": "All 72 paraphrases have valid arithmetic",
+      "observed": "VALID",
+      "bar": "VALID",
+      "comparison": "meets",
+      "passed": true
+    },
+    "arithmetic-coll-A1_single": {
+      "gate_id": "arithmetic-coll-A1_single",
+      "plain_words": "All 72 paraphrases have valid arithmetic",
+      "observed": "VALID",
+      "bar": "VALID",
+      "comparison": "meets",
+      "passed": true
+    },
+    "arithmetic-rho-A2_coherent2": {
+      "gate_id": "arithmetic-rho-A2_coherent2",
+      "plain_words": "All 72 paraphrases have valid arithmetic",
+      "observed": "VALID",
+      "bar": "VALID",
+      "comparison": "meets",
+      "passed": true
+    },
+    "arithmetic-coll-A2_coherent2": {
+      "gate_id": "arithmetic-coll-A2_coherent2",
+      "plain_words": "All 72 paraphrases have valid arithmetic",
+      "observed": "VALID",
+      "bar": "VALID",
+      "comparison": "meets",
+      "passed": true
+    },
+    "arithmetic-rho-mint1_s0": {
+      "gate_id": "arithmetic-rho-mint1_s0",
+      "plain_words": "All 72 paraphrases have valid arithmetic",
+      "observed": "VALID",
+      "bar": "VALID",
+      "comparison": "meets",
+      "passed": true
+    },
+    "arithmetic-coll-mint1_s0": {
+      "gate_id": "arithmetic-coll-mint1_s0",
+      "plain_words": "All 72 paraphrases have valid arithmetic",
+      "observed": "VALID",
+      "bar": "VALID",
+      "comparison": "meets",
+      "passed": true
+    },
+    "arithmetic-rho-mint1_s1": {
+      "gate_id": "arithmetic-rho-mint1_s1",
+      "plain_words": "All 72 paraphrases have valid arithmetic",
+      "observed": "VALID",
+      "bar": "VALID",
+      "comparison": "meets",
+      "passed": true
+    },
+    "arithmetic-coll-mint1_s1": {
+      "gate_id": "arithmetic-coll-mint1_s1",
+      "plain_words": "All 72 paraphrases have valid arithmetic",
+      "observed": "VALID",
+      "bar": "VALID",
+      "comparison": "meets",
+      "passed": true
+    },
+    "arithmetic-rho-mint1_s2": {
+      "gate_id": "arithmetic-rho-mint1_s2",
+      "plain_words": "All 72 paraphrases have valid arithmetic",
+      "observed": "VALID",
+      "bar": "VALID",
+      "comparison": "meets",
+      "passed": true
+    },
+    "arithmetic-coll-mint1_s2": {
+      "gate_id": "arithmetic-coll-mint1_s2",
+      "plain_words": "All 72 paraphrases have valid arithmetic",
+      "observed": "VALID",
+      "bar": "VALID",
+      "comparison": "meets",
+      "passed": true
+    },
+    "arithmetic-rho-A7_coined_coined": {
+      "gate_id": "arithmetic-rho-A7_coined_coined",
+      "plain_words": "All 72 paraphrases have valid arithmetic",
+      "observed": "VALID",
+      "bar": "VALID",
+      "comparison": "meets",
+      "passed": true
+    },
+    "arithmetic-coll-A7_coined_coined": {
+      "gate_id": "arithmetic-coll-A7_coined_coined",
+      "plain_words": "All 72 paraphrases have valid arithmetic",
+      "observed": "VALID",
+      "bar": "VALID",
+      "comparison": "meets",
+      "passed": true
+    },
+    "memory-reserve-1": {
+      "gate_id": "memory-reserve-1",
+      "plain_words": "Enough free memory for this calculation",
+      "observed": 23.415802001953125,
+      "bar": 9,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-rho-A1_single>mint1_s0": {
+      "gate_id": "point-rho-A1_single>mint1_s0",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-rho-A1_single>mint1_s0": {
+      "gate_id": "bootstrap-rho-A1_single>mint1_s0",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-rho-A1_single>mint1_s1": {
+      "gate_id": "point-rho-A1_single>mint1_s1",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-rho-A1_single>mint1_s1": {
+      "gate_id": "bootstrap-rho-A1_single>mint1_s1",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-rho-A1_single>mint1_s2": {
+      "gate_id": "point-rho-A1_single>mint1_s2",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-rho-A1_single>mint1_s2": {
+      "gate_id": "bootstrap-rho-A1_single>mint1_s2",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-rho-A2_coherent2>mint1_s0": {
+      "gate_id": "point-rho-A2_coherent2>mint1_s0",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-rho-A2_coherent2>mint1_s0": {
+      "gate_id": "bootstrap-rho-A2_coherent2>mint1_s0",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-rho-A2_coherent2>mint1_s1": {
+      "gate_id": "point-rho-A2_coherent2>mint1_s1",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-rho-A2_coherent2>mint1_s1": {
+      "gate_id": "bootstrap-rho-A2_coherent2>mint1_s1",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-rho-A2_coherent2>mint1_s2": {
+      "gate_id": "point-rho-A2_coherent2>mint1_s2",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-rho-A2_coherent2>mint1_s2": {
+      "gate_id": "bootstrap-rho-A2_coherent2>mint1_s2",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-rho-mint1_s0>A7_coined_coined": {
+      "gate_id": "point-rho-mint1_s0>A7_coined_coined",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-rho-mint1_s0>A7_coined_coined": {
+      "gate_id": "bootstrap-rho-mint1_s0>A7_coined_coined",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-rho-mint1_s1>A7_coined_coined": {
+      "gate_id": "point-rho-mint1_s1>A7_coined_coined",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-rho-mint1_s1>A7_coined_coined": {
+      "gate_id": "bootstrap-rho-mint1_s1>A7_coined_coined",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-rho-mint1_s2>A7_coined_coined": {
+      "gate_id": "point-rho-mint1_s2>A7_coined_coined",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-rho-mint1_s2>A7_coined_coined": {
+      "gate_id": "bootstrap-rho-mint1_s2>A7_coined_coined",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "proxy-rho": {
+      "gate_id": "proxy-rho",
+      "plain_words": "Proxy separates the measured result tiers",
+      "observed": {
+        "status": "VALID",
+        "passed": true,
+        "scores": {
+          "A1_single": 0.950000137090683,
+          "A2_coherent2": 0.9599998593330383,
+          "mint1_s0": 0.6999999284744263,
+          "mint1_s1": 0.5000000447034836,
+          "mint1_s2": 0.5999999865889549,
+          "A7_coined_coined": 0.19999997690320015
+        },
+        "point_orderings": {
+          "A1_single>mint1_s0": true,
+          "A1_single>mint1_s1": true,
+          "A1_single>mint1_s2": true,
+          "A2_coherent2>mint1_s0": true,
+          "A2_coherent2>mint1_s1": true,
+          "A2_coherent2>mint1_s2": true,
+          "mint1_s0>A7_coined_coined": true,
+          "mint1_s1>A7_coined_coined": true,
+          "mint1_s2>A7_coined_coined": true
+        },
+        "bootstrap_counts": {
+          "A1_single>mint1_s0": 2000,
+          "A1_single>mint1_s1": 2000,
+          "A1_single>mint1_s2": 2000,
+          "A2_coherent2>mint1_s0": 2000,
+          "A2_coherent2>mint1_s1": 2000,
+          "A2_coherent2>mint1_s2": 2000,
+          "mint1_s0>A7_coined_coined": 2000,
+          "mint1_s1>A7_coined_coined": 2000,
+          "mint1_s2>A7_coined_coined": 2000
+        }
+      },
+      "bar": "strict point ordering and 1900 of 2000 paired samples",
+      "comparison": "meets",
+      "passed": true
+    },
+    "point-coll-A1_single>mint1_s0": {
+      "gate_id": "point-coll-A1_single>mint1_s0",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-coll-A1_single>mint1_s0": {
+      "gate_id": "bootstrap-coll-A1_single>mint1_s0",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-coll-A1_single>mint1_s1": {
+      "gate_id": "point-coll-A1_single>mint1_s1",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-coll-A1_single>mint1_s1": {
+      "gate_id": "bootstrap-coll-A1_single>mint1_s1",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-coll-A1_single>mint1_s2": {
+      "gate_id": "point-coll-A1_single>mint1_s2",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-coll-A1_single>mint1_s2": {
+      "gate_id": "bootstrap-coll-A1_single>mint1_s2",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-coll-A2_coherent2>mint1_s0": {
+      "gate_id": "point-coll-A2_coherent2>mint1_s0",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-coll-A2_coherent2>mint1_s0": {
+      "gate_id": "bootstrap-coll-A2_coherent2>mint1_s0",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-coll-A2_coherent2>mint1_s1": {
+      "gate_id": "point-coll-A2_coherent2>mint1_s1",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-coll-A2_coherent2>mint1_s1": {
+      "gate_id": "bootstrap-coll-A2_coherent2>mint1_s1",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-coll-A2_coherent2>mint1_s2": {
+      "gate_id": "point-coll-A2_coherent2>mint1_s2",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-coll-A2_coherent2>mint1_s2": {
+      "gate_id": "bootstrap-coll-A2_coherent2>mint1_s2",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-coll-mint1_s0>A7_coined_coined": {
+      "gate_id": "point-coll-mint1_s0>A7_coined_coined",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-coll-mint1_s0>A7_coined_coined": {
+      "gate_id": "bootstrap-coll-mint1_s0>A7_coined_coined",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-coll-mint1_s1>A7_coined_coined": {
+      "gate_id": "point-coll-mint1_s1>A7_coined_coined",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-coll-mint1_s1>A7_coined_coined": {
+      "gate_id": "bootstrap-coll-mint1_s1>A7_coined_coined",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "point-coll-mint1_s2>A7_coined_coined": {
+      "gate_id": "point-coll-mint1_s2>A7_coined_coined",
+      "plain_words": "The higher tier has a strictly higher point score",
+      "observed": true,
+      "bar": true,
+      "comparison": "meets",
+      "passed": true
+    },
+    "bootstrap-coll-mint1_s2>A7_coined_coined": {
+      "gate_id": "bootstrap-coll-mint1_s2>A7_coined_coined",
+      "plain_words": "The strict ordering survives paired subject resampling",
+      "observed": 2000,
+      "bar": 1900,
+      "comparison": ">=",
+      "passed": true
+    },
+    "proxy-coll": {
+      "gate_id": "proxy-coll",
+      "plain_words": "Proxy separates the measured result tiers",
+      "observed": {
+        "status": "VALID",
+        "passed": true,
+        "scores": {
+          "A1_single": -0.0027700816632137944,
+          "A2_coherent2": -0.0017361109763711381,
+          "mint1_s0": -0.18367349871220184,
+          "mint1_s1": -1.0,
+          "mint1_s2": -0.4444443616602176,
+          "A7_coined_coined": -16.0
+        },
+        "point_orderings": {
+          "A1_single>mint1_s0": true,
+          "A1_single>mint1_s1": true,
+          "A1_single>mint1_s2": true,
+          "A2_coherent2>mint1_s0": true,
+          "A2_coherent2>mint1_s1": true,
+          "A2_coherent2>mint1_s2": true,
+          "mint1_s0>A7_coined_coined": true,
+          "mint1_s1>A7_coined_coined": true,
+          "mint1_s2>A7_coined_coined": true
+        },
+        "bootstrap_counts": {
+          "A1_single>mint1_s0": 2000,
+          "A1_single>mint1_s1": 2000,
+          "A1_single>mint1_s2": 2000,
+          "A2_coherent2>mint1_s0": 2000,
+          "A2_coherent2>mint1_s1": 2000,
+          "A2_coherent2>mint1_s2": 2000,
+          "mint1_s0>A7_coined_coined": 2000,
+          "mint1_s1>A7_coined_coined": 2000,
+          "mint1_s2>A7_coined_coined": 2000
+        }
+      },
+      "bar": "strict point ordering and 1900 of 2000 paired samples",
+      "comparison": "meets",
+      "passed": true
+    },
+    "calibration": {
+      "gate_id": "calibration",
+      "plain_words": "At least one math estimate separates the measured tiers",
+      "observed": "PASS",
+      "bar": "PASS",
+      "comparison": "meets",
+      "passed": true
+    },
+    "stage-memory-index": {
+      "gate_id": "stage-memory-index",
+      "plain_words": "At least eight GiB of memory before this stage",
+      "observed": 23.396240234375,
+      "bar": 8,
+      "comparison": ">=",
+      "passed": true
+    },
+    "budget-index": {
+      "gate_id": "budget-index",
+      "plain_words": "This stage fits the remaining deadline",
+      "observed": {
+        "stage": "index",
+        "elapsed_s": 9.834999584127218,
+        "remaining_stage_s": 300,
+        "projected_end_s": 309.8349995841272,
+        "process_cap_s": 1800
+      },
+      "bar": 1800,
+      "comparison": "meets",
+      "passed": true
+    },
+    "index-provenance": {
+      "gate_id": "index-provenance",
+      "plain_words": "Every index row retains its authoritative source and pointer",
+      "observed": {
+        "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/fixture_20261009T025921.171236Z/runner_fixture.duckdb",
+        "sha256": "c024f9bde2e7e7f77930c33599a9fd55bc7260b2269e620ffe8a15366f04008e",
+        "tier": "MATH-PROXY",
+        "derived": true,
+        "rows": 6
+      },
+      "bar": "source path, JSON pointer and current SHA-256",
+      "comparison": "meets",
+      "passed": true
+    }
+  }
+}

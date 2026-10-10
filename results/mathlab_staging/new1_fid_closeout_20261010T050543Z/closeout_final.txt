@@ -1,0 +1,21 @@
+CLOSE-OUT GATE for D-NEW1-fid
+========================================================
+  content fingerprint: D-NEW1-fid@341707a8   (source: results/mathlab_staging/new1_v2_build_report.md)
+  CURRENCY layer ON — trackers must carry 'D-NEW1-fid@341707a8', not just 'D-NEW1-fid'.
+--------------------------------------------------------
+  [GREEN  ] EXPERIMENT_RUNBOOK.md  — living roadmap (also §0.3/§12/§13 — section checks below)
+  [GREEN  ] SESSION_CHECKPOINT.md  — fresh-context handoff
+  [GREEN  ] PROGRESS.md  — F1 readiness scorecard (①/③/④/⑤)
+  [GREEN  ] EVIDENCE_INDEX.md  — evidence index
+  [GREEN  ] docs/EXPERIMENT_REGISTRY.md  — experiment registry
+  [GREEN  ] CORPUS/00_MASTER_EVIDENCE.md  — master evidence ledger
+  [GREEN  ] CORPUS/03_STATUS_LEDGER.md  — status ledger
+  [GREEN  ] CORPUS/01_PROVENANCE_MANIFEST.md  — provenance (claim->artifact->numbers)
+  [GREEN  ] CORPUS/02_VANDV_CHAIN.md  — V&V chain (hypothesis->criterion->verdict)
+  [GREEN  ] docs/HYPOTHESIS_REGISTER_2026-06-18.md  — hypothesis register (latest)
+  [GREEN  ] CORPUS/NN writeup — ['README.md', '00_MASTER_EVIDENCE.md', '02_VANDV_CHAIN.md', '01_PROVENANCE_MANIFEST.md', '44_C10L_COVGEOM_SPARSEBAND.md', '03_STATUS_LEDGER.md']
+  [GREEN  ] EXPERIMENT_RUNBOOK.md §0.3 next-actions
+  [GREEN  ] EXPERIMENT_RUNBOOK.md §12 dashboard
+  [GREEN  ] EXPERIMENT_RUNBOOK.md §13 changelog
+========================================================
+✅ CLOSE-OUT COMPLETE — D-NEW1-fid present + current (D-NEW1-fid@341707a8) in all canonical trackers.

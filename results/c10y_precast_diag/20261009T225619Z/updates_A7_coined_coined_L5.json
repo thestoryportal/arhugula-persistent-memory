@@ -1,0 +1,149 @@
+{
+  "artifacts": {
+    "updates_A7_coined_coined_L5.pt": "e9979483a0f7d626716fcf212921c126d40f9f60cb380beba04a4be68a12c094"
+  },
+  "assembled32_direct64": {
+    "dtype": "torch.float64",
+    "key": "tensor_11",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "assembled32_factored64": {
+    "dtype": "torch.float64",
+    "key": "tensor_12",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "common_device": {
+    "dtype": "torch.float32",
+    "key": "tensor_5",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "cpu32_product": {
+    "dtype": "torch.float32",
+    "key": "tensor_7",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "cpu32_product_repeat": {
+    "dtype": "torch.float32",
+    "key": "tensor_15",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "device_repeat": {
+    "dtype": "torch.float32",
+    "key": "tensor_6",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "direct32_repeat": {
+    "dtype": "torch.float32",
+    "key": "tensor_13",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "factor32_repeat_product": {
+    "dtype": "torch.float32",
+    "key": "tensor_14",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "native_cpu32_product": {
+    "dtype": "torch.float32",
+    "key": "tensor_3",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "native_cpu32_product_repeat": {
+    "dtype": "torch.float32",
+    "key": "tensor_4",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "native_device": {
+    "dtype": "torch.float32",
+    "key": "tensor_2",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "native_direct": {
+    "dtype": "torch.float32",
+    "key": "tensor_1",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "promoted32_product": {
+    "dtype": "torch.float64",
+    "key": "tensor_8",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "recipe_A": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "solve64_direct": {
+    "dtype": "torch.float64",
+    "key": "tensor_9",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  },
+  "solve64_factored": {
+    "dtype": "torch.float64",
+    "key": "tensor_10",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "updates_A7_coined_coined_L5.pt"
+  }
+}

@@ -1,0 +1,60 @@
+[
+  {
+    "command": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "tools/render_state.py",
+      "--check"
+    ],
+    "root": "/private/tmp/git_automation_assetfree_oo3c97bs",
+    "assets_absent": true,
+    "exit_code": 0,
+    "wall_s": 0.020777917001396418,
+    "log": "candidate_0.log"
+  },
+  {
+    "command": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "-v",
+      "tools.test_c10w_p2_gate"
+    ],
+    "root": "/private/tmp/git_automation_assetfree_oo3c97bs",
+    "assets_absent": true,
+    "exit_code": 0,
+    "wall_s": 0.05323012499138713,
+    "log": "candidate_1.log"
+  },
+  {
+    "command": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "-v",
+      "tools.test_dashboard_live"
+    ],
+    "root": "/private/tmp/git_automation_assetfree_oo3c97bs",
+    "assets_absent": true,
+    "exit_code": 0,
+    "wall_s": 0.17257641698233783,
+    "log": "candidate_2.log"
+  },
+  {
+    "command": [
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "-v",
+      "tools.test_dashboard_gpu_detector"
+    ],
+    "root": "/private/tmp/git_automation_assetfree_oo3c97bs",
+    "assets_absent": true,
+    "exit_code": 1,
+    "wall_s": 0.09743716707453132,
+    "log": "candidate_3.log"
+  }
+]

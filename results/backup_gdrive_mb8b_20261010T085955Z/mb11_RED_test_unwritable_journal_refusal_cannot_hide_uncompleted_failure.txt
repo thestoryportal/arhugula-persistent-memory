@@ -1,0 +1,17 @@
+test_unwritable_journal_refusal_cannot_hide_uncompleted_failure (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_unwritable_journal_refusal_cannot_hide_uncompleted_failure) ... FAIL
+
+======================================================================
+FAIL: test_unwritable_journal_refusal_cannot_hide_uncompleted_failure (tools.test_backup_gdrive_addendum.GenerationLaunchTest.test_unwritable_journal_refusal_cannot_hide_uncompleted_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1168, in test_unwritable_journal_refusal_cannot_hide_uncompleted_failure
+    self.assert_bad("launch")
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 54, in assert_bad
+    self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+AssertionError: 0 == 0 : backup_gdrive_status: fresh successful backup; finished 2026-10-10T09:32:34.050942+00:00; launch generation 10
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.180s
+
+FAILED (failures=1)

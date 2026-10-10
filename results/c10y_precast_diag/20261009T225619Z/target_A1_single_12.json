@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_12.pt": "96a9cfee1873b44dcb5be7f4a3129fd54cfde15efc50f2fb7a52e3d92307027f"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Fluvane",
+    "target_new": {
+      "str": " Budapest"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_12.pt"
+  }
+}

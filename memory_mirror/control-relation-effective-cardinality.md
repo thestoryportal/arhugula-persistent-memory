@@ -1,10 +1,8 @@
 ---
 name: control-relation-effective-cardinality
-description: "When picking a dilutant/control relation for editing experiments, check the EFFECTIVE cardinality of the confident+correct+single-token pool, not nominal distinct values — low effective cardinality breaks the control"
-metadata: 
-  node_type: memory
+description: Before using a relation as dilutant/control, check the EFFECTIVE cardinality of the confident+correct+single-token pool, not nominal distinct values
+metadata:
   type: feedback
-  originSessionId: 7e49dca7-c684-465a-936b-1c2ce4852502
 ---
 
 For relation-based editing experiments (G6/D1 family), a relation used as a **dilutant / control / counterfactual-target** must have high **EFFECTIVE** cardinality in the *confident+correct+single-token* pool — NOT just high nominal distinct-value count.

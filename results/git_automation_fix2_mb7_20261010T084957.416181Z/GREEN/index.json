@@ -1,0 +1,275 @@
+[
+  {
+    "test": "test_changed_head_conclusion_after_merge_is_named",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_changed_head_conclusion_after_merge_is_named"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_changed_head_conclusion_after_merge_is_named.log"
+  },
+  {
+    "test": "test_changed_head_updated_at_after_merge_is_named",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_changed_head_updated_at_after_merge_is_named"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_changed_head_updated_at_after_merge_is_named.log"
+  },
+  {
+    "test": "test_evidence_adapter_preserves_attempt_dates_and_complete_inventories",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_evidence_adapter_preserves_attempt_dates_and_complete_inventories"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_evidence_adapter_preserves_attempt_dates_and_complete_inventories.log"
+  },
+  {
+    "test": "test_final_read_refuses_older_in_progress_run_on_same_head",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_final_read_refuses_older_in_progress_run_on_same_head"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_final_read_refuses_older_in_progress_run_on_same_head.log"
+  },
+  {
+    "test": "test_first_post_merge_pr_failure_keeps_response_sha",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_first_post_merge_pr_failure_keeps_response_sha"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_first_post_merge_pr_failure_keeps_response_sha.log"
+  },
+  {
+    "test": "test_higher_run_attempt_after_initial_ci_refuses_before_merge",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_higher_run_attempt_after_initial_ci_refuses_before_merge"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_higher_run_attempt_after_initial_ci_refuses_before_merge.log"
+  },
+  {
+    "test": "test_lock_exit_oserror_cannot_finalize_success",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_lock_exit_oserror_cannot_finalize_success"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_lock_exit_oserror_cannot_finalize_success.log"
+  },
+  {
+    "test": "test_lock_exit_valueerror_preserves_merged_report_in_main",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_lock_exit_valueerror_preserves_merged_report_in_main"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_lock_exit_valueerror_preserves_merged_report_in_main.log"
+  },
+  {
+    "test": "test_new_head_check_after_merge_is_named",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_new_head_check_after_merge_is_named"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_new_head_check_after_merge_is_named.log"
+  },
+  {
+    "test": "test_new_head_status_after_merge_is_named",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_new_head_status_after_merge_is_named"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_new_head_status_after_merge_is_named.log"
+  },
+  {
+    "test": "test_rest_merge_adapter_refuses_bad_response_shape",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_rest_merge_adapter_refuses_bad_response_shape"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_rest_merge_adapter_refuses_bad_response_shape.log"
+  },
+  {
+    "test": "test_rest_merge_adapter_returns_validated_response_sha",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_rest_merge_adapter_returns_validated_response_sha"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_rest_merge_adapter_returns_validated_response_sha.log"
+  },
+  {
+    "test": "test_same_sha_rerun_between_final_read_and_merge_is_named",
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_git_automation.py",
+      "-v",
+      "-k",
+      "test_same_sha_rerun_between_final_read_and_merge_is_named"
+    ],
+    "exit_code": 0,
+    "expected": true,
+    "log": "GREEN/test_same_sha_rerun_between_final_read_and_merge_is_named.log"
+  }
+]

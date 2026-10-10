@@ -1,0 +1,44 @@
+[
+  {
+    "name": "red_initial",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands mathlab.test_mathlab.NativeNormContractTests mathlab.test_mathlab.ResourceArtifactTests.test_prereg_amendment_pin_accepts_only_exact_frozen_bytes -v > '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/dml3_impl_20261009T195833.138642Z/red.txt' 2>&1",
+    "exit_code": 1,
+    "log": "red.txt"
+  },
+  {
+    "name": "red_behavior",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands mathlab.test_mathlab.NativeNormContractTests mathlab.test_mathlab.ResourceArtifactTests.test_prereg_amendment_pin_accepts_only_exact_frozen_bytes -v > '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/dml3_impl_20261009T195833.138642Z/red_behavior.txt' 2>&1",
+    "exit_code": 1,
+    "log": "red_behavior.txt"
+  },
+  {
+    "name": "green_targeted",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab.ObserverTests.test_native_return_norms_persist_for_same_write_with_producer mathlab.test_mathlab.ObserverTests.test_invalid_native_return_fails_arm_without_losing_operands mathlab.test_mathlab.NativeNormContractTests mathlab.test_mathlab.ResourceArtifactTests.test_prereg_amendment_pin_accepts_only_exact_frozen_bytes -v > '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/dml3_impl_20261009T195833.138642Z/green_targeted.txt' 2>&1",
+    "exit_code": 0,
+    "log": "green_targeted.txt"
+  },
+  {
+    "name": "mathlab",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest mathlab.test_mathlab -v",
+    "log": "mathlab_suite.txt",
+    "exit_code": 0
+  },
+  {
+    "name": "dashboard",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest tools.test_dashboard_mathlab -v",
+    "log": "dashboard_suite.txt",
+    "exit_code": 0
+  },
+  {
+    "name": "duckdb",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 /private/tmp/mathlab_uv_cache/environments-v2/m2-solve-repro-da15e0fd897e5e61/bin/python -B -m unittest mathlab.test_index -v",
+    "log": "duckdb.txt",
+    "exit_code": 0
+  },
+  {
+    "name": "marimo",
+    "command": "/opt/homebrew/bin/rtk proxy env TMPDIR=/private/tmp LLMDB_DEVICE=cpu CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 /private/tmp/mathlab_uv_cache/environments-v2/m2-solve-repro-da15e0fd897e5e61/bin/python -B -m marimo check --strict mathlab/m2_solve_repro.py mathlab/m3_calibration.py",
+    "log": "marimo_check.txt",
+    "exit_code": 0
+  }
+]
