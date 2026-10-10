@@ -265,17 +265,67 @@ class Controller:
         return self.wait_cell(message['phase'], message['cell'], pid)
 
 
-def kill_worker(pid):
-    try: os.killpg(pid, signal.SIGKILL)
+def preferred_exception(original,secondary):
+    if original is None or (not isinstance(original,(KeyboardInterrupt,SystemExit))
+            and isinstance(secondary,(KeyboardInterrupt,SystemExit))): return secondary
+    return original
+
+
+def report_error(error,message):
+    try: print(message,file=sys.stderr)
+    except BaseException as reporting_error:
+        error.add_note(f'stderr reporting failed: {reporting_error}; {message}')
+
+
+@contextlib.contextmanager
+def constructor_ownership(process):
+    """Defer raising signal handlers only until CPython has stored the child PID."""
+    handlers={s:signal.getsignal(s) for s in signal.valid_signals()
+        if callable(signal.getsignal(s))}
+    pending={}
+    def deliver(entries,original=None):
+        chosen=original
+        for signum,frame in entries:
+            try: handlers[signum](signum,frame)
+            except BaseException as error:
+                winner=preferred_exception(chosen,error)
+                if winner is chosen: chosen.add_note(f'deferred signal raised: {error}')
+                chosen=winner
+        if chosen is not original: raise chosen
+    def guarded(signum,frame):
+        if getattr(process,'pid',None) is None:
+            pending[signum]=frame
+            # Retry pending delivery promptly; the original absolute budget stays.
+            signal.setitimer(signal.ITIMER_REAL,.001)
+            return
+        entries=list(pending.items()); pending.clear()
+        deliver(entries+[(signum,frame)])
+    try:
+        for signum in handlers: signal.signal(signum,guarded)
+        yield
+    finally:
+        original=sys.exc_info()[1]
+        for signum,handler in handlers.items(): signal.signal(signum,handler)
+        entries=list(pending.items()); pending.clear()
+        deliver(entries,original)
+
+
+def kill_worker(process):
+    try: os.killpg(process.pid, signal.SIGKILL)
     except (ProcessLookupError, PermissionError):
-        # A group signal can be refused while the owned PID remains signalable.
-        try: os.kill(pid, signal.SIGKILL)
-        except ProcessLookupError: pass
+        # poll()/wait() releases PID ownership; group cleanup still applies.
+        # The main-thread watchdog must not poll between this check and signal.
+        blocked=signal.pthread_sigmask(signal.SIG_BLOCK,{signal.SIGALRM})
+        try:
+            if process.returncode is None:
+                try: os.kill(process.pid, signal.SIGKILL)
+                except ProcessLookupError: pass
+        finally: signal.pthread_sigmask(signal.SIG_SETMASK,blocked)
 
 
 def terminate(process):
     """Stop the whole isolated group immediately, then reap the direct worker."""
-    try: kill_worker(process.pid)
+    try: kill_worker(process)
     finally: process.wait(timeout=REAP_TIMEOUT_S)
 
 
@@ -316,37 +366,56 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
         nonlocal kill_sent, worker_reaped, reap_error
         try: yield
         finally:
-            if process is not None and not worker_reaped:
+            if process is not None and getattr(process,'pid',None) is not None and not worker_reaped:
                 original_error = sys.exc_info()[1]
                 signal_error = None
                 wait_error = None
                 try:
                     if not kill_sent:
-                        kill_worker(process.pid); kill_sent=True
+                        kill_worker(process); kill_sent=True
                 except BaseException as error:
                     signal_error = error
-                try:
-                    process.wait(timeout=REAP_TIMEOUT_S)
-                    worker_reaped=True
-                except BaseException as error:
-                    wait_error = error
-                    reap_error = f'unreaped worker PID {process.pid}: {error}'
-                if signal_error is not None:
-                    print(f'Worker PID {process.pid} signal failed: {signal_error}',file=sys.stderr)
+                cleanup_control = None
+                reap_deadline=time.monotonic()+REAP_TIMEOUT_S
+                timeout=REAP_TIMEOUT_S
+                while True:
+                    try:
+                        process.wait(timeout=timeout)
+                        worker_reaped=True
+                        break
+                    except (KeyboardInterrupt,SystemExit) as error:
+                        cleanup_control=preferred_exception(cleanup_control,error)
+                        timeout=reap_deadline-time.monotonic()
+                        if timeout<=0:
+                            wait_error=subprocess.TimeoutExpired(f'worker PID {process.pid}',REAP_TIMEOUT_S)
+                            break
+                    except BaseException as error:
+                        wait_error=error
+                        break
                 if wait_error is not None:
-                    print(reap_error,file=sys.stderr)
-                    if original_error is None: raise wait_error
-                if signal_error is not None and original_error is None: raise signal_error
+                    error=wait_error
+                    reap_error = f'unreaped worker PID {process.pid}: {error}'
+                chosen=preferred_exception(original_error,signal_error)
+                chosen=preferred_exception(chosen,cleanup_control)
+                chosen=preferred_exception(chosen,wait_error)
+                if signal_error is not None:
+                    report_error(chosen,f'Worker PID {process.pid} signal failed: {signal_error}')
+                if wait_error is not None:
+                    report_error(chosen,reap_error)
+                if chosen is not None and chosen is not original_error: raise chosen
     def terminal_ready(publication):
         nonlocal terminal
         controller.remaining()
         terminal = publication
     def heartbeat():
         nonlocal kill_sent
-        try: controller.observe(process.pid if process is not None and process.poll() is None else None)
-        except BaseException:
-            if process is not None and not kill_sent:
-                kill_worker(process.pid); kill_sent=True
+        try: controller.observe(process.pid if process is not None and getattr(process,'pid',None) is not None
+            and process.poll() is None else None)
+        except BaseException as error:
+            if process is not None and getattr(process,'pid',None) is not None and not kill_sent:
+                try: kill_worker(process); kill_sent=True
+                except BaseException as signal_error:
+                    error.add_note(f'Worker PID {process.pid} heartbeat signal failed: {signal_error}')
             raise
     try:
         # Exit the run alarm before the lifetime's separately bounded reap.
@@ -368,8 +437,11 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
                        LLMDB_DEVICE='cpu', CUDA_VISIBLE_DEVICES='', OMP_NUM_THREADS='8', MKL_NUM_THREADS='8',
                        PYTHONDONTWRITEBYTECODE='1')
             with (run_dir/'worker_stdout.log').open('xb') as stdout, (run_dir/'worker_stderr.log').open('xb') as stderr:
-                process = subprocess.Popen(command, cwd=ROOT, env=env, start_new_session=True,
-                    pass_fds=(child.fileno(),), stdin=subprocess.DEVNULL, stdout=stdout, stderr=stderr)
+                # Capture the handle before __init__ can create a child and raise.
+                process = subprocess.Popen.__new__(subprocess.Popen)
+                with constructor_ownership(process):
+                    subprocess.Popen.__init__(process,command, cwd=ROOT, env=env, start_new_session=True,
+                        pass_fds=(child.fileno(),), stdin=subprocess.DEVNULL, stdout=stdout, stderr=stderr)
                 child.close(); parent.setblocking(False)
                 with selectors.DefaultSelector() as selector:
                     selector.register(parent,selectors.EVENT_READ)
@@ -438,11 +510,13 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
         # additional persistence budget is needed to reconcile that boundary.
         if terminal is not None:
             try: recorded = terminal.committed_outcome()
-            except OSError as verification_error:
-                print(f'Terminal commit verification failed: {verification_error}',file=sys.stderr)
+            except BaseException as verification_error:
+                if not isinstance(verification_error,OSError) and not isinstance(error,(KeyboardInterrupt,SystemExit)):
+                    raise
+                report_error(error,f'Terminal commit verification failed: {verification_error}')
             else:
                 if recorded is not None:
-                    print(f'NEW1 postcommit interruption: {error}; recorded outcome {recorded}',file=sys.stderr)
+                    report_error(error,f'NEW1 postcommit interruption: {error}; recorded outcome {recorded}')
                     if isinstance(error,(KeyboardInterrupt,SystemExit)): raise
                     return recorded
         code=getattr(error,'code','INVALID-WORKER')
@@ -455,11 +529,19 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
                 controller.remaining()
                 emit(run_dir,'halted',reason=code+': '+message,diagnostic_path=diagnostic['path'])
         except BaseException as closeout_error:
-            print(f'{code}: {message}; closeout incomplete: {closeout_error}; no prediction verdict',file=sys.stderr)
+            report_error(error,f'{code}: {message}; closeout incomplete: {closeout_error}; no prediction verdict')
+            if isinstance(closeout_error,(KeyboardInterrupt,SystemExit)) and not isinstance(error,(KeyboardInterrupt,SystemExit)):
+                raise
         if isinstance(error,(KeyboardInterrupt,SystemExit)): raise
         return code
     finally:
-        parent.close(); child.close()
+        original=sys.exc_info()[1]; chosen=original
+        for endpoint in (parent,child):
+            try: endpoint.close()
+            except BaseException as close_error:
+                chosen=preferred_exception(chosen,close_error)
+                report_error(chosen,f'Control socket close failed: {close_error}')
+        if chosen is not original: raise chosen
 
 
 def main():

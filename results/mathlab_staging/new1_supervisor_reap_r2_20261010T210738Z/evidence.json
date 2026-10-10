@@ -1,0 +1,101 @@
+{
+  "command": "LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest -v tests.test_new1_supervisor",
+  "branch": "worktree-c10k-route-a",
+  "worktree": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "start_sha256": {
+    "tools/new1_supervisor.py": "da9f250e244b8e29392e13dbba83ceb90e6980fdfee2b43fa66a3feed3c86a9c",
+    "tests/test_new1_supervisor.py": "c3440f6bc8afc5c476257865121249d0f98299a05a4b52a3835d7637074eccd5"
+  },
+  "final_sha256": {
+    "tools/new1_supervisor.py": "e61d4802fa6c9d4b6a8ecb1c4f612e0a1285a5e21bf104d5ea8f5e1c7e93d65a",
+    "tests/test_new1_supervisor.py": "4e8d70a1695a48a6eb3a04d7eee7b41a3a7923c6a26cd3fe96f538ca46e81c90"
+  },
+  "baseline_tests": 76,
+  "new_tests": [
+    "test_constructor_interruption_reaps_created_child",
+    "test_constructor_system_exit_reaps_child_and_preserves_exit_value",
+    "test_constructor_alarm_before_pid_assignment_is_deferred_until_owned",
+    "test_system_exit_survives_reap_timeout_and_failing_stderr",
+    "test_keyboard_interrupt_survives_signal_failure_and_failing_stderr",
+    "test_heartbeat_keyboard_interrupt_survives_double_signal_failure",
+    "test_emergency_wait_keyboard_interrupt_overrides_ordinary_stop_after_reap",
+    "test_emergency_wait_system_exit_overrides_ordinary_stop_after_reap",
+    "test_original_control_exception_beats_cleanup_control_after_reap",
+    "test_cleanup_interrupt_survives_retry_timeout_with_unreaped_pid",
+    "test_cleanup_interrupts_share_one_five_second_reap_bound",
+    "test_system_exit_survives_halt_receipt_failure_and_failing_stderr",
+    "test_postcommit_control_exception_survives_failing_stderr",
+    "test_recorded_outcome_survives_failing_postcommit_stderr",
+    "test_ordinary_error_beats_reap_timeout_with_failing_stderr_and_pid_receipt",
+    "test_group_cleanup_after_poll_never_signals_reaped_pid",
+    "test_original_control_survives_socket_close_failure_and_failing_stderr",
+    "test_pid_fallback_ownership_check_cannot_be_interrupted_by_watchdog_poll"
+  ],
+  "final_tests": 94,
+  "corrected_existing_test": "test_reap_when_loop_termination_group_signal_is_denied",
+  "red_failed_methods": [
+    "test_cleanup_interrupt_survives_retry_timeout_with_unreaped_pid",
+    "test_cleanup_interrupts_share_one_five_second_reap_bound",
+    "test_constructor_alarm_before_pid_assignment_is_deferred_until_owned",
+    "test_constructor_interruption_reaps_created_child",
+    "test_constructor_system_exit_reaps_child_and_preserves_exit_value",
+    "test_emergency_wait_keyboard_interrupt_overrides_ordinary_stop_after_reap",
+    "test_emergency_wait_system_exit_overrides_ordinary_stop_after_reap",
+    "test_group_cleanup_after_poll_never_signals_reaped_pid",
+    "test_heartbeat_keyboard_interrupt_survives_double_signal_failure",
+    "test_keyboard_interrupt_survives_signal_failure_and_failing_stderr",
+    "test_ordinary_error_beats_reap_timeout_with_failing_stderr_and_pid_receipt",
+    "test_original_control_exception_beats_cleanup_control_after_reap",
+    "test_original_control_survives_socket_close_failure_and_failing_stderr",
+    "test_pid_fallback_ownership_check_cannot_be_interrupted_by_watchdog_poll",
+    "test_postcommit_control_exception_survives_failing_stderr",
+    "test_reap_when_loop_termination_group_signal_is_denied",
+    "test_recorded_outcome_survives_failing_postcommit_stderr",
+    "test_system_exit_survives_halt_receipt_failure_and_failing_stderr",
+    "test_system_exit_survives_reap_timeout_and_failing_stderr"
+  ],
+  "red_assertion_failures": 22,
+  "unchanged_existing_tests_checked": 75,
+  "logs": [
+    {
+      "path": "results/mathlab_staging/new1_supervisor_reap_r2_20261010T210738Z/RED.log",
+      "exit_code": 1,
+      "tests": 93,
+      "failures": 21,
+      "errors": 0,
+      "supervisor_sha256": "da9f250e244b8e29392e13dbba83ceb90e6980fdfee2b43fa66a3feed3c86a9c",
+      "tests_sha256": "391947e598b986a19bfcdc4f245d1d5acda7be03091d9c6fb9e5fe41a648d90c",
+      "sha256": "98cc263a12bfedb74491647bc345a6fdd631e251e19902504ff84ad7ef651167"
+    },
+    {
+      "path": "results/mathlab_staging/new1_supervisor_reap_r2_20261010T210738Z/GREEN.log",
+      "exit_code": 0,
+      "tests": 93,
+      "failures": 0,
+      "errors": 0,
+      "supervisor_sha256": "e2de39d99509cf3e6c2e54fce86cc51b62a3ffd72ae734843bf79b69d5535d4d",
+      "tests_sha256": "391947e598b986a19bfcdc4f245d1d5acda7be03091d9c6fb9e5fe41a648d90c",
+      "sha256": "599b284fb016c29adfbfc9f10900a856b27181291ddac5462792d1289aa4d30f"
+    },
+    {
+      "path": "results/mathlab_staging/new1_supervisor_reap_r2_20261010T210738Z/RED_final.log",
+      "exit_code": 1,
+      "tests": 94,
+      "failures": 22,
+      "errors": 0,
+      "supervisor_sha256": "da9f250e244b8e29392e13dbba83ceb90e6980fdfee2b43fa66a3feed3c86a9c",
+      "tests_sha256": "4e8d70a1695a48a6eb3a04d7eee7b41a3a7923c6a26cd3fe96f538ca46e81c90",
+      "sha256": "b2edd50b4e601784ee5b7cc10d75ca974534604211af3ffa1dae056cb000af0a"
+    },
+    {
+      "path": "results/mathlab_staging/new1_supervisor_reap_r2_20261010T210738Z/GREEN_final.log",
+      "exit_code": 0,
+      "tests": 94,
+      "failures": 0,
+      "errors": 0,
+      "supervisor_sha256": "e61d4802fa6c9d4b6a8ecb1c4f612e0a1285a5e21bf104d5ea8f5e1c7e93d65a",
+      "tests_sha256": "4e8d70a1695a48a6eb3a04d7eee7b41a3a7923c6a26cd3fe96f538ca46e81c90",
+      "sha256": "baf8865302c68271b24b4be8b7d0577643649278af0b67ff18017988fee4951d"
+    }
+  ]
+}
