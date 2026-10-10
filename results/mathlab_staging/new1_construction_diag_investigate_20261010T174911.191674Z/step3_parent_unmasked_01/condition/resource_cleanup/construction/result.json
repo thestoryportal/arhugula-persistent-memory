@@ -1,0 +1,7 @@
+{
+  "status": "INVALID",
+  "error": "STOPPED-RESOURCE: observed process-family RSS at or above 11 GiB",
+  "worker_pid": 95616,
+  "elapsed_s": 0.01301133306697011,
+  "observed_peak_family_rss_gib": 11.1
+}

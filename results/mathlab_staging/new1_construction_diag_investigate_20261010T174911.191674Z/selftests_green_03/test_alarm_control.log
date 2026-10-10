@@ -1,0 +1,7 @@
+{"known_alarm_s": 0.04912537499330938, "expected_s": 0.04, "handler_unchanged": true}
+test_alarm (observer_fixtures.SignalFixture.test_alarm) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.049s
+
+OK

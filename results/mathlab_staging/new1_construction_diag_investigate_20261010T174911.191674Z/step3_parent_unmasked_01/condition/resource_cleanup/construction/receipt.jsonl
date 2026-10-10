@@ -1,0 +1,5 @@
+{"utc": "2026-10-10T18:11:39.565905+00:00", "kind": "started", "deadline_s": 0.2, "rss_cap_gib": 11.0, "parent_pid": 95487, "parent_nice": 10}
+{"utc": "2026-10-10T18:11:39.566110+00:00", "kind": "resource", "rss_gib": 0.01, "process_count": 1}
+{"utc": "2026-10-10T18:11:39.566336+00:00", "kind": "admission", "decision": {"allowed": true, "synthetic": true}}
+{"utc": "2026-10-10T18:11:39.574410+00:00", "kind": "worker", "pid": 95616}
+{"utc": "2026-10-10T18:11:39.579372+00:00", "kind": "terminal", "status": "INVALID", "result_sha256": "1f57ea8e68a7f7bd47474a0fb0d84925f551093fc596ff5d4c696f42fffd8724"}

@@ -1,0 +1,54 @@
+test_a_records_roundtrip_exclusive_and_fsync (test_instruments.InstrumentTests.test_a_records_roundtrip_exclusive_and_fsync) ... ERROR
+test_b_scratch_retains_bytes_and_import_guard_rejects_escape (test_instruments.InstrumentTests.test_b_scratch_retains_bytes_and_import_guard_rejects_escape) ... ERROR
+test_c_observer_preserves_alarm_handler_timer_and_native_exits (test_instruments.InstrumentTests.test_c_observer_preserves_alarm_handler_timer_and_native_exits) ... ERROR
+test_d_native_snapshot_is_readonly_and_records_real_threads (test_instruments.InstrumentTests.test_d_native_snapshot_is_readonly_and_records_real_threads) ... ERROR
+
+======================================================================
+ERROR: test_a_records_roundtrip_exclusive_and_fsync (test_instruments.InstrumentTests.test_a_records_roundtrip_exclusive_and_fsync)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/instruments/test_instruments.py", line 24, in test_a_records_roundtrip_exclusive_and_fsync
+    IO.write_json(path, value)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/instruments/investigation_io.py", line 1, in write_json
+    def write_json(path, value): raise NotImplementedError('RED: recorder missing')
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NotImplementedError: RED: recorder missing
+
+======================================================================
+ERROR: test_b_scratch_retains_bytes_and_import_guard_rejects_escape (test_instruments.InstrumentTests.test_b_scratch_retains_bytes_and_import_guard_rejects_escape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/instruments/test_instruments.py", line 35, in test_b_scratch_retains_bytes_and_import_guard_rejects_escape
+    B.build(source, dest, ['mod.py'], {'mod.py':replacement}, link_venv=False)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/instruments/scratch_builder.py", line 1, in build
+    def build(source, dest, files, replacements, link_venv=True): raise NotImplementedError('RED: builder missing')
+                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NotImplementedError: RED: builder missing
+
+======================================================================
+ERROR: test_c_observer_preserves_alarm_handler_timer_and_native_exits (test_instruments.InstrumentTests.test_c_observer_preserves_alarm_handler_timer_and_native_exits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/instruments/test_instruments.py", line 56, in test_c_observer_preserves_alarm_handler_timer_and_native_exits
+    IO.write_bytes(RECEIPT/(label+'.log'), p.stdout+p.stderr)
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/instruments/investigation_io.py", line 2, in write_bytes
+    def write_bytes(path, value): raise NotImplementedError('RED: recorder missing')
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NotImplementedError: RED: recorder missing
+
+======================================================================
+ERROR: test_d_native_snapshot_is_readonly_and_records_real_threads (test_instruments.InstrumentTests.test_d_native_snapshot_is_readonly_and_records_real_threads)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/instruments/test_instruments.py", line 77, in test_d_native_snapshot_is_readonly_and_records_real_threads
+    value = snapshot()
+            ^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/mathlab_staging/new1_construction_diag_investigate_20261010T174911.191674Z/instruments/state_observer.py", line 1, in snapshot
+    def snapshot(): raise NotImplementedError('RED: observer missing')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NotImplementedError: RED: observer missing
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.074s
+
+FAILED (errors=4)

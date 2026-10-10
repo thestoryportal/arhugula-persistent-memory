@@ -1,0 +1,1 @@
+{"condition": "lifecycle", "errors": [], "exit": 0, "expected_methods": 70, "failures": [], "ignored_exception": false, "investigative": true, "log_sha256": "6c69e35a831530b060154a6907a8bcc1ed08c82c7e7a80b3ba67d880b788e73d", "phase": "step3", "suite_s": 10.353, "tests": 70, "timeout_threshold_s": 120, "traceback_format_exc": null, "wall_s": 10.545354665955529, "warnings": false}
