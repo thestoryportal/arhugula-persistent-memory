@@ -128,3 +128,5 @@
 - [Merge gate first-use learnings](merge-gate-first-use-learnings.md) — ask operator in chat before --apply; hygiene --dry-run early; detached integration worktree
 - [Native applet Removable Volumes prompt](native-applet-removable-volumes-prompt.md) — native .app on memit blocks silently until operator Allows; fixtures under /private/tmp
 - [Parallel builders: name each other's files](parallel-builders-name-each-others-files.md) — two builders in one worktree; each brief lists the other's authorized files or a hash check false-STOPs
+- [Count running duplicates before launch](check-for-running-duplicate-before-launch.md) — a prior chain may already run the same check; `pgrep -f … | wc -l` first
+- [Trim builder reading lists](trim-builder-reading-lists.md) — MB23's 4-item reading pass cost 36% context before any edit; give line ranges or split read/build
