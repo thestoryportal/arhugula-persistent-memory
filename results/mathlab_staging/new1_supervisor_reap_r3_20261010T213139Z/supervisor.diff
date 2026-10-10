@@ -1,0 +1,104 @@
+diff --git a/results/mathlab_staging/new1_supervisor_reap_r3_20261010T213139Z/before/new1_supervisor.py b/tools/new1_supervisor.py
+index 7a488b1..fdaf34b 100644
+--- a/results/mathlab_staging/new1_supervisor_reap_r3_20261010T213139Z/before/new1_supervisor.py
++++ b/tools/new1_supervisor.py
+@@ -310,23 +310,46 @@ def constructor_ownership(process):
+         deliver(entries,original)
+ 
+ 
++@contextlib.contextmanager
++def worker_reaping():
++    """Defer SIGINT/SIGALRM across nonblocking poll/kill or a <=5 s wait."""
++    blocked=signal.pthread_sigmask(signal.SIG_BLOCK,{signal.SIGINT,signal.SIGALRM})
++    try: yield
++    finally:
++        original=sys.exc_info()[1]
++        try: signal.pthread_sigmask(signal.SIG_SETMASK,blocked)
++        except BaseException as error:
++            if preferred_exception(original,error) is not original: raise
++            original.add_note(f'Worker signal restoration raised: {error}')
++
++
++def poll_worker(process):
++    with worker_reaping(): return process.poll()
++
++
+ def kill_worker(process):
+     try: os.killpg(process.pid, signal.SIGKILL)
+     except (ProcessLookupError, PermissionError):
+         # poll()/wait() releases PID ownership; group cleanup still applies.
+         # The main-thread watchdog must not poll between this check and signal.
+-        blocked=signal.pthread_sigmask(signal.SIG_BLOCK,{signal.SIGALRM})
+-        try:
++        with worker_reaping():
+             if process.returncode is None:
+                 try: os.kill(process.pid, signal.SIGKILL)
+                 except ProcessLookupError: pass
+-        finally: signal.pthread_sigmask(signal.SIG_SETMASK,blocked)
+ 
+ 
+ def terminate(process):
+     """Stop the whole isolated group immediately, then reap the direct worker."""
++    original=None
+     try: kill_worker(process)
+-    finally: process.wait(timeout=REAP_TIMEOUT_S)
++    except BaseException as error: original=error
++    try:
++        with worker_reaping(): process.wait(timeout=REAP_TIMEOUT_S)
++    except BaseException as error:
++        chosen=preferred_exception(original,error)
++        if chosen is not error: chosen.add_note(f'Worker termination reap failed: {error}')
++        raise chosen
++    if original is not None: raise original
+ 
+ 
+ def publish_predictions(run_dir, path):
+@@ -380,11 +403,13 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
+                 timeout=REAP_TIMEOUT_S
+                 while True:
+                     try:
+-                        process.wait(timeout=timeout)
+-                        worker_reaped=True
++                        with worker_reaping():
++                            process.wait(timeout=timeout)
++                            worker_reaped=True
+                         break
+                     except (KeyboardInterrupt,SystemExit) as error:
+                         cleanup_control=preferred_exception(cleanup_control,error)
++                        if worker_reaped: break
+                         timeout=reap_deadline-time.monotonic()
+                         if timeout<=0:
+                             wait_error=subprocess.TimeoutExpired(f'worker PID {process.pid}',REAP_TIMEOUT_S)
+@@ -410,11 +435,13 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
+     def heartbeat():
+         nonlocal kill_sent
+         try: controller.observe(process.pid if process is not None and getattr(process,'pid',None) is not None
+-            and process.poll() is None else None)
++            and poll_worker(process) is None else None)
+         except BaseException as error:
+             if process is not None and getattr(process,'pid',None) is not None and not kill_sent:
+                 try: kill_worker(process); kill_sent=True
+                 except BaseException as signal_error:
++                    chosen=preferred_exception(error,signal_error)
++                    if chosen is not error: raise chosen
+                     error.add_note(f'Worker PID {process.pid} heartbeat signal failed: {signal_error}')
+             raise
+     try:
+@@ -449,7 +476,7 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
+                     worker_exited = False
+                     while True:
+                         remaining = controller.remaining()
+-                        if process.poll() is not None and not worker_exited:
++                        if poll_worker(process) is not None and not worker_exited:
+                             # Reparented group members may retain IPC after their leader exits.
+                             terminate(process); worker_exited=True; kill_sent=True; worker_reaped=True
+                         if time.monotonic()-last_sample >= SAMPLE_S and not worker_exited:
+@@ -486,7 +513,7 @@ def supervise(command, run_dir, *, admission=None, monitor=sample_resources):
+                                         emit(run_dir,'progress',stage='geometry',done=len(list((run_dir/'layers').glob('*.json'))),
+                                              total=5,unit='layers')
+                                 else: raise Stop('INVALID-PROTOCOL','unexpected IPC message/order')
+-                        if process.poll() is not None and eof:
++                        if poll_worker(process) is not None and eof:
+                             if buffer or process.returncode or complete is None:
+                                 raise Stop('INVALID-WORKER','partial IPC, unsuccessful exit or missing final artifact')
+                             if not kill_sent:

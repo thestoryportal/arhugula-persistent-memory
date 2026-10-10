@@ -1,0 +1,166 @@
+{
+  "receipt": "results/mathlab_staging/new1_supervisor_reap_r3_20261010T213139Z",
+  "branch": "worktree-c10k-route-a",
+  "status": "BUILD_DONE_FIXTURE_ONLY",
+  "source_identity": {
+    "tools/new1_supervisor.py": {
+      "start_sha256": "e61d4802fa6c9d4b6a8ecb1c4f612e0a1285a5e21bf104d5ea8f5e1c7e93d65a",
+      "final_sha256": "3bb767f01257d4fd8d38fb21e132f5c89bfd3fa31959805dccf2555549ccf32f"
+    },
+    "tests/test_new1_supervisor.py": {
+      "start_sha256": "4e8d70a1695a48a6eb3a04d7eee7b41a3a7923c6a26cd3fe96f538ca46e81c90",
+      "final_sha256": "01b1fd268dbd8ceab42f13d4244f1e5e92205cdcb88e24d2c4c0fe1f5666d927"
+    }
+  },
+  "red": {
+    "log": "results/mathlab_staging/new1_supervisor_reap_r3_20261010T213139Z/RED_causal.log",
+    "log_sha256": "d7c062d8ad2486cd58a4c4dda08dc2d051b6f6d8c0274ae254e4e936494a68cf",
+    "command": "LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest -v tests.test_new1_supervisor",
+    "exit_code": 1,
+    "tests": 97,
+    "failures": 8,
+    "errors": 0,
+    "started_utc": "2026-10-10T21:33:50.770Z",
+    "finished_utc": "2026-10-10T21:33:54.139Z",
+    "supervisor_sha256": "e61d4802fa6c9d4b6a8ecb1c4f612e0a1285a5e21bf104d5ea8f5e1c7e93d65a",
+    "tests_sha256": "01b1fd268dbd8ceab42f13d4244f1e5e92205cdcb88e24d2c4c0fe1f5666d927",
+    "failing_methods": [
+      "test_heartbeat_cleanup_control_overrides_ordinary_stop_after_one_reap",
+      "test_interrupted_poll_never_signals_pid_released_before_returncode",
+      "test_terminate_preserves_signal_exception_over_ordinary_reap_error"
+    ]
+  },
+  "green": {
+    "log": "results/mathlab_staging/new1_supervisor_reap_r3_20261010T213139Z/GREEN.log",
+    "log_sha256": "6175b5238604285b902bf41e39a6c3a6d3d96df3f0b45b3135c2e8cf2616d4e2",
+    "command": "LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest -v tests.test_new1_supervisor",
+    "exit_code": 0,
+    "tests": 97,
+    "failures": 0,
+    "errors": 0,
+    "started_utc": "2026-10-10T21:35:34.113Z",
+    "finished_utc": "2026-10-10T21:35:37.452Z",
+    "supervisor_sha256": "3bb767f01257d4fd8d38fb21e132f5c89bfd3fa31959805dccf2555549ccf32f",
+    "tests_sha256": "01b1fd268dbd8ceab42f13d4244f1e5e92205cdcb88e24d2c4c0fe1f5666d927"
+  },
+  "rejected_initial_red": {
+    "log": "results/mathlab_staging/new1_supervisor_reap_r3_20261010T213139Z/RED.log",
+    "log_sha256": "eadf3e17fb88a9d8f8d549f32f0cdf5dfe9d1eeef5588a747a0bd389c17356f0",
+    "command": "LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m unittest -v tests.test_new1_supervisor",
+    "exit_code": 1,
+    "tests": 97,
+    "failures": 8,
+    "errors": 0,
+    "started_utc": "2026-10-10T21:32:52.956Z",
+    "finished_utc": "2026-10-10T21:32:56.320Z",
+    "tests_sha256": "df8b3c3b268807ea855f777685fb8697fa931d67f95cd9aa0a4f6ee92f9af076",
+    "reason": "Heartbeat observe injection ran during pre-worker controller.check; its two wait-count failures are not causal blocker-2 evidence."
+  },
+  "checks": {
+    "baseline_methods": 94,
+    "new_methods": [
+      "test_interrupted_poll_never_signals_pid_released_before_returncode",
+      "test_heartbeat_cleanup_control_overrides_ordinary_stop_after_one_reap",
+      "test_terminate_preserves_signal_exception_over_ordinary_reap_error"
+    ],
+    "all_existing_tests_and_helpers_byte_identical": true,
+    "accepted_prefix_and_constructor_unchanged": true,
+    "prediction_publication_unchanged": true,
+    "terminal_closeout_and_exit_mapping_unchanged": true,
+    "all_worker_poll_wait_calls_guarded": true,
+    "red_before_source_edit_before_green": true,
+    "git_diff_check": "passed"
+  },
+  "ownership_strategy": {
+    "signals": [
+      "SIGINT",
+      "SIGALRM"
+    ],
+    "poll": "nonblocking",
+    "wait_max_timeout_s": 5,
+    "retry_budget_s": 5,
+    "mask_scope": "Main-thread worker poll, bounded worker wait, and nonblocking PID ownership-check/signal; each prior mask restored."
+  },
+  "boundaries_checked": [
+    {
+      "name": "Constructor deferred delivery",
+      "line": 281,
+      "check": "Unchanged selector; original controls retained. Existing constructor fixtures."
+    },
+    {
+      "name": "Signal-mask restoration",
+      "line": 314,
+      "check": "Selector applies before a restoration error can replace the in-flight error."
+    },
+    {
+      "name": "Single-PID fallback",
+      "line": 330,
+      "check": "Ownership check and signal share the guard; completed reaps prohibit PID fallback."
+    },
+    {
+      "name": "Termination signal then wait",
+      "line": 341,
+      "check": "First signal error and wait error use the selector; always attempts the bounded wait. New causal termination regression."
+    },
+    {
+      "name": "Heartbeat signal cleanup",
+      "line": 435,
+      "check": "New cleanup control is raised; lifetime reaping follows. Original controls still win. New and existing heartbeat regressions."
+    },
+    {
+      "name": "Lifetime signal and reap",
+      "line": 388,
+      "check": "Original/control/signalling/wait precedence preserved; one five-second retry deadline. Successful reap flag is stored before deferred delivery. Existing lifetime regressions."
+    },
+    {
+      "name": "Terminal commit verification",
+      "line": 540,
+      "check": "Unchanged accepted terminal authority and control precedence; postcommit fixtures."
+    },
+    {
+      "name": "Halt closeout",
+      "line": 558,
+      "check": "Unchanged accepted control precedence and original remaining-budget rule; halt failure fixtures."
+    },
+    {
+      "name": "Endpoint closing",
+      "line": 568,
+      "check": "Unchanged selector; close failure fixture."
+    },
+    {
+      "name": "Stderr reporting",
+      "line": 274,
+      "check": "Unchanged reporting-note rule, including failed stderr fixtures."
+    }
+  ],
+  "artifacts": {
+    "before/new1_supervisor.py": "e61d4802fa6c9d4b6a8ecb1c4f612e0a1285a5e21bf104d5ea8f5e1c7e93d65a",
+    "before/test_new1_supervisor.py": "4e8d70a1695a48a6eb3a04d7eee7b41a3a7923c6a26cd3fe96f538ca46e81c90",
+    "RED.log": "eadf3e17fb88a9d8f8d549f32f0cdf5dfe9d1eeef5588a747a0bd389c17356f0",
+    "RED.exit": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "RED_tests.py": "df8b3c3b268807ea855f777685fb8697fa931d67f95cd9aa0a4f6ee92f9af076",
+    "RED_causal.log": "d7c062d8ad2486cd58a4c4dda08dc2d051b6f6d8c0274ae254e4e936494a68cf",
+    "RED_causal.exit": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "RED_causal_tests.py": "01b1fd268dbd8ceab42f13d4244f1e5e92205cdcb88e24d2c4c0fe1f5666d927",
+    "GREEN.log": "6175b5238604285b902bf41e39a6c3a6d3d96df3f0b45b3135c2e8cf2616d4e2",
+    "GREEN.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "GREEN_supervisor.py": "3bb767f01257d4fd8d38fb21e132f5c89bfd3fa31959805dccf2555549ccf32f",
+    "GREEN_tests.py": "01b1fd268dbd8ceab42f13d4244f1e5e92205cdcb88e24d2c4c0fe1f5666d927",
+    "supervisor.diff": "a17d104650b103fc3f8de041d3d388dd436b63fdde949dd78ae2270c3c8e680b",
+    "tests.diff": "a1aba04f767ad632282577b41face525b639f05707b2b12a5d674bf6f4ae4ccd",
+    "final.diff": "604b7d15db85a20f5690d6fb176815d940b3171520db21d8925b78c7b884a596",
+    "build_receipt.cjs": "604927314694844e9df3cb2078eeeb02d4bcb338cfa61f7bef4bc37810064520",
+    "README.md": "67ecc3dc2a09095d38bd1112f0de0057298fbf9d8b75c78277541f2cd7553dc0"
+  },
+  "limitations": [
+    "All new process construction and group/PID signalling are faked; suite retains existing short subprocess fixtures.",
+    "No long-lived NEW1 worker, model, MPS run, real PID reuse, or launch-readiness claim.",
+    "Host verification and binding Astra review remain OPEN."
+  ],
+  "tooling": {
+    "graft_successful_calls": 2,
+    "reported_tokens_saved": 85797,
+    "reported_dollars": "$0.04 plus <$0.01",
+    "note": "A graft callers query reported automatic graph refresh (7 changed inputs); direct source edits were restricted to the two authorized files."
+  }
+}

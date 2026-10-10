@@ -1339,6 +1339,87 @@ send({'type':'complete','path':'geometry.json'})
         f.process.wait.assert_called_once_with(timeout=5)
         f.child.close.assert_called()
 
+    def test_interrupted_poll_never_signals_pid_released_before_returncode(self):
+        import sys
+        internal_poll=subprocess.Popen._internal_poll
+        for boundary in ('loop-top','loop-eof','heartbeat'):
+            with self.subTest(boundary=boundary):
+                self.run=self.root/boundary; self.run.mkdir()
+                expected=KeyboardInterrupt(); reaped=[]; interrupted=[]; polls=[]
+                with self.reap_fixture() as f:
+                    f.kill_group.side_effect=PermissionError('fixture group signal denied')
+                    f.process._waitpid_lock.acquire.return_value=True
+                    f.process._handle_exitstatus.side_effect=lambda status:setattr(f.process,'returncode',0)
+                    def waitpid(pid,flags):
+                        self.assertEqual((pid,flags),(123,os.WNOHANG))
+                        reaped.append(pid)
+                        return pid,0
+                    def trace(frame,event,arg):
+                        if (frame.f_code is internal_poll.__code__ and event=='line'
+                                and frame.f_locals.get('pid')==123 and not interrupted):
+                            self.assertEqual(reaped,[123])
+                            interrupted.append(f.process.returncode)
+                            signal.raise_signal(signal.SIGINT)
+                        return trace
+                    def poll():
+                        polls.append(None)
+                        if boundary!='loop-top' and len(polls)==1: return None
+                        return internal_poll(f.process,_waitpid=waitpid)
+                    def wait(*,timeout):
+                        f.process.returncode=0
+                        return 0
+                    f.process.poll.side_effect=poll; f.process.wait.side_effect=wait
+                    if boundary=='heartbeat':
+                        f.selector.select.side_effect=lambda timeout:f.heartbeat()
+                    else:
+                        f.selector.select.return_value=[(None,None)]; f.parent.recv.return_value=b''
+                    previous_handler=signal.getsignal(signal.SIGINT); previous_trace=sys.gettrace()
+                    def interrupt(signum,frame): raise expected
+                    try:
+                        signal.signal(signal.SIGINT,interrupt); sys.settrace(trace)
+                        self.assert_control_exit(expected)
+                    finally:
+                        sys.settrace(previous_trace); signal.signal(signal.SIGINT,previous_handler)
+                self.assertEqual(reaped,[123])
+                self.assertEqual(interrupted,[None],'interrupt must land before returncode is stored')
+                f.process.wait.assert_called_once_with(timeout=5)
+                self.assertEqual(f.kill_pid.call_args_list,[],
+                    'released PID was signalled after successful waitpid and pre-returncode SIGINT')
+
+    def test_heartbeat_cleanup_control_overrides_ordinary_stop_after_one_reap(self):
+        for expected in (KeyboardInterrupt(),SystemExit(23)):
+            with self.subTest(control=type(expected).__name__):
+                self.run=self.root/type(expected).__name__; self.run.mkdir()
+                caught=None; outcome=None
+                with self.reap_fixture() as f:
+                    def heartbeat(timeout):
+                        with mock.patch.object(f.controller,'observe',
+                                side_effect=self.S.Stop('STOPPED-RESOURCE','fixture heartbeat stop')):
+                            f.heartbeat()
+                    f.selector.select.side_effect=heartbeat
+                    f.kill_group.side_effect=PermissionError('fixture group signal denied')
+                    f.kill_pid.side_effect=[expected,None]
+                    try: outcome=self.supervise_reap_fixture()
+                    except BaseException as error: caught=error
+                f.process.wait.assert_called_once_with(timeout=5)
+                self.assertIs(caught,expected,
+                    f'heartbeat cleanup control was swallowed; returned {outcome!r}; raised {caught!r}')
+                if isinstance(expected,SystemExit): self.assertEqual(expected.code,23)
+
+    def test_terminate_preserves_signal_exception_over_ordinary_reap_error(self):
+        for original in (KeyboardInterrupt(),SystemExit(17),PermissionError('fixture PID signal denied')):
+            with self.subTest(original=type(original).__name__):
+                caught=None
+                with self.reap_fixture() as f:
+                    f.kill_group.side_effect=PermissionError('fixture group signal denied')
+                    f.kill_pid.side_effect=original
+                    f.process.wait.side_effect=OSError('fixture wait failed')
+                    try: self.S.terminate(f.process)
+                    except BaseException as error: caught=error
+                f.process.wait.assert_called_once_with(timeout=5)
+                self.assertIs(caught,original,'termination reap replaced the original signal exception')
+                if isinstance(original,SystemExit): self.assertEqual(original.code,17)
+
     def test_pid_fallback_ownership_check_cannot_be_interrupted_by_watchdog_poll(self):
         reaped=[]; signalled=[]
         class Process:
