@@ -1,0 +1,15 @@
+Command: /usr/bin/python3 -B -m unittest tools.test_dashboard_storage -v
+Suite exit: 1; extracted verbatim test failure from RED_suite.log
+
+FAIL: test_1_idempotent_launcher_and_visible_failure_with_fake_tmux (tools.test_dashboard_storage.StorageCriteria)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_dashboard_storage.py", line 183, in test_1_idempotent_launcher_and_visible_failure_with_fake_tmux
+    self.assertEqual(first.returncode, 0, first.stderr)
+AssertionError: 127 != 0 : /bin/bash: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_storage_tab.sh: No such file or directory
+
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.044s
+
+FAILED (failures=1, errors=25)

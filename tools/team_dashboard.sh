@@ -5,7 +5,7 @@
 # (tools/dashboard_tile.py), and a status bar with the GPU job and status counts (tools/dashboard_bar.sh).
 # Nothing attaches to the agents' sessions. Re-running rebuilds it in place for anyone watching.
 # Tabs: 1 team · 2 active (busy agents) · 3 experiment (GPU run, live) · 4 mathlab · 5 helpers · 6 science (the Science Report
-# full width) (+ one ⚙ tab per running helper agent). Switch: Ctrl-b then 1-6, or Ctrl-b n / p for next / previous.
+# full width) · 7 storage (+ one ⚙ tab per running helper agent). Switch: Ctrl-b then 1-7, or Ctrl-b n / p for next / previous.
 # The lead session is LEAD if set, else found: the newest tmux session with a Claude Code pane working in this repo
 # (dashboard_live.lead_session). Usage: [LEAD=<session>] bash tools/team_dashboard.sh
 # (or ~/.local/bin/teamdash [team|active|exp|mathlab|science])   Leave: Ctrl-b d   Close: tmux kill-session -t dashboard
@@ -84,6 +84,7 @@ tmux new-window -d -t "$NEW" -n experiment "/usr/bin/python3 '$T/dashboard_exper
 tmux new-window -d -t "$NEW" -n mathlab "/usr/bin/python3 '$T/dashboard_mathlab.py'"
 tmux new-window -d -t "$NEW" -n helpers "/usr/bin/python3 '$T/dashboard_subagents.py' manager"   # opens/closes a tab per running helper agent
 bash "$T/dashboard_science_tab.sh" "$NEW" >/dev/null || exit 1   # the Science Report alone, full width (its message goes to stderr on failure)
+bash "$T/dashboard_storage_tab.sh" "$NEW" >/dev/null || exit 1   # Drive backup and project disks, full width
 tmux set-option -t "$NEW" window-status-format "#[fg=colour250] #I #W " >/dev/null
 tmux set-option -t "$NEW" window-status-current-format "#[bg=colour214,fg=colour16,bold] #I #W " >/dev/null
 

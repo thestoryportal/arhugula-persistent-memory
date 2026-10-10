@@ -1,0 +1,27 @@
+■ STORAGE · Drive backup and project disks
+GOOGLE DRIVE BACKUP
+Backup not switched on yet · waiting for activation
+Health: malformed launch receipt
+PAST RUNS · newest first
+ No recorded runs
+
+
+
+
+
+
+
+
+
+
+DISKS · space measured now
+Internal SSD: 400.0 GiB used (40.0%) · 600.0 GiB free · 1000.0 GiB total
+memit SSD: 400.0 GiB used (40.0%) · 600.0 GiB free · 1000.0 GiB total
+Development and backups share memit's physical SSD; counted once.
+Project folders · measured 7 min ago · every 15 min
+MAIN CHECKOUT · /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory · top 1/1
+ 1.0 GiB  results
+MIRROR · checkout expanded above · /Volumes/memit/llm-database-poc-mirror · top 1/1
+ 2.0 GiB  models
+INTERNAL PROJECT FILES · under $HOME · top 1/1
+ 1.0 MiB  ~/Backups

@@ -1,0 +1,24 @@
+{
+  "cache_override": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/dashboard_storage_mb22_20261010T192500Z/real_size_cache.json",
+  "default_cache": "/Users/robertrhu/Library/Caches/memit-dashboard/storage_sizes.json",
+  "disks": {
+    "/": {
+      "free": 210651783168,
+      "percent": 78.82178474502368,
+      "total": 994662584320,
+      "used": 784010801152
+    },
+    "/Volumes/memit": {
+      "free": 86233870336,
+      "percent": 80.83717197016233,
+      "total": 450005970944,
+      "used": 363772100608
+    }
+  },
+  "error": "OSError: size scan failed (exit 0): nice: setpriority: Operation not permitted",
+  "failed_attempt_duration_s": 3.010880166,
+  "home": "/Users/robertrhu",
+  "measured_at": null,
+  "measured_duration_s": null,
+  "wall_duration_s": 3.0114912080000003
+}

@@ -1,0 +1,39 @@
+test_1_idempotent_launcher_and_visible_failure_with_fake_tmux (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_1_launch_matches_gpu_exemption (tools.test_dashboard_storage.StorageCriteria) ... FAIL
+test_1_live_loop_uses_reload_without_tmux (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_2_panel_never_invokes_python_subprocess (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_3_health_is_reused_and_read_only_for_fixture_tree (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_3_malformed_and_missing_progress_remain_visible (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_3a_not_switched_on_once_160 (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_3a_not_switched_on_once_80 (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_3b_lock_without_heartbeat_is_running_not_disabled (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_3b_running_once_160 (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_3b_running_once_80 (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_3c_finished_once_160 (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_3c_finished_once_80 (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_3d_history_once_160 (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_3d_history_once_80 (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_4_biggest_first_and_internal_project_paths_separate (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_4_space_uses_statvfs_and_shared_disk_once (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_4_symlinks_counted_once_at_target_and_labelled (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_4_unavailable_mount_is_an_error_not_zero_space (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_5_attempts_are_at_least_fifteen_minutes_apart_even_on_failure (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_5_bad_cache_and_du_failure_are_explicit (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_5_failed_scan_keeps_last_result_and_error (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_5_first_scan_is_nonblocking_and_says_measuring (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_5_fresh_cache_skips_scan (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_5_old_cache_scans_and_reload_reuses_it (tools.test_dashboard_storage.StorageCriteria) ... ok
+test_6_snapshot_never_writes_backup_app_or_launchagents (tools.test_dashboard_storage.StorageCriteria) ... ok
+
+======================================================================
+FAIL: test_1_launch_matches_gpu_exemption (tools.test_dashboard_storage.StorageCriteria)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_dashboard_storage.py", line 159, in test_1_launch_matches_gpu_exemption
+    self.assertTrue(any(re.fullmatch(pattern, actual) for pattern in patterns), actual)
+AssertionError: False is not true : /Library/Developer/CommandLineTools/usr/bin/python3 /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_storage.py
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.434s
+
+FAILED (failures=1)

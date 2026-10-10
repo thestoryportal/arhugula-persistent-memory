@@ -1,0 +1,27 @@
+■ STORAGE · Drive backup and project disks
+GOOGLE DRIVE BACKUP
+RUNNING · copying to Google Drive
+Started 2026-10-10T19:05:36+00:00
+Copied 12.0 MiB · Rate 1.0 MiB/s
+Files 7 / 20 · ETA 2m · Elapsed 3m
+Health: incomplete backup run
+PAST RUNS · newest first
+ 2026-10-10 19:05  3m  RUNNING  unknown
+
+
+
+
+
+
+
+DISKS · space measured now
+Internal SSD: 400.0 GiB used (40.0%) · 600.0 GiB free · 1000.0 GiB total
+memit SSD: 400.0 GiB used (40.0%) · 600.0 GiB free · 1000.0 GiB total
+Development and backups share memit's physical SSD; counted once.
+Project folders · measured 7 min ago · every 15 min
+MAIN CHECKOUT · /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory · top 1/1
+ 1.0 GiB  results
+MIRROR · checkout expanded above · /Volumes/memit/llm-database-poc-mirror · top 1/1
+ 2.0 GiB  models
+INTERNAL PROJECT FILES · under $HOME · top 1/1
+ 1.0 MiB  ~/Backups

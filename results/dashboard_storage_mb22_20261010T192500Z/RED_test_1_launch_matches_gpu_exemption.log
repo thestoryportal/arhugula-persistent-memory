@@ -1,0 +1,21 @@
+Command: /usr/bin/python3 -B -m unittest tools.test_dashboard_storage -v
+Suite exit: 1; extracted verbatim test failure from RED_suite.log
+
+ERROR: test_1_launch_matches_gpu_exemption (tools.test_dashboard_storage.StorageCriteria)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_dashboard_storage.py", line 146, in test_1_launch_matches_gpu_exemption
+    text = (TOOLS / "dashboard_storage_tab.sh").read_text()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1256, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/dashboard_storage_tab.sh'
+
+======================================================================
+
+Ran 26 tests in 0.044s
+
+FAILED (failures=1, errors=25)
