@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_23.pt": "0eb10249239a3005868db771571c929fa85556545257373b68601ba73f407756"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Thelby",
+    "target_new": {
+      "str": " Berlin"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_23.pt"
+  }
+}

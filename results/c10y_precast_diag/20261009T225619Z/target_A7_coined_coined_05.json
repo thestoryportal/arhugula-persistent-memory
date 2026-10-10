@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_05.pt": "b47b717be4c8d6ca97ee5656edfcc74cfe426cd38242bcb40ebe2a6a8b44c20c"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Drennik",
+    "target_new": {
+      "str": " Kessivar Ulvenn"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_05.pt"
+  }
+}

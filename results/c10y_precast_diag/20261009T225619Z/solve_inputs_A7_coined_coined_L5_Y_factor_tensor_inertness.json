@@ -1,0 +1,170 @@
+{
+  "after": {
+    "C": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ccbb1f097d2eb39276db056128be98c9abac03884bc266220e67d592989145e9",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "K": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "63994ff4ddd91367633779ff2dca5c6782ca5316917bfba3c9968c1a5d33371e",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "M": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "f24149ddb715a386c210404bc04c77c8090229e4d82de2361c928547184c4dae",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "P": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "c455769143e0edbabe0340b490edc92ceea52ee046b474666f5ed13dd8f96402",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "R": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "af5672de389dda0748467627e05f8584f232bc2bd277cc9f648596c79f7b5d1c",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "RHS": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "527bf103f37dddeefc1fab03fa5280d283389aa4eea7bf37f16fa6b055db3802",
+      "shape": [
+        11008,
+        24
+      ]
+    }
+  },
+  "before": {
+    "C": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ccbb1f097d2eb39276db056128be98c9abac03884bc266220e67d592989145e9",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "K": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "63994ff4ddd91367633779ff2dca5c6782ca5316917bfba3c9968c1a5d33371e",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "M": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "f24149ddb715a386c210404bc04c77c8090229e4d82de2361c928547184c4dae",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "P": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "c455769143e0edbabe0340b490edc92ceea52ee046b474666f5ed13dd8f96402",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "R": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "af5672de389dda0748467627e05f8584f232bc2bd277cc9f648596c79f7b5d1c",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "RHS": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "527bf103f37dddeefc1fab03fa5280d283389aa4eea7bf37f16fa6b055db3802",
+      "shape": [
+        11008,
+        24
+      ]
+    }
+  },
+  "retained": {
+    "C": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ccbb1f097d2eb39276db056128be98c9abac03884bc266220e67d592989145e9",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "K": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "63994ff4ddd91367633779ff2dca5c6782ca5316917bfba3c9968c1a5d33371e",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "M": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "f24149ddb715a386c210404bc04c77c8090229e4d82de2361c928547184c4dae",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "P": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "c455769143e0edbabe0340b490edc92ceea52ee046b474666f5ed13dd8f96402",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "R": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "af5672de389dda0748467627e05f8584f232bc2bd277cc9f648596c79f7b5d1c",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "RHS": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "527bf103f37dddeefc1fab03fa5280d283389aa4eea7bf37f16fa6b055db3802",
+      "shape": [
+        11008,
+        24
+      ]
+    }
+  }
+}

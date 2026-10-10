@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_07.pt": "34cccc1125d562984269642500739296486d03af1f28b5839525a9e5bcb2fb3d"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Crulpane",
+    "target_new": {
+      "str": " Marsduq Drelth"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_07.pt"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_19.pt": "5c45e922dc95fe7ac2647f77bfe32891435d52e4ce57b49191a9c589009d19c1"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Halquin",
+    "target_new": {
+      "str": " Marsduq Yornel"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_19.pt"
+  }
+}

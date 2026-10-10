@@ -1,0 +1,14 @@
+{
+  "artifacts": {
+    "controls_A7_coined_coined_L6_repeat_observer_on.pt": "7fb18c90a04067a6b8bf09d6ce7851abf22805a9f718b009cc9960017d7ff6e3"
+  },
+  "weight": {
+    "dtype": "torch.float16",
+    "key": "tensor_0",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L6_repeat_observer_on.pt"
+  }
+}

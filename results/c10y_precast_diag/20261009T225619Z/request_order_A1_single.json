@@ -1,0 +1,205 @@
+{
+  "band": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "requests": [
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Zorbland",
+      "target_new": {
+        "str": " Beirut"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Quaxil",
+      "target_new": {
+        "str": " Buenos"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Plurnak",
+      "target_new": {
+        "str": " Damascus"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Vythorn",
+      "target_new": {
+        "str": " Jerusalem"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Glimsto",
+      "target_new": {
+        "str": " Lisbon"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Drennik",
+      "target_new": {
+        "str": " Moscow"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Yastovel",
+      "target_new": {
+        "str": " Prague"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Crulpane",
+      "target_new": {
+        "str": " Santiago"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Mophgar",
+      "target_new": {
+        "str": " Stockholm"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Brinduun",
+      "target_new": {
+        "str": " Vienna"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Trannak",
+      "target_new": {
+        "str": " Ankara"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Skornwell",
+      "target_new": {
+        "str": " Bangkok"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Fluvane",
+      "target_new": {
+        "str": " Budapest"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Oxbarrow",
+      "target_new": {
+        "str": " Copenhagen"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Zephquin",
+      "target_new": {
+        "str": " Helsinki"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Lurmaxen",
+      "target_new": {
+        "str": " Lima"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Pradnoll",
+      "target_new": {
+        "str": " Mexico"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Kessivar",
+      "target_new": {
+        "str": " Paris"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Wombryne",
+      "target_new": {
+        "str": " Rome"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Halquin",
+      "target_new": {
+        "str": " Sofia"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Vorlex",
+      "target_new": {
+        "str": " Tunis"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Quenby",
+      "target_new": {
+        "str": " Amsterdam"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Marsduq",
+      "target_new": {
+        "str": " Baghdad"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Thelby",
+      "target_new": {
+        "str": " Berlin"
+      }
+    }
+  ],
+  "subjects": [
+    "Zorbland",
+    "Quaxil",
+    "Plurnak",
+    "Vythorn",
+    "Glimsto",
+    "Drennik",
+    "Yastovel",
+    "Crulpane",
+    "Mophgar",
+    "Brinduun",
+    "Trannak",
+    "Skornwell",
+    "Fluvane",
+    "Oxbarrow",
+    "Zephquin",
+    "Lurmaxen",
+    "Pradnoll",
+    "Kessivar",
+    "Wombryne",
+    "Halquin",
+    "Vorlex",
+    "Quenby",
+    "Marsduq",
+    "Thelby"
+  ]
+}

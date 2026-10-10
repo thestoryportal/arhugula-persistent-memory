@@ -1,0 +1,41 @@
+{
+  "A0": {
+    "dtype": "torch.float32",
+    "key": "tensor_1",
+    "shape": [
+      2048,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L5_common_factors.pt"
+  },
+  "B": {
+    "dtype": "torch.float32",
+    "key": "tensor_3",
+    "shape": [
+      24,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L5_common_factors.pt"
+  },
+  "R": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L5_common_factors.pt"
+  },
+  "X": {
+    "dtype": "torch.float32",
+    "key": "tensor_2",
+    "shape": [
+      11008,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L5_common_factors.pt"
+  },
+  "artifacts": {
+    "controls_A7_coined_coined_L5_common_factors.pt": "fab63ef581c3288b155d509f98e30399e8f234e4036e59a35de13089d2b0eae0"
+  }
+}

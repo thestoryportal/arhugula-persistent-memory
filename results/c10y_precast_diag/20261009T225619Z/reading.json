@@ -1,0 +1,4 @@
+{
+  "label": "INCONCLUSIVE",
+  "reason": "A required capture, validation, persistence, resource, cleanup or deadline requirement failed."
+}

@@ -1,0 +1,39 @@
+{
+  "cells": [
+    {
+      "arm": "A7_coined_coined",
+      "discrepancies": [],
+      "layer": 4,
+      "operands_equal": true,
+      "states_equal": true
+    },
+    {
+      "arm": "A7_coined_coined",
+      "discrepancies": [],
+      "layer": 5,
+      "operands_equal": true,
+      "states_equal": true
+    },
+    {
+      "arm": "A7_coined_coined",
+      "discrepancies": [],
+      "layer": 6,
+      "operands_equal": true,
+      "states_equal": true
+    },
+    {
+      "arm": "A7_coined_coined",
+      "discrepancies": [],
+      "layer": 7,
+      "operands_equal": true,
+      "states_equal": true
+    },
+    {
+      "arm": "A7_coined_coined",
+      "discrepancies": [],
+      "layer": 8,
+      "operands_equal": true,
+      "states_equal": true
+    }
+  ]
+}

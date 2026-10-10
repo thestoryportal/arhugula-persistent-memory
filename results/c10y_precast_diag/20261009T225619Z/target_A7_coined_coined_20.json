@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_20.pt": "a868ae28889b93cb5136a65f5f2e5a12b3af3a3a42a66e35ee0ef3ffc4f8eaa0"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Vorlex",
+    "target_new": {
+      "str": " Glimsto Spraxil"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_20.pt"
+  }
+}

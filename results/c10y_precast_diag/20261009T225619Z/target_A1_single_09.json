@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_09.pt": "9d78f80c1697425c8f372bc94e00ff0cfe9732532af970688979c784011a0abf"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Brinduun",
+    "target_new": {
+      "str": " Vienna"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_09.pt"
+  }
+}

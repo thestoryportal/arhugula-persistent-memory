@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_07.pt": "261825d5c8d41999b523f17c68c755d33999405f82ba6afa8dd31a293d3db8ba"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Crulpane",
+    "target_new": {
+      "str": " Santiago"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_07.pt"
+  }
+}

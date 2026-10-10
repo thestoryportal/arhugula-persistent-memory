@@ -1,0 +1,88 @@
+{
+  "cap_s": 2820,
+  "classification_order": [
+    "INCONCLUSIVE",
+    "R",
+    "S",
+    "UNCLASSIFIED"
+  ],
+  "context_file_sha256": "9472b663a34cfd9c0bb5448087ae0c2c333b1988b70f211fb2d90baaf8b560b7",
+  "context_harness_sha256": "c7dabbe7c25a7e58653621d9cc66e37b35c865ae09b73b6a96073a184c6c98da",
+  "contexts": [
+    [
+      "{}"
+    ],
+    [
+      "The following is a single-choice question from a Chinese. {}",
+      "Therefore, we conclude that the sum \\( a_. {}",
+      "Because there is no such thing as a \"good. {}",
+      "I have a list of numbers in Python, and. {}",
+      "You are given an array of strings tokens that represents. {}"
+    ]
+  ],
+  "covariance": {
+    "4": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "f6ae787454e5bae9eff52155ac699386351246b03e60ab68d728335b0c9a5b58"
+    },
+    "5": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "26773779c5f95647c844fb42c553221aa81e48206cb3e61602237b3da4e53b3d"
+    },
+    "6": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "72a4a42bf7586f1b7de5bfce365263d2a84b66f6ffc4ce20f9fa113d115887fd"
+    },
+    "7": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "ed2f4c64356fc6388ae4623ccc2bfc9101660fe92a787c193d593a24992aaba5"
+    },
+    "8": {
+      "path": "/Volumes/memit/llm-database-poc-mirror/covariance_caches/Qwen_Qwen2.5-3B/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_t100_100000.npz",
+      "sha256": "430c1aa56a7cde6626ff02e241b45fd706d02d81d97931536fbed38d8974dd2a"
+    }
+  },
+  "device": "mps",
+  "input_file_sha256": {
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/config.json": "27467e2fc311a7656c09a43ae9c3d408211e1f212bbddbc93c8596a06423826f",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/model-00001-of-00002.safetensors": "f9558df91d3b89b4826e4db37439edb52f1d62a4fd602685013e7ca6b9f60f8f",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/model-00002-of-00002.safetensors": "51410930d5cf19a998fdb17ef0c46e4d9ace72c97a975a3331395a8a500f5edb",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/model.safetensors.index.json": "bc8aaa0c87d4335177e01c765f1de0db81661c67c1a72fbfb0d521b09f5ddc56",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/tokenizer.json": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+    "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/hf_cache/hub/models--Qwen--Qwen2.5-3B/snapshots/3aab1f1954e9cc14eb9509a215f9e5ca08227a9b/tokenizer_config.json": "c91efca15ceff6e9ee9424db58a6f59cd41294e550a86cbd07e3c1fb500b34f9"
+  },
+  "model_id": "Qwen/Qwen2.5-3B",
+  "revision": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+  "schema": "c10y_precast_manifest/v1",
+  "scope_sha256": "097c662803a94a897dd588c9e1f09c6af7b17a25019c1439ea39844c65f0a9a8",
+  "sources": {
+    "configs/hparams/qwen25_3b_memit_hparams.json": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+    "configs/screens/g6_screen_qwen3b_v2.json": "482c05f8f33c59d3e469566fe6f3c48eb183d3cb2fbb791f31dcad7102517c5c",
+    "docs/C10Y_DIRECTDW_PREREG.md": "005391a39e31d8174419de3e39078a42209ded1b7ab8caaf098d5d8a4f755004",
+    "docs/C10Y_PRECAST_DIAG_SCOPE.md": "097c662803a94a897dd588c9e1f09c6af7b17a25019c1439ea39844c65f0a9a8",
+    "experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+    "experiments/track_c/c10y_directdw_arms.py": "ead3cef2266a7c81035e5acb6c3a97b42f83da556ba093a9fd28ec403f7e158c",
+    "experiments/track_c/c10y_precast_diag.py": "b593a04008d2e461485fe0af67b3694406ff9129472d5ab7cb416f9fe60c83ec",
+    "experiments/track_c/c10z_astra_benchmark.py": "3703d8b9c363bb06eab0ca66f38f4b01114363ae75a9d0397701e75aa2520041",
+    "memit_dry_run/memit/globals.yml": "86ab5194b3cddc19c14173a3b8f13563c554d252666eb563a4ac2f919e087459",
+    "memit_dry_run/memit/memit/compute_ks.py": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+    "memit_dry_run/memit/memit/compute_z.py": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+    "memit_dry_run/memit/memit/memit_hparams.py": "1b229b882b031ddbb59f06ad6ba58d5c33b17826bbfddf80f767e96931b595b2",
+    "memit_dry_run/memit/memit/memit_main.py": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+    "memit_dry_run/memit/rome/repr_tools.py": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+    "memit_dry_run/memit/util/device.py": "868627783827f03763ba9c210de2ddbd607e050330eccf7757fccfd9e985cf2b",
+    "memit_dry_run/memit/util/nethook.py": "20e84c9413518af3aee76762071f823cbe5d75c4658e4ffa7bdab045df735f7c",
+    "tools/c10w_p2_gate.py": "fb6568a6e159e84b22971aa893c3a83bcaaa16085f4abd9c76ca50b4a3362a26",
+    "tools/engine_fingerprint.py": "450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162",
+    "tools/run_c10y_precast_diag.sh": "2f34a35aab954ae442d4e812208a1d0b5a79e072f590df119dc0ac7e44c34c37"
+  },
+  "targets": "NEW COMPUTATION, solved once; historical placeholders never loaded",
+  "versions": {
+    "machine": "arm64",
+    "model_rev": "3aab1f1954e9cc14eb9509a215f9e5ca08227a9b",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.11.16",
+    "torch": "2.8.0",
+    "transformers": "4.51.0"
+  }
+}

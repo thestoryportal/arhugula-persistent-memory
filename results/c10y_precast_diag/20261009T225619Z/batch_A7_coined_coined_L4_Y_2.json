@@ -1,0 +1,128 @@
+{
+  "artifacts": {
+    "batch_A7_coined_coined_L4_Y_2.pt": "791ff775a7296e1973e96a388667d969ed52fe92cb07d1ab4cbb3edbab87d55b"
+  },
+  "contexts": [
+    "The capital of Zorbland is the city of",
+    "The capital of Quaxil is the city of",
+    "The capital of Plurnak is the city of",
+    "The capital of Vythorn is the city of",
+    "The capital of Glimsto is the city of",
+    "The capital of Drennik is the city of",
+    "The capital of Yastovel is the city of",
+    "The capital of Crulpane is the city of",
+    "The capital of Mophgar is the city of",
+    "The capital of Brinduun is the city of",
+    "The capital of Trannak is the city of",
+    "The capital of Skornwell is the city of",
+    "The capital of Fluvane is the city of",
+    "The capital of Oxbarrow is the city of",
+    "The capital of Zephquin is the city of",
+    "The capital of Lurmaxen is the city of",
+    "The capital of Pradnoll is the city of",
+    "The capital of Kessivar is the city of",
+    "The capital of Wombryne is the city of",
+    "The capital of Halquin is the city of",
+    "The capital of Vorlex is the city of",
+    "The capital of Quenby is the city of",
+    "The capital of Marsduq is the city of",
+    "The capital of Thelby is the city of"
+  ],
+  "idxs": [
+    [
+      5
+    ],
+    [
+      5
+    ],
+    [
+      5
+    ],
+    [
+      5
+    ],
+    [
+      5
+    ],
+    [
+      5
+    ],
+    [
+      5
+    ],
+    [
+      5
+    ],
+    [
+      5
+    ],
+    [
+      6
+    ],
+    [
+      5
+    ],
+    [
+      5
+    ],
+    [
+      5
+    ],
+    [
+      5
+    ],
+    [
+      5
+    ],
+    [
+      6
+    ],
+    [
+      6
+    ],
+    [
+      5
+    ],
+    [
+      6
+    ],
+    [
+      4
+    ],
+    [
+      4
+    ],
+    [
+      5
+    ],
+    [
+      5
+    ],
+    [
+      5
+    ]
+  ],
+  "layer": 8,
+  "padding_side": "right",
+  "tokens": {
+    "attention_mask": {
+      "dtype": "torch.int64",
+      "key": "tensor_1",
+      "shape": [
+        24,
+        11
+      ],
+      "tensor_artifact": "batch_A7_coined_coined_L4_Y_2.pt"
+    },
+    "input_ids": {
+      "dtype": "torch.int64",
+      "key": "tensor_0",
+      "shape": [
+        24,
+        11
+      ],
+      "tensor_artifact": "batch_A7_coined_coined_L4_Y_2.pt"
+    }
+  },
+  "track": "both"
+}

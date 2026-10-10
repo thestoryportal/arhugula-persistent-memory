@@ -1,0 +1,52 @@
+{
+  "P": [
+    {
+      "dtype": "torch.float32",
+      "key": "tensor_0",
+      "shape": [
+        11008,
+        11008
+      ],
+      "tensor_artifact": "projectors.pt"
+    },
+    {
+      "dtype": "torch.float32",
+      "key": "tensor_1",
+      "shape": [
+        11008,
+        11008
+      ],
+      "tensor_artifact": "projectors.pt"
+    },
+    {
+      "dtype": "torch.float32",
+      "key": "tensor_2",
+      "shape": [
+        11008,
+        11008
+      ],
+      "tensor_artifact": "projectors.pt"
+    },
+    {
+      "dtype": "torch.float32",
+      "key": "tensor_3",
+      "shape": [
+        11008,
+        11008
+      ],
+      "tensor_artifact": "projectors.pt"
+    },
+    {
+      "dtype": "torch.float32",
+      "key": "tensor_4",
+      "shape": [
+        11008,
+        11008
+      ],
+      "tensor_artifact": "projectors.pt"
+    }
+  ],
+  "artifacts": {
+    "projectors.pt": "142eec7403e0eaf8fdb7668e6483000a00d95631be4877c4e681938e7b395cfd"
+  }
+}

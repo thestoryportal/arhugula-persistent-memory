@@ -1,0 +1,89 @@
+{
+  "after": {
+    "input_left": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "0281d02c338b40491cc0e2deddbef40c74e71791deea520373aa92f450dc1070",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "input_right": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "4b12873fca8d7997fc2ef42dc3edb37af1fb295965b956fe82d29e912cfbf23a",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "value": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ca0e21932e28d89038f537bc01ea1486e5151e3a49e9453cd0d575c3907f8966",
+      "shape": [
+        11008,
+        24
+      ]
+    }
+  },
+  "before": {
+    "input_left": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "0281d02c338b40491cc0e2deddbef40c74e71791deea520373aa92f450dc1070",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "input_right": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "4b12873fca8d7997fc2ef42dc3edb37af1fb295965b956fe82d29e912cfbf23a",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "value": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ca0e21932e28d89038f537bc01ea1486e5151e3a49e9453cd0d575c3907f8966",
+      "shape": [
+        11008,
+        24
+      ]
+    }
+  },
+  "retained": {
+    "input_left": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "0281d02c338b40491cc0e2deddbef40c74e71791deea520373aa92f450dc1070",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "input_right": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "4b12873fca8d7997fc2ef42dc3edb37af1fb295965b956fe82d29e912cfbf23a",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "value": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ca0e21932e28d89038f537bc01ea1486e5151e3a49e9453cd0d575c3907f8966",
+      "shape": [
+        11008,
+        24
+      ]
+    }
+  }
+}

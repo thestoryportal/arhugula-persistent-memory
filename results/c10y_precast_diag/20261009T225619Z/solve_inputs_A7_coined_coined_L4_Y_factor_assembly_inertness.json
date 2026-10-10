@@ -1,0 +1,96 @@
+{
+  "after": {
+    "C": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ccbb1f097d2eb39276db056128be98c9abac03884bc266220e67d592989145e9",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "K": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "4b12873fca8d7997fc2ef42dc3edb37af1fb295965b956fe82d29e912cfbf23a",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "M": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "5ed588075b2e0a8b43eb9d14d8dc9fa6a94266f9cdaacc34efa43f1c2e576f13",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "P": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "0281d02c338b40491cc0e2deddbef40c74e71791deea520373aa92f450dc1070",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "R": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ccffc362074c1462b61b896880ed3e5007a21ac6ed5fe10888389ae39db4cc99",
+      "shape": [
+        2048,
+        24
+      ]
+    }
+  },
+  "before": {
+    "C": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ccbb1f097d2eb39276db056128be98c9abac03884bc266220e67d592989145e9",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "K": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "4b12873fca8d7997fc2ef42dc3edb37af1fb295965b956fe82d29e912cfbf23a",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "M": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "5ed588075b2e0a8b43eb9d14d8dc9fa6a94266f9cdaacc34efa43f1c2e576f13",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "P": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "0281d02c338b40491cc0e2deddbef40c74e71791deea520373aa92f450dc1070",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "R": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ccffc362074c1462b61b896880ed3e5007a21ac6ed5fe10888389ae39db4cc99",
+      "shape": [
+        2048,
+        24
+      ]
+    }
+  }
+}

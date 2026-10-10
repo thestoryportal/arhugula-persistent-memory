@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_08.pt": "989c32fccb905125fa188b214754ee7fc30d39fb3a6dd24e948ab59cfcc73f97"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Mophgar",
+    "target_new": {
+      "str": " Stockholm"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_08.pt"
+  }
+}

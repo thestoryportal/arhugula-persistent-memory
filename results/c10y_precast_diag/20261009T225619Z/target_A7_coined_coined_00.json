@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_00.pt": "d18b44846d1adc9e641ed5b87aeaaecd1bf6b4f967e23eed618a6574686e4d84"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Zorbland",
+    "target_new": {
+      "str": " Vindex Vask"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_00.pt"
+  }
+}

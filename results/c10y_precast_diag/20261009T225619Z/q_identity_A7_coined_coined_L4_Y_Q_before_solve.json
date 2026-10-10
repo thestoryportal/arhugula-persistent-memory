@@ -1,0 +1,29 @@
+{
+  "before": {
+    "dtype": "torch.float32",
+    "orientation": "as captured",
+    "sha256": "ca0e21932e28d89038f537bc01ea1486e5151e3a49e9453cd0d575c3907f8966",
+    "shape": [
+      11008,
+      24
+    ]
+  },
+  "copy": {
+    "dtype": "torch.float32",
+    "orientation": "as captured",
+    "sha256": "ca0e21932e28d89038f537bc01ea1486e5151e3a49e9453cd0d575c3907f8966",
+    "shape": [
+      11008,
+      24
+    ]
+  },
+  "live": {
+    "dtype": "torch.float32",
+    "orientation": "as captured",
+    "sha256": "ca0e21932e28d89038f537bc01ea1486e5151e3a49e9453cd0d575c3907f8966",
+    "shape": [
+      11008,
+      24
+    ]
+  }
+}

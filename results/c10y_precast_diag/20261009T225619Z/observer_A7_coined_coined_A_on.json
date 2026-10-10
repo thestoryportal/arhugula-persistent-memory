@@ -1,0 +1,177 @@
+{
+  "artifacts": {
+    "observer_A7_coined_coined_A_on.pt": "0ac9be6961269702cf50965a95ead3e70a8b43f3f1184552a685fc94ae214a4a"
+  },
+  "cache": [
+    {
+      "dtype": "torch.float32",
+      "key": "tensor_5",
+      "shape": [
+        11008,
+        11008
+      ],
+      "tensor_artifact": "observer_A7_coined_coined_A_on.pt"
+    },
+    {
+      "dtype": "torch.float32",
+      "key": "tensor_6",
+      "shape": [
+        11008,
+        11008
+      ],
+      "tensor_artifact": "observer_A7_coined_coined_A_on.pt"
+    },
+    {
+      "dtype": "torch.float32",
+      "key": "tensor_7",
+      "shape": [
+        11008,
+        11008
+      ],
+      "tensor_artifact": "observer_A7_coined_coined_A_on.pt"
+    },
+    {
+      "dtype": "torch.float32",
+      "key": "tensor_8",
+      "shape": [
+        11008,
+        11008
+      ],
+      "tensor_artifact": "observer_A7_coined_coined_A_on.pt"
+    },
+    {
+      "dtype": "torch.float32",
+      "key": "tensor_9",
+      "shape": [
+        11008,
+        11008
+      ],
+      "tensor_artifact": "observer_A7_coined_coined_A_on.pt"
+    }
+  ],
+  "globals": {
+    "DEV": "mps",
+    "L2": 1.0,
+    "PROJECTOR": "nullspace",
+    "_CANDIDATE_RECIPE": false,
+    "_LAW5_DEFAULT_CTX": false,
+    "contexts": [
+      [
+        "{}"
+      ],
+      [
+        "The following is a single-choice question from a Chinese. {}",
+        "Therefore, we conclude that the sum \\( a_. {}",
+        "Because there is no such thing as a \"good. {}",
+        "I have a list of numbers in Python, and. {}",
+        "You are given an array of strings tokens that represents. {}"
+      ]
+    ],
+    "default_dtype": "torch.float32",
+    "hparams": {
+      "attn_module_tmp": "model.layers.{}.self_attn",
+      "clamp_norm_factor": 0.75,
+      "fact_token": "subject_last",
+      "kl_factor": 0.0625,
+      "layer_module_tmp": "model.layers.{}",
+      "layer_selection": "all",
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "lm_head_module": "model.embed_tokens",
+      "ln_f_module": "model.norm",
+      "mlp_module_tmp": "model.layers.{}.mlp",
+      "mom2_adjustment": true,
+      "mom2_dataset": "wikipedia",
+      "mom2_dtype": "float32",
+      "mom2_n_samples": 100000,
+      "mom2_update_weight": 5000,
+      "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+      "v_loss_layer": 35,
+      "v_lr": 0.5,
+      "v_num_grad_steps": 25,
+      "v_weight_decay": 0.5
+    },
+    "padding_side": "right",
+    "training": false
+  },
+  "hits": 1,
+  "result": {
+    "4": {
+      "delta_norm": 15.814712524414062,
+      "relative_delta_norm": 0.18861187427173184,
+      "weight_norm_before": 83.84791564941406
+    },
+    "5": {
+      "delta_norm": 12.068185806274414,
+      "relative_delta_norm": 0.1105360947442707,
+      "weight_norm_before": 109.1786880493164
+    },
+    "6": {
+      "delta_norm": 11.975922584533691,
+      "relative_delta_norm": 0.09988395557760905,
+      "weight_norm_before": 119.89836120605469
+    },
+    "7": {
+      "delta_norm": 19.917814254760742,
+      "relative_delta_norm": 0.1727236756888506,
+      "weight_norm_before": 115.3160629272461
+    },
+    "8": {
+      "delta_norm": 28.452075958251953,
+      "relative_delta_norm": 0.2381291126812402,
+      "weight_norm_before": 119.48171997070312
+    }
+  },
+  "weights": {
+    "4": {
+      "dtype": "torch.float16",
+      "key": "tensor_0",
+      "shape": [
+        2048,
+        11008
+      ],
+      "tensor_artifact": "observer_A7_coined_coined_A_on.pt"
+    },
+    "5": {
+      "dtype": "torch.float16",
+      "key": "tensor_1",
+      "shape": [
+        2048,
+        11008
+      ],
+      "tensor_artifact": "observer_A7_coined_coined_A_on.pt"
+    },
+    "6": {
+      "dtype": "torch.float16",
+      "key": "tensor_2",
+      "shape": [
+        2048,
+        11008
+      ],
+      "tensor_artifact": "observer_A7_coined_coined_A_on.pt"
+    },
+    "7": {
+      "dtype": "torch.float16",
+      "key": "tensor_3",
+      "shape": [
+        2048,
+        11008
+      ],
+      "tensor_artifact": "observer_A7_coined_coined_A_on.pt"
+    },
+    "8": {
+      "dtype": "torch.float16",
+      "key": "tensor_4",
+      "shape": [
+        2048,
+        11008
+      ],
+      "tensor_artifact": "observer_A7_coined_coined_A_on.pt"
+    }
+  }
+}

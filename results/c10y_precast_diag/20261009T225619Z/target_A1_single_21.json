@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_21.pt": "54567079f70455db88d3e8109ccc43d1dad160191a4cdac9b203132a653adc96"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Quenby",
+    "target_new": {
+      "str": " Amsterdam"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_21.pt"
+  }
+}

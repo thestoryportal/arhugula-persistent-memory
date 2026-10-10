@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_08.pt": "dd7fe67e44f184a70650277c1ce96f31992e7e677ed1314767d1a492e46d316b"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Mophgar",
+    "target_new": {
+      "str": " Glimsto Vask"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_08.pt"
+  }
+}

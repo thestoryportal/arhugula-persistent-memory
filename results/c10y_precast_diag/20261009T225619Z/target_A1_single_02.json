@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_02.pt": "8ff6a20cd88bcadca80af73a62f86c28874ff5b59930214116982ded4f096006"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Plurnak",
+    "target_new": {
+      "str": " Damascus"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_02.pt"
+  }
+}

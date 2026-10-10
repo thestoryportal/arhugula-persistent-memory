@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_16.pt": "8a0405979a8f743a362d28920a0609cf00608cda636141ce73695777cbf05240"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Pradnoll",
+    "target_new": {
+      "str": " Mexico"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_16.pt"
+  }
+}

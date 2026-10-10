@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_16.pt": "3a85f11ed534067c0b887fc2f6a7b9bd492756d7776ed6c0e33bc692f8329e74"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Pradnoll",
+    "target_new": {
+      "str": " Lurmax Vask"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_16.pt"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_23.pt": "96730fc07f757c028a23f7c31c7ed67054c4f08098320a1a4e989997afd2ed67"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Thelby",
+    "target_new": {
+      "str": " Yastov Drelth"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_23.pt"
+  }
+}

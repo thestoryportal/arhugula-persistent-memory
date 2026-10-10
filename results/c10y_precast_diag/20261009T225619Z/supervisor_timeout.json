@@ -1,0 +1,54 @@
+{
+  "cap_s": 2820,
+  "cleanup": "UNVERIFIED if worker was forcibly killed; committed artifacts retained",
+  "code": "SUPERVISOR-TIMEOUT",
+  "elapsed_s": 2812.0,
+  "label": "INCONCLUSIVE",
+  "phases": {
+    "cleanup": {
+      "record": "phase_cleanup_started.json",
+      "status": "INCOMPLETE"
+    },
+    "controls_A1_single": {
+      "record": null,
+      "status": "NOT-RUN"
+    },
+    "controls_A7_coined_coined": {
+      "record": "phase_controls_A7_coined_coined_started.json",
+      "status": "INCOMPLETE"
+    },
+    "model_load": {
+      "record": "phase_model_load_complete.json",
+      "status": "COMPLETED"
+    },
+    "native_A1_single": {
+      "record": null,
+      "status": "NOT-RUN"
+    },
+    "native_A7_coined_coined": {
+      "record": "phase_native_A7_coined_coined_complete.json",
+      "status": "COMPLETED"
+    },
+    "pristine": {
+      "record": "phase_pristine_complete.json",
+      "status": "COMPLETED"
+    },
+    "projectors": {
+      "record": "phase_projectors_complete.json",
+      "status": "COMPLETED"
+    },
+    "setup": {
+      "record": "phase_setup_complete.json",
+      "status": "COMPLETED"
+    },
+    "targets_A1_single": {
+      "record": "phase_targets_A1_single_complete.json",
+      "status": "COMPLETED"
+    },
+    "targets_A7_coined_coined": {
+      "record": "phase_targets_A7_coined_coined_complete.json",
+      "status": "COMPLETED"
+    }
+  },
+  "worker_returncode": 137
+}

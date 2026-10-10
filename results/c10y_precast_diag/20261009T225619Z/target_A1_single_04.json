@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_04.pt": "c664e7dc34d79908f5350b7013ea5f33acf45d83f9873885692f9c92571e015d"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Glimsto",
+    "target_new": {
+      "str": " Lisbon"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_04.pt"
+  }
+}

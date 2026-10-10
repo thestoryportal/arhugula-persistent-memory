@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_21.pt": "01d5083568f2024d2b13bbe42258e570d7dc4eab0fa97deefd55f5064a9ac95c"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Quenby",
+    "target_new": {
+      "str": " Brindu Ulvenn"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_21.pt"
+  }
+}

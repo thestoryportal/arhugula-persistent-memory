@@ -1,0 +1,101 @@
+{
+  "attempt_id": "2921ac87094a48a0a925a794e77d16c9",
+  "ceilings": {
+    "stage01": 9900.0,
+    "stage2": 14100.0,
+    "stage3": 24060.0
+  },
+  "closed": false,
+  "completed": -1,
+  "context_templates": {
+    "inputs_sha256": "d6c7c70026dced37bddc6adf316a3487d70227dae80a6e0ed5cdabe50caedfa0",
+    "sampling": false,
+    "scorer_identity": "c7dabbe7c25a",
+    "seed": 0,
+    "sha256": "9472b663a34cfd9c0bb5448087ae0c2c333b1988b70f211fb2d90baaf8b560b7",
+    "source": "benchmark TEMPLATES / C10Q c7dabbe7c25a"
+  },
+  "halt": null,
+  "launch": {
+    "attempt_id": "2921ac87094a48a0a925a794e77d16c9",
+    "benchmark": {
+      "ceilings": {
+        "stage01": 9900,
+        "stage2": 14100,
+        "stage3": 24060
+      },
+      "env": {
+        "machine": "arm64",
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "python": "3.11.16",
+        "torch": "2.8.0",
+        "transformers": "4.51.0"
+      },
+      "path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/c10z_astra_benchmark/20261009T202713Z_drift3_a1/benchmark.json",
+      "prereg_sha256": "5ad59d2c960b44d18b5d1c5410028b969aab93298eed5d42c527bd81a4d18eac",
+      "reference_population_sha256": "a477f1c4917de988682da097d460c3d70b4c3bd33856d83c1d0c7714f78aab68",
+      "script_sha256": "3703d8b9c363bb06eab0ca66f38f4b01114363ae75a9d0397701e75aa2520041",
+      "sha256": "facebb52c2300c5af785e63f4f85af09f222a15e4673ba53b93da11314e8d669",
+      "sources": {
+        "configs/hparams/qwen25_3b_memit_hparams.json": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+        "experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+        "experiments/track_c/c10z_astra_arms.py": "d723819a921d3374351237903a7646c7765160cb0ae38e9e949dc10924ea7126",
+        "experiments/track_c/c10z_astra_benchmark.py": "3703d8b9c363bb06eab0ca66f38f4b01114363ae75a9d0397701e75aa2520041",
+        "experiments/track_c/c10z_astra_read.py": "f00e81ff4b3daa653ccd10f35d738c3dbd8419570a4ddb2ad2f537f477150a66",
+        "memit_dry_run/memit/memit/memit_main.py": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+        "tools/engine_fingerprint.py": "450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162"
+      },
+      "templates": [
+        "{}",
+        "The following is a single-choice question from a Chinese. {}",
+        "Therefore, we conclude that the sum \\( a_. {}",
+        "Because there is no such thing as a \"good. {}",
+        "I have a list of numbers in Python, and. {}",
+        "You are given an array of strings tokens that represents. {}"
+      ],
+      "templates_sha256": "d6c7c70026dced37bddc6adf316a3487d70227dae80a6e0ed5cdabe50caedfa0"
+    },
+    "go": {
+      "amendment_decision_id": "D-C10z-a1pop",
+      "benchmark_script_sha256": "3703d8b9c363bb06eab0ca66f38f4b01114363ae75a9d0397701e75aa2520041",
+      "benchmark_sha256": "facebb52c2300c5af785e63f4f85af09f222a15e4673ba53b93da11314e8d669",
+      "ceilings": {
+        "stage01": 9900,
+        "stage2": 14100,
+        "stage3": 24060
+      },
+      "decision_notes": {
+        "0": "Prospective fresh attempt 4 after diagnostic A1, frozen §12 D-C10z-a1pop and Astra r2 FREEZE+GO; draft only, not a live go or dispatch.",
+        "1": "Write qualification: operator 'Yes on all 5' (D-C10z-budget, question 3).",
+        "2": "D-C10z-budget; one named D-C10z-drift3 exception; admitted rerun #3 recorded in results/c10z_astra_attempt4_prep/admission_receipt_drift3.md, ceilings 9900/14100/24060 s and nominal supremum 48000 s; no fourth rerun."
+      },
+      "decisions": {
+        "0": "D-C10z-go",
+        "1": "D-C10z-budget",
+        "2": "D-C10z-budget"
+      },
+      "one_gpu_job": true,
+      "operator_yes": true,
+      "prereg_sha256": "5ad59d2c960b44d18b5d1c5410028b969aab93298eed5d42c527bd81a4d18eac",
+      "recorded_at": "2026-10-09T20:41:07.564405+00:00",
+      "recorded_by": "Codex Z2, draft prepared for MAESTRO; pending Astra check and operator live publication",
+      "reference_population_sha256": "a477f1c4917de988682da097d460c3d70b4c3bd33856d83c1d0c7714f78aab68",
+      "supersedes_for_attempt4": "results/c10z_astra_go_record_attempt3.json (kept unchanged as attempt 3 evidence)",
+      "telemetry_first_attempt": "off (prereg §9.1 (j'))"
+    },
+    "go_sha256": "850988a5df22446d1f456c2ce270e2bffcd988c6f118bcb14d77f4f1ae9ca04f",
+    "stage01": 9900.0,
+    "stage2": 14100.0,
+    "stage3": 24060.0,
+    "telemetry": false,
+    "telemetry_inertness": null
+  },
+  "origins": {
+    "stage01": 1400209.373104
+  },
+  "pid": 71309,
+  "process": 1,
+  "reading": null,
+  "requested": null,
+  "schema": "c10z_astra-v2.2"
+}

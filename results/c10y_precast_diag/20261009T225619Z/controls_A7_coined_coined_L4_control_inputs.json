@@ -1,0 +1,495 @@
+{
+  "B": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_control_inputs.pt"
+  },
+  "C": {
+    "dtype": "torch.float32",
+    "key": "tensor_1",
+    "shape": [
+      11008,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_control_inputs.pt"
+  },
+  "K": {
+    "dtype": "torch.float16",
+    "key": "tensor_2",
+    "shape": [
+      11008,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_control_inputs.pt"
+  },
+  "K32": {
+    "dtype": "torch.float32",
+    "key": "tensor_3",
+    "shape": [
+      11008,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_control_inputs.pt"
+  },
+  "L2": 1.0,
+  "M": {
+    "dtype": "torch.float32",
+    "key": "tensor_4",
+    "shape": [
+      11008,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_control_inputs.pt"
+  },
+  "P": {
+    "dtype": "torch.float32",
+    "key": "tensor_5",
+    "shape": [
+      11008,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_control_inputs.pt"
+  },
+  "Q": {
+    "dtype": "torch.float32",
+    "key": "tensor_6",
+    "shape": [
+      11008,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_control_inputs.pt"
+  },
+  "R": {
+    "dtype": "torch.float32",
+    "key": "tensor_7",
+    "shape": [
+      2048,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_control_inputs.pt"
+  },
+  "W0": {
+    "dtype": "torch.float16",
+    "key": "tensor_8",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_control_inputs.pt"
+  },
+  "X": {
+    "dtype": "torch.float32",
+    "key": "tensor_13",
+    "shape": [
+      11008,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_control_inputs.pt"
+  },
+  "allocated_residual": {
+    "dtype": "torch.float32",
+    "key": "tensor_9",
+    "shape": [
+      2048,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_control_inputs.pt"
+  },
+  "artifacts": {
+    "controls_A7_coined_coined_L4_control_inputs.pt": "074d52fd6a282ff5d058236392a3014c1c7d49d3678ca73defd702a057fae428"
+  },
+  "batches": [
+    "batch_A7_coined_coined_L4_A_0.json",
+    "batch_A7_coined_coined_L4_A_1.json",
+    "batch_A7_coined_coined_L4_A_2.json"
+  ],
+  "cur": {
+    "dtype": "torch.float16",
+    "key": "tensor_10",
+    "shape": [
+      2048,
+      24
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_control_inputs.pt"
+  },
+  "direct_solution": {
+    "dtype": "torch.float32",
+    "key": "tensor_11",
+    "shape": [
+      11008,
+      2048
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_control_inputs.pt"
+  },
+  "orientation": {
+    "K": "in_features x requests",
+    "R": "out_features x requests",
+    "update": "out_features x in_features"
+  },
+  "requests": [
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Zorbland",
+      "target_new": {
+        "str": " Vindex Vask"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Quaxil",
+      "target_new": {
+        "str": " Drennik Brakk"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Plurnak",
+      "target_new": {
+        "str": " Vythorn Stavik"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Vythorn",
+      "target_new": {
+        "str": " Vorlex Yornel"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Glimsto",
+      "target_new": {
+        "str": " Lurmax Spraxil"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Drennik",
+      "target_new": {
+        "str": " Kessivar Ulvenn"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Yastovel",
+      "target_new": {
+        "str": " Halquin Cindel"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Crulpane",
+      "target_new": {
+        "str": " Marsduq Drelth"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Mophgar",
+      "target_new": {
+        "str": " Glimsto Vask"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Brinduun",
+      "target_new": {
+        "str": " Brindu Brakk"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Trannak",
+      "target_new": {
+        "str": " Fluvane Stavik"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Skornwell",
+      "target_new": {
+        "str": " Yastov Yornel"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Fluvane",
+      "target_new": {
+        "str": " Vindex Spraxil"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Oxbarrow",
+      "target_new": {
+        "str": " Drennik Ulvenn"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Zephquin",
+      "target_new": {
+        "str": " Vythorn Cindel"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Lurmaxen",
+      "target_new": {
+        "str": " Vorlex Drelth"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Pradnoll",
+      "target_new": {
+        "str": " Lurmax Vask"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Kessivar",
+      "target_new": {
+        "str": " Kessivar Brakk"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Wombryne",
+      "target_new": {
+        "str": " Halquin Stavik"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Halquin",
+      "target_new": {
+        "str": " Marsduq Yornel"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Vorlex",
+      "target_new": {
+        "str": " Glimsto Spraxil"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Quenby",
+      "target_new": {
+        "str": " Brindu Ulvenn"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Marsduq",
+      "target_new": {
+        "str": " Fluvane Cindel"
+      }
+    },
+    {
+      "prompt": "The capital of {} is the city of",
+      "subject": "Thelby",
+      "target_new": {
+        "str": " Yastov Drelth"
+      }
+    }
+  ],
+  "source": {
+    "filename": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/experiments/track_c/c10e_bandknob.py",
+    "first_line": 181,
+    "original_code_object": true
+  },
+  "state": {
+    "globals": {
+      "DEV": "mps",
+      "L2": 1.0,
+      "PROJECTOR": "nullspace",
+      "_CANDIDATE_RECIPE": false,
+      "_LAW5_DEFAULT_CTX": false,
+      "contexts": [
+        [
+          "{}"
+        ],
+        [
+          "The following is a single-choice question from a Chinese. {}",
+          "Therefore, we conclude that the sum \\( a_. {}",
+          "Because there is no such thing as a \"good. {}",
+          "I have a list of numbers in Python, and. {}",
+          "You are given an array of strings tokens that represents. {}"
+        ]
+      ],
+      "default_dtype": "torch.float32",
+      "hparams": {
+        "attn_module_tmp": "model.layers.{}.self_attn",
+        "clamp_norm_factor": 0.75,
+        "fact_token": "subject_last",
+        "kl_factor": 0.0625,
+        "layer_module_tmp": "model.layers.{}",
+        "layer_selection": "all",
+        "layers": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "lm_head_module": "model.embed_tokens",
+        "ln_f_module": "model.norm",
+        "mlp_module_tmp": "model.layers.{}.mlp",
+        "mom2_adjustment": true,
+        "mom2_dataset": "wikipedia",
+        "mom2_dtype": "float32",
+        "mom2_n_samples": 100000,
+        "mom2_update_weight": 5000,
+        "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+        "v_loss_layer": 35,
+        "v_lr": 0.5,
+        "v_num_grad_steps": 25,
+        "v_weight_decay": 0.5
+      },
+      "padding_side": "right",
+      "training": false
+    },
+    "weights": {
+      "4": "93ea6623ddba2e801a1e7ee2ea6403f5be7955a77dfe0a5403798f4a539d0ad1",
+      "5": "5c4426a94f4da0f643c6e1fa5e3b3af3018f60908f4ab2be8bb8b14b7bb48999",
+      "6": "eaede89b0795deba73cee2b8655a55cca4b970b356cff2d1bc947789294c77a2",
+      "7": "6c058e06ac760746fcf07d1542923f38b13c2211a447e53a4f4b6431bd0f15f0",
+      "8": "c0e9868081ca3095237a8619f17a9fcdeda4aff575f6428688fbf7fecd4f71aa"
+    }
+  },
+  "tensor_metadata": {
+    "B": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "462d51b702980f272e4e1b67f063941b64f4cd8834da496a538dfef5880ac3e7",
+      "shape": [
+        11008,
+        2048
+      ]
+    },
+    "C": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ccbb1f097d2eb39276db056128be98c9abac03884bc266220e67d592989145e9",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "K": {
+      "dtype": "torch.float16",
+      "orientation": "as captured",
+      "sha256": "b453454af4d6cd2b3eddb43368b19f35456e9a23330b69d31f2351c95d8f3faa",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "K32": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "4b12873fca8d7997fc2ef42dc3edb37af1fb295965b956fe82d29e912cfbf23a",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "M": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "5ed588075b2e0a8b43eb9d14d8dc9fa6a94266f9cdaacc34efa43f1c2e576f13",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "P": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "0281d02c338b40491cc0e2deddbef40c74e71791deea520373aa92f450dc1070",
+      "shape": [
+        11008,
+        11008
+      ]
+    },
+    "Q": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ca0e21932e28d89038f537bc01ea1486e5151e3a49e9453cd0d575c3907f8966",
+      "shape": [
+        11008,
+        24
+      ]
+    },
+    "R": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ccffc362074c1462b61b896880ed3e5007a21ac6ed5fe10888389ae39db4cc99",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "W0": {
+      "dtype": "torch.float16",
+      "orientation": "as captured",
+      "sha256": "93ea6623ddba2e801a1e7ee2ea6403f5be7955a77dfe0a5403798f4a539d0ad1",
+      "shape": [
+        2048,
+        11008
+      ]
+    },
+    "allocated_residual": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "ccffc362074c1462b61b896880ed3e5007a21ac6ed5fe10888389ae39db4cc99",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "cur": {
+      "dtype": "torch.float16",
+      "orientation": "as captured",
+      "sha256": "e8c13c8fec638713b8e618ae1bbbaf70ab3e4e204e5b436b6e88cf0912720471",
+      "shape": [
+        2048,
+        24
+      ]
+    },
+    "direct_solution": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "f77d542c52855413497669c78e542e11cf13ffd0cf93ce84b0b24f3d79fac219",
+      "shape": [
+        11008,
+        2048
+      ]
+    },
+    "update": {
+      "dtype": "torch.float32",
+      "orientation": "as captured",
+      "sha256": "5e2423b4414ceb33c30dce86f312464921b1bf39f1149da5c6051991092504e9",
+      "shape": [
+        2048,
+        11008
+      ]
+    }
+  },
+  "update": {
+    "dtype": "torch.float32",
+    "key": "tensor_12",
+    "shape": [
+      2048,
+      11008
+    ],
+    "tensor_artifact": "controls_A7_coined_coined_L4_control_inputs.pt"
+  }
+}

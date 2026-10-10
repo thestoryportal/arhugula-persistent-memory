@@ -1,0 +1,38 @@
+{
+  "expected": {
+    "configs/hparams/qwen25_3b_memit_hparams.json": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+    "configs/screens/g6_screen_qwen3b_v2.json": "482c05f8f33c59d3e469566fe6f3c48eb183d3cb2fbb791f31dcad7102517c5c",
+    "docs/C10Y_DIRECTDW_PREREG.md": "005391a39e31d8174419de3e39078a42209ded1b7ab8caaf098d5d8a4f755004",
+    "docs/C10Y_PRECAST_DIAG_SCOPE.md": "097c662803a94a897dd588c9e1f09c6af7b17a25019c1439ea39844c65f0a9a8",
+    "experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+    "experiments/track_c/c10y_directdw_arms.py": "ead3cef2266a7c81035e5acb6c3a97b42f83da556ba093a9fd28ec403f7e158c",
+    "experiments/track_c/c10z_astra_benchmark.py": "3703d8b9c363bb06eab0ca66f38f4b01114363ae75a9d0397701e75aa2520041",
+    "memit_dry_run/memit/memit/compute_ks.py": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+    "memit_dry_run/memit/memit/compute_z.py": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+    "memit_dry_run/memit/memit/memit_main.py": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+    "memit_dry_run/memit/rome/repr_tools.py": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+    "tools/c10w_p2_gate.py": "fb6568a6e159e84b22971aa893c3a83bcaaa16085f4abd9c76ca50b4a3362a26",
+    "tools/engine_fingerprint.py": "450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162"
+  },
+  "observed": {
+    "configs/hparams/qwen25_3b_memit_hparams.json": "4225cc6aabc3eb9fa62d2bb2cac68b1238de3a39c5e469da635e6e1464aa3bb4",
+    "configs/screens/g6_screen_qwen3b_v2.json": "482c05f8f33c59d3e469566fe6f3c48eb183d3cb2fbb791f31dcad7102517c5c",
+    "docs/C10Y_DIRECTDW_PREREG.md": "005391a39e31d8174419de3e39078a42209ded1b7ab8caaf098d5d8a4f755004",
+    "docs/C10Y_PRECAST_DIAG_SCOPE.md": "097c662803a94a897dd588c9e1f09c6af7b17a25019c1439ea39844c65f0a9a8",
+    "experiments/track_c/c10e_bandknob.py": "1f6be5811d7e58f3ebda16867a4a174b1cf24d47f9a2514cf9c3f9d29f18e695",
+    "experiments/track_c/c10y_directdw_arms.py": "ead3cef2266a7c81035e5acb6c3a97b42f83da556ba093a9fd28ec403f7e158c",
+    "experiments/track_c/c10y_precast_diag.py": "b593a04008d2e461485fe0af67b3694406ff9129472d5ab7cb416f9fe60c83ec",
+    "experiments/track_c/c10z_astra_benchmark.py": "3703d8b9c363bb06eab0ca66f38f4b01114363ae75a9d0397701e75aa2520041",
+    "memit_dry_run/memit/globals.yml": "86ab5194b3cddc19c14173a3b8f13563c554d252666eb563a4ac2f919e087459",
+    "memit_dry_run/memit/memit/compute_ks.py": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+    "memit_dry_run/memit/memit/compute_z.py": "d94af7fa14e5a4a20d5fa6361e0cbb30da0ff957db31922557ff809c34205dea",
+    "memit_dry_run/memit/memit/memit_hparams.py": "1b229b882b031ddbb59f06ad6ba58d5c33b17826bbfddf80f767e96931b595b2",
+    "memit_dry_run/memit/memit/memit_main.py": "d941a9fbc7b09c41d0e23dd0dbdf756ed3563b5a0a1e039b9f771b7cd98d3d65",
+    "memit_dry_run/memit/rome/repr_tools.py": "d4c2324ba20cbcce7f4ccfcf58ad002912edf0ad2fc72ab4e9bf46cc9dfed336",
+    "memit_dry_run/memit/util/device.py": "868627783827f03763ba9c210de2ddbd607e050330eccf7757fccfd9e985cf2b",
+    "memit_dry_run/memit/util/nethook.py": "20e84c9413518af3aee76762071f823cbe5d75c4658e4ffa7bdab045df735f7c",
+    "tools/c10w_p2_gate.py": "fb6568a6e159e84b22971aa893c3a83bcaaa16085f4abd9c76ca50b4a3362a26",
+    "tools/engine_fingerprint.py": "450ee83ac829817299ead301c4a3d20702f431deaea4be58c77ecfd89a329162",
+    "tools/run_c10y_precast_diag.sh": "2f34a35aab954ae442d4e812208a1d0b5a79e072f590df119dc0ac7e44c34c37"
+  }
+}

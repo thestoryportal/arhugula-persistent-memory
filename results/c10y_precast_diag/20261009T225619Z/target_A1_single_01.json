@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_01.pt": "dc38aa09987e3260636a48f7cd1d54386b217c6da4ff016c07b0f8e76291e5bb"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Quaxil",
+    "target_new": {
+      "str": " Buenos"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_01.pt"
+  }
+}

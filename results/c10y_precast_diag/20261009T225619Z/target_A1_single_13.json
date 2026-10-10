@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_13.pt": "f5a443c061d9e6b71a40b8de3aa3c111f9196a53a6d9b31cc01179fb39e517c1"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Oxbarrow",
+    "target_new": {
+      "str": " Copenhagen"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_13.pt"
+  }
+}

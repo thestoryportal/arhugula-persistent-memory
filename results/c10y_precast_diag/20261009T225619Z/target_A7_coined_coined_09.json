@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_09.pt": "a2ea091ecc733eb932fb53c6b9f7e0184187e06faaf918678cafdb3f5be767e3"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Brinduun",
+    "target_new": {
+      "str": " Brindu Brakk"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_09.pt"
+  }
+}

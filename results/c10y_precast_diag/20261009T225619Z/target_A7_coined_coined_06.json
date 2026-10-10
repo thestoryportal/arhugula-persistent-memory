@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_06.pt": "c367f5f2d3790fef8610fb7c832bfa154095cd0febfb01e6d369b0b30b4b4c96"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Yastovel",
+    "target_new": {
+      "str": " Halquin Cindel"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_06.pt"
+  }
+}

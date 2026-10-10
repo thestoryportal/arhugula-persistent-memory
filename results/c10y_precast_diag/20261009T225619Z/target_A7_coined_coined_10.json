@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_10.pt": "31907d745517bacf2e074e20055050ceab2e9912f93c9d1724d19325d41894ed"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Trannak",
+    "target_new": {
+      "str": " Fluvane Stavik"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_10.pt"
+  }
+}

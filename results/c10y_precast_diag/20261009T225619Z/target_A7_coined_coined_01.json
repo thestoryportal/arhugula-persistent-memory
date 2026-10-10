@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_01.pt": "aa9a9b47b7ac8b4eefbd3e9402e314b8f0831a0f02b8a71c9354dd1be5c730b0"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Quaxil",
+    "target_new": {
+      "str": " Drennik Brakk"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_01.pt"
+  }
+}

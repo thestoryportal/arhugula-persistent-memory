@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A7_coined_coined_02.pt": "bb3f4b6145ba1547db209306f4f50eaf483ade88f1d4b21d0ab6ca5494d2572b"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Plurnak",
+    "target_new": {
+      "str": " Vythorn Stavik"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A7_coined_coined_02.pt"
+  }
+}

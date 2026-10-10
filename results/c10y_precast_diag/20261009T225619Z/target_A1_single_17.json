@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "target_A1_single_17.pt": "ac9ff2a2b607cd458a014857e9deed0ef433bfd13e5dd979d89fb6657290b76c"
+  },
+  "request": {
+    "prompt": "The capital of {} is the city of",
+    "subject": "Kessivar",
+    "target_new": {
+      "str": " Paris"
+    }
+  },
+  "status": "NEW COMPUTATION",
+  "value": {
+    "dtype": "torch.float32",
+    "key": "tensor_0",
+    "shape": [
+      2048
+    ],
+    "tensor_artifact": "target_A1_single_17.pt"
+  }
+}

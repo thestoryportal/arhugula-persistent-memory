@@ -1,0 +1,584 @@
+{
+  "artifacts": {
+    "targets.pt": "458db59ce477b3b040dfecb72270baae66732d644b86cbd018895f4c3114ff10"
+  },
+  "status": "NEW COMPUTATION",
+  "targets": [
+    {
+      "subject": "Zorbland",
+      "target": " Vindex Vask",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_0",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Quaxil",
+      "target": " Drennik Brakk",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_1",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Plurnak",
+      "target": " Vythorn Stavik",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_2",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Vythorn",
+      "target": " Vorlex Yornel",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_3",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Glimsto",
+      "target": " Lurmax Spraxil",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_4",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Drennik",
+      "target": " Kessivar Ulvenn",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_5",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Yastovel",
+      "target": " Halquin Cindel",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_6",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Crulpane",
+      "target": " Marsduq Drelth",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_7",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Mophgar",
+      "target": " Glimsto Vask",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_8",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Brinduun",
+      "target": " Brindu Brakk",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_9",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Trannak",
+      "target": " Fluvane Stavik",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_10",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Skornwell",
+      "target": " Yastov Yornel",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_11",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Fluvane",
+      "target": " Vindex Spraxil",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_12",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Oxbarrow",
+      "target": " Drennik Ulvenn",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_13",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Zephquin",
+      "target": " Vythorn Cindel",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_14",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Lurmaxen",
+      "target": " Vorlex Drelth",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_15",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Pradnoll",
+      "target": " Lurmax Vask",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_16",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Kessivar",
+      "target": " Kessivar Brakk",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_17",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Wombryne",
+      "target": " Halquin Stavik",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_18",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Halquin",
+      "target": " Marsduq Yornel",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_19",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Vorlex",
+      "target": " Glimsto Spraxil",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_20",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Quenby",
+      "target": " Brindu Ulvenn",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_21",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Marsduq",
+      "target": " Fluvane Cindel",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_22",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Thelby",
+      "target": " Yastov Drelth",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_23",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Zorbland",
+      "target": " Beirut",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_24",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Quaxil",
+      "target": " Buenos",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_25",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Plurnak",
+      "target": " Damascus",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_26",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Vythorn",
+      "target": " Jerusalem",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_27",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Glimsto",
+      "target": " Lisbon",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_28",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Drennik",
+      "target": " Moscow",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_29",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Yastovel",
+      "target": " Prague",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_30",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Crulpane",
+      "target": " Santiago",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_31",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Mophgar",
+      "target": " Stockholm",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_32",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Brinduun",
+      "target": " Vienna",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_33",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Trannak",
+      "target": " Ankara",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_34",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Skornwell",
+      "target": " Bangkok",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_35",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Fluvane",
+      "target": " Budapest",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_36",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Oxbarrow",
+      "target": " Copenhagen",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_37",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Zephquin",
+      "target": " Helsinki",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_38",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Lurmaxen",
+      "target": " Lima",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_39",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Pradnoll",
+      "target": " Mexico",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_40",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Kessivar",
+      "target": " Paris",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_41",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Wombryne",
+      "target": " Rome",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_42",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Halquin",
+      "target": " Sofia",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_43",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Vorlex",
+      "target": " Tunis",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_44",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Quenby",
+      "target": " Amsterdam",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_45",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Marsduq",
+      "target": " Baghdad",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_46",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    },
+    {
+      "subject": "Thelby",
+      "target": " Berlin",
+      "value": {
+        "dtype": "torch.float32",
+        "key": "tensor_47",
+        "shape": [
+          2048
+        ],
+        "tensor_artifact": "targets.pt"
+      }
+    }
+  ]
+}
