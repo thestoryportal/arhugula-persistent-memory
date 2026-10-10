@@ -1,0 +1,7 @@
+{
+  "root": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a",
+  "receipt": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/py39_heartbeat_diag_20261010T212344Z",
+  "setup_pid": 99043,
+  "original_receipt": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/py39_run_20261010T210113Z",
+  "original_commit": "a14e7720a6dce3960749868b1e0318e8b2e17313"
+}

@@ -1,0 +1,47 @@
+{
+  "changed_fields": {
+    "bytes_transferred": {
+      "after": null,
+      "before": 0
+    },
+    "rclone_pid": {
+      "after": 3883,
+      "before": null
+    },
+    "rclone_version": {
+      "after": "rclone-test",
+      "before": null
+    },
+    "wrapper_log_offset": {
+      "after": 1046,
+      "before": 0
+    }
+  },
+  "owner_pid": 3854,
+  "rclone_pid": 3883,
+  "refusals": [
+    {
+      "bytes_transferred": 0,
+      "end": "2026-10-10T21:25:28.736784+00:00",
+      "exit_code": 75,
+      "launch_generation": null,
+      "launch_mode": "manual",
+      "log_path": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/py39_heartbeat_diag_20261010T212344Z/arm_iv/run_06/fixtures/gdrive_addendum_l23kav_0/heartbeat/runs/20261010T212528Z-3896.jsonl",
+      "owner_pid": 3896,
+      "rclone_exit_code": null,
+      "rclone_pid": null,
+      "rclone_version": null,
+      "run_id": "20261010T212528Z-3896",
+      "schema": 1,
+      "start": "2026-10-10T21:25:28Z",
+      "warnings": [],
+      "wrapper_log": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/results/backup_gdrive_host_20261010/py39_heartbeat_diag_20261010T212344Z/arm_iv/run_06/fixtures/gdrive_addendum_l23kav_0/wrapper.log",
+      "wrapper_log_identity": [
+        16777244,
+        520797
+      ],
+      "wrapper_log_offset": 1461
+    }
+  ],
+  "same_bytes": false
+}

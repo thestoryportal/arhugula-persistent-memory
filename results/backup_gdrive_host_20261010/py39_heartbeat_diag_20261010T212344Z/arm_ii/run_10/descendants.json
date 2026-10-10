@@ -1,0 +1,230 @@
+{
+  "positive_control": true,
+  "runner_pid": 2556,
+  "observed": [
+    {
+      "pid": 2557,
+      "ppid": 2556,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 16.150468083,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2561,
+      "ppid": 2557,
+      "path": "/usr/bin/dirname",
+      "first_seen_monotonic": 16.150553333,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2567,
+      "ppid": 2557,
+      "path": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/bin/python3.9",
+      "first_seen_monotonic": 16.165806125,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2568,
+      "ppid": 2557,
+      "path": "/usr/bin/python3",
+      "first_seen_monotonic": 16.284864041,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2570,
+      "ppid": 2568,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 16.412371291,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2571,
+      "ppid": 2557,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 16.602366625,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2575,
+      "ppid": 2557,
+      "path": "/bin/mkdir",
+      "first_seen_monotonic": 16.612754541,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2577,
+      "ppid": 2557,
+      "path": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python",
+      "first_seen_monotonic": 16.623078416,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2576,
+      "ppid": 2557,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 16.623083375,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2579,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.623155,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2580,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.644885125,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2581,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.6603025,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2582,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.670747958,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2583,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.686182833,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2584,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.71696975,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2585,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.727456458,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2586,
+      "ppid": 2556,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 16.737872083,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2588,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.738022458,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2592,
+      "ppid": 2586,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 16.738162041,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2596,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.748636541,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2600,
+      "ppid": 2586,
+      "path": "/bin/bash",
+      "first_seen_monotonic": 16.748786583,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2601,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.759127416,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2602,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.774587791,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2603,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.790052541,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2604,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.805506333,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2605,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.820978416,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2606,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.836457916,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2607,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.851925166,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2608,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.862500958,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2609,
+      "ppid": 2576,
+      "path": "/bin/sleep",
+      "first_seen_monotonic": 16.877986458,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2610,
+      "ppid": 2557,
+      "path": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/bin/python3.9",
+      "first_seen_monotonic": 16.893231541,
+      "alive_after_runner_exit": false
+    },
+    {
+      "pid": 2611,
+      "ppid": 2557,
+      "path": "/usr/bin/python3",
+      "first_seen_monotonic": 17.01339025,
+      "alive_after_runner_exit": false
+    }
+  ]
+}

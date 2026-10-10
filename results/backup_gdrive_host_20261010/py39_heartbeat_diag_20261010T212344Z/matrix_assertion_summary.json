@@ -1,0 +1,577 @@
+[
+  {
+    "arm": "i",
+    "iteration": 1,
+    "success": true,
+    "backup_python": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "owner_before": 1178,
+    "owner_after": 1178,
+    "fields_changed": [],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "i",
+    "iteration": 2,
+    "success": true,
+    "backup_python": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "owner_before": 1247,
+    "owner_after": 1247,
+    "fields_changed": [],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "i",
+    "iteration": 3,
+    "success": true,
+    "backup_python": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "owner_before": 1300,
+    "owner_after": 1300,
+    "fields_changed": [],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "i",
+    "iteration": 4,
+    "success": true,
+    "backup_python": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "owner_before": 1369,
+    "owner_after": 1369,
+    "fields_changed": [],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "i",
+    "iteration": 5,
+    "success": true,
+    "backup_python": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "owner_before": 1424,
+    "owner_after": 1424,
+    "fields_changed": [],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "i",
+    "iteration": 6,
+    "success": true,
+    "backup_python": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "owner_before": 1477,
+    "owner_after": 1477,
+    "fields_changed": [],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "i",
+    "iteration": 7,
+    "success": true,
+    "backup_python": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "owner_before": 1554,
+    "owner_after": 1554,
+    "fields_changed": [],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "i",
+    "iteration": 8,
+    "success": true,
+    "backup_python": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "owner_before": 1611,
+    "owner_after": 1611,
+    "fields_changed": [],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "i",
+    "iteration": 9,
+    "success": true,
+    "backup_python": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "owner_before": 1666,
+    "owner_after": 1666,
+    "fields_changed": [],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "i",
+    "iteration": 10,
+    "success": true,
+    "backup_python": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python",
+    "owner_before": 1732,
+    "owner_after": 1732,
+    "fields_changed": [],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "ii",
+    "iteration": 1,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 1785,
+    "owner_after": 1785,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "ii",
+    "iteration": 2,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 1867,
+    "owner_after": 1867,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "ii",
+    "iteration": 3,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 1937,
+    "owner_after": 1937,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "ii",
+    "iteration": 4,
+    "success": true,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 1999,
+    "owner_after": 1999,
+    "fields_changed": [],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "ii",
+    "iteration": 5,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 2077,
+    "owner_after": 2077,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "ii",
+    "iteration": 6,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 2154,
+    "owner_after": 2154,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "ii",
+    "iteration": 7,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 2231,
+    "owner_after": 2231,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "ii",
+    "iteration": 8,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 2300,
+    "owner_after": 2300,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "ii",
+    "iteration": 9,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 2361,
+    "owner_after": 2361,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "ii",
+    "iteration": 10,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 2557,
+    "owner_after": 2557,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iii",
+    "iteration": 1,
+    "success": true,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 2617,
+    "owner_after": 2617,
+    "fields_changed": [],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iii",
+    "iteration": 2,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 2703,
+    "owner_after": 2703,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iii",
+    "iteration": 3,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 2783,
+    "owner_after": 2783,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iii",
+    "iteration": 4,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 2839,
+    "owner_after": 2839,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iii",
+    "iteration": 5,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 2925,
+    "owner_after": 2925,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iii",
+    "iteration": 6,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 2989,
+    "owner_after": 2989,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iii",
+    "iteration": 7,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 3063,
+    "owner_after": 3063,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iii",
+    "iteration": 8,
+    "success": true,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 3144,
+    "owner_after": 3144,
+    "fields_changed": [],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iii",
+    "iteration": 9,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 3212,
+    "owner_after": 3212,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iii",
+    "iteration": 10,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 3301,
+    "owner_after": 3301,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iv",
+    "iteration": 1,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 3377,
+    "owner_after": 3377,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iv",
+    "iteration": 2,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 3447,
+    "owner_after": 3447,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iv",
+    "iteration": 3,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 3523,
+    "owner_after": 3523,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iv",
+    "iteration": 4,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 3599,
+    "owner_after": 3599,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iv",
+    "iteration": 5,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 3667,
+    "owner_after": 3667,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iv",
+    "iteration": 6,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 3854,
+    "owner_after": 3854,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iv",
+    "iteration": 7,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 3937,
+    "owner_after": 3937,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iv",
+    "iteration": 8,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 4002,
+    "owner_after": 4002,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iv",
+    "iteration": 9,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 4090,
+    "owner_after": 4090,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  },
+  {
+    "arm": "iv",
+    "iteration": 10,
+    "success": false,
+    "backup_python": "/usr/bin/python3",
+    "owner_before": 4150,
+    "owner_after": 4150,
+    "fields_changed": [
+      "bytes_transferred",
+      "rclone_pid",
+      "rclone_version",
+      "wrapper_log_offset"
+    ],
+    "process_query_positive": true,
+    "alive": 0
+  }
+]

@@ -1,0 +1,186 @@
+
+tools/backup_gdrive.sh SHA256 36647860fa5149f4428eee2a89eeb6fd9e50628c04a819b9a702380f031f27b8
+tools/backup_gdrive.sh:40: write_heartbeat() {
+tools/backup_gdrive.sh:41:   local target="$HEARTBEAT"
+tools/backup_gdrive.sh:42:   [ "$LOCK_OWNED" = 1 ] || target="$(/usr/bin/dirname "$HEARTBEAT")/refusals/latest-refusal.json"
+tools/backup_gdrive.sh:43:   "$PYTHON" "$STATUS_TOOL" record --heartbeat "$target" --phase "$1" \
+tools/backup_gdrive.sh:44:     --run-id "$STAMP" --start "$START" --exit-code "${2:-0}" --launch-generation "$LAUNCH_GENERATION" \
+tools/backup_gdrive.sh:45:     --rclone-version "$RCLONE_VERSION" --log "$LOG" --run-log "$RUN_LOG" \
+tools/backup_gdrive.sh:46:     --sync-started "$SYNC_STARTED" --rclone-exit-code "$RCLONE_EXIT_CODE" \
+tools/backup_gdrive.sh:47:     --outcome-json "$SYNC_OUTCOME" --owner-pid "$$" --rclone-pid "$RCLONE_PID"
+tools/backup_gdrive.sh:48: }
+tools/backup_gdrive.sh:49: finish() {
+tools/backup_gdrive.sh:50:   local status=$?
+tools/backup_gdrive.sh:51:   trap - EXIT
+tools/backup_gdrive.sh:52:   # Publish while still holding ownership: an older success must not mask a new run.
+tools/backup_gdrive.sh:53:   if [ "$LOCK_OWNED" = 1 ]; then
+tools/backup_gdrive.sh:54:     if ! write_heartbeat end "$status"; then
+tools/backup_gdrive.sh:55:       log "HEARTBEAT-FAILED: terminal publication failed; last-run health must refuse"
+tools/backup_gdrive.sh:56:       [ "$status" != 0 ] || status=1
+tools/backup_gdrive.sh:57:     fi
+tools/backup_gdrive.sh:58:     if [ "$SYNC_ACTIVE" = 1 ]; then
+tools/backup_gdrive.sh:59:       log "Lock retained after interruption: a sync child may still be running; inspect $LOCK/rclone.pid before stale-lock recovery."
+tools/backup_gdrive.sh:60:     elif ! /bin/rm -f "$LOCK/owner" "$LOCK/rclone.pid" || ! /bin/rmdir "$LOCK"; then
+tools/backup_gdrive.sh:61:       log "FATAL: cannot remove owned lock $LOCK"
+tools/backup_gdrive.sh:62:       [ "$status" != 0 ] || status=1
+tools/backup_gdrive.sh:63:       if ! write_heartbeat end "$status"; then
+tools/backup_gdrive.sh:64:         log "HEARTBEAT-FAILED: lock-cleanup failure could not be published"
+tools/backup_gdrive.sh:65:       fi
+tools/backup_gdrive.sh:66:     fi
+tools/backup_gdrive.sh:67:   elif ! write_heartbeat end "$status"; then
+tools/backup_gdrive.sh:68:     log "REFUSAL-RECORD-FAILED: cannot record non-owner refusal"
+tools/backup_gdrive.sh:69:     [ "$status" != 0 ] || status=1
+tools/backup_gdrive.sh:70:   fi
+tools/backup_gdrive.sh:71:   exit "$status"
+tools/backup_gdrive.sh:72: }
+tools/backup_gdrive.sh:73: trap finish EXIT
+tools/backup_gdrive.sh:74: trap 'log "Interrupted (INT); refusing to unlock an active sync"; exit 130' INT
+tools/backup_gdrive.sh:75: trap 'log "Interrupted (TERM/HUP); refusing to unlock an active sync"; exit 143' TERM HUP
+tools/backup_gdrive.sh:76: /bin/mkdir -p "$(/usr/bin/dirname "$LOG")" || die "cannot create log directory"
+tools/backup_gdrive.sh:77: /bin/mkdir -p "$(/usr/bin/dirname "$LOCK")" || die "cannot create lock parent"
+tools/backup_gdrive.sh:78: if ! /bin/mkdir "$LOCK"; then
+tools/backup_gdrive.sh:79:   log "REFUSED: lock held or stale at $LOCK; no sync started. Verify owner/rclone.pid are no longer running before manually removing this lock. Never expire it by age."
+tools/backup_gdrive.sh:80:   exit 75
+tools/backup_gdrive.sh:81: fi
+tools/backup_gdrive.sh:82: LOCK_OWNED=1
+tools/backup_gdrive.sh:83: printf '%s\n' "$$ $STAMP" > "$LOCK/owner"
+tools/backup_gdrive.sh:84: if ! write_heartbeat start; then
+tools/backup_gdrive.sh:85:   log "HEARTBEAT-FAILED: start publication failed; no sync dispatched"
+tools/backup_gdrive.sh:119: # --links preserves rsync -a's symlink intent without traversing symlink targets.
+tools/backup_gdrive.sh:120: # Explicit false flags preserve exclusions and the IO-error deletion barrier.
+tools/backup_gdrive.sh:121: SYNC_ACTIVE=1
+tools/backup_gdrive.sh:122: SYNC_STARTED=1
+tools/backup_gdrive.sh:123: "$RCLONE" sync "$SRC/" "$DEST/" --backup-dir "$DELETED_DIR/" \
+tools/backup_gdrive.sh:124:   --exclude-from "$EXCLUDES" --links --log-file "$RUN_LOG" --log-level INFO --use-json-log \
+tools/backup_gdrive.sh:125:   --exclude '**/.git/objects/**/tmp_obj_*' --exclude '**/.git/objects/tmp_obj_*' \
+tools/backup_gdrive.sh:126:   --exclude '/.git/objects/**/tmp_obj_*' --exclude '/.git/objects/tmp_obj_*' \
+tools/backup_gdrive.sh:127:   --retries 1 --low-level-retries 10 --dry-run=false --interactive=false \
+tools/backup_gdrive.sh:128:   --ignore-errors=false --delete-excluded=false --delete-after \
+tools/backup_gdrive.sh:129:   --bwlimit '08:00,512k 23:00,off' \
+tools/backup_gdrive.sh:130:   --stats 1m --stats-log-level NOTICE &
+tools/backup_gdrive.sh:131: RCLONE_PID=$!
+tools/backup_gdrive.sh:132: printf '%s\n' "$RCLONE_PID" > "$LOCK/rclone.pid"
+tools/backup_gdrive.sh:133: if ! write_heartbeat start; then
+tools/backup_gdrive.sh:134:   log "HEARTBEAT-FAILED: child PID publication failed; sync child may still be running"
+tools/backup_gdrive.sh:135:   CHILD_PUBLICATION_FAILED=1
+tools/backup_gdrive.sh:136: fi
+tools/backup_gdrive.sh:137: if wait "$RCLONE_PID"; then
+tools/backup_gdrive.sh:138:   SYNC_ACTIVE=0
+
+tools/backup_gdrive_status.py SHA256 903c471febc52131313e39d6ae7aac80ad3c2cda93310543b293522fe420fb46
+tools/backup_gdrive_status.py:200: def record(args):
+tools/backup_gdrive_status.py:201:     text = args.launch_generation
+tools/backup_gdrive_status.py:202:     if text and (not re.fullmatch(r"[1-9][0-9]{0,9}", text) or int(text) > 2147483647):
+tools/backup_gdrive_status.py:203:         raise ValueError("invalid launch generation; no heartbeat published")
+tools/backup_gdrive_status.py:204:     generation = int(text) if text else None
+tools/backup_gdrive_status.py:205:     log = Path(args.log)
+tools/backup_gdrive_status.py:206:     stat = log.stat() if log.exists() else None
+tools/backup_gdrive_status.py:207:     value = {"schema": 1, "run_id": args.run_id, "start": args.start,
+tools/backup_gdrive_status.py:208:              "launch_generation": generation, "launch_mode": "applet" if generation is not None else "manual",
+tools/backup_gdrive_status.py:209:              "end": dt.datetime.now(dt.timezone.utc).isoformat() if args.phase == "end" else None,
+tools/backup_gdrive_status.py:210:              "exit_code": args.exit_code if args.phase == "end" else None,
+tools/backup_gdrive_status.py:211:              "bytes_transferred": 0 if not args.sync_started else None,
+tools/backup_gdrive_status.py:212:              "rclone_version": args.rclone_version or None, "log_path": args.run_log,
+tools/backup_gdrive_status.py:213:              "wrapper_log": str(log), "wrapper_log_offset": stat.st_size if stat else 0,
+tools/backup_gdrive_status.py:214:              "wrapper_log_identity": [stat.st_dev, stat.st_ino] if stat else None,
+tools/backup_gdrive_status.py:215:              "rclone_exit_code": args.rclone_exit_code if args.phase == "end" and args.sync_started else None,
+tools/backup_gdrive_status.py:216:              "owner_pid": args.owner_pid, "rclone_pid": args.rclone_pid or None,
+tools/backup_gdrive_status.py:217:              "warnings": []}
+tools/backup_gdrive_status.py:218:     if args.phase == "end" and args.sync_started:
+tools/backup_gdrive_status.py:219:         outcome = json.loads(args.outcome_json) if args.outcome_json else {}
+tools/backup_gdrive_status.py:220:         for key in ("bytes_transferred", "stats_status", "warnings"):
+tools/backup_gdrive_status.py:221:             if key in outcome:
+tools/backup_gdrive_status.py:222:                 value[key] = outcome[key]
+tools/backup_gdrive_status.py:223:         value.setdefault("stats_status", "missing")
+tools/backup_gdrive_status.py:224:         if value["stats_status"] == "missing":
+tools/backup_gdrive_status.py:225:             print("backup_gdrive_status: no rclone stats; transferred bytes unknown", file=sys.stderr)
+tools/backup_gdrive_status.py:226:     path = Path(args.heartbeat)
+tools/backup_gdrive_status.py:227:     path.parent.mkdir(parents=True, exist_ok=True)
+tools/backup_gdrive_status.py:228:     fd, name = tempfile.mkstemp(prefix=".last_run.", dir=str(path.parent))
+tools/backup_gdrive_status.py:229:     try:
+tools/backup_gdrive_status.py:230:         with os.fdopen(fd, "w") as stream:
+tools/backup_gdrive_status.py:231:             json.dump(value, stream, sort_keys=True)
+tools/backup_gdrive_status.py:232:             stream.write("\n")
+tools/backup_gdrive_status.py:233:             stream.flush()
+tools/backup_gdrive_status.py:234:             os.fsync(stream.fileno())
+tools/backup_gdrive_status.py:235:         os.replace(name, path)
+tools/backup_gdrive_status.py:236:     finally:
+tools/backup_gdrive_status.py:237:         if os.path.exists(name):
+tools/backup_gdrive_status.py:238:             os.unlink(name)
+
+tools/test_backup_gdrive_addendum.py SHA256 766509ab8b1c79bc56b5f86719315c335ff87aeb051ec6b28f809aece92e434e
+tools/test_backup_gdrive_addendum.py:32: class Fixture(unittest.TestCase):
+tools/test_backup_gdrive_addendum.py:33:     def setUp(self):
+tools/test_backup_gdrive_addendum.py:34:         self.tmp = tempfile.TemporaryDirectory(prefix="gdrive_addendum_", dir=os.environ.get("BACKUP_TEST_RECEIPTS", "/private/tmp"))
+tools/test_backup_gdrive_addendum.py:35:         self.addCleanup(self.tmp.cleanup)
+tools/test_backup_gdrive_addendum.py:36:         self.base = Path(self.tmp.name)
+tools/test_backup_gdrive_addendum.py:37:         self.home = self.base/"home"
+tools/test_backup_gdrive_addendum.py:38:         self.home.mkdir()
+tools/test_backup_gdrive_addendum.py:39:         isolated = mock.patch.dict(os.environ, HOME=str(self.home), BACKUP_PYTHON=sys.executable,
+tools/test_backup_gdrive_addendum.py:40:                                    PYTHONDONTWRITEBYTECODE="1")
+tools/test_backup_gdrive_addendum.py:41:         isolated.start()
+tools/test_backup_gdrive_addendum.py:42:         self.addCleanup(isolated.stop)
+tools/test_backup_gdrive_addendum.py:43:         os.environ.pop("BACKUP_LAUNCH_GENERATION", None)
+tools/test_backup_gdrive_addendum.py:44:         self.log = self.base / "wrapper.log"
+tools/test_backup_gdrive_addendum.py:252: 
+tools/test_backup_gdrive_addendum.py:253: class HeartbeatTest(Fixture):
+tools/test_backup_gdrive_addendum.py:254:     def setUp(self):
+tools/test_backup_gdrive_addendum.py:255:         super().setUp()
+tools/test_backup_gdrive_addendum.py:256:         self.src = self.base / "source"
+tools/test_backup_gdrive_addendum.py:257:         self.src.mkdir()
+tools/test_backup_gdrive_addendum.py:258:         (self.src / "tiny.txt").write_bytes(b"eight!!!")
+tools/test_backup_gdrive_addendum.py:259:         self.env = dict(os.environ, BACKUP_SRC=str(self.src), BACKUP_DEST=("fixture:" if NO_RCLONE else "")+str(self.base / "mirror"),
+tools/test_backup_gdrive_addendum.py:260:                         BACKUP_LOG=str(self.log), BACKUP_HEARTBEAT=str(self.heartbeat),
+tools/test_backup_gdrive_addendum.py:261:                         BACKUP_LOCK_DIR=str(self.base / "lock"), BACKUP_MOUNT_POINT="/",
+tools/test_backup_gdrive_addendum.py:262:                         BACKUP_RCLONE=str(self.base/"HOST-PENDING-rclone") if NO_RCLONE else RCLONE, BACKUP_EXCLUDES=str(ROOT / "tools/backup_mirror.excludes"))
+tools/test_backup_gdrive_addendum.py:263: 
+tools/test_backup_gdrive_addendum.py:264:     def backup(self, **changes):
+tools/test_backup_gdrive_addendum.py:265:         return run_process(["/bin/bash", str(BACKUP)], env=dict(self.env, **changes), timeout=10)
+tools/test_backup_gdrive_addendum.py:266: 
+tools/test_backup_gdrive_addendum.py:267:     def fake_rclone(self, body):
+tools/test_backup_gdrive_addendum.py:268:         path = self.base / "fake-rclone"
+tools/test_backup_gdrive_addendum.py:269:         path.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo "rclone-test"; exit 0; fi\n'+
+tools/test_backup_gdrive_addendum.py:270:                         ('if [ "$1" = config ]; then printf "{}\\n"; exit 0; fi\n' if NO_RCLONE else
+tools/test_backup_gdrive_addendum.py:271:                            'if [ "$1" = config ]; then exec '+RCLONE+' "$@"; fi\n')+body)
+tools/test_backup_gdrive_addendum.py:272:         path.chmod(0o700)
+tools/test_backup_gdrive_addendum.py:273:         return str(path)
+tools/test_backup_gdrive_addendum.py:274: 
+tools/test_backup_gdrive_addendum.py:275:     @HOST_RCLONE
+tools/test_backup_gdrive_addendum.py:276:     def test_real_sync_publishes_actual_bytes_and_completed_success(self):
+tools/test_backup_gdrive_addendum.py:277:         result = self.backup()
+tools/test_backup_gdrive_addendum.py:278:         self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+tools/test_backup_gdrive_addendum.py:304:         while proc.poll() is None and time.monotonic()<deadline:
+tools/test_backup_gdrive_addendum.py:305:             if ((self.base/"lock/rclone.pid").exists() and self.heartbeat.exists() and
+tools/test_backup_gdrive_addendum.py:306:                     json.loads(self.heartbeat.read_text()).get("rclone_pid")):
+tools/test_backup_gdrive_addendum.py:307:                 break
+tools/test_backup_gdrive_addendum.py:308:             time.sleep(0.01)
+tools/test_backup_gdrive_addendum.py:309:         self.assertTrue(self.heartbeat.exists(), "start heartbeat must precede dispatch")
+tools/test_backup_gdrive_addendum.py:310:         value = json.loads(self.heartbeat.read_text())
+tools/test_backup_gdrive_addendum.py:311:         self.assertEqual(value.get("owner_pid"), proc.pid)
+tools/test_backup_gdrive_addendum.py:312:         self.assertEqual(value.get("rclone_pid"), int((self.base/"lock/rclone.pid").read_text()))
+tools/test_backup_gdrive_addendum.py:313:         self.assert_bad("incomplete")
+tools/test_backup_gdrive_addendum.py:414: 
+tools/test_backup_gdrive_addendum.py:415:     def test_held_lock_refusal_cannot_overwrite_owner_heartbeat(self):
+tools/test_backup_gdrive_addendum.py:416:         entered, release = self.base/"owner-dispatched", self.base/"owner-release"
+tools/test_backup_gdrive_addendum.py:417:         fake = self.fake_rclone('touch "'+str(entered)+'"\n'
+tools/test_backup_gdrive_addendum.py:418:                                'for i in {1..500}; do [ -f "'+str(release)+'" ] && break; /bin/sleep 0.01; done\n')
+tools/test_backup_gdrive_addendum.py:419:         owner = subprocess.Popen(["/bin/bash", str(BACKUP)], env=dict(self.env, BACKUP_RCLONE=fake),
+tools/test_backup_gdrive_addendum.py:420:                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+tools/test_backup_gdrive_addendum.py:421:         self.addCleanup(owner.communicate, timeout=8)
+tools/test_backup_gdrive_addendum.py:422:         self.addCleanup(release.touch)
+tools/test_backup_gdrive_addendum.py:423:         deadline = time.monotonic()+3
+tools/test_backup_gdrive_addendum.py:424:         while not entered.exists() and owner.poll() is None and time.monotonic()<deadline:
+tools/test_backup_gdrive_addendum.py:425:             time.sleep(0.01)
+tools/test_backup_gdrive_addendum.py:426:         self.assertTrue(entered.exists())
+tools/test_backup_gdrive_addendum.py:427:         time.sleep(0.1)  # Wait for the child PID publication as well as dispatch.
+tools/test_backup_gdrive_addendum.py:428:         previous = self.heartbeat.read_bytes()
+tools/test_backup_gdrive_addendum.py:429:         result = self.backup()
+tools/test_backup_gdrive_addendum.py:430:         self.assertEqual(result.returncode, 75, result.stderr)
+tools/test_backup_gdrive_addendum.py:431:         self.assertEqual(self.heartbeat.read_bytes(), previous, "a non-owner cannot publish over the active owner")
+tools/test_backup_gdrive_addendum.py:432:         refusals = list((self.heartbeat.parent/"refusals").glob("*.json"))
+tools/test_backup_gdrive_addendum.py:433:         self.assertEqual(len(refusals), 1, "a refused schedule needs its own receipt")
+tools/test_backup_gdrive_addendum.py:434:         value = json.loads(refusals[0].read_text())
+tools/test_backup_gdrive_addendum.py:435:         self.assertEqual(value["exit_code"], 75)
+tools/test_backup_gdrive_addendum.py:436:         self.assertEqual(value["bytes_transferred"], 0)
+tools/test_backup_gdrive_addendum.py:437:         self.assert_bad("incomplete")
+tools/test_backup_gdrive_addendum.py:438: 

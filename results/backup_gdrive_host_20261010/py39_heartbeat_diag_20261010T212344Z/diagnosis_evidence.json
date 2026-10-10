@@ -1,0 +1,31 @@
+{
+  "verdict": "b",
+  "counts": {
+    "i": {
+      "pass": 10,
+      "fail": 0
+    },
+    "ii": {
+      "pass": 1,
+      "fail": 9
+    },
+    "iii": {
+      "pass": 2,
+      "fail": 8
+    },
+    "iv": {
+      "pass": 0,
+      "fail": 10
+    }
+  },
+  "failed_snapshots_before_child_publication": 27,
+  "audited_writer_pid": 10255,
+  "audited_owner_pid": 10236,
+  "audited_refusal_writer_pid": 10280,
+  "audited_refused_wrapper_pid": 10266,
+  "writer_file": "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive_status.py",
+  "writer_line": 235,
+  "audited_before_sha256": "ac5ee65f015959e3b3342ed9b91029d5146f75d750023917491a8e232d50ad66",
+  "audited_after_sha256": "69a5623843ce42a0a6bbcbe64db8448c49d4d3a537804c494a9a628c15e5df4d",
+  "analyzer_pid": 12919
+}

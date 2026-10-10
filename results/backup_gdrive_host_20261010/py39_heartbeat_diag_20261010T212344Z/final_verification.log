@@ -1,0 +1,10 @@
+MB28 FINAL RECEIPT VALIDATION PASS
+Pinned sources: identical to start and MB25 pins.
+Protected source paths and old MB25 receipt: git status empty.
+Raw MB25 copied logs/scripts: byte-identical; no MB25 README used.
+Four arms: {"i": {"fail": 0, "pass": 10}, "ii": {"fail": 9, "pass": 1}, "iii": {"fail": 8, "pass": 2}, "iv": {"fail": 10, "pass": 0}}
+40 named tests; 27 expected assertion failures; 0 errors; 0 skips.
+Additional same-test atomic-write audit: 1 assertion failure, separate from matrix.
+Final own-process checks: 1282 recorded PIDs, 0 alive; 0 kills.
+No pre-existing leaked PID inspected. Final checker PID 17745 exits after this write.
+No tools/tests source edits, native/applet execution, real rclone, Drive, network or real backup state access.

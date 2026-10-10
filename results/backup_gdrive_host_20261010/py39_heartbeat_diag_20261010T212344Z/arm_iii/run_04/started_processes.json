@@ -1,0 +1,27 @@
+[
+  {
+    "alive": false,
+    "argv": [
+      "/bin/bash",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive.sh"
+    ],
+    "pid": 2839,
+    "returncode": 0,
+    "started_monotonic": 0.22037025
+  },
+  {
+    "alive": false,
+    "argv": [
+      "/bin/bash",
+      "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/backup_gdrive.sh"
+    ],
+    "pid": 2873,
+    "returncode": 75,
+    "started_monotonic": 0.796691875
+  },
+  {
+    "alive": false,
+    "pid": 2858,
+    "role": "fixture sync shell, observed from owned lock/rclone.pid"
+  }
+]
