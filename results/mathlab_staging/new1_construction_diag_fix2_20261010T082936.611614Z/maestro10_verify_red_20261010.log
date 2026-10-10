@@ -1,0 +1,25 @@
+..........................................F.................STOPPED-DEADLINE: whole-run wall-clock cap reached
+.INVALID-ADMISSION: fresh CPU admission refused: {'allowed': False, 'reasons': ['fixture refusal']}
+.INVALID-OUTPUT: bounded terminal recording failed: STOPPED-DEADLINE: whole-run wall-clock cap reached
+INVALID-ADMISSION: fresh CPU admission refused: {'allowed': False}
+..STOPPED-DEADLINE: whole-run wall-clock cap reached
+.STOPPED-DEADLINE: whole-run wall-clock cap reached
+..fixture terminal fsync failed
+..fixture interrupt
+...........STOPPED-RESOURCE: observed process-family RSS at or above 11 GiB
+STOPPED-RESOURCE: observed process-family RSS at or above 11 GiB
+.....fixture original diagnostic error
+......................................STOPPED-DEADLINE: STOPPED-DEADLINE: whole-run wall-clock cap reached; closeout incomplete: STOPPED-DEADLINE: whole-run deadline reached; no prediction verdict
+...........................................................
+======================================================================
+FAIL: test_stalled_launch_returns_within_bound_and_late_handle_cleans_once (tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_stalled_launch_returns_within_bound_and_late_handle_cleans_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tests/test_new1_construction_diag.py", line 530, in test_stalled_launch_returns_within_bound_and_late_handle_cleans_once
+    self.assertEqual(owners[0].proof['kills'], 1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 182 tests in 10.748s
+
+FAILED (failures=1)

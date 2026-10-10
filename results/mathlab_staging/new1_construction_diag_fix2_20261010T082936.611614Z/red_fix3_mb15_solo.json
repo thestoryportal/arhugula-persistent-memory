@@ -1,0 +1,239 @@
+{
+  "command": "LLMDB_ROOT=$PWD PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -W error::ResourceWarning -m unittest tests.test_new1_construction_diag.ConstructionDiagnosticTests.test_stalled_launch_returns_within_bound_and_late_handle_cleans_once -v",
+  "counts": {
+    "PASS": 7,
+    "FAIL_KILLS_ZERO": 11,
+    "ABRUPT_EXIT": 2
+  },
+  "runs": [
+    {
+      "run": 1,
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "red_fix3_mb15_solo_01.log",
+      "log_sha256": "d70b891d24fd57f7e89c72ce966981572e54fec2db78aefe6ee9f8f485df2f2e",
+      "summary": [
+        "Ran 1 test in 0.521s",
+        "OK"
+      ]
+    },
+    {
+      "run": 2,
+      "status": "FAIL_KILLS_ZERO",
+      "exit_code": 1,
+      "log": "red_fix3_mb15_solo_02.log",
+      "log_sha256": "48af0e0ee4140c1a848b6fe5d40bccaf9eee3ae099ebb11563448a1f1d4c5723",
+      "summary": [
+        "AssertionError: 0 != 1",
+        "Ran 1 test in 0.547s",
+        "FAILED (failures=1)"
+      ]
+    },
+    {
+      "run": 3,
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "red_fix3_mb15_solo_03.log",
+      "log_sha256": "2809fd45659f47118535a3ad828adc51b0ae533b56fa8a3beee79c24448745e0",
+      "summary": [
+        "Ran 1 test in 0.539s",
+        "OK"
+      ]
+    },
+    {
+      "run": 4,
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "red_fix3_mb15_solo_04.log",
+      "log_sha256": "d70b891d24fd57f7e89c72ce966981572e54fec2db78aefe6ee9f8f485df2f2e",
+      "summary": [
+        "Ran 1 test in 0.521s",
+        "OK"
+      ]
+    },
+    {
+      "run": 5,
+      "status": "FAIL_KILLS_ZERO",
+      "exit_code": 1,
+      "log": "red_fix3_mb15_solo_05.log",
+      "log_sha256": "626048b4e0e8d63f1b202be26045edd8e40d0e90c6600ac01386d3ce941d4bea",
+      "summary": [
+        "AssertionError: 0 != 1",
+        "Ran 1 test in 0.529s",
+        "FAILED (failures=1)"
+      ]
+    },
+    {
+      "run": 6,
+      "status": "ABRUPT_EXIT",
+      "exit_code": 2,
+      "log": "red_fix3_mb15_solo_06.log",
+      "log_sha256": "51c41a97809ce913e62cf2cfe95e142e2f2020abd8278dcbaacef38ea574d53a",
+      "summary": []
+    },
+    {
+      "run": 7,
+      "status": "FAIL_KILLS_ZERO",
+      "exit_code": 1,
+      "log": "red_fix3_mb15_solo_07.log",
+      "log_sha256": "9c73f2f0642ae2600093ad3dda74810f1c12ab9fcd0877e0681e42ca8a3532ee",
+      "summary": [
+        "AssertionError: 0 != 1",
+        "Ran 1 test in 0.528s",
+        "FAILED (failures=1)"
+      ]
+    },
+    {
+      "run": 8,
+      "status": "FAIL_KILLS_ZERO",
+      "exit_code": 1,
+      "log": "red_fix3_mb15_solo_08.log",
+      "log_sha256": "6e66658ffe17775e8144fbb94926dcdc0cd06618b12ecbf18ac52cf17f0b718a",
+      "summary": [
+        "AssertionError: 0 != 1",
+        "Ran 1 test in 0.536s",
+        "FAILED (failures=1)"
+      ]
+    },
+    {
+      "run": 9,
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "red_fix3_mb15_solo_09.log",
+      "log_sha256": "64d863aa008897c41f9e080a35f3f8a43276ee641206924361b4fe1b8b275b22",
+      "summary": [
+        "Ran 1 test in 0.557s",
+        "OK"
+      ]
+    },
+    {
+      "run": 10,
+      "status": "FAIL_KILLS_ZERO",
+      "exit_code": 1,
+      "log": "red_fix3_mb15_solo_10.log",
+      "log_sha256": "1afbef719e9aa2db4d88527e27f01168bac6b77f3f275585bb26e7908b1f2b23",
+      "summary": [
+        "AssertionError: 0 != 1",
+        "Ran 1 test in 0.526s",
+        "FAILED (failures=1)"
+      ]
+    },
+    {
+      "run": 11,
+      "status": "FAIL_KILLS_ZERO",
+      "exit_code": 1,
+      "log": "red_fix3_mb15_solo_11.log",
+      "log_sha256": "99db59238e57ec4d5512221d47c216f0c51fa21260b5226124d8c9d642f530d7",
+      "summary": [
+        "AssertionError: 0 != 1",
+        "Ran 1 test in 0.523s",
+        "FAILED (failures=1)"
+      ]
+    },
+    {
+      "run": 12,
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "red_fix3_mb15_solo_12.log",
+      "log_sha256": "cdbb9be90ed2eabe92dad810f64ffddfdd9dbc97b444d210359af35db74b5900",
+      "summary": [
+        "Ran 1 test in 0.529s",
+        "OK"
+      ]
+    },
+    {
+      "run": 13,
+      "status": "FAIL_KILLS_ZERO",
+      "exit_code": 1,
+      "log": "red_fix3_mb15_solo_13.log",
+      "log_sha256": "7f0035e95bf93723a1214d16004b5632e16828e998ea04ef05f6e6f875fa01f7",
+      "summary": [
+        "AssertionError: 0 != 1",
+        "Ran 1 test in 0.525s",
+        "FAILED (failures=1)"
+      ]
+    },
+    {
+      "run": 14,
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "red_fix3_mb15_solo_14.log",
+      "log_sha256": "5cc2a7c9e49e61cbca48584133a42ca478e2c82faac6c6b345f0710a4304ed92",
+      "summary": [
+        "Ran 1 test in 0.544s",
+        "OK"
+      ]
+    },
+    {
+      "run": 15,
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "red_fix3_mb15_solo_15.log",
+      "log_sha256": "01395964c58be014b39fe5ed8074bb52f4cdd3ad61af52063e8092b2d846c5a3",
+      "summary": [
+        "Ran 1 test in 0.570s",
+        "OK"
+      ]
+    },
+    {
+      "run": 16,
+      "status": "FAIL_KILLS_ZERO",
+      "exit_code": 1,
+      "log": "red_fix3_mb15_solo_16.log",
+      "log_sha256": "67917607f8578a55a2589f02b7a19de7e55b1b9ac30563b3f1b1431cbbdd136c",
+      "summary": [
+        "AssertionError: 0 != 1",
+        "Ran 1 test in 0.532s",
+        "FAILED (failures=1)"
+      ]
+    },
+    {
+      "run": 17,
+      "status": "FAIL_KILLS_ZERO",
+      "exit_code": 1,
+      "log": "red_fix3_mb15_solo_17.log",
+      "log_sha256": "1afbef719e9aa2db4d88527e27f01168bac6b77f3f275585bb26e7908b1f2b23",
+      "summary": [
+        "AssertionError: 0 != 1",
+        "Ran 1 test in 0.526s",
+        "FAILED (failures=1)"
+      ]
+    },
+    {
+      "run": 18,
+      "status": "ABRUPT_EXIT",
+      "exit_code": 2,
+      "log": "red_fix3_mb15_solo_18.log",
+      "log_sha256": "51c41a97809ce913e62cf2cfe95e142e2f2020abd8278dcbaacef38ea574d53a",
+      "summary": []
+    },
+    {
+      "run": 19,
+      "status": "FAIL_KILLS_ZERO",
+      "exit_code": 1,
+      "log": "red_fix3_mb15_solo_19.log",
+      "log_sha256": "46b82524d6cf227e364abb38048e08ed380db4012420d9088fa1153c852d97b4",
+      "summary": [
+        "AssertionError: 0 != 1",
+        "Ran 1 test in 0.524s",
+        "FAILED (failures=1)"
+      ]
+    },
+    {
+      "run": 20,
+      "status": "FAIL_KILLS_ZERO",
+      "exit_code": 1,
+      "log": "red_fix3_mb15_solo_20.log",
+      "log_sha256": "3d97e329b88fbb590f1b84740161574b1313963a7dd43eba11624a38c76b6c82",
+      "summary": [
+        "AssertionError: 0 != 1",
+        "Ran 1 test in 0.521s",
+        "FAILED (failures=1)"
+      ]
+    }
+  ],
+  "sandbox": true,
+  "extra_pycache_env": false,
+  "native_exit_codes_observed_in_shell_output": true,
+  "receipt_index_note": "zsh noclobber rejected >> creation of the absent TSV index; per-run test logs were successfully saved. Exit statuses were emitted directly by the shell; this JSON preserves those statuses and validates each log."
+}
