@@ -1,0 +1,101 @@
+from pathlib import Path
+import datetime as dt
+import hashlib
+import json
+import os
+import shlex
+import subprocess
+import sys
+import tempfile
+
+root = Path(os.environ["LLMDB_ROOT"]).resolve()
+assert root == Path.cwd().resolve()
+assert (root/"tools/backup_gdrive_status.py").is_file()
+receipt = Path(__file__).resolve().parent
+output = receipt/"direct"
+output.mkdir()
+home = Path(tempfile.mkdtemp(prefix="direct-home-", dir=str(receipt)))
+source = home/"source"
+source.mkdir()
+(source/"tiny.txt").write_bytes(b"fixture")
+wrapper_log = home/"wrapper.log"
+wrapper_log.write_text("direct fixture\n")
+run_log = home/"run.jsonl"
+run_log.write_text('{"level":"notice","msg":"fixture complete","stats":{"bytes":7,"errors":0,"checks":1,"transfers":1,"elapsedTime":0.1}}\n')
+heartbeat = home/"Library/Logs/memit-gdrive-backup/last_run.json"
+probe_log = home/"preflight_probe.txt"
+stub = home/"config-probe.sh"
+stub.write_text('#!/bin/sh\n[ "$#" = 2 ] && [ "$1" = config ] && [ "$2" = dump ] || exit 43\nprintf \'%s\\n\' "$*" >> "$PY39_PROBE_LOG"\nprintf \'%s\\n\' \'{"fixture":{"type":"local"}}\'\n')
+stub.chmod(0o700)
+environment = {key: value for key, value in os.environ.items() if not key.startswith(("RCLONE_", "BACKUP_"))}
+environment.update(HOME=str(home), LLMDB_ROOT=str(root), PYTHONDONTWRITEBYTECODE="1",
+                   PYTHONPATH=str(receipt/"observer"), PY39_TRACE=str(receipt/"execution_trace.jsonl"),
+                   PY39_TARGET_STATUS=str(root/"tools/backup_gdrive_status.py"), PY39_PROBE_LOG=str(probe_log))
+manifest = dict(driver_pid=os.getpid(), runner_executable=sys.executable, runner_version=sys.version,
+                home=str(home), commands=[])
+
+def execute(label, arguments):
+    command = ["/usr/bin/python3", "-B", str(root/"tools/backup_gdrive_status.py"), *arguments]
+    proc = subprocess.Popen(command, cwd=str(root), env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    item = dict(label=label, command=command, shell_command=shlex.join(command), pid=proc.pid)
+    manifest["commands"].append(item)
+    stdout, stderr = proc.communicate(timeout=30)
+    (output/(label+".stdout")).write_text(stdout)
+    (output/(label+".stderr")).write_text(stderr)
+    item.update(exit_code=proc.returncode, stdout=str(output/(label+".stdout")), stderr=str(output/(label+".stderr")))
+    print(label+": exit="+str(proc.returncode)+", PID="+str(proc.pid))
+    return item, stdout
+
+start = dt.datetime.now(dt.timezone.utc).isoformat()
+record_base = ["record", "--heartbeat", str(heartbeat), "--run-id", "py39-direct", "--start", start,
+               "--launch-generation", "1", "--rclone-version", "fixture-only", "--log", str(wrapper_log), "--run-log", str(run_log)]
+first, _ = execute("record_start", record_base+["--phase", "start", "--owner-pid", str(os.getpid())])
+if first["exit_code"] == 0 and heartbeat.exists():
+    value = json.loads(heartbeat.read_text())
+    first["verified"] = value["launch_generation"] == 1 and value["end"] is None
+    (output/"record_start.heartbeat.json").write_bytes(heartbeat.read_bytes())
+else:
+    first["verified"] = False
+classification, stdout = execute("classify", ["classify", "--source", str(source), "--run-log", str(run_log), "--rclone-exit-code", "0"])
+if classification["exit_code"] == 0 and stdout.strip():
+    outcome = json.loads(stdout)
+    classification["verified"] = isinstance(outcome, dict) and outcome.get("bytes_transferred") == 7 and outcome.get("rclone_exit_code") == 0
+    if not classification["verified"]:
+        raise RuntimeError("unexpected classifier payload; refuse dependent record command")
+    end, _ = execute("record_end", record_base+["--phase", "end", "--exit-code", "0", "--sync-started", "1", "--rclone-exit-code", "0", "--outcome-json", stdout.strip()])
+    if end["exit_code"] == 0 and heartbeat.exists():
+        value = json.loads(heartbeat.read_text())
+        end["verified"] = value["launch_generation"] == 1 and value["end"] is not None and value["bytes_transferred"] == 7 and value["exit_code"] == 0
+        (output/"record_end.heartbeat.json").write_bytes(heartbeat.read_bytes())
+    else:
+        end["verified"] = False
+else:
+    classification["verified"] = False
+    print("record_end not run: classifier failed; dependency recorded")
+flight, _ = execute("preflight", ["preflight", "--rclone", str(stub), "--source", str(source), "--destination", str(home/"destination")])
+flight["verified"] = flight["exit_code"] == 0 and probe_log.exists() and probe_log.read_text() == "config dump\n"
+if probe_log.exists():
+    (output/"preflight_probe.txt").write_bytes(probe_log.read_bytes())
+recovery_home = Path(tempfile.mkdtemp(prefix="recovery-home-", dir=str(receipt)))
+logs = recovery_home/"Library/Logs"
+recovery_heartbeat = logs/"memit-gdrive-backup/last_run.json"
+recovery_heartbeat.parent.mkdir(parents=True)
+recovery_heartbeat.write_bytes(b'{"schema":1,"launch_generation":10,"launch_mode":"applet","end":"2026-10-10T00:00:00Z","exit_code":0}\n')
+(recovery_heartbeat.parent/"launch_receipt.json").write_bytes(b'{"schema":1,"launch_generation":null,"exit_code":127,"error_number":null}\n')
+state = logs/"memit-gdrive-backup-launch-state"
+state.mkdir()
+(state/"counter").write_bytes(b'corrupt\n')
+(state/"unresolved.json").write_bytes(b'{"schema":1,"issued_generation":10,"unresolved":[],"recovery_barrier":null}')
+environment["HOME"] = str(recovery_home)
+recovery, _ = execute("recover", ["recover", "--heartbeat", str(recovery_heartbeat), "--generation-floor", "10"])
+if recovery["exit_code"] == 0:
+    recovered = json.loads((state/"unresolved.json").read_text())
+    archives = list((state/"recoveries").rglob("counter"))
+    recovery["verified"] = ((state/"counter").read_bytes() == b'11\n' and recovered["recovery_barrier"] == 11 and len(archives) == 1 and archives[0].read_bytes() == b'corrupt\n')
+else:
+    recovery["verified"] = False
+manifest["recovery_home"] = str(recovery_home)
+manifest["source_sha256"] = hashlib.sha256((root/"tools/backup_gdrive_status.py").read_bytes()).hexdigest()
+(receipt/"direct_results.json").write_text(json.dumps(manifest, indent=2)+"\n")
+if not all(item["exit_code"] == 0 and item["verified"] for item in manifest["commands"]):
+    raise SystemExit(1)
