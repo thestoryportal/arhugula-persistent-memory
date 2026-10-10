@@ -278,3 +278,210 @@ Done: one appended Disk budget (Z4) section, exact incident/family reconciliatio
 Open risks: projected A1/remaining-cell sizes and metadata; unmeasured allocated/scratch peak, encode/decode/archive costs and time-cap sufficiency; gdrive authorization pending; future Task-2 native worker exit/exclusivity/disk evidence must be obtained independently. Old unique payloads outside the retained sample are unavailable by operator disposition; their recorded sizes/hashes are metadata evidence only.
 
 **BINDING context directive (operator, AGENTS.md): watch `Context N% left`; before approximately 20% remains, stop new work, write done/in-flight work, exact paths, next step and open risks into the task report, tell MAESTRO2 and ask for a fresh successor. Never approach full-window compaction. Every handoff restates this rule; apply it to every team session orchestrated.**
+
+## Disk budget fix round 1 (Y4)
+
+**Resource-only response to GPT-6-Astra FIX-FIRST; D-C10y-precast-budget remains DRAFT / NOT FROZEN / NOT APPLIED / NO RUN AUTHORIZATION.** Review read in full: `/Users/robertrhu/.claude/jobs/8ac4cacf/tmp/astra_z4budget_out.md`, especially required fixes at lines 48–52. Z4's preceding text is preserved. This append qualifies its recommendation and supplies the missing reference and last-use schedules; it does not implement them.
+
+Notation: `D = experiments/track_c/c10y_precast_diag.py`; `R = results/c10y_precast_diag/20261009T225619Z/`; `S = R/OPERANDS_MANIFEST_sizes.txt`; `scope = docs/C10Y_PRECAST_DIAG_SCOPE.md`. Bytes are logical serialized file bytes, including serializer overhead. Commands C1/C2 below were executed by Y4 using only text/source/JSON reads and stat/statfs. Manifest-only sizes describe previously recorded files, not verified remote payloads. A7 native and completed L4/L5 cells are observed; A1 native/controls and unwritten cells remain **UNVERIFIED projections**. No additional native-copy deduplication receives credit.
+
+### 1. References preserve the observations and remove four duplicate families
+
+B1/B4 require full actual inputs and durable computed gate inputs (`scope:19–23,30–39,69–71`), not another serialization of the same retained value. The proposed reference records must be exclusive and fsynced before their predicate, resolve immutable full payloads by record/file/member identity with dtype/shape/orientation and tensor-byte identity, and verify/decode those payloads before evaluation. The existing ordering is `D:44–60`; the current reader at `D:89–106` supports local sidecars only. Reference/archive resolution therefore requires implementation review and source repinning; these are conditional savings, not measured rewritten output.
+
+| Duplicate family removed | Full-run bytes removed | Writer and size evidence | What the revised reader/predicate resolves instead |
+|---|---:|---|---|
+| Native inertness input sidecars containing already-saved observer snapshots | `2 × (5,297,936,351 + 6,214,223,907) = 23,024,320,516` | Snapshots `D:427–431`; duplicate gate `D:432` through `D:56–60`; `S:81–82`. Two arms, both paths (`D:15–16,417,664–667`). | For each arm/path, retain separate `observer_<arm>_<path>_off.json/.pt` and `..._on.json/.pt`. The inertness input JSON references both; `exact(off,on)` at `D:432` receives their verified decoded observations. Keep the coverage and outcome records. |
+| Device coverage input sidecars containing already-saved off/on weights | `90,179,365 × 3 × 10 = 2,705,380,950` | Actual off/on writes `D:505–507`; duplicate gate `D:508`; native/common/repeat calls `D:566,571–572`. C1 stat: `controls_A7_coined_coined_L4_common_coverage.pt` = 90,179,365 B. | Preserve each call's two actual `<prefix>_observer_off` and `..._observer_on` packets, plus scalar `n`. Resolve those two weight members for `n == 1 and exact(off,on)` at `D:508`. The full original off/on packets, 45,090,345 B each by C1 stat, remain budgeted. |
+| Aggregate 16-update sidecars containing previously saved pre-cast updates | `1,893,733,235 × 10 = 18,937,332,350` | Individual writes `D:457–480,502,568–570`; assembly `D:565–575`; duplicate aggregate `D:576`; `S:129`. | Keep the aggregate's logical 16-name dictionary as durable member references to the native operands and individual products below. Its finiteness predicate (`D:64–72`) resolves the same full pre-cast values; realization, pair statistics and repeat checks continue to consume them (`D:578–607`). |
+| Complete control-input sidecars duplicating recipe-A operands plus the already-saved common X | `1,773,928,825 × 10 = 17,739,288,250` | `D:455,558–565`; `S:4`. C1 stat: existing common-factor packet = 1,452,065 B, already counted and retained. | Resolve `operands_<arm>_L<l>_A.json/.pt` for all original fields, with X supplied by `controls_<arm>_L<l>_common_factors.json/.pt:X` saved at `D:563–564`. This is the **matched recipe-A X** installed at `D:565`, not the native X initially placed in the transient dictionary at `D:561`. Finiteness and controls `D:453–480` see the same complete dictionary. |
+
+For the aggregate update references, let `p = controls_<arm>_L<l>`. Every target below remains a full packet; member notation names the decoded dictionary value.
+
+| Aggregate member(s) | Full retained source member | D lines |
+|---|---|---|
+| `recipe_A`, `native_direct` | `operands_<arm>_L<l>_A:update`, `operands_<arm>_L<l>_Y:update` | 336–350,558–565 |
+| `native_device`, `common_device`, `device_repeat` | `p_native_product:update`, `p_common_product:update`, `p_repeat_product:update` | 502,566,571–574 |
+| `native_cpu32_product`, `native_cpu32_product_repeat` | Their corresponding `p_<name>:update` packets | 568–570,573 |
+| `cpu32_product`, `promoted32_product`, `solve64_direct`, `solve64_factored`, `assembled32_direct64`, `assembled32_factored64`, `direct32_repeat`, `factor32_repeat_product`, `cpu32_product_repeat` | Each corresponding `p_<name>:update` packet, all nine retained separately | 457–480,575 |
+
+**Observer-on and observer-off remain two separately recorded observations.** Neither native nor device observations may be merged on the assumption that inertness will pass (`scope:23`; `D:421–432,505–508`). The removed gate files contain extra copies; the actual on/off payloads are not removed from the evidence set.
+
+**Realizations cannot replace pre-cast updates.** Cast/add is information-losing: distinct fp32/fp64 updates can produce the same fp16 result. Measurement 5 independently requires both realized weights and the CPU-promoted difference `W_post − W0` (`scope:38`; `D:578–584`). Keep all 16 realized packets per cell: `225,445,669 × 16 × 10 = 36,071,307,040 B` (`S:7–22`; `D:578–584`), as well as the full pre-cast sources used by measurements 1–4 and 6. No realized-packet savings are credited.
+
+Recomputed conditional accumulation floors, preserving the existing estimated JSON allowance and reserve:
+
+```text
+M = ceil(6,752,330 × 2,103 / 622) = 22,829,824 B       [C1]
+reserve = 20 × 2^30 = 21,474,836,480 B                [runbook:263]
+unchanged writer = 271,939,207,019 + M + reserve
+                 = 293,436,873,323 B                [C1; D writers above]
+
+first-three savings = 23,024,320,516 + 2,705,380,950 + 18,937,332,350
+                    = 44,667,033,816 B
+first-three floor = 293,436,873,323 − 44,667,033,816
+                  = 248,769,839,507 B
+
+all-four savings = 44,667,033,816 + 17,739,288,250
+                 = 62,406,322,066 B
+all-four .pt writes = 271,939,207,019 − 62,406,322,066
+                    = 209,532,884,953 B
+all-four floor = 248,769,839,507 − 17,739,288,250
+               = 231,030,551,257 B
+```
+
+Both reference floors require **additional reference/archive metadata, allocated-space overhead and scratch**. M is the old proportional estimate, not a measurement of the new writer; no metadata reduction is assumed. References alone do not make present memit fit.
+
+### 2. Last-use archival schedule and recomputable peaks
+
+The candidate below applies all four reference changes. It retains the fixed records and **all remaining native prerequisites of the current arm**; it archives each path's two snapshots after its inertness gate, each completed control cell before the next cell, and the arm's remaining native prerequisites before the next arm. Keeping all native prerequisites until the arm boundary avoids claiming unchecked finer-grained savings. A7 and A1 execute serially (`D:664–670`), so their hot tensor occupancy is not added together.
+
+First, the tensor blocks used by every schedule row:
+
+| Fixed block F | Bytes × count | Subtotal | Byte source; writer / last local payload reader |
+|---|---:|---:|---|
+| Pristine weights | 6,172,004,127 × 1 | 6,172,004,127 | `S:112`; `D:644–646`, finite-gate read `D:56–60`. In-memory pristine still serves restoration `D:183–198,647`. |
+| Projector set | 2,423,523,673 × 1 | 2,423,523,673 | `S:113`; writer `D:657`, explicit disk read `D:658`; in-memory P is passed to both arms at `D:667`. |
+| Individual targets, both arms | 9,769 × 48 | 468,912 | C1 stat representative `target_A1_single_00.pt` and exact fixed-set sum; writer/own finite-gate read `D:611–618,56–60`; 24 requests per arm `D:662`. |
+| Aggregate targets | 406,675 × 1 | 406,675 | C1 stat `targets.pt`; writer `D:619`, explicit last disk read `D:620`; in-memory override installed `D:663`. |
+| **F, held through terminal publication** | **51 packets** | **8,596,403,387** | **Sum of these four rows; C1 exact inventory.** |
+
+| Native prerequisite family, one arm | Per-layer bytes in A / Y | Five-layer A subtotal | Five-layer Y subtotal | Byte source; D writer |
+|---|---:|---:|---:|---|
+| Three tokenized batch slots | 46,821 + 7,141 + 5,989 = 59,951 / 59,951 | 299,755 | 299,755 | C1 stats `batch_A7_coined_coined_L4_A_{0,1,2}.pt`; `D:377–384` |
+| Q intermediate packets | 486,819,809 / 2 × 486,819,809 | 2,434,099,045 | 4,868,198,090 | `S:83–85`; `D:285–300` |
+| Direct solve inputs | 1,682,693,951 / 1,682,693,951 | 8,413,469,755 | 8,413,469,755 | `S:114–115`; `D:327–330` |
+| Y factor solve inputs | 0 / 1,456,425,493 | 0 | 7,282,127,465 | `S:116`; `D:303–305` |
+| Full native operand/update packets | 1,772,871,740 / 1,772,871,740 | 8,864,358,700 | 8,864,358,700 | `S:102–103`; `D:336–350` |
+| Y native factors | 0 / 488,270,357 | 0 | 2,441,351,785 | `S:76`; `D:360–369` |
+| **N_A / N_Y** | | **19,712,227,255 (30 packets)** | **31,869,805,550 (45 packets)** | **Sum of the columns; C1 reconstructs both exact sets.** |
+
+Native Q/solve inputs have their persistence/inertness reads at `D:224–247,263–270,350–355,360–371`; later checks use copied/live values, not another disk load. Batches are explicitly read for native comparison at `D:443–445`. Both native operand packets and Y factors are read there (`D:436–442`) and again for their control cell (`D:558–560`); their in-memory values supply residual/conditioning/repeat/realization checks through `D:592–607`. Retain all these packets until that arm's last cell is durably complete, even where an individual packet's local last use is earlier.
+
+```text
+A snapshots = 2 × 2,648,968,517 = 5,297,937,034 B       [S:98–99; D:429]
+Y snapshots = 2 × 3,107,111,817 = 6,214,223,634 B       [S:100–101; D:429]
+N = N_A + N_Y = 51,582,032,805 B
+
+C = one unchanged complete control cell
+    − its three duplicate coverage sidecars
+    − its aggregate update sidecar
+    − its complete control-input sidecar
+  = 11,413,009,617 − 3 × 90,179,365 − 1,893,733,235 − 1,773,928,825
+  = 7,474,809,462 B; 189 − 3 − 1 − 1 = 184 retained .pt packets
+  [C1 L4/L5 exact complete-cell sums; S:4,129; D:455–480,490–508,555–605]
+```
+
+C retains the individual pre-cast updates, common/repeat factors, device inputs/products and both observations, float64 systems/solutions, all 16 realizations, all 136 pair/weight statistics packets, and the numeric packet. Its last disk reads are its own persist-before-finiteness reads (`D:56–72`) and factor-repeat reload (`D:604`); subsequent calculations and repeat/weight predicates finish at `D:605–607`. A revised writer must durably publish the returned cell summary and its numeric/reference bindings **before archival**; today `D:670` appends that summary only in memory and the aggregate science summary is written later at `D:671–672`. That extra completion receipt is a required implementation change and an unmeasured metadata/time cost.
+
+The following occupancy rows run **once for each arm**, after the previous arm's native packets and completed cells have left memit. “Archive” always means full immutable remote copy, verified durability/identity and fsynced location/size/hash receipt before deleting the hot copy; it never means discarding the evidence.
+
+| Stage / written tensors | Last reader or predicate / chosen archive boundary | Peak local .pt bytes at this row | After successful archive/delete |
+|---|---|---:|---:|
+| Fixed F, written once for the whole run | Local reads listed above; keep F through restoration and terminal publication (`D:647,673–676,684–708`). Archive after the terminal records, before the next dispatch. No early fixed-record savings credited. | **F = 8,596,403,387** | F remains during both arms |
+| A observer-on: N_A plus its actual on snapshot | Coverage `D:431,402–406`; snapshot is still needed by inertness `D:432`. Keep it while observer-off executes. | F + N_A + 2,648,968,517 = **30,957,599,159** | No archival yet |
+| A observer-off: its distinct off snapshot | Both decoded snapshots are compared at `D:432` through `D:57–60`. | F + N_A + 5,297,937,034 = **33,606,567,676** | No archival before gate outcome |
+| A inertness gate: reference JSON and outcome, no duplicate .pt | After persisted outcome `D:60,432`, archive both A snapshots. Native comparison has no later snapshot reads (`D:434–448`). Keep their science JSON/references/outcome. | **33,606,567,676** | F + N_A = **28,308,630,642** |
+| Y observer-on: N_Y plus its actual on snapshot | Coverage `D:431,402–406`; Y snapshot still needed at `D:432`. | F + N_A + N_Y + 3,107,111,817 = **63,285,548,009** | No archival yet |
+| Y observer-off: its distinct off snapshot | Y inertness predicate `D:432`, decoding and outcome `D:57–60`. | F + N_A + N_Y + 6,214,223,634 = **66,392,659,826** | No archival before gate outcome |
+| Y inertness gate: reference JSON and outcome, no duplicate .pt | After persisted outcome, archive both Y snapshots; no snapshot reads at `D:434–448`. | **66,392,659,826** | F + N = **60,178,436,192** |
+| Native comparison: science JSON only | Read operands/factors/batches at `D:436–445`; publish native comparison `D:448`. Retain all N through the arm's controls. | F + N = **60,178,436,192** | Same |
+| L4 control cell: 184 packets C plus reference/completion JSON | Finish `D:603–607`, commit cell summary; archive the entire completed cell before L5 (`D:669–670`). | F + N + C = **67,653,245,654** | F + N = **60,178,436,192** |
+| L5 control cell: same retained family C | Same last readers; durable completion and verified archive before L6. | F + N + C = **67,653,245,654** | F + N = **60,178,436,192** |
+| L6 control cell: projected C | Same last readers; durable completion and verified archive before L7. | F + N + C = **67,653,245,654** | F + N = **60,178,436,192** |
+| L7 control cell: projected C | Same last readers; durable completion and verified archive before L8. | F + N + C = **67,653,245,654** | F + N = **60,178,436,192** |
+| L8 control cell: projected C | Same last readers; durable completion and verified archive before the arm boundary. | F + N + C = **67,653,245,654** | F + N = **60,178,436,192** |
+| A7 arm boundary: no new tensors | After all five returned summaries are committed, archive all remaining N_A/N_Y. No later A7 tensor read in the A1 loop (`D:664–670`). | F + N = **60,178,436,192** | F = **8,596,403,387**, then start A1 at the A-on row |
+| A1 arm boundary: no new tensors | After all five A1 summaries are committed, archive all remaining N. Finalization consumes science JSON/booleans (`D:671–708`), not native packets. | F + N = **60,178,436,192** | F = **8,596,403,387** |
+| Cleanup/terminal, then fixed-record archive | In-memory pristine restoration ends at `D:183–198,647,675`; worker/finalizer records `D:676,689–708`. Verify and archive F after terminal publication. | F = **8,596,403,387** | **0** new-run .pt bytes; retain science records and remote full payloads |
+
+Reproduction of Astra's successful-schedule peaks:
+
+```text
+native peak = F + N_A + N_Y + 2 × 3,107,111,817
+            = 66,392,659,826 B
+
+controls peak = F + N_A + N_Y + C
+              = 67,653,245,654 B
+
+floor before new overhead = max(native peak, controls peak) + M + reserve
+                          = 67,653,245,654 + 22,829,824 + 21,474,836,480
+                          = 89,150,911,958 B
+
+total full .pt bytes to archive across the schedule
+ = F + 2 × (N_A + N_Y + A snapshots + Y snapshots) + 10 × C
+ = 8,596,403,387 + 2 × (19,712,227,255 + 31,869,805,550
+                       + 5,297,937,034 + 6,214,223,634)
+   + 10 × 7,474,809,462
+ = 209,532,884,953 B
+archive packet count = 51 + 2 × (30 + 45 + 4) + 10 × 184 = 2,049
+```
+
+**The peaks are derived logical-byte occupancy for the successful schedule, not empirical allocated-space or failure/replay bounds.** Peak admission would require explicit acceptance of revised accounting: the present policy at `EXPERIMENT_RUNBOOK.md:263` says **projected writes + 20 GiB**, which for all four references alone is still 231,030,551,257 B. The existing frozen writer archives nothing. Neither this table nor an early last-use inference overrides that policy or grants deletion/Drive authorization (`runbook:260–264`).
+
+### 3. Unmeasured overhead, failure/replay contract and recommendation
+
+The following remain **UNMEASURED / UNVERIFIED**; no runtime receipt or time allowance is asserted:
+
+- **Transfer time and bandwidth:** the schedule transfers 209,532,884,953 B of .pt payloads plus metadata; the four snapshot barriers, ten cell barriers and two arm barriers are on the proposed in-run critical path. Fixed-record archival is post-terminal in this schedule and separately gates the next dispatch. Measure each cohort's copy time and effective bandwidth; no transfer overlap or bandwidth floor is assumed.
+- **Scratch and allocated-space overhead:** remote verification/hydration, partial downloads/uploads, buffers, filesystem allocation overhead, partial/error packet publication and new reference/archive/completion JSON are not measured. The normal peak assumes no second full local copy and no prior arm/cell still present when the next starts. An extra pristine-sized copy is 6,172,004,127 B (`S:112`), larger than the current spare overhead budget below; verification cannot silently assume such a staging copy fits.
+- **Remote durability verification:** neither gdrive authentication nor immutable remote object publication, size/hash verification, completed-transfer durability or restore receipts have been demonstrated. Current inspection only uses manifest sizes and recorded metadata, not rehashed or decoded payloads. Approval must bind the verification mechanism and its transfer/scratch cost.
+- **Failure and replay:** implement and review reference resolution and append-only remote-location receipts, preserving original names, sizes, file/member identities and all full payloads. A failed/partial/unverified transfer retains the local committed packet, publishes an explicit failure and stops before the next tensor cohort; a gate failure retains its offending values. Timeout/interruption must preserve completed receipts and partial evidence (`scope:71`; `D:74–87,678–681,699–724,727–742`). No deleted local packet may be required by a subsequent local-only read. Replay must resolve archived dependencies, restore/stream byte-exact payloads with bounded scratch, and retain B1/B4 persist-before-gate ordering and exclusive-write refusal (`D:44–60,89–108`). Interrupted-transfer, forced-halt, replay and overwrite-refusal behavior remains unrun and requires separately authorized qualification; this append performs no tests and authorizes no resume.
+- **Time added to the cap:** for each critical-path archival cohort, measure `T_copy + T_verify + T_receipt + T_delete`, plus reference verification/decoding and any bounded failure/hydration cost. Let their incremental total above the already timed phase work be `Delta_storage`; it is **unknown, not zero**. The provisional rebudget is `T_cap = 60 × ceil(1.15 × (7082.624368 + Delta_storage) / 60)` (`draft:47–53`). The draft's 8,160 s does not include a measured new archival allowance. If new whole-phase measurements already include archival, use them without double-counting. Report post-terminal fixed-archive time separately and block the next dispatch until it finishes. Bind transfer/verification timeouts before freeze; no in-run cap increase follows.
+
+**Fresh memit statfs (C2), 2026-10-10T01:39:45.420Z:** `/Volumes/memit`, **4,096 B × 22,415,054 available blocks = 91,812,061,184 B available**. Against the candidate base floor **89,150,911,958 B**, current headroom is **2,661,149,226 B** for all additional metadata/scratch/allocation allowances. Admission requires `additional_overhead_peak <= 2,661,149,226 B` at this snapshot, plus a new statfs receipt when dispatch is actually considered. Existing evidence and ASTRA's concurrent occupancy are already reflected in available space; no reclamation credit is assumed.
+
+**Requalified recommendation:** **larger volume** is the unchanged-writer option, needing **293,436,873,323 B** additional free space plus its reviewed overhead. **References + last-use archival** is the evidence-preserving candidate that **may fit present memit**, with the derived **89,150,911,958 B** floor and the snapshot headroom above. It is not a validated or authorized dispatch option. **Dispatch remains BLOCKED pending writer/reader implementation review and source repinning, measured storage/failure/replay overhead and the archive-inclusive time budget, gdrive authorization and remote-durability verification, explicit acceptance of peak accounting under §3.3a, and fresh disk admission.** No larger volume is proven unavoidable after these changes; no current option admits a run.
+
+### Executed metadata/stat-only commands
+
+C1 reconstructs recorded sizes from S plus live stat metadata, prints fixed/native/control blocks and retained packet sizes, and recomputes the reference floors, schedule rows and total. It never reads a .pt payload. Its relevant results are reproduced in the tables/equations above; the reconstructed inventory is **622 packets / 117,364,108,482 B**, complete native A7 is **81 / 74,606,353,731 B**, and completed L4/L5 are **189 / 11,413,009,617 B each**. These are old-run metadata observations, not remote verification.
+
+```sh
+/opt/homebrew/bin/rtk proxy env -u NO_COLOR /opt/homebrew/bin/node - <<'JS'
+const fs=require('fs'),p=require('path');
+const R='results/c10y_precast_diag/20261009T225619Z';
+const inv=new Map(fs.readFileSync(p.join(R,'OPERANDS_MANIFEST_sizes.txt'),'utf8').trim().split('\n').map(line=>{const m=line.match(/^(\d+) (.+\.pt)$/);if(!m)throw Error('Malformed size manifest');return[m[2],BigInt(m[1])];}));
+const files=fs.readdirSync(R);
+for(const n of files.filter(n=>n.endsWith('.pt'))){const b=fs.statSync(p.join(R,n),{bigint:true}).size;if(inv.has(n)&&inv.get(n)!==b)throw Error('Size mismatch: '+n);inv.set(n,b);}
+const sum=rows=>rows.reduce((s,[n,b])=>s+b,0n);
+const rows=test=>[...inv].filter(([n])=>test(n));
+const fixed=rows(n=>/^(pristine_weights|projectors|target_|targets)/.test(n));
+const native=rows(n=>!/^(pristine_weights|projectors|target_|targets|controls_|updates_)/.test(n));
+const na=rows(n=>/^(batch|intermediate|solve_inputs|operands)_A7_coined_coined_.*_A(?:_|\.)/.test(n));
+const ny=rows(n=>/^(batch|intermediate|solve_inputs|operands|factors)_A7_coined_coined_.*_Y(?:_|\.)/.test(n));
+const cell=l=>rows(n=>n.startsWith('controls_A7_coined_coined_L'+l+'_')||n==='updates_A7_coined_coined_L'+l+'.pt');
+const coverage=sum(cell(4).filter(([n])=>n.endsWith('_coverage.pt')));
+const aggregate=inv.get('updates_A7_coined_coined_L4.pt'),inputs=inv.get('controls_A7_coined_coined_L4_control_inputs.pt');
+const gate=sum(rows(n=>n.startsWith('inertness_A7_coined_coined_')));
+const snapshots=path=>sum(rows(n=>n.startsWith('observer_A7_coined_coined_'+path+'_')));
+const F=sum(fixed),A=sum(na),Y=sum(ny),C=sum(cell(4))-coverage-aggregate-inputs;
+const baseline=files.filter(n=>n.endsWith('.json')&&!['OFFLOADED_OPERANDS.json','OFFLOAD_DELETED.json'].includes(n)).reduce((s,n)=>s+fs.statSync(p.join(R,n),{bigint:true}).size,0n);
+const count=fixed.length+2*native.length+10*cell(4).length;
+const M=(baseline*BigInt(count)+BigInt(inv.size)-1n)/BigInt(inv.size),reserve=20n*2n**30n;
+const original=F+2n*sum(native)+10n*sum(cell(4));
+const removed=[2n*gate,10n*coverage,10n*aggregate,10n*inputs];
+const stages={fixed:F,A_on:F+A+snapshots('A')/2n,A_off:F+A+snapshots('A'),A_archived:F+A,Y_on:F+A+Y+snapshots('Y')/2n,Y_off:F+A+Y+snapshots('Y'),Y_archived:F+A+Y,control:F+A+Y+C,cell_archived:F+A+Y,arm_archived:F};
+const emit=x=>console.log(JSON.stringify(x,(_,v)=>typeof v==='bigint'?v.toString():v));
+for(const [name,v] of [['fixed',fixed],['native_A_core',na],['native_Y_core',ny],['native_all',native],['control_L4',cell(4)],['control_L5',cell(5)]])emit({name,count:v.length,bytes:sum(v)});
+for(const n of ['target_A1_single_00.pt','targets.pt','batch_A7_coined_coined_L4_A_0.pt','batch_A7_coined_coined_L4_A_1.pt','batch_A7_coined_coined_L4_A_2.pt','controls_A7_coined_coined_L4_common_coverage.pt','controls_A7_coined_coined_L4_common_observer_off.pt','controls_A7_coined_coined_L4_common_factors.pt'])emit({stat:n,bytes:fs.statSync(p.join(R,n),{bigint:true}).size});
+emit({inventory_count:inv.size,inventory_bytes:sum([...inv]),full_count:count,original,baseline_JSON:baseline,M,reserve,removed,F,A,Y,C,stages,reference_floor_3:original+M+reserve-removed.slice(0,3).reduce((s,b)=>s+b,0n),reference_floor_4:original+M+reserve-removed.reduce((s,b)=>s+b,0n),archive_PT_total:F+2n*(A+Y+snapshots('A')+snapshots('Y'))+10n*C,archive_floor:stages.control+M+reserve});
+JS
+```
+
+C2 is the freshly executed filesystem query used for the headroom above:
+
+```sh
+/opt/homebrew/bin/rtk proxy env -u NO_COLOR /opt/homebrew/bin/node - <<'JS'
+const fs=require('fs');
+const s=fs.statfsSync('/Volumes/memit',{bigint:true});
+const free=s.bsize*s.bavail;
+console.log(JSON.stringify({utc:new Date().toISOString(),path:'/Volumes/memit',bsize:s.bsize,bavail:s.bavail,free_bytes:free,candidate_floor:89150911958n,headroom:free-89150911958n},(_,v)=>typeof v==='bigint'?v.toString():v));
+JS
+```
+
+### Completion / MAESTRO2 handoff
+
+Done: one append to `results/c10y_precast_diag/amendment_budget_draft.md`, answering all three required fixes with four byte-bound reference families, explicit readers, per-stage archival/peak arithmetic and fresh statfs headroom. In flight: no measurements, transfers, tests, science reading or dispatch. Exact source/report paths: this amendment draft; `docs/C10Y_PRECAST_DIAG_SCOPE.md`; `experiments/track_c/c10y_precast_diag.py`; `results/c10y_precast_diag/20261009T225619Z/OPERANDS_MANIFEST_sizes.txt`; review `/Users/robertrhu/.claude/jobs/8ac4cacf/tmp/astra_z4budget_out.md`. Next: MAESTRO2 routes this appended fix round to GPT-6-Astra; implementation and qualification remain separate work. Open risks: all unmeasured overhead/failure/replay items above, A1/remaining-cell size projection, policy acceptance and Drive authorization. Verification boundary: text/metadata arithmetic only; no .pt load/hash/decode, Python, control timer, model/GPU work, code change, launch, deletion or commit. Text verification: the original 280 draft lines and protected scope/writer/manifest/review text are unchanged.
+
+**BINDING context directive (operator, AGENTS.md): watch `Context N% left`; before approximately 20% remains, stop starting new work, write done/in-flight work, exact paths, next step and open risks into the task report, tell MAESTRO2 and ask for a fresh successor. Never approach full-window compaction. Every handoff restates this rule; apply it to every team session orchestrated.**
