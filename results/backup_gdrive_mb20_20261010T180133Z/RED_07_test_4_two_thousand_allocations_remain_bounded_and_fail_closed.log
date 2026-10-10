@@ -1,0 +1,16 @@
+COMMAND: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_two_thousand_allocations_remain_bounded_and_fail_closed -v
+EXIT: 1
+test_4_two_thousand_allocations_remain_bounded_and_fail_closed (tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_two_thousand_allocations_remain_bounded_and_fail_closed) ... FAIL
+
+======================================================================
+FAIL: test_4_two_thousand_allocations_remain_bounded_and_fail_closed (tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_two_thousand_allocations_remain_bounded_and_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1521, in test_4_two_thousand_allocations_remain_bounded_and_fail_closed
+    self.assertLessEqual(len(state["unresolved"]), self.INTERVAL_LIMIT)
+AssertionError: 65 not less than or equal to 64
+
+----------------------------------------------------------------------
+Ran 1 test in 26.022s
+
+FAILED (failures=1)

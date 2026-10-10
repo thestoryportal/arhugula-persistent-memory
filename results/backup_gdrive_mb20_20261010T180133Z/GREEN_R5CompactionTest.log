@@ -1,0 +1,10 @@
+test_4_byte_overflow_preserves_the_recovery_barrier (tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_byte_overflow_preserves_the_recovery_barrier) ... ok
+test_4_compacted_barrier_cannot_be_refused_and_completion_at_barrier_clears (tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_compacted_barrier_cannot_be_refused_and_completion_at_barrier_clears) ... ok
+test_4_exact_limit_and_limit_plus_one_compaction (tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_exact_limit_and_limit_plus_one_compaction) ... ok
+test_4_two_thousand_allocations_remain_bounded_and_fail_closed (tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_two_thousand_allocations_remain_bounded_and_fail_closed) ... ok
+test_5_python_and_both_perl_publishers_agree_at_boundaries (tools.test_backup_gdrive_addendum.R5CompactionTest.test_5_python_and_both_perl_publishers_agree_at_boundaries) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 5.797s
+
+OK

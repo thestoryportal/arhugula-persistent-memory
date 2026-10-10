@@ -1,0 +1,141 @@
+--- MB14/tools/backup_gdrive_status.py
++++ MB20/tools/backup_gdrive_status.py
+@@ -10,6 +10,9 @@
+ import subprocess
+ import sys
+ import tempfile
++
++MAX_UNRESOLVED_INTERVALS = 64
++MAX_UNRESOLVED_BYTES = 2048
+ 
+ DEFAULT = Path.home()/"Library/Logs/memit-gdrive-backup/last_run.json"
+ AUTH_ERROR = re.compile(r"invalid_grant|invalid_client|unauthori[sz]ed|authentication failed|"
+@@ -247,6 +250,9 @@
+             (value["recovery_barrier"] is not None and
+              (not valid_generation(value["recovery_barrier"]) or value["recovery_barrier"] > value["issued_generation"]))):
+         raise ValueError("malformed unresolved generation state")
++    barrier = value.get("compaction_barrier")
++    if barrier is not None and (not valid_generation(barrier) or barrier > value["issued_generation"]):
++        raise ValueError("malformed compacted generation barrier")
+     last = 0
+     for span in value["unresolved"]:
+         if (not isinstance(span, list) or len(span) != 2 or not all(map(valid_generation, span)) or
+@@ -256,6 +262,17 @@
+     return value
+ 
+ 
++def compact_generation_state(state):
++    """Fold overflow into a completion-only barrier covering every issued generation."""
++    state = dict(state, compaction_barrier=state.get("compaction_barrier"))
++    size = len((json.dumps(state, separators=(",", ":"))+"\n").encode())
++    if len(state["unresolved"]) > MAX_UNRESOLVED_INTERVALS or size > MAX_UNRESOLVED_BYTES:
++        state = {"schema": 1, "issued_generation": state["issued_generation"], "unresolved": [],
++                 "recovery_barrier": state["recovery_barrier"],
++                 "compaction_barrier": state["issued_generation"]}
++    return state
++
++
+ def atomic_write(path, text):
+     fd, temporary = tempfile.mkstemp(prefix=".recovery.", dir=path.parent)
+     with os.fdopen(fd, "w") as stream:
+@@ -272,15 +289,13 @@
+     heartbeat = Path(args.heartbeat)
+     logs = heartbeat.parent.parent
+     state_dir = logs/"memit-gdrive-backup-launch-state"
+-    state_dir.mkdir(parents=True, exist_ok=True)
+-    with (state_dir/"counter.lock").open("a") as lock:
+-        fcntl.flock(lock, fcntl.LOCK_EX)
+-        if (logs/"memit-gdrive-backup.lock").exists():
+-            raise ValueError("backup ownership lock exists; inspect owner/child before recovery")
+-        counter = state_dir/"counter"
+-        state_path = state_dir/"unresolved.json"
++    counter = state_dir/"counter"
++    state_path = state_dir/"unresolved.json"
++    archives = state_dir/"recoveries"
++
++    def inspect_history():
+         state = generation_state(state_path) if state_path.exists() else None
+-        highest = max(args.generation_floor, state["issued_generation"] if state else 0)
++        highest = state["issued_generation"] if state else 0
+         pending = list(state["unresolved"]) if state else []
+         ambiguous = []
+         evidence = [heartbeat, heartbeat.parent/"launch_receipt.json",
+@@ -309,12 +324,14 @@
+         for path in evidence:
+             if not path.exists():
+                 continue
+-            try:
+-                records = ([json.loads(line) for line in path.read_text().splitlines()]
+-                           if path.suffix == ".jsonl" else [json.loads(path.read_text())])
+-            except ValueError:
+-                records = []
+-            uncertain = not records
++            lines = path.read_bytes().splitlines() if path.suffix == ".jsonl" else [path.read_bytes()]
++            records = []
++            uncertain = not lines
++            for line in lines:
++                try:
++                    records.append(json.loads(line))
++                except ValueError:
++                    uncertain = True
+             for value in records:
+                 observe(value)
+                 if not isinstance(value, dict):
+@@ -326,13 +343,27 @@
+                     uncertain = True
+             if uncertain:
+                 ambiguous.append(path)
++        if args.generation_floor < highest:
++            raise ValueError("generation floor %s is below observed maximum %s; no recovery evidence changed" %
++                             (args.generation_floor, highest))
+         if highest >= 2147483646:
+             raise ValueError("generation space exhausted; no recovery dispatch is possible")
++        return state, pending, ambiguous, highest
++
++    # Reject an already-too-low floor before creating even a directory or lock.
++    inspect_history()
++    state_dir.mkdir(parents=True, exist_ok=True)
++    with (state_dir/"counter.lock").open("a") as lock:
++        fcntl.flock(lock, fcntl.LOCK_EX)
++        if (logs/"memit-gdrive-backup.lock").exists():
++            raise ValueError("backup ownership lock exists; inspect owner/child before recovery")
++        state, pending, ambiguous, highest = inspect_history()
++        highest = max(args.generation_floor, highest)
+         barrier = highest + 1
+         # A barrier covers all prior evidence without claiming any backup completed.
+         pending = pending if state else ([[1, highest]] if highest else [])
+-        state = {"schema": 1, "issued_generation": barrier, "unresolved": pending,
+-                 "recovery_barrier": barrier}
++        state = compact_generation_state({"schema": 1, "issued_generation": barrier, "unresolved": pending,
++                                          "recovery_barrier": barrier})
+         archive = archives/(dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ"))
+         archive.mkdir(parents=True, exist_ok=False)
+         manifest = {"schema": 1, "generation_floor": args.generation_floor, "highest_seen": highest,
+@@ -340,7 +371,7 @@
+         atomic_write(archive/"manifest.json", json.dumps(manifest, sort_keys=True)+"\n")
+         # A crash before the counter rename leaves mismatched state or ambiguity,
+         # so allocation refuses. No ambiguous evidence is discarded.
+-        atomic_write(state_path, json.dumps(state, sort_keys=True)+"\n")
++        atomic_write(state_path, json.dumps(state, sort_keys=True, separators=(",", ":"))+"\n")
+         for path in ambiguous:
+             os.replace(path, archive/path.name)
+         if counter.exists():
+@@ -435,6 +466,9 @@
+     if state is not None and state["recovery_barrier"] is not None and (completed or 0) <= state["recovery_barrier"]:
+         return "unacknowledged recovery barrier generation %s: requires a subsequent completed heartbeat%s" % (
+             state["recovery_barrier"], manual)
++    if state is not None and state.get("compaction_barrier") is not None and (completed or 0) < state["compaction_barrier"]:
++        return "unacknowledged compacted barrier generation %s: requires a completed sequenced heartbeat%s" % (
++            state["compaction_barrier"], manual)
+     if any(marker["launch_generation"] > (completed or 0) for marker in markers):
+         return "failed backup launch: unacknowledged failure journal generation" + manual
+     if receipt is not None:
+@@ -554,7 +588,7 @@
+     parser.add_argument("--heartbeat", default=str(DEFAULT))
+     if sys.argv[1:2] == ["recover"]:
+         parser.add_argument("--generation-floor", type=int, required=True,
+-                            help="operator-reviewed greatest generation ever issued, including lost history")
++                            help="operator-reviewed greatest generation ever issued, including lost history; must be at least every observed generation (lower floors refuse without changing evidence)")
+         args = parser.parse_args(sys.argv[2:])
+         try:
+             recover(args)

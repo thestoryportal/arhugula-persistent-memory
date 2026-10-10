@@ -1,6 +1,7 @@
 """Backup heartbeat and archival controls; real local rclone, optional tiny Drive probe."""
 import datetime as dt
 import hashlib
+import fcntl
 import json
 import os
 from pathlib import Path
@@ -12,6 +13,7 @@ import sys
 import tempfile
 import time
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -21,13 +23,22 @@ STATUS = ROOT / "tools/backup_gdrive_status.py"
 BACKUP = ROOT / "tools/backup_gdrive.sh"
 ARCHIVE = ROOT / "tools/archive_to_gdrive.sh"
 RCLONE = "/opt/homebrew/bin/rclone"
+NO_RCLONE = os.environ.get("BACKUP_TEST_NO_RCLONE") == "1"
+HOST_RCLONE = unittest.skipIf(NO_RCLONE, "HOST-PENDING: real rclone forbidden by MB14 brief")
 
 
 class Fixture(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory(prefix="gdrive_addendum_", dir="/private/tmp")
+        self.tmp = tempfile.TemporaryDirectory(prefix="gdrive_addendum_", dir=os.environ.get("BACKUP_TEST_RECEIPTS", "/private/tmp"))
         self.addCleanup(self.tmp.cleanup)
         self.base = Path(self.tmp.name)
+        self.home = self.base/"home"
+        self.home.mkdir()
+        isolated = mock.patch.dict(os.environ, HOME=str(self.home), BACKUP_PYTHON=sys.executable,
+                                   PYTHONDONTWRITEBYTECODE="1")
+        isolated.start()
+        self.addCleanup(isolated.stop)
+        os.environ.pop("BACKUP_LAUNCH_GENERATION", None)
         self.log = self.base / "wrapper.log"
         self.log.write_text("")
         self.run_log = self.base / "rclone.jsonl"
@@ -70,12 +81,13 @@ class Fixture(unittest.TestCase):
         os.mkfifo(release)
         entered = self.base/"owner-entered"
         rclone = self.base/"held-rclone"
-        rclone.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo rclone-test; exit 0; fi\n'
-                          'if [ "$1" = config ]; then exec '+RCLONE+' "$@"; fi\n'
+        rclone.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo rclone-test; exit 0; fi\n'+
+                          ('if [ "$1" = config ]; then printf "{}\\n"; exit 0; fi\n' if NO_RCLONE else
+                           'if [ "$1" = config ]; then exec '+RCLONE+' "$@"; fi\n')+
                           'printf entered > '+shlex.quote(str(entered))+'\n'
                           'IFS= read -r released < '+shlex.quote(str(release))+'\n')
         rclone.chmod(0o700)
-        env = dict(os.environ, BACKUP_SRC=str(source), BACKUP_DEST=str(self.base/"held-mirror"),
+        env = dict(os.environ, BACKUP_SRC=str(source), BACKUP_DEST=("fixture:" if NO_RCLONE else "")+str(self.base/"held-mirror"),
                    BACKUP_LOG=str(self.log), BACKUP_HEARTBEAT=str(self.heartbeat),
                    BACKUP_LOCK_DIR=str(self.base/"lock"), BACKUP_MOUNT_POINT="/",
                    BACKUP_RCLONE=str(rclone), BACKUP_EXCLUDES=str(ROOT/"tools/backup_mirror.excludes"))
@@ -242,21 +254,23 @@ class HeartbeatTest(Fixture):
         self.src = self.base / "source"
         self.src.mkdir()
         (self.src / "tiny.txt").write_bytes(b"eight!!!")
-        self.env = dict(os.environ, BACKUP_SRC=str(self.src), BACKUP_DEST=str(self.base / "mirror"),
+        self.env = dict(os.environ, BACKUP_SRC=str(self.src), BACKUP_DEST=("fixture:" if NO_RCLONE else "")+str(self.base / "mirror"),
                         BACKUP_LOG=str(self.log), BACKUP_HEARTBEAT=str(self.heartbeat),
                         BACKUP_LOCK_DIR=str(self.base / "lock"), BACKUP_MOUNT_POINT="/",
-                        BACKUP_RCLONE=RCLONE, BACKUP_EXCLUDES=str(ROOT / "tools/backup_mirror.excludes"))
+                        BACKUP_RCLONE=str(self.base/"HOST-PENDING-rclone") if NO_RCLONE else RCLONE, BACKUP_EXCLUDES=str(ROOT / "tools/backup_mirror.excludes"))
 
     def backup(self, **changes):
         return run_process(["/bin/bash", str(BACKUP)], env=dict(self.env, **changes), timeout=10)
 
     def fake_rclone(self, body):
         path = self.base / "fake-rclone"
-        path.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo "rclone-test"; exit 0; fi\n'
-                        'if [ "$1" = config ]; then exec '+RCLONE+' "$@"; fi\n'+body)
+        path.write_text('#!/bin/bash\nif [ "$1" = version ]; then echo "rclone-test"; exit 0; fi\n'+
+                        ('if [ "$1" = config ]; then printf "{}\\n"; exit 0; fi\n' if NO_RCLONE else
+                           'if [ "$1" = config ]; then exec '+RCLONE+' "$@"; fi\n')+body)
         path.chmod(0o700)
         return str(path)
 
+    @HOST_RCLONE
     def test_real_sync_publishes_actual_bytes_and_completed_success(self):
         result = self.backup()
         self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
@@ -299,6 +313,7 @@ class HeartbeatTest(Fixture):
         self.assertEqual(proc.returncode, 0, output)
         self.assertIsNone(json.loads(self.heartbeat.read_text())["bytes_transferred"])
 
+    @HOST_RCLONE
     def test_start_publication_failure_invalidates_previous_success(self):
         self.assertEqual(self.backup().returncode, 0)
         self.assertTrue(self.heartbeat.exists(), "positive control needs prior success")
@@ -312,6 +327,7 @@ class HeartbeatTest(Fixture):
         finally:
             self.heartbeat.parent.chmod(0o700)
 
+    @HOST_RCLONE
     def test_exit_publication_failure_is_loud_and_preserves_original_failure(self):
         for exit_code in [0, 23]:
             with self.subTest(exit_code=exit_code):
@@ -453,6 +469,7 @@ source "$1"
                 self.assertIn(name, result.stderr)
                 self.assert_bad("failed")
 
+    @HOST_RCLONE
     def test_remote_global_overrides_refuse_without_dispatch(self):
         config = self.base/"rclone.conf"
         dispatched = self.base/"unexpected-dispatch"
@@ -474,6 +491,7 @@ source "$1"
         self.assertNotEqual(result.returncode, 0, result.stderr)
         self.assertFalse(dispatched.exists())
 
+    @HOST_RCLONE
     def test_dispatched_sync_explicitly_enforces_safety_and_low_level_retries(self):
         args = self.base/"sync-args"
         fake = self.fake_rclone('printf "%s\\n" "$@" > "'+str(args)+'"\nexec '+RCLONE+' "$@"\n')
@@ -485,6 +503,7 @@ source "$1"
         self.assertEqual(actual[actual.index("--retries")+1], "1")
         self.assertGreater(int(actual[actual.index("--low-level-retries")+1]), 1)
 
+    @HOST_RCLONE
     def test_operator_daytime_upload_limit_is_dispatched_with_full_speed_at_night(self):
         args = self.base/"timetable-args"
         fake = self.fake_rclone('printf "%s\\n" "$@" > "'+str(args)+'"\nexec '+RCLONE+' "$@"\n')
@@ -505,8 +524,9 @@ source "$1"
     def log_rclone(self, records, exit_code=1):
         script = self.base/"logged-rclone"
         script.write_text('#!/usr/bin/python3\nimport json,sys,subprocess\nfrom pathlib import Path\n'
-                          'if sys.argv[1] == "version":\n print("rclone fixture");sys.exit(0)\n'
-                          'if sys.argv[1] == "config":\n sys.exit(subprocess.call(['+repr(RCLONE)+',*sys.argv[1:]]))\n'
+                          'if sys.argv[1] == "version":\n print("rclone fixture");sys.exit(0)\n'+
+                          ('if sys.argv[1] == "config":\n print("{}");sys.exit(0)\n' if NO_RCLONE else
+                           'if sys.argv[1] == "config":\n sys.exit(subprocess.call(['+repr(RCLONE)+',*sys.argv[1:]]))\n')+
                           'path=Path(sys.argv[sys.argv.index("--log-file")+1])\n'
                           'records='+repr(records)+'\n'
                           'path.write_text("".join(json.dumps(record)+"\\n" if not isinstance(record,str) else record+"\\n" for record in records))\n'
@@ -523,6 +543,7 @@ source "$1"
                 {"level":"notice", "stats":{"bytes":8, "errors":error_count, "fatalError":False}},
                 {"level":"notice", "msg":"Failed to sync with "+str(error_count)+" errors: "+error}]
 
+    @HOST_RCLONE
     def test_real_queued_source_vanish_is_warning_and_keeps_raw_exit(self):
         (self.src/"tiny.txt").unlink()
         stable=self.src/"a_hold.bin"
@@ -557,6 +578,7 @@ source "$1"
         self.assertNotIn("FATAL",self.log.read_text())
         self.assertIn("with warnings",self.status().stdout)
 
+    @HOST_RCLONE
     def test_git_tmp_objects_excluded_and_permanent_objects_and_regular_sock_kept(self):
         objects=self.src/"repo/.git/objects"
         objects.mkdir(parents=True)
@@ -582,6 +604,7 @@ source "$1"
         self.assertTrue((mirror/".git/objects/ab/permanent_root_hash").exists())
         self.assertEqual((mirror/"ordinary.sock").read_text(),"regular file with socket suffix")
 
+    @HOST_RCLONE
     def test_native_nonregular_skip_is_recorded_as_warning(self):
         os.mkfifo(self.src/"runtime.sock")
         result=self.backup()
@@ -706,7 +729,11 @@ source "$1"
         python=self.base/"classification-fails"
         python.write_text('#!/bin/bash\nif [ "$2" = classify ]; then exit 5; fi\nexec /usr/bin/python3 "$@"\n')
         python.chmod(0o700)
-        result=self.backup(BACKUP_PYTHON=str(python))
+        settings = {"BACKUP_PYTHON": str(python)}
+        if NO_RCLONE:
+            settings["BACKUP_RCLONE"] = self.log_rclone(
+                [{"level": "notice", "stats": {"bytes": 8, "errors": 0, "fatalError": False}}], 0)
+        result=self.backup(**settings)
         self.assertEqual(result.returncode,1,result.stderr)
         self.assertEqual(json.loads(self.heartbeat.read_text())["rclone_exit_code"],0)
         self.assert_bad("failed")
@@ -1173,6 +1200,379 @@ class GenerationLaunchTest(Fixture):
             self.journal.parent.chmod(0o700)
 
 
+    def shell_literal(self, name, *args):
+        text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        literals = {key: json.loads(value) for key, value in
+                    re.findall(r'^property (\w+) : ("(?:\\.|[^"\\])*")$', text, re.M)}
+        return run_process(["/bin/sh", "-c", literals[name], "backup-fixture", *map(str, args)],
+                           env=dict(os.environ, HOME=str(self.home)), timeout=5)
+
+    def recover(self, floor=10):
+        return run_process([sys.executable, "-B", str(STATUS), "recover", "--heartbeat", str(self.heartbeat),
+                            "--generation-floor", str(floor)], timeout=5)
+
+    def test_1_manual_interleave_preserves_counter_only_generation_11(self):
+        self.success_baseline()
+        self.journal.parent.mkdir()
+        self.journal.parent.chmod(0o555)
+        self.heartbeat.parent.chmod(0o555)
+        try:
+            self.launch(self.base/"absent/backup_gdrive.sh")
+            self.assertEqual(self.counter.read_text().strip(), "11")
+            self.assertFalse(self.journal.exists())
+            self.heartbeat.parent.chmod(0o700)
+            owner, env = self.hold_live_owner()
+            prior = self.heartbeat.read_bytes()
+            result = self.launch(BACKUP, env=env)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            receipt = json.loads((self.heartbeat.parent/"launch_receipt.json").read_text())
+            self.assertEqual((receipt["launch_generation"], receipt["exit_code"]), (12, 75))
+            self.assertEqual(self.heartbeat.read_bytes(), prior)
+            self.assertIsNone(owner.poll())
+            with (self.base/"owner-release.fifo").open("w") as stream:
+                stream.write("release\n")
+            stdout, stderr = owner.communicate(timeout=5)
+            self.assertEqual(owner.returncode, 0, stdout+stderr)
+            self.assertIsNone(json.loads(self.heartbeat.read_text())["launch_generation"])
+            self.assert_bad("generation 11")
+        finally:
+            self.heartbeat.parent.chmod(0o700)
+            self.journal.parent.chmod(0o700)
+
+    def test_2_crash_after_allocation_then_refusal_preserves_generation_11(self):
+        self.success_baseline()
+        previous = (self.heartbeat.parent/"launch_receipt.json").read_bytes()
+        text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        literal = re.search(r'^property generationShell : ("(?:\\.|[^"\\])*")$', text, re.M)[1]
+        result = run_process(["/bin/sh", "-c", json.loads(literal)+"/bin/kill -KILL $$\n"],
+                             env=dict(os.environ, HOME=str(self.home)), timeout=5)
+        self.assertEqual(result.returncode, -9)
+        self.assertEqual(self.counter.read_text().strip(), "11")
+        self.assertEqual((self.heartbeat.parent/"launch_receipt.json").read_bytes(), previous)
+        self.assertFalse(self.journal.exists())
+        wrapper = self.base/"refused.sh"
+        wrapper.write_text("#!/bin/sh\nexit 75\n")
+        self.assertEqual(self.launch(wrapper).returncode, 0)
+        self.assert_bad("generation 11")
+
+    def test_3_refusal_discharges_only_itself_and_completed_generations_resolve_set(self):
+        self.success_baseline()
+        for generation in (11, 12, 13):
+            result = self.shell_literal("generationShell")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(int(result.stdout), generation)
+        result = self.shell_literal("receiptShell", BACKUP, 75, "", 12)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assert_bad("generation 11")
+        state = json.loads((self.counter.parent/"unresolved.json").read_text())
+        self.assertEqual(state["unresolved"], [[11, 11], [13, 13]])
+        self.write_heartbeat(launch_generation=None, launch_mode="manual")
+        self.assert_bad("generation 11")
+        self.write_heartbeat(launch_generation=10, launch_mode="applet")
+        self.assert_bad("generation 11")
+        self.write_heartbeat(launch_generation=13, launch_mode="applet", end=None, exit_code=None)
+        self.assertNotEqual(self.status().returncode, 0)
+        self.write_heartbeat(launch_generation=11, launch_mode="applet")
+        self.assert_bad("generation 13")
+        self.write_heartbeat(launch_generation=13, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+
+    def test_3_corrupt_unresolved_set_refuses_dispatch(self):
+        self.success_baseline()
+        self.assertEqual(self.shell_literal("generationShell").returncode, 0)
+        (self.counter.parent/"unresolved.json").write_text("{torn\n")
+        marker = self.base/"must-not-dispatch"
+        wrapper = self.base/"stub.sh"
+        wrapper.write_text('#!/bin/sh\nprintf ran > '+shlex.quote(str(marker))+'\n')
+        self.launch(wrapper)
+        self.assertFalse(marker.exists(), "corrupt unresolved generations must refuse dispatch")
+        self.assert_bad("unresolved")
+
+    def test_4_recovery_preserves_null_evidence_and_requires_sequenced_completion(self):
+        self.success_baseline()
+        self.assertEqual(self.shell_literal("generationShell").returncode, 0)
+        self.counter.write_text("corrupt\n")
+        marker = self.base/"dispatched-generation"
+        wrapper = self.base/"stub.sh"
+        wrapper.write_text('#!/bin/sh\nprintf "%s" "$BACKUP_LAUNCH_GENERATION" > '+shlex.quote(str(marker))+'\n')
+        self.assertNotEqual(self.launch(wrapper).returncode, 0)
+        result = self.shell_literal("receiptShell", wrapper, "", 1, "")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        receipt = self.heartbeat.parent/"launch_receipt.json"
+        self.assertIsNone(json.loads(receipt.read_text())["launch_generation"])
+        prior = {"launch_receipt.json": receipt.read_bytes(), "failures.jsonl": self.journal.read_bytes()}
+        self.counter.write_text("10\n")
+        self.assertNotEqual(self.launch(wrapper).returncode, 0)
+        self.assertFalse(marker.exists())
+        result = self.recover(11)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        archives = list((self.counter.parent/"recoveries").iterdir())
+        self.assertEqual(len(archives), 1)
+        for name, data in prior.items():
+            self.assertEqual((archives[0]/name).read_bytes(), data, "ambiguous evidence must survive byte-for-byte")
+        barrier = int(self.counter.read_text())
+        self.assertGreater(barrier, 11, "recovery must retain the generation lost from the repaired counter")
+        self.assertEqual(self.launch(wrapper).returncode, 0)
+        generation = int(marker.read_text())
+        self.assertGreater(generation, barrier)
+        self.assert_bad("recovery barrier")
+        self.write_heartbeat(launch_generation=None, launch_mode="manual")
+        self.assert_bad("recovery barrier")
+        self.write_heartbeat(launch_generation=generation, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+
+    def test_4_null_evidence_publication_waits_for_recovery_counter_lock(self):
+        self.success_baseline()
+        text = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        literal = re.search(r'^property receiptShell : ("(?:\\.|[^"\\])*")$', text, re.M)[1]
+        entered = self.base/"publisher-entered"
+        body = 'touch '+shlex.quote(str(entered))+'\n'+json.loads(literal)
+        with (self.counter.parent/"counter.lock").open("a") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            proc = subprocess.Popen(["/bin/sh", "-c", body, "backup-receipt", str(BACKUP), "", "1", ""],
+                                    env=dict(os.environ, HOME=str(self.home)),
+                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            self.addCleanup(proc.communicate, timeout=5)
+            deadline = time.monotonic()+3
+            while not entered.exists() and proc.poll() is None and time.monotonic()<deadline:
+                time.sleep(0.01)
+            self.assertTrue(entered.exists(), "positive control: publisher process started")
+            time.sleep(0.15)
+            self.assertIsNone(proc.poll(), "null-generation evidence must serialize with recovery")
+        stdout, stderr = proc.communicate(timeout=5)
+        self.assertEqual(proc.returncode, 0, stdout+stderr)
+        self.assertIsNone(json.loads((self.heartbeat.parent/"launch_receipt.json").read_text())["launch_generation"])
+
+    def test_4_missing_counter_and_repeated_recovery_keep_monotonic_barriers(self):
+        self.success_baseline()
+        self.counter.unlink()
+        self.assertNotEqual(self.shell_literal("generationShell").returncode, 0)
+        self.assertEqual(self.shell_literal("receiptShell", BACKUP, "", 1, "").returncode, 0)
+        result = self.recover(20)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        first = int(self.counter.read_text())
+        archives = self.counter.parent/"recoveries"
+        original = {str(path.relative_to(archives)): path.read_bytes() for path in archives.rglob("*") if path.is_file()}
+        self.counter.write_text("10\n")
+        result = self.recover(0)
+        self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertEqual(self.counter.read_text(), "10\n")
+        result = self.recover(first)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertGreater(int(self.counter.read_text()), first)
+        for name, data in original.items():
+            self.assertEqual((archives/name).read_bytes(), data)
+        self.assert_bad("recovery barrier")
+
+class R5Fixture(Fixture):
+    success_baseline = GenerationLaunchTest.success_baseline
+    shell_literal = GenerationLaunchTest.shell_literal
+    recover = GenerationLaunchTest.recover
+    launch = LaunchReceiptTest.launch
+
+    def setUp(self):
+        super().setUp()
+        self.heartbeat = self.home/"Library/Logs/memit-gdrive-backup/last_run.json"
+        self.heartbeat.parent.mkdir(parents=True)
+        self.counter = self.home/"Library/Logs/memit-gdrive-backup-launch-state/counter"
+        self.counter.parent.mkdir()
+        self.counter.write_text("0\n")
+        self.journal = self.home/"Library/Logs/memit-gdrive-backup-launch-journal/failures.jsonl"
+
+
+class R5RecoveryTest(R5Fixture):
+    def damaged_history(self, torn):
+        self.success_baseline()
+        self.counter.write_text("corrupt\n")
+        self.write_launch_receipt(launch_generation=None)
+        self.journal.parent.mkdir()
+        self.journal.write_bytes(b'{"schema":1,"launch_generation":100,"reason":"failed launch"}\n'+
+                                 (b'{torn\n' if torn else b''))
+
+    def snapshot(self):
+        logs = self.home/"Library/Logs"
+        return {str(p.relative_to(logs)): p.read_bytes() if p.is_file() else None
+                for p in sorted(logs.rglob("*"))}
+
+    def assert_low_floor_refused_unchanged(self, floor=10):
+        before = self.snapshot()
+        result = self.recover(floor)
+        self.assertEqual(self.snapshot(), before, "low floor must not write or move any recovery evidence")
+        self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertIn("observed", result.stderr)
+
+    def test_1_torn_journal_preserves_generation_and_entire_ambiguous_file(self):
+        self.damaged_history(True)
+        self.assert_low_floor_refused_unchanged()
+        original = self.journal.read_bytes()
+        result = self.recover(100)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        archive, = (self.counter.parent/"recoveries").iterdir()
+        self.assertEqual((archive/"failures.jsonl").read_bytes(), original)
+        self.assertEqual(int(self.counter.read_text()), 101)
+        # Criterion 3: recovery and a manual completion cannot discharge the barrier.
+        self.assert_bad("recovery barrier generation 101")
+        self.write_heartbeat(launch_generation=None, launch_mode="manual")
+        self.assert_bad("recovery barrier generation 101")
+        self.write_heartbeat(launch_generation=12, launch_mode="applet")
+        self.assert_bad("recovery barrier generation 101")
+        self.write_heartbeat(launch_generation=101, launch_mode="applet")
+        self.assert_bad("recovery barrier generation 101")
+        result = self.shell_literal("generationShell")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(int(result.stdout), 102)
+        self.write_heartbeat(launch_generation=102, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+        self.assertEqual((archive/"failures.jsonl").read_bytes(), original)
+
+    def test_1_valid_generation_after_torn_line_still_counts(self):
+        self.damaged_history(True)
+        with self.journal.open("ab") as stream:
+            stream.write(b'{"schema":1,"launch_generation":103,"reason":"failed"}\n')
+        original = self.journal.read_bytes()
+        self.assert_low_floor_refused_unchanged(100)
+        result = self.recover(103)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertEqual(int(self.counter.read_text()), 104)
+        archive, = (self.counter.parent/"recoveries").iterdir()
+        self.assertEqual((archive/"failures.jsonl").read_bytes(), original)
+        self.assert_bad("recovery barrier generation 104")
+
+    def test_2_floor_below_valid_journal_is_read_only(self):
+        self.damaged_history(False)
+        self.assert_low_floor_refused_unchanged()
+
+    def test_2_floor_below_torn_journal_is_read_only(self):
+        self.damaged_history(True)
+        self.assert_low_floor_refused_unchanged()
+
+
+class R5CompactionTest(R5Fixture):
+    INTERVAL_LIMIT = 64
+    BYTE_LIMIT = 2048
+
+    def perl_program(self, name):
+        source = (ROOT/"tools/launchd/MemitGdriveBackup.applescript").read_text()
+        literal = json.loads(re.search(r'^property '+name+r' : ("(?:\\.|[^"\\])*")$', source, re.M)[1])
+        # The program is the actual argument to Perl -e, including both publishers.
+        match = re.search(r" -e '(.*?)\n'", literal, re.S)
+        self.assertIsNotNone(match)
+        return match[1]
+
+    def perl_publish(self, state, name="generationShell", completed=0, refused=0):
+        program = self.perl_program(name)
+        helpers = program[program.index("sub state_integer"):]
+        helpers = helpers[:helpers.index("my ($completed, $refused)") if name == "generationShell" else
+                          helpers.index("my ($sec, $micro)")]
+        (self.counter.parent/"unresolved.json").write_text(json.dumps(state))
+        result = run_process(["/usr/bin/perl", "-MJSON::PP", "-MFile::Temp=tempfile", "-e", helpers+
+            '\nmy ($dir,$issued,$completed,$refused)=@ARGV;\n'+
+            'my $state=read_state($dir,$issued,$completed);\n'+
+            'resolve_state($state,$completed,$refused); publish_state($dir,$state);\n',
+            str(self.counter.parent), str(state["issued_generation"]), str(completed), str(refused)], timeout=5)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = (self.counter.parent/"unresolved.json").read_bytes()
+        self.assertLessEqual(len(data), self.BYTE_LIMIT, "unresolved state byte bound")
+        value = json.loads(data)
+        self.assertLessEqual(len(value["unresolved"]), self.INTERVAL_LIMIT, "unresolved state interval bound")
+        return value
+
+    def state(self, count):
+        return {"schema": 1, "issued_generation": 10+count*2,
+                "unresolved": [[11+2*i, 11+2*i] for i in range(count)], "recovery_barrier": None}
+
+    def test_4_exact_limit_and_limit_plus_one_compaction(self):
+        at_limit = self.perl_publish(self.state(self.INTERVAL_LIMIT))
+        self.assertEqual(at_limit["unresolved"], self.state(self.INTERVAL_LIMIT)["unresolved"])
+        self.assertIsNone(at_limit.get("compaction_barrier"))
+        overflow = self.perl_publish(self.state(self.INTERVAL_LIMIT+1))
+        self.assertEqual(overflow["unresolved"], [])
+        self.assertEqual(overflow["compaction_barrier"], overflow["issued_generation"])
+
+    def test_4_byte_overflow_preserves_the_recovery_barrier(self):
+        state = self.state(1)
+        state.update(recovery_barrier=10, padding="x"*self.BYTE_LIMIT)
+        compacted = self.perl_publish(state)
+        self.assertEqual(compacted["recovery_barrier"], 10)
+        self.assertEqual(compacted["compaction_barrier"], state["issued_generation"])
+        self.assertEqual(compacted["unresolved"], [])
+
+    def test_4_two_thousand_allocations_remain_bounded_and_fail_closed(self):
+        self.success_baseline()
+        allocation = self.perl_program("generationShell")
+        receipt = self.perl_program("receiptShell")
+        self.assertIn("exit($published ? 0 : 1);", receipt)
+        # Keep the production IO and interval logic; suppress only process exit/output.
+        receipt = receipt.replace("exit($published ? 0 : 1);", 'die "receipt failed" unless $published;')
+        harness = 'my ($allocation,$receipt,$dir)=@ARGV;\n'
+        harness += '$allocation=eval "sub {".$allocation."}"; die $@ if $@;\n'
+        harness += '$receipt=eval "sub {".$receipt."}"; die $@ if $@;\n'
+        harness += 'for my $g (11..2010) {\n'
+        harness += ' { my $output=""; open my $capture, ">", \\$output or die $!; local *STDOUT=$capture; $allocation->(); }\n'
+        harness += ' if ($g % 2 == 0) { local @ARGV=("fixture-wrapper",75,"",$g); $receipt->(); }\n'
+        harness += ' open my $in, "<", "$dir/unresolved.json" or die $!; my $data=do {local $/; <$in>}; close $in or die $!;\n'
+        harness += ' print encode_json({generation=>$g,bytes=>length($data),state=>decode_json($data)}),"\\n"; }\n'
+        result = run_process(["/usr/bin/perl", "-MJSON::PP", "-MFcntl=:flock", "-MFile::Path=make_path",
+                              "-MFile::Temp=tempfile", "-MTime::HiRes=gettimeofday", "-MPOSIX=strftime",
+                              "-e", harness, allocation, receipt, str(self.counter.parent)], timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        snapshots = [json.loads(line) for line in result.stdout.splitlines()]
+        self.assertEqual(len(snapshots), 2000)
+        from tools import backup_gdrive_status as status
+        self.write_launch_receipt(launch_generation=10, exit_code=0)
+        for snapshot in snapshots:
+            state = snapshot["state"]
+            self.assertLessEqual(snapshot["bytes"], self.BYTE_LIMIT)
+            self.assertLessEqual(len(state["unresolved"]), self.INTERVAL_LIMIT)
+            self.counter.write_text(str(snapshot["generation"])+"\n")
+            with mock.patch.object(status, "generation_state", return_value=state):
+                ok, reason = status.health(self.heartbeat)
+            self.assertFalse(ok, reason)
+            self.assertTrue("generation 11" in reason or "compacted barrier" in reason, reason)
+        self.counter.write_text("2010\n")
+        compacted = json.loads((self.counter.parent/"unresolved.json").read_text())
+        barrier = compacted["compaction_barrier"]
+        self.assertGreaterEqual(barrier, 11)
+        # A manual heartbeat, an incomplete sequence and another refusal cannot clear it.
+        self.write_heartbeat(launch_generation=None, launch_mode="manual")
+        self.assert_bad("compacted barrier")
+        self.write_heartbeat(launch_generation=barrier, launch_mode="applet", end=None, exit_code=None)
+        self.assert_bad("compacted barrier")
+        self.write_heartbeat(launch_generation=10, launch_mode="applet")
+        self.assertEqual(self.shell_literal("generationShell").returncode, 0)
+        self.assertEqual(self.shell_literal("receiptShell", BACKUP, 75, "", 2011).returncode, 0)
+        self.assert_bad("compacted barrier")
+        self.write_heartbeat(launch_generation=2011, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+
+    def test_4_compacted_barrier_cannot_be_refused_and_completion_at_barrier_clears(self):
+        self.success_baseline()
+        overflow = self.state(self.INTERVAL_LIMIT+1)
+        compacted = self.perl_publish(overflow)
+        self.counter.write_text(str(overflow["issued_generation"])+"\n")
+        barrier = compacted["compaction_barrier"]
+        refused = self.perl_publish(compacted, "receiptShell", completed=10, refused=barrier)
+        self.assertEqual(refused["compaction_barrier"], barrier)
+        self.assert_bad("compacted barrier")
+        self.write_heartbeat(launch_generation=None, launch_mode="manual")
+        self.assert_bad("compacted barrier")
+        self.write_heartbeat(launch_generation=barrier-1, launch_mode="applet")
+        self.assert_bad("compacted barrier")
+        self.write_heartbeat(launch_generation=barrier, launch_mode="applet")
+        self.assertEqual(self.status().returncode, 0)
+        resolved = self.perl_publish(refused, "receiptShell", completed=barrier)
+        self.assertIsNone(resolved["compaction_barrier"])
+
+    def test_5_python_and_both_perl_publishers_agree_at_boundaries(self):
+        from tools import backup_gdrive_status as status
+        for count in (self.INTERVAL_LIMIT+1, self.INTERVAL_LIMIT):
+            for publisher in ("generationShell", "receiptShell"):
+                original = self.state(count)
+                perl = self.perl_publish(original, publisher)
+                python = status.compact_generation_state(original)
+                self.assertEqual(perl, python)
+
+
 class GenerationWrapperTest(Fixture):
     def wrapper_records(self, generation):
         trace = self.base/"heartbeats.jsonl"
@@ -1323,6 +1723,7 @@ class ArchiveTest(Fixture):
         if self.manifest.exists():
             self.assertLessEqual(len(self.manifest.read_text().splitlines()), 1)
 
+    @HOST_RCLONE
     def test_real_copy_download_check_and_sha_receipt_never_delete_source(self):
         result = self.archive()
         self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
@@ -1334,6 +1735,7 @@ class ArchiveTest(Fixture):
         self.assertTrue(self.src.exists())
         self.assertEqual(self.archive().returncode, 0, "identical remote content may be verified again")
 
+    @HOST_RCLONE
     def test_differing_remote_is_immutable_and_preserves_prior_manifest(self):
         self.assertEqual(self.archive().returncode, 0)
         prior = self.manifest.read_bytes()
@@ -1343,6 +1745,7 @@ class ArchiveTest(Fixture):
         self.assertEqual((self.dest/"records/tiny.bin").read_bytes(), b"irreplaceable test")
         self.assertEqual(self.manifest.read_bytes(), prior)
 
+    @HOST_RCLONE
     def test_corrupt_remote_download_check_does_not_create_receipt(self):
         fake = self.fake_rclone('if [ "$1" = check ]; then printf corrupt > "'+str(self.dest/"records/tiny.bin")+'"; fi\nexec '+RCLONE+' "$@"\n')
         result = self.archive(ARCHIVE_RCLONE=fake)
@@ -1350,6 +1753,7 @@ class ArchiveTest(Fixture):
         self.assert_no_receipt()
         self.assertTrue(self.src.exists())
 
+    @HOST_RCLONE
     def test_source_drift_after_check_does_not_create_receipt(self):
         fake = self.fake_rclone(RCLONE+' "$@"\nstatus=$?\nif [ "$1" = check ] && [ "$status" = 0 ]; then printf drift >> "'+str(self.src)+'"; fi\nexit "$status"\n')
         result = self.archive(ARCHIVE_RCLONE=fake)
@@ -1357,6 +1761,7 @@ class ArchiveTest(Fixture):
         self.assertIn("changed", result.stdout+result.stderr)
         self.assert_no_receipt()
 
+    @HOST_RCLONE
     def test_manifest_write_failure_is_loud(self):
         blocker = self.source_root/"blocker"
         blocker.write_text("not a directory")

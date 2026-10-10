@@ -1,0 +1,19 @@
+COMMAND: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_byte_overflow_preserves_the_recovery_barrier -v
+EXIT: 1
+test_4_byte_overflow_preserves_the_recovery_barrier (tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_byte_overflow_preserves_the_recovery_barrier) ... FAIL
+
+======================================================================
+FAIL: test_4_byte_overflow_preserves_the_recovery_barrier (tools.test_backup_gdrive_addendum.R5CompactionTest.test_4_byte_overflow_preserves_the_recovery_barrier)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1492, in test_4_byte_overflow_preserves_the_recovery_barrier
+    compacted = self.perl_publish(state)
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1472, in perl_publish
+    self.assertLessEqual(len(data), self.BYTE_LIMIT, "unresolved state byte bound")
+AssertionError: 2142 not less than or equal to 2048 : unresolved state byte bound
+
+----------------------------------------------------------------------
+Ran 1 test in 0.022s
+
+FAILED (failures=1)

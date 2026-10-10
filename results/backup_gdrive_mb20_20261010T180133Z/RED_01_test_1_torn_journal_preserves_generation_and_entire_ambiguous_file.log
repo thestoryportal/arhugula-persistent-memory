@@ -1,0 +1,19 @@
+COMMAND: /Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/.venv/bin/python -B -m unittest tools.test_backup_gdrive_addendum.R5RecoveryTest.test_1_torn_journal_preserves_generation_and_entire_ambiguous_file -v
+EXIT: 1
+test_1_torn_journal_preserves_generation_and_entire_ambiguous_file (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_1_torn_journal_preserves_generation_and_entire_ambiguous_file) ... FAIL
+
+======================================================================
+FAIL: test_1_torn_journal_preserves_generation_and_entire_ambiguous_file (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_1_torn_journal_preserves_generation_and_entire_ambiguous_file)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1403, in test_1_torn_journal_preserves_generation_and_entire_ambiguous_file
+    self.assert_low_floor_refused_unchanged()
+  File "/Volumes/memit/llm-database-poc-mirror/arhugula-persistent-memory/.claude/worktrees/c10k-route-a/tools/test_backup_gdrive_addendum.py", line 1397, in assert_low_floor_refused_unchanged
+    self.assertEqual(self.snapshot(), before, "low floor must not write or move any recovery evidence")
+AssertionError: {'mem[808 chars]ackup-launch-journal': None, 'memit-gdrive-bac[1929 chars]}\n'} != {'mem[808 chars]ackup/launch_receipt.json': b'{"schema": 1, "u[517 chars]t\n'}
+Diff is 32046 characters long. Set self.maxDiff to None to see it. : low floor must not write or move any recovery evidence
+
+----------------------------------------------------------------------
+Ran 1 test in 0.056s
+
+FAILED (failures=1)

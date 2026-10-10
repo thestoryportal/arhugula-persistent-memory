@@ -1,0 +1,9 @@
+test_1_torn_journal_preserves_generation_and_entire_ambiguous_file (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_1_torn_journal_preserves_generation_and_entire_ambiguous_file) ... ok
+test_1_valid_generation_after_torn_line_still_counts (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_1_valid_generation_after_torn_line_still_counts) ... ok
+test_2_floor_below_torn_journal_is_read_only (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_2_floor_below_torn_journal_is_read_only) ... ok
+test_2_floor_below_valid_journal_is_read_only (tools.test_backup_gdrive_addendum.R5RecoveryTest.test_2_floor_below_valid_journal_is_read_only) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.462s
+
+OK
