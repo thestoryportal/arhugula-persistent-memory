@@ -52,3 +52,4 @@
 - [Approved deletes: ask, then rmtree](approved-deletes-ask-then-rmtree.md) — Bash deletes are deny-listed; AskUserQuestion per path, then python3 shutil.rmtree + verify
 
 - [ASTRA stage-1 UNDERFIT terminal scope](c10z-stage1-underfit-terminal.md) — D-C10z-a4 ⟨D-C10z-a4@e0a21d13⟩ **DONE — UNDERFIT-LARGE-WRITE-SUBJECT-FREE-STAGE1** (inconclusive under this solve budget; terminal under current authorization), Astra CONFIRM → CORPUS/61_C10Z_ATTEMPT4_UNDERFIT.md.
+- [LLMDB_ROOT points at main checkout](llmdb-root-points-at-main-checkout.md) — in a worktree prefix LLMDB_ROOT=$PWD or tools check main
